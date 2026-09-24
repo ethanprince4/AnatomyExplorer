@@ -165,7 +165,7 @@ class MicroDataset:
         self.scene_bbox = np.array([self.bbox_min.min(axis=0), self.bbox_max.max(axis=0)])
         self.counts = {"vertices": len(self._positions), "triangles": len(self._indices)}
         self.ranks = np.array([p.rank for p in parts], dtype=np.float32)
-        self.cap_depth = False
+        self.cap_depth = True            # cut faces sit on the plane, so nested parts read as sections
         self.detail_shading = True
         self.noclip_mask = np.array([not p.clip for p in parts], dtype=bool)
         self.bulk_mask = np.array([p.bulk for p in parts], dtype=bool)

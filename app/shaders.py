@@ -269,8 +269,17 @@ uniform mat4 u_viewproj;
 layout(location = 0) out vec4 o_color;
 layout(location = 1) out vec4 o_normal;
 layout(location = 2) out float o_id;
+#ifdef CAP_PASS
+layout(location = 3) out float o_zp;      // depth of the cut face on the plane; the depth buffer holds the key
+#endif
 
 #ifdef CAP_DEPTH
+// Caps drawn in their own pass, one part at a time (Renderer._draw_caps): u_parity holds the depth of the part's
+// nearest kept front face at each pixel.
+uniform sampler2D u_parity;
+uniform mat4 u_inv_viewproj;       // the ray is rebuilt from the pixel, so every part meeting the plane at a pixel
+uniform vec2 u_viewport;           // gets the very same depth there and the drawing order settles which shows
+
 void cap_plane(vec4 P, int on, vec3 d, float tf, inout float best, inout vec3 bn, inout bool found) {
     if (on == 0) return;
     float den = dot(P.xyz, d);
@@ -283,6 +292,39 @@ void cap_plane(vec4 P, int on, vec3 d, float tf, inout float best, inout vec3 bn
         found = true;
     }
 }
+
+// Where the ray leaves the cut-away before reaching this back face: the far end of the stretch of the ray that
+// lies on the removed side (all planes negative for a corner cut, any plane for the other modes).
+void span(vec4 P, int on, vec3 d, inout float t0, inout float t1, inout vec3 n1, inout bool any) {
+    if (on == 0) return;
+    float den = dot(P.xyz, d);
+    float s = dot(P.xyz, u_eye) + P.w;
+    if (abs(den) < 1e-7) { if (s >= 0.0) t1 = -1.0; return; }
+    float t = -s / den;
+    if (den > 0.0) { if (t < t1) { t1 = t; n1 = P.xyz; } } else t0 = max(t0, t);
+    any = true;
+}
+
+bool cut_exit(vec3 d, float tf, out float t, out vec3 n) {
+    n = vec3(0.0, 1.0, 0.0);
+    t = 0.0;
+    if (u_clip_mode == 1) {
+        float t0 = 0.0, t1 = 1e9;
+        bool any = false;
+        span(u_clip0, u_clip_on.x, d, t0, t1, n, any);
+        span(u_clip1, u_clip_on.y, d, t0, t1, n, any);
+        span(u_clip2, u_clip_on.z, d, t0, t1, n, any);
+        t = t1;
+        return any && t0 < t1 && t1 > 0.0 && t1 < tf;
+    }
+    float best = -1e9;
+    bool found = false;
+    cap_plane(u_clip0, u_clip_on.x, d, tf, best, n, found);
+    cap_plane(u_clip1, u_clip_on.y, d, tf, best, n, found);
+    cap_plane(u_clip2, u_clip_on.z, d, tf, best, n, found);
+    t = best;
+    return found;
+}
 #endif
 
 void main() {
@@ -293,27 +335,35 @@ void main() {
     vec3 N = normalize(v_nrm);
     bool anyClip = cutobj && (u_clip_on.x + u_clip_on.y + u_clip_on.z) > 0;
     vec3 lit;
+    vec3 capp = v_wpos;           // where the cut face is textured: the back face, or the plane itself
 #ifdef CAP_DEPTH
-    gl_FragDepth = gl_FragCoord.z;
+    gl_FragDepth = gl_FragCoord.z;                // written on one path, so it must be written on all
+#ifdef CAP_PASS
+    if (gl_FrontFacing || !anyClip) discard;
+    if (texelFetch(u_parity, ivec2(gl_FragCoord.xy), 0).r < gl_FragCoord.z) discard;   // part entered after the cut
+#endif
 #endif
     if (!gl_FrontFacing && anyClip) {
         N = cap_normal(V);
-#ifdef CAP_DEPTH
-        vec3 d = normalize(v_wpos - u_eye);
+#ifdef CAP_PASS
+        // put the cut face on the plane where the ray leaves the cut-away, not on the far wall of the part
+        vec4 far = u_inv_viewproj * vec4(gl_FragCoord.xy / u_viewport * 2.0 - 1.0, 1.0, 1.0);
+        vec3 d = normalize(far.xyz / far.w - u_eye);
         float tf = length(v_wpos - u_eye);
-        float best = u_clip_mode == 1 ? 1e9 : -1e9;
-        vec3 bn = vec3(0.0, 1.0, 0.0);
-        bool found = false;
-        cap_plane(u_clip0, u_clip_on.x, d, tf, best, bn, found);
-        cap_plane(u_clip1, u_clip_on.y, d, tf, best, bn, found);
-        cap_plane(u_clip2, u_clip_on.z, d, tf, best, bn, found);
-        if (found) {
-            vec4 c = u_viewproj * vec4(u_eye + d * best, 1.0);
-            gl_FragDepth = clamp(c.z / c.w * 0.5 + 0.5, 0.0, 1.0);
-            N = -normalize(bn);
-        }
+        float best;
+        vec3 bn;
+        if (!cut_exit(d, tf, best, bn)) discard;
+        capp = u_eye + d * best;
+        vec4 c = u_viewproj * vec4(capp, 1.0);
+        o_zp = clamp(c.z / c.w * 0.5 + 0.5, 1e-7, 1.0);
+        // where several parts' cut faces meet at a pixel, the innermost is the one whose far wall comes first
+        // behind the plane, so that distance is what the depth test compares; CAPMIX_FS then puts the winner on
+        // the plane at its true depth
+        float behind = max(tf - best, 0.0);
+        gl_FragDepth = behind / (behind + 0.05);
+        N = -normalize(bn);
 #endif
-        vec3 capcol = tissue_color(v_capcol, v_wpos, v_mat, true) * (u_detail == 1 ? 0.80 : 0.62);
+        vec3 capcol = tissue_color(v_capcol, capp, v_mat, true) * (u_detail == 1 ? 0.80 : 0.62);
         lit = shade(capcol, N, V, vec3(0.05, 8.0, 0.0));
     } else {
         if (!gl_FrontFacing) N = -N;
@@ -324,6 +374,51 @@ void main() {
     o_color = vec4(lit, 1.0);
     o_normal = vec4(normalize(u_view3 * N), isCap);
     o_id = float(v_obj) + 1.0;
+}
+"""
+
+# The cut faces gathered by the cap pass, laid onto the scene at their depth on the cutting plane
+CAPMIX_FS = """
+#version 410 core
+in vec2 v_uv;
+uniform sampler2D u_cap_color;
+uniform sampler2D u_cap_normal;
+uniform sampler2D u_cap_id;
+uniform sampler2D u_cap_zp;
+layout(location = 0) out vec4 o_color;
+layout(location = 1) out vec4 o_normal;
+layout(location = 2) out float o_id;
+void main() {
+    ivec2 px = ivec2(gl_FragCoord.xy);
+    float zp = texelFetch(u_cap_zp, px, 0).r;
+    if (zp <= 0.0) discard;
+    gl_FragDepth = zp;
+    o_color = texelFetch(u_cap_color, px, 0);
+    o_normal = texelFetch(u_cap_normal, px, 0);
+    o_id = texelFetch(u_cap_id, px, 0).r;
+}
+"""
+
+# Depth of one part's nearest kept front face per pixel (MIN blending), for the cap pass
+PARITY_FS = """
+#version 410 core
+in vec3 v_wpos;
+flat in int v_flags;
+uniform vec4 u_clip0;
+uniform vec4 u_clip1;
+uniform vec4 u_clip2;
+uniform ivec3 u_clip_on;
+uniform int u_clip_mode;
+out vec4 o_flip;
+void main() {
+    bool a = u_clip_on.x == 1 && dot(vec4(v_wpos, 1.0), u_clip0) < 0.0;
+    bool b = u_clip_on.y == 1 && dot(vec4(v_wpos, 1.0), u_clip1) < 0.0;
+    bool c = u_clip_on.z == 1 && dot(vec4(v_wpos, 1.0), u_clip2) < 0.0;
+    bool cut = u_clip_mode == 1
+        ? ((u_clip_on.x + u_clip_on.y + u_clip_on.z) > 0 && (u_clip_on.x == 0 || a) && (u_clip_on.y == 0 || b) && (u_clip_on.z == 0 || c))
+        : (a || b || c);
+    if (cut || !gl_FrontFacing) discard;
+    o_flip = vec4(gl_FragCoord.z);
 }
 """
 

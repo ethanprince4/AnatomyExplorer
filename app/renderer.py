@@ -16,6 +16,7 @@ AUX_FORMAT = "2f 4f1 1f"
 AUX_ATTRS = ("in_uv", "in_tint", "in_layer")
 FORMAT_SIZE = {"3f": 12, "2f": 8, "1f": 4, "u2": 2, "4f1": 4}
 ALBEDO_UNIT = 5
+PARITY_UNIT = 6
 
 
 def _normalize(v):
@@ -33,8 +34,20 @@ class Renderer:
         self.index_count = len(indices) // 4
 
         opaque_fs = shaders.OPAQUE_FS
+        # cap_depth: cut faces are drawn on the cutting plane in a pass of their own (_draw_caps) instead of on
+        # the far wall of each part, so whatever a part encloses is hidden behind its section as in a real slice
+        self.cap_depth = cap_depth
+        self.p_cap = self.p_parity = self.p_capmix = None
         if cap_depth:
             opaque_fs = opaque_fs.replace("#version 410 core", "#version 410 core\n#define CAP_DEPTH 1", 1)
+            self.p_cap = ctx.program(vertex_shader=shaders.GEOMETRY_VS, fragment_shader=opaque_fs.replace(
+                "#version 410 core", "#version 410 core\n#define CAP_PASS 1", 1))
+            self.p_parity = ctx.program(vertex_shader=shaders.GEOMETRY_VS, fragment_shader=shaders.PARITY_FS)
+            self.p_capmix = ctx.program(vertex_shader=shaders.FULLSCREEN_VS, fragment_shader=shaders.CAPMIX_FS)
+            structs = ds.structures
+            noclip = getattr(ds, "noclip_mask", np.zeros(len(structs), dtype=bool))
+            self.cap_parts = [(st["i_start"], st["i_count"]) for i, st in enumerate(structs)
+                              if not noclip[i] and st["i_count"]]
         self.p_opaque = ctx.program(vertex_shader=shaders.GEOMETRY_VS, fragment_shader=opaque_fs)
         self.p_transparent = ctx.program(vertex_shader=shaders.GEOMETRY_VS, fragment_shader=shaders.TRANSPARENT_FS)
         self.p_mask = ctx.program(vertex_shader=shaders.GEOMETRY_VS, fragment_shader=shaders.MASK_FS)
@@ -59,6 +72,9 @@ class Renderer:
         self.vao_opaque = geo_vao(self.p_opaque)
         self.vao_transparent = geo_vao(self.p_transparent)
         self.vao_mask = geo_vao(self.p_mask)
+        self.vao_cap = geo_vao(self.p_cap) if cap_depth else None
+        self.vao_parity = geo_vao(self.p_parity) if cap_depth else None
+        self.capmix_vao = ctx.vertex_array(self.p_capmix, []) if cap_depth else None
         self.fs = {name: ctx.vertex_array(p, []) for name, p in (
             ("ssao", self.p_ssao), ("blur", self.p_blur), ("composite", self.p_composite),
             ("final", self.p_final), ("fxaa", self.p_fxaa))}
@@ -127,13 +143,16 @@ class Renderer:
         if getattr(self, "_released", False):
             return
         self._released = True
-        objs = [self.vao_opaque, self.vao_transparent, self.vao_mask, *self.fs.values(),
+        objs = [self.vao_opaque, self.vao_transparent, self.vao_mask, self.vao_cap, self.vao_parity, self.p_cap,
+                self.p_parity, self.p_capmix, getattr(self, "capmix_vao", None), *self.fs.values(),
                 self.p_opaque, self.p_transparent, self.p_mask, self.p_ssao, self.p_blur, self.p_composite,
                 self.p_final, self.p_fxaa, self.vbo, self.ibo, self.aux, self.state_tex, self.mats_tex,
                 self.noise_tex, self.albedo]
         objs += [getattr(self, n, None) for n in ("gbuffer", "mask_fbo", "ao_fbo", "blur_fbo", "hdr_fbo", "ldr_fbo",
                                                   "color_tex", "normal_tex", "id_tex", "depth_tex", "mask_tex",
-                                                  "mask_depth", "ao_tex", "blur_tex", "hdr_tex", "ldr_tex")]
+                                                  "mask_depth", "ao_tex", "blur_tex", "hdr_tex", "ldr_tex",
+                                                  "parity_fbo", "parity_tex", "cap_fbo", "cap_color", "cap_normal",
+                                                  "cap_id", "cap_zp", "cap_key")]
         for o in objs:
             if o is not None:
                 try:
@@ -151,12 +170,13 @@ class Renderer:
             return
         self.size = (w, h)
         ctx = self.ctx
-        for name in ("gbuffer", "mask_fbo", "ao_fbo", "blur_fbo", "hdr_fbo", "ldr_fbo"):
+        for name in ("gbuffer", "mask_fbo", "ao_fbo", "blur_fbo", "hdr_fbo", "ldr_fbo", "parity_fbo", "cap_fbo"):
             fbo = getattr(self, name, None)
             if fbo is not None:
                 fbo.release()
         for name in ("color_tex", "normal_tex", "id_tex", "depth_tex", "mask_tex", "mask_depth", "ao_tex",
-                     "blur_tex", "hdr_tex", "ldr_tex"):
+                     "blur_tex", "hdr_tex", "ldr_tex", "parity_tex", "cap_color", "cap_normal", "cap_id", "cap_zp",
+                     "cap_key"):
             t = getattr(self, name, None)
             if t is not None:
                 t.release()
@@ -177,6 +197,18 @@ class Renderer:
         self.mask_depth.compare_func = ""
         self.mask_depth.filter = near
         self.mask_fbo = ctx.framebuffer([self.mask_tex], self.mask_depth)
+        if self.cap_depth:
+            self.parity_tex = ctx.texture((w, h), 1, dtype="f4")
+            self.parity_tex.filter = near
+            self.parity_fbo = ctx.framebuffer([self.parity_tex])
+            self.cap_color = ctx.texture((w, h), 4, dtype="f2")
+            self.cap_normal = ctx.texture((w, h), 4, dtype="f2")
+            self.cap_id = ctx.texture((w, h), 1, dtype="f4")
+            self.cap_zp = ctx.texture((w, h), 1, dtype="f4")
+            for t in (self.cap_color, self.cap_normal, self.cap_id, self.cap_zp):
+                t.filter = near
+            self.cap_key = ctx.depth_texture((w, h))
+            self.cap_fbo = ctx.framebuffer([self.cap_color, self.cap_normal, self.cap_id, self.cap_zp], self.cap_key)
 
         self.ao_tex = ctx.texture((w, h), 1, dtype="f1")
         self.ao_fbo = ctx.framebuffer([self.ao_tex])
@@ -223,6 +255,44 @@ class Renderer:
         self._set(prog, "u_clip_on", tuple(int(x) for x in on))
         self._set(prog, "u_clip_mode", int(clip[2]) if len(clip) > 2 else 0)
 
+    def _draw_caps(self, vp, view, eye, key, fill, settings, clip):
+        """Cut faces on the plane, part by part. First the part's nearest kept front face at each pixel; then its
+        back faces that nothing of the same part hides - where the first surface of the part behind the cut is a
+        back face, the plane passes through the part (unlike counting surfaces, this holds for parts whose meshes
+        are not watertight). They are gathered off-screen, keyed on how far the part's far wall lies behind the
+        plane so the innermost part wins where several meet, and finally laid onto the scene on the plane."""
+        ctx = self.ctx
+        for prog in (self.p_parity, self.p_cap):
+            self._set_geometry_uniforms(prog, vp, view, eye, key, fill, settings, clip)
+            self._set(prog, "u_pass", 0)
+        self._set(self.p_cap, "u_parity", PARITY_UNIT)
+        if "u_inv_viewproj" in self.p_cap:
+            self.p_cap["u_inv_viewproj"].write(_mat4_bytes(np.linalg.inv(vp)))
+        self._set(self.p_cap, "u_viewport", tuple(float(x) for x in self.size))
+        self.parity_tex.use(PARITY_UNIT)
+        self.cap_fbo.use()
+        self.cap_fbo.clear(0.0, 0.0, 0.0, 0.0, depth=1.0)
+        for first, count in self.cap_parts:
+            self.parity_fbo.use()
+            self.parity_fbo.clear(1.0, 1.0, 1.0, 1.0)
+            ctx.disable(moderngl.DEPTH_TEST)
+            ctx.enable(moderngl.BLEND)
+            ctx.blend_func = moderngl.ONE, moderngl.ONE
+            ctx.blend_equation = moderngl.MIN
+            self.vao_parity.render(moderngl.TRIANGLES, vertices=count, first=first)
+            ctx.blend_equation = moderngl.FUNC_ADD
+            ctx.disable(moderngl.BLEND)
+            ctx.enable(moderngl.DEPTH_TEST)
+            self.cap_fbo.use()
+            self.vao_cap.render(moderngl.TRIANGLES, vertices=count, first=first)
+        self.gbuffer.use()
+        for i, (name, tex) in enumerate((("u_cap_color", self.cap_color), ("u_cap_normal", self.cap_normal),
+                                         ("u_cap_id", self.cap_id), ("u_cap_zp", self.cap_zp))):
+            tex.use(PARITY_UNIT + i)
+            self._set(self.p_capmix, name, PARITY_UNIT + i)
+        self.capmix_vao.render(moderngl.TRIANGLES, vertices=3)
+        ctx.blend_func = moderngl.SRC_ALPHA, moderngl.ONE_MINUS_SRC_ALPHA
+
     def render(self, target, camera, settings, clip, hover_id=-1, has_selection=False):
         ctx = self.ctx
         w, h = self.size
@@ -253,6 +323,8 @@ class Renderer:
         self._set_geometry_uniforms(self.p_opaque, vp, view, eye, key, fill, settings, clip)
         self._set(self.p_opaque, "u_pass", 0)
         self.vao_opaque.render(moderngl.TRIANGLES)
+        if self.cap_depth and any(clip[1]):
+            self._draw_caps(vp, view, eye, key, fill, settings, clip)
 
         # 2. selection mask (selected structures, depth-tested only among themselves)
         if has_selection:
