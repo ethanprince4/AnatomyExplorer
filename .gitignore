@@ -3,20 +3,13 @@ __pycache__/
 *.pyc
 .venv/
 
-# Downloaded or built locally - setup.bat and the tools in tools/ recreate these
+# Rebuilt locally: the Z-Anatomy source and Blender export (only needed to rebuild data/anatomy), the portable
+# Blender that reads it (Windows only), and the micro-model cache (rebuilt from app/micro whenever it changes)
 data/raw/
 data/extracted/
-data/anatomy/
 data/micro_cache/
-data/histology/*
-!data/histology/catalog.json
-data/radiology/cache/
-data/radiology/images/
 tools/blender-3.6.23-windows-x64/
 tools/blender.zip
-
-# Sketchfab models fetched with tools/fetch_sketchfab.py: each stays under its creator's licence
-data/sketchfab_models/
 
 # Personal: study progress, quiz history and the Sketchfab API token
 data/user/

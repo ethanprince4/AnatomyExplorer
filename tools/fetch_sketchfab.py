@@ -73,7 +73,11 @@ def fetch(model, token, force=False):
         "bytes": glb.stat().st_size,
     }
     (out / "info.json").write_text(json.dumps(info, indent=1), encoding="utf-8")
-    return f"{info['bytes'] / 1e6:.1f} MB, {info['license']}"
+    result = f"{info['bytes'] / 1e6:.1f} MB, {info['license']}"
+    if info["bytes"] > 95 * 1024 * 1024:           # GitHub refuses files over 100 MB outside Git LFS
+        rel = glb.relative_to(ROOT).as_posix()
+        result += f"\n          over GitHub's file limit - before committing run: git lfs track \"{rel}\""
+    return result
 
 
 def main(argv):

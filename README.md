@@ -14,6 +14,8 @@ If something goes wrong, run `run_debug.bat` to see errors in a console. Errors 
 
 On a new PC, or if `.venv` is deleted, run `setup.bat` once. It installs the Python packages, rebuilds the dataset if it's missing, and recreates the desktop shortcut. It needs Python 3.10 or newer from python.org.
 
+The repository (private, github.com/ethanprince4/AnatomyExplorer) carries the built dataset, the histology and radiology images and the downloaded Sketchfab models, so a clone runs without rebuilding anything. The four files over GitHub's 100 MB limit are stored with Git LFS (listed in `.gitattributes`): install Git LFS before cloning, or run `git lfs pull` afterwards, or those files arrive as small pointer files. Not in the repository: `.venv`, the portable Blender and the Z-Anatomy source it reads (`data/raw`, `data/extracted`, only needed to rebuild the dataset), the micro-model cache (rebuilt on first use), `logs/`, and `data/user/` — your study progress and the Sketchfab API token. The downloaded models keep their creators' Creative Commons licences, several of them non-commercial or no-derivatives, so they must come out of the repository before it is ever made public.
+
 ## Using it
 
 | Action | How |
