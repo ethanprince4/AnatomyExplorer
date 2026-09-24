@@ -41,8 +41,8 @@ register(MicroModel(
     scale_note="Block ≈ 4 mm wide; epidermal ridges form fingerprints."))
 register(MicroModel(
     "scalp", "Scalp skin",
-    "Hair-bearing skin with densely packed, deep terminal hair follicles whose bulbs reach the subcutaneous fat, "
-    "and large sebaceous glands.",
+    "Hair-bearing skin with densely packed, deep terminal hair follicles grouped in follicular units, whose bulbs "
+    "reach the subcutaneous fat, and large sebaceous glands, bound by fibrous septa to the galea aponeurotica.",
     lambda: build_skin("scalp"),
     targets={"structures": ["Hairs of head", "Parietal region", "Occipital region", "Frontal region",
                             "Temporal region"], "groups": ["Regions of epicranium"]},
