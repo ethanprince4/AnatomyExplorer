@@ -334,8 +334,10 @@ def register_more(register):
         scale_note="Retina ≈ 250 µm thick near the macula; cells are drawn larger and fewer than in life."))
     register(MicroModel(
         "thyroid_follicles", "Thyroid follicles",
-        "Colloid-filled follicles lined by follicular epithelium, parafollicular C cells, perifollicular capillary "
-        "baskets, interfollicular connective tissue and the capsule.",
+        "Colloid-filled follicles of every size packed in three dimensions, lined by follicular epithelium whose "
+        "height follows activity, with resorption vacuoles, parafollicular C cells and perifollicular capillary "
+        "baskets; lobules divided by septa under the capsule, and a parathyroid gland with chief cells, oxyphil "
+        "cells and fat in the corner.",
         build_thyroid, targets={"structures": ["Thyroid gland"]},
         histology=["thyroid", "parathyroid"],
         clinical=[("Graves disease",
@@ -350,9 +352,9 @@ def register_more(register):
         scale_note="Follicles 50–500 µm across."))
     register(MicroModel(
         "tongue_papillae", "Tongue papillae and taste buds",
-        "Dorsal tongue with keratinised filiform papillae, fungiform papillae with taste buds, a circumvallate "
-        "papilla whose trench walls are lined with taste buds and flushed by von Ebner glands, over interlacing "
-        "intrinsic skeletal muscle.",
+        "Dorsal tongue with rows of keratinised filiform papillae, fungiform papillae with taste buds, a "
+        "circumvallate papilla whose trench walls are lined with taste buds and flushed by von Ebner glands, and "
+        "foliate papillae on the lateral margin, over intrinsic skeletal muscle interlacing in three planes.",
         build_tongue, targets={"structures": ["Tongue"], "groups": ["Muscles of tongue"]},
         histology=["tongue", "strat_squamous_nk", "skeletal_muscle"], related=["oesophagus_wall"],
         clinical=[("Taste loss localisation",
