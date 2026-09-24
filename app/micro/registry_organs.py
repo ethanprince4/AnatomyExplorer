@@ -1,6 +1,7 @@
 from .base import MicroModel
 from .gut import build_gut
-from .organs3 import build_alveoli, build_liver_lobule, build_nephron
+from .kidney import build_nephron
+from .organs3 import build_alveoli, build_liver_lobule
 from .bone import build_osteon
 from .bundles import build_muscle, build_nerve
 from .vessels import build_vessel
@@ -239,7 +240,8 @@ def register_all(register):
 
 
 def register_more(register):
-    from .organs2 import build_bladder, build_cornea, build_retina, build_thyroid, build_tongue
+    from .glands import build_thyroid, build_tongue
+    from .organs2 import build_bladder, build_cornea, build_retina
     register(MicroModel(
         "bladder_wall", "Urinary bladder wall (urothelium)",
         "Transitional epithelium with dome-shaped umbrella cells, intermediate and basal cells on a folded lamina "
