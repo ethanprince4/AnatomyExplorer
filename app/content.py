@@ -2,7 +2,7 @@
 import json
 from collections import OrderedDict, defaultdict
 
-from .config import ROOT
+from .config import ROOT, USER_DIR
 
 CONTENT_DIR = ROOT / "data" / "content"
 HISTOLOGY_DIR = ROOT / "data" / "histology"
@@ -44,7 +44,7 @@ class ContentIndex:
                 self.tis_by_cat[c].append(t["id"])
         self.tis_contains = [(_norm(s), t["id"]) for t in self.histology["tissues"] for s in t.get("contains", [])]
 
-        self.notes_path = ROOT / "data" / "user" / "notes.json"
+        self.notes_path = USER_DIR / "notes.json"
         self.notes = {}
         if self.notes_path.exists():
             try:

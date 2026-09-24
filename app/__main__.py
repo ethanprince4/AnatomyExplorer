@@ -30,14 +30,14 @@ def main():
     except ImportError:
         pass
 
-    from .config import APP_NAME, DATA_DIR, ORG_NAME, ROOT
+    from .config import APP_NAME, DATA_DIR, LOG_DIR, ORG_NAME, ROOT
 
-    log_dir = ROOT / "logs"
+    log_dir = LOG_DIR
 
     def excepthook(exc_type, exc, tb):
         text = "".join(traceback.format_exception(exc_type, exc, tb))
         try:
-            log_dir.mkdir(exist_ok=True)
+            log_dir.mkdir(parents=True, exist_ok=True)
             with open(log_dir / "errors.log", "a", encoding="utf-8") as f:
                 f.write(text + "\n")
         except OSError:

@@ -1,15 +1,29 @@
 # Anatomy Explorer
 
-A native Windows desktop 3D anatomy viewer. It has its own OpenGL renderer and a Qt interface, and it runs entirely offline on your machine.
+A desktop 3D anatomy viewer for Windows and Mac. It has its own OpenGL renderer and a Qt interface, and it runs entirely offline on your machine.
+
+## Download
+
+[![Download for Windows](https://img.shields.io/badge/Download-Windows%20installer-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/AnatomyExplorer-Setup-Windows.exe)
+&nbsp;
+[![Download for Mac](https://img.shields.io/badge/Download-Mac%20%28Apple%20silicon%29-333333?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/AnatomyExplorer-macOS-AppleSilicon.dmg)
+
+**[Windows installer](https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/AnatomyExplorer-Setup-Windows.exe)** · **[Mac, M1 or newer](https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/AnatomyExplorer-macOS-AppleSilicon.dmg)** (about 1.5 GB each; nothing else to install)
+
+- **Windows:** run the downloaded file and click through the installer. It adds Anatomy Explorer to the Start menu (and the desktop if you tick the box). If a blue "Windows protected your PC" box appears, click **More info**, then **Run anyway**.
+- **Mac:** open the downloaded file and drag **Anatomy Explorer** into **Applications**. The first time only, **right-click** the app and choose **Open**, then **Open** again. If the Mac says it "cannot be opened", go to **System Settings → Privacy & Security**, scroll down and click **Open Anyway**.
+- These warnings appear because the app isn't signed with a paid developer certificate; after the first launch it opens normally. Your progress, quiz history and notes are kept in your user folder (`%LOCALAPPDATA%\AnatomyExplorer` on Windows, `~/Library/Application Support/AnatomyExplorer` on Mac), so updating or reinstalling never loses them. If the app ever misbehaves, its error log is in the `logs` folder there.
+
+## What's in it
 
 - 137 guided lessons in 810 steps, filed by body system and by region, with 721 recall questions built into them; 24 labelled radiology cases, five of them showing pathology; spaced-repetition revision, a dissection slider that peels the body apart, and self-labelling cross-sections.
 - 3,922 structures and 11.6 M triangles: bones, joints and ligaments, muscles, tendons, bursae, fascia, arteries, veins, heart, lymphatics, brain, cranial and spinal nerves, sense organs, viscera, skin regions.
 - 1,109 bony and organ landmarks, 3,815 described structures, Latin names and Terminologia Anatomica 2 IDs.
 - Muscle origins and insertions mapped onto bones. Innervation for 468 muscles, and the action of 466.
 
-## Launching
+## Running from source (Windows)
 
-Double-click **Anatomy Explorer** on the desktop. You can also use `Anatomy Explorer.bat` in this folder.
+The installers above are all most people need. To run the app straight from this repository instead: double-click **Anatomy Explorer** on the desktop. You can also use `Anatomy Explorer.bat` in this folder.
 If something goes wrong, run `run_debug.bat` to see errors in a console. Errors are also written to `logs\errors.log`.
 
 On a new PC, or if `.venv` is deleted, run `setup.bat` once. It installs the Python packages, rebuilds the dataset if it's missing, and recreates the desktop shortcut. It needs Python 3.10 or newer from python.org.

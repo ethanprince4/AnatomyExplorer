@@ -1173,10 +1173,10 @@ class MainWindow(QMainWindow):
         """Accuracy, the spaced-repetition schedule and the structures that keep catching you out."""
         import json
 
-        from .config import ROOT
+        from .config import USER_DIR
         from .ui.progress import ProgressDialog
         stats = {}
-        path = ROOT / "data" / "user" / "quiz_stats.json"
+        path = USER_DIR / "quiz_stats.json"
         try:
             stats = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, ValueError):

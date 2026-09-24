@@ -9,11 +9,11 @@ depicts, so selecting a structure can offer the matching model in Details. tools
 """
 import json
 
-from .config import ROOT
+from .config import ROOT, USER_DIR
 
 CATALOG_PATH = ROOT / "data" / "content" / "sketchfab.json"
 LOCAL_DIR = ROOT / "data" / "sketchfab_models"         # downloadable models, fetched by tools/fetch_sketchfab.py
-TOKEN_PATH = ROOT / "data" / "user" / "sketchfab_token.txt"
+TOKEN_PATH = USER_DIR / "sketchfab_token.txt"
 EMBED = "https://sketchfab.com/models/{uid}/embed?autostart=1&ui_theme=dark&dnt=1&preload=1"
 PAGE = "https://sketchfab.com/3d-models/{uid}"
 

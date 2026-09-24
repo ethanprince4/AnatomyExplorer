@@ -17,10 +17,10 @@ from PySide6.QtWidgets import (QCheckBox, QComboBox, QCompleter, QDockWidget, QF
                                QHBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem, QPushButton, QSpinBox,
                                QStackedWidget, QVBoxLayout, QWidget)
 
-from ..config import ROOT
+from ..config import USER_DIR
 from .. import srs
 
-STATS_PATH = ROOT / "data" / "user" / "quiz_stats.json"
+STATS_PATH = USER_DIR / "quiz_stats.json"
 EXCLUDED_SYSTEMS = {"attachments", "regions", "reference"}
 MODES = [("find", "Find it in 3D"), ("hunt", "Hunt it down — dig through the whole body"),
          ("choice", "Name it — multiple choice"), ("typed", "Name it — type the answer")]

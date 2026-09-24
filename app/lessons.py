@@ -11,10 +11,10 @@ recall question on each step (`check`), the things worth carrying away (`takeawa
 import datetime
 import json
 
-from .config import ROOT
+from .config import ROOT, USER_DIR
 
 LESSON_DIR = ROOT / "data" / "content"
-PROGRESS_PATH = ROOT / "data" / "user" / "lesson_progress.json"
+PROGRESS_PATH = USER_DIR / "lesson_progress.json"
 
 # The two ways the library is segmented. Keys are what a lesson file writes; the name is what the panel shows.
 SYSTEMS = [
