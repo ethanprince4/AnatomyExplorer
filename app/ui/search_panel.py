@@ -11,6 +11,18 @@ KIND_COLOR = {"clinical": "#e0707a", "tissue": "#b48ee0", "micro": "#6cc4b0", "l
               "radiology": "#7fb2f0", "sketchfab": "#1caad9"}
 
 
+def shown_alt(entry):
+    """The part of an entry's alternative text worth showing. For structures it is the Latin name; for a radiology
+    case it is a keyword blob that starts with the modality the subtitle already gives."""
+    alt = entry.alt or ""
+    if entry.kind == "radiology":
+        parts = entry.subtitle.split(" · ")
+        modality = parts[1] if len(parts) > 1 else ""
+        if modality and alt.startswith(modality + " "):
+            alt = alt[len(modality) + 1:]
+    return alt
+
+
 class ResultDelegate(QStyledItemDelegate):
     def __init__(self, ds, parent=None):
         super().__init__(parent)
@@ -45,7 +57,8 @@ class ResultDelegate(QStyledItemDelegate):
         sub_font.setPointSizeF(8.2)
         p.setFont(sub_font)
         p.setPen(QColor("#8a94a3"))
-        subtitle = entry.subtitle + (f"  ·  {entry.alt}" if entry.alt else "")
+        alt = shown_alt(entry)
+        subtitle = entry.subtitle + (f"  ·  {alt}" if alt else "")
         p.drawText(QRectF(tx, r.y() + 22, r.width() - 30, 18), Qt.AlignLeft | Qt.AlignVCenter,
                    p.fontMetrics().elidedText(subtitle, Qt.ElideRight, r.width() - 34))
         if badge:
@@ -99,6 +112,7 @@ class SearchPanel(QWidget):
         self.list.setItemDelegate(ResultDelegate(ds, self.list))
         self.list.setMouseTracking(True)
         self.list.setUniformItemSizes(True)
+        self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)   # every row elides to the width
         lay.addWidget(self.list, 1)
         self.list.hide()
         self._timer = QTimer(self)
@@ -130,7 +144,8 @@ class SearchPanel(QWidget):
         for e in results:
             it = QListWidgetItem()
             it.setData(ROLE_ENTRY, e)
-            it.setToolTip(f"{e.title}\n{e.subtitle}" + (f"\nLatin: {e.alt}" if e.alt else ""))
+            latin = e.alt if e.kind in ("structure", "group", "landmark") else ""   # others carry search keywords
+            it.setToolTip(f"{e.title}\n{e.subtitle}" + (f"\nLatin: {latin}" if latin else ""))
             self.list.addItem(it)
         self.info.setText(f"{len(results)} result{'s' if len(results) != 1 else ''}" if results else "No matches")
         self.info.show()

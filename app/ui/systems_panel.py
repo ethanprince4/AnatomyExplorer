@@ -34,6 +34,7 @@ class SystemsPanel(QWidget):
         outer.setContentsMargins(0, 0, 0, 0)
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         outer.addWidget(scroll)
         body = QWidget()
         scroll.setWidget(body)
@@ -45,6 +46,7 @@ class SystemsPanel(QWidget):
         grid.setSpacing(5)
         for i, (name, keys) in enumerate(PRESETS):
             b = QPushButton(name)
+            b.setMinimumWidth(56)       # may give up some padding so the panel never needs a sideways scroll
             b.clicked.connect(lambda _=False, k=keys: self._preset(k))
             grid.addWidget(b, i // 4, i % 4)
         lay.addLayout(grid)
@@ -159,7 +161,7 @@ class RegionsPanel(QWidget):
         lay.addLayout(btns)
         self.checks = []
         for i, r in enumerate(ds.regions):
-            cb = QCheckBox(r["name"])
+            cb = QCheckBox(r["name"].replace("&", "&&"))
             cb.toggled.connect(lambda on, idx=i: (not self._sync) and self.state.set_region(idx, on))
             lay.addWidget(cb)
             self.checks.append(cb)

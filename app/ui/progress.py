@@ -21,6 +21,9 @@ class Upcoming(QWidget):
         w, h = self.width(), self.height()
         days = list(range(1, 15))
         top = max([self.counts.get(d, 0) for d in days] + [1])
+        if not any(self.counts.get(d, 0) for d in days):
+            p.setPen(QColor(138, 148, 163))
+            p.drawText(0, 0, w, h - 20, Qt.AlignCenter, "Nothing falls due in the next two weeks")
         bw = w / len(days)
         p.setPen(QPen(QColor(90, 100, 115), 1))
         p.drawLine(0, h - 18, w, h - 18)
@@ -78,11 +81,18 @@ class LessonBars(QWidget):
         p.end()
 
 
+def heading(text):
+    """A section heading in the style of the lesson library's group headings."""
+    lab = QLabel(text.upper())
+    lab.setStyleSheet("color:#8a94a3; font-size:8.5pt; font-weight:700; letter-spacing:1px; padding-top:10px;")
+    return lab
+
+
 class ProgressDialog(QDialog):
     def __init__(self, stats, lessons=None, lesson_progress=None, parent=None):
         super().__init__(parent)
         self.setWindowTitle("My progress")
-        self.resize(560, 620)
+        self.resize(580, 680)
         lay = QVBoxLayout(self)
         s = srs.summary(stats)
 
@@ -99,8 +109,10 @@ class ProgressDialog(QDialog):
                              ("Overall accuracy", f"{round(s['accuracy'] * 100)}%"),
                              ("Due today", f"{s['due']:,}")):
             box = QWidget()
+            box.setObjectName("statTile")
+            box.setStyleSheet("#statTile { background:#20252c; border-radius:7px; }")
             bl = QVBoxLayout(box)
-            bl.setContentsMargins(2, 2, 2, 2)
+            bl.setContentsMargins(10, 8, 10, 8)
             v = QLabel(value)
             vf = QFont(self.font())
             vf.setPointSizeF(vf.pointSizeF() + 5)
@@ -108,7 +120,7 @@ class ProgressDialog(QDialog):
             v.setFont(vf)
             v.setStyleSheet("color:#8fd3ff;")
             k = QLabel(label)
-            k.setStyleSheet("color:#9aa4b2;")
+            k.setStyleSheet("color:#9aa4b2; font-size:8.5pt;")
             bl.addWidget(v)
             bl.addWidget(k)
             row.addWidget(box)
@@ -119,20 +131,24 @@ class ProgressDialog(QDialog):
 
         if lessons and lesson_progress is not None:
             done, started, total = lesson_progress.totals(lessons)
-            line = f"Lessons: <b>{done}</b> of <b>{total}</b> finished"
+            line = f"<b>{done}</b> of <b>{total}</b> finished"
             if started:
                 line += f", <b>{started}</b> in progress"
+            lay.addWidget(heading("Lessons"))
             lay.addWidget(QLabel(line))
             lay.addWidget(LessonBars(lessons, lesson_progress))
-        lay.addWidget(QLabel("Falling due over the next fortnight"))
+        lay.addWidget(heading("Falling due over the next fortnight · days from today"))
         lay.addWidget(Upcoming(s["upcoming"]))
 
-        lay.addWidget(QLabel("Structures you miss most"))
+        lay.addWidget(heading("Structures you miss most"))
         weak = QListWidget()
         for base, miss, seen, rate in srs.weakest(stats, limit=30):
             weak.addItem(QListWidgetItem(f"{base} — missed {miss} of {seen} ({round(rate * 100)}%)"))
         if weak.count() == 0:
-            weak.addItem(QListWidgetItem("Nothing yet – answer a few questions first."))
+            it = QListWidgetItem("Nothing yet – answer a few quiz questions first.")
+            it.setFlags(Qt.NoItemFlags)
+            it.setForeground(QColor(138, 148, 163))
+            weak.addItem(it)
         lay.addWidget(weak, 1)
 
         buttons = QDialogButtonBox(QDialogButtonBox.Close)

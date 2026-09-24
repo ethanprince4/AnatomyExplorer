@@ -78,7 +78,7 @@ class SettingsDialog(QDialog):
     def __init__(self, settings, actions, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Settings")
-        self.resize(720, 640)
+        self.resize(840, 640)
         self.settings = settings
         self.registry = actions
         self.widgets = {}

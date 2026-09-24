@@ -393,13 +393,15 @@ license shown with each image)</li></ul>
         self._view = (self.show_structures, (sids,))
         groups = self._group_by_base(sids)
         if len(groups) > 1:
-            items = "".join(f"<li>{self._swatch(k[0])} {link('sids', ','.join(map(str, v)), k[1])}"
-                            f"{' <span class=muted>(' + str(len(v)) + ')</span>' if len(v) > 1 else ''}</li>"
+            # the colour swatch is the bullet: a list marker in front of it as well doubled it up
+            items = "".join(f"<div style='margin:3px 0'>{self._swatch(k[0])}&nbsp; "
+                            f"{link('sids', ','.join(map(str, v)), k[1])}"
+                            f"{' <span class=muted>(' + str(len(v)) + ')</span>' if len(v) > 1 else ''}</div>"
                             for k, v in groups.items())
             self._set(f"<h1>{len(sids)} structures selected</h1>"
                       + self._actions([("Focus", "frame"), ("X-ray others", "xray"), ("Isolate", "isolate"),
                                        ("Hide", "hide")])
-                      + self._section("selection", "Selection", f"<ul>{items}</ul>", count=len(groups), default=True),
+                      + self._section("selection", "Selection", items, count=len(groups), default=True),
                       keep_scroll)
             return
 
@@ -430,7 +432,8 @@ license shown with each image)</li></ul>
                 ("Subsystem", esc(s["subsystem"] or "")),
                 ("Side", esc(side_txt)),
                 ("Region", esc(", ".join(region_names[r] for r in region_keys))),
-                ("TA2 ID", esc(s["ta2"] or ""))]
+                ("TA2 ID", esc(s["ta2"] or "")),
+                ("Action", esc(s.get("action") or "")), ("Blood supply", esc(s.get("blood_supply") or ""))]
         if s["system"] == "attachments":
             muscle = [m for m in ds.structures_named(s["base"]) if ds.structures[m]["system"] == "muscular"]
             muscle = [m for m in muscle if ds.structures[m]["side"] == s["side"]] or muscle

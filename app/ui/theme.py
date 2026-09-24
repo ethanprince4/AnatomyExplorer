@@ -16,6 +16,9 @@ QMainWindow, QWidget {{ background: {PANEL}; color: {TEXT}; font-size: {fs:.2f}p
 QMainWindow::separator {{ background: {BORDER}; width: 1px; height: 1px; }}
 QDockWidget {{ titlebar-close-icon: none; }}
 QDockWidget::title {{ background: {BG}; padding: 6px 10px; color: {MUTED}; font-weight: 600; }}
+QToolButton {{ background: {PANEL_2}; border: 1px solid {BORDER}; border-radius: 6px; padding: 4px 10px; color: {TEXT}; }}
+QToolButton:hover {{ border-color: #3d6f89; background: #232b33; }}
+QToolButton::menu-indicator {{ image: none; width: 0; }}
 QToolBar {{ background: {BG}; border: none; border-bottom: 1px solid {BORDER}; spacing: 2px; padding: 3px 6px; }}
 QToolBar QToolButton {{ background: transparent; color: {TEXT}; border: 1px solid transparent; border-radius: 5px; padding: 4px 8px; }}
 QToolBar QToolButton:hover {{ background: {PANEL_2}; border-color: {BORDER}; }}
@@ -32,6 +35,10 @@ QTabWidget::pane {{ border: none; border-top: 1px solid {BORDER}; }}
 QTabBar::tab {{ background: transparent; color: {MUTED}; padding: 7px 10px; border: none; border-bottom: 2px solid transparent; }}
 QTabBar::tab:selected {{ color: {TEXT}; border-bottom: 2px solid {ACCENT}; }}
 QTabBar::tab:hover {{ color: {TEXT}; }}
+QPushButton#navTab {{ background: transparent; color: {MUTED}; border: 1px solid transparent; border-radius: 6px;
+                      padding: 5px 2px; margin-bottom: 6px; }}
+QPushButton#navTab:hover {{ color: {TEXT}; background: {PANEL_2}; }}
+QPushButton#navTab:checked {{ color: #e6f7ff; background: #1f3a4a; border-color: #2f6d8c; }}
 QListWidget, QTreeWidget, QTextBrowser {{ background: {PANEL}; border: none; outline: none; }}
 QTreeWidget::item {{ padding: 2px 0; }}
 QTreeWidget::item:selected, QListWidget::item:selected {{ background: #1f3a4a; color: #e6f7ff; }}
@@ -52,6 +59,10 @@ QCheckBox {{ spacing: 7px; background: transparent; }}
 QCheckBox::indicator {{ width: 15px; height: 15px; border-radius: 4px; border: 1px solid #46505d; background: {BG}; }}
 QCheckBox::indicator:checked {{ background: {ACCENT}; border-color: {ACCENT}; image: none; }}
 QCheckBox::indicator:indeterminate {{ background: #2f6d8c; border-color: #2f6d8c; }}
+QTreeView::indicator {{ width: 13px; height: 13px; border-radius: 3px; border: 1px solid #46505d; background: {BG}; }}
+QTreeView::indicator:checked {{ background: {ACCENT}; border-color: {ACCENT}; image: none; }}
+QTreeView::indicator:indeterminate {{ background: #2f6d8c; border-color: #2f6d8c; image: none; }}
+QDialogButtonBox {{ dialogbuttonbox-buttons-have-icons: 0; }}
 QSlider::groove:horizontal {{ height: 4px; background: #2d333c; border-radius: 2px; }}
 QSlider::sub-page:horizontal {{ background: #3a8fb8; border-radius: 2px; }}
 QSlider::handle:horizontal {{ background: {TEXT}; width: 12px; height: 12px; margin: -5px 0; border-radius: 6px; }}

@@ -30,6 +30,9 @@ HUNT_SKIP_SYSTEMS = EXCLUDED_SYSTEMS | {"findings", "fascia"}
 # a hunt target has to be identifiable by sight. These are not: one of a numbered series, or a subdivision
 # whose neighbours look identical.
 SKIP_NAME = re.compile(r"segmental bronchus|segment of liver|nucleus pulposus|unlabeled", re.I)
+# a few brain-surface parts still carry the source atlas's internal codes ("Lat_Fis-post", "Sulcus
+# interm_prim-Jensen"): not names anyone could be asked to type or pick out
+RAW_NAME = re.compile(r"_")
 SIBLING_TOKEN = re.compile(r"\b(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth"
                            r"|eleventh|twelfth)\b|\b[clts]\d+(?:-[clts]?\d+)?\b|\d+", re.I)
 SIBLING_FAMILY = 4        # this many names differing only by a number and none of them is a fair target
@@ -84,12 +87,15 @@ class QuizPanel(QWidget):
         self.count.setRange(0, 500)
         self.count.setValue(20)
         self.count.setSpecialValueText("Endless")
-        self.small = QCheckBox("Include small structures (branches, tiny nodes)")
+        self.small = QCheckBox("Include small structures")
+        self.small.setToolTip("Small branches, tiny nodes and the like, under about 1.5 cm across")
         self.weak = QCheckBox("Favour structures I often miss")
         self.weak.setChecked(True)
         self.xray = QCheckBox("X-ray everything else when naming")
         self.xray.setChecked(True)
-        self.wide = QCheckBox("Hunt: anything at all, not just what the lessons and cases name")
+        self.wide = QCheckBox("Hunt: anything at all")
+        self.wide.setToolTip("Hunt through the whole atlas, not just the ~500 structures the lessons, radiology "
+                             "cases and clinical notes name")
         form.addRow("Mode", self.mode)
         form.addRow("Topic", self.scope)
         form.addRow("Questions", self.count)
@@ -212,16 +218,19 @@ class QuizPanel(QWidget):
         sm = QVBoxLayout(s)
         sm.setContentsMargins(0, 0, 0, 0)
         self.summary = QLabel("")
+        self.summary.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         self.summary.setWordWrap(True)
         self.summary.setTextFormat(Qt.RichText)
         sm.addWidget(self.summary)
-        sm.addWidget(QLabel("To review (double-click to show):"))
+        self.missed_label = QLabel("To review (double-click to show):")
+        sm.addWidget(self.missed_label)
         self.missed = QListWidget()
         self.missed.itemDoubleClicked.connect(lambda it: controller.show_base(it.data(Qt.UserRole)))
         sm.addWidget(self.missed, 1)
         row3 = QHBoxLayout()
         again = QPushButton("Retry missed")
         again.clicked.connect(controller.retry_missed)
+        self.retry_btn = again
         new = QPushButton("New quiz")
         new.clicked.connect(lambda: self.stack.setCurrentIndex(0))
         close = QPushButton("Close")
@@ -361,6 +370,8 @@ class QuizController:
         for sid in np.flatnonzero(vis):
             s = ds.structures[int(sid)]
             if s["system"] in EXCLUDED_SYSTEMS or s.get("role") or (scope is not None and s["system"] != scope):
+                continue
+            if RAW_NAME.search(s["base"]):
                 continue
             groups.setdefault(s["base"], []).append(int(sid))
         pool = {}
@@ -913,8 +924,16 @@ class QuizController:
         p = self.panel
         answered = self.asked if (self.current and self.current["done"]) else max(0, self.asked - 1)
         pct = round(100 * self.correct / answered) if answered else 0
-        p.summary.setText(f'<p style="font-size:17pt; font-weight:600">{self.correct} / {answered} correct '
-                          f'({pct}%)</p><p>Best streak: {self.best_streak}</p>')
+        if answered:
+            p.summary.setText(f'<p style="font-size:17pt; font-weight:600">{self.correct} / {answered} correct '
+                              f'({pct}%)</p><p>Best streak: {self.best_streak}</p>'
+                              + ("" if self.missed else "<p>Nothing to review – you got every one.</p>"))
+        else:
+            p.summary.setText('<p style="font-size:17pt; font-weight:600">No questions answered</p>'
+                              '<p style="color:#9aa4b2">Start a new quiz when you are ready.</p>')
+        p.missed_label.setVisible(bool(self.missed))
+        p.missed.setVisible(bool(self.missed))
+        p.retry_btn.setVisible(bool(self.missed))
         p.missed.clear()
         for b in self.missed:
             st = self.stats.get(b, {})
