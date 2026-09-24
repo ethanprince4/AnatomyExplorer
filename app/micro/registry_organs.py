@@ -1,7 +1,8 @@
 from .base import MicroModel
 from .gut import build_gut
 from .kidney import build_nephron
-from .organs3 import build_alveoli, build_liver_lobule
+from .liver import build_liver_lobule
+from .lung import build_alveoli
 from .bone import build_osteon
 from .bundles import build_muscle, build_nerve, home_view
 from .vessels import build_vessel
