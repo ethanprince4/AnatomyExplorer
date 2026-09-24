@@ -1,8 +1,9 @@
 import numpy as np
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import (QCheckBox, QFrame, QGridLayout, QHBoxLayout, QLabel, QPushButton, QScrollArea,
+from PySide6.QtWidgets import (QCheckBox, QFrame, QHBoxLayout, QLabel, QPushButton, QScrollArea,
                                QSlider, QToolButton, QVBoxLayout, QWidget)
+from .flow import FlowLayout
 
 PRESETS = [
     ("Default", None),
@@ -42,14 +43,12 @@ class SystemsPanel(QWidget):
         lay.setContentsMargins(10, 10, 10, 10)
         lay.setSpacing(4)
 
-        grid = QGridLayout()
-        grid.setSpacing(5)
-        for i, (name, keys) in enumerate(PRESETS):
+        presets = FlowLayout(spacing=5)     # wraps onto another row rather than clipping names on a narrow dock
+        for name, keys in PRESETS:
             b = QPushButton(name)
-            b.setMinimumWidth(56)       # may give up some padding so the panel never needs a sideways scroll
             b.clicked.connect(lambda _=False, k=keys: self._preset(k))
-            grid.addWidget(b, i // 4, i % 4)
-        lay.addLayout(grid)
+            presets.addWidget(b)
+        lay.addLayout(presets)
         lay.addSpacing(6)
 
         counts = np.bincount(ds.system_of, minlength=len(ds.systems))
