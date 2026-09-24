@@ -1,0 +1,712 @@
+[
+{
+  "id": "small-intestine",
+  "title": "The small intestine",
+  "system": "digestive",
+  "region": "abdomen",
+  "level": "core",
+  "minutes": 11,
+  "summary": "Six metres of absorbing surface, and three parts you can tell apart at operation.",
+  "tags": ["duodenum", "jejunum", "ileum", "mesentery"],
+  "objectives": [
+    "Name the four parts of the duodenum and their relations",
+    "Distinguish jejunum from ileum on inspection",
+    "Explain how the mucosa multiplies its surface area",
+    "Trace different absorption routes from a villus into blood capillaries and lymphatic lacteals"
+  ],
+  "takeaways": [
+    "The duodenum is retroperitoneal except its first 2 cm, and it is where foregut becomes midgut.",
+    "Jejunum: thicker wall, wider lumen, few long vascular arcades. Ileum: thinner, narrower, many short arcades and more fat.",
+    "Folds, villi and microvilli together multiply the surface about 600-fold.",
+    "Sugars and amino acids mainly enter portal blood; chylomicrons carrying absorbed long-chain fats enter villus lacteals and lymph."
+  ],
+  "see_also": {"lessons": ["stomach", "large-intestine", "peritoneum"], "micro": ["duodenum", "jejunum", "ileum"], "histology": ["duodenum", "jejunum", "ileum"]},
+  "steps": [
+    {
+      "title": "The duodenum, in four parts",
+      "text": "<p>A C-shaped 25 cm tube curled round the head of the pancreas. <b>First part</b> (superior): the only mobile bit, and the site of most duodenal ulcers. <b>Second</b> (descending): the bile and pancreatic ducts open into it at the major papilla. <b>Third</b> (horizontal): crossed in front by the superior mesenteric vessels. <b>Fourth</b> (ascending): ends at the duodenojejunal flexure, held up by the suspensory muscle of the duodenum.</p><p>All of it is retroperitoneal except the first 2 cm — which is why an anterior ulcer there perforates into the peritoneal cavity while one lower down does not.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Duodenum"],
+      "show": ["Pancreas", "Stomach"],
+      "view": "anterior",
+      "frame_on": ["Duodenum"],
+      "xray": false,
+      "check": {"q": "Which part of the duodenum is intraperitoneal?",
+                "a": "Only the first 2 cm of the first part."}
+    },
+    {
+      "title": "The junction of two gut tubes",
+      "text": "<p>Halfway down the second part of the duodenum, at the <b>major duodenal papilla</b>, the foregut becomes the midgut. Everything changes at that line.</p><p>Above it, the blood supply is from the <b>coeliac trunk</b> and pain is referred to the <b>epigastrium</b>. Below, the supply is from the <b>superior mesenteric artery</b> and pain is referred to the <b>umbilicus</b>. Between them the pancreaticoduodenal arteries anastomose, so the duodenum is fed from both.</p>",
+      "systems": ["visceral", "cardiovascular"],
+      "regions": ["abdomen"],
+      "focus": ["Duodenum"],
+      "show": ["Coeliac trunk", "Superior mesenteric artery", "Bile duct"],
+      "view": "anterior",
+      "frame_on": ["Duodenum"],
+      "xray": true,
+      "check": {"q": "Where is midgut pain felt before it localises?",
+                "a": "Around the umbilicus."}
+    },
+    {
+      "title": "Jejunum or ileum?",
+      "text": "<p>There is no line between them, but they look different. The <b>jejunum</b> — the proximal two fifths — has a thicker wall, a wider lumen, tall closely packed circular folds you can feel through the wall, and a mesentery with few, long, straight vascular arcades and little fat.</p><p>The <b>ileum</b> has a thinner wall, a narrower lumen, sparse low folds, many short looping arcades, and mesenteric fat that creeps round the bowel. It also carries <b>Peyer's patches</b>, aggregates of lymphoid tissue in the antimesenteric wall.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Jejunum", "Small intestine"],
+      "show": ["Superior mesenteric artery"],
+      "view": "anterior",
+      "xray": false,
+      "micro": "jejunum",
+      "check": {"q": "How do the mesenteric vessels differ between jejunum and ileum?",
+                "a": "Jejunum: few long arcades with long straight vasa recta. Ileum: many short arcades with short vasa recta."}
+    },
+    {
+      "title": "Multiplying the surface",
+      "text": "<p>A plain 6 m tube would offer about 0.4 m² of absorbing surface. Three levels of folding raise that to roughly 200 m².</p><p><b>Plicae circulares</b>, permanent circular folds of mucosa and submucosa, multiply it about threefold. <b>Villi</b>, finger-like mucosal projections, multiply it tenfold. <b>Microvilli</b> on each enterocyte — the brush border — multiply it twentyfold. Coeliac disease destroys the villi, and the resulting loss of surface is the whole of the malabsorption.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Jejunum"],
+      "view": "anterior",
+      "xray": false,
+      "micro": "duodenum",
+      "check": {"q": "Which level of folding does coeliac disease destroy?",
+                "a": "The villi — leaving a flat mucosa and a large loss of absorptive area."}
+    },
+    {
+      "title": "The mesentery and the volvulus",
+      "text": "<p>The jejunum and ileum hang on a fan-shaped <b>mesentery</b> whose root is only about 15 cm long, running obliquely from the duodenojejunal flexure down to the right sacro-iliac joint — while its free border is six metres long.</p><p>That narrow root is the axis about which the whole small bowel can twist: a <b>volvulus</b>. It is also why an obstructed loop can strangulate quickly, since the vessels reach the bowel through the same narrow stalk.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Small intestine"],
+      "show": ["Superior mesenteric artery"],
+      "view": "anterior",
+      "xray": true,
+      "clinical": "Meckel's diverticulum: the rule of 2s — 2% of people, 2 feet from the ileocaecal valve, 2 inches long, often with 2 types of ectopic mucosa.",
+      "check": {"q": "Where does the root of the small bowel mesentery run?",
+                "a": "From the duodenojejunal flexure at L2 obliquely down to the right sacro-iliac joint."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Jejunum",
+        "Small intestine"
+      ],
+      "show": [
+        "Superior mesenteric artery"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "micro": "jejunum",
+      "title": "A villus has two ways out",
+      "text": "<p>Inside each villus is a network of <b>blood capillaries</b> and a blind-ended lymphatic called a <b>lacteal</b>. Many water-soluble products of digestion, including monosaccharides and amino acids, enter the capillaries and travel towards the liver in portal blood.</p><p>Most absorbed long-chain fats are packaged into <b>chylomicrons</b> within enterocytes and enter the lacteals. They travel through intestinal lymphatics and the thoracic duct before reaching the venous circulation. Shorter-chain fatty acids can take a more direct portal route. Absorption across the lining is one step; the transport route beyond it depends on what was absorbed.</p>",
+      "check": {
+        "q": "Does a chylomicron leaving an intestinal villus normally enter a portal capillary first?",
+        "a": "No. It enters a lacteal and reaches the bloodstream through lymphatic drainage."
+      }
+    }
+  ]
+},
+{
+  "id": "large-intestine",
+  "title": "The large intestine",
+  "system": "digestive",
+  "region": "abdomen",
+  "level": "core",
+  "minutes": 13,
+  "summary": "Three features that identify it at a glance, and a watershed halfway along.",
+  "tags": ["colon", "taeniae", "appendix", "watershed"],
+  "objectives": [
+    "Recognise the three distinguishing features of the large bowel",
+    "Trace the colon and name which parts are retroperitoneal",
+    "Explain the significance of the splenic flexure watershed",
+    "Distinguish the structural transition from sigmoid colon to rectum and the sensory transition at the pectinate line"
+  ],
+  "takeaways": [
+    "Taeniae coli, haustra and appendices epiploicae identify large bowel.",
+    "Ascending and descending colon are retroperitoneal; transverse and sigmoid have mesenteries.",
+    "The splenic flexure is the watershed between superior and inferior mesenteric territories.",
+    "The rectum lacks separate taeniae, haustra and omental appendices; below the pectinate line the anal canal has somatic pain-sensitive innervation."
+  ],
+  "see_also": {"lessons": ["small-intestine", "peritoneum", "abdominal-aorta"], "histology": ["colon", "appendix"], "micro": ["colon_wall"]},
+  "steps": [
+    {
+      "title": "Three giveaways",
+      "text": "<p>You can tell large from small bowel across a room. <b>Taeniae coli</b>: three ribbons of longitudinal muscle running the length of the colon — the outer muscle coat is not a complete sheet. <b>Haustra</b>: the sacculations produced because the taeniae are shorter than the bowel and gather it up. <b>Appendices epiploicae</b>: small fatty tags hanging off the surface.</p><p>All three stop at the rectum, where the taeniae spread out into a complete longitudinal layer again.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Ascending colon", "Transverse colon", "Descending colon", "Free taenia"],
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "Why does the colon have haustra?",
+                "a": "The taeniae coli are shorter than the bowel, so they gather it into sacculations."}
+    },
+    {
+      "title": "Round the frame",
+      "text": "<p>The colon frames the small bowel. <b>Caecum</b> in the right iliac fossa, then <b>ascending colon</b> up to the hepatic flexure, <b>transverse colon</b> across, <b>descending colon</b> down from the splenic flexure, then <b>sigmoid colon</b> and rectum.</p><p>Ascending and descending are <b>retroperitoneal</b>, fixed to the posterior wall; transverse and sigmoid hang on mesenteries and are mobile. That is why the sigmoid can twist into a volvulus and the descending colon cannot, and why a mobilising incision along the paracolic gutter frees the ascending or descending colon at operation.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Ascending colon", "Transverse colon", "Descending colon", "Sigmoid colon"],
+      "show": ["Mesocolon"],
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "Which parts of the colon are retroperitoneal?",
+                "a": "The ascending and descending colon."}
+    },
+    {
+      "title": "The caecum and the appendix",
+      "text": "<p>The <b>caecum</b> is a blind pouch below the ileocaecal junction. The three taeniae converge on the base of the <b>vermiform appendix</b>, which is how a surgeon finds it: follow a taenia down.</p><p>The base is constant — at <b>McBurney's point</b>, a third of the way from the anterior superior iliac spine to the umbilicus — but the tip wanders: retrocaecal in about two thirds, pelvic in a quarter, and occasionally subcaecal or pre-ileal. That variability is why appendicitis presents in so many ways: a retrocaecal appendix may irritate the psoas and give a positive psoas sign, a pelvic one may irritate the bladder or rectum.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Vermiform appendix"],
+      "show": ["Ascending colon", "Small intestine", "Meso-appendix"],
+      "view": "anterior",
+      "frame_on": ["Vermiform appendix"],
+      "xray": false,
+      "clinical": "Appendicitis pain starts periumbilical (visceral, midgut) and shifts to the right iliac fossa when the inflamed appendix touches the parietal peritoneum (somatic, T12–L1).",
+      "check": {"q": "Why does appendicitis pain move?",
+                "a": "It starts as poorly localised midgut visceral pain at the umbilicus and becomes sharp somatic pain at McBurney's point when the parietal peritoneum is involved."}
+    },
+    {
+      "title": "The watershed",
+      "text": "<p>The <b>superior mesenteric artery</b> supplies the colon as far as the junction of the proximal two thirds and distal third of the transverse colon; the <b>inferior mesenteric artery</b> supplies the rest. The two meet near the <b>splenic flexure</b>.</p><p>They are joined by the <b>marginal artery</b> running along the whole inner border of the colon, but the anastomosis is at its thinnest here. In a low-flow state — shock, cardiac surgery — the splenic flexure is where <b>ischaemic colitis</b> appears first.</p>",
+      "systems": ["visceral", "cardiovascular"],
+      "regions": ["abdomen"],
+      "focus": ["Transverse colon"],
+      "show": ["Superior mesenteric artery", "Inferior mesenteric artery", "Marginal artery"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Where does ischaemic colitis characteristically occur, and why?",
+                "a": "At the splenic flexure — the watershed between superior and inferior mesenteric territories."}
+    },
+    {
+      "title": "What the colon is for",
+      "text": "<p>Not absorption of nutrients but of <b>water and electrolytes</b>: around 1.5 litres of fluid enters the caecum each day and around 100 ml leaves in the stool. It also houses the microbiota, which ferment residual carbohydrate into short-chain fatty acids — the colonocyte's own fuel.</p><p>Its mucosa reflects the job: no villi, a flat surface with deep crypts, and enormous numbers of <b>goblet cells</b> producing the mucus that lets a solid stool move without abrading the wall.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Descending colon", "Sigmoid colon"],
+      "view": "anterior",
+      "xray": false,
+      "micro": "colon_wall",
+      "check": {"q": "How does colonic mucosa differ from small bowel mucosa?",
+                "a": "No villi, straight deep crypts, and far more goblet cells."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Ascending colon",
+        "Transverse colon",
+        "Descending colon",
+        "Sigmoid colon"
+      ],
+      "show": [
+        "Mesocolon"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "title": "The colon's three clues disappear at the rectum",
+      "text": "<p>Continue the route beyond the sigmoid colon into the <b>rectum</b>. The three taeniae spread into a continuous outer longitudinal muscle layer. The characteristic haustra and fatty omental appendices are absent, so the three external clues used to identify colon no longer apply.</p><p>The rectum follows the curve of the sacrum and acts as a reservoir before the outlet. At the anorectal junction, puborectalis maintains an angle that contributes to continence. Use the displayed sigmoid as the starting point for this continuation into the pelvis; the rectum is not separately modelled in this atlas.</p>",
+      "check": {
+        "q": "Which three external features of the colon are absent from the rectum?",
+        "a": "Separate taeniae coli, haustra and omental appendices."
+      }
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Ascending colon",
+        "Transverse colon",
+        "Descending colon",
+        "Sigmoid colon"
+      ],
+      "show": [
+        "Mesocolon"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "title": "A short outlet with a major boundary",
+      "text": "<p>Within the anal canal, the <b>pectinate line</b> marks an important developmental and sensory transition. Above it, visceral afferents are relatively insensitive to sharply localised cutting pain. Below it, somatic supply through inferior rectal branches makes the lining sensitive to pain, touch and temperature.</p><p>Venous connections also cross this region: superior rectal veins lead towards the portal system, while middle and inferior rectal routes lead towards systemic pelvic veins. <b>Anorectal varices</b> from portal hypertension are distinct from ordinary haemorrhoidal disease. Sharing a location does not make them the same condition.</p>",
+      "check": {
+        "q": "Why is a small anal fissure below the pectinate line often very painful?",
+        "a": "The region has somatic pain-sensitive innervation through inferior rectal nerves."
+      }
+    }
+  ]
+},
+{
+  "id": "liver-segments",
+  "title": "The liver and its segments",
+  "system": "digestive",
+  "region": "abdomen",
+  "level": "advanced",
+  "minutes": 11,
+  "summary": "Four anatomical lobes that mean nothing, and eight functional segments that mean everything.",
+  "tags": ["Couinaud", "liver", "portal triad", "resection"],
+  "objectives": [
+    "Distinguish the anatomical lobes from the functional segments",
+    "Explain what defines a Couinaud segment",
+    "Describe the dual blood supply of the liver and its consequences",
+    "Distinguish portal inflow, hepatic venous outflow and bile flow within the liver"
+  ],
+  "takeaways": [
+    "The falciform ligament divides the anatomical lobes; the middle hepatic vein divides the functional ones.",
+    "Each of the eight segments has its own portal pedicle and can be resected alone.",
+    "The liver receives 75% of its blood from the portal vein and 25% from the hepatic artery.",
+    "Portal and arterial blood enter through portal tracts and drain towards hepatic veins; bile flows towards ducts in the portal tracts."
+  ],
+  "see_also": {"lessons": ["biliary-tree", "portal-system"], "histology": ["liver"], "micro": ["liver_lobule"], "radiology": ["ct_abdo_kidney"]},
+  "steps": [
+    {
+      "title": "The lobes you can see",
+      "text": "<p>From the front, the <b>falciform ligament</b> appears to divide the liver into a big right and a small left lobe. From below, two more appear: the <b>caudate</b> lobe behind and the <b>quadrate</b> lobe in front, framed by the fissures for the ligamentum venosum and ligamentum teres, the gallbladder and the porta hepatis.</p><p>These are surface anatomy only. They do not correspond to how the liver is supplied, and a surgeon who resected along the falciform ligament would cut straight through a vascular territory.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Liver"],
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "Why is the falciform ligament not a surgical boundary?",
+                "a": "It does not correspond to any vascular or biliary division of the liver."}
+    },
+    {
+      "title": "The functional division",
+      "text": "<p>The true right and left halves are separated by <b>Cantlie's line</b>, running from the gallbladder fossa to the inferior vena cava — the plane of the <b>middle hepatic vein</b>. Each half has its own portal vein branch, hepatic artery branch and bile duct.</p><p>The three hepatic veins run <b>between</b> the segments; the portal triads run <b>within</b> them. That is the same principle as the bronchopulmonary segments, and it has the same consequence: the liver can be divided along the venous planes.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Liver"],
+      "show": ["Hepatic veins", "Hepatic portal vein"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Which vessel marks the plane between the functional right and left liver?",
+                "a": "The middle hepatic vein, along Cantlie's line."}
+    },
+    {
+      "title": "The eight segments",
+      "text": "<p>Couinaud divided the liver into <b>eight segments</b>, each with its own portal pedicle and its own venous drainage — so each can be removed on its own.</p><p>They are numbered anticlockwise as seen from the front: <b>I</b> is the caudate lobe, <b>II</b> and <b>III</b> the left lateral section, <b>IV</b> the left medial section (the quadrate lobe is its lower part), and <b>V</b> to <b>VIII</b> the right. Segment I is special: it drains directly into the inferior vena cava, so it survives when the hepatic veins are occluded and hypertrophies in Budd–Chiari syndrome.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Posterior segment of liver (I)", "Left posterior lateral segment of liver (II)", "Left anterior lateral segment of liver (III)", "Left medial segment of liver (IV)"],
+      "show": ["Liver"],
+      "view": "anterior",
+      "frame_on": ["Liver"],
+      "xray": false,
+      "check": {"q": "Which segment is the caudate lobe, and what is unusual about it?",
+                "a": "Segment I — it drains directly into the inferior vena cava."}
+    },
+    {
+      "title": "The right segments",
+      "text": "<p>The right liver divides into an anterior section (segments <b>V</b> below and <b>VIII</b> above) and a posterior section (segments <b>VI</b> below and <b>VII</b> above), separated by the right hepatic vein.</p><p>Turn the model and switch each on in turn. Being able to say which segment a lesion is in is what determines whether a resection is possible and how much liver will be left — the deciding question in liver surgery.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Anterior medial segment of liver (V)", "Anterior lateral segment of liver (VI)", "Posterior lateral segment of liver (VII)", "Posterior medial segment of liver (VIII)"],
+      "show": ["Liver"],
+      "view": "anterior",
+      "frame_on": ["Liver"],
+      "xray": false
+    },
+    {
+      "title": "Two blood supplies",
+      "text": "<p>The liver takes about <b>75%</b> of its blood from the <b>portal vein</b> — deoxygenated but nutrient-rich, straight from the gut — and <b>25%</b> from the <b>hepatic artery</b>. Because the portal blood is already fairly well saturated, the two contribute roughly equally to its oxygen.</p><p>Consequences: hepatic metastases from gut tumours arrive by the portal vein and are distributed through the parenchyma; they are then fed mainly by the <b>hepatic artery</b>, which is why they can be treated by embolising it while normal liver survives on portal flow.</p>",
+      "systems": ["cardiovascular", "visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Hepatic portal vein", "Common hepatic artery"],
+      "show": ["Liver"],
+      "view": "anterior",
+      "frame_on": ["Liver"],
+      "xray": true,
+      "micro": "liver_lobule",
+      "check": {"q": "Why can a liver tumour be treated by arterial embolisation?",
+                "a": "Tumours are supplied almost entirely by the hepatic artery, while normal liver survives on portal flow."}
+    },
+    {
+      "systems": [
+        "cardiovascular",
+        "visceral"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Hepatic portal vein",
+        "Common hepatic artery"
+      ],
+      "show": [
+        "Liver"
+      ],
+      "view": "anterior",
+      "frame_on": [
+        "Liver"
+      ],
+      "xray": true,
+      "micro": "liver_lobule",
+      "title": "Blood and bile travel in opposite directions",
+      "text": "<p>A portal tract contains a branch of the <b>portal vein</b>, a branch of the <b>hepatic artery</b> and a <b>bile duct</b>. Blood from the two vessels enters sinusoids and flows towards the central vein of a classical lobule, then into larger venous channels and the hepatic veins.</p><p>Hepatocytes secrete bile into tiny <b>canaliculi</b> between neighbouring cells. Bile travels towards ductules at the lobule's periphery and then into the bile ducts of the portal tracts. In the microanatomy view, trace the two routes separately: blood towards the central vein, bile towards the portal tract. A hepatic vein is not a component of the portal triad.</p>",
+      "check": {
+        "q": "Does bile normally flow into the central vein of a liver lobule?",
+        "a": "No. It flows through canaliculi towards bile ducts at the portal tracts; blood drains towards the central vein."
+      }
+    }
+  ]
+},
+{
+  "id": "biliary-tree",
+  "title": "The biliary tree and the gallbladder",
+  "system": "digestive",
+  "region": "abdomen",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Where a stone can lodge decides the whole clinical picture.",
+  "tags": ["gallbladder", "bile duct", "Calot", "jaundice"],
+  "objectives": [
+    "Trace bile from the liver to the duodenum",
+    "Name the boundaries of Calot's triangle and why they matter",
+    "Predict the presentation of a stone at each level",
+    "Explain why the liver can continue delivering bile after removal of the gallbladder"
+  ],
+  "takeaways": [
+    "Right and left hepatic ducts → common hepatic duct → joined by cystic duct → bile duct → ampulla.",
+    "Calot's triangle: cystic duct, common hepatic duct and the inferior border of the liver — containing the cystic artery.",
+    "Stone in the gallbladder = colic; in the cystic duct = cholecystitis; in the bile duct = obstructive jaundice.",
+    "Hepatocytes make bile; the gallbladder stores and concentrates it. The hepatic ducts retain a route to the duodenum without the gallbladder."
+  ],
+  "see_also": {"lessons": ["liver-segments", "pancreas-and-spleen", "stomach"], "histology": ["gallbladder"]},
+  "steps": [
+    {
+      "title": "The plumbing",
+      "text": "<p>Bile leaves the liver by the <b>right</b> and <b>left hepatic ducts</b>, which unite at the porta hepatis as the <b>common hepatic duct</b>. The <b>cystic duct</b> from the gallbladder joins it to form the <b>bile duct</b>, which runs down behind the first part of the duodenum, through the head of the pancreas, and opens with the pancreatic duct at the <b>major duodenal papilla</b>.</p><p>The sphincter of Oddi guards that opening; when it is closed, bile backs up the cystic duct and fills the gallbladder.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Bile duct", "Gallbladder"],
+      "show": ["Liver", "Duodenum", "Pancreas"],
+      "view": "anterior",
+      "frame_on": ["Gallbladder"],
+      "xray": true,
+      "check": {"q": "Which two ducts unite to form the bile duct?",
+                "a": "The common hepatic duct and the cystic duct."}
+    },
+    {
+      "title": "The gallbladder",
+      "text": "<p>A pear-shaped sac holding about 50 ml, lying on the visceral surface of the liver in line with the plane between the functional lobes. Its <b>fundus</b> touches the anterior abdominal wall where the lateral border of rectus abdominis crosses the ninth costal cartilage — the point at which Murphy's sign is elicited.</p><p>It concentrates bile up to tenfold by absorbing water. Concentrated bile is where cholesterol crystallises, which is why stones form here and not in the ducts.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Gallbladder"],
+      "show": ["Liver", "Ribs"],
+      "view": "anterior",
+      "xray": true,
+      "histology": "gallbladder",
+      "check": {"q": "Where does the fundus of the gallbladder touch the abdominal wall?",
+                "a": "At the tip of the ninth costal cartilage, at the lateral border of rectus abdominis."}
+    },
+    {
+      "title": "Calot's triangle",
+      "text": "<p>Bounded by the <b>cystic duct</b> below, the <b>common hepatic duct</b> medially and the <b>inferior surface of the liver</b> above. Inside it runs the <b>cystic artery</b>, usually from the right hepatic artery.</p><p>Every laparoscopic cholecystectomy turns on identifying this triangle — the 'critical view of safety' — because the commonest serious complication of the operation is mistaking the bile duct for the cystic duct and dividing it. Anatomical variation here is the rule rather than the exception.</p>",
+      "systems": ["visceral", "cardiovascular"],
+      "regions": ["abdomen"],
+      "focus": ["Gallbladder", "Bile duct"],
+      "show": ["Common hepatic artery", "Liver", "Hepatic portal vein"],
+      "view": "anterior",
+      "frame_on": ["Gallbladder"],
+      "xray": true,
+      "check": {"q": "What runs in Calot's triangle?",
+                "a": "The cystic artery."}
+    },
+    {
+      "title": "Where the stone lodges",
+      "text": "<p><b>In the gallbladder</b>: often silent, or <b>biliary colic</b> when a stone blocks the neck transiently after a fatty meal — pain that builds, lasts an hour or two and settles.</p><p><b>Impacted in the cystic duct</b>: the gallbladder becomes inflamed — <b>cholecystitis</b>, with continuous pain, fever and a positive Murphy's sign, but <b>no jaundice</b>, since bile still flows from the liver.</p><p><b>In the bile duct</b>: <b>obstructive jaundice</b>, pale stools, dark urine; if it becomes infected, <b>ascending cholangitis</b> with Charcot's triad of pain, jaundice and fever.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Bile duct"],
+      "show": ["Gallbladder", "Duodenum", "Liver"],
+      "view": "anterior",
+      "frame_on": ["Bile duct"],
+      "xray": true,
+      "check": {"q": "Why is there no jaundice in simple cholecystitis?",
+                "a": "The stone is in the cystic duct, so bile still passes from the liver down the bile duct."}
+    },
+    {
+      "title": "The ampulla, and the pancreas next door",
+      "text": "<p>The bile duct and the <b>pancreatic duct</b> usually join in a short common channel, the hepatopancreatic ampulla, before opening on the papilla. Two things follow.</p><p>A stone at the ampulla obstructs <b>both</b>, so gallstones are the commonest cause of acute pancreatitis. And a tumour in the <b>head of the pancreas</b> compresses the bile duct as it passes through, producing painless progressive jaundice with a palpable gallbladder — Courvoisier's law says that a palpable, non-tender gallbladder in a jaundiced patient is unlikely to be due to stones, because a chronically stone-diseased gallbladder is scarred and cannot distend.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Bile duct", "Pancreatic duct"],
+      "show": ["Pancreas", "Duodenum"],
+      "view": "anterior",
+      "frame_on": ["Pancreas"],
+      "xray": true,
+      "check": {"q": "What does Courvoisier's law state?",
+                "a": "A palpable, painless gallbladder in a jaundiced patient is unlikely to be caused by gallstones."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Bile duct",
+        "Gallbladder"
+      ],
+      "show": [
+        "Liver",
+        "Duodenum",
+        "Pancreas"
+      ],
+      "view": "anterior",
+      "frame_on": [
+        "Gallbladder"
+      ],
+      "xray": true,
+      "title": "The reservoir is not the factory",
+      "text": "<p>The <b>liver makes bile</b> continuously. The gallbladder stores and concentrates it by absorbing water and electrolytes from its contents. During digestion, gallbladder contraction and relaxation of the distal sphincter apparatus help deliver stored bile to the duodenum.</p><p>Trace the main route: right and left hepatic ducts to common hepatic duct, then common bile duct and duodenum. The cystic duct is a side connection to the reservoir. Removing the gallbladder does not remove the hepatocytes or this main drainage route, so bile can still reach the intestine.</p>",
+      "check": {
+        "q": "Why does gallbladder removal not stop bile production?",
+        "a": "Bile is produced by hepatocytes in the liver; the gallbladder is a storage and concentrating organ."
+      }
+    }
+  ]
+},
+{
+  "id": "pancreas-and-spleen",
+  "title": "The pancreas and the spleen",
+  "system": "digestive",
+  "region": "abdomen",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Two organs sharing one artery, one lying behind everything and one hiding under the ribs.",
+  "tags": ["pancreas", "spleen", "splenic artery", "trauma"],
+  "objectives": [
+    "Describe the parts and relations of the pancreas",
+    "Explain why pancreatic pain radiates to the back",
+    "Give the surface anatomy of the spleen and the rule of odd numbers",
+    "Relate the pancreatic tail and splenic vessels to the splenorenal ligament"
+  ],
+  "takeaways": [
+    "The pancreas is retroperitoneal except the tail, which sits in the splenorenal ligament.",
+    "The splenic artery runs a tortuous course along the upper border of the pancreas.",
+    "The spleen: 1x3x5 inches, 7 ounces, ribs 9 to 11 — and not palpable until it has doubled in size.",
+    "The pancreatic tail approaches the splenic hilum within the splenorenal ligament, placing it close to vessels handled near the spleen."
+  ],
+  "see_also": {"lessons": ["stomach", "biliary-tree", "lymphatics"], "histology": ["pancreas", "islets", "spleen"], "radiology": ["ct_abdo_kidney"]},
+  "steps": [
+    {
+      "title": "The pancreas, front to back",
+      "text": "<p>Five parts: the <b>head</b> in the C of the duodenum, the <b>uncinate process</b> hooking behind the superior mesenteric vessels, the <b>neck</b> in front of them, the <b>body</b> across the aorta and the <b>tail</b> reaching the hilum of the spleen.</p><p>Everything except the tail is <b>retroperitoneal</b>, lying on the aorta, the inferior vena cava, both renal vessels and the left kidney. It sits directly on the vertebral column at about L1.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Pancreas"],
+      "show": ["Duodenum", "Spleen", "Abdominal aorta"],
+      "view": "anterior",
+      "frame_on": ["Pancreas"],
+      "xray": true,
+      "check": {"q": "Which part of the pancreas is not retroperitoneal?",
+                "a": "The tail, which lies in the splenorenal ligament."}
+    },
+    {
+      "title": "Why pancreatitis hurts in the back",
+      "text": "<p>Because the gland lies on the posterior abdominal wall, inflammation irritates the <b>retroperitoneal tissues</b> and the coeliac plexus directly. So the pain of pancreatitis is felt in the epigastrium and bores straight <b>through to the back</b>, and it is often eased by sitting forward.</p><p>Its position also explains the rare bruising signs of severe haemorrhagic pancreatitis: blood tracking retroperitoneally to the flank (<b>Grey Turner's sign</b>) or along the falciform ligament to the umbilicus (<b>Cullen's sign</b>).</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Pancreas"],
+      "show": ["Vertebra L1", "Abdominal aorta"],
+      "view": "left",
+      "frame_on": ["Pancreas"],
+      "xray": true
+    },
+    {
+      "title": "Two glands in one",
+      "text": "<p>Almost all of the pancreas is <b>exocrine</b>: serous acini producing 1.5 litres a day of enzyme-rich alkaline juice, drained by the pancreatic duct.</p><p>Scattered through it, about 1% by mass, are the <b>islets of Langerhans</b> — endocrine cells secreting insulin (beta), glucagon (alpha) and somatostatin (delta) straight into the blood. Islets are commonest in the tail, which is why a distal pancreatectomy costs more insulin-producing tissue than its size suggests.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Pancreas", "Pancreatic duct"],
+      "view": "anterior",
+      "frame_on": ["Pancreas"],
+      "xray": false,
+      "histology": "islets",
+      "check": {"q": "Roughly what proportion of the pancreas is endocrine?",
+                "a": "About 1% by mass — the islets of Langerhans."}
+    },
+    {
+      "title": "The spleen and the rule of odd numbers",
+      "text": "<p>The spleen lies under the left ninth to eleventh <b>ribs</b>, its long axis along the tenth, separated from them by the diaphragm and the costodiaphragmatic recess. It is entirely intraperitoneal.</p><p>The old teaching numbers still work: <b>1 x 3 x 5 inches, 7 ounces, ribs 9 to 11</b>. It is not palpable until it is about twice its normal size, and it enlarges towards the <b>right iliac fossa</b> — which, with its notched anterior border, is how you tell a splenic from a renal mass.</p>",
+      "systems": ["lymphatic", "visceral"],
+      "regions": ["abdomen", "thorax"],
+      "focus": ["Spleen"],
+      "show": ["Ribs", "Kidney"],
+      "view": "left",
+      "frame_on": ["Spleen"],
+      "xray": true,
+      "check": {"q": "In which direction does an enlarging spleen extend?",
+                "a": "Downwards and medially, towards the right iliac fossa."}
+    },
+    {
+      "title": "The splenic artery, and splenic rupture",
+      "text": "<p>The <b>splenic artery</b>, the largest branch of the coeliac trunk, runs a famously tortuous course along the upper border of the pancreas to reach the hilum, giving the short gastric and left gastro-omental arteries on the way. The <b>splenic vein</b> runs a straight course behind the pancreas.</p><p>The spleen is friable and thinly capsulated, so fractured left lower ribs or a blow to the flank can rupture it — sometimes hours or days later, when a subcapsular haematoma finally bursts. Referred pain to the left shoulder tip (<b>Kehr's sign</b>) comes from blood irritating the diaphragm.</p>",
+      "systems": ["cardiovascular", "lymphatic"],
+      "regions": ["abdomen"],
+      "focus": ["Splenic artery"],
+      "show": ["Spleen", "Pancreas", "Coeliac trunk"],
+      "view": "anterior",
+      "frame_on": ["Spleen"],
+      "xray": true,
+      "clinical": "After splenectomy, lifelong risk of overwhelming infection with encapsulated organisms — hence vaccination and prophylactic antibiotics.",
+      "check": {"q": "What is Kehr's sign and what causes it?",
+                "a": "Left shoulder tip pain from blood under the diaphragm irritating the phrenic nerve — a ruptured spleen."}
+    },
+    {
+      "systems": [
+        "cardiovascular",
+        "lymphatic"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Splenic artery"
+      ],
+      "show": [
+        "Spleen",
+        "Pancreas",
+        "Coeliac trunk"
+      ],
+      "view": "anterior",
+      "frame_on": [
+        "Spleen"
+      ],
+      "xray": true,
+      "title": "The tail comes close to the splenic hilum",
+      "text": "<p>Most of the pancreas is fixed against the posterior abdominal wall, but the <b>tail</b> extends towards the spleen in the <b>splenorenal ligament</b>. The splenic vessels also reach the hilum through this peritoneal fold.</p><p>That close relationship means work around the splenic hilum can put the pancreatic tail at risk. Pancreatic injury may release enzyme-rich fluid even though the operation concerned a neighbouring lymphoid organ. Trace the pancreas from head to tail before treating the spleen as an isolated structure in the left upper abdomen.</p>",
+      "check": {
+        "q": "Why can an operation at the splenic hilum injure the pancreas?",
+        "a": "The pancreatic tail lies close to the hilum in the splenorenal ligament alongside the splenic vessels."
+      }
+    }
+  ]
+},
+{
+  "id": "peritoneum",
+  "title": "The peritoneum",
+  "system": "digestive",
+  "region": "abdomen",
+  "level": "advanced",
+  "minutes": 11,
+  "summary": "A closed bag with the gut pressed into it from behind, and the spaces that leaves.",
+  "tags": ["peritoneum", "omentum", "lesser sac", "ascites"],
+  "objectives": [
+    "Explain the relationship of an organ to the peritoneum",
+    "Name the omenta and the boundaries of the omental foramen",
+    "Predict where fluid and infection collect in a supine patient",
+    "Explain how secondary retroperitoneal fixation develops when a mesentery fuses with the posterior wall"
+  ],
+  "takeaways": [
+    "Intraperitoneal organs are covered by peritoneum and slung on a mesentery; retroperitoneal organs lie behind it.",
+    "The greater sac and the lesser sac communicate only through the omental foramen.",
+    "In a supine patient fluid collects in Morison's pouch and the pelvis.",
+    "Secondarily retroperitoneal organs began with a mesentery that fused to the posterior parietal peritoneum; much of the duodenum, pancreas and ascending and descending colon follow this pattern."
+  ],
+  "see_also": {"lessons": ["small-intestine", "large-intestine", "stomach"], "histology": ["serosa", "simple_squamous"]},
+  "steps": [
+    {
+      "title": "A bag you push your fist into",
+      "text": "<p>The peritoneum is a single closed serous sac. Imagine pressing your fist into a partly inflated balloon: your fist is the organ, the layer against it is <b>visceral</b> peritoneum, the outer layer is <b>parietal</b>, and the space between them — in reality only a film of fluid — is the peritoneal cavity.</p><p>An organ that is pushed in fully and slung on a double fold is <b>intraperitoneal</b>. One that stays behind the balloon, covered on its front only, is <b>retroperitoneal</b>. In the male the sac is completely closed; in the female the uterine tubes open into it, which is a route for infection.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Peritoneal structures"],
+      "show": ["Small intestine", "Liver", "Stomach"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "What does 'retroperitoneal' actually mean?",
+                "a": "The organ lies behind the peritoneal sac and is covered by peritoneum on its anterior surface only."}
+    },
+    {
+      "title": "Which organs are where",
+      "text": "<p><b>Intraperitoneal</b>: stomach, first 2 cm of duodenum, jejunum, ileum, caecum, appendix, transverse and sigmoid colon, spleen, liver.</p><p><b>Retroperitoneal</b> — remembered as SAD PUCKER: <b>S</b>uprarenal glands, <b>A</b>orta and IVC, <b>D</b>uodenum (parts 2–4), <b>P</b>ancreas (except the tail), <b>U</b>reters, <b>C</b>olon (ascending and descending), <b>K</b>idneys, o<b>E</b>sophagus, <b>R</b>ectum.</p><p>Some of these are <b>secondarily</b> retroperitoneal: they began with a mesentery and were plastered to the back wall as the gut rotated, which is why a surgical plane still exists behind them.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Kidney", "Pancreas", "Duodenum"],
+      "show": ["Ascending colon", "Descending colon", "Abdominal aorta"],
+      "view": "anterior",
+      "xray": true,
+      "mnemonic": "SAD PUCKER for the retroperitoneal structures.",
+      "check": {"q": "What does 'secondarily retroperitoneal' mean?",
+                "a": "The organ had a mesentery in the embryo and was later pressed against the posterior wall — so a bloodless plane remains behind it."}
+    },
+    {
+      "title": "The omenta",
+      "text": "<p>The <b>lesser omentum</b> runs from the lesser curvature of the stomach to the liver. Its free right edge contains the <b>portal triad</b>: bile duct in front and to the right, hepatic artery in front and to the left, portal vein behind.</p><p>The <b>greater omentum</b> hangs from the greater curvature like an apron over the small bowel. It is packed with fat and immune cells and is remarkably mobile: it wraps itself around inflamed organs and walls off perforations, which is why it is called the abdominal policeman — and why a perforated appendix in a child, whose omentum is short, is more likely to cause generalised peritonitis.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Greater omentum", "Lesser omentum"],
+      "show": ["Stomach", "Liver", "Hepatic portal vein", "Bile duct"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "What are the three contents of the free edge of the lesser omentum?",
+                "a": "Bile duct, hepatic artery and portal vein — the portal triad."}
+    },
+    {
+      "title": "The lesser sac and the omental foramen",
+      "text": "<p>Behind the stomach and lesser omentum lies the <b>lesser sac</b> (omental bursa), a diverticulum of the main cavity that lets the stomach slide.</p><p>It communicates with the greater sac through one opening, the <b>omental (epiploic) foramen</b>, bounded in front by the free edge of the lesser omentum with the portal triad, behind by the inferior vena cava, above by the caudate lobe of the liver and below by the first part of the duodenum.</p><p>Its practical use is the <b>Pringle manoeuvre</b>: a finger through the foramen and a thumb in front compresses the portal triad and stops hepatic bleeding.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Lesser omentum"],
+      "show": ["Stomach", "Liver", "Duodenum", "Inferior vena cava (abdominal part)"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "What forms the anterior boundary of the omental foramen?",
+                "a": "The free edge of the lesser omentum, containing the portal triad."}
+    },
+    {
+      "title": "Where fluid collects",
+      "text": "<p>The peritoneal cavity is not featureless: the mesenteries and attachments divide it into recesses, and gravity does the rest.</p><p>In a <b>supine</b> patient the two lowest points are the <b>hepatorenal recess</b> (Morison's pouch), between liver and right kidney, and the <b>pelvis</b> — the rectovesical pouch in the male, the rectouterine pouch (of Douglas) in the female. Those are the first places a FAST scan looks for free blood, and the places a subphrenic or pelvic abscess forms after peritonitis. The <b>paracolic gutters</b> are the channels along which fluid travels between them.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Peritoneal structures"],
+      "show": ["Liver", "Kidney", "Ascending colon", "Urinary bladder"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Where does free fluid collect first in a supine trauma patient?",
+                "a": "Morison's pouch, between the liver and the right kidney — and then the pelvis."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Kidney",
+        "Pancreas",
+        "Duodenum"
+      ],
+      "show": [
+        "Ascending colon",
+        "Descending colon",
+        "Abdominal aorta"
+      ],
+      "view": "anterior",
+      "xray": true,
+      "title": "How a mobile organ becomes fixed",
+      "text": "<p>A <b>primarily retroperitoneal</b> organ, such as the kidney, develops behind the peritoneum. A <b>secondarily retroperitoneal</b> organ begins with a mesentery, then becomes apposed to the posterior wall as the gut grows and rotates. The contacting peritoneal layers fuse.</p><p>Much of the duodenum and pancreas, plus the ascending and descending colon, become fixed in this way. The resulting fusion planes help explain how these organs can be mobilised from the posterior wall. Their adult position records a developmental movement, rather than simply describing where they happened to start.</p>",
+      "check": {
+        "q": "What makes an organ secondarily rather than primarily retroperitoneal?",
+        "a": "It originally had a mesentery that later fused with the posterior parietal peritoneum."
+      }
+    }
+  ]
+}
+]

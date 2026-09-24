@@ -1,0 +1,127 @@
+{
+  "name": "Exploding skull",
+  "summary": "A CT-scanned adult human skull (WitmerLab specimen OUVC 10503) segmented into its individual bones, like a classic Beauchene 'exploded skull'. Separate the parts to see the 8 cranial bones of the braincase, the facial bones, the mandible and both dental arches, and how each bone meets its neighbours.",
+  "view": [30, 10],
+  "clinical": [
+    ["Pterion", "The thin H-shaped junction of the frontal, parietal, sphenoid (greater wing) and temporal bones on the side of the skull. The anterior branch of the middle meningeal artery runs deep to it, so a blow here can tear the artery and cause an extradural haematoma."],
+    ["Anterior cranial base fracture", "A fracture through the ethmoid's cribriform plate can tear the dura, causing CSF rhinorrhoea and loss of smell and opening a route for meningitis; periorbital bruising (raccoon eyes) is typical."]
+  ],
+  "parts": {
+    "Cranium/Frontal": {
+      "name": "Frontal bone", "group": "Cranial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "Forms the forehead, the roofs of the orbits and most of the floor of the anterior cranial fossa. It contains the frontal sinuses and meets the two parietal bones at the coronal suture.",
+      "structures": ["Frontal bone"]
+    },
+    "Cranium/Right Parietal": {
+      "name": "Right parietal bone", "group": "Cranial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "One of the paired bones forming most of the roof and side walls of the cranial vault. The parietals meet each other at the sagittal suture, the frontal at the coronal suture and the occipital at the lambdoid suture; branches of the middle meningeal artery groove the inner surface.",
+      "structures": ["Parietal bone"]
+    },
+    "Cranium/Left parietal": {
+      "name": "Left parietal bone", "group": "Cranial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "One of the paired bones forming most of the roof and side walls of the cranial vault. The parietals meet each other at the sagittal suture, the frontal at the coronal suture and the occipital at the lambdoid suture; branches of the middle meningeal artery groove the inner surface.",
+      "structures": ["Parietal bone"]
+    },
+    "Cranium/Occipital": {
+      "name": "Occipital bone", "group": "Cranial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "Forms the back and much of the base of the skull around the foramen magnum, through which the brainstem becomes the spinal cord. Its occipital condyles articulate with the atlas (atlanto-occipital joint, the 'yes' nodding joint).",
+      "structures": ["Occipital bone"]
+    },
+    "Cranium/Right temporal": {
+      "name": "Right temporal bone", "group": "Cranial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "Forms the lower side wall and part of the base of the skull. Its dense petrous part houses the middle and inner ear; it also carries the external acoustic meatus, mastoid and styloid processes, the zygomatic process of the cheek arch and the mandibular fossa of the jaw joint (TMJ).",
+      "structures": ["Temporal bone"]
+    },
+    "Cranium/Left temporal": {
+      "name": "Left temporal bone", "group": "Cranial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "Forms the lower side wall and part of the base of the skull. Its dense petrous part houses the middle and inner ear; it also carries the external acoustic meatus, mastoid and styloid processes, the zygomatic process of the cheek arch and the mandibular fossa of the jaw joint (TMJ).",
+      "structures": ["Temporal bone"]
+    },
+    "Cranium/Sphenoid": {
+      "name": "Sphenoid bone", "group": "Cranial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "The butterfly-shaped keystone of the cranial base, with a central body, greater and lesser wings and downward pterygoid processes. The body holds the sphenoid sinus and the sella turcica for the pituitary gland; the optic canal and the foramina rotundum, ovale and spinosum pass through it.",
+      "structures": ["Sphenoid bone"]
+    },
+    "Cranium/Ethmoid": {
+      "name": "Ethmoid bone", "group": "Cranial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "A light, air-filled bone between the orbits. Its cribriform plate transmits the olfactory nerve fibres, its perpendicular plate forms the upper nasal septum, and its labyrinths hold the ethmoidal air cells and bear the superior and middle nasal conchae.",
+      "structures": ["Ethmoid bone"]
+    },
+    "Cranium/Right max": {
+      "name": "Right maxilla", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "One of the paired bones of the upper jaw. It forms most of the hard palate, the floor of the orbit and the lateral wall of the nasal cavity, holds the upper teeth in its alveolar process and contains the maxillary sinus, the largest paranasal sinus.",
+      "structures": ["Maxilla"]
+    },
+    "Cranium/Left maxilla": {
+      "name": "Left maxilla", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "One of the paired bones of the upper jaw. It forms most of the hard palate, the floor of the orbit and the lateral wall of the nasal cavity, holds the upper teeth in its alveolar process and contains the maxillary sinus, the largest paranasal sinus.",
+      "structures": ["Maxilla"]
+    },
+    "Cranium/Right zygomatic": {
+      "name": "Right zygomatic bone", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "The cheekbone, forming the prominence of the cheek and part of the lateral wall and floor of the orbit. Its temporal process joins the zygomatic process of the temporal bone to make the zygomatic arch.",
+      "structures": ["Zygomatic bone"]
+    },
+    "Cranium/Left zygomatic": {
+      "name": "Left zygomatic bone", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "The cheekbone, forming the prominence of the cheek and part of the lateral wall and floor of the orbit. Its temporal process joins the zygomatic process of the temporal bone to make the zygomatic arch.",
+      "structures": ["Zygomatic bone"]
+    },
+    "Cranium/Right nasal": {
+      "name": "Right nasal bone", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "One of two small oblong bones that meet in the midline to form the bony bridge of the nose, below the frontal bone. The nasal bones are the most commonly fractured bones of the face.",
+      "structures": ["Nasal bone"]
+    },
+    "Cranium/Left nasal": {
+      "name": "Left nasal bone", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "One of two small oblong bones that meet in the midline to form the bony bridge of the nose, below the frontal bone. The nasal bones are the most commonly fractured bones of the face.",
+      "structures": ["Nasal bone"]
+    },
+    "Cranium/Right lacrimal": {
+      "name": "Right lacrimal bone", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "A small, fragile plate in the front of the medial wall of the orbit. With the frontal process of the maxilla it forms the fossa for the lacrimal sac, which drains tears down the nasolacrimal canal into the nose.",
+      "structures": ["Lacrimal bone"]
+    },
+    "Cranium/Left lacrimal": {
+      "name": "Left lacrimal bone", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "A small, fragile plate in the front of the medial wall of the orbit. With the frontal process of the maxilla it forms the fossa for the lacrimal sac, which drains tears down the nasolacrimal canal into the nose.",
+      "structures": ["Lacrimal bone"]
+    },
+    "Cranium/Right palatine": {
+      "name": "Right palatine bone", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "An L-shaped bone behind the maxilla. Its horizontal plate forms the back third of the hard palate and its perpendicular plate part of the lateral nasal wall; the greater palatine foramen transmits the nerves and vessels of the palate.",
+      "structures": ["Palatine bone"]
+    },
+    "Cranium/Left palatine": {
+      "name": "Left palatine bone", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "An L-shaped bone behind the maxilla. Its horizontal plate forms the back third of the hard palate and its perpendicular plate part of the lateral nasal wall; the greater palatine foramen transmits the nerves and vessels of the palate.",
+      "structures": ["Palatine bone"]
+    },
+    "Cranium/Vomer": {
+      "name": "Vomer", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "A thin, unpaired midline bone forming the back and lower part of the nasal septum. It joins the perpendicular plate of the ethmoid above and the septal cartilage in front.",
+      "structures": ["Vomer"]
+    },
+    "Cranium/Inferior conchae": {
+      "name": "Inferior nasal conchae", "group": "Facial bones", "category": "bone", "color": "#e6d9ae",
+      "description": "Paired scroll-shaped bones on the lateral walls of the nasal cavity. Unlike the superior and middle conchae, which belong to the ethmoid, they are separate bones; the nasolacrimal duct opens into the inferior meatus beneath each one.",
+      "structures": ["Inferior nasal concha bone"]
+    },
+    "Mandible1/Mandible": {
+      "name": "Mandible", "group": "Mandible", "category": "bone", "color": "#e6d9ae",
+      "description": "The lower jaw, the only freely movable bone of the skull. Its condylar processes form the temporomandibular joints, the coronoid processes receive temporalis, and the inferior alveolar nerve runs in the mandibular canal to exit as the mental nerve at the mental foramen.",
+      "structures": ["Mandible"]
+    },
+    "Cranium/Teeth": {
+      "name": "Upper teeth", "group": "Teeth", "category": "tooth",
+      "description": "The maxillary dental arch, rooted in sockets of the maxillae's alveolar processes (a fibrous gomphosis joint). Each adult quadrant has 2 incisors, 1 canine, 2 premolars and 3 molars; the upper teeth are supplied by the superior alveolar nerves from the maxillary nerve (V2).",
+      "structures": ["Superior teeth"]
+    },
+    "Mandible1/Lower teeth": {
+      "name": "Lower teeth", "group": "Teeth", "category": "tooth",
+      "description": "The mandibular dental arch, rooted in the alveolar part of the mandible. The lower teeth are supplied by the inferior alveolar nerve from the mandibular nerve (V3), which is why an inferior alveolar block numbs one half of the lower jaw.",
+      "structures": ["Inferior teeth"]
+    }
+  },
+  "notes": "Bone identities follow the creator's (WitmerLab) object names and were checked in focused renders; left/right follows object names and matches position (left bones at +x). The inferior conchae are one mesh for both sides. Atlas links use side-less names (e.g. 'Parietal bone') because side-specific skull names do not resolve. Bone colour set to the creator's beige; the lacrimal meshes look larger than a typical lacrimal bone and may include a little adjacent orbital wall from segmentation."
+}

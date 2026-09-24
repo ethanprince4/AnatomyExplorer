@@ -1,0 +1,24 @@
+{
+  "name": "Plastinated heart: classic valve view",
+  "summary": "A real plastinated human heart (photogrammetry scan) cut across just above the atrioventricular valves and opened like a book. The right half is the ventricular base seen from above, the textbook view of all four valves: the pulmonary valve in front, the aortic valve in the centre wedged between the mitral and tricuspid valves. The left half is the atria, flipped over into a mirrored position so their cut floor faces you.",
+  "view": [0, 5],
+  "default_group": "Plastinated heart",
+  "clinical": [
+    ["Valves and the conduction system", "All four valves are anchored to the fibrous skeleton of the heart. The atrioventricular bundle (of His) pierces the central fibrous body where the aortic, mitral and tricuspid valves meet, so surgery on the aortic or tricuspid valve can injure it and cause heart block."]
+  ],
+  "parts": {
+    "Heart0137 John Ventricles ColorMM": {
+      "name": "Ventricles and valves",
+      "group": "Ventricular half",
+      "description": "The ventricles with the atria removed, seen from above: the pulmonary valve lies most anterior, the aortic valve sits centrally, and behind it lie the two atrioventricular valves - the mitral (left) and tricuspid (right). The aortic valve is wedged between the mitral and tricuspid valves and is in direct fibrous continuity with the anterior leaflet of the mitral valve.",
+      "structures": ["Aortic valve", "Pulmonary valve", "Right atrioventricular valve", "Posterior leaflet of left atrioventricular valve", "Left ventricle", "Right ventricle"]
+    },
+    "Heart0137 John Atria ColorMM": {
+      "name": "Atria",
+      "group": "Atrial half",
+      "description": "The atria and the stumps of the great arteries, turned over so their cut underside faces you (mirror image of their position above the valves). The right atrium is recognised by the comb-like pectinate muscles lining its wall, while the left atrium is mostly smooth-walled; the cut aorta and pulmonary trunk lie next to them.",
+      "structures": ["Right atrium", "Left atrium", "Ascending aorta", "Pulmonary trunk"]
+    }
+  },
+  "notes": "Valve identities come from the layout rather than labels: the central semilunar valve wedged between the two atrioventricular openings is the aortic valve, and the peripheral semilunar valve at the upper left of the ventricular half (above-left of the aortic valve, i.e. anterior and to the left) is the pulmonary valve. That puts anterior at the top and the patient's left on the viewer's left, so the lower-left atrioventricular valve is the mitral and the lower-right one the tricuspid. The atrial half agrees: its heavily pectinate chamber is on the far left, which maps (mirrored about the vertical hinge) onto the lower-right tricuspid valve. Fairly confident, but not labelled by the creator. The descriptions avoid naming the smaller features (coronary ostia, fossa ovalis, pulmonary vein openings). No colour change: the render's beige plastinate matches the thumbnail. The default framing crops the outer edges of the two halves slightly because the model is wide; zoom out in the viewer to see both halves whole."
+}

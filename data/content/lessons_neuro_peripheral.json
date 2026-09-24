@@ -1,0 +1,567 @@
+[
+{
+  "id": "dermatomes",
+  "title": "Dermatomes, myotomes and referred pain",
+  "system": "nervous",
+  "region": "general",
+  "level": "core",
+  "minutes": 11,
+  "summary": "The body is still built in segments, and every strange pattern of pain is explained by that.",
+  "tags": ["dermatome", "myotome", "referred pain", "radiculopathy"],
+  "objectives": [
+    "Define a dermatome and a myotome and distinguish both from a peripheral nerve territory",
+    "Recall the landmark dermatomes",
+    "Explain referred pain and the shoulder tip sign",
+    "Explain why overlapping dermatomes and multi-root muscle supply limit single-point localisation"
+  ],
+  "takeaways": [
+    "A dermatome is the skin of one spinal segment; a peripheral nerve carries several.",
+    "Landmarks: C6 thumb, C7 middle finger, C8 little finger, T4 nipple, T10 umbilicus, L1 groin, L4 medial malleolus, S1 little toe.",
+    "Referred pain follows the segment, not the organ — diaphragm to shoulder tip, heart to left arm and jaw.",
+    "Dermatomes overlap and most muscles receive more than one root; localisation works best when sensory, motor and reflex findings agree."
+  ],
+  "see_also": {"lessons": ["sensory-pathways", "spinal-cord", "lumbar-plexus"]},
+  "steps": [
+    {
+      "title": "Segments, still",
+      "text": "<p>The embryo is built as a stack of <b>somites</b>, each supplied by one spinal nerve. The muscles and skin they produce migrate a long way, but they keep their original nerve — so the adult body is still segmental underneath.</p><p>A <b>dermatome</b> is the strip of skin supplied by one spinal segment. A <b>myotome</b> is the group of muscles supplied by one segment. Neither is the same as a <b>peripheral nerve territory</b>, because every peripheral nerve is assembled in a plexus from several segments.</p>",
+      "systems": ["nervous", "regions"],
+      "regions": ["thorax", "abdomen"],
+      "focus": ["Spinal cord"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "What is the difference between a dermatome and a peripheral nerve territory?",
+                "a": "A dermatome is one spinal segment's skin; a peripheral nerve carries fibres from several segments."}
+    },
+    {
+      "title": "Landmark dermatomes",
+      "text": "<p>You do not need all of them, but you do need these. <b>C2</b> back of the head; <b>C4</b> over the shoulder; <b>C6</b> thumb; <b>C7</b> middle finger; <b>C8</b> little finger; <b>T4</b> nipple; <b>T10</b> umbilicus; <b>L1</b> groin; <b>L4</b> medial malleolus; <b>L5</b> dorsum of the foot and the big toe; <b>S1</b> little toe and sole; <b>S2–S5</b> the perineum, in rings around the anus.</p><p>On the trunk they run as neat horizontal bands, because the trunk never migrated. On the limbs they are twisted into spirals by the limb buds rotating in development, which is why the pattern looks arbitrary until you know why.</p>",
+      "systems": ["regions", "nervous"],
+      "regions": ["thorax", "abdomen", "upper_limb_l"],
+      "focus": ["Thorax"],
+      "view": "anterior",
+      "xray": false,
+      "mnemonic": "T4 at the teat, T10 at the umbilicus, L1 at the inguinal ligament.",
+      "check": {"q": "Which dermatome covers the umbilicus?",
+                "a": "T10."}
+    },
+    {
+      "title": "Myotomes and the reflexes",
+      "text": "<p>Each reflex tests one or two segments, which is why the reflexes are worth knowing as numbers: <b>biceps C5–C6</b>, <b>brachioradialis C5–C6</b>, <b>triceps C7</b>, <b>knee L3–L4</b>, <b>ankle S1</b>.</p><p>Add movements: shoulder abduction C5, elbow flexion C5–6, elbow extension C7, finger abduction T1; hip flexion L1–2, knee extension L3–4, ankle dorsiflexion L4–5, great toe extension L5, ankle plantarflexion S1–2. Counting up the arm and down the leg keeps the order straight.</p>",
+      "systems": ["nervous", "muscular"],
+      "regions": ["upper_limb_l", "lower_limb_l"],
+      "focus": ["Biceps brachii muscle", "Triceps brachii muscle"],
+      "show": ["Cervical nerves"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Which segments does the ankle jerk test?",
+                "a": "S1 (and S2)."}
+    },
+    {
+      "title": "Root or nerve?",
+      "text": "<p>This is the practical use of the whole idea. Numbness of the thumb, index and middle fingers with a weak thenar eminence follows the <b>median nerve</b>: it is carpal tunnel syndrome. Numbness of the thumb alone with a weak biceps and a depressed biceps reflex follows <b>C6</b>: it is a root lesion.</p><p>A useful discriminator: root lesions produce pain that radiates from the neck or back and is worsened by coughing or straining, and they weaken muscles supplied by <b>different</b> peripheral nerves that share the root.</p>",
+      "systems": ["nervous"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Median nerve"],
+      "show": ["Cervical nerves", "Brachial plexus"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "How would you distinguish a C6 radiculopathy from carpal tunnel syndrome?",
+                "a": "A root lesion also weakens biceps and depresses its reflex, and the pain radiates from the neck."}
+    },
+    {
+      "title": "Referred pain",
+      "text": "<p>Visceral afferents enter the cord at the same segments as somatic afferents from a patch of skin, and the brain — which has far more experience of somatic pain — attributes the signal to the skin.</p><p>So: <b>diaphragm</b> (C3–C5) to the <b>shoulder tip</b>; <b>heart</b> (T1–T4) to the chest, left arm and jaw; <b>foregut</b> to the epigastrium, <b>midgut</b> to the umbilicus, <b>hindgut</b> to the suprapubic region; <b>ureter</b> (T11–L2) from loin to groin; <b>testis</b> (T10) to the umbilicus.</p>",
+      "systems": ["nervous", "visceral"],
+      "regions": ["thorax", "abdomen"],
+      "focus": ["Diaphragm"],
+      "show": ["Heart", "Spinal cord"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Blood under the diaphragm causes pain where, and why?",
+                "a": "The shoulder tip — the phrenic nerve is C3–C5, the same segments as the skin over the shoulder."}
+    },
+    {
+      "systems": [
+        "nervous",
+        "regions"
+      ],
+      "regions": [
+        "thorax",
+        "abdomen"
+      ],
+      "focus": [
+        "Spinal cord"
+      ],
+      "view": "anterior",
+      "xray": true,
+      "title": "Maps overlap at their edges",
+      "text": "<p>A dermatome is the skin territory associated with one spinal sensory root, but neighbouring territories <b>overlap</b>. Diagrams draw clean lines to make the pattern learnable; real skin does not contain equally sharp borders between roots.</p><p>Most muscles also receive fibres from more than one spinal segment. A partial root lesion may weaken a movement without abolishing it and may alter sensation without producing complete numbness. Compare several muscles supplied by different peripheral nerves, plus reflexes and the sensory distribution, before treating one point on a map as a precise lesion level.</p>",
+      "check": {
+        "q": "Why might damage to one sensory root fail to make its entire textbook dermatome completely numb?",
+        "a": "Adjacent roots supply overlapping skin territories, and the lesion itself may be incomplete."
+      }
+    }
+  ]
+},
+{
+  "id": "lumbar-plexus",
+  "title": "The lumbar plexus",
+  "system": "nervous",
+  "region": "abdomen",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Six nerves formed inside psoas, and where each one appears.",
+  "tags": ["lumbar plexus", "femoral", "obturator", "psoas"],
+  "objectives": [
+    "List the branches of the lumbar plexus and their root values",
+    "Say where each nerve emerges relative to psoas major",
+    "Predict the deficit from a psoas haematoma",
+    "Follow the saphenous nerve as a sensory continuation of the femoral pathway into the medial leg"
+  ],
+  "takeaways": [
+    "L1–L4 within psoas major: iliohypogastric, ilio-inguinal, genitofemoral, lateral femoral cutaneous, obturator, femoral.",
+    "The obturator emerges medial to psoas; the femoral lateral to it; the genitofemoral through its front.",
+    "A psoas haematoma compresses the femoral nerve: weak knee extension and a lost knee jerk.",
+    "The saphenous nerve carries femoral sensory fibres to the medial leg and foot but has no motor supply to the leg muscles."
+  ],
+  "see_also": {"lessons": ["femoral-triangle", "sacral-plexus", "thigh-compartments"]},
+  "steps": [
+    {
+      "title": "A plexus inside a muscle",
+      "text": "<p>The anterior rami of <b>L1 to L4</b> (with a twig from T12) form the lumbar plexus within the substance of <b>psoas major</b>, in front of the transverse processes.</p><p>Everything else about the plexus follows from where each nerve emerges from that muscle. Learn the position, not just the list.</p>",
+      "systems": ["nervous", "muscular"],
+      "regions": ["abdomen"],
+      "focus": ["Lumbar plexus"],
+      "show": ["Psoas major", "Lumbar vertebrae"],
+      "view": "anterior",
+      "xray": true
+    },
+    {
+      "title": "The upper three",
+      "text": "<p><b>Iliohypogastric</b> and <b>ilio-inguinal</b> (both L1) run round the abdominal wall between internal oblique and transversus, supplying it and the skin over the groin. Both are at risk in an appendicectomy or hernia incision; damage weakens the conjoint tendon and can itself cause a hernia.</p><p><b>Genitofemoral</b> (L1–L2) pierces the front of psoas and divides: the genital branch enters the inguinal canal to supply cremaster, the femoral branch supplies skin over the femoral triangle. It carries the afferent and efferent limbs of the <b>cremasteric reflex</b>.</p>",
+      "systems": ["nervous"],
+      "regions": ["abdomen"],
+      "focus": ["Iliohypogastric nerve", "Ilio-inguinal nerve", "Genitofemoral nerve"],
+      "show": ["Psoas major"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Which nerve mediates the cremasteric reflex?",
+                "a": "The genitofemoral nerve — genital branch efferent, femoral branch afferent."}
+    },
+    {
+      "title": "Lateral femoral cutaneous",
+      "text": "<p><b>L2–L3</b>, emerging from the lateral border of psoas, crossing iliacus and passing under the <b>inguinal ligament</b> just medial to the anterior superior iliac spine.</p><p>It is purely sensory, to the lateral thigh. Compression at that tight passage — by obesity, pregnancy, a tool belt or tight clothing — gives <b>meralgia paraesthetica</b>: burning numbness over the outer thigh with no weakness at all, and it is diagnosed on that pattern alone.</p>",
+      "systems": ["nervous"],
+      "regions": ["abdomen", "lower_limb_l"],
+      "focus": ["Lateral femoral cutaneous nerve"],
+      "show": ["Hip bone", "Psoas major"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Burning numbness over the lateral thigh with normal power. Which nerve?",
+                "a": "The lateral femoral cutaneous nerve — meralgia paraesthetica."}
+    },
+    {
+      "title": "The femoral nerve",
+      "text": "<p>The largest branch, <b>L2–L4</b> (posterior divisions), emerging from the <b>lateral</b> border of psoas and running down in the groove between psoas and iliacus. It passes <b>under the inguinal ligament</b>, lateral to the femoral artery and outside the femoral sheath.</p><p>It supplies the anterior compartment of the thigh, so it extends the knee, and its cutaneous branches — including the <b>saphenous nerve</b>, which reaches the medial side of the foot — cover the front of the thigh and the medial leg.</p>",
+      "systems": ["nervous"],
+      "regions": ["abdomen", "lower_limb_l"],
+      "focus": ["Femoral nerve"],
+      "show": ["Psoas major", "Femoral artery", "Iliacus muscle"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "mnemonic": "NAVY from lateral to medial under the inguinal ligament: Nerve, Artery, Vein, Y-fronts.",
+      "check": {"q": "Is the femoral nerve inside the femoral sheath?",
+                "a": "No — the sheath contains the artery and vein; the nerve lies lateral to it."}
+    },
+    {
+      "title": "The obturator nerve",
+      "text": "<p><b>L2–L4</b> (anterior divisions), and the only major branch to emerge from the <b>medial</b> border of psoas. It runs along the lateral wall of the pelvis and leaves through the <b>obturator canal</b> to supply the adductor compartment.</p><p>Its cutaneous branch supplies a patch on the medial thigh — which explains why hip disease is often felt in the knee, since the obturator nerve supplies both joints. It is also the nerve at risk in pelvic surgery and in an obturator hernia, where the patient has medial thigh pain on internal rotation of the hip.</p>",
+      "systems": ["nervous"],
+      "regions": ["abdomen", "lower_limb_l"],
+      "focus": ["Obturator nerve"],
+      "show": ["Hip bone", "Adductor longus"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Why does hip pathology often present as knee pain?",
+                "a": "The obturator nerve supplies both the hip joint and the skin and joint of the medial knee."}
+    },
+    {
+      "title": "The psoas haematoma",
+      "text": "<p>Because the plexus is inside psoas, bleeding into that muscle — in a patient on anticoagulants, or after trauma — compresses it.</p><p>The femoral nerve suffers most: the patient cannot extend the knee, loses the knee jerk, and has numbness over the anterior thigh and medial leg. They also lie with the hip flexed, because stretching an inflamed psoas hurts. The combination of a flexed hip, groin pain and a lost knee jerk in an anticoagulated patient is the picture to recognise.</p>",
+      "systems": ["nervous", "muscular"],
+      "regions": ["abdomen"],
+      "focus": ["Psoas major"],
+      "show": ["Femoral nerve", "Lumbar plexus"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Which nerve is most affected by a psoas haematoma?",
+                "a": "The femoral nerve."}
+    },
+    {
+      "systems": [
+        "nervous"
+      ],
+      "regions": [
+        "abdomen",
+        "lower_limb_l"
+      ],
+      "focus": [
+        "Femoral nerve"
+      ],
+      "show": [
+        "Psoas major",
+        "Femoral artery",
+        "Iliacus muscle"
+      ],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "title": "Femoral sensation continues below the knee",
+      "text": "<p>The femoral nerve does not stop being relevant at the thigh. Its <b>saphenous branch</b> travels through the adductor canal, leaves before the adductor hiatus and becomes superficial near the medial knee. It continues down the medial leg towards the medial border of the foot.</p><p>This branch is <b>sensory</b>. A lesion limited to it can alter medial-leg sensation without weakening quadriceps, because the motor branches departed much earlier. A proximal femoral lesion can affect both knee extension and the saphenous territory. The extent of the deficit follows the branch point.</p>",
+      "check": {
+        "q": "Does an isolated saphenous nerve lesion directly weaken knee extension?",
+        "a": "No. It is a sensory branch; the femoral motor branches to quadriceps arise proximally."
+      }
+    }
+  ]
+},
+{
+  "id": "sacral-plexus",
+  "title": "The sacral plexus",
+  "system": "nervous",
+  "region": "pelvis",
+  "level": "core",
+  "minutes": 10,
+  "summary": "The biggest nerve in the body, and the small one that decides continence.",
+  "tags": ["sciatic", "pudendal", "gluteal nerves", "cauda equina"],
+  "prereq": ["lumbar-plexus"],
+  "objectives": [
+    "Give the root values of the sacral plexus and its main branches",
+    "Trace the sciatic nerve and its two divisions",
+    "Recognise the features of cauda equina syndrome",
+    "Distinguish somatic pudendal fibres from parasympathetic pelvic splanchnic fibres arising at the same spinal levels"
+  ],
+  "takeaways": [
+    "L4–S4 on the piriformis, in front of the sacrum.",
+    "Sciatic = tibial + common fibular, bound in one sheath until the popliteal fossa.",
+    "Saddle anaesthesia with bladder dysfunction is cauda equina syndrome — a surgical emergency.",
+    "Pudendal and pelvic splanchnic pathways share S2-S4 origins but carry different functions: somatic perineal control versus pelvic parasympathetic output."
+  ],
+  "see_also": {"lessons": ["gluteal-sciatic", "pelvic-floor", "leg-compartments"]},
+  "steps": [
+    {
+      "title": "Where it lies",
+      "text": "<p>The sacral plexus is formed by the <b>lumbosacral trunk</b> (L4–L5) joining the anterior rami of <b>S1 to S4</b>. It lies on the front of piriformis, on the posterior wall of the pelvis, behind the internal iliac vessels and the ureter.</p><p>Almost everything it forms leaves the pelvis through the <b>greater sciatic foramen</b>, which is why that foramen is the key landmark of the gluteal region.</p>",
+      "systems": ["nervous"],
+      "regions": ["abdomen", "lower_limb_l"],
+      "focus": ["Sacral plexus"],
+      "show": ["Piriformis muscle", "Sacrum"],
+      "view": "anterior",
+      "xray": true
+    },
+    {
+      "title": "The sciatic nerve",
+      "text": "<p><b>L4 to S3</b>, and the thickest nerve in the body — about as wide as a finger. It leaves below piriformis, runs down the back of the thigh midway between the ischial tuberosity and the greater trochanter, and supplies the hamstrings and the hamstring part of adductor magnus on the way.</p><p>It is really <b>two nerves in one sheath</b>: the <b>tibial</b> division (anterior divisions of the roots) and the <b>common fibular</b> division (posterior divisions). They separate at the apex of the popliteal fossa, but the split can be much higher, and the common fibular part may pierce piriformis.</p>",
+      "systems": ["nervous"],
+      "regions": ["lower_limb_l"],
+      "focus": ["Sciatic nerve"],
+      "show": ["Piriformis muscle", "Biceps femoris muscle"],
+      "side": "Left",
+      "view": "posterior",
+      "xray": true,
+      "check": {"q": "Which two nerves make up the sciatic nerve?",
+                "a": "The tibial and common fibular nerves."}
+    },
+    {
+      "title": "Why the common fibular part suffers first",
+      "text": "<p>In any traction or compression injury of the sciatic nerve, the <b>common fibular</b> division is damaged preferentially. It is more laterally placed, more tethered at the fibular neck, and has fewer, larger fascicles with less protective connective tissue.</p><p>So a hip dislocation, a badly placed injection or prolonged pressure gives foot drop and numbness of the dorsum of the foot, with the tibial-supplied plantarflexion relatively preserved.</p>",
+      "systems": ["nervous"],
+      "regions": ["lower_limb_l"],
+      "focus": ["Common fibular nerve"],
+      "show": ["Sciatic nerve", "Tibial nerve", "Fibula"],
+      "side": "Left",
+      "view": "posterior",
+      "xray": true,
+      "check": {"q": "Which part of the sciatic nerve is most vulnerable, and what is the sign?",
+                "a": "The common fibular division — foot drop."}
+    },
+    {
+      "title": "The gluteal nerves and the pudendal nerve",
+      "text": "<p>The <b>superior gluteal nerve</b> (L4–S1) leaves <b>above</b> piriformis to supply gluteus medius, minimus and tensor fasciae latae — the abductor mechanism. The <b>inferior gluteal nerve</b> (L5–S2) leaves below it for gluteus maximus.</p><p>The <b>pudendal nerve</b> (S2–S4) leaves below piriformis, immediately hooks round the <b>ischial spine</b>, and re-enters the pelvis through the lesser sciatic foramen to run in the pudendal canal. It supplies the perineum, the external anal and urethral sphincters and the genital skin. That hook round the ischial spine is where a pudendal block is placed in labour.</p>",
+      "systems": ["nervous"],
+      "regions": ["abdomen", "lower_limb_l"],
+      "focus": ["Superior gluteal nerve", "Pudendal nerve"],
+      "show": ["Piriformis muscle", "Hip bone"],
+      "side": "Left",
+      "view": "posterior",
+      "xray": true,
+      "check": {"q": "Which nerve leaves the pelvis above piriformis?",
+                "a": "The superior gluteal nerve."}
+    },
+    {
+      "title": "Cauda equina syndrome",
+      "text": "<p>Below L1/L2 the canal contains not cord but the <b>cauda equina</b> — the lumbar and sacral roots running down to their exits. A large central disc prolapse there compresses many roots at once, with the distribution depending on the level, size and position of the lesion.</p><p>Hence the red flags: <b>saddle anaesthesia</b> (S2–S4), <b>bladder and bowel dysfunction</b> — retention with overflow, then loss of anal tone — and bilateral leg pain or weakness. Suspected cauda equina syndrome needs emergency assessment and imaging. Recovery depends on the severity and duration of injury; there is no simple one- or two-day cutoff after which recovery is impossible.</p>",
+      "systems": ["nervous"],
+      "regions": ["back", "abdomen"],
+      "focus": ["Cauda equina"],
+      "show": ["Lumbar vertebrae", "Sacrum"],
+      "view": "posterior",
+      "frame_on": ["Cauda equina"],
+      "xray": true,
+      "clinical": "Ask directly about saddle numbness and urinary retention in any patient with back pain and leg symptoms. Do not wait for it to be volunteered.",
+      "check": {"q": "Why can a large central disc prolapse cause bladder, bowel and saddle sensory symptoms together?",
+                "a": "It can compress multiple sacral roots serving these functions within the cauda equina. The pattern and order of symptoms vary."}
+    },
+    {
+      "systems": [
+        "nervous"
+      ],
+      "regions": [
+        "abdomen",
+        "lower_limb_l"
+      ],
+      "focus": [
+        "Superior gluteal nerve",
+        "Pudendal nerve"
+      ],
+      "show": [
+        "Piriformis muscle",
+        "Hip bone"
+      ],
+      "side": "Left",
+      "view": "posterior",
+      "xray": true,
+      "title": "Same roots, different kinds of output",
+      "text": "<p>The <b>pudendal nerve</b> carries somatic fibres for perineal sensation and skeletal muscles such as the external anal and urethral sphincters. The <b>pelvic splanchnic nerves</b> also arise from S2-S4, but carry preganglionic parasympathetic fibres towards pelvic organ plexuses.</p><p>Thus voluntary sphincter contraction and parasympathetic contraction of the bladder wall can depend on the same spinal levels while travelling through different peripheral routes. Damage to sacral roots can affect both; a lesion restricted to one distal nerve need not. Shared root numbers are not evidence that two pathways are interchangeable.</p>",
+      "check": {
+        "q": "Which S2-S4 pathway directly supplies skeletal external sphincters: pudendal or pelvic splanchnic?",
+        "a": "Pudendal. Pelvic splanchnic nerves carry parasympathetic output towards pelvic viscera."
+      }
+    }
+  ]
+},
+{
+  "id": "eye-globe",
+  "title": "The eyeball",
+  "system": "sensory",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Three coats and three chambers, and the reason a blocked drainage angle blinds you.",
+  "tags": ["retina", "cornea", "glaucoma", "aqueous"],
+  "objectives": [
+    "Name the three coats of the eye and their parts",
+    "Trace the flow of aqueous humour and explain glaucoma",
+    "Describe the layers of the retina and the blind spot",
+    "Explain the relationship between ciliary muscle contraction, zonular tension and near accommodation"
+  ],
+  "takeaways": [
+    "Fibrous coat: sclera and cornea. Vascular coat: choroid, ciliary body, iris. Neural coat: retina.",
+    "Aqueous is made by the ciliary body, flows through the pupil and drains at the iridocorneal angle.",
+    "The retina is inverted: light passes through it to reach the photoreceptors at the back.",
+    "For near focus, ciliary muscle contraction reduces zonular tension and allows the elastic lens to become more rounded."
+  ],
+  "see_also": {"lessons": ["orbit", "cranial-nerves"], "micro": ["retina", "cornea"], "histology": ["retina", "cornea", "eye"]},
+  "steps": [
+    {
+      "title": "Three coats",
+      "text": "<p><b>Fibrous</b> (outer): the tough white <b>sclera</b> behind, continuous with the transparent <b>cornea</b> in front. The junction is the limbus.</p><p><b>Vascular</b> (middle, the uvea): the <b>choroid</b>, a dense capillary bed nourishing the outer retina, continuous forwards with the <b>ciliary body</b> and the <b>iris</b>.</p><p><b>Neural</b> (inner): the <b>retina</b>, which is not a membrane at all but an outgrowth of the brain, connected to it by the optic nerve.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Eyeball"],
+      "view": "anterior",
+      "frame_on": ["Eyeball"],
+      "xray": false,
+      "check": {"q": "Which of the three coats is developmentally part of the brain?",
+                "a": "The retina — an outgrowth of the diencephalon."}
+    },
+    {
+      "title": "Why the cornea is clear",
+      "text": "<p>The cornea does about two thirds of the eye's refraction, and it can only do so because it is transparent. Transparency depends on three things: perfectly regular, small-diameter collagen fibrils; the <b>absence of blood vessels</b>; and active dehydration by the endothelial pump on its inner surface.</p><p>Lose the pump — trauma, surgery, Fuchs' dystrophy — and the stroma swells and clouds. And because it is avascular, the cornea is nourished by tears and aqueous, and a corneal graft is the least rejected transplant in medicine.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Cornea"],
+      "show": ["Eyeball"],
+      "view": "anterior",
+      "frame_on": ["Cornea"],
+      "xray": false,
+      "micro": "cornea",
+      "check": {"q": "Give two reasons the cornea is transparent.",
+                "a": "Regular small collagen fibrils, no blood vessels, and active dehydration by the endothelium."}
+    },
+    {
+      "title": "Aqueous, and the angle",
+      "text": "<p>The <b>ciliary body</b> secretes aqueous humour into the <b>posterior chamber</b>, between iris and lens. It flows forwards <b>through the pupil</b> into the anterior chamber and drains at the <b>iridocorneal angle</b> through the trabecular meshwork into the canal of Schlemm.</p><p>Obstruct the drainage and the pressure rises: <b>glaucoma</b>. In the open-angle form the meshwork itself becomes resistant, slowly and painlessly. In <b>acute angle closure</b> the iris is pushed against the meshwork and the pressure rises within hours — a red, painful eye with a hazy cornea and a fixed mid-dilated pupil, and an emergency.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Eyeball"],
+      "show": ["Cornea", "Lens"],
+      "view": "left",
+      "frame_on": ["Eyeball"],
+      "xray": true,
+      "check": {"q": "Where is aqueous humour produced and where does it drain?",
+                "a": "Produced by the ciliary body into the posterior chamber; drains at the iridocorneal angle into the canal of Schlemm."}
+    },
+    {
+      "title": "The retina is inside out",
+      "text": "<p>Counter-intuitively, the <b>photoreceptors are at the back</b> of the retina, against the pigment epithelium, and light must pass through the transparent ganglion and bipolar cell layers to reach them.</p><p>Two consequences. The axons of the ganglion cells must run across the inner surface and leave together at the <b>optic disc</b>, which therefore has no receptors — the <b>blind spot</b>. And the retina is only truly attached at the disc and the ora serrata, so it can peel away from the pigment epithelium: a <b>retinal detachment</b>, with flashes, floaters and a curtain across the field.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Retina"],
+      "show": ["Eyeball", "Optic nerve (II)"],
+      "view": "left",
+      "frame_on": ["Eyeball"],
+      "xray": true,
+      "micro": "retina",
+      "check": {"q": "Why is there a blind spot?",
+                "a": "At the optic disc the ganglion cell axons leave the eye, and there are no photoreceptors there."}
+    },
+    {
+      "title": "The macula, and the two blood supplies",
+      "text": "<p>A few millimetres lateral to the disc is the <b>macula</b>, and at its centre the <b>fovea</b> — a pit where the inner retinal layers are swept aside so light reaches a dense field of cones directly. It provides all of your detailed and colour vision, in an area the size of this full stop.</p><p>The outer retina, including the photoreceptors, is fed by the <b>choroid</b>; the inner retina by the <b>central retinal artery</b>. Occlude that artery and the retina turns pale, except at the fovea, where the choroid still shows through the thin tissue: the <b>cherry-red spot</b>.</p>",
+      "systems": ["nervous", "cardiovascular"],
+      "regions": ["head"],
+      "focus": ["Retina"],
+      "show": ["Central retinal artery", "Optic nerve (II)"],
+      "view": "left",
+      "frame_on": ["Eyeball"],
+      "xray": true,
+      "check": {"q": "Why does central retinal artery occlusion leave a cherry-red spot?",
+                "a": "The fovea is thin and still shows the intact choroidal circulation through it, while the rest of the retina goes pale."}
+    },
+    {
+      "systems": [
+        "nervous"
+      ],
+      "regions": [
+        "head"
+      ],
+      "focus": [
+        "Eyeball"
+      ],
+      "view": "anterior",
+      "frame_on": [
+        "Eyeball"
+      ],
+      "xray": false,
+      "title": "Near focus relaxes the lens suspension",
+      "text": "<p>The lens is suspended by <b>zonular fibres</b> attached to the ciliary body. For distant vision, tension in these fibres holds the lens relatively flattened. For near vision, the <b>ciliary muscle contracts</b>, reducing zonular tension so the lens becomes more rounded and increases its refractive power.</p><p>Parasympathetic fibres travelling with III reach the ciliary muscle through the ciliary ganglion and short ciliary nerves. The lens changes shape because its suspension changes, not because it contains a muscle of its own. Loss of lens elasticity with age limits accommodation even when the ciliary muscle still contracts.</p>",
+      "check": {
+        "q": "During near accommodation, does ciliary contraction tighten or relax the zonular pull on the lens?",
+        "a": "It reduces zonular tension, allowing the lens to round up."
+      }
+    }
+  ]
+},
+{
+  "id": "fascia-and-planes",
+  "title": "Fascia and the planes of the body",
+  "system": "integumentary",
+  "region": "general",
+  "level": "core",
+  "minutes": 10,
+  "summary": "The wrapping decides where a collection goes, where a surgeon cuts and where a nerve gets trapped.",
+  "tags": ["fascia", "compartments", "planes", "infection"],
+  "objectives": [
+    "Distinguish superficial from deep fascia",
+    "Explain how fascial planes direct the spread of infection and fluid",
+    "Give examples of clinically important fascial spaces",
+    "Distinguish retinacula that restrain tendons from fascia that encloses whole muscle compartments"
+  ],
+  "takeaways": [
+    "Superficial fascia is fatty and continuous over the body; deep fascia is a tough sheet that forms compartments.",
+    "Infection and fluid travel along fascial planes, not across them.",
+    "Deep fascia gives origin to muscle, restrains tendons in retinacula, and makes compartment syndrome possible.",
+    "Retinacula are local fascial thickenings that prevent tendon bowstringing while allowing tendon gliding through organised passages."
+  ],
+  "see_also": {"lessons": ["leg-compartments", "skin-layers", "abdominal-wall"], "histology": ["dense_irregular", "loose_ct", "adipose"]},
+  "steps": [
+    {
+      "title": "Two kinds of fascia",
+      "text": "<p><b>Superficial fascia</b> is the fatty layer under the skin, present nearly everywhere, containing cutaneous nerves and vessels, superficial veins and lymphatics — and, in a few places, muscle (platysma in the neck, the muscles of facial expression).</p><p><b>Deep fascia</b> is a tough, glistening, fibrous sheet with no fat. It invests muscles, sends septa between them to form compartments, and attaches to bone at fixed lines. It is absent where it would be unhelpful: over the face and in the abdominal wall.</p>",
+      "systems": ["fascia"],
+      "regions": ["lower_limb_l"],
+      "focus": ["Fascia lata", "Crural fascia"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "Where do the superficial veins of the limb run?",
+                "a": "In the superficial fascia, outside the deep fascia."}
+    },
+    {
+      "title": "What deep fascia is for",
+      "text": "<p>Four jobs. It <b>gives origin</b> to muscle where the bone cannot (the iliotibial tract, the thoracolumbar fascia). It <b>separates</b> muscles into compartments so they can act independently. It <b>restrains</b> tendons at joints as retinacula, so they do not bowstring. And it assists <b>venous return</b> by turning muscle contraction into a pump.</p><p>The iliotibial tract is the clearest example of the first: a thickened band of fascia lata taking the pull of tensor fasciae latae and part of gluteus maximus all the way to the tibia.</p>",
+      "systems": ["fascia", "muscular"],
+      "regions": ["lower_limb_l"],
+      "focus": ["Iliotibial tract"],
+      "show": ["Fascia lata", "Gluteus maximus muscle"],
+      "side": "Left",
+      "view": "left",
+      "xray": true
+    },
+    {
+      "title": "Planes direct what spreads",
+      "text": "<p>Because deep fascia is tough and firmly attached, pus, blood and extravasated fluid travel <b>along</b> a plane rather than across it. Predicting the route is often the whole of the clinical reasoning.</p><p>In the neck, the <b>retropharyngeal space</b> runs from the skull base to the mediastinum, so a pharyngeal abscess can descend into the chest. In the perineum, extravasated urine from a ruptured bulbar urethra is confined by Colles' and Scarpa's fascia to the scrotum, penis and lower abdominal wall — and cannot pass into the thigh, because Scarpa's fascia fuses with the fascia lata just below the inguinal ligament.</p>",
+      "systems": ["fascia"],
+      "regions": ["neck", "abdomen"],
+      "focus": ["Fascia"],
+      "show": ["Pharynx", "Trachea"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Why can extravasated urine reach the abdominal wall but not the thigh?",
+                "a": "Scarpa's fascia fuses with the fascia lata a little below the inguinal ligament, closing that route."}
+    },
+    {
+      "title": "Compartments, and why they are dangerous",
+      "text": "<p>Deep fascia plus intermuscular septa plus bone makes a closed box. That is excellent mechanics — muscles contract efficiently and the venous pump works — and it is also why <b>compartment syndrome</b> exists.</p><p>The same tough sheet that will not stretch to let a muscle bulge outwards will not stretch to accommodate swelling either. Pressure rises, capillary perfusion fails, and the treatment is to cut the fascia open. The leg's four compartments and the forearm's are the commonest sites.</p>",
+      "systems": ["fascia", "muscular"],
+      "regions": ["lower_limb_l"],
+      "focus": ["Crural fascia"],
+      "show": ["Anterior compartment of leg", "Posterior compartment of leg"],
+      "side": "Left",
+      "view": "anterior",
+      "clip": [1, 0.28],
+      "frame_on": ["Anterior compartment of leg"],
+      "xray": false
+    },
+    {
+      "title": "Fascia as a surgical map",
+      "text": "<p>Surgeons work in the planes between fascial layers, where there are no vessels to divide. The plane behind the <b>mesorectum</b>, the plane behind the ascending colon, the plane between the thyroid and its capsule — these are all bloodless because they were once the outside of something.</p><p>Fascia also defines what an operation must remove. Total mesorectal excision takes the rectum with its whole fascial envelope intact, because the tumour's local spread is contained by that envelope — an anatomical insight that changed rectal cancer outcomes more than any drug.</p>",
+      "systems": ["fascia", "visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Fascia"],
+      "show": ["Sigmoid colon", "Urinary bladder"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Why are surgical planes between fascial layers relatively bloodless?",
+                "a": "They are old embryological surfaces — vessels run within the structures, not between them."}
+    },
+    {
+      "systems": [
+        "fascia"
+      ],
+      "regions": [
+        "lower_limb_l"
+      ],
+      "focus": [
+        "Fascia lata",
+        "Crural fascia"
+      ],
+      "side": "Left",
+      "view": "anterior",
+      "xray": false,
+      "title": "A compartment wall becomes a tendon strap",
+      "text": "<p>Near the wrist and ankle, deep fascia thickens into <b>retinacula</b>. These straps hold tendons close to the joint so their line of pull remains controlled as the joint changes position. Septa can divide the space underneath into separate tendon passages.</p><p>The tendons must still glide, often within synovial sheaths. Think of the retinaculum as a restraint with organised routes beneath it, rather than a solid band glued to the tendons. The same connective-tissue system can enclose a broad muscle compartment in the limb and form a much narrower passage near a joint.</p>",
+      "check": {
+        "q": "What mechanical problem would occur if a tendon were free to lift far away from a flexed joint?",
+        "a": "It could bowstring, losing its controlled path close to the joint and changing the mechanics of its pull."
+      }
+    }
+  ]
+}
+]

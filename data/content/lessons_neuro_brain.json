@@ -1,0 +1,703 @@
+[
+{
+  "id": "brain-surface-anatomy",
+  "title": "The surface of the brain",
+  "system": "nervous",
+  "region": "head_neck",
+  "level": "foundation",
+  "minutes": 11,
+  "summary": "Four lobes, two landmark sulci, and the strips of cortex on either side of one of them.",
+  "tags": ["cortex", "lobes", "homunculus", "Broca"],
+  "objectives": [
+    "Identify the four lobes and the sulci that separate them",
+    "Locate the primary motor and somatosensory cortex",
+    "Explain the shape of the homunculus and predict the deficit from a given cortical lesion",
+    "Distinguish association, commissural and projection fibres beneath the cerebral cortex"
+  ],
+  "takeaways": [
+    "Central sulcus separates frontal from parietal; lateral sulcus separates temporal from both.",
+    "Precentral gyrus is motor, postcentral is sensory — face laterally, leg over the top.",
+    "Broca's area in the inferior frontal gyrus produces speech; Wernicke's in the superior temporal gyrus understands it.",
+    "Association fibres connect one hemisphere internally, commissural fibres connect hemispheres, and projection fibres connect cortex with deeper centres."
+  ],
+  "see_also": {"lessons": ["motor-pathway", "sensory-pathways", "circle-of-willis"], "radiology": ["mri_brain_t2", "ct_brain"], "histology": ["cerebral_cortex"]},
+  "steps": [
+    {
+      "title": "Four lobes",
+      "text": "<p>The <b>frontal lobe</b> in front of the central sulcus; the <b>parietal lobe</b> behind it; the <b>temporal lobe</b> below the lateral sulcus; the <b>occipital lobe</b> at the back. A fifth, the <b>insula</b>, is buried in the depths of the lateral sulcus and only visible if the lips of that sulcus are pulled apart.</p><p>Each lobe lies roughly under the bone of the same name, which is what makes surface localisation possible in the first place.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Frontal lobe", "Parietal lobe", "Temporal lobe", "Occipital lobe"],
+      "view": "left",
+      "xray": false,
+      "check": {"q": "Which lobe is hidden inside the lateral sulcus?",
+                "a": "The insula."}
+    },
+    {
+      "title": "The two landmark sulci",
+      "text": "<p>The <b>central sulcus</b> runs downwards and forwards from near the vertex, and it is the reference point for everything else on the lateral surface. In front of it, the <b>precentral gyrus</b>; behind it, the <b>postcentral gyrus</b>.</p><p>The <b>lateral sulcus</b> runs backwards from the front of the temporal pole and separates the temporal lobe from the frontal and parietal lobes above. Find those two grooves on the model and the rest of the cortex can be named from them.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Central sulcus", "Precentral gyrus", "Postcentral gyrus"],
+      "view": "left",
+      "xray": false,
+      "check": {"q": "Which gyrus lies immediately in front of the central sulcus?",
+                "a": "The precentral gyrus — primary motor cortex."}
+    },
+    {
+      "title": "The motor strip and the homunculus",
+      "text": "<p>The <b>precentral gyrus</b> is the primary motor cortex, and it is mapped somatotopically: the <b>face and hand</b> laterally, the trunk above, and the <b>leg and foot</b> over the top of the hemisphere and down onto its medial surface.</p><p>The map is distorted — a <b>homunculus</b> with a huge face and hand and a tiny trunk — because cortical area is allotted by precision of control, not by size of body part. That geometry has a direct clinical use: a lesion at the top of the hemisphere (anterior cerebral artery territory) weakens the <b>leg</b>, while one on the lateral convexity (middle cerebral artery) weakens the <b>face and arm</b>.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Precentral gyrus"],
+      "show": ["Frontal lobe"],
+      "view": "left",
+      "xray": false,
+      "check": {"q": "A stroke weakens the leg but spares the face and arm. Which artery?",
+                "a": "The anterior cerebral artery — the leg area is on the medial surface."}
+    },
+    {
+      "title": "The sensory strip",
+      "text": "<p>The <b>postcentral gyrus</b> is primary somatosensory cortex, with the same somatotopic map alongside the motor one. Because they lie face to face across a single sulcus, a lesion rarely takes out one alone: hemiparesis and hemianaesthesia usually travel together.</p><p>Behind it, the parietal association cortex assembles those sensations into a body image. Damage to the <b>non-dominant</b> parietal lobe therefore produces neglect: the patient does not use, dress or acknowledge the opposite side of the body, without any weakness at all.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Postcentral gyrus"],
+      "show": ["Parietal lobe"],
+      "view": "left",
+      "xray": false,
+      "check": {"q": "Which side's parietal lesion causes hemispatial neglect?",
+                "a": "The non-dominant, usually right."}
+    },
+    {
+      "title": "Language, in two places",
+      "text": "<p><b>Broca's area</b> in the inferior frontal gyrus of the dominant hemisphere produces speech; it sits just in front of the motor strip's face area, so a Broca's aphasia often comes with a facial weakness. Speech becomes effortful and telegraphic, but comprehension is preserved and the patient knows it is wrong.</p><p><b>Wernicke's area</b> in the posterior superior temporal gyrus understands it. Damage produces fluent, well-articulated but meaningless speech, and — because the same area is needed to monitor one's own output — the patient does not realise.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Inferior frontal gyrus", "Superior temporal gyrus"],
+      "view": "left",
+      "xray": false,
+      "check": {"q": "Fluent but meaningless speech with no insight. Which area?",
+                "a": "Wernicke's area, in the posterior superior temporal gyrus of the dominant hemisphere."}
+    },
+    {
+      "title": "The medial surface",
+      "text": "<p>Cut the brain in the midline. Above the <b>corpus callosum</b> curls the cingulate gyrus; behind, the <b>parieto-occipital sulcus</b> separates parietal from occipital lobe, and the <b>calcarine sulcus</b> runs forwards from the occipital pole with the primary <b>visual cortex</b> on both its lips.</p><p>Because the visual cortex is at the very back of the brain and supplied by the posterior cerebral artery, an occipital infarct produces a homonymous hemianopia — usually with <b>macular sparing</b>, since the occipital pole also receives middle cerebral supply.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Occipital lobe", "Corpus callosum"],
+      "show": ["Frontal lobe", "Parietal lobe"],
+      "view": "left",
+      "clip": [0, 0.50, true],
+      "frame_on": ["Corpus callosum"],
+      "xray": false,
+      "check": {"q": "Where is the primary visual cortex?",
+                "a": "On both banks of the calcarine sulcus, on the medial surface of the occipital lobe."}
+    },
+    {
+      "systems": [
+        "nervous"
+      ],
+      "regions": [
+        "head"
+      ],
+      "focus": [
+        "Occipital lobe",
+        "Corpus callosum"
+      ],
+      "show": [
+        "Frontal lobe",
+        "Parietal lobe"
+      ],
+      "view": "left",
+      "clip": [
+        0,
+        0.5,
+        true
+      ],
+      "frame_on": [
+        "Corpus callosum"
+      ],
+      "xray": false,
+      "title": "The folds need connections underneath",
+      "text": "<p>Below the cortical grey matter lies white matter organised by its destinations. <b>Association fibres</b> connect regions within the same hemisphere. <b>Commissural fibres</b> cross to the other hemisphere, with the corpus callosum forming the largest bundle.</p><p><b>Projection fibres</b> connect the cortex with deeper structures, brainstem and spinal cord; many converge in the internal capsule. A function such as language or voluntary movement depends on connected regions, not just a labelled patch of cortex. A connection can be interrupted while the surface area it serves remains structurally intact.</p>",
+      "check": {
+        "q": "Which fibre category includes the corpus callosum?",
+        "a": "Commissural fibres, because they connect the two cerebral hemispheres."
+      }
+    }
+  ]
+},
+{
+  "id": "motor-pathway",
+  "title": "The motor pathway",
+  "system": "nervous",
+  "region": "general",
+  "level": "advanced",
+  "minutes": 11,
+  "summary": "Two neurones from cortex to muscle, one crossing point, and the signs that tell you which one is damaged.",
+  "tags": ["corticospinal", "upper motor neurone", "decussation", "internal capsule"],
+  "prereq": ["brain-surface-anatomy"],
+  "objectives": [
+    "Trace the corticospinal tract from cortex to anterior horn",
+    "Say where the fibres cross and what that means clinically",
+    "Distinguish upper from lower motor neurone signs",
+    "Explain why a cord lesion can cause lower motor neurone signs at its level and upper motor neurone signs below it"
+  ],
+  "takeaways": [
+    "Cortex → corona radiata → posterior limb of internal capsule → cerebral peduncle → pons → pyramid → decussation → lateral corticospinal tract.",
+    "About 85% of fibres cross in the medulla; the rest cross at their segment.",
+    "Upper motor neurone: weakness, spasticity, hyperreflexia, upgoing plantar. Lower: wasting, fasciculation, flaccidity, areflexia.",
+    "Damage to segmental anterior horn cells causes local lower motor neurone signs; damage to descending tracts affects motor control below the lesion."
+  ],
+  "see_also": {"lessons": ["sensory-pathways", "spinal-cord", "brainstem-anatomy"], "radiology": ["mri_brain_t2"]},
+  "steps": [
+    {
+      "title": "Two neurones, not one",
+      "text": "<p>Every voluntary movement is carried by exactly two cells in series. The <b>upper motor neurone</b> runs from the cortex all the way to the spinal cord (or brainstem). The <b>lower motor neurone</b> runs from the anterior horn out to the muscle.</p><p>Every sign in the motor examination follows from which of the two is damaged, so it is worth being clear about where one ends and the other begins: the synapse in the <b>anterior horn</b>.</p>",
+      "systems": ["nervous"],
+      "regions": ["head", "back"],
+      "focus": ["Precentral gyrus"],
+      "show": ["Spinal cord"],
+      "view": "left",
+      "xray": true
+    },
+    {
+      "title": "Through the internal capsule",
+      "text": "<p>Fibres leave the precentral gyrus, converge as the <b>corona radiata</b>, and are funnelled through the <b>posterior limb of the internal capsule</b> — a bottleneck a few millimetres wide carrying the motor supply of the whole opposite side of the body.</p><p>That is why a small lacunar infarct there causes a dense, complete hemiparesis affecting face, arm and leg equally, while a much larger cortical stroke may weaken only one limb. Size of lesion and size of deficit are unrelated in the brain; position is everything.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Internal capsule"],
+      "show": ["Thalamus", "Caudate nucleus", "Putamen"],
+      "view": "superior",
+      "clip": [1, 0.930],
+      "frame_on": ["Internal capsule"],
+      "xray": true,
+      "check": {"q": "Why does a tiny internal capsule infarct cause such a dense hemiparesis?",
+                "a": "All the descending motor fibres for one side are packed into a few millimetres there."}
+    },
+    {
+      "title": "Down the brainstem",
+      "text": "<p>The tract continues into the <b>cerebral peduncle</b> of the midbrain, breaks into bundles among the transverse fibres of the <b>pons</b>, and reassembles on the front of the <b>medulla</b> as the <b>pyramid</b> — from which the pathway takes its other name, the pyramidal tract.</p><p>On the way it gives off <b>corticobulbar</b> fibres to the cranial nerve motor nuclei. Most of these go to both sides, which is why a unilateral hemisphere lesion spares the forehead, the palate and the jaw, and affects only the lower face and the tongue.</p>",
+      "systems": ["nervous"],
+      "regions": ["head", "neck"],
+      "focus": ["Midbrain", "Pons", "Medulla oblongata"],
+      "view": "anterior",
+      "frame_on": ["Brainstem"],
+      "xray": true,
+      "check": {"q": "Why is the forehead spared in a cortical stroke?",
+                "a": "The corticobulbar supply to the upper face is bilateral."}
+    },
+    {
+      "title": "The decussation",
+      "text": "<p>At the lower medulla about <b>85%</b> of the fibres cross the midline — the <b>pyramidal decussation</b> — and descend in the opposite <b>lateral corticospinal tract</b>. The remaining 15% descend uncrossed in the <b>anterior corticospinal tract</b> and cross at their own segmental level.</p><p>So a lesion <b>above</b> the decussation causes weakness on the opposite side; one <b>below</b> it causes weakness on the same side. That single fact localises a cord lesion to a side and a brain lesion to the other.</p>",
+      "systems": ["nervous"],
+      "regions": ["neck", "back"],
+      "focus": ["Lateral corticospinal tract", "Anterior corticospinal tract"],
+      "show": ["Medulla oblongata", "Spinal cord"],
+      "view": "anterior",
+      "frame_on": ["Medulla oblongata"],
+      "xray": true,
+      "check": {"q": "A lesion of the left cervical cord. Which side is weak?",
+                "a": "The left — below the decussation the tract is already on the side it supplies."}
+    },
+    {
+      "title": "The lower motor neurone",
+      "text": "<p>The tract ends on the <b>anterior horn cell</b> — directly for the muscles of fine distal movement, and through interneurones for the rest. From there the axon leaves in the anterior root and reaches the muscle through a plexus and a peripheral nerve.</p><p>One anterior horn cell plus all the fibres it supplies is a <b>motor unit</b>. Units are small (a few fibres) in the extra-ocular muscles and hand, and large (hundreds) in the postural muscles — precision against power again.</p>",
+      "systems": ["nervous"],
+      "regions": ["back"],
+      "focus": ["Anterior horn of spinal cord"],
+      "show": ["Spinal cord"],
+      "view": "anterior",
+      "frame_on": ["Spinal cord"],
+      "xray": true
+    },
+    {
+      "title": "Telling the two apart",
+      "text": "<p><b>Upper motor neurone</b> lesion: weakness in a pyramidal distribution, <b>increased tone</b> (spasticity, clasp-knife), <b>brisk reflexes</b>, clonus, an <b>extensor plantar</b> response, and little or no wasting.</p><p><b>Lower motor neurone</b> lesion: weakness confined to that nerve or root, <b>wasting</b>, <b>fasciculation</b>, <b>flaccid</b> tone and <b>absent</b> reflexes.</p><p>The classic exception is motor neurone disease, which attacks both and produces the diagnostic mixture of a wasted, fasciculating limb with brisk reflexes.</p>",
+      "systems": ["nervous"],
+      "regions": ["back"],
+      "focus": ["Lateral corticospinal tract", "Anterior horn of spinal cord"],
+      "view": "anterior",
+      "frame_on": ["Spinal cord"],
+      "xray": true,
+      "check": {"q": "A patient has a wasted, fasciculating arm with brisk reflexes. What does that combination suggest?",
+                "a": "Both upper and lower motor neurone involvement — the hallmark of motor neurone disease."}
+    },
+    {
+      "systems": [
+        "nervous"
+      ],
+      "regions": [
+        "back"
+      ],
+      "focus": [
+        "Lateral corticospinal tract",
+        "Anterior horn of spinal cord"
+      ],
+      "view": "anterior",
+      "frame_on": [
+        "Spinal cord"
+      ],
+      "xray": true,
+      "title": "One cord lesion can make two patterns",
+      "text": "<p>At the level of a cord injury, damage to <b>anterior horn cells</b> interrupts the final motor output to muscles supplied by those segments. This produces a lower motor neurone pattern in those muscles. At the same time, damaged corticospinal fibres interrupt descending control on its way to lower segments.</p><p>Below the lesion, the surviving lower motor neurones can develop an <b>upper motor neurone pattern</b> of weakness, increased tone and brisk reflexes. Early after an acute injury, spinal shock may temporarily cause flaccidity and reduced reflexes instead. Level and time both matter when interpreting the signs.</p>",
+      "check": {
+        "q": "How can a cervical cord lesion cause wasted hand muscles and brisk leg reflexes together?",
+        "a": "It can injure anterior horn cells serving the hands while also interrupting descending motor pathways to intact leg motor neurones below."
+      }
+    }
+  ]
+},
+{
+  "id": "sensory-pathways",
+  "title": "The two sensory pathways",
+  "system": "nervous",
+  "region": "general",
+  "level": "advanced",
+  "minutes": 11,
+  "summary": "Where each pathway crosses is the whole of the clinical difference between them.",
+  "tags": ["dorsal columns", "spinothalamic", "Brown-Séquard", "dissociation"],
+  "prereq": ["motor-pathway"],
+  "objectives": [
+    "Trace the dorsal column and spinothalamic pathways",
+    "State where each crosses and what modalities each carries",
+    "Explain the pattern of loss in Brown-Séquard syndrome",
+    "Trace sensory cell bodies from dorsal root ganglion to the body-sensation relay in the thalamus"
+  ],
+  "takeaways": [
+    "Dorsal columns: fine touch, vibration, proprioception; cross in the medulla.",
+    "Spinothalamic: pain and temperature; cross within one or two segments in the cord.",
+    "Hemisection gives ipsilateral dorsal column loss and contralateral pain and temperature loss.",
+    "Primary sensory cell bodies lie in dorsal root ganglia; the main thalamic relay for body sensation is VPL, whereas facial sensation relays chiefly through VPM."
+  ],
+  "see_also": {"lessons": ["motor-pathway", "spinal-cord", "dermatomes"], "histology": ["spinal_cord"]},
+  "steps": [
+    {
+      "title": "Three neurones, both times",
+      "text": "<p>Both pathways use three cells: a <b>first-order</b> neurone from the receptor to the central nervous system, a <b>second-order</b> neurone that crosses the midline, and a <b>third-order</b> neurone from the thalamus to the cortex.</p><p>The only real difference between the two systems is <b>where the second-order neurone crosses</b> — and it is that difference that produces every clinical pattern worth knowing.</p>",
+      "systems": ["nervous"],
+      "regions": ["back", "head"],
+      "focus": ["Spinal cord"],
+      "show": ["Thalamus", "Postcentral gyrus"],
+      "view": "anterior",
+      "xray": true
+    },
+    {
+      "title": "The dorsal columns",
+      "text": "<p>Fine touch, vibration and conscious proprioception. The first-order axon enters the cord and turns straight up the <b>same side</b>, in the <b>gracile fasciculus</b> (from the leg, medially) or the <b>cuneate fasciculus</b> (from the arm, laterally, above T6).</p><p>It reaches the gracile and cuneate nuclei in the <b>medulla</b> and only there does the second-order neurone cross, as the internal arcuate fibres, to ascend as the medial lemniscus to the thalamus.</p>",
+      "systems": ["nervous"],
+      "regions": ["back", "neck"],
+      "focus": ["Gracile fasciculus", "Cuneate fasciculus"],
+      "show": ["Spinal cord", "Medulla oblongata"],
+      "view": "posterior",
+      "frame_on": ["Spinal cord"],
+      "xray": true,
+      "mnemonic": "Gracile is for the legs and lies medially — 'graceful legs in the middle'.",
+      "check": {"q": "Where do the dorsal column fibres cross?",
+                "a": "In the medulla, as the internal arcuate fibres."}
+    },
+    {
+      "title": "The spinothalamic tract",
+      "text": "<p>Pain and temperature. The first-order axon enters the cord and synapses almost at once in the dorsal horn. The <b>second-order</b> neurone then crosses in the anterior white commissure — within <b>one or two segments</b> — and ascends on the <b>opposite</b> side as the <b>lateral spinothalamic tract</b>. Crude touch takes the anterior spinothalamic tract alongside it.</p><p>So this pathway is crossed almost from the start, while the dorsal columns stay uncrossed until the medulla. Two systems, carrying different modalities, on opposite sides of the cord for most of its length.</p>",
+      "systems": ["nervous"],
+      "regions": ["back"],
+      "focus": ["Lateral spinothalamic tract", "Anterior spinothalamic tract"],
+      "show": ["Spinal cord", "Posterior horn of spinal cord"],
+      "view": "anterior",
+      "frame_on": ["Spinal cord"],
+      "xray": true,
+      "check": {"q": "How soon does the spinothalamic pathway cross?",
+                "a": "Within one or two segments of entering the cord."}
+    },
+    {
+      "title": "Brown-Séquard",
+      "text": "<p>Now cut one half of the cord across and predict the result.</p><p>Below the lesion, on the <b>same side</b>: loss of fine touch, vibration and proprioception (the uncrossed dorsal column), plus an upper motor neurone weakness (the already-crossed corticospinal tract). On the <b>opposite side</b>: loss of pain and temperature (the spinothalamic tract, which crossed low down and is therefore carrying the other side's information).</p><p>A patient who cannot feel a pinprick on one leg and cannot feel a vibrating fork on the other has, by definition, a hemisection.</p>",
+      "systems": ["nervous"],
+      "regions": ["back"],
+      "focus": ["Spinal cord"],
+      "ghost_focus": ["Gracile fasciculus", "Lateral spinothalamic tract", "Lateral corticospinal tract"],
+      "view": "anterior",
+      "frame_on": ["Spinal cord"],
+      "xray": true,
+      "check": {"q": "In Brown-Séquard syndrome, which side loses pain sensation?",
+                "a": "The side opposite the lesion."}
+    },
+    {
+      "title": "Two more dissociations",
+      "text": "<p>The same anatomy explains two other classic patterns.</p><p><b>Syringomyelia</b>: a cavity expanding in the centre of the cord first interrupts the <b>decussating</b> spinothalamic fibres crossing the midline. The result is a 'cape' of lost pain and temperature over the shoulders and arms with touch, vibration and power intact — a dissociated sensory loss.</p><p><b>Subacute combined degeneration</b> of B12 deficiency picks off the <b>dorsal columns</b> and the corticospinal tracts and spares the spinothalamic: loss of vibration and proprioception with a positive Romberg and brisk reflexes, but preserved pinprick.</p>",
+      "systems": ["nervous"],
+      "regions": ["back"],
+      "focus": ["Spinal cord"],
+      "ghost_focus": ["Gracile fasciculus", "Cuneate fasciculus"],
+      "view": "anterior",
+      "frame_on": ["Spinal cord"],
+      "xray": true,
+      "check": {"q": "Why does syringomyelia cause a 'cape' of lost pain sensation?",
+                "a": "The expanding central cavity interrupts spinothalamic fibres as they decussate in the anterior white commissure."}
+    },
+    {
+      "systems": [
+        "nervous"
+      ],
+      "regions": [
+        "back",
+        "head"
+      ],
+      "focus": [
+        "Spinal cord"
+      ],
+      "show": [
+        "Thalamus",
+        "Postcentral gyrus"
+      ],
+      "view": "anterior",
+      "xray": true,
+      "title": "Where the cell body sits matters",
+      "text": "<p>The first neurone carrying conscious sensation from the body has its cell body in a <b>dorsal root ganglion</b>. Its peripheral process reaches the receptor; its central process enters the spinal cord. In the dorsal-column pathway that process ascends to the medulla before its main relay, while pain-temperature fibres relay much earlier in the cord.</p><p>After the second neurone crosses, the main thalamic relay for body sensation is the <b>ventral posterolateral nucleus (VPL)</b>. Facial sensation mainly reaches the neighbouring <b>ventral posteromedial nucleus (VPM)</b> through trigeminal pathways. Similar functions can therefore use parallel routes with different entry points.</p>",
+      "check": {
+        "q": "Where is the first-order cell body for sensation from the hand, and which main thalamic relay serves body sensation?",
+        "a": "In a dorsal root ganglion; the main body-sensation relay is VPL."
+      }
+    }
+  ]
+},
+{
+  "id": "brainstem-anatomy",
+  "title": "The brainstem",
+  "system": "nervous",
+  "region": "head_neck",
+  "level": "advanced",
+  "minutes": 11,
+  "summary": "Three floors, ten cranial nerves and a rule that lets you localise a stroke to a few millimetres.",
+  "tags": ["midbrain", "pons", "medulla", "cranial nerve nuclei"],
+  "prereq": ["motor-pathway"],
+  "objectives": [
+    "Identify the midbrain, pons and medulla and which cranial nerves leave from each",
+    "Apply the rule of fours to localise a brainstem lesion",
+    "Explain why brainstem lesions produce crossed signs",
+    "Explain the broad medial-motor and lateral-sensory arrangement of brainstem cranial nerve nuclei"
+  ],
+  "takeaways": [
+    "Midbrain: III, IV. Pons: V, VI, VII, VIII. Medulla: IX, X, XI, XII.",
+    "Medial structures are the four Ms; lateral structures are the four Ss.",
+    "A lesion above the decussation gives ipsilateral cranial nerve signs and contralateral limb signs.",
+    "Opening of the fourth ventricle spreads the sensory columns laterally while motor columns remain more medial; this is a guide rather than an absolute rule."
+  ],
+  "see_also": {"lessons": ["cranial-nerves", "motor-pathway", "cerebellum-basal-ganglia"], "histology": ["brainstem_bg"]},
+  "steps": [
+    {
+      "title": "Three floors",
+      "text": "<p>The brainstem connects the cerebrum to the cord, and packs into a few centimetres the cranial nerve nuclei, the long ascending and descending tracts, the cerebellar peduncles and the reticular formation that keeps you conscious.</p><p>From above down: <b>midbrain</b>, <b>pons</b>, <b>medulla oblongata</b>. Behind the pons and medulla sits the cerebellum, with the fourth ventricle between them.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Midbrain", "Pons", "Medulla oblongata"],
+      "show": ["Cerebellum"],
+      "view": "left",
+      "frame_on": ["Brainstem"],
+      "xray": false
+    },
+    {
+      "title": "Which nerve leaves where",
+      "text": "<p>Ten of the twelve cranial nerves arise from the brainstem, in order from top to bottom.</p><p><b>Midbrain</b>: III (oculomotor, from the front) and IV (trochlear, the only nerve to leave from the <b>back</b> and the only one to cross). <b>Pons</b>: V from its side, then VI, VII and VIII at the pontomedullary junction. <b>Medulla</b>: IX, X and XI from the groove behind the olive, and XII from in front of it.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Trigeminal nerve (V)", "Facial nerve (VII)", "Vagus nerve (X)", "Hypoglossal nerve (XII)"],
+      "show": ["Pons", "Medulla oblongata", "Midbrain"],
+      "view": "anterior",
+      "frame_on": ["Brainstem"],
+      "xray": true,
+      "check": {"q": "Which cranial nerve emerges from the back of the brainstem?",
+                "a": "The trochlear (IV) — and it also decussates before it leaves."}
+    },
+    {
+      "title": "The rule of fours",
+      "text": "<p>A neat way to localise. There are <b>four</b> midline (medial) structures beginning with M and <b>four</b> lateral ones beginning with S.</p><p>Medial: <b>M</b>otor pathway (corticospinal), <b>M</b>edial lemniscus, <b>M</b>edial longitudinal fasciculus, <b>M</b>otor cranial nerve nuclei (III, IV, VI, XII — the ones that divide into 12).</p><p>Lateral: <b>S</b>pinothalamic tract, <b>S</b>pinal nucleus of V, <b>S</b>ympathetic tract, <b>S</b>pinocerebellar tracts.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Medulla oblongata"],
+      "show": ["Pons"],
+      "view": "anterior",
+      "frame_on": ["Medulla oblongata"],
+      "xray": true,
+      "mnemonic": "Four Ms in the middle, four Ss at the side.",
+      "check": {"q": "Which motor cranial nerve nuclei lie medially?",
+                "a": "III, IV, VI and XII — the ones that divide into 12."}
+    },
+    {
+      "title": "Lateral medullary syndrome",
+      "text": "<p>Occlusion of the <b>posterior inferior cerebellar artery</b> takes out the four lateral structures on one side, and the resulting picture reads straight off the list.</p><p><b>Spinothalamic</b>: loss of pain and temperature in the opposite limbs. <b>Spinal nucleus of V</b>: loss of pain and temperature on the same side of the <b>face</b> — the crossed sensory loss that is almost diagnostic. <b>Sympathetic</b>: an ipsilateral Horner's syndrome. <b>Spinocerebellar</b>: ipsilateral ataxia. Add IX and X and the patient cannot swallow.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Medulla oblongata"],
+      "show": ["Cerebellum", "Vagus nerve (X)"],
+      "view": "anterior",
+      "frame_on": ["Medulla oblongata"],
+      "xray": true,
+      "clinical": "Crossed sensory loss — face on one side, body on the other — localises to the lateral medulla and almost nowhere else.",
+      "check": {"q": "Which artery is occluded in lateral medullary syndrome?",
+                "a": "Often the vertebral artery or posterior inferior cerebellar artery; both can compromise the lateral medullary territory."}
+    },
+    {
+      "title": "Why brainstem signs cross",
+      "text": "<p>Many motor pathways destined for the limbs cross in the lower medulla, while cranial nerve fascicles commonly affect their ipsilateral targets. The pattern is not universal: trochlear fibres cross before leaving the brainstem, and sensory pathways have their own crossing levels.</p><p>So a suitably placed brainstem lesion can give cranial nerve signs on the <b>same</b> side and limb signs on the <b>opposite</b> side. Any patient with a third nerve palsy on one side and a hemiparesis on the other has a lesion in the midbrain on the side of the palsy — and you have localised it to within a centimetre without imaging.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Midbrain"],
+      "show": ["Oculomotor nerve (III)", "Pons"],
+      "view": "anterior",
+      "frame_on": ["Midbrain"],
+      "xray": true,
+      "check": {"q": "Right third nerve palsy with a left hemiparesis. Where is the lesion?",
+                "a": "The right midbrain — Weber's syndrome."}
+    },
+    {
+      "systems": [
+        "nervous"
+      ],
+      "regions": [
+        "head"
+      ],
+      "focus": [
+        "Midbrain",
+        "Pons",
+        "Medulla oblongata"
+      ],
+      "show": [
+        "Cerebellum"
+      ],
+      "view": "left",
+      "frame_on": [
+        "Brainstem"
+      ],
+      "xray": false,
+      "title": "The cord opens out into the brainstem",
+      "text": "<p>In the spinal cord, sensory processing is associated with the dorsal side and motor output with the ventral side. During brainstem development, the roof of the hindbrain opens out around the <b>fourth ventricle</b>, moving sensory columns towards the lateral side.</p><p>The broad result is <b>motor nuclei more medially and sensory nuclei more laterally</b>. Individual nuclei migrate and have exceptions, but this gives a reason for the arrangement instead of another list. Relate the ventricle to the dorsal pons and medulla, then picture how opening that roof changes the original spinal plan.</p>",
+      "check": {
+        "q": "What developmental change helps explain why sensory cranial nerve nuclei tend to lie lateral to motor nuclei?",
+        "a": "Opening of the hindbrain roof to form the fourth ventricle spreads the sensory columns laterally."
+      }
+    }
+  ]
+},
+{
+  "id": "cerebellum-basal-ganglia",
+  "title": "The cerebellum and the basal ganglia",
+  "system": "nervous",
+  "region": "head_neck",
+  "level": "advanced",
+  "minutes": 11,
+  "summary": "Two systems that never touch a motor neurone, yet decide how every movement looks.",
+  "tags": ["cerebellum", "basal ganglia", "ataxia", "Parkinson"],
+  "prereq": ["motor-pathway"],
+  "objectives": [
+    "Describe the parts of the cerebellum and their functions",
+    "Name the nuclei of the basal ganglia and their arrangement",
+    "Explain why cerebellar signs are ipsilateral",
+    "Distinguish the cerebellar vermis contribution to trunk control from hemispheric limb coordination"
+  ],
+  "takeaways": [
+    "The cerebellum corrects movement in progress; the basal ganglia select and scale it before it starts.",
+    "Cerebellar signs are on the same side as the lesion — its output crosses twice.",
+    "The lentiform nucleus is putamen plus globus pallidus; with the caudate it is the corpus striatum.",
+    "Midline cerebellar dysfunction particularly affects stance and gait; hemispheric dysfunction often produces ipsilateral limb incoordination."
+  ],
+  "see_also": {"lessons": ["motor-pathway", "brainstem-anatomy"], "histology": ["cerebellum", "brainstem_bg"], "radiology": ["mri_brain_t2"]},
+  "steps": [
+    {
+      "title": "Neither one moves anything",
+      "text": "<p>Neither the cerebellum nor the basal ganglia projects to a lower motor neurone. Both act on the <b>cortex</b>, through the thalamus, and shape the command before or while it is issued.</p><p>So damage to either produces not weakness but <b>clumsiness</b>: movements of normal strength that are wrongly scaled, wrongly timed or wrongly selected.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Cerebellum", "Caudate nucleus", "Putamen"],
+      "view": "left",
+      "xray": true
+    },
+    {
+      "title": "Three parts of the cerebellum",
+      "text": "<p>Functionally the cerebellum divides longitudinally. The <b>vestibulocerebellum</b> (flocculonodular lobe) handles balance and eye movement — its damage gives truncal ataxia and nystagmus. The <b>spinocerebellum</b> (vermis and paravermis) handles the trunk and limbs during movement. The <b>cerebrocerebellum</b> (the large lateral hemispheres) plans and times skilled limb movement.</p><p>A midline (vermis) tumour therefore makes a child unsteady when walking but leaves the hands normal, while a hemisphere lesion does the opposite.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Cerebellum"],
+      "view": "posterior",
+      "frame_on": ["Cerebellum"],
+      "xray": false,
+      "check": {"q": "A child is unsteady walking but has normal finger-nose testing. Where is the lesion?",
+                "a": "The cerebellar vermis, in the midline."}
+    },
+    {
+      "title": "Why cerebellar signs are ipsilateral",
+      "text": "<p>Cerebellar output leaves through the <b>superior cerebellar peduncle</b>, crosses in the midbrain, reaches the opposite thalamus and cortex — and the corticospinal tract then crosses <b>back</b> in the medulla.</p><p>Two crossings return the influence to the side it started on. Hence the rule: cerebellar signs — <b>DANISH</b> — appear on the <b>same</b> side as the lesion, unlike everything else above the foramen magnum.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Superior cerebellar peduncle"],
+      "show": ["Cerebellum", "Midbrain", "Thalamus"],
+      "view": "posterior",
+      "frame_on": ["Cerebellum"],
+      "xray": true,
+      "mnemonic": "DANISH: Dysdiadochokinesia, Ataxia, Nystagmus, Intention tremor, Slurred speech, Hypotonia.",
+      "check": {"q": "Why are cerebellar signs ipsilateral?",
+                "a": "The output crosses in the midbrain and the corticospinal tract crosses back in the medulla — two crossings."}
+    },
+    {
+      "title": "The basal ganglia",
+      "text": "<p>Grey matter masses deep in each hemisphere: the <b>caudate nucleus</b>, curving with the lateral ventricle; the <b>putamen</b> and <b>globus pallidus</b>, which together form the lentiform nucleus; plus the <b>subthalamic nucleus</b> and the <b>substantia nigra</b> in the midbrain.</p><p>Caudate and putamen together are the <b>striatum</b>, the input side; the globus pallidus is the output side, projecting to the thalamus. The internal capsule runs between the caudate and the lentiform nucleus, which is why the striatum looks striped in section.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Caudate nucleus", "Putamen", "Globus pallidus"],
+      "show": ["Internal capsule", "Thalamus"],
+      "view": "superior",
+      "clip": [1, 0.930],
+      "frame_on": ["Caudate nucleus"],
+      "xray": true,
+      "check": {"q": "Which two nuclei make up the lentiform nucleus?",
+                "a": "The putamen and the globus pallidus."}
+    },
+    {
+      "title": "Too little and too much",
+      "text": "<p>The basal ganglia work as two loops: a <b>direct</b> pathway that facilitates a chosen movement and an <b>indirect</b> pathway that suppresses competing ones. Dopamine from the substantia nigra favours the direct loop.</p><p>Lose those dopaminergic neurones and the balance tips towards suppression: <b>Parkinson's disease</b>, with bradykinesia, rigidity and a resting tremor. Lose the striatal neurones of the indirect loop and the balance tips the other way: <b>Huntington's disease</b>, with unwanted movements the patient cannot suppress. Damage the subthalamic nucleus alone and you get violent flinging of one side, hemiballismus.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Midbrain", "Putamen"],
+      "show": ["Caudate nucleus", "Globus pallidus"],
+      "view": "left",
+      "frame_on": ["Midbrain"],
+      "xray": true,
+      "check": {"q": "Which nucleus, when damaged, causes hemiballismus?",
+                "a": "The contralateral subthalamic nucleus."}
+    },
+    {
+      "systems": [
+        "nervous"
+      ],
+      "regions": [
+        "head"
+      ],
+      "focus": [
+        "Cerebellum"
+      ],
+      "view": "posterior",
+      "frame_on": [
+        "Cerebellum"
+      ],
+      "xray": false,
+      "title": "Midline control and limb accuracy",
+      "text": "<p>The <b>vermis</b> and nearby midline cerebellar regions contribute strongly to axial control: keeping the trunk stable and coordinating stance and gait. The hemispheres contribute to the timing and accuracy of limb movements, with functional zones extending across the visible lobes.</p><p>A midline lesion may therefore produce prominent unsteadiness of the trunk, while a hemispheric lesion can cause overshoot and poor coordination of the ipsilateral limbs. Cerebellar dysfunction need not abolish muscle strength. The problem can be getting the direction, timing and size of a movement right rather than generating force at all.</p>",
+      "check": {
+        "q": "Why might a person have poor finger-to-target accuracy despite retaining substantial muscle strength?",
+        "a": "Cerebellar dysfunction can impair coordination and scaling without directly interrupting the final motor pathway that generates force."
+      }
+    }
+  ]
+},
+{
+  "id": "meninges",
+  "title": "The meninges and the spaces between them",
+  "system": "nervous",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Three layers, three kinds of bleed, and the shape each one makes on a CT.",
+  "tags": ["dura", "arachnoid", "extradural", "subdural", "subarachnoid"],
+  "objectives": [
+    "Name the three meningeal layers and the spaces they define",
+    "Explain the different shapes of extradural and subdural haematomas",
+    "Describe the dural folds and their clinical importance",
+    "Explain why pia follows sulci while arachnoid bridges them"
+  ],
+  "takeaways": [
+    "Dura, arachnoid, pia — from outside in. CSF lies in the subarachnoid space.",
+    "Extradural: arterial, lens-shaped, stops at sutures. Subdural: venous, crescentic, crosses them.",
+    "The falx and tentorium divide the cranial cavity and are where herniation happens.",
+    "Pia follows the brain surface into sulci; arachnoid bridges across them, leaving CSF and vessels in the subarachnoid space."
+  ],
+  "see_also": {"lessons": ["ventricles", "dural-sinuses", "skull-vault-face"], "radiology": ["ct_brain"], "histology": ["meninges_cp"]},
+  "steps": [
+    {
+      "title": "Three layers",
+      "text": "<p><b>Dura mater</b>: thick, tough and, in the skull, two layers — an outer periosteal layer stuck to the bone and an inner meningeal layer. They separate in places to enclose the venous sinuses. <b>Arachnoid mater</b>: a delicate avascular membrane against the inside of the dura. <b>Pia mater</b>: a thin layer glued to the surface of the brain, following every sulcus.</p><p>The real space is between arachnoid and pia — the <b>subarachnoid space</b>, spanned by strands of arachnoid and filled with cerebrospinal fluid.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Cranial dura", "Cranial pia"],
+      "show": ["Frontal lobe"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Which meningeal space normally contains fluid?",
+                "a": "The subarachnoid space, between arachnoid and pia."}
+    },
+    {
+      "title": "Falx and tentorium",
+      "text": "<p>The inner layer of dura folds inwards to make partitions. The <b>falx cerebri</b> is a vertical sickle between the two hemispheres; the <b>tentorium cerebelli</b> is a horizontal tent over the cerebellum, with a gap in front — the tentorial notch — through which the midbrain passes.</p><p>These folds limit how the brain can move, and so they determine how it fails: an expanding hemisphere pushes the cingulate gyrus <b>under the falx</b>, then the uncus <b>through the tentorial notch</b>, and finally the cerebellar tonsils through the foramen magnum.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Falx cerebri", "Tentorium cerebelli"],
+      "show": ["Cerebellum"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Which structure passes through the tentorial notch?",
+                "a": "The midbrain."}
+    },
+    {
+      "title": "Uncal herniation",
+      "text": "<p>Worth following in detail, because the signs come in a fixed order. The <b>uncus</b> of the temporal lobe is pushed medially over the edge of the tentorium.</p><p>It first stretches the <b>oculomotor nerve (III)</b>, whose parasympathetic fibres lie on the outside: a <b>fixed dilated pupil</b> on the same side. Then it compresses the <b>cerebral peduncle</b>: hemiparesis on the opposite side. Then the posterior cerebral artery: occipital infarction. Finally the brainstem itself: coma, Cushing's response, and death.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Temporal lobe"],
+      "show": ["Oculomotor nerve (III)", "Midbrain", "Tentorium cerebelli"],
+      "view": "inferior",
+      "frame_on": ["Midbrain"],
+      "xray": true,
+      "clinical": "A blown pupil on one side in a head injury is uncal herniation until proved otherwise — and it is on the side of the lesion.",
+      "check": {"q": "Why is the pupil affected first in uncal herniation?",
+                "a": "The parasympathetic fibres run on the outside of the oculomotor nerve and are compressed first."}
+    },
+    {
+      "title": "Three bleeds, three shapes",
+      "text": "<p><b>Extradural</b>: arterial, usually the middle meningeal artery at the pterion. Blood strips the periosteal dura off the bone but cannot cross a <b>suture</b>, where the dura is fused, so it forms a tight <b>lens (biconvex)</b> shape. Classically a lucid interval, then rapid deterioration.</p><p><b>Subdural</b>: venous, from the bridging veins crossing to the sagittal sinus. It spreads freely over the surface and <b>crosses sutures</b>, giving a <b>crescent</b>. Common in the elderly and in alcoholics, whose atrophied brains stretch those veins, and often after trivial trauma.</p><p><b>Subarachnoid</b>: usually a ruptured berry aneurysm, filling the CSF spaces, so blood appears in the sulci and basal cisterns rather than as a collection.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Cranial dura"],
+      "show": ["Middle meningeal artery", "Superior sagittal sinus", "Parietal bone"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "A crescentic collection crossing a suture line. Which bleed?",
+                "a": "A subdural haematoma — venous, from bridging veins."}
+    },
+    {
+      "title": "The spinal meninges",
+      "text": "<p>In the vertebral canal the arrangement changes: there is only <b>one</b> layer of dura, because the periosteal layer stays with the bone. That leaves a true <b>extradural (epidural) space</b>, filled with fat and the internal vertebral venous plexus — the space an epidural anaesthetic is placed in.</p><p>The cord ends at <b>L1/L2</b> but the dural sac continues to <b>S2</b>, so between those levels the subarachnoid space contains only the <b>cauda equina</b> floating in CSF. That gap is why a lumbar puncture at L3/4 or L4/5 is safe.</p>",
+      "systems": ["nervous"],
+      "regions": ["back"],
+      "focus": ["Spinal dura", "Cauda equina"],
+      "show": ["Spinal cord", "Lumbar vertebrae"],
+      "view": "left",
+      "frame_on": ["Cauda equina"],
+      "xray": true,
+      "check": {"q": "Why is a lumbar puncture performed below L2?",
+                "a": "The spinal cord ends at L1/L2 while the dural sac continues to S2 — only the cauda equina lies there."}
+    },
+    {
+      "systems": [
+        "nervous"
+      ],
+      "regions": [
+        "head"
+      ],
+      "focus": [
+        "Cranial dura",
+        "Cranial pia"
+      ],
+      "show": [
+        "Frontal lobe"
+      ],
+      "view": "left",
+      "xray": true,
+      "title": "One covering follows every fold",
+      "text": "<p>The <b>pia</b> adheres closely to the surface of the brain and follows the gyri down into the sulci. The <b>arachnoid</b> lies outside it and bridges across many of those grooves. Fine trabeculae span the intervening subarachnoid space.</p><p>That difference creates room for CSF and for vessels running over the brain surface. Blood entering this space can outline sulci and cisterns because it follows the CSF pathways. It does not need to peel the dura from the skull to spread around the cortex.</p>",
+      "check": {
+        "q": "Why can subarachnoid blood track into the cerebral sulci?",
+        "a": "The CSF-filled space between arachnoid and pia extends over the surface and into the sulci followed by pia."
+      }
+    }
+  ]
+}
+]

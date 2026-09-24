@@ -1,0 +1,458 @@
+[
+{
+  "id": "conducting-system",
+  "title": "The conducting system of the heart",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 11,
+  "summary": "Where the beat starts, the path it takes, and why the delay in the middle matters.",
+  "tags": ["SA node", "AV node", "bundle of His", "ECG"],
+  "objectives": [
+    "Trace the impulse from sinu-atrial node to Purkinje fibres",
+    "Explain the purpose of the atrioventricular delay",
+    "Relate each part of the pathway to a part of the ECG",
+    "Distinguish an electrical ECG event from the mechanical contraction that follows it"
+  ],
+  "takeaways": [
+    "SA node in the upper right atrium at the crista terminalis; AV node in the triangle of Koch.",
+    "The AV node delays conduction; the AV bundle is the normal conducting bridge through the fibrous skeleton.",
+    "The AV delay lets the atria finish emptying before the ventricles contract.",
+    "The ECG records electrical activity: depolarisation precedes contraction, and an electrical rhythm alone does not prove effective pumping."
+  ],
+  "see_also": {"lessons": ["heart-chambers", "coronary-circulation"], "histology": ["cardiac_muscle"], "radiology": ["cxr_pa"]},
+  "steps": [
+    {
+      "title": "Why a heart needs wiring",
+      "text": "<p>Cardiac muscle contracts on its own; the problem is not starting it but <b>coordinating</b> it. Squeeze the ventricle randomly and it fibrillates and pumps nothing. Squeeze it from the apex upwards and it empties into the outflow tracts.</p><p>The conducting system is modified cardiac muscle — not nerve — whose bundle and Purkinje fibres conduct rapidly while the AV node conducts slowly and so imposes an order on the contraction.</p>",
+      "systems": ["visceral", "cardiovascular"],
+      "regions": ["thorax"],
+      "focus": ["Heart"],
+      "view": "anterior",
+      "xray": false,
+      "histology": "cardiac_muscle"
+    },
+    {
+      "title": "The sinu-atrial node",
+      "text": "<p>The pacemaker sits in the wall of the <b>right atrium</b>, at the upper end of the crista terminalis where the superior vena cava enters. It depolarises spontaneously about 60–100 times a minute, faster than anything else in the heart, and so it sets the rate.</p><p>It is supplied by the sinu-atrial nodal artery, a branch of the <b>right coronary artery</b> in about 60% of people. That is why an inferior myocardial infarction so often produces a bradycardia.</p>",
+      "systems": ["visceral", "cardiovascular"],
+      "regions": ["thorax"],
+      "focus": ["Right atrium"],
+      "show": ["Superior vena cava", "Right coronary artery"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Which coronary artery usually supplies the SA node?",
+                "a": "The right coronary artery, in about 60% of hearts."}
+    },
+    {
+      "title": "Across the atria to the AV node",
+      "text": "<p>The wave spreads across both atria through the working muscle itself — this is the <b>P wave</b> — and converges on the <b>atrioventricular node</b>, in the interatrial septum just above the opening of the coronary sinus, within the triangle of Koch.</p><p>Atria and ventricles are otherwise separated completely by the fibrous skeleton of the heart, which is electrically inert. The normal route passes through the AV node and then the <b>atrioventricular bundle</b>, which pierces the fibrous skeleton. Accessory atrioventricular pathways are an anatomical exception. Block it and the ventricles must fall back on their own slow escape rhythm.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Right atrium", "Coronary sinus"],
+      "view": "anterior",
+      "clip": [0, 0.50],
+      "frame_on": ["Heart"],
+      "xray": true,
+      "check": {"q": "Why does complete AV block cause a slow ventricular rate?",
+                "a": "Atrial impulses no longer reach the ventricles through the normal AV conduction pathway, so a slower subsidiary pacemaker must drive them."}
+    },
+    {
+      "title": "The delay",
+      "text": "<p>Conduction through the AV node is deliberately <b>slow</b> — about 100 milliseconds. This delay contributes to the <b>PR interval</b>, which also includes atrial and other AV conduction time. The delay exists so the atria can finish emptying before the ventricles start to contract. That atrial kick contributes perhaps 20% of ventricular filling, and its loss is why atrial fibrillation matters most in a stiff ventricle.</p><p>The node's slowness also protects the ventricles: in atrial flutter at 300 beats a minute, the AV node refuses to pass most of them.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Heart"],
+      "view": "anterior",
+      "xray": false,
+      "clinical": "Vagal manoeuvres and adenosine both work by slowing the AV node, which terminates any arrhythmia that uses it as part of its circuit."
+    },
+    {
+      "title": "Bundle, branches and Purkinje fibres",
+      "text": "<p>From the AV node the <b>atrioventricular bundle</b> (of His) pierces the fibrous skeleton, runs along the membranous interventricular septum and divides into <b>right</b> and <b>left bundle branches</b>. These run down the septum under the endocardium and break up into the <b>Purkinje fibres</b>, which spread through the ventricular walls.</p><p>The fibres reach the <b>apex first</b> and the outflow tracts last, so the ventricle contracts from the bottom up, wringing blood towards the valves. This whole ventricular depolarisation is the <b>QRS complex</b>, and its widening is what a bundle branch block shows.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Left ventricle", "Right ventricle"],
+      "view": "anterior",
+      "clip": [0, 0.50],
+      "frame_on": ["Heart"],
+      "xray": true,
+      "check": {"q": "Why does the ventricle contract from the apex upwards?",
+                "a": "The Purkinje network reaches the apex first, so depolarisation and contraction start there."}
+    },
+    {
+      "title": "Reading it back off the ECG",
+      "text": "<p>Now the trace makes anatomical sense. <b>P wave</b>: atrial depolarisation. <b>PR interval</b>: from the start of atrial depolarisation to the start of ventricular depolarisation, including the AV nodal delay. <b>QRS</b>: ventricular depolarisation through the bundle and Purkinje system. <b>T wave</b>: ventricular repolarisation.</p><p>A long PR means slow AV conduction. A wide QRS means the ventricles are being depolarised slowly, muscle to muscle, instead of through the fast pathway — a bundle branch block, an ectopic ventricular beat, or a paced beat.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Heart"],
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "What does a wide QRS tell you anatomically?",
+                "a": "That the ventricles are not being depolarised through the normal fast conducting system."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Heart"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "title": "Electricity comes before the squeeze",
+      "text": "<p>A P wave is <b>atrial depolarisation</b>, not a drawing of atrial contraction. The QRS complex likewise records ventricular depolarisation. Mechanical force develops after electrical activation as the muscle cells couple that signal to calcium release and contraction.</p><p>This distinction explains why the ECG and the moving heart answer different questions. The trace shows the timing and pattern of electrical activity; valve movement and blood flow show the mechanical result. The T wave marks ventricular repolarisation, not a separate contraction of a different chamber.</p>",
+      "check": {
+        "q": "Does a QRS complex directly measure how much blood the ventricles eject?",
+        "a": "No. It records ventricular depolarisation; effective contraction and ejection are subsequent mechanical events."
+      }
+    }
+  ]
+},
+{
+  "id": "coronary-circulation",
+  "title": "The coronary circulation",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "advanced",
+  "minutes": 12,
+  "summary": "Two arteries, three territories, and how the ECG tells you which one has blocked.",
+  "tags": ["coronary", "infarct", "dominance", "angina"],
+  "prereq": ["heart-chambers"],
+  "objectives": [
+    "Name the branches of the right and left coronary arteries and their territories",
+    "Define coronary dominance and say why it matters",
+    "Map an infarct territory onto ECG leads",
+    "Relate papillary muscle blood supply to the risk of ischaemic mitral regurgitation"
+  ],
+  "takeaways": [
+    "LAD: anterior wall and the anterior two thirds of the septum. Circumflex: lateral wall. RCA: inferior wall and, usually, the nodes.",
+    "Dominance is decided by which artery gives the posterior interventricular branch — right in about 85%.",
+    "Left ventricular coronary perfusion is greatest in diastole; tachycardia shortens this opportunity and can aggravate ischaemia.",
+    "The anterolateral papillary muscle usually has dual arterial supply; the posteromedial muscle commonly depends on the posterior interventricular artery."
+  ],
+  "see_also": {"lessons": ["heart-chambers", "conducting-system"], "radiology": ["ct_abdo_upper"]},
+  "steps": [
+    {
+      "title": "Where they start",
+      "text": "<p>Both coronary arteries arise from the <b>aortic sinuses</b>, immediately above the aortic valve cusps — the first branches of the aorta, before anything else is supplied.</p><p>Left ventricular coronary flow occurs mainly during <b>diastole</b>, because systolic contraction compresses intramyocardial vessels. Relaxation allows aortic pressure to drive flow through them. Tachycardia shortens this filling time and can worsen ischaemia when supply is limited; low aortic diastolic pressure can also reduce perfusion. Right ventricular coronary flow is less restricted during systole.</p>",
+      "systems": ["cardiovascular", "visceral"],
+      "regions": ["thorax"],
+      "focus": ["Right coronary artery", "Left coronary artery"],
+      "show": ["Ascending aorta", "Aortic valve"],
+      "view": "anterior",
+      "frame_on": ["Heart"],
+      "xray": true,
+      "check": {"q": "Why is left ventricular coronary flow greatest in diastole?",
+                "a": "Ventricular relaxation relieves compression of intramyocardial vessels while aortic pressure drives blood through them."}
+    },
+    {
+      "title": "The left coronary artery",
+      "text": "<p>A short left main stem passes between the pulmonary trunk and the left auricle and divides almost at once.</p><p>The <b>anterior interventricular branch</b> (LAD) runs down the front of the septum to the apex, supplying the anterior wall of the left ventricle, the apex and the <b>anterior two thirds of the interventricular septum</b> — including the bundle branches. The <b>circumflex branch</b> curls round in the left atrioventricular groove to supply the lateral and posterior left ventricle.</p>",
+      "systems": ["cardiovascular", "visceral"],
+      "regions": ["thorax"],
+      "focus": ["Anterior interventricular artery", "Circumflex artery of heart"],
+      "show": ["Left coronary artery", "Heart"],
+      "view": "anterior",
+      "frame_on": ["Heart"],
+      "xray": true,
+      "clinical": "The LAD is sometimes called the 'widow-maker': it supplies the largest territory, and its proximal occlusion takes out the anterior wall and the conducting system together.",
+      "check": {"q": "Which artery supplies the anterior two thirds of the interventricular septum?",
+                "a": "The anterior interventricular (left anterior descending) branch."}
+    },
+    {
+      "title": "The right coronary artery",
+      "text": "<p>The <b>right coronary artery</b> runs in the right atrioventricular groove, giving the SA nodal artery early, then the right marginal branch along the lower border, and finally — in most people — turning onto the back of the heart as the <b>posterior interventricular branch</b>.</p><p>It supplies the right atrium, most of the right ventricle, the inferior wall of the left ventricle, the posterior third of the septum, and usually both the <b>SA and AV nodes</b>. That last point is why inferior infarcts come with heart block and bradycardia.</p>",
+      "systems": ["cardiovascular", "visceral"],
+      "regions": ["thorax"],
+      "focus": ["Right coronary artery"],
+      "show": ["Heart", "Right ventricle"],
+      "view": "anterior",
+      "frame_on": ["Heart"],
+      "xray": true
+    },
+    {
+      "title": "Dominance",
+      "text": "<p>Whichever artery gives off the <b>posterior interventricular branch</b> is called dominant. In about <b>85%</b> of people it is the right coronary — right dominance. In roughly 8% it is the circumflex, and in the rest both contribute.</p><p>It matters because it decides how much of the left ventricle and the conducting system depends on the right coronary artery. In a left-dominant heart, a circumflex occlusion is a far bigger event than usual.</p>",
+      "systems": ["cardiovascular"],
+      "regions": ["thorax"],
+      "focus": ["Right coronary artery", "Circumflex artery of heart"],
+      "view": "posterior",
+      "frame_on": ["Heart"],
+      "xray": true,
+      "check": {"q": "What defines a right-dominant coronary circulation?",
+                "a": "The posterior interventricular artery arises from the right coronary artery — the case in about 85% of people."}
+    },
+    {
+      "title": "Veins",
+      "text": "<p>Most of the venous return collects in the <b>coronary sinus</b>, running in the posterior atrioventricular groove and opening into the right atrium between the inferior vena cava and the tricuspid valve. Its tributaries — the great, middle and small cardiac veins — run alongside the arteries.</p><p>A minority of blood returns directly to the chambers through tiny <b>venae cordis minimae</b>, which is one small source of the body's physiological shunt.</p>",
+      "systems": ["cardiovascular"],
+      "regions": ["thorax"],
+      "focus": ["Coronary sinus"],
+      "show": ["Cardiac veins", "Right atrium"],
+      "view": "posterior",
+      "frame_on": ["Heart"],
+      "xray": true
+    },
+    {
+      "title": "Reading the infarct off the ECG",
+      "text": "<p>Because each artery has a territory, the leads that change tell you the vessel.</p><p><b>V1–V4</b>, anterior/septal — the LAD. <b>I, aVL, V5–V6</b>, lateral — the circumflex. <b>II, III, aVF</b>, inferior — the right coronary in most people. ST elevation in those inferior leads with hypotension should also prompt right-sided leads, because a right ventricular infarct is preload-dependent and nitrates will drop the patient's blood pressure through the floor.</p>",
+      "systems": ["cardiovascular", "visceral"],
+      "regions": ["thorax"],
+      "focus": ["Heart"],
+      "ghost_focus": ["Right coronary artery", "Anterior interventricular artery", "Circumflex artery of heart"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "ST elevation in II, III and aVF. Which artery, and which structures are also at risk?",
+                "a": "The right coronary artery — with the SA and AV nodes and the right ventricle."}
+    },
+    {
+      "systems": [
+        "cardiovascular",
+        "visceral"
+      ],
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Heart"
+      ],
+      "ghost_focus": [
+        "Right coronary artery",
+        "Anterior interventricular artery",
+        "Circumflex artery of heart"
+      ],
+      "view": "anterior",
+      "xray": true,
+      "title": "An infarct can upset a valve without injuring its leaflets",
+      "text": "<p>The mitral valve depends on <b>papillary muscles</b> and chordae tendineae to keep its leaflets from prolapsing during ventricular contraction. The anterolateral papillary muscle usually receives branches from both LAD and circumflex territories. The posteromedial muscle commonly depends on the posterior interventricular artery.</p><p>That more restricted supply helps explain why the posteromedial muscle is particularly vulnerable to ischaemic rupture. Loss of papillary support can cause acute mitral regurgitation even when the valve leaflets were initially normal. Coronary anatomy therefore affects the valve apparatus as well as the ventricular wall.</p>",
+      "check": {
+        "q": "Why is the posteromedial papillary muscle often more vulnerable to ischaemia than the anterolateral muscle?",
+        "a": "It commonly has a single principal arterial source, whereas the anterolateral muscle usually has supply from both LAD and circumflex branches."
+      }
+    }
+  ]
+},
+{
+  "id": "aortic-arch-branches",
+  "title": "The aortic arch and the great vessels",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Three branches in a fixed order, a nerve that hooks under the arch, and why the left side is different.",
+  "tags": ["aorta", "recurrent laryngeal", "great vessels", "coarctation"],
+  "objectives": [
+    "Name the branches of the aortic arch in order",
+    "Explain the asymmetric course of the recurrent laryngeal nerves",
+    "Relate the arch to the sternal angle and to the structures crossing it",
+    "Distinguish the single brachiocephalic arterial trunk from the paired brachiocephalic veins"
+  ],
+  "takeaways": [
+    "Brachiocephalic trunk, left common carotid, left subclavian — in that order.",
+    "The left recurrent laryngeal nerve hooks under the arch at the ligamentum arteriosum; the right hooks under the subclavian artery.",
+    "The arch begins and ends at the level of the sternal angle (T4/5).",
+    "There is normally one brachiocephalic arterial trunk but two brachiocephalic veins; the left vein crosses the superior mediastinum towards the SVC."
+  ],
+  "see_also": {"lessons": ["mediastinum", "head-neck-arteries", "larynx"], "radiology": ["cxr_pa", "ct_abdo_upper"]},
+  "steps": [
+    {
+      "title": "The three parts of the thoracic aorta",
+      "text": "<p>The <b>ascending aorta</b> rises from the left ventricle, gives the two coronary arteries and nothing else. The <b>arch</b> curves up, backwards and to the left over the left main bronchus. The <b>descending thoracic aorta</b> runs down to the left of the vertebral bodies and passes through the diaphragm at T12.</p><p>The arch begins and ends at the plane of the <b>sternal angle</b> — one more thing to add to that level.</p>",
+      "systems": ["cardiovascular"],
+      "regions": ["thorax"],
+      "focus": ["Ascending aorta", "Aortic arch", "Thoracic aorta"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "At what surface landmark do the arch of the aorta begin and end?",
+                "a": "The sternal angle — the T4/5 level."}
+    },
+    {
+      "title": "Three branches, right to left",
+      "text": "<p>From the top of the arch, in order: the <b>brachiocephalic trunk</b>, which divides behind the right sternoclavicular joint into the right common carotid and right subclavian arteries; the <b>left common carotid artery</b>; and the <b>left subclavian artery</b>.</p><p>The asymmetry is embryological: the right side keeps a short common stem while the left vessels arise directly. A common variant — the 'bovine arch', in which the left common carotid comes off the brachiocephalic trunk — occurs in about one person in five and matters for endovascular access.</p>",
+      "systems": ["cardiovascular"],
+      "regions": ["thorax", "neck"],
+      "focus": ["Brachiocephalic trunk", "Left common carotid artery", "Left subclavian artery"],
+      "show": ["Aortic arch"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Which artery supplies the right arm, and where does it come from?",
+                "a": "The right subclavian, from the brachiocephalic trunk — not from the arch directly."}
+    },
+    {
+      "title": "The recurrent laryngeal nerves",
+      "text": "<p>Both recurrent laryngeal nerves are branches of the vagus that hook round an artery and run back up to the larynx. On the <b>right</b>, the nerve hooks under the <b>right subclavian artery</b>. On the <b>left</b>, it hooks under the <b>arch of the aorta</b>, behind the <b>ligamentum arteriosum</b>.</p><p>The difference is a fossil of the embryonic aortic arches: the vessel each nerve caught on has moved to a different level on the two sides. It gives the left nerve a long intrathoracic course, and so a long list of things that can damage it.</p>",
+      "systems": ["nervous", "cardiovascular"],
+      "regions": ["thorax", "neck"],
+      "focus": ["Vagus nerve (X)"],
+      "show": ["Aortic arch", "Laryngeal cartilages"],
+      "view": "anterior",
+      "xray": true,
+      "clinical": "A hoarse voice with a left vocal cord palsy should send you looking in the chest: a left hilar tumour, an aortic aneurysm, an enlarged left atrium or mediastinal nodes.",
+      "check": {"q": "Why is a hoarse voice a chest sign?",
+                "a": "The left recurrent laryngeal nerve loops under the aortic arch, so mediastinal disease can paralyse the left vocal cord."}
+    },
+    {
+      "title": "What crosses the arch",
+      "text": "<p>On its left side run the <b>left phrenic nerve</b> (in front) and the <b>left vagus</b> (behind) — an order worth remembering, because the vagus must be behind in order to give off the recurrent branch under the arch.</p><p>Below the arch lie the <b>left main bronchus</b> and the pulmonary trunk's bifurcation; above and in front, the <b>left brachiocephalic vein</b> crosses to join the right and form the superior vena cava. Behind, the trachea and the oesophagus.</p>",
+      "systems": ["cardiovascular", "nervous", "visceral"],
+      "regions": ["thorax"],
+      "focus": ["Aortic arch"],
+      "show": ["Trachea", "Oesophagus", "Left brachiocephalic vein", "Vagus nerve (X)"],
+      "view": "left",
+      "frame_on": ["Aortic arch"],
+      "xray": true
+    },
+    {
+      "title": "Coarctation and the collateral circulation",
+      "text": "<p>A congenital narrowing just distal to the left subclavian artery, at the site of the ductus, obstructs flow to the lower body. Blood finds its way round through the <b>internal thoracic</b> and <b>intercostal arteries</b>, which enlarge.</p><p>Hence the classical signs: hypertension in the arms, weak and delayed femoral pulses (<b>radiofemoral delay</b>), and rib notching on the chest radiograph where dilated intercostal arteries have eroded the undersurfaces of the ribs.</p>",
+      "systems": ["cardiovascular", "skeletal"],
+      "regions": ["thorax"],
+      "focus": ["Aortic arch", "Thoracic aorta"],
+      "show": ["Ribs", "Posterior intercostal arteries"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Why do the ribs become notched in coarctation?",
+                "a": "Enlarged collateral intercostal arteries erode the inferior borders of the ribs."}
+    },
+    {
+      "systems": [
+        "cardiovascular",
+        "nervous",
+        "visceral"
+      ],
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Aortic arch"
+      ],
+      "show": [
+        "Trachea",
+        "Oesophagus",
+        "Left brachiocephalic vein",
+        "Vagus nerve (X)"
+      ],
+      "view": "left",
+      "frame_on": [
+        "Aortic arch"
+      ],
+      "xray": true,
+      "title": "One arterial trunk, two veins",
+      "text": "<p>The <b>brachiocephalic trunk</b> is an artery serving the right head, neck and upper limb. There is normally no corresponding left brachiocephalic arterial trunk: the left common carotid and subclavian arise separately from the arch.</p><p>The veins follow a different plan. Each side has a <b>brachiocephalic vein</b>, formed by the internal jugular and subclavian veins. The left vein has farther to travel, crossing behind the manubrium and in front of the arch branches to join the right and form the superior vena cava. An arterial diagram cannot simply be relabelled as a venous one.</p>",
+      "check": {
+        "q": "Why is the left brachiocephalic vein longer than the right?",
+        "a": "It must cross the superior mediastinum to reach the right-sided superior vena cava."
+      }
+    }
+  ]
+},
+{
+  "id": "fetal-circulation",
+  "title": "The fetal circulation and what becomes of it",
+  "system": "cardiovascular",
+  "region": "general",
+  "level": "advanced",
+  "minutes": 10,
+  "summary": "Three shunts that bypass the lungs and liver, and the adult remnants they leave behind.",
+  "tags": ["ductus", "foramen ovale", "shunt", "embryology"],
+  "objectives": [
+    "Name the three fetal shunts and what each bypasses",
+    "Explain what closes each shunt at birth and why",
+    "Match each fetal structure with its adult remnant",
+    "Explain why umbilical vessel names describe flow direction rather than oxygen content"
+  ],
+  "takeaways": [
+    "Ductus venosus bypasses the liver; foramen ovale and ductus arteriosus bypass the lungs.",
+    "The first breath drops pulmonary resistance, which reverses flow through the ductus and closes the foramen ovale.",
+    "Ligamentum teres, ligamentum venosum, ligamentum arteriosum, fossa ovalis, medial umbilical ligaments.",
+    "The umbilical vein carries relatively oxygenated blood towards the fetus; the two umbilical arteries carry blood away towards the placenta."
+  ],
+  "see_also": {"lessons": ["heart-chambers", "portal-system"]},
+  "steps": [
+    {
+      "title": "The problem the fetus is solving",
+      "text": "<p>Before birth the lungs are collapsed and full of fluid, and gas exchange happens in the <b>placenta</b>. Sending the full cardiac output through the lungs would be pointless and, because pulmonary resistance is high, expensive.</p><p>So the fetal circulation is built round three <b>shunts</b> that route oxygenated blood past the lungs and the liver, straight towards the brain and the heart.</p>",
+      "systems": ["cardiovascular"],
+      "regions": ["thorax", "abdomen"],
+      "focus": ["Heart"],
+      "view": "anterior",
+      "xray": false
+    },
+    {
+      "title": "Ductus venosus",
+      "text": "<p>Oxygenated blood returns from the placenta in the <b>umbilical vein</b> and reaches the liver. Most of it bypasses the hepatic sinusoids through the <b>ductus venosus</b>, straight into the inferior vena cava.</p><p>At birth the umbilical flow stops and the duct closes, becoming the <b>ligamentum venosum</b> in the fissure on the back of the liver. The intra-abdominal part of the umbilical vein becomes the <b>ligamentum teres</b> in the free edge of the falciform ligament.</p>",
+      "systems": ["cardiovascular", "visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Liver"],
+      "show": ["Inferior vena cava (abdominal part)", "Hepatic portal vein"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "What does the ductus venosus become?",
+                "a": "The ligamentum venosum."}
+    },
+    {
+      "title": "Foramen ovale",
+      "text": "<p>The stream of oxygenated blood arriving up the inferior vena cava is directed by the valve of the IVC across the <b>right atrium</b> and through the <b>foramen ovale</b> into the left atrium — bypassing the lungs and going straight out to the aorta and the head.</p><p>At birth, the fall in pulmonary resistance raises left atrial pressure above right, and the septum primum flap is pressed against the septum secundum. It fuses over the following months, leaving the <b>fossa ovalis</b>. In about a quarter of adults it never seals completely: a <b>patent foramen ovale</b>, usually silent, occasionally a route for a paradoxical embolus.</p>",
+      "systems": ["visceral", "cardiovascular"],
+      "regions": ["thorax"],
+      "focus": ["Right atrium", "Left atrium"],
+      "view": "anterior",
+      "clip": [0, 0.50],
+      "frame_on": ["Heart"],
+      "xray": true,
+      "check": {"q": "What closes the foramen ovale at birth?",
+                "a": "Left atrial pressure exceeding right, once the lungs expand and pulmonary resistance falls."}
+    },
+    {
+      "title": "Ductus arteriosus",
+      "text": "<p>Blood that does reach the right ventricle is pumped into the <b>pulmonary trunk</b>, and most of it passes through the <b>ductus arteriosus</b> into the descending aorta, again bypassing the lungs. Because this blood joins the aorta <b>distal</b> to the head and arm vessels, the fetal brain gets the best-oxygenated blood available.</p><p>After birth the rise in arterial oxygen and the fall in circulating prostaglandins constrict the duct within a day or two. It becomes the <b>ligamentum arteriosum</b> — with the left recurrent laryngeal nerve still hooked around it.</p>",
+      "systems": ["cardiovascular"],
+      "regions": ["thorax"],
+      "focus": ["Pulmonary trunk", "Aortic arch"],
+      "show": ["Vagus nerve (X)"],
+      "view": "anterior",
+      "frame_on": ["Aortic arch"],
+      "xray": true,
+      "clinical": "A persistent duct gives a continuous 'machinery' murmur. Indometacin (a prostaglandin inhibitor) closes it; prostaglandin E keeps it open when a baby's circulation depends on it.",
+      "check": {"q": "Which drug closes a patent ductus arteriosus, and which keeps it open?",
+                "a": "Indometacin closes it; prostaglandin E keeps it open."}
+    },
+    {
+      "title": "The remnants, all together",
+      "text": "<p>Learn them as a list and they will be recognisable on any dissection.</p><p>Umbilical vein → <b>ligamentum teres</b>. Ductus venosus → <b>ligamentum venosum</b>. Foramen ovale → <b>fossa ovalis</b>. Ductus arteriosus → <b>ligamentum arteriosum</b>. Umbilical arteries → <b>medial umbilical ligaments</b> (their proximal parts stay open as the superior vesical arteries). Urachus → <b>median umbilical ligament</b>.</p>",
+      "systems": ["cardiovascular", "visceral"],
+      "regions": ["abdomen", "thorax"],
+      "focus": ["Liver", "Heart"],
+      "view": "anterior",
+      "xray": false,
+      "pitfall": "Medial umbilical ligaments are paired and are old arteries; the median umbilical ligament is single and is the old urachus.",
+      "check": {"q": "How many umbilical arteries and veins does the cord contain?",
+                "a": "Two arteries carrying deoxygenated blood to the placenta, one vein carrying oxygenated blood back."}
+    },
+    {
+      "systems": [
+        "cardiovascular"
+      ],
+      "regions": [
+        "thorax",
+        "abdomen"
+      ],
+      "focus": [
+        "Heart"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "title": "Artery and vein describe direction",
+      "text": "<p>A vessel is called an <b>artery</b> because it carries blood away from the heart, not because that blood contains more oxygen. The two umbilical arteries carry relatively deoxygenated fetal blood towards the placenta. The single umbilical vein returns relatively oxygenated blood towards the fetus.</p><p>Maternal and fetal blood normally remain in separate vascular spaces while gases and other substances cross the placental barrier. The fetus receives the products of that exchange in its own blood. Keep three ideas separate: direction of flow, oxygen content and whose circulation the blood belongs to.</p>",
+      "check": {
+        "q": "Why is the oxygen-rich vessel in the umbilical cord called a vein?",
+        "a": "It returns blood from the placenta towards the fetal heart; vessel naming depends on direction, not oxygen content."
+      }
+    }
+  ]
+}
+]

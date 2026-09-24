@@ -1,0 +1,691 @@
+[
+{
+  "id": "urinary-tract",
+  "title": "Ureter, bladder and urethra",
+  "system": "urinary",
+  "region": "pelvis",
+  "level": "core",
+  "minutes": 11,
+  "summary": "Three narrowings where a stone sticks, a muscle that empties on command, and two very different urethras.",
+  "tags": ["ureter", "bladder", "urethra", "stones", "catheter"],
+  "objectives": [
+    "Trace the ureter and name its three constrictions",
+    "Describe the trigone and the mechanism of continence",
+    "Explain why catheterising a male urethra is harder than a female one",
+    "Relate the terminal pelvic ureter to the uterine artery or ductus deferens"
+  ],
+  "takeaways": [
+    "Ureteric constrictions: pelvi-ureteric junction, crossing the pelvic brim, and the vesico-ureteric junction.",
+    "The trigone is smooth, embryologically distinct and the most sensitive part of the bladder.",
+    "The male urethra has two curves and a narrow membranous part; the female is 4 cm and straight.",
+    "Near the bladder, the ureter passes beneath the uterine artery in female anatomy and beneath the ductus deferens in male anatomy."
+  ],
+  "see_also": {"lessons": ["kidney-retroperitoneum", "pelvic-floor", "male-reproductive"], "micro": ["bladder_wall"], "histology": ["ureter", "bladder", "transitional", "urethra"]},
+  "steps": [
+    {
+      "title": "The ureter's course",
+      "text": "<p>From the <b>renal pelvis</b>, the ureter runs down on psoas major, retroperitoneally, crosses the <b>pelvic brim</b> at the bifurcation of the common iliac artery, then swings forwards along the pelvic side wall to enter the bladder obliquely.</p><p>On a plain film it follows the tips of the lumbar transverse processes and then the sacro-iliac joint — which is how a ureteric stone is located on a KUB radiograph.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Ureter"],
+      "show": ["Kidney", "Urinary bladder", "Common iliac artery"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Over which vessel does the ureter cross into the pelvis?",
+                "a": "The bifurcation of the common iliac artery."}
+    },
+    {
+      "title": "Three places a stone sticks",
+      "text": "<p>The ureter is narrowed at the <b>pelvi-ureteric junction</b>, where it crosses the <b>pelvic brim</b>, and at the <b>vesico-ureteric junction</b> as it tunnels through the bladder wall — the narrowest of the three.</p><p>Pain from a stone is <b>colicky</b> and follows the ureter's innervation (T11–L2): it starts in the loin and radiates to the groin and, as the stone descends, to the scrotum or labium and the tip of the penis. 'Loin to groin' is a statement about referred segmental pain, not about the ureter's path.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Ureter"],
+      "show": ["Urinary bladder", "Kidney"],
+      "view": "anterior",
+      "frame_on": ["Ureter"],
+      "xray": true,
+      "check": {"q": "Which ureteric constriction is narrowest?",
+                "a": "The vesico-ureteric junction."}
+    },
+    {
+      "title": "The bladder and the trigone",
+      "text": "<p>An empty bladder is a pyramid lying behind the pubis; as it fills it rises out of the pelvis and can be palpated and percussed above the symphysis. That rise is why a suprapubic catheter is safe only when the bladder is full — the peritoneum is lifted off the anterior wall.</p><p>Inside, most of the mucosa is thrown into folds, but the triangle between the two ureteric orifices and the internal urethral orifice — the <b>trigone</b> — is always smooth. It develops from the mesonephric ducts rather than the cloaca, is the most sensitive part of the bladder, and is where most tumours arise.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Urinary bladder"],
+      "show": ["Ureter", "Prostate"],
+      "view": "anterior",
+      "frame_on": ["Urinary bladder"],
+      "xray": false,
+      "check": {"q": "What are the three corners of the trigone?",
+                "a": "The two ureteric orifices and the internal urethral orifice."}
+    },
+    {
+      "title": "Emptying and holding",
+      "text": "<p>The bladder wall is <b>detrusor</b> muscle, supplied by <b>parasympathetic</b> fibres from S2–S4: they contract it to void. Sympathetic fibres from T11–L2 relax the detrusor and close the internal sphincter, which in the male also prevents retrograde ejaculation.</p><p>Voluntary continence is the <b>external urethral sphincter</b>, striated muscle supplied by the <b>pudendal nerve</b> (S2–S4). So the same three sacral segments both empty the bladder and hold it: <i>S2, 3, 4 keep the urine off the floor</i>.</p>",
+      "systems": ["visceral", "nervous", "muscular"],
+      "regions": ["abdomen"],
+      "focus": ["Urinary bladder"],
+      "show": ["Levator ani", "Urethra"],
+      "view": "left",
+      "frame_on": ["Urinary bladder"],
+      "xray": true,
+      "mnemonic": "S2, 3, 4 keep the urine off the floor.",
+      "check": {"q": "Which nerve supplies the external urethral sphincter?",
+                "a": "The pudendal nerve, S2–S4."}
+    },
+    {
+      "title": "Two urethras",
+      "text": "<p>The <b>female</b> urethra is 4 cm, straight and short — easy to catheterise, and short enough that ascending infection is common.</p><p>The <b>male</b> urethra is about 20 cm in four parts: <b>pre-prostatic</b>, <b>prostatic</b> (widest and most dilatable, receiving the ejaculatory ducts), <b>membranous</b> (a short, narrow and relatively non-distensible segment passing through the external sphincter) and <b>spongy</b>. The <b>external urethral meatus</b> is normally the narrowest opening. It has two curves, and straightening the penis upwards removes the second one — which is exactly what you do when passing a catheter.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Urethra"],
+      "show": ["Prostate", "Corpus spongiosum of penis", "Urinary bladder"],
+      "view": "left",
+      "frame_on": ["Urethra"],
+      "xray": true,
+      "clinical": "A straddle injury ruptures the bulbar (spongy) urethra; a pelvic fracture shears the membranous urethra. Blood at the meatus means do not catheterise blindly.",
+      "check": {"q": "What is normally the narrowest opening of the male urethra, and which segment is especially non-distensible?",
+                "a": "The external urethral meatus is the narrowest opening; the membranous segment is especially non-distensible."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Ureter"
+      ],
+      "show": [
+        "Kidney",
+        "Urinary bladder",
+        "Common iliac artery"
+      ],
+      "view": "anterior",
+      "xray": true,
+      "title": "Water passes under two different bridges",
+      "text": "<p>Near the bladder the pelvic ureter has a relationship worth learning in both sexes. In male anatomy, the <b>ductus deferens</b> crosses over it. In female anatomy, the <b>uterine artery</b> crosses above it near the cervix.</p><p>The phrase <b>water under the bridge</b> refers to urine in the ureter passing beneath the crossing structure. The bridge is different in the two arrangements. The relationship explains why the ureter must be distinguished from neighbouring reproductive ducts or vessels when working near the bladder or cervix.</p>",
+      "check": {
+        "q": "What crosses above the ureter near the cervix?",
+        "a": "The uterine artery."
+      },
+      "mnemonic": "Water is the ureter; the bridge is uterine artery or ductus deferens, depending on the anatomy."
+    }
+  ]
+},
+{
+  "id": "male-reproductive",
+  "title": "The male reproductive tract",
+  "system": "reproductive",
+  "region": "pelvis",
+  "level": "core",
+  "minutes": 11,
+  "summary": "An organ that descends out of the abdomen and keeps its old nerves, vessels and lymphatics.",
+  "tags": ["testis", "spermatic cord", "prostate", "varicocele"],
+  "objectives": [
+    "Trace the path of sperm from testis to urethra",
+    "List the contents and coverings of the spermatic cord",
+    "Explain why testicular pain is felt in the abdomen and why the lymph drainage is para-aortic",
+    "Distinguish sperm production and transport from the glandular fluid that makes up most of semen"
+  ],
+  "takeaways": [
+    "Seminiferous tubules → rete testis → epididymis → ductus deferens → ejaculatory duct → prostatic urethra.",
+    "The testis develops at T10 level and keeps that innervation and lymph drainage after descending.",
+    "Scrotal skin drains to inguinal nodes; the testis drains to para-aortic nodes.",
+    "The testes produce sperm, while seminal and prostatic glands contribute most seminal fluid; interrupting the ductus deferens does not remove those glands or testosterone secretion."
+  ],
+  "see_also": {"lessons": ["inguinal-canal", "urinary-tract"], "histology": ["testis", "epididymis", "prostate", "ductus_deferens"]},
+  "steps": [
+    {
+      "title": "The route of sperm",
+      "text": "<p>Sperm are made in the <b>seminiferous tubules</b>, collect in the rete testis, and pass through efferent ductules into the <b>epididymis</b>, where they mature and are stored — a coiled tube some six metres long packed onto the back of the testis.</p><p>From the tail of the epididymis the <b>ductus deferens</b> ascends in the spermatic cord, crosses the pelvic brim, hooks over the ureter (\"water under the bridge\"), and joins the duct of the <b>seminal gland</b> to form the <b>ejaculatory duct</b>, which pierces the prostate to open into the prostatic urethra.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Testis", "Epididymis", "Ductus deferens", "Ejaculatory duct"],
+      "show": ["Prostate", "Seminal gland"],
+      "view": "left",
+      "frame_on": ["Testis"],
+      "xray": true,
+      "mnemonic": "SEVEN UP: Seminiferous tubules, Epididymis, Vas (ductus) deferens, Ejaculatory duct, Nothing, Urethra, Penis.",
+      "check": {"q": "What crosses over what near the base of the bladder?",
+                "a": "The ductus deferens crosses over the ureter — water under the bridge."}
+    },
+    {
+      "title": "Why the testis is outside",
+      "text": "<p>Spermatogenesis needs a temperature a couple of degrees below core, so the testis descends into the <b>scrotum</b>, aided by the pampiniform plexus acting as a counter-current heat exchanger and by <b>dartos</b> and <b>cremaster</b> adjusting its height.</p><p>An undescended testis stays warm and does not produce sperm; it also carries a markedly increased risk of malignancy, and one that is not abolished by bringing it down — although orchidopexy makes it examinable.</p>",
+      "systems": ["visceral", "muscular"],
+      "regions": ["abdomen"],
+      "focus": ["Testis"],
+      "show": ["Epididymis"],
+      "view": "anterior",
+      "frame_on": ["Testis"],
+      "xray": false,
+      "check": {"q": "What is the function of the pampiniform plexus?",
+                "a": "Counter-current heat exchange, cooling arterial blood entering the testis."}
+    },
+    {
+      "title": "The spermatic cord",
+      "text": "<p><b>Three arteries</b>: testicular, cremasteric, and the artery to the ductus. <b>Three nerves</b>: the genital branch of the genitofemoral nerve (to cremaster), sympathetic fibres, and the ilio-inguinal nerve running on the cord rather than in it. <b>Three other structures</b>: the ductus deferens, the pampiniform plexus of veins, and lymphatics.</p><p>Three coverings, each picked up from a layer of the abdominal wall as the testis descended: <b>internal spermatic fascia</b> from transversalis fascia, <b>cremasteric fascia</b> from internal oblique, and <b>external spermatic fascia</b> from external oblique aponeurosis.</p>",
+      "systems": ["visceral", "cardiovascular"],
+      "regions": ["abdomen"],
+      "focus": ["Ductus deferens"],
+      "show": ["Testis", "Left testicular artery", "Right testicular artery"],
+      "view": "anterior",
+      "frame_on": ["Testis"],
+      "xray": true,
+      "mnemonic": "Rule of threes: three arteries, three nerves, three other structures, three coverings.",
+      "check": {"q": "Which layer of the abdominal wall gives the cremasteric fascia?",
+                "a": "Internal oblique."}
+    },
+    {
+      "title": "Nerves, vessels and lymph follow the embryo",
+      "text": "<p>The testis develops on the posterior abdominal wall at about the <b>T10</b> level and drags its supply down with it. So the <b>testicular artery</b> comes from the aorta at L2, the <b>lymph</b> drains to <b>para-aortic nodes</b>, and pain is referred to the <b>umbilicus</b> (T10).</p><p>The scrotal <b>skin</b>, in contrast, is native to the perineum and drains to the <b>superficial inguinal nodes</b>. So a testicular tumour is staged with an abdominal CT and never by feeling the groin, while a scrotal skin lesion is exactly the reverse.</p>",
+      "systems": ["lymphatic", "visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Testis"],
+      "show": ["Left lumbar nodes", "Right lumbar nodes", "Inguinal nodes"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Where does a testicular tumour spread to first?",
+                "a": "The para-aortic (lumbar) nodes — not the inguinal nodes."}
+    },
+    {
+      "title": "The prostate",
+      "text": "<p>A walnut of glandular and fibromuscular tissue below the bladder, pierced by the urethra and the two ejaculatory ducts. It is described in <b>zones</b>: the <b>transition zone</b> around the urethra, where benign hyperplasia occurs and obstructs; and the <b>peripheral zone</b>, where about 70% of carcinomas arise — conveniently, the part felt on rectal examination.</p><p>That difference explains a common confusion: benign enlargement obstructs early because it is central, and cancer obstructs late because it is peripheral. Prostatic venous plexus connects with the <b>vertebral venous plexus</b>, which is why prostate cancer metastasises to the lumbar spine and pelvis.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Prostate"],
+      "show": ["Urinary bladder", "Urethra", "Seminal gland"],
+      "view": "left",
+      "frame_on": ["Prostate"],
+      "xray": true,
+      "check": {"q": "Which zone of the prostate gives rise to most carcinomas?",
+                "a": "The peripheral zone — the part palpable per rectum."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Testis",
+        "Epididymis",
+        "Ductus deferens",
+        "Ejaculatory duct"
+      ],
+      "show": [
+        "Prostate",
+        "Seminal gland"
+      ],
+      "view": "left",
+      "frame_on": [
+        "Testis"
+      ],
+      "xray": true,
+      "title": "Sperm and seminal fluid come from different places",
+      "text": "<p>The testes produce <b>sperm</b>, which mature in the epididymis and travel through the ductus deferens. Much of the fluid added to form semen comes from the <b>seminal glands</b> and <b>prostate</b>, downstream along the route.</p><p>Interrupting the ductus deferens therefore blocks sperm transport without removing these fluid-producing glands. It also does not disconnect the testes' blood supply or directly stop Leydig-cell testosterone secretion into blood. Separate the duct pathway from the hormonal pathway and from the accessory-gland secretions.</p>",
+      "check": {
+        "q": "Why can seminal fluid still be produced when sperm transport through the ductus deferens is interrupted?",
+        "a": "The seminal and prostatic glands add their secretions downstream and remain present."
+      },
+      "pitfall": "This describes the anatomy of the pathways; interruption of sperm transport does not imply immediate absence of sperm from downstream ducts."
+    }
+  ]
+},
+{
+  "id": "endocrine-overview",
+  "title": "The endocrine glands and where they are",
+  "system": "endocrine",
+  "region": "general",
+  "level": "core",
+  "minutes": 11,
+  "summary": "Glands with no ducts, scattered from the skull base to the scrotum, tied together by one axis.",
+  "tags": ["pituitary", "thyroid", "adrenal", "hypothalamus"],
+  "objectives": [
+    "Locate the major endocrine glands on the model",
+    "Distinguish the anterior from the posterior pituitary in origin and control",
+    "Explain what happens anatomically when a pituitary tumour enlarges",
+    "Explain negative feedback between a target endocrine gland, pituitary and hypothalamus"
+  ],
+  "takeaways": [
+    "The adenohypophysis grows up from the roof of the mouth; the neurohypophysis grows down from the brain.",
+    "The anterior lobe is controlled by a portal blood supply, the posterior lobe by axons.",
+    "A pituitary tumour presses on the optic chiasm and causes bitemporal hemianopia.",
+    "Target-gland hormones feed back on the pituitary and hypothalamus; a gland's output depends on the whole axis, not just its size or position."
+  ],
+  "see_also": {"lessons": ["thyroid-and-parathyroids", "adrenal-glands", "skull-base"], "histology": ["pituitary", "pineal", "thyroid", "adrenal", "islets"]},
+  "steps": [
+    {
+      "title": "What makes a gland endocrine",
+      "text": "<p>An exocrine gland has a duct and delivers its product to a surface. An <b>endocrine</b> gland has no duct: it secretes into the interstitium and the product is carried away in the blood. So endocrine glands are always <b>richly vascular</b>, and their cells are always close to a capillary.</p><p>Find them on the model: pituitary and pineal in the skull, thyroid and parathyroids in the neck, thymus in the mediastinum, suprarenals on the kidneys, pancreatic islets, and the gonads.</p>",
+      "systems": ["visceral"],
+      "regions": ["head", "neck", "thorax", "abdomen"],
+      "focus": ["Thyroid gland", "Suprarenal gland", "Pancreas", "Adenohypophysis"],
+      "view": "anterior",
+      "xray": true
+    },
+    {
+      "title": "The pituitary: two glands in one hole",
+      "text": "<p>The pituitary sits in the <b>hypophysial fossa</b> of the sella turcica, roofed by the diaphragma sellae, and is really two organs of different origin fused together.</p><p>The <b>adenohypophysis</b> (anterior) grows up from the roof of the primitive mouth as Rathke's pouch: it is glandular epithelium. The <b>neurohypophysis</b> (posterior) grows down from the floor of the diencephalon: it is nervous tissue, and its 'secretion' is simply the axon terminals of hypothalamic neurones releasing oxytocin and vasopressin.</p>",
+      "systems": ["visceral", "nervous"],
+      "regions": ["head"],
+      "focus": ["Adenohypophysis", "Neurohypophysis"],
+      "show": ["Sphenoid bone"],
+      "view": "left",
+      "frame_on": ["Adenohypophysis"],
+      "xray": true,
+      "histology": "pituitary",
+      "check": {"q": "Which part of the pituitary is nervous tissue?",
+                "a": "The posterior lobe, the neurohypophysis."}
+    },
+    {
+      "title": "Two kinds of control",
+      "text": "<p>The two halves are controlled in completely different ways. The <b>posterior</b> lobe by <b>axons</b> running down the infundibulum from the supraoptic and paraventricular nuclei.</p><p>The <b>anterior</b> lobe by <b>blood</b>: the hypophysial portal system. Hypothalamic releasing hormones enter capillaries in the median eminence, are carried down portal veins in the stalk, and reach the anterior lobe cells directly without being diluted in the general circulation. Cut the stalk and the anterior lobe fails — except for prolactin, which rises, because its hypothalamic control is inhibitory.</p>",
+      "systems": ["visceral", "cardiovascular"],
+      "regions": ["head"],
+      "focus": ["Adenohypophysis"],
+      "show": ["Neurohypophysis", "Internal carotid artery"],
+      "view": "left",
+      "frame_on": ["Adenohypophysis"],
+      "xray": true,
+      "check": {"q": "Why does cutting the pituitary stalk raise prolactin?",
+                "a": "Prolactin is normally under tonic inhibition by dopamine from the hypothalamus."}
+    },
+    {
+      "title": "What a pituitary tumour presses on",
+      "text": "<p>The fossa is bounded by bone on three sides, so an enlarging tumour must grow <b>upwards</b>. Immediately above lies the <b>optic chiasm</b>, and the fibres crossing in it are those from the nasal half of each retina — which carry the <b>temporal</b> half of each visual field.</p><p>Hence <b>bitemporal hemianopia</b>: the patient loses their peripheral vision on both sides and often notices it only by bumping into door frames. Laterally lie the cavernous sinuses, so a tumour extending sideways gives an ophthalmoplegia.</p>",
+      "systems": ["nervous", "visceral"],
+      "regions": ["head"],
+      "focus": ["Adenohypophysis"],
+      "show": ["Optic nerve (II)", "Cavernous sinus"],
+      "view": "superior",
+      "frame_on": ["Adenohypophysis"],
+      "xray": true,
+      "check": {"q": "Why does a pituitary tumour cause bitemporal field loss?",
+                "a": "It compresses the decussating nasal retinal fibres in the optic chiasm."}
+    },
+    {
+      "title": "The pineal gland",
+      "text": "<p>A small cone behind the third ventricle, at the back of the diencephalon. It secretes <b>melatonin</b> in response to darkness, timed by the suprachiasmatic nucleus, and so anchors the circadian rhythm.</p><p>Radiologically it matters for a different reason: it <b>calcifies</b> in most adults, making it visible on a plain skull film or CT and giving a reliable midline marker. A shifted pineal on a CT means a mass effect.</p>",
+      "systems": ["visceral", "nervous"],
+      "regions": ["head"],
+      "focus": ["Pineal gland"],
+      "view": "left",
+      "frame_on": ["Pineal gland"],
+      "xray": true,
+      "histology": "pineal",
+      "check": {"q": "Why is the pineal gland useful on a CT head?",
+                "a": "It calcifies in adults, so it marks the midline — a shift indicates mass effect."}
+    },
+    {
+      "systems": [
+        "visceral",
+        "cardiovascular"
+      ],
+      "regions": [
+        "head"
+      ],
+      "focus": [
+        "Adenohypophysis"
+      ],
+      "show": [
+        "Neurohypophysis",
+        "Internal carotid artery"
+      ],
+      "view": "left",
+      "frame_on": [
+        "Adenohypophysis"
+      ],
+      "xray": true,
+      "title": "The target gland sends a message back",
+      "text": "<p>Consider the thyroid axis. Hypothalamic signals stimulate pituitary <b>TSH</b>, which stimulates thyroid hormone production. Circulating thyroid hormones then reduce further stimulation at both pituitary and hypothalamic levels: <b>negative feedback</b>.</p><p>If the thyroid itself cannot respond adequately, reduced feedback tends to let TSH rise. If pituitary output is deficient, low thyroid hormone may instead coexist with insufficient TSH stimulation. This is a general pathway model rather than a rule for interpreting every individual result, but it shows why two glands in different places must be understood together.</p>",
+      "check": {
+        "q": "Why does failure of a target gland often increase its pituitary stimulating hormone?",
+        "a": "Reduced target-hormone output removes part of the negative feedback restraining the pituitary."
+      }
+    }
+  ]
+},
+{
+  "id": "thyroid-and-parathyroids",
+  "title": "The thyroid and parathyroid glands",
+  "system": "endocrine",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 10,
+  "summary": "A gland tethered to the larynx, with two nerves running behind it that decide whether the patient can speak afterwards.",
+  "tags": ["thyroid", "parathyroid", "recurrent laryngeal", "goitre"],
+  "objectives": [
+    "Describe the position and attachments of the thyroid gland",
+    "Explain why a thyroid swelling moves on swallowing",
+    "Name the structures at risk during thyroidectomy",
+    "Distinguish follicular thyroid cells from parafollicular cells and parathyroid chief cells"
+  ],
+  "takeaways": [
+    "The thyroid is enclosed in pretracheal fascia and attached to the larynx, so it rises on swallowing.",
+    "The recurrent laryngeal nerve runs in the tracheo-oesophageal groove behind the gland, close to the inferior thyroid artery.",
+    "The parathyroids control calcium and are easily removed by accident.",
+    "Follicular cells make thyroid hormones, parafollicular C cells make calcitonin, and separate parathyroid chief cells make PTH."
+  ],
+  "see_also": {"lessons": ["larynx", "neck-triangles", "endocrine-overview"], "histology": ["thyroid", "parathyroid"]},
+  "steps": [
+    {
+      "title": "Position and shape",
+      "text": "<p>Two lobes either side of the trachea joined by an <b>isthmus</b> across the second to fourth tracheal rings, the whole gland lying against the larynx and upper trachea at the level of <b>C5 to T1</b>. A pyramidal lobe runs up from the isthmus in about half of people, a remnant of the thyroglossal duct.</p><p>The gland develops at the <b>foramen caecum</b> of the tongue and descends: a persistent duct leaves a midline <b>thyroglossal cyst</b>, which moves upwards when the tongue is protruded.</p>",
+      "systems": ["visceral"],
+      "regions": ["neck"],
+      "focus": ["Thyroid gland"],
+      "show": ["Trachea", "Thyroid cartilage"],
+      "view": "anterior",
+      "frame_on": ["Thyroid gland"],
+      "xray": false,
+      "check": {"q": "Where does the thyroid gland develop from?",
+                "a": "The foramen caecum at the back of the tongue, descending along the thyroglossal duct."}
+    },
+    {
+      "title": "Why it moves on swallowing",
+      "text": "<p>The gland is wrapped in the <b>pretracheal fascia</b>, which is attached to the oblique line of the thyroid cartilage and the cricoid. When you swallow, the larynx rises and takes the thyroid with it.</p><p>This is a diagnostic test at the bedside: a swelling in the neck that <b>moves up on swallowing</b> is thyroid (or attached to the larynx); one that moves on protruding the tongue is a thyroglossal cyst; one that does neither is neither.</p>",
+      "systems": ["visceral", "fascia"],
+      "regions": ["neck"],
+      "focus": ["Thyroid gland"],
+      "show": ["Thyroid cartilage", "Cricoid cartilage", "Trachea"],
+      "view": "anterior",
+      "frame_on": ["Thyroid gland"],
+      "xray": true,
+      "check": {"q": "Why does a thyroid lump move on swallowing?",
+                "a": "The gland is bound by pretracheal fascia to the larynx, which rises during a swallow."}
+    },
+    {
+      "title": "Blood supply, and the nerves that run with it",
+      "text": "<p>Two arteries a side. The <b>superior thyroid artery</b> (first branch of the external carotid) comes down to the upper pole, closely accompanied by the <b>external laryngeal nerve</b> to cricothyroid. The <b>inferior thyroid artery</b> (from the thyrocervical trunk) comes up to the lower pole, closely related to the <b>recurrent laryngeal nerve</b>.</p><p>The surgical rules follow from that: tie the superior artery <b>close to the gland</b> to spare the external laryngeal nerve, and tie the inferior artery <b>away from the gland</b> to spare the recurrent laryngeal nerve.</p>",
+      "systems": ["cardiovascular", "visceral"],
+      "regions": ["neck"],
+      "focus": ["Thyroid gland"],
+      "show": ["Inferior thyroid artery", "External carotid artery", "Vagus nerve (X)"],
+      "view": "anterior",
+      "frame_on": ["Thyroid gland"],
+      "xray": true,
+      "check": {"q": "Which nerve is at risk when the inferior thyroid artery is ligated?",
+                "a": "The recurrent laryngeal nerve."}
+    },
+    {
+      "title": "The two nerve injuries",
+      "text": "<p>Injury to the <b>external laryngeal nerve</b> paralyses cricothyroid, the muscle that tenses the vocal fold. The voice loses its high notes and tires easily — the classic complication in a singer, and easily missed in anyone else.</p><p>Injury to the <b>recurrent laryngeal nerve</b> paralyses every other laryngeal muscle on that side. One side gives hoarseness and a weak cough; <b>both</b> sides, in a total thyroidectomy, leaves the cords adducted and the airway obstructed — an emergency in the recovery room.</p>",
+      "systems": ["nervous", "visceral"],
+      "regions": ["neck"],
+      "focus": ["Laryngeal muscles"],
+      "show": ["Thyroid gland", "Vagus nerve (X)"],
+      "view": "posterior",
+      "frame_on": ["Laryngeal cartilages"],
+      "xray": true,
+      "clinical": "Stridor after thyroid surgery is bilateral recurrent laryngeal palsy or a compressing haematoma until proved otherwise — and the haematoma is released at the bedside.",
+      "check": {"q": "What is the consequence of bilateral recurrent laryngeal nerve palsy?",
+                "a": "The cords lie adducted and the airway obstructs — stridor requiring immediate intervention."}
+    },
+    {
+      "title": "The parathyroids",
+      "text": "<p>Usually four, the size of a grain of rice, on the posterior surface of the thyroid lobes. Their positions are inconsistent because of their origin: the <b>superior</b> pair come from the fourth pharyngeal pouch and stay put, while the <b>inferior</b> pair come from the third pouch, descend with the thymus, and can end up anywhere from the angle of the jaw to the mediastinum.</p><p>They secrete <b>parathyroid hormone</b>, the body's main minute-to-minute control of calcium. Remove or devascularise them at thyroidectomy and the patient becomes hypocalcaemic within a day: tingling round the mouth, Chvostek's and Trousseau's signs, and eventually tetany.</p>",
+      "systems": ["visceral"],
+      "regions": ["neck"],
+      "focus": ["Superior parathyroid gland", "Inferior parathyroid gland"],
+      "show": ["Thyroid gland"],
+      "view": "posterior",
+      "frame_on": ["Thyroid gland"],
+      "xray": true,
+      "histology": "parathyroid",
+      "check": {"q": "Why is the position of the inferior parathyroid gland so variable?",
+                "a": "It comes from the third pharyngeal pouch and descends with the thymus, so it can lie anywhere along that path."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "neck"
+      ],
+      "focus": [
+        "Thyroid gland"
+      ],
+      "show": [
+        "Trachea",
+        "Thyroid cartilage"
+      ],
+      "view": "anterior",
+      "frame_on": [
+        "Thyroid gland"
+      ],
+      "xray": false,
+      "title": "Three endocrine cell types in one small region",
+      "text": "<p>The thyroid is organised into <b>follicles</b>: epithelial cells surrounding extracellular <b>colloid</b>. Follicular cells make thyroglobulin and use it in the synthesis and storage of thyroid hormones. Hormone is released towards the surrounding capillaries when required.</p><p><b>Parafollicular C cells</b> make calcitonin. The adjacent but separate parathyroid glands contain <b>chief cells</b> making parathyroid hormone. Thyroid hormone, calcitonin and PTH therefore arise from different cell populations despite sharing a small anatomical neighbourhood. The follicle model illustrates the first of those arrangements.</p>",
+      "check": {
+        "q": "Which cells make PTH: thyroid follicular cells, thyroid C cells or parathyroid chief cells?",
+        "a": "Parathyroid chief cells."
+      },
+      "micro": "thyroid_follicles"
+    }
+  ]
+},
+{
+  "id": "adrenal-glands",
+  "title": "The suprarenal glands",
+  "system": "endocrine",
+  "region": "abdomen",
+  "level": "core",
+  "minutes": 9,
+  "summary": "Two glands in one organ: a cortex that makes steroids and a medulla that is really a sympathetic ganglion.",
+  "tags": ["adrenal", "cortex", "medulla", "phaeochromocytoma"],
+  "objectives": [
+    "Locate the suprarenal glands and describe their relations",
+    "Distinguish cortex from medulla in origin, product and control",
+    "Explain the gland's unusual triple arterial supply and single vein",
+    "Distinguish the main controls of aldosterone secretion from those of cortisol secretion"
+  ],
+  "takeaways": [
+    "Cortex from mesoderm makes steroids; medulla from neural crest makes catecholamines.",
+    "Cortical zones from outside in: glomerulosa (aldosterone), fasciculata (cortisol), reticularis (androgens).",
+    "Three arteries in, one vein out — and the right vein is short and drains straight into the IVC.",
+    "Aldosterone is regulated mainly by angiotensin II and potassium; cortisol is regulated mainly through the hypothalamic-pituitary ACTH axis."
+  ],
+  "see_also": {"lessons": ["kidney-retroperitoneum", "endocrine-overview", "autonomics"], "histology": ["adrenal"]},
+  "steps": [
+    {
+      "title": "Where they sit",
+      "text": "<p>One on the upper pole of each kidney, retroperitoneally, inside the renal fascia but separated from the kidney by a septum of fat — which is why a nephrectomy can spare the gland.</p><p>They are not symmetrical. The <b>right</b> is pyramidal and sits behind the inferior vena cava; the <b>left</b> is crescentic and lies against the aorta behind the pancreas. Both touch the diaphragm behind.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Suprarenal gland"],
+      "show": ["Kidney", "Inferior vena cava (abdominal part)", "Abdominal aorta"],
+      "view": "anterior",
+      "frame_on": ["Suprarenal gland"],
+      "xray": true
+    },
+    {
+      "title": "Two organs, two origins",
+      "text": "<p>The <b>cortex</b> comes from mesoderm and makes <b>steroids</b>. The <b>medulla</b> comes from the <b>neural crest</b>: it is a modified sympathetic ganglion whose cells have lost their axons and secrete their transmitter into the blood instead.</p><p>That is why the medulla is controlled directly by preganglionic sympathetic fibres and responds in seconds, while the cortex is controlled hormonally by ACTH and responds in minutes to hours.</p>",
+      "systems": ["visceral", "nervous"],
+      "regions": ["abdomen"],
+      "focus": ["Suprarenal gland"],
+      "show": ["Sympathetic trunk", "Kidney"],
+      "view": "anterior",
+      "frame_on": ["Suprarenal gland"],
+      "xray": true,
+      "histology": "adrenal",
+      "check": {"q": "What kind of structure is the adrenal medulla, developmentally?",
+                "a": "A sympathetic ganglion — neural crest cells that secrete into the blood instead of onto a synapse."}
+    },
+    {
+      "title": "Three cortical zones",
+      "text": "<p>From outside in: <b>zona glomerulosa</b> makes <b>aldosterone</b> under the control of angiotensin II and potassium; <b>zona fasciculata</b> makes <b>cortisol</b> under ACTH; <b>zona reticularis</b> makes weak <b>androgens</b>.</p><p>The order and their products are worth committing: <i>GFR — Salt, Sugar, Sex; the deeper you go, the sweeter it gets</i>. Only the glomerulosa is independent of the pituitary, which is why aldosterone is preserved in secondary adrenal insufficiency.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Suprarenal gland"],
+      "view": "anterior",
+      "frame_on": ["Suprarenal gland"],
+      "xray": false,
+      "mnemonic": "GFR — Salt, Sugar, Sex. The deeper you go, the sweeter it gets.",
+      "check": {"q": "Which cortical zone is not controlled by ACTH?",
+                "a": "The zona glomerulosa — aldosterone is controlled mainly by the renin-angiotensin system."}
+    },
+    {
+      "title": "Three arteries, one vein",
+      "text": "<p>Few organs have so lavish an arterial supply for their size: <b>superior</b> suprarenal arteries from the inferior phrenic, a <b>middle</b> one straight from the aorta, and <b>inferior</b> ones from the renal artery.</p><p>Venous drainage is the opposite — a <b>single</b> vein each side. The <b>left</b> drains into the left renal vein; the <b>right</b> is very short and drains straight into the <b>inferior vena cava</b>, which makes right adrenalectomy the more demanding operation.</p>",
+      "systems": ["cardiovascular", "visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Suprarenal gland"],
+      "show": ["Inferior phrenic artery", "Left renal artery", "Inferior vena cava (abdominal part)"],
+      "view": "anterior",
+      "frame_on": ["Suprarenal gland"],
+      "xray": true,
+      "check": {"q": "Where does the right suprarenal vein drain?",
+                "a": "Directly into the inferior vena cava, by a very short vein."}
+    },
+    {
+      "title": "When they go wrong",
+      "text": "<p>Too much <b>cortisol</b> gives Cushing's syndrome; too much <b>aldosterone</b>, Conn's syndrome with hypertension and hypokalaemia; too little of everything, <b>Addison's disease</b> — and because ACTH shares a precursor with melanocyte-stimulating hormone, the patient pigments.</p><p>A tumour of the <b>medulla</b> is a <b>phaeochromocytoma</b>: episodic catecholamine release causing headache, sweating and palpitations with paroxysmal hypertension. Because the medulla is neural crest, these tumours can also arise anywhere along the sympathetic chain, which is why imaging looks beyond the gland.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Suprarenal gland"],
+      "show": ["Sympathetic trunk"],
+      "view": "anterior",
+      "frame_on": ["Suprarenal gland"],
+      "xray": true,
+      "check": {"q": "Why can a phaeochromocytoma be found outside the adrenal gland?",
+                "a": "Its cells are neural crest derivatives, present anywhere along the sympathetic chain."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Suprarenal gland"
+      ],
+      "view": "anterior",
+      "frame_on": [
+        "Suprarenal gland"
+      ],
+      "xray": false,
+      "title": "The outer zones do not share one controller",
+      "text": "<p>The <b>zona glomerulosa</b> produces aldosterone, regulated chiefly by <b>angiotensin II</b> and plasma <b>potassium</b>. The zona fasciculata produces cortisol under strong control from pituitary <b>ACTH</b>. The cortex is therefore more than three layers responding identically to one signal.</p><p>This matters when tracing endocrine pathways. Reduced ACTH can lower cortisol production while leaving much of the renin-angiotensin-potassium control of aldosterone intact. Damage to the adrenal cortex itself can affect both systems. Link each cortical zone to its principal product and controller rather than treating every adrenal disorder as the same hormonal deficit.</p>",
+      "check": {
+        "q": "Which two signals chiefly regulate aldosterone secretion?",
+        "a": "Angiotensin II and plasma potassium."
+      }
+    }
+  ]
+},
+{
+  "id": "lymphoid-organs",
+  "title": "The lymphoid organs",
+  "system": "lymphatic",
+  "region": "general",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Where lymphocytes are made, where they are trained, and where they meet what they are looking for.",
+  "tags": ["thymus", "spleen", "lymph node", "MALT"],
+  "objectives": [
+    "Distinguish primary from secondary lymphoid organs",
+    "Describe the structure of a lymph node and where each cell type sits",
+    "Explain the two circulations of the spleen",
+    "Distinguish entry of tissue antigens through afferent lymph from entry of circulating lymphocytes through high endothelial venules"
+  ],
+  "takeaways": [
+    "Primary: bone marrow and thymus — where lymphocytes are made and selected. Secondary: nodes, spleen and MALT — where they meet antigen.",
+    "A lymph node has a B-cell cortex with follicles, a T-cell paracortex and a medulla of plasma cells.",
+    "The spleen's white pulp filters blood-borne antigen; its red pulp filters old red cells.",
+    "A node brings together tissue material arriving in lymph and lymphocytes entering from blood, particularly through high endothelial venules."
+  ],
+  "see_also": {"lessons": ["lymphatics", "pancreas-and-spleen", "breast"], "histology": ["lymph_node", "spleen", "thymus", "tonsil", "bone_marrow"]},
+  "steps": [
+    {
+      "title": "Primary and secondary",
+      "text": "<p><b>Primary</b> lymphoid organs are where lymphocytes are produced and taught not to attack the self: the <b>bone marrow</b> for B cells, the <b>thymus</b> for T cells.</p><p><b>Secondary</b> lymphoid organs are where a mature lymphocyte meets its antigen: <b>lymph nodes</b> for tissue fluid, the <b>spleen</b> for blood, and <b>mucosa-associated lymphoid tissue</b> for the gut, airway and urogenital surfaces. Their architecture is designed to make an improbable meeting likely.</p>",
+      "systems": ["lymphatic"],
+      "regions": ["thorax", "abdomen"],
+      "focus": ["Thymus", "Spleen"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Which organs are the primary lymphoid organs?",
+                "a": "The bone marrow and the thymus."}
+    },
+    {
+      "title": "The thymus",
+      "text": "<p>A bilobed organ in the <b>superior and anterior mediastinum</b>, behind the manubrium and in front of the great vessels. It is at its largest relative to the body at birth, reaches its greatest absolute size at puberty, and then involutes into fat.</p><p>In it, developing T cells are tested: those that cannot recognise self-MHC die, and those that react too strongly to self also die. Failure of that education underlies much autoimmunity, and a persistent thymus is associated with <b>myasthenia gravis</b> — one reason thymectomy is offered.</p>",
+      "systems": ["lymphatic"],
+      "regions": ["thorax"],
+      "focus": ["Thymus"],
+      "show": ["Sternum", "Heart"],
+      "view": "anterior",
+      "frame_on": ["Thymus"],
+      "xray": true,
+      "histology": "thymus",
+      "check": {"q": "In which mediastinal compartment does the thymus lie?",
+                "a": "The superior and anterior mediastinum, behind the manubrium."}
+    },
+    {
+      "title": "Inside a lymph node",
+      "text": "<p>A bean-shaped filter on a lymphatic vessel. Afferent lymphatics enter around the convex surface; one efferent vessel leaves at the <b>hilum</b>, with the artery and vein.</p><p>Inside, three zones. The <b>cortex</b> holds B cells in follicles, which develop pale germinal centres when they are responding. The <b>paracortex</b> beneath holds T cells and the high endothelial venules through which lymphocytes enter from the blood. The <b>medulla</b> holds cords of plasma cells pouring antibody into the efferent lymph.</p>",
+      "systems": ["lymphatic"],
+      "regions": ["neck"],
+      "focus": ["Deep anterior cervical nodes"],
+      "view": "anterior",
+      "xray": true,
+      "histology": "lymph_node",
+      "check": {"q": "Where do T cells sit in a lymph node?",
+                "a": "In the paracortex, between the cortical follicles and the medulla."}
+    },
+    {
+      "title": "The spleen: two circulations",
+      "text": "<p>The spleen is a lymph node for the <b>blood</b>, and it does two separate jobs with two kinds of pulp.</p><p><b>White pulp</b> is lymphoid tissue sheathed around the arterioles: it mounts responses to blood-borne antigen, particularly encapsulated bacteria. <b>Red pulp</b> is a maze of sinusoids and cords through which red cells must squeeze; those too old or too stiff are eaten by macrophages. That is why the spleen removes Howell–Jolly bodies, and why their appearance on a film means a spleen that is absent or not working.</p>",
+      "systems": ["lymphatic"],
+      "regions": ["abdomen"],
+      "focus": ["Spleen"],
+      "show": ["Splenic artery"],
+      "view": "left",
+      "frame_on": ["Spleen"],
+      "xray": true,
+      "histology": "spleen",
+      "check": {"q": "What does the white pulp of the spleen protect against particularly?",
+                "a": "Encapsulated organisms — hence the vaccination schedule after splenectomy."}
+    },
+    {
+      "title": "MALT",
+      "text": "<p>Most lymphoid tissue is not in an organ at all: it lies in the mucosa of the gut, airways and urogenital tract, where antigen actually arrives. <b>Waldeyer's ring</b> guards the pharynx, <b>Peyer's patches</b> the ileum, and the appendix carries a dense cuff of it.</p><p>MALT has no capsule and no afferent lymphatics: the antigen is sampled directly from the lumen by specialised M cells. It is also the origin of MALT lymphoma — which, in the stomach, can regress when the <i>Helicobacter</i> driving it is eradicated.</p>",
+      "systems": ["lymphatic", "visceral"],
+      "regions": ["abdomen", "head"],
+      "focus": ["Vermiform appendix", "Palatine tonsil"],
+      "view": "anterior",
+      "xray": true,
+      "histology": "appendix",
+      "check": {"q": "How does antigen reach mucosal lymphoid tissue?",
+                "a": "Directly from the lumen through specialised M cells — there are no afferent lymphatics."}
+    },
+    {
+      "systems": [
+        "lymphatic"
+      ],
+      "regions": [
+        "neck"
+      ],
+      "focus": [
+        "Deep anterior cervical nodes"
+      ],
+      "view": "anterior",
+      "xray": true,
+      "histology": "lymph_node",
+      "title": "Two entrances bring the meeting together",
+      "text": "<p>A lymph node needs both material to inspect and immune cells capable of recognising it. <b>Afferent lymphatics</b> bring tissue fluid, antigens and antigen-carrying cells into the subcapsular sinus. Many circulating lymphocytes instead enter from blood through <b>high endothelial venules</b>, especially in the paracortex.</p><p>The node's organisation brings these arrivals into contact before lymph leaves through the efferent route at the hilum. It is an active meeting place, not simply a mechanical sieve trapping large particles. Increased immune-cell activity can enlarge a node without requiring that the node contain metastatic tumour.</p>",
+      "check": {
+        "q": "Do all lymphocytes entering a lymph node have to arrive through an afferent lymphatic?",
+        "a": "No. Many enter from the bloodstream through high endothelial venules."
+      }
+    }
+  ]
+}
+]

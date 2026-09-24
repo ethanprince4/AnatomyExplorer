@@ -1,0 +1,457 @@
+[
+{
+  "id": "head-neck-nodes",
+  "title": "The lymph nodes of the head and neck",
+  "system": "lymphatic",
+  "region": "head_neck",
+  "level": "advanced",
+  "minutes": 10,
+  "summary": "A superficial ring and a deep chain — and a node tells you where to look.",
+  "tags": ["lymph nodes", "levels", "neck lump", "metastasis"],
+  "prereq": ["neck-triangles"],
+  "objectives": [
+    "Name the superficial ring of nodes and what each group drains",
+    "Describe the deep cervical chain and the surgical levels",
+    "Work out the likely primary from the site of an enlarged node",
+    "Explain why lymphatic drainage near the tongue midline can reach nodes on both sides"
+  ],
+  "takeaways": [
+    "A superficial ring of nodes drains into the deep cervical chain along the internal jugular vein.",
+    "All lymph of the head and neck eventually passes through the deep cervical chain.",
+    "A hard node in an adult with no infection is a metastasis until proved otherwise.",
+    "Tongue lymphatics have important cross-midline connections, so a unilateral lesion need not produce only ipsilateral nodal involvement."
+  ],
+  "see_also": {"lessons": ["neck-triangles", "lymphoid-organs", "lymphatics"], "histology": ["lymph_node"]},
+  "steps": [
+    {
+      "title": "A ring and a chain",
+      "text": "<p>Lymph from the head and neck first reaches a <b>superficial ring</b> of nodes at the junction of head and neck, then drains down into the <b>deep cervical chain</b> that runs along the internal jugular vein inside the carotid sheath.</p><p>Nothing bypasses the deep chain, which is why a metastasis anywhere in the head or neck eventually shows up in it, and why a neck dissection follows the vein.</p>",
+      "systems": ["lymphatic"],
+      "regions": ["neck", "head"],
+      "focus": ["Deep anterior cervical nodes", "Lateral cervical nodes"],
+      "show": ["Internal jugular vein"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Where does the deep cervical chain run?",
+                "a": "Along the internal jugular vein, inside the carotid sheath."}
+    },
+    {
+      "title": "The superficial ring",
+      "text": "<p>Going round from the back: <b>occipital</b> nodes drain the back of the scalp; <b>post-auricular</b> (mastoid) nodes the scalp above the ear and the back of the pinna; <b>pre-auricular</b> and parotid nodes the side of the scalp, the eyelids and the external ear; <b>submandibular</b> nodes the face, the anterior nose, the upper lip and most of the mouth; <b>submental</b> nodes the chin, the lower lip and the tip of the tongue.</p><p>The ring is easy to remember as a circle, and its clinical value is that each group has a defined field.</p>",
+      "systems": ["lymphatic"],
+      "regions": ["head", "neck"],
+      "focus": ["Occipital nodes", "Pre-auricular nodes", "Submandibular nodes", "Submental nodes"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Which nodes drain the tip of the tongue?",
+                "a": "The submental nodes — and they drain bilaterally, which matters for tongue cancer."}
+    },
+    {
+      "title": "Levels",
+      "text": "<p>Surgeons divide the neck into <b>levels</b> rather than named groups. <b>I</b> submental and submandibular; <b>II, III, IV</b> the upper, middle and lower deep cervical chain along the internal jugular vein; <b>V</b> the posterior triangle; <b>VI</b> the central compartment around the trachea and thyroid.</p><p>The system exists because it maps onto the operation: a selective neck dissection is described by the levels it clears, and each primary site has a predictable first-echelon level.</p>",
+      "systems": ["lymphatic"],
+      "regions": ["neck"],
+      "focus": ["Lateral cervical nodes", "Deep anterior cervical nodes"],
+      "show": ["Sternocleidomastoid muscle", "Internal jugular vein"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Which level is the posterior triangle?",
+                "a": "Level V."}
+    },
+    {
+      "title": "Two nodes worth knowing by name",
+      "text": "<p>The <b>jugulodigastric</b> node, high in the deep chain where the posterior belly of digastric crosses the internal jugular vein, is the tonsillar node: it enlarges in tonsillitis and in tonsillar carcinoma.</p><p>The left <b>supraclavicular</b> node — <b>Virchow's node</b> — sits where the thoracic duct enters the venous system, so it can be the first sign of an abdominal malignancy, classically gastric. An enlarged one is Troisier's sign.</p>",
+      "systems": ["lymphatic"],
+      "regions": ["neck"],
+      "focus": ["Jugulodigastric node", "Supraclavicular nodes"],
+      "show": ["Internal jugular vein", "Clavicle"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "What does an enlarged left supraclavicular node suggest?",
+                "a": "An abdominal malignancy draining via the thoracic duct — Virchow's node."}
+    },
+    {
+      "title": "Reading a neck lump",
+      "text": "<p>Three questions settle most neck lumps. <b>Where is it?</b> Midline and moving on swallowing is thyroid; midline and moving on tongue protrusion is thyroglossal; anterior triangle at the carotid bifurcation is a paraganglioma or a branchial cyst; posterior triangle is usually nodal.</p><p><b>How does it feel?</b> Rubbery and mobile suggests lymphoma; hard and fixed suggests carcinoma; tender and soft suggests infection. <b>How old is the patient?</b> Under 20, almost always reactive; over 40 with no infection, treat as malignant until proved otherwise and look for the primary in the mouth, pharynx, larynx, thyroid and skin.</p>",
+      "systems": ["lymphatic"],
+      "regions": ["neck"],
+      "focus": ["Lateral cervical nodes"],
+      "show": ["Thyroid gland", "Sternocleidomastoid muscle"],
+      "view": "anterior",
+      "xray": true,
+      "clinical": "Never biopsy a neck lump before looking for a primary: an incision through the skin of the neck changes the field for a later dissection.",
+      "check": {"q": "A 55-year-old smoker has a hard, fixed node in level II. Where do you look first?",
+                "a": "The mouth, oropharynx, larynx and nasopharynx — the drainage field of that level."}
+    },
+    {
+      "systems": [
+        "lymphatic"
+      ],
+      "regions": [
+        "head",
+        "neck"
+      ],
+      "focus": [
+        "Occipital nodes",
+        "Pre-auricular nodes",
+        "Submandibular nodes",
+        "Submental nodes"
+      ],
+      "view": "left",
+      "xray": true,
+      "title": "The midline is not a watertight boundary",
+      "text": "<p>The tip of the tongue drains towards <b>submental nodes</b>, while other parts reach submandibular or deep cervical groups by different routes. Several lingual pathways communicate across the midline, especially in central and posterior regions.</p><p>This means a lesion on one side can drain to nodes on both sides. The superficial ring is a useful organising map, but it should not be interpreted as a set of sealed right and left territories. Follow the originating tissue and its connections before assuming that the side of a node identifies the side of the source.</p>",
+      "check": {
+        "q": "Why can a tongue lesion produce bilateral cervical lymph-node involvement?",
+        "a": "Tongue lymphatics have cross-midline communications and can drain to both sides of the deep cervical chains."
+      }
+    }
+  ]
+},
+{
+  "id": "perineum",
+  "title": "The perineum",
+  "system": "reproductive",
+  "region": "pelvis",
+  "level": "advanced",
+  "minutes": 10,
+  "summary": "One diamond, two triangles, and the pouches that decide where extravasated urine goes.",
+  "tags": ["perineum", "urogenital triangle", "pudendal", "ischiorectal fossa"],
+  "prereq": ["pelvic-floor"],
+  "objectives": [
+    "Define the boundaries of the perineum and divide it into two triangles",
+    "Describe the contents of the superficial and deep perineal pouches",
+    "Explain the ischio-anal fossa and why abscesses form there",
+    "Relate the shared erectile-tissue plan of penis and clitoris to the different course of the urethra"
+  ],
+  "takeaways": [
+    "The perineal diamond is split by a line between the ischial tuberosities into urogenital and anal triangles.",
+    "The perineal body is the central tendon into which most of the perineal muscles insert.",
+    "The ischio-anal fossae are fat-filled spaces that communicate behind the anal canal — hence horseshoe abscesses.",
+    "Paired crura anchor erectile tissues to the ischiopubic rami; the male spongy urethra passes within corpus spongiosum, while the female urethra opens separately from the clitoris."
+  ],
+  "see_also": {"lessons": ["pelvic-floor", "urinary-tract", "male-reproductive"]},
+  "steps": [
+    {
+      "title": "The diamond",
+      "text": "<p>Below the pelvic floor lies the perineum, a diamond bounded by the <b>pubic symphysis</b> in front, the <b>ischiopubic rami</b> and <b>ischial tuberosities</b> at the sides, the <b>sacrotuberous ligaments</b> behind them, and the <b>coccyx</b> at the back.</p><p>A line between the two ischial tuberosities splits it into an <b>anterior urogenital triangle</b> and a <b>posterior anal triangle</b>, and the two are built quite differently.</p>",
+      "systems": ["skeletal", "muscular"],
+      "regions": ["abdomen"],
+      "focus": ["Perineal muscles"],
+      "show": ["Hip bone", "Sacrotuberous ligament", "Coccyx"],
+      "view": "inferior",
+      "frame_on": ["Perineal muscles"],
+      "xray": true,
+      "check": {"q": "What divides the perineum into its two triangles?",
+                "a": "A line between the ischial tuberosities."}
+    },
+    {
+      "title": "The perineal body",
+      "text": "<p>At the centre of that dividing line, between the anal canal and the urogenital structures, is the <b>perineal body</b> — a fibromuscular node into which the external anal sphincter, the superficial and deep transverse perineal muscles, bulbospongiosus and part of levator ani all insert.</p><p>It is the keystone of the perineum. Damage it in childbirth or in surgery and the support of the pelvic floor is weakened, which is why an episiotomy is cut mediolaterally to avoid it and why third-degree tears are repaired so carefully.</p>",
+      "systems": ["muscular"],
+      "regions": ["abdomen"],
+      "focus": ["Perineal muscles"],
+      "show": ["External anal sphincter", "Levator ani"],
+      "view": "inferior",
+      "frame_on": ["Perineal muscles"],
+      "xray": true,
+      "check": {"q": "Why is an episiotomy cut mediolaterally?",
+                "a": "To avoid extending into the perineal body and the anal sphincter."}
+    },
+    {
+      "title": "Two pouches",
+      "text": "<p>The urogenital triangle is layered. The <b>deep perineal pouch</b>, superior to the perineal membrane and inferior to the pelvic diaphragm, holds the <b>external urethral sphincter</b>, the deep transverse perineal muscles and the bulbourethral glands.</p><p>The <b>superficial perineal pouch</b>, below it, holds the roots of the penis or clitoris — the crura with <b>ischiocavernosus</b>, the bulb with <b>bulbospongiosus</b> — and the superficial transverse perineal muscles. Its roof is the perineal membrane and its floor is Colles' fascia.</p>",
+      "systems": ["muscular", "visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Corpus cavernosum of penis", "Corpus spongiosum of penis"],
+      "show": ["Perineal muscles", "Urethra"],
+      "view": "inferior",
+      "frame_on": ["Corpus spongiosum of penis"],
+      "xray": true,
+      "check": {"q": "Which pouch contains the external urethral sphincter?",
+                "a": "The deep perineal pouch."}
+    },
+    {
+      "title": "Where extravasated urine goes",
+      "text": "<p>Rupture the <b>bulbar urethra</b> — a straddle injury — and urine escapes into the <b>superficial perineal pouch</b>. From there it can only go where the fascia lets it: forwards into the scrotum and penis, and up onto the anterior abdominal wall deep to Scarpa's fascia.</p><p>It cannot pass backwards, because Colles' fascia is attached to the posterior edge of the perineal membrane, and it cannot pass into the thigh, because Scarpa's fascia fuses with the fascia lata. The resulting butterfly-shaped bruise is diagnostic.</p>",
+      "systems": ["fascia", "visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Urethra"],
+      "show": ["Corpus spongiosum of penis", "Perineal muscles"],
+      "view": "inferior",
+      "frame_on": ["Urethra"],
+      "xray": true,
+      "check": {"q": "Why can extravasated urine not track into the thigh?",
+                "a": "Scarpa's fascia fuses with the fascia lata just below the inguinal ligament."}
+    },
+    {
+      "title": "The ischio-anal fossae",
+      "text": "<p>Either side of the anal canal is a wedge-shaped space filled with fat: the <b>ischio-anal fossa</b>, bounded medially by levator ani and the sphincter, laterally by obturator internus and the ischium. In its lateral wall, in the <b>pudendal canal</b>, run the pudendal nerve and internal pudendal vessels.</p><p>Fat is poorly vascularised and infects easily, and the two fossae communicate behind the anal canal — so an abscess can spread from one side to the other as a <b>horseshoe abscess</b>. The fat also lets the anal canal distend during defaecation.</p>",
+      "systems": ["muscular"],
+      "regions": ["abdomen"],
+      "focus": ["External anal sphincter"],
+      "show": ["Levator ani", "Obturator internus", "Pudendal nerve"],
+      "view": "inferior",
+      "frame_on": ["External anal sphincter"],
+      "xray": true,
+      "check": {"q": "What runs in the lateral wall of the ischio-anal fossa?",
+                "a": "The pudendal nerve and internal pudendal vessels, in the pudendal canal."}
+    },
+    {
+      "systems": [
+        "muscular",
+        "visceral"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Corpus cavernosum of penis",
+        "Corpus spongiosum of penis"
+      ],
+      "show": [
+        "Perineal muscles",
+        "Urethra"
+      ],
+      "view": "inferior",
+      "frame_on": [
+        "Corpus spongiosum of penis"
+      ],
+      "xray": true,
+      "title": "A shared plan with a different urethral route",
+      "text": "<p>Paired <b>crura</b> attach erectile tissue to the ischiopubic rami and are covered by ischiocavernosus. This plan applies to the corpora cavernosa of both penis and clitoris. Bulbospongiosus is associated with the bulb of the penis in male anatomy and the vestibular bulbs in female anatomy.</p><p>The important difference is the urethra. The male spongy urethra runs within the <b>corpus spongiosum</b>; the female urethra opens separately into the vestibule and does not pass through the clitoris. The displayed male structures illustrate one arrangement, while the shared attachments help organise the comparison.</p>",
+      "check": {
+        "q": "Does the female urethra pass through the clitoris in the way the male urethra passes through corpus spongiosum?",
+        "a": "No. It opens separately into the vestibule."
+      }
+    }
+  ]
+},
+{
+  "id": "eyelids-and-lacrimal",
+  "title": "The eyelids and the lacrimal apparatus",
+  "system": "sensory",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 9,
+  "summary": "How the eye is protected, wiped and drained — and why you sniff when you cry.",
+  "tags": ["eyelid", "tears", "ptosis", "lacrimal"],
+  "objectives": [
+    "Describe the layers of the eyelid and the glands within it",
+    "Trace a tear from the lacrimal gland to the nose",
+    "Explain the two causes of ptosis",
+    "Explain how blinking both spreads tears and assists their drainage towards the lacrimal sac"
+  ],
+  "takeaways": [
+    "The tarsal plate is the skeleton of the lid; the meibomian glands lie within it.",
+    "Tears flow laterally to medially, into the puncta, the canaliculi, the sac and the nasolacrimal duct.",
+    "Levator palpebrae superioris is oculomotor; the superior tarsal muscle within it is sympathetic — hence two kinds of ptosis.",
+    "Effective tear clearance depends on lid apposition, punctal position and the blink-associated lacrimal pump, not just on an open nasolacrimal duct."
+  ],
+  "see_also": {"lessons": ["eye-globe", "orbit", "facial-expression-muscles"], "micro": ["cornea"]},
+  "steps": [
+    {
+      "title": "What the lid is made of",
+      "text": "<p>From front to back: skin (the thinnest in the body), <b>orbicularis oculi</b>, the <b>tarsal plate</b> of dense connective tissue that gives the lid its shape, and finally the <b>conjunctiva</b> lining its inner surface.</p><p>Within the tarsal plate lie the <b>tarsal (meibomian) glands</b>, which secrete the oily layer of the tear film. Blocked, one becomes a painless lump — a chalazion; infected, a painful stye.</p>",
+      "systems": ["nervous", "muscular"],
+      "regions": ["head"],
+      "focus": ["Eyelids"],
+      "show": ["Eyeball", "Orbital part of orbicularis oculi"],
+      "view": "anterior",
+      "frame_on": ["Eyeball"],
+      "xray": false,
+      "check": {"q": "Which glands produce the oily layer of the tear film?",
+                "a": "The tarsal (meibomian) glands in the tarsal plate."}
+    },
+    {
+      "title": "The tear film has three layers",
+      "text": "<p>An inner <b>mucous</b> layer from conjunctival goblet cells, which lets the watery layer wet the cornea; a middle <b>aqueous</b> layer from the lacrimal gland, which is most of the volume; and an outer <b>oily</b> layer from the tarsal glands, which slows evaporation.</p><p>Dry eye is usually not a shortage of water but a failure of the oily layer, which is why treatment is often lid hygiene rather than drops.</p>",
+      "systems": ["nervous"],
+      "regions": ["head"],
+      "focus": ["Lacrimal gland"],
+      "show": ["Eyeball", "Eyelids"],
+      "view": "anterior",
+      "frame_on": ["Lacrimal gland"],
+      "xray": true
+    },
+    {
+      "title": "From gland to nose",
+      "text": "<p>The <b>lacrimal gland</b> sits in the upper lateral corner of the orbit and delivers tears through a dozen small ducts into the upper conjunctival fornix. Blinking sweeps them <b>laterally to medially</b> across the cornea to the medial canthus.</p><p>There they enter two <b>puncta</b>, pass along the <b>canaliculi</b> into the <b>lacrimal sac</b>, and drain down the <b>nasolacrimal duct</b> into the <b>inferior meatus</b> of the nose. That is why crying makes you sniff, and why bitter-tasting eye drops can be tasted a minute later.</p>",
+      "systems": ["nervous", "visceral"],
+      "regions": ["head"],
+      "focus": ["Lacrimal gland", "Lacrimal sac", "Nasolacrimal duct"],
+      "show": ["Eyeball"],
+      "view": "anterior",
+      "frame_on": ["Lacrimal sac"],
+      "xray": true,
+      "check": {"q": "Where does the nasolacrimal duct open?",
+                "a": "The inferior meatus of the nose."}
+    },
+    {
+      "title": "Two kinds of ptosis",
+      "text": "<p>The upper lid is raised by two muscles. <b>Levator palpebrae superioris</b> is striated and supplied by the <b>oculomotor nerve</b>; within its tendon lies the smooth <b>superior tarsal muscle</b> (of Müller), supplied by <b>sympathetic</b> fibres.</p><p>So a third nerve palsy gives a <b>complete</b> ptosis, with the eye down and out and the pupil often dilated. A sympathetic lesion gives a <b>partial</b> ptosis with a constricted pupil — Horner's syndrome. The size of the pupil separates them at a glance.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["head"],
+      "focus": ["Levator palpebrae superioris"],
+      "show": ["Eyeball", "Oculomotor nerve (III)"],
+      "view": "left",
+      "frame_on": ["Eyeball"],
+      "xray": true,
+      "check": {"q": "Ptosis with a small pupil. Which lesion?",
+                "a": "A sympathetic lesion — Horner's syndrome, affecting the superior tarsal muscle."}
+    },
+    {
+      "title": "The blink, and why a facial palsy threatens the eye",
+      "text": "<p>Blinking is <b>orbicularis oculi</b>, supplied by the <b>facial nerve</b>; the corneal reflex is sensed by <b>V1</b> and executed by <b>VII</b>, so testing it tests both nerves at once.</p><p>In a facial palsy the eye cannot close, the blink that spreads the tear film is lost, and the lower lid falls away from the globe so tears run down the cheek instead of reaching the puncta. The cornea dries, ulcerates and can perforate — which is why eye protection is the first thing prescribed in Bell's palsy.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["head"],
+      "focus": ["Orbital part of orbicularis oculi", "Palpebral part of orbicularis oculi"],
+      "show": ["Facial nerve (VII)", "Eyeball"],
+      "view": "anterior",
+      "frame_on": ["Eyeball"],
+      "xray": true,
+      "clinical": "Lubricating drops by day, ointment and taping at night, until the blink returns.",
+      "check": {"q": "Which nerves form the afferent and efferent limbs of the corneal reflex?",
+                "a": "Afferent V1 (nasociliary), efferent VII."}
+    },
+    {
+      "systems": [
+        "nervous",
+        "visceral"
+      ],
+      "regions": [
+        "head"
+      ],
+      "focus": [
+        "Lacrimal gland",
+        "Lacrimal sac",
+        "Nasolacrimal duct"
+      ],
+      "show": [
+        "Eyeball"
+      ],
+      "view": "anterior",
+      "frame_on": [
+        "Lacrimal sac"
+      ],
+      "xray": true,
+      "title": "An open duct still needs a working lid",
+      "text": "<p>Tears collect near the medial canthus and enter the <b>lacrimal puncta</b> at the lid margins. The puncta need to remain close to the tear lake. Blinking helps distribute the tear film and drives changes in the canaliculi and lacrimal sac that assist drainage.</p><p>If the lower lid turns away from the globe, its punctum may no longer collect tears effectively even when the nasolacrimal duct is open. Weak orbicularis oculi can also impair the pump. Watering therefore need not mean excess tear production; the collection and drainage mechanics may be failing.</p>",
+      "check": {
+        "q": "Why can tears spill down the cheek despite an unobstructed nasolacrimal duct?",
+        "a": "Poor lid apposition or an impaired blink pump can prevent tears from entering and moving through the drainage pathway efficiently."
+      }
+    }
+  ]
+},
+{
+  "id": "skin-appendages",
+  "title": "The appendages of the skin",
+  "system": "integumentary",
+  "region": "general",
+  "level": "core",
+  "minutes": 9,
+  "summary": "Hair, nails, two kinds of sweat gland and the receptors that make skin a sense organ.",
+  "tags": ["hair", "nail", "sweat glands", "receptors"],
+  "prereq": ["skin-layers"],
+  "objectives": [
+    "Describe the structure of a hair follicle and the growth cycle",
+    "Distinguish eccrine from apocrine sweat glands",
+    "Name the cutaneous receptors and what each detects",
+    "Distinguish the secretory coil from the reabsorptive duct of an eccrine sweat gland"
+  ],
+  "takeaways": [
+    "Follicles, sebaceous glands and arrector pili form the pilosebaceous unit.",
+    "Eccrine glands are everywhere and cool you; apocrine glands are restricted and open into follicles.",
+    "The nail grows from the matrix under the proximal fold; the lunula is its visible edge.",
+    "The eccrine coil produces fluid and the duct reabsorbs salt; the amount of ductal modification depends partly on flow rate."
+  ],
+  "see_also": {"lessons": ["skin-layers", "fascia-and-planes"], "micro": ["thin_skin", "scalp", "axillary_skin"], "histology": ["hair_follicle", "sweat_glands", "nail", "skin_receptors"]},
+  "steps": [
+    {
+      "title": "The pilosebaceous unit",
+      "text": "<p>A <b>hair follicle</b> is an invagination of epidermis reaching into the dermis, with a bulb of dividing cells at its base capped over a vascular papilla. Attached to it are a <b>sebaceous gland</b> and a slip of smooth muscle, the <b>arrector pili</b>, which stands the hair up and squeezes the gland.</p><p>The three together are the pilosebaceous unit, and it is the unit that fails in acne: sebum plus keratin plugs the duct, the trapped sebum is colonised, and the follicle inflames.</p>",
+      "systems": ["regions"],
+      "regions": ["head"],
+      "focus": ["Hairs"],
+      "view": "anterior",
+      "xray": false,
+      "micro": "thin_skin",
+      "check": {"q": "What are the three parts of the pilosebaceous unit?",
+                "a": "The hair follicle, its sebaceous gland and the arrector pili muscle."}
+    },
+    {
+      "title": "Hair grows in cycles, out of phase",
+      "text": "<p>Each follicle cycles independently through <b>anagen</b> (growing, two to six years on the scalp), <b>catagen</b> (regressing, a couple of weeks) and <b>telogen</b> (resting, about three months). At any moment around 90% of scalp follicles are in anagen, which is why hair loss is gradual and unnoticed.</p><p>Synchronise them — a severe illness, childbirth, a general anaesthetic — and a large cohort enters telogen together and sheds two to three months later: <b>telogen effluvium</b>. Chemotherapy, which kills dividing cells, hits the anagen follicles instead and the loss is faster and more complete.</p>",
+      "systems": ["regions"],
+      "regions": ["head"],
+      "focus": ["Hairs"],
+      "view": "anterior",
+      "xray": false,
+      "histology": "hair_follicle",
+      "check": {"q": "Why does hair fall out two to three months after a severe illness?",
+                "a": "Many follicles are pushed into telogen at once and shed together — telogen effluvium."}
+    },
+    {
+      "title": "Two kinds of sweat gland",
+      "text": "<p><b>Eccrine</b> glands are everywhere — three million or so — and open directly onto the skin surface through their own pore. They produce watery sweat under <b>sympathetic cholinergic</b> control, which is the body's main means of losing heat.</p><p><b>Apocrine</b> glands are restricted to the axilla, the areola and the perineum, develop at puberty, and open into a <b>hair follicle</b>. Their secretion is odourless until bacteria act on it. It is the apocrine glands that are destroyed in axillary treatments for body odour, and the eccrine ones targeted for hyperhidrosis.</p>",
+      "systems": ["regions"],
+      "regions": ["thorax", "upper_limb_l"],
+      "focus": ["Hairs"],
+      "view": "anterior",
+      "xray": false,
+      "micro": "axillary_skin",
+      "check": {"q": "Where do apocrine glands open?",
+                "a": "Into a hair follicle, not directly onto the skin."}
+    },
+    {
+      "title": "The nail",
+      "text": "<p>The <b>nail plate</b> is hard keratin, produced by the <b>matrix</b> under the proximal nail fold; the white <b>lunula</b> is the visible distal edge of that matrix. It sits on the nail bed, which supplies its pink colour, and is bounded by the nail folds, with the <b>eponychium</b> (cuticle) sealing the proximal one.</p><p>Damage the matrix and the nail is permanently deformed; damage only the bed and it regrows normally. A fingernail takes about six months to grow out, a toenail up to eighteen — which is why nail changes record illnesses months old, as Beau's lines.</p>",
+      "systems": ["regions"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Nail plate", "Nail"],
+      "side": "Left",
+      "view": "posterior",
+      "frame_on": ["Nail"],
+      "xray": false,
+      "histology": "nail",
+      "check": {"q": "Which part of the nail must be damaged for permanent deformity?",
+                "a": "The matrix, under the proximal nail fold."}
+    },
+    {
+      "title": "Skin as a sense organ",
+      "text": "<p>Four encapsulated receptors and two free-ending systems. <b>Meissner's corpuscles</b> in the dermal papillae detect light touch and low-frequency vibration; <b>Merkel cells</b> at the base of the epidermis detect sustained pressure and fine texture; <b>Pacinian corpuscles</b> deep in the dermis detect high-frequency vibration; <b>Ruffini endings</b> detect stretch.</p><p><b>Free nerve endings</b> carry pain and temperature, and a basket of endings round each hair follicle detects its movement. Receptor density explains two-point discrimination: about 2 mm on the fingertip and 40 mm on the back.</p>",
+      "systems": ["regions", "nervous"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Palm"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": false,
+      "histology": "skin_receptors",
+      "check": {"q": "Which receptor detects high-frequency vibration, and where does it sit?",
+                "a": "The Pacinian corpuscle, deep in the dermis and subcutaneous tissue."}
+    },
+    {
+      "systems": [
+        "regions"
+      ],
+      "regions": [
+        "thorax",
+        "upper_limb_l"
+      ],
+      "focus": [
+        "Hairs"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "micro": "axillary_skin",
+      "title": "The coil makes it, the duct modifies it",
+      "text": "<p>An <b>eccrine sweat gland</b> is a coiled tubular gland with a secretory portion deep in the skin and a duct leading to a surface pore. The secretory coil produces fluid; the duct then reabsorbs sodium and chloride while allowing much of the water to continue towards the surface.</p><p>The final sweat is therefore usually more dilute than the original secretion. At higher flow rates, there is less opportunity for salt reabsorption, so sweat composition can change. Producing fluid and modifying it are different jobs carried out by different portions of the same small gland.</p>",
+      "check": {
+        "q": "Which part of an eccrine gland reabsorbs much of the salt before sweat reaches the surface?",
+        "a": "The duct; the deeper secretory coil produces the initial fluid."
+      }
+    }
+  ]
+}
+]

@@ -1,0 +1,178 @@
+{
+  "summary": "A heart with a bicuspid aortic valve (BAV): two aortic leaflets meeting along a single slit instead of three. Windows cut into the right ventricle and the ascending aorta open the heart up, the pulmonary trunk is cut short so the aortic root shows, and the coronary arteries (red) and cardiac veins (blue) are traced on the surface.",
+  "view": [0, 5],
+  "default_group": "Chambers",
+  "clinical": [
+    ["Bicuspid aortic valve", "The most common congenital heart abnormality, in about 1-2% of people and more often in males. The two-leaflet valve thickens and calcifies decades earlier than a normal one, making BAV the commonest cause of aortic stenosis in younger adults; it can also leak (aortic regurgitation) and is prone to infective endocarditis."],
+    ["Aortopathy and associations", "BAV is linked to dilatation of the ascending aorta, raising the risk of aneurysm and dissection, so the aorta is followed with imaging. BAV often accompanies coarctation of the aorta and is common in Turner syndrome."]
+  ],
+  "parts": {
+    "Bicuspid aortic valve": {
+      "name": "Bicuspid aortic valve",
+      "group": "Valves",
+      "description": "An aortic valve with two leaflets instead of three, usually from fusion of two cusps (most often the right and left coronary cusps). It opens as an oval 'fish-mouth' slit rather than a triangle, and the abnormal flow stresses the leaflets so they thicken and calcify early.",
+      "structures": ["Aortic valve"]
+    },
+    "Pulmonary valve": {
+      "name": "Pulmonary valve",
+      "group": "Valves",
+      "description": "A normal three-cusped semilunar valve at the outlet of the right ventricle, for comparison with the two-leaflet aortic valve. Its closure makes the pulmonary component of the second heart sound.",
+      "structures": ["Pulmonary valve"]
+    },
+    "Av valves": {
+      "name": "Tricuspid and mitral valves",
+      "group": "Valves",
+      "description": "The atrioventricular valves: tricuspid between right atrium and right ventricle, mitral between left atrium and left ventricle. Chordae tendineae tie the leaflets to the papillary muscles, which stops them everting into the atria during systole.",
+      "structures": ["Right atrioventricular valve", "Posterior leaflet of left atrioventricular valve"]
+    },
+    "Rechter atrium": {
+      "name": "Right atrium",
+      "group": "Chambers",
+      "description": "Receives the superior and inferior venae cavae and the coronary sinus, and passes blood through the tricuspid valve into the right ventricle. It forms the right border of the heart on a chest X-ray.",
+      "structures": ["Right atrium"],
+      "category": "heart",
+      "color": "#7f5446"
+    },
+    "Rechter ventrikel": {
+      "name": "Right ventricle",
+      "group": "Chambers",
+      "description": "Opened by an anterior window to show the tricuspid valve inside. It pumps into the pulmonary trunk at low pressure, so its wall is much thinner than the left ventricle's; it forms most of the heart's front surface.",
+      "structures": ["Right ventricle"],
+      "category": "heart",
+      "color": "#7d5042"
+    },
+    "Linker atrium": {
+      "name": "Left atrium and pulmonary veins",
+      "group": "Chambers",
+      "description": "The most posterior chamber, receiving the four pulmonary veins. It lies directly in front of the oesophagus, which is why transoesophageal echocardiography images it (and the aortic valve) so well.",
+      "structures": ["Left atrium", "Pulmonary veins"],
+      "category": "heart",
+      "color": "#8a6658"
+    },
+    "Linker ventrikel": {
+      "name": "Left ventricle",
+      "group": "Chambers",
+      "description": "Forms the apex and most of the left border, and pumps through the aortic valve. A stenotic bicuspid valve makes it eject against high pressure, which causes concentric left ventricular hypertrophy.",
+      "structures": ["Left ventricle"],
+      "category": "heart",
+      "color": "#77483a"
+    },
+    "Aorta2": {
+      "name": "Aorta",
+      "group": "Great vessels",
+      "description": "Ascending aorta (opened by a window), aortic arch with the brachiocephalic trunk, left common carotid and left subclavian arteries, and the descending thoracic aorta. In BAV the ascending aorta often dilates, partly from the eccentric jet through the valve and partly from an intrinsic weakness of the aortic wall.",
+      "structures": ["Ascending aorta", "Aortic arch", "Brachiocephalic trunk", "Left common carotid artery", "Left subclavian artery", "Thoracic aorta"],
+      "category": "artery"
+    },
+    "Pulmonary trunk": {
+      "name": "Pulmonary trunk",
+      "group": "Great vessels",
+      "description": "Leaves the right ventricle in front of and to the left of the aortic root; here it is cut short so the aortic root and valve can be seen behind it.",
+      "structures": ["Pulmonary trunk"],
+      "category": "artery"
+    },
+    "Bicuspide aortaklep c2": {
+      "name": "Superior vena cava",
+      "group": "Great vessels",
+      "description": "Returns blood from the head, neck and upper limbs into the top of the right atrium. The sinoatrial node lies at its junction with the right atrium.",
+      "structures": ["Superior vena cava"],
+      "category": "vein"
+    },
+    "Bicuspide aortaklep c1": {
+      "name": "Inferior vena cava",
+      "group": "Great vessels",
+      "description": "Returns blood from the lower body; it pierces the diaphragm at T8 and enters the lowest part of the right atrium.",
+      "structures": ["Inferior vena cava (thoracic part)"],
+      "category": "vein"
+    },
+    "Arteries 3": {
+      "name": "Right coronary artery",
+      "group": "Coronary arteries",
+      "description": "Arises from the right aortic sinus and runs in the right atrioventricular groove round the acute margin of the heart, supplying the right atrium and ventricle and usually the sinoatrial node (about 60%) and atrioventricular node (about 80-90%).",
+      "structures": ["Right coronary artery"],
+      "category": "artery",
+      "color": "#990a0a"
+    },
+    "Arteries 2": {
+      "name": "Right coronary artery",
+      "group": "Coronary arteries",
+      "description": "Arises from the right aortic sinus and runs in the right atrioventricular groove round the acute margin of the heart, supplying the right atrium and ventricle and usually the sinoatrial node (about 60%) and atrioventricular node (about 80-90%).",
+      "structures": ["Right coronary artery"],
+      "category": "artery",
+      "color": "#990a0a"
+    },
+    "Arteries 1 copy1": {
+      "name": "Distal right coronary and posterior interventricular arteries",
+      "group": "Coronary arteries",
+      "description": "On the inferior (diaphragmatic) surface the right coronary artery continues in the atrioventricular groove towards the crux and gives the posterior interventricular (posterior descending) artery, which runs towards the apex and supplies the posterior third of the septum. When this artery comes from the right coronary artery, as in most people, the circulation is called right-dominant.",
+      "structures": ["Right coronary artery"],
+      "category": "artery",
+      "color": "#990a0a"
+    },
+    "Arteries 1": {
+      "name": "Anterior interventricular artery",
+      "group": "Coronary arteries",
+      "description": "The left anterior descending branch of the left coronary artery, running down the anterior interventricular groove to the apex. It supplies the anterior two-thirds of the septum and the front of the left ventricle, so its occlusion causes an anterior myocardial infarction.",
+      "structures": ["Left coronary artery", "Anterior interventricular artery"],
+      "category": "artery",
+      "color": "#990a0a"
+    },
+    "Arteries 5": {
+      "name": "Circumflex artery",
+      "group": "Coronary arteries",
+      "description": "The other main branch of the left coronary artery, curving round the left atrioventricular groove towards the back of the heart and supplying the left atrium and the lateral and posterior left ventricle.",
+      "structures": ["Circumflex artery of heart"],
+      "category": "artery",
+      "color": "#990a0a"
+    },
+    "Arteries 4": {
+      "name": "Left marginal artery",
+      "group": "Coronary arteries",
+      "description": "A left (obtuse) marginal branch of the circumflex artery, running down the left border of the heart over the lateral wall of the left ventricle.",
+      "structures": ["Circumflex artery of heart"],
+      "category": "artery",
+      "color": "#990a0a"
+    },
+    "Veins 5": {
+      "name": "Coronary sinus",
+      "group": "Cardiac veins",
+      "description": "The main venous channel of the heart, lying in the posterior atrioventricular groove and opening into the right atrium beside the inferior vena cava. Veins from the back of the left ventricle and left atrium join it here.",
+      "structures": ["Coronary sinus", "Inferior vein of left ventricle"],
+      "category": "vein",
+      "color": "#1a2468"
+    },
+    "Veins 4": {
+      "name": "Great cardiac vein",
+      "group": "Cardiac veins",
+      "description": "Begins at the apex, climbs the anterior interventricular groove beside the anterior interventricular artery, then turns into the left atrioventricular groove to become the coronary sinus; a tributary runs down the left margin.",
+      "structures": ["Great cardiac vein"],
+      "category": "vein",
+      "color": "#1a2468"
+    },
+    "Veins 1": {
+      "name": "Middle cardiac vein",
+      "group": "Cardiac veins",
+      "description": "Runs in the posterior interventricular groove beside the posterior interventricular artery and drains into the coronary sinus.",
+      "structures": ["Middle cardiac vein"],
+      "category": "vein",
+      "color": "#1a2468"
+    },
+    "Veins 2": {
+      "name": "Small cardiac vein",
+      "group": "Cardiac veins",
+      "description": "Accompanies the right coronary artery along the acute (inferior right) margin and in the right atrioventricular groove, draining into the coronary sinus.",
+      "structures": ["Cardiac veins"],
+      "category": "vein",
+      "color": "#1a2468"
+    },
+    "Veins 3": {
+      "name": "Anterior cardiac veins",
+      "group": "Cardiac veins",
+      "description": "Small veins over the front of the right ventricle that cross the right atrioventricular groove and open directly into the right atrium rather than into the coronary sinus.",
+      "structures": ["Cardiac veins"],
+      "category": "vein",
+      "color": "#1a2468"
+    }
+  },
+  "notes": "The Dutch-named 'Bicuspide aortaklep c1/c2' parts are not valves: renders show c2 is the superior vena cava and c1 the inferior vena cava (whitish tubes on the right atrium). Coronary vessel identities were worked out from their course on front, back, side and inferior renders; the numbered source names carry no meaning. Arteries 3 and 2 are merged as the right coronary artery. 'Arteries 1 copy1' (distal RCA and posterior interventricular branch, right-dominant) and 'Arteries 4' (left marginal branch of the circumflex) are my best readings; the atlas has no posterior interventricular or marginal artery entries, so they link to the parent arteries. Veins 2 (small cardiac) and 3 (anterior cardiac veins) are identified by position alongside the right coronary artery; both link to the generic 'Cardiac veins'. Colours: the importer reads the vertex colours as linear, which made the myocardium render peach/tan and the vessels bright red and royal blue. The creator's thumbnail shows dark red-brown muscle and navy veins, which is what the same values give when read as sRGB, so the chambers and coronary vessels carry colour overrides tuned so our render matches the thumbnail (chambers slightly desaturated to offset this renderer's lighting; veins slightly lightened so they stay visible). The whitish vessels and valves already matched, so they were left. The colour overrides flatten the chambers' subtle mottling. Verifier: 'Arteries 2' now carries the same description and structures as 'Arteries 3'; it comes first in the file, so the merged Right coronary artery part took its (empty) entry and showed no description."
+}

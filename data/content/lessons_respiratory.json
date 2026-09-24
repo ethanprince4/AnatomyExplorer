@@ -1,0 +1,435 @@
+[
+{
+  "id": "nose-and-sinuses",
+  "title": "The nose and the paranasal sinuses",
+  "system": "respiratory",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 10,
+  "summary": "An air conditioner with four air-filled extensions, all draining the wrong way up.",
+  "tags": ["sinusitis", "nasal septum", "epistaxis", "conchae"],
+  "objectives": [
+    "Describe the walls of the nasal cavity and the function of the conchae",
+    "Name the four paranasal sinuses and where each drains",
+    "Explain why the maxillary sinus drains poorly and where epistaxis comes from",
+    "Relate the sphenoid sinus to the pituitary gland and other structures at the skull base"
+  ],
+  "takeaways": [
+    "Three conchae create turbulence so air is warmed, humidified and filtered.",
+    "The maxillary sinus drains through an ostium near its roof — against gravity.",
+    "90% of nosebleeds come from Kiesselbach's plexus on the anterior septum.",
+    "The sphenoid sinus lies beneath the sellar region; nearby optic and carotid structures make its variable bony boundaries clinically important."
+  ],
+  "see_also": {"lessons": ["skull-vault-face", "pharynx-and-swallowing"], "histology": ["nasal_mucosa", "pseudostratified"], "radiology": ["ct_brain"]},
+  "steps": [
+    {
+      "title": "What the nose is for",
+      "text": "<p>Air arriving at the alveoli must be at body temperature, fully saturated with water and free of particles. The nose does all three in about a fifth of a second.</p><p>It manages it by making the air <b>turbulent</b> rather than laminar, so that every part of it touches the warm wet mucosa. The <b>conchae</b> — three shelves curling into each cavity from the lateral wall — are what create that turbulence, and they multiply the surface area several times over.</p>",
+      "systems": ["visceral", "skeletal"],
+      "regions": ["head"],
+      "focus": ["Mucosa of nasal cavity"],
+      "show": ["Inferior nasal concha bone", "Ethmoid bone"],
+      "view": "left",
+      "clip": [0, 0.52, true],
+      "frame_on": ["Mucosa of nasal cavity"],
+      "xray": false,
+      "histology": "nasal_mucosa"
+    },
+    {
+      "title": "The septum, and the bleeding point",
+      "text": "<p>The septum has three parts: the <b>perpendicular plate of the ethmoid</b> above and behind, the <b>vomer</b> below and behind, and the <b>septal cartilage</b> in front.</p><p>On the front of the septum, five arteries anastomose in <b>Kiesselbach's plexus</b> (Little's area): branches of the anterior ethmoidal, sphenopalatine, greater palatine, superior labial and lateral nasal arteries. It is superficial, exposed to dry air and easily picked, which is why about <b>90%</b> of nosebleeds happen here — and why direct pressure on the soft part of the nose stops most of them.</p>",
+      "systems": ["skeletal", "cardiovascular"],
+      "regions": ["head"],
+      "focus": ["Nasal septal cartilage"],
+      "show": ["Ethmoid bone", "Greater palatine artery"],
+      "view": "left",
+      "xray": true,
+      "clinical": "Posterior bleeds, usually from the sphenopalatine artery, run down the throat rather than out of the nose and need packing rather than pressure.",
+      "check": {"q": "Where do most nosebleeds come from?",
+                "a": "Kiesselbach's plexus on the anterior nasal septum."}
+    },
+    {
+      "title": "The four sinuses",
+      "text": "<p>Air-filled extensions of the nasal cavity, lined with the same respiratory mucosa and named after the bones they hollow out: <b>frontal</b>, <b>ethmoidal</b> (anterior, middle and posterior groups), <b>sphenoidal</b> and <b>maxillary</b>.</p><p>They lighten the skull, add resonance to the voice and warm inspired air. They are also absent at birth and develop through childhood — which is why frontal sinusitis is not a diagnosis in a toddler.</p>",
+      "systems": ["skeletal"],
+      "regions": ["head"],
+      "focus": ["Sinus of frontal bone", "Sinus of sphenoid bone", "Anterior cells of ethmoid bone"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Which sinus is last to develop, and by roughly what age?",
+                "a": "The frontal sinus, which is not usually pneumatised before about six years."}
+    },
+    {
+      "title": "Where each one drains",
+      "text": "<p>Nearly everything drains into the <b>middle meatus</b>, under the middle concha: the frontal sinus (through the frontonasal duct), the anterior and middle ethmoidal cells, and the maxillary sinus. This crowded region is the <b>osteomeatal complex</b>, and blocking it obstructs three sinuses at once — which is the anatomical basis of endoscopic sinus surgery.</p><p>The exceptions are worth learning: <b>posterior ethmoidal cells</b> drain into the superior meatus; the <b>sphenoidal sinus</b> into the sphenoethmoidal recess above the superior concha; and the <b>nasolacrimal duct</b> — not a sinus — into the inferior meatus, which is why you sniff when you cry.</p>",
+      "systems": ["skeletal", "visceral"],
+      "regions": ["head"],
+      "focus": ["Mucosa of nasal cavity"],
+      "show": ["Nasolacrimal duct", "Inferior nasal concha bone"],
+      "view": "left",
+      "clip": [0, 0.52, true],
+      "frame_on": ["Mucosa of nasal cavity"],
+      "xray": true,
+      "check": {"q": "What drains into the inferior meatus?",
+                "a": "The nasolacrimal duct — the only thing that does."}
+    },
+    {
+      "title": "The maxillary sinus, and why it gives trouble",
+      "text": "<p>The largest sinus, filling the body of the maxilla. Its <b>ostium</b> lies high on its medial wall, near the roof — so drainage is <b>uphill</b> and depends entirely on the mucociliary escalator. Any swelling that narrows the ostium and the sinus stops clearing.</p><p>Its floor is close to the roots of the upper molars and premolars, sometimes with only mucosa between them. So a dental root abscess can cause sinusitis, an extraction can leave an oroantral fistula, and maxillary sinusitis can present as toothache.</p>",
+      "systems": ["skeletal"],
+      "regions": ["head"],
+      "focus": ["Maxilla"],
+      "show": ["Superior teeth"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Why does the maxillary sinus drain badly?",
+                "a": "Its ostium is near the roof of the sinus, so clearance is against gravity and relies on cilia."}
+    },
+    {
+      "systems": [
+        "skeletal"
+      ],
+      "regions": [
+        "head"
+      ],
+      "focus": [
+        "Sinus of frontal bone",
+        "Sinus of sphenoid bone",
+        "Anterior cells of ethmoid bone"
+      ],
+      "view": "anterior",
+      "xray": true,
+      "title": "A sinus below the pituitary",
+      "text": "<p>The <b>sphenoid sinus</b> lies within the body of the sphenoid, behind the nasal cavity and beneath the sellar region containing the pituitary. Its degree of aeration and internal septa vary considerably between people.</p><p>The optic pathways and internal carotid arteries lie close to its superior and lateral relationships. This is why the sinus provides an anatomical route towards the pituitary while also requiring careful knowledge of individual boundaries. A sinus is not just an empty pocket for drainage: its walls are shared with important structures on the other side.</p>",
+      "check": {
+        "q": "Which endocrine gland lies above the sphenoid sinus in the sellar region?",
+        "a": "The pituitary gland."
+      }
+    }
+  ]
+},
+{
+  "id": "lungs-and-pleura",
+  "title": "The lungs and the pleura",
+  "system": "respiratory",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 11,
+  "summary": "Two membranes, a potential space, and the reason a chest drain goes where it does.",
+  "tags": ["pleura", "fissures", "chest drain", "pneumothorax"],
+  "objectives": [
+    "Describe the fissures and lobes of both lungs and their surface markings",
+    "Distinguish parietal from visceral pleura by nerve supply as well as position",
+    "Justify the position of the safe triangle for a chest drain",
+    "Distinguish pulmonary circulation for gas exchange from bronchial circulation supplying airway tissues"
+  ],
+  "takeaways": [
+    "Right lung: three lobes, oblique and horizontal fissures. Left: two lobes and a lingula.",
+    "Parietal pleura is somatically innervated and hurts; visceral pleura is not.",
+    "The pleura extends further down than the lung, leaving the costodiaphragmatic recess.",
+    "Pulmonary arteries bring blood to alveolar exchange surfaces; bronchial arteries provide systemic supply to supporting airway tissues."
+  ],
+  "see_also": {"lessons": ["bronchial-tree", "breathing-mechanics", "thoracic-cage"], "radiology": ["cxr_pa", "cxr_lat", "cxr_pneumothorax"]},
+  "steps": [
+    {
+      "title": "Lobes and fissures",
+      "text": "<p>The <b>right lung</b> has three lobes. The <b>oblique fissure</b> separates the inferior lobe; the <b>horizontal fissure</b> separates the superior from the middle lobe. The <b>left lung</b> has two lobes and only an oblique fissure, with the <b>lingula</b> — the left's equivalent of the middle lobe — hanging off the superior lobe.</p><p>The left is also smaller, with a <b>cardiac notch</b> where the heart pushes into it. Remember that the right main bronchus is wider, shorter and more vertical, so inhaled objects go right.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Superior lobe of right lung", "Middle lobe of right lung", "Inferior lobe of right lung", "Superior lobe of left lung", "Inferior lobe of left lung"],
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "Which lung has a horizontal fissure, and which lobes does it separate?",
+                "a": "The right — separating the superior from the middle lobe."}
+    },
+    {
+      "title": "Where the fissures are on the chest wall",
+      "text": "<p>You can only examine what you can locate. The <b>oblique fissure</b> follows the line of the fifth rib, roughly from the spine of T3 behind round to the sixth costal cartilage in front. The <b>horizontal fissure</b> runs from the fourth costal cartilage across to meet the oblique at the mid-axillary line.</p><p>So auscultating the front of the chest listens mostly to the <b>upper and middle</b> lobes, and the back listens mostly to the <b>lower</b> lobes. A patient with basal consolidation and a clear front is a common way to miss a pneumonia.</p>",
+      "systems": ["visceral", "skeletal"],
+      "regions": ["thorax"],
+      "focus": ["Inferior lobe of right lung"],
+      "show": ["Ribs", "Superior lobe of right lung", "Middle lobe of right lung"],
+      "view": "right",
+      "xray": true,
+      "check": {"q": "You listen to the front of the chest. Which lobes are you mostly hearing?",
+                "a": "Upper and middle lobes — the lower lobes are best heard from behind."}
+    },
+    {
+      "title": "Two layers and one space",
+      "text": "<p><b>Visceral pleura</b> covers the lung itself and follows it into the fissures. <b>Parietal pleura</b> lines the chest wall, the diaphragm and the mediastinum. Between them is a <b>potential space</b> holding a few millilitres of fluid, which lets the layers slide but not separate — surface tension holds the lung out against the chest wall.</p><p>Their nerve supplies differ completely. Parietal pleura is somatic: intercostal nerves at the sides and the <b>phrenic nerve</b> centrally. Visceral pleura has only autonomic afferents and is <b>insensitive</b>. So pleuritic pain always comes from the parietal layer — and diaphragmatic irritation is felt in the shoulder tip, C3–C5.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Pleura"],
+      "show": ["Superior lobe of right lung", "Inferior lobe of right lung", "Diaphragm"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Why does diaphragmatic irritation cause shoulder tip pain?",
+                "a": "The central diaphragmatic parietal pleura is supplied by the phrenic nerve, C3–C5, the same segments as the shoulder skin."}
+    },
+    {
+      "title": "The recesses",
+      "text": "<p>The pleural sac extends further than the lung in every direction, leaving <b>recesses</b> into which the lung expands on deep inspiration. The largest is the <b>costodiaphragmatic recess</b>, where the diaphragm meets the chest wall.</p><p>The classic figures: the lung reaches ribs <b>6, 8 and 10</b> in the midclavicular, midaxillary and paravertebral lines; the pleura reaches <b>8, 10 and 12</b>. That two-rib gap is where a pleural effusion collects first, and it is why fluid blunts the costophrenic angle before it does anything else on a chest film.</p>",
+      "systems": ["visceral", "skeletal"],
+      "regions": ["thorax"],
+      "focus": ["Pleura"],
+      "show": ["Ribs", "Diaphragm"],
+      "view": "anterior",
+      "xray": true,
+      "mnemonic": "Lung 6, 8, 10; pleura 8, 10, 12 — midclavicular, midaxillary, paravertebral.",
+      "check": {"q": "How much lower does the pleura reach than the lung?",
+                "a": "About two ribs, leaving the costodiaphragmatic recess."}
+    },
+    {
+      "title": "The safe triangle",
+      "text": "<p>A chest drain goes into the <b>safe triangle</b>: bounded in front by the lateral border of pectoralis major, behind by the lateral border of latissimus dorsi, below by a horizontal line at the level of the nipple (about the fifth intercostal space), with the apex at the axilla.</p><p>Every boundary avoids something. Too low and you are through the diaphragm into liver or spleen; too far back and the drain kinks and is uncomfortable; too far medially and you meet the internal thoracic artery. And within the space, go over the <b>upper border of the rib below</b> to avoid the neurovascular bundle.</p>",
+      "systems": ["visceral", "skeletal", "muscular"],
+      "regions": ["thorax"],
+      "focus": ["Pleura"],
+      "show": ["Ribs", "Pectoralis major muscle", "Latissimus dorsi muscle", "Liver"],
+      "view": "right",
+      "xray": true,
+      "clinical": "Air rises and fluid falls: aim an apical drain for a pneumothorax and a basal one for an effusion.",
+      "check": {"q": "Name the three borders of the safe triangle.",
+                "a": "Lateral border of pectoralis major, lateral border of latissimus dorsi, and the fifth intercostal space (nipple line)."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Superior lobe of right lung",
+        "Middle lobe of right lung",
+        "Inferior lobe of right lung",
+        "Superior lobe of left lung",
+        "Inferior lobe of left lung"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "title": "The lungs have two arterial jobs",
+      "text": "<p>The <b>pulmonary arteries</b> carry blood from the right ventricle towards the alveolar capillaries for gas exchange. This is a high-flow, low-pressure circulation designed to bring blood close to inspired air.</p><p>The <b>bronchial arteries</b> arise from the systemic circulation and nourish the conducting airways and supporting tissues. Some bronchial venous blood returns through systemic veins and some joins pulmonary venous blood. Keep the oxygenation circuit separate from the vessels nourishing the lung's own larger airway walls.</p>",
+      "check": {
+        "q": "Which arteries mainly provide the systemic nutrient supply to the larger bronchial walls?",
+        "a": "The bronchial arteries, rather than the pulmonary arteries carrying blood for alveolar gas exchange."
+      }
+    }
+  ]
+},
+{
+  "id": "breathing-mechanics",
+  "title": "The mechanics of breathing",
+  "system": "respiratory",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 10,
+  "summary": "One muscle does three quarters of the work; the ribs do the rest in two different directions.",
+  "tags": ["diaphragm", "intercostals", "phrenic", "accessory muscles"],
+  "objectives": [
+    "Explain the pump-handle and bucket-handle movements",
+    "State the nerve supply of the diaphragm and the consequence of losing it",
+    "Recognise the accessory muscles and what their use signifies",
+    "Distinguish total ventilation from the fraction reaching gas-exchanging alveoli"
+  ],
+  "takeaways": [
+    "Quiet inspiration is almost entirely diaphragmatic; expiration is passive elastic recoil.",
+    "Upper ribs move like a pump handle (increasing the AP diameter); lower ribs like a bucket handle (increasing the transverse).",
+    "C3, 4 and 5 keep the diaphragm alive.",
+    "Each breath also fills conducting-airway dead space; equal minute ventilation can produce different alveolar ventilation when breath size and rate differ."
+  ],
+  "see_also": {"lessons": ["diaphragm", "intercostal-space", "lungs-and-pleura"], "radiology": ["cxr_pa"]},
+  "steps": [
+    {
+      "title": "Inspiration is active, expiration usually is not",
+      "text": "<p>Breathing in means enlarging the thoracic cavity so that intrapleural pressure falls and air is drawn in. Breathing out, at rest, is simply letting the stretched elastic tissue of the lungs and chest wall recoil: no muscular work at all.</p><p>That asymmetry is why obstructive disease is so much harder work. If the airways collapse on expiration, the patient must actively force air out, and now every breath costs energy in both directions.</p>",
+      "systems": ["muscular", "visceral"],
+      "regions": ["thorax"],
+      "focus": ["Diaphragm"],
+      "show": ["Superior lobe of right lung", "Inferior lobe of right lung"],
+      "view": "anterior",
+      "xray": true
+    },
+    {
+      "title": "The diaphragm",
+      "text": "<p>A dome of muscle arising from the xiphoid, the lower six costal cartilages and the lumbar vertebrae by the crura, all converging on a <b>central tendon</b>. When it contracts, the dome flattens and descends: the vertical dimension of the thorax increases and about <b>75%</b> of a quiet breath is achieved.</p><p>It is supplied entirely by the <b>phrenic nerve</b>, C3, C4 and C5. A cord lesion above C3 stops breathing altogether; below C5 it does not. Hence the students' line: <i>C3, 4 and 5 keep the diaphragm alive</i>.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["thorax"],
+      "focus": ["Diaphragm"],
+      "show": ["Cervical nerves"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Roughly what proportion of a quiet breath does the diaphragm produce?",
+                "a": "About three quarters."}
+    },
+    {
+      "title": "Two handles",
+      "text": "<p>The ribs slope downwards from back to front, so raising them moves the chest wall in two ways.</p><p>The <b>upper ribs</b> pivot about an axis through their necks and push the sternum forwards and up: the <b>pump handle</b>, increasing the anteroposterior diameter. The <b>lower ribs</b>, whose axis runs more anteroposteriorly, swing their middles outwards: the <b>bucket handle</b>, increasing the transverse diameter. Together with the diaphragm's descent, all three dimensions grow at once.</p>",
+      "systems": ["skeletal", "muscular"],
+      "regions": ["thorax"],
+      "focus": ["Ribs"],
+      "show": ["Sternum"],
+      "view": "left",
+      "xray": false,
+      "check": {"q": "Which ribs make the bucket-handle movement, and which diameter does it increase?",
+                "a": "The lower ribs, increasing the transverse diameter."}
+    },
+    {
+      "title": "The intercostals",
+      "text": "<p>Three layers between the ribs. The <b>external intercostals</b> run downwards and forwards ('hands in pockets') and elevate the ribs in inspiration. The <b>internal intercostals</b> run downwards and backwards; their interosseous parts depress the ribs in forced expiration. The <b>innermost intercostals</b> lie deep to the neurovascular bundle, which is what allows a bundle to run in a plane at all.</p><p>All are supplied by the intercostal nerves — anterior rami of T1–T11 — running with their vessels in the costal groove.</p>",
+      "systems": ["muscular"],
+      "regions": ["thorax"],
+      "focus": ["External intercostal muscles", "Internal intercostal muscles"],
+      "show": ["Ribs"],
+      "view": "left",
+      "xray": false
+    },
+    {
+      "title": "Accessory muscles, and what they tell you",
+      "text": "<p>In forced inspiration the <b>sternocleidomastoid</b>, <b>scalenes</b> and pectoral muscles are recruited to lift the upper chest — which is why a breathless patient grips the edge of the bed, fixing the arms so pectoralis major can pull on the ribs instead of the humerus.</p><p>In forced expiration the <b>abdominal wall</b> muscles contract, raising intra-abdominal pressure and pushing the diaphragm up. Seeing accessory muscle use at rest is one of the most reliable signs of respiratory distress, and it is pure mechanics.</p>",
+      "systems": ["muscular"],
+      "regions": ["thorax", "neck"],
+      "focus": ["Sternocleidomastoid muscle", "Scalenus anterior muscle"],
+      "show": ["Pectoralis major muscle", "Ribs"],
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "Why does a breathless patient lean forward and grip the bed?",
+                "a": "It fixes the shoulder girdle so pectoralis major and minor can act on the ribs instead of the arm."}
+    },
+    {
+      "systems": [
+        "muscular",
+        "visceral"
+      ],
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Diaphragm"
+      ],
+      "show": [
+        "Superior lobe of right lung",
+        "Inferior lobe of right lung"
+      ],
+      "view": "anterior",
+      "xray": true,
+      "title": "Not every millilitre reaches an exchange surface",
+      "text": "<p>Part of each breath fills the <b>conducting airways</b>, where no alveolar gas exchange occurs. This is anatomical dead space. Only the remainder of the inspired volume reaches the gas-exchanging region as fresh air.</p><p>For a simple illustration, assume 150 mL of dead space. Twelve 500 mL breaths move 6 litres per minute in total but about 4.2 litres of fresh air towards alveoli. Twenty-four 250 mL breaths move the same total volume but only about 2.4 litres towards alveoli. Real values vary, but the example explains why very shallow breathing can be inefficient.</p>",
+      "check": {
+        "q": "Why can rapid shallow breaths provide less alveolar ventilation than slower deeper breaths with the same total minute volume?",
+        "a": "A larger fraction of each small breath is spent ventilating the conducting-airway dead space."
+      }
+    }
+  ]
+},
+{
+  "id": "bronchopulmonary-segments",
+  "title": "Bronchopulmonary segments",
+  "system": "respiratory",
+  "region": "thorax",
+  "level": "advanced",
+  "minutes": 11,
+  "summary": "Ten units a side, each with its own bronchus and artery — the reason a lung can be resected piece by piece.",
+  "tags": ["segments", "bronchi", "aspiration", "lobectomy"],
+  "prereq": ["bronchial-tree"],
+  "objectives": [
+    "Define a bronchopulmonary segment and say what makes it surgically resectable",
+    "Name the segments of each lobe",
+    "Predict where aspirated material lodges in a supine and an upright patient",
+    "Use posture to predict which lung segments are dependent during aspiration"
+  ],
+  "takeaways": [
+    "Each segment has its own segmental bronchus and segmental artery; the veins run between segments.",
+    "Ten segments on the right, eight to ten on the left depending on how they are counted.",
+    "Aspiration goes to the posterior segment of the right upper lobe when supine, and the right lower lobe when upright.",
+    "The right side is often favoured by airway geometry, but the dependent segments vary with posture; aspiration is not confined to one lobe."
+  ],
+  "see_also": {"lessons": ["bronchial-tree", "lungs-and-pleura"], "radiology": ["ct_pneumonia"], "micro": ["lung_acinus"]},
+  "steps": [
+    {
+      "title": "What a segment is",
+      "text": "<p>A <b>bronchopulmonary segment</b> is the piece of lung supplied by one segmental (tertiary) bronchus and its accompanying segmental artery. It is pyramidal, with its apex at the hilum and its base on the pleural surface, and it is wrapped in enough connective tissue to be separated from its neighbours.</p><p>Crucially, the <b>veins run in the planes between segments</b>, not within them. So a surgeon can take out a segment along its intersegmental veins without devascularising the rest — a segmentectomy.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Right main bronchus", "Left main bronchus"],
+      "show": ["Superior lobe of right lung", "Inferior lobe of right lung"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Why can a bronchopulmonary segment be removed surgically?",
+                "a": "It has its own bronchus and artery, and its veins lie in the planes between segments."}
+    },
+    {
+      "title": "The right lung, ten segments",
+      "text": "<p><b>Upper lobe</b>: apical, posterior, anterior. <b>Middle lobe</b>: lateral and medial. <b>Lower lobe</b>: superior (apical), then medial, anterior, lateral and posterior basal.</p><p>Turn the model and switch on the segmental bronchi: each one heads for its own territory, and the pattern is more memorable as a set of directions than as a list of names.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Apical segmental bronchus of right lung (BI)", "Posterior segmental bronchus of right lung (BII)", "Anterior segmental bronchus of right lung (BIII)", "Lateral segmental bronchus of right lung (BIV)", "Medial segmental bronchus of right lung (BV)"],
+      "show": ["Right main bronchus", "Superior lobe of right lung", "Middle lobe of right lung"],
+      "view": "anterior",
+      "xray": true
+    },
+    {
+      "title": "The right lower lobe",
+      "text": "<p>Five segments: the <b>superior</b> segment, which points backwards from the top of the lower lobe, and then four basal segments — <b>medial</b>, <b>anterior</b>, <b>lateral</b> and <b>posterior</b>.</p><p>The superior segment of the lower lobe matters out of proportion to its size: it lies directly behind the oblique fissure, it is the most dependent part of the lung in a <b>supine</b> patient, and it is a favourite site for aspiration pneumonia and for a lung abscess.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Superior segmental bronchus of right lung (BVI)", "Posterior basal segmental bronchus of right lung (BX)", "Lateral basal segmental bronchus of right lung (BIX)"],
+      "show": ["Inferior lobe of right lung", "Right main bronchus"],
+      "view": "right",
+      "xray": true,
+      "check": {"q": "Where does aspirated material lodge in a patient who is lying flat?",
+                "a": "The superior segment of the right lower lobe, or the posterior segment of the right upper lobe."}
+    },
+    {
+      "title": "The left lung",
+      "text": "<p>The left has the same plan compressed into two lobes. In the upper lobe, the apical and posterior segments share a bronchus (<b>apicoposterior</b>), and the <b>lingula</b> takes the place of the middle lobe with superior and inferior lingular segments.</p><p>In the lower lobe, the medial and anterior basal segments often share a bronchus (<b>anteromedial basal</b>). That is why the left is counted as eight, nine or ten segments depending on the textbook — the anatomy is the same, the naming is not.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Apicoposterior segmental bronchus of left lung (BI+BII)", "Superior lingular segmental bronchus of left lung (BIV)", "Inferior lingular segmental bronchus of left lung (BV)"],
+      "show": ["Left main bronchus", "Superior lobe of left lung"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "What is the left lung's equivalent of the right middle lobe?",
+                "a": "The lingula, part of the left upper lobe."}
+    },
+    {
+      "title": "Why the right main bronchus catches everything",
+      "text": "<p>The trachea divides at the <b>carina</b>, at the level of the sternal angle. The <b>right main bronchus</b> is wider, shorter and more vertical than the left, which is pushed aside by the aortic arch.</p><p>So inhaled foreign bodies, aspirated vomit and over-inserted endotracheal tubes often enter the right side, though either side can be involved and dependent segments vary with posture. Reduced left-sided ventilation after intubation raises concern for right main-bronchus placement, among other causes, and requires prompt assessment by the treating team. The anatomical point is that an over-advanced tube can pass beyond the carina into one main bronchus.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Right main bronchus", "Left main bronchus"],
+      "show": ["Trachea", "Aortic arch"],
+      "view": "anterior",
+      "xray": true,
+      "clinical": "Check the tube tip on the chest film: it should sit a few centimetres above the carina.",
+      "check": {"q": "Why does an endotracheal tube inserted too far go into the right main bronchus?",
+                "a": "It is wider, shorter and more vertical than the left."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Superior segmental bronchus of right lung (BVI)",
+        "Posterior basal segmental bronchus of right lung (BX)",
+        "Lateral basal segmental bronchus of right lung (BIX)"
+      ],
+      "show": [
+        "Inferior lobe of right lung",
+        "Right main bronchus"
+      ],
+      "view": "right",
+      "xray": true,
+      "title": "Gravity chooses a different segment when you lie down",
+      "text": "<p>The more vertical right main bronchus favours entry on the right, but <b>posture</b> helps determine where aspirated material settles. When upright, basal lower-lobe segments are relatively dependent. When supine, posterior upper-lobe and superior lower-lobe segments can be dependent.</p><p>The superior segment of a lower lobe lies posteriorly and can receive material even though the word superior sounds far from the lung base. Use segment names as three-dimensional positions rather than a top-to-bottom list. Aspiration can affect either lung and more than one segment.</p>",
+      "check": {
+        "q": "Why can the superior segment of a lower lobe be involved in aspiration in a supine person?",
+        "a": "It occupies a relatively posterior, dependent position when the person is lying on their back."
+      }
+    }
+  ]
+}
+]

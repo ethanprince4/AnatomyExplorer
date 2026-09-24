@@ -1,0 +1,577 @@
+{
+  "name": "Ligaments of the female pelvis",
+  "summary": "University of Dundee model of a female bony pelvis with L4-L5, the coccyx and the upper femora, showing the ligaments that bind it: the lumbar and sacrococcygeal ligaments, the sacroiliac, iliolumbar, sacrotuberous and sacrospinous ligaments, the inguinal, pubic and obturator structures at the front, and the capsule and ligaments of both hip joints.",
+  "rotate": [
+    -37,
+    180,
+    0
+  ],
+  "view": [
+    0,
+    -25
+  ],
+  "clinical": [
+    [
+      "Open-book pelvic injury",
+      "A front-to-back crush can spring the pubic symphysis apart and tear the anterior sacroiliac ligaments while the intact interosseous and posterior ligaments act as hinges, opening the pelvis like a book. The enlarged pelvis can hold litres of blood from torn pelvic veins, so a pelvic binder is applied early."
+    ],
+    [
+      "Pregnancy and the pelvic ligaments",
+      "Hormones such as relaxin soften the pubic symphysis and sacroiliac ligaments late in pregnancy, allowing slight expansion of the pelvis in labour but also contributing to pelvic girdle pain and symphysis pubis dysfunction."
+    ],
+    [
+      "Femoral hernia",
+      "The femoral ring is bounded by the inguinal ligament in front, the pectineal ligament behind, the lacunar ligament medially and the femoral vein laterally. These unyielding edges make femoral hernias, which are commoner in women, prone to strangulation."
+    ]
+  ],
+  "notes": "Model arrives facing backwards and tilted about 37 deg (pubis forward, pelvic inlet nearly horizontal): rotate [-37,180,0] puts the ASIS and pubic tubercles in one coronal plane (anatomical position); the creator's thumbnail corresponds to view [0,-29]. Hip bones + sacrum + both proximal femora are one ZBrush subtool (SubTool-50) and cannot be split; bones recoloured tan to match the thumbnail, ligaments left at their own off-white. Uncertain: SubTool-35/36 (paired bands beside the median sacral crest into which the posterior sacroiliac 'fingers' insert) given the generic name 'posterior sacral ligament band' - probably the sacral attachment of the posterior sacroiliac ligaments, identity not confirmed, so no atlas link. SubTool-37 runs from the L5 spine to the coccyx tip; named superficial posterior sacrococcygeal ligament (its upper part is effectively the L5-S1 supraspinous ligament). SubTool-53/55 are caps on the L4 superior articular processes, read as L3-L4 facet capsules (L3 absent). SubTool-44/45 each span L4-L5 and L5-sacral ala; named intertransverse ligaments. SubTool-9/10 (the X in front of the symphysis) read as the decussating anterior pubic ligament and merged; SubTool-38/41 (X on the front of the coccyx) merged as anterior sacrococcygeal ligament. Iliofemoral ligament is modelled as one broad band, not a visible Y. Verifier: SubTool-5 is an open-ended sleeve (hollow in the sagittal plane) wrapping the medial ends of both pubic bodies, not a solid plate; kept as 'Interpubic disc' because the superior, inferior and anterior pubic ligaments are separate SubTools, but it may instead represent the whole fibrous covering of the symphysis (there is no separate posterior pubic ligament). Verifier: the iliolumbar meshes (SubTool-27/28) touch the L4 as well as the L5 transverse processes, so the description mentions an L4 slip. The creator's Sketchfab description asks for CC BY-NC-SA 4.0 terms (non-commercial, share-alike) although the listed licence is CC BY.",
+  "parts": {
+    "SubTool-50": {
+      "name": "Hip bones, sacrum and proximal femora",
+      "group": "Bones",
+      "category": "bone",
+      "description": "The two hip bones (ilium, ischium and pubis fused at the acetabulum) and the sacrum form the pelvic ring, with the femoral heads seated in the acetabula; the model makes them one piece. As a female pelvis it shows a wide, rounded inlet and a broad subpubic angle, giving the birth canal more room.",
+      "structures": [
+        "Bony pelvis",
+        "Hip bone",
+        "Sacrum",
+        "Femur"
+      ],
+      "color": "#c8ab80"
+    },
+    "SubTool-48": {
+      "name": "Fifth lumbar vertebra (L5)",
+      "group": "Bones",
+      "category": "bone",
+      "description": "The lowest lumbar vertebra, with a wedge-shaped body (taller in front) and stout transverse processes that anchor the iliolumbar ligaments. It rests on the sloping upper surface of the sacrum, so its facets and ligaments must stop it sliding forward (spondylolisthesis).",
+      "structures": [
+        "Vertebra L5"
+      ],
+      "color": "#c8ab80"
+    },
+    "SubTool-49": {
+      "name": "Fourth lumbar vertebra (L4)",
+      "group": "Bones",
+      "category": "bone",
+      "description": "Lumbar vertebra above L5 with a large kidney-shaped body for weight-bearing. A line joining the tops of the iliac crests (supracristal plane) crosses the L4 spinous process or the L4-L5 interspace, the usual landmark for lumbar puncture.",
+      "structures": [
+        "Vertebra L4"
+      ],
+      "color": "#c8ab80"
+    },
+    "SubTool-47": {
+      "name": "Coccyx",
+      "group": "Bones",
+      "category": "bone",
+      "description": "Usually four small fused vertebrae below the sacrum (the tailbone). Its margins anchor the sacrospinous ligament and coccygeus, and its tip the anococcygeal body; it can move backwards slightly during childbirth, enlarging the pelvic outlet.",
+      "structures": [
+        "Coccyx"
+      ],
+      "color": "#c8ab80"
+    },
+    "SubTool-2": {
+      "name": "Anterior longitudinal ligament",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Broad band on the front of the vertebral bodies and discs, running here from L4 down onto the pelvic surface of the sacrum. It is the main ligament limiting extension of the spine and continues below as the anterior sacrococcygeal ligament.",
+      "structures": [
+        "Anterior longitudinal ligament"
+      ]
+    },
+    "SubTool-61": {
+      "name": "Posterior longitudinal ligament",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Runs inside the vertebral canal on the backs of the vertebral bodies and discs. Narrower than the anterior ligament and thin at its edges, it steers lumbar disc herniations posterolaterally, where they press on the nerve roots.",
+      "structures": [
+        "Posterior longitudinal ligament"
+      ]
+    },
+    "SubTool-43": {
+      "name": "Supraspinous ligament",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Strong cord joining the tips of the spinous processes, here L4 to L5. It limits flexion and is the first ligament a midline lumbar puncture needle passes through.",
+      "structures": [
+        "Supraspinous ligament"
+      ]
+    },
+    "SubTool-42": {
+      "name": "Interspinous ligament (L4-L5)",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Thin sheet joining adjacent spinous processes, between the supraspinous ligament behind and the ligamentum flavum in front. A lumbar puncture needle crosses it at L3-L4 or L4-L5, safely below the end of the spinal cord (about L1-L2 in adults).",
+      "structures": [
+        "Interspinous ligaments"
+      ]
+    },
+    "SubTool-52": {
+      "name": "Ligamentum flavum (L4-L5)",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Yellow elastic ligament joining the laminae of L4 and L5 and forming the back wall of the vertebral canal. Its elasticity helps restore the upright posture after bending; the loss of resistance as a needle passes through it marks entry to the epidural space.",
+      "structures": [
+        "Ligamenta flava"
+      ]
+    },
+    "SubTool-51": {
+      "name": "Ligamentum flavum (L5-S1)",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Joins the lamina of L5 to the back of the sacrum. Age-related thickening of the ligamenta flava, together with disc bulging and facet arthritis, narrows the canal in lumbar spinal stenosis.",
+      "structures": [
+        "Ligamenta flava"
+      ]
+    },
+    "SubTool-44": {
+      "name": "Left intertransverse ligaments",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Bands joining adjacent transverse processes: L4 to L5, and L5 to the sacral ala (the course of the lumbosacral ligament). They limit bending to the opposite side; the lateral sacrococcygeal ligament is their counterpart lower down.",
+      "structures": [
+        "Intertransverse ligaments"
+      ]
+    },
+    "SubTool-45": {
+      "name": "Right intertransverse ligaments",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Bands joining adjacent transverse processes: L4 to L5, and L5 to the sacral ala (the course of the lumbosacral ligament). They limit bending to the opposite side; the lateral sacrococcygeal ligament is their counterpart lower down.",
+      "structures": [
+        "Intertransverse ligaments"
+      ]
+    },
+    "SubTool-53": {
+      "name": "L3-L4 facet joint capsules",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Capsules of the synovial zygapophysial (facet) joints on the superior articular processes of L4; L3 itself is not in the model. Lumbar facets face largely medially and laterally, allowing flexion and extension but limiting rotation.",
+      "structures": []
+    },
+    "SubTool-55": {
+      "name": "L3-L4 facet joint capsules",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Capsules of the synovial zygapophysial (facet) joints on the superior articular processes of L4; L3 itself is not in the model. Lumbar facets face largely medially and laterally, allowing flexion and extension but limiting rotation.",
+      "structures": []
+    },
+    "SubTool-54": {
+      "name": "L4-L5 facet joint capsules",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Thin fibrous capsules of the synovial joints between the inferior articular processes of L4 and the superior articular processes of L5. Facet osteoarthritis is a common source of low back pain and, with disc degeneration, narrows the intervertebral foramina.",
+      "structures": []
+    },
+    "SubTool-56": {
+      "name": "L4-L5 facet joint capsules",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Thin fibrous capsules of the synovial joints between the inferior articular processes of L4 and the superior articular processes of L5. Facet osteoarthritis is a common source of low back pain and, with disc degeneration, narrows the intervertebral foramina.",
+      "structures": []
+    },
+    "SubTool-57": {
+      "name": "L5-S1 facet joint capsules",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Capsules of the lumbosacral facet joints between L5 and the superior articular processes of the sacrum. These more coronally facing facets block L5 from sliding forward; a defect in the pars interarticularis (spondylolysis) removes this block and allows spondylolisthesis.",
+      "structures": []
+    },
+    "SubTool-58": {
+      "name": "L5-S1 facet joint capsules",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Capsules of the lumbosacral facet joints between L5 and the superior articular processes of the sacrum. These more coronally facing facets block L5 from sliding forward; a defect in the pars interarticularis (spondylolysis) removes this block and allows spondylolisthesis.",
+      "structures": []
+    },
+    "SubTool-60": {
+      "name": "L4-L5 intervertebral disc",
+      "group": "Vertebral ligaments & discs",
+      "category": "cartilage",
+      "description": "Fibrocartilaginous disc of a tough outer annulus fibrosus around a gelatinous nucleus pulposus. L4-L5 and L5-S1 are the commonest levels for lumbar disc herniation; a posterolateral L4-L5 herniation usually compresses the L5 nerve root.",
+      "structures": [
+        "Intervertebral disc L4-L5"
+      ]
+    },
+    "SubTool-59": {
+      "name": "L5-S1 intervertebral disc",
+      "group": "Vertebral ligaments & discs",
+      "category": "cartilage",
+      "description": "The lumbosacral disc, taller in front than behind, which helps form the lumbosacral angle. A posterolateral herniation here usually compresses the S1 root (pain down the back of the leg, reduced ankle jerk).",
+      "structures": [
+        "Intervertebral disc L5-S1"
+      ]
+    },
+    "SubTool-38": {
+      "name": "Anterior sacrococcygeal ligament",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Crossing fibres on the pelvic surface of the lower sacrum and coccyx, continuing the anterior longitudinal ligament. With the posterior and lateral sacrococcygeal ligaments it binds the coccyx to the sacrum at the sacrococcygeal joint.",
+      "structures": [
+        "Sacrococcygeal symphysis"
+      ]
+    },
+    "SubTool-41": {
+      "name": "Anterior sacrococcygeal ligament",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Crossing fibres on the pelvic surface of the lower sacrum and coccyx, continuing the anterior longitudinal ligament. With the posterior and lateral sacrococcygeal ligaments it binds the coccyx to the sacrum at the sacrococcygeal joint.",
+      "structures": [
+        "Sacrococcygeal symphysis"
+      ]
+    },
+    "SubTool-39": {
+      "name": "Left lateral sacrococcygeal ligament",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Joins the transverse process of the coccyx to the inferolateral angle of the sacrum, the counterpart of the intertransverse ligaments. It completes the foramen for the anterior ramus of the fifth sacral nerve.",
+      "structures": [
+        "Sacrococcygeal symphysis"
+      ]
+    },
+    "SubTool-40": {
+      "name": "Right lateral sacrococcygeal ligament",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Joins the transverse process of the coccyx to the inferolateral angle of the sacrum, the counterpart of the intertransverse ligaments. It completes the foramen for the anterior ramus of the fifth sacral nerve.",
+      "structures": [
+        "Sacrococcygeal symphysis"
+      ]
+    },
+    "SubTool-37": {
+      "name": "Superficial posterior sacrococcygeal ligament",
+      "group": "Vertebral ligaments & discs",
+      "category": "ligament",
+      "description": "Midline band on the back of the sacrum and coccyx, modelled continuous with the supraspinous ligament from the L5 spine down the median sacral crest. Its lower part roofs the sacral hiatus, which a caudal epidural needle pierces between the sacral cornua.",
+      "structures": [
+        "Sacrococcygeal symphysis",
+        "Sacral hiatus"
+      ]
+    },
+    "SubTool-3": {
+      "name": "Left anterior sacroiliac ligament",
+      "group": "Sacroiliac & iliolumbar ligaments",
+      "category": "ligament",
+      "description": "Thin, wide sheet across the front of the sacroiliac joint from the sacral ala and pelvic surface to the ilium, really a thickening of the joint capsule. It is the weakest sacroiliac ligament and tears in an open-book pelvic injury.",
+      "structures": [
+        "Anterior sacro-iliac ligament"
+      ]
+    },
+    "SubTool-4": {
+      "name": "Right anterior sacroiliac ligament",
+      "group": "Sacroiliac & iliolumbar ligaments",
+      "category": "ligament",
+      "description": "Thin, wide sheet across the front of the sacroiliac joint from the sacral ala and pelvic surface to the ilium, really a thickening of the joint capsule. It is the weakest sacroiliac ligament and tears in an open-book pelvic injury.",
+      "structures": [
+        "Anterior sacro-iliac ligament"
+      ]
+    },
+    "SubTool-32": {
+      "name": "Left interosseous sacroiliac ligament",
+      "group": "Sacroiliac & iliolumbar ligaments",
+      "category": "ligament",
+      "description": "The strongest sacroiliac ligament: short, dense fibres filling the gap between the sacral and iliac tuberosities behind the joint surfaces. It carries much of the body weight that tends to drive the sacrum forward and down between the hip bones.",
+      "structures": [
+        "Interosseous sacro-iliac ligament"
+      ]
+    },
+    "SubTool-31": {
+      "name": "Right interosseous sacroiliac ligament",
+      "group": "Sacroiliac & iliolumbar ligaments",
+      "category": "ligament",
+      "description": "The strongest sacroiliac ligament: short, dense fibres filling the gap between the sacral and iliac tuberosities behind the joint surfaces. It carries much of the body weight that tends to drive the sacrum forward and down between the hip bones.",
+      "structures": [
+        "Interosseous sacro-iliac ligament"
+      ]
+    },
+    "SubTool-33": {
+      "name": "Left posterior sacroiliac ligament",
+      "group": "Sacroiliac & iliolumbar ligaments",
+      "category": "ligament",
+      "description": "Fan of bands from the posterior iliac spines and iliac tuberosity running medially and down to the sacral crests, covering the interosseous ligament. Its long fibres from the posterior superior iliac spine can be felt and are often tender in pregnancy-related pelvic girdle pain.",
+      "structures": [
+        "Posterior sacro-iliac ligament"
+      ]
+    },
+    "SubTool-34": {
+      "name": "Right posterior sacroiliac ligament",
+      "group": "Sacroiliac & iliolumbar ligaments",
+      "category": "ligament",
+      "description": "Fan of bands from the posterior iliac spines and iliac tuberosity running medially and down to the sacral crests, covering the interosseous ligament. Its long fibres from the posterior superior iliac spine can be felt and are often tender in pregnancy-related pelvic girdle pain.",
+      "structures": [
+        "Posterior sacro-iliac ligament"
+      ]
+    },
+    "SubTool-35": {
+      "name": "Left posterior sacral ligament band",
+      "group": "Sacroiliac & iliolumbar ligaments",
+      "category": "ligament",
+      "description": "Fibrous band on the back of the sacrum beside the median sacral crest, reaching the posterior sacral foramina. The medial ends of the posterior sacroiliac ligament bands blend into it, so it most likely represents their attachment to the intermediate sacral crest.",
+      "structures": []
+    },
+    "SubTool-36": {
+      "name": "Right posterior sacral ligament band",
+      "group": "Sacroiliac & iliolumbar ligaments",
+      "category": "ligament",
+      "description": "Fibrous band on the back of the sacrum beside the median sacral crest, reaching the posterior sacral foramina. The medial ends of the posterior sacroiliac ligament bands blend into it, so it most likely represents their attachment to the intermediate sacral crest.",
+      "structures": []
+    },
+    "SubTool-27": {
+      "name": "Left iliolumbar ligament",
+      "group": "Sacroiliac & iliolumbar ligaments",
+      "category": "ligament",
+      "description": "Strong band from the tip of the L5 transverse process to the back of the iliac crest, with a lower slip to the sacral ala; in this model an upper slip also comes from the L4 transverse process, a common variant. It ties L5 to the pelvis, limiting side-bending and forward slip of L5 on the sacrum.",
+      "structures": [
+        "Iliolumbar ligament"
+      ]
+    },
+    "SubTool-28": {
+      "name": "Right iliolumbar ligament",
+      "group": "Sacroiliac & iliolumbar ligaments",
+      "category": "ligament",
+      "description": "Strong band from the tip of the L5 transverse process to the back of the iliac crest, with a lower slip to the sacral ala; in this model an upper slip also comes from the L4 transverse process, a common variant. It ties L5 to the pelvis, limiting side-bending and forward slip of L5 on the sacrum.",
+      "structures": [
+        "Iliolumbar ligament"
+      ]
+    },
+    "SubTool-26": {
+      "name": "Left sacrotuberous ligament",
+      "group": "Sacrotuberous & sacrospinous",
+      "category": "ligament",
+      "description": "Broad band from the posterior iliac spines, lateral sacrum and coccyx to the ischial tuberosity, with a falciform edge running onto the ischial ramus. With the sacrospinous ligament it stops the sacrum tipping forward and turns the sciatic notches into the greater and lesser sciatic foramina.",
+      "structures": [
+        "Sacrotuberous ligament"
+      ]
+    },
+    "SubTool-25": {
+      "name": "Right sacrotuberous ligament",
+      "group": "Sacrotuberous & sacrospinous",
+      "category": "ligament",
+      "description": "Broad band from the posterior iliac spines, lateral sacrum and coccyx to the ischial tuberosity, with a falciform edge running onto the ischial ramus. With the sacrospinous ligament it stops the sacrum tipping forward and turns the sciatic notches into the greater and lesser sciatic foramina.",
+      "structures": [
+        "Sacrotuberous ligament"
+      ]
+    },
+    "SubTool-24": {
+      "name": "Left sacrospinous ligament",
+      "group": "Sacrotuberous & sacrospinous",
+      "category": "ligament",
+      "description": "Triangular ligament from the ischial spine to the side of the lower sacrum and coccyx, in front of the sacrotuberous ligament and fused with coccygeus. It separates the greater sciatic foramen above from the lesser below; the pudendal nerve crosses it beside the ischial spine, the target of a pudendal block in labour.",
+      "structures": [
+        "Sacrospinous ligament"
+      ]
+    },
+    "SubTool-23": {
+      "name": "Right sacrospinous ligament",
+      "group": "Sacrotuberous & sacrospinous",
+      "category": "ligament",
+      "description": "Triangular ligament from the ischial spine to the side of the lower sacrum and coccyx, in front of the sacrotuberous ligament and fused with coccygeus. It separates the greater sciatic foramen above from the lesser below; the pudendal nerve crosses it beside the ischial spine, the target of a pudendal block in labour.",
+      "structures": [
+        "Sacrospinous ligament"
+      ]
+    },
+    "SubTool-1": {
+      "name": "Left inguinal ligament",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Rolled-under lower edge of the external oblique aponeurosis from the anterior superior iliac spine to the pubic tubercle. It floors the inguinal canal and roofs the femoral triangle: inguinal hernias appear above and medial to the pubic tubercle, femoral hernias below and lateral to it.",
+      "structures": [
+        "Inguinal ligament"
+      ]
+    },
+    "SubTool-0": {
+      "name": "Right inguinal ligament",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Rolled-under lower edge of the external oblique aponeurosis from the anterior superior iliac spine to the pubic tubercle. It floors the inguinal canal and roofs the femoral triangle: inguinal hernias appear above and medial to the pubic tubercle, femoral hernias below and lateral to it.",
+      "structures": [
+        "Inguinal ligament"
+      ]
+    },
+    "SubTool-20": {
+      "name": "Left lacunar ligament",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Crescent-shaped extension of the medial end of the inguinal ligament back to the pecten pubis. Its sharp free edge is the medial border of the femoral ring, where it can constrict and strangulate a femoral hernia.",
+      "structures": []
+    },
+    "SubTool-19": {
+      "name": "Right lacunar ligament",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Crescent-shaped extension of the medial end of the inguinal ligament back to the pecten pubis. Its sharp free edge is the medial border of the femoral ring, where it can constrict and strangulate a femoral hernia.",
+      "structures": []
+    },
+    "SubTool-17": {
+      "name": "Left pectineal ligament",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Strong fibrous band (Cooper's ligament) along the pecten pubis, continuous medially with the lacunar ligament. It forms the back of the femoral ring and is a secure anchor for sutures in hernia repair.",
+      "structures": [
+        "Pecten pubis"
+      ]
+    },
+    "SubTool-18": {
+      "name": "Right pectineal ligament",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Strong fibrous band (Cooper's ligament) along the pecten pubis, continuous medially with the lacunar ligament. It forms the back of the femoral ring and is a secure anchor for sutures in hernia repair.",
+      "structures": [
+        "Pecten pubis"
+      ]
+    },
+    "SubTool-29": {
+      "name": "Left iliopectineal arch",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Thickened band of iliac fascia from the back of the inguinal ligament to the iliopubic eminence. It divides the space under the inguinal ligament into a lateral muscular lacuna (iliopsoas, femoral nerve) and a medial vascular lacuna (femoral artery, vein and canal).",
+      "structures": [
+        "Iliopectineal arch"
+      ]
+    },
+    "SubTool-30": {
+      "name": "Right iliopectineal arch",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Thickened band of iliac fascia from the back of the inguinal ligament to the iliopubic eminence. It divides the space under the inguinal ligament into a lateral muscular lacuna (iliopsoas, femoral nerve) and a medial vascular lacuna (femoral artery, vein and canal).",
+      "structures": [
+        "Iliopectineal arch"
+      ]
+    },
+    "SubTool-5": {
+      "name": "Interpubic disc",
+      "group": "Anterior pelvic ligaments",
+      "category": "cartilage",
+      "description": "Fibrocartilaginous disc joining the pubic bodies at the pubic symphysis, a secondary cartilaginous joint; the model shows it as a collar bulging slightly around the joint line. Pregnancy hormones such as relaxin loosen it, allowing slight widening in labour; excessive laxity causes symphysis pubis dysfunction.",
+      "structures": [
+        "Interpubic disc",
+        "Pubic symphysis"
+      ]
+    },
+    "SubTool-8": {
+      "name": "Superior pubic ligament",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Band along the upper border of the pubic symphysis, stretching laterally to the pubic tubercles. It reinforces the joint from above.",
+      "structures": [
+        "Superior pubic ligament"
+      ]
+    },
+    "SubTool-46": {
+      "name": "Inferior pubic ligament",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Thick arched band (arcuate pubic ligament) along the lower border of the symphysis, rounding off the apex of the pubic arch. It is the strongest pubic ligament; in women the deep dorsal vein of the clitoris passes just beneath it into the pelvis.",
+      "structures": [
+        "Inferior pubic ligament"
+      ]
+    },
+    "SubTool-9": {
+      "name": "Anterior pubic ligament",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Thick fibres crossing obliquely in front of the pubic symphysis from one pubic body to the other, blending with the external oblique aponeurosis and the tendons of rectus abdominis. It is the main reinforcement of the front of the joint.",
+      "structures": [
+        "Pubic symphysis"
+      ]
+    },
+    "SubTool-10": {
+      "name": "Anterior pubic ligament",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Thick fibres crossing obliquely in front of the pubic symphysis from one pubic body to the other, blending with the external oblique aponeurosis and the tendons of rectus abdominis. It is the main reinforcement of the front of the joint.",
+      "structures": [
+        "Pubic symphysis"
+      ]
+    },
+    "SubTool-12": {
+      "name": "Left obturator membrane",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Fibrous sheet closing most of the obturator foramen and giving origin to obturator internus and externus. A gap at its upper edge, the obturator canal, carries the obturator nerve and vessels and is the site of the rare obturator hernia, seen mostly in elderly thin women.",
+      "structures": [
+        "Obturator membrane"
+      ]
+    },
+    "SubTool-11": {
+      "name": "Right obturator membrane",
+      "group": "Anterior pelvic ligaments",
+      "category": "ligament",
+      "description": "Fibrous sheet closing most of the obturator foramen and giving origin to obturator internus and externus. A gap at its upper edge, the obturator canal, carries the obturator nerve and vessels and is the site of the rare obturator hernia, seen mostly in elderly thin women.",
+      "structures": [
+        "Obturator membrane"
+      ]
+    },
+    "SubTool-6": {
+      "name": "Left hip joint capsule",
+      "group": "Hip joint",
+      "category": "ligament",
+      "description": "Strong fibrous sleeve from the acetabular rim to the femoral neck, reaching the intertrochanteric line in front. Retinacular arteries run up the neck beneath it to the femoral head, so a displaced intracapsular neck fracture risks avascular necrosis.",
+      "structures": [
+        "Articular capsule of hip joint"
+      ]
+    },
+    "SubTool-7": {
+      "name": "Right hip joint capsule",
+      "group": "Hip joint",
+      "category": "ligament",
+      "description": "Strong fibrous sleeve from the acetabular rim to the femoral neck, reaching the intertrochanteric line in front. Retinacular arteries run up the neck beneath it to the femoral head, so a displaced intracapsular neck fracture risks avascular necrosis.",
+      "structures": [
+        "Articular capsule of hip joint"
+      ]
+    },
+    "SubTool-13": {
+      "name": "Left iliofemoral ligament",
+      "group": "Hip joint",
+      "category": "ligament",
+      "description": "The Y-shaped ligament of Bigelow, from the anterior inferior iliac spine and acetabular rim to the intertrochanteric line. The strongest ligament in the body, it tightens in extension, so we can stand upright with little muscle effort.",
+      "structures": [
+        "Iliofemoral ligament"
+      ]
+    },
+    "SubTool-15": {
+      "name": "Right iliofemoral ligament",
+      "group": "Hip joint",
+      "category": "ligament",
+      "description": "The Y-shaped ligament of Bigelow, from the anterior inferior iliac spine and acetabular rim to the intertrochanteric line. The strongest ligament in the body, it tightens in extension, so we can stand upright with little muscle effort.",
+      "structures": [
+        "Iliofemoral ligament"
+      ]
+    },
+    "SubTool-14": {
+      "name": "Left pubofemoral ligament",
+      "group": "Hip joint",
+      "category": "ligament",
+      "description": "Runs from the iliopubic eminence, superior pubic ramus and obturator crest laterally to blend with the lower capsule and the iliofemoral ligament. It limits abduction and extension of the hip.",
+      "structures": [
+        "Pubofemoral ligament"
+      ]
+    },
+    "SubTool-16": {
+      "name": "Right pubofemoral ligament",
+      "group": "Hip joint",
+      "category": "ligament",
+      "description": "Runs from the iliopubic eminence, superior pubic ramus and obturator crest laterally to blend with the lower capsule and the iliofemoral ligament. It limits abduction and extension of the hip.",
+      "structures": [
+        "Pubofemoral ligament"
+      ]
+    },
+    "SubTool-22": {
+      "name": "Left ischiofemoral ligament",
+      "group": "Hip joint",
+      "category": "ligament",
+      "description": "Posterior ligament spiralling from the ischium behind the acetabulum up and laterally to the femoral neck near the greater trochanter. The weakest of the three hip ligaments, it tightens in extension and internal rotation.",
+      "structures": [
+        "Ischiofemoral ligament"
+      ]
+    },
+    "SubTool-21": {
+      "name": "Right ischiofemoral ligament",
+      "group": "Hip joint",
+      "category": "ligament",
+      "description": "Posterior ligament spiralling from the ischium behind the acetabulum up and laterally to the femoral neck near the greater trochanter. The weakest of the three hip ligaments, it tightens in extension and internal rotation.",
+      "structures": [
+        "Ischiofemoral ligament"
+      ]
+    }
+  }
+}

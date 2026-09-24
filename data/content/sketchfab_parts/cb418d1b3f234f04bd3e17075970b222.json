@@ -1,0 +1,57 @@
+{
+  "summary": "A cell-by-cell block of tracheal respiratory epithelium: pseudostratified ciliated columnar cells with goblet cells, brush cells and short basal cells, all touching an unusually thick basement membrane, plus a few intraepithelial lymphocytes.",
+  "view": [
+    0,
+    30
+  ],
+  "default_group": "Epithelium",
+  "clinical": [
+    [
+      "Primary ciliary dyskinesia",
+      "Defective dynein arms leave the cilia immotile, so the mucociliary escalator fails: chronic sinusitis, bronchiectasis and, in Kartagener syndrome, situs inversus and infertility."
+    ],
+    [
+      "Smoking and squamous metaplasia",
+      "Chronic smoke exposure paralyses and destroys cilia, multiplies goblet cells and can convert this epithelium to stratified squamous epithelium via the basal cells - a precursor lesion of squamous cell carcinoma."
+    ]
+  ],
+  "parts": {
+    "SubTool-3": {
+      "name": "Ciliated and basal cells",
+      "group": "Epithelium",
+      "description": "The tall ciliated columnar cells, each with about 200-300 motile cilia that beat mucus toward the larynx (the mucociliary escalator), together with the short basal cells at the bottom that never reach the lumen. All rest on the basement membrane but their nuclei lie at different levels, which is what makes the epithelium pseudostratified; the basal cells are the stem cells that renew it.",
+      "structures": [],
+      "category": "mucosa"
+    },
+    "SubTool-2": {
+      "name": "Goblet cells",
+      "group": "Epithelium",
+      "description": "Wine-glass-shaped mucus cells with a swollen, pale apical theca full of mucin granules and a narrow stalk holding the nucleus. Their mucus traps inhaled particles for the cilia to clear; they multiply in smokers and in chronic bronchitis.",
+      "structures": [],
+      "category": "gland"
+    },
+    "SubTool-0": {
+      "name": "Brush cells",
+      "group": "Epithelium",
+      "description": "Columnar cells capped by a tuft of short, blunt microvilli instead of cilia. They are chemosensory cells with nerve endings at their base, sampling the airway surface.",
+      "structures": [],
+      "category": "mucosa"
+    },
+    "SubTool-4": {
+      "name": "Intraepithelial lymphocytes",
+      "group": "Immune cells",
+      "description": "Round cells with a large dark nucleus lying among the bases of the epithelial cells. They are lymphocytes that migrate into the epithelium from the lamina propria as part of the airway's mucosal immune defence.",
+      "structures": [],
+      "category": "lymph"
+    },
+    "SubTool-1": {
+      "name": "Basement membrane",
+      "group": "Connective tissue",
+      "description": "The sheet every cell of the epithelium rests on, unusually thick in the trachea and bronchi and easily seen with the light microscope. It thickens further in asthma, a feature of airway remodelling.",
+      "structures": [],
+      "category": "fascia",
+      "color": "#e6dcc4"
+    }
+  },
+  "notes": "SubTool-3 holds both the ~50 tall ciliated cells and ~24 short cells that stop short of the lumen (basal cells); they are one mesh, so they cannot be separated. SubTool-0 = a handful of columnar cells with a tuft of short microvilli, identified as brush cells from shape (the thumbnail shows them as peach-coloured tufts among the cilia). SubTool-4 = 11 identical round cells with a dark nucleus lying on the basement membrane: named intraepithelial lymphocytes because the creator uses the same sphere-with-nucleus design in her duodenum model; they could alternatively be meant as rounded basal cells. Basement membrane colour set to the beige of the creator's thumbnail (the part is uniform). Vertex colours look sRGB-encoded but are read as linear, so the cells render paler than the thumbnail; no overrides on the cells because they would erase the painted nuclei."
+}

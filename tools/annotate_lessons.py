@@ -1,0 +1,403 @@
+"""Add the teaching metadata (system, region, level, objectives, takeaways) to the older lesson files.
+
+The lesson library was originally filed under a single free-text category. When it was split by body system
+and region, the lessons written before that needed the new fields. This script holds them in one table and
+writes them into the JSON, leaving any field a lesson already has alone, so it is safe to run again.
+
+    .venv/Scripts/python.exe tools/annotate_lessons.py
+"""
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+CONTENT = ROOT / "data" / "content"
+
+# id -> system, region, level, minutes, tags, objectives, takeaways, see_also
+META = {
+    "neck-triangles": dict(
+        system="muscular", region="head_neck", level="core", minutes=8,
+        tags=["sternocleidomastoid", "triangles", "carotid"],
+        objectives=["Divide the neck into anterior and posterior triangles",
+                    "Name the subdivisions of each and their contents",
+                    "Use the triangles to reason about a neck lump"],
+        takeaways=["Sternocleidomastoid divides the neck; everything is described as in front of or behind it.",
+                   "The carotid triangle contains the carotid bifurcation, the internal jugular vein and the vagus.",
+                   "A lump in the posterior triangle is lymph node until proved otherwise."],
+        see_also={"lessons": ["head-neck-arteries", "thyroid-and-parathyroids"]}),
+    "orbit": dict(
+        system="sensory", region="head_neck", level="core", minutes=9,
+        tags=["extra-ocular muscles", "III", "IV", "VI", "diplopia"],
+        objectives=["Name the seven muscles in the orbit and their actions",
+                    "Give the nerve supply of each and the rule that summarises it",
+                    "Work out which muscle is palsied from the direction of diplopia"],
+        takeaways=["LR6 SO4 — all the rest by 3.",
+                   "Superior oblique depresses the adducted eye; inferior oblique elevates it.",
+                   "A third nerve palsy gives a down-and-out eye with ptosis and a dilated pupil."],
+        see_also={"lessons": ["eye-globe", "cranial-nerves", "skull-base"]}),
+    "facial-nerve": dict(
+        system="nervous", region="head_neck", level="core", minutes=8,
+        tags=["VII", "Bell palsy", "parotid", "chorda tympani"],
+        objectives=["Trace the facial nerve from the pons to the face",
+                    "Name its five terminal branches and its branches within the temporal bone",
+                    "Separate an upper from a lower motor neurone facial palsy"],
+        takeaways=["Ten Zebras Bit My Cheek: temporal, zygomatic, buccal, marginal mandibular, cervical.",
+                   "The forehead is spared in a stroke and paralysed in Bell's palsy.",
+                   "Branches given inside the temporal bone localise the lesion: hyperacusis, loss of taste, dry eye."],
+        see_also={"lessons": ["facial-expression-muscles", "salivary-glands", "ear"]}),
+    "circle-of-willis": dict(
+        system="cardiovascular", region="head_neck", level="advanced", minutes=9,
+        tags=["stroke", "aneurysm", "cerebral arteries"],
+        objectives=["Name the vessels that form the cerebral arterial circle",
+                    "Give the territory of each cerebral artery",
+                    "Predict the deficit from an occlusion of each"],
+        takeaways=["Anterior cerebral: medial surface and the leg. Middle: lateral surface, face and arm. Posterior: occipital lobe.",
+                   "Berry aneurysms form at branch points, most often on the anterior communicating artery.",
+                   "The circle is anatomically complete in fewer than half of people."],
+        see_also={"lessons": ["head-neck-arteries", "brain-surface-anatomy"]}),
+    "ventricles": dict(
+        system="nervous", region="head_neck", level="core", minutes=8,
+        tags=["CSF", "hydrocephalus", "choroid plexus"],
+        objectives=["Trace CSF from its production to its absorption",
+                    "Name the four ventricles and the channels between them",
+                    "Explain communicating and non-communicating hydrocephalus"],
+        takeaways=["Choroid plexus makes about 500 ml a day; the system holds about 150 ml.",
+                   "Lateral → interventricular foramen → third → cerebral aqueduct → fourth → subarachnoid space.",
+                   "The aqueduct is the narrowest point and the commonest site of obstruction."],
+        see_also={"lessons": ["meninges", "brainstem-anatomy"], "radiology": ["ct_brain", "mri_brain_t2"]}),
+    "spinal-cord": dict(
+        system="nervous", region="back", level="core", minutes=9,
+        tags=["cord", "tracts", "cauda equina", "lumbar puncture"],
+        objectives=["Describe the extent of the cord and its enlargements",
+                    "Name the main ascending and descending tracts and their positions",
+                    "Explain why the cord ends at L1 and what that means for a lumbar puncture"],
+        takeaways=["The cord ends at L1/L2; the dural sac continues to S2.",
+                   "Cervical and lumbosacral enlargements supply the limbs.",
+                   "Grey matter is central and butterfly-shaped; white matter is peripheral and arranged in tracts."],
+        see_also={"lessons": ["sensory-pathways", "motor-pathway", "meninges"], "histology": ["spinal_cord"]}),
+    "knee-joint": dict(
+        system="skeletal", region="lower_limb", level="core", minutes=9,
+        tags=["cruciates", "menisci", "collateral ligaments"],
+        objectives=["Name the ligaments of the knee and the movement each resists",
+                    "Explain the role of the menisci and why the medial one tears more often",
+                    "Describe the screw-home mechanism"],
+        takeaways=["ACL resists anterior translation of the tibia; PCL resists posterior.",
+                   "The medial meniscus is attached to the medial collateral ligament, so they tear together.",
+                   "The knee locks in extension by lateral rotation of the tibia and is unlocked by popliteus."],
+        see_also={"lessons": ["lower-limb-bones", "thigh-compartments"], "radiology": ["knee_ap", "knee_lat", "mri_knee"]}),
+    "shoulder-joint": dict(
+        system="skeletal", region="upper_limb", level="core", minutes=8,
+        tags=["glenohumeral", "dislocation", "labrum"],
+        objectives=["Describe the bony and soft tissue stabilisers of the shoulder",
+                    "Explain why anterior dislocation is so common",
+                    "Name the structures at risk in a dislocation"],
+        takeaways=["A shallow glenoid buys range at the cost of stability.",
+                   "The capsule is weakest inferiorly, so the head dislocates anteroinferiorly.",
+                   "Check the axillary nerve before and after reduction."],
+        see_also={"lessons": ["rotator-cuff", "pectoral-girdle"], "radiology": ["shoulder_ap"]}),
+    "hip-joint": dict(
+        system="skeletal", region="lower_limb", level="core", minutes=8,
+        tags=["acetabulum", "femoral neck", "avascular necrosis"],
+        objectives=["Describe the bony and ligamentous stability of the hip",
+                    "Trace the blood supply of the femoral head",
+                    "Explain why an intracapsular fracture threatens the head"],
+        takeaways=["A deep socket, a strong capsule and three named ligaments make dislocation rare.",
+                   "The iliofemoral ligament is the strongest in the body and limits extension.",
+                   "Retinacular vessels along the neck supply the head; an intracapsular fracture tears them."],
+        see_also={"lessons": ["lower-limb-bones", "gluteal-muscles", "pelvic-girdle"], "radiology": ["hip_ap", "pelvis_ap"]}),
+    "ankle-foot": dict(
+        system="skeletal", region="lower_limb", level="core", minutes=8,
+        tags=["mortise", "arches", "sprain"],
+        objectives=["Describe the ankle mortise and what makes it stable",
+                    "Name the collateral ligaments and which is injured in an inversion sprain",
+                    "Explain how the arches are supported"],
+        takeaways=["The talus is wider in front, so dorsiflexion is the close-packed, stable position.",
+                   "The anterior talofibular ligament is the first to tear in an inversion injury.",
+                   "The deltoid ligament is so strong it avulses bone rather than tearing."],
+        see_also={"lessons": ["foot-skeleton", "leg-compartments"], "radiology": ["ankle_ap", "ankle_lat", "foot_lat"]}),
+    "cranial-nerves": dict(
+        system="nervous", region="head_neck", level="core", minutes=10,
+        tags=["cranial nerves", "foramina", "examination"],
+        objectives=["Name the twelve cranial nerves in order and their functional class",
+                    "Give the foramen each uses",
+                    "Describe a bedside test for each"],
+        takeaways=["Some Say Marry Money But My Brother Says Big Brains Matter More — sensory, motor or both.",
+                   "III, VII, IX and X carry parasympathetic fibres.",
+                   "Only the trochlear nerve leaves from the back of the brainstem."],
+        see_also={"lessons": ["skull-base", "brainstem-anatomy", "facial-nerve"]}),
+    "larynx": dict(
+        system="respiratory", region="head_neck", level="core", minutes=8,
+        tags=["vocal folds", "recurrent laryngeal", "cricothyroidotomy"],
+        objectives=["Name the laryngeal cartilages and the joints between them",
+                    "Explain the actions of the intrinsic muscles on the vocal folds",
+                    "Give the sensory and motor supply above and below the folds"],
+        takeaways=["All intrinsic muscles are supplied by the recurrent laryngeal nerve except cricothyroid.",
+                   "Posterior cricoarytenoid is the only abductor — the only one that opens the airway.",
+                   "The cricothyroid membrane is the emergency airway."],
+        see_also={"lessons": ["pharynx-and-swallowing", "thyroid-and-parathyroids"], "histology": ["larynx"]}),
+    "ear": dict(
+        system="sensory", region="head_neck", level="core", minutes=8,
+        tags=["ossicles", "cochlea", "vestibular", "deafness"],
+        objectives=["Divide the ear into its three parts and name the contents of each",
+                    "Trace sound from the auricle to the cochlear nerve",
+                    "Distinguish conductive from sensorineural deafness"],
+        takeaways=["Malleus, incus, stapes amplify about twentyfold to overcome the impedance of fluid.",
+                   "The middle ear is an air space connected to the nasopharynx by the pharyngotympanic tube.",
+                   "Rinne and Weber separate conductive from sensorineural loss at the bedside."],
+        see_also={"lessons": ["facial-nerve", "skull-base"], "histology": ["ear"]}),
+    "pelvic-floor": dict(
+        system="muscular", region="pelvis", level="core", minutes=8,
+        tags=["levator ani", "continence", "prolapse"],
+        objectives=["Name the muscles of the pelvic diaphragm and their attachments",
+                    "Explain how the floor maintains continence",
+                    "Describe what happens when it fails"],
+        takeaways=["Levator ani is the floor: puborectalis, pubococcygeus and iliococcygeus.",
+                   "Puborectalis slings round the anorectal junction and holds the anorectal angle.",
+                   "Nerve supply is S3–S4 directly and the pudendal nerve."],
+        see_also={"lessons": ["urinary-tract", "pelvic-girdle", "sacral-plexus"]}),
+    "brachial-plexus": dict(
+        system="nervous", region="upper_limb", level="advanced", minutes=11,
+        tags=["plexus", "Erb", "Klumpke", "C5-T1"],
+        objectives=["Recite the plexus from roots to terminal branches",
+                    "Locate each part in the neck, behind the clavicle and in the axilla",
+                    "Predict the deficit from an upper or lower trunk injury"],
+        takeaways=["Real Texans Drink Cold Beer: roots, trunks, divisions, cords, branches.",
+                   "Erb's palsy (C5–C6) gives the waiter's tip; Klumpke's (C8–T1) gives a claw hand.",
+                   "The cords are named for their position around the axillary artery."],
+        see_also={"lessons": ["arm-compartments", "dermatomes", "rotator-cuff"]}),
+    "rotator-cuff": dict(
+        system="muscular", region="upper_limb", level="core", minutes=9,
+        tags=["supraspinatus", "impingement", "cuff tear"],
+        objectives=["Name the four cuff muscles, their attachments and actions",
+                    "Explain how the cuff stabilises the glenohumeral joint",
+                    "Say why supraspinatus is the tendon that fails"],
+        takeaways=["SITS: supraspinatus, infraspinatus, teres minor, subscapularis.",
+                   "The cuff pulls the humeral head into the glenoid so deltoid can abduct against a fixed fulcrum.",
+                   "Supraspinatus passes through a narrow subacromial space and has a hypovascular zone."],
+        see_also={"lessons": ["shoulder-joint", "pectoral-girdle"], "radiology": ["shoulder_ap"]}),
+    "carpal-tunnel": dict(
+        system="muscular", region="upper_limb", level="core", minutes=8,
+        tags=["median nerve", "flexor retinaculum", "compression"],
+        objectives=["Name the boundaries and contents of the carpal tunnel",
+                    "Explain the sensory sparing of the palm in carpal tunnel syndrome",
+                    "Describe the tests used to confirm it"],
+        takeaways=["Nine tendons and the median nerve pass through; the ulnar nerve does not.",
+                   "The palmar cutaneous branch leaves before the tunnel, so the palm is spared.",
+                   "Thenar wasting is a late and important sign."],
+        see_also={"lessons": ["hand-intrinsic-muscles", "forearm-flexors", "hand-skeleton"], "radiology": ["wrist_lat"]}),
+    "cubital-fossa": dict(
+        system="muscular", region="upper_limb", level="core", minutes=7,
+        tags=["antecubital", "venepuncture", "brachial artery"],
+        objectives=["Give the boundaries and contents of the cubital fossa",
+                    "Name the structures at risk during venepuncture",
+                    "Describe the course of the median nerve through it"],
+        takeaways=["Contents from lateral to medial: radial nerve, biceps tendon, brachial artery, median nerve.",
+                   "The bicipital aponeurosis separates the median cubital vein from the artery beneath.",
+                   "The roof carries the superficial veins; the floor is brachialis and supinator."],
+        see_also={"lessons": ["arm-compartments", "upper-limb-arteries"], "radiology": ["elbow_ap"]}),
+    "femoral-triangle": dict(
+        system="muscular", region="lower_limb", level="core", minutes=8,
+        tags=["NAVEL", "femoral hernia", "femoral sheath"],
+        objectives=["Give the boundaries and contents of the femoral triangle",
+                    "Describe the femoral sheath and the femoral canal",
+                    "Distinguish a femoral from an inguinal hernia"],
+        takeaways=["NAVEL from lateral to medial: nerve, artery, vein, empty space, lymphatics.",
+                   "The femoral nerve is outside the sheath; the artery and vein are inside it.",
+                   "A femoral hernia lies below and lateral to the pubic tubercle and strangulates easily."],
+        see_also={"lessons": ["lower-limb-arteries", "inguinal-canal", "thigh-compartments"]}),
+    "popliteal-fossa": dict(
+        system="muscular", region="lower_limb", level="core", minutes=7,
+        tags=["popliteal artery", "tibial nerve", "Baker cyst"],
+        objectives=["Name the boundaries and contents of the popliteal fossa",
+                    "Give the order of the structures from superficial to deep",
+                    "Explain why a popliteal aneurysm is dangerous"],
+        takeaways=["Nerve most superficial, then vein, then artery deepest — against the joint capsule.",
+                   "The common fibular nerve leaves along the medial border of biceps femoris.",
+                   "The artery is tethered, so knee dislocation threatens it."],
+        see_also={"lessons": ["leg-compartments", "lower-limb-arteries", "knee-joint"], "radiology": ["knee_lat"]}),
+    "gluteal-sciatic": dict(
+        system="nervous", region="lower_limb", level="core", minutes=7,
+        tags=["sciatic", "injection", "piriformis"],
+        objectives=["Trace the sciatic nerve through the gluteal region",
+                    "Explain the safe site for an intramuscular injection",
+                    "Name what leaves above and below piriformis"],
+        takeaways=["The sciatic nerve runs midway between the ischial tuberosity and the greater trochanter.",
+                   "Superior gluteal above piriformis; everything else below it.",
+                   "Inject into the upper outer quadrant, or the ventrogluteal site."],
+        see_also={"lessons": ["gluteal-muscles", "sacral-plexus", "hip-joint"]}),
+    "breast": dict(
+        system="lymphatic", region="thorax", level="core", minutes=8,
+        tags=["breast", "axillary nodes", "lymphoedema"],
+        objectives=["Describe the extent and structure of the breast",
+                    "Trace its lymphatic drainage and name the nodal levels",
+                    "Explain skin dimpling and peau d'orange"],
+        takeaways=["About 75% of lymph drains to the axillary nodes, the rest to internal thoracic nodes.",
+                   "Suspensory ligaments tether the skin — tumour traction dimples it.",
+                   "Axillary clearance risks lymphoedema and the long thoracic and thoracodorsal nerves."],
+        see_also={"lessons": ["lymphoid-organs", "lymphatics", "pectoral-girdle"], "histology": ["mammary"]}),
+    "autonomics": dict(
+        system="nervous", region="general", level="advanced", minutes=10,
+        tags=["sympathetic", "parasympathetic", "referred pain"],
+        objectives=["Contrast the sympathetic and parasympathetic outflows anatomically",
+                    "Say where the ganglia of each lie and why that matters",
+                    "Explain referred visceral pain in terms of afferent pathways"],
+        takeaways=["Sympathetic outflow is thoracolumbar (T1–L2) with ganglia near the cord; parasympathetic is craniosacral with ganglia in the organ wall.",
+                   "Parasympathetic supply comes from cranial nerves III, VII, IX and X and from S2–S4.",
+                   "Visceral pain is referred to the dermatome of the segment the afferents enter."],
+        see_also={"lessons": ["dermatomes", "adrenal-glands", "sacral-plexus"]}),
+    "lymphatics": dict(
+        system="lymphatic", region="general", level="core", minutes=8,
+        tags=["thoracic duct", "nodes", "drainage"],
+        objectives=["Describe the general plan of lymphatic drainage",
+                    "Say what the thoracic duct drains and where it ends",
+                    "Interpret an enlarged node by its drainage field"],
+        takeaways=["The thoracic duct drains everything except the right upper quadrant of the body.",
+                   "Lymph enters the venous system at the junction of the internal jugular and subclavian veins.",
+                   "An enlarged node points to its drainage field — Virchow's node points to the abdomen."],
+        see_also={"lessons": ["lymphoid-organs", "breast", "male-reproductive"], "histology": ["lymph_node"]}),
+    "abdominal-wall": dict(
+        system="muscular", region="abdomen", level="core", minutes=9,
+        tags=["rectus sheath", "arcuate line", "incisions"],
+        objectives=["Name the layers of the anterior abdominal wall from skin to peritoneum",
+                    "Describe the rectus sheath above and below the arcuate line",
+                    "Explain the blood and nerve supply of the wall"],
+        takeaways=["External oblique, internal oblique, transversus abdominis, then transversalis fascia.",
+                   "Below the arcuate line all three aponeuroses pass in front of rectus.",
+                   "Segmental nerves T7–L1 run between internal oblique and transversus."],
+        see_also={"lessons": ["inguinal-canal", "peritoneum", "fascia-and-planes"]}),
+    "inguinal-canal": dict(
+        system="muscular", region="abdomen", level="core", minutes=9,
+        tags=["hernia", "inguinal", "deep ring"],
+        objectives=["Give the boundaries of the inguinal canal",
+                    "List its contents in the male and the female",
+                    "Distinguish a direct from an indirect inguinal hernia"],
+        takeaways=["Floor inguinal ligament, roof arching fibres, anterior external oblique, posterior transversalis fascia and conjoint tendon.",
+                   "Indirect hernias pass through the deep ring, lateral to the inferior epigastric vessels.",
+                   "Direct hernias push through Hesselbach's triangle, medial to those vessels."],
+        see_also={"lessons": ["abdominal-wall", "male-reproductive", "femoral-triangle"]}),
+    "diaphragm": dict(
+        system="muscular", region="thorax", level="core", minutes=8,
+        tags=["diaphragm", "hiatus", "phrenic"],
+        objectives=["Describe the attachments of the diaphragm",
+                    "Name the three major openings and their levels and contents",
+                    "Explain referred shoulder tip pain"],
+        takeaways=["T8 caval, T10 oesophageal, T12 aortic — the numbers and the letters both increase.",
+                   "The whole muscle is supplied by the phrenic nerve, C3–C5.",
+                   "Central diaphragmatic irritation refers pain to the shoulder tip."],
+        see_also={"lessons": ["breathing-mechanics", "oesophagus", "mediastinum"]}),
+    "intercostal-space": dict(
+        system="muscular", region="thorax", level="core", minutes=7,
+        tags=["intercostal", "neurovascular bundle", "chest drain"],
+        objectives=["Name the three muscle layers of an intercostal space",
+                    "Describe the position of the neurovascular bundle",
+                    "Justify where a needle or drain is inserted"],
+        takeaways=["Vein, artery, nerve from above down in the costal groove.",
+                   "The bundle runs between internal and innermost intercostal muscles.",
+                   "Insert just above the lower rib to avoid the bundle."],
+        see_also={"lessons": ["thoracic-cage", "lungs-and-pleura", "breathing-mechanics"], "radiology": ["cxr_pa"]}),
+    "mediastinum": dict(
+        system="cardiovascular", region="thorax", level="core", minutes=8,
+        tags=["mediastinum", "sternal angle", "great vessels"],
+        objectives=["Divide the mediastinum into its parts",
+                    "List what lies in each division",
+                    "Say what happens at the plane of the sternal angle"],
+        takeaways=["Superior mediastinum above the sternal angle; anterior, middle and posterior below it.",
+                   "The middle mediastinum is the pericardium and its contents.",
+                   "The sternal angle plane marks the arch of the aorta, the carina and T4/5."],
+        see_also={"lessons": ["aortic-arch-branches", "heart-chambers", "oesophagus"], "radiology": ["cxr_lat", "ct_abdo_upper"]}),
+    "vertebral-column": dict(
+        system="skeletal", region="back", level="foundation", minutes=8,
+        tags=["spine", "curves", "cord level"],
+        objectives=["Identify a vertebra by region on sight",
+                    "Describe the normal curves and when each appears",
+                    "State where the cord ends and the practical consequence"],
+        takeaways=["7 cervical, 12 thoracic, 5 lumbar, then sacrum and coccyx.",
+                   "Cervical vertebrae have foramina transversaria; thoracic have costal facets; lumbar are massive.",
+                   "The cord ends at L1/L2, so lumbar puncture is done below that."],
+        see_also={"lessons": ["vertebra-typical", "spinal-cord", "back-muscle-layers"], "radiology": ["cspine_lat"]}),
+    "heart-chambers": dict(
+        system="cardiovascular", region="thorax", level="core", minutes=10,
+        tags=["heart", "valves", "coronary", "auscultation"],
+        objectives=["Follow blood through the four chambers and four valves",
+                    "Locate the valves and their auscultation areas",
+                    "Relate the coronary arteries to the chambers they supply"],
+        takeaways=["Right atrium → tricuspid → right ventricle → pulmonary valve → lungs → left atrium → mitral → left ventricle → aortic valve.",
+                   "Valves are heard downstream of where they lie, along the direction of blood flow.",
+                   "The left ventricle forms the apex; the right ventricle is the most anterior chamber."],
+        see_also={"lessons": ["coronary-circulation", "conducting-system", "mediastinum"], "radiology": ["cxr_pa", "ct_abdo_upper"]}),
+    "bronchial-tree": dict(
+        system="respiratory", region="thorax", level="core", minutes=8,
+        tags=["bronchi", "aspiration", "lobes"],
+        objectives=["Trace the airway from trachea to bronchiole",
+                    "Explain why inhaled objects go to the right",
+                    "Match lobar bronchi to the lobes they supply"],
+        takeaways=["The trachea divides at the carina, at the level of the sternal angle.",
+                   "The right main bronchus is wider, shorter and more vertical.",
+                   "Ten bronchopulmonary segments on the right; eight to ten on the left."],
+        see_also={"lessons": ["bronchopulmonary-segments", "lungs-and-pleura"], "micro": ["lung_acinus"], "radiology": ["cxr_pa"]}),
+    "coeliac-foregut": dict(
+        system="digestive", region="abdomen", level="core", minutes=9,
+        tags=["coeliac trunk", "foregut", "epigastric pain"],
+        objectives=["Name the three branches of the coeliac trunk and their distribution",
+                    "Define the extent of the foregut",
+                    "Explain why foregut pain is felt in the epigastrium"],
+        takeaways=["Left gastric, splenic and common hepatic arteries, at T12.",
+                   "Foregut runs from the oesophagus to the middle of the second part of the duodenum.",
+                   "Foregut pain is referred to the epigastrium, midgut to the umbilicus, hindgut to the suprapubic area."],
+        see_also={"lessons": ["stomach", "abdominal-aorta", "pancreas-and-spleen"]}),
+    "portal-system": dict(
+        system="digestive", region="abdomen", level="advanced", minutes=8,
+        tags=["portal vein", "varices", "portosystemic"],
+        objectives=["Name the tributaries that form the portal vein",
+                    "List the sites of portosystemic anastomosis",
+                    "Explain the clinical signs of portal hypertension"],
+        takeaways=["Splenic vein plus superior mesenteric vein, behind the neck of the pancreas.",
+                   "Portosystemic sites: lower oesophagus, umbilicus, rectum and the retroperitoneum.",
+                   "Varices, caput medusae and haemorrhoids are all the same mechanism in different places."],
+        see_also={"lessons": ["liver-segments", "oesophagus", "abdominal-aorta"]}),
+    "kidney-retroperitoneum": dict(
+        system="urinary", region="abdomen", level="core", minutes=9,
+        tags=["kidney", "ureter", "retroperitoneum", "nephron"],
+        objectives=["Describe the position, coverings and relations of the kidney",
+                    "Trace the ureter and its constrictions",
+                    "Outline how the nephron makes urine"],
+        takeaways=["The kidneys lie at T12–L3, the right slightly lower because of the liver.",
+                   "Coverings from inside out: capsule, perirenal fat, renal fascia, pararenal fat.",
+                   "The renal hilum contains vein, artery and pelvis from front to back."],
+        see_also={"lessons": ["urinary-tract", "adrenal-glands", "peritoneum"], "micro": ["nephron"], "radiology": ["ct_abdo_kidney"]}),
+    "skin-layers": dict(
+        system="integumentary", region="general", level="foundation", minutes=7,
+        tags=["epidermis", "dermis", "burns"],
+        objectives=["Name the layers of the epidermis and the dermis",
+                    "Relate burn depth to the structures destroyed",
+                    "Describe the appendages and where their stem cells live"],
+        takeaways=["Epidermis: basale, spinosum, granulosum, (lucidum), corneum.",
+                   "Superficial partial-thickness burns heal from adnexal stem cells; full-thickness burns cannot.",
+                   "Thick skin has a stratum lucidum and no hair follicles."],
+        see_also={"lessons": ["fascia-and-planes"], "micro": ["thin_skin", "thick_skin"], "histology": ["thin_skin", "hair_follicle"]}),
+}
+
+
+def main():
+    changed = 0
+    for path in sorted(CONTENT.glob("lessons*.json")):
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        touched = False
+        for lesson in doc:
+            meta = META.get(lesson.get("id"))
+            if not meta:
+                continue
+            for key, value in meta.items():
+                if key not in lesson or not lesson[key]:
+                    lesson[key] = value
+                    touched = True
+        if touched:
+            path.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+            changed += 1
+            print(f"updated {path.name}")
+    print(f"{changed} files updated")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

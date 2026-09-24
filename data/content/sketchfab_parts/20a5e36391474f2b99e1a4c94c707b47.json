@@ -1,0 +1,28 @@
+{
+  "summary": "A heart cut open in a four-chamber plane to show the cardiac conduction system (yellow) running from the sinoatrial node through the atrioventricular node and bundle of His into the bundle branches and Purkinje fibres. Coronary arteries are painted red and cardiac veins blue on the surface; based on a 3D print, so fine branches are simplified.",
+  "view": [10, 10],
+  "default_group": "Heart",
+  "clinical": [
+    ["Heart block", "Disease of the AV node or His-Purkinje system delays or blocks conduction from atria to ventricles: first-degree block prolongs the PR interval, second-degree drops some beats, and third-degree (complete) block leaves the ventricles driven by a slow escape rhythm, often needing a pacemaker."],
+    ["Bundle branch block", "Block of the right or left bundle branch makes one ventricle depolarise late through ordinary myocardium, widening the QRS complex (120 ms or more). New left bundle branch block can signal extensive disease of the left ventricle."]
+  ],
+  "parts": {
+    "Default2": {
+      "name": "Heart (four-chamber section)",
+      "group": "Heart",
+      "description": "The posterior half of a heart cut in a four-chamber plane, seen from the front: right atrium with pectinate muscles and the superior vena cava at upper left, left atrium with the pulmonary veins at upper right, and both ventricles either side of the interventricular septum below. Red lines on the surface are coronary arteries and blue lines cardiac veins.",
+      "structures": ["Heart", "Right atrium", "Left atrium", "Right ventricle", "Left ventricle", "Superior vena cava", "Inferior vena cava (thoracic part)", "Pulmonary veins", "Coronary sinus"],
+      "category": "heart",
+      "alpha": 1.0
+    },
+    "Default1": {
+      "name": "Cardiac conduction system",
+      "group": "Conduction system",
+      "description": "Specialised cardiomyocytes that start and spread each heartbeat: the sinoatrial node (bulb at the junction of the superior vena cava and right atrium) fires first, the impulse crosses the atria to the atrioventricular node in the lower interatrial septum, is delayed there, then runs down the bundle of His into the right and left bundle branches on either side of the septum and out through the Purkinje fibres. The AV node delay lets the atria finish filling the ventricles before they contract.",
+      "structures": [],
+      "category": "muscle",
+      "alpha": 1.0
+    }
+  },
+  "notes": "The conduction system is a single connected mesh, so the SA node, AV node, His bundle, bundle branches and Purkinje fibres cannot be selected separately; the description walks through them. Coronary arteries and cardiac veins are painted into the heart's vertex colours (red and blue), not separate geometry, so they cannot be named or selected either. The source materials were slightly transparent (0.98 and 0.70), which made the heart render with glassy patches; both are set opaque, matching the creator's thumbnail. The heart renders paler pink than the dark red-brown in the Sketchfab thumbnail because the importer reads its vertex colours as linear (Sketchfab shows them as sRGB); a colour override would erase the painted vessels, so it was left. The conduction system has no atlas entry, so its structures list is empty."
+}

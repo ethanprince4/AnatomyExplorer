@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Downloaded or built locally - setup.bat and the tools in tools/ recreate these
+data/raw/
+data/extracted/
+data/anatomy/
+data/micro_cache/
+data/histology/*
+!data/histology/catalog.json
+data/radiology/cache/
+data/radiology/images/
+tools/blender-3.6.23-windows-x64/
+tools/blender.zip
+
+# Sketchfab models fetched with tools/fetch_sketchfab.py: each stays under its creator's licence
+data/sketchfab_models/
+
+# Personal: study progress, quiz history and the Sketchfab API token
+data/user/
+
+# Scratch output
+logs/
+*.stackdump
+*.part

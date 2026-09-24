@@ -1,0 +1,276 @@
+{
+ "format": 1,
+ "materials": [
+  {
+   "name": "Pleural fluid",
+   "color": [
+    0.83,
+    0.66,
+    0.24
+   ],
+   "alpha": 0.8
+  },
+  {
+   "name": "Collapsed lung",
+   "color": [
+    0.72,
+    0.42,
+    0.45
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Consolidation",
+   "color": [
+    0.78,
+    0.69,
+    0.42
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Enlarged heart",
+   "color": [
+    0.72,
+    0.24,
+    0.24
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Air in pleural space",
+   "color": [
+    0.55,
+    0.72,
+    0.82
+   ],
+   "alpha": 0.35
+  }
+ ],
+ "findings": [
+  {
+   "name": "Right pleural effusion",
+   "latin": "Effusio pleuralis dextra",
+   "subsystem": "Pleural space",
+   "note": "A massive effusion filling almost the whole right pleural cavity.",
+   "material": "Pleural fluid",
+   "v_start": 0,
+   "v_count": 116765,
+   "i_start": 0,
+   "i_count": 700164,
+   "bbox": [
+    [
+     -0.13593146204948425,
+     1.1670854091644287,
+     -0.08804302662611008
+    ],
+    [
+     0.0009532936383038759,
+     1.360787272453308,
+     0.10646253079175949
+    ]
+   ],
+   "centroid": [
+    -0.06797158718109131,
+    1.271675705909729,
+    0.00013481294445227832
+   ]
+  },
+  {
+   "name": "Right lung compressed by effusion",
+   "latin": "Pulmo dexter compressus",
+   "subsystem": "Pleural space",
+   "note": "All that is left aerated of the right lung, squashed up against the apex.",
+   "material": "Collapsed lung",
+   "v_start": 116765,
+   "v_count": 12401,
+   "i_start": 700164,
+   "i_count": 70788,
+   "bbox": [
+    [
+     -0.12716111540794373,
+     1.3519999980926514,
+     -0.07801901549100876
+    ],
+    [
+     -0.006477305665612221,
+     1.4294832944869995,
+     0.09655527770519257
+    ]
+   ],
+   "centroid": [
+    -0.06495919078588486,
+    1.387611746788025,
+    0.003823853563517332
+   ]
+  },
+  {
+   "name": "Mediastinum shifted to the left",
+   "latin": "Mediastinum translatum",
+   "subsystem": "Cardiac",
+   "note": "Fluid under pressure pushes the heart and trachea away from the side it is on.",
+   "material": "Enlarged heart",
+   "v_start": 129166,
+   "v_count": 39099,
+   "i_start": 770952,
+   "i_count": 231351,
+   "bbox": [
+    [
+     -0.010787353850901127,
+     1.2367327213287354,
+     -0.03165838122367859
+    ],
+    [
+     0.10833094269037247,
+     1.4605664014816284,
+     0.08120264858007431
+    ]
+   ],
+   "centroid": [
+    0.04321233183145523,
+    1.2938446998596191,
+    0.02925928868353367
+   ]
+  },
+  {
+   "name": "Small bilateral pleural effusions",
+   "latin": "Effusiones pleurales bilaterales",
+   "subsystem": "Pleural space",
+   "note": "Small effusions blunting both costophrenic angles, as in heart failure.",
+   "material": "Pleural fluid",
+   "v_start": 168265,
+   "v_count": 22507,
+   "i_start": 1002303,
+   "i_count": 135000,
+   "bbox": [
+    [
+     -0.13593146204948425,
+     1.1643749475479126,
+     -0.08190547674894333
+    ],
+    [
+     0.13287383317947388,
+     1.2073192596435547,
+     0.09465528279542923
+    ]
+   ],
+   "centroid": [
+    0.002610411262139678,
+    1.1885169744491577,
+    -0.02217707224190235
+   ]
+  },
+  {
+   "name": "Collapsed left lung (pneumothorax)",
+   "latin": "Pulmo sinister collapsus",
+   "subsystem": "Pleural space",
+   "note": "Air in the pleural space has let the left lung fall away from the chest wall.",
+   "material": "Collapsed lung",
+   "v_start": 190772,
+   "v_count": 9805,
+   "i_start": 1137303,
+   "i_count": 55644,
+   "bbox": [
+    [
+     0.013086342252790928,
+     1.1905848979949951,
+     -0.06821203231811523
+    ],
+    [
+     0.10987882316112518,
+     1.4018139839172363,
+     0.07919500768184662
+    ]
+   ],
+   "centroid": [
+    0.06356365233659744,
+    1.2854613065719604,
+    -0.0006329247844405472
+   ]
+  },
+  {
+   "name": "Air in the left pleural space",
+   "latin": "Pneumothorax sinister",
+   "subsystem": "Pleural space",
+   "note": "The pleural cavity the lung has retreated from - no lung markings out here.",
+   "material": "Air in pleural space",
+   "v_start": 200577,
+   "v_count": 9805,
+   "i_start": 1192947,
+   "i_count": 55644,
+   "bbox": [
+    [
+     0.006662345491349697,
+     1.1649309396743774,
+     -0.0849648043513298
+    ],
+    [
+     0.13204747438430786,
+     1.433212399482727,
+     0.10369236767292023
+    ]
+   ],
+   "centroid": [
+    0.07188422977924347,
+    1.2855087518692017,
+    0.001764077227562666
+   ]
+  },
+  {
+   "name": "Consolidated right middle lobe",
+   "latin": "Lobus medius consolidatus",
+   "subsystem": "Airspace disease",
+   "note": "The right middle lobe filled with inflammatory exudate instead of air.",
+   "material": "Consolidation",
+   "v_start": 210382,
+   "v_count": 3838,
+   "i_start": 1248591,
+   "i_count": 22188,
+   "bbox": [
+    [
+     -0.1250820904970169,
+     1.2142666578292847,
+     -0.04875858128070831
+    ],
+    [
+     -0.004242279101163149,
+     1.3206791877746582,
+     0.10397381335496902
+    ]
+   ],
+   "centroid": [
+    -0.06554893404245377,
+    1.2787892818450928,
+    0.034276656806468964
+   ]
+  },
+  {
+   "name": "Enlarged heart",
+   "latin": "Cor dilatatum",
+   "subsystem": "Cardiac",
+   "note": "The cardiac silhouette of a dilated heart, over half the width of the chest.",
+   "material": "Enlarged heart",
+   "v_start": 214220,
+   "v_count": 36699,
+   "i_start": 1270779,
+   "i_count": 217083,
+   "bbox": [
+    [
+     -0.05553559586405754,
+     1.2307888269424438,
+     -0.05049040913581848
+    ],
+    [
+     0.10408291965723038,
+     1.351793885231018,
+     0.0962289348244667
+    ]
+   ],
+   "centroid": [
+    0.01835441030561924,
+    1.2862658500671387,
+    0.03111497312784195
+   ]
+  }
+ ]
+}

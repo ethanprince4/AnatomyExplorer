@@ -1,0 +1,105 @@
+import argparse
+import sys
+import traceback
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Anatomy Explorer")
+    parser.add_argument("--script", help="semicolon-separated automation commands (testing)")
+    parser.add_argument("--no-restore", action="store_true", help="ignore saved window layout")
+    args = parser.parse_args()
+
+    from PySide6.QtCore import QCoreApplication, Qt
+    from PySide6.QtGui import QColor, QFont, QIcon, QPainter, QPixmap, QSurfaceFormat
+    from PySide6.QtWidgets import QApplication, QMessageBox, QSplashScreen
+
+    fmt = QSurfaceFormat()
+    fmt.setVersion(4, 1)
+    fmt.setProfile(QSurfaceFormat.CoreProfile)
+    fmt.setDepthBufferSize(24)
+    fmt.setStencilBufferSize(0)
+    fmt.setSamples(0)
+    fmt.setSwapInterval(1)
+    QSurfaceFormat.setDefaultFormat(fmt)
+    QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
+    try:
+        # the Sketchfab tab's web view composites through Qt Quick. Left on its Windows default (Direct3D) it
+        # cannot share a window with the OpenGL viewport and renders black; on OpenGL the two coexist.
+        from PySide6.QtQuick import QQuickWindow, QSGRendererInterface
+        QQuickWindow.setGraphicsApi(QSGRendererInterface.GraphicsApi.OpenGL)
+    except ImportError:
+        pass
+
+    from .config import APP_NAME, DATA_DIR, ORG_NAME, ROOT
+
+    log_dir = ROOT / "logs"
+
+    def excepthook(exc_type, exc, tb):
+        text = "".join(traceback.format_exception(exc_type, exc, tb))
+        try:
+            log_dir.mkdir(exist_ok=True)
+            with open(log_dir / "errors.log", "a", encoding="utf-8") as f:
+                f.write(text + "\n")
+        except OSError:
+            pass
+        sys.__stderr__ and sys.__stderr__.write(text)
+
+    sys.excepthook = excepthook
+
+    app = QApplication(sys.argv)
+    app.setApplicationName(APP_NAME)
+    app.setOrganizationName(ORG_NAME)
+    icon_path = ROOT / "app" / "resources" / "icon.png"
+    if icon_path.exists():
+        app.setWindowIcon(QIcon(str(icon_path)))
+
+    from .ui.theme import apply_theme
+    apply_theme(app)
+
+    if not (DATA_DIR / "anatomy.json").exists():
+        QMessageBox.critical(None, APP_NAME, f"Dataset not found in {DATA_DIR}.\n\nRun tools\\build_all.bat first.")
+        return 1
+
+    pix = QPixmap(520, 220)
+    pix.fill(QColor("#14171c"))
+    p = QPainter(pix)
+    p.setRenderHint(QPainter.Antialiasing)
+    p.setPen(QColor("#e8edf3"))
+    f = QFont("Segoe UI", 22)
+    f.setBold(True)
+    p.setFont(f)
+    p.drawText(pix.rect().adjusted(0, -30, 0, 0), Qt.AlignCenter, APP_NAME)
+    p.setPen(QColor("#4fc3f7"))
+    p.setFont(QFont("Segoe UI", 10))
+    p.drawText(pix.rect().adjusted(0, 50, 0, 0), Qt.AlignCenter, "Loading 3D anatomy…")
+    p.end()
+    splash = QSplashScreen(pix)
+    splash.show()
+    app.processEvents()
+
+    from .data import Dataset
+    from .main_window import MainWindow
+
+    if args.no_restore:
+        from PySide6.QtCore import QSettings
+        QSettings(ORG_NAME, APP_NAME).clear()
+
+    ds = Dataset(DATA_DIR)
+    win = MainWindow(ds, script=args.script)
+    win.show()
+    splash.finish(win)
+    return app.exec()
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except Exception:
+        traceback.print_exc()
+        try:
+            from PySide6.QtWidgets import QApplication, QMessageBox
+            if QApplication.instance():
+                QMessageBox.critical(None, "Anatomy Explorer", traceback.format_exc())
+        except Exception:
+            pass
+        sys.exit(1)
