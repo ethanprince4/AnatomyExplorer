@@ -1,10 +1,44 @@
 """Central place for paths and look-and-feel settings you may want to customize."""
+import os
+import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data" / "anatomy"
 APP_NAME = "Anatomy Explorer"
 ORG_NAME = "AnatomyExplorer"
+
+# FROZEN is True in the installed app (a PyInstaller bundle, see packaging/). Its own folder is read-only there
+# (Program Files, a signed .app), so everything the app writes goes to a per-user folder instead. Run from source,
+# every path stays where it always was inside the repo.
+FROZEN = bool(getattr(sys, "frozen", False))
+ROOT = Path(getattr(sys, "_MEIPASS", "")) if FROZEN else Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data" / "anatomy"
+
+
+def _user_base():
+    if sys.platform == "win32":
+        return Path(os.environ.get("LOCALAPPDATA") or Path.home() / "AppData" / "Local") / ORG_NAME
+    if sys.platform == "darwin":
+        return Path.home() / "Library" / "Application Support" / ORG_NAME
+    return Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local" / "share") / ORG_NAME
+
+
+USER_BASE = _user_base() if FROZEN else None
+USER_DIR = USER_BASE / "user" if FROZEN else ROOT / "data" / "user"     # progress, quiz stats, notes, token
+LOG_DIR = USER_BASE / "logs" if FROZEN else ROOT / "logs"
+
+
+def cache_candidates(path):
+    """(paths to try reading, path to write) for a cache file shipped at `path`. From source the cache lives right
+    there; in the installed app a fresh copy is written under the user folder and read before the shipped one."""
+    if not FROZEN:
+        return [path], path
+    path = Path(path)
+    try:
+        rel = path.relative_to(ROOT)
+    except ValueError:
+        rel = Path(path.name)
+    mine = USER_BASE / "cache" / rel
+    return [mine, path], mine
 
 # Surface response per material category: (specular strength, glossiness exponent, rim strength)
 SHADING = {

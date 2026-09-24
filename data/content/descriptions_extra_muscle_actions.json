@@ -1,0 +1,565 @@
+{
+  "_about": "Action and blood supply for muscles that already have a description and innervation, plus corrections where the innervation derived at build time is wrong. See app/extra_content.py.",
+
+  "Clavicular head of pectoralis major muscle": {
+    "action": "Flexes the arm from the extended position, adducts and medially rotates the humerus.",
+    "blood_supply": "Deltoid and pectoral branches of the thoraco-acromial artery."
+  },
+  "Sternocostal head of pectoralis major muscle": {
+    "action": "Adducts and medially rotates the humerus; extends the flexed arm against resistance; raises the ribs in forced inspiration when the arm is fixed.",
+    "blood_supply": "Pectoral branches of the thoraco-acromial artery, perforating branches of the internal thoracic artery and the lateral thoracic artery."
+  },
+  "Abdominal part of pectoralis major muscle": {
+    "action": "Adducts and medially rotates the humerus and draws the shoulder downward.",
+    "blood_supply": "Pectoral branches of the thoraco-acromial and lateral thoracic arteries."
+  },
+  "Subclavius muscle": {
+    "action": "Depresses and anchors the clavicle toward the sternum, protecting the subclavian vessels when the clavicle breaks.",
+    "blood_supply": "Clavicular branch of the thoraco-acromial artery."
+  },
+  "Serratus anterior muscle": {
+    "action": "Protracts the scapula and holds it against the chest wall; its lower fibres rotate the glenoid upward for abduction above 90 degrees. Paralysis (long thoracic nerve injury) causes a winged scapula.",
+    "blood_supply": "Lateral thoracic, thoracodorsal and superior thoracic arteries."
+  },
+  "Descending part of trapezius muscle": {
+    "action": "Elevates the scapula (shrugging) and rotates the glenoid upward; bilaterally extends the neck.",
+    "blood_supply": "Superficial branch of the transverse cervical artery and occipital artery."
+  },
+  "Transverse part of trapezius muscle": {
+    "action": "Retracts the scapula.",
+    "blood_supply": "Superficial branch of the transverse cervical artery."
+  },
+  "Ascending part of trapezius muscle": {
+    "action": "Depresses the scapula and, with the upper fibres, rotates the glenoid upward.",
+    "blood_supply": "Transverse cervical artery and dorsal branches of posterior intercostal arteries."
+  },
+  "Levator scapulae": {
+    "action": "Elevates the scapula and rotates the glenoid downward; laterally flexes the neck.",
+    "blood_supply": "Dorsal scapular and transverse cervical arteries."
+  },
+  "Rhomboid major muscle": {
+    "action": "Retracts the scapula and rotates the glenoid downward; holds the scapula against the chest wall.",
+    "blood_supply": "Dorsal scapular artery and dorsal branches of posterior intercostal arteries."
+  },
+  "Rhomboid minor muscle": {
+    "action": "Retracts the scapula and rotates the glenoid downward.",
+    "blood_supply": "Dorsal scapular artery."
+  },
+  "Clavicular part of deltoid muscle": {
+    "action": "Flexes and medially rotates the arm.",
+    "blood_supply": "Deltoid branch of the thoraco-acromial artery and anterior circumflex humeral artery."
+  },
+  "Acromial part of deltoid muscle": {
+    "action": "Abducts the arm beyond the first 15 degrees initiated by supraspinatus.",
+    "blood_supply": "Posterior circumflex humeral artery and acromial branch of the thoraco-acromial artery."
+  },
+  "Scapular spinal part of deltoid muscle": {
+    "action": "Extends and laterally rotates the arm.",
+    "blood_supply": "Posterior circumflex humeral artery."
+  },
+  "Supraspinatus muscle": {
+    "action": "Initiates abduction of the arm and holds the humeral head in the glenoid (rotator cuff). Its tendon is the one most often torn or impinged under the acromion.",
+    "blood_supply": "Suprascapular artery."
+  },
+  "Infraspinatus muscle": {
+    "action": "Laterally rotates the arm; stabilises the humeral head (rotator cuff).",
+    "blood_supply": "Suprascapular and circumflex scapular arteries."
+  },
+  "Teres minor muscle": {
+    "action": "Laterally rotates the arm; stabilises the humeral head (rotator cuff).",
+    "blood_supply": "Circumflex scapular and posterior circumflex humeral arteries."
+  },
+  "Coracobrachialis muscle": {
+    "action": "Flexes and adducts the arm; helps hold the humeral head in the glenoid.",
+    "blood_supply": "Muscular branches of the brachial artery and anterior circumflex humeral artery."
+  },
+  "Long head of biceps brachii": {
+    "action": "With the short head: supinates the forearm (powerfully when the elbow is flexed) and flexes the elbow; the long head also helps stabilise the humeral head.",
+    "blood_supply": "Muscular branches of the brachial artery and anterior circumflex humeral artery."
+  },
+  "Short head of biceps brachii": {
+    "action": "With the long head: supinates the forearm and flexes the elbow; weakly flexes the shoulder.",
+    "blood_supply": "Muscular branches of the brachial artery."
+  },
+  "Brachialis muscle": {
+    "action": "The main flexor of the elbow in every position of the forearm.",
+    "blood_supply": "Muscular branches of the brachial artery and radial recurrent artery."
+  },
+  "Long head of triceps brachii": {
+    "action": "Extends the elbow; as it crosses the shoulder it also helps extend and adduct the arm.",
+    "blood_supply": "Profunda brachii and posterior circumflex humeral arteries."
+  },
+  "Lateral head of triceps brachii": {
+    "action": "Extends the elbow, especially against resistance.",
+    "blood_supply": "Profunda brachii artery."
+  },
+  "Medial head of triceps brachii": {
+    "action": "Extends the elbow; active in all extension, including unresisted.",
+    "blood_supply": "Profunda brachii and superior ulnar collateral arteries."
+  },
+  "Anconeus muscle": {
+    "action": "Assists triceps in elbow extension, tenses the joint capsule and abducts the ulna during pronation.",
+    "blood_supply": "Recurrent interosseous and middle collateral arteries."
+  },
+  "Superficial head of pronator teres": {
+    "action": "Pronates the forearm and assists elbow flexion.",
+    "blood_supply": "Ulnar and anterior ulnar recurrent arteries."
+  },
+  "Deep head of pronator teres": {
+    "action": "Pronates the forearm. The median nerve passes between the two heads, where it can be compressed (pronator syndrome).",
+    "blood_supply": "Ulnar artery."
+  },
+  "Flexor carpi radialis": {
+    "action": "Flexes and abducts (radially deviates) the wrist.",
+    "blood_supply": "Radial and ulnar arteries."
+  },
+  "Palmaris longus muscle": {
+    "action": "Flexes the wrist and tenses the palmar aponeurosis. Absent in about 15% of people; its tendon is a common graft source.",
+    "blood_supply": "Ulnar artery."
+  },
+  "Humeral head of flexor carpi ulnaris": {
+    "action": "With the ulnar head: flexes and adducts (ulnar-deviates) the wrist.",
+    "blood_supply": "Ulnar artery and posterior ulnar recurrent artery."
+  },
+  "Ulnar head of flexor carpi ulnaris": {
+    "action": "With the humeral head: flexes and adducts (ulnar-deviates) the wrist.",
+    "blood_supply": "Ulnar artery and posterior ulnar recurrent artery."
+  },
+  "Humero-ulnar head of flexor digitorum superficialis": {
+    "action": "Flexes the fingers at the proximal interphalangeal and metacarpophalangeal joints; assists wrist flexion.",
+    "blood_supply": "Ulnar and radial arteries."
+  },
+  "Flexor digitorum profundus": {
+    "action": "The only muscle that flexes the distal interphalangeal joints of the fingers; also flexes the other finger joints and the wrist. Lateral half by the anterior interosseous (median) nerve, medial half by the ulnar nerve.",
+    "blood_supply": "Anterior interosseous and ulnar arteries."
+  },
+  "Flexor pollicis longus": {
+    "action": "Flexes the thumb, the only muscle flexing its interphalangeal joint.",
+    "blood_supply": "Anterior interosseous artery."
+  },
+  "Pronator quadratus": {
+    "action": "Prime pronator of the forearm; binds the radius and ulna together at the distal radio-ulnar joint.",
+    "blood_supply": "Anterior interosseous artery."
+  },
+  "Brachioradialis muscle": {
+    "action": "Flexes the elbow, most strongly with the forearm midway between pronation and supination.",
+    "blood_supply": "Radial recurrent and radial arteries."
+  },
+  "Extensor carpi radialis longus": {
+    "action": "Extends and abducts (radially deviates) the wrist; stabilises the wrist during gripping.",
+    "blood_supply": "Radial and radial recurrent arteries."
+  },
+  "Extensor carpi radialis brevis": {
+    "action": "Extends and abducts the wrist; its origin at the lateral epicondyle is the usual site of tennis elbow.",
+    "blood_supply": "Radial and radial recurrent arteries."
+  },
+  "Abductor pollicis brevis": {
+    "action": "Abducts the thumb at the carpometacarpal and metacarpophalangeal joints. Wasting is an early sign of carpal tunnel syndrome.",
+    "blood_supply": "Superficial palmar branch of the radial artery."
+  },
+  "Superficial head of flexor pollicis brevis": {
+    "action": "Flexes the thumb at the metacarpophalangeal joint.",
+    "blood_supply": "Superficial palmar branch of the radial artery."
+  },
+  "Deep head of flexor pollicis brevis": {
+    "innervation": ["Deep branch of ulnar nerve"],
+    "action": "Flexes the thumb at the metacarpophalangeal joint.",
+    "blood_supply": "Superficial palmar branch of the radial artery and deep palmar arch."
+  },
+  "Opponens pollicis muscle": {
+    "action": "Opposes the thumb: flexes and medially rotates the first metacarpal so the thumb pad meets the fingertips.",
+    "blood_supply": "Superficial palmar branch of the radial artery."
+  },
+  "Oblique head of adductor pollicis": {
+    "innervation": ["Deep branch of ulnar nerve"],
+    "action": "Adducts the thumb toward the palm, giving power to pinch grip. Weakness shows as Froment's sign.",
+    "blood_supply": "Deep palmar arch."
+  },
+  "Transverse head of adductor pollicis": {
+    "innervation": ["Deep branch of ulnar nerve"],
+    "action": "Adducts the thumb toward the middle finger, giving power to pinch grip.",
+    "blood_supply": "Deep palmar arch."
+  },
+  "Abductor digiti minimi of hand": {
+    "action": "Abducts the little finger and helps flex its metacarpophalangeal joint.",
+    "blood_supply": "Deep palmar branch of the ulnar artery."
+  },
+  "Flexor digiti minimi of hand": {
+    "action": "Flexes the little finger at the metacarpophalangeal joint.",
+    "blood_supply": "Deep palmar branch of the ulnar artery."
+  },
+  "Opponens digiti minimi muscle of hand": {
+    "action": "Draws the fifth metacarpal forward and rotates it, deepening the palm and helping opposition with the thumb.",
+    "blood_supply": "Deep palmar branch of the ulnar artery."
+  },
+  "Lumbrical muscles of hand": {
+    "action": "Flex the metacarpophalangeal joints and extend the interphalangeal joints of the fingers (the tabletop position).",
+    "blood_supply": "Superficial and deep palmar arches and digital arteries."
+  },
+  "Dorsal interossei muscles of hand": {
+    "action": "Abduct the fingers from the axis of the middle finger (DAB); flex the metacarpophalangeal and extend the interphalangeal joints.",
+    "blood_supply": "Dorsal and palmar metacarpal arteries."
+  },
+  "Palmar interossei muscles": {
+    "action": "Adduct the fingers toward the axis of the middle finger (PAD); flex the metacarpophalangeal and extend the interphalangeal joints.",
+    "blood_supply": "Palmar metacarpal arteries from the deep palmar arch."
+  },
+
+  "Iliacus muscle": {
+    "action": "With psoas major (iliopsoas) flexes the hip and stabilises the hip joint; flexes the trunk on the fixed thigh.",
+    "blood_supply": "Iliac branch of the iliolumbar artery, deep circumflex iliac and obturator arteries."
+  },
+  "Sartorius muscle": {
+    "action": "Flexes, abducts and laterally rotates the hip and flexes the knee (the cross-legged tailor's position).",
+    "blood_supply": "Muscular branches of the femoral artery."
+  },
+  "Rectus femoris muscle": {
+    "action": "Extends the knee and flexes the hip (the kicking muscle).",
+    "blood_supply": "Descending branch of the lateral circumflex femoral artery."
+  },
+  "Vastus lateralis muscle": {
+    "action": "Extends the knee.",
+    "blood_supply": "Descending branch of the lateral circumflex femoral artery and perforating arteries."
+  },
+  "Vastus medialis muscle": {
+    "action": "Extends the knee; its low oblique fibres (VMO) resist lateral displacement of the patella.",
+    "blood_supply": "Femoral artery and descending genicular artery."
+  },
+  "Vastus intermedius muscle": {
+    "action": "Extends the knee.",
+    "blood_supply": "Lateral circumflex femoral artery and profunda femoris."
+  },
+  "Pectineus muscle": {
+    "action": "Adducts and flexes the hip.",
+    "blood_supply": "Medial circumflex femoral and obturator arteries."
+  },
+  "Adductor longus": {
+    "action": "Adducts the hip and assists flexion and medial rotation. The commonest groin strain.",
+    "blood_supply": "Profunda femoris and obturator arteries."
+  },
+  "Adductor brevis": {
+    "action": "Adducts the hip and assists flexion.",
+    "blood_supply": "Profunda femoris, medial circumflex femoral and obturator arteries."
+  },
+  "Adductor magnus": {
+    "action": "Adductor part adducts and flexes the hip (obturator nerve); hamstring part extends the hip (tibial division of sciatic nerve).",
+    "blood_supply": "Profunda femoris, perforating, obturator and femoral arteries."
+  },
+  "Gracilis muscle": {
+    "action": "Adducts the hip, flexes the knee and medially rotates the flexed leg. Often used as a free muscle flap.",
+    "blood_supply": "Medial circumflex femoral artery (dominant) and profunda femoris."
+  },
+  "Obturator internus": {
+    "innervation": ["Nerve to obturator internus"],
+    "action": "Laterally rotates the extended hip and abducts the flexed hip; holds the femoral head in the acetabulum.",
+    "blood_supply": "Internal pudendal and obturator arteries."
+  },
+  "Long head of biceps femoris": {
+    "innervation": ["Sciatic nerve", "Tibial nerve"],
+    "action": "Extends the hip and flexes the knee; laterally rotates the flexed knee. Supplied by the tibial division of the sciatic nerve.",
+    "blood_supply": "Perforating arteries and inferior gluteal artery."
+  },
+  "Short head of biceps femoris": {
+    "innervation": ["Sciatic nerve", "Common fibular nerve"],
+    "action": "Flexes the knee and laterally rotates the flexed leg. The only hamstring component supplied by the common fibular division.",
+    "blood_supply": "Perforating arteries and superior lateral genicular artery."
+  },
+  "Semitendinosus muscle": {
+    "action": "Extends the hip, flexes the knee and medially rotates the flexed leg. Its tendon is a common ACL graft.",
+    "blood_supply": "Perforating arteries and inferior gluteal artery."
+  },
+  "Semimembranosus muscle": {
+    "action": "Extends the hip, flexes the knee and medially rotates the flexed leg; its expansions reinforce the posterior knee capsule.",
+    "blood_supply": "Perforating arteries and popliteal artery."
+  },
+  "Tibialis anterior muscle": {
+    "action": "Dorsiflexes and inverts the foot; supports the medial arch. Weakness gives foot drop.",
+    "blood_supply": "Anterior tibial artery."
+  },
+  "Extensor hallucis longus": {
+    "action": "Extends the great toe and dorsiflexes the ankle.",
+    "blood_supply": "Anterior tibial artery."
+  },
+  "Extensor digitorum longus": {
+    "action": "Extends the lateral four toes and dorsiflexes and everts the foot.",
+    "blood_supply": "Anterior tibial artery."
+  },
+  "Fibularis tertius muscle": {
+    "action": "Dorsiflexes and everts the foot.",
+    "blood_supply": "Anterior tibial artery."
+  },
+  "Fibularis longus muscle": {
+    "action": "Everts and plantarflexes the foot; supports the transverse and lateral longitudinal arches.",
+    "blood_supply": "Fibular and anterior tibial arteries."
+  },
+  "Fibularis brevis muscle": {
+    "action": "Everts the foot and weakly plantarflexes it. Its pull can avulse the base of the fifth metatarsal in inversion injuries.",
+    "blood_supply": "Fibular artery."
+  },
+  "Medial head of gastrocnemius": {
+    "action": "With the lateral head and soleus (triceps surae): plantarflexes the ankle; flexes the knee.",
+    "blood_supply": "Sural branches of the popliteal artery."
+  },
+  "Lateral head of gastrocnemius": {
+    "action": "With the medial head and soleus (triceps surae): plantarflexes the ankle; flexes the knee.",
+    "blood_supply": "Sural branches of the popliteal artery."
+  },
+  "Soleus muscle": {
+    "action": "Plantarflexes the ankle; its postural activity keeps the body from falling forward in standing, and its venous sinuses make it the calf muscle pump.",
+    "blood_supply": "Posterior tibial, fibular and sural arteries."
+  },
+  "Plantaris muscle": {
+    "action": "Weakly assists plantarflexion and knee flexion; its long tendon is used as a graft.",
+    "blood_supply": "Sural branches of the popliteal artery."
+  },
+  "Calcaneal tendon": {
+    "action": "Transmits the pull of gastrocnemius, soleus and plantaris to the calcaneus, plantarflexing the ankle.",
+    "blood_supply": "Posterior tibial and fibular arteries; its mid-portion 2-6 cm above the insertion is poorly vascularised and is where it usually ruptures."
+  },
+  "Popliteus muscle": {
+    "innervation": ["Tibial nerve"],
+    "action": "Unlocks the fully extended knee by laterally rotating the femur on the tibia (or medially rotating the tibia); pulls the lateral meniscus back.",
+    "blood_supply": "Inferior medial and lateral genicular arteries."
+  },
+  "Tibialis posterior muscle": {
+    "action": "Inverts and plantarflexes the foot; the main dynamic support of the medial longitudinal arch. Its failure leads to adult-acquired flatfoot.",
+    "blood_supply": "Posterior tibial and fibular arteries."
+  },
+  "Flexor digitorum longus": {
+    "action": "Flexes the lateral four toes and plantarflexes the ankle; supports the longitudinal arch.",
+    "blood_supply": "Posterior tibial artery."
+  },
+  "Flexor hallucis longus": {
+    "action": "Flexes the great toe (push-off in walking) and plantarflexes the ankle; supports the medial arch.",
+    "blood_supply": "Fibular artery."
+  },
+  "Extensor digitorum brevis": {
+    "action": "Assists in extending the second to fourth toes.",
+    "blood_supply": "Lateral tarsal and dorsalis pedis arteries."
+  },
+  "Extensor hallucis brevis": {
+    "action": "Extends the great toe at the metatarsophalangeal joint.",
+    "blood_supply": "Dorsalis pedis artery."
+  },
+  "Abductor hallucis": {
+    "action": "Abducts and flexes the great toe; supports the medial arch.",
+    "blood_supply": "Medial plantar artery."
+  },
+  "Flexor digitorum brevis": {
+    "innervation": ["Medial plantar nerve"],
+    "action": "Flexes the lateral four toes at the proximal interphalangeal joints; supports the longitudinal arch.",
+    "blood_supply": "Medial and lateral plantar arteries."
+  },
+  "Abductor digiti minimi of foot": {
+    "action": "Abducts and flexes the little toe; supports the lateral arch.",
+    "blood_supply": "Lateral plantar artery."
+  },
+  "Quadratus plantae muscle": {
+    "action": "Pulls on the tendon of flexor digitorum longus, straightening its line of pull and helping flex the toes.",
+    "blood_supply": "Medial and lateral plantar arteries."
+  },
+  "Lumbrical muscles of foot": {
+    "action": "Flex the metatarsophalangeal joints and extend the interphalangeal joints of the lateral four toes. The first is supplied by the medial plantar nerve, the others by the lateral plantar nerve.",
+    "blood_supply": "Lateral plantar artery and plantar metatarsal arteries."
+  },
+  "Medial head of flexor hallucis brevis": {
+    "action": "Flexes the great toe at the metatarsophalangeal joint; contains the medial sesamoid.",
+    "blood_supply": "Medial plantar artery and first plantar metatarsal artery."
+  },
+  "Lateral head of flexor hallucis brevis": {
+    "action": "Flexes the great toe at the metatarsophalangeal joint; contains the lateral sesamoid.",
+    "blood_supply": "Medial plantar artery and first plantar metatarsal artery."
+  },
+  "Oblique head of adductor hallucis": {
+    "innervation": ["Lateral plantar nerve"],
+    "action": "Adducts the great toe and supports the transverse arch.",
+    "blood_supply": "Plantar metatarsal arteries from the plantar arch."
+  },
+  "Transverse head of adductor hallucis": {
+    "innervation": ["Lateral plantar nerve"],
+    "action": "Adducts the great toe and holds the metatarsal heads together, supporting the transverse arch.",
+    "blood_supply": "Plantar metatarsal arteries from the plantar arch."
+  },
+  "Flexor digiti minimi of foot": {
+    "action": "Flexes the little toe at the metatarsophalangeal joint.",
+    "blood_supply": "Lateral plantar artery."
+  },
+  "Opponens digiti minimi muscle of foot": {
+    "innervation": ["Lateral plantar nerve"],
+    "action": "Draws the fifth metatarsal toward the sole (often fused with flexor digiti minimi).",
+    "blood_supply": "Lateral plantar artery."
+  },
+  "Plantar interossei muscles": {
+    "action": "Adduct the third to fifth toes toward the second toe (PAD) and flex their metatarsophalangeal joints.",
+    "blood_supply": "Plantar metatarsal arteries."
+  },
+  "Dorsal interossei muscles of foot": {
+    "action": "Abduct the toes from the axis of the second toe (DAB) and flex the metatarsophalangeal joints.",
+    "blood_supply": "Dorsal and plantar metatarsal arteries."
+  },
+
+  "Temporalis muscle": {
+    "action": "Elevates the mandible (closes the jaw); its posterior fibres retract it.",
+    "blood_supply": "Deep temporal branches of the maxillary artery and middle temporal branch of the superficial temporal artery."
+  },
+  "Superficial part of masseter": {
+    "action": "Elevates the mandible for chewing; helps protrude it.",
+    "blood_supply": "Masseteric branch of the maxillary artery, transverse facial and facial arteries."
+  },
+  "Deep part of masseter": {
+    "action": "Elevates the mandible and helps retract it.",
+    "blood_supply": "Masseteric branch of the maxillary artery."
+  },
+  "Medial pterygoid muscle": {
+    "action": "Elevates and protrudes the mandible; acting alone swings the jaw to the opposite side in grinding.",
+    "blood_supply": "Pterygoid branches of the maxillary artery."
+  },
+  "Superior head of lateral pterygoid muscle": {
+    "action": "Stabilises the articular disc and condyle of the temporomandibular joint during jaw closing.",
+    "blood_supply": "Pterygoid branches of the maxillary artery."
+  },
+  "Inferior head of lateral pterygoid muscle": {
+    "action": "Pulls the condyle forward: protrudes the mandible and opens the mouth; unilaterally moves the jaw to the opposite side.",
+    "blood_supply": "Pterygoid branches of the maxillary artery."
+  },
+  "Anterior belly of digastric muscle": {
+    "action": "Depresses the mandible and raises the hyoid bone.",
+    "blood_supply": "Submental branch of the facial artery."
+  },
+  "Posterior belly of digastric muscle": {
+    "action": "Raises and retracts the hyoid bone; assists opening the mouth.",
+    "blood_supply": "Occipital and posterior auricular arteries."
+  },
+  "Mylohyoid muscle": {
+    "action": "Forms the floor of the mouth; raises the hyoid bone and floor of the mouth in swallowing; depresses the mandible.",
+    "blood_supply": "Mylohyoid branch of the inferior alveolar artery and submental artery."
+  },
+  "Stylohyoid muscle": {
+    "action": "Raises and retracts the hyoid bone, elongating the floor of the mouth in swallowing.",
+    "blood_supply": "Facial and occipital arteries."
+  },
+  "Genioglossus muscle": {
+    "action": "Protrudes the tongue and depresses its centre; keeps the tongue from falling back and obstructing the airway. With a hypoglossal palsy the protruded tongue deviates to the weak side.",
+    "blood_supply": "Sublingual and deep lingual branches of the lingual artery."
+  },
+  "Hyoglossus muscle": {
+    "action": "Depresses and retracts the tongue.",
+    "blood_supply": "Lingual artery (which runs deep to it)."
+  },
+  "Sternocleidomastoid muscle": {
+    "action": "Unilaterally tilts the head to the same side and turns the face to the opposite side; bilaterally flexes the neck and raises the sternum in forced inspiration.",
+    "blood_supply": "Occipital and superior thyroid arteries (sternocleidomastoid branches) and suprascapular artery."
+  },
+  "Bucinator": {
+    "action": "Presses the cheek against the teeth, keeping food between the molars and expelling air when blowing.",
+    "blood_supply": "Facial and buccal arteries."
+  },
+  "Orbicularis oris muscle": {
+    "action": "Closes and purses the lips; shapes them in speech.",
+    "blood_supply": "Superior and inferior labial branches of the facial artery."
+  },
+  "Orbital part of orbicularis oculi": {
+    "action": "Closes the eyelids tightly (screwing up the eyes) and wrinkles the surrounding skin.",
+    "blood_supply": "Facial, superficial temporal and ophthalmic artery branches."
+  },
+  "Palpebral part of orbicularis oculi": {
+    "action": "Closes the eyelids gently in blinking and sleep; its lacrimal part helps drain tears. Facial palsy prevents eye closure, risking corneal exposure.",
+    "blood_supply": "Palpebral branches of the ophthalmic artery."
+  },
+  "Frontalis muscle": {
+    "action": "Raises the eyebrows and wrinkles the forehead.",
+    "blood_supply": "Supra-orbital and supratrochlear arteries and frontal branch of the superficial temporal artery."
+  },
+  "Occipitalis muscle": {
+    "action": "Pulls the scalp backward, anchoring the epicranial aponeurosis.",
+    "blood_supply": "Occipital and posterior auricular arteries."
+  },
+  "Temporoparietalis muscle": {
+    "action": "Tightens the scalp and raises the auricle.",
+    "blood_supply": "Superficial temporal artery."
+  },
+  "Epicranial aponeurosis": {
+    "action": "Tendon sheet of occipitofrontalis, transmitting its pull across the scalp."
+  },
+  "Corrugator supercilii": {
+    "action": "Draws the eyebrows down and medially, producing vertical frown lines.",
+    "blood_supply": "Supra-orbital and supratrochlear arteries."
+  },
+  "Procerus muscle": {
+    "action": "Pulls the medial eyebrows down, producing transverse wrinkles over the bridge of the nose.",
+    "blood_supply": "Branches of the facial artery."
+  },
+  "Nasalis muscle": {
+    "action": "Transverse part compresses the nasal aperture; alar part flares the nostrils.",
+    "blood_supply": "Superior labial and lateral nasal branches of the facial artery."
+  },
+  "Depressor septi nasi": {
+    "action": "Pulls the nasal septum and tip downward.",
+    "blood_supply": "Superior labial branch of the facial artery."
+  },
+  "Levator nasolabialis": {
+    "action": "Levator labii superioris alaeque nasi: raises the upper lip and dilates the nostril (snarling).",
+    "blood_supply": "Facial and infra-orbital arteries."
+  },
+  "Levator labii superioris": {
+    "action": "Raises and everts the upper lip.",
+    "blood_supply": "Facial and infra-orbital arteries."
+  },
+  "Levator anguli oris": {
+    "action": "Raises the angle of the mouth.",
+    "blood_supply": "Facial and infra-orbital arteries."
+  },
+  "Zygomaticus major muscle": {
+    "action": "Draws the angle of the mouth up and laterally in smiling.",
+    "blood_supply": "Superior labial branch of the facial artery."
+  },
+  "Zygomaticus minor muscle": {
+    "action": "Raises the upper lip, exposing the upper teeth.",
+    "blood_supply": "Superior labial branch of the facial artery."
+  },
+  "Risorius muscle": {
+    "action": "Draws the angle of the mouth laterally (a grimace).",
+    "blood_supply": "Superior labial branch of the facial artery."
+  },
+  "Depressor anguli oris": {
+    "action": "Draws the angle of the mouth down and laterally (frowning).",
+    "blood_supply": "Inferior labial branch of the facial artery."
+  },
+  "Depressor labii inferioris": {
+    "action": "Pulls the lower lip down and laterally.",
+    "blood_supply": "Inferior labial branch of the facial artery and mental artery."
+  },
+  "Mentalis muscle": {
+    "action": "Raises and protrudes the lower lip and wrinkles the skin of the chin (pouting).",
+    "blood_supply": "Inferior labial branch of the facial artery and mental artery."
+  },
+  "Levator palpebrae superioris": {
+    "action": "Raises the upper eyelid; its smooth-muscle part (superior tarsal muscle) is sympathetic, so Horner syndrome gives a mild ptosis while third nerve palsy gives a complete one.",
+    "blood_supply": "Muscular branches of the ophthalmic artery and supra-orbital artery."
+  },
+  "Superior rectus muscle": {
+    "action": "Elevates the eye (best when abducted); also adducts and intorts it.",
+    "blood_supply": "Muscular branches of the ophthalmic artery."
+  },
+  "Inferior rectus muscle": {
+    "action": "Depresses the eye (best when abducted); also adducts and extorts it. Often entrapped in orbital floor blow-out fractures.",
+    "blood_supply": "Muscular branches of the ophthalmic artery and infra-orbital artery."
+  },
+  "Medial rectus muscle": {
+    "action": "Adducts the eye.",
+    "blood_supply": "Muscular branches of the ophthalmic artery."
+  },
+  "Inferior oblique muscle": {
+    "action": "Extorts the eye; elevates it, especially when adducted; weakly abducts.",
+    "blood_supply": "Muscular branches of the ophthalmic artery and infra-orbital artery."
+  },
+  "Superior tarsus": {
+    "innervation": []
+  },
+  "Inferior tarsus": {
+    "innervation": []
+  },
+  "Common tendinous ring": {
+    "innervation": []
+  }
+}

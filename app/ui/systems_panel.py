@@ -1,8 +1,9 @@
 import numpy as np
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import (QCheckBox, QFrame, QGridLayout, QHBoxLayout, QLabel, QPushButton, QScrollArea,
+from PySide6.QtWidgets import (QCheckBox, QFrame, QHBoxLayout, QLabel, QPushButton, QScrollArea,
                                QSlider, QToolButton, QVBoxLayout, QWidget)
+from .flow import FlowLayout
 
 PRESETS = [
     ("Default", None),
@@ -34,6 +35,7 @@ class SystemsPanel(QWidget):
         outer.setContentsMargins(0, 0, 0, 0)
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         outer.addWidget(scroll)
         body = QWidget()
         scroll.setWidget(body)
@@ -41,13 +43,12 @@ class SystemsPanel(QWidget):
         lay.setContentsMargins(10, 10, 10, 10)
         lay.setSpacing(4)
 
-        grid = QGridLayout()
-        grid.setSpacing(5)
-        for i, (name, keys) in enumerate(PRESETS):
+        presets = FlowLayout(spacing=5)     # wraps onto another row rather than clipping names on a narrow dock
+        for name, keys in PRESETS:
             b = QPushButton(name)
             b.clicked.connect(lambda _=False, k=keys: self._preset(k))
-            grid.addWidget(b, i // 4, i % 4)
-        lay.addLayout(grid)
+            presets.addWidget(b)
+        lay.addLayout(presets)
         lay.addSpacing(6)
 
         counts = np.bincount(ds.system_of, minlength=len(ds.systems))
@@ -159,7 +160,7 @@ class RegionsPanel(QWidget):
         lay.addLayout(btns)
         self.checks = []
         for i, r in enumerate(ds.regions):
-            cb = QCheckBox(r["name"])
+            cb = QCheckBox(r["name"].replace("&", "&&"))
             cb.toggled.connect(lambda on, idx=i: (not self._sync) and self.state.set_region(idx, on))
             lay.addWidget(cb)
             self.checks.append(cb)

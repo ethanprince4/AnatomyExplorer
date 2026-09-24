@@ -7,8 +7,13 @@ import threading
 
 import numpy as np
 
+from .config import FROZEN, cache_candidates
+
 EXCLUDED_SYSTEMS = {"attachments", "regions", "reference", "fascia"}
 STRIDE = 28
+# the stamp includes file times so a rebuilt dataset is noticed; an installed app's files never change, and
+# installers do not keep file times reliably, so there sizes alone decide (packaging/prebuild.py matches this)
+STAMP_MTIME = not FROZEN
 
 
 def geometry_stamp(ds):
@@ -16,9 +21,9 @@ def geometry_stamp(ds):
     extra = 0
     if getattr(ds, "findings", None) is not None:                # pathology meshes change the buffers too
         fpath = ds.findings.path / "findings.npz"
-        extra = fpath.stat().st_size + int(fpath.stat().st_mtime)
-    return np.array([vpath.stat().st_size, int(vpath.stat().st_mtime), ipath.stat().st_size, extra],
-                    dtype=np.int64)
+        extra = fpath.stat().st_size + (int(fpath.stat().st_mtime) if STAMP_MTIME else 0)
+    vtime = int(vpath.stat().st_mtime) if STAMP_MTIME else 0
+    return np.array([vpath.stat().st_size, vtime, ipath.stat().st_size, extra], dtype=np.int64)
 
 
 def sample_points(ds):
@@ -26,11 +31,13 @@ def sample_points(ds):
 
     Returns (points, offsets) where structure `sid` owns points[offsets[sid]:offsets[sid + 1]]."""
     vpath, ipath = ds.dir / "vertices.bin", ds.dir / "indices.bin"
-    cache = ds.dir / "samples.npz"
+    reads, cache = cache_candidates(ds.dir / "samples.npz")
     stamp = geometry_stamp(ds)
-    if cache.exists():
+    for path in reads:
+        if not path.exists():
+            continue
         try:
-            z = np.load(cache)
+            z = np.load(path)
             if np.array_equal(z["stamp"], stamp) and len(z["offsets"]) == ds.n + 1:
                 return z["points"], z["offsets"]
         except (OSError, ValueError, KeyError):
@@ -63,6 +70,7 @@ def sample_points(ds):
     points = np.concatenate(chunks).astype(np.float32)
     offsets = np.array(offsets, dtype=np.int64)
     try:
+        cache.parent.mkdir(parents=True, exist_ok=True)
         np.savez(cache, points=points, offsets=offsets, stamp=stamp)
     except OSError:
         pass

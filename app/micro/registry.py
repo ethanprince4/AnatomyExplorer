@@ -41,8 +41,8 @@ register(MicroModel(
     scale_note="Block ≈ 4 mm wide; epidermal ridges form fingerprints."))
 register(MicroModel(
     "scalp", "Scalp skin",
-    "Hair-bearing skin with densely packed, deep terminal hair follicles whose bulbs reach the subcutaneous fat, "
-    "and large sebaceous glands.",
+    "Hair-bearing skin with densely packed, deep terminal hair follicles grouped in follicular units, whose bulbs "
+    "reach the subcutaneous fat, and large sebaceous glands, bound by fibrous septa to the galea aponeurotica.",
     lambda: build_skin("scalp"),
     targets={"structures": ["Hairs of head", "Parietal region", "Occipital region", "Frontal region",
                             "Temporal region"], "groups": ["Regions of epicranium"]},
@@ -72,3 +72,10 @@ register(MicroModel(
 from .registry_organs import register_all  # noqa: E402
 
 register_all(register)
+
+# Further models live in their own registry_extra_*.py files, each with a register_all(register) like registry_organs.
+import importlib as _importlib  # noqa: E402
+from pathlib import Path as _Path  # noqa: E402
+
+for _f in sorted(_Path(__file__).parent.glob("registry_extra_*.py")):
+    _importlib.import_module(f"{__package__}.{_f.stem}").register_all(register)

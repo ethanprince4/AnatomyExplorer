@@ -10,6 +10,7 @@ import threading
 
 import numpy as np
 
+from .config import cache_candidates
 from .relations import geometry_stamp, sample_points
 
 SURFACE_SYSTEM = "regions"      # the body-surface patches of the atlas
@@ -48,11 +49,13 @@ class DepthIndex:
 
     def _load(self):
         ds = self.ds
-        cache = ds.dir / "depth.npz"
+        reads, cache = cache_candidates(ds.dir / "depth.npz")
         stamp = geometry_stamp(ds)
-        if cache.exists():
+        for path in reads:
+            if not path.exists():
+                continue
             try:
-                z = np.load(cache)
+                z = np.load(path)
                 if (np.array_equal(z["stamp"], stamp) and len(z["depth"]) == ds.n
                         and int(z["format"]) == FORMAT):
                     return z["depth"], z["absolute"]
@@ -60,6 +63,7 @@ class DepthIndex:
                 pass
         depth, absolute = compute(ds)
         try:
+            cache.parent.mkdir(parents=True, exist_ok=True)
             np.savez(cache, depth=depth, absolute=absolute, stamp=stamp, format=np.int32(FORMAT))
         except OSError:
             pass

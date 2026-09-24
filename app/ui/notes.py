@@ -1,4 +1,4 @@
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (QDialog, QDialogButtonBox, QLabel, QListWidget, QListWidgetItem, QPlainTextEdit,
                                QSplitter, QVBoxLayout)
 
@@ -32,6 +32,19 @@ class AllNotesDialog(QDialog):
         self.resize(760, 480)
         self.content = content
         lay = QVBoxLayout(self)
+        box = QDialogButtonBox(QDialogButtonBox.Close)
+        box.rejected.connect(self.reject)
+        if not content.notes:
+            # nothing to list: say how to make one rather than show two empty panes
+            self.resize(460, 200)
+            empty = QLabel("<p style='font-size:12pt'><b>No notes yet</b></p>"
+                           "<p>Select a structure and press <b>N</b>, or right-click it and choose <i>Edit note for "
+                           "selection</i>. Notes are saved on this computer and shown in the Details panel.</p>")
+            empty.setWordWrap(True)
+            empty.setAlignment(Qt.AlignCenter)
+            lay.addWidget(empty, 1)
+            lay.addWidget(box)
+            return
         split = QSplitter()
         self.list = QListWidget()
         self.view = QPlainTextEdit()
@@ -42,11 +55,10 @@ class AllNotesDialog(QDialog):
         lay.addWidget(split, 1)
         for key in sorted(content.notes, key=str.lower):
             QListWidgetItem(key, self.list)
-        if not content.notes:
-            self.view.setPlainText("No notes yet. Select a structure and press N (or right-click → Edit note).")
         self.list.currentTextChanged.connect(lambda k: self.view.setPlainText(content.notes.get(k, "")))
         self.list.itemDoubleClicked.connect(lambda it: (self.noteActivated.emit(it.text()), self.accept()))
-        box = QDialogButtonBox(QDialogButtonBox.Close)
-        box.rejected.connect(self.reject)
-        lay.addWidget(QLabel("Double-click a note to show that structure."))
+        self.list.setCurrentRow(0)
+        hint = QLabel("Double-click a note to show that structure.")
+        hint.setStyleSheet("color:#8a94a3;")
+        lay.addWidget(hint)
         lay.addWidget(box)

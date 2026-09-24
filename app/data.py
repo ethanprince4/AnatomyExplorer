@@ -26,6 +26,8 @@ class Dataset:
         self.scene_bbox = np.array(meta["scene_bbox"], dtype=np.float64)
         self.counts = meta["counts"]
         self._definitions = None
+        from .extra_content import apply as apply_extra, load as load_extra
+        self.extra_definitions = apply_extra(self, load_extra(data_dir.parent / "content"))   # hand-written gaps
 
         n = len(self.structures)
         self.n = n
@@ -95,6 +97,7 @@ class Dataset:
     def definitions(self):
         if self._definitions is None:
             self._definitions = json.loads((self.dir / "definitions.json").read_text(encoding="utf-8"))
+            self._definitions.update(self.extra_definitions)
         return self._definitions
 
     def load_geometry(self):

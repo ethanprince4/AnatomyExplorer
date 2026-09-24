@@ -13,7 +13,7 @@ for mid in ids:
     out.parent.mkdir(parents=True, exist_ok=True)
     tube = MODELS[mid].cutaway[1] == (0.0, 1.0, 0.0)
     yaw, pitch = (205, 35) if tube else (215, 32)
-    subprocess.run([str(ROOT / ".venv/Scripts/python.exe"), str(ROOT / "tools/render_micro.py"), mid,
+    subprocess.run([sys.executable, str(ROOT / "tools/render_micro.py"), mid,
                     "--yaw", str(yaw), "--pitch", str(pitch), "--size", "440", "-o", str(out)], check=True)
     im = Image.open(out).convert("RGB")
     tiles.append((mid, im))

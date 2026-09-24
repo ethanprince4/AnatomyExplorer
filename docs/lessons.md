@@ -1,28 +1,29 @@
 # Guided lessons
 
 A lesson is a short scripted walk through one topic. Each step writes a paragraph or two, sets the 3D view up
-to match it, and can ask a question before you move on. Ctrl+L, or the **Lessons** tab on the left.
+to match it, and can ask a question before you move on. Ctrl+L, or **Lessons** on the lower row of the Explore
+panel's switcher.
 
-There are **106 lessons, 498 steps and 409 recall questions**, filed under twelve body systems and eight
+There are **137 lessons, 810 steps and 721 recall questions**, filed under twelve body systems and eight
 regions. The browser groups them three ways — **System**, **Region** or **Level** — and remembers how far
 through each one you got.
 
 | System | Lessons | | Region | Lessons |
 |---|---|---|---|---|
-| Muscular | 23 | | Head & neck | 26 |
-| Skeletal | 16 | | Abdomen | 15 |
-| Nervous | 16 | | Thorax | 14 |
-| Cardiovascular | 14 | | Whole body | 14 |
-| Digestive | 13 | | Upper limb | 13 |
-| Respiratory | 6 | | Lower limb | 13 |
-| Lymphatic & immune | 4 | | Pelvis & perineum | 6 |
-| Special senses | 4 | | Back & spine | 5 |
-| Endocrine | 3 | | | |
+| Muscular | 26 | | Head & neck | 37 |
+| Nervous | 26 | | Abdomen | 20 |
+| Cardiovascular | 20 | | Thorax | 18 |
+| Skeletal | 16 | | Whole body | 18 |
+| Digestive | 16 | | Upper limb | 16 |
+| Respiratory | 9 | | Lower limb | 15 |
+| Special senses | 6 | | Pelvis & perineum | 7 |
+| Lymphatic & immune | 5 | | Back & spine | 6 |
+| Endocrine | 5 | | | |
 | Skin & fascia | 3 | | | |
-| Urinary | 2 | | | |
+| Urinary | 3 | | | |
 | Reproductive | 2 | | | |
 
-Levels are **Foundation** (11), **Core** (75) and **Advanced** (20). Advanced lessons usually name a
+Levels are **Foundation** (12), **Core** (88) and **Advanced** (37). Advanced lessons usually name a
 `prereq`, which the runner shows under the title as "After: …".
 
 ## What a lesson looks like

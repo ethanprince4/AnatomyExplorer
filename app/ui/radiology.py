@@ -181,6 +181,32 @@ class RadiographView(QWidget):
             self.update()
 
 
+class WrapLabel(QLabel):
+    """A word-wrapped label that claims the height its wrapped text needs. A plain one reports a one-line minimum,
+    so in a short splitter pane the legend and notes above were laid over it."""
+
+    def __init__(self, *args):
+        super().__init__(*args)
+        self.setWordWrap(True)
+
+    def _fit(self):
+        # measured with the minimum cleared, since QLabel's height-for-width never answers below its minimum
+        want = 0
+        if self.text():
+            self.setMinimumHeight(0)
+            want = self.heightForWidth(max(self.width(), 1))
+        if want != self.minimumHeight():
+            self.setMinimumHeight(want)
+
+    def setText(self, text):
+        super().setText(text)
+        self._fit()
+
+    def resizeEvent(self, e):
+        super().resizeEvent(e)
+        self._fit()
+
+
 class RadiologyPanel(QWidget):
     """Image, legend and notes for one case. Sits to the left of the 3D view."""
 
@@ -254,8 +280,7 @@ class RadiologyPanel(QWidget):
         self.notes.setMinimumHeight(80)
         ll.addWidget(self.notes, 2)
 
-        self.credit = QLabel()
-        self.credit.setWordWrap(True)
+        self.credit = WrapLabel()
         self.credit.setOpenExternalLinks(True)
         self.credit.setStyleSheet("color:#7f8b9b; font-size:8pt;")
         ll.addWidget(self.credit)

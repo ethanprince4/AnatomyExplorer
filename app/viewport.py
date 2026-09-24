@@ -474,13 +474,15 @@ class Viewport(QOpenGLWidget):
             ys = [float(pr[1]) for _, pr in items]
             for k in range(1, len(ys)):                       # push apart downwards, then pull back on screen
                 ys[k] = max(ys[k], ys[k - 1] + line_h)
-            over = ys[-1] - (h - line_h)
+            # the left column stops above the orientation gizmo in the bottom-left corner
+            bottom = h - 108.0 if side < 0 and self.settings.get("show_gizmo", True) else h
+            over = ys[-1] - (bottom - line_h)
             if over > 0:
                 ys = [y - over for y in ys]
                 for k in range(len(ys) - 2, -1, -1):
                     ys[k] = min(ys[k], ys[k + 1] - line_h)
             for (sid, pr), ly in zip(items, ys):
-                ly = max(line_h * 0.6, min(h - line_h * 0.6, ly))
+                ly = max(line_h * 0.6, min(bottom - line_h * 0.6, ly))
                 text = self.ds.structures[sid]["name"]
                 tw = min(fm.horizontalAdvance(text) + 12, w * 0.28)
                 x0 = margin if side < 0 else w - margin - tw

@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (QCheckBox, QHBoxLayout, QLabel, QMenu, QPushButto
 from ..micro.base import MicroDataset
 from ..state import SceneState
 from ..viewport import Viewport
+from .flow import FlowLayout
 
 ROLE = Qt.UserRole + 1
 
@@ -100,8 +101,19 @@ class MicroView(QWidget):
         rl = QVBoxLayout(right)
         rl.setContentsMargins(0, 0, 0, 0)
         rl.setSpacing(0)
-        bar = QHBoxLayout()
+        # the controls wrap onto a second row rather than hold the window wider than a laptop screen
+        bar = FlowLayout(spacing=6)
         bar.setContentsMargins(8, 6, 8, 6)
+
+        def labelled(text, slider):
+            box = QWidget()
+            hl = QHBoxLayout(box)
+            hl.setContentsMargins(6, 0, 0, 0)
+            hl.setSpacing(6)
+            hl.addWidget(QLabel(text))
+            hl.addWidget(slider)
+            return box
+
         self.cut = QCheckBox("Cut-away")
         self.cut.setChecked(cut_on)
         self.cut.toggled.connect(self._toggle_cut)
@@ -110,30 +122,27 @@ class MicroView(QWidget):
         self.labels.toggled.connect(self._toggle_labels)
         bar.addWidget(self.labels)
         if self.mds.bulk_mask.any():
-            bar.addWidget(QLabel("  Tissue opacity"))
             self.opacity = QSlider(Qt.Horizontal)
             self.opacity.setRange(8, 100)
             self.opacity.setValue(100)
             self.opacity.setFixedWidth(110)
             self.opacity.valueChanged.connect(self._opacity)
-            bar.addWidget(self.opacity)
-        bar.addWidget(QLabel("  Separate parts" if hasattr(model, "dataset") else "  Separate layers"))
+            bar.addWidget(labelled("Tissue opacity", self.opacity))
         self.explode = QSlider(Qt.Horizontal)
         self.explode.setRange(0, 100)
         self.explode.setFixedWidth(140)
         self.explode.valueChanged.connect(self._explode)
-        bar.addWidget(self.explode)
+        bar.addWidget(labelled("Separate parts" if hasattr(model, "dataset") else "Separate layers", self.explode))
         for text, fn in (("X-ray others", self._xray), ("Isolate", self._isolate), ("Show all", self._show_all),
                          ("Reset view", self.reset_view)):
             b = QPushButton(text)
             b.clicked.connect(fn)
             bar.addWidget(b)
-        bar.addStretch(1)
         if getattr(model, "uid", None):
             online = QPushButton("Sketchfab player")
             online.setToolTip("The same model in Sketchfab's own player, with the creator's annotations (online)")
             online.clicked.connect(lambda: self.openOnline.emit(model.uid))
-            bar.addWidget(online)
+            bar.add_right(online)
         if model.histology or model.related:
             more = QToolButton()
             more.setText("Related ▾")
@@ -148,7 +157,7 @@ class MicroView(QWidget):
                 if other:
                     m.addAction(f"Model · {other.name}", lambda x=mid: self.openMicro.emit(x))
             more.setMenu(m)
-            bar.addWidget(more)
+            bar.add_right(more)
         top = QWidget()
         top.setLayout(bar)
         top.setStyleSheet("background:#14171c;")

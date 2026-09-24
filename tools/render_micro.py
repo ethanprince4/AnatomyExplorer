@@ -65,7 +65,8 @@ def main():
     else:
         model = MODELS[a.model]
         ds = MicroDataset(model)
-        yaw, pitch = 40.0, 25.0
+        # the viewer's opening camera (MicroView.reset_view)
+        yaw, pitch = (math.degrees(x) for x in getattr(model, "home_view", (-0.62, 0.42)))
     yaw = a.yaw if a.yaw is not None else yaw
     pitch = a.pitch if a.pitch is not None else pitch
     settings = Settings()
@@ -100,9 +101,11 @@ def main():
     cam.distance = float(np.linalg.norm(bmax - bmin)) * 1.25 / max(a.zoom, 1e-3)
     cam.yaw, cam.pitch = math.radians(yaw), math.radians(pitch)
 
+    # same planes as the viewer: cutaway normals through cut_at, the second one flipped (MicroView.__init__)
     n0 = np.array(model.cutaway[0], float)
     n1 = -np.array(model.cutaway[1], float)
-    planes = [(*n0, 0.0), (*n1, 0.0), (0.0, 1.0, 0.0, 0.0)]
+    cx, cz = getattr(model, "cut_at", (0.0, 0.0))
+    planes = [(*n0, -float(n0 @ (cx, 0.0, 0.0))), (*n1, -float(n1 @ (0.0, 0.0, cz))), (0.0, 1.0, 0.0, 0.0)]
     # same default as the viewer: the model's cut-away is on unless the model opens uncut (MicroModel.cut_on)
     cut = (getattr(model, "cut_on", True) or a.cut) and not a.no_cut
     on = (1, 1, 0) if cut else (0, 0, 0)

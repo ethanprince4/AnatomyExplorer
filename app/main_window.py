@@ -17,6 +17,7 @@ from .content import ContentIndex
 from .search import SearchIndex
 from .state import SceneState
 from .ui.info_panel import InfoPanel
+from .ui.nav import NavTabWidget
 from .ui.search_panel import SearchPanel
 from .ui.settings_dialog import SettingsDialog
 from .ui.systems_panel import RegionsPanel, SystemsPanel
@@ -86,7 +87,7 @@ class MainWindow(QMainWindow):
         ll.setSpacing(0)
         self.search = SearchPanel(ds, self.index)
         ll.addWidget(self.search)
-        self.tabs = QTabWidget()
+        self.tabs = NavTabWidget()          # seven pages: a two-row switcher instead of a scrolling tab bar
         self.systems = SystemsPanel(ds, self.state)
         self.regions = RegionsPanel(ds, self.state)
         self.tree = TreePanel(ds, self.state)
@@ -142,6 +143,7 @@ class MainWindow(QMainWindow):
         self.sketchfab = SketchfabIndex(ds, self.sketchfab_models, self.lesson_resolver)
         self.index.add_sketchfab(self.sketchfab_models)
         self.tabs.addTab(self.view_panel, "View")
+        ll.addWidget(self.tabs.nav)
         ll.addWidget(self.tabs, 1)
         self.left_layout = ll
         self.left_dock = QDockWidget("EXPLORE")
@@ -1039,7 +1041,8 @@ class MainWindow(QMainWindow):
             self.center.addTab(viewer, "Histology")
         viewer.show_tissue(tissue_id, index)
         self.center.setCurrentWidget(viewer)
-        self.center.setTabText(self.center.indexOf(viewer), f"Histology · {self.content.tissues[tissue_id]['name']}")
+        title = f"Histology · {self.content.tissues[tissue_id]['name']}"
+        self.center.setTabText(self.center.indexOf(viewer), title.replace("&", "&&"))   # "&" is a mnemonic
         viewer.on_activated(self.info)
 
     def _histology_structures(self, names):
@@ -1101,7 +1104,7 @@ class MainWindow(QMainWindow):
             view.openMicro.connect(self.open_micro)
             view.openOnline.connect(self.open_sketchfab)
             self.micro_tabs[key] = view
-            self.center.addTab(view, f"3D · {model.name}")
+            self.center.addTab(view, f"3D · {model.name}".replace("&", "&&"))
         self.center.setCurrentWidget(view)
         view.on_activated(self.info)
 
@@ -1137,7 +1140,7 @@ class MainWindow(QMainWindow):
             view.openHistology.connect(self.open_histology)
             view.openMicro.connect(self.open_micro)
             self.micro_tabs[model_id] = view
-            self.center.addTab(view, f"Micro · {model.name}")
+            self.center.addTab(view, f"Micro · {model.name}".replace("&", "&&"))
         self.center.setCurrentWidget(view)
         view.on_activated(self.info)
 
@@ -1170,10 +1173,10 @@ class MainWindow(QMainWindow):
         """Accuracy, the spaced-repetition schedule and the structures that keep catching you out."""
         import json
 
-        from .config import ROOT
+        from .config import USER_DIR
         from .ui.progress import ProgressDialog
         stats = {}
-        path = ROOT / "data" / "user" / "quiz_stats.json"
+        path = USER_DIR / "quiz_stats.json"
         try:
             stats = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
@@ -1204,6 +1207,12 @@ class MainWindow(QMainWindow):
             self.radiology_panel.show()
             total = max(self.anatomy_tab.width(), 800)
             self.anatomy_tab.setSizes([int(total * 0.42), int(total * 0.58)])
+        if not case.scene.get("focus") and self.state.clear_selection():
+            # whatever was selected before (a lesson's bones, say) is usually hidden by the case's scene and
+            # would otherwise linger in Details as a stale "N structures selected"
+            self.viewport.landmark_hosts = []
+            self.viewport.focus_landmark = None
+            self.info.show_welcome()
         self.apply_scene(case.scene)
         self.statusBar().showMessage(f"{case.title} — click a numbered label, or a line in its legend, to find it "
                                      "in 3D", 8000)
@@ -1778,6 +1787,11 @@ class MainWindow(QMainWindow):
         elif name == "shotdlg":
             if self.settings_dialog:
                 self.settings_dialog.grab().save(arg)
+        elif name == "shottop":
+            # whatever dialog is up (progress, notes, a modal the script opened)
+            top = QApplication.activeModalWidget() or QApplication.activeWindow()
+            if top is not None:
+                top.grab().save(arg)
         elif name == "eval":
             exec(arg, {"w": self, "np": np})
         elif name == "quit":
