@@ -127,6 +127,12 @@ DEFAULT_SETTINGS = {
     "key_orbit_step": 15.0,
     "camera_duration": 0.55,
     "auto_rotate_speed": 20.0,
+    # trackpad
+    "trackpad_mode": "Auto",             # Auto | Mouse | Trackpad: how wheel events are read
+    "trackpad_swipe": "Orbit",           # Orbit | Pan: what a two-finger swipe does (Shift + swipe does the other)
+    "trackpad_swipe_sensitivity": 1.0,
+    "trackpad_pinch_sensitivity": 1.0,
+    "trackpad_invert": False,
     # behavior
     "click_action": "Select",            # Select | Select and focus
     "double_click_action": "Focus",      # Focus | Isolate | X-ray focus

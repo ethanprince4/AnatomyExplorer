@@ -136,11 +136,13 @@ class SettingsDialog(QDialog):
         self.widgets[key] = w
         page._keys.append(key)
 
-    def _combo(self, page, form, key, label, options):
+    def _combo(self, page, form, key, label, options, tip=None):
         w = QComboBox()
         w.addItems(options)
         w.setCurrentText(str(self.settings[key]))
         w.currentTextChanged.connect(lambda v, k=key: self._emit(k, v))
+        if tip:
+            w.setToolTip(tip)
         form.addRow(label, w)
         self.widgets[key] = w
         page._keys.append(key)
@@ -175,6 +177,21 @@ class SettingsDialog(QDialog):
         self._check(page, f, "zoom_to_cursor", "Zoom toward the point under the cursor")
         self._check(page, f, "orbit_around_cursor", "Rotate around the point under the cursor",
                     tip="When you start dragging on a structure, the camera pivots around that point.")
+        self._header(f, "TRACKPAD")
+        self._combo(page, f, "trackpad_mode", "Scrolling comes from", ["Auto", "Mouse", "Trackpad"],
+                    tip="Auto tells a laptop trackpad from a mouse wheel by the events it sends. If a smooth-scrolling "
+                        "mouse wheel turns the model instead of zooming, choose Mouse; if trackpad swipes zoom, "
+                        "choose Trackpad.")
+        self._combo(page, f, "trackpad_swipe", "Two-finger swipe", ["Orbit", "Pan"])
+        self._slider(page, f, "trackpad_swipe_sensitivity", "Swipe sensitivity", 0.2, 3.0, 0.1)
+        self._slider(page, f, "trackpad_pinch_sensitivity", "Pinch sensitivity", 0.2, 3.0, 0.1)
+        self._check(page, f, "trackpad_invert", "Invert swipe direction")
+        hint = QLabel("Pinch zooms, Shift + swipe does the other of orbit / pan, click-drag rotates like a mouse. "
+                      "On a Mac: twist two fingers to turn the model, double-tap with two fingers to frame the "
+                      "selection.")
+        hint.setWordWrap(True)
+        hint.setStyleSheet("color:#8a94a3;")
+        f.addRow("", hint)
         self._header(f, "CAMERA")
         self._slider(page, f, "fov", "Field of view", 15, 70, 1, "°", 0)
         self._slider(page, f, "camera_duration", "Transition duration", 0.0, 1.5, 0.05, " s")

@@ -1,10 +1,11 @@
 import math
+import sys
 import time
 
 import moderngl
 import numpy as np
-from PySide6.QtCore import QPoint, QPointF, QRectF, Qt, Signal
-from PySide6.QtGui import QColor, QFont, QFontMetricsF, QPainter, QPainterPath, QPen
+from PySide6.QtCore import QEvent, QPoint, QPointF, QRectF, Qt, Signal
+from PySide6.QtGui import QColor, QFont, QFontMetricsF, QInputDevice, QPainter, QPainterPath, QPen
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
 from PySide6.QtWidgets import QWidget
 
@@ -19,6 +20,171 @@ VIEWS = {
     "superior": (0.0, math.radians(89.0)),
     "inferior": (0.0, -math.radians(89.0)),
 }
+
+
+class TrackpadInput:
+    """Wheel events and touchpad gestures, shared by the atlas viewport and the Sketchfab camera bridge.
+
+    A notched mouse wheel zooms, exactly as it always has. A laptop trackpad is told apart from it and mapped the
+    way 3D apps usually do: two-finger swipe orbits (or pans - Settings), Shift + swipe does the other one, pinch
+    zooms toward the cursor, the macOS rotate gesture turns the model about the vertical axis and smart zoom (a
+    two-finger double tap) frames the selection, then goes home on the next one.
+
+    How each platform reports a trackpad:
+    - macOS: every trackpad scroll carries a phase (begin / update / end / momentum); a mouse wheel never does.
+      Pinch, rotate and smart zoom arrive as QNativeGestureEvents.
+    - Linux (X11, Wayland): trackpad scrolls come with a pixelDelta, wheels without; pinch is a native gesture.
+    - Windows precision touchpads: small angleDelta steps that are not multiples of the wheel's 120, and a pinch
+      becomes Ctrl + wheel. A high-resolution wheel mouse can look the same, hence the Mouse / Trackpad override.
+
+    The owner provides camera, settings, update(), devicePixelRatioF() and height(), and may define
+    gesture_zoom_point(pos) -> world point or None and gesture_home()."""
+
+    LATCH = 0.3          # s: an event this soon after a trackpad one belongs to the same gesture
+    PIVOT_HOLD = 0.3     # s: a pinch keeps zooming toward the point it started on
+
+    def __init__(self, owner):
+        self.owner = owner
+        self._last_pad = -1.0
+        self._pivot = None
+        self._pivot_time = -1.0
+        self.framed = False          # smart zoom toggles between the framed selection and home
+
+    # ------------------------------------------------------------------ classification
+    def is_trackpad(self, e):
+        mode = str(self.owner.settings.get("trackpad_mode", "Auto"))
+        if mode == "Mouse":
+            return False
+        if mode == "Trackpad":
+            return True
+        now = time.perf_counter()
+        pad = self._looks_like_trackpad(e)
+        if not pad and now - self._last_pad < self.LATCH:
+            pad = True                   # a precision touchpad can send an exact 120 in mid-swipe
+        if pad:
+            self._last_pad = now
+        return pad
+
+    @staticmethod
+    def _looks_like_trackpad(e):
+        if e.phase() != Qt.NoScrollPhase:
+            return True                  # macOS trackpads (and Magic Mouse), Wayland touchpads
+        dev = e.device()
+        if dev is not None and dev.type() == QInputDevice.DeviceType.TouchPad:
+            return True
+        if sys.platform == "darwin":
+            return False                 # macOS gives a plain wheel a pixelDelta too
+        if not e.pixelDelta().isNull():
+            return True
+        if sys.platform == "win32":
+            a = e.angleDelta()
+            return a.x() % 120 != 0 or a.y() % 120 != 0
+        return False
+
+    # ------------------------------------------------------------------ wheel
+    def wheel(self, e):
+        s = self.owner.settings
+        if not self.is_trackpad(e):
+            self._mouse_wheel(e)
+            return
+        if e.phase() == Qt.ScrollMomentum:
+            # the glide after the fingers lift: nice for scrolling a page, but in a 3D view it keeps turning the
+            # model after you stopped, which makes it hard to stop on the view you wanted
+            return
+        if e.modifiers() & Qt.ControlModifier:
+            self._pinch_wheel(e)             # Windows turns a pinch into Ctrl + wheel
+            return
+        d = e.pixelDelta()
+        if d.isNull():
+            a = e.angleDelta()
+            d = QPointF(a.x() * 0.5, a.y() * 0.5)      # 120 = one wheel notch, about 60 px of scrolling
+        else:
+            d = QPointF(d)
+        if d.x() == 0 and d.y() == 0:
+            return
+        k = float(s.get("trackpad_swipe_sensitivity", 1.0))
+        if s.get("trackpad_invert"):
+            k = -k
+        pan = str(s.get("trackpad_swipe", "Orbit")) == "Pan"
+        if e.modifiers() & Qt.ShiftModifier:
+            pan = not pan
+        c = self.owner.camera
+        if pan:
+            dpr = self.owner.devicePixelRatioF()
+            kp = float(s.get("pan_sensitivity", 1.0)) * k
+            c.pan(d.x() * dpr * kp, d.y() * dpr * kp, self.owner.height() * dpr)
+        else:
+            ko = float(s.get("orbit_sensitivity", 0.35)) * k
+            c.orbit(d.x() * ko, d.y() * ko)
+        self.framed = False
+        self.owner.update()
+
+    def _mouse_wheel(self, e):
+        s = self.owner.settings
+        steps = e.angleDelta().y() / 120.0
+        if steps == 0:
+            return
+        if s.get("invert_zoom"):
+            steps = -steps
+        factor = 0.87 ** (steps * float(s.get("zoom_sensitivity", 1.0)))
+        point = self._zoom_point(e.position(), hold=False)
+        self.owner.camera.dolly(factor, point)
+        self.framed = False
+        self.owner.update()
+
+    def _pinch_wheel(self, e):
+        a = e.angleDelta()
+        steps = (a.y() or a.x()) / 120.0
+        if steps:
+            self.zoom(0.87 ** (steps * float(self.owner.settings.get("trackpad_pinch_sensitivity", 1.0))),
+                      e.position())
+
+    # ------------------------------------------------------------------ gestures
+    def zoom(self, factor, pos):
+        self.owner.camera.dolly(factor, self._zoom_point(pos, hold=True))
+        self.framed = False
+        self.owner.update()
+
+    def _zoom_point(self, pos, hold):
+        if not self.owner.settings.get("zoom_to_cursor", True):
+            return None
+        fn = getattr(self.owner, "gesture_zoom_point", None)
+        if fn is None:
+            return None
+        if not hold:
+            return fn(pos)
+        now = time.perf_counter()
+        if now - self._pivot_time > self.PIVOT_HOLD:
+            self._pivot = fn(pos)            # one pick per pinch, not one per frame
+        self._pivot_time = now
+        return self._pivot
+
+    def native(self, e):
+        """Handle a QNativeGestureEvent; returns True when it was used."""
+        g = e.gestureType()
+        s = self.owner.settings
+        if g == Qt.ZoomNativeGesture:
+            # value is the change in magnification since the last event: +0.01 is 1 % bigger
+            v = float(e.value()) * float(s.get("trackpad_pinch_sensitivity", 1.0))
+            if v:
+                self.zoom(math.exp(-v), e.position())
+            return True
+        if g == Qt.RotateNativeGesture:
+            v = float(e.value())               # degrees, anticlockwise positive
+            if v:
+                self.owner.camera.orbit(-v * float(s.get("trackpad_swipe_sensitivity", 1.0)), 0.0)
+                self.framed = False
+                self.owner.update()
+            return True
+        if g == Qt.SmartZoomNativeGesture:
+            fn = getattr(self.owner, "gesture_home", None)
+            if fn is not None:
+                fn(self)
+            return True
+        if g in (Qt.BeginNativeGesture, Qt.EndNativeGesture):
+            self._pivot_time = -1.0
+            return True
+        return False
 
 
 class Overlay(QWidget):
@@ -87,6 +253,8 @@ class Viewport(QOpenGLWidget):
         self.setMinimumSize(320, 240)
         self.overlay = Overlay(self)
         self.auto_rotate = False
+        self.touch = TrackpadInput(self)
+        self.home_view = None          # what "home" means when it is not reset_view (a micro model's framing)
         self._last_frame_time = time.perf_counter()
         state.render_changed.connect(self._on_state)
         self.reset_view(animate=False)
@@ -355,15 +523,25 @@ class Viewport(QOpenGLWidget):
             self.structureDoubleClicked.emit(self.pick_at(e.position()))
 
     def wheelEvent(self, e):
-        steps = e.angleDelta().y() / 120.0
-        if steps == 0:
-            return
-        if self.settings.get("invert_zoom"):
-            steps = -steps
-        factor = 0.87 ** (steps * float(self.settings.get("zoom_sensitivity", 1.0)))
-        point = self.world_at(e.position()) if self.settings.get("zoom_to_cursor", True) else None
-        self.camera.dolly(factor, point)
-        self.update()
+        self.touch.wheel(e)
+
+    def event(self, e):
+        if e.type() == QEvent.NativeGesture and self.touch.native(e):
+            e.accept()
+            return True
+        return super().event(e)
+
+    def gesture_zoom_point(self, pos):
+        return self.world_at(pos)
+
+    def gesture_home(self, touch):
+        """Smart zoom: frame the selection, and go home on the next one (or straight home with nothing selected)."""
+        if self.state.selected and not touch.framed:
+            self.frame_structures(list(self.state.selected))
+            touch.framed = True
+        else:
+            (self.home_view or self.reset_view)()
+            touch.framed = False
 
     def leaveEvent(self, e):
         self.hover_pos = None

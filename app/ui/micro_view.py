@@ -47,6 +47,7 @@ class MicroView(QWidget):
         self.mds = model.dataset() if hasattr(model, "dataset") else MicroDataset(model)
         self.state = SceneState(self.mds, settings)
         self.gl_widget = Viewport(self.mds, self.state, settings)
+        self.gl_widget.home_view = self.reset_view         # trackpad smart zoom goes to this model's home framing
         self.gl_widget.clip_axes = [tuple(model.cutaway[0]), tuple(model.cutaway[1]), (0.0, 1.0, 0.0)]
         self.gl_widget.clip_pos = [model.cut_at[0], model.cut_at[1], 0.0]
         self.gl_widget.clip_flip = [False, True, False]

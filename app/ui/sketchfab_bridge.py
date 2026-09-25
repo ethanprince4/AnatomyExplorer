@@ -1,7 +1,7 @@
 """Drive Sketchfab's embedded player with the atlas's own controls.
 
 Sketchfab's player has its own mouse handling, which is close to the atlas's but not the same and ignores
-Settings. So a transparent layer sits over the player, takes every mouse and key event, runs it through the very
+Settings. So a transparent layer sits over the player, takes every mouse, trackpad and key event, runs it through the very
 same OrbitCamera the atlas uses - same sensitivities, button mapping, inversion, easing, view keys and
 auto-rotate - and hands the resulting camera to the player through Sketchfab's official Viewer API
 (setCameraLookAt). The player only renders.
@@ -20,12 +20,12 @@ import math
 import time
 
 import numpy as np
-from PySide6.QtCore import QPointF, Qt, QTimer, Signal
+from PySide6.QtCore import QEvent, QPointF, Qt, QTimer, Signal
 from PySide6.QtGui import QKeySequence
 from PySide6.QtWidgets import QWidget
 
 from ..camera import OrbitCamera
-from ..viewport import VIEWS
+from ..viewport import VIEWS, TrackpadInput
 
 API_VERSION = "1.12.1"
 HOST = """<!doctype html><html><head><meta charset="utf-8">
@@ -107,6 +107,7 @@ class CameraBridge(QWidget):
         self._button = None
         self._moved = False
         self._sent = None
+        self.touch = TrackpadInput(self)
         self._t_last = time.perf_counter()
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAttribute(Qt.WA_NoSystemBackground)
@@ -254,13 +255,16 @@ class CameraBridge(QWidget):
         self.setCursor(Qt.OpenHandCursor)
 
     def wheelEvent(self, e):
-        steps = e.angleDelta().y() / 120.0
-        if steps == 0:
-            return
-        if self.settings.get("invert_zoom"):
-            steps = -steps
-        factor = 0.87 ** (steps * float(self.settings.get("zoom_sensitivity", 1.0)))
-        self.camera.dolly(factor, None)          # no picking through the API, so towards the centre
+        self.touch.wheel(e)         # wheel and trackpad as in the viewport; no gesture_zoom_point, so toward the centre
+
+    def event(self, e):
+        if e.type() == QEvent.NativeGesture and self.touch.native(e):
+            e.accept()
+            return True
+        return super().event(e)
+
+    def gesture_home(self, touch):
+        self.reset_view()           # smart zoom: there is no selection to frame here
 
     def keyPressEvent(self, e):
         """The atlas's rebindable camera keys, matched against whatever they are currently bound to."""
