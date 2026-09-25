@@ -1,0 +1,33 @@
+Anatomy Explorer dataset (data/anatomy, and the derived meshes in data/findings)
+
+Licensed under the Creative Commons Attribution-ShareAlike 4.0 International
+licence (CC BY-SA 4.0): https://creativecommons.org/licenses/by-sa/4.0/
+
+This dataset is an adaptation of:
+
+- Z-Anatomy - "The libre 3D atlas of anatomy", Gauthier Kervyn et al.,
+  CC BY-SA 4.0. https://www.z-anatomy.com/ ,
+  https://github.com/Z-Anatomy/Models-of-human-anatomy
+  Z-Anatomy is itself derived from, among others:
+- BodyParts3D, (c) The Database Center for Life Science (DBCLS),
+  CC BY-SA 2.1 Japan. https://lifesciencedb.jp/bp3d/
+- Terminologia Anatomica 2 (TA2) terms, Federative International Programme
+  for Anatomical Terminology (FIPAT), as distributed with Z-Anatomy.
+  https://fipat.library.dal.ca/
+- definitions.json: the description texts that come with Z-Anatomy. About
+  two thirds are excerpts from Wikipedia, CC BY-SA 3.0
+  (https://creativecommons.org/licenses/by-sa/3.0/), and end with the URL of
+  the article they were taken from, where the authors are listed in the page
+  history. The rest are Z-Anatomy's own short texts (CC BY-SA 4.0), some of
+  them in the wording of Gray's Anatomy (1918, public domain).
+
+Changes made: the Z-Anatomy Blender atlas was exported with tools/export_zanatomy.py
+and converted by tools/build_dataset.py into GPU-ready vertex/index buffers
+(vertices.bin, indices.bin), a structure hierarchy (anatomy.json), surface-sample
+and depth caches (samples.npz, depth.npz). data/findings holds pathology meshes
+(effusion, pneumothorax, consolidation, cardiomegaly...) deformed from those
+meshes by tools/build_findings.py. Both remain under CC BY-SA 4.0.
+
+If you share this dataset or anything derived from it, credit the sources above
+and share it under the same licence. The software that reads it is MIT-licensed
+(see LICENSE at the repository root); the MIT licence does not apply to this data.

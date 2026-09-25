@@ -36,6 +36,40 @@ def data_files():
         if not src.exists():
             raise SystemExit(f"{src} is missing: run packaging/prebuild.py first")
         out.append((str(src), str(Path(key).parent)))
+    return out + notice_files()
+
+
+# Wheels whose code ends up in the bundle; their own licence files are copied to licenses/<name>/ (Qt/PySide6
+# wheels carry none, so their LGPL/GPL texts come from packaging/licenses).
+BUNDLED_DISTS = ["numpy", "scipy", "scikit-image", "shapely", "moderngl", "glcontext", "pillow", "imageio",
+                 "tifffile", "lazy_loader", "networkx", "packaging", "pyinstaller"]
+
+
+def notice_files():
+    """LICENSE, THIRD_PARTY_LICENSES.md and a VERSION file at the bundle root (app/ui/about.py reads them), and
+    the licence texts of the bundled libraries under licenses/. data/anatomy/LICENSE ships with data/anatomy."""
+    from importlib.metadata import PackageNotFoundError, distribution
+    out = [(str(ROOT / "LICENSE"), "."), (str(ROOT / "THIRD_PARTY_LICENSES.md"), ".")]
+    out += [(str(p), "licenses") for p in sorted((ROOT / "packaging" / "licenses").glob("*.txt"))]
+    for name in BUNDLED_DISTS:
+        try:
+            dist = distribution(name)
+        except PackageNotFoundError:
+            continue
+        for f in dist.files or []:
+            path = str(f)
+            if ".dist-info/" in path and any(k in Path(path).name.upper() for k in ("LICEN", "COPYING", "NOTICE")):
+                sub = Path(path.split(".dist-info/", 1)[1]).parent
+                sub = Path(*sub.parts[1:]) if sub.parts[:1] == ("licenses",) else sub
+                out.append((str(f.locate()), (Path("licenses") / name / sub).as_posix()))
+    for cand in (Path(sys.base_prefix) / "LICENSE.txt",
+                 Path(sys.base_prefix) / "lib" / f"python{sys.version_info[0]}.{sys.version_info[1]}" / "LICENSE.txt"):
+        if cand.exists():
+            out.append((str(cand), "licenses/python"))
+            break
+    STAGE.mkdir(parents=True, exist_ok=True)
+    (STAGE / "VERSION").write_text(VERSION, encoding="utf-8")
+    out.append((str(STAGE / "VERSION"), "."))
     return out
 
 

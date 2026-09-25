@@ -20,6 +20,10 @@
   #define IconFile "..\app\resources\icon.ico"
 #endif
 
+#ifndef RepoDir
+  #define RepoDir SourcePath + ".."
+#endif
+
 #define AppName "Anatomy Explorer"
 #define AppExe "AnatomyExplorer.exe"
 
@@ -52,6 +56,8 @@ Compression=lzma2/normal
 SolidCompression=no
 LZMAUseSeparateProcess=yes
 WizardStyle=modern
+; the MIT licence of the app itself; third-party notices are installed beside it (see [Files])
+LicenseFile={#RepoDir}\LICENSE
 CloseApplications=yes
 RestartApplications=no
 
@@ -67,6 +73,9 @@ Type: filesandordirs; Name: "{app}\_internal"
 
 [Files]
 Source: "{#SourceDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+; copies of the notices at the top of the install folder, where people look for them (the bundle's own are in _internal)
+Source: "{#RepoDir}\LICENSE"; DestDir: "{app}"; DestName: "LICENSE.txt"; Flags: ignoreversion
+Source: "{#RepoDir}\THIRD_PARTY_LICENSES.md"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{autoprograms}\{#AppName}"; Filename: "{app}\{#AppExe}"; IconFilename: "{app}\{#AppExe}"

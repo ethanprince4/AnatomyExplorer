@@ -28,7 +28,7 @@ If something goes wrong, run `run_debug.bat` to see errors in a console. Errors 
 
 On a new PC, or if `.venv` is deleted, run `setup.bat` once. It installs the Python packages, rebuilds the dataset if it's missing, and recreates the desktop shortcut. It needs Python 3.10 or newer from python.org.
 
-The repository (private, github.com/ethanprince4/AnatomyExplorer) carries the built dataset, the histology and radiology images and the downloaded Sketchfab models, so a clone runs without rebuilding anything. The four files over GitHub's 100 MB limit are stored with Git LFS (listed in `.gitattributes`): install Git LFS before cloning, or run `git lfs pull` afterwards, or those files arrive as small pointer files. Not in the repository: `.venv`, the portable Blender and the Z-Anatomy source it reads (`data/raw`, `data/extracted`, only needed to rebuild the dataset), the micro-model cache (rebuilt on first use), `logs/`, and `data/user/` — your study progress and the Sketchfab API token. The downloaded models keep their creators' Creative Commons licences, several of them non-commercial or no-derivatives, so they must come out of the repository before it is ever made public.
+The repository ([github.com/ethanprince4/AnatomyExplorer](https://github.com/ethanprince4/AnatomyExplorer)) carries the built dataset, the histology and radiology images and the downloaded Sketchfab models, so a clone runs without rebuilding anything. The four files over GitHub's 100 MB limit are stored with Git LFS (listed in `.gitattributes`): install Git LFS before cloning, or run `git lfs pull` afterwards, or those files arrive as small pointer files. Not in the repository: `.venv`, the portable Blender and the Z-Anatomy source it reads (`data/raw`, `data/extracted`, only needed to rebuild the dataset), the micro-model cache (rebuilt on first use), `logs/`, and `data/user/` — your study progress and the Sketchfab API token. The downloaded models keep their creators' Creative Commons licences, 17 of them non-commercial (6 of those also no-derivatives): see [Licence](#licence).
 
 ## Using it
 
@@ -124,13 +124,28 @@ The app itself only needs `data/anatomy` (about 300 MB). You can delete these to
 | `data/extracted` | 290 MB |
 | `data/micro_cache` | 210 MB (rebuild with `tools/build_micro.py`, about 2.5 min) |
 
-## Credits and license
+## Licence
 
-- Models: **BodyParts3D**, © The Database Center for Life Science, CC BY-SA 2.1 Japan.
-- Atlas: **Z-Anatomy**, CC BY-SA 4.0 (Gauthier Kervyn et al.), with the derived works credited in its readme.
-- Descriptions: **Wikipedia**, CC BY-SA 3.0, with the gaps filled by hand-written texts (`data/content/descriptions_extra*.json`).
-- Histology images: **Wikimedia Commons** contributors. Each image's author, license and source page appear in the histology viewer. `tools/fetch_histology.py` rebuilds the collection (its stages are cached in `data/histology/cache`).
-- Radiographs, CT and MR images: **Wikimedia Commons** contributors – most of them CC0 by Mikael Häggström, M.D., with two public-domain films and two CC BY-SA images. Each case shows its author, licence and source page. `tools/fetch_radiology.py` rebuilds the collection from `data/radiology/cache/wanted.json`.
+Anatomy Explorer's code and its original content are released under the **MIT licence** (see [`LICENSE`](LICENSE)), © 2026 Ethan Prince. That content covers the lessons, clinical correlations, radiology case texts, the hand-written descriptions (`data/content/descriptions_extra*.json`), the Sketchfab part notes, the microanatomy models and the icon.
+
+Third-party material keeps its own licence, and the MIT licence does not apply to it. [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md) lists all of it:
+
+- `data/anatomy` and `data/findings` are an adaptation of Z-Anatomy and BodyParts3D, under **CC BY-SA 4.0** ([`data/anatomy/LICENSE`](data/anatomy/LICENSE)). If you share the dataset or anything derived from it, credit the sources below and share it under the same licence.
+- The histology and radiology images are under the licence recorded beside each one: CC0, public domain, CC BY or CC BY-SA, plus one GFDL image.
+- **Non-commercial models:** 17 of the 21 downloaded Sketchfab models in `data/sketchfab_models` are under NonCommercial Creative Commons licences (11 BY-NC or BY-NC-SA, 6 BY-NC-ND). They may be used for non-commercial purposes only, and they are redistributed unmodified. To use Anatomy Explorer commercially, delete those folders first.
+- The installers bundle Qt and PySide6 (LGPL-3.0) as replaceable libraries, together with the other libraries listed in `THIRD_PARTY_LICENSES.md`.
+
+`python tools/check_licenses.py` checks that every shipped image and model records an author, a licence and a source. In the app, **Help → About** shows the licence and the full credits.
+
+Anatomy Explorer is a study aid, not a medical device.
+
+## Credits
+
+- Atlas: **Z-Anatomy**, "The libre 3D atlas of anatomy", CC BY-SA 4.0 (Gauthier Kervyn et al.). Its readme credits the works it is derived from.
+- Models: **BodyParts3D**, © The Database Center for Life Science (DBCLS), CC BY-SA 2.1 Japan.
+- Anatomical terms: **Terminologia Anatomica 2** (FIPAT), as distributed with Z-Anatomy.
+- Descriptions: **Wikipedia**, CC BY-SA 3.0, as distributed with Z-Anatomy. Hand-written texts fill the gaps (`data/content/descriptions_extra*.json`).
+- Histology images: **Wikimedia Commons** contributors. Each image's author, licence and source page appear in the histology viewer. `tools/fetch_histology.py` rebuilds the collection (its stages are cached in `data/histology/cache`).
+- Radiographs, CT and MR images: **Wikimedia Commons** contributors. Most are CC0 by Mikael Häggström, M.D., with two public-domain films and three CC BY-SA images. Each case shows its author, licence and source page. `tools/fetch_radiology.py` rebuilds the collection from `data/radiology/cache/wanted.json`.
+- 3D models: their creators on **Sketchfab**, credited in each model's tab and in `THIRD_PARTY_LICENSES.md`. The online models are streamed through Sketchfab's official embed and are never copied.
 - Clinical correlations, the hand-written descriptions, innervation, actions and blood supply, and the microanatomy models were written for this app.
-
-You can use this freely for personal study. If you share the dataset or anything derived from it, credit the sources above and share it under the same CC BY-SA license.
