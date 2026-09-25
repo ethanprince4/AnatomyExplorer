@@ -21,12 +21,16 @@ Worth knowing if you are asking someone to match or beat them:
 - Vessels are **swept around a curved centreline** whose calibre varies along its length, with a radius that is a free function of angle and position - nothing is a cylinder of revolution. Every coat is its own closed shell, and the tubes that run inside the wall (vasa vasorum, nervi vasorum, a vein's longitudinal muscle bundles) lie in **channels** that the layers part round, so a section shows each as a clean round profile.
 - Nerve and skeletal muscle are **bundles of bundles opened like a telescope**: at one end the outer sheath stops and each level of the hierarchy - fascicles, single fibres, and in muscle one fibre fraying into banded myofibrils - is pulled out further than the one containing it, each ending in a flat transverse face.
 - Compact bone is a **two-dimensional mosaic of osteons** of different ages, each eroding the ones it overlaps, resolved with polygon booleans and extruded along a wedge of the shaft, so every lamella is a real closed solid.
-- Cardiac muscle and pancreas are built **cell by cell**: each cardiomyocyte, acinar cell and islet cell is its own closed mesh, and cells that cross a face of the block are clipped and capped so the sides read like the cut surface of a specimen.
+- Cardiac muscle and pancreas are built **cell by cell** (the pancreas's acini as non-overlapping Voronoi regions, so cut faces stay clean): each cardiomyocyte, acinar cell and islet cell is its own closed mesh, and cells that cross a face of the block are clipped and capped so the sides read like the cut surface of a specimen.
 - The lymph node's zones (capsule, subcapsular sinus, cortex, paracortex, medulla) are all **cut from one signed-distance field by depth below the capsule**, so they nest exactly and the cut-away sections them all at once, like a slide through the hilum.
 - Every free surface carries **the relief of its own cells**: endothelium as cobblestones stretched along the flow, smooth muscle as spindles wrapped around the circumference, urothelium as domed umbrella cells.
 - Smooth muscle layers in the gut and bladder are **interlacing bundles** with the plexuses running in the gaps between them; the epimysium carries a **felt of individual collagen bundles**.
 - Block models end with one **shared warp** applied to all of their layers at once: a sag that makes surfaces billow and side walls bow, a tissue grain, and a cell-sized micro-relief. Because the warp is a function of position, nested layers stay in register however thin they are.
 - Layers that would otherwise bury their contents (thyroid connective tissue, hypodermal septa, splenic cords, bone marrow) are built as the **complement** of what sits inside them, so follicles, fat lobules, sinusoids and trabeculae stay visible.
+
+## Animation
+
+A model can animate by attaching per-vertex morph targets and phases to its parts (`part.anim`) and giving its dataset an `Animation` of per-part tracks (`app/micro/anim.py`). Only a few texels per part change each frame; the vertex buffers never do, and picking and cut faces follow the moving geometry. The micro view shows Play/Pause, speed and a cycle scrubber for any animated model; `tools/render_micro.py <id> --time T` renders a still and `--frames N -o x.gif` a GIF. The heart's auricles are modelled in Blender by `tools/blender/heart_auricles.py` (run with a Python that has `bpy`) into `data/models/heart_auricles.npz`; bump `AURICLE_ASSET_VERSION` in `heart.py` after regenerating it.
 
 ## How cut faces are drawn
 
@@ -60,7 +64,10 @@ All of it is in `app/micro/`. A model is a `MicroModel` (id, name, summary, buil
 | `glands.py` | Thyroid follicles (with parathyroid) and tongue papillae |
 | `organs2.py` | Urinary bladder, cornea and retina |
 | `lymphoid.py` | Lymph node and spleen |
-| `tissues.py` | Cardiac muscle and pancreas |
+| `tissues.py` | Cardiac muscle (and the shared helpers and descriptions the pancreas uses) |
+| `pancreas.py` | Pancreas: non-overlapping acini, duct tree, islets, and its secretion animation |
+| `anim.py` | Animation for micro models: morph targets, particle flow and travelling glow, evaluated in the vertex shader; see its docstring |
+| `heart_motion.py` | The heart's cardiac cycle, attached at the end of `build_heart` |
 | `blood.py` | Blood cells (formed elements) |
 | `heart.py` | Heart: chambers, valves, vessels and conduction system |
 | `eyeball.py` | Eyeball and accessory structures |
