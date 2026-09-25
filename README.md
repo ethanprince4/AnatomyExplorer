@@ -22,14 +22,19 @@ A desktop 3D anatomy viewer for Windows and Mac. It has its own OpenGL renderer 
 - 1,109 bony and organ landmarks, 3,815 described structures, Latin names and Terminologia Anatomica 2 IDs.
 - Muscle origins and insertions mapped onto bones. Innervation for 468 muscles, and the action of 466.
 
-## Running from source (Windows)
+## Running from source
 
-The installers above are all most people need. To run the app straight from this repository instead: double-click **Anatomy Explorer** on the desktop. You can also use `Anatomy Explorer.bat` in this folder.
-If something goes wrong, run `run_debug.bat` to see errors in a console. Errors are also written to `logs\errors.log`.
+The installers above are all most people need. To run the app from a clone instead, you need Python 3.10 or newer and [Git LFS](https://git-lfs.com): the four files over GitHub's 100 MB limit are stored with LFS (listed in `.gitattributes`), so install it before cloning, or run `git lfs pull` afterwards, or those files arrive as small pointer files. The repository carries the built dataset, the histology and radiology images and the downloaded Sketchfab models, so nothing has to be rebuilt.
 
-On a new PC, or if `.venv` is deleted, run `setup.bat` once. It installs the Python packages, rebuilds the dataset if it's missing, and recreates the desktop shortcut. It needs Python 3.10 or newer from python.org.
+- **Windows:** run `setup.bat` once. It creates `.venv`, installs the packages, builds the microanatomy models and adds a desktop shortcut. After that, start the app from the shortcut or `Anatomy Explorer.bat`; `run_debug.bat` runs it with a console so errors are visible.
+- **macOS and Linux:**
+  ```bash
+  python3 -m venv .venv
+  .venv/bin/pip install -r requirements.txt
+  .venv/bin/python -m app
+  ```
 
-The repository ([github.com/ethanprince4/AnatomyExplorer](https://github.com/ethanprince4/AnatomyExplorer)) carries the built dataset, the histology and radiology images and the downloaded Sketchfab models, so a clone runs without rebuilding anything. The four files over GitHub's 100 MB limit are stored with Git LFS (listed in `.gitattributes`): install Git LFS before cloning, or run `git lfs pull` afterwards, or those files arrive as small pointer files. Not in the repository: `.venv`, the portable Blender and the Z-Anatomy source it reads (`data/raw`, `data/extracted`, only needed to rebuild the dataset), the micro-model cache (rebuilt on first use), `logs/`, and `data/user/` — your study progress and the Sketchfab API token. The downloaded models keep their creators' Creative Commons licences, 17 of them non-commercial (6 of those also no-derivatives): see [Licence](#licence).
+Errors are written to `logs/errors.log`. The microanatomy models are built the first time each one is opened (or all at once with `tools/build_micro.py`) and cached in `data/micro_cache`. Your study progress, notes and quiz history are kept in `data/user/`, which is never committed.
 
 ## Using it
 
@@ -118,7 +123,7 @@ The microanatomy models are generated from code rather than downloaded. Organic 
 
 `tools/fetch_radiology.py` downloads the radiographs, CT and MR images into `data/radiology` and records each one's author and licence; `docs/radiology_cases.md` explains how a case is written, and `docs/microanatomy_models.md` how the microanatomy geometry is put together.
 
-The app itself only needs `data/anatomy` (about 300 MB). You can delete these to save space; `build_all.bat` will download them again if needed:
+The app itself only needs `data/anatomy` (about 300 MB). A rebuild also downloads these, none of which are committed; they can be deleted afterwards and are downloaded again if needed:
 
 | Folder | Size |
 |---|---|
