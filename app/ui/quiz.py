@@ -271,6 +271,9 @@ class QuizController:
         self._siblings = None
         self._peeled = []            # structures the player has right-clicked out of the way, this question
         self._last_click = (-1, 0.0)  # swallow the second half of an accidental double click
+        # a lesson's Practice mode (practice.py) borrows the 3D view's clicks through here while it runs, since
+        # the main window routes every click in the atlas to the quiz first
+        self.delegate = None
 
     # ------------------------------------------------------------------ lifecycle
     def _ensure_dock(self):
@@ -296,7 +299,20 @@ class QuizController:
         else:
             self.open()
 
+    def _delegate_live(self):
+        d = self.delegate
+        return d is not None and d.active
+
+    def save_stats(self):
+        try:
+            STATS_PATH.parent.mkdir(parents=True, exist_ok=True)
+            STATS_PATH.write_text(json.dumps(self.stats, indent=0), encoding="utf-8")
+        except OSError:
+            pass
+
     def open(self):
+        if self._delegate_live():
+            self.delegate.stop()
         self._ensure_dock()
         self.active = True
         self._saved = {k: self.win.settings.get(k) for k in ("show_landmarks", "show_hover_tooltip")}
@@ -340,6 +356,8 @@ class QuizController:
 
     def names_hidden(self):
         """True while a question is live and nothing on screen should be naming structures."""
+        if self._delegate_live():
+            return self.delegate.names_hidden()
         return bool(self.active and self.current is not None and not self.current.get("done")
                     and self.mode in FIND_MODES and self.panel is not None
                     and self.panel.stack.currentIndex() == 1)
@@ -676,6 +694,8 @@ class QuizController:
 
         This applies to both modes that ask you to find something. The context menu would be worse than useless
         during one: its first line is the name of whatever is under the cursor."""
+        if self._delegate_live():
+            return self.delegate.handle_right_click(sid)
         if not (self.active and self.mode in FIND_MODES and self.current is not None):
             return False
         if self.panel.stack.currentIndex() != 1:
@@ -735,11 +755,7 @@ class QuizController:
             self.streak = 0
             if base not in self.missed:
                 self.missed.append(base)
-        try:
-            STATS_PATH.parent.mkdir(parents=True, exist_ok=True)
-            STATS_PATH.write_text(json.dumps(self.stats, indent=0), encoding="utf-8")
-        except OSError:
-            pass
+        self.save_stats()
         p = self.panel
         p.hint_btn.setEnabled(False)
         p.reveal_btn.setEnabled(False)
@@ -767,6 +783,8 @@ class QuizController:
     # ------------------------------------------------------------------ answers
     def handle_click(self, sid, modifiers=None):
         """Return True when the quiz consumed the click."""
+        if self._delegate_live():
+            return self.delegate.handle_click(sid, modifiers)
         if not self.active or self.current is None or self.panel.stack.currentIndex() != 1:
             return False
         if self.mode not in FIND_MODES or self.current["done"]:

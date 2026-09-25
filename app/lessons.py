@@ -7,14 +7,22 @@ cross-section, or open the matching microanatomy model.
 Around the steps sits the teaching scaffolding: what you should be able to do at the end (`objectives`), a
 recall question on each step (`check`), the things worth carrying away (`takeaways`), and where to go next
 (`see_also`). Every lesson is filed under one body system and one region so the library can be read either way.
+
+Lessons written for the lab course also carry a `course` place (lab or lab practical, and their order within it)
+and a list of `practice` items, which Practice mode (app/ui/practice.py) turns into a short graded session.
 """
 import datetime
+import hashlib
 import json
+import random
+import re
+from pathlib import Path
 
 from .config import ROOT, USER_DIR
 
 LESSON_DIR = ROOT / "data" / "content"
 PROGRESS_PATH = USER_DIR / "lesson_progress.json"
+DIAGRAM_DIRS = [LESSON_DIR / "diagrams"]          # where a "diagram" id is looked up, first match wins
 
 # The two ways the library is segmented. Keys are what a lesson file writes; the name is what the panel shows.
 SYSTEMS = [
@@ -82,6 +90,10 @@ class Lesson:
         self.prereq = list(raw.get("prereq", []))
         self.see_also = dict(raw.get("see_also", {}))
         self.tags = list(raw.get("tags", []))
+        course = raw.get("course")
+        self.course = dict(course) if isinstance(course, dict) else None
+        self.practice = [dict(x) for x in raw.get("practice", []) if isinstance(x, dict)]
+        self.practice_from = [str(x) for x in raw.get("practice_from", [])]
 
     def __len__(self):
         return len(self.steps)
@@ -108,6 +120,31 @@ class Lesson:
                         out.append(n)
         return out
 
+    @property
+    def unit_key(self):
+        """("lab", 3) or ("exam", 1) for a lab-course lesson, None for everything else."""
+        c = self.course
+        if not c:
+            return None
+        if c.get("exam") is not None:
+            return ("exam", int(c["exam"]))
+        if c.get("lab") is not None:
+            return ("lab", int(c["lab"]))
+        return None
+
+    @property
+    def unit_name(self):
+        c = self.course or {}
+        if c.get("unit"):
+            return str(c["unit"])
+        key = self.unit_key
+        if key is None:
+            return ""
+        return f"Lab {key[1]}" if key[0] == "lab" else f"Lab Practical {key[1]}"
+
+    def has_practice(self):
+        return bool(self.practice or self.practice_from or self.checks())
+
     def checks(self):
         """(step index, question, answer) for every step that carries a recall question."""
         out = []
@@ -118,10 +155,11 @@ class Lesson:
         return out
 
 
-def load_lessons():
+def load_lessons(extra=()):
+    """Every lesson in data/content/lessons*.json, plus any further files named in `extra` (for testing a draft)."""
     out = []
     seen = set()
-    for path in sorted(LESSON_DIR.glob("lessons*.json")):
+    for path in sorted(LESSON_DIR.glob("lessons*.json")) + [Path(x) for x in extra]:
         try:
             for raw in json.loads(path.read_text(encoding="utf-8")):
                 lesson = Lesson(raw)
@@ -130,11 +168,20 @@ def load_lessons():
                     continue
                 seen.add(lesson.id)
                 out.append(lesson)
-        except (OSError, ValueError) as exc:
+        except (OSError, ValueError, KeyError, TypeError) as exc:
             print(f"Could not read {path.name}: {exc}")
     out.sort(key=lambda x: (SYSTEM_ORDER.get(x.system, 99), REGION_ORDER.get(x.region, 99),
                             LEVEL_ORDER.get(x.level, 9), x.title))
     return out
+
+
+def diagram_path(diagram_id):
+    """The SVG file behind a step's or an item's "diagram" id, or None if there is none."""
+    for folder in DIAGRAM_DIRS:
+        path = Path(folder) / f"{diagram_id}.svg"
+        if path.is_file():
+            return path
+    return None
 
 
 def group_lessons(lessons, by):
@@ -192,6 +239,11 @@ class LessonProgress:
         started = sum(1 for x in lessons if not self.is_done(x.id) and self.entry(x.id).get("seen"))
         return done, started, len(lessons)
 
+    def practice(self, lesson_id):
+        """{"last": %, "best": %, "n": items, "when": iso} of the most recent Practice session, or {}."""
+        rec = self.entry(lesson_id).get("practice")
+        return rec if isinstance(rec, dict) else {}
+
     def in_progress(self, lessons):
         """The lessons you have started and not finished, most recently touched first."""
         rows = [(self.entry(x.id).get("when", ""), x) for x in lessons
@@ -221,6 +273,17 @@ class LessonProgress:
             rec["seen"] = []
             rec["last"] = 0
         rec["when"] = datetime.datetime.now().isoformat(timespec="seconds")
+        self.save()
+
+    def record_practice(self, lesson_id, correct, total):
+        if not total:
+            return
+        pct = round(100 * correct / total)
+        rec = self.data.setdefault(lesson_id, {})
+        old = rec.get("practice") if isinstance(rec.get("practice"), dict) else {}
+        rec["practice"] = {"last": pct, "best": max(pct, int(old.get("best", 0))), "n": int(total),
+                           "sessions": int(old.get("sessions", 0)) + 1,
+                           "when": datetime.datetime.now().isoformat(timespec="seconds")}
         self.save()
 
     def save(self):
@@ -288,3 +351,129 @@ class Resolver:
         for n in names or ():
             out.extend(self.resolve(n))
         return sorted(set(out))
+
+
+# ====================================================================== the lab course
+def course_sort_key(lesson):
+    kind, n = lesson.unit_key or ("zz", 99)
+    # the labs in number order, then the lab practicals, and within each by the lesson's own order
+    return (0 if kind == "lab" else 1, n, int((lesson.course or {}).get("order", 99)), lesson.id)
+
+
+def course_units(lessons):
+    """[(unit heading, (kind, n), [lesson])] for every lab and lab practical, in course order."""
+    units = {}
+    for lesson in lessons:
+        key = lesson.unit_key
+        if key is not None:
+            units.setdefault(key, []).append(lesson)
+    out = []
+    for key in sorted(units, key=lambda k: (0 if k[0] == "lab" else 1, k[1])):
+        group = sorted(units[key], key=course_sort_key)
+        heading = next((x.unit_name for x in group if (x.course or {}).get("unit")), group[0].unit_name)
+        out.append((heading, key, group))
+    return out
+
+
+def unit_matches(lesson, ref):
+    """True when `ref` ("lab03", "lab3", "exam1" or a lesson id) names this lesson or the unit it belongs to."""
+    if ref == lesson.id:
+        return True
+    m = re.fullmatch(r"(lab|exam)0*(\d+)", (ref or "").strip().lower())
+    return bool(m and lesson.unit_key == (m.group(1), int(m.group(2))))
+
+
+# ====================================================================== practice items
+PRACTICE_TYPES = ("find", "name", "find_micro", "mcq", "recall", "order")
+TYPE_NAME = {"find": "Find it in 3D", "name": "Name it", "find_micro": "Find it in the model",
+             "mcq": "Question", "recall": "Recall", "order": "Put in order"}
+
+
+def _short(text, n=70):
+    t = " ".join(re.sub(r"<[^>]+>", "", str(text or "")).split())
+    return t if len(t) <= n else t[: n - 1] + "…"
+
+
+def item_key(item):
+    """The name an item is scheduled under in the spaced-repetition store (data/user/quiz_stats.json).
+
+    Finding or naming an atlas structure is the same fact whichever lesson asks it, so it shares the quiz's key:
+    the structure's own name. Everything else is keyed by where it came from and what it asks."""
+    kind = item.get("type")
+    if kind in ("find", "name"):
+        return item.get("_base") or item.get("structure", "")
+    if kind == "find_micro":
+        return f"micro:{item.get('model')}:{item.get('part')}"
+    text = item.get("q", "")
+    digest = hashlib.sha1(text.encode("utf-8")).hexdigest()[:6]
+    return f"card:{item.get('_lesson', '')}:{_short(text, 48)}#{digest}"
+
+
+def practice_items(lesson):
+    """Every practice item a lesson offers: its own `practice` list, then its step `check`s as recall cards."""
+    out = []
+    seen_q = set()
+    for raw in lesson.practice:
+        if raw.get("type") not in PRACTICE_TYPES:
+            continue
+        item = dict(raw)
+        item["_lesson"] = lesson.id
+        out.append(item)
+        if item.get("q"):
+            seen_q.add(_short(item["q"], 200).lower())
+    for i, q, a in lesson.checks():
+        if _short(q, 200).lower() in seen_q:
+            continue
+        seen_q.add(_short(q, 200).lower())
+        out.append({"type": "recall", "q": q, "a": a, "_lesson": lesson.id, "_step": i})
+    return out
+
+
+def practice_pool(lesson, lessons):
+    """The items a session on `lesson` draws from. A lab practical adds every item of the units it names."""
+    pool = practice_items(lesson)
+    if lesson.practice_from:
+        for other in sorted(lessons, key=course_sort_key):
+            if other.id != lesson.id and any(unit_matches(other, ref) for ref in lesson.practice_from):
+                pool.extend(practice_items(other))
+    return pool
+
+
+def default_length(lesson, pool_size):
+    """Bite-sized: a mini lesson runs 8-15 items, a lab practical 40."""
+    if lesson.practice_from:
+        return min(40, pool_size)
+    return pool_size if pool_size <= 15 else 12
+
+
+def _due_weight(stat, day):
+    if not stat:
+        return 2.0                              # never seen: worth asking
+    try:
+        due = datetime.date.fromisoformat(stat.get("due", ""))
+    except (TypeError, ValueError):
+        due = None
+    miss = int(stat.get("miss", 0)) / max(1, int(stat.get("seen", 0)))
+    if due is None or due <= day:
+        return 3.0 + 2.0 * miss                 # due for review, more so if often missed
+    return 0.6 + 2.0 * miss
+
+
+def build_session(pool, n, stats=None, rng=None):
+    """Draw n items from pool (all of them when n is 0 or larger), favouring what is due or often missed, and
+    shuffle them. Two items asking exactly the same thing are never both drawn."""
+    rng = rng or random.Random()
+    stats = stats or {}
+    day = datetime.date.today()
+    unique = {}
+    for item in pool:
+        unique.setdefault((item.get("type"), item_key(item)), item)
+    items = list(unique.values())
+    if not n or n >= len(items):
+        rng.shuffle(items)
+        return items
+    weighted = [(rng.random() ** (1.0 / _due_weight(stats.get(item_key(x)), day)), x) for x in items]
+    weighted.sort(key=lambda r: r[0], reverse=True)          # weighted sampling without replacement
+    out = [x for _w, x in weighted[:n]]
+    rng.shuffle(out)
+    return out

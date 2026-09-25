@@ -26,6 +26,101 @@ through each one you got.
 Levels are **Foundation** (12), **Core** (88) and **Advanced** (37). Advanced lessons usually name a
 `prereq`, which the runner shows under the title as "After: …".
 
+## The lab course
+
+Lessons written for the lab course (`data/content/lessons_course_lab01.json` … `lessons_course_lab09.json`,
+`lessons_course_exam1.json`, `lessons_course_exam2.json`) are bite-sized *mini lessons*, and the library opens
+on them: the **Course** grouping (the default whenever course lessons exist) lists **Lab 1 … Lab 9, Lab
+Practical 1, Lab Practical 2** in that order, each heading showing how many of its mini lessons you have
+finished (`LAB 3  4/10 ✓ · BLOOD & HEART STRUCTURE`), and the mini lessons under it in course order with a ✓
+once read and their best practice score. Every other lesson follows underneath by body system; **System**,
+**Region** and **Level** group the whole library as before.
+
+Clicking a course lesson opens its **cover**: the objectives, how far you got, your practice scores and two
+buttons:
+
+- **Learn** — the step-by-step runner below. Finishing the last step brings you back to the cover, ready to
+  practise.
+- **Practice** — a short graded session in a dock on the right (see [Practice mode](#practice-mode)). The runner
+  also has a **Practice** button next to **Quiz me** for any lesson with something to practise.
+
+A lab-practical review lesson with `practice_from` shows **Practice exam** instead, with a **Length** selector
+(20, 40 — the default — 60, or everything). A lesson with no steps (a pure practice exam) shows only Practice.
+
+### Course fields
+
+```json
+{
+  "id": "lab03-02-formed-elements",
+  "course": {"lab": 3, "order": 2, "unit": "Lab 3 · Blood & heart structure"},
+  "practice": [ … ],
+  "steps": [ … ]
+}
+```
+
+- `course.lab` (or `course.exam` for a lab-practical review) and `course.order` place the lesson; `course.unit`
+  is the heading its lab is filed under (the first lesson of a unit that has one names the heading).
+  Lab-practical units read `"Lab Practical 1 · Labs 1–5"`.
+- Ids are `labNN-MM-slug` (`exam1-MM-slug` for reviews), and the `NN` must match `course.lab`.
+- A mini lesson has 3–5 steps of 40–90 words each, one idea per step, and 6–15 practice items; every structure
+  and key term it teaches should be exercised by at least one item.
+- `practice_from` (reviews only): `["lab01", "lab02", …]` — Practice draws on every practice item and step
+  question of those labs, plus the lesson's own `practice`. A lesson id works too.
+
+### Practice items
+
+| `type` | Fields | What the student does |
+|---|---|---|
+| `find` | `structure` (exact atlas name) | finds it in the 3D atlas: left-click it, right-click anything in the way to peel it off (Ctrl+Z puts it back); three wrong clicks and it is shown |
+| `name` | `structure` | the structure is highlighted and x-rayed; pick its name from four, the wrong ones drawn from names taught in the same lesson and lab |
+| `find_micro` | `model` (micro model id), `part` (exact part name) | the model opens with its parts list and labels put away; click the part, right-click to peel parts off, three tries |
+| `mcq` | `q`, `choices` (2–6), `answer` (0-based index), `why` | picks one; `why` is shown after answering, right or wrong |
+| `recall` | `q`, `a` | thinks of the answer, shows it, and says honestly whether they knew it |
+| `order` | `q`, `items` (in the correct order; shuffled at runtime) | drags the rows into order (or uses the arrows) and presses Check |
+
+Any item may also carry `"why"` (shown with the feedback) and `"diagram"` (shown above the question). Every
+step `check` becomes a `recall` card automatically, unless a practice item already asks the same question.
+
+For `find` and `name` the atlas is set up the way the lesson set it up when it taught that structure — the
+first step that names it in `focus`, `show`, `ghost_focus` or `frame_on` — but without selecting, x-raying or
+isolating it. A structure no step names gets its own system switched on and a view that stands back from it.
+
+### Step extras
+
+| Key | Effect |
+|---|---|
+| `micro_focus` | `["<exact part names>"]` with `micro` on the same step: the model opens with those parts selected, labelled, framed and everything else x-rayed |
+| `diagram` | `"<id>"`: `data/content/diagrams/<id>.svg` is drawn under the step text at the width of the panel |
+
+Diagrams are original, hand-written SVGs for what 3D cannot show — an ECG trace, a spirogram, a reflex arc.
+Draw them for the dark theme: light strokes (`#cfd8e3` and the system colours), transparent background, a
+`viewBox` (so they scale), and text in a plain sans-serif. Keep them simple and labelled.
+
+## Practice mode
+
+`app/ui/practice.py`. A session on a mini lesson draws everything it has to practise when that is 15 items or
+fewer, and 12 of them otherwise; a practice exam draws 40 (or the chosen length) from its whole pool. Items that
+are due for review, never seen or often missed are drawn first, and the order is shuffled. After each answer
+the panel says whether it was right and why; **Next** (or Enter) moves on, and moving on without answering
+counts as a miss. Keys 1–6 pick a choice.
+
+The summary gives the score, a breakdown by kind of question, and the missed items with their answers (double
+click a structure to see it again), with **Retry missed**, **New session** and **Close**. The score of each
+full session — not of a retry — is kept with the lesson's progress and shown on its card and cover.
+
+Every answer also goes into the spaced-repetition schedule in `data/user/quiz_stats.json` (`app/srs.py`):
+
+| Item | Scheduled under |
+|---|---|
+| `find`, `name` | the structure's own name — the same key the quiz uses, so a miss here comes back in **Review what is due** |
+| `find_micro` | `micro:<model>:<part>` |
+| `mcq`, `recall`, `order` | `card:<lesson id>:<question>#<hash>` |
+
+The atlas is put back the way it was when the session closes. While a find or name item is live, hover
+tooltips and landmark labels are off and the details panel is hidden, as in the quiz. Practice borrows the 3D
+view's clicks through the quiz controller (`QuizController.delegate`), so it needs no hooks of its own in the
+main window.
+
 ## What a lesson looks like
 
 Lessons live in `data/content/lessons*.json` — any file whose name starts with `lessons` is loaded, so they
@@ -100,10 +195,10 @@ question is a step you can skim.
 
 ## Progress
 
-`data/user/lesson_progress.json` records, per lesson, which steps you have seen, which one you were last on
-and whether you have finished it. The library shows a progress bar under each card, a green bar when
-finished, and a **Continue** card at the top for the lesson you were last in the middle of. Nothing else in
-the app reads the file, and deleting it simply resets the library.
+`data/user/lesson_progress.json` records, per lesson, which steps you have seen, which one you were last on,
+whether you have finished it and, under `practice`, the last and best Practice scores. The library shows a
+progress bar under each card, a green bar when finished, and a **Continue** card at the top for the lesson you
+were last in the middle of. Nothing else in the app reads the file, and deleting it simply resets the library.
 
 ## Writing a lesson
 
@@ -132,6 +227,19 @@ the app reads the file, and deleting it simply resets the library.
    It checks every structure name, the system, region and level keys, the dataset system and region keys in
    each step, that `prereq` and `see_also` point at things that exist, that every lesson has objectives and
    takeaways, and that a `check` has both a question and an answer.
+
+   For the lab course it also checks the `course` fields and the id pattern, every practice item (its type and
+   fields, exact atlas names for `find`/`name`, a valid `mcq` answer index, no duplicate `order` rows), exact
+   part names for `find_micro` and `micro_focus` — by building the model's parts from `data/micro_cache`, which
+   can take a minute the first time — that every `diagram` exists as a well-formed SVG with a `viewBox`, and
+   that `practice_from` names real labs. A micro model that is not registered yet (or will not build right now)
+   is a warning, not a failure. Warnings also flag mini lessons outside 3–5 steps or with fewer than six
+   practice items.
+
+   ```bash
+   .venv/bin/python tools/check_lessons.py --only lab03          # just one lab
+   .venv/bin/python tools/check_lessons.py drafts/my_lab.json    # a draft not yet in data/content
+   ```
 
 4. **Look at it.** A lesson that reads well can still frame badly:
 

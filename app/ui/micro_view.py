@@ -57,6 +57,8 @@ class MicroView(QWidget):
         self.gl_widget.measure_scale = model.metres_per_unit if hasattr(model, "metres_per_unit") else \
             self._scale_from_note(model.scale_note) / 1000.0
         self.labels_on = False
+        self.click_hook = None        # Practice mode: callable(sid) -> True when it took the click
+        self.rclick_hook = None       # Practice mode: callable(sid), a right click in the 3D view
 
         lay = QHBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
@@ -97,6 +99,7 @@ class MicroView(QWidget):
         sl.addWidget(self.tree, 1)
         self._build_tree()
         split.addWidget(side)
+        self.side = side
 
         right = QWidget()
         rl = QVBoxLayout(right)
@@ -169,6 +172,7 @@ class MicroView(QWidget):
 
         self.gl_widget.structureClicked.connect(self._clicked)
         self.gl_widget.structureDoubleClicked.connect(self._double_clicked)
+        self.gl_widget.contextMenuRequested.connect(lambda sid, _pos: self.rclick_hook and self.rclick_hook(sid))
         self.state.visibility_changed.connect(self._sync_tree)
         self.state.visibility_changed.connect(self._refresh_labels)
         QTimer.singleShot(0, self.reset_view)
@@ -294,6 +298,8 @@ class MicroView(QWidget):
 
     # ------------------------------------------------------------------ selection & details
     def _clicked(self, sid, modifiers):
+        if self.click_hook is not None and self.click_hook(sid):
+            return
         if sid < 0:
             self.state.clear_selection()
         else:
@@ -307,10 +313,51 @@ class MicroView(QWidget):
         self._show_selection()
 
     def _double_clicked(self, sid):
-        if sid >= 0:
+        if sid >= 0 and self.click_hook is None:
             self.state.select([sid])
             self.gl_widget.frame_structures([sid])
             self._show_selection()
+
+    # ------------------------------------------------------------------ lessons & practice
+    def part_ids(self, names):
+        """Part indices for a list of exact part names (case-insensitive), and the names that matched nothing."""
+        by_lower = {}
+        for i, p in enumerate(self.mds.parts):
+            by_lower.setdefault(p.name.lower(), []).append(i)
+        sids, missing = [], []
+        for n in names or ():
+            hit = by_lower.get(str(n).strip().lower())
+            if hit:
+                sids.extend(hit)
+            else:
+                missing.append(n)
+        return sids, missing
+
+    def focus_parts(self, names):
+        """A lesson step's "micro_focus": select these parts, x-ray the rest, label and frame them.
+        Returns the names that are not parts of this model."""
+        sids, missing = self.part_ids(names)
+        if sids:
+            self.state.set_hidden(sids, False)
+            self.state.select(sids)
+            self.state.set_ghost_focus(sids)
+            self._refresh_labels()
+            self._show_selection()
+            # after reset_view, which a freshly opened model queues for its first frame
+            QTimer.singleShot(250, lambda: self.gl_widget.frame_structures(sids))
+        return missing
+
+    def set_practice(self, click=None, rclick=None):
+        """Practice mode takes the clicks, and the parts list and labels are put away: they would give the answer."""
+        on = click is not None
+        self.click_hook, self.rclick_hook = click, rclick
+        self.side.setVisible(not on)
+        if on:
+            self.labels.setChecked(False)
+            self._show_all()
+            self.state.clear_selection()
+            self.reset_view()
+        self._refresh_labels()
 
     def on_activated(self, info):
         self.info = info

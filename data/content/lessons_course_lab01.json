@@ -1,0 +1,2535 @@
+[
+ {
+  "id": "lab01-01-neurons-resting-potential",
+  "title": "Neurons, nerves and the resting potential",
+  "system": "nervous",
+  "region": "general",
+  "level": "foundation",
+  "minutes": 9,
+  "course": {
+   "lab": 1,
+   "order": 1,
+   "unit": "Lab 1 · Nerve physiology, reflexes & general senses"
+  },
+  "summary": "What a neuron and a nerve are, and why the inside of a resting cell sits at about -70 mV.",
+  "tags": [
+   "neuron",
+   "nerve",
+   "resting membrane potential",
+   "potassium",
+   "Na+/K+ pump",
+   "ouabain"
+  ],
+  "objectives": [
+   "Name the three parts of a neuron and say what a nerve is made of",
+   "State the resting membrane potential and explain why K+ sets it",
+   "Predict what raising extracellular K+ or Na+ does to the resting potential",
+   "Explain the job of the Na+/K+ pump and what ouabain does to it"
+  ],
+  "takeaways": [
+   "Dendrites receive, the cell body integrates, the axon conducts; a nerve is a bundle of axons wrapped in connective tissue.",
+   "A resting neuron is about -70 mV inside, close to the K+ equilibrium potential because K+ leak channels dominate at rest.",
+   "Raising extracellular K+ depolarises the cell; changing extracellular Na+ barely moves the resting potential.",
+   "The Na+/K+ ATPase (3 Na+ out, 2 K+ in) maintains the gradients; ouabain blocks it and the gradients slowly run down."
+  ],
+  "see_also": {
+   "micro": [
+    "peripheral_nerve",
+    "skeletal_muscle"
+   ],
+   "histology": [
+    "peripheral_nerve"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Three parts of a neuron",
+    "text": "<p>A neuron has <b>dendrites</b> that receive signals, a <b>cell body</b> (soma) holding the nucleus that adds those signals up, and a single <b>axon</b> that carries the output away. The axon begins at the <b>axon hillock</b>, the trigger zone, and ends in terminals that release neurotransmitter onto the next cell.</p><p>Information therefore flows one way: dendrite, cell body, axon, terminal.</p>",
+    "diagram": "lab01-neuron",
+    "systems": [
+     "nervous",
+     "skeletal"
+    ],
+    "regions": [
+     "back",
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Spinal cord",
+     "Sciatic nerve"
+    ],
+    "view": "posterior",
+    "check": {
+     "q": "Which part of a neuron conducts the signal away from the cell body?",
+     "a": "The axon, starting at the axon hillock and ending at the axon terminals."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "A nerve is a cable of axons",
+    "text": "<p>A <b>nerve</b> is not one cell: it is a bundle of many axons running together outside the brain and spinal cord. The <b>sciatic nerve</b> in the back of the thigh holds thousands of them. In the micro model each axon sits in its own <b>endoneurium</b>, bundles are wrapped in <b>perineurium</b>, and the whole nerve in <b>epineurium</b>. Many axons are wrapped in <b>myelin</b>; the gaps between wraps are the <b>nodes of Ranvier</b>.</p>",
+    "systems": [
+     "nervous",
+     "skeletal"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sciatic nerve"
+    ],
+    "show": [
+     "Tibial nerve",
+     "Common fibular nerve"
+    ],
+    "view": "posterior",
+    "micro": "peripheral_nerve",
+    "micro_focus": [
+     "Axons",
+     "Myelin sheaths (internodes)",
+     "Endoneurium",
+     "Perineurium",
+     "Epineurium"
+    ],
+    "check": {
+     "q": "Where are the cell bodies of the axons in the sciatic nerve?",
+     "a": "Not in the nerve: motor cell bodies lie in the spinal cord's anterior horn and sensory ones in the dorsal root ganglia. A nerve holds only their axons."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "The resting membrane potential",
+    "text": "<p>Push a fine glass <b>microelectrode</b> through a cell membrane and the inside reads negative: about <b>-70 mV</b> in a neuron and a little more negative in skeletal muscle fibres. That voltage is the <b>resting membrane potential (RMP)</b>.</p><p>It exists because ions are unevenly spread. Outside there is about 145 <b>mEq/L</b> of Na+ and 5 mEq/L of K+; inside it is roughly the reverse, about 140 mEq/L of K+ and 15 mEq/L of Na+. (mEq/L counts charges per litre.)</p>",
+    "diagram": "lab01-membrane-potential",
+    "systems": [
+     "muscular"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Medial head of gastrocnemius",
+     "Lateral head of gastrocnemius"
+    ],
+    "view": "posterior",
+    "micro": "skeletal_muscle",
+    "micro_focus": [
+     "Muscle fibres"
+    ],
+    "check": {
+     "q": "Which ion is concentrated inside the cell and which outside?",
+     "a": "K+ is high inside (about 140 mEq/L); Na+ is high outside (about 145 mEq/L)."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "Why potassium sets the voltage",
+    "text": "<p>At rest the membrane has many open <b>K+ leak channels</b> and very few open Na+ channels. K+ leaks out down its gradient, leaving negative charge behind, until the inside is negative enough to hold it back: the <b>K+ equilibrium potential</b> (about -90 mV), which the <b>Nernst equation</b> calculates from the concentration ratio. Na+ has its own equilibrium potential, about +60 mV, but its low permeability lets it pull the RMP up only slightly.</p><p>So raising extracellular K+ makes the RMP <b>less negative</b> (depolarised); changing extracellular Na+ barely moves it.</p>",
+    "diagram": "lab01-membrane-potential",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sciatic nerve"
+    ],
+    "view": "posterior",
+    "micro": "peripheral_nerve",
+    "micro_focus": [
+     "Axons"
+    ],
+    "clinical": "Hyperkalaemia (high blood K+) depolarises heart and nerve cells and can cause dangerous arrhythmias, which is why potassium levels are watched so closely.",
+    "check": {
+     "q": "Extracellular K+ is raised from 5 to 20 mEq/L. What happens to the resting potential, and why?",
+     "a": "It becomes less negative (depolarises), because the K+ gradient that sets the RMP is smaller."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "The Na+/K+ pump keeps the gradients",
+    "text": "<p>Leaks would slowly flatten both gradients. The <b>Na+/K+ ATPase</b> prevents that: each cycle uses one ATP to push <b>3 Na+ out and 2 K+ in</b>. It maintains the concentration differences that the RMP depends on (and adds a few millivolts itself).</p><p><b>Ouabain</b> blocks the pump. The RMP does not collapse at once; it drifts toward zero over minutes as the gradients run down.</p>",
+    "diagram": "lab01-membrane-potential",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sciatic nerve"
+    ],
+    "view": "posterior",
+    "micro": "peripheral_nerve",
+    "micro_focus": [
+     "Axons",
+     "Schwann cell nuclei"
+    ],
+    "pitfall": "The pump is not what makes the moment-to-moment resting voltage; K+ leak does. Block the pump and the potential fades slowly, not instantly.",
+    "check": {
+     "q": "What does ouabain do, and how quickly does the resting potential change afterwards?",
+     "a": "It blocks the Na+/K+ ATPase; the RMP becomes less negative gradually as the ion gradients run down."
+    },
+    "side": "Right"
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Sciatic nerve"
+   },
+   {
+    "type": "name",
+    "structure": "Sciatic nerve"
+   },
+   {
+    "type": "find_micro",
+    "model": "peripheral_nerve",
+    "part": "Axons"
+   },
+   {
+    "type": "find_micro",
+    "model": "peripheral_nerve",
+    "part": "Myelin sheaths (internodes)"
+   },
+   {
+    "type": "find_micro",
+    "model": "peripheral_nerve",
+    "part": "Epineurium"
+   },
+   {
+    "type": "find_micro",
+    "model": "skeletal_muscle",
+    "part": "Muscle fibres"
+   },
+   {
+    "type": "order",
+    "q": "Put the parts of a neuron in the order a signal passes through them",
+    "items": [
+     "Dendrites",
+     "Cell body",
+     "Axon hillock",
+     "Axon",
+     "Axon terminals"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "The resting membrane potential of a typical neuron is about",
+    "choices": [
+     "-70 mV",
+     "+30 mV",
+     "0 mV",
+     "-150 mV"
+    ],
+    "answer": 0,
+    "why": "The inside is negative at rest, about -70 mV, near the K+ equilibrium potential."
+   },
+   {
+    "type": "mcq",
+    "q": "Which ion's movement mainly determines the resting potential?",
+    "choices": [
+     "K+",
+     "Na+",
+     "Ca2+",
+     "Cl-"
+    ],
+    "answer": 0,
+    "why": "At rest the membrane is far more permeable to K+ than to any other ion."
+   },
+   {
+    "type": "mcq",
+    "q": "Raising extracellular K+ makes the resting potential",
+    "choices": [
+     "less negative (depolarised)",
+     "more negative (hyperpolarised)",
+     "unchanged",
+     "positive at once"
+    ],
+    "answer": 0,
+    "why": "A smaller K+ gradient means less K+ leaves, so less negative charge is left inside."
+   },
+   {
+    "type": "mcq",
+    "q": "Doubling extracellular Na+ changes the resting potential",
+    "choices": [
+     "very little",
+     "to about +60 mV",
+     "to about -90 mV",
+     "by triggering an action potential"
+    ],
+    "answer": 0,
+    "why": "Few Na+ channels are open at rest, so Na+ has little influence on the RMP."
+   },
+   {
+    "type": "recall",
+    "q": "What does the Nernst equation give you?",
+    "a": "The equilibrium potential of one ion: the voltage at which its electrical and concentration forces balance (about -90 mV for K+, +60 mV for Na+)."
+   },
+   {
+    "type": "recall",
+    "q": "What does the Na+/K+ ATPase move per cycle, and which drug blocks it?",
+    "a": "3 Na+ out and 2 K+ in for one ATP; ouabain blocks it."
+   },
+   {
+    "type": "recall",
+    "q": "What unit is used for ion concentrations in body fluids, and what does it count?",
+    "a": "mEq/L (milliequivalents per litre) - the amount of charge carried by the ions per litre."
+   },
+   {
+    "type": "recall",
+    "q": "How is the membrane potential of a single cell measured?",
+    "a": "With an intracellular microelectrode inside the cell compared with a reference electrode outside."
+   }
+  ]
+ },
+ {
+  "id": "lab01-02-graded-potentials-summation",
+  "title": "EPSPs, IPSPs and summation",
+  "system": "nervous",
+  "region": "general",
+  "level": "core",
+  "minutes": 7,
+  "course": {
+   "lab": 1,
+   "order": 2,
+   "unit": "Lab 1 · Nerve physiology, reflexes & general senses"
+  },
+  "summary": "Small graded potentials at synapses, and how a neuron adds them up to decide whether to fire.",
+  "tags": [
+   "EPSP",
+   "IPSP",
+   "graded potential",
+   "temporal summation",
+   "spatial summation",
+   "synapse"
+  ],
+  "prereq": [
+   "lab01-01-neurons-resting-potential"
+  ],
+  "objectives": [
+   "Define EPSP, IPSP and graded potential",
+   "Explain why graded potentials fade with time and distance",
+   "Distinguish temporal from spatial summation",
+   "Say where summation decides whether an action potential fires"
+  ],
+  "takeaways": [
+   "An EPSP is a small graded depolarisation at a synapse; an IPSP is a small graded hyperpolarisation.",
+   "Graded potentials vary with stimulus strength and die away with time and distance.",
+   "Temporal summation: repeated inputs close together in time add - the shorter the interval, the bigger the sum.",
+   "Spatial summation: inputs from different synapses arriving together add; an EPSP and an IPSP can cancel.",
+   "If the summed potential at the axon hillock reaches threshold, an action potential fires."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab01-01-neurons-resting-potential"
+   ],
+   "micro": [
+    "skeletal_muscle"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Synapses make graded potentials",
+    "text": "<p>At a chemical <b>synapse</b>, transmitter from one neuron opens ion channels on the next. If the channels let positive ions in, the membrane depolarises a little: an <b>excitatory postsynaptic potential (EPSP)</b>. If they let K+ out or Cl- in, it hyperpolarises: an <b>inhibitory postsynaptic potential (IPSP)</b>.</p><p>Both are <b>graded potentials</b>: their size depends on how much transmitter arrives, unlike the fixed-size action potential.</p>",
+    "diagram": "lab01-summation",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "back"
+    ],
+    "focus": [
+     "Anterior horn of spinal cord"
+    ],
+    "show": [
+     "Spinal cord"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Spinal cord"
+    ],
+    "check": {
+     "q": "Is an IPSP a depolarisation or a hyperpolarisation?",
+     "a": "A hyperpolarisation - it moves the membrane further from threshold."
+    }
+   },
+   {
+    "title": "Graded potentials fade",
+    "text": "<p>A graded potential spreads passively from the synapse, like ripples from a stone. Charge leaks out across the membrane as it goes, so the potential <b>shrinks with distance</b> and <b>dies away within milliseconds</b>. A single EPSP on a distant dendrite is usually far too small to matter by the time it reaches the <b>axon hillock</b>, where the neuron's trigger zone sits.</p>",
+    "diagram": "lab01-neuron",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "back"
+    ],
+    "focus": [
+     "Grey matter of spinal cord"
+    ],
+    "show": [
+     "Spinal cord"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Spinal cord"
+    ],
+    "micro": "skeletal_muscle",
+    "micro_focus": [
+     "Neuromuscular junction",
+     "Motor end plate"
+    ],
+    "pitfall": "The neuromuscular junction is the exception: its end-plate potential is so large that one nerve impulse always fires the muscle fibre. Neuron-to-neuron synapses need summation.",
+    "check": {
+     "q": "Name two ways a graded potential differs from an action potential.",
+     "a": "It varies in size with the stimulus, and it decays with time and distance instead of travelling unchanged along the axon."
+    }
+   },
+   {
+    "title": "Temporal summation",
+    "text": "<p>If one synapse fires again before its first EPSP has died away, the second EPSP starts from a raised baseline and the two <b>add</b>. That is <b>temporal summation</b> - summation in time.</p><p>The <b>shorter the interval</b> between stimuli, the less each EPSP has decayed and the <b>larger the summed EPSP</b>. A fast enough train can carry the membrane to threshold even though each EPSP alone is small.</p>",
+    "diagram": "lab01-summation",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "back"
+    ],
+    "focus": [
+     "Anterior horn of spinal cord"
+    ],
+    "show": [
+     "Spinal cord"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Spinal cord"
+    ],
+    "check": {
+     "q": "Two stimuli are given 5 ms apart, then 20 ms apart. Which gives the larger summed EPSP?",
+     "a": "5 ms apart - the first EPSP has decayed less when the second arrives."
+    }
+   },
+   {
+    "title": "Spatial summation and cancellation",
+    "text": "<p>A motor neuron in the anterior horn receives thousands of synapses. EPSPs from <b>different synapses at the same moment</b> add together: <b>spatial summation</b>.</p><p>Excitation and inhibition are summed too: an EPSP and an IPSP of equal size arriving together <b>cancel</b>. The neuron fires only if the net potential at the <b>axon hillock</b> reaches <b>threshold</b> - so every cell is constantly weighing its inputs.</p>",
+    "diagram": "lab01-summation",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "back"
+    ],
+    "focus": [
+     "Anterior horn of spinal cord",
+     "Posterior horn of spinal cord"
+    ],
+    "show": [
+     "Spinal cord"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Spinal cord"
+    ],
+    "check": {
+     "q": "An EPSP and an equal IPSP arrive at the same time. What happens?",
+     "a": "They cancel, leaving the membrane near rest; no action potential is triggered."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Anterior horn of spinal cord"
+   },
+   {
+    "type": "find_micro",
+    "model": "skeletal_muscle",
+    "part": "Neuromuscular junction"
+   },
+   {
+    "type": "mcq",
+    "q": "An EPSP is",
+    "choices": [
+     "a small graded depolarisation",
+     "a small graded hyperpolarisation",
+     "an all-or-none depolarisation",
+     "the refractory period"
+    ],
+    "answer": 0,
+    "why": "Excitatory postsynaptic potentials move the membrane toward threshold."
+   },
+   {
+    "type": "mcq",
+    "q": "An IPSP makes a neuron",
+    "choices": [
+     "less likely to fire",
+     "more likely to fire",
+     "fire at once",
+     "refractory"
+    ],
+    "answer": 0,
+    "why": "It hyperpolarises the membrane, moving it away from threshold."
+   },
+   {
+    "type": "mcq",
+    "q": "Repeated stimuli at one synapse, close together in time, add up. This is",
+    "choices": [
+     "temporal summation",
+     "spatial summation",
+     "recruitment",
+     "adaptation"
+    ],
+    "answer": 0,
+    "why": "Temporal = same synapse, successive inputs in time."
+   },
+   {
+    "type": "mcq",
+    "q": "Several different synapses fire at the same moment and their EPSPs add. This is",
+    "choices": [
+     "spatial summation",
+     "temporal summation",
+     "saltatory conduction",
+     "the all-or-none law"
+    ],
+    "answer": 0,
+    "why": "Spatial = different locations at the same time."
+   },
+   {
+    "type": "mcq",
+    "q": "Shortening the interval between two stimuli makes the summed EPSP",
+    "choices": [
+     "larger",
+     "smaller",
+     "the same",
+     "negative"
+    ],
+    "answer": 0,
+    "why": "Less time for the first EPSP to decay before the second adds to it."
+   },
+   {
+    "type": "recall",
+    "q": "Why do graded potentials not travel far?",
+    "a": "They spread passively and leak charge across the membrane, so they shrink with distance and decay with time."
+   },
+   {
+    "type": "recall",
+    "q": "Where on a neuron is the summed potential compared with threshold?",
+    "a": "At the axon hillock (the trigger zone), where the axon leaves the cell body."
+   },
+   {
+    "type": "order",
+    "q": "Put the events in order",
+    "items": [
+     "Transmitter binds postsynaptic receptors",
+     "EPSPs are generated",
+     "EPSPs summate",
+     "Axon hillock reaches threshold",
+     "Action potential fires"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "lab01-03-action-potential",
+  "title": "Action potentials and refractory periods",
+  "system": "nervous",
+  "region": "general",
+  "level": "core",
+  "minutes": 9,
+  "course": {
+   "lab": 1,
+   "order": 3,
+   "unit": "Lab 1 · Nerve physiology, reflexes & general senses"
+  },
+  "summary": "The all-or-none spike of one axon, the refractory periods that follow it, and the compound action potential of a whole nerve.",
+  "tags": [
+   "action potential",
+   "threshold",
+   "all-or-none",
+   "refractory period",
+   "compound action potential",
+   "recruitment"
+  ],
+  "prereq": [
+   "lab01-02-graded-potentials-summation"
+  ],
+  "objectives": [
+   "Link each phase of the action potential to the voltage-gated channel responsible",
+   "Explain threshold and the all-or-none principle",
+   "Distinguish the absolute and relative refractory periods",
+   "Explain why a compound action potential grows with stimulus intensity"
+  ],
+  "takeaways": [
+   "Depolarisation: voltage-gated Na+ channels open. Repolarisation: Na+ channels inactivate and voltage-gated K+ channels open. The slow K+ close gives an undershoot (hyperpolarisation).",
+   "A single axon fires a full-size action potential once threshold is reached, or none at all.",
+   "Absolute refractory period: no second spike at any strength. Relative: a second spike needs a stronger stimulus.",
+   "A nerve's compound action potential is the sum of many axons' spikes, so it grows from threshold to maximal stimulus as more axons are recruited."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab01-02-graded-potentials-summation"
+   ],
+   "micro": [
+    "peripheral_nerve"
+   ]
+  },
+  "steps": [
+   {
+    "title": "The spike and its channels",
+    "text": "<p>When the axon hillock reaches <b>threshold</b> (about -55 mV), <b>voltage-gated Na+ channels</b> open and Na+ rushes in: <b>depolarisation</b>, overshooting to about +30 mV. Within a millisecond the Na+ channels inactivate and slower <b>voltage-gated K+ channels</b> open, letting K+ out: <b>repolarisation</b>. The K+ channels are slow to close, so the membrane briefly dips below rest: <b>hyperpolarisation</b>, the undershoot.</p>",
+    "diagram": "lab01-action-potential",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sciatic nerve"
+    ],
+    "view": "posterior",
+    "micro": "peripheral_nerve",
+    "micro_focus": [
+     "Axons",
+     "Nodes of Ranvier"
+    ],
+    "check": {
+     "q": "Which channel opening causes the rising phase, and which the falling phase?",
+     "a": "Voltage-gated Na+ channels (Na+ in) for depolarisation; voltage-gated K+ channels (K+ out) for repolarisation."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "Threshold and all-or-none",
+    "text": "<p>Below threshold a stimulus gives only a local graded potential that fades. At threshold, opening Na+ channels depolarise the membrane, which opens more Na+ channels - a self-feeding loop that always runs to the same peak. A single axon therefore obeys the <b>all-or-none principle</b>: a full action potential or none.</p><p>A stronger stimulus does not make a bigger spike; it makes spikes <b>more frequent</b>.</p>",
+    "diagram": "lab01-action-potential",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sciatic nerve"
+    ],
+    "view": "posterior",
+    "micro": "peripheral_nerve",
+    "micro_focus": [
+     "Axons"
+    ],
+    "check": {
+     "q": "How does a single axon signal a stronger stimulus?",
+     "a": "By firing action potentials more often; each spike stays the same size (all-or-none)."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "Refractory periods",
+    "text": "<p>During the spike and most of repolarisation the Na+ channels are open or inactivated, so no stimulus, however strong, can start a second one: the <b>absolute refractory period</b>. Next comes the <b>relative refractory period</b>: some Na+ channels have reset but K+ is still flowing out, so a second spike needs a <b>stronger-than-threshold</b> stimulus.</p><p>Refractory periods cap the firing rate and stop impulses running backwards.</p>",
+    "diagram": "lab01-action-potential",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sciatic nerve"
+    ],
+    "view": "posterior",
+    "check": {
+     "q": "A second stimulus of threshold strength arrives during the relative refractory period. Does it fire?",
+     "a": "No - during the relative refractory period a stronger-than-threshold stimulus is needed."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "The compound action potential",
+    "text": "<p>Record from a whole nerve and you see a <b>compound action potential (CAP)</b>: the summed spikes of all the axons that fired. Axons differ in threshold (large ones fire first), so the CAP is <b>graded</b>. At the <b>threshold stimulus</b> the first axons fire; raising <b>stimulus intensity</b> <b>recruits</b> more, until at the <b>maximal stimulus</b> every axon fires and the CAP stops growing.</p><p>Give two stimuli very close together and the second CAP is smaller or absent: many axons are still refractory.</p>",
+    "diagram": "lab01-cap-recruitment",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sciatic nerve"
+    ],
+    "show": [
+     "Tibial nerve",
+     "Common fibular nerve"
+    ],
+    "view": "posterior",
+    "micro": "peripheral_nerve",
+    "micro_focus": [
+     "Axons",
+     "Unmyelinated axons (C fibres)"
+    ],
+    "pitfall": "A single axon is all-or-none, but a whole nerve is not - its CAP grows with the stimulus because more axons join in.",
+    "check": {
+     "q": "Why does a nerve's CAP get bigger as stimulus voltage rises, when each axon is all-or-none?",
+     "a": "More axons with higher thresholds are recruited, and the CAP is the sum of all their spikes."
+    },
+    "side": "Right"
+   }
+  ],
+  "practice": [
+   {
+    "type": "find_micro",
+    "model": "peripheral_nerve",
+    "part": "Nodes of Ranvier"
+   },
+   {
+    "type": "find_micro",
+    "model": "peripheral_nerve",
+    "part": "Axons"
+   },
+   {
+    "type": "find",
+    "structure": "Tibial nerve"
+   },
+   {
+    "type": "mcq",
+    "q": "The rising (depolarising) phase of the action potential is caused by",
+    "choices": [
+     "opening of voltage-gated Na+ channels",
+     "opening of voltage-gated K+ channels",
+     "the Na+/K+ pump",
+     "closing of K+ leak channels"
+    ],
+    "answer": 0,
+    "why": "Na+ rushes in through voltage-gated Na+ channels once threshold is reached."
+   },
+   {
+    "type": "mcq",
+    "q": "The undershoot after an action potential is due to",
+    "choices": [
+     "slowly closing voltage-gated K+ channels",
+     "Na+ channels staying open",
+     "the pump stopping",
+     "Cl- leaving the cell"
+    ],
+    "answer": 0,
+    "why": "K+ keeps leaving for a moment after the membrane has returned to rest."
+   },
+   {
+    "type": "mcq",
+    "q": "During the absolute refractory period",
+    "choices": [
+     "no stimulus can trigger a second action potential",
+     "a stronger stimulus can trigger a second action potential",
+     "the membrane is at rest",
+     "only IPSPs can occur"
+    ],
+    "answer": 0,
+    "why": "Na+ channels are open or inactivated, so they cannot reopen."
+   },
+   {
+    "type": "mcq",
+    "q": "A compound action potential grows with stimulus voltage because",
+    "choices": [
+     "more axons are recruited",
+     "each spike grows larger",
+     "the refractory period shortens",
+     "the nerve becomes myelinated"
+    ],
+    "answer": 0,
+    "why": "Each axon is all-or-none; the nerve's response is the sum of the axons that fire."
+   },
+   {
+    "type": "mcq",
+    "q": "Two stimuli are given 1 ms apart to a nerve. The second CAP is",
+    "choices": [
+     "small or absent",
+     "twice as big",
+     "identical",
+     "inverted"
+    ],
+    "answer": 0,
+    "why": "Most axons are still in their refractory period."
+   },
+   {
+    "type": "recall",
+    "q": "State the all-or-none principle.",
+    "a": "Once threshold is reached an axon fires a full-size action potential; below threshold it fires none."
+   },
+   {
+    "type": "recall",
+    "q": "Distinguish threshold stimulus from maximal stimulus for a nerve.",
+    "a": "Threshold: the weakest stimulus that makes any axon fire (the first visible CAP). Maximal: the weakest that makes every axon fire, so the CAP is as large as it can be."
+   },
+   {
+    "type": "order",
+    "q": "Put the phases of an action potential in order",
+    "items": [
+     "Resting potential",
+     "Threshold reached",
+     "Depolarisation",
+     "Repolarisation",
+     "Hyperpolarisation (undershoot)",
+     "Return to rest"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "lab01-04-fibre-classes-nerve-stimuli",
+  "title": "Fibre classes and what excites a nerve",
+  "system": "nervous",
+  "region": "lower_limb",
+  "level": "core",
+  "minutes": 10,
+  "course": {
+   "lab": 1,
+   "order": 4,
+   "unit": "Lab 1 · Nerve physiology, reflexes & general senses"
+  },
+  "summary": "Why thick myelinated fibres conduct fastest, and how a nerve-muscle preparation shows threshold, recruitment and the effects of chemicals, temperature and local anaesthetic.",
+  "tags": [
+   "A B C fibres",
+   "conduction velocity",
+   "saltatory conduction",
+   "sciatic nerve",
+   "gastrocnemius",
+   "twitch",
+   "procaine",
+   "local anaesthetic"
+  ],
+  "prereq": [
+   "lab01-03-action-potential"
+  ],
+  "objectives": [
+   "Classify nerve fibres as A, B or C by diameter, myelin and speed",
+   "Explain saltatory conduction",
+   "Define threshold voltage and maximum recruitment voltage in a nerve-muscle preparation",
+   "List the kinds of stimulus that excite a nerve and explain how procaine and cold block conduction"
+  ],
+  "takeaways": [
+   "A fibres: thick, heavily myelinated, fastest. B: thinner, lightly myelinated. C: thinnest, unmyelinated, slowest.",
+   "Conduction velocity rises with axon diameter and with myelination; myelinated axons conduct by saltatory conduction.",
+   "Threshold voltage gives the first visible twitch; maximum recruitment voltage stimulates every axon and gives the biggest twitch.",
+   "Nerves respond to mechanical, electrical, chemical and thermal stimuli.",
+   "Procaine (Novocain) reversibly blocks voltage-gated Na+ channels; cold slows and eventually blocks conduction."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab01-03-action-potential"
+   ],
+   "micro": [
+    "peripheral_nerve",
+    "skeletal_muscle"
+   ],
+   "histology": [
+    "peripheral_nerve",
+    "skeletal_muscle"
+   ]
+  },
+  "steps": [
+   {
+    "title": "A, B and C fibres",
+    "text": "<p>Nerve fibres are classed by <b>fibre diameter</b> and <b>myelination</b>, which together set <b>conduction velocity</b>. <b>A fibres</b> are thick and heavily myelinated - up to about 120 m/s (motor to skeletal muscle, touch, proprioception). <b>B fibres</b> are thinner and lightly myelinated (preganglionic autonomic). <b>C fibres</b> are thin and unmyelinated, about 1 m/s (slow pain, temperature, postganglionic autonomic).</p><p>In myelinated axons the impulse jumps from node to node: <b>saltatory conduction</b>.</p>",
+    "diagram": "lab01-fibre-classes",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sciatic nerve"
+    ],
+    "view": "posterior",
+    "micro": "peripheral_nerve",
+    "micro_focus": [
+     "Myelin sheaths (internodes)",
+     "Nodes of Ranvier",
+     "Unmyelinated axons (C fibres)",
+     "Remak Schwann cells"
+    ],
+    "check": {
+     "q": "Which two features of an axon increase its conduction velocity?",
+     "a": "A larger diameter and myelination (which allows saltatory conduction)."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "The nerve-muscle preparation",
+    "text": "<p>The classic model is the frog's <b>sciatic nerve</b>, which leaves the sacral region, runs down the <b>posterior thigh</b> and supplies the <b>gastrocnemius</b>. The frog is <b>doubly pithed</b> (brain and spinal cord destroyed) so it feels nothing and has no reflexes, and the tissue is kept moist with <b>Ringer's solution</b>, a physiological saline.</p><p>An impulse in the nerve crosses the <b>neuromuscular junction</b>, and the muscle gives a brief contraction - a <b>twitch</b> - pulling on the <b>calcaneal tendon</b>. The human arrangement is the same.</p>",
+    "systems": [
+     "nervous",
+     "muscular",
+     "skeletal"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sciatic nerve",
+     "Medial head of gastrocnemius",
+     "Lateral head of gastrocnemius"
+    ],
+    "show": [
+     "Tibial nerve",
+     "Calcaneal tendon",
+     "Sacrum",
+     "Posterior region of thigh"
+    ],
+    "view": "posterior",
+    "check": {
+     "q": "Why is Ringer's solution used on an isolated nerve?",
+     "a": "It is a physiological salt solution that keeps the nerve and muscle alive and excitable."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "Threshold and maximum recruitment voltage",
+    "text": "<p>Stimulate the nerve with rising voltages. The <b>threshold voltage</b> is the lowest that produces a visible twitch - the first axons have fired. Higher voltages recruit more axons, so more muscle fibres contract and the twitch grows. At the <b>maximum recruitment voltage</b> every axon in the nerve fires and the twitch is as strong as it gets; more voltage adds nothing.</p><p>This is the compound action potential again, read out as force.</p>",
+    "diagram": "lab01-cap-recruitment",
+    "systems": [
+     "nervous",
+     "muscular"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Medial head of gastrocnemius",
+     "Lateral head of gastrocnemius"
+    ],
+    "show": [
+     "Sciatic nerve",
+     "Tibial nerve"
+    ],
+    "view": "posterior",
+    "micro": "skeletal_muscle",
+    "micro_focus": [
+     "Muscle fibres",
+     "Neuromuscular junction"
+    ],
+    "check": {
+     "q": "Why does the twitch stop growing above the maximum recruitment voltage?",
+     "a": "All the axons in the nerve are already firing, so no more muscle fibres can be recruited."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "Many kinds of stimulus",
+    "text": "<p>Electricity is not the only thing that fires a nerve. <b>Mechanical</b> stimuli - a pinch, or tying a thread tightly around it (<b>ligation</b>) - trigger impulses. <b>Chemical</b> stimuli such as <b>hydrochloric acid</b> or strong (hypertonic) <b>sodium chloride</b> do too. <b>Heat</b> stimulates a nerve and, if strong, damages it.</p><p>Anything that depolarises the axon to threshold starts an action potential; damaging stimuli may fire it once and then destroy its ability to conduct.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sciatic nerve"
+    ],
+    "view": "posterior",
+    "micro": "peripheral_nerve",
+    "micro_focus": [
+     "Axons",
+     "Epineurium"
+    ],
+    "check": {
+     "q": "Name four types of stimulus that can excite a nerve.",
+     "a": "Mechanical (pinch, ligation), electrical, chemical (HCl, hypertonic NaCl) and thermal (heat)."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "Blocking conduction: anaesthetic and cold",
+    "text": "<p><b>Procaine hydrochloride (Novocain)</b> is a <b>local anaesthetic</b>. It blocks voltage-gated Na+ channels, so action potentials cannot pass the treated segment. The block is reversible: after a <b>recovery time</b> as the drug washes away, conduction returns.</p><p><b>Cold</b> slows channel gating, so conduction slows and, if cold enough, stops - also reversibly. Thin, unmyelinated pain fibres are blocked most easily.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sciatic nerve",
+     "Tibial nerve"
+    ],
+    "view": "posterior",
+    "micro": "peripheral_nerve",
+    "micro_focus": [
+     "Unmyelinated axons (C fibres)",
+     "Myelin sheaths (internodes)"
+    ],
+    "clinical": "Dentists and surgeons inject local anaesthetics near a nerve (a nerve block). Pain goes first and pressure sense and movement last, because small fibres are blocked first.",
+    "check": {
+     "q": "How does procaine stop a nerve conducting, and is the effect permanent?",
+     "a": "It blocks voltage-gated Na+ channels; the effect wears off after a recovery time."
+    },
+    "side": "Right"
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Sciatic nerve"
+   },
+   {
+    "type": "find",
+    "structure": "Medial head of gastrocnemius"
+   },
+   {
+    "type": "find",
+    "structure": "Calcaneal tendon"
+   },
+   {
+    "type": "name",
+    "structure": "Tibial nerve"
+   },
+   {
+    "type": "find",
+    "structure": "Posterior region of thigh"
+   },
+   {
+    "type": "find",
+    "structure": "Sacrum"
+   },
+   {
+    "type": "find_micro",
+    "model": "peripheral_nerve",
+    "part": "Unmyelinated axons (C fibres)"
+   },
+   {
+    "type": "find_micro",
+    "model": "skeletal_muscle",
+    "part": "Motor end plate"
+   },
+   {
+    "type": "mcq",
+    "q": "Which fibres conduct fastest?",
+    "choices": [
+     "Large myelinated A fibres",
+     "Lightly myelinated B fibres",
+     "Unmyelinated C fibres",
+     "All conduct at the same speed"
+    ],
+    "answer": 0,
+    "why": "Diameter and myelin both raise conduction velocity."
+   },
+   {
+    "type": "mcq",
+    "q": "Slow burning pain travels mainly in",
+    "choices": [
+     "C fibres",
+     "A fibres",
+     "B fibres",
+     "motor axons"
+    ],
+    "answer": 0,
+    "why": "C fibres are thin and unmyelinated, conducting about 0.5-2 m/s."
+   },
+   {
+    "type": "mcq",
+    "q": "Saltatory conduction means the impulse",
+    "choices": [
+     "jumps from node to node",
+     "travels only in C fibres",
+     "runs backwards",
+     "skips the synapse"
+    ],
+    "answer": 0,
+    "why": "Myelin insulates the internodes, so depolarisation regenerates only at the nodes of Ranvier."
+   },
+   {
+    "type": "mcq",
+    "q": "The lowest voltage that produces a visible muscle twitch is the",
+    "choices": [
+     "threshold voltage",
+     "maximum recruitment voltage",
+     "resting potential",
+     "equilibrium potential"
+    ],
+    "answer": 0,
+    "why": "It is the first voltage that fires any axons in the nerve."
+   },
+   {
+    "type": "mcq",
+    "q": "Procaine (Novocain) blocks nerve conduction by",
+    "choices": [
+     "blocking voltage-gated Na+ channels",
+     "blocking the Na+/K+ pump",
+     "opening K+ channels",
+     "destroying myelin"
+    ],
+    "answer": 0,
+    "why": "Without Na+ entry the axon cannot depolarise; the block wears off with time."
+   },
+   {
+    "type": "recall",
+    "q": "What does 'doubly pithed' mean, and why is it done?",
+    "a": "Both brain and spinal cord are destroyed, so the animal feels no pain and has no reflexes, leaving nerve and muscle intact."
+   },
+   {
+    "type": "recall",
+    "q": "What happens to nerve conduction when the nerve is cooled?",
+    "a": "It slows and, if cold enough, is blocked - reversibly on rewarming."
+   },
+   {
+    "type": "recall",
+    "q": "What is a twitch?",
+    "a": "A single brief contraction of a muscle in response to one stimulus."
+   }
+  ]
+ },
+ {
+  "id": "lab01-05-reflex-arc",
+  "title": "The reflex arc",
+  "system": "nervous",
+  "region": "back",
+  "level": "core",
+  "minutes": 9,
+  "course": {
+   "lab": 1,
+   "order": 5,
+   "unit": "Lab 1 · Nerve physiology, reflexes & general senses"
+  },
+  "summary": "Five parts, two roots and one decision point: how a reflex is wired, and how reflexes are graded in the clinic.",
+  "tags": [
+   "reflex",
+   "reflex arc",
+   "dorsal root ganglion",
+   "monosynaptic",
+   "polysynaptic",
+   "hyperreflexia",
+   "hyporeflexia"
+  ],
+  "prereq": [
+   "lab01-02-graded-potentials-summation"
+  ],
+  "objectives": [
+   "Define a reflex and name the five components of a reflex arc",
+   "Trace the arc through the dorsal root ganglion, dorsal root, grey matter, ventral root and spinal nerve",
+   "Distinguish somatic from visceral reflexes and monosynaptic from polysynaptic arcs",
+   "Grade reflexes and relate hypo- and hyperreflexia to their causes"
+  ],
+  "takeaways": [
+   "A reflex is a rapid, involuntary, predictable motor response to a stimulus.",
+   "Receptor -> sensory (afferent) neuron -> integration centre -> motor (efferent) neuron -> effector.",
+   "Sensory cell bodies sit in the dorsal root ganglion; motor axons leave by the ventral root; both run in the spinal nerve.",
+   "Somatic reflexes move skeletal muscle; visceral (autonomic) reflexes act on smooth muscle, cardiac muscle or glands.",
+   "Hyporeflexia suggests peripheral nerve damage or hypothyroidism; hyperreflexia suggests CNS (upper motor neuron) damage. Always compare sides."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab01-06-stretch-reflexes"
+   ],
+   "histology": [
+    "spinal_cord",
+    "ganglion"
+   ]
+  },
+  "steps": [
+   {
+    "title": "What a reflex is",
+    "text": "<p>A <b>reflex</b> is a rapid, involuntary and predictable motor response to a <b>stimulus</b>, produced without conscious thought. Its pathway, the <b>reflex arc</b>, has five parts: a <b>receptor</b> that detects the stimulus, an <b>afferent (sensory) neuron</b>, an <b>integration centre</b> in the brain or spinal cord, an <b>efferent (motor) neuron</b>, and an <b>effector</b> that responds.</p>",
+    "diagram": "lab01-reflex-arc",
+    "systems": [
+     "nervous",
+     "muscular"
+    ],
+    "regions": [
+     "upper_limb_r",
+     "back"
+    ],
+    "focus": [
+     "Spinal cord",
+     "Long head of biceps brachii",
+     "Short head of biceps brachii"
+    ],
+    "side": "Right",
+    "view": "anterior",
+    "check": {
+     "q": "List the five components of a reflex arc in order.",
+     "a": "Receptor, sensory (afferent) neuron, integration centre, motor (efferent) neuron, effector."
+    }
+   },
+   {
+    "title": "The route through the cord",
+    "text": "<p>The sensory neuron's cell body lies in the <b>dorsal root ganglion</b>; its axon enters the cord through the <b>dorsal root</b> into the <b>posterior horn</b> of the grey matter. The motor neuron's cell body sits in the <b>anterior horn</b>, and its axon leaves by the <b>ventral root</b>. The two roots join as the <b>spinal nerve</b>, which carries both.</p><p>Branches also climb the <b>white matter</b> in ascending tracts, so the <b>brain</b> learns what happened - after the reflex has already acted.</p>",
+    "diagram": "lab01-reflex-arc",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "back"
+    ],
+    "focus": [
+     "Spinal ganglion",
+     "Posterior root of spinal nerve",
+     "Anterior root of spinal nerve"
+    ],
+    "show": [
+     "Spinal cord",
+     "Grey matter of spinal cord",
+     "White matter of spinal cord"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Spinal cord"
+    ],
+    "check": {
+     "q": "Where are the cell bodies of the sensory and motor neurons of a spinal reflex?",
+     "a": "Sensory: dorsal root ganglion. Motor: anterior (ventral) horn of the spinal cord grey matter."
+    }
+   },
+   {
+    "title": "Somatic and visceral reflexes",
+    "text": "<p>Reflexes are named by their effector. <b>Somatic reflexes</b> act on <b>skeletal muscle</b> - withdrawing a hand from a hot pan, or the knee-jerk. <b>Visceral (autonomic) reflexes</b> act on <b>smooth muscle, cardiac muscle or glands</b> - the pupil narrowing in bright light, salivating at the smell of food, or the heart slowing when blood pressure rises.</p>",
+    "systems": [
+     "nervous",
+     "visceral",
+     "muscular"
+    ],
+    "regions": [
+     "thorax",
+     "back"
+    ],
+    "focus": [
+     "Heart",
+     "Spinal cord"
+    ],
+    "view": "anterior",
+    "check": {
+     "q": "The pupil constricts in bright light. Is this a somatic or a visceral reflex?",
+     "a": "Visceral (autonomic) - its effector is smooth muscle of the iris."
+    }
+   },
+   {
+    "title": "Monosynaptic and polysynaptic arcs",
+    "text": "<p>In a <b>monosynaptic reflex arc</b> the sensory neuron synapses directly on the motor neuron - one synapse, very fast. The <b>stretch reflex</b> is the classic example.</p><p>A <b>polysynaptic reflex arc</b> has one or more <b>interneurons</b> between them, so there are several synapses. It is slower but can do more: withdrawal from pain bends one limb while straightening the other and involves several spinal segments.</p>",
+    "diagram": "lab01-reflex-arc",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "back"
+    ],
+    "focus": [
+     "Grey matter of spinal cord"
+    ],
+    "show": [
+     "Spinal cord"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Spinal cord"
+    ],
+    "check": {
+     "q": "What cell does a polysynaptic reflex have that a monosynaptic one lacks?",
+     "a": "At least one interneuron between the sensory and motor neurons."
+    }
+   },
+   {
+    "title": "Grading reflexes",
+    "text": "<p>Reflexes are tested with a <b>reflex hammer</b> and described as <b>normal</b>, <b>hyporeflexic</b> (depressed or absent) or <b>hyperreflexic</b> (exaggerated). Depressed reflexes follow damage to the peripheral nerve or the reflex arc itself, and occur in <b>hypothyroidism</b>. Exaggerated reflexes follow <b>CNS damage</b> to descending (upper motor neuron) pathways, which normally damp the arc.</p><p>Always compare left with right: reflexes should be <b>symmetrical</b>.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "back",
+     "neck"
+    ],
+    "focus": [
+     "Lateral corticospinal tract"
+    ],
+    "show": [
+     "Spinal cord"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Spinal cord"
+    ],
+    "clinical": "An asymmetric reflex matters more than a uniformly brisk or sluggish set: one hyperreflexic side points to a lesion in the opposite brain hemisphere or the same side of the cord.",
+    "check": {
+     "q": "Brisk, exaggerated reflexes suggest damage where?",
+     "a": "In the CNS - the upper motor neuron (descending) pathways that normally inhibit the reflex arc."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Spinal cord"
+   },
+   {
+    "type": "find",
+    "structure": "Spinal ganglion"
+   },
+   {
+    "type": "find",
+    "structure": "Posterior root of spinal nerve"
+   },
+   {
+    "type": "find",
+    "structure": "Anterior root of spinal nerve"
+   },
+   {
+    "type": "name",
+    "structure": "Grey matter of spinal cord"
+   },
+   {
+    "type": "find",
+    "structure": "White matter of spinal cord"
+   },
+   {
+    "type": "find",
+    "structure": "Spinal nerves"
+   },
+   {
+    "type": "find",
+    "structure": "Brain"
+   },
+   {
+    "type": "order",
+    "q": "Put the parts of a reflex arc in order",
+    "items": [
+     "Receptor",
+     "Sensory (afferent) neuron",
+     "Integration centre",
+     "Motor (efferent) neuron",
+     "Effector"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "The cell bodies of sensory neurons in a spinal reflex lie in the",
+    "choices": [
+     "dorsal root ganglion",
+     "anterior horn",
+     "ventral root",
+     "white matter"
+    ],
+    "answer": 0,
+    "why": "The dorsal root ganglion is the swelling on the dorsal root."
+   },
+   {
+    "type": "mcq",
+    "q": "A reflex whose effector is a gland or smooth muscle is",
+    "choices": [
+     "visceral (autonomic)",
+     "somatic",
+     "monosynaptic",
+     "a stretch reflex"
+    ],
+    "answer": 0,
+    "why": "Somatic reflexes act on skeletal muscle only."
+   },
+   {
+    "type": "mcq",
+    "q": "A monosynaptic reflex arc has",
+    "choices": [
+     "one synapse, between sensory and motor neuron",
+     "no synapses",
+     "at least two interneurons",
+     "its synapse in the dorsal root ganglion"
+    ],
+    "answer": 0,
+    "why": "The stretch reflex is the classic monosynaptic arc."
+   },
+   {
+    "type": "mcq",
+    "q": "Depressed reflexes are expected in",
+    "choices": [
+     "hypothyroidism",
+     "upper motor neuron damage",
+     "anxiety",
+     "a normal adult"
+    ],
+    "answer": 0,
+    "why": "Hypothyroidism and peripheral nerve damage give hyporeflexia; CNS damage gives hyperreflexia."
+   },
+   {
+    "type": "recall",
+    "q": "Define a reflex.",
+    "a": "A rapid, involuntary, predictable motor response to a stimulus, occurring without conscious thought."
+   },
+   {
+    "type": "recall",
+    "q": "How does the brain find out about a spinal reflex?",
+    "a": "Sensory branches also synapse on neurons whose axons ascend in the white-matter tracts to the brain."
+   }
+  ]
+ },
+ {
+  "id": "lab01-06-stretch-reflexes",
+  "title": "Stretch reflexes: knee, elbow and ankle",
+  "system": "nervous",
+  "region": "general",
+  "level": "core",
+  "minutes": 9,
+  "course": {
+   "lab": 1,
+   "order": 6,
+   "unit": "Lab 1 · Nerve physiology, reflexes & general senses"
+  },
+  "summary": "The muscle spindle and the four deep tendon reflexes: where to tap, what moves, which nerve and which cord segments.",
+  "tags": [
+   "stretch reflex",
+   "deep tendon reflex",
+   "muscle spindle",
+   "patellar reflex",
+   "biceps reflex",
+   "triceps reflex",
+   "calcaneal reflex"
+  ],
+  "prereq": [
+   "lab01-05-reflex-arc"
+  ],
+  "objectives": [
+   "Explain how the muscle spindle drives a monosynaptic stretch reflex",
+   "For the patellar, biceps, triceps and calcaneal reflexes, give the tendon tapped, the movement, the nerve and the spinal segments",
+   "Find each tendon, muscle and nerve in the 3D atlas"
+  ],
+  "takeaways": [
+   "Tapping a tendon stretches its muscle; spindles fire and the same muscle contracts by a monosynaptic arc.",
+   "Patellar: patellar ligament, quadriceps, knee extends, femoral nerve, L2-L4.",
+   "Biceps: thumb over the tendon in the cubital fossa, elbow flexes, musculocutaneous nerve, C5-C6.",
+   "Triceps: tendon just above the olecranon, elbow extends, radial nerve, C6-C8.",
+   "Calcaneal (Achilles): calcaneal tendon, plantar flexion by gastrocnemius and soleus, tibial nerve, S1-S2."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab01-05-reflex-arc"
+   ],
+   "micro": [
+    "skeletal_muscle"
+   ],
+   "histology": [
+    "skeletal_muscle"
+   ]
+  },
+  "steps": [
+   {
+    "title": "The muscle spindle",
+    "text": "<p>Inside every skeletal muscle lie <b>muscle spindles</b>: a few thin intrafusal fibres in a capsule, wrapped by sensory endings. They are <b>stretch receptors</b>. Stretch the muscle and the spindle fires; its sensory axon synapses directly on motor neurons to the <b>same muscle</b>, which contracts and resists the stretch.</p><p>This <b>stretch reflex</b> is monosynaptic. Tapping a tendon with a reflex hammer gives a quick stretch, which is why these are also called <b>deep tendon reflexes</b>.</p>",
+    "systems": [
+     "muscular",
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Rectus femoris muscle",
+     "Vastus lateralis muscle",
+     "Vastus medialis muscle",
+     "Vastus intermedius muscle"
+    ],
+    "side": "Right",
+    "view": "anterior",
+    "micro": "skeletal_muscle",
+    "micro_focus": [
+     "Muscle spindle capsule",
+     "Intrafusal fibres",
+     "Annulospiral (Ia) sensory ending"
+    ],
+    "check": {
+     "q": "In a stretch reflex, which muscle contracts?",
+     "a": "The muscle that was stretched - its own spindles excite its own motor neurons."
+    }
+   },
+   {
+    "title": "The patellar (knee-jerk) reflex",
+    "text": "<p>Tap the <b>patellar ligament</b> just below the <b>patella</b>. The <b>quadriceps femoris</b> is stretched, its spindles fire, and it contracts: the knee <b>extends</b> and the leg kicks forward. The arc runs in the <b>femoral nerve</b> through spinal segments <b>L2-L4</b>.</p>",
+    "systems": [
+     "muscular",
+     "nervous",
+     "skeletal"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Patellar ligament",
+     "Rectus femoris muscle",
+     "Vastus lateralis muscle",
+     "Vastus medialis muscle",
+     "Vastus intermedius muscle",
+     "Femoral nerve"
+    ],
+    "side": "Right",
+    "show": [
+     "Patella"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Rectus femoris muscle"
+    ],
+    "check": {
+     "q": "Which nerve and spinal segments carry the patellar reflex?",
+     "a": "The femoral nerve, segments L2-L4."
+    }
+   },
+   {
+    "title": "Biceps and triceps reflexes",
+    "text": "<p><b>Biceps</b>: with the elbow bent, put your thumb on the biceps tendon in the <b>cubital fossa</b> and tap the thumb. The <b>biceps brachii</b> contracts and the elbow <b>flexes</b>. Nerve: <b>musculocutaneous</b>, segments <b>C5-C6</b>.</p><p><b>Triceps</b>: tap the triceps tendon just above the <b>olecranon</b>. The <b>triceps brachii</b> contracts and the elbow <b>extends</b>. Nerve: <b>radial</b>, segments <b>C6-C8</b>.</p>",
+    "systems": [
+     "muscular",
+     "nervous",
+     "skeletal"
+    ],
+    "regions": [
+     "upper_limb_r"
+    ],
+    "focus": [
+     "Long head of biceps brachii",
+     "Short head of biceps brachii",
+     "Long head of triceps brachii",
+     "Lateral head of triceps brachii",
+     "Medial head of triceps brachii",
+     "Musculocutaneous nerve",
+     "Radial nerve"
+    ],
+    "side": "Right",
+    "show": [
+     "Olecranon",
+     "Cubital fossa"
+    ],
+    "view": "right",
+    "check": {
+     "q": "Tapping just above the olecranon extends the elbow. Which nerve carries this reflex?",
+     "a": "The radial nerve (triceps reflex, C6-C8)."
+    }
+   },
+   {
+    "title": "The calcaneal (Achilles) reflex",
+    "text": "<p>Tap the <b>calcaneal tendon</b> behind the ankle. The <b>gastrocnemius</b> and <b>soleus</b> contract and the foot <b>plantar flexes</b> - points downward. The arc runs in the <b>tibial nerve</b>, segments <b>S1-S2</b>.</p><p>Very well-developed muscles can make a normal reflex look small, so judge the response against the other side, not against an ideal.</p>",
+    "systems": [
+     "muscular",
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Calcaneal tendon",
+     "Medial head of gastrocnemius",
+     "Lateral head of gastrocnemius",
+     "Soleus muscle",
+     "Tibial nerve"
+    ],
+    "view": "posterior",
+    "clinical": "An absent ankle jerk with normal knee jerks is a common sign of an S1 root lesion, typically from an L5-S1 disc prolapse.",
+    "check": {
+     "q": "What movement does the calcaneal reflex produce, and which muscles do it?",
+     "a": "Plantar flexion of the foot, by gastrocnemius and soleus."
+    },
+    "side": "Right"
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Patellar ligament"
+   },
+   {
+    "type": "find",
+    "structure": "Patella"
+   },
+   {
+    "type": "find",
+    "structure": "Rectus femoris muscle"
+   },
+   {
+    "type": "name",
+    "structure": "Vastus lateralis muscle"
+   },
+   {
+    "type": "find",
+    "structure": "Vastus medialis muscle"
+   },
+   {
+    "type": "find",
+    "structure": "Femoral nerve"
+   },
+   {
+    "type": "find",
+    "structure": "Long head of biceps brachii"
+   },
+   {
+    "type": "find",
+    "structure": "Short head of biceps brachii"
+   },
+   {
+    "type": "find",
+    "structure": "Cubital fossa"
+   },
+   {
+    "type": "find",
+    "structure": "Musculocutaneous nerve"
+   },
+   {
+    "type": "find",
+    "structure": "Long head of triceps brachii"
+   },
+   {
+    "type": "find",
+    "structure": "Lateral head of triceps brachii"
+   },
+   {
+    "type": "find",
+    "structure": "Olecranon"
+   },
+   {
+    "type": "name",
+    "structure": "Radial nerve"
+   },
+   {
+    "type": "find",
+    "structure": "Calcaneal tendon"
+   },
+   {
+    "type": "find",
+    "structure": "Soleus muscle"
+   },
+   {
+    "type": "name",
+    "structure": "Tibial nerve"
+   },
+   {
+    "type": "find_micro",
+    "model": "skeletal_muscle",
+    "part": "Intrafusal fibres"
+   },
+   {
+    "type": "find_micro",
+    "model": "skeletal_muscle",
+    "part": "Annulospiral (Ia) sensory ending"
+   },
+   {
+    "type": "mcq",
+    "q": "The receptor for a stretch reflex is the",
+    "choices": [
+     "muscle spindle",
+     "Pacinian corpuscle",
+     "free nerve ending",
+     "Meissner corpuscle"
+    ],
+    "answer": 0,
+    "why": "Spindles are stretch receptors lying among the muscle fibres."
+   },
+   {
+    "type": "mcq",
+    "q": "The patellar reflex tests spinal segments",
+    "choices": [
+     "L2-L4",
+     "C5-C6",
+     "C6-C8",
+     "S1-S2"
+    ],
+    "answer": 0,
+    "why": "Femoral nerve, L2-L4."
+   },
+   {
+    "type": "mcq",
+    "q": "The biceps reflex is carried by the",
+    "choices": [
+     "musculocutaneous nerve",
+     "radial nerve",
+     "median nerve",
+     "ulnar nerve"
+    ],
+    "answer": 0,
+    "why": "Musculocutaneous nerve, C5-C6."
+   },
+   {
+    "type": "mcq",
+    "q": "Tapping the calcaneal tendon causes",
+    "choices": [
+     "plantar flexion",
+     "dorsiflexion",
+     "knee extension",
+     "toe fanning"
+    ],
+    "answer": 0,
+    "why": "Gastrocnemius and soleus contract via the tibial nerve (S1-S2)."
+   },
+   {
+    "type": "recall",
+    "q": "Why is the stretch reflex called monosynaptic?",
+    "a": "The spindle's sensory neuron synapses directly on the motor neuron - one synapse, no interneuron."
+   }
+  ]
+ },
+ {
+  "id": "lab01-07-corneal-plantar-reflexes",
+  "title": "Blink, corneal and plantar reflexes",
+  "system": "nervous",
+  "region": "general",
+  "level": "core",
+  "minutes": 7,
+  "course": {
+   "lab": 1,
+   "order": 7,
+   "unit": "Lab 1 · Nerve physiology, reflexes & general senses"
+  },
+  "summary": "Two reflexes that protect the eye and one on the sole of the foot that reveals damage to the corticospinal tracts.",
+  "tags": [
+   "blink reflex",
+   "corneal reflex",
+   "plantar reflex",
+   "Babinski sign",
+   "corticospinal tract"
+  ],
+  "prereq": [
+   "lab01-05-reflex-arc"
+  ],
+  "objectives": [
+   "Distinguish the blink (menace) reflex from the corneal reflex",
+   "Name the afferent and efferent nerves of the corneal reflex",
+   "Describe the normal plantar response and the Babinski sign, and explain what a Babinski sign means in an adult and in an infant"
+  ],
+  "takeaways": [
+   "Blink reflex to a threat protects the cornea and can be partly suppressed; the corneal reflex cannot be suppressed.",
+   "Corneal reflex: touch the cornea -> both eyes blink. In via the ophthalmic division of the trigeminal (V1), out via the facial nerve (VII) to orbicularis oculi.",
+   "Stroke the lateral sole from heel to ball of foot: adults normally flex (curl) the toes.",
+   "Babinski sign: the big toe extends and the others fan - normal under about 1 year (corticospinal tracts not fully myelinated), a sign of corticospinal tract damage in adults."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab01-05-reflex-arc"
+   ],
+   "micro": [
+    "cornea"
+   ],
+   "histology": [
+    "cornea"
+   ]
+  },
+  "steps": [
+   {
+    "title": "The blink reflex",
+    "text": "<p>A hand flicked toward your face makes you blink: the <b>blink reflex</b> (menace or threat reflex). It protects the <b>cornea</b>, the clear front window of the eye, by sweeping the <b>eyelids</b> shut. Because this reflex passes through the brain's visual system, you can learn to suppress it partly - try not to blink and you often succeed.</p>",
+    "systems": [
+     "nervous",
+     "muscular"
+    ],
+    "regions": [
+     "head"
+    ],
+    "focus": [
+     "Eyelids",
+     "Orbital part of orbicularis oculi"
+    ],
+    "show": [
+     "Cornea"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Eyelids"
+    ],
+    "micro": "cornea",
+    "micro_focus": [
+     "Subbasal plexus & free nerve endings",
+     "Stromal nerves",
+     "Superficial squamous cells"
+    ],
+    "check": {
+     "q": "What does the blink reflex protect, and can it be voluntarily suppressed?",
+     "a": "The cornea; yes, it can be partly suppressed."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "The corneal reflex",
+    "text": "<p>Touch the cornea, or puff air on it, and <b>both</b> eyes blink at once - the <b>corneal reflex</b>. The cornea is densely supplied by free nerve endings of the <b>ophthalmic division (V1) of the trigeminal nerve</b> (afferent). The motor side is the <b>facial nerve (VII)</b> to <b>orbicularis oculi</b> (efferent).</p><p>Unlike the menace blink, it <b>cannot be inhibited</b> voluntarily.</p>",
+    "systems": [
+     "nervous",
+     "muscular"
+    ],
+    "regions": [
+     "head"
+    ],
+    "focus": [
+     "Cornea",
+     "Ophthalmic nerve",
+     "Facial nerve (VII)"
+    ],
+    "show": [
+     "Trigeminal nerve (V)",
+     "Palpebral part of orbicularis oculi"
+    ],
+    "view": "left",
+    "clinical": "Touch each cornea in turn. If touching the right cornea makes neither eye blink but touching the left makes both blink, the right trigeminal (afferent) side is at fault. If the right eye never blinks whichever side is touched, the right facial nerve (efferent) is at fault.",
+    "check": {
+     "q": "Name the afferent and efferent nerves of the corneal reflex.",
+     "a": "Afferent: ophthalmic division of the trigeminal nerve (V1). Efferent: facial nerve (VII) to orbicularis oculi."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "The plantar reflex",
+    "text": "<p>Firmly stroke the <b>lateral side of the sole</b> with a blunt object, from the <b>heel</b> toward the ball of the foot and across under the toes. In a healthy adult the toes curl downward: a <b>flexor plantar response</b>. It is a polysynaptic reflex carried by the tibial nerve, and it needs the corticospinal (pyramidal) tracts to be working normally.</p>",
+    "systems": [
+     "nervous",
+     "skeletal",
+     "regions"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Sole",
+     "Heel region"
+    ],
+    "show": [
+     "Tibial nerve"
+    ],
+    "view": "inferior",
+    "check": {
+     "q": "What is the normal adult response to stroking the lateral sole?",
+     "a": "The toes flex (curl) - a flexor plantar response."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "The Babinski sign",
+    "text": "<p>In an <b>extensor plantar response</b> - the <b>Babinski sign</b> - the <b>hallux</b> (big toe) extends upward and the other <b>toes fan</b> out.</p><p>It is normal in infants under about <b>1 year</b>, because their <b>corticospinal tracts are not yet fully myelinated</b>. In an adult it means damage to the <b>pyramidal (corticospinal) tracts</b> anywhere from the motor cortex down the spinal cord.</p>",
+    "systems": [
+     "nervous",
+     "skeletal"
+    ],
+    "regions": [
+     "back",
+     "neck",
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Lateral corticospinal tract",
+     "Anterior corticospinal tract",
+     "Proximal phalanx of first finger of foot"
+    ],
+    "show": [
+     "Spinal cord"
+    ],
+    "view": "anterior",
+    "pitfall": "An upgoing big toe is not 'a positive Babinski reflex' in the sense of a working reflex - it is an abnormal sign in adults. The normal adult reply is flexion.",
+    "check": {
+     "q": "Why is a Babinski sign normal in a 6-month-old but abnormal in an adult?",
+     "a": "In infants the corticospinal tracts are incompletely myelinated; in adults the sign means those tracts are damaged."
+    },
+    "side": "Right"
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Cornea"
+   },
+   {
+    "type": "find",
+    "structure": "Eyelids"
+   },
+   {
+    "type": "find",
+    "structure": "Ophthalmic nerve"
+   },
+   {
+    "type": "find",
+    "structure": "Facial nerve (VII)"
+   },
+   {
+    "type": "find",
+    "structure": "Palpebral part of orbicularis oculi"
+   },
+   {
+    "type": "find",
+    "structure": "Sole"
+   },
+   {
+    "type": "find",
+    "structure": "Heel region"
+   },
+   {
+    "type": "find",
+    "structure": "Proximal phalanx of first finger of foot"
+   },
+   {
+    "type": "find",
+    "structure": "Lateral corticospinal tract"
+   },
+   {
+    "type": "name",
+    "structure": "Anterior corticospinal tract"
+   },
+   {
+    "type": "find_micro",
+    "model": "cornea",
+    "part": "Subbasal plexus & free nerve endings"
+   },
+   {
+    "type": "mcq",
+    "q": "The afferent limb of the corneal reflex is the",
+    "choices": [
+     "ophthalmic division of the trigeminal nerve",
+     "facial nerve",
+     "optic nerve",
+     "oculomotor nerve"
+    ],
+    "answer": 0,
+    "why": "V1 supplies sensation to the cornea; VII closes the lids."
+   },
+   {
+    "type": "mcq",
+    "q": "Which reflex CANNOT be voluntarily inhibited?",
+    "choices": [
+     "corneal reflex",
+     "threat (menace) blink",
+     "both can",
+     "neither can"
+    ],
+    "answer": 0,
+    "why": "The menace blink can be partly suppressed; the corneal reflex cannot."
+   },
+   {
+    "type": "mcq",
+    "q": "In an adult, stroking the lateral sole makes the big toe extend and the toes fan. This suggests",
+    "choices": [
+     "corticospinal tract damage",
+     "a normal response",
+     "peripheral nerve damage only",
+     "hypothyroidism"
+    ],
+    "answer": 0,
+    "why": "The Babinski sign is an upper motor neuron sign in adults."
+   },
+   {
+    "type": "recall",
+    "q": "How is the plantar reflex elicited?",
+    "a": "Stroke the lateral sole firmly from the heel toward the ball of the foot and across under the toes."
+   },
+   {
+    "type": "recall",
+    "q": "Up to what age is an extensor plantar response normal, and why?",
+    "a": "About 1 year - until the corticospinal tracts are fully myelinated."
+   }
+  ]
+ },
+ {
+  "id": "lab01-08-skin-receptors-touch",
+  "title": "Skin receptors, touch and temperature",
+  "system": "integumentary",
+  "region": "general",
+  "level": "core",
+  "minutes": 10,
+  "course": {
+   "lab": 1,
+   "order": 8,
+   "unit": "Lab 1 · Nerve physiology, reflexes & general senses"
+  },
+  "summary": "The receptors of the skin, why a fingertip feels two points where the back feels one, and why receptors adapt.",
+  "tags": [
+   "Meissner corpuscle",
+   "Merkel disc",
+   "Pacinian corpuscle",
+   "free nerve endings",
+   "thermoreceptor",
+   "two-point discrimination",
+   "receptive field",
+   "adaptation"
+  ],
+  "prereq": [
+   "lab01-05-reflex-arc"
+  ],
+  "objectives": [
+   "Name each cutaneous receptor, its depth in the skin, what it senses and how fast it adapts",
+   "Explain two-point discrimination with receptor density, receptive fields and the sensory homunculus",
+   "Describe cold and warm spots and why temperature perception is relative",
+   "Distinguish tonic from phasic receptors"
+  ],
+  "takeaways": [
+   "Meissner corpuscles (dermal papillae): light touch, rapidly adapting. Merkel discs (base of epidermis): light touch, slowly adapting.",
+   "Pacinian corpuscles (deep dermis and hypodermis): deep pressure and vibration. Free nerve endings: pain and temperature.",
+   "Small, dense receptive fields and a large cortical area give the fingertip a two-point threshold of ~2-5 mm; the back needs several centimetres.",
+   "Cold spots outnumber warm spots; thermoreceptors adapt, so temperature is judged relative to what the skin is used to.",
+   "Phasic receptors adapt quickly (touch, Meissner, Pacinian); tonic receptors keep firing (proprioceptors, pain)."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab01-09-proprioception-referred-pain"
+   ],
+   "micro": [
+    "thick_skin",
+    "thin_skin"
+   ],
+   "histology": [
+    "skin_receptors",
+    "thick_skin",
+    "thin_skin"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Touch receptors in the skin",
+    "text": "<p><b>Meissner (tactile) corpuscles</b> sit in the <b>dermal papillae</b> just under the <b>epidermis</b> and signal <b>light touch</b>. <b>Merkel discs</b> (tactile discs) lie at the base of the epidermis and also sense light touch and texture. <b>Pacinian (lamellated) corpuscles</b> - onion-like layers around one nerve ending - sit deep in the <b>dermis</b> and hypodermis and sense <b>deep pressure</b> and <b>vibration</b>.</p><p><b>Thick skin</b> of the fingertips and palm is packed with touch receptors.</p>",
+    "diagram": "lab01-skin-receptors",
+    "systems": [
+     "regions",
+     "skeletal"
+    ],
+    "regions": [
+     "upper_limb_r"
+    ],
+    "focus": [
+     "Palm",
+     "Distal phalanx of second finger of hand"
+    ],
+    "view": "anterior",
+    "micro": "thick_skin",
+    "micro_focus": [
+     "Meissner corpuscles",
+     "Pacinian corpuscles (lamellae)",
+     "Papillary dermis",
+     "Stratum basale"
+    ],
+    "check": {
+     "q": "Which receptor sits in the dermal papillae, and which deep in the dermis?",
+     "a": "Meissner corpuscles in the dermal papillae; Pacinian corpuscles deep in the dermis and hypodermis."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "Pain and temperature: free nerve endings",
+    "text": "<p><b>Free (naked) nerve endings</b> branch up into the epidermis. Many are <b>nociceptors</b> (pain receptors); others are <b>thermoreceptors</b>. <b>Cold receptors</b> and <b>warm receptors</b> both fire at a comfortable skin temperature; cooling speeds up the cold ones and warming the warm ones. Extreme heat or cold recruits nociceptors, so it hurts.</p><p>Probing the skin reveals separate <b>cold spots</b> and <b>warm spots</b>; cold spots are far more numerous.</p>",
+    "diagram": "lab01-skin-receptors",
+    "systems": [
+     "regions"
+    ],
+    "regions": [
+     "upper_limb_r"
+    ],
+    "focus": [
+     "Anterior region of forearm"
+    ],
+    "view": "anterior",
+    "micro": "thin_skin",
+    "micro_focus": [
+     "Free nerve endings",
+     "Cutaneous nerve & branches",
+     "Hair follicle nerve endings"
+    ],
+    "check": {
+     "q": "Which are more numerous in the skin, cold spots or warm spots?",
+     "a": "Cold spots."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "Two-point discrimination",
+    "text": "<p>Touch the skin with two points at once and narrow the gap until they feel like one: that distance is the <b>two-point discrimination</b> threshold, measured with an aesthesiometer (two-point discriminator). It is about <b>2-5 mm on a fingertip</b>, larger on the palm, and several centimetres on the <b>posterior forearm, arm, neck and back</b>.</p><p>The reason is <b>receptor density</b>: where receptors are dense, each has a small <b>receptive field</b>, so two nearby points hit different receptors.</p>",
+    "diagram": "lab01-two-point",
+    "systems": [
+     "regions"
+    ],
+    "regions": [
+     "upper_limb_r",
+     "neck"
+    ],
+    "focus": [
+     "Distal phalanx of second finger of hand",
+     "Palm",
+     "Posterior region of forearm",
+     "Posterior region of arm",
+     "Posterior region of neck"
+    ],
+    "view": "posterior",
+    "check": {
+     "q": "Why can a fingertip tell two points 3 mm apart when the back cannot?",
+     "a": "Fingertip receptors are dense with small receptive fields, so the points stimulate separate receptors; on the back one large field covers both."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "Mapping and locating touch",
+    "text": "<p>A fine bristle or <b>von Frey hair</b> pressed on the skin shows sensitivity is punctate: some spots feel it, others between them do not. <b>Tactile localisation</b> - pointing, eyes closed, to where you were touched - is most accurate on the fingertip.</p><p>The brain matches this: in the <b>postcentral gyrus</b> (primary somatosensory cortex) the fingertips, lips and tongue occupy a huge share of the map, the <b>sensory homunculus</b>, while the back gets little.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "head"
+    ],
+    "focus": [
+     "Postcentral gyrus"
+    ],
+    "show": [
+     "Precentral gyrus"
+    ],
+    "view": "left",
+    "check": {
+     "q": "Where is the sensory homunculus, and which body parts are largest on it?",
+     "a": "In the postcentral gyrus (primary somatosensory cortex); the fingertips, lips and tongue."
+    }
+   },
+   {
+    "title": "Adaptation: phasic and tonic receptors",
+    "text": "<p>A steady stimulus fades from awareness - clothes stop being felt within minutes. This <b>sensory adaptation</b> filters out unimportant, unchanging input. <b>Phasic receptors</b> adapt quickly and signal change: light touch, <b>Meissner</b> and <b>Pacinian</b> corpuscles. <b>Tonic receptors</b> keep firing: <b>proprioceptors</b> and <b>pain</b> receptors, whose message stays important.</p><p><b>Thermoreceptors</b> adapt too, so temperature is judged <b>relative</b> to what the skin is used to: after cold water, room-temperature water feels warm; after warm water, the same water feels cool.</p>",
+    "systems": [
+     "regions"
+    ],
+    "regions": [
+     "upper_limb_r"
+    ],
+    "focus": [
+     "Right hand"
+    ],
+    "view": "anterior",
+    "micro": "thick_skin",
+    "micro_focus": [
+     "Meissner corpuscles",
+     "Pacinian corpuscles (lamellae)",
+     "Free nerve endings"
+    ],
+    "check": {
+     "q": "One hand has been in cold water, the other in warm. Both go into room-temperature water. What does each feel?",
+     "a": "The cold-adapted hand feels warmth; the warm-adapted hand feels cool - perception is relative, not absolute."
+    },
+    "side": "Right"
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Palm"
+   },
+   {
+    "type": "find",
+    "structure": "Distal phalanx of second finger of hand"
+   },
+   {
+    "type": "find",
+    "structure": "Posterior region of forearm"
+   },
+   {
+    "type": "find",
+    "structure": "Anterior region of forearm"
+   },
+   {
+    "type": "find",
+    "structure": "Posterior region of arm"
+   },
+   {
+    "type": "find",
+    "structure": "Posterior region of neck"
+   },
+   {
+    "type": "find",
+    "structure": "Postcentral gyrus"
+   },
+   {
+    "type": "find_micro",
+    "model": "thick_skin",
+    "part": "Meissner corpuscles"
+   },
+   {
+    "type": "find_micro",
+    "model": "thick_skin",
+    "part": "Pacinian corpuscles (lamellae)"
+   },
+   {
+    "type": "find_micro",
+    "model": "thin_skin",
+    "part": "Free nerve endings"
+   },
+   {
+    "type": "find_micro",
+    "model": "thick_skin",
+    "part": "Papillary dermis"
+   },
+   {
+    "type": "mcq",
+    "q": "Deep pressure and vibration are sensed mainly by",
+    "choices": [
+     "Pacinian corpuscles",
+     "Meissner corpuscles",
+     "Merkel discs",
+     "free nerve endings"
+    ],
+    "answer": 0,
+    "why": "Lamellated corpuscles lie deep in the dermis and hypodermis."
+   },
+   {
+    "type": "mcq",
+    "q": "A slowly adapting light-touch receptor at the base of the epidermis is the",
+    "choices": [
+     "Merkel disc",
+     "Meissner corpuscle",
+     "Pacinian corpuscle",
+     "muscle spindle"
+    ],
+    "answer": 0,
+    "why": "Merkel discs keep signalling sustained touch; Meissner corpuscles adapt rapidly."
+   },
+   {
+    "type": "mcq",
+    "q": "Nociceptors are",
+    "choices": [
+     "free nerve endings",
+     "encapsulated corpuscles",
+     "hair cells",
+     "Merkel discs"
+    ],
+    "answer": 0,
+    "why": "Pain receptors are naked nerve endings."
+   },
+   {
+    "type": "mcq",
+    "q": "Where is the two-point threshold smallest?",
+    "choices": [
+     "Fingertip",
+     "Palm",
+     "Posterior forearm",
+     "Back"
+    ],
+    "answer": 0,
+    "why": "Highest receptor density and smallest receptive fields."
+   },
+   {
+    "type": "mcq",
+    "q": "A receptor that keeps firing during a sustained stimulus is",
+    "choices": [
+     "tonic",
+     "phasic",
+     "rapidly adapting",
+     "a Pacinian corpuscle"
+    ],
+    "answer": 0,
+    "why": "Tonic receptors (e.g. proprioceptors, pain) adapt slowly."
+   },
+   {
+    "type": "recall",
+    "q": "What is a receptive field?",
+    "a": "The area of skin in which a stimulus changes the firing of one sensory neuron."
+   },
+   {
+    "type": "recall",
+    "q": "What does a von Frey hair show about touch sensitivity?",
+    "a": "That it is punctate - touch is felt at discrete spots over receptors, not evenly everywhere."
+   },
+   {
+    "type": "recall",
+    "q": "What happens to thermoreceptors and pain receptors at extreme temperatures?",
+    "a": "Extreme heat or cold activates nociceptors, so the sensation becomes pain."
+   }
+  ]
+ },
+ {
+  "id": "lab01-09-proprioception-referred-pain",
+  "title": "Proprioception, referred and projected pain",
+  "system": "nervous",
+  "region": "general",
+  "level": "core",
+  "minutes": 10,
+  "course": {
+   "lab": 1,
+   "order": 9,
+   "unit": "Lab 1 · Nerve physiology, reflexes & general senses"
+  },
+  "summary": "Knowing where your limbs are with your eyes shut, and why a sick organ hurts somewhere else.",
+  "tags": [
+   "proprioception",
+   "referred pain",
+   "angina",
+   "myocardial infarction",
+   "appendicitis",
+   "projected sensation",
+   "ulnar nerve"
+  ],
+  "prereq": [
+   "lab01-08-skin-receptors-touch"
+  ],
+  "objectives": [
+   "Define proprioception and name its receptors",
+   "Explain referred pain by convergence of visceral and somatic afferents",
+   "Give the referred pain site for the heart, lungs and diaphragm, oesophagus, stomach, liver and gallbladder, colon, appendix, kidney, ureter and bladder",
+   "Explain projected sensation from the ulnar nerve at the elbow"
+  ],
+  "takeaways": [
+   "Proprioception, the sense of body and limb position, comes from muscle spindles, tendon organs and joint receptors.",
+   "Referred pain: visceral and skin afferents converge on the same spinal segments, and the brain blames the skin.",
+   "Heart -> left chest, left shoulder, medial left arm. Lungs and diaphragm -> base of neck and shoulder. Oesophagus -> behind the sternum.",
+   "Stomach -> epigastrium. Liver and gallbladder -> right shoulder and right upper abdomen. Colon -> periumbilical/lower abdomen. Appendix -> periumbilical, then right lower quadrant.",
+   "Kidney -> flank and lower back; ureter -> flank to groin; bladder -> suprapubic. Irritating the ulnar nerve at the elbow is felt in the little finger."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab01-08-skin-receptors-touch",
+    "dermatomes"
+   ],
+   "micro": [
+    "skeletal_muscle"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Proprioception",
+    "text": "<p><b>Proprioception</b> is the sense of where your body and limbs are, without looking. Its <b>proprioceptors</b> are <b>muscle spindles</b> (muscle length), <b>tendon organs</b> (tension) and <b>joint receptors</b> (joint angle). They are tonic: they keep reporting.</p><p>With your eyes closed you can still touch the lateral corner of your eye, your <b>earlobe</b> or your <b>chin</b> accurately - proprioception is guiding the hand.</p>",
+    "systems": [
+     "regions",
+     "muscular"
+    ],
+    "regions": [
+     "head",
+     "upper_limb_r"
+    ],
+    "focus": [
+     "Lobule of auricle",
+     "Chin"
+    ],
+    "show": [
+     "Elbow joint"
+    ],
+    "view": "right",
+    "check": {
+     "q": "Name three kinds of proprioceptor.",
+     "a": "Muscle spindles, tendon organs and joint receptors."
+    },
+    "side": "Right"
+   },
+   {
+    "title": "Why pain is referred",
+    "text": "<p>Pain receptors (<b>nociceptors</b>) in the viscera are free nerve endings, but visceral afferents enter the cord at the same segments as nerves from particular areas of skin, and converge on the <b>same spinal neurons</b> and pathways. The brain, used to pain from skin, blames the skin. The result is <b>referred pain</b>: visceral pain felt at a surface site.</p><p>The heart is the classic case. <b>Angina pectoris</b> and a <b>heart attack (myocardial infarction)</b> are felt in the left chest, <b>left shoulder</b> and medial left arm.</p>",
+    "diagram": "lab01-referred-pain",
+    "systems": [
+     "visceral",
+     "regions"
+    ],
+    "regions": [
+     "thorax",
+     "upper_limb_l"
+    ],
+    "focus": [
+     "Heart",
+     "Deltoid region"
+    ],
+    "show": [
+     "Spinal cord"
+    ],
+    "view": "anterior",
+    "check": {
+     "q": "Why is cardiac pain felt in the left arm?",
+     "a": "Cardiac afferents and afferents from the left arm and chest skin enter the same upper thoracic segments and converge on the same neurons, so the brain misattributes the pain."
+    },
+    "side": "Left"
+   },
+   {
+    "title": "Chest and upper abdomen",
+    "text": "<p><b>Lungs and diaphragm</b>: the base of the neck and the shoulder (the diaphragm is supplied from C3-C5). <b>Oesophagus</b>: behind the sternum (substernal). <b>Stomach</b>: the epigastric region. <b>Liver and gallbladder</b>: the right upper abdomen and the <b>right shoulder</b> or scapula.</p>",
+    "diagram": "lab01-referred-pain",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "thorax",
+     "abdomen"
+    ],
+    "focus": [
+     "Lungs",
+     "Diaphragm",
+     "Oesophagus",
+     "Stomach",
+     "Liver",
+     "Gallbladder"
+    ],
+    "view": "anterior",
+    "check": {
+     "q": "Gallbladder inflammation may be felt in which shoulder?",
+     "a": "The right shoulder (or right scapula), together with the right upper abdomen."
+    }
+   },
+   {
+    "title": "Lower abdomen and urinary tract",
+    "text": "<p><b>Colon</b>: around the umbilicus and the lower abdomen. <b>Appendix</b>: at first around the umbilicus, then, once the overlying peritoneum is inflamed, the <b>right lower quadrant</b>. <b>Kidney</b>: the flank and lower back (lumbar region). <b>Ureter</b>: from the flank down to the groin. <b>Urinary bladder</b>: above the pubis (suprapubic).</p>",
+    "diagram": "lab01-referred-pain",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Colon",
+     "Vermiform appendix",
+     "Kidney",
+     "Ureter",
+     "Urinary bladder"
+    ],
+    "view": "anterior",
+    "clinical": "Appendicitis classically starts as vague periumbilical pain (visceral, referred) and moves to the right iliac fossa when the parietal peritoneum becomes involved.",
+    "check": {
+     "q": "Where is pain from a stone in the ureter felt?",
+     "a": "In the flank, radiating down to the groin."
+    }
+   },
+   {
+    "title": "Projected sensation: the 'funny bone'",
+    "text": "<p>A nerve stimulated anywhere along its course is felt where its endings are. Knock the <b>ulnar nerve</b> behind the medial <b>elbow</b>, or rest the elbow in ice water, and you feel tingling and aching in the <b>little finger</b> and the ulnar side of the hand - not at the elbow. This <b>projected sensation</b> shows the brain always maps a nerve's signals to its receptive territory.</p>",
+    "systems": [
+     "nervous",
+     "skeletal"
+    ],
+    "regions": [
+     "upper_limb_r"
+    ],
+    "focus": [
+     "Ulnar nerve",
+     "Elbow joint"
+    ],
+    "show": [
+     "Humerus"
+    ],
+    "view": "posterior",
+    "pitfall": "Projected sensation is not referred pain: it comes from stimulating a nerve trunk itself, not from convergence of visceral and skin afferents.",
+    "check": {
+     "q": "Your elbow rests in ice water. Where do you feel tingling, and which nerve is responsible?",
+     "a": "In the little finger and ulnar side of the hand - the ulnar nerve, stimulated at the elbow."
+    },
+    "side": "Right"
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Lobule of auricle"
+   },
+   {
+    "type": "find",
+    "structure": "Chin"
+   },
+   {
+    "type": "find",
+    "structure": "Heart"
+   },
+   {
+    "type": "find",
+    "structure": "Deltoid region"
+   },
+   {
+    "type": "find",
+    "structure": "Diaphragm"
+   },
+   {
+    "type": "find",
+    "structure": "Oesophagus"
+   },
+   {
+    "type": "find",
+    "structure": "Liver"
+   },
+   {
+    "type": "find",
+    "structure": "Gallbladder"
+   },
+   {
+    "type": "find",
+    "structure": "Lungs"
+   },
+   {
+    "type": "find",
+    "structure": "Stomach"
+   },
+   {
+    "type": "find",
+    "structure": "Kidney"
+   },
+   {
+    "type": "find",
+    "structure": "Ureter"
+   },
+   {
+    "type": "find",
+    "structure": "Urinary bladder"
+   },
+   {
+    "type": "name",
+    "structure": "Vermiform appendix"
+   },
+   {
+    "type": "find",
+    "structure": "Colon"
+   },
+   {
+    "type": "find",
+    "structure": "Ulnar nerve"
+   },
+   {
+    "type": "find",
+    "structure": "Elbow joint"
+   },
+   {
+    "type": "find_micro",
+    "model": "skeletal_muscle",
+    "part": "Muscle spindle capsule"
+   },
+   {
+    "type": "mcq",
+    "q": "Pain from angina pectoris is typically referred to the",
+    "choices": [
+     "left chest, shoulder and medial arm",
+     "right shoulder",
+     "suprapubic region",
+     "flank"
+    ],
+    "answer": 0,
+    "why": "Cardiac afferents share upper thoracic segments with the left chest and arm."
+   },
+   {
+    "type": "mcq",
+    "q": "Early appendicitis pain is usually felt",
+    "choices": [
+     "around the umbilicus",
+     "in the left shoulder",
+     "behind the sternum",
+     "in the flank"
+    ],
+    "answer": 0,
+    "why": "It later moves to the right lower quadrant."
+   },
+   {
+    "type": "mcq",
+    "q": "Referred pain from the kidney is felt in the",
+    "choices": [
+     "flank and lower back",
+     "right shoulder",
+     "epigastrium",
+     "left arm"
+    ],
+    "answer": 0,
+    "why": "Renal afferents enter the lower thoracic and upper lumbar segments."
+   },
+   {
+    "type": "mcq",
+    "q": "Referred pain from the lungs and diaphragm is felt at the",
+    "choices": [
+     "base of the neck and shoulder",
+     "umbilicus",
+     "groin",
+     "suprapubic region"
+    ],
+    "answer": 0,
+    "why": "The diaphragm's sensory supply shares C3-C5 with the neck and shoulder."
+   },
+   {
+    "type": "recall",
+    "q": "Define proprioception.",
+    "a": "The sense of the position and movement of the body and limbs, from muscle spindles, tendon organs and joint receptors."
+   },
+   {
+    "type": "recall",
+    "q": "Where is referred pain from the oesophagus, the stomach and the urinary bladder felt?",
+    "a": "Oesophagus: behind the sternum. Stomach: epigastrium. Bladder: suprapubic."
+   },
+   {
+    "type": "recall",
+    "q": "How does referred pain differ from projected sensation?",
+    "a": "Referred pain comes from viscera via converging afferents; projected sensation comes from stimulating a nerve trunk and is felt in that nerve's territory."
+   }
+  ]
+ }
+]

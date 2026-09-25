@@ -17,7 +17,7 @@ Add it after the existing pages so the `tab:N` indices of the others do not move
 GROUPS gets a group of its own. An entry in ALIASES stands in for a page that does not exist yet: "Lab course"
 opens the Lessons page until a real page with that title is added, at which point the alias steps aside.
 """
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QButtonGroup, QHBoxLayout, QPushButton, QSizePolicy, QTabWidget, QVBoxLayout, QWidget
 
 GROUPS = [
@@ -35,6 +35,9 @@ TIPS = {
 
 
 class NavTabWidget(QTabWidget):
+    # the selector entry the user picked (e.g. "Lab course"), for pages that show differently per entry
+    entry_picked = Signal(str)
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.tabBar().hide()
@@ -120,6 +123,7 @@ class NavTabWidget(QTabWidget):
 
     def _seg_clicked(self, label, index):
         self._alias_pick = label
+        self.entry_picked.emit(label)
         if index == self.currentIndex():
             self._sync(index)
         else:

@@ -126,6 +126,7 @@ class MainWindow(QMainWindow):
                 self.lessons_panel.lessonClosed.connect(self._lesson_closed)
                 self.lessons_panel.lessonOpened.connect(self._remember_lesson)
                 self.lessons_panel.quizRequested.connect(self.quiz_lesson)
+                self.tabs.entry_picked.connect(self._study_entry_picked)
                 self.lessons_panel.linkActivated.connect(self.on_link)
                 from .micro.registry import MODELS as MICRO_MODELS
                 self.lessons_panel.set_reference_titles(
@@ -1314,6 +1315,15 @@ class MainWindow(QMainWindow):
 
     def _remember_lesson(self, lesson):
         self.qsettings.setValue("last_lesson", lesson.id)
+
+    def _study_entry_picked(self, label):
+        """"Lab course" and "Lessons" share the lesson page: one opens it as the course, the other as the library."""
+        if self.lessons_panel is None:
+            return
+        if label == "Lab course":
+            self.lessons_panel.show_course()
+        elif label == "Lessons" and self.lessons_panel.group_by == "course":
+            self.lessons_panel._set_group("system")
 
     def _lesson_closed(self):
         self.state.clear_ghost()
