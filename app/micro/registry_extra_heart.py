@@ -1,13 +1,14 @@
 """The whole heart: chambers, valves, coronary circulation, conduction system and pericardium."""
 import math
 
-from .base import MicroModel
+from .anim import AnimatedModel
 from .heart import CUT_NORMAL, build_heart
+from .heart_motion import heart_animation
 
 
 def register_all(register):
     n = tuple(float(v) for v in CUT_NORMAL)
-    model = MicroModel(
+    model = AnimatedModel(
         "heart", "Heart: chambers, valves & conduction",
         "The whole adult heart in its natural position, opened along the four-chamber plane: right and left atria "
         "(auricles, pectinate muscles, crista terminalis, fossa ovalis) and ventricles (trabeculae carneae, "
@@ -66,6 +67,7 @@ def register_all(register):
              "septal defects (most at the membranous septum) a harsh pansystolic murmur; a patent ductus a "
              "continuous machinery murmur. Long-standing left-to-right shunts can reverse (Eisenmenger syndrome)."),
         ],
+        animation=heart_animation(),
         scale_note="Whole adult heart ≈ 12 cm from base to apex (1 unit ≈ 6 cm). Epicardium, endocardium, "
                    "conduction tissue and valve thickness exaggerated for clarity.")
     model.metres_per_unit = 0.06

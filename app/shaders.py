@@ -7,6 +7,11 @@ in uint in_mat;
 in vec2 in_uv;               // imported models only (u_textured == 1)
 in vec4 in_tint;
 in float in_layer;
+in vec4 in_m0;               // animated micro models only (u_anim == 1): four morph targets and a phase
+in vec4 in_m1;
+in vec4 in_m2;
+in vec4 in_m3;
+in float in_phase;
 
 uniform mat4 u_viewproj;
 uniform sampler2D u_state;
@@ -15,6 +20,9 @@ uniform int u_color_row;
 uniform int u_pass;          // 0 opaque, 1 transparent, 2 selection mask
 uniform float u_ghost_alpha;
 uniform int u_textured;
+uniform int u_anim;
+uniform float u_anim_t;      // cycle phase 0..1
+uniform sampler2D u_anim_tex;  // per part: row 0 morph weights, row 1 (mode, glow, decay, rate) - see micro/anim.py
 
 out vec3 v_wpos;
 out vec3 v_nrm;
@@ -30,6 +38,8 @@ flat out float v_layer;
 flat out vec3 v_capcol;
 out float v_cut;
 flat out float v_own;
+out vec3 v_tpos;             // where the tissue texture is looked up: the rest position, so it rides with the motion
+out float v_glow;
 
 void main() {
     int obj = int(in_obj);
@@ -53,6 +63,7 @@ void main() {
         v_wpos = vec3(0.0); v_nrm = vec3(0.0, 1.0, 0.0); v_color = vec3(0.0); v_surface = vec3(0.0);
         v_alpha = 0.0; v_obj = 0u; v_flags = 0; v_mat = 0;
         v_uv = vec2(0.0); v_tint = vec3(1.0); v_layer = -1.0; v_capcol = vec3(0.0); v_cut = 0.0; v_own = 0.0;
+        v_tpos = vec3(0.0); v_glow = 0.0;
         return;
     }
     v_mat = int(in_mat);
@@ -68,11 +79,30 @@ void main() {
     v_own = own ? 1.0 : 0.0;
     v_alpha = alpha;
     v_surface = ms.rgb;
-    v_wpos = in_pos;
+    vec3 pos = in_pos;
+    v_glow = 0.0;
+    if (u_anim == 1) {
+        vec4 w = texelFetch(u_anim_tex, ivec2(obj, 0), 0);
+        vec4 g = texelFetch(u_anim_tex, ivec2(obj, 1), 0);
+        int mode = int(g.x + 0.5);
+        if (mode == 1) {                // particles on their own clocks along a curved path
+            float tau = fract(u_anim_t * g.w + in_phase);
+            w = vec4(tau, tau * tau, 1.0 - smoothstep(0.0, 0.06, tau) * (1.0 - smoothstep(0.90, 1.0, tau)), w.w);
+        }
+        pos += w.x * in_m0.xyz + w.y * in_m1.xyz + w.z * in_m2.xyz + w.w * in_m3.xyz;
+        if (mode == 2) {                // a wave of activation: lights up at its phase, then fades
+            float dt = fract(u_anim_t - in_phase);
+            v_glow = g.y * smoothstep(0.0, 0.006, dt) * exp(-dt / max(g.z, 1e-3));
+        } else {
+            v_glow = g.y;
+        }
+    }
+    v_tpos = in_pos;
+    v_wpos = pos;
     v_nrm = in_nrm;
     v_obj = in_obj;
     v_flags = flags;
-    gl_Position = u_viewproj * vec4(in_pos, 1.0);
+    gl_Position = u_viewproj * vec4(pos, 1.0);
 }
 """
 
@@ -233,6 +263,11 @@ vec3 tissue_color(vec3 base, vec3 p, int mat, bool cap) {
     return c;
 }
 
+// an animated part's own light (a conduction impulse, a secretion): its colour lifted towards white
+vec3 glow_light(vec3 base, float g) {
+    return g * (base * 1.6 + vec3(0.30, 0.30, 0.26));
+}
+
 vec3 decorate(vec3 lit, int flags, vec3 N, vec3 V) {
     float ndv = max(dot(N, V), 0.0);
     if ((flags & 4) != 0) {
@@ -262,6 +297,8 @@ flat in float v_layer;
 flat in vec3 v_capcol;
 in float v_cut;
 flat in float v_own;
+in vec3 v_tpos;
+in float v_glow;
 
 uniform mat3 u_view3;
 uniform mat4 u_viewproj;
@@ -367,8 +404,9 @@ void main() {
         lit = shade(capcol, N, V, vec3(0.05, 8.0, 0.0));
     } else {
         if (!gl_FrontFacing) N = -N;
-        lit = shade(tissue_color(albedo(v_color, v_tint, tx, v_layer, v_own), v_wpos, v_mat, false), N, V, v_surface);
+        lit = shade(tissue_color(albedo(v_color, v_tint, tx, v_layer, v_own), v_tpos, v_mat, false), N, V, v_surface);
     }
+    lit += glow_light(v_color, v_glow);
     float isCap = (!gl_FrontFacing && anyClip) ? 0.0 : 1.0;
     lit = decorate(lit, v_flags, N, V);
     o_color = vec4(lit, 1.0);
@@ -438,6 +476,8 @@ flat in float v_layer;
 flat in vec3 v_capcol;
 in float v_cut;
 flat in float v_own;
+in vec3 v_tpos;
+in float v_glow;
 """ + SHADING_COMMON + """
 out vec4 o_color;
 
@@ -447,7 +487,8 @@ void main() {
     vec3 V = normalize(u_eye - v_wpos);
     vec3 N = normalize(v_nrm);
     if (!gl_FrontFacing) N = -N;
-    vec3 lit = shade(tissue_color(albedo(v_color, v_tint, tx, v_layer, v_own), v_wpos, v_mat, false), N, V, v_surface);
+    vec3 lit = shade(tissue_color(albedo(v_color, v_tint, tx, v_layer, v_own), v_tpos, v_mat, false), N, V, v_surface);
+    lit += glow_light(v_color, v_glow);
     float ndv = abs(dot(N, V));
     float a = v_alpha;
     if ((v_flags & 2) != 0) {

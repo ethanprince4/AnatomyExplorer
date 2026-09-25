@@ -14,7 +14,7 @@ VERSION = os.environ.get("APP_VERSION", "0.0.0")
 # Everything the app reads at run time. Personal data (data/user), the raw Z-Anatomy source and scratch output are
 # never shipped; data/anatomy's surface-sample and depth caches come from the stage (see prebuild.py).
 DATA_DIRS = ["data/anatomy", "data/content", "data/findings", "data/histology", "data/radiology",
-             "data/sketchfab_models", "data/micro_cache", "app/resources"]
+             "data/sketchfab_models", "data/micro_cache", "data/models", "app/resources"]
 SKIP_DIRS = {"__pycache__", ".git"}
 SKIP_SUFFIXES = {".pyc", ".tmp", ".part", ".stackdump"}
 STAGED = {"data/anatomy/samples.npz", "data/anatomy/depth.npz"}

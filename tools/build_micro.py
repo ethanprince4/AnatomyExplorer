@@ -19,6 +19,9 @@ def build(model_id):
     model = MODELS[model_id]
     parts = model.build()
     save_parts(model_id, parts, source_digest(model))
+    if getattr(model, "animation", None) is not None:       # animated models keep their morph data beside the mesh
+        from app.micro.anim import save_anim
+        save_anim(model_id, parts, source_digest(model))
     tris = sum(len(p.mesh.arrays()[2]) for p in parts)
     return model_id, len(parts), tris, time.time() - t
 
