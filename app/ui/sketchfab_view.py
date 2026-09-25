@@ -15,17 +15,19 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QGridLayout, 
                                QPushButton, QSplitter, QStackedWidget, QVBoxLayout, QWidget)
 
 from ..sketchfab import TOPICS
+from . import theme
 from .card_list import CardList
 from .sketchfab_bridge import CameraBridge, host_html
 
-TOPIC_COLOUR = {"cardio": "#e0707a", "msk-skin": "#cbb89a", "viscera": "#e8b45c", "neuro-senses": "#e8d15c"}
-IDLE = ("<div style='color:#8a94a3; font-size:11pt; line-height:150%'>"
-        "<p style='font-size:14pt; color:#d9dee6'><b>Online 3D models</b></p>"
+TOPIC_COLOUR = {"cardio": "#ee8a92", "msk-skin": "#cbb89a", "viscera": theme.WARNING,
+                "neuro-senses": "#e8d15c"}
+IDLE = (f"<div style='color:{theme.MUTED}; font-size:{theme.FS_LEAD}pt; line-height:150%'>"
+        f"<p style='font-size:{theme.FS_H2 - 1}pt; color:{theme.TEXT_STRONG}'><b>Online 3D models</b></p>"
         "<p>Pick a model on the left. These are shown in Sketchfab's own player and stream from sketchfab.com, "
         "so they need an internet connection. Nothing is downloaded or saved.</p>"
         "<p>Selecting a structure in the atlas also lists any matching model under <b>Details</b>.</p></div>")
-OFFLINE = ("<div style='color:#8a94a3; font-size:11pt; line-height:150%'>"
-           "<p style='font-size:13pt; color:#e0a06a'><b>Could not reach Sketchfab</b></p>"
+OFFLINE = (f"<div style='color:{theme.MUTED}; font-size:{theme.FS_LEAD}pt; line-height:150%'>"
+           f"<p style='font-size:{theme.FS_TITLE + 0.5}pt; color:{theme.WARNING}'><b>Could not reach Sketchfab</b></p>"
            "<p>This model streams from sketchfab.com, so it needs an internet connection. "
            "Check the connection and press <b>Reload</b>.</p></div>")
 
@@ -79,7 +81,7 @@ class SketchfabPanel(QWidget):
                       "Models marked downloaded were fetched under their Creative Commons licence and also open "
                       "offline in the atlas's own viewer.")
         note.setWordWrap(True)
-        note.setStyleSheet("color:#6f7a89; font-size:8pt;")
+        note.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_CAPTION))
         ll.addWidget(note)
         left.setMinimumWidth(260)
         split.addWidget(left)
@@ -94,13 +96,14 @@ class SketchfabPanel(QWidget):
         titles.setSpacing(1)
         self.title = QLabel("")
         f = QFont(self.font())
-        f.setPointSizeF(f.pointSizeF() + 2.0)
+        f.setPointSizeF(theme.FS_TITLE)
         f.setBold(True)
         self.title.setFont(f)
+        self.title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE, 700))
         self.title.setWordWrap(True)
         titles.addWidget(self.title)
         self.credit = QLabel("")
-        self.credit.setStyleSheet("color:#8a94a3;")
+        self.credit.setStyleSheet(theme.text_css(theme.MUTED))
         titles.addWidget(self.credit)
         head.addLayout(titles, 1)
         self.show3d = QPushButton("Show in the atlas")
@@ -132,12 +135,12 @@ class SketchfabPanel(QWidget):
         row.addWidget(self.annotations)
         row.addStretch(1)
         self.status = QLabel("")
-        self.status.setStyleSheet("color:#8a94a3;")
+        self.status.setStyleSheet(theme.text_css(theme.MUTED))
         row.addWidget(self.status)
         rl.addLayout(row)
         self.summary = QLabel("")
         self.summary.setWordWrap(True)
-        self.summary.setStyleSheet("color:#aab3c0;")
+        self.summary.setStyleSheet(theme.text_css(theme.TEXT_2))
         rl.addWidget(self.summary)
 
         self.stack = QStackedWidget()

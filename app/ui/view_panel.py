@@ -2,6 +2,8 @@ from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QListWidget,
                                QListWidgetItem, QPushButton, QScrollArea, QSlider, QVBoxLayout, QWidget)
 
+from . import theme
+
 CLIP_NAMES = ["Sagittal (left / right)", "Coronal (front / back)", "Transverse (top / bottom)"]
 
 
@@ -83,7 +85,7 @@ class ViewPanel(QWidget):
         blurb = QLabel("Peel the body apart from the skin inwards. Depth is measured as a fraction of how thick "
                        "the body is at each point, so the hand and the thigh are uncovered together.")
         blurb.setWordWrap(True)
-        blurb.setStyleSheet("color:#aab3c0;")
+        blurb.setStyleSheet(theme.text_css(theme.TEXT_2))
         dl.addWidget(blurb)
         self.depth_slider = slider(0, 1000, 0)
         self.depth_slider.setEnabled(False)
@@ -119,6 +121,7 @@ class ViewPanel(QWidget):
             flip = QPushButton("Flip")
             flip.setCheckable(True)
             flip.setFixedWidth(52)
+            flip.setStyleSheet("padding: 5px 0;")
             row.addWidget(cb, 1)
             row.addWidget(flip)
             cl.addLayout(row)
@@ -147,7 +150,7 @@ class ViewPanel(QWidget):
         hl = QVBoxLayout(g)
         self.help_text = QLabel()
         self.help_text.setWordWrap(True)
-        self.help_text.setStyleSheet("color:#aab3c0;")
+        self.help_text.setStyleSheet(theme.text_css(theme.TEXT_2))
         hl.addWidget(self.help_text)
         lay.addWidget(g)
         lay.addStretch(1)

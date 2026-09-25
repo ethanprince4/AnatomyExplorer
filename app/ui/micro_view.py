@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (QCheckBox, QHBoxLayout, QLabel, QMenu, QPushButto
 from ..micro.base import MicroDataset
 from ..state import SceneState
 from ..viewport import Viewport
+from . import theme
 from .flow import FlowLayout
 
 ROLE = Qt.UserRole + 1
@@ -68,19 +69,20 @@ class MicroView(QWidget):
         side = QWidget()
         side.setMinimumWidth(250)
         sl = QVBoxLayout(side)
-        sl.setContentsMargins(10, 10, 6, 6)
+        sl.setContentsMargins(14, 12, 8, 8)
+        sl.setSpacing(6)
         title = QLabel(model.name)
         title.setWordWrap(True)
-        title.setStyleSheet("font-size:12.5pt; font-weight:600; color:#eef3f8;")
+        title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE + 0.5, 700))
         sl.addWidget(title)
         summ = QLabel(model.summary)
         summ.setWordWrap(True)
-        summ.setStyleSheet("color:#aab3c0;")
+        summ.setStyleSheet(theme.text_css(theme.TEXT_2))
         sl.addWidget(summ)
         if model.scale_note:
             note = QLabel(model.scale_note)
             note.setWordWrap(True)
-            note.setStyleSheet("color:#7f8b9b; font-size:8.5pt;")
+            note.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
             sl.addWidget(note)
         credit = getattr(model, "credit_html", "")
         if credit:
@@ -88,7 +90,7 @@ class MicroView(QWidget):
             c.setWordWrap(True)
             c.setOpenExternalLinks(True)
             c.setTextInteractionFlags(Qt.TextBrowserInteraction)
-            c.setStyleSheet("color:#7f8b9b; font-size:8.5pt;")
+            c.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
             sl.addWidget(c)
         self.tree = QTreeWidget()
         self.tree.setHeaderHidden(True)
@@ -164,7 +166,8 @@ class MicroView(QWidget):
             bar.add_right(more)
         top = QWidget()
         top.setLayout(bar)
-        top.setStyleSheet("background:#14171c;")
+        top.setObjectName("microBar")
+        top.setStyleSheet(f"QWidget#microBar {{ background:{theme.SURFACE}; border-bottom:1px solid {theme.BORDER_SUBTLE}; }}")
         rl.addWidget(top)
         rl.addWidget(self.gl_widget, 1)
         split.addWidget(right)
@@ -384,11 +387,11 @@ class MicroView(QWidget):
         clinical = "".join(f"<p><b>{esc(t)}</b><br>{esc(x)}</p>" for t, x in m.clinical)
         tail = ""
         if clinical:
-            tail += f"<h3>CLINICAL CORRELATIONS</h3>{clinical}"
+            tail += f"<p class='overline'>CLINICAL CORRELATIONS</p>{clinical}"
         if hist:
-            tail += "<h3>HISTOLOGY</h3>" + "".join(hist)
+            tail += "<p class='overline'>HISTOLOGY</p>" + "".join(hist)
         if related:
-            tail += f"<h3>RELATED MODELS</h3><p>{related}</p>"
+            tail += f"<p class='overline'>RELATED MODELS</p><p>{related}</p>"
         if len(sel) == 1:
             p = self.mds.parts[sel[0]]
             siblings = [q.name for q in self.mds.parts if q.group == p.group and q is not p]
@@ -398,8 +401,8 @@ class MicroView(QWidget):
                          f"atlas</a></p>")
             body = (f"<div class='crumb'>{esc(m.name)} › {esc(p.group)}</div>"
                     f"<p class='summary'>{esc(p.description)}</p>{atlas}"
-                    + (f"<h3>ALSO IN {esc(p.group.upper())}</h3><p class='muted'>{esc(' · '.join(siblings))}</p>"
-                       if siblings else "") + tail)
+                    + (f"<p class='overline'>ALSO IN {esc(p.group.upper())}</p>"
+                       f"<p class='muted'>{esc(' · '.join(siblings))}</p>" if siblings else "") + tail)
             self.info.show_html(f"<h1>{esc(p.name)}</h1>", body)
         else:
             groups = []
@@ -409,5 +412,5 @@ class MicroView(QWidget):
             body = (f"<p class='summary'>{esc(m.summary)}</p>"
                     f"<p class='muted'>Click any part in 3D or in the list to read about it. Use Cut-away, "
                     f"Separate layers and X-ray to see inside.</p>"
-                    f"<h3>LAYERS &amp; PARTS</h3>{''.join(groups)}{tail}")
+                    f"<p class='overline'>LAYERS &amp; PARTS</p>{''.join(groups)}{tail}")
             self.info.show_html(f"<h1>{esc(m.name)}</h1>", body)

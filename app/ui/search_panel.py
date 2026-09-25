@@ -3,12 +3,14 @@ from PySide6.QtGui import QColor, QFont, QPainter
 from PySide6.QtWidgets import (QLabel, QLineEdit, QListWidget, QListWidgetItem, QStyle, QStyledItemDelegate,
                                QVBoxLayout, QWidget)
 
+from . import theme
+
 ROLE_ENTRY = Qt.UserRole + 1
 KIND_BADGE = {"structure": "", "group": "GROUP", "landmark": "LANDMARK", "clinical": "CLINICAL", "tissue": "HISTOLOGY",
               "micro": "3D MICRO", "lesson": "LESSON", "radiology": "RADIOLOGY",
               "sketchfab": "SKETCHFAB"}
-KIND_COLOR = {"clinical": "#e0707a", "tissue": "#b48ee0", "micro": "#6cc4b0", "lesson": "#e8b45c",
-              "radiology": "#7fb2f0", "sketchfab": "#1caad9"}
+KIND_COLOR = {"clinical": "#ee8a92", "tissue": "#bf9cf0", "micro": "#6fd0bb", "lesson": theme.WARNING,
+              "radiology": theme.INFO, "sketchfab": "#35b6e4"}
 
 
 def shown_alt(entry):
@@ -29,49 +31,60 @@ class ResultDelegate(QStyledItemDelegate):
         self.ds = ds
 
     def sizeHint(self, option, index):
-        return QSize(option.rect.width(), 44)
+        return QSize(option.rect.width(), 48)
 
     def paint(self, p: QPainter, option, index):
         entry = index.data(ROLE_ENTRY)
         p.save()
+        p.setRenderHint(QPainter.Antialiasing)
         r = option.rect
+        card = QRectF(r.x() + 2, r.y() + 2, r.width() - 4, r.height() - 4)
         if option.state & QStyle.State_Selected:
-            p.fillRect(r, QColor("#1f3a4a"))
+            p.setPen(theme.qc(theme.ACCENT_BORDER))
+            p.setBrush(theme.qc(theme.ACCENT_SOFT))
+            p.drawRoundedRect(card.adjusted(0.5, 0.5, -0.5, -0.5), theme.R_LG, theme.R_LG)
         elif option.state & QStyle.State_MouseOver:
-            p.fillRect(r, QColor("#20252c"))
+            p.setPen(Qt.NoPen)
+            p.setBrush(theme.qc(theme.RAISED))
+            p.drawRoundedRect(card, theme.R_LG, theme.R_LG)
         if entry.kind in KIND_COLOR:
             col = QColor(KIND_COLOR[entry.kind])
         else:
             col = QColor.fromRgbF(*self.ds.systems[self.ds.system_index.get(entry.system, 0)]["color"])
-        p.fillRect(QRectF(r.x() + 8, r.y() + 10, 3, r.height() - 20), col)
+        p.setPen(Qt.NoPen)
+        p.setBrush(col)
+        p.drawRoundedRect(QRectF(r.x() + 9, r.y() + 12, 3, r.height() - 24), 1.5, 1.5)
         title_font = QFont(option.font)
-        title_font.setPointSizeF(9.6)
+        title_font.setPointSizeF(theme.FS_BODY)
         title_font.setBold(entry.kind != "landmark")
         p.setFont(title_font)
-        p.setPen(QColor("#e8edf3"))
+        p.setPen(theme.qc(theme.TEXT_STRONG))
         badge = KIND_BADGE[entry.kind]
-        tx = r.x() + 20
-        p.drawText(QRectF(tx, r.y() + 4, r.width() - 30, 20), Qt.AlignLeft | Qt.AlignVCenter,
+        tx = r.x() + 21
+        p.drawText(QRectF(tx, r.y() + 6, r.width() - 30, 20), Qt.AlignLeft | Qt.AlignVCenter,
                    p.fontMetrics().elidedText(entry.title, Qt.ElideRight, r.width() - 110))
         sub_font = QFont(option.font)
-        sub_font.setPointSizeF(8.2)
+        sub_font.setPointSizeF(theme.FS_SMALL - 0.3)
         p.setFont(sub_font)
-        p.setPen(QColor("#8a94a3"))
+        p.setPen(theme.qc(theme.MUTED))
         alt = shown_alt(entry)
         subtitle = entry.subtitle + (f"  ·  {alt}" if alt else "")
-        p.drawText(QRectF(tx, r.y() + 22, r.width() - 30, 18), Qt.AlignLeft | Qt.AlignVCenter,
+        p.drawText(QRectF(tx, r.y() + 25, r.width() - 30, 17), Qt.AlignLeft | Qt.AlignVCenter,
                    p.fontMetrics().elidedText(subtitle, Qt.ElideRight, r.width() - 34))
         if badge:
             bf = QFont(option.font)
             bf.setPointSizeF(6.8)
             bf.setBold(True)
             p.setFont(bf)
-            bw = p.fontMetrics().horizontalAdvance(badge) + 10
-            br = QRectF(r.right() - bw - 8, r.y() + 7, bw, 15)
+            bw = p.fontMetrics().horizontalAdvance(badge) + 12
+            br = QRectF(r.right() - bw - 9, r.y() + 8, bw, 16)
+            tint = QColor(KIND_COLOR.get(entry.kind, theme.TEXT_2))
+            bg = QColor(tint)
+            bg.setAlpha(38)
             p.setPen(Qt.NoPen)
-            p.setBrush(QColor("#2a3340"))
-            p.drawRoundedRect(br, 4, 4)
-            p.setPen(QColor("#9fb3c8"))
+            p.setBrush(bg)
+            p.drawRoundedRect(br, theme.R_SM, theme.R_SM)
+            p.setPen(tint.lighter(115) if entry.kind in KIND_COLOR else theme.qc(theme.TEXT_2))
             p.drawText(br, Qt.AlignCenter, badge)
         p.restore()
 
@@ -98,14 +111,14 @@ class SearchPanel(QWidget):
         self.ds = ds
         self.index = index
         lay = QVBoxLayout(self)
-        lay.setContentsMargins(10, 10, 10, 6)
+        lay.setContentsMargins(12, 12, 12, 6)
         lay.setSpacing(6)
         self.edit = SearchLine()
         self.edit.setPlaceholderText(f"Search {ds.n:,} structures, landmarks, Latin…")
         self.edit.setClearButtonEnabled(True)
         lay.addWidget(self.edit)
         self.info = QLabel("")
-        self.info.setStyleSheet("color:#8a94a3; font-size:8.5pt; padding-left:2px;")
+        self.info.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL) + " padding-left:2px;")
         lay.addWidget(self.info)
         self.info.hide()
         self.list = QListWidget()

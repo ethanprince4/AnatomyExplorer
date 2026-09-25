@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QCheckBox, QComboBox, QCompleter, QDockWidget, QF
 
 from ..config import USER_DIR
 from .. import srs
+from . import theme
 
 STATS_PATH = USER_DIR / "quiz_stats.json"
 EXCLUDED_SYSTEMS = {"attachments", "regions", "reference"}
@@ -38,6 +39,9 @@ SIBLING_TOKEN = re.compile(r"\b(?:first|second|third|fourth|fifth|sixth|seventh|
 SIBLING_FAMILY = 4        # this many names differing only by a number and none of them is a fair target
 GREEN = (0.25, 0.85, 0.35)
 RED = (0.95, 0.25, 0.2)
+CHOICE = "text-align: left; padding: 7px 12px;"
+CHOICE_RIGHT = CHOICE + f" background:{theme.SUCCESS_FILL}; border:1px solid {theme.SUCCESS}; color:{theme.TEXT_STRONG};"
+CHOICE_WRONG = CHOICE + f" background:{theme.DANGER_FILL}; border:1px solid {theme.DANGER}; color:{theme.TEXT_STRONG};"
 
 
 def _norm_answer(text):
@@ -51,7 +55,7 @@ class QuizPanel(QWidget):
         super().__init__()
         self.c = controller
         root = QVBoxLayout(self)
-        root.setContentsMargins(10, 8, 10, 10)
+        root.setContentsMargins(14, 12, 14, 12)
         self.stack = QStackedWidget()
         root.addWidget(self.stack)
 
@@ -60,14 +64,17 @@ class QuizPanel(QWidget):
         sl = QVBoxLayout(setup)
         sl.setContentsMargins(0, 0, 0, 0)
         title = QLabel("Quiz")
-        title.setStyleSheet("font-size: 17pt; font-weight: 600;")
+        title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H1, 700))
         sl.addWidget(title)
         intro = QLabel("Questions come from the structures currently visible, so use Systems, Regions or the Tree "
                        "to narrow the topic first, or pick a system below.")
         intro.setWordWrap(True)
-        intro.setStyleSheet("color: #9aa4b2;")
+        intro.setStyleSheet(theme.text_css(theme.TEXT_2))
         sl.addWidget(intro)
+        sl.setSpacing(8)
         form = QFormLayout()
+        form.setHorizontalSpacing(12)
+        form.setVerticalSpacing(8)
         self.mode = QComboBox()
         for key, label in MODES:
             self.mode.addItem(label, key)
@@ -104,10 +111,11 @@ class QuizPanel(QWidget):
             sl.addWidget(w)
         self.setup_msg = QLabel("")
         self.setup_msg.setWordWrap(True)
-        self.setup_msg.setStyleSheet("color: #ff9a7a;")
+        self.setup_msg.setStyleSheet(theme.text_css(theme.DANGER))
         sl.addWidget(self.setup_msg)
         start = QPushButton("Start quiz")
-        start.setMinimumHeight(34)
+        start.setMinimumHeight(36)
+        theme.set_variant(start, "primary")
         start.clicked.connect(lambda: controller.start())
         sl.addWidget(start)
         self.review_btn = QPushButton("Review what is due")
@@ -116,9 +124,10 @@ class QuizPanel(QWidget):
         sl.addWidget(self.review_btn)
         self.review_note = QLabel("")
         self.review_note.setWordWrap(True)
-        self.review_note.setStyleSheet("color:#9aa4b2;")
+        self.review_note.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         sl.addWidget(self.review_note)
         progress = QPushButton("My progress…")
+        theme.set_variant(progress, "ghost")
         progress.clicked.connect(controller.show_progress)
         sl.addWidget(progress)
         sl.addStretch(1)
@@ -130,19 +139,19 @@ class QuizPanel(QWidget):
         ql.setContentsMargins(0, 0, 0, 0)
         top = QHBoxLayout()
         self.progress = QLabel("")
-        self.progress.setStyleSheet("color: #9aa4b2;")
+        self.progress.setStyleSheet(theme.text_css(theme.MUTED))
         self.score = QLabel("")
-        self.score.setStyleSheet("font-weight: 600;")
+        self.score.setStyleSheet(theme.text_css(theme.TEXT_STRONG, None, 700))
         top.addWidget(self.progress)
         top.addStretch(1)
         top.addWidget(self.score)
         ql.addLayout(top)
         self.instruction = QLabel("")
-        self.instruction.setStyleSheet("color: #9aa4b2;")
+        self.instruction.setStyleSheet(theme.text_css(theme.ACCENT_TEXT, theme.FS_SMALL, 700))
         ql.addWidget(self.instruction)
         self.prompt = QLabel("")
         self.prompt.setWordWrap(True)
-        self.prompt.setStyleSheet("font-size: 16pt; font-weight: 600; margin: 4px 0 8px 0;")
+        self.prompt.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2, 700) + " margin: 4px 0 8px 0;")
         ql.addWidget(self.prompt)
 
         self.choices = QWidget()
@@ -152,7 +161,7 @@ class QuizPanel(QWidget):
         for i in range(4):
             b = QPushButton("")
             b.setMinimumHeight(44)
-            b.setStyleSheet("text-align: left; padding: 6px 10px;")
+            b.setStyleSheet(CHOICE)
             b.clicked.connect(lambda _=False, i=i: controller.answer_choice(i))
             grid.addWidget(b, i, 0)
             self.choice_buttons.append(b)
@@ -176,13 +185,14 @@ class QuizPanel(QWidget):
 
         self.peeled = QLabel("")
         self.peeled.setWordWrap(True)
-        self.peeled.setStyleSheet("color: #8fd3ff;")
+        self.peeled.setStyleSheet(theme.text_css(theme.ACCENT_TEXT))
         ql.addWidget(self.peeled)
 
         row = QHBoxLayout()
         self.hint_btn = QPushButton("Hint")
         self.reveal_btn = QPushButton("Reveal")
         self.next_btn = QPushButton("Next  ▸")
+        theme.set_variant(self.next_btn, "primary")
         self.hint_btn.clicked.connect(controller.hint)
         self.reveal_btn.clicked.connect(controller.reveal)
         self.next_btn.clicked.connect(controller.next_question)
@@ -197,6 +207,7 @@ class QuizPanel(QWidget):
         self.details_btn = QPushButton("Open details")
         self.details_btn.clicked.connect(controller.open_details)
         finish = QPushButton("Finish")
+        theme.set_variant(finish, "ghost")
         finish.clicked.connect(controller.finish)
         row2.addWidget(self.details_btn)
         row2.addStretch(1)
@@ -204,11 +215,11 @@ class QuizPanel(QWidget):
         ql.addLayout(row2)
         sep = QFrame()
         sep.setFrameShape(QFrame.HLine)
-        sep.setStyleSheet("color: #2a3140;")
+        sep.setStyleSheet(f"color:{theme.BORDER}; background:{theme.BORDER}; max-height:1px; border:none;")
         ql.addWidget(sep)
         self.tips = QLabel("")
         self.tips.setWordWrap(True)
-        self.tips.setStyleSheet("color: #7d8796;")
+        self.tips.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL + 0.5))
         ql.addWidget(self.tips)
         ql.addStretch(1)
         self.stack.addWidget(q)
@@ -649,7 +660,7 @@ class QuizController:
                 for b, text in zip(p.choice_buttons, opts):
                     b.setText(text)
                     b.setEnabled(True)
-                    b.setStyleSheet("text-align: left; padding: 6px 10px;")
+                    b.setStyleSheet(CHOICE)
             else:
                 p.choices.hide()
                 p.typed.show()
@@ -716,7 +727,7 @@ class QuizController:
         for i, sid in enumerate(clicks, 1):
             s = self.ds.structures[sid]
             names.append(f"{i}. {s['base']}")
-        return "<br><span style=\"color:#9aa4b2\">You clicked: " + " &nbsp; ".join(names) + "</span>"
+        return f"<br><span style=\"color:{theme.MUTED}\">You clicked: " + " &nbsp; ".join(names) + "</span>"
 
     def _distractors(self, base, s0, k):
         pool = [b for b in self.pool if b != base]
@@ -801,7 +812,7 @@ class QuizController:
         s = self.ds.structures[sid]
         if s["base"] == cur["base"]:
             label = "Correct!" if cur["hints"] == 0 and cur["wrong"] == 0 else "Correct."
-            self.panel.feedback.setText(f'<span style="color:#6fdc84; font-weight:600">{label}</span>'
+            self.panel.feedback.setText(f'<span style="color:{theme.SUCCESS}; font-weight:700">{label}</span>'
                                         + (self._clicked_summary(cur["clicks"]) if hunt else ""))
             self._record(True)
             self._show_answer(GREEN)
@@ -813,11 +824,11 @@ class QuizController:
         if cur["wrong"] >= 3:
             if hunt:
                 # only now is anything named: the answer, and the three things that were clicked instead
-                self.panel.feedback.setText(f'<span style="color:#ff8a7a">Out of tries.</span> '
+                self.panel.feedback.setText(f'<span style="color:{theme.DANGER}">Out of tries.</span> '
                                             f'It is <b>{cur["base"]}</b>, shown in green.'
                                             + self._clicked_summary(cur["clicks"]))
             else:
-                self.panel.feedback.setText(f'<span style="color:#ff8a7a">That was <b>{s["base"]}</b>.</span> '
+                self.panel.feedback.setText(f'<span style="color:{theme.DANGER}">That was <b>{s["base"]}</b>.</span> '
                                             f'Here is <b>{cur["base"]}</b>.')
             self._record(False)
             self._show_answer(GREEN)
@@ -825,9 +836,9 @@ class QuizController:
             left = 3 - cur["wrong"]
             n_left = f'{left} {"try" if left == 1 else "tries"} left.'
             if hunt:                      # naming the wrong structure would give the game away
-                self.panel.feedback.setText(f'<span style="color:#ff8a7a">Not that one.</span> {n_left}')
+                self.panel.feedback.setText(f'<span style="color:{theme.DANGER}">Not that one.</span> {n_left}')
             else:
-                self.panel.feedback.setText(f'<span style="color:#ff8a7a">No — that is <b>{s["base"]}</b>.</span> '
+                self.panel.feedback.setText(f'<span style="color:{theme.DANGER}">No — that is <b>{s["base"]}</b>.</span> '
                                             f'{n_left}')
         return True
 
@@ -852,11 +863,11 @@ class QuizController:
         for b, text in zip(p.choice_buttons, cur["options"]):
             b.setEnabled(False)
             if text == cur["base"]:
-                b.setStyleSheet("text-align: left; padding: 6px 10px; background: #1f5130; color: white;")
+                b.setStyleSheet(CHOICE_RIGHT)
             elif text == chosen:
-                b.setStyleSheet("text-align: left; padding: 6px 10px; background: #6a2323; color: white;")
-        p.feedback.setText('<span style="color:#6fdc84; font-weight:600">Correct!</span>' if ok else
-                           f'<span style="color:#ff8a7a">Not quite — it is <b>{cur["base"]}</b>.</span>')
+                b.setStyleSheet(CHOICE_WRONG)
+        p.feedback.setText(f'<span style="color:{theme.SUCCESS}; font-weight:700">Correct!</span>' if ok else
+                           f'<span style="color:{theme.DANGER}">Not quite — it is <b>{cur["base"]}</b>.</span>')
         self._record(ok)
         self._show_answer(GREEN if ok else RED)
         if ok:
@@ -877,9 +888,9 @@ class QuizController:
         accepted = {_norm_answer(cur["base"]), _norm_answer(s0.get("latin") or "")}
         ok = _norm_answer(text) in accepted
         if ok:
-            p.feedback.setText('<span style="color:#6fdc84; font-weight:600">Correct!</span>')
+            p.feedback.setText(f'<span style="color:{theme.SUCCESS}; font-weight:700">Correct!</span>')
         else:
-            p.feedback.setText(f'<span style="color:#ff8a7a">Not quite — it is <b>{cur["base"]}</b>.</span> '
+            p.feedback.setText(f'<span style="color:{theme.DANGER}">Not quite — it is <b>{cur["base"]}</b>.</span> '
                                'Press Enter for the next question.')
         self._record(ok)
         self._show_answer(GREEN if ok else RED)
@@ -924,7 +935,7 @@ class QuizController:
             for b, text in zip(self.panel.choice_buttons, cur["options"]):
                 b.setEnabled(False)
                 if text == cur["base"]:
-                    b.setStyleSheet("text-align: left; padding: 6px 10px; background: #1f5130; color: white;")
+                    b.setStyleSheet(CHOICE_RIGHT)
         self._record(False)
         self._show_answer(RED)
 
@@ -943,12 +954,14 @@ class QuizController:
         answered = self.asked if (self.current and self.current["done"]) else max(0, self.asked - 1)
         pct = round(100 * self.correct / answered) if answered else 0
         if answered:
-            p.summary.setText(f'<p style="font-size:17pt; font-weight:600">{self.correct} / {answered} correct '
+            p.summary.setText(f'<p style="font-size:{theme.FS_H1 + 3}pt; font-weight:700; color:{theme.TEXT_STRONG}">'
+                              f'{self.correct} / {answered} correct '
                               f'({pct}%)</p><p>Best streak: {self.best_streak}</p>'
                               + ("" if self.missed else "<p>Nothing to review – you got every one.</p>"))
         else:
-            p.summary.setText('<p style="font-size:17pt; font-weight:600">No questions answered</p>'
-                              '<p style="color:#9aa4b2">Start a new quiz when you are ready.</p>')
+            p.summary.setText(f'<p style="font-size:{theme.FS_H1}pt; font-weight:700; color:{theme.TEXT_STRONG}">'
+                              f'No questions answered</p>'
+                              f'<p style="color:{theme.MUTED}">Start a new quiz when you are ready.</p>')
         p.missed_label.setVisible(bool(self.missed))
         p.missed.setVisible(bool(self.missed))
         p.retry_btn.setVisible(bool(self.missed))

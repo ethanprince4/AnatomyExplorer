@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 
 import numpy as np
-from PySide6.QtCore import QEvent, QSettings, QStandardPaths, Qt, QTimer, QUrl
+from PySide6.QtCore import QEvent, QSettings, QSize, QStandardPaths, Qt, QTimer, QUrl
 from PySide6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QGuiApplication, QKeySequence
 from PySide6.QtWidgets import (QApplication, QColorDialog, QDockWidget, QFileDialog, QInputDialog, QLabel,
                                QListWidget, QMainWindow, QMenu, QMessageBox, QPushButton, QSizePolicy, QSplitter,
@@ -21,6 +21,7 @@ from .ui.nav import NavTabWidget
 from .ui.search_panel import SearchPanel
 from .ui.settings_dialog import SettingsDialog
 from .ui.systems_panel import RegionsPanel, SystemsPanel
+from .ui import theme
 from .ui.theme import apply_theme
 from .ui.tree_panel import TreePanel
 from .ui.view_panel import DISSECTION_STOPS, ViewPanel
@@ -446,8 +447,12 @@ class MainWindow(QMainWindow):
             tb.addWidget(b)
             return b
 
-        add("◀", a["back"], "Back")
-        add("▶", a["forward"], "Forward")
+        for key, glyph in (("back", "back"), ("forward", "forward"), ("settings", "settings")):
+            a[key].setIcon(theme.icon(glyph))
+            a[key].setIconVisibleInMenu(False)
+        tb.setIconSize(QSize(16, 16))
+        add("Back", a["back"], "Back")
+        add("Forward", a["forward"], "Forward")
         tb.addSeparator()
         self.camera_btn = drop("View", self.camera_menu,
                                "Anterior, posterior, lateral, superior and inferior views; frame; reset")
@@ -460,7 +465,10 @@ class MainWindow(QMainWindow):
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         tb.addWidget(spacer)
-        add("⚙ Settings", a["settings"])
+        add("Settings", a["settings"])
+        settings_btn = tb.widgetForAction(a["settings"])
+        if settings_btn is not None:
+            settings_btn.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
         # a drop-down lights up while something inside it is switched on, so a mode is never on unseen
         a["xray"].toggled.connect(lambda on: self._mark_active(self.show_btn, on))
         a["measure"].toggled.connect(lambda on: self._mark_active(self.tools_btn, on))
@@ -1722,9 +1730,9 @@ class MainWindow(QMainWindow):
         out = QImage(width, shot.height() + head_h + foot_h, QImage.Format_RGB32)
         out.setDevicePixelRatio(dpr)
         dark = bool(self.settings.get("dark_background", True))
-        bg = QColor("#14171c") if dark else QColor("#f3f5f8")
-        fg = QColor("#e8edf3") if dark else QColor("#1b1f26")
-        muted = QColor("#9aa4b2") if dark else QColor("#57606d")
+        bg = QColor(theme.CANVAS) if dark else QColor("#f3f5f8")
+        fg = QColor(theme.TEXT_STRONG) if dark else QColor("#1b1f26")
+        muted = QColor(theme.TEXT_2) if dark else QColor("#57606d")
         out.fill(bg)
         p = QPainter(out)
         p.setRenderHint(QPainter.TextAntialiasing)

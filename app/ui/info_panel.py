@@ -7,28 +7,33 @@ from PySide6.QtCore import Signal, QUrl
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QTextBrowser, QVBoxLayout, QWidget
 
-CSS = """
-body { color: #d9dee6; font-size: 9.5pt; }
-h1 { font-size: 16pt; color: #f1f5f9; margin: 0 0 2px 0; font-weight: 600; }
-h3 { color: #7f8b9b; font-size: 8pt; margin: 16px 0 4px 0; font-weight: 700; }
-h4 { color: #c9d4e0; font-size: 9.8pt; margin: 10px 0 2px 0; }
-p { margin: 3px 0 7px 0; line-height: 135%; }
-a { color: #6fd0fa; text-decoration: none; }
-a.sec { color: #e6ecf2; font-weight: 600; }
-a.sub { color: #d7dee6; font-weight: 600; }
-a.more { color: #8fb4cc; }
-.latin { color: #a9bfd4; font-style: italic; font-size: 10.5pt; }
-.muted { color: #8a94a3; }
-.count { color: #7f8b9b; font-weight: 400; }
-.crumb { color: #8a94a3; font-size: 8.6pt; }
-.summary { color: #dfe5ec; font-size: 10pt; }
-.cap { color: #9aa5b3; font-size: 8pt; }
-td.k { color: #8a94a3; padding: 2px 10px 2px 0; }
-td.v { color: #d9dee6; padding: 2px 0; }
-td.btn { background-color: #26303a; padding: 4px 9px; }
-td.sechead { background-color: #20262e; padding: 6px 8px; }
-td.subhead { padding: 4px 4px 2px 6px; }
-li { margin: 2px 0; }
+from . import theme
+
+CSS = f"""
+body {{ color: {theme.TEXT}; font-size: {theme.FS_BODY}pt; }}
+h1 {{ font-size: {theme.FS_H1}pt; color: {theme.TEXT_STRONG}; margin: 0 0 3px 0; font-weight: 700; }}
+h3 {{ color: {theme.TEXT_STRONG}; margin: 18px 0 6px 0; font-weight: 700; }}
+.overline {{ color: {theme.ACCENT_TEXT}; font-size: {theme.FS_CAPTION}pt; font-weight: 700; letter-spacing: 1px;
+            margin: 20px 0 6px 0; }}
+h4 {{ color: {theme.TEXT_STRONG}; font-size: {theme.FS_BODY + 0.3}pt; margin: 12px 0 3px 0; font-weight: 700; }}
+p {{ margin: 3px 0 8px 0; line-height: 140%; }}
+b {{ color: {theme.TEXT_STRONG}; }}
+a {{ color: {theme.ACCENT_TEXT}; text-decoration: none; }}
+a.sec {{ color: {theme.TEXT_STRONG}; font-weight: 700; }}
+a.sub {{ color: {theme.TEXT}; font-weight: 700; }}
+a.more {{ color: {theme.ACCENT_TEXT}; font-weight: 600; }}
+.latin {{ color: {theme.TEXT_2}; font-style: italic; font-size: {theme.FS_LEAD}pt; }}
+.muted {{ color: {theme.MUTED}; }}
+.count {{ color: {theme.MUTED}; font-weight: 400; }}
+.crumb {{ color: {theme.MUTED}; font-size: {theme.FS_SMALL}pt; margin-top: 3px; }}
+.summary {{ color: {theme.TEXT}; font-size: {theme.FS_BODY + 0.5}pt; }}
+.cap {{ color: {theme.MUTED}; font-size: {theme.FS_CAPTION}pt; }}
+td.k {{ color: {theme.MUTED}; padding: 3px 12px 3px 0; }}
+td.v {{ color: {theme.TEXT}; padding: 3px 0; }}
+td.btn {{ background-color: {theme.HOVER}; padding: 4px 9px; white-space: nowrap; }}
+td.sechead {{ background-color: {theme.RAISED}; padding: 7px 10px; }}
+td.subhead {{ padding: 5px 4px 3px 6px; }}
+li {{ margin: 3px 0; }}
 """
 
 DROP_SECTIONS = {"references", "external links", "see also", "further reading", "gallery", "additional images",
@@ -120,7 +125,7 @@ class InfoPanel(QWidget):
         self.browser = QTextBrowser()
         self.browser.setOpenLinks(False)
         self.browser.document().setDefaultStyleSheet(CSS)
-        self.browser.document().setDocumentMargin(14)
+        self.browser.document().setDocumentMargin(16)
         self.browser.anchorClicked.connect(self._anchor)
         lay.addWidget(self.browser)
         self.show_welcome()
@@ -353,7 +358,7 @@ class InfoPanel(QWidget):
 <h1>Anatomy Explorer</h1>
 <div class="muted">{ds.n:,} structures · {len(ds.landmarks):,} landmarks · {tris:.1f} M triangles</div>
 <div class="muted">{" · ".join(extras)}</div>
-<h3>GETTING STARTED</h3>
+<p class="overline">GETTING STARTED</p>
 <p><b>Search</b> (Ctrl+F) for any structure, group, landmark or Latin term. The result is highlighted,
 framed, and everything else turns to x-ray. Search also finds conditions and signs ("carpal tunnel",
 "Horner"), tissues and microanatomy models.</p>
@@ -380,7 +385,7 @@ The <b>Histology</b> tab browses tissue micrographs.</p>
 <p><b>Click</b> anything in 3D to see its summary, clinical correlations, histology and microanatomy here.
 Sections are collapsible, and remember whether you left them open.</p>
 <p><b>Settings</b> (Ctrl+,) has mouse sensitivity, key bindings and display options.</p>
-<h3>DATA SOURCES</h3><ul>{attr}<li>Histology micrographs: Wikimedia Commons contributors (author and
+<p class="overline">DATA SOURCES</p><ul>{attr}<li>Histology micrographs: Wikimedia Commons contributors (author and
 license shown with each image)</li></ul>
 """, keep_scroll)
 

@@ -29,7 +29,7 @@ from ..viewport import VIEWS, TrackpadInput
 
 API_VERSION = "1.12.1"
 HOST = """<!doctype html><html><head><meta charset="utf-8">
-<style>html,body{margin:0;height:100%;background:#0d1015;overflow:hidden}
+<style>html,body{margin:0;height:100%;background:#0b1016;overflow:hidden}
 iframe{border:0;width:100%;height:100%;display:block}</style>
 <script src="https://static.sketchfab.com/api/sketchfab-viewer-%VERSION%.js"></script></head>
 <body><iframe id="f" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen></iframe>

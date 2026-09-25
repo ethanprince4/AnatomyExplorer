@@ -9,6 +9,8 @@ from PySide6.QtCore import QPointF, QRectF, QSize, Qt
 from PySide6.QtGui import QColor, QFont, QFontMetricsF, QPainter, QPen
 from PySide6.QtWidgets import QListWidget, QListWidgetItem, QStyle, QStyledItemDelegate
 
+from . import theme
+
 ROLE_KIND = Qt.UserRole + 20        # "card" | "header" | "note"
 ROLE_TITLE = Qt.UserRole + 21
 ROLE_SUMMARY = Qt.UserRole + 22
@@ -18,20 +20,22 @@ ROLE_DIM = Qt.UserRole + 25
 ROLE_PROGRESS = Qt.UserRole + 26     # 0..1, drawn as a bar along the bottom of the card
 ROLE_DONE = Qt.UserRole + 27
 
-CARD_BG = QColor("#1e232b")
-CARD_HOVER = QColor("#262d37")
-CARD_SEL = QColor("#1f3a4a")
-CARD_SEL_EDGE = QColor("#3f87ad")
-TITLE = QColor("#e7edf5")
-TITLE_DIM = QColor("#9aa5b3")
-SUMMARY = QColor("#95a1b1")
-HEADING = QColor("#79879a")
-RULE = QColor("#2b313a")
-BADGE_BG = QColor("#2b3540")
-BADGE_FG = QColor("#a3b5c8")
-DEFAULT_ACCENT = QColor("#4f8fb8")
-TRACK = QColor("#2c3440")
-DONE = QColor("#63c08a")
+CARD_BG = theme.qc(theme.RAISED)
+CARD_EDGE = theme.qc(theme.BORDER_SUBTLE)
+CARD_HOVER = theme.qc(theme.HOVER)
+CARD_HOVER_EDGE = theme.qc(theme.BORDER)
+CARD_SEL = theme.qc(theme.ACCENT_SOFT)
+CARD_SEL_EDGE = theme.qc(theme.ACCENT_BORDER)
+TITLE = theme.qc(theme.TEXT_STRONG)
+TITLE_DIM = theme.qc(theme.TEXT_2)
+SUMMARY = theme.qc(theme.MUTED)
+HEADING = theme.qc(theme.MUTED)
+RULE = theme.qc(theme.BORDER_SUBTLE)
+BADGE_BG = theme.qc(theme.PRESSED)
+BADGE_FG = theme.qc(theme.TEXT_2)
+DEFAULT_ACCENT = theme.qc(theme.ACCENT)
+TRACK = theme.qc(theme.BORDER)
+DONE = theme.qc(theme.SUCCESS)
 
 MARGIN_X = 5        # gap between the card and the edge of the list
 PAD_L = 11          # inside the card, left of the stripe
@@ -151,13 +155,9 @@ class CardDelegate(QStyledItemDelegate):
         hover = bool(option.state & QStyle.State_MouseOver)
         dim = bool(index.data(ROLE_DIM))
         card = r.adjusted(MARGIN_X, 2, -MARGIN_X, -2)
-        p.setPen(Qt.NoPen)
+        p.setPen(QPen(CARD_SEL_EDGE if selected else (CARD_HOVER_EDGE if hover else CARD_EDGE), 1.0))
         p.setBrush(CARD_SEL if selected else (CARD_HOVER if hover else CARD_BG))
-        p.drawRoundedRect(card, 6, 6)
-        if selected:
-            p.setPen(QPen(CARD_SEL_EDGE, 1.0))
-            p.setBrush(Qt.NoBrush)
-            p.drawRoundedRect(card.adjusted(0.5, 0.5, -0.5, -0.5), 6, 6)
+        p.drawRoundedRect(card.adjusted(0.5, 0.5, -0.5, -0.5), theme.R_LG, theme.R_LG)
 
         accent = index.data(ROLE_ACCENT)
         col = QColor(accent) if accent else DEFAULT_ACCENT
@@ -179,10 +179,12 @@ class CardDelegate(QStyledItemDelegate):
             bw = p.fontMetrics().horizontalAdvance(badge) + 12
             bh = QFontMetricsF(badge_f).height() + 3
             box = QRectF(card.right() - PAD_R - bw, ty + 1, bw, bh)
+            tint = QColor(col)
+            tint.setAlpha(34)
             p.setPen(Qt.NoPen)
-            p.setBrush(BADGE_BG)
-            p.drawRoundedRect(box, 4, 4)
-            p.setPen(BADGE_FG)
+            p.setBrush(BADGE_BG if dim else tint)
+            p.drawRoundedRect(box, theme.R_SM, theme.R_SM)
+            p.setPen(BADGE_FG if dim else col.lighter(112))
             p.drawText(box, Qt.AlignCenter, badge)
             title_w = avail - bw - 8
 
@@ -228,7 +230,8 @@ class CardList(QListWidget):
         self.setSpacing(0)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollMode(QListWidget.ScrollPerPixel)
-        self.setStyleSheet("QListWidget::item { background: transparent; }")
+        self.setStyleSheet("QListWidget::item, QListWidget::item:hover, QListWidget::item:selected "
+                           "{ background: transparent; }")
 
     def resizeEvent(self, e):
         super().resizeEvent(e)

@@ -2,6 +2,8 @@ from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (QDialog, QDialogButtonBox, QLabel, QListWidget, QListWidgetItem, QPlainTextEdit,
                                QSplitter, QVBoxLayout)
 
+from . import theme
+
 
 class NoteDialog(QDialog):
     def __init__(self, key, text, parent=None):
@@ -59,6 +61,6 @@ class AllNotesDialog(QDialog):
         self.list.itemDoubleClicked.connect(lambda it: (self.noteActivated.emit(it.text()), self.accept()))
         self.list.setCurrentRow(0)
         hint = QLabel("Double-click a note to show that structure.")
-        hint.setStyleSheet("color:#8a94a3;")
+        hint.setStyleSheet(theme.text_css(theme.MUTED))
         lay.addWidget(hint)
         lay.addWidget(box)

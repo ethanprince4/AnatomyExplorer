@@ -13,11 +13,12 @@ REPO_URL = "https://github.com/ethanprince4/AnatomyExplorer"
 
 # QTextBrowser's rich text ignores the widget stylesheet for links, tables and code, so the document gets its own
 DOC_CSS = f"""
-a {{ color: {theme.ACCENT}; text-decoration: none; }}
-code {{ color: #cfe8f7; }}
+a {{ color: {theme.ACCENT_TEXT}; text-decoration: none; }}
+h1, h2, h3 {{ color: {theme.TEXT_STRONG}; }}
+code {{ color: {theme.ACCENT_TEXT}; }}
 th {{ color: {theme.MUTED}; text-align: left; }}
-td, th {{ padding: 2px 6px; }}
-blockquote {{ color: #e8d9b0; }}
+td, th {{ padding: 3px 8px; }}
+blockquote {{ color: {theme.WARNING}; }}
 """
 
 
@@ -52,7 +53,7 @@ def _browser(markdown=None, text=None):
     b = QTextBrowser()
     b.setOpenExternalLinks(True)
     b.document().setDefaultStyleSheet(DOC_CSS)
-    b.document().setDocumentMargin(10)
+    b.document().setDocumentMargin(12)
     if markdown is not None:
         b.setMarkdown(markdown)
     else:
@@ -67,8 +68,11 @@ class AboutDialog(QDialog):
         self.setWindowTitle("About Anatomy Explorer")
         self.resize(820, 700)
         lay = QVBoxLayout(self)
+        lay.setContentsMargins(20, 18, 20, 14)
+        lay.setSpacing(12)
 
         head = QHBoxLayout()
+        head.setSpacing(16)
         icon = QLabel()
         pix = QPixmap(str(ROOT / "app" / "resources" / "icon.png"))
         if not pix.isNull():
@@ -77,9 +81,10 @@ class AboutDialog(QDialog):
         text = QVBoxLayout()
         title = QLabel("Anatomy Explorer")
         f = QFont(self.font())
-        f.setPointSizeF(f.pointSizeF() + 6)
+        f.setPointSizeF(theme.FS_H1 + 1)
         f.setBold(True)
         title.setFont(f)
+        title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H1 + 1, 700))
         text.addWidget(title)
         ver = QLabel(f"Version {app_version()}")
         ver.setStyleSheet(f"color:{theme.MUTED};")
@@ -87,10 +92,11 @@ class AboutDialog(QDialog):
         text.addWidget(ver)
         blurb = QLabel("A 3D anatomy atlas with lessons, quizzes, histology, radiology and microanatomy.<br>"
                        "© 2026 Ethan Prince. Free software under the MIT licence. "
-                       f"<a href='{REPO_URL}' style='color:{theme.ACCENT}; text-decoration:none'>Source code</a>"
+                       f"<a href='{REPO_URL}' style='color:{theme.ACCENT_TEXT}; text-decoration:none'>Source code</a>"
                        "<br>The anatomy data, images and 3D models belong to their creators and keep their own "
                        "licences. See <b>Credits</b>.<br>A study aid, not a medical device.")
         blurb.setWordWrap(True)
+        blurb.setStyleSheet(theme.text_css(theme.TEXT_2))
         blurb.setOpenExternalLinks(True)
         text.addWidget(blurb)
         head.addLayout(text, 1)

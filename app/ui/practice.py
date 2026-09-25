@@ -22,21 +22,22 @@ import time
 
 import numpy as np
 from PySide6.QtCore import Qt, QTimer
-from PySide6.QtGui import QColor, QKeySequence, QShortcut
+from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (QAbstractItemView, QDockWidget, QFrame, QHBoxLayout, QLabel, QListWidget,
                                QListWidgetItem, QPushButton, QScrollArea, QStackedWidget, QVBoxLayout, QWidget)
 
 from .. import srs
 from ..lessons import TYPE_NAME, build_session, default_length, item_key, practice_pool
+from . import theme
 from .diagram import DiagramView
 
 GREEN = (0.25, 0.85, 0.35)
 RED = (0.95, 0.25, 0.2)
-OK_HTML = '<span style="color:#6fdc84; font-weight:600">{}</span>'
-BAD_HTML = '<span style="color:#ff8a7a; font-weight:600">{}</span>'
-BTN = "text-align:left; padding:6px 10px;"
-BTN_RIGHT = BTN + " background:#1f5130; color:white;"
-BTN_WRONG = BTN + " background:#6a2323; color:white;"
+OK_HTML = f'<span style="color:{theme.SUCCESS}; font-weight:700">{{}}</span>'
+BAD_HTML = f'<span style="color:{theme.DANGER}; font-weight:700">{{}}</span>'
+BTN = "text-align:left; padding:7px 12px;"
+BTN_RIGHT = BTN + f" background:{theme.SUCCESS_FILL}; border:1px solid {theme.SUCCESS}; color:{theme.TEXT_STRONG};"
+BTN_WRONG = BTN + f" background:{theme.DANGER_FILL}; border:1px solid {theme.DANGER}; color:{theme.TEXT_STRONG};"
 MAX_CHOICES = 6
 # the parts of a lesson step that set the atlas up; the step's own selection and x-ray are left out, since they
 # would point straight at the answer
@@ -63,7 +64,7 @@ class PracticePanel(QWidget):
         super().__init__()
         c = controller
         root = QVBoxLayout(self)
-        root.setContentsMargins(10, 8, 10, 10)
+        root.setContentsMargins(12, 10, 12, 12)
         self.stack = QStackedWidget()
         root.addWidget(self.stack)
 
@@ -74,25 +75,24 @@ class PracticePanel(QWidget):
         ql.setSpacing(6)
         self.where = QLabel("")
         self.where.setWordWrap(True)
-        self.where.setStyleSheet("color:#8fd3ff; font-size:8.5pt; font-weight:600;")
+        self.where.setStyleSheet(theme.text_css(theme.ACCENT_TEXT, theme.FS_SMALL, 700))
         ql.addWidget(self.where)
         top = QHBoxLayout()
         self.progress = QLabel("")
-        self.progress.setStyleSheet("color:#9aa4b2;")
+        self.progress.setStyleSheet(theme.text_css(theme.MUTED))
         self.score = QLabel("")
-        self.score.setStyleSheet("font-weight:600;")
+        self.score.setStyleSheet(theme.text_css(theme.TEXT_STRONG, None, 700))
         top.addWidget(self.progress)
         top.addStretch(1)
         top.addWidget(self.score)
         ql.addLayout(top)
         self.kind = QLabel("")
-        self.kind.setStyleSheet("color:#0e1319; background:#7fb2f0; border-radius:4px; padding:1px 7px;"
-                                "font-weight:600;")
+        self.kind.setStyleSheet(theme.tag_css(theme.ACCENT, theme.ON_ACCENT))
         ql.addWidget(self.kind, 0, Qt.AlignLeft)
         self.prompt = QLabel("")
         self.prompt.setWordWrap(True)
         self.prompt.setTextFormat(Qt.RichText)
-        self.prompt.setStyleSheet("font-size:14pt; font-weight:600; margin:2px 0 4px 0;")
+        self.prompt.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2 - 1, 700) + " margin:4px 0 6px 0;")
         ql.addWidget(self.prompt)
         self.diagram = DiagramView(max_height=260)
         self.diagram.hide()
@@ -124,17 +124,16 @@ class PracticePanel(QWidget):
         self.answer = QLabel("")
         self.answer.setWordWrap(True)
         self.answer.setTextFormat(Qt.RichText)
-        self.answer.setStyleSheet("background:#1e232b; border:1px solid #2b313a; border-radius:6px; padding:8px;"
-                                  "color:#8fd3ff;")
+        self.answer.setStyleSheet(theme.well_css(theme.ACCENT_TEXT, theme.SP_3))
         rl.addWidget(self.answer)
         self.grade_row = QWidget()
         gl = QHBoxLayout(self.grade_row)
         gl.setContentsMargins(0, 0, 0, 0)
         self.knew = QPushButton("I knew it")
-        self.knew.setStyleSheet("background:#1f5130;")
+        theme.set_variant(self.knew, "success")
         self.knew.clicked.connect(lambda: c.grade_recall(True))
         self.didnt = QPushButton("I didn't")
-        self.didnt.setStyleSheet("background:#6a2323;")
+        theme.set_variant(self.didnt, "danger")
         self.didnt.clicked.connect(lambda: c.grade_recall(False))
         gl.addWidget(self.knew)
         gl.addWidget(self.didnt)
@@ -157,6 +156,7 @@ class PracticePanel(QWidget):
         down = QPushButton("▼")
         for b, d in ((up, -1), (down, 1)):
             b.setFixedWidth(34)
+            b.setStyleSheet("padding: 5px 0;")
             b.clicked.connect(lambda _=False, d=d: c.move_order(d))
             arrows.addWidget(b)
         arrows.addStretch(1)
@@ -173,15 +173,17 @@ class PracticePanel(QWidget):
         ql.addWidget(self.feedback)
         self.peeled = QLabel("")
         self.peeled.setWordWrap(True)
-        self.peeled.setStyleSheet("color:#8fd3ff;")
+        self.peeled.setStyleSheet(theme.text_css(theme.ACCENT_TEXT))
         ql.addWidget(self.peeled)
 
         row = QHBoxLayout()
         self.giveup = QPushButton("Show me")
+        self.giveup.setMinimumHeight(32)
         self.giveup.setToolTip("Give up on this one and show the answer (counts as missed)")
         self.giveup.clicked.connect(c.give_up)
         self.next_btn = QPushButton("Next  ›")
         self.next_btn.setMinimumHeight(32)
+        theme.set_variant(self.next_btn, "primary")
         self.next_btn.clicked.connect(c.next_item)
         row.addWidget(self.giveup)
         row.addWidget(self.next_btn, 1)
@@ -189,16 +191,17 @@ class PracticePanel(QWidget):
         row2 = QHBoxLayout()
         row2.addStretch(1)
         end = QPushButton("End session")
+        theme.set_variant(end, "ghost")
         end.clicked.connect(c.finish)
         row2.addWidget(end)
         ql.addLayout(row2)
         sep = QFrame()
         sep.setFrameShape(QFrame.HLine)
-        sep.setStyleSheet("color:#2a3140;")
+        sep.setStyleSheet(f"color:{theme.BORDER}; background:{theme.BORDER}; max-height:1px; border:none;")
         ql.addWidget(sep)
         self.tips = QLabel("")
         self.tips.setWordWrap(True)
-        self.tips.setStyleSheet("color:#7d8796;")
+        self.tips.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL + 0.5))
         ql.addWidget(self.tips)
         ql.addStretch(1)
         for w in (self.choices, self.recall, self.order):
@@ -537,7 +540,7 @@ class PracticeController:
 
     def _why(self, item):
         why = item.get("why")
-        return f"<br><span style='color:#c9d3df'>{esc(why)}</span>" if why else ""
+        return f"<br><span style='color:{theme.TEXT_2}'>{esc(why)}</span>" if why else ""
 
     def enter(self):
         """Return: check an order, or move on once the item is answered."""
@@ -747,7 +750,7 @@ class PracticeController:
         sids, _missing = view.part_ids([item["part"]]) if view is not None else ([], [])
         if not sids:
             p.prompt.setText(esc(item["part"]))
-            p.feedback.setText(f"<span style='color:#e0a06a'>This model has no part called “{esc(item['part'])}” "
+            p.feedback.setText(f"<span style='color:{theme.WARNING}'>This model has no part called “{esc(item['part'])}” "
                                "yet - skipped.</span>")
             self.cur["done"] = True                 # not the student's fault: no mark either way
             p.giveup.hide()
@@ -757,7 +760,7 @@ class PracticeController:
         self.cur["sids"] = sids
         view.set_practice(self._micro_click, self._micro_rclick)
         self._hide_names()
-        p.prompt.setText(esc(item["part"]) + f"<div style='font-size:9pt; color:#9aa4b2; font-weight:400'>in "
+        p.prompt.setText(esc(item["part"]) + f"<div style='font-size:{theme.FS_BODY}pt; color:{theme.MUTED}; font-weight:400'>in "
                          f"{esc(view.model.name)}</div>")
         view.gl_widget.setFocus()
 
@@ -931,13 +934,13 @@ class PracticeController:
         right = sum(1 for a, b in zip(got, want) if a == b)
         for i in range(p.order_list.count()):
             it = p.order_list.item(i)
-            it.setForeground(QColor("#6fdc84") if got[i] == want[i] else QColor("#ff8a7a"))
+            it.setForeground(theme.qc(theme.SUCCESS) if got[i] == want[i] else theme.qc(theme.DANGER))
         p.order_list.setEnabled(False)
         p.check_order.setEnabled(False)
         answer = "<br>".join(f"{i + 1}. {esc(x)}" for i, x in enumerate(want))
         p.feedback.setText((OK_HTML.format("All in order!") if ok else
                             BAD_HTML.format(f"{right} of {len(want)} in the right place.") +
-                            f"<br><span style='color:#c9d3df'>{answer}</span>") + self._why(cur["item"]))
+                            f"<br><span style='color:{theme.TEXT_2}'>{answer}</span>") + self._why(cur["item"]))
         self._record(ok)
 
     # ------------------------------------------------------------------ the end
@@ -960,13 +963,15 @@ class PracticeController:
             verdict = ("Excellent." if pct >= 90 else "Good work." if pct >= 75 else
                        "Getting there - retry the ones you missed." if pct >= 50 else
                        "Worth another pass through Learn, then try again.")
-            p.summary.setText(f"<p style='font-size:17pt; font-weight:600; margin-bottom:2px'>{right} / {answered}"
-                              f" ({pct}%)</p><p style='color:#9aa4b2'>{esc(self.lesson.title)}</p>"
-                              f"<p>{verdict}</p><p style='color:#9aa4b2; font-size:8.5pt'>{rows}</p>")
+            p.summary.setText(f"<p style='font-size:{theme.FS_H1 + 5}pt; font-weight:700; color:{theme.TEXT_STRONG};"
+                              f" margin-bottom:2px'>{right} / {answered} <span style='color:{theme.ACCENT_TEXT}'>"
+                              f"({pct}%)</span></p><p style='color:{theme.MUTED}'>{esc(self.lesson.title)}</p>"
+                              f"<p>{verdict}</p><p style='color:{theme.MUTED}; font-size:{theme.FS_SMALL}pt'>{rows}</p>")
             if not self.retrying:
                 self.lp.progress.record_practice(self.lesson.id, right, answered)
         else:
-            p.summary.setText("<p style='font-size:17pt; font-weight:600'>Nothing answered</p>")
+            p.summary.setText(f"<p style='font-size:{theme.FS_H1}pt; font-weight:700; color:{theme.TEXT_STRONG}'>"
+                              "Nothing answered</p>")
         missed = [item for item, ok in self.results if not ok]
         p.missed.clear()
         for item in missed:

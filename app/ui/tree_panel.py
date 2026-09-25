@@ -1,6 +1,8 @@
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QBrush, QColor, QCursor
+from PySide6.QtGui import QBrush, QCursor
 from PySide6.QtWidgets import QLineEdit, QMenu, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget
+
+from . import theme
 
 ROLE_NODE = Qt.UserRole + 1
 
@@ -41,7 +43,7 @@ class TreePanel(QWidget):
         self.sync()
 
     def _build(self):
-        muted = QBrush(QColor("#7d8796"))
+        muted = QBrush(theme.qc(theme.MUTED))
 
         def add(nid, parent_item):
             node = self.ds.nodes[nid]

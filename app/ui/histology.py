@@ -1,10 +1,12 @@
 import html
 
 from PySide6.QtCore import QRectF, QSize, Qt, QUrl, Signal
-from PySide6.QtGui import QColor, QDesktopServices, QIcon, QPainter, QPixmap
+from PySide6.QtGui import QDesktopServices, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import (QFrame, QGraphicsPixmapItem, QGraphicsScene, QGraphicsView, QHBoxLayout, QLabel,
                                QLineEdit, QListWidget, QListWidgetItem, QMenu, QPushButton, QSplitter, QTextBrowser,
                                QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+
+from . import theme
 
 ROLE = Qt.UserRole + 1
 
@@ -41,13 +43,13 @@ class HistologyBrowser(QWidget):
         self.ds = ds
         self.content = content
         lay = QVBoxLayout(self)
-        lay.setContentsMargins(6, 8, 6, 6)
-        lay.setSpacing(6)
+        lay.setContentsMargins(12, 10, 12, 6)
+        lay.setSpacing(8)
         tissues = content.histology["tissues"]
         n_img = sum(len(t.get("images", [])) for t in tissues)
         head = QLabel(f"{len(content.micro_models)} 3D models · {len([t for t in tissues if t.get('images')])} "
                       f"tissues · {n_img} images")
-        head.setStyleSheet("color:#8a94a3; padding-left:4px;")
+        head.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         lay.addWidget(head)
         self.filter = QLineEdit()
         self.filter.setPlaceholderText("Filter tissues and images…")
@@ -70,7 +72,7 @@ class HistologyBrowser(QWidget):
 
     def _build(self):
         folders = {}
-        muted = QColor("#7d8796")
+        muted = theme.qc(theme.MUTED)
         micro_root = QTreeWidgetItem(self.tree.invisibleRootItem())
         micro_root.setText(0, "3D microanatomy models")
         micro_root.setText(1, str(len(self.content.micro_models)))
@@ -178,7 +180,7 @@ class ImageView(QGraphicsView):
         self.setRenderHints(QPainter.Antialiasing | QPainter.SmoothPixmapTransform)
         self.setDragMode(QGraphicsView.ScrollHandDrag)
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
-        self.setBackgroundBrush(QColor("#0e1013"))
+        self.setBackgroundBrush(theme.qc(theme.CANVAS))
         self.setFrameShape(QFrame.NoFrame)
         self._fit = True
 
@@ -232,10 +234,10 @@ class HistologyViewer(QWidget):
         bar = QHBoxLayout()
         bar.setContentsMargins(12, 8, 12, 8)
         self.title = QLabel()
-        self.title.setStyleSheet("font-size:13pt; font-weight:600; color:#eef3f8;")
+        self.title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE + 0.5, 700))
         bar.addWidget(self.title, 1)
         self.counter = QLabel()
-        self.counter.setStyleSheet("color:#8a94a3; padding: 0 10px;")
+        self.counter.setStyleSheet(theme.text_css(theme.MUTED) + " padding: 0 10px;")
         bar.addWidget(self.counter)
         for text, fn in (("◀ Prev", lambda: self.step(-1)), ("Next ▶", lambda: self.step(1)),
                          ("Fit", lambda: self.view.fit()), ("100%", lambda: self.view.actual_size())):
@@ -250,7 +252,8 @@ class HistologyViewer(QWidget):
         bar.addWidget(self.source)
         top = QWidget()
         top.setLayout(bar)
-        top.setStyleSheet("background:#14171c;")
+        top.setObjectName("histoBar")
+        top.setStyleSheet(f"QWidget#histoBar {{ background:{theme.CANVAS}; border-bottom:1px solid {theme.BORDER_SUBTLE}; }}")
         lay.addWidget(top)
 
         split = QSplitter(Qt.Vertical)
@@ -259,8 +262,8 @@ class HistologyViewer(QWidget):
         self.caption = QTextBrowser()
         self.caption.setOpenExternalLinks(True)
         self.caption.document().setDefaultStyleSheet(
-            "body{color:#d9dee6;} .muted{color:#8a94a3;} a{color:#6fd0fa;text-decoration:none;} "
-            "h3{margin:0;color:#eef3f8;}")
+            f"body{{color:{theme.TEXT};}} .muted{{color:{theme.MUTED};}} "
+            f"a{{color:{theme.ACCENT_TEXT};text-decoration:none;}} h3{{margin:0;color:{theme.TEXT_STRONG};}}")
         self.caption.document().setDocumentMargin(10)
         split.addWidget(self.caption)
         split.setSizes([700, 160])
@@ -351,15 +354,15 @@ class HistologyViewer(QWidget):
                 sids = ",".join(str(s) for s in self.ds.structures_named(n))
                 items.append(f'<a href="sids:{sids}">{esc(n)}</a>')
             more = f" <span class='muted'>(+{len(self.names) - 40})</span>" if len(self.names) > 40 else ""
-            struct_links = f"<h3>FOUND IN (3D)</h3><p>{' · '.join(items)}{more}</p>"
+            struct_links = f"<p class='overline'>FOUND IN (3D)</p><p>{' · '.join(items)}{more}</p>"
         siblings = [x for x in self.content.histology["tissues"] if x["path"] == t["path"] and x is not t
                     and x.get("images")]
         sib = " · ".join(f'<a href="histo:{esc(x["id"])}|0">{esc(x["name"])}</a>' for x in siblings)
         imgs = " · ".join(f'<a href="histo:{esc(t["id"])}|{i}">{i + 1}</a>' for i in range(len(t["images"])))
         body = (f"<div class='crumb'>{esc(' › '.join(t['path']))}</div>"
                 f"<p class='summary'>{esc(t.get('summary'))}</p>"
-                f"<h3>KEY FEATURES</h3><ul>{feats}</ul>{struct_links}"
-                f"<h3>IMAGES</h3><p>{imgs}</p>"
-                + (f"<h3>RELATED TISSUES</h3><p>{sib}</p>" if sib else "")
+                f"<p class='overline'>KEY FEATURES</p><ul>{feats}</ul>{struct_links}"
+                f"<p class='overline'>IMAGES</p><p>{imgs}</p>"
+                + (f"<p class='overline'>RELATED TISSUES</p><p>{sib}</p>" if sib else "")
                 + "<p class='muted'>Images from Wikimedia Commons; see each image caption for author and licence.</p>")
         self.info.show_html(f"<h1>{esc(t['name'])}</h1>", body)

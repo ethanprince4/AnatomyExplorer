@@ -6,12 +6,13 @@ from PySide6.QtGui import QColor, QFont, QFontMetricsF, QPainter, QPen, QPixmap
 from PySide6.QtWidgets import (QCheckBox, QHBoxLayout, QLabel, QLineEdit, QPushButton, QSizePolicy, QSplitter,
                                QTextBrowser, QVBoxLayout, QWidget)
 
+from . import theme
 from .card_list import CardList
 
 MARKER_R = 9.0
-ACCENT = QColor(120, 205, 255)
-HOT = QColor(255, 196, 84)
-MODALITY_COLOUR = {"x-ray": "#7fb2f0", "ct": "#6cc4b0", "mri": "#b48ee0"}
+ACCENT = theme.qc(theme.ACCENT_TEXT)
+HOT = theme.qc(theme.WARNING)
+MODALITY_COLOUR = {"x-ray": theme.INFO, "ct": "#6fd0bb", "mri": "#bf9cf0"}
 
 
 class RadiographView(QWidget):
@@ -77,9 +78,9 @@ class RadiographView(QWidget):
         p = QPainter(self)
         p.setRenderHint(QPainter.Antialiasing)
         p.setRenderHint(QPainter.SmoothPixmapTransform)
-        p.fillRect(self.rect(), QColor(8, 9, 11))
+        p.fillRect(self.rect(), theme.qc(theme.CANVAS))
         if self.pixmap.isNull():
-            p.setPen(QColor(150, 160, 175))
+            p.setPen(theme.qc(theme.MUTED))
             p.drawText(self.rect(), Qt.AlignCenter, "No image")
             p.end()
             return
@@ -101,10 +102,10 @@ class RadiographView(QWidget):
             hot = i == self.hot
             col = HOT if hot else ACCENT
             rad = MARKER_R * (1.25 if hot else 1.0)
-            p.setPen(QPen(QColor(10, 12, 16, 200), 2.2))
+            p.setPen(QPen(theme.qc(theme.CANVAS, 210), 2.2))
             p.setBrush(QColor(col.red(), col.green(), col.blue(), 235 if hot else 200))
             p.drawEllipse(c, rad, rad)
-            p.setPen(QColor(12, 16, 22))
+            p.setPen(theme.qc(theme.ON_ACCENT))
             p.drawText(QRectF(c.x() - rad, c.y() - rad, rad * 2, rad * 2), Qt.AlignCenter, str(i + 1))
             self._rects.append((QRectF(c.x() - rad - 3, c.y() - rad - 3, rad * 2 + 6, rad * 2 + 6), i))
             if hot:
@@ -116,9 +117,9 @@ class RadiographView(QWidget):
                     bx = c.x() - rad - 8 - tw
                 box = QRectF(bx, c.y() - th / 2, tw, th)
                 p.setPen(QPen(HOT, 1.2))
-                p.setBrush(QColor(18, 16, 12, 235))
+                p.setBrush(theme.qc(theme.OVERLAY, 240))
                 p.drawRoundedRect(box, 4, 4)
-                p.setPen(QColor(255, 230, 175))
+                p.setPen(theme.qc(theme.TEXT_STRONG))
                 p.drawText(box, Qt.AlignCenter, text)
         p.end()
 
@@ -219,23 +220,25 @@ class RadiologyPanel(QWidget):
         super().__init__(parent)
         self.case = None
         outer = QVBoxLayout(self)
-        outer.setContentsMargins(8, 6, 6, 6)
-        outer.setSpacing(6)
+        outer.setContentsMargins(12, 10, 10, 8)
+        outer.setSpacing(8)
 
         head = QHBoxLayout()
         self.title = QLabel()
         f = QFont(self.font())
-        f.setPointSizeF(f.pointSizeF() + 2.0)
+        f.setPointSizeF(theme.FS_TITLE)
         f.setBold(True)
         self.title.setFont(f)
+        self.title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE, 700))
         self.title.setWordWrap(True)
         head.addWidget(self.title, 1)
         self.badge = QLabel()
-        self.badge.setStyleSheet("color:#0e1319; background:#78cdff; border-radius:4px; padding:1px 7px;"
-                                 "font-weight:600;")
+        self.badge.setStyleSheet(theme.tag_css(theme.INFO))
         head.addWidget(self.badge, 0, Qt.AlignTop)
         close = QPushButton("✕")
-        close.setFixedWidth(26)
+        close.setFixedWidth(28)
+        close.setStyleSheet("padding: 3px 0;")
+        theme.set_variant(close, "ghost")
         close.setToolTip("Close the radiograph panel")
         close.clicked.connect(self.closeRequested.emit)
         head.addWidget(close, 0, Qt.AlignTop)
@@ -256,6 +259,7 @@ class RadiologyPanel(QWidget):
         row.addWidget(self.labels_on)
         fit = QPushButton("Fit")
         fit.setFixedWidth(46)
+        fit.setStyleSheet("padding: 5px 0;")
         fit.clicked.connect(self.view.fit)
         row.addWidget(fit)
         setup = QPushButton("Match the 3D view")
@@ -265,6 +269,7 @@ class RadiologyPanel(QWidget):
         nxt = QPushButton("›")
         for b, step in ((prev, -1), (nxt, 1)):
             b.setFixedWidth(28)
+            b.setStyleSheet("padding: 5px 0;")
             b.clicked.connect(lambda _=False, s=step: self.caseStepped.emit(s))
             row.addWidget(b)
         ll.addLayout(row)
@@ -276,13 +281,15 @@ class RadiologyPanel(QWidget):
         ll.addWidget(self.legend, 3)
 
         self.notes = QTextBrowser()
+        self.notes.document().setDefaultStyleSheet(f"a {{ color:{theme.ACCENT_TEXT}; }} b {{ color:{theme.TEXT_STRONG}; }}")
+        self.notes.document().setDocumentMargin(8)
         self.notes.setOpenExternalLinks(True)
         self.notes.setMinimumHeight(80)
         ll.addWidget(self.notes, 2)
 
         self.credit = WrapLabel()
         self.credit.setOpenExternalLinks(True)
-        self.credit.setStyleSheet("color:#7f8b9b; font-size:8pt;")
+        self.credit.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_CAPTION))
         ll.addWidget(self.credit)
         split.addWidget(lower)
         split.setStretchFactor(0, 5)
@@ -297,6 +304,7 @@ class RadiologyPanel(QWidget):
         self.case = case
         self.title.setText(case.title)
         self.badge.setText(case.modality)
+        self.badge.setStyleSheet(theme.tag_css(MODALITY_COLOUR.get(str(case.modality).lower(), theme.INFO)))
         pm = QPixmap(str(case.image))
         if case.crop and not pm.isNull():
             x0, y0, x1, y1 = (float(v) for v in case.crop)
@@ -307,7 +315,7 @@ class RadiologyPanel(QWidget):
         for i, lab in enumerate(case.labels):
             names = lab.structures
             tip = "Click to select in 3D: " + ", ".join(names) if names else "Nothing in the model for this one"
-            self.legend.add_card(f"{i + 1}.  {lab.text}", lab.note or "", accent="#78cdff" if names else "",
+            self.legend.add_card(f"{i + 1}.  {lab.text}", lab.note or "", accent=theme.ACCENT if names else "",
                                  dim=not names, tooltip=tip)
         html = case.text or ""
         if case.reading:
@@ -316,7 +324,7 @@ class RadiologyPanel(QWidget):
         page = case.source.get("page", "")
         credit = case.credit()
         if page:
-            self.credit.setText(f'Image: <a href="{page}" style="color:#8fd3ff">Wikimedia Commons</a> · {credit}')
+            self.credit.setText(f'Image: <a href="{page}" style="color:{theme.ACCENT_TEXT}">Wikimedia Commons</a> · {credit}')
         else:
             self.credit.setText(f"Image: {credit}")
 
@@ -357,12 +365,12 @@ class RadiologyBrowser(QWidget):
         super().__init__(parent)
         self.cases = cases
         lay = QVBoxLayout(self)
-        lay.setContentsMargins(10, 8, 10, 8)
-        lay.setSpacing(6)
+        lay.setContentsMargins(12, 10, 12, 8)
+        lay.setSpacing(8)
         intro = QLabel("A still radiograph, CT or MR slice beside the live model. Click a numbered label on the "
                        "image – or a line in its legend – and the 3D view highlights the same structure.")
         intro.setWordWrap(True)
-        intro.setStyleSheet("color:#aab3c0;")
+        intro.setStyleSheet(theme.text_css(theme.TEXT_2))
         lay.addWidget(intro)
         self.filter = QLineEdit()
         self.filter.setPlaceholderText("Filter cases…")

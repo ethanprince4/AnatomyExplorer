@@ -11,6 +11,7 @@ from PySide6.QtWidgets import QWidget
 
 from .camera import OrbitCamera
 from .renderer import Renderer
+from .ui import theme
 
 VIEWS = {
     "anterior": (0.0, 0.0),
@@ -678,7 +679,7 @@ class Viewport(QOpenGLWidget):
                 p.setPen(Qt.NoPen)
                 p.drawEllipse(QPointF(pr[0], pr[1]), 2.6, 2.6)
                 p.setPen(QPen(QColor(accent.red(), accent.green(), accent.blue(), 170), 1.0))
-                p.setBrush(QColor(18, 22, 28, 210) if dark else QColor(255, 255, 255, 228))
+                p.setBrush(theme.qc(theme.OVERLAY, 220) if dark else QColor(255, 255, 255, 228))
                 p.drawRoundedRect(rect, 4, 4)
                 p.setPen(QColor(235, 240, 245) if dark else QColor(20, 25, 30))
                 p.drawText(rect, Qt.AlignCenter, fm.elidedText(text, Qt.ElideRight, tw - 10))
@@ -805,7 +806,7 @@ class Viewport(QOpenGLWidget):
             if any(rect.intersects(r) for r in placed) and not focus:
                 continue
             placed.append(rect.adjusted(-2, -2, 2, 2))
-            bg = QColor(18, 22, 28, 200 if not occluded else 110) if dark else QColor(255, 255, 255, 215 if not occluded else 120)
+            bg = theme.qc(theme.OVERLAY, 210 if not occluded else 110) if dark else QColor(255, 255, 255, 215 if not occluded else 120)
             p.setPen(QPen(dot, 1.0))
             p.setBrush(bg)
             p.drawRoundedRect(rect, 5, 5)
@@ -824,8 +825,8 @@ class Viewport(QOpenGLWidget):
             sx, sy, sz = np.dot(v, right), np.dot(v, up), np.dot(v, back)
             items.append((sz, cx + sx * r, cy - sy * r, label, col, v.sum() > 0))
         items.sort(key=lambda t: t[0])
-        p.setPen(Qt.NoPen)
-        p.setBrush(QColor(0, 0, 0, 60) if dark else QColor(255, 255, 255, 110))
+        p.setPen(QPen(theme.qc(theme.BORDER, 90), 1.0) if dark else Qt.NoPen)
+        p.setBrush(theme.qc(theme.CANVAS, 110) if dark else QColor(255, 255, 255, 110))
         p.drawEllipse(QPointF(cx, cy), r + 14, r + 14)
         font = QFont(self.font())
         font.setPointSizeF(8.0)
@@ -868,12 +869,14 @@ class Viewport(QOpenGLWidget):
         rect = QRectF(x, y, w, h)
         path = QPainterPath()
         path.addRoundedRect(rect, 6, 6)
-        p.fillPath(path, QColor(16, 19, 24, 225))
+        p.fillPath(path, theme.qc(theme.OVERLAY, 238))
+        p.setPen(QPen(theme.qc(theme.BORDER_STRONG), 1.0))
+        p.drawPath(path)
         col = self.ds.systems[self.ds.system_of[sid]]["color"]
         p.fillRect(QRectF(x, y + 5, 3, h - 10), QColor.fromRgbF(*col))
-        p.setPen(QColor(238, 242, 246))
+        p.setPen(theme.qc(theme.TEXT_STRONG))
         p.setFont(font)
         p.drawText(QRectF(x + 11, y + 4, w, fm.height()), Qt.AlignLeft | Qt.AlignVCenter, text)
-        p.setPen(QColor(150, 160, 175))
+        p.setPen(theme.qc(theme.MUTED))
         p.setFont(small)
         p.drawText(QRectF(x + 11, y + 5 + fm.height(), w, fm2.height()), Qt.AlignLeft | Qt.AlignVCenter, sub)

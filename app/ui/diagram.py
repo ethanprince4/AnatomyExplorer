@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (QDialog, QFrame, QHBoxLayout, QLabel, QSizePolicy
                                QWidget)
 
 from ..lessons import diagram_path
+from . import theme
 
 _RENDERERS = {}
 
@@ -114,7 +115,7 @@ def show_large(diagram_id, parent=None):
         return
     dlg = QDialog(parent)
     dlg.setWindowTitle("Diagram")
-    dlg.setStyleSheet("background:#12161b;")
+    dlg.setStyleSheet(f"background:{theme.SUNKEN};")
     lay = QVBoxLayout(dlg)
     lay.setContentsMargins(16, 16, 16, 16)
     view = DiagramView(dlg, max_height=10000, zoomable=False)
@@ -142,13 +143,18 @@ class DiagramOverlay(QFrame):
         self.diagram_id = None
         self.collapsed = False
         self.setObjectName("diagramOverlay")
-        self.setStyleSheet("#diagramOverlay { background: rgba(16, 19, 24, 235); border: 1px solid #2c3440;"
-                           " border-radius: 8px; } QLabel { color: #c9d2dd; font-weight: 600; }"
-                           " QToolButton { color: #c9d2dd; border: none; padding: 2px 6px; }"
-                           " QToolButton:hover { color: #ffffff; background: #26303b; border-radius: 4px; }")
+        o = theme.qc(theme.OVERLAY)
+        self.setStyleSheet(f"#diagramOverlay {{ background: rgba({o.red()}, {o.green()}, {o.blue()}, 242);"
+                           f" border: 1px solid {theme.BORDER_STRONG}; border-radius: {theme.R_XL}px; }}"
+                           f" QLabel {{ color: {theme.TEXT_STRONG}; font-weight: 700; background: transparent; }}"
+                           f" QToolButton {{ color: {theme.TEXT_2}; background: transparent; border: 1px solid transparent;"
+                           f" padding: 2px 8px; border-radius: {theme.R_MD}px; font-weight: 600; }}"
+                           f" QToolButton:hover {{ color: {theme.TEXT_STRONG}; background: {theme.HOVER}; }}"
+                           f" QToolButton:focus {{ border-color: {theme.ACCENT}; }}"
+                           f" DiagramView {{ background: transparent; }}")
         lay = QVBoxLayout(self)
-        lay.setContentsMargins(10, 6, 10, 10)
-        lay.setSpacing(4)
+        lay.setContentsMargins(14, 8, 10, 12)
+        lay.setSpacing(6)
         top = QHBoxLayout()
         self.title = QLabel("Diagram")
         top.addWidget(self.title, 1)

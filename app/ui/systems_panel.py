@@ -4,6 +4,8 @@ from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (QCheckBox, QFrame, QHBoxLayout, QLabel, QMenu, QPushButton, QScrollArea,
                                QSlider, QToolButton, QVBoxLayout, QWidget)
 
+from . import theme
+
 PRESETS = [
     ("Default", None),
     ("Skeleton", {"skeletal", "joints"}),
@@ -31,7 +33,7 @@ def swatch(rgb):
     lab = QLabel()
     lab.setFixedSize(12, 12)
     c = QColor.fromRgbF(*rgb)
-    lab.setStyleSheet(f"background:{c.name()}; border-radius:3px;")
+    lab.setStyleSheet(f"background:{c.name()}; border-radius:3px; border:1px solid rgba(0,0,0,70);")
     return lab
 
 
@@ -50,13 +52,13 @@ class SystemsPanel(QWidget):
         body = QWidget()
         scroll.setWidget(body)
         lay = QVBoxLayout(body)
-        lay.setContentsMargins(10, 10, 10, 10)
+        lay.setContentsMargins(12, 10, 12, 12)
         lay.setSpacing(4)
 
         # one drop-down rather than a wall of eight buttons above the list it acts on
         presets = QHBoxLayout()
         pl = QLabel("Quick views")
-        pl.setStyleSheet("color:#8a94a3;")
+        pl.setStyleSheet(theme.text_css(theme.MUTED))
         presets.addWidget(pl)
         presets.addSpacing(6)
         self.preset_btn = QPushButton("Choose a preset  ▾")
@@ -79,9 +81,11 @@ class SystemsPanel(QWidget):
         self.sliders = []
         for i, s in enumerate(ds.systems):
             row = QFrame()
-            row.setStyleSheet("QFrame { background: #20252c; border-radius: 7px; }")
+            row.setObjectName("sysRow")
+            row.setStyleSheet(f"QFrame#sysRow {{ background: {theme.RAISED}; border: 1px solid {theme.BORDER_SUBTLE};"
+                              f" border-radius: {theme.R_LG}px; }}")
             rl = QVBoxLayout(row)
-            rl.setContentsMargins(8, 6, 8, 6)
+            rl.setContentsMargins(8, 5, 10, 5)
             rl.setSpacing(3)
             head = QHBoxLayout()
             head.setSpacing(6)
@@ -92,11 +96,11 @@ class SystemsPanel(QWidget):
             head.addWidget(exp)
             head.addWidget(swatch(s["color"]))
             cb = QCheckBox(s["name"].replace("&", "&&"))
-            cb.setStyleSheet("font-weight:600;")
+            cb.setStyleSheet(f"font-weight:600; color:{theme.TEXT_STRONG};")
             cb.toggled.connect(lambda on, idx=i: self._sys_toggled(idx, on))
             head.addWidget(cb, 1)
             cnt = QLabel(str(counts[i]))
-            cnt.setStyleSheet("color:#8a94a3; font-size:8.5pt;")
+            cnt.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
             head.addWidget(cnt)
             rl.addLayout(head)
             detail = QWidget()
@@ -105,7 +109,7 @@ class SystemsPanel(QWidget):
             dl.setSpacing(2)
             op = QHBoxLayout()
             ol = QLabel("Opacity")
-            ol.setStyleSheet("color:#8a94a3; font-size:8.5pt;")
+            ol.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
             op.addWidget(ol)
             sl = QSlider(Qt.Horizontal)
             sl.setRange(5, 100)
@@ -170,7 +174,7 @@ class RegionsPanel(QWidget):
         lay.setSpacing(6)
         tip = QLabel("Show only structures in the checked body regions.")
         tip.setWordWrap(True)
-        tip.setStyleSheet("color:#8a94a3;")
+        tip.setStyleSheet(theme.text_css(theme.MUTED))
         lay.addWidget(tip)
         btns = QHBoxLayout()
         for label, fn in (("All", lambda: self._set_all(True)), ("None", lambda: self._set_all(False)),

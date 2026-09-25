@@ -9,11 +9,12 @@ Each opens on a cover with two ways in: Learn (the stepper) and Practice (a shor
 lesson's practice items and step questions - see practice.py).
 """
 from PySide6.QtCore import QEvent, QRectF, Qt, QTimer, QUrl, Signal
-from PySide6.QtGui import QColor, QFont, QKeySequence, QPainter, QShortcut, QTextDocument
+from PySide6.QtGui import QFont, QKeySequence, QPainter, QShortcut, QTextDocument
 from PySide6.QtWidgets import (QApplication, QButtonGroup, QComboBox, QHBoxLayout, QLabel, QLineEdit, QPushButton,
                                QSizePolicy, QStackedWidget, QTextBrowser, QVBoxLayout, QWidget)
 
 from ..lessons import LessonProgress, course_units, group_lessons, practice_pool
+from . import theme
 from .card_list import CardList
 
 # one colour per body system, so the stripe down the side of a card says what kind of lesson it is
@@ -25,6 +26,11 @@ SYSTEM_COLOUR = {
 LEVEL_MARK = {"foundation": "●", "core": "●●", "advanced": "●●●"}
 EXAM_LENGTHS = [(20, "20 questions"), (40, "40 questions"), (60, "60 questions"), (0, "Everything")]
 PAGE_LIBRARY, PAGE_RUNNER, PAGE_COVER = 0, 1, 2
+# reading text in the cover and the runner
+LESSON_CSS = (f"p {{ margin-top:0px; margin-bottom:10px; line-height:130%; }}"
+              f"h3 {{ margin:2px 0 7px 0; color:{theme.TEXT_STRONG}; font-size:{theme.FS_LEAD + 0.5}pt; }}"
+              f"b {{ color:{theme.TEXT_STRONG}; }}"
+              f"a {{ color:{theme.ACCENT_TEXT}; }}")
 
 
 class StepBar(QWidget):
@@ -58,11 +64,11 @@ class StepBar(QWidget):
         p.setPen(Qt.NoPen)
         for i, r in enumerate(self._rects()):
             if i == self.index:
-                p.setBrush(QColor("#4fc3f7"))
+                p.setBrush(theme.qc(theme.ACCENT))
             elif i in self.seen:
-                p.setBrush(QColor("#39708c"))
+                p.setBrush(theme.qc(theme.ACCENT_BORDER))
             else:
-                p.setBrush(QColor("#2c3440"))
+                p.setBrush(theme.qc(theme.BORDER))
             p.drawRoundedRect(r, 3, 3)
         p.end()
 
@@ -130,12 +136,12 @@ class LessonsPanel(QWidget):
     def _build_library(self):
         page = QWidget()
         lay = QVBoxLayout(page)
-        lay.setContentsMargins(10, 8, 10, 8)
-        lay.setSpacing(6)
+        lay.setContentsMargins(12, 10, 12, 8)
+        lay.setSpacing(8)
         intro = QLabel("Guided walks that set the view up for you, step by step. Each one opens with what you "
                        "should be able to do by the end and closes with what to remember.")
         intro.setWordWrap(True)
-        intro.setStyleSheet("color:#aab3c0;")
+        intro.setStyleSheet(theme.text_css(theme.TEXT_2))
         lay.addWidget(intro)
 
         self.filter = QLineEdit()
@@ -146,7 +152,10 @@ class LessonsPanel(QWidget):
 
         row = QHBoxLayout()
         row.setSpacing(4)
-        row.addWidget(QLabel("Group by"))
+        group_label = QLabel("Group by")
+        group_label.setStyleSheet(theme.text_css(theme.MUTED))
+        row.addWidget(group_label)
+        row.addSpacing(2)
         self.group_buttons = QButtonGroup(self)
         for key, label in (("course", "Course"), ("system", "System"), ("region", "Region"),
                            ("level", "Level")):
@@ -154,6 +163,7 @@ class LessonsPanel(QWidget):
             b.setCheckable(True)
             b.setChecked(key == self.group_by)
             b.setProperty("group_key", key)
+            b.setProperty("chip", True)
             b.clicked.connect(lambda _c=False, k=key: self._set_group(k))
             if key == "course":
                 b.setToolTip("Your lab course, lab by lab, in the order it is taught. Lessons outside the course "
@@ -165,7 +175,7 @@ class LessonsPanel(QWidget):
         lay.addLayout(row)
 
         self.stats = QLabel()
-        self.stats.setStyleSheet("color:#8a94a3; font-size:8.5pt;")
+        self.stats.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         lay.addWidget(self.stats)
 
         self.list = CardList()
@@ -277,31 +287,34 @@ class LessonsPanel(QWidget):
     def _build_cover(self):
         page = QWidget()
         lay = QVBoxLayout(page)
-        lay.setContentsMargins(10, 8, 10, 10)
+        lay.setContentsMargins(12, 10, 12, 12)
         lay.setSpacing(8)
         back = QPushButton("‹ All lessons")
         back.setFlat(True)
         back.clicked.connect(self.close_lesson)
         lay.addWidget(back, 0, Qt.AlignLeft)
         self.cover_unit = QLabel()
-        self.cover_unit.setStyleSheet("color:#8fd3ff; font-size:8.5pt; font-weight:600;")
+        self.cover_unit.setStyleSheet(theme.text_css(theme.ACCENT_TEXT, theme.FS_SMALL, 700))
         lay.addWidget(self.cover_unit)
         self.cover_title = QLabel()
-        self.cover_title.setStyleSheet("font-size:15pt; font-weight:600;")
+        self.cover_title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2, 700))
         self.cover_title.setWordWrap(True)
         lay.addWidget(self.cover_title)
         self.cover_body = QTextBrowser()
+        self.cover_body.document().setDefaultStyleSheet(LESSON_CSS)
         self.cover_body.setOpenLinks(False)
         self.cover_body.anchorClicked.connect(self._anchor)
         lay.addWidget(self.cover_body, 1)
 
-        big = "QPushButton { font-size:11pt; font-weight:600; padding:10px 8px; }"
+        big = f"QPushButton {{ font-size:{theme.FS_LEAD}pt; font-weight:700; padding:10px 8px; }}"
         self.learn_btn = QPushButton("Learn  ›")
         self.learn_btn.setStyleSheet(big)
+        theme.set_variant(self.learn_btn, "primary")
         self.learn_btn.setToolTip("Step through the lesson: each step sets the 3D view up for you")
         self.learn_btn.clicked.connect(lambda: self.lesson and self.open_lesson(self.lesson.id))
         self.practice_btn = QPushButton("Practice  ›")
-        self.practice_btn.setStyleSheet(big + "QPushButton { background:#1f4a33; }")
+        self.practice_btn.setStyleSheet(big)
+        theme.set_variant(self.practice_btn, "success")
         self.practice_btn.setToolTip("A short graded session: find, name, pick and recall what this lesson covers")
         self.practice_btn.clicked.connect(self._practice_from_cover)
         row = QHBoxLayout()
@@ -320,7 +333,7 @@ class LessonsPanel(QWidget):
         lay.addWidget(self.length_row)
         self.cover_note = QLabel()
         self.cover_note.setWordWrap(True)
-        self.cover_note.setStyleSheet("color:#8a94a3; font-size:8.5pt;")
+        self.cover_note.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         lay.addWidget(self.cover_note)
         return page
 
@@ -331,10 +344,10 @@ class LessonsPanel(QWidget):
         self.lesson = lesson
         self.cover_unit.setText(lesson.unit_name or f"{lesson.system_name} · {lesson.region_name}")
         self.cover_title.setText(lesson.title)
-        parts = [f"<p style='color:#aab3c0'>{lesson.summary}</p>"]
+        parts = [f"<p style='color:{theme.TEXT_2}'>{lesson.summary}</p>"]
         if lesson.objectives:
             items = "".join(f"<div style='margin-top:3px'>&bull; {x}</div>" for x in lesson.objectives)
-            parts.append(self._panel("#4fc3f7", "By the end you should be able to", items))
+            parts.append(self._panel(theme.TOPIC["objectives"], "By the end you should be able to", items))
         pool = practice_pool(lesson, self.lessons)
         n = len(lesson)
         facts = []
@@ -353,7 +366,7 @@ class LessonsPanel(QWidget):
         parts.append("<p style='margin-top:10px'>" + "<br>".join(facts) + "</p>")
         links = self._see_also_html()
         if links:
-            parts.append(self._panel("#8f9bb0", "Related", f"<div style='margin-top:4px'>{links}</div>"))
+            parts.append(self._panel(theme.TOPIC["related"], "Related", f"<div style='margin-top:4px'>{links}</div>"))
         self.cover_body.setHtml("".join(parts))
         self.learn_btn.setVisible(n > 0)
         resume = n and not self.progress.is_done(lesson.id) and self.progress.last_step(lesson.id) > 0
@@ -402,7 +415,7 @@ class LessonsPanel(QWidget):
     def _build_runner(self):
         run = QWidget()
         rl = QVBoxLayout(run)
-        rl.setContentsMargins(10, 8, 10, 8)
+        rl.setContentsMargins(12, 10, 12, 10)
         rl.setSpacing(6)
 
         top = QHBoxLayout()
@@ -412,21 +425,21 @@ class LessonsPanel(QWidget):
         top.addWidget(self.run_back, 0, Qt.AlignLeft)
         top.addStretch(1)
         self.level_tag = QLabel()
-        self.level_tag.setStyleSheet("color:#0e1319; background:#7fb2f0; border-radius:4px; padding:1px 7px;"
-                                     "font-weight:600;")
-        top.addWidget(self.level_tag, 0, Qt.AlignRight)
+        self.level_tag.setStyleSheet(theme.tag_css(theme.LEVEL["core"]))
+        top.addWidget(self.level_tag, 0, Qt.AlignRight | Qt.AlignVCenter)
         rl.addLayout(top)
 
         self.title = QLabel()
         f = QFont(self.font())
-        f.setPointSizeF(f.pointSizeF() + 2.0)
+        f.setPointSizeF(theme.FS_TITLE)
         f.setBold(True)
         self.title.setFont(f)
+        self.title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE, 700))
         self.title.setWordWrap(True)
         rl.addWidget(self.title)
 
         self.meta = QLabel()
-        self.meta.setStyleSheet("color:#8a94a3; font-size:8.5pt;")
+        self.meta.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         self.meta.setWordWrap(True)
         rl.addWidget(self.meta)
 
@@ -434,14 +447,11 @@ class LessonsPanel(QWidget):
         self.bar.stepClicked.connect(lambda i: self.go(i, force=True))
         rl.addWidget(self.bar)
         self.progress_label = QLabel()
-        self.progress_label.setStyleSheet("color:#8fd3ff; font-size:8.5pt;")
+        self.progress_label.setStyleSheet(theme.text_css(theme.ACCENT_TEXT, theme.FS_SMALL, 600))
         rl.addWidget(self.progress_label)
 
         self.body = QTextBrowser()
-        self.body.document().setDefaultStyleSheet(
-            "p { margin-top:0px; margin-bottom:11px; }"
-            "h3 { margin:2px 0 7px 0; }"
-            "a { color:#8fd3ff; }")
+        self.body.document().setDefaultStyleSheet(LESSON_CSS)
         self.body.setOpenExternalLinks(False)
         self.body.setOpenLinks(False)
         self.body.anchorClicked.connect(self._anchor)
@@ -450,16 +460,19 @@ class LessonsPanel(QWidget):
 
         self.check_box = QWidget()
         cl = QVBoxLayout(self.check_box)
-        cl.setContentsMargins(9, 7, 9, 8)
-        cl.setSpacing(5)
-        self.check_box.setStyleSheet("background:#1e232b; border:1px solid #2b313a; border-radius:6px;")
+        cl.setContentsMargins(12, 9, 12, 10)
+        cl.setSpacing(6)
+        self.check_box.setObjectName("checkWell")
+        self.check_box.setAttribute(Qt.WA_StyledBackground, True)
+        self.check_box.setStyleSheet(f"QWidget#checkWell {{ background:{theme.RAISED}; border:1px solid {theme.BORDER};"
+                                     f" border-left:3px solid {theme.ACCENT}; border-radius:{theme.R_LG}px; }}")
         self.check_q = QLabel()
         self.check_q.setWordWrap(True)
-        self.check_q.setStyleSheet("border:none; color:#e0e6ee;")
+        self.check_q.setStyleSheet(theme.text_css(theme.TEXT_STRONG))
         cl.addWidget(self.check_q)
         self.check_a = QLabel()
         self.check_a.setWordWrap(True)
-        self.check_a.setStyleSheet("border:none; color:#8fd3ff;")
+        self.check_a.setStyleSheet(theme.text_css(theme.ACCENT_TEXT))
         self.check_a.hide()
         cl.addWidget(self.check_a)
         self.check_btn = QPushButton("Show answer")
@@ -470,6 +483,7 @@ class LessonsPanel(QWidget):
         nav = QHBoxLayout()
         self.prev_btn = QPushButton("‹ Back")
         self.next_btn = QPushButton("Next ›")
+        theme.set_variant(self.next_btn, "primary")
         self.prev_btn.clicked.connect(lambda: self.go(self.index - 1))
         self.next_btn.clicked.connect(self._next)
         nav.addWidget(self.prev_btn)
@@ -513,9 +527,7 @@ class LessonsPanel(QWidget):
         self.lesson = lesson
         self.title.setText(lesson.title)
         self.level_tag.setText(lesson.level_name)
-        self.level_tag.setStyleSheet(
-            "color:#0e1319; border-radius:4px; padding:1px 7px; font-weight:600; background:"
-            + {"foundation": "#8fc98f", "core": "#7fb2f0", "advanced": "#e0a06a"}.get(lesson.level, "#7fb2f0"))
+        self.level_tag.setStyleSheet(theme.tag_css(theme.LEVEL.get(lesson.level, theme.LEVEL["core"])))
         prereq = [self.by_id[p].title for p in lesson.prereq if p in self.by_id]
         meta = f"{lesson.system_name} · {lesson.region_name} · {len(lesson)} steps · about {lesson.minutes} min"
         if prereq:
@@ -602,11 +614,11 @@ class LessonsPanel(QWidget):
             return ""
         shown = self._diagram_shown
         if not shown or shown[0] != did:
-            return f"<p style='color:#e0a06a'>(diagram “{did}” is missing)</p>"
+            return f"<p style='color:{theme.WARNING}'>(diagram “{did}” is missing)</p>"
         _d, _w, w, h = shown
         return (f"<p align='center' style='margin:4px 0 12px 0'><a href='diagram:{did}'>"
                 f"<img src='diagram:{did}' width='{int(w)}' height='{int(h)}'></a><br>"
-                f"<a href='diagram:{did}' style='font-size:8pt; color:#8a94a3'>enlarge</a></p>")
+                f"<a href='diagram:{did}' style='font-size:{theme.FS_CAPTION}pt; color:{theme.MUTED}'>enlarge</a></p>")
 
     def eventFilter(self, obj, event):
         if event.type() == QEvent.Resize and obj is self.body.viewport():
@@ -651,33 +663,33 @@ class LessonsPanel(QWidget):
         behind table cells, not behind a div that contains a list."""
         return (f"<table width='100%' cellspacing='0' cellpadding='0' style='margin:10px 0'><tr>"
                 f"<td width='3' bgcolor='{colour}'></td>"
-                f"<td bgcolor='#1b2129' style='padding:7px 11px'>"
-                f"<b>{heading}</b>{body}</td></tr></table>")
+                f"<td bgcolor='{theme.RAISED}' style='padding:8px 12px'>"
+                f"<b style='color:{colour}'>{heading}</b>{body}</td></tr></table>")
 
     def _html(self, step, index, total):
         lesson = self.lesson
         parts = []
         if index == 0 and lesson.objectives:
             items = "".join(f"<div style='margin-top:3px'>&bull; {x}</div>" for x in lesson.objectives)
-            parts.append(self._panel("#4fc3f7", "By the end you should be able to", items))
+            parts.append(self._panel(theme.TOPIC["objectives"], "By the end you should be able to", items))
         heading = step.get("title", "")
         if heading:
             parts.append(f"<h3 style='margin:2px 0 6px 0'>{heading}</h3>")
         parts.append(step.get("text", ""))
         parts.append(self._diagram_html(step))
         if step.get("mnemonic"):
-            parts.append(self._panel("#e8b45c", "Mnemonic", f" &middot; {step['mnemonic']}"))
+            parts.append(self._panel(theme.TOPIC["mnemonic"], "Mnemonic", f" &middot; {step['mnemonic']}"))
         if step.get("pitfall"):
-            parts.append(self._panel("#e0707a", "Easily got wrong", f" &middot; {step['pitfall']}"))
+            parts.append(self._panel(theme.TOPIC["pitfall"], "Easily got wrong", f" &middot; {step['pitfall']}"))
         if step.get("clinical"):
-            parts.append(self._panel("#63c08a", "In the clinic", f" &middot; {step['clinical']}"))
+            parts.append(self._panel(theme.TOPIC["clinical"], "In the clinic", f" &middot; {step['clinical']}"))
         if index == total - 1:
             if lesson.takeaways:
                 items = "".join(f"<div style='margin-top:3px'>&bull; {x}</div>" for x in lesson.takeaways)
-                parts.append(self._panel("#63c08a", "Worth remembering", items))
+                parts.append(self._panel(theme.TOPIC["takeaways"], "Worth remembering", items))
             links = self._see_also_html()
             if links:
-                parts.append(self._panel("#8f9bb0", "Where next", f"<div style='margin-top:4px'>{links}</div>"))
+                parts.append(self._panel(theme.TOPIC["related"], "Where next", f"<div style='margin-top:4px'>{links}</div>"))
         return "".join(parts)
 
     def set_reference_titles(self, **by_scheme):

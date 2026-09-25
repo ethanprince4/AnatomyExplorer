@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (QCheckBox, QColorDialog, QComboBox, QDialog, QDia
 
 from ..actions import ACTION_DEFS
 from ..config import DEFAULT_SETTINGS
+from . import theme
 
 
 class SliderRow(QWidget):
@@ -63,7 +64,8 @@ class ColorButton(QPushButton):
 
     def set_color(self, color):
         self.color = color
-        self.setStyleSheet(f"background:{color}; border:1px solid #3a424d; border-radius:5px; min-height:20px;")
+        self.setStyleSheet(f"background:{color}; border:1px solid {theme.BORDER_STRONG}; border-radius:{theme.R_MD}px;"
+                           f" min-height:20px;")
 
     def _pick(self):
         c = QColorDialog.getColor(QColor(self.color), self, "Choose color")
@@ -156,7 +158,7 @@ class SettingsDialog(QDialog):
 
     def _header(self, form, text):
         lab = QLabel(text)
-        lab.setStyleSheet("color:#7f8b9b; font-weight:700; margin-top:8px;")
+        lab.setStyleSheet(theme.overline_css(theme.ACCENT_TEXT) + " margin-top:12px;")
         form.addRow(lab)
 
     # ------------------------------------------------------------------ pages
@@ -169,7 +171,7 @@ class SettingsDialog(QDialog):
         self._combo(page, f, "orbit_button", "Rotate with", ["Left", "Right", "Middle"])
         self._combo(page, f, "pan_button", "Pan with", ["Right", "Middle", "Left"])
         hint = QLabel("Shift + rotate button always pans. Ctrl + left-click adds to the selection.")
-        hint.setStyleSheet("color:#8a94a3;")
+        hint.setStyleSheet(theme.text_css(theme.MUTED))
         f.addRow("", hint)
         self._check(page, f, "invert_orbit_x", "Invert horizontal rotation")
         self._check(page, f, "invert_orbit_y", "Invert vertical rotation")
@@ -190,7 +192,7 @@ class SettingsDialog(QDialog):
                       "On a Mac: twist two fingers to turn the model, double-tap with two fingers to frame the "
                       "selection.")
         hint.setWordWrap(True)
-        hint.setStyleSheet("color:#8a94a3;")
+        hint.setStyleSheet(theme.text_css(theme.MUTED))
         f.addRow("", hint)
         self._header(f, "CAMERA")
         self._slider(page, f, "fov", "Field of view", 15, 70, 1, "°", 0)
@@ -252,7 +254,7 @@ class SettingsDialog(QDialog):
         top.addWidget(reset_all)
         lay.addLayout(top)
         self.conflict = QLabel("")
-        self.conflict.setStyleSheet("color:#ff8a65;")
+        self.conflict.setStyleSheet(theme.text_css(theme.DANGER))
         lay.addWidget(self.conflict)
         self.table = QTableWidget(len(ACTION_DEFS), 5)
         self.table.setHorizontalHeaderLabels(["Command", "Category", "Shortcut", "Alternate", ""])
@@ -265,7 +267,7 @@ class SettingsDialog(QDialog):
             aid = d[0]
             self.table.setCellWidget(r, 0, QLabel("  " + d[1]))
             cat = QLabel(d[2] + ("  (3D view)" if d[5] else ""))
-            cat.setStyleSheet("color:#8a94a3; padding: 0 8px;")
+            cat.setStyleSheet(theme.text_css(theme.MUTED) + " padding: 0 8px;")
             self.table.setCellWidget(r, 1, cat)
             p, s = self.registry.shortcuts(aid)
             ep, es = QKeySequenceEdit(QKeySequence(p)), QKeySequenceEdit(QKeySequence(s))
@@ -282,7 +284,7 @@ class SettingsDialog(QDialog):
         self.table.resizeRowsToContents()
         lay.addWidget(self.table, 1)
         tip = QLabel("Click a shortcut cell and press the new key combination. Press Backspace then click away to clear.")
-        tip.setStyleSheet("color:#8a94a3;")
+        tip.setStyleSheet(theme.text_css(theme.MUTED))
         lay.addWidget(tip)
         self._check_conflicts()
         return w
