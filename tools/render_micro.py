@@ -5,9 +5,13 @@ model will look like in the app.
 
 Usage: python tools/render_micro.py <model_id> [-o out.png] [--yaw 40] [--pitch 25] [--zoom 1] [--size 900]
        [--no-cut | --cut] [--explode 0] [--hide substr,...] [--only substr,...] [--focus substr,...]
+       [--time T] [--frames N [--slow S]]
 
 <model_id> can also be a downloaded Sketchfab model: sketchfab:<uid>, or just the first characters of its uid.
 --focus selects the matching parts and ghosts everything else, as X-ray does in the viewer.
+An animated model is drawn at --time T seconds into its cycle (default: its rest pose, as built). --frames N renders N frames evenly over
+one cycle into an animated GIF (-o should end in .gif, played S times slower than real time) plus a contact strip
+(<out>_strip.png).
 """
 import argparse
 import math
@@ -45,13 +49,17 @@ def main():
     ap.add_argument("--hide", default=None)
     ap.add_argument("--only", default=None)
     ap.add_argument("--focus", default=None)
+    ap.add_argument("--center", default=None, help="x,y,z the camera orbits and zooms on (default: the model's middle)")
+    ap.add_argument("--time", type=float, default=None, help="seconds into an animated model's cycle")
+    ap.add_argument("--frames", type=int, default=0, help="render one animation cycle as N frames (GIF)")
+    ap.add_argument("--slow", type=float, default=1.0, help="GIF playback this many times slower than real time")
     a = ap.parse_args()
 
     import moderngl
     from PIL import Image
     from PySide6.QtGui import QGuiApplication  # noqa: F401
     from app.camera import OrbitCamera
-    from app.micro.base import MicroDataset
+    from app.micro.anim import dataset_for
     from app.micro.registry import MODELS
     from app.renderer import Renderer
     from app.state import SceneState
@@ -64,7 +72,7 @@ def main():
         yaw, pitch = (math.degrees(x) for x in model.home_view)
     else:
         model = MODELS[a.model]
-        ds = MicroDataset(model)
+        ds = dataset_for(model)
         # the viewer's opening camera (MicroView.reset_view)
         yaw, pitch = (math.degrees(x) for x in getattr(model, "home_view", (-0.62, 0.42)))
     yaw = a.yaw if a.yaw is not None else yaw
@@ -97,7 +105,7 @@ def main():
 
     bmin, bmax = ds.scene_bbox
     cam = OrbitCamera(settings.get("fov", 32.0))
-    cam.target = (bmin + bmax) / 2
+    cam.target = (bmin + bmax) / 2 if not a.center else np.array([float(v) for v in a.center.split(",")])
     cam.distance = float(np.linalg.norm(bmax - bmin)) * 1.25 / max(a.zoom, 1e-3)
     cam.yaw, cam.pitch = math.radians(yaw), math.radians(pitch)
 
@@ -110,11 +118,31 @@ def main():
     cut = (getattr(model, "cut_on", True) or a.cut) and not a.no_cut
     on = (1, 1, 0) if cut else (0, 0, 0)
     out_fbo = ctx.framebuffer([ctx.renderbuffer((S, S), 4)])
-    r.render(out_fbo, cam, settings, (planes, on, 1), has_selection=bool(state.selected))
-    img = Image.frombytes("RGB", (S, S), out_fbo.read(components=3)).transpose(Image.FLIP_TOP_BOTTOM)
-    out = a.out or str(ROOT / "logs" / f"app_{a.model.replace(':', '_')}.png")
+    anim = getattr(ds, "animation", None)
+
+    def shot(t):
+        if anim is not None and t is not None:
+            phase = (t / anim.period) % 1.0
+            r.set_animation(ds.anim_frame(phase), phase)
+        r.render(out_fbo, cam, settings, (planes, on, 1), has_selection=bool(state.selected))
+        return Image.frombytes("RGB", (S, S), out_fbo.read(components=3)).transpose(Image.FLIP_TOP_BOTTOM)
+
+    out = a.out or str(ROOT / "logs" / f"app_{a.model.replace(':', '_')}.{'gif' if a.frames else 'png'}")
     Path(out).parent.mkdir(parents=True, exist_ok=True)
-    img.save(out)
+    if a.frames and anim is not None:
+        times = [anim.period * k / a.frames for k in range(a.frames)]
+        frames = [shot(t) for t in times]
+        ms = int(round(anim.period / a.frames * 1000 * a.slow))
+        frames[0].save(out, save_all=True, append_images=frames[1:], duration=ms, loop=0, optimize=False)
+        cols = min(a.frames, 6)
+        rows = -(-a.frames // cols)
+        th = S // 3
+        strip = Image.new("RGB", (cols * th, rows * th))
+        for k, f in enumerate(frames):
+            strip.paste(f.resize((th, th)), ((k % cols) * th, (k // cols) * th))
+        strip.save(str(Path(out).with_suffix("")) + "_strip.png")
+    else:
+        shot(a.time).save(out)
     print(out, ds.counts)
 
 

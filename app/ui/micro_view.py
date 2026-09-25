@@ -1,13 +1,14 @@
 import html
 import math
 import re
+import time
 
 import numpy as np
 from PySide6.QtCore import QTimer, Qt, QUrl, Signal
-from PySide6.QtWidgets import (QCheckBox, QHBoxLayout, QLabel, QMenu, QPushButton, QSlider, QSplitter, QToolButton,
-                               QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QCheckBox, QComboBox, QHBoxLayout, QLabel, QMenu, QPushButton, QSlider, QSplitter,
+                               QToolButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
-from ..micro.base import MicroDataset
+from ..micro.anim import dataset_for
 from ..state import SceneState
 from ..viewport import Viewport
 from .flow import FlowLayout
@@ -44,7 +45,7 @@ class MicroView(QWidget):
         self.settings = settings
         self.info = None
         # a downloaded Sketchfab model brings its own dataset, which carries its colours and textures
-        self.mds = model.dataset() if hasattr(model, "dataset") else MicroDataset(model)
+        self.mds = model.dataset() if hasattr(model, "dataset") else dataset_for(model)
         self.state = SceneState(self.mds, settings)
         self.gl_widget = Viewport(self.mds, self.state, settings)
         self.gl_widget.home_view = self.reset_view         # trackpad smart zoom goes to this model's home framing
@@ -142,6 +143,9 @@ class MicroView(QWidget):
             b = QPushButton(text)
             b.clicked.connect(fn)
             bar.addWidget(b)
+        self.anim = getattr(self.mds, "animation", None)
+        if self.anim is not None:
+            self._build_anim_controls(bar, labelled)
         if getattr(model, "uid", None):
             online = QPushButton("Sketchfab player")
             online.setToolTip("The same model in Sketchfab's own player, with the creator's annotations (online)")
@@ -176,6 +180,82 @@ class MicroView(QWidget):
         self.state.visibility_changed.connect(self._sync_tree)
         self.state.visibility_changed.connect(self._refresh_labels)
         QTimer.singleShot(0, self.reset_view)
+
+    # ------------------------------------------------------------------ animation
+    def _build_anim_controls(self, bar, labelled):
+        """Play/pause, playback speed and a scrubber for an animated model. The model opens in its rest pose (as
+        built, which is what lessons describe); playing or scrubbing moves it through its cycle."""
+        self.anim_time = 0.0            # seconds into the cycle
+        self.anim_speed = self.anim.speeds[0]
+        self._anim_last = None
+        self._anim_timer = QTimer(self)
+        self._anim_timer.setInterval(30)
+        self._anim_timer.timeout.connect(self._anim_tick)
+        self.play = QPushButton("▶ Play")
+        self.play.setCheckable(True)
+        self.play.setToolTip(f"Play the {self.anim.title.lower()}")
+        self.play.toggled.connect(self._play_toggled)
+        bar.addWidget(self.play)
+        self.speed = QComboBox()
+        for sp in self.anim.speeds:
+            self.speed.addItem("real time" if sp == 1.0 else f"{sp:g}× (slowed)", sp)
+        self.speed.setToolTip("Playback speed - the cycle is slowed, not the physiology")
+        self.speed.currentIndexChanged.connect(lambda i: setattr(self, "anim_speed", self.speed.itemData(i)))
+        bar.addWidget(self.speed)
+        self.scrub = QSlider(Qt.Horizontal)
+        self.scrub.setRange(0, 1000)
+        self.scrub.setFixedWidth(150)
+        self.scrub.setToolTip("Scrub through one cycle (pauses playback)")
+        self.scrub.sliderMoved.connect(self._scrubbed)
+        bar.addWidget(labelled("Cycle", self.scrub))
+        self.phase_label = QLabel("")
+        self.phase_label.setMinimumWidth(190)
+        self.phase_label.setStyleSheet("color:#9fe3b8;")
+        bar.addWidget(self.phase_label)
+
+    def _play_toggled(self, on):
+        self.play.setText("❚❚ Pause" if on else "▶ Play")
+        self._anim_last = time.perf_counter()
+        if on:
+            self._anim_timer.start()
+        else:
+            self._anim_timer.stop()
+
+    def _anim_tick(self):
+        now = time.perf_counter()
+        dt = min(now - (self._anim_last or now), 0.1)
+        self._anim_last = now
+        self.anim_time = (self.anim_time + dt * self.anim_speed) % self.anim.period
+        self._apply_anim()
+
+    def _scrubbed(self, value):
+        if self.play.isChecked():
+            self.play.setChecked(False)
+        self.anim_time = value / 1000.0 * self.anim.period
+        self._apply_anim()
+
+    def _apply_anim(self):
+        t = self.anim_time / self.anim.period
+        gl = self.gl_widget
+        if not self.scrub.isSliderDown():
+            self.scrub.blockSignals(True)
+            self.scrub.setValue(int(round(t * 1000)) % 1000)
+            self.scrub.blockSignals(False)
+        self.phase_label.setText(self.anim.phase_label(t))
+        if gl.renderer is None:
+            return
+        gl.makeCurrent()
+        try:
+            gl.renderer.set_animation(self.mds.anim_frame(t), t)
+        finally:
+            gl.doneCurrent()
+        gl.update()
+
+    def hideEvent(self, e):
+        # nothing animates behind another tab
+        if self.anim is not None and self.play.isChecked():
+            self.play.setChecked(False)
+        super().hideEvent(e)
 
     # ------------------------------------------------------------------ tree
     def _build_tree(self):

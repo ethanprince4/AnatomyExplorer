@@ -14,9 +14,10 @@ VERTEX_ATTRS = ("in_pos", "in_nrm", "in_obj", "in_mat")
 # imported models add a second buffer: texture coordinates, a vertex colour (sRGB bytes) and a texture layer
 AUX_FORMAT = "2f 4f1 1f"
 AUX_ATTRS = ("in_uv", "in_tint", "in_layer")
-FORMAT_SIZE = {"3f": 12, "2f": 8, "1f": 4, "u2": 2, "4f1": 4}
+FORMAT_SIZE = {"3f": 12, "2f": 8, "1f": 4, "u2": 2, "4f1": 4, "4f2": 8}
 ALBEDO_UNIT = 5
 PARITY_UNIT = 6
+ANIM_UNIT = 10
 
 
 def _normalize(v):
@@ -61,12 +62,24 @@ class Renderer:
         self.ibo = ctx.buffer(indices)
         self.textured = bool(getattr(ds, "textured", False))
         self.aux = ctx.buffer(ds.aux_bytes()) if self.textured else None
+        # an animated micro model adds a third buffer: morph targets and a phase per vertex (micro/anim.py); each
+        # frame then only rewrites the small per-part texture of weights and glows
+        from .micro.anim import ANIM_ATTRS, ANIM_FORMAT
+        self.animated = hasattr(ds, "anim_bytes")
+        self.anim = ctx.buffer(ds.anim_bytes()) if self.animated else None
+        self.anim_t = 0.0
+        self.anim_tex = ctx.texture((max(len(ds.structures), 1), 2), 4, dtype="f4")
+        self.anim_tex.filter = (moderngl.NEAREST, moderngl.NEAREST)
+        self.set_animation(np.zeros((2, max(len(ds.structures), 1), 4), np.float32), 0.0)   # the rest pose
 
         def geo_vao(prog):
             buffers = [(self.vbo, self._format_for(prog), *[a for a in VERTEX_ATTRS if a in prog])]
             if self.aux is not None and any(a in prog for a in AUX_ATTRS):
                 buffers.append((self.aux, self._format_for(prog, AUX_FORMAT, AUX_ATTRS),
                                 *[a for a in AUX_ATTRS if a in prog]))
+            if self.anim is not None and any(a in prog for a in ANIM_ATTRS):
+                buffers.append((self.anim, self._format_for(prog, ANIM_FORMAT, ANIM_ATTRS),
+                                *[a for a in ANIM_ATTRS if a in prog]))
             return ctx.vertex_array(prog, buffers, index_buffer=self.ibo, index_element_size=4)
 
         self.vao_opaque = geo_vao(self.p_opaque)
@@ -146,8 +159,8 @@ class Renderer:
         objs = [self.vao_opaque, self.vao_transparent, self.vao_mask, self.vao_cap, self.vao_parity, self.p_cap,
                 self.p_parity, self.p_capmix, getattr(self, "capmix_vao", None), *self.fs.values(),
                 self.p_opaque, self.p_transparent, self.p_mask, self.p_ssao, self.p_blur, self.p_composite,
-                self.p_final, self.p_fxaa, self.vbo, self.ibo, self.aux, self.state_tex, self.mats_tex,
-                self.noise_tex, self.albedo]
+                self.p_final, self.p_fxaa, self.vbo, self.ibo, self.aux, self.anim, self.state_tex, self.mats_tex,
+                self.anim_tex, self.noise_tex, self.albedo]
         objs += [getattr(self, n, None) for n in ("gbuffer", "mask_fbo", "ao_fbo", "blur_fbo", "hdr_fbo", "ldr_fbo",
                                                   "color_tex", "normal_tex", "id_tex", "depth_tex", "mask_tex",
                                                   "mask_depth", "ao_tex", "blur_tex", "hdr_tex", "ldr_tex",
@@ -162,6 +175,11 @@ class Renderer:
 
     def update_state(self, tex):
         self.state_tex.write(np.ascontiguousarray(tex, dtype=np.float32).tobytes())
+
+    def set_animation(self, frame, t):
+        """One animation frame: the per-part texels from Animation.frame and the cycle phase t (0..1)."""
+        self.anim_tex.write(np.ascontiguousarray(frame, dtype=np.float32).tobytes())
+        self.anim_t = float(t) % 1.0
 
     # ------------------------------------------------------------------ targets
     def resize(self, w, h):
@@ -242,6 +260,9 @@ class Renderer:
         self._set(prog, "u_detail", self.detail)
         self._set(prog, "u_textured", int(self.textured))
         self._set(prog, "u_albedo", ALBEDO_UNIT)
+        self._set(prog, "u_anim", int(self.animated))
+        self._set(prog, "u_anim_t", self.anim_t)
+        self._set(prog, "u_anim_tex", ANIM_UNIT)
         self._set(prog, "u_color_row", 1 if settings.get("color_mode") == 1 else 0)
         self._set(prog, "u_ghost_alpha", float(settings.get("ghost_alpha", 0.1)))
         self._set(prog, "u_eye", tuple(eye))
@@ -315,6 +336,7 @@ class Renderer:
         self.state_tex.use(0)
         self.mats_tex.use(1)
         self.albedo.use(ALBEDO_UNIT)
+        self.anim_tex.use(ANIM_UNIT)
 
         # 1. opaque geometry -> color / normal / id / depth
         self.gbuffer.use()

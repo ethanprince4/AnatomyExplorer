@@ -27,6 +27,7 @@ from scipy.spatial import cKDTree
 
 from .base import Part
 from .geometry import Mesh, compute_normals, ellipsoid as ell_mesh, smooth_path, tube
+from .heart_motion import attach_motion
 from .organic import noise_field
 from .sdf import BIG, Volume, round_cone, smin
 
@@ -58,10 +59,10 @@ VOX = 0.013                             # main grid; wall layers are 2-3 voxels 
 Y_AV = 0.24                              # atrioventricular (valve) plane
 # ventricles are tapering round cones (apex point, apex radius, base point, base radius): exact distances, so the
 # wall layers keep their thickness
-LV_O = ((0.24, -1.02, -0.02), 0.27, (0.20, 0.02, -0.04), 0.50)
+LV_O = ((0.23, -0.99, -0.02), 0.15, (0.20, 0.02, -0.04), 0.50)
 LV_C = ((0.24, -0.97, -0.02), 0.085, (0.21, 0.02, -0.04), 0.31)
 LV_C_MID = ((0.235, -0.40, -0.03), 0.33)                  # bulges the cavity into a bullet, not a cone
-RV_O = ((-0.16, -0.68, 0.12), 0.20, (-0.36, 0.02, 0.10), 0.52)
+RV_O = ((-0.08, -0.84, 0.13), 0.17, (-0.36, 0.02, 0.10), 0.52)
 RV_WALL = 0.068                          # ~4 mm: a third of the LV wall
 ATRIAL_WALL = 0.042
 
@@ -91,14 +92,20 @@ PV_C, PV_R = to_heart(PV_B), 0.145
 PV_AX = unit(0.55 * unit(to_heart(unit((0.25, 0.85, -0.45)))) + 0.45 * np.array([0.0, 1.0, 0.0]))
 RVOT_BASE = np.array([-0.20, -0.02, 0.30])               # where the infundibulum leaves the RV body
 
-# auricles as chains of flattened lobes lying on the heart: (body-frame points, widths, thicknesses, outward
-# body direction). The right one is a broad triangular flap against the root of the aorta; the left one a slim,
+# The auricles are modelled in Blender (tools/blender/heart_auricles.py -> data/models/heart_auricles.npz) as
+# subdivided, notched, lobulated pouches and turned into distance fields here (auricle_fields). Their centrelines
+# are repeated below (body-frame points, half widths, half thicknesses, outward body direction) for the pectinate
+# muscles that line them: the right one a broad triangular flap against the root of the aorta, the left one a slim,
 # crenated, hooked finger curling round the left side of the pulmonary trunk.
-RAU = (to_heart([[-0.70, 0.30, 0.08], [-0.60, 0.40, 0.22], [-0.49, 0.45, 0.31], [-0.38, 0.45, 0.36]]),
-       [0.17, 0.15, 0.12, 0.07], [0.085, 0.075, 0.062, 0.045], to_heart(unit((-0.3, 0.2, 1.0))))
-LAU = (to_heart([[0.02, 0.58, -0.26], [0.24, 0.66, -0.12], [0.35, 0.62, 0.04], [0.33, 0.57, 0.18],
-                 [0.25, 0.52, 0.27]]),
-       [0.10, 0.11, 0.10, 0.08, 0.055], [0.075, 0.075, 0.065, 0.055, 0.04], to_heart(unit((1.0, 0.1, 0.6))))
+RAU = (to_heart([[-0.74, 0.26, 0.02], [-0.66, 0.36, 0.17], [-0.56, 0.43, 0.27], [-0.46, 0.46, 0.33],
+                 [-0.36, 0.45, 0.37]]),
+       [0.19, 0.18, 0.15, 0.11, 0.06], [0.10, 0.085, 0.07, 0.058, 0.04], to_heart(unit((-0.3, 0.2, 1.0))))
+LAU = (to_heart([[0.00, 0.58, -0.28], [0.20, 0.66, -0.15], [0.33, 0.64, 0.00], [0.35, 0.58, 0.14],
+                 [0.29, 0.53, 0.25], [0.22, 0.50, 0.30]]),
+       [0.10, 0.115, 0.11, 0.095, 0.075, 0.04], [0.078, 0.075, 0.068, 0.058, 0.048, 0.03],
+       to_heart(unit((1.0, 0.1, 0.6))))
+AURICLE_ASSET = "heart_auricles.npz"
+AURICLE_ASSET_VERSION = 1            # bump after regenerating the asset, so the model cache is rebuilt
 
 # great veins in body coordinates, each starting at the atrium except the SVC, which runs down into it
 VEINS_B = {
@@ -572,6 +579,10 @@ DESC = {
            "interventricular artery to end in the coronary sinus near its opening.",
     "scv": "Small cardiac vein: runs in the right coronary sulcus with the right coronary artery (often receiving the "
            "right marginal vein) and ends in the coronary sinus near its right atrial end.",
+    "acv": "Anterior cardiac veins: two or three small veins that climb the anterior surface of the right ventricle, "
+           "cross the right coronary sulcus over the right coronary artery and open straight into the right "
+           "atrium - they bypass the coronary sinus, as do the tiny venae cordis minimae (Thebesian veins) "
+           "opening directly into every chamber.",
     "pvlv": "Posterior vein of the left ventricle: ascends on the diaphragmatic surface of the left ventricle into "
             "the coronary sinus; a common target branch for a left-ventricular pacing lead.",
     # ---- conduction system
@@ -630,29 +641,47 @@ def _cone(spec, grow=0.0):
     return _cap(a, b, ra + grow, rb + grow)
 
 
-def _lobes(spec, shrink=0.0, grow=0.0):
-    """An auricle: flattened ellipsoids along its path, with a scalloped (crenated) rim."""
-    from .sdf import ellipsoid
-    pts, widths, thick, out = spec
-    path = smooth_path(np.asarray(pts, float), 6 * len(pts))
-    w = np.interp(np.linspace(0, 1, len(path)), np.linspace(0, 1, len(widths)), widths)
-    t_ = np.interp(np.linspace(0, 1, len(path)), np.linspace(0, 1, len(thick)), thick)
-    shapes = []
-    for i in range(0, len(path) - 1):
-        tan = unit(path[min(i + 1, len(path) - 1)] - path[max(i - 1, 0)])
-        n = unit(out - tan * np.dot(out, tan))
-        bi = np.cross(tan, n)
-        L = np.linalg.norm(path[i + 1] - path[i]) * 1.6
-        rad = np.array([L + 0.02, w[i], t_[i]]) - shrink + grow
-        if np.any(rad <= 0.004):
-            continue
-        rot = np.stack([tan, bi, n], 1)
-        shapes.append(ellipsoid(path[i], rad, rot))
-        if shrink == 0.0 and i % 3 == 1:               # crenations on both edges
-            for sgn in (-1, 1):
-                shapes.append(ellipsoid(path[i] + bi * sgn * w[i] * 0.8, np.array([0.03, 0.03, t_[i] * 0.7]) + grow,
-                                        rot))
-    return shapes
+def mesh_field(g, verts, faces, pad=0.30):
+    """Signed distance (negative inside) of a closed triangle mesh, on the part of the grid around it; BIG
+    elsewhere. Distances come from the mesh's vertices and face centres (dense after subdivision); the sign from
+    the nearest sample's normal next to the surface, and from a flood fill further away."""
+    from scipy.ndimage import binary_fill_holes
+    v = np.asarray(verts, np.float64)
+    f = np.asarray(faces, np.int64)
+    tri = v[f]
+    fn = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
+    if np.einsum("ij,ij->", tri[:, 0], fn) < 0:            # wound inwards: turn the normals out
+        fn = -fn
+    vn = np.zeros_like(v)
+    for k in range(3):
+        np.add.at(vn, f[:, k], fn)
+    pts = np.vstack([v, tri.mean(axis=1)])
+    nrm = np.vstack([vn, fn])
+    nrm /= np.maximum(np.linalg.norm(nrm, axis=1, keepdims=True), 1e-12)
+    vox = g.voxel
+    i0 = np.maximum(np.floor((v.min(axis=0) - pad - g.vol.lo) / vox).astype(int), 0)
+    i1 = np.minimum(np.ceil((v.max(axis=0) + pad - g.vol.lo) / vox).astype(int) + 1, g.shape)
+    ax = [g.vol.lo[k] + np.arange(i0[k], i1[k]) * vox for k in range(3)]
+    P = np.stack(np.meshgrid(*ax, indexing="ij"), -1).reshape(-1, 3)
+    d, j = cKDTree(pts).query(P)
+    near_sign = np.sign(np.einsum("ij,ij->i", P - pts[j], nrm[j]))
+    shape = tuple(i1 - i0)
+    shell = (d < 1.0 * vox).reshape(shape)          # every voxel the surface passes through: no leaks
+    inside = (binary_fill_holes(shell) & ~shell).ravel()
+    sd = np.where(d < 1.5 * vox, near_sign * d, np.where(inside, -d, d))
+    out = np.full(g.shape, BIG, np.float32)
+    out[i0[0]:i1[0], i0[1]:i1[1], i0[2]:i1[2]] = sd.reshape(shape)
+    return out
+
+
+def auricle_fields(g):
+    """Distance fields of the right and left auricles from the Blender-built asset."""
+    from ..config import ROOT
+    with np.load(ROOT / "data" / "models" / AURICLE_ASSET) as z:
+        if int(z["version"]) != AURICLE_ASSET_VERSION:
+            raise RuntimeError(f"{AURICLE_ASSET} is version {int(z['version'])}, heart.py expects "
+                               f"{AURICLE_ASSET_VERSION}: rerun tools/blender/heart_auricles.py or bump the version")
+        return {side: mesh_field(g, z[f"{side}_verts"], z[f"{side}_faces"]) for side in ("right", "left")}
 
 
 def septal_plane():
@@ -672,6 +701,30 @@ def septal_plane():
     return p0, n
 
 
+# The ventricular mass is not two round cones: it rests on the diaphragm on a flat inferior (diaphragmatic) surface
+# that meets the anterior surface of the right ventricle at a sharp inferior (acute) margin, while the left
+# (obtuse) margin stays rounded; the sternocostal surface is gently flattened against the sternum. Normals are the
+# body's down and forward directions, turned square to the long axis so each facet runs from base to apex.
+DIAPH_N = unit(to_heart((0.0, -1.0, 0.0)) * np.array([1.0, 0.0, 1.0]))
+STERN_N = unit(to_heart((0.0, 0.0, 1.0)) * np.array([1.0, 0.0, 1.0]))
+LV_MIN_WALL = 0.11
+
+
+def ventricle_shape(g, lvo, rvo, below_av):
+    """Outer surface of the ventricular mass (before its sulci are grooved)."""
+    x, y, z = g.x, g.y, g.z
+    vent = _smax(smin(lvo, rvo, 0.16), below_av, 0.07)
+    inside = vent < 0
+    for n, cut, k in ((DIAPH_N, 0.085, 0.035), (STERN_N, 0.045, 0.16)):
+        proj = (x * n[0] + y * n[1] + z * n[2]).astype(np.float32)
+        proj = np.broadcast_to(proj, g.shape)
+        top = float(proj[inside].max())
+        vent = _smax(vent, proj - (top - cut), k)
+    # a little asymmetric undulation, so the surface is not a machined solid of revolution
+    from .sdf import fbm3
+    return vent + 0.008 * fbm3(x, y, z, 2.2, 2, 23)
+
+
 def chamber_fields(g):
     """Outer surface H, cavity C and the region fields that divide the muscle into named chambers."""
     from .sdf import ellipsoid
@@ -680,13 +733,14 @@ def chamber_fields(g):
     lvo = g.shapes(_cone(LV_O))
     rvo = g.shapes(_cone(RV_O))
     rv_in = g.shapes(_cone(RV_O, -RV_WALL))
+    vshape = ventricle_shape(g, lvo, rvo, below_av)
 
-    # ---- cavities
+    # ---- cavities (never closer to the shaped outer surface than the wall they need)
     a_, ra_, b_, rb_ = LV_C
-    lvc = np.maximum(g.shapes([_cap(a_, LV_C_MID[0], ra_, LV_C_MID[1]), _cap(LV_C_MID[0], b_, LV_C_MID[1], rb_)]),
-                     below_av)
+    lvc = vmax([g.shapes([_cap(a_, LV_C_MID[0], ra_, LV_C_MID[1]), _cap(LV_C_MID[0], b_, LV_C_MID[1], rb_)]),
+                below_av, vshape + LV_MIN_WALL])
     lvot = g.shapes(_cap((0.14, -0.30, 0.02), AO_C - AO_AX * 0.02, 0.17, AO_R))
-    rvc = vmax([rv_in, -lvo, below_av])
+    rvc = vmax([rv_in, -lvo, below_av, vshape + RV_WALL])
     rvot = g.shapes(_chain([RVOT_BASE - (0.02, 0.14, 0.02), RVOT_BASE, (RVOT_BASE + PV_C) / 2 + (0, 0.02, 0.03),
                             PV_C - PV_AX * 0.03], [0.19, 0.16, 0.145, PV_R]))
     p0, n = septal_plane()
@@ -701,8 +755,9 @@ def chamber_fields(g):
     disc = g.eval(ellipsoid(fc, np.array([0.11, 0.09, 0.2]), np.stack([side, up, n], 1))[0])
     rac = np.minimum(rac, vmax([disc, sp - (IAS_HALF - 0.022), -sp - IAS_HALF - 0.01]))
     lac = np.maximum(g.eval(ellipsoid(*LA_C, ROT_B)[0]), -sp + IAS_HALF)
-    rauc = g.shapes(_lobes(RAU, ATRIAL_WALL))
-    lauc = g.shapes(_lobes(LAU, ATRIAL_WALL))
+    AU = auricle_fields(g)
+    rauc = AU["right"] + ATRIAL_WALL
+    lauc = AU["left"] + ATRIAL_WALL
     tvc = g.shapes(_cap(TV_C + (0.0, 0.16, -0.02), TV_C - (0.0, 0.10, 0.0), TV_R))
     mvc = g.shapes(_cap(MV_C + (0.0, 0.16, -0.03), MV_C - (0.0, 0.10, 0.0), MV_R))
     inlets = g.shapes([_inlet(k) for k in VEIN_INLETS] + [_cap(CS_OSTIUM - CS_DIR * 0.04, CS_OSTIUM + CS_DIR * 0.12,
@@ -712,7 +767,7 @@ def chamber_fields(g):
     cav = vmin([lvc, lvot, rvc, rvot, ra_side, la_side, inlets])
 
     # ---- outer surface
-    vent = _smax(smin(lvo, rvo, 0.10), below_av, 0.07)
+    vent = vshape
     # interventricular sulci: a shallow furrow wherever the two ventricles' surfaces meet
     diff = lvo - rvo
     protect = np.clip((cav - 0.05) / 0.05, 0.0, 1.0)
@@ -720,8 +775,7 @@ def chamber_fields(g):
     vent = vent + 0.03 * np.exp(-(diff / 0.05) ** 2) * protect * fade
     rao = g.eval(ellipsoid(RA_C[0], RA_C[1] + ATRIAL_WALL, ROT_B)[0])
     lao = g.eval(ellipsoid(LA_C[0], LA_C[1] + ATRIAL_WALL, ROT_B)[0])
-    rau = g.shapes(_lobes(RAU))
-    lau = g.shapes(_lobes(LAU))
+    rau, lau = AU["right"], AU["left"]
     atria = _smax(smin(rao, lao, 0.10), (Y_AV - 0.07 - y).astype(np.float32), 0.05)
     atria = smin(atria, np.minimum(rau, lau), 0.04)          # the auricles may overhang the ventricles
     body = smin(vent, atria, 0.08)
@@ -734,13 +788,13 @@ def chamber_fields(g):
 
     # ---- regions (negative inside)
     ventricular = vmin([below_av - 0.02, infund - 0.02, root - 0.02])
-    aur = np.minimum(g.shapes(_lobes(RAU, grow=0.03)), g.shapes(_lobes(LAU, grow=0.03)))
+    aur = np.minimum(AU["right"], AU["left"]) - 0.03
     ventricular = np.maximum(ventricular, np.minimum(-aur, vent))      # auricle overhanging a ventricle
     ivs = vmax([lvo, rv_in + 0.01, ventricular, -(rvot - 0.02)])
     lv_side = np.minimum(lvo, lvot - 0.03)
     ias = np.maximum(np.abs(sp) - 0.08, -ventricular)
-    rau_r = np.maximum(g.shapes(_lobes(RAU, grow=0.03)), -(rao - 0.01))
-    lau_r = np.maximum(g.shapes(_lobes(LAU, grow=0.03)), -(lao - 0.01))
+    rau_r = np.maximum(AU["right"] - 0.03, -(rao - 0.01))
+    lau_r = np.maximum(AU["left"] - 0.03, -(lao - 0.01))
     return dict(H=H, C=cav, lvc=lvc, rvc=rvc, rac=rac, lac=lac, lvo=lvo, rvo=rvo, rv_in=rv_in, lvot=lvot,
                 rvot=rvot, ventricular=ventricular, ivs=ivs, lv_side=lv_side, ias=ias, rau=rau_r, lau=lau_r,
                 ra_side=ra_side, la_side=la_side, sp=sp, p0=p0, n=n, vent=vent, disc=disc)
@@ -959,26 +1013,42 @@ def papillary_shapes(entries, rng):
     return shapes
 
 
-def trabeculae_shapes(surfaces, rng):
-    """Muscular ridges and bridges on the ventricular walls: coarse in the RV, fine and many in the LV. The outflow
-    tracts and the upper septum stay smooth."""
-    shapes = []
-    for surf, count, rad, keep in surfaces:
-        cand = np.nonzero(keep(surf.pos))[0]
-        for i in rng.choice(cand, size=min(count, len(cand)), replace=False):
-            p, nrm = surf.pos[i], surf.nrm[i]                     # nrm points into the wall
-            along = np.array([0.0, 1.0, 0.0]) - nrm * nrm[1]
-            side = np.cross(nrm, along)
-            ang = rng.uniform(-1.0, 1.0)
-            t = unit(unit(along) * math.cos(ang) + unit(side) * math.sin(ang))
-            L = rng.uniform(0.10, 0.24)
-            rr = rng.uniform(*rad)
-            a, _ = surf.snap(p - t * L / 2, -(ENDO + rr * 0.35))
-            b, _ = surf.snap(p + t * L / 2, -(ENDO + rr * 0.35))
-            mid = (a[0] + b[0]) / 2 - nrm * (rng.uniform(0.0, 0.03) if rng.random() < 0.25 else 0.0)
-            shapes.append(_cap(a[0], mid, rr, rr * 0.85))
-            shapes.append(_cap(mid, b[0], rr * 0.85, rr))
-    return shapes
+def trabecular_field(g, F):
+    """Trabeculae carneae as a meshwork of muscular ridges standing off the ventricular walls: the borders of a
+    Voronoi (Worley) mosaic stretched along the long axis, raised into the cavity near each wall. Fine and
+    close-set in the left ventricle, coarse in the right, deepest towards the apex where they bridge across into
+    a sponge; the outflow tracts and the upper septum stay smooth. Returns a field negative inside the ridges."""
+    from .organic import worley
+    C = F["C"]
+    y = np.broadcast_to(g.y, g.shape)
+    band = (C < 0.0) & (C > -0.13) & (y < 0.0)
+    idx = np.nonzero(band)
+    pts = np.stack([g.x[idx[0], 0, 0], g.y[0, idx[1], 0], g.z[0, 0, idx[2]]], 1).astype(np.float64)
+    c = C[idx]
+    yy = pts[:, 1]
+    apical = np.clip((-0.45 - yy) / 0.4, 0.0, 1.0)
+    out = np.zeros(len(pts), np.float32)
+    for key, size, stretch, width, height, seed, keep in (
+            ("lvc", 0.075, (1.0, 2.2, 1.0), 0.024, 0.065, 41, F["lvot"]),
+            ("rvc", 0.120, (1.0, 1.7, 1.0), 0.036, 0.095, 43, F["rvot"])):
+        own = F[key][idx] < 0.0
+        # smooth outflow: no ridges within reach of the outflow tract, nor high on the septum
+        w = np.clip((keep[idx] - 0.02) / 0.08, 0.0, 1.0) * np.clip((-0.04 - yy) / 0.22, 0.0, 1.0) * own
+        if key == "lvc":
+            septal = np.clip((pts[:, 0] - (LV_O[2][0] - 0.10)) / 0.06, 0.0, 1.0)      # 0 on the septal side
+            w = w * np.maximum(septal, apical)
+        sel = w > 0
+        if not sel.any():
+            continue
+        f1, f2 = worley(pts[sel], size, seed, stretch)
+        t = np.clip((f2 - f1) / width, 0.0, 1.0)
+        ridge = 1.0 - t * t * (3.0 - 2.0 * t)
+        from .sdf import fbm3
+        tall = 0.65 + 0.35 * fbm3(pts[sel, 0], pts[sel, 1], pts[sel, 2], 9.0, 2, seed) + 0.9 * apical[sel]
+        out[sel] = np.maximum(out[sel], (height * tall * ridge * w[sel]).astype(np.float32))
+    bump = np.zeros(g.shape, np.float32)
+    bump[idx] = out
+    return -(C + bump)
 
 
 def crista_path(ra_s):
@@ -1054,16 +1124,7 @@ def interior_parts(g, F, rng):
     lvp, rvp = papillary_layout(lv_s, rv_s, sept_s)
     pap_lv = g.shapes(papillary_shapes(lvp, rng))
     pap_rv = g.shapes(papillary_shapes(rvp, rng))
-    lvb = np.asarray(LV_O[2])
-
-    def keep_lv(p):
-        septal = (p[:, 0] < lvb[0] - 0.12) & (p[:, 1] > -0.45)
-        return (p[:, 1] < -0.05 + 0.05 * np.sin(p[:, 2] * 20)) & ~septal
-
-    def keep_rv(p):
-        return (p[:, 1] < -0.10) & (np.linalg.norm(p - RVOT_BASE, axis=1) > 0.22)
-    trab = g.shapes(trabeculae_shapes([(lv_s, 120, (0.009, 0.015), keep_lv), (rv_s, 70, (0.015, 0.026), keep_rv)],
-                                      rng))
+    trab = trabecular_field(g, F)
     cr = crista_path(ra_s)
     cr_shapes, pe_shapes = pectinate_shapes(ra_s, cr, rng)
     crista = g.shapes(cr_shapes)
@@ -1436,53 +1497,189 @@ def _vtube(path, r0, r1, seg=10, samples=None):
     return tube(path, r, seg, caps=True)
 
 
-def coronary_parts(g, F, L):
+# Epicardial fat: thickest in the coronary (AV) sulcus and the interventricular sulci, streaking down the acute
+# margin and thinly along the obtuse margin, bulging out of the furrows in lobules. (path key, depth, half width)
+FAT_PATHS = (("ring", 0.095, 0.14), ("ant", 0.075, 0.10), ("post", 0.070, 0.09), ("rma", 0.055, 0.08),
+             ("lma", 0.028, 0.05), ("lca", 0.080, 0.10), ("conus", 0.050, 0.07))
+
+
+class FatMap:
+    """Depth of epicardial fat at any point on the heart surface."""
+
+    def __init__(self, L):
+        pts, amp, wid = [], [], []
+        for key, t, w in FAT_PATHS:
+            if key not in L or len(L[key]) < 2:
+                continue
+            path = np.asarray(L[key], float)
+            if key == "ring":
+                path = np.vstack([path, path[:1]])
+            q = resample(path, 0.012)
+            pts.append(q)
+            amp.append(np.full(len(q), t))
+            wid.append(np.full(len(q), w))
+        self.tree = cKDTree(np.vstack(pts))
+        self.amp = np.concatenate(amp)
+        self.wid = np.concatenate(wid)
+
+    def __call__(self, p):
+        from .organic import cell_profile
+        p = np.atleast_2d(np.asarray(p, float))
+        d, j = self.tree.query(p, k=10)
+        v = (self.amp[j] * np.exp(-(d / self.wid[j]) ** 2)).max(axis=1)
+        lob = cell_profile(p, 0.055, seed=9, groove=0.35, dome=0.7)
+        return v * (0.58 + 0.6 * lob)
+
+
+def lay(epi_s, fat, path, r, samples=None):
+    """A vessel centreline laid on the epicardium: snapped to the surface, then lifted so a vessel in a fatty
+    sulcus sits half sunk in its fat and one on bare muscle rests on the surface."""
+    path = np.asarray(path, float)
+    n = samples or max(12, int(np.sum(np.linalg.norm(np.diff(path, axis=0), axis=1)) / 0.012))
+    p = smooth_path(path, n)
+    for _ in range(3):
+        base, nrm = epi_s.snap(p, 0.0)
+        p = smooth_path(base[::max(1, len(base) // 30)], n) if len(base) > 40 else base
+    base, nrm = epi_s.snap(p, 0.0)
+    rr = np.broadcast_to(np.asarray(r, float), (len(base),))
+    lift = np.maximum(rr * 0.9, fat(base) * 0.55)
+    return _soften(base + nrm * lift[:, None])
+
+
+def _soften(path, k=7):
+    """Moving average along a path (ends kept): takes the snapping jitter out of a laid vessel."""
+    path = np.asarray(path, float)
+    if len(path) <= k:
+        return path
+    pad = np.vstack([np.repeat(path[:1], k // 2, 0), path, np.repeat(path[-1:], k // 2, 0)])
+    out = np.stack([np.convolve(pad[:, c], np.ones(k) / k, mode="valid") for c in range(3)], 1)
+    out[0], out[-1] = path[0], path[-1]
+    return out
+
+
+def walk(epi_s, start, heading, length, rng, target=None, pull=0.25, step=0.025, wander=0.05):
+    """A branch creeping over the epicardium from `start`, turning gently (towards `target` if given)."""
+    p, _ = epi_s.snap(start, 0.0)
+    p = p[0]
+    d = unit(heading)
+    pts = [p]
+    for _ in range(max(int(length / step), 2)):
+        if target is not None:
+            d = unit(d + pull * unit(np.asarray(target, float) - p))
+        d = unit(d + rng.normal(0.0, wander, 3))
+        q, _ = epi_s.snap(p + d * step, 0.0)
+        q = q[0]
+        if np.linalg.norm(q - p) < 1e-5:
+            break
+        d = unit(q - p)
+        p = q
+        pts.append(p)
+    return _soften(np.array(pts), 9)
+
+
+def _branch(parent, f, epi_s, rng, length, target=None, turn=None, pull=0.25, wander=0.05):
+    """A side branch leaving `parent` at fraction f of its length, heading towards `turn` (a direction) and
+    curving towards `target`."""
+    parent = np.asarray(parent, float)
+    i = int(np.clip(f, 0.0, 1.0) * (len(parent) - 1))
+    start = parent[i]
+    tan = unit(parent[min(i + 1, len(parent) - 1)] - parent[max(i - 1, 0)])
+    heading = unit(tan * 0.3 + unit(turn if turn is not None else (np.asarray(target, float) - start)))
+    return walk(epi_s, start, heading, length, rng, target, pull, wander=wander)
+
+
+def coronary_parts(g, F, L, epi_s, rng):
     ca, cv = "Coronary arteries", "Cardiac veins"
     A, V = "#d0342c", "#3558b5"
+    ao_a, ao_u, ao_v = valve_frame(AO_AX)
+    # the conus: fat round the root of the pulmonary trunk where the RCA's conus branch runs
+    cone_c = RVOT_BASE * 0.35 + PV_C * 0.65
+    ang = np.linspace(-0.6, 2.2, 16)
+    ring = cone_c + (np.cos(ang)[:, None] * np.array([-1.0, 0.0, 0.0]) + np.sin(ang)[:, None] * np.array(
+        [0.0, 0.3, 1.0]) / np.linalg.norm([0.0, 0.3, 1.0])) * 0.3
+    L["conus"] = epi_s.snap(ring, 0.0)[0]
+    fat = FatMap(L)
+    apex = epi_s.snap(np.asarray(LV_O[0]) + (0.0, -0.3, 0.0), 0.0)[0][0]
+    left = np.array([1.0, -0.3, 0.1])
+    ant = np.array([-0.3, -0.35, 1.0])
+
+    def artery(paths, r0, r1):
+        m = Mesh()
+        for k, (pth, a, b) in enumerate(paths):
+            laid = lay(epi_s, fat, pth, np.linspace(a, b, 8).mean())
+            m.extend(tube(laid, np.linspace(a, b, len(laid)), 10, caps=True))
+        return m
+
+    rca, lad, lcx = L["rca"], L["lad"], L["lcx"]
+    # right coronary: conus branch, SA nodal branch up to the SVC, anterior RV branches towards the apex
+    conus = _branch(rca, 0.06, epi_s, rng, 0.30, target=PV_C + (0.1, -0.1, 0.1), turn=ant + (0.4, 0.3, 0.0))
+    svc = VEIN_INLETS["svc"][0]
+    sa_art = _branch(rca, 0.05, epi_s, rng, 0.45, target=svc + to_heart((-0.12, 0.0, 0.05)), pull=0.5,
+                     wander=0.04)
+    rv_br = [_branch(rca, f, epi_s, rng, ln, target=apex + (-0.3, 0.1, 0.25), pull=0.12, wander=0.06)
+             for f, ln in ((0.22, 0.42), (0.38, 0.50))]
+    # LAD: diagonal branches over the anterior LV wall, small right ventricular branches
+    diags = [_branch(lad, f, epi_s, rng, ln, target=apex + (0.35, 0.25, -0.2), turn=left, pull=0.10)
+             for f, ln in ((0.18, 0.55), (0.34, 0.50), (0.52, 0.38))]
+    rvl = [_branch(lad, f, epi_s, rng, ln, turn=-left + (0, -0.4, 0), pull=0.0, wander=0.06)
+           for f, ln in ((0.25, 0.16), (0.45, 0.14))]
+    # circumflex: two obtuse marginals down the left border
+    oms = [L["lma"], _branch(lcx, 0.62, epi_s, rng, 0.55, target=apex + (0.2, 0.2, -0.45), pull=0.15)]
     parts = [
-        Part("Left coronary artery (left main)", ca, A, _vtube(L["lca"], 0.038, 0.035), DESC["lca"], category="artery"),
+        Part("Left coronary artery (left main)", ca, A, artery([(L["lca"], 0.038, 0.035)], 0, 0), DESC["lca"],
+             category="artery"),
         Part("Anterior interventricular artery (LAD)", ca, A,
-             Mesh().extend(_vtube(L["lad"], 0.033, 0.016, samples=90)).extend(
-                 Mesh().extend(_vtube(L["diag"][0], 0.02, 0.011)).extend(_vtube(L["diag"][1], 0.018, 0.01))),
-             DESC["lad"], category="artery"),
-        Part("Circumflex artery", ca, A, _vtube(L["lcx"], 0.031, 0.02, samples=70), DESC["lcx"], category="artery"),
-        Part("Left marginal artery", ca, A, _vtube(L["lma"], 0.021, 0.012), DESC["lma"], category="artery"),
-        Part("Right coronary artery", ca, A, _vtube(L["rca"], 0.036, 0.024, samples=100), DESC["rca"],
+             artery([(lad, 0.034, 0.014)] + [(d, 0.020, 0.009) for d in diags] + [(b, 0.012, 0.007) for b in rvl],
+                    0, 0), DESC["lad"], category="artery"),
+        Part("Circumflex artery", ca, A, artery([(lcx, 0.031, 0.020)], 0, 0), DESC["lcx"], category="artery"),
+        Part("Left marginal artery", ca, A, artery([(oms[0], 0.021, 0.010), (oms[1], 0.017, 0.008)], 0, 0),
+             DESC["lma"], category="artery"),
+        Part("Right coronary artery", ca, A,
+             artery([(rca, 0.036, 0.024), (conus, 0.013, 0.007), (sa_art, 0.012, 0.008)]
+                    + [(b, 0.016, 0.008) for b in rv_br], 0, 0), DESC["rca"], category="artery"),
+        Part("Right marginal artery", ca, A, artery([(L["rma"], 0.021, 0.010)], 0, 0), DESC["rma"],
              category="artery"),
-        Part("Right marginal artery", ca, A, _vtube(L["rma"], 0.021, 0.012), DESC["rma"], category="artery"),
-        Part("Posterior interventricular artery", ca, A, _vtube(L["pda"], 0.024, 0.013, samples=60), DESC["pda"],
+        Part("Posterior interventricular artery", ca, A, artery([(L["pda"], 0.024, 0.012)], 0, 0), DESC["pda"],
              category="artery"),
-        Part("Great cardiac vein", cv, V, _vtube(L["gcv"], 0.022, 0.04, samples=120), DESC["gcv"], category="vein"),
-        Part("Coronary sinus", cv, "#2f4fa8", _vtube(L["cs"], 0.042, 0.058, samples=40), DESC["cs"], category="vein"),
-        Part("Middle cardiac vein", cv, V, _vtube(L["mcv"], 0.018, 0.034, samples=60), DESC["mcv"], category="vein"),
-        Part("Small cardiac vein", cv, V, _vtube(L["scv"], 0.016, 0.026, samples=50), DESC["scv"], category="vein"),
-        Part("Posterior vein of left ventricle", cv, V, _vtube(L["pvlv"], 0.016, 0.026), DESC["pvlv"],
+    ]
+    # veins run beside the arteries; anterior cardiac veins climb the RV and cross the RCA into the right atrium
+    lmv = _branch(L["gcv"], 0.72, epi_s, rng, 0.5, target=apex + (0.3, 0.3, -0.3), turn=(0.3, -1.0, -0.5), pull=0.1)
+    ant_s, rma_s, rca_s = resample(L["ant"], 0.01), resample(L["rma"], 0.01), resample(rca, 0.01)
+    acv = []
+    for f_rv, f_rca in ((0.42, 0.22), (0.55, 0.32), (0.66, 0.42)):
+        start = ant_s[int(f_rv * (len(ant_s) - 1))] * 0.45 + rma_s[int(f_rv * (len(rma_s) - 1))] * 0.55
+        end = rca_s[int(f_rca * (len(rca_s) - 1))] + to_heart((-0.02, 0.09, 0.0))
+        acv.append(np.array([start, (start + end) / 2 + (0.0, 0.0, 0.04), end]))
+
+    def vein(paths):
+        m = Mesh()
+        for pth, a, b in paths:
+            laid = lay(epi_s, fat, pth, (a + b) / 2) if len(pth) > 1 else pth
+            m.extend(tube(laid, np.linspace(a, b, len(laid)), 10, caps=True))
+        return m
+    parts += [
+        Part("Great cardiac vein", cv, V, vein([(L["gcv"], 0.022, 0.040), (lmv[::-1], 0.010, 0.016)]), DESC["gcv"],
+             category="vein"),
+        Part("Coronary sinus", cv, "#2f4fa8", _vtube(L["cs"], 0.042, 0.058, samples=40), DESC["cs"],
+             category="vein"),
+        Part("Middle cardiac vein", cv, V, vein([(L["mcv"], 0.018, 0.034)]), DESC["mcv"], category="vein"),
+        Part("Small cardiac vein", cv, V, vein([(L["scv"], 0.016, 0.026)]), DESC["scv"], category="vein"),
+        Part("Posterior vein of left ventricle", cv, V, vein([(L["pvlv"], 0.016, 0.026)]), DESC["pvlv"],
+             category="vein"),
+        Part("Anterior cardiac veins", cv, "#3a5cb8", vein([(a, 0.009, 0.016) for a in acv]), DESC["acv"],
              category="vein"),
     ]
     for p in parts:
         p.clip = True
-    # epicardial fat filling the coronary and interventricular sulci
-    from .sdf import sphere
-    rng = np.random.default_rng(3)
-    shapes = []
-    for key, r in (("ring", 0.06), ("ant", 0.05), ("post", 0.05)):
-        pts = L[key]
-        if key == "ring":
-            pts = np.vstack([pts, pts[:1]])
-        for i in range(len(pts) - 1):
-            if np.linalg.norm(pts[i + 1] - pts[i]) < 0.3:
-                shapes.append(_cap(pts[i], pts[i + 1], r, r))
-        # lobules of fat bulging out of the furrow
-        for p in resample(pts, 0.035):
-            shapes.append(sphere(p + rng.normal(0, 0.012, 3), r * rng.uniform(1.0, 1.45)))
-    for key in ("rca", "lcx", "gcv", "cs", "lca"):
-        pts = smooth_path(L[key], 40)
-        for i in range(len(pts) - 1):
-            shapes.append(_cap(pts[i], pts[i + 1], 0.05, 0.05))
-    fat = g.shapes(shapes)
+    # the fat itself: a layer on the epicardium as deep as the fat map says, kept off the atria
     E = F["H"] - EPI
-    fat = vmax([fat, -E, E - 0.052, F["vent"] - 0.2])       # a layer on the epicardium, kept off the atria
-    parts.append(_part(g, fat, "Epicardial fat", "Heart wall", "#d8b865", DESC["fat"], "fat", smooth=1.2))
+    band = (E > -0.01) & (E < 0.13) & (F["vent"] < 0.22)
+    idx = np.nonzero(band)
+    pts = np.stack([g.x[idx[0], 0, 0], g.y[0, idx[1], 0], g.z[0, 0, idx[2]]], 1).astype(np.float64)
+    T = fat(pts).astype(np.float32)
+    fld = np.full(g.shape, BIG, np.float32)
+    fld[idx] = np.maximum(-E[idx], E[idx] - T)
+    parts.append(_part(g, fld, "Epicardial fat", "Heart wall", "#d8b865", DESC["fat"], "fat", smooth=1.1))
     return parts
 
 
@@ -1611,11 +1808,11 @@ def build_heart():
     parts += vparts
     epi_s = Surface(g.mesh(F["H"] - EPI, 0.8, 2))
     L = coronary_layout(g, F["vent"] - EPI, F["H"])
-    parts += coronary_parts(g, F, L)
+    parts += coronary_parts(g, F, L, epi_s, rng)
     parts += conduction_parts(g, F, marks, epi_s, marks["surfs"], rng)
     parts += pericardium_parts(g, F["H"], V, outers)
     # one gentle warp shared by every part takes the machined look off without moving layers apart
     field = noise_field(0.009, 2.2, octaves=3, seed=5)
     for p in parts:
         p.mesh = nudge(p.mesh, field).transformed(R_BODY)
-    return parts
+    return attach_motion(parts)

@@ -1,5 +1,7 @@
+from .anim import AnimatedModel
 from .base import MicroModel
-from .tissues import build_cardiac, build_pancreas
+from .pancreas import build_pancreas, pancreas_animation
+from .tissues import build_cardiac
 
 
 def register_all(register):
@@ -41,14 +43,16 @@ def register_all(register):
                    "Purkinje fibres at the border zone.")],
         scale_note="Block ≈ 0.5 mm wide; the wall is compressed – the real left ventricle is ≈ 10 mm thick and "
                    "cardiomyocytes ≈ 100 × 15 µm."))
-    register(MicroModel(
+    register(AnimatedModel(
         "pancreas", "Pancreas (acini & islets)",
         "Lobules of serous acini separated by connective tissue septa. Each acinus is a cluster of pyramidal cells "
         "with basophilic bases and apical zymogen granules around a lumen with pale centroacinar cells. "
         "Intercalated ducts drain to intralobular ducts and an interlobular duct with its artery and vein in a "
         "septum. Pale, richly capillarised islets of Langerhans sit among the acini: beta cells in the core, alpha "
-        "cells in the mantle, scattered delta cells.",
+        "cells in the mantle, scattered delta cells. Play the secretion cycle to watch zymogen granules fuse with the "
+        "apical membrane, pancreatic juice run down the ducts and the beta cells release insulin.",
         build_pancreas,
+        animation=pancreas_animation(),
         targets={"structures": ["Pancreas", "Head of pancreas", "Neck of pancreas", "Body of pancreas",
                                 "Tail of pancreas", "Uncinate process of pancreas", "Pancreatic duct",
                                 "Accessory pancreatic duct"]},
