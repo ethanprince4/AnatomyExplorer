@@ -1,9 +1,8 @@
 import numpy as np
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import (QCheckBox, QFrame, QHBoxLayout, QLabel, QPushButton, QScrollArea,
+from PySide6.QtWidgets import (QCheckBox, QFrame, QHBoxLayout, QLabel, QMenu, QPushButton, QScrollArea,
                                QSlider, QToolButton, QVBoxLayout, QWidget)
-from .flow import FlowLayout
 
 PRESETS = [
     ("Default", None),
@@ -15,6 +14,17 @@ PRESETS = [
     ("Organs", {"skeletal", "visceral", "lymphatic", "cardiovascular"}),
     ("Surface", {"regions"}),
 ]
+# what each preset shows, spelled out in the drop-down
+PRESET_LABELS = {
+    "Default": "Default (everything as it opens)",
+    "Skeleton": "Skeleton - bones and joints",
+    "Muscles": "Muscles - on the skeleton",
+    "Attachments": "Attachments - origins and insertions on bone",
+    "Vessels": "Vessels - heart and blood vessels",
+    "Nerves": "Nerves - nervous system and sense organs",
+    "Organs": "Organs - viscera, lymphatics and vessels",
+    "Surface": "Surface - skin and surface regions",
+}
 
 
 def swatch(rgb):
@@ -43,11 +53,22 @@ class SystemsPanel(QWidget):
         lay.setContentsMargins(10, 10, 10, 10)
         lay.setSpacing(4)
 
-        presets = FlowLayout(spacing=5)     # wraps onto another row rather than clipping names on a narrow dock
+        # one drop-down rather than a wall of eight buttons above the list it acts on
+        presets = QHBoxLayout()
+        pl = QLabel("Quick views")
+        pl.setStyleSheet("color:#8a94a3;")
+        presets.addWidget(pl)
+        presets.addSpacing(6)
+        self.preset_btn = QPushButton("Choose a preset  ▾")
+        self.preset_btn.setObjectName("dropButton")
+        self.preset_btn.setToolTip("Switch on just the systems for one kind of study")
+        menu = QMenu(self.preset_btn)
         for name, keys in PRESETS:
-            b = QPushButton(name)
-            b.clicked.connect(lambda _=False, k=keys: self._preset(k))
-            presets.addWidget(b)
+            menu.addAction(PRESET_LABELS.get(name, name), lambda k=keys: self._preset(k))
+            if keys is None:
+                menu.addSeparator()
+        self.preset_btn.setMenu(menu)
+        presets.addWidget(self.preset_btn, 1)
         lay.addLayout(presets)
         lay.addSpacing(6)
 

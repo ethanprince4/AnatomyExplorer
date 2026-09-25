@@ -24,6 +24,7 @@ QToolBar QToolButton {{ background: transparent; color: {TEXT}; border: 1px soli
 QToolBar QToolButton:hover {{ background: {PANEL_2}; border-color: {BORDER}; }}
 QToolBar QToolButton:checked {{ background: #1f3a4a; border-color: #2f6d8c; color: #bfe9ff; }}
 QToolBar QToolButton:pressed {{ background: #26303a; }}
+QToolBar QToolButton[active="true"] {{ color: #bfe9ff; border-color: #2f6d8c; background: #1a2f3b; }}
 QToolBar QToolButton::menu-indicator {{ image: none; width: 0; }}
 QToolBar::separator {{ background: {BORDER}; width: 1px; margin: 4px 6px; }}
 QStatusBar {{ background: {BG}; color: {MUTED}; border-top: 1px solid {BORDER}; }}
@@ -35,10 +36,17 @@ QTabWidget::pane {{ border: none; border-top: 1px solid {BORDER}; }}
 QTabBar::tab {{ background: transparent; color: {MUTED}; padding: 7px 10px; border: none; border-bottom: 2px solid transparent; }}
 QTabBar::tab:selected {{ color: {TEXT}; border-bottom: 2px solid {ACCENT}; }}
 QTabBar::tab:hover {{ color: {TEXT}; }}
-QPushButton#navTab {{ background: transparent; color: {MUTED}; border: 1px solid transparent; border-radius: 6px;
-                      padding: 5px 2px; margin-bottom: 6px; }}
-QPushButton#navTab:hover {{ color: {TEXT}; background: {PANEL_2}; }}
-QPushButton#navTab:checked {{ color: #e6f7ff; background: #1f3a4a; border-color: #2f6d8c; }}
+QPushButton#navTab {{ background: transparent; color: {MUTED}; border: none; border-bottom: 2px solid {BORDER};
+                      border-radius: 0; padding: 6px 2px; font-weight: 600; }}
+QPushButton#navTab:hover {{ color: {TEXT}; }}
+QPushButton#navTab:checked {{ color: {TEXT}; border-bottom: 2px solid {ACCENT}; }}
+QPushButton#navSeg {{ background: {BG}; color: {MUTED}; border: 1px solid {BORDER}; border-radius: 0;
+                      padding: 3px 2px; font-size: {fs * 0.92:.2f}pt; }}
+QPushButton#navSeg[pos="first"] {{ border-top-left-radius: 6px; border-bottom-left-radius: 6px; }}
+QPushButton#navSeg[pos="last"] {{ border-top-right-radius: 6px; border-bottom-right-radius: 6px; }}
+QPushButton#navSeg[pos="mid"], QPushButton#navSeg[pos="last"] {{ border-left: none; }}
+QPushButton#navSeg:hover {{ color: {TEXT}; background: {PANEL_2}; }}
+QPushButton#navSeg:checked {{ color: #e6f7ff; background: #1f3a4a; border-color: #2f6d8c; }}
 QListWidget, QTreeWidget, QTextBrowser {{ background: {PANEL}; border: none; outline: none; }}
 QTreeWidget::item {{ padding: 2px 0; }}
 QTreeWidget::item:selected, QListWidget::item:selected {{ background: #1f3a4a; color: #e6f7ff; }}
@@ -54,6 +62,8 @@ QScrollBar::add-page, QScrollBar::sub-page {{ background: transparent; }}
 QPushButton {{ background: {PANEL_2}; border: 1px solid {BORDER}; border-radius: 6px; padding: 5px 10px; color: {TEXT}; }}
 QPushButton:hover {{ border-color: #3d6f89; background: #232b33; }}
 QPushButton:pressed {{ background: #1f3a4a; }}
+QPushButton#dropButton {{ text-align: left; padding-left: 10px; }}
+QPushButton::menu-indicator {{ image: none; width: 0; }}
 QPushButton:checked {{ background: #1f3a4a; border-color: #2f6d8c; }}
 QCheckBox {{ spacing: 7px; background: transparent; }}
 QCheckBox::indicator {{ width: 15px; height: 15px; border-radius: 4px; border: 1px solid #46505d; background: {BG}; }}

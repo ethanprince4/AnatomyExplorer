@@ -8,7 +8,7 @@ import numpy as np
 from PySide6.QtCore import QEvent, QSettings, QStandardPaths, Qt, QTimer, QUrl
 from PySide6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QGuiApplication, QKeySequence
 from PySide6.QtWidgets import (QApplication, QColorDialog, QDockWidget, QFileDialog, QInputDialog, QLabel,
-                               QListWidget, QMainWindow, QMenu, QMessageBox, QPushButton, QSplitter,
+                               QListWidget, QMainWindow, QMenu, QMessageBox, QPushButton, QSizePolicy, QSplitter,
                                QTabWidget, QToolButton, QVBoxLayout, QWidget, QDialog, QHBoxLayout)
 
 from .actions import ActionRegistry
@@ -87,7 +87,7 @@ class MainWindow(QMainWindow):
         ll.setSpacing(0)
         self.search = SearchPanel(ds, self.index)
         ll.addWidget(self.search)
-        self.tabs = NavTabWidget()          # seven pages: a two-row switcher instead of a scrolling tab bar
+        self.tabs = NavTabWidget()          # Browse / Study / View, each with a small selector (see ui/nav.py)
         self.systems = SystemsPanel(ds, self.state)
         self.regions = RegionsPanel(ds, self.state)
         self.tree = TreePanel(ds, self.state)
@@ -290,15 +290,92 @@ class MainWindow(QMainWindow):
             self.quiz = None
 
     def _build_menus(self):
+        """The menu bar, and the drop-down menus the toolbar shares with it.
+
+        Each group of commands is built once as a QMenu and hung in both places (the menu bar for anyone who
+        looks there, a toolbar drop-down for the mouse), so the two can never drift apart. Every command in
+        actions.py is in at least one of them, with its shortcut shown beside it."""
         a = self.cmds.actions
         mb = self.menuBar()
         mb.installEventFilter(self)      # so a borderless window can still be dragged by its menu bar
+
+        # ---- shared menus
+        self.camera_menu = cam = QMenu("&Camera", self)
+        for key in VIEWS:
+            cam.addAction(a[f"view_{key}"])
+        cam.addSeparator()
+        cam.addAction(a["frame"])
+        cam.addAction(a["reset_view"])
+        cam.addAction(a["auto_rotate"])
+        keys = cam.addMenu("Rotate and zoom")
+        self._fill_menu(keys, ("orbit_left", "orbit_right", "orbit_up", "orbit_down", None, "zoom_in", "zoom_out"))
+
+        self.show_menu = shm = QMenu("&Show", self)
+        self._fill_menu(shm, ("hide", "isolate", "xray", "both_sides", None, "show_all", "default_visibility", "undo",
+                              None, "landmarks"))
+
+        self.dissect_menu = dm = QMenu("&Dissection", self)
+        dm.addAction(a["peel_in"])
+        dm.addAction(a["peel_out"])
+        dm.addAction(a["peel_reset"])
+        dm.addSeparator()
+        for pct, label in DISSECTION_STOPS:
+            text = f"{label.replace('&', '&&')}  ({pct * 100:.0f}%)"      # a lone & would be read as a mnemonic
+            dm.addAction(text, lambda _=False, p=pct: self.view_panel.set_depth(p))
+
+        self.section_menu = sm = QMenu("Cross-&sections", self)
+        for key in ("clip_sagittal", "clip_coronal", "clip_transverse"):
+            sm.addAction(a[key])
+        sm.addSeparator()
+        sm.addAction("Clear cross-sections", self.view_panel.reset_clips)
+        sm.addSeparator()
+        sm.addAction("Quiz me on this section", self.quiz_section)
+
+        self.views_menu = QMenu("Saved &views", self)
+        self.views_menu.aboutToShow.connect(self._fill_views_menu)
+        self._fill_views_menu()          # so its shortcut (Ctrl+D) is listed before it is first opened
+
+        self.tools_menu = tm = QMenu("&Tools", self)
+        tm.addAction(a["measure"])
+        tm.addMenu(self.views_menu)
+        tm.addSeparator()
+        tm.addAction(a["screenshot"])
+        tm.addAction(a["export_figure"])
+        tm.addSeparator()
+        tm.addAction(a["settings"])
+
+        self.study_menu = st = QMenu("S&tudy", self)
+        if self.lessons_panel is not None:
+            st.addAction(a["lessons"])
+        if "quiz" in a:
+            st.addAction(a["quiz"])
+        if self.radiology_browser is not None:
+            st.addAction(a["radiology"])
+        st.addAction(a["histology_tab"])
+        st.addSeparator()
+        st.addAction("My progress…", self.show_progress)
+        st.addAction(a["note"])
+        st.addAction("All my notes…", self.show_all_notes)
+        if self.sketchfab_models:
+            st.addSeparator()
+            st.addAction(f"Online 3D models (Sketchfab, {len(self.sketchfab_models)})…", lambda: self.open_sketchfab())
+            local = [m for m in self.sketchfab_models if m.local]
+            if local:
+                sub = st.addMenu(f"Downloaded 3D models ({len(local)})")
+                for m in sorted(local, key=lambda x: x.name.lower()):
+                    sub.addAction(m.name, lambda _=False, u=m.uid: self.open_local_model(u))
+
+        # ---- the menu bar
         f = mb.addMenu("&File")
         f.addAction(a["screenshot"])
         f.addAction(a["export_figure"])
         f.addAction(a["settings"])
         f.addSeparator()
         f.addAction("Exit", self.close)
+
+        s = mb.addMenu("&Selection")
+        self._fill_menu(s, ("search", None, "back", "forward", None, "frame", "hide", "isolate", "xray", "both_sides",
+                            None, "show_all", "default_visibility", "undo", "escape"))
 
         v = mb.addMenu("&View")
         self.left_dock.toggleViewAction().setText("Explore panel")
@@ -311,13 +388,7 @@ class MainWindow(QMainWindow):
         v.addAction("Dock the side panels", self.dock_side_panels)
         v.addAction("Reset panel layout", self.reset_layout)
         v.addSeparator()
-        cam = v.addMenu("Camera")
-        for key in VIEWS:
-            cam.addAction(a[f"view_{key}"])
-        cam.addSeparator()
-        cam.addAction(a["frame"])
-        cam.addAction(a["reset_view"])
-        cam.addAction(a["auto_rotate"])
+        v.addMenu(cam)
         colors = v.addMenu("Colors")
         self.color_group = QActionGroup(self)
         self.color_actions = []
@@ -329,56 +400,27 @@ class MainWindow(QMainWindow):
         self.color_actions[int(self.settings["color_mode"])].setChecked(True)
         colors.addSeparator()
         colors.addAction(a["color_mode"])
-        clips = v.addMenu("Cross-sections")
-        clips.addAction(a["clip_sagittal"])
-        clips.addAction(a["clip_coronal"])
-        clips.addAction(a["clip_transverse"])
-        clips.addAction("Clear cross-sections", self.view_panel.reset_clips)
+        v.addMenu(sm)
+        v.addMenu(dm)
         v.addAction(a["landmarks"])
-        v.addAction(a["measure"])
-        dis = v.addMenu("Dissection")
-        dis.addAction(a["peel_in"])
-        dis.addAction(a["peel_out"])
-        dis.addAction(a["peel_reset"])
-        for pct, label in DISSECTION_STOPS:
-            dis.addAction(f"{label}  ({pct * 100:.0f}%)", lambda _=False, p=pct: self.view_panel.set_depth(p))
 
-        s = mb.addMenu("&Selection")
-        for key in ("back", "forward", None, "frame", "hide", "isolate", "xray", "both_sides", None, "show_all",
-                    "default_visibility", "undo", "escape"):
-            if key is None:
-                s.addSeparator()
-            else:
-                s.addAction(a[key])
-
-        self.views_menu = mb.addMenu("Saved &views")
-        self.views_menu.aboutToShow.connect(self._fill_views_menu)
-
-        st = mb.addMenu("S&tudy")
-        if self.lessons_panel is not None:
-            st.addAction(a["lessons"])
-        if self.radiology_browser is not None:
-            st.addAction(a["radiology"])
-        st.addAction(a["histology_tab"])
-        if self.sketchfab_models:
-            st.addAction(f"Online 3D models (Sketchfab, {len(self.sketchfab_models)})…", lambda: self.open_sketchfab())
-            local = [m for m in self.sketchfab_models if m.local]
-            if local:
-                sub = st.addMenu(f"Downloaded 3D models ({len(local)})")
-                for m in sorted(local, key=lambda x: x.name.lower()):
-                    sub.addAction(m.name, lambda _=False, u=m.uid: self.open_local_model(u))
-        if "quiz" in a:
-            st.addAction(a["quiz"])
-        st.addAction(a["note"])
-        st.addAction("All my notes…", self.show_all_notes)
-        st.addSeparator()
-        st.addAction("My progress…", self.show_progress)
+        mb.addMenu(tm)
+        mb.addMenu(st)
 
         h = mb.addMenu("&Help")
         h.addAction("Keyboard shortcuts…", lambda: self.open_settings(page=3))
         h.addAction("About", self.about)
 
+    def _fill_menu(self, menu, keys):
+        """Add registered commands to a menu in order; None is a separator."""
+        for key in keys:
+            if key is None:
+                menu.addSeparator()
+            else:
+                menu.addAction(self.cmds.actions[key])
+
     def _build_toolbar(self):
+        """Back / Forward, then one drop-down per kind of job instead of a button for every command."""
         a = self.cmds.actions
         tb = self.addToolBar("Main")
         tb.setObjectName("main_toolbar")
@@ -391,62 +433,42 @@ class MainWindow(QMainWindow):
             tb.addAction(action)
             return action
 
+        def drop(text, menu, tip):
+            b = QToolButton()
+            b.setText(text + " ▾")
+            b.setToolTip(tip)
+            b.setPopupMode(QToolButton.InstantPopup)
+            b.setMenu(menu)
+            tb.addWidget(b)
+            return b
+
         add("◀", a["back"], "Back")
         add("▶", a["forward"], "Forward")
         tb.addSeparator()
-        for key in VIEWS:
-            add(key.capitalize(), a[f"view_{key}"])
+        self.camera_btn = drop("View", self.camera_menu,
+                               "Anterior, posterior, lateral, superior and inferior views; frame; reset")
+        self.show_btn = drop("Show", self.show_menu, "Hide, isolate or x-ray the selection; show everything again")
+        self.dissect_btn = drop("Dissect", self.dissect_menu, "Peel the body apart layer by layer")
+        self.section_btn = drop("Section", self.section_menu, "Sagittal, coronal and transverse cross-sections")
+        self.tools_btn = drop("Tools", self.tools_menu, "Measure, saved views, screenshot, export a figure")
         tb.addSeparator()
-        add("Frame", a["frame"])
-        add("Reset view", a["reset_view"])
-        tb.addSeparator()
-        add("Hide", a["hide"])
-        add("Isolate", a["isolate"])
-        self.xray_tb = add("X-ray", a["xray"])
-        add("Show all", a["show_all"])
-        add("Default", a["default_visibility"])
-        add("Undo", a["undo"])
-        tb.addSeparator()
-        dissect_btn = QToolButton()
-        dissect_btn.setText("Dissect ▾")
-        dissect_btn.setToolTip("Peel the body apart layer by layer")
-        dissect_btn.setPopupMode(QToolButton.InstantPopup)
-        dm = QMenu(dissect_btn)
-        dm.addAction(a["peel_in"])
-        dm.addAction(a["peel_out"])
-        dm.addAction(a["peel_reset"])
-        dm.addSeparator()
-        for pct, label in DISSECTION_STOPS:
-            dm.addAction(f"{label}  ({pct * 100:.0f}%)", lambda _=False, p=pct: self.view_panel.set_depth(p))
-        dissect_btn.setMenu(dm)
-        tb.addWidget(dissect_btn)
-        clip_btn = QToolButton()
-        clip_btn.setText("Cross-section ▾")
-        clip_btn.setPopupMode(QToolButton.InstantPopup)
-        m = QMenu(clip_btn)
-        for key in ("clip_sagittal", "clip_coronal", "clip_transverse"):
-            m.addAction(a[key])
-        m.addSeparator()
-        m.addAction("Clear cross-sections", self.view_panel.reset_clips)
-        m.addSeparator()
-        m.addAction("Quiz me on this section", self.quiz_section)
-        clip_btn.setMenu(m)
-        tb.addWidget(clip_btn)
-        views_btn = QToolButton()
-        views_btn.setText("Saved views ▾")
-        views_btn.setPopupMode(QToolButton.InstantPopup)
-        views_btn.setMenu(self.views_menu)
-        tb.addWidget(views_btn)
-        self.measure_tb = add("Measure", a["measure"], "Measure distances between two points")
-        tb.addSeparator()
-        if self.lessons_panel is not None:
-            add("Lessons", a["lessons"])
-        if self.radiology_browser is not None:
-            add("Radiology", a["radiology"])
-        if "quiz" in a:
-            add("Quiz", a["quiz"])
-        add("Screenshot", a["screenshot"])
+        self.study_btn = drop("Study", self.study_menu, "Lessons, quiz, radiology, histology, your progress and notes")
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        tb.addWidget(spacer)
         add("⚙ Settings", a["settings"])
+        # a drop-down lights up while something inside it is switched on, so a mode is never on unseen
+        a["xray"].toggled.connect(lambda on: self._mark_active(self.show_btn, on))
+        a["measure"].toggled.connect(lambda on: self._mark_active(self.tools_btn, on))
+        self.view_panel.clipChanged.connect(
+            lambda: self._mark_active(self.section_btn, any(self.viewport.clip_on)))
+
+    @staticmethod
+    def _mark_active(button, on):
+        if bool(button.property("active")) != bool(on):
+            button.setProperty("active", bool(on))
+            button.style().unpolish(button)
+            button.style().polish(button)
 
     def _build_statusbar(self):
         sb = self.statusBar()
@@ -498,6 +520,8 @@ class MainWindow(QMainWindow):
         if first and (cut > 0.0 or band > 0.0):
             self.state.push_undo()
         self.state.set_depth(cut, band)
+        if hasattr(self, "dissect_btn"):
+            self._mark_active(self.dissect_btn, cut > 0.0 or band > 0.0)
         if self.state.depth is not None:
             peeled, visible = self.state.depth_counts()
             if cut > 0.0 or band > 0.0:
@@ -699,6 +723,13 @@ class MainWindow(QMainWindow):
         return True
 
     def about(self):
+        try:
+            from .ui.about import open_about
+        except ImportError:
+            pass
+        else:
+            open_about(self)
+            return
         QMessageBox.about(self, APP_NAME, f"<h3>{APP_NAME}</h3><p>Personal 3D anatomy atlas.</p><p>"
                           + "<br>".join(self.ds.attribution) + "</p>")
 
