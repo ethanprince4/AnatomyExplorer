@@ -84,17 +84,18 @@ AO_C, AO_R = np.array([-0.03, 0.37, 0.16]), 0.155        # aortic valve (annulus
 
 # Everything that has to line up with the body is written in body coordinates (B) and pulled into the heart frame.
 AO_B = to_body(AO_C)
-AO_AX = unit(to_heart(unit((-0.20, 0.92, 0.33))))       # ascending aorta: up, forwards and to the right
+# the valve axes lean from the heart's long axis towards the vessel they open into
+AO_AX = unit(0.55 * unit(to_heart(unit((-0.20, 0.92, 0.33)))) + 0.45 * np.array([0.0, 1.0, 0.0]))
 PV_B = AO_B + np.array([0.30, 0.22, 0.24])               # pulmonary valve: left, above and in front of the aortic
 PV_C, PV_R = to_heart(PV_B), 0.145
-PV_AX = unit(to_heart(unit((0.25, 0.85, -0.45))))       # pulmonary trunk: up, backwards and to the left
+PV_AX = unit(0.55 * unit(to_heart(unit((0.25, 0.85, -0.45)))) + 0.45 * np.array([0.0, 1.0, 0.0]))
 RVOT_BASE = np.array([-0.20, -0.02, 0.30])               # where the infundibulum leaves the RV body
 
 # auricles as chains of flattened lobes lying on the heart: (body-frame points, widths, thicknesses, outward
 # body direction). The right one is a broad triangular flap against the root of the aorta; the left one a slim,
 # crenated, hooked finger curling round the left side of the pulmonary trunk.
 RAU = (to_heart([[-0.70, 0.30, 0.08], [-0.60, 0.40, 0.22], [-0.49, 0.45, 0.31], [-0.38, 0.45, 0.36]]),
-       [0.17, 0.15, 0.12, 0.07], [0.10, 0.09, 0.075, 0.05], to_heart(unit((-0.3, 0.2, 1.0))))
+       [0.17, 0.15, 0.12, 0.07], [0.085, 0.075, 0.062, 0.045], to_heart(unit((-0.3, 0.2, 1.0))))
 LAU = (to_heart([[0.02, 0.58, -0.26], [0.24, 0.66, -0.12], [0.35, 0.62, 0.04], [0.33, 0.57, 0.18],
                  [0.25, 0.52, 0.27]]),
        [0.10, 0.11, 0.10, 0.08, 0.055], [0.075, 0.075, 0.065, 0.055, 0.04], to_heart(unit((1.0, 0.1, 0.6))))
@@ -227,6 +228,26 @@ class Grid:
 def band(d, inner, outer):
     """Region inner < d < outer (a shell around the surface of d)."""
     return np.maximum(inner - d, d - outer)
+
+
+def shell_normals(g, mesh, f, lo, hi):
+    """Normals for a thin shell band(f, lo, hi) taken from the smooth field f itself. The band's own field has a
+    kink a voxel inside each face, which leaves a faint grid-locked ripple in marching-cubes normals - glossy
+    shading turns that into contour rings on a large, smooth surface like the epicardium."""
+    from scipy.ndimage import gaussian_filter, map_coordinates
+    fs = gaussian_filter(np.minimum(f, 1.0), 1.0)
+    grads = np.gradient(fs, g.voxel)
+    out = Mesh()
+    for pos, nrm, idx in mesh.parts:
+        ix = ((pos - g.vol.lo) / g.voxel).T
+        gv = np.stack([map_coordinates(gc, ix, order=1, mode="nearest") for gc in grads], 1)
+        fv = map_coordinates(fs, ix, order=1, mode="nearest")
+        outer = np.abs(fv - hi) < np.abs(fv - lo)
+        n = gv * np.where(outer, 1.0, -1.0)[:, None]
+        n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-9)
+        on_face = np.minimum(np.abs(fv - hi), np.abs(fv - lo)) < g.voxel * 0.8     # not where a cut forms the edge
+        out.parts.append((pos, np.where(on_face[:, None], n, nrm).astype(np.float32), idx))
+    return out
 
 
 # ----------------------------------------------------------------------------------------------- mesh helpers
@@ -590,6 +611,10 @@ DESC = {
 }
 
 
+for _k in ("lv", "rv", "ra", "la"):
+    DESC[_k] += " " + DESC["myo"]
+
+
 # ----------------------------------------------------------------------------------------------- chambers
 EPI, ENDO = 0.024, 0.018                 # epicardium (outside H) and endocardium (inside C), exaggerated
 
@@ -767,6 +792,11 @@ def wall_parts(g, F, C2, fossa, memb):
         _part(g, np.maximum(band(C, -ENDO, 0.0), H), "Endocardium", "Heart wall", "#b9665a", DESC["endo"],
               "heart", smooth=0.6),
     ]
+    for p in parts:
+        if p.name.startswith("Epicardium"):
+            p.mesh = shell_normals(g, p.mesh, H, 0.0, EPI)
+        elif p.name == "Endocardium":
+            p.mesh = shell_normals(g, p.mesh, C, -ENDO, 0.0)
     return parts
 
 
@@ -1094,7 +1124,7 @@ def interior_parts(g, F, rng):
 
 # ----------------------------------------------------------------------------------------------- great vessels
 # Centrelines in body coordinates (x left, y up, z forwards), pulled into the heart frame when used.
-AORTA_B = [AO_B - np.array([-0.20, 0.92, 0.33]) * 0.03, AO_B + np.array([-0.10, 0.28, 0.08]),
+AORTA_B = [AO_B - to_body(AO_AX) * 0.03, AO_B + np.array([-0.10, 0.28, 0.08]),
            [-0.46, 0.84, 0.12], [-0.42, 1.08, 0.08], [-0.24, 1.23, 0.00], [-0.02, 1.26, -0.18], [0.15, 1.18, -0.40],
            [0.22, 1.00, -0.64], [0.24, 0.70, -0.80], [0.22, 0.10, -0.84], [0.20, -0.62, -0.80]]
 AORTA_R = [0.165, 0.19, 0.19, 0.185, 0.175, 0.17, 0.165, 0.16, 0.155, 0.15, 0.145]
@@ -1104,7 +1134,7 @@ BRANCHES_B = {
     "lcca": ([[-0.04, 1.24, -0.08], [-0.05, 1.48, -0.05], [-0.04, 1.70, -0.02]], [0.065, 0.06, 0.058]),
     "lsa": ([[0.11, 1.20, -0.27], [0.19, 1.44, -0.28], [0.32, 1.63, -0.25]], [0.075, 0.07, 0.068]),
 }
-PT_B = [PV_B - np.array([0.25, 0.85, -0.45]) * 0.03, PV_B + np.array([0.10, 0.22, -0.10]), [0.14, 0.88, -0.08]]
+PT_B = [PV_B - to_body(PV_AX) * 0.03, PV_B + np.array([0.10, 0.22, -0.10]), [0.14, 0.88, -0.08]]
 PA_B = {
     "rpa": ([[0.14, 0.88, -0.08], [-0.12, 0.93, -0.20], [-0.42, 0.91, -0.34], [-0.68, 0.88, -0.38],
              [-0.94, 0.84, -0.38]], [0.13, 0.125, 0.12, 0.115, 0.11]),
@@ -1230,13 +1260,16 @@ def pericardium_parts(g, H, V, outers):
     par = vmax([band(S, 0.0, PARIETAL), inside_vessel, body_z - 0.07])
     cav = vmax([S, EPI - H, -outers, body_z - 0.0])
     grp = "Pericardium"
-    return [
+    parts = [
         _part(g, fib, "Fibrous pericardium", grp, "#d8c8a4", DESC["fibrous_peri"], "fascia", smooth=0.8, step=2),
         _part(g, par, "Parietal layer of serous pericardium", grp, "#e2aea0", DESC["parietal"], "serosa",
               smooth=0.7, step=2),
         Part("Pericardial cavity", grp, "#9fd0f0", g.mesh(cav, 0.9, 2), DESC["cavity"], alpha=0.28, category="csf",
              clip=True),
     ]
+    parts[0].mesh = shell_normals(g, parts[0].mesh, S, PARIETAL, PARIETAL + FIBROUS)
+    parts[1].mesh = shell_normals(g, parts[1].mesh, S, 0.0, PARIETAL)
+    return parts
 
 
 # ----------------------------------------------------------------------------------------------- field sampling
@@ -1429,14 +1462,19 @@ def coronary_parts(g, F, L):
     for p in parts:
         p.clip = True
     # epicardial fat filling the coronary and interventricular sulci
+    from .sdf import sphere
+    rng = np.random.default_rng(3)
     shapes = []
-    for key, r in (("ring", 0.07), ("ant", 0.06), ("post", 0.06)):
+    for key, r in (("ring", 0.06), ("ant", 0.05), ("post", 0.05)):
         pts = L[key]
         if key == "ring":
             pts = np.vstack([pts, pts[:1]])
         for i in range(len(pts) - 1):
             if np.linalg.norm(pts[i + 1] - pts[i]) < 0.3:
                 shapes.append(_cap(pts[i], pts[i + 1], r, r))
+        # lobules of fat bulging out of the furrow
+        for p in resample(pts, 0.035):
+            shapes.append(sphere(p + rng.normal(0, 0.012, 3), r * rng.uniform(1.0, 1.45)))
     for key in ("rca", "lcx", "gcv", "cs", "lca"):
         pts = smooth_path(L[key], 40)
         for i in range(len(pts) - 1):
