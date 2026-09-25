@@ -79,6 +79,7 @@ class LessonsPanel(QWidget):
     lessonClosed = Signal()
     quizRequested = Signal(object)          # Lesson - test me on everything it named
     linkActivated = Signal(str, str)        # scheme, payload - "see also" links out of a lesson
+    diagramChanged = Signal(str)            # the current step's diagram id ("" for none), shown over the 3D view
 
     def __init__(self, lessons, parent=None):
         super().__init__(parent)
@@ -537,6 +538,7 @@ class LessonsPanel(QWidget):
         self.lesson = None
         self.stack.setCurrentIndex(PAGE_LIBRARY)
         self._fill()
+        self.diagramChanged.emit("")
         self.lessonClosed.emit()
 
     # ------------------------------------------------------------------ steps
@@ -583,6 +585,7 @@ class LessonsPanel(QWidget):
         """Paint the step's diagram at the width the panel has now and hand it to the text as an image."""
         did = step.get("diagram")
         self._diagram_shown = None
+        self.diagramChanged.emit(did or "")
         if not did:
             return
         from .diagram import render_image

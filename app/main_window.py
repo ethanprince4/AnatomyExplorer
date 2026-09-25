@@ -127,6 +127,9 @@ class MainWindow(QMainWindow):
                 self.lessons_panel.lessonOpened.connect(self._remember_lesson)
                 self.lessons_panel.quizRequested.connect(self.quiz_lesson)
                 self.tabs.entry_picked.connect(self._study_entry_picked)
+                from .ui.diagram import DiagramOverlay
+                self.diagram_overlay = DiagramOverlay(self.center)     # a step's diagram, readable, over the 3D
+                self.lessons_panel.diagramChanged.connect(self.diagram_overlay.set_diagram)
                 self.lessons_panel.linkActivated.connect(self.on_link)
                 from .micro.registry import MODELS as MICRO_MODELS
                 self.lessons_panel.set_reference_titles(

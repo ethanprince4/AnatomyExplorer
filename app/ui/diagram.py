@@ -4,10 +4,11 @@ A diagram covers what the 3D atlas cannot show - an ECG trace, a spirogram, a re
 takes round the body. They are drawn for the dark theme (light strokes on a transparent background), so they are
 painted straight onto the panel and always at the width the panel has, never a blurry fixed-size bitmap.
 """
-from PySide6.QtCore import QRectF, QSize, QSizeF, Qt
+from PySide6.QtCore import QEvent, QRectF, QSize, QSizeF, Qt
 from PySide6.QtGui import QImage, QPainter
 from PySide6.QtSvg import QSvgRenderer
-from PySide6.QtWidgets import QDialog, QSizePolicy, QVBoxLayout, QWidget
+from PySide6.QtWidgets import (QDialog, QFrame, QHBoxLayout, QLabel, QSizePolicy, QToolButton, QVBoxLayout,
+                               QWidget)
 
 from ..lessons import diagram_path
 
@@ -125,3 +126,96 @@ def show_large(diagram_id, parent=None):
     h = min(int(w * aspect(renderer(diagram_id))) + 32, int(avail.height() * 0.85) if avail is not None else 800)
     dlg.resize(w, h)
     dlg.exec()
+
+
+class DiagramOverlay(QFrame):
+    """A lesson step's diagram as a card over the 3D view.
+
+    The lesson panel is ~330 px wide and the diagrams are drawn at ~900 with 12 px text, so squeezed into the
+    panel their labels are unreadable. The card sits in the top-right corner of the centre area at up to about
+    half its width (never larger than the diagram's own size), can be collapsed to a small tab so it never
+    hides the model for long, and opens full size in a window of its own."""
+
+    def __init__(self, host):
+        super().__init__(host)
+        self.host = host
+        self.diagram_id = None
+        self.collapsed = False
+        self.setObjectName("diagramOverlay")
+        self.setStyleSheet("#diagramOverlay { background: rgba(16, 19, 24, 235); border: 1px solid #2c3440;"
+                           " border-radius: 8px; } QLabel { color: #c9d2dd; font-weight: 600; }"
+                           " QToolButton { color: #c9d2dd; border: none; padding: 2px 6px; }"
+                           " QToolButton:hover { color: #ffffff; background: #26303b; border-radius: 4px; }")
+        lay = QVBoxLayout(self)
+        lay.setContentsMargins(10, 6, 10, 10)
+        lay.setSpacing(4)
+        top = QHBoxLayout()
+        self.title = QLabel("Diagram")
+        top.addWidget(self.title, 1)
+        self.big_btn = QToolButton()
+        self.big_btn.setText("⤢")
+        self.big_btn.setToolTip("Open full size")
+        self.big_btn.clicked.connect(lambda: show_large(self.diagram_id, self.window()) if self.diagram_id else None)
+        self.fold_btn = QToolButton()
+        self.fold_btn.clicked.connect(lambda: self.set_collapsed(not self.collapsed))
+        top.addWidget(self.big_btn)
+        top.addWidget(self.fold_btn)
+        lay.addLayout(top)
+        self.view = DiagramView(self, max_height=10000)
+        lay.addWidget(self.view, 1)
+        host.installEventFilter(self)
+        self.hide()
+
+    def set_diagram(self, diagram_id):
+        r = renderer(diagram_id) if diagram_id else None
+        self.diagram_id = diagram_id if r is not None else None
+        if self.diagram_id is None:
+            self.hide()
+            return
+        self.view.set_diagram(self.diagram_id)
+        path = diagram_path(self.diagram_id)
+        title = "Diagram"
+        try:
+            import re
+            m = re.search(r"<title>(.*?)</title>", path.read_text(encoding="utf-8"), re.S)
+            title = m.group(1).strip() if m else title
+        except OSError:
+            pass
+        self.title.setText(title)
+        self.set_collapsed(False)
+        self.show()
+        self.raise_()
+
+    def set_collapsed(self, on):
+        self.collapsed = on
+        self.view.setVisible(not on)
+        self.big_btn.setVisible(not on)
+        self.fold_btn.setText("Show diagram ▾" if on else "–")
+        self.fold_btn.setToolTip("Show the diagram" if on else "Tuck the diagram away")
+        self._place()
+
+    def eventFilter(self, obj, event):
+        if obj is self.host and event.type() == QEvent.Resize:
+            self._place()
+        return False
+
+    def _place(self):
+        if self.diagram_id is None:
+            return
+        hw, hh = self.host.width(), self.host.height()
+        if self.collapsed:
+            self.adjustSize()
+            sw = self.sizeHint().width()
+            self.setGeometry(hw - sw - 12, 12, sw, self.sizeHint().height())
+            return
+        r = renderer(self.diagram_id)
+        box = r.viewBoxF()
+        natural = box.width() if box.isValid() and not box.isEmpty() else r.defaultSize().width()
+        w = int(min(max(hw * 0.52, min(460, hw - 24)), natural + 20, hw - 24))
+        h = int(w * aspect(r)) + 44
+        if h > hh * 0.75:
+            h = int(hh * 0.75)
+            w = int((h - 44) / aspect(r)) + 20
+        w, h = max(200, w), max(120, h)
+        self.setGeometry(hw - w - 12, 12, w, h)      # top-right: clear of a micro model's side panel
+        self.raise_()

@@ -1,29 +1,31 @@
 # Guided lessons
 
 A lesson is a short scripted walk through one topic. Each step writes a paragraph or two, sets the 3D view up
-to match it, and can ask a question before you move on. Ctrl+L, or **Lessons** on the lower row of the Explore
-panel's switcher.
+to match it, and can ask a question before you move on. Ctrl+L, or **Lessons** (or **Lab course**) on the
+Explore panel's **Study** tab.
 
-There are **137 lessons, 810 steps and 721 recall questions**, filed under twelve body systems and eight
-regions. The browser groups them three ways — **System**, **Region** or **Level** — and remembers how far
-through each one you got.
+There are **246 lessons, 1,278 steps and 1,189 recall questions**: 137 guided lessons (810 steps, 721 recall
+questions) and 109 lab-course mini lessons and reviews (468 steps, 468 recall questions, 1,900 practice items; see
+[The lab course](#the-lab-course)). They are filed under twelve body systems and eight regions. The browser groups
+them four ways — **Course**, **System**, **Region** or **Level** — and remembers how far through each one you got.
+`tools/check_lessons.py` prints the current totals.
 
 | System | Lessons | | Region | Lessons |
 |---|---|---|---|---|
-| Muscular | 26 | | Head & neck | 37 |
-| Nervous | 26 | | Abdomen | 20 |
-| Cardiovascular | 20 | | Thorax | 18 |
-| Skeletal | 16 | | Whole body | 18 |
-| Digestive | 16 | | Upper limb | 16 |
-| Respiratory | 9 | | Lower limb | 15 |
-| Special senses | 6 | | Pelvis & perineum | 7 |
-| Lymphatic & immune | 5 | | Back & spine | 6 |
+| Cardiovascular | 57 | | Head & neck | 59 |
+| Nervous | 35 | | Thorax | 50 |
+| Digestive | 30 | | Whole body | 40 |
+| Muscular | 26 | | Abdomen | 35 |
+| Respiratory | 23 | | Pelvis & perineum | 21 |
+| Special senses | 19 | | Upper limb | 17 |
+| Reproductive | 16 | | Lower limb | 17 |
+| Skeletal | 16 | | Back & spine | 7 |
+| Lymphatic & immune | 8 | | | |
+| Urinary | 7 | | | |
 | Endocrine | 5 | | | |
-| Skin & fascia | 3 | | | |
-| Urinary | 3 | | | |
-| Reproductive | 2 | | | |
+| Skin & fascia | 4 | | | |
 
-Levels are **Foundation** (12), **Core** (88) and **Advanced** (37). Advanced lessons usually name a
+Levels are **Foundation** (22), **Core** (183) and **Advanced** (41). Advanced lessons usually name a
 `prereq`, which the runner shows under the title as "After: …".
 
 ## The lab course
@@ -35,6 +37,18 @@ Practical 1, Lab Practical 2** in that order, each heading showing how many of i
 finished (`LAB 3  4/10 ✓ · BLOOD & HEART STRUCTURE`), and the mini lessons under it in course order with a ✓
 once read and their best practice score. Every other lesson follows underneath by body system; **System**,
 **Region** and **Level** group the whole library as before.
+
+| Unit | Mini lessons | | Unit | Mini lessons |
+|---|---|---|---|---|
+| Lab 1 · Nerve physiology, reflexes & general senses | 9 | | Lab 6 · Respiratory structure & ventilation | 9 |
+| Lab 2 · Eye, ear, hearing & balance | 11 | | Lab 7 · Exercise physiology & pulmonary health | 5 |
+| Lab 3 · Blood & heart structure | 10 | | Lab 8 · Digestive & urinary anatomy | 16 |
+| Lab 4 · ECG & heart function | 8 | | Lab 9 · Reproductive systems & early development | 12 |
+| Lab 5 · Blood vessels & circulation | 13 | | Lab Practical 2 · Labs 6–9 | 7 |
+| Lab Practical 1 · Labs 1–5 | 9 | | | |
+
+Each lab practical is a set of review lessons ending in a practice exam with no steps. The 1,900 practice items
+are 601 `find`, 439 `find_micro`, 319 `mcq`, 264 `recall`, 180 `name` and 97 `order`.
 
 Clicking a course lesson opens its **cover**: the objectives, how far you got, your practice scores and two
 buttons:
