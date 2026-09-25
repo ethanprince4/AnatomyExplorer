@@ -21,7 +21,7 @@ from scipy import ndimage
 from scipy.spatial import cKDTree
 
 from .base import Part
-from .geometry import Mesh, compute_normals, ellipsoid as ellipsoid_mesh, smooth_path, tube
+from .geometry import Mesh, ellipsoid as ellipsoid_mesh, smooth_path, tube
 from .kit import Volume
 from .organic import Sweep, noise_field, warp_parts
 from .sdf import fbm3, smin
@@ -295,8 +295,8 @@ DESC = {
               "canal carries the cauda equina. The female sacrum is shorter, wider and less curved than the male.",
     "coccyx": "Coccyx: three to five small fused vertebrae below the sacrum. It anchors the anococcygeal body, "
               "levator ani and coccygeus, and moves backwards during childbirth to enlarge the outlet.",
-    "l5": "Fifth lumbar vertebra: the lowest mobile vertebra, sitting on the sacrum at the lumbosacral angle. Shown for "
-          "orientation; in the median section its body, vertebral canal and spinous process are cut.",
+    "l5": "Fifth lumbar vertebra: the lowest mobile vertebra, sitting on the sacrum at the lumbosacral angle. "
+          "Shown for orientation; in the median section its body, vertebral canal and spinous process are cut.",
     "disc": "Lumbosacral intervertebral disc (L5/S1): anulus fibrosus round a nucleus pulposus, wedge-shaped because "
             "of the lumbosacral angle. The commonest level, with L4/5, for disc prolapse.",
     "hip": "Hip bone (os coxae): ilium, ischium and pubis fused at the acetabulum. The arcuate line and pecten pubis "
@@ -569,9 +569,9 @@ DESC = {
     "primordial": "Primordial follicles: a primary oocyte (arrested in prophase I of meiosis since fetal life) "
                   "surrounded by a single layer of flat follicular cells. They form the resting pool in the outer "
                   "cortex; a few are recruited every day.",
-    "primary": "Primary follicles: the follicular cells have become cuboidal granulosa cells (one layer in a unilaminar, "
-               "several in a multilaminar primary follicle) and the zona pellucida appears between them and the "
-               "growing primary oocyte. The stroma round them begins to form the theca.",
+    "primary": "Primary follicles: the follicular cells have become cuboidal granulosa cells (one layer in a "
+               "unilaminar, several in a multilaminar primary follicle) and the zona pellucida appears between "
+               "them and the growing primary oocyte. The stroma round them begins to form the theca.",
     "secondary": "Secondary (antral) follicles: many layers of granulosa cells in which small fluid-filled spaces "
                  "(Call-Exner bodies, vesicles) appear and coalesce into the antrum, under FSH. The oocyte, still "
                  "primary, has reached nearly full size.",
@@ -862,7 +862,8 @@ def _hip_bone():
     k = 0.03
     # pubic body beside the symphysis, superior ramus with the pubic tubercle, inferior ramus to the ischium
     _apply(V, d, _dist(_flat_tube(np.array([SYMPH_C + (0.10, 0, 0) - SYMPH_AX * 0.15,
-                                            SYMPH_C + (0.10, 0, 0) + SYMPH_AX * 0.14]), 0.075, 0.065, 0.06, 0.06)), "smin", k)
+                                            SYMPH_C + (0.10, 0, 0) + SYMPH_AX * 0.14]), 0.075, 0.065, 0.06, 0.06)),
+           "smin", k)
     sup = _spline([(0.12, -0.33, 0.60), (0.28, -0.26, 0.52), (0.45, -0.20, 0.38), (0.56, -0.17, 0.26)], 0.03)
     _apply(V, d, _tube_d(sup, np.linspace(0.045, 0.075, len(sup))), "smin", k)
     _apply(V, d, _tube_d(np.array([(0.15, -0.30, 0.63), (0.17, -0.30, 0.66)]), 0.03), "smin", k)
@@ -1384,7 +1385,6 @@ def build_adnexa():
     s_amp = L - 0.07
     n_s = max(80, int(L / 0.006))
     sw = Sweep(path, 36, n_s)
-    S = sw.S * L
 
     def r_out(T, S_):
         a = S_ * L
@@ -1759,7 +1759,7 @@ def _ball(c, r, res=12, squash=(1.0, 1.0, 1.0)):
     return ellipsoid_mesh(c, np.asarray(squash) * r, res)
 
 
-# =============================================================================== specimen: ovary cut through its follicles
+# ============================================================================ specimen: ovary cut through its follicles
 OVARY_O = np.array([0.0, 0.78, -1.46])
 OV_R = np.array([0.20, 0.25, 0.44])          # half-thickness (x), height (y), length (z): about 2.5x life size
 
@@ -1788,7 +1788,6 @@ def build_ovary_specimen():
     body = body.astype(np.float32)
     depth = -_edt_from(body, vox)
     X = np.broadcast_to(x, V.shape)
-    notch = _sph(x, y, z, o + (0, -OV_R[1] - 0.02, 0.0), 0.085)             # hilum: vessels enter from below
     fol_r = 0.13
     graaf = _sph(x, y, z, graaf_c, fol_r)
     cl = _sph(x, y, z, cl_c, 0.105) + (0.012 * np.sin(np.arctan2(py - 0.05, pz + 0.27) * 11)).astype(np.float32)
@@ -1844,9 +1843,7 @@ def build_ovary_specimen():
     cum = _sph(x, y, z, cum_c, 0.045)
     the = _cut(_mx(graaf - 0.03, -(graaf - 0.014)), X)
     thi = _cut(_mx(graaf - 0.014, -graaf), X)
-    gran = _cut(_mx(_mn(graaf, smin(graaf + 0.0, cum, 0.02)), -(graaf + 0.02), -(cum)), X)
     gran = _cut(_mx(graaf, -(graaf + 0.02)), X)
-    antrum = _cut(_mx(graaf + 0.02, -smin(-(graaf + 0.02) * 0 + cum, graaf + 1.0, 0.0)), X)
     antrum = _cut(_mx(graaf + 0.02, -cum), X)
     cumulus = _cut(_mx(cum, graaf + 0.005, -_sph(x, y, z, cum_c + (0, 0.002, -0.004), 0.037)), X)
     parts.append(_part(_clean(_mesh(V, the, 0.7)), "Theca externa", G, "#d69a8a", DESC["theca_ext"], "fascia",
@@ -1870,7 +1867,7 @@ def build_ovary_specimen():
     parts.append(_part(_clean(_mesh(V, _cut(_mx(atr, -(atr + 0.012)), X), 0.7)), "Atretic follicle", G, "#c9a5a3",
                        DESC["atretic"], "fascia", micro=True, rank=3.2))
     # secondary follicles: granulosa with small fluid-filled vesicles, a thin theca
-    sec_g = _mx(secs, -(secs + 0.010) * 0 - _mn(*[_sph(x, y, z, c, 0.018) for c in sec]))
+    sec_g = _mx(secs, -_mn(*[_sph(x, y, z, c, 0.018) for c in sec]))
     ves = _mn(*[_sph(x, y, z, c + rng.normal(0, 0.017, 3) * (0, 1, 1), 0.008) for c in sec for _ in range(5)])
     parts.append(_part(_clean(_mesh(V, _cut(_mx(sec_g, -ves), X), 0.6)), "Secondary follicles", G, "#cf8aa9",
                        DESC["secondary"], "gland", micro=True, rank=3.3))
@@ -1944,7 +1941,7 @@ def build_breast():
     tail_d = np.maximum(tail_d, -Z)
     body = smin(dome.astype(np.float32), tail_d, 0.06).astype(np.float32)
     nip_c = np.array([0.0, o[1] + yc - 0.01, o[2] + H * 1.02])
-    nip = _dist(_flat_tube(np.array([nip_c - (0, 0, 0.03), nip_c + (0, 0, 0.045)]), 0.034, 0.034, 0.02, 0.018))
+    nip = _dist(_flat_tube(np.array([nip_c - (0, 0, 0.03), nip_c + (0, 0, 0.05)]), 0.042, 0.042, 0.02, 0.02))
     nip_d = _apply(V, _empty(V), nip)
     body = _mn(body, nip_d)
     body = (body + 0.004 * fbm3(x * 8, y * 8, z * 8, 1.0, 2, 44)).astype(np.float32)
@@ -1965,7 +1962,7 @@ def build_breast():
             L = 0.42                                             # the upper outer lobe feeds the axillary tail
         pts = []
         for t_ in np.linspace(0.12, L, 7):
-            c = nip_c * 0 + np.array([0.0, o[1] + yc, o[2]]) + dirn * t_
+            c = np.array([0.0, o[1] + yc, o[2]]) + dirn * t_
             zt = H * max(1 - (t_ / R) ** 2, 0) ** 0.72
             c[2] = o[2] + 0.35 * zt + 0.03
             pts.append(c)
@@ -1997,14 +1994,13 @@ def build_breast():
         rr = rk + 0.75 * Z + 0.012 * np.sin(np.arctan2(Y - yc, x) * 7 + rk * 30)
         lig = np.minimum(lig, (np.abs(r - rr) - 0.0065).astype(np.float32))
     inside = _mx(body, -Z)
-    skin_zone = depth < 0.013
     skin = _mx(inside, depth - 0.013, -nip_d)
     are_r = np.sqrt(x ** 2 + (Y - (nip_c[1] - o[1])) ** 2)
     areola = _mx(inside, depth - 0.015, are_r - 0.12, -nip_d)
     skin = _mx(skin, -areola)
     gl = _mx(inside, 0.026 - depth, _mn(lobes, tail_d + 0.018))
     lobules_d = _mx(lobules, inside, 0.02 - depth)
-    duct_d = _mx(_mn(ducts, sinus), inside - 0.0, 0.004 - depth + 0.0 * x)
+    duct_d = _mx(_mn(ducts, sinus), inside, 0.004 - depth)
     duct_d = _mn(_mx(ducts, nip_d), duct_d)
     lig_d = _mx(lig, inside, 0.012 - depth, -gl, Z - ztop + 0.0)
     lobe_d = _mx(gl, -lobules_d, -duct_d, -nip_d)
@@ -2158,7 +2154,7 @@ def build_tube_specimen():
     return parts
 
 
-# =============================================================================== specimen: endometrium with an implanted conceptus
+# ======================================================== specimen: endometrium with an implanted conceptus
 ENDO_O = np.array([0.0, -0.62, -1.46])
 
 
@@ -2268,7 +2264,7 @@ def build_endometrium_specimen():
     return parts
 
 
-# =============================================================================== specimen row: fertilisation to blastocyst
+# ========================================================== specimen row: fertilisation to blastocyst
 ROW_Y = 1.36
 ROW_Z = [-0.52, -0.76, -1.00, -1.24, -1.48, -1.72, -1.97]
 
