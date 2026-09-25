@@ -829,7 +829,15 @@ class PracticeController:
 
     def _ask_mcq(self, item):
         self.panel.prompt.setText(esc(item["q"]))
-        self._set_choices(list(item["choices"]), int(item["answer"]))
+        # shuffled every time, so the right answer is never learnt by its position; catch-all options
+        # ("all of the above", "both", "neither"...) keep their place at the end
+        choices = list(item["choices"])
+        right = choices[int(item["answer"])]
+        tail = [c for c in choices if c.strip().lower().startswith(("all of", "none of", "both", "neither"))]
+        head = [c for c in choices if c not in tail]
+        random.shuffle(head)
+        order = head + tail
+        self._set_choices(order, order.index(right))
 
     def answer_choice(self, i):
         cur = self.cur

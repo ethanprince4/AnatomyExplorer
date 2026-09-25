@@ -1,0 +1,2410 @@
+[
+ {
+  "id": "exam1-01-lab1-nerves-reflexes-senses",
+  "title": "Lab 1 review: nerves, reflexes and general senses",
+  "course": {
+   "exam": 1,
+   "order": 1,
+   "unit": "Lab Practical 1 · Labs 1–5"
+  },
+  "system": "nervous",
+  "region": "general",
+  "level": "core",
+  "minutes": 12,
+  "summary": "Resting and action potentials, summation, the reflex arc and the reflexes you test, and the receptors of the skin.",
+  "tags": [
+   "review",
+   "nervous",
+   "lab practical"
+  ],
+  "objectives": [
+   "Explain why the resting potential is negative and what changes it",
+   "Distinguish graded potentials from action potentials and temporal from spatial summation",
+   "Name the five parts of a reflex arc and the nerve and segments of each stretch reflex",
+   "Match each skin receptor to what it senses and explain referred pain"
+  ],
+  "takeaways": [
+   "Resting potential ≈ −70 mV, set mainly by K+; the Na+/K+ pump keeps the gradients.",
+   "An axon's spike is all-or-none; a nerve's compound action potential is graded by recruitment.",
+   "Receptor → sensory neuron → integration centre → motor neuron → effector.",
+   "Patellar L2–L4 femoral; biceps C5–C6; triceps C6–C8; calcaneal S1–S2.",
+   "Meissner: light touch. Pacinian: pressure and vibration. Free endings: pain and temperature."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab01-01-neurons-resting-potential",
+    "lab01-05-reflex-arc",
+    "lab01-08-skin-receptors-touch"
+   ],
+   "micro": [
+    "peripheral_nerve",
+    "thick_skin"
+   ]
+  },
+  "steps": [
+   {
+    "title": "The resting potential",
+    "text": "<p>A neuron has dendrites, a cell body and an axon; a <b>nerve</b> is a cable of many axons wrapped in endoneurium, perineurium and epineurium. At rest the inside of the cell is about <b>−70 mV</b>. That voltage is set mainly by <b>K+</b> leaking out through open channels, so raising extracellular K+ <b>depolarises</b> the cell. Changing extracellular Na+ does little at rest, because few Na+ channels are open. The <b>Na+/K+ pump</b>, which ouabain blocks, keeps the gradients.</p>",
+    "systems": [
+     "nervous",
+     "skeletal"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "side": "Right",
+    "focus": [
+     "Sciatic nerve"
+    ],
+    "view": "posterior",
+    "micro": "peripheral_nerve",
+    "micro_focus": [
+     "Axons",
+     "Myelin sheaths (internodes)",
+     "Endoneurium",
+     "Perineurium",
+     "Epineurium"
+    ],
+    "diagram": "lab01-membrane-potential",
+    "check": {
+     "q": "What happens to the resting potential when extracellular K+ is raised, and why?",
+     "a": "It becomes less negative (depolarises), because a smaller K+ gradient drives less K+ out."
+    }
+   },
+   {
+    "title": "Graded potentials and summation",
+    "text": "<p>At a synapse an <b>EPSP</b> is a small depolarisation and an <b>IPSP</b> a small hyperpolarisation. Both are graded and fade with time and distance, but they add. <b>Temporal summation</b> is one input firing again before its first potential has faded; <b>spatial summation</b> is several inputs firing together. An EPSP and an IPSP arriving together can cancel. If the sum reaches threshold at the <b>axon hillock</b>, an action potential fires.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "back"
+    ],
+    "focus": [
+     "Anterior horn of spinal cord"
+    ],
+    "show": [
+     "Spinal cord"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Spinal cord"
+    ],
+    "diagram": "lab01-summation",
+    "check": {
+     "q": "What is the difference between temporal and spatial summation?",
+     "a": "Temporal: one synapse fires repeatedly in quick succession. Spatial: several synapses fire at the same time."
+    }
+   },
+   {
+    "title": "Action potentials and whole nerves",
+    "text": "<p>An axon's <b>action potential</b> is all-or-none: voltage-gated Na+ channels open to depolarise, K+ channels to repolarise. In the <b>absolute refractory period</b> no second spike is possible; in the <b>relative</b> one a stronger stimulus is needed. A whole nerve gives a <b>compound action potential</b> that grows from <b>threshold</b> to <b>maximal</b> stimulus as more axons are recruited. Thick myelinated A fibres conduct fastest, thin unmyelinated C fibres slowest; local anaesthetics and cold block conduction.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "side": "Right",
+    "focus": [
+     "Sciatic nerve",
+     "Tibial nerve"
+    ],
+    "view": "posterior",
+    "micro": "peripheral_nerve",
+    "micro_focus": [
+     "Nodes of Ranvier",
+     "Myelin sheaths (internodes)",
+     "Unmyelinated axons (C fibres)"
+    ],
+    "diagram": "lab01-action-potential",
+    "check": {
+     "q": "Why is a nerve's compound action potential graded when each axon's spike is all-or-none?",
+     "a": "Stronger stimuli recruit more axons (with higher thresholds), so more spikes add together."
+    }
+   },
+   {
+    "title": "The reflex arc",
+    "text": "<p>A <b>reflex</b> is a fast, involuntary, predictable response. It has five parts: <b>receptor → sensory (afferent) neuron → integration centre → motor (efferent) neuron → effector</b>. The sensory cell body sits in the <b>dorsal root ganglion</b> and its axon enters by the dorsal root; the motor axon leaves by the ventral root. <b>Somatic</b> reflexes move skeletal muscle; <b>visceral</b> reflexes act on smooth muscle, heart or glands. A stretch reflex is <b>monosynaptic</b>; most others are <b>polysynaptic</b>.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "back"
+    ],
+    "focus": [
+     "Spinal ganglion",
+     "Posterior root of spinal nerve",
+     "Anterior root of spinal nerve"
+    ],
+    "show": [
+     "Spinal cord",
+     "Grey matter of spinal cord"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Spinal cord"
+    ],
+    "diagram": "lab01-reflex-arc",
+    "check": {
+     "q": "List the five parts of a reflex arc in order.",
+     "a": "Receptor, sensory neuron, integration centre, motor neuron, effector."
+    }
+   },
+   {
+    "title": "The reflexes you test",
+    "text": "<p>Stretch reflexes start in the <b>muscle spindle</b>. <b>Patellar</b>: the knee extends (femoral nerve, L2–L4). <b>Biceps</b>: the elbow flexes (musculocutaneous, C5–C6). <b>Triceps</b>: the elbow extends (radial, C6–C8). <b>Calcaneal</b>: the foot plantar flexes (tibial, S1–S2). The <b>corneal reflex</b> runs in on the trigeminal nerve and out on the facial. Stroking the sole normally curls the toes; a <b>Babinski sign</b> (big toe up, toes fan) is normal in infants but means corticospinal damage in adults.</p>",
+    "systems": [
+     "muscular",
+     "nervous",
+     "skeletal"
+    ],
+    "regions": [
+     "lower_limb_r"
+    ],
+    "side": "Right",
+    "focus": [
+     "Patellar ligament",
+     "Rectus femoris muscle",
+     "Femoral nerve"
+    ],
+    "show": [
+     "Patella"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Rectus femoris muscle"
+    ],
+    "check": {
+     "q": "Which nerve and spinal segments serve the patellar reflex?",
+     "a": "The femoral nerve, L2–L4."
+    }
+   },
+   {
+    "title": "Skin receptors and referred pain",
+    "text": "<p><b>Meissner corpuscles</b> in the dermal papillae sense light touch and adapt fast; <b>Merkel discs</b> sense light touch and adapt slowly; deep <b>Pacinian corpuscles</b> sense pressure and vibration; <b>free nerve endings</b> sense pain and temperature. <b>Two-point discrimination</b> is finest on the fingertips, where receptors are densest. <b>Referred pain</b> is visceral pain felt on skin served by the same spinal segments: heart to the left chest and arm, gallbladder to the right shoulder, appendix first around the umbilicus.</p>",
+    "systems": [
+     "regions",
+     "skeletal"
+    ],
+    "regions": [
+     "upper_limb_r"
+    ],
+    "side": "Right",
+    "focus": [
+     "Palm",
+     "Distal phalanx of second finger of hand"
+    ],
+    "view": "anterior",
+    "micro": "thick_skin",
+    "micro_focus": [
+     "Meissner corpuscles",
+     "Pacinian corpuscles (lamellae)",
+     "Papillary dermis",
+     "Free nerve endings"
+    ],
+    "diagram": "lab01-skin-receptors",
+    "check": {
+     "q": "Which skin receptor senses vibration, and where is it?",
+     "a": "The Pacinian (lamellated) corpuscle, deep in the dermis and hypodermis."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Sciatic nerve"
+   },
+   {
+    "type": "find",
+    "structure": "Spinal ganglion"
+   },
+   {
+    "type": "name",
+    "structure": "Posterior root of spinal nerve"
+   },
+   {
+    "type": "find",
+    "structure": "Patellar ligament"
+   },
+   {
+    "type": "find",
+    "structure": "Femoral nerve"
+   },
+   {
+    "type": "name",
+    "structure": "Musculocutaneous nerve"
+   },
+   {
+    "type": "find",
+    "structure": "Calcaneal tendon"
+   },
+   {
+    "type": "find",
+    "structure": "Postcentral gyrus"
+   },
+   {
+    "type": "find_micro",
+    "model": "peripheral_nerve",
+    "part": "Nodes of Ranvier"
+   },
+   {
+    "type": "find_micro",
+    "model": "skeletal_muscle",
+    "part": "Intrafusal fibres"
+   },
+   {
+    "type": "find_micro",
+    "model": "thick_skin",
+    "part": "Meissner corpuscles"
+   },
+   {
+    "type": "find_micro",
+    "model": "thick_skin",
+    "part": "Pacinian corpuscles (lamellae)"
+   },
+   {
+    "type": "order",
+    "q": "Put the reflex arc in order",
+    "items": [
+     "Receptor",
+     "Sensory (afferent) neuron",
+     "Integration centre",
+     "Motor (efferent) neuron",
+     "Effector"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "During the absolute refractory period:",
+    "choices": [
+     "A stronger than normal stimulus is needed",
+     "The membrane is at rest",
+     "The Na+/K+ pump is switched off",
+     "No stimulus, however strong, can fire a second action potential"
+    ],
+    "answer": 3,
+    "why": "The Na+ channels are inactivated; in the relative refractory period a stronger stimulus works."
+   },
+   {
+    "type": "mcq",
+    "q": "A Babinski sign in an adult points to damage of the:",
+    "choices": [
+     "Corticospinal (pyramidal) tract",
+     "Tibial nerve",
+     "Dorsal root ganglion",
+     "Muscle spindle"
+    ],
+    "answer": 0,
+    "why": "It is normal in infants, whose corticospinal tracts are not yet fully myelinated."
+   }
+  ]
+ },
+ {
+  "id": "exam1-02-lab2-eye-vision",
+  "title": "Lab 2 review: the eye and vision",
+  "course": {
+   "exam": 1,
+   "order": 2,
+   "unit": "Lab Practical 1 · Labs 1–5"
+  },
+  "system": "sensory",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Accessory structures, the six eye muscles, the tunics and chambers, the retina and the visual pathway.",
+  "tags": [
+   "review",
+   "eye",
+   "lab practical"
+  ],
+  "objectives": [
+   "Trace tears from the lacrimal gland to the nose",
+   "Name the six extrinsic eye muscles and their nerves",
+   "Identify the three tunics, the chambers and the humors of the eyeball",
+   "Explain accommodation, the fovea and the blind spot, and trace the visual pathway"
+  ],
+  "takeaways": [
+   "Lacrimal gland → puncta → canaliculi → lacrimal sac → nasolacrimal duct → nose.",
+   "LR6 SO4, the rest 3.",
+   "Fibrous (sclera, cornea), vascular (choroid, ciliary body, iris), sensory (retina).",
+   "Near vision: ciliary muscle contracts, zonules slacken, lens rounds up.",
+   "Nasal fibres cross at the chiasm; the visual cortex is in the occipital lobe."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab02-03-eyeball-tunics",
+    "lab02-05-focusing-acuity",
+    "lab02-06-visual-pathway"
+   ],
+   "micro": [
+    "eyeball",
+    "retina"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Accessory structures and tears",
+    "text": "<p>The <b>conjunctiva</b> lines the lids (palpebral) and covers the white of the eye (bulbar); <b>tarsal glands</b> oil the lid margin. Tears come from the <b>lacrimal gland</b> in the upper lateral orbit, wash across the eye, and drain through the <b>lacrimal puncta → canaliculi → lacrimal sac → nasolacrimal duct</b> into the nasal cavity, which is why crying makes your nose run. Tears contain lysozyme, an antibacterial enzyme.</p>",
+    "systems": [
+     "visceral",
+     "nervous"
+    ],
+    "regions": [
+     "head"
+    ],
+    "side": "Right",
+    "focus": [
+     "Lacrimal gland",
+     "Lacrimal sac",
+     "Nasolacrimal duct"
+    ],
+    "show": [
+     "Eyeball"
+    ],
+    "view": "anterior",
+    "frame_on": [
+     "Lacrimal apparatus"
+    ],
+    "micro": "eyeball",
+    "micro_focus": [
+     "Lacrimal gland",
+     "Lacrimal puncta",
+     "Lacrimal canaliculi",
+     "Lacrimal sac",
+     "Nasolacrimal duct",
+     "Bulbar conjunctiva"
+    ],
+    "diagram": "lab02-tear-pathway",
+    "check": {
+     "q": "Trace a tear from where it is made to where it drains.",
+     "a": "Lacrimal gland → across the eye → lacrimal puncta → canaliculi → lacrimal sac → nasolacrimal duct → nasal cavity."
+    }
+   },
+   {
+    "title": "Six muscles, three nerves",
+    "text": "<p>Four <b>recti</b> (superior, inferior, medial, lateral) and two <b>obliques</b> move the eye. The <b>superior oblique</b> runs through the <b>trochlea</b> and turns the eye down and out; the <b>inferior oblique</b> turns it up and out. Nerves: <b>LR6 SO4, the rest 3</b>. The lateral rectus is supplied by the abducens (VI), the superior oblique by the trochlear (IV), and every other eye muscle, plus levator palpebrae superioris, by the oculomotor nerve (III).</p>",
+    "systems": [
+     "muscular"
+    ],
+    "regions": [
+     "head"
+    ],
+    "side": "Right",
+    "focus": [
+     "Superior rectus muscle",
+     "Inferior rectus muscle",
+     "Medial rectus muscle",
+     "Lateral rectus muscle",
+     "Superior oblique muscle",
+     "Inferior oblique muscle"
+    ],
+    "show": [
+     "Eyeball"
+    ],
+    "view": "superior",
+    "frame_on": [
+     "Eyeball"
+    ],
+    "diagram": "lab02-eye-muscles",
+    "check": {
+     "q": "Which nerve supplies the lateral rectus, and which the superior oblique?",
+     "a": "Lateral rectus: abducens (VI). Superior oblique: trochlear (IV)."
+    }
+   },
+   {
+    "title": "Three tunics, two segments",
+    "text": "<p><b>Fibrous tunic</b>: the white sclera and the clear cornea. <b>Vascular tunic</b>: the choroid, the <b>ciliary body</b> (whose muscle focuses the lens) and the <b>iris</b>, whose sphincter pupillae narrows the pupil and dilator pupillae widens it. <b>Sensory tunic</b>: the retina. In front of the lens, <b>aqueous humor</b> is made by the ciliary processes and drains into the scleral venous sinus; behind it, the gel-like <b>vitreous humor</b> holds the retina in place.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "head"
+    ],
+    "side": "Right",
+    "focus": [
+     "Sclera",
+     "Cornea",
+     "Iris",
+     "Lens"
+    ],
+    "show": [
+     "Eyeball"
+    ],
+    "view": "left",
+    "frame_on": [
+     "Eyeball"
+    ],
+    "micro": "eyeball",
+    "micro_focus": [
+     "Choroid",
+     "Ciliary body (ciliary ring)",
+     "Ciliary processes",
+     "Iris",
+     "Scleral venous sinus (canal of Schlemm)",
+     "Vitreous humor (vitreous body)"
+    ],
+    "diagram": "lab02-eyeball-section",
+    "check": {
+     "q": "Where is aqueous humor made, and where does it drain?",
+     "a": "Made by the ciliary processes; drains through the scleral venous sinus (canal of Schlemm)."
+    }
+   },
+   {
+    "title": "Retina and focusing",
+    "text": "<p>Light passes the ganglion and bipolar cells to reach the <b>rods</b> (dim light, no colour) and <b>cones</b> (bright light, colour, detail). The <b>fovea centralis</b>, in the macula, is all cones and gives the sharpest vision; the <b>optic disc</b>, where the nerve leaves, has no receptors and is the blind spot. For near vision the <b>ciliary muscle contracts</b>, the zonular fibres slacken and the lens rounds up. <b>Myopia</b> focuses in front of the retina (concave lens), <b>hyperopia</b> behind it (convex lens).</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "head"
+    ],
+    "side": "Right",
+    "focus": [
+     "Retina",
+     "Lens",
+     "Zonular fibres"
+    ],
+    "show": [
+     "Eyeball"
+    ],
+    "view": "left",
+    "frame_on": [
+     "Eyeball"
+    ],
+    "micro": "eyeball",
+    "micro_focus": [
+     "Fovea centralis",
+     "Macula lutea",
+     "Optic disc (blind spot)",
+     "Ciliary muscle",
+     "Zonular fibres (suspensory ligament)",
+     "Lens"
+    ],
+    "diagram": "lab02-accommodation",
+    "check": {
+     "q": "What does the ciliary muscle do when you focus on something close?",
+     "a": "It contracts, slackening the zonular fibres so the elastic lens becomes rounder."
+    }
+   },
+   {
+    "title": "The visual pathway and pupils",
+    "text": "<p>Retina → <b>optic nerve</b> → <b>optic chiasm</b>, where fibres from the nasal half of each retina cross → <b>optic tract</b> → <b>lateral geniculate body</b> of the thalamus → optic radiation → <b>visual cortex</b> in the occipital lobe. So each side of the brain sees the opposite half of the visual field. Some fibres go to the <b>superior colliculi</b> for visual reflexes. Light in one eye constricts both pupils: the <b>direct</b> and the <b>consensual</b> response. The efferent limb is the oculomotor nerve.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "head"
+    ],
+    "focus": [
+     "Optic nerve (II)",
+     "Optic chiasm",
+     "Optic tract",
+     "Lateral geniculate body"
+    ],
+    "show": [
+     "Eyeball",
+     "Occipital lobe"
+    ],
+    "view": "inferior",
+    "diagram": "lab02-visual-pathway",
+    "check": {
+     "q": "Which retinal fibres cross at the optic chiasm?",
+     "a": "Those from the medial (nasal) half of each retina."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Lacrimal gland"
+   },
+   {
+    "type": "find",
+    "structure": "Nasolacrimal duct"
+   },
+   {
+    "type": "find",
+    "structure": "Lateral rectus muscle"
+   },
+   {
+    "type": "name",
+    "structure": "Superior oblique muscle"
+   },
+   {
+    "type": "find",
+    "structure": "Abducens nerve (VI)"
+   },
+   {
+    "type": "name",
+    "structure": "Trochlear nerve (IV)"
+   },
+   {
+    "type": "find",
+    "structure": "Cornea"
+   },
+   {
+    "type": "name",
+    "structure": "Iris"
+   },
+   {
+    "type": "find",
+    "structure": "Lens"
+   },
+   {
+    "type": "find",
+    "structure": "Optic chiasm"
+   },
+   {
+    "type": "name",
+    "structure": "Lateral geniculate body"
+   },
+   {
+    "type": "find_micro",
+    "model": "eyeball",
+    "part": "Optic disc (blind spot)"
+   },
+   {
+    "type": "find_micro",
+    "model": "eyeball",
+    "part": "Fovea centralis"
+   },
+   {
+    "type": "find_micro",
+    "model": "eyeball",
+    "part": "Ciliary body (ciliary ring)"
+   },
+   {
+    "type": "find_micro",
+    "model": "retina",
+    "part": "Cones"
+   },
+   {
+    "type": "order",
+    "q": "Put the visual pathway in order",
+    "items": [
+     "Retina",
+     "Optic nerve",
+     "Optic chiasm",
+     "Optic tract",
+     "Lateral geniculate body",
+     "Optic radiation",
+     "Visual cortex"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "A myopic (near-sighted) eye is corrected with a:",
+    "choices": [
+     "Convex (converging) lens",
+     "Cylindrical lens",
+     "No lens",
+     "Concave (diverging) lens"
+    ],
+    "answer": 3,
+    "why": "Myopia focuses in front of the retina; a diverging lens pushes the focus back."
+   },
+   {
+    "type": "mcq",
+    "q": "The commonest colour blindness is:",
+    "choices": [
+     "Blue–yellow, autosomal",
+     "Total, from absent rods",
+     "Red–green, inherited on the X chromosome",
+     "Red–green, from a damaged lens"
+    ],
+    "answer": 2,
+    "why": "A missing or faulty red or green cone pigment; it is X-linked, so far commoner in males."
+   }
+  ]
+ },
+ {
+  "id": "exam1-03-lab2-ear-hearing-balance",
+  "title": "Lab 2 review: the ear, hearing and balance",
+  "course": {
+   "exam": 1,
+   "order": 3,
+   "unit": "Lab Practical 1 · Labs 1–5"
+  },
+  "system": "sensory",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Outer, middle and inner ear, how the cochlea turns sound into signals, hearing tests, and the organs of balance.",
+  "tags": [
+   "review",
+   "ear",
+   "lab practical"
+  ],
+  "objectives": [
+   "Identify the parts of the external and middle ear and the three ossicles",
+   "Describe the scalae, fluids and spiral organ of the cochlea",
+   "Tell conduction from sensorineural deafness with the Weber and Rinne tests",
+   "Contrast the maculae (static balance) with the cristae (dynamic balance)"
+  ],
+  "takeaways": [
+   "Malleus → incus → stapes → oval window.",
+   "Perilymph in the scala vestibuli and tympani; endolymph in the cochlear duct.",
+   "Weber lateralises to a conduction-deaf ear; Rinne shows bone louder than air in conduction deafness.",
+   "Maculae (utricle, saccule): head position. Cristae (ampullae): rotation."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab02-08-external-middle-ear",
+    "lab02-09-inner-ear-cochlea",
+    "lab02-11-balance"
+   ],
+   "micro": [
+    "ear"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Outer and middle ear",
+    "text": "<p>The <b>external ear</b> is the auricle, built on elastic cartilage, and the external acoustic meatus, which ends at the <b>tympanic membrane</b>. The air-filled <b>middle ear</b> holds the ossicles <b>malleus → incus → stapes</b>; the stapes footplate sits in the <b>oval window</b>, and funnelling sound onto that small window amplifies it. The <b>tensor tympani</b> and <b>stapedius</b> damp loud sounds. The <b>auditory tube</b> joins the middle ear to the nasopharynx and equalises pressure.</p>",
+    "systems": [
+     "skeletal",
+     "nervous"
+    ],
+    "regions": [
+     "head"
+    ],
+    "side": "Right",
+    "focus": [
+     "Tympanic membrane",
+     "Malleus",
+     "Incus",
+     "Stapes"
+    ],
+    "view": "right",
+    "frame_on": [
+     "Auditory ossicles"
+    ],
+    "micro": "ear",
+    "micro_focus": [
+     "Tympanic membrane – pars tensa",
+     "Malleus",
+     "Incus",
+     "Stapes",
+     "Tensor tympani",
+     "Stapedius",
+     "Pharyngotympanic (auditory) tube"
+    ],
+    "diagram": "lab02-sound-transmission",
+    "check": {
+     "q": "Name the ossicles in order from the eardrum.",
+     "a": "Malleus, incus, stapes."
+    }
+   },
+   {
+    "title": "The cochlea",
+    "text": "<p>The inner ear is a bony labyrinth of <b>perilymph</b> around a membranous labyrinth of <b>endolymph</b>. The cochlea coils three channels: the <b>scala vestibuli</b> (from the oval window), the <b>cochlear duct</b> and the <b>scala tympani</b> (ending at the round window). On the <b>basilar membrane</b> sits the <b>spiral organ (of Corti)</b>: hair cells whose stereocilia bend against the <b>tectorial membrane</b>. High pitches peak near the base of the cochlea, low pitches near its apex.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "head"
+    ],
+    "side": "Right",
+    "focus": [
+     "Cochlea"
+    ],
+    "show": [
+     "Cochlear nerve"
+    ],
+    "view": "right",
+    "frame_on": [
+     "Cochlea"
+    ],
+    "micro": "ear",
+    "micro_focus": [
+     "Scala vestibuli (magnified)",
+     "Cochlear duct endolymph (magnified)",
+     "Scala tympani (magnified)",
+     "Basilar membrane (magnified)",
+     "Tectorial membrane (magnified)",
+     "Inner hair cells",
+     "Outer hair cells"
+    ],
+    "diagram": "lab02-cochlea",
+    "check": {
+     "q": "Which fluid fills the cochlear duct, and which fills the scala tympani?",
+     "a": "Endolymph in the cochlear duct; perilymph in the scala tympani (and scala vestibuli)."
+    }
+   },
+   {
+    "title": "Hearing pathway and hearing tests",
+    "text": "<p>Cochlear nerve → cochlear nuclei → <b>inferior colliculus</b> → <b>medial geniculate body</b> → auditory cortex in the temporal lobe. <b>Conduction deafness</b> is a block in the outer or middle ear (wax, a torn drum, stiff ossicles); <b>sensorineural deafness</b> is hair-cell or nerve damage. <b>Weber</b>: a fork on the forehead sounds louder in a conduction-deaf ear, softer in a nerve-deaf one. <b>Rinne</b>: air conduction normally outlasts bone; with conduction deafness bone is heard longer.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "head"
+    ],
+    "focus": [
+     "Inferior colliculus",
+     "Medial geniculate body",
+     "Transverse temporal gyri"
+    ],
+    "show": [
+     "Brainstem",
+     "Vestibulocochlear nerve (VIII)"
+    ],
+    "view": "left",
+    "diagram": "lab02-weber-rinne",
+    "check": {
+     "q": "With conduction deafness in the left ear, where is the Weber tone heard?",
+     "a": "Louder in the left (affected) ear."
+    }
+   },
+   {
+    "title": "Static balance: utricle and saccule",
+    "text": "<p>The <b>vestibule</b> holds two sacs, the <b>utricle</b> and <b>saccule</b>. Each has a <b>macula</b>: hair cells whose stereocilia poke into a gel <b>otolithic membrane</b> weighted with calcium carbonate crystals, the <b>otoliths</b>. When the head tilts or moves in a straight line, the heavy membrane slides and bends the hair cells. This is <b>static equilibrium</b>: the sense of head position relative to gravity.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "head"
+    ],
+    "side": "Right",
+    "focus": [
+     "Vestibule",
+     "Vestibular nerve"
+    ],
+    "show": [
+     "Cochlea"
+    ],
+    "view": "right",
+    "frame_on": [
+     "Internal ear"
+    ],
+    "micro": "ear",
+    "micro_focus": [
+     "Utricle",
+     "Saccule",
+     "Maculae (utricle & saccule)",
+     "Otoconia (otoliths)",
+     "Otolithic membrane (magnified)"
+    ],
+    "diagram": "lab02-vestibular",
+    "check": {
+     "q": "What bends the hair cells of a macula when you tilt your head?",
+     "a": "The otolithic membrane, weighted with otoliths, slides with gravity."
+    }
+   },
+   {
+    "title": "Dynamic balance: semicircular canals",
+    "text": "<p>Three <b>semicircular canals</b> lie at right angles, one for each plane. Each swells into an <b>ampulla</b> holding a <b>crista ampullaris</b>, whose hair cells are capped by a gel <b>cupula</b>. When the head turns, the endolymph lags and bends the cupula: <b>dynamic equilibrium</b>, the sense of rotation. After spinning stops the fluid keeps moving, giving vertigo and <b>nystagmus</b>. The <b>Romberg test</b> (standing still, eyes closed) checks that vestibular and proprioceptive input can hold you up without vision.</p>",
+    "systems": [
+     "nervous"
+    ],
+    "regions": [
+     "head"
+    ],
+    "side": "Right",
+    "focus": [
+     "Anterior semicircular canal",
+     "Posterior semicircular canal",
+     "Lateral semicircular canal"
+    ],
+    "view": "right",
+    "frame_on": [
+     "Internal ear"
+    ],
+    "micro": "ear",
+    "micro_focus": [
+     "Semicircular ducts",
+     "Membranous ampullae",
+     "Cupula (magnified)",
+     "Crista ampullaris (connective tissue core)"
+    ],
+    "diagram": "lab02-vestibular",
+    "check": {
+     "q": "What detects rotation of the head, and how?",
+     "a": "The cristae ampullares of the semicircular canals: lagging endolymph bends the cupula and its hair cells."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Tympanic membrane"
+   },
+   {
+    "type": "find",
+    "structure": "Malleus"
+   },
+   {
+    "type": "name",
+    "structure": "Incus"
+   },
+   {
+    "type": "find",
+    "structure": "Stapes"
+   },
+   {
+    "type": "find",
+    "structure": "Auditory tube"
+   },
+   {
+    "type": "find",
+    "structure": "Cochlea"
+   },
+   {
+    "type": "name",
+    "structure": "Vestibule"
+   },
+   {
+    "type": "find",
+    "structure": "Lateral semicircular canal"
+   },
+   {
+    "type": "name",
+    "structure": "Inferior colliculus"
+   },
+   {
+    "type": "find_micro",
+    "model": "ear",
+    "part": "Spiral organ (of Corti)"
+   },
+   {
+    "type": "find_micro",
+    "model": "ear",
+    "part": "Basilar membrane"
+   },
+   {
+    "type": "find_micro",
+    "model": "ear",
+    "part": "Round window (secondary tympanic membrane)"
+   },
+   {
+    "type": "find_micro",
+    "model": "ear",
+    "part": "Maculae (utricle & saccule)"
+   },
+   {
+    "type": "find_micro",
+    "model": "ear",
+    "part": "Cristae ampullares"
+   },
+   {
+    "type": "order",
+    "q": "Put the path of sound in order",
+    "items": [
+     "Auricle",
+     "External acoustic meatus",
+     "Tympanic membrane",
+     "Malleus",
+     "Incus",
+     "Stapes",
+     "Oval window",
+     "Scala vestibuli",
+     "Basilar membrane",
+     "Hair cells"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "In the Rinne test, bone conduction is heard longer than air conduction. This means:",
+    "choices": [
+     "Normal hearing",
+     "Sensorineural deafness in that ear",
+     "Conduction deafness in that ear",
+     "Damage to the auditory cortex"
+    ],
+    "answer": 2,
+    "why": "Normally air conduction outlasts bone; a middle- or outer-ear block reverses it."
+   }
+  ]
+ },
+ {
+  "id": "exam1-04-lab3-blood",
+  "title": "Lab 3 review: blood",
+  "course": {
+   "exam": 1,
+   "order": 4,
+   "unit": "Lab Practical 1 · Labs 1–5"
+  },
+  "system": "cardiovascular",
+  "region": "general",
+  "level": "core",
+  "minutes": 8,
+  "summary": "Plasma and formed elements, the five white cells and how to recognise them, and the differential count.",
+  "tags": [
+   "review",
+   "blood",
+   "lab practical"
+  ],
+  "objectives": [
+   "State what plasma contains and describe erythrocytes and platelets",
+   "Identify the five leukocytes on a smear and give their normal percentages and roles",
+   "Rank the leukocytes in a normal differential count and interpret a shift"
+  ],
+  "takeaways": [
+   "Plasma ≈ 55% of blood, ≈ 91% water; albumin is the main protein.",
+   "RBCs: anucleate biconcave discs, ≈ 5 million/mm³, live ≈ 120 days.",
+   "Neutrophils > lymphocytes > monocytes > eosinophils > basophils.",
+   "Neutrophils: bacteria. Eosinophils: allergy and parasites. Basophils: histamine and heparin."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab03-01-plasma-red-cells-platelets",
+    "lab03-02-granulocytes",
+    "lab03-04-differential-count"
+   ],
+   "micro": [
+    "blood_cells"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Plasma, red cells and platelets",
+    "text": "<p>Blood is about 55% <b>plasma</b>, which is about 91% water carrying proteins (albumin, globulins, fibrinogen, mostly made by the liver), ions, nutrients, hormones and wastes, and 45% <b>formed elements</b>. <b>Erythrocytes</b> are the most numerous cell, about 5 million per mm³: pink, <b>anucleate</b>, biconcave discs about 7.5 µm across that live about 120 days. <b>Platelets</b> (250,000–400,000/mm³) are purple fragments of megakaryocytes that start clotting. All are made in red bone marrow.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Plasma",
+     "Erythrocytes",
+     "Platelets"
+    ],
+    "diagram": "lab03-blood-composition",
+    "check": {
+     "q": "Why is an erythrocyte biconcave?",
+     "a": "It gives a large surface area for its volume, speeding gas exchange, and lets it bend through capillaries."
+    }
+   },
+   {
+    "title": "The granulocytes",
+    "text": "<p>White cells (about 5,000–9,000/mm³) squeeze out of capillaries by diapedesis. <b>Neutrophils</b> (60–70%) have a nucleus of 2–5 lobes and pale granules; they eat bacteria and rise in acute bacterial infection. <b>Eosinophils</b> (2–4%) have a two-lobed nucleus and red-orange granules; they rise in allergy and parasitic worm infection. <b>Basophils</b> (under 1%) have dark blue-purple granules that hide the nucleus; the granules hold <b>histamine</b> and <b>heparin</b>.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Neutrophil",
+     "Eosinophil",
+     "Basophil"
+    ],
+    "check": {
+     "q": "How do you tell an eosinophil from a basophil on a stained smear?",
+     "a": "Eosinophil: bilobed nucleus with red-orange granules. Basophil: dark purple granules that hide the nucleus."
+    }
+   },
+   {
+    "title": "Lymphocytes and monocytes",
+    "text": "<p><b>Lymphocytes</b> (20–25%) have a large round nucleus with a thin rim of blue cytoplasm. <b>B cells</b> become plasma cells that make antibodies (humoral immunity); <b>T cells</b> mature in the <b>thymus</b> and attack infected or abnormal cells directly (cell-mediated immunity). <b>Monocytes</b> (3–8%) are the largest white cells, with a kidney- or U-shaped nucleus; in the tissues they become <b>macrophages</b>, and their number rises in chronic infection.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Small lymphocyte",
+     "Large lymphocyte",
+     "Monocyte"
+    ],
+    "check": {
+     "q": "Where do T cells mature, and what kind of immunity do they give?",
+     "a": "In the thymus; cell-mediated immunity."
+    }
+   },
+   {
+    "title": "The differential count",
+    "text": "<p>A <b>differential count</b> classifies 100 white cells on a stained smear and reports each type as a percentage. The normal order, commonest first, is <b>neutrophils > lymphocytes > monocytes > eosinophils > basophils</b>: Never Let Monkeys Eat Bananas. A shift is a clue: neutrophils climb in acute bacterial infection such as appendicitis, eosinophils in allergy or parasites, lymphocytes in many viral infections.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Neutrophil",
+     "Small lymphocyte",
+     "Monocyte",
+     "Eosinophil",
+     "Basophil"
+    ],
+    "diagram": "lab03-wbc-differential",
+    "check": {
+     "q": "Give the normal ranking of white cells, commonest first.",
+     "a": "Neutrophils, lymphocytes, monocytes, eosinophils, basophils."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Thymus"
+   },
+   {
+    "type": "find",
+    "structure": "Spleen"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Erythrocytes"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Platelets"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Neutrophil"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Eosinophil"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Basophil"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Small lymphocyte"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Monocyte"
+   },
+   {
+    "type": "order",
+    "q": "Rank the white cells, commonest first",
+    "items": [
+     "Neutrophils",
+     "Lymphocytes",
+     "Monocytes",
+     "Eosinophils",
+     "Basophils"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Histamine and heparin are stored in the granules of:",
+    "choices": [
+     "Neutrophils",
+     "Basophils",
+     "Eosinophils",
+     "Monocytes"
+    ],
+    "answer": 1,
+    "why": "Histamine dilates vessels; heparin stops clotting."
+   },
+   {
+    "type": "mcq",
+    "q": "A differential count shows 12% eosinophils. The likeliest cause is:",
+    "choices": [
+     "A parasitic worm infection or allergy",
+     "Acute appendicitis",
+     "A viral infection",
+     "Normal variation"
+    ],
+    "answer": 0,
+    "why": "Normal is 2–4%; allergy and parasites raise eosinophils."
+   },
+   {
+    "type": "recall",
+    "q": "Give the normal red cell count, diameter and lifespan.",
+    "a": "About 5 million per mm³, about 7.5 µm across, about 120 days."
+   }
+  ]
+ },
+ {
+  "id": "exam1-05-lab3-heart-structure",
+  "title": "Lab 3 review: the heart",
+  "course": {
+   "exam": 1,
+   "order": 5,
+   "unit": "Lab Practical 1 · Labs 1–5"
+  },
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Where the heart sits, its coverings and wall, blood flow through the chambers, the valves, the coronary vessels and the sheep heart.",
+  "tags": [
+   "review",
+   "heart",
+   "lab practical"
+  ],
+  "objectives": [
+   "Describe the heart's position, the pericardium and the three layers of its wall",
+   "Trace blood through the four chambers and valves",
+   "Identify the valves, chordae, papillary muscles and interior features",
+   "Name the main coronary arteries and cardiac veins and orient a sheep heart"
+  ],
+  "takeaways": [
+   "Apex at the 5th intercostal space, midclavicular line; base at the 2nd.",
+   "RA → tricuspid → RV → pulmonary valve → lungs → LA → mitral → LV → aortic valve.",
+   "Chordae and papillary muscles stop AV cusps everting.",
+   "LCA → LAD + circumflex; RCA → posterior interventricular. Veins → coronary sinus → RA."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab03-07-chambers-blood-flow",
+    "lab03-09-septa-valves",
+    "lab03-08-surface-coronary-vessels"
+   ],
+   "micro": [
+    "heart",
+    "cardiac_muscle"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Position, pericardium and wall",
+    "text": "<p>The heart lies in the <b>mediastinum</b>, behind the sternum and on the diaphragm, tipped to the left. Its <b>base</b>, with the great vessels, is at the 2nd intercostal space; its <b>apex</b> points to the 5th intercostal space at the midclavicular line. It sits in the tough <b>fibrous pericardium</b>, lined by the parietal serous layer; the visceral layer is the <b>epicardium</b>, with fluid between them. The wall: epicardium, thick <b>myocardium</b>, and <b>endocardium</b>.</p>",
+    "systems": [
+     "cardiovascular",
+     "skeletal",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Heart"
+    ],
+    "show": [
+     "Sternum",
+     "Diaphragm",
+     "Ribs"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "heart",
+    "micro_focus": [
+     "Fibrous pericardium",
+     "Parietal layer of serous pericardium",
+     "Pericardial cavity",
+     "Epicardium (visceral pericardium)"
+    ],
+    "diagram": "lab03-pericardium",
+    "check": {
+     "q": "Name the layers from the outside of the pericardium to the heart's lumen.",
+     "a": "Fibrous pericardium, parietal serous pericardium, pericardial cavity, epicardium (visceral pericardium), myocardium, endocardium."
+    }
+   },
+   {
+    "title": "Blood through the heart",
+    "text": "<p>Venae cavae and coronary sinus → <b>right atrium</b> → tricuspid valve → <b>right ventricle</b> → pulmonary valve → <b>pulmonary trunk</b> → lungs → <b>pulmonary veins</b> → <b>left atrium</b> → mitral valve → <b>left ventricle</b> → aortic valve → <b>aorta</b>. Pulmonary arteries carry deoxygenated blood and pulmonary veins oxygenated blood: arteries leave the heart, whatever they carry. The left ventricle's wall is much thicker, because it pumps into the high-pressure systemic circuit.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Right atrium",
+     "Right ventricle",
+     "Left atrium",
+     "Left ventricle",
+     "Pulmonary trunk"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab03-heart-flow",
+    "check": {
+     "q": "Why is the left ventricle's wall thicker than the right's?",
+     "a": "It pumps blood around the whole body against much higher (systemic) pressure."
+    }
+   },
+   {
+    "title": "Valves and the inside of the heart",
+    "text": "<p>The <b>atrioventricular valves</b>, tricuspid on the right and mitral (bicuspid) on the left, are tied by <b>chordae tendineae</b> to <b>papillary muscles</b>, which stop the cusps everting as the ventricles contract. The <b>pulmonary</b> and <b>aortic semilunar valves</b>, three cusps each, stop blood falling back as the ventricles relax. Inside: <b>pectinate muscles</b> in the atria, <b>trabeculae carneae</b> in the ventricles, and the <b>fossa ovalis</b>, remnant of the fetal foramen ovale.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Aortic valve",
+     "Pulmonary valve"
+    ],
+    "show": [
+     "Right ventricle",
+     "Left ventricle"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "heart",
+    "micro_focus": [
+     "Tricuspid valve",
+     "Mitral (bicuspid) valve",
+     "Chordae tendineae",
+     "Papillary muscles (left ventricle)",
+     "Fossa ovalis",
+     "Trabeculae carneae",
+     "Pectinate muscles"
+    ],
+    "check": {
+     "q": "What do the chordae tendineae and papillary muscles do?",
+     "a": "They hold the AV valve cusps so they cannot evert into the atria when the ventricles contract."
+    }
+   },
+   {
+    "title": "Coronary vessels",
+    "text": "<p>The <b>left and right coronary arteries</b> leave the ascending aorta just above the aortic valve. The left divides into the <b>anterior interventricular artery</b> in the anterior interventricular sulcus and the <b>circumflex</b> in the coronary sulcus. The right runs in the coronary sulcus and gives the right marginal and the <b>posterior interventricular artery</b>. The great, middle and small cardiac veins drain into the <b>coronary sinus</b>, which opens into the right atrium. The coronaries fill mainly in diastole.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Right coronary artery",
+     "Anterior interventricular artery",
+     "Circumflex artery of heart",
+     "Great cardiac vein",
+     "Coronary sinus"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Name the two branches of the left coronary artery.",
+     "a": "The anterior interventricular artery and the circumflex artery."
+    }
+   },
+   {
+    "title": "The sheep heart",
+    "text": "<p>The sheep heart has the human plan, but its venae cavae are called <b>anterior and posterior</b>, and it carries more epicardial fat. To orient it, find the <b>pulmonary trunk</b> in front, leaving the right ventricle, with the <b>aorta</b> right behind it, leaving the left. The left ventricle feels firm and thick-walled; the right is thinner and softer. Pulmonary veins open into the left atrium, and the coronary sinus into the back of the right atrium.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Pulmonary trunk",
+     "Ascending aorta",
+     "Right ventricle",
+     "Left ventricle"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "How can you tell the ventricles apart on an intact sheep heart?",
+     "a": "The left ventricle is firm and thick-walled; the right is thinner and softer. The pulmonary trunk leaves the right ventricle at the front."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Right atrium"
+   },
+   {
+    "type": "find",
+    "structure": "Left ventricle"
+   },
+   {
+    "type": "name",
+    "structure": "Pulmonary trunk"
+   },
+   {
+    "type": "find",
+    "structure": "Aortic valve"
+   },
+   {
+    "type": "find",
+    "structure": "Pulmonary valve"
+   },
+   {
+    "type": "find",
+    "structure": "Coronary sinus"
+   },
+   {
+    "type": "name",
+    "structure": "Anterior interventricular artery"
+   },
+   {
+    "type": "find",
+    "structure": "Right coronary artery"
+   },
+   {
+    "type": "find",
+    "structure": "Pulmonary veins"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Chordae tendineae"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Fossa ovalis"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Tricuspid valve"
+   },
+   {
+    "type": "find_micro",
+    "model": "cardiac_muscle",
+    "part": "Intercalated discs"
+   },
+   {
+    "type": "order",
+    "q": "Put blood flow through the heart in order",
+    "items": [
+     "Right atrium",
+     "Tricuspid valve",
+     "Right ventricle",
+     "Pulmonary valve",
+     "Pulmonary trunk",
+     "Pulmonary veins",
+     "Left atrium",
+     "Mitral valve",
+     "Left ventricle",
+     "Aortic valve",
+     "Aorta"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Which vessels carry oxygen-rich blood into the heart?",
+    "choices": [
+     "Pulmonary veins",
+     "Pulmonary arteries",
+     "Venae cavae",
+     "Coronary sinus"
+    ],
+    "answer": 0,
+    "why": "They return blood from the lungs to the left atrium."
+   }
+  ]
+ },
+ {
+  "id": "exam1-06-lab4-ecg-heart-function",
+  "title": "Lab 4 review: the ECG and heart function",
+  "course": {
+   "exam": 1,
+   "order": 6,
+   "unit": "Lab Practical 1 · Labs 1–5"
+  },
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 10,
+  "summary": "The conduction system, what each ECG wave means and how to read the paper, common abnormalities, the axis, heart sounds and rate control.",
+  "tags": [
+   "review",
+   "ECG",
+   "lab practical"
+  ],
+  "objectives": [
+   "Trace the impulse through the conduction system",
+   "Name the ECG waves and intervals, give normal values and calculate heart rate",
+   "Recognise blocks and arrhythmias and explain axis deviation",
+   "Link heart sounds to valve closure and name the auscultation sites"
+  ],
+  "takeaways": [
+   "SA node → AV node → bundle of His → bundle branches → Purkinje fibres.",
+   "P = atrial depolarisation; QRS = ventricular depolarisation; T = ventricular repolarisation.",
+   "Small square 0.04 s; heart rate = 60 ÷ R–R (s).",
+   "PR > 0.20 s = first-degree block; QRS > 0.12 s = bundle branch block.",
+   "S1 = AV valves close; S2 = semilunar valves close."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab04-01-conduction-system",
+    "lab04-02-ecg-waves-intervals",
+    "lab04-06-arrhythmias"
+   ],
+   "micro": [
+    "heart"
+   ]
+  },
+  "steps": [
+   {
+    "title": "The conduction system",
+    "text": "<p>The <b>SA node</b> in the wall of the right atrium is the pacemaker, about 70–80 beats a minute: its cells never rest but drift up to threshold (the pacemaker potential). The impulse spreads over the atria to the <b>AV node</b>, which delays it so the atria can empty, then down the <b>AV bundle (of His)</b>, the <b>right and left bundle branches</b> in the septum and the <b>Purkinje fibres</b>. Contractile cells have a long plateau, so their long refractory period prevents tetanus.</p>",
+    "micro": "heart",
+    "micro_focus": [
+     "Sinoatrial (SA) node",
+     "Atrioventricular (AV) node",
+     "Atrioventricular bundle (bundle of His)",
+     "Right bundle branch",
+     "Left bundle branch",
+     "Purkinje fibres"
+    ],
+    "diagram": "lab04-conduction",
+    "check": {
+     "q": "Why does the AV node delay the impulse?",
+     "a": "So the atria finish contracting and emptying into the ventricles before the ventricles contract."
+    }
+   },
+   {
+    "title": "Waves, intervals and the paper",
+    "text": "<p><b>P wave</b> = atrial depolarisation; <b>QRS</b> = ventricular depolarisation (atrial repolarisation hides in it); <b>T wave</b> = ventricular repolarisation. The <b>PR interval</b> (0.12–0.20 s) includes the AV-node delay; <b>QRS</b> lasts 0.08–0.10 s; <b>QT</b> about 0.36 s. At 25 mm/s a small square is <b>0.04 s</b> and a large one 0.20 s, and <b>heart rate = 60 ÷ R–R interval in seconds</b>. Lead II (right arm negative, left leg positive) usually gives the clearest trace.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Heart"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab04-ecg-waveform",
+    "check": {
+     "q": "The R–R interval is 20 small squares. What is the heart rate?",
+     "a": "20 × 0.04 = 0.8 s; 60 ÷ 0.8 = 75 beats per minute."
+    }
+   },
+   {
+    "title": "Rates, blocks and arrhythmias",
+    "text": "<p><b>Tachycardia</b> is a resting rate over 100 a minute; <b>bradycardia</b> under 60, normal in trained athletes. A <b>first-degree block</b> stretches PR beyond 0.20 s; in <b>complete block</b> P waves and QRS complexes run independently, the ventricles at 30–40 a minute. <b>Bundle branch block</b> widens QRS beyond 0.12 s. A <b>PVC</b> is an early, wide QRS with no P wave; <b>atrial fibrillation</b> has no clear P waves and an irregular rhythm. Exercise shortens R–R, mostly the T–P segment.</p>",
+    "micro": "heart",
+    "micro_focus": [
+     "Atrioventricular (AV) node",
+     "Right bundle branch",
+     "Left bundle branch"
+    ],
+    "diagram": "lab04-strips-block",
+    "check": {
+     "q": "What ECG sign defines a first-degree heart block?",
+     "a": "A PR interval longer than 0.20 s."
+    }
+   },
+   {
+    "title": "The mean electrical axis",
+    "text": "<p>The <b>mean electrical axis</b> is the average direction of ventricular depolarisation, running roughly along the interventricular septum, down and to the left. It is found by plotting the net QRS deflections of leads I and III on a circle; normal is about 0° to +90°. <b>Left axis deviation</b> suggests left ventricular hypertrophy or left bundle branch block; <b>right axis deviation</b> suggests right ventricular hypertrophy. The three limb leads form <b>Einthoven's triangle</b>; the right leg electrode is the ground.</p>",
+    "micro": "heart",
+    "micro_focus": [
+     "Interventricular septum",
+     "Apex of heart"
+    ],
+    "diagram": "lab04-axis-circle",
+    "check": {
+     "q": "What does right axis deviation suggest?",
+     "a": "Right ventricular hypertrophy (or the heart displaced to the right)."
+    }
+   },
+   {
+    "title": "Heart sounds, pulse and rate control",
+    "text": "<p><b>S1 (lubb)</b> is the AV valves closing as systole starts; <b>S2 (dupp)</b> is the semilunar valves closing as diastole starts. A <b>murmur</b> is turbulent flow through a leaky or narrowed valve. Listen for the aortic valve at the right 2nd intercostal space, pulmonary at the left 2nd, tricuspid at the lower left sternal border, and mitral at the apex. Count the pulse at the radial or carotid artery. Sympathetic nerves speed the heart; the <b>vagus</b> slows it.</p>",
+    "systems": [
+     "skeletal",
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Second rib",
+     "Sternum"
+    ],
+    "show": [
+     "Heart",
+     "Ribs"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab04-auscultation",
+    "check": {
+     "q": "What causes the first and the second heart sound?",
+     "a": "S1: closure of the AV (tricuspid and mitral) valves. S2: closure of the aortic and pulmonary valves."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Right atrium"
+   },
+   {
+    "type": "find",
+    "structure": "Vagus nerve (x)"
+   },
+   {
+    "type": "find",
+    "structure": "Sympathetic trunk"
+   },
+   {
+    "type": "find",
+    "structure": "Radial artery"
+   },
+   {
+    "type": "find",
+    "structure": "Left common carotid artery"
+   },
+   {
+    "type": "name",
+    "structure": "Second rib"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Sinoatrial (SA) node"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Atrioventricular (AV) node"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Atrioventricular bundle (bundle of His)"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Purkinje fibres"
+   },
+   {
+    "type": "order",
+    "q": "Put the conduction system in order",
+    "items": [
+     "SA node",
+     "Atrial muscle",
+     "AV node",
+     "AV bundle (of His)",
+     "Bundle branches",
+     "Purkinje fibres",
+     "Ventricular muscle"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "The T wave shows:",
+    "choices": [
+     "Atrial depolarisation",
+     "Ventricular depolarisation",
+     "Ventricular repolarisation",
+     "Atrial repolarisation"
+    ],
+    "answer": 2,
+    "why": "Atrial repolarisation is hidden in the QRS."
+   },
+   {
+    "type": "mcq",
+    "q": "A QRS lasting 0.14 s suggests:",
+    "choices": [
+     "First-degree block",
+     "Normal conduction",
+     "Bundle branch block",
+     "Atrial fibrillation"
+    ],
+    "answer": 2,
+    "why": "Normal QRS is 0.08–0.10 s; over 0.12 s means the ventricles depolarise out of step."
+   },
+   {
+    "type": "mcq",
+    "q": "Warming a frog heart from room temperature to 37 °C:",
+    "choices": [
+     "Slows it down",
+     "Speeds it up",
+     "Has no effect",
+     "Stops it"
+    ],
+    "answer": 1,
+    "why": "Ion channels and enzymes work faster when warm; cold slows the rate."
+   }
+  ]
+ },
+ {
+  "id": "exam1-07-lab5-vessels-arteries",
+  "title": "Lab 5 review: vessel walls and the arteries",
+  "course": {
+   "exam": 1,
+   "order": 7,
+   "unit": "Lab Practical 1 · Labs 1–5"
+  },
+  "system": "cardiovascular",
+  "region": "general",
+  "level": "core",
+  "minutes": 10,
+  "summary": "The three tunics, and the arterial tree from the aortic arch to the brain, the limbs and the abdomen.",
+  "tags": [
+   "review",
+   "arteries",
+   "lab practical"
+  ],
+  "objectives": [
+   "Name the three tunics and tell an artery from a vein on a slide",
+   "Name the branches of the aortic arch and of the carotid arteries",
+   "Describe the cerebral arterial circle",
+   "Trace the arteries of the upper and lower limbs and list the branches of the abdominal aorta"
+  ],
+  "takeaways": [
+   "Intima, media, externa; arteries thick media, veins thin media with valves.",
+   "Arch: brachiocephalic trunk, left common carotid, left subclavian.",
+   "Subclavian → axillary → brachial → radial and ulnar.",
+   "External iliac → femoral → popliteal → anterior and posterior tibial.",
+   "Coeliac trunk: left gastric, splenic, common hepatic."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab05-01-vessel-walls",
+    "lab05-02-aorta-thoracic-branches",
+    "lab05-06-abdominal-aorta"
+   ],
+   "micro": [
+    "muscular_artery",
+    "vein_wall"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Vessel walls",
+    "text": "<p>Every vessel larger than a capillary has three tunics: the <b>tunica intima</b> (endothelium on thin connective tissue), the <b>tunica media</b> (smooth muscle and elastic fibres) and the <b>tunica externa</b> (collagen, carrying the vessel's own vasa vasorum and nerves). Arteries have a thick media and a round lumen; <b>elastic arteries</b> like the aorta are packed with elastic sheets, while <b>muscular arteries</b> have internal and external elastic laminae. Veins have a thin media, a wide lumen and <b>valves</b>.</p>",
+    "micro": "muscular_artery",
+    "micro_focus": [
+     "Endothelium",
+     "Internal elastic lamina",
+     "Tunica media (smooth muscle)",
+     "External elastic lamina",
+     "Tunica adventitia"
+    ],
+    "diagram": "lab05-vessel-wall",
+    "check": {
+     "q": "How do you tell an artery from its companion vein on a slide?",
+     "a": "The artery has a thicker media and a round, open lumen; the vein has a thin wall, a wide often collapsed lumen, and may show valves."
+    }
+   },
+   {
+    "title": "The arch and the head",
+    "text": "<p>The aortic arch has three branches, right to left: the <b>brachiocephalic trunk</b> (splitting into the right subclavian and right common carotid), the <b>left common carotid</b> and the <b>left subclavian</b>. Each common carotid forks at the level of the upper thyroid cartilage into the <b>internal carotid</b> (to the brain; its swollen start is the carotid sinus) and the <b>external carotid</b> (face and scalp). The <b>vertebral arteries</b> climb through the cervical vertebrae and join as the <b>basilar artery</b>.</p>",
+    "systems": [
+     "cardiovascular"
+    ],
+    "regions": [
+     "thorax",
+     "neck",
+     "head"
+    ],
+    "focus": [
+     "Aortic arch",
+     "Brachiocephalic trunk",
+     "Left common carotid artery",
+     "Left subclavian artery",
+     "Internal carotid artery",
+     "External carotid artery"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab05-aortic-arch",
+    "check": {
+     "q": "Name the three branches of the aortic arch, from right to left.",
+     "a": "Brachiocephalic trunk, left common carotid artery, left subclavian artery."
+    }
+   },
+   {
+    "title": "The circle of Willis",
+    "text": "<p>Four arteries feed the brain: two internal carotids and two vertebrals. Beneath the brain they link into the <b>cerebral arterial circle</b>: the anterior cerebral arteries joined by the <b>anterior communicating artery</b>, the internal carotids, the <b>posterior communicating arteries</b>, and the posterior cerebral arteries from the basilar. The <b>middle cerebral artery</b> continues the internal carotid. If one feeding artery narrows, the circle can still carry blood to the whole brain.</p>",
+    "systems": [
+     "cardiovascular",
+     "nervous"
+    ],
+    "regions": [
+     "head"
+    ],
+    "focus": [
+     "Cerebral arterial circle",
+     "Anterior communicating artery",
+     "Posterior communicating artery",
+     "Basilar artery"
+    ],
+    "view": "inferior",
+    "xray": true,
+    "diagram": "lab05-circle-of-willis",
+    "check": {
+     "q": "Which arteries join the carotid and vertebral systems in the circle?",
+     "a": "The posterior communicating arteries."
+    }
+   },
+   {
+    "title": "Limb arteries",
+    "text": "<p>Upper limb: <b>subclavian → axillary</b> (after the first rib) <b>→ brachial</b> (the blood pressure artery) → at the elbow <b>radial</b> and <b>ulnar</b> → the superficial and deep palmar arches. Lower limb: <b>common iliac → external iliac → femoral</b> (under the inguinal ligament; gives the deep femoral) <b>→ popliteal</b> behind the knee → <b>anterior tibial</b>, which becomes the <b>dorsalis pedis</b>, and <b>posterior tibial</b>, which gives the fibular artery. The internal iliac feeds the pelvis.</p>",
+    "systems": [
+     "cardiovascular"
+    ],
+    "regions": [
+     "upper_limb_l",
+     "thorax"
+    ],
+    "side": "Left",
+    "focus": [
+     "Axillary artery",
+     "Brachial artery",
+     "Radial artery",
+     "Ulnar artery"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab05-limb-arteries",
+    "check": {
+     "q": "Which artery becomes the dorsalis pedis?",
+     "a": "The anterior tibial artery."
+    }
+   },
+   {
+    "title": "The abdominal aorta",
+    "text": "<p>Below the diaphragm the aorta gives, top to bottom: the <b>inferior phrenic</b> arteries; the <b>coeliac trunk</b> (left gastric, splenic and common hepatic, for the stomach, spleen and liver); the <b>superior mesenteric</b> (small intestine, right colon and most of the transverse colon); the paired suprarenal, <b>renal</b> and gonadal arteries; the <b>inferior mesenteric</b> (left colon and upper rectum); lumbar arteries; and the median sacral. At L4 it splits into the <b>common iliac arteries</b>.</p>",
+    "systems": [
+     "cardiovascular"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Abdominal aorta",
+     "Coeliac trunk",
+     "Superior mesenteric artery",
+     "Inferior mesenteric artery",
+     "Common iliac artery"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab05-abdominal-aorta",
+    "check": {
+     "q": "Name the three branches of the coeliac trunk.",
+     "a": "Left gastric, splenic and common hepatic arteries."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Brachiocephalic trunk"
+   },
+   {
+    "type": "find",
+    "structure": "Left subclavian artery"
+   },
+   {
+    "type": "name",
+    "structure": "Left common carotid artery"
+   },
+   {
+    "type": "find",
+    "structure": "Internal carotid artery"
+   },
+   {
+    "type": "name",
+    "structure": "External carotid artery"
+   },
+   {
+    "type": "find",
+    "structure": "Vertebral artery"
+   },
+   {
+    "type": "find",
+    "structure": "Basilar artery"
+   },
+   {
+    "type": "name",
+    "structure": "Anterior communicating artery"
+   },
+   {
+    "type": "find",
+    "structure": "Brachial artery"
+   },
+   {
+    "type": "find",
+    "structure": "Femoral artery"
+   },
+   {
+    "type": "find",
+    "structure": "Popliteal artery"
+   },
+   {
+    "type": "name",
+    "structure": "Dorsalis pedis artery"
+   },
+   {
+    "type": "find",
+    "structure": "Coeliac trunk"
+   },
+   {
+    "type": "find",
+    "structure": "Superior mesenteric artery"
+   },
+   {
+    "type": "find_micro",
+    "model": "muscular_artery",
+    "part": "Internal elastic lamina"
+   },
+   {
+    "type": "find_micro",
+    "model": "vein_wall",
+    "part": "Venous valve cusps"
+   },
+   {
+    "type": "order",
+    "q": "Trace blood from the aorta to the left hand",
+    "items": [
+     "Aortic arch",
+     "Left subclavian artery",
+     "Axillary artery",
+     "Brachial artery",
+     "Radial artery",
+     "Palmar arches"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "Trace blood from the aorta to the top of the foot",
+    "items": [
+     "Abdominal aorta",
+     "Common iliac artery",
+     "External iliac artery",
+     "Femoral artery",
+     "Popliteal artery",
+     "Anterior tibial artery",
+     "Dorsalis pedis artery"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "exam1-08-lab5-veins-portal-fetal",
+  "title": "Lab 5 review: veins, the portal system and fetal circulation",
+  "course": {
+   "exam": 1,
+   "order": 8,
+   "unit": "Lab Practical 1 · Labs 1–5"
+  },
+  "system": "cardiovascular",
+  "region": "general",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Venous sinuses and neck veins, limb veins, the venae cavae and azygos, the hepatic portal system and the fetal shunts.",
+  "tags": [
+   "review",
+   "veins",
+   "lab practical"
+  ],
+  "objectives": [
+   "Trace venous blood from the brain to the superior vena cava",
+   "Identify the superficial veins of the arm and leg",
+   "Name the tributaries of the inferior vena cava and the azygos system",
+   "Describe the hepatic portal system and the three fetal shunts and their remnants"
+  ],
+  "takeaways": [
+   "Dural sinuses → internal jugular → brachiocephalic → superior vena cava.",
+   "Cephalic, basilic, median cubital; great and small saphenous.",
+   "The left gonadal vein drains into the left renal vein.",
+   "Splenic + superior mesenteric → hepatic portal vein → liver sinusoids → hepatic veins → IVC.",
+   "Foramen ovale → fossa ovalis; ductus arteriosus → ligamentum arteriosum; ductus venosus → ligamentum venosum."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab05-08-head-neck-veins",
+    "lab05-11-hepatic-portal-system",
+    "lab05-12-fetal-circulation"
+   ],
+   "micro": [
+    "vein_wall"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Veins of the head and neck",
+    "text": "<p>The brain drains into the <b>dural venous sinuses</b>: superior and inferior sagittal, straight, transverse and sigmoid, which leaves the skull as the <b>internal jugular vein</b>. The <b>cavernous sinus</b> beside the pituitary receives the ophthalmic veins. The internal jugular joins the <b>subclavian</b> to form the <b>brachiocephalic vein</b>, and the two brachiocephalics make the <b>superior vena cava</b>. The superficial <b>external jugular</b> drains the scalp and face into the subclavian.</p>",
+    "systems": [
+     "cardiovascular"
+    ],
+    "regions": [
+     "head",
+     "neck"
+    ],
+    "side": "Left",
+    "focus": [
+     "Superior sagittal sinus",
+     "Transverse sinus",
+     "Sigmoid sinus",
+     "Internal jugular vein",
+     "External jugular vein"
+    ],
+    "view": "left",
+    "xray": true,
+    "check": {
+     "q": "Which sinus becomes the internal jugular vein?",
+     "a": "The sigmoid sinus."
+    }
+   },
+   {
+    "title": "Limb veins",
+    "text": "<p>Deep veins travel with the arteries and share their names; superficial veins run alone under the skin. In the arm the <b>cephalic</b> (lateral) and <b>basilic</b> (medial) veins are joined at the elbow by the <b>median cubital vein</b>, the usual site for drawing blood. In the leg the <b>great saphenous vein</b>, the longest in the body, climbs the medial side from the dorsal venous arch to the femoral vein; the <b>small saphenous</b> climbs the back of the calf to the popliteal vein.</p>",
+    "systems": [
+     "cardiovascular"
+    ],
+    "regions": [
+     "upper_limb_l"
+    ],
+    "side": "Left",
+    "focus": [
+     "Cephalic vein",
+     "Basilic vein",
+     "Median cubital vein"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Which vein is usually used to draw blood, and which two veins does it join?",
+     "a": "The median cubital vein, linking the cephalic and basilic veins."
+    }
+   },
+   {
+    "title": "Venae cavae and azygos",
+    "text": "<p>The <b>inferior vena cava</b> collects the common iliac, lumbar, renal, right gonadal and <b>hepatic veins</b>; the <b>left gonadal vein</b> drains into the left renal vein instead. The <b>azygos system</b> drains the back of the chest wall: the azygos on the right, and the hemiazygos and accessory hemiazygos on the left, which cross to it; the azygos then arches into the superior vena cava. Everything ends in the <b>right atrium</b>, via the SVC, the IVC and the coronary sinus.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Inferior vena cava (abdominal part)",
+     "Left renal vein",
+     "Left testicular vein",
+     "Hepatic veins"
+    ],
+    "show": [
+     "Kidney"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Where does the left testicular (or ovarian) vein drain?",
+     "a": "Into the left renal vein."
+    }
+   },
+   {
+    "title": "The hepatic portal system",
+    "text": "<p>Blood from the stomach, intestines, spleen and pancreas does not go straight to the IVC. The <b>splenic vein</b>, joined by the <b>inferior mesenteric</b>, meets the <b>superior mesenteric vein</b> behind the pancreas to form the <b>hepatic portal vein</b>. It carries nutrient-rich blood into the liver sinusoids, a second capillary bed, where it is processed and cleaned; it leaves by the <b>hepatic veins</b> into the IVC.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Hepatic portal vein",
+     "Splenic vein",
+     "Superior mesenteric vein",
+     "Inferior mesenteric vein"
+    ],
+    "show": [
+     "Liver",
+     "Pancreas"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab05-portal-system",
+    "check": {
+     "q": "Which two veins join to form the hepatic portal vein?",
+     "a": "The splenic vein and the superior mesenteric vein."
+    }
+   },
+   {
+    "title": "Fetal circulation",
+    "text": "<p>The <b>placenta</b> does the fetus's breathing. The <b>umbilical vein</b> brings oxygenated blood; much of it bypasses the liver through the <b>ductus venosus</b> into the IVC. In the heart blood skips the lungs twice: right to left atrium through the <b>foramen ovale</b>, and pulmonary trunk to aorta through the <b>ductus arteriosus</b>. Two <b>umbilical arteries</b>, from the internal iliacs, take blood back. After birth they close into the fossa ovalis, ligamentum arteriosum, ligamentum venosum and round ligament of the liver.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Right atrium",
+     "Left atrium",
+     "Pulmonary trunk",
+     "Aortic arch"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab05-fetal-circulation",
+    "check": {
+     "q": "What does the ductus arteriosus become after birth?",
+     "a": "The ligamentum arteriosum."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Internal jugular vein"
+   },
+   {
+    "type": "find",
+    "structure": "External jugular vein"
+   },
+   {
+    "type": "name",
+    "structure": "Superior sagittal sinus"
+   },
+   {
+    "type": "find",
+    "structure": "Cephalic vein"
+   },
+   {
+    "type": "name",
+    "structure": "Basilic vein"
+   },
+   {
+    "type": "find",
+    "structure": "Median cubital vein"
+   },
+   {
+    "type": "find",
+    "structure": "Great saphenous vein"
+   },
+   {
+    "type": "name",
+    "structure": "Small saphenous vein"
+   },
+   {
+    "type": "find",
+    "structure": "Azygos vein"
+   },
+   {
+    "type": "find",
+    "structure": "Hepatic portal vein"
+   },
+   {
+    "type": "name",
+    "structure": "Splenic vein"
+   },
+   {
+    "type": "find",
+    "structure": "Superior mesenteric vein"
+   },
+   {
+    "type": "find",
+    "structure": "Hepatic veins"
+   },
+   {
+    "type": "find_micro",
+    "model": "liver_lobule",
+    "part": "Portal venules"
+   },
+   {
+    "type": "order",
+    "q": "Trace blood from the small intestine back to the heart",
+    "items": [
+     "Superior mesenteric vein",
+     "Hepatic portal vein",
+     "Liver sinusoids",
+     "Hepatic veins",
+     "Inferior vena cava",
+     "Right atrium"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Which fetal vessel carries the most oxygen-rich blood?",
+    "choices": [
+     "Umbilical artery",
+     "Pulmonary trunk",
+     "Umbilical vein",
+     "Ductus arteriosus"
+    ],
+    "answer": 2,
+    "why": "It brings blood straight from the placenta."
+   }
+  ]
+ },
+ {
+  "id": "exam1-99-practice-exam",
+  "title": "Practice exam: Labs 1–5",
+  "course": {
+   "exam": 1,
+   "order": 99,
+   "unit": "Lab Practical 1 · Labs 1–5"
+  },
+  "system": "cardiovascular",
+  "region": "general",
+  "level": "core",
+  "minutes": 30,
+  "summary": "A mixed practical drawing on every question from Labs 1–5, plus routes and comparisons that cut across them.",
+  "tags": [
+   "practice exam",
+   "lab practical",
+   "review"
+  ],
+  "objectives": [
+   "Find and name the structures of the nervous system, special senses, heart and vessels",
+   "Trace blood, light, sound and a reflex along their routes",
+   "Connect nerve, heart and vessel physiology across labs"
+  ],
+  "takeaways": [
+   "Missed items come back in Review what is due; retry the missed ones before the practical.",
+   "Routes (blood, light, sound, reflex) tie the five labs together."
+  ],
+  "see_also": {
+   "lessons": [
+    "exam1-01-lab1-nerves-reflexes-senses",
+    "exam1-02-lab2-eye-vision",
+    "exam1-05-lab3-heart-structure",
+    "exam1-07-lab5-vessels-arteries"
+   ]
+  },
+  "practice_from": [
+   "lab01",
+   "lab02",
+   "lab03",
+   "lab04",
+   "lab05"
+  ],
+  "steps": [],
+  "practice": [
+   {
+    "type": "order",
+    "q": "A red cell leaving the left ventricle: trace it to the right radial artery",
+    "items": [
+     "Left ventricle",
+     "Aortic valve",
+     "Ascending aorta",
+     "Aortic arch",
+     "Brachiocephalic trunk",
+     "Right subclavian artery",
+     "Axillary artery",
+     "Brachial artery",
+     "Radial artery"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "Venous blood from the big toe: trace it to the lungs",
+    "items": [
+     "Dorsal venous arch of foot",
+     "Great saphenous vein",
+     "Femoral vein",
+     "External iliac vein",
+     "Common iliac vein",
+     "Inferior vena cava",
+     "Right atrium",
+     "Right ventricle",
+     "Pulmonary trunk"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "Venous blood from the brain: trace it to the right ventricle",
+    "items": [
+     "Superior sagittal sinus",
+     "Transverse sinus",
+     "Sigmoid sinus",
+     "Internal jugular vein",
+     "Brachiocephalic vein",
+     "Superior vena cava",
+     "Right atrium",
+     "Tricuspid valve",
+     "Right ventricle"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "Light entering the eye: put what it passes in order",
+    "items": [
+     "Cornea",
+     "Aqueous humor",
+     "Pupil",
+     "Lens",
+     "Vitreous humor",
+     "Ganglion cells",
+     "Bipolar cells",
+     "Rods and cones"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "The patellar reflex: put the events in order",
+    "items": [
+     "Tap stretches the quadriceps",
+     "Muscle spindle fires",
+     "Sensory neuron in the femoral nerve",
+     "Synapse in the spinal cord (L2–L4)",
+     "Motor neuron",
+     "Quadriceps contracts, knee extends"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "One heartbeat: put the events in order",
+    "items": [
+     "SA node fires",
+     "P wave",
+     "AV node delay (PR segment)",
+     "QRS complex",
+     "AV valves close (S1)",
+     "T wave",
+     "Semilunar valves close (S2)"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Why does a cardiac contractile cell have a plateau in its action potential, unlike an axon?",
+    "choices": [
+     "Its Na+ channels never close",
+     "Slow Ca2+ entry holds it depolarised",
+     "It has no K+ channels",
+     "The Na+/K+ pump stops"
+    ],
+    "answer": 1,
+    "why": "The Ca2+ plateau lengthens the refractory period so the heart cannot be tetanised."
+   },
+   {
+    "type": "mcq",
+    "q": "Cooling slows which of these?",
+    "choices": [
+     "Nerve conduction only",
+     "Heart rate only",
+     "Neither",
+     "Both nerve conduction and heart rate"
+    ],
+    "answer": 3,
+    "why": "Ion channels open and close more slowly when cold."
+   },
+   {
+    "type": "mcq",
+    "q": "Which pair are both parasympathetic effects?",
+    "choices": [
+     "Pupil dilation and slowing of the heart",
+     "Pupil constriction and faster heart rate",
+     "Pupil constriction and slowing of the heart",
+     "Pupil dilation and faster heart rate"
+    ],
+    "answer": 2,
+    "why": "The oculomotor nerve constricts the pupil; the vagus slows the SA node."
+   },
+   {
+    "type": "mcq",
+    "q": "Hair cells with stereocilia are the receptors for:",
+    "choices": [
+     "Hearing, head position and head rotation",
+     "Hearing only",
+     "Balance only",
+     "Touch and vibration"
+    ],
+    "answer": 0,
+    "why": "Spiral organ, maculae and cristae all use hair cells; only the overlying membrane differs."
+   },
+   {
+    "type": "mcq",
+    "q": "The endocardium is continuous with which layer of the blood vessels?",
+    "choices": [
+     "The tunica media",
+     "The endothelium of the tunica intima",
+     "The tunica externa",
+     "The vasa vasorum"
+    ],
+    "answer": 1,
+    "why": "One continuous endothelium lines the heart and every vessel."
+   },
+   {
+    "type": "mcq",
+    "q": "Which vessel carries deoxygenated blood?",
+    "choices": [
+     "Umbilical vein",
+     "Pulmonary veins",
+     "Pulmonary trunk",
+     "Aorta"
+    ],
+    "answer": 2,
+    "why": "Arteries and veins are named by direction, not oxygen: the pulmonary trunk and umbilical arteries carry the poorest blood."
+   },
+   {
+    "type": "mcq",
+    "q": "An adult with appendicitis has a raised white count. Which cell has risen, and where is the early pain felt?",
+    "choices": [
+     "Eosinophils; right shoulder",
+     "Neutrophils; around the umbilicus",
+     "Lymphocytes; left arm",
+     "Basophils; lower back"
+    ],
+    "answer": 1,
+    "why": "Acute bacterial infection raises neutrophils; early appendix pain is referred to the periumbilical region."
+   },
+   {
+    "type": "mcq",
+    "q": "The mean electrical axis normally runs roughly parallel to the:",
+    "choices": [
+     "Interatrial septum",
+     "Aortic arch",
+     "Interventricular septum",
+     "Coronary sulcus"
+    ],
+    "answer": 2,
+    "why": "Ventricular depolarisation spreads down the septum toward the apex, down and to the left."
+   },
+   {
+    "type": "mcq",
+    "q": "Which receptor starts the patellar reflex, and which senses head rotation?",
+    "choices": [
+     "Muscle spindle; crista ampullaris",
+     "Pacinian corpuscle; macula",
+     "Meissner corpuscle; cochlea",
+     "Free nerve ending; utricle"
+    ],
+    "answer": 0,
+    "why": "Spindles sense stretch; the cristae in the semicircular canals sense rotation."
+   },
+   {
+    "type": "mcq",
+    "q": "Which two arteries are the usual sites for counting a pulse?",
+    "choices": [
+     "Brachial and femoral",
+     "Ulnar and vertebral",
+     "Radial and common carotid",
+     "Popliteal and coeliac"
+    ],
+    "answer": 2,
+    "why": "Both lie near the surface over something firm."
+   },
+   {
+    "type": "recall",
+    "q": "Name the cranial nerve for each: lateral rectus, sensation from the cornea, closing the eye in the corneal reflex, constricting the pupil, slowing the heart.",
+    "a": "Abducens (VI); trigeminal, ophthalmic division (V1); facial (VII); oculomotor (III); vagus (X)."
+   },
+   {
+    "type": "recall",
+    "q": "Which fetal structures leave remnants you can find on an adult heart, and what are they called?",
+    "a": "The foramen ovale leaves the fossa ovalis; the ductus arteriosus leaves the ligamentum arteriosum."
+   },
+   {
+    "type": "recall",
+    "q": "What makes the hepatic portal system different from ordinary venous drainage?",
+    "a": "Blood passes through two capillary beds in a row: gut and spleen capillaries drain via the hepatic portal vein into the liver sinusoids before returning to the heart through the hepatic veins."
+   },
+   {
+    "type": "recall",
+    "q": "Why do both the lens and a heart valve need tethers, and what are they called?",
+    "a": "The lens is held by zonular fibres (suspensory ligament) pulled by the ciliary body; AV valve cusps are held by chordae tendineae pulled by papillary muscles."
+   },
+   {
+    "type": "find",
+    "structure": "Heart"
+   },
+   {
+    "type": "find",
+    "structure": "Spinal cord"
+   },
+   {
+    "type": "find",
+    "structure": "Eyeball"
+   },
+   {
+    "type": "find",
+    "structure": "Cochlea"
+   },
+   {
+    "type": "find",
+    "structure": "Vagus nerve (x)"
+   }
+  ]
+ }
+]
