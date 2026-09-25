@@ -1,0 +1,47 @@
+{
+  "summary": "A duodenal villus cut lengthwise, cell by cell: simple columnar enterocytes with a brush border, scattered goblet cells and a few intraepithelial lymphocytes, all resting on a basement membrane around a core of lamina propria.",
+  "view": [0, 10],
+  "default_group": "Epithelium",
+  "clinical": [
+    ["Coeliac disease", "Gluten-driven immune injury flattens the villi (villous atrophy), deepens the crypts and raises the number of intraepithelial lymphocytes; duodenal biopsy is the diagnostic standard, and increased lymphocytes are the earliest change."],
+    ["Lactose intolerance", "Lactase is a brush-border enzyme of the enterocytes, so its genetic decline in adults or loss after mucosal injury leaves lactose undigested, causing bloating and osmotic diarrhoea."]
+  ],
+  "parts": {
+    "SubTool-1": {
+      "name": "Enterocytes",
+      "group": "Epithelium",
+      "description": "Tall simple columnar absorptive cells with oval, basally placed nuclei and a brush border of microvilli (the rough apical surface). The brush border carries digestive enzymes such as disaccharidases and peptidases; the duodenum is the main site of iron absorption.",
+      "structures": [],
+      "category": "mucosa"
+    },
+    "SubTool-2": {
+      "name": "Goblet cells",
+      "group": "Epithelium",
+      "description": "Pale, mucin-filled cells scattered among the enterocytes, each with a small nucleus squeezed into its narrow base. They secrete the mucus that protects and lubricates the surface, and become steadily more numerous from the duodenum toward the colon.",
+      "structures": [],
+      "category": "gland"
+    },
+    "SubTool-4": {
+      "name": "Intraepithelial lymphocytes",
+      "group": "Immune cells",
+      "description": "Small round cells with a dense nucleus lying between the enterocytes, above the basement membrane. They are mainly CD8+ T cells that police the epithelium; normally there are fewer than about 25 per 100 enterocytes, and a rise is the earliest biopsy sign of coeliac disease.",
+      "structures": [],
+      "category": "lymph"
+    },
+    "SubTool-0": {
+      "name": "Basement membrane",
+      "group": "Connective tissue",
+      "description": "The thin sheet that every enterocyte and goblet cell rests on, shaped as a sleeve around the villus core. It separates the simple columnar epithelium from the lamina propria, and absorbed nutrients cross it to reach the villus capillaries and lacteal.",
+      "structures": [],
+      "category": "fascia"
+    },
+    "SubTool-3": {
+      "name": "Lamina propria",
+      "group": "Connective tissue",
+      "description": "The loose connective tissue core of the villus, shown slightly see-through. In life it holds a capillary network, a central lymphatic (lacteal) that takes up absorbed fat as chylomicrons, smooth muscle strands and many immune cells.",
+      "structures": [],
+      "category": "fascia"
+    }
+  },
+  "notes": "SubTool-1 = columnar cells with brush border (enterocytes), SubTool-2 = 51 pale cells with basal nuclei (goblet cells), SubTool-0 = sleeve under the epithelium (basement membrane), SubTool-3 = translucent villus core (lamina propria, the file's own alpha 0.82 kept). SubTool-4 = 11 identical spheres with a purple nucleus placed within the epithelium: named intraepithelial lymphocytes by morphology and position (the creator does not label them; the same sphere-with-nucleus design appears in her trachea model). Capillaries, the lacteal, crypts, Paneth and enteroendocrine cells are not modelled. Vertex colours look sRGB-encoded but are read as linear, so the model renders paler than the thumbnail; no colour overrides were used because they would erase the painted nuclei."
+}

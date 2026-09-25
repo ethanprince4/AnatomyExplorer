@@ -1,0 +1,2373 @@
+[
+ {
+  "id": "lab03-01-plasma-red-cells-platelets",
+  "title": "Plasma, red cells and platelets",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 8,
+  "summary": "Blood is a fluid tissue: plasma carrying three kinds of formed element.",
+  "tags": [
+   "plasma",
+   "erythrocyte",
+   "platelet",
+   "hematopoiesis"
+  ],
+  "course": {
+   "lab": 3,
+   "order": 1,
+   "unit": "Lab 3 · Blood & heart structure"
+  },
+  "objectives": [
+   "State what plasma and the formed elements are and their rough proportions",
+   "Name the three main plasma proteins and where they are made",
+   "Describe an erythrocyte and a platelet: size, shape, count and lifespan"
+  ],
+  "takeaways": [
+   "Blood = plasma (~55%) + formed elements (~45%); plasma is ~91% water.",
+   "Albumins > globulins > fibrinogen; the liver makes albumin, fibrinogen and most clotting factors.",
+   "Red cells: ~5 million/mm³, anucleate biconcave discs ~7.5 µm, live ~120 days, removed by spleen and liver.",
+   "Platelets: 250,000–400,000/mm³, 2–4 µm fragments of megakaryocytes, for clotting."
+  ],
+  "steps": [
+   {
+    "title": "Plasma plus formed elements",
+    "text": "<p>Blood is a connective tissue whose matrix is a liquid, <b>plasma</b>. Spin a tube of blood and it separates: straw-coloured plasma on top (about 55%), a thin pale buffy coat of white cells and platelets, and packed red cells below (about 45%).</p><p>The cells and cell fragments are called the <b>formed elements</b>: erythrocytes, leukocytes and platelets.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Plasma",
+     "Erythrocytes",
+     "Platelets"
+    ],
+    "diagram": "lab03-blood-composition",
+    "check": {
+     "q": "What are the three formed elements of blood?",
+     "a": "Erythrocytes (red cells), leukocytes (white cells) and platelets."
+    }
+   },
+   {
+    "title": "What plasma carries",
+    "text": "<p>Plasma is about <b>91% water</b>. Most of the rest is protein: <b>albumins</b> (the largest share, made by the liver), <b>globulins</b> (second; some are antibodies made by plasma cells) and <b>fibrinogen</b> (the clotting protein, also from the liver). The liver makes most other <b>clotting factors</b> too.</p><p>The remainder is small solutes: electrolytes such as Na⁺, K⁺ and Cl⁻, nutrients, hormones, gases and wastes.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen",
+     "thorax"
+    ],
+    "focus": [
+     "Liver"
+    ],
+    "view": "anterior",
+    "xray": false,
+    "check": {
+     "q": "Which plasma protein is most plentiful, and which organ makes it?",
+     "a": "Albumin, made by the liver."
+    }
+   },
+   {
+    "title": "Where blood cells are made",
+    "text": "<p><b>Hematopoiesis</b> (hemopoiesis) is the making of blood cells. After birth it happens in <b>red bone marrow</b>, which in adults is found mainly in flat and irregular bones - sternum, ribs, vertebrae, hip bones - and the upper ends of the femur and humerus.</p><p><b>Erythropoiesis</b> is the part of it that makes red cells.</p>",
+    "micro": "compact_bone",
+    "micro_focus": [
+     "Red marrow",
+     "Marrow sinusoid & central vein"
+    ],
+    "check": {
+     "q": "What is the difference between hematopoiesis and erythropoiesis?",
+     "a": "Hematopoiesis is formation of all blood cells; erythropoiesis is formation of red cells only."
+    }
+   },
+   {
+    "title": "Erythrocytes",
+    "text": "<p>Red cells are by far the most numerous: about <b>5 million per mm³</b>. Each is an <b>anucleate</b>, pink-staining <b>biconcave disc</b> about 7.5 µm across, paler in the middle. The dished shape gives a large surface area for oxygen exchange and lets the cell fold through capillaries.</p><p>Without a nucleus they cannot repair themselves: they live about <b>120 days</b> and are then removed by macrophages in the spleen and liver.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Erythrocytes",
+     "Erythrocyte cross-section",
+     "Rouleau"
+    ],
+    "check": {
+     "q": "Why is a red cell biconcave, and how long does it live?",
+     "a": "The shape increases surface area for gas exchange (and flexibility); about 120 days."
+    }
+   },
+   {
+    "title": "Platelets",
+    "text": "<p><b>Platelets</b> (thrombocytes) are not whole cells but fragments pinched off giant <b>megakaryocytes</b> in the marrow. On a smear they are tiny purple specks, 2–4 µm, alone or in clumps, numbering <b>250,000–400,000 per mm³</b>.</p><p>Their job is <b>hemostasis</b>: they stick at a damaged vessel, form a plug, and help the clotting cascade turn fibrinogen into a mesh of fibrin.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Platelets",
+     "Activated platelets",
+     "Fibrin"
+    ],
+    "check": {
+     "q": "What cell do platelets come from?",
+     "a": "The megakaryocyte of the red bone marrow."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Plasma"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Erythrocytes"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Erythrocyte cross-section"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Platelets"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Fibrin"
+   },
+   {
+    "type": "find_micro",
+    "model": "compact_bone",
+    "part": "Red marrow"
+   },
+   {
+    "type": "find",
+    "structure": "Liver"
+   },
+   {
+    "type": "find",
+    "structure": "Spleen"
+   },
+   {
+    "type": "find",
+    "structure": "Sternum"
+   },
+   {
+    "type": "mcq",
+    "q": "Roughly what fraction of plasma is water?",
+    "choices": [
+     "About 55%",
+     "About 75%",
+     "About 91%",
+     "About 99%"
+    ],
+    "answer": 2,
+    "why": "Plasma is about 91% water; proteins make up about 7%."
+   },
+   {
+    "type": "mcq",
+    "q": "Which plasma protein is needed to form a clot?",
+    "choices": [
+     "Albumin",
+     "Fibrinogen",
+     "Globulin",
+     "Hemoglobin"
+    ],
+    "answer": 1,
+    "why": "Fibrinogen is converted to fibrin; like albumin it is made in the liver."
+   },
+   {
+    "type": "mcq",
+    "q": "Which plasma proteins include antibodies?",
+    "choices": [
+     "Albumins",
+     "Globulins",
+     "Fibrinogen",
+     "Clotting factors"
+    ],
+    "answer": 1,
+    "why": "Antibodies are immunoglobulins, a class of globulins made by plasma cells."
+   },
+   {
+    "type": "recall",
+    "q": "Name three kinds of small solute carried in plasma.",
+    "a": "Electrolytes (Na⁺, K⁺, Cl⁻), nutrients, hormones, dissolved gases and wastes."
+   },
+   {
+    "type": "recall",
+    "q": "Define hematopoiesis and say where it happens in an adult.",
+    "a": "The formation of blood cells (hemopoiesis), in red bone marrow."
+   },
+   {
+    "type": "mcq",
+    "q": "A normal red-cell count is about:",
+    "choices": [
+     "7,000/mm³",
+     "250,000/mm³",
+     "5 million/mm³",
+     "50 million/mm³"
+    ],
+    "answer": 2,
+    "why": "About 5 million per mm³ - the most numerous formed element."
+   },
+   {
+    "type": "mcq",
+    "q": "How long does a red blood cell usually survive?",
+    "choices": [
+     "1–2 days",
+     "About 2 weeks",
+     "About 120 days",
+     "Several years"
+    ],
+    "answer": 2,
+    "why": "About 120 days, after which the spleen and liver remove it."
+   },
+   {
+    "type": "recall",
+    "q": "Describe an erythrocyte on a stained smear.",
+    "a": "A pink, anucleate biconcave disc about 7.5 µm across with a pale centre."
+   },
+   {
+    "type": "mcq",
+    "q": "Platelets are:",
+    "choices": [
+     "Small lymphocytes",
+     "Fragments of megakaryocytes",
+     "Immature red cells",
+     "Granules released by basophils"
+    ],
+    "answer": 1,
+    "why": "They are anucleate fragments of megakaryocytes."
+   },
+   {
+    "type": "recall",
+    "q": "What is the normal platelet count and their size?",
+    "a": "250,000–400,000 per mm³; 2–4 µm."
+   }
+  ],
+  "see_also": {
+   "micro": [
+    "blood_cells",
+    "compact_bone"
+   ],
+   "histology": [
+    "blood",
+    "bone_marrow"
+   ]
+  }
+ },
+ {
+  "id": "lab03-02-granulocytes",
+  "title": "White cells: the granulocytes",
+  "system": "lymphatic",
+  "region": "general",
+  "level": "core",
+  "minutes": 8,
+  "summary": "How leukocytes leave the blood, and how to recognise a neutrophil, eosinophil and basophil.",
+  "tags": [
+   "leukocyte",
+   "neutrophil",
+   "eosinophil",
+   "basophil",
+   "granulocyte"
+  ],
+  "course": {
+   "lab": 3,
+   "order": 2,
+   "unit": "Lab 3 · Blood & heart structure"
+  },
+  "objectives": [
+   "Give the normal white-cell count and describe diapedesis and phagocytosis",
+   "Distinguish granulocytes from agranulocytes",
+   "Identify neutrophils, eosinophils and basophils and state what each does"
+  ],
+  "takeaways": [
+   "WBC ~7,000/mm³ (5,000–9,000); they leave capillaries by diapedesis and move by ameboid motion.",
+   "Granulocytes (neutrophil, eosinophil, basophil) have granules and lobed nuclei (PMN).",
+   "Neutrophil 60–70%, multilobed, first-line phagocyte, up in acute bacterial infection.",
+   "Eosinophil 2–4%, red-orange granules, up in allergy and parasites; basophil 0.5–1%, histamine and heparin."
+  ],
+  "steps": [
+   {
+    "title": "Leukocytes work outside the blood",
+    "text": "<p>There are only about <b>7,000 white cells per mm³</b> (5,000–9,000). All are made in the bone marrow and live from hours to months. Blood is just their transport: they stick to the endothelium, squeeze out between the cells of capillary and venule walls (<b>diapedesis</b>) and crawl through tissue by <b>ameboid movement</b>.</p><p>Many then engulf bacteria and debris by <b>phagocytosis</b>.</p>",
+    "micro": "muscular_artery",
+    "micro_focus": [
+     "Rolling leukocyte",
+     "Endothelium",
+     "Red blood cells"
+    ],
+    "check": {
+     "q": "What is diapedesis?",
+     "a": "White cells squeezing out of a capillary or venule between its endothelial cells."
+    }
+   },
+   {
+    "title": "Granulocytes and agranulocytes",
+    "text": "<p>On a Wright-stained smear white cells fall into two groups. <b>Granulocytes</b> have obvious cytoplasmic granules and a nucleus divided into lobes - hence 'polymorphonuclear' (PMN) leukocytes. They are the neutrophil, eosinophil and basophil.</p><p><b>Agranulocytes</b> - lymphocytes and monocytes - show no visible granules and have a single unlobed nucleus.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Neutrophil",
+     "Eosinophil",
+     "Basophil",
+     "Small lymphocyte",
+     "Monocyte"
+    ],
+    "check": {
+     "q": "Which three white cells are granulocytes?",
+     "a": "Neutrophils, eosinophils and basophils."
+    }
+   },
+   {
+    "title": "The neutrophil",
+    "text": "<p>The commonest white cell, <b>60–70%</b> of the count. Its nucleus has <b>2–5 lobes</b> joined by thin strands, and the cytoplasm holds fine, pale lilac granules that are hard to see. At 9–12 µm it is about 1.5 times a red cell.</p><p>Neutrophils live only 1–2 days and are the first phagocytes to reach infected tissue: their numbers rise in <b>acute bacterial infection</b> such as appendicitis.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Neutrophil",
+     "Neutrophil nucleus",
+     "Neutrophil granules",
+     "Band neutrophil"
+    ],
+    "check": {
+     "q": "Which white cell rises first in acute appendicitis?",
+     "a": "The neutrophil."
+    }
+   },
+   {
+    "title": "The eosinophil",
+    "text": "<p>Eosinophils make up <b>2–4%</b>. The nucleus usually has two lobes, and the cytoplasm is packed with large <b>red-orange granules</b> - they love the acid dye eosin, hence the name. They are 10–14 µm, about twice a red cell.</p><p>They rise in <b>allergic reactions</b> and in <b>parasitic worm infections</b>, such as trichinosis from undercooked pork.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Eosinophil",
+     "Eosinophil nucleus",
+     "Eosinophil granules"
+    ],
+    "check": {
+     "q": "Name two conditions that raise the eosinophil count.",
+     "a": "Allergies and parasitic (worm) infections such as trichinosis."
+    }
+   },
+   {
+    "title": "The basophil",
+    "text": "<p>The rarest white cell, <b>0.5–1%</b>, about 8–10 µm. Its coarse <b>dark blue-purple granules</b> crowd the cytoplasm and hide the bilobed nucleus.</p><p>The granules hold <b>histamine</b>, a vasodilator that makes vessels leaky, and <b>heparin</b>, an anticoagulant. Basophils increase in allergic and other inflammatory reactions.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Basophil",
+     "Basophil nucleus",
+     "Basophil granules"
+    ],
+    "check": {
+     "q": "Which two chemicals do basophil granules contain, and what does each do?",
+     "a": "Histamine (vasodilator) and heparin (anticoagulant)."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Neutrophil"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Neutrophil nucleus"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Band neutrophil"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Eosinophil"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Eosinophil granules"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Basophil"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Basophil granules"
+   },
+   {
+    "type": "find_micro",
+    "model": "muscular_artery",
+    "part": "Rolling leukocyte"
+   },
+   {
+    "type": "mcq",
+    "q": "A normal total white-cell count is about:",
+    "choices": [
+     "700/mm³",
+     "7,000/mm³",
+     "70,000/mm³",
+     "250,000/mm³"
+    ],
+    "answer": 1,
+    "why": "About 7,000/mm³, range roughly 5,000–9,000."
+   },
+   {
+    "type": "recall",
+    "q": "What is ameboid movement, and why do leukocytes need it?",
+    "a": "Crawling by extending the cytoplasm; it carries them through tissue after they leave the blood."
+   },
+   {
+    "type": "mcq",
+    "q": "A cell with 3–4 nuclear lobes and faint lilac granules is a:",
+    "choices": [
+     "Neutrophil",
+     "Eosinophil",
+     "Basophil",
+     "Monocyte"
+    ],
+    "answer": 0,
+    "why": "Multilobed nucleus with pale, fine granules is the neutrophil."
+   },
+   {
+    "type": "mcq",
+    "q": "Large red-orange granules and a bilobed nucleus identify a:",
+    "choices": [
+     "Basophil",
+     "Neutrophil",
+     "Eosinophil",
+     "Lymphocyte"
+    ],
+    "answer": 2,
+    "why": "Eosinophil granules take up eosin and stain red-orange."
+   },
+   {
+    "type": "mcq",
+    "q": "Which white cell releases histamine and heparin?",
+    "choices": [
+     "Neutrophil",
+     "Basophil",
+     "Monocyte",
+     "Eosinophil"
+    ],
+    "answer": 1,
+    "why": "Basophil granules contain histamine (vasodilator) and heparin (anticoagulant)."
+   },
+   {
+    "type": "recall",
+    "q": "What does 'polymorphonuclear leukocyte' refer to?",
+    "a": "Granulocytes, whose nucleus is divided into several lobes (especially neutrophils)."
+   },
+   {
+    "type": "recall",
+    "q": "Give the normal percentages of neutrophils, eosinophils and basophils.",
+    "a": "Neutrophils 60–70%, eosinophils 2–4%, basophils 0.5–1%."
+   },
+   {
+    "type": "mcq",
+    "q": "How long does a neutrophil typically live in the circulation?",
+    "choices": [
+     "1–2 days",
+     "120 days",
+     "Years",
+     "A few minutes"
+    ],
+    "answer": 0,
+    "why": "Neutrophils are short-lived: about 1–2 days."
+   },
+   {
+    "type": "recall",
+    "q": "What is phagocytosis?",
+    "a": "Engulfing and digesting particles such as bacteria and debris."
+   }
+  ],
+  "see_also": {
+   "micro": [
+    "blood_cells"
+   ],
+   "histology": [
+    "blood"
+   ]
+  }
+ },
+ {
+  "id": "lab03-03-lymphocytes-monocytes",
+  "title": "Lymphocytes and monocytes",
+  "system": "lymphatic",
+  "region": "general",
+  "level": "core",
+  "minutes": 6,
+  "summary": "The two agranulocytes: B and T lymphocytes that run specific immunity, and monocytes that become macrophages.",
+  "tags": [
+   "lymphocyte",
+   "monocyte",
+   "B cell",
+   "T cell",
+   "immunity"
+  ],
+  "course": {
+   "lab": 3,
+   "order": 3,
+   "unit": "Lab 3 · Blood & heart structure"
+  },
+  "objectives": [
+   "Identify a lymphocyte and a monocyte on a smear",
+   "Contrast B cells and antibody-mediated immunity with T cells and cell-mediated immunity",
+   "Name the organs where lymphocytes mature and gather"
+  ],
+  "takeaways": [
+   "Lymphocyte 20–25%: round dark nucleus with a thin rim of blue cytoplasm.",
+   "B cells become plasma cells that secrete antibodies (humoral immunity).",
+   "T cells mature in the thymus and attack infected, cancerous or transplanted cells directly.",
+   "Monocyte 3–8%, largest white cell, kidney-shaped nucleus; becomes a macrophage; up in chronic infection (TB)."
+  ],
+  "steps": [
+   {
+    "title": "The lymphocyte",
+    "text": "<p>Lymphocytes make up <b>20–25%</b> of white cells. Most are small - about a red cell's size - with a large, round or slightly dented, very dark <b>nucleus</b> surrounded by only a thin halo of pale blue cytoplasm; larger ones (up to ~17 µm) show more cytoplasm.</p><p>Their numbers rise in infections, especially viral ones, and in antigen–antibody reactions.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Small lymphocyte",
+     "Large lymphocyte",
+     "Lymphocyte nucleus"
+    ],
+    "check": {
+     "q": "How do you recognise a lymphocyte?",
+     "a": "A large round dark nucleus with only a thin rim of pale blue cytoplasm and no granules."
+    }
+   },
+   {
+    "title": "B cells: antibodies",
+    "text": "<p><b>B cells</b> and T cells look identical on a stained smear. Both come from stem cells of the red bone marrow. B cells finish maturing in the marrow (in the fetus the liver and spleen also make them).</p><p>When a B cell meets its <b>antigen</b> it multiplies and becomes <b>plasma cells</b>, which secrete <b>antibodies</b> (immunoglobulins) into the blood. This is <b>antibody-mediated</b>, or humoral, immunity.</p>",
+    "systems": [
+     "lymphatic",
+     "visceral"
+    ],
+    "regions": [
+     "abdomen",
+     "thorax"
+    ],
+    "focus": [
+     "Spleen"
+    ],
+    "show": [
+     "Liver"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "What does a B cell turn into, and what does that cell make?",
+     "a": "A plasma cell, which secretes antibodies (immunoglobulins)."
+    }
+   },
+   {
+    "title": "T cells: cell-mediated immunity",
+    "text": "<p><b>T cells</b> mature in the <b>thymus</b>, behind the upper sternum. Rather than making antibodies they act directly: they attack virus-infected cells, tumour cells and transplanted tissue. This is <b>cell-mediated immunity</b>.</p><p>T cells gather in the <b>lymph nodes</b>, thymus and spleen, and return to the blood through lymphatic vessels.</p>",
+    "systems": [
+     "lymphatic",
+     "skeletal"
+    ],
+    "regions": [
+     "thorax",
+     "neck"
+    ],
+    "focus": [
+     "Thymus"
+    ],
+    "show": [
+     "Thoracic lymph nodes",
+     "Sternum"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Where do T cells mature?",
+     "a": "In the thymus."
+    }
+   },
+   {
+    "title": "The monocyte",
+    "text": "<p>The <b>largest</b> white cell, 12–15 µm or more - about three red cells across - with plenty of grey-blue cytoplasm and a <b>kidney- or horseshoe-shaped nucleus</b>. Monocytes are <b>3–8%</b> of the count.</p><p>After a day or so in the blood they enter tissues and become <b>macrophages</b>, long-lived phagocytes. Monocytes rise in <b>chronic infections</b> such as tuberculosis.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Monocyte",
+     "Monocyte nucleus"
+    ],
+    "check": {
+     "q": "What does a monocyte become once it enters the tissues?",
+     "a": "A macrophage."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Small lymphocyte"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Large lymphocyte"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Lymphocyte nucleus"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Monocyte"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Monocyte nucleus"
+   },
+   {
+    "type": "find",
+    "structure": "Thymus"
+   },
+   {
+    "type": "find",
+    "structure": "Spleen"
+   },
+   {
+    "type": "find",
+    "structure": "Thoracic lymph nodes"
+   },
+   {
+    "type": "mcq",
+    "q": "Which white cell is the largest?",
+    "choices": [
+     "Neutrophil",
+     "Lymphocyte",
+     "Monocyte",
+     "Basophil"
+    ],
+    "answer": 2,
+    "why": "Monocytes are 12–15 µm or more, about three red cells across."
+   },
+   {
+    "type": "mcq",
+    "q": "Plasma cells develop from:",
+    "choices": [
+     "T cells",
+     "B cells",
+     "Monocytes",
+     "Megakaryocytes"
+    ],
+    "answer": 1,
+    "why": "Activated B cells become antibody-secreting plasma cells."
+   },
+   {
+    "type": "mcq",
+    "q": "Cell-mediated immunity is carried out by:",
+    "choices": [
+     "B cells",
+     "Plasma cells",
+     "T cells",
+     "Basophils"
+    ],
+    "answer": 2,
+    "why": "T cells attack virus-infected, tumour and transplanted cells directly."
+   },
+   {
+    "type": "recall",
+    "q": "Another name for antibodies?",
+    "a": "Immunoglobulins."
+   },
+   {
+    "type": "recall",
+    "q": "Contrast humoral and cell-mediated immunity.",
+    "a": "Humoral: B cells → plasma cells → antibodies in body fluids. Cell-mediated: T cells attack target cells directly."
+   },
+   {
+    "type": "mcq",
+    "q": "Monocytes rise characteristically in:",
+    "choices": [
+     "Acute appendicitis",
+     "Tuberculosis",
+     "Hay fever",
+     "Trichinosis"
+    ],
+    "answer": 1,
+    "why": "Chronic infections such as tuberculosis raise the monocyte count."
+   },
+   {
+    "type": "recall",
+    "q": "Give the normal percentages of lymphocytes and monocytes.",
+    "a": "Lymphocytes 20–25%; monocytes 3–8%."
+   },
+   {
+    "type": "recall",
+    "q": "Can you tell a B cell from a T cell on a Wright-stained smear?",
+    "a": "No - they look identical."
+   },
+   {
+    "type": "recall",
+    "q": "What is an antigen?",
+    "a": "A substance (usually foreign) that is recognised by and triggers a specific immune response."
+   }
+  ],
+  "see_also": {
+   "micro": [
+    "blood_cells",
+    "lymph_node",
+    "spleen"
+   ],
+   "histology": [
+    "blood",
+    "thymus",
+    "lymph_node"
+   ]
+  }
+ },
+ {
+  "id": "lab03-04-differential-count",
+  "title": "The blood smear and the differential count",
+  "system": "lymphatic",
+  "region": "general",
+  "level": "core",
+  "minutes": 6,
+  "summary": "How a smear is made and stained, and how the proportions of white cells point to disease.",
+  "tags": [
+   "blood smear",
+   "differential count",
+   "Wright's stain"
+  ],
+  "course": {
+   "lab": 3,
+   "order": 4,
+   "unit": "Lab 3 · Blood & heart structure"
+  },
+  "objectives": [
+   "Describe how a thin blood smear is made and stained",
+   "Explain how a differential white-cell count is done",
+   "Rank the white cells by abundance and link each rise to a cause"
+  ],
+  "takeaways": [
+   "A thin smear stained with Wright's (or Giemsa) stain is viewed under oil immersion.",
+   "Classify 100 white cells in a zig-zag scan; each count is then a percentage.",
+   "Never Let Monkeys Eat Bananas: neutrophils > lymphocytes > monocytes > eosinophils > basophils.",
+   "Neutrophils ↑ acute bacterial; lymphocytes ↑ viral; monocytes ↑ chronic (TB); eosinophils ↑ allergy and parasites; basophils ↑ allergic inflammation."
+  ],
+  "steps": [
+   {
+    "title": "Making and staining a smear",
+    "text": "<p>A drop of blood from a fingertip puncture is spread into a thin film by drawing the edge of a second slide across it, so the cells lie one layer deep. <b>Wright's stain</b> (or Giemsa) combines the acid dye <b>eosin</b>, which colours red cells and eosinophil granules pink-orange, with basic dyes that turn nuclei purple.</p><p>Cells are examined at high power, usually under <b>oil immersion</b>. All blood is treated as a biohazard: sharps go in a sharps container.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Erythrocytes",
+     "Neutrophil",
+     "Eosinophil",
+     "Small lymphocyte"
+    ],
+    "check": {
+     "q": "What does eosin stain in a Wright-stained smear?",
+     "a": "Red cells and eosinophil granules (pink to red-orange)."
+    }
+   },
+   {
+    "title": "Counting a hundred cells",
+    "text": "<p>A <b>differential white-cell count</b> classifies 100 consecutive leukocytes, so each tally is directly a percentage. The slide is moved in a <b>zig-zag</b> path across the thin part of the smear, so no field is counted twice and every region is sampled.</p><p>Red cells and platelets are ignored in this count; cell concentrations are given separately per mm³.</p>",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Neutrophil",
+     "Small lymphocyte",
+     "Monocyte",
+     "Eosinophil",
+     "Basophil"
+    ],
+    "diagram": "lab03-wbc-differential",
+    "check": {
+     "q": "Why are exactly 100 cells counted?",
+     "a": "So each count reads directly as a percentage of the white cells."
+    }
+   },
+   {
+    "title": "The normal ranking",
+    "text": "<p>From most to least common: <b>neutrophils</b> 60–70%, <b>lymphocytes</b> 20–25%, <b>monocytes</b> 3–8%, <b>eosinophils</b> 2–4% and <b>basophils</b> 0.5–1%.</p><p>Keep the three totals in mind too: red cells ~5 million/mm³, platelets 250,000–400,000/mm³, white cells ~7,000/mm³ - roughly one white cell for every 700 red cells.</p>",
+    "diagram": "lab03-wbc-differential",
+    "micro": "blood_cells",
+    "mnemonic": "Never Let Monkeys Eat Bananas - Neutrophils, Lymphocytes, Monocytes, Eosinophils, Basophils.",
+    "check": {
+     "q": "Rank the five white cells from most to least common.",
+     "a": "Neutrophils > lymphocytes > monocytes > eosinophils > basophils."
+    }
+   },
+   {
+    "title": "What a shift means",
+    "text": "<p>Because each type has its own job, a change in the percentages points to a cause. <b>Neutrophils</b> rise in acute bacterial infection (appendicitis). <b>Lymphocytes</b> rise in viral infection. <b>Monocytes</b> rise in chronic infection such as tuberculosis. <b>Eosinophils</b> rise in allergy and parasitic infection (trichinosis). <b>Basophils</b> rise in allergic and inflammatory reactions.</p>",
+    "diagram": "lab03-wbc-differential",
+    "micro": "blood_cells",
+    "micro_focus": [
+     "Neutrophil",
+     "Small lymphocyte",
+     "Monocyte",
+     "Eosinophil",
+     "Basophil"
+    ],
+    "check": {
+     "q": "A patient has 12% eosinophils. Name two likely causes.",
+     "a": "An allergic reaction or a parasitic infection (e.g. trichinosis)."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Neutrophil"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Small lymphocyte"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Monocyte"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Eosinophil"
+   },
+   {
+    "type": "find_micro",
+    "model": "blood_cells",
+    "part": "Basophil"
+   },
+   {
+    "type": "order",
+    "q": "Put the white cells in order of normal abundance, most first",
+    "items": [
+     "Neutrophils",
+     "Lymphocytes",
+     "Monocytes",
+     "Eosinophils",
+     "Basophils"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Which stain is used for routine blood smears?",
+    "choices": [
+     "Wright's stain",
+     "Gram stain",
+     "Silver stain",
+     "Periodic acid–Schiff"
+    ],
+    "answer": 0,
+    "why": "Wright's (or Giemsa) stain - an eosin/basic-dye mixture."
+   },
+   {
+    "type": "mcq",
+    "q": "A differential count of 100 white cells finds 85 neutrophils. The most likely cause is:",
+    "choices": [
+     "A viral cold",
+     "Acute bacterial infection",
+     "Tapeworm",
+     "Hay fever"
+    ],
+    "answer": 1,
+    "why": "Neutrophilia points to acute bacterial infection such as appendicitis."
+   },
+   {
+    "type": "mcq",
+    "q": "Lymphocytosis most often suggests:",
+    "choices": [
+     "Viral infection",
+     "Bleeding",
+     "Trichinosis",
+     "Heparin therapy"
+    ],
+    "answer": 0,
+    "why": "Lymphocytes rise in viral infections and immune reactions."
+   },
+   {
+    "type": "recall",
+    "q": "Why is the slide scanned in a zig-zag during a differential count?",
+    "a": "So no field is counted twice and the whole thin part of the smear is sampled."
+   },
+   {
+    "type": "recall",
+    "q": "What objective is used to identify white cells on a smear?",
+    "a": "High power, usually oil immersion."
+   },
+   {
+    "type": "mcq",
+    "q": "Normal basophil percentage is:",
+    "choices": [
+     "0.5–1%",
+     "2–4%",
+     "3–8%",
+     "20–25%"
+    ],
+    "answer": 0,
+    "why": "Basophils are the rarest white cell."
+   },
+   {
+    "type": "recall",
+    "q": "What does 'cells per mm³' measure?",
+    "a": "The number of cells in one cubic millimetre of blood - a concentration, e.g. ~7,000 white cells/mm³."
+   },
+   {
+    "type": "recall",
+    "q": "How should a used lancet and blood-stained materials be disposed of?",
+    "a": "Lancet in a sharps container; contaminated items into 10% bleach or a biohazard bag."
+   }
+  ],
+  "see_also": {
+   "micro": [
+    "blood_cells"
+   ],
+   "histology": [
+    "blood"
+   ]
+  }
+ },
+ {
+  "id": "lab03-05-heart-location-pericardium",
+  "title": "Where the heart sits and what wraps it",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 6,
+  "summary": "The heart in the mediastinum, its apex and base on the chest wall, and the layers of the pericardium.",
+  "tags": [
+   "mediastinum",
+   "pericardium",
+   "pleura",
+   "apex"
+  ],
+  "course": {
+   "lab": 3,
+   "order": 5,
+   "unit": "Lab 3 · Blood & heart structure"
+  },
+  "objectives": [
+   "Describe the position of the heart and its neighbours in the mediastinum",
+   "Locate the apex and base of the heart on the chest wall",
+   "Name the layers of the pericardium and the pleura and the cavities between them"
+  ],
+  "takeaways": [
+   "The heart sits in the mediastinum, behind the sternum, in front of the thoracic vertebrae, on the diaphragm.",
+   "Base at the 2nd intercostal space; apex at the 5th intercostal space in the midclavicular line.",
+   "Fibrous pericardium outside; serous pericardium = parietal layer + visceral layer (epicardium).",
+   "The pericardial cavity holds serous fluid that lets the heart beat with little friction."
+  ],
+  "steps": [
+   {
+    "title": "In the middle of the chest",
+    "text": "<p>The heart, about the size of a fist, lies in the <b>mediastinum</b> - the central compartment of the chest between the two lungs. It is behind the <b>sternum</b>, in front of the thoracic vertebrae, and rests on the <b>diaphragm</b>.</p><p>It shares the mediastinum with the oesophagus, the descending (thoracic) aorta, the trachea and the thymus. About two-thirds of it lies left of the midline.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral",
+     "skeletal",
+     "muscular"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Heart"
+    ],
+    "show": [
+     "Sternum",
+     "Oesophagus",
+     "Thoracic aorta",
+     "Diaphragm",
+     "Right lung",
+     "Left lung",
+     "Thoracic vertebrae"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Name three other structures that share the mediastinum with the heart.",
+     "a": "Oesophagus, descending (thoracic) aorta, trachea (also thymus, great vessels)."
+    }
+   },
+   {
+    "title": "Apex and base on the chest wall",
+    "text": "<p>The heart is tipped: its broad <b>base</b>, where the great vessels attach, faces up, back and to the right, at about the level of the <b>2nd intercostal space</b>. The pointed <b>apex</b>, formed by the left ventricle, points down, forward and left.</p><p>You can feel the apex beat in the <b>5th intercostal space</b>, in line with the middle of the left clavicle (the midclavicular line).</p>",
+    "systems": [
+     "cardiovascular",
+     "skeletal"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Heart"
+    ],
+    "show": [
+     "Ribs",
+     "Sternum",
+     "Clavicle",
+     "Costal cartilages"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Where is the apex beat felt?",
+     "a": "In the 5th left intercostal space at the midclavicular line."
+    }
+   },
+   {
+    "title": "The pleura around the lungs",
+    "text": "<p>Each lung sits in its own serous sac. The <b>visceral pleura</b> clings to the lung surface; the <b>parietal pleura</b> lines the chest wall, diaphragm and mediastinum. Between them is the <b>pleural cavity</b>, a slit holding a film of fluid.</p><p>The heart has exactly the same arrangement - a serous sac with a parietal and a visceral layer - called the pericardium.</p>",
+    "systems": [
+     "visceral",
+     "cardiovascular"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Pleura"
+    ],
+    "show": [
+     "Heart",
+     "Right lung",
+     "Left lung"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Which layer of pleura lines the chest wall?",
+     "a": "The parietal pleura."
+    }
+   },
+   {
+    "title": "The pericardium",
+    "text": "<p>The outermost <b>fibrous pericardium</b> is a tough connective-tissue bag fused to the diaphragm; it anchors the heart and stops it overfilling. Inside it is the <b>serous pericardium</b>: a <b>parietal layer</b> lining the fibrous bag, folding back at the great vessels as the <b>visceral layer</b> (epicardium) on the heart itself.</p><p>Between the two is the <b>pericardial cavity</b>, with a little serous fluid that reduces friction.</p>",
+    "micro": "heart",
+    "micro_focus": [
+     "Fibrous pericardium",
+     "Parietal layer of serous pericardium",
+     "Pericardial cavity",
+     "Epicardium (visceral pericardium)"
+    ],
+    "diagram": "lab03-pericardium",
+    "check": {
+     "q": "What is another name for the visceral pericardium?",
+     "a": "The epicardium."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Heart"
+   },
+   {
+    "type": "find",
+    "structure": "Sternum"
+   },
+   {
+    "type": "find",
+    "structure": "Diaphragm"
+   },
+   {
+    "type": "find",
+    "structure": "Oesophagus"
+   },
+   {
+    "type": "find",
+    "structure": "Thoracic aorta"
+   },
+   {
+    "type": "find",
+    "structure": "Pleura"
+   },
+   {
+    "type": "find",
+    "structure": "Thoracic vertebrae"
+   },
+   {
+    "type": "name",
+    "structure": "Left lung"
+   },
+   {
+    "type": "name",
+    "structure": "Right lung"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Fibrous pericardium"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Parietal layer of serous pericardium"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Pericardial cavity"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Epicardium (visceral pericardium)"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Apex of heart"
+   },
+   {
+    "type": "mcq",
+    "q": "The apex of the heart lies at the:",
+    "choices": [
+     "2nd right intercostal space",
+     "5th left intercostal space, midclavicular line",
+     "Xiphoid process",
+     "3rd left costal cartilage"
+    ],
+    "answer": 1,
+    "why": "The apex beat is in the 5th left intercostal space."
+   },
+   {
+    "type": "mcq",
+    "q": "From outside in, the correct order is:",
+    "choices": [
+     "Fibrous pericardium, parietal layer, pericardial cavity, visceral layer",
+     "Parietal layer, fibrous pericardium, visceral layer, cavity",
+     "Visceral layer, cavity, parietal layer, fibrous pericardium",
+     "Fibrous pericardium, visceral layer, cavity, parietal layer"
+    ],
+    "answer": 0,
+    "why": "The fibrous sac is lined by the parietal serous layer; the cavity separates it from the visceral layer."
+   },
+   {
+    "type": "recall",
+    "q": "What is the mediastinum?",
+    "a": "The central compartment of the thoracic cavity between the two lungs."
+   },
+   {
+    "type": "recall",
+    "q": "What is the function of serous pericardial fluid?",
+    "a": "It lubricates, reducing friction as the heart beats."
+   },
+   {
+    "type": "recall",
+    "q": "Where is the base of the heart?",
+    "a": "Superior-posterior, where the great vessels attach - about the level of the 2nd intercostal space."
+   },
+   {
+    "type": "order",
+    "q": "Order the layers from the chest wall to the lung",
+    "items": [
+     "Parietal pleura",
+     "Pleural cavity",
+     "Visceral pleura",
+     "Lung tissue"
+    ]
+   }
+  ],
+  "see_also": {
+   "micro": [
+    "heart"
+   ],
+   "histology": [
+    "serosa"
+   ]
+  }
+ },
+ {
+  "id": "lab03-06-heart-wall",
+  "title": "The heart wall and cardiac muscle",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 5,
+  "summary": "Epicardium, myocardium and endocardium, and the branching, striated cells that make the wall pump.",
+  "tags": [
+   "epicardium",
+   "myocardium",
+   "endocardium",
+   "intercalated disc"
+  ],
+  "course": {
+   "lab": 3,
+   "order": 6,
+   "unit": "Lab 3 · Blood & heart structure"
+  },
+  "objectives": [
+   "Name the three layers of the heart wall and the tissue of each",
+   "Describe cardiac muscle cells and intercalated discs",
+   "Explain why the ventricles wring rather than simply squeeze"
+  ],
+  "takeaways": [
+   "Epicardium: simple squamous mesothelium over loose connective tissue and fat (coronary vessels run here).",
+   "Myocardium: the thick cardiac muscle layer.",
+   "Endocardium: endothelium on thin connective tissue, lining the chambers and covering the valves.",
+   "Cardiac cells are striated, branched and joined at intercalated discs; spiral bundles wring blood out."
+  ],
+  "steps": [
+   {
+    "title": "Three layers",
+    "text": "<p>The <b>epicardium</b> is the visceral pericardium: a simple squamous mesothelium over loose connective tissue and fat, in which the coronary vessels run. The <b>myocardium</b>, by far the thickest layer, is cardiac muscle. The <b>endocardium</b> is an <b>endothelium</b> (simple squamous epithelium) on a thin connective-tissue layer; it lines the chambers, covers the valves and is continuous with the lining of the vessels.</p>",
+    "micro": "cardiac_muscle",
+    "micro_focus": [
+     "Mesothelium (visceral pericardium)",
+     "Subepicardial connective tissue",
+     "Epicardial adipocytes",
+     "Cardiomyocytes",
+     "Endocardial endothelium",
+     "Subendothelial connective tissue"
+    ],
+    "diagram": "lab03-pericardium",
+    "check": {
+     "q": "Which layer of the heart wall is thickest?",
+     "a": "The myocardium."
+    }
+   },
+   {
+    "title": "Cardiac muscle cells",
+    "text": "<p>Cardiac muscle is <b>striated</b> like skeletal muscle, but its cells are short, <b>branched</b> and usually have one central nucleus. Neighbouring cells join end to end at <b>intercalated discs</b>, dark cross-bands packed with gap junctions and desmosomes.</p><p>The gap junctions let the impulse pass straight from cell to cell, so the whole chamber contracts as one unit.</p>",
+    "micro": "cardiac_muscle",
+    "micro_focus": [
+     "Cardiomyocytes",
+     "Intercalated discs",
+     "Cardiomyocyte nuclei"
+    ],
+    "check": {
+     "q": "What are intercalated discs and why do they matter?",
+     "a": "Junctions between cardiac cells, with gap junctions that pass the impulse so the muscle contracts as a unit."
+    }
+   },
+   {
+    "title": "A wringing pump",
+    "text": "<p>The ventricular muscle is laid down in <b>spiral</b> bundles that wind around the chambers. When they shorten, the ventricle twists and <b>wrings</b> blood from the apex up toward the outflow valves, rather than just squeezing it.</p><p>The inner surface of the ventricles is not smooth but raised into muscular ridges, the <b>trabeculae carneae</b>. The left ventricular wall is much thicker than the right.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Left ventricle",
+     "Right ventricle"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "What are trabeculae carneae?",
+     "a": "Muscular ridges on the inner wall of the ventricles."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find_micro",
+    "model": "cardiac_muscle",
+    "part": "Mesothelium (visceral pericardium)"
+   },
+   {
+    "type": "find_micro",
+    "model": "cardiac_muscle",
+    "part": "Epicardial adipocytes"
+   },
+   {
+    "type": "find_micro",
+    "model": "cardiac_muscle",
+    "part": "Cardiomyocytes"
+   },
+   {
+    "type": "find_micro",
+    "model": "cardiac_muscle",
+    "part": "Intercalated discs"
+   },
+   {
+    "type": "find_micro",
+    "model": "cardiac_muscle",
+    "part": "Endocardial endothelium"
+   },
+   {
+    "type": "find_micro",
+    "model": "cardiac_muscle",
+    "part": "Subendothelial connective tissue"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Trabeculae carneae"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Endocardium"
+   },
+   {
+    "type": "find",
+    "structure": "Left ventricle"
+   },
+   {
+    "type": "find",
+    "structure": "Right ventricle"
+   },
+   {
+    "type": "order",
+    "q": "Order the layers of the heart wall from outside in",
+    "items": [
+     "Epicardium",
+     "Myocardium",
+     "Endocardium"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "The endocardium is made mainly of:",
+    "choices": [
+     "Cardiac muscle",
+     "Endothelium on thin connective tissue",
+     "Dense fibrous tissue",
+     "Adipose tissue"
+    ],
+    "answer": 1,
+    "why": "Endocardium = endothelium (simple squamous) over a thin connective-tissue layer."
+   },
+   {
+    "type": "mcq",
+    "q": "Which feature is found in cardiac but not skeletal muscle?",
+    "choices": [
+     "Striations",
+     "Intercalated discs",
+     "Multiple peripheral nuclei",
+     "Sarcomeres"
+    ],
+    "answer": 1,
+    "why": "Intercalated discs join cardiac cells end to end."
+   },
+   {
+    "type": "recall",
+    "q": "What tissue forms the epicardium?",
+    "a": "Simple squamous epithelium (mesothelium) over loose connective tissue and adipose tissue."
+   },
+   {
+    "type": "recall",
+    "q": "Why does the spiral arrangement of myocardium matter?",
+    "a": "Contraction wrings the ventricle, pushing blood from apex toward the outflow valves."
+   }
+  ],
+  "see_also": {
+   "micro": [
+    "cardiac_muscle",
+    "heart"
+   ],
+   "histology": [
+    "cardiac_muscle",
+    "simple_squamous",
+    "adipose",
+    "loose_ct"
+   ]
+  }
+ },
+ {
+  "id": "lab03-07-chambers-blood-flow",
+  "title": "Chambers and the path of blood",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 6,
+  "summary": "Four chambers, two circuits: trace a drop of blood from the venae cavae back to the aorta.",
+  "tags": [
+   "atria",
+   "ventricles",
+   "blood flow",
+   "pulmonary circuit"
+  ],
+  "course": {
+   "lab": 3,
+   "order": 7,
+   "unit": "Lab 3 · Blood & heart structure"
+  },
+  "objectives": [
+   "Name the four chambers and say which receive and which pump",
+   "Trace blood through the heart, valves and pulmonary and systemic circuits in order",
+   "Explain why pulmonary veins carry oxygenated blood and why the left ventricle is thicker"
+  ],
+  "takeaways": [
+   "Atria receive (thin walls, auricles); ventricles pump.",
+   "Venae cavae/coronary sinus → RA → tricuspid → RV → pulmonary valve → pulmonary trunk → lungs.",
+   "Pulmonary veins → LA → bicuspid → LV → aortic valve → aorta → body.",
+   "Arteries leave the heart, veins return to it - whatever their oxygen content."
+  ],
+  "steps": [
+   {
+    "title": "Four chambers, two pumps",
+    "text": "<p>The two <b>atria</b> sit above and behind: thin-walled <b>receiving</b> chambers, each with an ear-shaped pouch, the <b>auricle</b>. The two <b>ventricles</b> below are the thick-walled <b>pumping</b> chambers.</p><p>The right atrium and ventricle pump to the lungs; the left atrium and ventricle pump to the rest of the body. The right ventricle forms most of the front of the heart.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Right atrium",
+     "Left atrium",
+     "Right ventricle",
+     "Left ventricle"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Which chambers receive blood and which pump it out?",
+     "a": "Atria receive; ventricles pump."
+    }
+   },
+   {
+    "title": "Right heart to the lungs",
+    "text": "<p>Deoxygenated blood returns through the <b>superior</b> and <b>inferior venae cavae</b> and the <b>coronary sinus</b> into the <b>right atrium</b>. It passes the <b>tricuspid valve</b> into the <b>right ventricle</b>, which pumps it through the <b>pulmonary semilunar valve</b> into the <b>pulmonary trunk</b>. The trunk divides into right and left <b>pulmonary arteries</b> to the lungs, where blood gives up CO₂ and picks up O₂.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Superior vena cava",
+     "Inferior vena cava (thoracic part)",
+     "Right atrium",
+     "Right ventricle",
+     "Pulmonary trunk",
+     "Right pulmonary artery",
+     "Left pulmonary artery"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab03-heart-flow",
+    "check": {
+     "q": "Which valve does blood pass on leaving the right ventricle?",
+     "a": "The pulmonary semilunar valve."
+    }
+   },
+   {
+    "title": "Left heart to the body",
+    "text": "<p>Oxygenated blood returns from the lungs in four <b>pulmonary veins</b> into the <b>left atrium</b>. It passes the <b>bicuspid (mitral) valve</b> into the <b>left ventricle</b>, which pumps it through the <b>aortic semilunar valve</b> into the <b>aorta</b> and so to every tissue of the body.</p><p>From the tissues it returns, deoxygenated, to the venae cavae and the cycle repeats.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Pulmonary veins",
+     "Left atrium",
+     "Left ventricle",
+     "Ascending aorta",
+     "Aortic arch"
+    ],
+    "view": "posterior",
+    "xray": true,
+    "diagram": "lab03-heart-flow",
+    "check": {
+     "q": "Which valve lies between the left atrium and left ventricle?",
+     "a": "The bicuspid (mitral) valve."
+    }
+   },
+   {
+    "title": "Two circuits and a naming trap",
+    "text": "<p>The <b>pulmonary circuit</b> runs from the right ventricle to the left atrium; the <b>systemic circuit</b> from the left ventricle to the right atrium. Arteries carry blood away from the heart and veins toward it, so the pulmonary arteries carry <b>deoxygenated</b> blood and the pulmonary veins <b>oxygenated</b> blood.</p><p>The left ventricle drives the high-pressure systemic circuit, so its wall is about three times thicker than the right's.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Left ventricle",
+     "Right ventricle"
+    ],
+    "show": [
+     "Pulmonary trunk",
+     "Pulmonary veins"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "pitfall": "'Artery' means away from the heart, not 'oxygenated'. The pulmonary arteries are the only arteries after birth that carry deoxygenated blood.",
+    "check": {
+     "q": "Why is the left ventricular wall thicker than the right?",
+     "a": "It must generate the much higher pressure needed to drive the systemic circulation."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Right atrium"
+   },
+   {
+    "type": "find",
+    "structure": "Left atrium"
+   },
+   {
+    "type": "find",
+    "structure": "Right ventricle"
+   },
+   {
+    "type": "find",
+    "structure": "Left ventricle"
+   },
+   {
+    "type": "find",
+    "structure": "Superior vena cava"
+   },
+   {
+    "type": "find",
+    "structure": "Inferior vena cava (thoracic part)"
+   },
+   {
+    "type": "find",
+    "structure": "Coronary sinus"
+   },
+   {
+    "type": "find",
+    "structure": "Pulmonary trunk"
+   },
+   {
+    "type": "name",
+    "structure": "Right pulmonary artery"
+   },
+   {
+    "type": "name",
+    "structure": "Left pulmonary artery"
+   },
+   {
+    "type": "find",
+    "structure": "Pulmonary veins"
+   },
+   {
+    "type": "find",
+    "structure": "Ascending aorta"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Right auricle"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Left auricle"
+   },
+   {
+    "type": "order",
+    "q": "Trace blood from the venae cavae to the aorta",
+    "items": [
+     "Right atrium",
+     "Tricuspid valve",
+     "Right ventricle",
+     "Pulmonary semilunar valve",
+     "Pulmonary trunk",
+     "Pulmonary arteries",
+     "Lungs",
+     "Pulmonary veins",
+     "Left atrium",
+     "Bicuspid (mitral) valve",
+     "Left ventricle",
+     "Aortic semilunar valve",
+     "Aorta"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Which vessels carry oxygenated blood?",
+    "choices": [
+     "Pulmonary arteries",
+     "Pulmonary veins",
+     "Venae cavae",
+     "Coronary sinus"
+    ],
+    "answer": 1,
+    "why": "Pulmonary veins return oxygenated blood from the lungs to the left atrium."
+   },
+   {
+    "type": "mcq",
+    "q": "Which three vessels empty into the right atrium?",
+    "choices": [
+     "Superior vena cava, inferior vena cava, coronary sinus",
+     "Pulmonary veins and coronary sinus",
+     "Aorta and pulmonary trunk",
+     "Superior vena cava and pulmonary veins"
+    ],
+    "answer": 0,
+    "why": "Both venae cavae and the coronary sinus drain into the right atrium."
+   },
+   {
+    "type": "recall",
+    "q": "What happens to blood in the lungs?",
+    "a": "It releases CO₂ and picks up O₂."
+   },
+   {
+    "type": "recall",
+    "q": "What are the auricles?",
+    "a": "Ear-like flaps (pouches) extending from each atrium."
+   },
+   {
+    "type": "recall",
+    "q": "Define the pulmonary and systemic circuits.",
+    "a": "Pulmonary: right ventricle → lungs → left atrium. Systemic: left ventricle → body → right atrium."
+   }
+  ],
+  "see_also": {
+   "micro": [
+    "heart"
+   ]
+  }
+ },
+ {
+  "id": "lab03-08-surface-coronary-vessels",
+  "title": "Outside the heart: grooves and coronary vessels",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 8,
+  "summary": "The apex, base and sulci of the heart, and the arteries and veins that run in them.",
+  "tags": [
+   "coronary arteries",
+   "cardiac veins",
+   "sulci",
+   "ligamentum arteriosum"
+  ],
+  "course": {
+   "lab": 3,
+   "order": 8,
+   "unit": "Lab 3 · Blood & heart structure"
+  },
+  "objectives": [
+   "Identify the apex, base, great vessels and ligamentum arteriosum on the heart's surface",
+   "Name the three sulci and what runs in each",
+   "Trace the coronary arteries and cardiac veins and explain when the coronaries fill"
+  ],
+  "takeaways": [
+   "Coronary (AV) sulcus: RCA, circumflex, coronary sinus. Anterior IV sulcus: anterior interventricular artery + great cardiac vein. Posterior IV sulcus: posterior interventricular artery + middle cardiac vein.",
+   "LCA → anterior interventricular + circumflex (→ left marginal). RCA → right marginal + posterior interventricular.",
+   "Cardiac veins → coronary sinus → right atrium.",
+   "Coronary arteries fill mainly during ventricular relaxation (diastole)."
+  ],
+  "steps": [
+   {
+    "title": "Apex, base and the great vessels",
+    "text": "<p>The pointed <b>apex</b> is formed by the left ventricle. At the <b>base</b> the great vessels leave: the <b>pulmonary trunk</b> in front, and the <b>aorta</b> behind it, arching up and to the left over the pulmonary arteries.</p><p>A short fibrous cord, the <b>ligamentum arteriosum</b>, joins the pulmonary trunk to the underside of the aortic arch. It is the remnant of the fetal <b>ductus arteriosus</b>; a small lymph node usually sits beside it.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral",
+     "lymphatic"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Pulmonary trunk",
+     "Aortic arch",
+     "Ascending aorta"
+    ],
+    "show": [
+     "Node of ligamentum arteriosum",
+     "Left pulmonary artery"
+    ],
+    "view": "left",
+    "xray": true,
+    "check": {
+     "q": "What is the ligamentum arteriosum a remnant of?",
+     "a": "The fetal ductus arteriosus."
+    }
+   },
+   {
+    "title": "Three grooves",
+    "text": "<p>The <b>coronary (atrioventricular) sulcus</b> encircles the heart between atria and ventricles; it carries the right coronary artery, the circumflex artery and, behind, the <b>coronary sinus</b>. The <b>anterior interventricular sulcus</b> marks the septum between the ventricles on the front and holds the anterior interventricular artery and great cardiac vein. The <b>posterior interventricular sulcus</b> holds the posterior interventricular artery and middle cardiac vein.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Anterior interventricular artery",
+     "Great cardiac vein",
+     "Coronary sinus",
+     "Right coronary artery",
+     "Middle cardiac vein"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "What runs in the anterior interventricular sulcus?",
+     "a": "The anterior interventricular artery and the great cardiac vein."
+    }
+   },
+   {
+    "title": "The coronary arteries",
+    "text": "<p>The <b>left</b> and <b>right coronary arteries</b> are the first branches of the aorta, arising from the ascending aorta just above the aortic valve. The left divides at once into the <b>anterior interventricular artery</b> (the LAD) and the <b>circumflex artery</b>, which runs left in the coronary sulcus and gives the left marginal artery.</p><p>The right runs right in the coronary sulcus, giving the <b>right marginal artery</b> and the <b>posterior interventricular artery</b>.</p>",
+    "micro": "heart",
+    "micro_focus": [
+     "Left coronary artery (left main)",
+     "Anterior interventricular artery (LAD)",
+     "Circumflex artery",
+     "Left marginal artery",
+     "Right coronary artery",
+     "Right marginal artery",
+     "Posterior interventricular artery"
+    ],
+    "check": {
+     "q": "What are the two main branches of the left coronary artery?",
+     "a": "The anterior interventricular artery and the circumflex artery."
+    }
+   },
+   {
+    "title": "Filled between beats",
+    "text": "<p>When the ventricles contract (<b>systole</b>) the muscle squeezes the arteries running through it, so coronary blood flow happens mainly while the ventricles <b>relax (diastole)</b>. A fast heart rate shortens diastole and so shortens the heart's own blood supply.</p><p>The vessels are ordinary muscular arteries - intima, media, adventitia - and so are prone to narrowing by plaque.</p>",
+    "micro": "cardiac_muscle",
+    "micro_focus": [
+     "Coronary artery – intima",
+     "Coronary artery – media",
+     "Coronary artery – adventitia",
+     "Intramyocardial arteriole"
+    ],
+    "check": {
+     "q": "When do the coronary arteries receive most of their flow?",
+     "a": "During ventricular relaxation (diastole)."
+    }
+   },
+   {
+    "title": "The cardiac veins",
+    "text": "<p>The <b>great cardiac vein</b> climbs the anterior interventricular sulcus and turns left into the coronary sulcus. The <b>middle cardiac vein</b> runs in the posterior interventricular sulcus, the <b>small cardiac vein</b> along the right margin, and the <b>posterior vein of the left ventricle</b> up its back.</p><p>All empty into the <b>coronary sinus</b>, a wide channel in the back of the coronary sulcus that opens into the right atrium.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Cardiac veins",
+     "Coronary sinus",
+     "Great cardiac vein",
+     "Middle cardiac vein",
+     "Inferior vein of left ventricle"
+    ],
+    "view": "posterior",
+    "xray": true,
+    "check": {
+     "q": "Where does the coronary sinus empty?",
+     "a": "Into the right atrium."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "name",
+    "structure": "Left coronary artery"
+   },
+   {
+    "type": "name",
+    "structure": "Right coronary artery"
+   },
+   {
+    "type": "find",
+    "structure": "Anterior interventricular artery"
+   },
+   {
+    "type": "find",
+    "structure": "Circumflex artery of heart"
+   },
+   {
+    "type": "find",
+    "structure": "Great cardiac vein"
+   },
+   {
+    "type": "find",
+    "structure": "Middle cardiac vein"
+   },
+   {
+    "type": "name",
+    "structure": "Inferior vein of left ventricle"
+   },
+   {
+    "type": "find",
+    "structure": "Coronary sinus"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Ligamentum arteriosum"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Small cardiac vein"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Posterior interventricular artery"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Right marginal artery"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Left marginal artery"
+   },
+   {
+    "type": "find",
+    "structure": "Arteries of heart"
+   },
+   {
+    "type": "mcq",
+    "q": "The coronary sinus lies in the:",
+    "choices": [
+     "Anterior interventricular sulcus",
+     "Posterior part of the coronary sulcus",
+     "Interatrial septum",
+     "Posterior interventricular sulcus"
+    ],
+    "answer": 1,
+    "why": "It runs in the back of the atrioventricular (coronary) groove and opens into the right atrium."
+   },
+   {
+    "type": "mcq",
+    "q": "The posterior interventricular artery usually arises from the:",
+    "choices": [
+     "Left coronary artery",
+     "Circumflex artery",
+     "Right coronary artery",
+     "Anterior interventricular artery"
+    ],
+    "answer": 2,
+    "why": "It is normally a branch of the right coronary artery."
+   },
+   {
+    "type": "mcq",
+    "q": "Which vein accompanies the anterior interventricular artery?",
+    "choices": [
+     "Middle cardiac vein",
+     "Small cardiac vein",
+     "Great cardiac vein",
+     "Posterior vein of left ventricle"
+    ],
+    "answer": 2,
+    "why": "The great cardiac vein runs in the anterior interventricular sulcus."
+   },
+   {
+    "type": "recall",
+    "q": "Where do the coronary arteries arise?",
+    "a": "From the ascending aorta just above the aortic valve - the first branches of the aorta."
+   },
+   {
+    "type": "recall",
+    "q": "Why is coronary flow greatest during diastole?",
+    "a": "In systole the contracting myocardium compresses the vessels within it."
+   },
+   {
+    "type": "order",
+    "q": "Trace venous blood from the front of the left ventricle to the right atrium",
+    "items": [
+     "Great cardiac vein (anterior interventricular sulcus)",
+     "Great cardiac vein (coronary sulcus)",
+     "Coronary sinus",
+     "Right atrium"
+    ]
+   }
+  ],
+  "see_also": {
+   "micro": [
+    "cardiac_muscle",
+    "heart"
+   ],
+   "lessons": [
+    "coronary-circulation"
+   ]
+  }
+ },
+ {
+  "id": "lab03-09-septa-valves",
+  "title": "Inside the heart: septa and valves",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 6,
+  "summary": "The walls between the chambers, the fossa ovalis, and the four valves with their cords and muscles.",
+  "tags": [
+   "valves",
+   "chordae tendineae",
+   "papillary muscles",
+   "fossa ovalis"
+  ],
+  "course": {
+   "lab": 3,
+   "order": 9,
+   "unit": "Lab 3 · Blood & heart structure"
+  },
+  "objectives": [
+   "Identify the interatrial and interventricular septa, fossa ovalis, pectinate muscles and trabeculae carneae",
+   "Describe the atrioventricular valves with their chordae tendineae and papillary muscles",
+   "Explain how the semilunar valves open and close"
+  ],
+  "takeaways": [
+   "Fossa ovalis in the interatrial septum = remnant of the fetal foramen ovale.",
+   "Pectinate muscles ridge the atria/auricles; trabeculae carneae ridge the ventricles.",
+   "Tricuspid (right AV, 3 cusps) and bicuspid/mitral (left AV, 2 cusps) stop backflow into the atria in systole; chordae tendineae and papillary muscles stop the cusps everting.",
+   "Pulmonary and aortic semilunar valves (3 cusps each) stop backflow into the ventricles in diastole."
+  ],
+  "steps": [
+   {
+    "title": "The septa and the atrial walls",
+    "text": "<p>The <b>interatrial septum</b> divides the atria. On its right side is a shallow oval dip, the <b>fossa ovalis</b> - all that remains of the <b>foramen ovale</b>, a fetal opening that closes after birth. The thick <b>interventricular septum</b> divides the ventricles.</p><p>Parallel ridges, the <b>pectinate muscles</b>, line the auricles and front of the atria; the ventricles are lined by the irregular <b>trabeculae carneae</b>.</p>",
+    "micro": "heart",
+    "micro_focus": [
+     "Interatrial septum",
+     "Fossa ovalis",
+     "Pectinate muscles",
+     "Interventricular septum",
+     "Trabeculae carneae"
+    ],
+    "check": {
+     "q": "What is the fossa ovalis?",
+     "a": "A depression in the interatrial septum, the remnant of the fetal foramen ovale."
+    }
+   },
+   {
+    "title": "The atrioventricular valves",
+    "text": "<p>Each atrium opens into its ventricle through an <b>atrioventricular canal</b> guarded by an AV valve. The right one, the <b>tricuspid valve</b>, has three cusps. The left one, the <b>bicuspid (mitral) valve</b>, has two.</p><p>They open when the atria fill the ventricles, and close as the ventricles contract, stopping blood being pushed back into the atria.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Septal leaflet of right atrioventricular valve",
+     "Inferior leaflet of right atrioventricular valve",
+     "Posterior leaflet of left atrioventricular valve"
+    ],
+    "show": [
+     "Right ventricle",
+     "Left ventricle"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "pitfall": "The atlas group 'right atrioventricular valve' also pulls in a left-sided leaflet - use the named leaflets instead.",
+    "check": {
+     "q": "How many cusps does the mitral valve have?",
+     "a": "Two - it is the bicuspid valve."
+    }
+   },
+   {
+    "title": "Chordae tendineae and papillary muscles",
+    "text": "<p>The free edges of the AV cusps are tethered by fine tendinous cords, the <b>chordae tendineae</b>, to cone-shaped <b>papillary muscles</b> projecting from the ventricular wall.</p><p>The papillary muscles contract with the ventricle and pull the cords tight, so the cusps meet and are not blown back (everted) into the atria like an umbrella in the wind.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Anterior papillary muscle of right ventricle",
+     "Septal papillary muscle of right ventricle",
+     "Inferior papillary muscle of right ventricle",
+     "Inferior papillary muscle of left ventricle"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "What stops the AV valve cusps being pushed into the atria?",
+     "a": "Chordae tendineae held taut by contracting papillary muscles."
+    }
+   },
+   {
+    "title": "The semilunar valves",
+    "text": "<p>The <b>pulmonary</b> and <b>aortic semilunar valves</b> each have three half-moon pocket-shaped cusps and no cords. When the ventricles eject, blood flattens the cusps against the vessel wall. When the ventricles relax, blood falls back, fills the pockets and snaps them shut - preventing backflow from the arteries into the ventricles.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Pulmonary valve",
+     "Aortic valve"
+    ],
+    "show": [
+     "Pulmonary trunk",
+     "Ascending aorta"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "When do the semilunar valves close?",
+     "a": "When the ventricles relax (start of diastole) and blood falls back toward them."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Interatrial septum"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Fossa ovalis"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Pectinate muscles"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Interventricular septum"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Trabeculae carneae"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Chordae tendineae"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Papillary muscles (right ventricle)"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Papillary muscles (left ventricle)"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Tricuspid valve"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Mitral (bicuspid) valve"
+   },
+   {
+    "type": "name",
+    "structure": "Septal leaflet of right atrioventricular valve"
+   },
+   {
+    "type": "find",
+    "structure": "Posterior leaflet of left atrioventricular valve"
+   },
+   {
+    "type": "find",
+    "structure": "Anterior papillary muscle of right ventricle"
+   },
+   {
+    "type": "name",
+    "structure": "Inferior papillary muscle of left ventricle"
+   },
+   {
+    "type": "find",
+    "structure": "Pulmonary valve"
+   },
+   {
+    "type": "find",
+    "structure": "Aortic valve"
+   },
+   {
+    "type": "mcq",
+    "q": "The tricuspid valve lies between the:",
+    "choices": [
+     "Right atrium and right ventricle",
+     "Left atrium and left ventricle",
+     "Right ventricle and pulmonary trunk",
+     "Left ventricle and aorta"
+    ],
+    "answer": 0,
+    "why": "The tricuspid is the right atrioventricular valve."
+   },
+   {
+    "type": "mcq",
+    "q": "Which valves have chordae tendineae?",
+    "choices": [
+     "Semilunar valves",
+     "Atrioventricular valves",
+     "All four",
+     "Only the aortic"
+    ],
+    "answer": 1,
+    "why": "Only the AV valves are tethered to papillary muscles by chordae."
+   },
+   {
+    "type": "mcq",
+    "q": "Pectinate muscles are found in the:",
+    "choices": [
+     "Ventricles",
+     "Atria and auricles",
+     "Aorta",
+     "Septum only"
+    ],
+    "answer": 1,
+    "why": "Pectinate muscles ridge the atrial walls; trabeculae carneae ridge the ventricles."
+   },
+   {
+    "type": "recall",
+    "q": "What does a semilunar valve prevent?",
+    "a": "Backflow from the artery into the ventricle during ventricular relaxation."
+   }
+  ],
+  "see_also": {
+   "micro": [
+    "heart"
+   ],
+   "histology": [
+    "heart_valve"
+   ]
+  }
+ },
+ {
+  "id": "lab03-10-sheep-heart",
+  "title": "The sheep heart, mapped to the human",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 6,
+  "summary": "A sheep heart is a good stand-in for ours: how its vessels and chambers correspond.",
+  "tags": [
+   "sheep heart",
+   "dissection",
+   "comparative anatomy"
+  ],
+  "course": {
+   "lab": 3,
+   "order": 10,
+   "unit": "Lab 3 · Blood & heart structure"
+  },
+  "objectives": [
+   "Match the sheep heart's venae cavae and great vessels to the human names",
+   "Tell the anterior from the posterior surface and the right from the left ventricle",
+   "Describe what a section through the interventricular septum shows"
+  ],
+  "takeaways": [
+   "Anterior vena cava = superior vena cava; posterior vena cava = inferior vena cava.",
+   "The pulmonary trunk is the most anterior vessel and leads to the right ventricle; the aorta lies behind it and leads to the left ventricle.",
+   "The coronary sinus opens in the posterior, inferior right atrium; pulmonary veins enter the left atrium.",
+   "A coronal cut through the interventricular septum opens all four chambers."
+  ],
+  "steps": [
+   {
+    "title": "Same plan, different names",
+    "text": "<p>A sheep's heart has the same four chambers, valves and vessels as ours. Because the animal stands on four legs, its superior vena cava is called the <b>anterior vena cava</b> and its inferior vena cava the <b>posterior vena cava</b>.</p><p>It usually carries a thick layer of <b>epicardial fat</b>, which fills the sulci and hides the coronary vessels.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Superior vena cava",
+     "Inferior vena cava (thoracic part)"
+    ],
+    "show": [
+     "Heart"
+    ],
+    "view": "right",
+    "xray": true,
+    "check": {
+     "q": "What is the human name for the sheep's posterior vena cava?",
+     "a": "Inferior vena cava."
+    }
+   },
+   {
+    "title": "Front, back, right and left",
+    "text": "<p>The anterior surface is recognised by the <b>anterior interventricular sulcus</b> running diagonally toward the apex. The <b>pulmonary trunk</b> is the most anterior vessel and leaves toward the specimen's left; a blunt probe passed down it enters the <b>right ventricle</b>. The <b>aorta</b> lies directly behind it and leads to the <b>left ventricle</b>.</p><p>Squeeze the ventricles: the left is firm and thick-walled, the right softer.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Pulmonary trunk",
+     "Ascending aorta",
+     "Right ventricle",
+     "Left ventricle"
+    ],
+    "show": [
+     "Anterior interventricular artery"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Which ventricle does the pulmonary trunk lead into?",
+     "a": "The right ventricle."
+    }
+   },
+   {
+    "title": "The openings into the atria",
+    "text": "<p>Both venae cavae open into the <b>right atrium</b>; the <b>coronary sinus</b> opens in its posterior, inferior part near the inferior vena cava. The <b>pulmonary veins</b> enter the <b>left atrium</b> on the back of the heart - often seen as four veins, sometimes as two openings when they merge.</p><p>The atrial walls are thin enough to feel a probe through them.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Pulmonary veins",
+     "Left atrium",
+     "Coronary sinus",
+     "Right atrium"
+    ],
+    "view": "posterior",
+    "xray": true,
+    "check": {
+     "q": "Where does the coronary sinus open?",
+     "a": "Into the posterior, inferior right atrium."
+    }
+   },
+   {
+    "title": "The four-chamber cut",
+    "text": "<p>A coronal cut from apex to base through the <b>interventricular septum</b> opens all four chambers at once. It shows the thin atrial walls, the thick left and thinner right ventricular walls, the <b>tricuspid</b> and <b>bicuspid</b> valves with their chordae and papillary muscles, the trabeculae carneae and the septa - the same view as the cut-away of the heart model.</p>",
+    "micro": "heart",
+    "micro_focus": [
+     "Interventricular septum",
+     "Chordae tendineae",
+     "Papillary muscles (left ventricle)",
+     "Papillary muscles (right ventricle)",
+     "Tricuspid valve",
+     "Mitral (bicuspid) valve",
+     "Left ventricle (myocardium)",
+     "Right ventricle (myocardium)"
+    ],
+    "check": {
+     "q": "Why cut through the interventricular septum?",
+     "a": "The plane passes through all four chambers and both AV valves at once."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Superior vena cava"
+   },
+   {
+    "type": "find",
+    "structure": "Inferior vena cava (thoracic part)"
+   },
+   {
+    "type": "find",
+    "structure": "Pulmonary trunk"
+   },
+   {
+    "type": "find",
+    "structure": "Ascending aorta"
+   },
+   {
+    "type": "find",
+    "structure": "Pulmonary veins"
+   },
+   {
+    "type": "find",
+    "structure": "Coronary sinus"
+   },
+   {
+    "type": "name",
+    "structure": "Left ventricle"
+   },
+   {
+    "type": "name",
+    "structure": "Right atrium"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Interventricular septum"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Left ventricle (myocardium)"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Right ventricle (myocardium)"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Epicardial fat"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Opening of coronary sinus"
+   },
+   {
+    "type": "mcq",
+    "q": "In a sheep, the anterior vena cava corresponds to the human:",
+    "choices": [
+     "Inferior vena cava",
+     "Superior vena cava",
+     "Pulmonary trunk",
+     "Azygos vein"
+    ],
+    "answer": 1,
+    "why": "Anterior (cranial) in a quadruped = superior in an upright human."
+   },
+   {
+    "type": "mcq",
+    "q": "A probe passed down the aorta enters the:",
+    "choices": [
+     "Right atrium",
+     "Right ventricle",
+     "Left atrium",
+     "Left ventricle"
+    ],
+    "answer": 3,
+    "why": "The aorta leaves the left ventricle."
+   },
+   {
+    "type": "recall",
+    "q": "Why are the coronary vessels hard to see on a sheep heart?",
+    "a": "They lie in the sulci buried in a thick layer of epicardial fat."
+   },
+   {
+    "type": "recall",
+    "q": "How can you tell the left ventricle from the right by touch?",
+    "a": "The left ventricle's wall is much thicker and firmer."
+   }
+  ],
+  "see_also": {
+   "micro": [
+    "heart"
+   ]
+  }
+ }
+]

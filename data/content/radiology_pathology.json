@@ -1,0 +1,204 @@
+[
+{
+  "id": "cxr_effusion",
+  "title": "Chest — massive pleural effusion",
+  "modality": "X-ray",
+  "region": "Thorax — pathology",
+  "summary": "A white-out, and the one sign that tells you whether it is fluid or collapse.",
+  "text": "<p>The patient's <b>right</b> hemithorax is completely opaque. Fluid and air have the same density on a film as soft tissue does, so once the alveoli fill or the pleural space fills the lung stops being visible at all.</p><p>The decisive sign is what the <b>mediastinum</b> does. Fluid takes up space and pushes it <i>away</i>; collapse loses volume and pulls it <i>towards</i> the abnormal side. Here the trachea and the heart have been shoved to the left, so this is a large effusion, not a collapsed lung.</p><p>The model beside it shows the same thing in three dimensions: fluid filling the pleural cavity, the lung floated up and squashed against the apex, and the heart and trachea displaced across the midline.</p>",
+  "reading": [
+    "Confirm the opacification is homogeneous and reaches the chest wall, with no air bronchograms inside it — an air bronchogram means consolidation, not fluid.",
+    "Find the mediastinum: trachea, carina, heart borders. Pushed away means effusion or a mass; pulled towards means collapse or fibrosis; central means consolidation.",
+    "Look for a meniscus — fluid rides higher at the chest wall than in the middle. In a complete white-out it may be gone.",
+    "A decubitus film or, better, ultrasound tells you whether the fluid moves and how much there is, and marks the safe spot to drain.",
+    "Then look for a cause: a mass at the hilum, rib destruction, an unusually small hemithorax."
+  ],
+  "scene": {
+    "systems": ["skeletal", "visceral", "cardiovascular", "joints"],
+    "regions": ["thorax"],
+    "view": "anterior",
+    "show": ["Right pleural effusion", "Right lung compressed by effusion",
+             "Mediastinum shifted to the left"],
+    "ghost_focus": ["Right pleural effusion", "Right lung compressed by effusion",
+                    "Mediastinum shifted to the left", "Left lung"],
+    "frame_on": ["Right lung", "Left lung"]
+  },
+  "labels": [
+    {"x": 0.28, "y": 0.58, "text": "Opacified right hemithorax", "structure": "Right pleural effusion",
+     "note": "fluid: the same density as soft tissue, so the lung disappears into it"},
+    {"x": 0.23, "y": 0.13, "text": "Aerated right apex", "structure": "Right lung compressed by effusion",
+     "note": "the little lung still floating above the fluid"},
+    {"x": 0.525, "y": 0.13, "text": "Trachea", "structure": "Trachea",
+     "note": "pushed to the patient's left — the sign that says fluid, not collapse"},
+    {"x": 0.63, "y": 0.50, "text": "Displaced heart border", "structure": "Mediastinum shifted to the left"},
+    {"x": 0.75, "y": 0.35, "text": "Normal left lung", "structure": "Left lung",
+     "note": "vessels visible right out to the chest wall"},
+    {"x": 0.90, "y": 0.60, "text": "Left costophrenic angle", "structure": "Left lung",
+     "note": "sharp — compare with the other side"},
+    {"x": 0.20, "y": 0.36, "text": "Ribs seen through the fluid", "structure": "Sixth rib",
+     "note": "bone is denser still, so the ribs survive the white-out"},
+    {"x": 0.76, "y": 0.115, "text": "Implanted venous port", "structure": "Left subclavian vein",
+     "note": "always name the hardware: lines, ports, valves, wires"}
+  ]
+},
+{
+  "id": "cxr_pneumonia",
+  "title": "Chest — right middle lobe pneumonia",
+  "modality": "X-ray",
+  "region": "Thorax — pathology",
+  "summary": "The silhouette sign, and how a lost border tells you which lobe is filled.",
+  "text": "<p>A hazy opacity in the patient's <b>right mid zone</b>, and – the point of the case – the right heart border has gone. The middle lobe lies directly against the right atrium, so when its alveoli fill with exudate there is no longer air next to that border and the line vanishes. The <b>hemidiaphragm stays sharp</b>, because the lower lobe is still aerated.</p><p>That is the <b>silhouette sign</b>, and it localises disease without a lateral film: lose the right heart border and it is the middle lobe; lose the right hemidiaphragm and it is the lower lobe; lose the aortic knuckle or left heart border and it is the lingula or the left upper lobe.</p>",
+  "reading": [
+    "Find the opacity, then ask which border it has erased. That names the lobe.",
+    "Look inside it for air bronchograms — black branching airways against white lung. They mean the alveoli are filled but the airways are open: consolidation, not collapse or fluid.",
+    "Check volume: consolidation fills the lobe without shrinking it, so the fissures stay put. A shifted fissure means collapse.",
+    "Confirm on the lateral if there is one: middle lobe disease sits as a wedge in front, pointing at the hilum.",
+    "Then look for complications — an effusion, a cavity, a mass behind the pneumonia — and repeat the film in six weeks if the patient is a smoker."
+  ],
+  "scene": {
+    "systems": ["skeletal", "visceral", "cardiovascular", "joints"],
+    "regions": ["thorax"],
+    "view": "anterior",
+    "show": ["Consolidated right middle lobe"],
+    "ghost_focus": ["Consolidated right middle lobe", "Right atrium", "Right lung", "Left lung"],
+    "frame_on": ["Right lung", "Left lung"]
+  },
+  "labels": [
+    {"x": 0.28, "y": 0.52, "text": "Right middle lobe consolidation",
+     "structure": "Consolidated right middle lobe",
+     "note": "alveoli filled with exudate instead of air"},
+    {"x": 0.37, "y": 0.56, "text": "Right heart border, silhouetted out", "structure": "Right atrium",
+     "note": "the middle lobe lies against it — no air, no line"},
+    {"x": 0.28, "y": 0.41, "text": "Horizontal fissure", "structure": "Middle lobe of right lung",
+     "note": "the upper limit of the middle lobe, and it has not moved"},
+    {"x": 0.25, "y": 0.74, "text": "Right hemidiaphragm", "structure": "Diaphragm",
+     "note": "still sharp — the lower lobe is spared"},
+    {"x": 0.20, "y": 0.25, "text": "Right upper zone", "structure": "Superior lobe of right lung",
+     "note": "clear: the upper lobe is not involved"},
+    {"x": 0.68, "y": 0.42, "text": "Normal left lung", "structure": "Left lung"},
+    {"x": 0.60, "y": 0.62, "text": "Left heart border", "structure": "Left ventricle",
+     "note": "crisp, because the lingula beside it is still aerated"}
+  ]
+},
+{
+  "id": "cxr_pneumothorax",
+  "title": "Chest — pneumothorax on expiration",
+  "modality": "X-ray",
+  "region": "Thorax — pathology",
+  "summary": "A line, and nothing beyond it. Plus the trick that makes a small one visible.",
+  "text": "<p>An expiratory film. On the inspiratory film taken at the same sitting the pneumothorax is barely there; breathe out, and the lung shrinks while the pleural air does not, so the same volume of air now takes up a larger share of the hemithorax and the edge stands out.</p><p>What you are looking for is a thin white <b>visceral pleural line</b> with <b>no lung markings beyond it</b>. Lung markings running all the way to the ribs exclude a pneumothorax; a skin fold or the edge of a scapula can mimic the line, but vessels cross a fold and stop at a pleural line.</p><p>The patient has had both breasts removed and a chemotherapy port inserted – worth naming, because hardware and previous surgery are part of reading any film.</p>",
+  "reading": [
+    "Follow the lung edge round: a fine white line parallel to the chest wall, with black and nothing else outside it.",
+    "If you are unsure, an expiratory film exaggerates it — as here.",
+    "Size matters less than the patient: any pneumothorax with breathlessness, a deviated trachea or shock is a tension pneumothorax and is decompressed before any further imaging.",
+    "Check the apices in a supine film differently: air collects anteriorly and basally instead, giving a deep sulcus sign rather than an apical line.",
+    "Then account for every piece of hardware, and look for the cause — a rib fracture, a bulla, a line insertion."
+  ],
+  "scene": {
+    "systems": ["skeletal", "visceral", "cardiovascular", "joints"],
+    "regions": ["thorax"],
+    "view": "anterior",
+    "show": ["Collapsed left lung (pneumothorax)", "Air in the left pleural space"],
+    "ghost_focus": ["Collapsed left lung (pneumothorax)", "Air in the left pleural space", "Right lung"],
+    "frame_on": ["Right lung", "Left lung"]
+  },
+  "labels": [
+    {"x": 0.655, "y": 0.265, "text": "Visceral pleural line",
+     "structure": "Collapsed left lung (pneumothorax)",
+     "note": "the edge of the lung itself — the only reliable sign"},
+    {"x": 0.72, "y": 0.17, "text": "Pleural air, no lung markings",
+     "structure": "Air in the left pleural space",
+     "note": "black, and empty: vessels stop at the line"},
+    {"x": 0.72, "y": 0.47, "text": "Collapsed left lung",
+     "structure": "Collapsed left lung (pneumothorax)",
+     "note": "denser than normal, because the same tissue is packed into less space"},
+    {"x": 0.25, "y": 0.35, "text": "Normal right lung", "structure": "Right lung",
+     "note": "markings run right out to the ribs"},
+    {"x": 0.735, "y": 0.42, "text": "Chemotherapy port", "structure": "Left subclavian vein",
+     "note": "the reservoir, with its catheter running to the SVC"},
+    {"x": 0.60, "y": 0.235, "text": "Port catheter", "structure": "Superior vena cava"},
+    {"x": 0.50, "y": 0.12, "text": "Trachea", "structure": "Trachea",
+     "note": "central — a deviated trachea would mean tension"},
+    {"x": 0.30, "y": 0.78, "text": "Absent breast shadow", "structure": "Sixth rib",
+     "note": "bilateral mastectomy: the lower zones look darker than usual"}
+  ]
+},
+{
+  "id": "cxr_chf",
+  "title": "Chest — heart failure",
+  "modality": "X-ray",
+  "region": "Thorax — pathology",
+  "summary": "Five signs that appear in order as the left atrial pressure climbs.",
+  "text": "<p>An 83-year-old man with previous bypass surgery, now breathless. The film shows an enlarged heart, dilated upper-lobe vessels, distinct <b>Kerley B lines</b> and a little fluid tracking into the horizontal fissure.</p><p>The signs appear in a predictable order as the left atrial pressure rises: <b>upper-lobe blood diversion</b> first, then <b>interstitial oedema</b> with Kerley B lines and peribronchial cuffing, then <b>alveolar oedema</b>, and <b>pleural effusions</b> throughout. Remembered as ABCDE: Alveolar oedema, Kerley B lines, Cardiomegaly, Dilated upper lobe vessels, Effusions.</p>",
+  "reading": [
+    "Heart size: on a PA film the cardiothoracic ratio should be under 0.5. On an AP or a portable film it is magnified, so a big heart there means less.",
+    "Upper-lobe vessels: normally smaller than the lower-lobe ones because of gravity; equal or larger is diversion.",
+    "Kerley B lines: short horizontal lines reaching the pleural surface at the bases — thickened interlobular septa, and the most specific of the signs.",
+    "Fissures: fluid thickens them, which is often the earliest effusion you can see.",
+    "Then the costophrenic angles, and any alveolar shadowing spreading out from the hila."
+  ],
+  "scene": {
+    "systems": ["skeletal", "visceral", "cardiovascular", "joints"],
+    "regions": ["thorax"],
+    "view": "anterior",
+    "show": ["Enlarged heart", "Small bilateral pleural effusions"],
+    "ghost_focus": ["Enlarged heart", "Small bilateral pleural effusions", "Right lung", "Left lung"],
+    "frame_on": ["Right lung", "Left lung"]
+  },
+  "labels": [
+    {"x": 0.46, "y": 0.60, "text": "Enlarged cardiac silhouette", "structure": "Enlarged heart",
+     "note": "wider than half the chest on a PA film"},
+    {"x": 0.28, "y": 0.24, "text": "Dilated upper lobe vessels", "structure": "Right pulmonary artery",
+     "note": "normally the smaller ones — equal or bigger means diversion"},
+    {"x": 0.16, "y": 0.70, "text": "Kerley B lines", "structure": "Right lung",
+     "note": "short horizontal lines at the pleural surface: thickened septa"},
+    {"x": 0.85, "y": 0.68, "text": "Kerley B lines", "structure": "Left lung"},
+    {"x": 0.24, "y": 0.52, "text": "Fluid in the horizontal fissure",
+     "structure": "Small bilateral pleural effusions",
+     "note": "often the first effusion you can actually see"},
+    {"x": 0.12, "y": 0.82, "text": "Blunted costophrenic angle",
+     "structure": "Small bilateral pleural effusions"},
+    {"x": 0.36, "y": 0.42, "text": "Right hilum", "structures": ["Right pulmonary artery"],
+     "note": "indistinct and enlarged, with peribronchial cuffing around it"},
+    {"x": 0.475, "y": 0.335, "text": "Sternal wires and surgical clips", "structure": "Body of sternum",
+     "note": "previous coronary artery bypass grafting"}
+  ]
+},
+{
+  "id": "ct_pneumonia",
+  "title": "CT thorax — the same middle lobe",
+  "modality": "CT",
+  "region": "Thorax — pathology",
+  "summary": "What the hazy shadow on the plain film actually looks like.",
+  "crop": [0.21, 0.0, 0.87, 0.53],
+  "text": "<p>The same 67-year-old man, scanned on the same day. On the plain film the middle lobe pneumonia was a vague haze that erased the right heart border; here it is a sharply bounded wedge of lung with air bronchograms running through it, stopping dead at the fissures.</p><p>That is the value of CT in the chest: it separates what the radiograph superimposes, and it shows the anatomical boundary — <b>a lobe</b> — that makes the diagnosis obvious.</p><p>Patient's right on your left, anterior at the top. The model is cut in the same plane.</p>",
+  "reading": [
+    "Lung windows first: consolidation is white lung with black branching bronchi running through it.",
+    "Then follow the fissure: disease that stops at a fissure is lobar, and lobar means bacterial pneumonia until proved otherwise.",
+    "Look behind and around it for a mass or an obstructed bronchus, especially in a smoker.",
+    "Then soft-tissue windows for effusion, empyema and lymph nodes.",
+    "Finally compare with the plain film and see which sign on the film each CT finding produced."
+  ],
+  "scene": {
+    "systems": ["skeletal", "cardiovascular", "visceral", "joints"],
+    "regions": ["thorax"],
+    "show": ["Consolidated right middle lobe"],
+    "clip": [2, 0.723],
+    "view": "inferior",
+    "frame_on": ["Right lung", "Left lung"]
+  },
+  "labels": [
+    {"x": 0.167, "y": 0.396, "text": "Consolidated right middle lobe",
+     "structure": "Consolidated right middle lobe",
+     "note": "anterior and to the patient's right, up against the heart"},
+    {"x": 0.288, "y": 0.566, "text": "Bronchi", "structure": "Right main bronchus",
+     "note": "still open and full of air — an air bronchogram"},
+    {"x": 0.394, "y": 0.358, "text": "Heart", "structure": "Heart",
+     "note": "the border the consolidation rubs out on the plain film"},
+    {"x": 0.621, "y": 0.528, "text": "Normal aerated lung", "structure": "Left lung",
+     "note": "black, with tapering vessels"},
+    {"x": 0.52, "y": 0.695, "text": "Descending thoracic aorta", "structure": "Thoracic aorta"},
+    {"x": 0.505, "y": 0.81, "text": "Vertebral body", "structure": "Vertebra T8"}
+  ]
+}
+]

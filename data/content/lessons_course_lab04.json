@@ -1,0 +1,1783 @@
+[
+ {
+  "id": "lab04-01-conduction-system",
+  "title": "The conduction system and pacemaker cells",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 8,
+  "summary": "Where each heartbeat starts, the path it takes, and the two kinds of cardiac action potential.",
+  "tags": [
+   "SA node",
+   "AV node",
+   "Purkinje fibres",
+   "action potential"
+  ],
+  "course": {
+   "lab": 4,
+   "order": 1,
+   "unit": "Lab 4 · ECG & heart function"
+  },
+  "objectives": [
+   "Trace the impulse from the SA node to the Purkinje fibres",
+   "Explain the pacemaker potential and why the SA node sets the rate",
+   "Describe the contractile-cell action potential and why the heart cannot be tetanized"
+  ],
+  "takeaways": [
+   "SA node → atria → AV node (delay) → AV bundle → right and left bundle branches → Purkinje fibres.",
+   "Pacemaker cells drift to threshold on their own (funny Na⁺ current, T-type Ca²⁺); Ca²⁺ in, K⁺ out.",
+   "Contractile cells: fast Na⁺ upstroke, Ca²⁺ plateau, K⁺ repolarization.",
+   "The long refractory period prevents summation and tetanus, so the heart always relaxes and refills."
+  ],
+  "steps": [
+   {
+    "title": "A heart that starts itself",
+    "text": "<p>Cardiac muscle needs no nerve to beat. A few <b>autorhythmic</b> (pacemaker) cells fire on their own, and a <b>conduction system</b> of modified cardiac muscle spreads each impulse in order.</p><p>The fastest of them, the <b>sinoatrial (SA) node</b> in the right atrial wall near the opening of the superior vena cava, fires about 70–80 times a minute - one beat every ~0.8 s - and so is the heart's <b>pacemaker</b>.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Right atrium"
+    ],
+    "show": [
+     "Superior vena cava"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab04-conduction",
+    "check": {
+     "q": "Why is the SA node the pacemaker?",
+     "a": "It depolarizes spontaneously faster than any other part of the heart, so it sets the rate."
+    }
+   },
+   {
+    "title": "The pacemaker potential",
+    "text": "<p>Pacemaker cells have no stable resting potential. After each beat the membrane slowly drifts upward - the <b>pacemaker potential</b> or prepotential - carried by a 'funny' Na⁺ current and T-type Ca²⁺ channels. At threshold, <b>Ca²⁺ rushes in</b> and the cell depolarizes; <b>K⁺ leaving</b> repolarizes it, and the drift begins again.</p>",
+    "diagram": "lab04-action-potentials",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Right atrium"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Which ion carries the upstroke of the SA-node action potential?",
+     "a": "Calcium (Ca²⁺)."
+    }
+   },
+   {
+    "title": "Node, bundle and branches",
+    "text": "<p>The impulse spreads across both atria and reaches the <b>atrioventricular (AV) node</b> low in the interatrial septum. The node <b>delays</b> it about 0.1 s so the atria finish emptying.</p><p>It then runs down the <b>AV bundle</b> (bundle of His) - the only normal electrical link through the fibrous skeleton - into the <b>right and left bundle branches</b> in the interventricular septum, and on to the <b>Purkinje fibres</b>.</p>",
+    "micro": "heart",
+    "micro_focus": [
+     "Sinoatrial (SA) node",
+     "Atrioventricular (AV) node",
+     "Atrioventricular bundle (bundle of His)",
+     "Right bundle branch",
+     "Left bundle branch",
+     "Purkinje fibres"
+    ],
+    "diagram": "lab04-conduction",
+    "check": {
+     "q": "What is the purpose of the AV nodal delay?",
+     "a": "It lets the atria finish contracting and emptying before the ventricles contract."
+    }
+   },
+   {
+    "title": "Purkinje fibres",
+    "text": "<p><b>Purkinje fibres</b> (the subendocardial conducting network) are large, pale, glycogen-rich cells just under the endocardium. They conduct faster than any other cardiac tissue, so the ventricles are activated from the <b>apex upward</b> almost at once - squeezing blood up toward the aortic and pulmonary valves.</p>",
+    "micro": "cardiac_muscle",
+    "micro_focus": [
+     "Purkinje fibres",
+     "Purkinje cell sarcoplasm (glycogen)",
+     "Subendocardial layer",
+     "Endocardial endothelium"
+    ],
+    "check": {
+     "q": "Why is it useful that the ventricles are activated apex first?",
+     "a": "Contraction then pushes blood upward toward the outflow valves."
+    }
+   },
+   {
+    "title": "The contractile cell and its long refractory period",
+    "text": "<p>An ordinary ventricular cell rests near −90 mV. When stimulated, fast <b>Na⁺</b> channels give a steep upstroke; slow <b>Ca²⁺</b> entry then holds the membrane depolarized in a long <b>plateau</b>; finally <b>K⁺</b> outflow repolarizes it.</p><p>The <b>refractory period</b> lasts almost as long as the contraction, so a second stimulus cannot summate with the first: cardiac muscle cannot be <b>tetanized</b> and always relaxes to refill.</p>",
+    "diagram": "lab04-action-potentials",
+    "micro": "cardiac_muscle",
+    "micro_focus": [
+     "Cardiomyocytes",
+     "Intercalated discs"
+    ],
+    "check": {
+     "q": "What produces the plateau of the ventricular action potential?",
+     "a": "Slow entry of Ca²⁺ ions."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Sinoatrial (SA) node"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Atrioventricular (AV) node"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Atrioventricular bundle (bundle of His)"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Right bundle branch"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Left bundle branch"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Purkinje fibres"
+   },
+   {
+    "type": "find_micro",
+    "model": "cardiac_muscle",
+    "part": "Purkinje fibres"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Fibrous skeleton (valve annuli)"
+   },
+   {
+    "type": "find",
+    "structure": "Right atrium"
+   },
+   {
+    "type": "order",
+    "q": "Put the conduction pathway in order",
+    "items": [
+     "SA node",
+     "Atrial muscle",
+     "AV node",
+     "AV bundle (bundle of His)",
+     "Right and left bundle branches",
+     "Purkinje fibres",
+     "Ventricular muscle"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "The only normal electrical connection between atria and ventricles is the:",
+    "choices": [
+     "Interatrial septum",
+     "AV node and AV bundle",
+     "Coronary sinus",
+     "Chordae tendineae"
+    ],
+    "answer": 1,
+    "why": "Elsewhere the fibrous skeleton insulates atria from ventricles."
+   },
+   {
+    "type": "mcq",
+    "q": "The pacemaker potential is due mainly to:",
+    "choices": [
+     "Fast Na⁺ channels",
+     "A 'funny' Na⁺ current and T-type Ca²⁺ channels",
+     "K⁺ entry",
+     "Cl⁻ exit"
+    ],
+    "answer": 1,
+    "why": "A slow inward funny current and T-type Ca²⁺ channels drive the drift to threshold."
+   },
+   {
+    "type": "mcq",
+    "q": "Why can't cardiac muscle be tetanized?",
+    "choices": [
+     "It lacks sarcomeres",
+     "Its refractory period lasts almost as long as the contraction",
+     "It has no Ca²⁺ stores",
+     "The vagus nerve prevents it"
+    ],
+    "answer": 1,
+    "why": "A long refractory period blocks summation."
+   },
+   {
+    "type": "recall",
+    "q": "What is an autorhythmic cell?",
+    "a": "A cardiac cell that depolarizes spontaneously and generates its own action potentials (pacemaker cell)."
+   },
+   {
+    "type": "recall",
+    "q": "What is the intrinsic rate of the SA node?",
+    "a": "About 70–80 beats per minute (cycle ~0.8 s)."
+   },
+   {
+    "type": "recall",
+    "q": "Name the three phases of a ventricular cell's action potential and the ion for each.",
+    "a": "Rapid depolarization (Na⁺ in), plateau (Ca²⁺ in), repolarization (K⁺ out)."
+   }
+  ],
+  "see_also": {
+   "micro": [
+    "heart",
+    "cardiac_muscle"
+   ],
+   "lessons": [
+    "conducting-system"
+   ],
+   "histology": [
+    "cardiac_muscle"
+   ]
+  }
+ },
+ {
+  "id": "lab04-02-ecg-waves-intervals",
+  "title": "What the ECG shows: waves and intervals",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 6,
+  "summary": "The P wave, QRS complex and T wave, and the intervals between them.",
+  "tags": [
+   "ECG",
+   "P wave",
+   "QRS",
+   "T wave",
+   "intervals"
+  ],
+  "course": {
+   "lab": 4,
+   "order": 2,
+   "unit": "Lab 4 · ECG & heart function"
+  },
+  "objectives": [
+   "State what the ECG records",
+   "Match P, QRS and T to the electrical events of the heart",
+   "Define and give normal values for the PR interval, QRS duration, QT interval and T–P segment"
+  ],
+  "takeaways": [
+   "The ECG is the summed electrical activity of the heart recorded at the skin - not the contraction itself.",
+   "P = atrial depolarization; QRS = ventricular depolarization (hides atrial repolarization); T = ventricular repolarization.",
+   "PR 0.12–0.20 s (includes the AV delay); QRS 0.08–0.10 s; QT ~0.30–0.40 s and shortens as the rate rises.",
+   "T–P = rest (diastole); R–R = one cardiac cycle, ~0.8 s at rest."
+  ],
+  "steps": [
+   {
+    "title": "A record of electricity",
+    "text": "<p>An <b>electrocardiogram</b> (ECG or EKG) is a record, made at the skin, of the summed electrical activity of all the heart's cells as they depolarize and repolarize, drawn by an electrocardiograph, physiograph or computer. It shows electrical events, not contraction - although each wave is soon followed by the mechanical event it triggers.</p><p>Wave height (amplitude) is in millivolts. When no net current flows, the trace sits on a flat <b>isoelectric line</b> (baseline).</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral",
+     "regions"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Heart"
+    ],
+    "show": [
+     "Anterior region of thorax"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab04-ecg-waveform",
+    "check": {
+     "q": "Does the ECG record the heart's contraction?",
+     "a": "No - it records electrical activity (depolarization and repolarization)."
+    }
+   },
+   {
+    "title": "P, QRS and T",
+    "text": "<p>The small <b>P wave</b> is atrial depolarization. The sharp <b>QRS complex</b> is ventricular depolarization: Q is the first downward deflection, R the tall upward spike, S the downward deflection after it. Atrial repolarization happens at the same time and is hidden inside the QRS.</p><p>The rounded <b>T wave</b> is ventricular repolarization.</p>",
+    "diagram": "lab04-ecg-waveform",
+    "micro": "heart",
+    "micro_focus": [
+     "Right atrium (myocardium)",
+     "Left atrium (myocardium)",
+     "Left ventricle (myocardium)"
+    ],
+    "check": {
+     "q": "Why is there no visible wave for atrial repolarization?",
+     "a": "It occurs during ventricular depolarization and is hidden in the QRS complex."
+    }
+   },
+   {
+    "title": "The intervals",
+    "text": "<p>The <b>PR interval</b>, from the start of P to the start of QRS, is the time from atrial to ventricular depolarization, including the AV nodal delay: 0.12–0.20 s. The <b>QRS duration</b>, from the first deflection to the S wave's return to baseline, is 0.08–0.10 s.</p><p>The <b>QT interval</b>, from the start of Q to the end of T, covers ventricular depolarization and repolarization: about 0.30–0.40 s, shorter at faster rates.</p>",
+    "diagram": "lab04-ecg-waveform",
+    "check": {
+     "q": "What is the normal PR interval, and what delay does it include?",
+     "a": "0.12–0.20 s; it includes the AV nodal delay."
+    }
+   },
+   {
+    "title": "Rest between beats",
+    "text": "<p>From the end of T to the next P, the trace is flat: this <b>T–P segment</b> is the resting interval, when the whole heart is relaxed in diastole and the ventricles fill.</p><p>The distance from one R peak to the next, the <b>R–R interval</b>, is one complete <b>cardiac cycle</b>: about 0.7–0.8 s at rest. The sharp R peak is the easiest point to measure from.</p>",
+    "diagram": "lab04-ecg-waveform",
+    "check": {
+     "q": "What is happening to the heart during the T–P segment?",
+     "a": "It is at rest (diastole) and the ventricles are filling."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "order",
+    "q": "Put the ECG deflections of one beat in order",
+    "items": [
+     "P wave",
+     "Q wave",
+     "R wave",
+     "S wave",
+     "T wave"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "The P wave represents:",
+    "choices": [
+     "Atrial depolarization",
+     "Atrial repolarization",
+     "Ventricular depolarization",
+     "Ventricular repolarization"
+    ],
+    "answer": 0,
+    "why": "P = atrial depolarization."
+   },
+   {
+    "type": "mcq",
+    "q": "The T wave represents:",
+    "choices": [
+     "Atrial depolarization",
+     "AV nodal delay",
+     "Ventricular depolarization",
+     "Ventricular repolarization"
+    ],
+    "answer": 3,
+    "why": "T = ventricular repolarization."
+   },
+   {
+    "type": "mcq",
+    "q": "A normal QRS duration is:",
+    "choices": [
+     "0.02–0.04 s",
+     "0.08–0.10 s",
+     "0.20–0.30 s",
+     "0.36–0.44 s"
+    ],
+    "answer": 1,
+    "why": "A QRS over 0.12 s is abnormally wide."
+   },
+   {
+    "type": "mcq",
+    "q": "The QT interval is measured from:",
+    "choices": [
+     "Start of P to start of QRS",
+     "Start of Q to end of T",
+     "End of S to start of T",
+     "R peak to R peak"
+    ],
+    "answer": 1,
+    "why": "QT = ventricular depolarization + repolarization."
+   },
+   {
+    "type": "recall",
+    "q": "What is the isoelectric line?",
+    "a": "The flat baseline of the ECG when there is no net electrical current."
+   },
+   {
+    "type": "recall",
+    "q": "What does the R–R interval measure?",
+    "a": "One complete cardiac cycle (the time between beats)."
+   },
+   {
+    "type": "recall",
+    "q": "Name the three components of the QRS complex.",
+    "a": "Q (first downward), R (upward spike), S (downward after R)."
+   },
+   {
+    "type": "mcq",
+    "q": "As heart rate rises, the QT interval:",
+    "choices": [
+     "Lengthens",
+     "Shortens",
+     "Stays exactly the same",
+     "Disappears"
+    ],
+    "answer": 1,
+    "why": "QT shortens as the cycle shortens."
+   },
+   {
+    "type": "find",
+    "structure": "Heart"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Left ventricle (myocardium)"
+   }
+  ],
+  "see_also": {
+   "lessons": [
+    "conducting-system"
+   ]
+  }
+ },
+ {
+  "id": "lab04-03-leads-einthoven",
+  "title": "Electrodes, leads and Einthoven's triangle",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 6,
+  "summary": "Where the limb electrodes go, how the three bipolar leads are built, and how to keep the trace clean.",
+  "tags": [
+   "electrodes",
+   "leads",
+   "Einthoven",
+   "artifact"
+  ],
+  "course": {
+   "lab": 4,
+   "order": 3,
+   "unit": "Lab 4 · ECG & heart function"
+  },
+  "objectives": [
+   "Place the four limb electrodes and name the ground",
+   "Define leads I, II and III and draw Einthoven's triangle",
+   "List sources of artifact and how to avoid them"
+  ],
+  "takeaways": [
+   "Electrodes: right arm (RA), left arm (LA), left leg (LL), right leg (RL = ground).",
+   "Lead I: RA− → LA+; lead II: RA− → LL+; lead III: LA− → LL+. Together they form Einthoven's triangle.",
+   "Lead II lies closest to the heart's axis and usually gives the clearest trace.",
+   "Muscle activity, shivering, movement and anxiety add noise; a flat baseline is needed."
+  ],
+  "steps": [
+   {
+    "title": "Where the electrodes go",
+    "text": "<p>For the limb leads, one electrode goes on each limb: on the <b>anterior distal forearm or wrist</b> of each arm and on the <b>medial leg just above the medial malleolus</b>. They are labelled <b>RA</b>, <b>LA</b>, <b>LL</b> and <b>RL</b>; the right-leg electrode is the <b>ground</b>.</p><p>Skin is cleaned with alcohol and electrode gel or saline is used, lowering skin resistance so the tiny signal gets through.</p>",
+    "systems": [
+     "regions",
+     "skeletal"
+    ],
+    "regions": [
+     "upper_limb_l",
+     "upper_limb_r",
+     "lower_limb_l",
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Anterior region of wrist",
+     "Medial malleolus"
+    ],
+    "show": [
+     "Anterior region of forearm",
+     "Leg region"
+    ],
+    "view": "anterior",
+    "xray": false,
+    "check": {
+     "q": "Which electrode is the ground?",
+     "a": "The right-leg (RL) electrode."
+    }
+   },
+   {
+    "title": "Three bipolar leads",
+    "text": "<p>A <b>lead</b> is the voltage between two electrodes, one negative and one positive. The three <b>standard bipolar limb leads</b> are:</p><p><b>Lead I</b>: right arm (−) to left arm (+). <b>Lead II</b>: right arm (−) to left leg (+). <b>Lead III</b>: left arm (−) to left leg (+).</p><p>Lead II runs roughly along the heart's own axis, so it usually gives the tallest, clearest trace; a simple three-electrode lead II uses RA negative, LL positive and RL ground.</p>",
+    "diagram": "lab04-einthoven",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Heart"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Which two electrodes make lead II, and which is positive?",
+     "a": "Right arm (negative) and left leg (positive)."
+    }
+   },
+   {
+    "title": "Einthoven's triangle",
+    "text": "<p>The three limb leads form an equilateral triangle around the heart, named after Willem <b>Einthoven</b>, who built the first practical electrocardiograph. Each side looks at the heart's electrical activity from a different angle: lead I at 0°, lead II at +60° and lead III at +120°.</p><p>Comparing the leads lets you work out the direction of the heart's electrical axis.</p>",
+    "diagram": "lab04-einthoven",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Heart"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "At what angles do leads I, II and III look at the heart?",
+     "a": "0°, +60° and +120°."
+    }
+   },
+   {
+    "title": "Keeping the trace clean",
+    "text": "<p>Skeletal muscle also produces electrical signals. Clenching the fists (forearm flexor muscles), shivering, talking or fidgeting adds <b>electromyographic noise</b> - artifact - that can swamp the ECG. Anxiety changes both rate and baseline.</p><p>So the subject lies relaxed and still, jewellery and metal are removed, and recording starts only once the <b>baseline is flat</b>.</p>",
+    "systems": [
+     "muscular"
+    ],
+    "regions": [
+     "upper_limb_l",
+     "upper_limb_r"
+    ],
+    "focus": [
+     "Anterior compartment of forearm"
+    ],
+    "view": "anterior",
+    "xray": false,
+    "check": {
+     "q": "Why does clenching the fists spoil an ECG?",
+     "a": "Skeletal-muscle depolarization adds electrical interference (artifact) to the trace."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Medial malleolus"
+   },
+   {
+    "type": "find",
+    "structure": "Anterior region of wrist"
+   },
+   {
+    "type": "find",
+    "structure": "Anterior compartment of forearm"
+   },
+   {
+    "type": "name",
+    "structure": "Anterior region of forearm"
+   },
+   {
+    "type": "mcq",
+    "q": "Lead I records between:",
+    "choices": [
+     "RA and LA",
+     "RA and LL",
+     "LA and LL",
+     "RL and LL"
+    ],
+    "answer": 0,
+    "why": "Lead I: right arm negative, left arm positive."
+   },
+   {
+    "type": "mcq",
+    "q": "Lead III records between:",
+    "choices": [
+     "RA and LA",
+     "RA and LL",
+     "LA and LL",
+     "RA and RL"
+    ],
+    "answer": 2,
+    "why": "Lead III: left arm negative, left leg positive."
+   },
+   {
+    "type": "mcq",
+    "q": "Which lead usually gives the clearest trace?",
+    "choices": [
+     "Lead I",
+     "Lead II",
+     "Lead III",
+     "The ground"
+    ],
+    "answer": 1,
+    "why": "Lead II lies close to the heart's normal axis."
+   },
+   {
+    "type": "recall",
+    "q": "What is Einthoven's triangle?",
+    "a": "The triangle formed by the three bipolar limb leads (I, II, III) around the heart."
+   },
+   {
+    "type": "recall",
+    "q": "Why is the skin prepared before attaching electrodes?",
+    "a": "To lower skin resistance so the small cardiac signal is recorded cleanly."
+   },
+   {
+    "type": "mcq",
+    "q": "Which is NOT a cause of ECG artifact?",
+    "choices": [
+     "Shivering",
+     "Clenched fists",
+     "Lying relaxed and still",
+     "Anxiety"
+    ],
+    "answer": 2,
+    "why": "Relaxed stillness gives the cleanest trace."
+   },
+   {
+    "type": "recall",
+    "q": "What is a bipolar lead?",
+    "a": "A recording of the voltage difference between two electrodes, one negative and one positive."
+   },
+   {
+    "type": "order",
+    "q": "Order the leads by the angle at which they view the heart, from 0° upward",
+    "items": [
+     "Lead I (0°)",
+     "Lead II (+60°)",
+     "Lead III (+120°)"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "lab04-04-ecg-paper-rate",
+  "title": "Reading the paper: heart rate and exercise",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 6,
+  "summary": "Converting squares to seconds, working out the rate, and what exercise does to the trace.",
+  "tags": [
+   "heart rate",
+   "ECG paper",
+   "tachycardia",
+   "bradycardia",
+   "exercise"
+  ],
+  "course": {
+   "lab": 4,
+   "order": 4,
+   "unit": "Lab 4 · ECG & heart function"
+  },
+  "objectives": [
+   "Convert ECG grid squares to time and voltage",
+   "Calculate heart rate from the R–R interval",
+   "Define tachycardia and bradycardia and describe the effect of exercise on the ECG"
+  ],
+  "takeaways": [
+   "25 mm/s: 1 small square = 0.04 s, 1 large square = 0.20 s; 10 mm = 1 mV.",
+   "Heart rate = 60 ÷ R–R interval in seconds.",
+   "Tachycardia > 100/min; bradycardia < 60/min (normal in trained athletes).",
+   "Exercise shortens R–R, T–P (most) and QT via sympathetic stimulation."
+  ],
+  "steps": [
+   {
+    "title": "The grid",
+    "text": "<p>ECG paper runs at a standard <b>25 mm per second</b>. So one small (1 mm) square is <b>0.04 s</b> and one large (5 mm) square is <b>0.20 s</b>. Vertically the standard is <b>10 mm per mV</b>, so one small square is 0.1 mV.</p><p>A handy check: a PR interval longer than one large square (0.20 s) is abnormally long.</p>",
+    "diagram": "lab04-ecg-paper",
+    "check": {
+     "q": "How long is one small square at 25 mm/s?",
+     "a": "0.04 s."
+    }
+   },
+   {
+    "title": "Heart rate from R–R",
+    "text": "<p>Measure the <b>R–R interval</b> - the time from one R peak to the next - and divide it into 60 to get beats per minute. With 20 small squares between R peaks: 20 × 0.04 s = 0.80 s, and 60 ÷ 0.80 = <b>75 beats/min</b>.</p><p>Averaging several R–R intervals gives a steadier figure than any single beat.</p>",
+    "diagram": "lab04-ecg-paper",
+    "check": {
+     "q": "The R–R interval is 25 mm. What is the heart rate?",
+     "a": "25 × 0.04 = 1.0 s, so 60 beats/min."
+    }
+   },
+   {
+    "title": "Too fast, too slow",
+    "text": "<p>A normal adult resting rate is 60–100 beats/min, typically about 70–75. A resting rate over 100 is <b>tachycardia</b>; under 60 is <b>bradycardia</b>.</p><p>Bradycardia is normal in trained endurance athletes, whose large stroke volume lets a slow rate supply enough output. Children normally have faster rates than adults.</p>",
+    "diagram": "lab04-strips-rate",
+    "check": {
+     "q": "Define tachycardia and bradycardia.",
+     "a": "Tachycardia: resting rate > 100/min. Bradycardia: < 60/min."
+    }
+   },
+   {
+    "title": "What exercise does",
+    "text": "<p>During exercise <b>sympathetic</b> nerves speed the SA node and conduction. The R–R interval shortens, and most of the time saved comes out of the <b>T–P segment</b> - the resting, filling part of the cycle. The QT interval shortens a little, and PR slightly.</p><p>After exercise the rate falls back toward resting over several minutes.</p>",
+    "diagram": "lab04-exercise-ecg",
+    "systems": [
+     "cardiovascular",
+     "visceral",
+     "nervous"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Sympathetic trunk"
+    ],
+    "show": [
+     "Heart"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Which part of the ECG cycle shortens most with exercise?",
+     "a": "The T–P segment (resting interval)."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "mcq",
+    "q": "At 25 mm/s, one large square represents:",
+    "choices": [
+     "0.04 s",
+     "0.10 s",
+     "0.20 s",
+     "1.0 s"
+    ],
+    "answer": 2,
+    "why": "Five small squares × 0.04 s = 0.20 s."
+   },
+   {
+    "type": "mcq",
+    "q": "R–R is 0.6 s. The heart rate is:",
+    "choices": [
+     "60/min",
+     "75/min",
+     "100/min",
+     "120/min"
+    ],
+    "answer": 2,
+    "why": "60 ÷ 0.6 = 100/min."
+   },
+   {
+    "type": "mcq",
+    "q": "R–R is 15 small squares. The heart rate is:",
+    "choices": [
+     "40/min",
+     "75/min",
+     "100/min",
+     "150/min"
+    ],
+    "answer": 2,
+    "why": "15 × 0.04 = 0.6 s; 60 ÷ 0.6 = 100/min."
+   },
+   {
+    "type": "recall",
+    "q": "What does 1 mm vertically represent on standard ECG paper?",
+    "a": "0.1 mV (10 mm = 1 mV)."
+   },
+   {
+    "type": "mcq",
+    "q": "A resting rate of 48/min in a marathon runner is best described as:",
+    "choices": [
+     "Dangerous tachycardia",
+     "Normal bradycardia",
+     "Heart block",
+     "Atrial fibrillation"
+    ],
+    "answer": 1,
+    "why": "Trained athletes commonly have a resting bradycardia."
+   },
+   {
+    "type": "recall",
+    "q": "Write the formula for heart rate from the ECG.",
+    "a": "Heart rate (beats/min) = 60 ÷ R–R interval (s)."
+   },
+   {
+    "type": "recall",
+    "q": "What happens to the R–R, T–P and QT intervals during exercise?",
+    "a": "All shorten; T–P shortens most."
+   },
+   {
+    "type": "mcq",
+    "q": "Exercise speeds the heart mainly through:",
+    "choices": [
+     "Vagal stimulation",
+     "Sympathetic stimulation",
+     "Cooling",
+     "Pilocarpine"
+    ],
+    "answer": 1,
+    "why": "Sympathetic nerves raise rate and conduction velocity."
+   },
+   {
+    "type": "find",
+    "structure": "Sympathetic trunk"
+   },
+   {
+    "type": "recall",
+    "q": "How is a PR interval of 0.24 s described?",
+    "a": "Prolonged (more than 0.20 s, one large square) - first-degree AV block."
+   }
+  ]
+ },
+ {
+  "id": "lab04-05-electrical-axis",
+  "title": "The mean electrical axis",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "advanced",
+  "minutes": 5,
+  "summary": "One arrow for the whole ventricle: finding it from leads I and III and what makes it swing.",
+  "tags": [
+   "electrical axis",
+   "axis deviation",
+   "hypertrophy"
+  ],
+  "course": {
+   "lab": 4,
+   "order": 5,
+   "unit": "Lab 4 · ECG & heart function"
+  },
+  "objectives": [
+   "Define the mean electrical axis and give its normal range",
+   "Estimate the axis from the net QRS deflection in leads I and III",
+   "Relate left and right axis deviation to their causes"
+  ],
+  "takeaways": [
+   "The mean electrical axis is the average direction of ventricular depolarization, roughly along the septum toward the apex.",
+   "Normal 0° to +90° (often −30° to +90°).",
+   "Net QRS = R − (Q + S); plot lead I on 0° and lead III on +120°.",
+   "Left axis deviation: LV hypertrophy, left bundle branch block, heart shifted left. Right: RV hypertrophy, heart shifted right."
+  ],
+  "steps": [
+   {
+    "title": "One average arrow",
+    "text": "<p>Ventricular depolarization spreads in many directions at once, but they add up to one average vector - the <b>mean electrical axis</b>. Normally it points from the base down and to the left toward the apex, roughly along the <b>interventricular septum</b>.</p><p>On the hexaxial (axis) circle used to plot it, 0° points to the patient's left and +90° straight down. The normal range is <b>0° to +90°</b>; many accept −30° to +90°.</p>",
+    "diagram": "lab04-axis-circle",
+    "micro": "heart",
+    "micro_focus": [
+     "Interventricular septum",
+     "Apex of heart"
+    ],
+    "check": {
+     "q": "What is the normal range of the mean electrical axis?",
+     "a": "0° to +90° (often −30° to +90° is accepted)."
+    }
+   },
+   {
+    "title": "Finding it from two leads",
+    "text": "<p>In each lead, work out the <b>net QRS deflection</b>: the height of R minus the depths of Q and S. Mark the lead I value along the 0° line and the lead III value along the +120° line of the axis circle, draw a perpendicular from each, and join the centre to where they cross.</p><p>That arrow is the axis. A mostly upright QRS in both I and II means a normal axis.</p>",
+    "diagram": "lab04-axis-circle",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Heart"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "How is the net QRS deflection calculated?",
+     "a": "R-wave height minus the Q and S depths (positive minus negative deflections)."
+    }
+   },
+   {
+    "title": "When the axis swings",
+    "text": "<p>A thicker ventricle has more muscle to depolarize and pulls the axis toward itself. <b>Left axis deviation</b> (below 0°, or −30°) suggests left ventricular hypertrophy, left bundle branch block, a heart pushed to the left within the thoracic cavity, or damage on the right. <b>Right axis deviation</b> (beyond +90°) suggests right ventricular hypertrophy, a heart pushed right, or damage on the left.</p>",
+    "diagram": "lab04-axis-circle",
+    "systems": [
+     "cardiovascular",
+     "visceral",
+     "findings"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Left ventricle",
+     "Right ventricle"
+    ],
+    "show": [
+     "Enlarged heart"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Which way does left ventricular hypertrophy move the axis?",
+     "a": "To the left (left axis deviation)."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Interventricular septum"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Apex of heart"
+   },
+   {
+    "type": "find",
+    "structure": "Left ventricle"
+   },
+   {
+    "type": "find",
+    "structure": "Right ventricle"
+   },
+   {
+    "type": "name",
+    "structure": "Enlarged heart"
+   },
+   {
+    "type": "mcq",
+    "q": "An axis of +120° is:",
+    "choices": [
+     "Normal",
+     "Left axis deviation",
+     "Right axis deviation",
+     "Impossible"
+    ],
+    "answer": 2,
+    "why": "Beyond +90° is right axis deviation."
+   },
+   {
+    "type": "mcq",
+    "q": "An axis of −60° is:",
+    "choices": [
+     "Normal",
+     "Left axis deviation",
+     "Right axis deviation",
+     "Lead II"
+    ],
+    "answer": 1,
+    "why": "Below −30° is left axis deviation by any definition."
+   },
+   {
+    "type": "mcq",
+    "q": "Right ventricular hypertrophy tends to cause:",
+    "choices": [
+     "Left axis deviation",
+     "Right axis deviation",
+     "A shorter PR interval",
+     "Atrial fibrillation"
+    ],
+    "answer": 1,
+    "why": "The larger right ventricle pulls the axis rightward."
+   },
+   {
+    "type": "recall",
+    "q": "Which two leads are used here to plot the axis, and at what angles?",
+    "a": "Lead I at 0° and lead III at +120°."
+   },
+   {
+    "type": "recall",
+    "q": "Name two causes of left axis deviation.",
+    "a": "Left ventricular hypertrophy, left bundle branch block (also heart displaced left, right-side damage)."
+   },
+   {
+    "type": "mcq",
+    "q": "Lead II lies at:",
+    "choices": [
+     "0°",
+     "+60°",
+     "+90°",
+     "+120°"
+    ],
+    "answer": 1,
+    "why": "Lead II is at +60°."
+   },
+   {
+    "type": "recall",
+    "q": "What does the mean electrical axis represent?",
+    "a": "The average direction of the ventricular depolarization vector."
+   }
+  ]
+ },
+ {
+  "id": "lab04-06-arrhythmias",
+  "title": "Arrhythmias and conduction blocks",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "advanced",
+  "minutes": 8,
+  "summary": "Reading the abnormal strips: heart blocks, bundle branch block, ectopic beats and fibrillation.",
+  "tags": [
+   "arrhythmia",
+   "heart block",
+   "atrial fibrillation",
+   "ventricular fibrillation",
+   "PVC"
+  ],
+  "course": {
+   "lab": 4,
+   "order": 6,
+   "unit": "Lab 4 · ECG & heart function"
+  },
+  "objectives": [
+   "Recognise first-degree and complete heart block on an ECG",
+   "Explain why bundle branch block widens the QRS",
+   "Recognise a PVC, atrial fibrillation and ventricular fibrillation"
+  ],
+  "takeaways": [
+   "First-degree block: PR > 0.20 s, every P conducted.",
+   "Complete block: P waves and QRS independent; ventricles ~30–40/min.",
+   "Bundle branch block: QRS > 0.12 s.",
+   "PVC: early wide QRS with no P. AF: no P, irregularly irregular QRS. VF: chaos, no output - defibrillate."
+  ],
+  "steps": [
+   {
+    "title": "Arrhythmia and first-degree block",
+    "text": "<p>An <b>arrhythmia</b> is any abnormal rhythm. Causes range from emotion, caffeine and nicotine to serious heart disease. In <b>first-degree (partial) AV block</b>, conduction through the AV node or bundle is slowed: every P wave is still followed by a QRS, but the <b>PR interval exceeds 0.20 s</b>.</p>",
+    "diagram": "lab04-strips-block",
+    "micro": "heart",
+    "micro_focus": [
+     "Atrioventricular (AV) node",
+     "Atrioventricular bundle (bundle of His)"
+    ],
+    "check": {
+     "q": "What is the ECG sign of first-degree heart block?",
+     "a": "A PR interval longer than 0.20 s."
+    }
+   },
+   {
+    "title": "Complete heart block",
+    "text": "<p>In <b>complete (third-degree) block</b> no impulses cross from atria to ventricles. The atria still follow the SA node, with P waves about 0.8 s apart, but the ventricles are driven by a slow escape pacemaker below the block, with QRS complexes 1.5–2.0 s apart (about <b>30–40/min</b>).</p><p>P waves and QRS complexes march along independently.</p>",
+    "diagram": "lab04-strips-block",
+    "micro": "heart",
+    "micro_focus": [
+     "Atrioventricular (AV) node",
+     "Atrioventricular bundle (bundle of His)",
+     "Purkinje fibres"
+    ],
+    "check": {
+     "q": "In complete heart block, what drives the ventricles?",
+     "a": "A slow escape pacemaker below the block (about 30–40/min)."
+    }
+   },
+   {
+    "title": "Bundle branch block",
+    "text": "<p>If the <b>right or left bundle branch</b> is blocked, the impulse reaches one ventricle normally and then spreads slowly through ordinary muscle to the other. The two ventricles depolarize one after the other instead of together, so the QRS becomes <b>wide (over 0.12 s)</b> and often notched.</p>",
+    "diagram": "lab04-strips-block",
+    "micro": "heart",
+    "micro_focus": [
+     "Right bundle branch",
+     "Left bundle branch",
+     "Interventricular septum"
+    ],
+    "check": {
+     "q": "Why does bundle branch block widen the QRS?",
+     "a": "The ventricles depolarize one after the other (asynchronously) instead of together."
+    }
+   },
+   {
+    "title": "Ectopic beats and atrial fibrillation",
+    "text": "<p>A <b>premature ventricular contraction</b> (PVC) comes from an irritable spot in the ventricle: an early, wide, bizarre QRS with <b>no P wave</b> before it, usually followed by a pause.</p><p>In <b>atrial fibrillation</b> the atria quiver chaotically: there are <b>no distinct P waves</b>, the baseline wavers, and the QRS complexes come fast and irregularly irregular.</p>",
+    "diagram": "lab04-strips-ectopic",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Left atrium",
+     "Right atrium"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Name two ECG features of atrial fibrillation.",
+     "a": "No distinct P waves and an irregularly irregular (often fast) QRS rhythm."
+    }
+   },
+   {
+    "title": "Ventricular fibrillation and infarction",
+    "text": "<p>In <b>ventricular fibrillation</b> the ventricles twitch in chaos: the ECG is an irregular wave with no identifiable P, QRS or T, and no blood is pumped. It is fatal within minutes unless stopped by <b>defibrillation</b>.</p><p>A <b>myocardial infarction</b> - death of muscle when a coronary artery is blocked - also changes the ECG, typically raising the ST segment and later leaving deep Q waves.</p>",
+    "diagram": "lab04-strips-ectopic",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Arteries of heart"
+    ],
+    "show": [
+     "Left ventricle"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "What is the treatment for ventricular fibrillation?",
+     "a": "Immediate defibrillation."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Atrioventricular (AV) node"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Right bundle branch"
+   },
+   {
+    "type": "find_micro",
+    "model": "heart",
+    "part": "Left bundle branch"
+   },
+   {
+    "type": "find",
+    "structure": "Left atrium"
+   },
+   {
+    "type": "find",
+    "structure": "Arteries of heart"
+   },
+   {
+    "type": "mcq",
+    "q": "PR 0.28 s, every P followed by a QRS. This is:",
+    "choices": [
+     "Normal",
+     "First-degree AV block",
+     "Complete heart block",
+     "Ventricular fibrillation"
+    ],
+    "answer": 1,
+    "why": "A long PR with 1:1 conduction is first-degree block."
+   },
+   {
+    "type": "mcq",
+    "q": "Regular P waves at 75/min and unrelated wide QRS complexes at 35/min indicate:",
+    "choices": [
+     "Sinus bradycardia",
+     "Complete heart block",
+     "Atrial fibrillation",
+     "PVCs"
+    ],
+    "answer": 1,
+    "why": "Atria and ventricles are dissociated."
+   },
+   {
+    "type": "mcq",
+    "q": "A QRS duration of 0.14 s suggests:",
+    "choices": [
+     "Bundle branch block",
+     "Tachycardia",
+     "Normal conduction",
+     "First-degree block"
+    ],
+    "answer": 0,
+    "why": "QRS > 0.12 s is abnormally wide."
+   },
+   {
+    "type": "mcq",
+    "q": "An early, wide, bizarre QRS with no preceding P wave is a:",
+    "choices": [
+     "PVC",
+     "P wave",
+     "Normal beat",
+     "Complete block"
+    ],
+    "answer": 0,
+    "why": "Premature ventricular contraction."
+   },
+   {
+    "type": "mcq",
+    "q": "No P waves and an irregularly irregular QRS rhythm indicate:",
+    "choices": [
+     "Atrial fibrillation",
+     "Ventricular fibrillation",
+     "First-degree block",
+     "Sinus tachycardia"
+    ],
+    "answer": 0,
+    "why": "The atria fibrillate; the AV node passes impulses at random."
+   },
+   {
+    "type": "mcq",
+    "q": "Which rhythm pumps no blood at all?",
+    "choices": [
+     "Sinus bradycardia",
+     "Atrial fibrillation",
+     "Ventricular fibrillation",
+     "First-degree block"
+    ],
+    "answer": 2,
+    "why": "VF is chaotic ventricular activity with no output."
+   },
+   {
+    "type": "recall",
+    "q": "Define arrhythmia.",
+    "a": "An abnormal heart rhythm."
+   },
+   {
+    "type": "recall",
+    "q": "What ECG changes can a myocardial infarction produce?",
+    "a": "ST-segment elevation and later pathological Q waves (and T-wave changes)."
+   },
+   {
+    "type": "recall",
+    "q": "Where is the damage in first-degree block?",
+    "a": "In the AV node or slowed conduction in the AV bundle."
+   }
+  ]
+ },
+ {
+  "id": "lab04-07-heart-sounds-cycle",
+  "title": "Heart sounds and the cardiac cycle",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 6,
+  "summary": "What happens in one beat, which valves make each sound, and where on the chest to listen.",
+  "tags": [
+   "heart sounds",
+   "cardiac cycle",
+   "auscultation",
+   "murmur"
+  ],
+  "course": {
+   "lab": 4,
+   "order": 7,
+   "unit": "Lab 4 · ECG & heart function"
+  },
+  "objectives": [
+   "Describe the phases of the cardiac cycle",
+   "Explain the cause of the first and second heart sounds and of a murmur",
+   "Locate the four auscultation areas"
+  ],
+  "takeaways": [
+   "Systole = contraction, diastole = relaxation; one cycle ~0.8 s at rest.",
+   "S1 'lubb' = AV valves closing (start of ventricular systole); S2 'dupp' = semilunar valves closing (start of diastole).",
+   "Murmur = turbulent flow through a leaky or narrowed valve.",
+   "Aortic 2nd ICS right, pulmonary 2nd ICS left, tricuspid lower left sternal border, mitral 5th ICS midclavicular (apex)."
+  ],
+  "steps": [
+   {
+    "title": "One cardiac cycle",
+    "text": "<p><b>Systole</b> is contraction and <b>diastole</b> relaxation. In one cycle (~0.8 s at rest): the atria contract and top up the ventricles; the ventricles contract with all valves shut (<b>isovolumetric contraction</b>); pressure opens the semilunar valves and blood is <b>ejected</b>; the ventricles relax with all valves shut again (<b>isovolumetric relaxation</b>); then the AV valves open and the ventricles <b>fill</b>.</p>",
+    "diagram": "lab04-cardiac-cycle",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Valvular complex of heart"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "What is isovolumetric contraction?",
+     "a": "The start of ventricular systole, when all four valves are closed and pressure rises without any change in volume."
+    }
+   },
+   {
+    "title": "Lubb and dupp",
+    "text": "<p>Normal heart sounds are made by valves <b>closing</b>. The first sound, <b>S1 ('lubb')</b>, is the AV valves - tricuspid and bicuspid (mitral) - shutting as the ventricles begin to contract, just after the QRS. The second, <b>S2 ('dupp')</b>, shorter and sharper, is the aortic and pulmonary semilunar valves shutting as the ventricles relax, at the end of the T wave.</p>",
+    "diagram": "lab04-cardiac-cycle",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Septal leaflet of right atrioventricular valve",
+     "Posterior leaflet of left atrioventricular valve",
+     "Aortic valve",
+     "Pulmonary valve"
+    ],
+    "show": [
+     "Ascending aorta",
+     "Pulmonary trunk"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Which valves close to make the first heart sound?",
+     "a": "The atrioventricular valves (tricuspid and bicuspid/mitral)."
+    }
+   },
+   {
+    "title": "Murmurs",
+    "text": "<p>Blood flowing smoothly is silent. A <b>heart murmur</b> is a whooshing sound from turbulent flow. It is heard when a valve does not close properly and blood leaks back (an <b>incompetent</b> or regurgitant valve), or when a valve is narrowed and blood is forced through it (a <b>stenotic</b> valve). Some soft murmurs in children are harmless.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Aortic valve",
+     "Posterior leaflet of left atrioventricular valve"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "What causes a heart murmur?",
+     "a": "Turbulent blood flow, e.g. through a leaky (incompetent) or narrowed (stenotic) valve."
+    }
+   },
+   {
+    "title": "Where to listen",
+    "text": "<p>Each valve is heard best <b>downstream</b> of where it lies. <b>Aortic area</b>: 2nd intercostal space at the right sternal border. <b>Pulmonary area</b>: 2nd intercostal space at the left sternal border. <b>Tricuspid area</b>: lower left sternal border (~5th space). <b>Mitral area</b>: the apex, 5th intercostal space in the left midclavicular line.</p><p>Use the stethoscope's diaphragm, with the earpieces angled forward.</p>",
+    "diagram": "lab04-auscultation",
+    "systems": [
+     "skeletal",
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Second rib",
+     "Sternum"
+    ],
+    "show": [
+     "Heart",
+     "Ribs",
+     "Costal cartilages",
+     "Clavicle",
+     "External intercostal muscles",
+     "Internal intercostal muscles",
+     "Pectoral region"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "mnemonic": "All Physicians Take Money: Aortic, Pulmonary, Tricuspid, Mitral - from the upper right round to the apex.",
+    "check": {
+     "q": "Where is the mitral valve best heard?",
+     "a": "At the apex: 5th left intercostal space, midclavicular line."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Aortic valve"
+   },
+   {
+    "type": "find",
+    "structure": "Pulmonary valve"
+   },
+   {
+    "type": "name",
+    "structure": "Septal leaflet of right atrioventricular valve"
+   },
+   {
+    "type": "find",
+    "structure": "Posterior leaflet of left atrioventricular valve"
+   },
+   {
+    "type": "find",
+    "structure": "Second rib"
+   },
+   {
+    "type": "find",
+    "structure": "Sternum"
+   },
+   {
+    "type": "find",
+    "structure": "Costal cartilages"
+   },
+   {
+    "type": "name",
+    "structure": "Third rib"
+   },
+   {
+    "type": "find",
+    "structure": "Valvular complex of heart"
+   },
+   {
+    "type": "find",
+    "structure": "External intercostal muscles"
+   },
+   {
+    "type": "order",
+    "q": "Put the phases of the cardiac cycle in order, starting with atrial contraction",
+    "items": [
+     "Atrial systole",
+     "Isovolumetric contraction",
+     "Ventricular ejection",
+     "Isovolumetric relaxation",
+     "Ventricular filling"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "The second heart sound is caused by:",
+    "choices": [
+     "AV valves closing",
+     "Semilunar valves closing",
+     "Semilunar valves opening",
+     "Atrial contraction"
+    ],
+    "answer": 1,
+    "why": "S2 marks closure of the aortic and pulmonary valves."
+   },
+   {
+    "type": "mcq",
+    "q": "The pulmonary area is at the:",
+    "choices": [
+     "2nd ICS, right sternal border",
+     "2nd ICS, left sternal border",
+     "5th ICS, midclavicular line",
+     "Lower left sternal border"
+    ],
+    "answer": 1,
+    "why": "Pulmonary: 2nd intercostal space, left sternal border."
+   },
+   {
+    "type": "mcq",
+    "q": "The aortic area is at the:",
+    "choices": [
+     "2nd ICS, right sternal border",
+     "2nd ICS, left sternal border",
+     "Apex",
+     "Xiphoid"
+    ],
+    "answer": 0,
+    "why": "Aortic: 2nd intercostal space, right sternal border."
+   },
+   {
+    "type": "recall",
+    "q": "Where is the tricuspid area?",
+    "a": "Lower left sternal border (about the 5th intercostal space)."
+   },
+   {
+    "type": "recall",
+    "q": "Why are auscultation areas not directly over the valves?",
+    "a": "Sounds are carried downstream with the blood flow, so each valve is heard best away from its actual position."
+   },
+   {
+    "type": "mcq",
+    "q": "Which part of the stethoscope is placed on the chest for normal heart sounds?",
+    "choices": [
+     "The diaphragm",
+     "The earpieces",
+     "The tubing",
+     "The bell stem"
+    ],
+    "answer": 0,
+    "why": "The flat diaphragm."
+   }
+  ]
+ },
+ {
+  "id": "lab04-08-rate-control",
+  "title": "Pulse, posture and what changes the heart rate",
+  "system": "cardiovascular",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 8,
+  "summary": "Taking a pulse, the baroreceptor reflex, and the effects of autonomic nerves, drugs and temperature.",
+  "tags": [
+   "pulse",
+   "baroreceptor",
+   "autonomic",
+   "drugs",
+   "temperature"
+  ],
+  "course": {
+   "lab": 4,
+   "order": 8,
+   "unit": "Lab 4 · ECG & heart function"
+  },
+  "objectives": [
+   "Find the radial and carotid pulses and give the normal resting rate",
+   "Explain the change in heart rate with posture via the baroreceptor reflex",
+   "Predict the chronotropic and inotropic effects of ACh, epinephrine, pilocarpine, atropine, caffeine, calcium and temperature"
+  ],
+  "takeaways": [
+   "Pulse: radial artery at the lateral wrist, carotid in the neck; resting ~60–100 (70–75)/min.",
+   "Standing lowers blood pressure; carotid-sinus baroreceptors reflexly raise the rate.",
+   "Vagus/ACh (muscarinic) slows; sympathetic NE/epinephrine (β1) speeds and strengthens. Cardiac output = HR × SV.",
+   "Pilocarpine slows, atropine speeds, caffeine speeds and strengthens, Ca²⁺ strengthens; warmth speeds, cold slows (Q10 ≈ 2)."
+  ],
+  "steps": [
+   {
+    "title": "Taking a pulse",
+    "text": "<p>Each ejection sends a pressure wave along the arteries that can be felt as the <b>pulse</b>. The <b>radial artery</b> is felt on the lateral side of the anterior wrist; the <b>common carotid artery</b> in the neck beside the larynx, in the carotid triangle. Count the beats for a minute.</p><p>A normal resting adult rate, taken sitting, is 60–100/min - typically 70–75.</p>",
+    "systems": [
+     "cardiovascular",
+     "regions"
+    ],
+    "regions": [
+     "upper_limb_l",
+     "neck"
+    ],
+    "focus": [
+     "Radial artery",
+     "Left common carotid artery"
+    ],
+    "show": [
+     "Carotid triangle"
+    ],
+    "side": "Left",
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Name two places where the pulse is commonly taken.",
+     "a": "The radial artery at the wrist and the (common) carotid artery in the neck."
+    }
+   },
+   {
+    "title": "Posture and the baroreceptor reflex",
+    "text": "<p>Stand up and blood pools in the legs, so for a moment less returns to the heart and blood pressure falls. <b>Baroreceptors</b> - stretch receptors in the <b>carotid sinus</b> at the root of the internal carotid artery - sense the drop, and the brainstem reduces vagal and increases sympathetic output: the heart rate rises. Lying down does the reverse, so rate is lowest lying, higher sitting, highest standing.</p>",
+    "systems": [
+     "cardiovascular",
+     "nervous"
+    ],
+    "regions": [
+     "neck",
+     "head"
+    ],
+    "focus": [
+     "Internal carotid artery",
+     "Left common carotid artery"
+    ],
+    "show": [
+     "Vagus nerve (x)"
+    ],
+    "side": "Left",
+    "view": "left",
+    "xray": true,
+    "check": {
+     "q": "Where are the baroreceptors that adjust heart rate with posture?",
+     "a": "In the carotid sinus, at the origin of the internal carotid artery (and the aortic arch)."
+    }
+   },
+   {
+    "title": "Autonomic control",
+    "text": "<p>In the <b>autonomic innervation</b> of the heart, the <b>parasympathetic</b> vagus nerve releases <b>acetylcholine</b> onto <b>muscarinic</b> receptors of the SA and AV nodes: the rate falls. <b>Sympathetic</b> cardiac nerves release <b>norepinephrine</b>, and the adrenal medulla epinephrine, onto <b>β1</b> receptors: rate and force both rise.</p><p>A rate change is <b>chronotropic</b>, a force change <b>inotropic</b>. Together they set <b>cardiac output = heart rate × stroke volume</b>.</p>",
+    "diagram": "lab04-rate-control",
+    "systems": [
+     "nervous",
+     "cardiovascular"
+    ],
+    "regions": [
+     "thorax",
+     "neck"
+    ],
+    "focus": [
+     "Vagus nerve (x)",
+     "Sympathetic trunk"
+    ],
+    "show": [
+     "Heart"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Which receptor mediates the effect of acetylcholine on the heart?",
+     "a": "The muscarinic (M2) cholinergic receptor."
+    }
+   },
+   {
+    "title": "Drugs that mimic or block",
+    "text": "<p><b>Pilocarpine</b>, a muscarinic agonist, mimics acetylcholine and slows the heart. <b>Atropine</b>, a muscarinic antagonist, blocks the vagal brake and the rate rises. <b>Caffeine</b> inhibits phosphodiesterase, raising cAMP, so rate and force increase. Extra <b>calcium</b> (calcium chloride) strengthens contraction (positive inotropy) but in excess causes arrhythmia.</p><p>Acetylcholine and epinephrine are endogenous chemicals; the drugs are exogenous.</p>",
+    "diagram": "lab04-rate-control",
+    "systems": [
+     "nervous",
+     "cardiovascular"
+    ],
+    "regions": [
+     "thorax",
+     "neck"
+    ],
+    "focus": [
+     "Vagus nerve (x)"
+    ],
+    "show": [
+     "Heart"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Why does atropine speed the heart?",
+     "a": "It blocks muscarinic receptors, removing the slowing effect of vagal acetylcholine."
+    }
+   },
+   {
+    "title": "Temperature and the frog heart",
+    "text": "<p>An isolated frog heart - two atria, one ventricle and a <b>sinus venosus</b> as pacemaker (the equivalent of our SA-node region) - keeps beating after double pithing (brain and cord destroyed) in <b>Ringer's solution</b>, a physiological salt solution. The height of each contraction shows its strength; peak-to-peak time gives the rate (frequency).</p><p><b>Cold</b> slows the rate and <b>warmth</b> speeds it, because ion channels and enzymes run faster when warm - roughly doubling per 10 °C (a <b>Q10</b> temperature coefficient of about 2).</p>",
+    "diagram": "lab04-rate-control",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Right atrium"
+    ],
+    "show": [
+     "Superior vena cava",
+     "Left ventricle"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "What is a Q10 of 2?",
+     "a": "The rate of a process doubles for each 10 °C rise in temperature."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Radial artery"
+   },
+   {
+    "type": "find",
+    "structure": "Left common carotid artery"
+   },
+   {
+    "type": "find",
+    "structure": "Carotid triangle"
+   },
+   {
+    "type": "find",
+    "structure": "Internal carotid artery"
+   },
+   {
+    "type": "find",
+    "structure": "Vagus nerve (x)"
+   },
+   {
+    "type": "find",
+    "structure": "Sympathetic trunk"
+   },
+   {
+    "type": "mcq",
+    "q": "Acetylcholine applied to the heart:",
+    "choices": [
+     "Increases rate",
+     "Decreases rate",
+     "Has no effect",
+     "Increases force only"
+    ],
+    "answer": 1,
+    "why": "ACh acts on muscarinic receptors to slow the heart (negative chronotropy)."
+   },
+   {
+    "type": "mcq",
+    "q": "Epinephrine acts on cardiac:",
+    "choices": [
+     "Muscarinic receptors",
+     "β1 adrenergic receptors",
+     "Nicotinic receptors",
+     "α2 receptors"
+    ],
+    "answer": 1,
+    "why": "β1 stimulation increases rate and force."
+   },
+   {
+    "type": "mcq",
+    "q": "Pilocarpine is a:",
+    "choices": [
+     "Muscarinic agonist",
+     "Muscarinic antagonist",
+     "β1 agonist",
+     "Calcium blocker"
+    ],
+    "answer": 0,
+    "why": "It mimics acetylcholine and slows the heart."
+   },
+   {
+    "type": "mcq",
+    "q": "Which increases heart rate by blocking the vagus?",
+    "choices": [
+     "Pilocarpine",
+     "Acetylcholine",
+     "Atropine",
+     "Cold Ringer's"
+    ],
+    "answer": 2,
+    "why": "Atropine is a muscarinic antagonist."
+   },
+   {
+    "type": "mcq",
+    "q": "Extra calcium ions mainly produce:",
+    "choices": [
+     "Negative chronotropy",
+     "Positive inotropy",
+     "Heart block",
+     "Vasodilation"
+    ],
+    "answer": 1,
+    "why": "More Ca²⁺ entry strengthens contraction."
+   },
+   {
+    "type": "mcq",
+    "q": "Caffeine speeds the heart by:",
+    "choices": [
+     "Blocking β1 receptors",
+     "Inhibiting phosphodiesterase (raising cAMP)",
+     "Stimulating the vagus",
+     "Cooling the heart"
+    ],
+    "answer": 1,
+    "why": "Less cAMP breakdown mimics sympathetic stimulation."
+   },
+   {
+    "type": "recall",
+    "q": "Define chronotropic and inotropic effects.",
+    "a": "Chronotropic: change in rate. Inotropic: change in force of contraction."
+   },
+   {
+    "type": "recall",
+    "q": "Write the cardiac output equation.",
+    "a": "Cardiac output = heart rate × stroke volume."
+   },
+   {
+    "type": "mcq",
+    "q": "Heart rate is normally highest when:",
+    "choices": [
+     "Lying down",
+     "Sitting",
+     "Standing",
+     "Asleep"
+    ],
+    "answer": 2,
+    "why": "Standing reduces venous return; the baroreflex raises the rate."
+   },
+   {
+    "type": "recall",
+    "q": "What is Ringer's solution?",
+    "a": "A physiological salt solution that keeps isolated tissue alive."
+   },
+   {
+    "type": "recall",
+    "q": "What do endogenous and exogenous chemicals mean?",
+    "a": "Endogenous: made in the body (ACh, epinephrine). Exogenous: from outside (caffeine, atropine, pilocarpine)."
+   }
+  ]
+ }
+]

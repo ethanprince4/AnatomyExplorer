@@ -1,0 +1,424 @@
+[
+{
+  "id": "facial-expression-muscles",
+  "title": "The muscles of facial expression",
+  "system": "muscular",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 11,
+  "summary": "Muscles that pull on skin, all from one nerve, all from one embryonic arch.",
+  "tags": ["facial nerve", "expression", "second arch"],
+  "objectives": [
+    "Explain what makes the facial muscles different from every other muscle group",
+    "Name the sphincters and the dilators of the face and what each does",
+    "Separate an upper motor neurone from a lower motor neurone facial palsy",
+    "Separate facial muscle motor supply from sensation in the overlying skin"
+  ],
+  "takeaways": [
+    "They insert into skin, not bone, and all are supplied by the facial nerve (VII) from the second pharyngeal arch.",
+    "Orbicularis oculi closes the eye; orbicularis oris closes the mouth; buccinator keeps food off the cheek.",
+    "Relative forehead sparing suggests a supranuclear pattern; whole-side weakness suggests a lower motor neurone pattern, which can arise in the pons or peripheral VII.",
+    "VII moves the facial muscles; most facial skin sensation travels through V. The buccal branches of V3 and VII have different jobs."
+  ],
+  "see_also": {"lessons": ["facial-nerve", "mastication-muscles"], "histology": ["skeletal_muscle"]},
+  "steps": [
+    {
+      "title": "A muscle group unlike any other",
+      "text": "<p>Every other skeletal muscle pulls bone on bone. These pull on <b>skin</b>. They lie in the superficial fascia of the face, and because their insertion moves the skin directly they can produce expression rather than movement.</p><p>All of them develop from the <b>second pharyngeal arch</b>, and so all of them are supplied by the nerve of that arch, the <b>facial nerve</b>. One nerve, one arch, one plane: it makes the group easy to reason about even though there are more than twenty muscles in it.</p>",
+      "systems": ["muscular"],
+      "regions": ["head"],
+      "focus": ["Facial muscles"],
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "What single nerve supplies every muscle of facial expression?",
+                "a": "The facial nerve (VII)."}
+    },
+    {
+      "title": "The two sphincters",
+      "text": "<p><b>Orbicularis oculi</b> encircles the eye in two parts. The <b>palpebral part</b>, inside the lids, closes them gently — blinking, and sleep. The <b>orbital part</b>, in a ring around the orbital margin, screws the eye shut. Lose it and the eye cannot close, the cornea dries and ulcerates: the reason a facial palsy needs eye protection on the first day.</p><p><b>Orbicularis oris</b> encircles the mouth. It is not a simple ring but the meeting place of every muscle that converges on the lips, and it does the work of closing the mouth, pursing the lips, whistling and speech.</p>",
+      "systems": ["muscular"],
+      "regions": ["head"],
+      "focus": ["Orbital part of orbicularis oculi", "Palpebral part of orbicularis oculi", "Orbicularis oris muscle"],
+      "view": "anterior",
+      "xray": false,
+      "clinical": "Ask the patient to screw the eyes shut and resist you opening them: this tests the orbital part directly and is more sensitive than a gentle close.",
+      "check": {"q": "Which part of orbicularis oculi blinks?",
+                "a": "The palpebral part, within the eyelids."}
+    },
+    {
+      "title": "The dilators, and the smile",
+      "text": "<p>Radiating from the mouth are the muscles that open and shape it: <b>zygomaticus major</b> (the smile), zygomaticus minor, levator labii superioris, levator anguli oris, risorius, <b>depressor anguli oris</b>, depressor labii inferioris and mentalis.</p><p>Because they act as a group, weakness shows first as an <b>asymmetric nasolabial fold</b> — the crease from nose to angle of mouth flattens on the affected side, at rest, before any movement is tested.</p>",
+      "systems": ["muscular"],
+      "regions": ["head"],
+      "focus": ["Zygomaticus major muscle", "Zygomaticus minor muscle", "Depressor anguli oris"],
+      "view": "anterior",
+      "xray": false
+    },
+    {
+      "title": "Buccinator, the odd one out",
+      "text": "<p><b>Buccinator</b> forms the muscular wall of the cheek. It is a facial muscle by nerve supply and by arch, but it does not act on expression: it presses the cheek against the teeth, keeping food on the grinding surfaces and expelling air when you blow (its name comes from the trumpeter).</p><p>The <b>parotid duct</b> pierces it opposite the second upper molar. Paralyse buccinator and food collects in the cheek — the reason a stroke patient must have the mouth checked after eating.</p>",
+      "systems": ["muscular"],
+      "regions": ["head"],
+      "focus": ["Bucinator"],
+      "view": "left",
+      "xray": false,
+      "pitfall": "Buccinator is a muscle of facial expression (VII), not of mastication (V3), despite the job it does."
+    },
+    {
+      "title": "Platysma and the neck",
+      "text": "<p><b>Platysma</b> is a broad sheet in the superficial fascia running from the fascia over pectoralis major and deltoid up to the mandible and the lower face. It tenses the skin of the neck and pulls the corners of the mouth down.</p><p>Surgically it matters as a plane: incisions in the neck are closed in layers with platysma as one of them, and a wound that has breached platysma in penetrating neck trauma is treated as deep until proved otherwise.</p>",
+      "systems": ["muscular"],
+      "regions": ["neck", "head"],
+      "focus": ["Platysma"],
+      "view": "anterior",
+      "xray": false
+    },
+    {
+      "title": "Upper or lower motor neurone?",
+      "text": "<p>The upper face receives <b>bilateral cortical input</b>, while control of the lower face is predominantly contralateral. A unilateral <b>supranuclear</b> lesion therefore often weakens the opposite lower face while relatively sparing forehead movement.</p><p>A lower motor neurone lesion of VII can weaken the whole ipsilateral face, including the forehead. This includes a lesion of the facial nucleus or fascicle in the <b>pons</b>, as well as a peripheral nerve lesion. Forehead involvement alone does not exclude stroke; accompanying signs and the full pattern are needed to localise the lesion.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["head"],
+      "focus": ["Frontalis muscle"],
+      "show": ["Facial nerve (VII)", "Facial muscles"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "What motor pattern is suggested by weakness of both the forehead and lower face on the same side?",
+                "a": "A lower motor neurone pattern affecting VII. The lesion may be in the pons or the peripheral nerve, so this finding alone does not establish Bell's palsy."}
+    },
+    {
+      "systems": [
+        "muscular"
+      ],
+      "regions": [
+        "head"
+      ],
+      "focus": [
+        "Bucinator"
+      ],
+      "view": "left",
+      "xray": false,
+      "title": "Two buccal nerves, two different jobs",
+      "text": "<p>The word <b>buccal</b> names a region, not a single function. The buccal branch of the <b>facial nerve</b> carries motor fibres to muscles including buccinator. The buccal nerve from <b>V3</b> is chiefly sensory, supplying the cheek mucosa and neighbouring skin and gingiva.</p><p>A person can therefore have weak cheek compression with preserved cheek sensation, or altered sensation without buccinator paralysis. The same distinction applies across much of the face: VII moves the muscles while V reports sensation. When two nerves share a regional name, trace each back to its parent before deciding what it does.</p>",
+      "check": {
+        "q": "Which buccal nerve supplies the motor fibres that compress the cheek?",
+        "a": "The buccal branch of VII; the buccal nerve of V3 is primarily sensory."
+      }
+    }
+  ]
+},
+{
+  "id": "mastication-muscles",
+  "title": "The muscles of mastication and the jaw",
+  "system": "muscular",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Four muscles, one nerve, and the only joint in the head that moves.",
+  "tags": ["temporomandibular joint", "mastication", "V3"],
+  "objectives": [
+    "Name the four muscles of mastication and the movement each produces",
+    "Describe the two-part movement of the temporomandibular joint",
+    "Explain why the jaw deviates towards a weak side",
+    "Explain how hyoid stabilisation allows the suprahyoid muscles to assist jaw opening"
+  ],
+  "takeaways": [
+    "Temporalis, masseter, medial and lateral pterygoid — all from the mandibular division of the trigeminal nerve.",
+    "The TMJ hinges in its lower compartment and slides in its upper one.",
+    "Only lateral pterygoid opens the jaw; the other three close it.",
+    "Jaw opening combines condylar translation with depression of the mandible; suprahyoid muscles assist when the hyoid is stabilised."
+  ],
+  "see_also": {"lessons": ["facial-expression-muscles", "cranial-nerves"]},
+  "steps": [
+    {
+      "title": "Four muscles, one nerve",
+      "text": "<p>The muscles of mastication develop from the <b>first pharyngeal arch</b> and are supplied by its nerve, the <b>mandibular division of the trigeminal (V3)</b>. That is the clean division to hold on to: first arch and V3 chew, second arch and VII make expressions.</p><p>The four are <b>temporalis</b>, <b>masseter</b>, and the <b>medial</b> and <b>lateral pterygoids</b>.</p>",
+      "systems": ["muscular"],
+      "regions": ["head"],
+      "focus": ["Masticatory muscles"],
+      "view": "left",
+      "xray": false
+    },
+    {
+      "title": "Temporalis and masseter, the closers",
+      "text": "<p><b>Temporalis</b> is a fan filling the temporal fossa, passing deep to the zygomatic arch to reach the coronoid process. Its anterior fibres elevate the jaw; its posterior, nearly horizontal fibres retract it.</p><p><b>Masseter</b> is a thick quadrilateral running from the zygomatic arch down to the angle and ramus of the mandible. It is the most powerful elevator, and the one you can feel bulge when you clench. Both can be felt while the patient clenches — a quick bedside test of V3 motor function.</p>",
+      "systems": ["muscular"],
+      "regions": ["head"],
+      "focus": ["Temporalis muscle", "Masseter"],
+      "view": "left",
+      "xray": false,
+      "check": {"q": "Which part of temporalis retracts the jaw?",
+                "a": "The posterior, horizontally running fibres."}
+    },
+    {
+      "title": "The pterygoids",
+      "text": "<p>The <b>medial pterygoid</b> mirrors masseter on the inside of the ramus — the two form a sling round the angle of the mandible — and it elevates.</p><p>The <b>lateral pterygoid</b> is the one that does something different: it runs almost horizontally backwards to the neck of the mandible and the joint capsule, so it pulls the condyle and the disc <b>forwards</b>. Both together protrude and depress the jaw; one alone swings the chin to the opposite side, which is how you grind.</p>",
+      "systems": ["muscular"],
+      "regions": ["head"],
+      "focus": ["Lateral pterygoid muscle", "Medial pterygoid muscle"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Which muscle of mastication opens the mouth?",
+                "a": "The lateral pterygoid (helped by gravity and the suprahyoid muscles)."}
+    },
+    {
+      "title": "The temporomandibular joint",
+      "text": "<p>A synovial joint with an <b>articular disc</b> dividing it into two compartments, each doing a different job. The <b>lower compartment</b>, between condyle and disc, is a hinge — the first 20 mm or so of opening. The <b>upper compartment</b>, between disc and temporal bone, is a glide: the condyle and disc translate forwards onto the articular eminence for the rest of the opening.</p><p>Translate too far and the condyle can pass in front of the eminence and stick there — a <b>dislocated jaw</b>, reduced by pressing down and back on the lower molars.</p>",
+      "systems": ["joints", "skeletal"],
+      "regions": ["head"],
+      "focus": ["Temporomandibular joint"],
+      "show": ["Mandible", "Temporal bone"],
+      "view": "left",
+      "xray": false,
+      "check": {"q": "Which compartment of the TMJ hinges and which slides?",
+                "a": "Lower hinges, upper slides."}
+    },
+    {
+      "title": "Deviation tells you the side",
+      "text": "<p>Because each lateral pterygoid pushes its own condyle forwards, the pair working together keep the jaw straight. If one is weak — a V3 lesion — the working side pushes its condyle forwards unopposed and the chin swings <b>towards the weak side</b> on opening.</p><p>The same logic runs through the head and neck: the tongue also deviates towards a weak hypoglossal nerve, and for the same mechanical reason.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["head"],
+      "focus": ["Lateral pterygoid muscle"],
+      "show": ["Trigeminal nerve (V)", "Mandible"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "The jaw deviates to the left on opening. Which nerve is affected?",
+                "a": "The left mandibular nerve (V3) — deviation is towards the weak side."}
+    },
+    {
+      "systems": [
+        "muscular"
+      ],
+      "regions": [
+        "head"
+      ],
+      "focus": [
+        "Lateral pterygoid muscle",
+        "Medial pterygoid muscle"
+      ],
+      "view": "left",
+      "xray": true,
+      "title": "Opening also needs an anchor below",
+      "text": "<p>Lateral pterygoid helps bring the mandibular condyle forwards, but jaw opening also uses the <b>suprahyoid muscles</b>, including digastric, mylohyoid and geniohyoid. If the hyoid is held steady by the infrahyoid muscles, these muscles can pull the mandible down.</p><p>Reverse the fixed attachment and their effect changes: with the mandible stabilised, they can elevate the hyoid during swallowing. Gravity assists ordinary opening, but it is not the whole mechanism. A muscle action depends on which end is free to move, so an origin-and-insertion list is only the start of understanding it.</p>",
+      "check": {
+        "q": "Why must the hyoid be stabilised for the suprahyoid muscles to depress the jaw effectively?",
+        "a": "They need a fixed lower attachment from which to pull the mandible down; otherwise their pull can elevate the hyoid instead."
+      }
+    }
+  ]
+},
+{
+  "id": "back-muscle-layers",
+  "title": "The muscles of the back, layer by layer",
+  "system": "muscular",
+  "region": "back",
+  "level": "core",
+  "minutes": 12,
+  "summary": "Two groups that only look alike: migrants from the limb bud lying on the true muscles of the back.",
+  "tags": ["erector spinae", "trapezius", "latissimus dorsi", "dissection"],
+  "objectives": [
+    "Separate extrinsic from intrinsic back muscles by nerve supply as well as by position",
+    "Peel the back in the order a dissection does",
+    "Name the three columns of erector spinae and what they do",
+    "Distinguish eccentric control of forward bending from concentric spinal extension"
+  ],
+  "takeaways": [
+    "Extrinsic back muscles move the limb and are supplied by anterior rami; intrinsic muscles move the spine and are supplied by posterior rami.",
+    "Trapezius is the exception: it is supplied by the accessory nerve.",
+    "Erector spinae from lateral to medial: iliocostalis, longissimus, spinalis.",
+    "The spinal extensors can control forward bending while lengthening; a muscle can oppose a movement rather than produce it."
+  ],
+  "see_also": {"lessons": ["suboccipital-triangle", "vertebra-typical"]},
+  "steps": [
+    {
+      "title": "The rule that sorts them",
+      "text": "<p>Two groups lie on top of one another and look, at first, like one. The <b>extrinsic</b> muscles have migrated onto the back from elsewhere and act on the upper limb or the ribs; they keep the nerve supply they were born with, from <b>anterior rami</b>. The <b>intrinsic</b> (true) back muscles act on the vertebral column and are supplied by <b>posterior rami</b>.</p><p>Nerve supply, not position, is what defines them. Learn the rule first and the layers fall into place.</p>",
+      "systems": ["muscular"],
+      "regions": ["back"],
+      "focus": ["Epaxial muscles"],
+      "view": "posterior",
+      "xray": false,
+      "check": {"q": "Which rami supply the true muscles of the back?",
+                "a": "Posterior (dorsal) rami."}
+    },
+    {
+      "title": "First layer: trapezius and latissimus dorsi",
+      "text": "<p><b>Trapezius</b> covers the upper back from the skull and the nuchal ligament to the spine of the scapula, acromion and lateral clavicle. Upper fibres elevate the scapula, middle fibres retract it, lower fibres depress and help rotate it upwards. It is supplied by the <b>accessory nerve (XI)</b> — the one extrinsic muscle that is not on an anterior ramus.</p><p><b>Latissimus dorsi</b> sweeps from the thoracolumbar fascia, lower ribs and iliac crest up to the floor of the intertubercular groove of the humerus. It extends, adducts and medially rotates the arm — the pull-up and swimming muscle — through the thoracodorsal nerve.</p>",
+      "systems": ["muscular"],
+      "regions": ["back"],
+      "focus": ["Trapezius muscle", "Latissimus dorsi muscle"],
+      "view": "posterior",
+      "xray": false,
+      "check": {"q": "Which nerve supplies trapezius, and how do you test it?",
+                "a": "The accessory nerve (XI) — shrug the shoulders against resistance."}
+    },
+    {
+      "title": "Second layer: the scapular retractors",
+      "text": "<p>Take trapezius away and you find <b>levator scapulae</b>, <b>rhomboid minor</b> and <b>rhomboid major</b>, running downwards and laterally from the cervical and upper thoracic spines to the medial border of the scapula.</p><p>They retract the scapula and rotate it downwards. The <b>dorsal scapular nerve</b> supplies them; its injury lets the scapula drift laterally and wing slightly, which is easy to confuse with a long thoracic nerve palsy until you look at which way the scapula has moved.</p>",
+      "systems": ["muscular"],
+      "regions": ["back"],
+      "focus": ["Levator scapulae", "Rhomboid major muscle", "Rhomboid minor muscle"],
+      "view": "posterior",
+      "xray": false,
+      "dissect": 0.25
+    },
+    {
+      "title": "Third layer: the ribs",
+      "text": "<p>Deeper again, two thin sheets that belong to respiration rather than to the limb: <b>serratus posterior superior</b>, running down and out to the upper ribs, and <b>serratus posterior inferior</b>, running up and out to the lower ribs.</p><p>They are supplied by intercostal nerves — anterior rami again — and although their mechanical contribution to breathing is small, they mark the boundary: everything deep to them is a true muscle of the back.</p>",
+      "systems": ["muscular"],
+      "regions": ["back"],
+      "focus": ["Serratus posterior superior muscle", "Serratus posterior inferior muscle"],
+      "view": "posterior",
+      "xray": false,
+      "dissect": 0.4
+    },
+    {
+      "title": "Erector spinae",
+      "text": "<p>Now the true back. <b>Erector spinae</b> rises as a single tendon from the sacrum and iliac crest and splits into three columns. From lateral to medial: <b>iliocostalis</b> (to the ribs), <b>longissimus</b> (the long middle column, reaching the mastoid process), and <b>spinalis</b> (the small medial one, spine to spine).</p><p>Acting together they extend the spine; acting on one side they bend it that way. In standing, they work in bursts to stop you falling forwards rather than continuously — which is why prolonged stooping, not standing, is what tires the back.</p>",
+      "systems": ["muscular"],
+      "regions": ["back"],
+      "focus": ["Erector spinae"],
+      "view": "posterior",
+      "xray": false,
+      "dissect": 0.55,
+      "mnemonic": "I Long for Spinach — Iliocostalis, Longissimus, Spinalis, lateral to medial."
+    },
+    {
+      "title": "The transversospinal group",
+      "text": "<p>Deepest of all, running from transverse processes up to spinous processes: <b>semispinalis</b> (crossing about five segments), <b>multifidus</b> (two to four) and the <b>rotatores</b> (one or two).</p><p>The shorter and deeper they are, the less they move the spine and the more they sense it. Multifidus and the rotatores are packed with muscle spindles and act as proprioceptive stabilisers — the reason rehabilitation after back pain concentrates on deep stabiliser control rather than on the big superficial muscles.</p>",
+      "systems": ["muscular"],
+      "regions": ["back"],
+      "focus": ["Semispinalis muscles", "Multifidus muscles", "Rotatores"],
+      "view": "posterior",
+      "xray": false,
+      "dissect": 0.7,
+      "check": {"q": "What is the main job of the rotatores, given how short they are?",
+                "a": "Proprioception and segmental stabilisation rather than producing movement."}
+    },
+    {
+      "systems": [
+        "muscular"
+      ],
+      "regions": [
+        "back"
+      ],
+      "focus": [
+        "Erector spinae"
+      ],
+      "view": "posterior",
+      "xray": false,
+      "dissect": 0.55,
+      "title": "An extensor can work while you bend forwards",
+      "text": "<p>Calling erector spinae an <b>extensor</b> describes the direction of the torque it generates. It does not mean it contracts only while the spine moves into extension. During controlled forward bending, gravity produces flexion and the extensors can lengthen under tension to brake the descent: an <b>eccentric contraction</b>.</p><p>When you straighten again, the same group can shorten to generate extension. Deeper segmental muscles help control the relative positions of neighbouring vertebrae throughout the movement. Watch an imagined slow bend and return: the direction of movement changes, but the same muscles may contribute to both halves for different mechanical reasons.</p>",
+      "check": {
+        "q": "How can an extensor be active while the spine is moving into flexion?",
+        "a": "It can contract eccentrically, producing an opposing extension torque while lengthening to control the movement."
+      }
+    }
+  ]
+},
+{
+  "id": "suboccipital-triangle",
+  "title": "The suboccipital triangle",
+  "system": "muscular",
+  "region": "back",
+  "level": "advanced",
+  "minutes": 9,
+  "summary": "A small triangle at the top of the neck with an artery, a nerve and a vein you must not meet by surprise.",
+  "tags": ["vertebral artery", "suboccipital", "C1"],
+  "prereq": ["back-muscle-layers"],
+  "objectives": [
+    "Name the three muscles that bound the suboccipital triangle",
+    "State its contents and their clinical importance",
+    "Explain why the vertebral artery is vulnerable here",
+    "Relate the attachments of the suboccipital muscles to movement at C0-C1 and C1-C2"
+  ],
+  "takeaways": [
+    "Boundaries: rectus capitis posterior major, obliquus capitis superior, obliquus capitis inferior.",
+    "Contents: the third part of the vertebral artery, the suboccipital nerve (posterior ramus of C1) and a venous plexus.",
+    "The suboccipital muscles are proprioceptive: they are among the most spindle-rich muscles in the body.",
+    "Obliquus capitis inferior rotates C1 on C2; muscles reaching the occiput also influence head position at the atlanto-occipital joints."
+  ],
+  "see_also": {"lessons": ["back-muscle-layers", "head-neck-arteries"]},
+  "steps": [
+    {
+      "title": "Getting down to it",
+      "text": "<p>Peel trapezius, then splenius capitis, then semispinalis capitis off the back of the neck and a small triangle appears on each side, just below the occipital bone.</p><p>It is the deepest place in the neck a dissection reaches from behind, and it is crowded: everything in it is important.</p>",
+      "systems": ["muscular"],
+      "regions": ["neck", "head"],
+      "focus": ["Suboccipital muscles"],
+      "view": "posterior",
+      "xray": false,
+      "dissect": 0.6
+    },
+    {
+      "title": "The three sides",
+      "text": "<p><b>Rectus capitis posterior major</b> runs from the spine of the axis up and out to the occipital bone: the medial border. <b>Obliquus capitis superior</b> runs from the transverse process of the atlas up to the occipital bone: the lateral border. <b>Obliquus capitis inferior</b> runs from the spine of the axis out to the transverse process of the atlas: the lower border.</p><p>Notice that obliquus capitis inferior is the only 'capitis' muscle that does not reach the head. It rotates the atlas, and with it the skull, around the dens.</p>",
+      "systems": ["muscular"],
+      "regions": ["neck"],
+      "focus": ["Rectus posterior major capitis muscle", "Obliquus superior capitis muscle", "Obliquus inferior capitis muscle"],
+      "view": "posterior",
+      "xray": false,
+      "dissect": 0.6,
+      "check": {"q": "Which boundary muscle of the triangle does not attach to the skull?",
+                "a": "Obliquus capitis inferior — axis to atlas only."}
+    },
+    {
+      "title": "What lies in the floor",
+      "text": "<p>The floor is the posterior arch of the <b>atlas</b> and the posterior atlanto-occipital membrane. Lying on that arch, in a groove, is the <b>third part of the vertebral artery</b>, running horizontally before it turns up through the foramen magnum.</p><p>This horizontal course is the price of allowing the head to rotate on the neck without kinking the artery — and it is why forceful rotation of the neck, including some manipulations, can dissect the vessel.</p>",
+      "systems": ["cardiovascular", "skeletal"],
+      "regions": ["neck", "head"],
+      "focus": ["Vertebral artery"],
+      "show": ["Atlas (C1)", "Suboccipital muscles"],
+      "view": "posterior",
+      "xray": true,
+      "clinical": "Vertebral artery dissection presents with neck pain and posterior circulation symptoms in a young patient — often after trivial neck trauma.",
+      "check": {"q": "Which part of the vertebral artery lies in the floor of the triangle?",
+                "a": "The third part, in the groove on the posterior arch of the atlas."}
+    },
+    {
+      "title": "The nerves, and the reason for the headache",
+      "text": "<p>The <b>suboccipital nerve</b> — the posterior ramus of C1 — emerges between the artery and the arch and supplies the four suboccipital muscles. It is almost purely motor.</p><p>Just below, the <b>greater occipital nerve</b> (posterior ramus of C2) hooks round the lower border of obliquus capitis inferior and turns up over the back of the scalp. Irritation here gives <b>occipital neuralgia</b>: sharp shooting pain from the base of the skull to the vertex, with tenderness at one point where the nerve pierces the muscle.</p>",
+      "systems": ["nervous", "muscular"],
+      "regions": ["neck", "head"],
+      "focus": ["Cervical nerves"],
+      "show": ["Suboccipital muscles", "Obliquus inferior capitis muscle"],
+      "view": "posterior",
+      "xray": true
+    },
+    {
+      "title": "Why so many spindles",
+      "text": "<p>These four small muscles contain a density of <b>muscle spindles</b> far beyond what their size or strength would suggest — several times that of a large limb muscle.</p><p>They are not there to move the head so much as to report where it is. Their input feeds the vestibular system and the cervico-ocular reflex, and dysfunction here is one explanation for the dizziness that accompanies neck injury.</p>",
+      "systems": ["muscular"],
+      "regions": ["neck"],
+      "focus": ["Suboccipital muscles"],
+      "view": "left",
+      "xray": false,
+      "histology": "skeletal_muscle",
+      "check": {"q": "What does the extraordinary spindle density of the suboccipital muscles suggest about their role?",
+                "a": "They are primarily proprioceptive — telling the brain the position of the head on the neck."}
+    },
+    {
+      "systems": [
+        "muscular"
+      ],
+      "regions": [
+        "neck"
+      ],
+      "focus": [
+        "Rectus posterior major capitis muscle",
+        "Obliquus superior capitis muscle",
+        "Obliquus inferior capitis muscle"
+      ],
+      "view": "posterior",
+      "xray": false,
+      "dissect": 0.6,
+      "title": "Read the movement from the attachment",
+      "text": "<p>Trace <b>obliquus capitis inferior</b> from the spinous process of C2 to the transverse process of C1. Its pull turns the atlas towards the same side around the dens. The skull travels with the atlas even though this muscle never attaches to the skull itself.</p><p>Rectus capitis posterior major and obliquus capitis superior do reach the occiput, so they can help adjust the head relative to the upper cervical vertebrae. Compare their short lines of pull with the much longer superficial neck muscles. Fine positioning uses small changes at specific joints rather than treating the neck as one hinge.</p>",
+      "check": {
+        "q": "How can obliquus capitis inferior rotate the head without attaching to the occipital bone?",
+        "a": "It rotates the atlas on the axis, carrying the supported skull with it."
+      }
+    }
+  ]
+}
+]

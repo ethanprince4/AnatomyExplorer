@@ -1,0 +1,57 @@
+{
+  "summary": "The right middle and inner ear, largely built from segmented MRI data (University of Dundee, after the McGill '3D Ear'): tympanic membrane, the ossicular chain, the labyrinth, and the facial and vestibulocochlear nerves. It shows how sound passes from the eardrum through the malleus, incus and stapes to the cochlea, and how closely the facial nerve winds past the middle ear.",
+  "view": [-20, 25],
+  "clinical": [
+    ["Facial nerve in the middle ear", "The facial nerve's tympanic segment runs in a thin bony canal just above the oval window, often partly dehiscent. Middle ear infection, cholesteatoma, temporal bone fracture or ear surgery can injure it, giving a lower motor neuron facial palsy."],
+    ["Conductive vs sensorineural loss", "Damage to the eardrum or ossicles (perforation, otosclerosis fixing the stapes footplate) causes conductive hearing loss; damage to the cochlea or cochlear nerve (e.g. vestibular schwannoma) causes sensorineural loss. Rinne and Weber tuning-fork tests tell them apart."]
+  ],
+  "parts": {
+    "Anatomy of the Inner Ear Sketchfab upload 01/Lambert5SG": {
+      "name": "Tympanic membrane", "group": "Middle ear", "category": "other",
+      "description": "The thin, cone-shaped eardrum (pink) between the external acoustic meatus and the middle ear, set obliquely and drawn inward at the umbo by the handle of the malleus. It vibrates with sound and passes the vibration to the ossicles.",
+      "structures": ["Tympanic membrane"]
+    },
+    "Anatomy of the Inner Ear Sketchfab upload 01/Lambert6SG": {
+      "name": "Malleus", "group": "Middle ear", "category": "bone",
+      "description": "The most lateral ossicle ('hammer'). Its handle is embedded in the tympanic membrane and its head articulates with the incus in the epitympanic recess; tensor tympani inserts on it to damp loud sounds.",
+      "structures": ["Malleus"]
+    },
+    "Anatomy of the Inner Ear Sketchfab upload 01/Lambert12SG": {
+      "name": "Incus", "group": "Middle ear", "category": "bone",
+      "description": "The middle ossicle ('anvil'). Its body articulates with the head of the malleus and its long process descends to articulate with the head of the stapes, carrying vibration inward.",
+      "structures": ["Incus"]
+    },
+    "Anatomy of the Inner Ear Sketchfab upload 01/Lambert11SG": {
+      "name": "Stapes", "group": "Middle ear", "category": "bone",
+      "description": "The smallest bone in the body ('stirrup'). Its footplate sits in the oval window of the vestibule, pushing on the perilymph; stapedius attaches to its neck. In otosclerosis the footplate becomes fixed, causing conductive hearing loss.",
+      "structures": ["Stapes"]
+    },
+    "Anatomy of the Inner Ear Sketchfab upload 01/Lambert10SG": {
+      "name": "Bony labyrinth", "group": "Inner ear", "category": "other",
+      "description": "The fluid-filled inner ear (green), in one piece: the snail-shaped cochlea for hearing, the central vestibule (utricle and saccule, sensing linear acceleration and gravity) and the three semicircular canals at right angles, sensing head rotation. The stapes footplate sits in the vestibule's oval window.",
+      "structures": ["Cochlea", "Vestibule", "Anterior semicircular canal", "Lateral semicircular canal", "Posterior semicircular canal"]
+    },
+    "Anatomy of the Inner Ear Sketchfab upload 01/Lambert7SG": {
+      "name": "Cochlear nerve", "group": "Nerves", "category": "nerve",
+      "description": "The hearing division of the vestibulocochlear nerve (CN VIII). Its fibres fan out from the spiral ganglion in the cochlea's central core (modiolus) and run medially through the internal acoustic meatus to the cochlear nuclei in the brainstem.",
+      "structures": ["Cochlear nerve"]
+    },
+    "Anatomy of the Inner Ear Sketchfab upload 01/Lambert9SG": {
+      "name": "Vestibular nerve", "group": "Nerves", "category": "nerve",
+      "description": "The balance division of the vestibulocochlear nerve (CN VIII). Its branches collect from the ampullae of the semicircular canals, the utricle and the saccule and run medially through the internal acoustic meatus to the vestibular nuclei.",
+      "structures": ["Vestibular nerve"]
+    },
+    "Anatomy of the Inner Ear Sketchfab upload 01/Lambert13SG": {
+      "name": "Facial nerve", "group": "Nerves", "category": "nerve",
+      "description": "CN VII enters the internal acoustic meatus with CN VIII, bends sharply at the geniculate ganglion (where the thin greater petrosal nerve leaves forwards), runs back along the medial wall of the middle ear, then descends to the stylomastoid foramen. The thin branch looping up across the eardrum region is the chorda tympani (taste to the front two-thirds of the tongue).",
+      "structures": ["Facial nerve (VII)", "Chorda tympani"]
+    },
+    "Anatomy of the Inner Ear Sketchfab upload 01/InitialShadingGroup": {
+      "name": "Facial nerve", "group": "Nerves", "category": "nerve",
+      "description": "CN VII enters the internal acoustic meatus with CN VIII, bends sharply at the geniculate ganglion (where the thin greater petrosal nerve leaves forwards), runs back along the medial wall of the middle ear, then descends to the stylomastoid foramen. The thin branch looping up across the eardrum region is the chorda tympani (taste to the front two-thirds of the tongue).",
+      "structures": ["Facial nerve (VII)", "Chorda tympani"]
+    },
+    "Anatomy of the Inner Ear Sketchfab upload 01/Lambert8SG": {"hide": true}
+  },
+  "notes": "Right ear: the tympanic membrane is lateral at -x and the cochlea anterior (+z), matching the model's own direction labels. The labyrinth is a single mesh (cochlea, vestibule and canals cannot be split). The facial nerve mesh appears to include the greater petrosal nerve (thin anterior branch at the geniculate) and the chorda tympani (thin branch rising from the descending segment toward the ossicles); these branch identities come from their course in renders, not from creator labels. Cochlear vs vestibular nerve were told apart by the cochlear fibre fan and the vestibular branches to the ampullae. The tiny InitialShadingGroup piece is an end cap at the facial nerve's medial cut end and is merged into it. Hidden: the grey floor plane carrying ANTERIOR/POSTERIOR/MEDIAL/LATERAL direction text."
+}

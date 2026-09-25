@@ -1,0 +1,562 @@
+[
+{
+  "id": "oral-cavity-tongue",
+  "title": "The mouth and the tongue",
+  "system": "digestive",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 10,
+  "summary": "One muscle mass with four nerves, and a dividing line you cannot see but must know.",
+  "tags": ["tongue", "hypoglossal", "sulcus terminalis", "taste"],
+  "objectives": [
+    "Divide the tongue at the sulcus terminalis and give the nerve supply of each part",
+    "Name the intrinsic and extrinsic muscles and what each does",
+    "Explain why the tongue deviates towards the side of a hypoglossal lesion",
+    "Explain the glossopharyngeal supply of vallate papillae despite their position anterior to the sulcus terminalis"
+  ],
+  "takeaways": [
+    "Anterior two thirds: lingual nerve for sensation, chorda tympani for taste. Posterior third: glossopharyngeal for both.",
+    "All tongue muscles are hypoglossal except palatoglossus, which is vagal.",
+    "Genioglossus protrudes the tongue; unopposed, it pushes it to the weak side.",
+    "Vallate papillae lie just anterior to the sulcus terminalis but receive taste fibres from IX, an exception to the anterior-tongue rule."
+  ],
+  "see_also": {"lessons": ["salivary-glands", "pharynx-and-swallowing", "cranial-nerves"], "micro": ["tongue_papillae"], "histology": ["tongue", "oral_mucosa"]},
+  "steps": [
+    {
+      "title": "Two thirds and one third",
+      "text": "<p>A V-shaped groove, the <b>sulcus terminalis</b>, crosses the tongue with its apex pointing backwards at the foramen caecum. It divides the tongue into an <b>anterior two thirds</b> (oral) and a <b>posterior third</b> (pharyngeal).</p><p>The division is embryological — the front comes from the first pharyngeal arch, the back from the third — and it explains everything about the nerve supply. Two parts, two arches, two sets of nerves.</p>",
+      "systems": ["visceral"],
+      "regions": ["head"],
+      "focus": ["Tongue"],
+      "view": "superior",
+      "xray": false,
+      "check": {"q": "What separates the two parts of the tongue, and why does it matter?",
+                "a": "The sulcus terminalis — the two parts come from different pharyngeal arches and have different nerves."}
+    },
+    {
+      "title": "Four nerves for one organ",
+      "text": "<p><b>Anterior two thirds</b>: general sensation from the <b>lingual nerve</b> (a branch of V3); taste from the <b>chorda tympani</b> (a branch of VII, which hitches a ride on the lingual nerve).</p><p><b>Posterior third</b>: both general sensation and taste from the <b>glossopharyngeal nerve (IX)</b> — which is also why touching the back of the tongue triggers the gag reflex. A small area at the very back, near the epiglottis, belongs to the vagus. Motor supply for the whole tongue is the <b>hypoglossal nerve (XII)</b>.</p>",
+      "systems": ["visceral", "nervous"],
+      "regions": ["head"],
+      "focus": ["Tongue"],
+      "show": ["Glossopharyngeal nerve (IX)", "Hypoglossal nerve (XII)", "Lingual nerve"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Which nerve carries taste from the front of the tongue?",
+                "a": "The chorda tympani, a branch of the facial nerve, travelling with the lingual nerve."}
+    },
+    {
+      "title": "Intrinsic and extrinsic muscles",
+      "text": "<p>The <b>intrinsic</b> muscles — superior and inferior longitudinal, transverse and vertical — have no bony attachment and change the tongue's <i>shape</i>: they curl, flatten and narrow it for speech and for moving a bolus.</p><p>The <b>extrinsic</b> muscles change its <i>position</i>. <b>Genioglossus</b> from the mandible protrudes it, <b>hyoglossus</b> from the hyoid depresses it, <b>styloglossus</b> from the styloid retracts and elevates it, and <b>palatoglossus</b> from the palate elevates the back. All are hypoglossal except palatoglossus, which belongs to the vagus with the rest of the palate.</p>",
+      "systems": ["muscular", "visceral"],
+      "regions": ["head", "neck"],
+      "focus": ["Genioglossus muscle", "Hyoglossus muscle"],
+      "show": ["Tongue", "Hyoid bone"],
+      "view": "left",
+      "xray": true,
+      "mnemonic": "The extrinsic muscles all end in -glossus and are named for where they come from.",
+      "check": {"q": "Which tongue muscle is the exception to hypoglossal supply?",
+                "a": "Palatoglossus — supplied by the vagus through the pharyngeal plexus."}
+    },
+    {
+      "title": "Genioglossus, the airway muscle",
+      "text": "<p>Genioglossus does more than protrude the tongue: it holds it forward, away from the posterior pharyngeal wall. Its tone falls in sleep and disappears under anaesthesia, which is why the unconscious patient obstructs — the tongue falls back — and why a jaw thrust works, by pulling the mandible and with it the genioglossus origin forwards.</p><p>Ask a patient to stick the tongue out. Each genioglossus pushes the tongue to the <b>opposite</b> side, so if one is paralysed the working muscle pushes the tongue <b>towards the weak side</b>. Deviation therefore points at the lesion.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["head"],
+      "focus": ["Genioglossus muscle"],
+      "show": ["Hypoglossal nerve (XII)", "Tongue"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "The tongue deviates to the right on protrusion. Which nerve is damaged?",
+                "a": "The right hypoglossal nerve."}
+    },
+    {
+      "title": "The surface",
+      "text": "<p>The front is covered in <b>papillae</b>: numerous small conical <b>filiform</b> papillae (which carry no taste buds and give the tongue its grip), scattered red <b>fungiform</b> papillae, a row of large <b>vallate</b> papillae in front of the sulcus terminalis, and <b>foliate</b> papillae on the sides.</p><p>The posterior third has no papillae but a cobblestone surface of <b>lingual tonsil</b> — lymphoid tissue that forms part of Waldeyer's ring.</p>",
+      "systems": ["visceral"],
+      "regions": ["head"],
+      "focus": ["Tongue"],
+      "view": "superior",
+      "xray": false,
+      "micro": "tongue_papillae",
+      "check": {"q": "Which papillae carry no taste buds?",
+                "a": "The filiform papillae."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "head"
+      ],
+      "focus": [
+        "Tongue"
+      ],
+      "view": "superior",
+      "xray": false,
+      "micro": "tongue_papillae",
+      "title": "An exception sitting just in front of the line",
+      "text": "<p>The large <b>vallate papillae</b> form a row immediately in front of the sulcus terminalis. Despite being on the oral side of that visible boundary, their taste buds are supplied by the <b>glossopharyngeal nerve (IX)</b>. They are the useful exception to the chorda-tympani rule for the anterior tongue.</p><p>Their taste buds lie mainly on the side walls facing the surrounding trenches, where secretions from small serous glands help wash material away. The microscopic arrangement exposes receptors to new dissolved substances. Location, surface shape and nerve supply answer different questions, so retain the exception alongside the general map.</p>",
+      "check": {
+        "q": "Which nerve carries taste from the vallate papillae?",
+        "a": "The glossopharyngeal nerve, IX, even though the papillae lie just anterior to the sulcus terminalis."
+      }
+    }
+  ]
+},
+{
+  "id": "salivary-glands",
+  "title": "The salivary glands",
+  "system": "digestive",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Three pairs, three ducts, and a nerve running through the middle of the biggest one.",
+  "tags": ["parotid", "submandibular", "facial nerve", "stones"],
+  "objectives": [
+    "Locate the three pairs of salivary glands and the openings of their ducts",
+    "Explain why parotid surgery risks the facial nerve",
+    "Say why stones form in the submandibular gland far more often than elsewhere",
+    "Trace the lingual nerve around the submandibular duct and distinguish its carried fibres from its parent nerve"
+  ],
+  "takeaways": [
+    "Parotid duct opens opposite the second upper molar; submandibular at the sublingual caruncle.",
+    "The facial nerve divides the parotid into superficial and deep parts.",
+    "Submandibular saliva is mixed and predominantly serous; its composition and the long, ascending duct favour stone formation.",
+    "The lingual nerve loops beneath the submandibular duct from lateral to medial; it carries V3 sensation plus taste and parasympathetic fibres that joined from VII."
+  ],
+  "see_also": {"lessons": ["oral-cavity-tongue", "facial-nerve"], "histology": ["parotid", "submandibular", "sublingual"]},
+  "steps": [
+    {
+      "title": "Three pairs",
+      "text": "<p>The <b>parotid</b> sits in front of and below the ear, wrapped round the ramus of the mandible. The <b>submandibular</b> lies under the floor of the mouth and hooks round the posterior border of mylohyoid. The <b>sublingual</b> lies in the floor of the mouth under the tongue.</p><p>Together with hundreds of minor glands they produce around 1–1.5 litres of saliva a day: parotid mostly serous, sublingual mostly mucous, submandibular mixed — and the submandibular does most of the work at rest.</p>",
+      "systems": ["visceral"],
+      "regions": ["head", "neck"],
+      "focus": ["Parotid gland", "Submandibular gland", "Sublingual gland"],
+      "view": "left",
+      "xray": false,
+      "check": {"q": "Which gland produces most of the resting saliva?",
+                "a": "The submandibular gland."}
+    },
+    {
+      "title": "The parotid and the facial nerve",
+      "text": "<p>The <b>facial nerve</b> leaves the stylomastoid foramen and immediately enters the parotid, where it fans into its five branches. It divides the gland into an arbitrary 'superficial' and 'deep' part — arbitrary because there is no fascial plane there, only the nerve.</p><p>So a parotidectomy is really an exercise in dissecting out the nerve. The other things inside the gland, from superficial to deep, are the facial nerve, then the <b>retromandibular vein</b>, then the <b>external carotid artery</b>.</p>",
+      "systems": ["visceral", "nervous"],
+      "regions": ["head"],
+      "focus": ["Parotid gland"],
+      "show": ["Facial nerve (VII)", "External carotid artery"],
+      "view": "left",
+      "xray": true,
+      "mnemonic": "Nerve, vein, artery — superficial to deep in the parotid.",
+      "check": {"q": "What are the three structures within the parotid gland, superficial to deep?",
+                "a": "Facial nerve, retromandibular vein, external carotid artery."}
+    },
+    {
+      "title": "The parotid duct",
+      "text": "<p>The <b>parotid duct</b> runs forwards across masseter a fingerbreadth below the zygomatic arch, turns sharply medially at masseter's anterior border, pierces <b>buccinator</b>, and opens on a papilla opposite the <b>second upper molar</b>.</p><p>You can find it on yourself: clench, feel masseter, and the duct is the cord running forward over it. Its oblique passage through buccinator acts as a valve, so blowing hard does not force air into the gland.</p>",
+      "systems": ["visceral"],
+      "regions": ["head"],
+      "focus": ["Parotid duct"],
+      "show": ["Parotid gland", "Masseter", "Bucinator"],
+      "view": "left",
+      "xray": true,
+      "clinical": "Mumps swells the parotid and pushes the ear lobe up and out — and, because the gland is wrapped in tight fascia, it hurts."
+    },
+    {
+      "title": "The submandibular gland and its stone",
+      "text": "<p>The gland wraps around the free posterior border of <b>mylohyoid</b> into a superficial and a deep part. Its duct runs forwards from the deep part, with the lingual nerve looping beneath it from lateral to medial, and opens at the <b>sublingual caruncle</b> beside the frenulum.</p><p>Three things make it the site of about <b>80% of salivary stones</b>: its mixed, predominantly serous secretion has a mucous component and relatively high mineral content, the duct runs <b>uphill</b> against gravity, and it is long. The classic history is a painful swelling under the jaw that comes on at mealtimes and settles afterwards.</p>",
+      "systems": ["visceral"],
+      "regions": ["head", "neck"],
+      "focus": ["Submandibular gland", "Submandibular duct"],
+      "show": ["Mylohyoid muscle", "Lingual nerve"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Why do most salivary calculi form in the submandibular gland?",
+                "a": "The long, ascending duct promotes stasis, while the saliva's mucous component and mineral content favour stone formation."}
+    },
+    {
+      "title": "Who tells them to secrete",
+      "text": "<p>Both autonomic divisions influence salivary secretion. <b>Parasympathetic</b> stimulation is particularly important for copious fluid secretion, and the major glands receive it through different cranial nerves.</p><p>The <b>parotid</b> is supplied by the <b>glossopharyngeal (IX)</b>, through the lesser petrosal nerve and the otic ganglion. The <b>submandibular</b> and <b>sublingual</b> are supplied by the <b>facial (VII)</b>, through the chorda tympani and the submandibular ganglion. Sympathetic fibres from the superior cervical ganglion make saliva thicker and scantier — which is why a dry mouth is a sign of fear.</p>",
+      "systems": ["visceral", "nervous"],
+      "regions": ["head", "neck"],
+      "focus": ["Glossopharyngeal nerve (IX)", "Facial nerve (VII)"],
+      "show": ["Parotid gland", "Submandibular gland"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Which cranial nerve makes the parotid gland secrete?",
+                "a": "The glossopharyngeal (IX), via the otic ganglion — even though VII runs through the gland."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "head",
+        "neck"
+      ],
+      "focus": [
+        "Submandibular gland",
+        "Submandibular duct"
+      ],
+      "show": [
+        "Mylohyoid muscle",
+        "Lingual nerve"
+      ],
+      "view": "left",
+      "xray": true,
+      "title": "A nerve loops under the duct",
+      "text": "<p>Follow the submandibular duct forwards in the floor of the mouth. The <b>lingual nerve</b> approaches from the lateral side, loops beneath the duct and continues medially towards the tongue. It is one loop from one side to the other, not two separate undercrossings.</p><p>By this stage the nerve carries more than V3 general sensation. Chorda tympani fibres have joined it, bringing taste fibres and parasympathetic fibres destined for the submandibular ganglion. An injury to the lingual nerve here can therefore affect functions that originated in two cranial nerves.</p>",
+      "check": {
+        "q": "Why can an injury to the lingual nerve in the floor of the mouth alter both touch and taste?",
+        "a": "It carries its own V3 sensory fibres together with taste fibres that joined from VII through chorda tympani."
+      }
+    }
+  ]
+},
+{
+  "id": "pharynx-and-swallowing",
+  "title": "The pharynx and swallowing",
+  "system": "digestive",
+  "region": "head_neck",
+  "level": "core",
+  "minutes": 11,
+  "summary": "A shared tube for food and air, and the sequence that keeps them apart.",
+  "tags": ["pharynx", "deglutition", "aspiration", "Waldeyer"],
+  "objectives": [
+    "Divide the pharynx into its three parts and give the boundaries of each",
+    "Describe the three phases of swallowing and which are voluntary",
+    "Explain why a stroke patient aspirates",
+    "Distinguish velopharyngeal closure from the multiple levels of laryngeal protection during swallowing"
+  ],
+  "takeaways": [
+    "Nasopharynx, oropharynx and laryngopharynx, from the skull base to the cricoid at C6.",
+    "The constrictors are supplied by the vagus through the pharyngeal plexus; stylopharyngeus alone is glossopharyngeal.",
+    "During the pharyngeal phase the larynx rises and the epiglottis folds back over it.",
+    "The soft palate closes the nasal route; laryngeal elevation, vestibular closure and vocal-fold adduction cooperate to protect the airway."
+  ],
+  "see_also": {"lessons": ["larynx", "oral-cavity-tongue", "oesophagus"], "histology": ["tonsil", "strat_squamous_nk"]},
+  "steps": [
+    {
+      "title": "One tube, three floors",
+      "text": "<p>The pharynx runs from the base of the skull to the lower border of the <b>cricoid cartilage at C6</b>, where it becomes the oesophagus. It has three parts, named for what lies in front of each.</p><p>The <b>nasopharynx</b> is behind the nose, above the soft palate: respiratory only. The <b>oropharynx</b> is behind the mouth, from the soft palate to the epiglottis: shared. The <b>laryngopharynx</b> is behind the larynx, from the epiglottis to the cricoid: shared, and the crossing point.</p>",
+      "systems": ["visceral"],
+      "regions": ["head", "neck"],
+      "focus": ["Nasopharynx", "Oropharynx", "Laryngopharynx"],
+      "view": "left",
+      "clip": [0, 0.52, true],
+      "frame_on": ["Pharynx"],
+      "xray": false,
+      "check": {"q": "At what level does the pharynx become the oesophagus?",
+                "a": "The lower border of the cricoid cartilage, at C6."}
+    },
+    {
+      "title": "The nasopharynx and the ear",
+      "text": "<p>On each lateral wall of the nasopharynx is the opening of the <b>pharyngotympanic (Eustachian) tube</b>, which equalises pressure across the eardrum. It opens when you swallow or yawn, because <b>tensor veli palatini</b> pulls its cartilaginous wall open.</p><p>In a child the tube is shorter, wider and more horizontal, so nasopharyngeal infection reaches the middle ear easily — the anatomy of childhood otitis media. Behind and above is the <b>pharyngeal tonsil</b>; when enlarged (adenoids) it blocks the nose and the tube openings.</p>",
+      "systems": ["visceral"],
+      "regions": ["head"],
+      "focus": ["Nasopharynx"],
+      "show": ["Soft palate"],
+      "view": "left",
+      "clip": [0, 0.52, true],
+      "frame_on": ["Nasopharynx"],
+      "xray": false,
+      "check": {"q": "Why is otitis media a childhood disease?",
+                "a": "The pharyngotympanic tube in a child is short, wide and horizontal, so infection ascends easily."}
+    },
+    {
+      "title": "Waldeyer's ring",
+      "text": "<p>Lymphoid tissue guards the entrance to the gut and airway in a ring: the <b>pharyngeal tonsil</b> (adenoids) above, the <b>tubal tonsils</b> around the tube openings, the paired <b>palatine tonsils</b> between the palatoglossal and palatopharyngeal arches, and the <b>lingual tonsil</b> on the back of the tongue.</p><p>The palatine tonsil is the one that is removed. Its bed is superior constrictor, and just outside that lies the <b>glossopharyngeal nerve</b> — hence referred earache after tonsillitis — with the internal carotid artery about 2 cm behind.</p>",
+      "systems": ["lymphatic", "visceral"],
+      "regions": ["head", "neck"],
+      "focus": ["Palatine tonsil"],
+      "show": ["Oropharynx", "Glossopharyngeal nerve (IX)"],
+      "view": "anterior",
+      "frame_on": ["Palatine tonsil"],
+      "xray": true,
+      "histology": "tonsil",
+      "check": {"q": "Why does tonsillitis cause earache?",
+                "a": "The glossopharyngeal nerve supplies both the tonsillar bed and, through its tympanic branch, the middle ear."}
+    },
+    {
+      "title": "The muscular wall",
+      "text": "<p>Three <b>constrictors</b> — superior, middle and inferior — overlap like stacked cups, each slipping inside the one above, and squeeze the bolus downwards. Three longitudinal muscles — stylopharyngeus, palatopharyngeus and salpingopharyngeus — shorten the pharynx and lift the larynx.</p><p>All are supplied by the <b>vagus</b> through the pharyngeal plexus, with one exception: <b>stylopharyngeus</b>, the only muscle supplied by the <b>glossopharyngeal nerve</b>. The lowest fibres of the inferior constrictor form <b>cricopharyngeus</b>, the upper oesophageal sphincter, and the weak spot above it (Killian's dehiscence) is where a pharyngeal pouch herniates.</p>",
+      "systems": ["muscular", "visceral"],
+      "regions": ["neck", "head"],
+      "focus": ["Pharyngeal muscles"],
+      "show": ["Vagus nerve (X)"],
+      "view": "posterior",
+      "xray": true,
+      "check": {"q": "Which pharyngeal muscle is not supplied by the vagus?",
+                "a": "Stylopharyngeus — glossopharyngeal (IX)."}
+    },
+    {
+      "title": "Swallowing, in three phases",
+      "text": "<p><b>Oral</b> (voluntary): the tongue presses the bolus against the palate and pushes it back into the oropharynx.</p><p><b>Pharyngeal</b> (involuntary, about a second): the soft palate rises and seals the nasopharynx; the larynx is pulled up and forwards under the tongue; the <b>epiglottis</b> folds back over the laryngeal inlet; the vocal folds close; breathing stops; the constrictors fire in sequence and cricopharyngeus relaxes.</p><p><b>Oesophageal</b> (involuntary): peristalsis carries the bolus to the stomach.</p>",
+      "systems": ["muscular", "visceral"],
+      "regions": ["neck", "head"],
+      "focus": ["Epiglottis"],
+      "show": ["Laryngeal cartilages", "Laryngopharynx", "Hyoid bone"],
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Which phase of swallowing is voluntary?",
+                "a": "Only the oral phase."}
+    },
+    {
+      "title": "When it fails",
+      "text": "<p>Because the airway is protected by a fast, precisely timed sequence, anything that slows or desynchronises it causes <b>aspiration</b>. A stroke may weaken the palate (nasal regurgitation), delay the swallow trigger, or leave the larynx elevating too late.</p><p>Two clinical points follow. Aspiration is often <b>silent</b> — no cough, because the laryngeal sensation is impaired too. And the affected lung segments depend on posture as well as airway geometry; the right side is often favoured, but aspiration is not confined to the right lower lobe.</p>",
+      "systems": ["visceral"],
+      "regions": ["neck", "thorax"],
+      "focus": ["Laryngopharynx"],
+      "show": ["Trachea", "Oesophagus"],
+      "view": "left",
+      "xray": true,
+      "clinical": "A swallow screen before the first drink after a stroke is standard for exactly this reason.",
+      "check": {"q": "Why can aspiration be silent after a stroke?",
+                "a": "Laryngeal sensation is impaired, so the protective cough is not triggered."}
+    },
+    {
+      "systems": [
+        "muscular",
+        "visceral"
+      ],
+      "regions": [
+        "neck",
+        "head"
+      ],
+      "focus": [
+        "Epiglottis"
+      ],
+      "show": [
+        "Laryngeal cartilages",
+        "Laryngopharynx",
+        "Hyoid bone"
+      ],
+      "view": "left",
+      "xray": true,
+      "title": "Closing the nose is not closing the airway",
+      "text": "<p>During the pharyngeal swallow, elevation of the <b>soft palate</b> closes the route towards the nasopharynx. That prevents nasal regurgitation, but it does not by itself protect the laryngeal inlet below.</p><p>Airway protection uses coordinated laryngeal elevation and forward movement, approximation of the vocal folds and closure of the laryngeal vestibule. Epiglottic inversion contributes to this sequence rather than acting as a solitary watertight lid. The upper oesophageal sphincter must also relax and open at the right time so the bolus has a route onwards.</p>",
+      "check": {
+        "q": "Why is normal soft-palate movement alone insufficient to establish that swallowing protects the lungs?",
+        "a": "It closes the nasal route; separate coordinated actions are needed at the larynx and upper oesophageal sphincter."
+      }
+    }
+  ]
+},
+{
+  "id": "oesophagus",
+  "title": "The oesophagus",
+  "system": "digestive",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Twenty-five centimetres, three constrictions and one junction that decides whether you get heartburn.",
+  "tags": ["oesophagus", "constrictions", "reflux", "varices"],
+  "objectives": [
+    "Name the three constrictions of the oesophagus and their distances from the incisors",
+    "Describe the mechanisms that keep the gastro-oesophageal junction closed",
+    "Explain the venous watershed that produces oesophageal varices",
+    "Distinguish peristaltic transport from gravitational movement through the oesophagus"
+  ],
+  "takeaways": [
+    "Constrictions at cricopharyngeus (15 cm), the aortic arch and left main bronchus (25 cm), and the diaphragm (40 cm).",
+    "There is no anatomical sphincter at the lower end — the mechanism is the crura, the angle of His and the intra-abdominal segment.",
+    "The lower oesophagus is a portosystemic watershed, hence varices in portal hypertension.",
+    "Coordinated muscle contraction propels a bolus while muscle ahead relaxes; oesophageal transport does not depend on gravity alone."
+  ],
+  "see_also": {"lessons": ["stomach", "portal-system", "mediastinum"], "histology": ["oesophagus", "gej"], "micro": ["oesophagus_wall"]},
+  "steps": [
+    {
+      "title": "The course",
+      "text": "<p>About 25 cm of muscular tube from the cricoid at <b>C6</b> to the cardia of the stomach at <b>T11</b>. It begins in the midline, deviates slightly left in the neck, is pushed back to the midline by the aortic arch, then swings left again to pass through the diaphragm.</p><p>Because of that early leftward bulge, a surgical approach to the cervical oesophagus is made from the <b>left</b> side of the neck.</p>",
+      "systems": ["visceral"],
+      "regions": ["neck", "thorax"],
+      "focus": ["Oesophagus"],
+      "show": ["Trachea", "Aortic arch"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "At which vertebral levels does the oesophagus begin and end?",
+                "a": "C6 to T11."}
+    },
+    {
+      "title": "Three constrictions",
+      "text": "<p>Measured from the incisor teeth — the way an endoscopist thinks — the oesophagus is narrowed in three places.</p><p><b>15 cm</b>: cricopharyngeus, the upper oesophageal sphincter and the narrowest point of the whole gut. <b>25 cm</b>: where the <b>arch of the aorta</b> and then the <b>left main bronchus</b> cross it. <b>40 cm</b>: the diaphragmatic hiatus. Swallowed foreign bodies stick at these three points, and corrosive strictures form there.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Oesophagus"],
+      "show": ["Aortic arch", "Left main bronchus", "Diaphragm"],
+      "view": "anterior",
+      "xray": true,
+      "mnemonic": "15, 25, 40 cm from the incisors — cricopharyngeus, arch and bronchus, diaphragm.",
+      "check": {"q": "Which is the narrowest point of the entire gastrointestinal tract?",
+                "a": "Cricopharyngeus, at about 15 cm from the incisors."}
+    },
+    {
+      "title": "Muscle: striated becoming smooth",
+      "text": "<p>The upper third is <b>striated</b> muscle, the lower third <b>smooth</b>, and the middle third mixed. Voluntary muscle hands over to involuntary partway down, which is why a swallow can be started at will but not stopped.</p><p>Motor supply is the <b>vagus</b> throughout — through the recurrent laryngeal branches for the striated part, and through the myenteric plexus for the smooth part. Loss of the myenteric plexus's inhibitory neurones is <b>achalasia</b>: the lower sphincter cannot relax and the oesophagus above it dilates.</p>",
+      "systems": ["visceral"],
+      "regions": ["thorax"],
+      "focus": ["Oesophagus"],
+      "show": ["Vagus nerve (X)"],
+      "view": "anterior",
+      "xray": true,
+      "micro": "oesophagus_wall"
+    },
+    {
+      "title": "The lower end, and why reflux happens",
+      "text": "<p>There is no thickened ring of muscle at the bottom of the oesophagus. The mechanism that keeps stomach contents down is a combination: the <b>right crus of the diaphragm</b> slinging round the hiatus, the acute <b>angle of His</b> where oesophagus meets stomach, the short <b>intra-abdominal segment</b> squeezed by abdominal pressure, and the mucosal rosette.</p><p>A <b>hiatus hernia</b> undoes several of these at once — the intra-abdominal segment moves into the chest and the angle is lost — which is why it and reflux go together.</p>",
+      "systems": ["visceral", "muscular"],
+      "regions": ["thorax", "abdomen"],
+      "focus": ["Oesophagus", "Stomach"],
+      "show": ["Diaphragm"],
+      "view": "anterior",
+      "frame_on": ["Stomach"],
+      "xray": true,
+      "histology": "gej",
+      "check": {"q": "Name two components of the antireflux mechanism.",
+                "a": "The right crus of the diaphragm and the acute angle of His (also the intra-abdominal segment and mucosal folds)."}
+    },
+    {
+      "title": "A watershed of veins",
+      "text": "<p>The upper oesophagus drains to systemic veins (azygos system). The lower few centimetres drain to the <b>left gastric vein</b> and so into the <b>portal</b> system. The two networks meet in the submucosa.</p><p>In portal hypertension, blood forced backwards through this anastomosis dilates the submucosal veins into <b>oesophageal varices</b> — thin-walled, superficial and prone to catastrophic bleeding. It is one of several portosystemic watersheds, and much the most dangerous.</p>",
+      "systems": ["visceral", "cardiovascular"],
+      "regions": ["thorax", "abdomen"],
+      "focus": ["Oesophagus"],
+      "show": ["Azygos vein", "Hepatic portal vein", "Stomach"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Which two venous systems meet in the wall of the lower oesophagus?",
+                "a": "The portal system (left gastric vein) and the systemic system (azygos vein)."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Oesophagus"
+      ],
+      "show": [
+        "Vagus nerve (X)"
+      ],
+      "view": "anterior",
+      "xray": true,
+      "micro": "oesophagus_wall",
+      "title": "The tube actively moves its contents",
+      "text": "<p>Swallowing initiates a <b>peristaltic wave</b>: coordinated contraction behind the bolus with relaxation ahead of it. Distension from retained material can trigger secondary peristalsis without a fresh swallow. The oesophagus therefore transports food by organised muscle activity.</p><p>The change from skeletal to smooth muscle along its length also changes the details of neural control, but the aim remains coordinated propulsion and outlet relaxation. Gravity can assist when upright, yet it is not the essential pump. A patent lumen alone is not enough if contraction and sphincter relaxation fail to coordinate.</p>",
+      "check": {
+        "q": "Why can a bolus travel through the oesophagus when a person is lying down?",
+        "a": "Peristaltic muscle activity propels it; transport is not dependent on gravity alone."
+      }
+    }
+  ]
+},
+{
+  "id": "stomach",
+  "title": "The stomach",
+  "system": "digestive",
+  "region": "abdomen",
+  "level": "core",
+  "minutes": 11,
+  "summary": "Five parts, four arteries, and a blood supply so good that ulcers bleed rather than perforate quietly.",
+  "tags": ["stomach", "ulcer", "coeliac trunk", "vagus"],
+  "objectives": [
+    "Name the parts and curvatures of the stomach and its relations",
+    "Trace its arterial supply back to the coeliac trunk",
+    "Explain the different consequences of an ulcer at different sites",
+    "Relate gastric gland cell types to acid, enzyme precursor and protective mucus secretion"
+  ],
+  "takeaways": [
+    "Cardia, fundus, body, pyloric antrum, pylorus.",
+    "Two arterial arcades: left and right gastric along the lesser curve, left and right gastro-omental along the greater.",
+    "A posterior ulcer erodes the splenic or gastroduodenal artery; an anterior one perforates into the peritoneum.",
+    "Parietal cells secrete acid and intrinsic factor; chief cells secrete pepsinogen; surface mucus and bicarbonate help protect the lining."
+  ],
+  "see_also": {"lessons": ["coeliac-foregut", "oesophagus", "peritoneum"], "micro": ["stomach_wall"], "histology": ["stomach", "pylorus"], "radiology": ["ct_abdo_kidney"]},
+  "steps": [
+    {
+      "title": "The parts",
+      "text": "<p>From the top: the <b>cardia</b> where the oesophagus enters; the <b>fundus</b>, the dome above the level of the cardia, which holds the gastric bubble seen on an erect radiograph; the <b>body</b>; the <b>pyloric antrum</b>; and the <b>pylorus</b>, with its thick sphincter, opening into the duodenum.</p><p>The concave right border is the <b>lesser curvature</b>, the convex left border the <b>greater curvature</b>. The notch on the lesser curve, the incisura angularis, marks the boundary of body and antrum.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Stomach"],
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "Which part of the stomach contains the gas bubble on an erect film?",
+                "a": "The fundus."}
+    },
+    {
+      "title": "What it lies on",
+      "text": "<p>In front: the diaphragm, the left lobe of the liver and the anterior abdominal wall. Behind, forming the floor of the <b>lesser sac</b>, is the stomach bed: the diaphragm, the <b>spleen</b>, the left kidney and suprarenal, the <b>pancreas</b>, the transverse mesocolon and the splenic artery.</p><p>That posterior list is worth learning, because it is the list of structures a posterior gastric ulcer can erode into.</p>",
+      "systems": ["visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Stomach"],
+      "show": ["Pancreas", "Spleen", "Kidney", "Liver"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Name three structures in the stomach bed.",
+                "a": "Pancreas, spleen, left kidney and suprarenal gland, diaphragm, transverse mesocolon — any three."}
+    },
+    {
+      "title": "Two arterial arcades",
+      "text": "<p>All from the <b>coeliac trunk</b>, and arranged as two loops. Along the <b>lesser curvature</b>: the <b>left gastric</b> artery (straight from the coeliac trunk) meeting the <b>right gastric</b> (from the hepatic). Along the <b>greater curvature</b>: the <b>left gastro-omental</b> (from the splenic) meeting the <b>right gastro-omental</b> (from the gastroduodenal).</p><p>Add the short gastric arteries to the fundus from the splenic artery, and the stomach has one of the richest supplies in the body — which is why gastric surgery can divide most of it, and why ulcers bleed hard.</p>",
+      "systems": ["cardiovascular", "visceral"],
+      "regions": ["abdomen"],
+      "focus": ["Left gastric artery", "Splenic artery", "Common hepatic artery"],
+      "show": ["Stomach", "Coeliac trunk"],
+      "view": "anterior",
+      "frame_on": ["Stomach"],
+      "xray": true,
+      "check": {"q": "Which artery supplies the fundus?",
+                "a": "The short gastric arteries from the splenic artery."}
+    },
+    {
+      "title": "Where an ulcer goes",
+      "text": "<p>Site decides the complication. An ulcer on the <b>posterior</b> wall of the stomach or the first part of the duodenum erodes backwards into the stomach bed: the <b>splenic artery</b> behind the stomach or the <b>gastroduodenal artery</b> behind the duodenum, producing a torrential haemorrhage.</p><p>An ulcer on the <b>anterior</b> wall has only the peritoneal cavity in front of it, so it <b>perforates</b> — sudden severe pain, board-like rigidity and free gas under the diaphragm on an erect chest film.</p>",
+      "systems": ["visceral", "cardiovascular"],
+      "regions": ["abdomen"],
+      "focus": ["Stomach", "Duodenum"],
+      "show": ["Splenic artery", "Pancreas"],
+      "view": "anterior",
+      "frame_on": ["Stomach"],
+      "xray": true,
+      "clinical": "Bleeding posterior duodenal ulcer = gastroduodenal artery. Perforating anterior duodenal ulcer = free air.",
+      "check": {"q": "Which artery bleeds from a posterior duodenal ulcer?",
+                "a": "The gastroduodenal artery."}
+    },
+    {
+      "title": "Nerves, and what a vagotomy did",
+      "text": "<p>Parasympathetic supply is the <b>vagus</b>: the left vagus becomes the anterior trunk and the right the posterior, as the stomach rotates in development. Vagal stimulation increases both motility and acid secretion.</p><p>Before acid-suppressing drugs, ulcers were treated by cutting those nerves. A truncal vagotomy denervated the whole foregut and paralysed the pylorus as well, so it had to be accompanied by a drainage procedure — an object lesson in what happens when you treat a functional problem anatomically.</p>",
+      "systems": ["visceral", "nervous"],
+      "regions": ["abdomen", "thorax"],
+      "focus": ["Vagus nerve (X)"],
+      "show": ["Stomach", "Oesophagus"],
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Which vagus trunk lies anteriorly on the stomach, and why?",
+                "a": "The left — the stomach rotates 90° clockwise in development, carrying the left vagus to the front."}
+    },
+    {
+      "systems": [
+        "visceral"
+      ],
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Stomach"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "title": "Different cells make different parts of gastric juice",
+      "text": "<p>The gastric mucosa contains pits opening into glands. In the body and fundus, <b>parietal cells</b> secrete hydrochloric acid and <b>intrinsic factor</b>, needed later for vitamin B12 absorption. <b>Chief cells</b> release pepsinogen, an inactive precursor activated in the acidic lumen.</p><p>Surface cells provide <b>mucus and bicarbonate</b>, helping maintain a less acidic environment immediately against the epithelium. Acid production and mucosal protection are distinct functions taking place side by side. Use the stomach-wall model to move from the large organ to the lining that performs its chemical work.</p>",
+      "check": {
+        "q": "Which gastric cell produces intrinsic factor, and which produces pepsinogen?",
+        "a": "Parietal cells produce intrinsic factor; chief cells produce pepsinogen."
+      },
+      "micro": "stomach_wall"
+    }
+  ]
+}
+]

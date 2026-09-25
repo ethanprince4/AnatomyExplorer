@@ -1,0 +1,71 @@
+{
+  "summary": "A curved block of mesenteric artery wall reconstructed from confocal microscopy of a pressure-fixed vessel (Dr Craig Daly, University of Glasgow), seen from the outside in: perivascular fat (yellow), adventitial elastin fibres (green) and a sympathetic nerve (red), the external and internal elastic laminae (white), smooth muscle cells (magenta), endothelial cells (purple) lining the lumen, and cell nuclei (cyan). It shows the three tunics of a muscular artery and how smooth muscle cells wrap around the vessel at right angles to the endothelial cells, which lie along it.",
+  "view": [
+    0,
+    5
+  ],
+  "clinical": [
+    [
+      "Perivascular fat and obesity",
+      "Healthy perivascular adipose tissue has an anticontractile effect, releasing relaxing factors such as adiponectin and nitric oxide onto the artery. In obesity the fat becomes inflamed and this effect is lost, which is thought to contribute to raised vascular tone and hypertension."
+    ],
+    [
+      "Sympathetic vasoconstriction",
+      "Noradrenaline from perivascular sympathetic nerves contracts vascular smooth muscle through alpha-1 adrenoceptors. This is why alpha-1 blockers such as doxazosin lower blood pressure, and why they can cause postural hypotension."
+    ]
+  ],
+  "parts": {
+    "Perf Vessel OBJ/Blinn1SG": {
+      "name": "Perivascular adipose tissue",
+      "group": "Perivascular fat",
+      "description": "Two adipocytes of the perivascular adipose tissue (PVAT, yellow) lying just outside the adventitia. PVAT is not inert packing: it releases adipokines and relaxing factors that damp the artery's contraction (an anticontractile effect).",
+      "category": "fat"
+    },
+    "Perf Vessel OBJ/Blinn3SG": {
+      "name": "Sympathetic nerve fibre",
+      "group": "Tunica adventitia",
+      "description": "A perivascular sympathetic nerve fibre (red) winding through the adventitia. Its varicosities release noradrenaline (with ATP and neuropeptide Y) that constricts the underlying smooth muscle - the main neural control of arterial diameter and peripheral resistance.",
+      "category": "nerve"
+    },
+    "Perf Vessel OBJ/Blinn4SG": {
+      "name": "Adventitial elastin fibres",
+      "group": "Tunica adventitia",
+      "description": "A loose network of elastin fibres (green) in the adventitia, outside the external elastic lamina and running mainly along the length of the vessel. With collagen, the adventitia anchors the artery to its surroundings and resists over-stretching.",
+      "category": "other"
+    },
+    "Perf Vessel OBJ/Blinn5SG": {
+      "name": "External elastic lamina",
+      "group": "Elastic laminae",
+      "description": "The external elastic lamina (white, see-through): a fenestrated sheet of elastin forming the outer boundary of the tunica media, separating the smooth muscle from the adventitia.",
+      "category": "other",
+      "alpha": 0.45
+    },
+    "Perf Vessel OBJ/Blinn6SG": {
+      "name": "Internal elastic lamina",
+      "group": "Elastic laminae",
+      "description": "The internal elastic lamina (white, see-through): a fenestrated sheet of elastin between the endothelium and the smooth muscle, the outer limit of the tunica intima. Endothelial cells reach through its holes (fenestrae) to contact smooth muscle cells. It looks wavy in routine histology because those arteries are fixed without distending pressure; this one was pressure-fixed, so it lies flat.",
+      "category": "other",
+      "alpha": 0.45,
+      "color": "#f2f2f2"
+    },
+    "Perf Vessel OBJ/Blinn8SG": {
+      "name": "Smooth muscle cells",
+      "group": "Tunica media",
+      "description": "A few vascular smooth muscle cells (magenta) picked out from the media. They are spindle-shaped and wrap around the circumference of the vessel, at right angles to the endothelial cells; their contraction narrows the lumen and so sets vascular resistance.",
+      "category": "muscle"
+    },
+    "Perf Vessel OBJ/Blinn7SG": {
+      "name": "Endothelial cells",
+      "group": "Tunica intima",
+      "description": "Endothelial cells (purple) lining the lumen, the innermost layer of the wall. They are elongated along the vessel in the direction of blood flow, sense shear stress and release nitric oxide, prostacyclin and hyperpolarising signals that relax the smooth muscle.",
+      "category": "other"
+    },
+    "Perf Vessel OBJ/Blinn2SG": {
+      "name": "Cell nuclei",
+      "group": "Cell nuclei",
+      "description": "Cell nuclei (cyan) scattered through the whole thickness of the wall. Most are rod-shaped and lie around the circumference of the vessel - the nuclei of the medial smooth muscle cells - while others belong to endothelial and adventitial cells.",
+      "category": "nucleus"
+    }
+  },
+  "notes": "Colours match the creator's key: yellow PVAT, white elastic laminae, green elastin, purple endothelial cells, red sympathetic nerve, magenta smooth muscle. The key does not list the cyan material; from its size, shape and spread through every layer it is read as cell nuclei (presumably a nuclear stain), but that is an inference. Which white sheet is which lamina was worked out from radial depth: the wall is a curved segment with its outer (adventitial) surface facing the default camera, and at mid-height the layers run nerve and elastin (outermost), Blinn5 lamina, smooth muscle, Blinn6 lamina, endothelium (innermost), so Blinn5 = external and Blinn6 = internal elastic lamina. The species and exact vessel (for example which order of mesenteric branch) are not stated, so no atlas structures are linked; every part is microscopic. Display: both elastic laminae are drawn at alpha 0.45 (the file's own transparency gave 0.3) and the internal lamina is set to the same white as the external one, so they read as the white sheets of the creator's thumbnail while the endothelial and smooth muscle cells still show through."
+}

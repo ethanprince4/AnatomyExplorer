@@ -1,0 +1,456 @@
+[
+{
+  "id": "arm-compartments",
+  "title": "The two compartments of the arm",
+  "system": "muscular",
+  "region": "upper_limb",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Front flexes and is musculocutaneous; back extends and is radial. Learn it once and the arm is done.",
+  "tags": ["biceps", "triceps", "compartment", "musculocutaneous"],
+  "objectives": [
+    "Name the muscles of the anterior and posterior compartments of the arm",
+    "Give the nerve and the action of each compartment",
+    "Explain why biceps is a better supinator than flexor",
+    "Predict how stabilising the hand changes the action of muscles crossing the elbow"
+  ],
+  "takeaways": [
+    "Anterior: biceps brachii, brachialis, coracobrachialis — musculocutaneous nerve, flexion.",
+    "Posterior: triceps brachii (and anconeus) — radial nerve, extension.",
+    "Brachialis is the workhorse flexor; biceps is the powerful supinator.",
+    "With the hand fixed, elbow flexors can move the upper arm and trunk towards the forearm; the same attachments produce different visible movements."
+  ],
+  "see_also": {"lessons": ["cubital-fossa", "brachial-plexus", "arm-forearm-bones"]},
+  "steps": [
+    {
+      "title": "The plan of a limb",
+      "text": "<p>Limbs are built as compartments: a group of muscles with a shared action, a shared nerve and a shared blood supply, wrapped in fascia and separated from the next group by intermuscular septa.</p><p>The arm has just two. Everything in front flexes and is supplied by the <b>musculocutaneous nerve</b>; everything behind extends and is supplied by the <b>radial nerve</b>. Get that pair right and half the arm's neurology follows without memorising anything else.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Anterior compartment of arm", "Posterior compartment of arm"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "Which nerve supplies the flexor compartment of the arm?",
+                "a": "The musculocutaneous nerve."}
+    },
+    {
+      "title": "Biceps brachii",
+      "text": "<p>Two heads: the <b>long head</b> from the supraglenoid tubercle, running through the joint and down the intertubercular groove, and the <b>short head</b> from the coracoid process. They insert by a tendon into the radial tuberosity and by the <b>bicipital aponeurosis</b> into the deep fascia of the forearm.</p><p>Because it inserts on the radius, biceps is the strongest <b>supinator</b> of the flexed forearm — which is why a right-handed screw thread tightens clockwise, and why you flex the elbow to open a stiff jar. It only flexes powerfully when the forearm is supinated.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Biceps brachii muscle"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": false,
+      "clinical": "Rupture of the long head gives the 'Popeye sign' — the muscle belly balls up distally — and surprisingly little functional loss.",
+      "check": {"q": "In which forearm position is biceps a poor elbow flexor?",
+                "a": "Pronated — it must supinate first, which is why brachialis does the work in pronation."}
+    },
+    {
+      "title": "Brachialis and coracobrachialis",
+      "text": "<p><b>Brachialis</b> lies directly under biceps, from the lower half of the humerus to the coronoid process and tuberosity of the <b>ulna</b>. Because the ulna does not rotate, brachialis flexes the elbow in any position of the forearm: it is the true workhorse.</p><p><b>Coracobrachialis</b> runs from the coracoid to the middle of the humerus and only weakly flexes and adducts. Its importance is anatomical: the <b>musculocutaneous nerve pierces it</b>, and that is the landmark for finding the nerve.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Brachialis muscle", "Coracobrachialis muscle"],
+      "show": ["Musculocutaneous nerve"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "pitfall": "Brachialis has a dual supply: musculocutaneous for most of it, with a small radial nerve contribution to its lateral part."
+    },
+    {
+      "title": "Triceps and the posterior compartment",
+      "text": "<p><b>Triceps brachii</b> has three heads: the <b>long head</b> from the infraglenoid tubercle of the scapula (so it can also extend and adduct the shoulder), and the <b>lateral</b> and <b>medial heads</b> from the humerus either side of the radial groove. All three converge onto the olecranon.</p><p>The long head divides the space below the shoulder into the triangular and quadrangular spaces — the quadrangular space carrying the <b>axillary nerve</b> and posterior circumflex humeral vessels round to the deltoid.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Triceps brachii muscle"],
+      "show": ["Axillary nerve"],
+      "side": "Left",
+      "view": "posterior",
+      "xray": false,
+      "check": {"q": "Which head of triceps crosses the shoulder joint, and what can it therefore do?",
+                "a": "The long head, from the scapula — it extends and adducts the shoulder as well as extending the elbow."}
+    },
+    {
+      "title": "Testing the compartments",
+      "text": "<p>Flex the elbow against resistance and you test the musculocutaneous nerve and the C5–C6 roots — the same segments as the <b>biceps reflex</b>. Extend against resistance and you test the radial nerve and C7, the segment of the <b>triceps reflex</b>.</p><p>Two movements, two nerves, two roots, two reflexes. In a suspected cervical radiculopathy this pair localises the level faster than any amount of sensory testing.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Biceps brachii muscle", "Triceps brachii muscle"],
+      "show": ["Musculocutaneous nerve", "Radial nerve"],
+      "side": "Left",
+      "view": "left",
+      "xray": true,
+      "check": {"q": "Which root does the triceps reflex test?",
+                "a": "C7."}
+    },
+    {
+      "systems": [
+        "muscular"
+      ],
+      "regions": [
+        "upper_limb_l"
+      ],
+      "focus": [
+        "Biceps brachii muscle"
+      ],
+      "side": "Left",
+      "view": "anterior",
+      "xray": false,
+      "title": "A curl and a pull-up use the same elbow",
+      "text": "<p>In an ordinary curl, the upper arm is relatively fixed and biceps pulls the radius towards it. In a pull-up, the hand and forearm are constrained by the bar, so elbow flexion brings the upper arm and trunk towards the forearm instead.</p><p>Brachialis contributes elbow flexion in both situations, while shoulder and scapular muscles coordinate the larger movement. The terms <b>origin</b> and <b>insertion</b> do not mean one end is permanently immobile. Imagine fixing the opposite attachment whenever a memorised muscle action seems unable to explain an everyday task.</p>",
+      "check": {
+        "q": "Does an elbow flexor stop flexing the elbow when the hand is fixed to a bar?",
+        "a": "No. It still produces elbow-flexion torque, but the upper arm and body can move towards the fixed forearm."
+      }
+    }
+  ]
+},
+{
+  "id": "forearm-flexors",
+  "title": "The flexor compartment of the forearm",
+  "system": "muscular",
+  "region": "upper_limb",
+  "level": "core",
+  "minutes": 12,
+  "summary": "Three layers, two nerves, and a common origin you can find with one finger.",
+  "tags": ["flexors", "median nerve", "common flexor origin"],
+  "prereq": ["arm-compartments"],
+  "objectives": [
+    "List the flexor muscles in their three layers",
+    "State which two muscles are supplied by the ulnar nerve and why that matters",
+    "Explain the anatomy behind the ulnar paradox",
+    "Explain how the digital pulley system keeps flexor tendons close to the phalanges"
+  ],
+  "takeaways": [
+    "Superficial layer arises from the medial epicondyle — the common flexor origin.",
+    "The ulnar nerve supplies only flexor carpi ulnaris and the medial half of flexor digitorum profundus; the median nerve supplies the rest.",
+    "A high ulnar lesion causes less clawing than a low one — the ulnar paradox.",
+    "Fibrous digital pulleys restrain the flexor tendons against the fingers; synovial sheaths allow them to glide."
+  ],
+  "see_also": {"lessons": ["carpal-tunnel", "hand-intrinsic-muscles"], "radiology": ["wrist_lat"]},
+  "steps": [
+    {
+      "title": "One origin, one nerve, two exceptions",
+      "text": "<p>The superficial flexors all arise from the <b>medial epicondyle</b> — the common flexor origin — which you can find on yourself, and which is the site of pain in golfer's elbow.</p><p>The compartment is supplied by the <b>median nerve</b> with exactly two exceptions: <b>flexor carpi ulnaris</b> and the <b>medial half of flexor digitorum profundus</b>, which belong to the ulnar nerve. Learn the exceptions, not the list.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Anterior compartment of forearm"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "Which two flexor muscles are supplied by the ulnar nerve?",
+                "a": "Flexor carpi ulnaris and the medial half of flexor digitorum profundus."}
+    },
+    {
+      "title": "The superficial layer",
+      "text": "<p>From lateral to medial: <b>pronator teres</b>, <b>flexor carpi radialis</b>, <b>palmaris longus</b> and <b>flexor carpi ulnaris</b>.</p><p>Palmaris longus is absent in about one person in seven — check your own by pinching thumb and little finger together with the wrist slightly flexed. Because it is expendable it is the first choice of tendon graft in the body. Flexor carpi radialis is the landmark for the radial pulse; the tendon of flexor carpi ulnaris leads you to the pisiform and the ulnar nerve.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Pronator teres", "Flexor carpi radialis", "Palmaris longus muscle", "Flexor carpi ulnaris"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": false
+    },
+    {
+      "title": "The intermediate layer",
+      "text": "<p><b>Flexor digitorum superficialis</b> lies alone in its own layer, arising from the medial epicondyle, the ulna and the radius. Its four tendons flex the <b>proximal interphalangeal</b> joints.</p><p>Each tendon splits at the base of the proximal phalanx to let the profundus tendon through — the chiasma of Camper — and then reunites to insert on the middle phalanx. Test it by holding the other fingers straight, which anchors profundus (they share a muscle belly), and asking the patient to bend the finger being tested.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Flexor digitorum superficialis"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": false,
+      "check": {"q": "How do you test flexor digitorum superficialis in isolation?",
+                "a": "Hold the other fingers extended to block profundus, then ask the patient to flex the PIP joint of the finger in question."}
+    },
+    {
+      "title": "The deep layer",
+      "text": "<p>Three muscles arising from the radius, ulna and interosseous membrane, and never from the epicondyle. <b>Flexor digitorum profundus</b> flexes the <b>distal</b> interphalangeal joints — the only muscle that can — and is split between two nerves. <b>Flexor pollicis longus</b> flexes the thumb's interphalangeal joint. <b>Pronator quadratus</b> is the primary pronator.</p><p>The <b>anterior interosseous nerve</b>, a branch of the median, supplies the lateral half of profundus, flexor pollicis longus and pronator quadratus. Its palsy is purely motor: the patient cannot make an 'OK' sign, and pinches with a flat, square pulp instead of a round one.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Flexor digitorum profundus", "Flexor pollicis longus", "Pronator quadratus"],
+      "show": ["Median nerve"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "A patient cannot form a round 'OK' sign but has normal sensation. Which nerve?",
+                "a": "The anterior interosseous branch of the median nerve — a pure motor palsy."}
+    },
+    {
+      "title": "The ulnar paradox",
+      "text": "<p>An ulnar lesion at the <b>wrist</b> paralyses the intrinsic muscles, so the long flexors act unopposed and the ring and little fingers claw badly.</p><p>An ulnar lesion at the <b>elbow</b> paralyses the intrinsics <i>and</i> the medial half of flexor digitorum profundus — so the long flexor that would have clawed the fingers is also gone, and the hand looks better. The higher, worse lesion produces the milder deformity: the <b>ulnar paradox</b>.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Ulnar nerve"],
+      "show": ["Flexor digitorum profundus", "Flexor carpi ulnaris"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Why does a high ulnar palsy claw less than a low one?",
+                "a": "The medial half of flexor digitorum profundus is also paralysed, so there is nothing to flex the distal joints."}
+    },
+    {
+      "systems": [
+        "muscular"
+      ],
+      "regions": [
+        "upper_limb_l"
+      ],
+      "focus": [
+        "Flexor digitorum superficialis"
+      ],
+      "side": "Left",
+      "view": "anterior",
+      "xray": false,
+      "title": "The tendon needs a guide as well as a motor",
+      "text": "<p>A flexor tendon would bow away from a bent finger if nothing held it close to the bones. The <b>fibrous digital sheath</b> forms a series of annular and cruciform pulleys that guide the superficialis and profundus tendons along the phalanges.</p><p>Within that restraint, a <b>synovial sheath</b> reduces friction as the tendons slide. Keep the two functions separate: fibrous tissue controls the path, while the synovial lining permits smooth gliding. A muscle can have intact nerve supply and a continuous tendon yet move a finger inefficiently if its pulley arrangement is disrupted.</p>",
+      "check": {
+        "q": "What is the difference between the job of a digital pulley and the job of a synovial sheath?",
+        "a": "The pulley holds the tendon close to the finger; the synovial sheath reduces friction during gliding."
+      }
+    }
+  ]
+},
+{
+  "id": "forearm-extensors",
+  "title": "The extensor compartment of the forearm",
+  "system": "muscular",
+  "region": "upper_limb",
+  "level": "core",
+  "minutes": 11,
+  "summary": "One nerve for the whole compartment, six tunnels at the wrist, and one tendon that snaps.",
+  "tags": ["extensors", "radial nerve", "snuffbox", "de Quervain"],
+  "prereq": ["arm-compartments"],
+  "objectives": [
+    "Divide the extensors into the mobile wad, the superficial and the deep groups",
+    "Name the boundaries and contents of the anatomical snuffbox",
+    "Explain the pattern of loss in a posterior interosseous nerve palsy",
+    "Explain why wrist extension assists a strong grip"
+  ],
+  "takeaways": [
+    "Every muscle behind the forearm is radial nerve territory, directly or through the posterior interosseous branch.",
+    "The snuffbox is bounded by EPL behind and APL/EPB in front, with the scaphoid in its floor and the radial artery crossing it.",
+    "A posterior interosseous palsy gives finger drop but not true wrist drop.",
+    "The wrist extensors counter the wrist-flexion pull of the long finger flexors and hold them at a useful working length."
+  ],
+  "see_also": {"lessons": ["hand-skeleton", "forearm-flexors"], "radiology": ["wrist_lat", "hand_pa"]},
+  "steps": [
+    {
+      "title": "One nerve, one compartment",
+      "text": "<p>Everything on the back of the forearm is supplied by the <b>radial nerve</b> — the proximal muscles directly, the rest through its <b>posterior interosseous</b> branch. There are no exceptions, which makes this compartment simpler than the flexor side.</p><p>The superficial group arises from the <b>lateral epicondyle</b>, the common extensor origin, and it is the tendinous origin of extensor carpi radialis brevis that is inflamed in tennis elbow.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Posterior compartment of forearm"],
+      "side": "Left",
+      "view": "posterior",
+      "xray": false,
+      "check": {"q": "Which tendon origin is involved in lateral epicondylitis?",
+                "a": "Extensor carpi radialis brevis at the common extensor origin."}
+    },
+    {
+      "title": "The mobile wad",
+      "text": "<p>Three muscles form the ridge on the radial side of the forearm that you can grip between finger and thumb: <b>brachioradialis</b>, <b>extensor carpi radialis longus</b> and <b>extensor carpi radialis brevis</b>.</p><p>Brachioradialis is an oddity — an extensor-compartment muscle, radially supplied, that <b>flexes</b> the elbow. It does so most powerfully in mid-pronation, which is the position you naturally adopt to lift something heavy. Its reflex tests C5–C6.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Brachioradialis muscle", "Extensor carpi radialis longus", "Extensor carpi radialis brevis"],
+      "side": "Left",
+      "view": "left",
+      "xray": false,
+      "pitfall": "Brachioradialis is supplied by the radial nerve but flexes the elbow — the classic exception to 'radial nerve extends'."
+    },
+    {
+      "title": "Superficial and deep groups",
+      "text": "<p>Superficial, from the lateral epicondyle: <b>extensor digitorum</b>, <b>extensor digiti minimi</b>, <b>extensor carpi ulnaris</b> and anconeus.</p><p>Deep, from the radius, ulna and interosseous membrane: <b>supinator</b>, <b>abductor pollicis longus</b>, <b>extensor pollicis brevis</b>, <b>extensor pollicis longus</b> and <b>extensor indicis</b>. The three thumb muscles emerge between the superficial muscles as the 'outcropping' muscles and wrap round the radial side of the wrist.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Extensor digitorum", "Extensor carpi ulnaris", "Supinator", "Abductor pollicis longus", "Extensor pollicis longus"],
+      "side": "Left",
+      "view": "posterior",
+      "xray": false
+    },
+    {
+      "title": "The anatomical snuffbox",
+      "text": "<p>Extend the thumb and a hollow appears at the base. Its posterior border is the tendon of <b>extensor pollicis longus</b>; its anterior border, <b>abductor pollicis longus</b> and <b>extensor pollicis brevis</b> together.</p><p>In the floor lies the <b>scaphoid</b> — hence tenderness here after a fall — and across it runs the <b>radial artery</b> on its way to the deep palmar arch. You can feel that pulse in the snuffbox, which is a useful alternative when the wrist is bandaged.</p>",
+      "systems": ["muscular", "cardiovascular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Extensor pollicis longus", "Abductor pollicis longus", "Extensor pollicis brevis"],
+      "show": ["Radial artery", "Scaphoid bone"],
+      "side": "Left",
+      "view": "posterior",
+      "frame_on": ["Scaphoid bone"],
+      "xray": true,
+      "check": {"q": "What lies in the floor of the anatomical snuffbox?",
+                "a": "The scaphoid (and part of the trapezium), with the radial artery crossing over it."}
+    },
+    {
+      "title": "The six tunnels and de Quervain's",
+      "text": "<p>The <b>extensor retinaculum</b> divides the back of the wrist into six compartments, each with its own synovial sheath. The first holds abductor pollicis longus and extensor pollicis brevis, and it is the one that becomes stenosing in <b>de Quervain's tenosynovitis</b> — pain on the radial side of the wrist in a new parent lifting a baby, with a positive Finkelstein test.</p><p>The third compartment holds extensor pollicis longus, whose tendon turns sharply round Lister's tubercle. Attrition there after a distal radius fracture can rupture it weeks later, so a patient who suddenly cannot lift the thumb off a table after a healed Colles' fracture is not malingering.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Extensor retinaculum of wrist"],
+      "show": ["Abductor pollicis longus", "Extensor pollicis brevis", "Extensor pollicis longus"],
+      "side": "Left",
+      "view": "posterior",
+      "xray": true
+    },
+    {
+      "title": "Posterior interosseous palsy",
+      "text": "<p>The posterior interosseous nerve enters the forearm between the two heads of supinator, at the <b>arcade of Frohse</b>, where it can be compressed or damaged by a proximal radius fracture.</p><p>The result is <b>finger drop</b> without true wrist drop: the extensor carpi radialis longus is supplied above the branch point, so the wrist still extends, though it deviates radially because extensor carpi ulnaris is out. Sensation is normal — it is a pure motor nerve.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Deep branch of radial nerve"],
+      "show": ["Supinator", "Extensor digitorum"],
+      "side": "Left",
+      "view": "posterior",
+      "xray": true,
+      "check": {"q": "How do you distinguish a posterior interosseous palsy from a radial nerve palsy in the arm?",
+                "a": "PIN palsy: fingers drop but the wrist still extends (radially), and sensation is normal."}
+    },
+    {
+      "systems": [
+        "muscular"
+      ],
+      "regions": [
+        "upper_limb_l"
+      ],
+      "focus": [
+        "Posterior compartment of forearm"
+      ],
+      "side": "Left",
+      "view": "posterior",
+      "xray": false,
+      "title": "Why the extensors help you grip",
+      "text": "<p>The long finger flexors cross the front of the wrist before reaching the fingers. When they pull hard on an object, they also tend to <b>flex the wrist</b>. The wrist extensors oppose that extra action so the hand can maintain a useful position.</p><p>A slightly extended wrist also keeps the long flexors from becoming excessively shortened across both the wrist and finger joints. Grip can therefore weaken in a radial nerve palsy even though the finger flexors retain their median and ulnar motor supply. The extensor compartment contributes to a flexor task by stabilising the joint the tendons cross.</p>",
+      "check": {
+        "q": "Why can loss of wrist extension weaken grip without paralysing the finger flexors?",
+        "a": "The wrist is no longer stabilised against their flexion pull, and the flexors may operate at a less effective length."
+      }
+    }
+  ]
+},
+{
+  "id": "hand-intrinsic-muscles",
+  "title": "The intrinsic muscles of the hand",
+  "system": "muscular",
+  "region": "upper_limb",
+  "level": "advanced",
+  "minutes": 11,
+  "summary": "Small muscles that do the delicate work, and the two deformities that show when they fail.",
+  "tags": ["thenar", "lumbricals", "interossei", "claw hand"],
+  "prereq": ["forearm-flexors"],
+  "objectives": [
+    "Group the intrinsic muscles and give each group's nerve",
+    "Explain how lumbricals and interossei produce the intrinsic-plus position",
+    "Account for the claw hand and the ape hand",
+    "Use the extensor expansion to explain coordinated MCP flexion and IP extension"
+  ],
+  "takeaways": [
+    "The ulnar nerve supplies all the intrinsics except the thenar three and the two radial lumbricals — LOAF.",
+    "Lumbricals and interossei flex the MCP joints and extend the IP joints.",
+    "Dorsal interossei abduct, palmar interossei adduct: DAB and PAD.",
+    "The interossei and lumbricals pass palmar to the MCP axis and join the dorsal expansion, allowing MCP flexion with IP extension."
+  ],
+  "see_also": {"lessons": ["carpal-tunnel", "hand-skeleton"]},
+  "steps": [
+    {
+      "title": "Four groups",
+      "text": "<p>The hand's own muscles fall into four groups: the <b>thenar</b> eminence at the base of the thumb, the <b>hypothenar</b> eminence at the base of the little finger, the <b>lumbricals</b> arising oddly from the flexor tendons themselves, and the <b>interossei</b> between the metacarpals.</p><p>They generate little power but nearly all the precision. Hand function is lost far more completely by paralysing the intrinsics than by paralysing any single long tendon.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Muscles of hand"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": false
+    },
+    {
+      "title": "The thenar group and the median nerve",
+      "text": "<p>Three muscles: <b>abductor pollicis brevis</b>, <b>flexor pollicis brevis</b> and <b>opponens pollicis</b>. Together they position the thumb for <b>opposition</b>, the movement that makes the human hand what it is.</p><p>They are supplied by the <b>recurrent branch of the median nerve</b>, which loops back from the nerve just distal to the flexor retinaculum and lies very superficially — it has been called 'the million dollar nerve' because a careless incision in the thenar crease costs the patient opposition permanently.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Abductor pollicis brevis", "Opponens pollicis muscle"],
+      "show": ["Median nerve"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "Which movement is lost when the recurrent branch of the median nerve is cut?",
+                "a": "Opposition of the thumb — the 'ape hand', with the thumb lying in the plane of the palm."}
+    },
+    {
+      "title": "The hypothenar group and LOAF",
+      "text": "<p>Abductor, flexor and opponens digiti minimi mirror the thenar group for the little finger, and are supplied by the <b>deep branch of the ulnar nerve</b>.</p><p>In fact the ulnar nerve supplies every intrinsic muscle of the hand except four, remembered as <b>LOAF</b>: the two <b>L</b>ateral lumbricals, <b>O</b>pponens pollicis, <b>A</b>bductor pollicis brevis and <b>F</b>lexor pollicis brevis. Those four are median. Nothing else in the hand is.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Abductor digiti minimi of hand", "Opponens digiti minimi muscle of hand"],
+      "show": ["Ulnar nerve", "Deep branch of ulnar nerve"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "mnemonic": "LOAF is median; everything else in the hand is ulnar."
+    },
+    {
+      "title": "Lumbricals: muscle between two tendons",
+      "text": "<p>The four <b>lumbricals</b> are unique: they arise from the tendons of flexor digitorum profundus and insert into the <b>extensor expansion</b> on the back of the fingers. A muscle with a tendon at each end and no bony attachment at all.</p><p>Because they pass in front of the metacarpophalangeal joints and behind the interphalangeal joints, they <b>flex the MCPs and extend the IPs</b> — the position you write in, and the position a hand should be splinted in. The two radial lumbricals are median, the two ulnar are ulnar.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Lumbrical muscles of hand"],
+      "show": ["Flexor digitorum profundus"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "What position do the lumbricals put a finger in?",
+                "a": "MCP flexed, IP joints extended — the intrinsic-plus or 'writing' position."}
+    },
+    {
+      "title": "Interossei: DAB and PAD",
+      "text": "<p>Four <b>dorsal interossei</b>, each with two heads, <b>ab</b>duct the fingers away from the middle finger. Three <b>palmar interossei</b>, single-headed, <b>ad</b>duct them towards it. All are supplied by the deep branch of the ulnar nerve.</p><p>They also share the lumbricals' insertion into the extensor expansion, so they too flex the MCPs and extend the IPs. Test the first dorsal interosseous by asking the patient to hold a card between the index and middle fingers, and watch the muscle bulge between thumb and index — its wasting is the earliest visible sign of an ulnar palsy.</p>",
+      "systems": ["muscular"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Dorsal interossei muscles of hand", "Palmar interossei muscles"],
+      "side": "Left",
+      "view": "posterior",
+      "xray": false,
+      "mnemonic": "DAB and PAD: Dorsal ABduct, Palmar ADduct.",
+      "check": {"q": "Which single muscle wastes first and most visibly in an ulnar nerve palsy?",
+                "a": "The first dorsal interosseous, in the web space between thumb and index finger."}
+    },
+    {
+      "title": "The two hands of nerve injury",
+      "text": "<p><b>Ulnar claw hand</b>: the intrinsics of the ring and little fingers are gone, so the long extensors hyperextend the MCPs and the long flexors flex the IPs. Ask the patient to grip a sheet of paper between thumb and index finger and the thumb IP joint flexes to compensate for a paralysed adductor pollicis — <b>Froment's sign</b>.</p><p><b>Median ape hand</b>: the thenar muscles waste, the thumb falls back into the plane of the palm, and opposition is lost. Combine the two — a low median and ulnar injury — and you have a hand that can hold nothing.</p>",
+      "systems": ["muscular", "nervous"],
+      "regions": ["upper_limb_l"],
+      "focus": ["Adductor pollicis", "Lumbrical muscles of hand"],
+      "show": ["Ulnar nerve", "Median nerve"],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "check": {"q": "What is Froment's sign testing?",
+                "a": "Adductor pollicis, supplied by the ulnar nerve — the thumb IP joint flexes to substitute with flexor pollicis longus."}
+    },
+    {
+      "systems": [
+        "muscular"
+      ],
+      "regions": [
+        "upper_limb_l"
+      ],
+      "focus": [
+        "Lumbrical muscles of hand"
+      ],
+      "show": [
+        "Flexor digitorum profundus"
+      ],
+      "side": "Left",
+      "view": "anterior",
+      "xray": true,
+      "title": "One insertion can distribute a pull",
+      "text": "<p>The <b>extensor expansion</b> is a tendon network over the back of a finger. The long extensor contributes centrally, while lumbricals and interossei join from the sides. Their pull is distributed towards the middle and distal phalanges through the central slip and lateral bands.</p><p>Because the intrinsic muscles pass palmar to the MCP joint axis before joining this dorsal network, they can flex the knuckle while extending the interphalangeal joints. Hold that combined posture in your mind, then remove the intrinsic contribution: the long extensor and long flexors no longer balance the three joints in the same way.</p>",
+      "check": {
+        "q": "Why can the same intrinsic muscle flex an MCP joint but extend the IP joints?",
+        "a": "Its tendon passes palmar to the MCP axis but transmits force dorsally across the IP joints through the extensor expansion."
+      }
+    }
+  ]
+}
+]

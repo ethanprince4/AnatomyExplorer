@@ -1,0 +1,139 @@
+# Builds the Windows installer and the macOS (Apple silicon) disk image and attaches them to a GitHub Release
+# under fixed names, so the README's download links (releases/latest/download/<name>) always get the newest one.
+#
+#   Push a tag:      git tag v1.0.0 && git push origin v1.0.0      -> builds and publishes release v1.0.0
+#   Run by hand:     Actions > Release > Run workflow               -> builds; publishes only if a tag is given
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to create/update (e.g. v1.0.1). Leave empty to only build (downloads under the run's Artifacts)."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build (${{ matrix.name }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            asset: AnatomyExplorer-Setup-Windows.exe
+            jobs: 4
+          - name: macOS Apple silicon
+            os: macos-14
+            asset: AnatomyExplorer-macOS-AppleSilicon.dmg
+            jobs: 3
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 150
+    defaults:
+      run:
+        shell: bash
+    env:
+      VERSION: ${{ github.event.inputs.tag || github.ref_name }}
+    steps:
+      # identical line endings on every runner, so the micro-model source digest matches what the cache was built with
+      - name: Keep line endings as committed
+        run: git config --global core.autocrlf false
+
+      # LFS files are fetched through a cache: each download of the two ~150 MB atlas buffers and the large
+      # Sketchfab models counts against the repository's LFS bandwidth allowance
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: List LFS objects
+        run: git lfs ls-files --long | cut -d ' ' -f1 | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v4
+        with:
+          path: .git/lfs
+          key: lfs-${{ hashFiles('.lfs-assets-id') }}
+          enableCrossOsArchive: true
+
+      - name: Fetch LFS files
+        run: |
+          git lfs pull
+          if git lfs ls-files | grep -q ' - '; then echo "some LFS files were not fetched"; exit 1; fi
+          rm .lfs-assets-id
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller
+
+      # built meshes are reused as long as app/micro is unchanged (prebuild.py rebuilds any stale model anyway)
+      - name: Restore micro-model cache
+        uses: actions/cache@v4
+        with:
+          path: data/micro_cache
+          key: micro-${{ runner.os }}-${{ hashFiles('app/micro/**/*.py') }}
+          restore-keys: micro-${{ runner.os }}-
+
+      - name: Install Inno Setup if the image lacks it
+        if: runner.os == 'Windows'
+        run: |
+          if [ ! -f "/c/Program Files (x86)/Inno Setup 6/ISCC.exe" ] && ! command -v iscc; then
+            choco install innosetup -y --no-progress
+          fi
+
+      - name: Build
+        run: python packaging/build.py --version "$VERSION" --jobs ${{ matrix.jobs }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: packaging/dist/release/${{ matrix.asset }}
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+
+  release:
+    name: Publish release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.tag != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: assets
+          merge-multiple: true
+
+      - run: ls -la assets
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          name: Anatomy Explorer ${{ github.event.inputs.tag || github.ref_name }}
+          target_commitish: ${{ github.sha }}
+          make_latest: "true"
+          fail_on_unmatched_files: true
+          files: |
+            assets/AnatomyExplorer-Setup-Windows.exe
+            assets/AnatomyExplorer-macOS-AppleSilicon.dmg
+          body: |
+            **Windows:** download `AnatomyExplorer-Setup-Windows.exe` and run it.
+            **Mac (Apple silicon: M1 or newer):** download `AnatomyExplorer-macOS-AppleSilicon.dmg`, open it and drag Anatomy Explorer to Applications.
+
+            The first time you open it, Windows or macOS will ask you to confirm, because the app is not signed by
+            a paid developer account. The README has the one-time steps.

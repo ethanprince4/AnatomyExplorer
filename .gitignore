@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Rebuilt locally: the Z-Anatomy source and Blender export (only needed to rebuild data/anatomy), the portable
+# Blender that reads it (Windows only), and the micro-model cache (rebuilt from app/micro whenever it changes)
+data/raw/
+data/extracted/
+data/micro_cache/
+tools/blender-3.6.23-windows-x64/
+tools/blender.zip
+
+# Personal: study progress, quiz history and the Sketchfab API token
+data/user/
+
+# Scratch output
+logs/
+*.stackdump
+*.part
+
+# Packaging output (packaging/build.py)
+packaging/build/
+packaging/dist/

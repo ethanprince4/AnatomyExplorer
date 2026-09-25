@@ -1,0 +1,2138 @@
+[
+ {
+  "id": "exam2-01-lab6-respiratory",
+  "title": "Lab 6 review: the respiratory system",
+  "course": {
+   "exam": 2,
+   "order": 1,
+   "unit": "Lab Practical 2 · Labs 6–9"
+  },
+  "system": "respiratory",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 12,
+  "summary": "The airway from nostril to alveolus, the lungs and pleurae, and how a breath is moved and measured.",
+  "tags": [
+   "review",
+   "respiratory",
+   "lab practical"
+  ],
+  "objectives": [
+   "Trace air from the nose to the alveoli and say where the conducting zone ends",
+   "Identify the laryngeal cartilages, the trachea, the main bronchi and the lobes of each lung",
+   "Name the cells of the alveolus and the layers of the respiratory membrane",
+   "Explain inspiration with Boyle's law and add up lung volumes into capacities"
+  ],
+  "takeaways": [
+   "The conducting zone ends at the terminal bronchioles; gas exchange starts at the respiratory bronchioles.",
+   "Cricoid = the only complete cartilage ring; epiglottis = elastic cartilage.",
+   "Right main bronchus: wider, shorter, more vertical. Right lung 3 lobes, left lung 2 plus the cardiac notch.",
+   "Type II pneumocytes make surfactant; macrophages clean the alveoli.",
+   "VC = TV + IRV + ERV; TLC = VC + RV; minute ventilation = TV × rate."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab06-01-nose-nasal-cavity",
+    "lab06-05-alveoli-respiratory-membrane",
+    "lab06-07-lung-volumes"
+   ],
+   "micro": [
+    "trachea_wall",
+    "lung_acinus"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Nose to bronchioles: the conducting zone",
+    "text": "<p>Air follows a fixed route: <b>nasal cavity → pharynx → larynx → trachea → main bronchi → lobar and segmental bronchi → bronchioles → terminal bronchioles</b>. All of this is the <b>conducting zone</b>: it filters, warms and moistens the air but exchanges no gas.</p><p>The <b>respiratory zone</b> begins at the respiratory bronchioles and continues into alveolar ducts, sacs and alveoli. In the nose, the <b>conchae</b> churn the air so its mucus can catch dust.</p>",
+    "systems": [
+     "visceral",
+     "skeletal"
+    ],
+    "regions": [
+     "head",
+     "neck",
+     "thorax"
+    ],
+    "focus": [
+     "Pharynx",
+     "Laryngeal cartilages",
+     "Tracheobronchial tree"
+    ],
+    "show": [
+     "Lungs",
+     "External nose"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Where does the conducting zone end and the respiratory zone begin?",
+     "a": "It ends at the terminal bronchioles; the respiratory zone starts with the respiratory bronchioles."
+    }
+   },
+   {
+    "title": "The larynx: cartilages and folds",
+    "text": "<p>The larynx is a box of cartilage. The big <b>thyroid cartilage</b> forms the Adam's apple; below it the <b>cricoid cartilage</b> is the only complete ring; the small paired <b>arytenoid</b> and <b>corniculate</b> cartilages sit at the back and move the vocal folds. The leaf-shaped <b>epiglottis</b>, made of elastic cartilage, tips over the inlet during swallowing.</p><p>The upper <b>vestibular (false) folds</b> make no sound; the lower <b>vocal (true) folds</b> vibrate, and the gap between them is the <b>glottis</b>.</p>",
+    "systems": [
+     "skeletal",
+     "visceral"
+    ],
+    "regions": [
+     "neck"
+    ],
+    "focus": [
+     "Thyroid cartilage",
+     "Cricoid cartilage",
+     "Arytenoid cartilage",
+     "Epiglottis"
+    ],
+    "show": [
+     "Hyoid bone",
+     "Trachea"
+    ],
+    "view": "left",
+    "xray": true,
+    "frame_on": [
+     "Laryngeal cartilages"
+    ],
+    "check": {
+     "q": "Which laryngeal cartilage is a complete ring, and which one is elastic cartilage?",
+     "a": "The cricoid is the complete ring; the epiglottis is elastic cartilage."
+    }
+   },
+   {
+    "title": "Trachea and bronchial tree",
+    "text": "<p>The <b>trachea</b> is kept open by C-shaped rings of <b>hyaline cartilage</b>; the open back of each C faces the oesophagus and is bridged by the <b>trachealis</b> smooth muscle. Its lining is <b>pseudostratified ciliated columnar epithelium</b> with <b>goblet cells</b>: mucus traps particles and the cilia sweep them up to the pharynx.</p><p>At the <b>carina</b> the trachea splits. The <b>right main bronchus</b> is wider, shorter and more vertical than the left, so inhaled objects usually lodge on the right.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "neck",
+     "thorax"
+    ],
+    "focus": [
+     "Trachea",
+     "Right main bronchus",
+     "Left main bronchus"
+    ],
+    "show": [
+     "Tracheobronchial tree"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "frame_on": [
+     "Tracheobronchial tree"
+    ],
+    "micro": "trachea_wall",
+    "micro_focus": [
+     "Hyaline cartilage ring (C-shaped)",
+     "Trachealis muscle",
+     "Pseudostratified ciliated epithelium",
+     "Goblet cells"
+    ],
+    "check": {
+     "q": "Why does an inhaled peanut usually end up in the right lung?",
+     "a": "The right main bronchus is wider, shorter and more vertical than the left."
+    }
+   },
+   {
+    "title": "Lungs and pleurae",
+    "text": "<p>The <b>right lung</b> has three lobes (superior, middle, inferior) and two fissures, oblique and horizontal. The <b>left lung</b> has two lobes and one oblique fissure, and its <b>cardiac notch</b> and tongue-like <b>lingula</b> make room for the heart.</p><p>Each lung sits in a double sac of <b>pleura</b>: <b>visceral pleura</b> on the lung, <b>parietal pleura</b> lining the chest wall, and a film of serous fluid in the <b>pleural cavity</b> between them that lets them glide while holding the lung to the wall.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Superior lobe of right lung",
+     "Middle lobe of right lung",
+     "Inferior lobe of right lung",
+     "Superior lobe of left lung",
+     "Inferior lobe of left lung"
+    ],
+    "show": [
+     "Cardiac notch of left lung",
+     "Lingula of left lung",
+     "Heart"
+    ],
+    "view": "anterior",
+    "xray": false,
+    "frame_on": [
+     "Lungs"
+    ],
+    "check": {
+     "q": "How many lobes and fissures does each lung have?",
+     "a": "Right: three lobes, two fissures (oblique and horizontal). Left: two lobes, one oblique fissure."
+    }
+   },
+   {
+    "title": "Alveoli and the respiratory membrane",
+    "text": "<p>Most of the alveolar wall is <b>type I pneumocytes</b>: very thin simple squamous cells. Rounder <b>type II pneumocytes</b> secrete <b>surfactant</b>, which lowers surface tension so alveoli do not collapse. <b>Alveolar macrophages</b> (dust cells) eat whatever gets past the cilia.</p><p>Gas crosses the <b>respiratory membrane</b>: type I cell, fused basement membranes and capillary endothelium, well under a micrometre thick. Oxygen diffuses into the blood and carbon dioxide out, each down its partial-pressure gradient.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Lungs"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "lung_acinus",
+    "micro_focus": [
+     "Type II pneumocytes",
+     "Alveolar macrophages",
+     "Alveolar capillaries",
+     "Interalveolar septa – alveolar sacs"
+    ],
+    "histology": "lung",
+    "check": {
+     "q": "What do type II pneumocytes secrete, and why does it matter?",
+     "a": "Surfactant; it lowers surface tension so the alveoli do not collapse."
+    }
+   },
+   {
+    "title": "A breath, measured",
+    "text": "<p>By <b>Boyle's law</b>, pressure and volume vary inversely. In <b>inspiration</b> the <b>diaphragm</b> contracts and flattens and the <b>external intercostals</b> lift the ribs; the chest grows, intrapulmonary pressure drops below atmospheric and air flows in. Quiet <b>expiration</b> is passive recoil.</p><p>Tidal volume is about 500 mL. <b>VC = TV + IRV + ERV</b> and <b>TLC = VC + RV</b>; the residual volume can never be blown out. <b>Minute ventilation = TV × breaths per minute</b>.</p>",
+    "systems": [
+     "muscular",
+     "skeletal",
+     "visceral"
+    ],
+    "regions": [
+     "thorax",
+     "abdomen"
+    ],
+    "focus": [
+     "Diaphragm",
+     "External intercostal muscles"
+    ],
+    "show": [
+     "Lungs",
+     "Ribs"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab06-spirogram",
+    "check": {
+     "q": "TV 500 mL, IRV 3000 mL, ERV 1200 mL, RV 1200 mL. What are VC and TLC?",
+     "a": "VC = 4700 mL; TLC = 5900 mL."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Thyroid cartilage"
+   },
+   {
+    "type": "name",
+    "structure": "Cricoid cartilage"
+   },
+   {
+    "type": "name",
+    "structure": "Epiglottis"
+   },
+   {
+    "type": "find",
+    "structure": "Trachea"
+   },
+   {
+    "type": "find",
+    "structure": "Right main bronchus"
+   },
+   {
+    "type": "name",
+    "structure": "Middle lobe of right lung"
+   },
+   {
+    "type": "find",
+    "structure": "Cardiac notch of left lung"
+   },
+   {
+    "type": "find",
+    "structure": "Diaphragm"
+   },
+   {
+    "type": "find_micro",
+    "model": "trachea_wall",
+    "part": "Trachealis muscle"
+   },
+   {
+    "type": "find_micro",
+    "model": "lung_acinus",
+    "part": "Type II pneumocytes"
+   },
+   {
+    "type": "find_micro",
+    "model": "lung_acinus",
+    "part": "Alveolar macrophages"
+   },
+   {
+    "type": "order",
+    "q": "Put the airway in order, from outside in",
+    "items": [
+     "Nasal cavity",
+     "Pharynx",
+     "Larynx",
+     "Trachea",
+     "Main bronchus",
+     "Terminal bronchiole",
+     "Respiratory bronchiole",
+     "Alveolus"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Which muscles contract in a quiet inspiration?",
+    "choices": [
+     "Diaphragm and external intercostals",
+     "Internal intercostals and abdominal muscles",
+     "Diaphragm and internal intercostals",
+     "None: inspiration is passive"
+    ],
+    "answer": 0,
+    "why": "Quiet inspiration is active (diaphragm + external intercostals); quiet expiration is passive recoil."
+   },
+   {
+    "type": "mcq",
+    "q": "The residual volume is included in which of these?",
+    "choices": [
+     "Vital capacity",
+     "Total lung capacity",
+     "Inspiratory capacity",
+     "Tidal volume"
+    ],
+    "answer": 1,
+    "why": "TLC = VC + RV; the residual volume can never be exhaled, so it is not part of VC."
+   },
+   {
+    "type": "recall",
+    "q": "Breathing 12 times a minute with a 500 mL tidal volume: what is the minute ventilation?",
+    "a": "500 mL × 12 = 6000 mL (6 L) per minute."
+   }
+  ]
+ },
+ {
+  "id": "exam2-02-lab7-lung-function-fitness",
+  "title": "Lab 7 review: lung function and fitness",
+  "course": {
+   "exam": 2,
+   "order": 2,
+   "unit": "Lab Practical 2 · Labs 6–9"
+  },
+  "system": "respiratory",
+  "region": "thorax",
+  "level": "core",
+  "minutes": 8,
+  "summary": "FEV1 and vital capacity, obstructive versus restrictive disease, and the numbers behind fitness tests.",
+  "tags": [
+   "review",
+   "spirometry",
+   "fitness",
+   "lab practical"
+  ],
+  "objectives": [
+   "Define VC, FEV1 and FEV1/VC% and give the normal ratio",
+   "Tell an obstructive from a restrictive pattern and name causes of each",
+   "Calculate a personal fitness index, a target heart rate zone, a BMI and a waist-to-hip ratio"
+  ],
+  "takeaways": [
+   "FEV1/VC% is normally about 75% or more.",
+   "Obstructive: ratio low, VC normal. Restrictive: VC low, ratio normal.",
+   "PFI = seconds × 100 ÷ (2 × sum of the three recovery counts).",
+   "MHR ≈ 220 − age; target zone 60–80% of it. BMI = kg ÷ m²."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab07-01-fev1-vital-capacity",
+    "lab07-02-obstructive-restrictive",
+    "lab07-03-heart-rate-step-test"
+   ]
+  },
+  "steps": [
+   {
+    "title": "VC, FEV1 and the ratio",
+    "text": "<p><b>Vital capacity (VC)</b> is the most air you can breathe out after the deepest possible breath in. <b>FEV1</b> is how much of it leaves in the first second of a hard, fast exhalation. Their ratio, <b>FEV1/VC%</b>, is normally <b>about 75% or more</b>.</p><p>On a spirogram, which plots volume against time, VC is the peak-to-peak height of the forced breath, and FEV1 is read one second after the exhalation starts.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "head",
+     "thorax"
+    ],
+    "focus": [
+     "Lungs"
+    ],
+    "show": [
+     "External nose",
+     "Mouth"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "diagram": "lab07-fev1",
+    "check": {
+     "q": "FEV1 is 3.0 L and VC is 5.0 L. What is the ratio, and is it normal?",
+     "a": "60%: low (normal is about 75% or more), which points to obstruction."
+    }
+   },
+   {
+    "title": "Obstructive or restrictive?",
+    "text": "<p><b>Obstructive</b> disease narrows the airways (asthma, bronchitis, excess mucus, emphysema), so air leaves slowly: <b>FEV1/VC% falls</b> while VC can stay normal. Most COPD comes from smoking; graded by the ratio, 60–74% is mild, 50–59% moderate and under 50% severe.</p><p><b>Restrictive</b> disease stops the lungs filling: fibrosis (asbestosis, silicosis), pleural adhesions, lung resection, or a diaphragm paralysed by <b>phrenic nerve</b> damage. <b>VC falls</b> but the ratio stays normal.</p>",
+    "systems": [
+     "visceral",
+     "muscular",
+     "skeletal"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Tracheobronchial tree",
+     "Pleura",
+     "Diaphragm"
+    ],
+    "show": [
+     "Thoracic skeleton"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "Which value is low in each pattern?",
+     "a": "Obstructive: FEV1/VC% is low. Restrictive: VC is low with a normal ratio."
+    }
+   },
+   {
+    "title": "Heart rate and the step test",
+    "text": "<p>Aerobically trained people have a <b>lower resting heart rate</b>, and their rate <b>recovers faster</b> after exercise. Stop at once for chest pain, pain spreading down the left arm (angina) or faintness.</p><p>In the <b>Harvard step test</b> you step 30 times a minute for up to five minutes, then count the pulse for 30 s at 1, 2 and 3 minutes of recovery. <b>PFI = seconds of exercise × 100 ÷ (2 × sum of the three counts)</b>. Under 55 is poor, 80–89 good, 90 or more excellent.</p>",
+    "systems": [
+     "cardiovascular"
+    ],
+    "regions": [
+     "neck",
+     "thorax",
+     "upper_limb_l",
+     "upper_limb_r"
+    ],
+    "focus": [
+     "Heart",
+     "Radial artery",
+     "Common carotid artery"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "check": {
+     "q": "300 s of stepping, recovery counts 70, 60 and 50. What is the PFI?",
+     "a": "300 × 100 ÷ (2 × 180) ≈ 83: good."
+    }
+   },
+   {
+    "title": "Cooper run, target zone, BMI and WHR",
+    "text": "<p>The <b>Cooper test</b> rates aerobic fitness by the distance covered in 12 minutes; under age 40, over 2700 m is excellent. <b>Maximum heart rate ≈ 220 − age</b>, and the <b>target zone</b> is 60–80% of it.</p><p><b>BMI = kg ÷ m²</b>: under 18.5 underweight, 18.5–24.9 normal, 25–29.9 overweight, 30 or more obese; it overrates fat in muscular people. <b>Waist-to-hip ratio</b> (waist just above the umbilicus ÷ widest hips) flags risky central fat: high above 0.85 in women and 1.0 in men.</p>",
+    "systems": [
+     "regions"
+    ],
+    "regions": [
+     "abdomen",
+     "lower_limb_l",
+     "lower_limb_r"
+    ],
+    "focus": [
+     "Umbilicus",
+     "Hip region"
+    ],
+    "show": [
+     "Abdomen"
+    ],
+    "view": "anterior",
+    "xray": false,
+    "diagram": "lab07-bmi",
+    "check": {
+     "q": "What is the target heart rate zone of a 40-year-old?",
+     "a": "MHR ≈ 180 bpm, so the zone is 108–144 bpm."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Diaphragm"
+   },
+   {
+    "type": "find",
+    "structure": "Radial artery"
+   },
+   {
+    "type": "find",
+    "structure": "Common carotid artery"
+   },
+   {
+    "type": "name",
+    "structure": "Umbilicus"
+   },
+   {
+    "type": "mcq",
+    "q": "A patient has a normal VC and an FEV1/VC% of 55%. The pattern is:",
+    "choices": [
+     "Restrictive",
+     "Obstructive, moderate",
+     "Normal",
+     "Obstructive, severe"
+    ],
+    "answer": 1,
+    "why": "A low ratio with a normal VC is obstruction; 50–59% is moderate."
+   },
+   {
+    "type": "mcq",
+    "q": "Which of these causes a restrictive pattern?",
+    "choices": [
+     "Asthma",
+     "Chronic bronchitis",
+     "Excess airway mucus",
+     "Phrenic nerve damage paralysing the diaphragm"
+    ],
+    "answer": 3,
+    "why": "A paralysed diaphragm cannot fill the lungs, so VC falls; the others narrow the airways."
+   },
+   {
+    "type": "mcq",
+    "q": "A BMI of 27 is classed as:",
+    "choices": [
+     "Overweight",
+     "Normal",
+     "Obese",
+     "Underweight"
+    ],
+    "answer": 0,
+    "why": "25–29.9 is overweight."
+   },
+   {
+    "type": "mcq",
+    "q": "A woman's waist-to-hip ratio is 0.90. Her risk is:",
+    "choices": [
+     "Low",
+     "High",
+     "Moderate",
+     "Cannot tell"
+    ],
+    "answer": 1,
+    "why": "For women, above 0.85 is high risk (0.81–0.85 moderate)."
+   },
+   {
+    "type": "recall",
+    "q": "Give the formula for the Harvard step test personal fitness index.",
+    "a": "PFI = duration of exercise in seconds × 100 ÷ (2 × sum of the three 30-second recovery pulse counts)."
+   },
+   {
+    "type": "recall",
+    "q": "Why is a lower resting heart rate a sign of aerobic fitness?",
+    "a": "A trained heart pumps a larger stroke volume, so it needs fewer beats to move the same output, and it also returns to resting faster after exercise."
+   }
+  ]
+ },
+ {
+  "id": "exam2-03-lab8-digestive",
+  "title": "Lab 8 review: the digestive system",
+  "course": {
+   "exam": 2,
+   "order": 3,
+   "unit": "Lab Practical 2 · Labs 6–9"
+  },
+  "system": "digestive",
+  "region": "abdomen",
+  "level": "core",
+  "minutes": 12,
+  "summary": "The gut wall, the mouth and teeth, stomach, intestines, liver and pancreas: the facts a practical asks.",
+  "tags": [
+   "review",
+   "digestive",
+   "lab practical"
+  ],
+  "objectives": [
+   "Name the four tunics of the gut wall and the two nerve plexuses",
+   "Identify the teeth, salivary glands and muscles of mastication and give the dental formulas",
+   "Identify the regions of the stomach, small and large intestine and the cells or features that mark each",
+   "Describe the liver lobule and trace bile to the duodenum"
+  ],
+  "takeaways": [
+   "Mucosa, submucosa, muscularis externa, serosa (adventitia on the oesophagus).",
+   "Adult 2-1-2-3 = 32 teeth; child 2-1-0-2 = 20.",
+   "Stomach adds an inner oblique layer; parietal cells make HCl, chief cells pepsinogen.",
+   "Brunner glands = duodenum; Peyer patches = ileum; taeniae, haustra and fat tags = colon.",
+   "Portal triad = portal venule, hepatic arteriole, bile ductule."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab08-07-gut-wall-peritoneum",
+    "lab08-08-stomach",
+    "lab08-11-liver"
+   ],
+   "micro": [
+    "jejunum",
+    "stomach_wall",
+    "liver_lobule"
+   ]
+  },
+  "steps": [
+   {
+    "title": "The tube and its four layers",
+    "text": "<p>The <b>alimentary canal</b> runs mouth → pharynx → oesophagus → stomach → small intestine → large intestine → anus; teeth, tongue, salivary glands, liver, gallbladder and pancreas are the <b>accessory organs</b>.</p><p>From the lumen out, the wall has four tunics: <b>mucosa</b> (epithelium, lamina propria, muscularis mucosae), <b>submucosa</b> (with the submucosal plexus), <b>muscularis externa</b> (inner circular and outer longitudinal, the myenteric plexus between them) and <b>serosa</b>, or <b>adventitia</b> where there is no peritoneum.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "head",
+     "neck",
+     "thorax",
+     "abdomen"
+    ],
+    "focus": [
+     "Digestive canal"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "jejunum",
+    "micro_focus": [
+     "Lamina propria",
+     "Muscularis mucosae",
+     "Submucosa",
+     "Inner circular muscle",
+     "Outer longitudinal muscle",
+     "Serosa"
+    ],
+    "check": {
+     "q": "Name the four tunics of the gut wall from the lumen outward.",
+     "a": "Mucosa, submucosa, muscularis externa, serosa (or adventitia)."
+    }
+   },
+   {
+    "title": "Mouth, teeth and salivary glands",
+    "text": "<p>A tooth has an enamel <b>crown</b>, a <b>neck</b> at the gum line and a <b>root</b> coated in cementum and slung by the periodontal ligament; <b>dentin</b> surrounds the <b>pulp</b>. Adults have 32 teeth (per quadrant 2 incisors, 1 canine, 2 premolars, 3 molars); children have 20 (2-1-0-2).</p><p>The <b>parotid</b> duct opens opposite the upper second molar; the <b>submandibular</b> and <b>sublingual</b> glands open under the tongue. Chewing: masseter, temporalis and the two pterygoids.</p>",
+    "systems": [
+     "visceral",
+     "muscular",
+     "skeletal"
+    ],
+    "regions": [
+     "head",
+     "neck"
+    ],
+    "focus": [
+     "Parotid gland",
+     "Submandibular gland",
+     "Sublingual gland",
+     "Masseter"
+    ],
+    "show": [
+     "Teeth",
+     "Mandible",
+     "Parotid duct"
+    ],
+    "view": "left",
+    "xray": true,
+    "frame_on": [
+     "Salivary glands"
+    ],
+    "micro": "tooth",
+    "micro_focus": [
+     "Enamel",
+     "Dentin",
+     "Cementum",
+     "Pulp chamber (coronal pulp)",
+     "Periodontal ligament"
+    ],
+    "check": {
+     "q": "Write the adult and the deciduous dental formula.",
+     "a": "Adult 2-1-2-3 per quadrant (32 teeth); deciduous 2-1-0-2 (20 teeth)."
+    }
+   },
+   {
+    "title": "Oesophagus and stomach",
+    "text": "<p>The <b>oesophagus</b> has a stratified squamous lining and skeletal muscle above, smooth below; it pierces the diaphragm to reach the <b>cardia</b>. The stomach continues as <b>fundus</b>, <b>body</b> and <b>pyloric part</b>, ending at the pyloric sphincter, with greater and lesser curvatures and <b>rugae</b> when empty.</p><p>Its muscularis adds an <b>inner oblique layer</b> for churning. Gastric glands hold <b>parietal cells</b> (HCl, intrinsic factor) and <b>chief cells</b> (pepsinogen) beneath a surface of mucous cells.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "thorax",
+     "abdomen"
+    ],
+    "focus": [
+     "Cardia",
+     "Fundus of stomach",
+     "Body of stomach",
+     "Pyloric part"
+    ],
+    "show": [
+     "Oesophagus",
+     "Greater curvature of stomach",
+     "Lesser curvature of stomach"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "frame_on": [
+     "Stomach"
+    ],
+    "micro": "stomach_wall",
+    "micro_focus": [
+     "Inner oblique muscle",
+     "Parietal (oxyntic) cells",
+     "Chief (zymogen) cells – gland base",
+     "Surface mucous cells & gastric pits"
+    ],
+    "check": {
+     "q": "Which gastric cells make HCl and which make pepsinogen?",
+     "a": "Parietal cells make HCl (and intrinsic factor); chief cells make pepsinogen."
+    }
+   },
+   {
+    "title": "Small intestine",
+    "text": "<p>Three parts: the C-shaped <b>duodenum</b> (about 25 cm; bile and pancreatic juice enter at the major duodenal papilla), the <b>jejunum</b> and the <b>ileum</b>, which ends at the ileocaecal valve. Circular folds, <b>villi</b> and <b>microvilli</b> multiply the absorbing surface.</p><p>Each villus holds capillaries and a central <b>lacteal</b> that takes up fat. On a slide, <b>Brunner glands</b> in the submucosa mean duodenum, and <b>Peyer patches</b> mean ileum.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Duodenum",
+     "Jejunum",
+     "Small intestine"
+    ],
+    "view": "anterior",
+    "xray": false,
+    "micro": "jejunum",
+    "micro_focus": [
+     "Villus epithelium (enterocytes)",
+     "Central lacteals",
+     "Brush border (microvilli)",
+     "Goblet cells"
+    ],
+    "check": {
+     "q": "Which feature marks the duodenum on a slide, and which marks the ileum?",
+     "a": "Brunner (duodenal) glands in the submucosa; Peyer patches in the ileum."
+    }
+   },
+   {
+    "title": "Large intestine",
+    "text": "<p>From the <b>caecum</b>, which carries the <b>vermiform appendix</b>, the colon runs <b>ascending</b>, <b>transverse</b>, <b>descending</b> and <b>sigmoid</b>, then the <b>rectum</b> and <b>anal canal</b>. Its longitudinal muscle is gathered into three <b>taeniae coli</b>, which pucker the wall into <b>haustra</b>, and fat tags (<b>epiploic appendices</b>) hang from it.</p><p>The mucosa has no villi, just straight crypts packed with goblet cells. The <b>internal anal sphincter</b> is smooth and involuntary; the <b>external</b> is skeletal and voluntary.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Ascending colon",
+     "Transverse colon",
+     "Descending colon",
+     "Sigmoid colon",
+     "Vermiform appendix"
+    ],
+    "show": [
+     "Taeniae coli"
+    ],
+    "view": "anterior",
+    "xray": false,
+    "frame_on": [
+     "Large intestine"
+    ],
+    "micro": "ileocecal_rectum",
+    "micro_focus": [
+     "Caecum",
+     "Vermiform appendix",
+     "Taenia libera (free taenia)",
+     "Ascending colon (haustra)",
+     "Omental (epiploic) appendices"
+    ],
+    "check": {
+     "q": "Name three surface features that tell colon from small intestine.",
+     "a": "Taeniae coli, haustra and epiploic appendices (fat tags)."
+    }
+   },
+   {
+    "title": "Liver, bile and pancreas",
+    "text": "<p>The <b>liver</b> has right, left, quadrate and caudate lobes; the portal vein and hepatic artery enter, and bile leaves, at the <b>porta hepatis</b>. A lobule is a hexagon of hepatocyte plates around a <b>central vein</b>, with <b>portal triads</b> at its corners and <b>Kupffer cells</b> in the sinusoids.</p><p>Bile: hepatic ducts → common hepatic duct, joined by the cystic duct → common bile duct → hepatopancreatic ampulla → duodenum. The <b>pancreas</b> is exocrine acini around endocrine islets.</p>",
+    "systems": [
+     "visceral",
+     "cardiovascular"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Porta hepatis",
+     "Hepatic portal vein",
+     "Bile duct",
+     "Gallbladder"
+    ],
+    "show": [
+     "Liver",
+     "Pancreas",
+     "Duodenum"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "frame_on": [
+     "Porta hepatis"
+    ],
+    "micro": "liver_lobule",
+    "micro_focus": [
+     "Central vein",
+     "Portal venules",
+     "Hepatic arterioles",
+     "Bile ductules",
+     "Kupffer cells"
+    ],
+    "check": {
+     "q": "What three vessels make up a portal triad?",
+     "a": "A branch of the hepatic portal vein, a branch of the hepatic artery and a bile ductule."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Parotid gland"
+   },
+   {
+    "type": "name",
+    "structure": "Submandibular gland"
+   },
+   {
+    "type": "name",
+    "structure": "Fundus of stomach"
+   },
+   {
+    "type": "find",
+    "structure": "Pyloric part"
+   },
+   {
+    "type": "find",
+    "structure": "Duodenum"
+   },
+   {
+    "type": "find",
+    "structure": "Vermiform appendix"
+   },
+   {
+    "type": "name",
+    "structure": "Sigmoid colon"
+   },
+   {
+    "type": "find",
+    "structure": "Gallbladder"
+   },
+   {
+    "type": "find",
+    "structure": "Hepatic portal vein"
+   },
+   {
+    "type": "find_micro",
+    "model": "tooth",
+    "part": "Dentin"
+   },
+   {
+    "type": "find_micro",
+    "model": "stomach_wall",
+    "part": "Parietal (oxyntic) cells"
+   },
+   {
+    "type": "find_micro",
+    "model": "jejunum",
+    "part": "Central lacteals"
+   },
+   {
+    "type": "find_micro",
+    "model": "duodenum",
+    "part": "Brunner glands"
+   },
+   {
+    "type": "find_micro",
+    "model": "liver_lobule",
+    "part": "Central vein"
+   },
+   {
+    "type": "order",
+    "q": "Put bile's route from the liver in order",
+    "items": [
+     "Right and left hepatic ducts",
+     "Common hepatic duct",
+     "Common bile duct",
+     "Hepatopancreatic ampulla",
+     "Duodenum"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Which layer of the tooth is the hardest and covers the crown?",
+    "choices": [
+     "Dentin",
+     "Cementum",
+     "Enamel",
+     "Pulp"
+    ],
+    "answer": 2,
+    "why": "Enamel caps the crown; cementum covers the root."
+   }
+  ]
+ },
+ {
+  "id": "exam2-04-lab8-urinary",
+  "title": "Lab 8 review: the urinary system",
+  "course": {
+   "exam": 2,
+   "order": 4,
+   "unit": "Lab Practical 2 · Labs 6–9"
+  },
+  "system": "urinary",
+  "region": "abdomen",
+  "level": "core",
+  "minutes": 10,
+  "summary": "The kidney from its wrappings to the nephron, how blood and filtrate flow, and the tubes that carry urine out.",
+  "tags": [
+   "review",
+   "urinary",
+   "lab practical"
+  ],
+  "objectives": [
+   "Describe where the kidneys lie and name their three coverings",
+   "Identify cortex, pyramids, columns, papillae, calyces and pelvis",
+   "Trace blood through the kidney and filtrate through the nephron",
+   "Describe the bladder wall, its epithelium and the two urethral sphincters"
+  ],
+  "takeaways": [
+   "Kidneys are retroperitoneal, about T12–L3, right slightly lower.",
+   "Papilla → minor calyx → major calyx → renal pelvis → ureter.",
+   "Afferent arteriole → glomerulus → efferent arteriole → peritubular capillaries / vasa recta.",
+   "Filtration, reabsorption, secretion. Transitional epithelium lines the bladder."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab08-14-kidney-gross",
+    "lab08-15-renal-blood-flow-nephron",
+    "lab08-16-ureter-bladder-urethra"
+   ],
+   "micro": [
+    "kidney_section",
+    "nephron",
+    "bladder_wall"
+   ]
+  },
+  "steps": [
+   {
+    "title": "The kidneys in place",
+    "text": "<p>The kidneys are <b>retroperitoneal</b> on the posterior abdominal wall, roughly T12–L3, the right a little lower because of the liver; a <b>suprarenal gland</b> caps each. Three wrappings, inside out: <b>fibrous capsule</b>, <b>perirenal fat</b> and <b>renal fascia</b>, which anchors it.</p><p>At the medial <b>hilum</b> the renal artery enters and the renal vein and ureter leave. The left renal vein is the longer, crossing in front of the aorta to reach the inferior vena cava.</p>",
+    "systems": [
+     "visceral",
+     "cardiovascular"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Kidney",
+     "Hilum of kidney",
+     "Left renal vein"
+    ],
+    "show": [
+     "Suprarenal gland",
+     "Abdominal aorta",
+     "Inferior vena cava (abdominal part)",
+     "Ureter"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "frame_on": [
+     "Kidney"
+    ],
+    "check": {
+     "q": "List the three coverings of the kidney from the inside out.",
+     "a": "Fibrous (renal) capsule, perirenal fat (adipose capsule), renal fascia."
+    }
+   },
+   {
+    "title": "Inside the kidney",
+    "text": "<p>A frontal cut shows the outer <b>cortex</b> and the inner <b>medulla</b>, built of cone-shaped <b>renal pyramids</b> separated by <b>renal columns</b> of cortex-like tissue. The tip of each pyramid, the <b>papilla</b>, drips urine into a <b>minor calyx</b>. Minor calyces join into <b>major calyces</b>, which merge into the funnel of the <b>renal pelvis</b>, and that narrows into the ureter. The fat-filled space around them is the <b>renal sinus</b>.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Renal pelvis",
+     "Renal sinus"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "kidney_section",
+    "micro_focus": [
+     "Renal cortex",
+     "Renal pyramids",
+     "Renal columns",
+     "Renal papillae",
+     "Minor calyces",
+     "Major calyces",
+     "Renal pelvis"
+    ],
+    "check": {
+     "q": "Trace urine from a renal papilla to the ureter.",
+     "a": "Papilla → minor calyx → major calyx → renal pelvis → ureter."
+    }
+   },
+   {
+    "title": "Blood through the kidney",
+    "text": "<p>Renal artery → <b>segmental</b> → <b>interlobar</b> (running in the columns) → <b>arcuate</b> (arching over the pyramid bases) → <b>cortical radiate</b> → <b>afferent arteriole</b> → <b>glomerulus</b> → <b>efferent arteriole</b> → <b>peritubular capillaries</b> or <b>vasa recta</b>. The veins return in reverse: cortical radiate, arcuate, interlobar, renal vein.</p><p>That is two capillary beds in a row: the glomerulus filters at high pressure, the peritubular bed reabsorbs at low pressure.</p>",
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Intrarenal arteries of left kidney"
+    ],
+    "show": [
+     "Left renal artery",
+     "Left renal vein"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "frame_on": [
+     "Kidney"
+    ],
+    "micro": "kidney_section",
+    "micro_focus": [
+     "Segmental arteries",
+     "Interlobar arteries",
+     "Arcuate arteries",
+     "Cortical radiate (interlobular) arteries"
+    ],
+    "diagram": "lab08-nephron-flow",
+    "check": {
+     "q": "Which vessel carries blood out of the glomerulus?",
+     "a": "The efferent arteriole, which feeds the peritubular capillaries and vasa recta."
+    }
+   },
+   {
+    "title": "The nephron and urine formation",
+    "text": "<p>Filtrate path: <b>glomerular (Bowman) capsule</b> → <b>proximal convoluted tubule</b> (cuboidal cells with a brush border; most reabsorption) → <b>nephron loop</b> → <b>distal convoluted tubule</b> → <b>collecting duct</b>. Glomerulus plus capsule is the <b>renal corpuscle</b>; <b>podocytes</b> wrap its capillaries.</p><p>Urine forms by <b>filtration</b>, <b>tubular reabsorption</b> and <b>tubular secretion</b>. Where the distal tubule meets the afferent arteriole, the <b>macula densa</b> and renin-making <b>juxtaglomerular cells</b> form the juxtaglomerular apparatus.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Kidney"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "nephron",
+    "micro_focus": [
+     "Bowman capsule (parietal layer)",
+     "Proximal convoluted tubule",
+     "Thick ascending limb",
+     "Distal convoluted tubule",
+     "Cortical collecting duct",
+     "Macula densa"
+    ],
+    "check": {
+     "q": "Name the three processes that form urine.",
+     "a": "Glomerular filtration, tubular reabsorption and tubular secretion."
+    }
+   },
+   {
+    "title": "Ureters, bladder and urethra",
+    "text": "<p>The <b>ureters</b> carry urine by peristalsis and enter the bladder obliquely, so a full bladder presses them shut. The bladder's smooth muscle is the <b>detrusor</b>; its lining is <b>transitional epithelium</b>, whose dome-shaped umbrella cells flatten as it stretches. The <b>trigone</b> lies between the two ureteric openings and the urethra.</p><p>The <b>internal urethral sphincter</b> is smooth and involuntary, the <b>external</b> skeletal and voluntary. The female urethra is about 4 cm; the male's, about 20 cm, is prostatic, membranous and spongy.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Ureter",
+     "Urinary bladder",
+     "Urethra"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "frame_on": [
+     "Urinary bladder"
+    ],
+    "micro": "bladder_wall",
+    "micro_focus": [
+     "Umbrella cells",
+     "Intermediate cells",
+     "Basal cells",
+     "Middle circular detrusor"
+    ],
+    "check": {
+     "q": "Which epithelium lines the bladder, and why does it suit it?",
+     "a": "Transitional epithelium (urothelium): its surface cells flatten as the bladder fills, so it stretches without tearing and stays waterproof."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Kidney"
+   },
+   {
+    "type": "find",
+    "structure": "Hilum of kidney"
+   },
+   {
+    "type": "name",
+    "structure": "Suprarenal gland"
+   },
+   {
+    "type": "find",
+    "structure": "Ureter"
+   },
+   {
+    "type": "name",
+    "structure": "Urinary bladder"
+   },
+   {
+    "type": "find",
+    "structure": "Renal pelvis"
+   },
+   {
+    "type": "find_micro",
+    "model": "kidney_section",
+    "part": "Renal pyramids"
+   },
+   {
+    "type": "find_micro",
+    "model": "kidney_section",
+    "part": "Renal columns"
+   },
+   {
+    "type": "find_micro",
+    "model": "kidney_section",
+    "part": "Minor calyces"
+   },
+   {
+    "type": "find_micro",
+    "model": "nephron",
+    "part": "Proximal convoluted tubule"
+   },
+   {
+    "type": "find_micro",
+    "model": "nephron",
+    "part": "Macula densa"
+   },
+   {
+    "type": "find_micro",
+    "model": "bladder_wall",
+    "part": "Umbrella cells"
+   },
+   {
+    "type": "order",
+    "q": "Put the arteries of the kidney in order",
+    "items": [
+     "Renal artery",
+     "Segmental artery",
+     "Interlobar artery",
+     "Arcuate artery",
+     "Cortical radiate artery",
+     "Afferent arteriole",
+     "Glomerulus",
+     "Efferent arteriole",
+     "Peritubular capillaries"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Most reabsorption of filtrate happens in the:",
+    "choices": [
+     "Proximal convoluted tubule",
+     "Distal convoluted tubule",
+     "Collecting duct",
+     "Glomerulus"
+    ],
+    "answer": 0,
+    "why": "Its brush border gives the proximal tubule a huge surface; it reclaims about two-thirds of the filtrate."
+   },
+   {
+    "type": "mcq",
+    "q": "Which sphincter is under voluntary control?",
+    "choices": [
+     "Internal urethral sphincter",
+     "External urethral sphincter",
+     "Both",
+     "Neither"
+    ],
+    "answer": 1,
+    "why": "The external sphincter is skeletal muscle; the internal one is smooth muscle at the bladder neck."
+   }
+  ]
+ },
+ {
+  "id": "exam2-05-lab9-male-reproductive",
+  "title": "Lab 9 review: the male reproductive system",
+  "course": {
+   "exam": 2,
+   "order": 5,
+   "unit": "Lab Practical 2 · Labs 6–9"
+  },
+  "system": "reproductive",
+  "region": "pelvis",
+  "level": "core",
+  "minutes": 10,
+  "summary": "Testis, sperm production, the duct system, the glands that make semen, and the penis and perineum.",
+  "tags": [
+   "review",
+   "reproductive",
+   "lab practical"
+  ],
+  "objectives": [
+   "Describe the coverings of the testis and how the scrotum keeps it cool",
+   "Order the cells of spermatogenesis and name the Sertoli and Leydig cells' jobs",
+   "Trace a sperm from the seminiferous tubule to the exterior and say what each gland adds",
+   "Identify the three erectile bodies and the two triangles of the perineum"
+  ],
+  "takeaways": [
+   "Spermatogonia → primary spermatocytes → secondary spermatocytes → spermatids → sperm.",
+   "Leydig cells make testosterone; Sertoli cells nurse the germ cells.",
+   "Epididymis → ductus deferens → ejaculatory duct → prostatic, membranous, spongy urethra.",
+   "Seminal glands give most of the semen; the corpus spongiosum carries the urethra."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab09-02-spermatogenesis-sperm",
+    "lab09-03-male-ducts-glands",
+    "lab09-04-penis-urethra-perineum"
+   ],
+   "micro": [
+    "male_reproductive"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Scrotum and testis",
+    "text": "<p>The testes hang in the <b>scrotum</b>, about 3 °C below core temperature. The <b>dartos</b> wrinkles the skin, the <b>cremaster</b> pulls the testis up, and the <b>pampiniform plexus</b> of veins cools the incoming arterial blood.</p><p>Each testis is wrapped in the serous <b>tunica vaginalis</b> and the tough <b>tunica albuginea</b>, whose septa divide it into lobules of coiled <b>seminiferous tubules</b>. These drain through the <b>rete testis</b> and <b>efferent ductules</b> into the epididymis.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Testis",
+     "Epididymis"
+    ],
+    "view": "left",
+    "xray": true,
+    "frame_on": [
+     "Testis"
+    ],
+    "micro": "male_reproductive",
+    "micro_focus": [
+     "Dartos muscle & fascia",
+     "Cremaster muscle & fascia",
+     "Tunica vaginalis (parietal layer)",
+     "Tunica albuginea of testis",
+     "Seminiferous tubules",
+     "Rete testis & tubuli recti"
+    ],
+    "check": {
+     "q": "Give two ways the testes are kept cooler than the body.",
+     "a": "Hanging in the scrotum, the dartos and cremaster adjusting their distance from the body, and the pampiniform plexus cooling the arterial blood."
+    }
+   },
+   {
+    "title": "Making sperm",
+    "text": "<p><b>Spermatogenesis</b> runs from the tubule wall inward to the lumen: <b>spermatogonia</b> (2n, dividing by mitosis) → <b>primary spermatocytes</b> (2n, entering meiosis I) → <b>secondary spermatocytes</b> (n, meiosis II) → <b>spermatids</b> (n) → spermatozoa. Remodelling a round spermatid into a sperm is <b>spermiogenesis</b>.</p><p><b>Sertoli cells</b> nurse the germ cells and form the blood–testis barrier; <b>Leydig (interstitial) cells</b> between the tubules make <b>testosterone</b> in response to LH.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Testis"
+    ],
+    "view": "left",
+    "xray": true,
+    "micro": "male_reproductive",
+    "micro_focus": [
+     "Spermatogonia",
+     "Primary spermatocytes",
+     "Secondary spermatocytes",
+     "Spermatids",
+     "Sertoli (sustentacular) cells",
+     "Leydig (interstitial) cells"
+    ],
+    "diagram": "lab09-spermatogenesis",
+    "check": {
+     "q": "Which cells make testosterone, and where are they?",
+     "a": "Leydig (interstitial) cells, in the connective tissue between the seminiferous tubules."
+    }
+   },
+   {
+    "title": "The sperm cell",
+    "text": "<p>A sperm has three parts. The <b>head</b> holds the haploid nucleus under the <b>acrosome</b>, a cap of enzymes that digests a path through the egg's coverings. The <b>midpiece</b> is wrapped in a spiral of <b>mitochondria</b> that supply the energy. The <b>tail</b>, a flagellum, drives it forward.</p><p>Sperm leave the testis unable to swim; they mature and are stored in the epididymis.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Testis"
+    ],
+    "view": "left",
+    "xray": true,
+    "micro": "male_reproductive",
+    "micro_focus": [
+     "Sperm nucleus",
+     "Acrosome",
+     "Midpiece (mitochondrial sheath)",
+     "Principal piece (fibrous sheath)"
+    ],
+    "diagram": "lab09-spermatogenesis",
+    "check": {
+     "q": "What is in the acrosome, and what is in the midpiece?",
+     "a": "The acrosome holds digestive enzymes for penetrating the egg; the midpiece holds mitochondria that power the tail."
+    }
+   },
+   {
+    "title": "Ducts and glands",
+    "text": "<p>From the testis sperm pass through the <b>epididymis</b> (head, body, tail) into the <b>ductus deferens</b>. It climbs in the <b>spermatic cord</b> through the inguinal canal, crosses over the ureter behind the bladder, widens into its <b>ampulla</b>, and joins the seminal gland's duct as the <b>ejaculatory duct</b>, which opens into the prostatic urethra.</p><p>Semen: <b>seminal glands</b> about 60% (alkaline, fructose), <b>prostate</b> about 30% (milky, with clotting enzymes), and the <b>bulbourethral glands</b> a little clear mucus first.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Epididymis",
+     "Ductus deferens",
+     "Seminal gland",
+     "Prostate"
+    ],
+    "show": [
+     "Urinary bladder",
+     "Ureter"
+    ],
+    "view": "left",
+    "xray": true,
+    "frame_on": [
+     "Male genital system"
+    ],
+    "micro": "male_reproductive",
+    "micro_focus": [
+     "Head of epididymis",
+     "Ductus deferens (vas deferens)",
+     "Ampulla of ductus deferens",
+     "Seminal vesicle (seminal gland)",
+     "Ejaculatory duct",
+     "Bulbourethral (Cowper) gland"
+    ],
+    "check": {
+     "q": "What does the spermatic cord contain?",
+     "a": "The ductus deferens, testicular artery, pampiniform venous plexus, nerves and lymphatics, wrapped in the spermatic fasciae and cremaster."
+    }
+   },
+   {
+    "title": "Penis, urethra and perineum",
+    "text": "<p>The penis has three erectile bodies: two dorsal <b>corpora cavernosa</b> and a ventral <b>corpus spongiosum</b>, which carries the <b>spongy urethra</b> and swells into the <b>glans</b> under the prepuce. The male urethra runs <b>prostatic → membranous → spongy</b>.</p><p>The diamond-shaped <b>perineum</b>, bounded by the pubic symphysis, the ischial tuberosities and the coccyx, divides into a front <b>urogenital triangle</b> and a back <b>anal triangle</b>.</p>",
+    "systems": [
+     "visceral"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Corpus cavernosum of penis",
+     "Corpus spongiosum of penis",
+     "Glans penis"
+    ],
+    "show": [
+     "Penis",
+     "Urethra"
+    ],
+    "view": "left",
+    "xray": true,
+    "frame_on": [
+     "Penis"
+    ],
+    "micro": "male_reproductive",
+    "micro_focus": [
+     "Prostatic urethra",
+     "Membranous (intermediate) urethra",
+     "Spongy (penile) urethra",
+     "Corpus spongiosum",
+     "Corpus cavernosum (erectile tissue)"
+    ],
+    "check": {
+     "q": "Which erectile body carries the urethra?",
+     "a": "The corpus spongiosum, which ends as the glans."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Testis"
+   },
+   {
+    "type": "find",
+    "structure": "Epididymis"
+   },
+   {
+    "type": "find",
+    "structure": "Ductus deferens"
+   },
+   {
+    "type": "name",
+    "structure": "Seminal gland"
+   },
+   {
+    "type": "find",
+    "structure": "Prostate"
+   },
+   {
+    "type": "name",
+    "structure": "Corpus spongiosum of penis"
+   },
+   {
+    "type": "find",
+    "structure": "Regions of perineum"
+   },
+   {
+    "type": "find_micro",
+    "model": "male_reproductive",
+    "part": "Seminiferous tubules"
+   },
+   {
+    "type": "find_micro",
+    "model": "male_reproductive",
+    "part": "Leydig (interstitial) cells"
+   },
+   {
+    "type": "find_micro",
+    "model": "male_reproductive",
+    "part": "Sertoli (sustentacular) cells"
+   },
+   {
+    "type": "find_micro",
+    "model": "male_reproductive",
+    "part": "Acrosome"
+   },
+   {
+    "type": "find_micro",
+    "model": "male_reproductive",
+    "part": "Pampiniform plexus & testicular vein"
+   },
+   {
+    "type": "order",
+    "q": "Put the cells of spermatogenesis in order",
+    "items": [
+     "Spermatogonium",
+     "Primary spermatocyte",
+     "Secondary spermatocyte",
+     "Spermatid",
+     "Spermatozoon"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Which gland contributes the largest share of semen?",
+    "choices": [
+     "Prostate",
+     "Seminal glands",
+     "Bulbourethral glands",
+     "Testes"
+    ],
+    "answer": 1,
+    "why": "The seminal glands give about 60% of the volume, rich in fructose."
+   },
+   {
+    "type": "mcq",
+    "q": "The first cells in spermatogenesis to be haploid are the:",
+    "choices": [
+     "Primary spermatocytes",
+     "Spermatogonia",
+     "Secondary spermatocytes",
+     "Sertoli cells"
+    ],
+    "answer": 2,
+    "why": "Meiosis I halves the chromosome number, so the secondary spermatocytes it produces are n."
+   }
+  ]
+ },
+ {
+  "id": "exam2-06-lab9-female-development",
+  "title": "Lab 9 review: the female system and early development",
+  "course": {
+   "exam": 2,
+   "order": 6,
+   "unit": "Lab Practical 2 · Labs 6–9"
+  },
+  "system": "reproductive",
+  "region": "pelvis",
+  "level": "core",
+  "minutes": 12,
+  "summary": "Ovary and follicles, the tract and its ligaments, the two cycles, the breast, and the first weeks after fertilisation.",
+  "tags": [
+   "review",
+   "reproductive",
+   "development",
+   "lab practical"
+  ],
+  "objectives": [
+   "Order the stages of follicle development and oogenesis",
+   "Identify the parts of the uterine tube, uterus and vagina and the layers of the uterine wall",
+   "Name the parts of the broad ligament and the other ligaments of the ovary and uterus",
+   "Match the phases of the ovarian and uterine cycles to their hormones",
+   "Trace development from zygote to blastocyst and name the germ-layer derivatives"
+  ],
+  "takeaways": [
+   "Primordial → primary → secondary → vesicular follicle → ovulation → corpus luteum → corpus albicans.",
+   "Fertilisation happens in the ampulla of the uterine tube.",
+   "The LH surge triggers ovulation; the corpus luteum makes progesterone.",
+   "The functional layer of the endometrium is shed; the basal layer regrows it.",
+   "Ectoderm: skin and nervous system. Mesoderm: muscle, bone, blood, kidney. Endoderm: gut and lung linings."
+  ],
+  "see_also": {
+   "lessons": [
+    "lab09-05-female-overview-ovary",
+    "lab09-08-ovarian-menstrual-cycles",
+    "lab09-11-fertilization-development"
+   ],
+   "micro": [
+    "female_reproductive"
+   ]
+  },
+  "steps": [
+   {
+    "title": "Ovary and oogenesis",
+    "text": "<p>Before birth, oogonia become <b>primary oocytes</b> that pause in prophase I inside <b>primordial follicles</b>. Each cycle a few grow into <b>primary</b> follicles, then <b>secondary</b> follicles with a fluid-filled <b>antrum</b>; one becomes the mature <b>vesicular (Graafian) follicle</b>, its oocyte on a <b>cumulus oophorus</b>.</p><p>Meiosis I ends just before ovulation, giving a <b>secondary oocyte</b> and a polar body; meiosis II finishes only if a sperm enters. The empty follicle becomes the <b>corpus luteum</b>, then the white scar of the <b>corpus albicans</b>.</p>",
+    "systems": [
+     "skeletal"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Bony pelvis"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "female_reproductive",
+    "micro_focus": [
+     "Primordial follicles",
+     "Primary follicles",
+     "Secondary follicles",
+     "Antrum (follicular fluid)",
+     "Cumulus oophorus",
+     "Corpus luteum",
+     "Corpus albicans"
+    ],
+    "diagram": "lab09-oogenesis",
+    "check": {
+     "q": "At what stage is the oocyte released at ovulation, and when does it finish meiosis?",
+     "a": "As a secondary oocyte arrested in metaphase II; it finishes meiosis II only if fertilised."
+    }
+   },
+   {
+    "title": "Tube, uterus and vagina",
+    "text": "<p>The <b>uterine tube</b> runs from the finger-like <b>fimbriae</b> and funnel of the <b>infundibulum</b>, through the wide <b>ampulla</b>, the usual site of fertilisation, and the narrow <b>isthmus</b> into the uterus. The <b>uterus</b> has a fundus, body, isthmus and <b>cervix</b>, which opens into the vagina at the external os; the vaginal recess around it is the <b>fornix</b>.</p><p>The uterine wall: <b>endometrium</b> (a functional layer that is shed over a basal layer that regrows it), muscular <b>myometrium</b>, and outer <b>perimetrium</b>.</p>",
+    "systems": [
+     "skeletal"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Bony pelvis"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "female_reproductive",
+    "micro_focus": [
+     "Fimbriae",
+     "Infundibulum of uterine tube",
+     "Ampulla of uterine tube",
+     "Isthmus of uterine tube",
+     "Fundus of uterus (myometrium)",
+     "Cervix of uterus",
+     "Fornix of vagina",
+     "Perimetrium"
+    ],
+    "check": {
+     "q": "Which layer of the endometrium is shed at menstruation?",
+     "a": "The stratum functionalis; the stratum basalis stays and regenerates it."
+    }
+   },
+   {
+    "title": "Ligaments and the vulva",
+    "text": "<p>The <b>broad ligament</b> is a sheet of peritoneum in three parts: <b>mesometrium</b> beside the uterus, <b>mesosalpinx</b> under the tube and <b>mesovarium</b> holding the ovary. The <b>ovarian ligament</b> ties the ovary to the uterus; the <b>suspensory ligament</b> ties it to the pelvic wall and carries the ovarian vessels; the <b>round ligament</b> runs through the inguinal canal to the labia majora.</p><p>The vulva: mons pubis, labia majora and minora, clitoris, and the <b>vestibule</b> with the urethral and vaginal openings and the <b>greater vestibular glands</b>.</p>",
+    "systems": [
+     "skeletal"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Bony pelvis"
+    ],
+    "show": [
+     "Inguinal ligament"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "female_reproductive",
+    "micro_focus": [
+     "Broad ligament - mesometrium",
+     "Broad ligament - mesosalpinx",
+     "Broad ligament - mesovarium",
+     "Ovarian ligament",
+     "Suspensory ligament of ovary",
+     "Round ligament of uterus"
+    ],
+    "check": {
+     "q": "Which ligament carries the ovarian artery and vein?",
+     "a": "The suspensory ligament of the ovary."
+    }
+   },
+   {
+    "title": "Two cycles, one clock",
+    "text": "<p>Hypothalamic GnRH makes the anterior pituitary release <b>FSH</b> and <b>LH</b>. Ovary: in the <b>follicular phase</b> FSH grows follicles that make oestrogen; an <b>LH surge</b> triggers ovulation around day 14; in the <b>luteal phase</b> the corpus luteum makes progesterone. Uterus: <b>menstrual</b> (days 1–5), <b>proliferative</b> (oestrogen rebuilds the lining), <b>secretory</b> (progesterone readies it). Without pregnancy the corpus luteum dies and progesterone falls. The pill works by suppressing FSH and LH, so there is no ovulation.</p>",
+    "systems": [
+     "nervous",
+     "visceral"
+    ],
+    "regions": [
+     "head"
+    ],
+    "focus": [
+     "Hypothalamus",
+     "Adenohypophysis"
+    ],
+    "view": "left",
+    "xray": true,
+    "frame_on": [
+     "Adenohypophysis"
+    ],
+    "diagram": "lab09-cycles",
+    "check": {
+     "q": "Which hormone triggers ovulation, and which structure then makes progesterone?",
+     "a": "The LH surge; the corpus luteum."
+    }
+   },
+   {
+    "title": "The breast",
+    "text": "<p>Each breast holds 15–20 <b>lobes</b> of gland set in fat. Each lobe's <b>lobules</b> of milk-making alveoli drain into a <b>lactiferous duct</b>, which widens into a <b>lactiferous sinus</b> before opening on the <b>nipple</b>, inside the pigmented <b>areola</b>. <b>Suspensory (Cooper) ligaments</b> tie the skin to the fascia over <b>pectoralis major</b>. The alveoli develop fully only in pregnancy and lactation.</p>",
+    "systems": [
+     "regions",
+     "muscular"
+    ],
+    "regions": [
+     "thorax"
+    ],
+    "focus": [
+     "Mammary region"
+    ],
+    "show": [
+     "Pectoralis major muscle"
+    ],
+    "view": "anterior",
+    "xray": false,
+    "frame_on": [
+     "Mammary region"
+    ],
+    "micro": "female_reproductive",
+    "micro_focus": [
+     "Lobules (alveolar glands)",
+     "Lactiferous ducts",
+     "Lactiferous sinuses",
+     "Nipple",
+     "Areola",
+     "Suspensory ligaments (of Cooper)"
+    ],
+    "check": {
+     "q": "Trace milk from where it is made to the nipple.",
+     "a": "Alveoli of a lobule → lactiferous duct → lactiferous sinus → opening on the nipple."
+    }
+   },
+   {
+    "title": "Fertilisation to germ layers",
+    "text": "<p>Sperm meet the egg in the <b>ampulla</b>; the acrosome clears a path, the egg finishes meiosis II and the pronuclei join as a <b>zygote</b>. <b>Cleavage</b> gives 2, 4, 8 cells, then a solid <b>morula</b>, then a hollow <b>blastocyst</b>: outer <b>trophoblast</b> (future placenta) and <b>inner cell mass</b> (future embryo). It implants about day 7.</p><p>Germ layers: <b>ectoderm</b> (epidermis, nervous system), <b>mesoderm</b> (muscle, bone, blood, kidneys), <b>endoderm</b> (gut and airway linings, liver, pancreas).</p>",
+    "systems": [
+     "skeletal"
+    ],
+    "regions": [
+     "abdomen"
+    ],
+    "focus": [
+     "Bony pelvis"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "female_reproductive",
+    "micro_focus": [
+     "Zygote",
+     "Morula",
+     "Blastocyst - trophoblast",
+     "Blastocyst - inner cell mass"
+    ],
+    "diagram": "lab09-cleavage",
+    "check": {
+     "q": "Which part of the blastocyst becomes the embryo, and which helps form the placenta?",
+     "a": "The inner cell mass becomes the embryo; the trophoblast forms the chorion and fetal placenta."
+    }
+   }
+  ],
+  "practice": [
+   {
+    "type": "find",
+    "structure": "Mammary region"
+   },
+   {
+    "type": "find",
+    "structure": "Adenohypophysis"
+   },
+   {
+    "type": "find_micro",
+    "model": "female_reproductive",
+    "part": "Ovary"
+   },
+   {
+    "type": "find_micro",
+    "model": "female_reproductive",
+    "part": "Corpus luteum"
+   },
+   {
+    "type": "find_micro",
+    "model": "female_reproductive",
+    "part": "Secondary follicles"
+   },
+   {
+    "type": "find_micro",
+    "model": "female_reproductive",
+    "part": "Ampulla of uterine tube"
+   },
+   {
+    "type": "find_micro",
+    "model": "female_reproductive",
+    "part": "Fimbriae"
+   },
+   {
+    "type": "find_micro",
+    "model": "female_reproductive",
+    "part": "Cervix of uterus"
+   },
+   {
+    "type": "find_micro",
+    "model": "female_reproductive",
+    "part": "Broad ligament - mesosalpinx"
+   },
+   {
+    "type": "find_micro",
+    "model": "female_reproductive",
+    "part": "Round ligament of uterus"
+   },
+   {
+    "type": "find_micro",
+    "model": "female_reproductive",
+    "part": "Lactiferous sinuses"
+   },
+   {
+    "type": "find_micro",
+    "model": "female_reproductive",
+    "part": "Blastocyst - inner cell mass"
+   },
+   {
+    "type": "order",
+    "q": "Put the stages of follicle development in order",
+    "items": [
+     "Primordial follicle",
+     "Primary follicle",
+     "Secondary follicle",
+     "Vesicular (Graafian) follicle",
+     "Corpus luteum",
+     "Corpus albicans"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "Put early development in order",
+    "items": [
+     "Zygote",
+     "2-cell stage",
+     "Morula",
+     "Blastocyst",
+     "Implantation"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Which germ layer gives rise to the nervous system?",
+    "choices": [
+     "Mesoderm",
+     "Endoderm",
+     "Ectoderm",
+     "Trophoblast"
+    ],
+    "answer": 2,
+    "why": "Ectoderm makes the epidermis and the whole nervous system."
+   },
+   {
+    "type": "mcq",
+    "q": "During the secretory phase of the uterine cycle the dominant hormone is:",
+    "choices": [
+     "FSH",
+     "Oestrogen from the follicle alone",
+     "Progesterone from the corpus luteum",
+     "Testosterone"
+    ],
+    "answer": 2,
+    "why": "The secretory phase matches the luteal phase: the corpus luteum's progesterone makes the glands secrete."
+   }
+  ]
+ },
+ {
+  "id": "exam2-99-practice-exam",
+  "title": "Practice exam: Labs 6–9",
+  "course": {
+   "exam": 2,
+   "order": 99,
+   "unit": "Lab Practical 2 · Labs 6–9"
+  },
+  "system": "respiratory",
+  "region": "general",
+  "level": "core",
+  "minutes": 30,
+  "summary": "A mixed practical drawing on every question from Labs 6–9, plus routes and comparisons that cut across them.",
+  "tags": [
+   "practice exam",
+   "lab practical",
+   "review"
+  ],
+  "objectives": [
+   "Find and name the structures of the respiratory, digestive, urinary and reproductive systems",
+   "Trace air, food, filtrate, urine, sperm and the oocyte along their routes",
+   "Compare the epithelia and walls of organs across systems"
+  ],
+  "takeaways": [
+   "Missed items come back in Review what is due; retry the missed ones before the practical.",
+   "Routes and epithelia link the four labs: know both for every organ."
+  ],
+  "see_also": {
+   "lessons": [
+    "exam2-01-lab6-respiratory",
+    "exam2-03-lab8-digestive",
+    "exam2-04-lab8-urinary",
+    "exam2-06-lab9-female-development"
+   ]
+  },
+  "practice_from": [
+   "lab06",
+   "lab07",
+   "lab08",
+   "lab09"
+  ],
+  "steps": [],
+  "practice": [
+   {
+    "type": "order",
+    "q": "Inhaled oxygen: put the route from nostril to red cell in order",
+    "items": [
+     "Nasal cavity",
+     "Pharynx",
+     "Larynx",
+     "Trachea",
+     "Bronchi",
+     "Bronchioles",
+     "Alveolus",
+     "Respiratory membrane",
+     "Red blood cell"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "A swallowed bolus: put the route in order",
+    "items": [
+     "Oral cavity",
+     "Oropharynx",
+     "Laryngopharynx",
+     "Oesophagus",
+     "Stomach",
+     "Duodenum",
+     "Jejunum",
+     "Ileum",
+     "Caecum"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "Undigested residue: put the large intestine in order",
+    "items": [
+     "Caecum",
+     "Ascending colon",
+     "Transverse colon",
+     "Descending colon",
+     "Sigmoid colon",
+     "Rectum",
+     "Anal canal"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "Filtrate becoming urine: put the route in order",
+    "items": [
+     "Glomerular capsule",
+     "Proximal convoluted tubule",
+     "Nephron loop",
+     "Distal convoluted tubule",
+     "Collecting duct",
+     "Minor calyx",
+     "Major calyx",
+     "Renal pelvis",
+     "Ureter",
+     "Urinary bladder",
+     "Urethra"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "A sperm: put its route from where it is made to the exterior in order",
+    "items": [
+     "Seminiferous tubule",
+     "Rete testis",
+     "Efferent ductules",
+     "Epididymis",
+     "Ductus deferens",
+     "Ejaculatory duct",
+     "Prostatic urethra",
+     "Membranous urethra",
+     "Spongy urethra"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "An oocyte and embryo: put the route from ovary to implantation in order",
+    "items": [
+     "Ovary",
+     "Fimbriae",
+     "Infundibulum",
+     "Ampulla",
+     "Isthmus",
+     "Uterine cavity"
+    ]
+   },
+   {
+    "type": "order",
+    "q": "Oxygen crossing from the alveolus: put the layers in order",
+    "items": [
+     "Alveolar air",
+     "Type I pneumocyte",
+     "Fused basement membranes",
+     "Capillary endothelium",
+     "Plasma",
+     "Red blood cell"
+    ]
+   },
+   {
+    "type": "mcq",
+    "q": "Which organ is lined by transitional epithelium?",
+    "choices": [
+     "Trachea",
+     "Stomach",
+     "Urinary bladder",
+     "Uterine tube"
+    ],
+    "answer": 2,
+    "why": "Urothelium lines the renal pelvis, ureters and bladder; it stretches as they fill."
+   },
+   {
+    "type": "mcq",
+    "q": "Pseudostratified ciliated columnar epithelium with goblet cells lines the:",
+    "choices": [
+     "Oesophagus",
+     "Colon",
+     "Proximal convoluted tubule",
+     "Trachea"
+    ],
+    "answer": 3,
+    "why": "The mucociliary lining of the conducting airways."
+   },
+   {
+    "type": "mcq",
+    "q": "Non-keratinised stratified squamous epithelium lines both the oesophagus and the:",
+    "choices": [
+     "Stomach",
+     "Trachea",
+     "Urinary bladder",
+     "Vagina"
+    ],
+    "answer": 3,
+    "why": "Both surfaces take abrasion, so both have a many-layered squamous lining."
+   },
+   {
+    "type": "mcq",
+    "q": "Simple squamous epithelium forms both the alveolar wall and the:",
+    "choices": [
+     "Lining of the stomach",
+     "Lining of the ureter",
+     "Lining of the epididymis",
+     "Parietal layer of the glomerular capsule"
+    ],
+    "answer": 3,
+    "why": "Type I pneumocytes and the parietal layer of Bowman's capsule are both thin squamous cells."
+   },
+   {
+    "type": "mcq",
+    "q": "A brush border of microvilli is found on enterocytes and on the cells of the:",
+    "choices": [
+     "Proximal convoluted tubule",
+     "Collecting duct",
+     "Trachea",
+     "Oesophagus"
+    ],
+    "answer": 0,
+    "why": "Both are built for absorption; microvilli multiply the surface."
+   },
+   {
+    "type": "mcq",
+    "q": "Ciliated simple columnar epithelium that moves an egg lines the:",
+    "choices": [
+     "Ductus deferens",
+     "Ureter",
+     "Vagina",
+     "Uterine tube"
+    ],
+    "answer": 3,
+    "why": "The cilia beat toward the uterus, helped by peristalsis."
+   },
+   {
+    "type": "mcq",
+    "q": "Which passage is shared by air and food?",
+    "choices": [
+     "Nasopharynx",
+     "Oesophagus",
+     "Trachea",
+     "Oropharynx"
+    ],
+    "answer": 3,
+    "why": "The oropharynx and laryngopharynx carry both; the nasopharynx is air only."
+   },
+   {
+    "type": "mcq",
+    "q": "Which tube carries both urine and semen?",
+    "choices": [
+     "Ureter",
+     "Ejaculatory duct",
+     "Male urethra",
+     "Ductus deferens"
+    ],
+    "answer": 2,
+    "why": "The ejaculatory ducts open into the prostatic urethra, which also drains the bladder."
+   },
+   {
+    "type": "mcq",
+    "q": "Which of these is retroperitoneal?",
+    "choices": [
+     "Jejunum",
+     "Stomach",
+     "Transverse colon",
+     "Kidney"
+    ],
+    "answer": 3,
+    "why": "The kidneys, most of the duodenum and pancreas, and the ascending and descending colon lie behind the peritoneum."
+   },
+   {
+    "type": "mcq",
+    "q": "Which pair of sphincters are both smooth muscle and involuntary?",
+    "choices": [
+     "Internal anal and internal urethral",
+     "External anal and external urethral",
+     "Internal anal and external urethral",
+     "Pyloric and external anal"
+    ],
+    "answer": 0,
+    "why": "The internal sphincters are smooth muscle; the external ones are skeletal and voluntary."
+   },
+   {
+    "type": "mcq",
+    "q": "Which two organs have an extra third layer of smooth muscle in their wall?",
+    "choices": [
+     "Stomach and urinary bladder",
+     "Trachea and oesophagus",
+     "Jejunum and colon",
+     "Ureter and uterine tube"
+    ],
+    "answer": 0,
+    "why": "The stomach adds an inner oblique layer; the detrusor is arranged in three layers."
+   },
+   {
+    "type": "mcq",
+    "q": "Near the bladder, which structure crosses over the ureter in a male?",
+    "choices": [
+     "Urethra",
+     "Ductus deferens",
+     "Testicular artery",
+     "Seminal gland"
+    ],
+    "answer": 1,
+    "why": "The ductus deferens passes over the ureter on its way behind the bladder."
+   },
+   {
+    "type": "mcq",
+    "q": "Which set of cells makes no digestive enzymes?",
+    "choices": [
+     "Chief cells, acinar cells, parietal cells",
+     "Chief cells, Leydig cells, goblet cells",
+     "Acinar cells, type II pneumocytes, chief cells",
+     "Type II pneumocytes, parietal cells, Leydig cells"
+    ],
+    "answer": 3,
+    "why": "Surfactant, HCl and testosterone; chief and acinar cells make enzymes."
+   },
+   {
+    "type": "recall",
+    "q": "Match each secretion to its cell: surfactant, HCl, pepsinogen, testosterone, renin.",
+    "a": "Type II pneumocyte; parietal cell; chief cell; Leydig cell; juxtaglomerular cell."
+   },
+   {
+    "type": "recall",
+    "q": "Name three places where two capillary beds (or a capillary bed and sinusoids) sit in series.",
+    "a": "The kidney (glomerulus then peritubular capillaries), the liver (gut capillaries → hepatic portal vein → sinusoids) and the pituitary (hypothalamic capillaries → portal veins → anterior pituitary capillaries)."
+   },
+   {
+    "type": "recall",
+    "q": "Where are cilia, stereocilia and microvilli found in Labs 6–9?",
+    "a": "Cilia: airway lining and the uterine tube. Stereocilia: the epididymis. Microvilli: small-intestine enterocytes and the proximal convoluted tubule."
+   },
+   {
+    "type": "recall",
+    "q": "Compare meiosis in the testis and the ovary.",
+    "a": "The testis makes four sperm from each primary spermatocyte, continuously from puberty. The ovary makes one egg plus polar bodies, starts before birth, pauses in prophase I and finishes meiosis II only at fertilisation."
+   },
+   {
+    "type": "find",
+    "structure": "Pharynx"
+   },
+   {
+    "type": "find",
+    "structure": "Urethra"
+   },
+   {
+    "type": "name",
+    "structure": "Oesophagus"
+   },
+   {
+    "type": "find",
+    "structure": "Diaphragm"
+   }
+  ]
+ }
+]

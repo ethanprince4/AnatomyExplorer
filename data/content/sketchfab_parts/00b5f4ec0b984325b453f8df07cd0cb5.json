@@ -1,0 +1,47 @@
+{
+  "summary": "A sculpted human heart (checked by a University of Dundee anatomist) painted to teach the coronary arteries. The right coronary artery runs in the right coronary sulcus to the back of the heart, where it gives the posterior interventricular artery (a right-dominant pattern); the left coronary artery divides into the anterior interventricular artery (LAD) with its diagonal branches and the circumflex artery with its marginal branches. The great vessels are colour-coded by oxygen content: red = oxygenated (aorta, pulmonary veins), blue = deoxygenated (venae cavae, pulmonary arteries).",
+  "view": [
+    0,
+    5
+  ],
+  "default_group": "Heart",
+  "clinical": [
+    [
+      "Anterior (LAD) infarction",
+      "The anterior interventricular artery supplies the anterior left ventricle, the apex and the anterior two-thirds of the interventricular septum, so a proximal LAD occlusion causes a large anterior infarct - the so-called widow-maker."
+    ],
+    [
+      "Inferior infarction and heart block",
+      "In right-dominant hearts like this one the right coronary artery gives the posterior interventricular artery and usually the atrioventricular nodal artery, so an RCA occlusion causes an inferior infarct that is often accompanied by bradycardia or AV block."
+    ]
+  ],
+  "parts": {
+    "SubTool-0": {
+      "name": "Heart",
+      "group": "Heart",
+      "description": "The whole heart is a single sculpted mesh; the coronary arteries are painted red on the pale myocardium rather than being separate pieces. The right coronary artery runs in the right part of the coronary (atrioventricular) sulcus, gives a right marginal branch along the acute margin and continues to the crux to give the posterior interventricular artery; the left coronary artery divides into the anterior interventricular (LAD) and circumflex arteries. The white cord under the aortic arch is the ligamentum arteriosum, the remnant of the fetal ductus arteriosus.",
+      "structures": [
+        "Right coronary artery",
+        "Left coronary artery",
+        "Anterior interventricular artery",
+        "Circumflex artery of heart",
+        "Right atrium",
+        "Left atrium",
+        "Right ventricle",
+        "Left ventricle",
+        "Ascending aorta",
+        "Aortic arch",
+        "Brachiocephalic trunk",
+        "Left common carotid artery",
+        "Left subclavian artery",
+        "Pulmonary trunk",
+        "Right pulmonary artery",
+        "Left pulmonary artery",
+        "Pulmonary veins",
+        "Superior vena cava",
+        "Inferior vena cava (thoracic part)"
+      ]
+    }
+  },
+  "notes": "Single ZBrush mesh with the anatomy painted in vertex colour, so it cannot be split into parts; all structures are listed on the one part. Dominance: from the posterior-inferior view the right coronary artery reaches the crux and gives the posterior interventricular branch while the circumflex stops on the left margin, so the model is right-dominant. The small white cord between the aortic arch and the left pulmonary artery was identified as the ligamentum arteriosum from its position. Colours: the painted vertex colours render paler (myocardium near-white, blue vessels lavender) than on Sketchfab, where the myocardium is pink-red; this looks like a vertex-colour colour-space difference in the importer, and a curation colour override would wipe out the painting, so it was left alone."
+}

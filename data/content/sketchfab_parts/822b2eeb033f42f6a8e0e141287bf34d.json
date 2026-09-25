@@ -1,0 +1,66 @@
+{
+  "summary": "The male urinary tract (kidneys, ureters and bladder), with the suprarenal glands, shown inside the skeleton of the trunk so you can read off the vertebral and rib levels. The prostate, seminal glands and ductus deferens are included below and behind the bladder. Built from CT data for a UMCG e-learning module on imaging of the thorax and abdomen.",
+  "view": [0, 5],
+  "clinical": [
+    ["Renal colic", "A stone passing down the ureter causes severe loin-to-groin pain. It tends to lodge at the pelviureteric junction, where the ureter crosses the pelvic brim, and where it enters the bladder. On a plain film, look for it along the tips of the lumbar transverse processes and over the sacro-iliac joint."],
+    ["Benign prostatic hyperplasia", "Enlargement of the prostate around the prostatic urethra obstructs outflow from the bladder. It causes hesitancy, a weak stream, frequency, nocturia and eventually urinary retention, and the bladder wall thickens over time."]
+  ],
+  "parts": {
+    "Rechternier1": {
+      "name": "Right kidney", "group": "Urinary tract", "category": "organ", "color": "#7c3a1c",
+      "description": "A retroperitoneal organ on the posterior abdominal wall at roughly T12 to L3. It sits a little lower than the left kidney because the liver lies above it.",
+      "structures": ["Kidney"]
+    },
+    "Rechternier": {
+      "name": "Left kidney", "group": "Urinary tract", "category": "organ", "color": "#7c3a1c",
+      "description": "A retroperitoneal organ at roughly T11 to L2, slightly higher than the right kidney. The 11th and 12th ribs cross behind its upper pole, so fractures of the lower ribs can injure it.",
+      "structures": ["Kidney"]
+    },
+    "PM3D Sphere3D1 2": {
+      "name": "Right suprarenal gland", "group": "Suprarenal glands", "category": "gland",
+      "description": "A pyramid-shaped endocrine gland capping the upper pole of the right kidney, inside the renal fascia. The cortex makes corticosteroids (cortisol and aldosterone) and the medulla makes adrenaline.",
+      "structures": ["Suprarenal gland"]
+    },
+    "PM3D Sphere3D1 3": {
+      "name": "Left suprarenal gland", "group": "Suprarenal glands", "category": "gland",
+      "description": "A crescent-shaped endocrine gland on the upper, medial part of the left kidney. The cortex makes corticosteroids and the medulla makes adrenaline and noradrenaline.",
+      "structures": ["Suprarenal gland"]
+    },
+    "Skin ZSphere2": {
+      "name": "Ureters", "group": "Urinary tract", "category": "organ",
+      "description": "Each ureter starts at the renal pelvis (included here at the hilum of the kidney) and runs down on psoas major, in front of the tips of the lumbar transverse processes. It crosses the pelvic brim over the iliac vessels and enters the bladder obliquely, which acts as a valve against reflux.",
+      "structures": ["Ureter", "Renal pelvis"]
+    },
+    "Blaas": {
+      "name": "Urinary bladder", "group": "Urinary tract", "category": "organ",
+      "description": "A hollow muscular reservoir in the lesser pelvis, behind the pubic symphysis. The two ureteric openings and the internal urethral orifice mark the corners of the trigone. In the male, the seminal glands and ductus deferens lie on its posterior surface and the prostate lies below it.",
+      "structures": ["Urinary bladder"]
+    },
+    "PM3D Sphere3D18 01": {
+      "name": "Prostate", "group": "Male genital organs", "category": "gland",
+      "description": "A gland below the neck of the bladder that surrounds the prostatic urethra. Benign enlargement of its transition zone obstructs urine flow. Cancer mostly arises in the peripheral zone, which can be felt on rectal examination.",
+      "structures": ["Prostate"]
+    },
+    "Extract1": {
+      "name": "Ductus deferens and seminal glands", "group": "Male genital organs", "category": "duct",
+      "description": "The ductus deferens enters the pelvis at the deep inguinal ring, arches over the ureter and widens into an ampulla behind the bladder. There it joins the duct of the seminal gland (seminal vesicle) to form the ejaculatory duct inside the prostate. The seminal glands make most of the volume of seminal fluid.",
+      "structures": ["Ductus deferens", "Seminal gland"]
+    },
+    "Botjes": {
+      "name": "Thoracic cage, spine and pelvis", "group": "Skeleton", "category": "bone",
+      "description": "The ribs, sternum, thoracic and lumbar vertebrae, sacrum and hip bones, with the clavicles and scapulae, as landmarks for the urinary organs. The kidneys lie beside T12 to L3 under the lowest ribs. The ureters descend over the lumbar transverse processes and cross the pelvic brim near the sacro-iliac joints.",
+      "structures": ["Ribs", "Sternum", "Thoracic vertebrae", "Lumbar vertebrae", "Sacrum", "Hip bone", "Clavicle", "Scapula"]
+    },
+    "Costal cartilages": {
+      "name": "Costal cartilages", "group": "Skeleton", "category": "cartilage",
+      "description": "Bars of hyaline cartilage, shown translucent. Those of ribs 1 to 7 join the sternum directly, while those of ribs 8 to 10 join the cartilage above to form the costal margin. The small piece of the same mesh at the front of the pelvis is the interpubic disc of the pubic symphysis.",
+      "structures": ["Costal cartilages", "Interpubic disc"]
+    },
+    "Vertebral discs": {
+      "name": "Intervertebral discs", "group": "Skeleton", "category": "cartilage",
+      "description": "Fibrocartilage pads between the vertebral bodies, each a tough annulus fibrosus around a gel-like nucleus pulposus. They absorb load and allow movement between vertebrae. A herniated nucleus can compress a spinal nerve root.",
+      "structures": ["Intervertebral disc"]
+    }
+  },
+  "notes": "The mesh 'Rechternier' ('right kidney' in Dutch) sits on the model's LEFT side, so it is named Left kidney; 'Rechternier1' is on the right. 'PM3D Sphere3D1 2/3' are the pale caps on the upper renal poles, identified as the suprarenal glands. 'Skin ZSphere2' is both ureters with the renal pelves. 'Extract1' (one mesh) is the ductus deferens loops plus the seminal glands behind the bladder, and 'PM3D Sphere3D18 01' is the prostate; these were identified from their shape and position, since the creator's description does not mention them. Our renders show the kidneys a little redder than the creator's rust-brown thumbnail, but I left the colour unchanged. Verifier: the kidneys now carry a colour override (#7c3a1c) so they render rust-brown as in the creator's thumbnail instead of bright red; the 'Costal cartilages' mesh also contains a small midline piece at the front of the pelvis, read as the interpubic disc of the pubic symphysis (from position only)."
+}

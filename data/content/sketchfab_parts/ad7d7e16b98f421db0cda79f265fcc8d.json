@@ -1,0 +1,51 @@
+{
+  "summary": "The conducting airways from the larynx down to the bronchioles, inside translucent lungs. It shows the hyoid bone and laryngeal cartilages, the thyroid gland, the trachea and bronchial tree, and their cartilage, which thins out from complete C-rings to scattered plates. An enlarged inset in the left upper lobe shows bronchioles ending in alveolar sacs. Built from CT data for a UMCG e-learning module on imaging of the thorax.",
+  "view": [0, 5],
+  "clinical": [
+    ["Inhaled foreign bodies", "The right main bronchus is wider, shorter and more vertical than the left, so aspirated objects lodge more often in the right bronchial tree. When the person is upright, this is usually the right lower lobe."],
+    ["Asthma", "Asthma is reversible narrowing of the bronchi and bronchioles through smooth-muscle contraction, mucosal oedema and mucus plugging. Bronchioles have no cartilage, so their width depends entirely on smooth-muscle tone and on traction from the surrounding lung."]
+  ],
+  "parts": {
+    "Hyoid bone": {
+      "name": "Hyoid bone and laryngeal cartilages", "group": "Larynx and thyroid", "category": "cartilage",
+      "description": "The U-shaped hyoid bone sits above the larynx, whose skeleton here is the shield-like thyroid cartilage and the ring-shaped cricoid cartilage. The cricoid is the only complete cartilage ring in the airway and marks the start of the trachea at C6.",
+      "structures": ["Hyoid bone", "Thyroid cartilage", "Cricoid cartilage"]
+    },
+    "Tussen hyoid en thyroid": {
+      "name": "Thyrohyoid membrane", "group": "Larynx and thyroid", "category": "ligament",
+      "description": "A fibro-elastic sheet that suspends the thyroid cartilage from the hyoid bone. The internal branch of the superior laryngeal nerve and the superior laryngeal vessels pierce it.",
+      "structures": ["Thyrohyoid membrane"]
+    },
+    "Thyroid gland": {
+      "name": "Thyroid gland", "group": "Larynx and thyroid", "category": "gland",
+      "description": "An endocrine gland with two lobes joined by an isthmus, which lies over the 2nd to 4th tracheal rings. It is enclosed in pretracheal fascia attached to the larynx, so it moves up when you swallow. It makes the thyroid hormones (T4 and T3) and calcitonin.",
+      "structures": ["Thyroid gland"]
+    },
+    "Bronchi1": {
+      "name": "Trachea and bronchial tree", "group": "Trachea and bronchi", "category": "airway",
+      "description": "The trachea divides at about T4/T5 into the right and left main bronchi, which branch into lobar (3 right, 2 left) and then segmental bronchi. The right main bronchus is wider, shorter and more vertical, while the left runs longer and more horizontally under the aortic arch.",
+      "structures": ["Trachea", "Right main bronchus", "Left main bronchus", "Bronchi"]
+    },
+    "Trachea kraakbeen": {
+      "name": "Tracheal and bronchial cartilages", "group": "Trachea and bronchi", "category": "cartilage",
+      "description": "C-shaped hyaline cartilage rings, open at the back, support the trachea and main bronchi. Further down the tree they break up into the irregular plates shown here, and bronchioles have no cartilage at all.",
+      "structures": ["Trachea", "Bronchi"]
+    },
+    "Bronchi1 1": {
+      "name": "Bronchiolar smooth muscle", "group": "Terminal airways (enlarged)", "category": "muscle",
+      "description": "Spiral bands of smooth muscle around the bronchioles in the enlarged inset. Because bronchioles have no cartilage, contraction of this muscle (bronchoconstriction, as in asthma) directly narrows them. Beta-2 agonists relax it.",
+      "structures": []
+    },
+    "PM3D Sphere3D2": {
+      "name": "Alveolar sacs", "group": "Terminal airways (enlarged)", "category": "lung",
+      "description": "Grape-like clusters of alveoli at the end of the airway tree, greatly enlarged here. Gas exchange takes place across their thin walls, where type I cells line the air spaces and type II cells secrete surfactant.",
+      "structures": []
+    },
+    "Linkerlong": {
+      "name": "Lungs", "group": "Lungs", "category": "lung",
+      "description": "Both lungs, shown translucent so the airways inside can be seen. The right lung has three lobes separated by the oblique and horizontal fissures. The left lung has two lobes, with a cardiac notch and a lingula.",
+      "structures": ["Right lung", "Left lung"]
+    }
+  },
+  "notes": "The single mesh 'Linkerlong' ('left lung' in Dutch) contains both lungs. The 'Hyoid bone' mesh also contains the thyroid and cricoid cartilages and cannot be split. 'Tussen hyoid en thyroid' ('between hyoid and thyroid') is the thyrohyoid membrane. 'Bronchi1 1' is a set of red helical bands wrapped around the bronchioles of the enlarged inset. I read it as bronchiolar smooth muscle, but it could be meant as vessels around the bronchioles. 'PM3D Sphere3D2' is the purple alveolar clusters. The lungs render more brown-grey than the pink in the creator's thumbnail (translucent over a dark background), and I left the colour unchanged."
+}

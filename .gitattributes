@@ -1,0 +1,11 @@
+# Files over GitHub's 100 MB limit go through Git LFS. Everything else is ordinary git, which does not count
+# against the LFS storage and download allowance. tools/fetch_sketchfab.py says when a new download needs a line here.
+data/anatomy/vertices.bin filter=lfs diff=lfs merge=lfs -text
+data/anatomy/indices.bin filter=lfs diff=lfs merge=lfs -text
+data/sketchfab_models/a3f0ea2030214a6bbaa97e7357eebd58/model.glb filter=lfs diff=lfs merge=lfs -text
+data/sketchfab_models/a82aea949e4b470f888dd43983ed83cf/model.glb filter=lfs diff=lfs merge=lfs -text
+
+# Binary data
+*.bin binary
+*.glb binary
+*.npz binary
