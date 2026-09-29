@@ -51,8 +51,7 @@ class MainWindow(QMainWindow):
         self.history_pos = -1
         self._navigating = False
         self.settings_dialog = None
-        self.micro_tabs = {}
-        self.sketchfab_panel = None
+        self.micro_tabs = {}             # every open model tab (and the histology viewer), by id
 
         # ---------------------------------------------------------------- center
         self.viewport = Viewport(ds, self.state, self.settings)
@@ -80,6 +79,7 @@ class MainWindow(QMainWindow):
         self.center.tabCloseRequested.connect(self._close_center_tab)
         self.center.currentChanged.connect(self._center_changed)
         self.setCentralWidget(self.center)
+        self.setAcceptDrops(True)            # a .glb dropped on the window opens in the model viewer
 
         # ---------------------------------------------------------------- left dock
         left = QWidget()
@@ -132,21 +132,16 @@ class MainWindow(QMainWindow):
                 self.diagram_overlay = DiagramOverlay(self.center)     # a step's diagram, readable, over the 3D
                 self.lessons_panel.diagramChanged.connect(self.diagram_overlay.set_diagram)
                 self.lessons_panel.linkActivated.connect(self.on_link)
-                from .micro.registry import MODELS as MICRO_MODELS
                 self.lessons_panel.set_reference_titles(
-                    micro={k: m.name for k, m in MICRO_MODELS.items()},
+                    micro={k: m.name for k, m in self.content.micro_models.items()},
                     histo={k: v.get("name", k) for k, v in self.content.tissues.items()},
                     rad={c.id: c.title for c in self.radiology_cases})
                 self.index.add_lessons(lessons)
         except (ImportError, OSError, ValueError):
             self.lessons_panel = None
-        from .sketchfab import SketchfabIndex, load_catalog
         from .lessons import Resolver as _Resolver
-        self.sketchfab_models = load_catalog()
         if getattr(self, "lesson_resolver", None) is None:
             self.lesson_resolver = _Resolver(ds, self.index)
-        self.sketchfab = SketchfabIndex(ds, self.sketchfab_models, self.lesson_resolver)
-        self.index.add_sketchfab(self.sketchfab_models)
         self.tabs.addTab(self.view_panel, "View")
         ll.addWidget(self.tabs.nav)
         ll.addWidget(self.tabs, 1)
@@ -164,7 +159,6 @@ class MainWindow(QMainWindow):
         self.info.n_radiology = len(self.radiology_cases)
         self.info.n_lessons = len(self.lessons_panel.lessons) if self.lessons_panel is not None else 0
         self.info.set_font_scale(float(self.settings["details_scale"]))
-        self.info.sketchfab = self.sketchfab
         from .relations import RelationsIndex
         self.relations = RelationsIndex(ds)
         self.info.relations = self.relations
@@ -254,36 +248,46 @@ class MainWindow(QMainWindow):
         reg("forward", lambda: self.navigate(1))
         reg("save_view", self.save_view_dialog)
         reg("histology_tab", self.show_histology_tab)
-        reg("frame", lambda: self._sketchfab_cam("frame") or self.frame_selection())
-        reg("reset_view", lambda: self._sketchfab_cam("reset_view") or vp.reset_view())
+        mv = self.active_model_view
+        av = self.active_viewport
+        reg("frame", lambda: mv().frame_selection() if mv() else self.frame_selection())
+        reg("reset_view", lambda: mv().reset_view() if mv() else vp.reset_view())
         for v in VIEWS:
-            reg(f"view_{v}", lambda _=False, n=v: self._sketchfab_cam("set_view", n) or vp.set_view(n))
-        reg("orbit_left", lambda: vp.key_orbit(1, 0))
-        reg("orbit_right", lambda: vp.key_orbit(-1, 0))
-        reg("orbit_up", lambda: vp.key_orbit(0, 1))
-        reg("orbit_down", lambda: vp.key_orbit(0, -1))
-        reg("zoom_in", lambda: vp.key_zoom(1))
-        reg("zoom_out", lambda: vp.key_zoom(-1))
+            reg(f"view_{v}", lambda _=False, n=v: av().set_view(n))
+        reg("orbit_left", lambda: av().key_orbit(1, 0))
+        reg("orbit_right", lambda: av().key_orbit(-1, 0))
+        reg("orbit_up", lambda: av().key_orbit(0, 1))
+        reg("orbit_down", lambda: av().key_orbit(0, -1))
+        reg("zoom_in", lambda: av().key_zoom(1))
+        reg("zoom_out", lambda: av().key_zoom(-1))
         self.auto_rotate_action = reg("auto_rotate", self.toggle_auto_rotate)
         self.auto_rotate_action.setCheckable(True)
-        reg("hide", self.hide_selection)
-        reg("isolate", self.isolate_selection)
+        reg("hide", lambda: mv().hide_selection() if mv() else self.hide_selection())
+        reg("isolate", lambda: mv().isolate_selection() if mv() else self.isolate_selection())
         self.xray_action = reg("xray", self.toggle_xray)
         self.xray_action.setCheckable(True)
-        reg("both_sides", self.select_both_sides)
-        reg("show_all", self.show_all)
-        reg("default_visibility", self.reset_visibility)
-        reg("undo", self.undo)
-        reg("landmarks", lambda: self.on_setting("show_landmarks", not self.settings["show_landmarks"], sync=True))
+        reg("both_sides", lambda: None if mv() else self.select_both_sides())
+        reg("show_all", lambda: mv().show_all() if mv() else self.show_all())
+        reg("default_visibility", lambda: mv().show_all() if mv() else self.reset_visibility())
+        reg("undo", lambda: mv().undo() if mv() else self.undo())
+        reg("landmarks", lambda: mv().toggle_labels() if mv() else
+            self.on_setting("show_landmarks", not self.settings["show_landmarks"], sync=True))
         reg("color_mode", lambda: self.on_setting("color_mode", (int(self.settings["color_mode"]) + 1) % 3, sync=True))
         self.measure_action = reg("measure", self.toggle_measure)
         self.measure_action.setCheckable(True)
-        reg("peel_in", lambda: self.view_panel.step_depth(1))
-        reg("peel_out", lambda: self.view_panel.step_depth(-1))
-        reg("peel_reset", lambda: self.view_panel.set_depth(0.0, False))
-        reg("clip_sagittal", lambda: self.view_panel.toggle_clip(0))
-        reg("clip_coronal", lambda: self.view_panel.toggle_clip(1))
-        reg("clip_transverse", lambda: self.view_panel.toggle_clip(2))
+        reg("peel_in", lambda: None if mv() else self.view_panel.step_depth(1))
+        reg("peel_out", lambda: None if mv() else self.view_panel.step_depth(-1))
+        reg("peel_reset", lambda: None if mv() else self.view_panel.set_depth(0.0, False))
+        reg("clip_sagittal", lambda: mv().toggle_section(0) if mv() else self.view_panel.toggle_clip(0))
+        reg("clip_coronal", lambda: mv().toggle_section(1) if mv() else self.view_panel.toggle_clip(1))
+        reg("clip_transverse", lambda: mv().toggle_section(2) if mv() else self.view_panel.toggle_clip(2))
+        # the model viewer's own commands: they act on the model in front and do nothing in the atlas
+        reg("model_next_view", lambda: mv() and mv().step_view(1))
+        reg("model_prev_view", lambda: mv() and mv().step_view(-1))
+        reg("model_projection", lambda: mv() and mv().toggle_projection())
+        reg("model_state", lambda: mv() and mv().toggle_state())
+        reg("model_play", lambda: mv() and mv().toggle_play())
+        reg("open_model_file", self.open_model_file)
         reg("note", self.edit_note)
         reg("lessons", lambda: self.show_lessons())
         reg("radiology", lambda: self.show_radiology())
@@ -361,17 +365,13 @@ class MainWindow(QMainWindow):
         st.addAction("My progress…", self.show_progress)
         st.addAction(a["note"])
         st.addAction("All my notes…", self.show_all_notes)
-        if self.sketchfab_models:
-            st.addSeparator()
-            st.addAction(f"Online 3D models (Sketchfab, {len(self.sketchfab_models)})…", lambda: self.open_sketchfab())
-            local = [m for m in self.sketchfab_models if m.local]
-            if local:
-                sub = st.addMenu(f"Downloaded 3D models ({len(local)})")
-                for m in sorted(local, key=lambda x: x.name.lower()):
-                    sub.addAction(m.name, lambda _=False, u=m.uid: self.open_local_model(u))
+        st.addSeparator()
+        self._add_models_menu(st)
 
         # ---- the menu bar
         f = mb.addMenu("&File")
+        f.addAction(a["open_model_file"])
+        f.addSeparator()
         f.addAction(a["screenshot"])
         f.addAction(a["export_figure"])
         f.addAction(a["settings"])
@@ -408,6 +408,8 @@ class MainWindow(QMainWindow):
         v.addMenu(sm)
         v.addMenu(dm)
         v.addAction(a["landmarks"])
+        mm = v.addMenu("3D model views")
+        self._fill_menu(mm, ("model_next_view", "model_prev_view", "model_projection", "model_state", "model_play"))
 
         mb.addMenu(tm)
         mb.addMenu(st)
@@ -593,6 +595,10 @@ class MainWindow(QMainWindow):
             self.info.set_font_scale(float(value))
         elif key == "fov":
             self.viewport.camera.fov = float(value)
+        for view in list(self.micro_tabs.values()):
+            gl = getattr(view, "gl_widget", None)
+            if gl is not None and hasattr(gl, "invalidate_labels"):
+                gl.invalidate_labels()       # colours, backgrounds, labels and outlines are read every frame
         if sync:
             self.view_panel.sync_from_settings()
             if self.settings_dialog is not None:
@@ -714,25 +720,14 @@ class MainWindow(QMainWindow):
         self.dock_side_panels()
 
     def toggle_auto_rotate(self):
-        bridge = self._active_bridge()
-        on = bridge.toggle_auto_rotate() if bridge is not None else self.viewport.toggle_auto_rotate()
+        on = self.active_viewport().toggle_auto_rotate()
         self.auto_rotate_action.setChecked(on)
 
-    def _active_bridge(self):
-        """The Sketchfab camera bridge, when it is what the user is looking at and driving."""
-        p = self.sketchfab_panel
-        if p is not None and self.center.currentWidget() is p and p.bridge.active:
-            return p.bridge
-        return None
-
-    def _sketchfab_cam(self, method, *args):
-        """Send a camera command to the embedded model instead of the atlas if that is the view in front.
-        Returns True when it was handled, so the atlas's own version is skipped."""
-        bridge = self._active_bridge()
-        if bridge is None:
-            return False
-        getattr(bridge, method)(*args)
-        return True
+    def active_model_view(self):
+        """The model tab in front, or None when it is the atlas (or the histology viewer)."""
+        from .ui.model_view import ModelView
+        w = self.center.currentWidget()
+        return w if isinstance(w, ModelView) else None
 
     def about(self):
         try:
@@ -761,12 +756,13 @@ class MainWindow(QMainWindow):
         for k, v in list(self.micro_tabs.items()):
             if v is w:
                 del self.micro_tabs[k]
-        if w is self.sketchfab_panel:
-            self.sketchfab_panel = None
         w.deleteLater()
 
     def _center_changed(self, index):
         w = self.center.widget(index)
+        mv = self.active_model_view()
+        self.xray_action.setChecked(mv.state.ghost_focus is not None if mv else self.state.ghost_focus is not None)
+        self.auto_rotate_action.setChecked(self.active_viewport().auto_rotate)
         if hasattr(w, "on_activated"):
             w.on_activated(self.info)
         elif w in (self.viewport, self.anatomy_tab) and self.state.selected:
@@ -831,12 +827,6 @@ class MainWindow(QMainWindow):
             self.open_histology(entry.node, 0)
         elif entry.kind == "micro":
             self.open_micro(entry.node)
-        elif entry.kind == "sketchfab":
-            m = next((x for x in self.sketchfab_models if x.uid == entry.node), None)
-            if m is not None and m.local:
-                self.open_local_model(entry.node)
-            else:
-                self.open_sketchfab(entry.node)
         elif entry.kind == "lesson":
             self.show_lessons(entry.node)
         elif entry.kind == "radiology":
@@ -1026,12 +1016,10 @@ class MainWindow(QMainWindow):
             self.open_micro(payload)
         elif scheme == "rad":
             self.show_radiology(payload)
-        elif scheme == "sfab":
-            self.open_sketchfab(payload)
         elif scheme == "sfmodel":
             self.open_local_model(payload)
         elif scheme == "atlas":
-            self._sketchfab_structures([n for n in payload.split("|") if n])
+            self._atlas_structures([n for n in payload.split("|") if n])
         elif scheme == "note":
             self.edit_note(payload)
         elif scheme == "attach":
@@ -1093,99 +1081,117 @@ class MainWindow(QMainWindow):
         if sids:
             self.select_and_focus(sids, xray=True)
 
-    def open_sketchfab(self, uid=None):
-        """Sketchfab's own player for an online model, in a tab beside the atlas. Nothing is downloaded."""
-        if not self.sketchfab_models:
-            return
-        if self.sketchfab_panel is None:
-            try:
-                from .ui.sketchfab_view import SketchfabPanel
-            except ImportError:
-                self.statusBar().showMessage("Online models need Qt WebEngine, which this Python install lacks.", 6000)
-                return
-            self.sketchfab_panel = SketchfabPanel(self.sketchfab_models, self.settings, self.cmds)
-            self.sketchfab_panel.structuresRequested.connect(self._sketchfab_structures)
-            self.sketchfab_panel.openLocal.connect(self.open_local_model)
-            self.center.addTab(self.sketchfab_panel, "Sketchfab")
-        self.center.setCurrentWidget(self.sketchfab_panel)
-        if uid:
-            self.sketchfab_panel.open(uid)
-
     def open_local_model(self, uid):
-        """A downloaded Sketchfab model, drawn by the atlas's own renderer in a tab of its own - works offline."""
-        key = f"sketchfab:{uid}"
-        view = self.micro_tabs.get(key)
-        if view is None:
-            try:
-                from .sketchfab_local import load_local
-                from .ui.micro_view import MicroView
-            except ImportError:
-                return
-            cm = next((m for m in self.sketchfab_models if m.uid == uid), None)
-            try:
-                model = load_local(uid, cm)
-            except Exception as exc:                      # noqa: BLE001 - a bad curation file must not crash
-                self.statusBar().showMessage(f"Could not open that model: {exc}", 8000)
-                return
-            if model is None:
-                self.statusBar().showMessage("That model has not been downloaded (tools/fetch_sketchfab.py).", 5000)
-                return
-            self.statusBar().showMessage(f"Loading 3D model: {model.name}…")
-            QApplication.setOverrideCursor(Qt.WaitCursor)
-            QApplication.processEvents()
-            try:
-                view = MicroView(model, self.content, self.settings)
-            except Exception as exc:                      # noqa: BLE001 - a bad file must not take the app down
-                self.statusBar().showMessage(f"Could not open {model.name}: {exc}", 8000)
-                return
-            finally:
-                QApplication.restoreOverrideCursor()
-            self.statusBar().clearMessage()
-            view.gl_widget.measureChanged.connect(
-                lambda text: self.statusBar().showMessage(text, 0) if text else self.statusBar().clearMessage())
-            view.openHistology.connect(self.open_histology)
-            view.openMicro.connect(self.open_micro)
-            view.openOnline.connect(self.open_sketchfab)
-            self.micro_tabs[key] = view
-            self.center.addTab(view, f"3D · {model.name}".replace("&", "&&"))
-        self.center.setCurrentWidget(view)
-        view.on_activated(self.info)
+        """A downloaded model, by its Sketchfab uid (old links and saved references use it)."""
+        self.open_micro(f"sketchfab:{uid}")
 
-    def _sketchfab_structures(self, names):
-        """'Show in the atlas': back to the 3D view with what the online model depicts selected and framed."""
+    def _atlas_structures(self, names):
+        """'Show in the atlas': back to the 3D anatomy with what a model's part depicts selected and framed."""
         sids = self.lesson_resolver.resolve_all(names) if getattr(self, "lesson_resolver", None) else []
         if not sids:
-            self.statusBar().showMessage("Nothing in the atlas matches this model.", 3000)
+            self.statusBar().showMessage("Nothing in the atlas matches this part.", 3000)
             return
         self.center.setCurrentIndex(0)
         self.state.force_show(sids)
         self.select_and_focus(sids, xray=True)
 
-    def open_micro(self, model_id):
+    def open_micro(self, model_id, entry=None):
+        """Open a 3D model - an in-house model, a procedural microanatomy model or a downloaded one - in a tab of
+        the model viewer, or bring its tab to the front."""
         try:
-            from .ui.micro_view import MicroView
+            from .ui.model_view import ModelView
         except ImportError:
             return
         view = self.micro_tabs.get(model_id)
         if view is None:
-            model = self.content.micro_models[model_id]
-            # a model whose cache is missing or stale is rebuilt here, which can take several seconds
-            self.statusBar().showMessage(f"Loading microanatomy model: {model.name}…")
+            entry = entry or self.content.micro_models.get(model_id)
+            if entry is None:
+                self.statusBar().showMessage(f"There is no 3D model called {model_id}.", 5000)
+                return
+            # a procedural model whose cache is missing or stale is rebuilt here, which can take several seconds
+            self.statusBar().showMessage(f"Loading 3D model: {entry.name}…")
             QApplication.setOverrideCursor(Qt.WaitCursor)
             QApplication.processEvents()
             try:
-                view = MicroView(model, self.content, self.settings)
+                view = ModelView(entry, self.content, self.settings)
+            except Exception as exc:                      # noqa: BLE001 - a bad file must not take the app down
+                QApplication.restoreOverrideCursor()
+                self.statusBar().showMessage(f"Could not open {entry.name}: {exc}", 8000)
+                import traceback
+                traceback.print_exc()
+                return
             finally:
                 QApplication.restoreOverrideCursor()
-                self.statusBar().clearMessage()
-            view.gl_widget.measureChanged.connect(
+            self.statusBar().clearMessage()
+            g = view.gl_widget
+            g.measureChanged.connect(
                 lambda text: self.statusBar().showMessage(text, 0) if text else self.statusBar().clearMessage())
+            g.hoverChanged.connect(lambda sid, v=view: self._on_model_hover(v, sid))
+            g.frameTimed.connect(self._on_frame)
+            g.historyRequested.connect(self.navigate)
+            for action in self.cmds.actions.values():
+                if action.shortcutContext() == Qt.WidgetWithChildrenShortcut:
+                    g.addAction(action)            # arrow keys, WASD and zoom keys work in the model too
             view.openHistology.connect(self.open_histology)
             view.openMicro.connect(self.open_micro)
+            view.atlasRequested.connect(self._atlas_structures)
+            view.state.visibility_changed.connect(self._update_model_actions)
             self.micro_tabs[model_id] = view
-            self.center.addTab(view, f"Micro · {model.name}".replace("&", "&&"))
+            label = "3D · " if entry.kind != "procedural" else "Micro · "
+            self.center.addTab(view, f"{label}{entry.name}".replace("&", "&&"))
         self.center.setCurrentWidget(view)
         view.on_activated(self.info)
+
+    def _on_model_hover(self, view, sid):
+        if self.quiz is not None and self.quiz.names_hidden():
+            self.hover_label.setText("")
+            return
+        if sid < 0 or view.click_hook is not None:
+            self.hover_label.setText("")
+            return
+        it = view.vmodel.items[sid]
+        self.hover_label.setText(f"{it.name}  ·  {it.group}" if it.group != it.name else it.name)
+
+    def _update_model_actions(self):
+        mv = self.active_model_view()
+        if mv is not None:
+            self.xray_action.setChecked(mv.state.ghost_focus is not None)
+
+    def open_model_file(self, path=None):
+        """File -> Open 3D model file: any glTF / GLB file (with a .viewer.json sidecar beside it if it has one)
+        opens in the model viewer."""
+        if not path:
+            start = self.qsettings.value("model_dir", str(Path.home()))
+            path, _ = QFileDialog.getOpenFileName(self, "Open a 3D model", start, "glTF models (*.glb *.gltf)")
+            if not path:
+                return
+        from .viewer.catalog import FileEntry
+        entry = FileEntry(path)
+        self.qsettings.setValue("model_dir", str(Path(path).parent))
+        self.open_micro(entry.id, entry)
+
+    def dragEnterEvent(self, e):
+        if e.mimeData().hasUrls() and any(u.toLocalFile().lower().endswith((".glb", ".gltf"))
+                                          for u in e.mimeData().urls()):
+            e.acceptProposedAction()
+
+    def dropEvent(self, e):
+        for u in e.mimeData().urls():
+            if u.toLocalFile().lower().endswith((".glb", ".gltf")):
+                self.open_model_file(u.toLocalFile())
+                break
+
+    def _add_models_menu(self, menu):
+        """Study -> 3D models: every model the viewer can open, by kind."""
+        entries = list(self.content.micro_models.values())
+        sub = menu.addMenu(f"3D models ({len(entries)})")
+        for kind, title in (("glb", None), ("procedural", "Microanatomy"), ("downloaded", "Downloaded")):
+            group = sorted((e for e in entries if e.kind == kind), key=lambda e: e.name.lower())
+            if not group:
+                continue
+            target = sub if title is None else sub.addMenu(f"{title} ({len(group)})")
+            for e in group:
+                target.addAction(e.name.replace("&", "&&"), lambda _=False, i=e.id: self.open_micro(i))
 
     # ------------------------------------------------------------------ notes
     def _note_key(self, payload=None):
@@ -1640,6 +1646,10 @@ class MainWindow(QMainWindow):
             self.statusBar().clearMessage()
 
     def toggle_xray(self):
+        mv = self.active_model_view()
+        if mv is not None:
+            self.xray_action.setChecked(mv.toggle_xray())
+            return
         if self.state.ghost_focus is not None:
             self.state.clear_ghost()
         elif self.state.selected:
@@ -1663,6 +1673,11 @@ class MainWindow(QMainWindow):
         vp = self.active_viewport()
         if vp.measure_points:
             vp.clear_measure()
+            return
+        mv = self.active_model_view()
+        if mv is not None and not (self.quiz is not None and self.quiz.active):
+            if mv.escape():
+                self.xray_action.setChecked(mv.state.ghost_focus is not None)
             return
         if self.search.edit.hasFocus() and self.search.edit.text():
             self.search.edit.clear()

@@ -7,10 +7,9 @@ from . import theme
 
 ROLE_ENTRY = Qt.UserRole + 1
 KIND_BADGE = {"structure": "", "group": "GROUP", "landmark": "LANDMARK", "clinical": "CLINICAL", "tissue": "HISTOLOGY",
-              "micro": "3D MICRO", "lesson": "LESSON", "radiology": "RADIOLOGY",
-              "sketchfab": "SKETCHFAB"}
+              "micro": "3D MICRO", "lesson": "LESSON", "radiology": "RADIOLOGY"}
 KIND_COLOR = {"clinical": "#ee8a92", "tissue": "#bf9cf0", "micro": "#6fd0bb", "lesson": theme.WARNING,
-              "radiology": theme.INFO, "sketchfab": "#35b6e4"}
+              "radiology": theme.INFO}
 
 
 def shown_alt(entry):

@@ -1,21 +1,21 @@
-"""Online 3D models from Sketchfab, shown through Sketchfab's own embedded player.
+"""Downloaded 3D models, opened offline.
 
-Nothing is downloaded or copied: the app points a web view at the public embed URL that Sketchfab offers for
-every published model, exactly as a web page would embed it. So these need an internet connection, keep the
-creator's name and Sketchfab's branding on screen, and stream straight from sketchfab.com.
+Each model was fetched once from Sketchfab, where its creator offered it for download under a Creative Commons
+licence (tools/fetch_sketchfab.py). It lives in data/sketchfab_models/<uid>/ as model.glb plus info.json with its
+creator, licence and source page. The app draws it with its own renderer, so it needs no internet connection, and
+it keeps the creator credited wherever the model appears.
 
-The catalogue in data/content/sketchfab.json lists the models worth showing and the atlas structures each one
-depicts, so selecting a structure can offer the matching model in Details. tools/check_sketchfab.py validates it.
+The catalogue in data/content/sketchfab.json describes each downloaded model and the atlas structures it depicts,
+so selecting a structure can offer the matching model. An entry whose model.glb and info.json are not on disk is
+ignored. tools/check_sketchfab.py validates the catalogue.
 """
 import json
 
 from .config import ROOT, USER_DIR
 
 CATALOG_PATH = ROOT / "data" / "content" / "sketchfab.json"
-LOCAL_DIR = ROOT / "data" / "sketchfab_models"         # downloadable models, fetched by tools/fetch_sketchfab.py
+LOCAL_DIR = ROOT / "data" / "sketchfab_models"         # downloaded models, fetched by tools/fetch_sketchfab.py
 TOKEN_PATH = USER_DIR / "sketchfab_token.txt"
-EMBED = "https://sketchfab.com/models/{uid}/embed?autostart=1&ui_theme=dark&dnt=1&preload=1"
-PAGE = "https://sketchfab.com/3d-models/{uid}"
 
 TOPICS = [
     ("cardio", "Heart & vessels"),
@@ -41,15 +41,7 @@ class SketchfabModel:
         self.micro = list(raw.get("micro", []))
         self.histology = list(raw.get("histology", []))
         here = LOCAL_DIR / self.uid
-        self.local = (here / "model.glb").exists() and (here / "info.json").exists()   # opens in the atlas too
-
-    @property
-    def embed_url(self):
-        return EMBED.format(uid=self.uid)
-
-    @property
-    def page_url(self):
-        return PAGE.format(uid=self.uid)
+        self.local = (here / "model.glb").exists() and (here / "info.json").exists()   # downloaded, opens offline
 
     @property
     def topic_name(self):
@@ -62,11 +54,13 @@ class SketchfabModel:
 
 
 def load_catalog(path=CATALOG_PATH):
+    """The downloaded models, grouped by topic: catalogue entries whose model.glb and info.json are on disk."""
     try:
         raw = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return []
     models = [SketchfabModel(m) for m in raw.get("models", []) if m.get("uid") and m.get("name")]
+    models = [m for m in models if m.local]
     models.sort(key=lambda m: (TOPIC_ORDER.get(m.topic, 99), m.pathology, m.name.lower()))
     return models
 

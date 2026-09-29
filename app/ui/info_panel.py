@@ -115,7 +115,6 @@ class InfoPanel(QWidget):
         self.relations = None
         self.n_radiology = 0
         self.n_lessons = 0
-        self.sketchfab = None
         self.depth = None
         self._open = {"clinical": True, "attachments": True, "innervation": True, "supplied": True,
                       "boneattach": True, "histology": True, "micro": True}
@@ -265,26 +264,18 @@ class InfoPanel(QWidget):
         return self._section("histology", "Histology", "".join(blocks), count=n, default=True)
 
     def _micro(self, models):
-        if not models:
-            return ""
-        items = "".join(f'<p><b>{link("micro", m.id, m.name)}</b><br><span class="muted">{esc(m.summary)}</span></p>'
-                        for m in models)
-        return self._section("micro", "Microanatomy (3D)", items, count=len(models), default=True)
-
-    def _sketchfab_section(self, models):
-        """Sketchfab models for this structure: the downloaded ones open in the atlas, the rest in the player."""
+        """The 3D models that show these structures: in-house models first, then procedural and downloaded ones."""
         if not models:
             return ""
         items = []
         for m in models:
-            if m.local:
-                head = f'<b>{link("sfmodel", m.uid, m.name)}</b> · {link("sfab", m.uid, "Sketchfab player")}'
-            else:
-                head = f'<b>{link("sfab", m.uid, m.name)}</b> · <span class="muted">online</span>'
-            items.append(f'<p>{head}<br><span class="muted">{esc(m.summary)}<br>{esc(m.credit)}</span></p>')
-        n_local = sum(1 for m in models if m.local)
-        title = "3D models" if n_local else "Online 3D models"
-        return self._section("sketchfab", title, "".join(items), count=len(models), default=True)
+            summary = m.summary
+            if len(summary) > 280:                     # the first sentence is enough here; the model tab has the rest
+                summary = summary[:summary.find(". ") + 1] if 0 < summary.find(". ") < 280 else summary[:277] + "…"
+            credit = f'<br><span class="muted">{m.credit_html}</span>' if m.credit_html else ""
+            items.append(f'<p><b>{link("micro", m.id, m.name)}</b> <span class="muted">· {esc(m.kind_name)}</span>'
+                         f'<br><span class="muted">{esc(summary)}</span>{credit}</p>')
+        return self._section("micro", "3D models", "".join(items), count=len(models), default=True)
 
     def _group_by_base(self, sids):
         groups = OrderedDict()
@@ -452,8 +443,6 @@ license shown with each image)</li></ul>
         parts.append(self._clinical(self.content.clinical_for_structures(sids)))
         parts.append(self._histology(self.content.histology_for_structures(sids)))
         parts.append(self._micro(self.content.micro_for_structures(sids)))
-        if self.sketchfab is not None:
-            parts.append(self._sketchfab_section(self.sketchfab.for_structures(sids)))
         parts.append(self._nearby(sids))
 
         if s.get("innervation"):
@@ -545,8 +534,6 @@ license shown with each image)</li></ul>
         parts.append(self._clinical(self.content.clinical_for_name(node["name"])))
         parts.append(self._histology(self.content.histology_for_name(node["name"])))
         parts.append(self._micro(self.content.micro_for_name(node["name"])))
-        if self.sketchfab is not None:
-            parts.append(self._sketchfab_section(self.sketchfab.for_structures(self.ds.node_structures(nid))))
         kids = node["children"]
         if kids:
             items = " · ".join(link("node", c, ds.nodes[c]["name"]) for c in kids[:200])

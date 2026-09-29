@@ -93,8 +93,8 @@ class AboutDialog(QDialog):
         blurb = QLabel("A 3D anatomy atlas with lessons, quizzes, histology, radiology and microanatomy.<br>"
                        "© 2026 Ethan Prince. Free software under the MIT licence. "
                        f"<a href='{REPO_URL}' style='color:{theme.ACCENT_TEXT}; text-decoration:none'>Source code</a>"
-                       "<br>The anatomy data, images and 3D models belong to their creators and keep their own "
-                       "licences. See <b>Credits</b>.<br>A study aid, not a medical device.")
+                       "<br>The anatomy data, images and downloaded 3D models belong to their creators and keep "
+                       "their own licences. See <b>Credits</b>.<br>A study aid, not a medical device.")
         blurb.setWordWrap(True)
         blurb.setStyleSheet(theme.text_css(theme.TEXT_2))
         blurb.setOpenExternalLinks(True)

@@ -1,14 +1,23 @@
-"""GLSL sources for the viewer renderer (OpenGL 4.1 core).
+"""GLSL sources for the model viewer's renderer (OpenGL 4.1 core).
 
-Passes: shadow depth (x3 lights) -> pre-pass (view normal + linear depth + part id, single sample) -> SSAO +
-bilateral blur -> MSAA forward pass (backdrop, opaque PBR) -> MSAA weighted-blended OIT pass (translucent
-covering) -> resolve -> composite (OIT blend, selection outline, Khronos PBR Neutral, sRGB, dither).
+Passes: shadow depth (x3 lights) -> pre-pass (view normal + linear depth, item id + flags, single sample) -> cut
+faces (per cut item: parity, cap; then laid into the pre-pass) -> SSAO + bilateral blur -> MSAA forward pass
+(backdrop, opaque PBR, cut faces shaded on their plane) -> MSAA weighted-blended OIT pass (translucent parts and
+x-rayed parts) -> resolve -> composite (OIT blend, selection and hover outlines, Khronos PBR Neutral, sRGB, dither).
+
+Cut faces follow the atlas renderer's method (app/shaders.py): for each item the plane passes through, the depth
+of its nearest kept front face is gathered first ("parity"); a back face with no kept front face of the same item
+in front of it means the view ray entered the item through the cut, so a cap is drawn where the ray leaves the
+cut-away, keyed on how far that item's far wall lies behind the plane so the innermost item wins where several
+meet. The winners are laid into the pre-pass (for picking, outlines, labels and ambient occlusion) and shaded in
+the forward pass like any other surface.
 """
 
 VERSION = "#version 410 core\n"
 
 # ------------------------------------------------------------------------------------------------
-# Geometry: one vertex format for every part; the single morph target is blended on the GPU.
+# Geometry: one vertex format for every part; the single glTF morph target is blended on the GPU, and a procedural
+# model's animation (app/micro/anim.py: four morph targets, a phase and a per-item mode) rides on a second buffer.
 
 GEOM_VS = VERSION + """
 in vec3 in_pos;
@@ -18,11 +27,20 @@ in vec3 in_dnrm;
 in float in_fib;
 in vec4 in_col;
 in vec2 in_uv;
+in vec4 in_m0;
+in vec4 in_m1;
+in vec4 in_m2;
+in vec4 in_m3;
+in float in_phase;
 
 uniform mat4 u_model;
 uniform mat3 u_nmat;
 uniform mat4 u_viewproj;
 uniform float u_weight;
+uniform int u_anim;          // 1: the procedural animation buffer is bound
+uniform float u_anim_t;      // cycle phase 0..1
+uniform vec4 u_aw;           // this item's four morph weights
+uniform vec4 u_ag;           // (mode, glow, decay, rate)
 
 out vec3 v_wpos;
 out vec3 v_wnrm;
@@ -30,10 +48,27 @@ out vec3 v_opos;
 out float v_fib;
 out vec4 v_col;
 out vec2 v_uv;
+out float v_glow;
 
 void main() {
     vec3 p = in_pos + u_weight * in_dpos;
     vec3 n = in_nrm + u_weight * in_dnrm;
+    v_glow = 0.0;
+    if (u_anim == 1) {
+        vec4 w = u_aw;
+        int mode = int(u_ag.x + 0.5);
+        if (mode == 1) {                // particles on their own clocks along a curved path
+            float tau = fract(u_anim_t * u_ag.w + in_phase);
+            w = vec4(tau, tau * tau, 1.0 - smoothstep(0.0, 0.06, tau) * (1.0 - smoothstep(0.90, 1.0, tau)), w.w);
+        }
+        p += w.x * in_m0.xyz + w.y * in_m1.xyz + w.z * in_m2.xyz + w.w * in_m3.xyz;
+        if (mode == 2) {                // a wave of activation: lights up at its phase, then fades
+            float dt = fract(u_anim_t - in_phase);
+            v_glow = u_ag.y * smoothstep(0.0, 0.006, dt) * exp(-dt / max(u_ag.z, 1e-3));
+        } else {
+            v_glow = u_ag.y;
+        }
+    }
     vec4 w = u_model * vec4(p, 1.0);
     v_wpos = w.xyz;
     v_wnrm = u_nmat * n;
@@ -45,34 +80,58 @@ void main() {
 }
 """
 
-SHADOW_VS = VERSION + """
-in vec3 in_pos;
-in vec3 in_dpos;
-uniform mat4 u_model;
-uniform mat4 u_viewproj;
-uniform float u_weight;
-void main() {
-    gl_Position = u_viewproj * (u_model * vec4(in_pos + u_weight * in_dpos, 1.0));
+# ---- cutting planes: the cut-away of a micro model and the cross-sections, shared by every pass
+CLIP_COMMON = """
+uniform vec4 u_clip0;
+uniform vec4 u_clip1;
+uniform vec4 u_clip2;
+uniform ivec3 u_clip_on;
+uniform int u_clip_mode;     // 0: any plane removes its negative side; 1: a corner (all active planes negative)
+uniform int u_noclip;        // this item is never cut
+
+bool clipped(vec3 p) {
+    if (u_noclip == 1) return false;
+    bool a = u_clip_on.x == 1 && dot(vec4(p, 1.0), u_clip0) < 0.0;
+    bool b = u_clip_on.y == 1 && dot(vec4(p, 1.0), u_clip1) < 0.0;
+    bool c = u_clip_on.z == 1 && dot(vec4(p, 1.0), u_clip2) < 0.0;
+    if (u_clip_mode == 1) {
+        int n = u_clip_on.x + u_clip_on.y + u_clip_on.z;
+        if (n == 0) return false;
+        return (u_clip_on.x == 0 || a) && (u_clip_on.y == 0 || b) && (u_clip_on.z == 0 || c);
+    }
+    return a || b || c;
 }
 """
 
-SHADOW_FS = VERSION + """
-void main() {}
+SHADOW_FS = VERSION + CLIP_COMMON + """
+in vec3 v_wpos;
+void main() {
+    if (clipped(v_wpos)) discard;
+}
 """
 
-PREPASS_FS = VERSION + """
+PREPASS_FS = VERSION + CLIP_COMMON + """
 in vec3 v_wpos;
 in vec3 v_wnrm;
+in vec2 v_uv;
 uniform mat4 u_view;
 uniform float u_id;
+uniform float u_flags;       // 1: selected
+uniform int u_flip;          // the model matrix mirrors: front faces are the clockwise ones
+uniform sampler2D u_tex;
+uniform int u_has_tex;
+uniform float u_alpha_cut;
 layout(location = 0) out vec4 o_nd;
-layout(location = 1) out float o_id;
+layout(location = 1) out vec2 o_id;
 void main() {
+    if (clipped(v_wpos)) discard;
+    if (u_has_tex == 1 && u_alpha_cut > 0.0 && texture(u_tex, v_uv).a < u_alpha_cut) discard;
+    bool front = gl_FrontFacing != (u_flip == 1);
     vec3 n = normalize(mat3(u_view) * v_wnrm);
-    if (!gl_FrontFacing) n = -n;
+    if (!front) n = -n;
     float d = -(u_view * vec4(v_wpos, 1.0)).z;
     o_nd = vec4(n, d);
-    o_id = u_id;
+    o_id = vec2(u_id, u_flags);
 }
 """
 
@@ -95,6 +154,15 @@ uniform vec3 u_top;
 out vec4 o_col;
 void main() {
     o_col = vec4(mix(u_bottom, u_top, clamp(v_uv.y, 0.0, 1.0)), 1.0);
+}
+"""
+
+BLIT_FS = VERSION + """
+in vec2 v_uv;
+uniform sampler2D u_src;
+out vec4 o_col;
+void main() {
+    o_col = texture(u_src, v_uv);
 }
 """
 
@@ -276,18 +344,25 @@ void main() {
 """
 
 # ------------------------------------------------------------------------------------------------
-# Shading (shared by the opaque and the translucent pass)
+# Shading (shared by the opaque, translucent and cut-face passes). The surface inputs are declared by each shader:
+# as varyings in the geometry passes, as plain globals the cut-face pass fills in from its buffers.
 
-SHADING_COMMON = """
-const float PI = 3.14159265;
+GEOM_INPUTS = """
 in vec3 v_wpos;
 in vec3 v_wnrm;
 in vec3 v_opos;
 in float v_fib;
 in vec4 v_col;
 in vec2 v_uv;
+in float v_glow;
+"""
+
+SHADING_COMMON = """
+const float PI = 3.14159265;
 
 uniform vec3 u_campos;
+uniform int u_ortho;
+uniform vec3 u_viewdir;      // toward the camera (orthographic views)
 uniform mat4 u_view;
 uniform vec2 u_screen;
 
@@ -316,7 +391,6 @@ uniform float u_alpha;
 uniform float u_rough;
 uniform float u_metal;
 uniform float u_f0;
-uniform float u_sss;
 uniform float u_wrap;
 uniform vec3 u_emis;
 uniform int u_use_vcol;
@@ -334,6 +408,9 @@ uniform int u_mottle;
 uniform vec4 u_mottle_p;     // scale, from_min, from_max, octaves
 uniform vec3 u_mottle_a;
 uniform vec3 u_mottle_b;
+
+uniform int u_detail_on;
+uniform vec4 u_detail;       // tissue texturing: mottle, cells per unit, nucleus fraction, fibre axis
 
 uniform float u_highlight;
 uniform vec3 u_highlight_col;
@@ -369,6 +446,81 @@ float fbm(vec3 p, int octaves) {
         p *= 2.0;
     }
     return 0.5 + 0.75 * sum / norm;
+}
+
+// ---- tissue texturing of the procedural microanatomy models (the atlas renderer's, app/shaders.py): a mottled
+// stain, fibres along an axis and, on cut faces, cells with nuclei
+float hash13(vec3 p) {
+    p = fract(p * 0.1031);
+    p += dot(p, p.zyx + 31.32);
+    return fract((p.x + p.y) * p.z);
+}
+vec3 hash33(vec3 p) {
+    p = fract(p * vec3(0.1031, 0.1030, 0.0973));
+    p += dot(p, p.yxz + 33.33);
+    return fract((p.xxy + p.yxx) * p.zyx);
+}
+float vnoise(vec3 p) {
+    vec3 i = floor(p);
+    vec3 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = mix(hash13(i), hash13(i + vec3(1, 0, 0)), f.x);
+    float b = mix(hash13(i + vec3(0, 1, 0)), hash13(i + vec3(1, 1, 0)), f.x);
+    float c = mix(hash13(i + vec3(0, 0, 1)), hash13(i + vec3(1, 0, 1)), f.x);
+    float d = mix(hash13(i + vec3(0, 1, 1)), hash13(i + vec3(1, 1, 1)), f.x);
+    return mix(mix(a, b, f.y), mix(c, d, f.y), f.z);
+}
+float fbm3(vec3 p) {
+    float s = 0.0, a = 0.5;
+    for (int i = 0; i < 4; i++) {
+        s += a * vnoise(p);
+        p = p * 2.03 + vec3(11.7, 3.1, 7.9);
+        a *= 0.5;
+    }
+    return s / 0.9375;
+}
+float worley(vec3 p, out vec3 cell) {
+    vec3 i = floor(p);
+    vec3 f = fract(p);
+    float best = 9.0;
+    cell = i;
+    for (int z = -1; z <= 1; z++)
+        for (int y = -1; y <= 1; y++)
+            for (int x = -1; x <= 1; x++) {
+                vec3 g = vec3(float(x), float(y), float(z));
+                vec3 r = g + hash33(i + g) * 0.8 + 0.1 - f;
+                float d = dot(r, r);
+                if (d < best) { best = d; cell = i + g; }
+            }
+    return sqrt(best);
+}
+vec3 tissue_color(vec3 base, vec3 p, bool cap) {
+    if (u_detail_on == 0) return base;
+    float mottle = u_detail.x;
+    float scale = u_detail.y;
+    float density = u_detail.z;
+    int fiber = int(u_detail.w + 0.5);
+    // fibre axis: 1 x, 2 y, 3 z, 4 circumferential around the x axis (vessel media, sphincters)
+    vec3 axis = fiber == 1 ? vec3(1.0, 0.0, 0.0) : (fiber == 2 ? vec3(0.0, 1.0, 0.0) :
+                (fiber == 3 ? vec3(0.0, 0.0, 1.0) : normalize(vec3(0.0, -p.z, p.y) + vec3(1e-5))));
+    float n = fbm3(p * max(scale * 0.22, 3.0));
+    float broad = fbm3(p * 7.0 + 3.1);                       // blotches the size of a lobule, not of a cell
+    vec3 c = base * (1.0 + mottle * (n - 0.5) * 1.9 + mottle * (broad - 0.5) * 1.5);
+    if (fiber > 0) {
+        float along = fiber == 4 ? atan(p.z, p.y) * length(p.yz) : dot(p, axis);
+        float stripes = sin(along * scale * 5.0 + n * 4.0);
+        c *= 1.0 - 0.07 * smoothstep(0.2, 1.0, stripes);
+    }
+    if (cap && scale > 0.0) {
+        vec3 q = p * scale;
+        if (fiber > 0) q = q - axis * dot(q, axis) * 0.72;   // elongated cells along fibres
+        vec3 cell;
+        float d = worley(q, cell);
+        float nucleus = (1.0 - smoothstep(0.17, 0.26, d)) * step(hash13(cell * 1.37 + 4.1), density);
+        c *= 1.0 - 0.10 * smoothstep(0.50, 0.72, d);
+        c = mix(c, vec3(0.085, 0.045, 0.19), nucleus * 0.82);
+    }
+    return max(c, vec3(0.0));
 }
 
 vec3 sh_irradiance(vec3 n) {
@@ -466,6 +618,10 @@ vec3 F_schlick(vec3 f0, float VoH) {
 
 struct Surface { vec3 albedo; float alpha; float rough; float metal; vec3 f0; };
 
+vec3 view_vector(vec3 P) {
+    return u_ortho == 1 ? u_viewdir : normalize(u_campos - P);
+}
+
 Surface surface() {
     Surface s;
     vec3 base = u_base;
@@ -495,6 +651,7 @@ Surface surface() {
         base *= t.rgb;
         alpha *= t.a;
     }
+    base = tissue_color(base, v_opos, false);
     s.albedo = base * (1.0 - u_metal);
     s.f0 = mix(vec3(u_f0), base, u_metal);
     s.alpha = alpha;
@@ -525,15 +682,8 @@ vec3 light_contrib(int i, vec3 L, vec3 E, float size, Surface s, vec3 N, vec3 V,
     }
     return (diff + spec) * E * occl;
 }
-"""
 
-MAIN_FS = VERSION + SHADING_COMMON + """
-out vec4 o_col;
-void main() {
-    Surface s = surface();
-    vec3 N = normalize(v_wnrm);
-    vec3 V = normalize(u_campos - v_wpos);
-    if (!gl_FrontFacing) N = -N;
+vec3 shade_opaque(Surface s, vec3 N, vec3 V) {
     float NoV = max(dot(N, V), 1e-4);
     float ao = 1.0;
     vec3 gi = vec3(0.0);
@@ -555,32 +705,59 @@ void main() {
     vec3 amb_s = env_spec(Rc, s.rough) * (s.f0 * ab.x + ab.y) * u_env_spec;
     col += amb_d * multibounce(ao, s.albedo) + amb_s * ao;
     col += s.albedo * gi * u_bounce;
-    col += u_emis;
-    // selection: a soft fresnel glow in the highlight colour
+    return col;
+}
+
+vec3 highlight(vec3 col, float NoV, float amount, vec3 hcol) {
     float fr = pow(1.0 - NoV, 2.0);
-    col = mix(col, col * 0.7 + u_highlight_col * (0.10 + 0.55 * fr), u_highlight);
+    return mix(col, col * 0.7 + hcol * (0.10 + 0.55 * fr), amount);
+}
+"""
+
+MAIN_FS = VERSION + CLIP_COMMON + GEOM_INPUTS + SHADING_COMMON + """
+uniform int u_flip;
+uniform float u_alpha_cut;
+out vec4 o_col;
+void main() {
+    if (clipped(v_wpos)) discard;
+    Surface s = surface();
+    if (u_has_tex == 1 && u_alpha_cut > 0.0 && s.alpha < u_alpha_cut) discard;
+    vec3 N = normalize(v_wnrm);
+    vec3 V = view_vector(v_wpos);
+    if (gl_FrontFacing == (u_flip == 1)) N = -N;
+    vec3 col = shade_opaque(s, N, V);
+    col += u_emis;
+    col += v_glow * (s.albedo * 1.6 + vec3(0.30, 0.30, 0.26));     // a conduction impulse, a secretion
+    col = highlight(col, max(dot(N, V), 1e-4), u_highlight, u_highlight_col);
     o_col = vec4(col, 1.0);
 }
 """
 
 # weighted blended OIT (McGuire & Bavoil 2013): att0 rgb += C*a*w, att0 a *= (1-a); att1 r += a*w
-OIT_FS = VERSION + SHADING_COMMON + """
+OIT_FS = VERSION + CLIP_COMMON + GEOM_INPUTS + SHADING_COMMON + """
 uniform vec3 u_facing;       // alpha min, alpha max, exponent (Blender Layer Weight Facing)
 uniform int u_facing_on;
+uniform int u_flip;
+uniform int u_ghost;         // x-rayed: a faint, cool, rim-weighted ghost of the part
+uniform float u_ghost_alpha;
+uniform float u_alpha_mul;   // the tissue opacity slider
+uniform float u_alpha_cut;
 layout(location = 0) out vec4 o_accum;
 layout(location = 1) out vec4 o_weight;
 void main() {
+    if (clipped(v_wpos)) discard;
     Surface s = surface();
+    if (u_has_tex == 1 && u_alpha_cut > 0.0 && s.alpha < u_alpha_cut) discard;
     vec3 N = normalize(v_wnrm);
-    vec3 V = normalize(u_campos - v_wpos);
-    if (!gl_FrontFacing) N = -N;
+    vec3 V = view_vector(v_wpos);
+    if (gl_FrontFacing == (u_flip == 1)) N = -N;
     float NoV = max(dot(N, V), 1e-4);
     float a = s.alpha;
     if (u_facing_on == 1) {
         float facing = 1.0 - pow(NoV, u_facing.z);
         a = mix(u_facing.x, u_facing.y, facing);
     }
-    a = clamp(a, 0.0, 0.98);
+    a *= u_alpha_mul;
     vec3 col = vec3(0.0);
     col += light_contrib(0, u_ldir0, u_lrad0, u_lsize0, s, N, V, NoV, 1.0);
     col += light_contrib(1, u_ldir1, u_lrad1, u_lsize1, s, N, V, NoV, 1.0);
@@ -589,8 +766,17 @@ void main() {
     vec3 Vc = mat3(u_view) * V;
     vec2 ab = env_brdf(s.rough, NoV);
     col += s.albedo * sh_irradiance(Nc) / PI * u_env_diffuse;
+    col += v_glow * (s.albedo * 1.6 + vec3(0.30, 0.30, 0.26));
     vec3 spec = env_spec(reflect(-Vc, Nc), s.rough) * (s.f0 * ab.x + ab.y) * u_env_spec;
-    col = mix(col, col * 0.7 + u_highlight_col * 0.4, u_highlight);
+    if (u_ghost == 1) {
+        float l = dot(col, vec3(0.3, 0.59, 0.11));
+        col = mix(col, vec3(l) * vec3(0.85, 0.92, 1.0), 0.55);
+        spec *= 0.5;
+        a = u_ghost_alpha * (0.25 + 1.6 * pow(1.0 - NoV, 2.5));
+        a = min(a, 0.85);
+    }
+    col = highlight(col, NoV, u_highlight, u_highlight_col);
+    a = clamp(a, 0.0, 0.98);
     // Cycles mixes the whole BSDF with a transparent BSDF by alpha, so the sheen is scaled by coverage too
     vec3 premul = (col + spec) * a;
     float lum = a;
@@ -601,6 +787,187 @@ void main() {
 }
 """
 
+# ------------------------------------------------------------------------------------------------
+# Cut faces
+
+# Depth of one item's nearest kept front face per pixel (MIN blending)
+PARITY_FS = VERSION + CLIP_COMMON + """
+in vec3 v_wpos;
+uniform int u_flip;
+out vec4 o_depth;
+void main() {
+    if (clipped(v_wpos)) discard;
+    if (gl_FrontFacing == (u_flip == 1)) discard;
+    o_depth = vec4(gl_FragCoord.z);
+}
+"""
+
+# A cut face of one item: albedo, plane normal, id and the depth of the face on its plane; the depth buffer holds
+# the key that makes the innermost item win
+CAP_FS = VERSION + CLIP_COMMON + GEOM_INPUTS + SHADING_COMMON + """
+uniform int u_flip;
+uniform sampler2D u_parity;
+uniform mat4 u_inv_viewproj;
+uniform mat4 u_viewproj;
+uniform vec2 u_viewport;
+uniform float u_key_scale;
+uniform float u_id;
+uniform float u_flags;
+uniform float u_cap_dark;
+layout(location = 0) out vec4 o_albedo;    // albedo, roughness
+layout(location = 1) out vec4 o_normal;    // world normal, f0
+layout(location = 2) out vec2 o_id;        // item id, flags (2 = cut face)
+layout(location = 3) out float o_zp;       // window depth of the face on its plane
+
+void cap_plane(vec4 P, int on, vec3 o, vec3 d, float tf, inout float best, inout vec3 bn, inout bool found) {
+    if (on == 0) return;
+    float den = dot(P.xyz, d);
+    if (den <= 1e-7) return;
+    float t = -(dot(P.xyz, o) + P.w) / den;
+    if (t <= 0.0 || t >= tf) return;
+    if ((u_clip_mode == 1 && t < best) || (u_clip_mode != 1 && t > best)) {
+        best = t;
+        bn = P.xyz;
+        found = true;
+    }
+}
+
+// the far end of the stretch of the ray that lies on the removed side (all planes negative for a corner cut)
+void span(vec4 P, int on, vec3 o, vec3 d, inout float t0, inout float t1, inout vec3 n1, inout bool any) {
+    if (on == 0) return;
+    float den = dot(P.xyz, d);
+    float s = dot(P.xyz, o) + P.w;
+    if (abs(den) < 1e-9) { if (s >= 0.0) t1 = -1.0; return; }
+    float t = -s / den;
+    if (den > 0.0) { if (t < t1) { t1 = t; n1 = P.xyz; } } else t0 = max(t0, t);
+    any = true;
+}
+
+bool cut_exit(vec3 o, vec3 d, float tf, out float t, out vec3 n) {
+    n = vec3(0.0, 1.0, 0.0);
+    t = 0.0;
+    if (u_clip_mode == 1) {
+        float t0 = 0.0, t1 = 1e30;
+        bool any = false;
+        span(u_clip0, u_clip_on.x, o, d, t0, t1, n, any);
+        span(u_clip1, u_clip_on.y, o, d, t0, t1, n, any);
+        span(u_clip2, u_clip_on.z, o, d, t0, t1, n, any);
+        t = t1;
+        return any && t0 < t1 && t1 > 0.0 && t1 < tf;
+    }
+    float best = -1e30;
+    bool found = false;
+    cap_plane(u_clip0, u_clip_on.x, o, d, tf, best, n, found);
+    cap_plane(u_clip1, u_clip_on.y, o, d, tf, best, n, found);
+    cap_plane(u_clip2, u_clip_on.z, o, d, tf, best, n, found);
+    t = best;
+    return found;
+}
+
+void main() {
+    if (clipped(v_wpos)) discard;
+    if (gl_FrontFacing != (u_flip == 1)) discard;                 // back faces only
+    if (texelFetch(u_parity, ivec2(gl_FragCoord.xy), 0).r < gl_FragCoord.z) discard;   // entered after the cut
+    vec2 ndc = gl_FragCoord.xy / u_viewport * 2.0 - 1.0;
+    vec4 a = u_inv_viewproj * vec4(ndc, -1.0, 1.0);
+    vec4 b = u_inv_viewproj * vec4(ndc, 1.0, 1.0);
+    vec3 o = a.xyz / a.w;
+    vec3 d = normalize(b.xyz / b.w - o);
+    float tf = dot(v_wpos - o, d);
+    float best;
+    vec3 bn;
+    if (!cut_exit(o, d, tf, best, bn)) discard;
+    vec3 C = o + d * best;
+    vec4 c = u_viewproj * vec4(C, 1.0);
+    float behind = max(tf - best, 0.0);
+    gl_FragDepth = behind / (behind + u_key_scale);
+    vec3 base = u_base;
+    if (u_stripe == 1 || u_stripe == 2) base = mix(u_stripe_a, u_stripe_b, 0.35);
+    if (u_mottle == 1) base = mix(u_mottle_a, u_mottle_b, 0.5);
+    base = tissue_color(base, C, true) * u_cap_dark;
+    o_albedo = vec4(base * (1.0 - u_metal), clamp(u_rough, 0.04, 1.0));
+    o_normal = vec4(-normalize(bn), u_f0);
+    o_id = vec2(u_id, u_flags + 2.0);
+    o_zp = clamp(c.z / c.w * 0.5 + 0.5, 1e-7, 1.0);
+}
+"""
+
+# The cut faces gathered by the cap passes, laid into the pre-pass at their depth on the plane
+CAPMIX_PRE_FS = VERSION + """
+in vec2 v_uv;
+uniform sampler2D u_cap_normal;
+uniform sampler2D u_cap_id;
+uniform sampler2D u_cap_zp;
+uniform mat4 u_inv_viewproj;
+uniform mat4 u_view;
+layout(location = 0) out vec4 o_nd;
+layout(location = 1) out vec2 o_id;
+void main() {
+    ivec2 px = ivec2(gl_FragCoord.xy);
+    float zp = texelFetch(u_cap_zp, px, 0).r;
+    if (zp <= 0.0) discard;
+    gl_FragDepth = zp;
+    vec4 w = u_inv_viewproj * vec4(v_uv * 2.0 - 1.0, zp * 2.0 - 1.0, 1.0);
+    vec3 C = w.xyz / w.w;
+    vec3 n = texelFetch(u_cap_normal, px, 0).xyz;
+    o_nd = vec4(normalize(mat3(u_view) * n), -(u_view * vec4(C, 1.0)).z);
+    o_id = texelFetch(u_cap_id, px, 0).rg;
+}
+"""
+
+# ... and shaded in the forward pass (deferred: the surface comes from the cap buffers)
+CAPMIX_FS = VERSION + """
+vec3 v_wpos;
+vec3 v_wnrm;
+vec3 v_opos;
+float v_fib;
+vec4 v_col;
+vec2 v_uv;
+float v_glow;
+""" + SHADING_COMMON + """
+uniform sampler2D u_cap_albedo;
+uniform sampler2D u_cap_normal;
+uniform sampler2D u_cap_id;
+uniform sampler2D u_cap_zp;
+uniform mat4 u_inv_viewproj;
+uniform float u_hover_id;
+uniform vec3 u_sel_col;
+uniform vec3 u_hover_col;
+out vec4 o_col;
+void main() {
+    ivec2 px = ivec2(gl_FragCoord.xy);
+    float zp = texelFetch(u_cap_zp, px, 0).r;
+    if (zp <= 0.0) discard;
+    gl_FragDepth = zp;
+    vec2 ndc = gl_FragCoord.xy / u_screen * 2.0 - 1.0;
+    vec4 w = u_inv_viewproj * vec4(ndc, zp * 2.0 - 1.0, 1.0);
+    v_wpos = w.xyz / w.w;
+    v_opos = v_wpos;
+    v_fib = 0.0;
+    v_col = vec4(1.0);
+    v_uv = vec2(0.0);
+    v_glow = 0.0;
+    vec4 alb = texelFetch(u_cap_albedo, px, 0);
+    vec4 nrm = texelFetch(u_cap_normal, px, 0);
+    vec2 idf = texelFetch(u_cap_id, px, 0).rg;
+    Surface s;
+    s.albedo = alb.rgb;
+    s.rough = alb.a;
+    s.metal = 0.0;
+    s.f0 = vec3(nrm.w);
+    s.alpha = 1.0;
+    vec3 N = normalize(nrm.xyz);
+    vec3 V = view_vector(v_wpos);
+    if (dot(N, V) < 0.0) N = -N;
+    vec3 col = shade_opaque(s, N, V);
+    float NoV = max(dot(N, V), 1e-4);
+    int flags = int(idf.y + 0.5);
+    if ((flags & 1) != 0) col = highlight(col, NoV, 0.45, u_sel_col);
+    else if (abs(idf.x - u_hover_id) < 0.5) col = highlight(col, NoV, 0.18, u_hover_col);
+    o_col = vec4(col, 1.0);
+}
+"""
+
 COMPOSITE_FS = VERSION + """
 in vec2 v_uv;
 uniform sampler2D u_opaque;
@@ -608,7 +975,7 @@ uniform sampler2D u_accum;
 uniform sampler2D u_weight;
 uniform sampler2D u_id;
 uniform int u_oit_on;
-uniform float u_sel;
+uniform int u_has_sel;
 uniform float u_hover;
 uniform vec3 u_outline;
 uniform vec3 u_hover_outline;
@@ -638,15 +1005,33 @@ vec3 srgb(vec3 c) {
 }
 float ign(vec2 p) { return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
 
-float edge(float target) {
-    if (target < 0.5) return 0.0;
-    float c = abs(texture(u_id, v_uv).r - target) < 0.5 ? 1.0 : 0.0;
+float is_sel(vec2 uv) {
+    float f = texture(u_id, uv).g;
+    return mod(floor(f + 0.5), 2.0);
+}
+float is_id(vec2 uv, float target) {
+    return abs(texture(u_id, uv).r - target) < 0.5 ? 1.0 : 0.0;
+}
+
+float edge_sel() {
+    float c = is_sel(v_uv);
     float e = 0.0;
     for (int i = 0; i < 12; ++i) {
         float a = float(i) * 0.5235988;
         vec2 o = vec2(cos(a), sin(a)) * u_outline_px * u_texel;
-        float s = abs(texture(u_id, v_uv + o).r - target) < 0.5 ? 1.0 : 0.0;
-        e += abs(s - c);
+        e += abs(is_sel(v_uv + o) - c);
+    }
+    return clamp(e / 4.0, 0.0, 1.0) * (c > 0.5 ? 0.6 : 1.0);
+}
+
+float edge_id(float target) {
+    if (target < 0.5) return 0.0;
+    float c = is_id(v_uv, target);
+    float e = 0.0;
+    for (int i = 0; i < 12; ++i) {
+        float a = float(i) * 0.5235988;
+        vec2 o = vec2(cos(a), sin(a)) * u_outline_px * u_texel;
+        e += abs(is_id(v_uv + o, target) - c);
     }
     return clamp(e / 4.0, 0.0, 1.0) * (c > 0.5 ? 0.6 : 1.0);
 }
@@ -662,8 +1047,8 @@ void main() {
     col *= exp2(u_exposure);
     col = (u_tonemap == 1) ? pbr_neutral(col) : col;
     col = srgb(col);
-    float eh = edge(u_hover);
-    float es = edge(u_sel);
+    float eh = edge_id(u_hover);
+    float es = u_has_sel == 1 ? edge_sel() : 0.0;
     col = mix(col, u_hover_outline, eh * 0.55);
     col = mix(col, u_outline, es);
     col += (ign(gl_FragCoord.xy) - 0.5) / 255.0;

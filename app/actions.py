@@ -53,6 +53,12 @@ ACTION_DEFS = [
     ("lessons", "Open guided lessons", "Study", "Ctrl+L", "", False),
     ("radiology", "Open radiology cases", "Study", "Ctrl+R", "", False),
     ("note", "Edit note for selection", "Study", "N", "", False),
+    ("open_model_file", "Open a 3D model file", "3D models", "Ctrl+O", "", False),
+    ("model_next_view", "Next view of the model", "3D models", "PgDown", "", False),
+    ("model_prev_view", "Previous view of the model", "3D models", "PgUp", "", False),
+    ("model_projection", "Perspective / flat projection", "3D models", "P", "", False),
+    ("model_state", "Assembled / teased", "3D models", "T", "", False),
+    ("model_play", "Play / pause the animation", "3D models", "Space", "", False),
 ]
 
 

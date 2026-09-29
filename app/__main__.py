@@ -22,13 +22,6 @@ def main():
     fmt.setSwapInterval(1)
     QSurfaceFormat.setDefaultFormat(fmt)
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
-    try:
-        # the Sketchfab tab's web view composites through Qt Quick. Left on its Windows default (Direct3D) it
-        # cannot share a window with the OpenGL viewport and renders black; on OpenGL the two coexist.
-        from PySide6.QtQuick import QQuickWindow, QSGRendererInterface
-        QQuickWindow.setGraphicsApi(QSGRendererInterface.GraphicsApi.OpenGL)
-    except ImportError:
-        pass
 
     from .config import APP_NAME, DATA_DIR, LOG_DIR, ORG_NAME, ROOT
 

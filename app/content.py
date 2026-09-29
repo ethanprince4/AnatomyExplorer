@@ -52,7 +52,10 @@ class ContentIndex:
             except ValueError:
                 self.notes = {}
 
-        from .micro.registry import MODELS
+        # every 3D model the model viewer opens: in-house GLB models, the procedural microanatomy models and the
+        # downloaded ones (app/viewer/catalog.py)
+        from .viewer.catalog import load_catalog
+        MODELS = load_catalog()
         self.micro_models = MODELS
         self.micro_by_name = defaultdict(list)
         self.micro_by_group = defaultdict(list)
@@ -141,7 +144,7 @@ class ContentIndex:
     # ------------------------------------------------------------------ microanatomy
     def micro_for_structures(self, sids):
         ids = self._ranked(sids, self.micro_by_name, self.micro_by_group, self.micro_by_cat, self.micro_by_subsystem,
-                           limit=4, contains=self.micro_contains)
+                           limit=6, contains=self.micro_contains)
         return [self.micro_models[i] for i in ids]
 
     def micro_for_name(self, name):

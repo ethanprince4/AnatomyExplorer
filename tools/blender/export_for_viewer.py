@@ -1,7 +1,7 @@
 """Export a frozen microanatomy .blend to a viewer GLB plus a JSON sidecar (headless Blender).
 
     blender --background --factory-startup --python-exit-code 1 \
-        --python viewer/tools/export_for_viewer.py -- --blend <model.blend> [--name rebuild] [--out-dir viewer/models]
+        --python tools/blender/export_for_viewer.py -- --blend <model.blend> [--name heart] [--out-dir models/heart]
 
 The original .blend is never opened or saved: it is copied to a temp folder and the model collection is
 appended from the copy (its sha256 is checked before and after). The GLB keeps everything at full resolution:
@@ -36,7 +36,7 @@ import bpy
 from mathutils import Vector
 
 HERE = Path(__file__).resolve().parent
-VIEWER = HERE.parent
+ROOT = HERE.parents[1]                 # the repository: models land in models/<name>/
 
 
 def say(msg):
@@ -49,7 +49,7 @@ def parse_args():
     p = argparse.ArgumentParser(prog="export_for_viewer")
     p.add_argument("--blend", required=True, help="frozen model .blend (read-only; a temp copy is used)")
     p.add_argument("--name", default=None, help="output base name (default: the route folder name)")
-    p.add_argument("--out-dir", default=str(VIEWER / "models"))
+    p.add_argument("--out-dir", default=None, help="default: models/<name> in the repository")
     p.add_argument("--collection", default="MODEL", help="root collection to export")
     p.add_argument("--manifest", default=None, help="route manifest.json (default: found next to the route)")
     p.add_argument("--views", default=None, help="harness views.json (default: found above the route)")
@@ -367,7 +367,7 @@ def main():
         raise SystemExit(f"no such .blend: {blend}")
     route = blend.parent.parent if blend.parent.name == "out" else blend.parent
     name = a.name or route.name
-    out_dir = Path(a.out_dir).resolve()
+    out_dir = Path(a.out_dir).resolve() if a.out_dir else ROOT / "models" / name
     out_dir.mkdir(parents=True, exist_ok=True)
     manifest_p = Path(a.manifest) if a.manifest else find_up(blend.parent, "manifest.json")
     views_p = Path(a.views) if a.views else find_up(blend.parent, "harness", "views.json")
@@ -506,7 +506,7 @@ def main():
         stage = (stage_cfg or {}).get("stage", {})
         sidecar = {
             "schema": 1,
-            "generator": "viewer/tools/export_for_viewer.py",
+            "generator": "tools/blender/export_for_viewer.py",
             "source": {"blend": str(blend).replace("\\", "/"), "sha256": digest_before,
                        "manifest": str(manifest_p).replace("\\", "/") if manifest_p else None},
             "space": "glTF (Y up; Blender x, y, z -> x, z, -y)",

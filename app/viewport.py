@@ -24,7 +24,7 @@ VIEWS = {
 
 
 class TrackpadInput:
-    """Wheel events and touchpad gestures, shared by the atlas viewport and the Sketchfab camera bridge.
+    """Wheel events and touchpad gestures, shared by the atlas viewport and the model viewer.
 
     A notched mouse wheel zooms, exactly as it always has. A laptop trackpad is told apart from it and mapped the
     way 3D apps usually do: two-finger swipe orbits (or pans - Settings), Shift + swipe does the other one, pinch

@@ -144,16 +144,6 @@ class SearchIndex:
         self._prepare(added)
         self.entries.extend(added)
 
-    def add_sketchfab(self, models):
-        """So that searching 'glomerulus' or 'elastic artery' offers the online Sketchfab model too."""
-        added = []
-        for m in models:
-            where = "3D model, downloaded" if m.local else "Online 3D model"
-            added.append(SearchEntry("sketchfab", m.name, f"{where} · {m.author} · Sketchfab", [], None,
-                                     node=m.uid, alt=" ".join([m.summary] + m.structures)))
-        self._prepare(added)
-        self.entries.extend(added)
-
     def search(self, query, limit=150):
         q = normalize(query)
         if not q:
@@ -169,7 +159,7 @@ class SearchIndex:
             if score <= 0:
                 continue
             score += {"structure": 3, "group": 2, "landmark": 0, "clinical": 1, "tissue": 1, "micro": 1,
-                      "lesson": 2, "radiology": 2, "sketchfab": 2}[e.kind]
+                      "lesson": 2, "radiology": 2}[e.kind]
             if e.system == "attachments":
                 score -= 6
             elif e.system == "reference":
