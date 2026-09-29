@@ -105,25 +105,32 @@ class ContentIndex:
         return list(self.clin_by_name.get(_norm(name), []))
 
     # ------------------------------------------------------------------ histology
-    def _ranked(self, sids, by_name, by_group, by_cat, by_sub=None, limit=8, contains=()):
-        out = OrderedDict()
+    def _ranked(self, sids, by_name, by_group, by_cat, by_sub=None, limit=8, contains=(), prefer=None):
+        """Ids matching the structures, closest match first: the structure itself or something it contains, then
+        its groups (the nearest first), its subsystem and its tissue category. ``prefer(id)`` orders the ids within
+        one kind of match."""
+        out = OrderedDict()                    # id -> how it matched (0 closest)
         for b in self._bases(sids):
             for t in by_name.get(b, []):
-                out[t] = True
+                out.setdefault(t, 0)
             for sub, t in contains:
                 if sub in b:
-                    out.setdefault(t, True)
+                    out.setdefault(t, 0)
         if sids:
             sid = sids[0]
-            for g in self._group_names(sid):
+            for depth, g in enumerate(self._group_names(sid)):       # nearest group first
                 for t in by_group.get(g, []):
-                    out.setdefault(t, True)
+                    out.setdefault(t, 1 + depth / 100.0)
             if by_sub is not None:
                 for t in by_sub.get(_norm(self.ds.structures[sid]["subsystem"]), []):
-                    out.setdefault(t, True)
+                    out.setdefault(t, 2)
             for t in by_cat.get(self._category(sid), []):
-                out.setdefault(t, True)
-        return list(out.keys())[:limit]
+                out.setdefault(t, 3)
+        ids = list(out)
+        if prefer is not None:
+            pos = {t: i for i, t in enumerate(ids)}
+            ids.sort(key=lambda t: (out[t], prefer(t), pos[t]))
+        return ids[:limit]
 
     def histology_for_structures(self, sids):
         ids = self._ranked(sids, self.tis_by_name, self.tis_by_group, self.tis_by_cat, contains=self.tis_contains)
@@ -143,8 +150,15 @@ class ContentIndex:
 
     # ------------------------------------------------------------------ microanatomy
     def micro_for_structures(self, sids):
+        """The 3D models that show these structures: the closest match first, and within a match the in-house
+        models (the whole heart before the cardiac muscle block), then the procedural ones, then the downloads."""
+        kind_rank = {"glb": 0, "procedural": 1, "downloaded": 2}
+
+        def prefer(mid):
+            m = self.micro_models[mid]
+            return kind_rank.get(m.kind, 3), m.order
         ids = self._ranked(sids, self.micro_by_name, self.micro_by_group, self.micro_by_cat, self.micro_by_subsystem,
-                           limit=6, contains=self.micro_contains)
+                           limit=6, contains=self.micro_contains, prefer=prefer)
         return [self.micro_models[i] for i in ids]
 
     def micro_for_name(self, name):

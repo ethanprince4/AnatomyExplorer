@@ -8,8 +8,9 @@ Every 3D model other than the atlas itself opens in the model viewer, each in it
 - the 21 **downloaded models**, Creative Commons models fetched once from Sketchfab (`data/sketchfab_models`);
 - any other `.glb` / `.gltf` file, through **File → Open 3D model file** (Ctrl+O) or by dropping it on the window.
 
-They open from **Study → 3D models**, **Details → 3D models** (the models that show the selected structure, in-house
-models first), search, the top folder of the Histology tab, the **Related** menu of another model, and lesson steps
+They open from **Study → 3D models**, **Details → 3D models** (the models that show the selected structure: those
+that show the structure itself first, then those of its nearest group and so on, and within each the in-house models
+before the procedural and downloaded ones, so selecting any part of the heart offers the whole heart first), search, the top folder of the Histology tab, the **Related** menu of another model, and lesson steps
 and practice items (`micro`, `micro_focus`, `find_micro`).
 
 The viewer replaced three older pieces: the app's own microanatomy view, the standalone viewer the Blender models were
@@ -98,7 +99,7 @@ The metadata file:
 
 ```json
 {
-  "id": "whole_heart", "file": "models/heart/heart.glb", "name": "Whole heart",
+  "id": "whole_heart", "file": "models/heart/heart.glb", "order": 1, "name": "Whole heart",
   "summary": "…", "scale_note": "…", "oriented": true,
   "targets": {"structures": ["Left ventricle", "…"], "groups": ["Heart"]},
   "histology": ["cardiac_muscle", "heart_valve"], "related": ["heart", "cardiac_muscle"], "clinical": [["title", "text"]],
@@ -109,7 +110,9 @@ The metadata file:
 }
 ```
 
-`targets` decides which atlas selections offer the model under Details → 3D models; `groups` and `parts` give every
+`targets`, together with every atlas structure a group or part links to, decides which atlas selections offer the
+model under Details → 3D models; `order` places it among the in-house models there (the whole heart before the
+cardiac muscle block). `groups` and `parts` give every
 group and part a readable name, a description and links back to the atlas (**Show in the atlas**); parts named
 `<stem>__017` without an entry are called after their group ("Cardiomyocyte 17"). `aliases` map the names lessons and
 practice items use onto node names or whole groups. A lesson step names parts in `micro_focus` (and practice items in

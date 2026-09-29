@@ -51,6 +51,7 @@ class ModelEntry:
 
     kind = "model"
     oriented = False                  # drawn in anatomical position (+Z anterior, +X left): show the A/P/L/R gizmo
+    order = 100                       # in-house models: their place in lists (the whole heart before a tissue block)
 
     def __init__(self, id, name, summary="", targets=None, histology=(), related=(), clinical=(), scale_note=""):
         self.id = id
@@ -128,10 +129,16 @@ class GlbEntry(ModelEntry):
     oriented = True
 
     def __init__(self, meta):
-        super().__init__(meta["id"], meta.get("name", meta["id"]), meta.get("summary", ""), meta.get("targets"),
+        # the model is offered for the structures its metadata names, and for every atlas structure one of its
+        # groups or parts links to (Details -> 3D models, search)
+        targets = dict(meta.get("targets") or {})
+        linked = [a for sec in ("groups", "parts") for v in (meta.get(sec) or {}).values() for a in v.get("atlas") or ()]
+        targets["structures"] = list(dict.fromkeys(list(targets.get("structures", [])) + linked))
+        super().__init__(meta["id"], meta.get("name", meta["id"]), meta.get("summary", ""), targets,
                          meta.get("histology", ()), meta.get("related", ()), meta.get("clinical", ()),
                          meta.get("scale_note", ""))
         self.meta = meta
+        self.order = int(meta.get("order", 100))       # among the in-house models, where lists put it
         self.path = ROOT / meta["file"]
         self.aliases = dict(meta.get("aliases") or {})
         self.oriented = bool(meta.get("oriented", True))
@@ -245,7 +252,7 @@ def load_meta(folder=META_DIR):
 def load_catalog():
     """OrderedDict id -> entry: the in-house GLB models first, then the procedural ones, then the downloads."""
     entries = OrderedDict()
-    for meta in load_meta():
+    for meta in sorted(load_meta(), key=lambda m: (int(m.get("order", 100)), m["id"])):
         e = GlbEntry(meta)
         if e.available():
             entries[e.id] = e
