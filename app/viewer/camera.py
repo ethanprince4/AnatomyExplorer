@@ -277,7 +277,8 @@ class OrbitCamera:
             centre = (np.asarray(lo, float) + np.asarray(hi, float)) / 2
             radius = float(np.linalg.norm(np.asarray(hi, float) - np.asarray(lo, float))) / 2
             tx, ty = self.half_tans(aspect)
-            if radius > 0 and np.linalg.norm(tgt - centre) < 0.1 * radius and radius / (min(tx, ty) * dist) < 0.75:
+            if radius > 0 and np.linalg.norm(tgt - centre) < 0.1 * radius and \
+                    radius < 0.75 * min(tx, ty) * dist:            # (a record with no distance is left alone)
                 tgt, dist = centre, self.fit_distance(radius * 0.95, aspect)
                 ow = 2.0 * dist * math.tan(math.radians(fov) / 2.0)
         if ortho != self.ortho:
