@@ -1695,8 +1695,14 @@ class MainWindow(QMainWindow):
             self.info.show_welcome()
         self._update_counts()
 
+    def _capture_widget(self):
+        """What a screenshot or figure shows: the atlas tab (with a radiology film beside it when one is open), or
+        a model tab's 3D view with its labels, without the tab's parts list and buttons."""
+        mv = self.active_model_view()
+        return mv.gl_widget if mv is not None else self.center.currentWidget()
+
     def screenshot(self, path=None):
-        widget = self.center.currentWidget()
+        widget = self._capture_widget()
         img = widget.grab()
         if not path:
             pics = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
@@ -1707,13 +1713,11 @@ class MainWindow(QMainWindow):
         img.save(path)
         self.statusBar().showMessage(f"Saved {path}", 4000)
 
-    def export_figure(self, path=None):
-        """Save the current view as a captioned plate: the picture, what is in it, and how it was set up."""
-        from PySide6.QtGui import QFont, QFontMetrics, QImage, QPainter
-        widget = self.center.currentWidget()
-        shot = widget.grab().toImage()
-        dpr = shot.devicePixelRatio() or 1.0
-
+    def _figure_caption(self):
+        """(title, caption parts, credit line) for export_figure: the model tab in front describes itself."""
+        mv = self.active_model_view()
+        if mv is not None:
+            return mv.figure_caption()
         st = self.state
         sel = [self.ds.structures[s]["name"] for s in st.selected]
         title = sel[0] if len(sel) == 1 else (f"{len(sel)} structures" if sel else "Anatomy figure")
@@ -1728,6 +1732,16 @@ class MainWindow(QMainWindow):
             bits.append(f"Dissected to {st.depth_cut * 100:.0f}% depth")
         visible = int(st.visible_mask().sum())
         bits.append(f"{visible:,} structures visible")
+        return title, bits, "Anatomy Explorer · BodyParts3D / Z-Anatomy, CC BY-SA"
+
+    def export_figure(self, path=None):
+        """Save the current view as a captioned plate: the picture, what is in it, and how it was set up."""
+        from PySide6.QtGui import QFont, QFontMetrics, QImage, QPainter
+        widget = self._capture_widget()
+        shot = widget.grab().toImage()
+        dpr = shot.devicePixelRatio() or 1.0
+
+        title, bits, credit = self._figure_caption()
 
         scale = dpr
         pad = int(18 * scale)
@@ -1759,8 +1773,7 @@ class MainWindow(QMainWindow):
         p.setPen(muted)
         p.drawText(pad, shot.height() + head_h + int(pad * 0.4), text_w, body_rect.height(),
                    Qt.AlignLeft | Qt.TextWordWrap, caption)
-        p.drawText(pad, out.height() - fm_b.height() - int(pad * 0.4), text_w, fm_b.height(), Qt.AlignLeft,
-                   "Anatomy Explorer · BodyParts3D / Z-Anatomy, CC BY-SA")
+        p.drawText(pad, out.height() - fm_b.height() - int(pad * 0.4), text_w, fm_b.height(), Qt.AlignLeft, credit)
         p.end()
 
         if not path:

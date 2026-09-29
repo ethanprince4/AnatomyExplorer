@@ -728,6 +728,33 @@ class ModelView(QWidget):
             m.addAction("Reset view", self.reset_view)
         m.exec(global_pos)
 
+    def figure_caption(self):
+        """(title, caption parts, credit line) for File -> Export labelled figure: what this view shows."""
+        m, st, g = self.vmodel, self.state, self.gl_widget
+        sel = [m.items[i].name for i in st.selected]
+        title = sel[0] if len(sel) == 1 else (f"{len(sel)} parts" if sel else self.entry.name)
+        bits = [self.entry.name] if sel else []
+        if g.section_items:
+            names = [m.items[i].name for i, _a in g.section_items]
+            planes = [SECTION_NAMES[k] for k, s in enumerate(g.sections) if s is not None]
+            where = (" and ".join(planes) + " section" if planes else "Cut-away") + " through: "
+            bits.append(where + ", ".join(names))
+        elif sel:
+            bits.append(", ".join(sorted(set(sel))))
+        bits.append(f"{int(st.visible_mask().sum()):,} of {len(m.items):,} parts visible")
+        e = self.entry
+        if e.kind == "downloaded":
+            info = getattr(e, "info", {}) or {}
+            source = f"{e.name} by {info.get('author', 'its creator')}, {info.get('license', '')}".rstrip(", ")
+            credit = f"Anatomy Explorer · {source} (Sketchfab)"
+        elif e.kind == "procedural":
+            credit = "Anatomy Explorer · procedural model made for the app"
+        elif e.id.startswith("file:"):
+            credit = f"Anatomy Explorer · {getattr(e, 'path', e.name)}"
+        else:
+            credit = "Anatomy Explorer · 3D model made for the app"
+        return title, bits, credit
+
     # ------------------------------------------------------------------ lessons & practice
     def part_ids(self, names):
         """Item indices for part names from a lesson or practice item (exact names, groups and the model's
