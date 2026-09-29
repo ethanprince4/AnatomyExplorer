@@ -64,7 +64,7 @@ The sandbox has no GPU, and a full app frame costs about 3 s. Do not launch the 
 - **Per part:** a `Track` gives the weights over the cycle. The modes are `MODE_MORPH` (contraction, valves),
   `MODE_FLOW` (particles on their own clocks along a curved path) and `MODE_WAVE` (a travelling glow set by activation
   time).
-- **Register:** use `AnimatedModel` with an `Animation(period, tracks, phases=[(start, end, label)], title=...)`. The micro view then
+- **Register:** use `AnimatedModel` with an `Animation(period, tracks, phases=[(start, end, label)], title=...)`. The model viewer then
   shows Play, speed and the scrubber automatically.
 - **Render:** `render_micro.py <id> --time T` for a still; `--frames 12 -o a.gif` while iterating and `--frames 24`
   for the final GIF (it also writes a contact strip).

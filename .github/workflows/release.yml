@@ -49,8 +49,8 @@ jobs:
       - name: Keep line endings as committed
         run: git config --global core.autocrlf false
 
-      # LFS files are fetched through a cache: each download of the two ~150 MB atlas buffers and the large
-      # Sketchfab models counts against the repository's LFS bandwidth allowance
+      # LFS files are fetched through a cache: each download of the two ~150 MB atlas buffers, the kidney model and
+      # the large Sketchfab models counts against the repository's LFS bandwidth allowance
       - uses: actions/checkout@v4
         with:
           lfs: false

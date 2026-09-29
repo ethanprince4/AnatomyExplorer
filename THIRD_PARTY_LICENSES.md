@@ -12,9 +12,8 @@ source, and that each licence is one we are allowed to redistribute.
 2. Histology images (`data/histology`), Wikimedia Commons
 3. Radiology images (`data/radiology`), Wikimedia Commons
 4. Downloaded Sketchfab models (`data/sketchfab_models`), Creative Commons, **17 NonCommercial**
-5. Online Sketchfab models (`data/content/sketchfab.json`), streamed only
-6. Software bundled in the installers
-7. Application resources
+5. Software bundled in the installers
+6. Application resources
 
 ---
 
@@ -134,12 +133,12 @@ re-encoded. `data/radiology/sources.json` holds each image's record, and every c
 > screen, at run time. The part names and descriptions in `data/content/sketchfab_parts/` are separate notes
 > about the models and are not part of them. If you reuse or redistribute Anatomy Explorer, including
 > commercially, you must follow each model's own licence. The simplest way to use Anatomy Explorer commercially
-> is to delete the NonCommercial models' folders. The app then falls back to Sketchfab's online player.
+> is to delete the NonCommercial models' folders.
 
 The models were downloaded through Sketchfab's official Download API, and only models their creators marked as
 downloadable were fetched. Each folder's `info.json` records the model's creator, licence and page, and the app
 shows them in the model's tab. The creators own their models. Anatomy Explorer is not affiliated with Sketchfab
-or with any of the creators, and none of them endorses it.
+or with any of the creators, and none of them endorses it. Sketchfab is a trademark of its owner.
 
 | Model | Author | Licence | Folder (uid) |
 |---|---|---|---|
@@ -165,15 +164,7 @@ or with any of the creators, and none of them endorses it.
 | [Polycystic kidney](https://sketchfab.com/3d-models/polycystic-kidney-0ff51e6303e84b83a75d510192a34e92) | [Sieben Medical Art](https://sketchfab.com/siebenmedicalart) | [**CC BY-NC-ND 4.0**](https://creativecommons.org/licenses/by-nc-nd/4.0/) | `0ff51e6303e84b83a75d510192a34e92` |
 | [Visible Interactive Human - Exploding skull](https://sketchfab.com/3d-models/visible-interactive-human-exploding-skull-252887e2e755427c90d9e3d0c6d3025f) | [WitmerLab at Ohio University](https://sketchfab.com/witmerlab) | [**CC BY-NC-ND 4.0**](https://creativecommons.org/licenses/by-nc-nd/4.0/) | `252887e2e755427c90d9e3d0c6d3025f` |
 
-## 5. Online Sketchfab models
-
-`data/content/sketchfab.json` lists 78 Sketchfab models by name, creator and model id, with summaries and
-links to atlas structures written for this app. **No part of these models is copied or shipped.** They are
-streamed from sketchfab.com through the [official embed and Viewer API](https://sketchfab.com/developers)
-that Sketchfab offers for every published model, and they stay under their creators' licences, as shown on
-sketchfab.com. Sketchfab is a trademark of its owner.
-
-## 6. Software bundled in the installers
+## 5. Software bundled in the installers
 
 The Windows and macOS installers are built with PyInstaller and contain these libraries. Where a wheel ships
 its licence files, `packaging/AnatomyExplorer.spec` copies them into the bundle under `licenses/`. The LGPL-3.0
@@ -182,7 +173,7 @@ and GPL-3.0 texts for Qt/PySide6 are in `packaging/licenses/`.
 | Component | Licence | Project |
 |---|---|---|
 | Python 3.11 | [PSF License](https://docs.python.org/3/license.html) | <https://www.python.org/> |
-| Qt 6 (incl. Qt WebEngine / Chromium) | [LGPL-3.0](https://www.gnu.org/licenses/lgpl-3.0.html) | <https://www.qt.io/> |
+| Qt 6 | [LGPL-3.0](https://www.gnu.org/licenses/lgpl-3.0.html) | <https://www.qt.io/> |
 | PySide6 6.11 | [LGPL-3.0](https://www.gnu.org/licenses/lgpl-3.0.html) | <https://pyside.org/> |
 | shiboken6 6.11 | [LGPL-3.0](https://www.gnu.org/licenses/lgpl-3.0.html) | <https://pyside.org/> |
 | NumPy 2.4 (with OpenBLAS) | [BSD-3-Clause](https://github.com/numpy/numpy/blob/main/LICENSE.txt) and bundled permissive licences | <https://numpy.org/> |
@@ -206,15 +197,17 @@ version. The installed app is a PyInstaller "one-folder" bundle, and the Qt and 
 separate files in its `_internal/PySide6` folder (`Contents/Frameworks/PySide6` in the macOS app), where you can
 swap them. The app's own source code is published under MIT, so it can be rebuilt against any Qt version. Qt's
 source code is at <https://download.qt.io/official_releases/qt/> and PySide6's at
-<https://code.qt.io/cgit/pyside/pyside-setup.git/>. Qt WebEngine contains Chromium and its third-party
-components, each under its own licence. Qt's documentation lists them at
-<https://doc.qt.io/qt-6/qtwebengine-licensing.html>.
+<https://code.qt.io/cgit/pyside/pyside-setup.git/>. The installers no longer include Qt WebEngine (Chromium).
 
-## 7. Application resources
+## 6. Application resources
 
 - `app/resources/icon.png` and `icon.ico` are drawn by `tools/make_icon.py` (QPainter shapes only) and are
   part of this project (MIT).
 - The microanatomy models (`app/micro`, cached in `data/micro_cache`) are generated procedurally by this
-  project's code and are MIT-licensed. So are the lessons, clinical correlations, radiology case texts,
+  project's code and are MIT-licensed.
+- The 3D models in `models/` (the whole heart, the kidney with its nephron and the cardiac muscle block) were
+  built procedurally in Blender for this project from published measurements and are part of it (MIT). The
+  kidney's builder consulted Z-Anatomy's kidney as a reference, but none of its geometry is in the model
+  (`models/kidney/README.md`). So are the lessons, clinical correlations, radiology case texts,
   hand-written descriptions (`data/content/descriptions_extra*.json`) and Sketchfab part notes.
 - The app uses no bundled fonts. It uses the operating system's own.

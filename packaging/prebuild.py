@@ -6,6 +6,8 @@
 2. The surface samples and depth index of the atlas, stamped the way the installed app stamps them (file sizes
    only, see relations.STAMP_MTIME), written to packaging/build/stage/data/anatomy. The spec ships these in place
    of the copies in data/anatomy, which carry this machine's file times and would not match after installation.
+3. A check that every in-house GLB model the catalogue describes (data/content/models) is really there - not a Git
+   LFS pointer - and loads, so an installer never ships without the heart, the kidney or the cardiac muscle.
 
 Usage: python packaging/prebuild.py [--jobs N]"""
 import subprocess
@@ -55,11 +57,25 @@ def anatomy():
     print(f"anatomy caches written to {out} in {time.time() - t:.0f} s", flush=True)
 
 
+def models():
+    from app.viewer.catalog import GlbEntry, load_meta
+
+    t = time.time()
+    for meta in load_meta():
+        e = GlbEntry(meta)
+        if not e.available():
+            sys.exit(f"{e.path} is missing or a Git LFS pointer: run git lfs pull")
+        m = e.load()
+        print(f"model {e.id}: {len(m.items)} parts, {m.triangle_count:,} triangles", flush=True)
+    print(f"in-house models checked in {time.time() - t:.0f} s", flush=True)
+
+
 def main():
     args = sys.argv[1:]
     jobs = int(args[args.index("--jobs") + 1]) if "--jobs" in args else 4
     micro(jobs)
     anatomy()
+    models()
 
 
 if __name__ == "__main__":

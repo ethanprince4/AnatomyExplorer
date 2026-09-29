@@ -51,7 +51,8 @@ OutputBaseFilename={#OutputName}
 SetupIconFile={#IconFile}
 UninstallDisplayIcon={app}\{#AppExe}
 UninstallDisplayName={#AppName}
-; ~1.5 GB of mostly already-compressed data: non-solid LZMA2 keeps build time and memory sane
+; ~1.5 GB of mostly already-compressed data (the atlas, the histology images and the 3D models): non-solid LZMA2
+; keeps build time and memory sane
 Compression=lzma2/normal
 SolidCompression=no
 LZMAUseSeparateProcess=yes

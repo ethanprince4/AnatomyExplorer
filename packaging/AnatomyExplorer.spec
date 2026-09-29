@@ -12,17 +12,21 @@ STAGE = ROOT / "packaging" / "build" / "stage"
 VERSION = os.environ.get("APP_VERSION", "0.0.0")
 
 # Everything the app reads at run time. Personal data (data/user), the raw Z-Anatomy source and scratch output are
-# never shipped; data/anatomy's surface-sample and depth caches come from the stage (see prebuild.py).
+# never shipped; data/anatomy's surface-sample and depth caches come from the stage (see prebuild.py). models/ holds
+# the in-house GLB models the model viewer opens (each .glb with its .viewer.json sidecar).
 DATA_DIRS = ["data/anatomy", "data/content", "data/findings", "data/histology", "data/radiology",
-             "data/sketchfab_models", "data/micro_cache", "data/models", "app/resources"]
+             "data/sketchfab_models", "data/micro_cache", "data/models", "models", "app/resources"]
 SKIP_DIRS = {"__pycache__", ".git"}
 SKIP_SUFFIXES = {".pyc", ".tmp", ".part", ".stackdump"}
 STAGED = {"data/anatomy/samples.npz", "data/anatomy/depth.npz"}
+# folders of which only these files are read at run time (models/ also holds the modellers' review notes)
+ONLY_SUFFIXES = {"models": {".glb", ".json"}}
 
 
 def data_files():
     out = []
     for rel in DATA_DIRS:
+        only = ONLY_SUFFIXES.get(rel)
         for dirpath, dirnames, filenames in os.walk(ROOT / rel):
             dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
             for name in filenames:
@@ -30,6 +34,10 @@ def data_files():
                 key = src.relative_to(ROOT).as_posix()
                 if src.suffix in SKIP_SUFFIXES or name.endswith(".tmp.npz") or key in STAGED:
                     continue
+                if only is not None and src.suffix.lower() not in only:
+                    continue
+                if src.suffix.lower() == ".glb" and src.stat().st_size < 1024:
+                    raise SystemExit(f"{key} is a Git LFS pointer, not the model: run git lfs pull first")
                 out.append((str(src), str(Path(key).parent)))
     for key in sorted(STAGED):
         src = STAGE / key
@@ -79,22 +87,30 @@ a = Analysis(
     datas=data_files(),
     # registry.py finds registry_extra_*.py by listing its folder, so the whole package is collected
     hiddenimports=collect_submodules("app") + collect_submodules("glcontext"),
-    excludes=["tkinter", "matplotlib", "IPython", "PyQt5", "PyQt6", "pytest"],
+    # the app has no web view and no QML since the model viewer replaced the Sketchfab player: leaving these out
+    # keeps Chromium (Qt WebEngine) and the QML runtime out of the installers
+    excludes=["tkinter", "matplotlib", "IPython", "PyQt5", "PyQt6", "pytest",
+              "PySide6.QtWebEngineCore", "PySide6.QtWebEngineWidgets", "PySide6.QtWebEngineQuick",
+              "PySide6.QtWebChannel", "PySide6.QtWebSockets", "PySide6.QtQuick", "PySide6.QtQuickWidgets",
+              "PySide6.QtQuickControls2", "PySide6.QtQml", "PySide6.QtPositioning", "PySide6.QtMultimedia",
+              "PySide6.QtPdf", "PySide6.QtPdfWidgets"],
     # the app package ships as plain .py files: the micro-model cache is keyed on a digest of app/micro's sources,
     # and registry.py globs its own folder, so both behave exactly as they do from source
     module_collection_mode={"app": "py"},
     noarchive=False,
 )
 
-# Importing QtQuick (only to pick the web view's graphics API) makes PyInstaller ship every QML module and the Qt
-# libraries they need - 3D, charts, multimedia... The app has no QML, and QWebEngineView needs none of them.
+# A safety net for the excludes above: no Qt library, plugin or resource of a module the app does not use ends up in
+# the bundle even if some other package drags it in (Qt WebEngine alone is Chromium, a few hundred MB).
 UNUSED_QT = re.compile(
-    r"^(lib)?Qt6?(3D\w*|Charts\w*|DataVisualization\w*|Graphs\w*|Location|Multimedia\w*|Quick3D\w*|"
-    r"QuickControls2\w*|QuickDialogs2\w*|QuickParticles|QuickShapes\w*|QuickTimeline\w*|QuickVectorImage\w*|"
-    r"QuickEffects|QuickLayouts|QuickTest|Sensors\w*|SpatialAudio|TextToSpeech|RemoteObjects\w*|Scxml\w*|"
-    r"StateMachine\w*|VirtualKeyboard\w*|WebView\w*|Labs\w*|Pdf\w*|WebEngineQuick\w*|SerialPort|Sql|"
-    r"QmlLocalStorage|QmlXmlListModel|WebSockets|WebChannelQuick|Wayland\w*|WlShellIntegration)"
+    r"^(lib)?Qt6?(3D\w*|Charts\w*|DataVisualization\w*|Graphs\w*|Location|Multimedia\w*|Quick\w*|Qml\w*|"
+    r"Sensors\w*|SpatialAudio|TextToSpeech|RemoteObjects\w*|Scxml\w*|Positioning\w*|"
+    r"StateMachine\w*|VirtualKeyboard\w*|WebView\w*|WebEngine\w*|WebChannel\w*|Labs\w*|Pdf\w*|SerialPort|Sql|"
+    r"WebSockets|Wayland\w*|WlShellIntegration)"
     r"(\.|_debug\.|$)")
+# Chromium's helper process, its resource packs and its translations
+WEBENGINE_FILES = re.compile(r"^(QtWebEngineProcess(\.exe|\.app)?|qtwebengine\w*\.pak|icudtl\.dat|v8_context_snapshot\w*\.bin|"
+                             r"qtwebengine_locales|qtwebengine_devtools_resources\w*\.pak)$")
 
 
 def unused(dest):
@@ -102,6 +118,8 @@ def unused(dest):
     if len(parts) > 2 and parts[0] == "PySide6" and parts[1] == "Qt" and parts[2] == "qml":
         return True
     if "qmltooling" in parts:
+        return True
+    if any(WEBENGINE_FILES.match(p) for p in parts):
         return True
     # plugins that only work with the libraries dropped here
     if re.match(r"^(lib)?(qtvirtualkeyboardplugin|qpdf|qtposition_nmea)(\.|$)", parts[-1]):

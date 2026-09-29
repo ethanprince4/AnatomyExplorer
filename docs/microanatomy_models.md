@@ -1,6 +1,6 @@
 # Microanatomy models: structure list and modelling brief
 
-There are 39 models. Most are a small block (or tube segment) of tissue; the lymph node is modelled whole, blood is a thin film of cells, and ten show whole organs or regions at dissection scale: the heart, eyeball, ear, a kidney in coronal section, the liver with the bile ducts and pancreas, the ileocaecal region with the rectum and anal canal, a tooth, and the female and male pelvis (the ear and the two pelvis models with magnified insets beside the specimen). Every structure below is a separate, selectable object in the app. Structures are grouped exactly as the app's layer tree shows them, in the same order.
+There are 37 procedural models, built by the app's own code. (The procedural nephron and cardiac muscle blocks were retired for the in-house Blender models *Kidney and nephron* and *Cardiac muscle* in `models/`, which open in the same model viewer: see `docs/model_viewer.md`.) Most are a small block (or tube segment) of tissue; the lymph node is modelled whole, blood is a thin film of cells, and ten show whole organs or regions at dissection scale: the heart, eyeball, ear, a kidney in coronal section, the liver with the bile ducts and pancreas, the ileocaecal region with the rectum and anal canal, a tooth, and the female and male pelvis (the ear and the two pelvis models with magnified insets beside the specimen). Every structure below is a separate, selectable object in the app. Structures are grouped exactly as the app's layer tree shows them, in the same order.
 
 ## Requirements for replacement models (Blender or any other tool)
 
@@ -12,7 +12,7 @@ There are 39 models. Most are a small block (or tube segment) of tissue; the lym
   - Organ models are drawn to a real scale of their own, stated in the model's scale note (the heart at 1 unit ≈ 6 cm, the eye at 2 units = 24 mm, the pelvis models at 1 unit = 10 cm).
 - **Cut-away.** The default cut removes the quadrant x < 0, z > 0 (tubes: x < 0, y > 0). Place key structures (follicles, glands, villi, osteons) so they cross those planes and get sectioned lengthwise. Organ models set their own cut, usually the plane an atlas would section them in (the heart's four-chamber plane, a median section of the pelvis, a coronal section of the kidney or temporal bone).
 - **Budget:** about 1–1.5 million triangles per model, built in under three minutes. Materials are optional; colours are assigned per structure in the app.
-- **Format:** glTF 2.0 (`.glb`), or the `.blend` file itself. The app currently generates these models from code, so an importer would need to be added before external files can be used.
+- **Format:** glTF 2.0 (`.glb`) with a `.viewer.json` sidecar, exported by `tools/blender/export_for_viewer.py`. A model in that form goes in `models/<name>/`, is described in `data/content/models/<id>.json` and opens in the model viewer like the three in-house models (`docs/model_viewer.md`).
 
 ## How the current models are built
 
@@ -21,7 +21,7 @@ Worth knowing if you are asking someone to match or beat them:
 - Vessels are **swept around a curved centreline** whose calibre varies along its length, with a radius that is a free function of angle and position - nothing is a cylinder of revolution. Every coat is its own closed shell, and the tubes that run inside the wall (vasa vasorum, nervi vasorum, a vein's longitudinal muscle bundles) lie in **channels** that the layers part round, so a section shows each as a clean round profile.
 - Nerve and skeletal muscle are **bundles of bundles opened like a telescope**: at one end the outer sheath stops and each level of the hierarchy - fascicles, single fibres, and in muscle one fibre fraying into banded myofibrils - is pulled out further than the one containing it, each ending in a flat transverse face.
 - Compact bone is a **two-dimensional mosaic of osteons** of different ages, each eroding the ones it overlaps, resolved with polygon booleans and extruded along a wedge of the shaft, so every lamella is a real closed solid.
-- Cardiac muscle and pancreas are built **cell by cell** (the pancreas's acini as non-overlapping Voronoi regions, so cut faces stay clean): each cardiomyocyte, acinar cell and islet cell is its own closed mesh, and cells that cross a face of the block are clipped and capped so the sides read like the cut surface of a specimen.
+- The pancreas is built **cell by cell** (its acini as non-overlapping Voronoi regions, so cut faces stay clean): each acinar cell and islet cell is its own closed mesh, and cells that cross a face of the block are clipped and capped so the sides read like the cut surface of a specimen.
 - The lymph node's zones (capsule, subcapsular sinus, cortex, paracortex, medulla) are all **cut from one signed-distance field by depth below the capsule**, so they nest exactly and the cut-away sections them all at once, like a slide through the hilum.
 - Every free surface carries **the relief of its own cells**: endothelium as cobblestones stretched along the flow, smooth muscle as spindles wrapped around the circumference, urothelium as domed umbrella cells.
 - Smooth muscle layers in the gut and bladder are **interlacing bundles** with the plexuses running in the gaps between them; the epimysium carries a **felt of individual collagen bundles**.
@@ -30,18 +30,18 @@ Worth knowing if you are asking someone to match or beat them:
 
 ## Animation
 
-A model can animate by attaching per-vertex morph targets and phases to its parts (`part.anim`) and giving its dataset an `Animation` of per-part tracks (`app/micro/anim.py`). Only a few texels per part change each frame; the vertex buffers never do, and picking and cut faces follow the moving geometry. The micro view shows Play/Pause, speed and a cycle scrubber for any animated model; `tools/render_micro.py <id> --time T` renders a still and `--frames N -o x.gif` a GIF. The heart's auricles are modelled in Blender by `tools/blender/heart_auricles.py` (run with a Python that has `bpy`) into `data/models/heart_auricles.npz`; bump `AURICLE_ASSET_VERSION` in `heart.py` after regenerating it.
+A model can animate by attaching per-vertex morph targets and phases to its parts (`part.anim`) and giving its dataset an `Animation` of per-part tracks (`app/micro/anim.py`). Only a few texels per part change each frame; the vertex buffers never do, and picking and cut faces follow the moving geometry. The model viewer shows Play/Pause (Space), speed and a cycle scrubber for any animated model; `app/viewer/procedural.py` hands the morph targets and phases to its renderer as a second vertex buffer, and `tools/render_micro.py <id> --time T` renders a still and `--frames N -o x.gif` a GIF. The heart's auricles are modelled in Blender by `tools/blender/heart_auricles.py` (run with a Python that has `bpy`) into `data/models/heart_auricles.npz`; bump `AURICLE_ASSET_VERSION` in `heart.py` after regenerating it.
 
 ## How cut faces are drawn
 
-Microanatomy models draw their cut faces as **flat sections lying on the cutting plane**, so whatever a part encloses is hidden behind its own section, as on a slide. (The main atlas instead shades the inside of each cut shell.) The model's dataset sets `cap_depth`, and `Renderer._draw_caps` in `app/renderer.py` runs after the opaque pass whenever a cut is on:
+The model viewer draws cut faces as **flat sections lying on the cutting plane**, so whatever a part encloses is hidden behind its own section, as on a slide. (The main atlas instead shades the inside of each cut shell.) `Renderer._render_caps` in `app/viewer/renderer.py` runs after the pre-pass whenever a cut-away or a section is on:
 
 1. **Per part, the nearest kept front face.** For each part in turn (parts marked not to be clipped are skipped) `PARITY_FS` writes, at every pixel, the depth of that part's nearest front face on the kept side of the cut (MIN blending).
 2. **Where the plane passes through the part.** The part is drawn again with the cap shader: where its first surface behind the cut is a back face that nothing of the same part hides, the plane lies inside the part. This test holds even for meshes that are not quite watertight, unlike counting surfaces. The pixel's ray is rebuilt from the screen position, so every part meeting the plane there gets exactly the same point on it.
 3. **Off-screen gather, innermost wins.** The cap colour, normal, id and true plane depth go to an off-screen buffer whose depth test is keyed on how far the part's far wall lies behind the plane. Where several nested parts are cut at the same pixel, the innermost (the one whose wall is nearest the plane) wins.
-4. **Composited at plane depth.** `CAPMIX_FS` lays the gathered caps onto the scene at their true depth on the plane, so they are depth-tested, picked and outlined like any other surface.
+4. **Composited at plane depth.** `CAPMIX_PRE_FS` and `CAPMIX_FS` lay the gathered caps into the pre-pass and the shaded frame at their true depth on the plane, so they are depth-tested, picked, outlined and labelled like any other surface.
 
-The caps are shaded like a stained section (`tissue_color` with nuclei, fibres and cell outlines). Only micro models use this path: the atlas's own dataset leaves `cap_depth` off.
+The caps are shaded like a stained section (`tissue_color` with nuclei, fibres and cell outlines) for procedural models, and in the part's own colour, darkened, for the others.
 
 ## Where the code lives
 
@@ -51,20 +51,19 @@ All of it is in `app/micro/`. A model is a `MicroModel` (id, name, summary, buil
 |---|---|
 | `registry.py` | The `MODELS` table and the four skin models; imports `registry_organs.py`, then every `registry_extra_*.py` |
 | `registry_organs.py` | Registration of the gut, wall, vessel, lung, bone, muscle, nerve, kidney, liver, bladder, eye, thyroid and tongue models |
-| `registry_extra_*.py` | Further models, one file per batch, each with a `register_all(register)` - found and loaded automatically, so a new model needs no edit to a shared file (`registry_extra_lymphoid.py`: lymph node, spleen; `registry_extra_tissues.py`: cardiac muscle, pancreas; `registry_extra_blood.py`: blood cells; `registry_extra_heart.py`: heart; `registry_extra_eyeball.py`: eyeball; `registry_extra_ear.py`: ear; `registry_extra_kidney_gross.py`: kidney section; `registry_extra_hepatobiliary.py`: liver, bile ducts and pancreas; `registry_extra_lower_gi.py`: ileocaecal region and rectum, tooth; `registry_extra_female.py`: female reproductive system; `registry_extra_male.py`: male reproductive system) |
+| `registry_extra_*.py` | Further models, one file per batch, each with a `register_all(register)` - found and loaded automatically, so a new model needs no edit to a shared file (`registry_extra_lymphoid.py`: lymph node, spleen; `registry_extra_tissues.py`: pancreas; `registry_extra_blood.py`: blood cells; `registry_extra_heart.py`: heart; `registry_extra_eyeball.py`: eyeball; `registry_extra_ear.py`: ear; `registry_extra_kidney_gross.py`: kidney section; `registry_extra_hepatobiliary.py`: liver, bile ducts and pancreas; `registry_extra_lower_gi.py`: ileocaecal region and rectum, tooth; `registry_extra_female.py`: female reproductive system; `registry_extra_male.py`: male reproductive system) |
 | `skin.py` | Thin, thick, scalp and axillary skin (`build_skin`) |
 | `gut.py` | Duodenum, jejunum, ileum and colon (`build_gut`) |
 | `walls.py` | Stomach, oesophagus and trachea |
 | `vessels.py` | Muscular artery, elastic artery and vein |
 | `bundles.py` | Skeletal muscle and peripheral nerve |
 | `bone.py` | Compact bone |
-| `kidney.py` | Nephron |
 | `liver.py` | Liver lobule |
 | `lung.py` | Lung acinus |
 | `glands.py` | Thyroid follicles (with parathyroid) and tongue papillae |
 | `organs2.py` | Urinary bladder, cornea and retina |
 | `lymphoid.py` | Lymph node and spleen |
-| `tissues.py` | Cardiac muscle (and the shared helpers and descriptions the pancreas uses) |
+| `tissues.py` | The shared helpers and descriptions the pancreas uses |
 | `pancreas.py` | Pancreas: non-overlapping acini, duct tree, islets, and its secretion animation |
 | `anim.py` | Animation for micro models: morph targets, particle flow and travelling glow, evaluated in the vertex shader; see its docstring |
 | `heart_motion.py` | The heart's cardiac cycle, attached at the end of `build_heart` |
@@ -235,13 +234,6 @@ Built models are cached in `data/micro_cache/<id>.npz`; a model is rebuilt when 
 - **Tunica adventitia:** Tunica adventitia; Longitudinal smooth muscle bundles; Adventitial collagen bundles; Vasa vasorum; Nervi vasorum; Perivascular fat
 - **Blood:** Red blood cells; Rolling leukocyte
 
-### Cardiac muscle (ventricular wall)
-- **Myocardium:** Cardiomyocytes; Intercalated discs; Perinuclear clear zone; Cardiomyocyte nuclei; Endomysial capillaries; Endomysium & perimysium
-- **Vessels & nerves:** Intramyocardial arteriole; Intramyocardial venule; Coronary artery – intima; Coronary artery – media; Coronary artery – adventitia; Cardiac vein; Autonomic nerve
-- **Endocardium:** Purkinje fibres; Purkinje cell sarcoplasm (glycogen); Purkinje cell nuclei; Subendocardial layer; Subendothelial connective tissue; Endocardial endothelium
-- **Epicardium:** Mesothelium (visceral pericardium); Subepicardial connective tissue; Epicardial adipocytes
-- A transmural block with the fibre direction turning through the wall; at one end the fibres are teased apart at their intercalated discs.
-
 ### Heart: chambers, valves & conduction
 - **Ventricles:** Membranous part of interventricular septum; Left ventricle (myocardium); Interventricular septum; Right ventricle (myocardium); Apex of heart
 - **Atria:** Fossa ovalis; Interatrial septum; Right auricle; Left auricle; Right atrium (myocardium); Left atrium (myocardium); Base of heart (posterior left atrium)
@@ -304,16 +296,6 @@ Built models are cached in `data/micro_cache/<id>.npz`; a model is rebuilt when 
 - **Vessels:** Endoneurial capillaries; Vasa nervorum (arterioles); Vasa nervorum (venules)
 
 ## Urinary
-
-### Nephron & renal corpuscle
-- **Renal corpuscle:** Glomerular capillaries; Mesangial cells; Podocytes (visceral layer); Bowman capsule (parietal layer); Afferent arteriole; Efferent arteriole
-- **Juxtaglomerular apparatus:** Juxtaglomerular (granular) cells; Macula densa; Extraglomerular mesangial (lacis) cells
-- **Proximal tubule:** Proximal convoluted tubule; Proximal straight tubule
-- **Loop of Henle:** Thin descending limb; Thin ascending limb; Thick ascending limb
-- **Distal nephron:** Distal convoluted tubule; Connecting tubule
-- **Collecting duct:** Cortical collecting duct; Medullary collecting duct
-- **Vessels:** Arcuate artery; Arcuate vein; Cortical radiate artery; Cortical radiate vein; Peritubular capillaries; Descending vasa recta; Ascending vasa recta
-- **Kidney zones:** Cortex; Outer medulla – outer stripe; Outer medulla – inner stripe; Inner medulla
 
 ### Urinary bladder wall (urothelium)
 - **Urothelium:** Basal cells; Intermediate cells; Umbrella cells; Uroplakin plaques (apical membrane); Umbrella cell nuclei (often binucleate); Fusiform vesicles
