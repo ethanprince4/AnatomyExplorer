@@ -22,7 +22,7 @@ Picking, cut-aways and caps all run through the same vertex shader, so they foll
 """
 import numpy as np
 
-from .base import MicroDataset, MicroModel
+from .base import MicroModel
 
 N_TARGETS = 4
 MODE_MORPH, MODE_FLOW, MODE_WAVE = 0, 1, 2
@@ -166,33 +166,3 @@ class AnimatedModel(MicroModel):
                     pass
             self._parts = parts
         return self._parts
-
-
-class AnimatedDataset(MicroDataset):
-    """MicroDataset plus the vertex buffer of morph targets and phases the renderer binds for an animated model."""
-
-    def __init__(self, model):
-        super().__init__(model)
-        self.animation = model.animation
-        self.part_names = [p.name for p in self.parts]
-
-    def anim_bytes(self):
-        n = len(self._positions)
-        buf = np.zeros(n, dtype=[("m", "<f2", (N_TARGETS, 4)), ("phase", "<f4")])
-        for p, (a, b) in zip(self.parts, self.part_vertex_ranges):
-            data = getattr(p, "anim", None)
-            if not data:
-                continue
-            m = np.asarray(data["morph"], np.float32)
-            k = min(m.shape[1], N_TARGETS)
-            buf["m"][a:b, :k, :3] = m[:b - a, :k]
-            buf["phase"][a:b] = np.asarray(data["phase"], np.float32)[:b - a]
-        return buf.view(np.uint8).ravel()
-
-    def anim_frame(self, t):
-        return self.animation.frame(self.part_names, t)
-
-
-def dataset_for(model):
-    """The dataset a viewer should open a micro model with."""
-    return AnimatedDataset(model) if getattr(model, "animation", None) else MicroDataset(model)

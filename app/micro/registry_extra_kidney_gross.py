@@ -20,7 +20,7 @@ def register_all(register):
                                 "Intrarenal veins of right kidney", "Intrarenal veins of left kidney",
                                 "Anterior branch of renal artery", "Posterior branch of renal artery"]},
         histology=["kidney_cortex", "kidney_medulla", "ureter", "adrenal"],
-        related=["nephron", "bladder_wall"],
+        related=["kidney_nephron", "bladder_wall"],
         # one frontal cut: both planes remove z > 0, so the whole anterior half comes away
         cutaway=((0.0, 0.0, -1.0), (0.0, 0.0, 1.0)), cut_at=(0.0, 0.0),
         clinical=[

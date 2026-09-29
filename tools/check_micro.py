@@ -4,7 +4,7 @@ Usage: python tools/check_micro.py [model_id ...] [--all] [--rebuild] [--names-o
 
 For each model (read from data/micro_cache, or built when stale; --rebuild always builds and times it):
 
-* FAIL  the builder raises, a part is empty, two parts share a name, or a part name that a lesson uses
+* FAIL  the builder raises, a part is empty, two parts share a name, or a part or group name that a lesson uses
         (micro_focus, find_micro, practice items) no longer exists;
 * WARN  more than 1.5 M triangles, a build over 180 s, or a part that is not closed - more than 1% of its edges
         have only one face after merging coincident vertices (cut faces need closed meshes; tiny particles and
@@ -128,8 +128,10 @@ def main():
         for name, n in Counter(names).items():
             if n > 1:
                 problems.append(("FAIL", f"{n} parts are named {name!r}"))
+        # a lesson may name a part or a whole group (the model viewer selects all of its parts), in any case
+        known = {n.lower() for n in names} | {p.group.lower() for p in parts}
         for part, where in sorted(refs.get(mid, {}).items()):
-            if part not in names:
+            if part.lower() not in known:
                 problems.append(("FAIL", f"part {part!r} used by {', '.join(sorted(set(where)))} is missing"))
         for part in before.get(mid, []):
             if part not in names:

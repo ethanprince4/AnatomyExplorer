@@ -201,7 +201,7 @@ def _nucleus(centre, phi, radii, res=5):
 
 def home_view(model, yaw=0.70, pitch=0.40):
     """Open a telescoped model looking at its +x end, where the telescope is, with the lengthwise cut-away
-    behind it. MicroView reads `home_view` (radians)."""
+    behind it. The model viewer reads `home_view` (radians)."""
     model.home_view = (yaw, pitch)
     return model
 

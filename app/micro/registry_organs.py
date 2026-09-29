@@ -1,6 +1,5 @@
 from .base import MicroModel
 from .gut import build_gut
-from .kidney import build_nephron
 from .liver import build_liver_lobule
 from .lung import build_alveoli
 from .bone import build_osteon
@@ -212,33 +211,6 @@ def register_all(register):
                    "(~1 µm) and sarcomeres (~2.5 µm) are drawn 15–30× larger than life.",
         **TUBE_CUT)))
     register(MicroModel(
-        "nephron", "Nephron & renal corpuscle",
-        "A juxtamedullary nephron from glomerulus to collecting duct, set against the cortex and medullary zones: "
-        "renal corpuscle (capillary tuft, podocytes, mesangium, Bowman capsule) with afferent and efferent "
-        "arterioles and the juxtaglomerular apparatus (JG cells, macula densa, lacis cells); proximal convoluted and "
-        "straight tubule, thin and thick limbs of the loop of Henle, distal convoluted and connecting tubule; "
-        "cortical and medullary collecting ducts; peritubular capillaries, vasa recta, arcuate and cortical radiate "
-        "vessels.",
-        build_nephron, targets={"structures": ["Kidney", "Renal pelvis"]},
-        histology=["kidney_cortex", "kidney_medulla"],
-        scale_note="Block ≈ 1 mm wide. Calibres to scale (renal corpuscle ≈ 200 µm); lengths foreshortened – the "
-                   "proximal tubule alone is ~14 mm long.",
-        clinical=[("Nephrotic vs nephritic",
-                   "Podocyte injury (minimal change, FSGS, membranous) leaks protein – nephrotic syndrome; "
-                   "inflammation of glomerular capillaries (post-streptococcal, IgA) causes haematuria and "
-                   "hypertension – nephritic."),
-                  ("Diuretic targets",
-                   "Acetazolamide and SGLT2 inhibitors – PCT; loop diuretics – NKCC2 of the thick ascending limb; "
-                   "thiazides – NCC of the DCT; amiloride (ENaC) and spironolactone (mineralocorticoid receptor) – "
-                   "principal cells of the collecting duct."),
-                  ("Acute tubular necrosis",
-                   "Ischaemia or toxins (aminoglycosides, contrast) kill PCT and thick-limb cells, forming muddy-brown "
-                   "granular casts."),
-                  ("ACE inhibitors and NSAIDs",
-                   "GFR depends on efferent tone (angiotensin II) and afferent dilatation (prostaglandins): ACE "
-                   "inhibitors plus NSAIDs, especially with a diuretic, can drop glomerular pressure and cause acute "
-                   "kidney injury.")]))
-    register(MicroModel(
         "liver_lobule", "Liver lobule",
         "A hexagonal classic lobule with a rim of its neighbours: branching hepatocyte plates (zones 1–3) radiate from "
         "a central vein whose wall the sinusoids pierce; portal tracts at the corners hold a portal venule, hepatic "
@@ -289,7 +261,7 @@ def register_more(register):
         "and basal cells, a lamina propria with its capillary plexus, discontinuous muscularis mucosae and vessels, "
         "the interlacing fascicles of the three detrusor layers, adventitia with fat, and the serosa of the dome.",
         build_bladder, targets={"structures": ["Urinary bladder", "Ureter"]},
-        histology=["bladder", "transitional", "ureter"], related=["nephron"],
+        histology=["bladder", "transitional", "ureter"], related=["kidney_nephron"],
         clinical=[("Urothelial carcinoma staging",
                    "Tumours confined to the mucosa (Ta/Tis) or lamina propria (T1) are treated by resection and "
                    "intravesical BCG; invasion of the detrusor (T2) usually needs cystectomy – so the biopsy must "
