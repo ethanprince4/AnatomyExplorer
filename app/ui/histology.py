@@ -74,7 +74,7 @@ class HistologyBrowser(QWidget):
         folders = {}
         muted = theme.qc(theme.MUTED)
         micro_root = QTreeWidgetItem(self.tree.invisibleRootItem())
-        micro_root.setText(0, "3D microanatomy models")
+        micro_root.setText(0, "3D models")
         micro_root.setText(1, str(len(self.content.micro_models)))
         micro_root.setForeground(1, muted)
         f = micro_root.font(0)

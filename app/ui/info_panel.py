@@ -340,7 +340,7 @@ class InfoPanel(QWidget):
         if n_hist:
             extras.append(f"{n_hist:,} histology images")
         if self.content.micro_models:
-            extras.append(f"{len(self.content.micro_models)} 3D microanatomy models")
+            extras.append(f"{len(self.content.micro_models)} 3D models")
         if self.n_radiology:
             extras.append(f"{self.n_radiology} radiology cases")
         if self.n_lessons:
@@ -352,7 +352,7 @@ class InfoPanel(QWidget):
 <p class="overline">GETTING STARTED</p>
 <p><b>Search</b> (Ctrl+F) for any structure, group, landmark or Latin term. The result is highlighted,
 framed, and everything else turns to x-ray. Search also finds conditions and signs ("carpal tunnel",
-"Horner"), tissues and microanatomy models.</p>
+"Horner"), tissues and 3D models.</p>
 <p><b>Lessons</b> (Ctrl+L) are short guided walks – the brachial plexus, the inguinal canal, the circle of
 Willis. Browse them by body system, by region or by level. Each one opens with what you should be able to do
 by the end, sets the view up for you step by step, asks you a question before you move on, and finishes with
@@ -371,9 +371,12 @@ Three tries, then it shows you the answer and what you clicked instead.</p>
 with the 3D view set up to match the film. Click a label on the image to find it in 3D.</p>
 <p><b>Measure</b> (M) gives the distance between any two points you click; Ctrl+Shift+S exports the view as a
 captioned, labelled figure.</p>
+<p><b>3D models</b> (Study &rsaquo; 3D models) open in a tab of their own: the whole heart, the kidney with its
+nephron, cardiac muscle, the microanatomy blocks and more. They use the same mouse, keys and labels as the atlas;
+PgDown and PgUp step through a model's stored views.</p>
 <p><b>Filter</b> by body system, subsystem or region on the left, or browse the hierarchy in <b>Tree</b>.
 The <b>Histology</b> tab browses tissue micrographs.</p>
-<p><b>Click</b> anything in 3D to see its summary, clinical correlations, histology and microanatomy here.
+<p><b>Click</b> anything in 3D to see its summary, clinical correlations, histology and 3D models here.
 Sections are collapsible, and remember whether you left them open.</p>
 <p><b>Settings</b> (Ctrl+,) has mouse sensitivity, key bindings and display options.</p>
 <p class="overline">DATA SOURCES</p><ul>{attr}<li>Histology micrographs: Wikimedia Commons contributors (author and

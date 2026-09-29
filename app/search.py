@@ -87,7 +87,7 @@ class SearchIndex:
             e.words = tuple(e.norm.split())
 
     def add_content(self, content):
-        """Index clinical correlations, histology tissues and microanatomy models from a ContentIndex."""
+        """Index clinical correlations, histology tissues and 3D models from a ContentIndex."""
         ds = self.ds
         by_base = {}
         for s in ds.structures:
@@ -116,7 +116,8 @@ class SearchIndex:
                 added.append(SearchEntry("tissue", t["name"], "Histology · " + " › ".join(t["path"]), [], None,
                                          node=t["id"]))
         for m in content.micro_models.values():
-            added.append(SearchEntry("micro", m.name, "3D microanatomy model", [], None, node=m.id))
+            kind = getattr(m, "kind_name", "3D model")
+            added.append(SearchEntry("micro", m.name, kind[:1].upper() + kind[1:], [], None, node=m.id))
         self._prepare(added)
         self.entries.extend(added)
 
