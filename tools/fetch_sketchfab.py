@@ -1,13 +1,16 @@
-"""Download the Sketchfab models whose authors made them downloadable, through Sketchfab's official Download API.
+"""Download (or refresh) the 3D models of data/content/sketchfab.json from Sketchfab's official Download API.
 
-    python tools/fetch_sketchfab.py            # every downloadable model in data/content/sketchfab.json
+    python tools/fetch_sketchfab.py            # every model of the catalogue that is not complete on disk
     python tools/fetch_sketchfab.py UID ...    # just these
     python tools/fetch_sketchfab.py --force    # fetch again even if already on disk
 
 Needs your own API token (sketchfab.com -> Settings -> Password & API) in data/user/sketchfab_token.txt. Models the
-author did not make downloadable are skipped - those stay in the embedded player. Each model lands in
-data/sketchfab_models/<uid>/ as model.glb plus info.json with its licence and credit, which the app shows wherever
-the model appears.
+author did not make downloadable are skipped. Each model lands in data/sketchfab_models/<uid>/ as model.glb plus
+info.json with its licence and credit, which the app shows wherever the model appears. The app opens these files
+offline; it never streams a model.
+
+The catalogue is read through app.sketchfab.load_catalog(), which lists only models already on disk, so in practice
+this refreshes the downloaded models (--force) rather than adding new ones.
 """
 import datetime
 import json
@@ -22,6 +25,7 @@ sys.path.insert(0, str(ROOT))
 from app.sketchfab import LOCAL_DIR, TOKEN_PATH, load_catalog     # noqa: E402
 
 API = "https://api.sketchfab.com/v3/models/{uid}"
+PAGE = "https://sketchfab.com/3d-models/{uid}"       # the model's source page, credited in info.json
 
 
 def get_json(url, token=None):
@@ -52,7 +56,7 @@ def fetch(model, token, force=False):
         return "already here"
     meta = get_json(API.format(uid=model.uid))
     if not meta.get("isDownloadable"):
-        return "not downloadable (stays embedded)"
+        return "not downloadable"
     links = get_json(API.format(uid=model.uid) + "/download", token)
     if "glb" not in links:
         return f"no glb archive (has {', '.join(links) or 'nothing'})"
@@ -68,7 +72,7 @@ def fetch(model, token, force=False):
         "license": lic.get("label", ""),
         "license_slug": lic.get("slug", ""),
         "license_url": lic.get("url", ""),
-        "source_url": meta.get("viewerUrl", model.page_url),
+        "source_url": meta.get("viewerUrl", PAGE.format(uid=model.uid)),
         "downloaded": datetime.date.today().isoformat(),
         "bytes": glb.stat().st_size,
     }

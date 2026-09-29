@@ -2,8 +2,7 @@
 
 Every histology and radiology image and every downloaded Sketchfab model must name its author, its licence and its
 source page, and the licence must be one we may redistribute. NonCommercial Sketchfab licences are allowed but
-counted and must be listed (with the notice) in THIRD_PARTY_LICENSES.md; they are allowed nowhere else. The online
-Sketchfab list is only streamed through Sketchfab's embed, so it needs a uid, a name and an author but no licence."""
+counted and must be listed (with the notice) in THIRD_PARTY_LICENSES.md; they are allowed nowhere else."""
 import json
 import re
 import sys
@@ -20,7 +19,6 @@ IMAGE_OK = re.compile(r"^(CC0|Public domain|No restrictions|Copyrighted free use
 SKETCHFAB_FREE = {"cc0", "by", "by-sa"}
 SKETCHFAB_NC = {"by-nc", "by-nc-sa", "by-nc-nd"}
 SKETCHFAB_ND = {"by-nd", "by-nc-nd"}
-UID = re.compile(r"^[0-9a-f]{32}$")
 
 bad = 0
 
@@ -111,14 +109,6 @@ def check_sketchfab():
     print(f"downloaded Sketchfab models: {sum(counts.values())} - "
           + ", ".join(f"{k} {v}" for k, v in sorted(counts.items()))
           + f"; {nc} NonCommercial (allowed with notice), {nd} NoDerivatives")
-
-    models = json.loads((DATA / "content" / "sketchfab.json").read_text(encoding="utf-8"))["models"]
-    for m in models:
-        where = f"sketchfab.json {m.get('uid')}"
-        need(where, m, ("uid", "name", "author"))
-        if m.get("uid") and not UID.match(m["uid"]):
-            problem(f"{where}: uid is not a Sketchfab model id")
-    print(f"online Sketchfab list: {len(models)} models (streamed through the official embed, not redistributed)")
 
 
 def main():

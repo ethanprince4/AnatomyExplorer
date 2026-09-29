@@ -29,8 +29,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from app.sketchfab_local import CURATION_DIR, build_parts, default_parts, load_curation, local_uids  # noqa: E402
-from app.sketchfab import LOCAL_DIR                                                                   # noqa: E402
+from app.viewer.imported import (CURATION_DIR, LOCAL_DIR, ImportedModel, default_parts, load_curation,  # noqa: E402
+                                 local_uids)
 
 KEYS = {"name", "summary", "rotate", "view", "vertex_colors", "default_group", "clinical", "parts", "notes", "size_mm"}
 PART_KEYS = {"name", "group", "description", "structures", "category", "color", "alpha", "label", "hide"}
@@ -51,16 +51,18 @@ def list_parts(uid):
     glb = LOCAL_DIR / uid / "model.glb"
     print(f"{uid}  {info(uid)['name']}")
     print("  (centre and size are in the viewer's units: the model spans 2 across; +y up, +z towards the viewer)")
-    stats = {(p.name, p.group): p for p in build_parts(glb, {})[0]}
+    model = ImportedModel(glb, {})
+    stats = {(it.name, it.group): it for it in model.items}
     for name, group, tris, mats in default_parts(glb):
-        p = stats.get((name, group))
+        it = stats.get((name, group or "Model"))
         extra = ""
-        if p is not None:
-            v = p.mesh.parts[0][0]
-            lo, hi = v.min(axis=0), v.max(axis=0)
+        if it is not None:
+            lo, hi = model.item_bounds([it.index])
             c, sz = (lo + hi) / 2, hi - lo
+            alpha = min(p.look.alpha for p in it.parts)
+            colour = "#%02x%02x%02x" % tuple(int(round(max(0.0, min(1.0, float(v))) * 255)) for v in it.colour[:3])
             extra = (f"  centre ({c[0]:+.2f},{c[1]:+.2f},{c[2]:+.2f}) size ({sz[0]:.2f},{sz[1]:.2f},{sz[2]:.2f})"
-                     f"  colour {p.color}" + (f"  alpha {p.alpha:.2f}" if p.alpha < 1 else ""))
+                     f"  colour {colour}" + (f"  alpha {alpha:.2f}" if alpha < 1 else ""))
         key = f"{group}/{name}" if group else name
         print(f"  {key!r:44} {tris:>8} tris  materials {mats}{extra}")
 
