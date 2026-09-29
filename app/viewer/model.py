@@ -334,13 +334,19 @@ class ViewerModel:
         return pts.min(0), pts.max(0)
 
     def rest_item_boxes(self):
-        """(n, 2, 3) rest-pose world boxes of every item (cached)."""
+        """(n, 2, 3) rest-pose world boxes of every item (cached): without the reveal offsets of a state such as
+        teased, and without separated parts' offsets, whatever is on when they are first asked for."""
         if self._item_boxes is None:
             out = np.zeros((len(self.items), 2, 3))
-            for it in self.items:
-                b = self.item_bounds([it.index])
-                if b is not None:
-                    out[it.index] = b
+            offsets, separated = self.node_offsets, self.item_offsets
+            self.node_offsets, self.item_offsets = {}, None
+            try:
+                for it in self.items:
+                    b = self.item_bounds([it.index])
+                    if b is not None:
+                        out[it.index] = b
+            finally:
+                self.node_offsets, self.item_offsets = offsets, separated
             self._item_boxes = out
         return self._item_boxes
 
