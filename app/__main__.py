@@ -3,15 +3,11 @@ import sys
 import traceback
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Anatomy Explorer")
-    parser.add_argument("--script", help="semicolon-separated automation commands (testing)")
-    parser.add_argument("--no-restore", action="store_true", help="ignore saved window layout")
-    args = parser.parse_args()
-
+def configure_qt():
+    """The OpenGL context every 3D view needs (4.1 core, shared between the atlas and the model tabs). Call it
+    before the QApplication exists; tools that drive the app headless call it too, so they test what users run."""
     from PySide6.QtCore import QCoreApplication, Qt
-    from PySide6.QtGui import QColor, QFont, QIcon, QPainter, QPixmap, QSurfaceFormat
-    from PySide6.QtWidgets import QApplication, QMessageBox, QSplashScreen
+    from PySide6.QtGui import QSurfaceFormat
 
     fmt = QSurfaceFormat()
     fmt.setVersion(4, 1)
@@ -22,6 +18,19 @@ def main():
     fmt.setSwapInterval(1)
     QSurfaceFormat.setDefaultFormat(fmt)
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Anatomy Explorer")
+    parser.add_argument("--script", help="semicolon-separated automation commands (testing)")
+    parser.add_argument("--no-restore", action="store_true", help="ignore saved window layout")
+    args = parser.parse_args()
+
+    from PySide6.QtCore import Qt
+    from PySide6.QtGui import QColor, QFont, QIcon, QPainter, QPixmap
+    from PySide6.QtWidgets import QApplication, QMessageBox, QSplashScreen
+
+    configure_qt()
 
     from .config import APP_NAME, DATA_DIR, LOG_DIR, ORG_NAME, ROOT
 
