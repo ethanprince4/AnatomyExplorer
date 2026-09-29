@@ -48,7 +48,7 @@ once read and their best practice score. Every other lesson follows underneath b
 | Lab Practical 1 · Labs 1–5 | 9 | | | |
 
 Each lab practical is a set of review lessons ending in a practice exam with no steps. The 1,900 practice items
-are 601 `find`, 439 `find_micro`, 319 `mcq`, 264 `recall`, 180 `name` and 97 `order`.
+are 567 `find`, 470 `find_micro`, 320 `mcq`, 265 `recall`, 180 `name` and 98 `order`.
 
 Clicking a course lesson opens its **cover**: the objectives, how far you got, your practice scores and two
 buttons:
@@ -87,7 +87,7 @@ A lab-practical review lesson with `practice_from` shows **Practice exam** inste
 |---|---|---|
 | `find` | `structure` (exact atlas name) | finds it in the 3D atlas: left-click it, right-click anything in the way to peel it off (Ctrl+Z puts it back); three wrong clicks and it is shown |
 | `name` | `structure` | the structure is highlighted and x-rayed; pick its name from four, the wrong ones drawn from names taught in the same lesson and lab |
-| `find_micro` | `model` (micro model id), `part` (exact part name) | the model opens with its parts list and labels put away; click the part, right-click to peel parts off, three tries |
+| `find_micro` | `model` (3D model id: `whole_heart`, `kidney_nephron`, `cardiac_muscle` or a procedural model), `part` (a part's name, a group's name or one of the model's aliases) | the model opens with its parts list and labels put away; click the part, right-click to peel parts off, three tries |
 | `mcq` | `q`, `choices` (2–6), `answer` (0-based index), `why` | picks one; `why` is shown after answering, right or wrong |
 | `recall` | `q`, `a` | thinks of the answer, shows it, and says honestly whether they knew it |
 | `order` | `q`, `items` (in the correct order; shuffled at runtime) | drags the rows into order (or uses the arrows) and presses Check |
@@ -103,7 +103,7 @@ isolating it. A structure no step names gets its own system switched on and a vi
 
 | Key | Effect |
 |---|---|
-| `micro_focus` | `["<exact part names>"]` with `micro` on the same step: the model opens with those parts selected, labelled, framed and everything else x-rayed |
+| `micro_focus` | `["<part names>"]` with `micro` on the same step: the model opens with those parts selected, labelled, framed and everything else x-rayed. A name may be a part's name, a group's name (all its parts) or one of the model's aliases in `data/content/models/<id>.json` |
 | `diagram` | `"<id>"`: `data/content/diagrams/<id>.svg` is drawn under the step text at the width of the panel |
 
 Diagrams are original, hand-written SVGs for what 3D cannot show — an ECG trace, a spirogram, a reflex arc.
@@ -165,7 +165,11 @@ can be split up however is convenient. One object per lesson:
   are the library's own keys and are not the same as the dataset's system and region keys used inside a step.
 - `objectives` appear in a box on the first step; `takeaways` and `see_also` appear on the last one.
 - `see_also` links are live: a lesson id opens that lesson, and the others open the radiology case, the 3D
-  microanatomy model or the histology slide.
+  model or the histology slide.
+- Which heart: a step about the heart on its own (its chambers, walls, valves, coronary vessels) opens the
+  `whole_heart` model with `micro` and `micro_focus`; a step about its position and relations (the mediastinum,
+  surface markings, the ECG leads, the fetal circulation) stays on the atlas's heart; the conduction system and
+  the heartbeat animation are in the procedural `heart` model. See `docs/model_viewer.md`.
 - `minutes` is an estimate shown in the header; if it is omitted, two minutes a step is assumed.
 
 ## What a step looks like
@@ -243,9 +247,10 @@ were last in the middle of. Nothing else in the app reads the file, and deleting
    takeaways, and that a `check` has both a question and an answer.
 
    For the lab course it also checks the `course` fields and the id pattern, every practice item (its type and
-   fields, exact atlas names for `find`/`name`, a valid `mcq` answer index, no duplicate `order` rows), exact
-   part names for `find_micro` and `micro_focus` — by building the model's parts from `data/micro_cache`, which
-   can take a minute the first time — that every `diagram` exists as a well-formed SVG with a `viewBox`, and
+   fields, exact atlas names for `find`/`name`, a valid `mcq` answer index, no duplicate `order` rows), the
+   part names for `find_micro` and `micro_focus` — by loading each model from the model catalogue (the in-house
+   GLB models, and the procedural ones from `data/micro_cache`, which can take a minute the first time) — that
+   every `diagram` exists as a well-formed SVG with a `viewBox`, and
    that `practice_from` names real labs. A micro model that is not registered yet (or will not build right now)
    is a warning, not a failure. Warnings also flag mini lessons outside 3–5 steps or with fewer than six
    practice items.

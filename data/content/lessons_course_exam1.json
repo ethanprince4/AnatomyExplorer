@@ -1141,6 +1141,7 @@
     "lab03-08-surface-coronary-vessels"
    ],
    "micro": [
+    "whole_heart",
     "heart",
     "cardiac_muscle"
    ]
@@ -1199,6 +1200,14 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Right atrium",
+     "Right ventricle",
+     "Left atrium",
+     "Left ventricle",
+     "Pulmonary trunk"
+    ],
     "diagram": "lab03-heart-flow",
     "check": {
      "q": "Why is the left ventricle's wall thicker than the right's?",
@@ -1259,6 +1268,19 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Left coronary artery (left main)",
+     "Anterior interventricular artery (LAD)",
+     "Circumflex artery (LCx)",
+     "Right coronary artery",
+     "Right marginal artery",
+     "Posterior interventricular artery",
+     "Great cardiac vein",
+     "Middle cardiac vein",
+     "Small cardiac vein",
+     "Coronary sinus"
+    ],
     "check": {
      "q": "Name the two branches of the left coronary artery.",
      "a": "The anterior interventricular artery and the circumflex artery."
@@ -1282,6 +1304,13 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Pulmonary trunk",
+     "Ascending aorta",
+     "Right ventricle",
+     "Left ventricle"
+    ],
     "check": {
      "q": "How can you tell the ventricles apart on an intact sheep heart?",
      "a": "The left ventricle is firm and thick-walled; the right is thinner and softer. The pulmonary trunk leaves the right ventricle at the front."
@@ -1290,36 +1319,42 @@
   ],
   "practice": [
    {
-    "type": "find",
-    "structure": "Right atrium"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Right atrium"
    },
    {
-    "type": "find",
-    "structure": "Left ventricle"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Left ventricle"
    },
    {
     "type": "name",
     "structure": "Pulmonary trunk"
    },
    {
-    "type": "find",
-    "structure": "Aortic valve"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Aortic valve"
    },
    {
-    "type": "find",
-    "structure": "Pulmonary valve"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Pulmonary valve"
    },
    {
-    "type": "find",
-    "structure": "Coronary sinus"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Coronary sinus"
    },
    {
     "type": "name",
     "structure": "Anterior interventricular artery"
    },
    {
-    "type": "find",
-    "structure": "Right coronary artery"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Right coronary artery"
    },
    {
     "type": "find",
@@ -1327,7 +1362,7 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Chordae tendineae"
    },
    {
@@ -1337,7 +1372,7 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Tricuspid valve"
    },
    {
@@ -1414,7 +1449,8 @@
     "lab04-06-arrhythmias"
    ],
    "micro": [
-    "heart"
+    "heart",
+    "whole_heart"
    ]
   },
   "steps": [
@@ -1475,7 +1511,7 @@
    {
     "title": "The mean electrical axis",
     "text": "<p>The <b>mean electrical axis</b> is the average direction of ventricular depolarisation, running roughly along the interventricular septum, down and to the left. It is found by plotting the net QRS deflections of leads I and III on a circle; normal is about 0° to +90°. <b>Left axis deviation</b> suggests left ventricular hypertrophy or left bundle branch block; <b>right axis deviation</b> suggests right ventricular hypertrophy. The three limb leads form <b>Einthoven's triangle</b>; the right leg electrode is the ground.</p>",
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
      "Interventricular septum",
      "Apex of heart"
@@ -1516,8 +1552,9 @@
   ],
   "practice": [
    {
-    "type": "find",
-    "structure": "Right atrium"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Right atrium"
    },
    {
     "type": "find",

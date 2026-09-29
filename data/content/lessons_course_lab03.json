@@ -1120,7 +1120,7 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Apex of heart"
    },
    {
@@ -1215,15 +1215,13 @@
   "steps": [
    {
     "title": "Three layers",
-    "text": "<p>The <b>epicardium</b> is the visceral pericardium: a simple squamous mesothelium over loose connective tissue and fat, in which the coronary vessels run. The <b>myocardium</b>, by far the thickest layer, is cardiac muscle. The <b>endocardium</b> is an <b>endothelium</b> (simple squamous epithelium) on a thin connective-tissue layer; it lines the chambers, covers the valves and is continuous with the lining of the vessels.</p>",
-    "micro": "cardiac_muscle",
+    "text": "<p>The <b>epicardium</b> is the visceral pericardium: a simple squamous mesothelium over loose connective tissue and fat, in which the coronary vessels run. The <b>myocardium</b>, by far the thickest layer, is cardiac muscle. The <b>endocardium</b> is an <b>endothelium</b> (simple squamous epithelium) on a thin connective-tissue layer; it lines the chambers, covers the valves and is continuous with the lining of the vessels.</p><p>In the heart model the three layers are separate parts: the <b>epicardium</b> with its <b>epicardial fat</b>, the ventricular <b>myocardium</b> and the <b>endocardium</b>. The two thin layers are drawn thicker than life.</p>",
+    "micro": "heart",
     "micro_focus": [
-     "Mesothelium (visceral pericardium)",
-     "Subepicardial connective tissue",
-     "Epicardial adipocytes",
-     "Cardiomyocytes",
-     "Endocardial endothelium",
-     "Subendothelial connective tissue"
+     "Epicardium (visceral pericardium)",
+     "Epicardial fat",
+     "Left ventricle (myocardium)",
+     "Endocardium"
     ],
     "diagram": "lab03-pericardium",
     "check": {
@@ -1233,12 +1231,13 @@
    },
    {
     "title": "Cardiac muscle cells",
-    "text": "<p>Cardiac muscle is <b>striated</b> like skeletal muscle, but its cells are short, <b>branched</b> and usually have one central nucleus. Neighbouring cells join end to end at <b>intercalated discs</b>, dark cross-bands packed with gap junctions and desmosomes.</p><p>The gap junctions let the impulse pass straight from cell to cell, so the whole chamber contracts as one unit.</p>",
+    "text": "<p>Cardiac muscle is <b>striated</b> like skeletal muscle, but its cells are short, <b>branched</b> and usually have one central nucleus. Neighbouring cells join end to end at <b>intercalated discs</b>, dark cross-bands packed with gap junctions and desmosomes.</p><p>The gap junctions let the impulse pass straight from cell to cell, so the whole chamber contracts as one unit. In the model, switch to the <b>Teased</b> state to pull one cell back and open a disc.</p>",
     "micro": "cardiac_muscle",
     "micro_focus": [
-     "Cardiomyocytes",
-     "Intercalated discs",
-     "Cardiomyocyte nuclei"
+     "Hero intercalated disc (disc 13)",
+     "Intercalated disc junctions",
+     "Cardiomyocyte 21 (partner cell of the hero disc)",
+     "Cardiomyocyte nucleus 27 (in the partner cell)"
     ],
     "check": {
      "q": "What are intercalated discs and why do they matter?",
@@ -1261,6 +1260,12 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "heart",
+    "micro_focus": [
+     "Left ventricle (myocardium)",
+     "Right ventricle (myocardium)",
+     "Trabeculae carneae"
+    ],
     "check": {
      "q": "What are trabeculae carneae?",
      "a": "Muscular ridges on the inner wall of the ventricles."
@@ -1270,13 +1275,13 @@
   "practice": [
    {
     "type": "find_micro",
-    "model": "cardiac_muscle",
-    "part": "Mesothelium (visceral pericardium)"
+    "model": "heart",
+    "part": "Epicardium (visceral pericardium)"
    },
    {
     "type": "find_micro",
-    "model": "cardiac_muscle",
-    "part": "Epicardial adipocytes"
+    "model": "heart",
+    "part": "Epicardial fat"
    },
    {
     "type": "find_micro",
@@ -1289,14 +1294,20 @@
     "part": "Intercalated discs"
    },
    {
-    "type": "find_micro",
-    "model": "cardiac_muscle",
-    "part": "Endocardial endothelium"
+    "type": "recall",
+    "q": "What lines the inside of the heart chambers, and what kind of tissue is it?",
+    "a": "The endocardium: an endothelium (simple squamous epithelium) on a thin connective-tissue layer, continuous with the lining of the vessels."
    },
    {
-    "type": "find_micro",
-    "model": "cardiac_muscle",
-    "part": "Subendothelial connective tissue"
+    "type": "order",
+    "q": "Order the tissues of the heart wall from the outside in",
+    "items": [
+     "Mesothelium of the epicardium",
+     "Subepicardial connective tissue and fat",
+     "Myocardium (cardiac muscle)",
+     "Subendothelial connective tissue",
+     "Endothelium of the endocardium"
+    ]
    },
    {
     "type": "find_micro",
@@ -1309,12 +1320,14 @@
     "part": "Endocardium"
    },
    {
-    "type": "find",
-    "structure": "Left ventricle"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Left ventricle"
    },
    {
-    "type": "find",
-    "structure": "Right ventricle"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Right ventricle"
    },
    {
     "type": "order",
@@ -1363,7 +1376,8 @@
   "see_also": {
    "micro": [
     "cardiac_muscle",
-    "heart"
+    "heart",
+    "whole_heart"
    ],
    "histology": [
     "cardiac_muscle",
@@ -1422,6 +1436,13 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Right atrium",
+     "Right ventricle",
+     "Left atrium",
+     "Left ventricle"
+    ],
     "check": {
      "q": "Which chambers receive blood and which pump it out?",
      "a": "Atria receive; ventricles pump."
@@ -1448,6 +1469,17 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Superior vena cava",
+     "Inferior vena cava",
+     "Coronary sinus",
+     "Right atrium",
+     "Right ventricle",
+     "Pulmonary trunk",
+     "Right pulmonary artery",
+     "Left pulmonary artery"
+    ],
     "diagram": "lab03-heart-flow",
     "check": {
      "q": "Which valve does blood pass on leaving the right ventricle?",
@@ -1473,6 +1505,14 @@
     ],
     "view": "posterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Pulmonary veins",
+     "Left atrium",
+     "Left ventricle",
+     "Ascending aorta",
+     "Aortic arch"
+    ],
     "diagram": "lab03-heart-flow",
     "check": {
      "q": "Which valve lies between the left atrium and left ventricle?",
@@ -1499,6 +1539,13 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Left ventricle",
+     "Right ventricle",
+     "Pulmonary trunk",
+     "Pulmonary veins"
+    ],
     "pitfall": "'Artery' means away from the heart, not 'oxygenated'. The pulmonary arteries are the only arteries after birth that carry deoxygenated blood.",
     "check": {
      "q": "Why is the left ventricular wall thicker than the right?",
@@ -1508,20 +1555,24 @@
   ],
   "practice": [
    {
-    "type": "find",
-    "structure": "Right atrium"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Right atrium"
    },
    {
-    "type": "find",
-    "structure": "Left atrium"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Left atrium"
    },
    {
-    "type": "find",
-    "structure": "Right ventricle"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Right ventricle"
    },
    {
-    "type": "find",
-    "structure": "Left ventricle"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Left ventricle"
    },
    {
     "type": "find",
@@ -1532,8 +1583,9 @@
     "structure": "Inferior vena cava (thoracic part)"
    },
    {
-    "type": "find",
-    "structure": "Coronary sinus"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Coronary sinus"
    },
    {
     "type": "find",
@@ -1557,12 +1609,12 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Right auricle"
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Left auricle"
    },
    {
@@ -1626,7 +1678,7 @@
   ],
   "see_also": {
    "micro": [
-    "heart"
+    "whole_heart"
    ]
   }
  },
@@ -1707,6 +1759,16 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Anterior interventricular artery (LAD)",
+     "Great cardiac vein",
+     "Coronary sinus",
+     "Right coronary artery",
+     "Circumflex artery (LCx)",
+     "Middle cardiac vein",
+     "Posterior interventricular artery"
+    ],
     "check": {
      "q": "What runs in the anterior interventricular sulcus?",
      "a": "The anterior interventricular artery and the great cardiac vein."
@@ -1715,11 +1777,11 @@
    {
     "title": "The coronary arteries",
     "text": "<p>The <b>left</b> and <b>right coronary arteries</b> are the first branches of the aorta, arising from the ascending aorta just above the aortic valve. The left divides at once into the <b>anterior interventricular artery</b> (the LAD) and the <b>circumflex artery</b>, which runs left in the coronary sulcus and gives the left marginal artery.</p><p>The right runs right in the coronary sulcus, giving the <b>right marginal artery</b> and the <b>posterior interventricular artery</b>.</p>",
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
      "Left coronary artery (left main)",
      "Anterior interventricular artery (LAD)",
-     "Circumflex artery",
+     "Circumflex artery (LCx)",
      "Left marginal artery",
      "Right coronary artery",
      "Right marginal artery",
@@ -1732,13 +1794,12 @@
    },
    {
     "title": "Filled between beats",
-    "text": "<p>When the ventricles contract (<b>systole</b>) the muscle squeezes the arteries running through it, so coronary blood flow happens mainly while the ventricles <b>relax (diastole)</b>. A fast heart rate shortens diastole and so shortens the heart's own blood supply.</p><p>The vessels are ordinary muscular arteries - intima, media, adventitia - and so are prone to narrowing by plaque.</p>",
-    "micro": "cardiac_muscle",
+    "text": "<p>When the ventricles contract (<b>systole</b>) the muscle squeezes the arteries running through it, so coronary blood flow happens mainly while the ventricles <b>relax (diastole)</b>. A fast heart rate shortens diastole and so shortens the heart's own blood supply.</p><p>The vessels are ordinary muscular arteries - intima, media, adventitia - and so are prone to narrowing by plaque. The muscular-artery model shows the three layers of such a wall.</p>",
+    "micro": "muscular_artery",
     "micro_focus": [
-     "Coronary artery – intima",
-     "Coronary artery – media",
-     "Coronary artery – adventitia",
-     "Intramyocardial arteriole"
+     "Tunica intima",
+     "Tunica media",
+     "Tunica adventitia"
     ],
     "check": {
      "q": "When do the coronary arteries receive most of their flow?",
@@ -1764,6 +1825,14 @@
     ],
     "view": "posterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Great cardiac vein",
+     "Middle cardiac vein",
+     "Small cardiac vein",
+     "Posterior vein of left ventricle",
+     "Coronary sinus"
+    ],
     "check": {
      "q": "Where does the coronary sinus empty?",
      "a": "Into the right atrium."
@@ -1780,28 +1849,33 @@
     "structure": "Right coronary artery"
    },
    {
-    "type": "find",
-    "structure": "Anterior interventricular artery"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Anterior interventricular artery (LAD)"
    },
    {
-    "type": "find",
-    "structure": "Circumflex artery of heart"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Circumflex artery (LCx)"
    },
    {
-    "type": "find",
-    "structure": "Great cardiac vein"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Great cardiac vein"
    },
    {
-    "type": "find",
-    "structure": "Middle cardiac vein"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Middle cardiac vein"
    },
    {
     "type": "name",
     "structure": "Inferior vein of left ventricle"
    },
    {
-    "type": "find",
-    "structure": "Coronary sinus"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Coronary sinus"
    },
    {
     "type": "find_micro",
@@ -1810,27 +1884,28 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Small cardiac vein"
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Posterior interventricular artery"
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Right marginal artery"
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Left marginal artery"
    },
    {
-    "type": "find",
-    "structure": "Arteries of heart"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Coronary arteries"
    },
    {
     "type": "mcq",
@@ -1891,8 +1966,9 @@
   ],
   "see_also": {
    "micro": [
-    "cardiac_muscle",
-    "heart"
+    "whole_heart",
+    "heart",
+    "muscular_artery"
    ],
    "lessons": [
     "coronary-circulation"
@@ -1967,6 +2043,11 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Tricuspid valve",
+     "Mitral (bicuspid) valve"
+    ],
     "pitfall": "The atlas group 'right atrioventricular valve' also pulls in a left-sided leaflet - use the named leaflets instead.",
     "check": {
      "q": "How many cusps does the mitral valve have?",
@@ -1991,6 +2072,11 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Chordae tendineae",
+     "Papillary muscles"
+    ],
     "check": {
      "q": "What stops the AV valve cusps being pushed into the atria?",
      "a": "Chordae tendineae held taut by contracting papillary muscles."
@@ -2016,6 +2102,13 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Pulmonary valve",
+     "Aortic valve",
+     "Pulmonary trunk",
+     "Ascending aorta"
+    ],
     "check": {
      "q": "When do the semilunar valves close?",
      "a": "When the ventricles relax (start of diastole) and blood falls back toward them."
@@ -2025,7 +2118,7 @@
   "practice": [
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Interatrial septum"
    },
    {
@@ -2040,7 +2133,7 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Interventricular septum"
    },
    {
@@ -2050,27 +2143,27 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Chordae tendineae"
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Papillary muscles (right ventricle)"
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Papillary muscles (left ventricle)"
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Tricuspid valve"
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Mitral (bicuspid) valve"
    },
    {
@@ -2078,24 +2171,28 @@
     "structure": "Septal leaflet of right atrioventricular valve"
    },
    {
-    "type": "find",
-    "structure": "Posterior leaflet of left atrioventricular valve"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Posterior (mural) leaflet of mitral valve"
    },
    {
-    "type": "find",
-    "structure": "Anterior papillary muscle of right ventricle"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Anterior papillary muscle (tricuspid)"
    },
    {
     "type": "name",
     "structure": "Inferior papillary muscle of left ventricle"
    },
    {
-    "type": "find",
-    "structure": "Pulmonary valve"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Pulmonary valve"
    },
    {
-    "type": "find",
-    "structure": "Aortic valve"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Aortic valve"
    },
    {
     "type": "mcq",
@@ -2141,6 +2238,7 @@
   ],
   "see_also": {
    "micro": [
+    "whole_heart",
     "heart"
    ],
    "histology": [
@@ -2223,6 +2321,14 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Pulmonary trunk",
+     "Ascending aorta",
+     "Right ventricle",
+     "Left ventricle",
+     "Anterior interventricular artery (LAD)"
+    ],
     "check": {
      "q": "Which ventricle does the pulmonary trunk lead into?",
      "a": "The right ventricle."
@@ -2246,6 +2352,15 @@
     ],
     "view": "posterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Right atrium",
+     "Left atrium",
+     "Superior vena cava",
+     "Inferior vena cava",
+     "Coronary sinus",
+     "Pulmonary veins"
+    ],
     "check": {
      "q": "Where does the coronary sinus open?",
      "a": "Into the posterior, inferior right atrium."
@@ -2293,8 +2408,9 @@
     "structure": "Pulmonary veins"
    },
    {
-    "type": "find",
-    "structure": "Coronary sinus"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Coronary sinus"
    },
    {
     "type": "name",
@@ -2306,17 +2422,17 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Interventricular septum"
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Left ventricle (myocardium)"
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Right ventricle (myocardium)"
    },
    {
@@ -2366,6 +2482,7 @@
   ],
   "see_also": {
    "micro": [
+    "whole_heart",
     "heart"
    ]
   }

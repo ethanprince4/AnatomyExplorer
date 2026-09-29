@@ -2348,6 +2348,13 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Superior vena cava",
+     "Inferior vena cava",
+     "Coronary sinus",
+     "Right atrium"
+    ],
     "diagram": "lab05-venous-return",
     "check": {
      "q": "Which three vessels open into the right atrium?",
@@ -2785,6 +2792,11 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "heart",
+    "micro_focus": [
+     "Interatrial septum",
+     "Fossa ovalis"
+    ],
     "diagram": "lab05-fetal-circulation",
     "check": {
      "q": "What is left of the foramen ovale in the adult heart?",
@@ -2846,7 +2858,7 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Interatrial septum"
    },
    {

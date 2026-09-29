@@ -20,7 +20,7 @@
     "The AV delay lets the atria finish emptying before the ventricles contract.",
     "The ECG records electrical activity: depolarisation precedes contraction, and an electrical rhythm alone does not prove effective pumping."
   ],
-  "see_also": {"lessons": ["heart-chambers", "coronary-circulation"], "histology": ["cardiac_muscle"], "radiology": ["cxr_pa"]},
+  "see_also": {"lessons": ["heart-chambers", "coronary-circulation"], "histology": ["cardiac_muscle"], "radiology": ["cxr_pa"], "micro": ["heart"]},
   "steps": [
     {
       "title": "Why a heart needs wiring",
@@ -41,6 +41,8 @@
       "show": ["Superior vena cava", "Right coronary artery"],
       "view": "anterior",
       "xray": true,
+      "micro": "heart",
+      "micro_focus": ["Sinoatrial (SA) node", "Crista terminalis", "Superior vena cava", "Right coronary artery"],
       "check": {"q": "Which coronary artery usually supplies the SA node?",
                 "a": "The right coronary artery, in about 60% of hearts."}
     },
@@ -54,6 +56,8 @@
       "clip": [0, 0.50],
       "frame_on": ["Heart"],
       "xray": true,
+      "micro": "heart",
+      "micro_focus": ["Internodal pathways & Bachmann's bundle", "Atrioventricular (AV) node", "Opening of coronary sinus", "Atrioventricular bundle (bundle of His)", "Fibrous skeleton (valve annuli)"],
       "check": {"q": "Why does complete AV block cause a slow ventricular rate?",
                 "a": "Atrial impulses no longer reach the ventricles through the normal AV conduction pathway, so a slower subsidiary pacemaker must drive them."}
     },
@@ -65,6 +69,8 @@
       "focus": ["Heart"],
       "view": "anterior",
       "xray": false,
+      "micro": "heart",
+      "micro_focus": ["Atrioventricular (AV) node", "Atrioventricular bundle (bundle of His)"],
       "clinical": "Vagal manoeuvres and adenosine both work by slowing the AV node, which terminates any arrhythmia that uses it as part of its circuit."
     },
     {
@@ -77,6 +83,8 @@
       "clip": [0, 0.50],
       "frame_on": ["Heart"],
       "xray": true,
+      "micro": "heart",
+      "micro_focus": ["Atrioventricular bundle (bundle of His)", "Membranous part of interventricular septum", "Right bundle branch", "Left bundle branch", "Purkinje fibres"],
       "check": {"q": "Why does the ventricle contract from the apex upwards?",
                 "a": "The Purkinje network reaches the apex first, so depolarisation and contraction start there."}
     },
@@ -88,6 +96,8 @@
       "focus": ["Heart"],
       "view": "anterior",
       "xray": false,
+      "micro": "heart",
+      "micro_focus": ["Sinoatrial (SA) node", "Atrioventricular (AV) node", "Atrioventricular bundle (bundle of His)", "Right bundle branch", "Left bundle branch", "Purkinje fibres"],
       "check": {"q": "What does a wide QRS tell you anatomically?",
                 "a": "That the ventricles are not being depolarised through the normal fast conducting system."}
     },
@@ -103,6 +113,13 @@
       ],
       "view": "anterior",
       "xray": false,
+      "micro": "heart",
+      "micro_focus": [
+        "Right atrium (myocardium)",
+        "Left atrium (myocardium)",
+        "Right ventricle (myocardium)",
+        "Left ventricle (myocardium)"
+      ],
       "title": "Electricity comes before the squeeze",
       "text": "<p>A P wave is <b>atrial depolarisation</b>, not a drawing of atrial contraction. The QRS complex likewise records ventricular depolarisation. Mechanical force develops after electrical activation as the muscle cells couple that signal to calcium release and contraction.</p><p>This distinction explains why the ECG and the moving heart answer different questions. The trace shows the timing and pattern of electrical activity; valve movement and blood flow show the mechanical result. The T wave marks ventricular repolarisation, not a separate contraction of a different chamber.</p>",
       "check": {
@@ -134,7 +151,7 @@
     "Left ventricular coronary perfusion is greatest in diastole; tachycardia shortens this opportunity and can aggravate ischaemia.",
     "The anterolateral papillary muscle usually has dual arterial supply; the posteromedial muscle commonly depends on the posterior interventricular artery."
   ],
-  "see_also": {"lessons": ["heart-chambers", "conducting-system"], "radiology": ["ct_abdo_upper"]},
+  "see_also": {"lessons": ["heart-chambers", "conducting-system"], "radiology": ["ct_abdo_upper"], "micro": ["whole_heart"]},
   "steps": [
     {
       "title": "Where they start",
@@ -146,6 +163,8 @@
       "view": "anterior",
       "frame_on": ["Heart"],
       "xray": true,
+      "micro": "whole_heart",
+      "micro_focus": ["Left coronary artery (left main)", "Right coronary artery", "Ascending aorta", "Aortic valve"],
       "check": {"q": "Why is left ventricular coronary flow greatest in diastole?",
                 "a": "Ventricular relaxation relieves compression of intramyocardial vessels while aortic pressure drives blood through them."}
     },
@@ -159,6 +178,8 @@
       "view": "anterior",
       "frame_on": ["Heart"],
       "xray": true,
+      "micro": "whole_heart",
+      "micro_focus": ["Left coronary artery (left main)", "Anterior interventricular artery (LAD)", "Circumflex artery (LCx)"],
       "clinical": "The LAD is sometimes called the 'widow-maker': it supplies the largest territory, and its proximal occlusion takes out the anterior wall and the conducting system together.",
       "check": {"q": "Which artery supplies the anterior two thirds of the interventricular septum?",
                 "a": "The anterior interventricular (left anterior descending) branch."}
@@ -172,17 +193,21 @@
       "show": ["Heart", "Right ventricle"],
       "view": "anterior",
       "frame_on": ["Heart"],
-      "xray": true
+      "xray": true,
+      "micro": "whole_heart",
+      "micro_focus": ["Right coronary artery", "Sinoatrial (SA) nodal artery", "Right marginal artery", "Posterior interventricular artery", "Atrioventricular (AV) nodal artery"]
     },
     {
       "title": "Dominance",
-      "text": "<p>Whichever artery gives off the <b>posterior interventricular branch</b> is called dominant. In about <b>85%</b> of people it is the right coronary — right dominance. In roughly 8% it is the circumflex, and in the rest both contribute.</p><p>It matters because it decides how much of the left ventricle and the conducting system depends on the right coronary artery. In a left-dominant heart, a circumflex occlusion is a far bigger event than usual.</p>",
+      "text": "<p>Whichever artery gives off the <b>posterior interventricular branch</b> is called dominant. In about <b>85%</b> of people it is the right coronary — right dominance. In roughly 8% it is the circumflex, and in the rest both contribute.</p><p>It matters because it decides how much of the left ventricle and the conducting system depends on the right coronary artery. In a left-dominant heart, a circumflex occlusion is a far bigger event than usual.</p><p>The whole-heart model is right-dominant: its posterior interventricular artery comes from the right coronary artery.</p>",
       "systems": ["cardiovascular"],
       "regions": ["thorax"],
       "focus": ["Right coronary artery", "Circumflex artery of heart"],
       "view": "posterior",
       "frame_on": ["Heart"],
       "xray": true,
+      "micro": "whole_heart",
+      "micro_focus": ["Right coronary artery", "Posterior interventricular artery", "Circumflex artery (LCx)"],
       "check": {"q": "What defines a right-dominant coronary circulation?",
                 "a": "The posterior interventricular artery arises from the right coronary artery — the case in about 85% of people."}
     },
@@ -195,7 +220,9 @@
       "show": ["Cardiac veins", "Right atrium"],
       "view": "posterior",
       "frame_on": ["Heart"],
-      "xray": true
+      "xray": true,
+      "micro": "whole_heart",
+      "micro_focus": ["Coronary sinus", "Great cardiac vein", "Middle cardiac vein", "Small cardiac vein"]
     },
     {
       "title": "Reading the infarct off the ECG",
@@ -206,6 +233,8 @@
       "ghost_focus": ["Right coronary artery", "Anterior interventricular artery", "Circumflex artery of heart"],
       "view": "anterior",
       "xray": true,
+      "micro": "whole_heart",
+      "micro_focus": ["Anterior interventricular artery (LAD)", "Circumflex artery (LCx)", "Right coronary artery"],
       "check": {"q": "ST elevation in II, III and aVF. Which artery, and which structures are also at risk?",
                 "a": "The right coronary artery — with the SA and AV nodes and the right ventricle."}
     },
@@ -227,6 +256,15 @@
       ],
       "view": "anterior",
       "xray": true,
+      "micro": "whole_heart",
+      "micro_focus": [
+        "Mitral valve",
+        "Anterolateral papillary muscle (mitral)",
+        "Posteromedial papillary muscle (mitral)",
+        "Anterior interventricular artery (LAD)",
+        "Circumflex artery (LCx)",
+        "Posterior interventricular artery"
+      ],
       "title": "An infarct can upset a valve without injuring its leaflets",
       "text": "<p>The mitral valve depends on <b>papillary muscles</b> and chordae tendineae to keep its leaflets from prolapsing during ventricular contraction. The anterolateral papillary muscle usually receives branches from both LAD and circumflex territories. The posteromedial muscle commonly depends on the posterior interventricular artery.</p><p>That more restricted supply helps explain why the posteromedial muscle is particularly vulnerable to ischaemic rupture. Loss of papillary support can cause acute mitral regurgitation even when the valve leaflets were initially normal. Coronary anatomy therefore affects the valve apparatus as well as the ventricular wall.</p>",
       "check": {
@@ -371,7 +409,7 @@
     "Ligamentum teres, ligamentum venosum, ligamentum arteriosum, fossa ovalis, medial umbilical ligaments.",
     "The umbilical vein carries relatively oxygenated blood towards the fetus; the two umbilical arteries carry blood away towards the placenta."
   ],
-  "see_also": {"lessons": ["heart-chambers", "portal-system"]},
+  "see_also": {"lessons": ["heart-chambers", "portal-system"], "micro": ["heart"]},
   "steps": [
     {
       "title": "The problem the fetus is solving",
@@ -404,6 +442,8 @@
       "clip": [0, 0.50],
       "frame_on": ["Heart"],
       "xray": true,
+      "micro": "heart",
+      "micro_focus": ["Fossa ovalis", "Interatrial septum", "Inferior vena cava"],
       "check": {"q": "What closes the foramen ovale at birth?",
                 "a": "Left atrial pressure exceeding right, once the lungs expand and pulmonary resistance falls."}
     },

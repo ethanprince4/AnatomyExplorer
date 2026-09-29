@@ -1,8 +1,9 @@
 """Validate the lesson library: every name resolves, every key is real, every cross-reference exists.
 
-Lab-course lessons get more: their `course` place, every `practice` item (exact atlas names for find/name, exact
-part names in a built microanatomy model for find_micro and micro_focus, valid multiple-choice answers), every
-`diagram` file, and every `practice_from` reference.
+Lab-course lessons get more: their `course` place, every `practice` item (exact atlas names for find/name, part
+names that resolve in the 3D model for find_micro and micro_focus - exactly as the model viewer resolves them: a
+part's name, a group's name or one of the model's aliases - valid multiple-choice answers), every `diagram` file,
+and every `practice_from` reference.
 
     python tools/check_lessons.py                       the whole library
     python tools/check_lessons.py draft.json            also a draft file that is not in data/content yet
@@ -28,23 +29,34 @@ COURSE_ID = re.compile(r"^(lab\d{2}|exam\d)-\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
 class MicroParts:
-    """Part names of each microanatomy model, built (or read from data/micro_cache) the first time one is asked."""
+    """Each 3D model of the catalogue, loaded (procedural ones built or read from data/micro_cache) the first time
+    one is asked about."""
 
     def __init__(self, models):
         self.models = models
-        self.names = {}
+        self.loaded = {}
 
     def get(self, model_id):
-        """[part names]; None when the model is not registered (yet); an exception when it will not build."""
+        """The loaded model; None when there is no such model (yet); an exception when it will not load."""
         if model_id not in self.models:
             return None
-        if model_id not in self.names:
-            print(f"  (loading micro model {model_id}…)", flush=True)
+        if model_id not in self.loaded:
+            print(f"  (loading 3D model {model_id}…)", flush=True)
             try:
-                self.names[model_id] = [p.name for p in self.models[model_id].parts()]
+                self.loaded[model_id] = self.models[model_id].load()
             except Exception as exc:                   # noqa: BLE001 - a model mid-edit must not stop the check
-                self.names[model_id] = exc
-        return self.names[model_id]
+                self.loaded[model_id] = exc
+        return self.loaded[model_id]
+
+    def resolves(self, model_id, name):
+        model = self.get(model_id)
+        hits, _missing = self.models[model_id].resolve(model, [name])
+        return bool(hits)
+
+    def names(self, model_id):
+        model = self.get(model_id)
+        return [it.name for it in model.items] + [g.title for g in model.groups] + \
+            list(getattr(self.models[model_id], "aliases", {}))
 
 
 def check_diagram(did, where, fail):
@@ -72,8 +84,9 @@ def main():
     res = Resolver(ds)                              # no fuzzy fallback: names must be exact
     pool = list(res.by_lower) + list(res.groups) + list(res.collections)
     from app.content import ContentIndex
-    from app.micro.registry import MODELS
-    tissues = set(ContentIndex(ds).tissues)
+    content = ContentIndex(ds)
+    MODELS = content.micro_models
+    tissues = set(content.tissues)
     systems = {s["key"] for s in ds.systems}
     regions = {r["key"] for r in ds.regions}
     lessons = load_lessons(args.extra)
@@ -100,23 +113,24 @@ def main():
         print("warning: " + msg)
 
     def parts_of(model_id, where):
-        """Part names, or None (with one warning per model) when the model is not registered yet."""
-        names = micro.get(model_id)
-        if isinstance(names, Exception):
+        """The loaded model, or None (with one warning per model) when it is not in the catalogue or will not
+        load."""
+        model = micro.get(model_id)
+        if isinstance(model, Exception):
             if model_id not in warned_models:
                 warned_models.add(model_id)
-                warn(f"{where}: micro model {model_id!r} does not build right now ({names!r}) - its part names "
+                warn(f"{where}: 3D model {model_id!r} does not load right now ({model!r}) - its part names "
                      "were not checked")
             return None
-        if names is None and model_id not in warned_models:
+        if model is None and model_id not in warned_models:
             warned_models.add(model_id)
-            warn(f"{where}: micro model {model_id!r} is not registered yet - its part names were not checked")
-        return names
+            warn(f"{where}: 3D model {model_id!r} is not in the catalogue yet - its part names were not checked")
+        return model
 
     def check_part(model_id, part, where):
-        names = parts_of(model_id, where)
-        if names is not None and part not in names:
-            near = difflib.get_close_matches(part, names, n=4, cutoff=0.5)
+        model = parts_of(model_id, where)
+        if model is not None and not micro.resolves(model_id, part):
+            near = difflib.get_close_matches(part, micro.names(model_id), n=4, cutoff=0.5)
             fail(f"{where}: {part!r} is not a part of {model_id} -> {near}")
 
     def check_name(name, where):

@@ -48,6 +48,11 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "heart",
+    "micro_focus": [
+     "Sinoatrial (SA) node",
+     "Superior vena cava"
+    ],
     "diagram": "lab04-conduction",
     "check": {
      "q": "Why is the SA node the pacemaker?",
@@ -70,6 +75,10 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "heart",
+    "micro_focus": [
+     "Sinoatrial (SA) node"
+    ],
     "check": {
      "q": "Which ion carries the upstroke of the SA-node action potential?",
      "a": "Calcium (Ca²⁺)."
@@ -95,13 +104,11 @@
    },
    {
     "title": "Purkinje fibres",
-    "text": "<p><b>Purkinje fibres</b> (the subendocardial conducting network) are large, pale, glycogen-rich cells just under the endocardium. They conduct faster than any other cardiac tissue, so the ventricles are activated from the <b>apex upward</b> almost at once - squeezing blood up toward the aortic and pulmonary valves.</p>",
-    "micro": "cardiac_muscle",
+    "text": "<p><b>Purkinje fibres</b> (the subendocardial conducting network) are large, pale, glycogen-rich cells just under the endocardium; the heart model draws them as a network over both ventricles. They conduct faster than any other cardiac tissue, so the ventricles are activated from the <b>apex upward</b> almost at once - squeezing blood up toward the aortic and pulmonary valves.</p>",
+    "micro": "heart",
     "micro_focus": [
      "Purkinje fibres",
-     "Purkinje cell sarcoplasm (glycogen)",
-     "Subendocardial layer",
-     "Endocardial endothelium"
+     "Endocardium"
     ],
     "check": {
      "q": "Why is it useful that the ventricles are activated apex first?",
@@ -114,8 +121,8 @@
     "diagram": "lab04-action-potentials",
     "micro": "cardiac_muscle",
     "micro_focus": [
-     "Cardiomyocytes",
-     "Intercalated discs"
+     "Cardiomyocyte 21 (partner cell of the hero disc)",
+     "Hero intercalated disc (disc 13)"
     ],
     "check": {
      "q": "What produces the plateau of the ventricular action potential?",
@@ -155,18 +162,26 @@
     "part": "Purkinje fibres"
    },
    {
-    "type": "find_micro",
-    "model": "cardiac_muscle",
-    "part": "Purkinje fibres"
+    "type": "mcq",
+    "q": "Where do Purkinje fibres lie?",
+    "choices": [
+     "Just under the endocardium of both ventricles",
+     "In the wall of the right atrium near the superior vena cava",
+     "In the fibrous skeleton between the atria and the ventricles",
+     "In the epicardium beside the coronary arteries"
+    ],
+    "answer": 0,
+    "why": "They form the subendocardial network that carries the impulse quickly through the ventricular walls, so the ventricles are activated from the apex upward."
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Fibrous skeleton (valve annuli)"
    },
    {
-    "type": "find",
-    "structure": "Right atrium"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Right atrium"
    },
    {
     "type": "order",
@@ -236,7 +251,8 @@
   "see_also": {
    "micro": [
     "heart",
-    "cardiac_muscle"
+    "cardiac_muscle",
+    "whole_heart"
    ],
    "lessons": [
     "conducting-system"
@@ -430,7 +446,7 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Left ventricle (myocardium)"
    }
   ],
@@ -859,7 +875,7 @@
     "title": "One average arrow",
     "text": "<p>Ventricular depolarization spreads in many directions at once, but they add up to one average vector - the <b>mean electrical axis</b>. Normally it points from the base down and to the left toward the apex, roughly along the <b>interventricular septum</b>.</p><p>On the hexaxial (axis) circle used to plot it, 0° points to the patient's left and +90° straight down. The normal range is <b>0° to +90°</b>; many accept −30° to +90°.</p>",
     "diagram": "lab04-axis-circle",
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
      "Interventricular septum",
      "Apex of heart"
@@ -920,21 +936,23 @@
   "practice": [
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Interventricular septum"
    },
    {
     "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Apex of heart"
    },
    {
-    "type": "find",
-    "structure": "Left ventricle"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Left ventricle"
    },
    {
-    "type": "find",
-    "structure": "Right ventricle"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Right ventricle"
    },
    {
     "type": "name",
@@ -1098,6 +1116,11 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Left atrium",
+     "Right atrium"
+    ],
     "check": {
      "q": "Name two ECG features of atrial fibrillation.",
      "a": "No distinct P waves and an irregularly irregular (often fast) QRS rhythm."
@@ -1122,6 +1145,13 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Anterior interventricular artery (LAD)",
+     "Circumflex artery (LCx)",
+     "Right coronary artery",
+     "Left ventricle"
+    ],
     "check": {
      "q": "What is the treatment for ventricular fibrillation?",
      "a": "Immediate defibrillation."
@@ -1145,12 +1175,14 @@
     "part": "Left bundle branch"
    },
    {
-    "type": "find",
-    "structure": "Left atrium"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Left atrium"
    },
    {
-    "type": "find",
-    "structure": "Arteries of heart"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Coronary arteries"
    },
    {
     "type": "mcq",
@@ -1288,6 +1320,13 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "heart",
+    "micro_focus": [
+     "Tricuspid valve",
+     "Mitral (bicuspid) valve",
+     "Aortic valve",
+     "Pulmonary valve"
+    ],
     "check": {
      "q": "What is isovolumetric contraction?",
      "a": "The start of ventricular systole, when all four valves are closed and pressure rises without any change in volume."
@@ -1316,6 +1355,13 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "heart",
+    "micro_focus": [
+     "Tricuspid valve",
+     "Mitral (bicuspid) valve",
+     "Aortic valve",
+     "Pulmonary valve"
+    ],
     "check": {
      "q": "Which valves close to make the first heart sound?",
      "a": "The atrioventricular valves (tricuspid and bicuspid/mitral)."
@@ -1337,6 +1383,11 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Aortic valve",
+     "Mitral valve"
+    ],
     "check": {
      "q": "What causes a heart murmur?",
      "a": "Turbulent blood flow, e.g. through a leaky (incompetent) or narrowed (stenotic) valve."
@@ -1378,20 +1429,23 @@
   ],
   "practice": [
    {
-    "type": "find",
-    "structure": "Aortic valve"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Aortic valve"
    },
    {
-    "type": "find",
-    "structure": "Pulmonary valve"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Pulmonary valve"
    },
    {
     "type": "name",
     "structure": "Septal leaflet of right atrioventricular valve"
    },
    {
-    "type": "find",
-    "structure": "Posterior leaflet of left atrioventricular valve"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Posterior (mural) leaflet of mitral valve"
    },
    {
     "type": "find",
@@ -1410,8 +1464,9 @@
     "structure": "Third rib"
    },
    {
-    "type": "find",
-    "structure": "Valvular complex of heart"
+    "type": "find_micro",
+    "model": "whole_heart",
+    "part": "Valvular complex of heart"
    },
    {
     "type": "find",
@@ -1643,6 +1698,11 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "heart",
+    "micro_focus": [
+     "Sinoatrial (SA) node",
+     "Superior vena cava"
+    ],
     "check": {
      "q": "What is a Q10 of 2?",
      "a": "The rate of a process doubles for each 10 °C rise in temperature."

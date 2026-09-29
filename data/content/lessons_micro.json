@@ -445,7 +445,7 @@
     "adrenal-glands"
    ],
    "micro": [
-    "nephron",
+    "kidney_nephron",
     "bladder_wall"
    ],
    "histology": [
@@ -471,7 +471,12 @@
     ],
     "view": "posterior",
     "xray": true,
-    "micro": "nephron",
+    "micro": "kidney_nephron",
+    "micro_focus": [
+     "Renal corpuscle",
+     "Afferent arteriole",
+     "Efferent arteriole"
+    ],
     "check": {
      "q": "Name the three layers of the filtration barrier.",
      "a": "Fenestrated capillary endothelium, glomerular basement membrane and the podocyte slit diaphragms."
@@ -492,7 +497,11 @@
     ],
     "view": "posterior",
     "xray": true,
-    "micro": "nephron",
+    "micro": "kidney_nephron",
+    "micro_focus": [
+     "Juxtaglomerular apparatus",
+     "Afferent arteriole"
+    ],
     "check": {
      "q": "What does the macula densa sense, and what do the juxtaglomerular cells secrete?",
      "a": "The macula densa senses the NaCl concentration in the distal tubule; juxtaglomerular cells secrete renin."
@@ -513,7 +522,12 @@
     ],
     "view": "posterior",
     "xray": true,
-    "micro": "nephron",
+    "micro": "kidney_nephron",
+    "micro_focus": [
+     "Proximal convoluted tubule",
+     "Brush border (proximal convoluted tubule)",
+     "Proximal straight tubule"
+    ],
     "check": {
      "q": "Which tubular segment reabsorbs all filtered glucose?",
      "a": "The proximal convoluted tubule (via SGLT2 and SGLT1)."
@@ -534,7 +548,14 @@
     ],
     "view": "posterior",
     "xray": true,
-    "micro": "nephron",
+    "micro": "kidney_nephron",
+    "micro_focus": [
+     "Thin descending limb",
+     "Thin ascending limb",
+     "Thick ascending limb",
+     "Descending vasa recta",
+     "Ascending vasa recta"
+    ],
     "check": {
      "q": "Which transporter do loop diuretics block, and where is it?",
      "a": "NKCC2, in the thick ascending limb of the loop of Henle."
@@ -558,7 +579,13 @@
     ],
     "view": "posterior",
     "xray": true,
-    "micro": "nephron",
+    "micro": "kidney_nephron",
+    "micro_focus": [
+     "Distal convoluted tubule",
+     "Connecting tubule",
+     "Cortical collecting duct",
+     "Medullary collecting duct"
+    ],
     "check": {
      "q": "Which hormone inserts water channels in the collecting duct, and what happens without it?",
      "a": "ADH (vasopressin) inserts aquaporin-2; without it, or if the duct cannot respond, large volumes of dilute urine are passed — diabetes insipidus."

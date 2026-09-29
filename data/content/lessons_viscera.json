@@ -16,6 +16,13 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Right atrium",
+     "Right ventricle",
+     "Left atrium",
+     "Left ventricle"
+    ],
     "check": {
      "q": "Which chamber lies most anteriorly, and which forms the apex?",
      "a": "The right ventricle is most anterior; the left ventricle forms the apex."
@@ -49,6 +56,16 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Left coronary artery (left main)",
+     "Anterior interventricular artery (LAD)",
+     "Circumflex artery (LCx)",
+     "Right coronary artery",
+     "Sinoatrial (SA) nodal artery",
+     "Atrioventricular (AV) nodal artery",
+     "Posterior interventricular artery"
+    ],
     "check": {
      "q": "Which artery supplies the anterior two thirds of the interventricular septum?",
      "a": "The anterior interventricular (left anterior descending) branch of the left coronary artery."
@@ -67,6 +84,12 @@
     ],
     "view": "anterior",
     "xray": true,
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Anterior interventricular artery (LAD)",
+     "Circumflex artery (LCx)",
+     "Right coronary artery"
+    ],
     "check": {
      "q": "ST elevation in leads II, III and aVF. Which artery?",
      "a": "The right coronary artery — an inferior infarct."
@@ -95,6 +118,13 @@
      ],
      "view": "anterior",
      "xray": true,
+     "micro": "whole_heart",
+     "micro_focus": [
+       "Tricuspid valve",
+       "Mitral valve",
+       "Papillary muscles",
+       "Chordae tendineae"
+     ],
      "title": "The pressure opens the valve",
      "text": "<p>A valve opens when pressure behind it exceeds pressure ahead of it, and closes when the gradient reverses. During ventricular filling, atrial pressure exceeds ventricular pressure and the <b>atrioventricular valves</b> open. As ventricular contraction begins, the rising pressure closes them.</p><p><b>Papillary muscles</b> contract with the ventricles and tension the <b>chordae tendineae</b>, preventing the AV leaflets from being pushed back into the atria. They do not pull the valves open. Aortic and pulmonary valves have no chordae; their cusp shape and the pressure gradient allow closure.</p>",
      "check": {
@@ -134,6 +164,9 @@
    "radiology": [
     "cxr_pa",
     "ct_abdo_upper"
+   ],
+   "micro": [
+    "whole_heart"
    ]
   }
  },
@@ -586,7 +619,7 @@
    },
    {
     "title": "The nephron",
-    "text": "A million per kidney. Filtration in the glomerulus, bulk reabsorption in the proximal tubule, the countercurrent multiplier in the loop of Henle, fine adjustment in the distal tubule and collecting duct under aldosterone and ADH.<br><br>Open the model and follow one nephron from its renal corpuscle to the collecting duct.",
+    "text": "A million per kidney. Filtration in the glomerulus, bulk reabsorption in the proximal tubule, the countercurrent multiplier in the loop of Henle, fine adjustment in the distal tubule and collecting duct under aldosterone and ADH.<br><br>Open the model, then use its Nephron and Corpuscle views to follow one nephron from its renal corpuscle to the collecting duct.",
     "systems": [
      "visceral"
     ],
@@ -595,7 +628,10 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "nephron",
+    "micro": "kidney_nephron",
+    "micro_focus": [
+     "Nephron"
+    ],
     "check": {
      "q": "Which part of the nephron reabsorbs most of the filtered load?",
      "a": "The proximal convoluted tubule — around two thirds of the filtered sodium and water."
@@ -645,7 +681,17 @@
      ],
      "view": "anterior",
      "xray": true,
-     "micro": "nephron",
+     "micro": "kidney_nephron",
+     "micro_focus": [
+       "Afferent arteriole",
+       "Glomerular capillaries",
+       "Efferent arteriole",
+       "Peritubular capillaries",
+       "Descending vasa recta",
+       "Ascending vasa recta",
+       "Bowman capsule (parietal layer)",
+       "Proximal convoluted tubule"
+     ],
      "title": "Blood leaves a glomerulus through another arteriole",
      "text": "<p>Blood enters a glomerular capillary tuft through an <b>afferent arteriole</b> and leaves through an <b>efferent arteriole</b>. The efferent vessel then supplies peritubular capillaries, or the vasa recta associated with long-looped nephrons, before blood returns through the venous system.</p><p>Filtrate takes a different route: across the filtration barrier into Bowman's space, then along the nephron tubule. Reabsorbed water and solutes move from that tubular route back towards the surrounding blood vessels. Draw two paths in the microanatomy model, one for blood and one for tubular fluid.</p>",
      "check": {
@@ -683,7 +729,7 @@
     "peritoneum"
    ],
    "micro": [
-    "nephron"
+    "kidney_nephron"
    ],
    "radiology": [
     "ct_abdo_kidney"
