@@ -1,0 +1,33 @@
+name: Promote verified 3.1.2 installers
+
+# One-time promotion of the candidate Ethan tested. No build runners or new credentials.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: publish-v3.1.2
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test bounded promotion validation
+        run: python -m unittest tests.test_release_promotion -v
+      - name: Verify source, successful gates and exact artifact hashes before publishing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python packaging/promote_3_1_2.py

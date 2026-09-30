@@ -167,8 +167,12 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
+          name: AnatomyExplorer-Setup-Windows.exe
           path: assets
-          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: AnatomyExplorer-macOS-AppleSilicon.dmg
+          path: assets
 
       - run: ls -la assets
 
