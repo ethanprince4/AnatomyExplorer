@@ -3,6 +3,7 @@ import json
 from collections import OrderedDict, defaultdict
 
 from .config import ROOT, USER_DIR
+from .storage import load_json, write_json
 
 CONTENT_DIR = ROOT / "data" / "content"
 HISTOLOGY_DIR = ROOT / "data" / "histology"
@@ -45,12 +46,10 @@ class ContentIndex:
         self.tis_contains = [(_norm(s), t["id"]) for t in self.histology["tissues"] for s in t.get("contains", [])]
 
         self.notes_path = USER_DIR / "notes.json"
-        self.notes = {}
-        if self.notes_path.exists():
-            try:
-                self.notes = json.loads(self.notes_path.read_text(encoding="utf-8"))
-            except ValueError:
-                self.notes = {}
+        self.notes, self._notes_backup = load_json(
+            self.notes_path,
+            lambda raw: {key: value for key, value in raw.items() if isinstance(value, str)}
+            if isinstance(raw, dict) else {})
 
         # every 3D model the model viewer opens: in-house GLB models, the procedural microanatomy models and the
         # downloaded ones (app/viewer/catalog.py)
@@ -73,12 +72,14 @@ class ContentIndex:
         self.micro_contains = [(_norm(s), m.id) for m in MODELS.values() for s in m.targets.get("contains", [])]
 
     def set_note(self, key, text):
+        notes = dict(self.notes)
         if text:
-            self.notes[key] = text
+            notes[key] = text
         else:
-            self.notes.pop(key, None)
-        self.notes_path.parent.mkdir(parents=True, exist_ok=True)
-        self.notes_path.write_text(json.dumps(self.notes, indent=1, ensure_ascii=False), encoding="utf-8")
+            notes.pop(key, None)
+        write_json(self.notes_path, notes, backup=getattr(self, "_notes_backup", False))
+        self.notes = notes
+        self._notes_backup = False
 
     # ------------------------------------------------------------------ helpers
     def _group_names(self, sid):

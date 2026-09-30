@@ -39,6 +39,11 @@ def numeric_version(v):
 
 def pyinstaller(version):
     env = dict(os.environ, APP_VERSION=version)
+    if sys.platform == "win32":
+        # Native toolkits on a developer/runner PATH (notably Poppler's ICU)
+        # can shadow Windows/Qt dependencies during bindepend collection.
+        system = Path(os.environ.get("SystemRoot", r"C:\Windows"))
+        env["PATH"] = os.pathsep.join(map(str, [Path(sys.executable).parent, Path(sys.base_prefix), system / "System32", system]))
     run(sys.executable, "-m", "PyInstaller", PKG / "AnatomyExplorer.spec", "--noconfirm", "--clean",
         "--distpath", DIST, "--workpath", PKG / "build" / "pyinstaller", cwd=ROOT, env=env)
 

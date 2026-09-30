@@ -106,6 +106,18 @@ jobs:
         if: runner.os == 'Windows'
         run: python packaging/check_install.py packaging/dist/release/AnatomyExplorer-Setup-Windows.exe
 
+      - name: Check frozen Windows runtime and Qt plugin
+        if: runner.os == 'Windows'
+        run: python packaging/check_runtime.py packaging/dist/AnatomyExplorer/AnatomyExplorer.exe
+
+      - name: Check frozen macOS runtime and Qt plugin
+        if: runner.os == 'macOS'
+        run: python packaging/check_runtime.py 'packaging/dist/Anatomy Explorer.app/Contents/MacOS/AnatomyExplorer'
+
+      - name: Verify real signed macOS incremental update and rollback
+        if: runner.os == 'macOS'
+        run: python packaging/check_mac_update.py 'packaging/dist/Anatomy Explorer.app' packaging/dist/release
+
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.asset }}
@@ -145,6 +157,15 @@ jobs:
             compressed chunks, then open on the next launch. Your current study session is never restarted.
             Large content/runtime changes can still need substantial downloads. Updates preserve notes, progress,
             settings and the original installed copy; Updates > Check for updates also offers rollback.
+
+            Picking now maps the cursor to the actual backing framebuffer, refreshes camera state before
+            selection and rejects invalid GPU readbacks. The reported wrong Mac selection was observed on
+            3.0.1; this candidate passed automated coordinate/input checks but has not been retested on that
+            physical Mac. Please report remaining Mac selection or context-menu issues.
+
+            Also fixes Show All/pathology visibility, saved views and settings recovery, study/progress saves,
+            search focus, active-view measurement state, delayed callbacks, histology exports and texture color.
+            Unfinished model and radiology redesign work is excluded.
 
             The first time you open it, Windows or macOS will ask you to confirm, because the app is not signed by
             a paid developer account. The README has the one-time steps.

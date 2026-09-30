@@ -87,12 +87,8 @@ def main():
     from .data import Dataset
     from .main_window import MainWindow
 
-    if args.no_restore:
-        from PySide6.QtCore import QSettings
-        QSettings(ORG_NAME, APP_NAME).clear()
-
     ds = Dataset(DATA_DIR)
-    win = MainWindow(ds, script=args.script)
+    win = MainWindow(ds, script=args.script, restore=not args.no_restore)
     win.show()
     splash.finish(win)
     from .ui.updates import attach_updates

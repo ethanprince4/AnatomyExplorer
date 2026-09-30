@@ -4,10 +4,12 @@ Each structure is represented by random surface samples (more for larger meshes)
 and cached in data/anatomy/samples.npz. A query compares the selection's samples with those of structures whose
 bounding boxes come close, and ranks them by the smallest sample distance."""
 import threading
+from zipfile import BadZipFile
 
 import numpy as np
 
 from .config import FROZEN, cache_candidates
+from .cache_io import save_npz
 
 EXCLUDED_SYSTEMS = {"attachments", "regions", "reference", "fascia"}
 STRIDE = 28
@@ -37,10 +39,10 @@ def sample_points(ds):
         if not path.exists():
             continue
         try:
-            z = np.load(path)
-            if np.array_equal(z["stamp"], stamp) and len(z["offsets"]) == ds.n + 1:
-                return z["points"], z["offsets"]
-        except (OSError, ValueError, KeyError):
+            with path.open("rb") as stream, np.load(stream) as z:
+                if np.array_equal(z["stamp"], stamp) and len(z["offsets"]) == ds.n + 1:
+                    return z["points"], z["offsets"]
+        except (OSError, ValueError, KeyError, EOFError, BadZipFile):
             pass
     indices = np.memmap(ipath, dtype="<u4", mode="r")
     verts = np.memmap(vpath, dtype=np.uint8, mode="r").reshape(-1, STRIDE)
@@ -70,8 +72,7 @@ def sample_points(ds):
     points = np.concatenate(chunks).astype(np.float32)
     offsets = np.array(offsets, dtype=np.int64)
     try:
-        cache.parent.mkdir(parents=True, exist_ok=True)
-        np.savez(cache, points=points, offsets=offsets, stamp=stamp)
+        save_npz(cache, points=points, offsets=offsets, stamp=stamp)
     except OSError:
         pass
     return points, offsets

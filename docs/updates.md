@@ -78,3 +78,15 @@ The Release workflow builds both real distribution formats for PR review and
 only publishes on a release tag or explicit tagged dispatch. A release must
 include both platform manifests and all their packs, as well as the full
 installer and DMG. Existing release history remains untouched.
+
+The Windows frozen-package development check (test baseline 3.0.99 to 3.1.0)
+downloaded 11,029,300 bytes from a 1,590,697,952-byte compressed feed, reusing
+2,354,599,653 bytes of a 2,366,877,631-byte bundle. This measured code/runtime
+change used about 0.69% of the full feed; it is not a size guarantee for future
+asset or runtime releases, or a test of upgrading historical updater-free copies.
+The real package check starts the Qt UI, activates on next launch, verifies all
+files, checks no-update and rollback, and preserves isolated notes/settings.
+Release CI also installs the actual Windows installer into a disposable runner,
+starts frozen Qt on both platforms, and reconstructs/verifies/rolls back the
+actual signed macOS bundle. Physical Mac trackpad candidate validation remains
+outstanding; the release owner authorized shipping after automated validation.

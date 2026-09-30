@@ -27,9 +27,12 @@ from PySide6.QtWidgets import (QAbstractItemView, QDockWidget, QFrame, QHBoxLayo
                                QListWidgetItem, QPushButton, QScrollArea, QStackedWidget, QVBoxLayout, QWidget)
 
 from .. import srs
+from ..storage import load_json, write_json
 from ..lessons import TYPE_NAME, build_session, default_length, item_key, practice_pool
 from . import theme
 from .diagram import DiagramView
+from .study_colors import highlight, restore_colors
+from .study_scene import capture_scene, restore_scene
 
 GREEN = (0.25, 0.85, 0.35)
 RED = (0.95, 0.25, 0.2)
@@ -288,26 +291,27 @@ class PracticeController:
         if quiz is not None:
             return quiz.stats
         if self._own_stats is None:
-            import json
             from .quiz import STATS_PATH
-            try:
-                self._own_stats = json.loads(STATS_PATH.read_text(encoding="utf-8"))
-            except (OSError, ValueError):
-                self._own_stats = {}
+            self._own_stats, self._own_stats_backup = load_json(STATS_PATH, srs.normalize_stats)
         return self._own_stats
 
     def _save_stats(self):
         quiz = getattr(self.win, "quiz", None)
         if quiz is not None:
-            quiz.save_stats()
-            return
-        import json
+            return quiz.save_stats()
         from .quiz import STATS_PATH
         try:
-            STATS_PATH.parent.mkdir(parents=True, exist_ok=True)
-            STATS_PATH.write_text(json.dumps(self.stats, indent=0), encoding="utf-8")
-        except OSError:
-            pass
+            write_json(STATS_PATH, self.stats, indent=0, backup=self._own_stats_backup)
+            self._own_stats_backup = False
+            status = getattr(self.win, "statusBar", None)
+            if status is not None and status().currentMessage().startswith("Could not save study results:"):
+                status().clearMessage()
+            return True
+        except OSError as exc:
+            status = getattr(self.win, "statusBar", None)
+            if status is not None:
+                status().showMessage(f"Could not save study results: {exc}", 10000)
+            return False
 
     # ------------------------------------------------------------------ lifecycle
     def _ensure_dock(self):
@@ -325,7 +329,7 @@ class PracticeController:
 
     def _dock_visibility(self, visible):
         if not visible and self.active and not self.dock.isFloating() and not self.win.isMinimized():
-            QTimer.singleShot(0, lambda: self.stop() if self.dock and not self.dock.isVisible() else None)
+            QTimer.singleShot(0, self.dock, lambda: self.stop() if self.dock and not self.dock.isVisible() else None)
 
     def start(self, lesson, n=None, items=None):
         """A session on `lesson`: n items (None = the lesson's default, 0 = everything), or exactly `items`."""
@@ -338,7 +342,7 @@ class PracticeController:
         if not self.active:
             self._saved = {k: self.win.settings.get(k) for k in ("show_landmarks", "show_hover_tooltip")}
             self._saved["details_visible"] = self.win.right_dock.isVisible()
-            self._snapshot = self.state._snapshot()
+            self._snapshot = capture_scene(self.win)
         self._end_item()
         self.lesson = lesson
         self.retrying = items is not None
@@ -370,16 +374,11 @@ class PracticeController:
         self.cur = None
         self._restore_names()
         if self._snapshot is not None:
-            self.state.restore(self._snapshot)
-            self.state.clear_selection()
-            self.state._vis_dirty()
+            restore_scene(self.win, self._snapshot)
             self._snapshot = None
         if self.dock is not None:
             self.dock.hide()
-        if self._saved.get("details_visible", True):
-            self.win.right_dock.show()
-        if self.win.center.currentIndex() != 0:
-            self.win.center.setCurrentIndex(0)
+        self.win.right_dock.setVisible(self._saved.get("details_visible", True))
 
     def _prepare(self, pool):
         """Keep the items this install can actually ask, with their atlas structures resolved."""
@@ -472,8 +471,9 @@ class PracticeController:
         """Undo whatever the last item did to a 3D view."""
         self._clear_flash()
         if self._marked:
-            self.state.set_custom_color(self._marked, None)
+            restore_colors(self.state, getattr(self, "_marked_colors", {}))
             self._marked = []
+            self._marked_colors = {}
         if self._peeled:
             self.state.set_hidden(self._peeled, False, undo=False)
             self._peeled = []
@@ -485,7 +485,6 @@ class PracticeController:
                 view.state.clear_ghost()
                 view.state.clear_selection()
                 view.set_practice(None)
-                view.reset_view()
             except RuntimeError:            # the model's tab was closed mid-question
                 pass
             cur["view"] = None
@@ -708,7 +707,7 @@ class PracticeController:
         st.set_hidden(sids, False, undo=False)
         st.select(sids)
         st.set_ghost_focus(sids)
-        st.set_custom_color(sids, colour)
+        self._marked_colors = highlight(st, sids, colour, getattr(self, "_marked_colors", None))
         self._marked = list(sids)
         b = self.ds.bounds_of(sids)
         if b is not None:                   # in its setting, not filling the screen
@@ -719,13 +718,15 @@ class PracticeController:
         self._clear_flash()
         self._flash_state = state
         self._flash = list(sids)
-        state.set_custom_color(self._flash, RED)
+        self._flash_colors = highlight(state, self._flash, RED)
         self._flash_timer.start(900)
 
     def _clear_flash(self):
+        self._flash_timer.stop()
         if self._flash and self._flash_state is not None:
-            self._flash_state.set_custom_color(self._flash, None)
+            restore_colors(self._flash_state, getattr(self, "_flash_colors", {}))
         self._flash = []
+        self._flash_colors = {}
 
     def give_up(self):
         cur = self.cur

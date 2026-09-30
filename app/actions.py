@@ -70,7 +70,10 @@ class ActionRegistry:
         self.actions = {}
         self.defs = {d[0]: d for d in ACTION_DEFS}
         try:
-            self.overrides = json.loads(qsettings.value("keybindings", "{}"))
+            saved = json.loads(qsettings.value("keybindings", "{}"))
+            self.overrides = {key: pair for key, pair in saved.items()
+                              if isinstance(pair, list) and len(pair) == 2
+                              and all(isinstance(value, str) for value in pair)} if isinstance(saved, dict) else {}
         except (TypeError, ValueError):
             self.overrides = {}
 

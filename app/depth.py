@@ -7,10 +7,12 @@ the skin is divided by the local thickness of the body there, which is estimated
 the same neighbourhood. Peeling then advances evenly everywhere, the way a dissection does.
 """
 import threading
+from zipfile import BadZipFile
 
 import numpy as np
 
 from .config import cache_candidates
+from .cache_io import save_npz
 from .relations import geometry_stamp, sample_points
 
 SURFACE_SYSTEM = "regions"      # the body-surface patches of the atlas
@@ -55,16 +57,15 @@ class DepthIndex:
             if not path.exists():
                 continue
             try:
-                z = np.load(path)
-                if (np.array_equal(z["stamp"], stamp) and len(z["depth"]) == ds.n
-                        and int(z["format"]) == FORMAT):
-                    return z["depth"], z["absolute"]
-            except (OSError, ValueError, KeyError):
+                with path.open("rb") as stream, np.load(stream) as z:
+                    if (np.array_equal(z["stamp"], stamp) and len(z["depth"]) == ds.n
+                            and int(z["format"]) == FORMAT):
+                        return z["depth"], z["absolute"]
+            except (OSError, ValueError, KeyError, EOFError, BadZipFile):
                 pass
         depth, absolute = compute(ds)
         try:
-            cache.parent.mkdir(parents=True, exist_ok=True)
-            np.savez(cache, depth=depth, absolute=absolute, stamp=stamp, format=np.int32(FORMAT))
+            save_npz(cache, depth=depth, absolute=absolute, stamp=stamp, format=np.int32(FORMAT))
         except OSError:
             pass
         return depth, absolute

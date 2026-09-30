@@ -137,8 +137,10 @@ class SearchIndex:
         """So that searching 'chest x-ray', 'scaphoid' or 'CT head' offers the matching case."""
         added = []
         for case in cases:
-            keywords = " ".join(dict.fromkeys([lab.text for lab in case.labels]
-                                              + [n for lab in case.labels for n in lab.structures]))
+            terms = [lab.text for lab in case.labels] + [n for lab in case.labels for n in lab.structures]
+            # Optional label text must not prevent the whole application opening.
+            # Keep valid structure names searchable without altering authored data.
+            keywords = " ".join(dict.fromkeys(term for term in terms if isinstance(term, str) and term.strip()))
             added.append(SearchEntry("radiology", case.title,
                                      f"Radiology · {case.modality} · {case.region}", [], None,
                                      node=case.id, alt=f"{case.modality} {case.summary} {keywords}"))

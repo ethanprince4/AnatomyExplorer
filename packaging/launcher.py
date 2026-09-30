@@ -20,6 +20,10 @@ if os.environ.get("AE_TEST_SETTINGS_DIR"):
     QSettings.setDefaultFormat(QSettings.IniFormat)
     QSettings.setPath(QSettings.IniFormat, QSettings.UserScope, os.environ["AE_TEST_SETTINGS_DIR"])
 
+if "--runtime-check" in sys.argv:
+    from app.runtime_check import main
+    sys.exit(main())
+
 if "--pick-diagnostics" in sys.argv:
     from app.picking_diagnostics import main
     sys.exit(main())

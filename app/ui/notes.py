@@ -6,8 +6,9 @@ from . import theme
 
 
 class NoteDialog(QDialog):
-    def __init__(self, key, text, parent=None):
+    def __init__(self, key, text, parent=None, save=None):
         super().__init__(parent)
+        self.save_note = save
         self.setWindowTitle(f"Note · {key}")
         self.resize(520, 360)
         lay = QVBoxLayout(self)
@@ -15,6 +16,12 @@ class NoteDialog(QDialog):
         lay.addWidget(lab)
         self.edit = QPlainTextEdit(text)
         lay.addWidget(self.edit, 1)
+        self.save_error = QLabel()
+        self.save_error.setTextFormat(Qt.PlainText)
+        self.save_error.setWordWrap(True)
+        self.save_error.setStyleSheet(theme.text_css(theme.DANGER))
+        self.save_error.hide()
+        lay.addWidget(self.save_error)
         box = QDialogButtonBox(QDialogButtonBox.Save | QDialogButtonBox.Cancel)
         box.accepted.connect(self.accept)
         box.rejected.connect(self.reject)
@@ -23,6 +30,16 @@ class NoteDialog(QDialog):
 
     def text(self):
         return self.edit.toPlainText().strip()
+
+    def accept(self):
+        if self.save_note is not None:
+            try:
+                self.save_note(self.text())
+            except OSError as exc:
+                self.save_error.setText(f"Could not save note: {exc}")
+                self.save_error.show()
+                return
+        super().accept()
 
 
 class AllNotesDialog(QDialog):

@@ -75,7 +75,8 @@ class SceneState(QObject):
     def _snapshot(self):
         return (self.hidden.copy(), self.forced.copy(), None if self.isolated is None else self.isolated.copy(),
                 self.system_on.copy(), self.subsystem_on.copy(), self.region_on.copy(),
-                None if self.ghost_focus is None else self.ghost_focus.copy(), self.depth_cut, self.depth_band)
+                None if self.ghost_focus is None else self.ghost_focus.copy(), self.depth_cut, self.depth_band,
+                self.system_alpha.copy())
 
     def push_undo(self):
         self._undo.append(self._snapshot())
@@ -85,7 +86,7 @@ class SceneState(QObject):
     def restore(self, snapshot):
         """Put the scene back exactly as `_snapshot` found it. One place knows the layout."""
         (self.hidden, self.forced, self.isolated, self.system_on, self.subsystem_on, self.region_on,
-         self.ghost_focus, self.depth_cut, self.depth_band) = snapshot
+         self.ghost_focus, self.depth_cut, self.depth_band, self.system_alpha) = snapshot
         self._vis_dirty()
 
     def undo(self):
@@ -114,6 +115,8 @@ class SceneState(QObject):
             self.hidden[members] = False
             if self.isolated is not None:
                 self.isolated[members] = True
+        elif self.isolated is not None:
+            self.isolated[members] = False
         self._vis_dirty()
 
     def set_systems(self, mask):
@@ -143,6 +146,8 @@ class SceneState(QObject):
                 self.isolated[members] = True
         else:
             self.subsystem_on[idx] = False
+            if self.isolated is not None:
+                self.isolated[members] = False
             if not self.subsystem_on[subs].any():
                 self.system_on[sys_idx] = False
                 self.subsystem_on[subs] = True
@@ -249,11 +254,13 @@ class SceneState(QObject):
         mask = np.zeros(self.ds.n, dtype=bool)
         mask[list(sids)] = True
         self.isolated = mask
+        self.forced[~mask] = False
         self.hidden[mask] = False
         self.ghost_focus = None
         self._vis_dirty()
 
     def show_all(self):
+        """Reveal normal anatomy; pathology findings remain explicitly opt-in."""
         self.push_undo()
         self.hidden[:] = False
         self.forced[:] = False
@@ -261,7 +268,7 @@ class SceneState(QObject):
         self.ghost_focus = None
         self.system_on[:] = True
         self.system_on[[i for i, s in enumerate(self.ds.systems)
-                        if s["key"] in ("reference", "regions", "attachments", "fascia")]] = False
+                        if s["key"] in ("reference", "regions", "attachments", "fascia", "findings")]] = False
         self.subsystem_on[:] = True
         self.region_on[:] = True
         self._vis_dirty()

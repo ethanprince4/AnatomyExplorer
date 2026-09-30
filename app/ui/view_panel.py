@@ -252,7 +252,7 @@ class ViewPanel(QWidget):
             w.blockSignals(True)
         cb.setChecked(on)
         if fraction is not None:
-            sl.setValue(int(fraction * 1000))
+            sl.setValue(round(fraction * 1000))
         if flipped is not None:
             flip.setChecked(flipped)
         for w in (cb, sl, flip):
