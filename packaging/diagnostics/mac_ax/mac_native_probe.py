@@ -10,6 +10,19 @@ import ctypes
 import sys
 
 
+def probe_semantics(result, expected_selected_count, selection_checked):
+    nodes = result.get('hierarchy', {}).get('nodes', [])
+    root = nodes[0] if nodes else {}
+    usable = (root.get('role') == 'AXOutline' and root.get('enabled') is True
+              and root.get('has_parent') is True and root.get('child_count_bounded', 0) > 0)
+    selection_matches = result.get('selected_children_count') == expected_selected_count
+    return {'root_accessibility_usable': usable,
+            'expected_selected_index_count': expected_selected_count,
+            'selection_count_checked': selection_checked,
+            'selection_count_matches': selection_matches,
+            'semantic_valid': usable and (not selection_checked or selection_matches)}
+
+
 class NativeProbe:
     def __init__(self, window, tree, emit, order='selected-first', max_nodes=96):
         if sys.platform != 'darwin':
@@ -79,6 +92,11 @@ class NativeProbe:
             self.emit('native_stage_end', label=label, stage=name)
             return value
 
+        # Independent Qt selection state, before touching Cocoa interface caches.
+        expected_selected_count = len(self.tree.selectionModel().selectedIndexes())
+        phase = label[6:] if label.startswith('phase-') else ''
+        selection_checked = (label == 'after-click-event'
+                             or (phase.isdigit() and int(phase) % 8 in (1, 7)))
         pool_class = self.objc.objc_getClass(b'NSAutoreleasePool')
         pool = stage('autorelease_pool', lambda:
                      self.send(self.send(pool_class, self.sel('alloc')), self.sel('init')))
@@ -126,6 +144,7 @@ class NativeProbe:
             result['selected_rows_count'] = len(self.items(rows))
             if self.order == 'selected-first':
                 result['hierarchy'] = self.hierarchy(target)
+            result.update(probe_semantics(result, expected_selected_count, selection_checked))
             self.emit('native_probe_end', label=label, **result)
         finally:
             if target:

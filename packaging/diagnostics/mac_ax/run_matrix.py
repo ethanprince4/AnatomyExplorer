@@ -41,8 +41,12 @@ def main():
         rows = [json.loads(line) for line in report.read_text(encoding="utf-8").splitlines()] if report.exists() else []
         complete = any(row.get("event") == "diagnostic_complete" and row.get("native_probe_exercised") for row in rows)
         getter_calls = sum(row.get("event") == "native_getter_end" for row in rows)
-        passed = code == 0 and complete and getter_calls >= 24
+        probes = [row for row in rows if row.get("event") == "native_probe_end"]
+        semantic_valid = bool(probes) and all(row.get("semantic_valid") is True for row in probes)
+        passed = code == 0 and complete and getter_calls >= 24 and semantic_valid
         results.append({"case": name, "exit_code": code, "passed": passed,
+                        "semantic_valid": semantic_valid,
+                        "invalid_probe_count": sum(row.get("semantic_valid") is not True for row in probes),
                         "native_getter_completed": getter_calls,
                         "last_event": rows[-1] if rows else None})
         print(json.dumps(results[-1]), flush=True)
