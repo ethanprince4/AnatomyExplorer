@@ -21,7 +21,7 @@ from urllib.parse import urlsplit
 import certifi
 
 from app import https_check, tls, updater as u
-from fixture_paths import fixture_root
+from tests.fixture_paths import fixture_root
 
 TEST_CERTIFICATE = """-----BEGIN CERTIFICATE-----
 MIIDHjCCAgagAwIBAgIBAjANBgkqhkiG9w0BAQsFADAUMRIwEAYDVQQDDAlsb2Nh
@@ -266,7 +266,34 @@ class HTTPSDiagnosticTests(unittest.TestCase):
         report = json.loads(path.read_text())
         self.assertEqual(report["failure"], "certificate_verification_failed")
         self.assertNotIn(private, json.dumps(report))
-        self.assertEqual(set(report), {"schema", "success", "frozen", "failure"})
+        self.assertEqual(report["stage"], "unknown")
+        self.assertEqual(set(report), {"schema", "success", "frozen", "failure", "stage"})
+
+    def test_http_failure_stage_is_preserved_without_private_details(self):
+        from email.message import Message
+        headers = Message()
+        headers["X-RateLimit-Remaining"] = "0"
+        private = "https://name:password@example.invalid/file?secret=token"
+        for stage in https_check.FAILURE_STAGES:
+            with self.subTest(stage=stage):
+                error = urllib.error.HTTPError(private, 403, private, headers, None)
+                def fail():
+                    raise error
+                with self.assertRaises(urllib.error.HTTPError) as raised:
+                    https_check.at_stage(stage, fail)
+                self.assertIs(raised.exception, error)
+                details = https_check.failure_details(error)
+                self.assertEqual(details, {"failure": "http_403", "stage": stage,
+                                           "rate_limit_exhausted": True})
+                self.assertNotIn(private, json.dumps(details))
+        error.https_check_stage = private
+        self.assertEqual(https_check.failure_details(error)["stage"], "unknown")
+
+    def test_http_403_without_rate_limit_header_is_not_called_rate_limit(self):
+        error = urllib.error.HTTPError("https://example.invalid/", 403, "Forbidden", {}, None)
+        error.https_check_stage = "manifest"
+        self.assertEqual(https_check.failure_details(error),
+                         {"failure": "http_403", "stage": "manifest", "rate_limit_exhausted": False})
 
     def test_launcher_diagnostic_exits_before_qt_settings_managed_store_and_ui(self):
         report = self.root / "https.json"

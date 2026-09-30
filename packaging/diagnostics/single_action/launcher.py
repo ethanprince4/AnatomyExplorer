@@ -45,7 +45,7 @@ def installed_identity():
 
 
 def tls_probe():
-    from app.https_check import check, failure_category
+    from app.https_check import check, failure_category, failure_details
     from app.updater import API, SafeRedirect
     defaults = ssl.get_default_verify_paths()
     context = ssl.create_default_context()
@@ -67,7 +67,7 @@ def tls_probe():
     try:
         result["packaged_roots"] = check("macos-arm64" if sys.platform == "darwin" else "windows-x64")
     except Exception as exc:
-        result["packaged_roots"] = {"success": False, "failure": failure_category(exc)}
+        result["packaged_roots"] = {"success": False, **failure_details(exc)}
     result["success"] = result["packaged_roots"]["success"]
     return result
 

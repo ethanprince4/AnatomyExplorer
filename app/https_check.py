@@ -20,11 +20,21 @@ INSTALLERS = {
     "macos-arm64": "AnatomyExplorer-macOS-AppleSilicon.dmg",
 }
 INSTALLER_SAMPLE = 64
+FAILURE_STAGES = frozenset({"tls_context", "release_api", "manifest", "chunk", "installer"})
+
+
+def at_stage(stage, operation):
+    """Preserve the original exception while retaining a safe request label."""
+    try:
+        return operation()
+    except Exception as exc:
+        exc.https_check_stage = stage
+        raise
 
 
 def check(platform=None):
-    source = u.GitHubSource(platform=platform, channel="stable")
-    context = https_context()
+    source = at_stage("tls_context", lambda: u.GitHubSource(platform=platform, channel="stable"))
+    context = at_stage("tls_context", https_context)
     ca = Path(certifi.where())
     frozen = bool(getattr(sys, "frozen", False))
     bundled = frozen and ca.absolute().is_relative_to(Path(sys._MEIPASS).absolute())
@@ -44,10 +54,10 @@ def check(platform=None):
     }
     # Use the same API read, release binding, API digest and manifest validation
     # as latest(); retain metadata for the additional installer range check.
-    release = json.loads(source.read(u.API, 2 * 1024 * 1024))
+    release = at_stage("release_api", lambda: json.loads(source.read(u.API, 2 * 1024 * 1024)))
     if not isinstance(release, dict):
         raise u.UpdateError("Invalid stable release metadata")
-    manifest = source.from_release(release)
+    manifest = at_stage("manifest", lambda: source.from_release(release))
     if manifest is None or not manifest["blobs"]:
         raise u.UpdateError("Stable release has no incremental update payload")
     tag = release["tag_name"]  # from_release has validated the numeric stable tag
@@ -66,7 +76,7 @@ def check(platform=None):
     # The smallest real blob is sufficient to exercise the GitHub -> CDN ranged
     # transport and bounded decompression without fetching whole packs/installers.
     digest, blob = min(manifest["blobs"].items(), key=lambda item: (item[1]["size"], item[0]))
-    raw = source.chunk(blob, manifest["packs"][blob["pack"]])
+    raw = at_stage("chunk", lambda: source.chunk(blob, manifest["packs"][blob["pack"]]))
     u.unpack_chunk(raw, blob["raw_size"], digest)
     start, end = blob["offset"], blob["offset"] + blob["size"] - 1
     report["chunk"] = {
@@ -87,7 +97,8 @@ def check(platform=None):
             type(size) is not int or size < INSTALLER_SAMPLE):
         raise u.UpdateError("Missing or untrusted release installer")
     expected_range = f"bytes 0-{INSTALLER_SAMPLE - 1}/{size}"
-    sample = source.read(url, INSTALLER_SAMPLE, {"Range": f"bytes=0-{INSTALLER_SAMPLE - 1}"}, expected_range)
+    sample = at_stage("installer", lambda: source.read(
+        url, INSTALLER_SAMPLE, {"Range": f"bytes=0-{INSTALLER_SAMPLE - 1}"}, expected_range))
     if len(sample) != INSTALLER_SAMPLE:
         raise u.UpdateError("Interrupted installer range check")
     report["installer"] = {
@@ -117,6 +128,17 @@ def failure_category(exc):
     return "https_check_failed"
 
 
+def failure_details(exc):
+    """Only fixed labels and a boolean; never URLs, bodies, paths or headers."""
+    stage = getattr(exc, "https_check_stage", "unknown")
+    result = {"failure": failure_category(exc),
+              "stage": stage if isinstance(stage, str) and stage in FAILURE_STAGES else "unknown"}
+    if isinstance(exc, urllib.error.HTTPError):
+        result["rate_limit_exhausted"] = bool(
+            exc.headers is not None and exc.headers.get("X-RateLimit-Remaining") == "0")
+    return result
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--https-check", action="store_true")
@@ -127,7 +149,7 @@ def main(argv=None):
         report = check(args.platform)
     except Exception as exc:
         report = {"schema": 1, "success": False, "frozen": bool(getattr(sys, "frozen", False)),
-                  "failure": failure_category(exc)}
+                  **failure_details(exc)}
     args.report.write_text(json.dumps(report, indent=2), encoding="utf-8")
     return 0 if report["success"] else 1
 
