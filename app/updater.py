@@ -1,4 +1,4 @@
-"""Windows updater protocol 1. Standard library only; also used by the stable launcher.
+"""Protocol 1 updater; also used by the stable launcher.
 
 Trust root: HTTPS GitHub API for this *fixed* repository, its asset digest, then the
 manifest's SHA-256 file/chunk hashes. No credentials, shell commands or remote code
@@ -199,6 +199,38 @@ def read_manifest(root):
     return validate_manifest(json.loads(path.read_text(encoding="utf-8")))
 
 
+def installed_metadata(root):
+    """Cheap display/channel identity; never a substitute for integrity checks.
+
+    Original signed Mac bundles have VERSION/channel metadata, no external
+    manifest. UI/readiness must not inventory gigabytes. prepare/verify still do.
+    """
+    root = Path(root)
+    path = manifest_path(root)
+    original_mac = root.suffix == ".app" and (
+        not ID_RE.fullmatch(root.parent.name) and not root.parent.name.endswith(".staging") or not path.exists())
+    if not original_mac:
+        manifest = read_manifest(root)
+        return {key: manifest[key] for key in ("version", "channel", "release_tag") if key in manifest}
+    resources = root / "Contents/Resources"
+    version_path = resources / "VERSION"
+    if version_path.stat().st_size > 128:
+        raise UpdateError("Installed version metadata too large")
+    version = version_path.read_text(encoding="utf-8").strip()
+    if not VERSION_RE.fullmatch(version):
+        raise UpdateError("Invalid installed version metadata")
+    result = {"version": version, "channel": "stable"}
+    channel_path = resources / "UPDATE_CHANNEL.json"
+    if channel_path.exists():
+        if channel_path.stat().st_size > 4096:
+            raise UpdateError("Installed channel metadata too large")
+        info = json.loads(channel_path.read_text(encoding="utf-8"))
+        if not isinstance(info, dict) or release_version(info.get("release_tag"), info.get("channel")) != version:
+            raise UpdateError("Installed channel metadata differs")
+        result.update(channel=info["channel"], release_tag=info["release_tag"])
+    return result
+
+
 def local_inventory(root):
     """Local baseline only. Remote manifests always pass the full protocol validator."""
     files = []
@@ -264,7 +296,9 @@ class GitHubSource:
     def __init__(self, platform=None, channel="stable"):
         if not isinstance(channel, str) or channel not in CHANNELS:
             raise UpdateError("Unsupported update channel")
-        self.opener = urllib.request.build_opener(SafeRedirect())
+        from .tls import https_context
+        self.opener = urllib.request.build_opener(
+            SafeRedirect(), urllib.request.HTTPSHandler(context=https_context()))
         self.urls = {}
         self.platform = platform or ("macos-arm64" if sys.platform == "darwin" else "windows-x64")
         self.channel = channel
@@ -393,22 +427,22 @@ class UpdateStore:
             state = self.state()
             if state.get("channel", "stable") == channel:
                 return state
-            active_channel = manifest_channel(read_manifest(self.path(state.get("current"))))
+            active_channel = manifest_channel(installed_metadata(self.path(state.get("current"))))
             if channel == "experimental":
                 if active_channel == "stable":
                     state["stable_anchor"] = state.get("current")
-                elif "stable_anchor" not in state and manifest_channel(read_manifest(self.base)) != "experimental":
+                elif "stable_anchor" not in state and manifest_channel(installed_metadata(self.base)) != "experimental":
                     raise UpdateError("A retained stable version is needed before enabling previews")
                 if state.pop("return_to_stable", False):
                     state.pop("rollback_requested", None)
             elif active_channel == "experimental":
-                if "stable_anchor" not in state and manifest_channel(read_manifest(self.base)) == "experimental":
+                if "stable_anchor" not in state and manifest_channel(installed_metadata(self.base)) == "experimental":
                     # Fresh separate preview install: its new bootstrap can stage
                     # a lower numeric stable app, rather than rolling to a
                     # nonexistent stable copy. No current process is replaced.
                     state.pop("return_to_stable", None)
                     state.pop("rollback_requested", None)
-                elif "stable_anchor" not in state or manifest_channel(read_manifest(self.path(state["stable_anchor"]))) != "stable":
+                elif "stable_anchor" not in state or manifest_channel(installed_metadata(self.path(state["stable_anchor"]))) != "stable":
                     raise UpdateError("The retained stable version is unavailable; the running preview is unchanged")
                 else:
                     state.update(previous=state["stable_anchor"], rollback_requested=True, return_to_stable=True)
@@ -427,12 +461,12 @@ class UpdateStore:
         """
         with lock(self.root / "state.lock"):
             state = self.state()
-            if manifest_channel(read_manifest(self.path(state.get("current")))) != "experimental":
+            if manifest_channel(installed_metadata(self.path(state.get("current")))) != "experimental":
                 return
             anchor = state.get("stable_anchor")
-            if "stable_anchor" not in state and manifest_channel(read_manifest(self.base)) == "experimental":
+            if "stable_anchor" not in state and manifest_channel(installed_metadata(self.base)) == "experimental":
                 return  # A fresh preview install has its untouched preview base.
-            if "stable_anchor" not in state or manifest_channel(read_manifest(self.path(anchor))) != "stable":
+            if "stable_anchor" not in state or manifest_channel(installed_metadata(self.path(anchor))) != "stable":
                 raise UpdateError("Preview stable recovery anchor is unavailable")
             if state.get("previous") != anchor:
                 state["previous"] = anchor

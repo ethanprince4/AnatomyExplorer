@@ -2,11 +2,12 @@
 import threading
 import time
 
-from PySide6.QtCore import QObject, QTimer, Signal
+from PySide6.QtCore import QEvent, QObject, QTimer, Signal
+from shiboken6 import isValid
 from PySide6.QtWidgets import QCheckBox, QDialog, QDialogButtonBox, QLabel, QPushButton, QVBoxLayout
 
 from ..config import FROZEN
-from ..updater import GitHubSource, UpdateError, manifest_channel, read_manifest, store_for
+from ..updater import GitHubSource, UpdateError, installed_metadata, manifest_channel, read_manifest, store_for
 
 
 class UpdateController(QObject):
@@ -17,31 +18,72 @@ class UpdateController(QObject):
         super().__init__(window)
         self.window = window
         self.busy = False
+        self.worker_generation = 0
         self.result = None
         self.dialog = None
+        self.closed = threading.Event()
+        window.installEventFilter(self)
+        # Event.set remains safe even after the QObject wrappers are destroyed.
+        window.destroyed.connect(self.closed.set)
         self.completed.connect(self.finish)
         self.message.connect(self.show_message)
-        QTimer.singleShot(30000, self.automatic)
+        self.automatic_timer = QTimer(self)
+        self.automatic_timer.setSingleShot(True)
+        self.automatic_timer.timeout.connect(self.automatic)
+        self.automatic_timer.start(30000)
+
+    def eventFilter(self, watched, event):
+        if watched is self.window and event.type() == QEvent.Close:
+            self.closed.set()
+            self.automatic_timer.stop()
+            self.dialog = None
+        return super().eventFilter(watched, event)
+
+    def deliver(self, signal, payload):
+        if not self.closed.is_set():
+            try:
+                signal.emit(payload)
+            except RuntimeError:
+                # Qt may delete the wrapper between the guard and emission.
+                self.closed.set()
 
     def show_message(self, message):
-        if self.dialog:
+        if not self.closed.is_set() and self.dialog and isValid(self.dialog):
             self.dialog.status.setText(message)
 
     def automatic(self):
-        if not self.window.qsettings.value("updates/automatic", True, type=bool):
+        if self.closed.is_set():
             return
-        last = self.window.qsettings.value("updates/last_check", 0, type=float)
-        if time.time() - last > 24 * 3600:
+        if not self.window.qsettings.value("updates/automatic", True, type=bool):
+            self.automatic_timer.stop()
+            return
+        settings = self.window.qsettings
+        now = time.time()
+        success = settings.value("updates/last_success", 0, type=float)
+        attempt = settings.value("updates/last_attempt", 0, type=float)
+        failures = max(0, settings.value("updates/consecutive_failures", 0, type=int))
+        if failures and attempt >= success:
+            due = attempt + min(15 * 60 * 2 ** min(failures - 1, 5), 6 * 3600)
+        else:
+            due = success + 24 * 3600 if success else 0
+        if due > now:
+            self.automatic_timer.start(max(1000, min(round((due - now) * 1000), 24 * 3600 * 1000)))
+        else:
             self.check()
 
     def check(self):
-        if self.busy:
+        if self.closed.is_set() or self.busy:
             return
         self.busy = True
-        self.window.qsettings.setValue("updates/last_check", time.time())
+        self.worker_generation += 1
+        generation = self.worker_generation
+        self.result = None
+        self.window.qsettings.setValue("updates/last_attempt", time.time())
         self.message.emit("Checking for updates… You can keep studying.")
 
         def work():
+            if self.closed.is_set():
+                return
             token = None
             try:
                 store = store_for()
@@ -62,15 +104,24 @@ class UpdateController(QObject):
                     elif (state.get("failed") or "").startswith(manifest["version"] + "-"):
                         result = {"status": "error", "error": "This release was rolled back. The working version is retained; wait for a newer release."}
                     else:
-                        result = store.prepare(manifest, source, self.message.emit, policy_token=token)
+                        result = store.prepare(manifest, source, lambda text: self.deliver(self.message, text), policy_token=token)
             except Exception as exc:
                 result = {"status": "error", "error": str(exc)}
             result["policy"] = token
-            self.completed.emit(result)
+            if not self.closed.is_set():
+                try:
+                    self.deliver(self.completed, (generation, result))
+                except RuntimeError:
+                    self.closed.set()
 
         threading.Thread(target=work, name="AnatomyExplorer-update", daemon=True).start()
 
-    def finish(self, result):
+    def finish(self, completion):
+        if self.closed.is_set():
+            return
+        generation, result = completion
+        if generation != self.worker_generation or not self.busy:
+            return
         self.busy = False
         if result.get("policy") is not None and tuple(result["policy"]) != store_for().policy():
             self.result = None
@@ -78,6 +129,19 @@ class UpdateController(QObject):
             QTimer.singleShot(0, self.check)
             return
         self.result = result
+        settings = self.window.qsettings
+        if result["status"] in {"ready", "current", "returning"}:
+            settings.setValue("updates/last_success", time.time())
+            settings.setValue("updates/consecutive_failures", 0)
+        elif result["status"] == "error":
+            settings.setValue("updates/consecutive_failures", settings.value("updates/consecutive_failures", 0, type=int) + 1)
+        self.render_result(result)
+        self.automatic()
+
+    def render_result(self, result):
+        """Display only; reopening never completes a running worker."""
+        if self.closed.is_set():
+            return
         channel = "Experimental preview" if store_for().policy()[0] == "experimental" else "Stable"
         if result["status"] == "ready":
             text = f"{channel} version {result['version']} is ready. It will open next time you launch Anatomy Explorer."
@@ -95,6 +159,8 @@ class UpdateController(QObject):
         self.show_message(text)
 
     def open_dialog(self):
+        if self.closed.is_set():
+            return
         dlg = QDialog(self.window)
         dlg.setWindowTitle("Anatomy Explorer updates")
         dlg.setMinimumWidth(460)
@@ -104,10 +170,17 @@ class UpdateController(QObject):
         lay.addWidget(intro)
         automatic = QCheckBox("Check and download automatically (at most once a day)")
         automatic.setChecked(self.window.qsettings.value("updates/automatic", True, type=bool))
-        automatic.toggled.connect(lambda on: self.window.qsettings.setValue("updates/automatic", on))
+        def change_automatic(on):
+            self.window.qsettings.setValue("updates/automatic", on)
+            if on:
+                self.automatic()
+            else:
+                self.automatic_timer.stop()
+
+        automatic.toggled.connect(change_automatic)
         lay.addWidget(automatic)
         store = store_for()
-        current = read_manifest(store.active())
+        current = installed_metadata(store.active())
         installed = QLabel(f"Running: {'Experimental preview' if manifest_channel(current) == 'experimental' else 'Stable'} {current['version']}\nUpdate channel: {store.policy()[0].title()}")
         installed.setWordWrap(True)
         lay.addWidget(installed)
@@ -169,8 +242,10 @@ class UpdateController(QObject):
         buttons.rejected.connect(dlg.reject)
         lay.addWidget(buttons)
         self.dialog = dlg
-        if self.result:
-            self.finish(self.result)
+        if self.busy:
+            self.show_message("Checking for updates. You can keep studying.")
+        elif self.result:
+            self.render_result(self.result)
         dlg.exec()
         self.dialog = None
 
@@ -178,7 +253,7 @@ class UpdateController(QObject):
 def attach_updates(window):
     import sys
     if FROZEN and sys.platform in {"win32", "darwin"}:
-        manifest = read_manifest(store_for().active())
+        manifest = installed_metadata(store_for().active())
         if manifest_channel(manifest) == "experimental":
             window.setWindowTitle(window.windowTitle() + " — Experimental model preview " + manifest["version"])
         window.update_controller = UpdateController(window)

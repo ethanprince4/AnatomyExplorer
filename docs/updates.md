@@ -20,6 +20,12 @@ opt in another copy of the app. An existing updater-enabled 3.1.1 installation
 receives the stable 3.1.2 feature through its normal incremental update; it does
 not need another installer.
 
+This applies when the installed client can verify HTTPS. The published 3.1.1
+Mac client has a reported certificate-chain failure on both a school network
+and a phone hotspot. That affected copy cannot fetch its own repair; it may
+need one manual installation of the fixed release. No certificate verification
+should be disabled to work around the problem.
+
 Turning the option on checks published experimental model prereleases. Previews
 are marked **Experimental model preview** in the window title and Updates
 dialog. Their models may be incomplete or change substantially. Stable releases
@@ -63,6 +69,14 @@ and same-offset blocks, requests only missing compressed byte ranges, and checks
 both chunk and complete-file hashes. It refuses servers that ignore Range;
 there is no automatic whole-installer fallback. Inserting bytes may shift many
 chunks, and new runtimes, changed models or broad content edits can still be big.
+
+The HTTPS opener explicitly uses the maintained certifi CA bundle shipped with
+the app, with certificate and hostname verification required. It does not depend
+on a developer Python installation, build-machine OpenSSL CA paths or a local
+certificate-install command. Frozen package checks exercise the real release
+API, manifest and ranged CDN downloads with nonexistent default CA paths;
+separate local TLS tests reject untrusted certificates and incorrect hostnames.
+No OS trust store or certificate policy is changed.
 
 The trust root is HTTPS to the hard-coded repository's GitHub release API. The
 API's SHA-256 asset digest authenticates the manifest to that trusted source; the

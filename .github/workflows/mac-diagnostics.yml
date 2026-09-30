@@ -1,0 +1,87 @@
+name: Mac blocker diagnostics
+on:
+  pull_request:
+    paths: ['app/**', 'packaging/diagnostics/**', '.github/workflows/mac-diagnostics.yml', 'requirements.txt']
+permissions:
+  contents: read
+concurrency:
+  group: mac-diagnostics-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  gpu:
+    name: Native Mac GPU sentinel controls
+    runs-on: macos-14
+    timeout-minutes: 15
+    env:
+      QT_QPA_PLATFORM: cocoa
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install PySide6==6.11.2 moderngl==5.12.0 numpy==2.4.6
+      - run: mkdir -p packaging/build/mac-gpu
+      - name: Exercise production float attachment and integer vertex layout
+        run: python -m app.picking_diagnostics --gpu-controls-only --report packaging/build/mac-gpu/controls.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mac-gpu-controls
+          path: packaging/build/mac-gpu/*.json
+          if-no-files-found: warn
+  tree:
+    name: Native Mac selected-tree accessibility controls
+    runs-on: macos-14
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install PySide6==6.11.2
+      - name: Query own synthetic tree through exact Cocoa accessibility getter
+        run: python packaging/diagnostics/mac_ax/run_matrix.py --output packaging/build/mac-ax
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mac-tree-accessibility-controls
+          path: packaging/build/mac-ax/
+          if-no-files-found: warn
+  package:
+    name: Isolated one-action Mac diagnostic artifact
+    runs-on: macos-14
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install PySide6==6.11.2 moderngl==5.12.0 numpy==2.4.6 certifi==2026.7.22 pyinstaller==6.22.3
+      - name: Build isolated diagnostic without anatomy/model assets
+        run: python -m PyInstaller packaging/diagnostics/Diagnostic.spec --noconfirm --clean --distpath packaging/build/diagnostic-dist --workpath packaging/build/diagnostic-build
+      - name: Verify diagnostic bundle and package it separately
+        run: |
+          codesign --force --deep --sign - "packaging/build/diagnostic-dist/Anatomy Explorer Diagnostic.app"
+          codesign --verify --deep --strict "packaging/build/diagnostic-dist/Anatomy Explorer Diagnostic.app"
+          mkdir -p packaging/build/diagnostic-artifact
+          ditto -c -k --sequesterRsrc --keepParent "packaging/build/diagnostic-dist/Anatomy Explorer Diagnostic.app" packaging/build/diagnostic-artifact/AnatomyExplorer-Mac-Diagnostic.zip
+          cd packaging/build/diagnostic-artifact
+          shasum -a 256 AnatomyExplorer-Mac-Diagnostic.zip > SHA256SUMS.txt
+      - name: Exercise actual frozen diagnostic HTTPS and GPU controls
+        run: |
+          "packaging/build/diagnostic-dist/Anatomy Explorer Diagnostic.app/Contents/MacOS/AnatomyExplorerDiagnostic" --no-dialog --report packaging/build/diagnostic-artifact/ci-report.json
+          python -c 'import json; r=json.load(open("packaging/build/diagnostic-artifact/ci-report.json")); assert r["completed"] and r["runtime"]["frozen"]; assert r["tls"]["packaged_roots"]["success"] and r["tls"]["packaged_roots"]["tls"]["bundled_ca"]; assert r["gpu"]["passed"]'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: AnatomyExplorer-Mac-Diagnostic
+          path: packaging/build/diagnostic-artifact/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 7

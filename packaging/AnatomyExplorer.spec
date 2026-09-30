@@ -54,7 +54,7 @@ def data_files():
 # Wheels whose code ends up in the bundle; their own licence files are copied to licenses/<name>/ (Qt/PySide6
 # wheels carry none, so their LGPL/GPL texts come from packaging/licenses).
 BUNDLED_DISTS = ["numpy", "scipy", "scikit-image", "shapely", "moderngl", "glcontext", "pillow", "imageio",
-                 "tifffile", "lazy_loader", "networkx", "packaging", "pyinstaller"]
+                 "tifffile", "lazy_loader", "networkx", "packaging", "pyinstaller", "certifi"]
 
 
 def notice_files():
