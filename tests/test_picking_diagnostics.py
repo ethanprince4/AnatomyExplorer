@@ -83,6 +83,16 @@ class IndependentGPUControlsTests(unittest.TestCase):
                 self.assertEqual(row["background"]["production_pick"], -1)
                 self.assertAlmostEqual(row["raw_depth"], 0.5, places=5)
                 self.assertFalse(row["render_errors"])
+            model = report["model_viewer_controls"]
+            self.assertTrue(model["passed"], str(model.get("error")))
+            self.assertEqual(model["expected_source"], "CPU pre-pass: encoded ID257, cut flag2, linear depth3.5")
+            self.assertEqual(len(model["checks"]), 7)
+            self.assertTrue(all(row["passed"] for row in model["checks"]))
+            self.assertFalse(model["errors"])
+            self.assertEqual(model["observed"]["item"], 256)
+            self.assertTrue(model["observed"]["cut"])
+            self.assertEqual(model["observed"]["point"], [-0.25, 0.25, -3.5])
+            self.assertEqual(model["observed"]["sparse"], [256, 256, -1, -1])
 
 
 if __name__ == "__main__":

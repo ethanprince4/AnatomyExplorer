@@ -87,6 +87,8 @@ def task(name):
             result["controls"]["error"] = "gpu_control_failed"
         if "error" in result.get("production_controls", {}):
             result["production_controls"]["error"] = "production_gpu_control_failed"
+        if "error" in result.get("model_viewer_controls", {}):
+            result["model_viewer_controls"]["error"] = "model_viewer_control_failed"
         return result
     return tls_probe()
 

@@ -427,6 +427,73 @@ def independent_gpu_controls(renderer):
     return report
 
 
+def model_viewer_readback_controls(ctx):
+    """Known CPU pre-pass data through real model-viewer float query methods."""
+    from .viewer.renderer import Renderer as ModelRenderer
+    gl = NativeGL()
+    old_fbo, old_viewport = ctx.fbo, ctx.viewport
+    report = {"expected_source": "CPU pre-pass: encoded ID257, cut flag2, linear depth3.5",
+              "path": "model Renderer.pick/read_ids/read_depth/ids_at",
+              "passed": False, "checks": [], "errors_on_entry": gl.errors()}
+    resources = []
+    try:
+        if old_fbo is None:
+            raise RuntimeError("Model readback control needs a restorable target")
+        nd = np.zeros((4, 4, 4), np.float32)
+        nd[..., 2], nd[..., 3] = 1.0, 3.5
+        ids = np.empty((4, 4, 2), np.float32)
+        ids[..., 0], ids[..., 1] = 257, 2
+        normal_depth = ctx.texture((4, 4), 4, nd.tobytes(), dtype="f4")
+        resources.append(normal_depth)
+        identifiers = ctx.texture((4, 4), 2, ids.tobytes(), dtype="f4")
+        resources.append(identifiers)
+        prepass = ctx.framebuffer([normal_depth, identifiers])
+        resources.append(prepass)
+        color = ctx.texture((4, 4), 4, dtype="f1")
+        resources.append(color)
+        output = ctx.framebuffer([color])
+        resources.append(output)
+        output.use()
+        ctx.viewport = (1, 1, 2, 2)
+        before, viewport = gl.state(), tuple(ctx.viewport)
+        viewer = object.__new__(ModelRenderer)
+        viewer.ctx, viewer.t = ctx, {"fbo_pre": prepass}
+        viewer.size, viewer.frame_ok = (4, 4), True
+        viewer.last_camera = (np.eye(4), np.eye(4), 1.0, True, (1.0, 1.0), (4, 4))
+        item, point, cut = viewer.pick(1, 1)
+        decoded_ids, flags = viewer.read_ids()
+        depths = viewer.read_depth()
+        sparse = viewer.ids_at([(0, 0), (3, 3), (-1, 0), (4, 1)])
+        after = gl.state()
+        checks = [
+            ("model item ID", item == 256),
+            ("model cut-face flag", cut is True),
+            ("model world depth", point is not None and np.allclose(point, [-0.25, 0.25, -3.5])),
+            ("model bulk IDs and flags", decoded_ids is not None and flags is not None
+             and np.array_equal(decoded_ids, np.full((4, 4), 256))
+             and np.array_equal(flags, np.full((4, 4), 2))),
+            ("model linear depth", depths is not None and np.array_equal(depths, np.full((4, 4), 3.5))),
+            ("model sparse queries", sparse == [256, 256, -1, -1]),
+            ("model readback state restoration", tuple(ctx.viewport) == viewport
+             and all(after[key] == before[key] for key in
+                     ("DRAW_FRAMEBUFFER_BINDING", "READ_FRAMEBUFFER_BINDING"))),
+        ]
+        report["checks"] = [{"name": name, "passed": bool(passed)} for name, passed in checks]
+        report["observed"] = {"item": item, "cut": bool(cut),
+                              "point": point.tolist() if point is not None else None, "sparse": sparse}
+        report["errors"] = gl.errors()
+        report["passed"] = all(row["passed"] for row in report["checks"]) and not report["errors"]
+    except Exception:
+        report["error"] = traceback.format_exc()
+    finally:
+        if old_fbo is not None:
+            old_fbo.use()
+            ctx.viewport = old_viewport
+        for resource in reversed(resources):
+            resource.release()
+    return report
+
+
 def run_gpu_controls(dataset_metadata_path=None):
     """Invisible Qt surface with the production Renderer.resize/readback code."""
     from .__main__ import configure_qt
@@ -463,10 +530,12 @@ def run_gpu_controls(dataset_metadata_path=None):
         report["control_buffer_size"] = list(renderer.size)
         report["controls"] = independent_gpu_controls(renderer)
         report["production_controls"] = production_gpu_controls(renderer)
+        report["model_viewer_controls"] = model_viewer_readback_controls(ctx)
         uniform = all(row["passed"] for row in report["controls"]["uniform"]) and len(report["controls"]["uniform"]) == len(SENTINELS)
         attribute = all(row["passed"] for row in report["controls"]["integer_attribute"]) and len(report["controls"]["integer_attribute"]) == len(SENTINELS)
         report["localization"] = control_localization(uniform, attribute, report["production_controls"]["passed"])
-        report["passed"] = report["controls"]["passed"] and report["production_controls"]["passed"]
+        report["passed"] = (report["controls"]["passed"] and report["production_controls"]["passed"]
+                            and report["model_viewer_controls"]["passed"])
         report["checks"] = [{"name": f"{kind} encoded {row['expected_encoded']}", "passed": row["passed"]}
                             for kind in ("uniform", "integer_attribute") for row in report["controls"][kind]]
         report["checks"].extend({"name": f"production Renderer encoded {row['expected_encoded']}", "passed": row["passed"]}
