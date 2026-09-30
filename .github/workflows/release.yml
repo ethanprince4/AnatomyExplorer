@@ -25,6 +25,10 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  safety:
+    name: Release safety gate
+    if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.tag != ''
+    uses: ./.github/workflows/updater-tests.yml
   build:
     name: Build (${{ matrix.name }})
     strategy:
@@ -45,7 +49,7 @@ jobs:
       run:
         shell: bash
     env:
-      VERSION: ${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/v') && github.ref_name) || '3.1.0' }}
+      VERSION: ${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/v') && github.ref_name) || '3.1.1' }}
     steps:
       # identical line endings on every runner, so the micro-model source digest matches what the cache was built with
       - name: Keep line endings as committed
@@ -128,7 +132,7 @@ jobs:
 
   release:
     name: Publish release
-    needs: build
+    needs: [build, safety]
     if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.tag != ''
     runs-on: ubuntu-latest
     steps:
