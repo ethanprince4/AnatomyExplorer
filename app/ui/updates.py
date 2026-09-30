@@ -33,11 +33,22 @@ class UpdateController(QObject):
         self.automatic_timer.start(30000)
 
     def eventFilter(self, watched, event):
-        if watched is self.window and event.type() == QEvent.Close:
-            self.closed.set()
-            self.automatic_timer.stop()
+        # Cocoa can deliver a final event while the Python wrapper's fields
+        # are being cleared. Never dereference absent state or call a deleted
+        # QObject's base implementation from that callback.
+        window = getattr(self, "window", None)
+        closed = getattr(self, "closed", None)
+        if window is None or closed is None:
+            return False
+        if watched is window and event.type() == QEvent.Close:
+            closed.set()
+            timer = getattr(self, "automatic_timer", None)
+            if timer is not None and isValid(timer):
+                timer.stop()
+            if isValid(watched) and isValid(self):
+                watched.removeEventFilter(self)
             self.dialog = None
-        return super().eventFilter(watched, event)
+        return False
 
     def deliver(self, signal, payload):
         if not self.closed.is_set():

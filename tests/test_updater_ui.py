@@ -56,6 +56,46 @@ class ChannelUiTests(unittest.TestCase):
             self.assertTrue(window.qsettings.value("updates/experimental", type=bool), "shared settings are untouched")
             window.close()
 
+    def test_event_filter_tolerates_missing_teardown_fields(self):
+        from PySide6.QtCore import QEvent, QSettings
+        from PySide6.QtWidgets import QMainWindow
+        from app.ui.updates import UpdateController
+        with tempfile.TemporaryDirectory() as d:
+            window = QMainWindow()
+            window.qsettings = QSettings(str(Path(d) / "qt.ini"), QSettings.IniFormat)
+            controller = UpdateController(window)
+            try:
+                saved_window, saved_closed = controller.window, controller.closed
+                del controller.window
+                self.assertFalse(controller.eventFilter(window, QEvent(QEvent.Close)))
+                controller.window = saved_window
+                del controller.closed
+                self.assertFalse(controller.eventFilter(window, QEvent(QEvent.Close)))
+                controller.closed = saved_closed
+                controller.automatic_timer.stop()
+                timer = controller.automatic_timer
+                del controller.automatic_timer
+                self.assertFalse(controller.eventFilter(window, QEvent(QEvent.Close)))
+                self.assertTrue(controller.closed.is_set())
+                controller.automatic_timer = timer
+            finally:
+                controller.window = window
+                if not hasattr(controller, "closed"):
+                    controller.closed = saved_closed
+                window.close()
+
+    def test_repeated_reopen_teardown_and_collection_in_one_process(self):
+        import gc
+        from PySide6.QtCore import QCoreApplication, QEvent
+        # The observed CI fault occurred after earlier windows were collected.
+        # Reuse this QApplication while disposing each delayed-worker fixture.
+        for cycle in range(8):
+            with self.subTest(cycle=cycle):
+                self.test_closed_dialog_and_destroyed_window_ignore_late_worker_callbacks()
+                gc.collect()
+                QCoreApplication.sendPostedEvents(None, QEvent.DeferredDelete)
+                self.app.processEvents()
+
     def test_reopen_and_channel_toggles_keep_delayed_worker_exclusive(self):
         from PySide6.QtCore import QSettings
         from PySide6.QtWidgets import QCheckBox, QDialog, QMainWindow, QPushButton
