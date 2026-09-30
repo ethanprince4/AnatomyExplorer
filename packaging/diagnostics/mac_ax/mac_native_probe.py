@@ -1,7 +1,8 @@
 """Invoke this diagnostic's own Cocoa accessibility objects on the Qt GUI thread.
 
 No AXUIElement client, TCC prompt, remote application, or accessibility setting.
-Private Qt Cocoa selectors are bounded to the pinned 6.11.2 diagnostic build.
+Private Qt Cocoa selectors are bounded to the 6.11.2 diagnostic and a disposable
+official 6.8.3 comparison; both versions expose the same getter signatures.
 The ctypes signatures contain only object pointers, uint32 and NSUInteger;
 there are no variadic, floating-point or structure-return messages.
 Native failures intentionally remain native failures for crash collection.
@@ -53,7 +54,7 @@ class NativeProbe:
         self.array_class = self.objc.objc_getClass(b'NSArray')
         self.element_class = self.objc.objc_getClass(b'QMacAccessibilityElement')
         if not self.element_class or not self.responds(self.element_class, 'elementWithId:'):
-            raise RuntimeError('The expected Qt 6.11.2 Cocoa accessibility class is unavailable')
+            raise RuntimeError('The expected Qt Cocoa accessibility class is unavailable')
 
     def sel(self, name):
         if name not in self.selectors:

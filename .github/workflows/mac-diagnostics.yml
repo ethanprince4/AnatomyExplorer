@@ -43,10 +43,22 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install PySide6==6.11.2
+      - name: Inspect matching Qt SDK without attempting a runtime build
+        run: python packaging/diagnostics/mac_ax/runtime_build_readiness.py --report packaging/build/mac-ax/build-readiness.json
       - name: Query own synthetic tree through exact Cocoa accessibility getter
+        id: native_tree
         run: |
           python packaging/diagnostics/mac_ax/run_matrix.py --single-plain --output packaging/build/mac-ax/plain-gate
           python packaging/diagnostics/mac_ax/run_matrix.py --output packaging/build/mac-ax/matrix
+      - name: Disposable official Qt 6.8.3 semantic comparison
+        if: failure() && steps.native_tree.outcome == 'failure'
+        timeout-minutes: 4
+        run: |
+          # This isolated interpreter never changes requirements or the app runtime.
+          # Its result cannot turn the failed 6.11.2 release gate into success.
+          python -m venv packaging/build/qt683-comparison
+          packaging/build/qt683-comparison/bin/python -m pip install PySide6_Essentials==6.8.3
+          packaging/build/qt683-comparison/bin/python packaging/diagnostics/mac_ax/run_matrix.py --output packaging/build/mac-ax/official-6.8.3-comparison
       - uses: actions/upload-artifact@v4
         if: always()
         with:
