@@ -16,6 +16,7 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--single-plain", action="store_true",
                         help="Run the two-column selected-first plain crash-path control")
+    parser.add_argument("--executable", type=Path, help="Check the actual frozen app Cocoa entry")
     parser.add_argument("--private-loader-log-dir", type=Path,
                         help="Optional candidate-only logs; keep outside uploaded evidence")
     args = parser.parse_args()
@@ -29,7 +30,9 @@ def main():
     for columns, mode, order in cases:
         name = f"columns{columns}-{mode}-{order}"
         report = args.output / (name + ".jsonl")
-        command = [sys.executable, str(Path(__file__).with_name("tree_ax_repro.py")),
+        entry = ([str(args.executable.resolve()), "--cocoa-check"] if args.executable else
+                 [sys.executable, str(Path(__file__).with_name("tree_ax_repro.py"))])
+        command = entry + [
                    "--native-probe", "--auto", "--cycles", "3", "--interval-ms", "200",
                    "--columns", str(columns), "--mode", mode, "--probe-order", order,
                    "--report", str(report)]
@@ -56,8 +59,14 @@ def main():
         getter_calls = sum(row.get("event") == "native_getter_end" for row in rows)
         probes = [row for row in rows if row.get("event") == "native_probe_end"]
         semantic_valid = bool(probes) and all(row.get("semantic_valid") is True for row in probes)
-        passed = code == 0 and complete and getter_calls >= 24 and semantic_valid
+        identity_rows = [row for row in rows if row.get("event") == "ownership_runtime"]
+        identity_required = bool(os.environ.get("QT_OWNERSHIP_PLUGIN_SHA256"))
+        runtime_valid = (not identity_required or (len(identity_rows) == 1
+                         and identity_rows[0].get("candidate_plugin_loaded") is True
+                         and identity_rows[0].get("all_qt_frameworks_from_wheel") is True))
+        passed = code == 0 and complete and getter_calls >= 24 and semantic_valid and runtime_valid
         results.append({"case": name, "exit_code": code, "passed": passed,
+                        "runtime_identity_required": identity_required, "runtime_identity_valid": runtime_valid,
                         "semantic_valid": semantic_valid,
                         "invalid_probe_count": sum(row.get("semantic_valid") is not True for row in probes),
                         "native_getter_completed": getter_calls,

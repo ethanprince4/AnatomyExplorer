@@ -31,6 +31,8 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install PySide6==6.11.2 moderngl==5.12.0 numpy==2.4.6
+      - name: Install accepted shipping Cocoa plugin
+        run: python packaging/install_cocoa.py
       - run: mkdir -p packaging/build/mac-gpu
       - name: Exercise production float attachment and integer vertex layout
         run: python -m app.picking_diagnostics --gpu-controls-only --report packaging/build/mac-gpu/controls.json
@@ -52,22 +54,14 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install PySide6==6.11.2
-      - name: Inspect matching Qt SDK without attempting a runtime build
-        run: python packaging/diagnostics/mac_ax/runtime_build_readiness.py --report packaging/build/mac-ax/build-readiness.json
+      - name: Install accepted shipping Cocoa plugin
+        run: python packaging/install_cocoa.py
       - name: Query own synthetic tree through exact Cocoa accessibility getter
         id: native_tree
         run: |
-          python packaging/diagnostics/mac_ax/run_matrix.py --single-plain --output packaging/build/mac-ax/plain-gate
+          export QT_OWNERSHIP_PLUGIN_SHA256=2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b
+          export QT_OWNERSHIP_WHEEL_ROOT="$(python -c 'import PySide6; from pathlib import Path; print(Path(PySide6.__file__).resolve().parent / "Qt")')"
           python packaging/diagnostics/mac_ax/run_matrix.py --output packaging/build/mac-ax/matrix
-      - name: Disposable official Qt 6.8.3 semantic comparison
-        if: failure() && steps.native_tree.outcome == 'failure' && !inputs.ownership_candidate
-        timeout-minutes: 4
-        run: |
-          # This isolated interpreter never changes requirements or the app runtime.
-          # Its result cannot turn the failed 6.11.2 release gate into success.
-          python -m venv packaging/build/qt683-comparison
-          packaging/build/qt683-comparison/bin/python -m pip install PySide6_Essentials==6.8.3
-          packaging/build/qt683-comparison/bin/python packaging/diagnostics/mac_ax/run_matrix.py --output packaging/build/mac-ax/official-6.8.3-comparison
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -106,6 +100,9 @@ jobs:
   package:
     name: Isolated one-action Mac diagnostic artifact
     needs: [gpu, tree]
+    # The actual candidate app is the next requested one-time Mac check.
+    # Keep this smaller older diagnostic build available only by explicit dispatch.
+    if: github.event_name == 'workflow_dispatch'
     runs-on: macos-14
     timeout-minutes: 25
     steps:
@@ -116,6 +113,7 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install PySide6==6.11.2 moderngl==5.12.0 numpy==2.4.6 certifi==2026.7.22 pyinstaller==6.22.3
+      - run: python packaging/install_cocoa.py
       - name: Build isolated diagnostic without anatomy/model assets
         run: python -m PyInstaller packaging/diagnostics/Diagnostic.spec --noconfirm --clean --distpath packaging/build/diagnostic-dist --workpath packaging/build/diagnostic-build
       - name: Verify diagnostic bundle and package it separately

@@ -38,4 +38,4 @@ coll = COLLECT(exe, a.binaries, a.datas, name="AnatomyExplorerDiagnostic", upx=F
 if sys.platform == "darwin":
     bundle = BUNDLE(coll, name="Anatomy Explorer Diagnostic.app", version="1.0.0",
                     bundle_identifier="io.github.ethanprince4.anatomyexplorer.diagnostic",
-                    info_plist={"NSHighResolutionCapable": True, "LSMinimumSystemVersion": "12.0"})
+                    info_plist={"NSHighResolutionCapable": True, "LSMinimumSystemVersion": "13.0"})

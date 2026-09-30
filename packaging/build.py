@@ -39,6 +39,10 @@ def numeric_version(v):
 
 
 def pyinstaller(version, channel="stable", release_tag=None):
+    if sys.platform == "darwin":
+        # Fail before packaging if the exact accepted wheel/plugin cannot be established.
+        from install_cocoa import install
+        install()
     env = dict(os.environ, APP_VERSION=version, APP_CHANNEL=channel,
                APP_RELEASE_TAG=release_tag or f"v{version}")
     if sys.platform == "win32":

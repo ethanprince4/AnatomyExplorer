@@ -18,6 +18,11 @@ if "--https-check" in sys.argv:
     from app.https_check import main
     sys.exit(main())
 
+if "--cocoa-check" in sys.argv:
+    # Native bridge only; no managed launcher, update store or study preferences.
+    from app.cocoa_check import main
+    sys.exit(main())
+
 # Test subprocesses redirect Qt registry/preferences as well as LOCALAPPDATA.
 # Ordinary installations keep the established identity and settings location.
 if os.environ.get("AE_TEST_SETTINGS_DIR"):

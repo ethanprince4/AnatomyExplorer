@@ -1,0 +1,354 @@
+{
+  "schema": 1,
+  "release_candidate": false,
+  "upstream_change_status": "NEW; unreleased",
+  "source_tag": "v6.11.2",
+  "source_commit": "ef55f427f2c8b410d34f8a7681020a3000cf6866",
+  "gerrit_patchset": "765434/1",
+  "patch_commit": "c7fd3f34b997bb363be15650647665b3b6b8a5f4",
+  "corresponding_source": "https://github.com/qt/qtbase/tree/ef55f427f2c8b410d34f8a7681020a3000cf6866",
+  "modified_source_in_artifact": "modified-cocoa-source; exact full patch and licenses included",
+  "sdk_sha1": "898a61de33218d55538721ce35c61f973768cb07",
+  "sdk_sha256": "9592f84f7e26d532c5c56824d1da7c9214a766cb0a17beb5af71022bcfbcd271",
+  "original_wheel_plugin_sha256": "8fc1ec4ccc2bdc283c42e856608dfaa03445ee3d25c6bd6c9b6ebcecb7ec288f",
+  "candidate_plugin_sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+  "architectures": "arm64",
+  "minimum_os": "13.0",
+  "qt_dependencies": [
+    "@rpath/QtGui.framework/Versions/A/QtGui",
+    "@rpath/QtCore.framework/Versions/A/QtCore"
+  ],
+  "rpaths": [
+    "@loader_path/../../lib"
+  ],
+  "framework_hashes_before": {
+    "QtMultimediaQuick.framework": "b1ef5a95bac43eeb0c68eeae75021ce65d8149eb4f83a248d339e70af141c1f4",
+    "QtLabsPlatform.framework": "99451e9f6f27426c9a38c0f966001d09807419bbdb92ecdfd16af19dcad8cd46",
+    "QtGraphs.framework": "e27c26441c89e6eaa08240167a66f709c5d14e849d7f9fe03be894a8e35ae67f",
+    "QtVirtualKeyboardQml.framework": "896a79cd620c46bc8a1bc325470615c0d294086b2eba4de905e5ed3cacc56d38",
+    "QtQuickTimeline.framework": "f343f605dd075c03295df80420998a4ad72baace41873ef7665dcb6c41b4dbd5",
+    "QtQuick3DXr.framework": "1068c530a5943d23021b5b7df64879d46f990b2ef0e4b33bd9525fec90b15bca",
+    "QtQuickControls2.framework": "2d212193da7c9183ccd906f6eeb775f32260235942e9bc3a85f73722285da1d4",
+    "QtQuickParticles.framework": "1260c963fd3095e6809a50d0297dd8c5a24217aa111ec869ba00f7cd9d2e5750",
+    "QtRemoteObjects.framework": "ecd9230f754044310e321ba61906e9cd6268d631d1e1df94804af658bc5c2dd4",
+    "QtLottieVectorImageHelpers.framework": "314e6f3e5c66a7b122d0a67f28337e34e13dbcba76e69d3ba980ca536ebfa377",
+    "Qt3DInput.framework": "6d6a95cbcd6bed13c279280050db92ef0c6ba5e2f177d63209437b7bd2ff2409",
+    "QtPdfWidgets.framework": "2e8cc7f6b01fe642f6a4378f104b44f3f7b4dcbb0ec810a68a09a30228dd17dd",
+    "QtNetworkAuth.framework": "acfc1d59b92aca06f7994361a1d571724e2fb14a087c5e44497ea2e47687dcab",
+    "QtQuickControls2ImagineStyleImpl.framework": "505a29009781fd552930f05ab238058f5bb80ff43f3d8feb6b9703cb351458b3",
+    "QtQuick3DAssetUtils.framework": "506b33eeeb1da4417097c0d819579aaed029c7f143954b134fd71aa4fc01b533",
+    "QtDataVisualization.framework": "c7fb076aea6646d67d9e2f9d70cd894a97019da5e89b1a0390c111f4d70c9e1d",
+    "QtDataVisualizationQml.framework": "bd35f9033dd5290759b504f2ace7046da24119e8b617154b795365a31c0910f0",
+    "QtQuickControls2BasicStyleImpl.framework": "cb79851167fc31f9644a321ccef0c148883150a0fdd061cd3aafe9afe4391598",
+    "QtWebEngineCore.framework": "6b3931fdaa9b1f75e6db96b28043e60f336c194eafda66316c6f2566f9d18d47",
+    "QtLabsSharedImage.framework": "23b2a854912b84d06442dcf0da467433edae1770ec358e8a201129463631ca5f",
+    "Qt3DQuickRender.framework": "f77efa8d139b76376b11e725b6aeff753f5ea51b6eadb2e30ce891616138d964",
+    "Qt3DQuickExtras.framework": "32bbc48b8cc1146ac12c1b587f780c71194fcef9c08f084c80daa180705f44cc",
+    "QtQmlMeta.framework": "00d52bcaa2f3ec61efb34f3f824c6a06fa3f817caff0a3374ac09b0b0e1453d5",
+    "QtDesigner.framework": "f76bab5cb5e115f7a368036a9d082fe3224368635ab434a59faaf165278386ce",
+    "QtCanvasPainter.framework": "cb65cc5c8347bf9cb61bd3430d5a21f91e057cfe96f69238866d10f71215b36b",
+    "QtNfc.framework": "d35a59375b398bc9199b6b389df9debc5e9e47aa52fba58860e1a3b7113fed3a",
+    "QtWebEngineQuick.framework": "81d77c10c08baee10842a6bdf9869218f42716e431ffdae2b475059941a22ce7",
+    "QtQuickControls2FusionStyleImpl.framework": "da976497a2133e2f28237df47be11986e1caeb15298171da9fea79984edbbcbb",
+    "QtQuick3DAssetImport.framework": "3856cde42f45599dc48711674b5790123aca70d37b4447bdc68ed2c97457c1cd",
+    "QtGraphsWidgets.framework": "5512385a9791892e1af139439e48942a42b835cf1d8912e033300f96bfbd3a61",
+    "QtLabsStyleKitImpl.framework": "8ef0e7a8757233011e12a1fa3fde5170e168eac0d34e44ce5f3d5e3962fc30cd",
+    "QtWebEngineWidgets.framework": "fd11ad4eb1d65b9ca1457ed49baacb99a67ab920511a174a91e632eed7b29e17",
+    "QtQuickShapesDesignHelpers.framework": "202967b91a12ca7ea5491723c00d5afb8329cbe8871dc053d84849c2abad2535",
+    "QtQuickWidgets.framework": "a1f8d083766aff0ab1940c0697a92c6efe8c19b3454490fee49fe6c43463337f",
+    "QtQuickControls2Material.framework": "8be790703361417747e14f9486998231cd760a309baa001684b406872e778dd8",
+    "QtQmlXmlListModel.framework": "157626d508ee15018abba116fa79f96496b601818ee8df28ac45f5bdcee627a1",
+    "Qt3DQuickInput.framework": "bb1e3c7fa57d79843a87e0f0da72b00c5f6e3a1bfea4ffa9e202ac3c125eccdf",
+    "QtShaderTools.framework": "6555ebf77645e89fca650a8dfc4d038c80226ad00f101d2cb11ff19fa387525c",
+    "Qt3DQuickScene2D.framework": "fa59aa3845bbe87e4d5baccb8054966c2b4e42966e4ef8577b7256ad1110250b",
+    "QtLabsSynchronizer.framework": "50d8f8bd128687d56591ea1776db1f9292ad6255eceea2b7c3fc96a4dd8b5614",
+    "QtPdf.framework": "5d6af1ec731ffde3745b093fedf7ce93515e6cd86d9b49d9eba6a9ebc727070e",
+    "QtSpatialAudio.framework": "be32e6dba8e81658925390e60e8c19e5a64a247ea34eb2e12cf3061533634ebd",
+    "QtQuickLayouts.framework": "5763be46e29e490658a5819c3aa857567c53a92fdae48cb0e746058db2f7e37d",
+    "QtQuickControls2Basic.framework": "6a91ad64b53075688d1cedd843696c5ad9dcebde7c685771071505e8959b0e41",
+    "Qt3DRender.framework": "93a51ee54a7d8daac7b8366a4fa31ff1ff49c4f9a0b08e17cc1fb602b4352992",
+    "QtQuick3DRuntimeRender.framework": "d807f40271786a567a4b35da74e6f741621301a30d2d716ca1ec04e60301c998",
+    "QtHelp.framework": "c721751161b05fdcaabf4d0395a8ccd98c5749eda7230210113230dc6fa45ead",
+    "QtQuickVectorImage.framework": "6d5b4b911ecf40e543ec829b31241c539197939a44e68b0b0b41b7037d4e1ef9",
+    "QtPrintSupport.framework": "a6249e92bd1490db3fe34eeba9e7d81e0eae2daac463206926adcd6b74cd9dec",
+    "QtGui.framework": "1a504db16259d661c60dc82bccd885b46f47250e951c3c9886f57c9e8b105aac",
+    "QtLottieVectorImageGenerator.framework": "4965e023b66d06cdd244654a46f73495fed68807f4e5fcf02cd06ad4fa79f93b",
+    "QtDBus.framework": "810d80b78577a1c518d0b00c148c52b89654dcfc50bfda6bfcd38821254124cd",
+    "QtCharts.framework": "789cf0fef8622ce388f1aff6aeb403bba190481c5f4737c072b5f01aba8e4f69",
+    "QtWebSockets.framework": "e177ad22cdf196b3843aadb53dc4d09cca2e11e1dc10ae244d8fe62736e681de",
+    "QtQuickControls2Fusion.framework": "9370c627da712fc461dc1c091a608b584598b2833c81bbb81bca875ec28e2549",
+    "QtQuick3DUtils.framework": "1ce2de8e48634719df3ea846737eb6891d423202a57f1bffea666cf34c56bd5e",
+    "QtQuickTemplates2.framework": "4157ad50a2d488fc5c8bd25560725a4408e6a7a356b2a5441a1c9294d3656093",
+    "QtPositioningQuick.framework": "85d3f05a779f93057a35e7fed79f5a944a1faff33bcec28bca569927cefec8a8",
+    "QtWebEngineQuickDelegatesQml.framework": "d7aaac62dcc6d1cb8ba3ea3d0675724bf11193f57eecbbcf2f20ef35102c1669",
+    "Qt3DCore.framework": "b5c16cd017987562ae2769fc82420a1940aab10bb10c95c0665760bb924d4222",
+    "QtLocation.framework": "6fc5f9580fe4518d394576b15f53f5feaba27a6f9e3700fc8210a3d7b18b047b",
+    "QtQuickDialogs2Utils.framework": "e37b3571841786f9075ede6675c5e1163863702e14cb9ccda50675228c847d5c",
+    "QtXml.framework": "a23626d018b535783409fe75410db2b5809a9af6ad20e59096be8bc00b1566b1",
+    "QtQuick3DParticles.framework": "f237f4bc74ad08e47c10e64c3fc838807b0af2348168282b661dbaab54bcd62f",
+    "QtSerialPort.framework": "eacd65211b317bde97a2f0edb7c05bc3e323fc38ee1d3e8a80a7bc247a64a36e",
+    "QtWebView.framework": "5e318fafe73493e62a54140710d0790e4d6db65d384072ddec969d74c1c748f6",
+    "QtQuick.framework": "ff4e8400b8155bc8aeed1785cb22bbb5d5f99e0113f64025388996cf1b62fc2f",
+    "QtQuickEffects.framework": "8a7ffd1b8b8020b5fc62b5d3350622b3de90f4ef7ae88e736041ef0678ae0de9",
+    "QtScxml.framework": "bd9c2fd6f855cfefe08d92c628e10939d672a5a20b2022c4bd0e25e4462956d1",
+    "QtQuickTimelineBlendTrees.framework": "5720d99ebe4c9870f3b07b57789e5366d495ab30986ccaaafe5670a8fef6a43d",
+    "QtCore.framework": "1567713b94e01e21eed2fcc572cf3ee64711494d6517ea0c5310ff72c8cc92a7",
+    "QtQuickDialogs2QuickImpl.framework": "49e8a26791484967e770b30e84b532004e0cbc171a502f8473fff6f8cfcfbe64",
+    "QtQuick3DGlslParser.framework": "1764ec5f3747daa167e0b8e7238d7cda98f735f40f7f4bf94dd43aab97288ba0",
+    "QtSensorsQuick.framework": "2fcc29d569cca2837908d7f02fc8ad5a1df8a4e9d200dcb58d48836017b8062e",
+    "QtQmlNetwork.framework": "84b6460caa8802a4829ad350a28e838d92a091d8a506666c2758caa2421f7111",
+    "QtQml.framework": "fcb5daf1b62aedb2e68fce85883859fb6eb2570733cd19d0c434c917b53cc521",
+    "Qt3DExtras.framework": "f02c61f63013c4aef8f932f3b08c0d07c6a0f0c86781c5da3f891c14b454866a",
+    "QtWebChannel.framework": "e3206fa55c5a3ba80168fb23d7a3d71eb2c9a3a3024f14c9f902da405c24f882",
+    "QtQuickVectorImageGenerator.framework": "6a59726ca6071c08746e7e907a4d11b5140faab28be17c9ed28b9c10e78cecc9",
+    "QtMultimedia.framework": "b32c2b7261b0c80d4ff6f50f7939747b3343ab0d37892c0fc8c1bd3c9217b4e2",
+    "QtLottie.framework": "2f20c0aa31828c64954d9cc8c1db708016f7f6ccf1b3182be6ae71fde55b1e06",
+    "QtQmlCore.framework": "e512e9fa415b1dc0b68af619f9c1ef8a2db8ff51945e1f606f7d07ccde85dbeb",
+    "QtQmlWorkerScript.framework": "a07dd051243da5254c9dee06f2dda81d479818a4faf954d4e0efd46edbd97d34",
+    "QtStateMachine.framework": "cf0af3e950d08b202953032919c705aed92e1afb0ab9c3c2ec985775671e826c",
+    "QtHttpServer.framework": "a725839e21ea173fe4e662b914a20963ac9d9ec486a61ff12d31b093c8cd7931",
+    "QtVirtualKeyboard.framework": "59addf8b9c71b4c7777493c1e6a2b0a63fadd8f0b401dd43379995c30d6c82aa",
+    "QtQuickControls2Impl.framework": "2672e9326534261f8e4be5fc6a0d46108f9710d88bf5dfef0fe9f05f5217a11f",
+    "QtOpenGL.framework": "1945d1e6f032d7a8455983f904a88245ba42d433445cd66cf31744840f100bb2",
+    "QtLabsQmlModels.framework": "295c96cf2f4b517344eace5d5f438fc219181fbac754994fa954bad0a607da71",
+    "QtQuickControls2Universal.framework": "c7e4ceece780d3cbd5ac1abcf0c93d8d72da0514d6da0f0b33fc87a7c3309d66",
+    "QtQmlLocalStorage.framework": "8cb37450894a7de6b66ba0cce2b424c5ad06dd38f94a8fac585d0b34d322bc82",
+    "QtQmlCompiler.framework": "b3f46b1e139edfbfcc74b94051c6f3f1e9559dfee867156ad097a37044f5ef1e",
+    "QtOpenGLWidgets.framework": "0d83462f1e7a358ca773c7ad11aecb51ca2b7a988459a1d7bf884dc63cfabac9",
+    "QtUiTools.framework": "f5db528c9bbb5e71d832d85562c1a5e70e694d6285d02e640ad3db969544afc0",
+    "QtLabsSettings.framework": "9ed4b3e1fa136e4da6970014ca0b933917f1a44d9b8f0f78eabc3f0b0b6cd966",
+    "QtSvgWidgets.framework": "ed97dc7728e11936fd13542ac3b62035b7d409372ec743733df785e14eddb334",
+    "Qt3DQuickLogic.framework": "b986aa2c64c35caf1b509277afffa414d6bfe2aa1fa924439659b0b6a280ec5e",
+    "Qt3DQuick.framework": "61ea78ee7f2c6ead4ce57d4cdc62c71e090746122b1fe07334de150a1358c8d2",
+    "QtQuickControls2MacOSStyleImpl.framework": "828f1390c3ad55bd1bddb0a3a8cef63691b58eb99136152ee5df63979cf17f74",
+    "QtQuickControls2MaterialStyleImpl.framework": "07bbcbd3f779f3db8a01f02878ab37a93e5838e9cf2ab376e377f008f3c01396",
+    "QtTest.framework": "a87f77bb752facaeeba48763dc9f0dcbd120a065f647ad2f90517df2fc672f1a",
+    "QtWidgets.framework": "9881eda10d9487dbe323b4e660f68d2845e41cf8092602ecbcef907fc07db65d",
+    "QtVirtualKeyboardSettings.framework": "731020f30a6bfc28aa5afd3bf5e9d9890d4e9b4cfa19b1d3dd556beb8bc3ddb5",
+    "Qt3DQuickScene3D.framework": "9e93f078db995933659e750552e952e8240fd8d740fbbd5cabada3b2696b8d8e",
+    "QtPositioning.framework": "3ca364721668037d78181cfaedc4f979f45e5df1c9a37b8b38e5f98a80a0944e",
+    "QtBluetooth.framework": "2905a8a2adfe05b64f4a32ce313ee2661a53d3cfb475801bad391a0cef8d37d5",
+    "QtQuick3D.framework": "c06576994497341438bde4000da72a6bb4d790f1d9e747ac368073615dfe58f2",
+    "QtQuick3DHelpersImpl.framework": "a33e822f0b29674bf0904867c9bd28dc4af25928b6120a2753b58366d86b7aca",
+    "Qt3DLogic.framework": "3f0dd6b3edcde907d4a0d1cf13db1bb379eaca5414f8f580335b86df539b01fc",
+    "QtQuickShapes.framework": "25c927b5f0c5915e56c7a8eedd76ff5e2d5b208f2ad4b4d249e00dd274a768f6",
+    "QtQuickTest.framework": "cf498c74541c5617b2368f5125e20dbf98f1d0c2c6887c9e9f965a9e841d5ab6",
+    "QtNetwork.framework": "114a25a545e508a5c9e8f77bafd1c705546cd42d1889dd539cd4307a2da06848",
+    "QtQuickControls2UniversalStyleImpl.framework": "3c2250de450f0011159266ab12488818ba29be23a92fc619b3e69312b6c0330a",
+    "QtScxmlQml.framework": "b96ae351c8c151be99f5a5f3aaa0e3ba35b9d0267b59c69e4eaf80143fa58c76",
+    "QtQuick3DSpatialAudio.framework": "7c95b0493b779b50962f84d57e74e025b734ef7db5e5d67d1074eb2a4afd889c",
+    "QtSvg.framework": "0852c03330f54549f88fc91a4454cab494e5c6bab778184c43567a6f7945c848",
+    "QtQuickControls2IOSStyleImpl.framework": "b24d46b56e380161d33130673613a8ec5a418abe2217e493e9717cdb2044376e",
+    "QtDesignerComponents.framework": "6478d87e63e50e879c561121a56a3e5bbbdfd0c26cefe705f55e0a5943477649",
+    "QtQuick3DIblBaker.framework": "cdfd90ac9fc204d4440026ea13ddb82b11694297af6cacc8c3e9688b6510a1dc",
+    "QtQuickControls2Imagine.framework": "8f3fec7c3f3eed5c889ea5cc3553b3365a756dafaa3afb6da6eddf9ef66e71e2",
+    "QtQuick3DEffects.framework": "e5b5b01f241cf9a94dcc9f261d42a4509b1d08d06d60bcf12ad13666c096dd73",
+    "QtMultimediaWidgets.framework": "d7428f4e04063bae229eb89e6b7f887bb6b1cd8c11093521c0936aac0464f970",
+    "QtQuickVectorImageHelpers.framework": "84b56f0a7b67cab90fc425e81a258e03c8a6e2393aec0955dfe923801c84bcce",
+    "QtWebChannelQuick.framework": "b74f61e0155b524247b91c59418b0629647115d841a006aa5eb6da9c7ef806a9",
+    "QtQmlModels.framework": "351b8e9e8f744d1f0f4ed22190fa350659cecd50e37ba9b2faa309f4f0de6193",
+    "Qt3DQuickAnimation.framework": "d16e3ba1355c4391aba74be48ad7c7212246490c247f59386c2563321d073763",
+    "QtLabsAnimation.framework": "32a7efbc60749611ff67b6cef72cb9535c655f32ef56fbfb58469ef51fd3bd25",
+    "QtPdfQuick.framework": "b2c4ce254197474fcdba4c4a8aee959822d523d0cfd5962fc0afb1a6711740b2",
+    "QtLabsFolderListModel.framework": "80fd4b0094ed626d3d675656b318d092513c946c8908f389185ed163bc1a7658",
+    "QtQuickControls2FluentWinUI3StyleImpl.framework": "7662e090dc5e6cd834249888a9162c12f4c420fde8cf8fba463b7e067dfcca14",
+    "QtRemoteObjectsQml.framework": "bea3211767a23d9551365567f4906f1148a2c7b4122ad9263f42481d779e770b",
+    "QtQuick3DParticleEffects.framework": "93725330ab320b9b6051ccf09e4e282784a41b50c7324a69a8d8249f7b1f3e61",
+    "QtLabsStyleKit.framework": "e83b8c5646c294e9f531fa34be773db4807192d2dbf0c0b8a89bafc5ac194d8f",
+    "QtSensors.framework": "32bba1442fefddadb0057c649475ac053c651a37ad23343efaa995dff094b922",
+    "QtChartsQml.framework": "fb0fd6bee399093dc33a98ea8701437ce8f31bf6dbb23d2f4f94ef9a1ee5c837",
+    "Qt3DAnimation.framework": "bff48970dc194e7f50a72ed52d615fed0017762b907f245c981825a9f753d940",
+    "QtQuick3DHelpers.framework": "d4727f2bfc3a3d0b3211b25a7d7d287cf956e6b36c3c150afa1d57a0e9b02ce2",
+    "QtQuickDialogs2.framework": "1875fbbabac7be0389546a6c6a045294d9dd1597d4fe6e43cc3ae472f1437364",
+    "QtLabsWavefrontMesh.framework": "773813edfbe1bb67289352042a4589c18523f794b77ed6b398444309f891b5a1",
+    "QtTextToSpeech.framework": "e8ea83b4ba4e0063ca923cc59a2d7ede48fc27598a4e7b20bcd04471f1ae4a63",
+    "QtWebViewQuick.framework": "0242dc297a033bbcc074239cd70253a29cb32aaeec67d2b1f76390f0ab9b700f",
+    "QtStateMachineQml.framework": "ccbc913d5d810f1758c509102bec865c01ae6334e3b0f7264b9784e3aef92e15",
+    "QtSerialBus.framework": "61380cf99dacb5f1ed730906e89b78a3747df03ef789e547c41c9a2f6312be21",
+    "QtSql.framework": "56d0380f4b353ff7227af2fd1e1d2940d0ef1c335b8afde4b9c815af9c05a8ad",
+    "QtConcurrent.framework": "dbe08a03bb2fc4ce04bd6de40837cbf9f157e5ca90088a5a741ae4a1284c1e76"
+  },
+  "physical_mac_validated": false,
+  "passed": true,
+  "framework_hashes_unchanged": true,
+  "exit_code": 0,
+  "isolated_runtime_verified": true,
+  "runtime_evidence": [
+    {
+      "seq": 3,
+      "elapsed_ms": 443,
+      "event": "ownership_runtime",
+      "candidate_plugin_loaded": true,
+      "all_qt_frameworks_from_wheel": true,
+      "frameworks": [
+        {
+          "name": "QtCore",
+          "sha256": "1567713b94e01e21eed2fcc572cf3ee64711494d6517ea0c5310ff72c8cc92a7",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtWidgets",
+          "sha256": "9881eda10d9487dbe323b4e660f68d2845e41cf8092602ecbcef907fc07db65d",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtGui",
+          "sha256": "1a504db16259d661c60dc82bccd885b46f47250e951c3c9886f57c9e8b105aac",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtDBus",
+          "sha256": "810d80b78577a1c518d0b00c148c52b89654dcfc50bfda6bfcd38821254124cd",
+          "from_isolated_wheel": true
+        }
+      ],
+      "plugins": [
+        {
+          "sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+          "from_isolated_wheel": true
+        }
+      ]
+    },
+    {
+      "seq": 3,
+      "elapsed_ms": 210,
+      "event": "ownership_runtime",
+      "candidate_plugin_loaded": true,
+      "all_qt_frameworks_from_wheel": true,
+      "frameworks": [
+        {
+          "name": "QtCore",
+          "sha256": "1567713b94e01e21eed2fcc572cf3ee64711494d6517ea0c5310ff72c8cc92a7",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtWidgets",
+          "sha256": "9881eda10d9487dbe323b4e660f68d2845e41cf8092602ecbcef907fc07db65d",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtGui",
+          "sha256": "1a504db16259d661c60dc82bccd885b46f47250e951c3c9886f57c9e8b105aac",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtDBus",
+          "sha256": "810d80b78577a1c518d0b00c148c52b89654dcfc50bfda6bfcd38821254124cd",
+          "from_isolated_wheel": true
+        }
+      ],
+      "plugins": [
+        {
+          "sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+          "from_isolated_wheel": true
+        }
+      ]
+    },
+    {
+      "seq": 3,
+      "elapsed_ms": 188,
+      "event": "ownership_runtime",
+      "candidate_plugin_loaded": true,
+      "all_qt_frameworks_from_wheel": true,
+      "frameworks": [
+        {
+          "name": "QtCore",
+          "sha256": "1567713b94e01e21eed2fcc572cf3ee64711494d6517ea0c5310ff72c8cc92a7",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtWidgets",
+          "sha256": "9881eda10d9487dbe323b4e660f68d2845e41cf8092602ecbcef907fc07db65d",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtGui",
+          "sha256": "1a504db16259d661c60dc82bccd885b46f47250e951c3c9886f57c9e8b105aac",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtDBus",
+          "sha256": "810d80b78577a1c518d0b00c148c52b89654dcfc50bfda6bfcd38821254124cd",
+          "from_isolated_wheel": true
+        }
+      ],
+      "plugins": [
+        {
+          "sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+          "from_isolated_wheel": true
+        }
+      ]
+    },
+    {
+      "seq": 3,
+      "elapsed_ms": 226,
+      "event": "ownership_runtime",
+      "candidate_plugin_loaded": true,
+      "all_qt_frameworks_from_wheel": true,
+      "frameworks": [
+        {
+          "name": "QtCore",
+          "sha256": "1567713b94e01e21eed2fcc572cf3ee64711494d6517ea0c5310ff72c8cc92a7",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtWidgets",
+          "sha256": "9881eda10d9487dbe323b4e660f68d2845e41cf8092602ecbcef907fc07db65d",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtGui",
+          "sha256": "1a504db16259d661c60dc82bccd885b46f47250e951c3c9886f57c9e8b105aac",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtDBus",
+          "sha256": "810d80b78577a1c518d0b00c148c52b89654dcfc50bfda6bfcd38821254124cd",
+          "from_isolated_wheel": true
+        }
+      ],
+      "plugins": [
+        {
+          "sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+          "from_isolated_wheel": true
+        }
+      ]
+    },
+    {
+      "seq": 3,
+      "elapsed_ms": 227,
+      "event": "ownership_runtime",
+      "candidate_plugin_loaded": true,
+      "all_qt_frameworks_from_wheel": true,
+      "frameworks": [
+        {
+          "name": "QtCore",
+          "sha256": "1567713b94e01e21eed2fcc572cf3ee64711494d6517ea0c5310ff72c8cc92a7",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtWidgets",
+          "sha256": "9881eda10d9487dbe323b4e660f68d2845e41cf8092602ecbcef907fc07db65d",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtGui",
+          "sha256": "1a504db16259d661c60dc82bccd885b46f47250e951c3c9886f57c9e8b105aac",
+          "from_isolated_wheel": true
+        },
+        {
+          "name": "QtDBus",
+          "sha256": "810d80b78577a1c518d0b00c148c52b89654dcfc50bfda6bfcd38821254124cd",
+          "from_isolated_wheel": true
+        }
+      ],
+      "plugins": [
+        {
+          "sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+          "from_isolated_wheel": true
+        }
+      ]
+    }
+  ],
+  "matrix_passed": true
+}

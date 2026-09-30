@@ -10,3 +10,6 @@ models/kidney/kidney.glb filter=lfs diff=lfs merge=lfs -text
 *.bin binary
 *.glb binary
 *.npz binary
+
+# Preserve the accepted Qt binary, patch and corresponding-source bytes exactly.
+packaging/qt-cocoa/** -text

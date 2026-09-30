@@ -40,7 +40,8 @@ def ownership_runtime_identity():
                                       and plugins[0]['from_isolated_wheel'],
             'all_qt_frameworks_from_wheel': {'QtCore', 'QtGui', 'QtWidgets'}.issubset(names)
                                            and all(row['from_isolated_wheel'] for row in frameworks),
-            'frameworks': frameworks, 'plugins': plugins}
+            'frameworks': frameworks, 'plugins': plugins,
+            'frozen': bool(getattr(sys, 'frozen', False))}
 
 
 def loaded_qcocoa_identity():

@@ -85,15 +85,21 @@ def notice_files():
     (STAGE / "UPDATE_CHANNEL.json").write_text(
         json.dumps({"channel": CHANNEL, "release_tag": RELEASE_TAG}), encoding="utf-8")
     out.append((str(STAGE / "UPDATE_CHANNEL.json"), "."))
+    if sys.platform == "darwin":
+        for src in sorted((ROOT / "packaging/qt-cocoa").rglob("*")):
+            if src.is_file() and src.name != "libqcocoa.dylib":
+                relative = src.relative_to(ROOT / "packaging/qt-cocoa")
+                out.append((str(src), (Path("licenses/qt-cocoa") / relative.parent).as_posix()))
     return out
 
 
 a = Analysis(
     [str(ROOT / "packaging" / "launcher.py")],
-    pathex=[str(ROOT)],
+    pathex=[str(ROOT), str(ROOT / "packaging/diagnostics/mac_ax")],
     datas=data_files(),
     # registry.py finds registry_extra_*.py by listing its folder, so the whole package is collected
-    hiddenimports=collect_submodules("app") + collect_submodules("glcontext"),
+    hiddenimports=collect_submodules("app") + collect_submodules("glcontext")
+                  + ["tree_ax_repro", "mac_native_probe", "runtime_binary"],
     # the app has no web view and no QML since the model viewer replaced the Sketchfab player: leaving these out
     # keeps Chromium (Qt WebEngine) and the QML runtime out of the installers
     excludes=["tkinter", "matplotlib", "IPython", "PyQt5", "PyQt6", "pytest",
@@ -165,7 +171,7 @@ if sys.platform == "darwin":
             "CFBundleShortVersionString": VERSION,
             "CFBundleVersion": VERSION,
             "NSHighResolutionCapable": True,
-            "LSMinimumSystemVersion": "12.0",
+            "LSMinimumSystemVersion": "13.0",
             "LSApplicationCategoryType": "public.app-category.medical",
             "NSRequiresAquaSystemAppearance": False,
         },

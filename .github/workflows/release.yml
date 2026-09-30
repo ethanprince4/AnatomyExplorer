@@ -33,7 +33,7 @@ jobs:
     uses: ./.github/workflows/mac-diagnostics.yml
     with:
       # An explicit temporary PR label requests one bounded plugin experiment.
-      # It never waives the original runtime tree gate or allocates an installer.
+      # Shipping-runtime gates always remain strict; this only rebuilds provenance.
       ownership_candidate: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'qt-ownership-candidate') }}
   build:
     name: Build (${{ matrix.name }})
@@ -126,6 +126,18 @@ jobs:
       - name: Check frozen macOS runtime and Qt plugin
         if: runner.os == 'macOS'
         run: python packaging/check_runtime.py "packaging/dist/$APP_NAME.app/Contents/MacOS/AnatomyExplorer"
+
+      - name: Require final signed frozen Cocoa identity and selected-tree semantics
+        if: runner.os == 'macOS'
+        run: python packaging/check_cocoa.py "packaging/dist/$APP_NAME.app/Contents/MacOS/AnatomyExplorer"
+
+      - name: Preserve final frozen Cocoa evidence
+        if: always() && runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: frozen-mac-cocoa-controls
+          path: packaging/build/frozen-cocoa/
+          if-no-files-found: warn
 
       - name: Check real frozen Windows HTTPS with packaged roots
         if: runner.os == 'Windows'

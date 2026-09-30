@@ -184,7 +184,7 @@ class Repro(QWidget):
         QTimer.singleShot(self.args.interval_ms, lambda:self.auto_phase(number+1))
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--columns', type=int, choices=(1,2), default=2)
     ap.add_argument('--mode', choices=('plain','reveal','details','combined'), default='plain')
@@ -195,7 +195,7 @@ def main():
     ap.add_argument('--cycles', type=int, choices=range(1,51), default=1)
     ap.add_argument('--interval-ms', type=int, default=750)
     ap.add_argument('--report', type=Path)
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     if not 50 <= args.interval_ms <= 10000:
         ap.error('--interval-ms must be 50..10000')
     if args.native_probe and sys.platform != 'darwin':
