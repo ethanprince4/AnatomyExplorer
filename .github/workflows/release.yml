@@ -31,6 +31,10 @@ jobs:
   diagnostics:
     name: Mac diagnostic gate
     uses: ./.github/workflows/mac-diagnostics.yml
+    with:
+      # An explicit temporary PR label requests one bounded plugin experiment.
+      # It never waives the original runtime tree gate or allocates an installer.
+      ownership_candidate: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'qt-ownership-candidate') }}
   build:
     name: Build (${{ matrix.name }})
     # A failed source check prevents allocation of either expensive build runner.

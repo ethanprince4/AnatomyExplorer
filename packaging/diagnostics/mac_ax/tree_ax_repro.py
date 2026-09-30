@@ -1,6 +1,7 @@
 """Synthetic Qt tree/accessibility diagnostic. No anatomy data, GL or app imports."""
 import argparse
 import json
+import os
 import platform
 import sys
 import time
@@ -68,6 +69,9 @@ class Repro(QWidget):
         if sys.platform == 'darwin':
             from runtime_binary import loaded_qcocoa_identity
             self.emit('loaded_qcocoa', **loaded_qcocoa_identity())
+            if os.environ.get('QT_OWNERSHIP_PLUGIN_SHA256'):
+                from runtime_binary import ownership_runtime_identity
+                self.emit('ownership_runtime', **ownership_runtime_identity())
 
     def emit(self, event, **fields):
         self.sequence += 1

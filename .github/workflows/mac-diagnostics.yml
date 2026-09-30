@@ -1,7 +1,16 @@
 name: Mac blocker diagnostics
 on:
   workflow_call:
+    inputs:
+      ownership_candidate:
+        type: boolean
+        default: false
   workflow_dispatch:
+    inputs:
+      ownership_candidate:
+        description: 'Build and validate isolated unreleased Qt ownership repair (no installer/release)'
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -51,7 +60,7 @@ jobs:
           python packaging/diagnostics/mac_ax/run_matrix.py --single-plain --output packaging/build/mac-ax/plain-gate
           python packaging/diagnostics/mac_ax/run_matrix.py --output packaging/build/mac-ax/matrix
       - name: Disposable official Qt 6.8.3 semantic comparison
-        if: failure() && steps.native_tree.outcome == 'failure'
+        if: failure() && steps.native_tree.outcome == 'failure' && !inputs.ownership_candidate
         timeout-minutes: 4
         run: |
           # This isolated interpreter never changes requirements or the app runtime.
@@ -65,6 +74,35 @@ jobs:
           name: mac-tree-accessibility-controls
           path: packaging/build/mac-ax/
           if-no-files-found: warn
+  ownership:
+    name: Disposable matching Qt Cocoa ownership repair
+    if: inputs.ownership_candidate
+    needs: [gpu]
+    runs-on: macos-14
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Create disposable matching wheel runtime
+        run: |
+          python -m venv packaging/build/qt-ownership-runtime
+          packaging/build/qt-ownership-runtime/bin/python -m pip install PySide6==6.11.2
+      - name: Build only the Cocoa plugin and verify isolated semantic matrix
+        run: |
+          export PATH="$(pwd)/packaging/build/qt-ownership-runtime/bin:$PATH"
+          bash packaging/diagnostics/mac_ax/ownership_candidate/build.sh
+      - name: Preserve candidate provenance and sanitized semantic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Qt6112-ownership-candidate-diagnostic-only
+          path: packaging/build/qt-ownership/evidence/
+          if-no-files-found: warn
+          retention-days: 7
   package:
     name: Isolated one-action Mac diagnostic artifact
     needs: [gpu, tree]
