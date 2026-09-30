@@ -8,6 +8,15 @@ import sys
 import uuid
 
 
+def qt_framework_name(path):
+    """Identify the actual Qt framework, not a binding under Python.framework."""
+    path = Path(path)
+    for part in path.parts:
+        if part.startswith('Qt') and part.endswith('.framework') and path.name == part[:-10]:
+            return path.name
+    return None
+
+
 def ownership_runtime_identity():
     """Candidate-only loaded-file checks; report no filesystem paths."""
     expected = os.environ.get('QT_OWNERSHIP_PLUGIN_SHA256')
@@ -29,7 +38,7 @@ def ownership_runtime_identity():
         if path.name == 'libqcocoa.dylib':
             plugins.append({'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
                             'from_isolated_wheel': path.is_relative_to(wheel)})
-        elif '.framework/' in str(path) and path.name.startswith('Qt'):
+        elif qt_framework_name(path):
             frameworks.append({'name': path.name, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
                                'from_isolated_wheel': path.is_relative_to(wheel)})
         elif path.name.startswith('libQt') and path.suffix == '.dylib':
