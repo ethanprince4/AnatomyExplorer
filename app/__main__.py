@@ -99,7 +99,16 @@ def main():
     from .updater import mark_ready
     attach_updates(win)
     from PySide6.QtCore import QTimer
-    QTimer.singleShot(500, mark_ready)
+    def confirm_ready():
+        renderer = win.viewport.renderer
+        if win.viewport.isValid() and renderer is not None and renderer.frame_ok:
+            try:
+                mark_ready()
+            except OSError:
+                pass
+        else:
+            QTimer.singleShot(500, confirm_ready)
+    QTimer.singleShot(500, confirm_ready)
     return app.exec()
 
 

@@ -2,7 +2,10 @@ name: Updater safety tests
 on:
   pull_request:
   push:
-    branches: [main, 'updater/**']
+    branches: [main]
+concurrency:
+  group: updater-tests-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

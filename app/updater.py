@@ -359,7 +359,12 @@ class UpdateStore:
             stage_folder = self.versions / (identity + ".staging")
             stage = stage_folder / "Anatomy Explorer.app" if self.mac else stage_folder
             cache = self.root / "chunks"
+            for directory in (self.versions, cache, stage_folder):
+                if directory.is_symlink() or directory.resolve().parent != directory.parent.resolve():
+                    raise UpdateError("Unsafe update storage directory")
             self.versions.mkdir(exist_ok=True)
+            if self.versions.resolve().parent != self.root:
+                raise UpdateError("Unsafe versions directory")
             cache.mkdir(exist_ok=True)
             old = {e["path"]: e for e in installed["files"]}
             total = sum(e["size"] for e in manifest["files"])
@@ -437,6 +442,8 @@ class UpdateStore:
                         os.chmod(dest, e.get("mode", 0o644))
                 for link in manifest.get("symlinks", []):
                     p = stage / link["path"]
+                    if not p.parent.resolve().is_relative_to(stage.resolve()):
+                        raise UpdateError("Unsafe bundle symlink destination")
                     p.parent.mkdir(parents=True, exist_ok=True)
                     if p.is_symlink():
                         p.unlink()
@@ -506,13 +513,17 @@ class UpdateStore:
 
     def cleanup(self):
         """Only obsolete complete versions; never the base, active, previous or stage."""
-        state = self.state()
-        keep = {state.get(k) for k in ("current", "previous", "pending")}
-        if not self.versions.exists():
-            return
-        for path in self.versions.iterdir():
-            if ID_RE.fullmatch(path.name) and path.name not in keep and not path.is_symlink() and path.resolve().parent == self.versions.resolve():
-                shutil.rmtree(path, ignore_errors=True)
+        try:
+            with lock(self.root / "prepare.lock"):
+                state = self.state()
+                keep = {state.get(k) for k in ("current", "previous", "pending")}
+                if not self.versions.exists():
+                    return
+                for path in self.versions.iterdir():
+                    if ID_RE.fullmatch(path.name) and path.name not in keep and not path.is_symlink() and path.resolve().parent == self.versions.resolve():
+                        shutil.rmtree(path, ignore_errors=True)
+        except UpdateError:
+            return  # a preparing version may be complete but not yet published
 
 
 def store_for(base=None):
@@ -555,27 +566,40 @@ def launch_managed(arguments):
         for attempt in range(2):
             ready = store.root / (uuid.uuid4().hex + ".ready")
             env = dict(os.environ, AE_INSTALL_BASE=str(store.base), AE_READY_FILE=str(ready), PYINSTALLER_RESET_ENVIRONMENT="1")
+            executable = selected / ("Contents/MacOS/AnatomyExplorer" if store.mac else "AnatomyExplorer.exe")
             try:
-                executable = selected / ("Contents/MacOS/AnatomyExplorer" if store.mac else "AnatomyExplorer.exe")
                 child = subprocess.Popen([str(executable), "--ae-managed", *arguments], env=env)
-                confirmed = False
-                while child.poll() is None:
-                    if not confirmed and ready.exists():
-                        store.healthy()
-                        store.cleanup()
-                        confirmed = True
-                    time.sleep(0.25)
-                if ready.exists() and not confirmed:
-                    store.healthy()
-                    store.cleanup()
-                    confirmed = True
-                if confirmed or selected == store.base or attempt == 1:
-                    return child.returncode
             except OSError:
                 if selected == store.base or attempt == 1:
                     raise
+                store.rollback()
+                selected = store.active()
+                continue
+            try:
+                confirmed = False
+                while child.poll() is None:
+                    if not confirmed and ready.exists():
+                        confirmed = True
+                        try:
+                            store.healthy()
+                            store.cleanup()
+                        except (OSError, UpdateError):
+                            pass  # bookkeeping must never spawn over a live study process
+                    time.sleep(0.25)
+                if ready.exists() and not confirmed:
+                    confirmed = True
+                    try:
+                        store.healthy()
+                        store.cleanup()
+                    except (OSError, UpdateError):
+                        pass
+                if confirmed or selected == store.base or attempt == 1:
+                    return child.returncode
             finally:
-                ready.unlink(missing_ok=True)
+                try:
+                    ready.unlink(missing_ok=True)
+                except OSError:
+                    pass
             store.rollback()
             selected = store.active()
         return 1

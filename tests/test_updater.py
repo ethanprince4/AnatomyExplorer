@@ -39,7 +39,7 @@ class LocalSource:
 class UpdaterTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
-        self.root = Path(self.temp.name)
+        self.root = Path(self.temp.name).resolve()
         self.base = self.root / "install"
         self.next = self.root / "candidate"
         self.packs = self.root / "packs"
@@ -211,7 +211,7 @@ class UpdaterTests(unittest.TestCase):
 class MacBundleTests(unittest.TestCase):
     def test_signed_bundle_incremental_reconstruction(self):
         with tempfile.TemporaryDirectory() as d:
-            root = Path(d)
+            root = Path(d).resolve()
             base = root / "original/Anatomy Explorer.app"
             (base / "Contents/MacOS").mkdir(parents=True)
             (base / "Contents/Resources/data").mkdir(parents=True)
