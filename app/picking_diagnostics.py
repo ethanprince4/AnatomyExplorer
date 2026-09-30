@@ -226,6 +226,7 @@ def control_localization(uniform, attribute, production=None):
 def sample_id_pixel(renderer, gl, x, y):
     import moderngl
     before = gl.state()
+    before_viewport = tuple(renderer.ctx.viewport)
     rgba = np.full(4, np.nan, np.float32)
     read_exception = None
     try:
@@ -236,9 +237,21 @@ def sample_id_pixel(renderer, gl, x, y):
     raw_after = gl.state()
     value = renderer._read_float(x, y, 2)
     scalar_errors = gl.errors()
+    after_scalar = gl.state()
+    scalar_viewport = tuple(renderer.ctx.viewport)
     picked = renderer.pick(x, y)
+    after_pick = gl.state()
+    pick_viewport = tuple(renderer.ctx.viewport)
+    bindings = ("DRAW_FRAMEBUFFER_BINDING", "READ_FRAMEBUFFER_BINDING")
+    restored = (all(after_scalar[key] == before[key] and after_pick[key] == before[key]
+                    for key in bindings)
+                and scalar_viewport == before_viewport and pick_viewport == before_viewport)
     return {"pixel": [x, y], "raw_rgba": rgba.tolist(), "production_scalar": value,
             "production_pick": picked, "errors": raw_errors + scalar_errors + gl.errors(),
+            "production_state_restored": restored,
+            "after_production_scalar": after_scalar, "after_production_pick": after_pick,
+            "viewport_before": before_viewport, "viewport_after_scalar": scalar_viewport,
+            "viewport_after_pick": pick_viewport,
             "read_exception": read_exception, "before_read": before, "after_raw_read": raw_after,
             "native_fixed_only": gl.reference_read(renderer, x, y, GL["FIXED_ONLY"]),
             "native_unclamped": gl.reference_read(renderer, x, y, 0)}
@@ -291,6 +304,7 @@ def production_gpu_controls(renderer):
             depth_errors = gl.errors()
             passed = (renderer.frame_ok and not render_errors and not depth_errors
                       and not occupied["errors"] and not background["errors"]
+                      and occupied["production_state_restored"] and background["production_state_restored"]
                       and occupied["native_unclamped"]["rgba"][0] == encoded
                       and not occupied["native_unclamped"]["errors"]
                       and occupied["production_scalar"] == encoded
