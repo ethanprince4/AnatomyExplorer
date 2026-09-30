@@ -103,7 +103,8 @@ def verify_source():
     require((ROOT / '.github/workflows/release.yml').read_text() == original.replace(before, after),
             'Release workflow changes exceed reviewed artifact filter')
     pull = api('pulls/7')
-    require(pull['merged'] and pull['merge_commit_sha'] == head, 'PR7 must be merged at dispatch commit')
+    require(pull['merged'], 'PR7 must be merged before publication')
+    subprocess.run(['git', 'merge-base', '--is-ancestor', pull['merge_commit_sha'], head], check=True)
     return head, sorted(changed)
 
 
@@ -147,6 +148,62 @@ def extract_verified(archive, item, output):
     return manifest
 
 
+def verify_inventory(release, inventory):
+    actual = {asset['name']: asset for asset in release['assets']}
+    require(len(actual) == len(release['assets']) and set(actual) == set(inventory),
+            'Published asset inventory differs')
+    for name, expected in inventory.items():
+        require(actual[name]['size'] == expected['bytes']
+                and actual[name].get('digest') == 'sha256:' + expected['sha256']
+                and actual[name]['state'] == 'uploaded',
+                'Uploaded asset size/hash differs: ' + name)
+    return actual
+
+
+def publish_verified(release, inventory, target):
+    actual = verify_inventory(release, inventory)
+    gh('release', 'edit', TAG, '--repo', REPO, '--draft=false', '--latest')
+    release = api(f"releases/{release['id']}")
+    latest = api('releases/latest')
+    require(not release['draft'] and not release['prerelease']
+            and latest['tag_name'] == TAG, 'Release publication/latest confirmation failed')
+    require(api(f'git/ref/tags/{TAG}')['object']['sha'] == target, 'Release tag points elsewhere')
+    print(json.dumps({'published': release['html_url'], 'release_commit': target,
+                      'assets': len(actual), 'verified_exact_candidate': True,
+                      'installers': {item['platform']: actual[item['name']]['browser_download_url']
+                                     for item in ARTIFACTS}}, indent=2), flush=True)
+
+
+def finish_existing(release, work):
+    """Verify the completed original upload without rebuilding or redownloading it."""
+    gh('release', 'download', TAG, '--repo', REPO, '--dir', str(work),
+       '--pattern', '*-update.json', '--pattern', 'AnatomyExplorer-3.1.2-provenance.json')
+    provenance_path = work / 'AnatomyExplorer-3.1.2-provenance.json'
+    provenance = json.loads(provenance_path.read_text())
+    merge = api('pulls/7')['merge_commit_sha']
+    require(provenance['tested_source'] == SOURCE and provenance['verified_run'] == RUN
+            and provenance['artifacts'] == list(ARTIFACTS)
+            and provenance['release_commit'] == merge and release['target_commitish'] == merge
+            and provenance['no_application_changes_after_testing'] is True,
+            'Existing draft provenance differs from the verified candidate')
+    inventory = provenance['assets']
+    expected_names = {item['name'] for item in ARTIFACTS}
+    for item in ARTIFACTS:
+        manifest = validate_manifest(json.loads((work / item['manifest']).read_text()))
+        require(manifest['version'] == '3.1.2' and manifest['release_tag'] == TAG
+                and manifest.get('channel', 'stable') == 'stable'
+                and manifest['platform'] == item['platform'], 'Existing feed identity differs')
+        expected_names.update({item['manifest'], *manifest['packs']})
+        require(digest(work / item['manifest']) == inventory[item['manifest']]['sha256'],
+                'Existing manifest digest differs from pinned upload inventory')
+        for name, size in manifest['packs'].items():
+            require(inventory[name]['bytes'] == size, 'Existing pack size differs')
+    require(set(inventory) == expected_names, 'Existing draft contains nonrelease files')
+    inventory[provenance_path.name] = {'bytes': provenance_path.stat().st_size,
+                                      'sha256': digest(provenance_path)}
+    publish_verified(release, inventory, merge)
+
+
 def main():
     head, changed = verify_source()
     gates = verify_run()
@@ -156,6 +213,9 @@ def main():
             'Existing public release must never be replaced')
     work = ROOT / 'packaging/build/promote-3.1.2'
     work.mkdir(parents=True, exist_ok=False)
+    if existing and existing[0]['assets']:
+        finish_existing(existing[0], work)
+        return
     assets = work / 'assets'
     assets.mkdir()
     manifests = {}
@@ -196,24 +256,10 @@ def main():
     for start in range(0, len(paths), 8):
         print('Uploading release assets:', start + 1, 'of', len(paths), flush=True)
         gh('release', 'upload', TAG, '--repo', REPO, *map(str, paths[start:start + 8]))
-    release = api(f'releases/tags/{TAG}')
-    actual = {asset['name']: asset for asset in release['assets']}
-    require(set(actual) == set(inventory), 'Published asset inventory differs')
-    for name, expected in inventory.items():
-        require(actual[name]['size'] == expected['bytes']
-                and actual[name].get('digest') == 'sha256:' + expected['sha256'],
-                'Uploaded asset size/hash differs: ' + name)
+    # Draft releases have no public tag yet; query their stable numeric ID.
+    release = next(value for value in api('releases?per_page=100') if value['tag_name'] == TAG)
     # This is the first public operation, after all immutable artifacts and uploads passed.
-    gh('release', 'edit', TAG, '--repo', REPO, '--draft=false', '--latest')
-    release = api(f'releases/tags/{TAG}')
-    latest = api('releases/latest')
-    require(not release['draft'] and not release['prerelease']
-            and latest['tag_name'] == TAG, 'Release publication/latest confirmation failed')
-    require(api(f'git/ref/tags/{TAG}')['object']['sha'] == head, 'Release tag points elsewhere')
-    print(json.dumps({'published': release['html_url'], 'release_commit': head,
-                      'assets': len(actual), 'verified_exact_candidate': True,
-                      'installers': {item['platform']: actual[item['name']]['browser_download_url']
-                                     for item in ARTIFACTS}}, indent=2), flush=True)
+    publish_verified(release, inventory, head)
 
 
 if __name__ == '__main__':

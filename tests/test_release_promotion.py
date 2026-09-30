@@ -65,6 +65,23 @@ class ReleasePromotionTests(unittest.TestCase):
                     PROMOTE.extract_verified(archive, item, output)
                 self.assertFalse(list(output.iterdir()))
 
+    def test_uploaded_inventory_requires_exact_names_size_hash_and_completion(self):
+        import copy
+        inventory = {'installer.exe': {'bytes': 100, 'sha256': 'a' * 64}}
+        release = {'assets': [{'name': 'installer.exe', 'size': 100,
+                              'digest': 'sha256:' + 'a' * 64, 'state': 'uploaded'}]}
+        self.assertEqual(set(PROMOTE.verify_inventory(release, inventory)), {'installer.exe'})
+        for field, value in (('name', 'controls.json'), ('size', 99),
+                             ('digest', 'sha256:' + 'b' * 64), ('state', 'new')):
+            with self.subTest(field=field):
+                changed = copy.deepcopy(release)
+                changed['assets'][0][field] = value
+                with self.assertRaises(RuntimeError):
+                    PROMOTE.verify_inventory(changed, inventory)
+        for assets in ([], release['assets'] * 2):
+            with self.subTest(assets=assets), self.assertRaises(RuntimeError):
+                PROMOTE.verify_inventory({'assets': assets}, inventory)
+
 
 if __name__ == '__main__':
     unittest.main()
