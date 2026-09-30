@@ -7,6 +7,7 @@ schedule: answer it well and the gap before it comes back grows; miss it and the
 The schedule lives beside the hit/miss counts in data/user/quiz_stats.json, so nothing else has to change.
 """
 import datetime
+import math
 
 MIN_EASE = 1.3
 START_EASE = 2.5
@@ -14,6 +15,43 @@ GRADE_WRONG = 1
 GRADE_HELPED = 3
 GRADE_GOOD = 4
 GRADE_EASY = 5
+
+
+def _count(value, default=0):
+    try:
+        return max(0, int(value)) if not isinstance(value, bool) else default
+    except (ValueError, TypeError, OverflowError):
+        return default
+
+
+def normalize_stats(raw):
+    """Keep recognizable history while removing fields that break study controls."""
+    if not isinstance(raw, dict):
+        return {}
+    out = {}
+    for key, value in raw.items():
+        if not isinstance(value, dict):
+            continue
+        stat = dict(value)
+        stat["miss"] = _count(stat.get("miss", 0))
+        stat["seen"] = max(_count(stat.get("seen", 0)), stat["miss"])
+        for field in ("reps", "interval", "lapses"):
+            if field in stat:
+                stat[field] = _count(stat[field])
+        if "ease" in stat:
+            try:
+                ease = float(stat["ease"])
+                stat["ease"] = ease if math.isfinite(ease) and ease > 0 else START_EASE
+            except (ValueError, TypeError, OverflowError):
+                stat["ease"] = START_EASE
+        if "history" in stat:
+            history = stat["history"]
+            stat["history"] = [x for x in history if isinstance(x, str)] if isinstance(history, list) else []
+        for field in ("due", "last"):
+            if field in stat and not isinstance(stat[field], str):
+                stat.pop(field)
+        out[key] = stat
+    return out
 
 
 def today():
@@ -39,9 +77,10 @@ def grade_for(correct, helped, wrong_attempts=0):
 def update(stat, grade, day=None):
     """Advance one structure's schedule in place and return it."""
     day = day or today()
+    max_interval = (datetime.date.max - day).days
     ease = float(stat.get("ease", START_EASE))
     reps = int(stat.get("reps", 0))
-    interval = float(stat.get("interval", 0))
+    interval = min(_count(stat.get("interval", 0)), max_interval)
     if grade < 3:
         reps = 0
         interval = 1
@@ -53,12 +92,12 @@ def update(stat, grade, day=None):
         elif reps == 2:
             interval = 4
         else:
-            interval = max(1.0, round(interval * ease))
+            interval = max(1, round(min(max_interval, interval * ease)))
         ease = max(MIN_EASE, ease + (0.1 - (5 - grade) * (0.08 + (5 - grade) * 0.02)))
     stat["ease"] = round(ease, 3)
     stat["reps"] = reps
-    stat["interval"] = int(interval)
-    stat["due"] = (day + datetime.timedelta(days=int(interval))).isoformat()
+    stat["interval"] = min(int(interval), max_interval)
+    stat["due"] = (day + datetime.timedelta(days=stat["interval"])).isoformat()
     stat["last"] = day.isoformat()
     stat.setdefault("history", [])
     stat["history"] = (stat["history"] + [day.isoformat()])[-40:]

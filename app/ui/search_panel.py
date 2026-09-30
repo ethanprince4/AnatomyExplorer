@@ -167,6 +167,9 @@ class SearchPanel(QWidget):
         self.queryActive.emit(True)
 
     def _navigate(self, step):
+        if self._timer.isActive():
+            self._timer.stop()
+            self._run()
         if self.list.count() == 0:
             return
         row = max(0, min(self.list.count() - 1, self.list.currentRow() + step))

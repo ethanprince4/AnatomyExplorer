@@ -1,0 +1,61 @@
+name: Updater safety tests
+on:
+  pull_request:
+  push:
+    branches: [main]
+concurrency:
+  group: updater-tests-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  updater:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-14, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test update failures and recovery
+        run: python -m unittest discover -s tests -p 'test_updater.py' -v
+  picking:
+    name: App regressions (${{ matrix.os }})
+    env:
+      QT_QPA_PLATFORM: offscreen
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-14]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - name: List LFS objects
+        shell: bash
+        run: git lfs ls-files --long | cut -d ' ' -f1 | sort > .lfs-assets-id
+      - name: Restore atlas fixture cache
+        uses: actions/cache@v4
+        with:
+          path: .git/lfs
+          key: lfs-${{ hashFiles('.lfs-assets-id') }}
+          enableCrossOsArchive: true
+      - name: Fetch regression atlas fixtures
+        shell: bash
+        run: |
+          git lfs pull
+          if git lfs ls-files | grep -q ' - '; then echo "some LFS files were not fetched"; exit 1; fi
+          rm .lfs-assets-id
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Test picking, study recovery and general bug fixes
+        run: python -m unittest discover -s tests -v

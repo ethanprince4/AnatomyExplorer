@@ -279,6 +279,11 @@ class HistologyViewer(QWidget):
         self.strip.setSpacing(4)
         self.strip.currentRowChanged.connect(lambda r: r >= 0 and r != self.index and self.show_image(r))
         lay.addWidget(self.strip)
+        from PySide6.QtGui import QKeySequence, QShortcut
+        for key, direction in (("PgDown", 1), ("PgUp", -1)):
+            shortcut = QShortcut(QKeySequence(key), self)
+            shortcut.setContext(Qt.WidgetWithChildrenShortcut)
+            shortcut.activated.connect(lambda direction=direction: self.step(direction))
 
     def on_activated(self, info):
         self.info = info
@@ -366,3 +371,13 @@ class HistologyViewer(QWidget):
                 + (f"<p class='overline'>RELATED TISSUES</p><p>{sib}</p>" if sib else "")
                 + "<p class='muted'>Images from Wikimedia Commons; see each image caption for author and licence.</p>")
         self.info.show_html(f"<h1>{esc(t['name'])}</h1>", body)
+
+    def figure_caption(self):
+        """Metadata for the actual image shown in this viewer."""
+        tissue = self.tissue or {}
+        images = tissue.get("images", [])
+        image = images[self.index] if 0 <= self.index < len(images) else {}
+        title = image.get("title") or tissue.get("name") or "Histology figure"
+        bits = [name for name in (tissue.get("name"), "Diagram" if image.get("diagram") else "Micrograph") if name]
+        credit = " · ".join(str(image[field]) for field in ("author", "license", "source") if image.get(field))
+        return title, bits, credit or "Anatomy Explorer · Histology"

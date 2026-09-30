@@ -6,7 +6,6 @@ as one. Per-structure results are kept in data/user/quiz_stats.json and used to 
 "Hunt" is the deep-end mode: the whole body is switched on, nothing is named anywhere on screen, and the only
 way in is to right-click structures away one at a time until you can see what you are looking for. Three
 wrong clicks end the question, and it then shows the answer and names the three things you actually clicked."""
-import json
 import random
 import re
 import time
@@ -19,7 +18,10 @@ from PySide6.QtWidgets import (QCheckBox, QComboBox, QCompleter, QDockWidget, QF
 
 from ..config import USER_DIR
 from .. import srs
+from ..storage import load_json, write_json
 from . import theme
+from .study_colors import highlight, restore_colors
+from .study_scene import capture_scene, restore_scene
 
 STATS_PATH = USER_DIR / "quiz_stats.json"
 EXCLUDED_SYSTEMS = {"attachments", "regions", "reference"}
@@ -260,11 +262,7 @@ class QuizController:
         self.active = False
         self.dock = None
         self.panel = None
-        self.stats = {}
-        try:
-            self.stats = json.loads(STATS_PATH.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            self.stats = {}
+        self.stats, self._stats_backup = load_json(STATS_PATH, srs.normalize_stats)
         self._saved = {}
         self._flash_timer = QTimer()
         self._flash_timer.setSingleShot(True)
@@ -302,7 +300,7 @@ class QuizController:
 
     def _dock_visibility(self, visible):
         if not visible and self.active and not self.dock.isFloating() and not self.win.isMinimized():
-            QTimer.singleShot(0, lambda: self.stop() if self.dock and not self.dock.isVisible() else None)
+            QTimer.singleShot(0, self.dock, lambda: self.stop() if self.dock and not self.dock.isVisible() else None)
 
     def toggle(self):
         if self.active:
@@ -316,12 +314,21 @@ class QuizController:
 
     def save_stats(self):
         try:
-            STATS_PATH.parent.mkdir(parents=True, exist_ok=True)
-            STATS_PATH.write_text(json.dumps(self.stats, indent=0), encoding="utf-8")
-        except OSError:
-            pass
+            write_json(STATS_PATH, self.stats, indent=0, backup=self._stats_backup)
+            self._stats_backup = False
+            status = getattr(self.win, "statusBar", None)
+            if status is not None and status().currentMessage().startswith("Could not save study results:"):
+                status().clearMessage()
+            return True
+        except OSError as exc:
+            status = getattr(self.win, "statusBar", None)
+            if status is not None:
+                status().showMessage(f"Could not save study results: {exc}", 10000)
+            return False
 
     def open(self):
+        if self.active:
+            self.stop()
         if self._delegate_live():
             self.delegate.stop()
         self._ensure_dock()
@@ -329,7 +336,7 @@ class QuizController:
         self._saved = {k: self.win.settings.get(k) for k in ("show_landmarks", "show_hover_tooltip")}
         self._saved["details_visible"] = self.win.right_dock.isVisible()
         self._saved["explore_visible"] = self.win.left_dock.isVisible()
-        self._vis_snapshot = self.state._snapshot()
+        self._vis_snapshot = capture_scene(self.win)
         self.win.right_dock.hide()
         self.dock.show()
         self.dock.raise_()
@@ -348,10 +355,7 @@ class QuizController:
         self._restore_settings()
         snap = getattr(self, "_vis_snapshot", None)
         if snap is not None:
-            st = self.state
-            st.restore(snap)
-            st.clear_selection()
-            st._vis_dirty()
+            restore_scene(self.win, snap)
             self._vis_snapshot = None
         self._peeled = []
         if self.panel is not None:
@@ -359,10 +363,8 @@ class QuizController:
             self.panel.unhide_btn.hide()
         if self.dock is not None:
             self.dock.hide()
-        if self._saved.get("details_visible", True):
-            self.win.right_dock.show()
-        if self._saved.get("explore_visible", True):
-            self.win.left_dock.show()
+        self.win.right_dock.setVisible(self._saved.get("details_visible", True))
+        self.win.left_dock.setVisible(self._saved.get("explore_visible", True))
         self.current = None
 
     def names_hidden(self):
@@ -547,7 +549,9 @@ class QuizController:
 
     def show_progress(self):
         from .progress import ProgressDialog
-        ProgressDialog(self.stats, self.win).exec()
+        lp = self.win.lessons_panel
+        ProgressDialog(self.stats, lp.lessons if lp is not None else None,
+                       lp.progress if lp is not None else None, self.win).exec()
 
     def start(self, bases=None):
         p = self.panel
@@ -780,7 +784,7 @@ class QuizController:
         self.state.force_show(sids)
         self.state.select(sids)
         self.state.set_ghost_focus(sids)
-        self.state.set_custom_color(sids, color)
+        self._marked_colors = highlight(self.state, sids, color, getattr(self, "_marked_colors", None))
         self._marked = list(sids)
         self.win.viewport.frame_structures(sids)
         self.panel.prompt.setText(cur["base"])
@@ -788,8 +792,9 @@ class QuizController:
     def _clear_marks(self):
         marked = getattr(self, "_marked", [])
         if marked:
-            self.state.set_custom_color(marked, None)
+            restore_colors(self.state, getattr(self, "_marked_colors", {}))
         self._marked = []
+        self._marked_colors = {}
 
     # ------------------------------------------------------------------ answers
     def handle_click(self, sid, modifiers=None):
@@ -845,13 +850,15 @@ class QuizController:
     def _flash_structures(self, sids, color):
         self._clear_flash()
         self._flash = [s for s in sids if s not in getattr(self, "_marked", [])]
-        self.state.set_custom_color(self._flash, color)
+        self._flash_colors = highlight(self.state, self._flash, color)
         self._flash_timer.start(900)
 
     def _clear_flash(self):
+        self._flash_timer.stop()
         if self._flash:
-            self.state.set_custom_color(self._flash, None)
+            restore_colors(self.state, getattr(self, "_flash_colors", {}))
         self._flash = []
+        self._flash_colors = {}
 
     def answer_choice(self, i):
         cur = self.current

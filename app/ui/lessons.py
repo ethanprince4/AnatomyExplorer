@@ -80,6 +80,8 @@ class StepBar(QWidget):
 
 
 class LessonsPanel(QWidget):
+    saveFailed = Signal(str)
+    saveSucceeded = Signal()
     stepRequested = Signal(object)          # the step dict to apply to the scene
     lessonOpened = Signal(object)           # Lesson
     lessonClosed = Signal()
@@ -94,7 +96,7 @@ class LessonsPanel(QWidget):
         self.ref_titles = {}                    # scheme -> {id: readable name}, for the "where next" links
         self.lesson = None
         self.index = 0
-        self.progress = LessonProgress()
+        self.progress = LessonProgress(on_save_error=self.saveFailed.emit, on_saved=self.saveSucceeded.emit)
         self.has_course = any(x.unit_key for x in lessons)
         self.group_by = "course" if self.has_course else "system"
         self.answer_shown = False

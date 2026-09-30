@@ -5,13 +5,14 @@ from datetime import datetime
 from pathlib import Path
 
 import numpy as np
-from PySide6.QtCore import QEvent, QSettings, QSize, QStandardPaths, Qt, QTimer, QUrl
+from PySide6.QtCore import QByteArray, QEvent, QSettings, QSize, QStandardPaths, Qt, QTimer, QUrl
 from PySide6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QGuiApplication, QKeySequence
 from PySide6.QtWidgets import (QApplication, QColorDialog, QDockWidget, QFileDialog, QInputDialog, QLabel,
                                QListWidget, QMainWindow, QMenu, QMessageBox, QPushButton, QSizePolicy, QSplitter,
                                QTabWidget, QToolButton, QVBoxLayout, QWidget, QDialog, QHBoxLayout)
 
 from .actions import ActionRegistry
+from .camera import OrbitCamera
 from .config import APP_NAME, DEFAULT_SETTINGS, ORG_NAME
 from .content import ContentIndex
 from .search import SearchIndex
@@ -28,18 +29,63 @@ from .ui.view_panel import DISSECTION_STOPS, ViewPanel
 from .viewport import VIEWS, Viewport
 
 
+# Match the numeric domains offered by SettingsDialog's controls. A finite
+# number can still be unusable (zero FOV, negative scale, or huge resolution).
+_SETTING_LIMITS = {
+    "fov": (15, 70), "camera_duration": (0, 1.5), "key_orbit_step": (1, 45),
+    "auto_rotate_speed": (2, 90), "orbit_sensitivity": (0.05, 1.5),
+    "pan_sensitivity": (0.2, 3), "zoom_sensitivity": (0.2, 3),
+    "trackpad_swipe_sensitivity": (0.2, 3), "trackpad_pinch_sensitivity": (0.2, 3),
+    "ui_scale": (0.8, 1.6), "details_scale": (0.8, 1.8), "label_size": (6, 16),
+    "max_landmarks": (5, 150), "render_scale": (0.5, 2),
+    "ssao_strength": (0, 1.5), "ghost_alpha": (0.02, 0.5),
+}
+
+
+def _validated_settings(saved):
+    """Keep known preferences with the types their controls and renderer accept."""
+    if not isinstance(saved, dict):
+        return {}
+    valid = {}
+    for key, value in saved.items():
+        if key not in DEFAULT_SETTINGS:
+            continue
+        default = DEFAULT_SETTINGS[key]
+        if type(default) in (int, float):
+            if type(value) not in (int, float):
+                continue
+            try:
+                if not math.isfinite(value):
+                    continue
+            except OverflowError:
+                continue
+            limits = _SETTING_LIMITS.get(key)
+            if limits is not None and not limits[0] <= value <= limits[1]:
+                continue
+            if type(default) is int:
+                if value != int(value):
+                    continue
+                value = int(value)  # integer controls can be saved through a float-valued slider
+        elif type(value) is not type(default):
+            continue
+        if key == "color_mode" and value not in (0, 1, 2):
+            continue
+        valid[key] = value
+    return valid
+
+
 class MainWindow(QMainWindow):
-    def __init__(self, ds, script=None):
+    def __init__(self, ds, script=None, restore=True):
         super().__init__()
         self._borderless = False        # before anything that can reach the event filter
         self._pre_borderless = None
         self.ds = ds
         self.setWindowTitle(APP_NAME)
-        self.qsettings = QSettings(ORG_NAME, APP_NAME)
+        self.qsettings = QSettings(QSettings.defaultFormat(), QSettings.UserScope, ORG_NAME, APP_NAME)
         self.settings = dict(DEFAULT_SETTINGS)
         try:
             saved = json.loads(self.qsettings.value("view_settings", "{}"))
-            self.settings.update({k: v for k, v in saved.items() if k in DEFAULT_SETTINGS})
+            self.settings.update(_validated_settings(saved))
         except (TypeError, ValueError):
             pass
         apply_theme(QApplication.instance(), float(self.settings["ui_scale"]))
@@ -122,6 +168,11 @@ class MainWindow(QMainWindow):
             if lessons:
                 self.lesson_resolver = Resolver(ds, self.index)
                 self.lessons_panel = LessonsPanel(lessons)
+                self.lessons_panel.saveFailed.connect(
+                    lambda message: self.statusBar().showMessage(f"Could not save lesson progress: {message}", 10000))
+                self.lessons_panel.saveSucceeded.connect(
+                    lambda: self.statusBar().clearMessage()
+                    if self.statusBar().currentMessage().startswith("Could not save lesson progress:") else None)
                 self.tabs.addTab(self.lessons_panel, "Lessons")
                 self.lessons_panel.stepRequested.connect(self.apply_lesson_step)
                 self.lessons_panel.lessonClosed.connect(self._lesson_closed)
@@ -201,7 +252,7 @@ class MainWindow(QMainWindow):
         self.view_panel.clipChanged.connect(self.viewport.refresh_section)
         self.view_panel.depthChanged.connect(self.on_depth_changed)
         self.viewport.measureChanged.connect(
-            lambda text: self.statusBar().showMessage(text, 0) if text else self.statusBar().clearMessage())
+            lambda text: self._on_measure_changed(self.viewport, text))
         self.view_panel.sectionPicked.connect(lambda sid: self.select_and_focus([sid], frame=False))
         if self.radiology_panel is not None:
             self.radiology_panel.structuresPicked.connect(self.on_radiology_pick)
@@ -214,21 +265,20 @@ class MainWindow(QMainWindow):
         self.state.selection_changed.connect(self._on_selection_changed)
 
         self._default_window_state = self.saveState()
-        geo = self.qsettings.value("geometry")
-        if geo is not None:
-            self.restoreGeometry(geo)
-        else:
+        layout_types = (QByteArray, bytes, bytearray, memoryview)
+        geo = self.qsettings.value("geometry") if restore else None
+        if not isinstance(geo, layout_types) or not self.restoreGeometry(geo):
             scr = QGuiApplication.primaryScreen().availableGeometry()
             self.resize(int(scr.width() * 0.88), int(scr.height() * 0.88))
-        st = self.qsettings.value("window_state")
-        if st is not None:
+        st = self.qsettings.value("window_state") if restore else None
+        if isinstance(st, layout_types):
             self.restoreState(st)
         self.dock_side_panels()
         self._update_counts()
         self._script = [c.strip() for c in script.split(";") if c.strip()] if script else None
-        self._restore_pending = bool(self.settings.get("restore_session")) and not script
-        if str(self.qsettings.value("borderless", "0")).lower() in ("1", "true"):
-            QTimer.singleShot(0, lambda: self.set_borderless(True))
+        self._restore_pending = restore and bool(self.settings.get("restore_session")) and not script
+        if restore and str(self.qsettings.value("borderless", "0")).lower() in ("1", "true"):
+            QTimer.singleShot(0, self, lambda: self.set_borderless(True))
 
     # ------------------------------------------------------------------ actions, menus, toolbar
     def _register_actions(self):
@@ -282,8 +332,8 @@ class MainWindow(QMainWindow):
         reg("clip_coronal", lambda: mv().toggle_section(1) if mv() else self.view_panel.toggle_clip(1))
         reg("clip_transverse", lambda: mv().toggle_section(2) if mv() else self.view_panel.toggle_clip(2))
         # the model viewer's own commands: they act on the model in front and do nothing in the atlas
-        reg("model_next_view", lambda: mv() and mv().step_view(1))
-        reg("model_prev_view", lambda: mv() and mv().step_view(-1))
+        reg("model_next_view", lambda: mv() and mv().step_view(1)).setEnabled(False)
+        reg("model_prev_view", lambda: mv() and mv().step_view(-1)).setEnabled(False)
         reg("model_projection", lambda: mv() and mv().toggle_projection())
         reg("model_state", lambda: mv() and mv().toggle_state())
         reg("model_play", lambda: mv() and mv().toggle_play())
@@ -518,6 +568,7 @@ class MainWindow(QMainWindow):
             if self.depth_index.depth is not None:
                 self.state.depth = self.depth_index.depth
                 self.info.depth = self.depth_index.depth
+                self.state._vis_dirty()
                 self.view_panel.enable_depth(True)
             elif not getattr(self.depth_index, "failed", False):
                 done = False
@@ -541,6 +592,8 @@ class MainWindow(QMainWindow):
             if cut > 0.0 or band > 0.0:
                 self.statusBar().showMessage(f"Dissection {cut * 100:.0f}% deep · {peeled:,} structures removed · "
                                              f"{visible:,} visible", 4000)
+            elif self.statusBar().currentMessage().startswith("Dissection "):
+                self.statusBar().clearMessage()
 
     def _on_frame(self, ms):
         if not self.settings.get("show_perf", True):
@@ -567,12 +620,27 @@ class MainWindow(QMainWindow):
         self.hover_label.setText(f"{s['name']}{side}{extra}")
 
     def _update_counts(self):
-        tris, n = self.state.visible_triangle_count()
-        self.count_label.setText(f"{n:,} structures · {tris / 1e6:.2f} M triangles visible")
-        self.xray_action.setChecked(self.state.ghost_focus is not None)
+        mv = self.active_model_view()
+        if mv is not None:
+            tris, n = mv.state.visible_triangle_count()
+            self.count_label.setText(f"{n:,} {'part' if n == 1 else 'parts'} · {tris:,} triangles visible")
+            self.xray_action.setChecked(mv.state.ghost_focus is not None)
+        elif self.center.currentWidget() in (self.viewport, self.anatomy_tab):
+            tris, n = self.state.visible_triangle_count()
+            self.count_label.setText(f"{n:,} structures · {tris / 1e6:.2f} M triangles visible")
+            self.xray_action.setChecked(self.state.ghost_focus is not None)
+        else:
+            self.count_label.clear()
+            self.xray_action.setChecked(False)
 
     def _on_selection_changed(self):
-        n = len(self.state.selected)
+        mv = self.active_model_view()
+        if mv is not None:
+            n = len(mv.state.selected)
+        elif self.center.currentWidget() in (self.viewport, self.anatomy_tab):
+            n = len(self.state.selected)
+        else:
+            n = 0
         self.sel_label.setText(f"{n} selected" if n else "")
 
     def _on_query_active(self, active):
@@ -761,12 +829,18 @@ class MainWindow(QMainWindow):
     def _center_changed(self, index):
         w = self.center.widget(index)
         mv = self.active_model_view()
+        for key in ("model_next_view", "model_prev_view"):
+            self.cmds.actions[key].setEnabled(mv is not None)
         self.xray_action.setChecked(mv.state.ghost_focus is not None if mv else self.state.ghost_focus is not None)
         self.auto_rotate_action.setChecked(self.active_viewport().auto_rotate)
+        vp = self._measurement_viewport()
+        self._on_measure_changed(vp, vp.measure_text() if vp is not None else "")
         if hasattr(w, "on_activated"):
             w.on_activated(self.info)
-        elif w in (self.viewport, self.anatomy_tab) and self.state.selected:
+        elif w in (self.viewport, self.anatomy_tab):
             self.info.show_structures(self.state.selected)
+        self._update_counts()
+        self._on_selection_changed()
 
     # ------------------------------------------------------------------ history
     def _record(self, entry):
@@ -1115,7 +1189,6 @@ class MainWindow(QMainWindow):
             try:
                 view = ModelView(entry, self.content, self.settings)
             except Exception as exc:                      # noqa: BLE001 - a bad file must not take the app down
-                QApplication.restoreOverrideCursor()
                 self.statusBar().showMessage(f"Could not open {entry.name}: {exc}", 8000)
                 import traceback
                 traceback.print_exc()
@@ -1125,7 +1198,7 @@ class MainWindow(QMainWindow):
             self.statusBar().clearMessage()
             g = view.gl_widget
             g.measureChanged.connect(
-                lambda text: self.statusBar().showMessage(text, 0) if text else self.statusBar().clearMessage())
+                lambda text, vp=g: self._on_measure_changed(vp, text))
             g.hoverChanged.connect(lambda sid, v=view: self._on_model_hover(v, sid))
             g.frameTimed.connect(self._on_frame)
             g.historyRequested.connect(self.navigate)
@@ -1136,6 +1209,7 @@ class MainWindow(QMainWindow):
             view.openMicro.connect(self.open_micro)
             view.atlasRequested.connect(self._atlas_structures)
             view.state.visibility_changed.connect(self._update_model_actions)
+            view.state.selection_changed.connect(self._on_selection_changed)
             self.micro_tabs[model_id] = view
             label = "3D · " if entry.kind != "procedural" else "Micro · "
             self.center.addTab(view, f"{label}{entry.name}".replace("&", "&&"))
@@ -1153,9 +1227,7 @@ class MainWindow(QMainWindow):
         self.hover_label.setText(f"{it.name}  ·  {it.group}" if it.group != it.name else it.name)
 
     def _update_model_actions(self):
-        mv = self.active_model_view()
-        if mv is not None:
-            self.xray_action.setChecked(mv.state.ghost_focus is not None)
+        self._update_counts()
 
     def open_model_file(self, path=None):
         """File -> Open 3D model file: any glTF / GLB file (with a .viewer.json sidecar beside it if it has one)
@@ -1207,9 +1279,9 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage("Select a structure to attach a note to it.", 3000)
             return
         from .ui.notes import NoteDialog
-        dlg = NoteDialog(key, self.content.notes.get(key, ""), self)
+        dlg = NoteDialog(key, self.content.notes.get(key, ""), self,
+                         save=lambda text: self.content.set_note(key, text))
         if dlg.exec():
-            self.content.set_note(key, dlg.text())
             self.info._rerender()
 
     def show_all_notes(self):
@@ -1224,12 +1296,17 @@ class MainWindow(QMainWindow):
 
         from .config import USER_DIR
         from .ui.progress import ProgressDialog
-        stats = {}
-        path = USER_DIR / "quiz_stats.json"
-        try:
-            stats = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
+        quiz = getattr(self, "quiz", None)
+        if quiz is not None:
+            stats = quiz.stats
+        else:
             stats = {}
+            path = USER_DIR / "quiz_stats.json"
+            try:
+                from .srs import normalize_stats
+                stats = normalize_stats(json.loads(path.read_text(encoding="utf-8")))
+            except (OSError, ValueError):
+                stats = {}
         lessons = self.lessons_panel.lessons if self.lessons_panel is not None else None
         lesson_progress = self.lessons_panel.progress if self.lessons_panel is not None else None
         ProgressDialog(stats, lessons, lesson_progress, self).exec()
@@ -1325,9 +1402,11 @@ class MainWindow(QMainWindow):
         if len(bases) < 4:
             self.statusBar().showMessage("This lesson does not name enough structures for a quiz.", 4000)
             return
+        if self.quiz.active:
+            self.quiz.stop()
+        self.quiz.open()
         self.state.show_all()
         self.state.force_show(sids)
-        self.quiz.open()
         self.quiz.start(bases=bases)
 
     def _remember_lesson(self, lesson):
@@ -1448,6 +1527,7 @@ class MainWindow(QMainWindow):
             "isolated": None if st.isolated is None else np.nonzero(st.isolated)[0].tolist(),
             "ghost": None if st.ghost_focus is None else np.nonzero(st.ghost_focus)[0].tolist(),
             "system_on": st.system_on.tolist(),
+            "system_alpha": st.system_alpha.tolist(),
             "subsystem_on": st.subsystem_on.tolist(),
             "region_on": st.region_on.tolist(),
             "selected": list(st.selected),
@@ -1460,47 +1540,110 @@ class MainWindow(QMainWindow):
         st = self.state
         n = self.ds.n
         try:
+            if not isinstance(data, dict):
+                raise ValueError("saved view must be an object")
             def mask(idxs):
+                if not isinstance(idxs, list) or any(not isinstance(i, int) or isinstance(i, bool) for i in idxs):
+                    raise ValueError("structure IDs must be a list of integers")
                 m = np.zeros(n, dtype=bool)
                 m[[i for i in idxs if 0 <= i < n]] = True
                 return m
-            st.push_undo()
-            st.hidden = mask(data.get("hidden", []))
-            st.forced = mask(data.get("forced", []))
-            st.isolated = None if data.get("isolated") is None else mask(data["isolated"])
-            st.ghost_focus = None if data.get("ghost") is None else mask(data["ghost"])
-            if len(data.get("system_on", [])) == len(st.system_on):
-                st.system_on[:] = data["system_on"]
-            if len(data.get("subsystem_on", [])) == len(st.subsystem_on):
-                st.subsystem_on[:] = data["subsystem_on"]
-            if len(data.get("region_on", [])) == len(st.region_on):
-                st.region_on[:] = data["region_on"]
-            st.custom_colors = {int(k): tuple(v) for k, v in data.get("custom_colors", {}).items()}
-            st._vis_dirty()
-            sel = [s for s in data.get("selected", []) if 0 <= s < n]
-            st.select(sel)
-            self.viewport.landmark_hosts = sel if len(sel) <= 2 else []
-            if sel:
-                self.info.show_structures(sel)
+            hidden = mask(data.get("hidden", []))
+            forced = mask(data.get("forced", []))
+            isolated = None if data.get("isolated") is None else mask(data["isolated"])
+            ghost = None if data.get("ghost") is None else mask(data["ghost"])
+            selected = data.get("selected", [])
+            mask(selected)
+            sel = [sid for sid in selected if 0 <= sid < n]
+            toggles = {}
+            for field in ("system_on", "subsystem_on", "region_on"):
+                values = data.get(field, [])
+                if not isinstance(values, list) or any(v not in (False, True) for v in values):
+                    raise ValueError(f"{field} must be a list of toggles")
+                if len(values) == len(getattr(st, field)):
+                    toggles[field] = values
+            alpha = data.get("system_alpha", st.system_alpha.tolist())
+            if not isinstance(alpha, list) or len(alpha) != len(st.system_alpha) or \
+                    any(type(value) not in (int, float) for value in alpha):
+                raise ValueError("system opacity must have one number per system")
+            alpha = np.asarray(alpha, dtype=np.float32)
+            if not np.isfinite(alpha).all() or ((alpha < 0) | (alpha > 1)).any():
+                raise ValueError("system opacity must be between zero and one")
+            colors = {}
+            raw_colors = data.get("custom_colors", {})
+            if not isinstance(raw_colors, dict):
+                raise ValueError("custom colors must be an object")
+            for key, value in raw_colors.items():
+                sid = int(key)
+                if not 0 <= sid < n:
+                    continue
+                rgb = np.asarray(value, dtype=float)
+                if rgb.shape != (3,) or not np.isfinite(rgb).all() or ((rgb < 0) | (rgb > 1)).any():
+                    raise ValueError("custom colors must have three components between zero and one")
+                colors[sid] = tuple(rgb)
             clip = data.get("clip")
             if clip:
-                self.view_panel.set_clips(*clip)
-            cut, band = data.get("dissection", [0.0, 0.0])
-            self.view_panel.set_depth(float(cut), bool(band))
+                on, positions, flips = clip
+                if any(not isinstance(values, list) or len(values) != 3 for values in (on, positions, flips)):
+                    raise ValueError("clipping settings must contain three axes")
+                if any(value not in (False, True) for value in on + flips):
+                    raise ValueError("clipping toggles must be booleans")
+                positions = np.asarray(positions, dtype=float)
+                if positions.shape != (3,) or not np.isfinite(positions).all():
+                    raise ValueError("clipping positions must be three finite coordinates")
+                clip = (on, positions.tolist(), flips)
+            cut, band = map(float, data.get("dissection", [0.0, 0.0]))
             target, dist, yaw, pitch = data["camera"]
+            target = np.asarray(target, dtype=float)
+            dist, yaw, pitch = float(dist), float(yaw), float(pitch)
+            if target.shape != (3,) or not np.isfinite(target).all() or \
+                    not all(math.isfinite(v) for v in (dist, yaw, pitch, cut, band)):
+                raise ValueError("camera and dissection values must be finite")
+            if dist <= 0:
+                raise ValueError("camera distance must be positive")
+            candidate = OrbitCamera(self.viewport.camera.fov)
+            candidate.target, candidate.distance, candidate.yaw, candidate.pitch = target, dist, yaw, pitch
+            try:
+                with np.errstate(over="raise", invalid="raise", divide="raise"):
+                    view_matrix = np.asarray(candidate.view(), dtype=np.float32)
+                    projection = np.asarray(candidate.proj(max(self.viewport.width(), 1) /
+                                                           max(self.viewport.height(), 1)), dtype=np.float32)
+                if not np.isfinite(view_matrix).all() or not np.isfinite(projection).all() or \
+                        not np.isclose(abs(float(np.linalg.det(view_matrix[:3, :3]))), 1.0, atol=1e-4):
+                    raise ValueError("camera must produce finite, invertible render matrices")
+            except FloatingPointError as exc:
+                raise ValueError("camera must produce finite, invertible render matrices") from exc
+            st.push_undo()
+            st.hidden, st.forced, st.isolated, st.ghost_focus = hidden, forced, isolated, ghost
+            for field, values in toggles.items():
+                getattr(st, field)[:] = values
+            st.system_alpha[:] = alpha
+            st.custom_colors = colors
+            st._vis_dirty()
+            st.select(sel)
+            self.viewport.landmark_hosts = sel if len(sel) <= 2 else []
+            self.info.show_structures(sel)
+            if clip:
+                self.view_panel.set_clips(*clip)
+            self.view_panel.set_depth(cut, bool(band))
             cam = self.viewport.camera
             if animate:
-                cam.animate_to(np.array(target), dist, yaw, pitch, self.viewport.duration())
+                cam.animate_to(target, dist, yaw, pitch, self.viewport.duration())
             else:
-                cam.target, cam.distance, cam.yaw, cam.pitch = np.array(target), dist, yaw, pitch
+                cam._anim = None
+                cam.target, cam.distance, cam.yaw, cam.pitch = target, dist, yaw, pitch
             self.viewport.update()
             self._update_counts()
-        except (KeyError, ValueError, TypeError) as e:
+        except (KeyError, ValueError, TypeError, OverflowError) as e:
             self.statusBar().showMessage(f"Could not restore view: {e}", 5000)
 
     def _saved_views(self):
         try:
-            return json.loads(self.qsettings.value("saved_views", "[]"))
+            views = json.loads(self.qsettings.value("saved_views", "[]"))
+            if not isinstance(views, list):
+                return []
+            return [v for v in views if isinstance(v, dict) and isinstance(v.get("name"), str)
+                    and isinstance(v.get("data"), dict)]
         except (TypeError, ValueError):
             return []
 
@@ -1543,31 +1686,45 @@ class MainWindow(QMainWindow):
 
         def refresh():
             lst.clear()
-            for v in sorted(self._saved_views(), key=lambda v: v["name"].lower()):
+            for index, v in sorted(enumerate(self._saved_views()), key=lambda pair: pair[1]["name"].lower()):
                 lst.addItem(v["name"])
+                lst.item(lst.count() - 1).setData(Qt.UserRole, index)
+
+        def selected():
+            views = self._saved_views()
+            it = lst.currentItem()
+            index = it.data(Qt.UserRole) if it is not None else None
+            if type(index) is not int or not 0 <= index < len(views):
+                return views, None
+            return views, index
+
+        def open_selected():
+            views, index = selected()
+            if index is not None:
+                self.apply_view(views[index]["data"])
 
         def rename():
-            it = lst.currentItem()
-            if not it:
+            views, index = selected()
+            if index is None:
                 return
-            new, ok = QInputDialog.getText(dlg, "Rename view", "Name:", text=it.text())
+            new, ok = QInputDialog.getText(dlg, "Rename view", "Name:", text=views[index]["name"])
             if ok and new.strip():
-                views = self._saved_views()
-                for v in views:
-                    if v["name"] == it.text():
-                        v["name"] = new.strip()
+                if new.strip() != views[index]["name"] and any(v["name"] == new.strip() for v in views):
+                    QMessageBox.warning(dlg, "Name already used", "A saved view with that name already exists. "
+                                        "Choose another name.")
+                    return
+                views[index]["name"] = new.strip()
                 self._store_views(views)
                 refresh()
 
         def delete():
-            it = lst.currentItem()
-            if it:
-                self._store_views([v for v in self._saved_views() if v["name"] != it.text()])
+            views, index = selected()
+            if index is not None:
+                views.pop(index)
+                self._store_views(views)
                 refresh()
 
-        for label, fn in (("Open", lambda: [self.apply_view(v["data"]) for v in self._saved_views()
-                                             if lst.currentItem() and v["name"] == lst.currentItem().text()]),
-                          ("Rename", rename), ("Delete", delete)):
+        for label, fn in (("Open", open_selected), ("Rename", rename), ("Delete", delete)):
             b = QPushButton(label)
             b.clicked.connect(fn)
             row.addWidget(b)
@@ -1576,6 +1733,7 @@ class MainWindow(QMainWindow):
         row.addWidget(close)
         refresh()
         dlg.exec()
+        dlg.deleteLater()
 
     def restore_session(self):
         try:
@@ -1637,12 +1795,27 @@ class MainWindow(QMainWindow):
         return getattr(w, "gl_widget", w if isinstance(w, Viewport) else self.viewport)
 
     def toggle_measure(self):
-        vp = self.active_viewport()
+        vp = self._measurement_viewport()
+        if vp is None:
+            return
         on = not vp.measure_mode
         for other in (self.viewport, vp):
             other.set_measure(on if other is vp else False)
-        self.measure_action.setChecked(on)
-        if not on:
+
+    def _measurement_viewport(self):
+        w = self.center.currentWidget()
+        vp = getattr(w, "gl_widget", w)
+        return vp if hasattr(vp, "measure_mode") else None
+
+    def _on_measure_changed(self, viewport, text):
+        """Keep the shared measurement controls tied to the visible 3D view."""
+        if viewport is not self._measurement_viewport():
+            return
+        self.measure_action.setEnabled(viewport is not None)
+        self.measure_action.setChecked(bool(viewport is not None and viewport.measure_mode))
+        if text:
+            self.statusBar().showMessage(text, 0)
+        else:
             self.statusBar().clearMessage()
 
     def toggle_xray(self):
@@ -1657,17 +1830,21 @@ class MainWindow(QMainWindow):
         self._update_counts()
 
     def show_all(self):
-        self.view_panel.set_depth(0.0, False)      # "show all" has to undo the dissection too
         self.state.show_all()
+        self.view_panel.set_depth(0.0, False)      # snapshot the dissection before putting it back
 
     def reset_visibility(self):
-        self.view_panel.set_depth(0.0, False)
         self.state.reset_visibility()
+        self.view_panel.set_depth(0.0, False)
 
     def undo(self):
-        self.state.undo()
+        if self.state.undo():
+            self.view_panel.set_depth(self.state.depth_cut, bool(self.state.depth_band))
 
     def escape(self):
+        if self.search.edit.hasFocus() and self.search.edit.text():
+            self.search.edit.clear()
+            return
         if self.clear_attachment_colours():
             return
         vp = self.active_viewport()
@@ -1678,9 +1855,6 @@ class MainWindow(QMainWindow):
         if mv is not None and not (self.quiz is not None and self.quiz.active):
             if mv.escape():
                 self.xray_action.setChecked(mv.state.ghost_focus is not None)
-            return
-        if self.search.edit.hasFocus() and self.search.edit.text():
-            self.search.edit.clear()
             return
         if self.quiz is not None and self.quiz.active:
             self.quiz.stop()
@@ -1710,7 +1884,9 @@ class MainWindow(QMainWindow):
             path, _ = QFileDialog.getSaveFileName(self, "Save screenshot", default, "PNG image (*.png)")
             if not path:
                 return
-        img.save(path)
+        if not img.save(path):
+            self.statusBar().showMessage(f"Could not save screenshot: {path}", 6000)
+            return
         self.statusBar().showMessage(f"Saved {path}", 4000)
 
     def _figure_caption(self):
@@ -1718,6 +1894,10 @@ class MainWindow(QMainWindow):
         mv = self.active_model_view()
         if mv is not None:
             return mv.figure_caption()
+        from .ui.histology import HistologyViewer
+        current = self.center.currentWidget()
+        if isinstance(current, HistologyViewer):
+            return current.figure_caption()
         st = self.state
         sel = [self.ds.structures[s]["name"] for s in st.selected]
         title = sel[0] if len(sel) == 1 else (f"{len(sel)} structures" if sel else "Anatomy figure")
@@ -1735,29 +1915,36 @@ class MainWindow(QMainWindow):
         return title, bits, "Anatomy Explorer · BodyParts3D / Z-Anatomy, CC BY-SA"
 
     def export_figure(self, path=None):
-        """Save the current view as a captioned plate: the picture, what is in it, and how it was set up."""
+        """Save the current view as a captioned plate, retaining its physical pixels."""
         from PySide6.QtGui import QFont, QFontMetrics, QImage, QPainter
+
         widget = self._capture_widget()
         shot = widget.grab().toImage()
         dpr = shot.devicePixelRatio() or 1.0
-
         title, bits, credit = self._figure_caption()
 
-        scale = dpr
-        pad = int(18 * scale)
-        font_title = QFont(self.font())
-        font_title.setPointSizeF(font_title.pointSizeF() * 1.7)
-        font_title.setBold(True)
+        # Work entirely in physical pixels. Setting a painter device's DPR before
+        # drawing also scales its coordinates, which would push the footer outside
+        # the image at high display scales. Restore DPR metadata after painting.
+        shot.setDevicePixelRatio(1.0)
+        pad = min(round(18 * dpr), max(0, (shot.width() - 1) // 2))
         font_body = QFont(self.font())
+        size = font_body.pointSizeF() if font_body.pointSizeF() > 0 else theme.FS_BODY
+        font_body.setPointSizeF(size * dpr)
+        font_title = QFont(font_body)
+        font_title.setPointSizeF(size * 1.7 * dpr)
+        font_title.setBold(True)
         fm_t, fm_b = QFontMetrics(font_title), QFontMetrics(font_body)
         width = shot.width()
-        text_w = width - 2 * pad
+        text_w = max(1, width - 2 * pad)
         caption = "  ·  ".join(bits)
-        body_rect = fm_b.boundingRect(0, 0, text_w, 10000, int(Qt.TextWordWrap), caption)
-        head_h = fm_t.height() + pad
-        foot_h = body_rect.height() + fm_b.height() + int(pad * 1.6)
+        flags = int(Qt.AlignLeft | Qt.AlignTop | Qt.TextWordWrap)
+        title_h = fm_t.boundingRect(0, 0, text_w, 10000, flags, title).height()
+        caption_h = fm_b.boundingRect(0, 0, text_w, 10000, flags, caption).height() if caption else 0
+        credit_h = fm_b.boundingRect(0, 0, text_w, 10000, flags, credit).height()
+        head_h = title_h + 2 * pad
+        foot_h = caption_h + credit_h + (3 * pad if caption else 2 * pad)
         out = QImage(width, shot.height() + head_h + foot_h, QImage.Format_RGB32)
-        out.setDevicePixelRatio(dpr)
         dark = bool(self.settings.get("dark_background", True))
         bg = QColor(theme.CANVAS) if dark else QColor("#f3f5f8")
         fg = QColor(theme.TEXT_STRONG) if dark else QColor("#1b1f26")
@@ -1767,14 +1954,17 @@ class MainWindow(QMainWindow):
         p.setRenderHint(QPainter.TextAntialiasing)
         p.setFont(font_title)
         p.setPen(fg)
-        p.drawText(pad, int(pad * 0.4), text_w, fm_t.height(), Qt.AlignLeft | Qt.AlignVCenter, title)
+        p.drawText(pad, pad, text_w, title_h, flags, title)
         p.drawImage(0, head_h, shot)
         p.setFont(font_body)
         p.setPen(muted)
-        p.drawText(pad, shot.height() + head_h + int(pad * 0.4), text_w, body_rect.height(),
-                   Qt.AlignLeft | Qt.TextWordWrap, caption)
-        p.drawText(pad, out.height() - fm_b.height() - int(pad * 0.4), text_w, fm_b.height(), Qt.AlignLeft, credit)
+        y = shot.height() + head_h + pad
+        if caption:
+            p.drawText(pad, y, text_w, caption_h, flags, caption)
+            y += caption_h + pad
+        p.drawText(pad, y, text_w, credit_h, flags, credit)
         p.end()
+        out.setDevicePixelRatio(dpr)
 
         if not path:
             pics = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
@@ -1782,7 +1972,9 @@ class MainWindow(QMainWindow):
             path, _ = QFileDialog.getSaveFileName(self, "Export figure", default, "PNG image (*.png)")
             if not path:
                 return
-        out.save(path)
+        if not out.save(path):
+            self.statusBar().showMessage(f"Could not export figure: {path}", 6000)
+            return
         QGuiApplication.clipboard().setImage(out)
         self.statusBar().showMessage(f"Saved {path} (also copied to the clipboard)", 5000)
 
@@ -1880,6 +2072,9 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(delay, self._run_script)
 
     def closeEvent(self, e):
+        practice = getattr(self.lessons_panel, "practice", None)
+        if practice is not None:
+            practice.stop()
         if self.quiz is not None:
             self.quiz.stop()
         if self._borderless and self._pre_borderless is not None:

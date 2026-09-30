@@ -54,8 +54,8 @@ class LessonBars(QWidget):
         from ..lessons import group_lessons
         self.rows = []
         for heading, _key, group in group_lessons(lessons, "system"):
-            done = sum(1 for x in group if progress.is_done(x.id))
-            self.rows.append((heading, done, len(group)))
+            done, _started, total = progress.totals(group)
+            self.rows.append((heading, done, total))
         self.setMinimumHeight(max(40, 17 * len(self.rows) + 6))
 
     def paintEvent(self, event):

@@ -144,6 +144,10 @@ class SystemsPanel(QWidget):
         for sidx, cb in self.sub_checks.items():
             sys_idx = self.ds.subsystem_system[sidx]
             cb.setChecked(bool(self.state.system_on[sys_idx] and self.state.subsystem_on[sidx]))
+        for i, slider in enumerate(self.sliders):
+            slider.blockSignals(True)
+            slider.setValue(round(float(self.state.system_alpha[i]) * 100))
+            slider.blockSignals(False)
         self._sync = False
 
     def _sys_toggled(self, idx, on):

@@ -16,6 +16,12 @@ A desktop 3D anatomy viewer for Windows and Mac. It has its own OpenGL renderer 
 
 ## What's in it
 
+**Updates (Windows and Apple silicon Mac):** install this updater-enabled version once if you have an older copy.
+After that, changed parts download automatically in the background and open on your next launch. Your study
+session keeps running and your progress/settings are kept. The **Updates** menu offers manual checks, automatic
+download preferences and rollback. Some releases change large models or runtimes and still need a substantial
+download. [How updates work and their limits](docs/updates.md).
+
 - 246 guided lessons in 1,278 steps, filed by body system and by region, with 1,189 recall questions built into them. 109 of them make up a lab course: bite-sized mini lessons for Labs 1–9 and two lab-practical reviews, with 1,900 graded practice items and practice exams.
 - 40 interactive 3D models made for the app, all opening in one model viewer with the atlas's controls and labels: a true-scale **whole heart**, a **kidney with its nephron** in place (one zoom from the whole organ down to a podocyte) and a block of **cardiac muscle** at cell scale, plus 37 procedural microanatomy models from skin, gut wall and osteons to the eye, ear and the reproductive organs. 21 downloaded Creative Commons models open in the same viewer. 24 labelled radiology cases, five of them showing pathology; spaced-repetition revision, a dissection slider that peels the body apart, and self-labelling cross-sections.
 - 3,922 structures and 11.6 M triangles: bones, joints and ligaments, muscles, tendons, bursae, fascia, arteries, veins, heart, lymphatics, brain, cranial and spinal nerves, sense organs, viscera, skin regions.

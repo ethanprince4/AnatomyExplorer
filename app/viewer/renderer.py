@@ -268,12 +268,15 @@ class Renderer:
         try:
             from PIL import Image
             raw = self.model.doc.images[image_index]
-            im = Image.open(io.BytesIO(raw)).convert("RGBA").transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+            # glTF UV(0, 0) refers to the source image's upper-left corner.
+            im = Image.open(io.BytesIO(raw)).convert("RGBA")
             limit = 4096
             if max(im.size) > limit:
                 k = limit / max(im.size)
                 im = im.resize((max(1, int(im.size[0] * k)), max(1, int(im.size[1] * k))), Image.LANCZOS)
-            tex = self.ctx.texture(im.size, 4, im.tobytes())
+            # glTF base-color RGB is sRGB; alpha is linear. Hardware decoding
+            # happens before filtering and mipmap sampling, as the spec requires.
+            tex = self.ctx.texture(im.size, 4, im.tobytes(), internal_format=0x8C43)  # GL_SRGB8_ALPHA8
             tex.build_mipmaps()
             tex.filter = (moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR)
             tex.anisotropy = 8.0

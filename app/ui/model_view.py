@@ -110,7 +110,7 @@ class ModelView(QWidget):
         g.viewChanged.connect(self._view_changed)
         self.state.visibility_changed.connect(self._sync_tree)
         self.state.selection_changed.connect(self._show_selection)
-        QTimer.singleShot(0, lambda: self.reset_view(animate=False))
+        QTimer.singleShot(0, self, lambda: self.reset_view(animate=False))
 
     # ------------------------------------------------------------------ side panel
     def _side(self):
@@ -771,12 +771,23 @@ class ModelView(QWidget):
             self.state.set_ghost_focus(sids)
             self._show_selection()
             # after reset_view, which a freshly opened model queues for its first frame
-            QTimer.singleShot(250, lambda: self.gl_widget.frame_structures(sids))
+            QTimer.singleShot(250, self, lambda: self.gl_widget.frame_structures(sids))
         return missing
 
     def set_practice(self, click=None, rclick=None):
         """Practice mode takes the clicks, and the parts list and labels are put away: they would give the answer."""
         on = click is not None
+        if on and self.click_hook is None:
+            camera = self.gl_widget.camera
+            self._practice_restore = {
+                "state": self.state._snapshot(), "selected": list(self.state.selected),
+                "colors": dict(self.state.custom_colors), "undo": list(self.state._undo),
+                "labels": self.labels.isChecked(), "side": not self.side.isHidden(),
+                "camera": {key: getattr(camera, key).copy() if isinstance(getattr(camera, key), np.ndarray)
+                           else getattr(camera, key)
+                           for key in ("target", "distance", "yaw", "pitch", "fov", "ortho", "ortho_width")},
+                "view": getattr(self, "_current_view", None),
+            }
         self.click_hook, self.rclick_hook = click, rclick
         self.side.setVisible(not on)
         self.gl_widget.names_hidden = (lambda: True) if on else (lambda: False)
@@ -785,6 +796,21 @@ class ModelView(QWidget):
             self.show_all()
             self.state.clear_selection()
             self.reset_view()
+        elif getattr(self, "_practice_restore", None) is not None:
+            saved = self._practice_restore
+            self._practice_restore = None
+            self.state.custom_colors = saved["colors"]
+            self.state.restore(saved["state"])
+            self.state.select(saved["selected"])
+            self.state._undo = saved["undo"]
+            self.labels.setChecked(saved["labels"])
+            self.side.setVisible(saved["side"])
+            camera = self.gl_widget.camera
+            camera._anim = None
+            for key, value in saved["camera"].items():
+                setattr(camera, key, value)
+            self._view_changed(saved["view"])
+            self.gl_widget.update()
         self.gl_widget.invalidate_labels()
 
     def _refresh_labels(self):

@@ -19,6 +19,8 @@ import re
 from pathlib import Path
 
 from .config import ROOT, USER_DIR
+from .storage import load_json, write_json
+from .srs import _count
 
 LESSON_DIR = ROOT / "data" / "content"
 PROGRESS_PATH = USER_DIR / "lesson_progress.json"
@@ -204,14 +206,49 @@ def group_lessons(lessons, by):
 class LessonProgress:
     """How far through each lesson you are, kept between runs in data/user/lesson_progress.json."""
 
-    def __init__(self, path=PROGRESS_PATH):
+    def __init__(self, path=PROGRESS_PATH, on_save_error=None, on_saved=None):
         self.path = path
-        try:
-            self.data = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            self.data = {}
-        if not isinstance(self.data, dict):
-            self.data = {}
+        self.on_save_error = on_save_error
+        self.on_saved = on_saved
+        self.data, self._backup = load_json(path, self._normalize)
+
+    @staticmethod
+    def _normalize(raw):
+        if not isinstance(raw, dict):
+            return {}
+        out = {}
+        for key, value in raw.items():
+            if not isinstance(value, dict):
+                continue
+            rec = dict(value)
+            if "done" in rec and not isinstance(rec["done"], bool):
+                try:
+                    if not isinstance(rec["done"], str):
+                        raise ValueError("completion date must be text")
+                    datetime.date.fromisoformat(rec["done"])
+                except ValueError:
+                    rec.pop("done")
+            if "seen" in rec:
+                seen = rec["seen"]
+                rec["seen"] = sorted({i for i in seen if isinstance(i, int) and not isinstance(i, bool) and i >= 0}) \
+                    if isinstance(seen, list) else []
+            if "last" in rec:
+                rec["last"] = _count(rec["last"])
+            if "when" in rec and not isinstance(rec["when"], str):
+                rec.pop("when")
+            practice = rec.get("practice")
+            if isinstance(practice, dict):
+                practice = dict(practice)
+                for field in ("last", "best", "n", "sessions"):
+                    if field in practice:
+                        practice[field] = _count(practice[field])
+                if "when" in practice and not isinstance(practice["when"], str):
+                    practice.pop("when")
+                rec["practice"] = practice
+            elif "practice" in rec:
+                rec.pop("practice")
+            out[key] = rec
+        return out
 
     # -------------------------------------------------------------- reading
     def entry(self, lesson_id):
@@ -232,11 +269,15 @@ class LessonProgress:
             return 0.0
         if self.is_done(lesson_id):
             return 1.0
-        return min(1.0, len(self.seen(lesson_id)) / total)
+        return min(1.0, sum(index < total for index in self.seen(lesson_id)) / total)
 
     def totals(self, lessons):
-        done = sum(1 for x in lessons if self.is_done(x.id))
-        started = sum(1 for x in lessons if not self.is_done(x.id) and self.entry(x.id).get("seen"))
+        # Match the library: reading lessons finish when read; practice-only exams
+        # finish after a completed practice session, regardless of the score.
+        finished = [self.is_done(x.id) if len(x) else bool(self.practice(x.id)) for x in lessons]
+        done = sum(finished)
+        started = sum(1 for x, complete in zip(lessons, finished)
+                      if not complete and self.entry(x.id).get("seen"))
         return done, started, len(lessons)
 
     def practice(self, lesson_id):
@@ -254,7 +295,10 @@ class LessonProgress:
     # -------------------------------------------------------------- writing
     def visit(self, lesson_id, index, total):
         rec = self.data.setdefault(lesson_id, {})
-        seen = set(rec.get("seen", []))
+        stored = set(rec.get("seen", []))
+        seen = {step for step in stored if not total or step < total}
+        if seen != stored:
+            self._backup = True
         seen.add(int(index))
         rec["seen"] = sorted(seen)
         rec["last"] = int(index)
@@ -288,10 +332,15 @@ class LessonProgress:
 
     def save(self):
         try:
-            self.path.parent.mkdir(parents=True, exist_ok=True)
-            self.path.write_text(json.dumps(self.data, indent=1), encoding="utf-8")
-        except OSError:
-            pass
+            write_json(self.path, self.data, backup=self._backup)
+            self._backup = False
+            if self.on_saved is not None:
+                self.on_saved()
+            return True
+        except OSError as exc:
+            if self.on_save_error is not None:
+                self.on_save_error(str(exc))
+            return False
 
 
 class Resolver:

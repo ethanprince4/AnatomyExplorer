@@ -138,7 +138,7 @@ exe = EXE(
     [],
     exclude_binaries=True,
     name="AnatomyExplorer",
-    console=False,
+    console=bool(os.environ.get("AE_CONSOLE_BUILD")),
     icon=icon,
     upx=False,
     target_arch="arm64" if sys.platform == "darwin" else None,

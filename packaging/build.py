@@ -39,6 +39,11 @@ def numeric_version(v):
 
 def pyinstaller(version):
     env = dict(os.environ, APP_VERSION=version)
+    if sys.platform == "win32":
+        # Native toolkits on a developer/runner PATH (notably Poppler's ICU)
+        # can shadow Windows/Qt dependencies during bindepend collection.
+        system = Path(os.environ.get("SystemRoot", r"C:\Windows"))
+        env["PATH"] = os.pathsep.join(map(str, [Path(sys.executable).parent, Path(sys.base_prefix), system / "System32", system]))
     run(sys.executable, "-m", "PyInstaller", PKG / "AnatomyExplorer.spec", "--noconfirm", "--clean",
         "--distpath", DIST, "--workpath", PKG / "build" / "pyinstaller", cwd=ROOT, env=env)
 
@@ -61,6 +66,9 @@ def mac_dmg():
     # still needs right-click > Open (see README).
     run("codesign", "--force", "--deep", "--sign", "-", app)
     run("codesign", "--verify", "--deep", "--strict", app)
+    from update_payload import create_payload
+    version = (app / "Contents/Resources/VERSION").read_text(encoding="utf-8").strip()
+    create_payload(app, RELEASE, version, "macos-arm64")
     staging = PKG / "build" / "dmg"
     shutil.rmtree(staging, ignore_errors=True)
     staging.mkdir(parents=True)
@@ -92,6 +100,8 @@ def main():
         return
     RELEASE.mkdir(parents=True, exist_ok=True)
     if sys.platform == "win32":
+        from update_payload import create_payload
+        create_payload(DIST / "AnatomyExplorer", RELEASE, version)
         windows_installer(version)
     elif sys.platform == "darwin":
         mac_dmg()
