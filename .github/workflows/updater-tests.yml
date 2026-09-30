@@ -24,7 +24,10 @@ jobs:
         with:
           python-version: '3.11'
       - name: Test update failures and recovery
-        run: python -m unittest discover -s tests -p 'test_updat*.py' -v
+        run: |
+          python -m unittest discover -s tests -p 'test_updater.py' -v
+          python -m unittest discover -s tests -p 'test_updater_channels.py' -v
+          python -m unittest discover -s tests -p 'test_update_packaging.py' -v
   picking:
     name: App regressions (${{ matrix.os }})
     env:
