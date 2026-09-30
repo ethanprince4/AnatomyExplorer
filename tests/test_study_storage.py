@@ -6,6 +6,7 @@ import subprocess
 import sys
 import unittest
 from pathlib import Path
+from tests.fixture_paths import fixture_root
 from types import SimpleNamespace
 from unittest.mock import patch
 from PySide6.QtWidgets import QStatusBar
@@ -38,7 +39,7 @@ class StudyStorageTests(unittest.TestCase):
 
     def test_unavailable_saved_steps_do_not_complete_current_lesson(self):
         with tempfile.TemporaryDirectory() as folder:
-            path = Path(folder) / "lesson_progress.json"
+            path = fixture_root(folder) / "lesson_progress.json"
             original = '{"fixture": {"seen": [999], "last": 999}}'
             path.write_text(original, encoding="utf-8")
             progress = LessonProgress(path)
@@ -50,14 +51,14 @@ class StudyStorageTests(unittest.TestCase):
                 self.assertEqual(progress.seen("fixture"), set(range(index + 1)))
             progress.visit("fixture", 2, 3)
             self.assertTrue(progress.is_done("fixture"))
-            backups = list(Path(folder).glob("lesson_progress.json.recovery-*.bak"))
+            backups = list(fixture_root(folder).glob("lesson_progress.json.recovery-*.bak"))
             self.assertEqual(len(backups), 1)
             self.assertEqual(backups[0].read_text(encoding="utf-8"), original)
 
     def test_malformed_done_marker_cannot_claim_a_lesson_is_finished(self):
         for done in ([0], {"when": "2026-09-01"}, 1, "false", "2026-99-99"):
             with self.subTest(done=done), tempfile.TemporaryDirectory() as folder:
-                path = Path(folder) / "lesson_progress.json"
+                path = fixture_root(folder) / "lesson_progress.json"
                 original = json.dumps({"fixture": {"seen": [0], "done": done}})
                 path.write_text(original, encoding="utf-8")
                 progress = LessonProgress(path)
@@ -66,19 +67,19 @@ class StudyStorageTests(unittest.TestCase):
                 self.assertEqual(progress.seen("fixture"), {0})
                 self.assertEqual(path.read_text(encoding="utf-8"), original)
                 progress.visit("fixture", 1, 3)
-                backups = list(Path(folder).glob("lesson_progress.json.recovery-*.bak"))
+                backups = list(fixture_root(folder).glob("lesson_progress.json.recovery-*.bak"))
                 self.assertEqual(len(backups), 1)
                 self.assertEqual(backups[0].read_text(encoding="utf-8"), original)
         for done in ("2026-09-01", True):
             with self.subTest(valid_done=done), tempfile.TemporaryDirectory() as folder:
-                path = Path(folder) / "lesson_progress.json"
+                path = fixture_root(folder) / "lesson_progress.json"
                 path.write_text(json.dumps({"fixture": {"done": done}}), encoding="utf-8")
                 self.assertTrue(LessonProgress(path).is_done("fixture"), "keep dated and legacy boolean completion")
 
     def test_failed_grade_save_is_reported_and_retry_keeps_pending_results(self):
         for kind in ("quiz", "practice"):
             with self.subTest(kind=kind), tempfile.TemporaryDirectory() as folder:
-                path = Path(folder) / "quiz_stats.json"
+                path = fixture_root(folder) / "quiz_stats.json"
                 original = '{"heart": {"seen": 1, "miss": 0}}'
                 path.write_text(original, encoding="utf-8")
                 status = QStatusBar()
@@ -100,17 +101,17 @@ class StudyStorageTests(unittest.TestCase):
 
     def test_serialization_failure_leaves_original_and_no_temporary_files(self):
         with tempfile.TemporaryDirectory() as folder:
-            path = Path(folder) / "notes.json"
+            path = fixture_root(folder) / "notes.json"
             original = '{"heart": "Keep this"}'
             path.write_text(original, encoding="utf-8")
             with self.assertRaises(TypeError):
                 write_json(path, {"unserializable": {1, 2}}, backup=True)
             self.assertEqual(path.read_text(encoding="utf-8"), original)
-            self.assertEqual(list(Path(folder).iterdir()), [path])
+            self.assertEqual(list(fixture_root(folder).iterdir()), [path])
 
     def test_process_exit_before_replace_preserves_original(self):
         with tempfile.TemporaryDirectory() as folder:
-            path = Path(folder) / "quiz_stats.json"
+            path = fixture_root(folder) / "quiz_stats.json"
             original = '{"heart": {"seen": 8, "miss": 1}}'
             path.write_text(original, encoding="utf-8")
             code = ("import os, sys; from pathlib import Path; from app.storage import write_json; "
@@ -124,14 +125,14 @@ class StudyStorageTests(unittest.TestCase):
     def test_recovered_saves_keep_exact_damaged_original_backups(self):
         for kind in ("notes", "progress", "quiz"):
             with self.subTest(kind=kind), tempfile.TemporaryDirectory() as folder:
-                path = Path(folder) / f"{kind}.json"
+                path = fixture_root(folder) / f"{kind}.json"
                 raw = {"heart": "Keep this note", "bad": 3} if kind == "notes" else \
                     {"heart": {"seen": [0]}, "bad": "recoverable original text"} if kind == "progress" else \
                     {"heart": {"seen": 8, "miss": 1, "history": ["2026-09-01"]}, "bad": "original"}
                 original = json.dumps(raw, ensure_ascii=False).encode("utf-8")
                 path.write_bytes(original)
                 if kind == "notes":
-                    with patch("app.content.USER_DIR", Path(folder)):
+                    with patch("app.content.USER_DIR", fixture_root(folder)):
                         content = ContentIndex(None)
                     content.notes_path = path
                     # ContentIndex normally uses notes.json; the fixture uses that same name.
@@ -143,7 +144,7 @@ class StudyStorageTests(unittest.TestCase):
                     with patch("app.ui.quiz.STATS_PATH", path):
                         quiz = QuizController(SimpleNamespace(ds=None, state=None))
                         quiz.save_stats()
-                backups = list(Path(folder).glob(f"{path.name}.recovery-*.bak"))
+                backups = list(fixture_root(folder).glob(f"{path.name}.recovery-*.bak"))
                 self.assertEqual(len(backups), 1)
                 self.assertEqual(backups[0].read_bytes(), original)
                 saved = json.loads(path.read_text(encoding="utf-8"))
@@ -154,10 +155,10 @@ class StudyStorageTests(unittest.TestCase):
     def test_notes_damage_is_filtered_without_rewriting_file(self):
         for raw in (None, [], {"heart": 12, "lung": "Keep this note"}):
             with self.subTest(raw=raw), tempfile.TemporaryDirectory() as folder:
-                path = Path(folder) / "notes.json"
+                path = fixture_root(folder) / "notes.json"
                 text = json.dumps(raw)
                 path.write_text(text, encoding="utf-8")
-                with patch("app.content.USER_DIR", Path(folder)):
+                with patch("app.content.USER_DIR", fixture_root(folder)):
                     content = ContentIndex(None)
                 self.assertIsInstance(content.notes, dict)
                 self.assertTrue(all(isinstance(v, str) for v in content.notes.values()))
@@ -172,7 +173,7 @@ class StudyStorageTests(unittest.TestCase):
                    {"lesson": {"practice": {"best": "broken", "sessions": None}}})
         for raw in damaged:
             with self.subTest(raw=raw), tempfile.TemporaryDirectory() as folder:
-                path = Path(folder) / "lesson_progress.json"
+                path = fixture_root(folder) / "lesson_progress.json"
                 text = json.dumps(raw)
                 path.write_text(text, encoding="utf-8")
                 progress = LessonProgress(path)
@@ -191,7 +192,7 @@ class StudyStorageTests(unittest.TestCase):
                               "ease": float("inf"), "history": None}})
         for raw in damaged:
             with self.subTest(raw=raw), tempfile.TemporaryDirectory() as folder:
-                path = Path(folder) / "quiz_stats.json"
+                path = fixture_root(folder) / "quiz_stats.json"
                 text = json.dumps(raw)
                 path.write_text(text, encoding="utf-8")
                 with patch("app.ui.quiz.STATS_PATH", path):
@@ -206,7 +207,7 @@ class StudyStorageTests(unittest.TestCase):
 
     def test_failed_notes_save_keeps_previous_file_and_memory(self):
         with tempfile.TemporaryDirectory() as folder:
-            path = Path(folder) / "notes.json"
+            path = fixture_root(folder) / "notes.json"
             original = '{"heart": "Original note"}'
             path.write_text(original, encoding="utf-8")
             content = ContentIndex.__new__(ContentIndex)
@@ -230,7 +231,7 @@ class StudyStorageTests(unittest.TestCase):
     def test_failed_progress_and_quiz_save_keep_previous_files(self):
         for kind in ("progress", "quiz"):
             with self.subTest(kind=kind), tempfile.TemporaryDirectory() as folder:
-                path = Path(folder) / f"{kind}.json"
+                path = fixture_root(folder) / f"{kind}.json"
                 original = '{"original": {"seen": [0]}}' if kind == "progress" else '{"heart": {"seen": 1}}'
                 path.write_text(original, encoding="utf-8")
                 write_text = Path.write_text

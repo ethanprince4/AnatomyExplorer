@@ -13,6 +13,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from app import updater as u
+from tests.fixture_paths import fixture_root
 
 LEGACY_PATH = Path(__file__).parent / "fixtures/legacy_updater_v3_1_1.py"
 legacy_spec = importlib.util.spec_from_file_location("immutable_updater_v3_1_1", LEGACY_PATH)
@@ -67,7 +68,7 @@ def package(root, version, channel="stable", tag=None):
 class ChannelTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
-        self.root = Path(self.temp.name)
+        self.root = fixture_root(self.temp.name)
         self.base = self.root / "original"
         self.stable, self.stable_source = package(self.base, "3.1.1")  # exact legacy metadata form
         self.store = u.UpdateStore(self.base, self.root / "store")
@@ -219,7 +220,7 @@ class ReleaseFeedTests(unittest.TestCase):
     def fixture(self, tag, channel="experimental", prerelease=True):
         version = u.release_version(tag, channel)
         with tempfile.TemporaryDirectory() as d:
-            manifest, _ = package(Path(d), version, channel, tag)
+            manifest, _ = package(fixture_root(d), version, channel, tag)
         raw = json.dumps(manifest).encode()
         prefix = f"https://github.com/{u.REPO}/releases/download/{tag}/"
         assets = [{"name": u.MANIFEST, "size": len(raw), "digest": "sha256:"+u.sha(raw),

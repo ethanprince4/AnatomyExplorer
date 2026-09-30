@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
+from tests.fixture_paths import fixture_root
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
@@ -23,7 +24,7 @@ class ChannelUiTests(unittest.TestCase):
         from app.ui.updates import UpdateController
         from tests.test_updater_channels import package
         with tempfile.TemporaryDirectory() as d:
-            root = Path(d)
+            root = fixture_root(d)
             package(root / "install", "3.1.2", "stable", "v3.1.2")
             store = u.UpdateStore(root / "install", root / "updates")
             window = QMainWindow()

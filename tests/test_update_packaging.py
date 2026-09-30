@@ -8,12 +8,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "packaging"))
 from update_payload import create_payload
 from app.updater import UpdateStore, file_sha
+from tests.fixture_paths import fixture_root
 
 
 class ChannelPackagingTests(unittest.TestCase):
     def test_stable_package_has_default_off_policy_and_matching_metadata(self):
         with tempfile.TemporaryDirectory() as d:
-            root = Path(d).resolve()
+            root = fixture_root(d)
             bundle = root / "app"
             (bundle / "_internal").mkdir(parents=True)
             (bundle / "AnatomyExplorer.exe").write_bytes(b"test executable")
@@ -28,7 +29,7 @@ class ChannelPackagingTests(unittest.TestCase):
 
     def test_preview_metadata_must_exist_and_match_before_packing(self):
         with tempfile.TemporaryDirectory() as d:
-            root = Path(d).resolve()
+            root = fixture_root(d)
             bundle = root / "app"
             (bundle / "_internal").mkdir(parents=True)
             (bundle / "AnatomyExplorer.exe").write_bytes(b"test executable")
@@ -47,7 +48,7 @@ class ChannelPackagingTests(unittest.TestCase):
 
     def test_mac_channel_feed_preserves_every_sealed_bundle_byte(self):
         with tempfile.TemporaryDirectory() as d:
-            root = Path(d).resolve()
+            root = fixture_root(d)
             bundle = root / "Experimental.app"
             resources = bundle / "Contents/Resources"
             resources.mkdir(parents=True)

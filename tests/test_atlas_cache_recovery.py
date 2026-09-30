@@ -10,13 +10,14 @@ import numpy as np
 from app.depth import DepthIndex
 from app.relations import geometry_stamp, sample_points
 from app.cache_io import save_npz
+from tests.fixture_paths import fixture_root
 
 
 class AtlasCacheRecoveryTests(unittest.TestCase):
     def setUp(self):
         self.folder = tempfile.TemporaryDirectory(prefix="anatomy-atlas-cache-")
         self.addCleanup(self.folder.cleanup)
-        root = Path(self.folder.name)
+        root = fixture_root(self.folder.name)
         dtype = np.dtype([("pos", "<f4", (3,)), ("normal", "<f4", (3,)),
                           ("structure", "<u2"), ("material", "<u2")])
         verts = np.zeros(3, dtype=dtype)

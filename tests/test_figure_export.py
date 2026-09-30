@@ -1,6 +1,7 @@
 """Image export regressions using raster fixtures; no OpenGL context is created."""
 import os
 from pathlib import Path
+from tests.fixture_paths import fixture_root
 from types import SimpleNamespace
 import tempfile
 import unittest
@@ -62,7 +63,7 @@ class FigureExportTests(unittest.TestCase):
                 with self.subTest(dpr=dpr):
                     capture = capture_image(dpr)
                     window, messages = stub_window(capture)
-                    path = Path(folder) / f"figure-{dpr}.png"
+                    path = fixture_root(folder) / f"figure-{dpr}.png"
                     MainWindow.export_figure(window, str(path))
                     result = QImage(str(path))
                     self.assertFalse(result.isNull())
@@ -94,7 +95,7 @@ class FigureExportTests(unittest.TestCase):
     def test_screenshot_failure_reports_error_without_claiming_success(self):
         with tempfile.TemporaryDirectory(prefix="anatomy-export-") as folder:
             window, messages = stub_window(capture_image(1.0))
-            path = Path(folder) / "missing-directory" / "screenshot.png"
+            path = fixture_root(folder) / "missing-directory" / "screenshot.png"
             MainWindow.screenshot(window, str(path))
             self.assertFalse(path.exists())
             self.assertTrue(messages[-1].startswith("Could not save screenshot:"), messages[-1])
@@ -102,7 +103,7 @@ class FigureExportTests(unittest.TestCase):
     def test_figure_failure_preserves_clipboard_and_reports_error(self):
         with tempfile.TemporaryDirectory(prefix="anatomy-export-") as folder:
             window, messages = stub_window(capture_image(1.0))
-            path = Path(folder) / "missing-directory" / "figure.png"
+            path = fixture_root(folder) / "missing-directory" / "figure.png"
             clipboard = SimpleNamespace(setImage=lambda image: self.fail("failed saves must not replace the clipboard"))
             with patch("app.main_window.QGuiApplication.clipboard", return_value=clipboard):
                 MainWindow.export_figure(window, str(path))
