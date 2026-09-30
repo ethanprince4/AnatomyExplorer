@@ -92,7 +92,7 @@ def main():
     win.show()
     splash.finish(win)
     from .ui.updates import attach_updates
-    from .updater import mark_ready
+    from .updater import UpdateError, mark_ready
     attach_updates(win)
     from PySide6.QtCore import QTimer
     def confirm_ready():
@@ -100,7 +100,7 @@ def main():
         if win.viewport.isValid() and renderer is not None and renderer.frame_ok:
             try:
                 mark_ready()
-            except OSError:
+            except (OSError, UpdateError):
                 pass
         else:
             QTimer.singleShot(500, confirm_ready)

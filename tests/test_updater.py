@@ -12,6 +12,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from app import updater as u
+from tests.fixture_paths import fixture_root
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "packaging"))
 from update_payload import create_payload
@@ -39,7 +40,7 @@ class LocalSource:
 class UpdaterTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
-        self.root = Path(self.temp.name).resolve()
+        self.root = fixture_root(self.temp.name)
         self.base = self.root / "install"
         self.next = self.root / "candidate"
         self.packs = self.root / "packs"
@@ -71,6 +72,7 @@ class UpdaterTests(unittest.TestCase):
         self.assertEqual(self.store.prepare(self.old_manifest, src)["status"], "current")
         older = copy.deepcopy(self.old_manifest)
         older["version"] = "2.0.0"
+        older["release_tag"] = "v2.0.0"
         self.assertEqual(self.store.prepare(older, src)["status"], "current")
         self.assertEqual(src.bytes, 0)
 
@@ -265,7 +267,7 @@ class UpdaterTests(unittest.TestCase):
 class MacBundleTests(unittest.TestCase):
     def test_signed_bundle_incremental_reconstruction(self):
         with tempfile.TemporaryDirectory() as d:
-            root = Path(d).resolve()
+            root = fixture_root(d)
             base = root / "original/Anatomy Explorer.app"
             (base / "Contents/MacOS").mkdir(parents=True)
             (base / "Contents/Resources/data").mkdir(parents=True)

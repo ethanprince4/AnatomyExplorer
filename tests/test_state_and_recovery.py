@@ -15,7 +15,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-os.environ["QT_QPA_PLATFORM"] = "offscreen"
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import numpy as np
 from PySide6.QtCore import QByteArray, QCoreApplication, QEvent, QSettings, Qt, QTimer
@@ -25,15 +25,17 @@ from app import config
 from app.__main__ import configure_qt
 from app.data import Dataset
 from app.state import SceneState
+from tests.fixture_paths import fixture_root
 
 FIXTURES = tempfile.TemporaryDirectory(prefix="anatomy-regression-")
 atexit.register(FIXTURES.cleanup)
-config.USER_DIR = Path(FIXTURES.name) / "study"
+FIXTURE_ROOT = fixture_root(FIXTURES.name)
+config.USER_DIR = FIXTURE_ROOT / "study"
 config.ORG_NAME = "AnatomyExplorerRegression"
 config.APP_NAME = "Fixture"
 QSettings.setDefaultFormat(QSettings.IniFormat)
-QSettings.setPath(QSettings.IniFormat, QSettings.UserScope, FIXTURES.name)
-QSettings.setPath(QSettings.IniFormat, QSettings.SystemScope, FIXTURES.name)
+QSettings.setPath(QSettings.IniFormat, QSettings.UserScope, str(FIXTURE_ROOT))
+QSettings.setPath(QSettings.IniFormat, QSettings.SystemScope, str(FIXTURE_ROOT))
 configure_qt()
 QAPP = QApplication.instance() or QApplication([])
 
@@ -372,7 +374,7 @@ class RecoveryTests(unittest.TestCase):
         base = self.dataset.structures[0]["base"]
         for partial in ({}, {"seen": 7}, {"miss": 2}):
             with self.subTest(partial=partial), tempfile.TemporaryDirectory() as folder:
-                path = Path(folder) / "quiz_stats.json"
+                path = fixture_root(folder) / "quiz_stats.json"
                 original = json.dumps({base: partial})
                 path.write_text(original, encoding="utf-8")
                 QSettings(QSettings.defaultFormat(), QSettings.UserScope, config.ORG_NAME, config.APP_NAME).clear()
@@ -403,7 +405,7 @@ class RecoveryTests(unittest.TestCase):
                 item = {"type": "recall", "q": "Fixture question", "a": "Fixture answer",
                         "_lesson": "fixture-partial-history"}
                 key = self.dataset.structures[0]["base"] if kind == "quiz" else item_key(item)
-                path = Path(folder) / "quiz_stats.json"
+                path = fixture_root(folder) / "quiz_stats.json"
                 original = json.dumps({key: {"seen": 7}})
                 path.write_text(original, encoding="utf-8")
                 QSettings(QSettings.defaultFormat(), QSettings.UserScope, config.ORG_NAME, config.APP_NAME).clear()
@@ -424,7 +426,7 @@ class RecoveryTests(unittest.TestCase):
                         session._record(False)
                         stored = json.loads(path.read_text(encoding="utf-8"))[key]
                         self.assertEqual((stored["seen"], stored["miss"]), (8, 1))
-                        backups = list(Path(folder).glob("quiz_stats.json.recovery-*.bak"))
+                        backups = list(fixture_root(folder).glob("quiz_stats.json.recovery-*.bak"))
                         self.assertEqual(len(backups), 1)
                         self.assertEqual(backups[0].read_text(encoding="utf-8"), original)
                     finally:
@@ -483,7 +485,7 @@ class RecoveryTests(unittest.TestCase):
             win = MainWindow(self.dataset, restore=False)
             try:
                 win.state.select([0, 1, 2])
-                glb = Path(folder) / "status_fixture.glb"
+                glb = fixture_root(folder) / "status_fixture.glb"
                 write_fixture_model(glb)
                 win.open_model_file(str(glb))
                 model = win.active_model_view()
@@ -518,7 +520,7 @@ class RecoveryTests(unittest.TestCase):
             with self.subTest(finish=finish), tempfile.TemporaryDirectory() as folder:
                 QSettings(QSettings.defaultFormat(), QSettings.UserScope, config.ORG_NAME, config.APP_NAME).clear()
                 win = MainWindow(self.dataset, restore=False)
-                path = Path(folder) / "notes.json"
+                path = fixture_root(folder) / "notes.json"
                 original = '{"Femur": "Previous note"}'
                 path.write_text(original, encoding="utf-8")
                 win.content.notes_path = path
@@ -575,7 +577,7 @@ class RecoveryTests(unittest.TestCase):
             QSettings(QSettings.defaultFormat(), QSettings.UserScope, config.ORG_NAME, config.APP_NAME).clear()
             win = MainWindow(self.dataset, restore=False)
             progress = win.lessons_panel.progress
-            progress.path = Path(folder) / "lesson_progress.json"
+            progress.path = fixture_root(folder) / "lesson_progress.json"
             original = '{"fixture": {"seen": [0], "last": 0}}'
             progress.path.write_text(original, encoding="utf-8")
             progress.data = json.loads(original)

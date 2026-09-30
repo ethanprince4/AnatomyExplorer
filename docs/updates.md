@@ -1,6 +1,6 @@
 # Desktop updates
 
-Windows and Apple silicon Mac releases starting with 3.1.0 have incremental
+Windows and Apple silicon Mac releases starting with 3.1.1 have incremental
 updates. Earlier versions require one full updater-enabled installer/DMG. The
 Windows installer keeps its AppId and usual install locations; Mac users drag
 the new app into Applications once. That original installation stays available
@@ -10,6 +10,54 @@ The app checks at most daily and downloads quietly while you study. The Updates
 menu lets you disable automatic checks, check manually, or return to the previous
 version on the next launch. It never forces a restart during a study session.
 Offline checks fail without interrupting the installed app.
+
+## Experimental model previews
+
+Stable is the default. Version 3.1.2 adds an unchecked **Enable experimental
+stuff (model previews)** option under **Updates > Check for updates**. This
+preference belongs to this installation's update store, so opting in does not
+opt in another copy of the app. An existing updater-enabled 3.1.1 installation
+receives the stable 3.1.2 feature through its normal incremental update; it does
+not need another installer.
+
+This applies when the installed client can verify HTTPS. The published 3.1.1
+Mac client has a reported certificate-chain failure on both a school network
+and a phone hotspot. That affected copy cannot fetch its own repair; it may
+need one manual installation of the fixed release. No certificate verification
+should be disabled to work around the problem.
+
+Turning the option on checks published experimental model prereleases. Previews
+are marked **Experimental model preview** in the window title and Updates
+dialog. Their models may be incomplete or change substantially. Stable releases
+and stable update checks never select preview feeds. If no compatible preview
+exists, the app stays on its current version.
+
+Turning the option off cancels a pending preview and prevents an in-flight
+download from becoming pending. If a preview is already running, **Return to
+stable on next launch** retains the current study session and arranges the
+verified stable anchor for the next ordinary launch. Notes, progress, settings
+and the original installed app remain untouched. The stable anchor is preserved
+through multiple previews, including when the immutable original 3.1.1 launcher
+performs cleanup. A separate fresh experimental installation also defaults to
+the stable update channel; its newer bootstrap can download the current stable
+release before returning on next launch. Its original preview bundle remains
+the fallback until a stable copy is available.
+
+Protocol 1's `VERSION` remains numeric for old launchers. The reserved preview
+series uses cores `3.90.N` with exact GitHub tags `v3.90.N-preview.N`; each preview
+needs a new increasing `N`. These tags are GitHub prereleases and never become
+the latest stable download. Feeds bind `channel`, numeric `version` and the exact
+`release_tag`. `UPDATE_CHANNEL.json` is embedded before signing, inventoried
+and hash-verified with the package, so changing feed labels cannot disguise a
+preview as stable. Returning from previews to a lower numeric stable core uses
+the old launcher's explicit rollback mechanism, not an overwritten executable
+or a relaxation of ordinary stable downgrade checks.
+
+`tests/test_updater_channels.py` runs the captured original 3.1.1 updater through
+3.1.1 → stable 3.1.2 → preview 3.90.1 → preview 3.90.2 → preview 3.90.3 → stable
+3.1.2. It checks channel isolation, cancellation races, exact tag/digest trust,
+retained anchors, failed startup, direct-preview stable return and study-data
+preservation using disposable packages.
 
 ## Delivery and trust
 
@@ -21,6 +69,14 @@ and same-offset blocks, requests only missing compressed byte ranges, and checks
 both chunk and complete-file hashes. It refuses servers that ignore Range;
 there is no automatic whole-installer fallback. Inserting bytes may shift many
 chunks, and new runtimes, changed models or broad content edits can still be big.
+
+The HTTPS opener explicitly uses the maintained certifi CA bundle shipped with
+the app, with certificate and hostname verification required. It does not depend
+on a developer Python installation, build-machine OpenSSL CA paths or a local
+certificate-install command. Frozen package checks exercise the real release
+API, manifest and ranged CDN downloads with nonexistent default CA paths;
+separate local TLS tests reject untrusted certificates and incorrect hostnames.
+No OS trust store or certificate policy is changed.
 
 The trust root is HTTPS to the hard-coded repository's GitHub release API. The
 API's SHA-256 asset digest authenticates the manifest to that trusted source; the
@@ -65,7 +121,7 @@ retained for resume. Moving an original installation creates a separate store.
 
 ## Release checks
 
-`python -m unittest discover -s tests -p test_updater.py -v` exercises first
+`python -m unittest discover -s tests -p 'test_updat*.py' -v` exercises first
 install/no update/downgrade, file and chunk reuse, interrupted/corrupt downloads,
 low disk, permission failure, manifest/path attacks, activation and rollback,
 and data preservation. macOS CI additionally signs a real Mach-O fixture,

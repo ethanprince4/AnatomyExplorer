@@ -7,7 +7,7 @@ name: Release
 
 on:
   pull_request:
-    paths: ['app/**', 'packaging/**', '.github/workflows/release.yml']
+    paths: ['app/**', 'packaging/**', 'tests/**', 'requirements.txt', '.github/workflows/**']
   push:
     tags: ["v*"]
   workflow_dispatch:
@@ -27,10 +27,18 @@ concurrency:
 jobs:
   safety:
     name: Release safety gate
-    if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.tag != ''
     uses: ./.github/workflows/updater-tests.yml
+  diagnostics:
+    name: Mac diagnostic gate
+    uses: ./.github/workflows/mac-diagnostics.yml
+    with:
+      # An explicit temporary PR label requests one bounded plugin experiment.
+      # Shipping-runtime gates always remain strict; this only rebuilds provenance.
+      ownership_candidate: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'qt-ownership-candidate') }}
   build:
     name: Build (${{ matrix.name }})
+    # A failed source check prevents allocation of either expensive build runner.
+    needs: [safety, diagnostics]
     strategy:
       fail-fast: false
       matrix:
@@ -49,7 +57,8 @@ jobs:
       run:
         shell: bash
     env:
-      VERSION: ${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/v') && github.ref_name) || '3.1.1' }}
+      VERSION: ${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/v') && github.ref_name) || '3.1.2' }}
+      APP_NAME: ${{ contains(github.event.inputs.tag || github.ref_name, '-preview.') && 'Anatomy Explorer Experimental' || 'Anatomy Explorer' }}
     steps:
       # identical line endings on every runner, so the micro-model source digest matches what the cache was built with
       - name: Keep line endings as committed
@@ -116,11 +125,31 @@ jobs:
 
       - name: Check frozen macOS runtime and Qt plugin
         if: runner.os == 'macOS'
-        run: python packaging/check_runtime.py 'packaging/dist/Anatomy Explorer.app/Contents/MacOS/AnatomyExplorer'
+        run: python packaging/check_runtime.py "packaging/dist/$APP_NAME.app/Contents/MacOS/AnatomyExplorer"
+
+      - name: Require final signed frozen Cocoa identity and selected-tree semantics
+        if: runner.os == 'macOS'
+        run: python packaging/check_cocoa.py "packaging/dist/$APP_NAME.app/Contents/MacOS/AnatomyExplorer"
+
+      - name: Preserve final frozen Cocoa evidence
+        if: always() && runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: frozen-mac-cocoa-controls
+          path: packaging/build/frozen-cocoa/
+          if-no-files-found: warn
+
+      - name: Check real frozen Windows HTTPS with packaged roots
+        if: runner.os == 'Windows'
+        run: python packaging/check_https.py packaging/dist/AnatomyExplorer/AnatomyExplorer.exe
+
+      - name: Check real frozen macOS HTTPS with packaged roots
+        if: runner.os == 'macOS'
+        run: python packaging/check_https.py "packaging/dist/$APP_NAME.app/Contents/MacOS/AnatomyExplorer"
 
       - name: Verify real signed macOS incremental update and rollback
         if: runner.os == 'macOS'
-        run: python packaging/check_mac_update.py 'packaging/dist/Anatomy Explorer.app' packaging/dist/release
+        run: python packaging/check_mac_update.py "packaging/dist/$APP_NAME.app" packaging/dist/release
 
       - uses: actions/upload-artifact@v4
         with:
@@ -132,14 +161,18 @@ jobs:
 
   release:
     name: Publish release
-    needs: [build, safety]
+    needs: [build, safety, diagnostics]
     if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.tag != ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
         with:
+          name: AnatomyExplorer-Setup-Windows.exe
           path: assets
-          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: AnatomyExplorer-macOS-AppleSilicon.dmg
+          path: assets
 
       - run: ls -la assets
 
@@ -148,28 +181,10 @@ jobs:
           tag_name: ${{ github.event.inputs.tag || github.ref_name }}
           name: Anatomy Explorer ${{ github.event.inputs.tag || github.ref_name }}
           target_commitish: ${{ github.sha }}
-          make_latest: "true"
+          prerelease: ${{ contains(github.event.inputs.tag || github.ref_name, '-preview.') }}
+          make_latest: ${{ contains(github.event.inputs.tag || github.ref_name, '-preview.') && 'false' || 'true' }}
           fail_on_unmatched_files: true
           files: |
             assets/*
-          body: |
-            **Windows:** download `AnatomyExplorer-Setup-Windows.exe` and run it.
-            **Mac (Apple silicon: M1 or newer):** download `AnatomyExplorer-macOS-AppleSilicon.dmg`, open it and drag Anatomy Explorer to Applications.
-
-            This release enables incremental background updates on Windows and Mac. Older versions need this
-            one-time full installer/app. Future updates reuse verified unchanged files and download only missing
-            compressed chunks, then open on the next launch. Your current study session is never restarted.
-            Large content/runtime changes can still need substantial downloads. Updates preserve notes, progress,
-            settings and the original installed copy; Updates > Check for updates also offers rollback.
-
-            Picking now maps the cursor to the actual backing framebuffer, refreshes camera state before
-            selection and rejects invalid GPU readbacks. The reported wrong Mac selection was observed on
-            3.0.1; this candidate passed automated coordinate/input checks but has not been retested on that
-            physical Mac. Please report remaining Mac selection or context-menu issues.
-
-            Also fixes Show All/pathology visibility, saved views and settings recovery, study/progress saves,
-            search focus, active-view measurement state, delayed callbacks, histology exports and texture color.
-            Unfinished model and radiology redesign work is excluded.
-
-            The first time you open it, Windows or macOS will ask you to confirm, because the app is not signed by
-            a paid developer account. The README has the one-time steps.
+          body: >-
+            ${{ contains(github.event.inputs.tag || github.ref_name, '-preview.') && 'EXPERIMENTAL PREVIEW. Opt in through Updates > Enable experimental stuff in the stable app. These draft models may have bugs and are excluded from default stable updates. Turn the setting off to return to stable on the next launch. Separate preview installers use a separate application name and preserve the original stable installation. Notes, study progress and settings are preserved. Apple-silicon Mac DMG and Windows installer are attached. Existing signing limitations described in the README still apply.' || 'Stable update: Adds Updates > Enable experimental stuff, unchecked by default. Existing v3.1.1 installs with working HTTPS receive this feature through their incremental updater. Affected Mac v3.1.1 clients reporting certificate verification failure may need this fixed installer once; certificate verification remains enabled. Explicit opt-in downloads separately published experimental drafts; disable it to return to stable on the next launch. Your current study session is never restarted, and notes, progress, settings and the original install are preserved. Unfinished model drafts remain excluded from this stable release. Apple-silicon Mac DMG and Windows installer are attached. Existing signing limitations described in the README still apply.' }}

@@ -24,12 +24,21 @@
   #define RepoDir SourcePath + ".."
 #endif
 
-#define AppName "Anatomy Explorer"
+#ifndef Experimental
+  #define Experimental 0
+#endif
+#if Experimental
+  #define AppName "Anatomy Explorer Experimental"
+  #define ApplicationId "{{9CF5F0A1-BB14-4B56-85C2-17A6452C0430}"
+#else
+  #define AppName "Anatomy Explorer"
+  #define ApplicationId "{{BF742270-7363-48E6-81D2-B588178D84A6}"
+#endif
 #define AppExe "AnatomyExplorer.exe"
 
 [Setup]
 ; never change AppId: it is how an upgrade finds the installed copy
-AppId={{BF742270-7363-48E6-81D2-B588178D84A6}
+AppId={#ApplicationId}
 AppName={#AppName}
 AppVersion={#AppVersion}
 AppVerName={#AppName} {#AppVersion}

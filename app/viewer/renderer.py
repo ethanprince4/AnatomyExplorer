@@ -917,6 +917,27 @@ class Renderer:
             u("u_facing_on", 0)
 
     # ------------------------------------------------------------------ queries
+    def _read_prepass(self, components, attachment, viewport=None):
+        """Read floating IDs/depth with a floating DRAW target, restoring state."""
+        previous_fbo, previous_viewport = self.ctx.fbo, self.ctx.viewport
+        if previous_fbo is None:
+            return None
+        w, h = self.size if viewport is None else viewport[2:]
+        values = np.full(int(w) * int(h) * components, np.nan, dtype=np.float32)
+        options = {"components": components, "attachment": attachment, "dtype": "f4"}
+        if viewport is not None:
+            options["viewport"] = viewport
+        try:
+            fpre = self.t["fbo_pre"]
+            fpre.use()
+            fpre.read_into(values, **options)
+        except moderngl.Error:
+            return None
+        finally:
+            previous_fbo.use()
+            self.ctx.viewport = previous_viewport
+        return values if np.isfinite(values).all() else None
+
     def pick(self, x, y):
         """(item index or -1, world point or None, on a cut face) under render pixel (x, y from the top-left) of
         the last frame."""
@@ -926,9 +947,10 @@ class Renderer:
         if not (0 <= x < w and 0 <= y < h):
             return -1, None, False
         gy = h - 1 - int(y)
-        fpre = self.t["fbo_pre"]
-        nd = np.frombuffer(fpre.read(viewport=(int(x), gy, 1, 1), components=4, attachment=0, dtype="f4"), dtype=np.float32)
-        idf = np.frombuffer(fpre.read(viewport=(int(x), gy, 1, 1), components=2, attachment=1, dtype="f4"), dtype=np.float32)
+        nd = self._read_prepass(4, 0, (int(x), gy, 1, 1))
+        idf = self._read_prepass(2, 1, (int(x), gy, 1, 1))
+        if nd is None or idf is None:
+            return -1, None, False
         d = float(nd[3])
         if d <= 0.0:
             return -1, None, False
@@ -949,7 +971,9 @@ class Renderer:
         if not self.frame_ok or not self.t:
             return None, None
         w, h = self.size
-        raw = np.frombuffer(self.t["fbo_pre"].read(components=2, attachment=1, dtype="f4"), dtype=np.float32)
+        raw = self._read_prepass(2, 1)
+        if raw is None:
+            return None, None
         a = raw.reshape(h, w, 2)[::-1]
         return np.rint(a[..., 0]).astype(np.int32) - 1, np.rint(a[..., 1]).astype(np.int32)
 
@@ -958,7 +982,9 @@ class Renderer:
         if not self.frame_ok or not self.t:
             return None
         w, h = self.size
-        raw = np.frombuffer(self.t["fbo_pre"].read(components=4, attachment=0, dtype="f4"), dtype=np.float32)
+        raw = self._read_prepass(4, 0)
+        if raw is None:
+            return None
         return raw.reshape(h, w, 4)[::-1, :, 3].copy()
 
     def ids_at(self, points):
@@ -967,13 +993,12 @@ class Renderer:
         if not self.frame_ok or not self.t:
             return [-1] * len(points)
         w, h = self.size
-        fpre = self.t["fbo_pre"]
         for x, y in points:
             if not (0 <= x < w and 0 <= y < h):
                 out.append(-1)
                 continue
-            raw = fpre.read(viewport=(int(x), h - 1 - int(y), 1, 1), components=2, attachment=1, dtype="f4")
-            out.append(int(round(float(np.frombuffer(raw, dtype=np.float32)[0]))) - 1)
+            raw = self._read_prepass(2, 1, (int(x), h - 1 - int(y), 1, 1))
+            out.append(-1 if raw is None else int(round(float(raw[0]))) - 1)
         return out
 
     def world_from_pixel(self, x, y, d):

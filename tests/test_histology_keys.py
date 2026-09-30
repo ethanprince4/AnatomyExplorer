@@ -37,7 +37,9 @@ class HistologyKeyTests(unittest.TestCase):
         # The current center page is 2D before show: the atlas GL widget stays hidden.
         self.win.show()
         self.win.activateWindow()
-        QAPP.processEvents()
+        # Native Cocoa window activation arrives asynchronously after show.
+        # Wait for the actual condition; retain the active-window assertion.
+        self.assertTrue(QTest.qWaitForWindowActive(self.win, 3000))
         self.assertIs(QAPP.activeWindow(), self.win)
         self.assertFalse(self.win.viewport.isVisible())
 

@@ -13,6 +13,16 @@ if sys.__stderr__ is None:
     sys.__stderr__ = sys.stderr
 sys.dont_write_bytecode = True      # never write __pycache__ into the installed (read-only / signed) app folder
 
+if "--https-check" in sys.argv:
+    # Exit before Qt, managed activation, update stores, or study preferences.
+    from app.https_check import main
+    sys.exit(main())
+
+if "--cocoa-check" in sys.argv:
+    # Native bridge only; no managed launcher, update store or study preferences.
+    from app.cocoa_check import main
+    sys.exit(main())
+
 # Test subprocesses redirect Qt registry/preferences as well as LOCALAPPDATA.
 # Ordinary installations keep the established identity and settings location.
 if os.environ.get("AE_TEST_SETTINGS_DIR"):

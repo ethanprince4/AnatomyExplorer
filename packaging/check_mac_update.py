@@ -49,8 +49,12 @@ def main():
         assert target > (0, 0, 0)
         # A test-only numeric older version; no historical release is rewritten.
         (base / "Contents/Resources/VERSION").write_text("0.0.0")
+        metadata = base / "Contents/Resources/UPDATE_CHANNEL.json"
+        metadata.write_text(json.dumps({"channel": "stable", "release_tag": "v0.0.0"}))
         subprocess.run(["/usr/bin/codesign", "--force", "--deep", "--sign", "-", str(base)], check=True)
         store = UpdateStore(base, root / "updates")
+        if manifest.get("channel") == "experimental":
+            store.set_channel("experimental")
         result = store.prepare(manifest, Packs(feed))
         assert store.active() == base
         active = store.activate()

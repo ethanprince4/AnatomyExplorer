@@ -166,6 +166,13 @@ or with any of the creators, and none of them endorses it. Sketchfab is a tradem
 
 ## 5. Software bundled in the installers
 
+The Apple-silicon macOS build uses a locally rebuilt Qt 6.11.2 Cocoa platform plugin with the ownership repair
+from Qt Gerrit change 765434, patch set 1 (unmerged and unreleased upstream). Only the Cocoa plugin is replaced;
+the matching PySide6 wheel frameworks are retained. The accepted binary, build recipe, exact patch, modified
+plugin source, upstream source reference and Qt licence texts are in `packaging/qt-cocoa` in this repository.
+They are included under `licenses/qt-cocoa` in the Mac app (the binary itself is the platform plugin).
+The rebuilt plugin is **arm64 only**, and macOS 13 or later is required. It retains native accessibility.
+
 The Windows and macOS installers are built with PyInstaller and contain these libraries. Where a wheel ships
 its licence files, `packaging/AnatomyExplorer.spec` copies them into the bundle under `licenses/`. The LGPL-3.0
 and GPL-3.0 texts for Qt/PySide6 are in `packaging/licenses/`.
@@ -189,6 +196,7 @@ and GPL-3.0 texts for Qt/PySide6 are in `packaging/licenses/`.
 | lazy_loader | [BSD-3-Clause](https://github.com/scientific-python/lazy-loader/blob/main/LICENSE.md) | <https://github.com/scientific-python/lazy-loader> |
 | NetworkX 3.6 | [BSD-3-Clause](https://github.com/networkx/networkx/blob/main/LICENSE.txt) | <https://networkx.org/> |
 | packaging | [Apache-2.0 or BSD-2-Clause](https://github.com/pypa/packaging/blob/main/LICENSE) | <https://github.com/pypa/packaging> |
+| certifi and Mozilla CA roots | [MPL-2.0](https://github.com/certifi/python-certifi/blob/master/LICENSE) | <https://github.com/certifi/python-certifi> |
 | PyInstaller bootloader | [GPL-2.0-or-later with the PyInstaller bootloader exception](https://github.com/pyinstaller/pyinstaller/blob/develop/COPYING.txt), which allows distributing the built app under any licence | <https://pyinstaller.org/> |
 
 **Qt / PySide6 (LGPL-3.0).** Qt and PySide6 are used unmodified, as dynamically linked libraries, under the GNU
