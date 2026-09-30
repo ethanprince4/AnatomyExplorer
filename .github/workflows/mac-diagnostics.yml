@@ -1,7 +1,7 @@
 name: Mac blocker diagnostics
 on:
-  pull_request:
-    paths: ['app/**', 'packaging/diagnostics/**', '.github/workflows/mac-diagnostics.yml', 'requirements.txt']
+  workflow_call:
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
@@ -55,6 +55,7 @@ jobs:
           if-no-files-found: warn
   package:
     name: Isolated one-action Mac diagnostic artifact
+    needs: [gpu, tree]
     runs-on: macos-14
     timeout-minutes: 25
     steps:
