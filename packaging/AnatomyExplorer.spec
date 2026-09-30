@@ -1,6 +1,7 @@
 # PyInstaller spec for the installed app: a windowed one-folder build (plus a .app bundle on macOS).
 # Run through packaging/build.py, which builds the caches this ships first (packaging/prebuild.py).
 import os
+import json
 import re
 import sys
 from pathlib import Path
@@ -10,6 +11,9 @@ from PyInstaller.utils.hooks import collect_submodules
 ROOT = Path(SPECPATH).resolve().parent
 STAGE = ROOT / "packaging" / "build" / "stage"
 VERSION = os.environ.get("APP_VERSION", "0.0.0")
+CHANNEL = os.environ.get("APP_CHANNEL", "stable")
+RELEASE_TAG = os.environ.get("APP_RELEASE_TAG", f"v{VERSION}")
+APP_NAME = "Anatomy Explorer Experimental" if CHANNEL == "experimental" else "Anatomy Explorer"
 
 # Everything the app reads at run time. Personal data (data/user), the raw Z-Anatomy source and scratch output are
 # never shipped; data/anatomy's surface-sample and depth caches come from the stage (see prebuild.py). models/ holds
@@ -78,6 +82,9 @@ def notice_files():
     STAGE.mkdir(parents=True, exist_ok=True)
     (STAGE / "VERSION").write_text(VERSION, encoding="utf-8")
     out.append((str(STAGE / "VERSION"), "."))
+    (STAGE / "UPDATE_CHANNEL.json").write_text(
+        json.dumps({"channel": CHANNEL, "release_tag": RELEASE_TAG}), encoding="utf-8")
+    out.append((str(STAGE / "UPDATE_CHANNEL.json"), "."))
     return out
 
 
@@ -149,12 +156,12 @@ coll = COLLECT(exe, a.binaries, a.datas, name="AnatomyExplorer", upx=False)
 if sys.platform == "darwin":
     app = BUNDLE(
         coll,
-        name="Anatomy Explorer.app",
+        name=APP_NAME + ".app",
         icon=icon,
-        bundle_identifier="io.github.ethanprince4.anatomyexplorer",
+        bundle_identifier="io.github.ethanprince4.anatomyexplorer" + (".experimental" if CHANNEL == "experimental" else ""),
         version=VERSION,
         info_plist={
-            "CFBundleDisplayName": "Anatomy Explorer",
+            "CFBundleDisplayName": APP_NAME,
             "CFBundleShortVersionString": VERSION,
             "CFBundleVersion": VERSION,
             "NSHighResolutionCapable": True,

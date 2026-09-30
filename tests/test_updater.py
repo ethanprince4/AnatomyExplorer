@@ -71,6 +71,7 @@ class UpdaterTests(unittest.TestCase):
         self.assertEqual(self.store.prepare(self.old_manifest, src)["status"], "current")
         older = copy.deepcopy(self.old_manifest)
         older["version"] = "2.0.0"
+        older["release_tag"] = "v2.0.0"
         self.assertEqual(self.store.prepare(older, src)["status"], "current")
         self.assertEqual(src.bytes, 0)
 

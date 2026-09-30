@@ -5,6 +5,7 @@ download missing byte ranges from the approximately 64 MiB HTTPS release packs.
 """
 import gzip
 import hashlib
+import json
 import os
 import stat
 import sys
@@ -15,8 +16,18 @@ from app.updater import (CHUNK_SIZE, MAC_MANIFEST, MANIFEST, PACK_SIZE, atomic_j
                          manifest_path, safe_path, sha, validate_manifest)
 
 
-def create_payload(bundle, output, version, platform="windows-x64", install_manifest=True):
+def create_payload(bundle, output, version, platform="windows-x64", install_manifest=True,
+                   channel="stable", release_tag=None):
     bundle, output = Path(bundle), Path(output)
+    release_tag = release_tag or f"v{version}"
+    metadata_path = bundle / ("Contents/Resources/UPDATE_CHANNEL.json" if platform == "macos-arm64"
+                              else "_internal/UPDATE_CHANNEL.json")
+    if metadata_path.exists():
+        metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+        if metadata != {"channel": channel, "release_tag": release_tag}:
+            raise ValueError("Bundle channel metadata differs from release")
+    elif channel != "stable":
+        raise ValueError("Experimental metadata must be embedded before signing")
     output.mkdir(parents=True, exist_ok=True)
     label = "macOS" if platform == "macos-arm64" else "Windows"
     files, links, blobs, packs = [], [], {}, {}
@@ -68,6 +79,7 @@ def create_payload(bundle, output, version, platform="windows-x64", install_mani
         if pack_file:
             pack_file.close()
     manifest = validate_manifest({"schema": 1, "launcher": 1, "platform": platform, "version": version,
+                                  "channel": channel, "release_tag": release_tag,
                                   "files": files, "symlinks": links, "blobs": blobs, "packs": packs})
     name = MAC_MANIFEST if platform == "macos-arm64" else MANIFEST
     atomic_json(output / name, manifest)
@@ -84,5 +96,8 @@ if __name__ == "__main__":
     parser.add_argument("output", type=Path)
     parser.add_argument("--version", required=True)
     parser.add_argument("--platform", choices=["windows-x64", "macos-arm64"], default="windows-x64")
+    parser.add_argument("--channel", choices=["stable", "experimental"], default="stable")
+    parser.add_argument("--release-tag")
     args = parser.parse_args()
-    create_payload(args.bundle, args.output, args.version, args.platform)
+    create_payload(args.bundle, args.output, args.version, args.platform,
+                   channel=args.channel, release_tag=args.release_tag)

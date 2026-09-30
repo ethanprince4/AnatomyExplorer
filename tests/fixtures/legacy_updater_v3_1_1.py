@@ -22,11 +22,6 @@ from urllib.parse import urlsplit
 
 REPO = "ethanprince4/AnatomyExplorer"
 API = f"https://api.github.com/repos/{REPO}/releases/latest"
-RELEASES_API = f"https://api.github.com/repos/{REPO}/releases?per_page=100"
-CHANNELS = {"stable", "experimental"}
-# Reserved numeric cores keep protocol-1 immutable launchers compatible. They
-# only accept numeric VERSION files and only activate a numerically newer app.
-PREVIEW_TAG_RE = re.compile(r"v([0-9]+)\.90\.([1-9][0-9]*)-preview\.([1-9][0-9]*)")
 MANIFEST = "AnatomyExplorer-Windows-update.json"
 MAC_MANIFEST = "AnatomyExplorer-macOS-update.json"
 CHUNK_SIZE = 4 * 1024 * 1024
@@ -61,24 +56,6 @@ def version_tuple(value):
     return tuple(map(int, value.split(".")))
 
 
-def release_version(tag, channel="stable"):
-    if not isinstance(channel, str) or channel not in CHANNELS or not isinstance(tag, str):
-        raise UpdateError("Unsupported update channel or release tag")
-    if channel == "experimental":
-        match = PREVIEW_TAG_RE.fullmatch(tag)
-        if not match or match[2] != match[3]:
-            raise UpdateError("Unsupported experimental release tag")
-        return f"{match[1]}.90.{match[2]}"
-    version = tag[1:] if tag.startswith("v") else tag
-    if version_tuple(version)[1] == 90:
-        raise UpdateError("Experimental version cannot enter the stable channel")
-    return version
-
-
-def manifest_channel(manifest):
-    return manifest.get("channel", "stable")
-
-
 def safe_path(value, platform="windows-x64"):
     if not isinstance(value, str) or len(value) > 220 or "\\" in value:
         raise UpdateError("Invalid update path")
@@ -104,15 +81,6 @@ def validate_manifest(data):
     if not isinstance(data, dict) or data.get("schema") != 1 or data.get("platform") not in {"windows-x64", "macos-arm64"} or data.get("launcher") != 1:
         raise UpdateError("This update needs a newer installer")
     version_tuple(data.get("version"))
-    channel = manifest_channel(data)
-    if not isinstance(channel, str) or channel not in CHANNELS:
-        raise UpdateError("Unsupported update channel")
-    tag = data.get("release_tag")
-    if channel == "experimental" or tag is not None:
-        if release_version(tag, channel) != data["version"]:
-            raise UpdateError("Update channel, release tag and version differ")
-    elif version_tuple(data["version"])[1] == 90:
-        raise UpdateError("Preview metadata is required for experimental versions")
     files, blobs, packs = data.get("files"), data.get("blobs"), data.get("packs")
     if not isinstance(files, list) or not 1 <= len(files) <= 50000 or not isinstance(blobs, dict) or not isinstance(packs, dict):
         raise UpdateError("Invalid update manifest")
@@ -209,14 +177,7 @@ def local_inventory(root):
             if p.is_symlink():
                 continue
             files.append({"path": p.relative_to(root).as_posix(), "size": p.stat().st_size, "sha256": file_sha(p)})
-    inventory = {"schema": 1, "platform": "macos-arm64", "version": (root / "Contents/Resources/VERSION").read_text().strip(), "files": files}
-    metadata = root / "Contents/Resources/UPDATE_CHANNEL.json"
-    if metadata.exists():
-        info = json.loads(metadata.read_text(encoding="utf-8"))
-        inventory.update(channel=info["channel"], release_tag=info["release_tag"])
-        if release_version(info["release_tag"], info["channel"]) != inventory["version"]:
-            raise UpdateError("Installed channel metadata differs")
-    return inventory
+    return {"schema": 1, "platform": "macos-arm64", "version": (root / "Contents/Resources/VERSION").read_text().strip(), "files": files}
 
 
 @contextlib.contextmanager
@@ -261,13 +222,10 @@ class SafeRedirect(urllib.request.HTTPRedirectHandler):
 
 
 class GitHubSource:
-    def __init__(self, platform=None, channel="stable"):
-        if not isinstance(channel, str) or channel not in CHANNELS:
-            raise UpdateError("Unsupported update channel")
+    def __init__(self, platform=None):
         self.opener = urllib.request.build_opener(SafeRedirect())
         self.urls = {}
         self.platform = platform or ("macos-arm64" if sys.platform == "darwin" else "windows-x64")
-        self.channel = channel
 
     def read(self, url, limit, headers=None, expected_range=None):
         req = urllib.request.Request(trusted_url(url), headers={"User-Agent": "AnatomyExplorer-Updater/1", **(headers or {})})
@@ -281,40 +239,17 @@ class GitHubSource:
             return data
 
     def latest(self):
-        if self.channel == "stable":
-            release = json.loads(self.read(API, 2 * 1024 * 1024))
-            if not isinstance(release, dict) or release.get("draft") or release.get("prerelease"):
-                raise UpdateError("Stable updates require a published stable release")
-        else:
-            releases = json.loads(self.read(RELEASES_API, 8 * 1024 * 1024))
-            if not isinstance(releases, list):
-                raise UpdateError("Invalid experimental release list")
-            name = MAC_MANIFEST if self.platform == "macos-arm64" else MANIFEST
-            candidates = []
-            for item in releases:
-                if not isinstance(item, dict) or item.get("draft") or item.get("prerelease") is not True:
-                    continue
-                try:
-                    version = release_version(item.get("tag_name"), "experimental")
-                except UpdateError:
-                    continue  # unrelated prereleases are never experimental feeds
-                if any(a.get("name") == name for a in item.get("assets", []) if isinstance(a, dict)):
-                    candidates.append((version_tuple(version), item))
-            if not candidates:
-                return None
-            release = max(candidates, key=lambda candidate: candidate[0])[1]
-        return self.from_release(release)
-
-    def from_release(self, release):
-        if release.get("draft") or bool(release.get("prerelease")) != (self.channel == "experimental"):
-            raise UpdateError("Release publication status differs from update channel")
+        release = json.loads(self.read(API, 2 * 1024 * 1024))
+        if release.get("draft") or release.get("prerelease"):
+            raise UpdateError("Only stable releases are supported")
         assets = {a["name"]: a for a in release.get("assets", [])}
         name = MAC_MANIFEST if self.platform == "macos-arm64" else MANIFEST
         if name not in assets:
             return None  # Older release or Mac-only release. No installer fallback download.
         asset = assets[name]
         tag = release.get("tag_name", "")
-        version = release_version(tag, self.channel)
+        version = tag[1:] if tag.startswith("v") else tag
+        version_tuple(version)
         prefix = f"https://github.com/{REPO}/releases/download/{tag}/"
         if asset.get("browser_download_url") != prefix + name:
             raise UpdateError("Manifest is not from the trusted repository release")
@@ -325,10 +260,8 @@ class GitHubSource:
         if sha(raw) != digest[7:] or len(raw) != asset.get("size"):
             raise UpdateError("Release manifest integrity check failed")
         manifest = validate_manifest(json.loads(raw))
-        if (manifest["version"] != version or manifest["platform"] != self.platform or
-                manifest_channel(manifest) != self.channel or
-                (manifest.get("release_tag") is not None and manifest["release_tag"] != tag)):
-            raise UpdateError("Release, manifest or update channel differs")
+        if manifest["version"] != version or manifest["platform"] != self.platform:
+            raise UpdateError("Release and manifest versions differ")
         for name, size in manifest["packs"].items():
             a = assets.get(name, {})
             if a.get("size") != size or a.get("browser_download_url") != prefix + name:
@@ -370,73 +303,7 @@ class UpdateStore:
             return {}
         if not isinstance(state, dict) or any(state.get(k) is not None and (not isinstance(state[k], str) or not ID_RE.fullmatch(state[k])) for k in ("current", "previous", "pending")):
             return {}
-        if (not isinstance(state.get("channel", "stable"), str) or state.get("channel", "stable") not in CHANNELS or
-                type(state.get("channel_generation", 0)) is not int or state.get("channel_generation", 0) < 0 or
-                (state.get("stable_anchor") is not None and
-                 (not isinstance(state["stable_anchor"], str) or not ID_RE.fullmatch(state["stable_anchor"])))):
-            return {}
         return state
-
-    def policy(self):
-        state = self.state()
-        return state.get("channel", "stable"), state.get("channel_generation", 0)
-
-    def set_channel(self, channel):
-        """Per-install opt-in; changing policy cancels even an in-flight download.
-
-        Stable return uses protocol-1 rollback, so old immutable launchers can
-        activate a lower numeric stable version without replacing the base app.
-        """
-        if not isinstance(channel, str) or channel not in CHANNELS:
-            raise UpdateError("Unsupported update channel")
-        with lock(self.root / "state.lock"):
-            state = self.state()
-            if state.get("channel", "stable") == channel:
-                return state
-            active_channel = manifest_channel(read_manifest(self.path(state.get("current"))))
-            if channel == "experimental":
-                if active_channel == "stable":
-                    state["stable_anchor"] = state.get("current")
-                elif "stable_anchor" not in state and manifest_channel(read_manifest(self.base)) != "experimental":
-                    raise UpdateError("A retained stable version is needed before enabling previews")
-                if state.pop("return_to_stable", False):
-                    state.pop("rollback_requested", None)
-            elif active_channel == "experimental":
-                if "stable_anchor" not in state and manifest_channel(read_manifest(self.base)) == "experimental":
-                    # Fresh separate preview install: its new bootstrap can stage
-                    # a lower numeric stable app, rather than rolling to a
-                    # nonexistent stable copy. No current process is replaced.
-                    state.pop("return_to_stable", None)
-                    state.pop("rollback_requested", None)
-                elif "stable_anchor" not in state or manifest_channel(read_manifest(self.path(state["stable_anchor"]))) != "stable":
-                    raise UpdateError("The retained stable version is unavailable; the running preview is unchanged")
-                else:
-                    state.update(previous=state["stable_anchor"], rollback_requested=True, return_to_stable=True)
-            state.update(channel=channel, channel_generation=state.get("channel_generation", 0) + 1)
-            state.pop("pending", None)
-            state.pop("failed", None)
-            atomic_json(self.state_file, state)
-            return state
-
-    def protect_stable_anchor(self):
-        """Pin the anchor BEFORE readiness lets a protocol-1 launcher clean up.
-
-        Old activate() overwrites previous on every preview launch. Pinning it
-        here keeps the stable app in the old launcher's own three-entry keep set.
-        A failed preview can always roll back to that stable app.
-        """
-        with lock(self.root / "state.lock"):
-            state = self.state()
-            if manifest_channel(read_manifest(self.path(state.get("current")))) != "experimental":
-                return
-            anchor = state.get("stable_anchor")
-            if "stable_anchor" not in state and manifest_channel(read_manifest(self.base)) == "experimental":
-                return  # A fresh preview install has its untouched preview base.
-            if "stable_anchor" not in state or manifest_channel(read_manifest(self.path(anchor))) != "stable":
-                raise UpdateError("Preview stable recovery anchor is unavailable")
-            if state.get("previous") != anchor:
-                state["previous"] = anchor
-                atomic_json(self.state_file, state)
 
     def path(self, ident):
         if ident is None:
@@ -451,12 +318,6 @@ class UpdateStore:
     def active(self):
         return self.path(self.state().get("current"))
 
-    def direct_stable_return(self, installed, target):
-        # This path only exists in new preview original installers. Immutable
-        # stable protocol-1 launchers use their retained stable anchor instead.
-        return (self.policy()[0] == "stable" and manifest_channel(installed) == "experimental" and
-                manifest_channel(target) == "stable" and manifest_channel(read_manifest(self.base)) == "experimental")
-
     def verify(self, root, manifest=None):
         root = Path(root)
         manifest = manifest or read_manifest(root)
@@ -467,14 +328,6 @@ class UpdateStore:
         version_file = "Contents/Resources/VERSION" if self.mac else "_internal/VERSION"
         if (root / version_file).read_text(encoding="utf-8").strip() != manifest["version"]:
             raise UpdateError("Installed version metadata differs")
-        metadata_path = root / ("Contents/Resources/UPDATE_CHANNEL.json" if self.mac else "_internal/UPDATE_CHANNEL.json")
-        if metadata_path.exists():
-            metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-            if (metadata.get("channel") != manifest_channel(manifest) or
-                    metadata.get("release_tag") != manifest.get("release_tag")):
-                raise UpdateError("Installed channel metadata differs")
-        elif manifest_channel(manifest) == "experimental":
-            raise UpdateError("Experimental bundle channel metadata is missing")
         for link in manifest.get("symlinks", []):
             p = root / link["path"]
             if not p.is_symlink() or os.readlink(p) != link["target"] or not p.resolve().is_relative_to(root.resolve()) or not p.exists():
@@ -485,7 +338,7 @@ class UpdateStore:
                 raise UpdateError("macOS bundle signature verification failed")
         return manifest
 
-    def prepare(self, manifest, source, progress=lambda message: None, policy_token=None):
+    def prepare(self, manifest, source, progress=lambda message: None):
         """Resume chunks, reuse verified local files/blocks, then publish a pending pointer.
 
         No live version is overwritten. Hardlinks are used only for unchanged data
@@ -497,21 +350,9 @@ class UpdateStore:
             raise UpdateError("Update platform differs from this installation")
         self.root.mkdir(parents=True, exist_ok=True)
         with lock(self.root / "prepare.lock"):
-            token = self.policy() if policy_token is None else policy_token
-            if self.policy() != token or manifest_channel(manifest) != token[0]:
-                raise UpdateError("Update channel changed; this download cannot activate")
-            if getattr(source, "channel", token[0]) != token[0]:
-                raise UpdateError("Download source differs from selected update channel")
-            state = self.state()
             current = self.active()
             installed = read_manifest(current)
-            if state.get("return_to_stable") and state.get("rollback_requested"):
-                return {"status": "returning", "downloaded": 0, "reused": 0}
-            if (token[0] == "experimental" and "stable_anchor" not in state and
-                    manifest_channel(read_manifest(self.base)) != "experimental"):
-                raise UpdateError("Experimental updates require an explicit opt-in and stable recovery anchor")
-            if (version_tuple(manifest["version"]) <= version_tuple(installed["version"]) and
-                    not self.direct_stable_return(installed, manifest)):
+            if version_tuple(manifest["version"]) <= version_tuple(installed["version"]):
                 return {"status": "current", "downloaded": 0, "reused": 0}
             identity = manifest["version"] + "-" + sha(json.dumps(manifest, sort_keys=True, separators=(",", ":")).encode())[:16]
             final = self.path(identity)
@@ -618,8 +459,6 @@ class UpdateStore:
                     os.replace(stage_folder, final.parent if self.mac else final)
                 with lock(self.root / "state.lock"):
                     state = self.state()
-                    if (state.get("channel", "stable"), state.get("channel_generation", 0)) != token:
-                        return {"status": "cancelled", "downloaded": downloaded, "reused": reused}
                     state["pending"] = identity
                     state.pop("failed", None)
                     atomic_json(self.state_file, state)
@@ -636,14 +475,8 @@ class UpdateStore:
             state = self.state()
             pending = state.get("pending")
             if pending:
-                manifest = self.verify(self.path(pending))
-                if manifest_channel(manifest) != state.get("channel", "stable"):
-                    state.pop("pending", None)
-                    atomic_json(self.state_file, state)
-                    return self.active()
-                installed = read_manifest(self.active())
-                if (version_tuple(manifest["version"]) <= version_tuple(installed["version"]) and
-                        not self.direct_stable_return(installed, manifest)):
+                self.verify(self.path(pending))
+                if version_tuple(read_manifest(self.path(pending))["version"]) <= version_tuple(read_manifest(self.active())["version"]):
                     state.pop("pending", None)
                 else:
                     state.update(previous=state.get("current"), current=pending, trial=True)
@@ -661,7 +494,6 @@ class UpdateStore:
             state.update(current=previous, previous=None, failed=state.get("current"), trial=False)
             state.pop("pending", None)
             state.pop("rollback_requested", None)
-            state.pop("return_to_stable", None)
             atomic_json(self.state_file, state)
             return True
 
@@ -684,7 +516,7 @@ class UpdateStore:
         try:
             with lock(self.root / "prepare.lock"):
                 state = self.state()
-                keep = {state.get(k) for k in ("current", "previous", "pending", "stable_anchor")}
+                keep = {state.get(k) for k in ("current", "previous", "pending")}
                 if not self.versions.exists():
                     return
                 for path in self.versions.iterdir():
@@ -706,7 +538,6 @@ def store_for(base=None):
 def mark_ready():
     token = os.environ.get("AE_READY_FILE")
     if token:
-        store_for().protect_stable_anchor()
         Path(token).write_text("ready", encoding="ascii")
 
 
