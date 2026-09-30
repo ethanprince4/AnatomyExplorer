@@ -21,6 +21,9 @@ def configure_qt():
 
 
 def main():
+    if "--pick-diagnostics" in sys.argv:
+        from .picking_diagnostics import main as diagnostics
+        return diagnostics()
     parser = argparse.ArgumentParser(description="Anatomy Explorer")
     parser.add_argument("--script", help="semicolon-separated automation commands (testing)")
     parser.add_argument("--no-restore", action="store_true", help="ignore saved window layout")
@@ -92,6 +95,11 @@ def main():
     win = MainWindow(ds, script=args.script)
     win.show()
     splash.finish(win)
+    from .ui.updates import attach_updates
+    from .updater import mark_ready
+    attach_updates(win)
+    from PySide6.QtCore import QTimer
+    QTimer.singleShot(500, mark_ready)
     return app.exec()
 
 
