@@ -452,11 +452,22 @@ class Renderer:
         # drivers; the ID remains in R even though the texture is single-channel.
         components = 1 if attachment == -1 else 4
         pixel = np.full(components, np.nan, dtype=np.float32)
+        # Apple's FIXED_ONLY readback can clamp float IDs when the normalized
+        # output target is active as ModernGL sets the clamp mode. Bind our
+        # floating gbuffer first, then restore the caller's render state.
+        previous_fbo = self.ctx.fbo
+        previous_viewport = self.ctx.viewport
+        if previous_fbo is None:
+            return None  # no restorable render target; fail closed
         try:
+            self.gbuffer.use()
             self.gbuffer.read_into(pixel, viewport=(int(x), int(y), 1, 1),
                                    components=components, attachment=attachment, dtype="f4")
         except moderngl.Error:
             return None
+        finally:
+            previous_fbo.use()
+            self.ctx.viewport = previous_viewport
         value = float(pixel[0])
         return value if np.isfinite(value) else None
 

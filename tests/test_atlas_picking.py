@@ -62,7 +62,12 @@ class ReadbackTests(unittest.TestCase):
                 raise moderngl.Error("simulated driver failure")
             if value is not None:
                 buffer[0] = value
-        renderer.gbuffer = SimpleNamespace(read_into=read_into)
+        ctx = SimpleNamespace(fbo=None, viewport=(0, 0, 100, 100))
+        def bind():
+            ctx.fbo = renderer.gbuffer
+        renderer.gbuffer = SimpleNamespace(read_into=read_into, use=bind)
+        ctx.fbo = renderer.gbuffer
+        renderer.ctx = ctx
         return renderer
 
     def test_failed_or_invalid_read_never_returns_stale_id(self):

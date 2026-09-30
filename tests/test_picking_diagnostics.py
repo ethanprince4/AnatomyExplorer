@@ -74,7 +74,10 @@ class IndependentGPUControlsTests(unittest.TestCase):
             self.assertEqual(production["vao_format"], "3f 3f u2 u2")
             self.assertEqual([row["expected_encoded"] for row in production["rows"]], [2, 257, 3922])
             for row, expected in zip(production["rows"], (2, 257, 3922)):
-                self.assertEqual(row["occupied"]["raw_rgba"][0], expected)
+                # raw_rgba deliberately bypasses the repaired production method.
+                self.assertEqual(row["occupied"]["native_unclamped"]["rgba"][0], expected)
+                self.assertFalse(row["occupied"]["native_unclamped"]["errors"])
+                self.assertEqual(row["occupied"]["production_scalar"], expected)
                 self.assertEqual(row["occupied"]["production_pick"], expected - 1)
                 self.assertEqual(row["background"]["raw_rgba"][0], 0)
                 self.assertEqual(row["background"]["production_pick"], -1)

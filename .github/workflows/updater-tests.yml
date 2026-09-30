@@ -67,3 +67,15 @@ jobs:
       - run: python -m pip install -r requirements.txt
       - name: Test picking, study recovery and general bug fixes
         run: python -m unittest discover -s tests -v
+      - name: Require actual Mac production ID readback controls
+        if: runner.os == 'macOS'
+        env:
+          QT_QPA_PLATFORM: cocoa
+        run: python -m app.picking_diagnostics --gpu-controls-only --report mac-release-gpu-controls.json
+      - name: Preserve Mac production ID readback evidence
+        if: always() && runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mac-release-gpu-controls
+          path: mac-release-gpu-controls.json
+          if-no-files-found: warn

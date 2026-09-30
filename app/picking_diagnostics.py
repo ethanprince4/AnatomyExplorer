@@ -258,6 +258,7 @@ def production_gpu_controls(renderer):
     report = {"expected_source": "fixed CPU triangle, identity view/projection, known state/material",
               "same_renderer_attachment": renderer.gbuffer.glo, "rows": [],
               "path": "Renderer.__init__/resize/update_state/render/vao_opaque/_read_float/pick",
+              "readback_interpretation": "raw_rgba is the deliberately unbound comparison; production_scalar/pick use the repaired binding path, checked against fixed CPU IDs and native unclamped readback.",
               "geometry_vs_sha256": hashlib.sha256(shaders.GEOMETRY_VS.encode("utf-8")).hexdigest(),
               "opaque_fs_sha256": hashlib.sha256(shaders.OPAQUE_FS.encode("utf-8")).hexdigest(),
               "vao_format": renderer._format_for(renderer.p_opaque),
@@ -290,7 +291,8 @@ def production_gpu_controls(renderer):
             depth_errors = gl.errors()
             passed = (renderer.frame_ok and not render_errors and not depth_errors
                       and not occupied["errors"] and not background["errors"]
-                      and occupied["raw_rgba"][0] == encoded
+                      and occupied["native_unclamped"]["rgba"][0] == encoded
+                      and not occupied["native_unclamped"]["errors"]
                       and occupied["production_scalar"] == encoded
                       and occupied["production_pick"] == encoded - 1
                       and background["raw_rgba"][0] == 0 and background["production_pick"] == -1
@@ -734,7 +736,15 @@ def run_checks():
             native = NativeGL()
             before = native.state()
             before_errors = native.errors()
-            view.renderer.gbuffer.read_into(pixels, components=4, attachment=2, dtype="f4")
+            previous_fbo, previous_viewport = view.ctx.fbo, view.ctx.viewport
+            if previous_fbo is None:
+                raise RuntimeError("Atlas ID read requires a restorable framebuffer")
+            try:
+                view.renderer.gbuffer.use()
+                view.renderer.gbuffer.read_into(pixels, components=4, attachment=2, dtype="f4")
+            finally:
+                previous_fbo.use()
+                view.ctx.viewport = previous_viewport
             err = view.ctx.error
             finite = pixels[..., 0][np.isfinite(pixels[..., 0])]
             values, counts = np.unique(finite, return_counts=True)
@@ -893,7 +903,7 @@ def run_checks():
             def bad_read(buffer, value=value, **kwargs):
                 if value is not None:
                     buffer[0] = value
-            renderer.gbuffer = SimpleNamespace(read_into=bad_read)
+            renderer.gbuffer = SimpleNamespace(read_into=bad_read, use=real_fbo.use)
             check(renderer.pick(10, 10) == -1, label + " cannot select an arbitrary structure")
             if value is None or not math.isfinite(value) or value > 1:
                 check(renderer.world_at(10, 10) is None, label + " cannot yield a bogus world point")
