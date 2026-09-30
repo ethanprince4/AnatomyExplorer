@@ -7,11 +7,13 @@ production renderer paths. Atlas pointer checks remain integration coverage: the
 expected IDs come from the same attachment, so they do not prove anatomical ID
 fidelity. CI's OS/driver differs from the reported macOS 26.6.2 device.
 
-The tree job queries the diagnostic's own synthetic tree using the exact native
-`accessibilitySelectedChildren` getter, comparing one/two columns and retained-item
-selection follow-ups. It requests no Accessibility permission, touches no study
-app, and uploads synthetic JSONL only. It is a discriminator; a pass does not
-validate the user's external AX client or physical tree interaction.
+The tree job currently runs one plain synthetic case with stage-by-stage logging
+before the exact native `accessibilitySelectedChildren` getter. The earlier
+five-case baseline timed out before reaching that getter and remains inconclusive.
+The full one/two-column matrix resumes after this boundary is understood. The
+probe requests no Accessibility permission, touches no study app, and uploads
+synthetic JSONL only. A pass does not validate the user's external AX client or
+physical tree interaction.
 
 The separate `AnatomyExplorer-Mac-Diagnostic` artifact contains an ad-hoc signed
 Apple-silicon app with Python/Qt/NumPy/ModernGL and packaged CA roots. It contains

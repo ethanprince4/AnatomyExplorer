@@ -73,23 +73,33 @@ class NativeProbe:
     def snapshot(self, label):
         # All calls execute synchronously in the GUI thread. Each pass gets its
         # own autorelease pool, matching Cocoa's normal event-boundary cleanup.
+        def stage(name, operation):
+            self.emit('native_stage_begin', label=label, stage=name)
+            value = operation()
+            self.emit('native_stage_end', label=label, stage=name)
+            return value
+
         pool_class = self.objc.objc_getClass(b'NSAutoreleasePool')
-        pool = self.send(self.send(pool_class, self.sel('alloc')), self.sel('init'))
+        pool = stage('autorelease_pool', lambda:
+                     self.send(self.send(pool_class, self.sel('alloc')), self.sel('init')))
         target = None
         try:
-            view = int(self.window.winId())
+            view = stage('window_win_id', lambda: int(self.window.winId()))
             class_name = self.objc.object_getClassName(view).decode('ascii', 'replace')
             if class_name != 'QNSView' or not self.responds(view, 'activateQtAccessibility'):
                 raise RuntimeError('Qt top-level winId did not identify the expected QNSView')
-            self.send_void(view, self.sel('activateQtAccessibility'))
-            interface = self.QAccessible.queryAccessibleInterface(self.tree)
+            stage('activate_qt_accessibility', lambda:
+                  self.send_void(view, self.sel('activateQtAccessibility')))
+            interface = stage('query_tree_interface', lambda:
+                              self.QAccessible.queryAccessibleInterface(self.tree))
             if interface is None:
                 raise RuntimeError('Qt did not expose an accessible interface for the tree')
-            identifier = self.QAccessible.uniqueId(interface)
-            target = self.send_u32(self.element_class, self.sel('elementWithId:'), identifier)
+            identifier = stage('tree_interface_id', lambda: self.QAccessible.uniqueId(interface))
+            target = stage('native_element_for_id', lambda:
+                           self.send_u32(self.element_class, self.sel('elementWithId:'), identifier))
             if not target:
                 raise RuntimeError('Qt did not expose the native tree accessibility element')
-            self.send(target, self.sel('retain'))
+            stage('retain_native_element', lambda: self.send(target, self.sel('retain')))
             self.emit('native_probe_begin', label=label, order=self.order,
                       tree_class=self.objc.object_getClassName(target).decode('ascii', 'replace'))
             result = {}

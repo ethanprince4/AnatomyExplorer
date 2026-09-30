@@ -14,11 +14,15 @@ from pathlib import Path
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--single-plain", action="store_true",
+                        help="Run one bounded plain case to localize a pre-getter hang")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     cases = [(1, "plain", "selected-first"), (2, "plain", "selected-first"),
              (2, "combined", "selected-first"), (2, "plain", "hierarchy-first"),
              (2, "combined", "hierarchy-first")]
+    if args.single_plain:
+        cases = cases[:1]
     results = []
     for columns, mode, order in cases:
         name = f"columns{columns}-{mode}-{order}"
