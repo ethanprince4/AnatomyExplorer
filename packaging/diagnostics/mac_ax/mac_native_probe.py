@@ -88,9 +88,15 @@ class NativeProbe:
             class_name = stage('native_view_class', lambda:
                                self.objc.object_getClassName(view).decode('ascii', 'replace'))
             self.emit('native_view_identity', label=label, class_name=class_name)
+            # Cocoa KVO can dynamically subclass QNSView; identity by exact
+            # class-name text rejects valid NSKVONotifying_QNSView instances.
+            qt_view_class = self.objc.objc_getClass(b'QNSView')
+            is_qt_view = stage('native_view_is_qnsview', lambda:
+                               bool(qt_view_class and self.send_bool(
+                                   view, self.sel('isKindOfClass:'), qt_view_class)))
             can_activate = stage('native_view_activation_selector', lambda:
                                  self.responds(view, 'activateQtAccessibility'))
-            if class_name != 'QNSView' or not can_activate:
+            if not is_qt_view or not can_activate:
                 raise RuntimeError('Qt top-level winId did not identify the expected QNSView')
             stage('activate_qt_accessibility', lambda:
                   self.send_void(view, self.sel('activateQtAccessibility')))
