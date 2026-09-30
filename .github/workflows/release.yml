@@ -7,7 +7,7 @@ name: Release
 
 on:
   pull_request:
-    paths: ['app/**', 'packaging/**', '.github/workflows/release.yml']
+    paths: ['app/**', 'packaging/**', '!packaging/diagnostics/**', '.github/workflows/release.yml']
   push:
     tags: ["v*"]
   workflow_dispatch:

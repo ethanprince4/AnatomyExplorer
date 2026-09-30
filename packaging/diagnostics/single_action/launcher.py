@@ -124,7 +124,8 @@ def main(argv=None):
         qpa = "cocoa" if sys.platform == "darwin" else ("windows" if sys.platform == "win32" else "offscreen")
         env = dict(os.environ, QT_QPA_PLATFORM=qpa)
         try:
-            child = subprocess.run(command, env=env, capture_output=True, timeout=180)
+            child = subprocess.run(command, env=env, stdout=subprocess.DEVNULL,
+                                   stderr=subprocess.DEVNULL, timeout=180)
             code = child.returncode
         except subprocess.TimeoutExpired:
             code = "timeout"

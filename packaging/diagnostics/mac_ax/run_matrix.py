@@ -30,7 +30,7 @@ def main():
         # Captured stderr may contain OS crash paths; never emit or upload it.
         try:
             child = subprocess.run(command, env=dict(os.environ, QT_QPA_PLATFORM="cocoa"),
-                                   capture_output=True, timeout=60)
+                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
             code = child.returncode
         except subprocess.TimeoutExpired:
             code = "timeout"

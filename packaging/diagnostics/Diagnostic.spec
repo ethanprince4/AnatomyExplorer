@@ -26,7 +26,7 @@ for candidate in (Path(sys.base_prefix) / "LICENSE.txt",
 a = Analysis([str(ROOT / "packaging/diagnostics/single_action/launcher.py")],
              pathex=[str(ROOT), str(ROOT / "packaging/diagnostics/mac_ax")], datas=datas,
              hiddenimports=collect_submodules("glcontext"),
-             excludes=["app.main_window", "app.viewport", "app.data", "app.micro", "app.models",
+             excludes=["app.main_window", "app.viewport", "app.data", "app.micro.registry", "app.models",
                        "scipy", "skimage", "shapely", "matplotlib", "tkinter", "IPython",
                        "PySide6.QtWebEngineCore", "PySide6.QtQuick", "PySide6.QtQml"],
              module_collection_mode={"app": "py"})
