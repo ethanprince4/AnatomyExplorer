@@ -85,8 +85,12 @@ class NativeProbe:
         target = None
         try:
             view = stage('window_win_id', lambda: int(self.window.winId()))
-            class_name = self.objc.object_getClassName(view).decode('ascii', 'replace')
-            if class_name != 'QNSView' or not self.responds(view, 'activateQtAccessibility'):
+            class_name = stage('native_view_class', lambda:
+                               self.objc.object_getClassName(view).decode('ascii', 'replace'))
+            self.emit('native_view_identity', label=label, class_name=class_name)
+            can_activate = stage('native_view_activation_selector', lambda:
+                                 self.responds(view, 'activateQtAccessibility'))
+            if class_name != 'QNSView' or not can_activate:
                 raise RuntimeError('Qt top-level winId did not identify the expected QNSView')
             stage('activate_qt_accessibility', lambda:
                   self.send_void(view, self.sel('activateQtAccessibility')))

@@ -199,11 +199,26 @@ def main():
     app = QApplication(sys.argv[:1])
     window = Repro(args)
     window.show()
-    if args.auto:
-        QTimer.singleShot(args.interval_ms, lambda:window.auto_phase(0))
-    result = app.exec()
-    if window.log:
-        window.log.close()
+    previous_hook = sys.excepthook
+
+    def callback_failed(exception_type, exception, tb):
+        # Qt catches Python slot exceptions. Without this hook, an exception
+        # before the next singleShot leaves the event loop idle until timeout.
+        # Record no message, traceback, path, pointer or user content.
+        try:
+            window.emit('diagnostic_callback_error', exception_type=exception_type.__name__)
+        finally:
+            app.exit(2)
+
+    sys.excepthook = callback_failed
+    try:
+        if args.auto:
+            QTimer.singleShot(args.interval_ms, lambda:window.auto_phase(0))
+        result = app.exec()
+    finally:
+        sys.excepthook = previous_hook
+        if window.log:
+            window.log.close()
     return result
 
 
