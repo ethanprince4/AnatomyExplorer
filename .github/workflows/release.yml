@@ -102,6 +102,10 @@ jobs:
       - name: Build
         run: python packaging/build.py --version "$VERSION" --jobs ${{ matrix.jobs }}
 
+      - name: Verify installer in disposable temporary installation
+        if: runner.os == 'Windows'
+        run: python packaging/check_install.py packaging/dist/release/AnatomyExplorer-Setup-Windows.exe
+
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.asset }}

@@ -13,6 +13,13 @@ if sys.__stderr__ is None:
     sys.__stderr__ = sys.stderr
 sys.dont_write_bytecode = True      # never write __pycache__ into the installed (read-only / signed) app folder
 
+# Test subprocesses redirect Qt registry/preferences as well as LOCALAPPDATA.
+# Ordinary installations keep the established identity and settings location.
+if os.environ.get("AE_TEST_SETTINGS_DIR"):
+    from PySide6.QtCore import QSettings
+    QSettings.setDefaultFormat(QSettings.IniFormat)
+    QSettings.setPath(QSettings.IniFormat, QSettings.UserScope, os.environ["AE_TEST_SETTINGS_DIR"])
+
 if "--pick-diagnostics" in sys.argv:
     from app.picking_diagnostics import main
     sys.exit(main())

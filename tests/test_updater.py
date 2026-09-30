@@ -206,6 +206,60 @@ class UpdaterTests(unittest.TestCase):
             source.read("https://github.com/file", 10, expected_range="bytes 0-9/100")
         response.read.assert_not_called()
 
+    def test_launcher_waits_for_child_on_bookkeeping_permission_failure(self):
+        child = unittest.mock.Mock(returncode=0)
+        child.poll.side_effect = [None, 0]
+
+        def spawn(command, env):
+            Path(env["AE_READY_FILE"]).write_text("ready")
+            return child
+
+        with patch.object(u, "store_for", return_value=self.store), patch.object(u.subprocess, "Popen", side_effect=spawn) as popen, patch.object(self.store, "healthy", side_effect=PermissionError("state denied")), patch.object(u.time, "sleep"):
+            self.assertEqual(u.launch_managed([]), 0)
+        self.assertEqual(popen.call_count, 1, "must never launch a second process over live study")
+        self.assertEqual(child.poll.call_count, 2, "first child must finish")
+
+    def test_trial_startup_failure_and_power_loss_roll_back(self):
+        self.store.prepare(self.manifest, LocalSource(self.packs))
+        selected = self.store.activate()
+        self.assertTrue(self.store.state()["trial"])
+        # Previous trial never made a ready marker (e.g. power loss). Next launch
+        # must go to base before starting a new child.
+        child = unittest.mock.Mock(returncode=0)
+        child.poll.return_value = 0
+        with patch.object(u, "store_for", return_value=self.store), patch.object(u.subprocess, "Popen", return_value=child) as popen:
+            u.launch_managed([])
+        self.assertEqual(Path(popen.call_args.args[0][0]).parent, self.base)
+        self.assertNotEqual(selected, self.base)
+        # A new child exits before ready, then the launcher starts the retained base.
+        self.store.prepare(self.manifest, LocalSource(self.packs))
+        failed = unittest.mock.Mock(returncode=1)
+        failed.poll.return_value = 1
+        with patch.object(u, "store_for", return_value=self.store), patch.object(u.subprocess, "Popen", side_effect=[failed, child]) as popen:
+            u.launch_managed([])
+        self.assertEqual(popen.call_count, 2)
+        self.assertEqual(self.store.active(), self.base)
+
+    def test_cleanup_does_not_delete_unpublished_prepared_version(self):
+        self.store.versions.mkdir(parents=True)
+        version = self.store.versions / "3.2.0-aaaaaaaaaaaaaaaa"
+        version.mkdir()
+        with u.lock(self.store.root / "prepare.lock"):
+            self.store.cleanup()
+            self.assertTrue(version.exists(), "complete but unpublished directory is still preparing")
+        self.store.cleanup()
+        self.assertFalse(version.exists())
+
+    @unittest.skipIf(os.name == "nt", "unprivileged POSIX symlink path test; Mac CI exercises it")
+    def test_staging_and_cache_symlink_escape_refused(self):
+        self.store.root.mkdir()
+        outside = self.root / "outside"
+        outside.mkdir()
+        (self.store.root / "chunks").symlink_to(outside, target_is_directory=True)
+        with self.assertRaisesRegex(u.UpdateError, "storage"):
+            self.store.prepare(self.manifest, LocalSource(self.packs))
+        self.assertEqual(list(outside.iterdir()), [])
+
 
 @unittest.skipUnless(sys.platform == "darwin", "real macOS signature/symlink check runs on macOS CI")
 class MacBundleTests(unittest.TestCase):
