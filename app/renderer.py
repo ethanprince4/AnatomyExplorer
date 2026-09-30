@@ -1,5 +1,3 @@
-import struct
-
 import moderngl
 import numpy as np
 
@@ -447,20 +445,36 @@ class Renderer:
         self.frame_ok = True
 
     # ------------------------------------------------------------------ queries
+    def _read_float(self, x, y, attachment):
+        # read() allocates uninitialized bytes. A driver/context read failure
+        # must never turn reused memory into a valid anatomy ID (or world point).
+        # RGBA color readback also avoids single-channel readback quirks on GL
+        # drivers; the ID remains in R even though the texture is single-channel.
+        components = 1 if attachment == -1 else 4
+        pixel = np.full(components, np.nan, dtype=np.float32)
+        try:
+            self.gbuffer.read_into(pixel, viewport=(int(x), int(y), 1, 1),
+                                   components=components, attachment=attachment, dtype="f4")
+        except moderngl.Error:
+            return None
+        value = float(pixel[0])
+        return value if np.isfinite(value) else None
+
     def pick(self, x, y):
         w, h = self.size
         if not self.frame_ok or not (0 <= x < w and 0 <= y < h):
             return -1
-        data = self.gbuffer.read(viewport=(x, y, 1, 1), components=1, attachment=2, dtype="f4")
-        return int(round(struct.unpack("f", data)[0])) - 1
+        value = self._read_float(x, y, 2)
+        if value is None or value < 1 or value > self.ds.n or abs(value - round(value)) > 0.001:
+            return -1
+        return int(round(value)) - 1
 
     def world_at(self, x, y):
         w, h = self.size
         if not self.frame_ok or not (0 <= x < w and 0 <= y < h):
             return None
-        data = self.gbuffer.read(viewport=(x, y, 1, 1), components=1, attachment=-1, dtype="f4")
-        d = struct.unpack("f", data)[0]
-        if d >= 1.0:
+        d = self._read_float(x, y, -1)
+        if d is None or not (0 <= d < 1.0):
             return None
         ndc = np.array([(x + 0.5) / w * 2 - 1, (y + 0.5) / h * 2 - 1, d * 2 - 1, 1.0])
         p = np.linalg.inv(self.last_vp) @ ndc
@@ -474,6 +488,6 @@ class Renderer:
             if not self.frame_ok or not (0 <= x < w and 0 <= y < h):
                 out.append(None)
                 continue
-            data = self.gbuffer.read(viewport=(int(x), int(y), 1, 1), components=1, attachment=-1, dtype="f4")
-            out.append(struct.unpack("f", data)[0])
+            d = self._read_float(x, y, -1)
+            out.append(d if d is not None and 0 <= d <= 1 else None)
         return out

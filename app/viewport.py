@@ -227,6 +227,7 @@ class Viewport(QOpenGLWidget):
         self._fbo = None
         self._fbo_id = None
         self._state_dirty = True
+        self._pick_frame_key = None
         self.clip_on = [False, False, False]
         self.clip_pos = [0.0, 0.0, 0.9]
         self.clip_flip = [False, False, False]
@@ -270,7 +271,16 @@ class Viewport(QOpenGLWidget):
 
     def _physical_size(self):
         dpr = self.devicePixelRatioF()
-        return int(self.width() * dpr), int(self.height() * dpr)
+        return round(self.width() * dpr), round(self.height() * dpr)
+
+    def _frame_key(self):
+        """Inputs to the ID/depth buffers, including changes awaiting Qt's next paint."""
+        w, h = self._physical_size()
+        scale = float(self.settings.get("render_scale", 1.0))
+        size = max(int(w * scale), 2), max(int(h * scale), 2)
+        vp = self.camera.proj(size[0] / size[1]) @ self.camera.view()
+        return (size, vp.tobytes(), repr(self.clip_uniforms()),
+                repr(sorted(self.settings.items())))
 
     def paintGL(self):
         if self.renderer is None:
@@ -295,6 +305,7 @@ class Viewport(QOpenGLWidget):
             self._fbo_id = fbo_id
         self.renderer.render(self._fbo, self.camera, self.settings, self.clip_uniforms(),
                              hover_id=self.state.hovered, has_selection=bool(self.state.selected))
+        self._pick_frame_key = self._frame_key()
         self._update_landmarks()
         self.frameTimed.emit((time.perf_counter() - t0) * 1000.0)
         self.overlay.update()
@@ -388,27 +399,37 @@ class Viewport(QOpenGLWidget):
 
     # ------------------------------------------------------------------ picking
     def _gl_xy(self, pos):
-        dpr = self.devicePixelRatioF()
-        w, h = self._physical_size()
-        scale = (self.renderer.size[0] / w) if self.renderer and self.renderer.size[0] and w else 1.0
-        return int(pos.x() * dpr * scale), int((h - 1 - pos.y() * dpr) * scale)
+        # Qt events use logical, top-left coordinates; the ID buffer uses its
+        # actual (possibly reduced/fractional-DPI) dimensions and bottom-left.
+        # Scale each axis independently and flip AFTER choosing the pixel row.
+        w, h = self.renderer.size if self.renderer else self._physical_size()
+        return (math.floor(pos.x() * w / max(self.width(), 1)),
+                h - 1 - math.floor(pos.y() * h / max(self.height(), 1)))
+
+    def _ensure_pick_frame(self):
+        # A click/pinch may arrive before a queued repaint after an orbit,
+        # hide, resize or scale change. Never read those previous ID/depth pixels.
+        if self._state_dirty or self._pick_frame_key != self._frame_key():
+            self.paintGL()
 
     def pick_at(self, pos):
         if self.renderer is None:
             return -1
         self.makeCurrent()
         try:
+            self._ensure_pick_frame()
             x, y = self._gl_xy(pos)
             sid = self.renderer.pick(x, y)
         finally:
             self.doneCurrent()
-        return sid if 0 <= sid < self.ds.n else -1
+        return sid if 0 <= sid < self.ds.n and self.state.visible_mask()[sid] else -1
 
     def world_at(self, pos):
         if self.renderer is None:
             return None
         self.makeCurrent()
         try:
+            self._ensure_pick_frame()
             x, y = self._gl_xy(pos)
             return self.renderer.world_at(x, y)
         finally:
@@ -570,8 +591,6 @@ class Viewport(QOpenGLWidget):
                 idxs.append(self.focus_landmark)
             idxs = idxs[:int(self.settings.get('max_landmarks', 60))]
             vis = self.state.visible_mask()
-            dpr = self.devicePixelRatioF()
-            h_phys = self._physical_size()[1]
             near, far = self.camera.near_far()
             probes = []
             for i in idxs:
@@ -584,7 +603,7 @@ class Viewport(QOpenGLWidget):
                 probes.append((i, pr))
             depths = []
             if probes and self._press is None:
-                depths = self.renderer.depths_at([(int(pr[0] * dpr), h_phys - 1 - int(pr[1] * dpr)) for _, pr in probes])
+                depths = self.renderer.depths_at([self._gl_xy(QPointF(pr[0], pr[1])) for _, pr in probes])
 
             def lin(d):
                 z = d * 2 - 1
