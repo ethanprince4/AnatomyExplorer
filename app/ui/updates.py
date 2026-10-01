@@ -1,13 +1,13 @@
-"""Quiet background delivery; activation waits for the next normal launch."""
+"""Background delivery with an optional restart after update verification."""
 import threading
 import time
 
-from PySide6.QtCore import QEvent, QObject, QTimer, Signal
+from PySide6.QtCore import QEvent, QObject, QTimer, Signal, Qt
 from shiboken6 import isValid
-from PySide6.QtWidgets import QCheckBox, QDialog, QDialogButtonBox, QLabel, QPushButton, QVBoxLayout
+from PySide6.QtWidgets import QCheckBox, QDialog, QDialogButtonBox, QLabel, QMessageBox, QPushButton, QVBoxLayout
 
 from ..config import FROZEN
-from ..updater import GitHubSource, UpdateError, installed_metadata, manifest_channel, read_manifest, store_for
+from ..updater import GitHubSource, UpdateError, installed_metadata, manifest_channel, store_for
 
 
 class UpdateController(QObject):
@@ -21,6 +21,9 @@ class UpdateController(QObject):
         self.worker_generation = 0
         self.result = None
         self.dialog = None
+        self.launch_check_started = False
+        self.notified_ready = None
+        self.ready_notice = None
         self.closed = threading.Event()
         window.installEventFilter(self)
         # Event.set remains safe even after the QObject wrappers are destroyed.
@@ -30,7 +33,7 @@ class UpdateController(QObject):
         self.automatic_timer = QTimer(self)
         self.automatic_timer.setSingleShot(True)
         self.automatic_timer.timeout.connect(self.automatic)
-        self.automatic_timer.start(30000)
+        self.automatic_timer.start(3000)
 
     def eventFilter(self, watched, event):
         # Cocoa can deliver a final event while the Python wrapper's fields
@@ -68,15 +71,22 @@ class UpdateController(QObject):
         if not self.window.qsettings.value("updates/automatic", True, type=bool):
             self.automatic_timer.stop()
             return
+        if self.busy:
+            return
+        # A persisted last-success timestamp must never suppress a new launch.
+        # Manual checks count as this launch's attempt too.
+        if not self.launch_check_started:
+            self.check()
+            return
+        if not self.result or self.result.get("status") != "error":
+            self.automatic_timer.stop()
+            return
+        # Failed attempts may retry within this session using bounded backoff.
         settings = self.window.qsettings
         now = time.time()
-        success = settings.value("updates/last_success", 0, type=float)
         attempt = settings.value("updates/last_attempt", 0, type=float)
-        failures = max(0, settings.value("updates/consecutive_failures", 0, type=int))
-        if failures and attempt >= success:
-            due = attempt + min(15 * 60 * 2 ** min(failures - 1, 5), 6 * 3600)
-        else:
-            due = success + 24 * 3600 if success else 0
+        failures = max(1, settings.value("updates/consecutive_failures", 0, type=int))
+        due = attempt + min(15 * 60 * 2 ** min(failures - 1, 5), 6 * 3600)
         if due > now:
             self.automatic_timer.start(max(1000, min(round((due - now) * 1000), 24 * 3600 * 1000)))
         else:
@@ -85,6 +95,8 @@ class UpdateController(QObject):
     def check(self):
         if self.closed.is_set() or self.busy:
             return
+        self.launch_check_started = True
+        self.automatic_timer.stop()
         self.busy = True
         self.worker_generation += 1
         generation = self.worker_generation
@@ -101,10 +113,11 @@ class UpdateController(QObject):
                 token = store.policy()
                 source = GitHubSource(channel=token[0])
                 state = store.state()
-                if state.get("return_to_stable") and state.get("rollback_requested"):
-                    result = {"status": "returning"}
+                if state.get("rollback_requested"):
+                    result = {"status": "returning",
+                              "return_to_stable": bool(state.get("return_to_stable"))}
                 elif state.get("pending"):
-                    pending = read_manifest(store.path(state["pending"]))
+                    pending = store.verify(store.path(state["pending"]))
                     if manifest_channel(pending) != token[0]:
                         raise UpdateError("Pending update differs from the selected channel")
                     result = {"status": "ready", "version": pending["version"], "downloaded": 0}
@@ -136,7 +149,7 @@ class UpdateController(QObject):
         self.busy = False
         if result.get("policy") is not None and tuple(result["policy"]) != store_for().policy():
             self.result = None
-            self.show_message("Update channel changed. Checking the selected channel.")
+            self.show_message("Update choice changed. Checking the current selection.")
             QTimer.singleShot(0, self.check)
             return
         self.result = result
@@ -147,6 +160,8 @@ class UpdateController(QObject):
         elif result["status"] == "error":
             settings.setValue("updates/consecutive_failures", settings.value("updates/consecutive_failures", 0, type=int) + 1)
         self.render_result(result)
+        if result["status"] == "ready":
+            self.notify_ready(result)
         self.automatic()
 
     def render_result(self, result):
@@ -162,12 +177,84 @@ class UpdateController(QObject):
         elif result["status"] == "current":
             text = f"No newer {channel.lower()} update is available."
         elif result["status"] == "returning":
-            text = "Your retained stable version will open on the next launch. Your study data will be kept."
+            text = ("Your retained stable version will open on the next launch. Your study data will be kept."
+                    if result.get("return_to_stable", True) else
+                    "Your previous version will open on the next launch. Your study data will be kept.")
         elif result["status"] == "cancelled":
             text = "The download was cancelled because the update channel changed. Your running version is unchanged."
         else:
             text = "Update unavailable: " + result["error"] + "\nYour installed version and study data are unchanged. You can retry later."
         self.show_message(text)
+        if self.dialog and isValid(self.dialog) and hasattr(self.dialog, "restart_button"):
+            self.dialog.restart_button.setEnabled(result["status"] == "ready" and not self.busy)
+
+    def dismiss_ready_notice(self):
+        notice = self.ready_notice
+        self.ready_notice = None
+        if notice is not None and isValid(notice):
+            notice.close()
+        if self.dialog and isValid(self.dialog) and hasattr(self.dialog, "restart_button"):
+            self.dialog.restart_button.setEnabled(False)
+
+    def notify_ready(self, result):
+        if self.closed.is_set() or not isValid(self.window):
+            return
+        key = (tuple(result.get("policy") or ()), result["version"])
+        if key == self.notified_ready:
+            return
+        self.notified_ready = key
+        notice = QMessageBox(self.window)
+        notice.setWindowTitle("Anatomy Explorer update ready")
+        notice.setText(f"Version {result['version']} has downloaded and is ready to apply.")
+        notice.setInformativeText("Restart to apply the update, or keep studying and apply it on your next launch.")
+        restart = notice.addButton("Restart to apply", QMessageBox.AcceptRole)
+        later = notice.addButton("Not now", QMessageBox.RejectRole)
+        notice.setDefaultButton(later)
+        notice.setEscapeButton(later)
+        notice.setWindowModality(Qt.NonModal)
+        notice.setAttribute(Qt.WA_DeleteOnClose)
+        self.ready_notice = notice
+        def chosen(button):
+            if button is restart and not self.closed.is_set():
+                self.restart_now()
+        def finished(unused):
+            if self.ready_notice is notice:
+                self.ready_notice = None
+        notice.buttonClicked.connect(chosen)
+        notice.finished.connect(finished)
+        notice.show()
+
+    def restart_now(self):
+        if self.closed.is_set() or self.busy or not self.result or self.result.get("status") != "ready":
+            return
+        from ..restart import prepare_restart
+        try:
+            request = prepare_restart(self.result.get("policy"))
+        except (OSError, UpdateError) as exc:
+            self.show_message("Could not start restart: " + str(exc))
+            self.window.statusBar().showMessage("Could not restart; your current session is unchanged.", 10000)
+            return
+        old_dialog = self.dialog
+        try:
+            accepted = self.window.close()  # Run the normal study/settings save path.
+        except Exception:
+            request.cancel()
+            raise
+        if not accepted:
+            request.cancel()
+            # The close event filter ran, but the window vetoed the close.
+            self.closed.clear()
+            self.window.installEventFilter(self)
+            self.dialog = old_dialog if old_dialog and isValid(old_dialog) else None
+            self.show_message("Restart cancelled. The downloaded update remains ready.")
+            return
+        try:
+            request.arm()
+        except (OSError, UpdateError) as exc:
+            request.cancel()
+            QMessageBox.warning(None, "Anatomy Explorer restart",
+                                "Open Anatomy Explorer normally to finish applying the update. "
+                                "Your study data is retained.\n\n" + str(exc))
 
     def open_dialog(self):
         if self.closed.is_set():
@@ -179,7 +266,7 @@ class UpdateController(QObject):
         intro = QLabel("Updates download changed parts in the background. They open on your next launch; your current study session keeps running. Some releases change large assets and need a larger download.")
         intro.setWordWrap(True)
         lay.addWidget(intro)
-        automatic = QCheckBox("Check and download automatically (at most once a day)")
+        automatic = QCheckBox("Check and download automatically on every launch")
         automatic.setChecked(self.window.qsettings.value("updates/automatic", True, type=bool))
         def change_automatic(on):
             self.window.qsettings.setValue("updates/automatic", on)
@@ -208,11 +295,16 @@ class UpdateController(QObject):
         check = QPushButton("Check and download now")
         check.clicked.connect(self.check)
         lay.addWidget(check)
+        dlg.restart_button = QPushButton("Restart to apply")
+        dlg.restart_button.setEnabled(bool(self.result and self.result.get("status") == "ready" and not self.busy))
+        dlg.restart_button.clicked.connect(self.restart_now)
+        lay.addWidget(dlg.restart_button)
 
         def change_channel(on):
             try:
                 store.set_channel("experimental" if on else "stable")
                 self.result = None
+                self.dismiss_ready_notice()
                 installed.setText(f"Running: {'Experimental preview' if manifest_channel(current) == 'experimental' else 'Stable'} {current['version']}\nUpdate channel: {store.policy()[0].title()}")
                 dlg.status.setText("Experimental previews enabled for this installation. Checking for a preview." if on else
                                    "Stable selected. Pending previews are cancelled; your study session keeps running.")
@@ -242,6 +334,8 @@ class UpdateController(QObject):
         def rollback():
             try:
                 store_for().request_rollback()
+                self.result = None
+                self.dismiss_ready_notice()
                 dlg.status.setText("The previous version will open on your next launch. Your study data will be kept.")
                 revert.setEnabled(False)
             except (OSError, UpdateError) as exc:

@@ -24,10 +24,10 @@ jobs:
     env:
       QT_QPA_PLATFORM: cocoa
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           lfs: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
       - run: python -m pip install PySide6==6.11.2 moderngl==5.12.0 numpy==2.4.6
@@ -36,7 +36,7 @@ jobs:
       - run: mkdir -p packaging/build/mac-gpu
       - name: Exercise production float attachment and integer vertex layout
         run: python -m app.picking_diagnostics --gpu-controls-only --report packaging/build/mac-gpu/controls.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: mac-gpu-controls
@@ -47,10 +47,10 @@ jobs:
     runs-on: macos-14
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           lfs: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
       - run: python -m pip install PySide6==6.11.2
@@ -62,7 +62,7 @@ jobs:
           export QT_OWNERSHIP_PLUGIN_SHA256=2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b
           export QT_OWNERSHIP_WHEEL_ROOT="$(python -c 'import PySide6; from pathlib import Path; print(Path(PySide6.__file__).resolve().parent / "Qt")')"
           python packaging/diagnostics/mac_ax/run_matrix.py --output packaging/build/mac-ax/matrix
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: mac-tree-accessibility-controls
@@ -75,10 +75,10 @@ jobs:
     runs-on: macos-14
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           lfs: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
       - name: Create disposable matching wheel runtime
@@ -91,7 +91,7 @@ jobs:
           bash packaging/diagnostics/mac_ax/ownership_candidate/build.sh
       - name: Preserve candidate provenance and sanitized semantic evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Qt6112-ownership-candidate-diagnostic-only
           path: packaging/build/qt-ownership/evidence/
@@ -106,10 +106,10 @@ jobs:
     runs-on: macos-14
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           lfs: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
       - run: python -m pip install PySide6==6.11.2 moderngl==5.12.0 numpy==2.4.6 certifi==2026.7.22 pyinstaller==6.22.3
@@ -128,7 +128,7 @@ jobs:
         run: |
           "packaging/build/diagnostic-dist/Anatomy Explorer Diagnostic.app/Contents/MacOS/AnatomyExplorerDiagnostic" --no-dialog --report packaging/build/diagnostic-artifact/ci-report.json
           python -c 'import json; r=json.load(open("packaging/build/diagnostic-artifact/ci-report.json")); assert r["completed"] and r["runtime"]["frozen"]; assert r["tls"]["packaged_roots"]["success"] and r["tls"]["packaged_roots"]["tls"]["bundled_ca"]; assert len(r["gpu"]["checks"]) == 9 and len(r["gpu"]["production_controls"]["rows"]) == 3; print("Frozen report capture verified; renderer correctness remains in the separate GPU job.")'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: AnatomyExplorer-Mac-Diagnostic

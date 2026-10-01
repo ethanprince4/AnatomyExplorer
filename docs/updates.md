@@ -6,10 +6,18 @@ Windows installer keeps its AppId and usual install locations; Mac users drag
 the new app into Applications once. That original installation stays available
 as a fallback. Mac Intel builds are not distributed by this project.
 
-The app checks at most daily and downloads quietly while you study. The Updates
-menu lets you disable automatic checks, check manually, or return to the previous
-version on the next launch. It never forces a restart during a study session.
-Offline checks fail without interrupting the installed app.
+The app checks and downloads quietly on every launch while you study, unless
+you disable automatic updates. Recent checks from an earlier launch do not skip
+this launch. Failed checks retry with bounded backoff; a successful check does
+not keep checking in a loop. The Updates menu also allows manual checks and
+returning to the previous version on the next launch.
+
+After a downloaded update passes integrity checks, a nonmodal notification offers
+**Restart to apply** and **Not now**. Not now keeps the current study session and
+leaves the update for the next ordinary launch; the Updates dialog retains a
+Restart to apply button. An explicit restart runs the normal study/settings save
+path, waits for the old launcher to finish, and uses the existing managed
+activation and rollback behavior. Offline checks leave the installed app running.
 
 ## Experimental model previews
 
@@ -109,8 +117,9 @@ including filesystems where links are unavailable.
 Partial downloads retain verified chunks/files for retry. A complete verified
 stage is renamed to a new immutable version directory before an atomic pending
 pointer is written. A stable launcher holds a per-install session lock until
-the study process exits. Only a later ordinary launch activates the pending
-version. It starts a separate PyInstaller process with a reset bootloader
+the study process exits. A later ordinary launch or an explicit Restart to apply
+activates the pending version after that lock is released. It starts a separate
+PyInstaller process with a reset bootloader
 environment, and keeps the previous version and original installation. If the
 new process exits before showing its UI, or a trial is interrupted before the
 ready marker, the launcher returns to the previous version. UI readiness is

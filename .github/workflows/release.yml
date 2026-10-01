@@ -57,7 +57,7 @@ jobs:
       run:
         shell: bash
     env:
-      VERSION: ${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/v') && github.ref_name) || '3.1.2' }}
+      VERSION: ${{ github.event.inputs.tag || (startsWith(github.ref, 'refs/tags/v') && github.ref_name) || '3.1.3' }}
       APP_NAME: ${{ contains(github.event.inputs.tag || github.ref_name, '-preview.') && 'Anatomy Explorer Experimental' || 'Anatomy Explorer' }}
     steps:
       # identical line endings on every runner, so the micro-model source digest matches what the cache was built with
@@ -66,7 +66,7 @@ jobs:
 
       # LFS files are fetched through a cache: each download of the two ~150 MB atlas buffers, the kidney model and
       # the large Sketchfab models counts against the repository's LFS bandwidth allowance
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           lfs: false
 
@@ -74,7 +74,7 @@ jobs:
         run: git lfs ls-files --long | cut -d ' ' -f1 | sort > .lfs-assets-id
 
       - name: Restore LFS cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .git/lfs
           key: lfs-${{ hashFiles('.lfs-assets-id') }}
@@ -86,7 +86,7 @@ jobs:
           if git lfs ls-files | grep -q ' - '; then echo "some LFS files were not fetched"; exit 1; fi
           rm .lfs-assets-id
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
           cache: pip
@@ -99,7 +99,7 @@ jobs:
 
       # built meshes are reused as long as app/micro is unchanged (prebuild.py rebuilds any stale model anyway)
       - name: Restore micro-model cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: data/micro_cache
           key: micro-${{ runner.os }}-${{ hashFiles('app/micro/**/*.py') }}
@@ -133,7 +133,7 @@ jobs:
 
       - name: Preserve final frozen Cocoa evidence
         if: always() && runner.os == 'macOS'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: frozen-mac-cocoa-controls
           path: packaging/build/frozen-cocoa/
@@ -151,7 +151,27 @@ jobs:
         if: runner.os == 'macOS'
         run: python packaging/check_mac_update.py "packaging/dist/$APP_NAME.app" packaging/dist/release
 
-      - uses: actions/upload-artifact@v4
+      # Full-UI restart checks need a suitable hosted renderer. They are manual
+      # diagnostics; ordinary launch, integrity and package gates remain required.
+      - name: Diagnose real frozen Windows restart, activation and rollback
+        if: runner.os == 'Windows' && github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        run: python packaging/check_restart.py packaging/dist/AnatomyExplorer packaging/dist/release --report packaging/build/frozen-restart/result.json
+
+      - name: Diagnose real frozen macOS restart, activation and rollback
+        if: runner.os == 'macOS' && github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        run: python packaging/check_restart.py "packaging/dist/$APP_NAME.app" packaging/dist/release --report packaging/build/frozen-restart/result.json
+
+      - name: Preserve frozen explicit restart evidence
+        if: always() && github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v7
+        with:
+          name: frozen-restart-${{ runner.os }}
+          path: packaging/build/frozen-restart/result.json
+          if-no-files-found: warn
+
+      - uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.asset }}
           path: packaging/dist/release/*
@@ -165,18 +185,18 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.tag != ''
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: AnatomyExplorer-Setup-Windows.exe
           path: assets
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: AnatomyExplorer-macOS-AppleSilicon.dmg
           path: assets
 
       - run: ls -la assets
 
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.event.inputs.tag || github.ref_name }}
           name: Anatomy Explorer ${{ github.event.inputs.tag || github.ref_name }}
@@ -187,4 +207,4 @@ jobs:
           files: |
             assets/*
           body: >-
-            ${{ contains(github.event.inputs.tag || github.ref_name, '-preview.') && 'EXPERIMENTAL PREVIEW. Opt in through Updates > Enable experimental stuff in the stable app. These draft models may have bugs and are excluded from default stable updates. Turn the setting off to return to stable on the next launch. Separate preview installers use a separate application name and preserve the original stable installation. Notes, study progress and settings are preserved. Apple-silicon Mac DMG and Windows installer are attached. Existing signing limitations described in the README still apply.' || 'Stable update: Adds Updates > Enable experimental stuff, unchecked by default. Existing v3.1.1 installs with working HTTPS receive this feature through their incremental updater. Affected Mac v3.1.1 clients reporting certificate verification failure may need this fixed installer once; certificate verification remains enabled. Explicit opt-in downloads separately published experimental drafts; disable it to return to stable on the next launch. Your current study session is never restarted, and notes, progress, settings and the original install are preserved. Unfinished model drafts remain excluded from this stable release. Apple-silicon Mac DMG and Windows installer are attached. Existing signing limitations described in the README still apply.' }}
+            ${{ contains(github.event.inputs.tag || github.ref_name, '-preview.') && 'EXPERIMENTAL PREVIEW. Opt in through Updates > Enable experimental stuff in the stable app. These draft models may have bugs and are excluded from default stable updates. Turn the setting off to return to stable on the next launch. Separate preview installers use a separate application name and preserve the original stable installation. Notes, study progress and settings are preserved. Apple-silicon Mac DMG and Windows installer are attached. Existing signing limitations described in the README still apply.' || 'Stable update: Checks and downloads updates in the background on every launch unless automatic updates are disabled. After verification, an update-ready notice offers Restart to apply or Not now. Restart saves the current session and uses managed activation and rollback; Not now keeps studying and leaves the update for the next launch. Notes, progress, settings and the original installation are preserved. Update-channel and rollback choices cancel stale delivery and notifications. No model or case changes are included. Apple-silicon Mac DMG and Windows installer are attached. Existing signing limitations described in the README still apply.' }}
