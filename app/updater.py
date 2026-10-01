@@ -539,8 +539,9 @@ class UpdateStore:
             state = self.state()
             current = self.active()
             installed = read_manifest(current)
-            if state.get("return_to_stable") and state.get("rollback_requested"):
-                return {"status": "returning", "downloaded": 0, "reused": 0}
+            if state.get("rollback_requested"):
+                return {"status": "returning", "downloaded": 0, "reused": 0,
+                        "return_to_stable": bool(state.get("return_to_stable"))}
             if (token[0] == "experimental" and "stable_anchor" not in state and
                     manifest_channel(read_manifest(self.base)) != "experimental"):
                 raise UpdateError("Experimental updates require an explicit opt-in and stable recovery anchor")
@@ -711,6 +712,11 @@ class UpdateStore:
             if state.get("current") is None:
                 raise UpdateError("The original installed version is already active")
             state["rollback_requested"] = True
+            # Rollback is an update-policy decision too. Invalidate in-flight
+            # preparation and already-queued ready results without changing
+            # the user's selected channel or active/previous versions.
+            state["channel_generation"] = state.get("channel_generation", 0) + 1
+            state.pop("pending", None)
             atomic_json(self.state_file, state)
 
     def cleanup(self):
@@ -744,16 +750,35 @@ def mark_ready():
         Path(token).write_text("ready", encoding="ascii")
 
 
-def launch_managed(arguments):
+@contextlib.contextmanager
+def session_lock(path, wait_seconds=0):
+    """Normal launches remain nonblocking; explicit restart may wait briefly."""
+    if not 0 <= wait_seconds <= 120:
+        raise ValueError("Restart lock wait must be between 0 and 120 seconds")
+    deadline = time.monotonic() + wait_seconds
+    with contextlib.ExitStack() as stack:
+        while True:
+            try:
+                stack.enter_context(lock(path))
+                break
+            except UpdateError:
+                if time.monotonic() >= deadline:
+                    raise
+                time.sleep(min(0.1, max(0.0, deadline - time.monotonic())))
+        yield
+
+
+def launch_managed(arguments, *, base=None, wait_seconds=0):
     """Stable installer executable supervises updated children, retaining the original.
 
     The session lock lasts until *all* windows in that app process close. A downloaded
     version is activated only on a subsequent normal launch, never during a study.
     """
-    base = Path(sys.executable).parents[2] if sys.platform == "darwin" else Path(sys.executable).parent
+    base = Path(base) if base is not None else (
+        Path(sys.executable).parents[2] if sys.platform == "darwin" else Path(sys.executable).parent)
     store = store_for(base)
     store.root.mkdir(parents=True, exist_ok=True)
-    with lock(store.root / "session.lock"):
+    with session_lock(store.root / "session.lock", wait_seconds):
         # A prior trial that never reached the UI is also rolled back after a power loss.
         if store.state().get("trial") or store.state().get("rollback_requested"):
             store.rollback()

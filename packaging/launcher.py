@@ -13,6 +13,11 @@ if sys.__stderr__ is None:
     sys.__stderr__ = sys.stderr
 sys.dont_write_bytecode = True      # never write __pycache__ into the installed (read-only / signed) app folder
 
+if "--ae-restart-helper" in sys.argv:
+    # No study UI or readiness marker in this supervisor process.
+    from app.restart import main
+    sys.exit(main())
+
 if "--https-check" in sys.argv:
     # Exit before Qt, managed activation, update stores, or study preferences.
     from app.https_check import main

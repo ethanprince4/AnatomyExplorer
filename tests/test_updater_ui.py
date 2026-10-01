@@ -268,7 +268,11 @@ class ChannelUiTests(unittest.TestCase):
                     targets[2]()
                     self.assertEqual(window.qsettings.value("updates/last_success", type=float), now[0])
                     self.assertEqual(window.qsettings.value("updates/consecutive_failures", type=int), 0)
-                    self.assertEqual(controller.automatic_timer.interval(), 86400000)
+                    self.assertFalse(controller.automatic_timer.isActive(), "success does not schedule another automatic check")
+                    controller.automatic()
+                    self.assertEqual(len(targets), 3)
+                    # An actual failed result still has the established six-hour cap.
+                    controller.result = {"status": "error"}
                     window.qsettings.setValue("updates/consecutive_failures", 100)
                     window.qsettings.setValue("updates/last_attempt", now[0])
                     controller.automatic()

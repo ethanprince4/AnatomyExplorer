@@ -17,10 +17,10 @@ jobs:
         os: [windows-latest, macos-14, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           lfs: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
       - name: Install packaged TLS roots
@@ -42,14 +42,14 @@ jobs:
         os: [windows-latest, macos-14]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           lfs: false
       - name: List LFS objects
         shell: bash
         run: git lfs ls-files --long | cut -d ' ' -f1 | sort > .lfs-assets-id
       - name: Restore atlas fixture cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .git/lfs
           key: lfs-${{ hashFiles('.lfs-assets-id') }}
@@ -60,7 +60,7 @@ jobs:
           git lfs pull
           if git lfs ls-files | grep -q ' - '; then echo "some LFS files were not fetched"; exit 1; fi
           rm .lfs-assets-id
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
           cache: pip
@@ -77,7 +77,7 @@ jobs:
         run: python -m app.picking_diagnostics --gpu-controls-only --report mac-release-gpu-controls.json
       - name: Preserve Mac production ID readback evidence
         if: always() && runner.os == 'macOS'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mac-release-gpu-controls
           path: mac-release-gpu-controls.json
