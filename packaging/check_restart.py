@@ -63,7 +63,7 @@ UI_PROBE = '''
 import json
 import os
 from pathlib import Path
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QSettings, QTimer
 from app import restart
 from app.config import FROZEN
 from app.updater import atomic_json, store_for
@@ -72,13 +72,19 @@ probe = Path(os.environ['AE_RESTART_PROBE'])
 controller = w.update_controller
 controller.automatic_timer.stop()
 assert FROZEN
+assert w.qsettings.format() == QSettings.IniFormat
+assert not controller.busy and not controller.launch_check_started
 
 def wait_for_baseline_frame():
     renderer = w.viewport.renderer
     if not w.viewport.isValid() or renderer is None or not renderer.frame_ok:
         QTimer.singleShot(100, wait_for_baseline_frame)
         return
-    atomic_json(probe / 'baseline-ui.json', {'frozen': True, 'pid': os.getpid()})
+    assert not controller.busy and not controller.launch_check_started
+    atomic_json(probe / 'baseline-ui.json', {
+        'frozen': True, 'pid': os.getpid(), 'worker_started_before_stage': bool(controller.launch_check_started),
+        'store_root': str(store_for().root), 'install_base': str(store_for().base),
+        'settings_file': w.qsettings.fileName()})
     wait_for_stage()
 
 def wait_for_stage():
@@ -181,7 +187,10 @@ def main():
         from PySide6.QtCore import QSettings
         QSettings.setDefaultFormat(QSettings.IniFormat)
         QSettings.setPath(QSettings.IniFormat, QSettings.UserScope, str(settings_dir))
-        settings = QSettings('AnatomyExplorer', 'Anatomy Explorer')
+        settings = QSettings(QSettings.defaultFormat(), QSettings.UserScope,
+                             'AnatomyExplorer', 'Anatomy Explorer')
+        assert settings.format() == QSettings.IniFormat
+        assert Path(settings.fileName()).resolve().is_relative_to(settings_dir.resolve())
         settings.setValue('updates/automatic', False)
         settings.setValue('test/restart-preserved', 'keep-me')
         settings.sync()
@@ -194,9 +203,14 @@ def main():
         script_file.write_text(UI_PROBE, encoding='utf-8')
         script = 'wait:1000;eval:exec(open(' + repr(str(script_file)) + ", encoding='utf-8').read())"
         executable = base / ('Contents/MacOS/AnatomyExplorer' if mac else 'AnatomyExplorer.exe')
+        store = UpdateStore(base, profile / 'AnatomyExplorer/updates' / sha(str(base).casefold().encode())[:16])
         supervisor = subprocess.Popen([str(executable), '--script', script], env=env)
         until(lambda: (root / 'baseline-ui.json').exists())
-        store = UpdateStore(base, profile / 'AnatomyExplorer/updates' / sha(str(base).casefold().encode())[:16])
+        baseline_ui = json.loads((root / 'baseline-ui.json').read_text())
+        assert not baseline_ui['worker_started_before_stage']
+        assert Path(baseline_ui['store_root']).resolve() == store.root
+        assert Path(baseline_ui['install_base']).resolve() == store.base
+        assert Path(baseline_ui['settings_file']).resolve() == Path(settings.fileName()).resolve()
         try:
             with lock(store.root / 'session.lock'):
                 raise AssertionError('Real old supervisor failed to hold its session lock')
@@ -234,11 +248,38 @@ def main():
         atomic_json(report, result)
         print(json.dumps(result, indent=2), flush=True)
     finally:
-        if helper is not None:
-            stop_owned_tree(helper)
-        if supervisor is not None and supervisor.poll() is None:
-            stop_owned_tree(supervisor.pid)
-        temporary.cleanup()
+        original_error = sys.exc_info()[0] is not None
+        if original_error:
+            try:
+                error_log = profile / "AnatomyExplorer/logs/errors.log"
+                if error_log.exists():
+                    print(error_log.read_text(encoding="utf-8")[-4096:], file=sys.stderr)
+            except (OSError, NameError):
+                pass
+        try:
+            if helper is not None:
+                stop_owned_tree(helper)
+            if supervisor is not None:
+                if supervisor.poll() is None:
+                    stop_owned_tree(supervisor.pid)
+                supervisor.wait(timeout=15)
+            # A killed supervisor's child may still be releasing its image and
+            # lock. Await that owned session before removing the temp bundle.
+            if 'store' in locals() and store.root.is_dir():
+                until(lambda: acquire_after_exit(store.root / 'session.lock'), timeout=15)
+            deadline = time.monotonic() + 15
+            while True:
+                try:
+                    temporary.cleanup()
+                    break
+                except PermissionError:
+                    if time.monotonic() >= deadline:
+                        raise
+                    time.sleep(0.1)
+        except Exception as exc:
+            if not original_error:
+                raise
+            print('Owned restart fixture cleanup failed: ' + str(exc), file=sys.stderr)
 
 
 def acquire_after_exit(path):
