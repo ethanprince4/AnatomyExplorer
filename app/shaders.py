@@ -17,6 +17,8 @@ uniform mat4 u_viewproj;
 uniform sampler2D u_state;
 uniform sampler2D u_mats;
 uniform int u_color_row;
+uniform int u_cap_owner_plus_one; // zero preserves the source part; stomach section override only
+uniform int u_cap_material_plus_one; // zero preserves the source material
 uniform int u_pass;          // 0 opaque, 1 transparent, 2 selection mask
 uniform float u_ghost_alpha;
 uniform int u_textured;
@@ -42,15 +44,16 @@ out vec3 v_tpos;             // where the tissue texture is looked up: the rest 
 out float v_glow;
 
 void main() {
-    int obj = int(in_obj);
+    int obj = u_cap_owner_plus_one > 0 ? u_cap_owner_plus_one - 1 : int(in_obj);
+    int mat = u_cap_material_plus_one > 0 ? u_cap_material_plus_one - 1 : int(in_mat);
     vec4 st = texelFetch(u_state, ivec2(obj, 0), 0);
     vec4 st2 = texelFetch(u_state, ivec2(obj, 1), 0);
     int flags = int(st.a + 0.5);
     bool visible = (flags & 1) != 0;
     bool ghost = (flags & 2) != 0;
     bool selected = (flags & 4) != 0;
-    vec4 mc = texelFetch(u_mats, ivec2(int(in_mat), u_color_row), 0);
-    vec4 ms = texelFetch(u_mats, ivec2(int(in_mat), 2), 0);
+    vec4 mc = texelFetch(u_mats, ivec2(mat, u_color_row), 0);
+    vec4 ms = texelFetch(u_mats, ivec2(mat, 2), 0);
     float alpha = mc.a * st2.r;
     if (ghost) alpha = min(alpha, u_ghost_alpha);
     bool transparent = alpha < 0.995;
@@ -66,7 +69,7 @@ void main() {
         v_tpos = vec3(0.0); v_glow = 0.0;
         return;
     }
-    v_mat = int(in_mat);
+    v_mat = mat;
     v_color = ((flags & 32) != 0) ? st.rgb : mc.rgb;
     // an imported model paints itself (vertex colours, textures) unless a flat colour is asked for
     bool own = u_textured == 1 && u_color_row == 0 && (flags & 32) == 0;
@@ -74,7 +77,7 @@ void main() {
     v_uv = in_uv;
     v_tint = own ? pow(in_tint.rgb, vec3(2.2)) : vec3(1.0);
     v_layer = u_textured == 1 ? in_layer : -1.0;
-    v_capcol = own ? texelFetch(u_mats, ivec2(int(in_mat), 1), 0).rgb : v_color;
+    v_capcol = own ? texelFetch(u_mats, ivec2(mat, 1), 0).rgb : v_color;
     v_cut = u_textured == 1 ? in_tint.a : 0.0;
     v_own = own ? 1.0 : 0.0;
     v_alpha = alpha;
@@ -100,7 +103,7 @@ void main() {
     v_tpos = in_pos;
     v_wpos = pos;
     v_nrm = in_nrm;
-    v_obj = in_obj;
+    v_obj = uint(obj);
     v_flags = flags;
     gl_Position = u_viewproj * vec4(pos, 1.0);
 }
@@ -308,6 +311,8 @@ layout(location = 1) out vec4 o_normal;
 layout(location = 2) out float o_id;
 #ifdef CAP_PASS
 layout(location = 3) out float o_zp;      // depth of the cut face on the plane; the depth buffer holds the key
+uniform int u_slice_only;
+uniform vec4 u_slice_ndc_plane;
 #endif
 
 #ifdef CAP_DEPTH
@@ -393,6 +398,13 @@ void main() {
         capp = u_eye + d * best;
         vec4 c = u_viewproj * vec4(capp, 1.0);
         o_zp = clamp(c.z / c.w * 0.5 + 0.5, 1e-7, 1.0);
+        if (u_slice_only == 1) {
+            // Solve the physical plane directly in clip space. Reprojecting a world
+            // ray intersection amplifies float32 cancellation for distant sections.
+            vec2 xy = gl_FragCoord.xy / u_viewport * 2.0 - 1.0;
+            float z = -(dot(u_slice_ndc_plane.xy, xy) + u_slice_ndc_plane.w) / u_slice_ndc_plane.z;
+            o_zp = clamp(z * 0.5 + 0.5, 1e-7, 1.0);
+        }
         // where several parts' cut faces meet at a pixel, the innermost is the one whose far wall comes first
         // behind the plane, so that distance is what the depth test compares; CAPMIX_FS then puts the winner on
         // the plane at its true depth

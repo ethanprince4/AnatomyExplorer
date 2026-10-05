@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "review_id": "pancreas_review_20261004",
+  "summary": "Representative pancreatic tissue with polarized acini, centroacinar duct origins, successive duct levels and intermingled endocrine cell types associated with capillaries. Exocrine secretion enters a duct lumen; endocrine secretion enters blood. Views expose these relationships progressively. Geometry and synchronized animation require final-machine validation before anatomical acceptance.",
+  "scale_note": "Representative 1 mm-wide teaching block; 1 model unit = 0.5 mm. The selected baseline already enlarges acinar envelopes and sampling pitch 1.8x, endocrine-cell sampling pitch 1.85x and acinar nuclear maximum radius 1.4x. Preserve and report these inherited schematic factors unless the refined source deliberately changes them. Displayed cell counts, granule counts and capillary paths are sampled; no morphometric inference. Camera zoom enlarges the whole view without changing anatomy. Flow markers and animation time are schematic.",
+  "metres_per_unit": 0.0005,
+  "home_view": [
+    -0.62,
+    0.42
+  ],
+  "cutaway": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "cut_at": [
+    0,
+    0
+  ],
+  "cut_on": true,
+  "start_view": "V1",
+  "viewer_cameras": {
+    "V1": {
+      "title": "Specimen cutaway",
+      "description": "Representative pancreatic tissue; exocrine acini surround pale endocrine islets. Sectioned surfaces are specimen cuts. Flow cues are hidden at rest.",
+      "type": "PERSPECTIVE",
+      "position": [
+        -2.0,
+        1.5,
+        2.8
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "fov_deg": 40,
+      "hidden": [
+        "Pancreatic juice (secretion flow)",
+        "Pancreatic juice in intralobular ducts",
+        "Insulin into islet capillaries",
+        "Insulin release from beta cells"
+      ],
+      "cut_on": true,
+      "state": "assembled"
+    },
+    "V2": {
+      "title": "Acinar polarity and duct origin",
+      "description": "Basal nuclei and apical cytoplasm remain together around a lumen with centroacinar duct cells. Use a section and camera zoom to inspect one source-owned acinus.",
+      "type": "PERSPECTIVE",
+      "position": [
+        -2.0,
+        1.5,
+        2.8
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "fov_deg": 40,
+      "hidden": [
+        "Intralobular connective tissue",
+        "Interlobular septa",
+        "Interlobular ducts",
+        "Interlobular artery",
+        "Interlobular vein",
+        "Intralobular capillaries",
+        "Beta cells",
+        "Alpha cells",
+        "Delta cells",
+        "Islet cell nuclei",
+        "Islet capillaries (fenestrated)",
+        "Pancreatic juice (secretion flow)",
+        "Pancreatic juice in intralobular ducts",
+        "Insulin into islet capillaries",
+        "Insulin release from beta cells",
+        "Islet cell membranes (ownership)"
+      ],
+      "cut_on": false,
+      "state": "assembled"
+    },
+    "V3": {
+      "title": "Duct hierarchy",
+      "description": "Centroacinar origin inside a retained translucent acinar host boundary and lumen → intercalated → intralobular → interlobular duct. Septal tissue supplies context. Exposed boundary outlets are specimen cuts.",
+      "type": "PERSPECTIVE",
+      "position": [
+        -2.0,
+        1.5,
+        2.8
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "fov_deg": 40,
+      "hidden": [
+        "Intralobular connective tissue",
+        "Interlobular artery",
+        "Interlobular vein",
+        "Acinar cells – basal (basophilic) cytoplasm",
+        "Acinar cells – apical cytoplasm",
+        "Acinar cell nuclei",
+        "Intralobular capillaries",
+        "Beta cells",
+        "Alpha cells",
+        "Delta cells",
+        "Islet cell nuclei",
+        "Islet capillaries (fenestrated)",
+        "Zymogen granules",
+        "Pancreatic juice (secretion flow)",
+        "Pancreatic juice in intralobular ducts",
+        "Insulin into islet capillaries",
+        "Insulin release from beta cells",
+        "Islet cell membranes (ownership)"
+      ],
+      "cut_on": false,
+      "state": "assembled"
+    },
+    "V4": {
+      "title": "Human islet and exchange",
+      "description": "Sampled intermingled endocrine cells and their capillary relationship; this is one schematic human pattern, not a universal cellular distribution.",
+      "type": "PERSPECTIVE",
+      "position": [
+        -0.7,
+        0.28,
+        0.72
+      ],
+      "target": [
+        -0.36,
+        -0.06,
+        0
+      ],
+      "fov_deg": 40,
+      "hidden": [
+        "Intralobular connective tissue",
+        "Interlobular septa",
+        "Interlobular ducts",
+        "Interlobular artery",
+        "Interlobular vein",
+        "Intralobular ducts",
+        "Acinar cells – basal (basophilic) cytoplasm",
+        "Acinar cells – apical cytoplasm",
+        "Acinar cell nuclei",
+        "Centroacinar cells",
+        "Intercalated ducts",
+        "Intralobular capillaries",
+        "Zymogen granules",
+        "Pancreatic juice (secretion flow)",
+        "Pancreatic juice in intralobular ducts",
+        "Insulin into islet capillaries",
+        "Acinar cell membranes (ownership)",
+        "Acinar lumens (fluid domain)",
+        "Insulin release from beta cells"
+      ],
+      "cut_on": false,
+      "state": "assembled"
+    },
+    "V5": {
+      "title": "Supply, exchange and drainage",
+      "description": "Follow artery, representative exchange beds and venous drainage. Junctions and boundary cuts must be distinguished in the refined source.",
+      "type": "PERSPECTIVE",
+      "position": [
+        -2.0,
+        1.5,
+        2.8
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "fov_deg": 40,
+      "hidden": [
+        "Intralobular connective tissue",
+        "Interlobular ducts",
+        "Intralobular ducts",
+        "Acinar cells – basal (basophilic) cytoplasm",
+        "Acinar cells – apical cytoplasm",
+        "Acinar cell nuclei",
+        "Centroacinar cells",
+        "Intercalated ducts",
+        "Beta cells",
+        "Alpha cells",
+        "Delta cells",
+        "Islet cell nuclei",
+        "Zymogen granules",
+        "Pancreatic juice (secretion flow)",
+        "Pancreatic juice in intralobular ducts",
+        "Insulin into islet capillaries",
+        "Acinar cell membranes (ownership)",
+        "Acinar lumens (fluid domain)",
+        "Insulin release from beta cells",
+        "Islet cell membranes (ownership)"
+      ],
+      "cut_on": false,
+      "state": "assembled"
+    },
+    "V6": {
+      "title": "Exocrine delivery",
+      "description": "Play: granules release into the acinar lumen; pancreatic juice travels in the duct lumen. Duct walls and owner cells stay visible.",
+      "type": "PERSPECTIVE",
+      "position": [
+        -2.0,
+        1.5,
+        2.8
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "fov_deg": 40,
+      "hidden": [
+        "Intralobular connective tissue",
+        "Interlobular septa",
+        "Interlobular artery",
+        "Interlobular vein",
+        "Intralobular capillaries",
+        "Beta cells",
+        "Alpha cells",
+        "Delta cells",
+        "Islet cell nuclei",
+        "Islet capillaries (fenestrated)",
+        "Insulin into islet capillaries",
+        "Insulin release from beta cells",
+        "Islet cell membranes (ownership)"
+      ],
+      "cut_on": true,
+      "state": "assembled"
+    },
+    "V7": {
+      "title": "Endocrine delivery",
+      "description": "Play: beta cells release insulin into islet capillaries. Blood exit is distinct from duct drainage.",
+      "type": "PERSPECTIVE",
+      "position": [
+        -0.7,
+        0.28,
+        0.72
+      ],
+      "target": [
+        -0.36,
+        -0.06,
+        0
+      ],
+      "fov_deg": 40,
+      "hidden": [
+        "Intralobular connective tissue",
+        "Interlobular septa",
+        "Interlobular ducts",
+        "Intralobular ducts",
+        "Acinar cells – basal (basophilic) cytoplasm",
+        "Acinar cells – apical cytoplasm",
+        "Acinar cell nuclei",
+        "Centroacinar cells",
+        "Intercalated ducts",
+        "Intralobular capillaries",
+        "Zymogen granules",
+        "Pancreatic juice (secretion flow)",
+        "Pancreatic juice in intralobular ducts",
+        "Acinar cell membranes (ownership)",
+        "Acinar lumens (fluid domain)"
+      ],
+      "cut_on": true,
+      "state": "assembled"
+    },
+    "V8": {
+      "title": "Connective-tissue interfaces",
+      "description": "Inspect supporting tissue from both sides, including intentionally exposed cut boundaries and fitted passages.",
+      "type": "PERSPECTIVE",
+      "position": [
+        -2.0,
+        1.5,
+        2.8
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "fov_deg": 40,
+      "hidden": [
+        "Interlobular ducts",
+        "Interlobular artery",
+        "Interlobular vein",
+        "Intralobular ducts",
+        "Acinar cells – basal (basophilic) cytoplasm",
+        "Acinar cells – apical cytoplasm",
+        "Acinar cell nuclei",
+        "Centroacinar cells",
+        "Intercalated ducts",
+        "Intralobular capillaries",
+        "Beta cells",
+        "Alpha cells",
+        "Delta cells",
+        "Islet cell nuclei",
+        "Islet capillaries (fenestrated)",
+        "Zymogen granules",
+        "Pancreatic juice (secretion flow)",
+        "Pancreatic juice in intralobular ducts",
+        "Insulin into islet capillaries",
+        "Acinar cell membranes (ownership)",
+        "Acinar lumens (fluid domain)",
+        "Insulin release from beta cells",
+        "Islet cell membranes (ownership)"
+      ],
+      "cut_on": false,
+      "state": "assembled"
+    }
+  },
+  "aliases": {
+    "Beta cells (core)": [
+      "Beta cells"
+    ],
+    "Alpha cells (mantle)": [
+      "Alpha cells"
+    ],
+    "Acinar cells – apical zymogen granules": [
+      "Acinar cells – apical cytoplasm"
+    ]
+  },
+  "application_notes": {
+    "part_names": "Final canonical names, exact Unicode en dashes. Remap aliases only for lesson compatibility. No core/mantle claim should be visible in labels or summary.",
+    "opacity": "Lead sets gland.bulk=False for cell compartments and ducts; connective support retains bulk=True. Native slider therefore controls supporting tissue only. Native default still sets CT support to 50%; final output-only adapter explicitly sets 100 for opening, with matching slider/readout. Host membranes and lumen remain teaching overlays at declared source alpha.",
+    "camera_calibration": "All camera records are supplied, real native fields. Whole-block/islet poses follow bounded source coordinates but have not been visually calibrated. V2 needs source-owned representative anchor to frame one acinus; avoid arbitrary claimed close-up targets.",
+    "representative_anchor": "update_representative_camera accepts source-probe transformed representative_acinus {centre:[x,y,z],radius:positive}, with radius the final world envelope radius. No array loading in helper. Call before registration and write updated settings into output only."
+  }
+}

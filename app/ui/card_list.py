@@ -1,225 +1,150 @@
-"""A card list: a bold title, a wrapped grey summary underneath it, an optional badge, and section headings.
-
-A plain QListWidget with word wrap turned on runs the title and the summary of every entry together into one
-grey wall of text, which is what the Lessons and Radiology browsers used to look like. Here each entry is a
-card with its own background, so the eye can find where one ends and the next begins, and the title is clearly
-the title.
-"""
-from PySide6.QtCore import QPointF, QRectF, QSize, Qt
+"""Readable, width-aware native catalog rows with keyboard and accessible text."""
+from PySide6.QtCore import QRectF, QSize, Qt
 from PySide6.QtGui import QColor, QFont, QFontMetricsF, QPainter, QPen
 from PySide6.QtWidgets import QListWidget, QListWidgetItem, QStyle, QStyledItemDelegate
 
 from . import theme
 
-ROLE_KIND = Qt.UserRole + 20        # "card" | "header" | "note"
+ROLE_KIND = Qt.UserRole + 20
 ROLE_TITLE = Qt.UserRole + 21
 ROLE_SUMMARY = Qt.UserRole + 22
 ROLE_BADGE = Qt.UserRole + 23
 ROLE_ACCENT = Qt.UserRole + 24
 ROLE_DIM = Qt.UserRole + 25
-ROLE_PROGRESS = Qt.UserRole + 26     # 0..1, drawn as a bar along the bottom of the card
+ROLE_PROGRESS = Qt.UserRole + 26
 ROLE_DONE = Qt.UserRole + 27
 
-CARD_BG = theme.qc(theme.RAISED)
-CARD_EDGE = theme.qc(theme.BORDER_SUBTLE)
-CARD_HOVER = theme.qc(theme.HOVER)
-CARD_HOVER_EDGE = theme.qc(theme.BORDER)
-CARD_SEL = theme.qc(theme.ACCENT_SOFT)
-CARD_SEL_EDGE = theme.qc(theme.ACCENT_BORDER)
-TITLE = theme.qc(theme.TEXT_STRONG)
-TITLE_DIM = theme.qc(theme.TEXT_2)
-SUMMARY = theme.qc(theme.MUTED)
-HEADING = theme.qc(theme.MUTED)
-RULE = theme.qc(theme.BORDER_SUBTLE)
-BADGE_BG = theme.qc(theme.PRESSED)
-BADGE_FG = theme.qc(theme.TEXT_2)
-DEFAULT_ACCENT = theme.qc(theme.ACCENT)
-TRACK = theme.qc(theme.BORDER)
-DONE = theme.qc(theme.SUCCESS)
-
-MARGIN_X = 5        # gap between the card and the edge of the list
-PAD_L = 11          # inside the card, left of the stripe
-STRIPE = 3
-TEXT_L = PAD_L + STRIPE + 9
-PAD_R = 10
-PAD_T = 8
-PAD_B = 9
-GAP = 3             # between title and summary
-MAX_LINES = 3
-TITLE_LINES = 2
+MARGIN_X, PAD_L, PAD_R, PAD_T, PAD_B = 2, 12, 12, 12, 12
+TEXT_L, STRIPE, GAP, MAX_LINES, TITLE_LINES = PAD_L, 0, 5, 3, 3
 
 
 def _wrap(text, fm, width, max_lines=MAX_LINES):
-    """Break text into at most max_lines lines that fit width, eliding the last one if it overflows."""
-    lines, cur = [], ""
-    for word in (text or "").split():
-        trial = f"{cur} {word}".strip()
-        if cur and fm.horizontalAdvance(trial) > width:
-            lines.append(cur)
-            cur = word
-        else:
-            cur = trial
-    if cur:
-        lines.append(cur)
+    """Wrap prose, including long IDs/URLs, and elide only the final visible line."""
+    width = max(1.0, float(width))
+    lines, current = [], ""
+    for word in str(text or "").split():
+        trial = f"{current} {word}".strip()
+        if current and fm.horizontalAdvance(trial) > width:
+            lines.append(current)
+            current = ""
+        while word and fm.horizontalAdvance(word) > width:
+            count = 1
+            while count < len(word) and fm.horizontalAdvance(word[:count + 1]) <= width:
+                count += 1
+            lines.append(word[:count])
+            word = word[count:]
+        current = f"{current} {word}".strip()
+    if current:
+        lines.append(current)
     if len(lines) > max_lines:
         lines = lines[:max_lines]
-        lines[-1] = fm.elidedText(lines[-1] + " …", Qt.ElideRight, width)
+        lines[-1] = fm.elidedText(lines[-1] + " …", Qt.ElideRight, int(width))
     return lines
 
 
 class CardDelegate(QStyledItemDelegate):
     def __init__(self, view, compact=False):
         super().__init__(view)
-        self.view = view
-        self.compact = compact
+        self.view, self.compact = view, compact
 
-    # ------------------------------------------------------------------ metrics
     def _fonts(self, option):
-        base = option.font.pointSizeF()
-        title = QFont(option.font)
+        base = max(theme.FS_BODY, option.font.pointSizeF())
+        title, sub, badge = QFont(option.font), QFont(option.font), QFont(option.font)
         title.setBold(True)
-        title.setPointSizeF(base + (0.0 if self.compact else 0.3))
-        sub = QFont(option.font)
-        sub.setPointSizeF(base - 1.0)
-        badge = QFont(option.font)
-        badge.setBold(True)
-        badge.setPointSizeF(base - 2.4)
+        title.setPointSizeF(base + (0 if self.compact else 0.5))
+        sub.setPointSizeF(max(theme.FS_SMALL, base - 0.5))
+        badge.setPointSizeF(max(theme.FS_SMALL, base - 1.0))
         return title, sub, badge
 
     def _width(self):
-        return max(120, self.view.viewport().width())
+        return max(40, self.view.viewport().width())
+
+    def _metrics(self, option, index):
+        fonts = self._fonts(option)
+        avail = max(1, self._width() - PAD_L - PAD_R - 2 * MARGIN_X)
+        title = _wrap(index.data(ROLE_TITLE), QFontMetricsF(fonts[0]), avail, TITLE_LINES) or [""]
+        summary = _wrap(index.data(ROLE_SUMMARY), QFontMetricsF(fonts[1]), avail)
+        badge = index.data(ROLE_BADGE) or ""
+        status = "Finished" if index.data(ROLE_DONE) else ""
+        fraction = max(0.0, min(1.0, float(index.data(ROLE_PROGRESS) or 0)))
+        if not status and fraction:
+            status = f"{round(fraction * 100)}% read"
+        footer = " · ".join(x for x in (badge, status) if x)
+        foot = _wrap(footer, QFontMetricsF(fonts[2]), avail, 2)
+        return fonts, avail, title, summary, foot
 
     def sizeHint(self, option, index):
-        w = self._width()
+        width = self._width()
         kind = index.data(ROLE_KIND)
-        if kind == "header":
-            return QSize(w, 30)
-        if kind == "note":
-            return QSize(w, 34)
-        title_f, sub_f, badge_f = self._fonts(option)
-        pad_t = PAD_T - (2 if self.compact else 0)
-        pad_b = PAD_B - (2 if self.compact else 0)
-        fm_t = QFontMetricsF(title_f)
-        avail = w - TEXT_L - PAD_R - 2 * MARGIN_X
-        badge = index.data(ROLE_BADGE)
-        badge_w = (QFontMetricsF(badge_f).horizontalAdvance(badge) + 20) if badge else 0
-        n_title = len(_wrap(index.data(ROLE_TITLE) or "", fm_t, avail - badge_w, TITLE_LINES))
-        h = pad_t + max(1, n_title) * fm_t.lineSpacing() + pad_b
-        summary = index.data(ROLE_SUMMARY)
-        if summary:
-            fm = QFontMetricsF(sub_f)
-            lines = _wrap(summary, fm, w - TEXT_L - PAD_R - 2 * MARGIN_X)
-            h += GAP + len(lines) * fm.lineSpacing()
+        if kind in ("header", "note"):
+            fm = QFontMetricsF(option.font)
+            lines = _wrap(index.data(Qt.DisplayRole), fm, width - 2 * PAD_L, 4)
+            return QSize(width, int(max(1, len(lines)) * fm.lineSpacing()) + (24 if kind == "header" else 32))
+        fonts, _avail, titles, summaries, footer = self._metrics(option, index)
+        height = PAD_T + PAD_B + len(titles) * QFontMetricsF(fonts[0]).lineSpacing()
+        for lines, font in ((summaries, fonts[1]), (footer, fonts[2])):
+            if lines:
+                height += GAP + len(lines) * QFontMetricsF(font).lineSpacing()
         if index.data(ROLE_DONE) or index.data(ROLE_PROGRESS):
-            h += 7                                  # room for the progress bar along the bottom
-        return QSize(w, int(round(h)) + 4)
+            height += 6
+        return QSize(width, int(height) + 4)
 
-    # ------------------------------------------------------------------ painting
-    def paint(self, p: QPainter, option, index):
+    def paint(self, painter: QPainter, option, index):
+        painter.save()
+        painter.setClipRect(option.rect)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.setRenderHint(QPainter.TextAntialiasing)
+        rect = QRectF(option.rect)
         kind = index.data(ROLE_KIND) or "card"
-        p.save()
-        p.setRenderHint(QPainter.Antialiasing)
-        p.setRenderHint(QPainter.TextAntialiasing)
-        r = QRectF(option.rect)
-        if kind == "header":
-            self._paint_header(p, option, r, index.data(Qt.DisplayRole) or "")
-        elif kind == "note":
-            f = QFont(option.font)
-            f.setItalic(True)
-            p.setFont(f)
-            p.setPen(HEADING)
-            p.drawText(r, Qt.AlignCenter, index.data(Qt.DisplayRole) or "")
+        if kind in ("header", "note"):
+            font = QFont(option.font)
+            font.setBold(kind == "header")
+            painter.setFont(font)
+            painter.setPen(theme.qc(theme.TEXT_2 if kind == "header" else theme.MUTED))
+            painter.drawText(rect.adjusted(PAD_L, 12, -PAD_R, -4), Qt.AlignLeft | Qt.AlignVCenter | Qt.TextWordWrap,
+                             index.data(Qt.DisplayRole) or "")
         else:
-            self._paint_card(p, option, r, index)
-        p.restore()
+            self._paint_card(painter, option, rect, index)
+        painter.restore()
 
-    def _paint_header(self, p, option, r, text):
-        f = QFont(option.font)
-        f.setBold(True)
-        f.setPointSizeF(option.font.pointSizeF() - 1.3)
-        f.setLetterSpacing(QFont.AbsoluteSpacing, 0.9)
-        p.setFont(f)
-        p.setPen(HEADING)
-        box = QRectF(r.x() + MARGIN_X + 2, r.y() + 10, r.width(), r.height() - 10)
-        p.drawText(box, Qt.AlignLeft | Qt.AlignVCenter, text)
-        w = p.fontMetrics().horizontalAdvance(text)
-        y = box.y() + box.height() / 2 + 0.5
-        x0 = box.x() + w + 9
-        x1 = r.right() - MARGIN_X - 4
-        if x1 > x0:
-            p.setPen(QPen(RULE, 1.0))
-            p.drawLine(QPointF(x0, y), QPointF(x1, y))
-
-    def _paint_card(self, p, option, r, index):
+    def _paint_card(self, painter, option, rect, index):
         selected = bool(option.state & QStyle.State_Selected)
         hover = bool(option.state & QStyle.State_MouseOver)
+        focused = bool(option.state & QStyle.State_HasFocus)
         dim = bool(index.data(ROLE_DIM))
-        card = r.adjusted(MARGIN_X, 2, -MARGIN_X, -2)
-        p.setPen(QPen(CARD_SEL_EDGE if selected else (CARD_HOVER_EDGE if hover else CARD_EDGE), 1.0))
-        p.setBrush(CARD_SEL if selected else (CARD_HOVER if hover else CARD_BG))
-        p.drawRoundedRect(card.adjusted(0.5, 0.5, -0.5, -0.5), theme.R_LG, theme.R_LG)
-
-        accent = index.data(ROLE_ACCENT)
-        col = QColor(accent) if accent else DEFAULT_ACCENT
-        if dim:
-            col = QColor(HEADING)
-        p.setPen(Qt.NoPen)
-        p.setBrush(col)
-        p.drawRoundedRect(QRectF(card.x() + PAD_L - 5, card.y() + 7, STRIPE, card.height() - 14), 1.5, 1.5)
-
-        title_f, sub_f, badge_f = self._fonts(option)
-        tx = card.x() + TEXT_L - MARGIN_X
-        ty = card.y() + PAD_T - (2 if self.compact else 0)
-        avail = card.right() - PAD_R - tx
-
-        badge = index.data(ROLE_BADGE)
-        title_w = avail
-        if badge:
-            p.setFont(badge_f)
-            bw = p.fontMetrics().horizontalAdvance(badge) + 12
-            bh = QFontMetricsF(badge_f).height() + 3
-            box = QRectF(card.right() - PAD_R - bw, ty + 1, bw, bh)
-            tint = QColor(col)
-            tint.setAlpha(34)
-            p.setPen(Qt.NoPen)
-            p.setBrush(BADGE_BG if dim else tint)
-            p.drawRoundedRect(box, theme.R_SM, theme.R_SM)
-            p.setPen(BADGE_FG if dim else col.lighter(112))
-            p.drawText(box, Qt.AlignCenter, badge)
-            title_w = avail - bw - 8
-
-        fm_t = QFontMetricsF(title_f)
-        p.setFont(title_f)
-        p.setPen(TITLE_DIM if dim else TITLE)
-        y = ty
-        for line in _wrap(index.data(ROLE_TITLE) or "", fm_t, title_w, TITLE_LINES) or [""]:
-            p.drawText(QRectF(tx, y, title_w, fm_t.lineSpacing()), Qt.AlignLeft | Qt.AlignVCenter, line)
-            y += fm_t.lineSpacing()
-
-        summary = index.data(ROLE_SUMMARY)
-        if summary:
-            fm_s = QFontMetricsF(sub_f)
-            p.setFont(sub_f)
-            p.setPen(SUMMARY)
+        card = rect.adjusted(MARGIN_X, 2, -MARGIN_X, -2)
+        fill = theme.ACCENT_SOFT if selected else theme.HOVER if hover else theme.RAISED
+        edge = theme.ACCENT if focused else theme.ACCENT_BORDER if selected else theme.BORDER_SUBTLE
+        painter.setPen(QPen(theme.qc(edge), 2 if focused else 1))
+        painter.setBrush(theme.qc(fill))
+        painter.drawRoundedRect(card.adjusted(1, 1, -1, -1), theme.R_MD, theme.R_MD)
+        fonts, avail, titles, summaries, footer = self._metrics(option, index)
+        x, y = card.x() + PAD_L, card.y() + PAD_T
+        for lines, font, color in ((titles, fonts[0], theme.TEXT_2 if dim else theme.TEXT_STRONG),
+                                    (summaries, fonts[1], theme.TEXT_2),
+                                    (footer, fonts[2], theme.ACCENT_TEXT if selected else theme.MUTED)):
+            if not lines:
+                continue
+            painter.setFont(font)
+            painter.setPen(theme.qc(color))
+            line_height = QFontMetricsF(font).lineSpacing()
+            for line in lines:
+                painter.drawText(QRectF(x, y, avail, line_height), Qt.AlignLeft | Qt.AlignVCenter, line)
+                y += line_height
             y += GAP
-            for line in _wrap(summary, fm_s, avail):
-                p.drawText(QRectF(tx, y, avail, fm_s.lineSpacing()), Qt.AlignLeft | Qt.AlignVCenter, line)
-                y += fm_s.lineSpacing()
-
         done = bool(index.data(ROLE_DONE))
-        frac = float(index.data(ROLE_PROGRESS) or 0.0)
-        if done or frac > 0:
-            bar = QRectF(tx, card.bottom() - 6, avail, 3)
-            p.setPen(Qt.NoPen)
-            p.setBrush(TRACK)
-            p.drawRoundedRect(bar, 1.5, 1.5)
-            p.setBrush(DONE if done else col)
-            p.drawRoundedRect(QRectF(bar.x(), bar.y(), max(3.0, bar.width() * (1.0 if done else frac)),
-                                     bar.height()), 1.5, 1.5)
+        fraction = 1.0 if done else max(0.0, min(1.0, float(index.data(ROLE_PROGRESS) or 0)))
+        if fraction:
+            track = QRectF(x, card.bottom() - 6, avail, 3)
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(theme.qc(theme.BORDER))
+            painter.drawRoundedRect(track, 1.5, 1.5)
+            painter.setBrush(theme.qc(theme.SUCCESS if done else theme.ACCENT))
+            painter.drawRoundedRect(QRectF(track.x(), track.y(), track.width() * fraction, track.height()), 1.5, 1.5)
 
 
 class CardList(QListWidget):
-    """QListWidget that paints its items as cards. Rows are still rows: row() and setCurrentRow() work as usual."""
+    """List semantics, real selection/focus and wrapping subject rows."""
 
     def __init__(self, parent=None, compact=False):
         super().__init__(parent)
@@ -227,49 +152,43 @@ class CardList(QListWidget):
         self.setMouseTracking(True)
         self.setUniformItemSizes(False)
         self.setWordWrap(False)
-        self.setSpacing(0)
+        self.setSpacing(2)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollMode(QListWidget.ScrollPerPixel)
         self.setStyleSheet("QListWidget::item, QListWidget::item:hover, QListWidget::item:selected "
                            "{ background: transparent; }")
 
-    def resizeEvent(self, e):
-        super().resizeEvent(e)
-        self.scheduleDelayedItemsLayout()       # a card's height depends on how far its summary wraps
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.scheduleDelayedItemsLayout()
 
-    # ------------------------------------------------------------------ building
     def add_header(self, text):
-        it = QListWidgetItem(text.upper())
-        it.setFlags(Qt.NoItemFlags)
-        it.setData(ROLE_KIND, "header")
-        self.addItem(it)
-        return it
+        item = QListWidgetItem(text)
+        item.setFlags(Qt.NoItemFlags)
+        item.setData(ROLE_KIND, "header")
+        self.addItem(item)
+        return item
 
     def add_note(self, text):
-        it = QListWidgetItem(text)
-        it.setFlags(Qt.NoItemFlags)
-        it.setData(ROLE_KIND, "note")
-        self.addItem(it)
-        return it
+        item = QListWidgetItem(text)
+        item.setFlags(Qt.NoItemFlags)
+        item.setData(ROLE_KIND, "note")
+        self.addItem(item)
+        return item
 
     def add_card(self, title, summary="", badge="", accent=None, data=None, tooltip="", dim=False,
                  progress=0.0, done=False):
-        it = QListWidgetItem()
-        it.setData(ROLE_KIND, "card")
-        it.setData(ROLE_TITLE, title)
-        it.setData(ROLE_SUMMARY, summary)
-        it.setData(ROLE_BADGE, badge)
-        if accent:
-            it.setData(ROLE_ACCENT, accent)
-        if dim:
-            it.setData(ROLE_DIM, True)
-        if done:
-            it.setData(ROLE_DONE, True)
-        elif progress > 0:
-            it.setData(ROLE_PROGRESS, float(progress))
+        item = QListWidgetItem(title)
+        for role, value in ((ROLE_KIND, "card"), (ROLE_TITLE, title), (ROLE_SUMMARY, summary),
+                            (ROLE_BADGE, badge), (ROLE_ACCENT, accent), (ROLE_DIM, dim),
+                            (ROLE_DONE, done), (ROLE_PROGRESS, max(0.0, min(1.0, float(progress))))):
+            item.setData(role, value)
         if data is not None:
-            it.setData(Qt.UserRole, data)
-        if tooltip:
-            it.setToolTip(tooltip)
-        self.addItem(it)
-        return it
+            item.setData(Qt.UserRole, data)
+        status = "Finished" if done else f"{round(progress * 100)}% read" if progress else ""
+        accessible = ". ".join(str(x) for x in (title, summary, badge, status) if x)
+        item.setData(Qt.AccessibleTextRole, accessible)
+        item.setData(Qt.AccessibleDescriptionRole, tooltip or accessible)
+        item.setToolTip(tooltip or accessible)
+        self.addItem(item)
+        return item

@@ -1,0 +1,996 @@
+{
+  "schema_version": 1,
+  "model_id": "jejunum_comparison_c",
+  "summary": "Frozen Jejunum C with additive native views for epithelial renewal, blood and lymph absorption, and wall regulation.",
+  "start_view": "Wall and crypt overview",
+  "scale_note": "Block about 3 mm wide; authored villus teaching height about 0.88 mm; 0.0015 m per model unit. Crypt width and comparable thin muscle layers are schematic choices. Brush border is a represented apical layer, not a resolved population of individual microvilli. Camera zoom changes screen size, not physical scale.",
+  "native_cameras": {
+    "Wall and crypt overview": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Lamina propria",
+        "Intervillus epithelium"
+      ],
+      "state": "assembled",
+      "note": "Opening overview: villi and exposed crypts remain in their wall context. Ordinary corner cut and two named hides recover the historical intended exposure."
+    },
+    "Intact epithelial surface": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": false,
+      "hidden": [],
+      "state": "assembled",
+      "note": "Intact luminal surface and wall context: restore covering tissue before returning to detail."
+    },
+    "Crypt base renewal": {
+      "type": "PERSP",
+      "position": [
+        -0.2,
+        1.0,
+        0.3
+      ],
+      "target": [
+        0.15,
+        0.55,
+        0.11
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Lamina propria",
+        "Intervillus epithelium"
+      ],
+      "state": "assembled",
+      "note": "Crypt-base detail: Paneth and stem cells in a retained tubular crypt."
+    },
+    "Blood and lymph routes": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Lamina propria",
+        "Intervillus epithelium",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Goblet cells"
+      ],
+      "state": "assembled",
+      "note": "Villus transport overview: remove the covering/core parts to compare central lymphatic and subepithelial blood routes with the retained basal wall."
+    },
+    "Wall regulation": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Lamina propria",
+        "Intervillus epithelium",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Goblet cells",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle"
+      ],
+      "state": "assembled",
+      "note": "Wall regulation: compare submucosal plexus near muscularis mucosae with myenteric plexus between retained muscularis externa layers."
+    },
+    "Epithelial entry": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": false,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Muscularis mucosae",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F01 Epithelial entry. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Blood supply beside the surface": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Intervillus epithelium",
+        "Muscularis mucosae",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F02 Blood supply beside the surface. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Solutes leave through blood": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Intervillus epithelium",
+        "Submucosal arterioles",
+        "Mucosal branches",
+        "Muscularis mucosae",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F03 Solutes leave through blood. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Packaged lipid takes lymph": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus lamina propria core",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Intervillus epithelium",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Muscularis mucosae",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F04 Packaged lipid takes lymph. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Compare both exit routes": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Intervillus epithelium",
+        "Muscularis mucosae",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F05 Compare both exit routes. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Crypt base niche": {
+      "type": "PERSP",
+      "position": [
+        -0.2,
+        1.0,
+        0.3
+      ],
+      "target": [
+        0.15,
+        0.55,
+        0.11
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Intervillus epithelium",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Muscularis mucosae",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F06 Crypt base niche. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "From crypt to absorptive surface": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Muscularis mucosae",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F07 From crypt to absorptive surface. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Goblet mucus defense": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": false,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Muscularis mucosae",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F08 Goblet mucus defense. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Paneth antimicrobial defense": {
+      "type": "PERSP",
+      "position": [
+        -0.2,
+        1.0,
+        0.3
+      ],
+      "target": [
+        0.15,
+        0.55,
+        0.11
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Intervillus epithelium",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Muscularis mucosae",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F09 Paneth antimicrobial defense. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Local mucosal muscle": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Goblet cells",
+        "Intervillus epithelium",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F10 Local mucosal muscle. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Muscle beside the lacteal": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Villus capillary network",
+        "Goblet cells",
+        "Intervillus epithelium",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F11 Muscle beside the lacteal. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Submucosal neural plane": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Lamina propria",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Intervillus epithelium",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F12 Submucosal neural plane. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Myenteric motor plane": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Intervillus epithelium",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Muscularis mucosae",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F13 Myenteric motor plane. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    },
+    "Reflex coordination": {
+      "type": "PERSP",
+      "position": [
+        -3.0450343369002266,
+        3.2607162621873136,
+        4.265337214487587
+      ],
+      "target": [
+        0.005241483449935913,
+        0.9163324236869812,
+        -0.007302284240722656
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "fov_deg": 32,
+      "cut_on": true,
+      "hidden": [
+        "Serosa",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Muscularis mucosae",
+        "Submucosa"
+      ],
+      "state": "assembled",
+      "note": "F14 Reflex coordination. Static teaching view; mechanism, evidence and limits are in functional_design.json and FUNCTION.md."
+    }
+  },
+  "functional_sequences": [
+    {
+      "id": "absorption_blood_versus_lymph",
+      "mechanism": "Surface uptake linked to separate blood and lymph exits",
+      "steps": [
+        {
+          "id": "F01",
+          "view": "Epithelial entry",
+          "text": "Begin at the luminal epithelial surface. Brush-border digestion and enterocyte uptake precede the blood or lymph route; carrier-mediated glucose uptake predominates in studied human jejunal conditions.",
+          "source_evidence": [
+            "human_glucose",
+            "human_sugar_water"
+          ],
+          "limitations": "Transporters, digestion products, tight junctions and water are explained in text; they are not separate mesh parts."
+        },
+        {
+          "id": "F02",
+          "view": "Blood supply beside the surface",
+          "text": "With epithelium hidden for teaching, trace the represented arterial supply into villus capillary loops and venous return. The subepithelial network supplies the absorptive surface.",
+          "source_evidence": [],
+          "limitations": "Red-to-blue capillary colors encode schematic flow, not measured oxygenation. Thin capillary morphology is an existing human ileal teaching transfer; this proposal does not independently certify it."
+        },
+        {
+          "id": "F03",
+          "view": "Solutes leave through blood",
+          "text": "Relate epithelial uptake to the blood route for sugars and amino acids: enterocyte basolateral exit, interstitial passage, capillary uptake and venous drainage toward the portal circulation.",
+          "source_evidence": [
+            "human_sugar_water"
+          ],
+          "limitations": "Transport across boundaries and the downstream portal vein/liver are narrated; neither portal vein nor liver is present. The crop contains many villi and cannot isolate an individual villus by a part toggle."
+        },
+        {
+          "id": "F04",
+          "view": "Packaged lipid takes lymph",
+          "text": "Typical meal-derived long-chain lipid is processed in enterocytes and packaged in chylomicrons, then reaches the lacteal through the villus interstitium. Follow the represented basal lymphatic continuation to the crop handoff.",
+          "source_evidence": [
+            "lacteal_mouse",
+            "human_lipid"
+          ],
+          "limitations": "This teaches a dominant chylomicron route, not a universal claim that every lipid enters lymph. Chylomicrons and micelles are not mesh parts; collector layout is schematic."
+        },
+        {
+          "id": "F05",
+          "view": "Compare both exit routes",
+          "text": "Compare two separate exit systems in the same villus field. Blood return heads toward portal drainage; lymph leaves this crop toward mesenteric lymphatics and eventually systemic venous return.",
+          "source_evidence": [
+            "lacteal_mouse"
+          ],
+          "limitations": "Downstream lymph nodes, cisterna chyli, thoracic duct and systemic veins are outside this specimen. Lacteal category csf is legacy metadata, not its physiological identity."
+        }
+      ],
+      "schematic_limitations": "State changes reveal structures; no fluid or particle simulation, no quantitative oxygen/nutrient/lymph data."
+    },
+    {
+      "id": "crypt_renewal_and_defense",
+      "mechanism": "Crypt-base renewal supports an absorptive and protective epithelial interface",
+      "steps": [
+        {
+          "id": "F06",
+          "view": "Crypt base niche",
+          "text": "Locate the regenerative crypt-base compartment and adjacent Paneth cells. Human marker-defined populations support these identities; the direct lineage and Paneth niche experiments cited here were performed in mice.",
+          "source_evidence": [
+            "human_atlas",
+            "lgr5_mouse",
+            "niche_mouse"
+          ],
+          "limitations": "The crypt wall is cut to reveal cells. These are representative cell groups, not a census; Paneth cells are not declared the sole niche source."
+        },
+        {
+          "id": "F07",
+          "view": "From crypt to absorptive surface",
+          "text": "Stem-cell progeny pass through a proliferative crypt compartment, differentiate, and replenish the villus absorptive surface. Typical enterocytes move toward the tip; Paneth cells remain a distinct crypt-base lineage.",
+          "source_evidence": [
+            "human_atlas",
+            "lgr5_mouse"
+          ],
+          "limitations": "Transit-amplifying cells, cell division and tip shedding have no independent parts or animation. No fixed human jejunal renewal clock is assigned; the legacy 3–5-day label is a broad teaching approximation."
+        },
+        {
+          "id": "F08",
+          "view": "Goblet mucus defense",
+          "text": "Goblet cells contribute secreted mucins including MUC2. Mucus protects and lubricates the epithelial interface while nutrients still reach the absorptive surface.",
+          "source_evidence": [
+            "human_atlas",
+            "mucus_mouse"
+          ],
+          "limitations": "No mucus mesh exists. Mouse evidence for loose penetrable small-intestinal mucus guides the explanation; do not add a rigid colon-like double barrier or a numerical human jejunal thickness."
+        },
+        {
+          "id": "F09",
+          "view": "Paneth antimicrobial defense",
+          "text": "Paneth secretions contribute antimicrobial defense near the regenerative compartment. Human HD5 is stored as a precursor and processed into active luminal forms; this secretory role is distinct from support of the stem-cell niche.",
+          "source_evidence": [
+            "human_paneth",
+            "niche_mouse"
+          ],
+          "limitations": "Granule release, enzymes and peptide gradients are narrated, not animated. The cited human defensin study supplies small-intestinal/ileal context, not a quantified adult jejunal response."
+        }
+      ],
+      "schematic_limitations": "Marker identities are not lineage imaging; no division, migration, shedding, granule release or mucus mesh."
+    },
+    {
+      "id": "local_motion_and_enteric_control",
+      "mechanism": "Local mucosal/villus movement distinguished from deep wall motor coordination and mucosal regulation",
+      "steps": [
+        {
+          "id": "F10",
+          "view": "Local mucosal muscle",
+          "text": "Identify the thin muscularis mucosae and strands in villus cores. Their local movement belongs to the mucosa, whereas the deeper muscularis externa coordinates segment-level mixing and propulsion.",
+          "source_evidence": [],
+          "limitations": "Anatomical relationship and broad distinction are preserved frozen-source teaching intent; no local movement has been measured in this model. Villus smooth muscle has label=false: use the named step and tree selection rather than promising an automatic label."
+        },
+        {
+          "id": "F11",
+          "view": "Muscle beside the lacteal",
+          "text": "Relate villus muscle to lymph drainage. Mouse intravital experiments show contractile dynamics around lacteals contributing to absorbed lipid transport and regulation by autonomic activity.",
+          "source_evidence": [
+            "lacteal_mouse"
+          ],
+          "limitations": "Transfer to a jejunal teaching model is explicitly labeled. This is a static relation view; no contraction amplitude, phase, frequency, fluid speed or human pumping efficiency is encoded."
+        },
+        {
+          "id": "F12",
+          "view": "Submucosal neural plane",
+          "text": "Find the submucosal plexus near mucosal effector tissues and local vessels. This plane introduces regulation of mucosal secretion and local circulation alongside motor coordination in the deeper plexus.",
+          "source_evidence": [
+            "human_ens_development"
+          ],
+          "limitations": "Adult control roles are broad existing-source physiology, not proved by fetal plane morphology. The one named plexus does not represent every human submucosal subdivision or a complete sensory-secretomotor circuit."
+        },
+        {
+          "id": "F13",
+          "view": "Myenteric motor plane",
+          "text": "The myenteric plexus lies between the circular and longitudinal layers. Circular contraction narrows the gut; longitudinal contraction shortens a segment. Coordinated activity can mix or propel contents.",
+          "source_evidence": [
+            "human_ens_development",
+            "human_reflex"
+          ],
+          "limitations": "The preserved block is a wall crop, not a complete gut tube; lumen narrowing and axial shortening are narrated. No moving bolus, interstitial cells of Cajal or slow-wave generator has been modeled."
+        },
+        {
+          "id": "F14",
+          "view": "Reflex coordination",
+          "text": "In human jejunal ex vivo preparations, mucosal stimulation can initiate a polarized reflex with ascending circular contraction and descending relaxation. Use this to distinguish coordinated propulsion from local villus motion.",
+          "source_evidence": [
+            "human_reflex"
+          ],
+          "limitations": "Oral and aboral directions are not established for this crop, so no world-axis propagation arrow is assigned. No neuron subtype, neurotransmitter pulse or measured peristaltic wave is present."
+        }
+      ],
+      "schematic_limitations": "Static cutaway and visibility states only; no dynamics, receptor mapping, circuit connectivity or oral/aboral crop axis."
+    }
+  ],
+  "description_overrides": {
+    "Submucosa": "Submucosa is connective tissue containing the larger blood and lymph routes and the submucosal plexus. The broad authored ridge represents a plica circularis: submucosal core with overlying mucosa. Villi are smaller mucosal projections on this fold; microvilli belong to enterocyte apical surfaces. This approximately 3 mm block is a finite crop, not the whole bowel circumference. The deeper conduit caliber and comparable thin external muscle layers are teaching choices.",
+    "Brush border (microvilli)": "The brush border represents the apical microvillus-bearing surface of absorptive enterocytes. Microvilli carry membrane digestion and transport machinery and increase absorptive area. This mesh is a represented border at tissue scale, not thousands of individually resolved microvilli or a measured surface-area multiplier. Follow Intact epithelial surface, then Blood and lymph routes to relate luminal uptake to the two downstream routes.",
+    "Villus epithelium (enterocytes)": "Simple columnar absorptive epithelium covers the villi and joins the intervillus and crypt lining as one continuous luminal barrier. Enterocytes absorb sugars and amino-acid products toward blood; long-chain dietary lipid is processed and exported as chylomicrons toward lacteals. The displayed colors and visibility steps do not measure solute flux, oxygenation or uptake rate. Select Blood and lymph routes to expose the normally hidden core compartments.",
+    "Central lacteals": "Central lacteals are blind-ended lymphatic capillaries inside the villus lamina propria, separate from the blood capillary network. Chylomicrons from processed long-chain dietary lipid enter lymph and continue beyond this crop through mesenteric lymphatics. The native material category is retained for rendering and is not cerebrospinal-fluid identity. The basal collector route/caliber is schematic context; its open crop handoff means continuation outside the specimen.",
+    "Intestinal crypts (of Lieberkühn)": "Crypts are tubular invaginations of the continuous intestinal epithelium opening between villi. Their lumen connects to the intestinal lumen; their epithelial cells do not float freely in the connective-tissue core. Crypt-base and proliferative compartments supply differentiating epithelial progeny toward villi. The widened crypt is a teaching choice. Crypt base renewal uses the accepted detailed camera; no cell migration is animated.",
+    "Villus smooth muscle": "Slender smooth-muscle strands lie inside the villus core beside the lacteal and connect with the muscularis mucosae. Contraction and local mucosal movement can assist lymph transport. Mouse live-imaging experiments support a lacteal pumping mechanism; this frozen human jejunum teaching block does not reproduce its kinetics or establish a human rate. Distinguish this local activity from propulsion by the two muscularis externa layers.",
+    "Myenteric (Auerbach) plexus": "Enteric ganglia and connecting strands lie between the inner circular and outer longitudinal smooth-muscle layers. Enteric circuits coordinate local motility with excitatory and inhibitory pathways. Wall regulation keeps both bounding muscle layers so this location remains interpretable. This short cropped block does not define oral/aboral direction, simulate an action potential or reproduce a propagating peristaltic wave.",
+    "Submucosal (Meissner) plexus": "Enteric nerve strands and ganglia in the submucosa regulate secretion, epithelial handling and local perfusion. They are anatomically separate from the myenteric plexus between the external muscle layers. Wall regulation preserves submucosal host context; ordinary hiding is a teaching operation rather than tissue absence.",
+    "Crypt base stem cells (Lgr5+)": "Crypt-base columnar stem-cell groups are authored as Lgr5-positive identities beside Paneth cells. Human intestinal cell atlases include adult jejunal marker-defined populations; direct Lgr5 lineage tracing cited here was performed in mice. Stem and proliferative progeny supply differentiating epithelial lineages toward villi. This model does not measure renewal duration, trace a patient cell or imply Paneth cells are the sole human niche source. Select Crypt base niche, then From crypt to absorptive surface in Views.",
+    "Paneth cells": "Paneth cells occupy the epithelial crypt base beside representative stem cells. Antimicrobial secretory granules support luminal defense; human small-intestinal studies identify processing of defensin-5 precursor. Crypt base niche and Paneth antimicrobial defense expose the retained design. Evidence includes human ileal material and mouse niche studies; no adult human jejunal secretion rate, granule-release animation or exclusive Paneth niche mechanism is claimed.",
+    "Goblet cells": "Goblet cells supply mucins that hydrate into mucus at the epithelial surface, supporting lubrication and defense. Goblet mucus defense shows the retained cells. Mouse small-intestinal mucus experiments distinguish a loose penetrable layer from the attached colonic inner barrier; this teaching transfer does not specify human jejunal mucus thickness or bacteria positions. No mucus mesh or secretion animation is present."
+  },
+  "native_note_visibility": "Camera note fields are archival; the native Views dropdown shows readable names. Mechanism explanations are supplied through selected Part descriptions and FUNCTION.md.",
+  "source_evidence": [
+    {
+      "id": "human_sugar_water",
+      "title": "Fordtran 1975: Stimulation of active and passive sodium absorption by sugars in the human jejunum",
+      "url": "https://jci.org/articles/view/107983",
+      "evidence_scope": "Direct human jejunal perfusion; published abstract opened",
+      "supports": "Sugar absorption and associated sodium/water movement. Do not treat water as a transported mesh or infer a fixed rate."
+    },
+    {
+      "id": "human_glucose",
+      "title": "Fine et al. 1993: Effect of D-glucose on intestinal permeability and its passive absorption in human small intestine in vivo",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/8405857/",
+      "evidence_scope": "Direct human jejunal in vivo perfusion; PubMed abstract opened",
+      "supports": "Carrier-mediated glucose uptake predominated in the studied jejunal conditions. No model of tight-junction opening is justified."
+    },
+    {
+      "id": "human_lipid",
+      "title": "Surawicz et al. 1981: Linolenate transport by human jejunum",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/7468806/",
+      "evidence_scope": "Direct human jejunal infusion/biopsy; indexed primary abstract retrieved in search, direct opening returned no body and publisher fetch was blocked",
+      "supports": "Contextual caution: the reported route varied with linolenate concentration. This is not used as sole opened-source support for the lipid sequence."
+    },
+    {
+      "id": "lacteal_mouse",
+      "title": "Choe et al. 2015: Intravital imaging of intestinal lacteals unveils lipid drainage through contractility",
+      "url": "https://jci.org/articles/view/76509",
+      "evidence_scope": "Reporter mouse proximal-jejunum intravital imaging, full primary article including Methods opened",
+      "supports": "Enterocyte-to-lamina-propria-to-lacteal lipid drainage and contribution of surrounding smooth muscle/autonomic modulation; neural control is not shown to be essential. Mechanistic transfer, not direct adult human jejunal motion measurements."
+    },
+    {
+      "id": "human_atlas",
+      "title": "Elmentaite et al. 2021: Cells of the human intestinal tract mapped across space and time",
+      "url": "https://www.nature.com/articles/s41586-021-03852-1",
+      "evidence_scope": "Primary human cell atlas including adult jejunum; article and methods opened",
+      "supports": "Human epithelial populations and marker identities including stem, transit-amplifying, Paneth, goblet and absorptive cells. Transcript profiles do not measure renewal duration or prove lineage direction by themselves."
+    },
+    {
+      "id": "lgr5_mouse",
+      "title": "Barker et al. 2007: Identification of stem cells in small intestine and colon by marker gene Lgr5",
+      "url": "https://www.nature.com/articles/nature06196",
+      "evidence_scope": "Adult mouse lineage tracing; primary published abstract opened",
+      "supports": "Lgr5-positive crypt-base columnar cells contribute to epithelial lineages. Transfer supports the concept rather than a patient-specific cell trajectory."
+    },
+    {
+      "id": "niche_mouse",
+      "title": "Sato et al. 2011: Paneth cells constitute the niche for Lgr5 stem cells in intestinal crypts",
+      "url": "https://www.nature.com/articles/nature09637",
+      "evidence_scope": "Mouse in vivo/in vitro and organoid studies; primary published abstract opened",
+      "supports": "Close Paneth/stem association and epithelial niche signals. Do not state that Paneth cells are the sole human niche source."
+    },
+    {
+      "id": "human_paneth",
+      "title": "Ghosh et al. 2002: Paneth cell trypsin is the processing enzyme for human defensin-5",
+      "url": "https://www.nature.com/articles/ni797",
+      "evidence_scope": "Human small-intestinal material, including ileal context; primary abstract opened, subscription full text not accessed",
+      "supports": "Stored HD5 precursor, processed luminal forms, Paneth trypsin-associated activation. Not a directly measured jejunal secretion rate."
+    },
+    {
+      "id": "mucus_mouse",
+      "title": "Ermund et al. 2013: Studies of mucus in mouse stomach, small intestine, and colon I",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/23832518/",
+      "evidence_scope": "Mouse explants including jejunum; primary PubMed abstract and figure captions opened; PMC full-text opening hit a browser challenge",
+      "supports": "Nonattached penetrable small-intestinal mucus differs from colonic inner barrier. Transfer is conceptual; no human jejunal mucus thickness or bacteria positions asserted."
+    },
+    {
+      "id": "human_reflex",
+      "title": "Foxx-Orenstein et al. 1996: Distinct 5-HT receptors mediate the peristaltic reflex induced by mucosal stimuli in human and guinea pig intestine",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/8898642/",
+      "evidence_scope": "Direct human jejunum and guinea pig colon, compartmented ex vivo preparations; primary PubMed abstract opened",
+      "supports": "Human mucosal stimulation linked to ascending circular contraction and descending relaxation. No receptor map or oral/aboral coordinate axis is encoded in this crop."
+    },
+    {
+      "id": "human_ens_development",
+      "title": "Anatomical and functional maturation of the mid-gestation human enteric nervous system",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10170115/",
+      "evidence_scope": "Human fetal intestine including jejunum, 13–23 post-conception weeks; full primary article opened",
+      "supports": "Separate myenteric and submucosal neural planes with circular/longitudinal muscle context. Developmental tissue cannot establish adult innervation density or mature motility frequency."
+    }
+  ]
+}

@@ -109,6 +109,26 @@ class OrbitCamera:
         self.animate_to(center, self.fit_distance(radius, aspect),
                         self.yaw if yaw is None else yaw, self.pitch if pitch is None else pitch, duration)
 
+    def frame_plane_bounds(self, bmin, bmax, aspect, yaw=None, pitch=None, duration=0.55):
+        """Fit the projected section rectangle with a modest margin."""
+        lo, hi = np.asarray(bmin), np.asarray(bmax)
+        center = (lo + hi) * .5
+        yaw = self.yaw if yaw is None else yaw
+        pitch = self.pitch if pitch is None else pitch
+        back = np.array([math.cos(pitch) * math.sin(yaw), math.sin(pitch),
+                         math.cos(pitch) * math.cos(yaw)])
+        right = normalize(np.cross([0., 1., 0.], back))
+        if np.linalg.norm(right) < 1e-6:
+            right = np.array([math.cos(yaw), 0., -math.sin(yaw)])
+        up = np.cross(back, right)
+        corners = np.array([[x, y, z] for x in (lo[0], hi[0])
+                            for y in (lo[1], hi[1]) for z in (lo[2], hi[2])]) - center
+        tangent = math.tan(math.radians(self.fov) * .5)
+        widths = np.maximum(np.abs(corners @ right) / (tangent * max(aspect, .001)),
+                            np.abs(corners @ up) / tangent)
+        distance = max(float(np.max(widths + corners @ back)) * 1.08, .005)
+        self.animate_to(center, distance, yaw, pitch, duration)
+
     def animate_to(self, target, distance, yaw, pitch, duration=0.55):
         # shortest yaw path
         dyaw = (yaw - self.yaw + math.pi) % (2 * math.pi) - math.pi

@@ -1,0 +1,925 @@
+{
+  "schema_version": 1,
+  "model_id": "retina",
+  "status": "source_design_ready",
+  "baseline_exact_parts": [
+    "Sclera",
+    "Choroid stroma",
+    "Choroidal veins (Haller layer)",
+    "Choroidal arteries (Sattler layer)",
+    "Choroidal melanocytes",
+    "Choriocapillaris",
+    "Bruch membrane",
+    "Retinal pigment epithelium",
+    "Rod outer segments",
+    "Rod inner segments",
+    "Cones",
+    "Outer limiting membrane",
+    "Outer nuclear layer",
+    "Outer plexiform layer",
+    "Inner nuclear layer",
+    "Horizontal cells",
+    "Bipolar cells",
+    "Amacrine cells",
+    "Inner plexiform layer",
+    "Ganglion cell layer",
+    "Nerve fibre layer",
+    "Retinal arteriole",
+    "Retinal venule",
+    "Superficial capillary plexus",
+    "Deep capillary plexus",
+    "Müller glia",
+    "Inner limiting membrane",
+    "Vitreous body"
+  ],
+  "delivered_candidate_additional_parts": [
+    "Inner nuclear cell bodies",
+    "Rod outer-segment disc detail"
+  ],
+  "candidate_use": "Existing 30-part delivered candidate is not accepted baseline; cameras are starting proposals requiring final saved/native verification.",
+  "start_view": "overview",
+  "views": [
+    {
+      "id": "overview",
+      "title": "1 Peripheral tissue overview",
+      "purpose": "Orient learner to retinal tissue and intentionally removed anterior window",
+      "visible_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer limiting membrane",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Müller glia",
+        "Inner limiting membrane",
+        "Inner nuclear cell bodies"
+      ],
+      "hidden_parts": [
+        "Vitreous body",
+        "Rod outer-segment disc detail"
+      ],
+      "scale_note": "Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -2.6,
+          1.35,
+          -3.5
+        ],
+        "target": [
+          0,
+          0.31,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Vitreous body",
+          "Rod outer-segment disc detail"
+        ],
+        "note": "Contextual posterior tissue and exposed cells belong to the same peripheral specimen. The window is an explanatory removal, not retinal detachment. Light enters from the vitreous-facing side; neural output proceeds toward ganglion axons, with lateral processing. Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+        "cut_on": false
+      },
+      "labels": [
+        "Inner limiting membrane",
+        "Retinal pigment epithelium",
+        "Choroid stroma"
+      ],
+      "explanatory_removal": "Authored anterior neuropil window retained; global clipping and exploded separation off.",
+      "measurement_mode": "nominal_block_reference_400_um_per_model_unit",
+      "acceptance_status": "proposed; downstream saved/native visual framing not run"
+    },
+    {
+      "id": "context",
+      "title": "2 Posterior tissue context",
+      "purpose": "See nuclei in tissue context and test overview on reverse rotation",
+      "visible_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer limiting membrane",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Müller glia",
+        "Inner limiting membrane",
+        "Inner nuclear cell bodies"
+      ],
+      "hidden_parts": [
+        "Vitreous body",
+        "Rod outer-segment disc detail"
+      ],
+      "scale_note": "Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          2.6,
+          1.35,
+          3.5
+        ],
+        "target": [
+          0,
+          0.31,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Vitreous body",
+          "Rod outer-segment disc detail"
+        ],
+        "note": "Posterior contextual rods and nuclear populations frame the opened anterior tissue. Purple nuclear cores are parts of cells; illustrative population ratios are not measured. Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+        "cut_on": false
+      },
+      "labels": [
+        "Outer nuclear layer",
+        "Inner nuclear layer",
+        "Inner nuclear cell bodies",
+        "Outer plexiform layer",
+        "Inner plexiform layer"
+      ],
+      "explanatory_removal": "Authored anterior neuropil window retained; global clipping and exploded separation off.",
+      "measurement_mode": "nominal_block_reference_400_um_per_model_unit",
+      "acceptance_status": "proposed; downstream saved/native visual framing not run"
+    },
+    {
+      "id": "support",
+      "title": "3 Pigment support and complete receptors",
+      "purpose": "Compare equivalent rod/cone regions while retaining basal and apical interfaces",
+      "visible_parts": [
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer limiting membrane",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Müller glia"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Inner limiting membrane",
+        "Vitreous body",
+        "Inner nuclear cell bodies",
+        "Rod outer-segment disc detail"
+      ],
+      "scale_note": "Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.57,
+          0.46,
+          -0.98
+        ],
+        "target": [
+          -0.52,
+          0.17,
+          -0.055
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Sclera",
+          "Choroid stroma",
+          "Choroidal veins (Haller layer)",
+          "Choroidal arteries (Sattler layer)",
+          "Choroidal melanocytes",
+          "Choriocapillaris",
+          "Inner nuclear layer",
+          "Horizontal cells",
+          "Bipolar cells",
+          "Amacrine cells",
+          "Inner plexiform layer",
+          "Ganglion cell layer",
+          "Nerve fibre layer",
+          "Retinal arteriole",
+          "Retinal venule",
+          "Superficial capillary plexus",
+          "Deep capillary plexus",
+          "Inner limiting membrane",
+          "Vitreous body",
+          "Inner nuclear cell bodies",
+          "Rod outer-segment disc detail"
+        ],
+        "note": "Follow outer segment, inner segment, nuclear soma and terminal region of both photoreceptor classes. Müller processes give junctional context; OLM is not a free-standing sheet. Enlarged apical RPE processes are sparse interface cues. Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+        "cut_on": false
+      },
+      "labels": [
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer nuclear layer",
+        "Outer plexiform layer"
+      ],
+      "explanatory_removal": "Authored anterior neuropil window retained; global clipping and exploded separation off.",
+      "measurement_mode": "nominal_block_reference_400_um_per_model_unit",
+      "acceptance_status": "proposed; downstream saved/native visual framing not run"
+    },
+    {
+      "id": "relay",
+      "title": "4 Representative neural relay",
+      "purpose": "Relate exposed cone-associated class-level relay to neuropil and output",
+      "visible_parts": [
+        "Rod inner segments",
+        "Cones",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Müller glia",
+        "Inner nuclear cell bodies"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Outer limiting membrane",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Inner limiting membrane",
+        "Vitreous body",
+        "Rod outer-segment disc detail"
+      ],
+      "scale_note": "Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          0.38,
+          0.58,
+          -0.87
+        ],
+        "target": [
+          0,
+          0.37,
+          -0.045
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Sclera",
+          "Choroid stroma",
+          "Choroidal veins (Haller layer)",
+          "Choroidal arteries (Sattler layer)",
+          "Choroidal melanocytes",
+          "Choriocapillaris",
+          "Bruch membrane",
+          "Retinal pigment epithelium",
+          "Rod outer segments",
+          "Outer limiting membrane",
+          "Retinal arteriole",
+          "Retinal venule",
+          "Superficial capillary plexus",
+          "Deep capillary plexus",
+          "Inner limiting membrane",
+          "Vitreous body",
+          "Rod outer-segment disc detail"
+        ],
+        "note": "A bounded cone-associated ensemble shows class-level appositions, not a measured synaptic graph or assigned ON/OFF subtype. Horizontal interactions belong to OPL; amacrine interactions belong to IPL. Ganglion axonal output reaches NFL. Retain INL cellular shells whenever its nuclear cores are visible. Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+        "cut_on": false
+      },
+      "labels": [
+        "Cones",
+        "Bipolar cells",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Horizontal cells",
+        "Amacrine cells"
+      ],
+      "explanatory_removal": "Authored anterior neuropil window retained; global clipping and exploded separation off.",
+      "measurement_mode": "nominal_block_reference_400_um_per_model_unit",
+      "acceptance_status": "proposed; downstream saved/native visual framing not run"
+    },
+    {
+      "id": "glia",
+      "title": "5 Müller interfaces",
+      "purpose": "Follow radial glial context from OLM junctions to ILM and vitreous",
+      "visible_parts": [
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer limiting membrane",
+        "Müller glia",
+        "Inner limiting membrane",
+        "Vitreous body"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Inner nuclear cell bodies",
+        "Rod outer-segment disc detail"
+      ],
+      "scale_note": "Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          1.02,
+          0.72,
+          -0.65
+        ],
+        "target": [
+          0.6,
+          0.4,
+          0.21
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Sclera",
+          "Choroid stroma",
+          "Choroidal veins (Haller layer)",
+          "Choroidal arteries (Sattler layer)",
+          "Choroidal melanocytes",
+          "Choriocapillaris",
+          "Bruch membrane",
+          "Outer nuclear layer",
+          "Outer plexiform layer",
+          "Inner nuclear layer",
+          "Horizontal cells",
+          "Bipolar cells",
+          "Amacrine cells",
+          "Inner plexiform layer",
+          "Ganglion cell layer",
+          "Nerve fibre layer",
+          "Retinal arteriole",
+          "Retinal venule",
+          "Superficial capillary plexus",
+          "Deep capillary plexus",
+          "Inner nuclear cell bodies",
+          "Rod outer-segment disc detail"
+        ],
+        "note": "OLM junctional exemplars associate glial processes with photoreceptors. Inner endfeet lie beside a separate basement-membrane ILM. Vitreous remains its authored very low opacity; omit its mesh if downstream opaque mode makes the boundary unreadable, while retaining a vitreous-side callout. Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+        "cut_on": false
+      },
+      "labels": [
+        "Müller glia",
+        "Outer limiting membrane",
+        "Inner limiting membrane",
+        "Vitreous body"
+      ],
+      "explanatory_removal": "Authored anterior neuropil window retained; global clipping and exploded separation off.",
+      "measurement_mode": "nominal_block_reference_400_um_per_model_unit",
+      "acceptance_status": "proposed; downstream saved/native visual framing not run"
+    },
+    {
+      "id": "retinal_supply",
+      "title": "6 Inner retinal supply in tissue",
+      "purpose": "Trace superficial/deep vessels against exact inner retinal compartments",
+      "visible_parts": [
+        "Outer plexiform layer",
+        "Inner nuclear layer",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Inner nuclear cell bodies"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer limiting membrane",
+        "Outer nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Müller glia",
+        "Inner limiting membrane",
+        "Vitreous body",
+        "Rod outer-segment disc detail"
+      ],
+      "scale_note": "Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          2.6,
+          2.007,
+          -3.19
+        ],
+        "target": [
+          0,
+          0.52,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Sclera",
+          "Choroid stroma",
+          "Choroidal veins (Haller layer)",
+          "Choroidal arteries (Sattler layer)",
+          "Choroidal melanocytes",
+          "Choriocapillaris",
+          "Bruch membrane",
+          "Retinal pigment epithelium",
+          "Rod outer segments",
+          "Rod inner segments",
+          "Cones",
+          "Outer limiting membrane",
+          "Outer nuclear layer",
+          "Horizontal cells",
+          "Bipolar cells",
+          "Amacrine cells",
+          "Müller glia",
+          "Inner limiting membrane",
+          "Vitreous body",
+          "Rod outer-segment disc detail"
+        ],
+        "note": "Retinal territory is shown against contextual laminae. Red-to-blue is qualitative route coloring, not measured oxygenation; tube contact alone does not verify an open lumen. A vessels-only isolate is a secondary diagnostic, not the sole supply lesson. Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+        "cut_on": false
+      },
+      "labels": [
+        "Retinal arteriole",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Retinal venule",
+        "Inner nuclear layer",
+        "Outer plexiform layer"
+      ],
+      "explanatory_removal": "Authored anterior neuropil window retained; global clipping and exploded separation off.",
+      "measurement_mode": "nominal_block_reference_400_um_per_model_unit",
+      "acceptance_status": "proposed; downstream saved/native visual framing not run"
+    },
+    {
+      "id": "choroid_supply",
+      "title": "7 Choroidal supply interface",
+      "purpose": "Relate choroidal field to Bruch/RPE rather than floating vascular loops",
+      "visible_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Cones"
+      ],
+      "hidden_parts": [
+        "Rod inner segments",
+        "Outer limiting membrane",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Müller glia",
+        "Inner limiting membrane",
+        "Vitreous body",
+        "Inner nuclear cell bodies",
+        "Rod outer-segment disc detail"
+      ],
+      "scale_note": "Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          2.55,
+          1.22,
+          -3.15
+        ],
+        "target": [
+          0,
+          0.02,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Rod inner segments",
+          "Outer limiting membrane",
+          "Outer nuclear layer",
+          "Outer plexiform layer",
+          "Inner nuclear layer",
+          "Horizontal cells",
+          "Bipolar cells",
+          "Amacrine cells",
+          "Inner plexiform layer",
+          "Ganglion cell layer",
+          "Nerve fibre layer",
+          "Retinal arteriole",
+          "Retinal venule",
+          "Superficial capillary plexus",
+          "Deep capillary plexus",
+          "Müller glia",
+          "Inner limiting membrane",
+          "Vitreous body",
+          "Inner nuclear cell bodies",
+          "Rod outer-segment disc detail"
+        ],
+        "note": "Choroidal supply remains separate from retinal vessels. Follow its capillary interface behind Bruch and RPE toward outer-retinal support. Do not connect the two vascular territories across the neural retina. Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+        "cut_on": false
+      },
+      "labels": [
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal veins (Haller layer)"
+      ],
+      "explanatory_removal": "Authored anterior neuropil window retained; global clipping and exploded separation off.",
+      "measurement_mode": "nominal_block_reference_400_um_per_model_unit",
+      "acceptance_status": "proposed; downstream saved/native visual framing not run"
+    },
+    {
+      "id": "disc_detail",
+      "title": "8 EM schematic disc detail",
+      "purpose": "Expose simplified internal disc organization only after locating actual rod",
+      "visible_parts": [
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Rod outer-segment disc detail"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Cones",
+        "Outer limiting membrane",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Müller glia",
+        "Inner limiting membrane",
+        "Vitreous body",
+        "Inner nuclear cell bodies"
+      ],
+      "scale_note": "Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.7141617473971564,
+          0.14680425005331466,
+          -0.4347678583537345
+        ],
+        "target": [
+          -0.7141617473971564,
+          0.13080425005331467,
+          -0.23476785835373448
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 30,
+        "hidden": [
+          "Sclera",
+          "Choroid stroma",
+          "Choroidal veins (Haller layer)",
+          "Choroidal arteries (Sattler layer)",
+          "Choroidal melanocytes",
+          "Choriocapillaris",
+          "Bruch membrane",
+          "Cones",
+          "Outer limiting membrane",
+          "Outer nuclear layer",
+          "Outer plexiform layer",
+          "Inner nuclear layer",
+          "Horizontal cells",
+          "Bipolar cells",
+          "Amacrine cells",
+          "Inner plexiform layer",
+          "Ganglion cell layer",
+          "Nerve fibre layer",
+          "Retinal arteriole",
+          "Retinal venule",
+          "Superficial capillary plexus",
+          "Deep capillary plexus",
+          "Müller glia",
+          "Inner limiting membrane",
+          "Vitreous body",
+          "Inner nuclear cell bodies"
+        ],
+        "note": "Nine representative disc membranes occupy a longitudinal teaching opening in one actual rod. Count, spacing and membrane thickness are simplified and exaggerated; EM-level interpretation, not ordinary histology. Match this rod to the support view; never teach it as a detached floating inset. Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+        "cut_on": false
+      },
+      "labels": [
+        "Rod outer-segment disc detail",
+        "Rod outer segments"
+      ],
+      "explanatory_removal": "Authored anterior neuropil window retained; global clipping and exploded separation off.",
+      "measurement_mode": "nominal_block_reference_400_um_per_model_unit",
+      "acceptance_status": "proposed; downstream saved/native visual framing not run"
+    },
+    {
+      "id": "detachment_interface",
+      "title": "9 Detachment interface locator",
+      "purpose": "Identify the actual neural-retina/RPE plane without artificial displacement",
+      "visible_parts": [
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer nuclear layer"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Outer limiting membrane",
+        "Outer plexiform layer",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Müller glia",
+        "Inner limiting membrane",
+        "Vitreous body",
+        "Inner nuclear cell bodies",
+        "Rod outer-segment disc detail"
+      ],
+      "scale_note": "Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.57,
+          0.46,
+          -0.98
+        ],
+        "target": [
+          -0.52,
+          0.17,
+          -0.055
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Sclera",
+          "Choroid stroma",
+          "Choroidal veins (Haller layer)",
+          "Choroidal arteries (Sattler layer)",
+          "Choroidal melanocytes",
+          "Choriocapillaris",
+          "Outer limiting membrane",
+          "Outer plexiform layer",
+          "Inner nuclear layer",
+          "Horizontal cells",
+          "Bipolar cells",
+          "Amacrine cells",
+          "Inner plexiform layer",
+          "Ganglion cell layer",
+          "Nerve fibre layer",
+          "Retinal arteriole",
+          "Retinal venule",
+          "Superficial capillary plexus",
+          "Deep capillary plexus",
+          "Müller glia",
+          "Inner limiting membrane",
+          "Vitreous body",
+          "Inner nuclear cell bodies",
+          "Rod outer-segment disc detail"
+        ],
+        "note": "This locator highlights the photoreceptor–RPE interface. It does not animate a disease state or use the anterior neuropil teaching window as a detachment plane. Layer explosion is a teaching displacement and must be reset before this view. Peripheral-retina teaching specimen. Retain authored nominal block calibration 400 µm/model unit: 0.8-mm width and roughly 240-µm RPE-to-ILM depth are nominal block references, not review measurements. Cells, nuclei, microvilli, thin interfaces and vessel walls are selectively enlarged; counts, ratios and curvature are illustrative. Numeric ruler applies to nominal block reference only, not magnified cellular morphometry.",
+        "cut_on": false
+      },
+      "labels": [
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Cones"
+      ],
+      "explanatory_removal": "Authored anterior neuropil window retained; global clipping and exploded separation off.",
+      "measurement_mode": "nominal_block_reference_400_um_per_model_unit",
+      "acceptance_status": "proposed; downstream saved/native visual framing not run"
+    }
+  ],
+  "cue_hierarchy": [
+    {
+      "priority": 1,
+      "cue": "Persistent peripheral-retina and selective-enlargement disclosure; vitreous-facing and choroidal-side orientation."
+    },
+    {
+      "priority": 2,
+      "cue": "At most two simultaneously active directional overlays: pale dashed light arrows ILM toward receptor outer segments; orange solid qualitative neural-relay arrows toward GCL/NFL. Lateral feedback uses separate short two-way annotations."
+    },
+    {
+      "priority": 3,
+      "cue": "Three opening callouts, then view-specific anatomy labels on demand. Original part material colors retained; selection cleared before judging pigmentation."
+    },
+    {
+      "priority": 4,
+      "cue": "Thin annotation outline brackets explanatory cut edge; tissue window, global section, cut-away toggle and exploded separation are explicitly named distinct operations."
+    }
+  ],
+  "true_scale_policy": {
+    "true_scale_claim": "Authored nominal block reference mapping only; no claim that selectively enlarged structures have native dimensions.",
+    "nominal_specimen": "0.8 mm width; approximately 240 µm RPE-to-ILM depth per authored brief/common.py, not independently calibrated.",
+    "ruler": "400 µm/model unit, label: nominal block reference; selectively enlarged cells/interfaces are not morphometry",
+    "em_detail": "No numeric EM magnification factor asserted without source-to-render calibration.",
+    "source_baseline_enlargement": "Baseline metadata states selected representative cells X/Z enlarged 1.7× while Y laminar roles retained; delivered candidate adds selective detail and must not be described globally as uniformly 1.7×.",
+    "nominal_mapping_um_per_model_unit": 400,
+    "legacy_candidate_ruler": "Existing candidate export viewer uses relative ruler (um_per_bu=0); new authored calibration requires deferred native/export loader assertions, not mesh rescaling."
+  },
+  "retained_meaningful_baseline": [
+    "28 original exact selector identities and material/color groups",
+    "Peripheral regional identity and layered cutaway",
+    "RPE–Bruch–choriocapillaris–choroid–sclera order",
+    "Rod/cone distinction, radial Müller span and junctional OLM exemplars",
+    "Ganglion/NFL output relationship and separate retinal/choroidal vascular territories",
+    "Existing open vessel section ends; do not cap by convenience"
+  ],
+  "deferred_checks": [
+    "Each proposed preset applied to final saved part set without missing selector names.",
+    "Opening and reverse context framing at small viewport, selection clear, opaque mode and rotation.",
+    "Nuclear cores are shown with intended cellular envelopes; no orphan-dot view.",
+    "RPE apical relation and ganglion/NFL continuity visually reviewed after new build.",
+    "Thin membranes and vitreous do not obscure glial endfeet; rod detail remains hidden in overview.",
+    "Visibility partition and camera fitting rechecked after any geometry change.",
+    "Native and export readback preserve um_per_bu=400 and nominal-block-only ruler disclosure; original coordinates unchanged, no geometry rescaling."
+  ],
+  "source_evidence": [
+    {
+      "path": "revised-refinement-handoffs/Retina_Refinement_Directions.txt",
+      "kind": "current controlling review brief"
+    },
+    {
+      "path": "retina-refinement/source/build_cells.py",
+      "kind": "candidate source; not accepted baseline"
+    },
+    {
+      "path": "retina-refinement/source/common.py",
+      "kind": "authored scale disclosure"
+    },
+    {
+      "path": "retina-refinement/delivery/retina_refined.viewer.json",
+      "kind": "existing candidate camera starting coordinates"
+    },
+    {
+      "path": "retina-refinement/evidence/view-01.png.visibility.json",
+      "kind": "preview attribution to 30-part 1,033,520-triangle candidate"
+    },
+    {
+      "url": "https://www.webvision.pitt.edu/book/part-i-foundations/simple-anatomy-of-the-retina/",
+      "opened": "2026-10-04",
+      "relevance": "Retinal cell-layer/neuropil organization, peripheral regional differences, radial glial interfaces, light and neural directions; no geometry calibration."
+    },
+    {
+      "url": "https://histology.oit.duke.edu/NormalBody/EyeEar/Eye.html",
+      "opened": "2026-10-04",
+      "relevance": "RPE apical interface, outer retinal support, dual circulation and detachment plane; no model-specific metrics."
+    }
+  ]
+}

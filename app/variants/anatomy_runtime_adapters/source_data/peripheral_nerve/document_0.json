@@ -1,0 +1,805 @@
+{
+  "schema_version": 1,
+  "model_id": "peripheral_nerve",
+  "status": "design_ready_pending_separate_machine_review",
+  "exact_parts": [
+    "Epineurium",
+    "Epineurial collagen bundles",
+    "Perineurium",
+    "Endoneurium",
+    "Myelin sheaths (internodes)",
+    "Axons",
+    "Nodes of Ranvier",
+    "Schwann cell nuclei",
+    "Remak Schwann cells",
+    "Unmyelinated axons (C fibres)",
+    "Endoneurial capillaries",
+    "Schwann cell outer cytoplasm",
+    "Schwann basal lamina",
+    "Epineurial fat",
+    "Vasa nervorum (arterioles)",
+    "Vasa nervorum (venules)"
+  ],
+  "native_model_attributes": {
+    "scale_note": "SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation.",
+    "metres_per_unit": 0.0015,
+    "home_view": [
+      0.7,
+      0.4
+    ],
+    "cut_on": true,
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0
+      ]
+    ],
+    "cut_at": [
+      0,
+      0
+    ],
+    "viewer_cameras": {
+      "SCHEMATIC 1 Tissue hierarchy": {
+        "type": "PERSP",
+        "position": [
+          2.35,
+          1.55,
+          2.6
+        ],
+        "target": [
+          -0.03,
+          0.03,
+          0.0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Schwann cell nuclei",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina"
+        ],
+        "cut_on": true,
+        "note": "Overview: identify connective compartments and fascicles before cellular coverings. The telescope deliberately exposes deeper layers. Three cellular-detail selectors are hidden initially and restored in the Schwann lesson. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "SCHEMATIC 2 Intact tissue": {
+        "type": "PERSP",
+        "position": [
+          2.35,
+          1.55,
+          2.6
+        ],
+        "target": [
+          -0.03,
+          0.03,
+          0.0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [],
+        "cut_on": false,
+        "note": "SCHEMATIC: Restore the outer supporting tissues before using the native section controls. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "SCHEMATIC 3 Schwann cell opening": {
+        "type": "PERSP",
+        "position": [
+          1.25,
+          0.4,
+          1.05
+        ],
+        "target": [
+          0.71,
+          0.04,
+          0.3
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Endoneurial capillaries",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ],
+        "cut_on": false,
+        "note": "SCHEMATIC: One continuous large axon crosses real nodal gaps. The two exposed distal Schwann cells have opened cytoplasm and basal lamina; their nuclei remain intact. Four myelin bands are enlarged membrane summaries. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "SCHEMATIC 4 Myelinated and Remak": {
+        "type": "PERSP",
+        "position": [
+          1.18,
+          0.42,
+          0.87
+        ],
+        "target": [
+          0.66,
+          0.012,
+          0.25
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Endoneurial capillaries",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ],
+        "cut_on": false,
+        "note": "SCHEMATIC: Compare the opened compact-myelin fibre with the nearby three-axon nonmyelinating Schwann bundle. Unmyelinated does not mean unensheathed. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "SCHEMATIC 5 Vascular compartments": {
+        "type": "PERSP",
+        "position": [
+          1.65,
+          1.15,
+          2.0
+        ],
+        "target": [
+          -0.27,
+          0.07,
+          -0.08
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Myelin sheaths (internodes)",
+          "Axons",
+          "Nodes of Ranvier",
+          "Schwann cell nuclei",
+          "Remak Schwann cells",
+          "Unmyelinated axons (C fibres)",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina",
+          "Epineurial fat"
+        ],
+        "cut_on": false,
+        "note": "Identify epineurial arterioles/venules and endoneurial capillaries. Baseline capillaries are disconnected representatives. A connected route may be traced only after the revised saved geometry passes lumen, passage, continuity and native visual checks. No blood-flow animation. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "SCHEMATIC 6 Perineurial lamellae": {
+        "type": "PERSP",
+        "position": [
+          1.38,
+          0.42,
+          1.18
+        ],
+        "target": [
+          0.27,
+          0.03,
+          0.05
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Nodes of Ranvier",
+          "Schwann cell nuclei",
+          "Remak Schwann cells",
+          "Unmyelinated axons (C fibres)",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ],
+        "cut_on": true,
+        "note": "SCHEMATIC: Three continuous lamellae and the fibre-containing interstitial compartment. Endoneurial endothelial tight junctions also provide a blood–nerve interface; molecular junctions are not resolved. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "SCHEMATIC 8 Supporting fabric": {
+        "type": "PERSP",
+        "position": [
+          1.9,
+          1.3,
+          2.0
+        ],
+        "target": [
+          -0.25,
+          0.04,
+          0.0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Epineurium",
+          "Endoneurium",
+          "Myelin sheaths (internodes)",
+          "Axons",
+          "Nodes of Ranvier",
+          "Schwann cell nuclei",
+          "Remak Schwann cells",
+          "Unmyelinated axons (C fibres)",
+          "Endoneurial capillaries",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina"
+        ],
+        "cut_on": false,
+        "note": "SCHEMATIC: Epineurial ground substance is hidden to expose the actual interlaced collagen and separate adipocyte groups in their vascular context. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "SCHEMATIC 7 Fibre cross-section": {
+        "type": "PERSP",
+        "position": [
+          -2.55,
+          0.05,
+          0.04
+        ],
+        "target": [
+          -0.99,
+          0.03,
+          0.0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [],
+        "cut_on": false,
+        "note": "SCHEMATIC: The proximal authored section exposes the preserved hierarchy. The nerve longitudinal direction is model X, independent of UI anatomical plane names. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      }
+    },
+    "start_view": "SCHEMATIC 1 Tissue hierarchy"
+  },
+  "teaching_views": [
+    {
+      "id": "SCHEMATIC 1 Tissue hierarchy",
+      "purpose": "Locate epineurium around/between fascicles, perineurium around each fascicle and endoneurium among ensheathed fibres.",
+      "visible_parts": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Myelin sheaths (internodes)",
+        "Axons",
+        "Nodes of Ranvier",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Endoneurial capillaries",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ],
+      "hidden_parts": [
+        "Schwann cell nuclei",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina"
+      ],
+      "scale_note": "SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation.",
+      "native_camera_record": {
+        "type": "PERSP",
+        "position": [
+          2.35,
+          1.55,
+          2.6
+        ],
+        "target": [
+          -0.03,
+          0.03,
+          0.0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Schwann cell nuclei",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina"
+        ],
+        "cut_on": true,
+        "note": "Overview: identify connective compartments and fascicles before cellular coverings. The telescope deliberately exposes deeper layers. Three cellular-detail selectors are hidden initially and restored in the Schwann lesson. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "camera_provenance": {
+        "existing_id": "SCHEMATIC 1 Tissue hierarchy",
+        "source_root": "recovery",
+        "source_path": "nerve-refinement/delivery/peripheral_nerve_refinement.viewer.json",
+        "status": "reused source pose; framing/occlusion not verified here"
+      }
+    },
+    {
+      "id": "SCHEMATIC 2 Intact tissue",
+      "purpose": "Restore every selector and compare the same authored telescope without the global cut. This is not an unmodified biological nerve.",
+      "visible_parts": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Myelin sheaths (internodes)",
+        "Axons",
+        "Nodes of Ranvier",
+        "Schwann cell nuclei",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Endoneurial capillaries",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ],
+      "hidden_parts": [],
+      "scale_note": "SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation.",
+      "native_camera_record": {
+        "type": "PERSP",
+        "position": [
+          2.35,
+          1.55,
+          2.6
+        ],
+        "target": [
+          -0.03,
+          0.03,
+          0.0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [],
+        "cut_on": false,
+        "note": "SCHEMATIC: Restore the outer supporting tissues before using the native section controls. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "camera_provenance": {
+        "existing_id": "SCHEMATIC 2 Intact tissue",
+        "source_root": "recovery",
+        "source_path": "nerve-refinement/delivery/peripheral_nerve_refinement.viewer.json",
+        "status": "reused source pose; framing/occlusion not verified here"
+      }
+    },
+    {
+      "id": "SCHEMATIC 3 Schwann cell opening",
+      "purpose": "Follow one continuous axon across genuine myelin gaps and compare compact membrane, outer cytoplasm, nucleus and outer basal lamina.",
+      "visible_parts": [
+        "Myelin sheaths (internodes)",
+        "Axons",
+        "Nodes of Ranvier",
+        "Schwann cell nuclei",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina"
+      ],
+      "hidden_parts": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Endoneurial capillaries",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ],
+      "scale_note": "SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation.",
+      "native_camera_record": {
+        "type": "PERSP",
+        "position": [
+          1.25,
+          0.4,
+          1.05
+        ],
+        "target": [
+          0.71,
+          0.04,
+          0.3
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Endoneurial capillaries",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ],
+        "cut_on": false,
+        "note": "SCHEMATIC: One continuous large axon crosses real nodal gaps. The two exposed distal Schwann cells have opened cytoplasm and basal lamina; their nuclei remain intact. Four myelin bands are enlarged membrane summaries. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "camera_provenance": {
+        "existing_id": "SCHEMATIC 3 Schwann cell opening",
+        "source_root": "recovery",
+        "source_path": "nerve-refinement/delivery/peripheral_nerve_refinement.viewer.json",
+        "status": "reused source pose; framing/occlusion not verified here"
+      }
+    },
+    {
+      "id": "SCHEMATIC 4 Myelinated and Remak",
+      "purpose": "Compare one myelinating Schwann internode with several small axons individually ensheathed by shared nonmyelinating cytoplasm.",
+      "visible_parts": [
+        "Myelin sheaths (internodes)",
+        "Axons",
+        "Nodes of Ranvier",
+        "Schwann cell nuclei",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina"
+      ],
+      "hidden_parts": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Endoneurial capillaries",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ],
+      "scale_note": "SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation.",
+      "native_camera_record": {
+        "type": "PERSP",
+        "position": [
+          1.18,
+          0.42,
+          0.87
+        ],
+        "target": [
+          0.66,
+          0.012,
+          0.25
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Endoneurial capillaries",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ],
+        "cut_on": false,
+        "note": "SCHEMATIC: Compare the opened compact-myelin fibre with the nearby three-axon nonmyelinating Schwann bundle. Unmyelinated does not mean unensheathed. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "camera_provenance": {
+        "existing_id": "SCHEMATIC 4 Myelinated and Remak",
+        "source_root": "recovery",
+        "source_path": "nerve-refinement/delivery/peripheral_nerve_refinement.viewer.json",
+        "status": "reused source pose; framing/occlusion not verified here"
+      }
+    },
+    {
+      "id": "SCHEMATIC 5 Vascular compartments",
+      "purpose": "Locate vessels in their compartments; verify a candidate route before describing connected supply/exchange/drainage.",
+      "visible_parts": [
+        "Endoneurial capillaries",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ],
+      "hidden_parts": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Myelin sheaths (internodes)",
+        "Axons",
+        "Nodes of Ranvier",
+        "Schwann cell nuclei",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina",
+        "Epineurial fat"
+      ],
+      "scale_note": "SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation.",
+      "native_camera_record": {
+        "type": "PERSP",
+        "position": [
+          1.65,
+          1.15,
+          2.0
+        ],
+        "target": [
+          -0.27,
+          0.07,
+          -0.08
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Perineurium",
+          "Endoneurium",
+          "Myelin sheaths (internodes)",
+          "Axons",
+          "Nodes of Ranvier",
+          "Schwann cell nuclei",
+          "Remak Schwann cells",
+          "Unmyelinated axons (C fibres)",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina",
+          "Epineurial fat"
+        ],
+        "cut_on": false,
+        "note": "Identify epineurial arterioles/venules and endoneurial capillaries. Baseline capillaries are disconnected representatives. A connected route may be traced only after the revised saved geometry passes lumen, passage, continuity and native visual checks. No blood-flow animation. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "camera_provenance": {
+        "existing_id": "SCHEMATIC 5 Connected vascular route",
+        "source_root": "recovery",
+        "source_path": "nerve-refinement/delivery/peripheral_nerve_refinement.viewer.json",
+        "status": "reused source pose; framing/occlusion not verified here"
+      }
+    },
+    {
+      "id": "SCHEMATIC 6 Perineurial lamellae",
+      "purpose": "Distinguish layered cellular fascicular boundary from ordinary collagen and Schwann basal lamina; include endoneurial endothelial barrier.",
+      "visible_parts": [
+        "Perineurium",
+        "Endoneurium",
+        "Myelin sheaths (internodes)",
+        "Axons",
+        "Endoneurial capillaries"
+      ],
+      "hidden_parts": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Nodes of Ranvier",
+        "Schwann cell nuclei",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ],
+      "scale_note": "SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation.",
+      "native_camera_record": {
+        "type": "PERSP",
+        "position": [
+          1.38,
+          0.42,
+          1.18
+        ],
+        "target": [
+          0.27,
+          0.03,
+          0.05
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Epineurium",
+          "Epineurial collagen bundles",
+          "Nodes of Ranvier",
+          "Schwann cell nuclei",
+          "Remak Schwann cells",
+          "Unmyelinated axons (C fibres)",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina",
+          "Epineurial fat",
+          "Vasa nervorum (arterioles)",
+          "Vasa nervorum (venules)"
+        ],
+        "cut_on": true,
+        "note": "SCHEMATIC: Three continuous lamellae and the fibre-containing interstitial compartment. Endoneurial endothelial tight junctions also provide a blood–nerve interface; molecular junctions are not resolved. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "camera_provenance": {
+        "existing_id": "SCHEMATIC 6 Perineurial lamellae",
+        "source_root": "recovery",
+        "source_path": "nerve-refinement/delivery/peripheral_nerve_refinement.viewer.json",
+        "status": "reused source pose; framing/occlusion not verified here"
+      }
+    },
+    {
+      "id": "SCHEMATIC 8 Supporting fabric",
+      "purpose": "Expose collagen and adipocyte groups in context after removing the epineurial ground substance.",
+      "visible_parts": [
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ],
+      "hidden_parts": [
+        "Epineurium",
+        "Endoneurium",
+        "Myelin sheaths (internodes)",
+        "Axons",
+        "Nodes of Ranvier",
+        "Schwann cell nuclei",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Endoneurial capillaries",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina"
+      ],
+      "scale_note": "SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation.",
+      "native_camera_record": {
+        "type": "PERSP",
+        "position": [
+          1.9,
+          1.3,
+          2.0
+        ],
+        "target": [
+          -0.25,
+          0.04,
+          0.0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Epineurium",
+          "Endoneurium",
+          "Myelin sheaths (internodes)",
+          "Axons",
+          "Nodes of Ranvier",
+          "Schwann cell nuclei",
+          "Remak Schwann cells",
+          "Unmyelinated axons (C fibres)",
+          "Endoneurial capillaries",
+          "Schwann cell outer cytoplasm",
+          "Schwann basal lamina"
+        ],
+        "cut_on": false,
+        "note": "SCHEMATIC: Epineurial ground substance is hidden to expose the actual interlaced collagen and separate adipocyte groups in their vascular context. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "camera_provenance": {
+        "existing_id": "SCHEMATIC 8 Supporting fabric",
+        "source_root": "recovery",
+        "source_path": "nerve-refinement/delivery/peripheral_nerve_refinement.viewer.json",
+        "status": "reused source pose; framing/occlusion not verified here"
+      }
+    },
+    {
+      "id": "SCHEMATIC 7 Fibre cross-section",
+      "purpose": "Use the existing proximal authored face for hierarchy comparison; model X is longitudinal, with a section normal to X.",
+      "visible_parts": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Myelin sheaths (internodes)",
+        "Axons",
+        "Nodes of Ranvier",
+        "Schwann cell nuclei",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Endoneurial capillaries",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ],
+      "hidden_parts": [],
+      "scale_note": "SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation.",
+      "native_camera_record": {
+        "type": "PERSP",
+        "position": [
+          -2.55,
+          0.05,
+          0.04
+        ],
+        "target": [
+          -0.99,
+          0.03,
+          0.0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "hidden": [],
+        "cut_on": false,
+        "note": "SCHEMATIC: The proximal authored section exposes the preserved hierarchy. The nerve longitudinal direction is model X, independent of UI anatomical plane names. SCHEMATIC: coordinate calibration remains nominally 1.5 mm per model unit for source continuity. Fibre diameters, membrane and basal-lamina thicknesses, vessel calibres and internode spacing are independently exaggerated. Three fascicles and representative fibre/cell counts are teaching samples. Ruler values are not clinical measurements. Telescoping, layer openings and global sections are explanatory dissections; UI anatomical plane names do not establish patient orientation."
+      },
+      "camera_provenance": {
+        "existing_id": "SCHEMATIC 7 Fibre cross-section",
+        "source_root": "recovery",
+        "source_path": "nerve-refinement/delivery/peripheral_nerve_refinement.viewer.json",
+        "status": "reused source pose; framing/occlusion not verified here"
+      }
+    }
+  ],
+  "progression": [
+    "SCHEMATIC 1 Tissue hierarchy",
+    "SCHEMATIC 2 Intact tissue",
+    "SCHEMATIC 6 Perineurial lamellae",
+    "SCHEMATIC 3 Schwann cell opening",
+    "SCHEMATIC 4 Myelinated and Remak",
+    "SCHEMATIC 5 Vascular compartments",
+    "SCHEMATIC 8 Supporting fabric",
+    "SCHEMATIC 7 Fibre cross-section"
+  ],
+  "annotation_policy": {
+    "labels_on_open": false,
+    "preferred": "Select one relationship and inspect its caption; do not enable every part label in the overview.",
+    "existing_limit": "Main Labels checkbox does not disable automatic section labels. viewport.settings[section_labels] controls them globally; change and restore only for a dedicated review session, not via model metadata.",
+    "camera_note_limit": "Camera note strings are machine metadata; existing native ModelView does not automatically display them as lesson captions."
+  },
+  "visibility_hierarchy": {
+    "overview": "Keep epineurium, perineurium, endoneurium, fibre classes, fat and vessels together; hide cellular covering details and their nuclei to reduce occlusion without orphan nuclei.",
+    "cell_detail": "Restore outer cytoplasm, basal lamina and nuclei together; remove surrounding bulk connective tissues using the existing exact-name hidden lists.",
+    "remak_limit": "Schwann cell nuclei selector contains both parent domains; global hiding cannot choose only Remak nuclei. A per-domain mapping is needed before domain-specific lessons.",
+    "cutaway": "Preserve original two-plane teaching cut and authored end face. Never fill nodal gaps or lumen openings to satisfy generic mesh continuity.",
+    "separation": "Use amount=0 by default. Existing rank-driven explode separates items along model Y; it is not a tissue dissection proof or physiological movement."
+  },
+  "vascular_policy": {
+    "default_route_claim": false,
+    "animation": false,
+    "baseline": "Disconnected representative endoneurial capillaries; no traversable vessel-network claim.",
+    "candidate": "Static route concept may be enabled only by explicit validated geometry status; source claim alone is insufficient."
+  },
+  "application_path": {
+    "native": "Call apply_to_model(new_additive_micro_model) before constructing ProceduralModel; it copies only supported metadata. ProceduralModel copies viewer_cameras and start_view; Viewport.set_named_view consumes position/target/type/fov_deg/hidden/cut_on.",
+    "manual": "In ModelView choose the named preset, then select the exact part for its description; use section controls manually for additional sections.",
+    "deferred": "No new lesson UI, renderer, camera acceptance or app installation was performed."
+  }
+}

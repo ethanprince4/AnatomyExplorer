@@ -1,0 +1,372 @@
+{
+  "schema_version": 1,
+  "model_id": "vein_wall",
+  "specialist": "function",
+  "status": "design_ready",
+  "representation": "static_function_teaching",
+  "exact_part_names": [
+    "Endothelium",
+    "Subendothelial layer",
+    "Venous valve connective tissue cores",
+    "Venous valve cusps",
+    "Tunica media (smooth muscle)",
+    "Tunica adventitia",
+    "Longitudinal smooth muscle bundles",
+    "Adventitial collagen bundles",
+    "Vasa vasorum",
+    "Nervi vasorum",
+    "Perivascular fat",
+    "Red blood cells",
+    "Rolling leukocyte"
+  ],
+  "source_pose": {
+    "state": "assembled",
+    "valve": "nearly_closed_static_teaching_pose",
+    "physiology_animation": false,
+    "heartward_axis": [
+      -1,
+      0,
+      0
+    ],
+    "heartward_station_direction": "decreasing",
+    "coordinate_note": "Follow the curved source sweep for local orientation; -x is the authored overall heartward direction."
+  },
+  "native_application_path": {
+    "view_keys_source": "specialists/teaching teaching-camera assignment, 2026-10-04",
+    "application": "Merge function_view_notes.json notes into lead teaching camera records and present sequences in companion guide. Preserve camera geometry, hidden-part partitions, assembled state and cut settings from teaching specialist.",
+    "runtime_effect": "Static camera/visibility changes only. Sequence prose is a guide/archival field, not an animation or simulated flow field.",
+    "prohibited_inference": "No arbitrary physiological states, pressure values or streamlines are applied to the mesh."
+  },
+  "functional_sequences": [
+    {
+      "id": "intimal_fold_and_pocket",
+      "mechanism": "A supported intimal fold provides a direction-sensitive valve while the sinus remains continuous with the lumen.",
+      "source_evidence": [
+        "UNSW",
+        "LURIE2002",
+        "LURIE2003",
+        "baseline:app/micro/vessels.py:2920-2999,3678-3689"
+      ],
+      "steps": [
+        {
+          "id": "orient",
+          "view": "03 Intimal fold",
+          "anatomical_function": "Trace lining into each cusp, distinguish attached U-shaped root from free margin, and identify the sinus behind the leaflet. Heartward is -x, decreasing sweep station. Pocket mouths face the heartward/downstream side.",
+          "parts": [
+            "Endothelium",
+            "Subendothelial layer",
+            "Venous valve cusps",
+            "Venous valve connective tissue cores"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "core_and_cover",
+          "view": "04 Cusp core revealed",
+          "anatomical_function": "Hide the endothelial covering to reveal its supporting core in the same location, then restore the covering. This is an explanatory reveal, not removal of tissue in life.",
+          "parts": [
+            "Endothelium",
+            "Subendothelial layer",
+            "Venous valve cusps",
+            "Venous valve connective tissue cores"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "forward_flow_context",
+          "view": "14 Valve end-on",
+          "anatomical_function": "In living forward flow, opening moves cusps toward the sinus wall. Sinus recirculation can exchange pocket blood with the main stream. The displayed near-closed pose stays unchanged; it does not visualize that cycle.",
+          "parts": [
+            "Endothelium",
+            "Subendothelial layer",
+            "Venous valve cusps",
+            "Venous valve connective tissue cores"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        }
+      ],
+      "schematic_limitations": [
+        "Neither the narrow inter-cusp corridor nor either rear pocket is certified patent by source formulas or visibility.",
+        "No arrows, tracer particles, fluid solution, leaflet timing, pressure field or valve motion are supplied.",
+        "Sinus pocket location does not establish stasis, trapped blood or thrombosis.",
+        "The 2003 primary abstract was retrieved through NLM search; direct page content retrieval failed, so its full text and figures were not inspected."
+      ]
+    },
+    {
+      "id": "reverse_pressure_resistance",
+      "mechanism": "Valve topology is oriented to oppose retrograde return; normal closure need not wait for through-valve reverse flow.",
+      "source_evidence": [
+        "UNSW",
+        "LURIE2002",
+        "baseline:app/micro/vessels.py:2728-2731,2930-2931,3680-3684"
+      ],
+      "steps": [
+        {
+          "id": "heartward_pockets",
+          "view": "03 Intimal fold",
+          "anatomical_function": "Identify the downstream-facing pocket mouths. A reversed pressure difference can load the pocket sides and favor approximation of the free margins; this is a qualitative mechanism, not a tested state of this mesh.",
+          "parts": [
+            "Endothelium",
+            "Subendothelial layer",
+            "Venous valve cusps",
+            "Venous valve connective tissue cores"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "closure_nuance",
+          "view": "14 Valve end-on",
+          "anatomical_function": "Physiological ultrasound observed closure associated with flow deceleration and changing sinus shape without requiring through-valve backflow. Do not teach reverse flow as a mandatory first step.",
+          "parts": [
+            "Endothelium",
+            "Subendothelial layer",
+            "Venous valve cusps",
+            "Venous valve connective tissue cores"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "pose_limits",
+          "view": "13 Assembled specimen",
+          "anatomical_function": "The source keeps a nearly closed teaching pose with a small apparent slit. Do not diagnose competence, reflux, obstruction or disease from this static shape.",
+          "parts": [
+            "Endothelium",
+            "Subendothelial layer",
+            "Venous valve cusps",
+            "Venous valve connective tissue cores",
+            "Tunica media (smooth muscle)",
+            "Tunica adventitia"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        }
+      ],
+      "schematic_limitations": [
+        "No pressure-loaded coaptation, leak test, reflux duration or flow resistance was computed.",
+        "A numerical nonzero corridor, if later established, remains a geometric result rather than physiological valve competence."
+      ]
+    },
+    {
+      "id": "venous_capacitance",
+      "mechanism": "Venous geometry and smooth-muscle tone contribute to the blood-volume reservoir.",
+      "source_evidence": [
+        "DUKE",
+        "MAGDER2016"
+      ],
+      "steps": [
+        {
+          "id": "wall_relationship",
+          "view": "01 Wall overview",
+          "anatomical_function": "Compare the broad lumen, relatively thin media and supporting adventitia. These are representative venous relationships; no same-caliber arterial comparison or patient measurement is present.",
+          "parts": [
+            "Endothelium",
+            "Subendothelial layer",
+            "Tunica media (smooth muscle)",
+            "Tunica adventitia"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "reservoir_terms",
+          "view": "06 Media orientation",
+          "anatomical_function": "Capacitance means contained volume at a given distending pressure; compliance means the change in volume for a change in pressure. A thin, deformable wall illustrates the concept, not a measured pressure-volume relation.",
+          "parts": [
+            "Tunica media (smooth muscle)",
+            "Tunica adventitia"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "regional_tone",
+          "view": "10 Nerves and muscle",
+          "anatomical_function": "Venous smooth-muscle contraction can reduce capacitance and recruit unstressed into stressed volume. Regional reservoirs, especially the splanchnic bed, govern the whole-system effect; this small valved segment does not quantify it.",
+          "parts": [
+            "Tunica media (smooth muscle)",
+            "Longitudinal smooth muscle bundles",
+            "Nervi vasorum",
+            "Tunica adventitia"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        }
+      ],
+      "schematic_limitations": [
+        "No wall distension, collapse, venoconstriction or pressure-volume curve is animated.",
+        "Whole-system venous blood-volume fractions are context, not a volume encoded by these enlarged cells.",
+        "Do not equate capacitance with compliance or guarantee that local constriction always increases venous return."
+      ]
+    },
+    {
+      "id": "supporting_wall_environment",
+      "mechanism": "Connective tissue integrates muscular, vascular, neural and adipose elements around the thin-walled vein.",
+      "source_evidence": [
+        "UNSW",
+        "DUKE"
+      ],
+      "steps": [
+        {
+          "id": "support_matrix",
+          "view": "07 Adventitial context",
+          "anatomical_function": "Keep the adventitial carrier present while identifying collagen and longitudinal muscle samples. The outer connective transition supports and anchors the vein; it is not a detached casing.",
+          "parts": [
+            "Tunica adventitia",
+            "Longitudinal smooth muscle bundles",
+            "Adventitial collagen bundles",
+            "Vasa vasorum",
+            "Nervi vasorum",
+            "Perivascular fat"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "muscle_sample",
+          "view": "08 Muscle in support",
+          "anatomical_function": "Follow longitudinal bundle orientation and contrast it with circumferential media muscle. Prominent longitudinal adventitial muscle varies by venous region; the six draft representatives are teaching samples, not a physiological count.",
+          "parts": [
+            "Tunica adventitia",
+            "Longitudinal smooth muscle bundles",
+            "Adventitial collagen bundles",
+            "Tunica media (smooth muscle)"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "outer_transition",
+          "view": "11 Fat boundary",
+          "anatomical_function": "Relate enlarged adipocyte samples to the adventitial connective environment and restore the whole specimen. Do not infer perivascular inflammatory or endocrine activity from the static outer fat.",
+          "parts": [
+            "Tunica adventitia",
+            "Adventitial collagen bundles",
+            "Perivascular fat"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        }
+      ],
+      "schematic_limitations": [
+        "This is a representative valved medium-vein teaching composite, not the vena cava or a universal venous wall.",
+        "No collagen recruitment, wall tension, suture holding or adipokine assay is measured."
+      ]
+    },
+    {
+      "id": "wall_supply_and_neural_control",
+      "mechanism": "Wall microvessels nourish tissue; autonomic innervation modulates vascular smooth-muscle tone.",
+      "source_evidence": [
+        "DUKE",
+        "KACHLIK2007",
+        "MAGDER2016"
+      ],
+      "steps": [
+        {
+          "id": "wall_supply",
+          "view": "09 Wall microvessels",
+          "anatomical_function": "Follow enlarged Vasa vasorum representatives into and beside the adventitia. They represent wall supply, distinct from blood in the vein main lumen.",
+          "parts": [
+            "Tunica adventitia",
+            "Vasa vasorum",
+            "Tunica media (smooth muscle)"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "unmodeled_drainage",
+          "view": "09 Wall microvessels",
+          "anatomical_function": "Real wall circulation includes exchange microvessels and venous drainers. The named red Vasa vasorum part lacks a separately displayed complete capillary and venous drainage circuit; cut ends mark a cropped specimen, not demonstrated closed-loop perfusion.",
+          "parts": [
+            "Tunica adventitia",
+            "Vasa vasorum"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "neuroeffector_context",
+          "view": "10 Nerves and muscle",
+          "anatomical_function": "Relate the nervi vasorum to vascular muscle in the supporting environment. Sympathetic signaling is a narrated biological connection; proximity of a colored strand does not verify a terminal or demonstrate contraction.",
+          "parts": [
+            "Tunica adventitia",
+            "Nervi vasorum",
+            "Tunica media (smooth muscle)",
+            "Longitudinal smooth muscle bundles"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        }
+      ],
+      "schematic_limitations": [
+        "The human great-saphenous-vein study provides a specific anatomical example, not a required spacing/depth for this composite.",
+        "Do not assert the red vessel graph is universally arterial or has demonstrated supply and drainage.",
+        "No lumen/perfusion certification, oxygen gradient, neurotransmitter diffusion, receptor response or neural firing is supplied."
+      ]
+    },
+    {
+      "id": "blood_cells_and_recruitment_context",
+      "mechanism": "Sparse enlarged blood-cell examples provide context; recruitment is a distinct dynamic and molecular process.",
+      "source_evidence": [
+        "DUKE",
+        "JUNG1998",
+        "baseline:app/micro/vessels.py:680-718,3727"
+      ],
+      "steps": [
+        {
+          "id": "sparse_blood_examples",
+          "view": "02 Enlarged cells shown",
+          "anatomical_function": "Red cells and the leukocyte are sparse enlarged symbols. They do not specify hematocrit, cell count, occlusion or sinus residence time.",
+          "parts": [
+            "Endothelium",
+            "Venous valve cusps",
+            "Red blood cells",
+            "Rolling leukocyte"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "static_leukocyte",
+          "view": "12 Cell contact",
+          "anatomical_function": "Inspect the leukocyte example near the endothelial lining. Retain the stable part key Rolling leukocyte but caption it as a static cell example; rolling, firm adhesion and transmigration are not demonstrated by a stationary sphere.",
+          "parts": [
+            "Endothelium",
+            "Subendothelial layer",
+            "Rolling leukocyte"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        },
+        {
+          "id": "recruitment_scope",
+          "view": "12 Cell contact",
+          "anatomical_function": "For context, selectin-mediated tethering and rolling cooperate with activation and integrin-dependent firm adhesion before tissue entry. Recruitment is chiefly a postcapillary-venule lesson, not a process established in every valved vein.",
+          "parts": [
+            "Endothelium",
+            "Rolling leukocyte"
+          ],
+          "mesh_state": "assembled",
+          "motion": "none"
+        }
+      ],
+      "schematic_limitations": [
+        "No selectins, integrins, chemokines, endothelial junctions or tracked cell displacement are modeled.",
+        "The 1998 functional experiment studied TNF-treated mouse cremaster venules; it does not establish recruitment in this representative medium vein.",
+        "Neutrophil identity is not demonstrated by external lumpiness alone."
+      ]
+    }
+  ],
+  "deferred_checks": [
+    "Evaluate the actual built output in assembled, peeled and sectioned views on the separate compute machine.",
+    "Verify both post-warp cusp root attachments, covers/cores, downstream pocket openings and the actual inter-cusp corridor.",
+    "Bind geometric observations to the actual saved output hash; retain independent Pre refine and Post refine validation.",
+    "Verify native view application and complete note access when the Views menu holds more than ten cameras."
+  ],
+  "blockers": []
+}

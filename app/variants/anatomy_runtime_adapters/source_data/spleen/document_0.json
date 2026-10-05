@@ -1,0 +1,1222 @@
+{
+  "metres_per_unit": 0.00075,
+  "cutaway": [
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "cut_at": [
+    0.0,
+    0.0
+  ],
+  "cut_on": true,
+  "home_view": [
+    -0.62,
+    0.42
+  ],
+  "viewer_cameras": {
+    "01 Pulp compartments": {
+      "position": [
+        -2.5,
+        2.39,
+        3.55
+      ],
+      "target": [
+        0,
+        0.49,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.65,
+      "hidden": [
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein"
+      ],
+      "cut_on": true,
+      "note": "Overview of red pulp, white pulp and trabecular support in a specimen block; the specimen is not a whole spleen."
+    },
+    "02 Capsule and trabecular vessels": {
+      "position": [
+        -2.5,
+        2.44,
+        3.55
+      ],
+      "target": [
+        0,
+        0.54,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.65,
+      "hidden": [
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": false,
+      "note": "Hide pulp to follow connective-tissue trabeculae and their artery and vein; do not separate the fitted vessel ports."
+    },
+    "03 PALS, follicle and germinal centre": {
+      "position": [
+        -2.75,
+        2.5,
+        3.55
+      ],
+      "target": [
+        -0.25,
+        0.6,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.95,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": true,
+      "note": "Sectioned first authored follicle: identify PALS as a T-cell-rich compartment and follicle/mantle as a B-cell compartment; germinal centre is a responding follicle example."
+    },
+    "04 Human follicular surface": {
+      "position": [
+        -2.75,
+        2.5,
+        3.55
+      ],
+      "target": [
+        -0.25,
+        0.6,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.05,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": true,
+      "note": "Add superficial follicular zone and interrupted perifollicular open spaces; historical marginal selectors are aliases, not human endothelial marginal sinuses."
+    },
+    "05 Arterial entry and open endings": {
+      "position": [
+        -2.5,
+        2.34,
+        3.55
+      ],
+      "target": [
+        0,
+        0.44,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular vein",
+        "Pulp vein",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": false,
+      "note": "Follow trabecular artery to central courses, penicillar arterioles and capillary passages through their sheaths. Open endings enter cords; no closed pipe to a sinus is added."
+    },
+    "06 Cords and venous sinuses": {
+      "position": [
+        -2.5,
+        2.32,
+        3.55
+      ],
+      "target": [
+        0,
+        0.42,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.5,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Trabeculae",
+        "Trabecular artery",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)"
+      ],
+      "cut_on": true,
+      "note": "Restore cord context around stave-cell sinus walls and basement-membrane hoops; fluid lumen is a space, not an additional tissue layer."
+    },
+    "07 Exposed sinus walls and hoops": {
+      "position": [
+        -2.5,
+        2.32,
+        3.55
+      ],
+      "target": [
+        0,
+        0.42,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": false,
+      "note": "Expose the sampled sinus bed without cords. Frame a selected course manually before examining actual slits; no unverified micron-scale camera target is asserted."
+    },
+    "08 Venous drainage": {
+      "position": [
+        -2.85,
+        2.25,
+        3.55
+      ],
+      "target": [
+        -0.35,
+        0.35,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.3,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Trabeculae",
+        "Trabecular artery",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": false,
+      "note": "Contrast venous sinus wall with pulp-vein and trabecular-vein outflow. Independent sampled sinuses are not evidence of complete geometric continuity to that outflow."
+    },
+    "open_circulation 1: arterial_entry": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Ring fibres",
+        "Trabeculae"
+      ],
+      "cut_on": true,
+      "note": "Follow a representative arterial route from trabecula into white pulp. Highlight arterial wall selectors sequentially; no membrane-crossing cue. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "open_circulation 2: capillary_route": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Pulp vein"
+      ],
+      "cut_on": true,
+      "note": "Penicillar arterioles continue into capillaries, some with cellular sheaths. The sheath is surrounding tissue; the capillary lumen continues through it. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "open_circulation 3: open_end": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Pulp vein"
+      ],
+      "cut_on": true,
+      "note": "The capillary ends openly in the cords, separate from the venous sinus wall. Stop the enclosed-path cue at the capillary end; use a separate diffuse cord-domain cue. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "open_circulation 4: cord_exposure": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Pulp vein"
+      ],
+      "cut_on": true,
+      "note": "Blood contacts the cord compartment and its phagocytic cells. Sparse schematic tokens within an extracellular tissue domain; no continuous connecting tube. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "open_circulation 5: sinus_return": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein"
+      ],
+      "cut_on": false,
+      "note": "Red cells return from the cords through interendothelial slits into sinuses. Direction is outside-to-inside across a lateral wall opening, never through an endothelial cell. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "open_circulation 6: venous_return": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": true,
+      "note": "Sinuses collect into pulp veins and then trabecular veins. Separate semantic drainage arrow; sampled sinuses are not asserted to join the authored pulp vein. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "red_cell_slit_filtering 1: wall_orientation": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein"
+      ],
+      "cut_on": false,
+      "note": "Locate the cord side, longitudinal endothelial staves, wall slit and sinus lumen. Local detail inset should name the normal transit axis and both in-plane slit axes. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "red_cell_slit_filtering 2: flexible_approach": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein"
+      ],
+      "cut_on": true,
+      "note": "A deformable red cell approaches from the cord side. An enlarged RBC icon is an overlay, not a source cell or density measurement. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "red_cell_slit_filtering 3: dumbbell_transit": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein"
+      ],
+      "cut_on": false,
+      "note": "The cell deforms with a constricted waist as it crosses the short, narrow slit. Use a labeled shape-state series: disc, leading lobe and waist, trailing lobe, recovered disc; do not isotropically shrink the cell. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "red_cell_slit_filtering 4: pass_and_recover": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein"
+      ],
+      "cut_on": false,
+      "note": "A passing cell reaches the lumen and can recover its shape. Complete crossing before recovery; conservation of cell surface and volume requires separate mechanical validation. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "red_cell_slit_filtering 5: retention": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein"
+      ],
+      "cut_on": false,
+      "note": "Altered geometry or low deformability can prevent successful passage. Stop the second cell on the cord side; compare outcomes without asserting a diagnosis or threshold. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "red_cell_slit_filtering 6: macrophage_removal": {
+      "position": [
+        -2.5,
+        2.35,
+        3.55
+      ],
+      "target": [
+        0,
+        0.45,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein"
+      ],
+      "cut_on": true,
+      "note": "Mechanical retention and macrophage recognition are distinct processes. Optional macrophage icon may engulf a retained cell in a separate later stage; no instant slit-induced lysis. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "blood_borne_adaptive_immunity 1: antigen_arrival": {
+      "position": [
+        -2.75,
+        2.5,
+        3.55
+      ],
+      "target": [
+        -0.25,
+        0.6,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Germinal centres",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Pulp vein"
+      ],
+      "cut_on": true,
+      "note": "Blood-borne antigen is exposed to open red-pulp and follicular-surface compartments. Gold antigen icons are separate from red-cell symbols; local access is shown without prescribing a unique human trafficking route. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "blood_borne_adaptive_immunity 2: t_zone": {
+      "position": [
+        -2.75,
+        2.5,
+        3.55
+      ],
+      "target": [
+        -0.25,
+        0.6,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": true,
+      "note": "The PALS is a T-cell compartment associated with central arteries. Use compartment highlighting; antigen presentation is an explanatory inset, not proof of an individual dendritic-cell track. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "blood_borne_adaptive_immunity 3: b_zone": {
+      "position": [
+        -2.75,
+        2.5,
+        3.55
+      ],
+      "target": [
+        -0.25,
+        0.6,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": true,
+      "note": "Follicular B cells recognize antigen; human superficial follicular zones differ from rodent marginal zones. T- and B-compartment identities are functional; avoid depicting a rodent marginal sinus or importing mouse bridging channels. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "blood_borne_adaptive_immunity 4: cognate_help": {
+      "position": [
+        -2.75,
+        2.5,
+        3.55
+      ],
+      "target": [
+        -0.25,
+        0.6,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": true,
+      "note": "A responding B cell can receive cognate T-cell help. Schematic interaction card at the T/B interface; no validated human cell migration trajectory is claimed. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "blood_borne_adaptive_immunity 5: gc_response": {
+      "position": [
+        -2.75,
+        2.5,
+        3.55
+      ],
+      "target": [
+        -0.25,
+        0.6,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Perifollicular open spaces",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": true,
+      "note": "A responding secondary follicle supports proliferation and selection of B cells. Human splenic T-follicular-helper cells are documented in germinal centres; helper signals are diagrammatic, not mesh parts. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    },
+    "blood_borne_adaptive_immunity 6: effector_memory": {
+      "position": [
+        -2.75,
+        2.5,
+        3.55
+      ],
+      "target": [
+        -0.25,
+        0.6,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein"
+      ],
+      "cut_on": true,
+      "note": "The adaptive response can produce antibody-secreting cells and memory B cells. Antibody output uses an explanatory card; no fixed efferent lymphatic route or fixed memory-cell address is animated. Presentation stage only; no anatomical particle paths or cell mechanics are simulated."
+    }
+  },
+  "start_view": "01 Pulp compartments",
+  "model_id": "spleen_design_review",
+  "display_name": "Spleen: structure and function - design review",
+  "summary": "A preserved human splenic-pulp field: compare arterial white-pulp supply, follicular immunity, open cord circulation and slitted venous return using progressive views. The review preserves all source geometry and corrects teaching descriptions.",
+  "scale_note": "Representative field 1.5 mm wide (750 micrometres per unit); adult follicles 0.3-0.5 mm. Slit short axis and transit depth use published human TEM means; vascular calibre, spacing and capsule thickness are illustrative. This sampled bed is not a complete perfusable vascular graph. Ring-fibre thickness is exaggerated for teaching; its multiplier is not measured. Camera zoom does not change physical calibration. DRAFT: native and visual validation pending.",
+  "baseline_cache_sha256": "962e83236153649a3ffe7fffea70d3ec3bcbb56e4315624e25448e15c9bfe9ca",
+  "expected_parts": [
+    "Mesothelium (visceral peritoneum)",
+    "Capsule",
+    "Periarteriolar lymphoid sheath (PALS)",
+    "Splenic follicles & mantle zone",
+    "Germinal centres",
+    "Perifollicular open spaces",
+    "Superficial follicular zone (human)",
+    "Venous sinusoids (stave cells)",
+    "Ring fibres",
+    "Trabeculae",
+    "Trabecular artery",
+    "Trabecular vein",
+    "Central artery & follicular branches",
+    "Penicillar arterioles",
+    "Sheathed capillaries (Schweigger-Seidel sheaths)",
+    "Pulp vein",
+    "Splenic cords (of Billroth)"
+  ],
+  "description_replacements": {
+    "Penicillar arterioles": "Penicillar arterioles: representative red-pulp arteriolar branches continuing into capillaries. This model samples sheathed capillary segments; human arterioles also branch dichotomously and capillaries may be unsheathed. The sampled brush does not prescribe every human arterial branch.",
+    "Central artery & follicular branches": "Central artery and follicular branches: arterial courses within the PALS, usually eccentric to a follicle. The sampled side branches show one contribution to follicular supply. Human reconstructions also show superficial follicular capillary networks supplied mainly from red-pulp capillaries. Neither the sampled arterial routes nor their follicular relations are a complete vascular territory.",
+    "Splenic cords (of Billroth)": "Splenic cords (of Billroth): reticular tissue between venous sinuses containing blood cells, macrophages, plasma cells and platelets. Open arterial capillary ends release blood into the cord spaces before return through interendothelial sinus slits; human reconstructions support an entirely open microcirculation in studied specimens. Reduced deformability or altered cell geometry can promote red-cell retention. Macrophage recognition and removal, including recognition of antibody-coated cells, are distinct from mechanical slit transit. Pitting of inclusions is a further macrophage-associated clearance function; this model does not simulate cell mechanics or clearance rates.",
+    "Perifollicular open spaces": "Perifollicular open spaces: blood-filled connective-tissue spaces at the surface of human splenic follicles, continuous with the open red-pulp circulation. These are not an endothelial-lined marginal sinus. A true marginal sinus is a rodent feature and is absent in humans; the historical Marginal sinus selector is retained only as an alias. The inherited csf category is a renderer classification; these are blood-filled extravascular spaces, not cerebrospinal fluid.",
+    "Ring fibres": "Ring fibres: the discontinuous basement membrane of the sinusoids, wound around the stave cells like the hoops of a barrel; silver stains show them as black rings. Hoop thickness is exaggerated for readability; no measured anatomical enlargement factor is asserted."
+  },
+  "clinical": [
+    [
+      "Open circulation",
+      "Arterial blood enters the open cord compartment before returning through sinus-wall slits to venous drainage. 1. Follow a representative arterial route from trabecula into white pulp. 2. Penicillar arterioles continue into capillaries, some with cellular sheaths. 3. The capillary ends openly in the cords, separate from the venous sinus wall. 4. Blood contacts the cord compartment and its phagocytic cells. 5. Red cells return from the cords through interendothelial slits into sinuses. 6. Sinuses collect into pulp veins and then trabecular veins. Limit: This field represents sampled vessels, not a complete perfusable graph. The arterial-to-venous discontinuity is anatomical open circulation, not a construction defect. 2022 reconstruction supports wholly open human microcirculation in studied specimens; no percentage of open versus closed flow is assigned. Display speed, marker frequency and schematic arrows do not estimate pressure, velocity or cell density."
+    ],
+    [
+      "Red cell slit filtering",
+      "Cell geometry and deformability determine mechanical passage; retained cells may subsequently be removed by macrophages. 1. Locate the cord side, longitudinal endothelial staves, wall slit and sinus lumen. 2. A deformable red cell approaches from the cord side. 3. The cell deforms with a constricted waist as it crosses the short, narrow slit. 4. A passing cell reaches the lumen and can recover its shape. 5. Altered geometry or low deformability can prevent successful passage. 6. Mechanical retention and macrophage recognition are distinct processes. Limit: Shape states are conceptual; no finite-element membrane mechanics, fluid forces or cellular biophysics are solved. Preserve authored slit short-axis 0.65 micrometres and transit depth 1.89 micrometres; source code uses 750 micrometres/model unit. The slit long axis is authored as 2.5 micrometres; sinus calibre is separately magnified 1.4x. Different RBC alterations and opsonization must not be treated as one universal geometric failure. Primary filtering studies were available as indexed article text/abstract, but full-text opens encountered access challenges; preserved numerical dimensions still require later full-text recheck."
+    ],
+    [
+      "Blood borne adaptive immunity",
+      "Blood-borne material reaches the open circulation; white-pulp T-cell and follicular B-cell compartments support adaptive responses. 1. Blood-borne antigen is exposed to open red-pulp and follicular-surface compartments. 2. The PALS is a T-cell compartment associated with central arteries. 3. Follicular B cells recognize antigen; human superficial follicular zones differ from rodent marginal zones. 4. A responding B cell can receive cognate T-cell help. 5. A responding secondary follicle supports proliferation and selection of B cells. 6. The adaptive response can produce antibody-secreting cells and memory B cells. Limit: The source models responding germinal centres; this is one activation state, not a claim that every adult follicle is activated. Exact human antigen-transfer and lymphocyte ingress/egress trajectories remain insufficiently resolved; display them as explanatory cards. Human splenic T-follicular-helper localization/signals are supported by control and ITP specimens; this timeline does not model ITP. No stage duration denotes real immune-response time; GC activation is not blood-flow motion. Memory B-cell location is not confined to the superficial zone; human phenotypic distributions and nomenclature are complex."
+    ]
+  ],
+  "functional_sequences": [
+    {
+      "id": "open_circulation",
+      "mechanism": "Arterial blood enters the open cord compartment before returning through sinus-wall slits to venous drainage.",
+      "source_ids": [
+        "human_open_2022"
+      ],
+      "steps": [
+        {
+          "id": "arterial_entry",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Trabecular artery",
+            "Central artery & follicular branches",
+            "Penicillar arterioles",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)",
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Pulp vein",
+            "Trabecular vein"
+          ],
+          "highlight_parts": [
+            "Trabecular artery",
+            "Central artery & follicular branches"
+          ],
+          "caption": "Follow a representative arterial route from trabecula into white pulp.",
+          "cue": "Highlight arterial wall selectors sequentially; no membrane-crossing cue.",
+          "native_view_name": "open_circulation 1: arterial_entry"
+        },
+        {
+          "id": "capillary_route",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Central artery & follicular branches",
+            "Penicillar arterioles",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)",
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)"
+          ],
+          "highlight_parts": [
+            "Penicillar arterioles",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)"
+          ],
+          "caption": "Penicillar arterioles continue into capillaries, some with cellular sheaths.",
+          "cue": "The sheath is surrounding tissue; the capillary lumen continues through it.",
+          "native_view_name": "open_circulation 2: capillary_route"
+        },
+        {
+          "id": "open_end",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Penicillar arterioles",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)",
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)"
+          ],
+          "highlight_parts": [
+            "Penicillar arterioles",
+            "Splenic cords (of Billroth)"
+          ],
+          "caption": "The capillary ends openly in the cords, separate from the venous sinus wall.",
+          "cue": "Stop the enclosed-path cue at the capillary end; use a separate diffuse cord-domain cue.",
+          "native_view_name": "open_circulation 3: open_end"
+        },
+        {
+          "id": "cord_exposure",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)"
+          ],
+          "highlight_parts": [
+            "Splenic cords (of Billroth)"
+          ],
+          "caption": "Blood contacts the cord compartment and its phagocytic cells.",
+          "cue": "Sparse schematic tokens within an extracellular tissue domain; no continuous connecting tube.",
+          "native_view_name": "open_circulation 4: cord_exposure"
+        },
+        {
+          "id": "sinus_return",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "highlight_parts": [
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "caption": "Red cells return from the cords through interendothelial slits into sinuses.",
+          "cue": "Direction is outside-to-inside across a lateral wall opening, never through an endothelial cell.",
+          "native_view_name": "open_circulation 5: sinus_return"
+        },
+        {
+          "id": "venous_return",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Venous sinusoids (stave cells)",
+            "Pulp vein",
+            "Trabecular vein"
+          ],
+          "highlight_parts": [
+            "Pulp vein",
+            "Trabecular vein"
+          ],
+          "caption": "Sinuses collect into pulp veins and then trabecular veins.",
+          "cue": "Separate semantic drainage arrow; sampled sinuses are not asserted to join the authored pulp vein.",
+          "native_view_name": "open_circulation 6: venous_return"
+        }
+      ],
+      "schematic_limitations": [
+        "This field represents sampled vessels, not a complete perfusable graph.",
+        "The arterial-to-venous discontinuity is anatomical open circulation, not a construction defect.",
+        "2022 reconstruction supports wholly open human microcirculation in studied specimens; no percentage of open versus closed flow is assigned.",
+        "Display speed, marker frequency and schematic arrows do not estimate pressure, velocity or cell density."
+      ]
+    },
+    {
+      "id": "red_cell_slit_filtering",
+      "mechanism": "Cell geometry and deformability determine mechanical passage; retained cells may subsequently be removed by macrophages.",
+      "source_ids": [
+        "deplaine_2011",
+        "pivkin_2016"
+      ],
+      "steps": [
+        {
+          "id": "wall_orientation",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "highlight_parts": [
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "caption": "Locate the cord side, longitudinal endothelial staves, wall slit and sinus lumen.",
+          "cue": "Local detail inset should name the normal transit axis and both in-plane slit axes.",
+          "native_view_name": "red_cell_slit_filtering 1: wall_orientation"
+        },
+        {
+          "id": "flexible_approach",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "highlight_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)"
+          ],
+          "caption": "A deformable red cell approaches from the cord side.",
+          "cue": "An enlarged RBC icon is an overlay, not a source cell or density measurement.",
+          "native_view_name": "red_cell_slit_filtering 2: flexible_approach"
+        },
+        {
+          "id": "dumbbell_transit",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "highlight_parts": [
+            "Venous sinusoids (stave cells)"
+          ],
+          "caption": "The cell deforms with a constricted waist as it crosses the short, narrow slit.",
+          "cue": "Use a labeled shape-state series: disc, leading lobe and waist, trailing lobe, recovered disc; do not isotropically shrink the cell.",
+          "native_view_name": "red_cell_slit_filtering 3: dumbbell_transit"
+        },
+        {
+          "id": "pass_and_recover",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Venous sinusoids (stave cells)",
+            "Ring fibres",
+            "Splenic cords (of Billroth)"
+          ],
+          "highlight_parts": [
+            "Venous sinusoids (stave cells)"
+          ],
+          "caption": "A passing cell reaches the lumen and can recover its shape.",
+          "cue": "Complete crossing before recovery; conservation of cell surface and volume requires separate mechanical validation.",
+          "native_view_name": "red_cell_slit_filtering 4: pass_and_recover"
+        },
+        {
+          "id": "retention",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "highlight_parts": [
+            "Splenic cords (of Billroth)"
+          ],
+          "caption": "Altered geometry or low deformability can prevent successful passage.",
+          "cue": "Stop the second cell on the cord side; compare outcomes without asserting a diagnosis or threshold.",
+          "native_view_name": "red_cell_slit_filtering 5: retention"
+        },
+        {
+          "id": "macrophage_removal",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)"
+          ],
+          "highlight_parts": [
+            "Splenic cords (of Billroth)"
+          ],
+          "caption": "Mechanical retention and macrophage recognition are distinct processes.",
+          "cue": "Optional macrophage icon may engulf a retained cell in a separate later stage; no instant slit-induced lysis.",
+          "native_view_name": "red_cell_slit_filtering 6: macrophage_removal"
+        }
+      ],
+      "schematic_limitations": [
+        "Shape states are conceptual; no finite-element membrane mechanics, fluid forces or cellular biophysics are solved.",
+        "Preserve authored slit short-axis 0.65 micrometres and transit depth 1.89 micrometres; source code uses 750 micrometres/model unit.",
+        "The slit long axis is authored as 2.5 micrometres; sinus calibre is separately magnified 1.4x.",
+        "Different RBC alterations and opsonization must not be treated as one universal geometric failure.",
+        "Primary filtering studies were available as indexed article text/abstract, but full-text opens encountered access challenges; preserved numerical dimensions still require later full-text recheck."
+      ]
+    },
+    {
+      "id": "blood_borne_adaptive_immunity",
+      "mechanism": "Blood-borne material reaches the open circulation; white-pulp T-cell and follicular B-cell compartments support adaptive responses.",
+      "source_ids": [
+        "human_open_2022",
+        "human_white_pulp_2003",
+        "audia_2014",
+        "steiniger_2015"
+      ],
+      "steps": [
+        {
+          "id": "antigen_arrival",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Central artery & follicular branches",
+            "Penicillar arterioles",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)",
+            "Splenic cords (of Billroth)",
+            "Perifollicular open spaces",
+            "Superficial follicular zone (human)",
+            "Splenic follicles & mantle zone",
+            "Periarteriolar lymphoid sheath (PALS)"
+          ],
+          "highlight_parts": [
+            "Splenic cords (of Billroth)",
+            "Perifollicular open spaces"
+          ],
+          "caption": "Blood-borne antigen is exposed to open red-pulp and follicular-surface compartments.",
+          "cue": "Gold antigen icons are separate from red-cell symbols; local access is shown without prescribing a unique human trafficking route.",
+          "native_view_name": "blood_borne_adaptive_immunity 1: antigen_arrival"
+        },
+        {
+          "id": "t_zone",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Periarteriolar lymphoid sheath (PALS)",
+            "Central artery & follicular branches",
+            "Splenic follicles & mantle zone",
+            "Superficial follicular zone (human)"
+          ],
+          "highlight_parts": [
+            "Periarteriolar lymphoid sheath (PALS)"
+          ],
+          "caption": "The PALS is a T-cell compartment associated with central arteries.",
+          "cue": "Use compartment highlighting; antigen presentation is an explanatory inset, not proof of an individual dendritic-cell track.",
+          "native_view_name": "blood_borne_adaptive_immunity 2: t_zone"
+        },
+        {
+          "id": "b_zone",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic follicles & mantle zone",
+            "Superficial follicular zone (human)",
+            "Perifollicular open spaces",
+            "Periarteriolar lymphoid sheath (PALS)",
+            "Germinal centres"
+          ],
+          "highlight_parts": [
+            "Splenic follicles & mantle zone",
+            "Superficial follicular zone (human)"
+          ],
+          "caption": "Follicular B cells recognize antigen; human superficial follicular zones differ from rodent marginal zones.",
+          "cue": "T- and B-compartment identities are functional; avoid depicting a rodent marginal sinus or importing mouse bridging channels.",
+          "native_view_name": "blood_borne_adaptive_immunity 3: b_zone"
+        },
+        {
+          "id": "cognate_help",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic follicles & mantle zone",
+            "Periarteriolar lymphoid sheath (PALS)",
+            "Germinal centres"
+          ],
+          "highlight_parts": [
+            "Periarteriolar lymphoid sheath (PALS)",
+            "Splenic follicles & mantle zone"
+          ],
+          "caption": "A responding B cell can receive cognate T-cell help.",
+          "cue": "Schematic interaction card at the T/B interface; no validated human cell migration trajectory is claimed.",
+          "native_view_name": "blood_borne_adaptive_immunity 4: cognate_help"
+        },
+        {
+          "id": "gc_response",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic follicles & mantle zone",
+            "Germinal centres",
+            "Superficial follicular zone (human)"
+          ],
+          "highlight_parts": [
+            "Germinal centres"
+          ],
+          "caption": "A responding secondary follicle supports proliferation and selection of B cells.",
+          "cue": "Human splenic T-follicular-helper cells are documented in germinal centres; helper signals are diagrammatic, not mesh parts.",
+          "native_view_name": "blood_borne_adaptive_immunity 5: gc_response"
+        },
+        {
+          "id": "effector_memory",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic follicles & mantle zone",
+            "Germinal centres",
+            "Splenic cords (of Billroth)"
+          ],
+          "highlight_parts": [
+            "Germinal centres",
+            "Splenic cords (of Billroth)"
+          ],
+          "caption": "The adaptive response can produce antibody-secreting cells and memory B cells.",
+          "cue": "Antibody output uses an explanatory card; no fixed efferent lymphatic route or fixed memory-cell address is animated.",
+          "native_view_name": "blood_borne_adaptive_immunity 6: effector_memory"
+        }
+      ],
+      "schematic_limitations": [
+        "The source models responding germinal centres; this is one activation state, not a claim that every adult follicle is activated.",
+        "Exact human antigen-transfer and lymphocyte ingress/egress trajectories remain insufficiently resolved; display them as explanatory cards.",
+        "Human splenic T-follicular-helper localization/signals are supported by control and ITP specimens; this timeline does not model ITP.",
+        "No stage duration denotes real immune-response time; GC activation is not blood-flow motion.",
+        "Memory B-cell location is not confined to the superficial zone; human phenotypic distributions and nomenclature are complex."
+      ]
+    }
+  ]
+}

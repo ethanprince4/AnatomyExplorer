@@ -1,0 +1,1016 @@
+{
+  "schema_version": 1,
+  "model_id": "muscular_artery",
+  "status": "source_ready_native_runtime_and_visual_checks_deferred",
+  "summary": "A representative muscular artery: flattened endothelial cells, thin connective support, fenestrated elastic boundaries, circumferential smooth muscle and fibrous adventitia. The specimen combines macro-calibrated wall proportions with enlarged sampled microstructure.",
+  "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+  "opening_view": "01 Wall overview",
+  "expected_part_names": [
+    "Endothelium",
+    "Subendothelial layer",
+    "Internal elastic lamina",
+    "Tunica media (smooth muscle)",
+    "Smooth muscle nuclei",
+    "External elastic lamina",
+    "Tunica adventitia",
+    "Adventitial collagen bundles",
+    "Vasa vasorum",
+    "Vasa vasorum venules",
+    "Nervi vasorum",
+    "Perivascular fat",
+    "Red blood cells",
+    "Rolling leukocyte",
+    "Endothelial cell bodies",
+    "Endothelial cell borders",
+    "Endothelial nuclei",
+    "Subendothelial collagen fibres",
+    "Subendothelial fibroblasts",
+    "Smooth muscle cells",
+    "Medial elastic fibres",
+    "Adventitial fibroblasts",
+    "Adventitial elastic fibres",
+    "Vasa vasorum exchange network",
+    "Nervi vasorum varicosities",
+    "Adipocyte nuclei",
+    "Adipocyte lipid droplets",
+    "Perivascular connective septa",
+    "Leukocyte lobulated nucleus",
+    "Leukocyte adhesion contacts"
+  ],
+  "required_owner_ranks": {
+    "Endothelium": 0,
+    "Endothelial cell bodies": 0,
+    "Endothelial cell borders": 0,
+    "Endothelial nuclei": 0,
+    "Subendothelial layer": 0,
+    "Subendothelial collagen fibres": 0,
+    "Subendothelial fibroblasts": 0,
+    "Tunica media (smooth muscle)": 1,
+    "Smooth muscle cells": 1,
+    "Smooth muscle nuclei": 1,
+    "Medial elastic fibres": 1,
+    "Tunica adventitia": 2,
+    "Adventitial collagen bundles": 2,
+    "Adventitial fibroblasts": 2,
+    "Adventitial elastic fibres": 2,
+    "Nervi vasorum": 2.5,
+    "Nervi vasorum varicosities": 2.5,
+    "Perivascular fat": 3,
+    "Adipocyte nuclei": 3,
+    "Adipocyte lipid droplets": 3,
+    "Perivascular connective septa": 3,
+    "Rolling leukocyte": -1,
+    "Leukocyte lobulated nucleus": -1,
+    "Leukocyte adhesion contacts": -1
+  },
+  "views": [
+    {
+      "id": "01 Wall overview",
+      "purpose": "Follow the lumen-facing cellular lining through its support and internal elastic lamina into circumferential muscle, external elastic boundary and fibrous outer wall.",
+      "visible_parts": [
+        "Endothelium",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Subendothelial layer",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle cells",
+        "Smooth muscle nuclei",
+        "Medial elastic fibres",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum",
+        "Vasa vasorum exchange network",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Nervi vasorum varicosities"
+      ],
+      "hidden_parts": [
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          2.4,
+          1.5,
+          2.6
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.8
+      },
+      "cut_on": true,
+      "sections": [],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9
+      ],
+      "inspection_task": "At full opacity identify each tissue from its cell or fibre organization. Names should confirm those visible features. Opaque source geometry still needs future visual review."
+    },
+    {
+      "id": "02 Luminal cellular boundary",
+      "purpose": "Contrast flattened endothelial cells and flow-aligned nuclei with the noncellular elastic sheet beneath.",
+      "visible_parts": [
+        "Endothelium",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei"
+      ],
+      "hidden_parts": [
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle nuclei",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Smooth muscle cells",
+        "Medial elastic fibres",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum exchange network",
+        "Nervi vasorum varicosities",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          1.2,
+          0.6,
+          1.1
+        ],
+        "target": [
+          0,
+          0.34,
+          0.1
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.25
+      },
+      "cut_on": true,
+      "sections": [],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        1,
+        9
+      ],
+      "inspection_task": "Orbit into the lumen and inspect both faces. Borders must form a continuous lining and nuclei must remain attached to their cell bodies."
+    },
+    {
+      "id": "03 Subendothelial support",
+      "purpose": "Expose fine connective support between the endothelial basement interface and internal elastic lamina.",
+      "visible_parts": [
+        "Subendothelial layer",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Internal elastic lamina"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle nuclei",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Smooth muscle cells",
+        "Medial elastic fibres",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum exchange network",
+        "Nervi vasorum varicosities",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          1.2,
+          0.8,
+          1.1
+        ],
+        "target": [
+          0,
+          0.39,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.3
+      },
+      "cut_on": true,
+      "sections": [],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        2,
+        4,
+        9
+      ],
+      "inspection_task": "Compare the fibrous support with the elastic boundary; hide and restore Internal elastic lamina to inspect the reverse interface."
+    },
+    {
+      "id": "04 Elastic boundaries",
+      "purpose": "Inspect through-apertures and finite rims in the internal elastic lamina and the thinner outer elastic boundary.",
+      "visible_parts": [
+        "Internal elastic lamina",
+        "External elastic lamina"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle nuclei",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Smooth muscle cells",
+        "Medial elastic fibres",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum exchange network",
+        "Nervi vasorum varicosities",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          1.4,
+          1.0,
+          1.2
+        ],
+        "target": [
+          0,
+          0.35,
+          0.1
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.4
+      },
+      "cut_on": true,
+      "sections": [],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        4,
+        9
+      ],
+      "inspection_task": "Isolate Internal elastic lamina first, then External elastic lamina. Orbit across both exposed sheet faces; a speck or shader hole is insufficient evidence of a pore."
+    },
+    {
+      "id": "05 Muscular wall",
+      "purpose": "Pair circumferential spindle cell bodies with their central nuclei and retain wall thickness as context.",
+      "visible_parts": [
+        "Tunica media (smooth muscle)",
+        "Smooth muscle cells",
+        "Smooth muscle nuclei",
+        "Medial elastic fibres",
+        "Internal elastic lamina",
+        "External elastic lamina"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum exchange network",
+        "Nervi vasorum varicosities",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          1.6,
+          1.0,
+          1.5
+        ],
+        "target": [
+          0,
+          0.43,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.5
+      },
+      "cut_on": true,
+      "sections": [],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        3,
+        4,
+        9
+      ],
+      "inspection_task": "At 100% opacity inspect actual exposed cell profiles. Hide the media host only for secondary owner-cell isolation; nuclei without visible cell bodies are a failed teaching outcome."
+    },
+    {
+      "id": "06 Muscle cell ownership",
+      "purpose": "Remove the bulk media envelope to inspect representative complete muscle cells and their nuclei together.",
+      "visible_parts": [
+        "Smooth muscle cells",
+        "Smooth muscle nuclei",
+        "Medial elastic fibres"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum exchange network",
+        "Nervi vasorum varicosities",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          1.6,
+          1.0,
+          1.5
+        ],
+        "target": [
+          0,
+          0.43,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.2
+      },
+      "cut_on": false,
+      "sections": [],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        3,
+        9
+      ],
+      "inspection_task": "Confirm one representative nucleus sits within its owning spindle body and the long axes follow the lumen circumference. Representative sampling does not show every media cell."
+    },
+    {
+      "id": "07 Adventitial environment",
+      "purpose": "Connect collagen, elastic fibres and fibroblasts with embedded vessels, nerves and adipose septa.",
+      "visible_parts": [
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum",
+        "Vasa vasorum exchange network",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Nervi vasorum varicosities",
+        "Perivascular fat",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "External elastic lamina"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle nuclei",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Smooth muscle cells",
+        "Medial elastic fibres",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          1.7,
+          1.2,
+          1.8
+        ],
+        "target": [
+          0,
+          0.48,
+          0.15
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.9
+      },
+      "cut_on": true,
+      "sections": [],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "inspection_task": "Hide and restore adventitial ground substance; fibrillar courses and interrupted specimen ends must stay meaningful in both states. Fat should join the stromal environment."
+    },
+    {
+      "id": "08 Supply exchange drainage",
+      "purpose": "Trace a regional arterial feeder through the exchange network to venous drainage within the outer wall.",
+      "visible_parts": [
+        "Vasa vasorum",
+        "Vasa vasorum exchange network",
+        "Vasa vasorum venules",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "External elastic lamina"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle nuclei",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Smooth muscle cells",
+        "Medial elastic fibres",
+        "Nervi vasorum varicosities",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          1.8,
+          1.1,
+          1.9
+        ],
+        "target": [
+          0,
+          0.47,
+          0.15
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.9
+      },
+      "cut_on": true,
+      "sections": [],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        5,
+        6,
+        9
+      ],
+      "inspection_task": "Follow branch junctions, caliber changes, lumina and marked specimen exits. Temporarily X-ray outer tissue to trace the circuit, then restore full opacity. A selected region does not prove whole-wall coverage."
+    },
+    {
+      "id": "09 Neuroeffector border",
+      "purpose": "Place neural branches and varicosities outside the media beside the smooth muscle they influence.",
+      "visible_parts": [
+        "Nervi vasorum",
+        "Nervi vasorum varicosities",
+        "External elastic lamina",
+        "Smooth muscle cells",
+        "Smooth muscle nuclei"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Medial elastic fibres",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum exchange network",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          1.8,
+          1.2,
+          1.9
+        ],
+        "target": [
+          0,
+          0.48,
+          0.15
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.6
+      },
+      "cut_on": true,
+      "sections": [],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        3,
+        7,
+        9
+      ],
+      "inspection_task": "Inspect varicosities with adjacent muscle retained. Noradrenaline release and diffusion are a mechanism explanation; this static geometry is not an animation or measured transmission simulation."
+    },
+    {
+      "id": "10 Fat in connective support",
+      "purpose": "Show adipocyte lipid droplets, thin cytoplasmic rims and peripheral nuclei inside connective septa.",
+      "visible_parts": [
+        "Perivascular fat",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle nuclei",
+        "External elastic lamina",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Smooth muscle cells",
+        "Medial elastic fibres",
+        "Vasa vasorum exchange network",
+        "Nervi vasorum varicosities",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          2.0,
+          1.5,
+          2.1
+        ],
+        "target": [
+          0,
+          0.54,
+          0.1
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.7
+      },
+      "cut_on": true,
+      "sections": [],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        5,
+        8,
+        9
+      ],
+      "inspection_task": "Use a section through an adipocyte selected in the saved specimen; generic whole-model plane may miss its nucleus. A visible round blob alone does not establish adipocyte identity."
+    },
+    {
+      "id": "11 Blood and endothelial contact",
+      "purpose": "Keep enlarged red-cell examples secondary; inspect the leukocyte lobulated nucleus and its contact with endothelium.",
+      "visible_parts": [
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts",
+        "Endothelium",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei"
+      ],
+      "hidden_parts": [
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle nuclei",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Smooth muscle cells",
+        "Medial elastic fibres",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum exchange network",
+        "Nervi vasorum varicosities",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          1.5,
+          0.9,
+          1.6
+        ],
+        "target": [
+          0,
+          0.24,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.45
+      },
+      "cut_on": true,
+      "sections": [],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        1,
+        8,
+        9
+      ],
+      "inspection_task": "Static adhesion contacts indicate intended endothelial interaction only. Do not call this observed rolling, integrin activation or diapedesis. Rolling is taught separately as an inflammatory sequence, primarily associated with postcapillary venules."
+    },
+    {
+      "id": "12 Transverse vessel section",
+      "purpose": "Cut across the X-directed vessel to relate all tissue compartments to the lumen.",
+      "visible_parts": [
+        "Endothelium",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Subendothelial layer",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle cells",
+        "Smooth muscle nuclei",
+        "Medial elastic fibres",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum",
+        "Vasa vasorum exchange network",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Nervi vasorum varicosities"
+      ],
+      "hidden_parts": [
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          -3,
+          0.18,
+          0.12
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.85
+      },
+      "cut_on": false,
+      "sections": [
+        {
+          "native_axis_index": 0,
+          "position": 0.0,
+          "flip": false,
+          "vessel_orientation": "transverse"
+        }
+      ],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9
+      ],
+      "inspection_task": "Native UI name: Sagittal; vessel meaning: transverse. At full opacity compare muscle profiles, paired cell nuclei, elastic rims and adventitial contents; scan the X position to avoid interpreting one profile as universal."
+    },
+    {
+      "id": "13 Longitudinal wall section",
+      "purpose": "Cut lengthwise through the same specimen to distinguish cell/fibre orientation from cross-sectional profiles.",
+      "visible_parts": [
+        "Endothelium",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Subendothelial layer",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle cells",
+        "Smooth muscle nuclei",
+        "Medial elastic fibres",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum",
+        "Vasa vasorum exchange network",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Nervi vasorum varicosities"
+      ],
+      "hidden_parts": [
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          0.8,
+          3,
+          0.2
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.75
+      },
+      "cut_on": false,
+      "sections": [
+        {
+          "native_axis_index": 2,
+          "position": 0.0,
+          "flip": true,
+          "vessel_orientation": "longitudinal"
+        }
+      ],
+      "explode": 0,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9
+      ],
+      "inspection_task": "Native UI name: Transverse; vessel meaning: longitudinal. Compare these profiles with view 12; cylindrical wall, tissue cells and vessels must remain mutually consistent."
+    },
+    {
+      "id": "14 Layer order demonstration",
+      "purpose": "Lift matched owner groups by native rank only after their assembled interfaces have been learned.",
+      "visible_parts": [
+        "Endothelium",
+        "Endothelial cell bodies",
+        "Endothelial cell borders",
+        "Endothelial nuclei",
+        "Subendothelial layer",
+        "Subendothelial collagen fibres",
+        "Subendothelial fibroblasts",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle cells",
+        "Smooth muscle nuclei",
+        "Medial elastic fibres",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Adventitial fibroblasts",
+        "Adventitial elastic fibres",
+        "Vasa vasorum",
+        "Vasa vasorum exchange network",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Nervi vasorum varicosities"
+      ],
+      "hidden_parts": [
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte",
+        "Adipocyte nuclei",
+        "Adipocyte lipid droplets",
+        "Perivascular connective septa",
+        "Leukocyte lobulated nucleus",
+        "Leukocyte adhesion contacts"
+      ],
+      "selected_parts": [],
+      "camera": {
+        "position": [
+          2.4,
+          2.2,
+          2.6
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.4
+      },
+      "cut_on": true,
+      "sections": [],
+      "explode": 0.45,
+      "tissue_opacity_percent": 100,
+      "scale_note": "Macro calibration: 1 model unit = 2.6 mm. Cell, nuclear, fibre, wall-vessel and neural representatives are enlarged and sparsely sampled; they do not share a verified uniform enlargement or literal density. IEL/EEL apertures are sparse enlarged teaching examples. The legacy 20x rat experimental pore prior is not human pore morphometry; the calibrated ruler is not a microscopic scale bar.",
+      "brief_defects_addressed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9
+      ],
+      "inspection_task": "Separate layers is translation along Y, not radial expansion or physiological peeling. Return to assembled view before judging contacts. Owned nuclei/borders/cells must share ranks and remain attached."
+    }
+  ],
+  "comparisons": [
+    {
+      "related_model": "elastic_artery",
+      "question": "Where does the load-bearing elastic material sit?",
+      "answer": "Muscular artery: prominent inner elastic boundary around a smooth-muscle-rich media. Elastic artery: repeated elastic lamellae throughout media with muscle between them; boundary laminae are less distinct.",
+      "function": "Use this structural contrast to distinguish blood distribution/tone from proximal pulse buffering. Both vessel types contain muscle and elastin.",
+      "scale_rule": "Related model has its own macro calibration; compare tissue organization, not same-screen apparent caliber."
+    },
+    {
+      "related_model": "vein_wall",
+      "question": "What differs for a comparably sized vein?",
+      "answer": "Veins generally have a thinner media and a relatively large lumen; some have intimal valves. Adventitial support can be prominent.",
+      "function": "Compare the muscular pressure-bearing artery with venous return and valve directionality where the related model represents valves.",
+      "scale_rule": "Do not infer universal venous valve presence or a population-normal wall ratio from these representative models."
+    }
+  ],
+  "native_limitations": [
+    "Native named-camera metadata saves camera, hidden keys, assembled state and cut_on; it does not save sections, opacity, ghost state, depth or explode. Runtime adapter must be installed explicitly on an isolated ModelView to apply full progression.",
+    "Native ModelView starts bulk tissue opacity at 50%; the explicit controller restores 100% for tissue identity views.",
+    "mixed_schematic_scale is applied to native viewer sidecar by the runtime controller to suppress misleading per-part macro size summaries. Generic ruler remains macro-calibrated.",
+    "Camera targets and section positions are source-grounded starting proposals; final saved geometry framing requires native roundtrip and manual visual review on separate machine.",
+    "No new visuals, mesh generation, native app launch or anatomical acceptance occurred here."
+  ]
+}

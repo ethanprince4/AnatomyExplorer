@@ -1,0 +1,1824 @@
+{
+  "schema_version": 1,
+  "model_id": "female_reproductive",
+  "specialist_role": "function",
+  "status": "design_ready",
+  "implementation_status": "usable_declarative_snapshot_sidecar; native_consumer_and_optional_motion_deferred",
+  "input_evidence": [
+    {
+      "root": "baseline",
+      "path": "app/micro/female.py",
+      "sha256": "fd0616dafb53c4c6a1c6321e978f55b271a3d4819a75a45fdd059fbb934ec0d3"
+    },
+    {
+      "root": "workspace",
+      "path": "models/female_reproductive/input_catalog.json",
+      "cache_sha256": "cdd805632a233530342ad2bee679b6678664ff9a4d4bb1b58a4947a9faccf101",
+      "animation_sidecar": null
+    },
+    {
+      "root": "recovery",
+      "path": "revised-refinement-handoffs/Female_Reproductive_Refinement_Directions.txt",
+      "status": "reviewed original actual-app brief, not new-candidate acceptance"
+    }
+  ],
+  "label_aliases": [
+    {
+      "selector": "Germinal (surface) epithelium",
+      "display_name": "Ovarian surface epithelium",
+      "note": "Germinal is historical terminology; this covering is not the source of oocytes."
+    },
+    {
+      "selector": "Embryonic disc - ectoderm (epiblast)",
+      "display_name": "Embryonic disc — epiblast",
+      "note": "Bilaminar precursor. Definitive germ-layer formation occurs later during gastrulation."
+    },
+    {
+      "selector": "Embryonic disc - endoderm (hypoblast)",
+      "display_name": "Embryonic disc — hypoblast",
+      "note": "Bilaminar precursor on yolk-sac side; not equivalent to definitive embryonic endoderm."
+    },
+    {
+      "selector": "Lactiferous sinuses",
+      "display_name": "Subareolar duct segments (historical sinus selector)",
+      "note": "Compatibility selector only; no unqualified sac-like storage reservoirs in this lactation teaching view."
+    },
+    {
+      "selector": "Trophoblast of implanted blastocyst",
+      "display_name": "Trophoblast of implanted second-week conceptus",
+      "note": "Existing inset is a later bilaminar conceptus, approximately post-fertilisation day 12–13 in the source design."
+    }
+  ],
+  "interaction_contract": {
+    "initial_playback": "paused",
+    "sequence_navigation": "manual previous/next, optional explicit play only after route gates pass",
+    "scope": "Only declared scope parts are visible; unrelated specimens hidden. Reset all overrides when leaving sequence.",
+    "snapshot_resolution": "visible_parts is complete within scope; unspecified scope parts hidden; highlight_parts always visible; unknown selectors fail validation.",
+    "display_labels": "Resolve aliases by exact legacy selector; do not replace stored selector identity.",
+    "fluid_spaces": "Use labelled low-opacity fluid/space cues, not opaque tissue fills.",
+    "motion": "No global pulsing, rotation or breathing used as a substitute for mechanism. No mesh morphs between stages.",
+    "external_card": "Prefix denotes explanatory non-mesh node, never a part selector.",
+    "support_status": "No baseline animation sidecar exists. This data requires a viewer adapter for automatic application; snapshots remain manually usable."
+  },
+  "scale_contract": {
+    "pelvis": "1 model unit = 100 mm; representative organ anatomy",
+    "breast": "approximately 0.8x; representative comparison",
+    "ovary_specimen": "approximately 2.5x; follicles/corpora separately enlarged",
+    "ampulla_endometrium": "approximately 20–30x teaching enlargement",
+    "embryo_row": "nominally approximately 80x; sperm separately enlarged",
+    "limitations": "Inherited teaching scales, not measured patient morphometry; detached specimens are not literal adjacent structures or a universal ruler."
+  },
+  "sequences": [
+    {
+      "id": "follicle_endocrine_cycle",
+      "title": "Follicle organisation and endocrine cycle",
+      "status": "snapshot_design_ready; continuous_motion_not_implemented",
+      "scope_parts": [
+        "Germinal (surface) epithelium",
+        "Tunica albuginea of ovary",
+        "Ovarian cortex",
+        "Ovarian medulla",
+        "Theca externa",
+        "Theca interna",
+        "Membrana granulosa (granulosa cells)",
+        "Antrum (follicular fluid)",
+        "Cumulus oophorus",
+        "Corpus luteum",
+        "Corpus luteum - central clot",
+        "Corpus albicans",
+        "Atretic follicle",
+        "Secondary follicles",
+        "Theca of secondary follicles",
+        "Primordial follicles",
+        "Primary follicles",
+        "Oocytes",
+        "Zona pellucida",
+        "Corona radiata",
+        "Mesovarium (cut edge)",
+        "Ovarian blood vessels - arteries",
+        "Ovarian blood vessels - veins",
+        "Ovary",
+        "Uterine (intramural) part of uterine tube",
+        "Isthmus of uterine tube",
+        "Ampulla of uterine tube",
+        "Infundibulum of uterine tube",
+        "Fimbriae",
+        "Abdominal ostium of uterine tube",
+        "Ovulated secondary oocyte",
+        "Corona radiata cells (ovulated oocyte)",
+        "Sperm cells",
+        "Zona pellucida (early embryo)",
+        "Zygote",
+        "Egg pronucleus",
+        "Sperm pronucleus",
+        "2-cell stage",
+        "4-cell stage",
+        "8-cell stage",
+        "Morula",
+        "Blastocyst - trophoblast",
+        "Blastocyst - inner cell mass",
+        "Blastocele (blastocyst cavity)"
+      ],
+      "mechanism": "Compartment-specific steroidogenesis couples follicular state to endometrial state.",
+      "steps": [
+        {
+          "id": "reserve",
+          "title": "Read the reserve and growing follicles",
+          "visible_parts": [
+            "Ovarian cortex",
+            "Ovarian medulla",
+            "Germinal (surface) epithelium",
+            "Tunica albuginea of ovary",
+            "Primordial follicles",
+            "Primary follicles",
+            "Oocytes",
+            "Zona pellucida"
+          ],
+          "highlight_parts": [
+            "Primordial follicles",
+            "Primary follicles"
+          ],
+          "caption": "Compare stages; activation and early growth precede the final cyclic antral cohort. The surface covering does not generate these oocytes.",
+          "relationships": [
+            {
+              "type": "surrounds",
+              "from": "Primordial follicles",
+              "to": "Oocytes"
+            },
+            {
+              "type": "acellular_boundary",
+              "from": "Zona pellucida",
+              "to": "Oocytes"
+            }
+          ],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "antral",
+          "title": "Antral cohort and dominant follicle",
+          "visible_parts": [
+            "Ovarian cortex",
+            "Ovarian medulla",
+            "Germinal (surface) epithelium",
+            "Tunica albuginea of ovary",
+            "Theca externa",
+            "Theca interna",
+            "Membrana granulosa (granulosa cells)",
+            "Antrum (follicular fluid)",
+            "Cumulus oophorus",
+            "Oocytes",
+            "Zona pellucida",
+            "Corona radiata",
+            "Secondary follicles",
+            "Theca of secondary follicles",
+            "Atretic follicle"
+          ],
+          "highlight_parts": [
+            "Secondary follicles",
+            "Antrum (follicular fluid)",
+            "Atretic follicle"
+          ],
+          "caption": "Compare growing antral follicles with atresia. This specimen places representative stages together; it is not a time-lapse of one ovarian section.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "two_cell",
+          "title": "Separate the two steroidogenic populations",
+          "visible_parts": [
+            "Ovarian cortex",
+            "Ovarian medulla",
+            "Germinal (surface) epithelium",
+            "Tunica albuginea of ovary",
+            "Theca externa",
+            "Theca interna",
+            "Membrana granulosa (granulosa cells)",
+            "Antrum (follicular fluid)",
+            "Cumulus oophorus",
+            "Oocytes",
+            "Zona pellucida",
+            "Corona radiata",
+            "Ovarian blood vessels - arteries"
+          ],
+          "highlight_parts": [
+            "Theca interna",
+            "Membrana granulosa (granulosa cells)"
+          ],
+          "caption": "LH supports thecal androgen production; FSH supports granulosa aromatase conversion to estrogens. Use labelled signal arrows and a conversion card, not luminal flow.",
+          "relationships": [
+            {
+              "type": "endocrine_signal",
+              "from": "external_card:LH",
+              "to": "Theca interna"
+            },
+            {
+              "type": "metabolite_transfer_schematic",
+              "from": "Theca interna",
+              "to": "Membrana granulosa (granulosa cells)",
+              "label": "androgen substrate"
+            },
+            {
+              "type": "endocrine_signal",
+              "from": "external_card:FSH",
+              "to": "Membrana granulosa (granulosa cells)"
+            }
+          ],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "periovulatory",
+          "title": "LH surge and the oocyte–cumulus complex",
+          "visible_parts": [
+            "Ovarian cortex",
+            "Ovarian medulla",
+            "Germinal (surface) epithelium",
+            "Tunica albuginea of ovary",
+            "Theca externa",
+            "Theca interna",
+            "Membrana granulosa (granulosa cells)",
+            "Antrum (follicular fluid)",
+            "Cumulus oophorus",
+            "Oocytes",
+            "Zona pellucida",
+            "Corona radiata"
+          ],
+          "highlight_parts": [
+            "Oocytes",
+            "Cumulus oophorus",
+            "Corona radiata"
+          ],
+          "caption": "Sustained preovulatory estradiol permits positive feedback and the LH surge. Oocyte meiotic resumption and follicular changes precede release. No rupture deformation is supplied.",
+          "relationships": [],
+          "representation": "existing_geometry_plus_explanatory_card",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "released",
+          "title": "Released secondary oocyte",
+          "visible_parts": [
+            "Ovary",
+            "Uterine (intramural) part of uterine tube",
+            "Isthmus of uterine tube",
+            "Ampulla of uterine tube",
+            "Infundibulum of uterine tube",
+            "Fimbriae",
+            "Abdominal ostium of uterine tube",
+            "Ovulated secondary oocyte",
+            "Corona radiata cells (ovulated oocyte)",
+            "Zona pellucida (early embryo)"
+          ],
+          "highlight_parts": [
+            "Ovulated secondary oocyte",
+            "Corona radiata cells (ovulated oocyte)"
+          ],
+          "caption": "Switch to the separate enlarged specimen: the released secondary oocyte has its zona and surrounding cumulus/corona cells. The detached specimen is not physically beside the ovary in the pelvis.",
+          "relationships": [],
+          "representation": "cross_scale_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "aggregate_fallback": {
+            "unless": "stage_instance_manifest_resolved",
+            "visible_parts": [
+              "Ovary",
+              "Uterine (intramural) part of uterine tube",
+              "Isthmus of uterine tube",
+              "Ampulla of uterine tube",
+              "Infundibulum of uterine tube",
+              "Fimbriae",
+              "Abdominal ostium of uterine tube",
+              "Ovulated secondary oocyte",
+              "Corona radiata cells (ovulated oocyte)",
+              "Zona pellucida (early embryo)",
+              "Sperm cells",
+              "Zygote",
+              "Egg pronucleus",
+              "Sperm pronucleus",
+              "2-cell stage",
+              "4-cell stage",
+              "8-cell stage",
+              "Morula",
+              "Blastocyst - trophoblast",
+              "Blastocyst - inner cell mass",
+              "Blastocele (blastocyst cavity)"
+            ],
+            "notice": "Zona selector covers the complete comparison row; highlighted stage is the current teaching target."
+          }
+        },
+        {
+          "id": "luteal",
+          "title": "Postovulatory corpus luteum",
+          "visible_parts": [
+            "Ovarian cortex",
+            "Ovarian medulla",
+            "Germinal (surface) epithelium",
+            "Tunica albuginea of ovary",
+            "Corpus luteum",
+            "Corpus luteum - central clot",
+            "Corpus albicans"
+          ],
+          "highlight_parts": [
+            "Corpus luteum"
+          ],
+          "caption": "The postovulatory follicular tissue becomes an endocrine corpus luteum. Progesterone acts on the estrogen-primed endometrium; compare the secretory endometrial inset separately.",
+          "relationships": [
+            {
+              "type": "endocrine_signal",
+              "from": "Corpus luteum",
+              "to": "external_card:endometrium",
+              "label": "progesterone"
+            }
+          ],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "no_pregnancy",
+          "title": "No-pregnancy branch",
+          "visible_parts": [
+            "Ovarian cortex",
+            "Ovarian medulla",
+            "Germinal (surface) epithelium",
+            "Tunica albuginea of ovary",
+            "Corpus luteum",
+            "Corpus albicans",
+            "Atretic follicle"
+          ],
+          "highlight_parts": [
+            "Corpus albicans"
+          ],
+          "caption": "Without pregnancy support, luteal function declines and ovarian steroids fall. Follow the separate endometrial breakdown sequence. Scar formation is not a sudden geometric substitution.",
+          "relationships": [],
+          "representation": "existing_geometry_plus_explanatory_card",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "pregnancy",
+          "title": "Pregnancy-support branch",
+          "visible_parts": [
+            "Ovarian cortex",
+            "Ovarian medulla",
+            "Germinal (surface) epithelium",
+            "Tunica albuginea of ovary",
+            "Corpus luteum"
+          ],
+          "highlight_parts": [
+            "Corpus luteum"
+          ],
+          "caption": "Implanting trophoblast supplies hCG support to the corpus luteum. The corresponding conceptus belongs to a separate developmental scale and stage.",
+          "relationships": [
+            {
+              "type": "endocrine_signal",
+              "from": "external_card:implanting_trophoblast_hCG",
+              "to": "Corpus luteum"
+            }
+          ],
+          "representation": "existing_geometry_plus_explanatory_card",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        }
+      ],
+      "source_ids": [
+        "duke_histology",
+        "endotext_cycle"
+      ],
+      "schematic_limitations": [
+        "Comparative stage field; no same-cycle primordial-to-preovulatory time-lapse.",
+        "Hormone levels are qualitative; no mandatory 28-day cycle, fixed ovulation day, paired ovary alternation or concentration curve.",
+        "Oocytes, zona and corona selectors aggregate instances; single-follicle isolation requires an authored instance manifest.",
+        "Antrum is fluid; the zona is acellular, corona/cumulus are cell populations; do not animate antral fluid as another tissue shell."
+      ],
+      "acceptance_checks": [
+        "The highlighted oocyte, zona, corona and cumulus attachment remain distinguishable in contextual view.",
+        "Endocrine arrows cannot be mistaken for vessels or luminal transport.",
+        "Pregnancy and no-pregnancy branches remain mutually exclusive teaching outcomes."
+      ]
+    },
+    {
+      "id": "tubal_transport_fertilisation",
+      "title": "Tubal pickup, transport and fertilisation",
+      "status": "snapshot_design_ready; continuous_motion_not_implemented",
+      "scope_parts": [
+        "Uterine (intramural) part of uterine tube",
+        "Isthmus of uterine tube",
+        "Ampulla of uterine tube",
+        "Infundibulum of uterine tube",
+        "Fimbriae",
+        "Abdominal ostium of uterine tube",
+        "Ovary",
+        "Uterine cavity",
+        "Internal os",
+        "Cervical canal",
+        "External os",
+        "Vaginal canal (lumen)",
+        "Vagina",
+        "Cervix of uterus",
+        "Serosa of uterine tube",
+        "Muscular layer of uterine tube",
+        "Mucosa of uterine tube (lamina propria folds)",
+        "Tubal epithelium (ciliated & peg cells)",
+        "Blood vessels of tube wall",
+        "Ovulated secondary oocyte",
+        "Corona radiata cells (ovulated oocyte)",
+        "Sperm cells",
+        "Zona pellucida (early embryo)",
+        "Zygote",
+        "Egg pronucleus",
+        "Sperm pronucleus",
+        "2-cell stage",
+        "4-cell stage",
+        "8-cell stage",
+        "Morula",
+        "Blastocyst - trophoblast",
+        "Blastocyst - inner cell mass",
+        "Blastocele (blastocyst cavity)"
+      ],
+      "mechanism": "Epithelial surface function, muscular activity and tubal fluid support gamete and embryo transport through an open tube.",
+      "steps": [
+        {
+          "id": "pickup",
+          "title": "Open pickup relationship",
+          "visible_parts": [
+            "Uterine (intramural) part of uterine tube",
+            "Isthmus of uterine tube",
+            "Ampulla of uterine tube",
+            "Infundibulum of uterine tube",
+            "Fimbriae",
+            "Abdominal ostium of uterine tube",
+            "Ovary"
+          ],
+          "highlight_parts": [
+            "Ovary",
+            "Fimbriae",
+            "Abdominal ostium of uterine tube"
+          ],
+          "caption": "The ovary releases into the peritoneal environment near the fimbriae. The open ostium admits the oocyte–cumulus complex; no sealed ovary-to-tube conduit is represented.",
+          "relationships": [
+            {
+              "type": "open_spatial_relation",
+              "from": "Ovary",
+              "to": "Abdominal ostium of uterine tube",
+              "via": "Fimbriae"
+            }
+          ],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "folds",
+          "title": "Ampullary fold, epithelium and common lumen",
+          "visible_parts": [
+            "Serosa of uterine tube",
+            "Muscular layer of uterine tube",
+            "Mucosa of uterine tube (lamina propria folds)",
+            "Tubal epithelium (ciliated & peg cells)",
+            "Blood vessels of tube wall"
+          ],
+          "highlight_parts": [
+            "Mucosa of uterine tube (lamina propria folds)",
+            "Tubal epithelium (ciliated & peg cells)"
+          ],
+          "caption": "Read connective-tissue fold cores covered by one epithelial surface facing a common lumen. Fold branches are not independent ducts.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "transport",
+          "title": "Three transport contributors",
+          "visible_parts": [
+            "Serosa of uterine tube",
+            "Muscular layer of uterine tube",
+            "Mucosa of uterine tube (lamina propria folds)",
+            "Tubal epithelium (ciliated & peg cells)",
+            "Blood vessels of tube wall"
+          ],
+          "highlight_parts": [
+            "Tubal epithelium (ciliated & peg cells)",
+            "Muscular layer of uterine tube"
+          ],
+          "caption": "Show a representative ciliary effective-stroke direction toward the uterus; distinguish muscle contractility and tubal secretions as additional contributors.",
+          "relationships": [
+            {
+              "type": "direction_card",
+              "from": "Tubal epithelium (ciliated & peg cells)",
+              "to": "external_card:uterine_direction",
+              "label": "cilia-driven fluid movement"
+            },
+            {
+              "type": "function_card",
+              "from": "Muscular layer of uterine tube",
+              "to": "external_card:transport",
+              "label": "muscle activity"
+            }
+          ],
+          "representation": "existing_geometry_plus_explanatory_card",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "sperm_ascent",
+          "title": "Sperm ascent is a separate route",
+          "visible_parts": [
+            "Uterine (intramural) part of uterine tube",
+            "Isthmus of uterine tube",
+            "Ampulla of uterine tube",
+            "Infundibulum of uterine tube",
+            "Fimbriae",
+            "Abdominal ostium of uterine tube",
+            "Ovary",
+            "Uterine cavity",
+            "Internal os",
+            "Cervical canal",
+            "External os",
+            "Vaginal canal (lumen)",
+            "Vagina",
+            "Cervix of uterus"
+          ],
+          "highlight_parts": [
+            "Vaginal canal (lumen)",
+            "External os",
+            "Cervical canal",
+            "Internal os",
+            "Uterine cavity",
+            "Ampulla of uterine tube"
+          ],
+          "caption": "Trace a selected sperm-ascent route toward the tube. This arrow indicates anatomical passage and not passive reverse ciliary transport, survival probability or clinical patency.",
+          "relationships": [
+            {
+              "type": "route_contract",
+              "id": "sperm_ascent"
+            }
+          ],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "ampulla_fertilisation",
+          "title": "Ampullary fertilisation",
+          "visible_parts": [
+            "Uterine (intramural) part of uterine tube",
+            "Isthmus of uterine tube",
+            "Ampulla of uterine tube",
+            "Infundibulum of uterine tube",
+            "Fimbriae",
+            "Abdominal ostium of uterine tube",
+            "Ovulated secondary oocyte",
+            "Corona radiata cells (ovulated oocyte)",
+            "Sperm cells",
+            "Zona pellucida (early embryo)"
+          ],
+          "highlight_parts": [
+            "Ampulla of uterine tube",
+            "Ovulated secondary oocyte",
+            "Sperm cells"
+          ],
+          "caption": "Fertilisation usually occurs in the ampulla. Use the enlarged gamete comparison; sperm have their own exaggerated scale. Molecular interaction is explained rather than a ZP3-only lock-and-key animation.",
+          "relationships": [],
+          "representation": "cross_scale_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "aggregate_fallback": {
+            "unless": "stage_instance_manifest_resolved",
+            "visible_parts": [
+              "Uterine (intramural) part of uterine tube",
+              "Isthmus of uterine tube",
+              "Ampulla of uterine tube",
+              "Infundibulum of uterine tube",
+              "Fimbriae",
+              "Abdominal ostium of uterine tube",
+              "Ovulated secondary oocyte",
+              "Corona radiata cells (ovulated oocyte)",
+              "Sperm cells",
+              "Zona pellucida (early embryo)",
+              "Zygote",
+              "Egg pronucleus",
+              "Sperm pronucleus",
+              "2-cell stage",
+              "4-cell stage",
+              "8-cell stage",
+              "Morula",
+              "Blastocyst - trophoblast",
+              "Blastocyst - inner cell mass",
+              "Blastocele (blastocyst cavity)"
+            ],
+            "notice": "Zona selector covers the complete comparison row; highlighted stage is the current teaching target."
+          }
+        },
+        {
+          "id": "embryo_transport",
+          "title": "Embryo transport toward the uterine cavity",
+          "visible_parts": [
+            "Uterine (intramural) part of uterine tube",
+            "Isthmus of uterine tube",
+            "Ampulla of uterine tube",
+            "Infundibulum of uterine tube",
+            "Fimbriae",
+            "Abdominal ostium of uterine tube",
+            "Uterine cavity"
+          ],
+          "highlight_parts": [
+            "Ampulla of uterine tube",
+            "Isthmus of uterine tube",
+            "Uterine (intramural) part of uterine tube",
+            "Uterine cavity"
+          ],
+          "caption": "Follow the uterine-directed route while opening the separate cleavage-stage sequence. Marker motion is teaching transport only, with no measured speed or tube transit timing.",
+          "relationships": [
+            {
+              "type": "route_contract",
+              "id": "embryo_to_uterus"
+            }
+          ],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        }
+      ],
+      "source_ids": [
+        "duke_histology",
+        "raidt_cilia",
+        "patrat_zona",
+        "human_zp1"
+      ],
+      "schematic_limitations": [
+        "No fixed rate, ciliary frequency, flow fraction or fertilisation success.",
+        "Do not turn a transverse ampullary section into evidence of its whole longitudinal path.",
+        "A lumen marker is gated on a builder-supplied saved-output path; part highlights work without such a path.",
+        "Representative secretory cells are not individually identifiable in the baseline smooth epithelial selector; cell detail must be supplied before cell-specific motion."
+      ],
+      "acceptance_checks": [
+        "Common lumen and core-versus-epithelium organisation remain legible.",
+        "Oocyte pickup does not imply fused tube/ovary tissue.",
+        "Sperm ascent and uterine-directed embryo transport carry separate legends."
+      ]
+    },
+    {
+      "id": "development_to_implantation",
+      "title": "Fertilisation, cleavage and implantation bridge",
+      "status": "snapshot_design_ready; continuous_motion_not_implemented",
+      "scope_parts": [
+        "Ovulated secondary oocyte",
+        "Corona radiata cells (ovulated oocyte)",
+        "Sperm cells",
+        "Zona pellucida (early embryo)",
+        "Zygote",
+        "Egg pronucleus",
+        "Sperm pronucleus",
+        "2-cell stage",
+        "4-cell stage",
+        "8-cell stage",
+        "Morula",
+        "Blastocyst - trophoblast",
+        "Blastocyst - inner cell mass",
+        "Blastocele (blastocyst cavity)",
+        "Myometrium (inner layer)",
+        "Stratum basalis (basal layer)",
+        "Stratum functionalis (functional layer)",
+        "Uterine surface epithelium",
+        "Uterine glands",
+        "Spiral arteries",
+        "Straight (basal) arteries",
+        "Trophoblast of implanted blastocyst",
+        "Chorionic cavity (extraembryonic coelom)",
+        "Amniotic sac (amnion)",
+        "Amniotic cavity",
+        "Embryonic disc - ectoderm (epiblast)",
+        "Embryonic disc - endoderm (hypoblast)",
+        "Yolk sac",
+        "Connecting stalk"
+      ],
+      "mechanism": "Sequential developmental states separate fertilisation, cavity formation, zona exit, implantation and bilaminar differentiation.",
+      "steps": [
+        {
+          "id": "secondary",
+          "title": "Secondary oocyte before fertilisation",
+          "visible_parts": [
+            "Ovulated secondary oocyte",
+            "Corona radiata cells (ovulated oocyte)",
+            "Sperm cells",
+            "Zona pellucida (early embryo)"
+          ],
+          "highlight_parts": [
+            "Ovulated secondary oocyte"
+          ],
+          "caption": "Compare the secondary oocyte with its acellular zona and cellular corona. Acrosome-dependent sperm passage and membrane fusion are described without unsupported receptor certainty.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "aggregate_fallback": {
+            "unless": "stage_instance_manifest_resolved",
+            "visible_parts": [
+              "Ovulated secondary oocyte",
+              "Corona radiata cells (ovulated oocyte)",
+              "Sperm cells",
+              "Zona pellucida (early embryo)",
+              "Zygote",
+              "Egg pronucleus",
+              "Sperm pronucleus",
+              "2-cell stage",
+              "4-cell stage",
+              "8-cell stage",
+              "Morula",
+              "Blastocyst - trophoblast",
+              "Blastocyst - inner cell mass",
+              "Blastocele (blastocyst cavity)"
+            ],
+            "notice": "Zona selector covers the complete comparison row; highlighted stage is the current teaching target."
+          }
+        },
+        {
+          "id": "pronuclei",
+          "title": "Pronuclear zygote",
+          "visible_parts": [
+            "Zygote",
+            "Egg pronucleus",
+            "Sperm pronucleus",
+            "Zona pellucida (early embryo)"
+          ],
+          "highlight_parts": [
+            "Egg pronucleus",
+            "Sperm pronucleus"
+          ],
+          "caption": "After fertilisation-related oocyte activation and completion of meiosis II, two pronuclei are present. They do not remain as two separate nuclei through all cleavage stages.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "aggregate_fallback": {
+            "unless": "stage_instance_manifest_resolved",
+            "visible_parts": [
+              "Zygote",
+              "Egg pronucleus",
+              "Sperm pronucleus",
+              "Zona pellucida (early embryo)",
+              "Ovulated secondary oocyte",
+              "Corona radiata cells (ovulated oocyte)",
+              "Sperm cells",
+              "2-cell stage",
+              "4-cell stage",
+              "8-cell stage",
+              "Morula",
+              "Blastocyst - trophoblast",
+              "Blastocyst - inner cell mass",
+              "Blastocele (blastocyst cavity)"
+            ],
+            "notice": "Zona selector covers the complete comparison row; highlighted stage is the current teaching target."
+          }
+        },
+        {
+          "id": "cleavage",
+          "title": "Early cleavage",
+          "visible_parts": [
+            "2-cell stage",
+            "4-cell stage",
+            "8-cell stage",
+            "Zona pellucida (early embryo)"
+          ],
+          "highlight_parts": [
+            "2-cell stage",
+            "4-cell stage",
+            "8-cell stage"
+          ],
+          "caption": "Read successive cleavage comparisons, not three embryos produced by one zygote. Cell partitions increase while early overall size remains constrained by the zona.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "aggregate_fallback": {
+            "unless": "stage_instance_manifest_resolved",
+            "visible_parts": [
+              "2-cell stage",
+              "4-cell stage",
+              "8-cell stage",
+              "Zona pellucida (early embryo)",
+              "Ovulated secondary oocyte",
+              "Corona radiata cells (ovulated oocyte)",
+              "Sperm cells",
+              "Zygote",
+              "Egg pronucleus",
+              "Sperm pronucleus",
+              "Morula",
+              "Blastocyst - trophoblast",
+              "Blastocyst - inner cell mass",
+              "Blastocele (blastocyst cavity)"
+            ],
+            "notice": "Zona selector covers the complete comparison row; highlighted stage is the current teaching target."
+          }
+        },
+        {
+          "id": "morula",
+          "title": "Compaction and morula",
+          "visible_parts": [
+            "8-cell stage",
+            "Morula",
+            "Zona pellucida (early embryo)"
+          ],
+          "highlight_parts": [
+            "Morula"
+          ],
+          "caption": "Compaction and a solid multicellular morula precede a fluid-containing blastocyst. The represented cell count is schematic.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "aggregate_fallback": {
+            "unless": "stage_instance_manifest_resolved",
+            "visible_parts": [
+              "8-cell stage",
+              "Morula",
+              "Zona pellucida (early embryo)",
+              "Ovulated secondary oocyte",
+              "Corona radiata cells (ovulated oocyte)",
+              "Sperm cells",
+              "Zygote",
+              "Egg pronucleus",
+              "Sperm pronucleus",
+              "2-cell stage",
+              "4-cell stage",
+              "Blastocyst - trophoblast",
+              "Blastocyst - inner cell mass",
+              "Blastocele (blastocyst cavity)"
+            ],
+            "notice": "Zona selector covers the complete comparison row; highlighted stage is the current teaching target."
+          }
+        },
+        {
+          "id": "blastocyst",
+          "title": "Pre-hatching blastocyst",
+          "visible_parts": [
+            "Blastocyst - trophoblast",
+            "Blastocyst - inner cell mass",
+            "Blastocele (blastocyst cavity)",
+            "Zona pellucida (early embryo)"
+          ],
+          "highlight_parts": [
+            "Blastocyst - inner cell mass",
+            "Blastocele (blastocyst cavity)"
+          ],
+          "caption": "Identify outer trophoblast, one-sided inner cell mass and fluid blastocoel. Pale cavity fill is a space cue, not tissue.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "aggregate_fallback": {
+            "unless": "stage_instance_manifest_resolved",
+            "visible_parts": [
+              "Blastocyst - trophoblast",
+              "Blastocyst - inner cell mass",
+              "Blastocele (blastocyst cavity)",
+              "Zona pellucida (early embryo)",
+              "Ovulated secondary oocyte",
+              "Corona radiata cells (ovulated oocyte)",
+              "Sperm cells",
+              "Zygote",
+              "Egg pronucleus",
+              "Sperm pronucleus",
+              "2-cell stage",
+              "4-cell stage",
+              "8-cell stage",
+              "Morula"
+            ],
+            "notice": "Zona selector covers the complete comparison row; highlighted stage is the current teaching target."
+          }
+        },
+        {
+          "id": "hatching",
+          "title": "Hatching bridge",
+          "visible_parts": [
+            "Blastocyst - trophoblast",
+            "Blastocyst - inner cell mass",
+            "Blastocele (blastocyst cavity)"
+          ],
+          "highlight_parts": [
+            "Blastocyst - trophoblast"
+          ],
+          "caption": "Before attachment, the blastocyst emerges from the zona. The baseline row supplies no hatching aperture or intermediate mesh; this is an explanatory card, not a demonstrated rupture.",
+          "relationships": [],
+          "representation": "text_only_bridge_with_reference_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "attachment",
+          "title": "Initial attachment and invasion bridge",
+          "visible_parts": [
+            "Uterine surface epithelium",
+            "Stratum functionalis (functional layer)",
+            "Uterine glands"
+          ],
+          "highlight_parts": [
+            "Uterine surface epithelium"
+          ],
+          "caption": "Approximate first-week/second-week transition: attachment at the uterine epithelial surface is followed by trophoblast invasion. The later implanted inset must not appear in this step as if it were initial attachment.",
+          "relationships": [],
+          "representation": "text_only_bridge_with_reference_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "bilaminar",
+          "title": "Later second-week implanted conceptus",
+          "visible_parts": [
+            "Myometrium (inner layer)",
+            "Stratum basalis (basal layer)",
+            "Stratum functionalis (functional layer)",
+            "Uterine surface epithelium",
+            "Uterine glands",
+            "Spiral arteries",
+            "Straight (basal) arteries",
+            "Trophoblast of implanted blastocyst",
+            "Chorionic cavity (extraembryonic coelom)",
+            "Amniotic sac (amnion)",
+            "Amniotic cavity",
+            "Embryonic disc - ectoderm (epiblast)",
+            "Embryonic disc - endoderm (hypoblast)",
+            "Yolk sac",
+            "Connecting stalk"
+          ],
+          "highlight_parts": [
+            "Embryonic disc - ectoderm (epiblast)",
+            "Embryonic disc - endoderm (hypoblast)",
+            "Amniotic cavity",
+            "Yolk sac",
+            "Chorionic cavity (extraembryonic coelom)",
+            "Connecting stalk"
+          ],
+          "caption": "Now show the existing later bilaminar inset, source-designed at approximately post-fertilisation day 12–13: epiblast faces amniotic cavity, hypoblast faces yolk-sac side, and the connecting stalk spans toward chorionic tissue.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "gastrulation_boundary",
+          "title": "What happens later is not shown",
+          "visible_parts": [
+            "Embryonic disc - ectoderm (epiblast)",
+            "Embryonic disc - endoderm (hypoblast)",
+            "Amniotic sac (amnion)",
+            "Yolk sac"
+          ],
+          "highlight_parts": [
+            "Embryonic disc - ectoderm (epiblast)"
+          ],
+          "caption": "Week-three gastrulation produces definitive embryonic germ layers from epiblast-derived cells. Hypoblast is not simply the embryo's definitive endoderm. No primitive-streak mesh is supplied.",
+          "relationships": [],
+          "representation": "existing_geometry_plus_explanatory_card",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        }
+      ],
+      "source_ids": [
+        "duke_histology",
+        "patrat_zona",
+        "human_zp1",
+        "unsw_implantation",
+        "unsw_gastrulation"
+      ],
+      "schematic_limitations": [
+        "Intervals are approximate post-fertilisation age, not cycle day or clinical gestational age.",
+        "No mesh morphing, exact cell-count claim or measured embryo size from display.",
+        "Shared early-embryo zona selector spans stages; a pre-hatching blastocyst-specific zona must come from an instance manifest or remain a caption.",
+        "Initial attachment/hatching are text bridges until independent intermediate geometry is authored and reviewed."
+      ],
+      "acceptance_checks": [
+        "No layer label equates hypoblast with definitive embryonic endoderm.",
+        "Next/back cannot bypass both hatching and initial-attachment explanations.",
+        "Bilaminar and pre-hatching stages have persistent stage banners.",
+        "Fluid spaces have distinct legend and opacity from cell populations."
+      ]
+    },
+    {
+      "id": "endometrium_implantation",
+      "title": "Endometrium, secretion, breakdown and implantation",
+      "status": "snapshot_design_ready; continuous_motion_not_implemented",
+      "scope_parts": [
+        "Myometrium (inner layer)",
+        "Stratum basalis (basal layer)",
+        "Stratum functionalis (functional layer)",
+        "Uterine surface epithelium",
+        "Uterine glands",
+        "Spiral arteries",
+        "Straight (basal) arteries",
+        "Trophoblast of implanted blastocyst",
+        "Chorionic cavity (extraembryonic coelom)",
+        "Amniotic sac (amnion)",
+        "Amniotic cavity",
+        "Embryonic disc - ectoderm (epiblast)",
+        "Embryonic disc - endoderm (hypoblast)",
+        "Yolk sac",
+        "Connecting stalk",
+        "Fundus of uterus (myometrium)",
+        "Body of uterus (myometrium)",
+        "Isthmus of uterus (myometrium)",
+        "Perimetrium",
+        "Endometrium - functional layer",
+        "Endometrium - basal layer",
+        "Uterine cavity",
+        "Cervix of uterus",
+        "Ectocervix & transformation zone",
+        "Endocervical mucosa (plicae palmatae)",
+        "Cervical canal",
+        "Internal os",
+        "External os",
+        "Vagina",
+        "Vaginal rugae (mucosa)",
+        "Fornix of vagina",
+        "Vaginal orifice (introitus)",
+        "Vaginal canal (lumen)",
+        "Hymen (remnant)"
+      ],
+      "mechanism": "Hormone-dependent tissue state changes affect glandular secretion, stromal organisation and local breakdown or pregnancy support.",
+      "steps": [
+        {
+          "id": "compartments",
+          "title": "Read the secretory tissue architecture",
+          "visible_parts": [
+            "Myometrium (inner layer)",
+            "Stratum basalis (basal layer)",
+            "Stratum functionalis (functional layer)",
+            "Uterine surface epithelium",
+            "Uterine glands",
+            "Spiral arteries",
+            "Straight (basal) arteries"
+          ],
+          "highlight_parts": [
+            "Uterine glands",
+            "Stratum functionalis (functional layer)",
+            "Stratum basalis (basal layer)"
+          ],
+          "caption": "Follow one gland from its epithelial opening through its lumen into the basal region, surrounded by supporting stroma. The represented glands are examples, not full coverage.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "geometry_notice": "Hiding the implanted conceptus does not restore nonpregnant geometry: its authored implantation recess remains. This is a tissue-detail reference from the implanted specimen."
+        },
+        {
+          "id": "supply",
+          "title": "Arterial supply is separate from gland secretion",
+          "visible_parts": [
+            "Myometrium (inner layer)",
+            "Stratum basalis (basal layer)",
+            "Stratum functionalis (functional layer)",
+            "Uterine surface epithelium",
+            "Uterine glands",
+            "Spiral arteries",
+            "Straight (basal) arteries"
+          ],
+          "highlight_parts": [
+            "Spiral arteries",
+            "Straight (basal) arteries"
+          ],
+          "caption": "Compare the arterial routes supplying functional and basal regions. Gland secretion goes toward gland lumen and surface; blood does not travel through gland lumens.",
+          "relationships": [
+            {
+              "type": "compartment_supply",
+              "from": "Spiral arteries",
+              "to": "Stratum functionalis (functional layer)"
+            },
+            {
+              "type": "compartment_supply",
+              "from": "Straight (basal) arteries",
+              "to": "Stratum basalis (basal layer)"
+            }
+          ],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "geometry_notice": "Hiding the implanted conceptus does not restore nonpregnant geometry: its authored implantation recess remains. This is a tissue-detail reference from the implanted specimen."
+        },
+        {
+          "id": "proliferation",
+          "title": "Proliferative comparison card",
+          "visible_parts": [
+            "Myometrium (inner layer)",
+            "Stratum basalis (basal layer)",
+            "Stratum functionalis (functional layer)",
+            "Uterine surface epithelium",
+            "Uterine glands",
+            "Spiral arteries",
+            "Straight (basal) arteries"
+          ],
+          "highlight_parts": [
+            "Stratum basalis (basal layer)",
+            "Uterine glands"
+          ],
+          "caption": "After menstrual loss, retained basal tissue supports regeneration under estrogen. The displayed coiled secretory glands are reference geometry, not a proliferative-phase reconstruction.",
+          "relationships": [],
+          "representation": "existing_geometry_plus_explanatory_card",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "geometry_notice": "Hiding the implanted conceptus does not restore nonpregnant geometry: its authored implantation recess remains. This is a tissue-detail reference from the implanted specimen."
+        },
+        {
+          "id": "secretory",
+          "title": "Secretory preparation",
+          "visible_parts": [
+            "Myometrium (inner layer)",
+            "Stratum basalis (basal layer)",
+            "Stratum functionalis (functional layer)",
+            "Uterine surface epithelium",
+            "Uterine glands",
+            "Spiral arteries",
+            "Straight (basal) arteries"
+          ],
+          "highlight_parts": [
+            "Uterine glands",
+            "Stratum functionalis (functional layer)"
+          ],
+          "caption": "Progesterone following ovulation changes glandular secretion and stromal state. This inset shows a representative secretory pattern; do not infer a biopsy date from schematic gland shape.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "geometry_notice": "Hiding the implanted conceptus does not restore nonpregnant geometry: its authored implantation recess remains. This is a tissue-detail reference from the implanted specimen."
+        },
+        {
+          "id": "withdrawal",
+          "title": "Nonpregnant progesterone-withdrawal branch",
+          "visible_parts": [
+            "Myometrium (inner layer)",
+            "Stratum basalis (basal layer)",
+            "Stratum functionalis (functional layer)",
+            "Uterine surface epithelium",
+            "Uterine glands",
+            "Spiral arteries",
+            "Straight (basal) arteries"
+          ],
+          "highlight_parts": [
+            "Stratum functionalis (functional layer)",
+            "Spiral arteries"
+          ],
+          "caption": "Local proteolytic and inflammatory processes contribute to functional-layer breakdown following progesterone withdrawal. Vasoconstriction alone is not the complete explanation. Basal tissue remains.",
+          "relationships": [],
+          "representation": "existing_geometry_plus_explanatory_card",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded",
+          "geometry_notice": "Hiding the implanted conceptus does not restore nonpregnant geometry: its authored implantation recess remains. This is a tissue-detail reference from the implanted specimen."
+        },
+        {
+          "id": "menstrual_exit",
+          "title": "Menstrual outflow route",
+          "visible_parts": [
+            "Endometrium - basal layer",
+            "Endometrium - functional layer",
+            "Uterine cavity",
+            "Internal os",
+            "Cervical canal",
+            "External os",
+            "Vaginal canal (lumen)",
+            "Vaginal orifice (introitus)"
+          ],
+          "highlight_parts": [
+            "Uterine cavity",
+            "Cervical canal",
+            "Vaginal canal (lumen)"
+          ],
+          "caption": "Trace anatomical outflow from uterine cavity through the cervical canal and vagina. This is a route comparison, not a rendered volume, clot formation or whole-layer synchronous shedding.",
+          "relationships": [
+            {
+              "type": "route_contract",
+              "id": "menstrual_outflow"
+            }
+          ],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "implantation_branch",
+          "title": "Pregnant implantation branch",
+          "visible_parts": [
+            "Myometrium (inner layer)",
+            "Stratum basalis (basal layer)",
+            "Stratum functionalis (functional layer)",
+            "Uterine surface epithelium",
+            "Uterine glands",
+            "Spiral arteries",
+            "Straight (basal) arteries",
+            "Trophoblast of implanted blastocyst",
+            "Chorionic cavity (extraembryonic coelom)",
+            "Amniotic sac (amnion)",
+            "Amniotic cavity",
+            "Embryonic disc - ectoderm (epiblast)",
+            "Embryonic disc - endoderm (hypoblast)",
+            "Yolk sac",
+            "Connecting stalk"
+          ],
+          "highlight_parts": [
+            "Trophoblast of implanted blastocyst",
+            "Uterine glands",
+            "Stratum functionalis (functional layer)"
+          ],
+          "caption": "Alternatively, show the later second-week implanted conceptus in locally altered maternal tissue. Trophoblast/endometrial interactions and gland-associated support precede mature placental circulation; that circulation is not supplied.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        }
+      ],
+      "source_ids": [
+        "duke_histology",
+        "endotext_cycle",
+        "salamonsen_mmp",
+        "marbaix_explant",
+        "unsw_implantation"
+      ],
+      "schematic_limitations": [
+        "Only secretory/implanted geometry is supplied; other tissue-phase shapes are explanatory cards.",
+        "The presence of a later conceptus changes this to a pregnant decidual context; it is not a normal nonpregnant secretory biopsy.",
+        "Straight vessels are not declared wholly insensitive to hormones; retention of basal tissue is a regional outcome.",
+        "No detailed spiral-artery remodelling, lacunar perfusion or mature placental circulation animation without new reviewed anatomy."
+      ],
+      "acceptance_checks": [
+        "Gland epithelium, lumen and stroma remain visually separable.",
+        "Artery and gland arrow styles differ and do not cross compartments improperly.",
+        "Menstrual and pregnancy branches are clearly exclusive.",
+        "Functional shedding is described as local breakdown, not entire block disappearance."
+      ]
+    },
+    {
+      "id": "lactation",
+      "title": "Milk synthesis, ejection and drainage",
+      "status": "snapshot_design_ready; continuous_motion_not_implemented",
+      "scope_parts": [
+        "Skin of breast",
+        "Areola",
+        "Areolar glands (of Montgomery)",
+        "Nipple",
+        "Adipose tissue of breast",
+        "Lobes of mammary gland",
+        "Axillary tail (of Spence)",
+        "Lobules (alveolar glands)",
+        "Lactiferous ducts",
+        "Lactiferous sinuses",
+        "Suspensory ligaments (of Cooper)",
+        "Pectoral fascia",
+        "Pectoralis major",
+        "Ribs",
+        "Intercostal muscles",
+        "Axillary lymph nodes"
+      ],
+      "mechanism": "Alveolar epithelial secretion is distinct from myoepithelial ejection and branching duct transport.",
+      "steps": [
+        {
+          "id": "state",
+          "title": "Declare lactation teaching state",
+          "visible_parts": [
+            "Nipple",
+            "Areola",
+            "Lobes of mammary gland",
+            "Lobules (alveolar glands)",
+            "Lactiferous ducts",
+            "Lactiferous sinuses",
+            "Adipose tissue of breast",
+            "Pectoral fascia"
+          ],
+          "highlight_parts": [
+            "Lobules (alveolar glands)",
+            "Lactiferous ducts"
+          ],
+          "caption": "This sequence teaches established lactation in a representative section. Lobules contain secretory units; fat and fascia are supporting context. Architecture is not calibrated lactating-human morphometry.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "synthesis",
+          "title": "Milk synthesis by secretory epithelium",
+          "visible_parts": [
+            "Nipple",
+            "Areola",
+            "Lobes of mammary gland",
+            "Lobules (alveolar glands)",
+            "Lactiferous ducts",
+            "Lactiferous sinuses",
+            "Adipose tissue of breast",
+            "Pectoral fascia"
+          ],
+          "highlight_parts": [
+            "Lobules (alveolar glands)"
+          ],
+          "caption": "Prolactin supports synthesis by alveolar epithelial cells into the alveolar lumen. This cellular function is a labelled detail card because the gross lobule mesh does not identify each alveolar cell.",
+          "relationships": [
+            {
+              "type": "endocrine_signal",
+              "from": "external_card:prolactin",
+              "to": "Lobules (alveolar glands)"
+            },
+            {
+              "type": "secretion_card",
+              "from": "external_card:alveolar_epithelium",
+              "to": "external_card:alveolar_lumen"
+            }
+          ],
+          "representation": "existing_geometry_plus_explanatory_card",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "ejection",
+          "title": "Milk ejection is a different event",
+          "visible_parts": [
+            "Nipple",
+            "Areola",
+            "Lobes of mammary gland",
+            "Lobules (alveolar glands)",
+            "Lactiferous ducts",
+            "Lactiferous sinuses",
+            "Adipose tissue of breast",
+            "Pectoral fascia"
+          ],
+          "highlight_parts": [
+            "Lobules (alveolar glands)",
+            "Nipple"
+          ],
+          "caption": "Suckling-related sensory signalling can elicit oxytocin release; myoepithelial contraction moves milk from secretory lumens into ducts. Neural/pituitary and myoepithelial anatomy are explanatory callouts, not existing separate meshes.",
+          "relationships": [
+            {
+              "type": "neural_signal_card",
+              "from": "Nipple",
+              "to": "external_card:pituitary_response"
+            },
+            {
+              "type": "endocrine_signal",
+              "from": "external_card:oxytocin",
+              "to": "external_card:myoepithelial_cells"
+            }
+          ],
+          "representation": "existing_geometry_plus_explanatory_card",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "drainage",
+          "title": "Trace the drainage route",
+          "visible_parts": [
+            "Nipple",
+            "Areola",
+            "Lobes of mammary gland",
+            "Lobules (alveolar glands)",
+            "Lactiferous ducts",
+            "Lactiferous sinuses",
+            "Adipose tissue of breast",
+            "Pectoral fascia"
+          ],
+          "highlight_parts": [
+            "Lobules (alveolar glands)",
+            "Lactiferous ducts",
+            "Lactiferous sinuses",
+            "Nipple"
+          ],
+          "caption": "Follow the chosen terminal unit through branching ducts toward its nipple outlet. Historical sinus labels denote subareolar segments; do not show sac reservoirs filling and emptying.",
+          "relationships": [
+            {
+              "type": "route_contract",
+              "id": "milk_to_nipple"
+            }
+          ],
+          "representation": "existing_geometry_snapshot",
+          "requires": [
+            "connected_mammary_lumen_manifest_for_optional_flow"
+          ],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "removal",
+          "title": "Milk removal and continued secretion",
+          "visible_parts": [
+            "Nipple",
+            "Areola",
+            "Lobes of mammary gland",
+            "Lobules (alveolar glands)",
+            "Lactiferous ducts",
+            "Lactiferous sinuses",
+            "Adipose tissue of breast",
+            "Pectoral fascia"
+          ],
+          "highlight_parts": [
+            "Lobules (alveolar glands)"
+          ],
+          "caption": "Removal of milk helps sustain production; synthesis and ejection remain separate. Do not infer output or feeding adequacy from anatomical lobe count.",
+          "relationships": [],
+          "representation": "existing_geometry_plus_explanatory_card",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        }
+      ],
+      "source_ids": [
+        "who_lactation",
+        "ramsay_breast"
+      ],
+      "schematic_limitations": [
+        "Established lactation function card uses representative architecture; no universal lobule/duct count, milk capacity or output.",
+        "No sac-like sinus-storage animation. Preserve the historical selector as an alias to subareolar segments.",
+        "Myoepithelial cells, detailed alveolar lumens, pituitary and sensory nerves are not existing individually selectable parts.",
+        "Axillary node markers are not a complete lymphatic route and do not receive milk-flow arrows."
+      ],
+      "acceptance_checks": [
+        "A selected terminal route is continuous at saved-output junctions and ends at a nipple opening.",
+        "Outer duct tissue cannot masquerade as a verified lumen path.",
+        "No flow overlays start before native and export route inspection.",
+        "Breast skin removals are labelled cut surfaces, not natural perforations."
+      ]
+    },
+    {
+      "id": "local_artery_ureter",
+      "title": "Independent pelvic routes at the artery–ureter crossing",
+      "status": "snapshot_design_ready; continuous_motion_not_implemented",
+      "scope_parts": [
+        "Ureter",
+        "Uterine artery",
+        "Internal iliac artery",
+        "Cervix of uterus",
+        "Internal os",
+        "Urinary bladder",
+        "Uterine cavity",
+        "Body of uterus (myometrium)",
+        "Cardinal ligament (transverse cervical)"
+      ],
+      "mechanism": "Independent urinary and arterial routes pass close to cervical structures without forming a shared junction.",
+      "steps": [
+        {
+          "id": "urinary",
+          "title": "Trace the ureter toward bladder",
+          "visible_parts": [
+            "Ureter",
+            "Uterine artery",
+            "Internal iliac artery",
+            "Cervix of uterus",
+            "Internal os",
+            "Urinary bladder",
+            "Uterine cavity",
+            "Body of uterus (myometrium)",
+            "Cardinal ligament (transverse cervical)"
+          ],
+          "highlight_parts": [
+            "Ureter",
+            "Urinary bladder"
+          ],
+          "caption": "Follow the ureter toward the bladder; keep cervical context visible. Bilateral geometry needs an instance manifest for true unilateral focus.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "arterial",
+          "title": "Trace the uterine arterial supply",
+          "visible_parts": [
+            "Ureter",
+            "Uterine artery",
+            "Internal iliac artery",
+            "Cervix of uterus",
+            "Internal os",
+            "Urinary bladder",
+            "Uterine cavity",
+            "Body of uterus (myometrium)",
+            "Cardinal ligament (transverse cervical)"
+          ],
+          "highlight_parts": [
+            "Internal iliac artery",
+            "Uterine artery",
+            "Body of uterus (myometrium)"
+          ],
+          "caption": "Highlight the arterial route toward the uterus independently of the ureter. No intersystem fluid exchange is implied.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        },
+        {
+          "id": "crossing",
+          "title": "Pause at the crossing",
+          "visible_parts": [
+            "Ureter",
+            "Uterine artery",
+            "Internal iliac artery",
+            "Cervix of uterus",
+            "Internal os",
+            "Urinary bladder",
+            "Uterine cavity",
+            "Body of uterus (myometrium)",
+            "Cardinal ligament (transverse cervical)"
+          ],
+          "highlight_parts": [
+            "Ureter",
+            "Uterine artery",
+            "Cervix of uterus"
+          ],
+          "caption": "Show the local crossover with unobstructed cervical context. Separation varies between individuals and positions; this representative model gives no surgical safe distance.",
+          "relationships": [],
+          "representation": "existing_geometry_snapshot",
+          "requires": [],
+          "advance": "manual_next",
+          "duration": "learner_controlled; no biological time encoded"
+        }
+      ],
+      "source_ids": [
+        "magrina_ureter",
+        "pelvic_ureter"
+      ],
+      "schematic_limitations": [
+        "Local relationship teaching only; incomplete fascial, neural and vascular context.",
+        "Combined bilateral part names cannot prove left/right tracking or exact distance.",
+        "No simulated clamping, dissection or injury."
+      ],
+      "acceptance_checks": [
+        "The two highlighted systems remain separate at the crossing.",
+        "Context makes the relationship to cervix and bladder understandable.",
+        "Do not display patient-safe distances from model coordinates."
+      ]
+    }
+  ],
+  "route_contracts": [
+    {
+      "id": "sperm_ascent",
+      "route_type": "luminal_anatomical_path",
+      "direction_parts": [
+        "Vaginal canal (lumen)",
+        "External os",
+        "Cervical canal",
+        "Internal os",
+        "Uterine cavity",
+        "Uterine (intramural) part of uterine tube",
+        "Isthmus of uterine tube",
+        "Ampulla of uterine tube"
+      ],
+      "default": "ordered highlights only",
+      "optional_motion_requirement": "Selected unilateral actual-lumen centerline manifest; direction legend explicitly sperm ascent; no timing or fertilisation probability."
+    },
+    {
+      "id": "embryo_to_uterus",
+      "route_type": "luminal_anatomical_path",
+      "direction_parts": [
+        "Ampulla of uterine tube",
+        "Isthmus of uterine tube",
+        "Uterine (intramural) part of uterine tube",
+        "Uterine cavity"
+      ],
+      "default": "ordered highlights only",
+      "optional_motion_requirement": "Selected unilateral actual-lumen centerline, lumen containment and junction checks; stop at uterine cavity, never continuous motion into bilaminar conceptus."
+    },
+    {
+      "id": "menstrual_outflow",
+      "route_type": "luminal_anatomical_path",
+      "direction_parts": [
+        "Uterine cavity",
+        "Internal os",
+        "Cervical canal",
+        "External os",
+        "Vaginal canal (lumen)",
+        "Vaginal orifice (introitus)"
+      ],
+      "default": "ordered highlights only",
+      "optional_motion_requirement": "Saved-output lumen continuity and outlet anchors; route marker is schematic, not calibrated fluid or shed-volume simulation."
+    },
+    {
+      "id": "milk_to_nipple",
+      "route_type": "branched_luminal_path",
+      "direction_parts": [
+        "Lobules (alveolar glands)",
+        "Lactiferous ducts",
+        "Lactiferous sinuses",
+        "Nipple"
+      ],
+      "default": "ordered highlights only",
+      "optional_motion_requirement": "Per-terminal-unit lumen route and true nipple outlet, authored branch ids, expected junctions, saved-output continuity, native/export inspection; no large sinus-sac retention. The terminal alveolar lumen detail must exist before animation claims secretion into it."
+    }
+  ],
+  "integration": {
+    "planned_output": "{output_dir}/female_reproductive.function.json",
+    "application_path": "Lead emits sidecar alongside refined cache; viewer/manual teaching resolves exact final selectors, display aliases and each step snapshot. No shared application edit by specialist.",
+    "native_adapter": "Not implemented or claimed; lead must declare unsupported automatic playback if final native consumer is unavailable.",
+    "path_manifest": "Builder supplies named source-frame route anchors and segment/branch ids; transform them with exactly the same warp/export frame as their parent tissue. Do not infer centerlines from detached part positions.",
+    "gate_order": [
+      "Resolve all part identities against final manifest.",
+      "Verify relevant saved-output path continuity and lumen containment.",
+      "Inspect native and exported candidate route in the same named teaching view.",
+      "Enable optional motion only for reviewed routes; otherwise retain captions and ordered highlights."
+    ]
+  },
+  "sources": [
+    {
+      "id": "endotext_cycle",
+      "title": "Reed and Carr: The Normal Menstrual Cycle and the Control of Ovulation",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK279054/",
+      "kind": "authoritative academic textbook",
+      "fetched": "2026-10-04",
+      "fetch_scope": "Full teaching chapter opened, 686 extracted lines",
+      "relevance": "Two-cell steroidogenic relationship, LH surge, luteal/endometrial coupling; qualitative phases rather than patient hormone curves."
+    },
+    {
+      "id": "duke_histology",
+      "title": "Duke Histology: Female Reproductive System",
+      "url": "https://histology.oit.duke.edu/NormalBody/FemaleRepro/FemaleRepro.html",
+      "kind": "authoritative university histology teaching",
+      "fetched": "2026-10-04",
+      "fetch_scope": "Teaching page opened, 204 extracted lines",
+      "relevance": "Follicle, tubal fold, cervical and endometrial tissue context. Some ovarian material is monkey; no human dimensional calibration."
+    },
+    {
+      "id": "raidt_cilia",
+      "title": "Raidt et al.: Ciliary function and motor protein composition of human fallopian tubes (2015)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/26373788/",
+      "kind": "primary human tissue study",
+      "fetched": "2026-10-04",
+      "fetch_scope": "PubMed abstract opened",
+      "relevance": "Coordinated ciliary flow toward uterine cavity. Five healthy FT donors; retrospective PCD observations do not quantify universal transport contributions."
+    },
+    {
+      "id": "patrat_zona",
+      "title": "Patrat et al.: Zona pellucida from fertilised human oocytes induces a voltage-dependent calcium influx and the acrosome reaction in spermatozoa, but cannot be penetrated by sperm (2006)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/17147816/",
+      "kind": "primary human gamete experiment",
+      "fetched": "2026-10-04",
+      "fetch_scope": "PubMed abstract opened, 486 extracted page lines",
+      "relevance": "Human zona interactions require species-aware qualification; avoid mouse-derived ZP3-only certainty. Research results do not establish a universal molecular animation."
+    },
+    {
+      "id": "human_zp1",
+      "title": "ZP domain of human zona pellucida glycoprotein-1 binds to human spermatozoa and induces acrosomal exocytosis (2010)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2944174/",
+      "kind": "primary recombinant-protein human sperm experiment",
+      "fetched": "2026-10-04",
+      "fetch_scope": "Full article opened, 438 extracted lines",
+      "relevance": "Additional human zona components participate experimentally; do not teach a single ZP3 receptor as the complete mechanism."
+    },
+    {
+      "id": "unsw_implantation",
+      "title": "UNSW Embryology: Implantation",
+      "url": "https://embryology.med.unsw.edu.au/embryology/index.php/Implantation",
+      "kind": "authoritative university embryology teaching",
+      "fetched": "2026-10-04",
+      "fetch_scope": "Teaching page opened, 372 extracted lines",
+      "relevance": "Hatching/attachment/invasion bridge; bilaminar/extraembryonic cavities are later than the pre-hatching row. Approximate stages, not a measured timeline."
+    },
+    {
+      "id": "unsw_gastrulation",
+      "title": "UNSW Embryology: Gastrulation",
+      "url": "https://embryology.med.unsw.edu.au/embryology/index.php/Gastrulation",
+      "kind": "authoritative university embryology teaching",
+      "fetched": "2026-10-04",
+      "fetch_scope": "Teaching page opened, 265 extracted lines",
+      "relevance": "Epiblast origin of definitive three embryonic germ layers in week three; avoid hypoblast-to-definitive-endoderm equivalence."
+    },
+    {
+      "id": "salamonsen_mmp",
+      "title": "Salamonsen et al.: Production of endometrial matrix metalloproteinases, but not their tissue inhibitors, is modulated by progesterone withdrawal in an in vitro model for menstruation (1997)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/9141525/",
+      "kind": "primary human stromal-cell culture study",
+      "fetched": "2026-10-04",
+      "fetch_scope": "PubMed abstract opened",
+      "relevance": "Progesterone withdrawal shifts proteolytic balance in a culture model; menstrual breakdown cannot be taught solely as spiral-artery vasoconstriction."
+    },
+    {
+      "id": "marbaix_explant",
+      "title": "Marbaix et al.: Menstrual breakdown of human endometrium can be mimicked in vitro and is selectively and reversibly blocked by inhibitors of matrix metalloproteinases (1996)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/8799164/",
+      "kind": "primary human explant study",
+      "fetched": "2026-10-04",
+      "fetch_scope": "PubMed abstract opened",
+      "relevance": "Evidence for MMP-dependent tissue breakdown in explant model; not an in vivo menstrual perfusion simulation."
+    },
+    {
+      "id": "who_lactation",
+      "title": "WHO: Infant and Young Child Feeding, The physiological basis of breastfeeding",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK148970/",
+      "kind": "authoritative WHO teaching chapter",
+      "fetched": "2026-10-04",
+      "fetch_scope": "Chapter opened, 468 extracted lines",
+      "relevance": "Alveolar milk synthesis, myoepithelial ejection, neural/pituitary reflex and duct drainage; production versus ejection."
+    },
+    {
+      "id": "ramsay_breast",
+      "title": "Ramsay et al.: Anatomy of the lactating human breast redefined with ultrasound imaging (2005)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1571528/",
+      "kind": "primary human ultrasound study",
+      "fetched": "2026-10-04",
+      "fetch_scope": "Full article opened",
+      "relevance": "Branching subareolar ducts; no classical sac-like sinus in 21 lactating participants. Do not extend that result to all physiologic states or universal dimensions."
+    },
+    {
+      "id": "magrina_ureter",
+      "title": "Magrina et al.: Does a Uterine Manipulator Increase the Distance of the Ureter to the Cervix and/or Vagina? An Anatomical Cadaver Study (2022)",
+      "url": "https://mayoclinic.elsevierpure.com/en/publications/does-a-uterine-manipulator-increase-the-distance-of-the-ureter-to/",
+      "kind": "institutional record of primary cadaver study",
+      "fetched": "2026-10-04",
+      "fetch_scope": "Institutional abstract opened, 217 extracted lines",
+      "relevance": "Ureter/uterine artery crossing near cervical/vaginal context; variable separation in 22 fresh-frozen pelvises; no universal safe distance."
+    },
+    {
+      "id": "pelvic_ureter",
+      "title": "Gross and Histologic Anatomy of the Pelvic Ureter: Clinical Applications to Pelvic Surgery (2019)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30969205/",
+      "kind": "primary female cadaver anatomy study",
+      "fetched": "2026-10-04",
+      "fetch_scope": "PubMed abstract opened, 412 extracted lines",
+      "relevance": "Pelvic ureter route and uterine artery crossover as local clinical teaching context; avoid complete nerve or surgical exposure claims."
+    }
+  ],
+  "fetch_failures_excluded": [
+    "Initial direct Bookshelf URLs for NBK279054/NBK148970 returned reCAPTCHA; /sites/books equivalents were actually opened successfully.",
+    "PMC4171403 and PMC1775065 opened as reCAPTCHA; they are not claimed as verified sources.",
+    "UNSW Week_2 and ANAT2341_Lab_2_-_Week_2 open returned internal errors; use successfully opened Implantation and Gastrulation pages instead."
+  ],
+  "deferred_checks": [
+    "Refined mesh tissue context and stage aliases",
+    "Final native viewer step application and reset",
+    "Ciliary cell detail readability at its own disclosed scale",
+    "Mammary terminal-unit lumen and nipple outlet connectivity",
+    "Correct part-instance association for one follicle and one tube side",
+    "Final candidate native/export fluid-versus-tissue appearance",
+    "All section/cutaway states preserve intended target and scale banner",
+    "Per-stage zona instance/fallback behaviour must prevent floating shells during isolated embryo states."
+  ],
+  "executed_checks": [
+    "JSON data constructed and parsed without source builder import.",
+    "All scope/visible/highlight and route part selectors resolved against 138-part input metadata.",
+    "All highlighted selectors are visible within their step scope.",
+    "Sequence ids and within-sequence step ids are unique.",
+    "All source references resolve to saved actually fetched source records.",
+    "No NPZ arrays loaded; no builder import, model generation, mesh/export/render/native app/install."
+  ],
+  "heavy_processing": "NOT RUN",
+  "aggregated_selector_policy": {
+    "Zona pellucida (early embryo)": {
+      "baseline_aggregation": "One selector combines shells of all seven displayed row stages.",
+      "preferred": "Builder authors per-stage instance manifest with stage ids secondary_oocyte, pronuclear_zygote, 2_cell, 4_cell, 8_cell, morula, pre_hatching_blastocyst; instances retain legacy aggregate selector compatibility.",
+      "without_instance_manifest": "If a step requests this selector, show the complete embryo comparison row as contextual geometry rather than isolated floating shells; highlight the requested stage tissue and display the aggregate-selector notice. Do not imply that whole-part visibility isolates one stage.",
+      "fallback_context_parts": [
+        "Ovulated secondary oocyte",
+        "Corona radiata cells (ovulated oocyte)",
+        "Sperm cells",
+        "Zona pellucida (early embryo)",
+        "Zygote",
+        "Egg pronucleus",
+        "Sperm pronucleus",
+        "2-cell stage",
+        "4-cell stage",
+        "8-cell stage",
+        "Morula",
+        "Blastocyst - trophoblast",
+        "Blastocyst - inner cell mass",
+        "Blastocele (blastocyst cavity)"
+      ]
+    },
+    "Oocytes": {
+      "baseline_aggregation": "Oocyte instances of different follicles share one selector.",
+      "without_instance_manifest": "Keep ovarian comparison context and label aggregate highlights; no one-follicle moving oocyte or timeline claim."
+    }
+  }
+}

@@ -9,23 +9,25 @@ from zipfile import BadZipFile
 import numpy as np
 
 from .config import FROZEN, cache_candidates
-from .cache_io import save_npz
+from .cache_io import format_matches, save_npz
 
 EXCLUDED_SYSTEMS = {"attachments", "regions", "reference", "fascia"}
 STRIDE = 28
-# the stamp includes file times so a rebuilt dataset is noticed; an installed app's files never change, and
-# installers do not keep file times reliably, so there sizes alone decide (packaging/prebuild.py matches this)
+# Source runs notice editable file times; installed runs use the packaged content
+# identity, independent of installer mtimes and source byte lengths.
 STAMP_MTIME = not FROZEN
+SAMPLE_FORMAT = 1
 
 
 def geometry_stamp(ds):
-    vpath, ipath = ds.dir / "vertices.bin", ds.dir / "indices.bin"
-    extra = 0
-    if getattr(ds, "findings", None) is not None:                # pathology meshes change the buffers too
-        fpath = ds.findings.path / "findings.npz"
-        extra = fpath.stat().st_size + (int(fpath.stat().st_mtime) if STAMP_MTIME else 0)
-    vtime = int(vpath.stat().st_mtime) if STAMP_MTIME else 0
-    return np.array([vpath.stat().st_size, vtime, ipath.stat().st_size, extra], dtype=np.int64)
+    from .dataset_identity import installed_stamp, read_manifest, source_stamp
+    if STAMP_MTIME:
+        return np.array(source_stamp(ds), dtype=np.int64)
+    content_id = getattr(ds, "_dataset_content_id", None)
+    if content_id is None:
+        content_id = read_manifest(ds.dir)["content_id"]
+    return np.array(installed_stamp(ds, content_id), dtype=np.int64)
+
 
 
 def sample_points(ds):
@@ -40,8 +42,15 @@ def sample_points(ds):
             continue
         try:
             with path.open("rb") as stream, np.load(stream) as z:
-                if np.array_equal(z["stamp"], stamp) and len(z["offsets"]) == ds.n + 1:
-                    return z["points"], z["offsets"]
+                if (not np.array_equal(z["stamp"], stamp)
+                        or not format_matches(z["format"], SAMPLE_FORMAT)):
+                    continue
+                points, offsets = z["points"], z["offsets"]
+                if (points.ndim == 2 and points.shape[1] == 3 and points.dtype.kind == "f"
+                        and np.isfinite(points).all() and offsets.shape == (ds.n + 1,)
+                        and offsets.dtype.kind in "iu" and offsets[0] == 0 and offsets[-1] == len(points)
+                        and np.all(offsets[1:] >= offsets[:-1])):
+                    return points, offsets
         except (OSError, ValueError, KeyError, EOFError, BadZipFile):
             pass
     indices = np.memmap(ipath, dtype="<u4", mode="r")
@@ -72,7 +81,7 @@ def sample_points(ds):
     points = np.concatenate(chunks).astype(np.float32)
     offsets = np.array(offsets, dtype=np.int64)
     try:
-        save_npz(cache, points=points, offsets=offsets, stamp=stamp)
+        save_npz(cache, points=points, offsets=offsets, stamp=stamp, format=np.int32(SAMPLE_FORMAT))
     except OSError:
         pass
     return points, offsets
@@ -85,21 +94,39 @@ class RelationsIndex:
         self.offsets = None
         self._lock = threading.Lock()
         self._thread = None
+        self.failed = False
 
     @property
     def ready(self):
         return self.points is not None
 
-    def start(self):
-        if self._thread is None:
+    def start(self, retry=False):
+        """Start once; a completed failure requires an explicit retry."""
+        with self._lock:
+            if self.ready or (self._thread is not None and self._thread.is_alive()):
+                return
+            if self.failed and not retry:
+                return
+            self.failed = False
             self._thread = threading.Thread(target=self._load, daemon=True)
             self._thread.start()
 
     def _load(self):
-        self.points, self.offsets = sample_points(self.ds)
+        try:
+            points, offsets = sample_points(self.ds)
+            self.offsets = offsets
+            self.points = points  # publish readiness only after its companion data
+        except Exception:  # this optional study aid must not escape its worker
+            self.points, self.offsets = None, None
+            self.failed = True
 
     def neighbours(self, sids, limit=24, margin=0.02):
-        """Return [(base, [sids], distance_m, system_key)] sorted by distance."""
+        """Return [(base, [sids], distance_m, system_key)] sorted by distance.
+
+        Distances use float64 Euclidean arithmetic on the stored samples. Exact
+        computed ties retain structure-index encounter order; no epsilon or
+        rounding is added to the caller's distance cutoff.
+        """
         if not self.ready:
             return None
         ds = self.ds
@@ -120,7 +147,8 @@ class RelationsIndex:
         sel_pts = np.concatenate([self.points[self.offsets[s]:self.offsets[s + 1]] for s in sids])
         if len(sel_pts) > 3000:
             sel_pts = sel_pts[np.random.default_rng(1).choice(len(sel_pts), 3000, replace=False)]
-        sel_sq = (sel_pts ** 2).sum(1)
+        from scipy.spatial import cKDTree
+        tree = cKDTree(sel_pts)
         best = {}
         batch, owners = [], []
 
@@ -129,8 +157,9 @@ class RelationsIndex:
                 return
             pts = np.concatenate(batch)
             own = np.concatenate(owners)
-            d2 = (pts ** 2).sum(1)[:, None] + sel_sq[None, :] - 2.0 * pts @ sel_pts.T
-            dmin = np.sqrt(np.maximum(d2.min(axis=1), 0.0))
+            # Avoid a batch-by-selection distance matrix and float32
+            # cancellation for near-touching structures far from the origin.
+            dmin = tree.query(pts, k=1, eps=0.0, p=2, workers=1)[0]
             order = np.argsort(own, kind="stable")
             own_sorted, d_sorted = own[order], dmin[order]
             starts = np.flatnonzero(np.r_[True, own_sorted[1:] != own_sorted[:-1]])

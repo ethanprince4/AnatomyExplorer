@@ -1,0 +1,908 @@
+{
+  "schema_version": 1,
+  "model_id": "vein_wall",
+  "source_model_id": "vein_wall",
+  "part_identities": [
+    "Endothelium",
+    "Subendothelial layer",
+    "Venous valve connective tissue cores",
+    "Venous valve cusps",
+    "Tunica media (smooth muscle)",
+    "Tunica adventitia",
+    "Longitudinal smooth muscle bundles",
+    "Adventitial collagen bundles",
+    "Vasa vasorum",
+    "Nervi vasorum",
+    "Perivascular fat",
+    "Red blood cells",
+    "Rolling leukocyte"
+  ],
+  "part_metadata": [
+    {
+      "name": "Endothelium",
+      "group": "Tunica intima",
+      "color": "#e3aab8",
+      "description": "Continuous thin cellular lining of the representative vein, continuous with the endothelial covering at valve roots. Surface cells and relief are enlarged for teaching; they do not measure endothelial thickness or permeability."
+    },
+    {
+      "name": "Subendothelial layer",
+      "group": "Tunica intima",
+      "color": "#efd9d2",
+      "description": "Thin supporting connective tissue beneath the endothelium. Support and lining are distinct tissue roles in the intima. The separation and relief are schematic; no universal internal elastic lamina is inferred. Directional support relief is schematic, not a fibre-by-fibre microstructural reconstruction."
+    },
+    {
+      "name": "Venous valve connective tissue cores",
+      "group": "Tunica intima",
+      "color": "#ddc0a0",
+      "description": "Supporting connective-tissue cores of two pocket-like intimal folds. Their attached roots remain in the wall and free margins face heartward (-x). Rear pocket mouths face downstream. This is a nearly closed static teaching pose; no flow patency, competence or pathology is established. Directional support relief is schematic, not a fibre-by-fibre microstructural reconstruction."
+    },
+    {
+      "name": "Venous valve cusps",
+      "group": "Tunica intima",
+      "color": "#e3aab8",
+      "description": "Endothelial covering of the two valve folds, enclosing their cores over both faces and free margins and continuing into the vein lining at the roots. Hide the covering to inspect support in place. Thickness and surface organization are teaching enlargements, with no pressure-driven valve cycle."
+    },
+    {
+      "name": "Tunica media (smooth muscle)",
+      "group": "Tunica media",
+      "color": "#b7615f",
+      "description": "Relatively thin venous smooth-muscle media with connective support. Muscle tone contributes to regional venous capacitance, while systemic veins and venules together provide a major blood-volume reservoir. This static segment does not quantify volume storage, compliance or contraction. Coded cell/nuclear cues are shallow surface relief, not measured cellular or nuclear volumes."
+    },
+    {
+      "name": "Tunica adventitia",
+      "group": "Tunica adventitia",
+      "color": "#d9b98c",
+      "description": "Outer connective supporting environment containing representative collagen, longitudinal muscle, wall-supply vessels, nerves and adipocytes. It blends toward surrounding connective tissue; the cropped specimen boundary is a teaching cut."
+    },
+    {
+      "name": "Longitudinal smooth muscle bundles",
+      "group": "Tunica adventitia",
+      "color": "#b7615f",
+      "description": "Longitudinal adventitial muscle samples in the supporting matrix. Development varies across venous regions; six representatives in the preserved draft are schematic samples, not a physiological count. This valved composite is not a vena cava specimen. Coded cell/nuclear cues are shallow surface relief, not measured cellular or nuclear volumes."
+    },
+    {
+      "name": "Adventitial collagen bundles",
+      "group": "Tunica adventitia",
+      "color": "#d9b882",
+      "description": "Fibrous support samples associated with the adventitial matrix. They contribute to wall support and attachment to surrounding tissue. Fibre organization is enlarged and sparse; no collagen recruitment, distension limit or suture test is measured."
+    },
+    {
+      "name": "Vasa vasorum",
+      "group": "Tunica adventitia",
+      "color": "#b8242a",
+      "description": "Enlarged representatives of vessels supplying the vein wall within or beside its adventitia. Real circulation includes exchange vessels and venous drainage. This named red part does not display a complete capillary and drainage network or certify lumen continuity or perfusion."
+    },
+    {
+      "name": "Nervi vasorum",
+      "group": "Tunica adventitia",
+      "color": "#ece6a8",
+      "description": "Representative autonomic nerve courses in the adventitial environment near vascular muscle. Sympathetic activity can modulate regional venous capacitance. Neurotransmitter release, receptor action and contraction are not modeled; colored proximity does not certify a neuroeffector junction."
+    },
+    {
+      "name": "Perivascular fat",
+      "group": "Tunica adventitia",
+      "color": "#f3d272",
+      "description": "Enlarged adipocyte samples at the outer connective environment of the vein. Their number and size are teaching conventions. Static appearance does not establish endocrine activity, inflammation or disease."
+    },
+    {
+      "name": "Red blood cells",
+      "group": "Blood",
+      "color": "#c3302a",
+      "description": "Sparse enlarged biconcave blood-cell examples in the main lumen and near valve pockets. They identify blood as context; spacing does not indicate hematocrit, physiological occupancy, trapped blood, sinus residence time or thrombosis."
+    },
+    {
+      "name": "Rolling leukocyte",
+      "group": "Blood",
+      "color": "#e9e4f2",
+      "description": "Enlarged static leukocyte example near the endothelial lining. The retained source name is a stable selection key, not evidence of rolling. Recruitment commonly involves tethering/rolling, activation, firm adhesion and transmigration in postcapillary venules; none of those dynamic or molecular steps is demonstrated here."
+    }
+  ],
+  "summary": "Representative schematic valved medium-vein segment showing a thin media, wider adventitial support and two pocket-like intimal folds. Longitudinal muscle and microstructures are selected teaching examples, not universal venous anatomy.",
+  "metres_per_unit": 0.004,
+  "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+  "native_model_settings": {
+    "viewer_cameras": {
+      "01 Wall overview": {
+        "name": "01 Wall overview",
+        "note": "Opaque wall context; enlarged blood examples suppressed. Heartward is -x. Corner cut is a teaching specimen cut. The static near-closed pose is not a diagnosis.",
+        "type": "ORTHO",
+        "position": [
+          -3.0,
+          2.1,
+          3.4
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 3.4,
+        "hidden": [
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "02 Enlarged cells shown": {
+        "name": "02 Enlarged cells shown",
+        "note": "Same camera and whole-wall scale as 01. Blood examples are enlarged symbols; their count/placement do not describe physiological flow or density.",
+        "type": "ORTHO",
+        "position": [
+          -3.0,
+          2.1,
+          3.4
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 3.4,
+        "hidden": [],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "03 Intimal fold": {
+        "name": "03 Intimal fold",
+        "note": "Heartward is -x. Trace the intimal fold into its attached root and heartward-facing free margin; pocket mouths open downstream. Nearly closed static teaching pose; pressure-loaded opening/closure and valve competence are untested.",
+        "type": "ORTHO",
+        "position": [
+          -2.8,
+          1.5,
+          2.8
+        ],
+        "target": [
+          -0.44,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 1.8,
+        "hidden": [
+          "Tunica media (smooth muscle)",
+          "Tunica adventitia",
+          "Longitudinal smooth muscle bundles",
+          "Adventitial collagen bundles",
+          "Vasa vasorum",
+          "Nervi vasorum",
+          "Perivascular fat",
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "04 Cusp core revealed": {
+        "name": "04 Cusp core revealed",
+        "note": "Covering hidden only for teaching: supporting core remains in place. Restore the endothelial covering to compare the fold with the adjacent lining. No physiological tissue removal or valve motion occurs.",
+        "type": "ORTHO",
+        "position": [
+          -2.8,
+          1.5,
+          2.8
+        ],
+        "target": [
+          -0.44,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 1.8,
+        "hidden": [
+          "Venous valve cusps",
+          "Tunica media (smooth muscle)",
+          "Tunica adventitia",
+          "Longitudinal smooth muscle bundles",
+          "Adventitial collagen bundles",
+          "Vasa vasorum",
+          "Nervi vasorum",
+          "Perivascular fat",
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "05 Lining and support": {
+        "name": "05 Lining and support",
+        "note": "Inspect the thin cellular lining and its underlying support in their correct layer order.",
+        "type": "ORTHO",
+        "position": [
+          -2.8,
+          1.8,
+          2.8
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 2.8,
+        "hidden": [
+          "Tunica adventitia",
+          "Longitudinal smooth muscle bundles",
+          "Adventitial collagen bundles",
+          "Vasa vasorum",
+          "Nervi vasorum",
+          "Perivascular fat",
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "06 Media orientation": {
+        "name": "06 Media orientation",
+        "note": "Thin venous media illustrates muscular wall organization. Capacitance is volume at a given distending pressure; compliance is volume change per pressure change. No pressure-volume curve or wall contraction is modeled.",
+        "type": "ORTHO",
+        "position": [
+          -3.0,
+          2.1,
+          3.4
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 3.4,
+        "hidden": [
+          "Endothelium",
+          "Subendothelial layer",
+          "Venous valve connective tissue cores",
+          "Venous valve cusps",
+          "Vasa vasorum",
+          "Nervi vasorum",
+          "Perivascular fat",
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "07 Adventitial context": {
+        "name": "07 Adventitial context",
+        "note": "Keep connective context when relating collagen, longitudinal muscle, wall vessels, nerves and fat. Individual teaching samples are enlarged and sparse; they are not free-standing rods in life.",
+        "type": "ORTHO",
+        "position": [
+          -3.0,
+          2.1,
+          3.4
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 3.4,
+        "hidden": [
+          "Endothelium",
+          "Subendothelial layer",
+          "Venous valve connective tissue cores",
+          "Venous valve cusps",
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "08 Muscle in support": {
+        "name": "08 Muscle in support",
+        "note": "Longitudinal adventitial muscle is region-dependent. Six draft samples preserve source orientation; this valved teaching composite is not a vena cava specimen or a universal venous-wall formula.",
+        "type": "ORTHO",
+        "position": [
+          -3.0,
+          2.1,
+          3.4
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 3.4,
+        "hidden": [
+          "Endothelium",
+          "Subendothelial layer",
+          "Venous valve connective tissue cores",
+          "Venous valve cusps",
+          "Vasa vasorum",
+          "Nervi vasorum",
+          "Perivascular fat",
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "09 Wall microvessels": {
+        "name": "09 Wall microvessels",
+        "note": "Enlarged wall-supply representatives, separate from main-lumen blood. Real wall circulation includes capillary exchange and venous drainage; this red part does not display a complete perfused circuit. Specimen exits are crops, not blind physiological endings.",
+        "type": "ORTHO",
+        "position": [
+          -3.0,
+          2.1,
+          3.4
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 3.4,
+        "hidden": [
+          "Endothelium",
+          "Subendothelial layer",
+          "Venous valve connective tissue cores",
+          "Venous valve cusps",
+          "Adventitial collagen bundles",
+          "Nervi vasorum",
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "10 Nerves and muscle": {
+        "name": "10 Nerves and muscle",
+        "note": "Sympathetic venous tone can lower capacitance in regional reservoirs and recruit stressed volume. Signals, receptors and muscle contraction are narrated, not animated or quantified by this local model.",
+        "type": "ORTHO",
+        "position": [
+          -3.0,
+          2.1,
+          3.4
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 3.4,
+        "hidden": [
+          "Endothelium",
+          "Subendothelial layer",
+          "Venous valve connective tissue cores",
+          "Venous valve cusps",
+          "Adventitial collagen bundles",
+          "Vasa vasorum",
+          "Perivascular fat",
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "11 Fat boundary": {
+        "name": "11 Fat boundary",
+        "note": "Adipocyte samples belong to the outer connective environment. Cell size and counts are schematic. Endocrine signaling or inflammatory state cannot be read from these static samples.",
+        "type": "ORTHO",
+        "position": [
+          -3.0,
+          2.1,
+          3.4
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 3.4,
+        "hidden": [
+          "Endothelium",
+          "Subendothelial layer",
+          "Venous valve connective tissue cores",
+          "Venous valve cusps",
+          "Tunica media (smooth muscle)",
+          "Longitudinal smooth muscle bundles",
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "12 Cell contact": {
+        "name": "12 Cell contact",
+        "note": "Enlarged leukocyte example near the lining. Rolling, adhesion and transmigration are not demonstrated. Recruitment chiefly occurs in postcapillary venules; a stationary cell does not establish it in this valved segment.",
+        "type": "ORTHO",
+        "position": [
+          2.0,
+          -1.8,
+          -2.7
+        ],
+        "target": [
+          0.56,
+          -0.28,
+          -0.47
+        ],
+        "ortho_width": 0.75,
+        "hidden": [
+          "Venous valve connective tissue cores",
+          "Venous valve cusps",
+          "Tunica media (smooth muscle)",
+          "Tunica adventitia",
+          "Longitudinal smooth muscle bundles",
+          "Adventitial collagen bundles",
+          "Vasa vasorum",
+          "Nervi vasorum",
+          "Perivascular fat",
+          "Red blood cells"
+        ],
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "13 Assembled specimen": {
+        "name": "13 Assembled specimen",
+        "note": "Return Separate layers to zero and Tissue opacity to 100%. Compare deliberate specimen boundaries with true tissue continuity; an exterior view does not verify an open lumen or complete vessel network.",
+        "type": "ORTHO",
+        "position": [
+          -3.0,
+          2.1,
+          3.4
+        ],
+        "target": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 3.4,
+        "hidden": [
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "14 Valve end-on": {
+        "name": "14 Valve end-on",
+        "note": "Heartward is -x. Nearly closed source pose remains static. Physiological closure need not require through-valve reverse flow, and forward-flow recirculation can wash sinus pockets. Geometry here does not certify patency, reflux or disease.",
+        "type": "ORTHO",
+        "position": [
+          -3.0,
+          0.0,
+          0.04
+        ],
+        "target": [
+          -0.44,
+          0.0,
+          0.0
+        ],
+        "ortho_width": 1.8,
+        "hidden": [
+          "Tunica media (smooth muscle)",
+          "Tunica adventitia",
+          "Longitudinal smooth muscle bundles",
+          "Adventitial collagen bundles",
+          "Vasa vasorum",
+          "Nervi vasorum",
+          "Perivascular fat",
+          "Red blood cells",
+          "Rolling leukocyte"
+        ],
+        "cut_on": false,
+        "state": "assembled"
+      }
+    },
+    "start_view": "01 Wall overview",
+    "cut_on": true,
+    "cutaway": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0
+      ]
+    ],
+    "cut_at": [
+      0.0,
+      0.0
+    ],
+    "home_view": [
+      0.6108652381980153,
+      0.4188790204786391
+    ]
+  },
+  "teaching_views": [
+    {
+      "id": "wall_overview",
+      "purpose": "Orient to the lumen, thin media, outer support and paired intimal folds before enlarged blood-cell examples.",
+      "camera_name": "01 Wall overview",
+      "visible_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat"
+      ],
+      "hidden_parts": [
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "enlarged_cells_shown",
+      "purpose": "Restore enlarged blood examples in the identical wall framing to make the scale warning operational.",
+      "camera_name": "02 Enlarged cells shown",
+      "visible_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "hidden_parts": [],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "intimal_fold",
+      "purpose": "Follow the intact cusp covering into the endothelial lining and support at each root.",
+      "camera_name": "03 Intimal fold",
+      "visible_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps"
+      ],
+      "hidden_parts": [
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "cusp_core_revealed",
+      "purpose": "Compare the actual supporting core with the intact covering using identical framing and retained wall attachment.",
+      "camera_name": "04 Cusp core revealed",
+      "visible_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores"
+      ],
+      "hidden_parts": [
+        "Venous valve cusps",
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "lining_and_support",
+      "purpose": "Inspect the thin cellular lining and its underlying support in their correct layer order.",
+      "camera_name": "05 Lining and support",
+      "visible_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Tunica media (smooth muscle)"
+      ],
+      "hidden_parts": [
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [
+        "Hide Endothelium to expose subendothelial tissue, then restore it; compare the same interface in section.",
+        "Do not infer separation from the shared intimal rank: the native slider moves all rank-zero intimal Parts together."
+      ],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "media_orientation",
+      "purpose": "Expose predominantly circumferential venous muscle while preserving outer-support relationships.",
+      "camera_name": "06 Media orientation",
+      "visible_parts": [
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [
+        "Use Section > Sagittal for an x-normal vessel cross-section; sweep past the valve and examine both Flip states.",
+        "Use Section > Coronal or Transverse for longitudinal vessel sections; these are native body-oriented UI labels, not vein-specific anatomical axes.",
+        "Return Separate layers to zero before interpreting radial depth."
+      ],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "adventitial_context",
+      "purpose": "Read collagen, muscle, microvessels, nerves and fat as constituents of a shared outer supporting environment.",
+      "camera_name": "07 Adventitial context",
+      "visible_parts": [
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [
+        "Lower Tissue opacity only temporarily to investigate furnishing depth; restore to 100% for exposed boundary and section review.",
+        "Hide Tunica adventitia for a comparison, then restore it. Floating furnishings alone cannot establish tissue integration."
+      ],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "muscle_in_support",
+      "purpose": "Compare longitudinal muscle with the thin circumferential media, retaining collagen and adventitial context.",
+      "camera_name": "08 Muscle in support",
+      "visible_parts": [
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [
+        "Section perpendicular to x to inspect longitudinal-bundle ends; compare with longitudinal sections.",
+        "Raise Separate layers briefly to trace neighbors, then set it to zero. Same-rank adventitial constituents move together."
+      ],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "wall_microvessels",
+      "purpose": "Follow the enlarged wall-supply representatives relative to muscle, support and the specimen ends.",
+      "camera_name": "09 Wall microvessels",
+      "visible_parts": [
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Vasa vasorum",
+        "Perivascular fat"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Adventitial collagen bundles",
+        "Nervi vasorum",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [
+        "Use Tissue opacity temporarily to follow buried versus surface courses; restore opacity to inspect intentional specimen exits."
+      ],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "nerves_and_muscle",
+      "purpose": "Inspect neural course placement in relation to its represented muscle targets and wall context.",
+      "camera_name": "10 Nerves and muscle",
+      "visible_parts": [
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Nervi vasorum"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "fat_boundary",
+      "purpose": "Inspect informative adipocyte examples as part of the outer connective environment.",
+      "camera_name": "11 Fat boundary",
+      "visible_parts": [
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat"
+      ],
+      "hidden_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Tunica media (smooth muscle)",
+        "Longitudinal smooth muscle bundles",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [
+        "Compare the restored support boundary with temporary casing suppression. Two retained fat-pad locations do not specify physiological fat coverage."
+      ],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "cell_contact",
+      "purpose": "Examine the static enlarged leukocyte in relation to the lining without claiming demonstrated rolling.",
+      "camera_name": "12 Cell contact",
+      "visible_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Rolling leukocyte"
+      ],
+      "hidden_parts": [
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "assembled_specimen",
+      "purpose": "Restore the wall assembly and its outer specimen boundary without enlarged blood examples.",
+      "camera_name": "13 Assembled specimen",
+      "visible_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps",
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat"
+      ],
+      "hidden_parts": [
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    },
+    {
+      "id": "valve_end_on",
+      "purpose": "Inspect the paired free margins and rear pockets from the heartward side with no corner cut.",
+      "camera_name": "14 Valve end-on",
+      "visible_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Venous valve connective tissue cores",
+        "Venous valve cusps"
+      ],
+      "hidden_parts": [
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Longitudinal smooth muscle bundles",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "scale_note": "Representative schematic valved medium-vein segment; nominal lumen diameter 4.48 mm and whole-specimen calibration 4 mm per model unit. The paired cusps are in a nearly closed static teaching pose, with pocket mouths facing heartward (-x). Six longitudinal adventitial muscle representatives are a selected sample, not a physiological count. Endothelial/valve coat thickness, tissue relief, microvessels, nerves, adipocytes and blood cells are enlarged display geometry; the native ruler does not certify their biological dimensions. The cropped sinus is not a patient morphometric measurement. Not every vein has valves, and this is not a vena cava specimen.",
+      "manual_actions": [
+        "Compare intact covering and revealed cores by returning to 03 and 04.",
+        "For actual tissue sections use the native Section sliders and both Flip states; camera metadata cannot supply per-view planes."
+      ],
+      "validation_status": "source_schema_checked; native/visual_validation_deferred"
+    }
+  ],
+  "native_ui_actions": {
+    "opening": "After ModelView creation call native_teaching.configure_viewer(model_view).",
+    "progression": "Page Down/Page Up or Views menu uses existing camera control. For deterministic full reset use native_teaching.apply_view(model_view, camera_name).",
+    "limits": "Native camera records reset hidden/forced/isolation, assembled reveal and sections; they do not reset group toggles, Tissue opacity or procedural Separate layers. apply_view uses show_all and existing sliders to restore those controls."
+  },
+  "camera_basis": "Authored x-axis sweep from -1 to +1; valve stations .085..49; approximate valve target x=-.44; leukocyte station .78 gives x=.56 on the authored negative-y/-z side. Positions are drafted from source parameters, not fitted to generated meshes.",
+  "deferred_checks": [
+    "Actual native opening at 100% tissue opacity and zero procedural separation",
+    "Exact 13 names/groups/colors in serialized artifact and native viewer",
+    "Camera framing after final warp and refined tissue relief",
+    "Coating continuity and rooted core identity in both retained sides of native sections",
+    "Sections and selective hiding preserve readable native tissue boundaries",
+    "No color-only tissue distinction or false literal scale reading"
+  ],
+  "descriptions": {
+    "Endothelium": "Continuous thin cellular lining of the representative vein, continuous with the endothelial covering at valve roots. Surface cells and relief are enlarged for teaching; they do not measure endothelial thickness or permeability.",
+    "Subendothelial layer": "Thin supporting connective tissue beneath the endothelium. Support and lining are distinct tissue roles in the intima. The separation and relief are schematic; no universal internal elastic lamina is inferred. Directional support relief is schematic, not a fibre-by-fibre microstructural reconstruction.",
+    "Venous valve connective tissue cores": "Supporting connective-tissue cores of two pocket-like intimal folds. Their attached roots remain in the wall and free margins face heartward (-x). Rear pocket mouths face downstream. This is a nearly closed static teaching pose; no flow patency, competence or pathology is established. Directional support relief is schematic, not a fibre-by-fibre microstructural reconstruction.",
+    "Venous valve cusps": "Endothelial covering of the two valve folds, enclosing their cores over both faces and free margins and continuing into the vein lining at the roots. Hide the covering to inspect support in place. Thickness and surface organization are teaching enlargements, with no pressure-driven valve cycle.",
+    "Tunica media (smooth muscle)": "Relatively thin venous smooth-muscle media with connective support. Muscle tone contributes to regional venous capacitance, while systemic veins and venules together provide a major blood-volume reservoir. This static segment does not quantify volume storage, compliance or contraction. Coded cell/nuclear cues are shallow surface relief, not measured cellular or nuclear volumes.",
+    "Tunica adventitia": "Outer connective supporting environment containing representative collagen, longitudinal muscle, wall-supply vessels, nerves and adipocytes. It blends toward surrounding connective tissue; the cropped specimen boundary is a teaching cut.",
+    "Longitudinal smooth muscle bundles": "Longitudinal adventitial muscle samples in the supporting matrix. Development varies across venous regions; six representatives in the preserved draft are schematic samples, not a physiological count. This valved composite is not a vena cava specimen. Coded cell/nuclear cues are shallow surface relief, not measured cellular or nuclear volumes.",
+    "Adventitial collagen bundles": "Fibrous support samples associated with the adventitial matrix. They contribute to wall support and attachment to surrounding tissue. Fibre organization is enlarged and sparse; no collagen recruitment, distension limit or suture test is measured.",
+    "Vasa vasorum": "Enlarged representatives of vessels supplying the vein wall within or beside its adventitia. Real circulation includes exchange vessels and venous drainage. This named red part does not display a complete capillary and drainage network or certify lumen continuity or perfusion.",
+    "Nervi vasorum": "Representative autonomic nerve courses in the adventitial environment near vascular muscle. Sympathetic activity can modulate regional venous capacitance. Neurotransmitter release, receptor action and contraction are not modeled; colored proximity does not certify a neuroeffector junction.",
+    "Perivascular fat": "Enlarged adipocyte samples at the outer connective environment of the vein. Their number and size are teaching conventions. Static appearance does not establish endocrine activity, inflammation or disease.",
+    "Red blood cells": "Sparse enlarged biconcave blood-cell examples in the main lumen and near valve pockets. They identify blood as context; spacing does not indicate hematocrit, physiological occupancy, trapped blood, sinus residence time or thrombosis.",
+    "Rolling leukocyte": "Enlarged static leukocyte example near the endothelial lining. The retained source name is a stable selection key, not evidence of rolling. Recruitment commonly involves tethering/rolling, activation, firm adhesion and transmigration in postcapillary venules; none of those dynamic or molecular steps is demonstrated here."
+  },
+  "function_note_source": "specialists/function/function_view_notes.json; function specialist evidence accompanies functional_sequences; notes are static teaching, not mesh animation."
+}

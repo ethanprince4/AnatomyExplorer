@@ -1,0 +1,1978 @@
+{
+  "schema_version": 1,
+  "model_id": "tooth",
+  "display_name": "Tooth structure",
+  "status": "source_ready_native_visual_validation_deferred",
+  "metres_per_unit": 0.01,
+  "start_view": "Overview",
+  "viewer_cameras": {
+    "Overview": {
+      "target": [
+        0.0,
+        -1.0,
+        -0.2
+      ],
+      "position": [
+        0.9,
+        -0.3,
+        7.0
+      ],
+      "ortho_width": 6.2,
+      "type": "ORTHO",
+      "cut_on": false,
+      "hidden": [
+        "Incisor – crown",
+        "Incisor – root",
+        "Canine – crown",
+        "Canine – root",
+        "Premolar – crown",
+        "Premolar – root",
+        "Molar – crown",
+        "Molar – neck",
+        "Molar – roots"
+      ],
+      "note": "Locate the molar crown, cervical region, two roots and supporting jaw before selective detail."
+    },
+    "Tissues & pulp": {
+      "target": [
+        0.0,
+        -0.36,
+        -0.12
+      ],
+      "position": [
+        0.25,
+        -0.15,
+        5.0
+      ],
+      "ortho_width": 4.2,
+      "type": "ORTHO",
+      "cut_on": false,
+      "hidden": [
+        "Periodontal ligament",
+        "Alveolar bone proper (lamina dura)",
+        "Cortical bone of mandible",
+        "Cancellous (spongy) bone",
+        "Bone marrow",
+        "Mandibular canal",
+        "Inferior alveolar nerve & dental nerves",
+        "Inferior alveolar artery & dental arteries",
+        "Inferior alveolar vein & dental veins",
+        "Gingiva",
+        "Alveolar mucosa",
+        "Incisor – crown",
+        "Incisor – root",
+        "Canine – crown",
+        "Canine – root",
+        "Premolar – crown",
+        "Premolar – root",
+        "Molar – crown",
+        "Molar – neck",
+        "Molar – roots"
+      ],
+      "note": "Follow enamel to dentin and the pulp chamber/root-canal continuity without jaw or comparison distraction."
+    },
+    "Root supply": {
+      "target": [
+        0.0,
+        -0.83,
+        -0.025
+      ],
+      "position": [
+        0.25,
+        -0.64,
+        5.5
+      ],
+      "ortho_width": 4.4,
+      "type": "ORTHO",
+      "cut_on": false,
+      "hidden": [
+        "Enamel",
+        "Dentin",
+        "Cementum",
+        "Periodontal ligament",
+        "Alveolar bone proper (lamina dura)",
+        "Cortical bone of mandible",
+        "Cancellous (spongy) bone",
+        "Bone marrow",
+        "Gingiva",
+        "Alveolar mucosa",
+        "Incisor – crown",
+        "Incisor – root",
+        "Canine – crown",
+        "Canine – root",
+        "Premolar – crown",
+        "Premolar – root",
+        "Molar – crown",
+        "Molar – neck",
+        "Molar – roots"
+      ],
+      "note": "Trace the existing inferior alveolar courses to apical entry and coronal pulp while hard tissue is hidden for access."
+    },
+    "Root support": {
+      "target": [
+        0.0,
+        -0.38,
+        -0.13
+      ],
+      "position": [
+        0.25,
+        -0.18,
+        5.2
+      ],
+      "ortho_width": 4.3,
+      "type": "ORTHO",
+      "cut_on": false,
+      "hidden": [
+        "Pulp chamber (coronal pulp)",
+        "Root canals (radicular pulp)",
+        "Cortical bone of mandible",
+        "Cancellous (spongy) bone",
+        "Bone marrow",
+        "Mandibular canal",
+        "Inferior alveolar nerve & dental nerves",
+        "Inferior alveolar artery & dental arteries",
+        "Inferior alveolar vein & dental veins",
+        "Alveolar mucosa",
+        "Incisor – crown",
+        "Incisor – root",
+        "Canine – crown",
+        "Canine – root",
+        "Premolar – crown",
+        "Premolar – root",
+        "Molar – crown",
+        "Molar – neck",
+        "Molar – roots"
+      ],
+      "note": "Show cementum–PDL–alveolar-bone nesting and the gingival cervical context with no imposed exploded spacing."
+    },
+    "Adult tooth types": {
+      "target": [
+        2.16,
+        -0.15,
+        0.0
+      ],
+      "position": [
+        2.5,
+        0.05,
+        5.5
+      ],
+      "ortho_width": 3.7,
+      "type": "ORTHO",
+      "cut_on": false,
+      "hidden": [
+        "Enamel",
+        "Dentin",
+        "Pulp chamber (coronal pulp)",
+        "Root canals (radicular pulp)",
+        "Cementum",
+        "Apical foramen",
+        "Periodontal ligament",
+        "Alveolar bone proper (lamina dura)",
+        "Cortical bone of mandible",
+        "Cancellous (spongy) bone",
+        "Bone marrow",
+        "Mandibular canal",
+        "Inferior alveolar nerve & dental nerves",
+        "Inferior alveolar artery & dental arteries",
+        "Inferior alveolar vein & dental veins",
+        "Gingiva",
+        "Alveolar mucosa"
+      ],
+      "note": "Compare the authored incisor, canine, premolar and molar silhouettes, crown forms and root patterns one whole lineup at a time."
+    }
+  },
+  "expected_part_keys": [
+    "Enamel",
+    "Dentin",
+    "Pulp chamber (coronal pulp)",
+    "Root canals (radicular pulp)",
+    "Cementum",
+    "Apical foramen",
+    "Periodontal ligament",
+    "Alveolar bone proper (lamina dura)",
+    "Cortical bone of mandible",
+    "Cancellous (spongy) bone",
+    "Bone marrow",
+    "Mandibular canal",
+    "Inferior alveolar nerve & dental nerves",
+    "Inferior alveolar artery & dental arteries",
+    "Inferior alveolar vein & dental veins",
+    "Gingiva",
+    "Alveolar mucosa",
+    "Incisor – crown",
+    "Incisor – root",
+    "Canine – crown",
+    "Canine – root",
+    "Premolar – crown",
+    "Premolar – root",
+    "Molar – crown",
+    "Molar – neck",
+    "Molar – roots"
+  ],
+  "scale_note": "1 unit = 1 cm. Gross dimensions are approximate authored teaching dimensions: crown about 11 mm wide and 7.5 mm high, roots about 14 mm long. Comparison teeth are drawn at 58% of the local source scale. The periodontal ligament has a nominal source band of 0.30 mm; cementum is deliberately widened for visibility (nominal mature field about 0.28–0.58 mm before the cervical taper and mesh smoothing). These field values are not post-build thickness measurements. Artery/vein calibre, spacing and shallow section-face offsets (0.28 and 0.58 mm above the canal) are schematic; no complete capillary bed is depicted.",
+  "section_note": "Mesiodistal teaching section: the buccal half (+z) of the molar and surrounding jaw is removed in the authored source; the lingual half (z ≤ 0) remains. This missing half is a teaching cut, not tissue loss. Additional viewer clipping is off.",
+  "view_transition": "zoom",
+  "views": [
+    {
+      "id": "overview",
+      "name": "Overview",
+      "purpose": "Locate the molar crown, cervical region, two roots and supporting jaw before selective detail.",
+      "label_keys": [
+        "Enamel",
+        "Dentin",
+        "Pulp chamber (coronal pulp)",
+        "Periodontal ligament",
+        "Gingiva",
+        "Mandibular canal",
+        "Inferior alveolar nerve & dental nerves"
+      ],
+      "teacher_labels": [
+        "Enamel-covered crown above the cervical junction",
+        "Two roots suspended in the periodontal ligament",
+        "Mandibular canal below the root apices"
+      ],
+      "caption": "Read the crown-to-root relationship in its socket. Mesiodistal teaching section: the buccal half (+z) of the molar and surrounding jaw is removed in the authored source; the lingual half (z ≤ 0) remains. This missing half is a teaching cut, not tissue loss. Additional viewer clipping is off. Main molar/jaw: 1 unit = 1 cm (0.01 metres/unit). Layers are schematic: PDL offset = 0.30 mm; alveolar socket-lining offset = 0.36 mm; cementum offset ramps from 0 at the cervical junction to 0.28–0.58 mm along the root. These source offsets are display design values, not patient measurements. Adult tooth-type exemplars are uniformly reduced to 0.58× their authored size, so the main scale bar cannot be used to infer their life-size dimensions.",
+      "hidden_parts": [
+        "Incisor – crown",
+        "Incisor – root",
+        "Canine – crown",
+        "Canine – root",
+        "Premolar – crown",
+        "Premolar – root",
+        "Molar – crown",
+        "Molar – neck",
+        "Molar – roots"
+      ],
+      "visible_parts": [
+        "Enamel",
+        "Dentin",
+        "Pulp chamber (coronal pulp)",
+        "Root canals (radicular pulp)",
+        "Cementum",
+        "Apical foramen",
+        "Periodontal ligament",
+        "Alveolar bone proper (lamina dura)",
+        "Cortical bone of mandible",
+        "Cancellous (spongy) bone",
+        "Bone marrow",
+        "Mandibular canal",
+        "Inferior alveolar nerve & dental nerves",
+        "Inferior alveolar artery & dental arteries",
+        "Inferior alveolar vein & dental veins",
+        "Gingiva",
+        "Alveolar mucosa"
+      ]
+    },
+    {
+      "id": "tissues",
+      "name": "Tissues & pulp",
+      "purpose": "Follow enamel to dentin and the pulp chamber/root-canal continuity without jaw or comparison distraction.",
+      "label_keys": [
+        "Enamel",
+        "Dentin",
+        "Pulp chamber (coronal pulp)",
+        "Root canals (radicular pulp)",
+        "Cementum",
+        "Apical foramen"
+      ],
+      "teacher_labels": [
+        "Enamel outside crown dentin",
+        "Cementum outside root dentin",
+        "Coronal and radicular pulp are continuous tissues",
+        "Apical foramen: its named part is a rim-tissue marker, not a vessel or a filled lumen"
+      ],
+      "caption": "Follow the mineralized coverings and living pulp. The labels separate coronal and radicular regions for teaching; their interface is not a biological gap. The part named Apical foramen marks the rim tissue around an opening. Mesiodistal teaching section: the buccal half (+z) of the molar and surrounding jaw is removed in the authored source; the lingual half (z ≤ 0) remains. This missing half is a teaching cut, not tissue loss. Additional viewer clipping is off. Main molar/jaw: 1 unit = 1 cm (0.01 metres/unit). Layers are schematic: PDL offset = 0.30 mm; alveolar socket-lining offset = 0.36 mm; cementum offset ramps from 0 at the cervical junction to 0.28–0.58 mm along the root. These source offsets are display design values, not patient measurements. Adult tooth-type exemplars are uniformly reduced to 0.58× their authored size, so the main scale bar cannot be used to infer their life-size dimensions.",
+      "hidden_parts": [
+        "Periodontal ligament",
+        "Alveolar bone proper (lamina dura)",
+        "Cortical bone of mandible",
+        "Cancellous (spongy) bone",
+        "Bone marrow",
+        "Mandibular canal",
+        "Inferior alveolar nerve & dental nerves",
+        "Inferior alveolar artery & dental arteries",
+        "Inferior alveolar vein & dental veins",
+        "Gingiva",
+        "Alveolar mucosa",
+        "Incisor – crown",
+        "Incisor – root",
+        "Canine – crown",
+        "Canine – root",
+        "Premolar – crown",
+        "Premolar – root",
+        "Molar – crown",
+        "Molar – neck",
+        "Molar – roots"
+      ],
+      "visible_parts": [
+        "Enamel",
+        "Dentin",
+        "Pulp chamber (coronal pulp)",
+        "Root canals (radicular pulp)",
+        "Cementum",
+        "Apical foramen"
+      ]
+    },
+    {
+      "id": "root_supply",
+      "name": "Root supply",
+      "purpose": "Trace the existing inferior alveolar courses to apical entry and coronal pulp while hard tissue is hidden for access.",
+      "label_keys": [
+        "Pulp chamber (coronal pulp)",
+        "Root canals (radicular pulp)",
+        "Apical foramen",
+        "Mandibular canal",
+        "Inferior alveolar nerve & dental nerves",
+        "Inferior alveolar artery & dental arteries",
+        "Inferior alveolar vein & dental veins"
+      ],
+      "teacher_labels": [
+        "Arterial supply: canal to apical entry to pulp",
+        "Venous drainage: pulp to apical exit to canal",
+        "Sensory route: dental nerves between pulp and inferior alveolar nerve",
+        "Hard tissues hidden for teaching access",
+        "Mandibular canal: the selected mesh is its bony wall, not a solid plug in the passage"
+      ],
+      "caption": "Trace arterial supply, venous return and sensory connections through the apical region. Enamel, dentin, cementum, PDL and surrounding bone are hidden here, not biologically absent. Pulp is preserved in its source position. Artery and vein branches are widened, separated and shallowly offset on the section face for legibility. Artery and vein offsets above the canal are 0.28 and 0.58 mm; these are schematic display displacements. No capillary bed, perfusion rate, nerve-fibre population or complete canal variation is shown. Mesiodistal teaching section: the buccal half (+z) of the molar and surrounding jaw is removed in the authored source; the lingual half (z ≤ 0) remains. This missing half is a teaching cut, not tissue loss. Additional viewer clipping is off.",
+      "hidden_parts": [
+        "Enamel",
+        "Dentin",
+        "Cementum",
+        "Periodontal ligament",
+        "Alveolar bone proper (lamina dura)",
+        "Cortical bone of mandible",
+        "Cancellous (spongy) bone",
+        "Bone marrow",
+        "Gingiva",
+        "Alveolar mucosa",
+        "Incisor – crown",
+        "Incisor – root",
+        "Canine – crown",
+        "Canine – root",
+        "Premolar – crown",
+        "Premolar – root",
+        "Molar – crown",
+        "Molar – neck",
+        "Molar – roots"
+      ],
+      "visible_parts": [
+        "Pulp chamber (coronal pulp)",
+        "Root canals (radicular pulp)",
+        "Apical foramen",
+        "Mandibular canal",
+        "Inferior alveolar nerve & dental nerves",
+        "Inferior alveolar artery & dental arteries",
+        "Inferior alveolar vein & dental veins"
+      ]
+    },
+    {
+      "id": "periodontium",
+      "name": "Root support",
+      "purpose": "Show cementum–PDL–alveolar-bone nesting and the gingival cervical context with no imposed exploded spacing.",
+      "label_keys": [
+        "Cementum",
+        "Periodontal ligament",
+        "Alveolar bone proper (lamina dura)",
+        "Gingiva",
+        "Apical foramen"
+      ],
+      "teacher_labels": [
+        "Root attachment: cementum → PDL → alveolar bone proper",
+        "PDL functions as a fibrous support and sensory interface",
+        "Gingiva at the cervical region; the seal is not a separately resolved epithelial mesh"
+      ],
+      "caption": "Read the root-support layers together. The PDL band indicates the ligament compartment; individual Sharpey fibre insertion and cellular remodeling are not resolved by this mesh. Other jaw tissues and neurovascular courses are hidden for access. Mesiodistal teaching section: the buccal half (+z) of the molar and surrounding jaw is removed in the authored source; the lingual half (z ≤ 0) remains. This missing half is a teaching cut, not tissue loss. Additional viewer clipping is off. Main molar/jaw: 1 unit = 1 cm (0.01 metres/unit). Layers are schematic: PDL offset = 0.30 mm; alveolar socket-lining offset = 0.36 mm; cementum offset ramps from 0 at the cervical junction to 0.28–0.58 mm along the root. These source offsets are display design values, not patient measurements. Adult tooth-type exemplars are uniformly reduced to 0.58× their authored size, so the main scale bar cannot be used to infer their life-size dimensions.",
+      "hidden_parts": [
+        "Pulp chamber (coronal pulp)",
+        "Root canals (radicular pulp)",
+        "Cortical bone of mandible",
+        "Cancellous (spongy) bone",
+        "Bone marrow",
+        "Mandibular canal",
+        "Inferior alveolar nerve & dental nerves",
+        "Inferior alveolar artery & dental arteries",
+        "Inferior alveolar vein & dental veins",
+        "Alveolar mucosa",
+        "Incisor – crown",
+        "Incisor – root",
+        "Canine – crown",
+        "Canine – root",
+        "Premolar – crown",
+        "Premolar – root",
+        "Molar – crown",
+        "Molar – neck",
+        "Molar – roots"
+      ],
+      "visible_parts": [
+        "Enamel",
+        "Dentin",
+        "Cementum",
+        "Apical foramen",
+        "Periodontal ligament",
+        "Alveolar bone proper (lamina dura)",
+        "Gingiva"
+      ]
+    },
+    {
+      "id": "comparison",
+      "name": "Adult tooth types",
+      "purpose": "Compare the authored incisor, canine, premolar and molar silhouettes, crown forms and root patterns one whole lineup at a time.",
+      "label_keys": [
+        "Incisor – crown",
+        "Canine – crown",
+        "Premolar – crown",
+        "Molar – crown",
+        "Molar – neck",
+        "Molar – roots"
+      ],
+      "teacher_labels": [
+        "Incisor: cutting edge",
+        "Canine: pointed cusp",
+        "Premolar and molar: crushing/grinding crowns",
+        "Comparative exemplars are intact, unlike the molar/jaw section"
+      ],
+      "caption": "Compare intact adult tooth-type exemplars. Their positions form a teaching lineup, not a dental arch. Each exemplar uses the same 0.58× reduction from its authored shape, so this panel is not at the same real-world magnification as the main molar. Crown/root and molar-neck boundaries are selectable identity regions, not assembly gaps. There are no deciduous premolar exemplars here.",
+      "hidden_parts": [
+        "Enamel",
+        "Dentin",
+        "Pulp chamber (coronal pulp)",
+        "Root canals (radicular pulp)",
+        "Cementum",
+        "Apical foramen",
+        "Periodontal ligament",
+        "Alveolar bone proper (lamina dura)",
+        "Cortical bone of mandible",
+        "Cancellous (spongy) bone",
+        "Bone marrow",
+        "Mandibular canal",
+        "Inferior alveolar nerve & dental nerves",
+        "Inferior alveolar artery & dental arteries",
+        "Inferior alveolar vein & dental veins",
+        "Gingiva",
+        "Alveolar mucosa"
+      ],
+      "visible_parts": [
+        "Incisor – crown",
+        "Incisor – root",
+        "Canine – crown",
+        "Canine – root",
+        "Premolar – crown",
+        "Premolar – root",
+        "Molar – crown",
+        "Molar – neck",
+        "Molar – roots"
+      ]
+    }
+  ],
+  "presentation_defaults": {
+    "labels_on": true,
+    "tissue_opacity_percent": 100,
+    "explode_percent": 0
+  },
+  "variant_policy": {
+    "owner": "root application integration",
+    "labels": [
+      "Pre refine",
+      "Post refine"
+    ],
+    "one_at_a_time": true,
+    "persisted_per_model_preference": true,
+    "geometry_variant_logic_in_this_adapter": false
+  },
+  "limitations": [
+    "Camera placement is source/previous saved-metric based and not newly visually verified.",
+    "Presentation state does not rebuild, refine, export, certify or install geometry.",
+    "Binding the optional native caption/label controller is needed for per-stage label subsets and visible caveats.",
+    "The old app needs root integration to select immutable independently validated Pre refine/Post refine variants."
+  ],
+  "summary": "A lower first molar cut in the mesiodistal plane in its socket: crown, neck and two roots; enamel, dentin, the pulp chamber with its pulp horns and the root canals opening at the apical foramina, cementum, the periodontal ligament, the alveolar bone proper and the cortical and spongy bone of the mandible, with the gingiva and its sulcus. The inferior alveolar nerve, artery and vein run in the mandibular canal and send branches through each apical foramen into the pulp. Beside it, the four adult tooth types. Adult (permanent) dentition: 32 teeth, dental formula per quadrant I2 C1 P2 M3; deciduous (primary, milk) dentition: 20 teeth, I2 C1 M2 – no premolars. Primary teeth typically begin erupting at ~6 months (lower central incisors); second primary molars usually erupt at 23–33 months and are shed from ~6 to 12 years; permanent first molars usually erupt at 6–7 years and third molars, when they erupt, at 17–21 years. Eruption timing varies. This is a simplified longitudinal teaching section, not a complete three-dimensional canal map.",
+  "native_loader_contract": {
+    "model_id": "tooth",
+    "cache_override": "load_parts(file_stem, explicit source-freeze-bound digest) into source._parts before ProceduralModel; never MicroModel.parts() baseline fallback",
+    "metres_per_unit": 0.01,
+    "geometry_arrays": "float32 p/n and delta-int32 i; all exact",
+    "variant_selection": "Root resolves one artifact by persisted logical tooth preference. Pre refine/Post refine viewed independently, never side by side.",
+    "opening_controls": "apply_to_micro_model before ProceduralModel; apply_to_viewer_model before ModelView; bind_to_model_view after controls exist",
+    "root_functions": "StaticStepSession for tooth_static records; route caption/text and close/navigation restoration explicitly; built-in micro_focus alone is partial."
+  },
+  "scientific_witness_contract": {
+    "expected_source_sha256": "ca459d949525b0509ecd888c31cd57ecde4de4a9d826a972b47ed8f15f7753dd",
+    "source_function": "_tooth_nv_courses / _tooth_nv_section",
+    "courses": 21,
+    "source_units": "centimetres",
+    "host_relation": "Source envelopes define fitted surrounding-tooth/jaw clearances. Radicular pulp is occupied tissue, not empty blood bore. Apical foramen selector is bordering cementum; intentional shared pulp and comparison caps are contacts.",
+    "capability_gate": "Root current-artifact microrefine adapter must map all exact course and host domains and independently test saved routes including venous trunk junction; old profile is documentary reference only.",
+    "validation": "Source witness emission is not saved-mesh patency, branch attachment, lumen-volume or collision certification."
+  },
+  "static_step_bundle": {
+    "schema_version": 1,
+    "model_id": "tooth",
+    "status": "source_adapter_ready_integration_deferred",
+    "presentation": "static_steps",
+    "selector_matching": "exact case-sensitive group and name; no aliases or substring matching",
+    "objectives": [
+      "Relate enamel, dentin, pulp and cementum to their tissue roles.",
+      "Distinguish arterial entry from venous exit through the apical region.",
+      "Explain periodontal attachment and load sensation without inferring simulated mechanics.",
+      "Explain the hydrodynamic account of dentin sensitivity and its limits."
+    ],
+    "selectors": [
+      {
+        "group": "Tooth – Molar in section",
+        "name": "Enamel"
+      },
+      {
+        "group": "Tooth – Molar in section",
+        "name": "Dentin"
+      },
+      {
+        "group": "Tooth – Molar in section",
+        "name": "Pulp chamber (coronal pulp)"
+      },
+      {
+        "group": "Tooth – Molar in section",
+        "name": "Root canals (radicular pulp)"
+      },
+      {
+        "group": "Tooth – Molar in section",
+        "name": "Cementum"
+      },
+      {
+        "group": "Tooth – Molar in section",
+        "name": "Apical foramen"
+      },
+      {
+        "group": "Tooth – Periodontium & jaw",
+        "name": "Periodontal ligament"
+      },
+      {
+        "group": "Tooth – Periodontium & jaw",
+        "name": "Alveolar bone proper (lamina dura)"
+      },
+      {
+        "group": "Tooth – Periodontium & jaw",
+        "name": "Cortical bone of mandible"
+      },
+      {
+        "group": "Tooth – Periodontium & jaw",
+        "name": "Cancellous (spongy) bone"
+      },
+      {
+        "group": "Tooth – Periodontium & jaw",
+        "name": "Bone marrow"
+      },
+      {
+        "group": "Tooth – Periodontium & jaw",
+        "name": "Mandibular canal"
+      },
+      {
+        "group": "Tooth – Nerves & vessels",
+        "name": "Inferior alveolar nerve & dental nerves"
+      },
+      {
+        "group": "Tooth – Nerves & vessels",
+        "name": "Inferior alveolar artery & dental arteries"
+      },
+      {
+        "group": "Tooth – Nerves & vessels",
+        "name": "Inferior alveolar vein & dental veins"
+      },
+      {
+        "group": "Tooth – Periodontium & jaw",
+        "name": "Gingiva"
+      },
+      {
+        "group": "Tooth – Periodontium & jaw",
+        "name": "Alveolar mucosa"
+      },
+      {
+        "group": "Tooth – Adult tooth types",
+        "name": "Incisor – crown"
+      },
+      {
+        "group": "Tooth – Adult tooth types",
+        "name": "Incisor – root"
+      },
+      {
+        "group": "Tooth – Adult tooth types",
+        "name": "Canine – crown"
+      },
+      {
+        "group": "Tooth – Adult tooth types",
+        "name": "Canine – root"
+      },
+      {
+        "group": "Tooth – Adult tooth types",
+        "name": "Premolar – crown"
+      },
+      {
+        "group": "Tooth – Adult tooth types",
+        "name": "Premolar – root"
+      },
+      {
+        "group": "Tooth – Adult tooth types",
+        "name": "Molar – crown"
+      },
+      {
+        "group": "Tooth – Adult tooth types",
+        "name": "Molar – neck"
+      },
+      {
+        "group": "Tooth – Adult tooth types",
+        "name": "Molar – roots"
+      }
+    ],
+    "evidence": [
+      {
+        "id": "ada_tooth",
+        "title": "American Dental Association: Tooth",
+        "url": "https://www.mouthhealthy.org/all-topics-a-z/tooth",
+        "retrieval": "direct web open; anatomy text read, 2026-10-04",
+        "supports": "Four tissue identities, crown/root covering, occupied pulpal cavity, dentinal tubules, cementum-PDL attachment."
+      },
+      {
+        "id": "elsevier_pulp_vessels",
+        "title": "Elsevier Complete Anatomy: Pulpal Blood Vessels",
+        "url": "https://www.elsevier.com/resources/anatomy/tooth-mandibular-first-molar/dental-pulp-tissue/pulpal-blood-vessels/15248",
+        "retrieval": "direct web open; relevant text lines 62,80-87 read, 2026-10-04",
+        "supports": "Mandibular arterial route through canal, apical opening and root canal to pulp."
+      },
+      {
+        "id": "elsevier_pterygoid",
+        "title": "Elsevier Complete Anatomy: Pterygoid Venous Plexus",
+        "url": "https://www.elsevier.com/resources/anatomy/cardiovascular-system/veins/pterygoid-venous-plexus/17052",
+        "retrieval": "direct web open; drainage text lines 111-117 read, 2026-10-04",
+        "supports": "Alveolar tributaries and venous drainage of mandibular teeth; plexus outside this model."
+      },
+      {
+        "id": "umich_venous",
+        "title": "University of Michigan BlueLink: S5 Learning Objectives",
+        "url": "https://sites.google.com/a/umich.edu/bluelink/curricula/dent-545-dental-head-and-neck-anatomy/s5-temporal-infratemporal-fossae-and-pterygopalatine-ganglion/s5-temporal-infratemporal-fossae-and-pterygopalatine-ganglion-los",
+        "retrieval": "direct web open; lines 321-347 read, 2026-10-04",
+        "supports": "Inferior alveolar vein is a tooth-draining tributary of the pterygoid plexus."
+      },
+      {
+        "id": "trulsson_1992",
+        "title": "Trulsson, Johansson and Olsson (1992): Directional sensitivity of human periodontal mechanoreceptive afferents to forces applied to the teeth",
+        "url": "https://physoc.onlinelibrary.wiley.com/doi/10.1113/jphysiol.1992.sp019007",
+        "retrieval": "direct publisher web open; research abstract lines 96-103 read, 2026-10-04",
+        "supports": "Human inferior alveolar afferent responses to sustained/directional tooth loading. Tested incisors, canine and first premolar, not a quantitative molar-specific model."
+      },
+      {
+        "id": "ahlquist_1994",
+        "title": "Ahlquist et al. (1994): Dental pain evoked by hydrostatic pressures applied to exposed dentin in man",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/7996085/",
+        "retrieval": "direct PubMed web open; primary research abstract read, 2026-10-04",
+        "supports": "Human pain responses after dentinal smear-layer removal support hydrodynamic sensitivity, without proving all cellular mechanisms."
+      },
+      {
+        "id": "raber_2024",
+        "title": "The anatomy, neurophysiology, and cellular mechanisms of intradental sensation (2024)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11000636/",
+        "retrieval": "direct PMC web open; sections 2 and 5 read, 2026-10-04",
+        "supports": "Pulp-dentin relation and limits of hydrodynamic/odontoblast/direct neural explanations; modern uncertainty qualifier."
+      }
+    ],
+    "functional_sequences": [
+      {
+        "id": "tissue_roles",
+        "title": "Four tissues, four jobs",
+        "mechanism": "Relate crown protection, dentinal body, vital pulp and root attachment to their tissue locations.",
+        "evidence_ids": [
+          "ada_tooth",
+          "raber_2024"
+        ],
+        "steps": [
+          {
+            "id": "cover",
+            "title": "Crown protection",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Enamel"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Enamel"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              }
+            ],
+            "text": "Enamel covers crown dentin. Its mineralized surface protects the underlying tooth; its lack of living cells limits biological repair. The selected shell is anatomy, not a wear-resistant material calculation.",
+            "check": {
+              "q": "Which tissue covers crown dentin?",
+              "a": "Enamel."
+            }
+          },
+          {
+            "id": "body",
+            "title": "Dentin forms the tooth body",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Enamel"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Cementum"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Apical foramen"
+              }
+            ],
+            "text": "Dentin makes up the tooth body beneath enamel and root cementum. Odontoblasts at the pulp-dentin boundary form and maintain dentin. Their microscopic processes and tubules are described here, not resolved by this bulk mesh.",
+            "check": {
+              "q": "Does this mesh show individual dentinal tubules?",
+              "a": "No. It shows bulk dentin and the surrounding tissues."
+            }
+          },
+          {
+            "id": "vital",
+            "title": "A cavity occupied by living pulp",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Apical foramen"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Mandibular canal"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar vein & dental veins"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "text": "The coronal chamber and root-canal parts depict soft pulpal tissue occupying the internal cavity. The root-canal label here selects radicular pulp, not an empty pipe. Vessels and nerves serve this living compartment.",
+            "check": {
+              "q": "Does selecting root canals select an empty lumen?",
+              "a": "No. The named item is occupied radicular pulp."
+            }
+          },
+          {
+            "id": "anchor",
+            "title": "The root attachment interface",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Cementum"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Periodontal ligament"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Alveolar bone proper (lamina dura)"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Cementum"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Periodontal ligament"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Alveolar bone proper (lamina dura)"
+              }
+            ],
+            "text": "Cementum covers root dentin and provides attachment for periodontal collagen. The periodontal ligament connects the root to the alveolar socket wall. The continuity matters more than a separated-layer display.",
+            "check": {
+              "q": "Which tissues flank the periodontal ligament?",
+              "a": "Cementum on the tooth side and alveolar bone proper on the socket side."
+            }
+          }
+        ],
+        "schematic_limitations": [
+          "This is static selection and framing of existing anatomy, not a biological simulation.",
+          "Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry.",
+          "Cell layers, rods and tubules are not independently modeled.",
+          "Hiding enamel is an educational reveal, not enamel loss or a pathology state."
+        ]
+      },
+      {
+        "id": "pulp_arterial_supply",
+        "title": "Trace arterial supply into the pulp",
+        "mechanism": "Follow the arterial route from mandibular canal to apical entry and pulpal tissue without inventing blood transport.",
+        "evidence_ids": [
+          "elsevier_pulp_vessels"
+        ],
+        "steps": [
+          {
+            "id": "canal",
+            "title": "Find the arterial trunk",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Mandibular canal"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Apical foramen"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Mandibular canal"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar vein & dental veins"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "text": "The inferior alveolar artery runs within the mandibular canal. Its proximal connection to the maxillary artery is outside this block. The red item lets you distinguish an arterial supply route from the blue venous return route.",
+            "check": {
+              "q": "What distinguishes supply from drainage here?",
+              "a": "Separate artery and vein items, not an animation."
+            }
+          },
+          {
+            "id": "entry",
+            "title": "Branches pass through the apical region",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Apical foramen"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Apical foramen"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Mandibular canal"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar vein & dental veins"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "text": "Dental arterial branches approach each modeled root apex and continue through the apical region into radicular pulp. The brown apical-foramen item marks the cementum collar around that opening; it is not a separate vessel or free-standing duct.",
+            "check": {
+              "q": "Is the brown apical-foramen item an extra blood vessel?",
+              "a": "No. It is a cementum collar identifying the opening."
+            }
+          },
+          {
+            "id": "destination",
+            "title": "Supply reaches the pulpal compartment",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Apical foramen"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Mandibular canal"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar vein & dental veins"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "text": "The selected artery accompanies the radicular and coronal pulpal compartments. In life, oxygen and nutrients reach cells through a microcirculation that is not depicted. Stop the visible trace at the represented pulp; no direct artery-to-vein bridge is claimed.",
+            "check": {
+              "q": "Where must the visible supply trace stop?",
+              "a": "At the modeled pulp. Microscopic exchange vessels are not shown."
+            },
+            "conceptual_route": {
+              "kind": "arterial_supply",
+              "direction": "toward_pulp",
+              "selector": {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              "ordered_locations": [
+                "mandibular_canal",
+                "apical_region",
+                "radicular_pulp",
+                "coronal_pulp"
+              ],
+              "textual_external_origin": "maxillary_artery",
+              "unshown_link": "pulp_microcirculation",
+              "animation": false
+            }
+          }
+        ],
+        "schematic_limitations": [
+          "This is static selection and framing of existing anatomy, not a biological simulation.",
+          "Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry.",
+          "The complete arterial network is one selectable item; individual roots and arterial segments are not separate selectors.",
+          "Vessel solids are not resolved blood-filled bores. No moving blood, velocity or perfusion is shown.",
+          "Calibre and section-face offsets are schematic; arterial origin outside the jaw block is textual.",
+          "Arterial/venous calibre, spacing and shallow section-face offsets are schematic, not anatomical displacements."
+        ]
+      },
+      {
+        "id": "pulp_venous_drainage",
+        "title": "Trace venous drainage out of the pulp",
+        "mechanism": "Read venous return in the opposite conceptual direction, preserving independent artery and vein identities.",
+        "evidence_ids": [
+          "elsevier_pterygoid",
+          "umich_venous"
+        ],
+        "steps": [
+          {
+            "id": "pulp",
+            "title": "Start at the pulpal drainage territory",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar vein & dental veins"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Apical foramen"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Mandibular canal"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar vein & dental veins"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "text": "The blue dental-vein item is the distinct return pathway associated with the represented coronal and radicular pulp. Compare it with the arterial item, keeping both identities separate even though they share the same apical passage region.",
+            "check": {
+              "q": "Does the blue route mean a second arterial supply?",
+              "a": "No. It represents venous drainage."
+            }
+          },
+          {
+            "id": "exit",
+            "title": "Leave through the apical region",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar vein & dental veins"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Apical foramen"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Mandibular canal"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Apical foramen"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Mandibular canal"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar vein & dental veins"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "text": "Read the blue route outward from pulp through the root apex to the inferior alveolar vein within the mandibular canal. This conceptual direction reverses the supply explanation; static highlighting does not measure actual flow.",
+            "check": {
+              "q": "In which direction is venous drainage being explained?",
+              "a": "From pulp toward the mandibular venous route."
+            },
+            "conceptual_route": {
+              "kind": "venous_drainage",
+              "direction": "away_from_pulp",
+              "selector": {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar vein & dental veins"
+              },
+              "ordered_locations": [
+                "coronal_pulp",
+                "radicular_pulp",
+                "apical_region",
+                "mandibular_canal"
+              ],
+              "textual_external_destination": "pterygoid_venous_plexus",
+              "unshown_link": "pulp_microcirculation",
+              "animation": false
+            }
+          },
+          {
+            "id": "destination",
+            "title": "The return route continues outside the block",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar vein & dental veins"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Mandibular canal"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Apical foramen"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Mandibular canal"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar artery & dental arteries"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar vein & dental veins"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "text": "The inferior alveolar vein contributes to the pterygoid venous plexus. That destination is outside the jaw block and is named in text only. The separate blue course remains independent from the artery through the modeled apical and mandibular route.",
+            "check": {
+              "q": "Is the pterygoid venous plexus present in this model?",
+              "a": "No. Its relationship is textual context."
+            }
+          }
+        ],
+        "schematic_limitations": [
+          "This is static selection and framing of existing anatomy, not a biological simulation.",
+          "Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry.",
+          "The source vein is one selectable solid item; no venous pressure, valve or compression response is simulated.",
+          "The pterygoid venous plexus is outside this model.",
+          "A capillary/venular transition is biological context only and is not a shown bridge between the red and blue items.",
+          "Arterial/venous calibre, spacing and shallow section-face offsets are schematic, not anatomical displacements."
+        ]
+      },
+      {
+        "id": "periodontal_support_sensation",
+        "title": "Support and load sensation",
+        "mechanism": "Connect tooth-root attachment to load transfer and distinguish periodontal mechanosensation from intradental pain.",
+        "evidence_ids": [
+          "ada_tooth",
+          "trulsson_1992"
+        ],
+        "steps": [
+          {
+            "id": "attachment",
+            "title": "Follow the attachment across the ligament",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Cementum"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Periodontal ligament"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Alveolar bone proper (lamina dura)"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Cementum"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Periodontal ligament"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Alveolar bone proper (lamina dura)"
+              }
+            ],
+            "text": "At the root, ligament collagen attaches to cementum and socket bone. Occlusal loading is transferred through this soft-hard tissue attachment system to the jaw. The intact tissue bands show the attachment relationship; they do not solve its mechanical response.",
+            "check": {
+              "q": "Which interface transfers root loading toward the jaw?",
+              "a": "The cementum-periodontal ligament-alveolar bone attachment system."
+            }
+          },
+          {
+            "id": "loading",
+            "title": "The tooth is supported by a fibrous joint",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Periodontal ligament"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Alveolar bone proper (lamina dura)"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Enamel"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Cementum"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Periodontal ligament"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Alveolar bone proper (lamina dura)"
+              }
+            ],
+            "text": "The periodontal ligament allows a supported tooth to respond to load while remaining attached to its socket. Keep the accepted resting geometry. A rigid tooth translation or an exaggerated wobble would not establish realistic ligament biomechanics.",
+            "check": {
+              "q": "Would a moving tooth mesh prove realistic PDL elasticity?",
+              "a": "No. This sequence makes no elasticity or deformation calculation."
+            }
+          },
+          {
+            "id": "sensory",
+            "title": "Periodontal afferents report tooth loading",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Periodontal ligament"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Cementum"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Periodontal ligament"
+              },
+              {
+                "group": "Tooth – Periodontium & jaw",
+                "name": "Alveolar bone proper (lamina dura)"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "text": "Periodontal mechanoreceptors inform the nervous system about tooth loading, including directional information across afferent populations. Human recordings in the inferior alveolar nerve support this role. The yellow nerve item is contextual: receptor endings and their PDL branches are not shown.",
+            "check": {
+              "q": "Are PDL mechanoreceptors drawn as yellow endings in the band?",
+              "a": "No. Their sensory role is explained; the displayed nerve supplies context."
+            }
+          }
+        ],
+        "schematic_limitations": [
+          "This is static selection and framing of existing anatomy, not a biological simulation.",
+          "Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry.",
+          "PDL is a bulk tissue band; collagen insertions, fluid response, mechanoreceptor endings and PDL neural branches are not individually resolved.",
+          "No spring constant, force magnitude, tissue strain, orthodontic movement or neural firing is computed.",
+          "Human directional afferent evidence is qualitative context; do not transfer the cited anterior/premolar experiment into numerical molar thresholds."
+        ]
+      },
+      {
+        "id": "dentin_sensitivity",
+        "title": "From exposed dentin to sensation",
+        "mechanism": "Explain the hydrodynamic account without drawing invisible tubules or asserting a settled cellular transducer.",
+        "evidence_ids": [
+          "ahlquist_1994",
+          "raber_2024"
+        ],
+        "steps": [
+          {
+            "id": "coverage",
+            "title": "The protective coverings matter",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Enamel"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Cementum"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Enamel"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Cementum"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "text": "Dentin normally lies beneath enamel in the crown and cementum on the root. Hiding a covering only helps locate the interface. It does not diagnose exposed dentin or create a pathological surface in the saved model.",
+            "check": {
+              "q": "Does an educational hidden-enamel view represent tooth decay?",
+              "a": "No. It is only a visibility choice."
+            }
+          },
+          {
+            "id": "stimulus",
+            "title": "Read the hydrodynamic explanation",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Enamel"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Cementum"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "text": "When dentin is exposed and tubules are patent, external stimuli may displace tubule contents and activate the pulpal sensory system. Human pressure experiments support this account. The sequence highlights bulk dentin and pulp; no microscopic fluid displacement is shown.",
+            "check": {
+              "q": "What is the model displaying during this explanation?",
+              "a": "Dentin, pulp and nerve context, not fluid flow through tubules."
+            }
+          },
+          {
+            "id": "limits",
+            "title": "Separate the explanation from the unresolved transducer",
+            "action": "static_focus",
+            "focus_parts": [
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              }
+            ],
+            "visible_parts": [
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Enamel"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Dentin"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Cementum"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Pulp chamber (coronal pulp)"
+              },
+              {
+                "group": "Tooth – Molar in section",
+                "name": "Root canals (radicular pulp)"
+              },
+              {
+                "group": "Tooth – Nerves & vessels",
+                "name": "Inferior alveolar nerve & dental nerves"
+              }
+            ],
+            "text": "Fluid-dependent sensitivity is one supported explanation. How sensory cells and odontoblasts contribute is not fully settled. The selected inferior alveolar/dental nerve item indicates a sensory pathway, not action potentials or a complete microscopic nerve plexus.",
+            "check": {
+              "q": "Does this view prove odontoblasts alone cause dentin pain?",
+              "a": "No. It teaches a supported mechanism while retaining cellular uncertainty."
+            }
+          }
+        ],
+        "schematic_limitations": [
+          "This is static selection and framing of existing anatomy, not a biological simulation.",
+          "Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry.",
+          "A teaching reveal is not a simulated lesion, gingival recession or demineralization.",
+          "Microscopic tubules, fluid movement, odontoblasts, terminals and neural impulses are not rendered or calculated.",
+          "Hydrodynamic sensitivity is supported, but the precise cellular transducer and contributions of other mechanisms remain under investigation."
+        ]
+      }
+    ],
+    "preserved_features": [
+      "accepted lower first-molar section and tissue bands",
+      "separate artery, vein and nerve courses",
+      "two-root pulpal foundation",
+      "periodontal ligament and alveolar support",
+      "all comparison tooth-type parts at their authored positions; hidden only in focused tissue steps"
+    ],
+    "unrepresented_biology": [
+      "capillary bed",
+      "blood-filled vessel bores",
+      "dentinal tubules and their fluid",
+      "odontoblast layer/processes",
+      "PDL individual collagen insertions",
+      "PDL sensory endings and their branches",
+      "neural action potentials",
+      "tissue strain and orthodontic remodeling"
+    ],
+    "native_integration": {
+      "lesson_loader": "app.lessons.load_lessons(extra=(path,)) or data/content/lessons*.json in NEW app only",
+      "step_marker": "tooth_static",
+      "runtime_adapter": "tooth_static_steps.StaticStepSession",
+      "hook": "app.ui.lessons.LessonsPanel._micro_focus: use static session for marked steps instead of native focus_parts",
+      "close_hook": "LessonsPanel.close_lesson / _runner_back plus model tab disposal: call session.close",
+      "variant_policy": "Apply to one already-selected tooth Pre refine or Post refine variant; never load another variant or write preference from this adapter.",
+      "settled_view": "First-step application must follow initial ModelView zero-delay home reset, using a guarded live-step/view token; native GUI ordering remains deferred."
+    },
+    "source_dependencies": [
+      {
+        "root": "baseline",
+        "path": "app/micro/tooth.py",
+        "sha256": "ca459d949525b0509ecd888c31cd57ecde4de4a9d826a972b47ed8f15f7753dd",
+        "lines": "215-272,294-374,420-530,590-645"
+      },
+      {
+        "root": "baseline",
+        "path": "app/ui/lessons.py",
+        "sha256": "da933b637d4fe881d682c311556d465f2a3ab38b0b57a115a3505ad1ce99cf0e",
+        "lines": "580-614,692-711,751-766"
+      },
+      {
+        "root": "baseline",
+        "path": "app/viewer/procedural.py",
+        "sha256": "b0f522d6e037b394607c7e4ecff6a0be66467ad7109eb5838b5045b0ea29cf18",
+        "lines": "69-129"
+      },
+      {
+        "root": "baseline",
+        "path": "app/viewer/model.py",
+        "sha256": "60a7c4be1dad62c00e020aa570b342bd829b7b64809872890fa3d13c55eabaac",
+        "lines": "31-112,147-185,306-337"
+      },
+      {
+        "root": "baseline",
+        "path": "app/ui/model_view.py",
+        "sha256": "ee57c85edf1eb25741f0280552ac898e406f66b45bdabe1948e8a107fe78ed34",
+        "lines": "642-668,775-795,818-840"
+      },
+      {
+        "root": "baseline",
+        "path": "app/viewer/viewport.py",
+        "sha256": "f6cc86f76bc770741e745b2e8d4960b6082ef458df0be0a0bad27d7f16ac5d0f",
+        "lines": "408-444"
+      },
+      {
+        "root": "baseline",
+        "path": "app/state.py",
+        "sha256": "99ea2527ab7c6a973285dbbe875b98777648bd1452f9568e0fc017e9129b5a3a",
+        "lines": "75-98,233-264,300-335"
+      },
+      {
+        "root": "baseline",
+        "path": "app/lessons.py",
+        "sha256": "761c7136e85e7444fc7ff9d4f0f8f4e84c28d43a97ed7b9d197253f53ec03afb",
+        "lines": "78-101,160-178"
+      },
+      {
+        "root": "baseline",
+        "path": "app/micro/registry_extra_lower_gi.py",
+        "sha256": "de4fdc10e407bede14d4aefb532332a8b06d0dd7cef7b683571921dd80e0431d",
+        "lines": "75-136"
+      }
+    ],
+    "scale_disclosures": [
+      "The accepted section is authored at 1 unit = 1 cm; registered metres_per_unit is 0.01.",
+      "Cementum and periodontal ligament are teaching-thickened according to the original scale note.",
+      "Artery/vein calibre, spacing and section-face offsets are schematic; no capillary bed is shown.",
+      "Comparison tooth types retain their original 0.58 authoring scale and cannot be used for same-scale measurement against the sectioned molar."
+    ]
+  },
+  "native_lesson_records": [
+    {
+      "id": "tooth_structure_function_static",
+      "title": "Tooth: structure and function",
+      "system": "digestive",
+      "region": "head_neck",
+      "level": "core",
+      "summary": "A static guided explanation of tissue roles, pulpal supply and drainage, periodontal support and dentin sensitivity.",
+      "objectives": [
+        "Relate enamel, dentin, pulp and cementum to their tissue roles.",
+        "Distinguish arterial entry from venous exit through the apical region.",
+        "Explain periodontal attachment and load sensation without inferring simulated mechanics.",
+        "Explain the hydrodynamic account of dentin sensitivity and its limits."
+      ],
+      "steps": [
+        {
+          "title": "Crown protection",
+          "text": "Enamel covers crown dentin. Its mineralized surface protects the underlying tooth; its lack of living cells limits biological repair. The selected shell is anatomy, not a wear-resistant material calculation.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Enamel"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "tissue_roles",
+            "step_id": "cover"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. Cell layers, rods and tubules are not independently modeled. Hiding enamel is an educational reveal, not enamel loss or a pathology state.",
+          "check": {
+            "q": "Which tissue covers crown dentin?",
+            "a": "Enamel."
+          }
+        },
+        {
+          "title": "Dentin forms the tooth body",
+          "text": "Dentin makes up the tooth body beneath enamel and root cementum. Odontoblasts at the pulp-dentin boundary form and maintain dentin. Their microscopic processes and tubules are described here, not resolved by this bulk mesh.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Dentin"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "tissue_roles",
+            "step_id": "body"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. Cell layers, rods and tubules are not independently modeled. Hiding enamel is an educational reveal, not enamel loss or a pathology state.",
+          "check": {
+            "q": "Does this mesh show individual dentinal tubules?",
+            "a": "No. It shows bulk dentin and the surrounding tissues."
+          }
+        },
+        {
+          "title": "A cavity occupied by living pulp",
+          "text": "The coronal chamber and root-canal parts depict soft pulpal tissue occupying the internal cavity. The root-canal label here selects radicular pulp, not an empty pipe. Vessels and nerves serve this living compartment.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Pulp chamber (coronal pulp)",
+            "Root canals (radicular pulp)"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "tissue_roles",
+            "step_id": "vital"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. Cell layers, rods and tubules are not independently modeled. Hiding enamel is an educational reveal, not enamel loss or a pathology state.",
+          "check": {
+            "q": "Does selecting root canals select an empty lumen?",
+            "a": "No. The named item is occupied radicular pulp."
+          }
+        },
+        {
+          "title": "The root attachment interface",
+          "text": "Cementum covers root dentin and provides attachment for periodontal collagen. The periodontal ligament connects the root to the alveolar socket wall. The continuity matters more than a separated-layer display.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Cementum",
+            "Periodontal ligament",
+            "Alveolar bone proper (lamina dura)"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "tissue_roles",
+            "step_id": "anchor"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. Cell layers, rods and tubules are not independently modeled. Hiding enamel is an educational reveal, not enamel loss or a pathology state.",
+          "check": {
+            "q": "Which tissues flank the periodontal ligament?",
+            "a": "Cementum on the tooth side and alveolar bone proper on the socket side."
+          }
+        },
+        {
+          "title": "Find the arterial trunk",
+          "text": "The inferior alveolar artery runs within the mandibular canal. Its proximal connection to the maxillary artery is outside this block. The red item lets you distinguish an arterial supply route from the blue venous return route.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Inferior alveolar artery & dental arteries",
+            "Mandibular canal"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "pulp_arterial_supply",
+            "step_id": "canal"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. The complete arterial network is one selectable item; individual roots and arterial segments are not separate selectors. Vessel solids are not resolved blood-filled bores. No moving blood, velocity or perfusion is shown. Calibre and section-face offsets are schematic; arterial origin outside the jaw block is textual. Arterial/venous calibre, spacing and shallow section-face offsets are schematic, not anatomical displacements.",
+          "check": {
+            "q": "What distinguishes supply from drainage here?",
+            "a": "Separate artery and vein items, not an animation."
+          }
+        },
+        {
+          "title": "Branches pass through the apical region",
+          "text": "Dental arterial branches approach each modeled root apex and continue through the apical region into radicular pulp. The brown apical-foramen item marks the cementum collar around that opening; it is not a separate vessel or free-standing duct.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Inferior alveolar artery & dental arteries",
+            "Apical foramen",
+            "Root canals (radicular pulp)"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "pulp_arterial_supply",
+            "step_id": "entry"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. The complete arterial network is one selectable item; individual roots and arterial segments are not separate selectors. Vessel solids are not resolved blood-filled bores. No moving blood, velocity or perfusion is shown. Calibre and section-face offsets are schematic; arterial origin outside the jaw block is textual. Arterial/venous calibre, spacing and shallow section-face offsets are schematic, not anatomical displacements.",
+          "check": {
+            "q": "Is the brown apical-foramen item an extra blood vessel?",
+            "a": "No. It is a cementum collar identifying the opening."
+          }
+        },
+        {
+          "title": "Supply reaches the pulpal compartment",
+          "text": "The selected artery accompanies the radicular and coronal pulpal compartments. In life, oxygen and nutrients reach cells through a microcirculation that is not depicted. Stop the visible trace at the represented pulp; no direct artery-to-vein bridge is claimed.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Inferior alveolar artery & dental arteries",
+            "Root canals (radicular pulp)",
+            "Pulp chamber (coronal pulp)"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "pulp_arterial_supply",
+            "step_id": "destination"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. The complete arterial network is one selectable item; individual roots and arterial segments are not separate selectors. Vessel solids are not resolved blood-filled bores. No moving blood, velocity or perfusion is shown. Calibre and section-face offsets are schematic; arterial origin outside the jaw block is textual. Arterial/venous calibre, spacing and shallow section-face offsets are schematic, not anatomical displacements.",
+          "check": {
+            "q": "Where must the visible supply trace stop?",
+            "a": "At the modeled pulp. Microscopic exchange vessels are not shown."
+          }
+        },
+        {
+          "title": "Start at the pulpal drainage territory",
+          "text": "The blue dental-vein item is the distinct return pathway associated with the represented coronal and radicular pulp. Compare it with the arterial item, keeping both identities separate even though they share the same apical passage region.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Inferior alveolar vein & dental veins",
+            "Pulp chamber (coronal pulp)",
+            "Root canals (radicular pulp)"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "pulp_venous_drainage",
+            "step_id": "pulp"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. The source vein is one selectable solid item; no venous pressure, valve or compression response is simulated. The pterygoid venous plexus is outside this model. A capillary/venular transition is biological context only and is not a shown bridge between the red and blue items. Arterial/venous calibre, spacing and shallow section-face offsets are schematic, not anatomical displacements.",
+          "check": {
+            "q": "Does the blue route mean a second arterial supply?",
+            "a": "No. It represents venous drainage."
+          }
+        },
+        {
+          "title": "Leave through the apical region",
+          "text": "Read the blue route outward from pulp through the root apex to the inferior alveolar vein within the mandibular canal. This conceptual direction reverses the supply explanation; static highlighting does not measure actual flow.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Inferior alveolar vein & dental veins",
+            "Apical foramen",
+            "Mandibular canal"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "pulp_venous_drainage",
+            "step_id": "exit"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. The source vein is one selectable solid item; no venous pressure, valve or compression response is simulated. The pterygoid venous plexus is outside this model. A capillary/venular transition is biological context only and is not a shown bridge between the red and blue items. Arterial/venous calibre, spacing and shallow section-face offsets are schematic, not anatomical displacements.",
+          "check": {
+            "q": "In which direction is venous drainage being explained?",
+            "a": "From pulp toward the mandibular venous route."
+          }
+        },
+        {
+          "title": "The return route continues outside the block",
+          "text": "The inferior alveolar vein contributes to the pterygoid venous plexus. That destination is outside the jaw block and is named in text only. The separate blue course remains independent from the artery through the modeled apical and mandibular route.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Inferior alveolar vein & dental veins",
+            "Inferior alveolar artery & dental arteries",
+            "Mandibular canal"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "pulp_venous_drainage",
+            "step_id": "destination"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. The source vein is one selectable solid item; no venous pressure, valve or compression response is simulated. The pterygoid venous plexus is outside this model. A capillary/venular transition is biological context only and is not a shown bridge between the red and blue items. Arterial/venous calibre, spacing and shallow section-face offsets are schematic, not anatomical displacements.",
+          "check": {
+            "q": "Is the pterygoid venous plexus present in this model?",
+            "a": "No. Its relationship is textual context."
+          }
+        },
+        {
+          "title": "Follow the attachment across the ligament",
+          "text": "At the root, ligament collagen attaches to cementum and socket bone. Occlusal loading is transferred through this soft-hard tissue attachment system to the jaw. The intact tissue bands show the attachment relationship; they do not solve its mechanical response.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Cementum",
+            "Periodontal ligament",
+            "Alveolar bone proper (lamina dura)"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "periodontal_support_sensation",
+            "step_id": "attachment"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. PDL is a bulk tissue band; collagen insertions, fluid response, mechanoreceptor endings and PDL neural branches are not individually resolved. No spring constant, force magnitude, tissue strain, orthodontic movement or neural firing is computed. Human directional afferent evidence is qualitative context; do not transfer the cited anterior/premolar experiment into numerical molar thresholds.",
+          "check": {
+            "q": "Which interface transfers root loading toward the jaw?",
+            "a": "The cementum-periodontal ligament-alveolar bone attachment system."
+          }
+        },
+        {
+          "title": "The tooth is supported by a fibrous joint",
+          "text": "The periodontal ligament allows a supported tooth to respond to load while remaining attached to its socket. Keep the accepted resting geometry. A rigid tooth translation or an exaggerated wobble would not establish realistic ligament biomechanics.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Periodontal ligament",
+            "Alveolar bone proper (lamina dura)"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "periodontal_support_sensation",
+            "step_id": "loading"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. PDL is a bulk tissue band; collagen insertions, fluid response, mechanoreceptor endings and PDL neural branches are not individually resolved. No spring constant, force magnitude, tissue strain, orthodontic movement or neural firing is computed. Human directional afferent evidence is qualitative context; do not transfer the cited anterior/premolar experiment into numerical molar thresholds.",
+          "check": {
+            "q": "Would a moving tooth mesh prove realistic PDL elasticity?",
+            "a": "No. This sequence makes no elasticity or deformation calculation."
+          }
+        },
+        {
+          "title": "Periodontal afferents report tooth loading",
+          "text": "Periodontal mechanoreceptors inform the nervous system about tooth loading, including directional information across afferent populations. Human recordings in the inferior alveolar nerve support this role. The yellow nerve item is contextual: receptor endings and their PDL branches are not shown.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Periodontal ligament",
+            "Inferior alveolar nerve & dental nerves"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "periodontal_support_sensation",
+            "step_id": "sensory"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. PDL is a bulk tissue band; collagen insertions, fluid response, mechanoreceptor endings and PDL neural branches are not individually resolved. No spring constant, force magnitude, tissue strain, orthodontic movement or neural firing is computed. Human directional afferent evidence is qualitative context; do not transfer the cited anterior/premolar experiment into numerical molar thresholds.",
+          "check": {
+            "q": "Are PDL mechanoreceptors drawn as yellow endings in the band?",
+            "a": "No. Their sensory role is explained; the displayed nerve supplies context."
+          }
+        },
+        {
+          "title": "The protective coverings matter",
+          "text": "Dentin normally lies beneath enamel in the crown and cementum on the root. Hiding a covering only helps locate the interface. It does not diagnose exposed dentin or create a pathological surface in the saved model.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Enamel",
+            "Dentin",
+            "Cementum"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "dentin_sensitivity",
+            "step_id": "coverage"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. A teaching reveal is not a simulated lesion, gingival recession or demineralization. Microscopic tubules, fluid movement, odontoblasts, terminals and neural impulses are not rendered or calculated. Hydrodynamic sensitivity is supported, but the precise cellular transducer and contributions of other mechanisms remain under investigation.",
+          "check": {
+            "q": "Does an educational hidden-enamel view represent tooth decay?",
+            "a": "No. It is only a visibility choice."
+          }
+        },
+        {
+          "title": "Read the hydrodynamic explanation",
+          "text": "When dentin is exposed and tubules are patent, external stimuli may displace tubule contents and activate the pulpal sensory system. Human pressure experiments support this account. The sequence highlights bulk dentin and pulp; no microscopic fluid displacement is shown.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Dentin",
+            "Pulp chamber (coronal pulp)",
+            "Inferior alveolar nerve & dental nerves"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "dentin_sensitivity",
+            "step_id": "stimulus"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. A teaching reveal is not a simulated lesion, gingival recession or demineralization. Microscopic tubules, fluid movement, odontoblasts, terminals and neural impulses are not rendered or calculated. Hydrodynamic sensitivity is supported, but the precise cellular transducer and contributions of other mechanisms remain under investigation.",
+          "check": {
+            "q": "What is the model displaying during this explanation?",
+            "a": "Dentin, pulp and nerve context, not fluid flow through tubules."
+          }
+        },
+        {
+          "title": "Separate the explanation from the unresolved transducer",
+          "text": "Fluid-dependent sensitivity is one supported explanation. How sensory cells and odontoblasts contribute is not fully settled. The selected inferior alveolar/dental nerve item indicates a sensory pathway, not action potentials or a complete microscopic nerve plexus.",
+          "micro": "tooth",
+          "micro_focus": [
+            "Inferior alveolar nerve & dental nerves",
+            "Pulp chamber (coronal pulp)",
+            "Dentin"
+          ],
+          "tooth_static": {
+            "schema_version": 1,
+            "sequence_id": "dentin_sensitivity",
+            "step_id": "limits"
+          },
+          "pitfall": "This is static selection and framing of existing anatomy, not a biological simulation. Preserve the accepted enamel, dentin, pulp, cementum, periodontal support, and adult tooth-type comparison geometry. A teaching reveal is not a simulated lesion, gingival recession or demineralization. Microscopic tubules, fluid movement, odontoblasts, terminals and neural impulses are not rendered or calculated. Hydrodynamic sensitivity is supported, but the precise cellular transducer and contributions of other mechanisms remain under investigation.",
+          "check": {
+            "q": "Does this view prove odontoblasts alone cause dentin pain?",
+            "a": "No. It teaches a supported mechanism while retaining cellular uncertainty."
+          }
+        }
+      ],
+      "tags": [
+        "tooth",
+        "structure-function",
+        "static teaching"
+      ]
+    }
+  ]
+}

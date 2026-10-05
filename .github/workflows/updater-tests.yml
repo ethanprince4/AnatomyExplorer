@@ -27,6 +27,7 @@ jobs:
         run: python -m pip install certifi==2026.7.22
       - name: Test update failures and recovery
         run: |
+          python packaging/test_local_library_release.py
           python -m unittest discover -s tests -p 'test_updater.py' -v
           python -m unittest discover -s tests -p 'test_updater_channels.py' -v
           python -m unittest discover -s tests -p 'test_update_packaging.py' -v
@@ -64,10 +65,12 @@ jobs:
         with:
           python-version: '3.11'
           cache: pip
-      - run: python -m pip install -r requirements.txt
+      - run: python -m pip install -r requirements.txt pytest
       - name: Install accepted shipping Cocoa plugin without changing frameworks
         if: runner.os == 'macOS'
         run: python packaging/install_cocoa.py
+      - name: Test local library loading and independent imports
+        run: python -m pytest tests/test_local_library.py tests/test_local_runtime.py tests/test_import_refiner.py -q
       - name: Test picking, study recovery and general bug fixes
         run: python -m unittest discover -s tests -v
       - name: Require actual Mac production ID readback controls

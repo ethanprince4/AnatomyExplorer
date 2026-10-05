@@ -1,0 +1,147 @@
+{
+  "thin_skin": {
+    "teaching": {
+      "module": "thin_skin_teaching",
+      "source": "viewer_adapter.py",
+      "source_sha256": "d5501f38717d76070078d7957d99fda9eb76d49b74890b368dbf87625e3be441"
+    },
+    "function": {
+      "module": "thin_skin_function",
+      "source": "function_adapter.py",
+      "source_sha256": "267563d27957aaa34c93adecbb02b20821e9d2fb1e35c9577364208bf892a369"
+    }
+  },
+  "thick_skin": {
+    "teaching": {
+      "module": "thick_skin_teaching",
+      "source": "viewer_adapter.py",
+      "source_sha256": "c621a0ddb55bcbcc5df7b171ab80caeade5757c891c4991479d47594b53de07b"
+    },
+    "function": {
+      "module": "thick_skin_function",
+      "source": "function_adapter.py",
+      "source_sha256": "bb75d5be78ee79ac0fabcb6e9bbad2027190d268ee80b001a5bc85e860362902"
+    }
+  },
+  "tooth": {
+    "teaching": {
+      "module": "tooth_teaching",
+      "source": "source/teaching_adapter.py",
+      "source_sha256": "2a40945a7355723ff3fb67ed912358d2077c34b63de44c77292436adff3d7ce4"
+    },
+    "function": {
+      "module": "tooth_function",
+      "source": "source/function_adapter.py",
+      "source_sha256": "8d642f5e3759ed09da01eb8e21e7f825e5675039965bbea95ce781b81ca9beb3"
+    }
+  },
+  "tongue_papillae": {
+    "teaching": {
+      "module": "tongue_papillae_teaching",
+      "source": "source/teaching_sidecar.py",
+      "source_sha256": "9f7186be77d049fd5f860b594a9df516859df05dd4e2ed383d2d58ee72c630c1"
+    },
+    "function": {
+      "module": "tongue_papillae_function",
+      "source": "source/function_adapter.py",
+      "source_sha256": "4cadddde1e40c7811c5eb564f0518ddd8b8c1482395b2b093047ca2450f6f7f3"
+    }
+  },
+  "thyroid_follicles": {
+    "teaching": {
+      "module": "thyroid_follicles_teaching",
+      "source": "source/teaching_adapter.py",
+      "source_sha256": "277b862c0ee3fb8da7bfc07756815190d0488c525ab40413906bf80a1430d230"
+    },
+    "function": {
+      "module": "thyroid_follicles_function",
+      "source": "source/function_runtime.py",
+      "source_sha256": "74d7bed87a0217d335c565d688e6e2f555479c8f7431fe5c9b11e38a93e1cde1"
+    }
+  },
+  "thyroid_parathyroid_review_v2": {
+    "teaching": {
+      "module": "thyroid_parathyroid_review_v2_teaching",
+      "source": "teaching_hooks.py",
+      "source_sha256": "cd3473f45d42fee4cc09248a8efdb6b9fd5396521f22f0a98a1df8a05486044f"
+    },
+    "function": {
+      "module": "thyroid_parathyroid_review_v2_function",
+      "source": "function_lesson_adapter.py",
+      "source_sha256": "0106f4125e87eb7cd7dd159b8938134a7b336e52f73818169bf9e931fa500196"
+    }
+  },
+  "trachea_wall": {
+    "teaching": {
+      "module": "trachea_wall_teaching",
+      "source": "source/native_controls.py",
+      "source_sha256": "f478fa2cba9bef59f64be249bb41c4e31b5a414f1eb302a5e567e5ae2b8f2dca"
+    },
+    "function": {
+      "module": "trachea_wall_function",
+      "source": "source/native_sequences.py",
+      "source_sha256": "3722b8ecd763ccdb21a853e7967a97dde2282153f71908cafab056000cd384ac"
+    }
+  },
+  "ear": {
+    "function": {
+      "module": "ear_function",
+      "source": "source/sequence_controller.py",
+      "source_sha256": "373f00ba9abd322215b77f2705d6590acbe51dca36ac408b61093abbc273106a"
+    }
+  },
+  "muscular_artery": {
+    "teaching": {
+      "module": "muscular_artery_teaching",
+      "source": "specialists/teaching/native_controller.py",
+      "source_sha256": "84cd6abef4db5cf9df5aabb0af774bcd99d829ceb6516afb35b71b58b1c0a5ee"
+    }
+  },
+  "scalp": {
+    "teaching": {
+      "module": "scalp_teaching",
+      "source": "specialists/teaching/native_views.py",
+      "source_sha256": "69c846cd636e68a5ce2e563fed789c067321266966ab6e85a06f517817cfab6d"
+    },
+    "function": {
+      "module": "scalp_function",
+      "source": "specialists/function/apply_stage.py",
+      "source_sha256": "5af3b6ca1d21c88238ecfc7a6161d04e99d8f562975250554a96d7d0ae1147f3"
+    }
+  },
+  "duodenum": {
+    "teaching": {
+      "module": "duodenum_teaching",
+      "source": "native_adapter.py",
+      "source_sha256": "38eb8e53df173452b280ddf838c44be0de0142569e73c7cb2b7422e361c208eb"
+    }
+  },
+  "oesophagus_wall": {
+    "teaching": {
+      "module": "oesophagus_wall_teaching",
+      "source": "native_adapter.py",
+      "source_sha256": "2ac548c1fd68aba0a10079976dba055fd457b612474a05e36d9dba0487785455"
+    }
+  },
+  "lymph_node": {
+    "function": {
+      "module": "lymph_node_function",
+      "source": "resolve_function.py",
+      "source_sha256": "aa11407a961073c6f8b22875668cce4159baa9066210df4b6272e90e21165cfa"
+    }
+  },
+  "peripheral_nerve": {
+    "function": {
+      "module": "peripheral_nerve_function",
+      "source": "resolve_function.py",
+      "source_sha256": "a741e260925d7d489d5e21413b1b7c9009836ab9741cfc65e4039ae81dbce7ef"
+    }
+  },
+  "stomach_wall": {
+    "function": {
+      "module": "stomach_wall_function",
+      "source": "functional_adapter.py",
+      "source_sha256": "f884b75d0d4feeffd19c3833ad582ab49a14b39f5c7f2dc3a1807f6b9ab8ab48"
+    }
+  }
+}

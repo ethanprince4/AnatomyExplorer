@@ -1,0 +1,345 @@
+{
+  "schema_version": 1,
+  "model_id": "skeletal_muscle",
+  "native_progression": [
+    "F1 Hierarchy and force context",
+    "F2 One multinucleated cell",
+    "F3 Motor junction interface",
+    "F4 Excitation at the triad",
+    "F5 Filament overlap explanation",
+    "F6 Perfusion alongside the fiber",
+    "F7 Spindle in parallel context",
+    "F8 Spindle equator and poles"
+  ],
+  "sequences": [
+    {
+      "id": "excitation_to_relaxation",
+      "mechanism": "Presynaptic calcium-dependent ACh release → muscle end-plate potential and action potential → T-membrane voltage sensing → SR calcium release → regulated ATP-dependent cross-bridge cycling → calcium reuptake",
+      "steps": [
+        {
+          "id": "terminal_release",
+          "state": "F3 Motor junction interface",
+          "signal": "presynaptic action potential and extracellular calcium entry",
+          "source": "extracellular space beside motor terminal",
+          "destination": "motor terminal cytoplasm",
+          "effect": "vesicle release of acetylcholine",
+          "evidence": [
+            "transmitter_release"
+          ],
+          "representation": "explained; terminal calcium channels and fusion machinery not individually modeled"
+        },
+        {
+          "id": "chemical_transmission",
+          "state": "F3 Motor junction interface",
+          "signal": "ACh diffusion across cleft and binding to nicotinic receptors",
+          "source": "motor terminal vesicles",
+          "destination": "postsynaptic muscle membrane",
+          "effect": "local end-plate potential",
+          "evidence": [
+            "nmj_transmission",
+            "leeds_nmj"
+          ]
+        },
+        {
+          "id": "muscle_excitation",
+          "state": "F4 Excitation at the triad",
+          "signal": "threshold-triggered muscle action potential",
+          "source": "end-plate depolarization",
+          "destination": "sarcolemmal and T-tubule membranes",
+          "effect": "propagated electrical signal, not movement of ACh through the cell",
+          "evidence": [
+            "nmj_transmission",
+            "leeds_stimulation"
+          ]
+        },
+        {
+          "id": "triad_coupling",
+          "state": "F4 Excitation at the triad",
+          "signal": "T-membrane CaV1.1 voltage sensing coupled to SR RyR1 activation",
+          "source": "T-tubule membrane voltage sensor",
+          "destination": "SR membrane release channel",
+          "effect": "SR calcium release into sarcoplasm",
+          "evidence": [
+            "skeletal_ec_coupling"
+          ],
+          "representation": "coupling proteins named in text only; precise molecular contact arrangement not reconstructed"
+        },
+        {
+          "id": "thin_regulation",
+          "state": "F5 Filament overlap explanation",
+          "signal": "calcium binds troponin C; tropomyosin inhibition is reduced",
+          "source": "sarcoplasmic calcium",
+          "destination": "thin-filament regulatory system",
+          "effect": "permits actin–myosin interactions",
+          "evidence": [
+            "crossbridge_textbook",
+            "leeds_stimulation"
+          ],
+          "representation": "regulatory molecules not individually modeled"
+        },
+        {
+          "id": "crossbridge_cycle",
+          "state": "F5 Filament overlap explanation",
+          "signal": "ATP-dependent cross-bridge cycle",
+          "source": "myosin head interaction with actin",
+          "destination": "filament sliding and tension under appropriate load",
+          "effect": "repeated attachment, force generation, ATP-dependent detachment and recovery",
+          "evidence": [
+            "crossbridge_textbook"
+          ],
+          "representation": "static head examples; no motion, nucleotide states or force kinetics"
+        },
+        {
+          "id": "termination",
+          "state": "F3 Motor junction interface",
+          "signal": "cessation of nerve drive; cleft ACh breakdown",
+          "source": "acetylcholine in cleft",
+          "destination": "loss of continued receptor stimulation",
+          "effect": "no continuing muscle excitation in this normal teaching sequence",
+          "evidence": [
+            "leeds_nmj"
+          ]
+        },
+        {
+          "id": "calcium_reuptake",
+          "state": "F4 Excitation at the triad",
+          "signal": "ATP-dependent SERCA calcium reuptake",
+          "source": "sarcoplasm",
+          "destination": "SR lumen",
+          "effect": "reduces thin-filament activation; does not specify a return-to-reference length",
+          "evidence": [
+            "serca_primary",
+            "crossbridge_textbook"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Static native teaching views; no molecular particles, kinetics, voltage traces or channel geometry.",
+        "No arrow or teaching text connects T lumen with SR lumen.",
+        "Terminal covering and membranes have teaching openings and exaggerated separation.",
+        "Presynaptic extracellular calcium entry and intracellular muscle SR calcium release occur in separate cells and must never share a particle route.",
+        "The end-plate potential is a local graded signal; the propagated muscle action potential is a distinct event.",
+        "Physical skeletal coupling is described at pathway level; exact atomic binding and channel-gating geometry are not claimed.",
+        "Load is unspecified; activation does not establish shortening, force magnitude or a return-to-reference displacement."
+      ],
+      "implementation": "Static exact-name camera views and native lesson text with explicit View-menu instructions. Lesson does not apply camera visibility; no particles, solver, channel animation or timing."
+    },
+    {
+      "id": "constant_filament_overlap",
+      "mechanism": "Optional static reference and increased-overlap coordinate examples, with no physiological resting-state designation",
+      "steps": [
+        {
+          "state": "reference",
+          "z_to_z": 0.24,
+          "thick_length": 0.16,
+          "thin_length": 0.095,
+          "H_width": 0.05,
+          "half_I_width": 0.04,
+          "overlap_each": 0.055
+        },
+        {
+          "state": "increased_overlap",
+          "z_to_z": 0.21,
+          "thick_length": 0.16,
+          "thin_length": 0.095,
+          "H_width": 0.02,
+          "half_I_width": 0.025,
+          "overlap_each": 0.07
+        }
+      ],
+      "implementation": "sarcomere_states.py intervals()/comparison(); the initial reference exists in recovered source, increased-overlap geometry is not constructed. H-zone-null boundary is a scalar test only.",
+      "schematic_limitations": [
+        "Numbers are enlarged source coordinates, not measured anatomy.",
+        "No force percentage, no linear force equation and no active tension inferred from shortening.",
+        "Bare-zone constant is a separate illustrative parameter; avoid making it follow H-zone boundaries.",
+        "No native animation or second-state geometry is claimed implemented by this specialist.",
+        "Each half-I interval is reported within one Z-to-Z sarcomere; the complete I band straddles a Z disc between adjacent sarcomeres.",
+        "Reference/increased_overlap are mechanism-example names, never Pre refine/Post refine labels.",
+        "Do not map these source units onto the frog-fiber experimental micrometre values or a human optimal length."
+      ],
+      "source_evidence": [
+        "leeds_sarcomere",
+        "band_identity",
+        "bare_region",
+        "length_tension_primary"
+      ],
+      "bare_length": 0.008,
+      "bare_zone_parameter_origin": "Matches construction deferred_stages.py head omission M±0.004, width 0.008 source units; purely illustrative, not biological calibration."
+    },
+    {
+      "id": "perfusion_route",
+      "mechanism": "Represented arterial supply -> connected exchange sample -> venous collection in supporting tissue",
+      "steps": [
+        {
+          "state": "F6 Perfusion alongside the fiber",
+          "parts": [
+            "Arteriole | enlarged exchange route",
+            "Capillary exchange bed | enlarged route",
+            "Venule | enlarged exchange route"
+          ],
+          "direction": [
+            "Arteriole | enlarged exchange route",
+            "Capillary exchange bed | enlarged route",
+            "Venule | enlarged exchange route"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Three capillary paths and two cross-link levels are a teaching sample.",
+        "Trunk endpoint cuts represent continuation beyond the sampled field.",
+        "Saved lumen continuity and cell clearance await heavy validation; path annotations alone do not prove them.",
+        "No numerical exchange, pressure, saturation or velocity simulation."
+      ],
+      "implementation": "Static source-authored route; saved lumen continuity remains deferred.",
+      "source_evidence": [
+        "leeds_connective"
+      ]
+    },
+    {
+      "id": "spindle_length_sensing",
+      "mechanism": "Parallel muscle elongation deforms central intrafusal sensory region; polar contraction controls spindle tension",
+      "steps": [
+        {
+          "state": "F7 Spindle in parallel context",
+          "relation": "parallel to surrounding extrafusal fibers"
+        },
+        {
+          "state": "F8 Spindle equator and poles",
+          "relation": "central Ia sensory ending signals muscle length and its rate of change; contractile poles regulate central sensory-region tension"
+        }
+      ],
+      "schematic_limitations": [
+        "No length-discharge calibration, gamma axon geometry, secondary endings, alpha-gamma coordination simulation or reflex circuit.",
+        "Intrafusal polar action is explained without claiming contribution to represented whole-muscle force.",
+        "Bag/chain nuclear groups remain surrounded by opened cell walls, not revealed by removing all context."
+      ],
+      "implementation": "Static capsule/intrafusal/Ia geometry and lesson explanation; no length sensor simulation.",
+      "source_evidence": [
+        "spindle_textbook"
+      ]
+    }
+  ],
+  "scale_note": "SCHEMATIC: variable enlargement; positions, thicknesses and relative lengths are not microscopic measurements.",
+  "animation": false,
+  "review_agent": "/root/finish_skeletal_muscle_source/review_skeletal_muscle_function",
+  "reviewed_utc": "2026-10-04T06:49:00Z",
+  "status": "static_teaching_source_ready_no_second_geometry",
+  "delivery_variant_policy": {
+    "pre_refine": "The new source-improved model after its authorized build and before microrefine.",
+    "post_refine": "A separately processed output; never obtained by renaming the reference/increased-overlap examples.",
+    "display": "Exactly one processing variant visible at a time; static geometric examples do not change variant provenance."
+  },
+  "source_evidence": [
+    {
+      "id": "transmitter_release",
+      "title": "UTHealth Neuroscience Online, Chapter 5: Mechanisms of Neurotransmitter Release",
+      "url": "https://nba.uth.tmc.edu/neuroscience/s1/chapter05.html",
+      "opened": true,
+      "inspected_scope": "Sections 5.1 and 5.2; opened page body",
+      "decision_support_and_limits": "Presynaptic depolarization admits extracellular calcium; calcium-dependent vesicle release. No quantal counts or times are adopted."
+    },
+    {
+      "id": "nmj_transmission",
+      "title": "UTHealth Neuroscience Online, Chapter 4: Synaptic Transmission at the Skeletal Neuromuscular Junction",
+      "url": "https://nba.uth.tmc.edu/neuroscience/s1/chapter04.html",
+      "opened": true,
+      "inspected_scope": "Sections 4.2–4.4 and 4.8; opened page body",
+      "decision_support_and_limits": "Local end-plate depolarization versus propagated muscle action potential; threshold distinction, ligand-gated receptor and transmitter termination."
+    },
+    {
+      "id": "leeds_nmj",
+      "title": "University of Leeds, Muscle: Neuromuscular Junction",
+      "url": "https://histology.leeds.ac.uk/home/tissue_types/muscle/muscle_nmjunct/",
+      "opened": true,
+      "inspected_scope": "Teaching text lines 314–321",
+      "decision_support_and_limits": "Vesicular ACh, cleft diffusion and cleft-basal-lamina-associated acetylcholinesterase. Motor-end-plate terminology is resolved using explicit postsynaptic source, not one ambiguous introductory sentence."
+    },
+    {
+      "id": "leeds_stimulation",
+      "title": "University of Leeds, Muscle Stimulation",
+      "url": "https://histology.leeds.ac.uk/home/tissue_types/muscle/muscle_stimulation/",
+      "opened": true,
+      "inspected_scope": "Teaching text lines 319–326",
+      "decision_support_and_limits": "Sarcolemmal T invagination at A–I junction, triad, SR release and reuptake. No molecular dimensions or timing adopted."
+    },
+    {
+      "id": "skeletal_ec_coupling",
+      "title": "Dulhunty and Casarotto (2026), The nuts and bolts of excitation–contraction coupling in skeletal muscle",
+      "url": "https://link.springer.com/article/10.1007/s00421-026-06413-4",
+      "opened": true,
+      "inspected_scope": "Opened full page: Introduction and structural framework; lines 68–128",
+      "decision_support_and_limits": "Skeletal physical coupling from CaV1.1-associated voltage sensing to SR RyR1; current review explicitly distinguishes established pathway from unresolved precise molecular interactions. No exact atomic link or gating conformation is modeled."
+    },
+    {
+      "id": "crossbridge_textbook",
+      "title": "OpenStax, Anatomy and Physiology 2e, 10.3 Muscle Fiber Contraction and Relaxation",
+      "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/10-3-muscle-fiber-contraction-and-relaxation",
+      "opened": true,
+      "inspected_scope": "Opened section text: sliding filament model, ATP and muscle contraction, relaxation",
+      "decision_support_and_limits": "Troponin/tropomyosin regulation; ATP-dependent head detachment and recovery. Use only these qualitative relationships, not page-specific stroke sizes, metabolic percentages or its simplified SR-channel wording."
+    },
+    {
+      "id": "serca_primary",
+      "title": "Smith et al. (2013), ATP Consumption by Sarcoplasmic Reticulum Ca2+ Pumps Accounts for 40-50% of Resting Metabolic Rate in Mouse Fast and Slow Twitch Skeletal Muscle",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0068924",
+      "opened": true,
+      "inspected_scope": "Opened full paper: Introduction and Discussion",
+      "decision_support_and_limits": "ATP-consuming SERCA transport, distinct from myosin ATPase. Mouse experimental metabolic percentages are not transferred into this schematic."
+    },
+    {
+      "id": "leeds_sarcomere",
+      "title": "University of Leeds, Muscle Ultrastructure",
+      "url": "https://histology.leeds.ac.uk/home/tissue_types/muscle/muscle_sarcomere/",
+      "opened": true,
+      "inspected_scope": "Opened page body",
+      "decision_support_and_limits": "Sarcomere bands, anchors and sliding-filament structural relationships; no mapping from source coordinates to biological length."
+    },
+    {
+      "id": "band_identity",
+      "title": "Histology Guide, EM 339 Neuromuscular Junction",
+      "url": "https://www.histologyguide.org/EM-view/EM-339-neuromuscular-junction/06-photo-1.html",
+      "opened": true,
+      "inspected_scope": "Opened textual Skeletal Muscle Cell section; lines 162–167",
+      "decision_support_and_limits": "A-band overlap, H-band thick-only and I-band thin-only identity. Do not adopt this page’s simplified ACh/Ca-channel sentence as the NMJ ionic mechanism."
+    },
+    {
+      "id": "bare_region",
+      "title": "Luther (2026), Structure of the Myosin Thick Filaments in Muscle",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41557228/",
+      "opened": true,
+      "inspected_scope": "Opened PubMed abstract only; lines 243–248",
+      "decision_support_and_limits": "Antiparallel thick-filament central bare organization distinguished from absence-of-thin H zone. Does not supply a measured bare width for this skeletal schematic."
+    },
+    {
+      "id": "length_tension_primary",
+      "title": "Gordon, Huxley and Julian (1966), The variation in isometric tension with sarcomere length in vertebrate muscle fibres",
+      "url": "https://physoc.onlinelibrary.wiley.com/doi/abs/10.1113/jphysiol.1966.sp007909",
+      "opened": true,
+      "inspected_scope": "Opened publisher abstract; lines 85–93",
+      "decision_support_and_limits": "Frog-fiber isometric length–tension plateau and short-length decline support rejecting a universal linear overlap-to-force relation. Experimental dimensions are not schematic calibration."
+    },
+    {
+      "id": "leeds_connective",
+      "title": "University of Leeds, Muscle: Skeletal Muscle Connective Tissue",
+      "url": "https://histology.leeds.ac.uk/home/tissue_types/muscle/sk_mus_connective_tissue/",
+      "opened": true,
+      "inspected_scope": "Opened teaching page",
+      "decision_support_and_limits": "Connective tissue and neurovascular location. Source path claims are not saved-lumen evidence."
+    },
+    {
+      "id": "spindle_textbook",
+      "title": "UTHealth Neuroscience Online, Section 2 Chapter 2: Somatosensory Systems",
+      "url": "https://nba.uth.tmc.edu/neuroscience/m/s2/chapter02.html",
+      "opened": true,
+      "inspected_scope": "Opened muscle-spindle section; lines 200–207",
+      "decision_support_and_limits": "Parallel intrafusal context, central primary sensory ending, polar gamma endplates, length/rate sensing. No discharge or force calibration."
+    }
+  ],
+  "native_lesson_state_policy": "Function lesson has no micro_focus and no automatic visibility application. Learner explicitly chooses exact named F1..F8 camera entries in View menu; future UI binding remains root-owned.",
+  "integrated_lesson_model_policy": {
+    "native_review_model_id": "skeletal_muscle_review",
+    "final_application_model_id": "skeletal_muscle",
+    "native_export_lessons": "Both structure and function steps use the native review ID.",
+    "final_application_binding": "Root remaps stable model ID to currently selected processing variant after successful registration; no legacy model is implicitly selected."
+  }
+}

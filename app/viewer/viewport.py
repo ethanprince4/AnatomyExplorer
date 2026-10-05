@@ -85,6 +85,11 @@ class ModelViewport(QOpenGLWidget):
         self.rsettings = Settings()
         for k, v in getattr(model, "look_defaults", {}).items():
             setattr(self.rsettings, k, v)
+        # Every model opens shadow-free, including authored per-model overrides.
+        # Display -> Shadows remains an opt-in for this view.
+        self.rsettings.shadows = False
+        self.orientation_axes_on = bool(settings.get("show_gizmo", True)
+                                        and getattr(entry, "oriented", False))
         self._fbo = None
         self._fbo_id = None
         # cutting: the micro model's own corner cut-away, or cross-sections (any plane cuts)
@@ -422,6 +427,10 @@ class ModelViewport(QOpenGLWidget):
             st._vis_dirty()
         want = rec.get("state")
         self.show_state(want if want else "assembled")
+        if visibility and "cut_on" in rec:
+            self.cut_on = bool(rec["cut_on"])
+            self.sections = [None, None, None]
+            self.invalidate_labels()
         self.viewChanged.emit(name)
         self.update()
 
@@ -767,6 +776,8 @@ class ModelViewport(QOpenGLWidget):
         self.update()
 
     def _length_text(self, units):
+        if self.model.sidecar.get("mixed_schematic_scale"):
+            return f"{units:.1f} model units (mixed schematic scale)"
         mpu = self.model.metres_per_unit
         if not mpu:                             # a model with no known real size: relative lengths only
             lo, hi = self.model.bounds_min, self.model.bounds_max
@@ -809,7 +820,7 @@ class ModelViewport(QOpenGLWidget):
         self._paint_section_labels(p, dark)
         self._paint_labels(p, dark)
         self._paint_measure(p, dark)
-        if self.settings.get("show_gizmo", True) and getattr(self.entry, "oriented", False):
+        if self.orientation_axes_on:
             self._paint_gizmo(p, dark)
         self._paint_scale_bar(p, dark)
         self._paint_hover(p)
@@ -918,7 +929,7 @@ class ModelViewport(QOpenGLWidget):
             ys = [float(pr[1]) for _, pr in items]
             for k in range(1, len(ys)):
                 ys[k] = max(ys[k], ys[k - 1] + line_h)
-            bottom = h - 108.0 if side < 0 and self.settings.get("show_gizmo", True) else h - 34.0
+            bottom = h - 108.0 if side < 0 and self.orientation_axes_on else h - 34.0
             over = ys[-1] - (bottom - line_h)
             if over > 0:
                 ys = [y - over for y in ys]
@@ -983,9 +994,12 @@ class ModelViewport(QOpenGLWidget):
     def _paint_gizmo(self, p, dark):
         right, up, back = self.camera.basis()
         cx, cy, r = 52.0, self.height() - 52.0, 32.0
-        axes = [((1, 0, 0), "L", QColor(232, 93, 93)), ((-1, 0, 0), "R", QColor(232, 93, 93)),
-                ((0, 1, 0), "S", QColor(120, 200, 110)), ((0, -1, 0), "I", QColor(120, 200, 110)),
-                ((0, 0, 1), "A", QColor(90, 160, 240)), ((0, 0, -1), "P", QColor(90, 160, 240))]
+        # Tissue blocks use model coordinates, not presumed anatomical directions.
+        labels = ("L", "R", "S", "I", "A", "P") if getattr(self.entry, "oriented", False) else (
+            "+X", "-X", "+Y", "-Y", "+Z", "-Z")
+        axes = [((1, 0, 0), labels[0], QColor(232, 93, 93)), ((-1, 0, 0), labels[1], QColor(232, 93, 93)),
+                ((0, 1, 0), labels[2], QColor(120, 200, 110)), ((0, -1, 0), labels[3], QColor(120, 200, 110)),
+                ((0, 0, 1), labels[4], QColor(90, 160, 240)), ((0, 0, -1), labels[5], QColor(90, 160, 240))]
         items = []
         for v, label, col in axes:
             v = np.array(v, dtype=float)
@@ -1011,6 +1025,10 @@ class ModelViewport(QOpenGLWidget):
 
     def _paint_scale_bar(self, p, dark):
         """A scale bar in the corner for a model of known size: the kidney goes from 20 cm to half a micron."""
+        # Gross anatomy and the separately magnified nephron have no common
+        # clinical calibration. The two-click ruler identifies model units.
+        if self.model.sidecar.get("mixed_schematic_scale"):
+            return
         mpu = self.model.metres_per_unit
         if not mpu or self.renderer is None:
             return

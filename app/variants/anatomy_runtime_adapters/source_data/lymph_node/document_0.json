@@ -1,0 +1,706 @@
+{
+  "schema_version": 1,
+  "model_id": "lymph_node",
+  "status": "source_ready_native_review_deferred",
+  "exact_parts": [
+    "Capsule",
+    "Trabeculae",
+    "Hilum connective tissue",
+    "Subcapsular sinus",
+    "Trabecular sinuses",
+    "Outer cortex (B-cell zone)",
+    "Primary follicles",
+    "Mantle zone (secondary follicles)",
+    "Germinal centre - light zone",
+    "Germinal centre - dark zone",
+    "Paracortex (T-cell zone)",
+    "High endothelial venules",
+    "Medullary cords",
+    "Medullary sinuses",
+    "Reticular fibre meshwork",
+    "Sinus macrophages",
+    "Afferent lymphatic vessels",
+    "Efferent lymphatic vessel",
+    "Lymphatic valves",
+    "Artery (hilar and medullary branches)",
+    "Vein (hilar and medullary tributaries)"
+  ],
+  "metadata": {
+    "metres_per_unit": 0.005,
+    "scale_note": "Node approximately 1 cm long; modeled follicles about 0.8–1.2 mm in major diameter before deformation. Vessel, valve, fibre and cell dimensions are selectively exaggerated for clarity; colors identify compartments rather than histological stains.",
+    "start_view": "01 Whole node — outside",
+    "cut_on": false,
+    "viewer_cameras": {
+      "01 Whole node — outside": {
+        "position": [
+          2.8,
+          1.9,
+          4.4
+        ],
+        "target": [
+          0,
+          -0.05,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.3,
+        "hidden": [
+          "Trabeculae",
+          "Subcapsular sinus",
+          "Trabecular sinuses",
+          "Outer cortex (B-cell zone)",
+          "Primary follicles",
+          "Mantle zone (secondary follicles)",
+          "Germinal centre - light zone",
+          "Germinal centre - dark zone",
+          "Paracortex (T-cell zone)",
+          "High endothelial venules",
+          "Medullary cords",
+          "Medullary sinuses",
+          "Reticular fibre meshwork",
+          "Sinus macrophages",
+          "Lymphatic valves"
+        ],
+        "cut_on": false,
+        "note": "Identify convex entry sites and the concave hilar exit. Lymph enters through afferent lymphatics; blood enters and leaves separately at the hilum."
+      },
+      "02 Open node — compartments": {
+        "position": [
+          2.5,
+          1.5,
+          4.1
+        ],
+        "target": [
+          0,
+          -0.03,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.0,
+        "hidden": [
+          "High endothelial venules",
+          "Reticular fibre meshwork",
+          "Sinus macrophages",
+          "Lymphatic valves",
+          "Artery (hilar and medullary branches)",
+          "Vein (hilar and medullary tributaries)"
+        ],
+        "cut_on": true,
+        "note": "The standard corner cut reveals capsule, subcapsular sinus, follicular outer cortex, deeper paracortex and medulla. Primary follicles lack a germinal centre; secondary follicles contain light/dark zones inside a mantle. Zonal boundaries are illustrative, not histological partitions."
+      },
+      "03 Lymph route": {
+        "position": [
+          2.5,
+          1.5,
+          4.1
+        ],
+        "target": [
+          0,
+          -0.03,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.0,
+        "hidden": [
+          "Outer cortex (B-cell zone)",
+          "Primary follicles",
+          "Mantle zone (secondary follicles)",
+          "Germinal centre - light zone",
+          "Germinal centre - dark zone",
+          "Paracortex (T-cell zone)",
+          "High endothelial venules",
+          "Medullary cords",
+          "Reticular fibre meshwork",
+          "Sinus macrophages",
+          "Artery (hilar and medullary branches)",
+          "Vein (hilar and medullary tributaries)"
+        ],
+        "cut_on": true,
+        "note": "Trace afferent lymph to subcapsular sinus, cortical/trabecular sinuses, medullary sinuses and efferent lymphatic. Pale blue geometry denotes lymph-filled spaces, not a solid blue tissue. Hidden cortex and cords remain biologically present."
+      },
+      "04 Follicles and germinal centres": {
+        "position": [
+          1.9,
+          1.25,
+          3.8
+        ],
+        "target": [
+          0,
+          0.18,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.3,
+        "hidden": [
+          "Trabeculae",
+          "Hilum connective tissue",
+          "Trabecular sinuses",
+          "High endothelial venules",
+          "Medullary cords",
+          "Medullary sinuses",
+          "Reticular fibre meshwork",
+          "Sinus macrophages",
+          "Afferent lymphatic vessels",
+          "Efferent lymphatic vessel",
+          "Lymphatic valves",
+          "Artery (hilar and medullary branches)",
+          "Vein (hilar and medullary tributaries)"
+        ],
+        "cut_on": true,
+        "note": "Compare primary follicles with secondary follicles. The light zone faces the subcapsular side, while the dark zone is deeper toward the T-cell zone. Proliferation/mutation and antigen/T-cell-help selection form a cycle rather than a one-pass chain."
+      },
+      "05 Blood entry through HEVs": {
+        "position": [
+          2.0,
+          1.0,
+          4.0
+        ],
+        "target": [
+          0,
+          -0.08,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.8,
+        "hidden": [
+          "Trabeculae",
+          "Subcapsular sinus",
+          "Trabecular sinuses",
+          "Outer cortex (B-cell zone)",
+          "Primary follicles",
+          "Mantle zone (secondary follicles)",
+          "Germinal centre - light zone",
+          "Germinal centre - dark zone",
+          "Medullary cords",
+          "Medullary sinuses",
+          "Reticular fibre meshwork",
+          "Sinus macrophages",
+          "Afferent lymphatic vessels",
+          "Efferent lymphatic vessel",
+          "Lymphatic valves"
+        ],
+        "cut_on": true,
+        "note": "Lymphocytes can enter nodal tissue from blood through high endothelial venules in the paracortex. Tall venular endothelium distinguishes HEVs from lymph-filled sinuses. The source does not supply a complete continuous capillary network; do not imply perfusion proof."
+      },
+      "06 Cords beside sinuses": {
+        "position": [
+          1.8,
+          0.7,
+          3.8
+        ],
+        "target": [
+          0,
+          -0.2,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.2,
+        "hidden": [
+          "Trabeculae",
+          "Subcapsular sinus",
+          "Trabecular sinuses",
+          "Outer cortex (B-cell zone)",
+          "Primary follicles",
+          "Mantle zone (secondary follicles)",
+          "Germinal centre - light zone",
+          "Germinal centre - dark zone",
+          "Paracortex (T-cell zone)",
+          "High endothelial venules",
+          "Afferent lymphatic vessels",
+          "Lymphatic valves",
+          "Artery (hilar and medullary branches)",
+          "Vein (hilar and medullary tributaries)"
+        ],
+        "cut_on": true,
+        "note": "Medullary cords contain immune cells, including antibody-secreting plasma cells; lymph flows through adjacent sinuses toward the hilum. Macrophages and reticular fibres are representative solid structures within the sinus domain, not defects to remove."
+      },
+      "07 Sinus support and macrophages": {
+        "position": [
+          1.8,
+          0.9,
+          3.8
+        ],
+        "target": [
+          0,
+          -0.08,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.5,
+        "hidden": [
+          "Capsule",
+          "Hilum connective tissue",
+          "Outer cortex (B-cell zone)",
+          "Primary follicles",
+          "Mantle zone (secondary follicles)",
+          "Germinal centre - light zone",
+          "Germinal centre - dark zone",
+          "Paracortex (T-cell zone)",
+          "High endothelial venules",
+          "Medullary cords",
+          "Afferent lymphatic vessels",
+          "Efferent lymphatic vessel",
+          "Lymphatic valves",
+          "Artery (hilar and medullary branches)",
+          "Vein (hilar and medullary tributaries)"
+        ],
+        "cut_on": true,
+        "note": "Inspect the representative reticular mesh and macrophages in sinus context. The meshes exaggerate visibility and do not model all sinus endothelium, subcapsular floor macrophage networks, antigen transfer or cortical conduit sheaths."
+      }
+    },
+    "labels_on_open": false
+  },
+  "views": [
+    {
+      "id": "outside",
+      "name": "01 Whole node — outside",
+      "purpose": "Identify convex entry sites and the concave hilar exit. Lymph enters through afferent lymphatics; blood enters and leaves separately at the hilum.",
+      "visible_parts": [
+        "Capsule",
+        "Hilum connective tissue",
+        "Afferent lymphatic vessels",
+        "Efferent lymphatic vessel",
+        "Artery (hilar and medullary branches)",
+        "Vein (hilar and medullary tributaries)"
+      ],
+      "hidden_parts": [
+        "Trabeculae",
+        "Subcapsular sinus",
+        "Trabecular sinuses",
+        "Outer cortex (B-cell zone)",
+        "Primary follicles",
+        "Mantle zone (secondary follicles)",
+        "Germinal centre - light zone",
+        "Germinal centre - dark zone",
+        "Paracortex (T-cell zone)",
+        "High endothelial venules",
+        "Medullary cords",
+        "Medullary sinuses",
+        "Reticular fibre meshwork",
+        "Sinus macrophages",
+        "Lymphatic valves"
+      ],
+      "scale_note": "Representative node approximately 1 cm long (5 mm per model unit); follicles 0.5–1 mm. Vessels, valves, reticular fibres and macrophages are exaggerated for clarity; cell counts and spacing are illustrative. This is a teaching model, not a measured histology reconstruction.",
+      "native_camera": {
+        "position": [
+          2.8,
+          1.9,
+          4.4
+        ],
+        "target": [
+          0,
+          -0.05,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.3,
+        "hidden": [
+          "Trabeculae",
+          "Subcapsular sinus",
+          "Trabecular sinuses",
+          "Outer cortex (B-cell zone)",
+          "Primary follicles",
+          "Mantle zone (secondary follicles)",
+          "Germinal centre - light zone",
+          "Germinal centre - dark zone",
+          "Paracortex (T-cell zone)",
+          "High endothelial venules",
+          "Medullary cords",
+          "Medullary sinuses",
+          "Reticular fibre meshwork",
+          "Sinus macrophages",
+          "Lymphatic valves"
+        ],
+        "cut_on": false,
+        "note": "Identify convex entry sites and the concave hilar exit. Lymph enters through afferent lymphatics; blood enters and leaves separately at the hilum."
+      },
+      "validation_status": "source_ready; native framing and readability deferred"
+    },
+    {
+      "id": "compartments",
+      "name": "02 Open node — compartments",
+      "purpose": "The standard corner cut reveals capsule, subcapsular sinus, follicular outer cortex, deeper paracortex and medulla. Primary follicles lack a germinal centre; secondary follicles contain light/dark zones inside a mantle. Zonal boundaries are illustrative, not histological partitions.",
+      "visible_parts": [
+        "Capsule",
+        "Trabeculae",
+        "Hilum connective tissue",
+        "Subcapsular sinus",
+        "Trabecular sinuses",
+        "Outer cortex (B-cell zone)",
+        "Primary follicles",
+        "Mantle zone (secondary follicles)",
+        "Germinal centre - light zone",
+        "Germinal centre - dark zone",
+        "Paracortex (T-cell zone)",
+        "Medullary cords",
+        "Medullary sinuses",
+        "Afferent lymphatic vessels",
+        "Efferent lymphatic vessel"
+      ],
+      "hidden_parts": [
+        "High endothelial venules",
+        "Reticular fibre meshwork",
+        "Sinus macrophages",
+        "Lymphatic valves",
+        "Artery (hilar and medullary branches)",
+        "Vein (hilar and medullary tributaries)"
+      ],
+      "scale_note": "Representative node approximately 1 cm long (5 mm per model unit); follicles 0.5–1 mm. Vessels, valves, reticular fibres and macrophages are exaggerated for clarity; cell counts and spacing are illustrative. This is a teaching model, not a measured histology reconstruction.",
+      "native_camera": {
+        "position": [
+          2.5,
+          1.5,
+          4.1
+        ],
+        "target": [
+          0,
+          -0.03,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.0,
+        "hidden": [
+          "High endothelial venules",
+          "Reticular fibre meshwork",
+          "Sinus macrophages",
+          "Lymphatic valves",
+          "Artery (hilar and medullary branches)",
+          "Vein (hilar and medullary tributaries)"
+        ],
+        "cut_on": true,
+        "note": "The standard corner cut reveals capsule, subcapsular sinus, follicular outer cortex, deeper paracortex and medulla. Primary follicles lack a germinal centre; secondary follicles contain light/dark zones inside a mantle. Zonal boundaries are illustrative, not histological partitions."
+      },
+      "validation_status": "source_ready; native framing and readability deferred"
+    },
+    {
+      "id": "lymph_route",
+      "name": "03 Lymph route",
+      "purpose": "Trace afferent lymph to subcapsular sinus, cortical/trabecular sinuses, medullary sinuses and efferent lymphatic. Pale blue geometry denotes lymph-filled spaces, not a solid blue tissue. Hidden cortex and cords remain biologically present.",
+      "visible_parts": [
+        "Capsule",
+        "Trabeculae",
+        "Hilum connective tissue",
+        "Subcapsular sinus",
+        "Trabecular sinuses",
+        "Medullary sinuses",
+        "Afferent lymphatic vessels",
+        "Efferent lymphatic vessel",
+        "Lymphatic valves"
+      ],
+      "hidden_parts": [
+        "Outer cortex (B-cell zone)",
+        "Primary follicles",
+        "Mantle zone (secondary follicles)",
+        "Germinal centre - light zone",
+        "Germinal centre - dark zone",
+        "Paracortex (T-cell zone)",
+        "High endothelial venules",
+        "Medullary cords",
+        "Reticular fibre meshwork",
+        "Sinus macrophages",
+        "Artery (hilar and medullary branches)",
+        "Vein (hilar and medullary tributaries)"
+      ],
+      "scale_note": "Representative node approximately 1 cm long (5 mm per model unit); follicles 0.5–1 mm. Vessels, valves, reticular fibres and macrophages are exaggerated for clarity; cell counts and spacing are illustrative. This is a teaching model, not a measured histology reconstruction.",
+      "native_camera": {
+        "position": [
+          2.5,
+          1.5,
+          4.1
+        ],
+        "target": [
+          0,
+          -0.03,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.0,
+        "hidden": [
+          "Outer cortex (B-cell zone)",
+          "Primary follicles",
+          "Mantle zone (secondary follicles)",
+          "Germinal centre - light zone",
+          "Germinal centre - dark zone",
+          "Paracortex (T-cell zone)",
+          "High endothelial venules",
+          "Medullary cords",
+          "Reticular fibre meshwork",
+          "Sinus macrophages",
+          "Artery (hilar and medullary branches)",
+          "Vein (hilar and medullary tributaries)"
+        ],
+        "cut_on": true,
+        "note": "Trace afferent lymph to subcapsular sinus, cortical/trabecular sinuses, medullary sinuses and efferent lymphatic. Pale blue geometry denotes lymph-filled spaces, not a solid blue tissue. Hidden cortex and cords remain biologically present."
+      },
+      "validation_status": "source_ready; native framing and readability deferred"
+    },
+    {
+      "id": "follicles",
+      "name": "04 Follicles and germinal centres",
+      "purpose": "Compare primary follicles with secondary follicles. The light zone faces the subcapsular side, while the dark zone is deeper toward the T-cell zone. Proliferation/mutation and antigen/T-cell-help selection form a cycle rather than a one-pass chain.",
+      "visible_parts": [
+        "Capsule",
+        "Subcapsular sinus",
+        "Outer cortex (B-cell zone)",
+        "Primary follicles",
+        "Mantle zone (secondary follicles)",
+        "Germinal centre - light zone",
+        "Germinal centre - dark zone",
+        "Paracortex (T-cell zone)"
+      ],
+      "hidden_parts": [
+        "Trabeculae",
+        "Hilum connective tissue",
+        "Trabecular sinuses",
+        "High endothelial venules",
+        "Medullary cords",
+        "Medullary sinuses",
+        "Reticular fibre meshwork",
+        "Sinus macrophages",
+        "Afferent lymphatic vessels",
+        "Efferent lymphatic vessel",
+        "Lymphatic valves",
+        "Artery (hilar and medullary branches)",
+        "Vein (hilar and medullary tributaries)"
+      ],
+      "scale_note": "Representative node approximately 1 cm long (5 mm per model unit); follicles 0.5–1 mm. Vessels, valves, reticular fibres and macrophages are exaggerated for clarity; cell counts and spacing are illustrative. This is a teaching model, not a measured histology reconstruction.",
+      "native_camera": {
+        "position": [
+          1.9,
+          1.25,
+          3.8
+        ],
+        "target": [
+          0,
+          0.18,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.3,
+        "hidden": [
+          "Trabeculae",
+          "Hilum connective tissue",
+          "Trabecular sinuses",
+          "High endothelial venules",
+          "Medullary cords",
+          "Medullary sinuses",
+          "Reticular fibre meshwork",
+          "Sinus macrophages",
+          "Afferent lymphatic vessels",
+          "Efferent lymphatic vessel",
+          "Lymphatic valves",
+          "Artery (hilar and medullary branches)",
+          "Vein (hilar and medullary tributaries)"
+        ],
+        "cut_on": true,
+        "note": "Compare primary follicles with secondary follicles. The light zone faces the subcapsular side, while the dark zone is deeper toward the T-cell zone. Proliferation/mutation and antigen/T-cell-help selection form a cycle rather than a one-pass chain."
+      },
+      "validation_status": "source_ready; native framing and readability deferred"
+    },
+    {
+      "id": "hev",
+      "name": "05 Blood entry through HEVs",
+      "purpose": "Lymphocytes can enter nodal tissue from blood through high endothelial venules in the paracortex. Tall venular endothelium distinguishes HEVs from lymph-filled sinuses. The source does not supply a complete continuous capillary network; do not imply perfusion proof.",
+      "visible_parts": [
+        "Paracortex (T-cell zone)",
+        "High endothelial venules",
+        "Artery (hilar and medullary branches)",
+        "Vein (hilar and medullary tributaries)",
+        "Hilum connective tissue",
+        "Capsule"
+      ],
+      "hidden_parts": [
+        "Trabeculae",
+        "Subcapsular sinus",
+        "Trabecular sinuses",
+        "Outer cortex (B-cell zone)",
+        "Primary follicles",
+        "Mantle zone (secondary follicles)",
+        "Germinal centre - light zone",
+        "Germinal centre - dark zone",
+        "Medullary cords",
+        "Medullary sinuses",
+        "Reticular fibre meshwork",
+        "Sinus macrophages",
+        "Afferent lymphatic vessels",
+        "Efferent lymphatic vessel",
+        "Lymphatic valves"
+      ],
+      "scale_note": "Representative node approximately 1 cm long (5 mm per model unit); follicles 0.5–1 mm. Vessels, valves, reticular fibres and macrophages are exaggerated for clarity; cell counts and spacing are illustrative. This is a teaching model, not a measured histology reconstruction.",
+      "native_camera": {
+        "position": [
+          2.0,
+          1.0,
+          4.0
+        ],
+        "target": [
+          0,
+          -0.08,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.8,
+        "hidden": [
+          "Trabeculae",
+          "Subcapsular sinus",
+          "Trabecular sinuses",
+          "Outer cortex (B-cell zone)",
+          "Primary follicles",
+          "Mantle zone (secondary follicles)",
+          "Germinal centre - light zone",
+          "Germinal centre - dark zone",
+          "Medullary cords",
+          "Medullary sinuses",
+          "Reticular fibre meshwork",
+          "Sinus macrophages",
+          "Afferent lymphatic vessels",
+          "Efferent lymphatic vessel",
+          "Lymphatic valves"
+        ],
+        "cut_on": true,
+        "note": "Lymphocytes can enter nodal tissue from blood through high endothelial venules in the paracortex. Tall venular endothelium distinguishes HEVs from lymph-filled sinuses. The source does not supply a complete continuous capillary network; do not imply perfusion proof."
+      },
+      "validation_status": "source_ready; native framing and readability deferred"
+    },
+    {
+      "id": "medulla",
+      "name": "06 Cords beside sinuses",
+      "purpose": "Medullary cords contain immune cells, including antibody-secreting plasma cells; lymph flows through adjacent sinuses toward the hilum. Macrophages and reticular fibres are representative solid structures within the sinus domain, not defects to remove.",
+      "visible_parts": [
+        "Capsule",
+        "Hilum connective tissue",
+        "Medullary cords",
+        "Medullary sinuses",
+        "Efferent lymphatic vessel",
+        "Sinus macrophages",
+        "Reticular fibre meshwork"
+      ],
+      "hidden_parts": [
+        "Trabeculae",
+        "Subcapsular sinus",
+        "Trabecular sinuses",
+        "Outer cortex (B-cell zone)",
+        "Primary follicles",
+        "Mantle zone (secondary follicles)",
+        "Germinal centre - light zone",
+        "Germinal centre - dark zone",
+        "Paracortex (T-cell zone)",
+        "High endothelial venules",
+        "Afferent lymphatic vessels",
+        "Lymphatic valves",
+        "Artery (hilar and medullary branches)",
+        "Vein (hilar and medullary tributaries)"
+      ],
+      "scale_note": "Representative node approximately 1 cm long (5 mm per model unit); follicles 0.5–1 mm. Vessels, valves, reticular fibres and macrophages are exaggerated for clarity; cell counts and spacing are illustrative. This is a teaching model, not a measured histology reconstruction.",
+      "native_camera": {
+        "position": [
+          1.8,
+          0.7,
+          3.8
+        ],
+        "target": [
+          0,
+          -0.2,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.2,
+        "hidden": [
+          "Trabeculae",
+          "Subcapsular sinus",
+          "Trabecular sinuses",
+          "Outer cortex (B-cell zone)",
+          "Primary follicles",
+          "Mantle zone (secondary follicles)",
+          "Germinal centre - light zone",
+          "Germinal centre - dark zone",
+          "Paracortex (T-cell zone)",
+          "High endothelial venules",
+          "Afferent lymphatic vessels",
+          "Lymphatic valves",
+          "Artery (hilar and medullary branches)",
+          "Vein (hilar and medullary tributaries)"
+        ],
+        "cut_on": true,
+        "note": "Medullary cords contain immune cells, including antibody-secreting plasma cells; lymph flows through adjacent sinuses toward the hilum. Macrophages and reticular fibres are representative solid structures within the sinus domain, not defects to remove."
+      },
+      "validation_status": "source_ready; native framing and readability deferred"
+    },
+    {
+      "id": "sinus_detail",
+      "name": "07 Sinus support and macrophages",
+      "purpose": "Inspect the representative reticular mesh and macrophages in sinus context. The meshes exaggerate visibility and do not model all sinus endothelium, subcapsular floor macrophage networks, antigen transfer or cortical conduit sheaths.",
+      "visible_parts": [
+        "Subcapsular sinus",
+        "Trabecular sinuses",
+        "Medullary sinuses",
+        "Reticular fibre meshwork",
+        "Sinus macrophages",
+        "Trabeculae"
+      ],
+      "hidden_parts": [
+        "Capsule",
+        "Hilum connective tissue",
+        "Outer cortex (B-cell zone)",
+        "Primary follicles",
+        "Mantle zone (secondary follicles)",
+        "Germinal centre - light zone",
+        "Germinal centre - dark zone",
+        "Paracortex (T-cell zone)",
+        "High endothelial venules",
+        "Medullary cords",
+        "Afferent lymphatic vessels",
+        "Efferent lymphatic vessel",
+        "Lymphatic valves",
+        "Artery (hilar and medullary branches)",
+        "Vein (hilar and medullary tributaries)"
+      ],
+      "scale_note": "Representative node approximately 1 cm long (5 mm per model unit); follicles 0.5–1 mm. Vessels, valves, reticular fibres and macrophages are exaggerated for clarity; cell counts and spacing are illustrative. This is a teaching model, not a measured histology reconstruction.",
+      "native_camera": {
+        "position": [
+          1.8,
+          0.9,
+          3.8
+        ],
+        "target": [
+          0,
+          -0.08,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.5,
+        "hidden": [
+          "Capsule",
+          "Hilum connective tissue",
+          "Outer cortex (B-cell zone)",
+          "Primary follicles",
+          "Mantle zone (secondary follicles)",
+          "Germinal centre - light zone",
+          "Germinal centre - dark zone",
+          "Paracortex (T-cell zone)",
+          "High endothelial venules",
+          "Medullary cords",
+          "Afferent lymphatic vessels",
+          "Efferent lymphatic vessel",
+          "Lymphatic valves",
+          "Artery (hilar and medullary branches)",
+          "Vein (hilar and medullary tributaries)"
+        ],
+        "cut_on": true,
+        "note": "Inspect the representative reticular mesh and macrophages in sinus context. The meshes exaggerate visibility and do not model all sinus endothelium, subcapsular floor macrophage networks, antigen transfer or cortical conduit sheaths."
+      },
+      "validation_status": "source_ready; native framing and readability deferred"
+    }
+  ],
+  "preserve_cutaway": "Existing x/z corner cut, at original zero offsets; no geometry translation or rank separation. Each preset uses assembled state.",
+  "native_application": {
+    "before_viewer": "apply_teaching(micro_model), then construct existing ProceduralModel(micro_model).",
+    "after_viewer": "Use ModelView.set_named_view(view_name); native controls apply camera, exact-key hidden list and cut_on.",
+    "summary_note": "Camera.note is an archival teaching caption; native code does not display it automatically. Use purpose text in a lesson or model-specific teaching documentation."
+  },
+  "deferred_checks": [
+    "Native review at desktop and smaller-window aspect ratios; labels readable without overlaps.",
+    "Corner-cut face readability, especially cortical/medullary interfaces and capsule entry.",
+    "Exact part survival and saved-state consistency after reopen; source checks do not certify either."
+  ]
+}

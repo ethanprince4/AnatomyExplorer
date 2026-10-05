@@ -1,6 +1,7 @@
 import json
 import math
 import time
+import weakref
 from datetime import datetime
 from pathlib import Path
 
@@ -9,7 +10,7 @@ from PySide6.QtCore import QByteArray, QEvent, QSettings, QSize, QStandardPaths,
 from PySide6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QGuiApplication, QKeySequence
 from PySide6.QtWidgets import (QApplication, QColorDialog, QDockWidget, QFileDialog, QInputDialog, QLabel,
                                QListWidget, QMainWindow, QMenu, QMessageBox, QPushButton, QSizePolicy, QSplitter,
-                               QTabWidget, QToolButton, QVBoxLayout, QWidget, QDialog, QHBoxLayout)
+                               QTabWidget, QToolButton, QToolBar, QVBoxLayout, QWidget, QDialog, QHBoxLayout, QProgressBar)
 
 from .actions import ActionRegistry
 from .camera import OrbitCamera
@@ -19,7 +20,8 @@ from .search import SearchIndex
 from .state import SceneState
 from .ui.info_panel import InfoPanel
 from .ui.nav import NavTabWidget
-from .ui.search_panel import SearchPanel
+from .ui.search_panel import SearchPanel, ModelCatalogPanel
+from .ui.shell import CommandPalette, ElidingLabel, WorkspaceNotice
 from .ui.settings_dialog import SettingsDialog
 from .ui.systems_panel import RegionsPanel, SystemsPanel
 from .ui import theme
@@ -79,6 +81,10 @@ class MainWindow(QMainWindow):
         super().__init__()
         self._borderless = False        # before anything that can reach the event filter
         self._pre_borderless = None
+        self._compact_layout = False
+        self._layout_pending = False
+        self._ui_ready = False
+        self._startup_notices = []
         self.ds = ds
         self.setWindowTitle(APP_NAME)
         self.qsettings = QSettings(QSettings.defaultFormat(), QSettings.UserScope, ORG_NAME, APP_NAME)
@@ -88,43 +94,68 @@ class MainWindow(QMainWindow):
             self.settings.update(_validated_settings(saved))
         except (TypeError, ValueError):
             pass
-        apply_theme(QApplication.instance(), float(self.settings["ui_scale"]))
+        apply_theme(QApplication.instance(), float(self.settings["ui_scale"]),
+                    mode=str(self.qsettings.value("ui_theme", "porcelain")))
         self.state = SceneState(ds, self.settings)
         self.index = SearchIndex(ds)
         self.content = ContentIndex(ds)
+        if self.content.model_catalog_error:
+            self._startup_notices.append(self.content.model_catalog_error)
         self.index.add_content(self.content)
         self.history = []
         self.history_pos = -1
         self._navigating = False
         self.settings_dialog = None
         self.micro_tabs = {}             # every open model tab (and the histology viewer), by id
+        self._loading_models = {}
+        self._reference_loads = {}
+        self._preference_commits = {}
+        from .ui.model_loading import ModelLoader
+        self._model_loader = ModelLoader(self)
+        self._model_loader.finished.connect(self._model_load_finished)
+        self._closing = False
+        # QObject destruction can bypass closeEvent. Retire Python-owned loading
+        # state before Qt deletes child objects and their destruction callbacks.
+        self.destroyed.connect(lambda: self._discard_model_loads())
 
         # ---------------------------------------------------------------- center
         self.viewport = Viewport(ds, self.state, self.settings)
         self.radiology_panel = None
         self.anatomy_tab = QSplitter(Qt.Horizontal)
         self.anatomy_tab.setChildrenCollapsible(False)
+        self.anatomy_tab.setHandleWidth(6)
+        self.anatomy_tab.setAccessibleName("Radiology and anatomy comparison")
         self.anatomy_tab.gl_widget = self.viewport      # so anything asking the tab for its 3D view still works
         try:
             from .radiology import load_cases
             from .ui.radiology import RadiologyPanel
-            self.radiology_cases = load_cases()
-            if self.radiology_cases:
-                self.radiology_panel = RadiologyPanel()
-                self.radiology_panel.hide()
-                self.anatomy_tab.addWidget(self.radiology_panel)
-        except (ImportError, OSError, ValueError):
+            self.radiology_cases = load_cases(include_missing=True)
+            self.radiology_panel = RadiologyPanel()
+            self.radiology_panel.hide()
+            self.anatomy_tab.addWidget(self.radiology_panel)
+        except (ImportError, OSError, ValueError) as exc:
             self.radiology_cases = []
+            self._startup_notices.append(f"Radiology could not be opened: {exc}")
         self.anatomy_tab.addWidget(self.viewport)
         self.center = QTabWidget()
         self.center.setDocumentMode(True)
         self.center.setTabsClosable(True)
-        self.center.setTabBarAutoHide(True)
+        self.center.setTabBarAutoHide(False)
+        self.center.setAccessibleName("Open anatomy and image workspaces")
+        self.center.tabBar().setElideMode(Qt.ElideRight)
+        self.center.tabBar().setUsesScrollButtons(True)
         self.center.addTab(self.anatomy_tab, "3D Anatomy")
         self.center.tabBar().setTabButton(0, self.center.tabBar().ButtonPosition.RightSide, None)
         self.center.tabCloseRequested.connect(self._close_center_tab)
         self.center.currentChanged.connect(self._center_changed)
-        self.setCentralWidget(self.center)
+        self.workspace = QWidget()
+        self.workspace_layout = QVBoxLayout(self.workspace)
+        self.workspace_layout.setContentsMargins(0, 0, 0, 0)
+        self.workspace_layout.setSpacing(0)
+        self.notice = WorkspaceNotice()
+        self.workspace_layout.addWidget(self.notice)
+        self.workspace_layout.addWidget(self.center, 1)
+        self.setCentralWidget(self.workspace)
         self.setAcceptDrops(True)            # a .glb dropped on the window opens in the model viewer
 
         # ---------------------------------------------------------------- left dock
@@ -179,9 +210,7 @@ class MainWindow(QMainWindow):
                 self.lessons_panel.lessonOpened.connect(self._remember_lesson)
                 self.lessons_panel.quizRequested.connect(self.quiz_lesson)
                 self.tabs.entry_picked.connect(self._study_entry_picked)
-                from .ui.diagram import DiagramOverlay
-                self.diagram_overlay = DiagramOverlay(self.center)     # a step's diagram, readable, over the 3D
-                self.lessons_panel.diagramChanged.connect(self.diagram_overlay.set_diagram)
+                # Diagrams stay in the lesson; enlargement is an explicit action.
                 self.lessons_panel.linkActivated.connect(self.on_link)
                 self.lessons_panel.set_reference_titles(
                     micro={k: m.name for k, m in self.content.micro_models.items()},
@@ -194,15 +223,25 @@ class MainWindow(QMainWindow):
         if getattr(self, "lesson_resolver", None) is None:
             self.lesson_resolver = _Resolver(ds, self.index)
         self.tabs.addTab(self.view_panel, "View")
+        # Append new pages so historical tab:N script indices remain stable.
+        self.catalog = ModelCatalogPanel(self.content)
+        self.catalog.activated.connect(self.open_micro)
+        self.catalog.variantChosen.connect(self.switch_model_variant)
+        from .variants.readiness import retry_dataset_readiness, cancel_dataset_readiness
+        self.catalog.verificationRequested.connect(lambda: retry_dataset_readiness(self))
+        self.catalog.verificationCancelled.connect(lambda: cancel_dataset_readiness(self))
+        self.tabs.addTab(self.catalog, "Models")
+        self.tabs.setTabToolTip(self.tabs.indexOf(self.catalog), "Browse every installed 3D model")
         ll.addWidget(self.tabs.nav)
         ll.addWidget(self.tabs, 1)
         self.left_layout = ll
-        self.left_dock = QDockWidget("EXPLORE")
+        self.left_dock = QDockWidget("Explore")
         self.left_dock.setObjectName("explore_dock")
         self.left_dock.setWidget(left)
         self.left_dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable |
                                    QDockWidget.DockWidgetClosable)
-        left.setMinimumWidth(330)
+        left.setMinimumWidth(300)
+        left.setAccessibleName("Anatomy and study navigation")
         self.addDockWidget(Qt.LeftDockWidgetArea, self.left_dock)
 
         # ---------------------------------------------------------------- right dock
@@ -219,12 +258,12 @@ class MainWindow(QMainWindow):
         self.section_index = SectionIndex(ds)
         self.viewport.section = self.section_index
         self.viewport.sectionChanged = lambda items: self.view_panel.show_section(items, ds)
-        self.right_dock = QDockWidget("DETAILS")
+        self.right_dock = QDockWidget("Details")
         self.right_dock.setObjectName("details_dock")
         self.right_dock.setWidget(self.info)
         self.right_dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable |
                                     QDockWidget.DockWidgetClosable)
-        self.info.setMinimumWidth(340)
+        self.info.setMinimumWidth(300)
         self.addDockWidget(Qt.RightDockWidgetArea, self.right_dock)
         self.resizeDocks([self.left_dock, self.right_dock], [360, 420], Qt.Horizontal)
 
@@ -233,6 +272,8 @@ class MainWindow(QMainWindow):
         self._build_menus()
         self._build_toolbar()
         self._build_statusbar()
+        self._build_workspace_header()
+        self._register_workspace_actions()
 
         # ---------------------------------------------------------------- signals
         self.search.activated.connect(self.on_search_activated)
@@ -256,7 +297,7 @@ class MainWindow(QMainWindow):
         self.view_panel.sectionPicked.connect(lambda sid: self.select_and_focus([sid], frame=False))
         if self.radiology_panel is not None:
             self.radiology_panel.structuresPicked.connect(self.on_radiology_pick)
-            self.radiology_panel.sceneRequested.connect(lambda case: self.apply_scene(case.scene))
+            self.radiology_panel.sceneRequested.connect(self.apply_radiology_scene)
             self.radiology_panel.closeRequested.connect(self.close_radiology)
             self.radiology_panel.caseStepped.connect(self.step_radiology)
         self.state.visibility_changed.connect(self.viewport.refresh_section)
@@ -271,20 +312,39 @@ class MainWindow(QMainWindow):
             scr = QGuiApplication.primaryScreen().availableGeometry()
             self.resize(int(scr.width() * 0.88), int(scr.height() * 0.88))
         st = self.qsettings.value("window_state") if restore else None
+        if self.qsettings.value('studio_layout_revision', 0, type=int) != 1:
+            st = None
         if isinstance(st, layout_types):
             self.restoreState(st)
         self.dock_side_panels()
+        self.qsettings.setValue('studio_layout_revision', 1)
         self._update_counts()
         self._script = [c.strip() for c in script.split(";") if c.strip()] if script else None
         self._restore_pending = restore and bool(self.settings.get("restore_session")) and not script
         if restore and str(self.qsettings.value("borderless", "0")).lower() in ("1", "true"):
             QTimer.singleShot(0, self, lambda: self.set_borderless(True))
+        from .ui.study_layout import StudyLayout
+        self.study_layout = StudyLayout(self)
+        self._ui_ready = True
+        self.tabs.currentChanged.connect(self._update_workspace_header)
+        self.state.selection_changed.connect(self._update_workspace_header)
+        self._activity_timer = QTimer(self)
+        self._activity_timer.setInterval(500)
+        self._activity_timer.timeout.connect(self._update_activity)
+        self._activity_timer.start()
+        self._update_workspace_header()
+        QTimer.singleShot(0, self._adapt_workspace)
+        if self._startup_notices:
+            if self.content.model_catalog_error:
+                self.notice.show_message(" · ".join(self._startup_notices), "Browse models", self._show_catalog)
+            else:
+                self.notice.show_message(" · ".join(self._startup_notices), "Open settings", self.open_settings)
 
     # ------------------------------------------------------------------ actions, menus, toolbar
     def _register_actions(self):
         vp = self.viewport
         reg = self.cmds.register
-        reg("search", self.search.focus_search)
+        reg("search", self._focus_search)
         reg("settings", lambda: self.open_settings())
         reg("screenshot", lambda: self.screenshot())
         reg("export_figure", lambda: self.export_figure())
@@ -482,6 +542,7 @@ class MainWindow(QMainWindow):
         tb = self.addToolBar("Main")
         tb.setObjectName("main_toolbar")
         tb.setMovable(False)
+        tb.setAccessibleName("Anatomy workspace tools")
 
         def add(text, action, tip=None):
             action.setIconText(text)
@@ -492,7 +553,9 @@ class MainWindow(QMainWindow):
 
         def drop(text, menu, tip):
             b = QToolButton()
-            b.setText(text + " ▾")
+            b.setText(text)
+            b.setAccessibleName(text + " menu")
+            b.setFocusPolicy(Qt.StrongFocus)
             b.setToolTip(tip)
             b.setPopupMode(QToolButton.InstantPopup)
             b.setMenu(menu)
@@ -544,14 +607,220 @@ class MainWindow(QMainWindow):
         sb.addPermanentWidget(self.sel_label)
         sb.addPermanentWidget(self.count_label)
         sb.addPermanentWidget(self.perf_label)
+        self.activity_label = QLabel("")
+        self.activity_label.setAccessibleName("Background loading status")
+        self.activity_progress = QProgressBar()
+        self.activity_progress.setRange(0, 0)
+        self.activity_progress.setTextVisible(False)
+        self.activity_progress.setFixedWidth(68)
+        self.activity_progress.setMaximumHeight(8)
+        self.activity_progress.hide()
+        sb.addPermanentWidget(self.activity_label)
+        sb.addPermanentWidget(self.activity_progress)
         self._frame_times = []
         self._last_perf = 0.0
+
+    def _build_workspace_header(self):
+        from .ui.studio_shell import StudioHeader, CollectionWorkspace, atlas_dock
+        self.studio_header = StudioHeader(self)
+        self.workspace_title = self.studio_header.title
+        self.workspace_context = self.studio_header.context
+        self.studio_header.exploreRequested.connect(self._studio_explore)
+        self.studio_header.learnRequested.connect(self._studio_learn)
+        self.studio_header.collectionRequested.connect(self._show_catalog)
+        self.studio_header.searchRequested.connect(self._studio_search)
+        self.workspace_layout.insertWidget(0, self.studio_header)
+        self.tabs.removeTab(self.tabs.indexOf(self.catalog))
+        self.collection_workspace = CollectionWorkspace(self.catalog, self)
+        self.center.addTab(self.collection_workspace, "Collection")
+        self.center.tabBar().setTabButton(self.center.indexOf(self.collection_workspace),
+                                         self.center.tabBar().ButtonPosition.RightSide, None)
+        self._studio_last_scene = self.anatomy_tab
+        self.studio_tools = atlas_dock(self)
+        self.workspace_layout.addWidget(self.studio_tools)
+        # The full original menu/toolbar remains available, without duplicate
+        # tool rows taking space from the study canvas on first launch.
+        for bar in self.findChildren(QToolBar):
+            if bar.objectName() == 'main_toolbar':bar.hide()
+        self.left_dock.hide()
+        self.right_dock.hide()
+
+    def _studio_search(self, text):
+        self._focus_search()
+        self.search.edit.setText(text)
+
+    def _studio_explore(self):
+        previous = getattr(self, '_studio_last_scene', None)
+        if previous is not None and self.center.indexOf(previous) >= 0:
+            self.center.setCurrentWidget(previous)
+        else:
+            self._show_atlas()
+        self._update_workspace_header()
+
+    def _studio_learn(self):
+        self._studio_explore()
+        self.show_lessons()
+
+    def _register_workspace_actions(self):
+        self.workspace_actions = []
+        menu = self.menuBar().addMenu("&Workspace")
+        entries = [("3D Anatomy", self._show_atlas, "Ctrl+Shift+1"),
+                   ("Model library", self._show_catalog, "Ctrl+Shift+2"),
+                   ("Lessons", self.show_lessons, "Ctrl+Shift+3"),
+                   ("Radiology", self.show_radiology, "Ctrl+Shift+4"),
+                   ("Histology", self.show_histology_tab, "Ctrl+Shift+5"),
+                   ("Find a command…", self.show_command_palette, "Ctrl+Shift+P")]
+        for title, callback, shortcut in entries:
+            action = QAction(title, self)
+            occupied = {key.toString() for item in self.cmds.actions.values() for key in item.shortcuts()}
+            if QKeySequence(shortcut).toString() not in occupied:
+                action.setShortcut(QKeySequence(shortcut))
+            action.setShortcutContext(Qt.WindowShortcut)
+            action.triggered.connect(lambda _checked=False, fn=callback: fn())
+            self.addAction(action)
+            menu.addAction(action)
+            self.workspace_actions.append(action)
+        self.workspace_actions[2].setEnabled(self.lessons_panel is not None)
+        self.workspace_actions[3].setEnabled(self.radiology_browser is not None)
+        self.workspace_actions[4].setEnabled(self.histology_panel is not None)
+
+    def _focus_search(self):
+        self.left_dock.show()
+        self.left_dock.raise_()
+        self.search.show()
+        self.search.focus_search()
+
+    def _show_atlas(self):
+        self.close_radiology()
+        self.center.setCurrentIndex(0)
+        self._update_workspace_header()
+        self.viewport.setFocus(Qt.ShortcutFocusReason)
+
+    def _show_nav_page(self, page):
+        if page is None:return
+        if page is self.catalog:
+            self._show_catalog();return
+        self.search.edit.clear()
+        self.tabs.show()
+        self.left_dock.show()
+        self.left_dock.raise_()
+        self.tabs.setCurrentWidget(page)
+
+    def _show_catalog(self):
+        self.search.edit.clear()
+        self.center.setCurrentWidget(self.collection_workspace)
+        self.left_dock.hide()
+        self.right_dock.hide()
+        self.catalog.focus_search()
+
+    def _show_model_lessons(self, model_id):
+        if self.lessons_panel is not None:
+            self.show_lessons()
+            self.lessons_panel.show_model_lessons(model_id)
+            self.left_dock.raise_()
+
+    def show_command_palette(self):
+        actions = list(self.cmds.actions.values()) + list(self.workspace_actions)
+        actions.extend((self.left_dock.toggleViewAction(), self.right_dock.toggleViewAction()))
+        CommandPalette(actions, self).exec()
+
+    def _save_theme_preference(self, name):
+        if name not in theme.THEMES:
+            return
+        self.qsettings.setValue("ui_theme", name)
+        self.notice.show_message("Interface appearance saved. Restart Anatomy Explorer to apply it.")
+
+    def _update_workspace_header(self, *_):
+        if not getattr(self, "_ui_ready", False):
+            return
+        current = self.center.currentWidget()
+        title = self.center.tabText(self.center.currentIndex()).replace("&&", "&")
+        subtitle = "Your selection stays with its workspace"
+        if current is self.anatomy_tab:
+            case = self.radiology_panel.case if self.radiology_panel is not None else None
+            if case is not None and not self.radiology_panel.isHidden():
+                title = case.title
+                subtitle = "Radiology · Authored anatomical reference"
+            else:
+                count = len(self.state.selected)
+                title = "3D Anatomy"
+                subtitle = f"{count} selected · Browse, isolate or open linked study material" if count else "Choose a structure or search the atlas"
+        self.workspace_title.setText(title)
+        self.workspace_context.setText(subtitle)
+        if hasattr(self, 'studio_header'):
+            collection = current is self.collection_workspace
+            learning = self.lessons_panel is not None and self.tabs.currentWidget() is self.lessons_panel and not self.left_dock.isHidden()
+            self.studio_header.set_workspace('collection' if collection else 'learn' if learning else 'explore')
+            self.studio_tools.setVisible(current is self.anatomy_tab)
+            if not collection:self._studio_last_scene = current
+        self.cmds.actions["back"].setEnabled(self.history_pos > 0)
+        self.cmds.actions["forward"].setEnabled(self.history_pos + 1 < len(self.history))
+
+    def _update_activity(self):
+        if self._closing:
+            return
+        count = sum(p.serial is not None for p in self._loading_models.values()) + len(self._reference_loads)
+        self.activity_label.setText(f"Loading {count} model" + ("s" if count != 1 else "") if count else "")
+        self.activity_progress.setVisible(bool(count))
+
+    def _model_load_error(self, model_id, pending, message):
+        self._model_loader.cancel(model_id)
+        commit_key = getattr(pending, "commit_key", None)
+        if commit_key is not None:
+            self._model_loader.cancel(commit_key)
+            self._preference_commits.pop(commit_key, None)
+        pending.serial = None
+        callbacks, pending.callbacks = pending.callbacks, []
+        pending.set_error(message)
+        self._notify_model_callbacks(callbacks, None)
+        self._update_activity()
+
+    def _retry_model_load(self, model_id, pending):
+        if self._closing or self._loading_models.get(model_id) is not pending:
+            return
+        entry = pending.entry
+        if hasattr(entry, "meta") and hasattr(entry, "store") and hasattr(entry, "variant"):
+            from .variants.catalog import DeferredVariantEntry
+            entry = DeferredVariantEntry(entry.meta, entry.store, entry.variant, component=getattr(entry, "component", None))
+        self._close_center_tab(self.center.indexOf(pending))
+        self.open_micro(model_id, entry, persist_variant=getattr(pending, "persist_variant", False))
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if getattr(self, "_ui_ready", False) and not self._layout_pending:
+            self._layout_pending = True
+            QTimer.singleShot(0, self._adapt_workspace)
+
+    def _adapt_workspace(self):
+        self._layout_pending = False
+        if not self._ui_ready or self._closing:
+            return
+        # StudyLayout owns its temporary reading composition and restores it on exit.
+        if getattr(getattr(self, "study_layout", None), "snapshot", None) is not None:
+            return
+        compact = self.width() < int(1240 * min(float(self.settings.get("ui_scale", 1.0)), 1.3))
+        if compact == self._compact_layout:
+            return
+        self._compact_layout = compact
+        left_visible, right_visible = not self.left_dock.isHidden(), not self.right_dock.isHidden()
+        if compact:
+            self.addDockWidget(Qt.LeftDockWidgetArea, self.right_dock)
+            self.tabifyDockWidget(self.left_dock, self.right_dock)
+            self.left_dock.raise_()
+            self.resizeDocks([self.left_dock], [min(360, max(300, self.width() // 3))], Qt.Horizontal)
+        else:
+            self.removeDockWidget(self.right_dock)
+            self.addDockWidget(Qt.RightDockWidgetArea, self.right_dock)
+            self.resizeDocks([self.left_dock, self.right_dock], [340, 360], Qt.Horizontal)
+        self.left_dock.setVisible(left_visible)
+        self.right_dock.setVisible(right_visible)
 
     # ------------------------------------------------------------------ status
     def _on_gl_ready(self):
         self.relations.start()
         self.depth_index.start()
         self.section_index.start()
+        self._section_index_presented = False
         self._depth_timer = QTimer(self)
         self._depth_timer.timeout.connect(self._depth_ready)
         self._depth_timer.start(150)
@@ -573,9 +842,11 @@ class MainWindow(QMainWindow):
             elif not getattr(self.depth_index, "failed", False):
                 done = False
         if self.section_index.ready:
-            self.viewport.refresh_section()
-            self.viewport.update()
-        else:
+            if not getattr(self, "_section_index_presented", False):
+                self.viewport.refresh_section()
+                self.viewport.update()
+                self._section_index_presented = True
+        elif not getattr(self.section_index, "failed", False):
             done = False
         if done:
             self._depth_timer.stop()
@@ -659,6 +930,7 @@ class MainWindow(QMainWindow):
                 self.color_actions[int(value)].setChecked(True)
         elif key == "ui_scale":
             apply_theme(QApplication.instance(), float(value))
+            self._adapt_workspace()
         elif key == "details_scale":
             self.info.set_font_scale(float(value))
         elif key == "fov":
@@ -679,6 +951,7 @@ class MainWindow(QMainWindow):
         if self.settings_dialog is None:
             self.settings_dialog = SettingsDialog(self.settings, self.cmds, self)
             self.settings_dialog.settingChanged.connect(self._dialog_setting)
+            self.settings_dialog.themeChanged.connect(self._save_theme_preference)
         if isinstance(page, int):
             self.settings_dialog.tabs.setCurrentIndex(page)
         self.settings_dialog.show()
@@ -795,6 +1068,9 @@ class MainWindow(QMainWindow):
         """The model tab in front, or None when it is the atlas (or the histology viewer)."""
         from .ui.model_view import ModelView
         w = self.center.currentWidget()
+        reference = getattr(self, "_radiology_model_view", None)
+        if w is self.anatomy_tab and reference is not None and not reference.isHidden():
+            return reference
         return w if isinstance(w, ModelView) else None
 
     def about(self):
@@ -809,10 +1085,25 @@ class MainWindow(QMainWindow):
                           + "<br>".join(self.ds.attribution) + "</p>")
 
     def _close_center_tab(self, index):
-        if index == 0:
+        if index <= 0:
             return
         w = self.center.widget(index)
-        self.center.removeTab(index)
+        if w is None:
+            return
+        if w is getattr(self, 'collection_workspace', None):
+            self._studio_explore()
+            return
+        for key, pending in list(self._loading_models.items()):
+            if pending is w:
+                self._cancel_model_load(key, pending)
+        # A cancellation observer may open/close another tab. Resolve the old
+        # widget again rather than removing whatever moved into its index.
+        index = self.center.indexOf(w)
+        if index >= 0:
+            self.center.removeTab(index)
+        session = getattr(w, "runtime_session", None)
+        if session is not None:
+            session.close()
         gl = getattr(w, "gl_widget", None)
         if gl is not None and getattr(gl, "renderer", None) is not None:
             gl.makeCurrent()                # shared contexts keep GPU memory alive until it is freed explicitly
@@ -841,6 +1132,7 @@ class MainWindow(QMainWindow):
             self.info.show_structures(self.state.selected)
         self._update_counts()
         self._on_selection_changed()
+        self._update_workspace_header()
 
     # ------------------------------------------------------------------ history
     def _record(self, entry):
@@ -853,6 +1145,7 @@ class MainWindow(QMainWindow):
         if len(self.history) > 200:
             self.history.pop(0)
         self.history_pos = len(self.history) - 1
+        self._update_workspace_header()
 
     def navigate(self, step):
         pos = self.history_pos + step
@@ -870,8 +1163,17 @@ class MainWindow(QMainWindow):
                 self.on_node_activated(payload, xray=self.state.ghost_focus is not None)
             elif kind == "lm":
                 self.focus_landmark(payload)
+            elif kind == "rad_case":
+                self.open_radiology(payload)
+            elif kind == "rad_pick":
+                case_id, names, side = payload
+                current = self.radiology_panel.case if self.radiology_panel is not None else None
+                if current is None or current.id != case_id:
+                    self.open_radiology(case_id)
+                self.on_radiology_pick(list(names), frame=False, side=side)
         finally:
             self._navigating = False
+            self._update_workspace_header()
 
     # ------------------------------------------------------------------ selection logic
     def select_and_focus(self, sids, xray=False, frame=True, info=True):
@@ -1126,8 +1428,7 @@ class MainWindow(QMainWindow):
     # ------------------------------------------------------------------ histology & microanatomy
     def show_histology_tab(self):
         if self.histology_panel is not None:
-            self.left_dock.show()
-            self.tabs.setCurrentWidget(self.histology_panel)
+            self._show_nav_page(self.histology_panel)
 
     def open_histology(self, tissue_id, index=0):
         try:
@@ -1135,8 +1436,9 @@ class MainWindow(QMainWindow):
         except ImportError:
             return
         tissue = self.content.tissues.get(tissue_id)
-        if not tissue or not tissue.get("images"):
-            self.statusBar().showMessage("No images downloaded for this tissue yet.", 4000)
+        if not tissue:
+            self.notice.show_message("This tissue is not in the installed histology library.",
+                                     "Browse histology", self.show_histology_tab)
             return
         viewer = self.micro_tabs.get("__histology__")
         if viewer is None:
@@ -1169,52 +1471,318 @@ class MainWindow(QMainWindow):
         self.state.force_show(sids)
         self.select_and_focus(sids, xray=True)
 
-    def open_micro(self, model_id, entry=None):
-        """Open a 3D model - an in-house model, a procedural microanatomy model or a downloaded one - in a tab of
-        the model viewer, or bring its tab to the front."""
+    def switch_model_variant(self, model_id, variant, *, component=None):
+        """Replace the model's current view with one independently verified version.
+
+        Resolve before retiring the former view. Preferences are committed by
+        the successful result handler, never by a failed or cancelled request.
+        """
+        if self._closing or variant not in ("pre", "post"):
+            return
+        entry = self.content.micro_models.get(model_id)
+        if entry is None or not hasattr(entry, "for_variant"):
+            return
+        active = self.micro_tabs.get(model_id)
+        scene = component or getattr(getattr(active, "entry", None), "component", "main")
+        if (active is not None and getattr(active.entry, "variant", None) == variant
+                and getattr(active.entry, "component", "main") == scene):
+            self.center.setCurrentWidget(active)
+            return
         try:
-            from .ui.model_view import ModelView
-        except ImportError:
+            chosen = entry.for_variant(variant)
+            if hasattr(chosen, "for_component"):
+                chosen = chosen.for_component(scene)
+            elif component is not None:
+                raise ValueError("This model has no selectable inset scene")
+        except Exception as exc:
+            self.notice.show_message(f"This model version could not be verified: {exc}",
+                                     "Browse models", self._show_catalog)
+            self.catalog._preview()
+            return
+        practice = getattr(self.lessons_panel, "practice", None)
+        if practice is not None:
+            practice.stop()
+        if self.quiz is not None:
+            self.quiz.stop()
+        reference_key = "radiology-reference:" + model_id
+        reference = getattr(self, "_radiology_model_view", None)
+        if (reference_key in self._reference_loads
+                or getattr(getattr(reference, "entry", None), "id", None) == model_id):
+            self._radiology_frame_token = getattr(self, "_radiology_frame_token", 0) + 1
+            self._model_loader.cancel(reference_key)
+            self._reference_loads.pop(reference_key, None)
+        pending = self._loading_models.get(model_id)
+        if pending is not None:
+            self._close_center_tab(self.center.indexOf(pending))
+        for key, view in list(self.micro_tabs.items()):
+            if getattr(getattr(view, "entry", None), "id", None) != model_id:
+                continue
+            index = self.center.indexOf(view)
+            if index >= 0:
+                self._close_center_tab(index)
+            else:
+                view.hide()
+                session = getattr(view, "runtime_session", None)
+                if session is not None:
+                    session.close()
+                gl = getattr(view, "gl_widget", None)
+                if gl is not None:
+                    gl.release_gl()
+                self.micro_tabs.pop(key, None)
+                if getattr(self, "_radiology_model_view", None) is view:
+                    self._radiology_model_view = None
+                    self.viewport.show()
+                    self.anatomy_tab.gl_widget = self.viewport
+                view.deleteLater()
+        self.open_micro(model_id, entry=chosen, persist_variant=component is None)
+
+    def switch_model_component(self, model_id, component):
+        """One matching inset/main scene, without writing a version preference."""
+        if model_id != "axillary_skin" or component not in ("main", "cell_inset"):
+            return
+        active = self.micro_tabs.get(model_id)
+        if active is not None:
+            self.switch_model_variant(model_id, active.entry.variant, component=component)
+
+    def open_micro(self, model_id, entry=None, *, on_ready=None, persist_variant=False):
+        """Open/reuse a tab; prepare CPU data off-thread, build widgets only here.
+
+        Callers needing part selection/practice must use on_ready rather than
+        assuming the model has finished when this method returns.
+        """
+        if self._closing:
             return
         view = self.micro_tabs.get(model_id)
-        if view is None:
-            entry = entry or self.content.micro_models.get(model_id)
-            if entry is None:
-                self.statusBar().showMessage(f"There is no 3D model called {model_id}.", 5000)
-                return
-            # a procedural model whose cache is missing or stale is rebuilt here, which can take several seconds
-            self.statusBar().showMessage(f"Loading 3D model: {entry.name}…")
-            QApplication.setOverrideCursor(Qt.WaitCursor)
-            QApplication.processEvents()
+        if view is not None:
+            self.center.setCurrentWidget(view)
+            view.on_activated(self.info)
+            if on_ready is not None:
+                on_ready(view)
+            return
+        pending = self._loading_models.get(model_id)
+        if pending is not None:
+            if on_ready is not None:
+                if pending.serial is None:
+                    on_ready(None)  # failed tabs remain visible, but must not strand an observer
+                else:
+                    pending.callbacks.append(on_ready)
+            self.center.setCurrentWidget(pending)
+            return
+        entry = entry or self.content.micro_models.get(model_id)
+        if entry is None:
+            self.statusBar().showMessage(f"There is no 3D model called {model_id}.", 5000)
+            if on_ready is not None:
+                on_ready(None)
+            return
+        from .ui.model_loading import ModelLoadingTab
+        pending = ModelLoadingTab(entry, self.center)
+        pending.persist_variant = persist_variant
+        if on_ready is not None:
+            pending.callbacks.append(on_ready)
+        self._loading_models[model_id] = pending
+        pending.cancelled.connect(lambda: self._close_center_tab(self.center.indexOf(pending)))
+        pending.retryRequested.connect(lambda: self._retry_model_load(model_id, pending))
+        pending.destroyed.connect(lambda: self._cancel_model_load(model_id, pending))
+        label = "3D · " if entry.kind != "procedural" else "Micro · "
+        version = f" · {entry.label}" if hasattr(entry, "label") else ""
+        self.center.addTab(pending, f"{label}{entry.name}{version}".replace("&", "&&"))
+        self.center.setCurrentWidget(pending)
+        try:
+            pending.serial = self._model_loader.request(model_id, entry)
+        except Exception as exc:
+            self._model_load_error(model_id, pending, str(exc))
+
+    def when_model_ready(self, model_id, callback):
+        """Observe an existing load without starting it or changing navigation."""
+        if self._closing:
+            return
+        view = self.micro_tabs.get(model_id)
+        if view is not None:
+            callback(view)
+        elif (pending := self._loading_models.get(model_id)) is not None:
+            if pending.serial is None:
+                callback(None)
+            else:
+                pending.callbacks.append(callback)
+        else:
+            callback(None)
+
+    def _cancel_model_load(self, model_id, pending):
+        if self._loading_models.get(model_id) is not pending:
+            return
+        del self._loading_models[model_id]
+        self._model_loader.cancel(model_id)
+        prepared = getattr(pending, "prepared_view", None)
+        if prepared is not None:
+            session = getattr(prepared, "runtime_session", None)
+            if session is not None:
+                session.close()
+            prepared.gl_widget.release_gl()
+        callbacks, pending.callbacks = pending.callbacks, []
+        self._notify_model_callbacks(callbacks, None)
+
+    def _notify_model_callbacks(self, callbacks, view, model_id=None):
+        for callback in callbacks:
+            if self._closing or (view is not None and self.micro_tabs.get(model_id) is not view):
+                break
             try:
-                view = ModelView(entry, self.content, self.settings)
-            except Exception as exc:                      # noqa: BLE001 - a bad file must not take the app down
-                self.statusBar().showMessage(f"Could not open {entry.name}: {exc}", 8000)
+                callback(view)
+            except Exception:
+                # An observer must not strand a pending tab or prevent the
+                # remaining lifetime cleanup. Report its own failure separately.
                 import traceback
                 traceback.print_exc()
+
+    def _connect_model_view(self, view):
+        g = view.gl_widget
+        g.measureChanged.connect(lambda text, vp=g: self._on_measure_changed(vp, text))
+        g.hoverChanged.connect(lambda sid, v=view: self._on_model_hover(v, sid))
+        g.frameTimed.connect(self._on_frame)
+        g.historyRequested.connect(self.navigate)
+        for action in self.cmds.actions.values():
+            if action.shortcutContext() == Qt.WidgetWithChildrenShortcut:
+                g.addAction(action)
+        view.openHistology.connect(self.open_histology)
+        view.openMicro.connect(self.open_micro)
+        view.variantRequested.connect(lambda variant, mid=view.entry.id: self.switch_model_variant(mid, variant))
+        view.componentRequested.connect(lambda component, mid=view.entry.id: self.switch_model_component(mid, component))
+        view.atlasRequested.connect(self._atlas_structures)
+        view.lessonsRequested.connect(self._show_model_lessons)
+        if self.lessons_panel is not None:
+            view.set_lessons_available(len(self.lessons_panel.lessons_for_model(view.entry.id)))
+        view.state.visibility_changed.connect(self._update_model_actions)
+        view.state.selection_changed.connect(self._on_selection_changed)
+
+    def _model_load_finished(self, result):
+        if self._closing:
+            return
+        commit = self._preference_commits.get(result.key)
+        if commit is not None:
+            serial, prepared_result, pending, view = commit
+            if serial != result.serial:
                 return
-            finally:
-                QApplication.restoreOverrideCursor()
-            self.statusBar().clearMessage()
-            g = view.gl_widget
-            g.measureChanged.connect(
-                lambda text, vp=g: self._on_measure_changed(vp, text))
-            g.hoverChanged.connect(lambda sid, v=view: self._on_model_hover(v, sid))
-            g.frameTimed.connect(self._on_frame)
-            g.historyRequested.connect(self.navigate)
-            for action in self.cmds.actions.values():
-                if action.shortcutContext() == Qt.WidgetWithChildrenShortcut:
-                    g.addAction(action)            # arrow keys, WASD and zoom keys work in the model too
-            view.openHistology.connect(self.open_histology)
-            view.openMicro.connect(self.open_micro)
-            view.atlasRequested.connect(self._atlas_structures)
-            view.state.visibility_changed.connect(self._update_model_actions)
-            view.state.selection_changed.connect(self._on_selection_changed)
-            self.micro_tabs[model_id] = view
-            label = "3D · " if entry.kind != "procedural" else "Micro · "
-            self.center.addTab(view, f"{label}{entry.name}".replace("&", "&&"))
-        self.center.setCurrentWidget(view)
-        view.on_activated(self.info)
+            del self._preference_commits[result.key]
+            if self._loading_models.get(prepared_result.key) is not pending:
+                return
+            if result.error:
+                self._fail_prepared_model(prepared_result, pending, view, result.error)
+            elif result.model.token != view.entry.descriptor.token:
+                self._fail_prepared_model(prepared_result, pending, view, "Selected generation changed before preference commit")
+            else:
+                self._publish_model_load(prepared_result, pending, view)
+            return
+        reference = self._reference_loads.get(result.key)
+        if reference is not None:
+            serial, callback = reference
+            if serial == result.serial:
+                del self._reference_loads[result.key]
+                callback(result)
+            return
+        pending = self._loading_models.get(result.key)
+        if pending is None or pending.serial != result.serial:
+            return
+        index = self.center.indexOf(pending)
+        if index < 0:
+            self._cancel_model_load(result.key, pending)
+            pending.deleteLater()
+            return
+        entry = getattr(result.model, "runtime_entry", pending.entry)
+        pending.entry = entry
+        if result.error:
+            self._model_load_error(result.key, pending, str(result.error))
+            return
+        from .ui.model_view import ModelView
+        view = None
+        try:
+            # Parent partial construction to the pending tab so exceptions cannot
+            # strand a half-built QWidget. Reparent after successful construction.
+            view = ModelView(entry, self.content, self.settings, parent=pending, prepared=result)
+            self._connect_model_view(view)
+            pending.prepared_view = view
+        except Exception as exc:
+            if view is not None:
+                view.gl_widget.release_gl()
+                view.deleteLater()
+            self._model_load_error(result.key, pending, str(exc))
+            return
+        QTimer.singleShot(0, view, lambda: self._complete_model_load(result, pending, view))
+
+    def _complete_model_load(self, result, pending, view):
+        if (self._closing or self._loading_models.get(result.key) is not pending
+                or pending.serial != result.serial):
+            return
+        index = self.center.indexOf(pending)
+        if index < 0:
+            self._cancel_model_load(result.key, pending)
+            pending.deleteLater()
+            return
+        if not view.runtime_opening_done:
+            QTimer.singleShot(0, view, lambda: self._complete_model_load(result, pending, view))
+            return
+        entry = pending.entry
+        try:
+            if view.runtime_opening_error:
+                raise ValueError(view.runtime_opening_error)
+            if getattr(pending, "persist_variant", False) and hasattr(entry, "commit_selection"):
+                from .variants.catalog import VariantPreferenceCommit
+                if getattr(pending, "commit_key", None) is not None:
+                    return
+                key = "variant-preference:" + result.key
+                serial = self._model_loader.request(key, VariantPreferenceCommit(entry))
+                pending.commit_key = key
+                self._preference_commits[key] = (serial, result, pending, view)
+                return
+        except Exception as exc:
+            self._fail_prepared_model(result, pending, view, str(exc))
+            return
+        self._publish_model_load(result, pending, view)
+
+    def _fail_prepared_model(self, result, pending, view, message):
+        session = getattr(view, "runtime_session", None)
+        if session is not None:
+            session.close()
+        view.gl_widget.release_gl()
+        view.deleteLater()
+        pending.prepared_view = None
+        self._model_load_error(result.key, pending, str(message))
+
+    def _publish_model_load(self, result, pending, view):
+        if self._closing or self._loading_models.get(result.key) is not pending:
+            return
+        index = self.center.indexOf(pending)
+        if index < 0:
+            self._cancel_model_load(result.key, pending)
+            return
+        entry = view.entry
+        if hasattr(entry, "commit_selection"):
+            from .variants.catalog import DeferredVariantEntry
+            display = DeferredVariantEntry(entry.meta, entry.store, entry.variant, component=getattr(entry, "component", None))
+            for field in ("outcome", "validation_scope", "baseline_defects"):
+                setattr(display, field, getattr(entry, field, None))
+            display.verification_state = "verified_selected"
+            self.content.micro_models[result.key] = display
+            self.catalog._run()
+        current = self.center.currentWidget()
+        title = self.center.tabText(index)
+        callbacks, pending.callbacks = pending.callbacks, []
+        del self._loading_models[result.key]
+        self.micro_tabs[result.key] = view
+        view.setParent(self.center)
+        # No stale completion steals focus from a newer tab or atlas navigation.
+        self.center.blockSignals(True)
+        try:
+            self.center.removeTab(index)
+            self.center.insertTab(index, view, title)
+            self.center.setCurrentWidget(view if current is pending else current)
+        finally:
+            self.center.blockSignals(False)
+        pending.deleteLater()
+        self._center_changed(self.center.currentIndex())
+        if callbacks:
+            def ready():
+                self._notify_model_callbacks(callbacks, view, result.key)
+            # ModelView's queued home reset must run before lesson/practice focus.
+            QTimer.singleShot(0, view, ready)
 
     def _on_model_hover(self, view, sid):
         if self.quiz is not None and self.quiz.names_hidden():
@@ -1315,35 +1883,227 @@ class MainWindow(QMainWindow):
     def show_radiology(self, case_id=None):
         if self.radiology_browser is None:
             return
-        self.tabs.setCurrentWidget(self.radiology_browser)
-        self.left_dock.show()
+        self._show_nav_page(self.radiology_browser)
         if case_id:
             self.open_radiology(case_id)
         elif self.radiology_panel.case is None and self.radiology_cases:
             self.open_radiology(self.radiology_cases[0].id)
 
     def open_radiology(self, case_id):
-        """Show a radiograph beside the 3D view and set the model up to match it."""
+        """Show an authored case beside its deterministic anatomical reference."""
         case = next((c for c in self.radiology_cases if c.id == case_id), None)
         if case is None or self.radiology_panel is None:
             return
         self.center.setCurrentIndex(0)
         self.radiology_panel.show_case(case)
+        if self.radiology_browser is not None:
+            self.radiology_browser.set_current_case(case.id)
         if not self.radiology_panel.isVisible():
             self.radiology_panel.show()
             total = max(self.anatomy_tab.width(), 800)
             self.anatomy_tab.setSizes([int(total * 0.42), int(total * 0.58)])
-        if not case.scene.get("focus") and self.state.clear_selection():
-            # whatever was selected before (a lesson's bones, say) is usually hidden by the case's scene and
-            # would otherwise linger in Details as a stale "N structures selected"
-            self.viewport.landmark_hosts = []
-            self.viewport.focus_landmark = None
-            self.info.show_welcome()
-        self.apply_scene(case.scene)
-        self.statusBar().showMessage(f"{case.title} — click a numbered label, or a line in its legend, to find it "
-                                     "in 3D", 8000)
+        self.apply_radiology_scene(case)
+        self.statusBar().showMessage(f"{case.title} - labels highlight anatomy already in this reference view.", 8000)
+        self._record(("rad_case", case.id))
+        self._update_workspace_header()
+
+    def apply_radiology_scene(self, case):
+        """Reapply explicit case anatomy from a baseline without changing preferences.
+
+        Only authored show/focus/ghost_focus sets introduce anatomy. Image labels
+        are not an implicit Show All command, particularly on projection cases.
+        Reference reset and first/open/reentry share this same boundary.
+        """
+        if self.radiology_panel is None or self.radiology_panel.case is not case:
+            return
+        self._radiology_frame_token = getattr(self, "_radiology_frame_token", 0) + 1
+        frame_token = self._radiology_frame_token
+        self._cancel_reference_loads()
+        st, vp = self.state, self.viewport
+        old_reference = getattr(self, "_radiology_model_view", None)
+        if old_reference is not None:
+            old_reference.hide()
+        self._radiology_model_view = None
+        self.viewport.show()
+        self.anatomy_tab.gl_widget = self.viewport
+        before = st._snapshot()
+        previous_undo = list(st._undo)
+        baseline = SceneState(self.ds, self.settings)
+        st.restore(baseline._snapshot())
+        st.clear_selection()
+        st.set_hovered(-1)
+        st.set_custom_color(list(st.custom_colors), None)
+        vp.landmark_hosts = []
+        vp.focus_landmark = None
+        self.hover_label.setText("")
+        self.info.show_welcome()
+        scene = dict(case.scene)
+        # This case embeds an existing model alongside its scan. Do not open or
+        # change the user's ordinary model tab through apply_scene's micro path.
+        model_id = scene.pop("micro", None) if scene.get("micro_focus") else None
+        # Case entry always replaces the former cut. An authored new cut still
+        # applies below; reset_clips=False cannot inherit a previous case's cut.
+        scene["reset_clips"] = True
+        side = (scene.get("side") or "").lower()
+        if side:
+            for key in ("show", "focus", "ghost_focus", "frame_on"):
+                if key in scene:
+                    scene[key] = [name for name in scene[key]
+                                  if not self.lesson_resolver.resolve(name) or
+                                  any(self.ds.structures[s]["side"].lower() in (side, "")
+                                      for s in self.lesson_resolver.resolve(name))]
+        try:
+            self.apply_scene(scene)
+            # A section's audited anatomical links belong to its FIRST reference
+            # view. Clicking a label only highlights them later. Projection cases
+            # keep their purposeful authored show/isolation instead.
+            if scene.get("slice_only") is True:
+                from .radiology_reference import resolve_reference
+                required = set()
+                for label in case.labels:
+                    required.update(resolve_reference(self.ds, self.lesson_resolver,
+                                                       label.structures, label.side or side))
+                if required:
+                    st.set_hidden(sorted(required), False, undo=False)
+                    st.force_show(sorted(required))
+                    if st.isolated is not None:
+                        st.isolated[list(required)] = True
+                        st._vis_dirty()
+                    vp.refresh_section()
+                    if scene.get("frame", True) and not scene.get("camera") and not scene.get("frame_on"):
+                        vp.frame_section(view=scene.get("view"))
+                        # Showing the case pane can change the splitter's size
+                        # again in the queued layout pass. Refit using the final
+                        # viewport, but never let a stale case move a later view.
+                        # A cancelled context-bound timer can outlive its Qt
+                        # owner in the Python binding. Never let its callable
+                        # retain the window or the viewport's CPU geometry.
+                        window_ref, viewport_ref = weakref.ref(self), weakref.ref(vp)
+                        def settled_section_frame():
+                            window, viewport = window_ref(), viewport_ref()
+                            if (window is not None and viewport is not None
+                                    and not getattr(window, "_closing", False)
+                                    and getattr(window, "_radiology_frame_token", None) == frame_token
+                                    and window.radiology_panel.case is case
+                                    and window.radiology_panel.isVisible()
+                                    and viewport.radiology_slice):
+                                viewport.frame_section(view=scene.get("view"))
+                        QTimer.singleShot(0, self, settled_section_frame)
+            authored_labels = scene.get("reference_labels")
+            groups = None
+            if authored_labels is not None:
+                from .radiology_reference import resolve_reference
+                groups = [(entry["text"], resolve_reference(
+                    self.ds, self.lesson_resolver, entry.get("structures", []),
+                    entry.get("side") or side), bool(entry.get("surface_anchor"))) for entry in authored_labels]
+            vp.set_radiology_section_labels(groups)
+            if model_id and scene.get("micro_focus"):
+                self._open_radiology_model(model_id, case, scene, frame_token)
+        finally:
+            # Existing apply_scene/state helpers create several snapshots; one
+            # case entry is one visibility undo action with its pre-entry state.
+            st._undo[:] = (previous_undo + [before])[-100:]
+
+    def _cancel_reference_loads(self):
+        for key in self._reference_loads:
+            self._model_loader.cancel(key)
+        self._reference_loads.clear()
+        self._preference_commits.clear()
+
+    def _open_radiology_model(self, model_id, case, scene, frame_token):
+        key = "radiology-reference:" + model_id
+        def current():
+            return (not self._closing and self._radiology_frame_token == frame_token
+                    and self.radiology_panel.case is case and not self.radiology_panel.isHidden())
+        def activate(view):
+            if not current():
+                return
+            self._radiology_model_view = view
+            self.viewport.hide()
+            view.show()
+            self.anatomy_tab.gl_widget = view.gl_widget
+            view._radiology_ready = False
+            def configure():
+                if not current():
+                    return
+                ms, mg = view.state, view.gl_widget
+                ms.restore(SceneState(view.mds, self.settings)._snapshot())
+                ms.clear_selection()
+                ms.set_hovered(-1)
+                ms.set_custom_color(list(ms.custom_colors), None)
+                mg.sections = [None, None, None]
+                mg.cut_on = False
+                mg.show_state("assembled")
+                focus, missing = view.part_ids(scene["micro_focus"])
+                context, _ = view.part_ids(scene.get("micro_context", []))
+                if missing:
+                    self.statusBar().showMessage("Reference parts unavailable: " + ", ".join(missing), 6000)
+                if focus:
+                    ms.isolate(sorted(set(focus + context)))
+                    ms.set_ghost_focus(focus)
+                    view.labels.setChecked(False)
+                    view.side.hide()
+                    bar = view.findChild(QWidget, "modelBar")
+                    if bar is not None:
+                        bar.hide()
+                    view.section_bar.hide()
+                    mg.frame_structures(focus, duration=0.0, view=scene.get("model_view", "anterior"))
+                view._radiology_ready = True
+                self._center_changed(self.center.currentIndex())
+            QTimer.singleShot(0, view, configure)
+        view = self.micro_tabs.get(key)
+        if view is not None:
+            activate(view)
+            return
+        entry = self.content.micro_models.get(model_id)
+        if entry is None:
+            self.statusBar().showMessage(f"Reference model unavailable: {model_id}", 6000)
+            return
+        def loaded(result):
+            if not current():
+                return
+            if result.error:
+                self.notice.show_message(f"The anatomical reference for this case could not open: {result.error}",
+                                         "Retry reference", lambda: self._retry_radiology_reference(case))
+                return
+            from .ui.model_view import ModelView
+            owner = QWidget(self.anatomy_tab)
+            try:
+                prepared_entry = getattr(result.model, "runtime_entry", entry)
+                view = ModelView(prepared_entry, self.content, self.settings, parent=owner, prepared=result)
+                self._connect_model_view(view)
+                self.anatomy_tab.addWidget(view)
+            except Exception as exc:
+                self.notice.show_message(f"The anatomical reference for this case could not open: {exc}",
+                                         "Retry reference", lambda: self._retry_radiology_reference(case))
+                return
+            finally:
+                owner.deleteLater()
+            self.micro_tabs[key] = view
+            activate(view)
+        try:
+            serial = self._model_loader.request(key, entry)
+        except Exception as exc:
+            self.notice.show_message(f"The anatomical reference could not start loading: {exc}",
+                                     "Retry reference", lambda: self._retry_radiology_reference(case))
+            return
+        self._reference_loads[key] = (serial, loaded)
+
+    def _retry_radiology_reference(self, case):
+        if (not self._closing and self.radiology_panel is not None
+                and self.radiology_panel.case is case and not self.radiology_panel.isHidden()):
+            self.apply_radiology_scene(case)
 
     def close_radiology(self):
+        self._cancel_reference_loads()
+        self._radiology_frame_token = getattr(self, "_radiology_frame_token", 0) + 1
+        model_view = getattr(self, "_radiology_model_view", None)
+        if model_view is not None:
+            model_view.hide()
+        self._radiology_model_view = None
+        self.viewport.show()
+        self.anatomy_tab.gl_widget = self.viewport
+        self.viewport.set_radiology_slice(False)
         if self.radiology_panel is not None:
             self.radiology_panel.hide()
 
@@ -1351,29 +2111,59 @@ class MainWindow(QMainWindow):
         panel = self.radiology_panel
         if panel is None or panel.case is None:
             return
-        ids = [c.id for c in self.radiology_cases]
+        ids = self.radiology_browser.visible_case_ids() if self.radiology_browser is not None else []
+        if panel.case.id not in ids:
+            ids = [c.id for c in self.radiology_cases]
+        if not ids or panel.case.id not in ids:
+            return
         i = (ids.index(panel.case.id) + delta) % len(ids)
         self.open_radiology(ids[i])
 
-    def on_radiology_pick(self, names, frame=True):
-        """A label on the radiograph was clicked: select the same thing in the model."""
-        sids = self.lesson_resolver.resolve_all(names) if getattr(self, "lesson_resolver", None) else []
-        if not sids:
-            self.statusBar().showMessage("That label has no matching structure in the model.", 3000)
-            return
+    def on_radiology_pick(self, names, frame=True, side=""):
+        """Highlight an existing reference link without changing its presentation."""
         case = self.radiology_panel.case if self.radiology_panel is not None else None
-        side = ((case.scene.get("side") if case else "") or "").lower()
-        if side:                        # a film of one limb should not select and frame both of them
-            sids = [s for s in sids if self.ds.structures[s]["side"].lower() in (side, "")] or sids
-        self.state.force_show(sids)
-        self.select_and_focus(sids, xray=bool(self.settings.get("xray_on_search", True)), frame=frame)
+        model_view = getattr(self, "_radiology_model_view", None) if case else None
+        if model_view is not None and case.scene.get("micro_focus"):
+            ids, _missing = model_view.part_ids(names)
+            visible = model_view.state.visible_mask()
+            ids = [sid for sid in ids if visible[sid]]
+            if ids:
+                self.center.setCurrentIndex(0)
+                model_view.state.select(ids)
+                model_view._show_selection()
+            else:
+                self.statusBar().showMessage("That image label has no visible part in this illustrative reference.", 5000)
+            return
+        side = (side or (case.scene.get("side") if case else "") or "").lower()
+        from .radiology_reference import resolve_reference
+        sids = resolve_reference(self.ds, self.lesson_resolver, names, side) if getattr(self, "lesson_resolver", None) else []
+        if not sids:
+            self.statusBar().showMessage("That label has no matching structure in the model for this reference.", 4000)
+            return
+        sids = self.viewport.radiology_reference_ids(sids)
+        if not sids:
+            self.statusBar().showMessage("That anatomy is not visible on this reference; the label does not add off-plane anatomy. Use Reset 3D to restore the reference.", 5000)
+            return
+        # Selection alone retains authored ghost/context, cutting plane and
+        # camera. Search preferences apply to search, not numbered image labels.
+        self.center.setCurrentIndex(0)
+        self.state.select(sids)
+        self.viewport.landmark_hosts = sids if len(sids) <= 2 else []
+        self.viewport.focus_landmark = None
+        self.info.show_structures(sids)
+        self.tree.reveal(sids[0])
+        self._update_counts()
+        if case is not None:
+            self._record(("rad_pick", (case.id, tuple(names), side)))
 
     # ------------------------------------------------------------------ lessons
     def show_lessons(self, lesson_id=None):
+        if self.center.currentWidget() is getattr(self, 'collection_workspace', None):
+            self._studio_explore()
+        self.viewport.set_radiology_slice(False)
         if self.lessons_panel is None:
             return
-        self.tabs.setCurrentWidget(self.lessons_panel)
-        self.left_dock.show()
+        self._show_nav_page(self.lessons_panel)
         if lesson_id:
             self.lessons_panel.open_lesson(lesson_id)
 
@@ -1433,6 +2223,7 @@ class MainWindow(QMainWindow):
     def apply_scene(self, step):
         """Set the 3D view up from a scene description - used by guided lessons and radiology cases alike."""
         st, vp = self.state, self.viewport
+        vp.set_radiology_slice(False)
         res = self.lesson_resolver
         st.push_undo()
         if "systems" in step:
@@ -1515,6 +2306,12 @@ class MainWindow(QMainWindow):
         self._update_counts()
         vp.update()
 
+        if step.get("slice_only") is True and sum(vp.clip_on) == 1:
+            st.clear_ghost()
+            vp.set_radiology_slice(True)
+            if step.get("frame", True) and not step.get("camera") and not step.get("frame_on"):
+                vp.frame_section(view=step.get("view"))
+
     # ------------------------------------------------------------------ saved views & session
     def capture_view(self):
         st = self.state
@@ -1532,6 +2329,7 @@ class MainWindow(QMainWindow):
             "region_on": st.region_on.tolist(),
             "selected": list(st.selected),
             "clip": [list(vp.clip_on), list(vp.clip_pos), list(vp.clip_flip)],
+            "radiology_slice": bool(getattr(vp, "radiology_slice", False)),
             "dissection": [st.depth_cut, st.depth_band],
             "custom_colors": {str(k): list(v) for k, v in st.custom_colors.items()},
         }
@@ -1582,6 +2380,9 @@ class MainWindow(QMainWindow):
                     raise ValueError("custom colors must have three components between zero and one")
                 colors[sid] = tuple(rgb)
             clip = data.get("clip")
+            slice_only = data.get("radiology_slice", False)
+            if not isinstance(slice_only, bool):
+                raise ValueError("radiology slice flag must be boolean")
             if clip:
                 on, positions, flips = clip
                 if any(not isinstance(values, list) or len(values) != 3 for values in (on, positions, flips)):
@@ -1592,6 +2393,8 @@ class MainWindow(QMainWindow):
                 if positions.shape != (3,) or not np.isfinite(positions).all():
                     raise ValueError("clipping positions must be three finite coordinates")
                 clip = (on, positions.tolist(), flips)
+            if slice_only and (not clip or sum(bool(on) for on in clip[0]) != 1):
+                raise ValueError("radiology slice requires one cutting plane")
             cut, band = map(float, data.get("dissection", [0.0, 0.0]))
             target, dist, yaw, pitch = data["camera"]
             target = np.asarray(target, dtype=float)
@@ -1625,6 +2428,7 @@ class MainWindow(QMainWindow):
             self.info.show_structures(sel)
             if clip:
                 self.view_panel.set_clips(*clip)
+            self.viewport.set_radiology_slice(slice_only)
             self.view_panel.set_depth(cut, bool(band))
             cam = self.viewport.camera
             if animate:
@@ -1672,68 +2476,11 @@ class MainWindow(QMainWindow):
             for v in sorted(views, key=lambda v: v["name"].lower()):
                 m.addAction(v["name"], lambda data=v["data"]: self.apply_view(data))
             m.addSeparator()
-            m.addAction("Manage saved views…", self.manage_views)
+        m.addAction("Manage saved views…", self.manage_views)
 
     def manage_views(self):
-        dlg = QDialog(self)
-        dlg.setWindowTitle("Saved views")
-        dlg.resize(360, 420)
-        lay = QVBoxLayout(dlg)
-        lst = QListWidget()
-        lay.addWidget(lst)
-        row = QHBoxLayout()
-        lay.addLayout(row)
-
-        def refresh():
-            lst.clear()
-            for index, v in sorted(enumerate(self._saved_views()), key=lambda pair: pair[1]["name"].lower()):
-                lst.addItem(v["name"])
-                lst.item(lst.count() - 1).setData(Qt.UserRole, index)
-
-        def selected():
-            views = self._saved_views()
-            it = lst.currentItem()
-            index = it.data(Qt.UserRole) if it is not None else None
-            if type(index) is not int or not 0 <= index < len(views):
-                return views, None
-            return views, index
-
-        def open_selected():
-            views, index = selected()
-            if index is not None:
-                self.apply_view(views[index]["data"])
-
-        def rename():
-            views, index = selected()
-            if index is None:
-                return
-            new, ok = QInputDialog.getText(dlg, "Rename view", "Name:", text=views[index]["name"])
-            if ok and new.strip():
-                if new.strip() != views[index]["name"] and any(v["name"] == new.strip() for v in views):
-                    QMessageBox.warning(dlg, "Name already used", "A saved view with that name already exists. "
-                                        "Choose another name.")
-                    return
-                views[index]["name"] = new.strip()
-                self._store_views(views)
-                refresh()
-
-        def delete():
-            views, index = selected()
-            if index is not None:
-                views.pop(index)
-                self._store_views(views)
-                refresh()
-
-        for label, fn in (("Open", open_selected), ("Rename", rename), ("Delete", delete)):
-            b = QPushButton(label)
-            b.clicked.connect(fn)
-            row.addWidget(b)
-        close = QPushButton("Close")
-        close.clicked.connect(dlg.accept)
-        row.addWidget(close)
-        refresh()
-        dlg.exec()
-        dlg.deleteLater()
+        from .ui.saved_views import SavedViewsDialog
+        SavedViewsDialog(self).exec()
 
     def restore_session(self):
         try:
@@ -2071,12 +2818,33 @@ class MainWindow(QMainWindow):
             return
         QTimer.singleShot(delay, self._run_script)
 
+    def _discard_model_loads(self):
+        """Abandon CPU work without touching a possibly destroyed QObject."""
+        self._closing = True
+        self._model_loader.queue.close()
+        for pending in self._loading_models.values():
+            pending.callbacks.clear()
+        self._loading_models.clear()
+        self._reference_loads.clear()
+
     def closeEvent(self, e):
+        for pending in self._loading_models.values():
+            prepared = getattr(pending, "prepared_view", None)
+            session = getattr(prepared, "runtime_session", None)
+            if session is not None:
+                session.close()
+        self._model_loader.close()
+        self._discard_model_loads()
+        for view in self.micro_tabs.values():
+            session = getattr(view, "runtime_session", None)
+            if session is not None:
+                session.close()
         practice = getattr(self.lessons_panel, "practice", None)
         if practice is not None:
             practice.stop()
         if self.quiz is not None:
             self.quiz.stop()
+        self.study_layout.leave()
         if self._borderless and self._pre_borderless is not None:
             self.qsettings.setValue("geometry", self._pre_borderless[0])   # the size to come back to
         else:

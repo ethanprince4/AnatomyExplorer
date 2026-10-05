@@ -12,7 +12,7 @@ from PySide6.QtCore import QCoreApplication, QEvent, QSettings, Qt
 from PySide6.QtTest import QTest
 from PySide6.QtWidgets import QWidget
 from app.ui.model_view import ModelView
-from general_fixtures import write_fixture_model
+from general_fixtures import write_fixture_model, open_fixture_model
 
 
 class HistologyKeyTests(unittest.TestCase):
@@ -76,7 +76,7 @@ class HistologyKeyTests(unittest.TestCase):
         path = Path(config.USER_DIR) / "owned-page-routing.glb"
         path.parent.mkdir(parents=True, exist_ok=True)
         write_fixture_model(path)
-        self.win.open_model_file(str(path))
+        open_fixture_model(self.win, path)
         # Complete the model's zero-delay initialization while it is alive;
         # rapid-close pending-timer cancellation is a separate lifecycle check.
         QAPP.processEvents()

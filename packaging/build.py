@@ -38,13 +38,15 @@ def numeric_version(v):
     return ".".join((nums + ["0", "0", "0"])[:3])
 
 
-def pyinstaller(version, channel="stable", release_tag=None):
+def pyinstaller(version, channel="stable", release_tag=None, model_library=None):
     if sys.platform == "darwin":
         # Fail before packaging if the exact accepted wheel/plugin cannot be established.
         from install_cocoa import install
         install()
     env = dict(os.environ, APP_VERSION=version, APP_CHANNEL=channel,
                APP_RELEASE_TAG=release_tag or f"v{version}")
+    if model_library:
+        env["AE_BUNDLE_MODEL_LIBRARY"] = str(Path(model_library).resolve())
     if sys.platform == "win32":
         # Native toolkits on a developer/runner PATH (notably Poppler's ICU)
         # can shadow Windows/Qt dependencies during bindepend collection.
@@ -107,7 +109,8 @@ def main():
     jobs = args[args.index("--jobs") + 1] if "--jobs" in args else "4"
     if "--skip-prebuild" not in args:
         run(sys.executable, PKG / "prebuild.py", "--jobs", jobs, cwd=ROOT)
-    pyinstaller(version, channel, tag)
+    model_library = args[args.index("--model-library") + 1] if "--model-library" in args else None
+    pyinstaller(version, channel, tag, model_library=model_library)
     if "--no-package" in args:
         return
     RELEASE.mkdir(parents=True, exist_ok=True)

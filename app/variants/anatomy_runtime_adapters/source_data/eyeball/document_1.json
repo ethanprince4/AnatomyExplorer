@@ -1,0 +1,551 @@
+[
+  {
+    "id": "aqueous",
+    "title": "Aqueous secretion and drainage",
+    "mechanism": "Secretory epithelium supplies aqueous to a continuous anterior-segment route; outflow resistance helps determine pressure.",
+    "parts": [
+      "Cornea",
+      "Iris",
+      "Lens",
+      "Lens capsule",
+      "Ciliary body (ciliary ring)",
+      "Ciliary processes",
+      "Posterior chamber (aqueous humor)",
+      "Anterior chamber (aqueous humor)",
+      "Trabecular meshwork",
+      "Scleral venous sinus (canal of Schlemm)"
+    ],
+    "steps": [
+      {
+        "id": "aqueous.1",
+        "title": "Secretion",
+        "highlight_parts": [
+          "Ciliary processes",
+          "Posterior chamber (aqueous humor)"
+        ],
+        "explanation": "Non-pigmented ciliary epithelium secretes aqueous into the small space behind iris and anterior to lens/zonules. Source capillaries, transporters and epithelial barrier are explanatory inset content, not resolved here.",
+        "base_camera": "2 Angle section setup (manual cut)",
+        "visible_parts": [
+          "Cornea",
+          "Iris",
+          "Lens",
+          "Lens capsule",
+          "Ciliary body (ciliary ring)",
+          "Ciliary processes",
+          "Posterior chamber (aqueous humor)"
+        ]
+      },
+      {
+        "id": "aqueous.2",
+        "title": "Through pupil",
+        "highlight_parts": [
+          "Posterior chamber (aqueous humor)",
+          "Iris",
+          "Anterior chamber (aqueous humor)"
+        ],
+        "explanation": "Aqueous passes through the iris opening into anterior chamber. Pupil location marker stays hidden; fluid route must not pass through lens or vitreous.",
+        "base_camera": "2 Angle section setup (manual cut)",
+        "visible_parts": [
+          "Cornea",
+          "Iris",
+          "Lens",
+          "Lens capsule",
+          "Ciliary body (ciliary ring)",
+          "Ciliary processes",
+          "Posterior chamber (aqueous humor)",
+          "Anterior chamber (aqueous humor)"
+        ]
+      },
+      {
+        "id": "aqueous.3",
+        "title": "Conventional outflow",
+        "highlight_parts": [
+          "Anterior chamber (aqueous humor)",
+          "Trabecular meshwork",
+          "Scleral venous sinus (canal of Schlemm)"
+        ],
+        "explanation": "At peripheral cornea-iris angle, aqueous traverses trabecular meshwork into Schlemm lumen. Collector channels and episcleral veins continue outflow outside supplied part inventory.",
+        "base_camera": "2 Angle section setup (manual cut)",
+        "visible_parts": [
+          "Cornea",
+          "Iris",
+          "Lens",
+          "Lens capsule",
+          "Ciliary body (ciliary ring)",
+          "Ciliary processes",
+          "Anterior chamber (aqueous humor)",
+          "Trabecular meshwork",
+          "Scleral venous sinus (canal of Schlemm)"
+        ]
+      },
+      {
+        "id": "aqueous.4",
+        "title": "Alternative route",
+        "highlight_parts": [
+          "Anterior chamber (aqueous humor)",
+          "Ciliary muscle",
+          "Choroid",
+          "Sclera"
+        ],
+        "explanation": "A separate textual branch explains unconventional outflow through ciliary muscle interstitium toward suprachoroidal/scleral pathways; do not route all fluid through Schlemm.",
+        "base_camera": "2 Angle section setup (manual cut)",
+        "visible_parts": [
+          "Cornea",
+          "Iris",
+          "Lens",
+          "Lens capsule",
+          "Ciliary body (ciliary ring)",
+          "Ciliary processes",
+          "Anterior chamber (aqueous humor)",
+          "Ciliary muscle",
+          "Choroid",
+          "Sclera"
+        ]
+      }
+    ],
+    "schematic_limitations": [
+      "Static display is an ordered explanation, not simulated fluid dynamics.",
+      "Aqueous fills are content overlays; Schlemm is a thickened channel-location volume, not a resolved hollow wall.",
+      "No porous trabecular microstructure, pressure computation, fixed 85/15 percentage or validated flow speed.",
+      "Pathway arrows must be checked against built compartments before any future animation."
+    ],
+    "source_evidence": [
+      "duke_eye",
+      "aqueous_phys"
+    ],
+    "viewer_camera_base": "2 Angle section setup (manual cut)",
+    "status": "static_teaching_states_ready; continuous_geometry_motion_deferred",
+    "base_camera": "2 Angle section setup (manual cut)"
+  },
+  {
+    "id": "tears",
+    "title": "Tear film: secretion, spread and drainage",
+    "mechanism": "Glands provide different tear-film components; blinking spreads film and aids drainage through medial puncta.",
+    "parts": [
+      "Lacrimal gland",
+      "Excretory ducts of lacrimal gland",
+      "Superior conjunctival fornix",
+      "Cornea",
+      "Bulbar conjunctiva",
+      "Upper eyelid",
+      "Lower eyelid",
+      "Tarsal (meibomian) glands",
+      "Superior tarsal plate",
+      "Inferior tarsal plate",
+      "Palpebral conjunctiva",
+      "Orbicularis oculi (palpebral part)",
+      "Lacrimal puncta",
+      "Lacrimal canaliculi",
+      "Lacrimal sac",
+      "Nasolacrimal duct"
+    ],
+    "steps": [
+      {
+        "id": "tears.1",
+        "title": "Secretion to fornix",
+        "highlight_parts": [
+          "Lacrimal gland",
+          "Excretory ducts of lacrimal gland",
+          "Superior conjunctival fornix"
+        ],
+        "explanation": "Watery secretion passes through gland excretory ducts into superolateral conjunctival fornix. Expose the actual short ducts and host openings.",
+        "base_camera": "9 Lacrimal secretion",
+        "visible_parts": [
+          "Cornea",
+          "Bulbar conjunctiva",
+          "Lacrimal gland",
+          "Excretory ducts of lacrimal gland",
+          "Superior conjunctival fornix"
+        ]
+      },
+      {
+        "id": "tears.2",
+        "title": "Film and blink",
+        "highlight_parts": [
+          "Cornea",
+          "Bulbar conjunctiva",
+          "Upper eyelid",
+          "Lower eyelid",
+          "Orbicularis oculi (palpebral part)"
+        ],
+        "explanation": "Blinking distributes a thin surface film across cornea. The surface step is not a solid duct bridging gland to puncta; film must remain external to globe.",
+        "base_camera": "1 Intact anterior",
+        "visible_parts": [
+          "Sclera",
+          "Iris",
+          "Upper eyelid",
+          "Lower eyelid",
+          "Cornea",
+          "Bulbar conjunctiva",
+          "Orbicularis oculi (palpebral part)"
+        ]
+      },
+      {
+        "id": "tears.3",
+        "title": "Distinct gland contribution",
+        "highlight_parts": [
+          "Tarsal (meibomian) glands",
+          "Superior tarsal plate",
+          "Inferior tarsal plate",
+          "Palpebral conjunctiva"
+        ],
+        "explanation": "Meibomian ducts open at lid margin and provide lipid. Conjunctival goblet cells contribute mucin but individual cells are not modeled. Neither gland system secretes intraocular aqueous.",
+        "base_camera": "8 Opened lid glands",
+        "visible_parts": [
+          "Upper eyelid",
+          "Lower eyelid",
+          "Eyelashes",
+          "Tarsal (meibomian) glands",
+          "Superior tarsal plate",
+          "Inferior tarsal plate",
+          "Palpebral conjunctiva"
+        ]
+      },
+      {
+        "id": "tears.4",
+        "title": "Medial drainage",
+        "highlight_parts": [
+          "Lacrimal puncta",
+          "Lacrimal canaliculi",
+          "Lacrimal sac",
+          "Nasolacrimal duct",
+          "Lower eyelid"
+        ],
+        "explanation": "Upper/lower medial puncta take tears into canaliculi, then sac and nasolacrimal duct. Inferior nasal meatus is the off-model endpoint. Blinking aids drainage; do not prescribe a validated sac pressure cycle.",
+        "base_camera": "10 Medial tear drainage",
+        "visible_parts": [
+          "Upper eyelid",
+          "Lower eyelid",
+          "Medial canthus (medial palpebral commissure)",
+          "Lacrimal puncta",
+          "Lacrimal canaliculi",
+          "Lacrimal sac",
+          "Nasolacrimal duct"
+        ]
+      }
+    ],
+    "schematic_limitations": [
+      "No tear film thickness or three discrete film-layer geometry is inferred.",
+      "The opened lid preset hides external covering; it is not physiological eyelid eversion or a blink motion.",
+      "Drainage mechanisms include multiple forces; no modeled valve dynamics, tear production rate or quantitative pump claim.",
+      "Inferior meatus and autonomic secretomotor pathway are unmodeled text endpoints."
+    ],
+    "source_evidence": [
+      "nei_tears",
+      "medline_tears",
+      "duke_eye",
+      "lacrimal_duct"
+    ],
+    "viewer_camera_base": "9 Lacrimal secretion",
+    "status": "static_teaching_states_ready; continuous_geometry_motion_deferred",
+    "base_camera": "9 Lacrimal secretion"
+  },
+  {
+    "id": "accommodation",
+    "title": "Accommodation: distance to near",
+    "mechanism": "Ciliary contraction reduces ring diameter and zonular tension, allowing lens/capsule reshaping to increase optical power.",
+    "parts": [
+      "Ciliary body (ciliary ring)",
+      "Ciliary muscle",
+      "Ciliary processes",
+      "Zonular fibres (suspensory ligament)",
+      "Lens capsule",
+      "Lens"
+    ],
+    "steps": [
+      {
+        "id": "accommodation.1",
+        "title": "Distance state",
+        "highlight_parts": [
+          "Ciliary muscle",
+          "Zonular fibres (suspensory ligament)",
+          "Lens",
+          "Lens capsule"
+        ],
+        "explanation": "Conceptual distance state: relatively relaxed ciliary muscle, greater zonular tension, relatively flatter lens. Supplied static mesh is a reference shape, not a measured accommodative state.",
+        "base_camera": "3 Lens support",
+        "visible_parts": [
+          "Ciliary body (ciliary ring)",
+          "Ciliary muscle",
+          "Ciliary processes",
+          "Zonular fibres (suspensory ligament)",
+          "Lens capsule",
+          "Lens"
+        ]
+      },
+      {
+        "id": "accommodation.2",
+        "title": "Ciliary contraction",
+        "highlight_parts": [
+          "Ciliary muscle",
+          "Ciliary body (ciliary ring)",
+          "Ciliary processes"
+        ],
+        "explanation": "Parasympathetic input via CN III/ciliary ganglion activates muscle; ciliary ring narrows. Autonomic nerves/ganglion are unmodeled.",
+        "base_camera": "3 Lens support",
+        "visible_parts": [
+          "Ciliary body (ciliary ring)",
+          "Ciliary muscle",
+          "Ciliary processes",
+          "Zonular fibres (suspensory ligament)",
+          "Lens capsule",
+          "Lens"
+        ]
+      },
+      {
+        "id": "accommodation.3",
+        "title": "Tension released",
+        "highlight_parts": [
+          "Zonular fibres (suspensory ligament)",
+          "Lens capsule"
+        ],
+        "explanation": "Zonular tension decreases while fibres remain attached to ciliary region and capsule. Do not show active shortening of zonules or detach ends.",
+        "base_camera": "3 Lens support",
+        "visible_parts": [
+          "Ciliary body (ciliary ring)",
+          "Ciliary muscle",
+          "Ciliary processes",
+          "Zonular fibres (suspensory ligament)",
+          "Lens capsule",
+          "Lens"
+        ]
+      },
+      {
+        "id": "accommodation.4",
+        "title": "Near state",
+        "highlight_parts": [
+          "Lens",
+          "Lens capsule"
+        ],
+        "explanation": "Lens axial thickness and curvature increase while equatorial diameter decreases; optical power rises. The capsule follows lens surface. Near miosis is related but must remain a separate pupil sequence.",
+        "base_camera": "3 Lens support",
+        "visible_parts": [
+          "Ciliary body (ciliary ring)",
+          "Ciliary muscle",
+          "Ciliary processes",
+          "Zonular fibres (suspensory ligament)",
+          "Lens capsule",
+          "Lens"
+        ]
+      }
+    ],
+    "schematic_limitations": [
+      "Static steps explain causality without claiming mesh deformation.",
+      "Future morph needs coordinated lens/capsule, front/equatorial/back zonular attachments, iris/chambers and ciliary region; rigid scaling individual selectors is unacceptable.",
+      "Use qualitative changes initially; MRI cohort means are supporting observations, not template dimensions or per-diopter calibration.",
+      "No refractive-index field, refraction solver, binocular convergence or quantitative accommodation range."
+    ],
+    "source_evidence": [
+      "duke_eye",
+      "accommodation_mri"
+    ],
+    "viewer_camera_base": "3 Lens support",
+    "status": "static_teaching_states_ready; continuous_geometry_motion_deferred",
+    "base_camera": "3 Lens support"
+  },
+  {
+    "id": "pupil",
+    "title": "Pupil control: light and dark",
+    "mechanism": "Circular sphincter contraction reduces aperture; sympathetic radial dilator activity widens it.",
+    "parts": [
+      "Cornea",
+      "Iris",
+      "Iris pigment epithelium",
+      "Sphincter pupillae",
+      "Dilator pupillae",
+      "Lens",
+      "Optic nerve (CN II)"
+    ],
+    "steps": [
+      {
+        "id": "pupil.1",
+        "title": "Bright light afferent",
+        "highlight_parts": [
+          "Cornea",
+          "Iris",
+          "Optic nerve (CN II)"
+        ],
+        "explanation": "Retinal activity reaches brainstem through CN II. Pretectal bilateral relays and Edinger-Westphal pathways are diagram/text context beyond this single eye.",
+        "base_camera": "1 Intact anterior",
+        "visible_parts": [
+          "Cornea",
+          "Iris",
+          "Sclera",
+          "Lens",
+          "Sphincter pupillae",
+          "Dilator pupillae",
+          "Optic nerve (CN II)"
+        ]
+      },
+      {
+        "id": "pupil.2",
+        "title": "Constriction",
+        "highlight_parts": [
+          "Sphincter pupillae",
+          "Iris"
+        ],
+        "explanation": "Parasympathetic CN III/ciliary ganglion/short ciliary pathway stimulates circular sphincter. Aperture decreases; iris remains rooted peripherally.",
+        "base_camera": "1 Intact anterior",
+        "visible_parts": [
+          "Cornea",
+          "Iris",
+          "Sclera",
+          "Lens",
+          "Sphincter pupillae",
+          "Dilator pupillae"
+        ]
+      },
+      {
+        "id": "pupil.3",
+        "title": "Dark dilation",
+        "highlight_parts": [
+          "Dilator pupillae",
+          "Iris"
+        ],
+        "explanation": "Increased sympathetic radial dilator activity, with reduced parasympathetic constrictor activity, widens aperture. This is not the muscle mechanism of accommodation.",
+        "base_camera": "1 Intact anterior",
+        "visible_parts": [
+          "Cornea",
+          "Iris",
+          "Sclera",
+          "Lens",
+          "Sphincter pupillae",
+          "Dilator pupillae"
+        ]
+      },
+      {
+        "id": "pupil.4",
+        "title": "Single-eye limitation",
+        "highlight_parts": [
+          "Iris",
+          "Sphincter pupillae",
+          "Dilator pupillae"
+        ],
+        "explanation": "Direct and consensual constriction require bilateral context. This right-eye geometry can depict only the local iris response; do not imply a second eye has been simulated.",
+        "base_camera": "1 Intact anterior",
+        "visible_parts": [
+          "Cornea",
+          "Iris",
+          "Sclera",
+          "Lens",
+          "Sphincter pupillae",
+          "Dilator pupillae"
+        ]
+      }
+    ],
+    "schematic_limitations": [
+      "Pupil is opening, never an opaque disk or tissue plate.",
+      "Future pupil motion requires iris surfaces, pigment epithelium, sphincter/dilator and chamber boundaries to update together.",
+      "No diagnostic reflex latency, pupil diameter, ganglion/neural circuit geometry or clinical examination claim.",
+      "Sphincter/dilator separate selectable meshes are representational subdivisions within iris."
+    ],
+    "source_evidence": [
+      "duke_eye",
+      "pupil_primary"
+    ],
+    "viewer_camera_base": "1 Intact anterior",
+    "status": "static_teaching_states_ready; continuous_geometry_motion_deferred",
+    "base_camera": "1 Intact anterior"
+  },
+  {
+    "id": "vision",
+    "title": "Light into retina; neural signals out",
+    "mechanism": "Optical transmission ends in phototransduction; neural processing then drives ganglion axons toward optic disc and CN II.",
+    "parts": [
+      "Cornea",
+      "Anterior chamber (aqueous humor)",
+      "Iris",
+      "Lens",
+      "Vitreous humor (vitreous body)",
+      "Neural layer of retina",
+      "Pigmented layer of retina",
+      "Choroid",
+      "Optic disc (blind spot)",
+      "Optic nerve (CN II)"
+    ],
+    "steps": [
+      {
+        "id": "vision.1",
+        "title": "Optical path",
+        "highlight_parts": [
+          "Cornea",
+          "Iris",
+          "Lens",
+          "Vitreous humor (vitreous body)",
+          "Neural layer of retina"
+        ],
+        "explanation": "Light crosses cornea, anterior aqueous, open pupil, lens and vitreous to retina. Posterior aqueous is a peripheral space behind iris, not a cavity that lies after lens along the central optical route.",
+        "base_camera": "4 Three compartments",
+        "visible_parts": [
+          "Cornea",
+          "Iris",
+          "Lens",
+          "Neural layer of retina",
+          "Optic nerve (CN II)",
+          "Vitreous humor (vitreous body)"
+        ]
+      },
+      {
+        "id": "vision.2",
+        "title": "Retinal light depth",
+        "highlight_parts": [
+          "Neural layer of retina",
+          "Pigmented layer of retina",
+          "Choroid"
+        ],
+        "explanation": "In ordinary retina, incoming light crosses inner neural layers to photoreceptor outer segments beside RPE. At fovea inner layers are displaced; gross shell does not resolve these cells.",
+        "base_camera": "5 Fundus clean",
+        "visible_parts": [
+          "Vitreous humor (vitreous body)",
+          "Neural layer of retina",
+          "Pigmented layer of retina",
+          "Choroid"
+        ]
+      },
+      {
+        "id": "vision.3",
+        "title": "Phototransduction",
+        "highlight_parts": [
+          "Neural layer of retina"
+        ],
+        "explanation": "Inset text: light reduces cGMP-gated inward current; photoreceptor hyperpolarizes and releases less glutamate. This is a graded response, not a photoreceptor action potential.",
+        "base_camera": "5 Fundus clean",
+        "visible_parts": [
+          "Neural layer of retina",
+          "Pigmented layer of retina"
+        ]
+      },
+      {
+        "id": "vision.4",
+        "title": "Neural output",
+        "highlight_parts": [
+          "Neural layer of retina",
+          "Optic disc (blind spot)",
+          "Optic nerve (CN II)"
+        ],
+        "explanation": "Photoreceptor signals enter ON/OFF bipolar and interneuron networks; ganglion cells encode output in action potentials. Axons run in inner retinal nerve-fibre layer toward disc and exit through CN II. Neural arrows differ in color/style from optical rays; light does not travel down CN II.",
+        "base_camera": "5 Fundus clean",
+        "visible_parts": [
+          "Neural layer of retina",
+          "Optic disc (blind spot)",
+          "Optic nerve (CN II)"
+        ]
+      }
+    ],
+    "schematic_limitations": [
+      "Whole-eye neural shell represents a tissue compartment, not resolved synaptic circuitry. Link to separate retina model rather than rebuilding microanatomy.",
+      "Optical rays are explanatory overlays, not a ray-traced or quantitatively focused solution.",
+      "Do not animate all neurons as equally excited by light; ON/OFF pathways differ.",
+      "Optic disc lacks photoreceptors; do not terminate a focused optical ray there. Foveal and macular color patches stay optional location overlays."
+    ],
+    "source_evidence": [
+      "nei_eyes",
+      "duke_neuro",
+      "phototransduction",
+      "webvision"
+    ],
+    "viewer_camera_base": "5 Fundus clean",
+    "status": "static_teaching_states_ready; continuous_geometry_motion_deferred",
+    "base_camera": "5 Fundus clean"
+  }
+]

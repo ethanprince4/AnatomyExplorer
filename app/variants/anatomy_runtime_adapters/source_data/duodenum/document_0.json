@@ -1,0 +1,1516 @@
+{
+  "schema_version": 1,
+  "model_id": "duodenum",
+  "summary": "Broad duodenal villi, crypt renewal and protective submucosal Brunner glands with continuous duct routes. Distinct blood/lymph and enteric-control lessons preserve the existing foundation.",
+  "part_names": [
+    "Serosa",
+    "Outer longitudinal muscle",
+    "Inner circular muscle",
+    "Submucosa",
+    "Muscularis mucosae",
+    "Myenteric (Auerbach) plexus",
+    "Submucosal (Meissner) plexus",
+    "Submucosal arterioles",
+    "Submucosal venules",
+    "Mucosal branches",
+    "Mucosal venous branches",
+    "Lamina propria",
+    "Intestinal crypts (of Lieberkühn)",
+    "Paneth cells",
+    "Crypt base stem cells (Lgr5+)",
+    "Brush border (microvilli)",
+    "Villus epithelium (enterocytes)",
+    "Villus lamina propria core",
+    "Central lacteals",
+    "Villus capillary network",
+    "Villus smooth muscle",
+    "Goblet cells",
+    "Brunner glands",
+    "Brunner gland ducts"
+  ],
+  "opening_view": "wall_overview",
+  "scale_note": "Schematic histology crop in authored model units; no verified universal physical calibration. Six representative broad villi have lateral dimensions enlarged approximately 1.6 times. Five Brunner lobules with fifteen enlarged terminals and sparse epithelial cells show relationships, not population counts. The gold brush border is an enlarged apical surface. Vessel colors show a teaching flow cue rather than literal blood color or an oxygen measurement.",
+  "views": [
+    {
+      "id": "wall_overview",
+      "title": "Wall layers and duodenal identity",
+      "purpose": "Orient lumen above villi and outer wall below; distinguish mucosal crypts from submucosal Brunner glands.",
+      "visible_parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Submucosa",
+        "Muscularis mucosae",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Brunner glands",
+        "Brunner gland ducts"
+      ],
+      "hidden_parts": [],
+      "label_mode": "Applied by native_adapter.apply_to_viewport; no camera-only label filtering claim",
+      "scale_note": "Schematic histology crop in authored model units; no verified universal physical calibration. Six representative broad villi have lateral dimensions enlarged approximately 1.6 times. Five Brunner lobules with fifteen enlarged terminals and sparse epithelial cells show relationships, not population counts. The gold brush border is an enlarged apical surface. Vessel colors show a teaching flow cue rather than literal blood color or an oxygen measurement.",
+      "camera": {
+        "position": [
+          0,
+          0.78,
+          2.9
+        ],
+        "target": [
+          0,
+          0.78,
+          -0.1
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.55,
+        "hidden": [],
+        "cut_on": true,
+        "note": "Front teaching cut retains all inserted cells and all host layers. Lumen is above the villi. Whole capillary loops are deliberately exempt from the cut; their exposed positions do not mean extramucosal vessels."
+      },
+      "validation_status": "source selectors verified; camera composition and visibility unreviewed",
+      "label_parts": [
+        "Brunner glands",
+        "Muscularis mucosae",
+        "Intestinal crypts (of Lieberkühn)",
+        "Villus epithelium (enterocytes)"
+      ],
+      "highlight_parts": [
+        "Brunner glands",
+        "Brunner gland ducts",
+        "Muscularis mucosae",
+        "Intestinal crypts (of Lieberkühn)",
+        "Villus epithelium (enterocytes)"
+      ],
+      "cut_on": true
+    },
+    {
+      "id": "gland_to_crypt",
+      "title": "Brunner gland to crypt",
+      "purpose": "Follow a front lobule through its collecting duct across muscularis mucosae into a crypt.",
+      "visible_parts": [
+        "Submucosa",
+        "Muscularis mucosae",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Goblet cells",
+        "Brunner glands",
+        "Brunner gland ducts"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Villus capillary network",
+        "Central lacteals",
+        "Villus smooth muscle"
+      ],
+      "label_mode": "Applied by native_adapter.apply_to_viewport; no camera-only label filtering claim",
+      "scale_note": "Schematic histology crop in authored model units; no verified universal physical calibration. Six representative broad villi have lateral dimensions enlarged approximately 1.6 times. Five Brunner lobules with fifteen enlarged terminals and sparse epithelial cells show relationships, not population counts. The gold brush border is an enlarged apical surface. Vessel colors show a teaching flow cue rather than literal blood color or an oxygen measurement.",
+      "camera": {
+        "position": [
+          -0.45,
+          0.64,
+          3.0
+        ],
+        "target": [
+          -0.45,
+          0.64,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.78,
+        "hidden": [
+          "Serosa",
+          "Outer longitudinal muscle",
+          "Inner circular muscle",
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Mucosal venous branches",
+          "Villus capillary network",
+          "Central lacteals",
+          "Villus smooth muscle"
+        ],
+        "cut_on": true,
+        "note": "Focus on front lobule near X=-0.55 and recipient crypt X=-0.29 on Z=0. Keep submucosa, muscularis mucosae, lamina propria and recipient epithelial lining visible. Cyan duct and cyan terminal lobules are the same secretion route; pink crypt epithelium is a separate gland compartment."
+      },
+      "validation_status": "source selectors verified; camera composition and visibility unreviewed",
+      "label_parts": [
+        "Brunner glands",
+        "Brunner gland ducts",
+        "Intestinal crypts (of Lieberkühn)",
+        "Muscularis mucosae"
+      ],
+      "highlight_parts": [
+        "Brunner glands",
+        "Brunner gland ducts",
+        "Intestinal crypts (of Lieberkühn)",
+        "Muscularis mucosae"
+      ],
+      "cut_on": true
+    },
+    {
+      "id": "crypt_niche",
+      "title": "Crypt base and renewal",
+      "purpose": "Show Paneth and Lgr5+ cells within their recipient crypt epithelial envelope.",
+      "visible_parts": [
+        "Submucosa",
+        "Muscularis mucosae",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Goblet cells",
+        "Brunner glands",
+        "Brunner gland ducts"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Villus capillary network",
+        "Central lacteals",
+        "Villus smooth muscle"
+      ],
+      "label_mode": "Applied by native_adapter.apply_to_viewport; no camera-only label filtering claim",
+      "scale_note": "Schematic histology crop in authored model units; no verified universal physical calibration. Six representative broad villi have lateral dimensions enlarged approximately 1.6 times. Five Brunner lobules with fifteen enlarged terminals and sparse epithelial cells show relationships, not population counts. The gold brush border is an enlarged apical surface. Vessel colors show a teaching flow cue rather than literal blood color or an oxygen measurement.",
+      "camera": {
+        "position": [
+          -0.29,
+          0.73,
+          3.0
+        ],
+        "target": [
+          -0.29,
+          0.73,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.3,
+        "hidden": [
+          "Serosa",
+          "Outer longitudinal muscle",
+          "Inner circular muscle",
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Mucosal venous branches",
+          "Villus capillary network",
+          "Central lacteals",
+          "Villus smooth muscle"
+        ],
+        "cut_on": true,
+        "note": "Paneth and stem cells are enlarged complementary epithelial inserts. Their colors identify cell classes; model geometry does not resolve molecular signalling or measured cell counts. The duct-linked crypt remains part of the mucosal surface."
+      },
+      "validation_status": "source selectors verified; camera composition and visibility unreviewed",
+      "label_parts": [
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)"
+      ],
+      "highlight_parts": [
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)"
+      ],
+      "cut_on": true
+    },
+    {
+      "id": "villus_transport",
+      "title": "Blood and lymph in a villus",
+      "purpose": "Trace arterial delivery, red-to-blue capillary course and venous return separately from the central lacteal.",
+      "visible_parts": [
+        "Submucosa",
+        "Muscularis mucosae",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Lamina propria",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Goblet cells",
+        "Villus lamina propria core",
+        "Brunner glands",
+        "Brunner gland ducts",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Intestinal crypts (of Lieberkühn)"
+      ],
+      "label_mode": "Applied by native_adapter.apply_to_viewport; no camera-only label filtering claim",
+      "scale_note": "Schematic histology crop in authored model units; no verified universal physical calibration. Six representative broad villi have lateral dimensions enlarged approximately 1.6 times. Five Brunner lobules with fifteen enlarged terminals and sparse epithelial cells show relationships, not population counts. The gold brush border is an enlarged apical surface. Vessel colors show a teaching flow cue rather than literal blood color or an oxygen measurement.",
+      "camera": {
+        "position": [
+          -0.58,
+          1.05,
+          3.0
+        ],
+        "target": [
+          -0.58,
+          1.05,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.72,
+        "hidden": [
+          "Serosa",
+          "Outer longitudinal muscle",
+          "Inner circular muscle",
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Brush border (microvilli)",
+          "Villus epithelium (enterocytes)",
+          "Goblet cells",
+          "Villus lamina propria core",
+          "Brunner glands",
+          "Brunner gland ducts",
+          "Paneth cells",
+          "Crypt base stem cells (Lgr5+)",
+          "Intestinal crypts (of Lieberkühn)"
+        ],
+        "cut_on": true,
+        "note": "Intentional isolation: the lining and stromal core are hidden so carriers can be traced. Return to Wall layers and duodenal identity to restore tissue hosts. The pale central lacteal is lymphatic, not CSF; its distal end is blind. Red-blue is schematic. Off-model arrows may identify portal blood versus mesenteric lymph but must not imply an implemented complete drainage tree."
+      },
+      "validation_status": "source selectors verified; camera composition and visibility unreviewed",
+      "label_parts": [
+        "Mucosal branches",
+        "Villus capillary network",
+        "Mucosal venous branches",
+        "Central lacteals"
+      ],
+      "highlight_parts": [
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Villus capillary network",
+        "Central lacteals"
+      ],
+      "cut_on": true
+    },
+    {
+      "id": "epithelial_surface",
+      "title": "Apical surface and mucus",
+      "purpose": "Compare gold apical brush border, pink enterocyte layer and mint goblet cups in a representative leaf.",
+      "visible_parts": [
+        "Submucosa",
+        "Muscularis mucosae",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Goblet cells"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches",
+        "Villus capillary network",
+        "Central lacteals",
+        "Villus smooth muscle",
+        "Brunner glands",
+        "Brunner gland ducts"
+      ],
+      "label_mode": "Applied by native_adapter.apply_to_viewport; no camera-only label filtering claim",
+      "scale_note": "Schematic histology crop in authored model units; no verified universal physical calibration. Six representative broad villi have lateral dimensions enlarged approximately 1.6 times. Five Brunner lobules with fifteen enlarged terminals and sparse epithelial cells show relationships, not population counts. The gold brush border is an enlarged apical surface. Vessel colors show a teaching flow cue rather than literal blood color or an oxygen measurement.",
+      "camera": {
+        "position": [
+          -0.58,
+          1.1,
+          3.0
+        ],
+        "target": [
+          -0.58,
+          1.1,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.62,
+        "hidden": [
+          "Serosa",
+          "Outer longitudinal muscle",
+          "Inner circular muscle",
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Mucosal venous branches",
+          "Villus capillary network",
+          "Central lacteals",
+          "Villus smooth muscle",
+          "Brunner glands",
+          "Brunner gland ducts"
+        ],
+        "cut_on": false,
+        "note": "With cut disabled, show the intact apical epithelial relation. Goblet cups replace epithelial material and interrupt the brush border; keep both host parts visible. The gold layer is an apical teaching surface, not thousands of individually modelled microvilli."
+      },
+      "validation_status": "source selectors verified; camera composition and visibility unreviewed",
+      "label_parts": [
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Goblet cells"
+      ],
+      "highlight_parts": [
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Goblet cells"
+      ],
+      "cut_on": false
+    },
+    {
+      "id": "motility_control",
+      "title": "Muscle and enteric control",
+      "purpose": "Relate the myenteric plexus to the two muscularis externa layers and compare the submucosal plexus in its tissue host.",
+      "visible_parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Submucosa",
+        "Muscularis mucosae",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Brunner glands",
+        "Brunner gland ducts"
+      ],
+      "hidden_parts": [
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Intestinal crypts (of Lieberkühn)",
+        "Lamina propria",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Mucosal venous branches"
+      ],
+      "label_mode": "Applied by native_adapter.apply_to_viewport; no camera-only label filtering claim",
+      "scale_note": "Schematic histology crop in authored model units; no verified universal physical calibration. Six representative broad villi have lateral dimensions enlarged approximately 1.6 times. Five Brunner lobules with fifteen enlarged terminals and sparse epithelial cells show relationships, not population counts. The gold brush border is an enlarged apical surface. Vessel colors show a teaching flow cue rather than literal blood color or an oxygen measurement.",
+      "camera": {
+        "position": [
+          0,
+          0.34,
+          2.9
+        ],
+        "target": [
+          0,
+          0.34,
+          -0.1
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.45,
+        "hidden": [
+          "Brush border (microvilli)",
+          "Villus epithelium (enterocytes)",
+          "Villus lamina propria core",
+          "Central lacteals",
+          "Villus capillary network",
+          "Villus smooth muscle",
+          "Goblet cells",
+          "Paneth cells",
+          "Crypt base stem cells (Lgr5+)",
+          "Intestinal crypts (of Lieberkühn)",
+          "Lamina propria",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Mucosal venous branches"
+        ],
+        "cut_on": true,
+        "note": "Nerves remain embedded in host tissue; this is a sectioned wall, not a free floating neural scaffold. Circular and longitudinal muscle require different local fiber directions. No mechanical contraction is implemented by these camera presets."
+      },
+      "validation_status": "source selectors verified; camera composition and visibility unreviewed",
+      "label_parts": [
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus"
+      ],
+      "highlight_parts": [
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosa",
+        "Muscularis mucosae"
+      ],
+      "cut_on": true
+    }
+  ],
+  "sequences": [
+    {
+      "id": "brunner_protection",
+      "title": "Gland secretion to mucosal protection",
+      "mechanism": "Follow a representative Brunner duct and distinguish mucus delivery from net acid neutralization.",
+      "source_ids": [
+        "alkaline_limits"
+      ],
+      "steps": [
+        {
+          "id": "brunner_protection_01",
+          "caption": "Locate submucosal Brunner glands below the muscularis mucosae.",
+          "visible_parts": [
+            "Brunner glands",
+            "Brunner gland ducts",
+            "Intestinal crypts (of Lieberkühn)",
+            "Muscularis mucosae",
+            "Submucosa",
+            "Villus epithelium (enterocytes)",
+            "Goblet cells"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Brush border (microvilli)",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle"
+          ],
+          "label_overrides": {
+            "Brunner glands": "Protective mucous gland"
+          },
+          "route_annotation": "gland epithelium → terminal lumen",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Brunner glands",
+            "Muscularis mucosae"
+          ],
+          "label_parts": [
+            "Brunner glands"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "brunner_protection_02",
+          "caption": "Secreted mucus enters gland lumens and collecting ducts.",
+          "visible_parts": [
+            "Brunner glands",
+            "Brunner gland ducts",
+            "Intestinal crypts (of Lieberkühn)",
+            "Muscularis mucosae",
+            "Submucosa",
+            "Villus epithelium (enterocytes)",
+            "Goblet cells"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Brush border (microvilli)",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle"
+          ],
+          "label_overrides": {
+            "Brunner gland ducts": "Secretion toward crypt"
+          },
+          "route_annotation": "terminal lumen → collecting duct",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_parts": [
+            "Brunner gland ducts"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "brunner_protection_03",
+          "caption": "The duct crosses the muscularis mucosae and joins a crypt lumen.",
+          "visible_parts": [
+            "Brunner glands",
+            "Brunner gland ducts",
+            "Intestinal crypts (of Lieberkühn)",
+            "Muscularis mucosae",
+            "Submucosa",
+            "Villus epithelium (enterocytes)",
+            "Goblet cells"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Brush border (microvilli)",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle"
+          ],
+          "label_overrides": {
+            "Intestinal crypts (of Lieberkühn)": "Representative duct opening"
+          },
+          "route_annotation": "duct → crypt lumen",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Brunner gland ducts",
+            "Muscularis mucosae",
+            "Intestinal crypts (of Lieberkühn)"
+          ],
+          "label_parts": [
+            "Intestinal crypts (of Lieberkühn)"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "brunner_protection_04",
+          "caption": "Secretion reaches the intestinal lumen through the crypt opening.",
+          "visible_parts": [
+            "Brunner glands",
+            "Brunner gland ducts",
+            "Intestinal crypts (of Lieberkühn)",
+            "Muscularis mucosae",
+            "Submucosa",
+            "Villus epithelium (enterocytes)",
+            "Goblet cells"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Brush border (microvilli)",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle"
+          ],
+          "label_overrides": {
+            "Intestinal crypts (of Lieberkühn)": "Crypt-to-lumen route"
+          },
+          "route_annotation": "crypt lumen → intestinal lumen",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Intestinal crypts (of Lieberkühn)",
+            "Villus epithelium (enterocytes)"
+          ],
+          "label_parts": [
+            "Intestinal crypts (of Lieberkühn)"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "brunner_protection_05",
+          "caption": "Mucus helps protect the surface. Bicarbonate also comes from surface epithelium and pancreas; the gland contribution is not quantified.",
+          "visible_parts": [
+            "Brunner glands",
+            "Brunner gland ducts",
+            "Intestinal crypts (of Lieberkühn)",
+            "Muscularis mucosae",
+            "Submucosa",
+            "Villus epithelium (enterocytes)",
+            "Goblet cells"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Brush border (microvilli)",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle"
+          ],
+          "label_overrides": {
+            "Brunner glands": "Protection; bicarbonate share unresolved"
+          },
+          "route_annotation": "mucus + bicarbonate → protected surface",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Brunner glands",
+            "Villus epithelium (enterocytes)",
+            "Goblet cells"
+          ],
+          "label_parts": [
+            "Brunner glands"
+          ],
+          "cut_on": true
+        }
+      ],
+      "schematic_limitations": [
+        "Five lobules and selected basal duct ports are schematic.",
+        "No acid concentration, bicarbonate rate, pH map or diffusion simulation.",
+        "Pancreas, ions and mucus layer are not mesh parts; route text denotes off-model context."
+      ]
+    },
+    {
+      "id": "absorptive_routes",
+      "title": "Blood and lymph take different nutrient routes",
+      "mechanism": "Contrast epithelial uptake and the destinations of water-soluble nutrients and chylomicrons.",
+      "source_ids": [
+        "absorption",
+        "vessels"
+      ],
+      "steps": [
+        {
+          "id": "absorptive_routes_01",
+          "caption": "Digestion products encounter the enterocyte apical surface.",
+          "visible_parts": [
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Villus lamina propria core",
+            "Villus capillary network",
+            "Central lacteals",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Submucosal arterioles",
+            "Submucosal venules"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Lamina propria",
+            "Intestinal crypts (of Lieberkühn)",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Villus smooth muscle",
+            "Goblet cells",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Brush border (microvilli)": "Apical uptake surface"
+          },
+          "route_annotation": "intestinal lumen → brush border",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)"
+          ],
+          "label_parts": [
+            "Brush border (microvilli)"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "absorptive_routes_02",
+          "caption": "Sugars and amino acids pass through enterocytes into interstitial fluid and villus blood capillaries.",
+          "visible_parts": [
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Villus lamina propria core",
+            "Villus capillary network",
+            "Central lacteals",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Submucosal arterioles",
+            "Submucosal venules"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Lamina propria",
+            "Intestinal crypts (of Lieberkühn)",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Villus smooth muscle",
+            "Goblet cells",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Villus capillary network": "Water-soluble nutrient uptake"
+          },
+          "route_annotation": "apical membrane → enterocyte → interstitium → capillary",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Villus epithelium (enterocytes)",
+            "Villus capillary network"
+          ],
+          "label_parts": [
+            "Villus capillary network"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "absorptive_routes_03",
+          "caption": "Venous branches carry absorbed nutrients toward the portal circulation outside this specimen.",
+          "visible_parts": [
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Villus lamina propria core",
+            "Villus capillary network",
+            "Central lacteals",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Submucosal arterioles",
+            "Submucosal venules"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Lamina propria",
+            "Intestinal crypts (of Lieberkühn)",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Villus smooth muscle",
+            "Goblet cells",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Submucosal venules": "Toward portal system"
+          },
+          "route_annotation": "villus blood → venous branches → portal circulation off-model",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Mucosal venous branches",
+            "Submucosal venules"
+          ],
+          "label_parts": [
+            "Submucosal venules"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "absorptive_routes_04",
+          "caption": "Enterocytes package long-chain lipid products into chylomicrons and release them basolaterally.",
+          "visible_parts": [
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Villus lamina propria core",
+            "Villus capillary network",
+            "Central lacteals",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Submucosal arterioles",
+            "Submucosal venules"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Lamina propria",
+            "Intestinal crypts (of Lieberkühn)",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Villus smooth muscle",
+            "Goblet cells",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Villus epithelium (enterocytes)": "Chylomicron assembly and release"
+          },
+          "route_annotation": "enterocyte → interstitium → lacteal wall",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Villus epithelium (enterocytes)",
+            "Villus lamina propria core"
+          ],
+          "label_parts": [
+            "Villus epithelium (enterocytes)"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "absorptive_routes_05",
+          "caption": "Chylomicrons enter lacteals and drain in lymph, eventually reaching systemic venous blood. Some lipid products enter portal blood instead.",
+          "visible_parts": [
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Villus lamina propria core",
+            "Villus capillary network",
+            "Central lacteals",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Submucosal arterioles",
+            "Submucosal venules"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Lamina propria",
+            "Intestinal crypts (of Lieberkühn)",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Villus smooth muscle",
+            "Goblet cells",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Central lacteals": "Chylomicrons travel in lymph"
+          },
+          "route_annotation": "lacteal → mesenteric lymph → thoracic duct off-model",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Central lacteals"
+          ],
+          "label_parts": [
+            "Central lacteals"
+          ],
+          "cut_on": true
+        }
+      ],
+      "schematic_limitations": [
+        "Arteries deliver blood, not newly absorbed nutrient efflux.",
+        "Routes through cells and interstitium are captioned; cellular transporters, endothelial junctions and particles are not represented geometry.",
+        "Red-to-blue flow coloring is instructional, not an oxygen map.",
+        "Portal vein, mesentery and thoracic duct are outside the modeled wall."
+      ]
+    },
+    {
+      "id": "epithelial_renewal",
+      "title": "Crypt-to-villus renewal",
+      "mechanism": "Follow lineage renewal while retaining a separate long-lived Paneth-cell branch.",
+      "source_ids": [
+        "stem_lineage",
+        "paneth_longevity"
+      ],
+      "steps": [
+        {
+          "id": "epithelial_renewal_01",
+          "caption": "Crypt-base stem cells maintain a renewing epithelial population.",
+          "visible_parts": [
+            "Intestinal crypts (of Lieberkühn)",
+            "Crypt base stem cells (Lgr5+)",
+            "Paneth cells",
+            "Villus epithelium (enterocytes)",
+            "Brush border (microvilli)",
+            "Goblet cells"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Crypt base stem cells (Lgr5+)": "Renewal origin"
+          },
+          "route_annotation": "stem-cell division",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Crypt base stem cells (Lgr5+)",
+            "Paneth cells"
+          ],
+          "label_parts": [
+            "Crypt base stem cells (Lgr5+)"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "epithelial_renewal_02",
+          "caption": "Proliferative progeny expand in the crypt before differentiation.",
+          "visible_parts": [
+            "Intestinal crypts (of Lieberkühn)",
+            "Crypt base stem cells (Lgr5+)",
+            "Paneth cells",
+            "Villus epithelium (enterocytes)",
+            "Brush border (microvilli)",
+            "Goblet cells"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Intestinal crypts (of Lieberkühn)": "Progenitor expansion; no separate mesh"
+          },
+          "route_annotation": "crypt base → proliferative crypt compartment",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Crypt base stem cells (Lgr5+)",
+            "Intestinal crypts (of Lieberkühn)"
+          ],
+          "label_parts": [
+            "Intestinal crypts (of Lieberkühn)"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "epithelial_renewal_03",
+          "caption": "Many differentiated cells migrate toward villus tips.",
+          "visible_parts": [
+            "Intestinal crypts (of Lieberkühn)",
+            "Crypt base stem cells (Lgr5+)",
+            "Paneth cells",
+            "Villus epithelium (enterocytes)",
+            "Brush border (microvilli)",
+            "Goblet cells"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Villus epithelium (enterocytes)": "Upward migration"
+          },
+          "route_annotation": "crypt → villus flank → tip",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Villus epithelium (enterocytes)",
+            "Goblet cells"
+          ],
+          "label_parts": [
+            "Villus epithelium (enterocytes)"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "epithelial_renewal_04",
+          "caption": "Cells are shed at the villus tip as renewal continues below.",
+          "visible_parts": [
+            "Intestinal crypts (of Lieberkühn)",
+            "Crypt base stem cells (Lgr5+)",
+            "Paneth cells",
+            "Villus epithelium (enterocytes)",
+            "Brush border (microvilli)",
+            "Goblet cells"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Villus epithelium (enterocytes)": "Tip shedding; schematic endpoint"
+          },
+          "route_annotation": "villus tip → intestinal lumen",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Villus epithelium (enterocytes)"
+          ],
+          "label_parts": [
+            "Villus epithelium (enterocytes)"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "epithelial_renewal_05",
+          "caption": "Paneth cells follow a distinct crypt-base fate and persist longer than the rapid villus-cell turnover interval.",
+          "visible_parts": [
+            "Intestinal crypts (of Lieberkühn)",
+            "Crypt base stem cells (Lgr5+)",
+            "Paneth cells",
+            "Villus epithelium (enterocytes)",
+            "Brush border (microvilli)",
+            "Goblet cells"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Submucosa",
+            "Muscularis mucosae",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Villus smooth muscle",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Paneth cells": "Longer-lived crypt-resident lineage"
+          },
+          "route_annotation": "Paneth lineage → crypt base",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)"
+          ],
+          "label_parts": [
+            "Paneth cells"
+          ],
+          "cut_on": true
+        }
+      ],
+      "schematic_limitations": [
+        "Ordinal highlights are not cell tracking, proliferation counts or tissue deformation.",
+        "Several-day villus turnover is approximate; no uniform 3–5-day whole-epithelium clock.",
+        "Paneth longevity evidence cited here is murine; no precise human lifespan is assigned.",
+        "Transit-amplifying cells and enteroendocrine lineages are explained in captions, not supplied as new mesh identities."
+      ]
+    },
+    {
+      "id": "enteric_motility",
+      "title": "Enteric control of propulsion",
+      "mechanism": "Relate myenteric location to a representative polarized motor reflex and distinguish local mucosal control.",
+      "source_ids": [
+        "ens",
+        "vessels"
+      ],
+      "steps": [
+        {
+          "id": "enteric_motility_01",
+          "caption": "Locate the myenteric plexus between longitudinal and circular muscle.",
+          "visible_parts": [
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Muscularis mucosae",
+            "Villus smooth muscle"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Submucosa",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Intestinal crypts (of Lieberkühn)",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Goblet cells",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Myenteric (Auerbach) plexus": "Motor circuit plane"
+          },
+          "route_annotation": "myenteric plexus → muscularis externa",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Myenteric (Auerbach) plexus",
+            "Outer longitudinal muscle",
+            "Inner circular muscle"
+          ],
+          "label_parts": [
+            "Myenteric (Auerbach) plexus"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "enteric_motility_02",
+          "caption": "A luminal stimulus recruits enteric pathways; the sensory route is not separate geometry.",
+          "visible_parts": [
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Muscularis mucosae",
+            "Villus smooth muscle"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Submucosa",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Intestinal crypts (of Lieberkühn)",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Goblet cells",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Myenteric (Auerbach) plexus": "Representative reflex activation"
+          },
+          "route_annotation": "stimulus → enteric circuit",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Myenteric (Auerbach) plexus"
+          ],
+          "label_parts": [
+            "Myenteric (Auerbach) plexus"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "enteric_motility_03",
+          "caption": "Excitatory pathways promote circular-muscle contraction on the oral side.",
+          "visible_parts": [
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Muscularis mucosae",
+            "Villus smooth muscle"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Submucosa",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Intestinal crypts (of Lieberkühn)",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Goblet cells",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Inner circular muscle": "Oral-side contraction; captioned region"
+          },
+          "route_annotation": "oral excitation → contraction",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Myenteric (Auerbach) plexus",
+            "Inner circular muscle"
+          ],
+          "label_parts": [
+            "Inner circular muscle"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "enteric_motility_04",
+          "caption": "Inhibitory pathways promote relaxation on the aboral side, favoring propulsion.",
+          "visible_parts": [
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Muscularis mucosae",
+            "Villus smooth muscle"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Submucosa",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Intestinal crypts (of Lieberkühn)",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Goblet cells",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Inner circular muscle": "Aboral relaxation; captioned region"
+          },
+          "route_annotation": "aboral inhibition → relaxation → propulsion",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Myenteric (Auerbach) plexus",
+            "Inner circular muscle"
+          ],
+          "label_parts": [
+            "Inner circular muscle"
+          ],
+          "cut_on": true
+        },
+        {
+          "id": "enteric_motility_05",
+          "caption": "Submucosal circuits regulate secretion and local flow. Muscularis mucosae and villus strands move locally.",
+          "visible_parts": [
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Muscularis mucosae",
+            "Villus smooth muscle"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Submucosa",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Mucosal branches",
+            "Mucosal venous branches",
+            "Lamina propria",
+            "Intestinal crypts (of Lieberkühn)",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus capillary network",
+            "Goblet cells",
+            "Brunner glands",
+            "Brunner gland ducts"
+          ],
+          "label_overrides": {
+            "Submucosal (Meissner) plexus": "Local secretory regulation"
+          },
+          "route_annotation": "local regulation → mucosal response",
+          "time_semantics": "Ordinal teaching step; no physiological duration",
+          "geometry_change": false,
+          "highlight_parts": [
+            "Submucosal (Meissner) plexus",
+            "Muscularis mucosae",
+            "Villus smooth muscle"
+          ],
+          "label_parts": [
+            "Submucosal (Meissner) plexus"
+          ],
+          "cut_on": true
+        }
+      ],
+      "schematic_limitations": [
+        "The wall slab supplies no long-axis oral/aboral orientation or bolus mesh; directional regions are explanatory captions.",
+        "Whole-part highlights do not localize motor neuron subtypes or independently contract muscle regions.",
+        "No oscillating nerve colors are presented as literal action potentials.",
+        "Cajal slow waves and smooth-muscle excitability support timing; ENS is not itself the pacemaker.",
+        "This representative reflex does not reproduce every duodenal motor pattern or segmentation cycle."
+      ]
+    }
+  ],
+  "description_overrides": {
+    "Brunner glands": "Brunner glands are branched mucous glands, predominantly submucosal and most abundant in proximal duodenum, with density decreasing distally. They deliver protective alkaline mucus through ducts into crypts and then the intestinal lumen. Direct gland bicarbonate output is not quantified here; surface epithelium and pancreatic secretion also contribute to acid neutralization. Five representative lobules with three enlarged terminals each show organization rather than gland density or one gland per crypt.",
+    "Brunner gland ducts": "Brunner gland ducts cross the muscularis mucosae and open into crypt lumens. The represented recipient port lies above the blind crypt floor; it is not the entire crypt base. Front lobules and ducts lie on the Z=0 teaching cut to expose a continuous route; posterior lobules show a different position.",
+    "Crypt base stem cells (Lgr5+)": "Lgr5-positive crypt base columnar stem cells lie among Paneth cells and generate renewing epithelial lineages. Most villus epithelial cells migrate and turn over over several days; this does not mean all epithelial cell types are replaced together. Paneth cells remain in the crypt and live longer. Classic lineage-tracing evidence is from adult mice; the enlarged sparse cells here are a teaching representation.",
+    "Central lacteals": "Central lacteals are blind-ended initial lymphatics in villus cores. Long-chain dietary lipids are processed in enterocytes into chylomicrons, released basolaterally into the interstitium and taken up across lacteal endothelium. Lymph then drains toward mesenteric lymphatics and eventually systemic venous blood. Chylomicron uptake depends on specialized lymphatic junctions; this is not simply a rigid particle-size sieve. Some lipid products use portal blood instead.",
+    "Submucosal venules": "Submucosal venules collect mucosal blood, including absorbed water-soluble nutrients. Duodenal venous blood drains toward the portal circulation outside this specimen. This small wall specimen does not display the extra-wall portal route.",
+    "Mucosal venous branches": "Mucosal venous branches carry blood from the villus/crypt microcirculation across the muscularis mucosae toward submucosal venules. They remain distinct from lacteal drainage.",
+    "Villus smooth muscle": "Villus smooth-muscle strands participate in local villus movement, which can aid lymph transport. This is distinct from muscularis externa propulsion. The strands do not make the lacteal a contractile blood vessel, and this model does not quantify pumping.",
+    "Brush border (microvilli)": "Brush border: densely packed microvilli on the apical enterocyte surface support absorption and membrane digestion. This enlarged gold apical teaching layer is distinct from the pink enterocyte lining and is interrupted at goblet openings. It does not depict individual microvilli or establish a fixed numerical surface-area multiplier. Plicae, villi and microvilli are different scales; this proximal-style crop has no jejunal plica.",
+    "Serosa": "Outer covering: the existing selector Serosa depicts a thin outer wall covering. Serosa is mesothelium with connective tissue on peritoneal surfaces; adventitia attaches retroperitoneal duodenal surfaces to surrounding tissue. This isolated wall crop does not identify a specific peritoneal face; the selector is preserved for compatibility, and should not imply serosa around every duodenal surface.",
+    "Muscularis mucosae": "Muscularis mucosae: a thin smooth-muscle boundary below crypt-bearing mucosa and above the gland-bearing submucosa. It supports local mucosal movement, distinct from muscularis externa propulsion. Brunner ducts and mucosal blood/lymph conduits traverse fitted apertures in this boundary."
+  },
+  "physical_calibration": "unverified; native automatic viewer unit interpretation is not a calibrated histology ruler",
+  "host_semantics": {
+    "Paneth/stem cells": "complementary crypt epithelial inserts",
+    "Goblet cells": "complementary enterocyte/apical-layer inserts",
+    "Brunner glands/ducts": "living submucosal glands with occupied outer carriers excluded from surrounding tissue",
+    "lacteals": "blind-ended lymphatic lumens embedded in stromal cores",
+    "vessels": "preserved circulating wall/lumen geometry and connected mucosal/submucosal courses",
+    "plexuses": "living tissue-contained enteric networks; no air sleeves"
+  },
+  "flow_color_policy": "preserved native vertex_color_recipe callback; NPZ stores material colors but no vertex RGB",
+  "context": "Duodenal wall below stomach: lumen above villi; pancreatic/bile entry and extra-wall portal/lymph drainage are contextual captions, not supplied meshes."
+}

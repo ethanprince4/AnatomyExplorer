@@ -1,159 +1,197 @@
-"""What you have learned so far: accuracy, the review schedule, and the structures you keep missing."""
+"""Honest local study progress with a readable schedule and actionable next steps."""
 from PySide6.QtCore import QRectF, Qt
 from PySide6.QtGui import QFont, QPainter, QPen
-from PySide6.QtWidgets import (QDialog, QDialogButtonBox, QHBoxLayout, QLabel, QListWidget, QListWidgetItem,
-                               QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QDialog, QDialogButtonBox, QFrame, QGridLayout, QHBoxLayout, QLabel,
+                               QListWidget, QListWidgetItem, QProgressBar, QPushButton,
+                               QScrollArea, QVBoxLayout, QWidget)
 
 from .. import srs
 from . import theme
+from .flow import FlowLayout
 
 
 class Upcoming(QWidget):
-    """A small bar chart of how many structures fall due over the next fortnight."""
+    """Upcoming review counts with an equivalent accessible text description."""
 
     def __init__(self, counts, parent=None):
         super().__init__(parent)
         self.counts = counts
-        self.setMinimumHeight(110)
+        self.setMinimumHeight(140)
+        description = "; ".join(f"Day {day}: {counts.get(day, 0)}" for day in range(1, 15))
+        self.setAccessibleName("Reviews due over the next fourteen days")
+        self.setAccessibleDescription(description)
+        self.setToolTip(description)
 
     def paintEvent(self, event):
-        p = QPainter(self)
-        p.setRenderHint(QPainter.Antialiasing)
-        w, h = self.width(), self.height()
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        width, height = self.width(), self.height()
         days = list(range(1, 15))
-        top = max([self.counts.get(d, 0) for d in days] + [1])
-        if not any(self.counts.get(d, 0) for d in days):
-            p.setPen(theme.qc(theme.MUTED))
-            p.drawText(0, 0, w, h - 20, Qt.AlignCenter, "Nothing falls due in the next two weeks")
-        bw = w / len(days)
-        p.setPen(QPen(theme.qc(theme.BORDER_STRONG), 1))
-        p.drawLine(0, h - 18, w, h - 18)
-        f = QFont(self.font())
-        f.setPointSizeF(7.5)
-        p.setFont(f)
-        for i, d in enumerate(days):
-            n = self.counts.get(d, 0)
-            bh = (h - 30) * n / top
-            x = i * bw + bw * 0.18
-            p.setPen(Qt.NoPen)
-            p.setBrush(theme.qc(theme.ACCENT, 220 if n else 50))
-            p.drawRoundedRect(x, h - 18 - bh, bw * 0.64, max(bh, 1.5), 2, 2)
-            if n:
-                p.setPen(theme.qc(theme.TEXT_STRONG))
-                p.drawText(int(x - bw * 0.18), int(h - 18 - bh - 14), int(bw), 12, Qt.AlignCenter, str(n))
-            p.setPen(theme.qc(theme.MUTED))
-            p.drawText(int(x - bw * 0.18), h - 16, int(bw), 14, Qt.AlignCenter, str(d))
-        p.end()
+        top = max([self.counts.get(day, 0) for day in days] + [1])
+        if not any(self.counts.get(day, 0) for day in days):
+            painter.setPen(theme.qc(theme.MUTED))
+            painter.drawText(self.rect().adjusted(4, 4, -4, -24), Qt.AlignCenter | Qt.TextWordWrap,
+                             "No items are scheduled for the next two weeks.")
+        step = width / len(days)
+        baseline = height - 26
+        painter.setPen(QPen(theme.qc(theme.BORDER), 1))
+        painter.drawLine(0, baseline, width, baseline)
+        font = QFont(self.font())
+        font.setPointSizeF(theme.FS_SMALL)
+        painter.setFont(font)
+        for i, day in enumerate(days):
+            count = self.counts.get(day, 0)
+            bar_height = max(0, baseline - 24) * count / top
+            x = i * step + step * 0.22
+            if count:
+                painter.setPen(Qt.NoPen)
+                painter.setBrush(theme.qc(theme.ACCENT))
+                painter.drawRoundedRect(QRectF(x, baseline - bar_height, step * 0.56, bar_height), 2, 2)
+                painter.setPen(theme.qc(theme.TEXT_STRONG))
+                painter.drawText(QRectF(i * step, baseline - bar_height - 22, step, 20), Qt.AlignCenter, str(count))
+            painter.setPen(theme.qc(theme.MUTED))
+            painter.drawText(QRectF(i * step, baseline + 3, step, 20), Qt.AlignCenter, str(day))
+        painter.end()
 
 
 class LessonBars(QWidget):
-    """One bar per body system: how much of that system's lesson library you have finished."""
+    """Native labelled completion bars, one per installed body-system group."""
 
     def __init__(self, lessons, progress, parent=None):
         super().__init__(parent)
         from ..lessons import group_lessons
         self.rows = []
-        for heading, _key, group in group_lessons(lessons, "system"):
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(10)
+        for name, _key, group in group_lessons(lessons, "system"):
             done, _started, total = progress.totals(group)
-            self.rows.append((heading, done, total))
-        self.setMinimumHeight(max(40, 17 * len(self.rows) + 6))
-
-    def paintEvent(self, event):
-        p = QPainter(self)
-        p.setRenderHint(QPainter.Antialiasing)
-        f = QFont(self.font())
-        f.setPointSizeF(8.2)
-        p.setFont(f)
-        label_w = 132
-        for i, (name, done, total) in enumerate(self.rows):
-            y = 3 + i * 17
-            p.setPen(theme.qc(theme.TEXT_2))
-            p.drawText(2, y, label_w - 8, 14, Qt.AlignLeft | Qt.AlignVCenter, name)
-            track = QRectF(label_w, y + 4, max(40, self.width() - label_w - 46), 7)
-            p.setPen(Qt.NoPen)
-            p.setBrush(theme.qc(theme.BORDER))
-            p.drawRoundedRect(track, 3.5, 3.5)
-            if done:
-                p.setBrush(theme.qc(theme.SUCCESS))
-                p.drawRoundedRect(QRectF(track.x(), track.y(), track.width() * done / total, track.height()),
-                                  3.5, 3.5)
-            p.setPen(theme.qc(theme.TEXT))
-            p.drawText(int(track.right()) + 6, y, 40, 14, Qt.AlignLeft | Qt.AlignVCenter, f"{done}/{total}")
-        p.end()
+            self.rows.append((name, done, total))
+            label = QLabel(f"{name} · {done} of {total} finished")
+            label.setWordWrap(True)
+            label.setStyleSheet(theme.text_css(theme.TEXT_2))
+            layout.addWidget(label)
+            bar = QProgressBar()
+            bar.setRange(0, max(1, total))
+            bar.setValue(done)
+            bar.setTextVisible(False)
+            bar.setFixedHeight(6)
+            bar.setAccessibleName(name + " lesson completion")
+            bar.setAccessibleDescription(f"{done} of {total} finished")
+            layout.addWidget(bar)
 
 
 def heading(text):
-    """A section heading in the style of the lesson library's group headings."""
-    lab = QLabel(text.upper())
-    lab.setStyleSheet(theme.overline_css() + " padding-top:12px;")
-    return lab
+    label = QLabel(text)
+    label.setWordWrap(True)
+    label.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE, 700) + " padding-top:12px;")
+    return label
 
 
 class ProgressDialog(QDialog):
     def __init__(self, stats, lessons=None, lesson_progress=None, parent=None):
         super().__init__(parent)
         self.setWindowTitle("My progress")
-        self.resize(580, 680)
-        lay = QVBoxLayout(self)
-        s = srs.summary(stats)
-
+        self.resize(660, 700)
+        outer = QVBoxLayout(self)
+        outer.setContentsMargins(20, 20, 20, 16)
+        outer.setSpacing(12)
         title = QLabel("Study progress")
-        f = QFont(self.font())
-        f.setPointSizeF(f.pointSizeF() + 4)
-        f.setBold(True)
-        title.setFont(f)
         title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2, 700))
-        lay.addWidget(title)
-
-        row = QHBoxLayout()
-        for label, value in (("Structures seen", f"{s['structures']:,}"),
-                             ("Questions answered", f"{s['answers']:,}"),
-                             ("Overall accuracy", f"{round(s['accuracy'] * 100)}%"),
-                             ("Due today", f"{s['due']:,}")):
-            box = QWidget()
-            box.setObjectName("statTile")
-            box.setStyleSheet(f"#statTile {{ background:{theme.RAISED}; border:1px solid {theme.BORDER_SUBTLE};"
-                              f" border-radius:{theme.R_LG}px; }}")
-            bl = QVBoxLayout(box)
-            bl.setContentsMargins(12, 10, 12, 10)
-            v = QLabel(value)
-            vf = QFont(self.font())
-            vf.setPointSizeF(vf.pointSizeF() + 5)
-            vf.setBold(True)
-            v.setFont(vf)
-            v.setStyleSheet(theme.text_css(theme.ACCENT_TEXT, theme.FS_H2, 700))
-            k = QLabel(label)
-            k.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
-            bl.addWidget(v)
-            bl.addWidget(k)
-            row.addWidget(box)
-        lay.addLayout(row)
-
-        lay.addWidget(QLabel(f"<b>{s['learned']:,}</b> structures are on a long interval (three weeks or more); "
-                             f"<b>{s['young']:,}</b> are still bedding in."))
-
+        outer.addWidget(title)
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.NoFrame)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        body = QWidget()
+        lay = QVBoxLayout(body)
+        lay.setContentsMargins(0, 0, 10, 8)
+        lay.setSpacing(10)
+        summary = srs.summary(stats)
+        if not summary["answers"]:
+            intro = QLabel("Your study history starts with your first answer. Read a lesson or begin a quiz when you’re ready.")
+        else:
+            intro = QLabel("Results are saved on this computer. Review intervals grow when you remember an item and shorten when you miss it.")
+        intro.setWordWrap(True)
+        intro.setStyleSheet(theme.text_css(theme.TEXT_2))
+        lay.addWidget(intro)
+        measures = QGridLayout()
+        measures.setHorizontalSpacing(24)
+        measures.setVerticalSpacing(12)
+        values = (("Study items seen", f"{summary['structures']:,}"),
+                  ("Questions answered", f"{summary['answers']:,}"),
+                  ("Overall accuracy", f"{round(summary['accuracy'] * 100)}%" if summary["answers"] else "—"),
+                  ("Due today", f"{summary['due']:,}"))
+        for index, (label, value) in enumerate(values):
+            row = QWidget()
+            row.setObjectName("statTile")  # retained inspection contract for persisted-result regressions
+            row_layout = QVBoxLayout(row)
+            row_layout.setContentsMargins(0, 0, 0, 0)
+            row_layout.setSpacing(2)
+            amount = QLabel(value)
+            amount.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE, 700))
+            row_layout.addWidget(amount)
+            name = QLabel(label)
+            name.setWordWrap(True)
+            name.setStyleSheet(theme.text_css(theme.MUTED))
+            row_layout.addWidget(name)
+            measures.addWidget(row, index // 2, index % 2)
+        lay.addLayout(measures)
+        intervals = QLabel(f"{summary['learned']:,} items have intervals of three weeks or more; "
+                           f"{summary['young']:,} have shorter intervals.")
+        intervals.setWordWrap(True)
+        intervals.setStyleSheet(theme.text_css(theme.TEXT_2))
+        lay.addWidget(intervals)
         if lessons and lesson_progress is not None:
             done, started, total = lesson_progress.totals(lessons)
-            line = f"<b>{done}</b> of <b>{total}</b> finished"
-            if started:
-                line += f", <b>{started}</b> in progress"
             lay.addWidget(heading("Lessons"))
-            lay.addWidget(QLabel(line))
+            label = QLabel(f"{done} of {total} finished · {started} in progress")
+            label.setWordWrap(True)
+            lay.addWidget(label)
             lay.addWidget(LessonBars(lessons, lesson_progress))
-        lay.addWidget(heading("Falling due over the next fortnight · days from today"))
-        lay.addWidget(Upcoming(s["upcoming"]))
-
-        lay.addWidget(heading("Structures you miss most"))
+        lay.addWidget(heading("Upcoming reviews"))
+        caption = QLabel("Days from today. Today’s due items are counted above.")
+        caption.setWordWrap(True)
+        caption.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+        lay.addWidget(caption)
+        lay.addWidget(Upcoming(summary["upcoming"]))
+        lay.addWidget(heading("Items to revisit"))
         weak = QListWidget()
-        for base, miss, seen, rate in srs.weakest(stats, limit=30):
-            weak.addItem(QListWidgetItem(f"{base} — missed {miss} of {seen} ({round(rate * 100)}%)"))
-        if weak.count() == 0:
-            it = QListWidgetItem("Nothing yet – answer a few quiz questions first.")
-            it.setFlags(Qt.NoItemFlags)
-            it.setForeground(theme.qc(theme.MUTED))
-            weak.addItem(it)
-        lay.addWidget(weak, 1)
-
+        weak.setAccessibleName("Study items most often missed")
+        weak.setWordWrap(True)
+        weak.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        for key, missed, seen, rate in srs.weakest(stats, limit=30):
+            label = str(stats.get(key, {}).get("label") or key)
+            weak.addItem(QListWidgetItem(f"{label}\nMissed {missed} of {seen} answers ({round(rate * 100)}%)"))
+        if not weak.count():
+            item = QListWidgetItem("No repeated misses yet. This list appears after an item has at least two answers.")
+            item.setFlags(Qt.NoItemFlags)
+            weak.addItem(item)
+        weak.setMinimumHeight(150)
+        weak.setMaximumHeight(260)
+        lay.addWidget(weak)
+        scroll.setWidget(body)
+        outer.addWidget(scroll, 1)
+        actions = FlowLayout()
+        if parent is not None and callable(getattr(parent, "show_lessons", None)):
+            button = QPushButton("Open lessons")
+            button.clicked.connect(lambda: self._go(parent.show_lessons))
+            actions.addWidget(button)
+        quiz = getattr(parent, "quiz", None)
+        if quiz is not None:
+            known = {structure["base"] for structure in quiz.ds.structures}
+            count = sum(key in known for key in srs.due_bases(stats))
+            review = QPushButton(f"Review atlas ({count})")
+            review.setEnabled(count > 0)
+            review.setToolTip("Reviews available atlas structures. Other practice items can be repeated from their lesson.")
+            review.clicked.connect(lambda: self._go(lambda: (quiz.open(), quiz.start_review())))
+            theme.set_variant(review, "primary")
+            actions.addWidget(review)
+        outer.addLayout(actions)
         buttons = QDialogButtonBox(QDialogButtonBox.Close)
         buttons.rejected.connect(self.reject)
-        lay.addWidget(buttons)
+        outer.addWidget(buttons)
+
+    def _go(self, callback):
+        self.accept()
+        callback()

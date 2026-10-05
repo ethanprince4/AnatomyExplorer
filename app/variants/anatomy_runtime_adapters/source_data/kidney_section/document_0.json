@@ -1,0 +1,882 @@
+{
+  "schema_version": 1,
+  "model_id": "kidney_section",
+  "review_model_id": "kidney_section_refinement_review",
+  "summary": "Right kidney in coronal section: cortex, columns and pyramids connect tissue organization with urine drainage and blood delivery. Eight native views reveal coverings, collecting system, arteries, veins and an explicitly enlarged coarse nephron inset.\n\nFunction teaching: use the named Views buttons (Page Down / Page Up also step through views). Choose 03 Cortex and medulla for tissue zones, 05 Arterial supply then 06 Venous return for blood routes, 07 Enlarged nephron context then 08 Nephron pathway for filtration and tubular processing, and 04 Urine drainage for urine exit. Select the named parts in Structures. Hover a view button to read its notes and limits. Blood and filtrate are separate fluid domains; the enlarged inset is a location lesson.",
+  "scale_note": "Gross envelope: 1 model unit = 5 cm. Capsule, fascia and calyx walls are exaggerated; rays, striations and small vessels are sparse enlarged teaching samples. Nephron wedge is enlarged and schematic: screen distances there are not physiological dimensions. Camera zoom does not undo source exaggeration.",
+  "viewer_cameras": {
+    "01 Coronal overview": {
+      "type": "ORTHO",
+      "position": [
+        3.2541543523707324,
+        1.5569093487881582,
+        9.808596167438445
+      ],
+      "target": [
+        0.22,
+        -0.1,
+        0
+      ],
+      "ortho_width": 5.2,
+      "note": "Locate cortex, medulla, papillae and urine exit in a right-kidney coronal specimen. Anterior half is removed. Posterior tissue remains; hidden fat/finest representatives can be restored from Structures. Gross envelope: 1 model unit = 5 cm. Capsule, fascia and calyx walls are exaggerated; rays, striations and small vessels are sparse enlarged teaching samples. Nephron wedge is enlarged and schematic: screen distances there are not physiological dimensions. Camera zoom does not undo source exaggeration.\nFollow tissue zones and urine exit. Blood enters via the renal artery and returns via the renal vein; urine leaves through the ureter.",
+      "hidden": [
+        "Renal fascia",
+        "Perirenal fat (adipose capsule)",
+        "Medullary rays",
+        "Medullary striations",
+        "Renal sinus fat",
+        "Segmental arteries",
+        "Interlobar arteries",
+        "Arcuate arteries",
+        "Cortical radiate (interlobular) arteries",
+        "Segmental (sinus) veins",
+        "Interlobar veins",
+        "Arcuate veins",
+        "Cortical radiate (interlobular) veins",
+        "Nephron tubule",
+        "Collecting duct",
+        "Renal corpuscle",
+        "Nephron position (lobule wedge)",
+        "Suprarenal gland – medulla"
+      ],
+      "cut_on": true
+    },
+    "02 Coverings": {
+      "type": "ORTHO",
+      "position": [
+        2.3339648864390248,
+        1.6245456529139677,
+        7.54507397495265
+      ],
+      "target": [
+        0.0,
+        0.35,
+        0
+      ],
+      "ortho_width": 4.0,
+      "note": "Recognize renal fascia outside perirenal fat and fibrous capsule. Peel Renal fascia, then Perirenal fat (adipose capsule) using Structures; adrenal tissue remains a separate superior compartment. Gross envelope: 1 model unit = 5 cm. Capsule, fascia and calyx walls are exaggerated; rays, striations and small vessels are sparse enlarged teaching samples. Nephron wedge is enlarged and schematic: screen distances there are not physiological dimensions. Camera zoom does not undo source exaggeration.\nRead capsule → perirenal fat → fascia outward. Peel coverings in Structures to reveal the kidney; suprarenal tissue remains a separate organ.",
+      "hidden": [
+        "Renal columns",
+        "Medullary rays",
+        "Renal pyramids",
+        "Renal papillae",
+        "Medullary striations",
+        "Minor calyces",
+        "Major calyces",
+        "Renal pelvis",
+        "Ureter (proximal)",
+        "Renal sinus fat",
+        "Hilum of kidney",
+        "Renal artery",
+        "Segmental arteries",
+        "Interlobar arteries",
+        "Arcuate arteries",
+        "Cortical radiate (interlobular) arteries",
+        "Renal vein",
+        "Segmental (sinus) veins",
+        "Interlobar veins",
+        "Arcuate veins",
+        "Cortical radiate (interlobular) veins",
+        "Nephron tubule",
+        "Collecting duct",
+        "Renal corpuscle",
+        "Nephron position (lobule wedge)"
+      ],
+      "cut_on": false
+    },
+    "03 Cortex and medulla": {
+      "type": "ORTHO",
+      "position": [
+        -0.08,
+        0.0,
+        6.4
+      ],
+      "target": [
+        -0.08,
+        0,
+        0
+      ],
+      "ortho_width": 3.2,
+      "note": "Columns are cortex between pyramids; medullary rays extend into cortex. Pyramid base faces cortex and apex forms a papilla. Representative streak counts are schematic. Gross envelope: 1 model unit = 5 cm. Capsule, fascia and calyx walls are exaggerated; rays, striations and small vessels are sparse enlarged teaching samples. Nephron wedge is enlarged and schematic: screen distances there are not physiological dimensions. Camera zoom does not undo source exaggeration.\nColumns are cortex between pyramids. Medullary rays are straight-tubule and collecting-duct bundles within cortex. Concentration depends on segment transport and medullary exchange; this view has no computed concentration field.",
+      "hidden": [
+        "Renal fascia",
+        "Perirenal fat (adipose capsule)",
+        "Minor calyces",
+        "Major calyces",
+        "Renal pelvis",
+        "Ureter (proximal)",
+        "Renal sinus fat",
+        "Hilum of kidney",
+        "Renal artery",
+        "Segmental arteries",
+        "Interlobar arteries",
+        "Arcuate arteries",
+        "Cortical radiate (interlobular) arteries",
+        "Renal vein",
+        "Segmental (sinus) veins",
+        "Interlobar veins",
+        "Arcuate veins",
+        "Cortical radiate (interlobular) veins",
+        "Nephron tubule",
+        "Collecting duct",
+        "Renal corpuscle",
+        "Nephron position (lobule wedge)",
+        "Suprarenal gland – cortex",
+        "Suprarenal gland – medulla"
+      ],
+      "cut_on": true
+    },
+    "04 Urine drainage": {
+      "type": "ORTHO",
+      "position": [
+        0.16,
+        -0.36,
+        7.8
+      ],
+      "target": [
+        0.16,
+        -0.36,
+        0
+      ],
+      "ortho_width": 3.9,
+      "note": "Urine passes from papillary ducts to minor calyces, major calyces, pelvis and proximal ureter. Visible surfaces are urothelial tube walls; open lumen must remain recognizable. Peristalsis transports urine; no dynamic wall motion is claimed. Gross envelope: 1 model unit = 5 cm. Capsule, fascia and calyx walls are exaggerated; rays, striations and small vessels are sparse enlarged teaching samples. Nephron wedge is enlarged and schematic: screen distances there are not physiological dimensions. Camera zoom does not undo source exaggeration.\nUrine route: papillary ducts → minor calyces → major calyces → pelvis → proximal ureter. Coordinated smooth-muscle contractions propel urine. Direction is taught statically; no contraction rate, bolus speed or pressure is simulated.",
+      "hidden": [
+        "Renal fascia",
+        "Perirenal fat (adipose capsule)",
+        "Fibrous capsule",
+        "Renal cortex",
+        "Renal columns",
+        "Medullary rays",
+        "Medullary striations",
+        "Renal sinus fat",
+        "Hilum of kidney",
+        "Renal artery",
+        "Segmental arteries",
+        "Interlobar arteries",
+        "Arcuate arteries",
+        "Cortical radiate (interlobular) arteries",
+        "Renal vein",
+        "Segmental (sinus) veins",
+        "Interlobar veins",
+        "Arcuate veins",
+        "Cortical radiate (interlobular) veins",
+        "Nephron tubule",
+        "Collecting duct",
+        "Renal corpuscle",
+        "Nephron position (lobule wedge)",
+        "Suprarenal gland – cortex",
+        "Suprarenal gland – medulla"
+      ],
+      "cut_on": true
+    },
+    "05 Arterial supply": {
+      "type": "ORTHO",
+      "position": [
+        2.495615764278049,
+        1.2426820115911186,
+        7.356447125578833
+      ],
+      "target": [
+        0.22,
+        0.0,
+        0
+      ],
+      "ortho_width": 3.9,
+      "note": "Renal → segmental → interlobar → arcuate → cortical radiate arteries. Restore Renal columns or Renal pyramids individually for location context. Small branches are solid teaching sweeps, not patent bore geometry. Gross envelope: 1 model unit = 5 cm. Capsule, fascia and calyx walls are exaggerated; rays, striations and small vessels are sparse enlarged teaching samples. Nephron wedge is enlarged and schematic: screen distances there are not physiological dimensions. Camera zoom does not undo source exaggeration.\nFollow renal → segmental → interlobar → arcuate → cortical radiate arteries. Their microscopic afferent connections to glomeruli are not resolved here; no physical connection to the enlarged sample is asserted.",
+      "hidden": [
+        "Renal fascia",
+        "Perirenal fat (adipose capsule)",
+        "Fibrous capsule",
+        "Renal cortex",
+        "Renal columns",
+        "Medullary rays",
+        "Renal pyramids",
+        "Renal papillae",
+        "Medullary striations",
+        "Minor calyces",
+        "Major calyces",
+        "Renal pelvis",
+        "Ureter (proximal)",
+        "Renal sinus fat",
+        "Hilum of kidney",
+        "Renal vein",
+        "Segmental (sinus) veins",
+        "Interlobar veins",
+        "Arcuate veins",
+        "Cortical radiate (interlobular) veins",
+        "Nephron tubule",
+        "Collecting duct",
+        "Renal corpuscle",
+        "Nephron position (lobule wedge)",
+        "Suprarenal gland – cortex",
+        "Suprarenal gland – medulla"
+      ],
+      "cut_on": false
+    },
+    "06 Venous return": {
+      "type": "ORTHO",
+      "position": [
+        2.495615764278049,
+        1.2426820115911186,
+        7.356447125578833
+      ],
+      "target": [
+        0.22,
+        0.0,
+        0
+      ],
+      "ortho_width": 3.9,
+      "note": "Cortical radiate → arcuate → interlobar → sinus veins → renal vein. The name Segmental (sinus) veins denotes tributaries; venous drainage is not five isolated arterial segments. Gross envelope: 1 model unit = 5 cm. Capsule, fascia and calyx walls are exaggerated; rays, striations and small vessels are sparse enlarged teaching samples. Nephron wedge is enlarged and schematic: screen distances there are not physiological dimensions. Camera zoom does not undo source exaggeration.\nReturn follows microscopic exchange beds (omitted) → cortical radiate → arcuate → interlobar → sinus veins → renal vein. Sinus tributaries do not define independent arterial-style territories.",
+      "hidden": [
+        "Renal fascia",
+        "Perirenal fat (adipose capsule)",
+        "Fibrous capsule",
+        "Renal cortex",
+        "Renal columns",
+        "Medullary rays",
+        "Renal pyramids",
+        "Renal papillae",
+        "Medullary striations",
+        "Minor calyces",
+        "Major calyces",
+        "Renal pelvis",
+        "Ureter (proximal)",
+        "Renal sinus fat",
+        "Hilum of kidney",
+        "Renal artery",
+        "Segmental arteries",
+        "Interlobar arteries",
+        "Arcuate arteries",
+        "Cortical radiate (interlobular) arteries",
+        "Nephron tubule",
+        "Collecting duct",
+        "Renal corpuscle",
+        "Nephron position (lobule wedge)",
+        "Suprarenal gland – cortex",
+        "Suprarenal gland – medulla"
+      ],
+      "cut_on": false
+    },
+    "07 Enlarged nephron context": {
+      "type": "ORTHO",
+      "position": [
+        -0.49,
+        -0.37,
+        3.0620000000000003
+      ],
+      "target": [
+        -0.49,
+        -0.37,
+        -0.038
+      ],
+      "ortho_width": 1.55,
+      "note": "Enlarged representative nephron in its authored lobe window: corpuscle/convoluted tubules in cortex, loop into medulla, collecting duct toward papilla. Preserve existing displaced/enlarged authored teaching position; no true-scale embedding claim. Gross envelope: 1 model unit = 5 cm. Capsule, fascia and calyx walls are exaggerated; rays, striations and small vessels are sparse enlarged teaching samples. Nephron wedge is enlarged and schematic: screen distances there are not physiological dimensions. Camera zoom does not undo source exaggeration.\nA cortical corpuscle starts filtration; tubules process filtrate and enter a collecting-duct system. This enlarged sample locates the process. Blood cells stay in circulation. The barrier and exchange capillaries require the separate kidney_nephron model.",
+      "hidden": [
+        "Renal fascia",
+        "Perirenal fat (adipose capsule)",
+        "Fibrous capsule",
+        "Medullary striations",
+        "Minor calyces",
+        "Major calyces",
+        "Renal pelvis",
+        "Ureter (proximal)",
+        "Renal sinus fat",
+        "Hilum of kidney",
+        "Renal artery",
+        "Segmental arteries",
+        "Interlobar arteries",
+        "Arcuate arteries",
+        "Cortical radiate (interlobular) arteries",
+        "Renal vein",
+        "Segmental (sinus) veins",
+        "Interlobar veins",
+        "Arcuate veins",
+        "Cortical radiate (interlobular) veins",
+        "Suprarenal gland – cortex",
+        "Suprarenal gland – medulla"
+      ],
+      "cut_on": true
+    },
+    "08 Nephron pathway": {
+      "type": "ORTHO",
+      "position": [
+        -0.49,
+        -0.37,
+        2.6620000000000004
+      ],
+      "target": [
+        -0.49,
+        -0.37,
+        -0.038
+      ],
+      "ortho_width": 1.35,
+      "note": "Renal corpuscle → Nephron tubule → Collecting duct. Filtration into tubule and water handling are conceptual mechanisms; this coarse inset has no resolved filtration barrier or full microvascular circuit. Open kidney_nephron separately for microanatomy. Gross envelope: 1 model unit = 5 cm. Capsule, fascia and calyx walls are exaggerated; rays, striations and small vessels are sparse enlarged teaching samples. Nephron wedge is enlarged and schematic: screen distances there are not physiological dimensions. Camera zoom does not undo source exaggeration.\nFiltration transfers water/small solutes into capsular space, then tubule. Reabsorption returns substances to blood; secretion adds substances to tubular fluid. Lower ADH favors more water remaining in the duct. Higher ADH recruits AQP2 and, with an effective osmotic gradient, favors more water reabsorption. These are caption comparisons with identical geometry, not hormone switches or a physiological solver.",
+      "hidden": [
+        "Renal fascia",
+        "Perirenal fat (adipose capsule)",
+        "Fibrous capsule",
+        "Renal cortex",
+        "Renal columns",
+        "Medullary rays",
+        "Renal pyramids",
+        "Renal papillae",
+        "Medullary striations",
+        "Minor calyces",
+        "Major calyces",
+        "Renal pelvis",
+        "Ureter (proximal)",
+        "Renal sinus fat",
+        "Hilum of kidney",
+        "Renal artery",
+        "Segmental arteries",
+        "Interlobar arteries",
+        "Arcuate arteries",
+        "Cortical radiate (interlobular) arteries",
+        "Renal vein",
+        "Segmental (sinus) veins",
+        "Interlobar veins",
+        "Arcuate veins",
+        "Cortical radiate (interlobular) veins",
+        "Suprarenal gland – cortex",
+        "Suprarenal gland – medulla"
+      ],
+      "cut_on": true
+    }
+  },
+  "start_view": "01 Coronal overview",
+  "description_overrides": {
+    "Renal cortex": "Renal cortex: the outer zone beneath the fibrous capsule, continuing between pyramids as renal columns. It contains renal corpuscles and convoluted tubules in the cortical labyrinth, together with straight tubular bundles in medullary rays. The visible cortex, columns and rays are separately selectable teaching parts of the cortical region. Histology: kidney cortex.",
+    "Medullary rays": "Medullary rays: bundles of straight renal tubules and collecting ducts extending through the cortex toward the medulla. Despite their name, rays lie within the cortex. The surrounding cortical labyrinth contains renal corpuscles and convoluted tubules. These enlarged, reduced-count rays are representative teaching samples, not separate pyramids or literal tubular lumens.",
+    "Medullary striations": "Medullary striations: representative streaks following the long axes of renal pyramids toward their papillae. In tissue, the striated appearance reflects straight tubular structures and vessels. The displayed streaks are enlarged solid course markers; they do not individually reconstruct collecting ducts, nephron loops or vasa recta.",
+    "Nephron tubule": "Nephron tubule: an enlarged representative route from the proximal convoluted segment through descending and ascending loop limbs, back toward the corpuscle region, then through the distal and connecting segments to a collecting duct. Different segments modify filtrate by reabsorption and secretion. This solid course marker does not contain a modeled epithelial wall or fluid lumen; detailed nephron microanatomy belongs to the separate kidney_nephron model.",
+    "Collecting duct": "Collecting duct: a separate duct system receiving fluid from nephrons and passing through cortex and medulla toward a papilla and minor calyx. Its water handling contributes to the final urine concentration. The blue part is an enlarged solid route marker beside one representative nephron; multiple-nephron convergence, epithelial walls and a fluid lumen are not reconstructed here.",
+    "Renal corpuscle": "Renal corpuscle: a composite filtration unit in the cortex, consisting anatomically of a glomerular capillary tuft enclosed by the glomerular capsule, with capsular space receiving ultrafiltrate. This enlarged landmark is represented by a sphere and short afferent vessel stub. It does not reconstruct the tuft, capsular space, filtration barrier or efferent arteriole, and the whole corpuscle should not be interpreted as an artery. See the separate kidney_nephron model for microanatomy.",
+    "Nephron position (lobule wedge)": "Nephron position (lobule wedge): a transparent teaching window across cortex and one pyramid, showing the relative positions of a representative renal corpuscle, convoluted tubules, loop and collecting duct. It is a contextual display domain, not tissue or fluid. The nephron parts are enlarged and locally arranged for visibility; their sizes do not share a single magnification factor. The window does not establish all the microscopic components of a renal lobule.",
+    "Renal vein": "Renal vein: the venous outflow of this right kidney, formed from tributaries in the renal sinus and leaving through the medial hilum toward the inferior vena cava. It is distinct from the artery and collecting-system wall. Left renal-vein relations described in comparative anatomy are not structures depicted by this right-kidney section.",
+    "Renal pyramids": "Renal pyramids are medullary tissue masses with bases toward the cortex and apices forming papillae toward the renal sinus. Their striated appearance reflects parallel straight tubules, collecting ducts and vasa recta. The arrangement supports urine concentration through segment-specific transport and medullary exchange; collecting-duct water reabsorption varies with ADH action and the effective osmotic gradient. The section does not calculate a concentration profile. A pyramid with its associated cortex is a renal lobe. Histology: kidney medulla."
+  },
+  "semantic_domains": {
+    "schema_version": 1,
+    "model_id": "kidney_section",
+    "source_cache_sha256": "75c5aefbbfa4b3401226b12830b2c06e7d98259e057791b2c17a6ad20d0c285e",
+    "status": "source_classification_only",
+    "parts": [
+      {
+        "name": "Renal fascia",
+        "native_group": "Coverings",
+        "preserved_material_category": "fascia",
+        "semantic_domain": "covering_shell",
+        "validation_semantics": "enclosed volume is not occupied fascia"
+      },
+      {
+        "name": "Perirenal fat (adipose capsule)",
+        "native_group": "Coverings",
+        "preserved_material_category": "fat",
+        "semantic_domain": "supporting_fat_domain",
+        "validation_semantics": "preserve adrenal/kidney exclusions and vessel/ureter passages"
+      },
+      {
+        "name": "Fibrous capsule",
+        "native_group": "Coverings",
+        "preserved_material_category": "fascia",
+        "semantic_domain": "covering_shell",
+        "validation_semantics": "enclosed volume is not occupied capsule"
+      },
+      {
+        "name": "Renal cortex",
+        "native_group": "Renal cortex",
+        "preserved_material_category": "organ",
+        "semantic_domain": "cortical_parenchyma",
+        "validation_semantics": "host cortical tissue, separate from illustrative window"
+      },
+      {
+        "name": "Renal columns",
+        "native_group": "Renal cortex",
+        "preserved_material_category": "organ",
+        "semantic_domain": "cortical_parenchyma",
+        "validation_semantics": "cortical extensions between actual pyramids"
+      },
+      {
+        "name": "Medullary rays",
+        "native_group": "Renal cortex",
+        "preserved_material_category": "organ",
+        "semantic_domain": "solid_tubular_bundle_marker",
+        "validation_semantics": "cortical bundle; no individual bores reconstructed"
+      },
+      {
+        "name": "Renal pyramids",
+        "native_group": "Renal medulla",
+        "preserved_material_category": "organ",
+        "semantic_domain": "medullary_parenchyma",
+        "validation_semantics": "preserve papillary/cortex partition and shared foundation"
+      },
+      {
+        "name": "Renal papillae",
+        "native_group": "Renal medulla",
+        "preserved_material_category": "organ",
+        "semantic_domain": "medullary_parenchyma",
+        "validation_semantics": "intended tissue protrusion into minor calyx"
+      },
+      {
+        "name": "Medullary striations",
+        "native_group": "Renal medulla",
+        "preserved_material_category": "organ",
+        "semantic_domain": "solid_tubular_bundle_marker",
+        "validation_semantics": "representative solid streaks, not separately empty lumens"
+      },
+      {
+        "name": "Minor calyces",
+        "native_group": "Collecting system",
+        "preserved_material_category": "mucosa",
+        "semantic_domain": "urothelial_conducting_wall",
+        "validation_semantics": "hollow wall; papilla occupies intended cup region"
+      },
+      {
+        "name": "Major calyces",
+        "native_group": "Collecting system",
+        "preserved_material_category": "mucosa",
+        "semantic_domain": "urothelial_conducting_wall",
+        "validation_semantics": "hollow wall with connected lumen field"
+      },
+      {
+        "name": "Renal pelvis",
+        "native_group": "Collecting system",
+        "preserved_material_category": "mucosa",
+        "semantic_domain": "urothelial_conducting_wall",
+        "validation_semantics": "hollow wall continuous with ureter"
+      },
+      {
+        "name": "Ureter (proximal)",
+        "native_group": "Collecting system",
+        "preserved_material_category": "mucosa",
+        "semantic_domain": "urothelial_conducting_wall",
+        "validation_semantics": "hollow wall with open cut-end lumen"
+      },
+      {
+        "name": "Renal sinus fat",
+        "native_group": "Renal sinus & hilum",
+        "preserved_material_category": "fat",
+        "semantic_domain": "supporting_fat_domain",
+        "validation_semantics": "fat excludes outer collecting system/pyramids"
+      },
+      {
+        "name": "Hilum of kidney",
+        "native_group": "Renal sinus & hilum",
+        "preserved_material_category": "fascia",
+        "semantic_domain": "context_landmark",
+        "validation_semantics": "transparent hilar-rim landmark; do not treat as a vessel wall"
+      },
+      {
+        "name": "Renal artery",
+        "native_group": "Arteries",
+        "preserved_material_category": "artery",
+        "semantic_domain": "hollow_vessel_wall",
+        "validation_semantics": "main hollow trunk; flow bore checks applicable"
+      },
+      {
+        "name": "Segmental arteries",
+        "native_group": "Arteries",
+        "preserved_material_category": "artery",
+        "semantic_domain": "solid_vascular_course_marker",
+        "validation_semantics": "authored solid sweep/fused roots; no distal blood bore; intended branch contacts"
+      },
+      {
+        "name": "Interlobar arteries",
+        "native_group": "Arteries",
+        "preserved_material_category": "artery",
+        "semantic_domain": "solid_vascular_course_marker",
+        "validation_semantics": "authored solid sweep/fused roots; no distal blood bore; intended branch contacts"
+      },
+      {
+        "name": "Arcuate arteries",
+        "native_group": "Arteries",
+        "preserved_material_category": "artery",
+        "semantic_domain": "solid_vascular_course_marker",
+        "validation_semantics": "authored solid sweep/fused roots; no distal blood bore; intended branch contacts"
+      },
+      {
+        "name": "Cortical radiate (interlobular) arteries",
+        "native_group": "Arteries",
+        "preserved_material_category": "artery",
+        "semantic_domain": "solid_vascular_course_marker",
+        "validation_semantics": "authored solid sweep/fused roots; no distal blood bore; intended branch contacts"
+      },
+      {
+        "name": "Renal vein",
+        "native_group": "Veins",
+        "preserved_material_category": "vein",
+        "semantic_domain": "hollow_vessel_wall",
+        "validation_semantics": "main hollow trunk; right-kidney return context"
+      },
+      {
+        "name": "Segmental (sinus) veins",
+        "native_group": "Veins",
+        "preserved_material_category": "vein",
+        "semantic_domain": "solid_vascular_course_marker",
+        "validation_semantics": "authored solid sweep/fused roots; no distal blood bore; intended branch contacts"
+      },
+      {
+        "name": "Interlobar veins",
+        "native_group": "Veins",
+        "preserved_material_category": "vein",
+        "semantic_domain": "solid_vascular_course_marker",
+        "validation_semantics": "authored solid sweep/fused roots; no distal blood bore; intended branch contacts"
+      },
+      {
+        "name": "Arcuate veins",
+        "native_group": "Veins",
+        "preserved_material_category": "vein",
+        "semantic_domain": "solid_vascular_course_marker",
+        "validation_semantics": "authored solid sweep/fused roots; no distal blood bore; intended branch contacts"
+      },
+      {
+        "name": "Cortical radiate (interlobular) veins",
+        "native_group": "Veins",
+        "preserved_material_category": "vein",
+        "semantic_domain": "solid_vascular_course_marker",
+        "validation_semantics": "authored solid sweep/fused roots; no distal blood bore; intended branch contacts"
+      },
+      {
+        "name": "Nephron tubule",
+        "native_group": "Nephron wedge",
+        "preserved_material_category": "gland",
+        "semantic_domain": "solid_tubule_course_marker",
+        "validation_semantics": "solid magnified route, no epithelial lumen"
+      },
+      {
+        "name": "Collecting duct",
+        "native_group": "Nephron wedge",
+        "preserved_material_category": "gland",
+        "semantic_domain": "solid_tubule_course_marker",
+        "validation_semantics": "solid separate receiving route, no epithelial lumen"
+      },
+      {
+        "name": "Renal corpuscle",
+        "native_group": "Nephron wedge",
+        "preserved_material_category": "artery",
+        "semantic_domain": "composite_filter_landmark",
+        "validation_semantics": "ellipsoid and afferent stub; keep artery material category"
+      },
+      {
+        "name": "Nephron position (lobule wedge)",
+        "native_group": "Nephron wedge",
+        "preserved_material_category": "csf",
+        "semantic_domain": "context_window",
+        "validation_semantics": "keep csf material category; not CSF, tissue or urine"
+      },
+      {
+        "name": "Suprarenal gland – cortex",
+        "native_group": "Suprarenal gland",
+        "preserved_material_category": "gland",
+        "semantic_domain": "gland_cortical_envelope",
+        "validation_semantics": "complement of medulla; no occupied-cortex containment of core"
+      },
+      {
+        "name": "Suprarenal gland – medulla",
+        "native_group": "Suprarenal gland",
+        "preserved_material_category": "gland",
+        "semantic_domain": "gland_medullary_core",
+        "validation_semantics": "enclosed gland core complementary to cortex"
+      }
+    ],
+    "physical_lumen_domains": [
+      "Main renal artery hollow trunk",
+      "Main renal vein hollow trunk",
+      "Connected calyx/major/pelvis/ureter lumen field"
+    ],
+    "schematic_limit": "Solid markers and contextual wedge are not empty-fluid compartments. Domain labels do not establish mesh integrity or viewer behavior."
+  },
+  "functional_sequences": [
+    {
+      "id": "section_structure",
+      "title": "Read the section",
+      "mechanism": "Relate the outer cortex and cortical columns to pyramids, papillae and urine drainage; then expose coverings.",
+      "steps": [
+        {
+          "native_view": "01 Coronal overview",
+          "select_parts": [
+            "Renal cortex",
+            "Renal pyramids",
+            "Renal pelvis"
+          ],
+          "caption": "Find the outer cortex, darker pyramids and central collecting system in this right-kidney frontal section."
+        },
+        {
+          "native_view": "03 Cortex and medulla",
+          "select_parts": [
+            "Renal columns",
+            "Medullary rays"
+          ],
+          "caption": "Columns are cortical tissue between pyramids. Medullary rays are straight-tubule and collecting-duct bundles within the cortex."
+        },
+        {
+          "native_view": "04 Urine drainage",
+          "select_parts": [
+            "Renal papillae",
+            "Minor calyces"
+          ],
+          "caption": "Each representative pyramid narrows toward a papilla that faces a minor calyx."
+        },
+        {
+          "native_view": "02 Coverings",
+          "select_parts": [
+            "Fibrous capsule",
+            "Perirenal fat (adipose capsule)",
+            "Renal fascia"
+          ],
+          "caption": "Follow capsule, perirenal fat and fascia outward; these coverings support and protect the kidney. The suprarenal gland is a separate organ."
+        }
+      ],
+      "schematic_limitations": [
+        "Section counts and sampled rays are schematic; zoom is not calibrated microscopic magnification.",
+        "The complete upper urinary tract and posterior abdominal wall are outside this model."
+      ],
+      "source_ids": [
+        "HG142",
+        "HG16",
+        "LOCAL"
+      ]
+    },
+    {
+      "id": "blood_delivery",
+      "title": "Trace arterial supply",
+      "mechanism": "Follow the preserved named arterial tiers to the cortical territory where filtration occurs.",
+      "steps": [
+        {
+          "native_view": "05 Arterial supply",
+          "select_parts": [
+            "Renal artery",
+            "Segmental arteries"
+          ],
+          "caption": "Blood enters through the renal artery and divides into the named segmental branches."
+        },
+        {
+          "native_view": "05 Arterial supply",
+          "select_parts": [
+            "Interlobar arteries"
+          ],
+          "caption": "Interlobar arteries run between pyramids, in cortical columns."
+        },
+        {
+          "native_view": "05 Arterial supply",
+          "select_parts": [
+            "Arcuate arteries"
+          ],
+          "caption": "Arcuate arteries follow the pyramid bases at the cortex–medulla boundary."
+        },
+        {
+          "native_view": "05 Arterial supply",
+          "select_parts": [
+            "Cortical radiate (interlobular) arteries"
+          ],
+          "caption": "Cortical radiate arteries enter cortex. Their microscopic afferent branches lead to glomeruli; this vascular view stops at the represented arterial tiers."
+        }
+      ],
+      "schematic_limitations": [
+        "Solid distal vessel sweeps represent routes, not patent microscopic lumens.",
+        "The enlarged corpuscle is a separate teaching sample; no continuous gross-tree-to-inset capillary connection is asserted.",
+        "No flow rate, pressure, segmental perfusion territory or branching count is inferred."
+      ],
+      "source_ids": [
+        "HG142",
+        "NIDDK",
+        "LOCAL"
+      ]
+    },
+    {
+      "id": "filtration_and_tubular_processing",
+      "title": "Where urine starts",
+      "mechanism": "Separate glomerular filtration, tubular processing and final collecting-duct drainage.",
+      "steps": [
+        {
+          "native_view": "07 Enlarged nephron context",
+          "select_parts": [
+            "Renal corpuscle"
+          ],
+          "caption": "Renal corpuscles lie in cortex. This enlarged red composite locates a corpuscle and an afferent stub; it does not show the filtration barrier."
+        },
+        {
+          "native_view": "08 Nephron pathway",
+          "select_parts": [
+            "Renal corpuscle",
+            "Nephron tubule"
+          ],
+          "caption": "Filtration transfers water and small solutes from glomerular blood into capsular space and then the tubule. Blood cells and most plasma proteins remain in the circulation.",
+          "transition_kind": "conceptual_transfer_not_mesh_connection"
+        },
+        {
+          "native_view": "08 Nephron pathway",
+          "select_parts": [
+            "Nephron tubule"
+          ],
+          "caption": "Follow the sample through cortical convolutions, the medullary loop and back to cortex. Reabsorption returns substances to blood; secretion transfers substances into tubular fluid."
+        },
+        {
+          "native_view": "08 Nephron pathway",
+          "select_parts": [
+            "Collecting duct"
+          ],
+          "caption": "Several nephrons drain into a collecting-duct system. This one enlarged duct marks a route toward the papilla; the duct is not the nephron loop."
+        },
+        {
+          "native_view": "07 Enlarged nephron context",
+          "select_parts": [
+            "Nephron position (lobule wedge)"
+          ],
+          "caption": "The locator connects microscopic function to gross position. For the filtration barrier and tubular microanatomy, choose the separate Nephron & renal corpuscle model.",
+          "related_model": "kidney_nephron"
+        }
+      ],
+      "schematic_limitations": [
+        "One representative long loop cannot establish nephron populations or a universal loop depth.",
+        "Tubule and duct are solid markers; capsular space, individual tubule lumens, efferent arteriole and exchange capillaries are not resolved here.",
+        "The conceptual blood-to-filtrate transfer has no particle motion or red-cell-to-tubule trajectory."
+      ],
+      "source_ids": [
+        "NIDDK",
+        "HG142",
+        "OPENSTAX25_5",
+        "LOCAL"
+      ]
+    },
+    {
+      "id": "blood_return",
+      "title": "Trace venous return",
+      "mechanism": "Follow the represented venous tiers from cortex to the renal vein, keeping urine drainage separate.",
+      "steps": [
+        {
+          "native_view": "06 Venous return",
+          "select_parts": [
+            "Cortical radiate (interlobular) veins"
+          ],
+          "caption": "After the microscopic exchange beds, cortical venous return enters cortical radiate veins. Those exchange beds are omitted from this section."
+        },
+        {
+          "native_view": "06 Venous return",
+          "select_parts": [
+            "Arcuate veins",
+            "Interlobar veins"
+          ],
+          "caption": "Trace the represented arcuate and interlobar venous tiers toward the renal sinus."
+        },
+        {
+          "native_view": "06 Venous return",
+          "select_parts": [
+            "Segmental (sinus) veins",
+            "Renal vein"
+          ],
+          "caption": "Sinus tributaries join the renal vein. The preserved label “Segmental (sinus) veins” identifies a teaching tier, not independent arterial-style venous territories."
+        }
+      ],
+      "schematic_limitations": [
+        "The venous tree is representative; no absent venous branch or capillary connection is supplied by animation.",
+        "A red/blue teaching color is not a quantitative oxygenation measurement."
+      ],
+      "source_ids": [
+        "NIDDK",
+        "LOCAL"
+      ]
+    },
+    {
+      "id": "urine_drainage",
+      "title": "Trace urine drainage",
+      "mechanism": "Follow urine downstream from papillary outlets into calyces, pelvis and the proximal ureter.",
+      "steps": [
+        {
+          "native_view": "04 Urine drainage",
+          "select_parts": [
+            "Renal papillae",
+            "Minor calyces"
+          ],
+          "caption": "Urine leaves microscopic papillary ducts at the papilla and enters a minor calyx."
+        },
+        {
+          "native_view": "04 Urine drainage",
+          "select_parts": [
+            "Minor calyces",
+            "Major calyces"
+          ],
+          "caption": "Minor calyces feed the major calyces; inspect their cups and approach routes without treating arbitrary mesh contact as proof of a lumen."
+        },
+        {
+          "native_view": "04 Urine drainage",
+          "select_parts": [
+            "Major calyces",
+            "Renal pelvis"
+          ],
+          "caption": "The calyces converge into the pelvis in the renal sinus."
+        },
+        {
+          "native_view": "04 Urine drainage",
+          "select_parts": [
+            "Renal pelvis",
+            "Ureter (proximal)"
+          ],
+          "caption": "Coordinated smooth-muscle contractions move urine downstream into the ureter. This static view teaches direction; the distal ureter and bladder are outside the section."
+        }
+      ],
+      "schematic_limitations": [
+        "Source authors a common collecting-system lumen, but actual minor-calyx continuity remains deferred until retained Pyramid records and saved geometry are examined.",
+        "No bolus speed, contraction frequency, gravity-only drainage, fixed human pacemaker site or pressure simulation is shown.",
+        "Mechanistic pacemaker data cited are mouse experiments; their frequencies and cellular distributions are not mapped onto this right human kidney."
+      ],
+      "source_ids": [
+        "NIDDK",
+        "DRAINAGE2022",
+        "LOCAL"
+      ]
+    },
+    {
+      "id": "water_handling",
+      "title": "Compare collecting-duct water handling",
+      "mechanism": "Use the same anatomical route to explain an ADH-dependent qualitative comparison.",
+      "steps": [
+        {
+          "native_view": "07 Enlarged nephron context",
+          "select_parts": [
+            "Renal pyramids",
+            "Collecting duct"
+          ],
+          "caption": "The loop, collecting ducts and medullary interstitium form a spatial arrangement that supports concentration; this view does not display a measured osmotic gradient."
+        },
+        {
+          "native_view": "08 Nephron pathway",
+          "select_parts": [
+            "Collecting duct"
+          ],
+          "caption": "Lower ADH action: lower collecting-duct water permeability permits more water to remain in tubular fluid. Read this as a qualitative comparison, with other conditions held similar.",
+          "teaching_state": "low_ADH_caption_only"
+        },
+        {
+          "native_view": "08 Nephron pathway",
+          "select_parts": [
+            "Collecting duct"
+          ],
+          "caption": "Higher ADH action: AQP2 recruitment raises apical water permeability. With an effective medullary osmotic gradient, greater water reabsorption favors a smaller, more concentrated urine volume.",
+          "teaching_state": "high_ADH_caption_only"
+        },
+        {
+          "native_view": "08 Nephron pathway",
+          "select_parts": [
+            "Nephron tubule",
+            "Collecting duct"
+          ],
+          "caption": "Opposing limb flow and different transport properties support medullary concentration; vasa recta exchange and urea handling also matter. No uniform pump or fixed 300→1200 profile is inferred."
+        }
+      ],
+      "schematic_limitations": [
+        "Both comparisons use identical geometry; they are manual caption steps, not built-in hormone switches.",
+        "No AQP2 molecules, concentration field, transporter kinetics, GFR, urine volume or mass-conserving solver is represented.",
+        "The cellular AQP2 source is rat inner-medullary culture; it grounds the mechanism, not a human response timing or magnitude."
+      ],
+      "source_ids": [
+        "AQP2PRIMARY",
+        "OPENSTAX25_6",
+        "LOCAL"
+      ]
+    }
+  ],
+  "native_usage": "Function teaching: use the named Views buttons (Page Down / Page Up also step through views). Choose 03 Cortex and medulla for tissue zones, 05 Arterial supply then 06 Venous return for blood routes, 07 Enlarged nephron context then 08 Nephron pathway for filtration and tubular processing, and 04 Urine drainage for urine exit. Select the named parts in Structures. Hover a view button to read its notes and limits. Blood and filtrate are separate fluid domains; the enlarged inset is a location lesson.",
+  "animation": null,
+  "validation_status": "source-designed; native and visual review deferred"
+}

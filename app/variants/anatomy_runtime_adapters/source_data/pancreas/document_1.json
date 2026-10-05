@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "model_id": "pancreas",
+  "role": "function",
+  "status": "completed_source_design",
+  "selected_source": "baseline/app/micro/pancreas.py",
+  "implementation_fragments": "SOURCE_PATCHES.md",
+  "preserve": [
+    "basal/apical polarity",
+    "independent granule part",
+    "whole-granule specimen handling",
+    "warped flow/granule probes",
+    "corner-aware MODE_FLOW markers",
+    "native clip/ghost mechanisms"
+  ],
+  "functional_sequences": [
+    {
+      "id": "acinar-polarity-exocytosis",
+      "mechanism": "Polarized acinar epithelium stores secretory products apically and releases into its lumen.",
+      "steps": [
+        "Identify one cell boundary and basal nucleus; explain protein synthesis without claiming RER geometry.",
+        "Show apical cytoplasm and separately named granules within the same owner.",
+        "State cholinergic stimulus and a schematic Ca2+ signal; CCK-related human responsiveness remains qualified.",
+        "Move/shrink granule cue at apical membrane and reveal receiving lumen plus centroacinar duct origin."
+      ],
+      "schematic_limitations": [
+        "No membrane fusion machinery, organelle synthesis kinetics or measured secretion rate.",
+        "Shrinking represents fusion, and markers/cells are enlarged."
+      ]
+    },
+    {
+      "id": "duct-fluid-and-drainage",
+      "mechanism": "Acinar products drain through successive duct levels; duct epithelium adds bicarbonate-rich fluid.",
+      "steps": [
+        "Trace lumen through centroacinar/intercalated origin.",
+        "Retain duct walls in section while shared final centerlines carry juice cues.",
+        "Identify separate secretin-driven ductal bicarbonate/water response with CFTR-associated transport.",
+        "Trace into intralobular/interlobular drainage; explain off-specimen intestinal destination and protease activation."
+      ],
+      "schematic_limitations": [
+        "Ion transport is an explanation unless a marked magnified inset is constructed.",
+        "Existing particles are not a conserved fluid solver; no pressure or secretory-volume computation.",
+        "Interlobular juice cue requires source integration if the full displayed route is claimed."
+      ]
+    },
+    {
+      "id": "glucose-insulin-to-blood",
+      "mechanism": "Beta-cell glucose-triggered secretion transfers hormone to nearby capillary blood, distinct from exocrine lumen delivery.",
+      "steps": [
+        "Expose mixed representative human endocrine tissue with retained owner membranes and nuclei.",
+        "State independent increased glucose, metabolism/ATP, KATP closure, depolarization and Ca2+ entry.",
+        "Use sampled actual beta-owner membrane-to-nearby-capillary transfer path.",
+        "Then show hormone transport within receiving blood, retaining capillary walls in section."
+      ],
+      "schematic_limitations": [
+        "Hormone cue is not a vesicle crossing intact endothelium.",
+        "The simplified triggering path omits amplifying pathways and measured glycemic responses.",
+        "No universal beta-core/alpha-mantle or islet-first microvascular ordering.",
+        "A four-second comparison period is not human secretion kinetics."
+      ]
+    },
+    {
+      "id": "supply-exchange-drainage",
+      "mechanism": "A representative interconnected vascular route supplies pancreatic tissue, permits exchange and drains toward veins.",
+      "steps": [
+        "Show artery/arteriole entering sampled specimen.",
+        "Identify representative connected endocrine/exocrine capillary exchange domain.",
+        "Distinguish constructed vascular junctions from projected tube crossings and specimen cuts.",
+        "Trace an authored representative venous outlet, explain off-specimen portal/liver drainage."
+      ],
+      "schematic_limitations": [
+        "Dybala et al. human topology evidence and mouse bidirectional-flow measurements are distinguished.",
+        "No universal ordering, endothelial permeability or CFD model is inferred.",
+        "A new connected route must be validated from emitted saved meshes."
+      ]
+    }
+  ],
+  "concrete_changes": [
+    {
+      "id": "shared-icd-path",
+      "source_lines": "1054-1055 and 1158",
+      "change": "Use same actual three-point final centerline for duct and juice; update probe path list."
+    },
+    {
+      "id": "endocrine-transfer-source",
+      "source_lines": "637-687, 845-855, 1158-1194",
+      "change": "Collect emitted beta owners; append representative obstruction-screened membrane-to-capillary paths and transfer cue; warp with tissue; update granule offsets."
+    },
+    {
+      "id": "explicit-separate-trigger",
+      "source_lines": "1271-1293",
+      "change": "Add independent glucose trigger phase and explanatory title; new transfer track and renamed Beta cells glow track."
+    },
+    {
+      "id": "scope-metadata",
+      "source_lines": "DESC overrides and PANC inherited fields",
+      "change": "Apical cytoplasm distinct from granules; no universal local islet-first blood ordering; no claim all enzyme contents are inactive zymogens."
+    }
+  ],
+  "native_state_contract": {
+    "supported": [
+      "camera",
+      "hidden/forced/isolated structure indices",
+      "solid-focus ghost mask",
+      "system opacity",
+      "three clipping planes"
+    ],
+    "application": "Resolve final exact part names to candidate structure IDs, then use existing main_window.apply_view schema. Retain source/receiving walls in sectional/ghost states.",
+    "not_saved_by_capture_view": [
+      "animation phase",
+      "play/pause",
+      "animation rate",
+      "mechanistic sequence choice"
+    ],
+    "integration_owner": "root; no shared app edits made"
+  },
+  "deferred_checks": [
+    "Geometry and animation digest/part-index/vertex-order agreement",
+    "Morph/phase shapes, finite rest/wrap behavior",
+    "Nonempty emitted endocrine transfer marker mesh per representative islet",
+    "Post-warp transfer obstruction and duct/capillary cue containment at sampled phases",
+    "Final saved native sectional/restored-tissue reverse/underside views",
+    "Connected true vascular/duct junctions and specimen exit semantics"
+  ],
+  "heavy_processing": "NOT RUN"
+}

@@ -99,7 +99,7 @@ class PracticalProgressTests(unittest.TestCase):
         try:
             self._record_dialog(dialog, practical)
             with self.subTest(summary=True):
-                self.assertIn("<b>1</b> of <b>1</b> finished", [x.text() for x in dialog.findChildren(QLabel)])
+                self.assertIn("1 of 1 finished · 0 in progress", [x.text() for x in dialog.findChildren(QLabel)])
             with self.subTest(system_bars=True):
                 bars = dialog.findChild(LessonBars)
                 self.assertEqual([(done, total) for heading, done, total in bars.rows], [(1, 1)])

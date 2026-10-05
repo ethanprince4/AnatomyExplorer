@@ -1,0 +1,585 @@
+{
+  "schema_version": 1,
+  "model_id": "muscular_artery",
+  "status": "function_design_ready",
+  "original_part_identity_source": "../../input_catalog.json",
+  "sequence_consumer_status": "requires_lead_integration_and_separate_machine_review",
+  "scale_policy": "Keep physical specimen calibration separate from independent cell/nucleus/pore/vasa/adipose teaching enlargements; attach local badges to all enlarged examples.",
+  "sources": [
+    {
+      "id": "tone_histology",
+      "title": "SIU Cardiovascular guide",
+      "url": "https://histology.siu.edu/crr/cvguide.htm",
+      "type": "authoritative_histology",
+      "opened": "content",
+      "supports": "Circumferential medial smooth muscle; connective adventitia; endothelial roles and capillary exchange."
+    },
+    {
+      "id": "resistance",
+      "title": "OpenStax blood flow, pressure and resistance",
+      "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/20-2-blood-flow-blood-pressure-and-resistance",
+      "type": "authoritative_textbook",
+      "opened": "content",
+      "supports": "Radius to fourth power in ideal Poiseuille comparison."
+    },
+    {
+      "id": "smooth_contraction",
+      "title": "OpenStax smooth muscle",
+      "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/10-8-smooth-muscle",
+      "type": "authoritative_textbook",
+      "opened": "content",
+      "supports": "Calcium/calmodulin, MLCK and smooth-muscle contraction."
+    },
+    {
+      "id": "endothelial_dependence",
+      "title": "Furchgott and Zawadzki 1980",
+      "url": "https://www.nature.com/articles/288373a0",
+      "type": "primary_experiment",
+      "opened": "abstract",
+      "scope": "Isolated rabbit aorta and other vessel preparations",
+      "supports": "Endothelium-dependent acetylcholine relaxation."
+    },
+    {
+      "id": "endothelial_mechanisms",
+      "title": "Endothelial cell physiology review",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1002/jcp.10333",
+      "type": "authoritative_physiology_review",
+      "opened": "content",
+      "supports": "NO diffusion, sGC/cGMP signaling; stimulus-dependent adhesion."
+    },
+    {
+      "id": "neuroeffector",
+      "title": "Imaging Sympathetic Neurogenic Ca2+ Signaling in Blood Vessels",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5680114/",
+      "type": "authoritative_physiology_review",
+      "opened": "content",
+      "scope": "Ex vivo/in vivo animal artery imaging studies summarized",
+      "supports": "Varicosities, NE alpha-1/PLC/IP3 calcium signaling; ATP/NPY cotransmission."
+    },
+    {
+      "id": "iel_primary",
+      "title": "Kirby et al. 2013 Robust Internal Elastic Lamina Fenestration in Skeletal Muscle Arteries",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0054849",
+      "type": "primary_experiment",
+      "opened": "content",
+      "scope": "Rat skeletal-muscle and mesenteric arteries/arterioles",
+      "supports": "True IEL fenestrations, segment/bed differences; selected intercellular microdomains and research limits."
+    },
+    {
+      "id": "wall_oxygen",
+      "title": "Santilli et al. 2000 Transarterial wall oxygen gradients at the deployment site of an intra-arterial stent in the rabbit",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/11009436/",
+      "type": "primary_experiment",
+      "opened": "abstract",
+      "scope": "Rabbit infrarenal aorta stenting study",
+      "supports": "Arterial wall oxygen delivery and consumption have spatial gradients and injury sensitivity; not a human muscular-artery numerical prior."
+    },
+    {
+      "id": "collagen_primary",
+      "title": "Direct collagen orientation/recruitment measurement in artery walls",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/22305290/",
+      "type": "primary_experiment",
+      "opened": "abstract_and_figure_captions",
+      "scope": "Eight rabbit carotid arteries under circumferential loading",
+      "supports": "Gradual fiber recruitment relates to mechanical stiffening; not a universal pressure threshold."
+    },
+    {
+      "id": "pvat_primary",
+      "title": "Greenstein et al. 2009 Local inflammation and hypoxia abolish protective anticontractile properties of perivascular fat",
+      "url": "https://research.manchester.ac.uk/en/publications/local-inflammation-and-hypoxia-abolish-the-protective-anticontrac/",
+      "type": "primary_study_author_institution_record",
+      "opened": "abstract",
+      "scope": "Human small arteries from gluteal adipose biopsies; obesity/metabolic syndrome comparison",
+      "supports": "Context-dependent anticontractile effect and impaired signaling with adipose inflammation/hypoxia."
+    },
+    {
+      "id": "lymph_primary",
+      "title": "Martel et al. 2013 Lymphatic vasculature mediates macrophage reverse cholesterol transport in mice",
+      "url": "https://www.jci.org/articles/view/63685",
+      "type": "primary_experiment",
+      "opened": "content",
+      "scope": "Mouse peripheral-tissue and arterial-wall transport",
+      "supports": "Lymphatic contribution to arterial interstitial solute/cholesterol drainage."
+    },
+    {
+      "id": "rolling_primary",
+      "title": "Eriksson et al. 2001 Direct viewing of atherosclerosis in vivo",
+      "url": "https://faseb.onlinelibrary.wiley.com/doi/abs/10.1096/fj.00-0537com",
+      "type": "primary_intravital_experiment",
+      "opened": "abstract",
+      "scope": "Atherosclerotic mouse aorta; chiefly neutrophil rolling",
+      "supports": "Arterial selectin-mediated rolling as inflammatory exception, with transient interactions not guaranteeing arrest."
+    }
+  ],
+  "functional_sequences": [
+    {
+      "id": "media_tone_radius",
+      "mechanism": "Circumferential smooth-muscle activation changes lumen radius against passive wall and distending pressure.",
+      "context": "healthy_representative",
+      "default_enabled": true,
+      "original_parts": [
+        "Tunica media (smooth muscle)",
+        "Smooth muscle nuclei",
+        "Endothelium",
+        "Internal elastic lamina",
+        "External elastic lamina"
+      ],
+      "proposed_additions": [
+        "Smooth muscle cell bodies",
+        "Lumen radius measurement cue"
+      ],
+      "steps": [
+        {
+          "order": 1,
+          "text": "Inspect a section and follow the long axes of visible smooth-muscle cells around the lumen; each selected nucleus belongs to its cell."
+        },
+        {
+          "order": 2,
+          "text": "Compare reference tone and increased activation at a stated fixed distending pressure; shortening is circumferential and intimal layers move coherently with the lumen boundary."
+        },
+        {
+          "order": 3,
+          "text": "Compare reduced activation with the reference state; distinguish this active change from a passive pressure change."
+        },
+        {
+          "order": 4,
+          "text": "Show an ideal segment comparison using R proportional to r^-4 and Q proportional to r^4 at fixed pressure difference, length and viscosity."
+        }
+      ],
+      "state_or_cue_design": {
+        "mode": "static_state_comparison_until_deformation_verified",
+        "states": [
+          {
+            "id": "reference_tone",
+            "radius_ratio": 1.0
+          },
+          {
+            "id": "illustrative_constriction",
+            "radius_ratio": 0.9,
+            "ideal_resistance_ratio": 1.5241579027587258,
+            "ideal_flow_ratio": 0.6561
+          }
+        ],
+        "values_are": "illustrative_dimensionless_not_measured",
+        "continuous_controls": "Do not expose an unvalidated deformation slider."
+      },
+      "schematic_limitations": [
+        "Ideal flow assumes straight rigid circular tube, steady laminar flow and Newtonian viscosity; this artery is compliant and pulsatile.",
+        "This segment distributes flow; small arteries/arterioles contribute strongly to resistance and systemic pressure is a network result.",
+        "Do not impose constant outer radius or collapse the lumen; wall volume/thickness response requires separate mechanical validation.",
+        "Cell and nuclear examples are enlarged sampling, not literal cell counts."
+      ],
+      "source_ids": [
+        "tone_histology",
+        "smooth_contraction",
+        "resistance"
+      ],
+      "implementation_status": "declarative_source_design_only",
+      "deferred_validation": [
+        "Separate-machine geometry/state implementation",
+        "Saved/native specimen continuity and scale disclosure",
+        "User visual review of mechanism readability"
+      ]
+    },
+    {
+      "id": "endothelium_no_relaxation",
+      "mechanism": "Endothelial stimulus, diffusible NO, smooth-muscle sGC/cGMP signaling and reduced contractile activation.",
+      "context": "healthy_representative",
+      "default_enabled": true,
+      "original_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)"
+      ],
+      "proposed_additions": [
+        "Endothelial nuclei",
+        "NO signal overlay"
+      ],
+      "steps": [
+        {
+          "order": 1,
+          "text": "Orient the blood-facing continuous cellular lining and its supported basal surface."
+        },
+        {
+          "order": 2,
+          "text": "Present shear/receptor stimulus as a teaching cue on an endothelial cell; activate NO production."
+        },
+        {
+          "order": 3,
+          "text": "Trace a short-lived diffusible signal into a nearby medial smooth-muscle cell."
+        },
+        {
+          "order": 4,
+          "text": "Show sGC/cGMP as a molecular inset and reduced smooth-muscle activation; return to the larger lumen state panel."
+        }
+      ],
+      "state_or_cue_design": {
+        "route": "luminal_lining_to_medial_cell",
+        "signals_are": "non-geometric teaching overlays",
+        "colors": "Use a signal-specific legend distinct from red/blue blood vessels.",
+        "animation": "Optional timed highlighting; no claimed concentration solver."
+      },
+      "schematic_limitations": [
+        "NO is an example of endothelial signaling; EDH, prostacyclin and contracting factors are not simulated.",
+        "Diffusion crosses tissue, not an open blood conduit through the IEL.",
+        "Acetylcholine experimental relaxation does not establish parasympathetic innervation of all arteries.",
+        "Times and signal ranges are illustrative."
+      ],
+      "source_ids": [
+        "endothelial_dependence",
+        "endothelial_mechanisms"
+      ],
+      "implementation_status": "declarative_source_design_only",
+      "deferred_validation": [
+        "Separate-machine geometry/state implementation",
+        "Saved/native specimen continuity and scale disclosure",
+        "User visual review of mechanism readability"
+      ]
+    },
+    {
+      "id": "sympathetic_ne_contraction",
+      "mechanism": "Sympathetic varicosity release, local NE diffusion, alpha-1 activation and smooth-muscle calcium-dependent contraction.",
+      "context": "healthy_representative",
+      "default_enabled": true,
+      "original_parts": [
+        "Nervi vasorum",
+        "Tunica adventitia",
+        "External elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle nuclei"
+      ],
+      "proposed_additions": [
+        "Neuroeffector varicosities",
+        "Smooth muscle cell bodies",
+        "NE signal overlay"
+      ],
+      "steps": [
+        {
+          "order": 1,
+          "text": "Follow an adventitial axon to connected varicosities beside the represented outer medial muscle."
+        },
+        {
+          "order": 2,
+          "text": "Highlight impulse arrival, release from more than one varicosity and a short local matrix gap."
+        },
+        {
+          "order": 3,
+          "text": "Show NE binding alpha-1 receptors on smooth muscle; the inset links PLC/IP3-related calcium signaling to calcium/calmodulin and MLCK."
+        },
+        {
+          "order": 4,
+          "text": "Return to circumferential cellular shortening and the narrowed lumen panel; allow withdrawal of activation to return toward the reference state."
+        }
+      ],
+      "state_or_cue_design": {
+        "route": "outer_wall_to_medial_cell",
+        "junction": "diffuse neuroeffector relation with visible gap; no motor endplate",
+        "represented_terminal_site": "adventitia_outer_media_interface",
+        "molecular_symbols": "schematic inset only"
+      },
+      "schematic_limitations": [
+        "NE route chosen for clarity; ATP and NPY cotransmission is acknowledged.",
+        "Innervation/receptor distribution and terminal depth vary by vessel bed; no absolute never-in-media rule.",
+        "Do not draw axons targeting nuclei or branching to every visible muscle cell.",
+        "No physiological firing frequency, NE concentration, latency or receptor density is claimed."
+      ],
+      "source_ids": [
+        "neuroeffector",
+        "smooth_contraction"
+      ],
+      "implementation_status": "declarative_source_design_only",
+      "deferred_validation": [
+        "Separate-machine geometry/state implementation",
+        "Saved/native specimen continuity and scale disclosure",
+        "User visual review of mechanism readability"
+      ]
+    },
+    {
+      "id": "iel_through_pore_communication",
+      "mechanism": "IEL fenestration is a real interruption through an elastic sheet and permits communication across the intima-media boundary.",
+      "context": "healthy_representative",
+      "default_enabled": true,
+      "original_parts": [
+        "Internal elastic lamina",
+        "Endothelium",
+        "Subendothelial layer",
+        "Tunica media (smooth muscle)"
+      ],
+      "proposed_additions": [
+        "Optional myoendothelial microdomain inset"
+      ],
+      "steps": [
+        {
+          "order": 1,
+          "text": "Isolate one enlarged opening and show its rim and passage through the lamina thickness."
+        },
+        {
+          "order": 2,
+          "text": "Restore adjacent layers so luminal support and the medial muscle identify the two sides."
+        },
+        {
+          "order": 3,
+          "text": "Show a diffusible communication cue; optionally open a separately labeled research inset containing one endothelial projection and a myoendothelial junction."
+        },
+        {
+          "order": 4,
+          "text": "Restore the representative IEL and remind the learner that these are sparsely displayed rat-prior enlarged examples."
+        }
+      ],
+      "state_or_cue_design": {
+        "pore_disclosure": "20 times rat popliteal diameter prior; sparse examples; not human morphometry",
+        "endothelial_boundary": "Keep continuous; an IEL opening is not an endothelial fenestra.",
+        "projection_inset": "off_by_default"
+      },
+      "schematic_limitations": [
+        "Not every opening contains a myoendothelial junction.",
+        "Rat segment/bed data do not calibrate human arterial pores or density.",
+        "EEL apertures must not inherit IEL morphometry.",
+        "No blood cell or bulk flow passes through these holes in the healthy-wall lesson."
+      ],
+      "source_ids": [
+        "iel_primary"
+      ],
+      "implementation_status": "declarative_source_design_only",
+      "deferred_validation": [
+        "Separate-machine geometry/state implementation",
+        "Saved/native specimen continuity and scale disclosure",
+        "User visual review of mechanism readability"
+      ]
+    },
+    {
+      "id": "wall_supply_exchange_drainage",
+      "mechanism": "Distinct luminal diffusion and outer-wall vasa exchange serve living wall tissue; venules and optional lymphatics drain different compartments.",
+      "context": "healthy_representative",
+      "default_enabled": true,
+      "original_parts": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Vasa vasorum",
+        "Vasa vasorum venules"
+      ],
+      "proposed_additions": [
+        "Vasa vasorum capillary exchange",
+        "Adventitial lymphatic",
+        "Wall diffusion gradient overlay"
+      ],
+      "steps": [
+        {
+          "order": 1,
+          "text": "Separate the main lumen through-flow from the nutrition of its own wall."
+        },
+        {
+          "order": 2,
+          "text": "Trace arterial vasa from a specimen inlet into a branching wall capillary exchange region."
+        },
+        {
+          "order": 3,
+          "text": "Show oxygen/nutrient diffusion from luminal blood toward inner wall and from capillary blood toward served outer wall, with tissue consumption and no fixed exclusive radial boundary."
+        },
+        {
+          "order": 4,
+          "text": "Trace capillary-to-venular continuity and an explicit venous specimen exit."
+        },
+        {
+          "order": 5,
+          "text": "In an optional outer connective-tissue inset, trace interstitial fluid/solute drainage into a separate lymphatic route."
+        }
+      ],
+      "state_or_cue_design": {
+        "vasa_graph": "arterial_inlet_to_exchange_to_venous_exit",
+        "transport_cues": "blood along vessels; solute across microvessel boundary; diffusion into tissue",
+        "capillary_addition_required_for_lesson": true,
+        "lymphatic_if_not_built": "Mark lymphatic drainage as not displayed instead of implying venular equivalence."
+      },
+      "schematic_limitations": [
+        "Predominantly adventitial representative placement is specimen-specific; larger muscular arteries may have outer-medial vasa.",
+        "No universal inner-third/outer-two-thirds boundary or oxygen concentration values.",
+        "Wall diffusion is neither radial blood flow nor leakage of blood cells.",
+        "Lymphatic caliber/density and venular reabsorption fractions are not calibrated."
+      ],
+      "source_ids": [
+        "tone_histology",
+        "wall_oxygen",
+        "lymph_primary"
+      ],
+      "implementation_status": "declarative_source_design_only",
+      "deferred_validation": [
+        "Separate-machine geometry/state implementation",
+        "Saved/native specimen continuity and scale disclosure",
+        "User visual review of mechanism readability"
+      ]
+    },
+    {
+      "id": "pressure_elastic_collagen_constraint",
+      "mechanism": "Pressure-induced distension loads elastic matrix and progressively recruits collagen, distinct from active muscle tone.",
+      "context": "healthy_representative",
+      "default_enabled": true,
+      "original_parts": [
+        "Internal elastic lamina",
+        "External elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Tunica adventitia",
+        "Adventitial collagen bundles"
+      ],
+      "proposed_additions": [],
+      "steps": [
+        {
+          "order": 1,
+          "text": "Hold muscle activation conceptually fixed and compare passive distension states."
+        },
+        {
+          "order": 2,
+          "text": "Follow elastic boundaries and connective support deforming with the wall."
+        },
+        {
+          "order": 3,
+          "text": "Track selected initially wavy adventitial bundles becoming straighter and sharing greater tensile load as stretch increases."
+        },
+        {
+          "order": 4,
+          "text": "Return to reference pressure and explain recoil and matrix constraint alongside the active tone sequence."
+        }
+      ],
+      "state_or_cue_design": {
+        "mode": "qualitative_state_panels",
+        "collagen": "coherent bundles seated in common adventitial connective tissue",
+        "variables": "pressure changes distinguished from tone changes",
+        "numerics": "No threshold pressure or maximum radius assigned."
+      },
+      "schematic_limitations": [
+        "Recruitment is progressive and vessel/state dependent; collagen is not slack until one universal high pressure.",
+        "No universal material modulus, constitutive model or guaranteed reversible path is claimed.",
+        "Six large bundles sample course; they do not stand in for all matrix architecture."
+      ],
+      "source_ids": [
+        "collagen_primary",
+        "tone_histology"
+      ],
+      "implementation_status": "declarative_source_design_only",
+      "deferred_validation": [
+        "Separate-machine geometry/state implementation",
+        "Saved/native specimen continuity and scale disclosure",
+        "User visual review of mechanism readability"
+      ]
+    },
+    {
+      "id": "pvat_local_modulation",
+      "mechanism": "Perivascular adipose context can modulate local vascular tone through context-dependent paracrine pathways.",
+      "context": "healthy_representative",
+      "default_enabled": true,
+      "original_parts": [
+        "Perivascular fat",
+        "Tunica adventitia",
+        "Tunica media (smooth muscle)",
+        "Endothelium"
+      ],
+      "proposed_additions": [
+        "Adipocyte nuclei and lipid-droplet detail",
+        "PVAT signal overlay"
+      ],
+      "steps": [
+        {
+          "order": 1,
+          "text": "Identify an adipocyte in outer connective tissue by lipid-dominated cell body, thin cytoplasmic rim and eccentric nucleus."
+        },
+        {
+          "order": 2,
+          "text": "Show a local signal cue from this environment toward vascular tissue, with an example of adiponectin-associated NO bioavailability in human small-artery research."
+        },
+        {
+          "order": 3,
+          "text": "Optionally compare a clearly labeled research-context panel where inflammatory/hypoxic adipose loses this anticontractile effect."
+        },
+        {
+          "order": 4,
+          "text": "Return to the normal specimen and distinguish chemical modulation from mechanical padding."
+        }
+      ],
+      "state_or_cue_design": {
+        "default": "healthy_representative",
+        "pathology": "separate_optional_context_panel",
+        "factor": "adiponectin/NO shown as example, not sole universal pathway",
+        "scale": "Adipocyte geometry enlarged independently; disclose alongside displayed specimen."
+      },
+      "schematic_limitations": [
+        "Human gluteal small-artery results do not determine every vascular bed or adipose depot.",
+        "Obesity does not impose a deterministic outcome on every artery.",
+        "No edema, plaque, concentration or inflammatory timeline is simulated."
+      ],
+      "source_ids": [
+        "pvat_primary"
+      ],
+      "implementation_status": "declarative_source_design_only",
+      "deferred_validation": [
+        "Separate-machine geometry/state implementation",
+        "Saved/native specimen continuity and scale disclosure",
+        "User visual review of mechanism readability"
+      ]
+    },
+    {
+      "id": "inflammatory_rolling_exception",
+      "mechanism": "Activated arterial endothelium may support selectin-mediated transient leukocyte rolling; arrest/transmigration are conditional further events.",
+      "context": "optional_inflamed_arterial_exception",
+      "default_enabled": false,
+      "original_parts": [
+        "Rolling leukocyte",
+        "Endothelium",
+        "Subendothelial layer",
+        "Red blood cells"
+      ],
+      "proposed_additions": [
+        "Selectin bond overlay",
+        "Segmented leukocyte nuclear inset"
+      ],
+      "steps": [
+        {
+          "order": 1,
+          "text": "Enable the explicitly labeled inflamed-arterial-endothelium lesson; orient the blood-facing contact."
+        },
+        {
+          "order": 2,
+          "text": "Show temporary selectin-ligand attachments forming ahead and releasing behind while the cell translates and rotates."
+        },
+        {
+          "order": 3,
+          "text": "Display a transient detachment branch; rolling need not progress to adhesion."
+        },
+        {
+          "order": 4,
+          "text": "Offer a separate molecular inset explaining that chemokine-induced integrin activation can support arrest; no automatic wall traversal in this artery."
+        },
+        {
+          "order": 5,
+          "text": "Exit the inflammatory lesson and restore healthy opening visibility with the leukocyte hidden."
+        }
+      ],
+      "state_or_cue_design": {
+        "default_visibility": "hidden",
+        "motion_design": "translation_plus_rotation_along_endothelial_contact",
+        "bond_overlay": "alternating reversible attachment; enlarged icons",
+        "cell_identity": "neutrophil retained from source; segmented nucleus inset",
+        "red_cells": "subordinate enlarged examples"
+      },
+      "schematic_limitations": [
+        "Classical routine emigration lesson belongs mainly to postcapillary venules; arterial case is an illustrative inflammatory exception.",
+        "Primary observation was atherosclerotic mouse aorta; it does not calibrate this human-representative geometry.",
+        "No rolling velocity, bond force, shear threshold or inevitable arrest/diapedesis is claimed.",
+        "Static cell adjacency alone must not be labeled demonstrated rolling."
+      ],
+      "source_ids": [
+        "rolling_primary",
+        "endothelial_mechanisms"
+      ],
+      "implementation_status": "declarative_source_design_only",
+      "deferred_validation": [
+        "Separate-machine geometry/state implementation",
+        "Saved/native specimen continuity and scale disclosure",
+        "User visual review of mechanism readability"
+      ]
+    }
+  ]
+}

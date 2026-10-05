@@ -22,6 +22,7 @@ from pathlib import Path
 
 import numpy as np
 
+from ..load_control import checkpoint
 from . import gltf_loader as gl
 
 # vertex layout: pos3 nrm3 dpos3 dnrm3 fib1 col4 uv2 = 19 floats
@@ -182,10 +183,13 @@ class ViewerModel:
 
     # ------------------------------------------------------------------ building helpers
     def _finish(self, verts, inds):
+        checkpoint()
         if not self.parts:
             raise gl.GltfError("the file has no triangle meshes to show")
         self.vertices = np.concatenate(verts, 0)
+        checkpoint()
         self.indices = np.concatenate(inds, 0)
+        checkpoint()
         for p in self.parts:
             self.node_weights.setdefault(p.node, 0.0)
         pts = []
@@ -199,6 +203,7 @@ class ViewerModel:
 
     def _add_part(self, part, pos, nrm, idx, verts, inds, extra=None):
         """Append one primitive's vertices: pos (n, 3), nrm (n, 3) or None; extra fills more columns."""
+        checkpoint()
         n = len(pos)
         v = np.zeros((n, VERTEX_FLOATS), dtype=np.float32)
         v[:, 0:3] = pos
@@ -399,6 +404,16 @@ class Model(ViewerModel):
         self.path = Path(path)
         self.doc = gl.load(self.path)
         self.sidecar = self._load_sidecar()
+        # An authored teaching draft may avoid self-shadow artifacts without
+        # changing anatomy or other model viewports. Absence keeps legacy Look.
+        viewing = self.sidecar.get("viewer_settings")
+        if viewing is not None:
+            if not isinstance(viewing, dict) or set(viewing) - {"shadows"}:
+                raise ValueError("GLB viewer_settings supports only the shadows boolean")
+            if "shadows" in viewing:
+                if type(viewing["shadows"]) is not bool:
+                    raise ValueError("GLB shadows default must be a boolean")
+                self.look_defaults["shadows"] = viewing["shadows"]
         self._build()
         um = self.um_per_bu()
         if um:
@@ -428,13 +443,13 @@ class Model(ViewerModel):
                 return nd.matrix
             return gl.trs_matrix(nd.translation, nd.rotation, nd.scale)
 
-        def visit(i, parent):
+        # Topology has already been validated by the reader. Iteration also
+        # handles valid deeply nested exports without Python recursion limits.
+        pending = [(r, np.eye(4)) for r in reversed(doc.scene_roots)]
+        while pending:
+            i, parent = pending.pop()
             world[i] = parent @ local(i)
-            for c in doc.nodes[i].children:
-                visit(c, world[i])
-
-        for r in doc.scene_roots:
-            visit(r, np.eye(4))
+            pending.extend((c, world[i]) for c in reversed(doc.nodes[i].children))
         for i in range(n):
             if world[i] is None:
                 world[i] = local(i)
@@ -509,6 +524,7 @@ class Model(ViewerModel):
         item_of = {}
         slugs = {sid: s.get("slug") for sid, s in (self.sidecar.get("structures") or {}).items()}
         for ni, nd in enumerate(doc.nodes):
+            checkpoint()
             if nd.mesh is None or nd.mesh >= len(doc.meshes) or not self.keep_node(ni):
                 continue
             mesh = doc.meshes[nd.mesh]
@@ -607,6 +623,7 @@ class Model(ViewerModel):
             self.clip_range = (float(self.clip.t_start), float(self.clip.t_end))
         mesh_w = {}
         for ni, nd in enumerate(doc.nodes):
+            checkpoint()
             if nd.mesh is not None and nd.mesh < len(doc.meshes) and doc.meshes[nd.mesh].weights:
                 mesh_w[ni] = float(doc.meshes[nd.mesh].weights[0])
         self._default_weights = mesh_w

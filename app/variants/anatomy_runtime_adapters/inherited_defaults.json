@@ -1,0 +1,618 @@
+{
+  "axillary_skin": {
+    "cut_on": true
+  },
+  "bladder_wall": {
+    "metres_per_unit": 0.0005,
+    "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy. Epithelial cells are fewer representative units with schematic lateral magnification (basal/intermediate about 5-6x, umbrella about 3.5x), nuclei about 2.6x laterally; epithelial depths and specimen width are retained. Three capillary courses summarize the connected vascular bed.",
+    "cut_on": true
+  },
+  "blood_cells": {
+    "viewer_cameras": {
+      "Comparison": {
+        "position": [
+          -0.4117387405098575,
+          2.307275099968425,
+          2.26871719192528
+        ],
+        "target": [
+          0.09,
+          -0.06,
+          0.025
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.3,
+        "hidden": [
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ],
+        "note": "Cells retain true size. T/B receptors are enlarged schematic teaching cues."
+      },
+      "Clot": {
+        "position": [
+          1.2425921524300574,
+          0.44602379935185954,
+          -0.41666652029754037
+        ],
+        "target": [
+          1.3491984605789185,
+          -0.05696000158786774,
+          -0.8933975100517273
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.7011633515357971,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "Neutrophil",
+          "Band neutrophil",
+          "Neutrophil nucleus",
+          "Neutrophil granules",
+          "Eosinophil",
+          "Eosinophil nucleus",
+          "Eosinophil granules",
+          "Basophil",
+          "Basophil nucleus",
+          "Basophil granules",
+          "T lymphocyte",
+          "B lymphocyte",
+          "Large lymphocyte",
+          "T lymphocyte nucleus",
+          "B lymphocyte nucleus",
+          "Large lymphocyte nucleus",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Monocyte",
+          "Monocyte nucleus",
+          "Plasma"
+        ],
+        "note": "Ten representative original fibrin paths fit the exteriors of two complete activated platelets."
+      },
+      "Plasma context": {
+        "position": [
+          -0.4117387405098575,
+          2.307275099968425,
+          2.26871719192528
+        ],
+        "target": [
+          0.09,
+          -0.06,
+          0.025
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.3,
+        "hidden": [
+          "Fibrin",
+          "Activated platelets"
+        ],
+        "note": "Optional transparent plasma context; not a natural volume fraction."
+      }
+    },
+    "start_view": "Comparison"
+  },
+  "colon_wall": {
+    "metres_per_unit": 0.0005,
+    "scale_note": "Representative colon patch. Geometry uniformly magnified 3x; 500 um per displayed unit. Crypt diameter110um, depth486um. Cell counts are teaching samples.",
+    "cut_at": [
+      -0.321,
+      0.0
+    ],
+    "home_view": [
+      -0.78,
+      0.34
+    ],
+    "cut_on": true
+  },
+  "compact_bone": {
+    "name": "Compact bone & osteons",
+    "metres_per_unit": 0.0008,
+    "scale_note": "Representative long-bone wedge at 800 micrometres per build unit. Eight purposeful osteons and six older interstitial examples are shown. Visible lamellar bands aggregate native lamellae and are enlarged for teaching; band thickness and population density are not specimen measurements. Canalicular display lumen diameter is 1.04 micrometres, roughly six times the cited rat PXCT comparison near 0.15\u20130.17 micrometres. The rat comparison is not a human morphometric bound."
+  },
+  "cornea": {
+    "metres_per_unit": 0.00055,
+    "scale_note": "Vertical corneal teaching scale: 1 model unit = 0.55 mm. The corneal epithelium is about 50 micrometres; the limbus is compressed laterally. The 22 stromal tiers represent many more lamellae, and the epithelial basement membrane is enlarged to be selectable.",
+    "cut_on": true
+  },
+  "duodenum": {
+    "metres_per_unit": 0.0015,
+    "scale_note": "Block ~3 mm wide. Six representative villi, nine crypts and five Brunner lobules with 15 terminals across the front and posterior rows; these counts are schematic. Lateral villus widths magnified approximately 1.6x; villus heights 0.86-0.99 mm and crypt depth 0.24 mm. Goblet/Paneth/stem cells and thin gold apical brush layer are enlarged for teaching. Red-to-blue vessel colors illustrate flow, not literal blood color or oxygen saturation.",
+    "home_view": [
+      -0.36,
+      0.3
+    ],
+    "cutaway": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "cut_at": [
+      2.0,
+      0.0
+    ],
+    "cut_on": true
+  },
+  "ear": {},
+  "elastic_artery": {
+    "metres_per_unit": 0.01357142857142857,
+    "scale_note": "Representative19mm aortic lumen. Representative elastic lamellae: repetition reduced to12 sheets and thickness enlarged8x for teaching. Spacing, apertures, blood cells and surface furnishings are schematic; this is not patient morphometry."
+  },
+  "eyeball": {},
+  "female_reproductive": {},
+  "hepatobiliary": {
+    "metres_per_unit": 0.1,
+    "scale_note": "Gross schematic specimen. Existing smaller duct/artery calibres are slightly exaggerated for visibility; an exact population-based magnification factor is not established. No new geometry enlargement in this draft.",
+    "home_view": [
+      -0.20943951023931956,
+      -0.10471975511965978
+    ],
+    "cut_on": false
+  },
+  "ileocecal_rectum": {
+    "metres_per_unit": 0.06,
+    "viewer_cameras": {
+      "Overview": {
+        "position": [
+          3.095357410343111,
+          1.8682606125826058,
+          8.163828313305222
+        ],
+        "target": [
+          0.05741441249847412,
+          -0.11292165517807007,
+          -0.15865346789360046
+        ],
+        "type": "PERSP",
+        "fov_deg": 39.597753,
+        "hidden": [],
+        "note": "Both opened specimens; gross coats and existing representative structures"
+      },
+      "Appendicular supply": {
+        "position": [
+          0.8595789614228633,
+          -0.12526831532835514,
+          -2.8024008571287045
+        ],
+        "target": [
+          -0.6192468628287315,
+          -1.0862675905227661,
+          -0.2409993939800188
+        ],
+        "type": "PERSP",
+        "fov_deg": 39.597753,
+        "hidden": [
+          "Rectal mucosa (upper rectum)",
+          "Rectal ampulla",
+          "Superior transverse rectal fold",
+          "Middle transverse rectal fold (Kohlrausch)",
+          "Inferior transverse rectal fold",
+          "Anorectal junction",
+          "Anal columns (of Morgagni)",
+          "Anal sinuses",
+          "Anal valves",
+          "Pectinate (dentate) line",
+          "Anal pecten (anoderm)",
+          "Anus & perianal skin",
+          "Submucosa",
+          "Internal rectal venous plexus (anal cushions)",
+          "External rectal venous plexus",
+          "Circular muscle of rectum",
+          "Longitudinal muscle of rectum",
+          "Internal anal sphincter",
+          "Conjoint longitudinal muscle",
+          "External anal sphincter \u2013 deep part",
+          "External anal sphincter \u2013 superficial part",
+          "External anal sphincter \u2013 subcutaneous part",
+          "Puborectalis",
+          "Levator ani",
+          "Mesorectum",
+          "Ischioanal fossa fat",
+          "Superior rectal artery",
+          "Superior rectal vein",
+          "Mesorectal lymph nodes",
+          "Mesoappendix"
+        ],
+        "note": "Appendicular artery exposed by removing mesoappendix; appendix and lower caecal context remain opaque"
+      },
+      "Rectal supply": {
+        "position": [
+          3.1395254359352687,
+          1.2214198718835056,
+          -5.570016124662662
+        ],
+        "target": [
+          1.2758812606334686,
+          0.06321382522583008,
+          -0.4496958351228386
+        ],
+        "type": "PERSP",
+        "fov_deg": 39.597753,
+        "hidden": [
+          "Caecum",
+          "Ascending colon (haustra)",
+          "Mucosa & semilunar folds (plicae semilunares)",
+          "Taenia libera (free taenia)",
+          "Taenia mesocolica",
+          "Taenia omentalis",
+          "Omental (epiploic) appendices",
+          "Terminal ileum",
+          "Ileal mucosa",
+          "Ileocaecal valve \u2013 upper (ileocolic) lip",
+          "Ileocaecal valve \u2013 lower (ileocaecal) lip",
+          "Frenula of the ileocaecal valve",
+          "Vermiform appendix",
+          "Appendiceal mucosa",
+          "Lymphoid follicles of the appendix",
+          "Appendiceal orifice",
+          "Mesoappendix",
+          "Appendicular artery",
+          "Mesorectum"
+        ],
+        "note": "Superior rectal artery and vein exposed by removing mesorectum; rectal wall and pelvic floor remain opaque"
+      }
+    },
+    "start_view": "Overview",
+    "viewer_look": {
+      "alpha": 1,
+      "translucent": false,
+      "detail": [
+        0.03,
+        0,
+        0
+      ]
+    }
+  },
+  "ileum": {
+    "metres_per_unit": 0.0015,
+    "scale_note": "Magnified representative teaching crop: 1.05 x 0.75 mm; 1 unit = 1500 um. Six villi, nine crypts and two Peyer-patch follicles are selected for clarity, not population density. Context strata are schematic. Draft awaiting user review.",
+    "cut_at": [
+      0.0,
+      0.0
+    ],
+    "cutaway": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "jejunum_comparison_c": {},
+  "kidney_nephron": {},
+  "kidney_section": {
+    "metres_per_unit": 0.05,
+    "home_view": [
+      0.0,
+      0.0
+    ],
+    "viewer_cameras": {
+      "Section draft": {
+        "type": "PERSP",
+        "position": [
+          0.40654560923576355,
+          -0.0636979341506958,
+          9.60480675502833
+        ],
+        "target": [
+          0.40654560923576355,
+          -0.0636979341506958,
+          0.00012128055095672607
+        ],
+        "fov_deg": 39.597753,
+        "hidden": [
+          "Renal fascia",
+          "Perirenal fat (adipose capsule)",
+          "Nephron position (lobule wedge)"
+        ],
+        "note": "Opaque section context; fascia, external fat and translucent locator hidden for teaching. Existing capsule/calyx wall thickness and representative nephron are schematic.",
+        "cut_on": true
+      },
+      "Vessels draft": {
+        "type": "PERSP",
+        "position": [
+          0.43135306239128113,
+          0.008080542087554932,
+          6.654149352157138
+        ],
+        "target": [
+          0.43135306239128113,
+          0.008080542087554932,
+          0.00017114728689193726
+        ],
+        "fov_deg": 39.597753,
+        "hidden": [
+          "Renal fascia",
+          "Perirenal fat (adipose capsule)",
+          "Fibrous capsule",
+          "Renal cortex",
+          "Renal columns",
+          "Medullary rays",
+          "Renal pyramids",
+          "Renal papillae",
+          "Medullary striations",
+          "Minor calyces",
+          "Major calyces",
+          "Renal pelvis",
+          "Ureter (proximal)",
+          "Renal sinus fat",
+          "Hilum of kidney",
+          "Nephron tubule",
+          "Collecting duct",
+          "Renal corpuscle",
+          "Nephron position (lobule wedge)",
+          "Suprarenal gland \u2013 cortex",
+          "Suprarenal gland \u2013 medulla"
+        ],
+        "note": "Red arteries and blue companion veins revealed together; existing 3D courses and calibres preserved.",
+        "cut_on": false
+      },
+      "Nephron draft": {
+        "type": "PERSP",
+        "position": [
+          -0.32385551929473877,
+          -0.4272640645503998,
+          1.2450314279643468
+        ],
+        "target": [
+          -0.32385551929473877,
+          -0.4272640645503998,
+          -0.03797458857297897
+        ],
+        "fov_deg": 39.597753,
+        "hidden": [
+          "Renal fascia",
+          "Perirenal fat (adipose capsule)",
+          "Fibrous capsule",
+          "Renal cortex",
+          "Renal columns",
+          "Medullary rays",
+          "Renal pyramids",
+          "Renal papillae",
+          "Medullary striations",
+          "Minor calyces",
+          "Major calyces",
+          "Renal pelvis",
+          "Ureter (proximal)",
+          "Renal sinus fat",
+          "Hilum of kidney",
+          "Renal artery",
+          "Segmental arteries",
+          "Interlobar arteries",
+          "Arcuate arteries",
+          "Cortical radiate (interlobular) arteries",
+          "Renal vein",
+          "Segmental (sinus) veins",
+          "Interlobar veins",
+          "Arcuate veins",
+          "Cortical radiate (interlobular) veins",
+          "Nephron position (lobule wedge)",
+          "Suprarenal gland \u2013 cortex",
+          "Suprarenal gland \u2013 medulla"
+        ],
+        "note": "Representative nephron already drawn many times larger than life in the existing section; close camera is schematic teaching magnification, not clinical morphometry.",
+        "cut_on": false
+      },
+      "Coverings": {
+        "type": "PERSP",
+        "position": [
+          0.26893794536590576,
+          -0.008869171142578125,
+          10.31196151889831
+        ],
+        "target": [
+          0.26893794536590576,
+          -0.008869171142578125,
+          -0.024507343769073486
+        ],
+        "fov_deg": 39.597753,
+        "hidden": [],
+        "note": "Original coverings and suprarenal relationship; complete existing foundation."
+      }
+    },
+    "start_view": "Section draft",
+    "cut_on": true
+  },
+  "liver_lobule": {
+    "name": "Liver lobule",
+    "metres_per_unit": 0.0009,
+    "scale_note": "Teaching block about 1.8 mm across at 900 micrometres per build unit. Two enlarged cell rows and six branching plates show relationships, not native density. Hepatocyte radial pitch is 117 micrometres versus native cells about 20-30 micrometres; canalicular display lumen is 19.8 micrometres versus native 1-2 micrometres. Sinusoid wall colors show a qualitative inflow-to-outflow transition, not measured oxygen. Acinus zones are a floor projection.",
+    "summary": "A representative teaching lobule with two rows of enlarged branching hepatocyte plates, visible nuclei, hollow sinusoidal channels and fitted central-vein openings, six portal tracts, and opposite bile drainage through canaliculi and canals of Hering. Arterioles join the existing sinusoid bed; its qualitative colors follow mixed inflow toward venous outflow. Cells and small channels are schematically magnified and sampled. Opaque context and the quarter cutaway keep relationships readable.",
+    "home_view": [
+      -0.62,
+      0.8
+    ],
+    "cut_on": true,
+    "cut_at": [
+      0.0,
+      0.0
+    ],
+    "cutaway": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "lung_acinus": {
+    "metres_per_unit": 0.0012,
+    "scale_note": "Representative teaching acinus with 14 alveoli. Alveoli are magnified 2.3x, septa 3.5x, capillaries 3x and cells 2x; counts and spacing are representative rather than native density. One model unit retains the gross calibration of 1.2 mm. The opening airway section and a z = -0.23 alveolar section show different relationships.",
+    "cut_on": true
+  },
+  "lung_acinus_review_v2": {},
+  "lymph_node": {},
+  "male_reproductive": {},
+  "muscular_artery": {
+    "metres_per_unit": 0.0026,
+    "summary": "Endothelium and a fenestrated internal elastic lamina border circular smooth-muscle media. A few larger representative cigar nuclei show its orientation; the adventitia carries hollow microvessels and nerves.",
+    "scale_note": "Representative muscular artery calibrated at 2.6 mm per unit. IEL pore diameters remain enlarged 20 times from a rat experimental prior; pores are sparsely sampled teaching examples. Wall/lumen dimensions are retained. 45 representative nuclei use one master enlarged 1.4 times relative to the previous draft (4.2 times the original schematic nucleus). Four blood cells, six collagen ribbons, three wall microvessels, two wall nerves and 22 adipocyte symbols are selected examples. Vasa, nerves, fat cells and blood cells are schematically enlarged; counts and displayed microstructure sizes are not literal histological density or patient measurements."
+  },
+  "oesophagus_wall": {
+    "scale_note": "Representative oesophageal wall with three original submucosal gland sites and a physical gland/vessel window. Epithelial nuclei are enlarged and sparsely sampled for teaching; density is not a specimen count. Wall layers and authored vessel calibres remain the existing anatomical foundation."
+  },
+  "pancreas": {
+    "metres_per_unit": 0.0005,
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cut_on": true,
+    "cut_at": [
+      0.0,
+      0.0
+    ],
+    "viewer_look": {
+      "alpha": 1,
+      "translucent": false,
+      "detail": [
+        0.03,
+        0,
+        0
+      ]
+    },
+    "scale_note": "Representative 1 mm-wide teaching block; 1 unit = 0.5 mm. Acinar envelopes and their sampling pitch are enlarged 1.8x from the accepted source. Endocrine-cell sampling pitch is enlarged 1.85x within the two original islet envelopes; cell populations and granules are reduced. Acinar nuclear maximum radius is enlarged 1.4x and remains owner-fitted. These are schematic display choices, not clinical cell or islet measurements. Duct/vessel calibres and secretion-marker radii remain the accepted foundation.",
+    "summary": "A representative pancreatic teaching block with larger, fewer polarized acini, two pale islets containing sampled endocrine cells, the existing duct tree and red/blue septal vessels. The original physical nuclear sections and four-second secretion cycle are retained. Use the quarter cut and context-removal views to compare exocrine cells, endocrine cells and drainage routes."
+  },
+  "peripheral_nerve": {
+    "metres_per_unit": 0.0015,
+    "scale_note": "Teaching scale: 1 model unit = 1.5 mm; the epineurial envelope is about 2 mm across. Fibre calibres, membrane thicknesses, vessel calibres and internode spacing are schematic. The telescope exposes nested layers and nodes of Ranvier."
+  },
+  "retina": {
+    "metres_per_unit": 0.0004,
+    "home_view": [
+      -2.75,
+      0.2
+    ],
+    "cut_on": false,
+    "scale_note": "DRAFT AWAITING USER REVIEW. Representative peripheral retinal layer section; nominal block width0.8mm, RPE-to-ILM approximately240micrometres. Complete cell and photoreceptor X/Z dimensions are enlarged1.7times for teaching; nuclear exemplars1.25times. Counts are illustrative, not biological densities. Anterior neuropil is removed in place to expose OPL-INL-IPL pathways. Source laminar Yroles and named structures are retained; curvature and vascular wall proportions are schematic. No per-cell synaptic map is claimed."
+  },
+  "scalp": {
+    "name": "Scalp skin",
+    "metres_per_unit": 0.002,
+    "summary": "Representative scalp cutaway with two follicular units containing two and one terminal follicles, two continuous eccrine units, deep bulbs, sebaceous glands, three connected papillary capillary loops and the galea. Rear tissue is deliberately retained; selected anatomy is enlarged schematically.",
+    "scale_note": "Nominal 4 mm block-width reference; original block scale retained. Sheaths/shafts, sweat coils, receptors, vessels and nerves retain their enlarged teaching calibres. Three displayed terminal follicles, three melanocytes and three capillary loops are representative counts; spacing and red-to-blue flow colors are schematic, not clinical morphometry or literal blood color.",
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cut_on": false
+  },
+  "skeletal_muscle": {
+    "summary": "A muscle opened like a telescope: epimysium round the whole muscle, fascicles each wrapped in perimysium, polygonal fibres with peripheral nuclei and capillaries in endomysium, single fibres with satellite cells and motor end plates, and one fibre fraying into myofibrils showing every sarcomere band, T tubules and sarcoplasmic reticulum - plus a muscle spindle with an opaque, windowed capsule. Seven sampled frayed fibrils make the enlarged band/triad example readable.",
+    "scale_note": "Schematic teaching model: the nominal muscle core is 3 mm across (1.2 units). Fascicles/fibres are representative; only seven frayed myofibrils are sampled. Fine levels have separate axial/transverse enlargement, with a further transverse ramp up to 1.25x in the exposed fibrils and their T/SR walls. Band lengths, membrane thickness and fibre counts are illustrative. The ruler uses only the nominal whole-muscle scale; do not use it for microscopic dimensions.",
+    "metres_per_unit": 0.0025,
+    "cut_on": true,
+    "home_view": [
+      0.7,
+      0.4
+    ]
+  },
+  "spleen": {},
+  "stomach_wall": {
+    "metres_per_unit": 0.0015,
+    "scale_note": "Schematic teaching view: two representative gastric pits feeding six glands. Pit/gland widths are magnified 5x; eight axial cell rows (2.25x taller than the prior draft) and four angular sectors are enlarged teaching samples. Mucosal depth and partial wall layer scale are retained; cell density and enlarged microstructure dimensions are not literal. Vessel wall/lumen diameters are magnified 2x. DRAFT AWAITING USER REVIEW.",
+    "cut_on": true,
+    "cut_at": [
+      1.05,
+      0.0
+    ],
+    "home_view": [
+      -0.3,
+      0.2
+    ]
+  },
+  "thick_skin": {
+    "name": "Thick (glabrous) skin",
+    "metres_per_unit": 0.002,
+    "summary": "Representative palm/sole teaching cutaway with friction ridges, stratum lucidum, three continuous enlarged eccrine units, six sampled Meissner corpuscles, one lamellar Pacinian corpuscle, and readable paired vessels and nerves. No hair or sebaceous glands are introduced. Opaque rear tissue shows the layer stack behind the deliberately open foreground.",
+    "scale_note": "Nominal block reference: 2 build units = 4 mm. Existing thick epidermal strata and friction-ridge construction are retained. Gland coil span and wall/lumen calibre are enlarged 1.3x, receptor dimensions 1.5x, large vessel calibre 1.45x and fine vessel/nerve calibre 1.8x relative to the existing model. Counts and spacing are selected teaching samples, not native palm/sole density; magnification is schematic and detail measurements are not uniformly calibrated histology.",
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cut_on": false
+  },
+  "thin_skin": {
+    "name": "Thin (hairy) skin",
+    "metres_per_unit": 0.002,
+    "summary": "Representative hairy-skin teaching cutaway with three enlarged follicle units, two continuous eccrine gland-duct units, a readable arterial/venous route and selected sensory endings. The opaque rear tissue panel retains the layer stack; foreground tissue is deliberately removed to expose the complete appendages.",
+    "scale_note": "Nominal block reference: 2 build units = 4 mm. Epidermal thickness is exaggerated. Follicle sheath radius is enlarged 1.5x and shaft radius 1.8x relative to the existing source; gland coil span and wall/lumen calibre 1.25x, receptor dimensions 1.5x, large vessel calibre 1.45x, fine vessel and nerve calibre 1.8x. These are pedagogical magnifications relative to this model, not validated native human measurements. Counts and spacing are representative, not histological density; detail measurements do not describe a uniformly scaled specimen.",
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cut_on": false
+  },
+  "thyroid_follicles": {
+    "metres_per_unit": 0.0005,
+    "scale_note": "Representative 1 mm-wide teaching field with six follicles. Follicular cells, vessel passages, basal membrane and parathyroid cells are enlarged; unit counts are reduced. This is a diagram, not a uniformly scaled histological specimen.",
+    "home_view": [
+      -0.62,
+      0.46
+    ],
+    "cut_at": [
+      -0.15,
+      0.25
+    ],
+    "cut_on": true
+  },
+  "thyroid_parathyroid_review_v2": {},
+  "tongue_papillae": {
+    "metres_per_unit": 0.005,
+    "scale_note": "Comparative teaching arrangement; 1 unit = 5 mm. Buds, pores and their local epithelial barrels are enlarged 4x geometrically. Nineteen sampled cells represent each bud; counts and spacing are deliberately reduced. Camera zoom is separate from this magnification.",
+    "summary": "Four contrasting tongue papilla types with ten sampled taste buds, an in-place bud-to-pore reveal, three connected serous gland-duct units draining into the vallate trench or foliate cleft, and intrinsic muscle in three planes. Cellular units are enlarged 4x for reading; this is a comparative arrangement rather than one literal anatomical field."
+  },
+  "tooth": {},
+  "trachea_wall": {
+    "home_view": [
+      -0.62,
+      0.42
+    ],
+    "cutaway": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0
+      ]
+    ],
+    "cut_at": [
+      0.0,
+      0.0
+    ],
+    "cut_on": true,
+    "metres_per_unit": 0.017045454545454544,
+    "scale_note": "Representative 15 mm transverse D-shaped lumen. Mucosa/submucosa are about sixfold thickened. Sparse representative tufts, epithelial markers and cartilage cell groups are deliberately enlarged for teaching, not literal cell/cilium density. Relative to the prior teaching glyphs: cartilage cells/lacunae 1.2x and territorial group envelopes 1.5x; goblet width 1.5x; cilium radius 2x and length about 1.4x. Macro picked-point calibration does not certify microscopic dimensions. Calibration follows the existing authored0.88unit transverse lumen and nominal15mm annotation, not a new patient measurement."
+  },
+  "vein_wall": {
+    "home_view": [
+      0.6108652381980153,
+      0.4188790204786391
+    ],
+    "cut_on": true,
+    "scale_note": "Wall/lumen proportions retain the source schematic vein. Ten larger longitudinal muscle representatives, five collagen courses and sparse nerves, surface vessels and blood cells are selected for teaching. Furnishings are enlarged relative to the prior model; counts and apparent calibres are not physiological measurements. Both original fat pads and native valve/wall proportions are retained."
+  }
+}

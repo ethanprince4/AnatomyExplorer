@@ -1,0 +1,668 @@
+{
+  "schema_version": 1,
+  "model_id": "liver_lobule",
+  "specialist": "function",
+  "status": "design_ready",
+  "foundation": "Original baseline geometry; selective reviewed helper extraction only. No candidate tissue simplification inherited.",
+  "functional_sequences": [
+    {
+      "id": "blood_mixing_drainage",
+      "mechanism": "Distinct portal and arterial inputs share sinusoidal circulation and drain centrally.",
+      "sources": [
+        "human_HE",
+        "duke"
+      ],
+      "steps": [
+        {
+          "view": "inputs",
+          "text": "Identify both input vessel walls and their entries."
+        },
+        {
+          "view": "blood",
+          "text": "Follow sinusoidal channels from inflow through the lobular parenchyma to central outflow."
+        },
+        {
+          "view": "counterflow",
+          "text": "Restore hepatocyte plates to identify the tissue bordering the blood path."
+        }
+      ],
+      "schematic_limitations": [
+        "No tracer particles, CFD, pulsation, perfusion time or quantitative mixing fraction is modeled.",
+        "A lumen that appears to touch another is not validated as patent. Downstream hepatic veins are described, outside the block.",
+        "Do not present one portal profile per corner as a universal human section."
+      ]
+    },
+    {
+      "id": "bile_polarity_counterflow",
+      "mechanism": "The hepatocyte has distinct blood-facing and canalicular interfaces; secreted bile drains through Hering to the portal duct.",
+      "sources": [
+        "TEM",
+        "biliary",
+        "duke"
+      ],
+      "steps": [
+        {
+          "view": "exchange",
+          "text": "Identify the blood-facing hepatocyte surface and the canalicular space at the adjacent-cell interface."
+        },
+        {
+          "view": "bile",
+          "text": "Trace canalicular drainage through the lining transition at Hering into the portal ductule."
+        },
+        {
+          "view": "counterflow",
+          "text": "Compare peripheral-to-central blood drainage with bile drainage toward the portal duct."
+        }
+      ],
+      "schematic_limitations": [
+        "Bile is secreted by hepatocytes throughout the tissue; it does not enter the lobule through the central vein.",
+        "Counterflow is the aggregate relationship of separate networks; no paired one-to-one antiparallel pipes implied.",
+        "Existing Hering mixed-lining explanation is retained as baseline intent; source-derived geometry must show the transition, not a naked connector.",
+        "No transporter kinetics, active canalicular contraction or obstruction simulation is implemented."
+      ]
+    },
+    {
+      "id": "disse_exchange_cell_identity",
+      "mechanism": "The perisinusoidal interval permits exchange between plasma and hepatocyte surfaces while the canalicular interface remains separate.",
+      "sources": [
+        "TEM",
+        "duke",
+        "stellate"
+      ],
+      "steps": [
+        {
+          "view": "exchange",
+          "text": "Find lumen and the endothelial boundary; distinguish the interval external to it from the blood lumen."
+        },
+        {
+          "view": "exchange",
+          "text": "Identify hepatocyte processes on the blood-facing surface and compare the separate canalicular interface."
+        },
+        {
+          "view": "exchange",
+          "text": "Locate Kupffer cell on the luminal side and stellate cell in the perisinusoidal compartment; describe macrophage versus support/storage identity."
+        }
+      ],
+      "schematic_limitations": [
+        "The exchange detail requires reviewed selective inset extraction or equivalent model-specific construction; baseline patches alone do not teach the complete relationship.",
+        "Fine pores, microvilli and Disse interval must be marked as enlarged ultrastructural teaching features, not ordinary H&E-scale observations.",
+        "Empty Disse space is an interstitial compartment, not a second blood tube or bile lumen.",
+        "Normal view must not imply capillarization, fibrotic collagen accumulation or activated myofibroblasts."
+      ]
+    },
+    {
+      "id": "lymph_drainage",
+      "mechanism": "Filtered sinusoidal fluid joins interstitial drainage toward portal lymphatics.",
+      "sources": [
+        "human_HE",
+        "lymph"
+      ],
+      "steps": [
+        {
+          "view": "exchange",
+          "text": "Locate the interstitial side of the endothelial lining."
+        },
+        {
+          "view": "lymph",
+          "text": "Connect Disse conceptually to periportal interstitium and the lymphatic vessel in the portal tract."
+        },
+        {
+          "view": "lymph",
+          "text": "Distinguish the interstitial path from an endothelial-lined lymphatic; retain the limiting relationship without making a sealed fence."
+        }
+      ],
+      "schematic_limitations": [
+        "The model displays the major portal route; sublobular and capsular drainage remain outside its scope.",
+        "No dedicated baseline Disse/Mall selectable mesh exists; do not invent an app selection key or a long fabricated lymph tube alongside every sinusoid.",
+        "No fluid-production rate, pressure, ascites or immune-trafficking kinetics is represented."
+      ]
+    },
+    {
+      "id": "acinus_zonation",
+      "mechanism": "Inflow-to-outflow exposure order organizes spatially varying hepatocyte programs.",
+      "sources": [
+        "human_zonation",
+        "human_atlas_2026"
+      ],
+      "steps": [
+        {
+          "view": "blood",
+          "text": "Establish inflow and central outflow landmarks."
+        },
+        {
+          "view": "zonation",
+          "text": "Reveal the acinus diagram and identify upstream zone 1, intermediate zone 2 and downstream zone 3."
+        },
+        {
+          "view": "zonation",
+          "text": "Explain qualitatively declining oxygen exposure together with contextual signaling and zonated gene expression; distinguish observed human patterns from mechanistic animal studies."
+        }
+      ],
+      "schematic_limitations": [
+        "Neither colored hepatocyte domains nor overlay boundaries are physiological walls or measured oxygen fields.",
+        "Do not teach universal first-injury rules or a diagnostic disease simulation.",
+        "Do not assert exclusive zone-specific gluconeogenesis, lipid metabolism or toxin metabolism from historical labels; current human evidence requires context.",
+        "Classical lobule, acinus and bile-centered portal organization are conceptual units, not three physical capsules."
+      ]
+    }
+  ],
+  "teaching_views": [
+    {
+      "id": "overview",
+      "name": "Tissue overview",
+      "visible_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Bile ductules",
+        "Portal tract connective tissue"
+      ],
+      "note": "Find branching hepatocyte plates between sinusoidal spaces. Portal tracts are shared landmarks; the hexagon is a teaching convention.",
+      "cut_on": false,
+      "state": "assembled",
+      "camera": {
+        "position": [
+          -1.7,
+          1.55,
+          2.3
+        ],
+        "target": [
+          0,
+          0.21,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 39.6
+      },
+      "camera_validation": "Source-derived initial whole-block framing; separate-machine visual framing pending",
+      "focus": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Bile ductules",
+        "Portal tract connective tissue"
+      ],
+      "scale_note": "Enlarged cells and microscopic interfaces: mixed schematic scale."
+    },
+    {
+      "id": "inputs",
+      "name": "Two blood inputs",
+      "visible_parts": [
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Portal tract connective tissue",
+        "Limiting plate"
+      ],
+      "note": "Trace the portal and arterial inputs separately to their sinusoidal entries. Red and purple identify routes, not measured oxygen concentrations.",
+      "cut_on": false,
+      "state": "assembled",
+      "camera": {
+        "position": [
+          -1.7,
+          1.55,
+          2.3
+        ],
+        "target": [
+          0,
+          0.21,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 39.6
+      },
+      "camera_validation": "Source-derived initial whole-block framing; separate-machine visual framing pending",
+      "focus": [
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Portal tract connective tissue",
+        "Limiting plate"
+      ],
+      "scale_note": "Enlarged cells and microscopic interfaces: mixed schematic scale."
+    },
+    {
+      "id": "blood",
+      "name": "Blood to central vein",
+      "visible_parts": [
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein"
+      ],
+      "note": "Portal and arterial blood share sinusoidal circulation between plates, then drain into the central vein. The colour change is qualitative; it does not measure mixing or flow.",
+      "cut_on": false,
+      "state": "assembled",
+      "camera": {
+        "position": [
+          -1.7,
+          1.55,
+          2.3
+        ],
+        "target": [
+          0,
+          0.21,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 39.6
+      },
+      "camera_validation": "Source-derived initial whole-block framing; separate-machine visual framing pending",
+      "focus": [
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein"
+      ],
+      "scale_note": "Enlarged cells and microscopic interfaces: mixed schematic scale."
+    },
+    {
+      "id": "bile",
+      "name": "Bile to portal tract",
+      "visible_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue"
+      ],
+      "note": "Hepatocytes secrete into a shared canalicular space. Trace canaliculi to the Hering transition and portal duct. Bile drains toward the portal side.",
+      "cut_on": false,
+      "state": "assembled",
+      "camera": {
+        "position": [
+          -1.7,
+          1.55,
+          2.3
+        ],
+        "target": [
+          0,
+          0.21,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 39.6
+      },
+      "camera_validation": "Source-derived initial whole-block framing; separate-machine visual framing pending",
+      "focus": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue"
+      ],
+      "scale_note": "Enlarged cells and microscopic interfaces: mixed schematic scale."
+    },
+    {
+      "id": "counterflow",
+      "name": "Opposing routes",
+      "visible_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules"
+      ],
+      "note": "Blood moves from portal inflow toward central outflow. Bile made throughout the plates drains toward portal ducts in a separate epithelial pathway.",
+      "cut_on": false,
+      "state": "assembled",
+      "camera": {
+        "position": [
+          -1.7,
+          1.55,
+          2.3
+        ],
+        "target": [
+          0,
+          0.21,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 39.6
+      },
+      "camera_validation": "Source-derived initial whole-block framing; separate-machine visual framing pending",
+      "focus": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules"
+      ],
+      "scale_note": "Enlarged cells and microscopic interfaces: mixed schematic scale."
+    },
+    {
+      "id": "exchange",
+      "name": "Exchange compartments",
+      "visible_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocyte nuclei",
+        "Sinusoidal channels",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi"
+      ],
+      "note": "Compare blood lumen, endothelial lining, Disse interval and hepatocyte surface. Kupffer cells face the lumen; stellate cells occupy Disse. Canaliculi lie at a separate hepatocyte interface.",
+      "cut_on": false,
+      "state": "assembled",
+      "camera": {
+        "position": [
+          -1.7,
+          1.55,
+          2.3
+        ],
+        "target": [
+          0,
+          0.21,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 39.6
+      },
+      "camera_validation": "Source-derived initial whole-block framing; separate-machine visual framing pending",
+      "focus": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocyte nuclei",
+        "Sinusoidal channels",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi"
+      ],
+      "scale_note": "Enlarged cells and microscopic interfaces: mixed schematic scale."
+    },
+    {
+      "id": "lymph",
+      "name": "Interstitial to lymph",
+      "visible_parts": [
+        "Sinusoidal channels",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Limiting plate",
+        "Portal tract connective tissue",
+        "Lymphatic vessels"
+      ],
+      "note": "Plasma-derived interstitial fluid enters Disse and drains mainly toward periportal interstitium and portal lymphatics. This view omits sublobular and capsular routes.",
+      "cut_on": false,
+      "state": "assembled",
+      "camera": {
+        "position": [
+          -1.7,
+          1.55,
+          2.3
+        ],
+        "target": [
+          0,
+          0.21,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 39.6
+      },
+      "camera_validation": "Source-derived initial whole-block framing; separate-machine visual framing pending",
+      "focus": [
+        "Sinusoidal channels",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Limiting plate",
+        "Portal tract connective tissue",
+        "Lymphatic vessels"
+      ],
+      "scale_note": "Enlarged cells and microscopic interfaces: mixed schematic scale."
+    },
+    {
+      "id": "zonation",
+      "name": "Acinus zones",
+      "visible_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3"
+      ],
+      "note": "Zone 1 is nearer inflow and zone 3 nearer central outflow. Overlay zones are explanatory regions without anatomical walls; metabolic programs vary with context and species.",
+      "cut_on": false,
+      "state": "assembled",
+      "camera": {
+        "position": [
+          -1.7,
+          1.55,
+          2.3
+        ],
+        "target": [
+          0,
+          0.21,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 39.6
+      },
+      "camera_validation": "Source-derived initial whole-block framing; separate-machine visual framing pending",
+      "focus": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3"
+      ],
+      "scale_note": "Enlarged cells and microscopic interfaces: mixed schematic scale."
+    }
+  ],
+  "sources": [
+    {
+      "id": "human_HE",
+      "url": "https://histologyguide.com/slideview/MH-126b-liver/15-slide-1.html",
+      "title": "Histology Guide MH 126b Liver",
+      "verification": "Opened 2026-10-04; human H&E description",
+      "supports": "Interconnected one-cell-thick plates; distinct arterial/portal inputs, portal bile and lymph drainage; classical-lobule convention."
+    },
+    {
+      "id": "duke",
+      "url": "https://histology.oit.duke.edu/DPT/GIglands/GIglands.html",
+      "title": "Duke DPT GI Glands, liver section",
+      "verification": "Opened 2026-10-04; UMich slide teaching text; not all specimens claimed human",
+      "supports": "Sinusoidal blood drainage to central vein; Disse absorption and secretion; bile canaliculus-Hering-duct sequence; separate organizational units."
+    },
+    {
+      "id": "TEM",
+      "url": "https://histologyguide.org/EM-view/EM-240-hepatocytes/15-photo-1.html",
+      "title": "Histology Guide EM 240 Hepatocytes",
+      "verification": "Opened 2026-10-04; TEM description; species not stated",
+      "supports": "Sinusoidal versus lateral cell surfaces, junctions, intercellular canaliculi, discontinuous endothelium and hepatocyte processes in Disse. No dimension imposed."
+    },
+    {
+      "id": "biliary",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK6407/",
+      "title": "Glaser et al., Functional Heterogeneity of the Intrahepatic Biliary Epithelium",
+      "verification": "Opened 2026-10-04; chapter overview; human/rat classifications distinguished",
+      "supports": "Hepatocytes initiate canalicular bile secretion; cholangiocytes line downstream ducts and modify bile; no rat cell counts transferred."
+    },
+    {
+      "id": "stellate",
+      "url": "https://www.ncbi.nlm.nih.gov/mesh/D055166",
+      "title": "NLM MeSH: Hepatic Stellate Cells",
+      "verification": "Opened 2026-10-04",
+      "supports": "Stellate cell compartment is Disse between endothelial cells and hepatocytes."
+    },
+    {
+      "id": "lymph",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/18484610/",
+      "title": "Ohtani and Ohtani 2008, Lymph circulation in the liver",
+      "verification": "Opened abstract 2026-10-04; review summarizing tracer/electron microscopy across human/animal context",
+      "supports": "Filtered sinusoidal fluid enters Disse; traverses periportal interstitium to lymphatics; portal, sublobular and capsular routes. Portal route is representative, not exclusive."
+    },
+    {
+      "id": "human_zonation",
+      "url": "https://www.nature.com/articles/emm2017226",
+      "title": "McEnerney et al. 2017, Dual modulation of human hepatic zonation",
+      "verification": "Opened full article 2026-10-04",
+      "supports": "Periportal/pericentral blood-exposure order and qualitative oxygen gradient; human zonal gene expression and Wnt/xenobiotic context. Human observational findings separated from mouse interventions."
+    },
+    {
+      "id": "human_atlas_2026",
+      "url": "https://www.nature.com/articles/s41586-026-10377-y?error=cookies_not_supported",
+      "title": "Yakubovsky et al. 2026, A spatial atlas of the healthy human liver from live donors",
+      "verification": "Opened full article 2026-10-04; published 2026-04-15",
+      "supports": "Human metabolic zonation differs from other mammals. Do not hardcode old universal metabolic zone lists; transcriptional enrichment is not exclusive function or measured metabolic flux."
+    }
+  ],
+  "implementation": {
+    "native": "Attach viewer_cameras and start_view to an additive MicroModel review entry before ProceduralModel construction; helper provided.",
+    "imported": "Copy returned cameras and camera_order plus start_view into the adjacent viewer.json; set mixed_schematic_scale true there.",
+    "motion": "Static ordered named views only. Camera transitions are navigation, not physiological motion.",
+    "exchange_requirement": "Lead must supply exact inset part names and close camera record if using selectively reviewed exchange representation; hide coarse representation there.",
+    "hooks": [
+      {
+        "path": "app/viewer/procedural.py",
+        "lines": "119-126",
+        "feature": "Copies viewer_cameras/start_view"
+      },
+      {
+        "path": "app/viewer/viewport.py",
+        "lines": "408-435",
+        "feature": "Applies hidden exact keys, state, cut_on; cut_on clears manual sections"
+      },
+      {
+        "path": "app/ui/model_view.py",
+        "lines": "285-307",
+        "feature": "Native named views with note tooltips and Page Down/Page Up order"
+      },
+      {
+        "path": "app/ui/model_view.py",
+        "lines": "781-791",
+        "feature": "Lesson micro_focus uses selection, x-ray of remaining parts, framing"
+      },
+      {
+        "path": "app/viewer/viewport.py",
+        "lines": "779-780,1026-1031",
+        "feature": "Imported sidecar mixed_schematic_scale suppresses calibrated scale readout; procedural adapter does not propagate that field"
+      }
+    ]
+  },
+  "required_text_corrections": {
+    "zone_1": "First exposed near portal inflow, with comparatively higher oxygen exposure. Functional programs vary with human context and species; this schematic does not assign exclusive metabolic tasks or a universal injury order.",
+    "zone_2": "Intermediate position along the inflow-to-outflow path. It is an explanatory region, not a sharp biological compartment or a unique disease diagnosis.",
+    "zone_3": "Downstream toward central outflow, with comparatively lower oxygen exposure and zonated metabolic/signaling programs. Relative susceptibility is context-dependent; no universal first-injury sequence is modeled.",
+    "lymph": "Portal lymphatics drain interstitial fluid originating in sinusoidal exchange. Portal drainage is the represented major route; sublobular and capsular routes are omitted.",
+    "scale": "Lobular organization is schematic; cells, canaliculi, pores and Disse interface are enlarged by different amounts. Do not use this mixed-scale teaching geometry to measure human microscopic dimensions."
+  },
+  "deferred_checks": [
+    "Native selector opening and preset order",
+    "Camera framing and visibility after model construction",
+    "Blood/bile lumen connectivity with saved geometry",
+    "Distinct exchange compartment and cell identity through hiding, rotation and sections",
+    "No ruler misinterpretation in native procedural route",
+    "Acinus interpretation and clipping behavior"
+  ],
+  "executed_checks": [
+    "Read bounded source files and metadata only",
+    "Opened cited anatomy sources; access failures excluded as verified full sources",
+    "No geometry arrays loaded, mesh generated, app launched or render performed"
+  ]
+}

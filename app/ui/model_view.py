@@ -13,13 +13,14 @@ import numpy as np
 from PySide6.QtCore import QTimer, Qt, QUrl, Signal
 from PySide6.QtGui import QActionGroup
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMenu, QPushButton, QSlider,
-                               QSplitter, QToolButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+                               QScrollArea, QSplitter, QToolButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
 from ..state import SceneState
 from ..viewer.dataset import ModelDataset
 from ..viewer.viewport import SECTION_NAMES, ModelViewport
 from . import theme
 from .flow import FlowLayout
+from .search_panel import normalized
 
 ROLE = Qt.UserRole + 1
 
@@ -56,21 +57,29 @@ def describe_view(name, rec):
 class ModelView(QWidget):
     openHistology = Signal(str, int)
     openMicro = Signal(str)                    # another model
+    lessonsRequested = Signal(str)             # explicitly authored lessons for this model
     atlasRequested = Signal(list)              # atlas structure names to show
+    variantRequested = Signal(str)             # one independently selected version
+    componentRequested = Signal(str)           # separate space in the same selected version
 
-    def __init__(self, entry, content, settings, parent=None):
+    def __init__(self, entry, content, settings, parent=None, *, prepared=None):
         super().__init__(parent)
         self.entry = entry
+        self.setAccessibleName(f"3D model: {entry.name}")
+        self._filter_expanded = None
         self.model = entry                     # lessons and practice ask view.model.name
         self.content = content
+        if getattr(getattr(entry, "micro", None), "labels_on_open", False):
+            settings = dict(settings, show_landmarks=True,
+                            max_landmarks=max(60, int(settings.get("max_landmarks", 60))))
         self.settings = settings
         self.info = None
         t0 = time.perf_counter()
-        self.vmodel = entry.load()
-        self.load_seconds = time.perf_counter() - t0
+        self.vmodel = entry.load() if prepared is None else prepared.model
+        self.load_seconds = time.perf_counter() - t0 if prepared is None else prepared.seconds
         self.mds = ModelDataset(self.vmodel)
         self.state = SceneState(self.mds, settings)
-        self.gl_widget = ModelViewport(self.vmodel, self.state, settings, entry)
+        self.gl_widget = ModelViewport(self.vmodel, self.state, settings, entry, parent=self)
         self.gl_widget.home_view = self.reset_view
         self.click_hook = None        # Practice mode: callable(item) -> True when it took the click
         self.rclick_hook = None       # Practice mode: callable(item), a right click in the 3D view
@@ -82,25 +91,39 @@ class ModelView(QWidget):
             self.gl_widget.cut_on = bool(cut["on"])
         self._view_names = list(m.camera_order)
 
-        lay = QHBoxLayout(self)
+        lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
-        split = QSplitter()
-        lay.addWidget(split)
-        split.addWidget(self._side())
-        right = QWidget()
-        rl = QVBoxLayout(right)
-        rl.setContentsMargins(0, 0, 0, 0)
-        rl.setSpacing(0)
-        top = QWidget()
-        top.setLayout(self._bar())
-        top.setObjectName("modelBar")
-        top.setStyleSheet(f"QWidget#modelBar {{ background:{theme.SURFACE}; border-bottom:1px solid {theme.BORDER_SUBTLE}; }}")
-        rl.addWidget(top)
+        side = self._side()
+        reveal = QWidget()
+        reveal.setObjectName("studioRevealControls")
+        reveal.setLayout(self._bar())
         self.section_bar = self._section_bar()
-        rl.addWidget(self.section_bar)
-        rl.addWidget(self.gl_widget, 1)
-        split.addWidget(right)
-        split.setSizes([290, 1200])
+        sections = QWidget()
+        section_layout = QVBoxLayout(sections)
+        section_layout.setContentsMargins(0, 0, 0, 0)
+        for action in self.section_actions:
+            toggle = QCheckBox(action.text())
+            toggle.setChecked(action.isChecked())
+            toggle.toggled.connect(action.setChecked)
+            action.toggled.connect(toggle.setChecked)
+            section_layout.addWidget(toggle)
+        section_layout.addWidget(self.section_bar)
+        clear = QPushButton("Clear sections")
+        clear.clicked.connect(self.clear_sections)
+        section_layout.addWidget(clear)
+        section_layout.addStretch()
+        from .model_teaching import ModelTeachingControls
+        self.teaching_controls = ModelTeachingControls(self)
+        from .studio_scene import StudioScene
+        self.studio = StudioScene(self.gl_widget, side, reveal, sections, self.teaching_controls, self)
+        self.splitter = self.studio  # Retain the public layout owner; renderer stays unchanged.
+        lay.addWidget(self.studio)
+        self.studio.measure.toggled.connect(self.gl_widget.set_measure)
+        self.gl_widget.measureChanged.connect(self._studio_measure_changed)
+        self.studio.labels.setChecked(self.labels.isChecked())
+        self.studio.labels.toggled.connect(self.labels.setChecked)
+        self.labels.toggled.connect(self.studio.labels.setChecked)
+        self.studio.reset.clicked.connect(self.reset_view)
 
         g = self.gl_widget
         g.structureClicked.connect(self._clicked)
@@ -110,55 +133,130 @@ class ModelView(QWidget):
         g.viewChanged.connect(self._view_changed)
         self.state.visibility_changed.connect(self._sync_tree)
         self.state.selection_changed.connect(self._show_selection)
+        self._sync_tree()
         QTimer.singleShot(0, self, lambda: self.reset_view(animate=False))
+        self.runtime_session = None
+        self.runtime_opening_done = True
+        self.runtime_opening_error = ""
+        if getattr(entry, "descriptor", None) is not None:
+            from ..variants.anatomy_runtime_adapters import bind_view
+            local = bool(getattr(getattr(entry, "store", None), "is_local", False))
+            try:
+                if not local or getattr(self.vmodel, "runtime_hooks_available", True):
+                    self.runtime_session = bind_view(self)
+                    self.teaching_controls.set_session(self.runtime_session)
+                    self.runtime_opening_done = False
+                    # Home reset, then authored opening, then lesson/practice on_ready.
+                    QTimer.singleShot(0, self, self._runtime_opening)
+            except Exception as exc:
+                if not local:
+                    raise
+                self.runtime_session = None
+                self.teaching_controls.setToolTip('Some teaching controls are unavailable for this saved model: '+str(exc))
+                self.vmodel.runtime_warnings = list(getattr(self.vmodel, 'runtime_warnings', []))+[str(exc)]
+
+    def _studio_measure_changed(self, text):
+        button = self.studio.measure
+        button.blockSignals(True)
+        button.setChecked(self.gl_widget.measure_mode)
+        button.blockSignals(False)
+        button.setToolTip(text or "Click two points to measure. Shift-click adds another leg.")
+
+    def _runtime_opening(self):
+        try:
+            self.runtime_session.opening()
+        except Exception as exc:
+            self.runtime_opening_error = str(exc)
+        finally:
+            self.runtime_opening_done = True
 
     # ------------------------------------------------------------------ side panel
     def _side(self):
         e, m = self.entry, self.vmodel
         side = QWidget()
         side.setMinimumWidth(250)
+        side.setAccessibleName("Model overview and parts")
         sl = QVBoxLayout(side)
         sl.setContentsMargins(14, 12, 8, 8)
         sl.setSpacing(6)
+        compatibility_notes = getattr(m, 'runtime_warnings', [])
+        if compatibility_notes:
+            note = QLabel('Some saved model features could not be restored.')
+            note.setWordWrap(True)
+            note.setToolTip('\n'.join(compatibility_notes))
+            sl.addWidget(note)
+        introduction = QScrollArea()
+        introduction.setWidgetResizable(True)
+        introduction.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        introduction.setMaximumHeight(230)
+        introduction.setAccessibleName("Model summary, scale and attribution")
+        intro_body = QWidget()
+        intro_layout = QVBoxLayout(intro_body)
+        intro_layout.setContentsMargins(0, 0, 8, 0)
+        intro_layout.setSpacing(6)
+        introduction.setWidget(intro_body)
         title = QLabel(e.name)
+        title.setTextFormat(Qt.PlainText)
         title.setWordWrap(True)
         title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE + 0.5, 700))
-        sl.addWidget(title)
+        intro_layout.addWidget(title)
+        from .variant_choice import VariantChoice
+        self.variant_choice = VariantChoice(self)
+        self.variant_choice.set_entry(e)
+        self.variant_choice.requested.connect(self.variantRequested)
+        self.variant_choice.componentRequested.connect(self.componentRequested)
+        intro_layout.addWidget(self.variant_choice)
         summ = QLabel(brief(e.summary))
+        summ.setTextFormat(Qt.PlainText)
         summ.setWordWrap(True)
         if summ.text() != e.summary:
             summ.setToolTip(f"<p>{esc(e.summary)}</p>")      # the whole summary is in Details too
         summ.setStyleSheet(theme.text_css(theme.TEXT_2))
-        sl.addWidget(summ)
+        intro_layout.addWidget(summ)
         if e.scale_note:
             note = QLabel(e.scale_note)
+            note.setTextFormat(Qt.PlainText)
             note.setWordWrap(True)
             note.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
-            sl.addWidget(note)
+            intro_layout.addWidget(note)
         if e.credit_html:
             c = QLabel(e.credit_html)
             c.setWordWrap(True)
             c.setOpenExternalLinks(True)
             c.setTextInteractionFlags(Qt.TextBrowserInteraction)
             c.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
-            sl.addWidget(c)
+            intro_layout.addWidget(c)
+        sl.addWidget(introduction)
         stats = QLabel(f"{len(m.items)} parts in {len(m.groups)} groups · {m.triangle_count / 1e6:.1f} M triangles")
-        stats.setStyleSheet(theme.text_css(theme.FAINT, theme.FS_CAPTION))
+        stats.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         sl.addWidget(stats)
         self.filter = QLineEdit()
-        self.filter.setPlaceholderText("Filter parts…")
+        self.filter.setPlaceholderText("Filter parts or groups…")
+        self.filter.setAccessibleName("Filter model parts")
         self.filter.setClearButtonEnabled(True)
         self.filter.textChanged.connect(self._filter_tree)
-        if len(m.items) > 12:
-            sl.addWidget(self.filter)
+        sl.addWidget(self.filter)
+        self.parts_status = QLabel()
+        self.parts_status.setWordWrap(True)
+        self.parts_status.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+        sl.addWidget(self.parts_status)
         self.tree = QTreeWidget()
         self.tree.setHeaderHidden(True)
+        self.tree.setAccessibleName("Model parts and visibility")
+        self.tree.setMinimumHeight(100)
+        self.tree.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.tree.setUniformRowHeights(True)
         self.tree.setIndentation(14)
         self.tree.itemChanged.connect(self._item_changed)
         self.tree.itemClicked.connect(self._item_clicked)
-        self.tree.itemDoubleClicked.connect(self._item_double_clicked)
+        self.tree.itemActivated.connect(self._item_activated)
         sl.addWidget(self.tree, 1)
-        row = QHBoxLayout()
+        self.selection_status = QLabel("Select a part to read its details.")
+        self.selection_status.setWordWrap(True)
+        self.selection_status.setStyleSheet(theme.text_css(theme.TEXT_2, theme.FS_SMALL))
+        sl.addWidget(self.selection_status)
+        row = FlowLayout(spacing=6)
+        self.selection_buttons = []
         for text, fn, tip in (("Isolate", self._isolate_current, "Show only the highlighted part or group (I)"),
                               ("Hide", self._hide_current, "Hide the highlighted part or group (H)"),
                               ("Show all", self.show_all, "Show every part again (Shift+H)")):
@@ -166,8 +264,17 @@ class ModelView(QWidget):
             b.setToolTip(tip)
             b.clicked.connect(fn)
             row.addWidget(b)
+            if text != "Show all":
+                b.setEnabled(False)
+                self.selection_buttons.append(b)
         sl.addLayout(row)
+        self.lessons_button = QPushButton("Related lessons")
+        self.lessons_button.setAccessibleName("Browse authored lessons for this model")
+        self.lessons_button.clicked.connect(lambda: self.lessonsRequested.emit(self.entry.id))
+        self.lessons_button.hide()
+        sl.addWidget(self.lessons_button)
         self._build_tree()
+        self._filter_tree("")
         self.side = side
         return side
 
@@ -178,6 +285,8 @@ class ModelView(QWidget):
         many = len(self.vmodel.items) > 60
         for g in self.vmodel.groups:
             gi = QTreeWidgetItem(self.tree)
+            gi.setToolTip(0, g.title)
+            gi.setData(0, Qt.AccessibleTextRole, f"{g.title}, {len(g.items)} parts")
             gi.setText(0, f"{g.title}" + (f"   · {len(g.items)}" if len(g.items) > 1 else ""))
             f = gi.font(0)
             f.setBold(True)
@@ -191,6 +300,7 @@ class ModelView(QWidget):
                 it = self.vmodel.items[i]
                 ti = QTreeWidgetItem(gi)
                 ti.setText(0, it.name)
+                ti.setData(0, Qt.AccessibleTextRole, it.name)
                 if it.description:
                     ti.setToolTip(0, it.description[:300])
                 ti.setFlags(ti.flags() | Qt.ItemIsUserCheckable)
@@ -199,18 +309,37 @@ class ModelView(QWidget):
                 self.part_items[i] = ti
         self._sync = False
 
+    def set_lessons_available(self, count):
+        count = max(0, int(count))
+        self.lessons_button.setText(f"Related lessons ({count})")
+        self.lessons_button.setVisible(count > 0)
+
     def _filter_tree(self, text):
-        t = text.strip().lower()
-        for key, gi in self.group_items.items():
+        terms = normalized(text).split()
+        if terms and self._filter_expanded is None:
+            self._filter_expanded = {key for key, item in self.group_items.items() if item.isExpanded()}
+        matches = 0
+        for key, group in self.group_items.items():
+            group_text = normalized(f"{key} {group.text(0)}")
             any_shown = False
-            for j in range(gi.childCount()):
-                c = gi.child(j)
-                show = not t or t in c.text(0).lower() or t in key.lower()
-                c.setHidden(not show)
+            for index in range(group.childCount()):
+                child = group.child(index)
+                kind, sid = child.data(0, ROLE)
+                part = self.vmodel.items[sid]
+                text = normalized(f"{part.name} {part.key} {group_text}")
+                show = all(term in text for term in terms)
+                child.setHidden(not show)
                 any_shown |= show
-            gi.setHidden(not any_shown)
-            if t and any_shown:
-                gi.setExpanded(True)
+                matches += int(show)
+            group.setHidden(not any_shown)
+            if terms and any_shown:
+                group.setExpanded(True)
+            elif not terms and self._filter_expanded is not None:
+                group.setExpanded(key in self._filter_expanded)
+        if not terms:
+            self._filter_expanded = None
+        self.parts_status.setText(f"{matches} of {len(self.vmodel.items)} parts · Check to show or hide" if matches else
+                                  "No matching parts. Clear the filter to see the full model.")
 
     def _sids_of(self, item):
         kind, val = item.data(0, ROLE)
@@ -233,7 +362,13 @@ class ModelView(QWidget):
         self.gl_widget.update()
 
     def _item_double_clicked(self, item, col):
-        self.gl_widget.frame_structures(self._sids_of(item))
+        if self.click_hook is None:
+            self.gl_widget.frame_structures(self._sids_of(item))
+
+    def _item_activated(self, item, col):
+        if self.click_hook is None:
+            self.state.select(self._sids_of(item))
+            self._item_double_clicked(item, col)
 
     def _sync_tree(self):
         vis = self.state.visible_mask()
@@ -245,12 +380,32 @@ class ModelView(QWidget):
             n = int(vis[sids].sum()) if sids else 0
             gi.setCheckState(0, Qt.Checked if n == len(sids) else Qt.Unchecked if n == 0 else Qt.PartiallyChecked)
         self._sync = False
+        self._update_selection_controls()
+
+    def _update_selection_controls(self):
+        selected = list(self.state.selected)
+        visible = self.state.visible_mask()
+        count = int(visible.sum())
+        label = (self.vmodel.items[selected[0]].name if len(selected) == 1 else
+                 f"{len(selected)} parts selected" if selected else "No part selected")
+        self.selection_status.setText(f"{label} · {count} of {len(self.vmodel.items)} visible")
+        for button in self.selection_buttons:
+            button.setEnabled(bool(selected) and self.click_hook is None)
+        if not selected:
+            self.tree.clearSelection()
+        else:
+            current = self.tree.currentItem()
+            if current is None or set(self._sids_of(current)) != set(selected):
+                item = self.part_items.get(selected[0])
+                if item is not None:
+                    previous = self.tree.blockSignals(True)
+                    self.tree.setCurrentItem(item)
+                    self.tree.blockSignals(previous)
 
     def _current_or_selected(self):
-        it = self.tree.currentItem()
-        if it is not None and it.isSelected():
-            return self._sids_of(it)
-        return list(self.state.selected)
+        if self.state.selected:
+            return list(self.state.selected)
+        return []
 
     def _isolate_current(self):
         sids = self._current_or_selected()
@@ -275,15 +430,19 @@ class ModelView(QWidget):
             hl = QHBoxLayout(box)
             hl.setContentsMargins(6, 0, 0, 0)
             hl.setSpacing(6)
-            hl.addWidget(QLabel(text))
+            label = QLabel(text)
+            label.setBuddy(widget)
+            widget.setAccessibleName(text)
+            hl.addWidget(label)
             hl.addWidget(widget)
             return box
 
         # the model's own stored views: named stage views as buttons, a camera set in a menu
         self.view_buttons = {}
+        self.view_choice = None
         if self._view_names:
             named = all(len(n) > 3 for n in self._view_names)
-            if named and len(self._view_names) <= 10:
+            if named and len(self._view_names) <= 3 and all(len(n) <= 22 for n in self._view_names):
                 for n in self._view_names:
                     b = QPushButton(n)
                     b.setCheckable(True)
@@ -293,15 +452,18 @@ class ModelView(QWidget):
                     bar.addWidget(b)
                     self.view_buttons[n] = b
             else:
-                vb = QToolButton()
-                vb.setText("Views ▾")
-                vb.setToolTip("The model's stored views (Page Down / Page Up step through them)")
-                vb.setPopupMode(QToolButton.InstantPopup)
-                menu = QMenu(vb)
-                for n in self._view_names:
-                    menu.addAction(describe_view(n, m.cameras[n]), lambda v=n: self.set_named_view(v))
-                vb.setMenu(menu)
-                bar.addWidget(vb)
+                self.view_choice = QComboBox()
+                self.view_choice.setAccessibleName("Stored model view")
+                self.view_choice.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+                self.view_choice.setMinimumContentsLength(16)
+                self.view_choice.addItem("Choose a stored view", None)
+                for name in self._view_names:
+                    self.view_choice.addItem(describe_view(name, m.cameras[name]), name)
+                    self.view_choice.setItemData(self.view_choice.count() - 1,
+                                                 m.cameras[name].get("note", name), Qt.ToolTipRole)
+                self.view_choice.activated.connect(lambda index: self.set_named_view(self.view_choice.itemData(index))
+                                                   if self.view_choice.itemData(index) is not None else None)
+                bar.addWidget(labelled("View", self.view_choice))
         if m.has_teased:
             self.teased = QCheckBox("Teased")
             names = [n for n, st in m.states.items() if st["offsets"]]
@@ -318,7 +480,7 @@ class ModelView(QWidget):
             self.cut.toggled.connect(self._toggle_cut)
             bar.addWidget(self.cut)
         sec = QToolButton()
-        sec.setText("Section ▾")
+        sec.setText("Section")
         sec.setToolTip("Sagittal, coronal and transverse cross-sections through the model (Ctrl+Alt+1/2/3)")
         sec.setPopupMode(QToolButton.InstantPopup)
         smenu = QMenu(sec)
@@ -336,14 +498,18 @@ class ModelView(QWidget):
         self.labels = QCheckBox("Labels")
         self.labels.setToolTip("Name every visible part (L)")
         self.labels.toggled.connect(self._toggle_labels)
+        self.labels.setChecked(bool(getattr(getattr(self.entry, "micro", None), "labels_on_open", False)))
         bar.addWidget(self.labels)
         self.opacity = None
         if any(it.bulk for it in m.items):
             self.opacity = QSlider(Qt.Horizontal)
             self.opacity.setRange(8, 100)
-            self.opacity.setValue(100)
             self.opacity.setFixedWidth(110)
             self.opacity.valueChanged.connect(self._opacity)
+            # Apply the default to tissue layers before the first frame.
+            self.opacity.setValue(50)
+            self.opacity.setToolTip("Tissue layers start at 50% opacity; 100% is fully opaque. "
+                                    "Other structures keep their own opacity.")
             bar.addWidget(labelled("Tissue opacity", self.opacity))
         self.explode = QSlider(Qt.Horizontal)
         self.explode.setRange(0, 100)
@@ -365,7 +531,7 @@ class ModelView(QWidget):
         bar.add_right(self._display_menu())
         if self.entry.histology or self.entry.related:
             more = QToolButton()
-            more.setText("Related ▾")
+            more.setText("Related")
             more.setPopupMode(QToolButton.InstantPopup)
             menu = QMenu(more)
             for tid in self.entry.histology:
@@ -383,21 +549,24 @@ class ModelView(QWidget):
     def _display_menu(self):
         g = self.gl_widget
         b = QToolButton()
-        b.setText("Display ▾")
-        b.setToolTip("Shadows, striations, lighting, exposure and projection of this view")
+        b.setText("Display")
+        b.setToolTip("Orientation axes, shadows, striations, lighting, exposure and projection of this view")
         b.setPopupMode(QToolButton.InstantPopup)
         menu = QMenu(b)
         rs = g.rsettings
 
-        def toggle(text, attr, tip=""):
+        def toggle(text, attr, tip="", target=rs):
             a = menu.addAction(text)
             a.setCheckable(True)
-            a.setChecked(bool(getattr(rs, attr)))
+            a.setChecked(bool(getattr(target, attr)))
             a.setToolTip(tip)
-            a.toggled.connect(lambda on: (setattr(rs, attr, on), g.update()))
+            a.toggled.connect(lambda on: (setattr(target, attr, on), g.update()))
             return a
 
-        toggle("Shadows", "shadows")
+        toggle("Shadows", "shadows", "Off when a model opens; enable for this view.")
+        toggle("Orientation axes", "orientation_axes_on",
+               "Show axes in the lower-left corner: X red, Y green, Z blue. "
+               "Anatomically oriented models show L/R, S/I and A/P instead.", target=g)
         if any(p.look.stripe for p in self.vmodel.parts):
             toggle("Striations", "stripes")
         toggle("Tone mapping (Khronos PBR Neutral)", "tonemap")
@@ -440,8 +609,8 @@ class ModelView(QWidget):
         w = QWidget()
         w.setObjectName("sectionBar")
         w.setStyleSheet(f"QWidget#sectionBar {{ background:{theme.SURFACE}; border-bottom:1px solid {theme.BORDER_SUBTLE}; }}")
-        lay = QHBoxLayout(w)
-        lay.setContentsMargins(10, 4, 10, 4)
+        lay = FlowLayout(w, spacing=8)
+        lay.setContentsMargins(10, 6, 10, 6)
         self.section_rows = []
         for i, name in enumerate(SECTION_NAMES):
             box = QWidget()
@@ -451,16 +620,18 @@ class ModelView(QWidget):
             s = QSlider(Qt.Horizontal)
             s.setRange(0, 1000)
             s.setValue(500)
-            s.setMinimumWidth(120)
+            s.setMinimumWidth(90)
+            s.setMaximumWidth(150)
+            s.setAccessibleName(f"{name} cross-section position")
             s.valueChanged.connect(lambda v, k=i: self._section_moved(k))
             hl.addWidget(s, 1)
             f = QCheckBox("Flip")
+            f.setAccessibleName(f"Flip {name} cut direction")
             f.toggled.connect(lambda _on, k=i: self._section_moved(k))
             hl.addWidget(f)
             box.hide()
-            lay.addWidget(box, 1)
+            lay.addWidget(box)
             self.section_rows.append((box, s, f))
-        lay.addStretch(0)
         w.hide()
         return w
 
@@ -489,6 +660,9 @@ class ModelView(QWidget):
         box.setVisible(on)
         self.section_bar.setVisible(any(x is not None for x in g.sections))
         self._mark_section()
+        if hasattr(self, "studio"):
+            if on:self.studio.show_card("section", True)
+            self.studio.arrange()
         g.invalidate_labels()
 
     def toggle_section(self, k):
@@ -524,12 +698,13 @@ class ModelView(QWidget):
         g = self.gl_widget
         kind = g.anim_kind()
         anim = getattr(self.vmodel, "animation", None)
-        self.play = QPushButton("▶ Play")
+        self.play = QPushButton("Play")
         self.play.setCheckable(True)
         self.play.setToolTip(f"Play the {(anim.title if anim else self.vmodel.clip.name).lower()} (Space)")
         self.play.toggled.connect(self._play_toggled)
         bar.addWidget(self.play)
         self.speed = QComboBox()
+        self.speed.setAccessibleName("Animation playback speed")
         speeds = anim.speeds if anim is not None else (1.0, 0.5, 0.25)
         for sp in speeds:
             self.speed.addItem("real time" if sp == 1.0 else f"{sp:g}× (slowed)", sp)
@@ -541,7 +716,7 @@ class ModelView(QWidget):
         self.scrub.setRange(0, 1000)
         self.scrub.setFixedWidth(150)
         self.scrub.setToolTip("Scrub through the cycle (pauses playback)")
-        self.scrub.sliderMoved.connect(self._scrubbed)
+        self.scrub.valueChanged.connect(self._scrubbed)
         bar.addWidget(labelled("Cycle" if kind == "procedural" else "Clip", self.scrub))
         self.phase_label = QLabel("")
         self.phase_label.setMinimumWidth(190)
@@ -550,7 +725,7 @@ class ModelView(QWidget):
         self._anim_changed(g.anim_fraction())
 
     def _play_toggled(self, on):
-        self.play.setText("❚❚ Pause" if on else "▶ Play")
+        self.play.setText("Pause" if on else "Play")
         self.gl_widget.set_playing(on)
 
     def toggle_play(self):
@@ -595,8 +770,19 @@ class ModelView(QWidget):
 
     def _view_changed(self, name):
         self._current_view = name
+        choice = getattr(self, "view_choice", None)
+        if choice is not None:
+            choice.setCurrentIndex(max(0, choice.findData(name)))
+            choice.setToolTip(choice.currentText())
         for n, b in self.view_buttons.items():
             b.setChecked(n == name)
+        if "cut_on" in self.vmodel.cameras.get(name, {}):
+            if self.cut is not None:
+                previous = self.cut.blockSignals(True)
+                self.cut.setChecked(self.gl_widget.cut_on)
+                self.cut.blockSignals(previous)
+            for k, section in enumerate(self.gl_widget.sections):
+                self.set_section(k, section is not None)
 
     def toggle_state(self):
         if self.teased is not None:
@@ -677,6 +863,10 @@ class ModelView(QWidget):
         self.state.select([sid], add=bool(modifiers & Qt.ControlModifier))
         it = self.part_items.get(sid)
         if it:
+            if it.isHidden():
+                self.filter.clear()
+            if it.parent() is not None:
+                it.parent().setExpanded(True)
             self.tree.blockSignals(True)
             self.tree.setCurrentItem(it)
             self.tree.blockSignals(False)
@@ -789,6 +979,7 @@ class ModelView(QWidget):
                 "view": getattr(self, "_current_view", None),
             }
         self.click_hook, self.rclick_hook = click, rclick
+        self.studio._practice = on
         self.side.setVisible(not on)
         self.gl_widget.names_hidden = (lambda: True) if on else (lambda: False)
         if on:
@@ -811,6 +1002,7 @@ class ModelView(QWidget):
                 setattr(camera, key, value)
             self._view_changed(saved["view"])
             self.gl_widget.update()
+        self.studio.set_practice(on)
         self.gl_widget.invalidate_labels()
 
     def _refresh_labels(self):
@@ -821,6 +1013,8 @@ class ModelView(QWidget):
         self._show_selection()
 
     def _show_selection(self):
+        if hasattr(self, "selection_status"):
+            self._update_selection_controls()
         self.gl_widget.invalidate_labels()
         if not self.info or self.click_hook is not None:
             return
@@ -857,9 +1051,9 @@ class ModelView(QWidget):
             if it.atlas:
                 atlas = (f"<p><a href=\"atlas:{esc('|'.join(it.atlas))}\">Show {esc(it.name.lower())} in the "
                          f"atlas</a></p>")
-            desc = it.description
+            desc = it.description or "No written description is included for this part."
             size = ""
-            if m.metres_per_unit and it.parts:
+            if m.metres_per_unit and it.parts and not m.sidecar.get("mixed_schematic_scale"):
                 b = m.item_bounds([it.index])
                 if b is not None:
                     ext = sorted((b[1] - b[0]) * m.metres_per_unit, reverse=True)

@@ -1,0 +1,393 @@
+{
+  "schema_version": 1,
+  "model_id": "spleen",
+  "status": "source_design_ready",
+  "integration": "Exact selectors and state sampler supplied; native viewer playback and geometry-anchored overlays deferred.",
+  "functional_sequences": [
+    {
+      "id": "open_circulation",
+      "mechanism": "Arterial blood enters the open cord compartment before returning through sinus-wall slits to venous drainage.",
+      "source_ids": [
+        "human_open_2022"
+      ],
+      "steps": [
+        {
+          "id": "arterial_entry",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Trabecular artery",
+            "Central artery & follicular branches",
+            "Penicillar arterioles",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)",
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Pulp vein",
+            "Trabecular vein"
+          ],
+          "highlight_parts": [
+            "Trabecular artery",
+            "Central artery & follicular branches"
+          ],
+          "caption": "Follow a representative arterial route from trabecula into white pulp.",
+          "cue": "Highlight arterial wall selectors sequentially; no membrane-crossing cue.",
+          "native_view_name": "open_circulation 1: arterial_entry"
+        },
+        {
+          "id": "capillary_route",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Central artery & follicular branches",
+            "Penicillar arterioles",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)",
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)"
+          ],
+          "highlight_parts": [
+            "Penicillar arterioles",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)"
+          ],
+          "caption": "Penicillar arterioles continue into capillaries, some with cellular sheaths.",
+          "cue": "The sheath is surrounding tissue; the capillary lumen continues through it.",
+          "native_view_name": "open_circulation 2: capillary_route"
+        },
+        {
+          "id": "open_end",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Penicillar arterioles",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)",
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)"
+          ],
+          "highlight_parts": [
+            "Penicillar arterioles",
+            "Splenic cords (of Billroth)"
+          ],
+          "caption": "The capillary ends openly in the cords, separate from the venous sinus wall.",
+          "cue": "Stop the enclosed-path cue at the capillary end; use a separate diffuse cord-domain cue.",
+          "native_view_name": "open_circulation 3: open_end"
+        },
+        {
+          "id": "cord_exposure",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)"
+          ],
+          "highlight_parts": [
+            "Splenic cords (of Billroth)"
+          ],
+          "caption": "Blood contacts the cord compartment and its phagocytic cells.",
+          "cue": "Sparse schematic tokens within an extracellular tissue domain; no continuous connecting tube.",
+          "native_view_name": "open_circulation 4: cord_exposure"
+        },
+        {
+          "id": "sinus_return",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "highlight_parts": [
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "caption": "Red cells return from the cords through interendothelial slits into sinuses.",
+          "cue": "Direction is outside-to-inside across a lateral wall opening, never through an endothelial cell.",
+          "native_view_name": "open_circulation 5: sinus_return"
+        },
+        {
+          "id": "venous_return",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Venous sinusoids (stave cells)",
+            "Pulp vein",
+            "Trabecular vein"
+          ],
+          "highlight_parts": [
+            "Pulp vein",
+            "Trabecular vein"
+          ],
+          "caption": "Sinuses collect into pulp veins and then trabecular veins.",
+          "cue": "Separate semantic drainage arrow; sampled sinuses are not asserted to join the authored pulp vein.",
+          "native_view_name": "open_circulation 6: venous_return"
+        }
+      ],
+      "schematic_limitations": [
+        "This field represents sampled vessels, not a complete perfusable graph.",
+        "The arterial-to-venous discontinuity is anatomical open circulation, not a construction defect.",
+        "2022 reconstruction supports wholly open human microcirculation in studied specimens; no percentage of open versus closed flow is assigned.",
+        "Display speed, marker frequency and schematic arrows do not estimate pressure, velocity or cell density."
+      ]
+    },
+    {
+      "id": "red_cell_slit_filtering",
+      "mechanism": "Cell geometry and deformability determine mechanical passage; retained cells may subsequently be removed by macrophages.",
+      "source_ids": [
+        "deplaine_2011",
+        "pivkin_2016"
+      ],
+      "steps": [
+        {
+          "id": "wall_orientation",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "highlight_parts": [
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "caption": "Locate the cord side, longitudinal endothelial staves, wall slit and sinus lumen.",
+          "cue": "Local detail inset should name the normal transit axis and both in-plane slit axes.",
+          "native_view_name": "red_cell_slit_filtering 1: wall_orientation"
+        },
+        {
+          "id": "flexible_approach",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "highlight_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)"
+          ],
+          "caption": "A deformable red cell approaches from the cord side.",
+          "cue": "An enlarged RBC icon is an overlay, not a source cell or density measurement.",
+          "native_view_name": "red_cell_slit_filtering 2: flexible_approach"
+        },
+        {
+          "id": "dumbbell_transit",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "highlight_parts": [
+            "Venous sinusoids (stave cells)"
+          ],
+          "caption": "The cell deforms with a constricted waist as it crosses the short, narrow slit.",
+          "cue": "Use a labeled shape-state series: disc, leading lobe and waist, trailing lobe, recovered disc; do not isotropically shrink the cell.",
+          "native_view_name": "red_cell_slit_filtering 3: dumbbell_transit"
+        },
+        {
+          "id": "pass_and_recover",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Venous sinusoids (stave cells)",
+            "Ring fibres",
+            "Splenic cords (of Billroth)"
+          ],
+          "highlight_parts": [
+            "Venous sinusoids (stave cells)"
+          ],
+          "caption": "A passing cell reaches the lumen and can recover its shape.",
+          "cue": "Complete crossing before recovery; conservation of cell surface and volume requires separate mechanical validation.",
+          "native_view_name": "red_cell_slit_filtering 4: pass_and_recover"
+        },
+        {
+          "id": "retention",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)",
+            "Ring fibres"
+          ],
+          "highlight_parts": [
+            "Splenic cords (of Billroth)"
+          ],
+          "caption": "Altered geometry or low deformability can prevent successful passage.",
+          "cue": "Stop the second cell on the cord side; compare outcomes without asserting a diagnosis or threshold.",
+          "native_view_name": "red_cell_slit_filtering 5: retention"
+        },
+        {
+          "id": "macrophage_removal",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic cords (of Billroth)",
+            "Venous sinusoids (stave cells)"
+          ],
+          "highlight_parts": [
+            "Splenic cords (of Billroth)"
+          ],
+          "caption": "Mechanical retention and macrophage recognition are distinct processes.",
+          "cue": "Optional macrophage icon may engulf a retained cell in a separate later stage; no instant slit-induced lysis.",
+          "native_view_name": "red_cell_slit_filtering 6: macrophage_removal"
+        }
+      ],
+      "schematic_limitations": [
+        "Shape states are conceptual; no finite-element membrane mechanics, fluid forces or cellular biophysics are solved.",
+        "Preserve authored slit short-axis 0.65 micrometres and transit depth 1.89 micrometres; source code uses 750 micrometres/model unit.",
+        "The slit long axis is authored as 2.5 micrometres; sinus calibre is separately magnified 1.4x.",
+        "Different RBC alterations and opsonization must not be treated as one universal geometric failure.",
+        "Primary filtering studies were available as indexed article text/abstract, but full-text opens encountered access challenges; preserved numerical dimensions still require later full-text recheck."
+      ]
+    },
+    {
+      "id": "blood_borne_adaptive_immunity",
+      "mechanism": "Blood-borne material reaches the open circulation; white-pulp T-cell and follicular B-cell compartments support adaptive responses.",
+      "source_ids": [
+        "human_open_2022",
+        "human_white_pulp_2003",
+        "audia_2014",
+        "steiniger_2015"
+      ],
+      "steps": [
+        {
+          "id": "antigen_arrival",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Central artery & follicular branches",
+            "Penicillar arterioles",
+            "Sheathed capillaries (Schweigger-Seidel sheaths)",
+            "Splenic cords (of Billroth)",
+            "Perifollicular open spaces",
+            "Superficial follicular zone (human)",
+            "Splenic follicles & mantle zone",
+            "Periarteriolar lymphoid sheath (PALS)"
+          ],
+          "highlight_parts": [
+            "Splenic cords (of Billroth)",
+            "Perifollicular open spaces"
+          ],
+          "caption": "Blood-borne antigen is exposed to open red-pulp and follicular-surface compartments.",
+          "cue": "Gold antigen icons are separate from red-cell symbols; local access is shown without prescribing a unique human trafficking route.",
+          "native_view_name": "blood_borne_adaptive_immunity 1: antigen_arrival"
+        },
+        {
+          "id": "t_zone",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Periarteriolar lymphoid sheath (PALS)",
+            "Central artery & follicular branches",
+            "Splenic follicles & mantle zone",
+            "Superficial follicular zone (human)"
+          ],
+          "highlight_parts": [
+            "Periarteriolar lymphoid sheath (PALS)"
+          ],
+          "caption": "The PALS is a T-cell compartment associated with central arteries.",
+          "cue": "Use compartment highlighting; antigen presentation is an explanatory inset, not proof of an individual dendritic-cell track.",
+          "native_view_name": "blood_borne_adaptive_immunity 2: t_zone"
+        },
+        {
+          "id": "b_zone",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic follicles & mantle zone",
+            "Superficial follicular zone (human)",
+            "Perifollicular open spaces",
+            "Periarteriolar lymphoid sheath (PALS)",
+            "Germinal centres"
+          ],
+          "highlight_parts": [
+            "Splenic follicles & mantle zone",
+            "Superficial follicular zone (human)"
+          ],
+          "caption": "Follicular B cells recognize antigen; human superficial follicular zones differ from rodent marginal zones.",
+          "cue": "T- and B-compartment identities are functional; avoid depicting a rodent marginal sinus or importing mouse bridging channels.",
+          "native_view_name": "blood_borne_adaptive_immunity 3: b_zone"
+        },
+        {
+          "id": "cognate_help",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic follicles & mantle zone",
+            "Periarteriolar lymphoid sheath (PALS)",
+            "Germinal centres"
+          ],
+          "highlight_parts": [
+            "Periarteriolar lymphoid sheath (PALS)",
+            "Splenic follicles & mantle zone"
+          ],
+          "caption": "A responding B cell can receive cognate T-cell help.",
+          "cue": "Schematic interaction card at the T/B interface; no validated human cell migration trajectory is claimed.",
+          "native_view_name": "blood_borne_adaptive_immunity 4: cognate_help"
+        },
+        {
+          "id": "gc_response",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic follicles & mantle zone",
+            "Germinal centres",
+            "Superficial follicular zone (human)"
+          ],
+          "highlight_parts": [
+            "Germinal centres"
+          ],
+          "caption": "A responding secondary follicle supports proliferation and selection of B cells.",
+          "cue": "Human splenic T-follicular-helper cells are documented in germinal centres; helper signals are diagrammatic, not mesh parts.",
+          "native_view_name": "blood_borne_adaptive_immunity 5: gc_response"
+        },
+        {
+          "id": "effector_memory",
+          "display_seconds": 5,
+          "visible_parts": [
+            "Splenic follicles & mantle zone",
+            "Germinal centres",
+            "Splenic cords (of Billroth)"
+          ],
+          "highlight_parts": [
+            "Germinal centres",
+            "Splenic cords (of Billroth)"
+          ],
+          "caption": "The adaptive response can produce antibody-secreting cells and memory B cells.",
+          "cue": "Antibody output uses an explanatory card; no fixed efferent lymphatic route or fixed memory-cell address is animated.",
+          "native_view_name": "blood_borne_adaptive_immunity 6: effector_memory"
+        }
+      ],
+      "schematic_limitations": [
+        "The source models responding germinal centres; this is one activation state, not a claim that every adult follicle is activated.",
+        "Exact human antigen-transfer and lymphocyte ingress/egress trajectories remain insufficiently resolved; display them as explanatory cards.",
+        "Human splenic T-follicular-helper localization/signals are supported by control and ITP specimens; this timeline does not model ITP.",
+        "No stage duration denotes real immune-response time; GC activation is not blood-flow motion.",
+        "Memory B-cell location is not confined to the superficial zone; human phenotypic distributions and nomenclature are complex."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "human_open_2022",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9526706/",
+      "kind": "primary_human_reconstruction",
+      "retrieval": "full_text_opened"
+    },
+    {
+      "id": "human_white_pulp_2003",
+      "url": "https://journals.sagepub.com/doi/full/10.1177/002215540305100511",
+      "kind": "primary_human_reconstruction",
+      "retrieval": "full_text_opened"
+    },
+    {
+      "id": "steiniger_2015",
+      "url": "https://onlinelibrary.wiley.com/doi/full/10.1111/imm.12469",
+      "kind": "anatomy_review",
+      "retrieval": "full_text_opened"
+    },
+    {
+      "id": "audia_2014",
+      "url": "https://www.kennedy.ox.ac.uk/publication/700171",
+      "kind": "primary_human_study",
+      "retrieval": "author_institutional_abstract_opened"
+    },
+    {
+      "id": "deplaine_2011",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3062417/",
+      "kind": "primary_experimental_study",
+      "retrieval": "indexed_text_retrieved_full_text_open_challenged"
+    },
+    {
+      "id": "pivkin_2016",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27354532/",
+      "kind": "primary_computational_study",
+      "retrieval": "indexed_abstract_retrieved_full_text_open_challenged"
+    }
+  ]
+}

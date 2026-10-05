@@ -1,0 +1,346 @@
+{
+  "schema": "ae.authored-interactions-integration.v1",
+  "schema_version": 1,
+  "status": "integrated_core_and_emitted_store_fixture_verified",
+  "algorithm_sha256": "6069be1136564716fe76655fe1d616bbef821298b90d9ca359199acfbd39cc35",
+  "model_adapters": {
+    "compact_bone": "ae.compact_bone.runtime.v1",
+    "ear": "ae.ear.runtime.v1",
+    "male_reproductive": "ae.male_reproductive.runtime.v1",
+    "female_reproductive": "ae.female_reproductive.runtime.v1",
+    "lymph_node": "ae.lymph_node.runtime.v1"
+  },
+  "files_sha256": {
+    "authored_interactions.py": "f65c4cf605792d696f5b473e3e2c0991933fbf4bc6b31d5c374456df1267af59",
+    "authored_relationships.py": "27043c70b0bef156b161371692776658fcfe413ba3ae83a430dbf52325311a0e",
+    "authored_interaction_runtime.py": "5ca2867b1a7a5e7b77e1e835c93396aa1bf015976e52c3574e0fa50af2f5d830",
+    "authored_envelope.py": "8587726afbb7714b167ad7fc212d528d1e3b9559f23d4c6562a27166170c59b5",
+    "authored_ancestry.py": "b4d7c15b0aa8e3454b8cb1193b3aa099228e615e40008396fcdaddff93bb440f",
+    "authored_source_bundle.py": "f703c1fd7be447debd235c3d3171062ca2640e96c7beb5daea24a0e7ce4b8b84",
+    "profile_compiler.py": "a3a4ab023494f9678e88c8e66bcfe574f8cb2c63553d264aefbdd31d306f246d",
+    "qualify_source_policy.py": "ec8dfe793b89e63b980e8b0f09b50563765df0a9932346cc16cca4caa215395e",
+    "runtime.py": "5787b9458242c8178d47be44de5af1c850f643afcef08e0e06e2d9bb583a5464",
+    "execution_validation.py": "855122f70161bc223ffd8ceee65dcd8026bc5fd995afd657fc7b89c79535fcbd",
+    "mode_runtime.py": "81f6ba4d77a5981c751168f24f46b918da41b79d3c0f4145d68c9e33138ce47a"
+  },
+  "roles": {
+    "authored_projected_profile": {
+      "format": "json",
+      "schema": "ae.authored-projected-profile.v1"
+    },
+    "authored_base_profile": {
+      "format": "json",
+      "schema": "ae.authored-projection-base-profile.v1"
+    },
+    "authored_projection": {
+      "format": "json",
+      "schema": "ae.authored-interaction-projection.v1"
+    },
+    "authored_relationship_transport": {
+      "format": "json",
+      "schema": "ae.authored-relationship-transport.v1"
+    },
+    "authored_projected_input": {
+      "format": "npz",
+      "schema": "anatomy-npz-f32-delta-v1"
+    },
+    "authored_engine_output": {
+      "format": "npz",
+      "schema": "anatomy-npz-f32-delta-v1"
+    },
+    "authored_saved_validation": {
+      "format": "json",
+      "schema": "ae.authored-interaction-saved-lane.v1"
+    },
+    "authored_source_bundle": {
+      "format": "npz",
+      "schema": "ae.authored-source-bundle.v1"
+    },
+    "canonical_payload": {
+      "format": "npz",
+      "schema": "anatomy-npz-f32-delta-v1"
+    }
+  },
+  "ordinary_post_roles": [
+    "microrefine_execution",
+    "engine_report",
+    "microrefine_profile",
+    "independent_validation",
+    "microrefine_audit"
+  ],
+  "profile_discriminator": "final_microrefine.authored_interactions nonempty",
+  "profile_fields": [
+    "authored_interactions",
+    "authored_interactions_sha256",
+    "authored_adapter_sha256",
+    "source_nested_owner_links",
+    "source_nested_owner_links_sha256"
+  ],
+  "audit_hash_fields": [
+    "authored_adapter_sha256",
+    "authored_wrapper_sha256",
+    "authored_relationships_sha256",
+    "authored_ancestry_sha256",
+    "authored_source_bundle_writer_sha256",
+    "authored_source_bundle_sha256"
+  ],
+  "final_geometry_boundary": "microrefine_with_exact_authored_member_restoration_before_Post_freeze",
+  "semantics": {
+    "source_material_excluded": false,
+    "collision_waiver": false,
+    "projection": "Connected exact source-declared immutable real-material occupied unions remain obstacles to all other eligible material",
+    "restoration": "Restore exact source participant p/n/f/colors and metadata; preserve every other actual engine-returned array; independently reopen and validate saved original selectors",
+    "relationships": "All original individual cell ownership, continuity, layer, lumen, passage and radius checks execute against delivered original selectors",
+    "no_change": "Requires actual original engine iteration and independent semantic/attribute comparison; raw ZIP equality is unnecessary",
+    "nested_ancestry": "Exact source child ID and ordinary owner reference joins to a declared germ-instance/Sertoli intersection; whole ancestor enclosure is not asserted",
+    "mutable_relationship_transport": "unsupported"
+  },
+  "inventories": {
+    "compact_bone": {
+      "pairs": [
+        [
+          "Osteoclasts (Howship lacunae)",
+          "Osteoclast nuclei"
+        ]
+      ],
+      "hosts": 3,
+      "children": 15,
+      "source": "baseline/app/micro/bone.py",
+      "ownership_mapping": "Exact span XOR indexed subset; disjoint complete native vertices and faces for every source instance"
+    },
+    "ear": {
+      "pairs": [
+        [
+          "Tectorial membrane (magnified)",
+          "Spiral limbus"
+        ],
+        [
+          "Tectorial membrane (magnified)",
+          "Hair-cell stereocilia"
+        ],
+        [
+          "Inner hair cells",
+          "Hair-cell stereocilia"
+        ],
+        [
+          "Outer hair cells",
+          "Hair-cell stereocilia"
+        ],
+        [
+          "Type I hair cells (crista)",
+          "Stereocilia & kinocilia (crista)"
+        ],
+        [
+          "Type II hair cells (crista)",
+          "Stereocilia & kinocilia (crista)"
+        ],
+        [
+          "Type I hair cells (macula)",
+          "Stereocilia & kinocilia (macula)"
+        ],
+        [
+          "Type II hair cells (macula)",
+          "Stereocilia & kinocilia (macula)"
+        ],
+        [
+          "Otoconia (otoliths)",
+          "Otolithic membrane (magnified)"
+        ],
+        [
+          "Cupula (magnified)",
+          "Stereocilia & kinocilia (crista)"
+        ],
+        [
+          "Gelatinous layer",
+          "Stereocilia & kinocilia (macula)"
+        ],
+        [
+          "Malleus",
+          "Incudomallear joint"
+        ],
+        [
+          "Incus",
+          "Incudomallear joint"
+        ],
+        [
+          "Incus",
+          "Incudostapedial joint"
+        ],
+        [
+          "Stapes",
+          "Incudostapedial joint"
+        ],
+        [
+          "Stapes",
+          "Base (footplate) of stapes"
+        ],
+        [
+          "Base (footplate) of stapes",
+          "Oval window & annular ligament"
+        ],
+        [
+          "Malleus",
+          "Tympanic membrane – pars tensa"
+        ],
+        [
+          "Malleus",
+          "Tensor tympani tendon"
+        ],
+        [
+          "Stapes",
+          "Stapedius tendon"
+        ],
+        [
+          "Tensor tympani",
+          "Tensor tympani tendon"
+        ],
+        [
+          "Stapedius",
+          "Stapedius tendon"
+        ],
+        [
+          "Malleus",
+          "Superior ligament of malleus"
+        ],
+        [
+          "Malleus",
+          "Lateral ligament of malleus"
+        ],
+        [
+          "Malleus",
+          "Anterior ligament of malleus"
+        ],
+        [
+          "Incus",
+          "Posterior ligament of incus"
+        ]
+      ],
+      "count": 26,
+      "source": "baseline/app/micro/ear.py"
+    },
+    "male_reproductive": {
+      "parts": {
+        "Spermatogonia": 12,
+        "Primary spermatocytes": 12,
+        "Secondary spermatocytes": 3,
+        "Spermatids": 16
+      },
+      "ancestor": "Sertoli (sustentacular) cells",
+      "count": 43,
+      "source": "baseline/app/micro/male.py",
+      "nested_link_schema": "ae.source-nested-owner-link.v1",
+      "nested_child": "Germ cell nuclei",
+      "nested_count": 43
+    },
+    "female_reproductive": {
+      "pair": [
+        "Ampullary ciliated cells (sampled patch)",
+        "Ampullary cilia (enlarged samples)"
+      ],
+      "count": "Every source-captured apical instance, source producer inventory required",
+      "source": "recovery/female-reproductive-refinement/source/build.py"
+    },
+    "lymph_node": {
+      "source": "baseline/app/micro/lymphoid.py",
+      "count": 7,
+      "instance_ids": [
+        "ln:valves:0",
+        "ln:valves:1",
+        "ln:valves:2",
+        "ln:valves:3",
+        "ln:valves:4",
+        "ln:valves:5",
+        "ln:valves:6"
+      ],
+      "pairs": [
+        [
+          "Efferent lymphatic vessel",
+          "Lymphatic valves"
+        ],
+        [
+          "Afferent lymphatic vessels",
+          "Lymphatic valves"
+        ],
+        [
+          "Afferent lymphatic vessels",
+          "Lymphatic valves"
+        ],
+        [
+          "Afferent lymphatic vessels",
+          "Lymphatic valves"
+        ],
+        [
+          "Afferent lymphatic vessels",
+          "Lymphatic valves"
+        ],
+        [
+          "Afferent lymphatic vessels",
+          "Lymphatic valves"
+        ],
+        [
+          "Afferent lymphatic vessels",
+          "Lymphatic valves"
+        ]
+      ],
+      "decomposed_intersection_ids": "ln:valves:N:intersection:j"
+    }
+  },
+  "source_bundle": {
+    "schema": "ae.authored-source-bundle.v1",
+    "meta_keys": [
+      "schema",
+      "schema_version",
+      "model_id",
+      "entries"
+    ],
+    "entry_keys": [
+      "path",
+      "sha256",
+      "size",
+      "array_key"
+    ],
+    "entry_order": "Original relative path, lexicographic",
+    "raw_arrays": "uint8 blob_N, complete unchanged original NPZ/JSON bytes",
+    "scope": [
+      "witnesses",
+      "additional_checks",
+      "authored_interactions",
+      "source_nested_owner_links"
+    ],
+    "max_entries": 1024,
+    "max_file_bytes": 2147483648,
+    "max_expanded_bytes": 8589934592,
+    "path_rebinding": false
+  },
+  "runtime_api": "runtime.run_final_microrefine retains existing public parameters and Windows guard; authored branch dispatches internally",
+  "qualification_api": "qualify_source_policy keeps technical source correspondence and independently proves every immutable authored reference/array and exact source relationship before genuine refinement",
+  "tiny_tests_passed": 38,
+  "real_anatomy_processing": false,
+  "anatomical_qualification": false,
+  "runtime_required_gates": [
+    "Every authored positive source-local intersection actually measured and fully reference-covered",
+    "Exact source-writer and original Pre canonical correspondence",
+    "Source unit IDs, ownership reference indices and indexed native subsets fully verified",
+    "Every original indispensable lumen, passage, layer, radius and contact source check passes",
+    "Every protected material surface and source occupied union is closed and unchanged",
+    "All undeclared saved material pairs have exactly zero intersection",
+    "Strict independently reopened Post validation and complete store promotion proof"
+  ],
+  "integrated_tests_passed": 545,
+  "emitted_store_pipeline_fixtures_passed": 5,
+  "evidence": {
+    "integrated_regression": "evidence/core-authored-integrated-regression.log",
+    "authored_final_pins": "evidence/authored-final-pins-tests.log",
+    "latest_integrated_regression": "evidence/core-authored-final-regression.log"
+  },
+  "latest_integrated_regression": {
+    "tests_run": 547,
+    "tests_passed": 546,
+    "failures": 1,
+    "failed_test": "test_source_policies.SourceInventoryTests.test_all39_status_has_real_producer_and_no_desktop_success_claim",
+    "failure": "Active source producer revisions differ from owned STATUS producer_sha256 snapshot",
+    "owner": "complete_microrefine_source_policies",
+    "evidence": "evidence/core-authored-final-regression.log"
+  },
+  "store_tests_passed": 93
+}

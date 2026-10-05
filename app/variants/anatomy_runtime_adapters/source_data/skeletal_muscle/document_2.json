@@ -1,0 +1,1969 @@
+{
+  "schema_version": 1,
+  "model_id": "skeletal_muscle",
+  "status": "source_teaching_ready_new_output_visual_checks_deferred",
+  "source_variant": "new_source_improved_pre_microrefine_recipe_20261004",
+  "baseline_cache_sha256": "1768d893c1a427a3597c1d85a82973c5aa2a7bf3b5580c6a835e86a6408d6181",
+  "selector_policy": "Exact part names; no aliases, category matching, renaming or wildcards. Preserve all 25 legacy targets. Expanded views require explicit candidate metadata; fail on missing selectors.",
+  "component_names": [
+    "Epimysium",
+    "Epimysial collagen bundles",
+    "Perimysium",
+    "Endomysium",
+    "Muscle fibres",
+    "Myonuclei",
+    "Satellite cells",
+    "Endomysial capillaries",
+    "Perimysial arterioles",
+    "Perimysial venules",
+    "Myofibrils",
+    "A band",
+    "I band",
+    "H zone",
+    "M line",
+    "Z disc",
+    "T tubules",
+    "Sarcoplasmic reticulum",
+    "Motor nerve branch",
+    "Neuromuscular junction",
+    "Motor end plate",
+    "Muscle spindle capsule",
+    "Intrafusal fibres",
+    "Nuclear bag & chain nuclei",
+    "Annulospiral (Ia) sensory ending",
+    "Fiber sarcoplasm | enlarged cell",
+    "Peripheral myonuclei | enlarged cell",
+    "Satellite-cell cytoplasm | enlarged cell",
+    "Satellite-cell nucleus | enlarged cell",
+    "Basal lamina | enlarged cell",
+    "Reticular endomysial support | enlarged cell",
+    "Endomysial fibroblasts | enlarged cell",
+    "Endomysial fibroblast nuclei | enlarged cell",
+    "Sarcolemma | enlarged cell",
+    "Intracellular myofibril cores | enlarged cell",
+    "Overview A bands | enlarged cell",
+    "Overview I bands | enlarged cell",
+    "Thick myosin filaments | enlarged cell",
+    "Myosin head examples | enlarged cell",
+    "Thin actin filaments | enlarged cell",
+    "Z-disc anchoring lattices | enlarged cell",
+    "M-line links | enlarged cell",
+    "Titin links | enlarged cell",
+    "T-tubule membrane | enlarged cell",
+    "SR terminal cisternae and reticulum | enlarged cell",
+    "Motor terminal membrane | enlarged NMJ",
+    "Synaptic vesicles | enlarged NMJ",
+    "Terminal mitochondria | enlarged NMJ",
+    "Terminal Schwann covering | enlarged NMJ",
+    "Cleft basal lamina | enlarged NMJ",
+    "Postsynaptic receptor clusters | enlarged NMJ",
+    "Arteriole | enlarged exchange route",
+    "Capillary exchange bed | enlarged route",
+    "Venule | enlarged exchange route"
+  ],
+  "baseline_component_names": [
+    "Epimysium",
+    "Epimysial collagen bundles",
+    "Perimysium",
+    "Endomysium",
+    "Muscle fibres",
+    "Myonuclei",
+    "Satellite cells",
+    "Endomysial capillaries",
+    "Perimysial arterioles",
+    "Perimysial venules",
+    "Myofibrils",
+    "A band",
+    "I band",
+    "H zone",
+    "M line",
+    "Z disc",
+    "T tubules",
+    "Sarcoplasmic reticulum",
+    "Motor nerve branch",
+    "Neuromuscular junction",
+    "Motor end plate",
+    "Muscle spindle capsule",
+    "Intrafusal fibres",
+    "Nuclear bag & chain nuclei",
+    "Annulospiral (Ia) sensory ending"
+  ],
+  "inputs": [
+    {
+      "root": "recovery",
+      "path": "skeletal-muscle-refinement/FREEZE.json",
+      "sha256": "0afd81a5327cf311d5bdafb3ba922745f6e6b22ece37b72fcdd1e0432883dd95"
+    },
+    {
+      "root": "recovery",
+      "path": "skeletal-muscle-refinement/delivery/construction.json",
+      "sha256": "45063c90d0f47b63f06a3b090a0d635e277810cd940941f5451cb386dcb8a786"
+    },
+    {
+      "root": "recovery",
+      "path": "skeletal-muscle-refinement/delivery/skeletal_muscle_refined.viewer.json",
+      "sha256": "c8f88453c86a7b0fc902a4ad3bf1d01e3ac1c27ed348aecb5f51034fa4f83fa3"
+    },
+    {
+      "root": "recovery",
+      "path": "skeletal-muscle-refinement/source/finish_sidecar.py",
+      "sha256": "b972ff841487ee85d71891ae478ea599f3e760b7aa32327dc4def5c956a830a8"
+    },
+    {
+      "root": "recovery",
+      "path": "skeletal-muscle-refinement/evidence/view-01.png",
+      "sha256": "62a8ef87883f42198f0b30349f6b36a425dca62feef40c639e074fdd4e510220",
+      "inspected": true
+    },
+    {
+      "root": "recovery",
+      "path": "skeletal-muscle-refinement/evidence/view-03.png",
+      "sha256": "db3774628afb16622e186f20bae496c6b86d149a5218d11b78f7d68190d4ca59",
+      "inspected": true
+    },
+    {
+      "root": "recovery",
+      "path": "skeletal-muscle-refinement/evidence/view-06.png",
+      "sha256": "e60c8bdacd636ab84d10ed1a10c4735f56251f152b14938fbd9b9012fef0f5ca",
+      "inspected": true
+    },
+    {
+      "root": "recovery",
+      "path": "skeletal-muscle-refinement/evidence/view-08.png",
+      "sha256": "7469154c25037d0fffea6251570d108d1d503864feecb4fe7d033006463b6dba",
+      "inspected": true
+    }
+  ],
+  "sources": [
+    {
+      "id": "connective",
+      "url": "https://histology.leeds.ac.uk/home/tissue_types/muscle/sk_mus_connective_tissue/",
+      "opened": "2026-10-04",
+      "supports": "Connective hierarchy and supporting neurovascular locations."
+    },
+    {
+      "id": "satellite",
+      "url": "https://histology.leeds.ac.uk/home/tissue_types/muscle/muscle_regeneration/",
+      "opened": "2026-10-04",
+      "supports": "Satellite cells underneath basal lamina; separate mononucleated cellular identity."
+    },
+    {
+      "id": "triad",
+      "url": "https://histology.leeds.ac.uk/home/tissue_types/muscle/muscle_stimulation/",
+      "opened": "2026-10-04",
+      "supports": "Sarcolemmal invagination, A–I positioning, triad and distinct SR calcium compartment."
+    },
+    {
+      "id": "filaments",
+      "url": "https://histology.leeds.ac.uk/home/tissue_types/muscle/muscle_sarcomere/",
+      "opened": "2026-10-04",
+      "supports": "Z-to-Z sarcomere, thin insertion and overlap mechanism."
+    },
+    {
+      "id": "nmj",
+      "url": "https://histology.leeds.ac.uk/home/tissue_types/muscle/muscle_nmjunct/",
+      "opened": "2026-10-04",
+      "supports": "Acetylcholine across cleft to postsynaptic receptors and basal-membrane acetylcholinesterase."
+    },
+    {
+      "id": "spindle",
+      "url": "https://digitalhistology.org/tissues/muscle/skeletal/skeletal-19/",
+      "opened": "2026-10-04",
+      "supports": "Capsule, intrafusal bag/chain fibers, sensory organization and surrounding extrafusal context."
+    }
+  ],
+  "opening_view": "whole_hierarchy",
+  "view_order": [
+    "whole_hierarchy",
+    "connective_cross_section",
+    "fiber_cell",
+    "satellite_niche",
+    "nmj_covering",
+    "nmj_interface",
+    "sarcomere_bands",
+    "filament_explanation",
+    "triad_continuity",
+    "spindle_location",
+    "spindle_internal",
+    "spindle_nuclear_organization",
+    "exchange_route"
+  ],
+  "global_viewer_patch": {
+    "mixed_schematic_scale": true,
+    "um_per_bu": 0,
+    "clip": null,
+    "view_transition": "zoom",
+    "variant_label": "Pre refine",
+    "pipeline_stage": "source_improved_before_microrefine"
+  },
+  "states": [
+    {
+      "id": "whole_hierarchy",
+      "name": "SCHEMATIC 1 Whole hierarchy",
+      "purpose": "Open with the preserved whole muscle → fascicle → muscle fiber → intracellular myofibril hierarchy.",
+      "visible_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "Z disc"
+      ],
+      "hidden_parts": [
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "H zone",
+        "M line",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending",
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "Z disc"
+      ],
+      "requires_enlarged_candidate": false,
+      "source_camera": "SCHEMATIC 1 Whole hierarchy",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          3.3,
+          2.1,
+          2.9
+        ],
+        "target": [
+          0,
+          0.01,
+          0.0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "existing_specimen",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Epimysium",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myofibrils"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "Follow the deliberately opened whole-muscle coat, fascicle boundaries, individual fibers and intracellular myofibril samples. A fiber is one cell; the exposed smaller myofibrils are not branching cells. Band samples retain the striation context. Fine nuclei, junction, spindle and excitation detail are deferred to named views. Seven fascicles and reduced fiber counts are representative; telescope stages use different enlargement.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "This is an opening hierarchy view, not a simultaneous full anatomy inventory. New support-window tissue recipes and this reduced visibility have not been built or visually accepted. The nominal 3 mm original core cannot calibrate the telescope or enlarged cellular fields.",
+      "acceptance": "With selection glow off, identify whole coat, larger fascicle boundary, smaller fiber profiles and banded myofibril samples. Fine excitation, spindle and nuclear markers must not dominate the opening. Saved-new-output framing remains deferred.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "derived_hidden_parts": [],
+      "return_to_context": "whole_hierarchy",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "whole_muscle_telescope",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "connective_cross_section",
+      "name": "SCHEMATIC 2 Connective cross-section",
+      "purpose": "Compare the outer muscle coat, fascicle wrapping and delicate support around individual fiber profiles.",
+      "visible_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules"
+      ],
+      "hidden_parts": [
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending",
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules"
+      ],
+      "requires_enlarged_candidate": false,
+      "source_camera": "SCHEMATIC 2 Connective cross-section",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -3.25,
+          0.06,
+          0.04
+        ],
+        "target": [
+          -0.9,
+          0.02,
+          -0.02
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "existing_transverse_specimen",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Epimysium",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "One fascicle contains many fibers. Nerves and larger vessels occupy supporting tissue between fascicles; capillaries belong beside individual fibers. This is an illustrative specimen face, not natural empty tubes.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "Do not infer cellular packing density or coat thickness from the model. Tissue-character correction still needs geometry/material review.",
+      "acceptance": "Must remain legible with selection glow off; deferred saved-output visual review.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "derived_hidden_parts": [],
+      "return_to_context": "whole_hierarchy",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "whole_muscle_telescope",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "fiber_cell",
+      "name": "SCHEMATIC 3 One multinucleated cell",
+      "purpose": "Establish one shared cell boundary, multiple internal peripheral nuclei and representative intracellular myofibrils before opening molecular detail.",
+      "visible_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell"
+      ],
+      "hidden_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell"
+      ],
+      "requires_enlarged_candidate": true,
+      "source_camera": "SCHEMATIC 3 One muscle cell",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          1.94,
+          0,
+          1.95
+        ],
+        "target": [
+          1.73,
+          0,
+          0.2
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "authored_window",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Sarcolemma | enlarged cell",
+        "Fiber sarcoplasm | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "Pink sarcolemma bounds one skeletal muscle cell. Purple myonuclei lie on its inner peripheral side. The teal satellite cell is a separate cell outside sarcolemma, beneath basal lamina. Only two intracellular myofibrils are sampled.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "Sarcolemmal and basal-lamina openings are authored cuts; thickness and intracellular packing are exaggerated. Filaments and triad are held back for later states.",
+      "acceptance": "Must remain legible with selection glow off; deferred saved-output visual review.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [],
+      "derived_hidden_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "return_to_context": "fiber_cell",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "enlarged_muscle_cell_sample",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "satellite_niche",
+      "name": "SCHEMATIC 4 Satellite niche",
+      "purpose": "Resolve the satellite cell nucleus, its residual cytoplasm and its place between muscle membrane and basal lamina.",
+      "visible_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Sarcolemma | enlarged cell"
+      ],
+      "hidden_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Sarcolemma | enlarged cell"
+      ],
+      "requires_enlarged_candidate": true,
+      "source_camera": "SCHEMATIC 8 Satellite niche",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          2.16,
+          0.35,
+          0.37
+        ],
+        "target": [
+          2.065,
+          0.12,
+          0.188
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "authored_window",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Sarcolemma | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Peripheral myonuclei | enlarged cell"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "Outside the muscle-cell sarcolemma, a distinct satellite cell sits underneath the basal lamina. Its window reveals one nucleus within remaining teal cytoplasm. Internal myonuclei and the satellite-cell nucleus have different cellular owners.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "The old niche preview alone crops away wider muscle context. Return to One multinucleated cell before and after this detail; retain basal-lamina and sarcolemmal edges instead of hiding them.",
+      "acceptance": "Must remain legible with selection glow off; deferred saved-output visual review.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [],
+      "derived_hidden_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "return_to_context": "fiber_cell",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "enlarged_muscle_cell_sample",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "nmj_covering",
+      "name": "SCHEMATIC 5 Motor junction coverings",
+      "purpose": "Introduce the motor terminal, its covering and extracellular cleft over the same muscle-cell membrane.",
+      "visible_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ"
+      ],
+      "hidden_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ"
+      ],
+      "requires_enlarged_candidate": true,
+      "source_camera": "SCHEMATIC 4 Motor junction",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          1.46,
+          0.58,
+          0.61
+        ],
+        "target": [
+          1.46,
+          0.125,
+          0.2
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "authored_window",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Motor terminal membrane | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Sarcolemma | enlarged cell"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "This motor synapse activates a muscle fiber. Presynaptic terminal membrane and the muscle-cell sarcolemma are separate. Terminal Schwann covering and cleft basal lamina are samples; the next state peels only those explanatory samples.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "Covering and cleft samples may conceal contents. This state establishes ownership, then advances to the interface state; no membrane fusion or material displacement.",
+      "acceptance": "Must remain legible with selection glow off; deferred saved-output visual review.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [],
+      "derived_hidden_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "return_to_context": "fiber_cell",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "enlarged_muscle_cell_sample",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "nmj_interface",
+      "name": "SCHEMATIC 6 Motor junction interface",
+      "purpose": "Expose vesicles, exaggerated cleft and folded postsynaptic surface while retaining both cells.",
+      "visible_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ"
+      ],
+      "hidden_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ"
+      ],
+      "requires_enlarged_candidate": true,
+      "source_camera": "SCHEMATIC 4 Motor junction",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          1.46,
+          0.58,
+          0.61
+        ],
+        "target": [
+          1.46,
+          0.125,
+          0.2
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "authored_window",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ",
+        "Sarcolemma | enlarged cell"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "Schwann covering and cleft basal-lamina samples are intentionally hidden here. Vesicles occupy the open nerve terminal; acetylcholine crosses the cleft to receptors on folds of the muscle-cell sarcolemma. The cleft is extracellular space, not a third cell.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "No calibrated cleft width, active-zone density, transmitter diffusion or complete molecular receptors are represented. Return to coverings to restore the omitted samples.",
+      "acceptance": "Must remain legible with selection glow off; deferred saved-output visual review.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [],
+      "derived_hidden_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "return_to_context": "fiber_cell",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "enlarged_muscle_cell_sample",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "sarcomere_bands",
+      "name": "SCHEMATIC 7 Bands within a fiber",
+      "purpose": "Connect optical bands to an intracellular myofibril before removing the band shells for filament explanation.",
+      "visible_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell"
+      ],
+      "hidden_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell"
+      ],
+      "requires_enlarged_candidate": true,
+      "source_camera": "SCHEMATIC 3 One muscle cell",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          1.94,
+          0,
+          1.95
+        ],
+        "target": [
+          1.73,
+          0,
+          0.2
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "authored_window",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "The repeating bands belong to intracellular myofibrils. A sarcomere spans Z disc to Z disc. The bands are regions defined by filament arrangement; they are not separate organelles.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "Enlarged A/I shell labels are an overview; Z/H/M structural positions are resolved by the following filament view. Do not measure drawn band lengths.",
+      "acceptance": "Must remain legible with selection glow off; deferred saved-output visual review.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [],
+      "derived_hidden_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "return_to_context": "fiber_cell",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "enlarged_muscle_cell_sample",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "filament_explanation",
+      "name": "SCHEMATIC 8 Filaments and overlap",
+      "purpose": "Make thick/thin overlap, central H region and Z-to-Z anchoring visible without solid colored band shells.",
+      "visible_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell"
+      ],
+      "hidden_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell"
+      ],
+      "requires_enlarged_candidate": true,
+      "source_camera": "SCHEMATIC 5 Sarcomere and triad",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          1.91,
+          0.01,
+          0.79
+        ],
+        "target": [
+          1.78,
+          0.046,
+          0.174
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "authored_window",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Sarcolemma | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Thin actin filaments | enlarged cell"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "Thin actin filaments insert at Z-disc anchoring lattices. Thick myosin filaments occupy the central A region; their overlap with thin filaments gives band organization. The central non-overlap H region lies inside A. The M line anchors the center; titin links thick filament to Z.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "Few filaments and myosin-head examples are schematic samples. No contraction is executed. Any later comparison must preserve filament lengths while changing overlap.",
+      "acceptance": "Must remain legible with selection glow off; deferred saved-output visual review.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [],
+      "derived_hidden_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "return_to_context": "fiber_cell",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "enlarged_muscle_cell_sample",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "triad_continuity",
+      "name": "SCHEMATIC 9 Triad and membrane continuity",
+      "purpose": "Follow sarcolemma into T tubule beside two SR terminal cisternae; show their independent compartments around intracellular myofibrils.",
+      "visible_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell"
+      ],
+      "hidden_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell"
+      ],
+      "requires_enlarged_candidate": true,
+      "source_camera": "SCHEMATIC 5 Sarcomere and triad",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          1.91,
+          0.01,
+          0.79
+        ],
+        "target": [
+          1.78,
+          0.046,
+          0.174
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "authored_window",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Sarcolemma | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "A T tubule is an inward extension of the sarcolemma, with extracellularly continuous lumen. Two SR terminal cisternae flank it near A–I boundaries. The SR network has a different lumen, and releases calcium into sarcoplasm during activation.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "Geometry/cavity continuity must be verified from saved output; this visibility state and old preview cannot certify it. Thin-filament/head detail is hidden to make membrane continuity readable.",
+      "acceptance": "Must remain legible with selection glow off; deferred saved-output visual review.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [],
+      "derived_hidden_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "return_to_context": "fiber_cell",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "enlarged_muscle_cell_sample",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "spindle_location",
+      "name": "SCHEMATIC 10 Spindle within muscle",
+      "purpose": "Locate the capsule in connective tissue aligned alongside surrounding ordinary extrafusal muscle fibers.",
+      "visible_parts": [
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending"
+      ],
+      "hidden_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending"
+      ],
+      "requires_enlarged_candidate": false,
+      "source_camera": "SCHEMATIC 1 Whole hierarchy",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          3.3,
+          2.1,
+          2.9
+        ],
+        "target": [
+          0,
+          0.01,
+          0.0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "existing_capsule_window",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Muscle fibres",
+        "Perimysium",
+        "Muscle spindle capsule",
+        "Intrafusal fibres"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "The spindle is a length-sensitive sensory organ aligned with neighboring extrafusal fibers. Intrafusal fibers lie within its capsule. Its yellow central sensory ending differs from the motor end plate.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "This camera is adapted from the hierarchy and requires separate-machine framing review; view must show both capsule and surrounding fibers.",
+      "acceptance": "Must remain legible with selection glow off; deferred saved-output visual review.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "derived_hidden_parts": [],
+      "return_to_context": "spindle_location",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "muscle_spindle_sample",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "spindle_internal",
+      "name": "SCHEMATIC 11 Spindle bag and chain",
+      "purpose": "Show nuclear bag clusters and chain rows within retained intrafusal walls; preserve capsule rims, polar fibers, sensory coils and neighboring extrafusal context.",
+      "visible_parts": [
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending"
+      ],
+      "hidden_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending"
+      ],
+      "requires_enlarged_candidate": false,
+      "source_camera": "SCHEMATIC 6 Spindle context",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          0.48,
+          0.19,
+          1.04
+        ],
+        "target": [
+          0.28,
+          -0.082,
+          0.52
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "existing_capsule_and_intrafusal_windows",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending",
+        "Muscle fibres",
+        "Perimysium"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "Central teaching windows expose clustered bag nuclei and chain nuclei in a row. Sensory coils wrap the central region; the contractile polar portions remain visible. Gamma motor endings and the full reflex pathway are omitted.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "The old isolated spindle preview lacks extrafusal context and shows crowded coils. Reframe or refine local teaching windows on separate machine if retained field occludes the detail; do not solve this by hiding all intrafusal fibers.",
+      "acceptance": "Must remain legible with selection glow off; deferred saved-output visual review.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "derived_hidden_parts": [],
+      "return_to_context": "spindle_location",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "muscle_spindle_sample",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "spindle_nuclear_organization",
+      "name": "SCHEMATIC 11b Nuclear bag and chain window",
+      "purpose": "Read central nuclear bag clusters and nuclear chain rows through existing intentional windows, before restoring the dense primary sensory coils.",
+      "visible_parts": [
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei"
+      ],
+      "hidden_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Annulospiral (Ia) sensory ending",
+        "Fiber sarcoplasm | enlarged cell",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "required_parts": [
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei"
+      ],
+      "requires_enlarged_candidate": false,
+      "source_camera": "SCHEMATIC 11 Spindle bag and chain",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          0.48,
+          0.19,
+          1.04
+        ],
+        "target": [
+          0.28,
+          -0.082,
+          0.52
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "existing_capsule_and_intrafusal_windows",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Muscle fibres",
+        "Perimysium"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "Only the yellow primary sensory ending is hidden in this explanatory step. Capsule rims, intrafusal cell walls and polar portions remain around the bag clusters and chain rows, with extrafusal fibers and perimysium as context. Return to SCHEMATIC 11 Spindle bag and chain to restore the sensory ending. Hidden geometry is a teaching choice, not absent anatomy.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "Uses the same historically proposed spindle camera. Neighboring extrafusal fibers may occlude this close view; saved-new-output inspection must establish readable nuclear groups without removing intrafusal walls. No gamma-ending or reflex reconstruction is implied.",
+      "acceptance": "Both bag-like nuclear clustering and chain-like rows are legible while capsule edges, intrafusal walls and polar portions remain visible. Restore sensory coils in the preceding named view and confirm the same spatial relationships.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "derived_hidden_parts": [],
+      "return_to_context": "spindle_location",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "muscle_spindle_sample",
+        "camera_motion_is_anatomical_registration": false
+      }
+    },
+    {
+      "id": "exchange_route",
+      "name": "SCHEMATIC 12 Supply exchange drainage",
+      "purpose": "Trace a representative supply → exchange → drainage route alongside the muscle cell within endomysial support.",
+      "visible_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "hidden_parts": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending",
+        "Peripheral myonuclei | enlarged cell",
+        "Satellite-cell cytoplasm | enlarged cell",
+        "Satellite-cell nucleus | enlarged cell",
+        "Intracellular myofibril cores | enlarged cell",
+        "Overview A bands | enlarged cell",
+        "Overview I bands | enlarged cell",
+        "Thick myosin filaments | enlarged cell",
+        "Myosin head examples | enlarged cell",
+        "Thin actin filaments | enlarged cell",
+        "Z-disc anchoring lattices | enlarged cell",
+        "M-line links | enlarged cell",
+        "Titin links | enlarged cell",
+        "T-tubule membrane | enlarged cell",
+        "SR terminal cisternae and reticulum | enlarged cell",
+        "Motor terminal membrane | enlarged NMJ",
+        "Synaptic vesicles | enlarged NMJ",
+        "Terminal mitochondria | enlarged NMJ",
+        "Terminal Schwann covering | enlarged NMJ",
+        "Cleft basal lamina | enlarged NMJ",
+        "Postsynaptic receptor clusters | enlarged NMJ"
+      ],
+      "required_parts": [
+        "Fiber sarcoplasm | enlarged cell",
+        "Basal lamina | enlarged cell",
+        "Reticular endomysial support | enlarged cell",
+        "Endomysial fibroblasts | enlarged cell",
+        "Endomysial fibroblast nuclei | enlarged cell",
+        "Sarcolemma | enlarged cell",
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route"
+      ],
+      "requires_enlarged_candidate": true,
+      "source_camera": "SCHEMATIC 7 Exchange route",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          1.73,
+          -1.65,
+          1.2
+        ],
+        "target": [
+          1.73,
+          0,
+          0.2
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "fov_deg": 34,
+        "cut_on": false
+      },
+      "section": {
+        "mode": "authored_window",
+        "clip_enabled": false,
+        "explosion": 0,
+        "policy": "Use authored teaching boundaries; preserve residual host membranes and cut edges. No global plane through nerve-muscle or lumina."
+      },
+      "context_landmarks": [
+        "Arteriole | enlarged exchange route",
+        "Capillary exchange bed | enlarged route",
+        "Venule | enlarged exchange route",
+        "Sarcolemma | enlarged cell",
+        "Reticular endomysial support | enlarged cell"
+      ],
+      "scale_note": "SCHEMATIC: separate axial and transverse enlargement; biological measurements are unavailable. Counts, spacing, membrane thickness and cuts are teaching samples.",
+      "caption": "Follow the supplying arteriole through the linked capillary bed to the collecting venule. These courses remain extracellular beside the muscle-cell membrane. Open trunk ends continue beyond the selected teaching sample.",
+      "ruler": {
+        "biological_scale_bar": false,
+        "biological_distance": false,
+        "relative_model_distance": true,
+        "label": "model units (mixed schematic scale)",
+        "calibration": null
+      },
+      "limitations": "The existing candidate is ladder-like and support wire-like. Apparent contact is not lumen evidence; save/reload numerical route and lumen checks remain separate from visual review.",
+      "acceptance": "Must remain legible with selection glow off; deferred saved-output visual review.",
+      "selected_parts": [],
+      "ghost_parts": [],
+      "derived_visible_parts": [],
+      "derived_hidden_parts": [
+        "Perimysium stromal cells | support window",
+        "Perimysium stromal nuclei | support window",
+        "Endomysium stromal cells | support window",
+        "Endomysium stromal nuclei | support window"
+      ],
+      "return_to_context": "fiber_cell",
+      "scale_transition": {
+        "display": "Different teaching enlargements; no biological ruler",
+        "family": "enlarged_muscle_cell_sample",
+        "camera_motion_is_anatomical_registration": false
+      }
+    }
+  ],
+  "deferred_checks": [
+    "Native roundtrip preserves exact selectors and opening hidden set.",
+    "Every state and section legible without selection glow.",
+    "Ruler remains model-units-only and biological scale bar is absent through all transitions.",
+    "Actual camera framing for new reduced-detail and retained-context states.",
+    "Saved membrane/lumen routes distinguish T lumen, SR lumen and extracellular cleft."
+  ],
+  "historical_candidate_npz_sha256": "7831c83ed1a5ff92dd5ca95bde2fa86099089e4b80cdad91ee20378c405cf32d",
+  "candidate_npz_sha256": null,
+  "camera_namespace": "SCHEMATIC ",
+  "agent_identity": {
+    "agent_name": "/root/finish_skeletal_muscle_source/review_skeletal_muscle_teaching",
+    "role": "teaching",
+    "reviewed_utc": "2026-10-04T06:51:00Z",
+    "descendants_spawned": 0
+  },
+  "variant_semantics": {
+    "Pre refine": "New source-improved output immediately before microrefine; never the legacy baseline or historical candidate.",
+    "Post refine": "Separate later microrefine result, with independent identity and validation. No Post refine output is created by this teaching work.",
+    "historical_candidate": "Unaccepted 54-part review record used only as attributed preview and source-recipe evidence."
+  },
+  "derived_part_owners": {
+    "Perimysium stromal cells | support window": "Perimysium",
+    "Perimysium stromal nuclei | support window": "Perimysium",
+    "Endomysium stromal cells | support window": "Endomysium",
+    "Endomysium stromal nuclei | support window": "Endomysium"
+  },
+  "native_behavior_evidence": {
+    "named_camera": "baseline app/viewer/viewport.py:408-434 applies complete hidden mask, returns to assembled state, and clears global sections when cut_on=false.",
+    "schematic_ruler": "baseline app/viewer/viewport.py:778-784 labels two-click distances as model units; :1027-1032 suppresses biological scale bar.",
+    "lesson_focus": "baseline app/ui/lessons.py:603-615 invokes app/ui/model_view.py:781-797 focus_parts, which selects/ghosts/reframes rather than applying named-view partitions.",
+    "integration": "Keep native named Views-menu choices for this package; automatic lesson-to-view binding and selection-clear behavior are root application responsibilities."
+  }
+}

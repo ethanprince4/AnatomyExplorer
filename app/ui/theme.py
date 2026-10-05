@@ -1,15 +1,8 @@
-"""Design tokens and the global style sheet.
+"""Shared native Porcelain/Cobalt interface tokens.
 
-One calm, clinical dark theme: deep slate surfaces that recede behind the 3D model, a single teal accent for
-"this is interactive / this is selected", and semantic colours (success, warning, danger, info) that mean the
-same thing in every panel. Everything that paints colour - QSS here, inline setStyleSheet calls, HTML/CSS in
-the text browsers and QPainter code - takes it from the tokens below, so a colour is changed in one place.
-
-Scales
-    colour      CANVAS < SUNKEN < SURFACE < RAISED < HOVER < PRESSED   (elevation by lightness; QSS has no shadows)
-    type (pt)   FS_CAPTION 8 · FS_SMALL 8.5 · FS_BODY 9.5 · FS_LEAD 10.5 · FS_TITLE 12.5 · FS_H2 15 · FS_H1 17
-    spacing     SP_1 4 · SP_2 8 · SP_3 12 · SP_4 16 · SP_5 24   (px, 4-px rhythm)
-    radius      R_SM 4 · R_MD 6 · R_LG 8 · R_XL 12
+Educational images, model materials and renderer backgrounds are intentionally independent.
+The alternative Slate palette is selected before widget construction; switching it is a
+next-launch preference so rich-text and painter surfaces cannot become partly themed.
 """
 import sys
 import tempfile
@@ -72,10 +65,50 @@ BG = CANVAS
 PANEL = SURFACE
 PANEL_2 = RAISED
 
+# The existing names are a public contract used by every native workspace.
+_TOKEN_NAMES = tuple(name for name, value in list(globals().items())
+                     if name.isupper() and isinstance(value, str) and value.startswith("#"))
+_DARK = {name: globals()[name] for name in _TOKEN_NAMES}
+_DARK.update(ACCENT="#91b4ff", ACCENT_HOVER="#b1caff", ACCENT_PRESSED="#709bee",
+             ACCENT_TEXT="#acc7ff", ACCENT_SOFT="#1c2b49", ACCENT_SOFT_HOVER="#253859",
+             ACCENT_BORDER="#5072af", ON_ACCENT="#101f3e", WARNING="#edaa9c", WARNING_SOFT="#392722")
+_PORCELAIN = dict(
+    CANVAS="#e9ecee", SUNKEN="#ffffff", SURFACE="#f8fafb", RAISED="#dfe5e8",
+    HOVER="#d5dfe4", PRESSED="#cbd7df", OVERLAY="#f8fafb",
+    BORDER_SUBTLE="#c2cfd5", BORDER="#8798a3", BORDER_STRONG="#82949f",
+    TEXT_STRONG="#1f303a", TEXT="#24343d", TEXT_2="#405762", MUTED="#526570", FAINT="#76858e",
+    ACCENT="#364f99", ACCENT_HOVER="#2d4385", ACCENT_PRESSED="#24366d",
+    ACCENT_TEXT="#364f99", ACCENT_SOFT="#dce6f7", ACCENT_SOFT_HOVER="#ccdafa",
+    ACCENT_BORDER="#718abb", ON_ACCENT="#ffffff",
+    SUCCESS="#307568", SUCCESS_FILL="#d2e8dc", SUCCESS_SOFT="#e4f0e9",
+    WARNING="#b55752", WARNING_SOFT="#f3e4e1", DANGER="#a92c35", DANGER_FILL="#f2d6d8",
+    DANGER_SOFT="#f8e7e9", INFO="#364f99", ON_TINT="#24343d")
+THEMES = {"porcelain": "Porcelain / Cobalt", "slate": "Slate / Cobalt"}
+THEME_NAME = "porcelain"
+
+
+def set_theme(name="porcelain"):
+    """Choose tokens before constructing the UI. Invalid saved values use Porcelain."""
+    global THEME_NAME, BG, PANEL, PANEL_2, LEVEL, TOPIC, _glyph_dir
+    THEME_NAME = name if name in THEMES else "porcelain"
+    globals().update(_PORCELAIN if THEME_NAME == "porcelain" else _DARK)
+    BG, PANEL, PANEL_2 = CANVAS, SURFACE, RAISED
+    LEVEL = ({"foundation": "#276653", "core": "#364f99", "advanced": "#984740"}
+             if THEME_NAME == "porcelain" else
+             {"foundation": "#8fd1a0", "core": "#acc7ff", "advanced": "#edaa9c"})
+    TOPIC = {"objectives": ACCENT_TEXT, "mnemonic": WARNING, "pitfall": DANGER,
+             "clinical": SUCCESS, "takeaways": SUCCESS, "related": MUTED}
+    _glyph_dir = None
+    if "_make_glyphs" in globals():
+        globals()["_SVG"] = _make_glyphs()
+
+
+set_theme()
+
 # ---------------------------------------------------------------------------------------------- type / space
 FS_CAPTION = 8.0
-FS_SMALL = 8.5
-FS_BODY = 9.5
+FS_SMALL = 9.0
+FS_BODY = 10.5
 FS_LEAD = 10.5
 FS_TITLE = 12.5
 FS_H2 = 15.0
@@ -84,8 +117,8 @@ FS_H1 = 17.0
 SP_1, SP_2, SP_3, SP_4, SP_5 = 4, 8, 12, 16, 24
 R_SM, R_MD, R_LG, R_XL = 4, 6, 8, 12
 
-# system UI fonts only: Segoe UI on Windows, the system font on macOS, Inter / Noto if a Linux box has them
-_FONT_PREFS = ["Segoe UI Variable Text", "Segoe UI", "Inter", "Noto Sans", "Cantarell", "Ubuntu", "DejaVu Sans"]
+# Study-02 prefers Noto Sans; use installed system UI fonts when unavailable.
+_FONT_PREFS = ["Noto Sans", "Segoe UI Variable Text", "Segoe UI", "Inter", "Cantarell", "Ubuntu", "DejaVu Sans"]
 FONT_FAMILY = None
 
 
@@ -109,9 +142,9 @@ def qc(token, alpha=None):
     return c
 
 
-def text_css(color=TEXT_2, size=None, weight=None):
+def text_css(color=None, size=None, weight=None):
     """An inline style for a label: `lab.setStyleSheet(text_css(MUTED, FS_SMALL))`."""
-    s = f"color:{color};"
+    s = f"color:{color or TEXT_2};"
     if size:
         s += f" font-size:{size}pt;"
     if weight:
@@ -119,21 +152,27 @@ def text_css(color=TEXT_2, size=None, weight=None):
     return s
 
 
-def overline_css(color=MUTED):
+def overline_css(color=None):
     """Small section label (the text itself is written in upper case)."""
-    return f"color:{color}; font-size:{FS_CAPTION}pt; font-weight:700; letter-spacing:1px;"
+    return f"color:{color or MUTED}; font-size:{FS_SMALL}pt; font-weight:600;"
 
 
-def tag_css(bg, fg=ON_TINT):
+def tag_css(bg, fg=None):
     """A small filled pill (level, question kind, modality)."""
+    if fg is None:
+        color = QColor(bg)
+        values = [color.redF(), color.greenF(), color.blueF()]
+        values = [v / 12.92 if v <= .04045 else ((v + .055) / 1.055) ** 2.4 for v in values]
+        luminance = sum(v * weight for v, weight in zip(values, (.2126, .7152, .0722)))
+        fg = "#ffffff" if luminance < .179 else "#17232b"
     return (f"color:{fg}; background:{bg}; border-radius:{R_SM}px; padding:2px 8px; "
             f"font-size:{FS_SMALL}pt; font-weight:700;")
 
 
-def well_css(fg=TEXT, pad=SP_2):
+def well_css(fg=None, pad=SP_2):
     """An inset box (answers, check-yourself)."""
     return (f"background:{RAISED}; border:1px solid {BORDER}; border-radius:{R_LG}px; padding:{pad}px; "
-            f"color:{fg};")
+            f"color:{fg or TEXT};")
 
 
 def set_variant(button, variant):
@@ -151,21 +190,24 @@ def _stroke(d, color, w=1.8):
             f'stroke="{color}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"/></svg>')
 
 
-_SVG = {
-    "check": _stroke("M3.6 8.4l2.9 2.9 6-6.2", ON_ACCENT, 2.2),
-    "dash": _stroke("M4 8h8", ON_ACCENT, 2.2),
-    "chev_down": _stroke("M4.5 6.2L8 9.8l3.5-3.6", MUTED),
-    "chev_up": _stroke("M4.5 9.8L8 6.2l3.5 3.6", MUTED),
-    "chev_right": _stroke("M6.2 4.5L9.8 8l-3.6 3.5", MUTED),
-    "close": _stroke("M4.8 4.8l6.4 6.4M11.2 4.8l-6.4 6.4", MUTED, 1.6),
-    "close_hover": _stroke("M4.8 4.8l6.4 6.4M11.2 4.8l-6.4 6.4", TEXT_STRONG, 1.6),
-    "back": _stroke("M10 3.5L5.5 8l4.5 4.5", TEXT_2),
-    "forward": _stroke("M6 3.5L10.5 8 6 12.5", TEXT_2),
-    "settings": (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="{TEXT_2}" '
-                 f'stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="2.1"/>'
-                 f'<path d="M8 1.6v2M8 12.4v2M1.6 8h2M12.4 8h2M3.5 3.5l1.4 1.4M11.1 11.1l1.4 1.4'
-                 f'M3.5 12.5l1.4-1.4M11.1 4.9l1.4-1.4"/></svg>'),
-}
+def _make_glyphs():
+    return {
+        "check": _stroke("M3.6 8.4l2.9 2.9 6-6.2", ON_ACCENT, 2.2),
+        "dash": _stroke("M4 8h8", ON_ACCENT, 2.2),
+        "chev_down": _stroke("M4.5 6.2L8 9.8l3.5-3.6", MUTED),
+        "chev_up": _stroke("M4.5 9.8L8 6.2l3.5 3.6", MUTED),
+        "chev_right": _stroke("M6.2 4.5L9.8 8l-3.6 3.5", MUTED),
+        "close": _stroke("M4.8 4.8l6.4 6.4M11.2 4.8l-6.4 6.4", MUTED, 1.6),
+        "close_hover": _stroke("M4.8 4.8l6.4 6.4M11.2 4.8l-6.4 6.4", TEXT_STRONG, 1.6),
+        "back": _stroke("M10 3.5L5.5 8l4.5 4.5", TEXT_2),
+        "forward": _stroke("M6 3.5L10.5 8 6 12.5", TEXT_2),
+        "settings": (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="{TEXT_2}" '
+                     f'stroke-width="1.4" stroke-linecap="round"><circle cx="8" cy="8" r="2.1"/>'
+                     f'<path d="M8 1.6v2M8 12.4v2M1.6 8h2M12.4 8h2M3.5 3.5l1.4 1.4M11.1 11.1l1.4 1.4'
+                     f'M3.5 12.5l1.4-1.4M11.1 4.9l1.4-1.4"/></svg>'),
+    }
+
+_SVG = _make_glyphs()
 _glyph_dir = None
 
 
@@ -175,7 +217,7 @@ def glyph(name):
     if _glyph_dir is None:
         _glyph_dir = ""
         try:
-            d = Path(tempfile.gettempdir()) / "anatomy-explorer-theme"
+            d = Path(tempfile.gettempdir()) / ("anatomy-explorer-theme-" + THEME_NAME)
             d.mkdir(parents=True, exist_ok=True)
             for k, svg in _SVG.items():
                 p = d / f"{k}.svg"
@@ -204,7 +246,7 @@ def build_stylesheet(scale=1.0):
     ff = font_family()
     return f"""
 QMainWindow, QWidget {{ background: {SURFACE}; color: {TEXT}; font-family: "{ff}"; font-size: {fs:.2f}pt; }}
-QMainWindow::separator {{ background: {BORDER_SUBTLE}; width: 1px; height: 1px; }}
+QMainWindow::separator {{ background: {BORDER_SUBTLE}; width: 5px; height: 5px; }}
 QMainWindow::separator:hover {{ background: {ACCENT_BORDER}; }}
 QLabel {{ background: transparent; }}
 QScrollArea {{ border: none; }}
@@ -226,7 +268,8 @@ QToolBar QToolButton:checked {{ background: {ACCENT_SOFT}; border-color: {ACCENT
 QToolBar QToolButton[active="true"] {{ background: {ACCENT_SOFT}; border-color: {ACCENT_BORDER}; color: {ACCENT_TEXT}; }}
 QToolBar QToolButton:focus {{ border-color: {ACCENT}; }}
 QToolBar QToolButton:disabled {{ color: {FAINT}; background: transparent; }}
-QToolBar QToolButton::menu-indicator {{ image: none; width: 0; }}
+QToolBar QToolButton::menu-indicator {{ {_img("chev_down")} width: 8px; height: 8px;
+    subcontrol-origin: padding; subcontrol-position: right center; right: 2px; }}
 QStatusBar {{ background: {CANVAS}; color: {MUTED}; border-top: 1px solid {BORDER_SUBTLE}; font-size: {small:.2f}pt; }}
 QStatusBar QLabel {{ color: {MUTED}; padding: 0 10px; background: transparent; }}
 QStatusBar::item {{ border: none; }}
@@ -393,10 +436,28 @@ QMenu::item:disabled {{ color: {FAINT}; }}
 QMenu::separator {{ height: 1px; background: {BORDER}; margin: 5px 8px; }}
 QToolTip {{ background: {OVERLAY}; color: {TEXT}; border: 1px solid {BORDER_STRONG}; padding: 6px 8px; }}
 QDialog {{ background: {SURFACE}; }}
+QPushButton:focus, QToolButton:focus, QLineEdit:focus, QComboBox:focus,
+QListView:focus, QTreeView:focus, QTableView:focus {{ border: 2px solid {ACCENT}; }}
+QPushButton[variant="primary"]:focus {{ border: 2px solid {ON_ACCENT}; }}
+QCheckBox:focus, QRadioButton:focus {{ outline: 1px solid {ACCENT}; }}
+QProgressBar {{ border: 1px solid {BORDER}; border-radius: 3px; background: {SUNKEN}; min-height: 5px; }}
+QProgressBar::chunk {{ background: {ACCENT}; border-radius: 2px; }}
+QWidget#workspaceHeader {{ background: {CANVAS}; border-bottom: 1px solid {BORDER_SUBTLE}; }}
+QLabel#workspaceTitle {{ color: {TEXT_STRONG}; font-size: {FS_TITLE * scale:.2f}pt; font-weight: 600; }}
+QLabel#workspaceContext {{ color: {MUTED}; font-size: {small:.2f}pt; }}
+QWidget#workspaceNotice {{ background: {WARNING_SOFT}; border: 1px solid {BORDER}; border-radius: {R_MD}px; }}
+QWidget#workspaceNotice QLabel {{ color: {WARNING}; }}
+QListWidget#commandResults::item {{ padding: 10px 12px; min-height: 22px; }}
+QTabBar::tab {{ min-height: 22px; }}
+QSplitter::handle {{ background: {BORDER_SUBTLE}; }}
+QSplitter::handle:hover {{ background: {ACCENT_BORDER}; }}
 """
 
 
-def apply_theme(app: QApplication, scale=1.0):
+def apply_theme(app: QApplication, scale=1.0, mode=None):
+    if mode is not None:
+        set_theme(mode)
+    scale = max(0.8, min(1.6, float(scale)))
     app.setStyle(QStyleFactory.create("Fusion"))
     f = QFont(font_family())
     f.setPointSizeF(FS_BODY * scale)
@@ -410,8 +471,8 @@ def apply_theme(app: QApplication, scale=1.0):
     pal.setColor(QPalette.BrightText, QColor(TEXT_STRONG))
     pal.setColor(QPalette.Button, QColor(RAISED))
     pal.setColor(QPalette.ButtonText, QColor(TEXT))
-    pal.setColor(QPalette.Highlight, QColor(ACCENT_BORDER))
-    pal.setColor(QPalette.HighlightedText, QColor(TEXT_STRONG))
+    pal.setColor(QPalette.Highlight, QColor(ACCENT))
+    pal.setColor(QPalette.HighlightedText, QColor(ON_ACCENT))
     pal.setColor(QPalette.ToolTipBase, QColor(OVERLAY))
     pal.setColor(QPalette.ToolTipText, QColor(TEXT))
     pal.setColor(QPalette.Link, QColor(ACCENT_TEXT))
@@ -423,4 +484,5 @@ def apply_theme(app: QApplication, scale=1.0):
     for role in (QPalette.WindowText, QPalette.Text, QPalette.ButtonText):
         pal.setColor(QPalette.Disabled, role, QColor(FAINT))
     app.setPalette(pal)
-    app.setStyleSheet(build_stylesheet(scale))
+    from .studio_style import build_stylesheet as studio_stylesheet
+    app.setStyleSheet(build_stylesheet(scale) + studio_stylesheet(scale))

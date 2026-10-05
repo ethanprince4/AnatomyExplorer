@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 from test_state_and_recovery import QAPP, FIXTURES, MainWindow, Dataset, config
 from PySide6.QtCore import QCoreApplication, QEvent, QSettings
-from general_fixtures import write_fixture_model
+from general_fixtures import write_fixture_model, open_fixture_model
 from tests.fixture_paths import fixture_root
 
 class MeasurementTabTests(unittest.TestCase):
@@ -25,7 +25,7 @@ class MeasurementTabTests(unittest.TestCase):
             path = fixture_root(self.folder.name) / (name + ".glb")
             write_fixture_model(path)
             path.with_suffix(".viewer.json").write_text('{"um_per_bu":2500}', encoding="utf-8")
-            self.win.open_model_file(str(path))
+            open_fixture_model(self.win, path)
             self.models.append(self.win.active_model_view())
 
     def tearDown(self):

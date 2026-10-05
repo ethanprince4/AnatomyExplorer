@@ -1,0 +1,2206 @@
+[
+  {
+    "id": "mammo_normal",
+    "title": "Normal right breast: craniocaudal mammogram",
+    "modality": "Mammography",
+    "region": "Breast",
+    "plane": "Projection",
+    "finding": "Normal anatomy",
+    "tags": [
+      "normal",
+      "mammography",
+      "breast"
+    ],
+    "summary": "Normal breast mammogram; useful baseline for tissue density and image orientation.",
+    "text": "<p>Normal breast mammogram; useful baseline for tissue density and image orientation.</p><p>The retained CRANIO CAUDAL R marker confirms a right craniocaudal view. This single projection illustrates breast anatomy; it does not represent a complete screening examination.</p>",
+    "reading": [
+      "The retained CRANIO CAUDAL R marker confirms a right craniocaudal view. This single projection illustrates breast anatomy; it does not represent a complete screening examination."
+    ],
+    "questions": [
+      {
+        "prompt": "Which projection is identified by the embedded image marker?",
+        "answer": "Right craniocaudal projection",
+        "explanation": "The retained marker states CRANIO CAUDAL and R; the source describes a normal breast mammogram."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Normal_mammogram.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.55172,
+        "y": 0.57609,
+        "text": "Nipple",
+        "note": "Anterior contour of the breast.",
+        "structures": [
+          "Mammary region"
+        ],
+        "side": "Right"
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Mammary region"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "mammo_nonspecific_abnormal",
+    "title": "Breast calcification: nonspecific abnormal mammogram",
+    "modality": "Mammography",
+    "region": "Breast",
+    "plane": "Projection",
+    "finding": "Nonspecific ductal calcification",
+    "tags": [
+      "pathology",
+      "mammography",
+      "breast"
+    ],
+    "summary": "Abnormal mammogram with ductal-pattern calcifications; source explicitly says the abnormality is not necessarily cancer.",
+    "text": "<p>Abnormal mammogram with ductal-pattern calcifications; source explicitly says the abnormality is not necessarily cancer.</p><p>The NCI caption describes ductal calcification that is not necessarily associated with cancer. The source does not establish malignancy, and the exact projection is unconfirmed.</p>",
+    "reading": [
+      "The NCI caption describes ductal calcification that is not necessarily associated with cancer. The source does not establish malignancy, and the exact projection is unconfirmed."
+    ],
+    "questions": [
+      {
+        "prompt": "Does this source establish that the visible abnormality is cancer?",
+        "answer": "No; it describes ductal calcification that is not necessarily associated with cancer.",
+        "explanation": "The NCI source gives a nonspecific abnormal finding. This image alone does not establish malignancy."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Abnormal_mammogram.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.54,
+        "y": 0.52,
+        "text": "Breast tissue",
+        "note": "Breast tissue on the projection; the source does not establish a focal cancer diagnosis.",
+        "structures": [
+          "Mammary region"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Mammary region"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "mammo_small_cancer",
+    "title": "Small breast cancer with vascular calcification",
+    "modality": "Mammography",
+    "region": "Breast",
+    "plane": "Projection",
+    "finding": "Small breast cancer",
+    "tags": [
+      "pathology",
+      "mammography",
+      "breast"
+    ],
+    "summary": "Small cancerous lesion with vascular calcific deposits, as identified by the source.",
+    "text": "<p>Small cancerous lesion with vascular calcific deposits, as identified by the source.</p><p>The NCI caption identifies the arrowed small lesion as cancerous and describes vascular calcific deposits. Histological type and BI-RADS assessment are not supplied.</p>",
+    "reading": [
+      "Locate the small opacity at the source arrow tip.",
+      "Follow the separate thin, curving vascular calcifications.",
+      "Keep the source diagnosis separate from lesion type and histology, which are not provided."
+    ],
+    "questions": [
+      {
+        "prompt": "What does the source identify at the white arrow?",
+        "answer": "A small cancerous breast lesion",
+        "explanation": "The NCI description identifies the arrowed small lesion as cancerous and also describes vascular calcific deposits."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Mammogram_showing_small_lesion.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.046,
+        "y": 0.126,
+        "text": "Source-identified small cancerous lesion",
+        "note": "Small opacity at the tip of the source arrow; the NCI caption identifies it as cancerous.",
+        "structures": [
+          "Mammary region"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.22,
+        "y": 0.184,
+        "text": "Vascular calcific deposits",
+        "note": "Thin tubular calcific deposits follow the source-described vessels.",
+        "structures": [
+          "Mammary region"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas provides chest-wall and breast-region orientation. It does not contain compressed breast parenchyma or reproduce a mammographic projection. The finding is demonstrated on the mammogram.",
+    "scene": {
+      "systems": [
+        "regions",
+        "muscular",
+        "skeletal"
+      ],
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Mammary region",
+        "Clavicular head of pectoralis major muscle",
+        "Fourth rib",
+        "Fifth rib",
+        "Sixth rib",
+        "Sternum"
+      ],
+      "isolate": true,
+      "frame_on": [
+        "Mammary region",
+        "Clavicular head of pectoralis major muscle"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "projection_reference": true
+    },
+    "illustration": {
+      "file": "mammography-projection.svg",
+      "title": "Mammography compression and projections",
+      "kind": "original pedagogical schematic",
+      "patient_registered": false,
+      "scale": "Illustrative shapes and teaching magnification; no patient measurements",
+      "source_url": "https://www.radiologyinfo.org/en/info/mammo",
+      "license": "CC0-1.0",
+      "author": "Anatomy Explorer radiology teaching draft"
+    }
+  },
+  {
+    "id": "mammo_grouped_calcifications",
+    "title": "Grouped breast calcifications: CC and MLO comparison",
+    "modality": "Mammography",
+    "region": "Breast",
+    "plane": "Projection",
+    "finding": "Grouped calcifications",
+    "tags": [
+      "pathology",
+      "mammography",
+      "breast"
+    ],
+    "summary": "Compare grouped calcifications in craniocaudal and mediolateral oblique views. Suspicion is described by source; malignancy is not established.",
+    "text": "<p>Compare grouped calcifications in craniocaudal and mediolateral oblique views. Suspicion is described by source; malignancy is not established.</p><p>The paired CC and MLO views show annotated grouped calcifications, fibroglandular tissue and scar markers. The source does not supply histology or a malignancy diagnosis.</p>",
+    "reading": [
+      "The paired CC and MLO views show annotated grouped calcifications, fibroglandular tissue and scar markers. The source does not supply histology or a malignancy diagnosis."
+    ],
+    "questions": [
+      {
+        "prompt": "Which two mammographic views are paired in this source image?",
+        "answer": "Craniocaudal (CC) and mediolateral oblique (MLO)",
+        "explanation": "The source and baked annotations identify left CC and right MLO views. Grouped calcification is described without a histological diagnosis."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Mammogram_images_of_clustered_calcifications_at_CC_view_and_MLO_view.png"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.32,
+        "y": 0.6,
+        "text": "Grouped calcifications in CC view",
+        "note": "The source marks this calcification group in the CC projection.",
+        "structures": [
+          "Mammary region"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.82,
+        "y": 0.46,
+        "text": "Grouped calcifications in MLO view",
+        "note": "The source marks the corresponding group in the MLO projection.",
+        "structures": [
+          "Mammary region"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.26,
+        "y": 0.25,
+        "text": "Fibroglandular tissue",
+        "note": "Dense fibroglandular tissue is identified by the source annotation.",
+        "structures": [
+          "Mammary region"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Mammary region"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "mammo_vascular_calcification",
+    "title": "Vascular breast calcification: MLO mammogram",
+    "modality": "Mammography",
+    "region": "Breast",
+    "plane": "Projection",
+    "finding": "Vascular calcification",
+    "tags": [
+      "pathology",
+      "mammography",
+      "breast"
+    ],
+    "summary": "Vascular calcification on a mediolateral oblique mammogram.",
+    "text": "<p>Vascular calcification on a mediolateral oblique mammogram.</p><p>The image annotates vascular calcification, the pectoralis major contour and a separate calcification. The round nipple marker is an imaging marker; it is not labeled as a lesion.</p>",
+    "reading": [
+      "The image annotates vascular calcification, the pectoralis major contour and a separate calcification. The round nipple marker is an imaging marker; it is not labeled as a lesion."
+    ],
+    "questions": [
+      {
+        "prompt": "Which structure forms the dense triangular contour in the superior MLO image?",
+        "answer": "Pectoralis major muscle",
+        "explanation": "The source annotates the pectoralis major contour and separately marks vascular calcification."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Mammography_MLO_view_showing_vascular_calcification_of_the_breast.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.54,
+        "y": 0.31,
+        "text": "Vascular calcification",
+        "note": "The calcification follows a vascular outline.",
+        "structures": [
+          "Mammary region"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.46,
+        "y": 0.11,
+        "text": "Pectoralis major",
+        "note": "The pectoral muscle forms the dense upper contour in this MLO view.",
+        "structures": [
+          "Pectoralis major muscle"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.32,
+        "y": 0.6,
+        "text": "Separate calcification",
+        "note": "A separate calcification is marked by the source.",
+        "structures": [
+          "Mammary region"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Mammary region",
+        "Pectoralis major muscle"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "fluoro_swallow_normal",
+    "title": "Normal barium swallow: lateral cervical view",
+    "modality": "Fluoroscopy",
+    "region": "Head and neck",
+    "plane": "Projection",
+    "finding": "Normal swallow",
+    "tags": [
+      "normal",
+      "fluoroscopy",
+      "head and neck"
+    ],
+    "summary": "Still frame from a source-identified normal barium swallowing sequence.",
+    "text": "<p>This is a still frame from the creator's normal barium swallow series. Compare the contrast column anterior to the cervical vertebral bodies with the lateral atlas reference. The atlas depicts anatomical relationships, not barium or complete swallowing motion.</p>",
+    "reading": [
+      "This lateral cervical image comes from a source-identified normal barium swallow series. Barium outlines the cervical esophagus anterior to the vertebral bodies. A still frame cannot show complete swallowing motion."
+    ],
+    "questions": [
+      {
+        "prompt": "Where is the opacified cervical esophagus relative to the cervical vertebral bodies?",
+        "answer": "Anterior to the cervical vertebral bodies",
+        "explanation": "The lateral image shows the barium column anterior to the spine; the source identifies the series as a normal swallow."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Normaler_Schluck-33.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.39,
+        "y": 0.48,
+        "text": "Barium column in cervical esophagus",
+        "note": "Barium outlines the cervical esophagus anterior to the vertebral bodies.",
+        "structures": [
+          "Oesophagus"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.58,
+        "y": 0.45,
+        "text": "Cervical spine",
+        "note": "Cervical vertebral bodies lie posterior to the contrast column.",
+        "structures": [
+          "Cervical vertebrae"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "Illustrative lateral cervical reference, anterior at left. The lower esophagus is intentionally cut away below the cervical region; this cut is a teaching boundary, not the source fluoroscopic beam plane. No patient registration or image-side assignment is implied.",
+    "scene": {
+      "systems": [
+        "visceral",
+        "skeletal"
+      ],
+      "regions": [
+        "neck"
+      ],
+      "show": [
+        "Oesophagus",
+        "Cervical vertebrae"
+      ],
+      "isolate": true,
+      "clip": [
+        2,
+        0.816582
+      ],
+      "slice_only": false,
+      "view": "left",
+      "frame_on": [
+        "Cervical vertebrae"
+      ],
+      "xray": false
+    }
+  },
+  {
+    "id": "fluoro_achalasia",
+    "title": "Achalasia: retained barium and distal taper",
+    "modality": "Fluoroscopy",
+    "region": "Thorax",
+    "plane": "Projection",
+    "finding": "Achalasia",
+    "tags": [
+      "pathology",
+      "fluoroscopy",
+      "thorax"
+    ],
+    "summary": "Dilated esophagus, retained barium column and tapered distal bird-beak appearance suggest achalasia.",
+    "text": "<p>Dilated esophagus, retained barium column and tapered distal bird-beak appearance suggest achalasia.</p><p>The primary review describes a dilated esophagus with retained barium and a smooth distal bird-beak taper. This is the source&#39;s achalasia case; the sign alone does not exclude pseudoachalasia.</p>",
+    "reading": [
+      "The primary review describes a dilated esophagus with retained barium and a smooth distal bird-beak taper. This is the source's achalasia case; the sign alone does not exclude pseudoachalasia."
+    ],
+    "questions": [
+      {
+        "prompt": "Which distal esophageal contour does the source describe in achalasia?",
+        "answer": "A smooth bird-beak taper",
+        "explanation": "The cited review describes a dilated esophagus with retained barium and distal bird-beak narrowing in achalasia."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Acha.JPG"
+      },
+      {
+        "title": "Underlying source and caption",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2040141/"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.37,
+        "y": 0.46,
+        "text": "Dilated esophagus containing retained barium",
+        "note": "Retained barium fills the dilated esophagus.",
+        "structures": [
+          "Oesophagus"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.8,
+        "y": 0.89,
+        "text": "Distal bird-beak taper",
+        "note": "Smooth distal taper is the source's bird-beak appearance.",
+        "structures": [
+          "Oesophagus"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Oesophagus"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "fluoro_aspiration",
+    "title": "Barium swallow: pulmonary aspiration",
+    "modality": "Fluoroscopy",
+    "region": "Thorax",
+    "plane": "Projection",
+    "finding": "Contrast aspiration",
+    "tags": [
+      "pathology",
+      "fluoroscopy",
+      "thorax"
+    ],
+    "summary": "Contrast is aspirated into the pulmonary airway during an upper gastrointestinal contrast study.",
+    "text": "<p>Contrast is aspirated into the pulmonary airway during an upper gastrointestinal contrast study.</p><p>The esophagus contains a continuous column of contrast. Branching contrast within pulmonary airways is identified by the source as aspiration. This single still cannot localize every involved airway.</p>",
+    "reading": [
+      "The esophagus contains a continuous column of contrast. Branching contrast within pulmonary airways is identified by the source as aspiration. This single still cannot localize every involved airway."
+    ],
+    "questions": [
+      {
+        "prompt": "What abnormal contrast distribution does the source identify?",
+        "answer": "Barium contrast within pulmonary airways",
+        "explanation": "The source identifies pulmonary aspiration of radiocontrast during an esophageal study; the branching distribution differs from the continuous esophageal column."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Aspiration_on_barium_swallow.jpg"
+      },
+      {
+        "title": "Underlying source and caption",
+        "url": "https://doi.org/10.1155/2014/215832"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.51071,
+        "y": 0.44469,
+        "text": "Opacified esophageal column",
+        "note": "The continuous contrast column outlines the esophagus.",
+        "structures": [
+          "Oesophagus"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.79229,
+        "y": 0.47722,
+        "text": "Aspirated contrast in branching airways",
+        "note": "Branching contrast outside the esophageal column is source-identified aspiration.",
+        "structures": [],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Oesophagus"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "fluoro_killian_jamieson",
+    "title": "Killian-Jamieson diverticulum: barium swallow",
+    "modality": "Fluoroscopy",
+    "region": "Head and neck",
+    "plane": "Projection",
+    "finding": "Killian-Jamieson diverticulum",
+    "tags": [
+      "pathology",
+      "fluoroscopy",
+      "head and neck"
+    ],
+    "summary": "Contrast retained within a Killian–Jamieson diverticulum; source identifies upper esophageal sphincter and diverticulum with arrows.",
+    "text": "<p>Contrast retained within a Killian–Jamieson diverticulum; source identifies upper esophageal sphincter and diverticulum with arrows.</p><p>The red arrowhead marks the closed upper esophageal sphincter. The long arrow marks the contrast-filled Killian-Jamieson diverticulum. The source does not call this a Zenker diverticulum.</p>",
+    "reading": [
+      "The red arrowhead marks the closed upper esophageal sphincter. The long arrow marks the contrast-filled Killian-Jamieson diverticulum. The source does not call this a Zenker diverticulum."
+    ],
+    "questions": [
+      {
+        "prompt": "What does the source's long red arrow identify?",
+        "answer": "A contrast-filled Killian-Jamieson diverticulum",
+        "explanation": "The caption distinguishes the long arrow to the diverticulum from the arrowhead to the closed upper esophageal sphincter."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Killian-Jamieson-Divertikel.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.617,
+        "y": 0.553,
+        "text": "Closed upper esophageal sphincter",
+        "note": "The red arrowhead marks the closed upper esophageal sphincter.",
+        "structures": [
+          "Oesophagus"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.352,
+        "y": 0.651,
+        "text": "Contrast-filled diverticulum",
+        "note": "The long arrow marks the contrast-filled diverticulum.",
+        "structures": [
+          "Oesophagus"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "focus": [
+        "Oesophagus"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "fluoro_hsg_normal",
+    "title": "Normal hysterosalpingogram: uterus and tubes",
+    "modality": "Fluoroscopy",
+    "region": "Pelvis",
+    "plane": "Projection",
+    "finding": "Normal anatomy",
+    "tags": [
+      "normal",
+      "fluoroscopy",
+      "pelvis"
+    ],
+    "summary": "Normal hysterosalpingography in a source-identified normal examination.",
+    "text": "<p>Normal hysterosalpingography in a source-identified normal examination.</p><p>The central triangular uterine cavity is outlined by contrast, with tubal opacification and contrast spill on both sides. This source-normal examination is not a statement about the patient&#39;s overall fertility.</p>",
+    "reading": [
+      "The central triangular uterine cavity is outlined by contrast, with tubal opacification and contrast spill on both sides. This source-normal examination is not a statement about the patient's overall fertility."
+    ],
+    "questions": [
+      {
+        "prompt": "Which cavity is outlined by the central triangular contrast collection?",
+        "answer": "The uterine cavity",
+        "explanation": "The source identifies a normal hysterosalpingogram. Contrast outlines the uterine cavity, tubes and peritoneal spill."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Hysterosalpingography_Normal.png"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.443,
+        "y": 0.313,
+        "text": "Contrast-filled uterine cavity",
+        "note": "The central triangular collection outlines the uterine cavity.",
+        "structures": [],
+        "side": ""
+      },
+      {
+        "x": 0.229,
+        "y": 0.369,
+        "text": "Tubal contrast and peritoneal spill",
+        "note": "Contrast passes through the tube and spills beyond its distal end.",
+        "structures": [],
+        "side": ""
+      },
+      {
+        "x": 0.692,
+        "y": 0.603,
+        "text": "Contralateral tubal contrast and spill",
+        "note": "Contrast on the opposite side outlines the tube and spill.",
+        "structures": [],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The current atlas has no matching uterus or uterine-tube structures, so these labels remain on the image.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "abdomen"
+      ]
+    }
+  },
+  {
+    "id": "fluoro_hsg_adhesions",
+    "title": "Intrauterine adhesions: hysterosalpingogram",
+    "modality": "Fluoroscopy",
+    "region": "Pelvis",
+    "plane": "Projection",
+    "finding": "Intrauterine adhesions",
+    "tags": [
+      "pathology",
+      "fluoroscopy",
+      "pelvis"
+    ],
+    "summary": "Intrauterine adhesions in hysterosalpingography; source names Asherman syndrome and labels cervix, injector and uterine tubes.",
+    "text": "<p>Intrauterine adhesions in hysterosalpingography; source names Asherman syndrome and labels cervix, injector and uterine tubes.</p><p>The red bracket marks source-described adhesions within the uterine body. The baked French annotations also identify the right and left tubes, uterus, cervical canal and contrast injector.</p>",
+    "reading": [
+      "The red bracket marks source-described adhesions within the uterine body. The baked French annotations also identify the right and left tubes, uterus, cervical canal and contrast injector."
+    ],
+    "questions": [
+      {
+        "prompt": "Which abnormality is marked by the source's red bracket?",
+        "answer": "Adhesions in the body of the uterus",
+        "explanation": "The French source annotations identify adherences in the uterine body and separately label the tubes and cervical canal."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:HSG_adherences_FRENCH.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.489,
+        "y": 0.441,
+        "text": "Source-marked uterine adhesions",
+        "note": "The source red bracket marks adhesions in the uterine body.",
+        "structures": [],
+        "side": ""
+      },
+      {
+        "x": 0.464,
+        "y": 0.413,
+        "text": "Uterine cavity",
+        "note": "The contrast-outlined uterine cavity is labeled uterus in the source.",
+        "structures": [],
+        "side": ""
+      },
+      {
+        "x": 0.448,
+        "y": 0.623,
+        "text": "Cervical canal",
+        "note": "The source labels this inferior channel col, the cervical canal.",
+        "structures": [],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The current atlas has no matching uterus or uterine-tube structures, so these labels remain on the image.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "abdomen"
+      ]
+    }
+  },
+  {
+    "id": "fluoro_dolichocolon",
+    "title": "Abdominal scout from a dolichocolon enema series",
+    "modality": "X-ray",
+    "region": "Abdomen",
+    "plane": "Projection",
+    "finding": "Dolichocolon",
+    "tags": [
+      "pathology",
+      "x-ray",
+      "abdomen"
+    ],
+    "summary": "Plain abdominal scout from a source-described dolichocolon barium-enema series, with bowel gas and lumbar/pelvic bones visible.",
+    "text": "<p>Plain abdominal scout from a source-described dolichocolon barium-enema series, with bowel gas and lumbar/pelvic bones visible.</p><p>The visible frame shows a plain abdominal scout appearance, including bowel gas and lumbar vertebral bodies. The source series is described as a barium enema in a dolichocolon case. This frame alone does not establish bowel obstruction.</p>",
+    "reading": [
+      "The visible frame shows a plain abdominal scout appearance, including bowel gas and lumbar vertebral bodies. The source series is described as a barium enema in a dolichocolon case. This frame alone does not establish bowel obstruction."
+    ],
+    "questions": [
+      {
+        "prompt": "What technique does this visible frame most closely show?",
+        "answer": "A plain frontal abdominal scout radiograph",
+        "explanation": "This frame shows bowel gas and bones without an opacified barium column. It belongs to the source's barium-enema series of a dolichocolon case."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Dolichocolon_case_1_1.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.515,
+        "y": 0.786,
+        "text": "Gas-filled bowel loops",
+        "note": "Gas outlines bowel loops on the plain scout appearance.",
+        "structures": [],
+        "side": ""
+      },
+      {
+        "x": 0.501,
+        "y": 0.393,
+        "text": "Lumbar vertebral bodies",
+        "note": "Lumbar vertebral bodies are visible through the abdomen.",
+        "structures": [
+          "Lumbar vertebrae"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Lumbar vertebrae"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "angio_coronary_anatomy",
+    "title": "Left coronary artery: catheter angiogram",
+    "modality": "Angiography",
+    "region": "Thorax",
+    "plane": "Projection",
+    "finding": "Left coronary anatomy",
+    "tags": [
+      "anatomy; normal status not established",
+      "angiography",
+      "thorax"
+    ],
+    "summary": "Left main coronary circulation and its branches on catheter angiography.",
+    "text": "<p>Left main coronary circulation and its branches on catheter angiography.</p><p>The source identifies the left coronary circulation. Exact acquisition angles and an entirely normal coronary examination are not established.</p>",
+    "reading": [
+      "The source identifies the left coronary circulation. Exact acquisition angles and an entirely normal coronary examination are not established."
+    ],
+    "questions": [
+      {
+        "prompt": "Which arterial circulation does the source identify?",
+        "answer": "The left coronary circulation",
+        "explanation": "The source identifies the left coronary angiogram. It does not establish a normal examination or the exact projection angles."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Ha1.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.28,
+        "y": 0.2,
+        "text": "Opacified left coronary tree",
+        "note": "Contrast outlines the proximal left coronary tree.",
+        "structures": [
+          "Left coronary artery"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Left coronary artery"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "angio_coronary_stenosis",
+    "title": "Left main and circumflex coronary stenoses",
+    "modality": "Angiography",
+    "region": "Thorax",
+    "plane": "Projection",
+    "finding": "Coronary stenoses",
+    "tags": [
+      "pathology",
+      "angiography",
+      "thorax"
+    ],
+    "summary": "Critical narrowing in left main coronary trunk and circumflex artery, with source arrows.",
+    "text": "<p>Critical narrowing in left main coronary trunk and circumflex artery, with source arrows.</p><p>The primary article identifies critical left main and circumflex stenoses at the red arrows. The image teaches luminal narrowing; the case&#39;s drug exposure does not itself establish causation.</p>",
+    "reading": [
+      "The primary article identifies critical left main and circumflex stenoses at the red arrows. The image teaches luminal narrowing; the case's drug exposure does not itself establish causation."
+    ],
+    "questions": [
+      {
+        "prompt": "Which two vessels have source-marked critical stenoses?",
+        "answer": "Left main coronary artery and circumflex artery",
+        "explanation": "The primary article caption identifies the red-arrowed critical left main and circumflex stenoses."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Angiography_coronary_stenosis_01.jpg"
+      },
+      {
+        "title": "Underlying source and caption",
+        "url": "https://doi.org/10.1186/1471-2407-12-231"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.37,
+        "y": 0.16,
+        "text": "Left main coronary narrowing",
+        "note": "The source red arrow identifies critical left main narrowing.",
+        "structures": [
+          "Left coronary artery"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.5,
+        "y": 0.44,
+        "text": "Circumflex narrowing",
+        "note": "The source red arrow identifies critical circumflex narrowing.",
+        "structures": [
+          "Circumflex artery of heart"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Left coronary artery",
+        "Circumflex artery of heart"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "angio_cerebral_ica",
+    "title": "Right internal carotid artery: frontal angiogram",
+    "modality": "Angiography",
+    "region": "Head and neck",
+    "plane": "Projection",
+    "finding": "Internal carotid anatomy",
+    "tags": [
+      "anatomy; normal status not established",
+      "angiography",
+      "head and neck"
+    ],
+    "summary": "Frontal right internal carotid angiogram.",
+    "text": "<p>Frontal right internal carotid angiogram.</p><p>The retained frontal panel shows the source-identified right internal carotid angiogram. The source does not establish a normal study or a specific pathology.</p>",
+    "reading": [
+      "The retained frontal panel shows the source-identified right internal carotid angiogram. The source does not establish a normal study or a specific pathology."
+    ],
+    "questions": [
+      {
+        "prompt": "Which vessel supplies the opacified cerebral circulation in this retained panel?",
+        "answer": "Right internal carotid artery",
+        "explanation": "The source identifies right internal carotid angiography. The opacified internal carotid vessel supplies the visible intracranial arterial tree."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Cerebral_Angiography_Right_Internal_Carotid_Artery.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.51,
+        "y": 0.83516,
+        "text": "Right internal carotid artery",
+        "note": "The source identifies the ascending vessel as the right internal carotid artery.",
+        "structures": [
+          "Internal carotid artery"
+        ],
+        "side": "Right"
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "focus": [
+        "Internal carotid artery"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "angio_cerebral_aneurysm",
+    "title": "Cerebral arterial aneurysm: catheter angiogram",
+    "modality": "Angiography",
+    "region": "Head and neck",
+    "plane": "Projection",
+    "finding": "Cerebral aneurysm",
+    "tags": [
+      "pathology",
+      "angiography",
+      "head and neck"
+    ],
+    "summary": "Cerebral arterial aneurysm on angiography.",
+    "text": "<p>Cerebral arterial aneurysm on angiography.</p><p>The source identifies a cerebral arterial aneurysm. The visible sac and adjacent parent vessel can be compared; the exact named artery and projection are not established.</p>",
+    "reading": [
+      "The source identifies a cerebral arterial aneurysm. The visible sac and adjacent parent vessel can be compared; the exact named artery and projection are not established."
+    ],
+    "questions": [
+      {
+        "prompt": "What focal vascular shape is established by the source?",
+        "answer": "An arterial aneurysm sac",
+        "explanation": "The source identifies the round outpouching as an aneurysm. The exact parent artery is not specified, so no named-vessel diagnosis is assigned."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Aneurysem.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.54118,
+        "y": 0.5,
+        "text": "Cerebral arterial aneurysm",
+        "note": "Rounded aneurysm sac; the exact parent artery is not specified.",
+        "structures": [],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false
+    }
+  },
+  {
+    "id": "angio_hand",
+    "title": "Digital arterial network: hand angiogram",
+    "modality": "Angiography",
+    "region": "Upper limb",
+    "plane": "Projection",
+    "finding": "Digital arterial anatomy",
+    "tags": [
+      "anatomy; normal status not established",
+      "angiography",
+      "upper limb"
+    ],
+    "summary": "Hand angiography using magnification and subtraction.",
+    "text": "<p>Hand angiography using magnification and subtraction.</p><p>The magnified subtraction angiogram shows branching arterial networks in several fingers. Exact right/left orientation and an entirely normal examination are not established. Radial and ulnar artery atlas links illustrate related hand supply.</p>",
+    "reading": [
+      "The magnified subtraction angiogram shows branching arterial networks in several fingers. Exact right/left orientation and an entirely normal examination are not established. Radial and ulnar artery atlas links illustrate related hand supply."
+    ],
+    "questions": [
+      {
+        "prompt": "Which circulation is shown in this magnified source image?",
+        "answer": "The arterial network of the fingers",
+        "explanation": "The source identifies a hand arteriogram. The visible branching vessels follow several fingers; exact side and normality are not supplied."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Arterio_main.JPG"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.469,
+        "y": 0.3391,
+        "text": "Digital arterial network",
+        "note": "Branching arterial vessels follow the finger.",
+        "structures": [],
+        "side": ""
+      },
+      {
+        "x": 0.206,
+        "y": 0.52648,
+        "text": "Arterial branches in a finger",
+        "note": "Another digit shows its arterial branching network.",
+        "structures": [],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "upper_limb_l",
+        "upper_limb_r"
+      ]
+    }
+  },
+  {
+    "id": "angio_renal_normal",
+    "title": "Normal renal arterial tree: selective angiogram",
+    "modality": "Angiography",
+    "region": "Abdomen",
+    "plane": "Projection",
+    "finding": "Normal renal angiogram",
+    "tags": [
+      "normal",
+      "angiography",
+      "abdomen"
+    ],
+    "summary": "Normal renal arterial angiography, identified as normal in French/German source descriptions.",
+    "text": "<p>Normal renal arterial angiography, identified as normal in French/German source descriptions.</p><p>The source describes a normal renal arteriogram. Contrast outlines the large renal arterial trunk and intrarenal branching tree. The source does not explicitly establish whether this is the right or left kidney.</p>",
+    "reading": [
+      "Follow the large renal arterial trunk into the hilum.",
+      "Trace its smaller branches within the kidney.",
+      "Compare the opacified branches with the normal renal arterial tree in the reference."
+    ],
+    "questions": [
+      {
+        "prompt": "Which two scales of arterial anatomy are visible?",
+        "answer": "The main renal arterial trunk and intrarenal arterial branches",
+        "explanation": "The source calls the renal arteriogram normal. A large trunk branches into the kidney; the description does not establish side."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Art%C3%A9rio_r%C3%A9nale.JPG"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.603,
+        "y": 0.42,
+        "text": "Renal arterial trunk",
+        "note": "The contrast-filled main arterial trunk enters the renal hilum. The source does not establish side.",
+        "structures": [
+          "Renal artery"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.274,
+        "y": 0.629,
+        "text": "Intrarenal arterial branches",
+        "note": "Contrast outlines the intrarenal branching tree; these branches are distinct from the kidney outline.",
+        "structures": [
+          "Segmental arteries",
+          "Interlobar arteries",
+          "Arcuate arteries"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The existing Kidney and nephron model supplies a left-kidney arterial teaching reference with translucent kidney context. Its schematic branches are not a registered reconstruction of the angiogram; the source does not establish patient side. The detached magnified nephron is excluded from this arterial view.",
+    "scene": {
+      "micro": "kidney_nephron",
+      "micro_focus": [
+        "Renal artery",
+        "Anterior and posterior divisions of the renal artery",
+        "Segmental arteries",
+        "Interlobar arteries",
+        "Arcuate arteries"
+      ],
+      "micro_context": [
+        "Renal cortex",
+        "Renal capsule (fibrous capsule)",
+        "Renal pyramids"
+      ],
+      "model_view": "anterior",
+      "show": [],
+      "isolate": true,
+      "xray": false
+    }
+  },
+  {
+    "id": "angio_renal_fmd_before",
+    "title": "Accessory renal artery fibromuscular dysplasia",
+    "modality": "Angiography",
+    "region": "Abdomen",
+    "plane": "Projection",
+    "finding": "Renal fibromuscular dysplasia",
+    "tags": [
+      "pathology",
+      "angiography",
+      "abdomen"
+    ],
+    "summary": "String-of-beads in lower left accessory renal artery from fibromuscular dysplasia; source also identifies distal right renal arterial saccular aneurysm.",
+    "text": "<p>String-of-beads in lower left accessory renal artery from fibromuscular dysplasia; source also identifies distal right renal arterial saccular aneurysm.</p><p>The two arrows mark a string-of-beads contour in the lower accessory left renal artery. The arrowhead marks a small distal right renal artery aneurysm. The companion post-dilatation image comes from the same patient.</p>",
+    "reading": [
+      "The two arrows mark a string-of-beads contour in the lower accessory left renal artery. The arrowhead marks a small distal right renal artery aneurysm. The companion post-dilatation image comes from the same patient."
+    ],
+    "questions": [
+      {
+        "prompt": "What contour is marked by the two arrows in the accessory left renal artery?",
+        "answer": "A string-of-beads contour",
+        "explanation": "The primary article identifies fibromuscular dysplasia in the lower accessory left renal artery; the arrowhead separately marks a distal right renal artery aneurysm."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Renal_artery_angiography_in_a_patient_with_fibromuscular_dysplasia_(1).jpg"
+      },
+      {
+        "title": "Underlying source and caption",
+        "url": "https://doi.org/10.1186/1752-1947-1-58"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.661,
+        "y": 0.526,
+        "text": "Accessory left renal artery: string-of-beads",
+        "note": "The two arrows mark the accessory left renal artery's string-of-beads contour.",
+        "structures": [
+          "Left renal artery"
+        ],
+        "side": "Left"
+      },
+      {
+        "x": 0.208,
+        "y": 0.532,
+        "text": "Right renal artery aneurysm",
+        "note": "The arrowhead marks the source-described small right renal artery aneurysm.",
+        "structures": [
+          "Right renal artery"
+        ],
+        "side": "Right"
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Left renal artery",
+        "Right renal artery"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "angio_renal_fmd_after",
+    "title": "Accessory renal artery after balloon dilatation",
+    "modality": "Angiography",
+    "region": "Abdomen",
+    "plane": "Projection",
+    "finding": "Post-dilatation renal artery",
+    "tags": [
+      "post-treatment",
+      "angiography",
+      "abdomen"
+    ],
+    "summary": "Selective lower left renal artery after successful balloon dilatation of the stenotic lesion.",
+    "text": "<p>Selective lower left renal artery after successful balloon dilatation of the stenotic lesion.</p><p>The primary article identifies this as the accessory left renal artery after balloon dilatation in the same patient. The artery has a smoother opacified contour; the image does not document long-term clinical outcome.</p>",
+    "reading": [
+      "The primary article identifies this as the accessory left renal artery after balloon dilatation in the same patient. The artery has a smoother opacified contour; the image does not document long-term clinical outcome."
+    ],
+    "questions": [
+      {
+        "prompt": "How does this image relate to the accessory renal artery dysplasia case?",
+        "answer": "It shows the same patient's artery after balloon dilatation.",
+        "explanation": "The primary article explicitly pairs the pre- and post-dilatation angiograms. This is not an independent patient or evidence of long-term outcome."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Renal_artery_angiography_in_a_patient_with_fibromuscular_dysplasia_(2).jpg"
+      },
+      {
+        "title": "Underlying source and caption",
+        "url": "https://doi.org/10.1186/1752-1947-1-58"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.561,
+        "y": 0.387,
+        "text": "Accessory artery after dilatation",
+        "note": "The source identifies the accessory left renal artery after balloon dilatation.",
+        "structures": [
+          "Left renal artery"
+        ],
+        "side": "Left"
+      },
+      {
+        "x": 0.814,
+        "y": 0.383,
+        "text": "Intrarenal arterial branches",
+        "note": "Contrast outlines the smaller intrarenal branches.",
+        "structures": [
+          "Kidney"
+        ],
+        "side": "Left"
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Left renal artery",
+        "Kidney"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "angio_foot_occlusion",
+    "title": "Right foot arterial occlusion and collateral supply",
+    "modality": "Angiography",
+    "region": "Lower limb",
+    "plane": "Projection",
+    "finding": "Posterior tibial occlusion",
+    "tags": [
+      "pathology",
+      "angiography",
+      "lower limb"
+    ],
+    "summary": "Posterior tibial artery not visualized from arteriosclerosis; source identifies patent anterior tibial and fibular arteries and compensating collaterals.",
+    "text": "<p>Posterior tibial artery not visualized from arteriosclerosis; source identifies patent anterior tibial and fibular arteries and compensating collaterals.</p><p>The source annotations identify the anterior tibial and fibular arteries, dorsalis pedis, and collateral routes. The source describes posterior tibial artery occlusion. The visible RIGHT marker confirms the limb.</p>",
+    "reading": [
+      "The source annotations identify the anterior tibial and fibular arteries, dorsalis pedis, and collateral routes. The source describes posterior tibial artery occlusion. The visible RIGHT marker confirms the limb."
+    ],
+    "questions": [
+      {
+        "prompt": "Which expected artery does the source describe as not opacified?",
+        "answer": "The posterior tibial artery",
+        "explanation": "The source distinguishes patent anterior tibial and fibular arteries from absent posterior tibial opacification with collateral pathways."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Angiography_of_the_right_foot_with_posterior_tibial_arteriosclerosis.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.483,
+        "y": 0.43,
+        "text": "Anterior tibial artery",
+        "note": "The source annotation identifies the anterior tibial artery.",
+        "structures": [
+          "Anterior tibial artery"
+        ],
+        "side": "Right"
+      },
+      {
+        "x": 0.502,
+        "y": 0.721,
+        "text": "Fibular artery",
+        "note": "The source annotation identifies the fibular artery.",
+        "structures": [
+          "Fibular artery"
+        ],
+        "side": "Right"
+      },
+      {
+        "x": 0.286,
+        "y": 0.149,
+        "text": "Collateral vessels",
+        "note": "The source marks collateral vascular pathways.",
+        "structures": [],
+        "side": "Right"
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "lower_limb_l",
+        "lower_limb_r"
+      ],
+      "focus": [
+        "Anterior tibial artery",
+        "Fibular artery"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "angio_leg_occlusions",
+    "title": "Left leg arterial occlusions: overview angiogram",
+    "modality": "Angiography",
+    "region": "Lower limb",
+    "plane": "Projection",
+    "finding": "Lower-limb arterial occlusions",
+    "tags": [
+      "pathology",
+      "angiography",
+      "lower limb"
+    ],
+    "summary": "Source-identified proximal and distal arterial occlusions in left lower extremity.",
+    "text": "<p>Source-identified proximal and distal arterial occlusions in left lower extremity.</p><p>The source describes proximal and more distal occlusions in the left lower extremity. This narrow overview image illustrates interrupted arterial opacification; fine branch detail is limited.</p>",
+    "reading": [
+      "The source describes proximal and more distal occlusions in the left lower extremity. This narrow overview image illustrates interrupted arterial opacification; fine branch detail is limited."
+    ],
+    "questions": [
+      {
+        "prompt": "Which limb does the source identify in this arteriogram?",
+        "answer": "The left lower extremity",
+        "explanation": "The primary article identifies left lower-extremity arteriography with proximal and more distal occlusions. The narrow overview provides limited fine branch detail."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Lower_extremity_arteriography.jpg"
+      },
+      {
+        "title": "Underlying source and caption",
+        "url": "https://doi.org/10.1155/2012/108129"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.5,
+        "y": 0.21,
+        "text": "Opacified arterial segment",
+        "note": "A contrast-opacified arterial segment on an overview image with limited fine branch detail.",
+        "structures": [],
+        "side": "Left"
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "lower_limb_l",
+        "lower_limb_r"
+      ]
+    }
+  },
+  {
+    "id": "nuclear_bone_normal",
+    "title": "Normal skeletal uptake in osteopoikilosis",
+    "modality": "Nuclear medicine",
+    "region": "Whole body",
+    "plane": "Planar",
+    "finding": "Normal scintigraphic appearance",
+    "tags": [
+      "normal scan with clinical caveat",
+      "nuclear medicine",
+      "whole body"
+    ],
+    "summary": "Normal bone scan in a person with osteopoikilosis, as stated by source.",
+    "text": "<p>Normal bone scan in a person with osteopoikilosis, as stated by source.</p><p>The four panels compare anterior and posterior skeletal tracer distributions with different display contrast. The source describes a normal bone scan in a patient with osteopoikilosis. A normal scintigraphic appearance is not the same as absence of every skeletal condition.</p>",
+    "reading": [
+      "The four panels compare anterior and posterior skeletal tracer distributions with different display contrast. The source describes a normal bone scan in a patient with osteopoikilosis. A normal scintigraphic appearance is not the same as absence of every skeletal condition."
+    ],
+    "questions": [
+      {
+        "prompt": "Does the source-normal bone scan mean the patient has no skeletal condition?",
+        "answer": "No; the source describes a normal scan in a patient with osteopoikilosis.",
+        "explanation": "The source distinguishes normal scintigraphic appearance from the patient's known osteopoikilosis. The scan is a teaching baseline for tracer distribution."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:NormalBoneScan.png"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.127,
+        "y": 0.205,
+        "text": "Rib-cage uptake",
+        "note": "Tracer uptake follows the rib cage.",
+        "structures": [
+          "Ribs"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.102,
+        "y": 0.635,
+        "text": "Femoral uptake",
+        "note": "Tracer uptake follows the femoral shaft.",
+        "structures": [
+          "Femur"
+        ],
+        "side": "Right"
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "focus": [
+        "Ribs",
+        "Femur"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "nuclear_bone_occult_fracture",
+    "title": "Subcapital insufficiency fracture: bone scintigraphy",
+    "modality": "Nuclear medicine",
+    "region": "Whole body",
+    "plane": "Planar",
+    "finding": "Subcapital insufficiency fracture",
+    "tags": [
+      "pathology",
+      "nuclear medicine",
+      "whole body"
+    ],
+    "summary": "Bone scintigraphy of a subcapital insufficiency fracture, from an occult-fracture pictorial review.",
+    "text": "<p>Bone scintigraphy of a subcapital insufficiency fracture, from an occult-fracture pictorial review.</p><p>The source arrow marks focal uptake associated with a subcapital insufficiency fracture. Compare this local focus with the surrounding skeletal tracer distribution. The supplied caption does not explicitly state side or projection direction.</p>",
+    "reading": [
+      "The source arrow marks focal uptake associated with a subcapital insufficiency fracture. Compare this local focus with the surrounding skeletal tracer distribution. The supplied caption does not explicitly state side or projection direction."
+    ],
+    "questions": [
+      {
+        "prompt": "What finding does the source identify at the white arrow?",
+        "answer": "A subcapital insufficiency fracture uptake focus",
+        "explanation": "The pictorial review identifies this bone scintigraphic focus as a subcapital insufficiency fracture; the precise side is not stated in the supplied caption."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Bone_scintigraphy_of_subcapital_insufficiency_fracture.jpg"
+      },
+      {
+        "title": "Underlying source and caption",
+        "url": "https://doi.org/10.1155/2013/370169"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.71,
+        "y": 0.499,
+        "text": "Source-arrowed subcapital uptake focus",
+        "note": "The source white arrow identifies a focal subcapital insufficiency fracture.",
+        "structures": [
+          "Femur"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.514,
+        "y": 0.243,
+        "text": "Skeletal tracer distribution",
+        "note": "Tracer outlines the surrounding axial skeleton.",
+        "structures": [],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "focus": [
+        "Femur"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "nuclear_thyroid_patterns",
+    "title": "Thyroid scintigraphy: five uptake patterns",
+    "modality": "Nuclear medicine",
+    "region": "Head and neck",
+    "plane": "Planar",
+    "finding": "Thyroid uptake patterns",
+    "tags": [
+      "normal and pathology comparison",
+      "nuclear medicine",
+      "head and neck"
+    ],
+    "summary": "Panels compare normal thyroid, Graves disease, toxic multinodular goitre, toxic adenoma and thyroiditis.",
+    "text": "<p>Panels compare normal thyroid, Graves disease, toxic multinodular goitre, toxic adenoma and thyroiditis.</p><p>The primary article maps A to normal thyroid, B to Graves disease, C to toxic multinodular goitre, D to toxic adenoma and E to thyroiditis. The figure combines scintigrams with an anatomical illustration.</p>",
+    "reading": [
+      "A: the reference pattern; B: diffuse uptake in Graves disease.",
+      "C: uneven hot and cold areas in multinodular goitre; D: a dominant hot nodule with suppressed surrounding uptake.",
+      "E: decreased or absent uptake in thyroiditis. These are source-described patterns, not independent diagnoses from the atlas."
+    ],
+    "questions": [
+      {
+        "prompt": "Which source panel represents Graves disease?",
+        "answer": "Panel B",
+        "explanation": "The primary article maps A to normal thyroid, B to Graves disease, C to toxic multinodular goitre, D to toxic adenoma and E to thyroiditis."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Thyroid_scintigraphy.jpg"
+      },
+      {
+        "title": "Underlying source and caption",
+        "url": "https://doi.org/10.1371/journal.pmed.0020370"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.68,
+        "y": 0.18,
+        "text": "A: Normal thyroid",
+        "note": "Panel A is the source's normal thyroid pattern.",
+        "structures": [
+          "Thyroid gland"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.9,
+        "y": 0.34,
+        "text": "B: Graves disease",
+        "note": "Panel B is the source's Graves disease pattern.",
+        "structures": [],
+        "side": ""
+      },
+      {
+        "x": 0.9,
+        "y": 0.67,
+        "text": "D: Toxic adenoma",
+        "note": "Panel D is the source's toxic adenoma pattern.",
+        "structures": [],
+        "side": ""
+      }
+    ],
+    "atlas_note": "Normal thyroid anatomy is orientation context only. The source panels show tracer uptake patterns; the atlas does not reproduce Graves disease, a toxic nodule or uptake intensity. Panel letters A-E follow the original figure.",
+    "scene": {
+      "systems": [
+        "visceral"
+      ],
+      "show": [
+        "Thyroid gland"
+      ],
+      "isolate": true,
+      "view": "anterior",
+      "frame_on": [
+        "Thyroid gland"
+      ],
+      "xray": false
+    }
+  },
+  {
+    "id": "nuclear_vq_embolism",
+    "title": "Pulmonary embolism: ventilation-perfusion mismatch",
+    "modality": "Nuclear medicine",
+    "region": "Thorax",
+    "plane": "Planar",
+    "finding": "Pulmonary embolism",
+    "tags": [
+      "pathology",
+      "nuclear medicine",
+      "thorax"
+    ],
+    "summary": "Uniform ventilation with regional diminished perfusion in a source-identified pulmonary embolism case.",
+    "text": "<p>Uniform ventilation with regional diminished perfusion in a source-identified pulmonary embolism case.</p><p>The source identifies posterior xenon-133 ventilation and technetium-99m MAA perfusion views in a pulmonary embolism case. The panels demonstrate differing regional tracer distributions.</p>",
+    "reading": [
+      "The source identifies posterior xenon-133 ventilation and technetium-99m MAA perfusion views in a pulmonary embolism case. The panels demonstrate differing regional tracer distributions."
+    ],
+    "questions": [
+      {
+        "prompt": "What relationship distinguishes the source's perfusion panel from its ventilation panel?",
+        "answer": "Regional perfusion defects despite a relatively uniform ventilation distribution",
+        "explanation": "The source establishes pulmonary embolism and describes mismatched posterior ventilation and perfusion distributions."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Pulmonary_embolism_scintigraphy_PLoS.png"
+      },
+      {
+        "title": "Underlying source and caption",
+        "url": "https://doi.org/10.1371/journal.pmed.0020197"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.25,
+        "y": 0.49,
+        "text": "A: Ventilation",
+        "note": "Posterior ventilation distribution in panel A.",
+        "structures": [
+          "Left lung",
+          "Right lung"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.75,
+        "y": 0.49,
+        "text": "B: Perfusion",
+        "note": "Posterior perfusion distribution in panel B.",
+        "structures": [
+          "Left lung",
+          "Right lung"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Left lung",
+        "Right lung"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "nuclear_renal_function",
+    "title": "DTPA and MAG3 renograms: impaired left renal function",
+    "modality": "Nuclear medicine",
+    "region": "Abdomen",
+    "plane": "Functional",
+    "finding": "Impaired left renal function",
+    "tags": [
+      "pathology",
+      "nuclear medicine",
+      "abdomen"
+    ],
+    "summary": "Different visualization and renographic curves with DTPA vs MAG3 in the poorly functioning left kidney; source describes late obstructive phase.",
+    "text": "<p>Different visualization and renographic curves with DTPA vs MAG3 in the poorly functioning left kidney; source describes late obstructive phase.</p><p>The source compares DTPA and MAG3 renal scintigraphy and curves in a thromboembolic disease case with markedly impaired left renal function. It is not described as uncomplicated urinary obstruction.</p>",
+    "reading": [
+      "The source compares DTPA and MAG3 renal scintigraphy and curves in a thromboembolic disease case with markedly impaired left renal function. It is not described as uncomplicated urinary obstruction."
+    ],
+    "questions": [
+      {
+        "prompt": "Which two radiotracer studies are compared in the source panels?",
+        "answer": "99mTc-DTPA and 99mTc-MAG3",
+        "explanation": "The panel labels and primary article identify DTPA and MAG3 renal scintigraphy in a case with markedly impaired left renal function."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:99mTc-MAG3_and_99mTc-DTPA_renogram.jpg"
+      },
+      {
+        "title": "Underlying source and caption",
+        "url": "https://doi.org/10.1186/s12887-014-0315-2"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.77,
+        "y": 0.36,
+        "text": "DTPA renographic curves",
+        "note": "Right and left renal time-activity curves from the DTPA study.",
+        "structures": [
+          "Kidney"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.77,
+        "y": 0.86,
+        "text": "MAG3 renographic curves",
+        "note": "Right and left renal time-activity curves from the MAG3 study.",
+        "structures": [
+          "Kidney"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "abdomen"
+      ],
+      "focus": [
+        "Kidney"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "nuclear_myocardial_normal",
+    "title": "Normal myocardial perfusion: stress and rest SPECT",
+    "modality": "Nuclear medicine",
+    "region": "Thorax",
+    "plane": "Functional",
+    "finding": "Normal myocardial perfusion",
+    "tags": [
+      "normal",
+      "nuclear medicine",
+      "thorax"
+    ],
+    "summary": "Homogeneous appropriate distribution of technetium-99m MIBI tracer in left ventricle, as described by source.",
+    "text": "<p>Homogeneous appropriate distribution of technetium-99m MIBI tracer in left ventricle, as described by source.</p><p>The source describes homogeneous technetium-99m MIBI left ventricular myocardial perfusion. STR and RST labels separate stress and rest. This appearance does not establish complete exclusion of coronary disease.</p>",
+    "reading": [
+      "The source describes homogeneous technetium-99m MIBI left ventricular myocardial perfusion. STR and RST labels separate stress and rest. This appearance does not establish complete exclusion of coronary disease."
+    ],
+    "questions": [
+      {
+        "prompt": "Which chamber forms the ring-shaped short-axis myocardial perfusion slices?",
+        "answer": "Left ventricle",
+        "explanation": "The source describes homogeneous Tc-99m MIBI myocardial perfusion. The visible STR and RST labels separate stress and rest rows."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Perfusion_miocardica_normal.JPG"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.44118,
+        "y": 0.07407,
+        "text": "Stress short-axis slices",
+        "note": "STR identifies the stress short-axis row.",
+        "structures": [
+          "Left ventricle"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.44118,
+        "y": 0.19753,
+        "text": "Rest short-axis slices",
+        "note": "RST identifies the rest short-axis row.",
+        "structures": [
+          "Left ventricle"
+        ],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Left ventricle"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "nuclear_balanced_ischemia",
+    "title": "Balanced ischemia: SPECT, PET and angiography",
+    "modality": "Nuclear medicine",
+    "region": "Thorax",
+    "plane": "Functional",
+    "finding": "Balanced myocardial ischemia",
+    "tags": [
+      "pathology / multimodality comparison",
+      "nuclear medicine",
+      "thorax"
+    ],
+    "summary": "SPECT appears without perfusion abnormality while oxygen-15 water PET reveals widespread stress perfusion deficits; angiography confirms severe disease, described as balanced ischemia.",
+    "text": "<p>SPECT appears without perfusion abnormality while oxygen-15 water PET reveals widespread stress perfusion deficits; angiography confirms severe disease, described as balanced ischemia.</p><p>Panel A shows tetrofosmin SPECT with no apparent perfusion abnormality in the source case. Panel B shows extensive H2-15O PET stress perfusion deficits that partly improve at rest. Panel C shows source-marked severe coronary stenoses. The comparison illustrates this case&#39;s balanced ischemia.</p>",
+    "reading": [
+      "Panel A shows tetrofosmin SPECT with no apparent perfusion abnormality in the source case. Panel B shows extensive H2-15O PET stress perfusion deficits that partly improve at rest. Panel C shows source-marked severe coronary stenoses. The comparison illustrates this case's balanced ischemia."
+    ],
+    "questions": [
+      {
+        "prompt": "Which study shows widespread stress perfusion deficits despite the apparently normal SPECT pattern?",
+        "answer": "The H2-15O cardiac PET study in panel B",
+        "explanation": "The source describes apparently normal tetrofosmin SPECT, extensive stress PET deficits that partly improve at rest, and severe coronary stenoses on angiography."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:Tetrafosmin_SPECT_vs_H2O_cardiac_PET.jpg"
+      },
+      {
+        "title": "Underlying source and caption",
+        "url": "https://doi.org/10.1007/s10554-017-1084-4"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.077,
+        "y": 0.15,
+        "text": "A1: Stress tetrofosmin SPECT",
+        "note": "Source panel A1 shows stress tetrofosmin SPECT.",
+        "structures": [
+          "Left ventricle"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.46,
+        "y": 0.15,
+        "text": "B1: Stress H2-15O PET",
+        "note": "Source panel B1 shows stress H2-15O PET.",
+        "structures": [
+          "Left ventricle"
+        ],
+        "side": ""
+      },
+      {
+        "x": 0.908,
+        "y": 0.22,
+        "text": "C1: Source-marked coronary stenosis",
+        "note": "The source angiogram arrow identifies a coronary stenosis.",
+        "structures": [],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ],
+      "focus": [
+        "Left ventricle"
+      ],
+      "isolate": true
+    }
+  },
+  {
+    "id": "nuclear_hodgkin_petct",
+    "title": "Hodgkin lymphoma: PET, CT and fusion comparison",
+    "modality": "Nuclear medicine",
+    "region": "Thorax",
+    "plane": "Functional",
+    "finding": "Hodgkin lymphoma",
+    "tags": [
+      "pathology",
+      "nuclear medicine",
+      "thorax"
+    ],
+    "summary": "PET/CT of histologically validated Hodgkin lymphoma, as stated by source.",
+    "text": "<p>PET/CT of histologically validated Hodgkin lymphoma, as stated by source.</p><p>The upper panels compare axial CT anatomy and PET activity; the lower-left panel fuses the two. The lower-right panel is a PET maximum-intensity projection. The source identifies histologically validated Hodgkin lymphoma.</p>",
+    "reading": [
+      "The upper panels compare axial CT anatomy and PET activity; the lower-left panel fuses the two. The lower-right panel is a PET maximum-intensity projection. The source identifies histologically validated Hodgkin lymphoma."
+    ],
+    "questions": [
+      {
+        "prompt": "Which panel combines tracer activity with cross-sectional anatomy?",
+        "answer": "The lower-left Fusion panel",
+        "explanation": "The Fusion panel overlays PET activity on CT anatomy in the source's histologically validated Hodgkin lymphoma case."
+      }
+    ],
+    "references": [
+      {
+        "title": "Wikimedia Commons source image and file-level licence",
+        "url": "https://commons.wikimedia.org/wiki/File:HodgkinLymphomPETCT.jpg"
+      }
+    ],
+    "labels": [
+      {
+        "x": 0.73,
+        "y": 0.258,
+        "text": "PET activity at the crosshair",
+        "note": "The PET panel shows focal activity at the crosshair.",
+        "structures": [],
+        "side": ""
+      },
+      {
+        "x": 0.232,
+        "y": 0.751,
+        "text": "Corresponding fused activity and anatomy",
+        "note": "The fusion panel locates corresponding activity within CT anatomy.",
+        "structures": [],
+        "side": ""
+      }
+    ],
+    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+    "scene": {
+      "systems": [
+        "skeletal",
+        "muscular",
+        "nervous",
+        "cardiovascular",
+        "visceral",
+        "joints"
+      ],
+      "view": "anterior",
+      "xray": false,
+      "regions": [
+        "thorax"
+      ]
+    }
+  }
+]

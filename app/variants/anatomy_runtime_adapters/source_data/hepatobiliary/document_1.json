@@ -1,0 +1,1592 @@
+{
+  "schema_version": 1,
+  "model_id": "hepatobiliary",
+  "status": "source_design_ready",
+  "representation": "ordered static teaching states; functional mechanisms in notes; no physical animation",
+  "part_identity_source": "models/hepatobiliary/input_catalog.json:cache_metadata.parts",
+  "sources": [
+    {
+      "id": "bile_formation",
+      "title": "Physiology, Bile Secretion",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK470209/",
+      "opened": "2026-10-04",
+      "scope": "Canalicular secretion, cholangiocyte modification, coordinated release and enterohepatic return; Formation and Introduction."
+    },
+    {
+      "id": "bile_storage",
+      "title": "Physiology, Bile",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK542254/",
+      "opened": "2026-10-04",
+      "scope": "Concentration through water/electrolyte absorption and CCK-dependent delivery; Mechanism."
+    },
+    {
+      "id": "pancreatic_duct",
+      "title": "Pandol, Water and Ion Secretion from the Pancreatic Ductal System",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK54130",
+      "opened": "2026-10-04",
+      "scope": "Secretin/cAMP, CFTR-associated bicarbonate secretion, fluid transport and acid neutralization."
+    },
+    {
+      "id": "pancreatic_control",
+      "title": "Pandol, Regulation of Whole-Organ Pancreatic Secretion",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK54132",
+      "opened": "2026-10-04",
+      "scope": "Acid/S-cell/secretin and nutrient/I-cell/CCK plus neural regulation; fasting secretion persists."
+    },
+    {
+      "id": "pancreatic_role",
+      "title": "Pandol, Introduction to The Exocrine Pancreas",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK54131",
+      "opened": "2026-10-04",
+      "scope": "Enzyme transport by ductal fluid; alkaline environment supports digestion."
+    },
+    {
+      "id": "pancreas_histology",
+      "title": "Histology Guide, human MH 131 Pancreas",
+      "url": "https://histologyguide.org/slideview/MH-131-pancreas/12-slide-1.html",
+      "opened": "2026-10-04",
+      "scope": "Polarized acinar cells, basal rough ER, apical secretory granules and duct hierarchy; textual slide description only."
+    },
+    {
+      "id": "gallbladder_histology",
+      "title": "Histology Guide, human MH 130a Gallbladder",
+      "url": "https://histologyguide.org/slideview/MH-130a-gallbladder/15-slide-1.html",
+      "opened": "2026-10-04",
+      "scope": "Simple columnar mucosa, irregular smooth-muscle bundles; textual slide description only."
+    },
+    {
+      "id": "portal_circulation",
+      "title": "Anatomy, Abdomen and Pelvis, Portal Venous System",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK554589/",
+      "opened": "2026-10-04",
+      "scope": "Splanchnic inflow, mixed sinusoidal blood and central vein/hepatic vein/IVC drainage; Structure and Function."
+    },
+    {
+      "id": "liver_circulation",
+      "title": "Anatomy, Abdomen and Pelvis: Liver",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK500014/",
+      "opened": "2026-10-04",
+      "scope": "Dual supply, portal confluence, lobular inflow-to-central-vein route; surface lobes differ from functional segmentation."
+    },
+    {
+      "id": "liver_histology",
+      "title": "Histology Guide, Liver and Gallbladder",
+      "url": "https://histologyguide.org/slidebox/15-liver-and-gallbladder.html",
+      "opened": "2026-10-04",
+      "scope": "Hepatocyte plates, sinusoidal spaces and intercellular canaliculi; textual evidence only."
+    }
+  ],
+  "sequences": [
+    {
+      "id": "bile_formation_storage_release",
+      "mechanism": "Bile production, modification, storage and meal-associated release are different processes. The gallbladder stores liver-produced bile; its mucosa concentrates it.",
+      "steps": [
+        {
+          "id": "production",
+          "title": "Liver produces bile",
+          "explanation": "Hepatocytes actively secrete bile constituents into canaliculi; osmotic water movement contributes to bile formation. Canaliculi and canals of Hering are unmodeled here; the named hepatic ducts show the gross exit.",
+          "visible_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Cystic duct",
+            "Common bile duct"
+          ],
+          "hidden_parts": [
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Major duodenal papilla",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Right hepatic duct",
+            "Left hepatic duct"
+          ],
+          "ordered_routes": [
+            {
+              "parts": [
+                "Right hepatic duct",
+                "Common hepatic duct"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            },
+            {
+              "parts": [
+                "Left hepatic duct",
+                "Common hepatic duct"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            }
+          ],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Hepatocytes actively secrete bile constituents into canaliculi; osmotic water movement contributes to bile formation. Canaliculi and canals of Hering are unmodeled here; the named hepatic ducts show the gross exit."
+          },
+          "source_ids": [
+            "bile_formation",
+            "liver_histology"
+          ]
+        },
+        {
+          "id": "duct_modification",
+          "title": "Ducts modify and carry bile",
+          "explanation": "Cholangiocytes add bicarbonate-rich fluid, with secretin-responsive transport. Duct epithelium and its transporters are explained in text rather than added to this gross specimen.",
+          "visible_parts": [
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Cystic duct",
+            "Common bile duct",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Major duodenal papilla",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Common hepatic duct",
+            "Common bile duct"
+          ],
+          "ordered_routes": [
+            {
+              "parts": [
+                "Common hepatic duct",
+                "Common bile duct"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            }
+          ],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Cholangiocytes add bicarbonate-rich fluid, with secretin-responsive transport. Duct epithelium and its transporters are explained in text rather than added to this gross specimen."
+          },
+          "source_ids": [
+            "bile_formation"
+          ]
+        },
+        {
+          "id": "storage",
+          "title": "Gallbladder stores and concentrates",
+          "explanation": "Between meals, downstream resistance favors entry through the cystic duct into the gallbladder. Water and electrolyte absorption concentrates stored bile. This is a predominant storage state, not a claim of zero duodenal flow or a tightly shut valve.",
+          "visible_parts": [
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Cystic duct",
+            "Common bile duct",
+            "Sphincter of Oddi (hepatopancreatic sphincter)"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Major duodenal papilla",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Cystic duct",
+            "Body of gallbladder"
+          ],
+          "ordered_routes": [
+            {
+              "parts": [
+                "Common hepatic duct",
+                "Cystic duct",
+                "Neck of gallbladder",
+                "Body of gallbladder",
+                "Fundus of gallbladder"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            }
+          ],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Between meals, downstream resistance favors entry through the cystic duct into the gallbladder. Water and electrolyte absorption concentrates stored bile. This is a predominant storage state, not a claim of zero duodenal flow or a tightly shut valve."
+          },
+          "source_ids": [
+            "bile_storage",
+            "pancreatic_control"
+          ]
+        },
+        {
+          "id": "release",
+          "title": "Meal-associated bile release",
+          "explanation": "Nutrients stimulate CCK-related regulation: gallbladder smooth muscle contracts and sphincter resistance falls. Bile exits through the same cystic duct toward the common bile duct, ampulla and major papilla into D2. The cystic duct has bidirectional use across states.",
+          "visible_parts": [
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Cystic duct",
+            "Common bile duct",
+            "Main pancreatic duct",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Major duodenal papilla",
+            "Duodenum: descending part (D2)",
+            "Duodenal mucosa (circular folds)",
+            "Sphincter of Oddi (hepatopancreatic sphincter)"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Cystic duct",
+            "Common bile duct",
+            "Major duodenal papilla"
+          ],
+          "ordered_routes": [
+            {
+              "parts": [
+                "Body of gallbladder",
+                "Neck of gallbladder",
+                "Cystic duct",
+                "Common bile duct",
+                "Hepatopancreatic ampulla (of Vater)",
+                "Major duodenal papilla",
+                "Duodenum: descending part (D2)"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            }
+          ],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Nutrients stimulate CCK-related regulation: gallbladder smooth muscle contracts and sphincter resistance falls. Bile exits through the same cystic duct toward the common bile duct, ampulla and major papilla into D2. The cystic duct has bidirectional use across states."
+          },
+          "source_ids": [
+            "bile_storage",
+            "gallbladder_histology"
+          ]
+        },
+        {
+          "id": "outlet_exposure",
+          "title": "Inspect the route through the papilla",
+          "explanation": "Hide the sphincter selector only to expose the outlet. This visibility action does not depict relaxation. The shared ampullary arrangement is representative and variable in individuals; the intentional D2 specimen window differs from the actual papillary opening.",
+          "visible_parts": [
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Cystic duct",
+            "Common bile duct",
+            "Main pancreatic duct",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Major duodenal papilla",
+            "Duodenum: descending part (D2)",
+            "Duodenal mucosa (circular folds)"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Hepatopancreatic ampulla (of Vater)",
+            "Major duodenal papilla"
+          ],
+          "ordered_routes": [],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Hide the sphincter selector only to expose the outlet. This visibility action does not depict relaxation. The shared ampullary arrangement is representative and variable in individuals; the intentional D2 specimen window differs from the actual papillary opening."
+          },
+          "source_ids": []
+        }
+      ],
+      "schematic_limitations": [
+        "No gallbladder volume change, sphincter deformation, pressure field or flow velocity is implemented.",
+        "Canalicular secretion, duct transporters and epithelial absorption are explanatory text, not microscopic geometry.",
+        "Do not imply all hepatic bile must visit the gallbladder before entering the duodenum.",
+        "Fasting and fed states overlap and have cyclic activity; the steps are teaching states, not measured time intervals."
+      ]
+    },
+    {
+      "id": "pancreatic_bicarbonate_and_enzymes",
+      "mechanism": "Acinar tissue provides digestive enzymes; ductal tissue supplies bicarbonate-rich aqueous secretion that transports enzymes and helps neutralize gastric acid.",
+      "steps": [
+        {
+          "id": "acid_signal",
+          "title": "Acid enters the proximal duodenum",
+          "explanation": "Acidic chyme stimulates duodenal S cells to release secretin into blood. Secretin acts on pancreatic ductal cells; cholinergic inputs contribute. S cells and hormone travel are unmodeled.",
+          "visible_parts": [
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Major duodenal papilla",
+            "Duodenum: descending part (D2)",
+            "Duodenal mucosa (circular folds)",
+            "Pylorus (cut end of stomach)",
+            "Duodenum: superior part (D1)"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Cystic duct",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Common bile duct",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Accessory pancreatic duct",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Minor duodenal papilla",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Duodenum: descending part (D2)",
+            "Main pancreatic duct"
+          ],
+          "ordered_routes": [],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Acidic chyme stimulates duodenal S cells to release secretin into blood. Secretin acts on pancreatic ductal cells; cholinergic inputs contribute. S cells and hormone travel are unmodeled."
+          },
+          "source_ids": [
+            "pancreatic_control"
+          ]
+        },
+        {
+          "id": "duct_secretion",
+          "title": "Ductal bicarbonate and water",
+          "explanation": "Secretin signaling raises duct-cell cAMP; CFTR-associated apical anion transport and chloride/bicarbonate exchange support bicarbonate secretion. Sodium and water follow electrical/osmotic gradients. Ductular secretion carries acinar products toward the intestine.",
+          "visible_parts": [
+            "Main pancreatic duct",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Major duodenal papilla",
+            "Duodenum: descending part (D2)",
+            "Duodenal mucosa (circular folds)",
+            "Accessory pancreatic duct",
+            "Minor duodenal papilla"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Cystic duct",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Common bile duct",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Duodenum: superior part (D1)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Main pancreatic duct"
+          ],
+          "ordered_routes": [
+            {
+              "parts": [
+                "Main pancreatic duct",
+                "Hepatopancreatic ampulla (of Vater)",
+                "Major duodenal papilla",
+                "Duodenum: descending part (D2)"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            }
+          ],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Secretin signaling raises duct-cell cAMP; CFTR-associated apical anion transport and chloride/bicarbonate exchange support bicarbonate secretion. Sodium and water follow electrical/osmotic gradients. Ductular secretion carries acinar products toward the intestine."
+          },
+          "source_ids": [
+            "pancreatic_duct"
+          ]
+        },
+        {
+          "id": "enzyme_signal",
+          "title": "Nutrients increase enzyme secretion",
+          "explanation": "Fat and protein digestion products stimulate intestinal CCK-related hormonal and vagovagal pathways. Acinar cells have basal rough ER and apical secretory granules; the gross head/body/tail selectors are context, not separate secretion compartments.",
+          "visible_parts": [
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Major duodenal papilla",
+            "Duodenum: descending part (D2)",
+            "Duodenal mucosa (circular folds)"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Cystic duct",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Common bile duct",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Body of pancreas",
+            "Head of pancreas"
+          ],
+          "ordered_routes": [],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Fat and protein digestion products stimulate intestinal CCK-related hormonal and vagovagal pathways. Acinar cells have basal rough ER and apical secretory granules; the gross head/body/tail selectors are context, not separate secretion compartments."
+          },
+          "source_ids": [
+            "pancreatic_control",
+            "pancreas_histology"
+          ]
+        },
+        {
+          "id": "joint_delivery",
+          "title": "Two secretory functions share ductal delivery",
+          "explanation": "Duct fluid transports digestive enzymes to the duodenum. Bicarbonate helps provide a suitable pH for their activity. The accessory duct and minor papilla remain separately identifiable; this specimen does not establish individual duct configuration.",
+          "visible_parts": [
+            "Main pancreatic duct",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Major duodenal papilla",
+            "Duodenum: descending part (D2)",
+            "Duodenal mucosa (circular folds)",
+            "Accessory pancreatic duct",
+            "Minor duodenal papilla",
+            "Common bile duct"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Cystic duct",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Duodenum: superior part (D1)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Main pancreatic duct",
+            "Accessory pancreatic duct"
+          ],
+          "ordered_routes": [
+            {
+              "parts": [
+                "Accessory pancreatic duct",
+                "Minor duodenal papilla",
+                "Duodenum: descending part (D2)"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            }
+          ],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Duct fluid transports digestive enzymes to the duodenum. Bicarbonate helps provide a suitable pH for their activity. The accessory duct and minor papilla remain separately identifiable; this specimen does not establish individual duct configuration."
+          },
+          "source_ids": [
+            "pancreatic_role"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "No acini, centroacinar cells, S cells, I cells or molecular transporters are geometric parts of this gross model.",
+        "No enzyme activation kinetics, exocytosis morphs or hormone particle trajectories are claimed.",
+        "Bicarbonate/anion transport is summarized; transporter contributions and their relative dominance are not quantified.",
+        "Pancreatic secretions are not absent during fasting. Endocrine insulin/glucagon release uses blood rather than these exocrine ducts and is outside this sequence."
+      ]
+    },
+    {
+      "id": "dual_hepatic_supply_and_drainage",
+      "mechanism": "Portal and arterial blood enter liver microcirculation through separate gross routes; mixed sinusoidal blood ultimately leaves through hepatic veins into the IVC.",
+      "steps": [
+        {
+          "id": "portal_inflow",
+          "title": "Portal inflow from abdominal organs",
+          "explanation": "Trace superior mesenteric and splenic contributions toward the hepatic portal vein, posterior to the pancreatic neck. The inferior mesenteric tributary retains its depicted insertion. This portal blood brings absorbed substances to the liver; it is not oxygen-free.",
+          "visible_parts": [
+            "Inferior mesenteric vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Hepatic portal vein",
+            "Neck of pancreas",
+            "Porta hepatis"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Cystic duct",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Common bile duct",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Major duodenal papilla",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Inferior mesenteric vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Hepatic portal vein"
+          ],
+          "ordered_routes": [
+            {
+              "parts": [
+                "Superior mesenteric vein",
+                "Hepatic portal vein"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            },
+            {
+              "parts": [
+                "Splenic vein",
+                "Hepatic portal vein"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            },
+            {
+              "parts": [
+                "Inferior mesenteric vein",
+                "Splenic vein",
+                "Hepatic portal vein"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            }
+          ],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Trace superior mesenteric and splenic contributions toward the hepatic portal vein, posterior to the pancreatic neck. The inferior mesenteric tributary retains its depicted insertion. This portal blood brings absorbed substances to the liver; it is not oxygen-free."
+          },
+          "source_ids": [
+            "portal_circulation",
+            "liver_circulation"
+          ]
+        },
+        {
+          "id": "arterial_inflow",
+          "title": "Hepatic arterial supply",
+          "explanation": "Follow the abdominal aorta, coeliac trunk, common hepatic artery and hepatic artery proper to right and left hepatic arteries. These provide the second, more oxygenated inflow. The schematic calibres do not encode relative blood-flow fractions.",
+          "visible_parts": [
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Porta hepatis"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Cystic duct",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Common bile duct",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Major duodenal papilla",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery"
+          ],
+          "ordered_routes": [
+            {
+              "parts": [
+                "Abdominal aorta",
+                "Coeliac trunk",
+                "Common hepatic artery",
+                "Hepatic artery proper",
+                "Right hepatic artery"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            },
+            {
+              "parts": [
+                "Hepatic artery proper",
+                "Left hepatic artery"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            }
+          ],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Follow the abdominal aorta, coeliac trunk, common hepatic artery and hepatic artery proper to right and left hepatic arteries. These provide the second, more oxygenated inflow. The schematic calibres do not encode relative blood-flow fractions."
+          },
+          "source_ids": [
+            "liver_circulation"
+          ]
+        },
+        {
+          "id": "microvascular_bridge",
+          "title": "Explain the unmodeled exchange bed",
+          "explanation": "Portal and arterial branches feed sinusoids; blood mixes and passes toward central veins. This microscopic exchange bed is absent from the gross specimen. Do not add a direct portal-to-hepatic-vein tube to connect visible gaps.",
+          "visible_parts": [
+            "Inferior mesenteric vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Hepatic portal vein",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Hepatic veins",
+            "Inferior vena cava"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Cystic duct",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Common bile duct",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Major duodenal papilla",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Hepatic portal vein",
+            "Hepatic veins"
+          ],
+          "ordered_routes": [],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Portal and arterial branches feed sinusoids; blood mixes and passes toward central veins. This microscopic exchange bed is absent from the gross specimen. Do not add a direct portal-to-hepatic-vein tube to connect visible gaps."
+          },
+          "source_ids": [
+            "portal_circulation"
+          ]
+        },
+        {
+          "id": "hepatic_outflow",
+          "title": "Hepatic venous drainage",
+          "explanation": "Central venous drainage converges into hepatic veins and then the IVC. Compare this exit with portal entry. The named hepatic-veins selector represents the drainage network; vessel crossings must not be taught as junctions.",
+          "visible_parts": [
+            "Hepatic veins",
+            "Inferior vena cava",
+            "Porta hepatis"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Cystic duct",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Common bile duct",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Major duodenal papilla",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Hepatic veins",
+            "Inferior vena cava"
+          ],
+          "ordered_routes": [
+            {
+              "parts": [
+                "Hepatic veins",
+                "Inferior vena cava"
+              ],
+              "semantics": "qualitative route order; text only, no particle or fluid simulation"
+            }
+          ],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Central venous drainage converges into hepatic veins and then the IVC. Compare this exit with portal entry. The named hepatic-veins selector represents the drainage network; vessel crossings must not be taught as junctions."
+          },
+          "source_ids": [
+            "portal_circulation"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Sinusoids, central veins and perfusion territories are not represented as independently selectable parts.",
+        "Sparse intrahepatic branches are a gross route map, not complete perfusion coverage or an eight-segment map.",
+        "Colors distinguish systems and do not measure oxygen saturation, concentration or flow.",
+        "The ligaments representing fetal remnants are not patent normal adult bypass routes."
+      ]
+    },
+    {
+      "id": "bile_and_blood_route_comparison",
+      "mechanism": "At the liver, biliary outflow and vascular inflow are different systems that run together locally without sharing a lumen.",
+      "steps": [
+        {
+          "id": "triad_compare",
+          "title": "Three neighboring routes at the porta",
+          "explanation": "Compare hepatic portal vein and hepatic arterial entry with right/left hepatic duct exit. Proximity does not mean luminal communication; these selectors preserve independent passage systems.",
+          "visible_parts": [
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Cystic duct",
+            "Common bile duct",
+            "Porta hepatis",
+            "Hepatic portal vein",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Major duodenal papilla",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Hepatic portal vein",
+            "Hepatic artery proper",
+            "Common hepatic duct"
+          ],
+          "ordered_routes": [],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Compare hepatic portal vein and hepatic arterial entry with right/left hepatic duct exit. Proximity does not mean luminal communication; these selectors preserve independent passage systems."
+          },
+          "source_ids": [
+            "liver_circulation"
+          ]
+        },
+        {
+          "id": "direction_compare",
+          "title": "Microscopic directions differ",
+          "explanation": "In lobular teaching, blood passes from portal-region inflow toward central venous outflow; bile produced by hepatocytes drains toward portal-region ducts. This model shows gross trunks only. Open the separately reviewed liver-lobule model for microscopic orientation; do not map its scale onto this specimen.",
+          "visible_parts": [
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Cystic duct",
+            "Common bile duct",
+            "Inferior mesenteric vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Hepatic portal vein",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Hepatic veins",
+            "Inferior vena cava"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Major duodenal papilla",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Hepatic veins"
+          ],
+          "ordered_routes": [],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "In lobular teaching, blood passes from portal-region inflow toward central venous outflow; bile produced by hepatocytes drains toward portal-region ducts. This model shows gross trunks only. Open the separately reviewed liver-lobule model for microscopic orientation; do not map its scale onto this specimen."
+          },
+          "source_ids": [
+            "liver_histology",
+            "liver_circulation"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "There is no direct blood-to-bile connection. Secretion across hepatocyte membranes is explained, not simulated.",
+        "Gross named surface lobes do not define each functional vascular segment.",
+        "Separate layers lifts liver context for viewing; it is an exploded teaching arrangement, never physiological organ movement."
+      ]
+    },
+    {
+      "id": "enterohepatic_return_context",
+      "mechanism": "Bile-acid reuse links a luminal digestive route to portal venous return, with an unmodeled intestinal absorption step.",
+      "steps": [
+        {
+          "id": "luminal_use",
+          "title": "Bile supports lipid digestion and absorption",
+          "explanation": "Bile salts disperse lipids and help solubilize digestion products. They do not replace pancreatic digestive enzymes. Follow delivery through the major papilla into the proximal intestinal lumen.",
+          "visible_parts": [
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Cystic duct",
+            "Common bile duct",
+            "Main pancreatic duct",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Major duodenal papilla",
+            "Duodenum: descending part (D2)",
+            "Duodenal mucosa (circular folds)",
+            "Jejunum (cut)"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Porta hepatis",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Hepatic veins",
+            "Hepatic portal vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Inferior mesenteric vein",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Major duodenal papilla"
+          ],
+          "ordered_routes": [],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Bile salts disperse lipids and help solubilize digestion products. They do not replace pancreatic digestive enzymes. Follow delivery through the major papilla into the proximal intestinal lumen."
+          },
+          "source_ids": [
+            "bile_storage"
+          ]
+        },
+        {
+          "id": "return_bridge",
+          "title": "Ileal reabsorption and portal return",
+          "explanation": "Most bile acids are reabsorbed distally in the ileum and return through portal blood for hepatic uptake and resecretion. The ileum and its absorption machinery are absent. This transition is text-only; the shown jejunal cut end is not the ileal absorption site.",
+          "visible_parts": [
+            "Inferior mesenteric vein",
+            "Splenic vein",
+            "Superior mesenteric vein",
+            "Hepatic portal vein",
+            "Porta hepatis",
+            "Right hepatic duct",
+            "Left hepatic duct",
+            "Common hepatic duct",
+            "Cystic duct",
+            "Common bile duct"
+          ],
+          "hidden_parts": [
+            "Right lobe of liver",
+            "Left lobe of liver",
+            "Quadrate lobe",
+            "Caudate lobe",
+            "Bare area of liver",
+            "Coronary ligament",
+            "Right triangular ligament",
+            "Falciform ligament",
+            "Left triangular ligament",
+            "Round ligament of liver (ligamentum teres)",
+            "Ligamentum venosum",
+            "Fundus of gallbladder",
+            "Body of gallbladder",
+            "Neck of gallbladder",
+            "Hepatopancreatic ampulla (of Vater)",
+            "Sphincter of Oddi (hepatopancreatic sphincter)",
+            "Head of pancreas",
+            "Uncinate process of pancreas",
+            "Neck of pancreas",
+            "Body of pancreas",
+            "Tail of pancreas",
+            "Main pancreatic duct",
+            "Accessory pancreatic duct",
+            "Duodenum: superior part (D1)",
+            "Duodenum: descending part (D2)",
+            "Duodenum: horizontal part (D3)",
+            "Duodenum: ascending part (D4)",
+            "Duodenal mucosa (circular folds)",
+            "Major duodenal papilla",
+            "Minor duodenal papilla",
+            "Pylorus (cut end of stomach)",
+            "Jejunum (cut)",
+            "Hepatic veins",
+            "Inferior vena cava",
+            "Abdominal aorta",
+            "Coeliac trunk",
+            "Common hepatic artery",
+            "Hepatic artery proper",
+            "Right hepatic artery",
+            "Left hepatic artery",
+            "Cystic artery",
+            "Gastroduodenal artery",
+            "Splenic artery",
+            "Left gastric artery (cut)",
+            "Superior mesenteric artery"
+          ],
+          "selected_parts": [
+            "Hepatic portal vein"
+          ],
+          "ordered_routes": [],
+          "native_view": {
+            "cut_on": false,
+            "state": "assembled",
+            "note": "Most bile acids are reabsorbed distally in the ileum and return through portal blood for hepatic uptake and resecretion. The ileum and its absorption machinery are absent. This transition is text-only; the shown jejunal cut end is not the ileal absorption site."
+          },
+          "source_ids": [
+            "bile_formation"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "The intestine is truncated, so there is no continuous geometric enterohepatic loop.",
+        "Do not draw an absorption arrow from the duodenum or shown jejunal cut end as though it were terminal ileum.",
+        "No molecular bile-acid pool size, recycling time or fractional uptake is encoded."
+      ]
+    }
+  ],
+  "native_application": {
+    "supported": "Model.viewer_cameras records are copied by app/viewer/procedural.py:121. app/viewer/viewport.py:408-435 uses hidden names, state and cut_on. Teaching defaults admit viewer_cameras/start_view/summary/scale_note.",
+    "mapping": "Lead may combine each step native_view with a source-authored camera and its hidden_parts as hidden; select/focus are manual viewer operations or an explicit future adapter, not camera metadata.",
+    "not_supported_as_camera_keys": [
+      "explanation",
+      "selected_parts",
+      "ordered_routes",
+      "opacity_percent",
+      "flow_speed",
+      "sphincter_radius",
+      "gallbladder_volume"
+    ],
+    "opacity": "Tissue opacity is a manual bulk-only control in app/ui/model_view.py:630-633; no per-view opacity preset support was found.",
+    "camera_validation": "Camera positions and clipping must be authored from source relationships by teaching specialist and checked later; this file makes no tested camera claim."
+  },
+  "bounded_validation": {
+    "unknown_part_names": [],
+    "duplicate_step_ids": false,
+    "native_app_run": false,
+    "mesh_or_arrays_loaded": false,
+    "heavy_processing": "NOT RUN"
+  }
+}

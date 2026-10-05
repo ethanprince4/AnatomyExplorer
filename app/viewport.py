@@ -232,6 +232,9 @@ class Viewport(QOpenGLWidget):
         self.clip_pos = [0.0, 0.0, 0.9]
         self.clip_flip = [False, False, False]
         self.clip_mode = 0
+        self.radiology_slice = False
+        self._radiology_label_groups = None
+        self._section_label_names = {}
         self.clip_axes = [(1.0, 0.0, 0.0), (0.0, 0.0, 1.0), (0.0, 1.0, 0.0)]
         self._press = None
         self._last = None
@@ -245,6 +248,8 @@ class Viewport(QOpenGLWidget):
         self._lm_cache = []
         self.section = None            # SectionIndex, attached by the main window
         self.section_anchors = []      # [(sid, anchor_xyz, weight)] on the current cut face
+        self._section_geometry = None
+        self.last_section_frame = None
         self._section_rects = []       # screen rectangles of the drawn labels, for clicking
         self.measure_mode = False
         self.measure_scale = 1.0       # metres per model unit (micro models set their own)
@@ -304,7 +309,8 @@ class Viewport(QOpenGLWidget):
             self._fbo = self.ctx.detect_framebuffer(fbo_id)
             self._fbo_id = fbo_id
         self.renderer.render(self._fbo, self.camera, self.settings, self.clip_uniforms(),
-                             hover_id=self.state.hovered, has_selection=bool(self.state.selected))
+                             hover_id=self.state.hovered, has_selection=bool(self.state.selected),
+                             radiology_slice=self.radiology_slice)
         self._pick_frame_key = self._frame_key()
         self._update_landmarks()
         self.frameTimed.emit((time.perf_counter() - t0) * 1000.0)
@@ -321,6 +327,29 @@ class Viewport(QOpenGLWidget):
         self.update()
 
     # ------------------------------------------------------------------ clipping
+    def set_radiology_section_labels(self, groups=None):
+        """Temporary authored names/IDs for this case; never alter preferences.
+
+        Each group is (display_text, structure_ids, surface_anchor). One physically intersecting,
+        visible representative anchors each name. Rendering remains independent.
+        None restores ordinary atlas labels; an empty list deliberately hides them.
+        """
+        self._radiology_label_groups = groups
+        self._section_label_names = {}
+        self.refresh_section()
+        self.update()
+
+    def set_radiology_slice(self, enabled: bool) -> None:
+        """Render a single section plane without anatomy surfaces behind it."""
+        self.radiology_slice = bool(enabled)
+        if not enabled:
+            had_labels = self._radiology_label_groups is not None
+            self._radiology_label_groups = None
+            self._section_label_names = {}
+            if had_labels:
+                self.refresh_section()
+        self.update()
+
     def scene_bounds(self):
         return self.ds.scene_bbox[0], self.ds.scene_bbox[1]
 
@@ -377,6 +406,59 @@ class Viewport(QOpenGLWidget):
         self.camera.animate_to(np.asarray(point), self.camera.fit_distance(radius, self.aspect()),
                                self.camera.yaw, self.camera.pitch, self.duration())
         self.update()
+
+    def frame_section(self, view=None):
+        """Frame actual cut intersections rather than the full lengths of their meshes."""
+        if not self.radiology_slice or sum(self.clip_on) != 1:
+            return False
+        from .section import plane_bounds
+        if self._section_geometry is None:
+            self._section_geometry = self.ds.load_geometry()
+        plane = self.clip_uniforms()[0][self.clip_on.index(True)]
+        started = time.perf_counter()
+        bounds = plane_bounds(self.ds, *self._section_geometry, self.state.visible_mask(), plane)
+        if bounds is None:
+            self.last_section_frame = {"contributors": [], "seconds": time.perf_counter() - started}
+            return False
+        lo, hi, contributors = bounds
+        self.last_section_frame = {"bounds": [lo.tolist(), hi.tolist()], "contributors": contributors,
+                                   "seconds": time.perf_counter() - started}
+        yaw, pitch = VIEWS[view] if view in VIEWS else (None, None)
+        self.camera.frame_plane_bounds(lo, hi, self.aspect(), yaw, pitch, self.duration())
+        self.update()
+        return True
+
+    def radiology_reference_ids(self, sids):
+        """Visible reference surfaces that actually meet this physical section.
+
+        Projection views retain their visible anatomical links. Section links
+        use indexed triangles, never only whole-structure bounding boxes or
+        approximate sample points. This does not imply patient registration.
+        """
+        visible = self.state.visible_mask()
+        ids = list(dict.fromkeys(int(s) for s in sids if 0 <= int(s) < len(visible) and visible[int(s)]))
+        if not self.radiology_slice or sum(self.clip_on) != 1 or not ids:
+            return ids
+        from .section import plane_bounds
+        if self._section_geometry is None:
+            self._section_geometry = self.ds.load_geometry()
+        # Match the float32 plane actually uploaded to GLSL, including a
+        # coplanar float32 surface; do not silently move the requested section.
+        plane = tuple(np.asarray(self.clip_uniforms()[0][self.clip_on.index(True)],
+                                 dtype=np.float32).astype(np.float64))
+        key = (id(self._section_geometry), plane)
+        if getattr(self, '_radiology_reference_key', None) != key:
+            self._radiology_reference_key = key
+            self._radiology_reference_members = {}
+        membership = self._radiology_reference_members
+        missing = [s for s in ids if s not in membership]
+        if missing:
+            mask = np.zeros(len(visible), dtype=bool)
+            mask[missing] = True
+            result = plane_bounds(self.ds, *self._section_geometry, mask, plane)
+            contributors = set(result[2]) if result is not None else set()
+            membership.update({s: s in contributors for s in missing})
+        return [s for s in ids if membership[s]]
 
     def key_orbit(self, dx, dy):
         step = float(self.settings.get("key_orbit_step", 15.0))
@@ -629,6 +711,38 @@ class Viewport(QOpenGLWidget):
                 return i, self.CLIP_AXIS[i], float(self.clip_pos[i])
         return None
 
+    def _radiology_surface_anchor(self, sid, axis, value, fallback):
+        """Put a wall label on an exact triangle/plane intersection, not its lumen."""
+        if self._section_geometry is None:
+            self._section_geometry = self.ds.load_geometry()
+        key = (id(self._section_geometry), axis, value)
+        if getattr(self, "_radiology_anchor_key", None) != key:
+            self._radiology_anchor_key = key
+            self._radiology_anchors = {}
+        if sid not in self._radiology_anchors:
+            vertices, indices = self._section_geometry
+            dtype = np.dtype([("pos", "<f4", 3), ("nrm", "<f4", 3),
+                              ("obj", "<u2"), ("mat", "<u2")])
+            positions = np.frombuffer(vertices, dtype=dtype)["pos"]
+            triangles = np.frombuffer(indices, dtype="<u4")
+            part = self.ds.structures[sid]
+            points = positions[triangles[part["i_start"]:part["i_start"] + part["i_count"]].reshape(-1, 3)].astype(np.float64)
+            distance = points[:, :, axis] - value
+            intersections = []
+            for a, b in ((0, 1), (1, 2), (2, 0)):
+                da, db = distance[:, a], distance[:, b]
+                crossed = ((da < 0) & (db > 0)) | ((da > 0) & (db < 0))
+                if crossed.any():
+                    t = da[crossed] / (da[crossed] - db[crossed])
+                    intersections.append(points[crossed, a] + t[:, None] * (points[crossed, b] - points[crossed, a]))
+            anchor = np.asarray(fallback, dtype=float)
+            if intersections:
+                cut = np.concatenate(intersections)
+                anchor = cut[np.argmin(np.sum((cut - cut.mean(axis=0)) ** 2, axis=1))]
+                anchor[axis] = value
+            self._radiology_anchors[sid] = anchor
+        return self._radiology_anchors[sid]
+
     def refresh_section(self):
         """Recompute what the active cross-section cuts through. Cheap enough to follow the slider."""
         plane = self.active_section()
@@ -643,7 +757,28 @@ class Viewport(QOpenGLWidget):
             return
         _, axis, value = plane
         limit = int(self.settings.get("max_section_labels", 22))
-        self.section_anchors = self.section.cut(axis, value, self.state.visible_mask(), limit=limit)
+        self._section_label_names = {}
+        if self._radiology_label_groups is None:
+            self.section_anchors = self.section.cut(axis, value, self.state.visible_mask(), limit=limit)
+        else:
+            visible = self.state.visible_mask()
+            groups = [(text, self.radiology_reference_ids(ids), surface)
+                      for text, ids, surface in self._radiology_label_groups]
+            mask = np.zeros(self.ds.n, dtype=bool)
+            for _text, ids, _surface in groups:
+                mask[ids] = True
+            anchors = self.section.cut(axis, value, visible & mask, limit=self.ds.n)
+            by_sid = {sid: (sid, anchor, weight) for sid, anchor, weight in anchors}
+            self.section_anchors = []
+            for text, ids, surface in groups:
+                candidates = [by_sid[sid] for sid in ids if sid in by_sid]
+                if candidates:
+                    item = max(candidates, key=lambda x: x[2])
+                    if surface:
+                        item = (item[0], self._radiology_surface_anchor(item[0], axis, value, item[1]), item[2])
+                    if item[0] not in self._section_label_names:
+                        self.section_anchors.append(item)
+                        self._section_label_names[item[0]] = text
         if self.sectionChanged:
             self.sectionChanged(self.section_anchors)
 
@@ -681,7 +816,7 @@ class Viewport(QOpenGLWidget):
                     ys[k] = min(ys[k], ys[k + 1] - line_h)
             for (sid, pr), ly in zip(items, ys):
                 ly = max(line_h * 0.6, min(bottom - line_h * 0.6, ly))
-                text = self.ds.structures[sid]["name"]
+                text = self._section_label_names.get(sid, self.ds.structures[sid]["name"])
                 tw = min(fm.horizontalAdvance(text) + 12, w * 0.28)
                 x0 = margin if side < 0 else w - margin - tw
                 rect = QRectF(x0, ly - line_h / 2 + 2, tw, fm.height() + 4)

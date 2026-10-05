@@ -41,10 +41,13 @@ class ViewPanel(QWidget):
         self.settings = settings
         self.vp = viewport
         self._sync = False
+        self.setMinimumWidth(240)
+        self.setAccessibleName("Atlas view controls")
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         outer.addWidget(scroll)
         body = QWidget()
         scroll.setWidget(body)
@@ -56,20 +59,31 @@ class ViewPanel(QWidget):
         gl = QGridLayout(g)
         gl.addWidget(QLabel("Colors"), 0, 0)
         self.color_mode = QComboBox()
+        self.color_mode.setAccessibleName("Atlas color mode")
+        self.color_mode.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+        self.color_mode.setMinimumContentsLength(10)
         self.color_mode.addItems(["Realistic", "Distinct segments", "By body system"])
         self.color_mode.currentIndexChanged.connect(lambda i: self._set("color_mode", i))
         gl.addWidget(self.color_mode, 0, 1)
         gl.addWidget(QLabel("X-ray opacity"), 1, 0)
         self.ghost = slider(2, 50, 10)
+        self.ghost.setAccessibleName("X-ray opacity percent")
+        self.ghost.setToolTip("Opacity of the anatomy around your selection")
         self.ghost.valueChanged.connect(lambda v: self._set("ghost_alpha", v / 100.0))
-        gl.addWidget(self.ghost, 1, 1)
+        opacity_row = QHBoxLayout()
+        opacity_row.addWidget(self.ghost, 1)
+        self.ghost_value = QLabel("10%")
+        self.ghost.valueChanged.connect(lambda value: self.ghost_value.setText(f"{value}%"))
+        opacity_row.addWidget(self.ghost_value)
+        gl.addLayout(opacity_row, 1, 1)
         self.xray = QCheckBox("X-ray everything else when searching")
         self.xray.toggled.connect(lambda v: self._set("xray_on_search", v))
         gl.addWidget(self.xray, 2, 0, 1, 2)
         self.lm = QCheckBox("Landmark labels on selection")
         self.lm.toggled.connect(lambda v: self._set("show_landmarks", v))
         gl.addWidget(self.lm, 3, 0, 1, 2)
-        self.dark = QCheckBox("Dark background")
+        self.dark = QCheckBox("Dark 3D background")
+        self.dark.setToolTip("Changes the atlas background, independently of the app theme")
         self.dark.toggled.connect(lambda v: self._set("dark_background", v))
         gl.addWidget(self.dark, 4, 0, 1, 2)
         self.ssao = QCheckBox("Ambient occlusion")
@@ -88,12 +102,14 @@ class ViewPanel(QWidget):
         blurb.setStyleSheet(theme.text_css(theme.TEXT_2))
         dl.addWidget(blurb)
         self.depth_slider = slider(0, 1000, 0)
+        self.depth_slider.setAccessibleName("Dissection depth")
+        self.depth_slider.setToolTip("0 is intact; 1000 is the deepest dissection")
         self.depth_slider.setEnabled(False)
         self.depth_slider.valueChanged.connect(lambda _=0: self._depth())
         dl.addWidget(self.depth_slider)
         row = QHBoxLayout()
-        self.depth_out = QPushButton("◀ Shallower")
-        self.depth_in = QPushButton("Deeper ▶")
+        self.depth_out = QPushButton("Shallower")
+        self.depth_in = QPushButton("Deeper")
         self.depth_out.clicked.connect(lambda: self.step_depth(-1))
         self.depth_in.clicked.connect(lambda: self.step_depth(1))
         row.addWidget(self.depth_out)
@@ -102,10 +118,11 @@ class ViewPanel(QWidget):
         self.depth_band = QCheckBox("Show only this layer")
         self.depth_band.toggled.connect(lambda _=False: self._depth())
         dl.addWidget(self.depth_band)
-        self.depth_label = QLabel("Working this out…")
+        self.depth_label = QLabel("Preparing dissection depth…")
         self.depth_label.setWordWrap(True)
         dl.addWidget(self.depth_label)
-        reset_d = QPushButton("Put everything back")
+        reset_d = QPushButton("Reset dissection")
+        self.depth_reset = reset_d
         reset_d.clicked.connect(lambda: self.set_depth(0.0, False))
         dl.addWidget(reset_d)
         lay.addWidget(g)
@@ -120,13 +137,17 @@ class ViewPanel(QWidget):
             cb = QCheckBox(name)
             flip = QPushButton("Flip")
             flip.setCheckable(True)
-            flip.setFixedWidth(52)
+            flip.setMinimumWidth(52)
+            flip.setAccessibleName(f"Flip {name} cut direction")
+            flip.setEnabled(False)
             flip.setStyleSheet("padding: 5px 0;")
             row.addWidget(cb, 1)
             row.addWidget(flip)
             cl.addLayout(row)
             lo, hi = ranges[i]
             sl = slider(0, 1000, 500)
+            sl.setAccessibleName(f"{name} position")
+            sl.setEnabled(False)
             cl.addWidget(sl)
             self.clip_widgets.append((cb, sl, flip, lo, hi))
             cb.toggled.connect(lambda _=False, idx=i: self._clip(idx))
@@ -136,10 +157,12 @@ class ViewPanel(QWidget):
         self.section_labels.toggled.connect(lambda v: self._set("section_labels", v))
         cl.addWidget(self.section_labels)
         self.section_list = QListWidget()
-        self.section_list.setMaximumHeight(170)
+        self.section_list.setMaximumHeight(190)
+        self.section_list.setAccessibleName("Structures intersected by cross-section")
+        self.section_list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.section_list.setToolTip("Structures the section passes through, biggest first. Click one to select it.")
-        self.section_list.itemClicked.connect(
-            lambda item: self.sectionPicked.emit(int(item.data(Qt.UserRole))))
+        self.section_list.itemClicked.connect(self._pick_section)
+        self.section_list.itemActivated.connect(self._pick_section)
         cl.addWidget(self.section_list)
         reset = QPushButton("Reset cross-sections")
         reset.clicked.connect(self.reset_clips)
@@ -154,6 +177,8 @@ class ViewPanel(QWidget):
         hl.addWidget(self.help_text)
         lay.addWidget(g)
         lay.addStretch(1)
+        self.enable_depth(False)
+        self.show_section([], None)
         self.sync_from_settings()
 
     def sync_from_settings(self):
@@ -163,6 +188,7 @@ class ViewPanel(QWidget):
             w.blockSignals(True)
         self.color_mode.setCurrentIndex(int(s["color_mode"]))
         self.ghost.setValue(int(round(float(s["ghost_alpha"]) * 100)))
+        self.ghost_value.setText(f"{self.ghost.value()}%")
         self.xray.setChecked(bool(s["xray_on_search"]))
         self.section_labels.blockSignals(True)
         self.section_labels.setChecked(bool(s.get("section_labels", True)))
@@ -186,15 +212,27 @@ class ViewPanel(QWidget):
             name = s["name"] + (f"  ({s['side'].lower()})" if s["side"] else "")
             it = QListWidgetItem(name)
             it.setData(Qt.UserRole, sid)
+            it.setToolTip(name)
             self.section_list.addItem(it)
         if not items:
-            self.section_list.addItem(QListWidgetItem("Turn on a cross-section to list what it cuts through."))
+            active = any(cb.isChecked() for cb, *_ in self.clip_widgets)
+            message = ("No visible structures at this cut. Move the section or show more anatomy." if active else
+                       "Enable a cross-section to see the structures it intersects.")
+            placeholder = QListWidgetItem(message)
+            placeholder.setFlags(Qt.NoItemFlags)
+            placeholder.setToolTip(message)
+            self.section_list.addItem(placeholder)
+
+    def _pick_section(self, item):
+        sid = item.data(Qt.UserRole)
+        if sid is not None:
+            self.sectionPicked.emit(int(sid))
 
     # ------------------------------------------------------------------ dissection
     def enable_depth(self, on=True):
-        self.depth_slider.setEnabled(on)
-        if on:
-            self._depth_text()
+        for widget in (self.depth_slider, self.depth_out, self.depth_in, self.depth_band, self.depth_reset):
+            widget.setEnabled(on)
+        self._depth_text()
 
     def _depth(self):
         cut = self.depth_slider.value() / 1000.0
@@ -209,7 +247,7 @@ class ViewPanel(QWidget):
             if cut >= level - 1e-6:
                 name = label
         if not self.depth_slider.isEnabled():
-            self.depth_label.setText("Working this out…")
+            self.depth_label.setText("Dissection depth is preparing or unavailable. Other view controls remain available.")
         elif cut <= 0.0:
             self.depth_label.setText("Intact – nothing removed yet.")
         else:
@@ -241,6 +279,10 @@ class ViewPanel(QWidget):
 
     def _clip(self, idx):
         cb, sl, flip, lo, hi = self.clip_widgets[idx]
+        sl.setEnabled(cb.isChecked())
+        flip.setEnabled(cb.isChecked())
+        if cb.isChecked() != self.vp.clip_on[idx] or flip.isChecked() != self.vp.clip_flip[idx]:
+            self.vp.set_radiology_slice(False)
         self.vp.clip_on[idx] = cb.isChecked()
         self.vp.clip_pos[idx] = lo + (hi - lo) * sl.value() / 1000.0
         self.vp.clip_flip[idx] = flip.isChecked()
@@ -265,8 +307,10 @@ class ViewPanel(QWidget):
             self.set_clip(i, bool(on[i]), max(0.0, min(1.0, frac)), bool(flips[i]))
 
     def reset_clips(self):
+        self.vp.set_radiology_slice(False)
         for i in range(3):
             self.set_clip(i, False, 0.5, False)
 
     def toggle_clip(self, idx):
+        self.vp.set_radiology_slice(False)
         self.set_clip(idx, not self.clip_widgets[idx][0].isChecked())

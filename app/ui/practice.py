@@ -31,6 +31,7 @@ from ..storage import load_json, write_json
 from ..lessons import TYPE_NAME, build_session, default_length, item_key, practice_pool
 from . import theme
 from .diagram import DiagramView
+from .flow import FlowLayout, WrapButton
 from .study_colors import highlight, restore_colors
 from .study_scene import capture_scene, restore_scene
 
@@ -69,13 +70,32 @@ class PracticePanel(QWidget):
         root = QVBoxLayout(self)
         root.setContentsMargins(12, 10, 12, 12)
         self.stack = QStackedWidget()
+        self.save_notice = QWidget()
+        notice_layout = QVBoxLayout(self.save_notice)
+        notice_layout.setContentsMargins(0, 0, 0, 0)
+        self.save_error = QLabel()
+        self.save_error.setWordWrap(True)
+        self.save_error.setTextFormat(Qt.PlainText)
+        self.save_error.setStyleSheet(theme.text_css(theme.DANGER))
+        notice_layout.addWidget(self.save_error)
+        retry_save = QPushButton("Retry saving results")
+        retry_save.clicked.connect(c._save_stats)
+        notice_layout.addWidget(retry_save)
+        self.save_notice.hide()
+        root.addWidget(self.save_notice)
         root.addWidget(self.stack)
 
         # ------------------------------------------------------------ question page
         q = QWidget()
         ql = QVBoxLayout(q)
         ql.setContentsMargins(0, 0, 0, 0)
-        ql.setSpacing(6)
+        ql.setSpacing(10)
+        question_page = QWidget()
+        question_layout = QVBoxLayout(question_page)
+        question_layout.setContentsMargins(0, 0, 0, 0)
+        footer = QWidget()
+        footer_layout = QVBoxLayout(footer)
+        footer_layout.setContentsMargins(0, 8, 0, 0)
         self.where = QLabel("")
         self.where.setWordWrap(True)
         self.where.setStyleSheet(theme.text_css(theme.ACCENT_TEXT, theme.FS_SMALL, 700))
@@ -90,7 +110,7 @@ class PracticePanel(QWidget):
         top.addWidget(self.score)
         ql.addLayout(top)
         self.kind = QLabel("")
-        self.kind.setStyleSheet(theme.tag_css(theme.ACCENT, theme.ON_ACCENT))
+        self.kind.setStyleSheet(theme.text_css(theme.ACCENT_TEXT, theme.FS_SMALL, 700))
         ql.addWidget(self.kind, 0, Qt.AlignLeft)
         self.prompt = QLabel("")
         self.prompt.setWordWrap(True)
@@ -108,7 +128,7 @@ class PracticePanel(QWidget):
         cl.setSpacing(4)
         self.choice_buttons = []
         for i in range(MAX_CHOICES):
-            b = QPushButton("")
+            b = WrapButton("")
             b.setMinimumHeight(38)
             b.setStyleSheet(BTN)
             b.clicked.connect(lambda _=False, i=i: c.answer_choice(i))
@@ -150,15 +170,17 @@ class PracticePanel(QWidget):
         self.order_list = QListWidget()
         self.order_list.setDragDropMode(QAbstractItemView.InternalMove)
         self.order_list.setDefaultDropAction(Qt.MoveAction)
+        self.order_list.setAccessibleName("Answers to put in order")
         self.order_list.setStyleSheet("QListWidget::item { padding:6px 4px; }")
         self.order_list.setWordWrap(True)
         self.order_list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         ol.addWidget(self.order_list, 1)
         arrows = QVBoxLayout()
-        up = QPushButton("▲")
-        down = QPushButton("▼")
+        up = QPushButton("Up")
+        down = QPushButton("Down")
         for b, d in ((up, -1), (down, 1)):
-            b.setFixedWidth(34)
+            b.setMinimumWidth(54)
+            b.setAccessibleName("Move selected answer " + ("up" if d < 0 else "down"))
             b.setStyleSheet("padding: 5px 0;")
             b.clicked.connect(lambda _=False, d=d: c.move_order(d))
             arrows.addWidget(b)
@@ -185,19 +207,20 @@ class PracticePanel(QWidget):
         self.giveup.setToolTip("Give up on this one and show the answer (counts as missed)")
         self.giveup.clicked.connect(c.give_up)
         self.next_btn = QPushButton("Next  ›")
-        self.next_btn.setMinimumHeight(32)
+        self.next_btn.setMinimumHeight(36)
+        self.next_btn.setToolTip("Skip an unanswered item as missed, or continue after answering.")
         theme.set_variant(self.next_btn, "primary")
         self.next_btn.clicked.connect(c.next_item)
         row.addWidget(self.giveup)
         row.addWidget(self.next_btn, 1)
-        ql.addLayout(row)
+        footer_layout.addLayout(row)
         row2 = QHBoxLayout()
         row2.addStretch(1)
         end = QPushButton("End session")
         theme.set_variant(end, "ghost")
         end.clicked.connect(c.finish)
         row2.addWidget(end)
-        ql.addLayout(row2)
+        footer_layout.addLayout(row2)
         sep = QFrame()
         sep.setFrameShape(QFrame.HLine)
         sep.setStyleSheet(f"color:{theme.BORDER}; background:{theme.BORDER}; max-height:1px; border:none;")
@@ -216,7 +239,10 @@ class PracticePanel(QWidget):
         scroll.setFrameShape(QFrame.NoFrame)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         scroll.setWidget(q)
-        self.stack.addWidget(scroll)
+        self.question_scroll = scroll
+        question_layout.addWidget(scroll, 1)
+        question_layout.addWidget(footer)
+        self.stack.addWidget(question_page)
 
         # ------------------------------------------------------------ summary page
         s = QWidget()
@@ -227,13 +253,14 @@ class PracticePanel(QWidget):
         self.summary.setTextFormat(Qt.RichText)
         self.summary.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         sm.addWidget(self.summary)
-        self.missed_label = QLabel("Missed (double-click to see it again):")
+        self.missed_label = QLabel("Missed items · press Enter or double-click to revisit")
+        self.missed_label.setWordWrap(True)
         sm.addWidget(self.missed_label)
         self.missed = QListWidget()
         self.missed.setWordWrap(True)
-        self.missed.itemDoubleClicked.connect(lambda it: c.show_missed(it.data(Qt.UserRole)))
+        self.missed.itemActivated.connect(lambda it: c.show_missed(it.data(Qt.UserRole)))
         sm.addWidget(self.missed, 1)
-        row3 = QHBoxLayout()
+        row3 = FlowLayout()
         self.retry = QPushButton("Retry missed")
         self.retry.clicked.connect(c.retry_missed)
         again = QPushButton("New session")
@@ -306,8 +333,13 @@ class PracticeController:
             status = getattr(self.win, "statusBar", None)
             if status is not None and status().currentMessage().startswith("Could not save study results:"):
                 status().clearMessage()
+            if self.panel is not None:
+                self.panel.save_notice.hide()
             return True
         except OSError as exc:
+            if self.panel is not None:
+                self.panel.save_error.setText("Results are kept for this session but could not be saved. " + str(exc))
+                self.panel.save_notice.show()
             status = getattr(self.win, "statusBar", None)
             if status is not None:
                 status().showMessage(f"Could not save study results: {exc}", 10000)
@@ -323,7 +355,7 @@ class PracticeController:
         self.dock.setWidget(self.panel)
         self.dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable |
                               QDockWidget.DockWidgetClosable)
-        self.panel.setMinimumWidth(330)
+        self.panel.setMinimumWidth(300)
         self.win.addDockWidget(Qt.RightDockWidgetArea, self.dock)
         self.dock.visibilityChanged.connect(self._dock_visibility)
 
@@ -347,7 +379,9 @@ class PracticeController:
         self.lesson = lesson
         self.retrying = items is not None
         if items is None:
-            pool = self._prepare(practice_pool(lesson, self.lp.lessons))
+            raw_pool = practice_pool(lesson, self.lp.lessons)
+            pool = self._prepare(raw_pool)
+            self._unavailable_count = len(raw_pool) - len(pool)
             if n is None:
                 n = default_length(lesson, len(pool))
             items = build_session(pool, n, self.stats)
@@ -385,7 +419,11 @@ class PracticeController:
         out = []
         micro = getattr(self.win.content, "micro_models", {})
         for item in pool:
+            if not isinstance(item, dict):
+                continue
             kind = item.get("type")
+            if kind not in TIPS:
+                continue
             item = dict(item)
             if kind in ("find", "name"):
                 sids = self._resolve(item.get("structure"))
@@ -400,13 +438,19 @@ class PracticeController:
                     continue
             elif kind == "mcq":
                 choices = item.get("choices") or []
-                if len(choices) < 2 or not 0 <= int(item.get("answer", -1)) < len(choices):
+                try:
+                    answer = int(item.get("answer", -1))
+                except (ValueError, TypeError):
+                    continue
+                if (not isinstance(choices, list) or not 2 <= len(choices) <= MAX_CHOICES
+                        or not 0 <= answer < len(choices) or not item.get("q")
+                        or not all(isinstance(choice, str) for choice in choices)):
                     continue
             elif kind == "order":
-                if len(item.get("items") or []) < 2:
+                if not isinstance(item.get("items"), list) or len(item["items"]) < 2:
                     continue
             elif kind == "recall":
-                if not item.get("q"):
+                if not item.get("q") or not item.get("a"):
                     continue
             out.append(item)
         return out
@@ -441,7 +485,8 @@ class PracticeController:
     def next_item(self):
         if not self.active:
             return
-        if self.cur is not None and not self.cur["done"] and self.pos >= 0:
+        if (self.cur is not None and not self.cur["done"] and self.pos >= 0
+                and not self.cur.get("loading")):
             self._record(False)                     # moving on without answering counts as a miss
         self._end_item()
         self.pos += 1
@@ -455,7 +500,8 @@ class PracticeController:
         p.progress.setText(f"{self.pos + 1} of {len(self.items)}")
         self._update_score()
         kind = item["type"]
-        p.kind.setText(TYPE_NAME.get(kind, kind).upper())
+        p.kind.setText(TYPE_NAME.get(kind, kind))
+        p.question_scroll.verticalScrollBar().setValue(0)
         p.tips.setText(TIPS.get(kind, ""))
         p.feedback.setText("")
         p.peeled.setText("")
@@ -469,6 +515,7 @@ class PracticeController:
 
     def _end_item(self):
         """Undo whatever the last item did to a 3D view."""
+        self._missed_model_token = None
         self._clear_flash()
         if self._marked:
             restore_colors(self.state, getattr(self, "_marked_colors", {}))
@@ -730,7 +777,7 @@ class PracticeController:
 
     def give_up(self):
         cur = self.cur
-        if cur is None or cur["done"]:
+        if cur is None or cur["done"] or cur.get("loading"):
             return
         item = cur["item"]
         kind = item["type"]
@@ -745,25 +792,35 @@ class PracticeController:
 
     # ------------------------------------------------------------------ find in a microanatomy model
     def _ask_find_micro(self, item):
-        p = self.panel
-        self.win.open_micro(item["model"])
-        view = self.win.micro_tabs.get(item["model"])
-        sids, _missing = view.part_ids([item["part"]]) if view is not None else ([], [])
-        if not sids:
-            p.prompt.setText(esc(item["part"]))
-            p.feedback.setText(f"<span style='color:{theme.WARNING}'>This model has no part called “{esc(item['part'])}” "
-                               "yet - skipped.</span>")
-            self.cur["done"] = True                 # not the student's fault: no mark either way
-            p.giveup.hide()
-            p.next_btn.setText("Next  ›")
-            return
-        self.cur["view"] = view
-        self.cur["sids"] = sids
-        view.set_practice(self._micro_click, self._micro_rclick)
-        self._hide_names()
-        p.prompt.setText(esc(item["part"]) + f"<div style='font-size:{theme.FS_BODY}pt; color:{theme.MUTED}; font-weight:400'>in "
-                         f"{esc(view.model.name)}</div>")
-        view.gl_widget.setFocus()
+        p, current = self.panel, self.cur
+        current["loading"] = True
+        p.prompt.setText(esc(item["part"]))
+        p.feedback.setText("Loading the model…")
+        p.giveup.setEnabled(False)
+        def ready(view):
+            if not self.active or self.cur is not current or current["done"]:
+                return
+            current["loading"] = False
+            p.giveup.setEnabled(True)
+            sids, _missing = view.part_ids([item["part"]]) if view is not None else ([], [])
+            if not sids:
+                reason = ("The model could not be loaded or loading was cancelled." if view is None else
+                          f"This model has no part called “{esc(item['part'])}” yet.")
+                p.feedback.setText(f"<span style='color:{theme.WARNING}'>{reason} Skipped without a mark.</span>")
+                current["done"] = True
+                p.giveup.hide()
+                p.next_btn.setText("Next  ›")
+                return
+            current["view"] = view
+            current["sids"] = sids
+            view.set_practice(self._micro_click, self._micro_rclick)
+            self._hide_names()
+            p.feedback.setText("")
+            p.prompt.setText(esc(item["part"]) + f"<div style='font-size:{theme.FS_BODY}pt; color:{theme.MUTED}; font-weight:400'>in "
+                             f"{esc(view.model.name)}</div>")
+            if self.win.center.currentWidget() is view:
+                view.gl_widget.setFocus()
+        self.win.open_micro(item["model"], on_ready=ready)
 
     def _micro_click(self, sid):
         cur = self.cur
@@ -845,7 +902,7 @@ class PracticeController:
 
     def answer_choice(self, i):
         cur = self.cur
-        if cur is None or cur["done"] or "options" not in cur or i >= len(cur["options"]):
+        if cur is None or cur["done"] or "options" not in cur or not 0 <= i < len(cur["options"]):
             return
         p = self.panel
         ok = i == cur["right"]
@@ -885,6 +942,7 @@ class PracticeController:
         p.show_answer.hide()
         p.answer.show()
         p.grade_row.show()
+        p.question_scroll.ensureWidgetVisible(p.answer)
 
     def grade_recall(self, knew):
         cur = self.cur
@@ -971,8 +1029,10 @@ class PracticeController:
             if not self.retrying:
                 self.lp.progress.record_practice(self.lesson.id, right, answered)
         else:
-            p.summary.setText(f"<p style='font-size:{theme.FS_H1}pt; font-weight:700; color:{theme.TEXT_STRONG}'>"
-                              "Nothing answered</p>")
+            heading = "No practice items available" if not self.items else "No questions answered"
+            explanation = ("This installation cannot ask the lesson’s current practice items. You can return to the lesson."
+                           if not self.items else "Unanswered questions from an ended session are not graded.")
+            p.summary.setText(f"<h3>{heading}</h3><p>{explanation}</p>")
         missed = [item for item, ok in self.results if not ok]
         p.missed.clear()
         for item in missed:
@@ -1008,7 +1068,12 @@ class PracticeController:
         if item["type"] in ("find", "name") and item.get("_sids"):
             self.win.select_and_focus(item["_sids"], xray=True, info=False)
         elif item["type"] == "find_micro":
-            self.win.open_micro(item["model"])
-            view = self.win.micro_tabs.get(item["model"])
-            if view is not None:
-                view.focus_parts([item["part"]])
+            token = object()
+            self._missed_model_token = token
+            lesson, results = self.lesson, self.results
+            def ready(view):
+                if (view is not None and self._missed_model_token is token
+                        and self.lesson is lesson and self.results is results
+                        and self.win.center.currentWidget() is view):
+                    view.focus_parts([item["part"]])
+            self.win.open_micro(item["model"], on_ready=ready)

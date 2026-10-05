@@ -1,0 +1,382 @@
+{
+  "schema_version": 1,
+  "model_id": "trachea_wall",
+  "input_representation": "frozen_75_part_review_candidate",
+  "status": "source_ready_native_validation_deferred",
+  "part_inventory": [
+    "Hyaline cartilage ring (C-shaped)",
+    "Territorial matrix (isogenous groups)",
+    "Lacunae",
+    "Chondrocytes",
+    "Trachealis muscle",
+    "Trachealis cellular field",
+    "Trachealis nuclei",
+    "Perichondrium",
+    "Perichondrium fibers",
+    "Adventitia",
+    "Adventitia fibers",
+    "Anular ligaments & fibroelastic membrane",
+    "Anular ligaments & fibroelastic membrane fibers",
+    "Arterioles",
+    "Venules",
+    "Elastic fibres (elastic membrane)",
+    "Airway epithelial duct outlets",
+    "Airway epithelial duct outlets | field closure",
+    "Pseudostratified ciliated epithelium | wall context",
+    "Pseudostratified ciliated epithelium",
+    "Pseudostratified ciliated epithelium | field closure",
+    "Ciliated cell nuclei",
+    "Ciliated cell nuclei | field closure",
+    "Goblet cells",
+    "Goblet cells | field closure",
+    "Goblet-cell nuclei",
+    "Goblet-cell nuclei | field closure",
+    "Goblet mucus compartments",
+    "Goblet mucus compartments | field closure",
+    "Basal (stem) cells",
+    "Basal (stem) cells | field closure",
+    "Basal-cell nuclei",
+    "Basal-cell nuclei | field closure",
+    "Cilia",
+    "Cilia | field closure",
+    "Goblet cells | overview samples",
+    "Cilia | overview samples",
+    "Ciliated cell nuclei | overview samples",
+    "Basal (stem) cells | overview samples",
+    "Gland ducts",
+    "Gland ducts | field closure",
+    "Duct epithelial nuclei",
+    "Duct epithelial nuclei | field closure",
+    "Mucous gland tubules",
+    "Mucous gland tubules | field closure",
+    "Mucous apical cytoplasm",
+    "Mucous apical cytoplasm | field closure",
+    "Mucous gland nuclei",
+    "Mucous gland nuclei | field closure",
+    "Serous demilunes & acini",
+    "Serous demilunes & acini | field closure",
+    "Serous apical cytoplasm",
+    "Serous apical cytoplasm | field closure",
+    "Serous gland nuclei",
+    "Serous gland nuclei | field closure",
+    "Subepithelial arterial field",
+    "Subepithelial exchange field",
+    "Subepithelial venous field",
+    "Lamina propria",
+    "Lamina propria connective fibers",
+    "Submucosa",
+    "Submucosa connective fibers",
+    "Basement membrane",
+    "Basement membrane | cellular-field support",
+    "Basement membrane | cellular-field support closure",
+    "Lamina propria | cellular-field support",
+    "Lamina propria | cellular-field support closure",
+    "Cartilage field matrix",
+    "Cartilage field matrix | field closure",
+    "Cartilage field territorial matrix",
+    "Cartilage field territorial matrix | field closure",
+    "Cartilage field chondrocytes",
+    "Cartilage field chondrocytes | field closure",
+    "Cartilage field nuclei",
+    "Cartilage field nuclei | field closure"
+  ],
+  "source_bindings": [
+    {
+      "root": "recovery",
+      "path": "trachea-refinement/delivery/construction.json",
+      "sha256": "7a2c8ccd34ceec5373b4182652c4b6428cd09cc6fd9554d082654268e68de7f5"
+    },
+    {
+      "root": "recovery",
+      "path": "trachea-refinement/delivery/trachea_wall_refined.viewer.json",
+      "sha256": "77c0bffc70b97121708e111586cad1d2275acb61847c62a4786219c48247adf3"
+    }
+  ],
+  "axes": {
+    "longitudinal": [
+      1,
+      0,
+      0
+    ],
+    "proximal_to_larynx": [
+      1,
+      0,
+      0
+    ],
+    "posterior": [
+      0,
+      -1,
+      0
+    ],
+    "model_relative_section_map": {
+      "0": "x normal: true airway transverse",
+      "1": "z normal: longitudinal",
+      "2": "y normal: longitudinal"
+    }
+  },
+  "control": {
+    "adapter": "native_sequences.py:NativeSequenceController",
+    "host": "ModelView.gl_widget",
+    "buttons": [
+      "begin(sequence_id)",
+      "previous()",
+      "advance()",
+      "restore()"
+    ],
+    "timer": "QTimer.timeout -> advance(); stop when returned finished=True",
+    "timing": "Instructional pacing, not physiological time"
+  },
+  "functional_sequences": [
+    {
+      "id": "mucociliary_clearance",
+      "title": "Mucociliary clearance",
+      "mechanism": "Cilia propel hydrated surface mucus toward the larynx.",
+      "source_evidence": [
+        "leeds_conducting",
+        "button_2012"
+      ],
+      "scale_note": "Sparse enlarged tufts and cell field; no quantitative mucus layer or beat frequency is rendered.",
+      "steps": [
+        {
+          "label": "Locate the clearance surface",
+          "native_view": "Mucosa in place",
+          "caption": "The epithelial apical surface faces the airway. Its ciliated and secretory cells form one pseudostratified layer; nuclei at different heights do not create extra layers.",
+          "parts": [
+            "Pseudostratified ciliated epithelium",
+            "Goblet cells",
+            "Cilia",
+            "Basal (stem) cells"
+          ],
+          "focus_parts": []
+        },
+        {
+          "label": "Secretory cells provide mucus",
+          "native_view": "Epithelium (schematic field)",
+          "caption": "Goblet-cell secretory compartments supply mucins at the apical surface. The airway surface also receives submucosal gland secretion. The displayed compartments are contents, not additional cell layers.",
+          "parts": [
+            "Goblet cells",
+            "Goblet mucus compartments"
+          ],
+          "focus_parts": []
+        },
+        {
+          "label": "Cilia act on the surface mucus",
+          "native_view": "Epithelium (schematic field)",
+          "caption": "Effective and recovery strokes have a coordinated net proximal transport effect. Follow +model x toward the larynx; ciliary roots stay attached to the apical cells. The rest-shaped tufts indicate location only, not a measured beat waveform.",
+          "parts": [
+            "Cilia",
+            "Pseudostratified ciliated epithelium"
+          ],
+          "focus_parts": []
+        },
+        {
+          "label": "Hydration preserves clearance",
+          "native_view": "Mucosa in place",
+          "caption": "A hydrated periciliary brush of surface-tethered molecules separates surface mucus from the epithelial boundary. Mucus concentration can compress this region and impede clearance. Molecular brush and mucus rheology are explanatory text here, not represented meshes.",
+          "parts": [
+            "Cilia",
+            "Goblet cells"
+          ],
+          "focus_parts": []
+        }
+      ],
+      "schematic_limitations": [
+        "No beat motion, particles, mucus transport rate or cilium-level forces are simulated.",
+        "The periciliary compartment is not a simple empty water moat.",
+        "A continuous uniform mucus sheet is a teaching idealization, not asserted measured human tracheal topology."
+      ]
+    },
+    {
+      "id": "gland_secretion",
+      "title": "Gland secretion to the airway",
+      "mechanism": "Secretory acini and mucous tubules drain through collecting lumen and duct to epithelial outlet.",
+      "source_evidence": [
+        "wu_2007",
+        "leeds_conducting"
+      ],
+      "scale_note": "Six enlarged glands and 18 secretory units; representative density, cell spacing and lumen calibres.",
+      "steps": [
+        {
+          "label": "Find the in-wall glands",
+          "native_view": "Gland location",
+          "caption": "Secretory units remain in the submucosal wall. The supporting matrix is peeled in this view so the relation to airway and C-rings can be followed.",
+          "parts": [
+            "Mucous gland tubules",
+            "Serous demilunes & acini",
+            "Gland ducts"
+          ],
+          "focus_parts": []
+        },
+        {
+          "label": "Fluid and mucin enter gland lumens",
+          "native_view": "Gland route (schematic)",
+          "caption": "Mucous cells deliver mucins; serous acini contribute fluid. CFTR-dependent cAMP-stimulated fluid secretion has been localized to the serous acinar region in isolated airway glands. This teaching sequence does not claim all secretagogues have identical CFTR dependence.",
+          "parts": [
+            "Mucous apical cytoplasm",
+            "Serous apical cytoplasm",
+            "Mucous gland tubules",
+            "Serous demilunes & acini"
+          ],
+          "focus_parts": []
+        },
+        {
+          "label": "Follow collecting route and duct",
+          "native_view": "Gland route (schematic)",
+          "caption": "Trace the represented secretory lumen into the collector, then along the duct toward the surface. The open teaching face is a reversible removed closure. Visual continuity alone does not certify hydraulic continuity.",
+          "parts": [
+            "Gland ducts",
+            "Duct epithelial nuclei"
+          ],
+          "focus_parts": []
+        },
+        {
+          "label": "Exit onto the airway surface",
+          "native_view": "Gland route (schematic)",
+          "caption": "The duct reaches the epithelial outlet. Secretions join the surface material cleared proximally by cilia. Idealized serous acini and the retained demilune label do not mean every unit is a literal cap in three dimensions.",
+          "parts": [
+            "Gland ducts",
+            "Airway epithelial duct outlets"
+          ],
+          "focus_parts": []
+        }
+      ],
+      "schematic_limitations": [
+        "No CFD, ion flux, water transport or mucin exocytosis simulation.",
+        "Native view peels closure parts; intact anatomy is restored on reset.",
+        "Do not animate opaque tracer solids through gland cell cytoplasm."
+      ]
+    },
+    {
+      "id": "posterior_trachealis",
+      "title": "Posterior trachealis and the open C-ring",
+      "mechanism": "Transverse smooth-muscle bundles bridge the posterior cartilage interruption and can alter airway calibre.",
+      "source_evidence": [
+        "leeds_conducting",
+        "suzuki_1995"
+      ],
+      "scale_note": "Posterior gross compartment and enlarged representative spindle-cell field use different teaching scales.",
+      "steps": [
+        {
+          "label": "Identify the posterior interruption",
+          "native_view": "Posterior framework",
+          "caption": "Model -y is posterior. C-ring ends border the membranous wall; the trachealis bridges this posterior gap rather than making a complete circumferential muscular ring.",
+          "parts": [
+            "Hyaline cartilage ring (C-shaped)",
+            "Trachealis muscle"
+          ],
+          "focus_parts": []
+        },
+        {
+          "label": "Read transverse smooth-muscle organization",
+          "native_view": "Posterior cells (schematic)",
+          "caption": "The gross carrier is peeled to expose spindle-cell samples and central nuclei. Muscle bundles run across the gap, transverse to model x. They have no skeletal-muscle striations.",
+          "parts": [
+            "Trachealis cellular field",
+            "Trachealis nuclei"
+          ],
+          "focus_parts": []
+        },
+        {
+          "label": "Understand coupled calibre change",
+          "native_view": "Posterior framework",
+          "caption": "Contraction changes the posterior wall shape and narrows the lumen while the cartilage and fibroelastic wall constrain it. Tissue geometry stays at rest here. A future deformation must move the coupled posterior mucosa and supporting tissues, not only the muscle.",
+          "parts": [
+            "Trachealis muscle",
+            "Anular ligaments & fibroelastic membrane fibers",
+            "Hyaline cartilage ring (C-shaped)"
+          ],
+          "focus_parts": []
+        }
+      ],
+      "schematic_limitations": [
+        "No strain, contractile force, lumen-area change or attachment-preserving motion is generated.",
+        "No oesophageal bolus or cartilage collapse is simulated.",
+        "Transverse bundle direction follows the posterior arc; it is not a uniform Cartesian-axis morph of the whole muscle."
+      ]
+    },
+    {
+      "id": "cough_clearance",
+      "title": "Cough clearance context",
+      "mechanism": "An inspiratory preparation, pressure-generating compression and expulsive airflow help remove airway material.",
+      "source_evidence": [
+        "smith_2012",
+        "suzuki_1995"
+      ],
+      "scale_note": "Wall fragment supplies structural context only. Glottis, lungs, respiratory muscles and neural circuit are outside the specimen.",
+      "steps": [
+        {
+          "label": "Inspiratory preparation",
+          "native_view": "Intact airway",
+          "caption": "Cough is a coordinated respiratory event. Inspired operating volume influences the subsequent peak cough flow; this isolated wall does not supply lung volume or an airflow boundary condition.",
+          "parts": [
+            "Hyaline cartilage ring (C-shaped)"
+          ],
+          "focus_parts": []
+        },
+        {
+          "label": "Pressure-generating compression",
+          "native_view": "Posterior framework",
+          "caption": "Glottic closure and expiratory muscle activity are outside the wall specimen. Tracheal smooth muscle can be recruited during cough; the cited dog experiment found sustained contraction during mechanically induced cough, not a universal human phase curve.",
+          "parts": [
+            "Trachealis muscle"
+          ],
+          "focus_parts": []
+        },
+        {
+          "label": "Expulsive clearance",
+          "native_view": "Mucosa in place",
+          "caption": "When the glottis opens, expiratory airflow can shear and move mucus toward the larynx (+model x). Narrower area increases velocity only at a specified flow; actual cough flow depends on lung volume, pressures and dynamic airway behaviour.",
+          "parts": [
+            "Pseudostratified ciliated epithelium",
+            "Cilia",
+            "Goblet cells"
+          ],
+          "focus_parts": []
+        },
+        {
+          "label": "Return to structural context",
+          "native_view": "Intact airway",
+          "caption": "The teaching stages return to the intact wall. Cough complements slower mucociliary transport. Stage duration is reading time and does not reproduce a cough cycle.",
+          "parts": [
+            "Trachealis muscle",
+            "Hyaline cartilage ring (C-shaped)",
+            "Gland ducts"
+          ],
+          "focus_parts": []
+        }
+      ],
+      "schematic_limitations": [
+        "No glottis, chest-wall mechanics, intrathoracic pressure or patient cough waveform is represented.",
+        "No claim that trachealis contraction alone creates cough or invariably increases measured cough flow.",
+        "Neural recruitment evidence from dogs is species-limited."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "leeds_conducting",
+      "url": "https://histology.leeds.ac.uk/home/respiratory/conducting/",
+      "opened": true
+    },
+    {
+      "id": "button_2012",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/22923574/",
+      "opened": true
+    },
+    {
+      "id": "wu_2007",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16997881/",
+      "opened": true
+    },
+    {
+      "id": "suzuki_1995",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/7699963/",
+      "opened": true
+    },
+    {
+      "id": "smith_2012",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/22144580/",
+      "opened": true
+    }
+  ]
+}

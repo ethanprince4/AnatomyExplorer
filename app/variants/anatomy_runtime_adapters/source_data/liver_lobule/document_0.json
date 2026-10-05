@@ -1,0 +1,1055 @@
+{
+  "schema_version": 1,
+  "model_id": "liver_lobule",
+  "review_id": "liver_lobule_design_20261004",
+  "status": "source_ready_visual_review_deferred",
+  "start_view": "Tissue overview",
+  "views": [
+    {
+      "id": "overview",
+      "name": "Tissue overview",
+      "purpose": "Locate central outflow, peripheral portal context and branching hepatocyte plates before isolating routes.",
+      "visible_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Lymphatic vessels"
+      ],
+      "hidden_parts": [
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Cholangiocyte nuclei (duct lining)",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ],
+      "scale_note": "Overview retains the original nominal 1.8 mm block reference. Cells, canaliculi, fenestrae and the Disse relationship have different schematic enlargements; the ruler measures displayed model distances and must not be read as native cellular dimensions. No fixed physical Disse width is asserted.",
+      "camera": {
+        "position": [
+          -1.7,
+          1.55,
+          2.3
+        ],
+        "target": [
+          0,
+          0.16,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "PERSP",
+        "fov_deg": 39.6,
+        "cut_on": false,
+        "note": "Schematic classic lobule with surrounding tissue. Neither the hexagon nor the limiting relationship is a physical capsule."
+      },
+      "annotation_settings": {
+        "labels": false,
+        "section_labels": false,
+        "max_section_labels": 4
+      }
+    },
+    {
+      "id": "plate_section",
+      "name": "Plate and sinusoid section",
+      "purpose": "Open a corner to compare retained hepatocyte nuclei, plates and hollow blood channels.",
+      "visible_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Lymphatic vessels",
+        "Cholangiocyte nuclei (duct lining)"
+      ],
+      "hidden_parts": [
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ],
+      "scale_note": "Overview retains the original nominal 1.8 mm block reference. Cells, canaliculi, fenestrae and the Disse relationship have different schematic enlargements; the ruler measures displayed model distances and must not be read as native cellular dimensions. No fixed physical Disse width is asserted.",
+      "camera": {
+        "position": [
+          -1.7,
+          1.55,
+          2.3
+        ],
+        "target": [
+          0,
+          0.16,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "PERSP",
+        "fov_deg": 39.6,
+        "cut_on": true,
+        "note": "Model-plane cut-away; section axes do not establish a patient sagittal or coronal orientation."
+      },
+      "annotation_settings": {
+        "labels": false,
+        "section_labels": false,
+        "max_section_labels": 4
+      }
+    },
+    {
+      "id": "blood",
+      "name": "Connected blood routes",
+      "purpose": "Trace both portal venular and hepatic arteriolar input to sinusoids and central venous outflow.",
+      "visible_parts": [
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein"
+      ],
+      "hidden_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue",
+        "Lymphatic vessels",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Cholangiocyte nuclei (duct lining)",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ],
+      "scale_note": "Overview retains the original nominal 1.8 mm block reference. Cells, canaliculi, fenestrae and the Disse relationship have different schematic enlargements; the ruler measures displayed model distances and must not be read as native cellular dimensions. No fixed physical Disse width is asserted.",
+      "camera": {
+        "position": [
+          1.5,
+          1.5,
+          2.2
+        ],
+        "target": [
+          0,
+          0.18,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "PERSP",
+        "fov_deg": 39.6,
+        "cut_on": false,
+        "note": "Isolated route view complements the tissue overview. Purple variation indicates a qualitative flow tendency, not measured oxygen concentration."
+      },
+      "annotation_settings": {
+        "labels": false,
+        "section_labels": false,
+        "max_section_labels": 4
+      }
+    },
+    {
+      "id": "bile",
+      "name": "Opposing bile routes",
+      "purpose": "Keep the hepatocyte plate relationship while tracing canalicular drainage toward Hering transitions and portal ductules.",
+      "visible_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules"
+      ],
+      "hidden_parts": [
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Portal tract connective tissue",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Lymphatic vessels",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Cholangiocyte nuclei (duct lining)",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ],
+      "scale_note": "Overview retains the original nominal 1.8 mm block reference. Cells, canaliculi, fenestrae and the Disse relationship have different schematic enlargements; the ruler measures displayed model distances and must not be read as native cellular dimensions. No fixed physical Disse width is asserted.",
+      "camera": {
+        "position": [
+          1.5,
+          1.5,
+          2.2
+        ],
+        "target": [
+          0,
+          0.18,
+          0
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "PERSP",
+        "fov_deg": 39.6,
+        "cut_on": false,
+        "note": "Canaliculi are intercellular spaces between hepatocytes. The green interface follows bile outwards, broadly opposite inward blood flow."
+      },
+      "annotation_settings": {
+        "labels": false,
+        "section_labels": false,
+        "max_section_labels": 4
+      }
+    },
+    {
+      "id": "exchange",
+      "name": "Magnified exchange interface",
+      "purpose": "Distinguish the opened sinusoidal lumen side, endothelial lining, perisinusoidal interval, hepatocyte surface and apical canalicular interface.",
+      "visible_parts": [
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ],
+      "hidden_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Lymphatic vessels",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Cholangiocyte nuclei (duct lining)"
+      ],
+      "scale_note": "Overview retains the original nominal 1.8 mm block reference. Cells, canaliculi, fenestrae and the Disse relationship have different schematic enlargements; the ruler measures displayed model distances and must not be read as native cellular dimensions. No fixed physical Disse width is asserted.",
+      "camera": {
+        "position": [
+          0.19,
+          0.48,
+          -0.28
+        ],
+        "target": [
+          0.411,
+          0.33,
+          0.071
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "PERSP",
+        "fov_deg": 39.6,
+        "cut_on": false,
+        "note": "Alternative enlarged explanatory region in the retained sinusoidal neighborhood. Endothelium is not a continuous basement membrane; Kupffer cell is luminal, stellate cell perisinusoidal. This is not a routine H&E-scale view."
+      },
+      "annotation_settings": {
+        "labels": false,
+        "section_labels": false,
+        "max_section_labels": 4
+      }
+    },
+    {
+      "id": "exchange_reverse",
+      "name": "Exchange from hepatocyte side",
+      "purpose": "Rotate to the hepatocyte side and verify that the shared canaliculus differs from the blood-facing exchange surface.",
+      "visible_parts": [
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ],
+      "hidden_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Lymphatic vessels",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Cholangiocyte nuclei (duct lining)"
+      ],
+      "scale_note": "Overview retains the original nominal 1.8 mm block reference. Cells, canaliculi, fenestrae and the Disse relationship have different schematic enlargements; the ruler measures displayed model distances and must not be read as native cellular dimensions. No fixed physical Disse width is asserted.",
+      "camera": {
+        "position": [
+          0.61,
+          0.48,
+          0.42
+        ],
+        "target": [
+          0.411,
+          0.33,
+          0.071
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "PERSP",
+        "fov_deg": 39.6,
+        "cut_on": false,
+        "note": "Reverse camera of the same representative interface, without detaching or moving anatomical compartments."
+      },
+      "annotation_settings": {
+        "labels": false,
+        "section_labels": false,
+        "max_section_labels": 4
+      }
+    },
+    {
+      "id": "portal",
+      "name": "Portal epithelial wall",
+      "purpose": "Compare duct epithelium, vessel walls, lymphatic and coherent periportal tissue context.",
+      "visible_parts": [
+        "Portal tract connective tissue",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Bile ductules",
+        "Lymphatic vessels",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Limiting plate",
+        "Cholangiocyte nuclei (duct lining)"
+      ],
+      "hidden_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ],
+      "scale_note": "Overview retains the original nominal 1.8 mm block reference. Cells, canaliculi, fenestrae and the Disse relationship have different schematic enlargements; the ruler measures displayed model distances and must not be read as native cellular dimensions. No fixed physical Disse width is asserted.",
+      "camera": {
+        "position": [
+          1.2834,
+          0.817,
+          1.014
+        ],
+        "target": [
+          0.72,
+          0.205,
+          0.06
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "PERSP",
+        "fov_deg": 39.6,
+        "cut_on": false,
+        "note": "A representative portal profile. Variable wall identity must remain readable without color or labels; portal tracts do not universally have one profile per structure."
+      },
+      "annotation_settings": {
+        "labels": false,
+        "section_labels": false,
+        "max_section_labels": 4
+      }
+    },
+    {
+      "id": "acinus",
+      "name": "Acinus diagram overlay",
+      "purpose": "Compare supply-centered acinus zonation with the vein-centered classical lobule and duct-centered portal lobule concept.",
+      "visible_parts": [
+        "Portal venules",
+        "Hepatic arterioles",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3"
+      ],
+      "hidden_parts": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue",
+        "Lymphatic vessels",
+        "Cholangiocyte nuclei (duct lining)",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ],
+      "scale_note": "Overview retains the original nominal 1.8 mm block reference. Cells, canaliculi, fenestrae and the Disse relationship have different schematic enlargements; the ruler measures displayed model distances and must not be read as native cellular dimensions. No fixed physical Disse width is asserted.",
+      "camera": {
+        "position": [
+          -1.55,
+          1.9,
+          1.4
+        ],
+        "target": [
+          -0.35,
+          0.08,
+          -0.15
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "type": "PERSP",
+        "fov_deg": 39.6,
+        "cut_on": false,
+        "note": "Dashed non-tissue projection registered to inflow and outflow. Gradual zones have no sharp biological walls; the neighboring central territory is partly outside the specimen."
+      },
+      "annotation_settings": {
+        "labels": false,
+        "section_labels": false,
+        "max_section_labels": 4
+      }
+    }
+  ],
+  "expected_parts": [
+    "Hepatocytes – zone 3 (centrilobular)",
+    "Hepatocytes – zone 2 (midzonal)",
+    "Hepatocytes – zone 1 (periportal)",
+    "Hepatocytes – neighbouring lobules",
+    "Hepatocyte nuclei",
+    "Limiting plate",
+    "Inlet venules",
+    "Sinusoidal channels",
+    "Central vein",
+    "Sinusoidal endothelial cells",
+    "Sinusoidal endothelial nuclei",
+    "Kupffer cells",
+    "Stellate (Ito) cells",
+    "Bile canaliculi",
+    "Canalicular-Hering junctions",
+    "Canals of Hering",
+    "Bile ductules",
+    "Portal tract connective tissue",
+    "Portal venules",
+    "Hepatic arterioles",
+    "Lymphatic vessels",
+    "Liver acinus – zone 1",
+    "Liver acinus – zone 2",
+    "Liver acinus – zone 3",
+    "Cholangiocyte nuclei (duct lining)",
+    "Exchange – fenestrated endothelial lining",
+    "Exchange – adjacent hepatocytes",
+    "Exchange – hepatocyte nuclei",
+    "Exchange – shared canalicular interface",
+    "Exchange – luminal Kupffer cell",
+    "Exchange – perisinusoidal stellate cell",
+    "Exchange – hepatocyte microvilli",
+    "Exchange – endothelial nucleus"
+  ],
+  "required_original_parts": [
+    "Hepatocytes – zone 3 (centrilobular)",
+    "Hepatocytes – zone 2 (midzonal)",
+    "Hepatocytes – zone 1 (periportal)",
+    "Hepatocytes – neighbouring lobules",
+    "Hepatocyte nuclei",
+    "Limiting plate",
+    "Inlet venules",
+    "Sinusoidal channels",
+    "Central vein",
+    "Sinusoidal endothelial cells",
+    "Sinusoidal endothelial nuclei",
+    "Kupffer cells",
+    "Stellate (Ito) cells",
+    "Bile canaliculi",
+    "Canalicular-Hering junctions",
+    "Canals of Hering",
+    "Bile ductules",
+    "Portal tract connective tissue",
+    "Portal venules",
+    "Hepatic arterioles",
+    "Lymphatic vessels",
+    "Liver acinus – zone 1",
+    "Liver acinus – zone 2",
+    "Liver acinus – zone 3"
+  ],
+  "optional_proposed_parts": [
+    "Cholangiocyte nuclei (duct lining)",
+    "Exchange – fenestrated endothelial lining",
+    "Exchange – adjacent hepatocytes",
+    "Exchange – hepatocyte nuclei",
+    "Exchange – shared canalicular interface",
+    "Exchange – luminal Kupffer cell",
+    "Exchange – perisinusoidal stellate cell",
+    "Exchange – hepatocyte microvilli",
+    "Exchange – endothelial nucleus"
+  ],
+  "scale_note": "Overview retains the original nominal 1.8 mm block reference. Cells, canaliculi, fenestrae and the Disse relationship have different schematic enlargements; the ruler measures displayed model distances and must not be read as native cellular dimensions. No fixed physical Disse width is asserted.",
+  "mixed_schematic_scale": true,
+  "automatic_native_controls": [
+    "camera",
+    "visibility",
+    "cut_on",
+    "labels_on_open"
+  ],
+  "explicit_adapter_controls": [
+    "section_labels",
+    "per-preset Labels",
+    "max_section_labels",
+    "neutral model-plane captions"
+  ],
+  "application": {
+    "registry": "app/micro/registry_extra_liver_lobule_design_20261004.py",
+    "frozen_cache": "native/liver_lobule_design_20261004.npz",
+    "native_generic_selector": "Open Liver lobule – design review; Views menu applies cameras, exact visibility and cut_on.",
+    "annotation_route": "Generic selector: Labels controls part names; Settings > View > Label the cut face independently controls section labels. create_review_view() supplies a model-only section-label control and defaults.",
+    "scale_route": "decorate_loaded_model() sets mixed_schematic_scale metadata; readable scale warning lives on the native entry and model-specific view controls."
+  },
+  "provenance": {
+    "original": "Original baseline plus revised original-review directions; no candidate acceptance implied.",
+    "camera_coordinate_reference": "Prior candidate delivery viewer.json camera coordinates were reviewed as source metadata and reused as starting positions; new construction must be independently inspected.",
+    "exchange": "Candidate detailed_interface() source is a reviewed local implementation proposal, not an accepted anatomy result."
+  },
+  "sources": [
+    {
+      "url": "https://histologyguide.com/slideview/MH-126b-liver/15-slide-1.html",
+      "opened": "2026-10-04",
+      "supports": "Human H&E context; anastomosing one-cell-thick plates, portal inflow and peripheral bile/lymph drainage; schematic hexagon is not a universal profile."
+    },
+    {
+      "url": "https://histology.oit.duke.edu/DPT/GIglands/GIglands.html",
+      "opened": "2026-10-04",
+      "supports": "Variable portal profiles; Kupffer/endothelial identity, Disse exchange and canalicular-Hering-duct drainage; normal light-microscope limitations."
+    }
+  ],
+  "unresolved": [
+    "Disse width sources conflict (about 200 nm versus 1–2 micrometres); no fixed physical target selected.",
+    "Section caps, opposite-side readability, new plate density and interface compartments await separate-machine native/visual validation."
+  ],
+  "acceptance": [
+    "Opening view hides alternative exchange representation and acinus overlay.",
+    "All native views recover exact visibility after hide/isolate/reset; extra new parts default hidden until explicitly assigned.",
+    "Labels and section labels can be toggled independently; all-off view remains readable.",
+    "Blood and bile remain distinct after rotation and moved/flipped model-plane sections.",
+    "Acinus overlay is non-tissue and non-clippable, retaining inflow/outflow registration.",
+    "No ruler display or caption asserts native-cell dimensions."
+  ],
+  "cameras": {
+    "Tissue overview": {
+      "position": [
+        -1.7,
+        1.55,
+        2.3
+      ],
+      "target": [
+        0,
+        0.16,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "cut_on": false,
+      "note": "Schematic classic lobule with surrounding tissue. Neither the hexagon nor the limiting relationship is a physical capsule.",
+      "hidden": [
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Cholangiocyte nuclei (duct lining)",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ]
+    },
+    "Plate and sinusoid section": {
+      "position": [
+        -1.7,
+        1.55,
+        2.3
+      ],
+      "target": [
+        0,
+        0.16,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "cut_on": true,
+      "note": "Model-plane cut-away; section axes do not establish a patient sagittal or coronal orientation.",
+      "hidden": [
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ]
+    },
+    "Connected blood routes": {
+      "position": [
+        1.5,
+        1.5,
+        2.2
+      ],
+      "target": [
+        0,
+        0.18,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "cut_on": false,
+      "note": "Isolated route view complements the tissue overview. Purple variation indicates a qualitative flow tendency, not measured oxygen concentration.",
+      "hidden": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue",
+        "Lymphatic vessels",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Cholangiocyte nuclei (duct lining)",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ]
+    },
+    "Opposing bile routes": {
+      "position": [
+        1.5,
+        1.5,
+        2.2
+      ],
+      "target": [
+        0,
+        0.18,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "cut_on": false,
+      "note": "Canaliculi are intercellular spaces between hepatocytes. The green interface follows bile outwards, broadly opposite inward blood flow.",
+      "hidden": [
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Portal tract connective tissue",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Lymphatic vessels",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Cholangiocyte nuclei (duct lining)",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ]
+    },
+    "Magnified exchange interface": {
+      "position": [
+        0.19,
+        0.48,
+        -0.28
+      ],
+      "target": [
+        0.411,
+        0.33,
+        0.071
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "cut_on": false,
+      "note": "Alternative enlarged explanatory region in the retained sinusoidal neighborhood. Endothelium is not a continuous basement membrane; Kupffer cell is luminal, stellate cell perisinusoidal. This is not a routine H&E-scale view.",
+      "hidden": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Lymphatic vessels",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Cholangiocyte nuclei (duct lining)"
+      ]
+    },
+    "Exchange from hepatocyte side": {
+      "position": [
+        0.61,
+        0.48,
+        0.42
+      ],
+      "target": [
+        0.411,
+        0.33,
+        0.071
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "cut_on": false,
+      "note": "Reverse camera of the same representative interface, without detaching or moving anatomical compartments.",
+      "hidden": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue",
+        "Portal venules",
+        "Hepatic arterioles",
+        "Lymphatic vessels",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Cholangiocyte nuclei (duct lining)"
+      ]
+    },
+    "Portal epithelial wall": {
+      "position": [
+        1.2834,
+        0.817,
+        1.014
+      ],
+      "target": [
+        0.72,
+        0.205,
+        0.06
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "cut_on": false,
+      "note": "A representative portal profile. Variable wall identity must remain readable without color or labels; portal tracts do not universally have one profile per structure.",
+      "hidden": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Inlet venules",
+        "Sinusoidal channels",
+        "Central vein",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Liver acinus – zone 1",
+        "Liver acinus – zone 2",
+        "Liver acinus – zone 3",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ]
+    },
+    "Acinus diagram overlay": {
+      "position": [
+        -1.55,
+        1.9,
+        1.4
+      ],
+      "target": [
+        -0.35,
+        0.08,
+        -0.15
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "cut_on": false,
+      "note": "Dashed non-tissue projection registered to inflow and outflow. Gradual zones have no sharp biological walls; the neighboring central territory is partly outside the specimen.",
+      "hidden": [
+        "Hepatocytes – zone 3 (centrilobular)",
+        "Hepatocytes – zone 2 (midzonal)",
+        "Hepatocytes – zone 1 (periportal)",
+        "Hepatocytes – neighbouring lobules",
+        "Hepatocyte nuclei",
+        "Limiting plate",
+        "Sinusoidal endothelial cells",
+        "Sinusoidal endothelial nuclei",
+        "Kupffer cells",
+        "Stellate (Ito) cells",
+        "Bile canaliculi",
+        "Canalicular-Hering junctions",
+        "Canals of Hering",
+        "Bile ductules",
+        "Portal tract connective tissue",
+        "Lymphatic vessels",
+        "Cholangiocyte nuclei (duct lining)",
+        "Exchange – fenestrated endothelial lining",
+        "Exchange – adjacent hepatocytes",
+        "Exchange – hepatocyte nuclei",
+        "Exchange – shared canalicular interface",
+        "Exchange – luminal Kupffer cell",
+        "Exchange – perisinusoidal stellate cell",
+        "Exchange – hepatocyte microvilli",
+        "Exchange – endothelial nucleus"
+      ]
+    }
+  },
+  "camera_order": [
+    "Tissue overview",
+    "Plate and sinusoid section",
+    "Connected blood routes",
+    "Opposing bile routes",
+    "Magnified exchange interface",
+    "Exchange from hepatocyte side",
+    "Portal epithelial wall",
+    "Acinus diagram overlay"
+  ]
+}

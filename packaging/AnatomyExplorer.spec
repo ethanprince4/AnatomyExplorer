@@ -19,16 +19,29 @@ APP_NAME = "Anatomy Explorer Experimental" if CHANNEL == "experimental" else "An
 # never shipped; data/anatomy's surface-sample and depth caches come from the stage (see prebuild.py). models/ holds
 # the in-house GLB models the model viewer opens (each .glb with its .viewer.json sidecar).
 DATA_DIRS = ["data/anatomy", "data/content", "data/findings", "data/histology", "data/radiology",
-             "data/sketchfab_models", "data/micro_cache", "data/models", "models", "app/resources"]
-SKIP_DIRS = {"__pycache__", ".git"}
+             "data/sketchfab_models", "data/micro_cache", "data/models", "models", "app/resources", "app/ui/resources",
+             "app/variants/anatomy_runtime_adapters", "app/variants/anatomy_variants"]
+SKIP_DIRS = {"__pycache__", ".git", "model-library"}
 SKIP_SUFFIXES = {".pyc", ".tmp", ".part", ".stackdump"}
 STAGED = {"data/anatomy/samples.npz", "data/anatomy/depth.npz"}
 # folders of which only these files are read at run time (models/ also holds the modellers' review notes)
-ONLY_SUFFIXES = {"models": {".glb", ".json"}}
+ONLY_SUFFIXES = {"models": {".glb", ".json"}, "app/variants/anatomy_runtime_adapters": {".json"},
+                 "app/variants/anatomy_variants": {".json"}}
+# The reviewed adapter allowlist/teaching JSON travels in the verified updater
+# payload. Locally computed generations and preferences remain external and are
+# never collected from AE_MODEL_VARIANTS_DIR or the per-user variant store.
 
 
 def data_files():
     out = []
+    # Read-only release seed; accepted user files live outside this bundle.
+    sys.path.insert(0, str(ROOT / "packaging"))
+    from model_library_seed import seed_files
+    seed = os.environ.get("AE_BUNDLE_MODEL_LIBRARY")
+    if not seed and (ROOT / "data/local_model_library/library.json").is_file():
+        seed = ROOT / "data/local_model_library"
+    if seed:
+        out.extend(seed_files(seed))
     for rel in DATA_DIRS:
         only = ONLY_SUFFIXES.get(rel)
         for dirpath, dirnames, filenames in os.walk(ROOT / rel):
