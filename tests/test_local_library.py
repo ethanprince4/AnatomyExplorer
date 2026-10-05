@@ -12,7 +12,7 @@ class Token:
 class LocalLibraryTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
-        self.root=Path(self.temp.name)
+        self.root=Path(self.temp.name).resolve()
         for name in ('before.npz','after.npz'):(self.root/name).write_bytes(b'fixture; catalog does not decode geometry')
     def library(self,models):
         (self.root/'library.json').write_text(json.dumps({'schema':'ae.local-library.v1','models':models}))
