@@ -9,7 +9,9 @@ from .correspondence import validate_correspondence
 
 CONTRACT_SHA='8306938f3d163dddacc51eb78a71916a85979d23502e5e98daacb7341cf4e1b4'
 PRODUCER_SHA='81f6ba4d77a5981c751168f24f46b918da41b79d3c0f4145d68c9e33138ce47a'
-PATH=Path(__file__).with_name('liver-source-modes-v1.json')
+# PyInstaller macOS bundles link app resources from Frameworks into Resources.
+# Canonicalize this shipped resource before applying external-store I/O guards.
+PATH=Path(__file__).with_name('liver-source-modes-v1.json').resolve()
 # Load the shipped JSON normally; checkout line endings must not block app imports.
 CONTRACT=read_json(PATH)
 MODES=tuple(CONTRACT['modes'])
