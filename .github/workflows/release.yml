@@ -141,10 +141,14 @@ jobs:
 
       - name: Check real frozen Windows HTTPS with packaged roots
         if: runner.os == 'Windows'
+        env:
+          AE_HTTPS_CHECK_TOKEN: ${{ github.token }}
         run: python packaging/check_https.py packaging/dist/AnatomyExplorer/AnatomyExplorer.exe
 
       - name: Check real frozen macOS HTTPS with packaged roots
         if: runner.os == 'macOS'
+        env:
+          AE_HTTPS_CHECK_TOKEN: ${{ github.token }}
         run: python packaging/check_https.py "packaging/dist/$APP_NAME.app/Contents/MacOS/AnatomyExplorer"
 
       - name: Verify real signed macOS incremental update and rollback
