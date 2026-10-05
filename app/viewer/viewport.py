@@ -222,8 +222,6 @@ class ModelViewport(QOpenGLWidget):
             self._labels_dirty = True
         elif self._labels_dirty or self._moving_prev:
             self._compute_labels()
-        if not busy and (self.label_items or self.section_items):
-            self._check_occlusion()
         self._moving_prev = busy
         self.frameTimed.emit((time.perf_counter() - t0) * 1000.0)
         self.overlay.update()
@@ -236,7 +234,15 @@ class ModelViewport(QOpenGLWidget):
         self.invalidate_labels()
 
     def _on_state(self):
-        self.invalidate_labels()
+        # Hover/colour changes alter shading, not label anchors. Visibility and
+        # selection already invalidate through their own signals; opacity can
+        # change the frontmost surface and also needs fresh anchors.
+        signature = tuple(None if getattr(self.state, name, None) is None else
+                          np.asarray(getattr(self.state, name)).tobytes()
+                          for name in ("part_alpha", "system_alpha"))
+        if signature != getattr(self, "_label_opacity_signature", None):
+            self._label_opacity_signature = signature
+            self.invalidate_labels()
         self.update()
 
     def invalidate_labels(self):
@@ -663,17 +669,22 @@ class ModelViewport(QOpenGLWidget):
             and self.settings.get("show_landmarks", True)
         if not hosts and not want_sections:
             return
+        rw, rh = self.renderer.size
+        k = max(1, int(round(min(rw, rh) / 420)))
+        center_ids = None
         try:
-            ids, flags = self.renderer.read_ids()
-            depth = self.renderer.read_depth()
+            sampler = getattr(self.renderer, "read_label_samples", None)
+            compact = sampler(k) if sampler is not None else None
+            if compact is not None:
+                ids_s, flags_s, depth, center_ids = compact
+            else:
+                ids, flags = self.renderer.read_ids()
+                depth = self.renderer.read_depth()
+                if ids is None or depth is None:
+                    return
+                ids_s, flags_s = ids[::k, ::k], flags[::k, ::k]
         except Exception:                      # noqa: BLE001 - a lost context just means no labels this frame
             return
-        if ids is None:
-            return
-        rh, rw = ids.shape
-        k = max(1, int(round(min(rw, rh) / 420)))
-        ids_s = ids[::k, ::k]
-        flags_s = flags[::k, ::k]
         valid = ids_s >= 0
         n = len(self.model.items)
         counts = np.bincount(ids_s[valid], minlength=n)[:n]
@@ -705,7 +716,7 @@ class ModelViewport(QOpenGLWidget):
         from scipy.ndimage import distance_transform_edt
         out = []
         for i, text in chosen:
-            anchor = self._anchor(ids_s, i, None, k, depth, distance_transform_edt)
+            anchor = self._anchor(ids_s, i, None, k, depth, distance_transform_edt, center_ids)
             if anchor is not None:
                 out.append((i, anchor, int(counts[i]), text, 0 if i in sel else 1))
         self.label_items = out
@@ -715,12 +726,14 @@ class ModelViewport(QOpenGLWidget):
             secs = secs[:int(self.settings.get("max_section_labels", 22))]
             res = []
             for i in secs:
-                anchor = self._anchor(ids_s, int(i), flags_s, k, depth, distance_transform_edt)
+                anchor = self._anchor(ids_s, int(i), flags_s, k, depth, distance_transform_edt, center_ids)
                 if anchor is not None:
                     res.append((int(i), anchor))
             self.section_items = res
+        if center_ids is None and (self.label_items or self.section_items):
+            self._check_occlusion()
 
-    def _anchor(self, ids_s, item, flags_s, k, depth, edt):
+    def _anchor(self, ids_s, item, flags_s, k, depth, edt, center_ids=None):
         mask = ids_s == item
         if flags_s is not None:
             mask &= (flags_s & 2) != 0
@@ -732,9 +745,16 @@ class ModelViewport(QOpenGLWidget):
         dist = edt(crop)
         iy, ix = np.unravel_index(int(np.argmax(dist)), dist.shape)
         py, px = (y0 + iy - 1) * k + k // 2, (x0 + ix - 1) * k + k // 2
-        py = min(max(py, 0), depth.shape[0] - 1)
-        px = min(max(px, 0), depth.shape[1] - 1)
-        d = float(depth[py, px])
+        if center_ids is None:
+            py = min(max(py, 0), depth.shape[0] - 1)
+            px = min(max(px, 0), depth.shape[1] - 1)
+            d = float(depth[py, px])
+        else:
+            gy, gx = y0 + iy - 1, x0 + ix - 1
+            py = min(max(py, 0), self.renderer.size[1] - 1)
+            px = min(max(px, 0), self.renderer.size[0] - 1)
+            d = float(depth[gy, gx])
+            self._occluded[item] = int(center_ids[gy, gx]) != item
         if d <= 0.0:
             return None
         return self.renderer.world_from_pixel(px, py, d)
@@ -1078,19 +1098,24 @@ class ModelViewport(QOpenGLWidget):
         rect = QRectF(x, y, w, h)
         path = QPainterPath()
         path.addRoundedRect(rect, 6, 6)
-        p.fillPath(path, theme.qc(theme.OVERLAY, 238))
-        p.setPen(QPen(theme.qc(theme.BORDER_STRONG), 1.0))
+        # Isolate the tooltip from brushes left by labels or other overlays.
+        # drawPath otherwise fills it again with the previous label's brush.
+        p.save()
+        p.setBrush(Qt.NoBrush)
+        p.fillPath(path, QColor('#263544'))
+        p.setPen(QPen(QColor('#82949f'), 1.0))
         p.drawPath(path)
         g = self.model.group_of(sid)
         col = g.colour if g is not None else it.colour
         p.fillRect(QRectF(x, y + 5, 3, h - 10), QColor.fromRgbF(*[float(c) for c in col]))
-        p.setPen(theme.qc(theme.TEXT_STRONG))
+        p.setPen(QColor('#f3f6f9'))
         p.setFont(font)
         p.drawText(QRectF(x + 11, y + 4, w, fm.height()), Qt.AlignLeft | Qt.AlignVCenter, text)
         if sub:
-            p.setPen(theme.qc(theme.MUTED))
+            p.setPen(QColor('#c7d5df'))
             p.setFont(small)
             p.drawText(QRectF(x + 11, y + 5 + fm.height(), w, fm2.height()), Qt.AlignLeft | Qt.AlignVCenter, sub)
+        p.restore()
 
     # ------------------------------------------------------------------ screenshot
     def grab_image(self, scale=1.0):

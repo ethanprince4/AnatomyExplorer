@@ -57,6 +57,8 @@ class ModelLoadingTab(QWidget):
 
     def __init__(self, entry, parent=None):
         super().__init__(parent)
+        self.setObjectName('modelLoadingTab')
+        self.setStyleSheet('QWidget#modelLoadingTab { background: #141b22; }')
         self.entry = entry
         self.serial = None
         self.callbacks = []
@@ -68,13 +70,13 @@ class ModelLoadingTab(QWidget):
         self.title = QLabel()
         self.title.setTextFormat(Qt.PlainText)
         self.title.setWordWrap(True)
-        self.title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2, 600))
+        self.title.setStyleSheet(theme.text_css("#eef3f6", theme.FS_H2, 600))
         layout.addWidget(self.title)
         self.note = QLabel()
         self.note.setTextFormat(Qt.PlainText)
         self.note.setWordWrap(True)
         self.note.setTextInteractionFlags(Qt.TextSelectableByMouse | Qt.TextSelectableByKeyboard)
-        self.note.setStyleSheet(theme.text_css(theme.TEXT_2))
+        self.note.setStyleSheet(theme.text_css("#c7d5df"))
         layout.addWidget(self.note)
         self.progress = QProgressBar()
         self.progress.setAccessibleName("Model loading in progress")

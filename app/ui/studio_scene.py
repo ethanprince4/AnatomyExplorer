@@ -1,6 +1,6 @@
 """Responsive native scene instruments around an unchanged OpenGL viewport."""
 from PySide6.QtCore import Qt, Signal, QEvent
-from PySide6.QtWidgets import QWidget,QFrame,QVBoxLayout,QHBoxLayout,QGridLayout,QComboBox,QLabel,QPushButton,QScrollArea
+from PySide6.QtWidgets import QWidget,QFrame,QVBoxLayout,QHBoxLayout,QGridLayout,QComboBox,QLabel,QPushButton,QScrollArea,QSizePolicy
 
 class StudioScene(QWidget):
     partsChanged=Signal(bool)
@@ -16,6 +16,10 @@ class StudioScene(QWidget):
         self.subject=QLabel(self);self.subject.setObjectName('studioSceneTitle');self.subject.setTextFormat(Qt.PlainText);self.subject.setStyleSheet(display_css(42,'#eef3f6'))
         self.summary=QLabel(self);self.summary.setObjectName('studioSceneSummary');self.summary.setTextFormat(Qt.PlainText);self.summary.setWordWrap(True)
         self.status=QLabel(self);self.status.setObjectName('studioSceneStatus')
+        # Explicit local colors survive the light application's generic QLabel rules.
+        self.breadcrumb.setStyleSheet('QLabel { color: #c7d5df; background: transparent; }')
+        self.summary.setStyleSheet('QLabel { color: #c7d5df; background: transparent; }')
+        self.status.setStyleSheet('QLabel { color: #eef3f6; background: #263544; border-radius: 8px; padding: 4px 10px; }')
         self.cards={};self.tools={};self._active=None;self._laying_out=False;self.instrument_side="right";self._building=True
         self.cards['parts']=self._card('Model contents',parts,'studioCard',key='parts')
         self.cards['reveal']=self._card('Reveal',reveal,'studioInstrument')
@@ -23,12 +27,16 @@ class StudioScene(QWidget):
         self.reveal_content=reveal
         self.selection=QFrame(self);self.selection.setObjectName('selectionSurface')
         selection_layout=QHBoxLayout(self.selection);selection_layout.setContentsMargins(20,13,16,13)
-        text=QVBoxLayout();text.setSpacing(4)
-        self.selection_title=QLabel();self.selection_title.setObjectName('studioSelectionTitle');self.selection_title.setTextFormat(Qt.PlainText)
+        self.selection_text=QWidget();self.selection_text.setStyleSheet('background: transparent;')
+        text=QVBoxLayout(self.selection_text);text.setContentsMargins(0,0,0,0);text.setSpacing(6)
+        self.selection_title=QLabel();self.selection_title.setObjectName('studioSelectionTitle');self.selection_title.setTextFormat(Qt.PlainText);self.selection_title.setWordWrap(True)
         self.selection_description=QLabel();self.selection_description.setObjectName('studioSelectionDescription');self.selection_description.setTextFormat(Qt.PlainText);self.selection_description.setWordWrap(True)
-        text.addWidget(self.selection_title);text.addWidget(self.selection_description);selection_layout.addLayout(text,1)
-        isolate=QPushButton('Isolate');isolate.setProperty('variant','paperAction');isolate.clicked.connect(self.isolateRequested);selection_layout.addWidget(isolate)
-        details=QPushButton('Details');details.clicked.connect(self.detailsRequested);selection_layout.addWidget(details);self.selection.hide()
+        text.addWidget(self.selection_title);text.addWidget(self.selection_description)
+        self.selection_scroll=QScrollArea();self.selection_scroll.setWidgetResizable(True);self.selection_scroll.setFrameShape(QFrame.NoFrame);self.selection_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff);self.selection_scroll.setStyleSheet('QScrollArea { background: transparent; border: none; }');self.selection_scroll.viewport().setStyleSheet('background: transparent;');self.selection_scroll.setWidget(self.selection_text)
+        selection_layout.addWidget(self.selection_scroll,1)
+        self.selection_actions=QWidget();self.selection_actions.setObjectName('selectionActions');self.selection_actions.setStyleSheet('QWidget#selectionActions { background: transparent; }');actions=QVBoxLayout(self.selection_actions);actions.setContentsMargins(0,0,0,0);actions.setSpacing(8);actions.addStretch()
+        isolate=QPushButton('Isolate');isolate.setProperty('variant','paperAction');isolate.clicked.connect(self.isolateRequested);actions.addWidget(isolate)
+        details=QPushButton('Details');details.clicked.connect(self.detailsRequested);actions.addWidget(details);actions.addStretch();selection_layout.addWidget(self.selection_actions);self.selection.hide()
         self.teaching=teaching;teaching.setParent(self);teaching.setObjectName('studioTeaching')
         teaching.installEventFilter(self)
         self.dock=QFrame(self);self.dock.setObjectName('studioDock')
@@ -58,8 +66,14 @@ class StudioScene(QWidget):
             position=QComboBox();position.setAccessibleName('Reveal panel position');position.addItem('Right edge','right');position.addItem('Below contents','left')
             position.currentIndexChanged.connect(lambda _:self.set_instrument_side(position.currentData()));header.addWidget(position)
         close=QPushButton('\u00d7');close.setObjectName('headerClose');close.setAccessibleName('Close '+title);close.clicked.connect(lambda:self.tools[key or title.lower()].setChecked(False));header.addWidget(close);layout.addLayout(header)
-        scroll=QScrollArea(card);scroll.setWidgetResizable(True);scroll.setFrameShape(QFrame.NoFrame);scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff);scroll.setWidget(content)
-        layout.addWidget(scroll,1);card.hide();return card
+        if key=='parts':
+            # The tree owns its scrollbar; an outer scroll area traps wheel input
+            # and produces a second, competing scrollbar around the same list.
+            layout.addWidget(content,1)
+        else:
+            scroll=QScrollArea(card);scroll.setWidgetResizable(True);scroll.setFrameShape(QFrame.NoFrame);scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff);scroll.setWidget(content)
+            layout.addWidget(scroll,1)
+        card.hide();return card
 
     def add_tool(self,key,title,checkable=False):
         button=QPushButton(title,self.dock);button.setObjectName('studioTool');button.setCheckable(checkable)
@@ -136,9 +150,23 @@ class StudioScene(QWidget):
             dock_h=90 if narrow else 56
             dock_w=min(max(self.dock.sizeHint().width(),570 if not narrow else 300),max(1,w-2*gap))
             self.dock.setGeometry((w-dock_w)//2,max(0,h-dock_h-gap),dock_w,dock_h)
-            selection_w=min(844,max(1,w-2*gap));selection_h=100 if w<760 else 84
+            selection_w=min(844,max(1,w-2*gap))
+            # Measure the real wrapped labels, reserving the button column and
+            # scrollbar width. Long descriptions scroll only after the cap.
+            self.selection.ensurePolished()
+            text_w=max(60,selection_w-36-self.selection_actions.sizeHint().width()-self.selection.layout().spacing()-18)
+            text_h=6
+            for label in (self.selection_title,self.selection_description):
+                label.ensurePolished()
+                height=max(label.fontMetrics().height(),label.heightForWidth(text_w))
+                label.setMinimumHeight(height)
+                text_h+=height
+            self.selection_text.setMinimumHeight(text_h)
+            desired_h=max(110,text_h+26,self.selection_actions.minimumSizeHint().height()+26)
+            available_h=max(70,self.dock.y()-gap-12)
+            selection_h=min(desired_h,max(110,min(320,int(h*.45))),available_h)
             self.selection.setGeometry((w-selection_w)//2,max(gap,self.dock.y()-selection_h-12),selection_w,selection_h)
-            parts=self.cards['parts'];parts_w=min(260,max(1,w-2*gap))
+            parts=self.cards['parts'];parts_w=min(312,max(1,w-2*gap))
             parts_bottom=self.selection.y()-gap if not self.selection.isHidden() else self.dock.y()-gap
             parts_top=176
             parts_h=min(550,max(100,parts_bottom-parts_top))
@@ -149,7 +177,7 @@ class StudioScene(QWidget):
             if self.instrument_side=='left' and w>=760:
                 instrument_x=34
                 instrument_y=parts.geometry().bottom()+12 if not parts.isHidden() else 176
-            reveal_h=360 if self.reveal_content.property('expanded') else 150
+            reveal_h=max(360 if self.reveal_content.property('expanded') else 174,self.reveal_content.minimumSizeHint().height()+62)
             self.cards['reveal'].setGeometry(instrument_x,min(instrument_y,max(16,self.dock.y()-reveal_h-12)),instrument_w,min(reveal_h,max(100,h-2*gap-dock_h)))
             self.cards['section'].setGeometry(instrument_x,54,instrument_w,min(270,max(100,h-2*gap-dock_h)))
             if w<760:

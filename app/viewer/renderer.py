@@ -334,6 +334,7 @@ class Renderer:
         self._released = True
         self.release_model()
         objs = list(self.t.values()) + list(self.fsq.values()) + self.programs + [self.white]
+        objs += list(getattr(self, "_label_gpu", {}).values())
         for tex, fbo in self.shadow_maps:
             objs += [fbo, tex]
         env = self.env
@@ -458,6 +459,7 @@ class Renderer:
         self.frame_ok = False
         ctx = self.ctx
         w, h = max(int(size[0]), 2), max(int(size[1]), 2)
+        self._ids_cache = None
         samples = max(1, min(int(s.msaa), ctx.max_samples))
         self._ensure_targets(w, h, samples)
         if self._env_key != (round(s.studio, 3), self._ambient()):
@@ -1068,16 +1070,80 @@ class Renderer:
             pv = np.array([ndc[0] * halves[0] * d, ndc[1] * halves[1] * d, -d, 1.0])
         return (np.linalg.inv(V) @ pv)[:3]
 
+    def read_label_samples(self, step):
+        """Exactly the existing strided IDs and cell-centre depth, sampled on GPU.
+
+        Label placement already uses this grid; this avoids transferring the
+        full-resolution buffers only to discard their unused pixels on CPU.
+        """
+        if not self.frame_ok or not self.t:
+            return None
+        ctx = self.ctx
+        previous, viewport = ctx.fbo, ctx.viewport
+        if previous is None:
+            return None
+        w, h = self.size
+        grid = ((w + step - 1) // step, (h + step - 1) // step)
+        gpu = getattr(self, "_label_gpu", {})
+        try:
+            if not gpu:
+                program = ctx.program(vertex_shader=shaders.FSQ_VS, fragment_shader='''#version 410 core
+uniform sampler2D ids;
+uniform sampler2D depth_normal;
+uniform ivec2 full_size;
+uniform ivec2 grid_size;
+uniform int step;
+out vec4 result;
+void main() {
+    ivec2 cell = ivec2(gl_FragCoord.xy);
+    cell.y = grid_size.y - 1 - cell.y;
+    ivec2 origin = cell * step;
+    ivec2 center = min(origin + ivec2(step / 2), full_size - 1);
+    origin.y = full_size.y - 1 - origin.y;
+    center.y = full_size.y - 1 - center.y;
+    vec2 sample_ids = texelFetch(ids, origin, 0).xy;
+    result = vec4(sample_ids, texelFetch(depth_normal, center, 0).w,
+                  texelFetch(ids, center, 0).x);
+}''')
+                gpu = {"program": program, "vao": ctx.vertex_array(program, [])}
+                self._label_gpu = gpu
+            if getattr(self, "_label_grid_size", None) != grid:
+                for name in ("fbo", "texture"):
+                    if name in gpu: gpu.pop(name).release()
+                gpu["texture"] = ctx.texture(grid, 4, dtype="f4")
+                gpu["fbo"] = ctx.framebuffer([gpu["texture"]])
+                self._label_grid_size = grid
+            program = gpu["program"]
+            program["ids"].value = 0; program["depth_normal"].value = 1
+            program["full_size"].value = (w,h); program["grid_size"].value = grid
+            program["step"].value = step
+            self.t["id"].use(0); self.t["nd"].use(1)
+            gpu["fbo"].use(); ctx.viewport = (0,0,*grid)
+            ctx.disable(moderngl.BLEND | moderngl.DEPTH_TEST | moderngl.CULL_FACE)
+            gpu["vao"].render(moderngl.TRIANGLES, vertices=3)
+            values = np.frombuffer(gpu["fbo"].read(components=4,dtype="f4"),np.float32).reshape(grid[1],grid[0],4)[::-1]
+            return (np.rint(values[...,0]).astype(np.int32)-1,
+                    np.rint(values[...,1]).astype(np.int32), values[...,2],
+                    np.rint(values[...,3]).astype(np.int32)-1)
+        except (moderngl.Error, KeyError):
+            return None  # retain the established readback path on unsupported contexts
+        finally:
+            previous.use(); ctx.viewport = viewport
+
     def read_ids(self):
         """(h, w) item index (-1 for background) and (h, w) flags of the last frame's pre-pass, top row first."""
         if not self.frame_ok or not self.t:
             return None, None
+        if getattr(self, "_ids_cache", None) is not None:
+            return self._ids_cache
         w, h = self.size
         raw = self._read_prepass(2, 1)
         if raw is None:
             return None, None
         a = raw.reshape(h, w, 2)[::-1]
-        return np.rint(a[..., 0]).astype(np.int32) - 1, np.rint(a[..., 1]).astype(np.int32)
+        self._ids_cache = (np.rint(a[..., 0]).astype(np.int32) - 1,
+                           np.rint(a[..., 1]).astype(np.int32))
+        return self._ids_cache
 
     def read_depth(self):
         """(h, w) linear view depth of the last frame (0 for background), top row first."""
@@ -1095,9 +1161,13 @@ class Renderer:
         if not self.frame_ok or not self.t:
             return [-1] * len(points)
         w, h = self.size
+        cached = getattr(self, "_ids_cache", None)
         for x, y in points:
             if not (0 <= x < w and 0 <= y < h):
                 out.append(-1)
+                continue
+            if cached is not None:
+                out.append(int(cached[0][int(y), int(x)]))
                 continue
             raw = self._read_prepass(2, 1, (int(x), h - 1 - int(y), 1, 1))
             out.append(-1 if raw is None else int(round(float(raw[0]))) - 1)

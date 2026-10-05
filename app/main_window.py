@@ -322,6 +322,10 @@ class MainWindow(QMainWindow):
             st = None
         if isinstance(st, layout_types):
             self.restoreState(st)
+        # Saved legacy layouts must not bring back the duplicate navigation bar.
+        for bar in self.findChildren(QToolBar):
+            if bar.objectName() == 'main_toolbar':
+                bar.hide()
         self.dock_side_panels()
         self.qsettings.setValue('studio_layout_revision', 2)
         self._update_counts()
@@ -664,11 +668,7 @@ class MainWindow(QMainWindow):
         self.search.edit.setText(text)
 
     def _studio_explore(self):
-        previous = getattr(self, '_studio_last_scene', None)
-        if previous is not None and self.center.indexOf(previous) >= 0:
-            self.center.setCurrentWidget(previous)
-        else:
-            self._show_atlas()
+        self._show_atlas()
         self._update_workspace_header()
         if self.center.currentWidget() is self.anatomy_tab:
             self._show_nav_page(self.tree)
@@ -890,7 +890,8 @@ class MainWindow(QMainWindow):
         now = time.perf_counter()
         if now - self._last_perf > 0.5:
             avg = sum(self._frame_times) / len(self._frame_times)
-            self.perf_label.setText(f"{avg:.1f} ms/frame")
+            self.perf_label.setText(f"Recent draw: {avg:.1f} ms")
+            self.perf_label.setToolTip("Recent rendering work, including initial label placement. This reading stays unchanged while idle; it is not continuous FPS.")
             self._frame_times.clear()
             self._last_perf = now
 

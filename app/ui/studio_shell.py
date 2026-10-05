@@ -4,7 +4,7 @@ Every command routes to the existing application owner; no demo scenes or data.
 """
 from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtWidgets import (QWidget,QVBoxLayout,QHBoxLayout,QPushButton,
-                               QLineEdit,QToolButton,QLabel,QMenu,QDockWidget,QScrollArea,QFrame)
+                               QLineEdit,QToolButton,QLabel,QMenu,QDockWidget,QScrollArea,QFrame,QSplitter)
 from .shell import ElidingLabel
 from .studio_style import icon
 
@@ -85,7 +85,11 @@ class CollectionWorkspace(QWidget):
     """Give the existing catalog a full workspace instead of a narrow dock."""
     def __init__(self,catalog,window):
         super().__init__();self.setObjectName('studioCollection');self.setAttribute(Qt.WA_StyledBackground,True)
-        layout=QVBoxLayout(self);layout.setContentsMargins(20,10,20,18)
+        outer=QHBoxLayout(self);outer.setContentsMargins(28,12,28,24);outer.addStretch()
+        self.card=QWidget(self);self.card.setObjectName('studioCollectionCard');self.card.setAttribute(Qt.WA_StyledBackground,True)
+        self.card.setMaximumWidth(1320)
+        outer.addWidget(self.card,1);outer.addStretch()
+        layout=QVBoxLayout(self.card);layout.setContentsMargins(20,16,20,16)
         row=QHBoxLayout()
         for title,callback in (('3D models',catalog.focus_search),('Histology',lambda:window._show_nav_page(window.histology_panel)),
                                ('Radiology',lambda:window._show_nav_page(window.radiology_browser)),('Lessons',window.show_lessons)):
@@ -94,6 +98,30 @@ class CollectionWorkspace(QWidget):
             if title=='Radiology':b.setEnabled(window.radiology_browser is not None)
             row.addWidget(b)
         row.addStretch();layout.addLayout(row);layout.addWidget(catalog,1)
+        # Reuse every original catalog widget and callback; change its composition only.
+        original=catalog.layout();items=[]
+        while original.count():items.append(original.takeAt(0))
+        split=QSplitter(Qt.Horizontal,catalog);split.setChildrenCollapsible(False)
+        left=QWidget(split);right=QWidget(split)
+        ll=QVBoxLayout(left);ll.setContentsMargins(0,0,12,0);ll.setSpacing(8)
+        rl=QVBoxLayout(right);rl.setContentsMargins(16,0,0,0);rl.setSpacing(12)
+        target=ll
+        for item in items:
+            if item.widget() is catalog.preview:target=rl
+            if item.widget() is not None:
+                target.addWidget(item.widget())
+            elif item.layout() is not None:
+                target.addLayout(item.layout())
+            else:
+                target.addItem(item)
+            if item.widget() is catalog.list:ll.setStretch(ll.count()-1,1)
+            if item.widget() is catalog.preview:rl.setStretch(rl.count()-1,1)
+        original.addWidget(split,1)
+        split.setStretchFactor(0,3);split.setStretchFactor(1,2);split.setSizes([660,440])
+        for button in (catalog.verify_models,catalog.cancel_verification,catalog.open_button):
+            button.setMaximumWidth(max(220,button.sizeHint().width()))
+        catalog.kind_filter.setMaximumWidth(360)
+        self.catalog_splitter=split
         catalog.show()
 
 
@@ -125,7 +153,9 @@ class FloatingPanels:
         owner=self
         class ResizeFilter(QObject):
             def eventFilter(self, watched, event):
-                if event.type() in (QEvent.Resize,QEvent.Show): owner.layout()
+                if watched in owner.panels:
+                    if event.type() == QEvent.Resize: owner.clip(watched)
+                elif event.type() in (QEvent.Resize,QEvent.Show): owner.layout()
                 return False
         self.filter=ResizeFilter(self.host)
         self.host.installEventFilter(self.filter)
@@ -133,6 +163,7 @@ class FloatingPanels:
             was_visible=not panel.isHidden()
             window.removeDockWidget(panel)
             panel.setParent(self.host,Qt.Widget)
+            panel.installEventFilter(self.filter)
             panel.setAllowedAreas(Qt.NoDockWidgetArea)
             panel.setFeatures(QDockWidget.DockWidgetClosable)
             panel.setAttribute(Qt.WA_StyledBackground,True)
@@ -150,6 +181,12 @@ class FloatingPanels:
             panel.visibilityChanged.connect(lambda visible,p=panel: self.shown(p,visible))
             panel.setVisible(was_visible)
         self.layout()
+    def clip(self,panel):
+        # QWidget masks clip descendant scroll viewports too, unlike QSS radius.
+        from PySide6.QtCore import QRectF
+        from PySide6.QtGui import QPainterPath,QRegion
+        path=QPainterPath();path.addRoundedRect(QRectF(panel.rect()),14,14)
+        panel.setMask(QRegion(path.toFillPolygon().toPolygon()))
     def shown(self,panel,visible):
         if visible:
             if self.host.width()<1100:
@@ -171,4 +208,5 @@ class FloatingPanels:
             width=min(preferred,max(240,w-40))
             x=max(20,w-width-20) if index else 20
             panel.setGeometry(x,top,width,min(760,available))
+            if panel.mask().isEmpty():self.clip(panel)
             if not panel.isHidden():panel.raise_()
