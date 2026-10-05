@@ -95,6 +95,8 @@ def check(platform=None):
     }
 
     installer_name = INSTALLERS[source.platform]
+    if installer_name not in assets:
+        installer_name += '.part001'
     installer = assets.get(installer_name, {})
     size = installer.get("size")
     url = prefix + installer_name
