@@ -273,7 +273,7 @@ class ModelView(QWidget):
         sl.setSpacing(6)
         compatibility_notes = getattr(m, 'runtime_warnings', [])
         if compatibility_notes:
-            note = QLabel('Some saved model features could not be restored.')
+            note = QLabel('This refined model has display notes.')
             note.setWordWrap(True)
             note.setToolTip('\n'.join(compatibility_notes))
             sl.addWidget(note)
