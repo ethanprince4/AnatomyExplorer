@@ -23,7 +23,7 @@ DATA_DIRS = ["data/anatomy", "data/content", "data/findings", "data/histology", 
              "app/variants/anatomy_runtime_adapters", "app/variants/anatomy_variants"]
 SKIP_DIRS = {"__pycache__", ".git", "model-library"}
 SKIP_SUFFIXES = {".pyc", ".tmp", ".part", ".stackdump"}
-STAGED = {"data/anatomy/samples.npz", "data/anatomy/depth.npz"}
+STAGED = {"data/anatomy/samples.npz", "data/anatomy/depth.npz", "data/anatomy/dataset-manifest.json"}
 # folders of which only these files are read at run time (models/ also holds the modellers' review notes)
 ONLY_SUFFIXES = {"models": {".glb", ".json"}, "app/variants/anatomy_runtime_adapters": {".json"},
                  "app/variants/anatomy_variants": {".json"}}

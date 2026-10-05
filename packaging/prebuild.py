@@ -3,13 +3,14 @@
 1. The microanatomy meshes in data/micro_cache (tools/build_micro.py; only the stale ones are rebuilt), then a
    check that every model now loads from the cache - the packaged app ships the app/micro sources, so it computes
    the same digest and never rebuilds.
-2. The surface samples and depth index of the atlas, stamped the way the installed app stamps them (file sizes
-   only, see relations.STAMP_MTIME), written to packaging/build/stage/data/anatomy. The spec ships these in place
+2. The atlas manifest, surface samples and depth index, stamped with the installed content identity,
+   written to packaging/build/stage/data/anatomy. The spec ships these in place
    of the copies in data/anatomy, which carry this machine's file times and would not match after installation.
 3. A check that every in-house GLB model the catalogue describes (data/content/models) is really there - not a Git
    LFS pointer - and loads, so an installer never ships without the heart, the kidney or the cardiac muscle.
 
 Usage: python packaging/prebuild.py [--jobs N] [--skip-micro]"""
+import json
 import subprocess
 import sys
 import time
@@ -42,15 +43,19 @@ def anatomy():
     from app import depth, relations
     from app.config import DATA_DIR
     from app.data import Dataset
+    from app.dataset_identity import MANIFEST_NAME, build_manifest
 
     out = STAGE / "data" / "anatomy"
     out.mkdir(parents=True, exist_ok=True)
+    manifest = build_manifest(DATA_DIR)
+    (out / MANIFEST_NAME).write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     relations.STAMP_MTIME = False
     # read nothing, write into the stage (never over the repo's own copies)
     relations.cache_candidates = lambda path: ([], out / Path(path).name)
     depth.cache_candidates = relations.cache_candidates
     t = time.time()
     ds = Dataset(DATA_DIR)
+    ds._dataset_content_id = manifest["content_id"]
     d, _ = depth.DepthIndex(ds)._load()          # computes the surface samples on the way
     if not (out / "samples.npz").exists() or not (out / "depth.npz").exists() or d is None:
         sys.exit("failed to build the anatomy caches")
