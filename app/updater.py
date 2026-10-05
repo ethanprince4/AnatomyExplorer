@@ -305,6 +305,11 @@ class GitHubSource:
 
     def read(self, url, limit, headers=None, expected_range=None):
         req = urllib.request.Request(trusted_url(url), headers={"User-Agent": "AnatomyExplorer-Updater/1", **(headers or {})})
+        # Diagnostic API credentials must never follow a redirect to asset hosts.
+        authorization = req.get_header("Authorization")
+        if authorization:
+            req.remove_header("Authorization")
+            req.add_unredirected_header("Authorization", authorization)
         with self.opener.open(req, timeout=30) as response:
             trusted_url(response.url)
             if expected_range is not None and (response.status != 206 or response.headers.get("Content-Range") != expected_range):

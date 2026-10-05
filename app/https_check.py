@@ -5,6 +5,7 @@ proxy credentials, redirect query strings, update stores, or study information.
 """
 import argparse
 import json
+import os
 import ssl
 import sys
 import urllib.error
@@ -54,7 +55,11 @@ def check(platform=None):
     }
     # Use the same API read, release binding, API digest and manifest validation
     # as latest(); retain metadata for the additional installer range check.
-    release = at_stage("release_api", lambda: json.loads(source.read(u.API, 2 * 1024 * 1024)))
+    # CI runners share anonymous API quotas. This optional, ephemeral credential
+    # is used only by this diagnostic's API request, never asset downloads.
+    token = os.environ.get("AE_HTTPS_CHECK_TOKEN")
+    headers = {"Authorization": f"Bearer {token}"} if token else None
+    release = at_stage("release_api", lambda: json.loads(source.read(u.API, 2 * 1024 * 1024, headers)))
     if not isinstance(release, dict):
         raise u.UpdateError("Invalid stable release metadata")
     manifest = at_stage("manifest", lambda: source.from_release(release))
