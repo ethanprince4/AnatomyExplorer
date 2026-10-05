@@ -67,7 +67,7 @@ def components_for(records,variant):
     return records.get(variant,{}) if any(key in records for key in ('pre','post')) else records
 
 
-def install(refiner, library, model_ids=None, companions=None):
+def install(refiner, library, model_ids=None, companions=None, post_only=False):
     refiner=Path(refiner);library=Path(library)
     rows=read(refiner/'library/models.json',[])
     manifest_path=library/'library.json'
@@ -79,6 +79,31 @@ def install(refiner, library, model_ids=None, companions=None):
         if row.get('reference') or row.get('status')=='unavailable':continue
         if selected is not None and mid not in selected:continue
         source=refiner/'library'/mid
+        if post_only:
+            result=source/'refined.npz'
+            if not result.is_file():raise ValueError(mid+': no saved refinement is available.')
+            previous=manifest['models'].get(mid)
+            if not previous:raise ValueError(mid+': model is not in the destination library.')
+            entry=dict(previous)
+            revision=uuid.uuid4().hex[:12]
+            folder=library/'models'/mid/revision
+            target=folder/'refined.npz'
+            copy_saved(result,target)
+            prior=dict(entry.get('variants',{}).get('post',{}))
+            prior.update(path=target.relative_to(library).as_posix(),format='npz',status='review_candidate')
+            prior.pop('report',None)
+            report=source/'report.json'
+            if report.is_file():
+                copy_saved(report,folder/'report.json')
+                prior['report']=(folder/'report.json').relative_to(library).as_posix()
+            entry['variants']={'post':prior}
+            history=read(library/'history.json',{})
+            history.setdefault(mid,[]).append(previous)
+            write(library/'history.json',history)
+            manifest['models'][mid]=entry
+            write(manifest_path,manifest)
+            imported.append(mid)
+            continue
         original=source/row['input']
         if not original.is_file():continue
         previous=manifest['models'].get(mid)
@@ -150,10 +175,11 @@ def main():
     p.add_argument('--model',action='append')
     p.add_argument('--companions',type=Path)
     p.add_argument('--rollback')
+    p.add_argument('--post-only',action='store_true',help='Import only the saved result, retaining destination teaching metadata.')
     a=p.parse_args()
     if a.rollback:rollback(a.library,a.rollback);print('Previous imported result restored.');return
     if not a.refiner:p.error('--refiner is required for import')
-    names=install(a.refiner,a.library,a.model,read(a.companions,{}) if a.companions else None)
+    names=install(a.refiner,a.library,a.model,read(a.companions,{}) if a.companions else None,post_only=a.post_only)
     print(f'Copied {len(names)} models. Reopen the model library to use them.')
 
 
