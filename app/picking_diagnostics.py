@@ -521,7 +521,7 @@ def run_gpu_controls(dataset_metadata_path=None):
             report["dataset_metadata"] = dataset_metadata_identity(dataset_metadata_path or DATA_DIR / "anatomy.json")
         except (OSError, ValueError, KeyError, TypeError) as error:
             report["dataset_metadata"] = {"available": False, "geometry_loaded": False, "error": type(error).__name__}
-        synthetic = SimpleNamespace(n=max(SENTINELS), structures=[{} for _ in range(max(SENTINELS))],
+        synthetic = SimpleNamespace(n=max(SENTINELS), structures=[{"i_start": 0, "i_count": 3} for _ in range(max(SENTINELS))],
                                     materials=[{"color": [0.5, 0.2, 0.1], "distinct": [0.5, 0.2, 0.1],
                                                 "alpha": 1.0, "category": "other"}])
         renderer = Renderer(ctx, synthetic, sentinel_vertex_bytes(SENTINELS[0], material=0),
