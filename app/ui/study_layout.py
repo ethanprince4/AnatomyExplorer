@@ -43,6 +43,7 @@ class StudyLayout(QObject):
             return
         if self.snapshot is None:
             self.snapshot = (w.saveState(), w.search.isHidden(), p.meta.isHidden())
+            self.floating_visibility = (not w.left_dock.isHidden(), not w.right_dock.isHidden())
             w.search.hide()
             p.meta.hide()
             w.left_dock.show()
@@ -111,7 +112,12 @@ class StudyLayout(QObject):
             except RuntimeError:  # a tab may have been closed during the lesson
                 pass
         self.models.clear()
-        self.window.restoreState(layout)
+        if getattr(self.window, '_floating_panels', None) is not None:
+            for panel, visible in zip((self.window.left_dock, self.window.right_dock), self.floating_visibility):
+                panel.setVisible(visible)
+            self.window._floating_panels.layout()
+        else:
+            self.window.restoreState(layout)
         self.checked(self.panel.parts_btn, False)
         self.checked(self.panel.details_btn, False)
 

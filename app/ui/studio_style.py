@@ -2,6 +2,7 @@
 from pathlib import Path
 import json
 from PySide6.QtGui import QFontDatabase, QIcon
+from PySide6.QtCore import Qt
 
 ROOT = Path(__file__).parent / 'resources' / 'studio'
 STAGE_BACKGROUND = '#141b22'
@@ -29,6 +30,7 @@ def icon(name, mode=None):
 
 def apply_surface(widget, name='surface'):
     """Style an existing widget, preserving its layout, signals and contents."""
+    widget.setAttribute(Qt.WA_StyledBackground, True)
     widget.setObjectName(name)
     widget.style().unpolish(widget)
     widget.style().polish(widget)
@@ -45,7 +47,7 @@ QWidget#globalBar QPushButton[variant="quiet"]:checked {{ background:{p['selecte
 QWidget#globalBar QPushButton[variant="quiet"]:checked:hover {{ background:{p['selected']};color:{p['accent']};border-color:{p['accent']}; }}
 
 QWidget#studioShell, QWidget#studioHeader, QWidget#studioScene {{ background:{STAGE_BACKGROUND}; }}
-QWidget#studioHeader > QWidget {{ background:transparent; }}
+
 QLabel#studioBrand {{ color:{p['text']};font-size:{16 * scale}px;font-weight:600;background:transparent; }}
 QFrame#studioCard > QWidget, QFrame#studioInstrument > QWidget,
 QFrame#studioDock > QWidget, QWidget#studioTeaching > QWidget {{ background:transparent; }}

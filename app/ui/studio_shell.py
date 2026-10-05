@@ -4,7 +4,7 @@ Every command routes to the existing application owner; no demo scenes or data.
 """
 from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtWidgets import (QWidget,QVBoxLayout,QHBoxLayout,QPushButton,
-                               QLineEdit,QToolButton,QLabel,QMenu)
+                               QLineEdit,QToolButton,QLabel,QMenu,QDockWidget,QScrollArea,QFrame)
 from .shell import ElidingLabel
 from .studio_style import icon
 
@@ -21,6 +21,7 @@ class StudioHeader(QWidget):
         self.setObjectName('studioHeader')
         layout=QVBoxLayout(self);layout.setContentsMargins(28,20,28,0);layout.setSpacing(18)
         self.bar=QWidget();self.bar.setObjectName('globalBar')
+        self.bar.setAttribute(Qt.WA_StyledBackground,True)
         self.bar.setMinimumHeight(58)
         row=QHBoxLayout(self.bar);row.setContentsMargins(20,5,20,5);row.setSpacing(16)
         brand_icon=QLabel();brand_icon.setPixmap(icon('brand').pixmap(26,26));row.addWidget(brand_icon)
@@ -113,3 +114,51 @@ def atlas_dock(window):
     tools=QToolButton();tools.setText('More tools');tools.setMenu(window.tools_menu)
     tools.setPopupMode(QToolButton.InstantPopup);row.addWidget(tools)
     row.addStretch();return dock
+
+class FloatingPanels:
+    """Keep legacy dock APIs while presenting ordinary in-workspace cards."""
+    def __init__(self, window):
+        self.window = window
+        self.host = window.workspace
+        self.panels = (window.left_dock, window.right_dock)
+        from PySide6.QtCore import QObject,QEvent
+        owner=self
+        class ResizeFilter(QObject):
+            def eventFilter(self, watched, event):
+                if event.type() in (QEvent.Resize,QEvent.Show): owner.layout()
+                return False
+        self.filter=ResizeFilter(self.host)
+        self.host.installEventFilter(self.filter)
+        for panel in self.panels:
+            was_visible=not panel.isHidden()
+            window.removeDockWidget(panel)
+            panel.setParent(self.host,Qt.Widget)
+            panel.setAllowedAreas(Qt.NoDockWidgetArea)
+            panel.setFeatures(QDockWidget.DockWidgetClosable)
+            panel.setAttribute(Qt.WA_StyledBackground,True)
+            panel.setStyleSheet('QDockWidget {background:#f8fafb;border:1px solid #94a6b1;border-radius:14px;}')
+            title=QWidget(panel);title.setAttribute(Qt.WA_StyledBackground,True)
+            title.setStyleSheet('background:#f8fafb;border:none;border-top-left-radius:14px;border-top-right-radius:14px;')
+            row=QHBoxLayout(title);row.setContentsMargins(14,10,10,8)
+            label=QLabel(panel.windowTitle());label.setStyleSheet('color:#24343d;font-size:16px;font-weight:600;');row.addWidget(label);row.addStretch()
+            close=QPushButton('Close');close.setAccessibleName('Close '+panel.windowTitle());close.clicked.connect(panel.hide);row.addWidget(close)
+            panel.setTitleBarWidget(title)
+            content=panel.widget()
+            scroll=QScrollArea(panel);scroll.setWidgetResizable(True)
+            scroll.setFrameShape(QFrame.NoFrame);scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            scroll.setWidget(content);panel.setWidget(scroll)
+            panel.visibilityChanged.connect(lambda visible,p=panel: self.shown(p,visible))
+            panel.setVisible(was_visible)
+        self.layout()
+    def shown(self,panel,visible):
+        if visible:self.layout();panel.raise_()
+    def layout(self):
+        w,h=self.host.width(),self.host.height()
+        header=getattr(self.window,'studio_header',None)
+        top=(header.geometry().bottom()+12) if header is not None else 20
+        available=max(120,h-top-20)
+        for index,panel in enumerate(self.panels):
+            width=min(380 if index else 350,max(300,w-40))
+            x=max(20,w-width-20) if index else 20
+            panel.setGeometry(x,top,width,min(760,available))
+            if not panel.isHidden():panel.raise_()

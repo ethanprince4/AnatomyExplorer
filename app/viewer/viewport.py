@@ -25,6 +25,12 @@ from PySide6.QtCore import QEvent, QPoint, QPointF, QRectF, Qt, Signal
 from PySide6.QtGui import QColor, QFont, QFontMetricsF, QPainter, QPainterPath, QPen
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
 
+
+def _annotation_plate(dark, alpha):
+    """Painter label background follows the viewport, independently of UI chrome."""
+    return QColor(24, 34, 45, alpha) if dark else QColor(255, 255, 255, alpha)
+
+
 from ..ui import theme
 from ..viewport import VIEWS, Overlay, TrackpadInput
 from .camera import OrbitCamera
@@ -85,9 +91,6 @@ class ModelViewport(QOpenGLWidget):
         self.rsettings = Settings()
         for k, v in getattr(model, "look_defaults", {}).items():
             setattr(self.rsettings, k, v)
-        # Every model opens shadow-free, including authored per-model overrides.
-        # Display -> Shadows remains an opt-in for this view.
-        self.rsettings.shadows = False
         self.orientation_axes_on = bool(settings.get("show_gizmo", True)
                                         and getattr(entry, "oriented", False))
         self._fbo = None
@@ -897,7 +900,7 @@ class ModelViewport(QOpenGLWidget):
             r = 3.2 if not focus else 4.5
             p.drawEllipse(QPointF(ax, ay), r, r)
             placed.append(rect.adjusted(-2, -2, 2, 2))
-            bg = theme.qc(theme.OVERLAY, 210 if not occluded else 110) if dark else QColor(255, 255, 255, 215 if not occluded else 120)
+            bg = _annotation_plate(dark, (210 if not occluded else 110) if dark else (215 if not occluded else 120))
             p.setPen(QPen(dot, 1.0))
             p.setBrush(bg)
             p.drawRoundedRect(rect, 5, 5)
@@ -954,7 +957,7 @@ class ModelViewport(QOpenGLWidget):
                 p.setPen(Qt.NoPen)
                 p.drawEllipse(QPointF(pr[0], pr[1]), 2.6, 2.6)
                 p.setPen(QPen(QColor(accent.red(), accent.green(), accent.blue(), 170), 1.0))
-                p.setBrush(theme.qc(theme.OVERLAY, 220) if dark else QColor(255, 255, 255, 228))
+                p.setBrush(_annotation_plate(dark, 220 if dark else 228))
                 p.drawRoundedRect(rect, 4, 4)
                 p.setPen(QColor(235, 240, 245) if dark else QColor(20, 25, 30))
                 p.drawText(rect, Qt.AlignCenter, fm.elidedText(text, Qt.ElideRight, tw - 10))
@@ -1006,7 +1009,7 @@ class ModelViewport(QOpenGLWidget):
             items.append((np.dot(v, back), cx + np.dot(v, right) * r, cy - np.dot(v, up) * r, label, col))
         items.sort(key=lambda t: t[0])
         p.setPen(QPen(theme.qc(theme.BORDER, 90), 1.0) if dark else Qt.NoPen)
-        p.setBrush(theme.qc(theme.CANVAS, 110) if dark else QColor(255, 255, 255, 110))
+        p.setBrush(QColor(11, 16, 22, 110) if dark else QColor(255, 255, 255, 110))
         p.drawEllipse(QPointF(cx, cy), r + 14, r + 14)
         font = QFont(self.font())
         font.setPointSizeF(8.0)

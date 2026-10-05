@@ -624,7 +624,7 @@ class ModelView(QWidget):
             a.toggled.connect(lambda on: (setattr(target, attr, on), g.update()))
             return a
 
-        toggle("Shadows", "shadows", "Off when a model opens; enable for this view.")
+        toggle("Shadows", "shadows", "Use the model’s lighting defaults; toggle for this view.")
         toggle("Orientation axes", "orientation_axes_on",
                "Show axes in the lower-left corner: X red, Y green, Z blue. "
                "Anatomically oriented models show L/R, S/I and A/P instead.", target=g)
@@ -1136,10 +1136,15 @@ class ModelView(QWidget):
                     f"<p class='summary'>{esc(desc)}</p>{size}{atlas}{more}{tail}")
             self.info.show_html(f"<h1>{esc(it.name)}</h1>", body)
         elif len(sel) > 1:
-            names = " · ".join(esc(m.items[i].name) for i in sel[:40])
-            body = (f"<div class='crumb'>{esc(e.name)}</div><p class='summary'>{len(sel)} parts selected</p>"
-                    f"<p class='muted'>{names}</p>{tail}")
-            self.info.show_html(f"<h1>{esc(e.name)}</h1>", body)
+            rows=[]
+            for index in sel:
+                item=m.items[index]
+                href=QUrl('modelpart:'+e.id+'|'+str(index)).toString()
+                description=item.description or 'No written description is included for this part.'
+                rows.append(f'<p><a href="{esc(href)}"><b>{esc(item.name)}</b></a><br>{esc(brief(description,320))}</p>')
+            body=(f"<div class='crumb'>{esc(e.name)}</div>"
+                  "<p class='summary'>Choose a part below to open its individual details.</p>"+''.join(rows))
+            self.info.show_html(f"<h1>{len(sel)} selected parts</h1>",body)
         else:
             groups = []
             for gr in m.groups:

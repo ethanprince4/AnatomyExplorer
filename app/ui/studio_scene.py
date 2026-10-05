@@ -1,6 +1,6 @@
 """Responsive native scene instruments around an unchanged OpenGL viewport."""
 from PySide6.QtCore import Qt, Signal, QEvent
-from PySide6.QtWidgets import QWidget,QFrame,QVBoxLayout,QHBoxLayout,QGridLayout,QLabel,QPushButton,QScrollArea
+from PySide6.QtWidgets import QWidget,QFrame,QVBoxLayout,QHBoxLayout,QGridLayout,QComboBox,QLabel,QPushButton,QScrollArea
 
 class StudioScene(QWidget):
     partsChanged=Signal(bool)
@@ -10,13 +10,13 @@ class StudioScene(QWidget):
         super().__init__(parent)
         self.setObjectName('studioScene')
         self.viewport=viewport;viewport.setParent(self)
-        self.parts=parts;self._practice=False
+        self.parts=parts;self._practice=False;self._initializing=True
         from .studio_style import display_css
         self.breadcrumb=QLabel('Collection  /  3D models',self);self.breadcrumb.setObjectName('studioSceneBreadcrumb')
         self.subject=QLabel(self);self.subject.setObjectName('studioSceneTitle');self.subject.setTextFormat(Qt.PlainText);self.subject.setStyleSheet(display_css(42,'#eef3f6'))
         self.summary=QLabel(self);self.summary.setObjectName('studioSceneSummary');self.summary.setTextFormat(Qt.PlainText);self.summary.setWordWrap(True)
         self.status=QLabel(self);self.status.setObjectName('studioSceneStatus')
-        self.cards={};self.tools={};self._active=None;self._laying_out=False;self._building=True
+        self.cards={};self.tools={};self._active=None;self._laying_out=False;self.instrument_side="right";self._building=True
         self.cards['parts']=self._card('Model contents',parts,'studioCard',key='parts')
         self.cards['reveal']=self._card('Reveal',reveal,'studioInstrument')
         self.cards['section']=self._card('Section',sections,'studioInstrument')
@@ -40,16 +40,23 @@ class StudioScene(QWidget):
         self.measure=self.add_tool('measure','Measure',checkable=True)
         self.labels=self.add_tool('labels','Labels',checkable=True)
         self.reset=self.add_tool('reset','Reset')
+        self.function=self.add_tool('function','Function',checkable=True);self.function.hide()
+        self.function.setToolTip('Show optional function steps')
+        self.function.toggled.connect(lambda on:(self.teaching.setVisible(on),self.arrange()))
         self.parts.installEventFilter(self)
         self.tools['parts'].setChecked(True)
         self.tools['reveal'].setChecked(True)
         self._building=False
+        self._initializing=False
         self.setMinimumSize(340,240)
 
     def _card(self,title,content,name,key=None):
         card=QFrame(self);card.setObjectName(name);card.setProperty('studioRole','surface');card.setAccessibleName(title+' instrument')
         layout=QVBoxLayout(card);layout.setContentsMargins(10,8,10,10);layout.setSpacing(5)
         header=QHBoxLayout();label=QLabel(title);label.setObjectName('studioCardTitle');header.addWidget(label);header.addStretch()
+        if title=='Reveal':
+            position=QComboBox();position.setAccessibleName('Reveal panel position');position.addItem('Right edge','right');position.addItem('Below contents','left')
+            position.currentIndexChanged.connect(lambda _:self.set_instrument_side(position.currentData()));header.addWidget(position)
         close=QPushButton('\u00d7');close.setObjectName('headerClose');close.setAccessibleName('Close '+title);close.clicked.connect(lambda:self.tools[key or title.lower()].setChecked(False));header.addWidget(close);layout.addLayout(header)
         scroll=QScrollArea(card);scroll.setWidgetResizable(True);scroll.setFrameShape(QFrame.NoFrame);scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff);scroll.setWidget(content)
         layout.addWidget(scroll,1);card.hide();return card
@@ -67,7 +74,7 @@ class StudioScene(QWidget):
             self._active=key
             # Compact scenes use one instrument at a time, retaining its restore tool.
             for other in self.cards:
-                if other!=key and (self.width()<1000 or (key!='parts' and other!='parts')):
+                if not self._initializing and other!=key and (self.width()<1000 or (key!='parts' and other!='parts')):
                     self.tools[other].setChecked(False)
         self.cards[key].setVisible(on)
         if key=='parts':self.parts.setVisible(on);self.partsChanged.emit(on)
@@ -75,6 +82,9 @@ class StudioScene(QWidget):
         if button.isChecked()!=on:
             button.blockSignals(True);button.setChecked(on);button.blockSignals(False)
         self.arrange()
+
+    def set_instrument_side(self,side):
+        self.instrument_side=side;self.arrange()
 
     def set_subject(self,name,summary="",category="3D models",count=None):
         self.subject.setText(name);self.summary.setText(summary);self.breadcrumb.setText("Collection  /  "+category)
@@ -95,7 +105,11 @@ class StudioScene(QWidget):
             if obj is self.parts and hasattr(self,'tools') and 'parts' in self.tools:
                 visible=not self.parts.isHidden() and not self._practice
                 if self.cards['parts'].isHidden()==visible:self.show_card('parts',visible)
-            elif obj is self.teaching:self.arrange()
+            elif obj is self.teaching:
+                if event.type() in (QEvent.Show,QEvent.ShowToParent) and hasattr(self,'function'):
+                    self.function.show()
+                    if not self.function.isChecked():self.teaching.hide()
+                self.arrange()
         return super().eventFilter(obj,event)
 
     def resizeEvent(self,event):
@@ -128,12 +142,15 @@ class StudioScene(QWidget):
             parts_bottom=self.selection.y()-gap if not self.selection.isHidden() else self.dock.y()-gap
             parts_top=176
             parts_h=min(550,max(100,parts_bottom-parts_top))
+            if self.instrument_side=="left" and not self.cards["reveal"].isHidden():parts_h=max(100,parts_h-172)
             parts.setGeometry(34,parts_top,parts_w,parts_h)
-            instrument_w=min(440,max(1,w-2*gap));instrument_x=(w-instrument_w)//2
-            if w>=1000:instrument_x=max(parts.geometry().right()+gap if not parts.isHidden() else gap,instrument_x)
-            instrument_x=min(instrument_x,max(gap,w-instrument_w-gap))
+            instrument_w=min(440,max(1,w-2*gap));instrument_x=max(gap,w-instrument_w-gap)
+            instrument_y=54
+            if self.instrument_side=='left' and w>=760:
+                instrument_x=34
+                instrument_y=parts.geometry().bottom()+12 if not parts.isHidden() else 176
             reveal_h=360 if self.reveal_content.property('expanded') else 150
-            self.cards['reveal'].setGeometry(instrument_x,54,instrument_w,min(reveal_h,max(100,h-2*gap-dock_h)))
+            self.cards['reveal'].setGeometry(instrument_x,min(instrument_y,max(16,self.dock.y()-reveal_h-12)),instrument_w,min(reveal_h,max(100,h-2*gap-dock_h)))
             self.cards['section'].setGeometry(instrument_x,54,instrument_w,min(270,max(100,h-2*gap-dock_h)))
             if w<760:
                 # A compact temporary sheet still floats over the continuous scene.
@@ -141,7 +158,7 @@ class StudioScene(QWidget):
                     if not card.isHidden():card.setGeometry(gap,160,w-2*gap,min(card.height(),max(80,h-160-dock_h-2*gap)))
             if not self.teaching.isHidden():
                 th=min(140,max(70,self.teaching.sizeHint().height()))
-                self.teaching.setGeometry(max(gap,w-360-gap),gap,min(360,w-2*gap),th)
+                self.teaching.setGeometry(max(gap,w-360-gap),220 if not self.cards["reveal"].isHidden() else 54,min(360,w-2*gap),th)
             # The renderer always owns the full canvas. Tools are sibling overlays.
             self.viewport.setGeometry(self.rect());self.viewport.lower()
             self.breadcrumb.raise_();self.subject.raise_();self.summary.raise_();self.status.raise_()

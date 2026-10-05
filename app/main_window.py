@@ -312,12 +312,12 @@ class MainWindow(QMainWindow):
             scr = QGuiApplication.primaryScreen().availableGeometry()
             self.resize(int(scr.width() * 0.88), int(scr.height() * 0.88))
         st = self.qsettings.value("window_state") if restore else None
-        if self.qsettings.value('studio_layout_revision', 0, type=int) != 1:
+        if self.qsettings.value('studio_layout_revision', 0, type=int) != 2:
             st = None
         if isinstance(st, layout_types):
             self.restoreState(st)
         self.dock_side_panels()
-        self.qsettings.setValue('studio_layout_revision', 1)
+        self.qsettings.setValue('studio_layout_revision', 2)
         self._update_counts()
         self._script = [c.strip() for c in script.split(";") if c.strip()] if script else None
         self._restore_pending = restore and bool(self.settings.get("restore_session")) and not script
@@ -500,7 +500,7 @@ class MainWindow(QMainWindow):
         v.addAction(a["toggle_panels"])
         v.addAction(a["fullscreen"])
         v.addAction(a["borderless"])
-        v.addAction("Dock the side panels", self.dock_side_panels)
+        v.addAction("Arrange floating panels", self.dock_side_panels)
         v.addAction("Reset panel layout", self.reset_layout)
         v.addSeparator()
         v.addMenu(cam)
@@ -801,25 +801,10 @@ class MainWindow(QMainWindow):
         self._layout_pending = False
         if not self._ui_ready or self._closing:
             return
-        # StudyLayout owns its temporary reading composition and restores it on exit.
-        if getattr(getattr(self, "study_layout", None), "snapshot", None) is not None:
-            return
-        compact = self.width() < int(1240 * min(float(self.settings.get("ui_scale", 1.0)), 1.3))
-        if compact == self._compact_layout:
-            return
-        self._compact_layout = compact
-        left_visible, right_visible = not self.left_dock.isHidden(), not self.right_dock.isHidden()
-        if compact:
-            self.addDockWidget(Qt.LeftDockWidgetArea, self.right_dock)
-            self.tabifyDockWidget(self.left_dock, self.right_dock)
-            self.left_dock.raise_()
-            self.resizeDocks([self.left_dock], [min(360, max(300, self.width() // 3))], Qt.Horizontal)
-        else:
-            self.removeDockWidget(self.right_dock)
-            self.addDockWidget(Qt.RightDockWidgetArea, self.right_dock)
-            self.resizeDocks([self.left_dock, self.right_dock], [340, 360], Qt.Horizontal)
-        self.left_dock.setVisible(left_visible)
-        self.right_dock.setVisible(right_visible)
+        panels = getattr(self, '_floating_panels', None)
+        if panels is not None:
+            panels.layout()
+        self._compact_layout = self.width() < 1240
 
     # ------------------------------------------------------------------ status
     def _on_gl_ready(self):
@@ -1043,25 +1028,16 @@ class MainWindow(QMainWindow):
         self.right_dock.setVisible(not visible)
 
     def dock_side_panels(self):
-        """Put a panel that was left floating back on its side of the window.
-
-        A dock widget floats if its title bar is double-clicked or dragged a little off the edge, and the
-        layout is saved on exit - so one stray gesture is enough to make the Details panel open as a separate
-        window from then on. Explore and Details are side panels; that is how they open."""
-        moved = False
-        for dock, area in ((self.left_dock, Qt.LeftDockWidgetArea), (self.right_dock, Qt.RightDockWidgetArea)):
-            if dock.isFloating():
-                dock.setFloating(False)
-                moved = True
-            if self.dockWidgetArea(dock) == Qt.NoDockWidgetArea:
-                self.addDockWidget(area, dock)
-                moved = True
-        if moved:
-            self.resizeDocks([self.left_dock, self.right_dock], [360, 420], Qt.Horizontal)
-        return moved
+        """Keep Explore and Details in the canvas without consuming dock space."""
+        from .ui.studio_shell import FloatingPanels
+        if not hasattr(self, '_floating_panels'):
+            self._floating_panels = FloatingPanels(self)
+        self._floating_panels.layout()
+        return False
 
     def reset_layout(self):
-        self.restoreState(self._default_window_state)
+        if not hasattr(self, "_floating_panels"):
+            self.restoreState(self._default_window_state)
         self.left_dock.show()
         self.right_dock.show()
         self.dock_side_panels()
@@ -1381,7 +1357,20 @@ class MainWindow(QMainWindow):
 
     def on_link(self, scheme, payload):
         xray = self.state.ghost_focus is not None
-        if scheme == "url":
+        if scheme == "modelpart":
+            view = self.active_model_view()
+            model_id, separator, raw_index = payload.rpartition("|")
+            try:
+                index = int(raw_index)
+            except ValueError:
+                return
+            if (view is None or not separator or view.entry.id != model_id
+                    or index not in view.state.selected or not 0 <= index < len(view.vmodel.items)):
+                return
+            view.state.select([index])
+            self.right_dock.show()
+            self.right_dock.raise_()
+        elif scheme == "url":
             QDesktopServices.openUrl(QUrl(payload))
         elif scheme == "sid":
             self.select_and_focus([int(payload)], xray=xray)
@@ -1769,6 +1758,8 @@ class MainWindow(QMainWindow):
             self.content.micro_models[result.key] = display
             self.catalog._run()
         current = self.center.currentWidget()
+        if current is pending:
+            self.left_dock.hide()
         title = self.center.tabText(index)
         callbacks, pending.callbacks = pending.callbacks, []
         del self._loading_models[result.key]
