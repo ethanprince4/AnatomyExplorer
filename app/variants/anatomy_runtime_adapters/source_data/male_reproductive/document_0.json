@@ -1,0 +1,4384 @@
+{
+  "schema_version": 1,
+  "model_id": "male_reproductive",
+  "status": "design_ready",
+  "input_binding": {
+    "cache_path": "data/micro_cache/male_reproductive.npz",
+    "cache_sha256": "ab46ebf960c984401d4bc78f340ef9b937f04f8bef50052deac60bf5186f542e",
+    "part_count": 92
+  },
+  "opening_view": "overview",
+  "selector_contract": {
+    "kind": "exact_name",
+    "allow_globs": false,
+    "unknown_part_policy": "error",
+    "visibility": "visible_parts and hidden_parts form a complete disjoint partition of the 92 bound part names; hidden wins nowhere",
+    "labels": "label_parts are desired first-pass priorities; honor source label=false unless explicitly user-selected",
+    "materials": "preserve source colors, normals and authored alpha; focus/highlight must not overwrite source materials",
+    "clip": "global viewer planes preserve registry values; already built local sections are unchanged",
+    "focus": "fit exact selected part bounds after build; camera target is not guessed in this source-only phase"
+  },
+  "scale_note": "Section block ≈ 200 mm across (1 unit = 10 cm); the right testis and scrotum are opened by a second, parasagittal cut. Tubules, ducts and nerves are drawn a little wider than life; the insets are magnified (tubule ~x200, spermatozoon ~x1300).",
+  "views": [
+    {
+      "id": "overview",
+      "title": "Pelvic tract overview",
+      "purpose": "Locate the testis, conducting tract, glands and shared urethra before microscopic detail.",
+      "visible_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Rectum & anal canal",
+        "Urinary bladder (detrusor wall)",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Ejaculatory duct",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Corpus cavernosum (erectile tissue)",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Tunica albuginea of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Ductus deferens (vas deferens)",
+        "Scrotal skin"
+      ],
+      "hidden_parts": [
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Bulbourethral (Cowper) gland",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Bulb of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Bulbospongiosus",
+        "Perineal body",
+        "Perineal membrane",
+        "Septa of testis",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Efferent ductules",
+        "Tunica vaginalis (parietal layer)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "Dartos muscle & fascia",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins",
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries",
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "label_parts": [
+        "Urinary bladder (detrusor wall)",
+        "Prostate - peripheral zone",
+        "Seminal vesicle (seminal gland)",
+        "Ductus deferens (vas deferens)",
+        "Tunica albuginea of testis",
+        "Head of epididymis",
+        "Prostatic urethra",
+        "Spongy (penile) urethra",
+        "Glans penis"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Urinary bladder (detrusor wall)",
+          "Prostate - peripheral zone",
+          "Seminal vesicle (seminal gland)",
+          "Ductus deferens (vas deferens)",
+          "Tunica albuginea of testis",
+          "Glans penis"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Section block ≈ 200 mm across; authored 1 unit = 10 cm. Tubules, ducts and nerves are wider than life for readability. View fitting does not rescale source geometry.",
+      "notes": [
+        "Start with this view. Both magnified insets, anterior abdominal wall blocks, cord vessels and small labels are hidden.",
+        "Three prostate zones keep their authored colors; only the peripheral zone receives an opening label. Zones receive full labels in the gland view.",
+        "The rectum is context and retains its authored alpha 0.55. The right scrotum retains its built section; this is an atlas section, not intact surface anatomy."
+      ],
+      "native_camera": {
+        "position": [
+          -1.59763745,
+          0.59373507,
+          2.59095921
+        ],
+        "target": [
+          -0.22,
+          -0.03,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.2,
+        "hidden": [
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Bladder mucosa & trigone",
+          "Ureter (entering the bladder)",
+          "Anterior fibromuscular stroma",
+          "Prostatic capsule",
+          "Seminal colliculus (verumontanum)",
+          "Internal urethral sphincter (bladder neck)",
+          "External urethral sphincter",
+          "Bulbourethral (Cowper) gland",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Deep dorsal vein of penis",
+          "Dorsal artery of penis",
+          "Dorsal nerve of penis",
+          "Deep (Buck) fascia of penis",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Bulb of penis",
+          "Crus of penis",
+          "Ischiocavernosus",
+          "Bulbospongiosus",
+          "Perineal body",
+          "Perineal membrane",
+          "Septa of testis",
+          "Seminiferous tubules",
+          "Mediastinum testis",
+          "Rete testis & tubuli recti",
+          "Efferent ductules",
+          "Tunica vaginalis (parietal layer)",
+          "Testicular artery",
+          "Pampiniform plexus & testicular vein",
+          "Genital branch of genitofemoral nerve",
+          "Internal spermatic fascia",
+          "Cremaster muscle & fascia",
+          "External spermatic fascia",
+          "Dartos muscle & fascia",
+          "External oblique aponeurosis",
+          "Superficial inguinal ring",
+          "Internal oblique & transversus abdominis",
+          "Transversalis fascia",
+          "Deep inguinal ring",
+          "Inguinal ligament",
+          "Inguinal canal",
+          "Inferior epigastric artery",
+          "Inferior epigastric veins",
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries",
+          "Sperm nucleus",
+          "Acrosome",
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    },
+    {
+      "id": "urinary_route",
+      "title": "Urine route and sphincters",
+      "purpose": "Follow bladder outflow through urethral segments.",
+      "visible_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Urinary bladder (detrusor wall)",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Anterior fibromuscular stroma",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Bulb of penis",
+        "Perineal membrane"
+      ],
+      "hidden_parts": [
+        "Rectum & anal canal",
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct",
+        "Bulbourethral (Cowper) gland",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Bulbospongiosus",
+        "Perineal body",
+        "Tunica albuginea of testis",
+        "Septa of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Efferent ductules",
+        "Tunica vaginalis (parietal layer)",
+        "Ductus deferens (vas deferens)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins",
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries",
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "label_parts": [
+        "Urinary bladder (detrusor wall)",
+        "Ureter (entering the bladder)",
+        "Internal urethral sphincter (bladder neck)",
+        "Prostatic urethra",
+        "External urethral sphincter",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Urinary bladder (detrusor wall)",
+          "Prostatic urethra",
+          "Membranous (intermediate) urethra",
+          "Spongy (penile) urethra",
+          "External urethral orifice"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Section block ≈ 200 mm across; authored 1 unit = 10 cm. Tubules, ducts and nerves are wider than life for readability. View fitting does not rescale source geometry.",
+      "notes": [
+        "Route begins in the bladder and continues through prostatic, membranous and spongy urethra to the external orifice.",
+        "The urethral named meshes are walls/tissues. Direction indicators describe lumen flow; never reinterpret the solid wall as a fluid domain.",
+        "Urinary and reproductive routes use the same distal urethra in different physiological states."
+      ],
+      "native_camera": {
+        "position": [
+          -1.69763745,
+          0.55373507,
+          2.59095921
+        ],
+        "target": [
+          -0.32,
+          -0.07,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.8,
+        "hidden": [
+          "Rectum & anal canal",
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Prostatic capsule",
+          "Seminal colliculus (verumontanum)",
+          "Ejaculatory duct",
+          "Bulbourethral (Cowper) gland",
+          "Seminal vesicle (seminal gland)",
+          "Ampulla of ductus deferens",
+          "Corpus cavernosum (erectile tissue)",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Deep dorsal vein of penis",
+          "Dorsal artery of penis",
+          "Dorsal nerve of penis",
+          "Deep (Buck) fascia of penis",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Crus of penis",
+          "Ischiocavernosus",
+          "Bulbospongiosus",
+          "Perineal body",
+          "Tunica albuginea of testis",
+          "Septa of testis",
+          "Lobules of testis (interstitial tissue)",
+          "Seminiferous tubules",
+          "Mediastinum testis",
+          "Rete testis & tubuli recti",
+          "Head of epididymis",
+          "Body of epididymis",
+          "Tail of epididymis",
+          "Efferent ductules",
+          "Tunica vaginalis (parietal layer)",
+          "Ductus deferens (vas deferens)",
+          "Testicular artery",
+          "Pampiniform plexus & testicular vein",
+          "Genital branch of genitofemoral nerve",
+          "Internal spermatic fascia",
+          "Cremaster muscle & fascia",
+          "External spermatic fascia",
+          "Scrotal skin",
+          "Dartos muscle & fascia",
+          "External oblique aponeurosis",
+          "Superficial inguinal ring",
+          "Internal oblique & transversus abdominis",
+          "Transversalis fascia",
+          "Deep inguinal ring",
+          "Inguinal ligament",
+          "Inguinal canal",
+          "Inferior epigastric artery",
+          "Inferior epigastric veins",
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries",
+          "Sperm nucleus",
+          "Acrosome",
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    },
+    {
+      "id": "sperm_transport",
+      "title": "Sperm transport route",
+      "purpose": "Connect production, epididymal maturation/storage and distal semen passage.",
+      "visible_parts": [
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Ejaculatory duct",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Tunica albuginea of testis",
+        "Septa of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Efferent ductules",
+        "Ductus deferens (vas deferens)"
+      ],
+      "hidden_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Rectum & anal canal",
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Urinary bladder (detrusor wall)",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Bulbourethral (Cowper) gland",
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Bulb of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Bulbospongiosus",
+        "Perineal body",
+        "Perineal membrane",
+        "Tunica vaginalis (parietal layer)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins",
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries",
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "label_parts": [
+        "Seminiferous tubules",
+        "Rete testis & tubuli recti",
+        "Efferent ductules",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Ductus deferens (vas deferens)",
+        "Ejaculatory duct",
+        "Spongy (penile) urethra"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Tunica albuginea of testis",
+          "Seminiferous tubules",
+          "Rete testis & tubuli recti",
+          "Head of epididymis",
+          "Ductus deferens (vas deferens)",
+          "Ejaculatory duct",
+          "Spongy (penile) urethra"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Section block ≈ 200 mm across; authored 1 unit = 10 cm. Tubules, ducts and nerves are wider than life for readability. View fitting does not rescale source geometry.",
+      "notes": [
+        "Production to outlet is a navigational sequence; it does not imply a sperm moves from testis to meatus at the animation speed.",
+        "Seminal gland and prostate contribute secretions to semen; the seminal gland is a branch input, not a sperm-storage station.",
+        "Tubules and ducts are enlarged for visibility. Continuity and patency need separate-machine geometry checks."
+      ],
+      "native_camera": {
+        "position": [
+          -1.64763745,
+          0.50373507,
+          2.59095921
+        ],
+        "target": [
+          -0.27,
+          -0.12,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.8,
+        "hidden": [
+          "Pubic bone & ischiopubic ramus",
+          "Pubic symphysis (interpubic disc)",
+          "Rectum & anal canal",
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Urinary bladder (detrusor wall)",
+          "Bladder mucosa & trigone",
+          "Ureter (entering the bladder)",
+          "Anterior fibromuscular stroma",
+          "Prostatic capsule",
+          "Seminal colliculus (verumontanum)",
+          "Internal urethral sphincter (bladder neck)",
+          "External urethral sphincter",
+          "Bulbourethral (Cowper) gland",
+          "Corpus cavernosum (erectile tissue)",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Deep dorsal vein of penis",
+          "Dorsal artery of penis",
+          "Dorsal nerve of penis",
+          "Deep (Buck) fascia of penis",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Bulb of penis",
+          "Crus of penis",
+          "Ischiocavernosus",
+          "Bulbospongiosus",
+          "Perineal body",
+          "Perineal membrane",
+          "Tunica vaginalis (parietal layer)",
+          "Testicular artery",
+          "Pampiniform plexus & testicular vein",
+          "Genital branch of genitofemoral nerve",
+          "Internal spermatic fascia",
+          "Cremaster muscle & fascia",
+          "External spermatic fascia",
+          "Scrotal skin",
+          "Dartos muscle & fascia",
+          "External oblique aponeurosis",
+          "Superficial inguinal ring",
+          "Internal oblique & transversus abdominis",
+          "Transversalis fascia",
+          "Deep inguinal ring",
+          "Inguinal ligament",
+          "Inguinal canal",
+          "Inferior epigastric artery",
+          "Inferior epigastric veins",
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries",
+          "Sperm nucleus",
+          "Acrosome",
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    },
+    {
+      "id": "glands_and_confluence",
+      "title": "Glands and ejaculatory confluence",
+      "purpose": "Inspect the ampulla/seminal-gland junction and prostate/urethra relationship.",
+      "visible_parts": [
+        "Rectum & anal canal",
+        "Urinary bladder (detrusor wall)",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Bulbourethral (Cowper) gland",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Perineal membrane",
+        "Tail of epididymis",
+        "Ductus deferens (vas deferens)"
+      ],
+      "hidden_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "External urethral orifice",
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Bulb of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Bulbospongiosus",
+        "Perineal body",
+        "Tunica albuginea of testis",
+        "Septa of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Efferent ductules",
+        "Tunica vaginalis (parietal layer)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins",
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries",
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "label_parts": [
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Bulbourethral (Cowper) gland",
+        "Prostatic urethra"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Prostate - peripheral zone",
+          "Prostate - central zone",
+          "Prostate - transition zone",
+          "Ejaculatory duct",
+          "Seminal vesicle (seminal gland)",
+          "Ampulla of ductus deferens"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Section block ≈ 200 mm across; authored 1 unit = 10 cm. Tubules, ducts and nerves are wider than life for readability. View fitting does not rescale source geometry.",
+      "notes": [
+        "Use section and selective visibility to expose the central-zone ejaculatory route and transition-zone proximal urethral relationship.",
+        "The gland-to-duct opening locations remain those authored by the source. Missing separately named prostatic duct meshes are not invented as exact selectable parts.",
+        "Tail of epididymis and ductus deferens stay visible as upstream emission context, even when outside the focused gland frame."
+      ],
+      "native_camera": {
+        "position": [
+          -1.39763745,
+          0.68373507,
+          2.59095921
+        ],
+        "target": [
+          -0.02,
+          0.06,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.35,
+        "hidden": [
+          "Pubic bone & ischiopubic ramus",
+          "Pubic symphysis (interpubic disc)",
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Bladder mucosa & trigone",
+          "Ureter (entering the bladder)",
+          "External urethral orifice",
+          "Corpus cavernosum (erectile tissue)",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Corpus spongiosum",
+          "Glans penis",
+          "Deep dorsal vein of penis",
+          "Dorsal artery of penis",
+          "Dorsal nerve of penis",
+          "Deep (Buck) fascia of penis",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Bulb of penis",
+          "Crus of penis",
+          "Ischiocavernosus",
+          "Bulbospongiosus",
+          "Perineal body",
+          "Tunica albuginea of testis",
+          "Septa of testis",
+          "Lobules of testis (interstitial tissue)",
+          "Seminiferous tubules",
+          "Mediastinum testis",
+          "Rete testis & tubuli recti",
+          "Head of epididymis",
+          "Body of epididymis",
+          "Efferent ductules",
+          "Tunica vaginalis (parietal layer)",
+          "Testicular artery",
+          "Pampiniform plexus & testicular vein",
+          "Genital branch of genitofemoral nerve",
+          "Internal spermatic fascia",
+          "Cremaster muscle & fascia",
+          "External spermatic fascia",
+          "Scrotal skin",
+          "Dartos muscle & fascia",
+          "External oblique aponeurosis",
+          "Superficial inguinal ring",
+          "Internal oblique & transversus abdominis",
+          "Transversalis fascia",
+          "Deep inguinal ring",
+          "Inguinal ligament",
+          "Inguinal canal",
+          "Inferior epigastric artery",
+          "Inferior epigastric veins",
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries",
+          "Sperm nucleus",
+          "Acrosome",
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    },
+    {
+      "id": "expulsion_route",
+      "title": "Ejaculatory expulsion",
+      "purpose": "Relate bladder-neck closure, shared distal urethra and bulbospongiosus-assisted expulsion.",
+      "visible_parts": [
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Bulb of penis",
+        "Bulbospongiosus",
+        "Perineal membrane"
+      ],
+      "hidden_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Rectum & anal canal",
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Urinary bladder (detrusor wall)",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct",
+        "Bulbourethral (Cowper) gland",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Perineal body",
+        "Tunica albuginea of testis",
+        "Septa of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Efferent ductules",
+        "Tunica vaginalis (parietal layer)",
+        "Ductus deferens (vas deferens)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins",
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries",
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "label_parts": [
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice",
+        "Bulb of penis",
+        "Bulbospongiosus"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Prostatic urethra",
+          "Membranous (intermediate) urethra",
+          "Spongy (penile) urethra",
+          "External urethral orifice",
+          "Bulb of penis",
+          "Bulbospongiosus"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Section block ≈ 200 mm across; authored 1 unit = 10 cm. Tubules, ducts and nerves are wider than life for readability. View fitting does not rescale source geometry.",
+      "notes": [
+        "Bulbospongiosus-assisted expulsion is distinct from autonomic emission of sperm and accessory-gland secretions into the proximal urethra.",
+        "Bladder-neck closure directs ejaculate toward the outlet; named sphincter tissue is an anatomical landmark, not a simulated pressure valve.",
+        "This selective view is a stage context for the functional sidecar. No fluid simulation or realistic contraction displacement is claimed."
+      ],
+      "native_camera": {
+        "position": [
+          -1.77763745,
+          0.32373507,
+          2.59095921
+        ],
+        "target": [
+          -0.4,
+          -0.3,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.9,
+        "hidden": [
+          "Pubic bone & ischiopubic ramus",
+          "Pubic symphysis (interpubic disc)",
+          "Rectum & anal canal",
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Urinary bladder (detrusor wall)",
+          "Bladder mucosa & trigone",
+          "Ureter (entering the bladder)",
+          "Prostate - peripheral zone",
+          "Prostate - central zone",
+          "Prostate - transition zone",
+          "Anterior fibromuscular stroma",
+          "Prostatic capsule",
+          "Seminal colliculus (verumontanum)",
+          "Ejaculatory duct",
+          "Bulbourethral (Cowper) gland",
+          "Seminal vesicle (seminal gland)",
+          "Ampulla of ductus deferens",
+          "Corpus cavernosum (erectile tissue)",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Deep dorsal vein of penis",
+          "Dorsal artery of penis",
+          "Dorsal nerve of penis",
+          "Deep (Buck) fascia of penis",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Crus of penis",
+          "Ischiocavernosus",
+          "Perineal body",
+          "Tunica albuginea of testis",
+          "Septa of testis",
+          "Lobules of testis (interstitial tissue)",
+          "Seminiferous tubules",
+          "Mediastinum testis",
+          "Rete testis & tubuli recti",
+          "Head of epididymis",
+          "Body of epididymis",
+          "Tail of epididymis",
+          "Efferent ductules",
+          "Tunica vaginalis (parietal layer)",
+          "Ductus deferens (vas deferens)",
+          "Testicular artery",
+          "Pampiniform plexus & testicular vein",
+          "Genital branch of genitofemoral nerve",
+          "Internal spermatic fascia",
+          "Cremaster muscle & fascia",
+          "External spermatic fascia",
+          "Scrotal skin",
+          "Dartos muscle & fascia",
+          "External oblique aponeurosis",
+          "Superficial inguinal ring",
+          "Internal oblique & transversus abdominis",
+          "Transversalis fascia",
+          "Deep inguinal ring",
+          "Inguinal ligament",
+          "Inguinal canal",
+          "Inferior epigastric artery",
+          "Inferior epigastric veins",
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries",
+          "Sperm nucleus",
+          "Acrosome",
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    },
+    {
+      "id": "scrotal_layers",
+      "title": "Scrotal coverings in section",
+      "purpose": "Read coverings from outside inward around the opened right testis.",
+      "visible_parts": [
+        "Tunica albuginea of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Mediastinum testis",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Tunica vaginalis (parietal layer)",
+        "Ductus deferens (vas deferens)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "Scrotal skin",
+        "Dartos muscle & fascia"
+      ],
+      "hidden_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Rectum & anal canal",
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Urinary bladder (detrusor wall)",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Bulbourethral (Cowper) gland",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Bulb of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Bulbospongiosus",
+        "Perineal body",
+        "Perineal membrane",
+        "Septa of testis",
+        "Seminiferous tubules",
+        "Rete testis & tubuli recti",
+        "Efferent ductules",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins",
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries",
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "label_parts": [
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "External spermatic fascia",
+        "Cremaster muscle & fascia",
+        "Internal spermatic fascia",
+        "Tunica vaginalis (parietal layer)",
+        "Tunica albuginea of testis"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Tunica albuginea of testis",
+          "Tunica vaginalis (parietal layer)",
+          "Internal spermatic fascia",
+          "Cremaster muscle & fascia",
+          "External spermatic fascia",
+          "Scrotal skin",
+          "Dartos muscle & fascia"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Section block ≈ 200 mm across; authored 1 unit = 10 cm. Tubules, ducts and nerves are wider than life for readability. View fitting does not rescale source geometry.",
+      "notes": [
+        "Layer walk: skin → dartos → external spermatic fascia → cremaster muscle/fascia → internal spermatic fascia → parietal tunica vaginalis → testicular tunica albuginea.",
+        "The visceral tunica vaginalis is represented with the albuginea surface by the authored source; it has no independent exact-name selector. Explain the serous interval in text rather than labeling a fabricated mesh.",
+        "Do not imply every layer is complete posteriorly or that the vaginalis envelops the whole spermatic cord.",
+        "Dartos is smooth muscle; cremaster is skeletal muscle. Preserve this distinction when explaining temperature regulation."
+      ],
+      "native_camera": {
+        "position": [
+          -1.66763745,
+          0.10873507,
+          2.39095921
+        ],
+        "target": [
+          -0.29,
+          -0.515,
+          -0.2
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.3,
+        "hidden": [
+          "Pubic bone & ischiopubic ramus",
+          "Pubic symphysis (interpubic disc)",
+          "Rectum & anal canal",
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Urinary bladder (detrusor wall)",
+          "Bladder mucosa & trigone",
+          "Ureter (entering the bladder)",
+          "Prostate - peripheral zone",
+          "Prostate - central zone",
+          "Prostate - transition zone",
+          "Anterior fibromuscular stroma",
+          "Prostatic capsule",
+          "Seminal colliculus (verumontanum)",
+          "Ejaculatory duct",
+          "Internal urethral sphincter (bladder neck)",
+          "External urethral sphincter",
+          "Bulbourethral (Cowper) gland",
+          "Prostatic urethra",
+          "Membranous (intermediate) urethra",
+          "Spongy (penile) urethra",
+          "External urethral orifice",
+          "Seminal vesicle (seminal gland)",
+          "Ampulla of ductus deferens",
+          "Corpus cavernosum (erectile tissue)",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Corpus spongiosum",
+          "Glans penis",
+          "Deep dorsal vein of penis",
+          "Dorsal artery of penis",
+          "Dorsal nerve of penis",
+          "Deep (Buck) fascia of penis",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Bulb of penis",
+          "Crus of penis",
+          "Ischiocavernosus",
+          "Bulbospongiosus",
+          "Perineal body",
+          "Perineal membrane",
+          "Septa of testis",
+          "Seminiferous tubules",
+          "Rete testis & tubuli recti",
+          "Efferent ductules",
+          "External oblique aponeurosis",
+          "Superficial inguinal ring",
+          "Internal oblique & transversus abdominis",
+          "Transversalis fascia",
+          "Deep inguinal ring",
+          "Inguinal ligament",
+          "Inguinal canal",
+          "Inferior epigastric artery",
+          "Inferior epigastric veins",
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries",
+          "Sperm nucleus",
+          "Acrosome",
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    },
+    {
+      "id": "testis_architecture",
+      "title": "Testis architecture and epididymis",
+      "purpose": "Follow septa/lobules and collecting outflow in the existing stepped section.",
+      "visible_parts": [
+        "Tunica albuginea of testis",
+        "Septa of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Efferent ductules",
+        "Ductus deferens (vas deferens)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein"
+      ],
+      "hidden_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Rectum & anal canal",
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Urinary bladder (detrusor wall)",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Bulbourethral (Cowper) gland",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Bulb of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Bulbospongiosus",
+        "Perineal body",
+        "Perineal membrane",
+        "Tunica vaginalis (parietal layer)",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins",
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries",
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "label_parts": [
+        "Tunica albuginea of testis",
+        "Septa of testis",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Efferent ductules",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Tunica albuginea of testis",
+          "Septa of testis",
+          "Seminiferous tubules",
+          "Rete testis & tubuli recti",
+          "Head of epididymis",
+          "Body of epididymis",
+          "Tail of epididymis"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Section block ≈ 200 mm across; authored 1 unit = 10 cm. Tubules, ducts and nerves are wider than life for readability. View fitting does not rescale source geometry.",
+      "notes": [
+        "Capsule gives septa; coiled seminiferous tubules feed straight tubules/rete, then efferent ductules and epididymis.",
+        "Testicular artery and pampiniform plexus remain contextual vascular identities; neither is a sperm-conducting duct.",
+        "No camera change removes the permanent parasagittal testis section."
+      ],
+      "native_camera": {
+        "position": [
+          -1.66763745,
+          0.10873507,
+          2.39095921
+        ],
+        "target": [
+          -0.29,
+          -0.515,
+          -0.2
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.15,
+        "hidden": [
+          "Pubic bone & ischiopubic ramus",
+          "Pubic symphysis (interpubic disc)",
+          "Rectum & anal canal",
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Urinary bladder (detrusor wall)",
+          "Bladder mucosa & trigone",
+          "Ureter (entering the bladder)",
+          "Prostate - peripheral zone",
+          "Prostate - central zone",
+          "Prostate - transition zone",
+          "Anterior fibromuscular stroma",
+          "Prostatic capsule",
+          "Seminal colliculus (verumontanum)",
+          "Ejaculatory duct",
+          "Internal urethral sphincter (bladder neck)",
+          "External urethral sphincter",
+          "Bulbourethral (Cowper) gland",
+          "Prostatic urethra",
+          "Membranous (intermediate) urethra",
+          "Spongy (penile) urethra",
+          "External urethral orifice",
+          "Seminal vesicle (seminal gland)",
+          "Ampulla of ductus deferens",
+          "Corpus cavernosum (erectile tissue)",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Corpus spongiosum",
+          "Glans penis",
+          "Deep dorsal vein of penis",
+          "Dorsal artery of penis",
+          "Dorsal nerve of penis",
+          "Deep (Buck) fascia of penis",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Bulb of penis",
+          "Crus of penis",
+          "Ischiocavernosus",
+          "Bulbospongiosus",
+          "Perineal body",
+          "Perineal membrane",
+          "Tunica vaginalis (parietal layer)",
+          "Genital branch of genitofemoral nerve",
+          "Internal spermatic fascia",
+          "Cremaster muscle & fascia",
+          "External spermatic fascia",
+          "Scrotal skin",
+          "Dartos muscle & fascia",
+          "External oblique aponeurosis",
+          "Superficial inguinal ring",
+          "Internal oblique & transversus abdominis",
+          "Transversalis fascia",
+          "Deep inguinal ring",
+          "Inguinal ligament",
+          "Inguinal canal",
+          "Inferior epigastric artery",
+          "Inferior epigastric veins",
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries",
+          "Sperm nucleus",
+          "Acrosome",
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    },
+    {
+      "id": "cord_and_rings",
+      "title": "Spermatic cord and inguinal canal",
+      "purpose": "Relate the duct and vessels to coverings and abdominal wall landmarks.",
+      "visible_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Tunica albuginea of testis",
+        "Head of epididymis",
+        "Ductus deferens (vas deferens)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins"
+      ],
+      "hidden_parts": [
+        "Rectum & anal canal",
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Urinary bladder (detrusor wall)",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Bulbourethral (Cowper) gland",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Bulb of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Bulbospongiosus",
+        "Perineal body",
+        "Perineal membrane",
+        "Septa of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Efferent ductules",
+        "Tunica vaginalis (parietal layer)",
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries",
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "label_parts": [
+        "Ductus deferens (vas deferens)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Superficial inguinal ring",
+        "Deep inguinal ring",
+        "Inguinal canal",
+        "Inferior epigastric artery"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Ductus deferens (vas deferens)",
+          "Superficial inguinal ring",
+          "Deep inguinal ring",
+          "Inguinal canal",
+          "Inferior epigastric artery"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Section block ≈ 200 mm across; authored 1 unit = 10 cm. Tubules, ducts and nerves are wider than life for readability. View fitting does not rescale source geometry.",
+      "notes": [
+        "The deep ring, superficial ring and canal are separate exact labels.",
+        "Inferior epigastric vessels provide a location cue; this view is static adult anatomy and is not a simulation of testicular descent."
+      ],
+      "native_camera": {
+        "position": [
+          -1.80763745,
+          0.66373507,
+          2.34095921
+        ],
+        "target": [
+          -0.43,
+          0.04,
+          -0.25
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.65,
+        "hidden": [
+          "Rectum & anal canal",
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Urinary bladder (detrusor wall)",
+          "Bladder mucosa & trigone",
+          "Ureter (entering the bladder)",
+          "Prostate - peripheral zone",
+          "Prostate - central zone",
+          "Prostate - transition zone",
+          "Anterior fibromuscular stroma",
+          "Prostatic capsule",
+          "Seminal colliculus (verumontanum)",
+          "Ejaculatory duct",
+          "Internal urethral sphincter (bladder neck)",
+          "External urethral sphincter",
+          "Bulbourethral (Cowper) gland",
+          "Prostatic urethra",
+          "Membranous (intermediate) urethra",
+          "Spongy (penile) urethra",
+          "External urethral orifice",
+          "Seminal vesicle (seminal gland)",
+          "Ampulla of ductus deferens",
+          "Corpus cavernosum (erectile tissue)",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Corpus spongiosum",
+          "Glans penis",
+          "Deep dorsal vein of penis",
+          "Dorsal artery of penis",
+          "Dorsal nerve of penis",
+          "Deep (Buck) fascia of penis",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Bulb of penis",
+          "Crus of penis",
+          "Ischiocavernosus",
+          "Bulbospongiosus",
+          "Perineal body",
+          "Perineal membrane",
+          "Septa of testis",
+          "Lobules of testis (interstitial tissue)",
+          "Seminiferous tubules",
+          "Mediastinum testis",
+          "Rete testis & tubuli recti",
+          "Body of epididymis",
+          "Tail of epididymis",
+          "Efferent ductules",
+          "Tunica vaginalis (parietal layer)",
+          "Scrotal skin",
+          "Dartos muscle & fascia",
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries",
+          "Sperm nucleus",
+          "Acrosome",
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    },
+    {
+      "id": "tubule_cells",
+      "title": "Seminiferous tubule cellular inset",
+      "purpose": "Distinguish germ-cell progression from supporting and interstitial cells.",
+      "visible_parts": [
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries"
+      ],
+      "hidden_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Rectum & anal canal",
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Urinary bladder (detrusor wall)",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Bulbourethral (Cowper) gland",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Bulb of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Bulbospongiosus",
+        "Perineal body",
+        "Perineal membrane",
+        "Tunica albuginea of testis",
+        "Septa of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Efferent ductules",
+        "Tunica vaginalis (parietal layer)",
+        "Ductus deferens (vas deferens)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins",
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "label_parts": [
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Leydig (interstitial) cells",
+        "Interstitial capillaries"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Seminiferous tubule inset ~x200; representative cells are enlarged relative to the tubule and counts are schematic. Magnification is independent of the pelvic anatomy.",
+      "notes": [
+        "Basal-to-luminal germ-cell order is spermatogonia → primary spermatocytes → secondary spermatocytes → spermatids → luminal spermatozoa.",
+        "Sertoli cells span the epithelium; Leydig cells and capillaries lie in the interstitium outside the tubule.",
+        "Secondary spermatocytes are transient; representative numbers are not histological prevalence.",
+        "Keep all germ-stage body selectors together with the shared Germ cell nuclei part. Do not isolate one stage plus the aggregate nuclei mesh until per-cell ownership is resolved.",
+        "The blood-testis barrier is explained as junctions between neighboring Sertoli cells, not a named geometric barrier wall."
+      ],
+      "native_camera": {
+        "position": [
+          0.17863843,
+          0.63146723,
+          2.92327636
+        ],
+        "target": [
+          0.8,
+          0.37,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.05,
+        "hidden": [
+          "Pubic bone & ischiopubic ramus",
+          "Pubic symphysis (interpubic disc)",
+          "Rectum & anal canal",
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Urinary bladder (detrusor wall)",
+          "Bladder mucosa & trigone",
+          "Ureter (entering the bladder)",
+          "Prostate - peripheral zone",
+          "Prostate - central zone",
+          "Prostate - transition zone",
+          "Anterior fibromuscular stroma",
+          "Prostatic capsule",
+          "Seminal colliculus (verumontanum)",
+          "Ejaculatory duct",
+          "Internal urethral sphincter (bladder neck)",
+          "External urethral sphincter",
+          "Bulbourethral (Cowper) gland",
+          "Prostatic urethra",
+          "Membranous (intermediate) urethra",
+          "Spongy (penile) urethra",
+          "External urethral orifice",
+          "Seminal vesicle (seminal gland)",
+          "Ampulla of ductus deferens",
+          "Corpus cavernosum (erectile tissue)",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Corpus spongiosum",
+          "Glans penis",
+          "Deep dorsal vein of penis",
+          "Dorsal artery of penis",
+          "Dorsal nerve of penis",
+          "Deep (Buck) fascia of penis",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Bulb of penis",
+          "Crus of penis",
+          "Ischiocavernosus",
+          "Bulbospongiosus",
+          "Perineal body",
+          "Perineal membrane",
+          "Tunica albuginea of testis",
+          "Septa of testis",
+          "Lobules of testis (interstitial tissue)",
+          "Seminiferous tubules",
+          "Mediastinum testis",
+          "Rete testis & tubuli recti",
+          "Head of epididymis",
+          "Body of epididymis",
+          "Tail of epididymis",
+          "Efferent ductules",
+          "Tunica vaginalis (parietal layer)",
+          "Ductus deferens (vas deferens)",
+          "Testicular artery",
+          "Pampiniform plexus & testicular vein",
+          "Genital branch of genitofemoral nerve",
+          "Internal spermatic fascia",
+          "Cremaster muscle & fascia",
+          "External spermatic fascia",
+          "Scrotal skin",
+          "Dartos muscle & fascia",
+          "External oblique aponeurosis",
+          "Superficial inguinal ring",
+          "Internal oblique & transversus abdominis",
+          "Transversalis fascia",
+          "Deep inguinal ring",
+          "Inguinal ligament",
+          "Inguinal canal",
+          "Inferior epigastric artery",
+          "Inferior epigastric veins",
+          "Sperm nucleus",
+          "Acrosome",
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    },
+    {
+      "id": "sperm_structure",
+      "title": "Spermatozoon structure inset",
+      "purpose": "Inspect head, connecting piece and tail regions.",
+      "visible_parts": [
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "hidden_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Rectum & anal canal",
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Urinary bladder (detrusor wall)",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Bulbourethral (Cowper) gland",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Bulb of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Bulbospongiosus",
+        "Perineal body",
+        "Perineal membrane",
+        "Tunica albuginea of testis",
+        "Septa of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Efferent ductules",
+        "Tunica vaginalis (parietal layer)",
+        "Ductus deferens (vas deferens)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins",
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries"
+      ],
+      "label_parts": [
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)",
+        "End piece"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Sperm nucleus",
+          "Acrosome",
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Spermatozoon inset ~x1300; magnification is independent of the pelvic anatomy and tubule inset. Camera zoom is not a revised biological magnification.",
+      "notes": [
+        "All existing head/tail exact identities and colors are preserved.",
+        "The aggregate neck/post-acrosomal selector contains two anatomical regions; it is not an independently selectable centriole assembly.",
+        "This is a sperm structure inset, not a fertilization/acrosome-reaction simulation."
+      ],
+      "native_camera": {
+        "position": [
+          0.17863843,
+          -0.05853277,
+          2.92327636
+        ],
+        "target": [
+          0.8,
+          -0.32,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.7,
+        "hidden": [
+          "Pubic bone & ischiopubic ramus",
+          "Pubic symphysis (interpubic disc)",
+          "Rectum & anal canal",
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Urinary bladder (detrusor wall)",
+          "Bladder mucosa & trigone",
+          "Ureter (entering the bladder)",
+          "Prostate - peripheral zone",
+          "Prostate - central zone",
+          "Prostate - transition zone",
+          "Anterior fibromuscular stroma",
+          "Prostatic capsule",
+          "Seminal colliculus (verumontanum)",
+          "Ejaculatory duct",
+          "Internal urethral sphincter (bladder neck)",
+          "External urethral sphincter",
+          "Bulbourethral (Cowper) gland",
+          "Prostatic urethra",
+          "Membranous (intermediate) urethra",
+          "Spongy (penile) urethra",
+          "External urethral orifice",
+          "Seminal vesicle (seminal gland)",
+          "Ampulla of ductus deferens",
+          "Corpus cavernosum (erectile tissue)",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Corpus spongiosum",
+          "Glans penis",
+          "Deep dorsal vein of penis",
+          "Dorsal artery of penis",
+          "Dorsal nerve of penis",
+          "Deep (Buck) fascia of penis",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Bulb of penis",
+          "Crus of penis",
+          "Ischiocavernosus",
+          "Bulbospongiosus",
+          "Perineal body",
+          "Perineal membrane",
+          "Tunica albuginea of testis",
+          "Septa of testis",
+          "Lobules of testis (interstitial tissue)",
+          "Seminiferous tubules",
+          "Mediastinum testis",
+          "Rete testis & tubuli recti",
+          "Head of epididymis",
+          "Body of epididymis",
+          "Tail of epididymis",
+          "Efferent ductules",
+          "Tunica vaginalis (parietal layer)",
+          "Ductus deferens (vas deferens)",
+          "Testicular artery",
+          "Pampiniform plexus & testicular vein",
+          "Genital branch of genitofemoral nerve",
+          "Internal spermatic fascia",
+          "Cremaster muscle & fascia",
+          "External spermatic fascia",
+          "Scrotal skin",
+          "Dartos muscle & fascia",
+          "External oblique aponeurosis",
+          "Superficial inguinal ring",
+          "Internal oblique & transversus abdominis",
+          "Transversalis fascia",
+          "Deep inguinal ring",
+          "Inguinal ligament",
+          "Inguinal canal",
+          "Inferior epigastric artery",
+          "Inferior epigastric veins",
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    },
+    {
+      "id": "sperm_tail_core",
+      "title": "Sperm axoneme and tail sheaths",
+      "purpose": "Expose the internal flagellar core without changing shell geometry.",
+      "visible_parts": [
+        "Sperm nucleus",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece"
+      ],
+      "hidden_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Rectum & anal canal",
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Urinary bladder (detrusor wall)",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Bulbourethral (Cowper) gland",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Bulb of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Bulbospongiosus",
+        "Perineal body",
+        "Perineal membrane",
+        "Tunica albuginea of testis",
+        "Septa of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Efferent ductules",
+        "Tunica vaginalis (parietal layer)",
+        "Ductus deferens (vas deferens)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins",
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries",
+        "Acrosome",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "label_parts": [
+        "Sperm nucleus",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Spermatozoon inset ~x1300; magnification is independent of the pelvic anatomy and tubule inset. Camera zoom is not a revised biological magnification.",
+      "notes": [
+        "Acrosome, mitochondrial sheath and principal-piece fibrous sheath are hidden by visibility, not cut out or deleted. Return to sperm_structure to restore them.",
+        "ATP-dependent axonemal bending is a mechanism cue; no realistic flagellar beat or detailed dynein motors are represented.",
+        "The axoneme exact label identifies authored 9+2 teaching geometry; arrangement still requires deferred visual validation."
+      ],
+      "native_camera": {
+        "position": [
+          0.17863843,
+          -0.05853277,
+          2.92327636
+        ],
+        "target": [
+          0.8,
+          -0.32,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.7,
+        "hidden": [
+          "Pubic bone & ischiopubic ramus",
+          "Pubic symphysis (interpubic disc)",
+          "Rectum & anal canal",
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Urinary bladder (detrusor wall)",
+          "Bladder mucosa & trigone",
+          "Ureter (entering the bladder)",
+          "Prostate - peripheral zone",
+          "Prostate - central zone",
+          "Prostate - transition zone",
+          "Anterior fibromuscular stroma",
+          "Prostatic capsule",
+          "Seminal colliculus (verumontanum)",
+          "Ejaculatory duct",
+          "Internal urethral sphincter (bladder neck)",
+          "External urethral sphincter",
+          "Bulbourethral (Cowper) gland",
+          "Prostatic urethra",
+          "Membranous (intermediate) urethra",
+          "Spongy (penile) urethra",
+          "External urethral orifice",
+          "Seminal vesicle (seminal gland)",
+          "Ampulla of ductus deferens",
+          "Corpus cavernosum (erectile tissue)",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Corpus spongiosum",
+          "Glans penis",
+          "Deep dorsal vein of penis",
+          "Dorsal artery of penis",
+          "Dorsal nerve of penis",
+          "Deep (Buck) fascia of penis",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Bulb of penis",
+          "Crus of penis",
+          "Ischiocavernosus",
+          "Bulbospongiosus",
+          "Perineal body",
+          "Perineal membrane",
+          "Tunica albuginea of testis",
+          "Septa of testis",
+          "Lobules of testis (interstitial tissue)",
+          "Seminiferous tubules",
+          "Mediastinum testis",
+          "Rete testis & tubuli recti",
+          "Head of epididymis",
+          "Body of epididymis",
+          "Tail of epididymis",
+          "Efferent ductules",
+          "Tunica vaginalis (parietal layer)",
+          "Ductus deferens (vas deferens)",
+          "Testicular artery",
+          "Pampiniform plexus & testicular vein",
+          "Genital branch of genitofemoral nerve",
+          "Internal spermatic fascia",
+          "Cremaster muscle & fascia",
+          "External spermatic fascia",
+          "Scrotal skin",
+          "Dartos muscle & fascia",
+          "External oblique aponeurosis",
+          "Superficial inguinal ring",
+          "Internal oblique & transversus abdominis",
+          "Transversalis fascia",
+          "Deep inguinal ring",
+          "Inguinal ligament",
+          "Inguinal canal",
+          "Inferior epigastric artery",
+          "Inferior epigastric veins",
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries",
+          "Acrosome",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    },
+    {
+      "id": "erection_route",
+      "title": "Erection: arterial inflow and restricted outflow",
+      "purpose": "Relate cavernosal filling and tunica to venous outflow without confusing this with ejaculation.",
+      "visible_parts": [
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Corpus spongiosum",
+        "Glans penis",
+        "Deep dorsal vein of penis",
+        "Dorsal artery of penis",
+        "Dorsal nerve of penis",
+        "Deep (Buck) fascia of penis",
+        "Bulb of penis",
+        "Crus of penis",
+        "Ischiocavernosus",
+        "Bulbospongiosus",
+        "Spongy (penile) urethra"
+      ],
+      "hidden_parts": [
+        "Pubic bone & ischiopubic ramus",
+        "Pubic symphysis (interpubic disc)",
+        "Rectum & anal canal",
+        "Peritoneum (rectovesical pouch)",
+        "Rectus abdominis",
+        "Urinary bladder (detrusor wall)",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Bulbourethral (Cowper) gland",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "External urethral orifice",
+        "Seminal vesicle (seminal gland)",
+        "Ampulla of ductus deferens",
+        "Superficial dorsal vein of penis",
+        "Skin & superficial (dartos) fascia of penis",
+        "Prepuce (foreskin)",
+        "Frenulum of prepuce",
+        "Suspensory ligament of penis",
+        "Perineal body",
+        "Perineal membrane",
+        "Tunica albuginea of testis",
+        "Septa of testis",
+        "Lobules of testis (interstitial tissue)",
+        "Seminiferous tubules",
+        "Mediastinum testis",
+        "Rete testis & tubuli recti",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Efferent ductules",
+        "Tunica vaginalis (parietal layer)",
+        "Ductus deferens (vas deferens)",
+        "Testicular artery",
+        "Pampiniform plexus & testicular vein",
+        "Genital branch of genitofemoral nerve",
+        "Internal spermatic fascia",
+        "Cremaster muscle & fascia",
+        "External spermatic fascia",
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "External oblique aponeurosis",
+        "Superficial inguinal ring",
+        "Internal oblique & transversus abdominis",
+        "Transversalis fascia",
+        "Deep inguinal ring",
+        "Inguinal ligament",
+        "Inguinal canal",
+        "Inferior epigastric artery",
+        "Inferior epigastric veins",
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries",
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "label_parts": [
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep artery of penis",
+        "Corpus spongiosum",
+        "Deep dorsal vein of penis",
+        "Dorsal nerve of penis",
+        "Ischiocavernosus"
+      ],
+      "focus": {
+        "selector": "exact_part_names",
+        "parts": [
+          "Corpus cavernosum (erectile tissue)",
+          "Tunica albuginea of corpora cavernosa",
+          "Deep artery of penis",
+          "Corpus spongiosum",
+          "Deep dorsal vein of penis"
+        ],
+        "fit": "visible_part_bounds",
+        "margin": 0.12
+      },
+      "cutaway": {
+        "enabled": true,
+        "normals": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "offsets": [
+          9.0,
+          0.0
+        ],
+        "preserve_baked_sections": true
+      },
+      "camera": {
+        "home_azimuth_degrees": -28.0,
+        "home_elevation_degrees": 12.0,
+        "orientation_reference": "source registry; +y superior, -x anterior, right body half z<0"
+      },
+      "scale_note": "Section block ≈ 200 mm across; authored 1 unit = 10 cm. Tubules, ducts and nerves are wider than life for readability. View fitting does not rescale source geometry.",
+      "notes": [
+        "Deep artery supplies cavernosal erectile spaces; cavernosal smooth-muscle relaxation allows filling and expansion against the tunica, restricting draining venules.",
+        "Cavernous autonomic nerves, helicine branches and subtunical/emissary venules have no separate exact-name parts. Their route/mechanism is a text overlay with an explicit schematic badge.",
+        "Dorsal nerve of penis is displayed as sensory context; do not present it as the autonomic cavernous nerve. Deep dorsal vein remains a downstream drainage landmark, not the sole site of veno-occlusion.",
+        "Spongiosum surrounds the urethra and does not reach the same turgidity as the cavernosa. Geometry is static; no state-dependent pressure/diameter values are claimed."
+      ],
+      "native_camera": {
+        "position": [
+          -1.81763745,
+          0.21373507,
+          2.59095921
+        ],
+        "target": [
+          -0.44,
+          -0.41,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.65,
+        "hidden": [
+          "Pubic bone & ischiopubic ramus",
+          "Pubic symphysis (interpubic disc)",
+          "Rectum & anal canal",
+          "Peritoneum (rectovesical pouch)",
+          "Rectus abdominis",
+          "Urinary bladder (detrusor wall)",
+          "Bladder mucosa & trigone",
+          "Ureter (entering the bladder)",
+          "Prostate - peripheral zone",
+          "Prostate - central zone",
+          "Prostate - transition zone",
+          "Anterior fibromuscular stroma",
+          "Prostatic capsule",
+          "Seminal colliculus (verumontanum)",
+          "Ejaculatory duct",
+          "Internal urethral sphincter (bladder neck)",
+          "External urethral sphincter",
+          "Bulbourethral (Cowper) gland",
+          "Prostatic urethra",
+          "Membranous (intermediate) urethra",
+          "External urethral orifice",
+          "Seminal vesicle (seminal gland)",
+          "Ampulla of ductus deferens",
+          "Superficial dorsal vein of penis",
+          "Skin & superficial (dartos) fascia of penis",
+          "Prepuce (foreskin)",
+          "Frenulum of prepuce",
+          "Suspensory ligament of penis",
+          "Perineal body",
+          "Perineal membrane",
+          "Tunica albuginea of testis",
+          "Septa of testis",
+          "Lobules of testis (interstitial tissue)",
+          "Seminiferous tubules",
+          "Mediastinum testis",
+          "Rete testis & tubuli recti",
+          "Head of epididymis",
+          "Body of epididymis",
+          "Tail of epididymis",
+          "Efferent ductules",
+          "Tunica vaginalis (parietal layer)",
+          "Ductus deferens (vas deferens)",
+          "Testicular artery",
+          "Pampiniform plexus & testicular vein",
+          "Genital branch of genitofemoral nerve",
+          "Internal spermatic fascia",
+          "Cremaster muscle & fascia",
+          "External spermatic fascia",
+          "Scrotal skin",
+          "Dartos muscle & fascia",
+          "External oblique aponeurosis",
+          "Superficial inguinal ring",
+          "Internal oblique & transversus abdominis",
+          "Transversalis fascia",
+          "Deep inguinal ring",
+          "Inguinal ligament",
+          "Inguinal canal",
+          "Inferior epigastric artery",
+          "Inferior epigastric veins",
+          "Basement membrane & peritubular myoid cells",
+          "Sertoli (sustentacular) cells",
+          "Sertoli cell nuclei",
+          "Spermatogonia",
+          "Primary spermatocytes",
+          "Secondary spermatocytes",
+          "Spermatids",
+          "Spermatozoa (lumen)",
+          "Germ cell nuclei",
+          "Leydig (interstitial) cells",
+          "Leydig cell nuclei",
+          "Interstitial capillaries",
+          "Sperm nucleus",
+          "Acrosome",
+          "Neck (centrioles) & post-acrosomal region",
+          "Axoneme (9+2 microtubules)",
+          "End piece",
+          "Midpiece (mitochondrial sheath)",
+          "Principal piece (fibrous sheath)"
+        ],
+        "cut_on": true
+      },
+      "native_camera_note": "Source-landmark recommendation for an approximately 16:9 viewport, not visually reviewed. Viewer does not refit ORTHO records; test cropping and readability at actual aspect ratios."
+    }
+  ],
+  "routes": [
+    {
+      "id": "urinary_outflow",
+      "view_id": "urinary_route",
+      "ordered_parts": [
+        "Urinary bladder (detrusor wall)",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice"
+      ],
+      "meaning": "lumen flow, not tissue transport",
+      "branch_inputs": [
+        "Ureter (entering the bladder)"
+      ]
+    },
+    {
+      "id": "sperm_to_outlet",
+      "view_id": "sperm_transport",
+      "ordered_parts": [
+        "Seminiferous tubules",
+        "Rete testis & tubuli recti",
+        "Efferent ductules",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Ductus deferens (vas deferens)",
+        "Ampulla of ductus deferens",
+        "Ejaculatory duct",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice"
+      ],
+      "branch_inputs": [
+        {
+          "at_part": "Ejaculatory duct",
+          "parts": [
+            "Seminal vesicle (seminal gland)"
+          ],
+          "meaning": "seminal-gland secretion joins sperm pathway"
+        },
+        {
+          "at_part": "Prostatic urethra",
+          "parts": [
+            "Prostate - peripheral zone",
+            "Prostate - central zone",
+            "Prostate - transition zone"
+          ],
+          "meaning": "prostatic secretions enter urethra; separate named prostatic ducts absent"
+        }
+      ],
+      "timing": "ordering only; no real-time transit claim"
+    },
+    {
+      "id": "scrotal_layer_walk",
+      "view_id": "scrotal_layers",
+      "ordered_parts": [
+        "Scrotal skin",
+        "Dartos muscle & fascia",
+        "External spermatic fascia",
+        "Cremaster muscle & fascia",
+        "Internal spermatic fascia",
+        "Tunica vaginalis (parietal layer)",
+        "Tunica albuginea of testis"
+      ],
+      "interaction": "highlight in sequence; optionally hide earlier outer layers while maintaining complete view partition",
+      "limitation": "visceral vaginalis is coupled to albuginea surface, not an independent named part"
+    },
+    {
+      "id": "germ_cell_progression",
+      "view_id": "tubule_cells",
+      "ordered_parts": [
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)"
+      ],
+      "support_parts": [
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei",
+        "Interstitial capillaries"
+      ],
+      "interaction": "highlight stages without isolating shared aggregate germ-cell nuclei"
+    },
+    {
+      "id": "erection_mechanism",
+      "view_id": "erection_route",
+      "ordered_parts": [
+        "Deep artery of penis",
+        "Corpus cavernosum (erectile tissue)",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep dorsal vein of penis"
+      ],
+      "meaning": "inflow → filling → tunical restraint / unmodeled venule compression → drainage landmark; not a direct continuous artery-to-vein streamline",
+      "schematic_only": [
+        "autonomic cavernous nerve → NO/cGMP → smooth muscle relaxation",
+        "helicine branches and subtunical/emissary venules"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "histology_route",
+      "url": "https://www.histologyguide.org/slidebox/19-male-reproductive-system.html",
+      "opened": true,
+      "relevance": "conducting duct sequence, epididymal maturation and storage, gland branch inputs"
+    },
+    {
+      "id": "histology_testis",
+      "url": "https://www.histologyguide.org/slideview/MHS-267-testis-and-epididymis/19-slide-1.html",
+      "opened": true,
+      "relevance": "Sertoli/germ-cell/Leydig identities, basal-to-luminal progression, testis architecture; specimen is monkey, used for conserved histological identities, not human dimension targets"
+    },
+    {
+      "id": "histology_penis",
+      "url": "https://www.histologyguide.org/slideview/MH-184-penis/19-slide-1.html",
+      "opened": true,
+      "relevance": "human cavernosal/spongiosal arrangement, central artery and erection-related smooth-muscle relaxation"
+    },
+    {
+      "id": "erection_signal",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20978290/",
+      "opened": true,
+      "relevance": "cavernous nerve NO/cGMP and cavernosal smooth-muscle relaxation; abstract retrieved"
+    },
+    {
+      "id": "erection_venous",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1112680/",
+      "opened": true,
+      "relevance": "tunical expansion and compressed draining venules restrict venous outflow"
+    }
+  ],
+  "visual_review": {
+    "status": "deferred",
+    "reason": "No attributable existing male model preview found in bounded filename/catalog searches; no renders generated."
+  },
+  "deferred_checks": [
+    "Native viewer applies each complete visibility partition and cutaway consistently.",
+    "Label collision/legibility and selected-bounds focus in actual viewport.",
+    "Routes remain visible through authored sections without implying solid walls are flowing fluid.",
+    "Sperm 9+2 geometry and stage/nuclear ownership validated independently."
+  ],
+  "native_application": {
+    "viewer_cameras": "{view.id: view.native_camera for view in views}",
+    "start_view": "overview",
+    "path": "Attach cameras to micro_model.viewer_cameras and opening_view to micro_model.start_view before constructing ProceduralModel; Viewport.set_named_view consumes hidden exact Item keys and cut_on.",
+    "source_api": "app/viewer/camera.py Camera.record_pose requires type ORTHO and ortho_width; app/viewer/viewport.py Viewport.set_named_view applies visibility.",
+    "status": "Source-ready camera recommendations. No native app import, installation or view validation performed."
+  },
+  "sequences": [
+    {
+      "id": "spermatogenesis",
+      "title": "From diploid germ cells to released sperm",
+      "view_id": "tubule_cells",
+      "mechanism": "Somatic support permits germ-cell proliferation, meiotic reduction and differentiation; spermiation releases sperm into the tubule lumen.",
+      "parts": [
+        "Basement membrane & peritubular myoid cells",
+        "Sertoli (sustentacular) cells",
+        "Leydig (interstitial) cells",
+        "Interstitial capillaries",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Spermatozoa (lumen)"
+      ],
+      "steps": [
+        {
+          "id": "somatic_support",
+          "highlight_parts": [
+            "Basement membrane & peritubular myoid cells",
+            "Sertoli (sustentacular) cells",
+            "Leydig (interstitial) cells",
+            "Interstitial capillaries"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Sertoli support and local testosterone sustain spermatogenesis.",
+          "mechanism": "Leydig cells supply testosterone; Sertoli cells support developing germ cells.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "spermatogenesis",
+            "compartment": "interstitium_and_epithelium"
+          },
+          "source_ids": [
+            "testis_histology"
+          ],
+          "source_urls": [
+            "https://www.histologyguide.org/slideview/MHS-267-testis-and-epididymis/19-slide-1.html"
+          ],
+          "order": 0,
+          "view_id": "tubule_cells",
+          "requires_previous_step": null
+        },
+        {
+          "id": "basal_proliferation",
+          "highlight_parts": [
+            "Basement membrane & peritubular myoid cells",
+            "Spermatogonia"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Spermatogonia divide in the basal compartment.",
+          "mechanism": "Mitotic progeny maintain the pool and enter differentiation.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "spermatogenesis",
+            "germ_cell_stage": "spermatogonium",
+            "chromosome_sets": 2
+          },
+          "source_ids": [
+            "testis_histology",
+            "reproduction"
+          ],
+          "source_urls": [
+            "https://www.histologyguide.org/slideview/MHS-267-testis-and-epididymis/19-slide-1.html",
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system"
+          ],
+          "order": 1,
+          "view_id": "tubule_cells",
+          "requires_previous_step": "somatic_support"
+        },
+        {
+          "id": "primary_stage",
+          "highlight_parts": [
+            "Sertoli (sustentacular) cells",
+            "Primary spermatocytes"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "After DNA replication, primary spermatocytes enter meiosis.",
+          "mechanism": "Replicated homologous chromosomes prepare for the first meiotic division.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "spermatogenesis",
+            "germ_cell_stage": "primary_spermatocyte",
+            "chromosome_sets": 2,
+            "dna_content_c": 4
+          },
+          "source_ids": [
+            "reproduction"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system"
+          ],
+          "order": 2,
+          "view_id": "tubule_cells",
+          "requires_previous_step": "basal_proliferation"
+        },
+        {
+          "id": "meiotic_reduction",
+          "highlight_parts": [
+            "Primary spermatocytes",
+            "Secondary spermatocytes"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Meiosis I separates homologous chromosomes.",
+          "mechanism": "Secondary spermatocytes are haploid, with replicated chromosomes.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "spermatogenesis",
+            "germ_cell_stage": "secondary_spermatocyte",
+            "chromosome_sets": 1,
+            "dna_content_c": 2
+          },
+          "source_ids": [
+            "reproduction"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system"
+          ],
+          "order": 3,
+          "view_id": "tubule_cells",
+          "requires_previous_step": "primary_stage"
+        },
+        {
+          "id": "meiosis_two",
+          "highlight_parts": [
+            "Secondary spermatocytes",
+            "Spermatids"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Meiosis II separates sister chromatids.",
+          "mechanism": "Haploid spermatids result from the second division.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "spermatogenesis",
+            "germ_cell_stage": "spermatid",
+            "chromosome_sets": 1,
+            "dna_content_c": 1
+          },
+          "source_ids": [
+            "reproduction"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system"
+          ],
+          "order": 4,
+          "view_id": "tubule_cells",
+          "requires_previous_step": "meiotic_reduction"
+        },
+        {
+          "id": "differentiation",
+          "highlight_parts": [
+            "Sertoli (sustentacular) cells",
+            "Spermatids"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Spermiogenesis remodels spermatids without another division.",
+          "mechanism": "Nuclear condensation, acrosome and flagellum formation specialize the cell.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "spermatogenesis",
+            "germ_cell_stage": "differentiating_spermatid"
+          },
+          "source_ids": [
+            "reproduction"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system"
+          ],
+          "order": 5,
+          "view_id": "tubule_cells",
+          "requires_previous_step": "meiosis_two"
+        },
+        {
+          "id": "release",
+          "highlight_parts": [
+            "Sertoli (sustentacular) cells",
+            "Spermatozoa (lumen)",
+            "Basement membrane & peritubular myoid cells"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Spermiation releases sperm into the lumen.",
+          "mechanism": "Newly released sperm are carried onward in fluid; release differs from epididymal maturation.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "spermatogenesis",
+            "germ_cell_stage": "released_sperm",
+            "transport": "fluid_and_contractile_transport"
+          },
+          "source_ids": [
+            "reproduction"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system"
+          ],
+          "order": 6,
+          "view_id": "tubule_cells",
+          "requires_previous_step": "differentiation"
+        }
+      ],
+      "schematic_limitations": [
+        "Stages are illustrative snapshots, not animated division or transformation of mesh objects.",
+        "n denotes chromosome sets; c denotes relative DNA content. Existing cell counts are not yield measurements.",
+        "The single Germ cell nuclei part spans multiple stages; it is never assigned exclusively to one germ-cell stage.",
+        "Inset ~x200; sequence order is compressed and has no real-time duration, synchronization, age or hormone prediction."
+      ]
+    },
+    {
+      "id": "sertoli_barrier",
+      "title": "Sertoli barrier and protected germ-cell transit",
+      "view_id": "tubule_cells",
+      "mechanism": "Junctions between adjacent Sertoli cells establish distinct epithelial compartments; germ-cell progression is shown without junction motion.",
+      "parts": [
+        "Sertoli (sustentacular) cells",
+        "Basement membrane & peritubular myoid cells",
+        "Interstitial capillaries",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Spermatids"
+      ],
+      "steps": [
+        {
+          "id": "barrier_identity",
+          "highlight_parts": [
+            "Sertoli (sustentacular) cells",
+            "Basement membrane & peritubular myoid cells",
+            "Interstitial capillaries"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "The blood-testis barrier is a Sertoli-to-Sertoli junctional barrier.",
+          "mechanism": "The basement membrane and capillary wall are different structures.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "barrier",
+            "barrier": "intact",
+            "junction_mesh_present": false
+          },
+          "source_ids": [
+            "testis_histology"
+          ],
+          "source_urls": [
+            "https://www.histologyguide.org/slideview/MHS-267-testis-and-epididymis/19-slide-1.html"
+          ],
+          "order": 0,
+          "view_id": "tubule_cells",
+          "requires_previous_step": null
+        },
+        {
+          "id": "basal_adluminal",
+          "highlight_parts": [
+            "Sertoli (sustentacular) cells",
+            "Spermatogonia",
+            "Primary spermatocytes",
+            "Spermatids"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Basal spermatogonia and later adluminal stages occupy different microenvironments.",
+          "mechanism": "Early primary spermatocytes transit toward the protected compartment.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "barrier",
+            "barrier": "intact",
+            "compartment": "basal_and_adluminal"
+          },
+          "source_ids": [
+            "testis_histology"
+          ],
+          "source_urls": [
+            "https://www.histologyguide.org/slideview/MHS-267-testis-and-epididymis/19-slide-1.html"
+          ],
+          "order": 1,
+          "view_id": "tubule_cells",
+          "requires_previous_step": "barrier_identity"
+        }
+      ],
+      "schematic_limitations": [
+        "No junction, basal space or adluminal-space mesh exists; selected Sertoli cells provide context for the caption only.",
+        "Do not imply all Primary spermatocytes are already adluminal or that the barrier globally opens.",
+        "Detailed junction remodeling is deferred because the primary full paper could not be opened.",
+        "No barrier opening, junction deformation or transiting-cell cyst is animated."
+      ]
+    },
+    {
+      "id": "maturation_transport",
+      "title": "Testis to epididymal maturation and storage",
+      "view_id": "sperm_transport",
+      "mechanism": "Fluid and duct-wall activity transport sperm; regional epididymal changes permit maturation before caudal storage.",
+      "parts": [
+        "Seminiferous tubules",
+        "Rete testis & tubuli recti",
+        "Efferent ductules",
+        "Head of epididymis",
+        "Body of epididymis",
+        "Tail of epididymis",
+        "Ductus deferens (vas deferens)"
+      ],
+      "steps": [
+        {
+          "id": "tubular_outflow",
+          "highlight_parts": [
+            "Seminiferous tubules",
+            "Rete testis & tubuli recti"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Seminiferous outflow enters the straight tubules and rete.",
+          "mechanism": "The source combines tubuli recti and rete testis into one catalog part.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "maturation_transport",
+            "cargo": "newly_released_sperm",
+            "route_from": "Seminiferous tubules",
+            "route_to": "Rete testis & tubuli recti"
+          },
+          "source_ids": [
+            "testis_histology"
+          ],
+          "source_urls": [
+            "https://www.histologyguide.org/slideview/MHS-267-testis-and-epididymis/19-slide-1.html"
+          ],
+          "order": 0,
+          "view_id": "sperm_transport",
+          "requires_previous_step": null
+        },
+        {
+          "id": "efferent_transfer",
+          "highlight_parts": [
+            "Rete testis & tubuli recti",
+            "Efferent ductules",
+            "Head of epididymis"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Efferent ductules connect the rete to the epididymal head.",
+          "mechanism": "This is a duct-continuity lesson; moving markers are not required.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "maturation_transport",
+            "cargo": "sperm_in_testicular_fluid",
+            "route_from": "Rete testis & tubuli recti",
+            "route_to": "Head of epididymis"
+          },
+          "source_ids": [
+            "reproduction"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system"
+          ],
+          "order": 1,
+          "view_id": "sperm_transport",
+          "requires_previous_step": "tubular_outflow"
+        },
+        {
+          "id": "regional_maturation",
+          "highlight_parts": [
+            "Head of epididymis",
+            "Body of epididymis"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Sperm mature while passing through the epididymis.",
+          "mechanism": "Smooth-muscle activity transports cells through the coiled duct.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "maturation_transport",
+            "transport": "duct_wall_activity",
+            "maturation": "acquiring_motility_capacity"
+          },
+          "source_ids": [
+            "epididymis"
+          ],
+          "source_urls": [
+            "https://www.histologyguide.org/slideview/MH-185-epididymis/19-slide-1.html"
+          ],
+          "order": 2,
+          "view_id": "sperm_transport",
+          "requires_previous_step": "efferent_transfer"
+        },
+        {
+          "id": "caudal_storage",
+          "highlight_parts": [
+            "Body of epididymis",
+            "Tail of epididymis"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Mature sperm are stored mainly in the epididymal tail.",
+          "mechanism": "Caudal storage precedes release into the ductus deferens.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "maturation_transport",
+            "storage": "Tail of epididymis",
+            "transport": "no_ejaculatory_release_shown"
+          },
+          "source_ids": [
+            "epididymis"
+          ],
+          "source_urls": [
+            "https://www.histologyguide.org/slideview/MH-185-epididymis/19-slide-1.html"
+          ],
+          "order": 3,
+          "view_id": "sperm_transport",
+          "requires_previous_step": "regional_maturation"
+        },
+        {
+          "id": "exit_to_vas",
+          "highlight_parts": [
+            "Tail of epididymis",
+            "Ductus deferens (vas deferens)"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "During emission, contraction releases sperm into the ductus deferens.",
+          "mechanism": "Neural activation of the caudal muscular coat drives outflow.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "maturation_transport",
+            "transport": "emission_ready",
+            "route_from": "Tail of epididymis",
+            "route_to": "Ductus deferens (vas deferens)"
+          },
+          "source_ids": [
+            "epididymis"
+          ],
+          "source_urls": [
+            "https://www.histologyguide.org/slideview/MH-185-epididymis/19-slide-1.html"
+          ],
+          "order": 4,
+          "view_id": "sperm_transport",
+          "requires_previous_step": "caudal_storage"
+        }
+      ],
+      "schematic_limitations": [
+        "Highlight order represents topology, not transit speed or autonomous sperm swimming within the male ducts.",
+        "Acquiring motility capacity differs from capacitation; fertilization and female tract events are outside this model.",
+        "~x200 and ~x1300 insets are not continuous-scale extensions of this tract.",
+        "No numerical transit time is encoded; example histology source is rat."
+      ]
+    },
+    {
+      "id": "emission",
+      "title": "Emission: delivery and mixing in the posterior urethra",
+      "view_id": "glands_and_confluence",
+      "mechanism": "Predominantly sympathetic activity recruits smooth muscle, delivers duct/gland contents and closes the bladder neck.",
+      "parts": [
+        "Internal urethral sphincter (bladder neck)",
+        "Tail of epididymis",
+        "Ductus deferens (vas deferens)",
+        "Ampulla of ductus deferens",
+        "Seminal vesicle (seminal gland)",
+        "Ejaculatory duct",
+        "Seminal colliculus (verumontanum)",
+        "Prostatic urethra",
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone"
+      ],
+      "steps": [
+        {
+          "id": "neck_closure",
+          "highlight_parts": [
+            "Internal urethral sphincter (bladder neck)"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "The bladder neck closes during emission.",
+          "mechanism": "Closure directs ejaculatory outflow away from the bladder.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "emission",
+            "bladder_neck": "closed",
+            "urine_route": "not_active"
+          },
+          "source_ids": [
+            "ejaculation"
+          ],
+          "source_urls": [
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC6127532/"
+          ],
+          "order": 0,
+          "view_id": "glands_and_confluence",
+          "requires_previous_step": null
+        },
+        {
+          "id": "vas_delivery",
+          "highlight_parts": [
+            "Tail of epididymis",
+            "Ductus deferens (vas deferens)",
+            "Ampulla of ductus deferens"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Duct contraction delivers sperm toward the ampulla.",
+          "mechanism": "The epididymal tail and ductus deferens provide the sperm-bearing stream.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "emission",
+            "cargo": "sperm_bearing_fluid",
+            "route_from": "Tail of epididymis",
+            "route_to": "Ampulla of ductus deferens"
+          },
+          "source_ids": [
+            "ejaculation"
+          ],
+          "source_urls": [
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC6127532/"
+          ],
+          "order": 1,
+          "view_id": "glands_and_confluence",
+          "requires_previous_step": "neck_closure"
+        },
+        {
+          "id": "seminal_union",
+          "highlight_parts": [
+            "Ampulla of ductus deferens",
+            "Seminal vesicle (seminal gland)",
+            "Ejaculatory duct"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Seminal gland fluid joins the sperm-bearing stream.",
+          "mechanism": "The seminal-gland duct joins the ampulla to form the ejaculatory duct.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "emission",
+            "cargo": "sperm_and_seminal_gland_fluid",
+            "route_to": "Ejaculatory duct"
+          },
+          "source_ids": [
+            "reproduction",
+            "ejaculation"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC6127532/"
+          ],
+          "order": 2,
+          "view_id": "glands_and_confluence",
+          "requires_previous_step": "vas_delivery"
+        },
+        {
+          "id": "posterior_urethra",
+          "highlight_parts": [
+            "Ejaculatory duct",
+            "Seminal colliculus (verumontanum)",
+            "Prostatic urethra"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Ejaculatory ducts discharge into the prostatic urethra.",
+          "mechanism": "The colliculus is a local opening landmark, not a downstream duct segment.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "emission",
+            "cargo": "forming_semen",
+            "route_from": "Ejaculatory duct",
+            "route_to": "Prostatic urethra"
+          },
+          "source_ids": [
+            "reproduction"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system"
+          ],
+          "order": 3,
+          "view_id": "glands_and_confluence",
+          "requires_previous_step": "seminal_union"
+        },
+        {
+          "id": "prostatic_contribution",
+          "highlight_parts": [
+            "Prostate - peripheral zone",
+            "Prostate - central zone",
+            "Prostate - transition zone",
+            "Prostatic urethra"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Prostatic secretions enter the prostatic urethra.",
+          "mechanism": "Prostatic ducts add gland fluid to semen; they do not join the ejaculatory duct upstream.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "emission",
+            "cargo": "semen",
+            "prostatic_ducts": "not_separately_modeled"
+          },
+          "source_ids": [
+            "ejaculation"
+          ],
+          "source_urls": [
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC6127532/"
+          ],
+          "order": 4,
+          "view_id": "glands_and_confluence",
+          "requires_previous_step": "posterior_urethra"
+        }
+      ],
+      "schematic_limitations": [
+        "Gland and duct secretion overlap physiologically; highlight order is a teaching decomposition, not exact fraction timing.",
+        "Prostatic and seminal gland ducts are not individually selectable; captions identify the missing connection.",
+        "The prostate zones are context for one gland; equal highlighting does not assert equal secretion.",
+        "Autonomic pathways and semen pressure/volume are not modeled."
+      ]
+    },
+    {
+      "id": "expulsion",
+      "title": "Expulsion: rhythmic propulsion through the urethra",
+      "view_id": "expulsion_route",
+      "mechanism": "Somatic activation produces rhythmic perineal contraction after emission, propelling semen through a coordinated urethral outlet.",
+      "parts": [
+        "Bulbospongiosus",
+        "Bulb of penis",
+        "Internal urethral sphincter (bladder neck)",
+        "Prostatic urethra",
+        "External urethral sphincter",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "Corpus spongiosum",
+        "External urethral orifice"
+      ],
+      "steps": [
+        {
+          "id": "bulbar_drive",
+          "highlight_parts": [
+            "Bulbospongiosus",
+            "Bulb of penis",
+            "Internal urethral sphincter (bladder neck)"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Rhythmic bulbospongiosus activity supplies the expulsive drive.",
+          "mechanism": "The bladder neck remains closed; muscle highlighting stands for contraction.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "expulsion",
+            "muscle_activity": "rhythmic",
+            "bladder_neck": "closed"
+          },
+          "source_ids": [
+            "ejaculation"
+          ],
+          "source_urls": [
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC6127532/"
+          ],
+          "order": 0,
+          "view_id": "expulsion_route",
+          "requires_previous_step": null
+        },
+        {
+          "id": "urethral_coordination",
+          "highlight_parts": [
+            "Prostatic urethra",
+            "External urethral sphincter",
+            "Membranous (intermediate) urethra"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "The outlet coordinates passage into the intermediate urethra.",
+          "mechanism": "Urethral sphincter activity is coordinated with propulsion.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "expulsion",
+            "external_sphincter": "coordinated_outlet",
+            "route_from": "Prostatic urethra",
+            "route_to": "Membranous (intermediate) urethra"
+          },
+          "source_ids": [
+            "ejaculation"
+          ],
+          "source_urls": [
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC6127532/"
+          ],
+          "order": 1,
+          "view_id": "expulsion_route",
+          "requires_previous_step": "bulbar_drive"
+        },
+        {
+          "id": "penile_passage",
+          "highlight_parts": [
+            "Membranous (intermediate) urethra",
+            "Spongy (penile) urethra",
+            "Corpus spongiosum"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Semen passes through the spongy urethra.",
+          "mechanism": "The lumen within the corpus spongiosum is the outflow route.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "expulsion",
+            "cargo": "semen",
+            "route_from": "Membranous (intermediate) urethra",
+            "route_to": "Spongy (penile) urethra"
+          },
+          "source_ids": [
+            "reproduction",
+            "ejaculation"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC6127532/"
+          ],
+          "order": 2,
+          "view_id": "expulsion_route",
+          "requires_previous_step": "urethral_coordination"
+        },
+        {
+          "id": "meatal_exit",
+          "highlight_parts": [
+            "Spongy (penile) urethra",
+            "External urethral orifice"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "The ejaculate leaves through the external urethral orifice.",
+          "mechanism": "This completes the antegrade tract pathway.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "expulsion",
+            "cargo": "semen",
+            "route_from": "Spongy (penile) urethra",
+            "route_to": "External urethral orifice"
+          },
+          "source_ids": [
+            "ejaculation"
+          ],
+          "source_urls": [
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC6127532/"
+          ],
+          "order": 3,
+          "view_id": "expulsion_route",
+          "requires_previous_step": "penile_passage"
+        }
+      ],
+      "schematic_limitations": [
+        "No imposed contraction frequency, fixed pulse count, pressure, deformation or sphincter waveform.",
+        "External sphincter is shown as coordinated, not arbitrarily held shut or assigned a universal continuous relaxation waveform.",
+        "Ejaculation and orgasm are distinct; no cerebral experience is animated.",
+        "Bulbourethral mucus on arousal is not an obligatory final semen-mixing step during expulsion."
+      ]
+    },
+    {
+      "id": "erection",
+      "title": "Erection: increased inflow and reduced venous outflow",
+      "view_id": "erection_route",
+      "mechanism": "Local NO signaling relaxes erectile smooth muscle, permits increased arterial inflow and promotes veno-occlusion.",
+      "parts": [
+        "Corpus cavernosum (erectile tissue)",
+        "Deep artery of penis",
+        "Tunica albuginea of corpora cavernosa",
+        "Deep dorsal vein of penis",
+        "Corpus spongiosum",
+        "Spongy (penile) urethra"
+      ],
+      "steps": [
+        {
+          "id": "local_relaxation",
+          "highlight_parts": [
+            "Corpus cavernosum (erectile tissue)",
+            "Deep artery of penis"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "NO-mediated smooth-muscle relaxation enables erection.",
+          "mechanism": "NO-dependent relaxation is supported by primary experimental work.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "erection",
+            "cavernosal_smooth_muscle": "relaxed",
+            "autonomic_pathway_mesh_present": false
+          },
+          "source_ids": [
+            "erection_primary",
+            "human_cavernosal_primary"
+          ],
+          "source_urls": [
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC3478647/",
+            "https://www.jci.org/articles/view/116220"
+          ],
+          "order": 0,
+          "view_id": "erection_route",
+          "requires_previous_step": null
+        },
+        {
+          "id": "arterial_inflow",
+          "highlight_parts": [
+            "Deep artery of penis",
+            "Corpus cavernosum (erectile tissue)"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Increased arterial inflow fills the cavernous spaces.",
+          "mechanism": "The deep artery feeds the erectile tissue.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "erection",
+            "blood_inflow": "increased",
+            "cargo": "blood",
+            "route_from": "Deep artery of penis",
+            "route_to": "Corpus cavernosum (erectile tissue)"
+          },
+          "source_ids": [
+            "reproduction"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system"
+          ],
+          "order": 1,
+          "view_id": "erection_route",
+          "requires_previous_step": "local_relaxation"
+        },
+        {
+          "id": "veno_occlusion",
+          "highlight_parts": [
+            "Corpus cavernosum (erectile tissue)",
+            "Tunica albuginea of corpora cavernosa",
+            "Deep dorsal vein of penis"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Expansion reduces venous outflow through subtunical venules.",
+          "mechanism": "The tunica constrains expansion; the named dorsal vein is drainage context.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "erection",
+            "venous_outflow": "reduced",
+            "deep_dorsal_vein": "context_not_a_sphincter",
+            "subtunical_venules_mesh_present": false
+          },
+          "source_ids": [
+            "reproduction"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system"
+          ],
+          "order": 2,
+          "view_id": "erection_route",
+          "requires_previous_step": "arterial_inflow"
+        },
+        {
+          "id": "patent_urethral_route",
+          "highlight_parts": [
+            "Corpus spongiosum",
+            "Spongy (penile) urethra"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "The spongy urethra remains a distinct conduit.",
+          "mechanism": "Erectile tissue surrounds the duct; blood filling and urethral flow are different pathways.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "erection",
+            "cargo": "blood",
+            "urethra": "distinct_conduit",
+            "urine_route": "not_active"
+          },
+          "source_ids": [
+            "reproduction"
+          ],
+          "source_urls": [
+            "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system"
+          ],
+          "order": 3,
+          "view_id": "erection_route",
+          "requires_previous_step": "veno_occlusion"
+        }
+      ],
+      "schematic_limitations": [
+        "Static selection only: no penile enlargement, compliance, pressure, deforming tunica or blood solver.",
+        "Cavernous nerves are absent. Do not use the Dorsal nerve of penis as a replacement parasympathetic motor pathway.",
+        "Veno-occlusion acts through distributed venular drainage; the Deep dorsal vein of penis is not depicted as a closable valve.",
+        "Erection and voiding are separate teaching modes, not a claim that erection alone absolutely prevents urination."
+      ]
+    },
+    {
+      "id": "voiding",
+      "title": "Voiding: coordinated bladder contraction and outlet relaxation",
+      "view_id": "urinary_route",
+      "mechanism": "Storage keeps the detrusor relaxed and outlet closed; voiding coordinates bladder contraction with sphincter relaxation.",
+      "parts": [
+        "Urinary bladder (detrusor wall)",
+        "Internal urethral sphincter (bladder neck)",
+        "External urethral sphincter",
+        "Bladder mucosa & trigone",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "External urethral orifice"
+      ],
+      "steps": [
+        {
+          "id": "storage",
+          "highlight_parts": [
+            "Urinary bladder (detrusor wall)",
+            "Internal urethral sphincter (bladder neck)",
+            "External urethral sphincter"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Storage: relaxed bladder wall and closed outlet.",
+          "mechanism": "Sphincter activity prevents leakage during filling.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "voiding",
+            "phase": "storage",
+            "detrusor": "relaxed",
+            "bladder_neck": "closed",
+            "external_sphincter": "contracted"
+          },
+          "source_ids": [
+            "voiding"
+          ],
+          "source_urls": [
+            "https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-tract-how-it-works"
+          ],
+          "order": 0,
+          "view_id": "urinary_route",
+          "requires_previous_step": null
+        },
+        {
+          "id": "outlet_relaxation",
+          "highlight_parts": [
+            "Internal urethral sphincter (bladder neck)",
+            "External urethral sphincter"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Voiding requires coordinated outlet relaxation.",
+          "mechanism": "Reduced sphincter resistance permits bladder outflow.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "voiding",
+            "phase": "voiding",
+            "bladder_neck": "relaxed",
+            "external_sphincter": "relaxed",
+            "cargo": "urine"
+          },
+          "source_ids": [
+            "voiding"
+          ],
+          "source_urls": [
+            "https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-tract-how-it-works"
+          ],
+          "order": 1,
+          "view_id": "urinary_route",
+          "requires_previous_step": "storage"
+        },
+        {
+          "id": "detrusor_drive",
+          "highlight_parts": [
+            "Urinary bladder (detrusor wall)",
+            "Bladder mucosa & trigone",
+            "Prostatic urethra"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "The detrusor contracts to drive urine into the urethra.",
+          "mechanism": "Bladder-wall contraction produces the driving force.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "voiding",
+            "phase": "voiding",
+            "detrusor": "contracted",
+            "cargo": "urine",
+            "route_from": "Urinary bladder (detrusor wall)",
+            "route_to": "Prostatic urethra"
+          },
+          "source_ids": [
+            "voiding"
+          ],
+          "source_urls": [
+            "https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-tract-how-it-works"
+          ],
+          "order": 2,
+          "view_id": "urinary_route",
+          "requires_previous_step": "outlet_relaxation"
+        },
+        {
+          "id": "shared_urethra",
+          "highlight_parts": [
+            "Prostatic urethra",
+            "Membranous (intermediate) urethra",
+            "Spongy (penile) urethra"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Urine uses the same urethral segments.",
+          "mechanism": "Urinary outflow uses the prostatic, intermediate and spongy urethra.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "voiding",
+            "phase": "voiding",
+            "cargo": "urine",
+            "route_from": "Prostatic urethra",
+            "route_to": "Spongy (penile) urethra"
+          },
+          "source_ids": [
+            "voiding"
+          ],
+          "source_urls": [
+            "https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-tract-how-it-works"
+          ],
+          "order": 3,
+          "view_id": "urinary_route",
+          "requires_previous_step": "detrusor_drive"
+        },
+        {
+          "id": "urinary_exit",
+          "highlight_parts": [
+            "Spongy (penile) urethra",
+            "External urethral orifice"
+          ],
+          "effect": "select_exact_catalog_parts",
+          "caption": "Urine exits at the external urethral orifice.",
+          "mechanism": "No reproductive gland route is activated by this lesson.",
+          "state": {
+            "kind": "teaching_annotation_only",
+            "mode": "voiding",
+            "phase": "voiding",
+            "cargo": "urine",
+            "route_from": "Spongy (penile) urethra",
+            "route_to": "External urethral orifice"
+          },
+          "source_ids": [
+            "voiding"
+          ],
+          "source_urls": [
+            "https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-tract-how-it-works"
+          ],
+          "order": 4,
+          "view_id": "urinary_route",
+          "requires_previous_step": "shared_urethra"
+        }
+      ],
+      "schematic_limitations": [
+        "No urinary pressure, bladder volume, flow rate, neural feedback or emptying solver.",
+        "The urethral objects are wall/conduit selectors, not verified fluid volumes.",
+        "Outlet relaxation and detrusor contraction are coordinated physiology; separate highlights do not encode an obligatory measurable delay.",
+        "Switching mode must clear all previous selections and teaching state."
+      ]
+    }
+  ],
+  "description_overrides": {
+    "Acrosome": "Acrosome: a Golgi-derived secretory cap over the anterior sperm nucleus. Acrosomal exocytosis releases contents and remodels the sperm head during fertilization. Capacitation, interaction with the cumulus and zona pellucida, and membrane fusion are distinct steps. Human zona recognition involves several molecular interactions; this inset does not depict a single universal ZP3 trigger or establish reaction timing.",
+    "Neck (centrioles) & post-acrosomal region": "Neck (connecting piece) and post-acrosomal region: the neck joins the head and flagellum. Human sperm retain a typical proximal centriole and a structurally remodeled atypical distal centriole near the axoneme base. Research supports functions for both in paternal centrosome contribution, with some functional evidence obtained from extract assays and bovine zygotes. The centrioles are not separately resolved by this teaching mesh. The post-acrosomal head region participates in the sperm-oocyte interaction."
+  },
+  "head_provenance": "Sperm head: representative flattened ellipsoid using reported mean length 5.18 um, width 3.53 um and volume 8.03 um^3. Thickness is calculated from an ellipsoid-volume assumption, not independently measured. Tail calibre and organelle visibility are exaggerated for teaching.",
+  "nuclear_ownership": [
+    {
+      "part": "Germ cell nuclei",
+      "group": "Seminiferous tubule (inset, ~x200)",
+      "host_parts": [
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids"
+      ],
+      "source_function": "_tubule_inset",
+      "source_lines": "1161-1214, 1280-1282",
+      "mechanism": "Same kind/c/rad/a/squash records generate each germ-cell body and its smaller nucleus after _space_cells. sg/sc1/sc2/sd/esd kinds map to Spermatogonia/Primary spermatocytes/Secondary spermatocytes/Spermatids/Spermatids.",
+      "authored_count": 43,
+      "warning": "Count inferred from put calls, not saved-mesh component count or histologic population. Existing merged nuclear mesh loses per-parent identity; emit deterministic parent record sidecar during construction if stage-specific nuclear isolation is required."
+    },
+    {
+      "part": "Sertoli cell nuclei",
+      "group": "Seminiferous tubule (inset, ~x200)",
+      "host_parts": [
+        "Sertoli (sustentacular) cells"
+      ],
+      "authored_count": 13,
+      "source_lines": "1243-1269",
+      "mechanism": "One basal oval nucleus per Sertoli sector; preserve same sector index in any future transform."
+    },
+    {
+      "part": "Leydig cell nuclei",
+      "group": "Seminiferous tubule (inset, ~x200)",
+      "host_parts": [
+        "Leydig (interstitial) cells"
+      ],
+      "source_lines": "1283-1301",
+      "mechanism": "Use paired per-cell generation record, not nearest global mesh label. Exact count not asserted here."
+    }
+  ],
+  "anatomical_domains": [
+    {
+      "parts": [
+        "Urinary bladder (detrusor wall)",
+        "Bladder mucosa & trigone",
+        "Ureter (entering the bladder)",
+        "Prostatic urethra",
+        "Membranous (intermediate) urethra",
+        "Spongy (penile) urethra",
+        "Ductus deferens (vas deferens)"
+      ],
+      "semantic": "wall/tissue domain, with lumen a separate negative-space domain",
+      "required_rule": "Do not reinterpret any whole solid label as fluid; retain authored inner/outer wall radii. Flow uses source-derived centerlines and explicit lumen sampling in deferred build."
+    },
+    {
+      "parts": [
+        "Prostate - peripheral zone",
+        "Prostate - central zone",
+        "Prostate - transition zone",
+        "Anterior fibromuscular stroma",
+        "Prostatic capsule",
+        "Seminal colliculus (verumontanum)",
+        "Ejaculatory duct"
+      ],
+      "semantic": "neighboring material territories with legitimate fitted contacts",
+      "required_rule": "No global pairwise collision elimination. Preserve zones, gland/duct contacts, capsule and posterior colliculus relationship. Existing approximate 70/25/5 glandular-zone labels are teaching proportions, not mesh-volume guarantees."
+    },
+    {
+      "parts": [
+        "Sertoli (sustentacular) cells",
+        "Sertoli cell nuclei",
+        "Spermatogonia",
+        "Primary spermatocytes",
+        "Secondary spermatocytes",
+        "Spermatids",
+        "Germ cell nuclei",
+        "Leydig (interstitial) cells",
+        "Leydig cell nuclei"
+      ],
+      "semantic": "nested parent cell and nuclear material",
+      "required_rule": "Cells and nuclei must co-transform, but displayed parent cytoplasm should not render through nuclei on the section plane. Semantic containment differs from material-domain exclusivity. Do not subtract nuclei from the whole tubule or force every nucleus into Sertoli."
+    },
+    {
+      "parts": [
+        "Spermatozoa (lumen)"
+      ],
+      "semantic": "whole luminal sperm representatives, despite category nucleus",
+      "required_rule": "Preserve exact name/color and assign teaching sidecar semantic whole_sperm; do not treat this label as only nuclear material in automated ownership rules."
+    },
+    {
+      "parts": [
+        "Inguinal canal"
+      ],
+      "semantic": "inguinal passage context marker",
+      "required_rule": "Do not use Inguinal canal translucent marker as bodily fluid or tissue and do not globally boolean it from neighboring layers."
+    },
+    {
+      "parts": [
+        "Basement membrane & peritubular myoid cells"
+      ],
+      "semantic": "composite basement membrane plus peritubular myoid shell",
+      "required_rule": "Keep composite identity explicit; label does not prove separately resolved basal lamina and myoid cells."
+    },
+    {
+      "parts": [
+        "Sperm nucleus",
+        "Acrosome",
+        "Neck (centrioles) & post-acrosomal region",
+        "Axoneme (9+2 microtubules)",
+        "End piece",
+        "Midpiece (mitochondrial sheath)",
+        "Principal piece (fibrous sheath)"
+      ],
+      "semantic": "organelles and sheaths in independently enlarged sperm inset",
+      "required_rule": "Keep all independent domains and head-tail attachment; avoid tissue texture creating additional nuclei. 9+2 motif is educational ultrastructure, not native nanometre geometry."
+    }
+  ],
+  "sequence_source_registry": [
+    {
+      "id": "testis_histology",
+      "title": "University of Minnesota Histology Guide: MHS 267 Testis",
+      "url": "https://www.histologyguide.org/slideview/MHS-267-testis-and-epididymis/19-slide-1.html",
+      "type": "authoritative_histology_teaching",
+      "retrieval": "opened_text",
+      "relevance": "Basal/luminal germ-cell stages, Sertoli barrier, Leydig testosterone and straight-tubule/rete continuity. The illustrated tissue is monkey."
+    },
+    {
+      "id": "reproduction",
+      "title": "OpenStax: Anatomy and Physiology of the Male Reproductive System",
+      "url": "https://openstax.org/books/anatomy-and-physiology/pages/27-1-anatomy-and-physiology-of-the-male-reproductive-system",
+      "type": "authoritative_teaching_text",
+      "retrieval": "opened_text",
+      "relevance": "Germ-cell lineage, somatic support, testicular duct order and erectile blood flow."
+    },
+    {
+      "id": "epididymis",
+      "title": "University of Minnesota Histology Guide: MH 185 Epididymis",
+      "url": "https://www.histologyguide.org/slideview/MH-185-epididymis/19-slide-1.html",
+      "type": "authoritative_histology_teaching",
+      "retrieval": "opened_text",
+      "relevance": "Maturation, caudal storage and smooth-muscle-driven transport; illustrated specimen is rat, not a human timing measurement."
+    },
+    {
+      "id": "ejaculation",
+      "title": "Contemporary management of ejaculatory dysfunction",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6127532/",
+      "type": "peer_reviewed_review",
+      "retrieval": "opened_text",
+      "relevance": "Sympathetic emission and bladder-neck closure versus somatic rhythmic expulsion; ejaculation and orgasm are distinct."
+    },
+    {
+      "id": "erection_primary",
+      "title": "Cyclic AMP-dependent phosphorylation of neuronal nitric oxide synthase mediates penile erection",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3478647/",
+      "type": "primary_research",
+      "retrieval": "opened_text",
+      "relevance": "Experimental evidence for neuronal NO in erection. Rodent experiments support signaling, not human animation kinetics."
+    },
+    {
+      "id": "human_cavernosal_primary",
+      "title": "Oxygen tension regulates the nitric oxide pathway. Physiological role in penile erection",
+      "url": "https://www.jci.org/articles/view/116220",
+      "type": "primary_research",
+      "retrieval": "opened_text",
+      "relevance": "NO-dependent relaxation in isolated human and rabbit corpus cavernosum; distinct from sphincter relaxation."
+    },
+    {
+      "id": "voiding",
+      "title": "NIDDK: The Urinary Tract & How It Works",
+      "url": "https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-tract-how-it-works",
+      "type": "authoritative_government_teaching",
+      "retrieval": "opened_text",
+      "relevance": "Storage versus coordinated sphincter relaxation and bladder-wall contraction."
+    },
+    {
+      "id": "barrier_primary_abstract",
+      "title": "Smith and Braun: Germ cell migration across Sertoli cell tight junctions",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/22997133/",
+      "type": "primary_research",
+      "retrieval": "searchable_abstract_retrieved_open_full_page_blocked",
+      "relevance": "Mouse confocal observations: new and old Sertoli junctions transiently bound migrating germ-cell cysts. Full-text opening returned access checks; do not claim full-page verification."
+    }
+  ]
+}

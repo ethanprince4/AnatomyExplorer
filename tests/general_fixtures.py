@@ -29,3 +29,42 @@ def write_fixture_model(path):
     path.write_bytes(struct.pack("<4sII", b"glTF", 2, 28 + len(encoded) + len(binary)) +
                      struct.pack("<I4s", len(encoded), b"JSON") + encoded +
                      struct.pack("<I4s", len(binary), b"BIN\0") + binary)
+
+
+def wait_for_model_ready(window, model_id, timeout_ms=5000):
+    """Wait for the explicit async readiness callback, with a failing deadline.
+
+    This does not render, sleep, guess worker timing, or accept a loading/error
+    tab as a model. MainWindow guarantees its initial framing precedes readiness.
+    """
+    from PySide6.QtCore import QEventLoop, QTimer
+    loop = QEventLoop()
+    deadline = QTimer()
+    deadline.setSingleShot(True)
+    deadline.timeout.connect(loop.quit)
+    outcome = []
+    def ready(view):
+        outcome.append(view)
+        loop.quit()
+    window.when_model_ready(model_id, ready)
+    if not outcome:
+        deadline.start(timeout_ms)
+        loop.exec()
+    deadline.stop()
+    if not outcome:
+        raise AssertionError(f"Owned model {model_id} did not become ready within {timeout_ms} ms")
+    if outcome[0] is None:
+        pending = window._loading_models.get(model_id)
+        detail = pending.note.text() if pending is not None else "load cancelled or missing"
+        raise AssertionError(f"Owned model {model_id} failed: {detail}")
+    if window.micro_tabs.get(model_id) is not outcome[0]:
+        raise AssertionError("Readiness callback did not identify the installed model tab")
+    return outcome[0]
+
+
+def open_fixture_model(window, path, timeout_ms=5000):
+    """Open an owned small GLB through the real async application boundary."""
+    from app.viewer.catalog import FileEntry
+    model_id = FileEntry(path).id
+    window.open_model_file(str(path))
+    return wait_for_model_ready(window, model_id, timeout_ms)

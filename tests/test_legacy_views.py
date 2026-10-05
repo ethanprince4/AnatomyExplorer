@@ -11,7 +11,7 @@ ROOT = next(p for p in HERE.parents if (p / "app/main_window.py").exists())
 sys.path.insert(0, str(ROOT))
 from test_state_and_recovery import QAPP, MainWindow, Dataset, config
 from PySide6.QtCore import QCoreApplication, QEvent, QSettings, QTimer
-from PySide6.QtWidgets import QDialog, QListWidget, QPushButton
+from PySide6.QtWidgets import QDialog, QListWidget, QPushButton, QMessageBox
 
 
 class LegacySavedViewTests(unittest.TestCase):
@@ -52,8 +52,12 @@ class LegacySavedViewTests(unittest.TestCase):
                 listing = dialog.findChild(QListWidget)
                 self.assertEqual([listing.item(i).text() for i in range(listing.count())], ["A", "B", "B"])
                 listing.setCurrentRow(row)
-                button = next(b for b in dialog.findChildren(QPushButton) if b.text() == action)
-                button.click()
+                button = {"Open": dialog.open_button, "Rename": dialog.rename_button,
+                          "Delete": dialog.delete_button}[action]
+                with patch("app.ui.saved_views.QMessageBox.question", return_value=QMessageBox.Yes) as confirm:
+                    button.click()
+                    if action == "Delete":
+                        confirm.assert_called_once()
                 observed.append(copy.deepcopy(self.win._saved_views()))
             except Exception as exc:
                 errors.append(exc)
@@ -75,7 +79,7 @@ class LegacySavedViewTests(unittest.TestCase):
         self.assertEqual(json.loads(persisted.value("saved_views")), self.views[:2])
 
     def test_rename_duplicate_name_changes_only_selected_record(self):
-        with patch("app.main_window.QInputDialog.getText", return_value=("C", True)):
+        with patch("app.ui.saved_views.QInputDialog.getText", return_value=("C", True)):
             after = self._activate("Rename", 2)
         expected = copy.deepcopy(self.views)
         expected[2]["name"] = "C"

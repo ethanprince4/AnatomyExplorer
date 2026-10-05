@@ -1,0 +1,951 @@
+{
+  "schema_version": 1,
+  "model_id": "lymph_node",
+  "status": "design_ready",
+  "part_names": [
+    "Capsule",
+    "Trabeculae",
+    "Hilum connective tissue",
+    "Subcapsular sinus",
+    "Trabecular sinuses",
+    "Outer cortex (B-cell zone)",
+    "Primary follicles",
+    "Mantle zone (secondary follicles)",
+    "Germinal centre - light zone",
+    "Germinal centre - dark zone",
+    "Paracortex (T-cell zone)",
+    "High endothelial venules",
+    "Medullary cords",
+    "Medullary sinuses",
+    "Reticular fibre meshwork",
+    "Sinus macrophages",
+    "Afferent lymphatic vessels",
+    "Efferent lymphatic vessel",
+    "Lymphatic valves",
+    "Artery (hilar and medullary branches)",
+    "Vein (hilar and medullary tributaries)"
+  ],
+  "simulation": false,
+  "runtime_delivery": "Manual native viewer camera presets; captions and focus are accompanying review-sidecar instructions.",
+  "installer": "resolve_function.py:install_function_presets",
+  "part_semantics": {
+    "Subcapsular sinus": "lymph fluid domain",
+    "Trabecular sinuses": "lymph fluid domain",
+    "Medullary sinuses": "lymph fluid domain",
+    "Reticular fibre meshwork": "solid sinus scaffold",
+    "Sinus macrophages": "solid sinus macrophages"
+  },
+  "internal_category_note": "The legacy csf part category is a rendering classification; nodal sinus contents are lymph, not CSF.",
+  "sources": [
+    {
+      "id": "histology",
+      "url": "https://histologyguide.com/slideview/MHS-213-lymph-nodes/10-slide-1.html",
+      "title": "Histology Guide MHS 231 Lymph Nodes",
+      "opened": "2026-10-04",
+      "kind": "authoritative histology text",
+      "supports": "regional identity and lymph/blood entry"
+    },
+    {
+      "id": "hev_adhesion",
+      "url": "https://vonandrian.hms.harvard.edu/publications/molecular-mechanisms-lymphocyte-homing-peripheral-lymph-nodes",
+      "title": "Warnock et al. 1998",
+      "opened": "2026-10-04",
+      "kind": "primary study author-laboratory abstract",
+      "supports": "rolling, activation, LFA-1 arrest"
+    },
+    {
+      "id": "hev_chemokine",
+      "url": "https://rupress.org/jem/article/191/1/61/39302/The-Cc-Chemokine-Thymus-Derived-Chemotactic-Agent",
+      "title": "Stein et al. 2000",
+      "opened": "2026-10-04",
+      "kind": "primary study publisher title/metadata",
+      "supports": "CCL21-triggered LFA-1 arrest; abstract body not fetched"
+    },
+    {
+      "id": "conduit",
+      "url": "https://research-explorer.ista.ac.at/record/3933",
+      "title": "Sixt et al. 2005",
+      "opened": "2026-10-04",
+      "kind": "primary study author-institution abstract",
+      "supports": "soluble-antigen delivery to resident DCs distinct from arriving mature DCs"
+    },
+    {
+      "id": "gc_recycling",
+      "url": "https://scholars.mssm.edu/en/publications/germinal-center-dynamics-revealed-by-multiphoton-microscopy-with--2/",
+      "title": "Victora et al. 2010",
+      "opened": "2026-10-04",
+      "kind": "primary study institutional abstract",
+      "supports": "dark-to-light migration and T-cell-help-controlled recycling"
+    },
+    {
+      "id": "csr",
+      "url": "https://research.monash.edu/en/publications/class-switch-recombination-occurs-infrequently-in-germinal-center/",
+      "title": "Roco et al. 2019",
+      "opened": "2026-10-04",
+      "kind": "primary study institutional abstract",
+      "supports": "CSR before GC differentiation and decline after GC establishment"
+    }
+  ],
+  "sequences": [
+    {
+      "id": "lymph_drainage",
+      "mechanism": "Bulk lymph entry, compartmental passage, filtration and hilar drainage.",
+      "source_ids": [
+        "histology"
+      ],
+      "steps": [
+        {
+          "id": "01_afferent_entry",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Trabeculae",
+              "Hilum connective tissue",
+              "Subcapsular sinus",
+              "Trabecular sinuses",
+              "Medullary sinuses",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves"
+            ],
+            "hidden_parts": [
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Paracortex (T-cell zone)",
+              "High endothelial venules",
+              "Medullary cords",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "focus_parts": [
+              "Afferent lymphatic vessels",
+              "Lymphatic valves"
+            ],
+            "labels": [
+              "Afferent lymphatic vessels",
+              "Lymphatic valves"
+            ],
+            "camera_preset": "03 Lymph route",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "Lymph arriving from draining tissue enters through collecting afferent vessels on the convex surface. Valves discourage reverse flow.",
+          "mechanism": "afferent_forward_entry",
+          "schematic_limitations": [
+            "Valves are static; no pressure, contraction, valve opening or flow velocity is simulated."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "02_subcapsular_capture",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Trabeculae",
+              "Hilum connective tissue",
+              "Subcapsular sinus",
+              "Trabecular sinuses",
+              "Medullary sinuses",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves",
+              "Reticular fibre meshwork",
+              "Sinus macrophages"
+            ],
+            "hidden_parts": [
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Paracortex (T-cell zone)",
+              "High endothelial venules",
+              "Medullary cords",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "focus_parts": [
+              "Subcapsular sinus",
+              "Sinus macrophages"
+            ],
+            "labels": [
+              "Subcapsular sinus",
+              "Sinus macrophages"
+            ],
+            "camera_preset": "03 Lymph route",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "The subcapsular sinus receives afferent lymph. Representative sinus macrophages illustrate capture of particulate material.",
+          "mechanism": "sinus_antigen_capture",
+          "schematic_limitations": [
+            "The macrophage drawing does not resolve the specialized subcapsular floor population or antigen transfer into follicles."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "03_cortical_passage",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Trabeculae",
+              "Hilum connective tissue",
+              "Subcapsular sinus",
+              "Trabecular sinuses",
+              "Medullary sinuses",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves"
+            ],
+            "hidden_parts": [
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Paracortex (T-cell zone)",
+              "High endothelial venules",
+              "Medullary cords",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "focus_parts": [
+              "Trabecular sinuses",
+              "Trabeculae"
+            ],
+            "labels": [
+              "Trabecular sinuses",
+              "Trabeculae"
+            ],
+            "camera_preset": "03 Lymph route",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "Lymph passes from subcapsular into cortical/trabecular sinus spaces alongside connective-tissue trabeculae.",
+          "mechanism": "sinus_compartment_transport",
+          "schematic_limitations": [
+            "This is ordered compartment highlighting; continuous saved-mesh communication remains a separate-machine check."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "04_medullary_passage",
+          "state": {
+            "visible_parts": [
+              "Hilum connective tissue",
+              "Medullary cords",
+              "Medullary sinuses",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Efferent lymphatic vessel"
+            ],
+            "hidden_parts": [
+              "Capsule",
+              "Trabeculae",
+              "Subcapsular sinus",
+              "Trabecular sinuses",
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Paracortex (T-cell zone)",
+              "High endothelial venules",
+              "Afferent lymphatic vessels",
+              "Lymphatic valves",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "focus_parts": [
+              "Medullary sinuses",
+              "Medullary cords"
+            ],
+            "labels": [
+              "Medullary sinuses",
+              "Medullary cords"
+            ],
+            "camera_preset": "06 Cords beside sinuses",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "Lymph traverses medullary sinuses between cell-rich medullary cords. Plasma cells in the cords secrete antibody into local extracellular tissue; antibody can enter draining lymph.",
+          "mechanism": "medullary_filtration_and_secretion",
+          "schematic_limitations": [
+            "Individual plasma cells and secretion transport are not meshes; sinus fills denote fluid domains."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "05_efferent_exit",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Trabeculae",
+              "Hilum connective tissue",
+              "Subcapsular sinus",
+              "Trabecular sinuses",
+              "Medullary sinuses",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves"
+            ],
+            "hidden_parts": [
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Paracortex (T-cell zone)",
+              "High endothelial venules",
+              "Medullary cords",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "focus_parts": [
+              "Efferent lymphatic vessel",
+              "Hilum connective tissue"
+            ],
+            "labels": [
+              "Efferent lymphatic vessel",
+              "Hilum connective tissue"
+            ],
+            "camera_preset": "03 Lymph route",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "Medullary lymph drains toward the hilum and exits in the efferent lymphatic, carrying soluble material and recirculating cells onward.",
+          "mechanism": "hilar_efferent_drainage",
+          "schematic_limitations": [
+            "One efferent vessel is the chosen illustration; regional vessel number and downstream nodes are not reconstructed."
+          ],
+          "advance": "manual"
+        }
+      ],
+      "schematic_limitations": [
+        "No physical-marker animation or quantified fluid dynamics.",
+        "Sinus fluid and solid macrophage/fibre occupancy are distinct semantics."
+      ]
+    },
+    {
+      "id": "hev_entry",
+      "mechanism": "A lymphocyte crosses from blood to nodal tissue through a representative HEV; T and B cells subsequently occupy different zones.",
+      "source_ids": [
+        "histology",
+        "hev_adhesion",
+        "hev_chemokine"
+      ],
+      "steps": [
+        {
+          "id": "01_blood_route",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Hilum connective tissue",
+              "Paracortex (T-cell zone)",
+              "High endothelial venules",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "hidden_parts": [
+              "Trabeculae",
+              "Subcapsular sinus",
+              "Trabecular sinuses",
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Medullary cords",
+              "Medullary sinuses",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves"
+            ],
+            "focus_parts": [
+              "High endothelial venules",
+              "Artery (hilar and medullary branches)"
+            ],
+            "labels": [
+              "High endothelial venules",
+              "Artery (hilar and medullary branches)"
+            ],
+            "camera_preset": "05 Blood entry through HEVs",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "Blood-borne lymphocytes encounter postcapillary high endothelial venules in the paracortex.",
+          "mechanism": "blood_to_hev_context",
+          "schematic_limitations": [
+            "The four HEV examples are isolated authored tubules; the intervening capillary bed and complete arterial-to-venous route are absent."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "02_rolling",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Hilum connective tissue",
+              "Paracortex (T-cell zone)",
+              "High endothelial venules",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "hidden_parts": [
+              "Trabeculae",
+              "Subcapsular sinus",
+              "Trabecular sinuses",
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Medullary cords",
+              "Medullary sinuses",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves"
+            ],
+            "focus_parts": [
+              "High endothelial venules"
+            ],
+            "labels": [
+              "High endothelial venules"
+            ],
+            "camera_preset": "05 Blood entry through HEVs",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "L-selectin-dependent interactions with HEV addressins support lymphocyte tethering and rolling at the luminal endothelial surface.",
+          "mechanism": "selectin_rolling",
+          "schematic_limitations": [
+            "Molecular receptors and individual rolling lymphocytes are explanatory callouts, not model parts."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "03_activation_arrest",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Hilum connective tissue",
+              "Paracortex (T-cell zone)",
+              "High endothelial venules",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "hidden_parts": [
+              "Trabeculae",
+              "Subcapsular sinus",
+              "Trabecular sinuses",
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Medullary cords",
+              "Medullary sinuses",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves"
+            ],
+            "focus_parts": [
+              "High endothelial venules"
+            ],
+            "labels": [
+              "High endothelial venules"
+            ],
+            "camera_preset": "05 Blood entry through HEVs",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "An endothelial chemokine signal, illustrated by CCL21, promotes integrin-mediated firm arrest through LFA-1.",
+          "mechanism": "chemokine_integrin_arrest",
+          "schematic_limitations": [
+            "Sequence is conceptual; receptor binding kinetics and cell displacement are not calculated."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "04_transmigration",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Hilum connective tissue",
+              "Paracortex (T-cell zone)",
+              "High endothelial venules",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "hidden_parts": [
+              "Trabeculae",
+              "Subcapsular sinus",
+              "Trabecular sinuses",
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Medullary cords",
+              "Medullary sinuses",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves"
+            ],
+            "focus_parts": [
+              "High endothelial venules",
+              "Paracortex (T-cell zone)"
+            ],
+            "labels": [
+              "High endothelial venules",
+              "Paracortex (T-cell zone)"
+            ],
+            "camera_preset": "05 Blood entry through HEVs",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "After arrest the lymphocyte traverses the HEV endothelium and enters surrounding paracortical tissue.",
+          "mechanism": "blood_to_tissue_transmigration",
+          "schematic_limitations": [
+            "No resolved migration pore or cell-wall interaction is present; use the HEV region and accompanying explanation."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "05_zone_homing",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Subcapsular sinus",
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Paracortex (T-cell zone)",
+              "High endothelial venules"
+            ],
+            "hidden_parts": [
+              "Trabeculae",
+              "Hilum connective tissue",
+              "Trabecular sinuses",
+              "Medullary cords",
+              "Medullary sinuses",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "focus_parts": [
+              "Paracortex (T-cell zone)",
+              "Primary follicles"
+            ],
+            "labels": [
+              "Paracortex (T-cell zone)",
+              "Primary follicles"
+            ],
+            "camera_preset": "04 Follicles and germinal centres",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "After entry, naive T cells preferentially survey the T-cell zone and naive B cells localize to follicles. Blood entry through an HEV is distinct from afferent lymph entry into a sinus.",
+          "mechanism": "t_and_b_zone_localization",
+          "schematic_limitations": [
+            "Zone preference is a teaching summary; no chemokine field, exact cell fraction, or migration trajectory is simulated."
+          ],
+          "advance": "manual"
+        }
+      ],
+      "schematic_limitations": [
+        "HEVs are not lymphatic sinuses.",
+        "No complete perfusable blood-vessel graph."
+      ]
+    },
+    {
+      "id": "germinal_centre_cycle",
+      "mechanism": "Activated B-cell proliferation and mutation alternate with light-zone selection; surviving cells can recycle or differentiate.",
+      "source_ids": [
+        "gc_recycling",
+        "csr",
+        "histology"
+      ],
+      "steps": [
+        {
+          "id": "01_primary_secondary",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Subcapsular sinus",
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Paracortex (T-cell zone)"
+            ],
+            "hidden_parts": [
+              "Trabeculae",
+              "Hilum connective tissue",
+              "Trabecular sinuses",
+              "High endothelial venules",
+              "Medullary cords",
+              "Medullary sinuses",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "focus_parts": [
+              "Primary follicles",
+              "Mantle zone (secondary follicles)"
+            ],
+            "labels": [
+              "Primary follicles",
+              "Mantle zone (secondary follicles)"
+            ],
+            "camera_preset": "04 Follicles and germinal centres",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "A primary follicle lacks a germinal centre. A secondary follicle has a germinal centre inside its mantle; this model shows both as representative populations.",
+          "mechanism": "follicle_activation_context",
+          "schematic_limitations": [
+            "Multiple follicles are merged into named parts, so native isolation selects the follicular population rather than a single follicle instance."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "02_dark_zone",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Subcapsular sinus",
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Paracortex (T-cell zone)"
+            ],
+            "hidden_parts": [
+              "Trabeculae",
+              "Hilum connective tissue",
+              "Trabecular sinuses",
+              "High endothelial venules",
+              "Medullary cords",
+              "Medullary sinuses",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "focus_parts": [
+              "Germinal centre - dark zone"
+            ],
+            "labels": [
+              "Germinal centre - dark zone"
+            ],
+            "camera_preset": "04 Follicles and germinal centres",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "Dark-zone GC B cells proliferate and undergo somatic hypermutation, creating receptor variants for later selection.",
+          "mechanism": "clonal_proliferation_and_mutation",
+          "schematic_limitations": [
+            "Cells, division and AID activity are conceptual; zone geometry and the capsular-to-deep polarity are illustrative."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "03_light_zone",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Subcapsular sinus",
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Paracortex (T-cell zone)"
+            ],
+            "hidden_parts": [
+              "Trabeculae",
+              "Hilum connective tissue",
+              "Trabecular sinuses",
+              "High endothelial venules",
+              "Medullary cords",
+              "Medullary sinuses",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "focus_parts": [
+              "Germinal centre - light zone"
+            ],
+            "labels": [
+              "Germinal centre - light zone"
+            ],
+            "camera_preset": "04 Follicles and germinal centres",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "B cells move to the light zone, acquire antigen associated with follicular dendritic cells and present antigen to follicular helper T cells. Help influences survival and expansion.",
+          "mechanism": "antigen_capture_and_tfh_selection",
+          "schematic_limitations": [
+            "FDCs and Tfh cells are not separately modeled. Sinus macrophage geometry must not be reused as a GC tingible-body macrophage."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "04_recycle",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Subcapsular sinus",
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Paracortex (T-cell zone)"
+            ],
+            "hidden_parts": [
+              "Trabeculae",
+              "Hilum connective tissue",
+              "Trabecular sinuses",
+              "High endothelial venules",
+              "Medullary cords",
+              "Medullary sinuses",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "focus_parts": [
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone"
+            ],
+            "labels": [
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone"
+            ],
+            "camera_preset": "04 Follicles and germinal centres",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "Selected B cells can return from the light zone to the dark zone for further clonal expansion and mutation. Repeated mutation and selection contribute to affinity maturation.",
+          "mechanism": "light_to_dark_recycling",
+          "schematic_limitations": [
+            "The return arrow is a semantic route between two exact parts, not a measured path or a universal number of cycles."
+          ],
+          "advance": "manual"
+        },
+        {
+          "id": "05_branching_fates",
+          "state": {
+            "visible_parts": [
+              "Capsule",
+              "Subcapsular sinus",
+              "Outer cortex (B-cell zone)",
+              "Primary follicles",
+              "Mantle zone (secondary follicles)",
+              "Germinal centre - light zone",
+              "Germinal centre - dark zone",
+              "Paracortex (T-cell zone)",
+              "Medullary cords"
+            ],
+            "hidden_parts": [
+              "Trabeculae",
+              "Hilum connective tissue",
+              "Trabecular sinuses",
+              "High endothelial venules",
+              "Medullary sinuses",
+              "Reticular fibre meshwork",
+              "Sinus macrophages",
+              "Afferent lymphatic vessels",
+              "Efferent lymphatic vessel",
+              "Lymphatic valves",
+              "Artery (hilar and medullary branches)",
+              "Vein (hilar and medullary tributaries)"
+            ],
+            "focus_parts": [
+              "Germinal centre - light zone",
+              "Medullary cords"
+            ],
+            "labels": [
+              "Germinal centre - light zone",
+              "Medullary cords"
+            ],
+            "camera_preset": "04 Follicles and germinal centres",
+            "cut_on": true,
+            "layer_separation": 0,
+            "opacity": "preserve_part_alpha"
+          },
+          "caption": "GC responses produce memory B-cell and antibody-secreting-cell output; unsuccessful cells can undergo apoptosis. Class switching is not an obligatory light-zone exit event.",
+          "mechanism": "differentiation_or_apoptosis",
+          "schematic_limitations": [
+            "Outputs are fate explanations, not compulsory routes into medullary cords. Primary mouse studies support CSR before GC differentiation; GC switching is not claimed impossible."
+          ],
+          "advance": "manual"
+        }
+      ],
+      "schematic_limitations": [
+        "No fixed GC onset timeline or all-or-none receptor-affinity rule.",
+        "No one-to-one mapping of every GC output cell to the displayed medullary cords."
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "id": "bulk_lymph",
+      "ordered_parts": [
+        "Afferent lymphatic vessels",
+        "Subcapsular sinus",
+        "Trabecular sinuses",
+        "Medullary sinuses",
+        "Efferent lymphatic vessel"
+      ],
+      "transport": "lymph",
+      "geometric_animation_enabled": false,
+      "manifest_bindings": [
+        "authored_loci.afferent_paths",
+        "authored_loci.trabecular_paths",
+        "authored_loci.efferent_path"
+      ],
+      "required_physical_validation": [
+        "afferent_lumen_to_scs",
+        "scs_to_trabecular_sinus",
+        "trabecular_to_medullary_sinus",
+        "medullary_to_efferent_lumen"
+      ],
+      "missing_loci": [
+        "continuous sinus-domain traversals"
+      ],
+      "coordinate_note": "Manifest loci are prewarp; never draw those directly over the settled native model."
+    },
+    {
+      "id": "hev_crossing",
+      "ordered_parts": [
+        "High endothelial venules",
+        "Paracortex (T-cell zone)"
+      ],
+      "transport": "lymphocyte",
+      "geometric_animation_enabled": false,
+      "manifest_bindings": [
+        "authored_loci.hev_paths"
+      ],
+      "required_physical_validation": [
+        "hev_wall_and_lumen_readability"
+      ],
+      "coordinate_note": "Representative HEV crossing is conceptual; no artery-to-HEV connection is claimed."
+    },
+    {
+      "id": "gc_recycling",
+      "ordered_parts": [
+        "Germinal centre - dark zone",
+        "Germinal centre - light zone",
+        "Germinal centre - dark zone"
+      ],
+      "transport": "GC B cell",
+      "geometric_animation_enabled": false,
+      "manifest_bindings": [
+        "authored_loci.follicles"
+      ],
+      "required_physical_validation": [
+        "gc_polarity",
+        "same_follicle_instance_binding"
+      ],
+      "coordinate_note": "Use a secondary follicle centre/inward_normal pair from one manifest instance, not aggregate centroids of merged GC parts."
+    }
+  ],
+  "description_overrides": {
+    "Germinal centre - light zone": {
+      "source_key": "gc_light",
+      "description": "Germinal centre - light zone: shown at the capsular-facing pole. B cells capture antigen retained by follicular dendritic cells and present it to follicular helper T cells. Successful cells can recycle to the dark zone for further expansion or differentiate toward memory B cells and antibody-secreting plasma cells. Cells that fail selection undergo apoptosis and are cleared by tingible-body macrophages. Class switching is not an obligatory light-zone step; it often begins during early B-cell activation before a mature germinal centre forms. The zone boundary and cellular pathways are schematic."
+    },
+    "Germinal centre - dark zone": {
+      "source_key": "gc_dark",
+      "description": "Germinal centre - dark zone: shown at the inward-facing pole. Proliferating B cells expand and undergo AID-dependent somatic hypermutation. Cells move toward light-zone selection, and selected cells may recycle back for further proliferation. A germinal centre distinguishes a responding secondary follicle; this static specimen does not assign a fixed time after antigen exposure."
+    },
+    "High endothelial venules": {
+      "source_key": "hev",
+      "description": "High endothelial venules: representative postcapillary venules in the paracortex, lined by tall endothelial cells through which many naive lymphocytes enter the node from blood. The four section-visible venules are teaching samples; connecting capillaries and venular drainage are not fully represented. Endothelial cells and vessel calibre are enlarged for visibility."
+    },
+    "Medullary cords": {
+      "source_key": "cords",
+      "description": "Medullary cords: branching lymphoid tissue between the medullary sinuses, rich in plasma cells, macrophages and lymphocytes. Plasma cells secrete antibody that can be carried onward in lymph. Cords are tissue domains, not lymphatic lumens or direct ducts into the efferent vessel."
+    },
+    "Reticular fibre meshwork": {
+      "source_key": "reticular",
+      "description": "Reticular fibre meshwork: enlarged representative stromal strands in the subcapsular, trabecular and medullary sinuses. These are solid supporting structures within lymph-filled spaces, not open lymphatic tubes. The separate parenchymal conduit system can distribute small soluble lymph-borne material; its continuous cortical route and cellular sheath are not resolved by this sinus-only mesh."
+    },
+    "Afferent lymphatic vessels": {
+      "source_key": "afferent",
+      "description": "Afferent lymphatic vessels: six illustrative thin-walled collecting lymphatics entering through the convex capsule into the subcapsular sinus. Intraluminal valves help prevent backflow. Vessel calibre and valve geometry are enlarged for readability."
+    },
+    "Efferent lymphatic vessel": {
+      "source_key": "efferent",
+      "description": "Efferent lymphatic vessel: the illustrated hilar outlet carries lymph, soluble material including antibody, and recirculating cells toward downstream lymphatic pathways. Its valves help prevent backflow. One vessel is shown; efferent number and calibre vary."
+    },
+    "Lymphatic valves": {
+      "source_key": "valves",
+      "description": "Lymphatic valves: paired endothelial leaflets with connective-tissue cores oriented to discourage backflow. Downstream is toward the node in the afferent vessels and away from the node in the efferent vessel. The leaflets are shown statically; their closure mechanics and flow-driven movement are not simulated."
+    }
+  },
+  "manifest_schema_note": "Proposed binding names require alignment with construction_manifest; manual presets do not depend on geometric loci.",
+  "deferred_checks": [
+    "Saved-model sinus lumen connectivity and inlet/outlet communication",
+    "Native viewer cut and hidden-selector roundtrip",
+    "Polarity and separation of GC zones in a readable cut",
+    "No complete HEV perfusion claim",
+    "Separate-machine visual review"
+  ]
+}

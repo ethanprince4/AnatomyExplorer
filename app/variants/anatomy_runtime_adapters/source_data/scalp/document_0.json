@@ -1,0 +1,1041 @@
+{
+  "schema_version": 1,
+  "model_id": "scalp",
+  "status": "source_recipe_ready_native_acceptance_deferred",
+  "baseline_selectors": [
+    "Stratum corneum",
+    "Stratum granulosum",
+    "Stratum spinosum",
+    "Stratum basale",
+    "Melanocytes",
+    "Papillary dermis",
+    "Reticular dermis",
+    "Hypodermis septa",
+    "Adipocytes (fat lobules)",
+    "Galea aponeurotica",
+    "Hair shaft",
+    "Inner root sheath",
+    "Outer root sheath",
+    "Hair bulb (matrix)",
+    "Dermal papilla of hair",
+    "Sebaceous gland",
+    "Arrector pili muscle",
+    "Eccrine sweat gland (secretory coil)",
+    "Eccrine sweat duct",
+    "Arterioles",
+    "Venules",
+    "Subpapillary plexus",
+    "Papillary capillary loops",
+    "Cutaneous nerve & branches",
+    "Free nerve endings",
+    "Hair follicle nerve endings",
+    "Pacinian corpuscles (lamellae)",
+    "Pacinian axon terminal"
+  ],
+  "companion_selectors": {
+    "Stratum basale nuclei": [
+      "Stratum basale"
+    ],
+    "Stratum spinosum nuclei": [
+      "Stratum spinosum"
+    ],
+    "Stratum granulosum nuclei": [
+      "Stratum granulosum"
+    ],
+    "Keratohyalin granules": [
+      "Stratum granulosum"
+    ],
+    "Spinous intercellular junctions": [
+      "Stratum spinosum"
+    ],
+    "Papillary dermis collagen bundles": [
+      "Papillary dermis"
+    ],
+    "Papillary dermis elastic fibres": [
+      "Papillary dermis"
+    ],
+    "Reticular dermis collagen bundles": [
+      "Reticular dermis"
+    ],
+    "Reticular dermis elastic fibres": [
+      "Reticular dermis"
+    ],
+    "Adipocyte peripheral nuclei": [
+      "Adipocytes (fat lobules)"
+    ],
+    "Hair matrix cell nuclei": [
+      "Hair bulb (matrix)"
+    ],
+    "Inner root sheath cell nuclei": [
+      "Inner root sheath"
+    ],
+    "Outer root sheath cell nuclei": [
+      "Outer root sheath"
+    ],
+    "Dermal papilla fibroblast nuclei": [
+      "Dermal papilla of hair"
+    ],
+    "Eccrine secretory epithelial nuclei": [
+      "Eccrine sweat gland (secretory coil)"
+    ],
+    "Eccrine ductal epithelial nuclei": [
+      "Eccrine sweat duct"
+    ],
+    "Eccrine myoepithelial cells": [
+      "Eccrine sweat gland (secretory coil)"
+    ],
+    "Follicular unit connective support": [
+      "Hair shaft",
+      "Outer root sheath",
+      "Hair follicle nerve endings",
+      "Arrector pili muscle"
+    ],
+    "Basal keratinocyte melanin caps": [
+      "Stratum basale"
+    ],
+    "Appendage exchange capillaries": [
+      "Arterioles",
+      "Venules"
+    ],
+    "Peripheral sebocytes": [
+      "Sebaceous gland"
+    ],
+    "Maturing sebocytes": [
+      "Sebaceous gland"
+    ],
+    "Terminal sebocyte breakdown": [
+      "Sebaceous gland"
+    ],
+    "Sebocyte nuclei": [
+      "Sebaceous gland"
+    ]
+  },
+  "extra_selector_policy": "24 planned exact additions follow explicit baseline-host mappings. Split sheath and eccrine nuclei remain independently hideable. Follicular unit connective support follows any retained named unit/target host. Unknown later additions remain visible and are returned as unmapped diagnostics; resolve them before final visibility acceptance.",
+  "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry.",
+  "views": [
+    {
+      "id": "overview",
+      "title": "Scalp specimen",
+      "purpose": "Locate epidermis, connective tissue, deep follicular bulbs, glands and terminal galea as one specimen.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "hidden_parts": [],
+      "focus_parts": [],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": 0.42
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "The retained rear panel is contextual tissue; the open foreground is deliberate specimen removal. Two representative follicular units contain three terminal follicles. Galea is the bottom included tissue, not a support plate.",
+      "missing_context": "The specimen terminates at galea; deeper loose areolar tissue, pericranium and skull are outside its included depth. Open foreground is deliberate tissue removal, not a normal empty scalp compartment.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry."
+    },
+    {
+      "id": "epidermal_context",
+      "title": "Surface production",
+      "purpose": "Compare basal cells, suprabasal cells and keratinized surface while keeping the dermoepidermal junction.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Papillary capillary loops",
+        "Free nerve endings"
+      ],
+      "hidden_parts": [
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Cutaneous nerve & branches",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": 0.42
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Follow tissue organization from basale toward corneum; distinctions must be visible on both exposed edges and surfaces.",
+      "missing_context": "Follicles, glands and deep layers are hidden for this teaching view. Missing host volume is a selective visibility operation, not loss of those tissues from scalp anatomy.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry."
+    },
+    {
+      "id": "melanocyte_detail",
+      "title": "Melanocyte and neighboring cells",
+      "purpose": "Read dendrites and their contact with local basal/suprabasal cell context.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis"
+      ],
+      "hidden_parts": [
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Melanocytes"
+      ],
+      "camera": {
+        "yaw_radians": -0.15,
+        "pitch_radians": 0.2,
+        "target": [
+          -0.65,
+          0.9115,
+          -0.42
+        ],
+        "radius_units": 0.12,
+        "coordinate_status": "source_anchor_seed_requires_native_alignment_after_geometry_refinement",
+        "target_anchor": "melanocyte_0_center"
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Inspect one source melanocyte at the rear retained panel; its dendrites must remain readable with local neighboring keratinocytes. Basal keratinocyte melanin caps are separately hosted schematic recipient caps, not a dynamic melanosome-transfer assay.",
+      "missing_context": "Native cutaway removes foreground tissue and may section a cell. All retained epidermal host layers remain present; current source does not add a separately selectable local melanocyte host island. If hiding those hosts makes dendrites float or retained cells unreadable, that configuration fails and requires source correction.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry.",
+      "section": {
+        "name": "Coronal cell-context cutaway",
+        "ui_axis_index": 1,
+        "world_axis": "Z",
+        "authored_position": -0.42,
+        "position_anchor": "melanocyte_0_coronal_z",
+        "flip": true,
+        "acceptance": "Cut direction and cell-neighbor readability require native alignment; this is a retained-halfspace cutaway, not a thin optical section."
+      }
+    },
+    {
+      "id": "matrix_longitudinal",
+      "title": "Hair growth apparatus",
+      "purpose": "Expose matrix around papilla and continuity toward inner sheath and shaft.",
+      "visible_parts": [
+        "Hair shaft",
+        "Inner root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Hypodermis septa",
+        "Galea aponeurotica"
+      ],
+      "hidden_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Adipocytes (fat lobules)",
+        "Outer root sheath",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": 0.18,
+        "target": [
+          -0.86,
+          0.25,
+          0.03
+        ],
+        "radius_units": 0.25,
+        "coordinate_status": "source_anchor_seed_requires_native_alignment_after_geometry_refinement",
+        "target_anchor": "follicle_0_matrix_center"
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Anagen matrix wraps the papilla; its differentiating cells contribute to hair and inner root sheath. Retained septa and galea orient the deep bulb.",
+      "missing_context": "Outer root sheath, main dermis and adipose are hidden. Their anatomical presence must be explained; retaining matrix and papilla does not establish their local cell organization. Outer-root-sheath nuclei follow their hidden exact parent; inner-root-sheath nuclei remain with the retained inner sheath.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry.",
+      "section": {
+        "name": "Coronal longitudinal",
+        "ui_axis_index": 1,
+        "world_axis": "Z",
+        "authored_position": 0.03,
+        "flip": true,
+        "acceptance": "Plane must intersect a selected follicle axis and papilla after native alignment.",
+        "position_anchor": "follicle_0_coronal_z"
+      }
+    },
+    {
+      "id": "follicle_transverse",
+      "title": "Changing follicle cross-section",
+      "purpose": "Compare section through sheath/shaft above bulb with the matrix/papilla level.",
+      "visible_parts": [
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Hypodermis septa",
+        "Reticular dermis",
+        "Sebaceous gland",
+        "Arrector pili muscle"
+      ],
+      "hidden_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": 0.9,
+        "target": [
+          -0.65,
+          0.6,
+          0.03
+        ],
+        "radius_units": 0.28,
+        "coordinate_status": "source_anchor_seed_requires_native_alignment_after_geometry_refinement",
+        "target_anchor": "follicle_0_transverse_center"
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Start at the warped follicle_0_transverse_y anchor above the bulb, then move the native transverse slider toward the bulb. Authored Y 0.20–0.30 is an unwarped source guide only; final bulb alignment must use saved geometry.",
+      "missing_context": "Epidermis and galea are hidden. Concentric colors alone do not pass this view; cell polarity, layer organization and level-dependent identities remain geometry acceptance requirements.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry.",
+      "section": {
+        "name": "Transverse above bulb",
+        "ui_axis_index": 2,
+        "world_axis": "Y",
+        "authored_position": 0.6,
+        "flip": true,
+        "acceptance": "Repeated slider positions must expose distinct bulb and upper-root organization.",
+        "position_anchor": "follicle_0_transverse_y"
+      }
+    },
+    {
+      "id": "gland_routes",
+      "title": "Follicular and sweat routes",
+      "purpose": "Trace sebaceous route into follicle separately from eccrine route to surface.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct"
+      ],
+      "hidden_parts": [
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": 0.42
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Keep follicular walls, muscle insertion context and epidermis while tracing the two gland routes. Distinguish secretory coil from two-layer duct and its epidermal passage.",
+      "missing_context": "Hypodermal lobules, galea, vessels and sensory components are hidden. Sebaceous duct is not a separate original selectable item; its connection must remain recognizable within the refined gland unit.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry."
+    },
+    {
+      "id": "connective_depth",
+      "title": "Connective tissue and depth boundary",
+      "purpose": "Contrast papillary/reticular organization, fat cells within lobules, septa and aponeurosis.",
+      "visible_parts": [
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops"
+      ],
+      "hidden_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": -0.28
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Lobule versus individual adipocyte must be distinguished. Inspect upper and lower galea surfaces and septal attachments.",
+      "missing_context": "This specimen ends at galea; loose areolar tissue and pericranium are outside the included scalp block. Epidermis, glands and nerves are selectively hidden. The legacy fat selector conflates cell and lobule labels; preserve its key as an alias while presenting corrected readable metadata.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry."
+    },
+    {
+      "id": "sensory_targets",
+      "title": "Sensory targets in context",
+      "purpose": "Retain targets while comparing free endings, follicular endings and deep lamellar receptor.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "hidden_parts": [
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops"
+      ],
+      "focus_parts": [
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": 0.42
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Free endings enter superficial tissue; follicular endings relate to retained outer follicle wall; the lamellar receptor retains its entering axon and depth context.",
+      "missing_context": "Glands and vessels are hidden. Follicular unit connective support is an enlarged anchorage sample, not a complete perfollicular host cuff. A subsequent outer-sheath hide challenge retains that support plus shaft/inner sheath as target context; native acceptance must reject floating endings or an unintelligible target.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry."
+    },
+    {
+      "id": "epidermal_separation",
+      "title": "Compare separated epidermal layers",
+      "purpose": "Use native rank displacement briefly to inspect layer faces.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis"
+      ],
+      "hidden_parts": [
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": 0.42
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 12,
+      "labels": false,
+      "teaching_note": "Separation is an artificial teaching displacement, not anatomical spaces. Restore zero separation before explaining cell-to-cell or tissue contact.",
+      "missing_context": "Native rank separation offsets Y = rank × 0.35 × amount: epidermal ranks 4, 3, 2, 1 and melanocyte rank1. It separates appendages/host tissues differently if included; use this epidermal subset only. Hidden intermediate tissue does not represent a clinical lesion.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry."
+    },
+    {
+      "id": "hidden_spinosum",
+      "title": "Hidden intermediate layer audit",
+      "purpose": "Test whether retained tissue remains interpretable after hiding spinosum.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "hidden_parts": [
+        "Stratum spinosum"
+      ],
+      "focus_parts": [
+        "Stratum basale",
+        "Stratum granulosum",
+        "Melanocytes"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": 0.42
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "The spinosum is hidden by the viewer. Retained basale and granulosum must have finished faces, and melanocytes need local host context to avoid an isolated dark object.",
+      "missing_context": "A visible gap is deliberately missing display tissue; it is not a naturally empty interlayer space. Teach the absent spinosum explicitly rather than implying a normal detached surface sheet. Exact spinosum nuclei and junctions disappear with that layer; basal and granular nuclei remain. No separately selectable melanocyte host island exists in the current source.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry."
+    },
+    {
+      "id": "sagittal_specimen",
+      "title": "Sagittal specimen boundary",
+      "purpose": "Inspect the retained rear specimen and deep included boundary in an X cutaway.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "hidden_parts": [],
+      "focus_parts": [],
+      "camera": {
+        "yaw_radians": 1.35,
+        "pitch_radians": 0.18
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Inspect sagittal cut faces while preserving the same epidermal-to-galea specimen. The cut retains a halfspace and is not a thin histology section.",
+      "missing_context": "The removed halfspace is viewer cutaway. Deeper loose areolar tissue/pericranium remain beyond the included galea.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry.",
+      "section": {
+        "name": "Sagittal central specimen",
+        "ui_axis_index": 0,
+        "world_axis": "X",
+        "authored_position": 0.0,
+        "flip": false,
+        "acceptance": "Meaningful tissue and appendage boundaries must survive sagittal rotation; central X seed is not a fitted specific-cell plane."
+      }
+    },
+    {
+      "id": "galea_underside",
+      "title": "Galea underside and anchorage",
+      "purpose": "Show aponeurotic tissue on both sides while retaining septal anchorage.",
+      "visible_parts": [
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair"
+      ],
+      "hidden_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Galea aponeurotica"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": -0.95
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Rotate below the same specimen and inspect the galea underside, crimped bundle architecture and retained overlying septa. Return to overview before teaching full-depth relationships.",
+      "missing_context": "Epidermis, dermis, upper follicles, glands, vessels and nerves are selectively hidden. The galea is the bottom included tissue; this view does not contain loose areolar tissue or pericranium.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry."
+    },
+    {
+      "id": "matrix_inner_sheath_hidden",
+      "title": "Matrix and papilla after sheath removal",
+      "purpose": "Audit successive outer-then-inner sheath hiding without relying on nested colors.",
+      "visible_parts": [
+        "Hair shaft",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Hypodermis septa",
+        "Galea aponeurotica"
+      ],
+      "hidden_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Adipocytes (fat lobules)",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": 0.18,
+        "target": [
+          -0.86,
+          0.25,
+          0.03
+        ],
+        "radius_units": 0.25,
+        "coordinate_status": "source_anchor_seed_requires_native_alignment_after_geometry_refinement",
+        "target_anchor": "follicle_0_matrix_center"
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Outer and inner sheaths are selectively hidden; retained matrix, papilla and shaft must explain the growth apparatus and the finished exposed bulb transition.",
+      "missing_context": "Both root sheaths and their separately hosted nuclei are hidden. This view deliberately omits normal follicular tissue and does not demonstrate a naturally sheath-free hair. Retained connective support represents anchorage only.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry.",
+      "section": {
+        "name": "Coronal longitudinal",
+        "ui_axis_index": 1,
+        "world_axis": "Z",
+        "authored_position": 0.03,
+        "flip": true,
+        "acceptance": "Plane must intersect a selected follicle axis and papilla after native alignment.",
+        "position_anchor": "follicle_0_coronal_z"
+      }
+    },
+    {
+      "id": "sensory_outer_sheath_hidden",
+      "title": "Follicular target after sheath removal",
+      "purpose": "Audit target-linked sensory anatomy when the outer sheath is selectively hidden.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Galea aponeurotica",
+        "Hair shaft",
+        "Inner root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "hidden_parts": [
+        "Outer root sheath",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops"
+      ],
+      "focus_parts": [
+        "Hair follicle nerve endings",
+        "Hair shaft",
+        "Inner root sheath"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": 0.42
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Outer sheath and its exact nuclei are hidden. Retained shaft/inner sheath, deep host tissue and follicular-unit connective support must explain the ending target; a free-standing crown or disconnected prongs fail.",
+      "missing_context": "Outer root sheath is deliberately removed from display. The added unit support is not a complete local cuff, so target readability after hiding remains a required native anatomical check.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry."
+    },
+    {
+      "id": "appendage_supply",
+      "title": "Supply and drainage around appendages",
+      "purpose": "Compare true deep follicular/gland exchange routes with the retained superficial plexus.",
+      "visible_parts": [
+        "Hypodermis septa",
+        "Galea aponeurotica",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops"
+      ],
+      "hidden_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Adipocytes (fat lobules)",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Arterioles",
+        "Venules",
+        "Papillary capillary loops"
+      ],
+      "camera": {
+        "yaw_radians": -0.62,
+        "pitch_radians": 0.42
+      },
+      "tissue_opacity_percent": 100,
+      "layer_separation_percent": 0,
+      "labels": false,
+      "teaching_note": "Trace arteriole supply through exact Appendage exchange capillaries into papilla/perifollicular/perigland beds and venous return while retaining appendage targets. Original Papillary capillary loops remains superficial supply; the added exact item separately identifies deep exchange beds.",
+      "missing_context": "Epidermis, main dermis, adipose and sensory components are hidden. Red-to-blue vertex coloring is schematic flow ordering, not literal blood color or measured oxygen transport. Normal neighboring bulk tissue still exists anatomically.",
+      "scale_note": "Preserve the loaded native metres_per_unit and all authored coordinates. Source cache catalog provides no physical block-width calibration. Legacy baseline teaching_defaults declares 0.002 m/unit and nominal 4 mm block; constructor fallback without that metadata is 0.0015 m/unit. Verify the active metadata before showing a ruler. Cell layers, shafts/sheaths, gland coils, receptors, vessels and nerves have nonuniform teaching enlargement; zoom and sampled counts are not morphometry."
+    }
+  ],
+  "native_path": "In the already loaded AnatomyExplorer app.ui.model_view.ModelView, after its first-frame reset: apply_view(model_view, view_id, path_to_views_json, anchors=construction_manifest[\"anchors\"]). All 24 additions are required by default; explicit require_refined_additions=False permits baseline-only state inspection with missing-addition diagnostics. Shared normal-selector/action/menu integration remains outside this specialist source phase.",
+  "default_view": "overview",
+  "camera_note": "Native procedural positions are authored world coordinates, with no normalization. Regional cameras use loaded item bounding metadata. Local cameras accept saved common-settle-warped named 3-vector anchors; absent anchors fall back to explicitly unverified source seeds. Section anchors are authored-coordinate scalars quantized to the native 0–1000 slider, and requested/actual coordinates and quantization error are returned. No camera operation moves geometry.",
+  "native_acceptance": [
+    "Every recipe transitions from each other recipe and resets previous ghosting, isolation, cut, sections, opacity and separation consistently.",
+    "Test opacity 100%, 50%, 8%; no material colors,vertex colors,normals,physical scale or coordinates change.",
+    "SagittalX/coronalZ/transverseY sections reveal finished meaningful boundaries, including galea underside, matrix/papilla and gland junction.",
+    "At separation 12%, all exposed epidermal faces explain cell populations; restore 0% and confirm neighbor contact.",
+    "Hide spinosum and sheaths in turn; local host islands/cuffs preserve melanocyte/sensory targets without false claims about absent tissue.",
+    "No view, render or native acceptance was executed in this source-only phase.",
+    "All 24 added selectors must be present in refined output; missing additions are allowed only during explicit baseline-only state inspection. Unknown additions remain visible and require a reviewed exact mapping.",
+    "Unchanged camera seeds and fitted/warped anchors are distinct evidence. Runtime checks report slider quantization but cannot establish anatomical plane alignment.",
+    "Compare overview, all three axis cutaways, both sheath-hide stages, hidden spinosum and galea underside. Native Practice must suppress selected/section/hover names for recognition without labels."
+  ],
+  "sources": [
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/2008459/",
+      "opened": false,
+      "type": "primary cadaveric/surgical study abstract",
+      "relevance": "Loose connective tissue lies below galea and above cranial periosteum; supports explicit beyond-specimen boundary.",
+      "evidence_access": "Authoritative search-result excerpt retrieved; direct-page open encountered access challenge/minimal body, so full page was not inspected."
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK551565/",
+      "opened": false,
+      "type": "authoritative teaching reference",
+      "relevance": "Names five scalp layers including loose areolar tissue and pericranium deeper than galea.",
+      "evidence_access": "Authoritative search-result excerpt retrieved; direct-page open encountered access challenge/minimal body, so full page was not inspected."
+    }
+  ],
+  "label_policy": "Labels off disables blanket labels only. Native selected-part labels, section labels and hover names may still appear. For a geometry-based recognition assessment, enter native Practice names-hidden mode first, then apply the teaching view. The controller never overrides the Practice-owned names_hidden hook.",
+  "teaching_hierarchy": [
+    {
+      "level": "whole specimen",
+      "views": [
+        "overview",
+        "sagittal_specimen"
+      ]
+    },
+    {
+      "level": "epidermal populations and cell context",
+      "views": [
+        "epidermal_context",
+        "melanocyte_detail"
+      ]
+    },
+    {
+      "level": "growth, level changes and exposed junctions",
+      "views": [
+        "matrix_longitudinal",
+        "follicle_transverse",
+        "matrix_inner_sheath_hidden"
+      ]
+    },
+    {
+      "level": "organized routes and target relationships",
+      "views": [
+        "gland_routes",
+        "appendage_supply",
+        "sensory_targets",
+        "sensory_outer_sheath_hidden"
+      ]
+    },
+    {
+      "level": "deep connective architecture and boundary",
+      "views": [
+        "connective_depth",
+        "galea_underside"
+      ]
+    },
+    {
+      "level": "explicit display-removal audits",
+      "views": [
+        "epidermal_separation",
+        "hidden_spinosum"
+      ]
+    }
+  ]
+}

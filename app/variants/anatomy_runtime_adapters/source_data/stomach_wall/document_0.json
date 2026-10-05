@@ -1,0 +1,459 @@
+{
+  "schema_version": 1,
+  "model_id": "stomach_wall",
+  "status": "source_ready_native_visual_review_deferred",
+  "exact_part_names": [
+    "Serosa",
+    "Outer longitudinal muscle",
+    "Middle circular muscle",
+    "Inner oblique muscle",
+    "Intermuscular connective tissue",
+    "Myenteric (Auerbach) plexus",
+    "Submucosa (rugal core)",
+    "Muscularis mucosae",
+    "Submucosal (Meissner) plexus",
+    "Submucosal arteries",
+    "Submucosal veins",
+    "Lymphatic vessels",
+    "Surface mucous cells & gastric pits",
+    "Isthmus & neck (mucous neck cells)",
+    "Gastric gland body epithelium",
+    "Parietal (oxyntic) cells",
+    "Chief (zymogen) cells – gland base",
+    "Enteroendocrine (ECL) cells",
+    "Lamina propria"
+  ],
+  "scale_note": "Fundus/body teaching specimen: 1 native unit = 1.5 mm; nominal mucosal depth about 1.95 mm and block width about 3 mm. Two representative pits feed six glands. Pit/gland transverse dimensions are magnified 5×; eight enlarged axial rows and four sectors are teaching samples, not literal cell counts or density. Vessel wall and lumen diameters are magnified 2×. External muscle layers are a partial wall crop, so whole-wall layer proportions are schematic. The specimen cut and selectively hidden host tissues reveal structures; they do not represent natural holes. Camera zoom does not change geometry scale. Design candidate awaiting native and visual review.",
+  "native_defaults": {
+    "metres_per_unit": 0.0015,
+    "cut_on": true,
+    "cut_at": [
+      1.05,
+      0.0
+    ],
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "home_view": [
+      -0.3,
+      0.2
+    ],
+    "start_view": "Wall overview",
+    "viewer_cameras": {
+      "Wall overview": {
+        "position": [
+          -0.9,
+          1.45,
+          3.0
+        ],
+        "target": [
+          0,
+          1.0,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.8,
+        "hidden": [
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Submucosal arteries",
+          "Submucosal veins",
+          "Lymphatic vessels"
+        ],
+        "cut_on": true,
+        "state": "assembled",
+        "note": "Fundus/body crop: follow surface/pits → glands in lamina propria → muscularis mucosae → rugal submucosa → oblique/circular/longitudinal muscle → serosa. Cut and hidden nerves/vessels are teaching access. Gland widths 5× and vessels 2×; opening is assembled."
+      },
+      "Pit and oxyntic glands": {
+        "position": [
+          -1.4,
+          1.73,
+          3.0
+        ],
+        "target": [
+          -0.5,
+          1.28,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.5,
+        "hidden": [
+          "Serosa",
+          "Outer longitudinal muscle",
+          "Middle circular muscle",
+          "Inner oblique muscle",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Submucosa (rugal core)",
+          "Submucosal (Meissner) plexus",
+          "Submucosal arteries",
+          "Submucosal veins",
+          "Lymphatic vessels",
+          "Lamina propria"
+        ],
+        "cut_on": true,
+        "state": "assembled",
+        "note": "Frame the left representative pit and its three glands; the selectable epithelial parts still aggregate both pit families. Muscularis mucosae remains as the basal boundary. Lamina propria is hidden for access, not removed anatomically. Transverse pit/gland dimensions 5×; zoom does not rescale tissue."
+      },
+      "Cell populations": {
+        "position": [
+          -1.4,
+          1.53,
+          3.0
+        ],
+        "target": [
+          -0.5,
+          1.08,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.7,
+        "hidden": [
+          "Serosa",
+          "Outer longitudinal muscle",
+          "Middle circular muscle",
+          "Inner oblique muscle",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Submucosa (rugal core)",
+          "Muscularis mucosae",
+          "Submucosal (Meissner) plexus",
+          "Submucosal arteries",
+          "Submucosal veins",
+          "Lymphatic vessels",
+          "Surface mucous cells & gastric pits",
+          "Lamina propria"
+        ],
+        "cut_on": false,
+        "state": "assembled",
+        "note": "Compare enlarged neck/body, parietal and chief populations with closed basal ECL samples; surface and hosts are hidden. ECL basal means epithelial polarity, not exclusive axial gland-base distribution. The six retained ECL representatives and 8 rows/4 sectors are samples, not measured density. Organelles/transporters are not separate meshes."
+      },
+      "Secretion route": {
+        "position": [
+          -1.4,
+          1.73,
+          3.0
+        ],
+        "target": [
+          -0.5,
+          1.28,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.5,
+        "hidden": [
+          "Serosa",
+          "Outer longitudinal muscle",
+          "Middle circular muscle",
+          "Inner oblique muscle",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Submucosa (rugal core)",
+          "Submucosal (Meissner) plexus",
+          "Submucosal arteries",
+          "Submucosal veins",
+          "Lymphatic vessels",
+          "Lamina propria"
+        ],
+        "cut_on": true,
+        "state": "assembled",
+        "note": "Parietal HCl/intrinsic factor and chief pepsinogen/lipase exit apically: gland lumen → pit → gastric lumen. ECL histamine takes a separate basolateral route through local interstitium toward parietal cells; circulating antral gastrin is off-crop input. Muscularis mucosae remains visible. Routes are narration, not animated particles."
+      },
+      "Wall nerves and vessels": {
+        "position": [
+          -0.9,
+          0.87,
+          3.0
+        ],
+        "target": [
+          0,
+          0.42,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.7,
+        "hidden": [
+          "Intermuscular connective tissue",
+          "Submucosa (rugal core)",
+          "Surface mucous cells & gastric pits",
+          "Isthmus & neck (mucous neck cells)",
+          "Gastric gland body epithelium",
+          "Parietal (oxyntic) cells",
+          "Chief (zymogen) cells – gland base",
+          "Enteroendocrine (ECL) cells",
+          "Lamina propria"
+        ],
+        "cut_on": false,
+        "state": "assembled",
+        "note": "Hidden rugal submucosa and intermuscular host expose Meissner/Auerbach and representative artery/vein/lymph courses. Myenteric regulation differs from unmeshed ICC pacing. Three local muscle directions explain mixing support; the crop is not whole-stomach motility. Vessel dimensions 2×; open ends are specimen cuts."
+      }
+    }
+  },
+  "views": [
+    {
+      "id": "1",
+      "native_name": "Wall overview",
+      "purpose": "Fundus/body crop: follow surface/pits → glands in lamina propria → muscularis mucosae → rugal submucosa → oblique/circular/longitudinal muscle → serosa. Cut and hidden nerves/vessels are teaching access. Gland widths 5× and vessels 2×; opening is assembled.",
+      "visible_parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Middle circular muscle",
+        "Inner oblique muscle",
+        "Intermuscular connective tissue",
+        "Submucosa (rugal core)",
+        "Muscularis mucosae",
+        "Surface mucous cells & gastric pits",
+        "Isthmus & neck (mucous neck cells)",
+        "Gastric gland body epithelium",
+        "Parietal (oxyntic) cells",
+        "Chief (zymogen) cells – gland base",
+        "Enteroendocrine (ECL) cells",
+        "Lamina propria"
+      ],
+      "hidden_parts": [
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosal arteries",
+        "Submucosal veins",
+        "Lymphatic vessels"
+      ],
+      "scale_note": "Fundus/body teaching specimen: 1 native unit = 1.5 mm; nominal mucosal depth about 1.95 mm and block width about 3 mm. Two representative pits feed six glands. Pit/gland transverse dimensions are magnified 5×; eight enlarged axial rows and four sectors are teaching samples, not literal cell counts or density. Vessel wall and lumen diameters are magnified 2×. External muscle layers are a partial wall crop, so whole-wall layer proportions are schematic. The specimen cut and selectively hidden host tissues reveal structures; they do not represent natural holes. Camera zoom does not change geometry scale. Design candidate awaiting native and visual review."
+    },
+    {
+      "id": "2",
+      "native_name": "Pit and oxyntic glands",
+      "purpose": "Frame the left representative pit and its three glands; the selectable epithelial parts still aggregate both pit families. Muscularis mucosae remains as the basal boundary. Lamina propria is hidden for access, not removed anatomically. Transverse pit/gland dimensions 5×; zoom does not rescale tissue.",
+      "visible_parts": [
+        "Muscularis mucosae",
+        "Surface mucous cells & gastric pits",
+        "Isthmus & neck (mucous neck cells)",
+        "Gastric gland body epithelium",
+        "Parietal (oxyntic) cells",
+        "Chief (zymogen) cells – gland base",
+        "Enteroendocrine (ECL) cells"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Middle circular muscle",
+        "Inner oblique muscle",
+        "Intermuscular connective tissue",
+        "Myenteric (Auerbach) plexus",
+        "Submucosa (rugal core)",
+        "Submucosal (Meissner) plexus",
+        "Submucosal arteries",
+        "Submucosal veins",
+        "Lymphatic vessels",
+        "Lamina propria"
+      ],
+      "scale_note": "Fundus/body teaching specimen: 1 native unit = 1.5 mm; nominal mucosal depth about 1.95 mm and block width about 3 mm. Two representative pits feed six glands. Pit/gland transverse dimensions are magnified 5×; eight enlarged axial rows and four sectors are teaching samples, not literal cell counts or density. Vessel wall and lumen diameters are magnified 2×. External muscle layers are a partial wall crop, so whole-wall layer proportions are schematic. The specimen cut and selectively hidden host tissues reveal structures; they do not represent natural holes. Camera zoom does not change geometry scale. Design candidate awaiting native and visual review."
+    },
+    {
+      "id": "3",
+      "native_name": "Cell populations",
+      "purpose": "Compare enlarged neck/body, parietal and chief populations with closed basal ECL samples; surface and hosts are hidden. ECL basal means epithelial polarity, not exclusive axial gland-base distribution. The six retained ECL representatives and 8 rows/4 sectors are samples, not measured density. Organelles/transporters are not separate meshes.",
+      "visible_parts": [
+        "Isthmus & neck (mucous neck cells)",
+        "Gastric gland body epithelium",
+        "Parietal (oxyntic) cells",
+        "Chief (zymogen) cells – gland base",
+        "Enteroendocrine (ECL) cells"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Middle circular muscle",
+        "Inner oblique muscle",
+        "Intermuscular connective tissue",
+        "Myenteric (Auerbach) plexus",
+        "Submucosa (rugal core)",
+        "Muscularis mucosae",
+        "Submucosal (Meissner) plexus",
+        "Submucosal arteries",
+        "Submucosal veins",
+        "Lymphatic vessels",
+        "Surface mucous cells & gastric pits",
+        "Lamina propria"
+      ],
+      "scale_note": "Fundus/body teaching specimen: 1 native unit = 1.5 mm; nominal mucosal depth about 1.95 mm and block width about 3 mm. Two representative pits feed six glands. Pit/gland transverse dimensions are magnified 5×; eight enlarged axial rows and four sectors are teaching samples, not literal cell counts or density. Vessel wall and lumen diameters are magnified 2×. External muscle layers are a partial wall crop, so whole-wall layer proportions are schematic. The specimen cut and selectively hidden host tissues reveal structures; they do not represent natural holes. Camera zoom does not change geometry scale. Design candidate awaiting native and visual review."
+    },
+    {
+      "id": "4",
+      "native_name": "Secretion route",
+      "purpose": "Parietal HCl/intrinsic factor and chief pepsinogen/lipase exit apically: gland lumen → pit → gastric lumen. ECL histamine takes a separate basolateral route through local interstitium toward parietal cells; circulating antral gastrin is off-crop input. Muscularis mucosae remains visible. Routes are narration, not animated particles.",
+      "visible_parts": [
+        "Muscularis mucosae",
+        "Surface mucous cells & gastric pits",
+        "Isthmus & neck (mucous neck cells)",
+        "Gastric gland body epithelium",
+        "Parietal (oxyntic) cells",
+        "Chief (zymogen) cells – gland base",
+        "Enteroendocrine (ECL) cells"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Middle circular muscle",
+        "Inner oblique muscle",
+        "Intermuscular connective tissue",
+        "Myenteric (Auerbach) plexus",
+        "Submucosa (rugal core)",
+        "Submucosal (Meissner) plexus",
+        "Submucosal arteries",
+        "Submucosal veins",
+        "Lymphatic vessels",
+        "Lamina propria"
+      ],
+      "scale_note": "Fundus/body teaching specimen: 1 native unit = 1.5 mm; nominal mucosal depth about 1.95 mm and block width about 3 mm. Two representative pits feed six glands. Pit/gland transverse dimensions are magnified 5×; eight enlarged axial rows and four sectors are teaching samples, not literal cell counts or density. Vessel wall and lumen diameters are magnified 2×. External muscle layers are a partial wall crop, so whole-wall layer proportions are schematic. The specimen cut and selectively hidden host tissues reveal structures; they do not represent natural holes. Camera zoom does not change geometry scale. Design candidate awaiting native and visual review."
+    },
+    {
+      "id": "5",
+      "native_name": "Wall nerves and vessels",
+      "purpose": "Hidden rugal submucosa and intermuscular host expose Meissner/Auerbach and representative artery/vein/lymph courses. Myenteric regulation differs from unmeshed ICC pacing. Three local muscle directions explain mixing support; the crop is not whole-stomach motility. Vessel dimensions 2×; open ends are specimen cuts.",
+      "visible_parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Middle circular muscle",
+        "Inner oblique muscle",
+        "Myenteric (Auerbach) plexus",
+        "Muscularis mucosae",
+        "Submucosal (Meissner) plexus",
+        "Submucosal arteries",
+        "Submucosal veins",
+        "Lymphatic vessels"
+      ],
+      "hidden_parts": [
+        "Intermuscular connective tissue",
+        "Submucosa (rugal core)",
+        "Surface mucous cells & gastric pits",
+        "Isthmus & neck (mucous neck cells)",
+        "Gastric gland body epithelium",
+        "Parietal (oxyntic) cells",
+        "Chief (zymogen) cells – gland base",
+        "Enteroendocrine (ECL) cells",
+        "Lamina propria"
+      ],
+      "scale_note": "Fundus/body teaching specimen: 1 native unit = 1.5 mm; nominal mucosal depth about 1.95 mm and block width about 3 mm. Two representative pits feed six glands. Pit/gland transverse dimensions are magnified 5×; eight enlarged axial rows and four sectors are teaching samples, not literal cell counts or density. Vessel wall and lumen diameters are magnified 2×. External muscle layers are a partial wall crop, so whole-wall layer proportions are schematic. The specimen cut and selectively hidden host tissues reveal structures; they do not represent natural holes. Camera zoom does not change geometry scale. Design candidate awaiting native and visual review."
+    }
+  ],
+  "semantics": {
+    "host_tissues": {
+      "Lamina propria": "Connective tissue host between glands; hiding it reveals epithelium, not a cavity.",
+      "Submucosa (rugal core)": "Fold core and host around neurovascular occupied envelopes.",
+      "Intermuscular connective tissue": "Septa and host around myenteric plexus; preserve true muscle interfaces."
+    },
+    "gland_epithelial_relationship": "Neck/body/parietal/chief populations are complementary epithelial sectors rather than nested occupied solids. Closed ECL patches occupy only a small basal band in selected chief-rich sectors; complementary chief host preserves the luminal lining, and lamina propria fits the basal interface. Six retained ECL cells are sampling, not a full axial-distribution or density claim.",
+    "lumen": "Pit-to-gland passage remains unoccupied and communicates with gastric lumen; each gland has a blind basal closure above muscularis mucosae. Luminal void is not an extra tissue part.",
+    "specimen_cut": "Native corner cut has planes x−1.05 and −z; where both are negative, the renderer removes x<1.05 AND z>0. Over the authored specimen x in [−1,1], this removes the positive-z half and retains z≤0, exposing the z=0 section toward the proposed +z camera. It is an intentional specimen cut, not a naturally bare surface or deletion of host geometry.",
+    "vascular_cut": "Open vessel ends at specimen limits are crop boundaries. Tube walls enclose their own blood/lymph lumens; neither lumen is gland lumen.",
+    "contact": "Lamina propria contacts epithelial outer surfaces; bulk hosts contact their neurovascular envelopes. Normal contact is not a collision defect.",
+    "regional_context": "pylorus and gej histology links compare other regions; the geometry remains fundus/body. Pylorus has deeper pits and short coiled mostly mucous glands; GEJ compares abrupt squamous-to-columnar transition and cardiac glands.",
+    "ecl_polarity": "Basal means the epithelial side toward basement membrane/lamina propria. It does not mean that all ECL cells occur at the axial gland base. Histamine follows a local interstitial route, while exocrine gland products enter the gland lumen.",
+    "clinical_boundary": "Early gastric cancer includes invasive tumors confined to mucosa OR submucosa, regardless of regional lymph nodes. Muscularis mucosae is an anatomical depth landmark, not the exclusive defining boundary of early gastric cancer.",
+    "visibility_contract": "Every named view resets exact-key hidden flags, forced flags, isolation and assembled state; cut_on clears prior manual sections through the native path. Hidden parts remain anatomically present. Visible lists describe the complement of hidden exact names, not unsupported renderer controls."
+  },
+  "native_limitations": [
+    "Camera positions/targets/ortho widths are source-derived proposals; native aspect-ratio/framing and visual acceptance are deferred.",
+    "Native consumes camera position/target/type/ortho_width/hidden/cut_on/state; native long-name view buttons expose note as a tooltip. Documentary visible_parts are not renderer controls.",
+    "Selectable descriptions are applied before native saving; attachment validates them without modifying final variants. Tooltips are not persistent narration or automatic lesson/animation controls.",
+    "Exact epithelial part identities aggregate both pit families; a camera framing one pit does not isolate its mesh family.",
+    "No separate G cell, D cell, ICC, mucus film, canaliculus, transporter, granule or secretory-particle mesh is present.",
+    "MicroModel camera transfer does not itself set mixed_schematic_scale on ViewerModel.sidecar. attach_entry_teaching or attach_viewer_teaching must be integrated after native entry loading; otherwise the baseline ruler/scale bar remains nominal despite local transverse exaggerations.",
+    "The overview is a partial specimen crop; no whole-stomach deformation, retropulsion/emptying, luminal contents or physical secretion simulation is supplied.",
+    "Pre refine/Post refine selection and immutable variant publication are root-owned application/launcher work, not implemented by this teaching sidecar."
+  ],
+  "continuation": {
+    "agent_name": "/root/finish_stomach_model_source/finish_gastric_teaching",
+    "date_utc": "2026-10-04",
+    "recovered_input_sha256": {
+      "REPORT.md": "544f13134c719e1848e50e930baef2c283d728987edb8b4625fc2c3189134990",
+      "teaching.json": "0033f032aed2e26491b008dec9ab322be5da0493edd7ca7045863c8485db5805",
+      "attach_teaching.py": "f56dfbc9b009e11977890623b9f2d44f31feabcb99fc6e0fede22639921f699a"
+    },
+    "scope": "Exact-part structure/function teaching continuation; source only. Prior evidence retained; no generated model or native app verification."
+  },
+  "geometry_changed_parts": [
+    "Chief (zymogen) cells – gland base",
+    "Enteroendocrine (ECL) cells"
+  ],
+  "variant_contract": {
+    "pre_refine": "New source-improved model built immediately before microrefine; not the legacy original.",
+    "post_refine": "Separate root-owned final microrefine output, with independent provenance and validation.",
+    "presentation": "Select one variant at a time, independently, never side-by-side; persist per-model preferred version.",
+    "implementation_status": "Root application/portable launcher integration pending; no selector implementation claimed by this sidecar."
+  },
+  "descriptions": {
+    "Serosa": "Serosa: mesothelium on thin connective tissue forms the visceral peritoneal covering. This cropped outer layer supports wall orientation; omenta and neighboring organs are outside the specimen.",
+    "Outer longitudinal muscle": "Outer longitudinal smooth-muscle bundles, with circular and oblique muscle, support gastric mixing and propulsion. The local longitudinal direction is schematic; this partial wall crop is not a whole-stomach peristaltic or emptying simulation.",
+    "Middle circular muscle": "Middle circular smooth-muscle bundles lie between the oblique and longitudinal layers and support mixing and propulsion. The circular direction is a local schematic sample. Pyloric sphincter thickening belongs to an off-crop regional comparison.",
+    "Inner oblique muscle": "Inner oblique smooth muscle lies on the mucosal side of the circular layer and contributes to gastric mixing. It is regionally discontinuous; the authored 45-degree local bundle direction is a teaching convention, not an invariant measured stomach angle.",
+    "Intermuscular connective tissue": "Connective-tissue septa separate local muscle layers and host nerves and vessels. The represented myenteric plexus lies between circular and longitudinal muscle. Hiding the septa exposes embedded structures; intentional host contact is preserved.",
+    "Myenteric (Auerbach) plexus": "Myenteric ganglia and nerve strands between circular and longitudinal muscle help regulate gastric motility under autonomic modulation. Interstitial cells of Cajal contribute electrical pacing but are not separately modeled. This mesh is neural structure, not a slow-wave propagation or timed-contraction simulation.",
+    "Submucosa (rugal core)": "Submucosal connective tissue forms the core of the represented rugal fold and hosts larger blood/lymph vessels and submucosal nerves. Rugae involve mucosa and submucosa and flatten with filling. This model preserves a static fold; host hiding is teaching access.",
+    "Muscularis mucosae": "Thin smooth muscle forms the basal mucosal boundary above the submucosa and supports local mucosal movement and gland emptying. Early gastric cancer is invasive carcinoma confined to mucosa or submucosa, irrespective of lymph-node involvement; it is not defined as staying above this layer. T1a invades lamina propria or muscularis mucosae; T1b invades submucosa. No tumor is modeled.",
+    "Submucosal (Meissner) plexus": "Submucosal ganglia and nerve strands help regulate mucosal secretion and local blood flow. The visible representative network is embedded in rugal submucosa; hiding its host does not create a natural open space around the nerves.",
+    "Submucosal arteries": "Representative through-crop submucosal arterial courses support supply toward the gastric mucosa. Fine mucosal capillary branches and the upstream gastric arcades are not separately modeled. Wall/lumen diameters are enlarged 2×. Open ends are specimen boundaries, not pathological ruptures.",
+    "Submucosal veins": "Representative through-crop veins drain the gastric wall toward gastric venous pathways and the portal system. Fine mucosal collecting branches, the cardia and esophageal anastomoses are not separately modeled. Wall/lumen diameters are enlarged 2×; open ends are specimen boundaries.",
+    "Lymphatic vessels": "Representative through-crop lymphatic courses in the submucosa support drainage from the gastric wall toward regional nodes. Initial mucosal lymphatics and regional nodes are not separate meshes. Wall/lumen diameters are enlarged 2×; these lumens are distinct from blood-vessel and gland lumens.",
+    "Surface mucous cells & gastric pits": "Surface mucous (foveolar) cells line the luminal surface and pits and support the protective mucus/bicarbonate barrier. Shallow fundic pits feed longer oxyntic glands with blind basal ends above muscularis mucosae. The gel and bicarbonate transport are not separate meshes. Two pits/six glands are a teaching sample; transverse dimensions are enlarged 5×.",
+    "Isthmus & neck (mucous neck cells)": "Isthmus/neck epithelium includes the renewal region and mucus-secreting neck cells among parietal cells. Neck secretion differs from the surface protective mucus/bicarbonate gel. Stem-cell renewal is explained, not animated or separately meshed. Transverse dimensions are enlarged 5×; eight rows/four sectors are teaching samples across both pit families.",
+    "Gastric gland body epithelium": "Long oxyntic gland-body epithelium between neck and chief-rich base surrounds a narrow exocrine lumen. Other selectable epithelial populations complement this part; they are not occupied nested shells. Transverse dimensions are enlarged 5×; eight rows/four sectors are teaching samples across both pit families.",
+    "Parietal (oxyntic) cells": "Parietal cells are enriched in the neck and upper/middle oxyntic gland and produce HCl and intrinsic factor. Acid secretion uses apical H+/K+-ATPase; histamine, gastrin and acetylcholine regulate secretion. Intrinsic factor supports later ileal B12 absorption. Canaliculi, pumps and signaling are explanatory, not separate meshes. Transverse dimensions are enlarged 5×; populations aggregate both pit families.",
+    "Chief (zymogen) cells – gland base": "Chief-rich basal epithelium releases pepsinogen and gastric lipase apically into the gland lumen. Acid activates pepsinogen to pepsin. The blind gland base remains epithelial above muscularis mucosae; complementary chief host continues luminal lining around the closed ECL patch. Granules are explanatory. Transverse dimensions are enlarged 5×; populations aggregate both pit families.",
+    "Enteroendocrine (ECL) cells": "Represented enterochromaffin-like cells are closed basal epithelial cells without gland-lumen contact. They release histamine into local interstitium toward neighboring parietal cells; circulating gastrin from off-crop antral G cells is an input. Basal describes polarity, not confinement to the axial gland base. Six retained representatives are sampling, not measured density. D/G/other endocrine populations are not separate meshes; transverse dimensions are enlarged 5×.",
+    "Lamina propria": "Connective tissue supports and occupies space between glands, contacting their basal epithelial surfaces. Fine capillaries, immune cells and stromal fibers are not separately modeled. Its fitted gland-envelope space supports basal epithelial contact; the local ECL recess is in complementary chief host, not a newly subtracted stromal hole. Hiding it exposes cells for teaching; the revealed space is not an anatomical cavity."
+  },
+  "viewer_sidecar": {
+    "mixed_schematic_scale": true
+  },
+  "delivery_channels": {
+    "opening": "native_defaults.start_view and ordered viewer_cameras",
+    "view_instruction": "native named-view button tooltip uses camera note",
+    "structure_function": "Part descriptions are applied during NEW source-improved build before native saving, then validated by state hook without modifying either immutable variant; existing selected-item info panel displays them.",
+    "scale": "model scale_note in side panel; explicit ViewerModel.sidecar mixed_schematic_scale gate for ruler/scale bar/readouts",
+    "optional_curriculum": "function specialist sidecar supplies explicit instructions; no native narration-panel implementation implied"
+  },
+  "opened_sources": [
+    {
+      "url": "https://www.jgca.jp/wp-content/uploads/2023/08/JGCA_Jpn_Classification_3rd_Eng.pdf",
+      "relevance": "Primary association classification section 2.1.5, printed p.103: EGC/T1 includes mucosa or submucosa regardless nodes. Text opened; figures not inspected."
+    },
+    {
+      "url": "https://www.cancer.gov/types/stomach/hp/stomach-treatment-pdq",
+      "relevance": "Authoritative AJCC-adapted table: T1a lamina propria/muscularis mucosae versus T1b submucosa. Text opened."
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/medgen/138098",
+      "relevance": "NCI-derived early-gastric-cancer definition confirms mucosa/submucosa with or without regional nodes. Text opened."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30467709/",
+      "relevance": "Primary human study abstract and figure 2/10 captions: endocrine relationships and ECL basal epithelial position; prevents literal base-only/density claim. Text/captions opened, no new images or models inspected."
+    },
+    {
+      "url": "https://histologyguide.com/about-us/sorenson-atlas-of-human-histology-chapters-1-and-14.pdf",
+      "relevance": "Authored histology atlas pp.223–227: wall hierarchy, glands/cells, muscle layers and regional comparison. Text opened; atlas absence simplifications are not used as universal pyloric invariants."
+    },
+    {
+      "url": "https://histologyguide.com/slideview/MH-113-fundic-stomach/14-slide-1.html",
+      "relevance": "Human specimen identity and fundic context; limited rendered text opened, no slide image inspection."
+    },
+    {
+      "url": "https://histologyguide.com/slideview/MH-115-pyloric-stomach/14-slide-1.html",
+      "relevance": "Human comparison specimen; limited rendered text opened, no slide image inspection."
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7327232/",
+      "relevance": "Authoritative physiology review opened: parietal regulation, human regional gland mixing, external antral G cells and ECL histamine mechanism. Used for mechanistic teaching, not dimensions or literal sampling."
+    }
+  ]
+}

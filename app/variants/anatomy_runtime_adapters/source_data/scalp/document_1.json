@@ -1,0 +1,4026 @@
+{
+  "schema_version": 2,
+  "model_id": "scalp",
+  "status": "source_ready_static_inspection_anatomical_gates_pending",
+  "source_part_identity": "p0-p27 preserve exact catalog/cache identities; semantic a_* ids identify added parts without assuming native order. Every name resolves uniquely to a ModelDataset item index.",
+  "catalog": [
+    {
+      "id": "p0",
+      "name": "Stratum corneum",
+      "group": "Epidermis",
+      "source": "original_cache"
+    },
+    {
+      "id": "p1",
+      "name": "Stratum granulosum",
+      "group": "Epidermis",
+      "source": "original_cache"
+    },
+    {
+      "id": "p2",
+      "name": "Stratum spinosum",
+      "group": "Epidermis",
+      "source": "original_cache"
+    },
+    {
+      "id": "p3",
+      "name": "Stratum basale",
+      "group": "Epidermis",
+      "source": "original_cache"
+    },
+    {
+      "id": "p4",
+      "name": "Melanocytes",
+      "group": "Epidermis",
+      "source": "original_cache"
+    },
+    {
+      "id": "p5",
+      "name": "Papillary dermis",
+      "group": "Dermis",
+      "source": "original_cache"
+    },
+    {
+      "id": "p6",
+      "name": "Reticular dermis",
+      "group": "Dermis",
+      "source": "original_cache"
+    },
+    {
+      "id": "p7",
+      "name": "Hypodermis septa",
+      "group": "Hypodermis",
+      "source": "original_cache"
+    },
+    {
+      "id": "p8",
+      "name": "Adipocytes (fat lobules)",
+      "group": "Hypodermis",
+      "source": "original_cache"
+    },
+    {
+      "id": "p9",
+      "name": "Galea aponeurotica",
+      "group": "Galea aponeurotica",
+      "source": "original_cache"
+    },
+    {
+      "id": "p10",
+      "name": "Hair shaft",
+      "group": "Hair follicle",
+      "source": "original_cache"
+    },
+    {
+      "id": "p11",
+      "name": "Inner root sheath",
+      "group": "Hair follicle",
+      "source": "original_cache"
+    },
+    {
+      "id": "p12",
+      "name": "Outer root sheath",
+      "group": "Hair follicle",
+      "source": "original_cache"
+    },
+    {
+      "id": "p13",
+      "name": "Hair bulb (matrix)",
+      "group": "Hair follicle",
+      "source": "original_cache"
+    },
+    {
+      "id": "p14",
+      "name": "Dermal papilla of hair",
+      "group": "Hair follicle",
+      "source": "original_cache"
+    },
+    {
+      "id": "p15",
+      "name": "Sebaceous gland",
+      "group": "Glands",
+      "source": "original_cache"
+    },
+    {
+      "id": "p16",
+      "name": "Arrector pili muscle",
+      "group": "Glands",
+      "source": "original_cache"
+    },
+    {
+      "id": "p17",
+      "name": "Eccrine sweat gland (secretory coil)",
+      "group": "Glands",
+      "source": "original_cache"
+    },
+    {
+      "id": "p18",
+      "name": "Eccrine sweat duct",
+      "group": "Glands",
+      "source": "original_cache"
+    },
+    {
+      "id": "p19",
+      "name": "Arterioles",
+      "group": "Vessels & nerves",
+      "source": "original_cache"
+    },
+    {
+      "id": "p20",
+      "name": "Venules",
+      "group": "Vessels & nerves",
+      "source": "original_cache"
+    },
+    {
+      "id": "p21",
+      "name": "Subpapillary plexus",
+      "group": "Vessels & nerves",
+      "source": "original_cache"
+    },
+    {
+      "id": "p22",
+      "name": "Papillary capillary loops",
+      "group": "Vessels & nerves",
+      "source": "original_cache"
+    },
+    {
+      "id": "p23",
+      "name": "Cutaneous nerve & branches",
+      "group": "Vessels & nerves",
+      "source": "original_cache"
+    },
+    {
+      "id": "p24",
+      "name": "Free nerve endings",
+      "group": "Vessels & nerves",
+      "source": "original_cache"
+    },
+    {
+      "id": "p25",
+      "name": "Hair follicle nerve endings",
+      "group": "Vessels & nerves",
+      "source": "original_cache"
+    },
+    {
+      "id": "p26",
+      "name": "Pacinian corpuscles (lamellae)",
+      "group": "Sensory receptors",
+      "source": "original_cache"
+    },
+    {
+      "id": "p27",
+      "name": "Pacinian axon terminal",
+      "group": "Sensory receptors",
+      "source": "original_cache"
+    },
+    {
+      "id": "a_basal_nuclei",
+      "name": "Stratum basale nuclei",
+      "group": "Epidermis",
+      "source": "refined_source",
+      "host_parts": [
+        "p3"
+      ]
+    },
+    {
+      "id": "a_spinous_nuclei",
+      "name": "Stratum spinosum nuclei",
+      "group": "Epidermis",
+      "source": "refined_source",
+      "host_parts": [
+        "p2"
+      ]
+    },
+    {
+      "id": "a_granular_nuclei",
+      "name": "Stratum granulosum nuclei",
+      "group": "Epidermis",
+      "source": "refined_source",
+      "host_parts": [
+        "p1"
+      ]
+    },
+    {
+      "id": "a_keratohyalin",
+      "name": "Keratohyalin granules",
+      "group": "Epidermis",
+      "source": "refined_source",
+      "host_parts": [
+        "p1"
+      ]
+    },
+    {
+      "id": "a_spinous_junctions",
+      "name": "Spinous intercellular junctions",
+      "group": "Epidermis",
+      "source": "refined_source",
+      "host_parts": [
+        "p2"
+      ]
+    },
+    {
+      "id": "a_papillary_collagen",
+      "name": "Papillary dermis collagen bundles",
+      "group": "Dermis",
+      "source": "refined_source",
+      "host_parts": [
+        "p5"
+      ]
+    },
+    {
+      "id": "a_papillary_elastic",
+      "name": "Papillary dermis elastic fibres",
+      "group": "Dermis",
+      "source": "refined_source",
+      "host_parts": [
+        "p5"
+      ]
+    },
+    {
+      "id": "a_reticular_collagen",
+      "name": "Reticular dermis collagen bundles",
+      "group": "Dermis",
+      "source": "refined_source",
+      "host_parts": [
+        "p6"
+      ]
+    },
+    {
+      "id": "a_reticular_elastic",
+      "name": "Reticular dermis elastic fibres",
+      "group": "Dermis",
+      "source": "refined_source",
+      "host_parts": [
+        "p6"
+      ]
+    },
+    {
+      "id": "a_adipocyte_nuclei",
+      "name": "Adipocyte peripheral nuclei",
+      "group": "Hypodermis",
+      "source": "refined_source",
+      "host_parts": [
+        "p8"
+      ]
+    },
+    {
+      "id": "a_unit_support",
+      "name": "Follicular unit connective support",
+      "group": "Hair follicle",
+      "source": "refined_source",
+      "host_parts": [
+        "p10",
+        "p12",
+        "p25",
+        "p16"
+      ]
+    },
+    {
+      "id": "a_eccrine_secretory_nuclei",
+      "name": "Eccrine secretory epithelial nuclei",
+      "group": "Glands",
+      "source": "refined_source",
+      "host_parts": [
+        "p17"
+      ]
+    },
+    {
+      "id": "a_eccrine_ductal_nuclei",
+      "name": "Eccrine ductal epithelial nuclei",
+      "group": "Glands",
+      "source": "refined_source",
+      "host_parts": [
+        "p18"
+      ]
+    },
+    {
+      "id": "a_eccrine_myoepithelium",
+      "name": "Eccrine myoepithelial cells",
+      "group": "Glands",
+      "source": "refined_source",
+      "host_parts": [
+        "p17"
+      ]
+    },
+    {
+      "id": "a_matrix_nuclei",
+      "name": "Hair matrix cell nuclei",
+      "group": "Hair follicle",
+      "source": "refined_source",
+      "host_parts": [
+        "p13"
+      ]
+    },
+    {
+      "id": "a_ors_nuclei",
+      "name": "Outer root sheath cell nuclei",
+      "group": "Hair follicle",
+      "source": "refined_source",
+      "host_parts": [
+        "p12"
+      ]
+    },
+    {
+      "id": "a_irs_nuclei",
+      "name": "Inner root sheath cell nuclei",
+      "group": "Hair follicle",
+      "source": "refined_source",
+      "host_parts": [
+        "p11"
+      ]
+    },
+    {
+      "id": "a_papilla_nuclei",
+      "name": "Dermal papilla fibroblast nuclei",
+      "group": "Hair follicle",
+      "source": "refined_source",
+      "host_parts": [
+        "p14"
+      ]
+    },
+    {
+      "id": "a_melanin_caps",
+      "name": "Basal keratinocyte melanin caps",
+      "group": "Epidermis",
+      "source": "refined_source",
+      "host_parts": [
+        "p3"
+      ]
+    },
+    {
+      "id": "a_appendage_exchange",
+      "name": "Appendage exchange capillaries",
+      "group": "Vessels & nerves",
+      "source": "refined_source",
+      "host_parts": []
+    },
+    {
+      "id": "a_peripheral_sebocytes",
+      "name": "Peripheral sebocytes",
+      "group": "Glands",
+      "source": "refined_source",
+      "host_parts": [
+        "p15"
+      ]
+    },
+    {
+      "id": "a_maturing_sebocytes",
+      "name": "Maturing sebocytes",
+      "group": "Glands",
+      "source": "refined_source",
+      "host_parts": [
+        "p15"
+      ]
+    },
+    {
+      "id": "a_terminal_sebocytes",
+      "name": "Terminal sebocyte breakdown",
+      "group": "Glands",
+      "source": "refined_source",
+      "host_parts": [
+        "p15"
+      ]
+    },
+    {
+      "id": "a_sebocyte_nuclei",
+      "name": "Sebocyte nuclei",
+      "group": "Glands",
+      "source": "refined_source",
+      "host_parts": [
+        "p15"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "epidermis",
+      "title": "University of Leeds: epidermal layers",
+      "url": "https://histology.leeds.ac.uk/home/skin/epidermis_layers/",
+      "status": "opened_text",
+      "supports": "Basal division, desmosome-linked spinous cells, granular differentiation, flattened terminal squames and shedding.",
+      "verification_provenance": "inherited_predecessor_opened_text_record"
+    },
+    {
+      "id": "thin_skin",
+      "title": "University of Minnesota Histology Guide: MH 090 human thin skin",
+      "url": "https://www.histologyguide.org/slideview/MH-090-thin-skin/11-slide-1.html",
+      "status": "opened_text",
+      "supports": "Four thin-skin strata; basal attachment, spinosum contacts, granular cells and anucleate corneum.",
+      "verification_provenance": "inherited_predecessor_opened_text_record"
+    },
+    {
+      "id": "epidermal_cells",
+      "title": "University of Leeds: epidermal cells",
+      "url": "https://histology.leeds.ac.uk/home/skin/epidermis_cells/",
+      "status": "opened_text",
+      "supports": "Basal melanocyte bodies with intercellular processes; concentric Pacinian capsule around afferent ending.",
+      "verification_provenance": "inherited_predecessor_opened_text_record"
+    },
+    {
+      "id": "melanosome_primary",
+      "title": "Crawford et al.: Integrin-linked kinase regulates melanosome trafficking and melanin transfer",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7185957/",
+      "status": "opened_text",
+      "supports": "Primary experimental support for maturation, trafficking to dendritic tips, dendricity and transfer to neighboring keratinocytes; not proof of one exclusive in-vivo transfer route.",
+      "verification_provenance": "inherited_predecessor_opened_text_record"
+    },
+    {
+      "id": "glands",
+      "title": "University of Leeds: epithelial glands",
+      "url": "https://histology.leeds.ac.uk/home/skin/glands/",
+      "status": "opened_text",
+      "supports": "Sebocyte lipid accumulation and holocrine disintegration, short duct into hair canal; simple secretory epithelium versus two-layer cuboidal eccrine duct, pore and evaporation.",
+      "verification_provenance": "opened_text_in_continuation_2026-10-04"
+    },
+    {
+      "id": "scalp_slide",
+      "title": "University of Minnesota Histology Guide: MH 086b scalp",
+      "url": "https://www.histologyguide.org/slideview/MH-086b-scalp/11-slide-1.html",
+      "status": "opened_text",
+      "supports": "Hair cortex/cuticle, inner sheath height, outer sheath continuity, sebaceous secretion into follicle, eccrine compartments and attached arrector pili.",
+      "verification_provenance": "inherited_predecessor_opened_text_record"
+    },
+    {
+      "id": "hair_phys",
+      "title": "NCBI Bookshelf: Physiology, Hair",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK499948/",
+      "status": "opened_text",
+      "supports": "Matrix production, papilla signaling/nutrition, anagen growth, catagen regression and telogen quiescence; cycle regulation is incompletely known.",
+      "verification_provenance": "opened_text_in_continuation_2026-10-04"
+    },
+    {
+      "id": "sweat_primary",
+      "title": "Reddy and Quinton: Functional interaction of CFTR and ENaC in sweat glands",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/12548396/",
+      "status": "opened_text",
+      "supports": "Native human sweat-duct experiments: CFTR and ENaC support parallel NaCl absorption; CFTR loss reduces ductal salt absorption. Do not import airway ENaC behavior into sweat duct.",
+      "verification_provenance": "opened_text_in_continuation_2026-10-04"
+    },
+    {
+      "id": "circulation",
+      "title": "University of Leeds: skin layers and circulation",
+      "url": "https://histology.leeds.ac.uk/home/skin/skin_layers/",
+      "status": "opened_text",
+      "supports": "Dermal blood supply supports avascular epidermis; deep plexus supplies appendages/fat and subpapillary plexus supplies papillary loops.",
+      "verification_provenance": "inherited_predecessor_opened_text_record"
+    },
+    {
+      "id": "pacinian_primary",
+      "title": "Pawson et al.: GABAergic/glutamatergic glial-neuronal interaction contributes to rapid adaptation",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/19261864/",
+      "status": "opened_text",
+      "supports": "Experimental rapidly adapting Pacinian responses; capsule-associated mechanochemical contribution, so adaptation must not be claimed exclusively mechanical. Cat mesenteric receptor experiments are not scalp density evidence.",
+      "verification_provenance": "inherited_predecessor_opened_text_record"
+    },
+    {
+      "id": "scalp_layers",
+      "title": "NCBI Bookshelf: Anatomy, Head and Neck, Scalp",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK551565/",
+      "status": "opened_text",
+      "supports": "Skin/subcutaneous tissue firmly bound to galea; loose tissue and pericranium below; neurovascular structures in connective tissue and top layers move as a unit.",
+      "verification_provenance": "opened_text_in_continuation_2026-10-04"
+    },
+    {
+      "id": "sweat_variability_primary",
+      "title": "Buono et al.: Heat acclimation causes a linear decrease in sweat sodium ion concentration",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/29301696/",
+      "status": "opened_abstract_text",
+      "verification_provenance": "opened_in_continuation_2026-10-04",
+      "supports": "Four-participant human study: sweat sodium concentration changed at a given sweat rate after heat acclimation. Supports a qualitative limitation against fixed displayed salt concentration; not scalp-specific calibration."
+    },
+    {
+      "id": "sweat_composition_review",
+      "title": "Baker and Wolfe: Physiological mechanisms determining eccrine sweat composition",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/32124007/",
+      "status": "opened_abstract_text",
+      "verification_provenance": "opened_in_continuation_2026-10-04",
+      "supports": "Published review abstract identifies secretion/reabsorption, sweat flow, gland metabolism, skin contamination and collection methods as influences on final sweat composition. Supporting context, not primary source or a model measurement."
+    }
+  ],
+  "application": {
+    "adapter": "apply_stage.py",
+    "call": "apply_stage_to_view(model_view, sequence_id, stage_id, anchors, available_geometry=(), require_verified_geometry=True)",
+    "low_level_call": "apply_stage(model_view.state, model_view.gl_widget, sequence_id, stage_id, exact_name_map(model_view.state.ds), anchors, available_geometry)",
+    "native_route": "main_window.open_micro -> ui.model_view.ModelView -> viewer.procedural.ProceduralModel + viewer.dataset.ModelDataset + viewer.viewport.ModelViewport",
+    "scope": "Source-only controller; the lead supplies an immutable cache-backed review entry. This does not install, launch or alter the original application.",
+    "section_coordinates": "Authored common-settle-warped model coordinates pass unchanged to ProceduralModel. No dataset normalization exists in this route. Section index 0 sagittal X, 1 coronal Z, 2 transverse Y.",
+    "required_anchors": [
+      "eccrine_0_coronal_z",
+      "epidermal_column_coronal_z",
+      "follicle_0_coronal_z",
+      "follicle_0_transverse_y",
+      "melanocyte_0_coronal_z",
+      "pacinian_center_x",
+      "sebaceous_0_coronal_z"
+    ],
+    "visible_detail": "Host-matched split nuclei and tissue fibers are explicit selectors; relational connective support stays ghosted. Missing names fail before mutation.",
+    "animation_contract": "All overlays remain off. No route payload, per-vertex phase or cycle geometry has been supplied. Existing native modes are a future format, not an enabled biological simulation.",
+    "session_contract": "capture_stage_session/restore_stage_session preserve all controller-mutated native state. Camera is untouched by this adapter; host teaching camera changes require separate restoration.",
+    "inspection": "require_verified_geometry=False permits static source-stage inspection and returns missing capabilities; never constitutes anatomical approval."
+  },
+  "functional_sequences": [
+    {
+      "id": "keratinocyte_differentiation",
+      "mechanism": "Basal progenitors replenish cohesive suprabasal layers; differentiating cells flatten, establish the surface barrier and desquamate.",
+      "steps": [
+        {
+          "id": "basal_replenishment",
+          "title": "Start at the dermoepidermal junction",
+          "visible_parts": [
+            "p3",
+            "p2",
+            "p5",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_melanin_caps"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p4",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p3",
+            "a_basal_nuclei",
+            "a_melanin_caps"
+          ],
+          "ghost_parts": [
+            "p2",
+            "p5",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic"
+          ],
+          "selected_parts": [
+            "p3"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "epidermal_column_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Basal cells remain attached at the junction while selected daughter cells enter the suprabasal population.",
+          "geometry_requirements": [
+            "epidermal_cell_column",
+            "basal_attachment"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "spinous_cohesion",
+          "title": "Trace a cohesive cell column",
+          "visible_parts": [
+            "p2",
+            "p3",
+            "p1",
+            "p5",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_melanin_caps"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p4",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p2",
+            "a_spinous_nuclei",
+            "a_spinous_junctions"
+          ],
+          "ghost_parts": [
+            "p3",
+            "p1",
+            "p5",
+            "a_basal_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_melanin_caps"
+          ],
+          "selected_parts": [
+            "p2"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "epidermal_column_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Polygonal keratinocytes retain intercellular junctions as the population differentiates. Prickles in routine slides reflect fixation around desmosomal contacts.",
+          "geometry_requirements": [
+            "epidermal_cell_column",
+            "spinous_contacts"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "granular_barrier",
+          "title": "Inspect the granular-to-cornified transition",
+          "visible_parts": [
+            "p1",
+            "p0",
+            "p2",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions"
+          ],
+          "hidden_parts": [
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p1",
+            "p0",
+            "a_granular_nuclei",
+            "a_keratohyalin"
+          ],
+          "ghost_parts": [
+            "p2",
+            "a_spinous_nuclei",
+            "a_spinous_junctions"
+          ],
+          "selected_parts": [
+            "p1",
+            "p0"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "epidermal_column_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Granular differentiation precedes anucleate, flattened surface squames. Show structural granules and intercellular barrier organization in the same column.",
+          "geometry_requirements": [
+            "granular_cells",
+            "cornified_cell_stacks",
+            "barrier_lamellae"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "desquamation",
+          "title": "Follow surface replacement",
+          "visible_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_melanin_caps"
+          ],
+          "hidden_parts": [
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p0"
+          ],
+          "ghost_parts": [
+            "p1",
+            "p2",
+            "p3",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_melanin_caps"
+          ],
+          "selected_parts": [
+            "p0"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "none"
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "The uppermost squames are shed; layer stacks remain continuous. Stage advance is an educational sequence, not a live cell tracked through weeks.",
+          "geometry_requirements": [
+            "cornified_cell_stacks"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        }
+      ],
+      "source_evidence": [
+        "epidermis",
+        "thin_skin"
+      ],
+      "schematic_limitations": [
+        "Do not animate entire sheets translating upward or explode layers to imply physiological gaps.",
+        "Cell counts, keratin bundles and lipid lamellae are enlarged selected samples, not measured cell density.",
+        "Molecular keratin/filaggrin pathways and precise turnover time are not simulated."
+      ]
+    },
+    {
+      "id": "epidermal_pigmentation",
+      "mechanism": "Melanocytes produce pigment-bearing organelles and distribute pigment through dendritic relationships to adjacent epidermal keratinocytes.",
+      "steps": [
+        {
+          "id": "dendritic_identity",
+          "title": "Locate cell body and dendrites",
+          "visible_parts": [
+            "p4",
+            "p3",
+            "p2",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_melanin_caps"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p4"
+          ],
+          "ghost_parts": [
+            "p3",
+            "p2",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_melanin_caps"
+          ],
+          "selected_parts": [
+            "p4"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "melanocyte_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Keep the basal cell body and recipient keratinocytes together in view.",
+          "geometry_requirements": [
+            "melanocyte_dendrites",
+            "recipient_keratinocytes"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "dendritic_transfer",
+          "title": "Trace pigment transfer",
+          "visible_parts": [
+            "p4",
+            "p3",
+            "p2",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_melanin_caps"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p4",
+            "p3",
+            "p2",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_melanin_caps"
+          ],
+          "ghost_parts": [],
+          "selected_parts": [
+            "p4",
+            "p3",
+            "p2"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": false,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "melanocyte_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Pigment travels toward dendritic tips and reaches neighboring keratinocytes. Transfer is displayed schematically without choosing one exclusive membrane mechanism.",
+          "geometry_requirements": [
+            "melanocyte_dendrites",
+            "recipient_keratinocytes",
+            "pigment_payload_geometry"
+          ],
+          "mechanism_overlay": {
+            "mode": "gated_flow",
+            "track": "epidermal_melanosome_route",
+            "native_mode": "MODE_FLOW",
+            "enabled_default": false,
+            "required_geometry": "pigment_payload_geometry"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "recipient_protection",
+          "title": "Inspect recipient pigment distribution",
+          "visible_parts": [
+            "p3",
+            "p2",
+            "p4",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_melanin_caps"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p3",
+            "p2",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_melanin_caps"
+          ],
+          "ghost_parts": [
+            "p4"
+          ],
+          "selected_parts": [
+            "p3",
+            "p2"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "melanocyte_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Static pigment caps are selected over basal recipient nuclei. This sampled distribution supports cell-scale UV protection teaching; it is not a measured transfer trajectory or whole-skin phototype prediction.",
+          "geometry_requirements": [
+            "recipient_keratinocytes",
+            "pigment_recipient_caps"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        }
+      ],
+      "source_evidence": [
+        "epidermal_cells",
+        "melanosome_primary"
+      ],
+      "schematic_limitations": [
+        "Existing p4 represents epidermal melanocytes; do not use it as a hair-bulb melanocyte population.",
+        "Transfer route arrows or particles are an instructional abstraction; molecular membrane exchange remains debated.",
+        "No programmed change in whole skin color or racial phototype claims."
+      ]
+    },
+    {
+      "id": "hair_production",
+      "mechanism": "The anagen matrix around the dermal papilla produces the shaft and inner root sheath while the outer sheath remains a continuous epithelial host.",
+      "steps": [
+        {
+          "id": "unit_context",
+          "title": "Identify a production unit",
+          "visible_parts": [
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p6",
+            "p7",
+            "p8",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p9",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_melanin_caps",
+            "a_appendage_exchange"
+          ],
+          "solid_parts": [
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "ghost_parts": [
+            "p6",
+            "p7",
+            "p8",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support"
+          ],
+          "selected_parts": [
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "follicle_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Terminal bulb reaches subcutaneous tissue; gland and muscle attachment belong to the selected follicular unit.",
+          "geometry_requirements": [
+            "follicular_unit_connections"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "papilla_matrix",
+          "title": "Inspect papilla embraced by matrix",
+          "visible_parts": [
+            "p13",
+            "p14",
+            "p11",
+            "p12",
+            "p10",
+            "a_unit_support",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_melanin_caps",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p13",
+            "p14",
+            "a_matrix_nuclei",
+            "a_papilla_nuclei"
+          ],
+          "ghost_parts": [
+            "p11",
+            "p12",
+            "p10",
+            "a_unit_support",
+            "a_ors_nuclei",
+            "a_irs_nuclei"
+          ],
+          "selected_parts": [
+            "p13",
+            "p14"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "follicle_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Distinguish connective papilla from a proliferative epithelial cup. The papilla is a tissue component with a vascular supply, not a hollow feed tube.",
+          "geometry_requirements": [
+            "matrix_cell_cup",
+            "papilla_stroma",
+            "papilla_microvasculature"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "keratinization",
+          "title": "Compare shaft and sheath products",
+          "visible_parts": [
+            "p10",
+            "p11",
+            "p13",
+            "p14",
+            "p12",
+            "a_unit_support",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_melanin_caps",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p10",
+            "p11",
+            "a_irs_nuclei"
+          ],
+          "ghost_parts": [
+            "p13",
+            "p14",
+            "p12",
+            "a_unit_support",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_papilla_nuclei"
+          ],
+          "selected_parts": [
+            "p10",
+            "p11"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "follicle_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Matrix-derived cells mature into the hair and guiding inner sheath; inner sheath ends near the sebaceous outlet while outer sheath continues.",
+          "geometry_requirements": [
+            "hair_cuticle_cortex",
+            "inner_sheath_layers",
+            "isthmus_transition"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "transverse_identity",
+          "title": "Compare layers in a transverse section",
+          "visible_parts": [
+            "p10",
+            "p11",
+            "p12",
+            "p6",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_unit_support",
+            "a_ors_nuclei",
+            "a_irs_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p7",
+            "p8",
+            "p9",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p10",
+            "p11",
+            "p12",
+            "a_ors_nuclei",
+            "a_irs_nuclei"
+          ],
+          "ghost_parts": [
+            "p6",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_unit_support"
+          ],
+          "selected_parts": [
+            "p10",
+            "p11",
+            "p12"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "transverse",
+              "position_anchor": "follicle_0_transverse_y",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Inspect cellular sheaths and shaft architecture at one documented level; upper and lower follicle levels differ.",
+          "geometry_requirements": [
+            "hair_cuticle_cortex",
+            "inner_sheath_layers",
+            "outer_sheath_cells"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        }
+      ],
+      "source_evidence": [
+        "scalp_slide",
+        "hair_phys"
+      ],
+      "schematic_limitations": [
+        "Static specimen is anagen. Shaft elongation is not a rigid translation of the complete follicle.",
+        "Medulla is variable; do not require every terminal shaft to have a continuous central cavity.",
+        "Basal epidermal melanocyte p4 does not explain follicular pigmentation; a dedicated bulb pigment population is additional geometry, not relabeling."
+      ]
+    },
+    {
+      "id": "hair_cycle_bounded_schematic",
+      "mechanism": "A permanent upper follicle is retained while its lower epithelial growth apparatus cycles through growth, regression and rest.",
+      "steps": [
+        {
+          "id": "anagen_reference",
+          "title": "Inspect the anagen reference",
+          "visible_parts": [
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p7",
+            "p8",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p9",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_melanin_caps",
+            "a_appendage_exchange"
+          ],
+          "solid_parts": [
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei"
+          ],
+          "ghost_parts": [
+            "p15",
+            "p16",
+            "p7",
+            "p8",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "selected_parts": [
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "follicle_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "This tissue geometry is the anagen reference. Cycle stages below are a narrated structural comparison and require a separate authored inset to show remodeling.",
+          "geometry_requirements": [
+            "matrix_cell_cup",
+            "papilla_stroma"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "catagen_comparison",
+          "title": "Discuss lower-segment regression",
+          "visible_parts": [
+            "p12",
+            "p13",
+            "p14",
+            "p10",
+            "p11",
+            "p15",
+            "p16",
+            "a_unit_support",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_melanin_caps",
+            "a_appendage_exchange"
+          ],
+          "solid_parts": [
+            "p12",
+            "p13",
+            "p14",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_papilla_nuclei"
+          ],
+          "ghost_parts": [
+            "p10",
+            "p11",
+            "p15",
+            "p16",
+            "a_unit_support",
+            "a_irs_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "selected_parts": [
+            "p12",
+            "p13",
+            "p14"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "follicle_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Catagen ceases matrix production and regresses the lower epithelium; the permanent upper follicle persists. Reference meshes remain anagen.",
+          "geometry_requirements": [],
+          "mechanism_overlay": {
+            "mode": "gated_state_comparison",
+            "track": "hair_cycle_inset",
+            "enabled_default": false,
+            "required_geometry": "authored_cycle_states"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "telogen_comparison",
+          "title": "Discuss rest and club hair retention",
+          "visible_parts": [
+            "p12",
+            "p14",
+            "p10",
+            "p15",
+            "p16",
+            "a_unit_support",
+            "a_ors_nuclei",
+            "a_papilla_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p11",
+            "p13",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_irs_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange"
+          ],
+          "solid_parts": [
+            "p12",
+            "p14",
+            "p10",
+            "a_ors_nuclei",
+            "a_papilla_nuclei"
+          ],
+          "ghost_parts": [
+            "p15",
+            "p16",
+            "a_unit_support",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "selected_parts": [
+            "p12",
+            "p14",
+            "p10"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "follicle_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Telogen has no active shaft production; club-hair retention and later shedding differ from active growth. Reference meshes remain anagen.",
+          "geometry_requirements": [],
+          "mechanism_overlay": {
+            "mode": "gated_state_comparison",
+            "track": "hair_cycle_inset",
+            "enabled_default": false,
+            "required_geometry": "authored_cycle_states"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "reactivation_comparison",
+          "title": "Relate regeneration to the permanent follicle",
+          "visible_parts": [
+            "p12",
+            "p14",
+            "p13",
+            "p11",
+            "p10",
+            "p16",
+            "a_unit_support",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p15",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_melanin_caps",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p12",
+            "p14",
+            "a_ors_nuclei",
+            "a_papilla_nuclei"
+          ],
+          "ghost_parts": [
+            "p13",
+            "p11",
+            "p10",
+            "p16",
+            "a_unit_support",
+            "a_matrix_nuclei",
+            "a_irs_nuclei"
+          ],
+          "selected_parts": [
+            "p12",
+            "p14"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "follicle_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Regeneration restores the lower growth apparatus through epithelial–mesenchymal interactions. Stage timing and signal networks are simplified.",
+          "geometry_requirements": [],
+          "mechanism_overlay": {
+            "mode": "gated_state_comparison",
+            "track": "hair_cycle_inset",
+            "enabled_default": false,
+            "required_geometry": "authored_cycle_states"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        }
+      ],
+      "source_evidence": [
+        "hair_phys"
+      ],
+      "schematic_limitations": [
+        "No native cycle deformation exists in the selected baseline. Controls expose the anagen reference; captions never claim it is catagen/telogen geometry.",
+        "A future inset needs separately authored phase geometry; topology loss and club formation cannot be truthfully encoded as uniform scaling.",
+        "The three displayed follicles are sampled anatomy, not synchronized cycle statistics."
+      ]
+    },
+    {
+      "id": "holocrine_secretion",
+      "mechanism": "Peripheral sebaceous cells mature inward, accumulate lipid and disintegrate; sebum exits via the short duct into the follicular canal.",
+      "steps": [
+        {
+          "id": "gland_destination",
+          "title": "Identify lobule, outlet and host",
+          "visible_parts": [
+            "p15",
+            "p12",
+            "p10",
+            "p16",
+            "p6",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_unit_support",
+            "a_ors_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p7",
+            "p8",
+            "p9",
+            "p11",
+            "p13",
+            "p14",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange"
+          ],
+          "solid_parts": [
+            "p15",
+            "p12",
+            "p10",
+            "a_ors_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "ghost_parts": [
+            "p16",
+            "p6",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_unit_support"
+          ],
+          "selected_parts": [
+            "p15",
+            "p12",
+            "p10"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "sebaceous_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Trace the outlet into the upper follicle; do not present a blind gland next to a hair.",
+          "geometry_requirements": [
+            "sebaceous_lobule_cells",
+            "sebaceous_duct_connection"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "cell_maturation",
+          "title": "Inspect the secretory gradient",
+          "visible_parts": [
+            "p15",
+            "p12",
+            "p10",
+            "a_unit_support",
+            "a_ors_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p11",
+            "p13",
+            "p14",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange"
+          ],
+          "solid_parts": [
+            "p15",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "ghost_parts": [
+            "p12",
+            "p10",
+            "a_unit_support",
+            "a_ors_nuclei"
+          ],
+          "selected_parts": [
+            "p15"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "sebaceous_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Follow the separately selectable peripheral, maturing and terminal-breakdown sebocyte samples toward the gland duct. Lipid accumulation and holocrine disintegration are represented as a spatial maturation comparison, not a tracked cell or measured secretion rate.",
+          "geometry_requirements": [
+            "sebaceous_lobule_cells",
+            "sebocyte_maturation_gradient"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "sebum_route",
+          "title": "Follow product to the follicular canal",
+          "visible_parts": [
+            "p15",
+            "p12",
+            "p10",
+            "a_unit_support",
+            "a_ors_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p11",
+            "p13",
+            "p14",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange"
+          ],
+          "solid_parts": [
+            "p15",
+            "p12",
+            "p10",
+            "a_ors_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "ghost_parts": [
+            "a_unit_support"
+          ],
+          "selected_parts": [
+            "p15",
+            "p12",
+            "p10"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "sebaceous_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Sebum includes cell-derived lipid and debris. Any payload follows the authored duct/follicular route.",
+          "geometry_requirements": [
+            "sebaceous_duct_connection"
+          ],
+          "mechanism_overlay": {
+            "mode": "gated_flow",
+            "track": "sebum_outlet_route",
+            "native_mode": "MODE_FLOW",
+            "enabled_default": false,
+            "required_geometry": "sebum_payload_geometry"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "muscle_relation",
+          "title": "Inspect attachment relationships",
+          "visible_parts": [
+            "p16",
+            "p12",
+            "p15",
+            "p5",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_unit_support",
+            "a_ors_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p13",
+            "p14",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange"
+          ],
+          "solid_parts": [
+            "p16"
+          ],
+          "ghost_parts": [
+            "p12",
+            "p15",
+            "p5",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_unit_support",
+            "a_ors_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "selected_parts": [
+            "p16"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "follicle_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "The arrector pili attaches at the follicular bulge and superficial dermis. Do not move an unsupported strap away from both attachment sites.",
+          "geometry_requirements": [
+            "arrector_smooth_muscle",
+            "arrector_attachment_contacts"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        }
+      ],
+      "source_evidence": [
+        "glands",
+        "scalp_slide"
+      ],
+      "schematic_limitations": [
+        "Holocrine disintegration is distinct from exocytosis; whole-gland collapse is not the mechanism.",
+        "Duct outlet label is the upper follicular canal near the isthmus/infundibulum boundary, not deep bulb or separate surface sweat pore.",
+        "Muscle contraction is not required for basal sebaceous secretion."
+      ]
+    },
+    {
+      "id": "sweat_modification",
+      "mechanism": "Eccrine secretory epithelium generates primary fluid, the duct reabsorbs salt, and a separate surface pore enables evaporative cooling.",
+      "steps": [
+        {
+          "id": "secretory_compartment",
+          "title": "Inspect secretory coil",
+          "visible_parts": [
+            "p17",
+            "p18",
+            "p6",
+            "p7",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p17",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_myoepithelium"
+          ],
+          "ghost_parts": [
+            "p18",
+            "p6",
+            "p7",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_eccrine_ductal_nuclei"
+          ],
+          "selected_parts": [
+            "p17"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "eccrine_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Simple secretory epithelium and supporting myoepithelial relationships border the coil lumen.",
+          "geometry_requirements": [
+            "eccrine_secretory_cells",
+            "eccrine_patent_route"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "duct_modification",
+          "title": "Compare the duct wall",
+          "visible_parts": [
+            "p18",
+            "p17",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p18",
+            "a_eccrine_ductal_nuclei"
+          ],
+          "ghost_parts": [
+            "p17",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_myoepithelium"
+          ],
+          "selected_parts": [
+            "p18"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "eccrine_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "A two-layer cuboidal duct reabsorbs NaCl with relatively little accompanying water; final sweat is generally hypotonic. Salt concentration varies with sweat flow and transport capacity, neither of which this model measures.",
+          "geometry_requirements": [
+            "eccrine_duct_two_layers",
+            "eccrine_patent_route"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "pore_evaporation",
+          "title": "Trace the surface passage",
+          "visible_parts": [
+            "p18",
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p17",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_melanin_caps"
+          ],
+          "hidden_parts": [
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p18",
+            "p0",
+            "a_eccrine_ductal_nuclei"
+          ],
+          "ghost_parts": [
+            "p1",
+            "p2",
+            "p3",
+            "p17",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_melanin_caps"
+          ],
+          "selected_parts": [
+            "p18",
+            "p0"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "eccrine_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "The epidermal passage opens at its own sweat pore. Sweat remains separate from the sebaceous follicular outlet; evaporation cools the surface.",
+          "geometry_requirements": [
+            "eccrine_surface_passage",
+            "eccrine_patent_route"
+          ],
+          "mechanism_overlay": {
+            "mode": "gated_flow",
+            "track": "eccrine_lumen_route",
+            "native_mode": "MODE_FLOW",
+            "enabled_default": false,
+            "required_geometry": "sweat_payload_geometry"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        }
+      ],
+      "source_evidence": [
+        "glands",
+        "sweat_primary",
+        "sweat_variability_primary",
+        "sweat_composition_review"
+      ],
+      "schematic_limitations": [
+        "Native duct channel experiments support transport direction, not rendered channel density.",
+        "Na+ and Cl− arrows are separate educational vectors from duct lumen across epithelium; do not send whole water stream through the wall.",
+        "No gland-pressure, electrolyte concentration, transport-rate or sweat-test prediction; reduced CFTR function is an optional qualitative comparison only.",
+        "Mesh cell tiles and nuclei cannot establish clear/dark secretory cell phenotype or transporter localization. Sweat flow and electrolyte composition are not computed."
+      ]
+    },
+    {
+      "id": "microcirculation",
+      "mechanism": "Deep supply feeds appendages and superficial branches; capillary exchange supports living skin, and superficial/deep venous routes collect drainage.",
+      "steps": [
+        {
+          "id": "deep_supply",
+          "title": "Locate supply and drainage in tissue",
+          "visible_parts": [
+            "p19",
+            "p20",
+            "p7",
+            "p6",
+            "p13",
+            "p14",
+            "p17",
+            "p15",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_papilla_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei",
+            "a_appendage_exchange"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p16",
+            "p18",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_ductal_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_melanin_caps"
+          ],
+          "solid_parts": [
+            "p19",
+            "p20",
+            "a_appendage_exchange"
+          ],
+          "ghost_parts": [
+            "p7",
+            "p6",
+            "p13",
+            "p14",
+            "p17",
+            "p15",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_papilla_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "selected_parts": [
+            "p19",
+            "p20",
+            "a_appendage_exchange"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "none"
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Deep routes occupy connective tissue; fine branches must visibly supply the selected deep appendages.",
+          "geometry_requirements": [
+            "appendage_microvascular_branches"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "appendage_exchange",
+          "title": "Inspect deep appendage supply",
+          "visible_parts": [
+            "p19",
+            "p20",
+            "p14",
+            "p13",
+            "p17",
+            "p15",
+            "p6",
+            "p7",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_papilla_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei",
+            "a_appendage_exchange"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p16",
+            "p18",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_ductal_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_melanin_caps"
+          ],
+          "solid_parts": [
+            "p19",
+            "p20",
+            "p14",
+            "p13",
+            "p17",
+            "p15",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_papilla_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei",
+            "a_appendage_exchange"
+          ],
+          "ghost_parts": [
+            "p6",
+            "p7",
+            "a_reticular_collagen",
+            "a_reticular_elastic"
+          ],
+          "selected_parts": [
+            "p19",
+            "p20",
+            "p14",
+            "p13",
+            "p17",
+            "p15",
+            "a_appendage_exchange"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "follicle_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Inspect tissue-bounded capillary relationships around the bulb, papilla and gland before enabling any flow cue.",
+          "geometry_requirements": [
+            "appendage_microvascular_branches",
+            "papilla_microvasculature"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "superficial_exchange",
+          "title": "Trace papillary exchange beneath the epidermis",
+          "visible_parts": [
+            "p21",
+            "p22",
+            "p5",
+            "p3",
+            "p2",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_melanin_caps"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p4",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p21",
+            "p22"
+          ],
+          "ghost_parts": [
+            "p5",
+            "p3",
+            "p2",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_melanin_caps"
+          ],
+          "selected_parts": [
+            "p21",
+            "p22"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "epidermal_column_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Papillary loops remain dermal; living epidermis receives diffusible nutrients without blood vessels entering it.",
+          "geometry_requirements": [
+            "papillary_loop_tissue_relationship",
+            "capillary_selector_compartment_separation"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "drainage",
+          "title": "Follow the return route",
+          "visible_parts": [
+            "p20",
+            "p21",
+            "p22",
+            "p19",
+            "p5",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_appendage_exchange"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p20",
+            "p21",
+            "p22",
+            "a_appendage_exchange"
+          ],
+          "ghost_parts": [
+            "p19",
+            "p5",
+            "a_papillary_collagen",
+            "a_papillary_elastic"
+          ],
+          "selected_parts": [
+            "p20",
+            "p21",
+            "p22",
+            "a_appendage_exchange"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "none"
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Distinguish arterial delivery and venous collection within the mixed subpapillary part. Colors encode schematic route identity rather than an abrupt oxygenation transition.",
+          "geometry_requirements": [
+            "vascular_route_topology"
+          ],
+          "mechanism_overlay": {
+            "mode": "gated_wave",
+            "track": "vascular_directed_routes",
+            "native_mode": "MODE_WAVE",
+            "enabled_default": false,
+            "required_geometry": "vascular_route_phase_data"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        }
+      ],
+      "source_evidence": [
+        "circulation",
+        "hair_phys"
+      ],
+      "schematic_limitations": [
+        "p19–p22 baseline are solid course illustrations; they do not establish hollow lumen walls or CFD-ready networks.",
+        "Combined p21 cannot receive one uniform flow direction: arterial/venous subcourses need independent per-vertex phases or separate payloads.",
+        "Exchange does not mean red cells entering epidermis or gland lumen. No scalp arterial territory map, hemodynamics, thermoregulatory shunt density or emissary vein model.",
+        "Appendage exchange capillaries is a distinct selectable course illustration; Papillary capillary loops remains the superficial selector. Neither supplies hollow vessel walls or measured blood flow."
+      ]
+    },
+    {
+      "id": "sensation",
+      "mechanism": "Distinct endings preserve target relationships and convey sensory information along cutaneous afferents.",
+      "steps": [
+        {
+          "id": "hair_deflection",
+          "title": "Inspect endings against the follicle",
+          "visible_parts": [
+            "p25",
+            "p10",
+            "p12",
+            "p23",
+            "p15",
+            "p6",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_unit_support",
+            "a_ors_nuclei",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p7",
+            "p8",
+            "p9",
+            "p11",
+            "p13",
+            "p14",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p24",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange"
+          ],
+          "solid_parts": [
+            "p25",
+            "p10"
+          ],
+          "ghost_parts": [
+            "p23",
+            "p15",
+            "p6",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_unit_support",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei",
+            "p12",
+            "a_ors_nuclei"
+          ],
+          "selected_parts": [
+            "p25",
+            "p10"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "follicle_0_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Hair deflection strains follicle-associated mechanosensory endings. The outer sheath and its nuclei remain ghosted as targets; the retained ending course is a representative arrangement, not human scalp subtype or density evidence.",
+          "geometry_requirements": [
+            "follicular_lanceolate_contacts"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "free_ending_targets",
+          "title": "Inspect epithelial free endings",
+          "visible_parts": [
+            "p24",
+            "p23",
+            "p3",
+            "p2",
+            "p5",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_melanin_caps"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p4",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p25",
+            "p26",
+            "p27",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p24",
+            "p23"
+          ],
+          "ghost_parts": [
+            "p3",
+            "p2",
+            "p5",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_melanin_caps"
+          ],
+          "selected_parts": [
+            "p24",
+            "p23"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "coronal",
+              "position_anchor": "epidermal_column_coronal_z",
+              "flip": true
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Free endings enter or approach their target tissue; pain/thermal/itch modalities are not inferred solely from a twig shape.",
+          "geometry_requirements": [
+            "free_ending_epithelial_targets"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "pacinian_section",
+          "title": "Inspect lamellae and central terminal",
+          "visible_parts": [
+            "p26",
+            "p27",
+            "p23",
+            "p7",
+            "p8",
+            "a_adipocyte_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p24",
+            "p25",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p26",
+            "p27"
+          ],
+          "ghost_parts": [
+            "p23",
+            "p7",
+            "p8",
+            "a_adipocyte_nuclei"
+          ],
+          "selected_parts": [
+            "p26",
+            "p27"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "section",
+              "axis": "sagittal",
+              "position_anchor": "pacinian_center_x",
+              "flip": false
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "The central terminal is enveloped by lamellae and fluid/interstitial spaces. This enlarged receptor example does not assert typical scalp abundance.",
+          "geometry_requirements": [
+            "pacinian_terminal_connection",
+            "pacinian_lamellar_spaces"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "afferent_direction",
+          "title": "Relate target to nerve course",
+          "visible_parts": [
+            "p23",
+            "p24",
+            "p25",
+            "p27",
+            "p12",
+            "p3",
+            "p26",
+            "a_basal_nuclei",
+            "a_unit_support",
+            "a_ors_nuclei",
+            "a_melanin_caps"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p23",
+            "p24",
+            "p25",
+            "p27"
+          ],
+          "ghost_parts": [
+            "p12",
+            "p3",
+            "p26",
+            "a_basal_nuclei",
+            "a_unit_support",
+            "a_ors_nuclei",
+            "a_melanin_caps"
+          ],
+          "selected_parts": [
+            "p23",
+            "p24",
+            "p25",
+            "p27"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "none"
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Sensory cues travel from the target toward the cutaneous nerve. Autonomic cues to glands, arterioles and muscle use a separate mode and opposite teaching direction.",
+          "geometry_requirements": [
+            "sensory_route_topology"
+          ],
+          "mechanism_overlay": {
+            "mode": "gated_wave",
+            "track": "sensory_afferent_route",
+            "native_mode": "MODE_WAVE",
+            "enabled_default": false,
+            "required_geometry": "sensory_route_phase_data"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        }
+      ],
+      "source_evidence": [
+        "epidermal_cells",
+        "pacinian_primary",
+        "scalp_layers"
+      ],
+      "schematic_limitations": [
+        "Pacinian rapid adaptation should not be described as exclusively mechanical filtering; experimental glial-neuronal contributions exist.",
+        "No simulated action-potential velocity, threshold, receptor density, firing rate or universal adaptation profile for every follicular ending.",
+        "Rodent lanceolate microstructure is useful comparative evidence, not exact human scalp subtype mapping."
+      ]
+    },
+    {
+      "id": "scalp_attachment",
+      "mechanism": "Dense subcutaneous connective septa bind skin and fat compartments to galea; deeper scalp layers continue below the specimen boundary.",
+      "steps": [
+        {
+          "id": "three_layer_unit",
+          "title": "Identify the connected upper scalp unit",
+          "visible_parts": [
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p13",
+            "p14",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_matrix_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps"
+          ],
+          "hidden_parts": [
+            "p4",
+            "p5",
+            "p10",
+            "p11",
+            "p12",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei"
+          ],
+          "ghost_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p13",
+            "p14",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_matrix_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps"
+          ],
+          "selected_parts": [
+            "p6",
+            "p7",
+            "p8",
+            "p9"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "none"
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "The block includes skin, dense subcutaneous connective tissue and galea, with deep follicular bulbs among fat compartments.",
+          "geometry_requirements": [
+            "septa_galea_contacts",
+            "adipose_lobule_cell_distinction"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "load_path",
+          "title": "Inspect the septal attachment path",
+          "visible_parts": [
+            "p7",
+            "p9",
+            "p6",
+            "p8",
+            "p19",
+            "p20",
+            "p23",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p21",
+            "p22",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p7",
+            "p9"
+          ],
+          "ghost_parts": [
+            "p6",
+            "p8",
+            "p19",
+            "p20",
+            "p23",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei"
+          ],
+          "selected_parts": [
+            "p7",
+            "p9"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "none"
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "Hide fat only after ghosting preserves its compartment boundaries. Septa connect the overlying tissue to the galea and carry neurovascular routes.",
+          "geometry_requirements": [
+            "septa_galea_contacts",
+            "galea_aponeurotic_fibers"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        },
+        {
+          "id": "deep_boundary",
+          "title": "Inspect the galeal undersurface",
+          "visible_parts": [
+            "p9",
+            "p7"
+          ],
+          "hidden_parts": [
+            "p0",
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p8",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19",
+            "p20",
+            "p21",
+            "p22",
+            "p23",
+            "p24",
+            "p25",
+            "p26",
+            "p27",
+            "a_basal_nuclei",
+            "a_spinous_nuclei",
+            "a_granular_nuclei",
+            "a_keratohyalin",
+            "a_spinous_junctions",
+            "a_papillary_collagen",
+            "a_papillary_elastic",
+            "a_reticular_collagen",
+            "a_reticular_elastic",
+            "a_adipocyte_nuclei",
+            "a_unit_support",
+            "a_eccrine_secretory_nuclei",
+            "a_eccrine_ductal_nuclei",
+            "a_eccrine_myoepithelium",
+            "a_matrix_nuclei",
+            "a_ors_nuclei",
+            "a_irs_nuclei",
+            "a_papilla_nuclei",
+            "a_melanin_caps",
+            "a_appendage_exchange",
+            "a_peripheral_sebocytes",
+            "a_maturing_sebocytes",
+            "a_terminal_sebocytes",
+            "a_sebocyte_nuclei"
+          ],
+          "solid_parts": [
+            "p9"
+          ],
+          "ghost_parts": [
+            "p7"
+          ],
+          "selected_parts": [
+            "p9"
+          ],
+          "native_controls": {
+            "depth_cut": 0.0,
+            "depth_band": 0.0,
+            "isolate": true,
+            "ghost_focus": true,
+            "section": {
+              "mode": "none"
+            },
+            "layer_separation": 0.0
+          },
+          "caption": "The specimen ends at the galea. Loose areolar tissue, pericranium and calvarium continue below and are outside this model; a base sheet alone is insufficient tissue explanation.",
+          "geometry_requirements": [
+            "galea_aponeurotic_fibers",
+            "galea_finished_undersurface"
+          ],
+          "mechanism_overlay": {
+            "mode": "none"
+          },
+          "acceptance": "Anatomical readiness requires saved geometry and visual section review; a successful stage-control call proves only state selection."
+        }
+      ],
+      "source_evidence": [
+        "scalp_layers"
+      ],
+      "schematic_limitations": [
+        "Do not independently slide skin across its septa/galea attachments to imply normal mobility.",
+        "A future motion inset must move the upper tissue unit together over an explicitly external loose-plane reference.",
+        "The model does not include skull, subgaleal space, pericranium, occipitofrontalis or emissary routes; clinical spread/gaping requires additional anatomy."
+      ]
+    }
+  ],
+  "deferred_checks": [
+    "Attributable saved-output geometry and native visual review of every listed requirement",
+    "Correct section anchors after shared deformation and native dataset normalization",
+    "State roundtrip, restore and isolation from previous ghost/forced/depth state",
+    "Payload/lumen containment and tissue avoidance for any later enabled overlays",
+    "Every isolated component remains recognizable without label/color dependence",
+    "Correct ModelView section actions/sliders and cut/explode controls in a live staged app; exact anchor retained despite slider quantization",
+    "Saved host containment and visual review for each split nucleus family",
+    "Saved-output proof of superficial p22 versus distinct Appendage exchange capillaries tissue relationships",
+    "Default capability list remains empty until named saved-output and native visual evidence permits anatomical stages"
+  ],
+  "sources_provenance": "Prior opened-text records are preserved in provenance/. Four inherited references were reopened during this continuation; two new PubMed abstract records were also opened. Search-only PMC review text is not promoted to opened full-text evidence."
+}

@@ -1,0 +1,759 @@
+{
+  "schema_version": 1,
+  "model_id": "bladder_wall",
+  "status": "source_design_ready_visual_acceptance_pending",
+  "source_cache_sha256": "eeffb2883b4c495a497f52181f06d2a41ffb3ab97972d034e00dc71d4d1987f3",
+  "metres_per_unit": 0.0005,
+  "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy. Lateral cell dimensions are enlarged schematically, counts are representative, and umbrella nuclear lateral dimensions are enlarged 2.6x. The nominal ruler conversion is not valid for membrane, vesicle, nuclear or full-wall thickness measurements.",
+  "coordinate_convention": {
+    "x": {
+      "range": [
+        -1,
+        1
+      ],
+      "negative": "empty exemplar",
+      "positive": "filling exemplar",
+      "transition_interval": [
+        -0.25,
+        0.45
+      ]
+    },
+    "y": {
+      "positive_direction": "toward urine-facing urothelial surface",
+      "negative_direction": "toward detrusor/adventitia/outer covering"
+    },
+    "z": {
+      "range": [
+        -0.6,
+        0.6
+      ],
+      "meaning": "in-plane specimen width/depth; not anatomical anterior/posterior"
+    },
+    "camera": "Native Y-up coordinates. Camera yaw zero lies on +Z and looks toward -Z. Sidecar position/target are untransformed model coordinates. No anatomical left/right/front/back claim."
+  },
+  "native_model_settings": {
+    "viewer_cameras": {
+      "01 · Wall overview": {
+        "type": "ORTHO",
+        "position": [
+          0.25,
+          2.05,
+          3.15
+        ],
+        "target": [
+          0,
+          0.44,
+          0
+        ],
+        "ortho_width": 3.5,
+        "hidden": [
+          "Umbrella cell nuclei (often binucleate)",
+          "Fusiform vesicles"
+        ],
+        "cut_on": false,
+        "state": "assembled",
+        "note": "Negative X: empty exemplar. Positive X: filling exemplar. This is a static side-by-side teaching comparison, not successive frames of a simulated bladder. Bulk tissue opacity starts at the native 50% default; show 100% briefly to inspect assembled tissue."
+      },
+      "02 · Luminal barrier": {
+        "type": "ORTHO",
+        "position": [
+          0,
+          3.3,
+          0.65
+        ],
+        "target": [
+          0,
+          0.84,
+          0
+        ],
+        "ortho_width": 2.8,
+        "hidden": [
+          "Umbrella cell nuclei (often binucleate)",
+          "Fusiform vesicles",
+          "Lamina propria",
+          "Lamina propria arterioles",
+          "Suburothelial capillary plexus",
+          "Lamina propria venules",
+          "Muscularis mucosae (discontinuous)",
+          "Inner longitudinal detrusor",
+          "Middle circular detrusor",
+          "Outer longitudinal detrusor",
+          "Interlacing (oblique) bundles",
+          "Interfascicular connective tissue",
+          "Serosa (dome only)",
+          "Adventitia",
+          "Perivesical fat",
+          "Vesical arteries",
+          "Vesical veins",
+          "Autonomic nerves & intramural ganglia"
+        ],
+        "cut_on": false,
+        "state": "assembled",
+        "note": "The plaque-covered apical membrane belongs to the umbrella cells. Continuous cell borders must remain readable; no gap is to be explained away by this preset."
+      },
+      "03 · Epithelial section": {
+        "type": "ORTHO",
+        "position": [
+          -0.3,
+          1.25,
+          1.85
+        ],
+        "target": [
+          -0.3,
+          0.78,
+          0.15
+        ],
+        "ortho_width": 1.5,
+        "hidden": [
+          "Inner longitudinal detrusor",
+          "Middle circular detrusor",
+          "Outer longitudinal detrusor",
+          "Interlacing (oblique) bundles",
+          "Interfascicular connective tissue",
+          "Serosa (dome only)",
+          "Adventitia",
+          "Perivesical fat",
+          "Vesical arteries",
+          "Vesical veins",
+          "Autonomic nerves & intramural ganglia"
+        ],
+        "cut_on": true,
+        "state": "assembled",
+        "note": "Compare thicker domed negative-X urothelium with thinner flatter positive-X urothelium. The cut is an explanatory removal. Removing intermediate cells is a visibility exercise and must not imply an actual gap between basal and umbrella layers."
+      },
+      "04 · Umbrella cell contents": {
+        "type": "ORTHO",
+        "position": [
+          -0.45,
+          1.04,
+          0.92
+        ],
+        "target": [
+          -0.45,
+          0.86,
+          0.15
+        ],
+        "ortho_width": 0.58,
+        "hidden": [
+          "Basal cells",
+          "Lamina propria",
+          "Lamina propria arterioles",
+          "Suburothelial capillary plexus",
+          "Lamina propria venules",
+          "Muscularis mucosae (discontinuous)",
+          "Inner longitudinal detrusor",
+          "Middle circular detrusor",
+          "Outer longitudinal detrusor",
+          "Interlacing (oblique) bundles",
+          "Interfascicular connective tissue",
+          "Serosa (dome only)",
+          "Adventitia",
+          "Perivesical fat",
+          "Vesical arteries",
+          "Vesical veins",
+          "Autonomic nerves & intramural ganglia"
+        ],
+        "cut_on": true,
+        "state": "assembled",
+        "note": "A close section must expose a recognizable umbrella cell with its nucleus or pair of nuclei and subapical vesicles. This source-derived focus does not establish which owner is intersected; move the display plane or frame a validated owner during separate-machine review."
+      },
+      "05 · Suburothelial supply and drainage": {
+        "type": "ORTHO",
+        "position": [
+          -0.2,
+          1.3,
+          2.4
+        ],
+        "target": [
+          0,
+          0.43,
+          0
+        ],
+        "ortho_width": 2.8,
+        "hidden": [
+          "Basal cells",
+          "Intermediate cells",
+          "Umbrella cells",
+          "Uroplakin plaques (apical membrane)",
+          "Umbrella cell nuclei (often binucleate)",
+          "Fusiform vesicles",
+          "Lamina propria",
+          "Muscularis mucosae (discontinuous)",
+          "Inner longitudinal detrusor",
+          "Middle circular detrusor",
+          "Outer longitudinal detrusor",
+          "Interlacing (oblique) bundles",
+          "Interfascicular connective tissue",
+          "Serosa (dome only)",
+          "Adventitia",
+          "Perivesical fat",
+          "Autonomic nerves & intramural ganglia"
+        ],
+        "cut_on": false,
+        "state": "assembled",
+        "note": "Lamina propria and muscle are hidden to reveal the represented vessels. Red-to-blue is arterial-to-venous position, not measured oxygen saturation. A followable deep-to-superficial continuation must come from the refined source; the preset supplies no missing geometry."
+      },
+      "06 · Muscularis mucosae and detrusor": {
+        "type": "ORTHO",
+        "position": [
+          -0.1,
+          1.4,
+          2.5
+        ],
+        "target": [
+          0,
+          0.41,
+          0
+        ],
+        "ortho_width": 2.8,
+        "hidden": [
+          "Basal cells",
+          "Intermediate cells",
+          "Umbrella cells",
+          "Uroplakin plaques (apical membrane)",
+          "Umbrella cell nuclei (often binucleate)",
+          "Fusiform vesicles",
+          "Lamina propria",
+          "Lamina propria arterioles",
+          "Suburothelial capillary plexus",
+          "Lamina propria venules",
+          "Interfascicular connective tissue",
+          "Serosa (dome only)",
+          "Adventitia",
+          "Perivesical fat",
+          "Vesical arteries",
+          "Vesical veins",
+          "Autonomic nerves & intramural ganglia"
+        ],
+        "cut_on": false,
+        "state": "assembled",
+        "note": "Muscularis mucosae lies in the lamina propria, above the substantial detrusor. Detrusor names group predominant bundle directions; they do not establish three uniformly separable coats across the whole bladder."
+      },
+      "07 · Innervation and support": {
+        "type": "ORTHO",
+        "position": [
+          -0.2,
+          1.15,
+          2.7
+        ],
+        "target": [
+          0,
+          0.27,
+          0
+        ],
+        "ortho_width": 2.8,
+        "hidden": [
+          "Basal cells",
+          "Intermediate cells",
+          "Umbrella cells",
+          "Uroplakin plaques (apical membrane)",
+          "Umbrella cell nuclei (often binucleate)",
+          "Fusiform vesicles",
+          "Urothelial basement membrane",
+          "Lamina propria",
+          "Lamina propria arterioles",
+          "Suburothelial capillary plexus",
+          "Lamina propria venules",
+          "Muscularis mucosae (discontinuous)",
+          "Middle circular detrusor",
+          "Interfascicular connective tissue",
+          "Serosa (dome only)"
+        ],
+        "cut_on": false,
+        "state": "assembled",
+        "note": "Use the native tissue-opacity control for adventitial context. The nerves are representative courses; visible ganglia must become recognizable through refined source detail. No active transmitter release or afferent measurement is encoded by this static view."
+      },
+      "08 · Subserosal support exposed": {
+        "type": "ORTHO",
+        "position": [
+          0,
+          -1.8,
+          2.3
+        ],
+        "target": [
+          0,
+          0.09,
+          0
+        ],
+        "ortho_width": 2.8,
+        "hidden": [
+          "Basal cells",
+          "Intermediate cells",
+          "Umbrella cells",
+          "Uroplakin plaques (apical membrane)",
+          "Umbrella cell nuclei (often binucleate)",
+          "Fusiform vesicles",
+          "Urothelial basement membrane",
+          "Lamina propria",
+          "Lamina propria arterioles",
+          "Suburothelial capillary plexus",
+          "Lamina propria venules",
+          "Muscularis mucosae (discontinuous)",
+          "Inner longitudinal detrusor",
+          "Middle circular detrusor",
+          "Interlacing (oblique) bundles",
+          "Serosa (dome only)"
+        ],
+        "cut_on": false,
+        "state": "assembled",
+        "note": "Serosa is hidden as an explanatory removal to expose subserosal/adventitial connective support, fat and vessels in the same dome teaching exemplar. Hiding serosa does not turn this specimen into a non-peritoneal wall sample."
+      },
+      "09 · Outer wall: dome context": {
+        "type": "ORTHO",
+        "position": [
+          0,
+          -1.8,
+          2.3
+        ],
+        "target": [
+          0,
+          0.06,
+          0
+        ],
+        "ortho_width": 2.8,
+        "hidden": [
+          "Basal cells",
+          "Intermediate cells",
+          "Umbrella cells",
+          "Uroplakin plaques (apical membrane)",
+          "Umbrella cell nuclei (often binucleate)",
+          "Fusiform vesicles",
+          "Urothelial basement membrane",
+          "Lamina propria",
+          "Lamina propria arterioles",
+          "Suburothelial capillary plexus",
+          "Lamina propria venules",
+          "Muscularis mucosae (discontinuous)",
+          "Inner longitudinal detrusor",
+          "Middle circular detrusor",
+          "Interlacing (oblique) bundles",
+          "Autonomic nerves & intramural ganglia"
+        ],
+        "cut_on": false,
+        "state": "assembled",
+        "note": "Dome teaching exemplar shows serosa on its outer face. The rectangular block has no whole-bladder regional map; a separate non-metric comparative locator may show dome versus sidewall. Model X remains the empty/filling comparison axis."
+      }
+    },
+    "start_view": "01 · Wall overview",
+    "labels_on_open": false,
+    "cutaway": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "cut_at": [
+      -0.45,
+      0.15
+    ],
+    "cut_on": false
+  },
+  "teaching_views": [
+    {
+      "id": "BW01",
+      "camera_name": "01 · Wall overview",
+      "purpose": "Establish luminal-to-outer sequence and the two static filling exemplars.",
+      "visible_parts": [
+        "Basal cells",
+        "Intermediate cells",
+        "Umbrella cells",
+        "Uroplakin plaques (apical membrane)",
+        "Urothelial basement membrane",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Autonomic nerves & intramural ganglia"
+      ],
+      "hidden_parts": [
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles"
+      ],
+      "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy. Lateral cell dimensions are enlarged schematically, counts are representative, and umbrella nuclear lateral dimensions are enlarged 2.6x. The nominal ruler conversion is not valid for membrane, vesicle, nuclear or full-wall thickness measurements.",
+      "context_cues": [
+        "Lumen toward +Y; outer wall toward -Y.",
+        "Mark the negative-X folded end “Empty exemplar” and the positive-X flattened end “Filling exemplar”.",
+        "Keep a small non-metric locator for dome versus non-serosal outer wall outside the mesh."
+      ],
+      "cutaway_interpretation": "No display cutaway; specimen box faces remain sections.",
+      "framing_status": "source_based_provisional_pending_native_visual_review"
+    },
+    {
+      "id": "BW02",
+      "camera_name": "02 · Luminal barrier",
+      "purpose": "Show umbrella-cell surface and plaque specialization while retaining underlying epithelial context.",
+      "visible_parts": [
+        "Basal cells",
+        "Intermediate cells",
+        "Umbrella cells",
+        "Uroplakin plaques (apical membrane)",
+        "Urothelial basement membrane"
+      ],
+      "hidden_parts": [
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Autonomic nerves & intramural ganglia"
+      ],
+      "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy. Lateral cell dimensions are enlarged schematically, counts are representative, and umbrella nuclear lateral dimensions are enlarged 2.6x. The nominal ruler conversion is not valid for membrane, vesicle, nuclear or full-wall thickness measurements.",
+      "context_cues": [
+        "Urine-facing apical surface.",
+        "A border crossing multiple cells is a lining; exposed box edge is a specimen boundary."
+      ],
+      "cutaway_interpretation": "No display cutaway; specimen box faces remain sections.",
+      "framing_status": "source_based_provisional_pending_native_visual_review"
+    },
+    {
+      "id": "BW03",
+      "camera_name": "03 · Epithelial section",
+      "purpose": "Relate basement membrane, basal/intermediate/umbrella populations and the suburothelial bed.",
+      "visible_parts": [
+        "Basal cells",
+        "Intermediate cells",
+        "Umbrella cells",
+        "Uroplakin plaques (apical membrane)",
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles",
+        "Urothelial basement membrane",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)"
+      ],
+      "hidden_parts": [
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Autonomic nerves & intramural ganglia"
+      ],
+      "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy. Lateral cell dimensions are enlarged schematically, counts are representative, and umbrella nuclear lateral dimensions are enlarged 2.6x. The nominal ruler conversion is not valid for membrane, vesicle, nuclear or full-wall thickness measurements.",
+      "context_cues": [
+        "Basement membrane is the epithelial support boundary.",
+        "Capillaries are below the epithelium, which is avascular.",
+        "Use at most four simultaneous labels; prefer selected-part descriptions."
+      ],
+      "cutaway_interpretation": "Explanatory tissue removal; not a wound or anatomical lumen.",
+      "framing_status": "source_based_provisional_pending_native_visual_review"
+    },
+    {
+      "id": "BW04",
+      "camera_name": "04 · Umbrella cell contents",
+      "purpose": "Inspect nucleus/vesicle ownership beside the apical membrane in a section.",
+      "visible_parts": [
+        "Umbrella cells",
+        "Uroplakin plaques (apical membrane)",
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles",
+        "Intermediate cells",
+        "Urothelial basement membrane"
+      ],
+      "hidden_parts": [
+        "Basal cells",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Autonomic nerves & intramural ganglia"
+      ],
+      "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy. Lateral cell dimensions are enlarged schematically, counts are representative, and umbrella nuclear lateral dimensions are enlarged 2.6x. The nominal ruler conversion is not valid for membrane, vesicle, nuclear or full-wall thickness measurements.",
+      "context_cues": [
+        "Keep the umbrella cell body visible around its contents.",
+        "Fusiform/discoidal shape and subapical location are required; isolated yellow dots do not meet acceptance.",
+        "Membrane/vesicle thicknesses and nuclear dimensions are schematic enlargements."
+      ],
+      "cutaway_interpretation": "Explanatory tissue removal; not a wound or anatomical lumen.",
+      "framing_status": "source_based_provisional_pending_native_visual_review"
+    },
+    {
+      "id": "BW05",
+      "camera_name": "05 · Suburothelial supply and drainage",
+      "purpose": "Follow superficial blood routes while showing their relation to the epithelial boundary.",
+      "visible_parts": [
+        "Urothelial basement membrane",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Vesical arteries",
+        "Vesical veins"
+      ],
+      "hidden_parts": [
+        "Basal cells",
+        "Intermediate cells",
+        "Umbrella cells",
+        "Uroplakin plaques (apical membrane)",
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles",
+        "Lamina propria",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Autonomic nerves & intramural ganglia"
+      ],
+      "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy. Lateral cell dimensions are enlarged schematically, counts are representative, and umbrella nuclear lateral dimensions are enlarged 2.6x. The nominal ruler conversion is not valid for membrane, vesicle, nuclear or full-wall thickness measurements.",
+      "context_cues": [
+        "Basement membrane remains as a positional landmark.",
+        "At box exits, distinguish specimen truncation from an anatomical termination.",
+        "Inspect the collecting side by rotating around Y; preserve visible vessel lumens."
+      ],
+      "cutaway_interpretation": "No display cutaway; specimen box faces remain sections.",
+      "framing_status": "source_based_provisional_pending_native_visual_review"
+    },
+    {
+      "id": "BW06",
+      "camera_name": "06 · Muscularis mucosae and detrusor",
+      "purpose": "Distinguish discontinuous mucosal wisps from the interlacing detrusor meshwork.",
+      "visible_parts": [
+        "Urothelial basement membrane",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles"
+      ],
+      "hidden_parts": [
+        "Basal cells",
+        "Intermediate cells",
+        "Umbrella cells",
+        "Uroplakin plaques (apical membrane)",
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Autonomic nerves & intramural ganglia"
+      ],
+      "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy. Lateral cell dimensions are enlarged schematically, counts are representative, and umbrella nuclear lateral dimensions are enlarged 2.6x. The nominal ruler conversion is not valid for membrane, vesicle, nuclear or full-wall thickness measurements.",
+      "context_cues": [
+        "Keep the small mucosal muscle and larger detrusor in one depth frame.",
+        "Toggle middle circular detrusor off; remaining inner/outer groups and oblique connections must still make sense.",
+        "Separate layers is an explanatory exploded display, not a filling movement."
+      ],
+      "cutaway_interpretation": "No display cutaway; specimen box faces remain sections.",
+      "framing_status": "source_based_provisional_pending_native_visual_review"
+    },
+    {
+      "id": "BW07",
+      "camera_name": "07 · Innervation and support",
+      "purpose": "Show intramural nerves/ganglia relative to detrusor and adventitial support.",
+      "visible_parts": [
+        "Inner longitudinal detrusor",
+        "Outer longitudinal detrusor",
+        "Interlacing (oblique) bundles",
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Autonomic nerves & intramural ganglia"
+      ],
+      "hidden_parts": [
+        "Basal cells",
+        "Intermediate cells",
+        "Umbrella cells",
+        "Uroplakin plaques (apical membrane)",
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles",
+        "Urothelial basement membrane",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)",
+        "Middle circular detrusor",
+        "Interfascicular connective tissue",
+        "Serosa (dome only)"
+      ],
+      "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy. Lateral cell dimensions are enlarged schematically, counts are representative, and umbrella nuclear lateral dimensions are enlarged 2.6x. The nominal ruler conversion is not valid for membrane, vesicle, nuclear or full-wall thickness measurements.",
+      "context_cues": [
+        "Retain detrusor context so a nerve does not float without a target tissue.",
+        "Temporarily hide all detrusor to inspect outer neurovascular relationships.",
+        "Do not apply circulation direction cues to the yellow nerves."
+      ],
+      "cutaway_interpretation": "No display cutaway; specimen box faces remain sections.",
+      "framing_status": "source_based_provisional_pending_native_visual_review"
+    },
+    {
+      "id": "BW08",
+      "camera_name": "08 · Subserosal support exposed",
+      "purpose": "Expose connective support, fat and vessels beneath the dome serosal covering.",
+      "visible_parts": [
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Autonomic nerves & intramural ganglia",
+        "Outer longitudinal detrusor",
+        "Interfascicular connective tissue"
+      ],
+      "hidden_parts": [
+        "Basal cells",
+        "Intermediate cells",
+        "Umbrella cells",
+        "Uroplakin plaques (apical membrane)",
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles",
+        "Urothelial basement membrane",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Interlacing (oblique) bundles",
+        "Serosa (dome only)"
+      ],
+      "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy. Lateral cell dimensions are enlarged schematically, counts are representative, and umbrella nuclear lateral dimensions are enlarged 2.6x. The nominal ruler conversion is not valid for membrane, vesicle, nuclear or full-wall thickness measurements.",
+      "context_cues": [
+        "Outer-facing view looks toward +Y.",
+        "Fat belongs within outer connective support rather than decorating the block.",
+        "Serosa hidden for teaching; retain dome context."
+      ],
+      "cutaway_interpretation": "No display cutaway; specimen box faces remain sections.",
+      "framing_status": "source_based_provisional_pending_native_visual_review"
+    },
+    {
+      "id": "BW09",
+      "camera_name": "09 · Outer wall: dome context",
+      "purpose": "Show the dome outer serosal surface over connective support.",
+      "visible_parts": [
+        "Serosa (dome only)",
+        "Adventitia",
+        "Perivesical fat",
+        "Vesical arteries",
+        "Vesical veins",
+        "Outer longitudinal detrusor",
+        "Interfascicular connective tissue"
+      ],
+      "hidden_parts": [
+        "Basal cells",
+        "Intermediate cells",
+        "Umbrella cells",
+        "Uroplakin plaques (apical membrane)",
+        "Umbrella cell nuclei (often binucleate)",
+        "Fusiform vesicles",
+        "Urothelial basement membrane",
+        "Lamina propria",
+        "Lamina propria arterioles",
+        "Suburothelial capillary plexus",
+        "Lamina propria venules",
+        "Muscularis mucosae (discontinuous)",
+        "Inner longitudinal detrusor",
+        "Middle circular detrusor",
+        "Interlacing (oblique) bundles",
+        "Autonomic nerves & intramural ganglia"
+      ],
+      "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy. Lateral cell dimensions are enlarged schematically, counts are representative, and umbrella nuclear lateral dimensions are enlarged 2.6x. The nominal ruler conversion is not valid for membrane, vesicle, nuclear or full-wall thickness measurements.",
+      "context_cues": [
+        "Locator caption: superior/dome peritoneal context, schematic.",
+        "The empty/filling comparison uses X; dome versus sidewall is a separate comparative context outside this mesh."
+      ],
+      "cutaway_interpretation": "No display cutaway; specimen box faces remain sections.",
+      "framing_status": "source_based_provisional_pending_native_visual_review"
+    }
+  ],
+  "scale_disclosures": {
+    "block_x_width": {
+      "model_units": 2,
+      "nominal_mm": 1
+    },
+    "block_z_span": {
+      "model_units": 1.2,
+      "nominal_mm": 0.6
+    },
+    "deeper_wall": "Lamina propria, detrusor and coverings compressed; not calibrated full-wall thickness.",
+    "cells": "Lateral cell dimensions magnified schematically; counts representative.",
+    "nuclei": "Lateral nuclear dimensions enlarged 2.6x in inherited metadata.",
+    "membrane_and_vesicles": "Thickness enlarged for teaching; no numeric enlargement factor is supplied."
+  },
+  "unrepresented_features": [
+    "Tight junction molecular apparatus is described, not a separately selectable part.",
+    "Stretch afferent terminals and transmitter events are not independently encoded in this static mesh.",
+    "No whole-bladder dome locator or bladder-neck geometry is present."
+  ],
+  "render_or_mesh_execution": "NOT RUN",
+  "validation_requirements": [
+    "Preserve all 23 exact part identities.",
+    "No palette/normal/cache mutation by teaching attachment.",
+    "Opening labels off and no hidden core supporting layers.",
+    "Cut face ownership, close-view readability, all aspect-ratio framing and tissue-opacity behavior require native visual review.",
+    "At zero separation, cells must visibly form the lining; presets cannot repair or certify continuity.",
+    "Choose a validated umbrella owner for BW04 after geometry generation; demonstrate nucleus/vesicle containment and visible apical relation."
+  ],
+  "source_basis": [
+    "app/micro/organs2.py:355-710",
+    "app/micro/registry_organs.py:281",
+    "app/viewer/procedural.py:121-125 and cutaway_planes",
+    "app/viewer/viewport.py:set_named_view",
+    "app/viewer/camera.py:record_pose",
+    "revised-refinement-handoffs/Bladder_Refinement_Directions_Draft_2.txt",
+    "microrefine-next/requirements/bladder_wall.json"
+  ],
+  "functional_caption_correction": {
+    "text": "Filling includes regulated exocytosis of subapical discoidal/fusiform vesicles. Voiding-associated compensatory endocytosis recovers apical membrane; the cited experimental pathway delivers internalized membrane to lysosomes rather than simply recapturing it into the same fusiform-vesicle pool. This block depicts no vesicle trafficking over time.",
+    "source": "https://pubmed.ncbi.nlm.nih.gov/20461056/",
+    "scope": "Opened primary-study abstract. Detailed pathways are conveyed by captions/storyboard rather than new organelles in the 23-part mesh."
+  }
+}

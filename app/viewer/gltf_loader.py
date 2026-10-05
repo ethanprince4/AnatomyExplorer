@@ -7,25 +7,14 @@ images. Nothing here touches the network: external URIs are only read from the f
 """
 from __future__ import annotations
 
-import base64
-import json
-import struct
 from dataclasses import dataclass, field
 from pathlib import Path
 
 import numpy as np
 
-GLB_MAGIC = b"glTF"
-CHUNK_JSON = 0x4E4F534A
-CHUNK_BIN = 0x004E4942
-
-COMPONENT = {5120: np.int8, 5121: np.uint8, 5122: np.int16, 5123: np.uint16, 5125: np.uint32, 5126: np.float32}
-NCOMP = {"SCALAR": 1, "VEC2": 2, "VEC3": 3, "VEC4": 4, "MAT2": 4, "MAT3": 9, "MAT4": 16}
-NORM_DIV = {np.int8: 127.0, np.uint8: 255.0, np.int16: 32767.0, np.uint16: 65535.0}
-
-
-class GltfError(Exception):
-    pass
+from ..load_control import checkpoint
+from ..gltf_data import (Accessors as _Accessors, GltfError, read_container as _read_container,
+                         load_buffers as _load_buffers, read_uri, scene_topology)
 
 
 @dataclass
@@ -115,102 +104,6 @@ class Document:
 
 # --------------------------------------------------------------------------------------------------
 
-def _read_container(path: Path):
-    data = path.read_bytes()
-    if data[:4] == GLB_MAGIC:
-        if len(data) < 20:
-            raise GltfError("file is shorter than a GLB header")
-        _magic, version, length = struct.unpack_from("<4sII", data, 0)
-        if version != 2:
-            raise GltfError(f"GLB version {version}; only 2 is supported")
-        off, gltf, binchunk = 12, None, None
-        while off + 8 <= min(length, len(data)):
-            clen, ctype = struct.unpack_from("<II", data, off)
-            chunk = memoryview(data)[off + 8: off + 8 + clen]
-            if ctype == CHUNK_JSON and gltf is None:
-                gltf = json.loads(bytes(chunk).decode("utf-8"))
-            elif ctype == CHUNK_BIN and binchunk is None:
-                binchunk = chunk
-            off += 8 + clen                   # chunk lengths already include their 4-byte padding
-        if gltf is None:
-            raise GltfError("GLB has no JSON chunk")
-        return gltf, binchunk
-    try:
-        return json.loads(data.decode("utf-8-sig")), None
-    except (UnicodeDecodeError, ValueError) as exc:
-        raise GltfError(f"not a GLB or glTF file ({exc})") from None
-
-
-def _load_buffers(gltf, binchunk, folder: Path):
-    out = []
-    for i, b in enumerate(gltf.get("buffers", [])):
-        uri = b.get("uri")
-        if uri is None:
-            if binchunk is None:
-                raise GltfError(f"buffer {i} has no uri and the file has no BIN chunk")
-            out.append(binchunk)
-        elif uri.startswith("data:"):
-            out.append(memoryview(base64.b64decode(uri.split(",", 1)[1])))
-        else:
-            if "://" in uri:
-                raise GltfError(f"buffer {i} points outside the file ({uri}); only local files are read")
-            p = (folder / uri).resolve()
-            out.append(memoryview(p.read_bytes()))
-    return out
-
-
-class _Accessors:
-    def __init__(self, gltf, buffers):
-        self.g = gltf
-        self.buffers = buffers
-        self.cache = {}
-
-    def view_bytes(self, vi):
-        bv = self.g["bufferViews"][vi]
-        buf = self.buffers[bv["buffer"]]
-        start = bv.get("byteOffset", 0)
-        return buf[start: start + bv["byteLength"]], bv.get("byteStride")
-
-    def _dense(self, acc, count, n, dtype):
-        if "bufferView" not in acc:
-            return np.zeros((count, n), dtype=dtype)
-        raw, stride = self.view_bytes(acc["bufferView"])
-        off = acc.get("byteOffset", 0)
-        item = np.dtype(dtype).itemsize * n
-        if stride and stride != item:
-            arr = np.lib.stride_tricks.as_strided(
-                np.frombuffer(raw, dtype=np.uint8, count=len(raw) - off, offset=off),
-                shape=(count, item), strides=(stride, 1))
-            return np.ascontiguousarray(arr).view(dtype).reshape(count, n)
-        return np.frombuffer(raw, dtype=dtype, count=count * n, offset=off).reshape(count, n)
-
-    def get(self, ai, as_float=True):
-        key = (ai, as_float)
-        if key in self.cache:
-            return self.cache[key]
-        acc = self.g["accessors"][ai]
-        dtype = COMPONENT[acc["componentType"]]
-        n = NCOMP[acc["type"]]
-        count = acc["count"]
-        arr = self._dense(acc, count, n, dtype).copy()
-        sp = acc.get("sparse")
-        if sp:
-            idx_dt = COMPONENT[sp["indices"]["componentType"]]
-            raw, _ = self.view_bytes(sp["indices"]["bufferView"])
-            idx = np.frombuffer(raw, dtype=idx_dt, count=sp["count"], offset=sp["indices"].get("byteOffset", 0))
-            raw, _ = self.view_bytes(sp["values"]["bufferView"])
-            vals = np.frombuffer(raw, dtype=dtype, count=sp["count"] * n,
-                                 offset=sp["values"].get("byteOffset", 0)).reshape(-1, n)
-            arr[idx.astype(np.int64)] = vals
-        if as_float:
-            if acc.get("normalized") and dtype in NORM_DIV:
-                arr = np.maximum(arr.astype(np.float32) / NORM_DIV[dtype], -1.0)
-            else:
-                arr = arr.astype(np.float32, copy=False)
-        self.cache[key] = arr
-        return arr
-
-
 def _material(m: dict) -> Material:
     pbr = m.get("pbrMetallicRoughness", {})
     ext = m.get("extensions", {})
@@ -261,6 +154,7 @@ def load(path) -> Document:
     ver = str(gltf.get("asset", {}).get("version", "2.0"))
     if not ver.startswith("2"):
         raise GltfError(f"glTF version {ver}; only 2.x is supported")
+    roots, parents = scene_topology(gltf)
     buffers = _load_buffers(gltf, binchunk, path.parent)
     acc = _Accessors(gltf, buffers)
 
@@ -268,6 +162,7 @@ def load(path) -> Document:
 
     meshes = []
     for mi, m in enumerate(gltf.get("meshes", [])):
+        checkpoint()
         prims = []
         for p in m.get("primitives", []):
             mode = p.get("mode", 4)
@@ -280,9 +175,19 @@ def load(path) -> Document:
                 continue
             n = len(attrs["POSITION"])
             if "indices" in p:
-                idx = acc.get(p["indices"], as_float=False).reshape(-1).astype(np.uint32)
+                idx = acc.indices(p["indices"], n).astype(np.uint32)
             else:
                 idx = np.arange(n, dtype=np.uint32)
+            if attrs["POSITION"].shape[1] != 3 or not np.isfinite(attrs["POSITION"]).all():
+                raise GltfError(f"mesh {mi} positions must be finite VEC3 values")
+            if any(len(value) != n for value in attrs.values()):
+                raise GltfError(f"mesh {mi} attributes have inconsistent vertex counts")
+            if len(idx) and idx.max() >= n:
+                raise GltfError(f"mesh {mi} has indices past its vertices")
+            if len(idx) < 3:
+                continue
+            if mode == 4 and len(idx) % 3:
+                raise GltfError(f"mesh {mi} triangle indices are not a multiple of three")
             if mode == 5:                     # triangle strip -> list
                 k = len(idx) - 2
                 tri = np.stack([idx[:k], idx[1:k + 1], idx[2:k + 2]], 1)
@@ -301,6 +206,7 @@ def load(path) -> Document:
 
     nodes = []
     for i, nd in enumerate(gltf.get("nodes", [])):
+        checkpoint()
         mat = None
         if "matrix" in nd:
             mat = np.array(nd["matrix"], dtype=np.float64).reshape(4, 4).T
@@ -310,16 +216,8 @@ def load(path) -> Document:
             rotation=np.array(nd.get("rotation", (0, 0, 0, 1)), dtype=np.float64),
             scale=np.array(nd.get("scale", (1, 1, 1)), dtype=np.float64),
             matrix=mat, extras=nd.get("extras", {}) or {}))
-    for i, nd in enumerate(nodes):
-        for c in nd.children:
-            if 0 <= c < len(nodes):
-                nodes[c].parent = i
-
-    scenes = gltf.get("scenes", [])
-    if scenes:
-        roots = list(scenes[gltf.get("scene", 0)].get("nodes", []))
-    else:
-        roots = [i for i, nd in enumerate(nodes) if nd.parent is None]
+    for i, node in enumerate(nodes):
+        node.parent = parents[i]
 
     animations = []
     for ai, a in enumerate(gltf.get("animations", [])):
@@ -347,14 +245,12 @@ def load(path) -> Document:
 
     images, mimes = [], []
     for im in gltf.get("images", []):
+        checkpoint()
         if "bufferView" in im:
             raw, _ = acc.view_bytes(im["bufferView"])
             images.append(bytes(raw))
-        elif im.get("uri", "").startswith("data:"):
-            images.append(base64.b64decode(im["uri"].split(",", 1)[1]))
-        elif im.get("uri") and "://" not in im["uri"]:
-            p = path.parent / im["uri"]
-            images.append(p.read_bytes() if p.is_file() else b"")
+        elif im.get("uri"):
+            images.append(read_uri(im["uri"], path.parent, missing_ok=True))
         else:
             images.append(b"")
         mimes.append(im.get("mimeType", ""))

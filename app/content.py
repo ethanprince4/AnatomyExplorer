@@ -55,7 +55,11 @@ class ContentIndex:
         # downloaded ones (app/viewer/catalog.py)
         from .viewer.catalog import load_catalog
         MODELS = load_catalog()
+        self.set_model_catalog(MODELS)
+
+    def set_model_catalog(self, MODELS):
         self.micro_models = MODELS
+        self.model_catalog_error = getattr(MODELS, "error", "")
         self.micro_by_name = defaultdict(list)
         self.micro_by_group = defaultdict(list)
         self.micro_by_cat = defaultdict(list)

@@ -1,0 +1,489 @@
+{
+  "schema_version": 1,
+  "model_id": "blood_cells",
+  "status": "source_ready_native_visual_review_deferred",
+  "source_cache_sha256": "6818f187c5b3998863ce22b2d8739ea7057613b19e0d24a23a4781767563d88f",
+  "native_properties": {
+    "viewer_cameras": {
+      "Comparison": {
+        "position": [
+          -0.4117387405098575,
+          2.307275099968425,
+          2.26871719192528
+        ],
+        "target": [
+          0.09,
+          -0.06,
+          0.025
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.3,
+        "hidden": [
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ],
+        "note": "True cell scale; eight selected leukocyte samples. Enlarged receptor symbols are functional cues, not smear morphology.",
+        "cut_on": false
+      },
+      "Smear comparison": {
+        "position": [
+          -0.4117387405098575,
+          2.307275099968425,
+          2.26871719192528
+        ],
+        "target": [
+          0.09,
+          -0.06,
+          0.025
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.3,
+        "hidden": [
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ],
+        "note": "Receptor symbols hidden. Compare size, nucleus, cytoplasmic rim and granules in authored sections; this is not an actual smear.",
+        "cut_on": false
+      },
+      "Red-cell shape": {
+        "position": [
+          0.18826125949,
+          2.342275099968,
+          1.958717191925
+        ],
+        "target": [
+          0.69,
+          -0.025,
+          -0.285
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.65,
+        "hidden": [
+          "Neutrophil",
+          "Band neutrophil",
+          "Neutrophil nucleus",
+          "Neutrophil granules",
+          "Eosinophil",
+          "Eosinophil nucleus",
+          "Eosinophil granules",
+          "Basophil",
+          "Basophil nucleus",
+          "Basophil granules",
+          "T lymphocyte",
+          "B lymphocyte",
+          "Large lymphocyte",
+          "T lymphocyte nucleus",
+          "B lymphocyte nucleus",
+          "Large lymphocyte nucleus",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Monocyte",
+          "Monocyte nucleus",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ],
+        "note": "Three whole RBCs, one central section, seven-cell rouleau and four resting platelets; illustrative sample.",
+        "cut_on": false
+      },
+      "Granulocytes": {
+        "position": [
+          -0.55173874051,
+          2.367275099968,
+          2.643717191925
+        ],
+        "target": [
+          -0.05,
+          0,
+          0.4
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.7,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "T lymphocyte",
+          "B lymphocyte",
+          "Large lymphocyte",
+          "T lymphocyte nucleus",
+          "B lymphocyte nucleus",
+          "Large lymphocyte nucleus",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Monocyte",
+          "Monocyte nucleus",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ],
+        "note": "Segmented and band neutrophils share the selectable nucleus and granule parts. Granules are enlarged representative samples.",
+        "cut_on": false
+      },
+      "Lymphocyte morphology": {
+        "position": [
+          -1.15173874051,
+          2.367275099968,
+          2.003717191925
+        ],
+        "target": [
+          -0.65,
+          0,
+          -0.24
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.45,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "Neutrophil",
+          "Band neutrophil",
+          "Neutrophil nucleus",
+          "Neutrophil granules",
+          "Eosinophil",
+          "Eosinophil nucleus",
+          "Eosinophil granules",
+          "Basophil",
+          "Basophil nucleus",
+          "Basophil granules",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Monocyte",
+          "Monocyte nucleus",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ],
+        "note": "T and B representatives share resting small-lymphocyte morphology. The larger sample is a morphology comparison, not a subtype diagnosis.",
+        "cut_on": false
+      },
+      "Receptor function": {
+        "position": [
+          -1.35173874051,
+          2.367275099968,
+          2.003717191925
+        ],
+        "target": [
+          -0.85,
+          0,
+          -0.24
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.9,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "Neutrophil",
+          "Band neutrophil",
+          "Neutrophil nucleus",
+          "Neutrophil granules",
+          "Eosinophil",
+          "Eosinophil nucleus",
+          "Eosinophil granules",
+          "Basophil",
+          "Basophil nucleus",
+          "Basophil granules",
+          "Large lymphocyte",
+          "Large lymphocyte nucleus",
+          "Monocyte",
+          "Monocyte nucleus",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ],
+        "note": "Greatly enlarged symbols: paired teal TCR recognizes peptide-MHC; gold surface Ig recognizes native antigen. The resting B cell is not secreting antibody.",
+        "cut_on": false
+      },
+      "Monocyte detail": {
+        "position": [
+          0.36426125949,
+          2.367275099968,
+          2.643717191925
+        ],
+        "target": [
+          0.866,
+          0,
+          0.4
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.78,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "Neutrophil",
+          "Band neutrophil",
+          "Neutrophil nucleus",
+          "Neutrophil granules",
+          "Eosinophil",
+          "Eosinophil nucleus",
+          "Eosinophil granules",
+          "Basophil",
+          "Basophil nucleus",
+          "Basophil granules",
+          "T lymphocyte",
+          "B lymphocyte",
+          "Large lymphocyte",
+          "T lymphocyte nucleus",
+          "B lymphocyte nucleus",
+          "Large lymphocyte nucleus",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Fibrin",
+          "Activated platelets",
+          "Plasma"
+        ],
+        "note": "Indented nucleus and abundant cytoplasm; authored section vacuoles are deliberate. Morphology links to phagocytosis and antigen presentation.",
+        "cut_on": false
+      },
+      "Clot": {
+        "position": [
+          1.2425921524300574,
+          0.44602379935185954,
+          -0.41666652029754037
+        ],
+        "target": [
+          1.3491984605789185,
+          -0.05696000158786774,
+          -0.8933975100517273
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.7011633515357971,
+        "hidden": [
+          "Erythrocytes",
+          "Rouleau",
+          "Erythrocyte cross-section",
+          "Platelets",
+          "Neutrophil",
+          "Band neutrophil",
+          "Neutrophil nucleus",
+          "Neutrophil granules",
+          "Eosinophil",
+          "Eosinophil nucleus",
+          "Eosinophil granules",
+          "Basophil",
+          "Basophil nucleus",
+          "Basophil granules",
+          "T lymphocyte",
+          "B lymphocyte",
+          "Large lymphocyte",
+          "T lymphocyte nucleus",
+          "B lymphocyte nucleus",
+          "Large lymphocyte nucleus",
+          "T-cell receptor (schematic)",
+          "B-cell surface immunoglobulin (schematic)",
+          "Monocyte",
+          "Monocyte nucleus",
+          "Plasma"
+        ],
+        "note": "Two activated platelets and ten sampled connected fibrin paths. Static teaching endpoint; no natural network density or clotting rate is depicted.",
+        "cut_on": false
+      },
+      "Plasma context": {
+        "position": [
+          -0.4117387405098575,
+          2.307275099968425,
+          2.26871719192528
+        ],
+        "target": [
+          0.09,
+          -0.06,
+          0.025
+        ],
+        "type": "ORTHO",
+        "ortho_width": 3.3,
+        "hidden": [
+          "Fibrin",
+          "Activated platelets"
+        ],
+        "note": "Optional surrounding plasma context. Box extent, color, transparency and selected cell counts do not encode blood volume fractions.",
+        "cut_on": false
+      }
+    },
+    "start_view": "Comparison",
+    "cut_on": false,
+    "metres_per_unit": 3.3333333333333335e-05,
+    "scale_note": "Cells retain true scale: 0.03 build units per micrometre. The layout is a selected comparison, not a smear, blood differential or volume fraction. Eight leukocyte examples, three whole erythrocytes, a seven-cell rouleau, one erythrocyte section and four resting platelets are illustrative. T/B receptor symbols are greatly enlarged functional cues and cannot identify T/B cells on Wright stain. Granules are enlarged, reduced representative samples. The Clot view shows two activated platelets and ten sampled connected fibrin paths; these counts and fibre thickness are schematic. Antibody secretion requires activated B-lineage plasmablast/plasma-cell differentiation, which is not modeled.",
+    "summary": "Compare blood-cell shape at a shared physical scale. Smear comparison hides the enlarged T/B receptor symbols; Receptor function explains their distinct recognition roles. Follow red-cell shape, granulocyte nuclei and granules, resting lymphocyte morphology and monocyte structure, then the separate static Clot and optional Plasma context views. Cell counts and arrangement are illustrative."
+  },
+  "part_map": [
+    {
+      "catalog_index": 0,
+      "native_key": "Erythrocytes",
+      "group": "Red cells & platelets"
+    },
+    {
+      "catalog_index": 1,
+      "native_key": "Rouleau",
+      "group": "Red cells & platelets"
+    },
+    {
+      "catalog_index": 2,
+      "native_key": "Erythrocyte cross-section",
+      "group": "Red cells & platelets"
+    },
+    {
+      "catalog_index": 3,
+      "native_key": "Platelets",
+      "group": "Red cells & platelets"
+    },
+    {
+      "catalog_index": 4,
+      "native_key": "Neutrophil",
+      "group": "Granulocytes"
+    },
+    {
+      "catalog_index": 5,
+      "native_key": "Band neutrophil",
+      "group": "Granulocytes"
+    },
+    {
+      "catalog_index": 6,
+      "native_key": "Neutrophil nucleus",
+      "group": "Granulocytes"
+    },
+    {
+      "catalog_index": 7,
+      "native_key": "Neutrophil granules",
+      "group": "Granulocytes"
+    },
+    {
+      "catalog_index": 8,
+      "native_key": "Eosinophil",
+      "group": "Granulocytes"
+    },
+    {
+      "catalog_index": 9,
+      "native_key": "Eosinophil nucleus",
+      "group": "Granulocytes"
+    },
+    {
+      "catalog_index": 10,
+      "native_key": "Eosinophil granules",
+      "group": "Granulocytes"
+    },
+    {
+      "catalog_index": 11,
+      "native_key": "Basophil",
+      "group": "Granulocytes"
+    },
+    {
+      "catalog_index": 12,
+      "native_key": "Basophil nucleus",
+      "group": "Granulocytes"
+    },
+    {
+      "catalog_index": 13,
+      "native_key": "Basophil granules",
+      "group": "Granulocytes"
+    },
+    {
+      "catalog_index": 14,
+      "native_key": "T lymphocyte",
+      "group": "Agranulocytes"
+    },
+    {
+      "catalog_index": 15,
+      "native_key": "B lymphocyte",
+      "group": "Agranulocytes"
+    },
+    {
+      "catalog_index": 16,
+      "native_key": "Large lymphocyte",
+      "group": "Agranulocytes"
+    },
+    {
+      "catalog_index": 17,
+      "native_key": "T lymphocyte nucleus",
+      "group": "Agranulocytes"
+    },
+    {
+      "catalog_index": 18,
+      "native_key": "B lymphocyte nucleus",
+      "group": "Agranulocytes"
+    },
+    {
+      "catalog_index": 19,
+      "native_key": "Large lymphocyte nucleus",
+      "group": "Agranulocytes"
+    },
+    {
+      "catalog_index": 20,
+      "native_key": "T-cell receptor (schematic)",
+      "group": "Agranulocytes"
+    },
+    {
+      "catalog_index": 21,
+      "native_key": "B-cell surface immunoglobulin (schematic)",
+      "group": "Agranulocytes"
+    },
+    {
+      "catalog_index": 22,
+      "native_key": "Monocyte",
+      "group": "Agranulocytes"
+    },
+    {
+      "catalog_index": 23,
+      "native_key": "Monocyte nucleus",
+      "group": "Agranulocytes"
+    },
+    {
+      "catalog_index": 24,
+      "native_key": "Fibrin",
+      "group": "Clot"
+    },
+    {
+      "catalog_index": 25,
+      "native_key": "Activated platelets",
+      "group": "Clot"
+    },
+    {
+      "catalog_index": 26,
+      "native_key": "Plasma",
+      "group": "Plasma"
+    }
+  ],
+  "index_policy": "Names/native keys are authoritative; indices describe only the selected catalog version and must not be hardcoded into future native caches.",
+  "source_requirements": [
+    {
+      "root": "baseline",
+      "path": "app/micro/blood.py",
+      "sha256": "089d9bca5bd8d3c81e101b06321af4aeb42b687b652b209deb6f0f54c6bb926b"
+    },
+    {
+      "root": "baseline",
+      "path": "app/micro/registry_extra_blood.py",
+      "sha256": "865bf0cd532ff1dc223daa4d0bcc6bd350005dab9e5701c3456073fc93c947de"
+    },
+    {
+      "root": "baseline",
+      "path": "app/micro/teaching_defaults.json",
+      "sha256": "cee66f6d873503624125325df40ae00f6270085a281ef5d0a8a6e82e11275187"
+    },
+    {
+      "root": "baseline",
+      "path": "app/viewer/procedural.py",
+      "sha256": "b0f522d6e037b394607c7e4ecff6a0be66467ad7109eb5838b5045b0ea29cf18"
+    },
+    {
+      "root": "baseline",
+      "path": "app/viewer/viewport.py",
+      "sha256": "f6cc86f76bc770741e745b2e8d4960b6082ef458df0be0a0bad27d7f16ac5d0f"
+    },
+    {
+      "root": "baseline",
+      "path": "app/ui/model_view.py",
+      "sha256": "ee57c85edf1eb25741f0280552ac898e406f66b45bdabe1948e8a107fe78ed34"
+    }
+  ]
+}

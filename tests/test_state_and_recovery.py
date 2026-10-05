@@ -158,20 +158,41 @@ class VisibilityTests(unittest.TestCase):
         self.assertEqual(np.flatnonzero(st.visible_mask()).tolist(), [1])
 
     def test_failed_model_open_preserves_existing_override_cursor(self):
-        entry = SimpleNamespace(name="Fixture bad model")
-        status = SimpleNamespace(showMessage=lambda *args: None)
-        win = SimpleNamespace(micro_tabs={}, content=SimpleNamespace(micro_models={"bad": entry}),
-                              settings={}, statusBar=lambda: status)
+        from types import MethodType
+        from unittest.mock import Mock
+        from PySide6.QtWidgets import QTabWidget
+        entry = SimpleNamespace(id="bad", kind="glb", name="Fixture bad model")
+        center = QTabWidget()
+        loader = SimpleNamespace(request=Mock(return_value=1), cancel=Mock())
+        win = SimpleNamespace(
+            _closing=False, micro_tabs={}, _loading_models={}, _preference_commits={}, _reference_loads={},
+            content=SimpleNamespace(micro_models={"bad": entry}), settings={}, center=center,
+            _model_loader=loader, _update_activity=Mock(), _connect_model_view=Mock(),
+            _close_center_tab=Mock(), _retry_model_load=Mock(), statusBar=lambda: SimpleNamespace(showMessage=Mock()))
+        for name in ("_notify_model_callbacks", "_model_load_error", "_cancel_model_load"):
+            setattr(win, name, MethodType(getattr(MainWindow, name), win))
+        notified = []
         QApplication.setOverrideCursor(Qt.CrossCursor)
         try:
-            with patch("app.ui.model_view.ModelView", side_effect=ValueError("fixture load failure")), \
+            MainWindow.open_micro(win, "bad", on_ready=notified.append)
+            self.assertEqual(loader.request.call_count, 1)
+            result = SimpleNamespace(key="bad", serial=1, model=object(), error="")
+            with patch("app.ui.model_view.ModelView", side_effect=ValueError("fixture load failure")) as view, \
                     contextlib.redirect_stderr(io.StringIO()):
-                MainWindow.open_micro(win, "bad")
+                MainWindow._model_load_finished(win, result)
+            view.assert_called_once()
+            self.assertIsNone(win._loading_models["bad"].serial)
+            self.assertIn("fixture load failure", win._loading_models["bad"].note.text())
+            self.assertEqual(notified, [None], "failed construction must notify the async observer")
+            self.assertFalse(win.micro_tabs)
             cursor = QApplication.overrideCursor()
             self.assertIsNotNone(cursor)
             self.assertEqual(cursor.shape(), Qt.CrossCursor)
         finally:
             QApplication.restoreOverrideCursor()
+            center.close()
+            center.deleteLater()
+            QCoreApplication.sendPostedEvents(None, QEvent.DeferredDelete)
 
 
 class RecoveryTests(unittest.TestCase):
@@ -299,7 +320,7 @@ class RecoveryTests(unittest.TestCase):
                     QCoreApplication.sendPostedEvents(None, QEvent.DeferredDelete)
 
     def test_saved_view_rename_collision_preserves_both_views_and_delete_removes_only_selection(self):
-        from PySide6.QtWidgets import QDialog, QListWidget, QPushButton
+        from PySide6.QtWidgets import QDialog, QListWidget, QPushButton, QMessageBox
 
         for new_name in ("B", "C"):
             with self.subTest(new_name=new_name):
@@ -319,13 +340,15 @@ class RecoveryTests(unittest.TestCase):
                     try:
                         listing = dialog.findChild(QListWidget)
                         listing.setCurrentRow(0)
-                        buttons = {b.text(): b for b in dialog.findChildren(QPushButton)}
+                        buttons = {"Rename": dialog.rename_button, "Delete": dialog.delete_button}
                         buttons["Rename"].click()
                         observed.append(win._saved_views())
                         target = "A" if new_name == "B" else "C"
                         listing.setCurrentRow(next((i for i in range(listing.count())
                                                     if listing.item(i).text() == target), 0))
-                        buttons["Delete"].click()
+                        with patch("app.ui.saved_views.QMessageBox.question", return_value=QMessageBox.Yes) as confirm:
+                            buttons["Delete"].click()
+                            confirm.assert_called_once()
                         observed.append(win._saved_views())
                     except Exception as exc:
                         errors.append(exc)
@@ -333,8 +356,8 @@ class RecoveryTests(unittest.TestCase):
                         dialog.accept()
 
                 try:
-                    with patch("app.main_window.QInputDialog.getText", return_value=(new_name, True)), \
-                            patch("app.main_window.QMessageBox.warning", side_effect=lambda *args: warnings.append(args)):
+                    with patch("app.ui.saved_views.QInputDialog.getText", return_value=(new_name, True)), \
+                            patch("app.ui.saved_views.QMessageBox.warning", side_effect=lambda *args: warnings.append(args)):
                         QTimer.singleShot(0, interact)
                         win.manage_views()
                     self.assertFalse(errors, errors)
@@ -479,7 +502,7 @@ class RecoveryTests(unittest.TestCase):
                     QCoreApplication.sendPostedEvents(None, QEvent.DeferredDelete)
 
     def test_status_follows_active_model_selection_visibility_and_xray(self):
-        from general_fixtures import write_fixture_model
+        from general_fixtures import write_fixture_model, open_fixture_model
         with tempfile.TemporaryDirectory() as folder:
             QSettings(QSettings.defaultFormat(), QSettings.UserScope, config.ORG_NAME, config.APP_NAME).clear()
             win = MainWindow(self.dataset, restore=False)
@@ -487,7 +510,7 @@ class RecoveryTests(unittest.TestCase):
                 win.state.select([0, 1, 2])
                 glb = fixture_root(folder) / "status_fixture.glb"
                 write_fixture_model(glb)
-                win.open_model_file(str(glb))
+                open_fixture_model(win, glb)
                 model = win.active_model_view()
                 self.assertIsNotNone(model)
                 self.assertTrue(win.count_label.text().startswith("2 parts"))

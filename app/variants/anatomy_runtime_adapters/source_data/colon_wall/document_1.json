@@ -1,0 +1,358 @@
+{
+  "schema_version": 1,
+  "model_id": "colon_wall",
+  "status": "design_ready",
+  "playback": "manual_native_views",
+  "part_keys": [
+    "Serosa",
+    "Taenia coli & longitudinal muscle",
+    "Inner circular muscle",
+    "Appendix epiploica (fat tag)",
+    "Myenteric (Auerbach) plexus",
+    "Submucosal (Meissner) plexus",
+    "Submucosa",
+    "Muscularis mucosae",
+    "Submucosal arterioles",
+    "Submucosal venules",
+    "Mucosal branches",
+    "Lamina propria",
+    "Colonic crypts (of Lieberkühn)",
+    "Crypt base stem cells (Lgr5+)",
+    "Surface epithelium (colonocytes)",
+    "Goblet cells",
+    "Crypt basement membranes",
+    "Solitary lymphoid follicle",
+    "Germinal centres"
+  ],
+  "functional_sequences": [
+    {
+      "id": "absorption_and_secretion",
+      "mechanism": "Colonic epithelial transport changes the fluid composition of luminal contents; absorption and secretion have different directions and depend on physiological conditions.",
+      "source_evidence": [
+        "water",
+        "ions",
+        "bicarbonate"
+      ],
+      "steps": [
+        {
+          "id": "luminal_surface",
+          "native_view": "Flat surface and crypt mouths",
+          "focus_parts": [
+            "Surface epithelium (colonocytes)",
+            "Colonic crypts (of Lieberkühn)"
+          ],
+          "narration": "Identify the flat luminal surface and crypt openings. This crop contains no villi.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        },
+        {
+          "id": "ion_and_water_absorption",
+          "native_view": "Crypt epithelial complements",
+          "focus_parts": [
+            "Surface epithelium (colonocytes)",
+            "Colonic crypts (of Lieberkühn)"
+          ],
+          "narration": "Colonocytes support net sodium and chloride uptake. Water movement accompanies solute transport; net movement changes with luminal composition and osmolality.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        },
+        {
+          "id": "epithelial_secretion",
+          "native_view": "Flat surface and crypt mouths",
+          "focus_parts": [
+            "Surface epithelium (colonocytes)",
+            "Goblet cells"
+          ],
+          "narration": "The epithelium also secretes potassium and bicarbonate. Chloride/bicarbonate exchange illustrates opposite directions; neither direction is universal under all conditions.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        },
+        {
+          "id": "vascular_context",
+          "native_view": "Arterial feeders and venous limits",
+          "focus_parts": [
+            "Mucosal branches",
+            "Submucosal venules"
+          ],
+          "narration": "Relate epithelial exchange to stromal and vascular support. The supplied arterial feeders and venules do not constitute a connected exchange capillary bed.",
+          "claim_status": "teaching_inference",
+          "advance": "manual"
+        }
+      ],
+      "schematic_limitations": [
+        "No ion channels, pumps, tight-junction pathways, concentrations, osmotic gradients or exchange capillary bed are represented.",
+        "No flow-rate, absorption fraction or transit-time calculation; manual view changes are not measured fluid transport.",
+        "Do not teach the supplied generic venular sugars/amino-acids text as the main colonic function."
+      ]
+    },
+    {
+      "id": "mucus_barrier",
+      "mechanism": "Goblet-cell mucin secretion helps separate luminal microbes from epithelium; a structured mucus barrier has functions beyond lubrication.",
+      "source_evidence": [
+        "mucus"
+      ],
+      "steps": [
+        {
+          "id": "secretory_cell",
+          "native_view": "Crypt epithelial complements",
+          "focus_parts": [
+            "Goblet cells",
+            "Colonic crypts (of Lieberkühn)"
+          ],
+          "narration": "Find goblet cells in the crypt epithelial complement and on the surface; their mucin secretion contributes to mucus.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        },
+        {
+          "id": "inner_barrier",
+          "native_view": "Flat surface and crypt mouths",
+          "focus_parts": [
+            "Goblet cells",
+            "Surface epithelium (colonocytes)"
+          ],
+          "narration": "Explain the attached dense inner mucus barrier above the epithelial surface. Mouse Muc2 experiments show bacterial exclusion here.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        },
+        {
+          "id": "outer_domain",
+          "native_view": "Flat surface and crypt mouths",
+          "focus_parts": [
+            "Surface epithelium (colonocytes)"
+          ],
+          "narration": "Explain the expanded outer mucus domain that accommodates microbes. Both mucus domains and bacteria are narrated, not rendered in this model.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        }
+      ],
+      "schematic_limitations": [
+        "There is no mucus mesh, microbial population, secretion morph or permeability solver; no layer visibility toggle may be described as mucus secretion.",
+        "The directly opened two-layer experiment is in mice; its thickness is not assigned to this human teaching crop.",
+        "Goblet counts are sampled teaching counts, not cell density or measured secretory capacity."
+      ]
+    },
+    {
+      "id": "crypt_renewal",
+      "mechanism": "Crypt-base progenitors maintain epithelial lineages; renewal is explained from basal source to epithelial destination.",
+      "source_evidence": [
+        "renewal"
+      ],
+      "steps": [
+        {
+          "id": "basal_source",
+          "native_view": "Crypt epithelial complements",
+          "focus_parts": [
+            "Crypt base stem cells (Lgr5+)",
+            "Colonic crypts (of Lieberkühn)"
+          ],
+          "narration": "Locate the sampled crypt-base stem cells. Adult mouse Lgr5 lineage tracing supports their ability to generate epithelial lineages.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        },
+        {
+          "id": "epithelial_progeny",
+          "native_view": "Crypt epithelial complements",
+          "focus_parts": [
+            "Colonic crypts (of Lieberkühn)",
+            "Goblet cells"
+          ],
+          "narration": "Trace the conceptual connection from basal progenitors to absorptive and secretory epithelial lineages; transit-amplifying cells are not separate parts.",
+          "claim_status": "teaching_inference",
+          "advance": "manual"
+        },
+        {
+          "id": "surface_maintenance",
+          "native_view": "Flat surface and crypt mouths",
+          "focus_parts": [
+            "Surface epithelium (colonocytes)",
+            "Goblet cells"
+          ],
+          "narration": "Relate continued cell production to maintenance of the luminal lining. An upward renewal path is a teaching inference; the meshes remain stationary.",
+          "claim_status": "teaching_inference",
+          "advance": "manual"
+        }
+      ],
+      "schematic_limitations": [
+        "Six basal cells per crypt are authored samples, not a biological census.",
+        "No division, differentiation, migration or extrusion trajectories are simulated.",
+        "No fixed human turnover interval or deterministic APC-to-cancer progression is claimed."
+      ]
+    },
+    {
+      "id": "enteric_control",
+      "mechanism": "Enteric circuits coordinate muscle activity and epithelial transport; the two plexuses indicate major anatomical control regions, not exclusive functional ownership.",
+      "source_evidence": [
+        "ens",
+        "submucosal"
+      ],
+      "steps": [
+        {
+          "id": "myenteric_location",
+          "native_view": "Two enteric plexuses",
+          "focus_parts": [
+            "Myenteric (Auerbach) plexus",
+            "Inner circular muscle",
+            "Taenia coli & longitudinal muscle"
+          ],
+          "narration": "Locate the myenteric plexus between the external muscle layers. Neural signals regulate gut muscle contraction and relaxation.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        },
+        {
+          "id": "muscle_effectors",
+          "native_view": "Muscle roles",
+          "focus_parts": [
+            "Inner circular muscle",
+            "Taenia coli & longitudinal muscle"
+          ],
+          "narration": "Explain narrowing by circular muscle and shortening by longitudinal muscle. Coordinated activation contributes to mixing and propulsion; the local sheet is not a whole-colon contraction wave.",
+          "claim_status": "teaching_inference",
+          "advance": "manual"
+        },
+        {
+          "id": "submucosal_targets",
+          "native_view": "Two enteric plexuses",
+          "focus_parts": [
+            "Submucosal (Meissner) plexus",
+            "Muscularis mucosae"
+          ],
+          "narration": "Locate the submucosal plexus near mucosa. Human studies show projections to mucosa, submucosa and circular muscle; secretion and motility control overlap.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        },
+        {
+          "id": "epithelial_control",
+          "native_view": "Crypt epithelial complements",
+          "focus_parts": [
+            "Surface epithelium (colonocytes)",
+            "Colonic crypts (of Lieberkühn)"
+          ],
+          "narration": "Return to epithelial targets to connect neural regulation with fluid handling. The native plexus meshes do not identify individual synapses or transmitter classes.",
+          "claim_status": "teaching_inference",
+          "advance": "manual"
+        }
+      ],
+      "schematic_limitations": [
+        "No connected neuron-to-effector circuit, synapses, interstitial cells of Cajal, electrical slow waves or extrinsic autonomic pathways are modeled.",
+        "No muscle deformation or luminal-content displacement is supplied; advancing stages is manual explanation.",
+        "Do not equate one taenia marker with all three bands or infer a complete haustral contraction."
+      ]
+    },
+    {
+      "id": "follicle_and_diffuse_immunity",
+      "mechanism": "An organized solitary follicle and the surrounding diffuse mucosal immune compartment have related but distinct teaching roles.",
+      "source_evidence": [
+        "follicle"
+      ],
+      "steps": [
+        {
+          "id": "mucosal_location",
+          "native_view": "Follicle hierarchy",
+          "focus_parts": [
+            "Lamina propria",
+            "Solitary lymphoid follicle"
+          ],
+          "narration": "Locate the solitary follicle in this crop’s lamina propria. Human colonic follicles can extend into submucosa; this supplied follicle is wholly mucosal.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        },
+        {
+          "id": "organized_compartment",
+          "native_view": "Follicle hierarchy",
+          "focus_parts": [
+            "Solitary lymphoid follicle",
+            "Germinal centres"
+          ],
+          "narration": "Identify the follicular mantle around the germinal-centre compartment. A germinal centre represents a secondary follicle; not every normal human follicle contains one.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        },
+        {
+          "id": "inductive_and_effector_roles",
+          "native_view": "Follicle hierarchy",
+          "focus_parts": [
+            "Solitary lymphoid follicle",
+            "Lamina propria"
+          ],
+          "narration": "Explain organized follicles as sites of local immune induction and lamina propria as a diffuse effector compartment. Antigen sampling and cell traffic are conceptual here.",
+          "claim_status": "source_supported",
+          "advance": "manual"
+        }
+      ],
+      "schematic_limitations": [
+        "No follicle-associated epithelium, M cells, antigen-presenting cells, T cells, plasma cells, lymphatics or antibody transport machinery are separate selectable parts.",
+        "The visible germinal centre is a structural teaching example, not an assertion that every follicle is active or that all IgA switching occurs inside germinal centres.",
+        "This crop cannot demonstrate antigen transit, affinity selection, antibody secretion or an infection response."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "water",
+      "title": "Billich and Levitan 1969: intact human colon water/electrolyte perfusion",
+      "url": "https://www.jci.org/articles/view/106100",
+      "opened": "2026-10-04",
+      "scope": "Primary human study; net transport depends on luminal composition and osmolality. No fixed model rate."
+    },
+    {
+      "id": "ions",
+      "title": "Hawker et al. 1978: transport of Na, Cl and K in human colon",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/648816/",
+      "opened": "2026-10-04",
+      "scope": "Primary isolated human mucosa; active sodium/chloride absorption and potassium secretion; no molecular pump geometry inferred."
+    },
+    {
+      "id": "bicarbonate",
+      "title": "Davis et al. 1983: chloride/bicarbonate exchange in human colon",
+      "url": "https://www.jci.org/articles/view/110760",
+      "opened": "2026-10-04",
+      "scope": "Primary human perfusion; chloride absorption with bicarbonate secretion; bicarbonate can also be absorbed in other conditions."
+    },
+    {
+      "id": "mucus",
+      "title": "Johansson et al. 2008: Muc2-dependent colonic mucus layers",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/18806221/",
+      "opened": "2026-10-04",
+      "scope": "Primary mouse experiment: attached inner bacteria-excluding layer and expanded colonized outer layer. Species qualification retained; not a human thickness target."
+    },
+    {
+      "id": "renewal",
+      "title": "Barker et al. 2007: Lgr5 crypt-base stem cells",
+      "url": "https://www.nature.com/articles/nature06196",
+      "opened": "2026-10-04",
+      "scope": "Opened abstract and publisher figure captions; adult mouse lineage tracing supports crypt-base cells generating epithelial lineages. Not proof of a universal human turnover interval."
+    },
+    {
+      "id": "submucosal",
+      "title": "Porter et al. 1999: human colonic submucosal neuronal projections",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/10634154/",
+      "opened": "2026-10-04",
+      "scope": "Primary human preparation; submucosal projections reach mucosa, submucosa and circular muscle; prevents an absolute motility-versus-secretion split."
+    },
+    {
+      "id": "ens",
+      "title": "NIDDK: Your Digestive System and How It Works",
+      "url": "https://www.niddk.nih.gov/health-information/digestive-diseases/digestive-system-how-it-works",
+      "opened": "2026-10-04",
+      "scope": "Federal authoritative teaching source: enteric neural signals regulate muscle contraction/relaxation; peristalsis moves and mixes contents."
+    },
+    {
+      "id": "follicle",
+      "title": "Gebbers et al. 1992: human large-bowel lymphoid follicle structure and function",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/1283242/",
+      "opened": "2026-10-04",
+      "scope": "Primary human histology: follicle-associated epithelium, B-cell compartment, variable germinal-centre presence, inductive follicle versus effector lamina propria."
+    }
+  ],
+  "native_application": {
+    "adapter": "specialists/function/function_adapter.py:apply_stage",
+    "dependency": "build_model.py writes teaching_defaults.json in output overlay; native clone registry applies it before ProceduralModel construction.",
+    "method": "ModelViewport.set_named_view(name, animate=..., visibility=True)",
+    "narration_delivery": "Adapter returns stage metadata for caller/display; native viewer does not consume this narration JSON automatically.",
+    "geometry_mutation": false
+  },
+  "deferred_checks": [
+    "Native selector review-copy load, camera framing and visibility after real ProceduralModel construction.",
+    "Educator review of mechanisms and explicit limits; no visual or physiological certification claimed."
+  ]
+}

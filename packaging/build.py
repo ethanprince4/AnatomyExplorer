@@ -11,6 +11,7 @@
    Elsewhere only the folder is built (used to test the bundle on Linux).
 The release workflow (.github/workflows/release.yml) runs this on Windows and macOS runners."""
 import os
+import json
 import re
 import shutil
 import subprocess
@@ -38,13 +39,15 @@ def numeric_version(v):
     return ".".join((nums + ["0", "0", "0"])[:3])
 
 
-def pyinstaller(version, channel="stable", release_tag=None):
+def pyinstaller(version, channel="stable", release_tag=None, model_library=None):
     if sys.platform == "darwin":
         # Fail before packaging if the exact accepted wheel/plugin cannot be established.
         from install_cocoa import install
         install()
     env = dict(os.environ, APP_VERSION=version, APP_CHANNEL=channel,
                APP_RELEASE_TAG=release_tag or f"v{version}")
+    if model_library:
+        env["AE_BUNDLE_MODEL_LIBRARY"] = str(Path(model_library).resolve())
     if sys.platform == "win32":
         # Native toolkits on a developer/runner PATH (notably Poppler's ICU)
         # can shadow Windows/Qt dependencies during bindepend collection.
@@ -97,6 +100,26 @@ def mac_dmg(channel="stable", release_tag=None):
     shutil.rmtree(staging, ignore_errors=True)
 
 
+def selected_model_library(args):
+    """Resolve the same seed as the spec before scheduling procedural builders."""
+    explicit = args[args.index("--model-library") + 1] if "--model-library" in args else os.environ.get("AE_BUNDLE_MODEL_LIBRARY")
+    seed = Path(explicit).resolve() if explicit else ROOT / "data/local_model_library"
+    if not explicit and not (seed / "library.json").is_file():
+        return None
+    data = json.loads((seed / "library.json").read_text(encoding="utf-8-sig"))
+    rows = data.get("models", [])
+    rows = list(rows.values()) if isinstance(rows, dict) else rows
+    if not rows:
+        raise ValueError("Release model library has no models")
+    for row in rows:
+        post = row.get("variants", {}).get("post")
+        path = post.get("path") if isinstance(post, dict) else post
+        if not path or not (seed / path).is_file():
+            raise ValueError(f"{row.get('id', '<unnamed>')}: release requires an available post-refine model")
+    # The seed collector validates portable companion paths when packaging.
+    return str(seed)
+
+
 def main():
     args = sys.argv[1:]
     tag = args[args.index("--version") + 1] if "--version" in args else "v0.0.0"
@@ -105,9 +128,11 @@ def main():
     version = release_version(tag if tag.startswith("v") else "v" + tag, channel)
     tag = tag if tag.startswith("v") else "v" + tag
     jobs = args[args.index("--jobs") + 1] if "--jobs" in args else "4"
+    model_library = selected_model_library(args)
     if "--skip-prebuild" not in args:
-        run(sys.executable, PKG / "prebuild.py", "--jobs", jobs, cwd=ROOT)
-    pyinstaller(version, channel, tag)
+        flags = ["--skip-micro"] if model_library else []
+        run(sys.executable, PKG / "prebuild.py", "--jobs", jobs, *flags, cwd=ROOT)
+    pyinstaller(version, channel, tag, model_library=model_library)
     if "--no-package" in args:
         return
     RELEASE.mkdir(parents=True, exist_ok=True)

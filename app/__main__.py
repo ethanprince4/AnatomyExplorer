@@ -26,10 +26,10 @@ def main():
         return diagnostics()
     parser = argparse.ArgumentParser(description="Anatomy Explorer")
     parser.add_argument("--script", help="semicolon-separated automation commands (testing)")
-    parser.add_argument("--no-restore", action="store_true", help="ignore saved window layout")
+    parser.add_argument("--no-restore", action="store_true", help="ignore saved window layout and scene for this launch")
     args = parser.parse_args()
 
-    from PySide6.QtCore import Qt
+    from PySide6.QtCore import QSettings, Qt
     from PySide6.QtGui import QColor, QFont, QIcon, QPainter, QPixmap
     from PySide6.QtWidgets import QApplication, QMessageBox, QSplashScreen
 
@@ -59,10 +59,13 @@ def main():
         app.setWindowIcon(QIcon(str(icon_path)))
 
     from .ui.theme import apply_theme
-    apply_theme(app)
+    preferences = QSettings(QSettings.defaultFormat(), QSettings.UserScope, ORG_NAME, APP_NAME)
+    apply_theme(app, mode=str(preferences.value("ui_theme", "porcelain")))
 
     if not (DATA_DIR / "anatomy.json").exists():
-        QMessageBox.critical(None, APP_NAME, f"Dataset not found in {DATA_DIR}.\n\nRun tools\\build_all.bat first.")
+        QMessageBox.critical(None, APP_NAME, f"The anatomy dataset is missing from:\n{DATA_DIR}\n\n"
+                             "Restore the complete Anatomy Explorer data folder, then restart. "
+                             "For a source checkout, follow LOCAL_SETUP.md.")
         return 1
 
     from .ui import theme
@@ -87,8 +90,22 @@ def main():
     from .data import Dataset
     from .main_window import MainWindow
 
-    ds = Dataset(DATA_DIR)
-    win = MainWindow(ds, script=args.script, restore=not args.no_restore)
+    try:
+        ds = Dataset(DATA_DIR)
+        splash.showMessage("Preparing workspaces…", Qt.AlignBottom | Qt.AlignHCenter, QColor(theme.MUTED))
+        app.processEvents()
+        win = MainWindow(ds, script=args.script, restore=not args.no_restore)
+    except Exception as exc:
+        splash.close()
+        excepthook(type(exc), exc, exc.__traceback__)
+        dialog = QMessageBox(QMessageBox.Critical, APP_NAME,
+                             "Anatomy Explorer could not finish opening.\n\n"
+                             "Check that the application, content and data folders belong to the same install.",
+                             QMessageBox.Close)
+        dialog.setInformativeText(f"Details were written to {log_dir / 'errors.log'} when possible.")
+        dialog.setDetailedText(str(exc))
+        dialog.exec()
+        return 1
     win.show()
     splash.finish(win)
     from .ui.updates import attach_updates
@@ -102,6 +119,8 @@ def main():
                 mark_ready()
             except (OSError, UpdateError):
                 pass
+            from .variants.readiness import start_dataset_readiness
+            start_dataset_readiness(win)
         else:
             QTimer.singleShot(500, confirm_ready)
     QTimer.singleShot(500, confirm_ready)

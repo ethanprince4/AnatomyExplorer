@@ -12,14 +12,16 @@ import time
 
 import numpy as np
 from PySide6.QtCore import QStringListModel, Qt, QTimer
+from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QCompleter, QDockWidget, QFormLayout, QFrame, QGridLayout,
                                QHBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem, QPushButton, QSpinBox,
-                               QStackedWidget, QVBoxLayout, QWidget)
+                               QScrollArea, QSizePolicy, QStackedWidget, QVBoxLayout, QWidget)
 
 from ..config import USER_DIR
 from .. import srs
 from ..storage import load_json, write_json
 from . import theme
+from .flow import FlowLayout, WrapButton, WrapCheckBox
 from .study_colors import highlight, restore_colors
 from .study_scene import capture_scene, restore_scene
 
@@ -59,6 +61,19 @@ class QuizPanel(QWidget):
         root = QVBoxLayout(self)
         root.setContentsMargins(14, 12, 14, 12)
         self.stack = QStackedWidget()
+        self.save_notice = QWidget()
+        notice_layout = QVBoxLayout(self.save_notice)
+        notice_layout.setContentsMargins(0, 0, 0, 0)
+        self.save_error = QLabel()
+        self.save_error.setWordWrap(True)
+        self.save_error.setTextFormat(Qt.PlainText)
+        self.save_error.setStyleSheet(theme.text_css(theme.DANGER))
+        notice_layout.addWidget(self.save_error)
+        retry_save = QPushButton("Retry saving results")
+        retry_save.clicked.connect(controller.save_stats)
+        notice_layout.addWidget(retry_save)
+        self.save_notice.hide()
+        root.addWidget(self.save_notice)
         root.addWidget(self.stack)
 
         # ------------------------------------------------------------ setup page
@@ -75,9 +90,14 @@ class QuizPanel(QWidget):
         sl.addWidget(intro)
         sl.setSpacing(8)
         form = QFormLayout()
+        form.setRowWrapPolicy(QFormLayout.WrapLongRows)
         form.setHorizontalSpacing(12)
         form.setVerticalSpacing(8)
         self.mode = QComboBox()
+        self.mode.setAccessibleName("Quiz mode")
+        self.mode.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+        self.mode.setMinimumContentsLength(14)
+        self.mode.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Fixed)
         for key, label in MODES:
             self.mode.addItem(label, key)
         want = controller.win.qsettings.value("quiz_mode", "")   # the mode you last chose is the one you meant
@@ -88,21 +108,26 @@ class QuizPanel(QWidget):
         self.mode.currentIndexChanged.connect(
             lambda _i: controller.win.qsettings.setValue("quiz_mode", self.mode.currentData()))
         self.scope = QComboBox()
+        self.scope.setAccessibleName("Quiz topic")
+        self.scope.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+        self.scope.setMinimumContentsLength(14)
+        self.scope.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Fixed)
         self.scope.addItem("Everything currently visible", None)
         for s in controller.ds.systems:
             if s["key"] not in EXCLUDED_SYSTEMS:
                 self.scope.addItem(s["name"], s["key"])
         self.count = QSpinBox()
+        self.count.setAccessibleName("Number of quiz questions")
         self.count.setRange(0, 500)
         self.count.setValue(20)
         self.count.setSpecialValueText("Endless")
-        self.small = QCheckBox("Include small structures")
+        self.small = WrapCheckBox("Include small structures")
         self.small.setToolTip("Small branches, tiny nodes and the like, under about 1.5 cm across")
-        self.weak = QCheckBox("Favour structures I often miss")
+        self.weak = WrapCheckBox("Favour structures I often miss")
         self.weak.setChecked(True)
-        self.xray = QCheckBox("X-ray everything else when naming")
+        self.xray = WrapCheckBox("X-ray everything else when naming")
         self.xray.setChecked(True)
-        self.wide = QCheckBox("Hunt: anything at all")
+        self.wide = WrapCheckBox("Hunt: anything at all")
         self.wide.setToolTip("Hunt through the whole atlas, not just the ~500 structures the lessons, radiology "
                              "cases and clinical notes name")
         form.addRow("Mode", self.mode)
@@ -120,7 +145,7 @@ class QuizPanel(QWidget):
         theme.set_variant(start, "primary")
         start.clicked.connect(lambda: controller.start())
         sl.addWidget(start)
-        self.review_btn = QPushButton("Review what is due")
+        self.review_btn = WrapButton("Review what is due")
         self.review_btn.setMinimumHeight(30)
         self.review_btn.clicked.connect(controller.start_review)
         sl.addWidget(self.review_btn)
@@ -133,12 +158,24 @@ class QuizPanel(QWidget):
         progress.clicked.connect(controller.show_progress)
         sl.addWidget(progress)
         sl.addStretch(1)
-        self.stack.addWidget(setup)
+        setup_scroll = QScrollArea()
+        setup_scroll.setWidgetResizable(True)
+        setup_scroll.setFrameShape(QFrame.NoFrame)
+        setup_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        setup_scroll.setWidget(setup)
+        self.stack.addWidget(setup_scroll)
 
         # ------------------------------------------------------------ question page
         q = QWidget()
         ql = QVBoxLayout(q)
         ql.setContentsMargins(0, 0, 0, 0)
+        ql.setSpacing(10)
+        question_page = QWidget()
+        question_layout = QVBoxLayout(question_page)
+        question_layout.setContentsMargins(0, 0, 0, 0)
+        footer = QWidget()
+        footer_layout = QVBoxLayout(footer)
+        footer_layout.setContentsMargins(0, 8, 0, 0)
         top = QHBoxLayout()
         self.progress = QLabel("")
         self.progress.setStyleSheet(theme.text_css(theme.MUTED))
@@ -149,6 +186,7 @@ class QuizPanel(QWidget):
         top.addWidget(self.score)
         ql.addLayout(top)
         self.instruction = QLabel("")
+        self.instruction.setWordWrap(True)
         self.instruction.setStyleSheet(theme.text_css(theme.ACCENT_TEXT, theme.FS_SMALL, 700))
         ql.addWidget(self.instruction)
         self.prompt = QLabel("")
@@ -161,7 +199,7 @@ class QuizPanel(QWidget):
         grid.setContentsMargins(0, 0, 0, 0)
         self.choice_buttons = []
         for i in range(4):
-            b = QPushButton("")
+            b = WrapButton("")
             b.setMinimumHeight(44)
             b.setStyleSheet(CHOICE)
             b.clicked.connect(lambda _=False, i=i: controller.answer_choice(i))
@@ -170,6 +208,7 @@ class QuizPanel(QWidget):
         ql.addWidget(self.choices)
 
         self.typed = QLineEdit()
+        self.typed.setAccessibleName("Structure name answer")
         self.typed.setPlaceholderText("Type the name and press Enter")
         self.typed.setMinimumHeight(32)
         self.completer = QCompleter()
@@ -190,7 +229,7 @@ class QuizPanel(QWidget):
         self.peeled.setStyleSheet(theme.text_css(theme.ACCENT_TEXT))
         ql.addWidget(self.peeled)
 
-        row = QHBoxLayout()
+        row = FlowLayout()
         self.hint_btn = QPushButton("Hint")
         self.reveal_btn = QPushButton("Reveal")
         self.next_btn = QPushButton("Next  ▸")
@@ -200,21 +239,20 @@ class QuizPanel(QWidget):
         self.next_btn.clicked.connect(controller.next_question)
         for b in (self.hint_btn, self.reveal_btn, self.next_btn):
             row.addWidget(b)
-        ql.addLayout(row)
-        self.unhide_btn = QPushButton("Put everything back")
+        footer_layout.addLayout(row)
+        self.unhide_btn = WrapButton("Put everything back")
         self.unhide_btn.clicked.connect(controller.unhide_all)
         self.unhide_btn.hide()
-        ql.addWidget(self.unhide_btn)
-        row2 = QHBoxLayout()
+        footer_layout.addWidget(self.unhide_btn)
+        row2 = FlowLayout()
         self.details_btn = QPushButton("Open details")
         self.details_btn.clicked.connect(controller.open_details)
         finish = QPushButton("Finish")
         theme.set_variant(finish, "ghost")
         finish.clicked.connect(controller.finish)
         row2.addWidget(self.details_btn)
-        row2.addStretch(1)
-        row2.addWidget(finish)
-        ql.addLayout(row2)
+        row2.add_right(finish)
+        footer_layout.addLayout(row2)
         sep = QFrame()
         sep.setFrameShape(QFrame.HLine)
         sep.setStyleSheet(f"color:{theme.BORDER}; background:{theme.BORDER}; max-height:1px; border:none;")
@@ -224,7 +262,14 @@ class QuizPanel(QWidget):
         self.tips.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL + 0.5))
         ql.addWidget(self.tips)
         ql.addStretch(1)
-        self.stack.addWidget(q)
+        self.question_scroll = QScrollArea()
+        self.question_scroll.setWidgetResizable(True)
+        self.question_scroll.setFrameShape(QFrame.NoFrame)
+        self.question_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.question_scroll.setWidget(q)
+        question_layout.addWidget(self.question_scroll, 1)
+        question_layout.addWidget(footer)
+        self.stack.addWidget(question_page)
 
         # ------------------------------------------------------------ summary page
         s = QWidget()
@@ -235,12 +280,14 @@ class QuizPanel(QWidget):
         self.summary.setWordWrap(True)
         self.summary.setTextFormat(Qt.RichText)
         sm.addWidget(self.summary)
-        self.missed_label = QLabel("To review (double-click to show):")
+        self.missed_label = QLabel("Items to review · press Enter or double-click to show")
+        self.missed_label.setWordWrap(True)
         sm.addWidget(self.missed_label)
         self.missed = QListWidget()
-        self.missed.itemDoubleClicked.connect(lambda it: controller.show_base(it.data(Qt.UserRole)))
+        self.missed.itemActivated.connect(lambda it: controller.show_base(it.data(Qt.UserRole)))
+        self.missed.setWordWrap(True)
         sm.addWidget(self.missed, 1)
-        row3 = QHBoxLayout()
+        row3 = FlowLayout()
         again = QPushButton("Retry missed")
         again.clicked.connect(controller.retry_missed)
         self.retry_btn = again
@@ -252,6 +299,12 @@ class QuizPanel(QWidget):
             row3.addWidget(b)
         sm.addLayout(row3)
         self.stack.addWidget(s)
+        self.next_btn.setToolTip("Skipping an unanswered question counts as missed.")
+        for index in range(4):
+            shortcut = QShortcut(QKeySequence(str(index + 1)), self)
+            shortcut.setContext(Qt.WidgetWithChildrenShortcut)
+            shortcut.activated.connect(lambda i=index: controller.answer_choice(i)
+                                       if self.stack.currentIndex() == 1 and self.choices.isVisible() else None)
 
 
 class QuizController:
@@ -294,8 +347,10 @@ class QuizController:
         self.dock.setWidget(self.panel)
         self.dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable |
                               QDockWidget.DockWidgetClosable)
-        self.panel.setMinimumWidth(340)
-        self.win.addDockWidget(Qt.RightDockWidgetArea, self.dock)
+        self.panel.setMinimumWidth(300)
+        if not hasattr(self.win,'_floating_panels'):self.win.dock_side_panels()
+        self.win._floating_panels.register(self.dock,wrap_content=False,preferred_width=420)
+        self.panel.stack.currentChanged.connect(lambda _:self.win._floating_panels.layout())
         self.dock.visibilityChanged.connect(self._dock_visibility)
 
     def _dock_visibility(self, visible):
@@ -312,6 +367,13 @@ class QuizController:
         d = self.delegate
         return d is not None and d.active
 
+    def _save_notice(self, message=""):
+        panels = [self.panel, getattr(getattr(self, "delegate", None), "panel", None)]
+        for panel in panels:
+            if panel is not None and hasattr(panel, "save_notice"):
+                panel.save_error.setText(message)
+                panel.save_notice.setVisible(bool(message))
+
     def save_stats(self):
         try:
             write_json(STATS_PATH, self.stats, indent=0, backup=self._stats_backup)
@@ -319,8 +381,10 @@ class QuizController:
             status = getattr(self.win, "statusBar", None)
             if status is not None and status().currentMessage().startswith("Could not save study results:"):
                 status().clearMessage()
+            self._save_notice()
             return True
         except OSError as exc:
+            self._save_notice("Results are kept for this session but could not be saved. " + str(exc))
             status = getattr(self.win, "statusBar", None)
             if status is not None:
                 status().showMessage(f"Could not save study results: {exc}", 10000)
@@ -518,7 +582,8 @@ class QuizController:
         return order
 
     def due_count(self):
-        return len(srs.due_bases(self.stats))
+        known = {structure["base"] for structure in self.ds.structures}
+        return sum(key in known for key in srs.due_bases(self.stats))
 
     def refresh_review_button(self):
         n = self.due_count()
@@ -528,7 +593,7 @@ class QuizController:
         if total:
             s = srs.summary(self.stats)
             self.panel.review_note.setText(
-                f"{total:,} structures in your schedule · {s['learned']:,} well known · "
+                f"{total:,} study items in your schedule · {s['learned']:,} on long intervals · "
                 f"{round(s['accuracy'] * 100)}% right overall")
         else:
             self.panel.review_note.setText("Answer a few questions and they will start coming back on a schedule: "
@@ -542,7 +607,7 @@ class QuizController:
         known = {s["base"] for s in self.ds.structures}
         due = [b for b in due if b in known][:60]
         if not due:
-            self.panel.setup_msg.setText("Your schedule refers to structures that are not in this dataset.")
+            self.panel.setup_msg.setText("No atlas structures are due in this dataset. Repeat lesson practice to review other study items.")
             return
         self.state.show_all()
         self.start(bases=due)
@@ -578,6 +643,7 @@ class QuizController:
         self.endless = n == 0 and bases is None
         self.queue = list(bases) if bases is not None else self._make_queue(self.pool.keys(), n)
         self.total = len(self.queue) if not self.endless else 0
+        self.current = None
         self.asked = 0
         self.correct = 0
         self.missed = []
@@ -615,6 +681,9 @@ class QuizController:
         self._clear_flash()
         self._clear_marks()
         p = self.panel
+        if self.current is not None and not self.current["done"]:
+            self._record(False)
+        p.question_scroll.verticalScrollBar().setValue(0)
         if not self.queue:
             if self.endless:
                 self.queue = self._make_queue(self.pool.keys(), 0)
@@ -661,10 +730,12 @@ class QuizController:
                 opts = [base] + self._distractors(base, s0, 3)
                 random.shuffle(opts)
                 self.current["options"] = opts
-                for b, text in zip(p.choice_buttons, opts):
-                    b.setText(text)
-                    b.setEnabled(True)
-                    b.setStyleSheet(CHOICE)
+                for index, button in enumerate(p.choice_buttons):
+                    button.setVisible(index < len(opts))
+                    if index < len(opts):
+                        button.setText(opts[index])
+                        button.setEnabled(True)
+                        button.setStyleSheet(CHOICE)
             else:
                 p.choices.hide()
                 p.typed.show()
@@ -862,7 +933,7 @@ class QuizController:
 
     def answer_choice(self, i):
         cur = self.current
-        if cur is None or cur["done"]:
+        if cur is None or cur["done"] or not 0 <= i < len(cur.get("options", [])):
             return
         p = self.panel
         chosen = cur["options"][i]

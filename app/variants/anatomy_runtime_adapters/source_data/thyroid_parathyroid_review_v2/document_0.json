@@ -1,0 +1,1716 @@
+{
+  "schema_version": 1,
+  "model_id": "thyroid_parathyroid_review_v2",
+  "status": "source_design_ready_unbuilt",
+  "delivery_kind": "static_function_lesson_sidecar",
+  "source_requirements": [
+    {
+      "root": "recovery",
+      "path": "microrefine-next/requirements/thyroid_parathyroid_review_v2.json",
+      "sha256": "2f7513a7e7cc2069cdd1fe667b84a4ac4fd94b6cc57e7961c66112db5f1d4eab"
+    },
+    {
+      "root": "recovery",
+      "path": "azure-baseline/review-sources/other-verified-unique-sources/thyroid-review-v2/candidate/app/micro/thyroid_review.py",
+      "sha256": "b4e4692c632da14f1b6d8496b996c7af00d365d028e154bf0ec28379ce77c569"
+    },
+    {
+      "root": "recovery",
+      "path": "azure-baseline/review-sources/other-verified-unique-sources/thyroid-review-v2/01-Thyroid-Parathyroid-Directions-v2.txt",
+      "sha256": "1f2d8ee33c4f8907edebe965a61a04aae50cdb441de14140a755adeeb0beb383"
+    },
+    {
+      "root": "recovery",
+      "path": "azure-baseline/review-sources/other-verified-unique-sources/thyroid-review-v2/02-Thyroid-Review-and-Clarifications-v2.txt",
+      "sha256": "6101a73c4b1b6e7446251d06d61b416c37f06ee8f250027c1c6a67f3ee8dbd5e"
+    },
+    {
+      "root": "recovery",
+      "path": "azure-baseline/review-sources/other-verified-unique-sources/thyroid-review-v2/review/thyroid_parathyroid_review.viewer.json",
+      "sha256": "7669139666bc2a012bc534943ba98376452c1a27e77e8bb886756f2053eee7f7"
+    }
+  ],
+  "exact_parts": [
+    "Follicular epithelium",
+    "Colloid",
+    "Follicular basal lamina",
+    "Follicular cell nuclei",
+    "Intracellular colloid uptake vesicles",
+    "Parafollicular C cells",
+    "C-cell nuclei",
+    "Thyroid circulation",
+    "Interfollicular connective tissue",
+    "Capsule",
+    "Parathyroid capsule",
+    "Parathyroid stroma",
+    "Parathyroid chief cells",
+    "Oxyphil cells",
+    "Parathyroid adipocytes",
+    "Parathyroid chief-cell nuclei",
+    "Oxyphil-cell nuclei",
+    "Parathyroid adipocyte nuclei",
+    "Parathyroid lipid droplets",
+    "Oxyphil mitochondria",
+    "Parathyroid circulation",
+    "Signal TSH → follicular cell",
+    "Signal 1 Cell makes thyroglobulin",
+    "Signal 2 Colloid: Tg + hormone formation/storage",
+    "Signal 3 Colloid uptake + processing",
+    "Signal 4 T3/T4 → blood",
+    "Signal Calcitonin: C cell → blood",
+    "Signal Low Ca²⁺ sensed → PTH secretion",
+    "Signal PTH: chief cell → blood",
+    "Signal symbols enlarged • simplified sequence"
+  ],
+  "signal_contract": {
+    "names": [
+      "Signal TSH → follicular cell",
+      "Signal 1 Cell makes thyroglobulin",
+      "Signal 2 Colloid: Tg + hormone formation/storage",
+      "Signal 3 Colloid uptake + processing",
+      "Signal 4 T3/T4 → blood",
+      "Signal Calcitonin: C cell → blood",
+      "Signal Low Ca²⁺ sensed → PTH secretion",
+      "Signal PTH: chief cell → blood",
+      "Signal symbols enlarged • simplified sequence"
+    ],
+    "count": 9,
+    "group": "Endocrine signaling — schematic",
+    "domain": "nonmaterial_teaching_cue",
+    "clip": false,
+    "bulk": false,
+    "label": true,
+    "geometry_policy": "exact_copy",
+    "material_policy": "preserve",
+    "collision_policy": "exclude_from_physical_tissue_occupancy_constraints"
+  },
+  "opening": {
+    "state_id": "overview",
+    "labels_on": true,
+    "all_groups_visible": true,
+    "cut_at": [
+      2.0,
+      0.12
+    ],
+    "home_view": [
+      -0.12,
+      0.28
+    ],
+    "mixed_schematic_scale": true,
+    "uses_existing_native_label_control": true,
+    "normal_tissue_layers_visible": true,
+    "cut_on": true,
+    "all_normal_parts_visible": true,
+    "all_nine_cues_visible": true
+  },
+  "scale": {
+    "micrometres_per_model_unit": 500,
+    "schematic_enlargements": [
+      "Signal-prefixed markers and arrows",
+      "thin layers",
+      "representative parathyroid cells"
+    ],
+    "no_molecular_dimension_inference": true
+  },
+  "motion_policy": {
+    "animation": "none",
+    "auto_advance": false,
+    "particle_motion": false,
+    "transforms": false,
+    "mesh_changes": false,
+    "camera_animation": false,
+    "progression": "Manual instantaneous selection and visibility changes only"
+  },
+  "description_overrides": {
+    "Signal TSH → follicular cell": "TSH reaches the blood-facing side of follicular cells and stimulates their thyroid-hormone work. This arrow shows receptor signaling, not passage through a duct; the receptor is not modeled.",
+    "Signal 1 Cell makes thyroglobulin": "Follicular cells make thyroglobulin, the protein scaffold for thyroid-hormone formation and storage. This marker denotes production; it is not a secretory organelle or a molecular model.",
+    "Signal 2 Colloid: Tg + hormone formation/storage": "Thyroglobulin enters extracellular colloid at the apical side. Hormone formation/storage is associated with it. The closed follicular lumen has no drainage duct into a blood vessel.",
+    "Signal 3 Colloid uptake + processing": "The cell takes up stored colloid material at its apical surface and processes it intracellularly. The visible uptake droplets are not lysosomes; lysosomal processing is explained rather than separately modeled.",
+    "Signal 4 T3/T4 → blood": "After cellular uptake and processing, T4 and some T3 leave the blood-facing side toward local circulation. Thyroglobulin-rich colloid does not drain directly into blood. The arrow abbreviates extracellular transfer.",
+    "Signal Calcitonin: C cell → blood": "Parafollicular C cells release calcitonin toward local blood vessels. They do not contact colloid. Rising extracellular calcium promotes secretion; calcitonin has a limited role in normal adult human calcium balance.",
+    "Signal Low Ca²⁺ sensed → PTH secretion": "CaSR at the chief-cell surface senses extracellular ionized Ca²⁺. Falling calcium reduces receptor activation and favors PTH secretion; rising calcium suppresses it. The sensed ion is not the secreted product.",
+    "Signal PTH: chief cell → blood": "Parathyroid chief cells release PTH toward their own local circulation. PTH acts systemically to help restore calcium, which then reduces further PTH release. There is no direct vascular link to this thyroid specimen.",
+    "Signal symbols enlarged • simplified sequence": "Enlarged static symbols summarize endocrine relationships. Their arrows give explanatory direction, not tracked molecular paths or speed. Tissue scale is 500 µm per model unit; symbols, thin layers and representative cells are enlarged.",
+    "Follicular epithelium": "A single layer of follicular cells separates the colloid lumen from the basal lamina and nearby blood supply. The cells make thyroglobulin, deliver it apically to colloid, then recover and process stored material before releasing T3/T4 toward blood. Polygonal bodies are enlarged, simplified representatives; they do not diagnose thyroid activity.",
+    "Colloid": "Acellular, extracellular thyroglobulin-rich content of the follicular lumen. Thyroid hormones are formed and stored while associated with thyroglobulin; cellular uptake and processing precede release to blood. Translucency is a teaching choice.",
+    "Follicular basal lamina": "Specialized extracellular support beneath the follicular epithelium, between its basal surface and connective tissue. Distinct from the gland capsule. Authored as complete on all six follicles before the reversible specimen cut; its 2.5 µm modeled thickness is enlarged for teaching.",
+    "Intracellular colloid uptake vesicles": "Enlarged examples of endocytic colloid droplets near the apical region of follicular cells in three representative follicles. They depict uptake for cellular processing, not marginal empty colloid scallops or a route directly from colloid to blood.",
+    "Parafollicular C cells": "Distinct calcitonin-secreting cells seated in basal/interfollicular positions, without a colloid-facing surface. Blue is an identification color. The six representative cells illustrate location and release toward local blood, rather than a physiological C-cell abundance.",
+    "Thyroid circulation": "Local supply, six anastomosing perifollicular vascular beds and drainage, authored as one connected circuit. Red-to-blue color indicates a schematic arterial-to-venous transition, not calculated perfusion or oxygen concentration. External specimen-cut ends are deliberate; internal disconnected ends remain unacceptable.",
+    "Parathyroid chief cells": "Predominant parathyroid endocrine cells and the principal PTH source. Falling extracellular ionized Ca²⁺ promotes PTH release into nearby blood. Twenty-two enlarged representative cells retain the prior relative arrangement; their shapes and spacing are simplified teaching choices.",
+    "Parathyroid circulation": "Connected local supply, central vascular course, three side loops and drainage serving the separate parathyroid sample. Two external specimen ends are deliberate. Red-to-blue colors are schematic; no vessel bridge or duct connects this sample to the thyroid specimen.",
+    "Follicular cell nuclei": "Nuclei inside the enlarged representative follicular cell bodies. These identify the cellular epithelium surrounding the acellular colloid; they are not cells within the lumen.",
+    "C-cell nuclei": "Nuclei contained within the separately identified basal/interfollicular C-cell bodies. Their enclosing cells secrete calcitonin; neither the nuclei nor the cells belong within colloid.",
+    "Interfollicular connective tissue": "Supporting tissue between and beneath follicles carries the local circulation. The curved envelope and upper planar face represent a sampled, dissected tissue region; the planar face is an artificial specimen boundary, not a capsule around each follicle.",
+    "Capsule": "Sampled fibrous gland covering along the lower thyroid specimen boundary. It is separate from follicular basal lamina; the upper exposed boundary is a deliberate specimen cut. This tissue sample does not reconstruct the whole thyroid organ.",
+    "Parathyroid capsule": "Connective-tissue covering of the separate parathyroid sample. It surrounds a solid cellular glandular region, not a colloid-filled follicle. Thickness and transparency are teaching choices; the review remains unaccepted.",
+    "Parathyroid stroma": "Connective tissue supporting parathyroid cells and their local vascular passages. Normal parathyroid cells form cords and clusters separated by vascular stroma; this review uses spaced, enlarged representatives rather than a quantitative packing reconstruction.",
+    "Oxyphil cells": "Larger, mitochondria-rich parathyroid cells, shown here as three enlarged representatives. Mitochondrial abundance helps distinguish them from chief cells. Their endocrine role is not separately simulated; they should not be described as universally inert or incapable of PTH expression.",
+    "Parathyroid adipocytes": "Three representative unilocular fat cells within the parathyroid sample. Adipose content varies with age and individual context; this small illustrative set does not establish a normal glandular fat fraction.",
+    "Parathyroid chief-cell nuclei": "Nuclei inside the representative chief cells. Cell bodies and nuclei are distinct, separately selectable parts; modeled size and density are not quantitative histology.",
+    "Oxyphil-cell nuclei": "Nuclei inside the larger representative oxyphil bodies. Nuclear appearance is simplified; identification also depends on the surrounding mitochondria-rich cytoplasm.",
+    "Parathyroid adipocyte nuclei": "Peripheral nuclei in the representative fat cells, displaced toward the cell edge by each large lipid droplet. They remain intracellular; the exposed section is a teaching view.",
+    "Parathyroid lipid droplets": "One large storage droplet within each representative unilocular adipocyte. These are intracellular lipid stores, distinct from colloid and hormone signaling symbols.",
+    "Oxyphil mitochondria": "A small illustrative set of enlarged mitochondria within oxyphil-cell cytoplasm. It indicates the characteristic mitochondrial enrichment; organelle number, size and arrangement are schematic rather than a quantitative mitochondrial inventory."
+  },
+  "states": [
+    {
+      "id": "overview",
+      "title": "Two tissues, three hormone outputs",
+      "text": "Thyroid follicles show colloid handling, T3/T4 release and C-cell calcitonin secretion. The separate cellular parathyroid shows calcium sensing and PTH release. All arrows are enlarged static teaching symbols.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [],
+      "focus_part": "Signal symbols enlarged • simplified sequence",
+      "source_ids": [
+        "duke_endocrine"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "Two sampled tissues are placed together for comparison; their spacing is not whole-organ anatomy."
+      ]
+    },
+    {
+      "id": "anatomy_only",
+      "title": "Compare tissue organization",
+      "text": "Colloid lies inside thyroid follicles; epithelium and basal lamina surround it. The parathyroid is cellular tissue with its own circulation and no colloid lumen.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation"
+      ],
+      "hidden_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "focus_part": "Follicular epithelium",
+      "source_ids": [
+        "duke_endocrine"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "Hiding the schematic group does not remove tissue or alter geometry."
+      ]
+    },
+    {
+      "id": "thyroid_tsh",
+      "title": "Input at the blood-facing side",
+      "text": "TSH reaches the blood-facing side of follicular cells and stimulates their thyroid-hormone work. This arrow shows receptor signaling, not passage through a duct; the receptor is not modeled.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal TSH → follicular cell",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood"
+      ],
+      "focus_part": "Signal TSH → follicular cell",
+      "source_ids": [
+        "duke_thyroid_axis"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "Only the local receiving end is shown; the pituitary and TSH receptor are not modeled."
+      ]
+    },
+    {
+      "id": "thyroid_make_tg",
+      "title": "1. Make thyroglobulin",
+      "text": "Follicular cells make thyroglobulin, the protein scaffold for thyroid-hormone formation and storage. This marker denotes production; it is not a secretory organelle or a molecular model.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood"
+      ],
+      "focus_part": "Signal 1 Cell makes thyroglobulin",
+      "source_ids": [
+        "endotext_thyroid"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "Rough endoplasmic reticulum, Golgi and intracellular protein transport are omitted."
+      ]
+    },
+    {
+      "id": "thyroid_store",
+      "title": "2. Form and store in colloid",
+      "text": "Thyroglobulin enters extracellular colloid at the apical side. Hormone formation/storage is associated with it. The closed follicular lumen has no drainage duct into a blood vessel.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood"
+      ],
+      "focus_part": "Signal 2 Colloid: Tg + hormone formation/storage",
+      "source_ids": [
+        "endotext_thyroid"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "This is the approved overview; full iodide/TPO chemistry and molecular geometry are omitted."
+      ]
+    },
+    {
+      "id": "thyroid_uptake",
+      "title": "3. Recover and process",
+      "text": "The cell takes up stored colloid material at its apical surface and processes it intracellularly. The visible uptake droplets are not lysosomes; lysosomal processing is explained rather than separately modeled.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal 3 Colloid uptake + processing",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood"
+      ],
+      "focus_part": "Signal 3 Colloid uptake + processing",
+      "source_ids": [
+        "endotext_thyroid"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "Existing intracellular uptake droplets stand for selected examples; processing is not a moving-vesicle animation."
+      ]
+    },
+    {
+      "id": "thyroid_release",
+      "title": "4. Release toward circulation",
+      "text": "After cellular uptake and processing, T4 and some T3 leave the blood-facing side toward local circulation. Thyroglobulin-rich colloid does not drain directly into blood. The arrow abbreviates extracellular transfer.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal 4 T3/T4 → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood"
+      ],
+      "focus_part": "Signal 4 T3/T4 → blood",
+      "source_ids": [
+        "endotext_thyroid"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "The arrow abbreviates basal release and extracellular access to capillaries; it is not a literal trans-tissue tunnel."
+      ]
+    },
+    {
+      "id": "c_cell_calcitonin",
+      "title": "C-cell secretion",
+      "text": "Parafollicular C cells release calcitonin toward local blood vessels. They do not contact colloid. Rising extracellular calcium promotes secretion; calcitonin has a limited role in normal adult human calcium balance.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal Calcitonin: C cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood"
+      ],
+      "focus_part": "Signal Calcitonin: C cell → blood",
+      "source_ids": [
+        "endotext_calcium"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "The calcium stimulus is described in text; no additional signal geometry is added.",
+        "Do not present PTH and calcitonin as equally dominant adult calcium regulators."
+      ]
+    },
+    {
+      "id": "parathyroid_sense",
+      "title": "Sense low extracellular calcium",
+      "text": "CaSR at the chief-cell surface senses extracellular ionized Ca²⁺. Falling calcium reduces receptor activation and favors PTH secretion; rising calcium suppresses it. The sensed ion is not the secreted product.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal PTH: chief cell → blood"
+      ],
+      "focus_part": "Signal Low Ca²⁺ sensed → PTH secretion",
+      "source_ids": [
+        "endotext_calcium"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "CaSR and downstream signals are explained without adding molecular meshes.",
+        "Low is qualitative, not a threshold or simulated concentration."
+      ],
+      "conceptual_condition": {
+        "extracellular_ionized_calcium": "lower",
+        "CaSR_activation": "reduced",
+        "PTH_secretion_tendency": "increased"
+      }
+    },
+    {
+      "id": "parathyroid_release",
+      "title": "Release PTH toward local blood",
+      "text": "Parathyroid chief cells release PTH toward their own local circulation. PTH acts systemically to help restore calcium, which then reduces further PTH release. There is no direct vascular link to this thyroid specimen.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood"
+      ],
+      "focus_part": "Signal PTH: chief cell → blood",
+      "source_ids": [
+        "endotext_pth_feedback"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "Systemic actions are summarized in prose; no bone, kidney, intestine or new vascular bridge is modeled."
+      ]
+    },
+    {
+      "id": "parathyroid_feedback",
+      "title": "Restored calcium suppresses further PTH",
+      "text": "When systemic PTH actions restore extracellular calcium, stronger chief-cell CaSR activation reduces PTH secretion. The existing low-calcium arrow is hidden in this conceptual comparison; no arrow is reversed.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood"
+      ],
+      "focus_part": "Parathyroid chief cells",
+      "source_ids": [
+        "endotext_calcium",
+        "endotext_pth_feedback"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "This text is a conceptual condition, not a quantitative homeostasis simulator.",
+        "No newly added high-calcium Signal part or local return path."
+      ],
+      "conceptual_condition": {
+        "extracellular_ionized_calcium": "restored_or_higher",
+        "CaSR_activation": "increased",
+        "PTH_secretion_tendency": "reduced"
+      }
+    },
+    {
+      "id": "thyroid_feedback",
+      "title": "Off-model thyroid feedback",
+      "text": "Circulating thyroid hormones reduce hypothalamic TRH and pituitary TSH drive. The feedback is systemic; it does not return through the colloid or connect the two displayed specimens.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal TSH → follicular cell",
+        "Signal 4 T3/T4 → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood"
+      ],
+      "focus_part": "Signal TSH → follicular cell",
+      "source_ids": [
+        "duke_thyroid_axis"
+      ],
+      "selection_changes_only": true,
+      "physiological_state_simulation": false,
+      "limitations": [
+        "Hypothalamus and pituitary are not represented.",
+        "No new feedback arrow or moving hormone particles."
+      ]
+    }
+  ],
+  "functional_sequences": [
+    {
+      "id": "thyroid_local_sequence",
+      "mechanism": "Polarized follicular cell handles an extracellular precursor store before blood-facing hormone release.",
+      "steps": [
+        {
+          "state_id": "thyroid_tsh",
+          "title": "Input at the blood-facing side",
+          "text": "TSH reaches the blood-facing side of follicular cells and stimulates their thyroid-hormone work. This arrow shows receptor signaling, not passage through a duct; the receptor is not modeled.",
+          "focus_part": "Signal TSH → follicular cell",
+          "view_id": "05 Follicular endocrine sequence"
+        },
+        {
+          "state_id": "thyroid_make_tg",
+          "title": "1. Make thyroglobulin",
+          "text": "Follicular cells make thyroglobulin, the protein scaffold for thyroid-hormone formation and storage. This marker denotes production; it is not a secretory organelle or a molecular model.",
+          "focus_part": "Signal 1 Cell makes thyroglobulin",
+          "view_id": "05 Follicular endocrine sequence"
+        },
+        {
+          "state_id": "thyroid_store",
+          "title": "2. Form and store in colloid",
+          "text": "Thyroglobulin enters extracellular colloid at the apical side. Hormone formation/storage is associated with it. The closed follicular lumen has no drainage duct into a blood vessel.",
+          "focus_part": "Signal 2 Colloid: Tg + hormone formation/storage",
+          "view_id": "05 Follicular endocrine sequence"
+        },
+        {
+          "state_id": "thyroid_uptake",
+          "title": "3. Recover and process",
+          "text": "The cell takes up stored colloid material at its apical surface and processes it intracellularly. The visible uptake droplets are not lysosomes; lysosomal processing is explained rather than separately modeled.",
+          "focus_part": "Signal 3 Colloid uptake + processing",
+          "view_id": "05 Follicular endocrine sequence"
+        },
+        {
+          "state_id": "thyroid_release",
+          "title": "4. Release toward circulation",
+          "text": "After cellular uptake and processing, T4 and some T3 leave the blood-facing side toward local circulation. Thyroglobulin-rich colloid does not drain directly into blood. The arrow abbreviates extracellular transfer.",
+          "focus_part": "Signal 4 T3/T4 → blood",
+          "view_id": "05 Follicular endocrine sequence"
+        }
+      ],
+      "schematic_limitations": [
+        "Approved four-step overview plus incoming TSH",
+        "No full iodide/TPO pathway",
+        "No direct colloid-to-blood bypass",
+        "No assumed times or secretion rates"
+      ]
+    },
+    {
+      "id": "calcitonin_secretion",
+      "mechanism": "C-cell secretion is separate from colloid handling.",
+      "steps": [
+        {
+          "state_id": "c_cell_calcitonin",
+          "title": "C-cell secretion",
+          "text": "Parafollicular C cells release calcitonin toward local blood vessels. They do not contact colloid. Rising extracellular calcium promotes secretion; calcitonin has a limited role in normal adult human calcium balance.",
+          "focus_part": "Signal Calcitonin: C cell → blood",
+          "view_id": "06 C cell to local blood"
+        }
+      ],
+      "schematic_limitations": [
+        "No colloid contact",
+        "No equal-master-regulator comparison with PTH"
+      ]
+    },
+    {
+      "id": "chief_cell_calcium_feedback",
+      "mechanism": "Extracellular calcium inversely regulates chief-cell PTH secretion.",
+      "steps": [
+        {
+          "state_id": "parathyroid_sense",
+          "title": "Sense low extracellular calcium",
+          "text": "CaSR at the chief-cell surface senses extracellular ionized Ca²⁺. Falling calcium reduces receptor activation and favors PTH secretion; rising calcium suppresses it. The sensed ion is not the secreted product.",
+          "focus_part": "Signal Low Ca²⁺ sensed → PTH secretion",
+          "view_id": "07 Parathyroid organization + PTH"
+        },
+        {
+          "state_id": "parathyroid_release",
+          "title": "Release PTH toward local blood",
+          "text": "Parathyroid chief cells release PTH toward their own local circulation. PTH acts systemically to help restore calcium, which then reduces further PTH release. There is no direct vascular link to this thyroid specimen.",
+          "focus_part": "Signal PTH: chief cell → blood",
+          "view_id": "07 Parathyroid organization + PTH"
+        },
+        {
+          "state_id": "parathyroid_feedback",
+          "title": "Restored calcium suppresses further PTH",
+          "text": "When systemic PTH actions restore extracellular calcium, stronger chief-cell CaSR activation reduces PTH secretion. The existing low-calcium arrow is hidden in this conceptual comparison; no arrow is reversed.",
+          "focus_part": "Parathyroid chief cells",
+          "view_id": "07 Parathyroid organization + PTH"
+        }
+      ],
+      "schematic_limitations": [
+        "Conceptual calcium conditions only",
+        "No new receptor meshes or distant organs",
+        "No reversal of static incoming low-calcium cue"
+      ]
+    },
+    {
+      "id": "thyroid_feedback_context",
+      "mechanism": "Thyroid hormones inhibit off-model hypothalamic/pituitary drive.",
+      "steps": [
+        {
+          "state_id": "thyroid_feedback",
+          "title": "Off-model thyroid feedback",
+          "text": "Circulating thyroid hormones reduce hypothalamic TRH and pituitary TSH drive. The feedback is systemic; it does not return through the colloid or connect the two displayed specimens.",
+          "focus_part": "Signal TSH → follicular cell",
+          "view_id": "01 Both specimens + signals"
+        }
+      ],
+      "schematic_limitations": [
+        "Prose context only",
+        "No local feedback conduit"
+      ]
+    }
+  ],
+  "integration": {
+    "source_only_adapter": "function_lesson_adapter.py",
+    "native_apis": [
+      "ModelView.labels.setChecked",
+      "SceneState.set_hidden",
+      "SceneState.select",
+      "ModelViewport.invalidate_labels",
+      "function_lesson_adapter.apply_sequence_step"
+    ],
+    "description_destination": "in-memory ViewerModel Item.description selected by exact source name",
+    "state_caption_destination": "adapter return value for later model-scoped lesson selector; selected native Details description carries lesson text",
+    "not_implemented": [
+      "Shared application lesson selector wiring",
+      "Native pixel readability and occlusion checks",
+      "Saved/exported sidecar persistence through Before/After variants"
+    ],
+    "protected_data_policy": "No source/cache/assets writes; original review preserved; bind sidecar separately to each independently validated variant.",
+    "lead_schema_fit": "Functional sequence steps are dicts with state_id/title/text/focus_part. Native select_lesson should call apply_sequence_step with merged teaching.json; all lesson-contract fields must be retained."
+  },
+  "sources": [
+    {
+      "id": "endotext_thyroid",
+      "title": "Endotext: Thyroid Hormone Synthesis and Secretion",
+      "url": "https://www.endotext.org/wp-content/uploads/pdfs/thyroid-hormone-synthesis-and-secretion.pdf",
+      "opened_utc": "2026-10-04",
+      "edition_note": "Publisher PDF revised 2012-12-18; enduring structure/function only. NCBI HTML returned browser-check pages.",
+      "locations": "PDF pages 1–3, 21–26",
+      "supports": [
+        "Polarized follicular epithelium",
+        "Tg-associated extracellular formation/storage",
+        "Colloid uptake and intracellular processing before release"
+      ]
+    },
+    {
+      "id": "duke_endocrine",
+      "title": "Duke Histology: Endocrine System",
+      "url": "https://histology.oit.duke.edu/NormalBody/Endocrine/Endocrine_2024.html",
+      "opened_utc": "2026-10-04",
+      "locations": "Thyroid/parathyroid overview; slides 0052_F and 0312_F",
+      "supports": [
+        "Follicular versus dense cellular organization",
+        "Perifollicular vascular context"
+      ]
+    },
+    {
+      "id": "duke_thyroid_axis",
+      "title": "Duke Introductory Physiology: Hypothalamus–Pituitary–Thyroid Axis",
+      "url": "https://histology.oit.duke.edu/MBS/Videos/Phys/Phys%206.3%20H-P-Thyroid%20Axis/Phys%206.3%20H-P-Thyroid%20Axis%20NOTES.pdf",
+      "opened_utc": "2026-10-04",
+      "locations": "PDF pages 2–3",
+      "supports": [
+        "Basal TSH receptor input",
+        "Thyroid hormone negative feedback on pituitary/hypothalamus"
+      ]
+    },
+    {
+      "id": "endotext_calcium",
+      "title": "Endotext: Calcium and Phosphate Homeostasis",
+      "url": "https://www.endotext.org/wp-content/uploads/pdfs/calcium-and-phosphate-homeostasis.pdf",
+      "opened_utc": "2026-10-04",
+      "locations": "PDF page 18 and pages 25–26",
+      "supports": [
+        "Extracellular ionized calcium sensed through CaSR",
+        "Inverse calcium–PTH response",
+        "Direct calcium–calcitonin response and limited normal adult human role"
+      ]
+    },
+    {
+      "id": "endotext_pth_feedback",
+      "title": "Endotext: Approach to Hypercalcemia",
+      "url": "https://www.endotext.org/wp-content/uploads/pdfs/approachtohypercalcemia.pdf",
+      "opened_utc": "2026-10-04",
+      "locations": "PDF pages 3–4",
+      "supports": [
+        "Chief-cell calcium sensing",
+        "Systemic calcium restoration and reduced subsequent PTH secretion"
+      ]
+    }
+  ],
+  "deferred_checks": [
+    "Native source model loads and opening label hook applies",
+    "All nine cues remain separately selectable and hide together",
+    "Per-state item visibility and native Details text match the sidecar",
+    "Physical tissue and gradients unchanged by lesson changes",
+    "Opening section exposes intracellular uptake and local secretion relationships",
+    "Both variants retain the teaching sidecar independently; no assumption identical outcomes validate them."
+  ],
+  "summary": "Two separate magnified endocrine tissue specimens. A sectioned thyroid follicle shows extracellular colloid, polarized epithelium and local circulation; a solid parathyroid specimen shows distinct cells and its own circulation. Nine enlarged static schematic callouts teach endocrine input and release.",
+  "scale_note": "500 µm per model unit describes the specimen layout. Follicular and parathyroid cells are enlarged/coarsened representatives; basal lamina, vessel walls and organelle examples are simplified or enlarged. Static signaling symbols are not molecularly scaled. The original Thyroid follicles remains separate.",
+  "native_cameras": {
+    "01 Both specimens + signals": {
+      "position": [
+        -0.591401,
+        2.585845,
+        7.633153
+      ],
+      "target": [
+        0.329,
+        0.375,
+        0.0
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Two distinct magnified tissue specimens under one selector. All normal tissue, both separate circulation networks and all nine static schematic callouts remain visible. This view uses the existing review-v2 home direction and native bounds fitting."
+    },
+    "02 Tissue architecture": {
+      "position": [
+        -0.022978,
+        0.971008,
+        2.919056
+      ],
+      "target": [
+        0.329,
+        0.375,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.2,
+      "hidden": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "note": "Anatomy-only comparison of colloid-filled follicles with a solid parathyroid cell population; hide the entire schematic signaling layer together."
+    },
+    "03 Intact specimen surfaces": {
+      "position": [
+        -0.626311,
+        1.487761,
+        2.617087
+      ],
+      "target": [
+        0.329,
+        0.375,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.2,
+      "hidden": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": false,
+      "note": "Optional uncut anatomy view. Inspect retained coverings and tissue boundaries without implying permanent half-removal of every basal lamina; all signaling is hidden because its arrows are authored for the teaching section."
+    },
+    "04 Follicle polarity": {
+      "position": [
+        -0.72,
+        0.789137,
+        3.098426
+      ],
+      "target": [
+        -0.72,
+        0.43,
+        0.12
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.82,
+      "hidden": [
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "note": "Sectioned prominent left follicle: colloid lumen → apical epithelium → basal lamina → local blood. Basal lamina is a follicular layer, not the organ capsule. No layer is hidden within this specimen."
+    },
+    "05 Follicular endocrine sequence": {
+      "position": [
+        -0.72,
+        0.814137,
+        3.098426
+      ],
+      "target": [
+        -0.72,
+        0.455,
+        0.12
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.91,
+      "hidden": [
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "note": "Follow the existing static TSH and four-step thyroglobulin/storage/uptake/T3-T4 sequence. Cell processing lies between colloid storage and release toward blood; no direct lumen-to-vessel transport is depicted."
+    },
+    "06 C cell to local blood": {
+      "position": [
+        -0.72,
+        0.729137,
+        3.098426
+      ],
+      "target": [
+        -0.72,
+        0.37,
+        0.12
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.88,
+      "hidden": [
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "note": "C-cell identity and calcitonin route. The C cell is basal/interfollicular and does not face the colloid. The arrow is a static schematic relation, not a capillary or secretion tube."
+    },
+    "07 Parathyroid organization + PTH": {
+      "position": [
+        1.46,
+        0.789137,
+        3.098426
+      ],
+      "target": [
+        1.46,
+        0.43,
+        0.12
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.74,
+      "hidden": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "note": "Separate solid parathyroid specimen with chief cells, oxyphil cells, adipocytes and its own circulation. Low extracellular Ca²⁺ is the input; chief-cell PTH is the output. There is no colloid inside this specimen."
+    },
+    "08 Separate circulation beds": {
+      "position": [
+        -0.180824,
+        1.3187,
+        2.801698
+      ],
+      "target": [
+        0.329,
+        0.375,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.2,
+      "hidden": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Interfollicular connective tissue",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": false,
+      "note": "Optional vascular dissection: trace each specimen’s own supply, capillary anastomoses and drainage. Cells and stroma are deliberately hidden only in this view. Open ends at specimen cuts do not imply connection between the two samples."
+    },
+    "09 Parathyroid intracellular detail": {
+      "position": [
+        1.46,
+        0.789137,
+        3.098426
+      ],
+      "target": [
+        1.46,
+        0.43,
+        0.12
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.66,
+      "hidden": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "note": "Start with the sectioned parathyroid cell population. Use the optional exact-name focus actions to x-ray surrounding cell bodies and expose oxyphil mitochondria or the peripheral adipocyte nucleus/lipid droplet; those actions do not move or resize structures."
+    }
+  },
+  "start_view": "01 Both specimens + signals",
+  "teaching_views": [
+    {
+      "id": "01",
+      "name": "01 Both specimens + signals",
+      "purpose": "Two distinct magnified tissue specimens under one selector. All normal tissue, both separate circulation networks and all nine static schematic callouts remain visible. This view uses the existing review-v2 home direction and native bounds fitting.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "hidden_parts": [],
+      "cut_on": true,
+      "focus_parts": [],
+      "scale_note": "500 µm per model unit. Cells, thin layers, vessels and the nine signaling symbols are enlarged teaching representations; the symbol sizes and arrows are not molecular anatomy.",
+      "validation_status": "existing cut/home source retained; new explicit camera requires native pixel validation"
+    },
+    {
+      "id": "02",
+      "name": "02 Tissue architecture",
+      "purpose": "Anatomy-only comparison of colloid-filled follicles with a solid parathyroid cell population; hide the entire schematic signaling layer together.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation"
+      ],
+      "hidden_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "focus_parts": [],
+      "scale_note": "500 µm per model unit. Cells, basal lamina, vessel calibres and static signal symbols are enlarged for teaching. Camera magnification is not an additional geometry scale change.",
+      "validation_status": "source-proposed; pixel readability and native saved-state validation deferred"
+    },
+    {
+      "id": "03",
+      "name": "03 Intact specimen surfaces",
+      "purpose": "Optional uncut anatomy view. Inspect retained coverings and tissue boundaries without implying permanent half-removal of every basal lamina; all signaling is hidden because its arrows are authored for the teaching section.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation"
+      ],
+      "hidden_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": false,
+      "focus_parts": [],
+      "scale_note": "500 µm per model unit. Cells, basal lamina, vessel calibres and static signal symbols are enlarged for teaching. Camera magnification is not an additional geometry scale change.",
+      "validation_status": "source-proposed; pixel readability and native saved-state validation deferred"
+    },
+    {
+      "id": "04",
+      "name": "04 Follicle polarity",
+      "purpose": "Sectioned prominent left follicle: colloid lumen → apical epithelium → basal lamina → local blood. Basal lamina is a follicular layer, not the organ capsule. No layer is hidden within this specimen.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule"
+      ],
+      "hidden_parts": [
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "focus_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Thyroid circulation"
+      ],
+      "scale_note": "500 µm per model unit. Cells, basal lamina, vessel calibres and static signal symbols are enlarged for teaching. Camera magnification is not an additional geometry scale change.",
+      "validation_status": "source-proposed; pixel readability and native saved-state validation deferred"
+    },
+    {
+      "id": "05",
+      "name": "05 Follicular endocrine sequence",
+      "purpose": "Follow the existing static TSH and four-step thyroglobulin/storage/uptake/T3-T4 sequence. Cell processing lies between colloid storage and release toward blood; no direct lumen-to-vessel transport is depicted.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood"
+      ],
+      "hidden_parts": [
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "focus_parts": [
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood"
+      ],
+      "scale_note": "500 µm per model unit. Cells, basal lamina, vessel calibres and static signal symbols are enlarged for teaching. Camera magnification is not an additional geometry scale change.",
+      "validation_status": "source-proposed; pixel readability and native saved-state validation deferred"
+    },
+    {
+      "id": "06",
+      "name": "06 C cell to local blood",
+      "purpose": "C-cell identity and calcitonin route. The C cell is basal/interfollicular and does not face the colloid. The arrow is a static schematic relation, not a capillary or secretion tube.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Signal Calcitonin: C cell → blood"
+      ],
+      "hidden_parts": [
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "focus_parts": [
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Signal Calcitonin: C cell → blood"
+      ],
+      "scale_note": "500 µm per model unit. Cells, basal lamina, vessel calibres and static signal symbols are enlarged for teaching. Camera magnification is not an additional geometry scale change.",
+      "validation_status": "source-proposed; pixel readability and native saved-state validation deferred"
+    },
+    {
+      "id": "07",
+      "name": "07 Parathyroid organization + PTH",
+      "purpose": "Separate solid parathyroid specimen with chief cells, oxyphil cells, adipocytes and its own circulation. Low extracellular Ca²⁺ is the input; chief-cell PTH is the output. There is no colloid inside this specimen.",
+      "visible_parts": [
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood"
+      ],
+      "hidden_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "focus_parts": [
+        "Parathyroid chief cells",
+        "Parathyroid circulation",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood"
+      ],
+      "scale_note": "500 µm per model unit. Cells, basal lamina, vessel calibres and static signal symbols are enlarged for teaching. Camera magnification is not an additional geometry scale change.",
+      "validation_status": "source-proposed; pixel readability and native saved-state validation deferred"
+    },
+    {
+      "id": "08",
+      "name": "08 Separate circulation beds",
+      "purpose": "Optional vascular dissection: trace each specimen’s own supply, capillary anastomoses and drainage. Cells and stroma are deliberately hidden only in this view. Open ends at specimen cuts do not imply connection between the two samples.",
+      "visible_parts": [
+        "Follicular basal lamina",
+        "Thyroid circulation",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid circulation"
+      ],
+      "hidden_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Interfollicular connective tissue",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": false,
+      "focus_parts": [
+        "Thyroid circulation",
+        "Parathyroid circulation"
+      ],
+      "scale_note": "500 µm per model unit. Cells, basal lamina, vessel calibres and static signal symbols are enlarged for teaching. Camera magnification is not an additional geometry scale change.",
+      "validation_status": "source-proposed; pixel readability and native saved-state validation deferred"
+    },
+    {
+      "id": "09",
+      "name": "09 Parathyroid intracellular detail",
+      "purpose": "Start with the sectioned parathyroid cell population. Use the optional exact-name focus actions to x-ray surrounding cell bodies and expose oxyphil mitochondria or the peripheral adipocyte nucleus/lipid droplet; those actions do not move or resize structures.",
+      "visible_parts": [
+        "Parathyroid capsule",
+        "Parathyroid stroma",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid chief-cell nuclei",
+        "Oxyphil-cell nuclei",
+        "Parathyroid adipocyte nuclei",
+        "Parathyroid lipid droplets",
+        "Oxyphil mitochondria",
+        "Parathyroid circulation"
+      ],
+      "hidden_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Follicular cell nuclei",
+        "Intracellular colloid uptake vesicles",
+        "Parafollicular C cells",
+        "C-cell nuclei",
+        "Thyroid circulation",
+        "Interfollicular connective tissue",
+        "Capsule",
+        "Signal TSH → follicular cell",
+        "Signal 1 Cell makes thyroglobulin",
+        "Signal 2 Colloid: Tg + hormone formation/storage",
+        "Signal 3 Colloid uptake + processing",
+        "Signal 4 T3/T4 → blood",
+        "Signal Calcitonin: C cell → blood",
+        "Signal Low Ca²⁺ sensed → PTH secretion",
+        "Signal PTH: chief cell → blood",
+        "Signal symbols enlarged • simplified sequence"
+      ],
+      "cut_on": true,
+      "focus_parts": [
+        "Oxyphil mitochondria",
+        "Oxyphil-cell nuclei",
+        "Parathyroid lipid droplets",
+        "Parathyroid adipocyte nuclei"
+      ],
+      "scale_note": "500 µm per model unit. Cells, basal lamina, vessel calibres and static signal symbols are enlarged for teaching. Camera magnification is not an additional geometry scale change.",
+      "validation_status": "source-proposed; pixel readability and native saved-state validation deferred"
+    }
+  ],
+  "focus_actions": [
+    {
+      "id": "thyroid_layer_order",
+      "view": "04 Follicle polarity",
+      "micro": "thyroid_parathyroid_review_v2",
+      "micro_focus": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina",
+        "Thyroid circulation"
+      ],
+      "purpose": "Identify inside-to-outside order; ghosting is optional and user-invoked, never part of opening."
+    },
+    {
+      "id": "uptake_vesicles",
+      "view": "04 Follicle polarity",
+      "micro": "thyroid_parathyroid_review_v2",
+      "micro_focus": [
+        "Intracellular colloid uptake vesicles",
+        "Follicular cell nuclei"
+      ],
+      "purpose": "Select intracellular uptake droplets, which are not colloid cells or follicle-margin lacunae. Native frame_structures will frame the full aggregated parts, not one individual follicle."
+    },
+    {
+      "id": "oxyphil_organelle",
+      "view": "09 Parathyroid intracellular detail",
+      "micro": "thyroid_parathyroid_review_v2",
+      "micro_focus": [
+        "Oxyphil mitochondria",
+        "Oxyphil-cell nuclei"
+      ],
+      "purpose": "Native x-ray focus exposes the organelles while retaining surrounding body context."
+    },
+    {
+      "id": "adipocyte_identity",
+      "view": "09 Parathyroid intracellular detail",
+      "micro": "thyroid_parathyroid_review_v2",
+      "micro_focus": [
+        "Parathyroid lipid droplets",
+        "Parathyroid adipocyte nuclei"
+      ],
+      "purpose": "Native x-ray focus demonstrates lipid droplet and displaced nucleus in the magnified representation."
+    }
+  ],
+  "mixed_schematic_scale": true,
+  "visual_review": {
+    "attributable_preview_found": false,
+    "searched": "azure-baseline/review-sources/other-verified-unique-sources/thyroid-review-v2 recursively for PNG/JPG/JPEG",
+    "existing_evidence": "Saved CHANGES.md expressly states no images were rendered or inspected. opening-checks.json uses synthetic pixel buffers only.",
+    "new_render_run": false
+  }
+}

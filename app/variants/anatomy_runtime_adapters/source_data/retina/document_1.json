@@ -1,0 +1,1711 @@
+{
+  "schema_version": 1,
+  "model_id": "retina",
+  "status": "source_design_ready",
+  "implementation_status": "27 supported named camera/note steps plus standalone manual lesson with semantic route diagrams and ON/OFF table; no physiological animation",
+  "region": "peripheral retina",
+  "time_model": "manual educational ordering; no physiological timing",
+  "part_contract": [
+    "Sclera",
+    "Choroid stroma",
+    "Choroidal veins (Haller layer)",
+    "Choroidal arteries (Sattler layer)",
+    "Choroidal melanocytes",
+    "Choriocapillaris",
+    "Bruch membrane",
+    "Retinal pigment epithelium",
+    "Rod outer segments",
+    "Rod inner segments",
+    "Cones",
+    "Outer limiting membrane",
+    "Outer nuclear layer",
+    "Outer plexiform layer",
+    "Inner nuclear layer",
+    "Horizontal cells",
+    "Bipolar cells",
+    "Amacrine cells",
+    "Inner plexiform layer",
+    "Ganglion cell layer",
+    "Nerve fibre layer",
+    "Retinal arteriole",
+    "Retinal venule",
+    "Superficial capillary plexus",
+    "Deep capillary plexus",
+    "Müller glia",
+    "Inner limiting membrane",
+    "Vitreous body"
+  ],
+  "source_evidence": [
+    {
+      "id": "simple",
+      "title": "Webvision: Simple Anatomy of the Retina",
+      "url": "https://www.webvision.pitt.edu/book/part-i-foundations/simple-anatomy-of-the-retina/",
+      "opened_date": "2026-10-04",
+      "retrieval": "opened_text"
+    },
+    {
+      "id": "photoreceptors",
+      "title": "Webvision: Photoreceptors",
+      "url": "https://www.webvision.pitt.edu/book/part-ii-anatomy-and-physiology-of-the-retina/photoreceptors/",
+      "opened_date": "2026-10-04",
+      "retrieval": "opened_text"
+    },
+    {
+      "id": "cone",
+      "title": "Webvision: Cone Pathways",
+      "url": "https://www.webvision.pitt.edu/book/part-iii-retinal-circuits/cone-pathways-through-the-retina/",
+      "opened_date": "2026-10-04",
+      "retrieval": "opened_text"
+    },
+    {
+      "id": "bipolar",
+      "title": "Webvision: Bipolar Cell Pathways",
+      "url": "https://www.webvision.pitt.edu/book/part-v-phototransduction-in-rods-and-cones/bipolar-cell-pathways-in-the-vertebrate-retina/",
+      "opened_date": "2026-10-04",
+      "retrieval": "opened_text"
+    },
+    {
+      "id": "rpe",
+      "title": "Webvision: Retinal Pigment Epithelium",
+      "url": "https://www.webvision.pitt.edu/book/part-ii-anatomy-and-physiology-of-the-retina/the-retinal-pigment-epithelium/",
+      "opened_date": "2026-10-04",
+      "retrieval": "opened_text"
+    },
+    {
+      "id": "glia",
+      "title": "Webvision: Glial Cells of the Retina",
+      "url": "https://www.webvision.pitt.edu/book/part-ii-anatomy-and-physiology-of-the-retina/glial-cells-of-the-retina/",
+      "opened_date": "2026-10-04",
+      "retrieval": "opened_text"
+    },
+    {
+      "id": "duke",
+      "title": "Duke Neurosciences: Eye and Ear Histology",
+      "url": "https://brain.oit.duke.edu/EyeEar/EyeEar.html",
+      "opened_date": "2026-10-04",
+      "retrieval": "opened_text"
+    },
+    {
+      "id": "glutamate",
+      "title": "Bringmann et al., Müller uptake and metabolism",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/23616782/",
+      "opened_date": "2026-10-04",
+      "retrieval": "opened_abstract_only"
+    },
+    {
+      "id": "amacrine_spikes",
+      "title": "Aboelela and Robinson, ferret displaced amacrine physiology",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/15259565/",
+      "opened_date": "2026-10-04",
+      "retrieval": "opened_abstract_only"
+    }
+  ],
+  "functional_sequences": [
+    {
+      "id": "light_and_neural_direction",
+      "mechanism": "Light reaches outer-segment pigments from the vitreal side; neural output returns toward the inner retina and exits in ganglion axons.",
+      "visible_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer limiting membrane",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Müller glia",
+        "Inner limiting membrane",
+        "Vitreous body"
+      ],
+      "hidden_parts": [],
+      "steps": [
+        {
+          "id": "orientation",
+          "caption": "Peripheral retinal section. The opening removes tissue for teaching; enlarged cells and sparse counts are illustrative.",
+          "highlight_parts": [
+            "Vitreous body",
+            "Retinal pigment epithelium"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_light_and_neural_direction_orientation",
+          "note": "Peripheral retinal section. The opening removes tissue for teaching; enlarged cells and sparse counts are illustrative.",
+          "camera_focus_parts": [
+            "Vitreous body",
+            "Retinal pigment epithelium"
+          ],
+          "camera_context_parts": [
+            "Sclera",
+            "Choroid stroma",
+            "Choroidal veins (Haller layer)",
+            "Choroidal arteries (Sattler layer)",
+            "Choroidal melanocytes",
+            "Choriocapillaris",
+            "Bruch membrane",
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner nuclear layer",
+            "Horizontal cells",
+            "Bipolar cells",
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Retinal arteriole",
+            "Retinal venule",
+            "Superficial capillary plexus",
+            "Deep capillary plexus",
+            "Müller glia",
+            "Inner limiting membrane",
+            "Vitreous body"
+          ]
+        },
+        {
+          "id": "light_entry",
+          "caption": "Follow the light cue from the vitreous through inner retinal layers toward the photoreceptor outer segments.",
+          "highlight_parts": [
+            "Vitreous body",
+            "Inner limiting membrane",
+            "Rod outer segments",
+            "Cones"
+          ],
+          "flow_ids": [
+            "light_direction"
+          ],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_light_and_neural_direction_light_entry",
+          "note": "Follow the light cue from the vitreous through inner retinal layers toward the photoreceptor outer segments.",
+          "camera_focus_parts": [
+            "Vitreous body",
+            "Inner limiting membrane",
+            "Rod outer segments",
+            "Cones"
+          ],
+          "camera_context_parts": [
+            "Sclera",
+            "Choroid stroma",
+            "Choroidal veins (Haller layer)",
+            "Choroidal arteries (Sattler layer)",
+            "Choroidal melanocytes",
+            "Choriocapillaris",
+            "Bruch membrane",
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner nuclear layer",
+            "Horizontal cells",
+            "Bipolar cells",
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Retinal arteriole",
+            "Retinal venule",
+            "Superficial capillary plexus",
+            "Deep capillary plexus",
+            "Müller glia",
+            "Inner limiting membrane",
+            "Vitreous body"
+          ]
+        },
+        {
+          "id": "main_neural_output",
+          "caption": "Follow a schematic output relationship from the outer synaptic compartment through bipolar processing to ganglion axons.",
+          "highlight_parts": [
+            "Outer plexiform layer",
+            "Bipolar cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer"
+          ],
+          "flow_ids": [
+            "cone_neural_relation"
+          ],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_light_and_neural_direction_main_neural_output",
+          "note": "Follow a schematic output relationship from the outer synaptic compartment through bipolar processing to ganglion axons.",
+          "camera_focus_parts": [
+            "Outer plexiform layer",
+            "Bipolar cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer"
+          ],
+          "camera_context_parts": [
+            "Sclera",
+            "Choroid stroma",
+            "Choroidal veins (Haller layer)",
+            "Choroidal arteries (Sattler layer)",
+            "Choroidal melanocytes",
+            "Choriocapillaris",
+            "Bruch membrane",
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner nuclear layer",
+            "Horizontal cells",
+            "Bipolar cells",
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Retinal arteriole",
+            "Retinal venule",
+            "Superficial capillary plexus",
+            "Deep capillary plexus",
+            "Müller glia",
+            "Inner limiting membrane",
+            "Vitreous body"
+          ]
+        },
+        {
+          "id": "lateral_context",
+          "caption": "Horizontal and amacrine pathways modify local processing; this is not a single one-way cable.",
+          "highlight_parts": [
+            "Horizontal cells",
+            "Amacrine cells",
+            "Outer plexiform layer",
+            "Inner plexiform layer"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_light_and_neural_direction_lateral_context",
+          "note": "Horizontal and amacrine pathways modify local processing; this is not a single one-way cable.",
+          "camera_focus_parts": [
+            "Horizontal cells",
+            "Amacrine cells",
+            "Outer plexiform layer",
+            "Inner plexiform layer"
+          ],
+          "camera_context_parts": [
+            "Sclera",
+            "Choroid stroma",
+            "Choroidal veins (Haller layer)",
+            "Choroidal arteries (Sattler layer)",
+            "Choroidal melanocytes",
+            "Choriocapillaris",
+            "Bruch membrane",
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner nuclear layer",
+            "Horizontal cells",
+            "Bipolar cells",
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Retinal arteriole",
+            "Retinal venule",
+            "Superficial capillary plexus",
+            "Deep capillary plexus",
+            "Müller glia",
+            "Inner limiting membrane",
+            "Vitreous body"
+          ]
+        }
+      ],
+      "source_evidence": [
+        "simple",
+        "duke"
+      ],
+      "schematic_limitations": [
+        "Directional cues do not specify ray optics, latency, a per-cell graph or actual lumen flow. The optic nerve lies beyond this microblock."
+      ]
+    },
+    {
+      "id": "photoreceptor_response",
+      "mechanism": "A light increment changes outer-segment biochemistry and reduces transmitter release.",
+      "visible_parts": [
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer limiting membrane",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Müller glia",
+        "Bruch membrane"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Inner limiting membrane",
+        "Vitreous body"
+      ],
+      "steps": [
+        {
+          "id": "dark",
+          "caption": "Dark condition: relatively depolarized photoreceptors release glutamate tonically.",
+          "highlight_parts": [
+            "Rod outer segments",
+            "Cones",
+            "Outer plexiform layer"
+          ],
+          "flow_ids": [],
+          "state_values": {
+            "illumination": "dark",
+            "photoreceptor_voltage": "relatively_depolarized",
+            "photoreceptor_glutamate": "higher"
+          },
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_photoreceptor_response_dark",
+          "note": "Dark condition: relatively depolarized photoreceptors release glutamate tonically.",
+          "camera_focus_parts": [
+            "Rod outer segments",
+            "Cones",
+            "Outer plexiform layer"
+          ],
+          "camera_context_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Müller glia",
+            "Bruch membrane"
+          ]
+        },
+        {
+          "id": "light_increment",
+          "caption": "Photon absorption activates the opsin–transducin–phosphodiesterase cascade, reducing cGMP and CNG-channel opening.",
+          "highlight_parts": [
+            "Rod outer segments",
+            "Cones"
+          ],
+          "flow_ids": [],
+          "state_values": {
+            "illumination": "increment",
+            "photoreceptor_cGMP": "lower",
+            "CNG_opening": "reduced"
+          },
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_photoreceptor_response_light_increment",
+          "note": "Photon absorption activates the opsin–transducin–phosphodiesterase cascade, reducing cGMP and CNG-channel opening.",
+          "camera_focus_parts": [
+            "Rod outer segments",
+            "Cones"
+          ],
+          "camera_context_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Müller glia",
+            "Bruch membrane"
+          ]
+        },
+        {
+          "id": "graded_response",
+          "caption": "The photoreceptor hyperpolarizes; glutamate release at its synaptic terminal falls. This is a graded response.",
+          "highlight_parts": [
+            "Rod inner segments",
+            "Cones",
+            "Outer nuclear layer",
+            "Outer plexiform layer"
+          ],
+          "flow_ids": [],
+          "state_values": {
+            "photoreceptor_voltage": "hyperpolarized_relative_to_dark",
+            "photoreceptor_glutamate": "lower"
+          },
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_photoreceptor_response_graded_response",
+          "note": "The photoreceptor hyperpolarizes; glutamate release at its synaptic terminal falls. This is a graded response.",
+          "camera_focus_parts": [
+            "Rod inner segments",
+            "Cones",
+            "Outer nuclear layer",
+            "Outer plexiform layer"
+          ],
+          "camera_context_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Müller glia",
+            "Bruch membrane"
+          ]
+        }
+      ],
+      "source_evidence": [
+        "photoreceptors"
+      ],
+      "schematic_limitations": [
+        "No absolute membrane potentials, quantitative sensitivity, ion-channel geometry or electrophysiological timecourse. Generic cone selector does not specify S/M/L class."
+      ]
+    },
+    {
+      "id": "cone_on_off_comparison",
+      "mechanism": "Different bipolar glutamate receptors produce opposite response signs to a cone light increment.",
+      "visible_parts": [
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Müller glia"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Outer limiting membrane",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Inner limiting membrane",
+        "Vitreous body"
+      ],
+      "steps": [
+        {
+          "id": "comparison_inset",
+          "caption": "Display the ON/OFF comparison as a schematic inset linked to the generic bipolar and IPL selectors.",
+          "highlight_parts": [
+            "Cones",
+            "Bipolar cells",
+            "Inner plexiform layer"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_cone_on_off_comparison_comparison_inset",
+          "note": "Display the ON/OFF comparison as a schematic inset linked to the generic bipolar and IPL selectors.",
+          "camera_focus_parts": [
+            "Cones",
+            "Bipolar cells",
+            "Inner plexiform layer"
+          ],
+          "camera_context_parts": [
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner nuclear layer",
+            "Horizontal cells",
+            "Bipolar cells",
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Müller glia"
+          ]
+        },
+        {
+          "id": "increment",
+          "caption": "A centre light increment reduces cone glutamate: ON bipolar depolarization increases while OFF bipolar depolarization decreases.",
+          "highlight_parts": [
+            "Cones",
+            "Bipolar cells",
+            "Inner plexiform layer"
+          ],
+          "flow_ids": [],
+          "state_values": {
+            "comparison_row": "centre_increment"
+          },
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_cone_on_off_comparison_increment",
+          "note": "A centre light increment reduces cone glutamate: ON bipolar depolarization increases while OFF bipolar depolarization decreases.",
+          "camera_focus_parts": [
+            "Cones",
+            "Bipolar cells",
+            "Inner plexiform layer"
+          ],
+          "camera_context_parts": [
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner nuclear layer",
+            "Horizontal cells",
+            "Bipolar cells",
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Müller glia"
+          ]
+        },
+        {
+          "id": "decrement",
+          "caption": "A centre light decrement produces the opposite relative bipolar responses.",
+          "highlight_parts": [
+            "Cones",
+            "Bipolar cells",
+            "Inner plexiform layer"
+          ],
+          "flow_ids": [],
+          "state_values": {
+            "comparison_row": "centre_decrement"
+          },
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_cone_on_off_comparison_decrement",
+          "note": "A centre light decrement produces the opposite relative bipolar responses.",
+          "camera_focus_parts": [
+            "Cones",
+            "Bipolar cells",
+            "Inner plexiform layer"
+          ],
+          "camera_context_parts": [
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner nuclear layer",
+            "Horizontal cells",
+            "Bipolar cells",
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Müller glia"
+          ]
+        },
+        {
+          "id": "ganglion_output",
+          "caption": "Ganglion neurons encode the processed signal as spikes in axons of the nerve fibre layer. Some amacrine cells also spike.",
+          "highlight_parts": [
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Amacrine cells"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_cone_on_off_comparison_ganglion_output",
+          "note": "Ganglion neurons encode the processed signal as spikes in axons of the nerve fibre layer. Some amacrine cells also spike.",
+          "camera_focus_parts": [
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Amacrine cells"
+          ],
+          "camera_context_parts": [
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner nuclear layer",
+            "Horizontal cells",
+            "Bipolar cells",
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Müller glia"
+          ]
+        }
+      ],
+      "source_evidence": [
+        "cone",
+        "bipolar",
+        "amacrine_spikes"
+      ],
+      "schematic_limitations": [
+        "The existing cells have no assigned ON/OFF identities. Do not recolor individual cells as verified subtypes. Outer IPL near INL is conventionally OFF; inner IPL near GCL is conventionally ON. Diverse and bistratified circuits are omitted. No simulated spike trace or receptive field. Rod signals must not be routed directly through this cone lesson."
+      ]
+    },
+    {
+      "id": "lateral_processing",
+      "mechanism": "Horizontal-cell contribution to surround processing and amacrine modulation prevent a purely serial interpretation.",
+      "visible_parts": [
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Müller glia"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Outer limiting membrane",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Inner limiting membrane",
+        "Vitreous body"
+      ],
+      "steps": [
+        {
+          "id": "outer_lateral",
+          "caption": "Highlight horizontal processes in the OPL beside photoreceptor and bipolar contacts.",
+          "highlight_parts": [
+            "Horizontal cells",
+            "Outer plexiform layer",
+            "Cones",
+            "Bipolar cells"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_lateral_processing_outer_lateral",
+          "note": "Highlight horizontal processes in the OPL beside photoreceptor and bipolar contacts.",
+          "camera_focus_parts": [
+            "Horizontal cells",
+            "Outer plexiform layer",
+            "Cones",
+            "Bipolar cells"
+          ],
+          "camera_context_parts": [
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner nuclear layer",
+            "Horizontal cells",
+            "Bipolar cells",
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Müller glia"
+          ]
+        },
+        {
+          "id": "inner_lateral",
+          "caption": "Highlight amacrine processes in the IPL alongside bipolar terminals and ganglion dendrites.",
+          "highlight_parts": [
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Bipolar cells",
+            "Ganglion cell layer"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_lateral_processing_inner_lateral",
+          "note": "Highlight amacrine processes in the IPL alongside bipolar terminals and ganglion dendrites.",
+          "camera_focus_parts": [
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Bipolar cells",
+            "Ganglion cell layer"
+          ],
+          "camera_context_parts": [
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner nuclear layer",
+            "Horizontal cells",
+            "Bipolar cells",
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Müller glia"
+          ]
+        },
+        {
+          "id": "bounded_graph",
+          "caption": "A selected representative circuit may use source-declared contacts; neighbouring branches do not prove synaptic connections.",
+          "highlight_parts": [
+            "Outer plexiform layer",
+            "Inner plexiform layer"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_lateral_processing_bounded_graph",
+          "note": "A selected representative circuit may use source-declared contacts; neighbouring branches do not prove synaptic connections.",
+          "camera_focus_parts": [
+            "Outer plexiform layer",
+            "Inner plexiform layer"
+          ],
+          "camera_context_parts": [
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner nuclear layer",
+            "Horizontal cells",
+            "Bipolar cells",
+            "Amacrine cells",
+            "Inner plexiform layer",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Müller glia"
+          ]
+        }
+      ],
+      "source_evidence": [
+        "simple",
+        "bipolar"
+      ],
+      "schematic_limitations": [
+        "Centre-surround and temporal/directional computations are conceptual examples, not measured outputs of these generic cells. No universal inhibitory-sign assignment to all horizontal or amacrine processes."
+      ]
+    },
+    {
+      "id": "dual_supply",
+      "mechanism": "Inner retinal perfusion and outer retinal support arise from separate vascular territories.",
+      "visible_parts": [
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal veins (Haller layer)",
+        "Choriocapillaris",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Inner nuclear layer",
+        "Outer plexiform layer",
+        "Outer nuclear layer",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Retinal pigment epithelium",
+        "Bruch membrane"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal melanocytes",
+        "Outer limiting membrane",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Müller glia",
+        "Inner limiting membrane",
+        "Vitreous body"
+      ],
+      "steps": [
+        {
+          "id": "retinal_beds",
+          "caption": "Trace conceptually from retinal arteriole to the two shown intraretinal beds and then retinal venule.",
+          "highlight_parts": [
+            "Retinal arteriole",
+            "Superficial capillary plexus",
+            "Deep capillary plexus",
+            "Retinal venule"
+          ],
+          "flow_ids": [
+            "retinal_superficial",
+            "retinal_deep"
+          ],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_dual_supply_retinal_beds",
+          "note": "Trace conceptually from retinal arteriole to the two shown intraretinal beds and then retinal venule.",
+          "camera_focus_parts": [
+            "Retinal arteriole",
+            "Superficial capillary plexus",
+            "Deep capillary plexus",
+            "Retinal venule"
+          ],
+          "camera_context_parts": [
+            "Retinal arteriole",
+            "Retinal venule",
+            "Superficial capillary plexus",
+            "Deep capillary plexus",
+            "Choroidal arteries (Sattler layer)",
+            "Choroidal veins (Haller layer)",
+            "Choriocapillaris",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Inner nuclear layer",
+            "Outer plexiform layer",
+            "Outer nuclear layer",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Retinal pigment epithelium",
+            "Bruch membrane"
+          ]
+        },
+        {
+          "id": "choroidal_bed",
+          "caption": "Trace conceptually from choroidal arteries to choriocapillaris and then choroidal veins.",
+          "highlight_parts": [
+            "Choroidal arteries (Sattler layer)",
+            "Choriocapillaris",
+            "Choroidal veins (Haller layer)"
+          ],
+          "flow_ids": [
+            "choroidal_blood"
+          ],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_dual_supply_choroidal_bed",
+          "note": "Trace conceptually from choroidal arteries to choriocapillaris and then choroidal veins.",
+          "camera_focus_parts": [
+            "Choroidal arteries (Sattler layer)",
+            "Choriocapillaris",
+            "Choroidal veins (Haller layer)"
+          ],
+          "camera_context_parts": [
+            "Retinal arteriole",
+            "Retinal venule",
+            "Superficial capillary plexus",
+            "Deep capillary plexus",
+            "Choroidal arteries (Sattler layer)",
+            "Choroidal veins (Haller layer)",
+            "Choriocapillaris",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Inner nuclear layer",
+            "Outer plexiform layer",
+            "Outer nuclear layer",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Retinal pigment epithelium",
+            "Bruch membrane"
+          ]
+        },
+        {
+          "id": "outer_exchange",
+          "caption": "Show support exchange from choriocapillaris across Bruch membrane and RPE toward photoreceptors. Blood remains in vessels.",
+          "highlight_parts": [
+            "Choriocapillaris",
+            "Bruch membrane",
+            "Retinal pigment epithelium",
+            "Rod inner segments",
+            "Rod outer segments",
+            "Cones"
+          ],
+          "flow_ids": [
+            "outer_support_exchange"
+          ],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_dual_supply_outer_exchange",
+          "note": "Show support exchange from choriocapillaris across Bruch membrane and RPE toward photoreceptors. Blood remains in vessels.",
+          "camera_focus_parts": [
+            "Choriocapillaris",
+            "Bruch membrane",
+            "Retinal pigment epithelium",
+            "Rod inner segments",
+            "Rod outer segments",
+            "Cones"
+          ],
+          "camera_context_parts": [
+            "Retinal arteriole",
+            "Retinal venule",
+            "Superficial capillary plexus",
+            "Deep capillary plexus",
+            "Choroidal arteries (Sattler layer)",
+            "Choroidal veins (Haller layer)",
+            "Choriocapillaris",
+            "Ganglion cell layer",
+            "Nerve fibre layer",
+            "Inner nuclear layer",
+            "Outer plexiform layer",
+            "Outer nuclear layer",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Retinal pigment epithelium",
+            "Bruch membrane"
+          ]
+        }
+      ],
+      "source_evidence": [
+        "simple",
+        "duke"
+      ],
+      "schematic_limitations": [
+        "Ordered parts are semantic routes, not extracted posed centreline trajectories. Actual patency and travel direction along the mesh require later records/checks. Two plexus selectors simplify normal subdivisions. Red-to-blue color is schematic and does not quantify oxygen extraction. This is peripheral retina, not an avascular foveal inset."
+      ]
+    },
+    {
+      "id": "rpe_support",
+      "mechanism": "The intact polarized epithelium supports outer-segment maintenance and chromophore regeneration.",
+      "visible_parts": [
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Rod inner segments",
+        "Cones",
+        "Outer limiting membrane",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Müller glia",
+        "Bruch membrane",
+        "Choriocapillaris"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Inner nuclear layer",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus",
+        "Inner limiting membrane",
+        "Vitreous body"
+      ],
+      "steps": [
+        {
+          "id": "polarity",
+          "caption": "Identify apical RPE processes facing outer segments and basal RPE facing Bruch membrane.",
+          "highlight_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Cones",
+            "Bruch membrane"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_rpe_support_polarity",
+          "note": "Identify apical RPE processes facing outer segments and basal RPE facing Bruch membrane.",
+          "camera_focus_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Cones",
+            "Bruch membrane"
+          ],
+          "camera_context_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Müller glia",
+            "Bruch membrane",
+            "Choriocapillaris"
+          ]
+        },
+        {
+          "id": "renewal",
+          "caption": "In a maintenance inset, new outer-segment membrane is added basally and aged tip material is shed toward RPE.",
+          "highlight_parts": [
+            "Rod outer segments",
+            "Rod inner segments",
+            "Retinal pigment epithelium"
+          ],
+          "flow_ids": [
+            "outer_segment_maintenance"
+          ],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_rpe_support_renewal",
+          "note": "In a maintenance inset, new outer-segment membrane is added basally and aged tip material is shed toward RPE.",
+          "camera_focus_parts": [
+            "Rod outer segments",
+            "Rod inner segments",
+            "Retinal pigment epithelium"
+          ],
+          "camera_context_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Müller glia",
+            "Bruch membrane",
+            "Choriocapillaris"
+          ]
+        },
+        {
+          "id": "phagocytosis",
+          "caption": "RPE engulfs shed outer-segment tips. This is not removal of an entire photoreceptor.",
+          "highlight_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Cones"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_rpe_support_phagocytosis",
+          "note": "RPE engulfs shed outer-segment tips. This is not removal of an entire photoreceptor.",
+          "camera_focus_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Cones"
+          ],
+          "camera_context_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Müller glia",
+            "Bruch membrane",
+            "Choriocapillaris"
+          ]
+        },
+        {
+          "id": "chromophore_cycle",
+          "caption": "A separate rod visual-cycle inset shows retinoid traffic to RPE and regenerated chromophore returned to rods.",
+          "highlight_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments"
+          ],
+          "flow_ids": [
+            "rod_chromophore_out",
+            "rod_chromophore_return"
+          ],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_rpe_support_chromophore_cycle",
+          "note": "A separate rod visual-cycle inset shows retinoid traffic to RPE and regenerated chromophore returned to rods.",
+          "camera_focus_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments"
+          ],
+          "camera_context_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Müller glia",
+            "Bruch membrane",
+            "Choriocapillaris"
+          ]
+        },
+        {
+          "id": "detachment_plane",
+          "caption": "Detachment concerns the neural-retina/RPE outer-segment interface, not the open neuropil teaching window.",
+          "highlight_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Cones"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_rpe_support_detachment_plane",
+          "note": "Detachment concerns the neural-retina/RPE outer-segment interface, not the open neuropil teaching window.",
+          "camera_focus_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Cones"
+          ],
+          "camera_context_parts": [
+            "Retinal pigment epithelium",
+            "Rod outer segments",
+            "Rod inner segments",
+            "Cones",
+            "Outer limiting membrane",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Müller glia",
+            "Bruch membrane",
+            "Choriocapillaris"
+          ]
+        }
+      ],
+      "source_evidence": [
+        "rpe",
+        "duke"
+      ],
+      "schematic_limitations": [
+        "Cycles are temporally distinct from rapid phototransduction and use no playback rate claiming physiological timing. Molecular intermediates and cone-specific alternative cycles are omitted. No spontaneous resting gap or simulated detachment geometry."
+      ]
+    },
+    {
+      "id": "muller_support",
+      "mechanism": "Radial glia support neural compartments and form distinct relationships at outer and inner retinal limits.",
+      "visible_parts": [
+        "Müller glia",
+        "Inner nuclear layer",
+        "Outer nuclear layer",
+        "Outer plexiform layer",
+        "Inner plexiform layer",
+        "Outer limiting membrane",
+        "Rod inner segments",
+        "Cones",
+        "Inner limiting membrane",
+        "Vitreous body"
+      ],
+      "hidden_parts": [
+        "Sclera",
+        "Choroid stroma",
+        "Choroidal veins (Haller layer)",
+        "Choroidal arteries (Sattler layer)",
+        "Choroidal melanocytes",
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Rod outer segments",
+        "Horizontal cells",
+        "Bipolar cells",
+        "Amacrine cells",
+        "Ganglion cell layer",
+        "Nerve fibre layer",
+        "Retinal arteriole",
+        "Retinal venule",
+        "Superficial capillary plexus",
+        "Deep capillary plexus"
+      ],
+      "steps": [
+        {
+          "id": "radial_cell",
+          "caption": "Follow a representative Müller cell with soma in INL and processes across neural compartments.",
+          "highlight_parts": [
+            "Müller glia",
+            "Inner nuclear layer"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_muller_support_radial_cell",
+          "note": "Follow a representative Müller cell with soma in INL and processes across neural compartments.",
+          "camera_focus_parts": [
+            "Müller glia",
+            "Inner nuclear layer"
+          ],
+          "camera_context_parts": [
+            "Müller glia",
+            "Inner nuclear layer",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner plexiform layer",
+            "Outer limiting membrane",
+            "Rod inner segments",
+            "Cones",
+            "Inner limiting membrane",
+            "Vitreous body"
+          ]
+        },
+        {
+          "id": "outer_junctions",
+          "caption": "Outer limiting membrane denotes adherens-junction complexes between Müller processes and photoreceptors.",
+          "highlight_parts": [
+            "Müller glia",
+            "Outer limiting membrane",
+            "Rod inner segments",
+            "Cones"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_muller_support_outer_junctions",
+          "note": "Outer limiting membrane denotes adherens-junction complexes between Müller processes and photoreceptors.",
+          "camera_focus_parts": [
+            "Müller glia",
+            "Outer limiting membrane",
+            "Rod inner segments",
+            "Cones"
+          ],
+          "camera_context_parts": [
+            "Müller glia",
+            "Inner nuclear layer",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner plexiform layer",
+            "Outer limiting membrane",
+            "Rod inner segments",
+            "Cones",
+            "Inner limiting membrane",
+            "Vitreous body"
+          ]
+        },
+        {
+          "id": "inner_endfeet",
+          "caption": "At the vitreous side, distinguish Müller endfeet and associated ILM basement membrane from vitreous gel.",
+          "highlight_parts": [
+            "Müller glia",
+            "Inner limiting membrane",
+            "Vitreous body"
+          ],
+          "flow_ids": [],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_muller_support_inner_endfeet",
+          "note": "At the vitreous side, distinguish Müller endfeet and associated ILM basement membrane from vitreous gel.",
+          "camera_focus_parts": [
+            "Müller glia",
+            "Inner limiting membrane",
+            "Vitreous body"
+          ],
+          "camera_context_parts": [
+            "Müller glia",
+            "Inner nuclear layer",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner plexiform layer",
+            "Outer limiting membrane",
+            "Rod inner segments",
+            "Cones",
+            "Inner limiting membrane",
+            "Vitreous body"
+          ]
+        },
+        {
+          "id": "transmitter_support",
+          "caption": "Use a support inset for extracellular glutamate uptake, conversion to glutamine and return of precursor to neurons.",
+          "highlight_parts": [
+            "Müller glia",
+            "Outer plexiform layer",
+            "Inner plexiform layer"
+          ],
+          "flow_ids": [
+            "glial_transmitter_support"
+          ],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_muller_support_transmitter_support",
+          "note": "Use a support inset for extracellular glutamate uptake, conversion to glutamine and return of precursor to neurons.",
+          "camera_focus_parts": [
+            "Müller glia",
+            "Outer plexiform layer",
+            "Inner plexiform layer"
+          ],
+          "camera_context_parts": [
+            "Müller glia",
+            "Inner nuclear layer",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner plexiform layer",
+            "Outer limiting membrane",
+            "Rod inner segments",
+            "Cones",
+            "Inner limiting membrane",
+            "Vitreous body"
+          ]
+        },
+        {
+          "id": "ion_support",
+          "caption": "Show potassium uptake and redistribution as a homeostatic support relation across glial territory.",
+          "highlight_parts": [
+            "Müller glia"
+          ],
+          "flow_ids": [
+            "glial_ion_support"
+          ],
+          "state_values": {},
+          "advance": "manual",
+          "physiological_duration_seconds": null,
+          "teaching_view_id": "function_muller_support_ion_support",
+          "note": "Show potassium uptake and redistribution as a homeostatic support relation across glial territory.",
+          "camera_focus_parts": [
+            "Müller glia"
+          ],
+          "camera_context_parts": [
+            "Müller glia",
+            "Inner nuclear layer",
+            "Outer nuclear layer",
+            "Outer plexiform layer",
+            "Inner plexiform layer",
+            "Outer limiting membrane",
+            "Rod inner segments",
+            "Cones",
+            "Inner limiting membrane",
+            "Vitreous body"
+          ]
+        }
+      ],
+      "source_evidence": [
+        "glia",
+        "glutamate"
+      ],
+      "schematic_limitations": [
+        "No transport rates, precise ionic routes, ERG waveform prediction or cell-specific transporter localization is claimed. Neither support cue is a new neuronal chain; OLM is not an independent membrane slab."
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "light_direction",
+      "kind": "optical_direction",
+      "ordered_parts": [
+        "Vitreous body",
+        "Inner limiting membrane",
+        "Nerve fibre layer",
+        "Ganglion cell layer",
+        "Inner plexiform layer",
+        "Inner nuclear layer",
+        "Outer plexiform layer",
+        "Outer nuclear layer",
+        "Rod inner segments",
+        "Rod outer segments"
+      ],
+      "label": "Light toward photoreceptor outer segments; Cones are the parallel target.",
+      "representation": "semantic_diagram_and_step_highlight",
+      "geometry_path": null,
+      "source_evidence": [
+        "simple"
+      ],
+      "timing": "untimed_manual_steps"
+    },
+    {
+      "id": "cone_neural_relation",
+      "kind": "graded_then_spiking_relation",
+      "ordered_parts": [
+        "Cones",
+        "Outer plexiform layer",
+        "Bipolar cells",
+        "Inner plexiform layer",
+        "Ganglion cell layer",
+        "Nerve fibre layer"
+      ],
+      "label": "Representative cone pathway relation; lateral processing accompanies it.",
+      "representation": "semantic_diagram_and_step_highlight",
+      "geometry_path": null,
+      "source_evidence": [
+        "simple",
+        "cone"
+      ],
+      "timing": "untimed_manual_steps"
+    },
+    {
+      "id": "retinal_superficial",
+      "kind": "blood",
+      "ordered_parts": [
+        "Retinal arteriole",
+        "Superficial capillary plexus",
+        "Retinal venule"
+      ],
+      "label": "Retinal superficial territory",
+      "representation": "semantic_diagram_and_step_highlight",
+      "geometry_path": null,
+      "source_evidence": [
+        "simple"
+      ],
+      "timing": "untimed_manual_steps"
+    },
+    {
+      "id": "retinal_deep",
+      "kind": "blood",
+      "ordered_parts": [
+        "Retinal arteriole",
+        "Deep capillary plexus",
+        "Retinal venule"
+      ],
+      "label": "Retinal deep territory",
+      "representation": "semantic_diagram_and_step_highlight",
+      "geometry_path": null,
+      "source_evidence": [
+        "simple"
+      ],
+      "timing": "untimed_manual_steps"
+    },
+    {
+      "id": "choroidal_blood",
+      "kind": "blood",
+      "ordered_parts": [
+        "Choroidal arteries (Sattler layer)",
+        "Choriocapillaris",
+        "Choroidal veins (Haller layer)"
+      ],
+      "label": "Separate choroidal territory",
+      "representation": "semantic_diagram_and_step_highlight",
+      "geometry_path": null,
+      "source_evidence": [
+        "simple"
+      ],
+      "timing": "untimed_manual_steps"
+    },
+    {
+      "id": "outer_support_exchange",
+      "kind": "diffusion_and_epithelial_transport",
+      "ordered_parts": [
+        "Choriocapillaris",
+        "Bruch membrane",
+        "Retinal pigment epithelium",
+        "Rod inner segments"
+      ],
+      "label": "Outer-retinal support; rod/cone territory",
+      "representation": "semantic_diagram_and_step_highlight",
+      "geometry_path": null,
+      "source_evidence": [
+        "duke"
+      ],
+      "timing": "untimed_manual_steps"
+    },
+    {
+      "id": "outer_segment_maintenance",
+      "kind": "maintenance",
+      "ordered_parts": [
+        "Rod inner segments",
+        "Rod outer segments",
+        "Retinal pigment epithelium"
+      ],
+      "label": "Basal membrane addition and apical tip handling",
+      "representation": "semantic_diagram_and_step_highlight",
+      "geometry_path": null,
+      "source_evidence": [
+        "rpe"
+      ],
+      "timing": "untimed_manual_steps"
+    },
+    {
+      "id": "rod_chromophore_out",
+      "kind": "retinoid_transport",
+      "ordered_parts": [
+        "Rod outer segments",
+        "Retinal pigment epithelium"
+      ],
+      "label": "Retinoid traffic toward RPE",
+      "representation": "semantic_diagram_and_step_highlight",
+      "geometry_path": null,
+      "source_evidence": [
+        "rpe"
+      ],
+      "timing": "untimed_manual_steps"
+    },
+    {
+      "id": "rod_chromophore_return",
+      "kind": "retinoid_transport",
+      "ordered_parts": [
+        "Retinal pigment epithelium",
+        "Rod outer segments"
+      ],
+      "label": "Regenerated chromophore toward rods",
+      "representation": "semantic_diagram_and_step_highlight",
+      "geometry_path": null,
+      "source_evidence": [
+        "rpe"
+      ],
+      "timing": "untimed_manual_steps"
+    },
+    {
+      "id": "glial_transmitter_support",
+      "kind": "support_cycle",
+      "ordered_parts": [
+        "Outer plexiform layer",
+        "Inner plexiform layer",
+        "Müller glia"
+      ],
+      "label": "Diagram connects two synaptic regions independently to glial uptake; the ordered list is not serial transport between plexiform layers.",
+      "representation": "semantic_diagram_and_step_highlight",
+      "geometry_path": null,
+      "source_evidence": [
+        "glutamate"
+      ],
+      "timing": "untimed_manual_steps"
+    },
+    {
+      "id": "glial_ion_support",
+      "kind": "homeostasis",
+      "ordered_parts": [
+        "Müller glia"
+      ],
+      "label": "Potassium regulation across glial territory",
+      "representation": "semantic_diagram_and_step_highlight",
+      "geometry_path": null,
+      "source_evidence": [
+        "glia"
+      ],
+      "timing": "untimed_manual_steps"
+    }
+  ],
+  "on_off_comparison": {
+    "scope": "schematic cone-centre stimulus comparison; generic geometry has no ON/OFF typing",
+    "linked_parts": [
+      "Cones",
+      "Bipolar cells",
+      "Inner plexiform layer",
+      "Ganglion cell layer"
+    ],
+    "rows": [
+      {
+        "stimulus": "centre_increment",
+        "cone_voltage": "hyperpolarizes",
+        "cone_glutamate": "decreases",
+        "ON_bipolar_voltage": "depolarizes",
+        "OFF_bipolar_voltage": "hyperpolarizes"
+      },
+      {
+        "stimulus": "centre_decrement",
+        "cone_voltage": "depolarizes relative to brighter condition",
+        "cone_glutamate": "increases",
+        "ON_bipolar_voltage": "hyperpolarizes",
+        "OFF_bipolar_voltage": "depolarizes"
+      }
+    ],
+    "source_evidence": [
+      "cone",
+      "bipolar"
+    ],
+    "IPL_sublaminae": {
+      "outer_near_INL": "OFF convention",
+      "inner_near_GCL": "ON convention"
+    },
+    "limitation": "Not all ganglion/amacrine circuits are monostratified ON or OFF; no response amplitude or spiking rate is assigned."
+  },
+  "description_replacements": [
+    {
+      "part": "Ganglion cell layer",
+      "text": "Ganglion cell layer: retinal ganglion somata and displaced amacrine cells. Ganglion neurons integrate bipolar and amacrine input and send action-potential output along axons in the nerve fibre layer toward the optic nerve. Some amacrine cells also generate spikes. Representative cells and counts are illustrative.",
+      "source_evidence": [
+        "simple",
+        "amacrine_spikes"
+      ]
+    },
+    {
+      "part": "Cones",
+      "replace_clause": "Here roughly 1 in 10 photoreceptors is a cone, as in the paramacular retina.",
+      "with_clause": "Illustrative cones among rods in a peripheral-retina teaching section; the displayed count is not a measured regional population ratio.",
+      "source_evidence": [
+        "simple"
+      ]
+    }
+  ],
+  "consumer_contract": {
+    "input": "function_proposal.json",
+    "application_path": "Lead-supplied apply_teaching.py creates existing viewer named-camera presets: one per teaching_view_id, with corresponding note and hidden_parts. Function state data is embedded as metadata and retained separately as function.json. User selects cameras to advance educational steps; there is no native electrophysiology or mesh-flow playback.",
+    "operations": [
+      "Create named camera preset for each teaching_view_id using camera context and hidden_parts",
+      "Attach concise note to each named camera; retain caption, state values and limitations in function.json metadata",
+      "Resolve selectors by exact part_contract names",
+      "Advance manually by choosing named cameras; no unsupported animations",
+      "Preserve original materials and restore default visibility after lesson"
+    ],
+    "native_geometry_motion": false,
+    "unsupported_behaviors": [
+      "Invented per-cell synapses",
+      "Physics or electrophysiology inferred from labels",
+      "Blood animation along unrecorded centreline",
+      "ON/OFF subtypes assigned to arbitrary generic meshes"
+    ],
+    "lead_application": "apply_teaching.py produces adjacent retina_refined.viewer.json, retina_function.json and retina_function.html; exact named camera keys match every teaching_view_id"
+  },
+  "deferred_checks": [
+    "Native selector-driven step consumption",
+    "Geometry-specific light/flow anchors if required",
+    "Ganglion axon to NFL continuity",
+    "RPE apical interface and glial junction readability",
+    "Separate-machine visual review under rotation, opacity and sections"
+  ],
+  "bounded_validation": {
+    "json_parse": "passed",
+    "exact_part_membership": "passed",
+    "source_id_closure": "passed",
+    "heavy_processing": "not_run"
+  }
+}

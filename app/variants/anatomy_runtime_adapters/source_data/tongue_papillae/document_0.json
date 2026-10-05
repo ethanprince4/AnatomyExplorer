@@ -1,0 +1,2901 @@
+{
+  "schema_version": 1,
+  "model_id": "tongue_papillae",
+  "status": "source_defined_not_generated_or_accepted",
+  "source_candidate_digest": "tongue-design-pre-20261004-v1",
+  "source_sidecar_sha256": "97d2d91bc890947e1dc184b00a9a50aa5c8da94c0021ba4c853bba95b5aa0334",
+  "brief": {
+    "root": "recovery",
+    "path": "revised-refinement-handoffs/Tongue_Papillae_Refinement_Directions.txt"
+  },
+  "scale_disclosure": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+  "selectors": [
+    {
+      "key": "Stratified squamous epithelium",
+      "source_index": 0,
+      "group": "Mucosa",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Lamina propria",
+      "source_index": 1,
+      "group": "Mucosa",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Fungiform papillae",
+      "source_index": 2,
+      "group": "Papillae",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Circumvallate papilla",
+      "source_index": 3,
+      "group": "Papillae",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Foliate papillae",
+      "source_index": 4,
+      "group": "Papillae",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Von Ebner glands",
+      "source_index": 5,
+      "group": "Glands",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Von Ebner ducts",
+      "source_index": 6,
+      "group": "Glands",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Filiform papillae",
+      "source_index": 7,
+      "group": "Papillae",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Keratinised tips (filiform)",
+      "source_index": 8,
+      "group": "Papillae",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Taste buds",
+      "source_index": 9,
+      "group": "Taste buds",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Gustatory receptor cells",
+      "source_index": 10,
+      "group": "Taste buds",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Taste pores & microvilli",
+      "source_index": 11,
+      "group": "Taste buds",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Perimysium & interstitial fat",
+      "source_index": 12,
+      "group": "Intrinsic muscle",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Superior longitudinal muscle",
+      "source_index": 13,
+      "group": "Intrinsic muscle",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Transverse muscle",
+      "source_index": 14,
+      "group": "Intrinsic muscle",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Vertical muscle",
+      "source_index": 15,
+      "group": "Intrinsic muscle",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Inferior longitudinal muscle",
+      "source_index": 16,
+      "group": "Intrinsic muscle",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Glossopharyngeal nerve (IX) branch",
+      "source_index": 17,
+      "group": "Nerves & vessels",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Lingual nerve (chorda tympani) branch",
+      "source_index": 18,
+      "group": "Nerves & vessels",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Hypoglossal nerve (XII) branch",
+      "source_index": 19,
+      "group": "Nerves & vessels",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Lingual artery branch",
+      "source_index": 20,
+      "group": "Nerves & vessels",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Deep lingual vein",
+      "source_index": 21,
+      "group": "Nerves & vessels",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Basement membrane",
+      "source_index": 22,
+      "group": "Mucosa",
+      "origin": "original_contract",
+      "must_preserve": true
+    },
+    {
+      "key": "Basal taste cells",
+      "source_index": 23,
+      "group": "Taste buds",
+      "origin": "first_refinement_extension",
+      "must_preserve": true
+    },
+    {
+      "key": "Taste cell nuclei",
+      "source_index": 24,
+      "group": "Taste buds",
+      "origin": "first_refinement_extension",
+      "must_preserve": true
+    },
+    {
+      "key": "Serous acinar nuclei",
+      "source_index": 25,
+      "group": "Glands",
+      "origin": "first_refinement_extension",
+      "must_preserve": true
+    },
+    {
+      "key": "Interstitial adipocytes",
+      "source_index": 26,
+      "group": "Intrinsic muscle",
+      "origin": "first_refinement_extension",
+      "must_preserve": true
+    },
+    {
+      "key": "Squamous epithelial cells (sampled field)",
+      "source_index": 27,
+      "group": "Mucosa",
+      "origin": "first_refinement_extension",
+      "must_preserve": true
+    },
+    {
+      "key": "Squamous epithelial nuclei",
+      "source_index": 28,
+      "group": "Mucosa",
+      "origin": "first_refinement_extension",
+      "must_preserve": true
+    },
+    {
+      "key": "Vallate teaching cover",
+      "source_index": 29,
+      "group": "Papillae",
+      "origin": "first_refinement_extension",
+      "must_preserve": true
+    },
+    {
+      "key": "Taste nuclear teaching cover",
+      "source_index": 30,
+      "group": "Taste buds",
+      "origin": "first_refinement_extension",
+      "must_preserve": true
+    },
+    {
+      "key": "Taste cell teaching cover",
+      "source_index": 31,
+      "group": "Taste buds",
+      "origin": "first_refinement_extension",
+      "must_preserve": true
+    },
+    {
+      "key": "Gland teaching cover",
+      "source_index": 32,
+      "group": "Glands",
+      "origin": "first_refinement_extension",
+      "must_preserve": true
+    },
+    {
+      "key": "Gland nuclear teaching cover",
+      "source_index": 33,
+      "group": "Glands",
+      "origin": "first_refinement_extension",
+      "must_preserve": true
+    }
+  ],
+  "views": [
+    {
+      "id": "T01",
+      "title": "Four papillary types: intact teaching field",
+      "level": 0,
+      "source_camera": "Four papillary types",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          2.6069969038595446,
+          2.6951726216313547,
+          2.9971948061202056
+        ],
+        "target": [
+          0.008540781469491776,
+          0.41942994891717716,
+          -0.011422318108088803
+        ],
+        "fov_deg": 34,
+        "hidden": [],
+        "note": "All covers restored; no global cutaway. The scene is a regional comparison, not a measured single field or whole-tongue map.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Basement membrane",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Serous acinar nuclei",
+        "Interstitial adipocytes",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "hidden_parts": [],
+      "intentional_teaching_removals": [],
+      "purpose": "Orient to four papillary types and underlying tissues.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T02",
+      "title": "Mucosal host around taste organs",
+      "level": 1,
+      "source_camera": "Intact comparative overview",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          2.100569173731492,
+          2.281990844316897,
+          -2.5005331626016414
+        ],
+        "target": [
+          0.008540781469491776,
+          0.41942994891717716,
+          -0.011422318108088803
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Von Ebner glands",
+          "Von Ebner ducts",
+          "Perimysium & interstitial fat",
+          "Superior longitudinal muscle",
+          "Transverse muscle",
+          "Vertical muscle",
+          "Inferior longitudinal muscle",
+          "Lingual nerve (chorda tympani) branch",
+          "Hypoglossal nerve (XII) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Serous acinar nuclei",
+          "Interstitial adipocytes",
+          "Gland teaching cover",
+          "Gland nuclear teaching cover"
+        ],
+        "note": "Deep muscle, glands and larger vessels hidden for teaching. Tissue contact remains in place. Filiform tips are mechanical and have no taste buds.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Basement membrane",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Vallate teaching cover",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Glossopharyngeal nerve (IX) branch"
+      ],
+      "hidden_parts": [
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Serous acinar nuclei",
+        "Interstitial adipocytes",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "intentional_teaching_removals": [],
+      "purpose": "Retain mucosal roof, connective core and epithelial-stromal interface around taste organs.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T03",
+      "title": "Vallate wall and true pore: intact",
+      "level": 2,
+      "source_camera": "Vallate bud intact",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.15273575185864202,
+          0.740809718078981,
+          -0.06808743692127761
+        ],
+        "target": [
+          -0.2334744295167099,
+          0.718122063626106,
+          -0.008420963219943284
+        ],
+        "fov_deg": 48,
+        "hidden": [
+          "Von Ebner glands",
+          "Von Ebner ducts",
+          "Perimysium & interstitial fat",
+          "Superior longitudinal muscle",
+          "Transverse muscle",
+          "Vertical muscle",
+          "Inferior longitudinal muscle",
+          "Lingual nerve (chorda tympani) branch",
+          "Hypoglossal nerve (XII) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Serous acinar nuclei",
+          "Interstitial adipocytes",
+          "Gland teaching cover",
+          "Gland nuclear teaching cover"
+        ],
+        "note": "Intact local wall and cell covers restored. This pore is distinct from the trench and from the optional large teaching window. Paired camera is widened by field of view, not by moving a seated bud.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Basement membrane",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Vallate teaching cover",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Glossopharyngeal nerve (IX) branch"
+      ],
+      "hidden_parts": [
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Serous acinar nuclei",
+        "Interstitial adipocytes",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "intentional_teaching_removals": [],
+      "purpose": "Locate the oral-facing pore in intact wall and show surrounding host.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T04",
+      "title": "Vallate bud: explanatory window",
+      "level": 2,
+      "source_camera": "Vallate bud opened",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.15273575185864202,
+          0.740809718078981,
+          -0.06808743692127761
+        ],
+        "target": [
+          -0.2334744295167099,
+          0.718122063626106,
+          -0.008420963219943284
+        ],
+        "fov_deg": 48,
+        "hidden": [
+          "Von Ebner glands",
+          "Von Ebner ducts",
+          "Perimysium & interstitial fat",
+          "Superior longitudinal muscle",
+          "Transverse muscle",
+          "Vertical muscle",
+          "Inferior longitudinal muscle",
+          "Lingual nerve (chorda tympani) branch",
+          "Hypoglossal nerve (XII) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Serous acinar nuclei",
+          "Interstitial adipocytes",
+          "Vallate teaching cover",
+          "Taste nuclear teaching cover",
+          "Taste cell teaching cover",
+          "Gland teaching cover",
+          "Gland nuclear teaching cover"
+        ],
+        "note": "The wall and matched cell/nuclear portions are intentionally removed. Retained neighboring epithelium, lamina propria and basement membrane establish the bud host. The window is not a natural perforation.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Basement membrane",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Glossopharyngeal nerve (IX) branch"
+      ],
+      "hidden_parts": [
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Serous acinar nuclei",
+        "Interstitial adipocytes",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "intentional_teaching_removals": [
+        "Vallate teaching cover",
+        "Taste cell teaching cover",
+        "Taste nuclear teaching cover"
+      ],
+      "purpose": "Trace pore to cell bodies, nuclei, basal cells and sensory approach in one host-preserving view.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T05",
+      "title": "Taste cell bodies, pore and basal contact",
+      "level": 3,
+      "source_camera": "Taste cells and real pore",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.16992463139820638,
+          0.7279616554326022,
+          -0.050954504786402746
+        ],
+        "target": [
+          -0.2334744295167099,
+          0.718122063626106,
+          -0.008420963219943284
+        ],
+        "fov_deg": 44,
+        "hidden": [
+          "Von Ebner glands",
+          "Von Ebner ducts",
+          "Perimysium & interstitial fat",
+          "Superior longitudinal muscle",
+          "Transverse muscle",
+          "Vertical muscle",
+          "Inferior longitudinal muscle",
+          "Lingual nerve (chorda tympani) branch",
+          "Hypoglossal nerve (XII) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Serous acinar nuclei",
+          "Interstitial adipocytes",
+          "Vallate teaching cover",
+          "Taste nuclear teaching cover",
+          "Taste cell teaching cover",
+          "Gland teaching cover",
+          "Gland nuclear teaching cover"
+        ],
+        "note": "Nineteen sampled cells: supporting, receptor and basal representatives. Shape/color do not establish Type I/II/III molecular identity. Receptor cells remain distinct from the sensory branch. Host epithelium is retained.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Basement membrane",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Glossopharyngeal nerve (IX) branch"
+      ],
+      "hidden_parts": [
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Serous acinar nuclei",
+        "Interstitial adipocytes",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "intentional_teaching_removals": [
+        "Vallate teaching cover",
+        "Taste cell teaching cover",
+        "Taste nuclear teaching cover"
+      ],
+      "purpose": "Inspect receptor/supporting representatives and their nuclei without losing epithelial location.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T06",
+      "title": "Gland wall intact with papillary floor",
+      "level": 2,
+      "source_camera": "Gland route intact",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.6315521382904262,
+          0.5719591893542383,
+          -0.6371076551701117
+        ],
+        "target": [
+          -0.4311416761408327,
+          0.5190976730205148,
+          -0.2635146140589859
+        ],
+        "fov_deg": 42,
+        "hidden": [
+          "Lamina propria",
+          "Fungiform papillae",
+          "Filiform papillae",
+          "Keratinised tips (filiform)",
+          "Taste buds",
+          "Gustatory receptor cells",
+          "Taste pores & microvilli",
+          "Perimysium & interstitial fat",
+          "Superior longitudinal muscle",
+          "Transverse muscle",
+          "Vertical muscle",
+          "Inferior longitudinal muscle",
+          "Glossopharyngeal nerve (IX) branch",
+          "Lingual nerve (chorda tympani) branch",
+          "Hypoglossal nerve (XII) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Basement membrane",
+          "Basal taste cells",
+          "Taste cell nuclei",
+          "Interstitial adipocytes",
+          "Squamous epithelial cells (sampled field)",
+          "Squamous epithelial nuclei",
+          "Vallate teaching cover",
+          "Taste nuclear teaching cover",
+          "Taste cell teaching cover"
+        ],
+        "note": "Gland and duct walls are intact; stromal and muscle carrier tissue is hidden for teaching. Papillary walls and epithelial floor remain. This is three sampled units, not complete drainage anatomy.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Serous acinar nuclei",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover",
+        "Stratified squamous epithelium",
+        "Circumvallate papilla",
+        "Foliate papillae"
+      ],
+      "hidden_parts": [
+        "Lamina propria",
+        "Fungiform papillae",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Basement membrane",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Interstitial adipocytes",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover"
+      ],
+      "intentional_teaching_removals": [
+        "Lamina propria",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle"
+      ],
+      "purpose": "Follow a sampled gland unit toward its duct while preserving the host outlet floor.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T07",
+      "title": "Gland lumen route: explanatory opening",
+      "level": 3,
+      "source_camera": "Gland route opened",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.6646944796605385,
+          0.605982099469693,
+          -0.7333398377389676
+        ],
+        "target": [
+          -0.4314230620727176,
+          0.5492662730437587,
+          -0.2738577385221288
+        ],
+        "fov_deg": 42,
+        "hidden": [
+          "Lamina propria",
+          "Fungiform papillae",
+          "Filiform papillae",
+          "Keratinised tips (filiform)",
+          "Taste buds",
+          "Gustatory receptor cells",
+          "Taste pores & microvilli",
+          "Perimysium & interstitial fat",
+          "Superior longitudinal muscle",
+          "Transverse muscle",
+          "Vertical muscle",
+          "Inferior longitudinal muscle",
+          "Glossopharyngeal nerve (IX) branch",
+          "Lingual nerve (chorda tympani) branch",
+          "Hypoglossal nerve (XII) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Basement membrane",
+          "Basal taste cells",
+          "Taste cell nuclei",
+          "Interstitial adipocytes",
+          "Squamous epithelial cells (sampled field)",
+          "Squamous epithelial nuclei",
+          "Vallate teaching cover",
+          "Taste nuclear teaching cover",
+          "Taste cell teaching cover",
+          "Gland teaching cover",
+          "Gland nuclear teaching cover"
+        ],
+        "note": "Gland wall and matching nuclear cover are intentionally removed. The retained host floor is not the gland-wall cut. Empty lumen is space, not blue solid secretory tissue; each displayed unit must have a traceable outlet.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Serous acinar nuclei",
+        "Stratified squamous epithelium",
+        "Circumvallate papilla",
+        "Foliate papillae"
+      ],
+      "hidden_parts": [
+        "Lamina propria",
+        "Fungiform papillae",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Basement membrane",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Interstitial adipocytes",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "intentional_teaching_removals": [
+        "Gland teaching cover",
+        "Gland nuclear teaching cover",
+        "Lamina propria",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle"
+      ],
+      "purpose": "Follow continuous empty acinar lumen to collector, duct and cleft/trench outlet.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T08",
+      "title": "Duct mouth in intact trench floor",
+      "level": 3,
+      "source_camera": "Gland outlets in context",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.4098688224777423,
+          1.1877094215844408,
+          -0.2836422778698569
+        ],
+        "target": [
+          -0.42395609506343024,
+          0.657895278772281,
+          -0.27707978814973727
+        ],
+        "fov_deg": 34,
+        "hidden": [
+          "Lamina propria",
+          "Fungiform papillae",
+          "Filiform papillae",
+          "Keratinised tips (filiform)",
+          "Taste buds",
+          "Gustatory receptor cells",
+          "Taste pores & microvilli",
+          "Perimysium & interstitial fat",
+          "Superior longitudinal muscle",
+          "Transverse muscle",
+          "Vertical muscle",
+          "Inferior longitudinal muscle",
+          "Glossopharyngeal nerve (IX) branch",
+          "Lingual nerve (chorda tympani) branch",
+          "Hypoglossal nerve (XII) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Basement membrane",
+          "Basal taste cells",
+          "Taste cell nuclei",
+          "Interstitial adipocytes",
+          "Squamous epithelial cells (sampled field)",
+          "Squamous epithelial nuclei",
+          "Vallate teaching cover",
+          "Taste nuclear teaching cover",
+          "Taste cell teaching cover"
+        ],
+        "note": "Host epithelial floor and papillary wall retained, gland-wall covers restored. The existing candidate image establishes one visible mouth only; review all three outlets after build.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Serous acinar nuclei",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover",
+        "Stratified squamous epithelium",
+        "Circumvallate papilla",
+        "Foliate papillae"
+      ],
+      "hidden_parts": [
+        "Lamina propria",
+        "Fungiform papillae",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Basement membrane",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Interstitial adipocytes",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover"
+      ],
+      "intentional_teaching_removals": [
+        "Lamina propria",
+        "Intrinsic muscle group"
+      ],
+      "purpose": "Relate the outlet opening to surrounding epithelial trench or cleft floor.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T09",
+      "title": "Intrinsic muscle directions exposed",
+      "level": 1,
+      "source_camera": "Muscle fascicles and partitions",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          1.7047863607833278,
+          1.210773494035675,
+          -1.800494293486554
+        ],
+        "target": [
+          0.008304513310349648,
+          0.2787869458107161,
+          -0.011196513966751809
+        ],
+        "fov_deg": 40,
+        "hidden": [
+          "Stratified squamous epithelium",
+          "Lamina propria",
+          "Fungiform papillae",
+          "Circumvallate papilla",
+          "Foliate papillae",
+          "Von Ebner glands",
+          "Von Ebner ducts",
+          "Filiform papillae",
+          "Keratinised tips (filiform)",
+          "Taste buds",
+          "Gustatory receptor cells",
+          "Taste pores & microvilli",
+          "Glossopharyngeal nerve (IX) branch",
+          "Lingual nerve (chorda tympani) branch",
+          "Hypoglossal nerve (XII) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Basement membrane",
+          "Basal taste cells",
+          "Taste cell nuclei",
+          "Serous acinar nuclei",
+          "Squamous epithelial cells (sampled field)",
+          "Squamous epithelial nuclei",
+          "Vallate teaching cover",
+          "Taste nuclear teaching cover",
+          "Taste cell teaching cover",
+          "Gland teaching cover",
+          "Gland nuclear teaching cover"
+        ],
+        "note": "Overlying mucosa and papillae hidden for teaching. Perimysial tissue and separately selectable adipocytes remain. Ordered direction samples are not a literal anatomical lattice; overview acceptance requires revised muscle tissue.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Interstitial adipocytes"
+      ],
+      "hidden_parts": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Basement membrane",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Serous acinar nuclei",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "intentional_teaching_removals": [
+        "Mucosa group",
+        "Papillae group"
+      ],
+      "purpose": "Compare longitudinal, transverse and vertical fascicle directions and connective partitions.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T10",
+      "title": "Muscle section with mucosal context",
+      "level": 2,
+      "source_camera": "Muscle cross-section setup",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          2.110493112571112,
+          0.3999881405587985,
+          -0.005783104760666902
+        ],
+        "target": [
+          0.008201921003092139,
+          0.2889004675860633,
+          -0.011170822021085769
+        ],
+        "fov_deg": 42,
+        "hidden": [
+          "Fungiform papillae",
+          "Circumvallate papilla",
+          "Foliate papillae",
+          "Von Ebner glands",
+          "Von Ebner ducts",
+          "Filiform papillae",
+          "Keratinised tips (filiform)",
+          "Taste buds",
+          "Gustatory receptor cells",
+          "Taste pores & microvilli",
+          "Glossopharyngeal nerve (IX) branch",
+          "Lingual nerve (chorda tympani) branch",
+          "Hypoglossal nerve (XII) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Basal taste cells",
+          "Taste cell nuclei",
+          "Serous acinar nuclei",
+          "Vallate teaching cover",
+          "Taste nuclear teaching cover",
+          "Taste cell teaching cover",
+          "Gland teaching cover",
+          "Gland nuclear teaching cover"
+        ],
+        "note": "Manually activate sagittal/model-X section at 50% and review both Flip states. Camera preset does not create a section. Tissue removed by the section is instructional and must be identified as such.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Basement membrane",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Interstitial adipocytes"
+      ],
+      "hidden_parts": [
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Serous acinar nuclei",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "intentional_teaching_removals": [
+        "Papillae group"
+      ],
+      "purpose": "Compare longitudinal profiles with transverse/vertical fiber sections beneath the retained mucosal roof.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": {
+        "axis": "X",
+        "native_section_index": 0,
+        "fraction": 0.5,
+        "flip": "review_both",
+        "automated_by_named_camera": false
+      },
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T11",
+      "title": "Epithelial field in host section",
+      "level": 3,
+      "source_camera": "Stratified epithelial field",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          0.7475812649400905,
+          0.7827376042324977,
+          -0.8620171161065809
+        ],
+        "target": [
+          0.7466000385003281,
+          0.7636346983257681,
+          -0.45014929173948987
+        ],
+        "fov_deg": 44,
+        "hidden": [
+          "Fungiform papillae",
+          "Circumvallate papilla",
+          "Foliate papillae",
+          "Von Ebner glands",
+          "Von Ebner ducts",
+          "Filiform papillae",
+          "Keratinised tips (filiform)",
+          "Taste buds",
+          "Gustatory receptor cells",
+          "Taste pores & microvilli",
+          "Perimysium & interstitial fat",
+          "Superior longitudinal muscle",
+          "Transverse muscle",
+          "Vertical muscle",
+          "Inferior longitudinal muscle",
+          "Glossopharyngeal nerve (IX) branch",
+          "Lingual nerve (chorda tympani) branch",
+          "Hypoglossal nerve (XII) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Basal taste cells",
+          "Taste cell nuclei",
+          "Serous acinar nuclei",
+          "Interstitial adipocytes",
+          "Vallate teaching cover",
+          "Taste nuclear teaching cover",
+          "Taste cell teaching cover",
+          "Gland teaching cover",
+          "Gland nuclear teaching cover"
+        ],
+        "note": "Use coronal/model-Z section through the local field; historical candidate example used approximately 12.97% with default side. Recompute section percentage from new bounds. Three constructed strata are not a claim of three normal epithelial layers.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Stratified squamous epithelium",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Basement membrane",
+        "Lamina propria"
+      ],
+      "hidden_parts": [
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Serous acinar nuclei",
+        "Interstitial adipocytes",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "intentional_teaching_removals": [
+        "Papillae group",
+        "Intrinsic muscle group"
+      ],
+      "purpose": "Show basal-to-superficial flattening above an intact stromal interface.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": {
+        "axis": "Z",
+        "native_section_index": 1,
+        "legacy_fraction": 0.1297,
+        "fraction": "recompute_from_new_bounds_and_field_center",
+        "flip": "review_both",
+        "automated_by_named_camera": false
+      },
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T12",
+      "title": "Sensory taste targets in host",
+      "level": 3,
+      "source_camera": "Vallate bud opened",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.15273575185864202,
+          0.740809718078981,
+          -0.06808743692127761
+        ],
+        "target": [
+          -0.2334744295167099,
+          0.718122063626106,
+          -0.008420963219943284
+        ],
+        "fov_deg": 48,
+        "hidden": [
+          "Von Ebner glands",
+          "Von Ebner ducts",
+          "Perimysium & interstitial fat",
+          "Superior longitudinal muscle",
+          "Transverse muscle",
+          "Vertical muscle",
+          "Inferior longitudinal muscle",
+          "Hypoglossal nerve (XII) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Serous acinar nuclei",
+          "Interstitial adipocytes",
+          "Vallate teaching cover",
+          "Taste nuclear teaching cover",
+          "Taste cell teaching cover",
+          "Gland teaching cover",
+          "Gland nuclear teaching cover"
+        ],
+        "note": "IX and chorda-tympani-carrying lingual branches are sampled routes. Retain taste organs and host mucosa; no isolated floating bud is repositioned as a display fix.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Basement membrane",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch"
+      ],
+      "hidden_parts": [
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Serous acinar nuclei",
+        "Interstitial adipocytes",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "intentional_teaching_removals": [
+        "Vallate teaching cover",
+        "Taste cell teaching cover",
+        "Taste nuclear teaching cover"
+      ],
+      "purpose": "Distinguish sensory approach to taste cells from motor supply to muscle.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T13",
+      "title": "Motor target in skeletal muscle",
+      "level": 2,
+      "source_camera": "Sensory and motor targets",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          1.3034081664089172,
+          1.2182695817929925,
+          -1.9002667528733581
+        ],
+        "target": [
+          0.004408557435453986,
+          0.47686150128218285,
+          -0.15962213491584407
+        ],
+        "fov_deg": 42,
+        "hidden": [
+          "Stratified squamous epithelium",
+          "Lamina propria",
+          "Fungiform papillae",
+          "Circumvallate papilla",
+          "Foliate papillae",
+          "Von Ebner glands",
+          "Von Ebner ducts",
+          "Filiform papillae",
+          "Keratinised tips (filiform)",
+          "Taste buds",
+          "Gustatory receptor cells",
+          "Taste pores & microvilli",
+          "Glossopharyngeal nerve (IX) branch",
+          "Lingual nerve (chorda tympani) branch",
+          "Lingual artery branch",
+          "Deep lingual vein",
+          "Basement membrane",
+          "Basal taste cells",
+          "Taste cell nuclei",
+          "Serous acinar nuclei",
+          "Squamous epithelial cells (sampled field)",
+          "Squamous epithelial nuclei",
+          "Vallate teaching cover",
+          "Taste nuclear teaching cover",
+          "Taste cell teaching cover",
+          "Gland teaching cover",
+          "Gland nuclear teaching cover"
+        ],
+        "note": "Only the motor example and skeletal-muscle context are shown. Branch approach is not an ultrastructural motor endplate or complete innervation map. Target readability remains a separate visual gate.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Interstitial adipocytes",
+        "Hypoglossal nerve (XII) branch"
+      ],
+      "hidden_parts": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Basement membrane",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Serous acinar nuclei",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "intentional_teaching_removals": [
+        "Mucosa group",
+        "Papillae group",
+        "Glands group"
+      ],
+      "purpose": "Follow XII branch to a representative muscle target.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    },
+    {
+      "id": "T14",
+      "title": "Representative larger vessels in muscle",
+      "level": 2,
+      "source_camera": "Sensory and motor targets",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          1.3034081664089172,
+          1.2182695817929925,
+          -1.9002667528733581
+        ],
+        "target": [
+          0.004408557435453986,
+          0.47686150128218285,
+          -0.15962213491584407
+        ],
+        "fov_deg": 42,
+        "hidden": [
+          "Stratified squamous epithelium",
+          "Lamina propria",
+          "Fungiform papillae",
+          "Circumvallate papilla",
+          "Foliate papillae",
+          "Von Ebner glands",
+          "Von Ebner ducts",
+          "Filiform papillae",
+          "Keratinised tips (filiform)",
+          "Taste buds",
+          "Gustatory receptor cells",
+          "Taste pores & microvilli",
+          "Glossopharyngeal nerve (IX) branch",
+          "Lingual nerve (chorda tympani) branch",
+          "Hypoglossal nerve (XII) branch",
+          "Basement membrane",
+          "Basal taste cells",
+          "Taste cell nuclei",
+          "Serous acinar nuclei",
+          "Squamous epithelial cells (sampled field)",
+          "Squamous epithelial nuclei",
+          "Vallate teaching cover",
+          "Taste nuclear teaching cover",
+          "Taste cell teaching cover",
+          "Gland teaching cover",
+          "Gland nuclear teaching cover"
+        ],
+        "note": "Retained historical larger artery and vein only. No closed local exchange circuit or capillary network is claimed. Flow arrows require separate supported route construction.",
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "visible_parts": [
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Interstitial adipocytes",
+        "Lingual artery branch",
+        "Deep lingual vein"
+      ],
+      "hidden_parts": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Basement membrane",
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Serous acinar nuclei",
+        "Squamous epithelial cells (sampled field)",
+        "Squamous epithelial nuclei",
+        "Vallate teaching cover",
+        "Taste nuclear teaching cover",
+        "Taste cell teaching cover",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "intentional_teaching_removals": [
+        "Mucosa group",
+        "Papillae group",
+        "Glands group"
+      ],
+      "purpose": "Locate larger artery and vein branches in supporting muscle context.",
+      "scale_note": "Comparative regional teaching arrangement, not one normal histologic field. Taste buds, true pores and adjacent epithelial thickness retain 4× local enlargement. Nineteen representative cells per bud; reduced papillary, bud, gland and muscle sampling. Colors distinguish teaching structures, not stains. Historical 5000 µm/BU is nominal, not specimen calibration. Camera zoom is not biological magnification. Muscle direction sampling is not a regular tissue lattice.",
+      "manual_section": null,
+      "validation_status": "source_defined; framing and new geometry require separate-machine native and GLB review"
+    }
+  ],
+  "guardrails": {
+    "opening": "T01; all covers restored; global cutaway off; assembled state; no separation",
+    "bud_host": [
+      "Circumvallate papilla",
+      "Lamina propria",
+      "Basement membrane"
+    ],
+    "gland_host": [
+      "Stratified squamous epithelium",
+      "Circumvallate papilla",
+      "Foliate papillae"
+    ],
+    "paired_cover_removals": [
+      [
+        "Vallate teaching cover",
+        "Taste cell teaching cover",
+        "Taste nuclear teaching cover"
+      ],
+      [
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ]
+    ],
+    "isolates": "Retain every original isolate action. Explain missing host; do not move the isolated structure.",
+    "sectioning": "Manual section positions need new-output validation; named camera only resets sections via cut_on."
+  },
+  "evidence_sources": [
+    {
+      "id": "UMN",
+      "url": "https://www.histologyguide.org/slideview/MHS-264-tongue/14-slide-1.html",
+      "opened_utc": "2026-10-04",
+      "relevance": "Mechanical filiform role, circumvallate moat and epithelial taste pore; three-direction muscle."
+    },
+    {
+      "id": "LEEDS",
+      "url": "https://histology.leeds.ac.uk/home/oral/tongue/",
+      "opened_utc": "2026-10-04",
+      "relevance": "Interlacing muscle/connective tissue/adipose, distinct epithelia, taste-cell basal/supporting organization and glands opening into cleft."
+    },
+    {
+      "id": "COLUMBIA",
+      "url": "https://www.columbia.edu/itc/hs/medical/sbpm_histology_old/lab/lab13_oralcavity.html",
+      "opened_utc": "2026-10-04",
+      "relevance": "Human circumvallate connective core, lateral taste buds and gland drainage; H&E cannot distinguish all taste-cell classes."
+    }
+  ],
+  "native_adapter_requirements": {
+    "loaded_viewer_sidecar": {
+      "mixed_schematic_scale": true,
+      "view_transition": "zoom",
+      "teaching_scope": "use scale_disclosure verbatim",
+      "start_view": "Four papillary types: intact teaching field"
+    },
+    "entry_scale_note": "use scale_disclosure verbatim; persistent native sidebar requires it",
+    "context_reset_wrapper": "teaching_sidecar.set_named_view_with_context_reset; wire preset/home/stepping paths in later application phase",
+    "filter_reset": [
+      "system_on",
+      "subsystem_on",
+      "region_on",
+      "system_alpha",
+      "part_alpha",
+      "depth_cut",
+      "depth_band",
+      "ghost_focus",
+      "isolation",
+      "hidden",
+      "forced",
+      "layer separation"
+    ],
+    "no_native_app_imports_here": true,
+    "sections": "Manual; camera record cut_on=false clears existing sections and does not apply custom section metadata.",
+    "persistent_tissue_state_caption": "Native note is a preset tooltip, not a persistent annotation. Later UI integration should show intact/local wall removed/support tissue hidden/sectioned status using view purpose and intentional_teaching_removals; do not label an open window intact.",
+    "copy_contract": "Keep teaching_contract.json adjacent to helper or pass --contract path / contract dict explicitly; no native imports."
+  },
+  "native_source_citations": [
+    {
+      "root": "baseline",
+      "path": "app/viewer/procedural.py",
+      "lines": "96-125;146-153",
+      "sha256": "b0f522d6e037b394607c7e4ecff6a0be66467ad7109eb5838b5045b0ea29cf18"
+    },
+    {
+      "root": "baseline",
+      "path": "app/viewer/viewport.py",
+      "lines": "291-295;362-434;778-784;1026-1033",
+      "sha256": "f6cc86f76bc770741e745b2e8d4960b6082ef458df0be0a0bad27d7f16ac5d0f"
+    },
+    {
+      "root": "baseline",
+      "path": "app/viewer/camera.py",
+      "lines": "253-265",
+      "sha256": "c58160395b442eeb67fe1aed97fdcb9bb74b6f04112517534463951c0330085e"
+    },
+    {
+      "root": "baseline",
+      "path": "app/ui/model_view.py",
+      "lines": "136-140;477-500;606-616;879-883",
+      "sha256": "ee57c85edf1eb25741f0280552ac898e406f66b45bdabe1948e8a107fe78ed34"
+    },
+    {
+      "root": "baseline",
+      "path": "app/state.py",
+      "lines": "51-71;276-285",
+      "sha256": "99ea2527ab7c6a973285dbbe875b98777648bd1452f9568e0fc017e9129b5a3a"
+    },
+    {
+      "root": "baseline",
+      "path": "app/viewer/model.py",
+      "lines": "640-641",
+      "sha256": "60a7c4be1dad62c00e020aa570b342bd829b7b64809872890fa3d13c55eabaac"
+    }
+  ],
+  "function_hooks": {
+    "schema_version": 1,
+    "model_id": "tongue_papillae",
+    "status": "source_defined_narrated_steps_pending_native_UI_acceptance",
+    "allowed_entry_ids": [
+      "tongue_papillae",
+      "tongue_papillae_refined_review"
+    ],
+    "execution_mode": "static_narrated_trace",
+    "animation_present": false,
+    "context_reset_required": true,
+    "contract_revision_note": "Role artifact preserves existing recovered camera names. The lead may publish teaching_contract.function_hooks with its host-preserving titles and context_reset_required=true; pass teaching_sidecar.set_named_view_with_context_reset(view, camera) through function_adapter.apply_step(context_reset=...) to reset group/depth/alpha filters without delayed focus_parts.",
+    "available_controls_verified": [
+      "Views menu/named cameras",
+      "part selection and visibility",
+      "cross-sections",
+      "cut-away where model supplies planes",
+      "opaque/partial tissue opacity",
+      "layer separation",
+      "lesson micro_focus"
+    ],
+    "not_enabled": [
+      "physiological Play cycle",
+      "tastant concentration control",
+      "molecular receptor subtype selector",
+      "fluid flow control",
+      "muscle contraction slider",
+      "axon spike animation"
+    ],
+    "scale_note": "Comparative regional arrangement, not one histologic field. Taste buds, pores and adjacent epithelial thickness retain 4× local cellular enlargement; 19 sampled cells per bud, reduced counts/spacing. Historical 5000 micrometres per BU is not specimen calibration. Camera zoom is not biological magnification.",
+    "selector_contract": {
+      "match": "one exact Item.name/key per supplied selector; preserve all original selectors",
+      "original_selectors": [
+        "Stratified squamous epithelium",
+        "Lamina propria",
+        "Fungiform papillae",
+        "Circumvallate papilla",
+        "Foliate papillae",
+        "Von Ebner glands",
+        "Von Ebner ducts",
+        "Filiform papillae",
+        "Keratinised tips (filiform)",
+        "Taste buds",
+        "Gustatory receptor cells",
+        "Taste pores & microvilli",
+        "Perimysium & interstitial fat",
+        "Superior longitudinal muscle",
+        "Transverse muscle",
+        "Vertical muscle",
+        "Inferior longitudinal muscle",
+        "Glossopharyngeal nerve (IX) branch",
+        "Lingual nerve (chorda tympani) branch",
+        "Hypoglossal nerve (XII) branch",
+        "Lingual artery branch",
+        "Deep lingual vein",
+        "Basement membrane"
+      ],
+      "new_required_selectors": [
+        "Basal taste cells",
+        "Taste cell nuclei",
+        "Serous acinar nuclei",
+        "Interstitial adipocytes",
+        "Vallate teaching cover",
+        "Taste cell teaching cover",
+        "Taste nuclear teaching cover",
+        "Gland teaching cover",
+        "Gland nuclear teaching cover"
+      ],
+      "taste_buds_material_semantics": "Recovered candidate Taste buds selector contains supporting-cell material; whole-organ context requires the complete taste selector set."
+    },
+    "native_hook_path": {
+      "model_view": "azure-baseline/AnatomyExplorer/app/ui/model_view.py",
+      "lesson_dispatch": "azure-baseline/AnatomyExplorer/app/ui/lessons.py::_micro_focus",
+      "selector_resolver": "azure-baseline/AnatomyExplorer/app/viewer/catalog.py::ModelEntry.resolve",
+      "camera_apply": "azure-baseline/AnatomyExplorer/app/viewer/viewport.py::ModelViewport.set_named_view",
+      "existing_lesson_fields": [
+        "micro",
+        "micro_focus"
+      ],
+      "adapter": "function_adapter.py::apply_step",
+      "integration_status": "No app or catalogue mutation performed. The lead/application owner must bind the adapter and present returned narration; unknown function-sequence JSON is not parsed automatically."
+    },
+    "session_requirements": [
+      "Call only on the GUI thread after initial queued reset_view, with the verified loaded tongue source and matching named-camera sidecar.",
+      "Preserve and restore learner scene state at lesson-session entry/exit; companion adapter does not install a controller or session manager.",
+      "For intact/open pairs use the same authored camera; set cutaway off, clear sections, layers assembled and tissue opacity 100%, and distinguish named removed covers in narration.",
+      "Keep required host context visible and non-ghosted. Visibility alone does not prove unobscured pixels or correct geometry.",
+      "Reject missing or ambiguous selectors/cameras. Do not silently fall back to a generic isolate or unrelated model.",
+      "Independently exercise every final hook against both Pre refine and Post refine native/exported outputs on the separate build machine."
+    ],
+    "sources": [
+      {
+        "id": "histology_minnesota",
+        "url": "https://www.histologyguide.org/slideview/MHS-264-tongue/14-slide-1.html",
+        "type": "academic slide atlas",
+        "inspection": "opened page and teaching description; specimen species unspecified",
+        "supports": "Filiform mechanical/no taste buds; vallate moat, epithelial taste buds/pore; orthogonal muscle directions."
+      },
+      {
+        "id": "histology_leeds",
+        "url": "https://histology.leeds.ac.uk/home/oral/tongue/",
+        "type": "academic histology guide",
+        "inspection": "opened page",
+        "supports": "Interlacing muscle; epithelial taste organ and pore; von Ebner outlet to cleft. Its abbreviated foliate summary is not a reason to omit human foliate anatomy."
+      },
+      {
+        "id": "histology_columbia",
+        "url": "https://www.columbia.edu/itc/hs/medical/sbpm_histology_old/lab/lab13_oralcavity.html",
+        "type": "academic human histology laboratory manual",
+        "inspection": "opened page",
+        "supports": "Human circumvallate wall taste buds, epithelial pore, connective core, serous gland duct into trench; does not identify molecular cell subtypes from routine H&E."
+      },
+      {
+        "id": "zhang2003",
+        "url": "https://www.columbia.edu/cu/zukerlab/Publications_files/2003%20Cell%20Zhang.pdf",
+        "type": "primary research author-hosted PDF",
+        "inspection": "opened PDF text",
+        "supports": "Distinct sweet/bitter/umami receptor populations share PLC-beta2/TRPM5-dependent signaling in mice; do not use its early TRPM5 calcium-gating conclusion as current consensus."
+      },
+      {
+        "id": "prawitt2003",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/14634208/",
+        "type": "primary research abstract",
+        "inspection": "verified indexed PubMed abstract in search; direct open returned an empty footer, PMC access challenge; full text not verified",
+        "supports": "Heterologously expressed human TRPM5 is intracellular-calcium-activated and monovalent-cation-permeable, not a calcium-permeable channel."
+      },
+      {
+        "id": "ma2018",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/29681531/",
+        "type": "primary research abstract",
+        "inspection": "verified indexed PubMed abstract in search; direct open returned an empty footer and publisher returned 403; full text not verified",
+        "supports": "Type II apical GPCR stimulation, action potentials, CALHM1/CALHM3 channel-mediated ATP release to gustatory afferents; experiments primarily mice/heterologous systems."
+      },
+      {
+        "id": "kashio2019",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/30804437/",
+        "type": "primary research",
+        "inspection": "opened PubMed abstract and figure descriptions",
+        "supports": "Basolateral CALHM1/CALHM3 puncta near Type II afferent contacts in mouse taste buds; type-II channel release belongs at basal/lateral neural interface, not the apical taste pore."
+      },
+      {
+        "id": "teng2019",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/31543453/",
+        "type": "primary research abstract",
+        "inspection": "verified indexed original PMC abstract/body extracts in search; direct PubMed open footer and PMC challenge; full text not directly opened",
+        "supports": "Otop1 proton currents, cytosolic acidification and acid-evoked action potentials in Type III mouse cells; Otop1 knockout severely attenuates gustatory nerve acid responses."
+      },
+      {
+        "id": "huang2008",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2517205/",
+        "type": "primary research indexed extract",
+        "inspection": "verified indexed primary abstract/body excerpts; publisher open not retrieved",
+        "supports": "Acid stimulation of isolated Type III mouse cells produces calcium influx and serotonin release consistent with conventional vesicular synapses. Does not prove serotonin alone accounts for the entire sour afferent response."
+      },
+      {
+        "id": "larson2015",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4666921/",
+        "type": "primary research indexed extract",
+        "inspection": "verified indexed primary abstract/body excerpts; direct journal open unavailable",
+        "supports": "5-HT3 contributes to sour afferent signaling; purinergic signaling also matters and sour ATP source remains unresolved. Avoid a completed universal sour-release circuit."
+      },
+      {
+        "id": "sakamoto2018",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/29470649/",
+        "type": "primary human anatomy research",
+        "inspection": "opened PubMed abstract; 25 cadaver investigation",
+        "supports": "Intrinsic/extrinsic fibers interlace; transverse and vertical bundles/lamellae intersect; not independent isolated actuators or a periodic rod lattice."
+      },
+      {
+        "id": "tongue_anatomy",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/29939559/",
+        "type": "authoritative anatomical textbook excerpt",
+        "inspection": "verified indexed StatPearls excerpt; direct Bookshelf access challenge and PubMed footer",
+        "supports": "Intrinsic muscles alter shape; extrinsic muscles move tongue position. Do not equate intrinsic elongation with demonstrated whole-tongue protrusion."
+      },
+      {
+        "id": "gurkan1987",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/3676732/",
+        "type": "primary gland physiology abstract",
+        "inspection": "verified indexed PubMed abstract; direct open footer",
+        "supports": "Rat von Ebner protein secretion under sympathetic and parasympathetic control; does not establish a model-specific continuous human secretion rate."
+      },
+      {
+        "id": "leinonen2001",
+        "url": "https://journals.sagepub.com/doi/full/10.1177/002215540104900513",
+        "type": "primary human/rat gland research",
+        "inspection": "verified indexed original abstract; direct publisher open 403",
+        "supports": "Human von Ebner saliva sampled at gland orifices; serous acinar/duct secretion delivered to circumvallate/foliate trench floors; proposed CA-VI modulation is a hypothesis, not simulated here."
+      },
+      {
+        "id": "loyola_muscle_table",
+        "url": "https://www.stritch.luc.edu/lumen/meded/grossanatomy/homepage/muscletables/head-neckmuscletable.pdf",
+        "type": "authoritative medical-school anatomy table",
+        "inspection": "opened PDF, page 4 tongue rows",
+        "supports": "XII supply to intrinsic tongue; superior/inferior longitudinal shortening and upward/downward tip curvature; transverse narrowing/elongation; vertical flattening/broadening. Genioglossus separately supplies protrusion."
+      }
+    ],
+    "sequences": [
+      {
+        "id": "taste_access_to_afferent",
+        "title": "Dissolved tastant to sensory afferent",
+        "mechanism": "Static spatial trace and narrated Type II/III transduction examples, not chemical or electrical simulation.",
+        "host_requirements": {
+          "papilla": "Circumvallate papilla",
+          "epithelial_boundary": [
+            "Stratified squamous epithelium",
+            "Basement membrane",
+            "Lamina propria",
+            "Circumvallate papilla"
+          ],
+          "sensory_target": "Glossopharyngeal nerve (IX) branch",
+          "opening": "Taste pores & microvilli denotes microvilli; the true pore is empty surrounding epithelial space."
+        },
+        "steps": [
+          {
+            "id": "access",
+            "title": "Oral fluid reaches a real epithelial pore",
+            "camera": "Vallate wall and true pore: intact",
+            "focus_selectors": [
+              "Taste pores & microvilli"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla"
+            ],
+            "required_visible": [
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei",
+              "Glossopharyngeal nerve (IX) branch",
+              "Vallate teaching cover",
+              "Taste cell teaching cover",
+              "Taste nuclear teaching cover"
+            ],
+            "removed_tissue_selectors": [],
+            "text": "Tastants dissolve in oral fluid and reach the apical microvillar region through the small true taste pore in an otherwise continuous epithelial wall. The trench is an external cleft; it is not the pore. No particle is modeled entering a nerve or crossing the whole epithelium.",
+            "source_ids": [
+              "histology_minnesota",
+              "histology_leeds",
+              "histology_columbia"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Taste pores & microvilli",
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "Which opening is the true taste pore, and which is the surrounding trench?",
+            "historical_camera": "Vallate bud intact"
+          },
+          {
+            "id": "organ",
+            "title": "Open an explanatory window while retaining its host",
+            "camera": "Vallate bud: explanatory window",
+            "focus_selectors": [
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla"
+            ],
+            "required_visible": [
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei",
+              "Glossopharyngeal nerve (IX) branch"
+            ],
+            "removed_tissue_selectors": [
+              "Vallate teaching cover",
+              "Taste cell teaching cover",
+              "Taste nuclear teaching cover"
+            ],
+            "text": "A named tissue window reveals epithelial cell bodies, nuclei, apical microvilli and basal neural apposition. The removed wall/cell caps are teaching removals, not natural perforations. Receptor, supporting and basal colors identify schematic representatives; no molecular Type II/III identity is proved by these meshes.",
+            "source_ids": [
+              "histology_leeds",
+              "histology_columbia"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei",
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Vallate bud opened"
+          },
+          {
+            "id": "type_ii",
+            "title": "Narrate a Type II sweet/bitter/umami example",
+            "camera": "Vallate bud: explanatory window",
+            "focus_selectors": [
+              "Gustatory receptor cells",
+              "Taste pores & microvilli"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Taste buds"
+            ],
+            "required_visible": [
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei",
+              "Glossopharyngeal nerve (IX) branch"
+            ],
+            "removed_tissue_selectors": [
+              "Vallate teaching cover",
+              "Taste cell teaching cover",
+              "Taste nuclear teaching cover"
+            ],
+            "text": "For a Type II example, an apical taste GPCR activates an intracellular signaling cascade involving PLC-beta2, intracellular calcium and TRPM5-dependent depolarization. TRPM5 conducts monovalent cations, not calcium. Sweet, bitter and umami use distinct receptor populations; this generic receptor selector does not encode all three identities in one cell. Molecular events are narration, not visible resolved organelles.",
+            "source_ids": [
+              "zhang2003",
+              "prawitt2003",
+              "ma2018"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Taste buds"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Vallate bud opened"
+          },
+          {
+            "id": "type_ii_release",
+            "title": "Transfer a cell signal to a separate sensory terminal",
+            "camera": "Vallate bud: explanatory window",
+            "focus_selectors": [
+              "Gustatory receptor cells",
+              "Glossopharyngeal nerve (IX) branch"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei"
+            ],
+            "required_visible": [
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei",
+              "Glossopharyngeal nerve (IX) branch"
+            ],
+            "removed_tissue_selectors": [
+              "Vallate teaching cover",
+              "Taste cell teaching cover",
+              "Taste nuclear teaching cover"
+            ],
+            "text": "In Type II cells, depolarization/action potentials open a basolateral CALHM1/CALHM3 ATP-release channel. ATP activates purinergic receptors on a separate gustatory afferent. This is channel-mediated transmitter release, not a conventional vesicular Type II synapse; it occurs at a basal/lateral neural interface, not through the apical taste pore. The drawn terminal is a representative apposition, not ultrastructural channel proof.",
+            "source_ids": [
+              "ma2018",
+              "kashio2019"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Gustatory receptor cells",
+              "Glossopharyngeal nerve (IX) branch",
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Taste buds",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "Why is the epithelial receptor cell distinct from the nerve fiber?",
+            "historical_camera": "Vallate bud opened"
+          },
+          {
+            "id": "type_iii",
+            "title": "Compare a Type III sour example without conflating release routes",
+            "camera": "Vallate bud: explanatory window",
+            "focus_selectors": [
+              "Gustatory receptor cells",
+              "Glossopharyngeal nerve (IX) branch"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei"
+            ],
+            "required_visible": [
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei",
+              "Glossopharyngeal nerve (IX) branch"
+            ],
+            "removed_tissue_selectors": [
+              "Vallate teaching cover",
+              "Taste cell teaching cover",
+              "Taste nuclear teaching cover"
+            ],
+            "text": "For a separate Type III example, acidic stimuli activate OTOP1-mediated proton entry and depolarization; voltage-dependent calcium entry can trigger vesicular serotonin release at conventional contacts. Purinergic signaling also contributes to sour afferent transmission; a complete universal sour ATP-release route is not resolved here. These findings rely heavily on mouse experiments. No Type III-specific morphology or membrane current is represented in this sampled mesh.",
+            "source_ids": [
+              "teng2019",
+              "huang2008",
+              "larson2015"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Gustatory receptor cells",
+              "Glossopharyngeal nerve (IX) branch",
+              "Stratified squamous epithelium",
+              "Basement membrane",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Taste buds",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Vallate bud opened"
+          },
+          {
+            "id": "territories",
+            "title": "Distinguish cranial sensory routes and motor supply",
+            "camera": "Sensory taste targets in host",
+            "focus_selectors": [
+              "Glossopharyngeal nerve (IX) branch",
+              "Lingual nerve (chorda tympani) branch"
+            ],
+            "context_selectors": [
+              "Circumvallate papilla",
+              "Fungiform papillae",
+              "Stratified squamous epithelium",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei"
+            ],
+            "required_visible": [
+              "Circumvallate papilla",
+              "Fungiform papillae",
+              "Stratified squamous epithelium",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei",
+              "Glossopharyngeal nerve (IX) branch",
+              "Lingual nerve (chorda tympani) branch"
+            ],
+            "removed_tissue_selectors": [
+              "Vallate teaching cover",
+              "Taste cell teaching cover",
+              "Taste nuclear teaching cover"
+            ],
+            "text": "The circumvallate example is associated with IX. Taste from anterior fungiform buds travels with chorda tympani fibers of VII carried by the lingual nerve; ordinary anterior tongue sensation is carried by V3 fibers, which are not separately resolved in this selector. XII is motor to intrinsic muscle, not a taste afferent. The recovered construction does not establish new foliate sensory endings or a brainstem circuit.",
+            "source_ids": [
+              "zhang2003",
+              "histology_columbia"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Glossopharyngeal nerve (IX) branch",
+              "Lingual nerve (chorda tympani) branch",
+              "Circumvallate papilla",
+              "Fungiform papillae",
+              "Stratified squamous epithelium",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Sensory and motor targets"
+          }
+        ],
+        "schematic_limitations": [
+          "No dissolved molecule, concentration, binding rate, ionic current, ATP diffusion, spikes or downstream CNS tissue is simulated.",
+          "The taste-pore selector represents the material microvilli; pore patency requires geometry/empty-space tests and images.",
+          "Cell classes are a teaching taxonomy. Nineteen sampled cells are not a complete or measured bud population.",
+          "No regional tongue taste-quality map or universal human salt-transduction scheme is implied."
+        ]
+      },
+      {
+        "id": "von_ebner_rinse",
+        "title": "Serous acinus to duct outlet and rinse",
+        "mechanism": "Static acinar-lumen-to-outlet trace with narrated rinse effect; no fluid solver.",
+        "host_requirements": {
+          "secretory_tissue": "Von Ebner glands",
+          "duct_wall": "Von Ebner ducts",
+          "target": [
+            "Circumvallate papilla",
+            "Foliate papillae"
+          ],
+          "gland_units": 3,
+          "sampled_acini_per_unit": 7,
+          "route_metadata": "construction.json features.fluid_routes, 21 sampled routes; not separate selectable lumens",
+          "geometry_anchor_space": "Recovered construction anchors precede the sag/grain deformation; do not use raw coordinates as final saved-scene arrows without exporting transformed anchors."
+        },
+        "steps": [
+          {
+            "id": "context",
+            "title": "Locate a sampled serous gland beneath its papillary host",
+            "camera": "Duct mouth in intact trench floor",
+            "focus_selectors": [
+              "Von Ebner glands",
+              "Von Ebner ducts"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae"
+            ],
+            "required_visible": [
+              "Von Ebner glands",
+              "Von Ebner ducts",
+              "Serous acinar nuclei",
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Gland teaching cover",
+              "Gland nuclear teaching cover"
+            ],
+            "removed_tissue_selectors": [],
+            "text": "Serous von Ebner acini lie beneath taste-bearing trench or cleft epithelium. Keep the surrounding papillary floor visible so the opening has a destination; an isolated blue cluster alone does not teach drainage. Three sampled units are represented, not the entire posterior lingual gland tree.",
+            "source_ids": [
+              "histology_leeds",
+              "histology_columbia",
+              "leinonen2001"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Von Ebner glands",
+              "Von Ebner ducts",
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Gland outlets in context"
+          },
+          {
+            "id": "acinus",
+            "title": "Open the sampled secretory wall and identify empty lumen",
+            "camera": "Gland lumen route: explanatory opening",
+            "focus_selectors": [
+              "Von Ebner glands",
+              "Serous acinar nuclei"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Von Ebner ducts"
+            ],
+            "required_visible": [
+              "Von Ebner glands",
+              "Von Ebner ducts",
+              "Serous acinar nuclei",
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae"
+            ],
+            "removed_tissue_selectors": [
+              "Gland teaching cover",
+              "Gland nuclear teaching cover"
+            ],
+            "text": "Acinar secretory epithelial tissue surrounds a small lumen. A named gland-wall window allows inspection of that empty space; it is an explanatory removal. The acinar nuclei are sampled markers in tissue, not complete individually segmented acinar cells. Secretion enters the lumen rather than being released into surrounding muscle.",
+            "source_ids": [
+              "histology_columbia",
+              "leinonen2001"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Von Ebner glands",
+              "Serous acinar nuclei",
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Von Ebner ducts"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Gland route opened"
+          },
+          {
+            "id": "duct",
+            "title": "Trace each acinar lumen into its collector and ascending duct",
+            "camera": "Gland lumen route: explanatory opening",
+            "focus_selectors": [
+              "Von Ebner glands",
+              "Von Ebner ducts"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae"
+            ],
+            "required_visible": [
+              "Von Ebner glands",
+              "Von Ebner ducts",
+              "Serous acinar nuclei",
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae"
+            ],
+            "removed_tissue_selectors": [
+              "Gland teaching cover",
+              "Gland nuclear teaching cover"
+            ],
+            "text": "Follow the small acinar lumen into the collector and onward within the duct lumen. Distinguish the duct wall from the empty lumen. All 21 sampled acinus-to-outlet routes need their own saved-geometry continuity checks; a successful view of the foreground unit does not verify the other two units.",
+            "source_ids": [
+              "histology_columbia",
+              "leinonen2001"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Von Ebner glands",
+              "Von Ebner ducts",
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Gland route opened"
+          },
+          {
+            "id": "outlet",
+            "title": "Show an outlet actually open to a trench or cleft",
+            "camera": "Duct mouth in intact trench floor",
+            "focus_selectors": [
+              "Von Ebner ducts"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Von Ebner glands"
+            ],
+            "required_visible": [
+              "Von Ebner glands",
+              "Von Ebner ducts",
+              "Serous acinar nuclei",
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Gland teaching cover",
+              "Gland nuclear teaching cover"
+            ],
+            "removed_tissue_selectors": [],
+            "text": "Restore the gland wall and find the duct mouth through the surrounding epithelial floor. The route must finish in free trench or cleft space, not beneath a closed papillary wall. Inspect each displayed outlet with its host tissue present; the model currently lacks separate outlet selectors.",
+            "source_ids": [
+              "histology_columbia",
+              "leinonen2001"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Von Ebner ducts",
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Von Ebner glands"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "Where does this duct empty, and what evidence shows that its opening is patent?",
+            "historical_camera": "Gland outlets in context"
+          },
+          {
+            "id": "rinse",
+            "title": "Narrate rinse and renewed tastant access",
+            "camera": "Duct mouth in intact trench floor",
+            "focus_selectors": [
+              "Von Ebner ducts",
+              "Taste pores & microvilli"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Taste buds"
+            ],
+            "required_visible": [
+              "Von Ebner glands",
+              "Von Ebner ducts",
+              "Serous acinar nuclei",
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Basal taste cells",
+              "Taste cell nuclei",
+              "Gland teaching cover",
+              "Gland nuclear teaching cover"
+            ],
+            "removed_tissue_selectors": [],
+            "text": "Watery serous secretion reaches the trench or cleft and helps clear/dilute previous material while providing the fluid microenvironment for incoming tastants. This does not mechanically pump tastants through the nerve or reset every receptor instantly. Autonomic control of secretion is omitted from the drawn neural samples; no measured continuous human flow rate is asserted.",
+            "source_ids": [
+              "histology_minnesota",
+              "histology_leeds",
+              "gurkan1987",
+              "leinonen2001"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Von Ebner ducts",
+              "Taste pores & microvilli",
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Taste buds"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Gland outlets in context"
+          }
+        ],
+        "schematic_limitations": [
+          "Empty lumen shape and continuous finite-radius route must be independently validated in immutable Pre refine and Post refine outputs.",
+          "There are no rendered saliva particles, pressure gradients, viscosity, acinar release kinetics, autonomic reflexes or washout time constants.",
+          "The original recovered gland-route cameras omit papillary host tissue; this adapter explicitly restores required context, but occlusion/framing still need on-machine visual acceptance."
+        ]
+      },
+      {
+        "id": "filiform_mechanics",
+        "title": "Mechanical filiform papillae",
+        "mechanism": "Static structure-function comparison; no contact mechanics.",
+        "host_requirements": {
+          "papilla": "Filiform papillae",
+          "keratin": "Keratinised tips (filiform)",
+          "support": [
+            "Stratified squamous epithelium",
+            "Lamina propria"
+          ]
+        },
+        "steps": [
+          {
+            "id": "surface",
+            "title": "Identify a mechanically specialized epithelial projection",
+            "camera": "Four papillary types: intact teaching field",
+            "focus_selectors": [
+              "Filiform papillae",
+              "Keratinised tips (filiform)"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Lamina propria"
+            ],
+            "required_visible": [
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Fungiform papillae",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Von Ebner glands",
+              "Von Ebner ducts",
+              "Filiform papillae",
+              "Keratinised tips (filiform)",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Perimysium & interstitial fat",
+              "Superior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Inferior longitudinal muscle",
+              "Glossopharyngeal nerve (IX) branch",
+              "Lingual nerve (chorda tympani) branch",
+              "Hypoglossal nerve (XII) branch",
+              "Lingual artery branch",
+              "Deep lingual vein",
+              "Basement membrane",
+              "Basal taste cells",
+              "Taste cell nuclei",
+              "Vallate teaching cover",
+              "Taste cell teaching cover",
+              "Taste nuclear teaching cover",
+              "Gland teaching cover",
+              "Gland nuclear teaching cover"
+            ],
+            "removed_tissue_selectors": [],
+            "text": "Pointed keratinized filiform projections roughen the dorsum and assist mechanical handling/grip of food. Their tissue is attached to a connective core; their appearance must remain distinct from less-keratinized taste-bearing papillae.",
+            "source_ids": [
+              "histology_minnesota",
+              "histology_leeds"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Filiform papillae",
+              "Keratinised tips (filiform)",
+              "Stratified squamous epithelium",
+              "Lamina propria"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Four papillary types"
+          },
+          {
+            "id": "comparison",
+            "title": "Contrast mechanical filiform tissue with taste-bearing papillae",
+            "camera": "Four papillary types: intact teaching field",
+            "focus_selectors": [
+              "Filiform papillae",
+              "Fungiform papillae",
+              "Circumvallate papilla",
+              "Foliate papillae"
+            ],
+            "context_selectors": [
+              "Stratified squamous epithelium",
+              "Lamina propria"
+            ],
+            "required_visible": [
+              "Stratified squamous epithelium",
+              "Lamina propria",
+              "Fungiform papillae",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Von Ebner glands",
+              "Von Ebner ducts",
+              "Filiform papillae",
+              "Keratinised tips (filiform)",
+              "Taste buds",
+              "Gustatory receptor cells",
+              "Taste pores & microvilli",
+              "Perimysium & interstitial fat",
+              "Superior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Inferior longitudinal muscle",
+              "Glossopharyngeal nerve (IX) branch",
+              "Lingual nerve (chorda tympani) branch",
+              "Hypoglossal nerve (XII) branch",
+              "Lingual artery branch",
+              "Deep lingual vein",
+              "Basement membrane",
+              "Vallate teaching cover",
+              "Taste cell teaching cover",
+              "Taste nuclear teaching cover",
+              "Gland teaching cover",
+              "Gland nuclear teaching cover"
+            ],
+            "removed_tissue_selectors": [],
+            "text": "Filiform papillae have no taste buds. Fungiform, circumvallate and foliate examples carry taste organs in their relevant epithelium. The comparative arrangement is not a literal single microscopic field or a taste-quality map. No bolus friction coefficient, food trajectory or bending stiffness is modeled.",
+            "source_ids": [
+              "histology_minnesota",
+              "histology_leeds",
+              "histology_columbia"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Filiform papillae",
+              "Fungiform papillae",
+              "Circumvallate papilla",
+              "Foliate papillae",
+              "Stratified squamous epithelium",
+              "Lamina propria"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "Which represented papillary type primarily provides mechanical texture without taste buds?",
+            "historical_camera": "Four papillary types"
+          }
+        ],
+        "schematic_limitations": [
+          "No food bolus, contact force, wear, stress, or mechanical receptor ending is represented.",
+          "The direction and comparative spacing are teaching cues, not a measured surface map."
+        ]
+      },
+      {
+        "id": "intrinsic_muscle_shape",
+        "title": "Intrinsic muscles and shape change",
+        "mechanism": "Static fascicle-direction comparison with narrated actions; no contraction or muscular-hydrostat simulation.",
+        "host_requirements": {
+          "tissue": [
+            "Superior longitudinal muscle",
+            "Inferior longitudinal muscle",
+            "Transverse muscle",
+            "Vertical muscle"
+          ],
+          "connective_partitions": "Perimysium & interstitial fat",
+          "fat_marker": "Interstitial adipocytes",
+          "motor_target": "Hypoglossal nerve (XII) branch",
+          "coordinate_note": "Use displayed bundle orientation, not imported anatomical-axis labels: this comparative local model is not registered to a whole tongue."
+        },
+        "steps": [
+          {
+            "id": "architecture",
+            "title": "Read interwoven fascicles and their connective partitions",
+            "camera": "Intrinsic muscle directions exposed",
+            "focus_selectors": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle"
+            ],
+            "context_selectors": [
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes"
+            ],
+            "required_visible": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "removed_tissue_selectors": [],
+            "text": "Interlacing skeletal-muscle fascicles occur in several directions. Perimysial connective partitions and interstitial adipocytes are different tissues. The tissue is dense and interwoven; simplified orthogonal samples must not be read as a repetitive rigid lattice or as independent actuators. The first recovered candidate remains visually rejected for its regular sleeves/lattice.",
+            "source_ids": [
+              "histology_minnesota",
+              "histology_leeds",
+              "sakamoto2018"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Muscle fascicles and partitions"
+          },
+          {
+            "id": "longitudinal",
+            "title": "Compare superior and inferior longitudinal examples",
+            "camera": "Intrinsic muscle directions exposed",
+            "focus_selectors": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle"
+            ],
+            "context_selectors": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "required_visible": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "removed_tissue_selectors": [],
+            "text": "Longitudinal contraction contributes to shortening and bending the tongue. Superior and inferior longitudinal examples contribute differently to upward versus downward curvature; actual shape depends on coordinated neighboring intrinsic and extrinsic fibers and boundary conditions. These static fascicles do not shorten on screen.",
+            "source_ids": [
+              "tongue_anatomy",
+              "sakamoto2018",
+              "loyola_muscle_table"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Muscle fascicles and partitions"
+          },
+          {
+            "id": "transverse",
+            "title": "Relate transverse orientation to narrowing and elongation",
+            "camera": "Intrinsic muscle directions exposed",
+            "focus_selectors": [
+              "Transverse muscle"
+            ],
+            "context_selectors": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "required_visible": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "removed_tissue_selectors": [],
+            "text": "Transverse fibers cross from the septal region toward the lateral margins. Their shortening contributes to narrowing and lengthening of the muscular tongue. This local histology block does not establish whole-tongue protrusion or determine displacement by itself.",
+            "source_ids": [
+              "sakamoto2018",
+              "tongue_anatomy",
+              "loyola_muscle_table"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Transverse muscle",
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Muscle fascicles and partitions"
+          },
+          {
+            "id": "vertical",
+            "title": "Relate vertical orientation to flattening and broadening",
+            "camera": "Intrinsic muscle directions exposed",
+            "focus_selectors": [
+              "Vertical muscle"
+            ],
+            "context_selectors": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "required_visible": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "removed_tissue_selectors": [],
+            "text": "Vertical fibers contribute to flattening and broadening when coordinated with the rest of the tongue. Orientation can be compared in sections, but a source-only static sample does not compute volume conservation, fascicle strain or the shape of a spoken sound.",
+            "source_ids": [
+              "histology_minnesota",
+              "tongue_anatomy",
+              "sakamoto2018",
+              "loyola_muscle_table"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Vertical muscle",
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "",
+            "historical_camera": "Muscle fascicles and partitions"
+          },
+          {
+            "id": "motor",
+            "title": "Distinguish a motor terminal target from taste innervation",
+            "camera": "Motor target in skeletal muscle",
+            "focus_selectors": [
+              "Hypoglossal nerve (XII) branch",
+              "Superior longitudinal muscle"
+            ],
+            "context_selectors": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "required_visible": [
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes",
+              "Hypoglossal nerve (XII) branch"
+            ],
+            "removed_tissue_selectors": [],
+            "text": "XII motor fibers supply intrinsic skeletal muscle. The sampled branch approaches a muscle example and is distinct from taste afferents reaching epithelial buds. An isolated cable or small spray does not prove a neuromuscular junction; acetylcholine release, endplate receptors, excitation-contraction coupling and sarcomere shortening are not structurally resolved here.",
+            "source_ids": [
+              "tongue_anatomy",
+              "sakamoto2018",
+              "loyola_muscle_table"
+            ],
+            "micro": "tongue_papillae",
+            "micro_focus": [
+              "Hypoglossal nerve (XII) branch",
+              "Superior longitudinal muscle",
+              "Inferior longitudinal muscle",
+              "Transverse muscle",
+              "Vertical muscle",
+              "Perimysium & interstitial fat",
+              "Interstitial adipocytes"
+            ],
+            "micro_focus_limit": "Existing lesson focus only. It ghosts others and queues reframing; use the companion adapter for a matched authored-camera/context sequence.",
+            "check_question": "Which branch is motor, and what tissue is its target?",
+            "historical_camera": "Sensory and motor targets"
+          }
+        ],
+        "schematic_limitations": [
+          "No motor-unit recruitment, sarcomere shortening, hydrostat model, bolus motion, speech or coordinated extrinsic-muscle actions are computed.",
+          "Three direction categories and four named muscles are not a regular periodic mesh or a full whole-tongue reconstruction.",
+          "Recovered first-candidate motor-terminal readability was not established; visual acceptance is deferred."
+        ]
+      }
+    ],
+    "deferred_checks": [
+      "Real pore corridor versus explanatory removal in intact/open images.",
+      "Each final acinus-to-outlet path, saved lumen patency, host identity and native/exported visual visibility.",
+      "Typed transduction narration checked against generic geometric cell identity.",
+      "Dense non-lattice muscle and motor terminal target read in native/exported pixels.",
+      "On-machine native Qt event wiring, initial/reset/close/cancel state restoration and delayed camera behavior."
+    ]
+  },
+  "historical_candidate_sha256": "36106ef2a80dbe5cac93a982cd359907a8bfb8799cf13906d543449fda73a8d5",
+  "hook_delivery": {
+    "native_units": 0.005,
+    "nominal": true,
+    "mixed_schematic_scale": true,
+    "persistent_scale_caption": true,
+    "persistent_removal_caption": true,
+    "required_callbacks": [
+      "install_native_metadata",
+      "set_named_view_with_context_reset",
+      "apply_step(context_reset=...)"
+    ],
+    "application_registration": "Root owned, not performed by model team"
+  }
+}

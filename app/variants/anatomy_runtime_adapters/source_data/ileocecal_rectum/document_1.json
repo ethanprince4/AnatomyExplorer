@@ -1,0 +1,663 @@
+{
+  "schema_version": 1,
+  "model_id": "ileocecal_rectum",
+  "status": "source_ready_manual_teaching_native_and_visual_validation_deferred",
+  "catalog_cache_sha256": "4321d0faec4b0cd0fb782845c997e81e6870826218964fecf30a99b5c633982a",
+  "selector_contract": "Exact case-sensitive cache_metadata.parts[].name; numerical indices are documentation only and never selector identity. No selector is invented for spaces, omitted vessels or nerves.",
+  "presentation": "Manual steps reuse existing supported camera and hidden-part metadata. Function is explained by states/captions; no geometry animation is fabricated.",
+  "scale_note": "Gross specimens: 1 unit ≈ 6 cm (caecum ≈ 7.5 cm wide, anal canal ≈ 4 cm long). Wall coats are drawn about 1.5× their true thickness so each layer reads in section.",
+  "sources": [
+    {
+      "id": "ICJ_PRIMARY",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/3595357/",
+      "title": "Kumar & Phillips: contribution of external ligamentous attachments to function of the ileocecal junction (1987)",
+      "opened": "2026-10-04",
+      "evidence_scope": "Primary experiment; human autopsy specimens and dogs. External geometry contributed to reflux competence. Its experimental pressures are not patient thresholds or animation parameters."
+    },
+    {
+      "id": "APPENDIX",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK459205/",
+      "title": "StatPearls: Anatomy, Abdomen and Pelvis: Appendix (updated August 2023)",
+      "opened": "2026-10-04",
+      "evidence_scope": "Mucosal/submucosal lymphoid tissue; appendicular supply and ileocolic lymphatic context; variable appendix tip. Immune role and microbiota safe-house hypothesis must not be treated as a demonstrated animated process."
+    },
+    {
+      "id": "ANAL",
+      "url": "https://ncbi.nlm.nih.gov/sites/books/NBK554531/",
+      "title": "StatPearls: Anatomy, Abdomen and Pelvis: Anal Canal (updated May 2023)",
+      "opened": "2026-10-04",
+      "evidence_scope": "RAIR, IAS/EAS behavior; above/below pectinate-line sensation and regional drainage. Regional routes have overlap."
+    },
+    {
+      "id": "DEFECATION",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK539732/",
+      "title": "StatPearls: Physiology, Defecation (updated November 2023)",
+      "opened": "2026-10-04",
+      "evidence_scope": "Rectal filling, enteric reflex, voluntary deferral, coordinated pelvic-muscle relaxation and propulsion. No quantified timing is transferred to this specimen."
+    },
+    {
+      "id": "RECTUM",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK537245/",
+      "title": "StatPearls: Anatomy, Abdomen and Pelvis, Rectum (updated July 2023)",
+      "opened": "2026-10-04",
+      "evidence_scope": "Rectal circular/longitudinal muscle relationships, superior versus pelvic vascular routes, and superior rectal/inferior mesenteric plus internal iliac lymphatic drainage."
+    },
+    {
+      "id": "PELVIC_REVIEW",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2617789/",
+      "title": "Raizada & Mittal: Pelvic floor anatomy and applied physiology (2008)",
+      "opened": "2026-10-04",
+      "evidence_scope": "Puborectalis and anorectal-angle mechanism; muscle nomenclature/three-part EAS representation is debated. Avoid treating legacy EAS parts as three separate perfect functional rings."
+    },
+    {
+      "id": "CUSHIONS",
+      "url": "https://www.hopkinsmedicine.org/health/conditions-and-diseases/hemorrhoids",
+      "title": "Johns Hopkins Medicine: Hemorrhoids",
+      "opened": "2026-10-04",
+      "evidence_scope": "Normal anal cushions include vascular and nonvascular components and contribute to continence; swelling/irritation indicates hemorrhoidal disease."
+    }
+  ],
+  "sequences": [
+    {
+      "id": "valve_transit",
+      "title": "Ileocaecal transit",
+      "visible_parts": [
+        "Caecum",
+        "Ascending colon (haustra)",
+        "Mucosa & semilunar folds (plicae semilunares)",
+        "Taenia libera (free taenia)",
+        "Taenia mesocolica",
+        "Taenia omentalis",
+        "Omental (epiploic) appendices",
+        "Terminal ileum",
+        "Ileal mucosa",
+        "Ileocaecal valve – upper (ileocolic) lip",
+        "Ileocaecal valve – lower (ileocaecal) lip",
+        "Frenula of the ileocaecal valve",
+        "Appendiceal orifice"
+      ],
+      "camera_basis": "Overview",
+      "source_ids": [
+        "ICJ_PRIMARY"
+      ],
+      "mechanism": "Trace the anatomical route from terminal ileum through the junction into caecum; explain the distinction between passage anatomy and reflux competence.",
+      "steps": [
+        {
+          "id": "approach",
+          "focus_parts": [
+            "Terminal ileum",
+            "Ileal mucosa"
+          ],
+          "caption": "Locate terminal ileum and its mucosa approaching the caecal wall.",
+          "schematic_annotations": []
+        },
+        {
+          "id": "junction",
+          "focus_parts": [
+            "Ileocaecal valve – upper (ileocolic) lip",
+            "Ileocaecal valve – lower (ileocaecal) lip",
+            "Frenula of the ileocaecal valve"
+          ],
+          "caption": "The upper and lower lips and their frenula frame the ileal orifice. This is folded bowel tissue in wall context.",
+          "schematic_annotations": []
+        },
+        {
+          "id": "destination",
+          "focus_parts": [
+            "Caecum",
+            "Mucosa & semilunar folds (plicae semilunares)"
+          ],
+          "caption": "Teaching route: terminal ileum → junction → caecal cavity. A visible slit alone does not establish a continuous open lumen.",
+          "schematic_annotations": [
+            {
+              "kind": "diagram_only_route",
+              "system": "intestinal_contents",
+              "nodes": [
+                "Terminal ileum",
+                "Ileal orifice (landmark; no independent part)",
+                "Caecal cavity (space; no independent part)"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            }
+          ]
+        },
+        {
+          "id": "scope",
+          "focus_parts": [
+            "Terminal ileum",
+            "Ileocaecal valve – upper (ileocolic) lip",
+            "Ileocaecal valve – lower (ileocaecal) lip"
+          ],
+          "caption": "Reflux competence depends on more than lip appearance; omitted attachment geometry and living muscle behavior cannot be tested in this static opened specimen.",
+          "schematic_annotations": []
+        }
+      ],
+      "schematic_limitations": [
+        "Manual ordered selection and captions only; no bolus collision, valve deformation, flow velocity, pressure or competence simulation.",
+        "Separate-machine lumen tracing must verify ileum–orifice–caecum before any stronger patency statement.",
+        "Do not animate two lips as a rigid hinge, airtight seal or fully characterized muscular sphincter.",
+        "Caecal window and specimen cuts are intentional exposure, not leakage or physiological openings."
+      ]
+    },
+    {
+      "id": "appendix_wall_immune_supply",
+      "title": "Appendix wall and supply",
+      "visible_parts": [
+        "Caecum",
+        "Taenia libera (free taenia)",
+        "Taenia mesocolica",
+        "Taenia omentalis",
+        "Vermiform appendix",
+        "Appendiceal mucosa",
+        "Lymphoid follicles of the appendix",
+        "Appendiceal orifice",
+        "Mesoappendix",
+        "Appendicular artery"
+      ],
+      "camera_basis": "Appendicular supply",
+      "source_ids": [
+        "APPENDIX"
+      ],
+      "mechanism": "Locate appendiceal lymphoid tissue in its bowel-wall context, then locate supply in mesoappendix.",
+      "steps": [
+        {
+          "id": "base",
+          "focus_parts": [
+            "Taenia libera (free taenia)",
+            "Taenia mesocolica",
+            "Taenia omentalis",
+            "Appendiceal orifice",
+            "Vermiform appendix"
+          ],
+          "caption": "Follow the converging taeniae to the appendix base; this model shows one representative appendix position.",
+          "schematic_annotations": []
+        },
+        {
+          "id": "ownership",
+          "focus_parts": [
+            "Appendiceal mucosa",
+            "Lymphoid follicles of the appendix",
+            "Vermiform appendix"
+          ],
+          "caption": "Lymphoid tissue belongs in mucosa and submucosa beneath the exposed luminal surface. It is not a set of free luminal particles.",
+          "schematic_annotations": []
+        },
+        {
+          "id": "immune_context",
+          "focus_parts": [
+            "Lymphoid follicles of the appendix",
+            "Appendiceal mucosa"
+          ],
+          "caption": "These enlarged representative follicles provide immune wall context. Cell trafficking, antibody production and microbiota reseeding are not depicted.",
+          "schematic_annotations": []
+        },
+        {
+          "id": "supply",
+          "focus_parts": [
+            "Mesoappendix",
+            "Appendicular artery"
+          ],
+          "caption": "Keep mesoappendix visible as the contextual carrier of appendicular supply.",
+          "schematic_annotations": [
+            {
+              "kind": "diagram_only_route",
+              "system": "arterial_supply",
+              "nodes": [
+                "Superior mesenteric artery (off model)",
+                "Ileocolic system (off model)",
+                "Appendicular artery",
+                "Appendiceal wall"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            },
+            {
+              "kind": "diagram_only_route",
+              "system": "lymphatic_drainage",
+              "nodes": [
+                "Appendiceal wall",
+                "Intermediate appendicular nodes (off model)",
+                "Ileocolic nodes (off model)",
+                "Superior mesenteric nodes (off model)"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            }
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Gross teaching scale, not counted follicles, cell populations or histological magnification.",
+        "Immune function is contextual; do not animate antigen sampling or present safe-house hypothesis as demonstrated behavior.",
+        "Appendicular venous drainage is not represented by an existing selector.",
+        "Diagram routes do not assert a single universal arterial branch pattern. The full wall and mesoappendix must remain in view; bead-like lumen ownership remains a geometry failure until corrected and reviewed."
+      ]
+    },
+    {
+      "id": "rectoanal_reflex_continence_defecation",
+      "title": "Rectoanal coordination",
+      "visible_parts": [
+        "Rectal mucosa (upper rectum)",
+        "Rectal ampulla",
+        "Superior transverse rectal fold",
+        "Middle transverse rectal fold (Kohlrausch)",
+        "Inferior transverse rectal fold",
+        "Anorectal junction",
+        "Anal columns (of Morgagni)",
+        "Anal sinuses",
+        "Anal valves",
+        "Pectinate (dentate) line",
+        "Anal pecten (anoderm)",
+        "Anus & perianal skin",
+        "Submucosa",
+        "Internal rectal venous plexus (anal cushions)",
+        "External rectal venous plexus",
+        "Circular muscle of rectum",
+        "Longitudinal muscle of rectum",
+        "Internal anal sphincter",
+        "Conjoint longitudinal muscle",
+        "External anal sphincter – deep part",
+        "External anal sphincter – superficial part",
+        "External anal sphincter – subcutaneous part",
+        "Puborectalis",
+        "Levator ani",
+        "Mesorectum",
+        "Ischioanal fossa fat"
+      ],
+      "camera_basis": "Overview",
+      "source_ids": [
+        "ANAL",
+        "DEFECATION",
+        "PELVIC_REVIEW",
+        "RECTUM"
+      ],
+      "mechanism": "Distinguish rectal filling and IAS inhibition from voluntary outlet relaxation and coordinated evacuation.",
+      "steps": [
+        {
+          "id": "reservoir",
+          "focus_parts": [
+            "Rectal mucosa (upper rectum)",
+            "Rectal ampulla",
+            "Superior transverse rectal fold",
+            "Middle transverse rectal fold (Kohlrausch)",
+            "Inferior transverse rectal fold"
+          ],
+          "caption": "The rectal ampulla acts as a temporary reservoir. Filling distends the rectal wall; folds remain anatomical landmarks.",
+          "schematic_annotations": []
+        },
+        {
+          "id": "rest",
+          "focus_parts": [
+            "Circular muscle of rectum",
+            "Internal anal sphincter",
+            "External anal sphincter – deep part",
+            "External anal sphincter – superficial part",
+            "External anal sphincter – subcutaneous part",
+            "Puborectalis"
+          ],
+          "caption": "At rest, IAS tone, the EAS complex and puborectalis support continence. The IAS continues from rectal circular smooth muscle.",
+          "schematic_annotations": []
+        },
+        {
+          "id": "rair",
+          "focus_parts": [
+            "Rectal ampulla",
+            "Internal anal sphincter"
+          ],
+          "caption": "Rectal distension triggers the rectoanal inhibitory reflex: IAS relaxation. This reflex alone does not mean defecation occurs.",
+          "schematic_annotations": [
+            {
+              "kind": "diagram_only_route",
+              "system": "neural_reflex",
+              "nodes": [
+                "Rectal wall distension",
+                "Enteric inhibitory response (nerves off model)",
+                "IAS relaxation"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            }
+          ]
+        },
+        {
+          "id": "defer",
+          "focus_parts": [
+            "External anal sphincter – deep part",
+            "External anal sphincter – superficial part",
+            "External anal sphincter – subcutaneous part",
+            "Puborectalis"
+          ],
+          "caption": "When defecation is deferred, voluntary EAS contraction maintains the outlet barrier. The puborectalis sling supports the anorectal bend.",
+          "schematic_annotations": []
+        },
+        {
+          "id": "evacuate",
+          "focus_parts": [
+            "Rectal ampulla",
+            "Anorectal junction",
+            "Internal anal sphincter",
+            "External anal sphincter – deep part",
+            "External anal sphincter – superficial part",
+            "External anal sphincter – subcutaneous part",
+            "Puborectalis"
+          ],
+          "caption": "For evacuation, outlet relaxation is coordinated with propulsive force. Puborectalis relaxation allows the anorectal angle to widen.",
+          "schematic_annotations": [
+            {
+              "kind": "diagram_only_route",
+              "system": "evacuation",
+              "nodes": [
+                "Rectal contents",
+                "Anorectal junction",
+                "Anal canal",
+                "Anus"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            }
+          ]
+        },
+        {
+          "id": "recovery",
+          "focus_parts": [
+            "Internal anal sphincter",
+            "External anal sphincter – deep part",
+            "External anal sphincter – superficial part",
+            "External anal sphincter – subcutaneous part",
+            "Puborectalis"
+          ],
+          "caption": "Return to resting continence as outlet muscles resume tone; this state is a qualitative teaching summary, not a timed physiological measurement.",
+          "schematic_annotations": []
+        }
+      ],
+      "schematic_limitations": [
+        "No dynamic deformation, manometry, patient-specific angle, timing, pressure, nerve geometry or stool model is supplied.",
+        "All three existing EAS selectors are retained and taught as one complex. Their boundaries and classification vary across anatomical accounts.",
+        "Anorectal widening is explained by a caption; no displacement of a disconnected levator slab is accepted as proof of function.",
+        "The model omits bony origins, perineal body, coccygeal attachments and other pelvic viscera. It cannot show a complete pelvic-floor action map.",
+        "A diagnosis of dyssynergia, incontinence or sphincter injury cannot be inferred from this schematic."
+      ]
+    },
+    {
+      "id": "rectal_arterial_routes",
+      "title": "Rectal arterial routes",
+      "visible_parts": [
+        "Rectal mucosa (upper rectum)",
+        "Rectal ampulla",
+        "Anorectal junction",
+        "Pectinate (dentate) line",
+        "Anal pecten (anoderm)",
+        "Anus & perianal skin",
+        "Submucosa",
+        "Internal anal sphincter",
+        "Puborectalis",
+        "Levator ani",
+        "Mesorectum",
+        "Ischioanal fossa fat",
+        "Superior rectal artery"
+      ],
+      "camera_basis": "Rectal supply",
+      "source_ids": [
+        "RECTUM"
+      ],
+      "mechanism": "Keep arterial supply distinct from venous return; identify represented superior rectal branches and omitted pelvic contribution.",
+      "steps": [
+        {
+          "id": "origin",
+          "focus_parts": [
+            "Superior rectal artery",
+            "Mesorectum"
+          ],
+          "caption": "Arterial inflow: inferior mesenteric artery → superior rectal artery → rectal wall. The proximal origin and terminal microvessels are omitted.",
+          "schematic_annotations": [
+            {
+              "kind": "diagram_only_route",
+              "system": "arterial_supply",
+              "nodes": [
+                "Inferior mesenteric artery (off model)",
+                "Superior rectal artery",
+                "Rectal wall branches (partly represented)",
+                "Terminal arterioles/capillaries (off model)"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            }
+          ]
+        },
+        {
+          "id": "territory",
+          "focus_parts": [
+            "Superior rectal artery",
+            "Pectinate (dentate) line",
+            "Anal pecten (anoderm)"
+          ],
+          "caption": "Middle and inferior rectal arteries contribute to distal territories; they are not present as named vessel meshes. Territories overlap.",
+          "schematic_annotations": [
+            {
+              "kind": "diagram_only_route",
+              "system": "arterial_supply",
+              "nodes": [
+                "Internal iliac artery (off model)",
+                "Middle rectal artery (off model)",
+                "Distal rectum/proximal anal canal"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            },
+            {
+              "kind": "diagram_only_route",
+              "system": "arterial_supply",
+              "nodes": [
+                "Internal iliac artery (off model)",
+                "Internal pudendal artery (off model)",
+                "Inferior rectal artery (off model)",
+                "Distal anal canal"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            }
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "No artery-to-vein connecting tube may be added to make a route look continuous.",
+        "Displayed ends are cut/omitted continuations; branch topology, perfused territory and capillary patency need separate validation.",
+        "Maintain mesorectal and wall context even when selected vessels are emphasized."
+      ]
+    },
+    {
+      "id": "rectal_venous_routes",
+      "title": "Rectal venous routes",
+      "visible_parts": [
+        "Rectal mucosa (upper rectum)",
+        "Rectal ampulla",
+        "Anorectal junction",
+        "Anal columns (of Morgagni)",
+        "Pectinate (dentate) line",
+        "Anal pecten (anoderm)",
+        "Anus & perianal skin",
+        "Submucosa",
+        "Internal rectal venous plexus (anal cushions)",
+        "External rectal venous plexus",
+        "Internal anal sphincter",
+        "Mesorectum",
+        "Ischioanal fossa fat",
+        "Superior rectal vein"
+      ],
+      "camera_basis": "Rectal supply",
+      "source_ids": [
+        "ANAL",
+        "CUSHIONS"
+      ],
+      "mechanism": "Separate portal-dominant superior drainage from omitted systemic routes; explain normal cushions without conflating disease.",
+      "steps": [
+        {
+          "id": "cushion",
+          "focus_parts": [
+            "Internal rectal venous plexus (anal cushions)",
+            "Submucosa",
+            "Internal anal sphincter"
+          ],
+          "caption": "The named internal plexus represents only the vascular component of normal anal cushions; normal cushions also contain supporting nonvascular tissue.",
+          "schematic_annotations": []
+        },
+        {
+          "id": "portal",
+          "focus_parts": [
+            "Internal rectal venous plexus (anal cushions)",
+            "Superior rectal vein",
+            "Mesorectum"
+          ],
+          "caption": "Superior route: rectal venous network → superior rectal vein → inferior mesenteric vein → portal circulation. Omitted links are diagram annotations.",
+          "schematic_annotations": [
+            {
+              "kind": "diagram_only_route",
+              "system": "venous_drainage",
+              "nodes": [
+                "Rectal venous network (simplified)",
+                "Superior rectal vein",
+                "Inferior mesenteric vein (off model)",
+                "Portal circulation (off model)"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            }
+          ]
+        },
+        {
+          "id": "systemic",
+          "focus_parts": [
+            "External rectal venous plexus",
+            "Pectinate (dentate) line",
+            "Anal pecten (anoderm)"
+          ],
+          "caption": "Distal venous return also reaches systemic circulation through pelvic veins. Portal–systemic communications are not explicitly reconstructed.",
+          "schematic_annotations": [
+            {
+              "kind": "diagram_only_route",
+              "system": "venous_drainage",
+              "nodes": [
+                "Distal venous network (simplified)",
+                "Inferior rectal/internal pudendal veins (off model)",
+                "Internal iliac veins (off model)",
+                "Systemic circulation (off model)"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            }
+          ]
+        },
+        {
+          "id": "disease_scope",
+          "focus_parts": [
+            "Internal rectal venous plexus (anal cushions)",
+            "External rectal venous plexus"
+          ],
+          "caption": "Normal cushions, symptomatic hemorrhoidal disease and anorectal varices are different concepts. Purple shape alone depicts none of their clinical diagnoses.",
+          "schematic_annotations": []
+        }
+      ],
+      "schematic_limitations": [
+        "Disconnected displayed venous pieces do not establish drainage continuity. Do not invent a direct artery-to-vein bridge.",
+        "No disease animation, reflux direction, congestion severity, thrombosis, prolapse or variceal collateral is represented.",
+        "Regional drainage is a simplified route explanation with overlap; pectinate line is not an impermeable vascular border."
+      ]
+    },
+    {
+      "id": "regional_lymphatic_routes",
+      "title": "Regional lymphatic routes",
+      "visible_parts": [
+        "Rectal mucosa (upper rectum)",
+        "Rectal ampulla",
+        "Anorectal junction",
+        "Pectinate (dentate) line",
+        "Anal pecten (anoderm)",
+        "Anus & perianal skin",
+        "Submucosa",
+        "Internal anal sphincter",
+        "Puborectalis",
+        "Levator ani",
+        "Mesorectum",
+        "Ischioanal fossa fat",
+        "Mesorectal lymph nodes"
+      ],
+      "camera_basis": "Rectal supply",
+      "source_ids": [
+        "RECTUM",
+        "ANAL"
+      ],
+      "mechanism": "Keep mesorectal nodes in fat/wall context and explain the regional continuations beyond the model.",
+      "steps": [
+        {
+          "id": "mesorectal",
+          "focus_parts": [
+            "Mesorectal lymph nodes",
+            "Mesorectum",
+            "Rectal mucosa (upper rectum)"
+          ],
+          "caption": "Mesorectal nodes belong to the mesorectal compartment; they must remain contextualized rather than floating isolated dots.",
+          "schematic_annotations": []
+        },
+        {
+          "id": "superior",
+          "focus_parts": [
+            "Mesorectal lymph nodes",
+            "Mesorectum",
+            "Rectal ampulla"
+          ],
+          "caption": "A superior route continues through superior rectal lymphatics toward inferior mesenteric nodes, beyond this model.",
+          "schematic_annotations": [
+            {
+              "kind": "diagram_only_route",
+              "system": "lymphatic_drainage",
+              "nodes": [
+                "Rectal wall lymphatics (off model)",
+                "Mesorectal nodes (representative)",
+                "Superior rectal lymphatics (off model)",
+                "Inferior mesenteric nodes (off model)"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            }
+          ]
+        },
+        {
+          "id": "pelvic",
+          "focus_parts": [
+            "Anorectal junction",
+            "Pectinate (dentate) line"
+          ],
+          "caption": "Additional rectal drainage reaches internal iliac nodes. Avoid teaching all tissue above the pectinate line as an exclusive mesorectal pathway.",
+          "schematic_annotations": [
+            {
+              "kind": "diagram_only_route",
+              "system": "lymphatic_drainage",
+              "nodes": [
+                "Distal rectal lymphatics (off model)",
+                "Internal iliac nodes (off model)"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            }
+          ]
+        },
+        {
+          "id": "below_line",
+          "focus_parts": [
+            "Pectinate (dentate) line",
+            "Anal pecten (anoderm)",
+            "Anus & perianal skin"
+          ],
+          "caption": "Below the pectinate line, superficial inguinal drainage is the key regional route; these nodes and channels are omitted.",
+          "schematic_annotations": [
+            {
+              "kind": "diagram_only_route",
+              "system": "lymphatic_drainage",
+              "nodes": [
+                "Below-line anal/perianal lymphatics (off model)",
+                "Superficial inguinal nodes (off model)"
+              ],
+              "geometry_claim": "No 3D connection or vessel lumen is implied."
+            }
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "No explicit lymphatic vessel meshes, flow rates, complete nodal counts or cancer spread simulation are supplied.",
+        "Routes overlap and vary; representative node dots do not specify every drainage basin.",
+        "Pectinate line is a landmark for regional teaching, not a watertight lymphatic partition."
+      ]
+    }
+  ],
+  "native_compile_path": "specialists/function/compile_function_views.py",
+  "shared_viewer_limit": "Cut-face labels can remain visible independently of top-level Labels. This is a viewer issue documented in the refinement handoff, not fixed here."
+}

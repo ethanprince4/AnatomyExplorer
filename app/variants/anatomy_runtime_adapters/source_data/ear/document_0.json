@@ -1,0 +1,1466 @@
+{
+  "schema_version": 1,
+  "model_id": "ear",
+  "mode": "static_named_view_sequence",
+  "geometry_policy": "preserve all 104 baseline meshes",
+  "sources": [
+    {
+      "id": "nih_hearing",
+      "title": "NIDCD: How Do We Hear?",
+      "url": "https://www.nidcd.nih.gov/health/how-do-we-hear",
+      "retrieval": "substantive open 2026-10-04",
+      "supports": "sound path and base-to-apex frequency organization"
+    },
+    {
+      "id": "uth_auditory",
+      "title": "UTHealth Neuroscience Online chapter 12",
+      "url": "https://nba.uth.tmc.edu/neuroscience/m/s2/chapter12.html",
+      "retrieval": "substantive open 2026-10-04",
+      "supports": "area/lever impedance matching; opposite window displacement; K and Ca transduction; inner/outer hair-cell roles"
+    },
+    {
+      "id": "uth_vestibular",
+      "title": "UTHealth Neuroscience Online chapter 10",
+      "url": "https://nba.uth.tmc.edu/neuroscience/m/s2/chapter10.html",
+      "retrieval": "substantive open 2026-10-04",
+      "supports": "endolymph lag, cupular deflection and polarized hair-cell response"
+    },
+    {
+      "id": "duke_histology",
+      "title": "Duke Neurosciences: Eye and Ear Histology",
+      "url": "https://brain.oit.duke.edu/EyeEar/EyeEar.html",
+      "retrieval": "substantive open 2026-10-04",
+      "supports": "compartment identities, stria, macular otoconial inertia, peripheral ganglion paths",
+      "caution": "Do not use its line 143 perilymph wording for cupula drive; endolymph is used per UTHealth."
+    },
+    {
+      "id": "macular_polarity_primary",
+      "title": "Deans et al. 2007: Prickle-like 2 and vestibular polarization",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6672483/",
+      "retrieval": "substantive open 2026-10-04",
+      "supports": "opposite domains, shortest-to-kinocilium polarity and excitatory deflection; primary mouse observations"
+    },
+    {
+      "id": "macular_polarity_review",
+      "title": "A balance of form and function: planar polarity and development of vestibular maculae",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/23507521/",
+      "retrieval": "substantive open 2026-10-04",
+      "supports": "utricular bundles toward LPR; saccular bundles away; LPR versus striolar terminology"
+    },
+    {
+      "id": "otolith_text",
+      "title": "Purves Neuroscience: Otolith organs",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK10792/",
+      "retrieval": "substantive search excerpt 2026-10-04; direct open blocked by browser challenge",
+      "supports": "gravity, translational inertia, upright predominantly horizontal utricle and vertical saccule planes"
+    },
+    {
+      "id": "canal_text",
+      "title": "Purves Neuroscience: Semicircular canals",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK10863/",
+      "retrieval": "substantive search excerpt 2026-10-04; direct open blocked by browser challenge",
+      "supports": "coplanar bilateral push-pull and response orthogonal to bundle axis"
+    },
+    {
+      "id": "canal_adaptation",
+      "title": "Purves Neuroscience: How semicircular canal neurons sense angular accelerations",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK11135/",
+      "retrieval": "substantive search excerpt 2026-10-04; direct open blocked by browser challenge",
+      "supports": "acceleration, maintained velocity adaptation and opposite transient on deceleration"
+    },
+    {
+      "id": "prestin_primary",
+      "title": "Dallos et al.: Prestin-based outer hair cell motility is necessary for mammalian cochlear amplification",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2435065/",
+      "retrieval": "substantive search excerpt 2026-10-04; direct open blocked by browser challenge",
+      "supports": "prestin motor role, experiment performed in mice; does not calibrate this model"
+    },
+    {
+      "id": "pressure_reference",
+      "title": "MSD Manual Professional: Otic barotrauma",
+      "url": "https://www.msdmanuals.com/professional/ear-nose-and-throat-disorders/middle-ear-and-tympanic-membrane-disorders/otic-barotrauma",
+      "retrieval": "substantive open 2026-10-04",
+      "supports": "air exchange via auditory tube, negative/positive middle-ear pressure and membrane retraction/bulging"
+    },
+    {
+      "id": "tilt_ambiguity_primary",
+      "title": "Angelaki et al.: Computation of Inertial Motion: Neural Strategies to Resolve Ambiguous Otolith Information",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6782388/",
+      "retrieval": "substantive search excerpt 2026-10-04; direct open blocked by browser challenge",
+      "supports": "tilt/translation ambiguity and canal contribution demonstrated experimentally in primates"
+    },
+    {
+      "id": "utricular_architecture_primary",
+      "title": "Architecture of the mouse utricle: macular organization and hair bundle heights",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/18046005/",
+      "retrieval": "substantive open 2026-10-04",
+      "supports": "LPR can lie lateral to striola; primary mouse observation, not human coordinate calibration"
+    },
+    {
+      "id": "outer_hair_cells_review",
+      "title": "Ashmore 2019: Outer Hair Cells and Electromotility",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6601450/",
+      "retrieval": "substantive open 2026-10-04",
+      "supports": "voltage-dependent forces, prestin, amplification; isolated-cell movement does not calibrate intact constrained cells"
+    }
+  ],
+  "functional_sequences": [
+    {
+      "id": "hearing_path",
+      "title": "Air pressure to cochlear motion",
+      "mechanism": "Pressure oscillations become mechanical displacement at the cochlear partition.",
+      "steps": [
+        {
+          "id": "collect",
+          "view": "Overview",
+          "caption": "Sound pressure oscillates in the canal and drives the tympanic membrane.",
+          "parts": [
+            "Concha of auricle",
+            "External acoustic meatus – cartilaginous part",
+            "External acoustic meatus – bony part",
+            "Tympanic membrane – pars tensa"
+          ],
+          "source_evidence": [
+            "nih_hearing"
+          ]
+        },
+        {
+          "id": "ossicles",
+          "view": "Ossicular chain",
+          "caption": "The malleus couples to the membrane; the incus and stapes transmit its motion through their joints.",
+          "parts": [
+            "Tympanic membrane – pars tensa",
+            "Malleus",
+            "Incus",
+            "Stapes",
+            "Incudomallear joint",
+            "Incudostapedial joint"
+          ],
+          "source_evidence": [
+            "nih_hearing"
+          ]
+        },
+        {
+          "id": "match_impedance",
+          "view": "Ossicular chain",
+          "caption": "Membrane-to-footplate area and ossicular leverage increase pressure delivered to fluid; they do not create acoustic energy.",
+          "parts": [
+            "Tympanic membrane – pars tensa",
+            "Malleus",
+            "Incus",
+            "Base (footplate) of stapes"
+          ],
+          "source_evidence": [
+            "uth_auditory"
+          ]
+        },
+        {
+          "id": "windows",
+          "view": "Ossicular chain",
+          "caption": "The stapes footplate displaces perilymph through the oval window. The compliant round window permits compensating displacement.",
+          "parts": [
+            "Base (footplate) of stapes",
+            "Oval window & annular ligament",
+            "Round window (secondary tympanic membrane)",
+            "Bony labyrinth (perilymph)"
+          ],
+          "source_evidence": [
+            "uth_auditory"
+          ]
+        },
+        {
+          "id": "separate_fluids",
+          "view": "Labyrinth fluids",
+          "caption": "Scala vestibuli and scala tympani contain perilymph; the enclosed cochlear duct contains endolymph. Reissner and basilar membranes preserve separation.",
+          "parts": [
+            "Scala vestibuli (perilymph)",
+            "Scala tympani (perilymph)",
+            "Cochlear duct (scala media, endolymph)",
+            "Basilar membrane",
+            "Vestibular (Reissner) membrane"
+          ],
+          "source_evidence": [
+            "duke_histology"
+          ]
+        },
+        {
+          "id": "wave",
+          "view": "Labyrinth fluids",
+          "caption": "The cochlear partition supports a traveling wave. Higher frequencies peak toward the base; lower frequencies peak toward the apex.",
+          "parts": [
+            "Basilar membrane",
+            "Spiral organ (of Corti)",
+            "Helicotrema",
+            "Osseous spiral lamina",
+            "Modiolus"
+          ],
+          "source_evidence": [
+            "nih_hearing"
+          ]
+        },
+        {
+          "id": "handoff",
+          "view": "Cochlear transduction",
+          "caption": "The magnified cochlear inset exposes the sensory apparatus carried by the basilar membrane.",
+          "parts": [
+            "Basilar membrane (magnified)",
+            "Pillar cells & tunnel of Corti",
+            "Supporting cells (Deiters, Hensen, Claudius)",
+            "Inner hair cells",
+            "Outer hair cells",
+            "Hair-cell stereocilia"
+          ],
+          "source_evidence": [
+            "nih_hearing"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Static anatomical states, no calibrated oscillation or pressure magnitude.",
+        "Fluid colors identify compartments; they do not measure ionic concentration or pressure.",
+        "The helicotrema joins the perilymphatic scalae at the apex; there is no circulating bolus of sound that must travel there before transduction.",
+        "The inset is one representative cochlear turn; it does not calculate frequency-specific peaks or tuning."
+      ]
+    },
+    {
+      "id": "cochlear_transduction",
+      "title": "Bundle deflection to auditory afferent signal",
+      "mechanism": "Hair-cell receptor potentials and synaptic release connect cochlear mechanics to neural signaling.",
+      "steps": [
+        {
+          "id": "ionic_environment",
+          "view": "Cochlear transduction",
+          "caption": "The stria vascularis maintains the endolymph environment. Hair bundles face endolymph while the sensory epithelial barrier preserves ionic separation.",
+          "parts": [
+            "Stria vascularis",
+            "Cochlear duct endolymph (magnified)",
+            "Supporting cells (Deiters, Hensen, Claudius)",
+            "Inner hair cells",
+            "Outer hair cells",
+            "Hair-cell stereocilia"
+          ],
+          "source_evidence": [
+            "duke_histology",
+            "uth_auditory"
+          ]
+        },
+        {
+          "id": "relative_motion",
+          "view": "Cochlear transduction",
+          "caption": "Relative motion of the sensory surface and overlying tectorial membrane bends the stereocilia.",
+          "parts": [
+            "Basilar membrane (magnified)",
+            "Tectorial membrane (magnified)",
+            "Inner hair cells",
+            "Outer hair cells",
+            "Hair-cell stereocilia"
+          ],
+          "source_evidence": [
+            "uth_auditory"
+          ]
+        },
+        {
+          "id": "channels",
+          "view": "Cochlear transduction",
+          "caption": "Deflection toward the tallest stereocilia raises mechanotransduction-channel opening; inward cation current, chiefly potassium, depolarizes the hair cell.",
+          "parts": [
+            "Cochlear duct endolymph (magnified)",
+            "Inner hair cells",
+            "Hair-cell stereocilia"
+          ],
+          "source_evidence": [
+            "uth_auditory"
+          ]
+        },
+        {
+          "id": "release",
+          "view": "Cochlear transduction",
+          "caption": "Depolarization opens basal voltage-gated calcium channels and promotes transmitter release onto afferent terminals. The hair cell produces a receptor potential.",
+          "parts": [
+            "Inner hair cells",
+            "Cochlear nerve fibres"
+          ],
+          "source_evidence": [
+            "uth_auditory"
+          ]
+        },
+        {
+          "id": "afferent",
+          "view": "Cochlear transduction",
+          "caption": "Spiral ganglion afferents generate action potentials. Inner hair cells provide most auditory afferent input.",
+          "parts": [
+            "Inner hair cells",
+            "Spiral ganglion neurons",
+            "Cochlear nerve fibres"
+          ],
+          "source_evidence": [
+            "duke_histology",
+            "uth_auditory"
+          ]
+        },
+        {
+          "id": "amplifier",
+          "view": "Cochlear transduction",
+          "caption": "Outer hair-cell prestin supports rapid voltage-dependent length change and mechanical amplification. This assists sensitivity and frequency selectivity.",
+          "parts": [
+            "Outer hair cells",
+            "Basilar membrane (magnified)",
+            "Tectorial membrane (magnified)"
+          ],
+          "source_evidence": [
+            "prestin_primary",
+            "outer_hair_cells_review"
+          ]
+        },
+        {
+          "id": "nerve_path",
+          "view": "Labyrinth fluids",
+          "caption": "Peripheral fibres connect to spiral ganglion neurons; their central axons join the cochlear nerve and then cranial nerve VIII.",
+          "parts": [
+            "Spiral ganglion",
+            "Cochlear nerve",
+            "Vestibulocochlear nerve (VIII)"
+          ],
+          "source_evidence": [
+            "duke_histology"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Tip links, ion channels, synaptic vesicles and prestin molecules are described; they are not separate mesh parts.",
+        "The shared stereocilia part prevents independent selection of each hair-cell bundle.",
+        "Inner hair-cell bundles are not shown as rigidly embedded in the tectorial membrane; local fluid coupling differs from outer hair-cell tallest-bundle contact.",
+        "No cell deformation, ionic-current meter, voltage trace, neural firing rate or acoustic threshold is simulated.",
+        "Cell counts and microscopic sizes are enlarged representative samples, with no adult human total-count inference."
+      ]
+    },
+    {
+      "id": "canal_rotation",
+      "title": "Rotation, endolymph inertia and cupula",
+      "mechanism": "Changes in head rotation produce relative endolymph motion that loads the cupula and alters vestibular afferent activity.",
+      "steps": [
+        {
+          "id": "canal_context",
+          "view": "Labyrinth fluids",
+          "caption": "Each semicircular duct has an ampulla containing a crista and cupula. Three duct planes provide complementary rotation sensitivity.",
+          "parts": [
+            "Semicircular ducts",
+            "Membranous ampullae",
+            "Cristae ampullares",
+            "Cupulae"
+          ],
+          "source_evidence": [
+            "uth_vestibular"
+          ]
+        },
+        {
+          "id": "rotation_onset",
+          "view": "Canal rotation",
+          "caption": "At rotation onset, endolymph initially lags the moving duct. Its relative motion loads the cupula, which spans the ampullary lumen.",
+          "parts": [
+            "Ampulla wall (membranous)",
+            "Crista ampullaris (connective tissue core)",
+            "Cupula (magnified)"
+          ],
+          "source_evidence": [
+            "uth_vestibular"
+          ]
+        },
+        {
+          "id": "coupled_bundles",
+          "view": "Canal rotation",
+          "caption": "Bundles embedded in the cupula bend together. Deflection toward the kinocilium raises afferent activity; deflection away lowers it.",
+          "parts": [
+            "Cupula (magnified)",
+            "Type I hair cells (crista)",
+            "Type II hair cells (crista)",
+            "Stereocilia & kinocilia (crista)",
+            "Ampullary nerve fibres"
+          ],
+          "source_evidence": [
+            "uth_vestibular"
+          ]
+        },
+        {
+          "id": "same_polarity",
+          "view": "Canal rotation",
+          "caption": "Bundles in one crista share directional polarity. A coplanar canal on the other side normally supplies a complementary push-pull response.",
+          "parts": [
+            "Type I hair cells (crista)",
+            "Type II hair cells (crista)",
+            "Stereocilia & kinocilia (crista)",
+            "Ampullary nerve fibres"
+          ],
+          "source_evidence": [
+            "canal_text"
+          ]
+        },
+        {
+          "id": "steady_rotation",
+          "view": "Canal rotation",
+          "caption": "During prolonged constant angular velocity the cupula tends back toward neutral and peripheral firing approaches baseline; rotation can continue.",
+          "parts": [
+            "Cupula (magnified)",
+            "Stereocilia & kinocilia (crista)",
+            "Ampullary nerve fibres"
+          ],
+          "source_evidence": [
+            "canal_adaptation"
+          ]
+        },
+        {
+          "id": "stop",
+          "view": "Canal rotation",
+          "caption": "Deceleration can produce an opposite transient cupular deflection and afferent change before the response settles.",
+          "parts": [
+            "Cupula (magnified)",
+            "Stereocilia & kinocilia (crista)",
+            "Ampullary nerve fibres"
+          ],
+          "source_evidence": [
+            "canal_adaptation"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "The right-ear model contains no left partner; bilateral push-pull is captioned context.",
+        "The magnified crista is a generic crest with consistently oriented bundles; it is not a calibrated horizontal, anterior or posterior canal stimulus map.",
+        "Do not infer excitation from screen-left or screen-right: use the local kinocilium direction.",
+        "The normal cupula has no otoconial load.",
+        "No angular acceleration, duration, cupular displacement, fluid streamlines or firing values are assigned."
+      ]
+    },
+    {
+      "id": "otolith_loading",
+      "title": "Utricle, saccule and loaded otolithic membrane",
+      "mechanism": "Otoconial mass couples gravity and translational inertia to macular hair-bundle shear.",
+      "steps": [
+        {
+          "id": "organ_context",
+          "view": "Labyrinth fluids",
+          "caption": "With the head upright, the utricular macula is predominantly horizontal and the saccular macula predominantly vertical. Each samples a range of bundle directions.",
+          "parts": [
+            "Utricle",
+            "Saccule",
+            "Maculae (utricle & saccule)",
+            "Otolithic membranes & otoliths"
+          ],
+          "source_evidence": [
+            "otolith_text"
+          ]
+        },
+        {
+          "id": "loaded_layer",
+          "view": "Utricular loading",
+          "caption": "Attached calcium-carbonate otoconia load the otolithic membrane above the gelatinous layer and sensory epithelium.",
+          "parts": [
+            "Lamina propria of macula",
+            "Gelatinous layer",
+            "Otolithic membrane (magnified)",
+            "Type I hair cells (macula)",
+            "Type II hair cells (macula)",
+            "Supporting cells (macula)",
+            "Otoconia (otoliths)",
+            "Stereocilia & kinocilia (macula)"
+          ],
+          "source_evidence": [
+            "duke_histology"
+          ]
+        },
+        {
+          "id": "translation",
+          "view": "Utricular loading",
+          "caption": "During translation the loaded layer lags relative to the sensory epithelium. Gel coupling shears the bundles and alters receptor potentials.",
+          "parts": [
+            "Gelatinous layer",
+            "Otolithic membrane (magnified)",
+            "Otoconia (otoliths)",
+            "Stereocilia & kinocilia (macula)"
+          ],
+          "source_evidence": [
+            "duke_histology",
+            "otolith_text"
+          ]
+        },
+        {
+          "id": "tilt",
+          "view": "Utricular loading",
+          "caption": "Head tilt changes gravitational loading of the membrane. Otolith signals alone cannot uniquely distinguish gravity from translational acceleration.",
+          "parts": [
+            "Otolithic membrane (magnified)",
+            "Otoconia (otoliths)",
+            "Stereocilia & kinocilia (macula)",
+            "Macular nerve fibres"
+          ],
+          "source_evidence": [
+            "otolith_text",
+            "tilt_ambiguity_primary"
+          ]
+        },
+        {
+          "id": "polarity",
+          "view": "Utricular loading",
+          "caption": "This representative utricular strip has kinocilia toward its polarity-reversal boundary. A shared shear excites one domain and inhibits the other.",
+          "parts": [
+            "Type I hair cells (macula)",
+            "Type II hair cells (macula)",
+            "Stereocilia & kinocilia (macula)",
+            "Macular nerve fibres"
+          ],
+          "source_evidence": [
+            "macular_polarity_primary",
+            "macular_polarity_review"
+          ]
+        },
+        {
+          "id": "saccule_comparison",
+          "view": "Labyrinth fluids",
+          "caption": "The saccular macula has the opposite polarity arrangement: bundles face away from the reversal boundary. The displayed utricular inset must not substitute for a saccular map.",
+          "parts": [
+            "Saccule",
+            "Maculae (utricle & saccule)",
+            "Otolithic membranes & otoliths"
+          ],
+          "source_evidence": [
+            "macular_polarity_review"
+          ]
+        },
+        {
+          "id": "afferent_path",
+          "view": "Labyrinth fluids",
+          "caption": "Macular afferents connect through vestibular ganglion neurons and the vestibular nerve to cranial nerve VIII.",
+          "parts": [
+            "Vestibular nerve (superior & inferior divisions)",
+            "Vestibular (Scarpa) ganglion",
+            "Vestibulocochlear nerve (VIII)"
+          ],
+          "source_evidence": [
+            "duke_histology"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "The macular inset is a planar representative utricular strip, not a map of the entire human macula.",
+        "The line of polarity reversal is a schematic boundary; it is not a separate membrane or synonymous with the full striolar zone.",
+        "The source uses mixed scales and 36 enlarged representative crystals, not physiological crystal dimensions or counts.",
+        "Grouped gross maculae and otolithic material do not permit independent utricular/saccular cell-level selection.",
+        "Otoconia are attached physiological load; no normal free-particle circulation or BPPV maneuver is animated.",
+        "Tilt/translation disambiguation requires central integration beyond this model."
+      ]
+    },
+    {
+      "id": "middle_ear_pressure",
+      "title": "Air pressure equalization across the tympanic membrane",
+      "mechanism": "Auditory-tube gas exchange regulates the mean pressure of the middle-ear cavity.",
+      "steps": [
+        {
+          "id": "equal_sides",
+          "view": "Pressure equalization",
+          "caption": "The membrane separates external canal air from middle-ear air. Similar mean pressure on both sides supports normal mechanical motion.",
+          "parts": [
+            "Tympanic membrane – pars tensa",
+            "Tympanic cavity (mucosal lining)",
+            "Pharyngotympanic (auditory) tube"
+          ],
+          "source_evidence": [
+            "pressure_reference"
+          ]
+        },
+        {
+          "id": "tube_exchange",
+          "view": "Pressure equalization",
+          "caption": "Air passes between nasopharynx and middle ear through the auditory tube; swallowing or yawning can promote equalization.",
+          "parts": [
+            "Tympanic cavity (mucosal lining)",
+            "Pharyngotympanic (auditory) tube",
+            "Tubal cartilage"
+          ],
+          "source_evidence": [
+            "pressure_reference"
+          ]
+        },
+        {
+          "id": "negative_pressure",
+          "view": "Pressure equalization",
+          "caption": "If mean middle-ear pressure falls below canal pressure, the membrane tends to retract toward the middle ear; excess pressure tends to bulge it outward.",
+          "parts": [
+            "Tympanic membrane – pars tensa",
+            "Tympanic membrane – pars flaccida",
+            "Tympanic cavity (mucosal lining)",
+            "Pharyngotympanic (auditory) tube"
+          ],
+          "source_evidence": [
+            "pressure_reference"
+          ]
+        },
+        {
+          "id": "distinct_windows",
+          "view": "Ossicular chain",
+          "caption": "Mean air-pressure equalization through the tube differs from oscillatory fluid displacement at the oval and round windows during hearing.",
+          "parts": [
+            "Base (footplate) of stapes",
+            "Oval window & annular ligament",
+            "Round window (secondary tympanic membrane)"
+          ],
+          "source_evidence": [
+            "pressure_reference",
+            "uth_auditory"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "No membrane retraction or tube opening is physically deformed; each state is explained on preserved anatomy.",
+        "Tensor veli palatini, nasopharyngeal cavity and tubal valve mechanics are outside the 104-part model.",
+        "No equalization maneuver, medication or management advice is prescribed."
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "select",
+      "label": "Choose mechanism",
+      "action": "SequenceController.select(sequence_id)"
+    },
+    {
+      "id": "next",
+      "label": "Next step",
+      "action": "SequenceController.next()",
+      "boundary": "clamp at last step"
+    },
+    {
+      "id": "previous",
+      "label": "Previous step",
+      "action": "SequenceController.previous()",
+      "boundary": "clamp at first step"
+    },
+    {
+      "id": "restart",
+      "label": "Restart lesson",
+      "action": "SequenceController.restart()"
+    },
+    {
+      "id": "jump",
+      "label": "Choose step",
+      "action": "SequenceController.set_step(index)",
+      "boundary": "zero-based index clamps"
+    }
+  ],
+  "native_application_path": {
+    "entry": "native model selector attaches review model and its cameras",
+    "construct": "SequenceController(viewport, json_data); construction is inert",
+    "begin": "controller.select(\"hearing_path\")",
+    "display": "render state caption, mechanism, scale_note, focus_parts and schematic_limitations in host lesson panel; focus_parts is informational, not automatic isolation",
+    "apply": "viewport.set_named_view(step[\"view\"], animate=False)",
+    "integration_status": "supplied controller; host lesson-panel wiring remains lead/integration task"
+  },
+  "not_simulated": [
+    "mesh deformation",
+    "fluid dynamics",
+    "acoustic waveform",
+    "ionic currents",
+    "numeric afferent firing"
+  ],
+  "view_notes": {
+    "Overview": "Right ear viewed from anterior. Gross anatomy is at 1 unit = 40 mm; three separately magnified teaching insets are hidden. The source is already a coronal dissection; viewer cut is off.",
+    "Ossicular chain": "Follow pars tensa to malleus, incus, stapes and footplate in the oval window. Keep both synovial joints, four ligaments, two muscles and their tendons; chorda tympani is a nearby nerve, not a sound-transmitting link. Gross scale preserved; tympanic membrane is thicker than life.",
+    "Labyrinth fluids": "Perilymph and endolymph are separate filled teaching domains. Follow the vestibule and cochlear scalae while identifying the cochlear duct, vestibular membrane and basilar membrane; retain the vestibular ducts and sensory patches. Gross scale preserved; membranes and spiral organ are thicker than life.",
+    "Cochlear transduction": "One separately magnified cochlear turn. Identify scala vestibuli, cochlear duct endolymph and scala tympani before following basilar membrane, hair cells, stereocilia, tectorial membrane and nerve fibres. Inset approximately x8; organ of Corti/cells have further enlargement. Native scale bar measures displayed model distance, not original tissue distance.",
+    "Canal rotation": "Crista ampullaris inset: cupula, sensory epithelium, Type I/II hair cells, supporting cells, stereocilia/kinocilia and ampullary nerve fibres. Inset approximately x10 with cells further enlarged. Review rotation in gross labyrinth first; the inset is a local section, not a rotating canal.",
+    "Utricular loading": "Macula inset: identify lamina propria, hair cells and supporting cells, then gelatinous layer, otolithic membrane, otoconia and nerve fibres. Representative local macular section used for utricular loading teaching; no patient-specific striola or whole-macula polarity map. Inset approximately x10; cells/crystals further enlarged; 36 crystals are schematic.",
+    "Pressure equalization": "Follow the tympanic cavity into the pharyngotympanic tube and tubal cartilage; mastoid antrum/representative air cells remain for context. Pressure equalization is a function sequence, not a fluid mesh deformation. Gross scale preserved; mastoid cell size/count are schematic.",
+    "Auricle": "External ear: preserve cartilage-backed folds, cartilage-free lobule, concha and S-shaped meatus. Gross scale 1 unit = 40 mm. Ceruminous/sebaceous gland units are enlarged representatives. Additional viewer clipping is available interactively but is off in this pose."
+  },
+  "summary": "A right-ear coronal teaching dissection with preserved external, middle and inner anatomy. Eight focused native views link air conduction, ossicular pressure transfer, cochlear transduction and vestibular sensing. The macular inset represents a schematic utricular patch.",
+  "scale_note": "Drawn to scale, 1 model unit = 40 mm: the auricle is ~62 mm tall, the meatus ~24 mm long, the cochlea ~9 mm across and the stapes ~3 mm. The tympanic membrane, the membranous labyrinth and the spiral organ are drawn a little thicker than life. Insets: cochlear duct ~x8, crista and macula ~x10, with their cells further enlarged. Representative counts and straight macular polarity boundary are schematic; the macular inset illustrates utricular polarity, not a whole-macula map.",
+  "metres_per_unit": 0.04,
+  "cut_on": false,
+  "home_view": [
+    -0.38,
+    0.3
+  ],
+  "start_view": "Overview",
+  "viewer_cameras": {
+    "Overview": {
+      "position": [
+        -0.35,
+        -0.1,
+        2.5
+      ],
+      "target": [
+        -0.35,
+        -0.1,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.2,
+      "hidden": [
+        "Bony wall of cochlea (magnified)",
+        "Osseous spiral lamina (magnified)",
+        "Spiral ligament (magnified)",
+        "Stria vascularis",
+        "Spiral limbus",
+        "Scala vestibuli (magnified)",
+        "Scala tympani (magnified)",
+        "Cochlear duct endolymph (magnified)",
+        "Vestibular membrane (magnified)",
+        "Basilar membrane (magnified)",
+        "Tectorial membrane (magnified)",
+        "Pillar cells & tunnel of Corti",
+        "Supporting cells (Deiters, Hensen, Claudius)",
+        "Inner hair cells",
+        "Outer hair cells",
+        "Spiral ganglion neurons",
+        "Hair-cell stereocilia",
+        "Cochlear nerve fibres",
+        "Ampulla wall (membranous)",
+        "Crista ampullaris (connective tissue core)",
+        "Cupula (magnified)",
+        "Type I hair cells (crista)",
+        "Type II hair cells (crista)",
+        "Supporting cells (crista)",
+        "Stereocilia & kinocilia (crista)",
+        "Ampullary nerve fibres",
+        "Lamina propria of macula",
+        "Gelatinous layer",
+        "Otolithic membrane (magnified)",
+        "Type I hair cells (macula)",
+        "Type II hair cells (macula)",
+        "Supporting cells (macula)",
+        "Otoconia (otoliths)",
+        "Stereocilia & kinocilia (macula)",
+        "Macular nerve fibres"
+      ],
+      "cut_on": false,
+      "note": "Right ear viewed from anterior. Gross anatomy is at 1 unit = 40 mm; three separately magnified teaching insets are hidden. The source is already a coronal dissection; viewer cut is off."
+    },
+    "Ossicular chain": {
+      "position": [
+        -0.5125,
+        0.225,
+        2.325
+      ],
+      "target": [
+        -0.3125,
+        0.025,
+        0.075
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.65,
+      "hidden": [
+        "Auricular cartilage (elastic)",
+        "Tragus",
+        "Antitragus",
+        "Lobule of auricle",
+        "Helix",
+        "Cranial surface of auricle",
+        "Concha of auricle",
+        "Antihelix",
+        "Scapha & triangular fossa",
+        "External acoustic meatus – cartilaginous part",
+        "External acoustic meatus – bony part",
+        "Meatal cartilage",
+        "Ceruminous & sebaceous glands",
+        "Cerumen (earwax)",
+        "Pharyngotympanic (auditory) tube",
+        "Tubal cartilage",
+        "Mastoid antrum & air cells",
+        "Helicotrema",
+        "Osseous spiral lamina",
+        "Modiolus",
+        "Cochlear duct (scala media, endolymph)",
+        "Basilar membrane",
+        "Vestibular (Reissner) membrane",
+        "Spiral organ (of Corti)",
+        "Tectorial membrane",
+        "Semicircular ducts",
+        "Membranous ampullae",
+        "Utricle",
+        "Saccule",
+        "Endolymphatic duct & sac",
+        "Cristae ampullares",
+        "Cupulae",
+        "Maculae (utricle & saccule)",
+        "Otolithic membranes & otoliths",
+        "Vestibular nerve (superior & inferior divisions)",
+        "Vestibular (Scarpa) ganglion",
+        "Cochlear nerve",
+        "Vestibulocochlear nerve (VIII)",
+        "Spiral ganglion",
+        "Facial nerve (VII)",
+        "Geniculate ganglion",
+        "Petrous part (otic capsule)",
+        "Mastoid process",
+        "Squamous & tympanic parts",
+        "Skin of the side of the head",
+        "Subcutaneous tissue",
+        "Bony wall of cochlea (magnified)",
+        "Osseous spiral lamina (magnified)",
+        "Spiral ligament (magnified)",
+        "Stria vascularis",
+        "Spiral limbus",
+        "Scala vestibuli (magnified)",
+        "Scala tympani (magnified)",
+        "Cochlear duct endolymph (magnified)",
+        "Vestibular membrane (magnified)",
+        "Basilar membrane (magnified)",
+        "Tectorial membrane (magnified)",
+        "Pillar cells & tunnel of Corti",
+        "Supporting cells (Deiters, Hensen, Claudius)",
+        "Inner hair cells",
+        "Outer hair cells",
+        "Spiral ganglion neurons",
+        "Hair-cell stereocilia",
+        "Cochlear nerve fibres",
+        "Ampulla wall (membranous)",
+        "Crista ampullaris (connective tissue core)",
+        "Cupula (magnified)",
+        "Type I hair cells (crista)",
+        "Type II hair cells (crista)",
+        "Supporting cells (crista)",
+        "Stereocilia & kinocilia (crista)",
+        "Ampullary nerve fibres",
+        "Lamina propria of macula",
+        "Gelatinous layer",
+        "Otolithic membrane (magnified)",
+        "Type I hair cells (macula)",
+        "Type II hair cells (macula)",
+        "Supporting cells (macula)",
+        "Otoconia (otoliths)",
+        "Stereocilia & kinocilia (macula)",
+        "Macular nerve fibres"
+      ],
+      "cut_on": false,
+      "note": "Follow pars tensa to malleus, incus, stapes and footplate in the oval window. Keep both synovial joints, four ligaments, two muscles and their tendons; chorda tympani is a nearby nerve, not a sound-transmitting link. Gross scale preserved; tympanic membrane is thicker than life."
+    },
+    "Labyrinth fluids": {
+      "position": [
+        -0.1,
+        0.15,
+        2.225
+      ],
+      "target": [
+        -0.1,
+        0.025,
+        -0.025
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.925,
+      "hidden": [
+        "Auricular cartilage (elastic)",
+        "Tragus",
+        "Antitragus",
+        "Lobule of auricle",
+        "Helix",
+        "Cranial surface of auricle",
+        "Concha of auricle",
+        "Antihelix",
+        "Scapha & triangular fossa",
+        "External acoustic meatus – cartilaginous part",
+        "External acoustic meatus – bony part",
+        "Meatal cartilage",
+        "Ceruminous & sebaceous glands",
+        "Cerumen (earwax)",
+        "Tympanic membrane – pars tensa",
+        "Tympanic membrane – pars flaccida",
+        "Tympanic cavity (mucosal lining)",
+        "Pharyngotympanic (auditory) tube",
+        "Tubal cartilage",
+        "Mastoid antrum & air cells",
+        "Malleus",
+        "Incus",
+        "Stapes",
+        "Incudomallear joint",
+        "Incudostapedial joint",
+        "Superior ligament of malleus",
+        "Lateral ligament of malleus",
+        "Posterior ligament of incus",
+        "Anterior ligament of malleus",
+        "Tensor tympani",
+        "Tensor tympani tendon",
+        "Stapedius",
+        "Stapedius tendon",
+        "Facial nerve (VII)",
+        "Geniculate ganglion",
+        "Chorda tympani",
+        "Petrous part (otic capsule)",
+        "Mastoid process",
+        "Squamous & tympanic parts",
+        "Skin of the side of the head",
+        "Subcutaneous tissue",
+        "Bony wall of cochlea (magnified)",
+        "Osseous spiral lamina (magnified)",
+        "Spiral ligament (magnified)",
+        "Stria vascularis",
+        "Spiral limbus",
+        "Scala vestibuli (magnified)",
+        "Scala tympani (magnified)",
+        "Cochlear duct endolymph (magnified)",
+        "Vestibular membrane (magnified)",
+        "Basilar membrane (magnified)",
+        "Tectorial membrane (magnified)",
+        "Pillar cells & tunnel of Corti",
+        "Supporting cells (Deiters, Hensen, Claudius)",
+        "Inner hair cells",
+        "Outer hair cells",
+        "Spiral ganglion neurons",
+        "Hair-cell stereocilia",
+        "Cochlear nerve fibres",
+        "Ampulla wall (membranous)",
+        "Crista ampullaris (connective tissue core)",
+        "Cupula (magnified)",
+        "Type I hair cells (crista)",
+        "Type II hair cells (crista)",
+        "Supporting cells (crista)",
+        "Stereocilia & kinocilia (crista)",
+        "Ampullary nerve fibres",
+        "Lamina propria of macula",
+        "Gelatinous layer",
+        "Otolithic membrane (magnified)",
+        "Type I hair cells (macula)",
+        "Type II hair cells (macula)",
+        "Supporting cells (macula)",
+        "Otoconia (otoliths)",
+        "Stereocilia & kinocilia (macula)",
+        "Macular nerve fibres"
+      ],
+      "cut_on": false,
+      "note": "Perilymph and endolymph are separate filled teaching domains. Follow the vestibule and cochlear scalae while identifying the cochlear duct, vestibular membrane and basilar membrane; retain the vestibular ducts and sensory patches. Gross scale preserved; membranes and spiral organ are thicker than life."
+    },
+    "Cochlear transduction": {
+      "position": [
+        0.925,
+        0.3125,
+        2.05
+      ],
+      "target": [
+        0.925,
+        0.3125,
+        0.05
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.85,
+      "hidden": [
+        "Auricular cartilage (elastic)",
+        "Tragus",
+        "Antitragus",
+        "Lobule of auricle",
+        "Helix",
+        "Cranial surface of auricle",
+        "Concha of auricle",
+        "Antihelix",
+        "Scapha & triangular fossa",
+        "External acoustic meatus – cartilaginous part",
+        "External acoustic meatus – bony part",
+        "Meatal cartilage",
+        "Ceruminous & sebaceous glands",
+        "Cerumen (earwax)",
+        "Tympanic membrane – pars tensa",
+        "Tympanic membrane – pars flaccida",
+        "Tympanic cavity (mucosal lining)",
+        "Round window (secondary tympanic membrane)",
+        "Pharyngotympanic (auditory) tube",
+        "Tubal cartilage",
+        "Mastoid antrum & air cells",
+        "Malleus",
+        "Incus",
+        "Stapes",
+        "Base (footplate) of stapes",
+        "Incudomallear joint",
+        "Incudostapedial joint",
+        "Superior ligament of malleus",
+        "Lateral ligament of malleus",
+        "Posterior ligament of incus",
+        "Anterior ligament of malleus",
+        "Oval window & annular ligament",
+        "Tensor tympani",
+        "Tensor tympani tendon",
+        "Stapedius",
+        "Stapedius tendon",
+        "Bony labyrinth (perilymph)",
+        "Helicotrema",
+        "Scala vestibuli (perilymph)",
+        "Scala tympani (perilymph)",
+        "Osseous spiral lamina",
+        "Modiolus",
+        "Cochlear duct (scala media, endolymph)",
+        "Basilar membrane",
+        "Vestibular (Reissner) membrane",
+        "Spiral organ (of Corti)",
+        "Tectorial membrane",
+        "Semicircular ducts",
+        "Membranous ampullae",
+        "Utricle",
+        "Saccule",
+        "Endolymphatic duct & sac",
+        "Cristae ampullares",
+        "Cupulae",
+        "Maculae (utricle & saccule)",
+        "Otolithic membranes & otoliths",
+        "Vestibular nerve (superior & inferior divisions)",
+        "Vestibular (Scarpa) ganglion",
+        "Cochlear nerve",
+        "Vestibulocochlear nerve (VIII)",
+        "Spiral ganglion",
+        "Facial nerve (VII)",
+        "Geniculate ganglion",
+        "Chorda tympani",
+        "Petrous part (otic capsule)",
+        "Mastoid process",
+        "Squamous & tympanic parts",
+        "Skin of the side of the head",
+        "Subcutaneous tissue",
+        "Ampulla wall (membranous)",
+        "Crista ampullaris (connective tissue core)",
+        "Cupula (magnified)",
+        "Type I hair cells (crista)",
+        "Type II hair cells (crista)",
+        "Supporting cells (crista)",
+        "Stereocilia & kinocilia (crista)",
+        "Ampullary nerve fibres",
+        "Lamina propria of macula",
+        "Gelatinous layer",
+        "Otolithic membrane (magnified)",
+        "Type I hair cells (macula)",
+        "Type II hair cells (macula)",
+        "Supporting cells (macula)",
+        "Otoconia (otoliths)",
+        "Stereocilia & kinocilia (macula)",
+        "Macular nerve fibres"
+      ],
+      "cut_on": false,
+      "note": "One separately magnified cochlear turn. Identify scala vestibuli, cochlear duct endolymph and scala tympani before following basilar membrane, hair cells, stereocilia, tectorial membrane and nerve fibres. Inset approximately x8; organ of Corti/cells have further enlargement. Native scale bar measures displayed model distance, not original tissue distance."
+    },
+    "Canal rotation": {
+      "position": [
+        0.925,
+        -0.22,
+        1.875
+      ],
+      "target": [
+        0.925,
+        -0.27,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.75,
+      "hidden": [
+        "Auricular cartilage (elastic)",
+        "Tragus",
+        "Antitragus",
+        "Lobule of auricle",
+        "Helix",
+        "Cranial surface of auricle",
+        "Concha of auricle",
+        "Antihelix",
+        "Scapha & triangular fossa",
+        "External acoustic meatus – cartilaginous part",
+        "External acoustic meatus – bony part",
+        "Meatal cartilage",
+        "Ceruminous & sebaceous glands",
+        "Cerumen (earwax)",
+        "Tympanic membrane – pars tensa",
+        "Tympanic membrane – pars flaccida",
+        "Tympanic cavity (mucosal lining)",
+        "Round window (secondary tympanic membrane)",
+        "Pharyngotympanic (auditory) tube",
+        "Tubal cartilage",
+        "Mastoid antrum & air cells",
+        "Malleus",
+        "Incus",
+        "Stapes",
+        "Base (footplate) of stapes",
+        "Incudomallear joint",
+        "Incudostapedial joint",
+        "Superior ligament of malleus",
+        "Lateral ligament of malleus",
+        "Posterior ligament of incus",
+        "Anterior ligament of malleus",
+        "Oval window & annular ligament",
+        "Tensor tympani",
+        "Tensor tympani tendon",
+        "Stapedius",
+        "Stapedius tendon",
+        "Bony labyrinth (perilymph)",
+        "Helicotrema",
+        "Scala vestibuli (perilymph)",
+        "Scala tympani (perilymph)",
+        "Osseous spiral lamina",
+        "Modiolus",
+        "Cochlear duct (scala media, endolymph)",
+        "Basilar membrane",
+        "Vestibular (Reissner) membrane",
+        "Spiral organ (of Corti)",
+        "Tectorial membrane",
+        "Semicircular ducts",
+        "Membranous ampullae",
+        "Utricle",
+        "Saccule",
+        "Endolymphatic duct & sac",
+        "Cristae ampullares",
+        "Cupulae",
+        "Maculae (utricle & saccule)",
+        "Otolithic membranes & otoliths",
+        "Vestibular nerve (superior & inferior divisions)",
+        "Vestibular (Scarpa) ganglion",
+        "Cochlear nerve",
+        "Vestibulocochlear nerve (VIII)",
+        "Spiral ganglion",
+        "Facial nerve (VII)",
+        "Geniculate ganglion",
+        "Chorda tympani",
+        "Petrous part (otic capsule)",
+        "Mastoid process",
+        "Squamous & tympanic parts",
+        "Skin of the side of the head",
+        "Subcutaneous tissue",
+        "Bony wall of cochlea (magnified)",
+        "Osseous spiral lamina (magnified)",
+        "Spiral ligament (magnified)",
+        "Stria vascularis",
+        "Spiral limbus",
+        "Scala vestibuli (magnified)",
+        "Scala tympani (magnified)",
+        "Cochlear duct endolymph (magnified)",
+        "Vestibular membrane (magnified)",
+        "Basilar membrane (magnified)",
+        "Tectorial membrane (magnified)",
+        "Pillar cells & tunnel of Corti",
+        "Supporting cells (Deiters, Hensen, Claudius)",
+        "Inner hair cells",
+        "Outer hair cells",
+        "Spiral ganglion neurons",
+        "Hair-cell stereocilia",
+        "Cochlear nerve fibres",
+        "Lamina propria of macula",
+        "Gelatinous layer",
+        "Otolithic membrane (magnified)",
+        "Type I hair cells (macula)",
+        "Type II hair cells (macula)",
+        "Supporting cells (macula)",
+        "Otoconia (otoliths)",
+        "Stereocilia & kinocilia (macula)",
+        "Macular nerve fibres"
+      ],
+      "cut_on": false,
+      "note": "Crista ampullaris inset: cupula, sensory epithelium, Type I/II hair cells, supporting cells, stereocilia/kinocilia and ampullary nerve fibres. Inset approximately x10 with cells further enlarged. Review rotation in gross labyrinth first; the inset is a local section, not a rotating canal."
+    },
+    "Utricular loading": {
+      "position": [
+        0.925,
+        -0.4125,
+        1.9
+      ],
+      "target": [
+        0.925,
+        -0.6625,
+        0.025
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.6,
+      "hidden": [
+        "Auricular cartilage (elastic)",
+        "Tragus",
+        "Antitragus",
+        "Lobule of auricle",
+        "Helix",
+        "Cranial surface of auricle",
+        "Concha of auricle",
+        "Antihelix",
+        "Scapha & triangular fossa",
+        "External acoustic meatus – cartilaginous part",
+        "External acoustic meatus – bony part",
+        "Meatal cartilage",
+        "Ceruminous & sebaceous glands",
+        "Cerumen (earwax)",
+        "Tympanic membrane – pars tensa",
+        "Tympanic membrane – pars flaccida",
+        "Tympanic cavity (mucosal lining)",
+        "Round window (secondary tympanic membrane)",
+        "Pharyngotympanic (auditory) tube",
+        "Tubal cartilage",
+        "Mastoid antrum & air cells",
+        "Malleus",
+        "Incus",
+        "Stapes",
+        "Base (footplate) of stapes",
+        "Incudomallear joint",
+        "Incudostapedial joint",
+        "Superior ligament of malleus",
+        "Lateral ligament of malleus",
+        "Posterior ligament of incus",
+        "Anterior ligament of malleus",
+        "Oval window & annular ligament",
+        "Tensor tympani",
+        "Tensor tympani tendon",
+        "Stapedius",
+        "Stapedius tendon",
+        "Bony labyrinth (perilymph)",
+        "Helicotrema",
+        "Scala vestibuli (perilymph)",
+        "Scala tympani (perilymph)",
+        "Osseous spiral lamina",
+        "Modiolus",
+        "Cochlear duct (scala media, endolymph)",
+        "Basilar membrane",
+        "Vestibular (Reissner) membrane",
+        "Spiral organ (of Corti)",
+        "Tectorial membrane",
+        "Semicircular ducts",
+        "Membranous ampullae",
+        "Utricle",
+        "Saccule",
+        "Endolymphatic duct & sac",
+        "Cristae ampullares",
+        "Cupulae",
+        "Maculae (utricle & saccule)",
+        "Otolithic membranes & otoliths",
+        "Vestibular nerve (superior & inferior divisions)",
+        "Vestibular (Scarpa) ganglion",
+        "Cochlear nerve",
+        "Vestibulocochlear nerve (VIII)",
+        "Spiral ganglion",
+        "Facial nerve (VII)",
+        "Geniculate ganglion",
+        "Chorda tympani",
+        "Petrous part (otic capsule)",
+        "Mastoid process",
+        "Squamous & tympanic parts",
+        "Skin of the side of the head",
+        "Subcutaneous tissue",
+        "Bony wall of cochlea (magnified)",
+        "Osseous spiral lamina (magnified)",
+        "Spiral ligament (magnified)",
+        "Stria vascularis",
+        "Spiral limbus",
+        "Scala vestibuli (magnified)",
+        "Scala tympani (magnified)",
+        "Cochlear duct endolymph (magnified)",
+        "Vestibular membrane (magnified)",
+        "Basilar membrane (magnified)",
+        "Tectorial membrane (magnified)",
+        "Pillar cells & tunnel of Corti",
+        "Supporting cells (Deiters, Hensen, Claudius)",
+        "Inner hair cells",
+        "Outer hair cells",
+        "Spiral ganglion neurons",
+        "Hair-cell stereocilia",
+        "Cochlear nerve fibres",
+        "Ampulla wall (membranous)",
+        "Crista ampullaris (connective tissue core)",
+        "Cupula (magnified)",
+        "Type I hair cells (crista)",
+        "Type II hair cells (crista)",
+        "Supporting cells (crista)",
+        "Stereocilia & kinocilia (crista)",
+        "Ampullary nerve fibres"
+      ],
+      "cut_on": false,
+      "note": "Macula inset: identify lamina propria, hair cells and supporting cells, then gelatinous layer, otolithic membrane, otoconia and nerve fibres. Representative local macular section used for utricular loading teaching; no patient-specific striola or whole-macula polarity map. Inset approximately x10; cells/crystals further enlarged; 36 crystals are schematic."
+    },
+    "Pressure equalization": {
+      "position": [
+        -0.125,
+        -0.3,
+        2.275
+      ],
+      "target": [
+        -0.125,
+        -0.3,
+        0.025
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.35,
+      "hidden": [
+        "Auricular cartilage (elastic)",
+        "Tragus",
+        "Antitragus",
+        "Lobule of auricle",
+        "Helix",
+        "Cranial surface of auricle",
+        "Concha of auricle",
+        "Antihelix",
+        "Scapha & triangular fossa",
+        "External acoustic meatus – cartilaginous part",
+        "External acoustic meatus – bony part",
+        "Meatal cartilage",
+        "Ceruminous & sebaceous glands",
+        "Cerumen (earwax)",
+        "Bony labyrinth (perilymph)",
+        "Helicotrema",
+        "Scala vestibuli (perilymph)",
+        "Scala tympani (perilymph)",
+        "Osseous spiral lamina",
+        "Modiolus",
+        "Cochlear duct (scala media, endolymph)",
+        "Basilar membrane",
+        "Vestibular (Reissner) membrane",
+        "Spiral organ (of Corti)",
+        "Tectorial membrane",
+        "Semicircular ducts",
+        "Membranous ampullae",
+        "Utricle",
+        "Saccule",
+        "Endolymphatic duct & sac",
+        "Cristae ampullares",
+        "Cupulae",
+        "Maculae (utricle & saccule)",
+        "Otolithic membranes & otoliths",
+        "Vestibular nerve (superior & inferior divisions)",
+        "Vestibular (Scarpa) ganglion",
+        "Cochlear nerve",
+        "Vestibulocochlear nerve (VIII)",
+        "Spiral ganglion",
+        "Facial nerve (VII)",
+        "Geniculate ganglion",
+        "Petrous part (otic capsule)",
+        "Mastoid process",
+        "Squamous & tympanic parts",
+        "Skin of the side of the head",
+        "Subcutaneous tissue",
+        "Bony wall of cochlea (magnified)",
+        "Osseous spiral lamina (magnified)",
+        "Spiral ligament (magnified)",
+        "Stria vascularis",
+        "Spiral limbus",
+        "Scala vestibuli (magnified)",
+        "Scala tympani (magnified)",
+        "Cochlear duct endolymph (magnified)",
+        "Vestibular membrane (magnified)",
+        "Basilar membrane (magnified)",
+        "Tectorial membrane (magnified)",
+        "Pillar cells & tunnel of Corti",
+        "Supporting cells (Deiters, Hensen, Claudius)",
+        "Inner hair cells",
+        "Outer hair cells",
+        "Spiral ganglion neurons",
+        "Hair-cell stereocilia",
+        "Cochlear nerve fibres",
+        "Ampulla wall (membranous)",
+        "Crista ampullaris (connective tissue core)",
+        "Cupula (magnified)",
+        "Type I hair cells (crista)",
+        "Type II hair cells (crista)",
+        "Supporting cells (crista)",
+        "Stereocilia & kinocilia (crista)",
+        "Ampullary nerve fibres",
+        "Lamina propria of macula",
+        "Gelatinous layer",
+        "Otolithic membrane (magnified)",
+        "Type I hair cells (macula)",
+        "Type II hair cells (macula)",
+        "Supporting cells (macula)",
+        "Otoconia (otoliths)",
+        "Stereocilia & kinocilia (macula)",
+        "Macular nerve fibres"
+      ],
+      "cut_on": false,
+      "note": "Follow the tympanic cavity into the pharyngotympanic tube and tubal cartilage; mastoid antrum/representative air cells remain for context. Pressure equalization is a function sequence, not a fluid mesh deformation. Gross scale preserved; mastoid cell size/count are schematic."
+    },
+    "Auricle": {
+      "position": [
+        -1.075,
+        0.05,
+        2.525
+      ],
+      "target": [
+        -0.95,
+        -0.05,
+        0.025
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.625,
+      "hidden": [
+        "Tympanic membrane – pars tensa",
+        "Tympanic membrane – pars flaccida",
+        "Tympanic cavity (mucosal lining)",
+        "Round window (secondary tympanic membrane)",
+        "Pharyngotympanic (auditory) tube",
+        "Tubal cartilage",
+        "Mastoid antrum & air cells",
+        "Malleus",
+        "Incus",
+        "Stapes",
+        "Base (footplate) of stapes",
+        "Incudomallear joint",
+        "Incudostapedial joint",
+        "Superior ligament of malleus",
+        "Lateral ligament of malleus",
+        "Posterior ligament of incus",
+        "Anterior ligament of malleus",
+        "Oval window & annular ligament",
+        "Tensor tympani",
+        "Tensor tympani tendon",
+        "Stapedius",
+        "Stapedius tendon",
+        "Bony labyrinth (perilymph)",
+        "Helicotrema",
+        "Scala vestibuli (perilymph)",
+        "Scala tympani (perilymph)",
+        "Osseous spiral lamina",
+        "Modiolus",
+        "Cochlear duct (scala media, endolymph)",
+        "Basilar membrane",
+        "Vestibular (Reissner) membrane",
+        "Spiral organ (of Corti)",
+        "Tectorial membrane",
+        "Semicircular ducts",
+        "Membranous ampullae",
+        "Utricle",
+        "Saccule",
+        "Endolymphatic duct & sac",
+        "Cristae ampullares",
+        "Cupulae",
+        "Maculae (utricle & saccule)",
+        "Otolithic membranes & otoliths",
+        "Vestibular nerve (superior & inferior divisions)",
+        "Vestibular (Scarpa) ganglion",
+        "Cochlear nerve",
+        "Vestibulocochlear nerve (VIII)",
+        "Spiral ganglion",
+        "Facial nerve (VII)",
+        "Geniculate ganglion",
+        "Chorda tympani",
+        "Petrous part (otic capsule)",
+        "Bony wall of cochlea (magnified)",
+        "Osseous spiral lamina (magnified)",
+        "Spiral ligament (magnified)",
+        "Stria vascularis",
+        "Spiral limbus",
+        "Scala vestibuli (magnified)",
+        "Scala tympani (magnified)",
+        "Cochlear duct endolymph (magnified)",
+        "Vestibular membrane (magnified)",
+        "Basilar membrane (magnified)",
+        "Tectorial membrane (magnified)",
+        "Pillar cells & tunnel of Corti",
+        "Supporting cells (Deiters, Hensen, Claudius)",
+        "Inner hair cells",
+        "Outer hair cells",
+        "Spiral ganglion neurons",
+        "Hair-cell stereocilia",
+        "Cochlear nerve fibres",
+        "Ampulla wall (membranous)",
+        "Crista ampullaris (connective tissue core)",
+        "Cupula (magnified)",
+        "Type I hair cells (crista)",
+        "Type II hair cells (crista)",
+        "Supporting cells (crista)",
+        "Stereocilia & kinocilia (crista)",
+        "Ampullary nerve fibres",
+        "Lamina propria of macula",
+        "Gelatinous layer",
+        "Otolithic membrane (magnified)",
+        "Type I hair cells (macula)",
+        "Type II hair cells (macula)",
+        "Supporting cells (macula)",
+        "Otoconia (otoliths)",
+        "Stereocilia & kinocilia (macula)",
+        "Macular nerve fibres"
+      ],
+      "cut_on": false,
+      "note": "External ear: preserve cartilage-backed folds, cartilage-free lobule, concha and S-shaped meatus. Gross scale 1 unit = 40 mm. Ceruminous/sebaceous gland units are enlarged representatives. Additional viewer clipping is available interactively but is off in this pose."
+    }
+  },
+  "mixed_schematic_scale": true,
+  "scale_policy": "Gross scale is preserved; scale-aware measurement suppression is applied by make_entry()/attach_controls(), not inferred from a note."
+}

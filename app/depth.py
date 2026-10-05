@@ -12,7 +12,7 @@ from zipfile import BadZipFile
 import numpy as np
 
 from .config import cache_candidates
-from .cache_io import save_npz
+from .cache_io import format_matches, save_npz
 from .relations import geometry_stamp, sample_points
 
 SURFACE_SYSTEM = "regions"      # the body-surface patches of the atlas
@@ -35,16 +35,21 @@ class DepthIndex:
     def ready(self):
         return self.depth is not None
 
-    def start(self):
+    def start(self, retry=False):
         with self._lock:
-            if self._thread is not None:
+            if self.ready or (self._thread is not None and self._thread.is_alive()):
                 return
+            if self.failed and not retry:
+                return
+            self.failed = False
             self._thread = threading.Thread(target=self._run, daemon=True)
             self._thread.start()
 
     def _run(self):
         try:
-            self.depth, self.absolute = self._load()
+            depth, absolute = self._load()
+            self.absolute = absolute
+            self.depth = depth  # publish readiness last
         except Exception:                                  # never take the app down over a study aid
             self.depth, self.absolute = None, None
             self.failed = True
@@ -58,9 +63,14 @@ class DepthIndex:
                 continue
             try:
                 with path.open("rb") as stream, np.load(stream) as z:
-                    if (np.array_equal(z["stamp"], stamp) and len(z["depth"]) == ds.n
-                            and int(z["format"]) == FORMAT):
-                        return z["depth"], z["absolute"]
+                    if not np.array_equal(z["stamp"], stamp) or not format_matches(z["format"], FORMAT):
+                        continue
+                    relative, absolute = z["depth"], z["absolute"]
+                    if (relative.shape == absolute.shape == (ds.n,)
+                            and relative.dtype.kind == absolute.dtype.kind == "f"
+                            and np.isfinite(relative).all() and np.isfinite(absolute).all()
+                            and np.all((relative >= -1) & (relative <= 1.2)) and np.all(absolute >= -1)):
+                        return relative, absolute
             except (OSError, ValueError, KeyError, EOFError, BadZipFile):
                 pass
         depth, absolute = compute(ds)

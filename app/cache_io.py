@@ -22,3 +22,9 @@ def save_npz(path, **arrays):
             temporary.unlink(missing_ok=True)
         except OSError:
             pass
+
+
+def format_matches(value, expected):
+    """Cache versions must be scalar integers, never coercible strings/arrays."""
+    value = np.asarray(value)
+    return value.shape == () and value.dtype.kind in "iu" and int(value) == expected

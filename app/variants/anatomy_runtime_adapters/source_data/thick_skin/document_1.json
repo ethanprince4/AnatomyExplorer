@@ -1,0 +1,767 @@
+{
+  "schema_version": 1,
+  "model_id": "thick_skin",
+  "status": "source_ready_variant_state_stub_validated_native_review_deferred",
+  "scale_note": "Nominal block width approximately 4 mm. Representative glands, receptors, vessel calibres and cellular details are magnified; counts are not densities. Cell ribbons and ducts are teaching representatives, not measured rows, flow, tissue optics or receptor receptive-field sizes.",
+  "native_contract": {
+    "model_attribute": "viewer_cameras",
+    "view_method": "Viewport.set_named_view(name, visibility=True)",
+    "source": "app/viewer/procedural.py and app/viewer/viewport.py",
+    "sequence_driver": "function_presets.FunctionSession.apply / apply_step",
+    "animation_status": "Manual caption/camera/visibility/selection progression only; no morph animation, flow particles, stimulus deformation or simulated spikes.",
+    "restore_driver": "FunctionSession.restore / restore_steps",
+    "variant_contract": "Configure independently selected machine variant_id pre_refine or post_refine, displaying Pre refine or Post refine, with the verified native-cache SHA-256 before ProceduralModel. Restore before variant switching; default requires every final recipe selector. Legacy metadata compatibility is explicit, never delivery-ready."
+  },
+  "views": [
+    {
+      "id": "Function: specimen",
+      "purpose": "Locate the surface, stratified epidermis, vascular dermis and deep sensory/glandular context.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum lucidum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Melanocytes",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Meissner corpuscles",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "cut_on": true,
+      "camera": {
+        "position": [
+          3,
+          2.1,
+          4
+        ],
+        "target": [
+          0,
+          0.5,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.6
+      },
+      "optional_visible_parts": [
+        "Keratinocyte nuclei",
+        "Keratohyalin granules",
+        "Spinous cell junctions",
+        "Basal attachment plaques",
+        "Melanocyte dendrite tips",
+        "Papillary collagen and fibroblasts",
+        "Reticular collagen bundles",
+        "Eccrine clear cells",
+        "Eccrine dark cells",
+        "Eccrine myoepithelial basket",
+        "Eccrine duct basal cells",
+        "Eccrine duct luminal cells",
+        "Eccrine capillary supply",
+        "Meissner lamellar cells",
+        "Meissner axon terminals",
+        "Pacinian tissue anchoring",
+        "Representative adipocyte membranes",
+        "Representative adipocyte nuclei",
+        "Representative adipocyte lipid droplets",
+        "Hypodermal septal fibers",
+        "Melanocyte keratinocyte neighborhood"
+      ]
+    },
+    {
+      "id": "Function: renewal",
+      "purpose": "Follow basal to superficial differentiation; each layer has representative cell organization.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum lucidum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Papillary dermis"
+      ],
+      "cut_on": true,
+      "camera": {
+        "position": [
+          3,
+          2.1,
+          4
+        ],
+        "target": [
+          0,
+          0.75,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.1
+      },
+      "optional_visible_parts": [
+        "Keratinocyte nuclei",
+        "Keratohyalin granules",
+        "Spinous cell junctions",
+        "Basal attachment plaques"
+      ]
+    },
+    {
+      "id": "Function: sweat context",
+      "purpose": "Retain tissue and trace one eccrine unit to its surface pore.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum lucidum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Melanocytes",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Meissner corpuscles",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "cut_on": true,
+      "camera": {
+        "position": [
+          3,
+          2.1,
+          4
+        ],
+        "target": [
+          0,
+          0.5,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.6
+      },
+      "optional_visible_parts": [
+        "Papillary collagen and fibroblasts",
+        "Reticular collagen bundles",
+        "Eccrine clear cells",
+        "Eccrine dark cells",
+        "Eccrine myoepithelial basket",
+        "Eccrine duct basal cells",
+        "Eccrine duct luminal cells",
+        "Eccrine capillary supply",
+        "Representative adipocyte lipid droplets",
+        "Hypodermal septal fibers"
+      ]
+    },
+    {
+      "id": "Function: sweat route",
+      "purpose": "Hide host slabs for duct continuity inspection, including from the reverse side.",
+      "visible_parts": [
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Cutaneous nerve & branches"
+      ],
+      "cut_on": true,
+      "camera": {
+        "position": [
+          3,
+          2.1,
+          4
+        ],
+        "target": [
+          0,
+          0.5,
+          0.25
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.2
+      },
+      "optional_visible_parts": [
+        "Eccrine lumen contents (schematic)",
+        "Eccrine clear cells",
+        "Eccrine dark cells",
+        "Eccrine myoepithelial basket",
+        "Eccrine duct basal cells",
+        "Eccrine duct luminal cells",
+        "Eccrine capillary supply"
+      ]
+    },
+    {
+      "id": "Function: dermal nutrition",
+      "purpose": "Keep capillary loops and living lower epidermis together to distinguish intravascular flow from diffusion.",
+      "visible_parts": [
+        "Stratum basale",
+        "Stratum spinosum",
+        "Papillary dermis",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops"
+      ],
+      "cut_on": true,
+      "camera": {
+        "position": [
+          3,
+          2.1,
+          4
+        ],
+        "target": [
+          0,
+          0.6,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.2
+      },
+      "optional_visible_parts": [
+        "Papillary collagen and fibroblasts",
+        "Eccrine capillary supply"
+      ]
+    },
+    {
+      "id": "Function: sensory context",
+      "purpose": "Compare superficial Meissner/free endings and deep Pacinian capsule with its incoming axon.",
+      "visible_parts": [
+        "Stratum basale",
+        "Papillary dermis",
+        "Hypodermis septa",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Meissner corpuscles",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "cut_on": true,
+      "camera": {
+        "position": [
+          3,
+          2.1,
+          4
+        ],
+        "target": [
+          0,
+          0.5,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.6
+      },
+      "optional_visible_parts": [
+        "Papillary collagen and fibroblasts",
+        "Meissner lamellar cells",
+        "Meissner axon terminals",
+        "Pacinian tissue anchoring"
+      ]
+    },
+    {
+      "id": "Function: Pacinian terminal",
+      "purpose": "Hide the lamellae while preserving the terminal, incoming nerve and deep connective context. Capsule removal is a teaching dissection.",
+      "visible_parts": [
+        "Hypodermis septa",
+        "Cutaneous nerve & branches",
+        "Pacinian axon terminal"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          1.5,
+          1.2,
+          3
+        ],
+        "target": [
+          -0.35,
+          0.17,
+          0.5
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.85
+      },
+      "optional_visible_parts": [
+        "Pacinian tissue anchoring"
+      ]
+    },
+    {
+      "id": "Function: sweat reverse",
+      "purpose": "Review the same continuous eccrine route from the reverse side; host tissue removal is an anatomical teaching dissection.",
+      "visible_parts": [
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Cutaneous nerve & branches"
+      ],
+      "cut_on": true,
+      "camera": {
+        "position": [
+          -3,
+          2.1,
+          -4
+        ],
+        "target": [
+          0,
+          0.5,
+          0.25
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.2
+      },
+      "optional_visible_parts": [
+        "Eccrine lumen contents (schematic)",
+        "Eccrine clear cells",
+        "Eccrine dark cells",
+        "Eccrine myoepithelial basket",
+        "Eccrine duct basal cells",
+        "Eccrine duct luminal cells",
+        "Eccrine capillary supply"
+      ]
+    },
+    {
+      "id": "Function: pigment unit",
+      "purpose": "Relate basal melanocyte somata and dendrites to neighboring living keratinocytes.",
+      "visible_parts": [
+        "Stratum basale",
+        "Stratum spinosum",
+        "Papillary dermis",
+        "Melanocytes"
+      ],
+      "optional_visible_parts": [
+        "Melanocyte dendrite tips",
+        "Keratinocyte nuclei",
+        "Basal attachment plaques",
+        "Melanocyte keratinocyte neighborhood"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          -1.6,
+          1.35,
+          -2.8
+        ],
+        "target": [
+          0,
+          0.8,
+          -0.46
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.7
+      }
+    }
+  ],
+  "functional_sequences": [
+    {
+      "id": "renewal_barrier",
+      "mechanism": "A differentiating keratinocyte population builds and renews a cornified surface barrier.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/epidermis_layers/",
+        "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0031641",
+        "https://histologyguide.com/slideview/MHS-235-thick-skin/11-slide-1.html"
+      ],
+      "steps": [
+        {
+          "view": "Function: renewal",
+          "caption": "Basal cells divide; differentiating progeny move toward the surface.",
+          "focus_parts": [
+            "Stratum basale"
+          ],
+          "optional_focus_parts": [
+            "Basal attachment plaques"
+          ]
+        },
+        {
+          "view": "Function: renewal",
+          "caption": "Spinous keratinocytes maintain desmosomal contacts and keratin filaments.",
+          "focus_parts": [
+            "Stratum spinosum"
+          ],
+          "optional_focus_parts": [
+            "Spinous cell junctions"
+          ]
+        },
+        {
+          "view": "Function: renewal",
+          "caption": "Granular cells show cytoplasmic keratohyalin granules. Separate lamellar organelles supply extracellular barrier material; they are not the same granules.",
+          "focus_parts": [
+            "Stratum granulosum"
+          ],
+          "optional_focus_parts": [
+            "Keratohyalin granules"
+          ]
+        },
+        {
+          "view": "Function: renewal",
+          "caption": "Cells lose nuclei and organelles; lucidum is the pale transition band characteristic of very thick epidermis.",
+          "focus_parts": [
+            "Stratum lucidum"
+          ]
+        },
+        {
+          "view": "Function: renewal",
+          "caption": "Flattened corneocytes and extracellular lipids form the barrier; superficial cells are shed as renewal continues.",
+          "focus_parts": [
+            "Stratum corneum"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Stages are compressed into a manual teaching sequence; no simulated cell motion or universal four-week clock.",
+        "Cell counts, molecular granules and lipid organization are representative and magnified.",
+        "Hiding a layer or separating layers creates a dissection gap, not disease or a physiological state.",
+        "Lamellar secretion and tight-junction establishment overlap; do not model them as mutually exclusive switches.",
+        "No lamellar-body mesh, lipid bilayer, tight-junction network, mitosis, desquamation or permeability simulation is supplied. These processes are explained in captions."
+      ]
+    },
+    {
+      "id": "eccrine_secretion_route",
+      "mechanism": "Sympathetic cholinergic stimulation promotes primary secretion; ductal salt reabsorption modifies fluid before the epidermal passage and pore.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/glands/",
+        "https://pubmed.ncbi.nlm.nih.gov/12548396/",
+        "https://link.springer.com/article/10.1007/s00421-020-04323-7",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC10657463/"
+      ],
+      "steps": [
+        {
+          "view": "Function: sweat context",
+          "caption": "The deep secretory coil lies near local blood supply; sympathetic cholinergic input stimulates secretion.",
+          "focus_parts": [
+            "Eccrine sweat gland (secretory coil)",
+            "Cutaneous nerve & branches"
+          ],
+          "optional_focus_parts": [
+            "Eccrine capillary supply"
+          ]
+        },
+        {
+          "view": "Function: sweat route",
+          "caption": "Clear secretory cells generate nearly isotonic primary fluid in the lumen. Dark cells and surrounding myoepithelial cells have distinct identities.",
+          "focus_parts": [
+            "Eccrine sweat gland (secretory coil)"
+          ],
+          "optional_focus_parts": [
+            "Eccrine clear cells",
+            "Eccrine dark cells",
+            "Eccrine lumen contents (schematic)"
+          ]
+        },
+        {
+          "view": "Function: sweat route",
+          "caption": "Human isolated-gland experiments show cholinergically evoked segmental myoepithelial contraction contributing to transport. This model shows the basket statically.",
+          "focus_parts": [
+            "Eccrine sweat gland (secretory coil)"
+          ],
+          "optional_focus_parts": [
+            "Eccrine myoepithelial basket"
+          ]
+        },
+        {
+          "view": "Function: sweat route",
+          "caption": "Na+ and Cl- move from the duct lumen across absorptive epithelium. ENaC and CFTR support salt conservation.",
+          "focus_parts": [
+            "Eccrine sweat duct"
+          ],
+          "optional_focus_parts": [
+            "Eccrine duct basal cells",
+            "Eccrine duct luminal cells"
+          ]
+        },
+        {
+          "view": "Function: sweat route",
+          "caption": "Relatively little accompanying water is reabsorbed, so final sweat is usually hypotonic. The same lumen continues through the acrosyringium.",
+          "focus_parts": [
+            "Eccrine sweat duct"
+          ],
+          "optional_focus_parts": [
+            "Eccrine lumen contents (schematic)"
+          ]
+        },
+        {
+          "view": "Function: sweat reverse",
+          "caption": "The same duct continues through epidermis to its pore. Reverse-side isolation checks anatomical continuity; changing the view does not animate sweat.",
+          "focus_parts": [
+            "Eccrine sweat duct"
+          ],
+          "optional_focus_parts": [
+            "Eccrine lumen contents (schematic)"
+          ]
+        },
+        {
+          "view": "Function: sweat context",
+          "caption": "Fluid exits at the sweat pore on a friction ridge. Evaporation can remove heat; palmar/plantar sweating also responds to nonthermal stimuli.",
+          "focus_parts": [
+            "Stratum corneum",
+            "Eccrine sweat duct"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "No cyclic contraction or squeeze-driven geometry is implemented. The 2023 ex vivo human study supports a myoepithelial transport contribution, not the only source of fluid or a universal model pump waveform.",
+        "Sweat concentration varies with flow and physiology; no fixed mmol/L values, clinical thresholds or fluid speed.",
+        "Flow arrows must lie inside the shared lumen; salt-reabsorption arrows cross the duct wall into interstitium.",
+        "Acrosyringium and dermal duct retain one original selector. The lumen domain is optional schematic fluid volume, not a flow tracer, tissue plug or epithelium.",
+        "Transport channels and secretion chemistry are caption-level explanation, not rendered channels or a quantitative electrolyte calculation."
+      ]
+    },
+    {
+      "id": "dermal_nutrition",
+      "mechanism": "Dermal capillary exchange supports avascular living epidermis.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/skin_layers/"
+      ],
+      "steps": [
+        {
+          "view": "Function: dermal nutrition",
+          "caption": "Arteriolar inflow reaches the superficial network and papillary capillary loops.",
+          "focus_parts": [
+            "Arterioles",
+            "Subpapillary plexus",
+            "Papillary capillary loops"
+          ]
+        },
+        {
+          "view": "Function: dermal nutrition",
+          "caption": "Capillary exchange occurs within dermal papillae. Oxygen and nutrients diffuse through interstitium toward living epidermal cells.",
+          "focus_parts": [
+            "Papillary capillary loops",
+            "Stratum basale"
+          ]
+        },
+        {
+          "view": "Function: dermal nutrition",
+          "caption": "Blood returns through venous channels; epidermal renewal relies on dermal supply, without epidermal blood vessels.",
+          "focus_parts": [
+            "Venules"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Blood movement and diffusion require distinct arrows; diffusion is not a tubular vascular continuation.",
+        "No oxygen-distance threshold, quantitative concentration field or capillary density is inferred from representative loops.",
+        "Any basal interface outline is an explanatory boundary, not a third vascular compartment.",
+        "Existing blood-vessel hosts show vascular courses; they are solid-envelope teaching meshes, not demonstrated hollow lumens. No blood particles or diffusion arrows are implemented."
+      ]
+    },
+    {
+      "id": "sensory_adaptation",
+      "mechanism": "Dynamic deformation produces tactile afferent activity; rapidly adapting receptors reduce firing during a static hold.",
+      "source_evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/6330008/",
+        "https://pubmed.ncbi.nlm.nih.gov/19261864/"
+      ],
+      "steps": [
+        {
+          "view": "Function: sensory context",
+          "caption": "Locate superficial papillary corpuscles, free terminal branches and the deeper lamellar Pacinian structure.",
+          "focus_parts": [
+            "Meissner corpuscles",
+            "Free nerve endings",
+            "Pacinian corpuscles (lamellae)"
+          ],
+          "optional_focus_parts": [
+            "Meissner lamellar cells",
+            "Meissner axon terminals",
+            "Pacinian tissue anchoring"
+          ]
+        },
+        {
+          "view": "Function: sensory context",
+          "caption": "Changing contact evokes transient activity in rapidly adapting tactile afferents. Read this as a physiological explanation; no indentation or firing animation is present.",
+          "focus_parts": [
+            "Meissner corpuscles",
+            "Pacinian axon terminal"
+          ],
+          "optional_focus_parts": [
+            "Meissner axon terminals"
+          ]
+        },
+        {
+          "view": "Function: sensory context",
+          "caption": "During a maintained indentation the rapidly adapting response diminishes. These two receptor examples do not represent every tactile receptor class.",
+          "focus_parts": [
+            "Meissner corpuscles",
+            "Pacinian axon terminal"
+          ],
+          "optional_focus_parts": [
+            "Meissner axon terminals"
+          ]
+        },
+        {
+          "view": "Function: Pacinian terminal",
+          "caption": "Capsule removal exposes the terminal and incoming axon. This anatomical isolation does not simulate denervation or predict the response of a decapsulated receptor.",
+          "focus_parts": [
+            "Pacinian axon terminal",
+            "Cutaneous nerve & branches"
+          ]
+        },
+        {
+          "view": "Function: sensory context",
+          "caption": "Release or renewed deformation can recruit another transient response. Repeated vibration is a changing stimulus, not a travelling material bead.",
+          "focus_parts": [
+            "Pacinian axon terminal"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "No response pulses, calibrated spikes, imposed indentation, vibration frequency or deformation is implemented; the sequence only changes view and selection.",
+        "Pacinian mechanochemical experiments used isolated cat mesenteric receptors; they qualify the capsule-only explanation rather than establish human palm neurochemistry.",
+        "Free endings are not assigned the same rapid-adaptation waveform; pain, temperature and itch pathways are outside this tactile sequence.",
+        "Merkel and Ruffini receptor classes are not separately represented in the input cache."
+      ]
+    },
+    {
+      "id": "melanocyte_keratinocyte_unit",
+      "mechanism": "Basal melanocytes supply pigment to neighboring keratinocytes through dendritic relationships.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/epidermis_cells/",
+        "https://histology.leeds.ac.uk/home/skin/pigmentation/"
+      ],
+      "steps": [
+        {
+          "view": "Function: pigment unit",
+          "caption": "Locate melanocyte bodies at the basal epidermis and dendrites between neighboring keratinocytes.",
+          "focus_parts": [
+            "Melanocytes",
+            "Stratum basale"
+          ],
+          "optional_focus_parts": [
+            "Melanocyte keratinocyte neighborhood"
+          ]
+        },
+        {
+          "view": "Function: pigment unit",
+          "caption": "Pigment-containing organelles are conveyed along dendrites and transferred to neighboring keratinocytes; the model exposes spatial relationships only.",
+          "focus_parts": [
+            "Melanocytes",
+            "Stratum spinosum"
+          ],
+          "optional_focus_parts": [
+            "Melanocyte dendrite tips",
+            "Melanocyte keratinocyte neighborhood"
+          ]
+        },
+        {
+          "view": "Function: pigment unit",
+          "caption": "Pigment in keratinocytes helps shield nuclei from ultraviolet damage. The mesh does not simulate ultraviolet exposure or melanosome transfer.",
+          "focus_parts": [
+            "Stratum basale",
+            "Stratum spinosum"
+          ],
+          "optional_focus_parts": [
+            "Keratinocyte nuclei",
+            "Melanocyte keratinocyte neighborhood"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Melanosome transport, transfer route, synthesis and supranuclear caps are not separately rendered or animated.",
+        "Three representative melanocyte somata do not state density, skin color, ancestry or ultraviolet susceptibility.",
+        "Dendrite-tip markers are illustrative contact context, not proof of a measured individual cell-to-cell transfer event."
+      ]
+    }
+  ],
+  "sources": {
+    "epidermis_atlas": "https://histology.leeds.ac.uk/home/skin/epidermis_layers/",
+    "thick_skin_atlas": "https://histologyguide.com/slideview/MHS-235-thick-skin/11-slide-1.html",
+    "barrier_primary": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0031641",
+    "skin_layers_atlas": "https://histology.leeds.ac.uk/home/skin/skin_layers/",
+    "gland_atlas": "https://histology.leeds.ac.uk/home/skin/glands/",
+    "duct_primary": "https://pubmed.ncbi.nlm.nih.gov/12548396/",
+    "sweat_synthesis": "https://link.springer.com/article/10.1007/s00421-020-04323-7",
+    "human_sensory": "https://pubmed.ncbi.nlm.nih.gov/6330008/",
+    "pacinian_experiment": "https://pubmed.ncbi.nlm.nih.gov/19261864/",
+    "melanocyte_atlas": "https://histology.leeds.ac.uk/home/skin/epidermis_cells/",
+    "pigment_atlas": "https://histology.leeds.ac.uk/home/skin/pigmentation/",
+    "myoepithelial_primary": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10657463/"
+  },
+  "deferred_checks": [
+    "Native open and named-view switching on separately built candidate.",
+    "Opaque/reverse/isolated-host checks for sweat lumen continuity and papilla-vessel association.",
+    "Cell profile and barrier granule identity at useful close-up.",
+    "Pacinian incoming axon remains connected when capsule is hidden.",
+    "Saved cache metadata and descriptions agree with actual representative counts.",
+    "Independent native cache identity and metadata check for each Pre refine/Post refine variant; both must retain exact semantic selectors.",
+    "Roundtrip every function session through a real viewer with custom opacity, isolate, clip, peel, explode and reveal state; confirm restoration and no mutation of variant arrays or files.",
+    "Native camera framing must be checked against actual refined geometry; source-only poses are proposals, not verified visual acceptance."
+  ],
+  "review": {
+    "agent_name": "/root/finish_thick_skin_source/finish_thick_skin_function",
+    "date_utc": "2026-10-04",
+    "prior_artifacts": "recovered_20261004/",
+    "native_app_launched": false,
+    "geometry_processed": false,
+    "selector_contract_total": 43
+  },
+  "required_selector_contract": [
+    "Stratum corneum",
+    "Stratum lucidum",
+    "Stratum granulosum",
+    "Stratum spinosum",
+    "Stratum basale",
+    "Papillary dermis",
+    "Reticular dermis",
+    "Melanocytes",
+    "Hypodermis septa",
+    "Adipocytes (fat lobules)",
+    "Eccrine sweat gland (secretory coil)",
+    "Eccrine sweat duct",
+    "Arterioles",
+    "Venules",
+    "Subpapillary plexus",
+    "Papillary capillary loops",
+    "Cutaneous nerve & branches",
+    "Free nerve endings",
+    "Meissner corpuscles",
+    "Pacinian corpuscles (lamellae)",
+    "Pacinian axon terminal",
+    "Keratinocyte nuclei",
+    "Keratohyalin granules",
+    "Spinous cell junctions",
+    "Basal attachment plaques",
+    "Melanocyte dendrite tips",
+    "Papillary collagen and fibroblasts",
+    "Reticular collagen bundles",
+    "Eccrine lumen contents (schematic)",
+    "Eccrine clear cells",
+    "Eccrine dark cells",
+    "Eccrine myoepithelial basket",
+    "Eccrine duct basal cells",
+    "Eccrine duct luminal cells",
+    "Eccrine capillary supply",
+    "Meissner lamellar cells",
+    "Meissner axon terminals",
+    "Pacinian tissue anchoring",
+    "Representative adipocyte membranes",
+    "Representative adipocyte nuclei",
+    "Representative adipocyte lipid droplets",
+    "Melanocyte keratinocyte neighborhood",
+    "Hypodermal septal fibers"
+  ],
+  "variant_policy": {
+    "allowed_variants": [
+      "pre_refine",
+      "post_refine"
+    ],
+    "display_labels": {
+      "pre_refine": "Pre refine",
+      "post_refine": "Post refine"
+    },
+    "layout": "single_selected_variant",
+    "hash_identity_required": true,
+    "compatibility": "Missing refined detail is rejected by default. Explicit legacy_mode=True is only metadata compatibility, delivery_ready=False."
+  }
+}

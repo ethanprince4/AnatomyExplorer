@@ -1,0 +1,989 @@
+{
+  "schema_version": 1,
+  "model_id": "peripheral_nerve",
+  "status": "source_ready_runtime_visual_review_deferred",
+  "simulation": false,
+  "part_names": [
+    "Epineurium",
+    "Epineurial collagen bundles",
+    "Perineurium",
+    "Endoneurium",
+    "Myelin sheaths (internodes)",
+    "Axons",
+    "Nodes of Ranvier",
+    "Schwann cell nuclei",
+    "Remak Schwann cells",
+    "Unmyelinated axons (C fibres)",
+    "Endoneurial capillaries",
+    "Schwann cell outer cytoplasm",
+    "Schwann basal lamina",
+    "Epineurial fat",
+    "Vasa nervorum (arterioles)",
+    "Vasa nervorum (venules)"
+  ],
+  "default_sequence": "schwann_unit",
+  "default_step": "continuous_axon",
+  "playback": "manual_next_previous",
+  "application_contract": {
+    "resolver": "resolve_function.py",
+    "state_consumer": "teaching specialist native preset adapter; frame retains exact preset name and whole-part visibility",
+    "conceptual_inset_consumer": "optional lesson UI; until implemented, captions alone state the phases",
+    "source_variant_required_for_vascular": "r1_refinement",
+    "preserve_original_selectors": true,
+    "per_domain_parent_mapping": "construction/validation emit nuclei parent domains; do not assign all Schwann nuclei to one parent part"
+  },
+  "sequences": [
+    {
+      "id": "schwann_unit",
+      "mechanism": "Segmental Schwann support around a continuous myelinated axon.",
+      "evidence": [
+        "leeds",
+        "digital_nerve5"
+      ],
+      "steps": [
+        {
+          "id": "continuous_axon",
+          "caption": "The axon continues through the intervals between myelin segments. Hide the conceptual node marker to see continuity.",
+          "state": {
+            "camera_preset": "SCHEMATIC 3 Schwann cell opening",
+            "visible_parts": [
+              "Myelin sheaths (internodes)",
+              "Axons"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)",
+              "Endoneurial capillaries",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Axons"
+            ],
+            "labels": [
+              "Axons"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule."
+          ]
+        },
+        {
+          "id": "one_internode",
+          "caption": "One myelinating Schwann cell forms one compact-myelin internode on one axon.",
+          "state": {
+            "camera_preset": "SCHEMATIC 3 Schwann cell opening",
+            "visible_parts": [
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Endoneurial capillaries",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Myelin sheaths (internodes)"
+            ],
+            "labels": [
+              "Axons",
+              "Myelin sheaths (internodes)"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule.",
+            "The nucleus selector combines myelinating and Remak domains. Both parent cell compartments remain visible to avoid orphan nuclei; single-cell emphasis requires domain mapping and a validated close camera."
+          ]
+        },
+        {
+          "id": "nucleus_compartment",
+          "caption": "The nucleus belongs to the outer Schwann cytoplasm. The external basal lamina lies outside the cell.",
+          "state": {
+            "camera_preset": "SCHEMATIC 3 Schwann cell opening",
+            "visible_parts": [
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Endoneurial capillaries",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Schwann cell outer cytoplasm",
+              "Schwann cell nuclei",
+              "Schwann basal lamina"
+            ],
+            "labels": [
+              "Schwann cell nuclei",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule.",
+            "The nucleus selector combines myelinating and Remak domains. Both parent cell compartments remain visible to avoid orphan nuclei; single-cell emphasis requires domain mapping and a validated close camera."
+          ]
+        },
+        {
+          "id": "node_continuity",
+          "caption": "Myelin stops on either side of the exposed nodal axolemma; the axon continues. Blue patches are a teaching marker, not a second insulating sheath.",
+          "state": {
+            "camera_preset": "SCHEMATIC 3 Schwann cell opening",
+            "visible_parts": [
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Endoneurial capillaries",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Nodes of Ranvier",
+              "Axons"
+            ],
+            "labels": [
+              "Nodes of Ranvier",
+              "Axons"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule.",
+            "The nucleus selector combines myelinating and Remak domains. Both parent cell compartments remain visible to avoid orphan nuclei; single-cell emphasis requires domain mapping and a validated close camera."
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Opened representative cells and four membrane bands summarize compact myelin; the band count is not a membrane census.",
+        "No membrane wrapping or cell development is simulated.",
+        "Schwann nuclei must retain separate myelinating and Remak parent domains."
+      ]
+    },
+    {
+      "id": "saltatory_conduction",
+      "mechanism": "Passive spread along continuous axoplasm links regenerative nodal excitation.",
+      "evidence": [
+        "purves_conduction",
+        "basic_myelin"
+      ],
+      "steps": [
+        {
+          "id": "node_A_excitation",
+          "caption": "Voltage-gated sodium channels support regenerative excitation at node A.",
+          "state": {
+            "camera_preset": "SCHEMATIC 3 Schwann cell opening",
+            "visible_parts": [
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Endoneurial capillaries",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Nodes of Ranvier"
+            ],
+            "labels": [],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule.",
+            "The nucleus selector combines myelinating and Remak domains. Both parent cell compartments remain visible to avoid orphan nuclei; single-cell emphasis requires domain mapping and a validated close camera."
+          ],
+          "conceptual_inset": {
+            "kind": "saltatory_circuit",
+            "coordinates": "abstract teaching positions, no mesh coordinates",
+            "components": [
+              {
+                "id": "axon",
+                "role": "continuous_axoplasm"
+              },
+              {
+                "id": "node_A",
+                "role": "excitable_axonal_membrane"
+              },
+              {
+                "id": "internode_AB",
+                "role": "myelinated_axonal_segment"
+              },
+              {
+                "id": "node_B",
+                "role": "excitable_axonal_membrane"
+              }
+            ],
+            "model_highlight_policy": "Do not recolor the complete Nodes of Ranvier part as if all nodes fire together. Active-node timing belongs only to this inset.",
+            "phase": "nodal_excitation",
+            "node_A": "active",
+            "node_B": "resting",
+            "internodal_local_current": "begins"
+          }
+        },
+        {
+          "id": "internodal_spread",
+          "caption": "Local current spreads along the continuous axon beneath myelin; the myelinated internode limits membrane leakage and capacitance.",
+          "state": {
+            "camera_preset": "SCHEMATIC 3 Schwann cell opening",
+            "visible_parts": [
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Endoneurial capillaries",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Axons",
+              "Myelin sheaths (internodes)"
+            ],
+            "labels": [],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule.",
+            "The nucleus selector combines myelinating and Remak domains. Both parent cell compartments remain visible to avoid orphan nuclei; single-cell emphasis requires domain mapping and a validated close camera."
+          ],
+          "conceptual_inset": {
+            "kind": "saltatory_circuit",
+            "coordinates": "abstract teaching positions, no mesh coordinates",
+            "components": [
+              {
+                "id": "axon",
+                "role": "continuous_axoplasm"
+              },
+              {
+                "id": "node_A",
+                "role": "excitable_axonal_membrane"
+              },
+              {
+                "id": "internode_AB",
+                "role": "myelinated_axonal_segment"
+              },
+              {
+                "id": "node_B",
+                "role": "excitable_axonal_membrane"
+              }
+            ],
+            "model_highlight_policy": "Do not recolor the complete Nodes of Ranvier part as if all nodes fire together. Active-node timing belongs only to this inset.",
+            "phase": "passive_spread",
+            "node_A": "recovering",
+            "node_B": "depolarizing",
+            "internodal_local_current": "toward_B"
+          }
+        },
+        {
+          "id": "node_B_regeneration",
+          "caption": "Depolarization reaches the next nodal region and regenerates an action potential there.",
+          "state": {
+            "camera_preset": "SCHEMATIC 3 Schwann cell opening",
+            "visible_parts": [
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Endoneurial capillaries",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Nodes of Ranvier"
+            ],
+            "labels": [],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule.",
+            "The nucleus selector combines myelinating and Remak domains. Both parent cell compartments remain visible to avoid orphan nuclei; single-cell emphasis requires domain mapping and a validated close camera."
+          ],
+          "conceptual_inset": {
+            "kind": "saltatory_circuit",
+            "coordinates": "abstract teaching positions, no mesh coordinates",
+            "components": [
+              {
+                "id": "axon",
+                "role": "continuous_axoplasm"
+              },
+              {
+                "id": "node_A",
+                "role": "excitable_axonal_membrane"
+              },
+              {
+                "id": "internode_AB",
+                "role": "myelinated_axonal_segment"
+              },
+              {
+                "id": "node_B",
+                "role": "excitable_axonal_membrane"
+              }
+            ],
+            "model_highlight_policy": "Do not recolor the complete Nodes of Ranvier part as if all nodes fire together. Active-node timing belongs only to this inset.",
+            "phase": "next_node",
+            "node_A": "recovering",
+            "node_B": "active",
+            "internodal_local_current": "reaches_B"
+          }
+        },
+        {
+          "id": "repeat",
+          "caption": "The sequence repeats from node to node without a physical particle jumping over an interrupted axon.",
+          "state": {
+            "camera_preset": "SCHEMATIC 3 Schwann cell opening",
+            "visible_parts": [
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Endoneurial capillaries",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Axons",
+              "Nodes of Ranvier"
+            ],
+            "labels": [],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule.",
+            "The nucleus selector combines myelinating and Remak domains. Both parent cell compartments remain visible to avoid orphan nuclei; single-cell emphasis requires domain mapping and a validated close camera."
+          ],
+          "conceptual_inset": {
+            "kind": "saltatory_circuit",
+            "coordinates": "abstract teaching positions, no mesh coordinates",
+            "components": [
+              {
+                "id": "axon",
+                "role": "continuous_axoplasm"
+              },
+              {
+                "id": "node_A",
+                "role": "excitable_axonal_membrane"
+              },
+              {
+                "id": "internode_AB",
+                "role": "myelinated_axonal_segment"
+              },
+              {
+                "id": "node_B",
+                "role": "excitable_axonal_membrane"
+              }
+            ],
+            "model_highlight_policy": "Do not recolor the complete Nodes of Ranvier part as if all nodes fire together. Active-node timing belongs only to this inset.",
+            "phase": "repeat",
+            "node_A": "resting",
+            "node_B": "recovering",
+            "internodal_local_current": "toward_next_node"
+          }
+        }
+      ],
+      "schematic_limitations": [
+        "States are learner-paced conceptual phases with no durations, voltage values, channel kinetics or conduction velocity.",
+        "The inset labels abstract neighboring nodes; whole-part mesh selectors do not identify node A or B.",
+        "Direction is an instructional choice, not an authored sensory or motor circuit."
+      ]
+    },
+    {
+      "id": "remak_comparison",
+      "mechanism": "Several small axons receive nonmyelinating Schwann ensheathment while conducting continuously.",
+      "evidence": [
+        "digital_nerve5",
+        "rd060",
+        "basic_myelin"
+      ],
+      "steps": [
+        {
+          "id": "shared_cell",
+          "caption": "One Remak Schwann cell supports several separate small axons in individual cytoplasmic surface invaginations.",
+          "state": {
+            "camera_preset": "SCHEMATIC 4 Myelinated and Remak",
+            "visible_parts": [
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)",
+              "Schwann cell nuclei",
+              "Schwann basal lamina",
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Schwann cell outer cytoplasm"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Nodes of Ranvier",
+              "Endoneurial capillaries",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)"
+            ],
+            "labels": [
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule.",
+            "The nucleus selector combines myelinating and Remak domains. Both parent cell compartments remain visible to avoid orphan nuclei; single-cell emphasis requires domain mapping and a validated close camera."
+          ]
+        },
+        {
+          "id": "external_lamina",
+          "caption": "The external basal lamina surrounds the Remak cell. Unmyelinated does not mean unensheathed.",
+          "state": {
+            "camera_preset": "SCHEMATIC 4 Myelinated and Remak",
+            "visible_parts": [
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)",
+              "Schwann cell nuclei",
+              "Schwann basal lamina",
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Schwann cell outer cytoplasm"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Nodes of Ranvier",
+              "Endoneurial capillaries",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Schwann basal lamina",
+              "Remak Schwann cells"
+            ],
+            "labels": [
+              "Schwann basal lamina",
+              "Remak Schwann cells"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule.",
+            "The nucleus selector combines myelinating and Remak domains. Both parent cell compartments remain visible to avoid orphan nuclei; single-cell emphasis requires domain mapping and a validated close camera."
+          ]
+        },
+        {
+          "id": "continuous_conduction",
+          "caption": "Without compact myelin internodes, excitation propagates through successive adjacent axonal membrane regions.",
+          "state": {
+            "camera_preset": "SCHEMATIC 4 Myelinated and Remak",
+            "visible_parts": [
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)",
+              "Schwann cell nuclei",
+              "Schwann basal lamina",
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Schwann cell outer cytoplasm"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Nodes of Ranvier",
+              "Endoneurial capillaries",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Unmyelinated axons (C fibres)"
+            ],
+            "labels": [],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule.",
+            "The nucleus selector combines myelinating and Remak domains. Both parent cell compartments remain visible to avoid orphan nuclei; single-cell emphasis requires domain mapping and a validated close camera."
+          ],
+          "conceptual_inset": {
+            "kind": "continuous_conduction",
+            "phase": "adjacent_region_excitation",
+            "axon_regions": [
+              "A",
+              "B",
+              "C"
+            ],
+            "current_between": [
+              "A",
+              "B"
+            ],
+            "active_region": "B",
+            "scope": "one abstract small axon; not synchronous excitation of all bundle axons"
+          }
+        },
+        {
+          "id": "compare",
+          "caption": "Compare one axon with compact-myelin internodes against several axons sharing nonmyelinating Schwann cytoplasm.",
+          "state": {
+            "camera_preset": "SCHEMATIC 4 Myelinated and Remak",
+            "visible_parts": [
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Perineurium",
+              "Endoneurium",
+              "Endoneurial capillaries",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Myelin sheaths (internodes)",
+              "Remak Schwann cells"
+            ],
+            "labels": [
+              "Myelin sheaths (internodes)",
+              "Remak Schwann cells"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule.",
+            "The nucleus selector combines myelinating and Remak domains. Both parent cell compartments remain visible to avoid orphan nuclei; single-cell emphasis requires domain mapping and a validated close camera."
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Three representative C axons are not a universal Remak count.",
+        "This static specimen does not assign modality to individual C axons or calculate speed.",
+        "No compact myelin is added around the individual C axons."
+      ]
+    },
+    {
+      "id": "barrier_interfaces",
+      "mechanism": "Two distinct interfaces maintain the endoneurial environment.",
+      "evidence": [
+        "rd060",
+        "ubogu_bnb"
+      ],
+      "steps": [
+        {
+          "id": "perineurial_boundary",
+          "caption": "Perineurial cell layers restrict exchange between the extrafascicular epineurium and the endoneurial compartment.",
+          "state": {
+            "camera_preset": "SCHEMATIC 6 Perineurial lamellae",
+            "visible_parts": [
+              "Perineurium",
+              "Endoneurium",
+              "Endoneurial capillaries",
+              "Epineurium"
+            ],
+            "hidden_parts": [
+              "Epineurial collagen bundles",
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Perineurium"
+            ],
+            "labels": [
+              "Perineurium",
+              "Endoneurium"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": true
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule."
+          ]
+        },
+        {
+          "id": "blood_interface",
+          "caption": "Endoneurial microvascular endothelial tight junctions regulate exchange between circulating blood and endoneurium.",
+          "state": {
+            "camera_preset": "SCHEMATIC 5 Vascular compartments",
+            "visible_parts": [
+              "Perineurium",
+              "Endoneurium",
+              "Endoneurial capillaries",
+              "Epineurium"
+            ],
+            "hidden_parts": [
+              "Epineurial collagen bundles",
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Endoneurial capillaries"
+            ],
+            "labels": [
+              "Endoneurial capillaries",
+              "Endoneurium"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": true
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule."
+          ]
+        },
+        {
+          "id": "distinguish",
+          "caption": "The vascular blood–nerve interface and the perineurial diffusion barrier are distinct. Schwann basal lamina is a different structure.",
+          "state": {
+            "camera_preset": "SCHEMATIC 6 Perineurial lamellae",
+            "visible_parts": [
+              "Perineurium",
+              "Endoneurium",
+              "Endoneurial capillaries",
+              "Epineurium",
+              "Schwann basal lamina",
+              "Axons"
+            ],
+            "hidden_parts": [
+              "Epineurial collagen bundles",
+              "Myelin sheaths (internodes)",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)",
+              "Schwann cell outer cytoplasm",
+              "Epineurial fat",
+              "Vasa nervorum (arterioles)",
+              "Vasa nervorum (venules)"
+            ],
+            "focus_parts": [
+              "Perineurium",
+              "Endoneurial capillaries",
+              "Schwann basal lamina"
+            ],
+            "labels": [
+              "Perineurium",
+              "Endoneurial capillaries",
+              "Schwann basal lamina"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": true
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule."
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Junctions, endothelial cells and transporters are discussed; no resolved junction geometry or measured permeability is supplied.",
+        "Barrier teaching is valid for representative disconnected capillary segments and does not imply a validated blood-flow route."
+      ]
+    },
+    {
+      "id": "supply_exchange_drainage",
+      "mechanism": "Trace a representative hollow vascular route from epineurial supply to fascicular microcirculation and back to epineurial drainage.",
+      "evidence": [
+        "ubogu_bnb"
+      ],
+      "gate": {
+        "source_variant": "r1_refinement",
+        "certificate_digest_field": "model_sha256",
+        "required_checks": [
+          "vascular_wall_topology",
+          "vascular_lumen_route",
+          "vascular_tissue_passages",
+          "native_roundtrip",
+          "visual_route_readable"
+        ]
+      },
+      "steps": [
+        {
+          "id": "supply",
+          "caption": "Start at the epineurial supplying arteriole and follow its branch toward a fascicle.",
+          "state": {
+            "camera_preset": "SCHEMATIC 5 Vascular compartments",
+            "visible_parts": [
+              "Vasa nervorum (arterioles)",
+              "Endoneurial capillaries",
+              "Vasa nervorum (venules)",
+              "Perineurium",
+              "Endoneurium"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Epineurial fat"
+            ],
+            "focus_parts": [
+              "Vasa nervorum (arterioles)"
+            ],
+            "labels": [
+              "Vasa nervorum (arterioles)"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule."
+          ]
+        },
+        {
+          "id": "fascicular_microcirculation",
+          "caption": "Follow the representative branch through the fascicular boundary into the endoneurial microvascular route.",
+          "state": {
+            "camera_preset": "SCHEMATIC 5 Vascular compartments",
+            "visible_parts": [
+              "Vasa nervorum (arterioles)",
+              "Endoneurial capillaries",
+              "Vasa nervorum (venules)",
+              "Perineurium",
+              "Endoneurium"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Epineurial fat"
+            ],
+            "focus_parts": [
+              "Perineurium",
+              "Endoneurial capillaries"
+            ],
+            "labels": [
+              "Perineurium",
+              "Endoneurial capillaries"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule."
+          ]
+        },
+        {
+          "id": "drainage",
+          "caption": "Follow the draining route back into an epineurial venule.",
+          "state": {
+            "camera_preset": "SCHEMATIC 5 Vascular compartments",
+            "visible_parts": [
+              "Vasa nervorum (arterioles)",
+              "Endoneurial capillaries",
+              "Vasa nervorum (venules)",
+              "Perineurium",
+              "Endoneurium"
+            ],
+            "hidden_parts": [
+              "Epineurium",
+              "Epineurial collagen bundles",
+              "Myelin sheaths (internodes)",
+              "Axons",
+              "Nodes of Ranvier",
+              "Schwann cell nuclei",
+              "Remak Schwann cells",
+              "Unmyelinated axons (C fibres)",
+              "Schwann cell outer cytoplasm",
+              "Schwann basal lamina",
+              "Epineurial fat"
+            ],
+            "focus_parts": [
+              "Vasa nervorum (venules)"
+            ],
+            "labels": [
+              "Vasa nervorum (venules)"
+            ],
+            "opacity": 1.0,
+            "layer_separation": 0,
+            "cut_on": false
+          },
+          "schematic_limitations": [
+            "Teaching enlargement: membrane thickness, fibre calibre, vessel calibre and internode length are independently schematic; telescope and openings are dissections. No ruler calibration or patient orientation is established.",
+            "Whole-part visibility is supported; a focus part does not select one fibre, internode, nucleus, vessel or molecule."
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Requires fresh saved topology, lumen, tissue-passage, native-roundtrip and native visual route checks for this model digest.",
+        "Not available for the baseline disconnected capillary representatives.",
+        "Static route recognition, not blood motion, hydraulic pressure, perfusion, exchange rate or ischemia simulation."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,403 @@
+{
+  "schema_version": 1,
+  "model_id": "thyroid_follicles",
+  "default_sequence": "thyroid_synthesis_release",
+  "selectors": {
+    "epithelium": {
+      "name": "Follicular epithelium",
+      "group": "Thyroid follicles"
+    },
+    "colloid": {
+      "name": "Colloid",
+      "group": "Thyroid follicles"
+    },
+    "resorption": {
+      "name": "Resorption vacuoles",
+      "group": "Thyroid follicles"
+    },
+    "c_cells": {
+      "name": "Parafollicular C cells",
+      "group": "Thyroid follicles"
+    },
+    "thyroid_capillaries": {
+      "name": "Perifollicular capillaries",
+      "group": "Vessels"
+    },
+    "arterial_sample": {
+      "name": "Arteries (capsular & interlobular)",
+      "group": "Vessels"
+    },
+    "venous_sample": {
+      "name": "Veins (capsular & interlobular)",
+      "group": "Vessels"
+    },
+    "stroma": {
+      "name": "Interfollicular connective tissue",
+      "group": "Capsule & stroma"
+    },
+    "septa": {
+      "name": "Interlobular septa",
+      "group": "Capsule & stroma"
+    },
+    "capsule": {
+      "name": "Capsule",
+      "group": "Capsule & stroma"
+    },
+    "basal_lamina": {
+      "name": "Follicular basal lamina",
+      "group": "Thyroid follicles"
+    },
+    "parathyroid_capsule": {
+      "name": "Parathyroid capsule",
+      "group": "Parathyroid gland"
+    },
+    "chief_cells": {
+      "name": "Parathyroid chief cells",
+      "group": "Parathyroid gland"
+    },
+    "oxyphil_cells": {
+      "name": "Oxyphil cells",
+      "group": "Parathyroid gland"
+    },
+    "adipocytes": {
+      "name": "Parathyroid adipocytes",
+      "group": "Parathyroid gland"
+    },
+    "parathyroid_capillaries": {
+      "name": "Parathyroid capillaries",
+      "group": "Parathyroid gland"
+    }
+  },
+  "sources": {
+    "thyroid_synthesis": {
+      "title": "Endotext: Thyroid Hormone Synthesis and Secretion",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK285550/",
+      "verified": "Opened readable chapter and publisher PDF 2026-10-04; polarity, apical chemistry, storage, retrieval and proteolysis sections"
+    },
+    "nis_primary": {
+      "title": "Dai, Levy and Carrasco (1996): Cloning and characterization of the thyroid iodide transporter",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/8559252/",
+      "verified": "Opened original research abstract 2026-10-04; NIS mechanism only, rat-derived cell line expression experiment"
+    },
+    "duke_histology": {
+      "title": "Duke Histology: Endocrine System",
+      "url": "https://histology.oit.duke.edu/NormalBody/Endocrine/Endocrine_2024.html",
+      "verified": "Opened readable university source 2026-10-04; thyroid/parathyroid organization and activity caveat"
+    },
+    "calcium_homeostasis": {
+      "title": "Endotext: Calcium and Phosphate Homeostasis",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK279023/",
+      "verified": "Opened readable chapter and publisher PDF 2026-10-04; CaSR/PTH and calcitonin physiology"
+    },
+    "casr_primary": {
+      "title": "Brown et al. (1993): Cloning and characterization of an extracellular Ca2+-sensing receptor from bovine parathyroid",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/8255296/",
+      "verified": "Opened original research abstract 2026-10-04; bovine receptor identity and native response, not a human dose-response calibration"
+    },
+    "c_cell_lineage_primary": {
+      "title": "Johansson et al. (2015): Revising the embryonic origin of thyroid C cells in mice and humans",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4631767/",
+      "verified": "Opened readable primary full text 2026-10-04; direct embryonic lineage tracing in mice, human tumor-marker observations distinct"
+    }
+  },
+  "policy": {
+    "geometry_mutation": false,
+    "particle_paths": false,
+    "autoplay": false,
+    "time_semantics": "schematic",
+    "visibility_mutation": false,
+    "material_mutation": false
+  },
+  "limitations": [
+    "Teaching time and glow are schematic; they do not quantify hormones, transport rates, blood flow or biological storage duration.",
+    "Exact selectors address aggregate existing parts; this hook cannot identify a single follicular cell or draw an organelle that is absent from the mesh.",
+    "The thyroid capillary baskets and arterial/venous trunks are representative disconnected samples. No continuous artery-to-capillary-to-vein tracer route is asserted.",
+    "Parathyroid capillaries are a separate representative sample without depicted supply/drainage connections. Thyroid and parathyroid are never one endocrine circuit.",
+    "Resorption vacuoles are existing teaching markers associated with colloid scallops, not independently animated objects and not a complete modeled endocytic pathway.",
+    "Enlarged cell pitch, basal lamina and parathyroid cells preserve the original teaching layout; molecular callouts have no model-unit size.",
+    "Cell height and colloid morphology are activity cues, not sufficient evidence of hormone output or a diagnosis. Geometry never changes during playback.",
+    "Pre refine and Post refine require separate runtime instances bound to their independently verified artifact digests. Variant selection belongs to the root application.",
+    "thyroid_parathyroid_review_v2 is a distinct frozen model and is deliberately rejected by this hook.",
+    "Separate displayed cell rims and narrow teaching clefts do not depict a physiological leak. Follicular epithelium is taught as a sealed polarized barrier; iodide uptake and hormone release cross cells, not display gaps."
+  ],
+  "sequences": {
+    "structure_overview": {
+      "title": "Thyroid and parathyroid structure",
+      "steps": [
+        {
+          "id": "follicular_unit",
+          "title": "Closed follicular unit",
+          "caption": "Polarized follicular epithelium surrounds a colloid lumen; the basal face meets supporting tissue and nearby capillaries.",
+          "duration_s": 5,
+          "highlight": [
+            "epithelium",
+            "colloid",
+            "basal_lamina",
+            "thyroid_capillaries"
+          ],
+          "compartment": "follicular wall / lumen / basal exterior",
+          "source_ids": [
+            "duke_histology"
+          ]
+        },
+        {
+          "id": "separate_parathyroid",
+          "title": "Separate parathyroid context",
+          "caption": "The original corner sample has its own capsule, chief-cell cords, oxyphil cells, fat and capillary sample.",
+          "duration_s": 5,
+          "highlight": [
+            "parathyroid_capsule",
+            "chief_cells",
+            "oxyphil_cells",
+            "adipocytes",
+            "parathyroid_capillaries"
+          ],
+          "compartment": "separate parathyroid sample",
+          "source_ids": [
+            "duke_histology"
+          ]
+        },
+        {
+          "id": "c_cell_identity",
+          "title": "C-cell contextual identity",
+          "caption": "C cells are distinct from follicular cells and parathyroid chief cells; their product is calcitonin.",
+          "duration_s": 5,
+          "highlight": [
+            "c_cells"
+          ],
+          "compartment": "basal / interfollicular thyroid context",
+          "source_ids": [
+            "duke_histology"
+          ]
+        }
+      ]
+    },
+    "thyroid_synthesis_release": {
+      "title": "Thyroid synthesis and release",
+      "steps": [
+        {
+          "id": "basal_iodide_uptake",
+          "title": "Basal iodide uptake",
+          "caption": "Blood supplies iodide; NIS imports it across the blood-facing basolateral follicular-cell membrane. TSH regulates synthesis and release.",
+          "duration_s": 5,
+          "highlight": [
+            "thyroid_capillaries",
+            "epithelium",
+            "basal_lamina"
+          ],
+          "compartment": "blood-facing basolateral membrane",
+          "source_ids": [
+            "nis_primary",
+            "thyroid_synthesis"
+          ]
+        },
+        {
+          "id": "thyroglobulin_supply",
+          "title": "Apical thyroglobulin supply",
+          "caption": "Follicular cells synthesize thyroglobulin and secrete it apically into the follicular lumen.",
+          "duration_s": 5,
+          "highlight": [
+            "epithelium",
+            "colloid"
+          ],
+          "compartment": "intracellular synthesis / apical secretion",
+          "source_ids": [
+            "thyroid_synthesis"
+          ]
+        },
+        {
+          "id": "apical_iodide_delivery",
+          "title": "Apical iodide delivery",
+          "caption": "Iodide crosses the apical membrane toward the lumen; no exclusive transporter assignment is implied.",
+          "duration_s": 5,
+          "highlight": [
+            "epithelium",
+            "colloid"
+          ],
+          "compartment": "apical membrane / lumen-facing interface",
+          "source_ids": [
+            "thyroid_synthesis"
+          ]
+        },
+        {
+          "id": "organification",
+          "title": "Apical iodination",
+          "caption": "At the apical-colloid boundary, TPO with peroxide iodinates thyroglobulin tyrosines into MIT and DIT.",
+          "duration_s": 5,
+          "highlight": [
+            "epithelium",
+            "colloid"
+          ],
+          "compartment": "apical membrane / adjacent colloid",
+          "source_ids": [
+            "thyroid_synthesis"
+          ]
+        },
+        {
+          "id": "coupling",
+          "title": "Coupling on thyroglobulin",
+          "caption": "Coupling on thyroglobulin forms T4 from DIT+DIT and T3 from MIT+DIT.",
+          "duration_s": 5,
+          "highlight": [
+            "colloid",
+            "epithelium"
+          ],
+          "compartment": "apical-lumen boundary; hormone residues remain on thyroglobulin",
+          "source_ids": [
+            "thyroid_synthesis"
+          ]
+        },
+        {
+          "id": "extracellular_storage",
+          "title": "Extracellular colloid storage",
+          "caption": "Colloid stores hormone-containing thyroglobulin extracellularly; these are bound hormone residues, not a free-hormone pool.",
+          "duration_s": 5,
+          "highlight": [
+            "colloid"
+          ],
+          "compartment": "follicular lumen extracellular to the epithelium",
+          "source_ids": [
+            "thyroid_synthesis"
+          ]
+        },
+        {
+          "id": "colloid_endocytosis",
+          "title": "Apical colloid retrieval",
+          "caption": "Apical endocytosis retrieves colloid; the scallop markers identify resorption rather than circulating particles.",
+          "duration_s": 5,
+          "highlight": [
+            "resorption",
+            "colloid",
+            "epithelium"
+          ],
+          "compartment": "apical surface / intracellular endocytic compartment",
+          "source_ids": [
+            "thyroid_synthesis"
+          ]
+        },
+        {
+          "id": "lysosomal_liberation",
+          "title": "Lysosomal hormone liberation",
+          "caption": "Intracellular lysosomal proteolysis liberates T4/T3; lysosomes are explained here without claiming a modeled organelle.",
+          "duration_s": 5,
+          "highlight": [
+            "epithelium"
+          ],
+          "compartment": "intracellular lysosomal processing; text-only organelle cue",
+          "source_ids": [
+            "thyroid_synthesis"
+          ]
+        },
+        {
+          "id": "basal_hormone_release",
+          "title": "Basal thyroid-hormone release",
+          "caption": "Free thyroid hormones leave basally toward nearby capillaries; the illustrated trunks do not form a proven route.",
+          "duration_s": 5,
+          "highlight": [
+            "epithelium",
+            "basal_lamina",
+            "thyroid_capillaries"
+          ],
+          "compartment": "basolateral membrane / interstitium / nearby capillary",
+          "source_ids": [
+            "thyroid_synthesis"
+          ]
+        }
+      ]
+    },
+    "parathyroid_calcium_response": {
+      "title": "Parathyroid calcium response",
+      "steps": [
+        {
+          "id": "low_calcium_sensing",
+          "title": "Low extracellular calcium",
+          "caption": "Lower ionized calcium means less CaSR activation in parathyroid chief cells, permitting increased PTH secretion.",
+          "duration_s": 5,
+          "highlight": [
+            "chief_cells",
+            "parathyroid_capillaries"
+          ],
+          "compartment": "chief-cell surface exposed to extracellular fluid",
+          "source_ids": [
+            "casr_primary",
+            "calcium_homeostasis"
+          ]
+        },
+        {
+          "id": "pth_release",
+          "title": "PTH into nearby capillaries",
+          "caption": "Chief cells release PTH toward their own capillaries; this capillary is a separate representative vascular sample.",
+          "duration_s": 5,
+          "highlight": [
+            "chief_cells",
+            "parathyroid_capillaries"
+          ],
+          "compartment": "chief-cell secretory surface / parathyroid interstitium",
+          "source_ids": [
+            "calcium_homeostasis"
+          ]
+        },
+        {
+          "id": "pth_targets",
+          "title": "PTH target-organ effects",
+          "caption": "Off-model targets: renal calcium retention, phosphate excretion, calcitriol production and bone remodeling help restore calcium.",
+          "duration_s": 5,
+          "highlight": [
+            "chief_cells"
+          ],
+          "compartment": "kidney and bone are described off-model; no physical routes",
+          "source_ids": [
+            "calcium_homeostasis"
+          ]
+        },
+        {
+          "id": "restored_calcium_feedback",
+          "title": "Calcium feedback suppresses PTH",
+          "caption": "Rising extracellular calcium increases CaSR activation and suppresses PTH release; no dose-response curve is simulated.",
+          "duration_s": 5,
+          "highlight": [
+            "chief_cells",
+            "parathyroid_capillaries"
+          ],
+          "compartment": "extracellular-calcium feedback at chief-cell CaSR",
+          "source_ids": [
+            "calcium_homeostasis",
+            "casr_primary"
+          ]
+        }
+      ]
+    },
+    "c_cell_context": {
+      "title": "C-cell contextual distinction",
+      "steps": [
+        {
+          "id": "separate_c_cell_product",
+          "title": "C cells secrete calcitonin",
+          "caption": "Elevated calcium can stimulate calcitonin release from thyroid C cells. This does not use colloid storage or iodinated thyroglobulin.",
+          "duration_s": 5,
+          "highlight": [
+            "c_cells",
+            "thyroid_capillaries"
+          ],
+          "compartment": "thyroid basal/interfollicular C-cell context",
+          "source_ids": [
+            "calcium_homeostasis"
+          ]
+        },
+        {
+          "id": "calcitonin_scope",
+          "title": "Calcitonin physiological scope",
+          "caption": "Calcitonin inhibits osteoclast-mediated resorption; its normal adult human calcium-homeostasis role is smaller than PTH/vitamin D.",
+          "duration_s": 5,
+          "highlight": [
+            "c_cells"
+          ],
+          "compartment": "osteoclast effect described off-model",
+          "source_ids": [
+            "calcium_homeostasis"
+          ]
+        }
+      ]
+    }
+  }
+}

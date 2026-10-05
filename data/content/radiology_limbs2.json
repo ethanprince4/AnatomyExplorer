@@ -1,121 +1,420 @@
 [
-{
-  "id": "shoulder_ap",
-  "title": "Shoulder — AP glenoid (Grashey)",
-  "modality": "X-ray",
-  "region": "Upper limb",
-  "summary": "The one projection that shows the glenohumeral joint space without the two bones overlapping.",
-  "text": "<p>A right shoulder. A straight AP of the shoulder superimposes the humeral head on the glenoid, because the glenoid faces about 40 degrees forward. So the patient is rotated until the beam runs along the joint – the <b>Grashey</b> or AP-glenoid view – and the joint space opens up.</p><p>The glenohumeral joint trades stability for range: a shallow socket, a small contact area, and almost all of its stability from the rotator cuff and the labrum. That is why it is the most commonly dislocated joint in the body, and almost always <b>anteriorly</b>.</p>",
-  "reading": [
-    "The joint space should be uniform and the humeral head centred on the glenoid – overlap on a true Grashey means the head is out.",
-    "The subacromial space is normally 7–14 mm; narrowing means a chronic cuff tear with the head riding up.",
-    "Trace the humeral head and neck: a Hill–Sachs dent after anterior dislocation, or a greater tuberosity avulsion.",
-    "Then the glenoid rim for a bony Bankart fragment, the acromion, the clavicle and the AC joint.",
-    "A dislocation is never called on one view: add a Y-projection or an axial to say which way the head has gone."
-  ],
-  "scene": {
-    "systems": ["skeletal"],
-    "regions": ["upper_limb_r", "thorax"],
-    "side": "Right",
-    "view": "anterior",
-    "frame_on": ["Glenohumeral joint"]
+  {
+    "id": "shoulder_ap",
+    "title": "Shoulder — AP glenoid (Grashey)",
+    "modality": "X-ray",
+    "region": "Upper limb",
+    "summary": "The one projection that shows the glenohumeral joint space without the two bones overlapping.",
+    "text": "<p>A right shoulder. A straight AP of the shoulder superimposes the humeral head on the glenoid, because the glenoid faces about 40 degrees forward. So the patient is rotated until the beam runs along the joint – the <b>Grashey</b> or AP-glenoid view – and the joint space opens up.</p><p>The glenohumeral joint trades stability for range: a shallow socket, a small contact area, and almost all of its stability from the rotator cuff and the labrum. That is why it is the most commonly dislocated joint in the body, and almost always <b>anteriorly</b>.</p>",
+    "reading": [
+      "The joint space should be uniform and the humeral head centred on the glenoid – overlap on a true Grashey means the head is out.",
+      "The subacromial space is normally 7–14 mm; narrowing means a chronic cuff tear with the head riding up.",
+      "Trace the humeral head and neck: a Hill–Sachs dent after anterior dislocation, or a greater tuberosity avulsion.",
+      "Then the glenoid rim for a bony Bankart fragment, the acromion, the clavicle and the AC joint.",
+      "A dislocation is never called on one view: add a Y-projection or an axial to say which way the head has gone."
+    ],
+    "scene": {
+      "systems": [
+        "skeletal"
+      ],
+      "regions": [
+        "upper_limb_r",
+        "thorax"
+      ],
+      "side": "Right",
+      "view": "anterior",
+      "frame_on": [
+        "Glenohumeral joint"
+      ]
+    },
+    "labels": [
+      {
+        "x": 0.44,
+        "y": 0.3,
+        "text": "Head of humerus",
+        "structure": "Head of humerus"
+      },
+      {
+        "x": 0.325,
+        "y": 0.275,
+        "text": "Greater tuberosity",
+        "structure": "Greater tubercle",
+        "note": "supraspinatus, infraspinatus and teres minor insert on it"
+      },
+      {
+        "x": 0.655,
+        "y": 0.3,
+        "text": "Glenohumeral joint space",
+        "structure": "Glenohumeral joint",
+        "note": "a shallow socket – range bought at the cost of stability"
+      },
+      {
+        "x": 0.735,
+        "y": 0.3,
+        "text": "Glenoid",
+        "structure": "Glenoid fossa"
+      },
+      {
+        "x": 0.42,
+        "y": 0.11,
+        "text": "Acromion",
+        "structure": "Acromion"
+      },
+      {
+        "x": 0.42,
+        "y": 0.175,
+        "text": "Subacromial space",
+        "structure": "Subacromial bursa",
+        "note": "7–14 mm; narrow means a chronic cuff tear"
+      },
+      {
+        "x": 0.79,
+        "y": 0.075,
+        "text": "Acromioclavicular joint",
+        "structure": "Acromioclavicular joint"
+      },
+      {
+        "x": 0.9,
+        "y": 0.09,
+        "text": "Clavicle",
+        "structure": "Clavicle"
+      },
+      {
+        "x": 0.665,
+        "y": 0.185,
+        "text": "Coracoid process",
+        "structure": "Coracoid process"
+      },
+      {
+        "x": 0.85,
+        "y": 0.3,
+        "text": "Scapula",
+        "structure": "Scapula"
+      },
+      {
+        "x": 0.37,
+        "y": 0.44,
+        "text": "Neck of humerus",
+        "structure": "Humerus",
+        "note": "the surgical neck – the axillary nerve runs round it"
+      },
+      {
+        "x": 0.36,
+        "y": 0.65,
+        "text": "Shaft of humerus",
+        "structure": "Humerus"
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "Which labelled socket receives the humeral head?",
+        "answer": "Glenoid.",
+        "explanation": "This scapular socket forms the glenohumeral joint.",
+        "structures": [
+          "Glenoid fossa",
+          "Head of humerus",
+          "Glenohumeral joint"
+        ]
+      },
+      {
+        "prompt": "Can a normal-looking shoulder radiograph exclude a rotator cuff tear?",
+        "answer": "No.",
+        "explanation": "X-rays do not directly show cuff tendons; ultrasound or MRI can evaluate them.",
+        "structures": [
+          "Glenohumeral joint"
+        ]
+      }
+    ],
+    "references": [
+      {
+        "title": "Original image provenance: File:Anteroposterior glenoid (Grashey view) X-ray of a normal shoulder.jpg",
+        "url": "https://commons.wikimedia.org/wiki/File:Anteroposterior_glenoid_(Grashey_view)_X-ray_of_a_normal_shoulder.jpg"
+      },
+      {
+        "title": "OpenStax Anatomy and Physiology 2e: 8.2 Bones of the Upper Limb",
+        "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-2-bones-of-the-upper-limb"
+      },
+      {
+        "title": "AAOS OrthoInfo: Rotator Cuff Tears",
+        "url": "https://www.orthoinfo.org/diseases--conditions/rotator-cuff-tears/"
+      }
+    ],
+    "finding": "Shoulder anatomy",
+    "plane": "AP glenoid (Grashey) projection"
   },
-  "labels": [
-    {"x": 0.44, "y": 0.30, "text": "Head of humerus", "structure": "Head of humerus"},
-    {"x": 0.325, "y": 0.275, "text": "Greater tuberosity", "structure": "Greater tubercle",
-     "note": "supraspinatus, infraspinatus and teres minor insert on it"},
-    {"x": 0.655, "y": 0.30, "text": "Glenohumeral joint space", "structure": "Glenohumeral joint",
-     "note": "a shallow socket – range bought at the cost of stability"},
-    {"x": 0.735, "y": 0.30, "text": "Glenoid", "structure": "Glenoid fossa"},
-    {"x": 0.42, "y": 0.11, "text": "Acromion", "structure": "Acromion"},
-    {"x": 0.42, "y": 0.175, "text": "Subacromial space", "structure": "Subacromial bursa",
-     "note": "7–14 mm; narrow means a chronic cuff tear"},
-    {"x": 0.79, "y": 0.075, "text": "Acromioclavicular joint", "structure": "Acromioclavicular joint"},
-    {"x": 0.90, "y": 0.09, "text": "Clavicle", "structure": "Clavicle"},
-    {"x": 0.665, "y": 0.185, "text": "Coracoid process", "structure": "Coracoid process"},
-    {"x": 0.85, "y": 0.30, "text": "Scapula", "structure": "Scapula"},
-    {"x": 0.37, "y": 0.44, "text": "Neck of humerus", "structure": "Humerus",
-     "note": "the surgical neck – the axillary nerve runs round it"},
-    {"x": 0.36, "y": 0.65, "text": "Shaft of humerus", "structure": "Humerus"}
-  ]
-},
-{
-  "id": "ankle_ap",
-  "title": "Ankle — AP",
-  "modality": "X-ray",
-  "region": "Lower limb",
-  "summary": "A mortise made of three bones, and the clear spaces that tell you it is intact.",
-  "text": "<p>A left ankle. The talus sits in a <b>mortise</b> – a socket made by the tibial plafond above, the medial malleolus inside and the lateral malleolus outside, with the two leg bones bound together by the <b>syndesmosis</b>.</p><p>Because it is a ring, the ankle cannot be broken in one place and stay stable: a medial malleolar fracture obliges you to look at the fibula and the syndesmosis, and vice versa. A widened medial clear space with no fracture means the deltoid ligament has gone.</p>",
-  "reading": [
-    "The medial clear space between talus and medial malleolus should be 4 mm or less, and equal to the space above the talar dome.",
-    "The tibiofibular clear space, 1 cm above the joint, should be under 6 mm: wider means a syndesmotic injury.",
-    "Talar tilt: the dome should be parallel to the plafond.",
-    "Then each malleolus and the talar dome for an osteochondral lesion; the base of the fifth metatarsal too, because it is often tender after the same injury.",
-    "Remember the Ottawa rules: bony tenderness at the posterior edge or tip of either malleolus, or inability to weight-bear, before you image at all."
-  ],
-  "scene": {
-    "systems": ["skeletal"],
-    "regions": ["lower_limb_l"],
-    "side": "Left",
-    "view": "anterior",
-    "frame_on": ["Ankle joint"]
+  {
+    "id": "ankle_ap",
+    "title": "Ankle — AP",
+    "modality": "X-ray",
+    "region": "Lower limb",
+    "summary": "A mortise made of three bones, and the clear spaces that tell you it is intact.",
+    "text": "<p>A left ankle. The talus sits in a <b>mortise</b> – a socket made by the tibial plafond above, the medial malleolus inside and the lateral malleolus outside, with the two leg bones bound together by the <b>syndesmosis</b>.</p><p>An isolated ankle fracture can be stable, but a medial malleolar fracture should prompt assessment of the fibula and syndesmosis, and vice versa. A widened medial clear space with no fracture means the deltoid ligament has gone.</p>",
+    "reading": [
+      "The medial clear space between talus and medial malleolus should be 4 mm or less, and equal to the space above the talar dome.",
+      "The tibiofibular clear space, 1 cm above the joint, should be under 6 mm: wider means a syndesmotic injury.",
+      "Talar tilt: the dome should be parallel to the plafond.",
+      "Then each malleolus and the talar dome for an osteochondral lesion; the base of the fifth metatarsal too, because it is often tender after the same injury.",
+      "Remember the Ottawa rules: bony tenderness at the posterior edge or tip of either malleolus, or inability to weight-bear, before you image at all."
+    ],
+    "scene": {
+      "systems": [
+        "skeletal"
+      ],
+      "regions": [
+        "lower_limb_l"
+      ],
+      "side": "Left",
+      "view": "anterior",
+      "frame_on": [
+        "Ankle joint"
+      ]
+    },
+    "labels": [
+      {
+        "x": 0.38,
+        "y": 0.2,
+        "text": "Tibia",
+        "structure": "Tibia"
+      },
+      {
+        "x": 0.7,
+        "y": 0.2,
+        "text": "Fibula",
+        "structure": "Fibula",
+        "note": "carries about a sixth of the load"
+      },
+      {
+        "x": 0.6,
+        "y": 0.6,
+        "text": "Tibiofibular syndesmosis",
+        "structure": "Tibiofibular syndesmosis",
+        "note": "clear space under 6 mm, 1 cm above the joint"
+      },
+      {
+        "x": 0.45,
+        "y": 0.655,
+        "text": "Tibial plafond",
+        "structure": "Tibia"
+      },
+      {
+        "x": 0.24,
+        "y": 0.63,
+        "text": "Medial malleolus",
+        "structure": "Medial malleolus"
+      },
+      {
+        "x": 0.71,
+        "y": 0.68,
+        "text": "Lateral malleolus",
+        "structure": "Lateral malleolus",
+        "note": "reaches further down than the medial"
+      },
+      {
+        "x": 0.3,
+        "y": 0.67,
+        "text": "Medial clear space",
+        "structures": [
+          "Posterior tibiotalar ligament",
+          "Tibionavicular ligament"
+        ],
+        "note": "4 mm or less; wider means the deltoid ligament has torn"
+      },
+      {
+        "x": 0.45,
+        "y": 0.7,
+        "text": "Talar dome",
+        "structure": "Talus"
+      },
+      {
+        "x": 0.45,
+        "y": 0.78,
+        "text": "Body of talus",
+        "structure": "Talus"
+      },
+      {
+        "x": 0.32,
+        "y": 0.9,
+        "text": "Calcaneus",
+        "structure": "Calcaneus"
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "Which bones form the medial and lateral malleoli?",
+        "answer": "Tibia medially; fibula laterally.",
+        "explanation": "These projections border the talus.",
+        "structures": [
+          "Medial malleolus",
+          "Lateral malleolus",
+          "Tibia",
+          "Fibula",
+          "Talus"
+        ]
+      },
+      {
+        "prompt": "What does the labelled tibiofibular syndesmosis stabilize?",
+        "answer": "The distal tibia and fibula.",
+        "explanation": "Its ligaments help maintain their relationship at the ankle.",
+        "structures": [
+          "Tibiofibular syndesmosis",
+          "Tibia",
+          "Fibula"
+        ]
+      }
+    ],
+    "references": [
+      {
+        "title": "Original image provenance: File:X-ray of normal ankle - frontal.jpg",
+        "url": "https://commons.wikimedia.org/wiki/File:X-ray_of_normal_ankle_-_frontal.jpg"
+      },
+      {
+        "title": "AAOS OrthoInfo: Ankle Fractures (Broken Ankle)",
+        "url": "https://www.orthoinfo.org/diseases--conditions/ankle-fractures-broken-ankle/"
+      }
+    ],
+    "finding": "Ankle anatomy",
+    "plane": "AP projection"
   },
-  "labels": [
-    {"x": 0.38, "y": 0.20, "text": "Tibia", "structure": "Tibia"},
-    {"x": 0.70, "y": 0.20, "text": "Fibula", "structure": "Fibula",
-     "note": "carries about a sixth of the load"},
-    {"x": 0.60, "y": 0.60, "text": "Tibiofibular syndesmosis", "structure": "Tibiofibular syndesmosis",
-     "note": "clear space under 6 mm, 1 cm above the joint"},
-    {"x": 0.45, "y": 0.655, "text": "Tibial plafond", "structure": "Tibia"},
-    {"x": 0.24, "y": 0.63, "text": "Medial malleolus", "structure": "Medial malleolus"},
-    {"x": 0.71, "y": 0.68, "text": "Lateral malleolus", "structure": "Lateral malleolus",
-     "note": "reaches further down than the medial"},
-    {"x": 0.30, "y": 0.67, "text": "Medial clear space", "structures": ["Posterior tibiotalar ligament", "Tibionavicular ligament"],
-     "note": "4 mm or less; wider means the deltoid ligament has torn"},
-    {"x": 0.45, "y": 0.70, "text": "Talar dome", "structure": "Talus"},
-    {"x": 0.45, "y": 0.78, "text": "Body of talus", "structure": "Talus"},
-    {"x": 0.32, "y": 0.90, "text": "Calcaneus", "structure": "Calcaneus"}
-  ]
-},
-{
-  "id": "ankle_lat",
-  "title": "Ankle — lateral",
-  "modality": "X-ray",
-  "region": "Lower limb",
-  "summary": "The second view of the mortise: the posterior malleolus, the dome and Böhler's angle.",
-  "text": "<p>The same ankle from the side, anterior to the left. This is the view for the <b>posterior malleolus</b> – the back of the tibial articular surface, invisible on the AP and part of a trimalleolar fracture – and for the <b>talar dome</b> in profile.</p><p>It also shows the calcaneus, where <b>Böhler's angle</b> (normally 20–40°) flattens in a compression fracture, and the lucent triangle of the <b>sinus tarsi</b> between talus and calcaneus.</p>",
-  "reading": [
-    "The talar dome and the tibial plafond should be congruent, with an even joint space.",
-    "The posterior malleolus – the back of the plafond – and the anterior tibial margin.",
-    "Böhler's angle at the calcaneus, 20–40°; flattening means a compression fracture even when no line is visible.",
-    "The sinus tarsi should stay lucent, and the subtalar posterior facet should be a single smooth line.",
-    "Soft tissues: an effusion pushes the anterior joint capsule forwards, and the Achilles should be a uniform dark band."
-  ],
-  "scene": {
-    "systems": ["skeletal"],
-    "regions": ["lower_limb_l"],
-    "side": "Left",
-    "view": "left",
-    "frame_on": ["Ankle joint"]
-  },
-  "labels": [
-    {"x": 0.40, "y": 0.20, "text": "Tibia", "structure": "Tibia"},
-    {"x": 0.50, "y": 0.35, "text": "Fibula", "structure": "Fibula",
-     "note": "behind the tibia in a true lateral"},
-    {"x": 0.50, "y": 0.46, "text": "Posterior malleolus", "structure": "Tibia",
-     "note": "the third malleolus – only this view shows it"},
-    {"x": 0.40, "y": 0.475, "text": "Tibial plafond", "structure": "Ankle joint"},
-    {"x": 0.37, "y": 0.52, "text": "Talar dome", "structure": "Talus"},
-    {"x": 0.33, "y": 0.58, "text": "Body of talus", "structure": "Talus"},
-    {"x": 0.20, "y": 0.62, "text": "Neck and head of talus", "structure": "Head of talus",
-     "note": "a fracture here starves the body of its blood supply"},
-    {"x": 0.28, "y": 0.655, "text": "Sinus tarsi", "structure": "Tarsal sinus"},
-    {"x": 0.44, "y": 0.665, "text": "Subtalar joint", "structure": "Subtalar joint",
-     "note": "the posterior facet, in profile"},
-    {"x": 0.50, "y": 0.78, "text": "Calcaneus", "structure": "Calcaneus",
-     "note": "Böhler's angle 20–40°"},
-    {"x": 0.72, "y": 0.80, "text": "Calcaneal tuberosity", "structure": "Calcaneal tuberosity"},
-    {"x": 0.13, "y": 0.66, "text": "Navicular", "structure": "Navicular bone"}
-  ]
-}
+  {
+    "id": "ankle_lat",
+    "title": "Ankle — lateral",
+    "modality": "X-ray",
+    "region": "Lower limb",
+    "summary": "The second view of the mortise: the posterior malleolus, the dome and Böhler's angle.",
+    "text": "<p>The same ankle from the side, anterior to the left. This is the view for the <b>posterior malleolus</b> – the back of the tibial articular surface, invisible on the AP and part of a trimalleolar fracture – and for the <b>talar dome</b> in profile.</p><p>It also shows the calcaneus, where <b>Böhler's angle</b> (normally 20–40°) flattens in a compression fracture, and the lucent triangle of the <b>sinus tarsi</b> between talus and calcaneus.</p>",
+    "reading": [
+      "The talar dome and the tibial plafond should be congruent, with an even joint space.",
+      "The posterior malleolus – the back of the plafond – and the anterior tibial margin.",
+      "Böhler's angle at the calcaneus, 20–40°; flattening means a compression fracture even when no line is visible.",
+      "The sinus tarsi should stay lucent, and the subtalar posterior facet should be a single smooth line.",
+      "Soft tissues: an effusion pushes the anterior joint capsule forwards, and the Achilles should be a uniform dark band."
+    ],
+    "scene": {
+      "systems": [
+        "skeletal"
+      ],
+      "regions": [
+        "lower_limb_l"
+      ],
+      "side": "Left",
+      "view": "left",
+      "frame_on": [
+        "Ankle joint"
+      ]
+    },
+    "labels": [
+      {
+        "x": 0.4,
+        "y": 0.2,
+        "text": "Tibia",
+        "structure": "Tibia"
+      },
+      {
+        "x": 0.5,
+        "y": 0.35,
+        "text": "Fibula",
+        "structure": "Fibula",
+        "note": "behind the tibia in a true lateral"
+      },
+      {
+        "x": 0.5,
+        "y": 0.46,
+        "text": "Posterior malleolus",
+        "structure": "Tibia",
+        "note": "the third malleolus – only this view shows it"
+      },
+      {
+        "x": 0.4,
+        "y": 0.475,
+        "text": "Tibial plafond",
+        "structure": "Ankle joint"
+      },
+      {
+        "x": 0.37,
+        "y": 0.52,
+        "text": "Talar dome",
+        "structure": "Talus"
+      },
+      {
+        "x": 0.33,
+        "y": 0.58,
+        "text": "Body of talus",
+        "structure": "Talus"
+      },
+      {
+        "x": 0.2,
+        "y": 0.62,
+        "text": "Neck and head of talus",
+        "structure": "Head of talus",
+        "note": "a fracture here starves the body of its blood supply"
+      },
+      {
+        "x": 0.28,
+        "y": 0.655,
+        "text": "Sinus tarsi",
+        "structure": "Tarsal sinus"
+      },
+      {
+        "x": 0.44,
+        "y": 0.665,
+        "text": "Subtalar joint",
+        "structure": "Subtalar joint",
+        "note": "the posterior facet, in profile"
+      },
+      {
+        "x": 0.5,
+        "y": 0.78,
+        "text": "Calcaneus",
+        "structure": "Calcaneus",
+        "note": "Böhler's angle 20–40°"
+      },
+      {
+        "x": 0.72,
+        "y": 0.8,
+        "text": "Calcaneal tuberosity",
+        "structure": "Calcaneal tuberosity"
+      },
+      {
+        "x": 0.13,
+        "y": 0.66,
+        "text": "Navicular",
+        "structure": "Navicular bone"
+      }
+    ],
+    "questions": [
+      {
+        "prompt": "The labelled posterior malleolus belongs to which bone?",
+        "answer": "Tibia.",
+        "explanation": "It is the posterior part of the distal tibia.",
+        "structures": [
+          "Tibia"
+        ]
+      },
+      {
+        "prompt": "Which labelled bone forms the heel below the talus?",
+        "answer": "Calcaneus.",
+        "explanation": "It articulates with the talus superiorly.",
+        "structures": [
+          "Calcaneus",
+          "Talus"
+        ]
+      }
+    ],
+    "references": [
+      {
+        "title": "Original image provenance: File:X-ray of normal ankle - lateral.jpg",
+        "url": "https://commons.wikimedia.org/wiki/File:X-ray_of_normal_ankle_-_lateral.jpg"
+      },
+      {
+        "title": "AAOS OrthoInfo: Ankle Fractures (Broken Ankle)",
+        "url": "https://www.orthoinfo.org/diseases--conditions/ankle-fractures-broken-ankle/"
+      },
+      {
+        "title": "OpenStax Anatomy and Physiology 2e: 8.4 Bones of the Lower Limb",
+        "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+      }
+    ],
+    "finding": "Ankle anatomy",
+    "plane": "Lateral projection"
+  }
 ]

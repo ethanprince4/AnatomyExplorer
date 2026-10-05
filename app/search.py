@@ -122,6 +122,7 @@ class SearchIndex:
         self.entries.extend(added)
 
     def add_lessons(self, lessons):
+        """So that searching offers the guided lesson as well as structures."""
         """So that searching 'carpal tunnel' offers the guided lesson as well as the structures."""
         added = []
         for lesson in lessons:
@@ -130,6 +131,14 @@ class SearchIndex:
                                      f"Lesson · {lesson.system_name} · {lesson.region_name} · {len(lesson)} steps",
                                      [], None, node=lesson.id,
                                      alt=" ".join([lesson.summary, keywords] + lesson.tags + lesson.objectives)))
+        self._prepare(added)
+        self.entries.extend(added)
+
+    def replace_models(self, catalog):
+        """Refresh bounded model metadata without duplicating other indexed content."""
+        self.entries[:] = [entry for entry in self.entries if entry.kind != "micro"]
+        added = [SearchEntry("micro", model.name, model.kind_name, [], None, node=model.id)
+                 for model in catalog.values()]
         self._prepare(added)
         self.entries.extend(added)
 

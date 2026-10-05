@@ -76,16 +76,27 @@ class ColorButton(QPushButton):
 
 class SettingsDialog(QDialog):
     settingChanged = Signal(str, object)
+    themeChanged = Signal(str)
 
     def __init__(self, settings, actions, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Settings")
         self.resize(840, 640)
+        self.setMinimumSize(540, 420)
+        self.setAccessibleName("Anatomy Explorer settings")
         self.settings = settings
         self.registry = actions
         self.widgets = {}
         lay = QVBoxLayout(self)
+        title = QLabel("Settings")
+        title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2, 600))
+        lay.addWidget(title)
+        hint = QLabel("Changes take effect immediately, except interface appearance. Your study content stays unchanged.")
+        hint.setWordWrap(True)
+        hint.setStyleSheet(theme.text_css(theme.MUTED))
+        lay.addWidget(hint)
         self.tabs = QTabWidget()
+        self.tabs.setAccessibleName("Settings categories")
         lay.addWidget(self.tabs)
         self.tabs.addTab(self._mouse_page(), "Mouse && Camera")
         self.tabs.addTab(self._display_page(), "Display")
@@ -107,7 +118,9 @@ class SettingsDialog(QDialog):
         scroll.setWidgetResizable(True)
         body = QWidget()
         form = QFormLayout(body)
-        form.setLabelAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        form.setLabelAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        form.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        form.setFieldGrowthPolicy(QFormLayout.AllNonFixedFieldsGrow)
         form.setHorizontalSpacing(16)
         form.setVerticalSpacing(10)
         form.setContentsMargins(16, 16, 16, 16)
@@ -121,6 +134,9 @@ class SettingsDialog(QDialog):
 
     def _slider(self, page, form, key, label, lo, hi, step, suffix="", decimals=2, tip=None):
         w = SliderRow(lo, hi, float(self.settings[key]), step, suffix, decimals)
+        w.setAccessibleName(label)
+        w.slider.setAccessibleName(label)
+        w.spin.setAccessibleName(label + " value")
         w.valueChanged.connect(lambda v, k=key: self._emit(k, v))
         if tip:
             w.setToolTip(tip)
@@ -130,6 +146,7 @@ class SettingsDialog(QDialog):
 
     def _check(self, page, form, key, label, tip=None):
         w = QCheckBox(label)
+        w.setAccessibleName(label)
         w.setChecked(bool(self.settings[key]))
         w.toggled.connect(lambda v, k=key: self._emit(k, v))
         if tip:
@@ -140,6 +157,9 @@ class SettingsDialog(QDialog):
 
     def _combo(self, page, form, key, label, options, tip=None):
         w = QComboBox()
+        w.setAccessibleName(label)
+        w.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+        w.setMinimumContentsLength(14)
         w.addItems(options)
         w.setCurrentText(str(self.settings[key]))
         w.currentTextChanged.connect(lambda v, k=key: self._emit(k, v))
@@ -151,13 +171,15 @@ class SettingsDialog(QDialog):
 
     def _color(self, page, form, key, label):
         w = ColorButton(self.settings[key])
+        w.setAccessibleName(label)
+        w.setToolTip(label + ": " + str(self.settings[key]))
         w.colorChanged.connect(lambda v, k=key: self._emit(k, v))
         form.addRow(label, w)
         self.widgets[key] = w
         page._keys.append(key)
 
     def _header(self, form, text):
-        lab = QLabel(text)
+        lab = QLabel(text.capitalize())
         lab.setStyleSheet(theme.overline_css(theme.ACCENT_TEXT) + " margin-top:12px;")
         form.addRow(lab)
 
@@ -204,6 +226,20 @@ class SettingsDialog(QDialog):
     def _display_page(self):
         page, f = self._page()
         self._header(f, "INTERFACE")
+        self.theme_picker = QComboBox()
+        self.theme_picker.setAccessibleName("Interface appearance for next launch")
+        for key, label in theme.THEMES.items():
+            self.theme_picker.addItem(label, key)
+        saved_theme = (str(self.parent().qsettings.value("ui_theme", theme.THEME_NAME))
+                       if self.parent() is not None and hasattr(self.parent(), "qsettings") else theme.THEME_NAME)
+        self.theme_picker.setCurrentIndex(max(0, self.theme_picker.findData(saved_theme)))
+        self.theme_picker.currentIndexChanged.connect(
+            lambda _index: self.themeChanged.emit(self.theme_picker.currentData()))
+        self.theme_picker.hide()  # Study-02 Porcelain is the single approved appearance.
+        appearance_hint = QLabel("Study-02 Porcelain. Educational images and model materials keep their original colours.")
+        appearance_hint.setWordWrap(True)
+        appearance_hint.setStyleSheet(theme.text_css(theme.MUTED))
+        f.addRow("", appearance_hint)
         self._slider(page, f, "ui_scale", "Interface text size", 0.8, 1.6, 0.05)
         self._slider(page, f, "details_scale", "Details text size", 0.8, 1.8, 0.05)
         self._slider(page, f, "label_size", "3D label size", 6, 16, 0.2, " pt", 1)
@@ -247,6 +283,8 @@ class SettingsDialog(QDialog):
         top = QHBoxLayout()
         self.key_filter = QLineEdit()
         self.key_filter.setPlaceholderText("Filter commands…")
+        self.key_filter.setAccessibleName("Filter keyboard commands")
+        self.key_filter.setClearButtonEnabled(True)
         self.key_filter.textChanged.connect(self._filter_keys)
         top.addWidget(self.key_filter, 1)
         reset_all = QPushButton("Reset all shortcuts")
@@ -254,9 +292,12 @@ class SettingsDialog(QDialog):
         top.addWidget(reset_all)
         lay.addLayout(top)
         self.conflict = QLabel("")
+        self.conflict.setWordWrap(True)
+        self.conflict.setAccessibleName("Keyboard shortcut conflicts")
         self.conflict.setStyleSheet(theme.text_css(theme.DANGER))
         lay.addWidget(self.conflict)
         self.table = QTableWidget(len(ACTION_DEFS), 5)
+        self.table.setAccessibleName("Customizable keyboard shortcuts")
         self.table.setHorizontalHeaderLabels(["Command", "Category", "Shortcut", "Alternate", ""])
         self.table.verticalHeader().hide()
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
@@ -271,6 +312,8 @@ class SettingsDialog(QDialog):
             self.table.setCellWidget(r, 1, cat)
             p, s = self.registry.shortcuts(aid)
             ep, es = QKeySequenceEdit(QKeySequence(p)), QKeySequenceEdit(QKeySequence(s))
+            ep.setAccessibleName(d[1] + " primary shortcut")
+            es.setAccessibleName(d[1] + " alternate shortcut")
             for e in (ep, es):
                 e.setMaximumSequenceLength(1)
                 e.setMinimumWidth(130)
@@ -285,7 +328,13 @@ class SettingsDialog(QDialog):
         lay.addWidget(self.table, 1)
         tip = QLabel("Click a shortcut cell and press the new key combination. Press Backspace then click away to clear.")
         tip.setStyleSheet(theme.text_css(theme.MUTED))
+        tip.setWordWrap(True)
         lay.addWidget(tip)
+        shell_keys = QLabel("Workspace shortcuts: Ctrl+Shift+1 Anatomy · Ctrl+Shift+2 Models · Ctrl+Shift+3 Lessons · "
+                            "Ctrl+Shift+4 Radiology · Ctrl+Shift+5 Histology · Ctrl+Shift+P Commands")
+        shell_keys.setWordWrap(True)
+        shell_keys.setStyleSheet(theme.text_css(theme.MUTED))
+        lay.addWidget(shell_keys)
         self._check_conflicts()
         return w
 
@@ -316,11 +365,15 @@ class SettingsDialog(QDialog):
     def _check_conflicts(self):
         seen = {}
         conflicts = []
+        reserved = {action.shortcut().toString(): action.text()
+                    for action in getattr(self.parent(), "workspace_actions", []) if not action.shortcut().isEmpty()}
         for aid, (ep, es, _) in self.key_edits.items():
             for e in (ep, es):
                 k = e.keySequence().toString(QKeySequence.PortableText)
                 if not k:
                     continue
+                if k in reserved:
+                    conflicts.append(f"{k}: {reserved[k]} / {self.registry.defs[aid][1]}")
                 if k in seen and seen[k] != aid:
                     conflicts.append(f"{k}: {self.registry.defs[seen[k]][1]} / {self.registry.defs[aid][1]}")
                 seen.setdefault(k, aid)
@@ -338,6 +391,8 @@ class SettingsDialog(QDialog):
         if not hasattr(page, "_keys"):
             self._reset_keys()
             return
+        if page is self.tabs.widget(1):
+            self.theme_picker.setCurrentIndex(self.theme_picker.findData("porcelain"))
         for key in page._keys:
             v = DEFAULT_SETTINGS[key]
             w = self.widgets[key]

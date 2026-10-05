@@ -1,0 +1,1606 @@
+{
+  "schema_version": 1,
+  "model_id": "blood_cells",
+  "status": "completed_source_design",
+  "geometry_changes": false,
+  "animation_requested": false,
+  "animation_sidecar": null,
+  "scale": {
+    "build_units_per_micrometre": 0.03,
+    "metres_per_unit": 3.3333333333333335e-05,
+    "exceptions": [
+      "T/B receptor cues are greatly enlarged schematic symbols.",
+      "Granules are enlarged reduced representative samples."
+    ]
+  },
+  "part_identity_manifest": [
+    {
+      "cache_index": 0,
+      "native_item_index": 0,
+      "native_part_id": 1,
+      "name": "Erythrocytes"
+    },
+    {
+      "cache_index": 1,
+      "native_item_index": 1,
+      "native_part_id": 2,
+      "name": "Rouleau"
+    },
+    {
+      "cache_index": 2,
+      "native_item_index": 2,
+      "native_part_id": 3,
+      "name": "Erythrocyte cross-section"
+    },
+    {
+      "cache_index": 3,
+      "native_item_index": 3,
+      "native_part_id": 4,
+      "name": "Platelets"
+    },
+    {
+      "cache_index": 4,
+      "native_item_index": 4,
+      "native_part_id": 5,
+      "name": "Neutrophil"
+    },
+    {
+      "cache_index": 5,
+      "native_item_index": 5,
+      "native_part_id": 6,
+      "name": "Band neutrophil"
+    },
+    {
+      "cache_index": 6,
+      "native_item_index": 6,
+      "native_part_id": 7,
+      "name": "Neutrophil nucleus"
+    },
+    {
+      "cache_index": 7,
+      "native_item_index": 7,
+      "native_part_id": 8,
+      "name": "Neutrophil granules"
+    },
+    {
+      "cache_index": 8,
+      "native_item_index": 8,
+      "native_part_id": 9,
+      "name": "Eosinophil"
+    },
+    {
+      "cache_index": 9,
+      "native_item_index": 9,
+      "native_part_id": 10,
+      "name": "Eosinophil nucleus"
+    },
+    {
+      "cache_index": 10,
+      "native_item_index": 10,
+      "native_part_id": 11,
+      "name": "Eosinophil granules"
+    },
+    {
+      "cache_index": 11,
+      "native_item_index": 11,
+      "native_part_id": 12,
+      "name": "Basophil"
+    },
+    {
+      "cache_index": 12,
+      "native_item_index": 12,
+      "native_part_id": 13,
+      "name": "Basophil nucleus"
+    },
+    {
+      "cache_index": 13,
+      "native_item_index": 13,
+      "native_part_id": 14,
+      "name": "Basophil granules"
+    },
+    {
+      "cache_index": 14,
+      "native_item_index": 14,
+      "native_part_id": 15,
+      "name": "T lymphocyte"
+    },
+    {
+      "cache_index": 15,
+      "native_item_index": 15,
+      "native_part_id": 16,
+      "name": "B lymphocyte"
+    },
+    {
+      "cache_index": 16,
+      "native_item_index": 16,
+      "native_part_id": 17,
+      "name": "Large lymphocyte"
+    },
+    {
+      "cache_index": 17,
+      "native_item_index": 17,
+      "native_part_id": 18,
+      "name": "T lymphocyte nucleus"
+    },
+    {
+      "cache_index": 18,
+      "native_item_index": 18,
+      "native_part_id": 19,
+      "name": "B lymphocyte nucleus"
+    },
+    {
+      "cache_index": 19,
+      "native_item_index": 19,
+      "native_part_id": 20,
+      "name": "Large lymphocyte nucleus"
+    },
+    {
+      "cache_index": 20,
+      "native_item_index": 20,
+      "native_part_id": 21,
+      "name": "T-cell receptor (schematic)"
+    },
+    {
+      "cache_index": 21,
+      "native_item_index": 21,
+      "native_part_id": 22,
+      "name": "B-cell surface immunoglobulin (schematic)"
+    },
+    {
+      "cache_index": 22,
+      "native_item_index": 22,
+      "native_part_id": 23,
+      "name": "Monocyte"
+    },
+    {
+      "cache_index": 23,
+      "native_item_index": 23,
+      "native_part_id": 24,
+      "name": "Monocyte nucleus"
+    },
+    {
+      "cache_index": 24,
+      "native_item_index": 24,
+      "native_part_id": 25,
+      "name": "Fibrin"
+    },
+    {
+      "cache_index": 25,
+      "native_item_index": 25,
+      "native_part_id": 26,
+      "name": "Activated platelets"
+    },
+    {
+      "cache_index": 26,
+      "native_item_index": 26,
+      "native_part_id": 27,
+      "name": "Plasma"
+    }
+  ],
+  "identity_note": "IDs follow the retained nonempty 27-part cache and ProceduralModel order; native roundtrip must prove no omitted or reordered part.",
+  "native_controls": {
+    "named_views": [
+      "Comparison",
+      "Clot",
+      "Plasma context"
+    ],
+    "selection": "SceneState.select(sids, add=False); resolve exact item names first",
+    "framing": "ModelViewport.frame_structures(sids)",
+    "visibility": "Named-view hidden lists apply through set_named_view; no custom function controls added",
+    "isolation": "SceneState.isolate(sids) exists but shared neutrophil carriers must remain together",
+    "cutaway": "Already sectioned leukocytes; registry cut_on=False",
+    "source_proof": [
+      "app/micro/teaching_defaults.json:52-136",
+      "app/viewer/viewport.py:409-443",
+      "app/viewer/procedural.py:74-127",
+      "app/state.py:252,319",
+      "app/micro/registry_extra_blood.py:66-70"
+    ]
+  },
+  "instruction_semantics": "native_actions are a human-readable guide to real controls, not a new runtime action API. Explanations remain in this function sidecar; no claim the native viewer already has a sequence runner.",
+  "functional_sequences": [
+    {
+      "id": "rbc-oxygen",
+      "title": "Biconcavity and oxygen carriage",
+      "mechanism": "Hemoglobin carries oxygen between lungs and tissues; the retained section explains the cell shape.",
+      "parts": [
+        "Erythrocytes",
+        "Rouleau",
+        "Erythrocyte cross-section"
+      ],
+      "presentation": "ordered narrative using existing static geometry and native view/selection/framing",
+      "steps": [
+        {
+          "id": "rbc-shape",
+          "title": "Read the cell surface",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Erythrocytes",
+            "Erythrocyte cross-section"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Erythrocytes",
+                "Erythrocyte cross-section"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Erythrocytes",
+                "Erythrocyte cross-section"
+              ]
+            }
+          ],
+          "explanation": "Match the smooth whole discs to the dumbbell section. The biconcave body offers a large exchange surface and a thin central region. Mature mammalian red cells lack a nucleus.",
+          "evidence": [
+            "blood-function",
+            "blood-morphology"
+          ],
+          "unmodeled_context": "Hemoglobin, membrane proteins and cytoskeleton are not separate parts."
+        },
+        {
+          "id": "rbc-load",
+          "title": "Load oxygen in the lung",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Erythrocytes"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Erythrocytes"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Erythrocytes"
+              ]
+            }
+          ],
+          "explanation": "In pulmonary exchange, oxygen enters the red cell and binds hemoglobin. Explain this with the retained cell, without changing its color to claim an oxygenation measurement.",
+          "evidence": [
+            "blood-function"
+          ],
+          "unmodeled_context": "No alveolus, capillary, oxygen gradient or binding kinetics are modeled."
+        },
+        {
+          "id": "rbc-unload",
+          "title": "Deliver oxygen to tissue",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Erythrocyte cross-section"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Erythrocyte cross-section"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Erythrocyte cross-section"
+              ]
+            }
+          ],
+          "explanation": "Oxygen can dissociate for tissue delivery. The section shows a short path through the thin center, while the flexible cell membrane permits passage through narrow vessels.",
+          "evidence": [
+            "blood-function"
+          ],
+          "unmodeled_context": "No deformation, vascular transit or measured diffusion is simulated."
+        }
+      ],
+      "structure_function_links": [
+        "The section links whole-cell biconcavity to exchange surface and thin center.",
+        "Anucleate appearance identifies the mature erythrocyte, not a nucleus hidden by clipping."
+      ],
+      "questions": [
+        {
+          "prompt": "Does central pallor mean the center is a hole?",
+          "answer": "No. The retained cross-section shows a thin continuous center."
+        },
+        {
+          "prompt": "Can this view give oxygen saturation?",
+          "answer": "No. It is a structural comparison without an oxygenation field."
+        }
+      ],
+      "schematic_limitations": [
+        "True cell scale is retained; camera magnification does not enlarge physical cells.",
+        "The sample of three whole cells does not represent a blood count."
+      ]
+    },
+    {
+      "id": "rouleau-context",
+      "title": "Rouleau as an aggregation pattern",
+      "mechanism": "Contrast stacked red cells with isolated discs and with a platelet-fibrin clot.",
+      "parts": [
+        "Rouleau",
+        "Erythrocytes",
+        "Fibrin",
+        "Activated platelets"
+      ],
+      "presentation": "ordered narrative using existing static geometry and native view/selection/framing",
+      "steps": [
+        {
+          "id": "stack",
+          "title": "Compare face-to-face stacking",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Rouleau",
+            "Erythrocytes"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Rouleau",
+                "Erythrocytes"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Rouleau",
+                "Erythrocytes"
+              ]
+            }
+          ],
+          "explanation": "The retained seven-cell stack illustrates rouleau morphology. Each disc retains its red-cell identity and dimensions.",
+          "evidence": [
+            "blood-morphology"
+          ],
+          "unmodeled_context": "No dynamic aggregation or sedimentation exists; plasma-protein electrostatics are outside the geometry."
+        },
+        {
+          "id": "stack-vs-clot",
+          "title": "Distinguish the clot corner",
+          "native_camera": "Clot",
+          "focus_parts": [
+            "Fibrin",
+            "Activated platelets"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Clot"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Fibrin",
+                "Activated platelets"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Fibrin",
+                "Activated platelets"
+              ]
+            }
+          ],
+          "explanation": "Compare this separately authored platelet-fibrin example with the red-cell stack. A rouleau stack is not a fibrin strand or a platelet plug.",
+          "evidence": [
+            "hemostasis"
+          ],
+          "unmodeled_context": "The two scenes are illustrative examples, not stages of one computed trajectory."
+        }
+      ],
+      "structure_function_links": [
+        "Disc surfaces support a face-to-face stacking comparison; clot fibers and platelet protrusions have different identities."
+      ],
+      "questions": [
+        {
+          "prompt": "Does the seven-cell stack establish a diagnosis or an ESR value?",
+          "answer": "No. It displays morphology only; a clinical smear and laboratory measurement are separate."
+        }
+      ],
+      "schematic_limitations": [
+        "Do not animate red cells into fibrin or infer a protein concentration from the chosen arrangement."
+      ]
+    },
+    {
+      "id": "neutrophil-phagocytosis",
+      "title": "Neutrophil maturation and intracellular killing",
+      "mechanism": "Compare nuclear maturation, then explain compartmentalized microbial killing.",
+      "parts": [
+        "Neutrophil",
+        "Band neutrophil",
+        "Neutrophil nucleus",
+        "Neutrophil granules"
+      ],
+      "presentation": "ordered narrative using existing static geometry and native view/selection/framing",
+      "steps": [
+        {
+          "id": "neut-maturation",
+          "title": "Compare mature and band carriers",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Neutrophil",
+            "Band neutrophil",
+            "Neutrophil nucleus",
+            "Neutrophil granules"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Neutrophil",
+                "Band neutrophil",
+                "Neutrophil nucleus",
+                "Neutrophil granules"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Neutrophil",
+                "Band neutrophil",
+                "Neutrophil nucleus",
+                "Neutrophil granules"
+              ]
+            }
+          ],
+          "explanation": "The mature sample has four linked lobes; the band sample has a continuous curved nucleus. Both nuclei and both granule samples are selected together through the shared named parts.",
+          "evidence": [
+            "blood-morphology"
+          ],
+          "unmodeled_context": "Shared parts prevent independently selecting the two nuclear/granule carriers. Segmentation is a maturation comparison, not a simulated aging clock."
+        },
+        {
+          "id": "neut-engulf",
+          "title": "Engulf a microorganism",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Neutrophil",
+            "Neutrophil granules"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Neutrophil",
+                "Neutrophil granules"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Neutrophil",
+                "Neutrophil granules"
+              ]
+            }
+          ],
+          "explanation": "A neutrophil encloses an ingested microbe in a phagosome. Stored granules fuse with this compartment and deliver antimicrobial contents.",
+          "evidence": [
+            "neutrophil-killing"
+          ],
+          "unmodeled_context": "The phagosome, microbe, membranes and fusion events are narrative context; retained granules do not move or disappear."
+        },
+        {
+          "id": "neut-kill",
+          "title": "Combine enzymes and oxidants",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Neutrophil granules"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Neutrophil granules"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Neutrophil granules"
+              ]
+            }
+          ],
+          "explanation": "NADPH oxidase generates oxidants at the phagosome; granule MPO uses hydrogen peroxide and chloride to generate hypochlorous acid. Granule proteins and oxidants cooperate in killing.",
+          "evidence": [
+            "neutrophil-killing"
+          ],
+          "unmodeled_context": "Oxidase, MPO and chemical species are not individually modeled. Granule colors do not encode specific enzyme content or classes."
+        }
+      ],
+      "structure_function_links": [
+        "A lobulated nucleus is a morphological marker of maturity.",
+        "Cytoplasmic granules provide stored antimicrobial material; their location supports the distinction from nuclear chromatin."
+      ],
+      "questions": [
+        {
+          "prompt": "Why does selecting Neutrophil nucleus also show the band nucleus?",
+          "answer": "The source combines both carriers in that one named part."
+        },
+        {
+          "prompt": "Do neutrophil granules attack only by release outside the cell?",
+          "answer": "No. Fusion into the phagosome is a principal route for intracellular killing."
+        }
+      ],
+      "schematic_limitations": [
+        "Nucleus-only isolation can be misleading; always retain both carrier cells for maturation.",
+        "Granules are enlarged representative samples, not a natural census.",
+        "Recruitment, rolling, diapedesis and chemotaxis require unmodeled endothelium/tissue."
+      ]
+    },
+    {
+      "id": "eosinophil-effector",
+      "title": "Eosinophil granules and extracellular targets",
+      "mechanism": "Recruitment and activation can release cytotoxic products used in parasite defense and allergic tissue injury.",
+      "parts": [
+        "Eosinophil",
+        "Eosinophil nucleus",
+        "Eosinophil granules"
+      ],
+      "presentation": "ordered narrative using existing static geometry and native view/selection/framing",
+      "steps": [
+        {
+          "id": "eos-identify",
+          "title": "Find the distinctive granules",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Eosinophil",
+            "Eosinophil nucleus",
+            "Eosinophil granules"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Eosinophil",
+                "Eosinophil nucleus",
+                "Eosinophil granules"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Eosinophil",
+                "Eosinophil nucleus",
+                "Eosinophil granules"
+              ]
+            }
+          ],
+          "explanation": "Pair the bilobed nucleus with the large orange granules in cytoplasm. Their bright color is a stain cue rather than an activity measurement.",
+          "evidence": [
+            "blood-morphology"
+          ],
+          "unmodeled_context": "The selected sample is a schematic section with reduced granule counts."
+        },
+        {
+          "id": "eos-release",
+          "title": "Explain recruitment and release",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Eosinophil",
+            "Eosinophil granules"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Eosinophil",
+                "Eosinophil granules"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Eosinophil",
+                "Eosinophil granules"
+              ]
+            }
+          ],
+          "explanation": "At inflammatory tissue sites, activated eosinophils can release MBP, ECP, EDN and eosinophil peroxidase. These can act on extracellular parasites and also injure host tissue in allergy.",
+          "evidence": [
+            "eosinophil-function"
+          ],
+          "unmodeled_context": "The target parasite, epithelium, activating receptors and release route are not modeled."
+        },
+        {
+          "id": "eos-crystal",
+          "title": "Separate two protein identities",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Eosinophil granules"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Eosinophil granules"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Eosinophil granules"
+              ]
+            }
+          ],
+          "explanation": "The major-basic-protein granule core and galectin-10 Charcot-Leyden crystals are distinct. Use the corrected description; this model does not contain a Charcot-Leyden crystal part.",
+          "evidence": [
+            "anatomy:eos_gran"
+          ],
+          "unmodeled_context": "The galectin-10 result comes from the anatomy specialist opened primary source, not crystal geometry here."
+        }
+      ],
+      "structure_function_links": [
+        "Large cytoplasmic granules store effector proteins; the nucleus remains a separate compartment."
+      ],
+      "questions": [
+        {
+          "prompt": "Is a Charcot-Leyden crystal the crystallized MBP granule core?",
+          "answer": "No. It is composed of galectin-10; use anatomy correction eos_gran."
+        },
+        {
+          "prompt": "Does orange color show degranulation?",
+          "answer": "No. It is the retained histology teaching color."
+        }
+      ],
+      "schematic_limitations": [
+        "Do not depict every helminth as phagocytosed.",
+        "No secretion timing or tissue-damage dose is encoded."
+      ]
+    },
+    {
+      "id": "basophil-activation",
+      "title": "Basophil granules and IgE-triggered release",
+      "mechanism": "Receptor-bound IgE crosslinking is one activation route leading to granule release.",
+      "parts": [
+        "Basophil",
+        "Basophil nucleus",
+        "Basophil granules"
+      ],
+      "presentation": "ordered narrative using existing static geometry and native view/selection/framing",
+      "steps": [
+        {
+          "id": "baso-locate",
+          "title": "Locate nucleus and cytoplasmic granules",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Basophil",
+            "Basophil nucleus",
+            "Basophil granules"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Basophil",
+                "Basophil nucleus",
+                "Basophil granules"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Basophil",
+                "Basophil nucleus",
+                "Basophil granules"
+              ]
+            }
+          ],
+          "explanation": "Coarse dark granules can obscure the nucleus in a smear projection. The section separates their cytoplasmic location from the nuclear interior.",
+          "evidence": [
+            "blood-morphology"
+          ],
+          "unmodeled_context": "Do not move granules into the nucleus to mimic a two-dimensional smear."
+        },
+        {
+          "id": "baso-trigger",
+          "title": "Explain the IgE receptor trigger",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Basophil"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Basophil"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Basophil"
+              ]
+            }
+          ],
+          "explanation": "An allergen can crosslink IgE already bound to Fc-epsilon-RI and activate the basophil. Other inflammatory stimuli can activate it too.",
+          "evidence": [
+            "basophil-function"
+          ],
+          "unmodeled_context": "IgE, allergen and Fc-epsilon-RI are not modeled; do not reuse the B-cell surface-Ig cue for basophil IgE."
+        },
+        {
+          "id": "baso-products",
+          "title": "Distinguish stored and newly generated mediators",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Basophil granules"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Basophil granules"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Basophil granules"
+              ]
+            }
+          ],
+          "explanation": "Activated basophils release stored histamine from granules and can generate leukotriene C4 and cytokines. These products participate in immune and allergic responses.",
+          "evidence": [
+            "basophil-function"
+          ],
+          "unmodeled_context": "Granules remain static; histamine, LTC4 and cytokines have no geometry or simulated concentration."
+        }
+      ],
+      "structure_function_links": [
+        "Visible cytoplasmic granules are a storage compartment; a visible S/bilobed nucleus remains separate."
+      ],
+      "questions": [
+        {
+          "prompt": "Is a basophil just a circulating mast cell?",
+          "answer": "No. They share some mechanisms but are distinct cell types."
+        },
+        {
+          "prompt": "Is every released mediator a stored granule constituent?",
+          "answer": "No. Newly generated lipid mediators and cytokines must be distinguished from stored histamine."
+        }
+      ],
+      "schematic_limitations": [
+        "This sequence does not quantify mediator release or anaphylaxis."
+      ]
+    },
+    {
+      "id": "adaptive-recognition",
+      "title": "Same resting morphology, different recognition",
+      "mechanism": "Use retained receptor symbols to explain conventional T-cell and B-cell recognition, then distinguish resting cells from effector differentiation.",
+      "parts": [
+        "T lymphocyte",
+        "B lymphocyte",
+        "T lymphocyte nucleus",
+        "B lymphocyte nucleus",
+        "T-cell receptor (schematic)",
+        "B-cell surface immunoglobulin (schematic)",
+        "Large lymphocyte",
+        "Large lymphocyte nucleus"
+      ],
+      "presentation": "ordered narrative using existing static geometry and native view/selection/framing",
+      "steps": [
+        {
+          "id": "resting-morphology",
+          "title": "Compare the small cells",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "T lymphocyte",
+            "B lymphocyte",
+            "T lymphocyte nucleus",
+            "B lymphocyte nucleus"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "T lymphocyte",
+                "B lymphocyte",
+                "T lymphocyte nucleus",
+                "B lymphocyte nucleus"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "T lymphocyte",
+                "B lymphocyte",
+                "T lymphocyte nucleus",
+                "B lymphocyte nucleus"
+              ]
+            }
+          ],
+          "explanation": "Both small resting samples retain the same cell size and ordinary smear morphology. Their nuclei dominate the cell and leave a thin cytoplasmic rim.",
+          "evidence": [
+            "blood-morphology"
+          ],
+          "unmodeled_context": "T/B identity cannot be inferred from this retained morphology; enlarged receptor symbols are functional annotations."
+        },
+        {
+          "id": "t-ligand",
+          "title": "Read the paired T-receptor cue",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "T lymphocyte",
+            "T-cell receptor (schematic)"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "T lymphocyte",
+                "T-cell receptor (schematic)"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "T lymphocyte",
+                "T-cell receptor (schematic)"
+              ]
+            }
+          ],
+          "explanation": "The conventional alpha-beta TCR recognizes peptide together with its MHC carrier on another cell. Peptide-MHC recognition is required context; an unattached native antigen is not the depicted TCR ligand.",
+          "evidence": [
+            "antigen-recognition"
+          ],
+          "unmodeled_context": "No MHC, peptide, presenting cell, CD3, CD4/CD8 or co-stimulatory molecules are present. The model does not represent every T-cell subset."
+        },
+        {
+          "id": "b-ligand",
+          "title": "Read membrane-bound surface Ig",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "B lymphocyte",
+            "B-cell surface immunoglobulin (schematic)"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "B lymphocyte",
+                "B-cell surface immunoglobulin (schematic)"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "B lymphocyte",
+                "B-cell surface immunoglobulin (schematic)"
+              ]
+            }
+          ],
+          "explanation": "B-cell surface immunoglobulin can bind intact/native antigen directly. The gold Y remains a membrane receptor on the resting B cell, not a secreted antibody.",
+          "evidence": [
+            "antigen-recognition"
+          ],
+          "unmodeled_context": "Antigen binding and receptor signaling are narrative context; cue dimensions are greatly enlarged."
+        },
+        {
+          "id": "adaptive-outcomes",
+          "title": "Describe later outcomes",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "T lymphocyte",
+            "B lymphocyte"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "T lymphocyte",
+                "B lymphocyte"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "T lymphocyte",
+                "B lymphocyte"
+              ]
+            }
+          ],
+          "explanation": "After appropriate activation, helper T cells coordinate responses and cytotoxic T cells kill target cells. B cells can differentiate into antibody-secreting plasmablasts/plasma cells and memory cells.",
+          "evidence": [
+            "t-cell-effectors",
+            "b-cell-differentiation"
+          ],
+          "unmodeled_context": "No T-cell subset, activation state, plasma cell, target killing or antibody secretion is modeled. Resting B remains nonsecreting."
+        },
+        {
+          "id": "large-lymph-limit",
+          "title": "Check what size can tell you",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Large lymphocyte",
+            "Large lymphocyte nucleus"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Large lymphocyte",
+                "Large lymphocyte nucleus"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Large lymphocyte",
+                "Large lymphocyte nucleus"
+              ]
+            }
+          ],
+          "explanation": "The retained large sample provides a size and nuclear-to-cytoplasmic comparison. Size alone does not identify activation or natural-killer identity.",
+          "evidence": [
+            "blood-morphology",
+            "anatomy:lymph_l"
+          ],
+          "unmodeled_context": "No separate large-lymphocyte cytotoxic granules exist; do not claim they can be selected."
+        }
+      ],
+      "structure_function_links": [
+        "The cues are attached functional symbols while cell morphology remains comparable.",
+        "The broader cytoplasmic rim of the large sample supports comparison without establishing a lineage or activation state."
+      ],
+      "questions": [
+        {
+          "prompt": "What is the ligand difference?",
+          "answer": "Conventional TCR: peptide-MHC; B-cell surface Ig: intact/native antigen."
+        },
+        {
+          "prompt": "Does the gold Y leave this resting B cell as antibody?",
+          "answer": "No. Secretion belongs to subsequent plasmablast/plasma-cell differentiation."
+        },
+        {
+          "prompt": "Can these colors distinguish resting T and B cells on a clinical smear?",
+          "answer": "No. Functional symbols and authored colors are teaching annotations."
+        }
+      ],
+      "schematic_limitations": [
+        "Do not use the native Playback control as proof of activation; blood_cells has no animation sidecar.",
+        "Cue shape is not a molecular reconstruction and cannot be measured as receptor size.",
+        "The conventional alpha-beta example does not include gamma-delta, MAIT or iNKT recognition systems."
+      ]
+    },
+    {
+      "id": "monocyte-tissue",
+      "title": "Blood monocyte and recruited tissue effector",
+      "mechanism": "Explain monocyte recruitment and possible differentiation without making adult monocytes the universal origin of resident macrophages.",
+      "parts": [
+        "Monocyte",
+        "Monocyte nucleus"
+      ],
+      "presentation": "ordered narrative using existing static geometry and native view/selection/framing",
+      "steps": [
+        {
+          "id": "mono-shape",
+          "title": "Read the monocyte section",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Monocyte",
+            "Monocyte nucleus"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Monocyte",
+                "Monocyte nucleus"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Monocyte",
+                "Monocyte nucleus"
+              ]
+            }
+          ],
+          "explanation": "Identify the large cell and kidney/notched nuclear profile in the comparison row. Cytoplasm and nucleus are distinct selectable parts.",
+          "evidence": [
+            "blood-morphology"
+          ],
+          "unmodeled_context": "Morphology does not identify a monocyte subset or a tissue macrophage."
+        },
+        {
+          "id": "mono-recruit",
+          "title": "Explain tissue recruitment",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Monocyte"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Monocyte"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Monocyte"
+              ]
+            }
+          ],
+          "explanation": "A recruited circulating monocyte can enter tissue and differentiate into a macrophage. This is a possible pathway rather than the origin of every resident macrophage population.",
+          "evidence": [
+            "blood-function",
+            "anatomy:mono"
+          ],
+          "unmodeled_context": "Endothelium, recruitment ligands and differentiated tissue cell are unmodeled."
+        },
+        {
+          "id": "mono-functions",
+          "title": "Connect to tissue function",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Monocyte",
+            "Monocyte nucleus"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Monocyte",
+                "Monocyte nucleus"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Monocyte",
+                "Monocyte nucleus"
+              ]
+            }
+          ],
+          "explanation": "Macrophages can engulf and destroy microbes and debris, release cytokines, and present antigen to T cells. These later functions require tissue context beyond this blood-cell specimen.",
+          "evidence": [
+            "macrophage-function"
+          ],
+          "unmodeled_context": "No phagosome, antigen-presenting complex, tissue resident cell or differentiation motion is included."
+        }
+      ],
+      "structure_function_links": [
+        "The monocyte body illustrates a cell available for recruitment; its notched nucleus is a morphology cue, not a migration mechanism."
+      ],
+      "questions": [
+        {
+          "prompt": "Does this imply that adult circulating monocytes routinely become microglia?",
+          "answer": "No. Apply anatomy correction mono: microglia are principally embryonically derived."
+        },
+        {
+          "prompt": "Can this model display a macrophage phagosome?",
+          "answer": "No. That mechanism is described beside the retained blood monocyte."
+        }
+      ],
+      "schematic_limitations": [
+        "Lineage conclusions are limited by anatomy specialist primary evidence; no human lineage percentage is claimed."
+      ]
+    },
+    {
+      "id": "hemostatic-plug",
+      "title": "Platelet activation, aggregation and fibrin reinforcement",
+      "mechanism": "Contrast resting and activated shapes, separate mediator sources, then explain clot stabilization.",
+      "parts": [
+        "Platelets",
+        "Activated platelets",
+        "Fibrin",
+        "Plasma"
+      ],
+      "presentation": "ordered narrative using existing static geometry and native view/selection/framing",
+      "steps": [
+        {
+          "id": "platelet-rest",
+          "title": "Inspect resting discs",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Platelets"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Platelets"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Platelets"
+              ]
+            }
+          ],
+          "explanation": "The four retained platelet fragments illustrate the resting disc shape. They are anucleate and much smaller than the leukocyte samples.",
+          "evidence": [
+            "blood-morphology"
+          ],
+          "unmodeled_context": "Four examples are not a platelet count or an activation assay."
+        },
+        {
+          "id": "platelet-adhere",
+          "title": "Explain adhesion at injury",
+          "native_camera": "Clot",
+          "focus_parts": [
+            "Activated platelets"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Clot"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Activated platelets"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Activated platelets"
+              ]
+            }
+          ],
+          "explanation": "At vessel injury, VWF connects exposed collagen to platelet GPIb/IX. Activation produces protrusions and changes the platelet surface for aggregation.",
+          "evidence": [
+            "hemostasis",
+            "txa2"
+          ],
+          "unmodeled_context": "No damaged wall, collagen, VWF or receptor geometry exists; the Clot view shows two separate activated examples."
+        },
+        {
+          "id": "platelet-mediators",
+          "title": "Separate release from synthesis",
+          "native_camera": "Clot",
+          "focus_parts": [
+            "Activated platelets"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Clot"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Activated platelets"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Activated platelets"
+              ]
+            }
+          ],
+          "explanation": "Dense granules release stored ADP and serotonin; alpha granules release proteins such as VWF. Separately, membrane arachidonic acid is converted through COX and PGH2 to TxA2 by thromboxane synthase. TxA2 helps amplify activation.",
+          "evidence": [
+            "txa2"
+          ],
+          "unmodeled_context": "There are no selectable platelet granule classes or mediator particles. TxA2 must never be described as stored granule cargo."
+        },
+        {
+          "id": "platelet-aggregate",
+          "title": "Describe fibrinogen bridges",
+          "native_camera": "Clot",
+          "focus_parts": [
+            "Activated platelets"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Clot"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Activated platelets"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Activated platelets"
+              ]
+            }
+          ],
+          "explanation": "Activated alpha-IIb-beta-3 (GPIIb/IIIa) binds fibrinogen, bridging neighboring platelets into an aggregate. This platelet plug is reinforced by coagulation.",
+          "evidence": [
+            "hemostasis"
+          ],
+          "unmodeled_context": "No individual integrin or soluble fibrinogen is modeled; existing Fibrin is not the fibrinogen bridge."
+        },
+        {
+          "id": "fibrin-stabilize",
+          "title": "Inspect the fibrin network",
+          "native_camera": "Clot",
+          "focus_parts": [
+            "Activated platelets",
+            "Fibrin"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Clot"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Activated platelets",
+                "Fibrin"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Activated platelets",
+                "Fibrin"
+              ]
+            }
+          ],
+          "explanation": "Platelet surfaces support coagulation complexes; thrombin converts soluble fibrinogen into fibrin. Polymerization and factor-XIII crosslinking strengthen the plug. The retained ten fiber paths meet the activated platelet exteriors.",
+          "evidence": [
+            "hemostasis"
+          ],
+          "unmodeled_context": "Ten paths are illustrative; geometry is not a coagulation-rate, crosslink count or clot-strength result."
+        },
+        {
+          "id": "fibrin-remove",
+          "title": "Explain later fibrinolysis",
+          "native_camera": "Clot",
+          "focus_parts": [
+            "Fibrin"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Clot"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Fibrin"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Fibrin"
+              ]
+            }
+          ],
+          "explanation": "During repair, plasmin generated from plasminogen can cleave fibrin. Explain removal beside the retained mesh; do not hide fibers as evidence of simulated dissolution.",
+          "evidence": [
+            "hemostasis"
+          ],
+          "unmodeled_context": "No plasmin, plasminogen, tissue repair or dynamic fibrinolysis is modeled."
+        }
+      ],
+      "structure_function_links": [
+        "Resting discs and activated protrusions show a structural state contrast.",
+        "Fibrin exterior contacts provide a teaching cue for reinforcement, while excluding fibers through opaque platelet interiors."
+      ],
+      "questions": [
+        {
+          "prompt": "Which is synthesized rather than released from storage granules: ADP, serotonin or TxA2?",
+          "answer": "TxA2 is synthesized from arachidonic acid; ADP and serotonin are stored dense-granule contents."
+        },
+        {
+          "prompt": "Are the visible fibers fibrinogen bridges?",
+          "answer": "No. Fibrinogen bridges bind platelet integrins; modeled Fibrin represents the polymerized reinforcement."
+        },
+        {
+          "prompt": "Does selecting Clot animate the resting platelets?",
+          "answer": "No. It changes camera and visibility to two separate retained activated examples."
+        }
+      ],
+      "schematic_limitations": [
+        "Adhesion, secretion, aggregation and coagulation overlap biologically; the ordered explanation is not a kinetic timeline.",
+        "Do not invent flow, molecular binding, contraction or drug-dose controls.",
+        "Clot retraction is not simulated; no new motion requested."
+      ]
+    },
+    {
+      "id": "plasma-context",
+      "title": "Plasma carries dissolved components",
+      "mechanism": "Relate the fluid domain to formed elements without treating its box volume as hematocrit.",
+      "parts": [
+        "Plasma",
+        "Erythrocytes",
+        "Platelets"
+      ],
+      "presentation": "ordered narrative using existing static geometry and native view/selection/framing",
+      "steps": [
+        {
+          "id": "plasma-domain",
+          "title": "Enable optional context",
+          "native_camera": "Plasma context",
+          "focus_parts": [
+            "Plasma"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Plasma context"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Plasma"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Plasma"
+              ]
+            }
+          ],
+          "explanation": "The translucent domain denotes the liquid surrounding cells. Plasma transports dissolved nutrients, proteins and other substances.",
+          "evidence": [
+            "blood-function"
+          ],
+          "unmodeled_context": "The rectangular boundary is a viewing context rather than a natural vessel wall."
+        },
+        {
+          "id": "plasma-cells",
+          "title": "Return to structure comparison",
+          "native_camera": "Comparison",
+          "focus_parts": [
+            "Erythrocytes",
+            "Platelets"
+          ],
+          "native_actions": [
+            {
+              "control": "named_view",
+              "name": "Comparison"
+            },
+            {
+              "control": "select",
+              "part_names": [
+                "Erythrocytes",
+                "Platelets"
+              ]
+            },
+            {
+              "control": "frame_structures",
+              "part_names": [
+                "Erythrocytes",
+                "Platelets"
+              ]
+            }
+          ],
+          "explanation": "Return to Comparison to read the formed elements clearly. Hidden plasma is a display choice, not removal of extracellular fluid from blood.",
+          "evidence": [
+            "blood-function"
+          ],
+          "unmodeled_context": "Cell number and domain volume are illustrative; neither gives a blood differential or hematocrit."
+        }
+      ],
+      "structure_function_links": [
+        "Transparent optional plasma avoids obscuring structures and places their transport context around them."
+      ],
+      "questions": [
+        {
+          "prompt": "Does the translucent box establish a physiological plasma percentage?",
+          "answer": "No. Its bounds and transparency are authored display context."
+        }
+      ],
+      "schematic_limitations": [
+        "Transparency is not concentration, viscosity or flow velocity."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "txa2",
+      "title": "Physiology, Thromboxane A2 — Rucker and Dhamoon",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK539817/",
+      "retrieval": "opened_authoritative_full_text",
+      "section": "Development and Platelet Degranulation",
+      "supports": "AA/COX/PGH2/TXAS synthesis is separate from stored dense-granule ADP/serotonin and alpha-granule protein release.",
+      "access_date": "2026-10-04"
+    },
+    {
+      "id": "hemostasis",
+      "title": "Overview of Hemostasis — MSD Manual Professional",
+      "url": "https://www.msdmanuals.com/professional/hematology/hemostasis/overview-of-hemostasis",
+      "retrieval": "opened_authoritative_full_text",
+      "section": "Platelets; Plasma Coagulation Factors; Fibrinolysis",
+      "supports": "VWF adhesion, fibrinogen bridges, thrombin-generated fibrin, factor XIII crosslinks and plasmin-mediated fibrinolysis.",
+      "access_date": "2026-10-04"
+    },
+    {
+      "id": "neutrophil-killing",
+      "title": "Myeloperoxidase in human neutrophil host defence — Nauseef 2014",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/cmi.12312",
+      "retrieval": "opened_authoritative_research_review_full_text",
+      "section": "Summary; Figure 1",
+      "supports": "Phagosome granule fusion and NADPH-oxidase/MPO cooperation; microbial killing is a combined mechanism.",
+      "access_date": "2026-10-04"
+    },
+    {
+      "id": "antigen-recognition",
+      "title": "Antigen recognition by T cells — Janeway et al. Immunobiology",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK27098/",
+      "retrieval": "opened_authoritative_full_text",
+      "section": "Sections 3-11, 3-12; Summary",
+      "supports": "Conventional alpha-beta TCR binds peptide-MHC; B-cell surface Ig binds intact/native antigen; gamma-delta and other subsets limit generalization.",
+      "access_date": "2026-10-04"
+    },
+    {
+      "id": "t-cell-effectors",
+      "title": "Helper and Cytotoxic T Cells — British Society for Immunology",
+      "url": "https://www.immunology.org/public-information/bitesized-immunology/cells/helper-and-cytotoxic-t-cells",
+      "retrieval": "opened_authoritative_full_text",
+      "section": "Principles of the Assay",
+      "supports": "CD4/MHC-II versus CD8/MHC-I and helper/cytotoxic outcomes; model does not assign a subset.",
+      "access_date": "2026-10-04"
+    },
+    {
+      "id": "b-cell-differentiation",
+      "title": "B Cells — British Society for Immunology",
+      "url": "https://www.immunology.org/public-information/bitesized-immunology/cells/b-cells",
+      "retrieval": "opened_authoritative_full_text",
+      "section": "B cell responses to antigen",
+      "supports": "Cognate encounter and T-cell help can lead to plasmablast/plasma-cell differentiation and memory.",
+      "access_date": "2026-10-04"
+    },
+    {
+      "id": "eosinophil-function",
+      "title": "Eosinophils — British Society for Immunology",
+      "url": "https://www.immunology.org/public-information/bitesized-immunology/cells/eosinophils",
+      "retrieval": "opened_authoritative_full_text",
+      "section": "Eosinophil biology",
+      "supports": "Recruitment/activation and MBP/ECP/EDN/EPO in extracellular parasite defense and allergic tissue damage; page is not used for dimensions.",
+      "access_date": "2026-10-04"
+    },
+    {
+      "id": "basophil-function",
+      "title": "Basophils — British Society for Immunology",
+      "url": "https://www.immunology.org/public-information/bitesized-immunology/cells/basophils",
+      "retrieval": "opened_authoritative_full_text",
+      "section": "Basophil activation",
+      "supports": "IgE crosslinking at Fc-epsilon-RI, granule histamine release, newly generated LTC4 and cytokines.",
+      "access_date": "2026-10-04"
+    },
+    {
+      "id": "macrophage-function",
+      "title": "Macrophages — British Society for Immunology",
+      "url": "https://www.immunology.org/public-information/bitesized-immunology/cells/macrophages",
+      "retrieval": "opened_authoritative_full_text",
+      "section": "Opening paragraphs",
+      "supports": "Phagocytosis, microbial destruction, antigen presentation and cytokines; its broad origin statement is constrained by anatomy correction.",
+      "access_date": "2026-10-04"
+    },
+    {
+      "id": "blood-function",
+      "title": "Blood and the cells it contains — Dean, NCBI",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK2263/",
+      "retrieval": "opened_authoritative_full_text",
+      "section": "Red blood cells transport oxygen; Blood contains cells, proteins, and sugars",
+      "supports": "Biconcavity, hemoglobin-mediated oxygen transport and plasma carrying dissolved substances; older quantitative examples are not adopted.",
+      "access_date": "2026-10-04"
+    },
+    {
+      "id": "blood-morphology",
+      "title": "Summary of Blood Cells — Histology Guide",
+      "url": "https://www.histologyguide.org/slideview/MH-033hr-blood-smear/07-slide-2.html",
+      "retrieval": "opened_authoritative_full_text",
+      "section": "Peripheral Blood summary",
+      "supports": "Qualitative RBC/leukocyte/platelet comparison and size variability; no diagnostic inference from sample counts.",
+      "access_date": "2026-10-04"
+    }
+  ],
+  "anatomy_corrections_required": [
+    "eos_gran",
+    "mono",
+    "platelet_act",
+    "neut_nuc",
+    "lymph_l"
+  ],
+  "deferred_checks": [
+    "Native name/index resolution and camera/visibility roundtrip on separate compute machine.",
+    "Visual review of parent-preserved cutaway context and receptor captions.",
+    "Reader comprehension of distinctions between static illustration and biology."
+  ],
+  "bounded_checks": [
+    "JSON parsed without importing the builder.",
+    "Every referenced geometry name checked against exact input catalog.",
+    "All 27 retained identities enumerated in their source order."
+  ],
+  "heavy_processing": "NOT RUN"
+}

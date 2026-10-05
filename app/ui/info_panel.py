@@ -3,9 +3,11 @@ import re
 from collections import OrderedDict
 from urllib.parse import quote, unquote
 
-from PySide6.QtCore import Signal, QUrl
+from PySide6.QtCore import Signal, QUrl, Qt
 from PySide6.QtGui import QColor
-from PySide6.QtWidgets import QTextBrowser, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QPushButton, QTextBrowser, QVBoxLayout, QWidget
+
+from .flow import FlowLayout
 
 from . import theme
 
@@ -13,12 +15,12 @@ CSS = f"""
 body {{ color: {theme.TEXT}; font-size: {theme.FS_BODY}pt; }}
 h1 {{ font-size: {theme.FS_H1}pt; color: {theme.TEXT_STRONG}; margin: 0 0 3px 0; font-weight: 700; }}
 h3 {{ color: {theme.TEXT_STRONG}; margin: 18px 0 6px 0; font-weight: 700; }}
-.overline {{ color: {theme.ACCENT_TEXT}; font-size: {theme.FS_CAPTION}pt; font-weight: 700; letter-spacing: 1px;
+.overline {{ color: {theme.TEXT_STRONG}; font-size: {theme.FS_BODY}pt; font-weight: 700;
             margin: 20px 0 6px 0; }}
 h4 {{ color: {theme.TEXT_STRONG}; font-size: {theme.FS_BODY + 0.3}pt; margin: 12px 0 3px 0; font-weight: 700; }}
 p {{ margin: 3px 0 8px 0; line-height: 140%; }}
 b {{ color: {theme.TEXT_STRONG}; }}
-a {{ color: {theme.ACCENT_TEXT}; text-decoration: none; }}
+a {{ color: {theme.ACCENT_TEXT}; text-decoration: underline; }}
 a.sec {{ color: {theme.TEXT_STRONG}; font-weight: 700; }}
 a.sub {{ color: {theme.TEXT}; font-weight: 700; }}
 a.more {{ color: {theme.ACCENT_TEXT}; font-weight: 600; }}
@@ -119,14 +121,27 @@ class InfoPanel(QWidget):
         self._open = {"clinical": True, "attachments": True, "innervation": True, "supplied": True,
                       "boneattach": True, "histology": True, "micro": True}
         self._view = None
+        self._body = ""
+        self._pending_actions = []
+        self._action_buttons = {}
+        self.setMinimumWidth(260)
+        self.setAccessibleName("Selection details and related study content")
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         self.browser = QTextBrowser()
+        self.browser.setAccessibleName("Anatomy details")
+        self.browser.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.browser.setOpenLinks(False)
         self.browser.document().setDefaultStyleSheet(CSS)
         self.browser.document().setDocumentMargin(16)
         self.browser.anchorClicked.connect(self._anchor)
-        lay.addWidget(self.browser)
+        lay.addWidget(self.browser, 1)
+        self.actions_bar = QWidget()
+        self.actions_bar.setAccessibleName("Selected anatomy actions")
+        self.actions_layout = FlowLayout(self.actions_bar, spacing=6)
+        self.actions_layout.setContentsMargins(12, 8, 12, 12)
+        lay.addWidget(self.actions_bar)
+        self.actions_bar.hide()
         self.show_welcome()
 
     # ------------------------------------------------------------------ plumbing
@@ -138,6 +153,9 @@ class InfoPanel(QWidget):
         elif scheme == "tog":
             key = unquote(payload)
             self._open[key] = not self._open.get(key, False)
+            if (key == "nearby" and self._open[key] and self.relations is not None
+                    and getattr(self.relations, "failed", False)):
+                self.relations.start(retry=True)
             self._rerender()
         else:
             self.linkActivated.emit(scheme, unquote(payload))
@@ -150,15 +168,44 @@ class InfoPanel(QWidget):
             self.browser.verticalScrollBar().setValue(pos)
 
     def _set(self, body, keep_scroll=False):
+        self._body = body
         pos = self.browser.verticalScrollBar().value()
+        actions, self._pending_actions = self._pending_actions, []
+        active = {action for _label, action in actions}
+        for action, button in self._action_buttons.items():
+            if action not in active:
+                if button.hasFocus():
+                    self.browser.setFocus()
+                button.hide()
+        for label, action in actions:
+            button = self._action_buttons.get(action)
+            if button is None:
+                button = QPushButton(label)
+                button.clicked.connect(lambda _=False, key=action: self.linkActivated.emit("act", key))
+                self.actions_layout.addWidget(button)
+                self._action_buttons[action] = button
+            button.setText(label)
+            button.setAccessibleName(f"{label} selected anatomy")
+            button.show()
+        self.actions_bar.setVisible(bool(actions))
         self.browser.setHtml(f"<html><body>{body}</body></html>")
         self.browser.verticalScrollBar().setValue(pos if keep_scroll else 0)
 
     def set_font_scale(self, scale):
+        scale = max(0.75, min(2.0, float(scale)))
         f = self.browser.font()
-        f.setPointSizeF(9.5 * scale)
+        f.setPointSizeF(theme.FS_BODY * scale)
         self.browser.setFont(f)
-        self._rerender()
+        self.browser.document().setDefaultFont(f)
+        css = re.sub(r"(font-size:\s*)([0-9.]+)pt",
+                     lambda match: f"{match[1]}{float(match[2]) * scale:g}pt", CSS)
+        self.browser.document().setDefaultStyleSheet(css)
+        if self._view:
+            self._rerender()
+        else:
+            position = self.browser.verticalScrollBar().value()
+            self.browser.setHtml(f"<html><body>{self._body}</body></html>")
+            self.browser.verticalScrollBar().setValue(position)
 
     # ------------------------------------------------------------------ building blocks
     def _swatch(self, system_key):
@@ -166,8 +213,9 @@ class InfoPanel(QWidget):
         return f'<span style="color:{col}">&#9632;</span>'
 
     def _actions(self, items):
-        cells = "".join(f'<td class="btn">{link("act", a, t)}</td>' for t, a in items)
-        return f'<table cellspacing="4" style="margin-top:8px"><tr>{cells}</tr></table>'
+        # Native, wrapping controls stay reachable while the definition scrolls.
+        self._pending_actions = list(items)
+        return ""
 
     def _breadcrumb(self, nid):
         chain = self.ds.ancestors(nid)
@@ -203,7 +251,7 @@ class InfoPanel(QWidget):
 
     def _summary_and_description(self, def_key):
         if not def_key or def_key not in self.ds.definitions:
-            return "", ""
+            return '<p class="muted">No written description is included for this selection.</p>', ""
         lead, sections, sources = parse_definition(self.ds.definitions[def_key])
         first, rest = split_summary(lead)
         summary = ""
@@ -291,6 +339,10 @@ class InfoPanel(QWidget):
             return self._section("nearby", "Neighbouring structures", "…")
         found = self.relations.neighbours(sids, limit=40)
         if found is None:
+            if getattr(self.relations, "failed", False):
+                return self._section("nearby", "Neighbouring structures",
+                                     '<p class="muted">Geometry indexing failed. Check the atlas files, '
+                                     'then collapse and reopen to retry.</p>')
             self.relations.start()
             return self._section("nearby", "Neighbouring structures",
                                  '<p class="muted">Indexing geometry – collapse and reopen in a moment.</p>')
@@ -349,7 +401,7 @@ class InfoPanel(QWidget):
 <h1>Anatomy Explorer</h1>
 <div class="muted">{ds.n:,} structures · {len(ds.landmarks):,} landmarks · {tris:.1f} M triangles</div>
 <div class="muted">{" · ".join(extras)}</div>
-<p class="overline">GETTING STARTED</p>
+<h3>Explore and study</h3>
 <p><b>Search</b> (Ctrl+F) for any structure, group, landmark or Latin term. The result is highlighted,
 framed, and everything else turns to x-ray. Search also finds conditions and signs ("carpal tunnel",
 "Horner"), tissues and 3D models.</p>
@@ -379,7 +431,7 @@ The <b>Histology</b> tab browses tissue micrographs.</p>
 <p><b>Click</b> anything in 3D to see its summary, clinical correlations, histology and 3D models here.
 Sections are collapsible, and remember whether you left them open.</p>
 <p><b>Settings</b> (Ctrl+,) has mouse sensitivity, key bindings and display options.</p>
-<p class="overline">DATA SOURCES</p><ul>{attr}<li>Histology micrographs: Wikimedia Commons contributors (author and
+<h3>Data sources</h3><ul>{attr}<li>Histology micrographs: Wikimedia Commons contributors (author and
 license shown with each image)</li></ul>
 """, keep_scroll)
 

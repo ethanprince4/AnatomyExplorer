@@ -25,12 +25,59 @@ import numpy as np
 
 from . import shaders
 from .environment import Environment
-from .model import Part, ViewerModel
+from .model import NO_FIBRE, Part, ViewerModel
 
 FMT = "3f 3f 3f 3f 1f 4f 2f"
 ATTRS = ("in_pos", "in_nrm", "in_dpos", "in_dnrm", "in_fib", "in_col", "in_uv")
 ANIM_FMT = "4f2 4f2 4f2 4f2 1f"
 ANIM_ATTRS = ("in_m0", "in_m1", "in_m2", "in_m3", "in_phase")
+
+
+STATIC_FMT = "3f 3f"
+STATIC_ATTRS = ("in_pos", "in_nrm")
+_STATIC_TAIL = np.array([0.0] * 6 + [NO_FIBRE] + [1.0] * 4 + [0.0] * 2, dtype=np.float32)
+_STATIC_TAIL_BITS = _STATIC_TAIL.view(np.uint32)
+
+
+def _can_compact_vertices(model):
+    """Only compact static procedural inputs whose omitted columns match shader constants bit for bit."""
+    if getattr(model, "kind", None) != "procedural":
+        return False
+    source = getattr(model, "source", None)
+    if getattr(source, "id", None) in {"heart", "whole_heart", "cardiac_muscle"}:
+        return False
+    if (model.anim_vertices is not None or getattr(model, "animation", None) is not None
+            or getattr(source, "animation", None) is not None or getattr(model, "clip", None) is not None):
+        return False
+    if any(p.has_morph for p in model.parts):
+        return False
+    vertices = model.vertices
+    if (not isinstance(vertices, np.ndarray) or vertices.dtype != np.float32
+            or vertices.ndim != 2 or vertices.shape[1] != 19 or len(vertices) == 0):
+        return False
+    # Bound temporary comparisons; a large model does not need another full-sized boolean array.
+    for start in range(0, len(vertices), 131072):
+        if not np.all(vertices[start:start + 131072, 6:].view(np.uint32) == _STATIC_TAIL_BITS):
+            return False
+    return True
+
+
+def _static_geometry_shader():
+    """Specialize a private source copy; full programs and the shared shader module retain their inputs."""
+    source = shaders.GEOM_VS
+    constants = (
+        ("in vec3 in_dpos;", "const vec3 in_dpos = vec3(0.0);"),
+        ("in vec3 in_dnrm;", "const vec3 in_dnrm = vec3(0.0);"),
+        ("in float in_fib;", f"const float in_fib = {float(_STATIC_TAIL[6])!r};"),
+        ("in vec4 in_col;", "const vec4 in_col = vec4(1.0);"),
+        ("in vec2 in_uv;", "const vec2 in_uv = vec2(0.0);"),
+    )
+    for declaration, constant in constants:
+        if source.count(declaration) != 1:
+            raise ValueError("Unsupported geometry shader input declaration: " + declaration)
+        source = source.replace(declaration, constant)
+    return source
+
 
 DEFAULT_RIG = [  # the harness rig (trial/harness/config.json stage.lights)
     {"name": "key", "azimuth_deg": 40.0, "elevation_deg": 35.0, "size_factor": 0.35, "energy": 15.0, "colour": [1, 1, 1]},
@@ -104,8 +151,14 @@ class FrameState:
     clip_planes: tuple = ((0.0, 1.0, 0.0, 0.0),) * 3
     clip_on: tuple = (False, False, False)
     clip_mode: int = 0
+    opaque_materials: bool = False             # display override; authored Looks stay unchanged
     anim_t: float = 0.0
     anim_frame: np.ndarray | None = None          # (2, n, 4): morph weights, (mode, glow, decay, rate)
+
+
+def _transparent_pass(part, ghost, alpha, frame):
+    return ghost or alpha < 0.999 or (not frame.opaque_materials and
+        (part.role == "covering" or part.look.translucent))
 
 
 class _U:
@@ -131,11 +184,11 @@ class _U:
         key = data if data is not None else value
         if self.cache.get(name) == key:
             return
-        self.cache[name] = key
         if data is not None:
             u.write(data)
         else:
             u.value = value
+        self.cache[name] = key             # only a successful upload is reusable
 
     def reset(self):
         self.cache.clear()
@@ -169,6 +222,10 @@ class Renderer:
         self.p_blit = P(shaders.FSQ_VS, shaders.BLIT_FS)
         self.geom = {"main": self.p_main, "oit": self.p_oit, "pre": self.p_pre, "shadow": self.p_shadow,
                      "parity": self.p_parity, "cap": self.p_cap}
+        self._full_geom = self.geom.copy()
+        self._compact_geom = None
+        self._compact_unavailable = False
+        self._compact_vertices = False
         self.programs = list(self.geom.values()) + [self.p_back, self.p_ssao, self.p_blur, self.p_comp,
                                                     self.p_capmix_pre, self.p_capmix, self.p_blit]
         self.u = {p: _U(p) for p in self.programs}
@@ -205,42 +262,78 @@ class Renderer:
             self.shadow_maps.append((tex, ctx.framebuffer(depth_attachment=tex)))
 
     # ------------------------------------------------------------------ model
+    def _use_geometry_layout(self, compact):
+        if compact and self._compact_geom is None and not self._compact_unavailable:
+            programs = {}
+            try:
+                vertex_source = _static_geometry_shader()
+                fragments = {"main": shaders.MAIN_FS, "oit": shaders.OIT_FS, "pre": shaders.PREPASS_FS,
+                             "shadow": shaders.SHADOW_FS, "parity": shaders.PARITY_FS, "cap": shaders.CAP_FS}
+                for name, fragment_source in fragments.items():
+                    programs[name] = self.ctx.program(vertex_shader=vertex_source, fragment_shader=fragment_source)
+            except Exception:              # an unsupported specialization must retain the established full path
+                for program in programs.values():
+                    program.release()
+                self._compact_unavailable = True
+            else:
+                self._compact_geom = programs
+                self.programs.extend(programs.values())
+                self.u.update({program: _U(program) for program in programs.values()})
+        self._compact_vertices = bool(compact and self._compact_geom is not None)
+        self.geom = self._compact_geom if self._compact_vertices else self._full_geom
+        for name, program in self.geom.items():
+            setattr(self, "p_" + name, program)
+        return self._compact_vertices
+
     def set_model(self, model: ViewerModel):
         self.release_model()
-        ctx = self.ctx
-        self.model = model
-        self.vbo = ctx.buffer(np.ascontiguousarray(model.vertices, dtype=np.float32).tobytes())
-        self.ibo = ctx.buffer(np.ascontiguousarray(model.indices, dtype=np.uint32).tobytes())
-        if model.anim_vertices is not None:
-            self.abo = ctx.buffer(np.ascontiguousarray(model.anim_vertices).view(np.uint8).tobytes())
-        for name, p in self.geom.items():
-            buffers = [(self.vbo, FMT, *ATTRS)]
-            if self.abo is not None:
-                buffers.append((self.abo, ANIM_FMT, *ANIM_ATTRS))
-            self.vaos[name] = ctx.vertex_array(p, buffers, self.ibo, 4, skip_errors=True)
-        side = model.sidecar.get("lights") or {}
-        self.rig = side.get("rig") or DEFAULT_RIG
-        self.world = side.get("world") or DEFAULT_WORLD
-        self._shadow_key = None
-        diag = float(np.linalg.norm(model.bounds_max - model.bounds_min))
-        self.model_diag = max(diag, 1e-3)
-        self.frame_ok = False
-        for u in self.u.values():
-            u.reset()
+        try:
+            ctx = self.ctx
+            self.model = model
+            compact = self._use_geometry_layout(_can_compact_vertices(model))
+            vertices = model.vertices[:, :6] if compact else model.vertices
+            fmt, attrs = (STATIC_FMT, STATIC_ATTRS) if compact else (FMT, ATTRS)
+            # ModernGL accepts contiguous buffer objects directly. Avoid a
+            # second full-model bytes allocation on the GUI thread at upload.
+            self.vbo = ctx.buffer(np.ascontiguousarray(vertices, dtype=np.float32))
+            self.ibo = ctx.buffer(np.ascontiguousarray(model.indices, dtype=np.uint32))
+            if model.anim_vertices is not None:
+                self.abo = ctx.buffer(np.ascontiguousarray(model.anim_vertices).view(np.uint8))
+            for name, p in self.geom.items():
+                buffers = [(self.vbo, fmt, *attrs)]
+                if self.abo is not None:
+                    buffers.append((self.abo, ANIM_FMT, *ANIM_ATTRS))
+                self.vaos[name] = ctx.vertex_array(p, buffers, self.ibo, 4, skip_errors=True)
+            side = model.sidecar.get("lights") or {}
+            self.rig = side.get("rig") or DEFAULT_RIG
+            self.world = side.get("world") or DEFAULT_WORLD
+            self._shadow_key = None
+            diag = float(np.linalg.norm(model.bounds_max - model.bounds_min))
+            self.model_diag = max(diag, 1e-3)
+            self.frame_ok = False
+            for u in self.u.values():
+                u.reset()
+        except Exception:
+            self.release_model()
+            raise
 
     def release_model(self):
-        for v in self.vaos.values():
-            v.release()
+        # Retire ownership before releasing. A context-lost object must not leave
+        # the renderer partly live or prevent the remaining objects being freed.
+        objects = list(self.vaos.values()) + [self.vbo, self.ibo, self.abo]
+        objects += [texture for texture in self.textures.values() if texture is not self.white]
         self.vaos = {}
-        for b in (self.vbo, self.ibo, self.abo):
-            if b is not None:
-                b.release()
         self.vbo = self.ibo = self.abo = None
-        for t in self.textures.values():
-            if t is not self.white:
-                t.release()
         self.textures = {}
         self.model = None
+        self.frame_ok = False
+        self._compact_vertices = False
+        for obj in objects:
+            if obj is not None:
+                try:
+                    obj.release()
+                except Exception:           # already gone with its context; continue cleanup
+                    pass
 
     def release(self):
         """Free every GPU object. Contexts are shared, so nothing goes away with the widget by itself."""
@@ -249,6 +342,7 @@ class Renderer:
         self._released = True
         self.release_model()
         objs = list(self.t.values()) + list(self.fsq.values()) + self.programs + [self.white]
+        objs += list(getattr(self, "_label_gpu", {}).values())
         for tex, fbo in self.shadow_maps:
             objs += [fbo, tex]
         env = self.env
@@ -281,6 +375,8 @@ class Renderer:
             tex.filter = (moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR)
             tex.anisotropy = 8.0
         except Exception:                   # noqa: BLE001 - a bad image draws untextured rather than failing
+            if tex is not self.white:
+                tex.release()               # upload succeeded but mipmaps/filter setup failed
             tex = self.white
         self.textures[image_index] = tex
         return tex
@@ -289,50 +385,60 @@ class Renderer:
     def _ensure_targets(self, w, h, samples):
         if self.size == (w, h) and self.samples == samples:
             return
-        for obj in self.t.values():
+        # Retire the old set first, keeping peak VRAM bounded during resize.
+        # On failure the renderer owns no targets, so the next frame may retry.
+        previous, self.t = self.t, {}
+        self.size = self.samples = None
+        self.frame_ok = False
+        for obj in reversed(list(previous.values())):
             obj.release()
         ctx = self.ctx
         near = (moderngl.NEAREST, moderngl.NEAREST)
         t = {}
-        t["nd"] = ctx.texture((w, h), 4, dtype="f4")
-        t["id"] = ctx.texture((w, h), 2, dtype="f4")
-        t["pre_depth"] = ctx.depth_renderbuffer((w, h))
-        for k in ("nd", "id"):
-            t[k].filter = near
-            t[k].repeat_x = t[k].repeat_y = False
-        t["fbo_pre"] = ctx.framebuffer([t["nd"], t["id"]], t["pre_depth"])
-        for k in ("ao", "ao_tmp"):
-            t[k] = ctx.texture((w, h), 4, dtype="f2")
-            t[k].repeat_x = t[k].repeat_y = False
-            t["fbo_" + k] = ctx.framebuffer([t[k]])
-        t["col_ms"] = ctx.renderbuffer((w, h), 4, samples=samples, dtype="f2")
-        t["depth_ms"] = ctx.depth_renderbuffer((w, h), samples=samples)
-        t["acc_ms"] = ctx.renderbuffer((w, h), 4, samples=samples, dtype="f2")
-        t["wgt_ms"] = ctx.renderbuffer((w, h), 1, samples=samples, dtype="f2")
-        t["fbo_main"] = ctx.framebuffer([t["col_ms"]], t["depth_ms"])
-        t["fbo_oit"] = ctx.framebuffer([t["acc_ms"], t["wgt_ms"]], t["depth_ms"])
-        t["fbo_col_src"] = ctx.framebuffer([t["col_ms"]])
-        t["fbo_acc_src"] = ctx.framebuffer([t["acc_ms"]])
-        t["fbo_wgt_src"] = ctx.framebuffer([t["wgt_ms"]])
-        for k, comps in (("opaque", 4), ("accum", 4), ("weight", 1)):
-            t[k] = ctx.texture((w, h), comps, dtype="f2")
-            t[k].repeat_x = t[k].repeat_y = False
-            t["fbo_" + k] = ctx.framebuffer([t[k]])
-        # cut faces
-        t["parity"] = ctx.texture((w, h), 1, dtype="f4")
-        t["cap_albedo"] = ctx.texture((w, h), 4, dtype="f2")
-        t["cap_normal"] = ctx.texture((w, h), 4, dtype="f2")
-        t["cap_id"] = ctx.texture((w, h), 2, dtype="f4")
-        t["cap_zp"] = ctx.texture((w, h), 1, dtype="f4")
-        for k in ("parity", "cap_albedo", "cap_normal", "cap_id", "cap_zp"):
-            t[k].filter = near
-        t["cap_key"] = ctx.depth_texture((w, h))
-        t["fbo_parity"] = ctx.framebuffer([t["parity"]])
-        t["fbo_cap"] = ctx.framebuffer([t["cap_albedo"], t["cap_normal"], t["cap_id"], t["cap_zp"]], t["cap_key"])
-        # the final picture at render size, for a scaled blit to the window
-        t["final"] = ctx.texture((w, h), 4)
-        t["final"].filter = (moderngl.LINEAR, moderngl.LINEAR)
-        t["fbo_final"] = ctx.framebuffer([t["final"]])
+        try:
+            t["nd"] = ctx.texture((w, h), 4, dtype="f4")
+            t["id"] = ctx.texture((w, h), 2, dtype="f4")
+            t["pre_depth"] = ctx.depth_renderbuffer((w, h))
+            for k in ("nd", "id"):
+                t[k].filter = near
+                t[k].repeat_x = t[k].repeat_y = False
+            t["fbo_pre"] = ctx.framebuffer([t["nd"], t["id"]], t["pre_depth"])
+            for k in ("ao", "ao_tmp"):
+                t[k] = ctx.texture((w, h), 4, dtype="f2")
+                t[k].repeat_x = t[k].repeat_y = False
+                t["fbo_" + k] = ctx.framebuffer([t[k]])
+            t["col_ms"] = ctx.renderbuffer((w, h), 4, samples=samples, dtype="f2")
+            t["depth_ms"] = ctx.depth_renderbuffer((w, h), samples=samples)
+            t["acc_ms"] = ctx.renderbuffer((w, h), 4, samples=samples, dtype="f2")
+            t["wgt_ms"] = ctx.renderbuffer((w, h), 1, samples=samples, dtype="f2")
+            t["fbo_main"] = ctx.framebuffer([t["col_ms"]], t["depth_ms"])
+            t["fbo_oit"] = ctx.framebuffer([t["acc_ms"], t["wgt_ms"]], t["depth_ms"])
+            t["fbo_col_src"] = ctx.framebuffer([t["col_ms"]])
+            t["fbo_acc_src"] = ctx.framebuffer([t["acc_ms"]])
+            t["fbo_wgt_src"] = ctx.framebuffer([t["wgt_ms"]])
+            for k, comps in (("opaque", 4), ("accum", 4), ("weight", 1)):
+                t[k] = ctx.texture((w, h), comps, dtype="f2")
+                t[k].repeat_x = t[k].repeat_y = False
+                t["fbo_" + k] = ctx.framebuffer([t[k]])
+            # cut faces
+            t["parity"] = ctx.texture((w, h), 1, dtype="f4")
+            t["cap_albedo"] = ctx.texture((w, h), 4, dtype="f2")
+            t["cap_normal"] = ctx.texture((w, h), 4, dtype="f2")
+            t["cap_id"] = ctx.texture((w, h), 2, dtype="f4")
+            t["cap_zp"] = ctx.texture((w, h), 1, dtype="f4")
+            for k in ("parity", "cap_albedo", "cap_normal", "cap_id", "cap_zp"):
+                t[k].filter = near
+            t["cap_key"] = ctx.depth_texture((w, h))
+            t["fbo_parity"] = ctx.framebuffer([t["parity"]])
+            t["fbo_cap"] = ctx.framebuffer([t["cap_albedo"], t["cap_normal"], t["cap_id"], t["cap_zp"]], t["cap_key"])
+            # the final picture at render size, for a scaled blit to the window
+            t["final"] = ctx.texture((w, h), 4)
+            t["final"].filter = (moderngl.LINEAR, moderngl.LINEAR)
+            t["fbo_final"] = ctx.framebuffer([t["final"]])
+        except Exception:
+            for obj in reversed(list(t.values())):
+                obj.release()
+            raise
         self.t = t
         self.size = (w, h)
         self.samples = samples
@@ -356,8 +462,12 @@ class Renderer:
     def render(self, target, size, camera, s: Settings, fs: FrameState | None = None, out_size=None):
         """Render one frame into ``target`` (a moderngl Framebuffer). ``size`` is the render resolution;
         ``out_size`` the target's, when the picture is scaled up or down on the way (Settings -> render scale)."""
+        # Any failed pass may leave the pre-pass and camera out of sync. Only
+        # the completed frame below can re-enable picking and depth queries.
+        self.frame_ok = False
         ctx = self.ctx
         w, h = max(int(size[0]), 2), max(int(size[1]), 2)
+        self._ids_cache = None
         samples = max(1, min(int(s.msaa), ctx.max_samples))
         self._ensure_targets(w, h, samples)
         if self._env_key != (round(s.studio, 3), self._ambient()):
@@ -393,7 +503,7 @@ class Renderer:
                 c, r = m.part_sphere(p)
                 if np.any(planes[:, :3] @ c + planes[:, 3] < -r):
                     continue
-                if ghost[it] or alpha[it] < 0.999 or p.role == "covering" or p.look.translucent:
+                if _transparent_pass(p, bool(ghost[it]), float(alpha[it]), fs):
                     oit.append(p)
                 else:
                     draws.append(p)
@@ -602,7 +712,7 @@ class Renderer:
         ctx = self.ctx
         casters = draws
         key = (tuple(np.round(np.concatenate([l[0] for l in lights]), 5)),
-               tuple(round(w, 5) for w in sorted(m.node_weights.values())[-1:]),
+               tuple(sorted((node, round(weight, 5)) for node, weight in m.node_weights.items())),
                tuple(sorted((k, tuple(np.round(v, 4))) for k, v in m.node_offsets.items())),
                tuple(p.id for p in casters), round(s.shadow_soft, 3),
                clip[0].round(5).tobytes(), clip[1], clip[2],
@@ -610,7 +720,6 @@ class Renderer:
                None if self._fs.anim_frame is None else (round(self._fs.anim_t, 4), self._fs.anim_frame.tobytes()))
         if key == self._shadow_key:
             return
-        self._shadow_key = key
         # fitted to everything shown, so the shadows do not jump as parts are hidden one by one
         lo, hi = m.world_bounds(visible_only=False, visible=self._visible_items())
         c = (lo + hi) / 2
@@ -620,31 +729,34 @@ class Renderer:
         from .camera import look_at, orthographic
         ctx.enable(moderngl.DEPTH_TEST)
         ctx.polygon_offset = (1.5, 2.0)
-        self._clip_uniforms(u, clip)
-        for i, (L, E, size_eq, size_f) in enumerate(lights):
-            tex, fbo = self.shadow_maps[i]
-            n = self.shadow_sizes[i]
-            up = (0.0, 1.0, 0.0) if abs(L[1]) < 0.95 else (1.0, 0.0, 0.0)
-            Vl = look_at(c + L * r * 2.0, c, up)
-            Pl = orthographic(r, r, r * 0.5, r * 3.5)
-            VPl = Pl @ Vl
-            self._shadow_mats[i] = VPl
-            self._shadow_texel[i] = 2.0 * r / n
-            soft_world = 0.0045 * self.model_diag * (size_f / 0.35) * s.shadow_soft
-            self._shadow_soft[i] = max(soft_world / (2.0 * r), 0.5 / n)
-            fbo.use()
-            ctx.viewport = (0, 0, n, n)
-            fbo.clear(depth=1.0)
-            if not np.any(E > 0):
-                continue
-            u("u_viewproj", VPl)
-            for p in casters:
-                u("u_model", m.part_matrix(p))
-                u("u_weight", float(m.node_weights.get(p.node, 0.0)))
-                u("u_noclip", 0 if m.items[p.item].clip else 1)
-                self._anim_uniforms(u, p)
-                vao.render(moderngl.TRIANGLES, vertices=p.count, first=p.first)
-        ctx.polygon_offset = (0.0, 0.0)
+        try:
+            self._clip_uniforms(u, clip)
+            for i, (L, E, size_eq, size_f) in enumerate(lights):
+                tex, fbo = self.shadow_maps[i]
+                n = self.shadow_sizes[i]
+                up = (0.0, 1.0, 0.0) if abs(L[1]) < 0.95 else (1.0, 0.0, 0.0)
+                Vl = look_at(c + L * r * 2.0, c, up)
+                Pl = orthographic(r, r, r * 0.5, r * 3.5)
+                VPl = Pl @ Vl
+                self._shadow_mats[i] = VPl
+                self._shadow_texel[i] = 2.0 * r / n
+                soft_world = 0.0045 * self.model_diag * (size_f / 0.35) * s.shadow_soft
+                self._shadow_soft[i] = max(soft_world / (2.0 * r), 0.5 / n)
+                fbo.use()
+                ctx.viewport = (0, 0, n, n)
+                fbo.clear(depth=1.0)
+                if not np.any(E > 0):
+                    continue
+                u("u_viewproj", VPl)
+                for p in casters:
+                    u("u_model", m.part_matrix(p))
+                    u("u_weight", float(m.node_weights.get(p.node, 0.0)))
+                    u("u_noclip", 0 if m.items[p.item].clip else 1)
+                    self._anim_uniforms(u, p)
+                    vao.render(moderngl.TRIANGLES, vertices=p.count, first=p.first)
+        finally:
+            ctx.polygon_offset = (0.0, 0.0)
+        self._shadow_key = key             # a failed pass must be rendered again
 
     def _visible_items(self):
         fs = self._fs
@@ -869,7 +981,7 @@ class Renderer:
         if flat is None and fs.colours is not None:
             flat = fs.colours[it]
         u("u_base", np.array(flat if flat is not None else lk.base))
-        u("u_alpha", float(lk.alpha))
+        u("u_alpha", 1.0 if fs.opaque_materials else float(lk.alpha))
         u("u_rough", float(lk.rough))
         u("u_metal", float(lk.metal))
         u("u_f0", float(lk.f0))
@@ -910,7 +1022,7 @@ class Renderer:
             u("u_detail", np.array(lk.detail, dtype=np.float32))
         else:
             u("u_detail_on", 0)
-        if lk.facing:
+        if lk.facing and not fs.opaque_materials:
             u("u_facing_on", 1)
             u("u_facing", np.array(lk.facing))
         else:
@@ -966,16 +1078,80 @@ class Renderer:
             pv = np.array([ndc[0] * halves[0] * d, ndc[1] * halves[1] * d, -d, 1.0])
         return (np.linalg.inv(V) @ pv)[:3]
 
+    def read_label_samples(self, step):
+        """Exactly the existing strided IDs and cell-centre depth, sampled on GPU.
+
+        Label placement already uses this grid; this avoids transferring the
+        full-resolution buffers only to discard their unused pixels on CPU.
+        """
+        if not self.frame_ok or not self.t:
+            return None
+        ctx = self.ctx
+        previous, viewport = ctx.fbo, ctx.viewport
+        if previous is None:
+            return None
+        w, h = self.size
+        grid = ((w + step - 1) // step, (h + step - 1) // step)
+        gpu = getattr(self, "_label_gpu", {})
+        try:
+            if not gpu:
+                program = ctx.program(vertex_shader=shaders.FSQ_VS, fragment_shader='''#version 410 core
+uniform sampler2D ids;
+uniform sampler2D depth_normal;
+uniform ivec2 full_size;
+uniform ivec2 grid_size;
+uniform int step;
+out vec4 result;
+void main() {
+    ivec2 cell = ivec2(gl_FragCoord.xy);
+    cell.y = grid_size.y - 1 - cell.y;
+    ivec2 origin = cell * step;
+    ivec2 center = min(origin + ivec2(step / 2), full_size - 1);
+    origin.y = full_size.y - 1 - origin.y;
+    center.y = full_size.y - 1 - center.y;
+    vec2 sample_ids = texelFetch(ids, origin, 0).xy;
+    result = vec4(sample_ids, texelFetch(depth_normal, center, 0).w,
+                  texelFetch(ids, center, 0).x);
+}''')
+                gpu = {"program": program, "vao": ctx.vertex_array(program, [])}
+                self._label_gpu = gpu
+            if getattr(self, "_label_grid_size", None) != grid:
+                for name in ("fbo", "texture"):
+                    if name in gpu: gpu.pop(name).release()
+                gpu["texture"] = ctx.texture(grid, 4, dtype="f4")
+                gpu["fbo"] = ctx.framebuffer([gpu["texture"]])
+                self._label_grid_size = grid
+            program = gpu["program"]
+            program["ids"].value = 0; program["depth_normal"].value = 1
+            program["full_size"].value = (w,h); program["grid_size"].value = grid
+            program["step"].value = step
+            self.t["id"].use(0); self.t["nd"].use(1)
+            gpu["fbo"].use(); ctx.viewport = (0,0,*grid)
+            ctx.disable(moderngl.BLEND | moderngl.DEPTH_TEST | moderngl.CULL_FACE)
+            gpu["vao"].render(moderngl.TRIANGLES, vertices=3)
+            values = np.frombuffer(gpu["fbo"].read(components=4,dtype="f4"),np.float32).reshape(grid[1],grid[0],4)[::-1]
+            return (np.rint(values[...,0]).astype(np.int32)-1,
+                    np.rint(values[...,1]).astype(np.int32), values[...,2],
+                    np.rint(values[...,3]).astype(np.int32)-1)
+        except (moderngl.Error, KeyError):
+            return None  # retain the established readback path on unsupported contexts
+        finally:
+            previous.use(); ctx.viewport = viewport
+
     def read_ids(self):
         """(h, w) item index (-1 for background) and (h, w) flags of the last frame's pre-pass, top row first."""
         if not self.frame_ok or not self.t:
             return None, None
+        if getattr(self, "_ids_cache", None) is not None:
+            return self._ids_cache
         w, h = self.size
         raw = self._read_prepass(2, 1)
         if raw is None:
             return None, None
         a = raw.reshape(h, w, 2)[::-1]
-        return np.rint(a[..., 0]).astype(np.int32) - 1, np.rint(a[..., 1]).astype(np.int32)
+        self._ids_cache = (np.rint(a[..., 0]).astype(np.int32) - 1,
+                           np.rint(a[..., 1]).astype(np.int32))
+        return self._ids_cache
 
     def read_depth(self):
         """(h, w) linear view depth of the last frame (0 for background), top row first."""
@@ -993,9 +1169,13 @@ class Renderer:
         if not self.frame_ok or not self.t:
             return [-1] * len(points)
         w, h = self.size
+        cached = getattr(self, "_ids_cache", None)
         for x, y in points:
             if not (0 <= x < w and 0 <= y < h):
                 out.append(-1)
+                continue
+            if cached is not None:
+                out.append(int(cached[0][int(y), int(x)]))
                 continue
             raw = self._read_prepass(2, 1, (int(x), h - 1 - int(y), 1, 1))
             out.append(-1 if raw is None else int(round(float(raw[0]))) - 1)
@@ -1003,7 +1183,7 @@ class Renderer:
 
     def world_from_pixel(self, x, y, d):
         """World point at render pixel (x, y from the top-left) and linear depth d of the last frame."""
-        if self.last_camera is None:
+        if self.last_camera is None or not self.frame_ok:
             return None
         h = self.last_camera[5][1]
         return self._unproject(x + 0.5, h - 1 - y + 0.5, d)

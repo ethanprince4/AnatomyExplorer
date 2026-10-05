@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "model_id": "bladder_wall",
+  "status": "design_draft_for_lead_integration",
+  "presentation_contract": {
+    "mode": "Discrete teaching steps using exact existing part identities; static comparison first, optional qualitative animation later",
+    "source_state": "The supplied block compares relatively empty and filling ends. Its spatial gradient is a teaching comparison, not a wave of filling moving along a real specimen.",
+    "timing": "Step order teaches causal relationships. No elapsed-time, pressure, strain, ATP concentration, or urine-volume calibration is implied.",
+    "scale_note": "1 unit = 0.5 mm in the supplied urothelial block; deeper compartments are compressed and membranes, vesicles, cell widths and nuclei are enlarged. Molecular/nerve arrows are explanatory overlays, not additional anatomical parts.",
+    "implementation_boundary": "No native animation sidecar currently exists. These steps are source design content for parent integration; native UI consumption and visual acceptance remain deferred. Preserve all 23 selectable part names."
+  },
+  "functional_sequences": [
+    {
+      "id": "filling_accommodation",
+      "mechanism": "Storage couples unfolding of mucosal rugae, epithelial shape change and membrane-area adaptation while the detrusor accommodates increasing volume.",
+      "source_evidence": ["F01", "F03", "F04", "F07"],
+      "steps": [
+        {
+          "id": "relatively_empty",
+          "instruction": "Frame the folded end, with a visible lumen-facing cue and its matched filling end still visible for comparison.",
+          "parts": ["Basal cells", "Intermediate cells", "Umbrella cells", "Uroplakin plaques (apical membrane)", "Urothelial basement membrane", "Lamina propria"],
+          "observation": "Mucosal folds and taller superficial cells accompany the relatively empty state; the lining remains continuous.",
+          "visual_requirement": "Show rugae as folds of attached urothelium and lamina propria, not an uneven free-floating umbrella surface. State cards identify both ends from the opening comparison view."
+        },
+        {
+          "id": "filling",
+          "instruction": "Shift attention to the filling end and pair its cross section with the empty cross section.",
+          "parts": ["Basal cells", "Intermediate cells", "Umbrella cells", "Uroplakin plaques (apical membrane)", "Urothelial basement membrane", "Lamina propria"],
+          "observation": "Folds flatten and umbrella cells spread; apparent epithelial depth decreases without a break in the epithelial barrier.",
+          "visual_requirement": "Use matched framing and lumen direction. Do not animate cells disappearing to reduce layer count, or imply acute shedding creates the filling state."
+        },
+        {
+          "id": "passive_accommodation_context",
+          "instruction": "Expose lamina propria and detrusor together while keeping the epithelial comparison as a small locator.",
+          "parts": ["Lamina propria", "Inner longitudinal detrusor", "Middle circular detrusor", "Outer longitudinal detrusor", "Interlacing (oblique) bundles", "Interfascicular connective tissue"],
+          "observation": "Fold flattening is one component of wall extensibility. Rat tissue loading studies found collagen recruitment at higher loading stages.",
+          "visual_requirement": "Qualitative expansion arrows share the wall domain; no inferred numerical compliance curve or uniform swelling is applied to the supplied geometry."
+        }
+      ],
+      "schematic_limitations": [
+        "The two ends are comparative samples of state rather than two zones simultaneously experiencing distinct bladder volumes.",
+        "Mucosal flattening evidence includes rat ex vivo loading and does not establish the human model's dimensions or exact strain trajectory.",
+        "A local wall block cannot independently demonstrate whole-organ capacity, outlet behavior or a pressure-volume relation."
+      ]
+    },
+    {
+      "id": "umbrella_membrane_barrier_traffic",
+      "mechanism": "Subapical discoidal/fusiform vesicle exocytosis adds apical membrane during stretch; membrane retrieval accompanies stretch and voiding, while adjacent umbrella-cell junctions remodel without becoming open gaps.",
+      "source_evidence": ["F01", "F02", "F03"],
+      "steps": [
+        {
+          "id": "owned_intracellular_inset",
+          "instruction": "Frame one identified umbrella cell with its membrane, owned nucleus or nuclei, and subapical vesicles. Use a declared cell cutaway.",
+          "parts": ["Umbrella cells", "Umbrella cell nuclei (often binucleate)", "Fusiform vesicles", "Uroplakin plaques (apical membrane)"],
+          "observation": "Fusiform vesicles are intracellular membrane compartments close to the apical surface, and plaques specialize that membrane.",
+          "visual_requirement": "Vesicles must read as flattened compartments, not point particles. Plaques must follow the cell's urine-facing membrane rather than form an independent roof."
+        },
+        {
+          "id": "net_apical_addition",
+          "instruction": "Add a vesicle-to-apical-surface exocytosis arrow and a smaller simultaneous endocytosis arrow; carry the apical surface cue through the sequence.",
+          "parts": ["Fusiform vesicles", "Uroplakin plaques (apical membrane)", "Umbrella cells"],
+          "observation": "Stretch experiments show coordinated membrane addition and retrieval, with net apical expansion.",
+          "visual_requirement": "Keep all intracellular ownership fixed to the parent cell. Do not present exocytosis and endocytosis as mutually exclusive phases."
+        },
+        {
+          "id": "barrier_during_spreading",
+          "instruction": "Include the neighboring umbrella cell and highlight their continuous boundary with a tight-junction schematic cue.",
+          "parts": ["Umbrella cells", "Uroplakin plaques (apical membrane)"],
+          "observation": "The junction perimeter changes with filling; tested tracer barrier integrity was maintained despite reversible electrical-resistance changes.",
+          "visual_requirement": "Never open visible intercellular cracks to teach spreading. Distinguish plaque-rich transcellular membrane from the junctional paracellular boundary."
+        },
+        {
+          "id": "voiding_retrieval",
+          "instruction": "Show apical membrane retrieval into a distinct endocytic compartment, followed by a labeled lysosomal destination in the schematic inset.",
+          "parts": ["Umbrella cells", "Uroplakin plaques (apical membrane)", "Fusiform vesicles"],
+          "observation": "The studied voiding-associated route recovered membrane into compartments distinct from fusiform vesicles and ended in degradation.",
+          "visual_requirement": "Do not reverse the exocytosis arrow into the same fusiform vesicle pool. Endocytic compartments and lysosome are inset symbols, not unverified native mesh additions."
+        }
+      ],
+      "schematic_limitations": [
+        "No molecular fusion pore, trafficking rate or individual vesicle lifetime is modeled.",
+        "The detailed membrane-traffic experiments do not calibrate this teaching geometry or prove identical routing for every membrane constituent.",
+        "Tight-junction highlights are explanatory overlays: there is no distinct tight-junction part among the 23 supplied identities.",
+        "Maintained barrier integrity does not mean that all ionic conductance remains constant during filling."
+      ]
+    },
+    {
+      "id": "storage_to_voiding_detrusor",
+      "mechanism": "Storage requires wall accommodation; voiding recruits contraction throughout the interconnected detrusor and requires coordinated outlet opening beyond the wall specimen.",
+      "source_evidence": ["F07", "F08", "F09"],
+      "steps": [
+        {
+          "id": "one_meshwork",
+          "instruction": "Highlight all four detrusor parts at once, retaining connective-tissue corridors and showing oblique bridges between orientation groups.",
+          "parts": ["Inner longitudinal detrusor", "Middle circular detrusor", "Outer longitudinal detrusor", "Interlacing (oblique) bundles", "Interfascicular connective tissue"],
+          "observation": "The layer names summarize predominant orientations; outside the neck the fascicles do not form three clean independent sheets.",
+          "visual_requirement": "Do not sequence contraction as inner then middle then outer, and do not require neighboring smooth-muscle bundles to be fused into one solid object."
+        },
+        {
+          "id": "storage_relaxation",
+          "instruction": "Show relaxed detrusor context with an adrenergic relaxation annotation attached to the nerve/detrusor relationship.",
+          "parts": ["Autonomic nerves & intramural ganglia", "Inner longitudinal detrusor", "Middle circular detrusor", "Outer longitudinal detrusor", "Interlacing (oblique) bundles"],
+          "observation": "Human isolated detrusor experiments support beta-adrenergic relaxation with beta3 participation.",
+          "visual_requirement": "Label beta3 as a major teaching pathway, without portraying it as the sole receptor or sole source of physiological compliance."
+        },
+        {
+          "id": "coordinated_voiding",
+          "instruction": "Highlight distributed neural input and simultaneous multidirectional shortening cues across the detrusor meshwork.",
+          "parts": ["Autonomic nerves & intramural ganglia", "Inner longitudinal detrusor", "Middle circular detrusor", "Outer longitudinal detrusor", "Interlacing (oblique) bundles"],
+          "observation": "The cholinergic contraction cue uses M3 predominance, supported by receptor-knockout experiments; the outlet must relax for effective urination.",
+          "visual_requirement": "Use a separate labeled whole-bladder/outlet context symbol to show urine leaving; no urine flow is drawn through wall blood vessels or through this solid tissue block."
+        },
+        {
+          "id": "return_to_small_volume",
+          "instruction": "Return to the relatively empty epithelial comparison and link renewed folding with membrane retrieval.",
+          "parts": ["Lamina propria", "Umbrella cells", "Fusiform vesicles"],
+          "observation": "The wall and epithelial surface return toward the smaller-volume configuration after emptying.",
+          "visual_requirement": "Avoid implying that rugae are contractile muscle ridges or that muscularis mucosae is the primary voiding engine."
+        }
+      ],
+      "schematic_limitations": [
+        "No shortening percentage, force law or synchronized electrical propagation speed is specified.",
+        "Neck, urethra, external sphincter, spinal pathways and pontine control are outside this local specimen and appear only as contextual symbols.",
+        "The existing mixed autonomic/afferent nerve part cannot independently identify each axon class; sensory and motor cues must be distinguished by annotation and arrow direction.",
+        "M3 source supports an experimental mouse contractile mechanism, not a numerical human contractile model."
+      ]
+    },
+    {
+      "id": "wall_sensing",
+      "mechanism": "Distension engages wall sensory pathways; urothelial signaling, including ATP-mediated communication, can contribute to activation of nearby afferent pathways.",
+      "source_evidence": ["F05", "F06", "F07"],
+      "steps": [
+        {
+          "id": "sensory_locations",
+          "instruction": "Retain a transparent lamina propria locator while exposing nerve courses near the urothelium and deeper wall.",
+          "parts": ["Umbrella cells", "Urothelial basement membrane", "Lamina propria", "Autonomic nerves & intramural ganglia"],
+          "observation": "The sensory illustration must localize the lumen-facing barrier, connective tissue and nerve context before molecular arrows appear.",
+          "visual_requirement": "A suburothelial sensing locator may mark a schematic terminal location; do not claim existing deep nerve trunks are verified suburothelial afferent endings."
+        },
+        {
+          "id": "urothelial_signal",
+          "instruction": "Show distension cue at the epithelium, followed by an ATP communication arrow toward the suburothelial sensory context.",
+          "parts": ["Umbrella cells", "Lamina propria", "Autonomic nerves & intramural ganglia"],
+          "observation": "Rabbit tissue experiments measured epithelial ATP release and proposed a sensory role; mouse-specific urothelial stimulation later evoked nerve activity with purinergic participation.",
+          "visual_requirement": "Use a clearly marked chemical-signal arrow, not a vesicle physically traveling across basement membrane. Do not conflate apical fusiform vesicle traffic with ATP delivery."
+        },
+        {
+          "id": "afferent_to_central_context",
+          "instruction": "Trace a sensory direction arrow outward from the specimen to a labeled central-circuit context symbol, then return a separate motor-command cue to detrusor.",
+          "parts": ["Autonomic nerves & intramural ganglia", "Inner longitudinal detrusor", "Middle circular detrusor", "Outer longitudinal detrusor", "Interlacing (oblique) bundles"],
+          "observation": "Fullness sensing and motor output are different roles, and a local sensory stimulus does not by itself establish a complete human voiding reflex.",
+          "visual_requirement": "Use distinct arrow direction and labels for afferent and efferent functions; avoid a direct mandatory ATP-to-whole-bladder contraction switch."
+        }
+      ],
+      "schematic_limitations": [
+        "ATP is one contributor, not the exclusive fullness sensor. Interstitial-cell relay details remain unresolved and are omitted from the required causal sequence.",
+        "The 2023 mouse optogenetic experiment uses an artificial cell-specific stimulus, not natural human filling; it supports communication capability rather than a complete natural reflex model.",
+        "The inferred suburothelial signaling arrow is a mechanistic teaching schematic, not a measured diffusion trajectory or proven terminal identity in this source mesh.",
+        "No receptor density, ATP concentration, sensory threshold or nerve firing rate is encoded."
+      ]
+    }
+  ],
+  "recommended_description_corrections": [
+    {
+      "part": "Fusiform vesicles",
+      "replacement": "Fusiform (discoidal) vesicles are flattened, plaque-containing compartments beneath the umbrella-cell apical membrane. Exocytosis contributes membrane area during filling; endocytosis also occurs during stretch and after voiding. In studied voiding-associated pathways, retrieved membrane enters distinct endocytic compartments and is delivered to lysosomes, rather than simply reforming the same fusiform vesicles. Shapes and dimensions are enlarged for teaching.",
+      "source_evidence": ["F01", "F02"]
+    },
+    {
+      "part": "Interlacing (oblique) bundles",
+      "qualification": "Retain single-meshwork teaching but make all detrusor groups participate together. Layer labels represent orientation tendencies, not four separately actuated muscle systems.",
+      "source_evidence": ["F07"]
+    }
+  ],
+  "deferred_function_acceptance": [
+    "Both state ends must be identifiable without opening descriptions, including a shared lumen direction.",
+    "No umbrella barrier hole may appear as an unlabeled consequence of the filling sequence.",
+    "Cell inset must preserve ownership of nuclei and vesicles throughout all teaching steps.",
+    "Membrane retrieval must be distinguished from DFV exocytosis and avoid depicting direct DFV recycling.",
+    "All detrusor orientation groups must be shown as one coordinated functional network, including when the middle group is hidden.",
+    "Sensing overlays must separate chemical communication, afferent direction and efferent direction.",
+    "Native UI implementation, static image review, animation review and anatomical acceptance must be performed on the separate computation machine. Heavy processing NOT RUN."
+  ]
+}

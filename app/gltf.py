@@ -4,18 +4,11 @@ Only what the viewer draws is read - positions, normals, the first UV set, verte
 or the older spec/gloss extension) and alpha mode. Skins and morph targets are ignored and the scene is taken at its
 rest pose. Node transforms are applied, so the result is in the file's own Y-up world.
 """
-import json
-import struct
 
 import numpy as np
 
-COMPONENT = {5120: np.int8, 5121: np.uint8, 5122: np.int16, 5123: np.uint16, 5125: np.uint32, 5126: np.float32}
-WIDTH = {"SCALAR": 1, "VEC2": 2, "VEC3": 3, "VEC4": 4, "MAT2": 4, "MAT3": 9, "MAT4": 16}
-UNSUPPORTED = {"KHR_draco_mesh_compression", "EXT_meshopt_compression", "KHR_texture_basisu"}
-
-
-class GltfError(Exception):
-    pass
+from .load_control import checkpoint
+from .gltf_data import Accessors, GltfError, read_container, load_buffers, scene_topology
 
 
 class Primitive:
@@ -69,75 +62,18 @@ def _node_matrix(node):
 
 class Gltf:
     def __init__(self, path):
-        data = memoryview(path.read_bytes())       # slices of a memoryview are views, not copies
-        if data[:4] != b"glTF":
-            raise GltfError("not a binary glTF file")
-        self.json, self.bin = None, b""
-        off = 12
-        while off < len(data):
-            if off + 8 > len(data):
-                raise GltfError("file is truncated")
-            length, kind = struct.unpack_from("<II", data, off)
-            if off + 8 + length > len(data):
-                raise GltfError("file is truncated")
-            chunk = data[off + 8:off + 8 + length]
-            if kind == 0x4E4F534A:
-                self.json = json.loads(bytes(chunk))
-            elif kind == 0x004E4942:
-                self.bin = chunk
-            off += 8 + length
-        if self.json is None:
-            raise GltfError("no JSON chunk")
-        missing = UNSUPPORTED & set(self.json.get("extensionsRequired", []))
-        if missing:
-            raise GltfError(f"needs {', '.join(sorted(missing))}, which this reader does not decode")
+        from pathlib import Path
+        self.json, self.bin = read_container(path, binary_only=True)
+        self._roots, _parents = scene_topology(self.json)
+        self._accessors = Accessors(self.json, load_buffers(self.json, self.bin, Path(path).parent))
         self.materials = [Material(m) for m in self.json.get("materials", [])]
 
     # ------------------------------------------------------------------ raw data
     def _view_bytes(self, view_index):
-        v = self.json["bufferViews"][view_index]
-        if v.get("buffer", 0) != 0:
-            raise GltfError("external buffers are not supported")
-        start = v.get("byteOffset", 0)
-        return self.bin[start:start + v["byteLength"]], v.get("byteStride")
+        return self._accessors.view_bytes(view_index)
 
     def accessor(self, index):
-        a = self.json["accessors"][index]
-        dtype = np.dtype(COMPONENT[a["componentType"]])
-        width = WIDTH[a["type"]]
-        count = a["count"]
-        if "bufferView" in a:
-            raw, stride = self._view_bytes(a["bufferView"])
-            base = a.get("byteOffset", 0)
-            item = dtype.itemsize * width
-            end = base + (count - 1) * (stride or item) + item if count else base
-            if end > len(raw):
-                raise GltfError(f"accessor {index} runs past the end of its buffer view")
-            if stride and stride != item:
-                rows = np.lib.stride_tricks.as_strided(
-                    np.frombuffer(raw, dtype=np.uint8, offset=base), shape=(count, item), strides=(stride, 1))
-                out = np.ascontiguousarray(rows).view(dtype).reshape(count, width)
-            else:
-                out = np.frombuffer(raw, dtype=dtype, count=count * width, offset=base).reshape(count, width)
-        else:
-            out = np.zeros((count, width), dtype=dtype)
-        if "sparse" in a:
-            sp = a["sparse"]
-            ii = sp["indices"]
-            raw, _ = self._view_bytes(ii["bufferView"])
-            where = np.frombuffer(raw, dtype=COMPONENT[ii["componentType"]], count=sp["count"],
-                                  offset=ii.get("byteOffset", 0))
-            vv = sp["values"]
-            raw, _ = self._view_bytes(vv["bufferView"])
-            vals = np.frombuffer(raw, dtype=dtype, count=sp["count"] * width,
-                                 offset=vv.get("byteOffset", 0)).reshape(-1, width)
-            out = out.copy()
-            out[where] = vals
-        if a.get("normalized") and dtype.kind in "iu":
-            out = out.astype(np.float32) / float(np.iinfo(dtype).max)
-            if dtype.kind == "i":
-                out = np.maximum(out, -1.0)
-        return out
+        return self._accessors.get(index, as_float=False, normalize=True)
 
     def image_bytes(self, texture_index):
         """Encoded bytes (PNG/JPEG/...) of a texture's image, or None."""
@@ -165,18 +101,14 @@ class Gltf:
 
     # ------------------------------------------------------------------ scene
     def scene_roots(self):
-        scenes = self.json.get("scenes")
-        if not scenes:                          # no scene: every node that is nobody's child is a root
-            nodes = self.json.get("nodes", [])
-            children = {c for n in nodes for c in n.get("children", [])}
-            return [i for i in range(len(nodes)) if i not in children]
-        return scenes[self.json.get("scene", 0)].get("nodes", [])
+        return list(self._roots)
 
     def walk(self):
         """(node index, world matrix, [names from the root]) for every node in the default scene."""
         nodes = self.json.get("nodes", [])
         stack = [(n, np.identity(4), []) for n in reversed(self.scene_roots())]
         while stack:
+            checkpoint()
             i, parent, path = stack.pop()
             node = nodes[i]
             m = parent @ _node_matrix(node)
@@ -205,8 +137,10 @@ class Gltf:
                 if "POSITION" not in attrs:
                     continue
                 pos = self.accessor(attrs["POSITION"]).astype(np.float64)
+                if pos.shape[1] != 3 or not np.isfinite(pos).all():
+                    raise GltfError("positions must be finite VEC3 values")
                 if "indices" in prim:
-                    idx = self.accessor(prim["indices"]).astype(np.int64).ravel()
+                    idx = self._accessors.indices(prim["indices"], len(pos)).astype(np.int64)
                 else:
                     idx = np.arange(len(pos), dtype=np.int64)
                 if mode == 5:

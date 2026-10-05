@@ -1,0 +1,2140 @@
+{
+  "schema_version": 1,
+  "model_id": "cornea",
+  "part_names": [
+    "Basal columnar cells",
+    "Limbal epithelial stem cells",
+    "Wing cells",
+    "Limbal epithelium (extra layers)",
+    "Superficial squamous cells",
+    "Conjunctival goblet cells",
+    "Tear film",
+    "Bowman layer",
+    "Epithelial basement membrane",
+    "Stromal lamellae",
+    "Keratocytes",
+    "Pre-Descemet (Dua) layer",
+    "Descemet membrane",
+    "Schwalbe line",
+    "Endothelium",
+    "Limbal stroma & palisades of Vogt",
+    "Limbal vascular arcades",
+    "Sclera",
+    "Schlemm canal",
+    "Collector channels & aqueous veins",
+    "Trabecular meshwork",
+    "Stromal nerves",
+    "Subbasal plexus & free nerve endings"
+  ],
+  "start_view": "0 Overview: cornea to limbus",
+  "cut_at": [
+    0.57,
+    0.0
+  ],
+  "scale_note": "Vertical corneal teaching scale: 1 model unit = 0.55 mm. The corneal epithelium is about 50 micrometres; the limbus is compressed laterally. The 22 stromal tiers represent many more lamellae, and the epithelial basement membrane is enlarged to be selectable. Vertical teaching scale: 1 model unit = 0.55 mm; the limbus is compressed laterally. Cell footprints and goblet cells are enlarged and representative. Twenty-two displayed stromal tiers summarize many more lamellae; keratocytes are sampled on six levels. Epithelial basement membrane and Schwalbe line are enlarged for selection. The corner cut is a teaching dissection, not physiological epithelial gaps. Do not derive lateral dimensions, cell density or native ultrastructural thickness from this block.",
+  "description_overrides": {
+    "Tear film": "Tear film: a thin surface lipid layer overlies a mixed mucoaqueous component supplied chiefly by lacrimal secretion and including soluble mucins such as goblet-cell MUC5AC. Membrane-associated epithelial mucins form the underlying glycocalyx and support wetting and barrier function. The air-tear interface provides the primary refracting surface; blinking redistributes and renews the film. Tear-film instability contributes to dry-eye disease. This single top sheet represents the whole tear film; it does not resolve its molecular components or simulate breakup.",
+    "Conjunctival goblet cells": "Conjunctival goblet cells secrete MUC5AC, a gel-forming mucin in the tear film. This secreted mucin is distinct from the membrane-associated mucins of the superficial epithelial glycocalyx. Goblet cells are lost in cicatricial conjunctivitis and vitamin A deficiency. Fifteen enlarged representative cells are restricted to conjunctival epithelium; the conjunctival specimen cut exposes their profiles.",
+    "Pre-Descemet (Dua) layer": "Pre-Descemet (Dua) layer: the authored representation of collagen immediately anterior to Descemet membrane, described through human donor-cornea dissection studies. Its status as a separate anatomical layer remains debated. In the surgical big-bubble distinction, type-1 cleavage separates deeper stroma from the pre-Descemet tissue and Descemet membrane; type-2 cleavage separates Descemet membrane from the anterior collagen tissue. These are surgical cleavage planes, not normal open spaces. No physiological thickness is inferred from this teaching band.",
+    "Endothelium": "Endothelium: an intact posterior monolayer of predominantly hexagonal cells on Descemet membrane. Its barrier and energy-dependent transport functions help maintain stromal hydration and transparency in a pump-leak balance. Na+/K+-ATPase supports ionic gradients; bicarbonate-linked transport and buffering participate in fluid regulation rather than acting as a single literal water pump. Adult human cells normally have insufficient proliferative replacement in vivo; surviving cells enlarge and migrate when cells are lost. Endothelial failure permits oedema and loss of transparency. The displayed mosaic is representative, not a cell-density assay."
+  },
+  "viewer_cameras": {
+    "0 Overview: cornea to limbus": {
+      "position": [
+        12,
+        8,
+        16
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [
+        "Limbal epithelial stem cells",
+        "Conjunctival goblet cells",
+        "Keratocytes",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Orient from tear-facing anterior surface through layered cornea to the vascular limbus and sclera. Retain the shared specimen cut and continuous tissue populations. These opaque teaching colors do not simulate optical transparency."
+    },
+    "1 Layer profile": {
+      "position": [
+        0,
+        0.67,
+        3
+      ],
+      "target": [
+        -0.45,
+        0.66,
+        0
+      ],
+      "type": "ORTHO",
+      "hidden": [
+        "Limbal epithelial stem cells",
+        "Limbal epithelium (extra layers)",
+        "Conjunctival goblet cells",
+        "Keratocytes",
+        "Schwalbe line",
+        "Limbal stroma & palisades of Vogt",
+        "Limbal vascular arcades",
+        "Sclera",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Read anterior-to-posterior layer order in a radial cut profile, distinguishing epithelial basement membrane from Bowman layer. Pre-Descemet (Dua) layer retains its authored identity; its status as an independently distinct layer is debated. This view adds no new thickness claim.",
+      "ortho_width": 1.95
+    },
+    "2 Limbal niche profile": {
+      "position": [
+        0.2,
+        0.9,
+        3
+      ],
+      "target": [
+        0.12,
+        0.88,
+        0
+      ],
+      "type": "ORTHO",
+      "hidden": [
+        "Conjunctival goblet cells",
+        "Tear film",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Schwalbe line",
+        "Endothelium",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Relate palisade ridges, basal stem-cell niches, thickened limbal epithelium and peripheral vessels. Vessels remain peripheral. The stem cells are selected representative niches, not a continuous stem-cell sheet.",
+      "ortho_width": 0.95
+    },
+    "3 Conventional drainage": {
+      "position": [
+        0.9,
+        -0.5,
+        2.8
+      ],
+      "target": [
+        0.29,
+        0.23,
+        0
+      ],
+      "type": "ORTHO",
+      "hidden": [
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Superficial squamous cells",
+        "Conjunctival goblet cells",
+        "Tear film",
+        "Bowman layer",
+        "Epithelial basement membrane",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Limbal stroma & palisades of Vogt",
+        "Limbal vascular arcades",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Locate Schwalbe line, trabecular meshwork, Schlemm canal and the collector outlets in their scleral context. Uses the existing Drainage angle camera and exact hidden set. Channels are wall surfaces enclosing open lumens; expected wall junction contact is preserved. Two ostia are schematic, not a whole-eye count.",
+      "ortho_width": 1.15
+    },
+    "4 Endothelium: pump and barrier": {
+      "position": [
+        -0.4,
+        -2.4,
+        1
+      ],
+      "target": [
+        -0.5,
+        0.1,
+        0
+      ],
+      "type": "ORTHO",
+      "hidden": [
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Superficial squamous cells",
+        "Conjunctival goblet cells",
+        "Tear film",
+        "Bowman layer",
+        "Epithelial basement membrane",
+        "Keratocytes",
+        "Limbal stroma & palisades of Vogt",
+        "Limbal vascular arcades",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": false,
+      "note": "Inspect the intact posterior endothelial monolayer and orient fluid regulation toward aqueous-facing posterior surface. No permeability, transport-rate or swelling simulation is implemented. Absence of cut distinguishes physiological boundary termination from specimen cuts.",
+      "ortho_width": 1.8
+    },
+    "5 Epithelial renewal": {
+      "position": [
+        0,
+        1.1,
+        3
+      ],
+      "target": [
+        -0.32,
+        0.98,
+        0
+      ],
+      "type": "ORTHO",
+      "hidden": [
+        "Conjunctival goblet cells",
+        "Tear film",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Schwalbe line",
+        "Endothelium",
+        "Limbal vascular arcades",
+        "Sclera",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Trace the authored limbal-to-central renewal explanation and basal-to-surface differentiation through existing tissue layers. The X, Y, Z account is presented as a teaching hypothesis. No tracked cell lineage, time scale or migrating-cell animation is encoded.",
+      "ortho_width": 1.8
+    },
+    "6 Corneal sensory route": {
+      "position": [
+        0,
+        1.2,
+        3
+      ],
+      "target": [
+        -0.35,
+        0.82,
+        0
+      ],
+      "type": "ORTHO",
+      "hidden": [
+        "Limbal epithelial stem cells",
+        "Limbal epithelium (extra layers)",
+        "Conjunctival goblet cells",
+        "Tear film",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Schwalbe line",
+        "Endothelium",
+        "Limbal vascular arcades",
+        "Sclera",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork"
+      ],
+      "cut_on": true,
+      "note": "Follow stromal entry into the subbasal plexus and epithelial free endings. Stromal collagen is removed by visibility for access, not excised from the source. Reflex brainstem and motor structures are absent; no complete reflex circuit is depicted.",
+      "ortho_width": 1.85
+    },
+    "7 Tear surface and conjunctival support": {
+      "position": [
+        0.57,
+        1,
+        3
+      ],
+      "target": [
+        0.63,
+        0.9,
+        0
+      ],
+      "type": "ORTHO",
+      "hidden": [
+        "Limbal epithelial stem cells",
+        "Bowman layer",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Schwalbe line",
+        "Endothelium",
+        "Limbal vascular arcades",
+        "Sclera",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Relate the tear-facing epithelium to peripheral conjunctival goblet cells. Uses the existing conjunctival profile camera. Goblet cells remain conjunctival; the tear film is one composite sheet, not independently modeled biochemical phases. Lacrimal and meibomian glands are outside this specimen.",
+      "ortho_width": 0.9
+    },
+    "Teaching cut": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Aligned specimen cut through cornea, limbus and a conjunctival goblet-cell profile; cells are representative and enlarged."
+    },
+    "Limbal vessels": {
+      "position": [
+        0.3,
+        1.8,
+        2.8
+      ],
+      "target": [
+        0.28,
+        0.8,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.5,
+      "hidden": [
+        "Tear film",
+        "Superficial squamous cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Epithelial basement membrane",
+        "Conjunctival goblet cells",
+        "Bowman layer",
+        "Keratocytes",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Overlying epithelium removed for teaching. Vessels remain in the limbal stroma; the normal cornea is avascular."
+    },
+    "Drainage angle": {
+      "position": [
+        0.9,
+        -0.5,
+        2.8
+      ],
+      "target": [
+        0.29,
+        0.23,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Tear film",
+        "Superficial squamous cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Epithelial basement membrane",
+        "Limbal vascular arcades",
+        "Conjunctival goblet cells",
+        "Bowman layer",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Limbal stroma & palisades of Vogt",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Simple schematic collector ostia at Schlemm canal outer wall; Descemet terminates at Schwalbe line."
+    },
+    "Endothelium": {
+      "position": [
+        -0.4,
+        -2.4,
+        1.0
+      ],
+      "target": [
+        -0.5,
+        0.1,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.8,
+      "hidden": [],
+      "cut_on": false,
+      "note": "Intact posterior corneal monolayer. Physiological termination at Schwalbe line is preserved."
+    },
+    "Conjunctival cells": {
+      "position": [
+        0.57,
+        1.0,
+        3.0
+      ],
+      "target": [
+        0.63,
+        0.9,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.9,
+      "hidden": [
+        "Sclera",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Stromal nerves"
+      ],
+      "cut_on": true,
+      "note": "Representative goblet cells occupy conjunctiva, with fitted epithelial boundaries; the cut exposes their profiles."
+    },
+    "Function barrier_renewal/surface": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Surface junctions and glycocalyx support the barrier and wetting; the displayed tear sheet does not resolve molecular layers. Cell meshes remain fixed; lineage arrows show replacement relationships, not trajectories of individual cells. No fixed human turnover period or proliferation rate is assigned. Mouse lineage-tracing evidence supports direction with species limits. No meibomian or lacrimal gland is present in this specimen; source-gland context is text only. No isolated lipid, aqueous or mucin mesh is generated."
+    },
+    "Function barrier_renewal/secreted_mucin": {
+      "position": [
+        0.57,
+        1.0,
+        3.0
+      ],
+      "target": [
+        0.63,
+        0.9,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.9,
+      "hidden": [
+        "Sclera",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Stromal nerves"
+      ],
+      "cut_on": true,
+      "note": "Goblet-cell secretions contribute mucin to tears; membrane mucins belong to epithelial surfaces. Cell meshes remain fixed; lineage arrows show replacement relationships, not trajectories of individual cells. No fixed human turnover period or proliferation rate is assigned. Mouse lineage-tracing evidence supports direction with species limits. No meibomian or lacrimal gland is present in this specimen; source-gland context is text only. No isolated lipid, aqueous or mucin mesh is generated."
+    },
+    "Function barrier_renewal/niche": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Representative basal niches support a limbal progenitor source; they are not a continuous stem-cell sheet. Cell meshes remain fixed; lineage arrows show replacement relationships, not trajectories of individual cells. No fixed human turnover period or proliferation rate is assigned. Mouse lineage-tracing evidence supports direction with species limits. No meibomian or lacrimal gland is present in this specimen; source-gland context is text only. No isolated lipid, aqueous or mucin mesh is generated."
+    },
+    "Function barrier_renewal/replace": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Limbal-derived progenitors populate basal epithelium; proliferation and upward differentiation replenish shedding cells. Cell meshes remain fixed; lineage arrows show replacement relationships, not trajectories of individual cells. No fixed human turnover period or proliferation rate is assigned. Mouse lineage-tracing evidence supports direction with species limits. No meibomian or lacrimal gland is present in this specimen; source-gland context is text only. No isolated lipid, aqueous or mucin mesh is generated."
+    },
+    "Function barrier_renewal/adhesion": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Basal attachment uses the epithelial basement membrane. Bowman layer is a different structure. Cell meshes remain fixed; lineage arrows show replacement relationships, not trajectories of individual cells. No fixed human turnover period or proliferation rate is assigned. Mouse lineage-tracing evidence supports direction with species limits. No meibomian or lacrimal gland is present in this specimen; source-gland context is text only. No isolated lipid, aqueous or mucin mesh is generated."
+    },
+    "Function barrier_renewal/shed": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Surface loss and replacement balance in homeostasis; no turnover clock is calculated. Cell meshes remain fixed; lineage arrows show replacement relationships, not trajectories of individual cells. No fixed human turnover period or proliferation rate is assigned. Mouse lineage-tracing evidence supports direction with species limits. No meibomian or lacrimal gland is present in this specimen; source-gland context is text only. No isolated lipid, aqueous or mucin mesh is generated."
+    },
+    "Function transparency_pump_leak/organization": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Ordered collagen architecture and matrix maintenance support low scatter. Twenty-two tiers represent many more lamellae; fibrils are not individually modeled. Opposing arrows coexist; arrow count, width and speed are not volumetric fluxes. A pump is a tissue transport process, not a literal organelle or directly modeled bicarbonate water pump. Animal experiments support lactate-linked efflux; no complete human transporter model is implemented. No osmotic solution, swelling displacement, ray tracing, corneal power or scattering calculation is performed. Teaching colors and alpha values are visibility settings, not measured optical properties. The hypothetical edema caption does not certify a built disease mesh."
+    },
+    "Function transparency_pump_leak/avascular": {
+      "position": [
+        0.3,
+        1.8,
+        2.8
+      ],
+      "target": [
+        0.28,
+        0.8,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.5,
+      "hidden": [
+        "Tear film",
+        "Superficial squamous cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Epithelial basement membrane",
+        "Conjunctival goblet cells",
+        "Bowman layer",
+        "Keratocytes",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Normal cornea is avascular; limbal vessels remain peripheral. Opposing arrows coexist; arrow count, width and speed are not volumetric fluxes. A pump is a tissue transport process, not a literal organelle or directly modeled bicarbonate water pump. Animal experiments support lactate-linked efflux; no complete human transporter model is implemented. No osmotic solution, swelling displacement, ray tracing, corneal power or scattering calculation is performed. Teaching colors and alpha values are visibility settings, not measured optical properties. The hypothetical edema caption does not certify a built disease mesh."
+    },
+    "Function transparency_pump_leak/posterior_boundary": {
+      "position": [
+        -0.4,
+        -2.4,
+        1.0
+      ],
+      "target": [
+        -0.5,
+        0.1,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.8,
+      "hidden": [],
+      "cut_on": false,
+      "note": "Endothelium borders the aqueous compartment and sits on its basement membrane. Opposing arrows coexist; arrow count, width and speed are not volumetric fluxes. A pump is a tissue transport process, not a literal organelle or directly modeled bicarbonate water pump. Animal experiments support lactate-linked efflux; no complete human transporter model is implemented. No osmotic solution, swelling displacement, ray tracing, corneal power or scattering calculation is performed. Teaching colors and alpha values are visibility settings, not measured optical properties. The hypothetical edema caption does not certify a built disease mesh."
+    },
+    "Function transparency_pump_leak/leak": {
+      "position": [
+        -0.4,
+        -2.4,
+        1.0
+      ],
+      "target": [
+        -0.5,
+        0.1,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.8,
+      "hidden": [],
+      "cut_on": false,
+      "note": "Stromal matrix has a tendency to take up water; a partly permeable posterior boundary permits inward leak. Opposing arrows coexist; arrow count, width and speed are not volumetric fluxes. A pump is a tissue transport process, not a literal organelle or directly modeled bicarbonate water pump. Animal experiments support lactate-linked efflux; no complete human transporter model is implemented. No osmotic solution, swelling displacement, ray tracing, corneal power or scattering calculation is performed. Teaching colors and alpha values are visibility settings, not measured optical properties. The hypothetical edema caption does not certify a built disease mesh."
+    },
+    "Function transparency_pump_leak/transport": {
+      "position": [
+        -0.4,
+        -2.4,
+        1.0
+      ],
+      "target": [
+        -0.5,
+        0.1,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.8,
+      "hidden": [],
+      "cut_on": false,
+      "note": "Active ion transport and buffering support lactate clearance and net fluid removal toward aqueous; barrier integrity also matters. Opposing arrows coexist; arrow count, width and speed are not volumetric fluxes. A pump is a tissue transport process, not a literal organelle or directly modeled bicarbonate water pump. Animal experiments support lactate-linked efflux; no complete human transporter model is implemented. No osmotic solution, swelling displacement, ray tracing, corneal power or scattering calculation is performed. Teaching colors and alpha values are visibility settings, not measured optical properties. The hypothetical edema caption does not certify a built disease mesh."
+    },
+    "Function transparency_pump_leak/balance": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Balanced leak and removal maintain hydration compatible with transparency. Reduced transport or barrier failure can cause edema and greater scatter. Opposing arrows coexist; arrow count, width and speed are not volumetric fluxes. A pump is a tissue transport process, not a literal organelle or directly modeled bicarbonate water pump. Animal experiments support lactate-linked efflux; no complete human transporter model is implemented. No osmotic solution, swelling displacement, ray tracing, corneal power or scattering calculation is performed. Teaching colors and alpha values are visibility settings, not measured optical properties. The hypothetical edema caption does not certify a built disease mesh."
+    },
+    "Function sensory_protection/terminal": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Surface stimulation activates epithelial sensory terminals. Signal arrows are conceptual; no action potentials or conduction velocities are simulated. Brainstem, facial nerve, lacrimal gland and eyelids are contextual captions or diagram endpoints, not modeled parts. Protective blink and reflex tearing have different efferent targets. No real tissue abrasion or denervation is simulated; any disease explanation is a labeled hypothetical state."
+    },
+    "Function sensory_protection/afferent": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Afferent signals travel from endings toward stromal nerve branches and the off-model ophthalmic division of trigeminal nerve. Signal arrows are conceptual; no action potentials or conduction velocities are simulated. Brainstem, facial nerve, lacrimal gland and eyelids are contextual captions or diagram endpoints, not modeled parts. Protective blink and reflex tearing have different efferent targets. No real tissue abrasion or denervation is simulated; any disease explanation is a labeled hypothetical state."
+    },
+    "Function sensory_protection/blink": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "Brainstem circuitry recruits facial motor output to orbicularis oculi for protective blinking; lids and motor circuit are outside this block. Signal arrows are conceptual; no action potentials or conduction velocities are simulated. Brainstem, facial nerve, lacrimal gland and eyelids are contextual captions or diagram endpoints, not modeled parts. Protective blink and reflex tearing have different efferent targets. No real tissue abrasion or denervation is simulated; any disease explanation is a labeled hypothetical state."
+    },
+    "Function sensory_protection/tearing": {
+      "position": [
+        12.0,
+        8.0,
+        16.0
+      ],
+      "target": [
+        -0.006300449,
+        0.67874372,
+        -0.0065597
+      ],
+      "type": "PERSPECTIVE",
+      "hidden": [],
+      "cut_on": true,
+      "note": "A distinct reflex-secretion branch increases lacrimal fluid; blinking helps distribute tears. Signal arrows are conceptual; no action potentials or conduction velocities are simulated. Brainstem, facial nerve, lacrimal gland and eyelids are contextual captions or diagram endpoints, not modeled parts. Protective blink and reflex tearing have different efferent targets. No real tissue abrasion or denervation is simulated; any disease explanation is a labeled hypothetical state."
+    },
+    "Function conventional_aqueous_drainage/landmark": {
+      "position": [
+        0.9,
+        -0.5,
+        2.8
+      ],
+      "target": [
+        0.29,
+        0.23,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Tear film",
+        "Superficial squamous cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Epithelial basement membrane",
+        "Limbal vascular arcades",
+        "Conjunctival goblet cells",
+        "Bowman layer",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Limbal stroma & palisades of Vogt",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Descemet membrane terminates at Schwalbe line, a landmark at the anterior limit of trabecular tissue. Arrows follow fluid spaces conceptually; they never indicate flow through solid beam material. The canal mesh is a wall, not a solid lumen fill. Actual overlay routes must be checked inside open lumens on the final output. Two collector ostia are teaching examples, not an anatomical count or complete drainage map. No fixed percentage of conventional flow is assigned; production rate, age and alternate routes are outside this specimen. Pores, giant vacuoles and juxtacanalicular cells are explained at the interface rather than invented as selectable parts. No ciliary-muscle motion, inlet-valve mechanism, resistance network or pressure simulation is implemented."
+    },
+    "Function conventional_aqueous_drainage/entry": {
+      "position": [
+        0.9,
+        -0.5,
+        2.8
+      ],
+      "target": [
+        0.29,
+        0.23,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Tear film",
+        "Superficial squamous cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Epithelial basement membrane",
+        "Limbal vascular arcades",
+        "Conjunctival goblet cells",
+        "Bowman layer",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Limbal stroma & palisades of Vogt",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Aqueous from the anterior chamber enters open spaces between trabecular beams. Arrows follow fluid spaces conceptually; they never indicate flow through solid beam material. The canal mesh is a wall, not a solid lumen fill. Actual overlay routes must be checked inside open lumens on the final output. Two collector ostia are teaching examples, not an anatomical count or complete drainage map. No fixed percentage of conventional flow is assigned; production rate, age and alternate routes are outside this specimen. Pores, giant vacuoles and juxtacanalicular cells are explained at the interface rather than invented as selectable parts. No ciliary-muscle motion, inlet-valve mechanism, resistance network or pressure simulation is implemented."
+    },
+    "Function conventional_aqueous_drainage/resistance": {
+      "position": [
+        0.9,
+        -0.5,
+        2.8
+      ],
+      "target": [
+        0.29,
+        0.23,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Tear film",
+        "Superficial squamous cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Epithelial basement membrane",
+        "Limbal vascular arcades",
+        "Conjunctival goblet cells",
+        "Bowman layer",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Limbal stroma & palisades of Vogt",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "The juxtacanalicular region and adjacent Schlemm inner wall contribute much outflow resistance; this specimen does not resolve those microscopic populations. Arrows follow fluid spaces conceptually; they never indicate flow through solid beam material. The canal mesh is a wall, not a solid lumen fill. Actual overlay routes must be checked inside open lumens on the final output. Two collector ostia are teaching examples, not an anatomical count or complete drainage map. No fixed percentage of conventional flow is assigned; production rate, age and alternate routes are outside this specimen. Pores, giant vacuoles and juxtacanalicular cells are explained at the interface rather than invented as selectable parts. No ciliary-muscle motion, inlet-valve mechanism, resistance network or pressure simulation is implemented."
+    },
+    "Function conventional_aqueous_drainage/canal": {
+      "position": [
+        0.9,
+        -0.5,
+        2.8
+      ],
+      "target": [
+        0.29,
+        0.23,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Tear film",
+        "Superficial squamous cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Epithelial basement membrane",
+        "Limbal vascular arcades",
+        "Conjunctival goblet cells",
+        "Bowman layer",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Limbal stroma & palisades of Vogt",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Within the canal, aqueous reaches collector outlets and enters downstream aqueous/venous channels. Arrows follow fluid spaces conceptually; they never indicate flow through solid beam material. The canal mesh is a wall, not a solid lumen fill. Actual overlay routes must be checked inside open lumens on the final output. Two collector ostia are teaching examples, not an anatomical count or complete drainage map. No fixed percentage of conventional flow is assigned; production rate, age and alternate routes are outside this specimen. Pores, giant vacuoles and juxtacanalicular cells are explained at the interface rather than invented as selectable parts. No ciliary-muscle motion, inlet-valve mechanism, resistance network or pressure simulation is implemented."
+    },
+    "Function conventional_aqueous_drainage/pressure": {
+      "position": [
+        0.9,
+        -0.5,
+        2.8
+      ],
+      "target": [
+        0.29,
+        0.23,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "Tear film",
+        "Superficial squamous cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Epithelial basement membrane",
+        "Limbal vascular arcades",
+        "Conjunctival goblet cells",
+        "Bowman layer",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Limbal stroma & palisades of Vogt",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "cut_on": true,
+      "note": "Greater outflow resistance can elevate pressure for a given production rate. Distal channels also contribute; this model does not calculate IOP. Arrows follow fluid spaces conceptually; they never indicate flow through solid beam material. The canal mesh is a wall, not a solid lumen fill. Actual overlay routes must be checked inside open lumens on the final output. Two collector ostia are teaching examples, not an anatomical count or complete drainage map. No fixed percentage of conventional flow is assigned; production rate, age and alternate routes are outside this specimen. Pores, giant vacuoles and juxtacanalicular cells are explained at the interface rather than invented as selectable parts. No ciliary-muscle motion, inlet-valve mechanism, resistance network or pressure simulation is implemented."
+    }
+  },
+  "teaching_views": [
+    {
+      "id": "overview",
+      "title": "0 Overview: cornea to limbus",
+      "purpose": "Orient from tear-facing anterior surface through layered cornea to the vascular limbus and sclera.",
+      "visible_parts": [
+        "Basal columnar cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Superficial squamous cells",
+        "Tear film",
+        "Bowman layer",
+        "Epithelial basement membrane",
+        "Stromal lamellae",
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Schwalbe line",
+        "Endothelium",
+        "Limbal stroma & palisades of Vogt",
+        "Limbal vascular arcades",
+        "Sclera",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork"
+      ],
+      "hidden_parts": [
+        "Limbal epithelial stem cells",
+        "Conjunctival goblet cells",
+        "Keratocytes",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "scale_note": "Vertical teaching scale: 1 model unit = 0.55 mm; the limbus is compressed laterally. Cell footprints and goblet cells are enlarged and representative. Twenty-two displayed stromal tiers summarize many more lamellae; keratocytes are sampled on six levels. Epithelial basement membrane and Schwalbe line are enlarged for selection. The corner cut is a teaching dissection, not physiological epithelial gaps. Do not derive lateral dimensions, cell density or native ultrastructural thickness from this block.",
+      "native_camera": {
+        "position": [
+          12,
+          8,
+          16
+        ],
+        "target": [
+          -0.006300449,
+          0.67874372,
+          -0.0065597
+        ],
+        "type": "PERSPECTIVE",
+        "hidden": [
+          "Limbal epithelial stem cells",
+          "Conjunctival goblet cells",
+          "Keratocytes",
+          "Stromal nerves",
+          "Subbasal plexus & free nerve endings"
+        ],
+        "cut_on": true,
+        "note": "Orient from tear-facing anterior surface through layered cornea to the vascular limbus and sclera. Retain the shared specimen cut and continuous tissue populations. These opaque teaching colors do not simulate optical transparency."
+      },
+      "focus_parts": [
+        "Tear film",
+        "Stromal lamellae",
+        "Limbal stroma & palisades of Vogt",
+        "Sclera"
+      ],
+      "focus_behavior": "Narrative priority only; native preset applies camera, hidden and cut_on. No recoloring, transparency or selection automation.",
+      "validation_status": "source_ready_visual_validation_deferred"
+    },
+    {
+      "id": "layer_profile",
+      "title": "1 Layer profile",
+      "purpose": "Read anterior-to-posterior layer order in a radial cut profile, distinguishing epithelial basement membrane from Bowman layer.",
+      "visible_parts": [
+        "Basal columnar cells",
+        "Wing cells",
+        "Superficial squamous cells",
+        "Tear film",
+        "Bowman layer",
+        "Epithelial basement membrane",
+        "Stromal lamellae",
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Endothelium"
+      ],
+      "hidden_parts": [
+        "Limbal epithelial stem cells",
+        "Limbal epithelium (extra layers)",
+        "Conjunctival goblet cells",
+        "Keratocytes",
+        "Schwalbe line",
+        "Limbal stroma & palisades of Vogt",
+        "Limbal vascular arcades",
+        "Sclera",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "scale_note": "Vertical teaching scale: 1 model unit = 0.55 mm; the limbus is compressed laterally. Cell footprints and goblet cells are enlarged and representative. Twenty-two displayed stromal tiers summarize many more lamellae; keratocytes are sampled on six levels. Epithelial basement membrane and Schwalbe line are enlarged for selection. The corner cut is a teaching dissection, not physiological epithelial gaps. Do not derive lateral dimensions, cell density or native ultrastructural thickness from this block.",
+      "native_camera": {
+        "position": [
+          0,
+          0.67,
+          3
+        ],
+        "target": [
+          -0.45,
+          0.66,
+          0
+        ],
+        "type": "ORTHO",
+        "hidden": [
+          "Limbal epithelial stem cells",
+          "Limbal epithelium (extra layers)",
+          "Conjunctival goblet cells",
+          "Keratocytes",
+          "Schwalbe line",
+          "Limbal stroma & palisades of Vogt",
+          "Limbal vascular arcades",
+          "Sclera",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork",
+          "Stromal nerves",
+          "Subbasal plexus & free nerve endings"
+        ],
+        "cut_on": true,
+        "note": "Read anterior-to-posterior layer order in a radial cut profile, distinguishing epithelial basement membrane from Bowman layer. Pre-Descemet (Dua) layer retains its authored identity; its status as an independently distinct layer is debated. This view adds no new thickness claim.",
+        "ortho_width": 1.95
+      },
+      "focus_parts": [
+        "Epithelial basement membrane",
+        "Bowman layer",
+        "Descemet membrane",
+        "Endothelium"
+      ],
+      "focus_behavior": "Narrative priority only; native preset applies camera, hidden and cut_on. No recoloring, transparency or selection automation.",
+      "validation_status": "source_ready_visual_validation_deferred"
+    },
+    {
+      "id": "limbal_niche",
+      "title": "2 Limbal niche profile",
+      "purpose": "Relate palisade ridges, basal stem-cell niches, thickened limbal epithelium and peripheral vessels.",
+      "visible_parts": [
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Superficial squamous cells",
+        "Bowman layer",
+        "Epithelial basement membrane",
+        "Limbal stroma & palisades of Vogt",
+        "Limbal vascular arcades",
+        "Sclera"
+      ],
+      "hidden_parts": [
+        "Conjunctival goblet cells",
+        "Tear film",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Schwalbe line",
+        "Endothelium",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "scale_note": "Vertical teaching scale: 1 model unit = 0.55 mm; the limbus is compressed laterally. Cell footprints and goblet cells are enlarged and representative. Twenty-two displayed stromal tiers summarize many more lamellae; keratocytes are sampled on six levels. Epithelial basement membrane and Schwalbe line are enlarged for selection. The corner cut is a teaching dissection, not physiological epithelial gaps. Do not derive lateral dimensions, cell density or native ultrastructural thickness from this block.",
+      "native_camera": {
+        "position": [
+          0.2,
+          0.9,
+          3
+        ],
+        "target": [
+          0.12,
+          0.88,
+          0
+        ],
+        "type": "ORTHO",
+        "hidden": [
+          "Conjunctival goblet cells",
+          "Tear film",
+          "Stromal lamellae",
+          "Keratocytes",
+          "Pre-Descemet (Dua) layer",
+          "Descemet membrane",
+          "Schwalbe line",
+          "Endothelium",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork",
+          "Stromal nerves",
+          "Subbasal plexus & free nerve endings"
+        ],
+        "cut_on": true,
+        "note": "Relate palisade ridges, basal stem-cell niches, thickened limbal epithelium and peripheral vessels. Vessels remain peripheral. The stem cells are selected representative niches, not a continuous stem-cell sheet.",
+        "ortho_width": 0.95
+      },
+      "focus_parts": [
+        "Limbal epithelial stem cells",
+        "Limbal stroma & palisades of Vogt",
+        "Limbal epithelium (extra layers)",
+        "Limbal vascular arcades"
+      ],
+      "focus_behavior": "Narrative priority only; native preset applies camera, hidden and cut_on. No recoloring, transparency or selection automation.",
+      "validation_status": "source_ready_visual_validation_deferred"
+    },
+    {
+      "id": "drainage",
+      "title": "3 Conventional drainage",
+      "purpose": "Locate Schwalbe line, trabecular meshwork, Schlemm canal and the collector outlets in their scleral context.",
+      "visible_parts": [
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Schwalbe line",
+        "Endothelium",
+        "Sclera",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork"
+      ],
+      "hidden_parts": [
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Superficial squamous cells",
+        "Conjunctival goblet cells",
+        "Tear film",
+        "Bowman layer",
+        "Epithelial basement membrane",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Limbal stroma & palisades of Vogt",
+        "Limbal vascular arcades",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "scale_note": "Vertical teaching scale: 1 model unit = 0.55 mm; the limbus is compressed laterally. Cell footprints and goblet cells are enlarged and representative. Twenty-two displayed stromal tiers summarize many more lamellae; keratocytes are sampled on six levels. Epithelial basement membrane and Schwalbe line are enlarged for selection. The corner cut is a teaching dissection, not physiological epithelial gaps. Do not derive lateral dimensions, cell density or native ultrastructural thickness from this block.",
+      "native_camera": {
+        "position": [
+          0.9,
+          -0.5,
+          2.8
+        ],
+        "target": [
+          0.29,
+          0.23,
+          0
+        ],
+        "type": "ORTHO",
+        "hidden": [
+          "Basal columnar cells",
+          "Limbal epithelial stem cells",
+          "Wing cells",
+          "Limbal epithelium (extra layers)",
+          "Superficial squamous cells",
+          "Conjunctival goblet cells",
+          "Tear film",
+          "Bowman layer",
+          "Epithelial basement membrane",
+          "Stromal lamellae",
+          "Keratocytes",
+          "Limbal stroma & palisades of Vogt",
+          "Limbal vascular arcades",
+          "Stromal nerves",
+          "Subbasal plexus & free nerve endings"
+        ],
+        "cut_on": true,
+        "note": "Locate Schwalbe line, trabecular meshwork, Schlemm canal and the collector outlets in their scleral context. Uses the existing Drainage angle camera and exact hidden set. Channels are wall surfaces enclosing open lumens; expected wall junction contact is preserved. Two ostia are schematic, not a whole-eye count.",
+        "ortho_width": 1.15
+      },
+      "focus_parts": [
+        "Schwalbe line",
+        "Trabecular meshwork",
+        "Schlemm canal",
+        "Collector channels & aqueous veins"
+      ],
+      "focus_behavior": "Narrative priority only; native preset applies camera, hidden and cut_on. No recoloring, transparency or selection automation.",
+      "validation_status": "source_ready_visual_validation_deferred"
+    },
+    {
+      "id": "endothelial_function",
+      "title": "4 Endothelium: pump and barrier",
+      "purpose": "Inspect the intact posterior endothelial monolayer and orient fluid regulation toward aqueous-facing posterior surface.",
+      "visible_parts": [
+        "Stromal lamellae",
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Schwalbe line",
+        "Endothelium",
+        "Sclera"
+      ],
+      "hidden_parts": [
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Superficial squamous cells",
+        "Conjunctival goblet cells",
+        "Tear film",
+        "Bowman layer",
+        "Epithelial basement membrane",
+        "Keratocytes",
+        "Limbal stroma & palisades of Vogt",
+        "Limbal vascular arcades",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "scale_note": "Vertical teaching scale: 1 model unit = 0.55 mm; the limbus is compressed laterally. Cell footprints and goblet cells are enlarged and representative. Twenty-two displayed stromal tiers summarize many more lamellae; keratocytes are sampled on six levels. Epithelial basement membrane and Schwalbe line are enlarged for selection. The corner cut is a teaching dissection, not physiological epithelial gaps. Do not derive lateral dimensions, cell density or native ultrastructural thickness from this block.",
+      "native_camera": {
+        "position": [
+          -0.4,
+          -2.4,
+          1
+        ],
+        "target": [
+          -0.5,
+          0.1,
+          0
+        ],
+        "type": "ORTHO",
+        "hidden": [
+          "Basal columnar cells",
+          "Limbal epithelial stem cells",
+          "Wing cells",
+          "Limbal epithelium (extra layers)",
+          "Superficial squamous cells",
+          "Conjunctival goblet cells",
+          "Tear film",
+          "Bowman layer",
+          "Epithelial basement membrane",
+          "Keratocytes",
+          "Limbal stroma & palisades of Vogt",
+          "Limbal vascular arcades",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork",
+          "Stromal nerves",
+          "Subbasal plexus & free nerve endings"
+        ],
+        "cut_on": false,
+        "note": "Inspect the intact posterior endothelial monolayer and orient fluid regulation toward aqueous-facing posterior surface. No permeability, transport-rate or swelling simulation is implemented. Absence of cut distinguishes physiological boundary termination from specimen cuts.",
+        "ortho_width": 1.8
+      },
+      "focus_parts": [
+        "Endothelium",
+        "Descemet membrane"
+      ],
+      "focus_behavior": "Narrative priority only; native preset applies camera, hidden and cut_on. No recoloring, transparency or selection automation.",
+      "validation_status": "source_ready_visual_validation_deferred"
+    },
+    {
+      "id": "epithelial_renewal",
+      "title": "5 Epithelial renewal",
+      "purpose": "Trace the authored limbal-to-central renewal explanation and basal-to-surface differentiation through existing tissue layers.",
+      "visible_parts": [
+        "Basal columnar cells",
+        "Limbal epithelial stem cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Superficial squamous cells",
+        "Bowman layer",
+        "Epithelial basement membrane",
+        "Limbal stroma & palisades of Vogt"
+      ],
+      "hidden_parts": [
+        "Conjunctival goblet cells",
+        "Tear film",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Schwalbe line",
+        "Endothelium",
+        "Limbal vascular arcades",
+        "Sclera",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "scale_note": "Vertical teaching scale: 1 model unit = 0.55 mm; the limbus is compressed laterally. Cell footprints and goblet cells are enlarged and representative. Twenty-two displayed stromal tiers summarize many more lamellae; keratocytes are sampled on six levels. Epithelial basement membrane and Schwalbe line are enlarged for selection. The corner cut is a teaching dissection, not physiological epithelial gaps. Do not derive lateral dimensions, cell density or native ultrastructural thickness from this block.",
+      "native_camera": {
+        "position": [
+          0,
+          1.1,
+          3
+        ],
+        "target": [
+          -0.32,
+          0.98,
+          0
+        ],
+        "type": "ORTHO",
+        "hidden": [
+          "Conjunctival goblet cells",
+          "Tear film",
+          "Stromal lamellae",
+          "Keratocytes",
+          "Pre-Descemet (Dua) layer",
+          "Descemet membrane",
+          "Schwalbe line",
+          "Endothelium",
+          "Limbal vascular arcades",
+          "Sclera",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork",
+          "Stromal nerves",
+          "Subbasal plexus & free nerve endings"
+        ],
+        "cut_on": true,
+        "note": "Trace the authored limbal-to-central renewal explanation and basal-to-surface differentiation through existing tissue layers. The X, Y, Z account is presented as a teaching hypothesis. No tracked cell lineage, time scale or migrating-cell animation is encoded.",
+        "ortho_width": 1.8
+      },
+      "focus_parts": [
+        "Limbal epithelial stem cells",
+        "Basal columnar cells",
+        "Wing cells",
+        "Superficial squamous cells"
+      ],
+      "focus_behavior": "Narrative priority only; native preset applies camera, hidden and cut_on. No recoloring, transparency or selection automation.",
+      "validation_status": "source_ready_visual_validation_deferred"
+    },
+    {
+      "id": "sensory_path",
+      "title": "6 Corneal sensory route",
+      "purpose": "Follow stromal entry into the subbasal plexus and epithelial free endings.",
+      "visible_parts": [
+        "Basal columnar cells",
+        "Wing cells",
+        "Superficial squamous cells",
+        "Bowman layer",
+        "Epithelial basement membrane",
+        "Limbal stroma & palisades of Vogt",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "hidden_parts": [
+        "Limbal epithelial stem cells",
+        "Limbal epithelium (extra layers)",
+        "Conjunctival goblet cells",
+        "Tear film",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Schwalbe line",
+        "Endothelium",
+        "Limbal vascular arcades",
+        "Sclera",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork"
+      ],
+      "scale_note": "Vertical teaching scale: 1 model unit = 0.55 mm; the limbus is compressed laterally. Cell footprints and goblet cells are enlarged and representative. Twenty-two displayed stromal tiers summarize many more lamellae; keratocytes are sampled on six levels. Epithelial basement membrane and Schwalbe line are enlarged for selection. The corner cut is a teaching dissection, not physiological epithelial gaps. Do not derive lateral dimensions, cell density or native ultrastructural thickness from this block.",
+      "native_camera": {
+        "position": [
+          0,
+          1.2,
+          3
+        ],
+        "target": [
+          -0.35,
+          0.82,
+          0
+        ],
+        "type": "ORTHO",
+        "hidden": [
+          "Limbal epithelial stem cells",
+          "Limbal epithelium (extra layers)",
+          "Conjunctival goblet cells",
+          "Tear film",
+          "Stromal lamellae",
+          "Keratocytes",
+          "Pre-Descemet (Dua) layer",
+          "Descemet membrane",
+          "Schwalbe line",
+          "Endothelium",
+          "Limbal vascular arcades",
+          "Sclera",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork"
+        ],
+        "cut_on": true,
+        "note": "Follow stromal entry into the subbasal plexus and epithelial free endings. Stromal collagen is removed by visibility for access, not excised from the source. Reflex brainstem and motor structures are absent; no complete reflex circuit is depicted.",
+        "ortho_width": 1.85
+      },
+      "focus_parts": [
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings",
+        "Bowman layer"
+      ],
+      "focus_behavior": "Narrative priority only; native preset applies camera, hidden and cut_on. No recoloring, transparency or selection automation.",
+      "validation_status": "source_ready_visual_validation_deferred"
+    },
+    {
+      "id": "tear_surface",
+      "title": "7 Tear surface and conjunctival support",
+      "purpose": "Relate the tear-facing epithelium to peripheral conjunctival goblet cells.",
+      "visible_parts": [
+        "Basal columnar cells",
+        "Wing cells",
+        "Limbal epithelium (extra layers)",
+        "Superficial squamous cells",
+        "Conjunctival goblet cells",
+        "Tear film",
+        "Epithelial basement membrane",
+        "Limbal stroma & palisades of Vogt"
+      ],
+      "hidden_parts": [
+        "Limbal epithelial stem cells",
+        "Bowman layer",
+        "Stromal lamellae",
+        "Keratocytes",
+        "Pre-Descemet (Dua) layer",
+        "Descemet membrane",
+        "Schwalbe line",
+        "Endothelium",
+        "Limbal vascular arcades",
+        "Sclera",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Trabecular meshwork",
+        "Stromal nerves",
+        "Subbasal plexus & free nerve endings"
+      ],
+      "scale_note": "Vertical teaching scale: 1 model unit = 0.55 mm; the limbus is compressed laterally. Cell footprints and goblet cells are enlarged and representative. Twenty-two displayed stromal tiers summarize many more lamellae; keratocytes are sampled on six levels. Epithelial basement membrane and Schwalbe line are enlarged for selection. The corner cut is a teaching dissection, not physiological epithelial gaps. Do not derive lateral dimensions, cell density or native ultrastructural thickness from this block.",
+      "native_camera": {
+        "position": [
+          0.57,
+          1,
+          3
+        ],
+        "target": [
+          0.63,
+          0.9,
+          0
+        ],
+        "type": "ORTHO",
+        "hidden": [
+          "Limbal epithelial stem cells",
+          "Bowman layer",
+          "Stromal lamellae",
+          "Keratocytes",
+          "Pre-Descemet (Dua) layer",
+          "Descemet membrane",
+          "Schwalbe line",
+          "Endothelium",
+          "Limbal vascular arcades",
+          "Sclera",
+          "Schlemm canal",
+          "Collector channels & aqueous veins",
+          "Trabecular meshwork",
+          "Stromal nerves",
+          "Subbasal plexus & free nerve endings"
+        ],
+        "cut_on": true,
+        "note": "Relate the tear-facing epithelium to peripheral conjunctival goblet cells. Uses the existing conjunctival profile camera. Goblet cells remain conjunctival; the tear film is one composite sheet, not independently modeled biochemical phases. Lacrimal and meibomian glands are outside this specimen.",
+        "ortho_width": 0.9
+      },
+      "focus_parts": [
+        "Tear film",
+        "Superficial squamous cells",
+        "Conjunctival goblet cells"
+      ],
+      "focus_behavior": "Narrative priority only; native preset applies camera, hidden and cut_on. No recoloring, transparency or selection automation.",
+      "validation_status": "source_ready_visual_validation_deferred"
+    }
+  ],
+  "functional_sequences": [
+    {
+      "id": "barrier_renewal",
+      "mechanism": "A renewing stratified epithelium provides an attached, wettable surface barrier.",
+      "parts": [
+        "Tear film",
+        "Superficial squamous cells",
+        "Wing cells",
+        "Basal columnar cells",
+        "Epithelial basement membrane",
+        "Limbal epithelial stem cells",
+        "Limbal epithelium (extra layers)",
+        "Limbal stroma & palisades of Vogt",
+        "Conjunctival goblet cells"
+      ],
+      "source_ids": [
+        "tfos_tear",
+        "lineage_mouse"
+      ],
+      "steps": [
+        {
+          "id": "surface",
+          "highlight_parts": [
+            "Tear film",
+            "Superficial squamous cells"
+          ],
+          "caption": "Surface junctions and glycocalyx support the barrier and wetting; the displayed tear sheet does not resolve molecular layers.",
+          "camera_preset": "Teaching cut",
+          "conceptual_edges": [],
+          "external_context": [],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function barrier_renewal/surface",
+          "focus_parts": [
+            "Tear film",
+            "Superficial squamous cells"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "secreted_mucin",
+          "highlight_parts": [
+            "Conjunctival goblet cells",
+            "Tear film"
+          ],
+          "caption": "Goblet-cell secretions contribute mucin to tears; membrane mucins belong to epithelial surfaces.",
+          "camera_preset": "Conjunctival cells",
+          "conceptual_edges": [
+            {
+              "from": "Conjunctival goblet cells",
+              "to": "Tear film",
+              "meaning": "secreted mucin contribution",
+              "mode": "schematic",
+              "coordinate_path": null
+            }
+          ],
+          "external_context": [],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function barrier_renewal/secreted_mucin",
+          "focus_parts": [
+            "Conjunctival goblet cells",
+            "Tear film"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "niche",
+          "highlight_parts": [
+            "Limbal epithelial stem cells",
+            "Limbal stroma & palisades of Vogt",
+            "Limbal epithelium (extra layers)"
+          ],
+          "caption": "Representative basal niches support a limbal progenitor source; they are not a continuous stem-cell sheet.",
+          "camera_preset": "Teaching cut",
+          "conceptual_edges": [],
+          "external_context": [],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function barrier_renewal/niche",
+          "focus_parts": [
+            "Limbal epithelial stem cells",
+            "Limbal stroma & palisades of Vogt",
+            "Limbal epithelium (extra layers)"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "replace",
+          "highlight_parts": [
+            "Limbal epithelial stem cells",
+            "Basal columnar cells",
+            "Wing cells",
+            "Superficial squamous cells"
+          ],
+          "caption": "Limbal-derived progenitors populate basal epithelium; proliferation and upward differentiation replenish shedding cells.",
+          "camera_preset": "Teaching cut",
+          "conceptual_edges": [
+            {
+              "from": "Limbal epithelial stem cells",
+              "to": "Basal columnar cells",
+              "meaning": "lineage and centripetal replacement",
+              "mode": "schematic",
+              "coordinate_path": null
+            },
+            {
+              "from": "Basal columnar cells",
+              "to": "Wing cells",
+              "meaning": "differentiation",
+              "mode": "schematic",
+              "coordinate_path": null
+            },
+            {
+              "from": "Wing cells",
+              "to": "Superficial squamous cells",
+              "meaning": "differentiation",
+              "mode": "schematic",
+              "coordinate_path": null
+            }
+          ],
+          "external_context": [],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function barrier_renewal/replace",
+          "focus_parts": [
+            "Limbal epithelial stem cells",
+            "Basal columnar cells",
+            "Wing cells",
+            "Superficial squamous cells"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "adhesion",
+          "highlight_parts": [
+            "Basal columnar cells",
+            "Epithelial basement membrane"
+          ],
+          "caption": "Basal attachment uses the epithelial basement membrane. Bowman layer is a different structure.",
+          "camera_preset": "Teaching cut",
+          "conceptual_edges": [],
+          "external_context": [],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function barrier_renewal/adhesion",
+          "focus_parts": [
+            "Basal columnar cells",
+            "Epithelial basement membrane"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "shed",
+          "highlight_parts": [
+            "Superficial squamous cells",
+            "Tear film"
+          ],
+          "caption": "Surface loss and replacement balance in homeostasis; no turnover clock is calculated.",
+          "camera_preset": "Teaching cut",
+          "conceptual_edges": [
+            {
+              "from": "Superficial squamous cells",
+              "to": "Tear film",
+              "meaning": "shedding into tears",
+              "mode": "schematic",
+              "coordinate_path": null
+            }
+          ],
+          "external_context": [],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function barrier_renewal/shed",
+          "focus_parts": [
+            "Superficial squamous cells",
+            "Tear film"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        }
+      ],
+      "schematic_limitations": [
+        "Cell meshes remain fixed; lineage arrows show replacement relationships, not trajectories of individual cells.",
+        "No fixed human turnover period or proliferation rate is assigned. Mouse lineage-tracing evidence supports direction with species limits.",
+        "No meibomian or lacrimal gland is present in this specimen; source-gland context is text only.",
+        "No isolated lipid, aqueous or mucin mesh is generated."
+      ]
+    },
+    {
+      "id": "transparency_pump_leak",
+      "mechanism": "Collagen organization and controlled hydration support optical transparency; the endothelial barrier and transport function oppose stromal swelling.",
+      "parts": [
+        "Stromal lamellae",
+        "Keratocytes",
+        "Endothelium",
+        "Descemet membrane",
+        "Tear film",
+        "Limbal vascular arcades"
+      ],
+      "source_ids": [
+        "collagen_human",
+        "keratocan_mouse",
+        "pump_2016",
+        "pump_2020"
+      ],
+      "steps": [
+        {
+          "id": "organization",
+          "highlight_parts": [
+            "Stromal lamellae",
+            "Keratocytes"
+          ],
+          "caption": "Ordered collagen architecture and matrix maintenance support low scatter. Twenty-two tiers represent many more lamellae; fibrils are not individually modeled.",
+          "camera_preset": "Teaching cut",
+          "conceptual_edges": [],
+          "external_context": [],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function transparency_pump_leak/organization",
+          "focus_parts": [
+            "Stromal lamellae",
+            "Keratocytes"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "avascular",
+          "highlight_parts": [
+            "Limbal vascular arcades",
+            "Stromal lamellae"
+          ],
+          "caption": "Normal cornea is avascular; limbal vessels remain peripheral.",
+          "camera_preset": "Limbal vessels",
+          "conceptual_edges": [],
+          "external_context": [],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function transparency_pump_leak/avascular",
+          "focus_parts": [
+            "Limbal vascular arcades",
+            "Stromal lamellae"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "posterior_boundary",
+          "highlight_parts": [
+            "Endothelium",
+            "Descemet membrane"
+          ],
+          "caption": "Endothelium borders the aqueous compartment and sits on its basement membrane.",
+          "camera_preset": "Endothelium",
+          "conceptual_edges": [],
+          "external_context": [
+            "aqueous_compartment"
+          ],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function transparency_pump_leak/posterior_boundary",
+          "focus_parts": [
+            "Endothelium",
+            "Descemet membrane"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "leak",
+          "highlight_parts": [
+            "Endothelium",
+            "Stromal lamellae"
+          ],
+          "caption": "Stromal matrix has a tendency to take up water; a partly permeable posterior boundary permits inward leak.",
+          "camera_preset": "Endothelium",
+          "conceptual_edges": [
+            {
+              "from": "aqueous_compartment",
+              "to": "Stromal lamellae",
+              "meaning": "inward water tendency; crosses endothelial boundary",
+              "mode": "schematic",
+              "coordinate_path": null
+            }
+          ],
+          "external_context": [
+            "aqueous_compartment"
+          ],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function transparency_pump_leak/leak",
+          "focus_parts": [
+            "Endothelium",
+            "Stromal lamellae"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "transport",
+          "highlight_parts": [
+            "Endothelium",
+            "Stromal lamellae"
+          ],
+          "caption": "Active ion transport and buffering support lactate clearance and net fluid removal toward aqueous; barrier integrity also matters.",
+          "camera_preset": "Endothelium",
+          "conceptual_edges": [
+            {
+              "from": "Stromal lamellae",
+              "to": "aqueous_compartment",
+              "meaning": "transport-supported net fluid removal through endothelium",
+              "mode": "schematic",
+              "coordinate_path": null
+            }
+          ],
+          "external_context": [
+            "aqueous_compartment"
+          ],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function transparency_pump_leak/transport",
+          "focus_parts": [
+            "Endothelium",
+            "Stromal lamellae"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "balance",
+          "highlight_parts": [
+            "Stromal lamellae",
+            "Endothelium"
+          ],
+          "caption": "Balanced leak and removal maintain hydration compatible with transparency. Reduced transport or barrier failure can cause edema and greater scatter.",
+          "camera_preset": "Teaching cut",
+          "conceptual_edges": [],
+          "external_context": [
+            "hypothetical_edema"
+          ],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function transparency_pump_leak/balance",
+          "focus_parts": [
+            "Stromal lamellae",
+            "Endothelium"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        }
+      ],
+      "schematic_limitations": [
+        "Opposing arrows coexist; arrow count, width and speed are not volumetric fluxes.",
+        "A pump is a tissue transport process, not a literal organelle or directly modeled bicarbonate water pump.",
+        "Animal experiments support lactate-linked efflux; no complete human transporter model is implemented.",
+        "No osmotic solution, swelling displacement, ray tracing, corneal power or scattering calculation is performed.",
+        "Teaching colors and alpha values are visibility settings, not measured optical properties.",
+        "The hypothetical edema caption does not certify a built disease mesh."
+      ]
+    },
+    {
+      "id": "sensory_protection",
+      "mechanism": "Surface sensory afferents signal through ophthalmic trigeminal pathways; protective blinking and reflex tearing use off-model motor/autonomic circuitry.",
+      "parts": [
+        "Subbasal plexus & free nerve endings",
+        "Stromal nerves",
+        "Wing cells",
+        "Basal columnar cells",
+        "Superficial squamous cells",
+        "Tear film"
+      ],
+      "source_ids": [
+        "utah_reflex",
+        "tfos_tear"
+      ],
+      "steps": [
+        {
+          "id": "terminal",
+          "highlight_parts": [
+            "Subbasal plexus & free nerve endings",
+            "Wing cells",
+            "Superficial squamous cells"
+          ],
+          "caption": "Surface stimulation activates epithelial sensory terminals.",
+          "camera_preset": "Teaching cut",
+          "conceptual_edges": [],
+          "external_context": [
+            "surface_stimulus"
+          ],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function sensory_protection/terminal",
+          "focus_parts": [
+            "Subbasal plexus & free nerve endings",
+            "Wing cells",
+            "Superficial squamous cells"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "afferent",
+          "highlight_parts": [
+            "Subbasal plexus & free nerve endings",
+            "Stromal nerves"
+          ],
+          "caption": "Afferent signals travel from endings toward stromal nerve branches and the off-model ophthalmic division of trigeminal nerve.",
+          "camera_preset": "Teaching cut",
+          "conceptual_edges": [
+            {
+              "from": "Subbasal plexus & free nerve endings",
+              "to": "Stromal nerves",
+              "meaning": "sensory signal toward central pathway",
+              "mode": "schematic",
+              "coordinate_path": null
+            },
+            {
+              "from": "Stromal nerves",
+              "to": "V1_brainstem",
+              "meaning": "afferent continuation beyond specimen",
+              "mode": "schematic",
+              "coordinate_path": null
+            }
+          ],
+          "external_context": [
+            "V1_brainstem"
+          ],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function sensory_protection/afferent",
+          "focus_parts": [
+            "Subbasal plexus & free nerve endings",
+            "Stromal nerves"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "blink",
+          "highlight_parts": [
+            "Stromal nerves"
+          ],
+          "caption": "Brainstem circuitry recruits facial motor output to orbicularis oculi for protective blinking; lids and motor circuit are outside this block.",
+          "camera_preset": "Teaching cut",
+          "conceptual_edges": [
+            {
+              "from": "V1_brainstem",
+              "to": "VII_blink_output",
+              "meaning": "protective reflex circuit",
+              "mode": "schematic",
+              "coordinate_path": null
+            }
+          ],
+          "external_context": [
+            "V1_brainstem",
+            "VII_blink_output"
+          ],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function sensory_protection/blink",
+          "focus_parts": [
+            "Stromal nerves"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "tearing",
+          "highlight_parts": [
+            "Tear film"
+          ],
+          "caption": "A distinct reflex-secretion branch increases lacrimal fluid; blinking helps distribute tears.",
+          "camera_preset": "Teaching cut",
+          "conceptual_edges": [
+            {
+              "from": "V1_brainstem",
+              "to": "lacrimal_reflex_output",
+              "meaning": "reflex secretion circuit",
+              "mode": "schematic",
+              "coordinate_path": null
+            },
+            {
+              "from": "lacrimal_reflex_output",
+              "to": "Tear film",
+              "meaning": "lacrimal secretion contribution",
+              "mode": "schematic",
+              "coordinate_path": null
+            }
+          ],
+          "external_context": [
+            "V1_brainstem",
+            "lacrimal_reflex_output"
+          ],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function sensory_protection/tearing",
+          "focus_parts": [
+            "Tear film"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        }
+      ],
+      "schematic_limitations": [
+        "Signal arrows are conceptual; no action potentials or conduction velocities are simulated.",
+        "Brainstem, facial nerve, lacrimal gland and eyelids are contextual captions or diagram endpoints, not modeled parts.",
+        "Protective blink and reflex tearing have different efferent targets.",
+        "No real tissue abrasion or denervation is simulated; any disease explanation is a labeled hypothetical state."
+      ]
+    },
+    {
+      "id": "conventional_aqueous_drainage",
+      "mechanism": "Aqueous traverses trabecular tissue and the inner wall into Schlemm canal, then exits through collectors to veins.",
+      "parts": [
+        "Schwalbe line",
+        "Descemet membrane",
+        "Trabecular meshwork",
+        "Schlemm canal",
+        "Collector channels & aqueous veins",
+        "Sclera"
+      ],
+      "source_ids": [
+        "outflow_review"
+      ],
+      "steps": [
+        {
+          "id": "landmark",
+          "highlight_parts": [
+            "Descemet membrane",
+            "Schwalbe line",
+            "Trabecular meshwork"
+          ],
+          "caption": "Descemet membrane terminates at Schwalbe line, a landmark at the anterior limit of trabecular tissue.",
+          "camera_preset": "Drainage angle",
+          "conceptual_edges": [],
+          "external_context": [],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function conventional_aqueous_drainage/landmark",
+          "focus_parts": [
+            "Descemet membrane",
+            "Schwalbe line",
+            "Trabecular meshwork"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "entry",
+          "highlight_parts": [
+            "Trabecular meshwork"
+          ],
+          "caption": "Aqueous from the anterior chamber enters open spaces between trabecular beams.",
+          "camera_preset": "Drainage angle",
+          "conceptual_edges": [
+            {
+              "from": "aqueous_compartment",
+              "to": "Trabecular meshwork",
+              "meaning": "aqueous entry into intertrabecular spaces",
+              "mode": "schematic",
+              "coordinate_path": null
+            }
+          ],
+          "external_context": [
+            "aqueous_compartment"
+          ],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function conventional_aqueous_drainage/entry",
+          "focus_parts": [
+            "Trabecular meshwork"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "resistance",
+          "highlight_parts": [
+            "Trabecular meshwork",
+            "Schlemm canal"
+          ],
+          "caption": "The juxtacanalicular region and adjacent Schlemm inner wall contribute much outflow resistance; this specimen does not resolve those microscopic populations.",
+          "camera_preset": "Drainage angle",
+          "conceptual_edges": [
+            {
+              "from": "Trabecular meshwork",
+              "to": "Schlemm canal",
+              "meaning": "transit through JCT and inner wall; microscopic barrier not resolved",
+              "mode": "schematic",
+              "coordinate_path": null
+            }
+          ],
+          "external_context": [
+            "JCT_inner_wall_context"
+          ],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function conventional_aqueous_drainage/resistance",
+          "focus_parts": [
+            "Trabecular meshwork",
+            "Schlemm canal"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "canal",
+          "highlight_parts": [
+            "Schlemm canal",
+            "Collector channels & aqueous veins"
+          ],
+          "caption": "Within the canal, aqueous reaches collector outlets and enters downstream aqueous/venous channels.",
+          "camera_preset": "Drainage angle",
+          "conceptual_edges": [
+            {
+              "from": "Schlemm canal",
+              "to": "Collector channels & aqueous veins",
+              "meaning": "outward drainage through collector lumen",
+              "mode": "schematic",
+              "coordinate_path": null
+            }
+          ],
+          "external_context": [],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function conventional_aqueous_drainage/canal",
+          "focus_parts": [
+            "Schlemm canal",
+            "Collector channels & aqueous veins"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        },
+        {
+          "id": "pressure",
+          "highlight_parts": [
+            "Trabecular meshwork",
+            "Schlemm canal",
+            "Collector channels & aqueous veins"
+          ],
+          "caption": "Greater outflow resistance can elevate pressure for a given production rate. Distal channels also contribute; this model does not calculate IOP.",
+          "camera_preset": "Drainage angle",
+          "conceptual_edges": [],
+          "external_context": [],
+          "duration_seconds": null,
+          "mesh_motion": false,
+          "camera": "Function conventional_aqueous_drainage/pressure",
+          "focus_parts": [
+            "Trabecular meshwork",
+            "Schlemm canal",
+            "Collector channels & aqueous veins"
+          ],
+          "application": "Choose this named view; focus_parts are manual selection priorities. Caption is exposed in native view tooltip; Page Down/Page Up step among named views."
+        }
+      ],
+      "schematic_limitations": [
+        "Arrows follow fluid spaces conceptually; they never indicate flow through solid beam material.",
+        "The canal mesh is a wall, not a solid lumen fill. Actual overlay routes must be checked inside open lumens on the final output.",
+        "Two collector ostia are teaching examples, not an anatomical count or complete drainage map.",
+        "No fixed percentage of conventional flow is assigned; production rate, age and alternate routes are outside this specimen.",
+        "Pores, giant vacuoles and juxtacanalicular cells are explained at the interface rather than invented as selectable parts.",
+        "No ciliary-muscle motion, inlet-valve mechanism, resistance network or pressure simulation is implemented."
+      ]
+    }
+  ],
+  "external_context_nodes": [
+    {
+      "id": "aqueous_compartment",
+      "label": "Anterior-chamber aqueous, outside specimen",
+      "selectable": false
+    },
+    {
+      "id": "hypothetical_edema",
+      "label": "Hypothetical edema consequence; no disease mesh",
+      "selectable": false
+    },
+    {
+      "id": "surface_stimulus",
+      "label": "Conceptual surface stimulation",
+      "selectable": false
+    },
+    {
+      "id": "V1_brainstem",
+      "label": "Ophthalmic trigeminal afferents and brainstem, outside specimen",
+      "selectable": false
+    },
+    {
+      "id": "VII_blink_output",
+      "label": "Facial motor output and orbicularis oculi, outside specimen",
+      "selectable": false
+    },
+    {
+      "id": "lacrimal_reflex_output",
+      "label": "Autonomic lacrimal secretion output, outside specimen",
+      "selectable": false
+    },
+    {
+      "id": "JCT_inner_wall_context",
+      "label": "Microscopic JCT/Schlemm inner-wall interface, unresolved within named meshes",
+      "selectable": false
+    }
+  ],
+  "application_mode": "native discrete named-camera teaching; manual focus selection; no simulated arrows or animation",
+  "preview_review": {
+    "status": "no_attributable_cornea_model_raster_located",
+    "searched": "Recovery filenames containing cornea; baseline source presets and microrefine-next requirements/profile provenance inspected.",
+    "excluded": "Existing cornea histology/reference rasters do not depict this procedural version; eyeball render/preview packages are a different model.",
+    "cannot_establish": "No new camera fit, occlusion, thin-layer readability, anatomical correctness, saved-output equivalence or newly designed geometry is visually verified."
+  },
+  "inherited_clinical": [
+    [
+      "Corneal abrasion and ulcer",
+      "Epithelial defects stain with fluorescein and heal in days; contact lens wearers are at risk of Pseudomonas and Acanthamoeba keratitis, which can perforate the stroma."
+    ],
+    [
+      "Fuchs endothelial dystrophy",
+      "Progressive endothelial cell loss with guttae on Descemet membrane causes stromal oedema, glare and morning blurring; treated with endothelial keratoplasty."
+    ],
+    [
+      "Keratoconus",
+      "Thinning and conical bulging of the stroma produces irregular astigmatism; collagen cross-linking halts progression."
+    ]
+  ]
+}

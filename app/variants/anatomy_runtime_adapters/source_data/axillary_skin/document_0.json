@@ -1,0 +1,998 @@
+{
+  "schema_version": 1,
+  "model_id": "axillary_skin",
+  "status": "design_ready_native_runtime_deferred",
+  "exact_parts": [
+    "Stratum corneum",
+    "Stratum granulosum",
+    "Stratum spinosum",
+    "Stratum basale",
+    "Melanocytes",
+    "Papillary dermis",
+    "Reticular dermis",
+    "Hypodermis septa",
+    "Adipocytes (fat lobules)",
+    "Hair shaft",
+    "Inner root sheath",
+    "Outer root sheath",
+    "Hair bulb (matrix)",
+    "Dermal papilla of hair",
+    "Sebaceous gland",
+    "Arrector pili muscle",
+    "Eccrine sweat gland (secretory coil)",
+    "Eccrine sweat duct",
+    "Eccrine duct basal layer",
+    "Eccrine basement membrane",
+    "Apocrine sweat gland",
+    "Apocrine duct",
+    "Apocrine duct basal layer",
+    "Apocrine basement membrane",
+    "Arterioles",
+    "Venules",
+    "Subpapillary plexus",
+    "Papillary capillary loops",
+    "Cutaneous nerve & branches",
+    "Free nerve endings",
+    "Hair follicle nerve endings",
+    "Pacinian corpuscles (lamellae)",
+    "Pacinian axon terminal"
+  ],
+  "teaching_views": [
+    {
+      "id": "overview",
+      "title": "Axillary thin skin: two drainage routes",
+      "purpose": "Orient surface above, hypodermis below. The corner removal exposes appendages. Apocrine secretion joins a hair follicle; eccrine sweat reaches its own surface pore. Four outer coats are temporarily hidden.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Hair shaft",
+        "Outer root sheath",
+        "Inner root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Apocrine sweat gland",
+        "Eccrine sweat gland (secretory coil)",
+        "Apocrine duct",
+        "Eccrine sweat duct"
+      ],
+      "hidden_parts": [
+        "Melanocytes",
+        "Eccrine duct basal layer",
+        "Eccrine basement membrane",
+        "Apocrine duct basal layer",
+        "Apocrine basement membrane",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Apocrine sweat gland"
+      ],
+      "frame_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Hair shaft",
+        "Outer root sheath",
+        "Inner root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Apocrine sweat gland",
+        "Eccrine sweat gland (secretory coil)",
+        "Apocrine duct",
+        "Eccrine sweat duct"
+      ],
+      "cut_on": true,
+      "ghost_context": false,
+      "wall_detail": false,
+      "section_clip_parts": [],
+      "bulk_opacity_percent": 50,
+      "labels": false,
+      "scale_note": "Nominal block approximately 3 mm wide; model unit approximately 1.5 mm. Epidermis, cellular dimensions and gland winding are schematic. No calibrated morphometry; hidden coats are a teaching removal.",
+      "caption": "Orient surface above, hypodermis below. The corner removal exposes appendages. Apocrine secretion joins a hair follicle; eccrine sweat reaches its own surface pore. Four outer coats are temporarily hidden."
+    },
+    {
+      "id": "drainage",
+      "title": "Trace gland to outlet",
+      "purpose": "Follow each coil and duct. Faint follicle and surface are context: apocrine joins the follicle, eccrine reaches a separate pore. Source uses one selector for multiple repeated units, so this view includes several gland units.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Hair shaft",
+        "Outer root sheath",
+        "Sebaceous gland",
+        "Apocrine sweat gland",
+        "Eccrine sweat gland (secretory coil)",
+        "Apocrine duct",
+        "Eccrine sweat duct"
+      ],
+      "hidden_parts": [
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Inner root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Arrector pili muscle",
+        "Eccrine duct basal layer",
+        "Eccrine basement membrane",
+        "Apocrine duct basal layer",
+        "Apocrine basement membrane",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Apocrine sweat gland",
+        "Eccrine sweat gland (secretory coil)",
+        "Apocrine duct",
+        "Eccrine sweat duct"
+      ],
+      "frame_parts": [
+        "Stratum corneum",
+        "Hair shaft",
+        "Outer root sheath",
+        "Sebaceous gland",
+        "Apocrine sweat gland",
+        "Eccrine sweat gland (secretory coil)",
+        "Apocrine duct",
+        "Eccrine sweat duct"
+      ],
+      "cut_on": false,
+      "ghost_context": true,
+      "wall_detail": false,
+      "section_clip_parts": [],
+      "bulk_opacity_percent": 50,
+      "labels": false,
+      "scale_note": "Nominal block approximately 3 mm wide; model unit approximately 1.5 mm. Epidermis, cellular dimensions and gland winding are schematic. No calibrated morphometry; hidden coats are a teaching removal.",
+      "caption": "Follow each coil and duct. Faint follicle and surface are context: apocrine joins the follicle, eccrine reaches a separate pore. Source uses one selector for multiple repeated units, so this view includes several gland units."
+    },
+    {
+      "id": "apocrine_wall",
+      "title": "Apocrine wall and follicular connection",
+      "purpose": "The duct selector is the inner luminal epithelial coat; the basal selector is its outer cuboidal coat. The basement membrane selector surrounds the secretory coil only. Position a section through a retained coil to see its wider lumen. Hidden surrounding tissues are teaching removals.",
+      "visible_parts": [
+        "Apocrine sweat gland",
+        "Apocrine duct",
+        "Apocrine duct basal layer",
+        "Apocrine basement membrane",
+        "Outer root sheath"
+      ],
+      "hidden_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Hair shaft",
+        "Inner root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Eccrine duct basal layer",
+        "Eccrine basement membrane",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Apocrine duct"
+      ],
+      "frame_parts": [
+        "Apocrine sweat gland",
+        "Apocrine duct"
+      ],
+      "cut_on": false,
+      "ghost_context": false,
+      "wall_detail": true,
+      "section_clip_parts": [
+        "Apocrine sweat gland",
+        "Apocrine duct",
+        "Apocrine duct basal layer",
+        "Apocrine basement membrane",
+        "Outer root sheath"
+      ],
+      "bulk_opacity_percent": 100,
+      "labels": true,
+      "scale_note": "Nominal block approximately 3 mm wide; model unit approximately 1.5 mm. Epidermis, cellular dimensions and gland winding are schematic. No calibrated morphometry; hidden coats are a teaching removal.",
+      "caption": "The duct selector is the inner luminal epithelial coat; the basal selector is its outer cuboidal coat. The basement membrane selector surrounds the secretory coil only. Position a section through a retained coil to see its wider lumen. Hidden surrounding tissues are teaching removals."
+    },
+    {
+      "id": "eccrine_wall",
+      "title": "Eccrine wall and separate outlet",
+      "purpose": "The duct has luminal and basal epithelial coats. The basement membrane selector surrounds the secretory coil only. Review clipping is enabled for these viewer items to permit an actual section; choose a plane through a coil before claiming lumen visibility.",
+      "visible_parts": [
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Eccrine duct basal layer",
+        "Eccrine basement membrane",
+        "Stratum corneum"
+      ],
+      "hidden_parts": [
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Apocrine sweat gland",
+        "Apocrine duct",
+        "Apocrine duct basal layer",
+        "Apocrine basement membrane",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "focus_parts": [
+        "Eccrine sweat duct"
+      ],
+      "frame_parts": [
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct"
+      ],
+      "cut_on": false,
+      "ghost_context": false,
+      "wall_detail": true,
+      "section_clip_parts": [
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Eccrine duct basal layer",
+        "Eccrine basement membrane",
+        "Stratum corneum"
+      ],
+      "bulk_opacity_percent": 100,
+      "labels": true,
+      "scale_note": "Nominal block approximately 3 mm wide; model unit approximately 1.5 mm. Epidermis, cellular dimensions and gland winding are schematic. No calibrated morphometry; hidden coats are a teaching removal.",
+      "caption": "The duct has luminal and basal epithelial coats. The basement membrane selector surrounds the secretory coil only. Review clipping is enabled for these viewer items to permit an actual section; choose a plane through a coil before claiming lumen visibility."
+    },
+    {
+      "id": "supply_sensation",
+      "title": "Supporting vessels and sensation",
+      "purpose": "Representative vascular courses support the avascular epidermis by diffusion. Sensory endings are local terminals, not neuron cell bodies. Vascular cords depict courses, not open lumens. Calibre/density are enlarged schematically; this is not innervation or vessel density measurement.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Hair shaft",
+        "Outer root sheath",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "hidden_parts": [
+        "Melanocytes",
+        "Inner root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Eccrine duct basal layer",
+        "Eccrine basement membrane",
+        "Apocrine sweat gland",
+        "Apocrine duct",
+        "Apocrine duct basal layer",
+        "Apocrine basement membrane"
+      ],
+      "focus_parts": [
+        "Papillary capillary loops",
+        "Free nerve endings"
+      ],
+      "frame_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Hair shaft",
+        "Outer root sheath",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "cut_on": true,
+      "ghost_context": true,
+      "wall_detail": false,
+      "section_clip_parts": [],
+      "bulk_opacity_percent": 50,
+      "labels": false,
+      "scale_note": "Nominal block approximately 3 mm wide; model unit approximately 1.5 mm. Epidermis, cellular dimensions and gland winding are schematic. No calibrated morphometry; hidden coats are a teaching removal.",
+      "caption": "Representative vascular courses support the avascular epidermis by diffusion. Sensory endings are local terminals, not neuron cell bodies. Vascular cords depict courses, not open lumens. Calibre/density are enlarged schematically; this is not innervation or vessel density measurement."
+    }
+  ],
+  "ownership": [
+    {
+      "selector": "Apocrine basement membrane",
+      "owns": "Apocrine secretory coil outer basal lamina only; not full duct"
+    },
+    {
+      "selector": "Eccrine basement membrane",
+      "owns": "Eccrine secretory coil outer basal lamina only; not full duct"
+    }
+  ],
+  "native_adapter": "native_teaching.apply_stage(review_view, stage_id, config, optional_section)",
+  "visual_review": "No attributable axillary model preview located; histology references are not model previews.",
+  "sources": [
+    {
+      "url": "https://digitalhistology.org/organs-systems/skin/associated-structures/associated-structures-5/",
+      "opened": "2026-10-04",
+      "supports": "Apocrine/eccrine co-occurrence in axilla, wider apocrine lumen, follicular drainage."
+    },
+    {
+      "url": "https://www.histologyguide.org/slidebox/11-skin.html",
+      "opened": "2026-10-04",
+      "supports": "Skin epidermis and dermis; hypodermis beneath; thin-skin appendages."
+    }
+  ],
+  "expected_parts": [
+    "Stratum corneum",
+    "Stratum granulosum",
+    "Stratum spinosum",
+    "Stratum basale",
+    "Melanocytes",
+    "Papillary dermis",
+    "Reticular dermis",
+    "Hypodermis septa",
+    "Adipocytes (fat lobules)",
+    "Hair shaft",
+    "Inner root sheath",
+    "Outer root sheath",
+    "Hair bulb (matrix)",
+    "Dermal papilla of hair",
+    "Sebaceous gland",
+    "Arrector pili muscle",
+    "Eccrine sweat gland (secretory coil)",
+    "Eccrine sweat duct",
+    "Eccrine duct basal layer",
+    "Eccrine basement membrane",
+    "Apocrine sweat gland",
+    "Apocrine duct",
+    "Apocrine duct basal layer",
+    "Apocrine basement membrane",
+    "Arterioles",
+    "Venules",
+    "Subpapillary plexus",
+    "Papillary capillary loops",
+    "Cutaneous nerve & branches",
+    "Free nerve endings",
+    "Hair follicle nerve endings",
+    "Pacinian corpuscles (lamellae)",
+    "Pacinian axon terminal"
+  ],
+  "summary": "Axillary thin skin: compare broad-lumened apocrine secretion into the upper hair follicle with eccrine secretion and salt-modifying duct outflow to a separate surface pore. Read double-layer duct epithelium separately from coil basal lamina.",
+  "scale_note": "Block approximately 3 mm wide. Nominal 1.5 mm per authored unit. Epidermis, cells, gland winding and fine structures are schematic. Four melanocytes and dendrites are enlarged 2x; vessel/nerve calibres and density are representative. Flow colors are schematic, not oxygen or sweat concentration. Cell inset uses separate schematic space with no physical ruler.",
+  "description_overrides": {
+    "Apocrine sweat gland": "Apocrine secretory tubule wall: larger tubules and broader lumina than the eccrine units in this axillary thin-skin block. Simple secretory epithelium with basal myoepithelial support belongs inside its basal lamina. Apical snout relief is a recognition cue, not separately selectable cells or proof of obligatory decapitation; authoritative histology teaches merocrine secretion. Protein/lipid-rich outflow enters the upper follicle and is initially odorless; bacterial surface processing generates characteristic odor. Isolated human glands respond to cholinergic and adrenergic agonists; this model does not claim exclusive intact-human transmitter control. See the separate schematic cell inset for cellular organization.",
+    "Eccrine sweat gland (secretory coil)": "Eccrine secretory tubule wall: deep dermal/upper hypodermal coil with lumen-facing clear and dark secretory cells and basal myoepithelial support. Predominantly sympathetic cholinergic activation supplies primary sweat to its lumen; basal support is not a peristaltic pump. The tissue-scale selector represents the wall, not individually modeled cells. The separate cell inset distinguishes secretory cells, myoepithelium and basal lamina without calibrating cell density.",
+    "Apocrine duct": "Apocrine duct luminal epithelial coat: inner member of the two cuboidal epithelial layers. The narrower lumen carries secretion from the broad coil into the upper hair-follicle canal, superficial to sebaceous entry, through a local sheath aperture. It does not terminate at an independent surface pore. Select the basal epithelial coat separately. Shared interfaces are intentional; lumen is empty space.",
+    "Apocrine duct basal layer": "Apocrine duct basal epithelial coat: outer cuboidal cell layer adjacent to the named luminal coat along the shared route. These basal duct cells are neither secretory myoepithelium nor basement membrane. Dimensions are schematic. The separate duct-cell inset shows individually selectable representatives.",
+    "Eccrine sweat duct": "Eccrine duct luminal epithelial coat: inner member of the two cuboidal layers, joining the secretory coil, dermal duct and epidermal acrosyringium to an independent sweat pore. Duct transport reabsorbs NaCl from primary fluid; final composition depends on physiology and flow. Evaporation at the skin surface removes heat. Existing tissue-scale parts do not resolve transporter molecules or measured concentrations.",
+    "Eccrine duct basal layer": "Eccrine duct basal epithelial coat: outer cuboidal layer sharing the inner-coat centerline and wall interface. It is distinct from the coil myoepithelial support and the noncellular basal lamina. Representative individual cells are shown only in the separate schematic duct fragment.",
+    "Apocrine basement membrane": "Apocrine secretory-coil basal lamina: a separate noncellular shape-following shell around secretory tubules only; this selector does not cover the entire duct. Existing thickness is schematic 1.5 micrometres at the nominal block scale, not a specimen measurement. Preserve the contact with the external gland wall.",
+    "Eccrine basement membrane": "Eccrine secretory-coil basal lamina: separate noncellular shape-following shell around secretory tubules only; not the full-duct membrane or basal epithelial layer. Existing thickness is schematic 1.05 micrometres at nominal block scale, not calibrated morphometry.",
+    "Adipocytes (fat lobules)": "Hypodermal adipose lobules at tissue scale: each yellow source volume represents a lobule containing many unilocular adipocytes, not one giant cell. Fibrous septa organize the lobules and carry larger vessels/nerves. Individual adipocyte nuclei and lipid droplets are not resolved in these retained meshes.",
+    "Cutaneous nerve & branches": "Representative connected cutaneous nerve courses and local sensory branches, plus unresolved autonomic supply. Eccrine thermoregulatory control is predominantly cholinergic; apocrine autonomic responsiveness requires separate interpretation. Displayed yellow branches do not map transmitter-specific axons or neuronal cell bodies. Sensory cell bodies lie outside this skin block; density/calibre are schematic."
+  },
+  "functional_sequences": [
+    {
+      "id": "three_exocrine_routes",
+      "mechanism": "Compare appendage drainage domains",
+      "parts": [
+        "Apocrine sweat gland",
+        "Apocrine duct",
+        "Apocrine duct basal layer",
+        "Sebaceous gland",
+        "Outer root sheath",
+        "Hair shaft",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Eccrine duct basal layer",
+        "Stratum corneum"
+      ],
+      "steps": [
+        {
+          "id": "apocrine_route",
+          "highlight": [
+            "Apocrine sweat gland",
+            "Apocrine duct",
+            "Outer root sheath"
+          ],
+          "caption": "Apocrine secretion drains into the upper follicular canal."
+        },
+        {
+          "id": "sebaceous_route",
+          "highlight": [
+            "Sebaceous gland",
+            "Outer root sheath",
+            "Hair shaft"
+          ],
+          "caption": "The short sebaceous duct drains a separate gland into the follicular canal."
+        },
+        {
+          "id": "eccrine_route",
+          "highlight": [
+            "Eccrine sweat gland (secretory coil)",
+            "Eccrine sweat duct",
+            "Stratum corneum"
+          ],
+          "caption": "Eccrine drainage crosses the epidermis to an independent surface pore."
+        }
+      ],
+      "schematic_limitations": [
+        "Highlight states are authored teaching states, not a physiological simulation",
+        "Retain tissue context around outlets",
+        "Do not infer gland density from representative counts"
+      ],
+      "sources": [
+        "apocrine_histology",
+        "sebaceous_histology",
+        "sweat_physiology"
+      ]
+    },
+    {
+      "id": "apocrine_secretion_to_follicle",
+      "mechanism": "Polarized secretory epithelium supplies a wide lumen and follicular outflow",
+      "parts": [
+        "Apocrine sweat gland",
+        "Apocrine basement membrane",
+        "Apocrine duct",
+        "Apocrine duct basal layer",
+        "Outer root sheath",
+        "Hair shaft",
+        "Stratum corneum"
+      ],
+      "steps": [
+        {
+          "id": "polarity",
+          "highlight": [
+            "Apocrine sweat gland",
+            "Apocrine basement membrane"
+          ],
+          "caption": "Locate the secretory epithelial wall, lumen and stromal boundary."
+        },
+        {
+          "id": "secretion",
+          "highlight": [
+            "Apocrine sweat gland"
+          ],
+          "caption": "Trace apical secretion into the lumen; snouts alone do not establish obligatory cap loss."
+        },
+        {
+          "id": "duct",
+          "highlight": [
+            "Apocrine duct",
+            "Apocrine duct basal layer"
+          ],
+          "caption": "The narrower duct has selected inner and outer epithelial coats."
+        },
+        {
+          "id": "follicular_outlet",
+          "highlight": [
+            "Apocrine duct",
+            "Outer root sheath",
+            "Hair shaft"
+          ],
+          "caption": "Trace drainage through the sheath opening into the canal around the hair."
+        },
+        {
+          "id": "surface_processing",
+          "highlight": [
+            "Hair shaft",
+            "Stratum corneum"
+          ],
+          "caption": "Surface bacterial processing generates characteristic odor."
+        }
+      ],
+      "schematic_limitations": [
+        "No exclusive adrenergic activation",
+        "No calibrated pulse rate or flow rate",
+        "No obligatory apical decapitation animation",
+        "No rendered bacteria currently exist",
+        "Coil winding and cell thickness remain schematic"
+      ],
+      "sources": [
+        "apocrine_histology",
+        "apocrine_pharmacology"
+      ]
+    },
+    {
+      "id": "eccrine_secretion_modification_evaporation",
+      "mechanism": "Fluid formation and duct modification precede surface heat loss",
+      "parts": [
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine basement membrane",
+        "Eccrine sweat duct",
+        "Eccrine duct basal layer",
+        "Cutaneous nerve & branches",
+        "Stratum corneum"
+      ],
+      "steps": [
+        {
+          "id": "activation",
+          "highlight": [
+            "Cutaneous nerve & branches",
+            "Eccrine sweat gland (secretory coil)"
+          ],
+          "caption": "Predominantly cholinergic autonomic input activates eccrine secretion; upstream control is outside this block."
+        },
+        {
+          "id": "primary_fluid",
+          "highlight": [
+            "Eccrine sweat gland (secretory coil)",
+            "Eccrine basement membrane"
+          ],
+          "caption": "Secretory epithelial transport supplies primary fluid to the coil lumen; distinguish clear and dark cell detail from the basal support network."
+        },
+        {
+          "id": "duct_modification",
+          "highlight": [
+            "Eccrine sweat duct",
+            "Eccrine duct basal layer"
+          ],
+          "caption": "As fluid passes through the duct, NaCl moves outward from its lumen."
+        },
+        {
+          "id": "surface_outlet",
+          "highlight": [
+            "Eccrine sweat duct",
+            "Stratum corneum"
+          ],
+          "caption": "The epidermal passage carries modified fluid to its own surface pore."
+        },
+        {
+          "id": "evaporation",
+          "highlight": [
+            "Stratum corneum"
+          ],
+          "caption": "Evaporation removes heat; secretion alone is not the cooling step."
+        }
+      ],
+      "schematic_limitations": [
+        "No peristaltic or squeezing-pump interpretation of eccrine myoepithelium",
+        "No inference of concentration from color",
+        "Final composition depends on flow and physiology",
+        "Individual cells are selectable only in the separate enlarged schematic gland inset",
+        "Do not equate sweat lumen flow with capillary blood flow"
+      ],
+      "sources": [
+        "eccrine_cells",
+        "eccrine_primary",
+        "sweat_physiology"
+      ]
+    },
+    {
+      "id": "sebaceous_holocrine_renewal",
+      "mechanism": "Peripheral epithelial renewal feeds lipid accumulation and whole-cell release",
+      "parts": [
+        "Sebaceous gland",
+        "Outer root sheath",
+        "Hair shaft"
+      ],
+      "steps": [
+        {
+          "id": "peripheral_cells",
+          "highlight": [
+            "Sebaceous gland"
+          ],
+          "caption": "Conceptual holocrine stage (individual sebocytes not resolved in retained mesh): Identify a representative acinus and its peripheral proliferating cells."
+        },
+        {
+          "id": "lipid_accumulation",
+          "highlight": [
+            "Sebaceous gland"
+          ],
+          "caption": "Conceptual holocrine stage (individual sebocytes not resolved in retained mesh): Track a representative sebocyte toward the acinar center while its lipid content increases."
+        },
+        {
+          "id": "holocrine_release",
+          "highlight": [
+            "Sebaceous gland"
+          ],
+          "caption": "Conceptual holocrine stage (individual sebocytes not resolved in retained mesh): Central cells break down, contributing their lipid and cell contents to sebum."
+        },
+        {
+          "id": "short_duct",
+          "highlight": [
+            "Sebaceous gland",
+            "Outer root sheath",
+            "Hair shaft"
+          ],
+          "caption": "Conceptual holocrine stage (individual sebocytes not resolved in retained mesh): Follow the short duct into the follicular canal, then toward skin and hair."
+        }
+      ],
+      "schematic_limitations": [
+        "Individual cells require a new explicit detail view",
+        "Current gland part contains both lobules and duct",
+        "Progression is compressed and not a measured turnover clock",
+        "Arrector pili movement is not required to demonstrate holocrine secretion"
+      ],
+      "sources": [
+        "sebaceous_histology"
+      ]
+    },
+    {
+      "id": "epidermal_renewal_and_barrier",
+      "mechanism": "Differentiating keratinocytes form mechanically connected strata and a cornified lipid barrier",
+      "parts": [
+        "Stratum basale",
+        "Stratum spinosum",
+        "Stratum granulosum",
+        "Stratum corneum",
+        "Papillary dermis"
+      ],
+      "steps": [
+        {
+          "id": "basal_renewal",
+          "highlight": [
+            "Stratum basale",
+            "Papillary dermis"
+          ],
+          "caption": "Conceptual differentiation stage (individual keratinocytes not reconstructed here): Follow one representative basal keratinocyte while retaining its basement-side tissue context."
+        },
+        {
+          "id": "spinous_attachment",
+          "highlight": [
+            "Stratum spinosum"
+          ],
+          "caption": "Conceptual differentiation stage (individual keratinocytes not reconstructed here): Compare attached polyhedral cells with the basal row; desmosomal contacts transmit mechanical cohesion."
+        },
+        {
+          "id": "granular_transition",
+          "highlight": [
+            "Stratum granulosum"
+          ],
+          "caption": "Conceptual differentiation stage (individual keratinocytes not reconstructed here): Separate intracellular keratohyalin and cornified-envelope formation from extracellular lipid release."
+        },
+        {
+          "id": "cornified_barrier",
+          "highlight": [
+            "Stratum corneum",
+            "Stratum granulosum"
+          ],
+          "caption": "Conceptual differentiation stage (individual keratinocytes not reconstructed here): Flattened corneocytes and surrounding lipids form the surface barrier."
+        },
+        {
+          "id": "shedding",
+          "highlight": [
+            "Stratum corneum"
+          ],
+          "caption": "Conceptual differentiation stage (individual keratinocytes not reconstructed here): Superficial attachment loss allows squames to shed while deeper tissue renews."
+        }
+      ],
+      "schematic_limitations": [
+        "Renewal arrows depict cell lineage and differentiation, not a free cell stream",
+        "Do not reuse a sweat-flow direction legend",
+        "No distinct stratum lucidum is introduced into axillary thin skin",
+        "No calibrated four-week clock",
+        "Cell and organelle detail requires enlarged contextual inset"
+      ],
+      "sources": [
+        "epidermal_basale",
+        "epidermal_barrier"
+      ]
+    },
+    {
+      "id": "melanocyte_neighbor_transfer",
+      "mechanism": "A dendritic pigment-producing cell supplies neighboring keratinocytes",
+      "parts": [
+        "Melanocytes",
+        "Stratum basale",
+        "Stratum spinosum"
+      ],
+      "steps": [
+        {
+          "id": "host",
+          "highlight": [
+            "Melanocytes",
+            "Stratum basale"
+          ],
+          "caption": "Retained enlarged melanocyte and layer context; individual keratinocyte targets are not resolved: Locate the melanocyte soma in its basal epidermal host."
+        },
+        {
+          "id": "neighbor_relation",
+          "highlight": [
+            "Melanocytes",
+            "Stratum basale",
+            "Stratum spinosum"
+          ],
+          "caption": "Retained enlarged melanocyte and layer context; individual keratinocyte targets are not resolved: Retain neighboring keratinocytes while following dendritic processes and pigment transfer."
+        }
+      ],
+      "schematic_limitations": [
+        "Existing four-cell representation and 2x enlargement do not define density",
+        "Symbols for pigment are not measured organelle morphology",
+        "No fixed recipient count is implied"
+      ],
+      "sources": [
+        "epidermal_basale",
+        "epidermal_cell_types"
+      ]
+    }
+  ],
+  "viewer_cameras": {
+    "V1": {
+      "title": "Axillary thin skin: two drainage routes",
+      "note": "Orient surface above, hypodermis below. The corner removal exposes appendages. Apocrine secretion joins a hair follicle; eccrine sweat reaches its own surface pore. Four outer coats are temporarily hidden.",
+      "type": "ORTHO",
+      "position": [
+        -2.5,
+        2.1,
+        3.5
+      ],
+      "target": [
+        0,
+        0.55,
+        0
+      ],
+      "ortho_width": 3.1,
+      "hidden": [
+        "Melanocytes",
+        "Eccrine duct basal layer",
+        "Eccrine basement membrane",
+        "Apocrine duct basal layer",
+        "Apocrine basement membrane",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "cut_on": true
+    },
+    "V2": {
+      "title": "Trace gland to outlet",
+      "note": "Follow each coil and duct. Faint follicle and surface are context: apocrine joins the follicle, eccrine reaches a separate pore. Source uses one selector for multiple repeated units, so this view includes several gland units.",
+      "type": "ORTHO",
+      "position": [
+        -2.5,
+        2.1,
+        3.5
+      ],
+      "target": [
+        0,
+        0.55,
+        0
+      ],
+      "ortho_width": 3.1,
+      "hidden": [
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Inner root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Arrector pili muscle",
+        "Eccrine duct basal layer",
+        "Eccrine basement membrane",
+        "Apocrine duct basal layer",
+        "Apocrine basement membrane",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "cut_on": false
+    },
+    "V3": {
+      "title": "Apocrine wall and follicular connection",
+      "note": "The duct selector is the inner luminal epithelial coat; the basal selector is its outer cuboidal coat. The basement membrane selector surrounds the secretory coil only. Position a section through a retained coil to see its wider lumen. Hidden surrounding tissues are teaching removals.",
+      "type": "ORTHO",
+      "position": [
+        -2.5,
+        2.1,
+        3.5
+      ],
+      "target": [
+        0,
+        0.55,
+        0
+      ],
+      "ortho_width": 3.1,
+      "hidden": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Hair shaft",
+        "Inner root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Eccrine duct basal layer",
+        "Eccrine basement membrane",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "cut_on": false
+    },
+    "V4": {
+      "title": "Eccrine wall and separate outlet",
+      "note": "The duct has luminal and basal epithelial coats. The basement membrane selector surrounds the secretory coil only. Review clipping is enabled for these viewer items to permit an actual section; choose a plane through a coil before claiming lumen visibility.",
+      "type": "ORTHO",
+      "position": [
+        -2.5,
+        2.1,
+        3.5
+      ],
+      "target": [
+        0,
+        0.55,
+        0
+      ],
+      "ortho_width": 3.1,
+      "hidden": [
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Apocrine sweat gland",
+        "Apocrine duct",
+        "Apocrine duct basal layer",
+        "Apocrine basement membrane",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "cut_on": false
+    },
+    "V5": {
+      "title": "Supporting vessels and sensation",
+      "note": "Representative vascular courses support the avascular epidermis by diffusion. Sensory endings are local terminals, not neuron cell bodies. Vascular cords depict courses, not open lumens. Calibre/density are enlarged schematically; this is not innervation or vessel density measurement.",
+      "type": "ORTHO",
+      "position": [
+        -2.5,
+        2.1,
+        3.5
+      ],
+      "target": [
+        0,
+        0.55,
+        0
+      ],
+      "ortho_width": 3.1,
+      "hidden": [
+        "Melanocytes",
+        "Inner root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Eccrine duct basal layer",
+        "Eccrine basement membrane",
+        "Apocrine sweat gland",
+        "Apocrine duct",
+        "Apocrine duct basal layer",
+        "Apocrine basement membrane"
+      ],
+      "cut_on": true
+    }
+  }
+}

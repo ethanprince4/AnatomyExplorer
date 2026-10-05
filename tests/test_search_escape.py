@@ -10,7 +10,7 @@ sys.path.insert(0, str(ROOT))
 from test_state_and_recovery import QAPP, MainWindow, Dataset, config
 from PySide6.QtCore import QCoreApplication, QEvent, QSettings, Qt
 from PySide6.QtTest import QTest
-from general_fixtures import write_fixture_model
+from general_fixtures import write_fixture_model, open_fixture_model
 import numpy as np
 
 
@@ -79,7 +79,7 @@ class SearchEscapeTests(unittest.TestCase):
         path = Path(config.USER_DIR) / "search-escape-owned.glb"
         path.parent.mkdir(parents=True, exist_ok=True)
         write_fixture_model(path)
-        self.win.open_model_file(str(path))
+        open_fixture_model(self.win, path)
         model = self.win.active_model_view()
         model.gl_widget.hide()  # Real model UI/selection without an OpenGL context.
         QAPP.processEvents()

@@ -25,6 +25,12 @@ from PySide6.QtCore import QEvent, QPoint, QPointF, QRectF, Qt, Signal
 from PySide6.QtGui import QColor, QFont, QFontMetricsF, QPainter, QPainterPath, QPen
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
 
+
+def _annotation_plate(dark, alpha):
+    """Painter label background follows the viewport, independently of UI chrome."""
+    return QColor(24, 34, 45, alpha) if dark else QColor(255, 255, 255, alpha)
+
+
 from ..ui import theme
 from ..viewport import VIEWS, Overlay, TrackpadInput
 from .camera import OrbitCamera
@@ -62,6 +68,8 @@ class ModelViewport(QOpenGLWidget):
     contextMenuRequested = Signal(int, QPoint)
     frameTimed = Signal(float)
     glReady = Signal()
+    interactiveReady = Signal()
+    graphicsFailed = Signal(str)
     historyRequested = Signal(int)
     measureChanged = Signal(str)
     animChanged = Signal(float)          # cycle / clip position, 0..1
@@ -82,9 +90,13 @@ class ModelViewport(QOpenGLWidget):
         self.renderer = None
         self.ctx = None
         self.gl_info = ""
+        self.interactive_ready = False
+        self.graphics_error = ""
         self.rsettings = Settings()
         for k, v in getattr(model, "look_defaults", {}).items():
             setattr(self.rsettings, k, v)
+        self.orientation_axes_on = bool(settings.get("show_gizmo", True)
+                                        and getattr(entry, "oriented", False))
         self._fbo = None
         self._fbo_id = None
         # cutting: the micro model's own corner cut-away, or cross-sections (any plane cuts)
@@ -138,11 +150,23 @@ class ModelViewport(QOpenGLWidget):
 
     # ------------------------------------------------------------------ GL lifecycle
     def initializeGL(self):
-        self.ctx = moderngl.create_context()
-        self.renderer = Renderer(self.ctx)
-        self.renderer.set_model(self.model)
-        self.gl_info = f"{self.ctx.info['GL_RENDERER']} · OpenGL {self.ctx.info['GL_VERSION'].split(' ')[0]}"
-        self.glReady.emit()
+        started = time.perf_counter()
+        self.startup_timings = {}
+        self.interactive_ready = False
+        self.graphics_error = ""
+        self._labels_dirty = True
+        self._warm_label_cache = None
+        self._fbo = self._fbo_id = None
+        try:
+            self.ctx = moderngl.create_context()
+            self.renderer = Renderer(self.ctx)
+            self.renderer.set_model(self.model)
+            self.gl_info = f"{self.ctx.info['GL_RENDERER']} · OpenGL {self.ctx.info['GL_VERSION'].split(' ')[0]}"
+            self.startup_timings["graphics_prepare_seconds"] = time.perf_counter() - started
+            self.glReady.emit()
+        except Exception as exc:
+            self.graphics_error = f"Could not prepare graphics: {exc}"
+            self.graphicsFailed.emit(self.graphics_error)
 
     def release_gl(self):
         if self.renderer is None:
@@ -185,6 +209,16 @@ class ModelViewport(QOpenGLWidget):
             s.background = BACKGROUND_DARK if st.get("dark_background", True) else BACKGROUND_LIGHT
 
     def paintGL(self):
+        if self.graphics_error:
+            return
+        try:
+            self._paint_frame()
+        except Exception as exc:
+            self.graphics_error = f"Could not draw this model: {exc}"
+            self.interactive_ready = False
+            self.graphicsFailed.emit(self.graphics_error)
+
+    def _paint_frame(self):
         if self.renderer is None:
             return
         t0 = time.perf_counter()
@@ -214,9 +248,28 @@ class ModelViewport(QOpenGLWidget):
             self._labels_dirty = True
         elif self._labels_dirty or self._moving_prev:
             self._compute_labels()
-        if not busy and (self.label_items or self.section_items):
-            self._check_occlusion()
         self._moving_prev = busy
+        if (not self.interactive_ready and not moving and self._press is None
+                and self.renderer.frame_ok):
+            # Warm the same labels the user can enable, even when initially off.
+            # Retain their anchors for that first toggle; do not display them yet.
+            showing = self.labels_on
+            saved = self.label_items, self.section_items, self._occluded
+            warm_started = time.perf_counter()
+            try:
+                self.labels_on = True
+                self._compute_labels()
+            finally:
+                self.labels_on = showing
+                if not showing:
+                    self.label_items, self.section_items, self._occluded = saved
+            self.startup_timings["label_warm_seconds"] = time.perf_counter() - warm_started
+            finish_started = time.perf_counter()
+            self.ctx.finish()  # once per load, not on ordinary interactive frames
+            self.startup_timings["gpu_completion_seconds"] = time.perf_counter() - finish_started
+            self.startup_timings["initial_ready_frame_seconds"] = time.perf_counter() - t0
+            self.interactive_ready = True
+            self.interactiveReady.emit()
         self.frameTimed.emit((time.perf_counter() - t0) * 1000.0)
         self.overlay.update()
         if moving or animating:
@@ -228,7 +281,15 @@ class ModelViewport(QOpenGLWidget):
         self.invalidate_labels()
 
     def _on_state(self):
-        self.invalidate_labels()
+        # Hover/colour changes alter shading, not label anchors. Visibility and
+        # selection already invalidate through their own signals; opacity can
+        # change the frontmost surface and also needs fresh anchors.
+        signature = tuple(None if getattr(self.state, name, None) is None else
+                          np.asarray(getattr(self.state, name)).tobytes()
+                          for name in ("part_alpha", "system_alpha"))
+        if signature != getattr(self, "_label_opacity_signature", None):
+            self._label_opacity_signature = signature
+            self.invalidate_labels()
         self.update()
 
     def invalidate_labels(self):
@@ -251,7 +312,7 @@ class ModelViewport(QOpenGLWidget):
         mode = int(self.settings.get("color_mode", 0))
         colours = self._distinct if mode == 1 else (self._group_colours if mode == 2 else None)
         planes, on, cmode = self.clip_config()
-        fs = FrameState(visible=vis, ghost=ghost, alpha=alpha, selected=sel, hovered=int(st.hovered),
+        fs = FrameState(visible=vis, ghost=ghost, alpha=alpha, opaque_materials=bool(getattr(st,"opaque_materials",False)), selected=sel, hovered=int(st.hovered),
                         override=override, colours=colours, clip_planes=planes, clip_on=on, clip_mode=cmode)
         if self.anim_kind() == "procedural":
             fs.anim_t = self.anim_t
@@ -405,6 +466,7 @@ class ModelViewport(QOpenGLWidget):
         rec = m.cameras.get(name)
         if rec is None:
             return
+        self.state.opaque_materials = False
         self.camera.set_record(rec, duration=self.duration() if animate else 0.0,
                                zoom_path=m.sidecar.get("view_transition") == "zoom",
                                fit=(m.bounds_min, m.bounds_max, self.aspect()))
@@ -422,6 +484,10 @@ class ModelViewport(QOpenGLWidget):
             st._vis_dirty()
         want = rec.get("state")
         self.show_state(want if want else "assembled")
+        if visibility and "cut_on" in rec:
+            self.cut_on = bool(rec["cut_on"])
+            self.sections = [None, None, None]
+            self.invalidate_labels()
         self.viewChanged.emit(name)
         self.update()
 
@@ -651,17 +717,28 @@ class ModelViewport(QOpenGLWidget):
             and self.settings.get("show_landmarks", True)
         if not hosts and not want_sections:
             return
+        cache_key = self._label_cache_key()
+        cached = getattr(self, "_warm_label_cache", None)
+        if cached is not None and cached[0] == cache_key:
+            self.label_items, self.section_items = list(cached[1]), list(cached[2])
+            self._occluded = dict(cached[3])
+            return
+        rw, rh = self.renderer.size
+        k = max(1, int(round(min(rw, rh) / 420)))
+        center_ids = None
         try:
-            ids, flags = self.renderer.read_ids()
-            depth = self.renderer.read_depth()
+            sampler = getattr(self.renderer, "read_label_samples", None)
+            compact = sampler(k) if sampler is not None else None
+            if compact is not None:
+                ids_s, flags_s, depth, center_ids = compact
+            else:
+                ids, flags = self.renderer.read_ids()
+                depth = self.renderer.read_depth()
+                if ids is None or depth is None:
+                    return
+                ids_s, flags_s = ids[::k, ::k], flags[::k, ::k]
         except Exception:                      # noqa: BLE001 - a lost context just means no labels this frame
             return
-        if ids is None:
-            return
-        rh, rw = ids.shape
-        k = max(1, int(round(min(rw, rh) / 420)))
-        ids_s = ids[::k, ::k]
-        flags_s = flags[::k, ::k]
         valid = ids_s >= 0
         n = len(self.model.items)
         counts = np.bincount(ids_s[valid], minlength=n)[:n]
@@ -693,7 +770,7 @@ class ModelViewport(QOpenGLWidget):
         from scipy.ndimage import distance_transform_edt
         out = []
         for i, text in chosen:
-            anchor = self._anchor(ids_s, i, None, k, depth, distance_transform_edt)
+            anchor = self._anchor(ids_s, i, None, k, depth, distance_transform_edt, center_ids)
             if anchor is not None:
                 out.append((i, anchor, int(counts[i]), text, 0 if i in sel else 1))
         self.label_items = out
@@ -703,12 +780,27 @@ class ModelViewport(QOpenGLWidget):
             secs = secs[:int(self.settings.get("max_section_labels", 22))]
             res = []
             for i in secs:
-                anchor = self._anchor(ids_s, int(i), flags_s, k, depth, distance_transform_edt)
+                anchor = self._anchor(ids_s, int(i), flags_s, k, depth, distance_transform_edt, center_ids)
                 if anchor is not None:
                     res.append((int(i), anchor))
             self.section_items = res
+        if center_ids is None and (self.label_items or self.section_items):
+            self._check_occlusion()
+        self._warm_label_cache = (cache_key, list(self.label_items), list(self.section_items), dict(self._occluded))
 
-    def _anchor(self, ids_s, item, flags_s, k, depth, edt):
+    def _label_cache_key(self):
+        state = self.state
+        arrays = tuple(None if getattr(state, name, None) is None else
+                       np.asarray(getattr(state, name)).tobytes()
+                       for name in ("ghost_focus", "part_alpha", "system_alpha"))
+        return (self.renderer.last_vp.tobytes(), self.renderer.size,
+                state.visible_mask().tobytes(), tuple(state.selected), arrays, bool(getattr(state,"opaque_materials",False)),
+                repr(self.clip_config()), self.explode, self.anim_t, self.reveal_state,
+                self.reveal_amount, bool(self.labels_on), bool(self.names_hidden()),
+                tuple(self.settings.get(name) for name in ("max_landmarks", "max_section_labels",
+                                                           "section_labels", "show_landmarks")))
+
+    def _anchor(self, ids_s, item, flags_s, k, depth, edt, center_ids=None):
         mask = ids_s == item
         if flags_s is not None:
             mask &= (flags_s & 2) != 0
@@ -720,9 +812,16 @@ class ModelViewport(QOpenGLWidget):
         dist = edt(crop)
         iy, ix = np.unravel_index(int(np.argmax(dist)), dist.shape)
         py, px = (y0 + iy - 1) * k + k // 2, (x0 + ix - 1) * k + k // 2
-        py = min(max(py, 0), depth.shape[0] - 1)
-        px = min(max(px, 0), depth.shape[1] - 1)
-        d = float(depth[py, px])
+        if center_ids is None:
+            py = min(max(py, 0), depth.shape[0] - 1)
+            px = min(max(px, 0), depth.shape[1] - 1)
+            d = float(depth[py, px])
+        else:
+            gy, gx = y0 + iy - 1, x0 + ix - 1
+            py = min(max(py, 0), self.renderer.size[1] - 1)
+            px = min(max(px, 0), self.renderer.size[0] - 1)
+            d = float(depth[gy, gx])
+            self._occluded[item] = int(center_ids[gy, gx]) != item
         if d <= 0.0:
             return None
         return self.renderer.world_from_pixel(px, py, d)
@@ -767,6 +866,8 @@ class ModelViewport(QOpenGLWidget):
         self.update()
 
     def _length_text(self, units):
+        if self.model.sidecar.get("mixed_schematic_scale"):
+            return f"{units:.1f} model units (mixed schematic scale)"
         mpu = self.model.metres_per_unit
         if not mpu:                             # a model with no known real size: relative lengths only
             lo, hi = self.model.bounds_min, self.model.bounds_max
@@ -809,7 +910,7 @@ class ModelViewport(QOpenGLWidget):
         self._paint_section_labels(p, dark)
         self._paint_labels(p, dark)
         self._paint_measure(p, dark)
-        if self.settings.get("show_gizmo", True) and getattr(self.entry, "oriented", False):
+        if self.orientation_axes_on:
             self._paint_gizmo(p, dark)
         self._paint_scale_bar(p, dark)
         self._paint_hover(p)
@@ -886,7 +987,7 @@ class ModelViewport(QOpenGLWidget):
             r = 3.2 if not focus else 4.5
             p.drawEllipse(QPointF(ax, ay), r, r)
             placed.append(rect.adjusted(-2, -2, 2, 2))
-            bg = theme.qc(theme.OVERLAY, 210 if not occluded else 110) if dark else QColor(255, 255, 255, 215 if not occluded else 120)
+            bg = _annotation_plate(dark, (210 if not occluded else 110) if dark else (215 if not occluded else 120))
             p.setPen(QPen(dot, 1.0))
             p.setBrush(bg)
             p.drawRoundedRect(rect, 5, 5)
@@ -918,7 +1019,7 @@ class ModelViewport(QOpenGLWidget):
             ys = [float(pr[1]) for _, pr in items]
             for k in range(1, len(ys)):
                 ys[k] = max(ys[k], ys[k - 1] + line_h)
-            bottom = h - 108.0 if side < 0 and self.settings.get("show_gizmo", True) else h - 34.0
+            bottom = h - 108.0 if side < 0 and self.orientation_axes_on else h - 34.0
             over = ys[-1] - (bottom - line_h)
             if over > 0:
                 ys = [y - over for y in ys]
@@ -943,7 +1044,7 @@ class ModelViewport(QOpenGLWidget):
                 p.setPen(Qt.NoPen)
                 p.drawEllipse(QPointF(pr[0], pr[1]), 2.6, 2.6)
                 p.setPen(QPen(QColor(accent.red(), accent.green(), accent.blue(), 170), 1.0))
-                p.setBrush(theme.qc(theme.OVERLAY, 220) if dark else QColor(255, 255, 255, 228))
+                p.setBrush(_annotation_plate(dark, 220 if dark else 228))
                 p.drawRoundedRect(rect, 4, 4)
                 p.setPen(QColor(235, 240, 245) if dark else QColor(20, 25, 30))
                 p.drawText(rect, Qt.AlignCenter, fm.elidedText(text, Qt.ElideRight, tw - 10))
@@ -983,16 +1084,19 @@ class ModelViewport(QOpenGLWidget):
     def _paint_gizmo(self, p, dark):
         right, up, back = self.camera.basis()
         cx, cy, r = 52.0, self.height() - 52.0, 32.0
-        axes = [((1, 0, 0), "L", QColor(232, 93, 93)), ((-1, 0, 0), "R", QColor(232, 93, 93)),
-                ((0, 1, 0), "S", QColor(120, 200, 110)), ((0, -1, 0), "I", QColor(120, 200, 110)),
-                ((0, 0, 1), "A", QColor(90, 160, 240)), ((0, 0, -1), "P", QColor(90, 160, 240))]
+        # Tissue blocks use model coordinates, not presumed anatomical directions.
+        labels = ("L", "R", "S", "I", "A", "P") if getattr(self.entry, "oriented", False) else (
+            "+X", "-X", "+Y", "-Y", "+Z", "-Z")
+        axes = [((1, 0, 0), labels[0], QColor(232, 93, 93)), ((-1, 0, 0), labels[1], QColor(232, 93, 93)),
+                ((0, 1, 0), labels[2], QColor(120, 200, 110)), ((0, -1, 0), labels[3], QColor(120, 200, 110)),
+                ((0, 0, 1), labels[4], QColor(90, 160, 240)), ((0, 0, -1), labels[5], QColor(90, 160, 240))]
         items = []
         for v, label, col in axes:
             v = np.array(v, dtype=float)
             items.append((np.dot(v, back), cx + np.dot(v, right) * r, cy - np.dot(v, up) * r, label, col))
         items.sort(key=lambda t: t[0])
         p.setPen(QPen(theme.qc(theme.BORDER, 90), 1.0) if dark else Qt.NoPen)
-        p.setBrush(theme.qc(theme.CANVAS, 110) if dark else QColor(255, 255, 255, 110))
+        p.setBrush(QColor(11, 16, 22, 110) if dark else QColor(255, 255, 255, 110))
         p.drawEllipse(QPointF(cx, cy), r + 14, r + 14)
         font = QFont(self.font())
         font.setPointSizeF(8.0)
@@ -1011,6 +1115,10 @@ class ModelViewport(QOpenGLWidget):
 
     def _paint_scale_bar(self, p, dark):
         """A scale bar in the corner for a model of known size: the kidney goes from 20 cm to half a micron."""
+        # Gross anatomy and the separately magnified nephron have no common
+        # clinical calibration. The two-click ruler identifies model units.
+        if self.model.sidecar.get("mixed_schematic_scale"):
+            return
         mpu = self.model.metres_per_unit
         if not mpu or self.renderer is None:
             return
@@ -1057,19 +1165,24 @@ class ModelViewport(QOpenGLWidget):
         rect = QRectF(x, y, w, h)
         path = QPainterPath()
         path.addRoundedRect(rect, 6, 6)
-        p.fillPath(path, theme.qc(theme.OVERLAY, 238))
-        p.setPen(QPen(theme.qc(theme.BORDER_STRONG), 1.0))
+        # Isolate the tooltip from brushes left by labels or other overlays.
+        # drawPath otherwise fills it again with the previous label's brush.
+        p.save()
+        p.setBrush(Qt.NoBrush)
+        p.fillPath(path, QColor('#263544'))
+        p.setPen(QPen(QColor('#82949f'), 1.0))
         p.drawPath(path)
         g = self.model.group_of(sid)
         col = g.colour if g is not None else it.colour
         p.fillRect(QRectF(x, y + 5, 3, h - 10), QColor.fromRgbF(*[float(c) for c in col]))
-        p.setPen(theme.qc(theme.TEXT_STRONG))
+        p.setPen(QColor('#f3f6f9'))
         p.setFont(font)
         p.drawText(QRectF(x + 11, y + 4, w, fm.height()), Qt.AlignLeft | Qt.AlignVCenter, text)
         if sub:
-            p.setPen(theme.qc(theme.MUTED))
+            p.setPen(QColor('#c7d5df'))
             p.setFont(small)
             p.drawText(QRectF(x + 11, y + 5 + fm.height(), w, fm2.height()), Qt.AlignLeft | Qt.AlignVCenter, sub)
+        p.restore()
 
     # ------------------------------------------------------------------ screenshot
     def grab_image(self, scale=1.0):

@@ -1,0 +1,778 @@
+{
+  "schema_version": 1,
+  "model_id": "ileum",
+  "status": "candidate_source_ready",
+  "application": {
+    "mechanisms": [
+      "viewer_cameras for procedural native models",
+      "cameras/camera_order/start_view for GLB viewer sidecar",
+      "set_named_view hidden/state/cut_on",
+      "Page Down/Page Up native progression"
+    ],
+    "unsupported": [
+      "automatic slideshow/timed biological state progression",
+      "per-camera clip-plane numeric configuration",
+      "part color pulsation or particle flow from camera JSON"
+    ]
+  },
+  "profiles": {
+    "baseline": {
+      "source_npz_sha256": "83dbcd164311e2a2078699f3f37853b8bab6faaca4cc010313db8fe003caaebb",
+      "parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Submucosa",
+        "Muscularis mucosae",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Submucosal lymphatic collectors",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Peyer patch follicles",
+        "Germinal centres",
+        "Subepithelial dome",
+        "Follicle-associated epithelium",
+        "M cells",
+        "M-cell pocket lymphocytes"
+      ],
+      "status": "existing reviewed original, no acceptance implied"
+    },
+    "delivered_candidate": {
+      "source_npz_sha256": "0280142d93dbc0af3c41bea2734d4b911e9a48dea6b1fa1bd7fb547819ac8749",
+      "parts": [
+        "Serosa",
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Submucosa",
+        "Muscularis mucosae",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Submucosal lymphatic collectors",
+        "Lamina propria",
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus capillary network",
+        "Villus smooth muscle",
+        "Goblet cells",
+        "Peyer patch follicles",
+        "Germinal centres",
+        "Subepithelial dome",
+        "Follicle-associated epithelium",
+        "M cells",
+        "M-cell pocket lymphocytes",
+        "Villus lamina propria core | continuous context",
+        "Goblet apical mucin",
+        "Goblet basal nuclei",
+        "Enterocyte nuclei",
+        "Paneth apical granules",
+        "Paneth basal nuclei",
+        "Crypt stem-cell nuclei",
+        "Crypt epithelial nuclei",
+        "M-cell lymphocyte nuclei",
+        "M-cell apical microfolds",
+        "Subepithelial dome | continuous context",
+        "Peyer patch follicles | nuclei",
+        "Peyer patch follicles | continuous context",
+        "Germinal centres | nuclei",
+        "Germinal centres | continuous context",
+        "Subepithelial dome | nuclei",
+        "Villus stromal and immune cells",
+        "Outer longitudinal muscle | nuclei",
+        "Outer longitudinal muscle | continuous context",
+        "Inner circular muscle | nuclei",
+        "Inner circular muscle | continuous context",
+        "Muscularis mucosae | nuclei",
+        "Muscularis mucosae | continuous context",
+        "Myenteric (Auerbach) plexus | nuclei",
+        "Myenteric (Auerbach) plexus | continuous context",
+        "Submucosal (Meissner) plexus | nuclei",
+        "Submucosal (Meissner) plexus | continuous context",
+        "Submucosa | continuous context",
+        "Lamina propria | continuous context",
+        "Mesothelial nuclei",
+        "Villus smooth-muscle nuclei"
+      ],
+      "status": "unaccepted delivered refinement candidate"
+    }
+  },
+  "stages": [
+    {
+      "id": "absorption_apical",
+      "name": "Function 1 · Apical entry",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.07,
+          0.88,
+          -0.55
+        ],
+        "target": [
+          -0.14,
+          0.708,
+          -0.19
+        ],
+        "fov_deg": 34
+      },
+      "visible_parts": [
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Goblet cells",
+        "Villus lamina propria core",
+        "Villus capillary network",
+        "Central lacteals",
+        "Villus smooth muscle"
+      ],
+      "candidate_visible_parts": [
+        "Goblet apical mucin",
+        "Goblet basal nuclei",
+        "Enterocyte nuclei",
+        "Villus stromal and immune cells",
+        "Villus smooth-muscle nuclei"
+      ],
+      "note": "Absorption begins at the lumen-facing enterocyte surface. The brush border is an apical specialization of these cells; goblet cells supply mucus. The whole villus is not a microvillus. Cell and apical-detail dimensions are enlarged teaching samples. No nutrient particles or transporters are rendered.",
+      "source_ids": [
+        "basel",
+        "niddk"
+      ],
+      "cut_on": false
+    },
+    {
+      "id": "absorption_soluble",
+      "name": "Function 2 · Blood route",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          0.77,
+          0.93,
+          0.72
+        ],
+        "target": [
+          0,
+          0.56,
+          -0.09
+        ],
+        "fov_deg": 34
+      },
+      "visible_parts": [
+        "Villus lamina propria core",
+        "Villus capillary network",
+        "Mucosal branches",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Submucosa",
+        "Lamina propria",
+        "Muscularis mucosae"
+      ],
+      "candidate_visible_parts": [
+        "Villus stromal and immune cells"
+      ],
+      "note": "The epithelial covering is peeled for teaching, not physiologically absent. Water-soluble digestion products pass through enterocytes, across the villus interstitium, into nearby capillaries and venous drainage. Follow the capillary network and venous mucosal branches toward submucosal venules; continuation to the liver is outside this crop. Red-to-blue is a static route cue, not measured oxygen saturation or velocity. The arterial route supplies tissue rather than receiving absorbed nutrients.",
+      "source_ids": [
+        "niddk"
+      ],
+      "cut_on": false,
+      "baseline_visible_parts": [
+        "Villus capillary network",
+        "Mucosal branches",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Muscularis mucosae"
+      ]
+    },
+    {
+      "id": "absorption_lipid",
+      "name": "Function 3 · Lipid route",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.01,
+          0.82,
+          -0.43
+        ],
+        "target": [
+          -0.14,
+          0.69,
+          -0.19
+        ],
+        "fov_deg": 34
+      },
+      "visible_parts": [
+        "Villus lamina propria core",
+        "Central lacteals",
+        "Villus smooth muscle",
+        "Submucosal lymphatic collectors",
+        "Muscularis mucosae",
+        "Lamina propria",
+        "Submucosa"
+      ],
+      "candidate_visible_parts": [
+        "Villus stromal and immune cells",
+        "Villus smooth-muscle nuclei"
+      ],
+      "note": "The epithelial covering is peeled for teaching, not physiologically absent. Enterocytes package much absorbed long-chain dietary lipid into chylomicrons. These leave the epithelial basal side, cross villus interstitium and enter the central lacteal, then lymphatic collectors; systemic return is outside the crop. Not all lipid takes this route. Adjacent smooth muscle can assist lacteal drainage: this mechanism has direct mouse imaging evidence, not human timing or amplitude calibration. Hidden epithelium in the next exploration is a teaching peel, not an absorptive hole.",
+      "source_ids": [
+        "niddk",
+        "lacteal"
+      ],
+      "cut_on": false,
+      "baseline_visible_parts": [
+        "Central lacteals",
+        "Villus smooth muscle",
+        "Submucosal lymphatic collectors",
+        "Muscularis mucosae"
+      ]
+    },
+    {
+      "id": "ileal_specialization",
+      "name": "Function 4 · Ileal uptake",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.07,
+          0.88,
+          -0.55
+        ],
+        "target": [
+          -0.14,
+          0.708,
+          -0.19
+        ],
+        "fov_deg": 34
+      },
+      "visible_parts": [
+        "Brush border (microvilli)",
+        "Villus epithelium (enterocytes)",
+        "Goblet cells",
+        "Villus lamina propria core",
+        "Villus capillary network",
+        "Mucosal branches",
+        "Submucosal venules"
+      ],
+      "candidate_visible_parts": [
+        "Goblet apical mucin",
+        "Goblet basal nuclei",
+        "Enterocyte nuclei",
+        "Villus stromal and immune cells"
+      ],
+      "note": "The distal ileum absorbs intrinsic-factor-bound vitamin B12 by receptor-mediated endocytosis and reclaims bile acids using the ileal sodium-dependent bile-acid transporter. These are enterocyte mechanisms; the receptors, ion gradients and molecular packaging are annotation-only. This crop does not prove terminal-ileal transporter distribution, normal uptake rate or a deficiency.",
+      "source_ids": [
+        "b12",
+        "bile_acid"
+      ],
+      "cut_on": false
+    },
+    {
+      "id": "immune_context",
+      "name": "Function 5 · Sampling surface",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.36,
+          0.84,
+          0.3
+        ],
+        "target": [
+          -0.18,
+          0.674,
+          0.1
+        ],
+        "fov_deg": 34
+      },
+      "visible_parts": [
+        "Follicle-associated epithelium",
+        "M cells",
+        "M-cell pocket lymphocytes",
+        "Subepithelial dome",
+        "Peyer patch follicles",
+        "Germinal centres",
+        "Lamina propria",
+        "Muscularis mucosae",
+        "Villus epithelium (enterocytes)",
+        "Goblet cells",
+        "Brush border (microvilli)"
+      ],
+      "candidate_visible_parts": [
+        "M-cell apical microfolds",
+        "M-cell lymphocyte nuclei",
+        "Subepithelial dome | nuclei",
+        "Peyer patch follicles | nuclei",
+        "Germinal centres | nuclei",
+        "Enterocyte nuclei",
+        "Goblet apical mucin",
+        "Goblet basal nuclei"
+      ],
+      "note": "Compare the villous absorptive surface with the follicle-associated epithelium over a Peyer-patch dome. The dome lacks villi and crypts; M cells are a minority population among follicle-associated enterocytes. Luminal antigen uptake by M cells begins on their apical surface. Antigen is not visualized and the whole dome is not M-cell epithelium.",
+      "source_ids": [
+        "basel",
+        "gp2"
+      ],
+      "cut_on": false
+    },
+    {
+      "id": "immune_pocket",
+      "name": "Function 6 · Basal delivery",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.204,
+          0.596,
+          0.165
+        ],
+        "target": [
+          -0.202,
+          0.678,
+          0.125
+        ],
+        "fov_deg": 34
+      },
+      "visible_parts": [
+        "M cells",
+        "M-cell pocket lymphocytes"
+      ],
+      "candidate_visible_parts": [
+        "M-cell lymphocyte nuclei",
+        "M-cell apical microfolds"
+      ],
+      "note": "View from below into the basolateral pocket beneath an M cell. Transcytosis carries selected luminal material through the epithelial cell to this immune-cell interface. The lymphocyte examples occupy the pocket; they are not intracellular M-cell contents. The displayed cells are generic representatives, not evidence of a particular antigen-presenting subtype. The pocket is enlarged and neighbouring tissue is hidden for teaching.",
+      "source_ids": [
+        "basel",
+        "gp2",
+        "bcell"
+      ],
+      "cut_on": false
+    },
+    {
+      "id": "immune_response",
+      "name": "Function 7 · Lymphoid response",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.4,
+          0.93,
+          0.56
+        ],
+        "target": [
+          -0.18,
+          0.565,
+          0.1
+        ],
+        "fov_deg": 34
+      },
+      "visible_parts": [
+        "Subepithelial dome",
+        "Peyer patch follicles",
+        "Germinal centres",
+        "M-cell pocket lymphocytes",
+        "Lamina propria",
+        "Follicle-associated epithelium",
+        "M cells"
+      ],
+      "candidate_visible_parts": [
+        "M-cell lymphocyte nuclei",
+        "Subepithelial dome | nuclei",
+        "Peyer patch follicles | nuclei",
+        "Germinal centres | nuclei"
+      ],
+      "note": "After sampling, antigen interacts with immune populations beneath the follicle-associated epithelium. The follicle and germinal centre support B-cell responses; activation, proliferation and affinity selection are annotation-only. Do not draw an obligatory M-cell → dendritic cell → T-cell → germinal-centre pipeline: direct M-cell-to-B-cell antigen sampling was demonstrated in a mouse study. The model does not resolve immune subtypes, interfollicular T zones, IgA homing or class-switch locations.",
+      "source_ids": [
+        "basel",
+        "bcell"
+      ],
+      "cut_on": false
+    },
+    {
+      "id": "motility_wall",
+      "name": "Function 8 · Coordinated motility",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          0.76,
+          0.55,
+          0.71
+        ],
+        "target": [
+          0,
+          0.17,
+          0
+        ],
+        "fov_deg": 34
+      },
+      "visible_parts": [
+        "Outer longitudinal muscle",
+        "Inner circular muscle",
+        "Myenteric (Auerbach) plexus",
+        "Submucosa",
+        "Submucosal (Meissner) plexus",
+        "Muscularis mucosae"
+      ],
+      "candidate_visible_parts": [
+        "Outer longitudinal muscle | nuclei",
+        "Inner circular muscle | nuclei",
+        "Myenteric (Auerbach) plexus | nuclei",
+        "Submucosal (Meissner) plexus | nuclei",
+        "Muscularis mucosae | nuclei"
+      ],
+      "note": "Longitudinal and circular smooth muscle act in distinct directions, with the myenteric plexus between them. Peristalsis coordinates contraction behind contents and relaxation ahead to propel and mix them. This is a cropped wall, without an intact bowel circumference or bolus: no deformation, propagating wave, neuron firing or pacemaker rate is simulated. Separation would misrepresent active contraction.",
+      "source_ids": [
+        "basel",
+        "niddk"
+      ],
+      "cut_on": false
+    },
+    {
+      "id": "motility_local",
+      "name": "Function 9 · Local mucosal control",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          0.8,
+          0.86,
+          0.85
+        ],
+        "target": [
+          0,
+          0.43,
+          0
+        ],
+        "fov_deg": 34
+      },
+      "visible_parts": [
+        "Submucosal (Meissner) plexus",
+        "Muscularis mucosae",
+        "Villus smooth muscle",
+        "Central lacteals",
+        "Lamina propria",
+        "Villus lamina propria core",
+        "Submucosa",
+        "Intestinal crypts (of Lieberkühn)",
+        "Villus epithelium (enterocytes)",
+        "Goblet cells"
+      ],
+      "candidate_visible_parts": [
+        "Submucosal (Meissner) plexus | nuclei",
+        "Muscularis mucosae | nuclei",
+        "Villus smooth-muscle nuclei",
+        "Villus stromal and immune cells",
+        "Crypt epithelial nuclei",
+        "Enterocyte nuclei",
+        "Goblet apical mucin",
+        "Goblet basal nuclei"
+      ],
+      "note": "Distinguish local mucosal movement and secretion/absorption regulation from whole-wall propulsion. The submucosal plexus lies in submucosa, and villus muscle lies beside the lacteal. Mouse imaging supports contractile assistance to lacteal drainage; simple villus piston motion is an incomplete explanation. The model preserves anatomical position without showing a measured neural connection or continuous cellular chain from muscularis mucosae into each villus.",
+      "source_ids": [
+        "basel",
+        "lacteal"
+      ],
+      "cut_on": false
+    },
+    {
+      "id": "crypt_renewal",
+      "name": "Function 10 · Barrier renewal",
+      "camera": {
+        "type": "PERSP",
+        "position": [
+          -0.07,
+          0.66,
+          -0.4
+        ],
+        "target": [
+          -0.07,
+          0.546,
+          -0.225
+        ],
+        "fov_deg": 34
+      },
+      "visible_parts": [
+        "Intestinal crypts (of Lieberkühn)",
+        "Paneth cells",
+        "Crypt base stem cells (Lgr5+)",
+        "Lamina propria",
+        "Muscularis mucosae",
+        "Villus epithelium (enterocytes)",
+        "Goblet cells"
+      ],
+      "candidate_visible_parts": [
+        "Paneth apical granules",
+        "Paneth basal nuclei",
+        "Crypt stem-cell nuclei",
+        "Crypt epithelial nuclei",
+        "Enterocyte nuclei",
+        "Goblet apical mucin",
+        "Goblet basal nuclei"
+      ],
+      "note": "Paneth apical granules face the crypt lumen; the crypt-base stem-cell identity is a color/annotation convention, not visible Lgr5 expression. Inspect a coronal/model-z section at z=-0.225 (5% of block width), retain the positive-z/far half, and distinguish epithelial wall from gland lumen. Epithelial renewal supports the absorptive barrier, but no mitosis, cell migration, secretion or assay is simulated. Imported GLB has no authored corner-cut planes; set the single-plane section manually after selecting this view.",
+      "source_ids": [
+        "basel"
+      ],
+      "cut_on": false
+    }
+  ],
+  "sequences": [
+    {
+      "id": "absorption",
+      "mechanism": "Separate epithelial uptake, blood drainage and lipid lymph drainage.",
+      "steps": [
+        {
+          "stage": "absorption_apical",
+          "view": "Function 1 · Apical entry",
+          "anatomical_function": "Absorption begins at the lumen-facing enterocyte surface. The brush border is an apical specialization of these cells; goblet cells supply mucus. The whole villus is not a microvillus. Cell and apical-detail dimensions are enlarged teaching samples. No nutrient particles or transporters are rendered.",
+          "parts": [
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Goblet cells",
+            "Villus lamina propria core",
+            "Villus capillary network",
+            "Central lacteals",
+            "Villus smooth muscle"
+          ]
+        },
+        {
+          "stage": "absorption_soluble",
+          "view": "Function 2 · Blood route",
+          "anatomical_function": "The epithelial covering is peeled for teaching, not physiologically absent. Water-soluble digestion products pass through enterocytes, across the villus interstitium, into nearby capillaries and venous drainage. Follow the capillary network and venous mucosal branches toward submucosal venules; continuation to the liver is outside this crop. Red-to-blue is a static route cue, not measured oxygen saturation or velocity. The arterial route supplies tissue rather than receiving absorbed nutrients.",
+          "parts": [
+            "Villus lamina propria core",
+            "Villus capillary network",
+            "Mucosal branches",
+            "Submucosal arterioles",
+            "Submucosal venules",
+            "Submucosa",
+            "Lamina propria",
+            "Muscularis mucosae"
+          ]
+        },
+        {
+          "stage": "absorption_lipid",
+          "view": "Function 3 · Lipid route",
+          "anatomical_function": "The epithelial covering is peeled for teaching, not physiologically absent. Enterocytes package much absorbed long-chain dietary lipid into chylomicrons. These leave the epithelial basal side, cross villus interstitium and enter the central lacteal, then lymphatic collectors; systemic return is outside the crop. Not all lipid takes this route. Adjacent smooth muscle can assist lacteal drainage: this mechanism has direct mouse imaging evidence, not human timing or amplitude calibration. Hidden epithelium in the next exploration is a teaching peel, not an absorptive hole.",
+          "parts": [
+            "Villus lamina propria core",
+            "Central lacteals",
+            "Villus smooth muscle",
+            "Submucosal lymphatic collectors",
+            "Muscularis mucosae",
+            "Lamina propria",
+            "Submucosa"
+          ]
+        },
+        {
+          "stage": "ileal_specialization",
+          "view": "Function 4 · Ileal uptake",
+          "anatomical_function": "The distal ileum absorbs intrinsic-factor-bound vitamin B12 by receptor-mediated endocytosis and reclaims bile acids using the ileal sodium-dependent bile-acid transporter. These are enterocyte mechanisms; the receptors, ion gradients and molecular packaging are annotation-only. This crop does not prove terminal-ileal transporter distribution, normal uptake rate or a deficiency.",
+          "parts": [
+            "Brush border (microvilli)",
+            "Villus epithelium (enterocytes)",
+            "Goblet cells",
+            "Villus lamina propria core",
+            "Villus capillary network",
+            "Mucosal branches",
+            "Submucosal venules"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Ordered views and notes only; no flow simulation, nutrient particles, flux, saturation or transport rates.",
+        "Chylomicron route is chiefly long-chain lipid; does not imply every fatty acid enters lymph.",
+        "B12 and bile-acid molecular carriers are annotation-only; no region-specific assays."
+      ]
+    },
+    {
+      "id": "immune_sampling",
+      "mechanism": "Luminal uptake through an M cell to a basolateral pocket and organized lymphoid responses.",
+      "steps": [
+        {
+          "stage": "immune_context",
+          "view": "Function 5 · Sampling surface",
+          "anatomical_function": "Compare the villous absorptive surface with the follicle-associated epithelium over a Peyer-patch dome. The dome lacks villi and crypts; M cells are a minority population among follicle-associated enterocytes. Luminal antigen uptake by M cells begins on their apical surface. Antigen is not visualized and the whole dome is not M-cell epithelium.",
+          "parts": [
+            "Follicle-associated epithelium",
+            "M cells",
+            "M-cell pocket lymphocytes",
+            "Subepithelial dome",
+            "Peyer patch follicles",
+            "Germinal centres",
+            "Lamina propria",
+            "Muscularis mucosae",
+            "Villus epithelium (enterocytes)",
+            "Goblet cells",
+            "Brush border (microvilli)"
+          ]
+        },
+        {
+          "stage": "immune_pocket",
+          "view": "Function 6 · Basal delivery",
+          "anatomical_function": "View from below into the basolateral pocket beneath an M cell. Transcytosis carries selected luminal material through the epithelial cell to this immune-cell interface. The lymphocyte examples occupy the pocket; they are not intracellular M-cell contents. The displayed cells are generic representatives, not evidence of a particular antigen-presenting subtype. The pocket is enlarged and neighbouring tissue is hidden for teaching.",
+          "parts": [
+            "M cells",
+            "M-cell pocket lymphocytes"
+          ]
+        },
+        {
+          "stage": "immune_response",
+          "view": "Function 7 · Lymphoid response",
+          "anatomical_function": "After sampling, antigen interacts with immune populations beneath the follicle-associated epithelium. The follicle and germinal centre support B-cell responses; activation, proliferation and affinity selection are annotation-only. Do not draw an obligatory M-cell → dendritic cell → T-cell → germinal-centre pipeline: direct M-cell-to-B-cell antigen sampling was demonstrated in a mouse study. The model does not resolve immune subtypes, interfollicular T zones, IgA homing or class-switch locations.",
+          "parts": [
+            "Subepithelial dome",
+            "Peyer patch follicles",
+            "Germinal centres",
+            "M-cell pocket lymphocytes",
+            "Lamina propria",
+            "Follicle-associated epithelium",
+            "M cells"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "No antigen particles, transcytosis vesicles, immune migration or subtype assay.",
+        "The generic pocket lymphocytes do not certify dendritic-cell, B-cell or T-cell identity.",
+        "Sampling is not equivalent to inevitable infection or an obligatory immune response; the crop lacks the full lymphoid circuit.",
+        "Direct M-cell-to-B-cell study is mouse evidence; human frequencies and timing are not inferred."
+      ]
+    },
+    {
+      "id": "motility",
+      "mechanism": "Wall propulsion and local mucosal/lacteal movement have distinct anatomical substrates.",
+      "steps": [
+        {
+          "stage": "motility_wall",
+          "view": "Function 8 · Coordinated motility",
+          "anatomical_function": "Longitudinal and circular smooth muscle act in distinct directions, with the myenteric plexus between them. Peristalsis coordinates contraction behind contents and relaxation ahead to propel and mix them. This is a cropped wall, without an intact bowel circumference or bolus: no deformation, propagating wave, neuron firing or pacemaker rate is simulated. Separation would misrepresent active contraction.",
+          "parts": [
+            "Outer longitudinal muscle",
+            "Inner circular muscle",
+            "Myenteric (Auerbach) plexus",
+            "Submucosa",
+            "Submucosal (Meissner) plexus",
+            "Muscularis mucosae"
+          ]
+        },
+        {
+          "stage": "motility_local",
+          "view": "Function 9 · Local mucosal control",
+          "anatomical_function": "Distinguish local mucosal movement and secretion/absorption regulation from whole-wall propulsion. The submucosal plexus lies in submucosa, and villus muscle lies beside the lacteal. Mouse imaging supports contractile assistance to lacteal drainage; simple villus piston motion is an incomplete explanation. The model preserves anatomical position without showing a measured neural connection or continuous cellular chain from muscularis mucosae into each villus.",
+          "parts": [
+            "Submucosal (Meissner) plexus",
+            "Muscularis mucosae",
+            "Villus smooth muscle",
+            "Central lacteals",
+            "Lamina propria",
+            "Villus lamina propria core",
+            "Submucosa",
+            "Intestinal crypts (of Lieberkühn)",
+            "Villus epithelium (enterocytes)",
+            "Goblet cells"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Static cropped wall cannot display a whole-circumference peristaltic wave or bolus.",
+        "No displacement uses layer separation as a substitute for muscle contraction.",
+        "Neural firing, excitatory/inhibitory circuitry and Cajal-cell pacing are not represented."
+      ]
+    },
+    {
+      "id": "barrier_renewal",
+      "mechanism": "Crypt epithelial niche supports the absorptive barrier.",
+      "steps": [
+        {
+          "stage": "crypt_renewal",
+          "view": "Function 10 · Barrier renewal",
+          "anatomical_function": "Paneth apical granules face the crypt lumen; the crypt-base stem-cell identity is a color/annotation convention, not visible Lgr5 expression. Inspect a coronal/model-z section at z=-0.225 (5% of block width), retain the positive-z/far half, and distinguish epithelial wall from gland lumen. Epithelial renewal supports the absorptive barrier, but no mitosis, cell migration, secretion or assay is simulated. Imported GLB has no authored corner-cut planes; set the single-plane section manually after selecting this view.",
+          "parts": [
+            "Intestinal crypts (of Lieberkühn)",
+            "Paneth cells",
+            "Crypt base stem cells (Lgr5+)",
+            "Lamina propria",
+            "Muscularis mucosae",
+            "Villus epithelium (enterocytes)",
+            "Goblet cells"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Lgr5 is annotation, not visually detectable molecular expression.",
+        "No cell migration, division timing or secretion measurements.",
+        "Named views reset stale sections; the exact longitudinal crypt section requires manual native section control."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "basel",
+      "title": "University of Basel: Ileum, Human 2",
+      "url": "https://tales.nmc.unibas.ch/en/histology-12/verdauungsorgane-magen-darm-trakt-anatomische-mikroskopie-55/ileum-human-2-360",
+      "opened": true,
+      "relevance": "Human H&E relationship evidence: dome without villi or crypts; minority M cells; Paneth granules and muscular/plexus locations. Not morphometry."
+    },
+    {
+      "id": "niddk",
+      "title": "NIDDK: Your Digestive System & How it Works",
+      "url": "https://www.niddk.nih.gov/health-information/digestive-diseases/digestive-system-how-it-works",
+      "opened": true,
+      "relevance": "Authoritative human-level digestion/absorption and peristalsis explanation; no crop-specific rates."
+    },
+    {
+      "id": "lacteal",
+      "title": "Choe et al. 2015: Intravital imaging of intestinal lacteals unveils lipid drainage through contractility",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4639990/",
+      "opened": true,
+      "relevance": "Primary mouse imaging shows epithelial uptake, interstitial distribution and lacteal drainage with adjacent muscle contraction. Mechanistic support, not measured human kinetics."
+    },
+    {
+      "id": "b12",
+      "title": "NIH ODS: Vitamin B12 Health Professional Fact Sheet",
+      "url": "https://ods.od.nih.gov/factsheets/VitaminB12-HealthProfessional/",
+      "opened": true,
+      "relevance": "Distal-ileal receptor-mediated uptake of intrinsic-factor-bound B12; receptors absent from geometry."
+    },
+    {
+      "id": "bile_acid",
+      "title": "Oelkers et al. 1997: Primary bile acid malabsorption caused by SLC10A2 mutations",
+      "url": "https://www.jci.org/articles/view/119355",
+      "opened": true,
+      "relevance": "Primary human genetic and transporter-expression experiments establish ileal sodium-dependent bile-acid reclamation; no expression map is rendered."
+    },
+    {
+      "id": "gp2",
+      "title": "Hase et al. 2009: Uptake through GP2 of FimH-positive bacteria by M cells",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/19907495/",
+      "opened": true,
+      "relevance": "Primary molecular uptake/transcytosis mechanism; GP2/FimH are annotation-only, not all antigens use this route."
+    },
+    {
+      "id": "bcell",
+      "title": "Komban et al. 2019: Activated Peyer-patch B cells sample antigen directly from M cells",
+      "url": "https://www.nature.com/articles/s41467-019-10144-w",
+      "opened": true,
+      "relevance": "Primary mouse study supports direct antigen-specific M-cell–B-cell sampling and SED-to-GC migration; invalidates a single obligatory dendritic-cell-only transport sequence."
+    }
+  ],
+  "limitations": [
+    "No mesh, NPZ arrays or application were loaded. No rendering or heavy processing was run.",
+    "Camera geometry is inherited from the delivered candidate sidecar; visibility and narrative are newly proposed, not visually accepted.",
+    "Existing originals remain read-only; delivered candidate is never silently installed.",
+    "Six villi, nine crypts and two follicles are representative counts; 1500 micrometres/model-unit is nominal; cellular detail, granules, microfolds and pockets are pedagogically magnified.",
+    "The native UI uses a Views menu when total views exceed 10, so stage notes are also supplied in FUNCTION-GUIDE.md. The function_teaching field is archival content; native cameras provide actual behavior."
+  ]
+}

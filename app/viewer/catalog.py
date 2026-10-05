@@ -67,7 +67,7 @@ class ModelEntry:
 
     @property
     def kind_name(self):
-        return {"glb": "3D model", "procedural": "3D microanatomy model", "downloaded": "downloaded 3D model"}.get(
+        return {"glb": "In-house 3D model", "procedural": "In-house 3D microanatomy model", "downloaded": "downloaded 3D model"}.get(
             self.kind, "3D model")
 
     def load(self):
@@ -118,6 +118,7 @@ class ProceduralEntry(ModelEntry):
         super().__init__(micro.id, micro.name, micro.summary, micro.targets, micro.histology, micro.related,
                          micro.clinical, micro.scale_note)
         self.micro = micro
+        self.aliases = dict(getattr(micro, "aliases", {}) or {})
 
     def load(self):
         from .procedural import ProceduralModel
@@ -250,25 +251,10 @@ def load_meta(folder=META_DIR):
 
 
 def load_catalog():
-    """OrderedDict id -> entry: the in-house GLB models first, then the procedural ones, then the downloads."""
-    entries = OrderedDict()
-    for meta in sorted(load_meta(), key=lambda m: (int(m.get("order", 100)), m["id"])):
-        e = GlbEntry(meta)
-        if e.available():
-            entries[e.id] = e
-    from ..micro.registry import MODELS
-    for mid, micro in MODELS.items():
-        if mid not in entries:
-            entries[mid] = ProceduralEntry(micro)
-    try:
-        from ..sketchfab import load_catalog as load_downloads
-        from .imported import load_curation, local_info
-        curation = load_curation()
-        for cm in load_downloads():
-            info = local_info(cm.uid)
-            if info is not None:
-                e = DownloadedEntry(cm.uid, info, cm, curation.get(cm.uid))
-                entries[e.id] = e
-    except (OSError, ValueError, ImportError) as exc:
-        print(f"Could not list the downloaded models: {exc}")
-    return entries
+    """Combine refined library entries with the two protected authored models."""
+    from ..variants.catalog import load_active_catalog
+    catalog = load_active_catalog()
+    for meta in load_meta():
+        if meta['id'] in ('whole_heart', 'cardiac_muscle'):
+            catalog[meta['id']] = GlbEntry(meta)
+    return catalog

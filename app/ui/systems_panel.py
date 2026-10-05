@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (QCheckBox, QFrame, QHBoxLayout, QLabel, QMenu, QP
                                QSlider, QToolButton, QVBoxLayout, QWidget)
 
 from . import theme
+from .flow import FlowLayout
 
 PRESETS = [
     ("Default", None),
@@ -43,6 +44,8 @@ class SystemsPanel(QWidget):
         self.ds = ds
         self.state = state
         self._sync = False
+        self.setMinimumWidth(240)
+        self.setAccessibleName("Body systems and opacity")
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
         scroll = QScrollArea()
@@ -61,7 +64,8 @@ class SystemsPanel(QWidget):
         pl.setStyleSheet(theme.text_css(theme.MUTED))
         presets.addWidget(pl)
         presets.addSpacing(6)
-        self.preset_btn = QPushButton("Choose a preset  ▾")
+        self.preset_btn = QPushButton("Choose a preset")
+        self.preset_btn.setAccessibleName("Choose body system preset")
         self.preset_btn.setObjectName("dropButton")
         self.preset_btn.setToolTip("Switch on just the systems for one kind of study")
         menu = QMenu(self.preset_btn)
@@ -73,12 +77,18 @@ class SystemsPanel(QWidget):
         presets.addWidget(self.preset_btn, 1)
         lay.addLayout(presets)
         lay.addSpacing(6)
+        self.summary = QLabel()
+        self.summary.setWordWrap(True)
+        self.summary.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+        lay.addWidget(self.summary)
 
         counts = np.bincount(ds.system_of, minlength=len(ds.systems))
         sub_counts = np.bincount(ds.subsystem_of[ds.subsystem_of >= 0], minlength=len(ds.subsystems))
         self.sys_checks = []
         self.sub_checks = {}
         self.sliders = []
+        self.opacity_values = []
+        self.count_labels = []
         for i, s in enumerate(ds.systems):
             row = QFrame()
             row.setObjectName("sysRow")
@@ -91,17 +101,22 @@ class SystemsPanel(QWidget):
             head.setSpacing(6)
             exp = QToolButton()
             exp.setObjectName("expander")
-            exp.setText("▸")
-            exp.setFixedWidth(14)
+            exp.setArrowType(Qt.RightArrow)
+            exp.setCheckable(True)
+            exp.setAccessibleName(f"Show {s['name']} opacity and subsystems")
+            exp.setMinimumSize(28, 28)
             head.addWidget(exp)
             head.addWidget(swatch(s["color"]))
             cb = QCheckBox(s["name"].replace("&", "&&"))
+            cb.setAccessibleName(f"Show {s['name']}")
+            cb.setToolTip(s["name"])
             cb.setStyleSheet(f"font-weight:600; color:{theme.TEXT_STRONG};")
             cb.toggled.connect(lambda on, idx=i: self._sys_toggled(idx, on))
             head.addWidget(cb, 1)
             cnt = QLabel(str(counts[i]))
             cnt.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
             head.addWidget(cnt)
+            self.count_labels.append(cnt)
             rl.addLayout(head)
             detail = QWidget()
             dl = QVBoxLayout(detail)
@@ -113,9 +128,18 @@ class SystemsPanel(QWidget):
             op.addWidget(ol)
             sl = QSlider(Qt.Horizontal)
             sl.setRange(5, 100)
+            sl.setAccessibleName(f"{s['name']} opacity percent")
+            sl.setToolTip("5% is nearly transparent; 100% is fully opaque")
             sl.setValue(100)
             sl.valueChanged.connect(lambda v, idx=i: self.state.set_system_alpha(idx, v / 100.0))
             op.addWidget(sl, 1)
+            value = QLabel("100%")
+            value.setMinimumWidth(42)
+            value.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            value.setStyleSheet(theme.text_css(theme.TEXT_2, theme.FS_SMALL))
+            op.addWidget(value)
+            self.opacity_values.append(value)
+            sl.valueChanged.connect(lambda v, lab=value: lab.setText(f"{v}%"))
             dl.addLayout(op)
             self.sliders.append(sl)
             for sub in s["subsystems"]:
@@ -124,23 +148,33 @@ class SystemsPanel(QWidget):
                     continue
                 sidx = ds.subsystem_index[key]
                 scb = QCheckBox(f"{sub['name'].replace('&', '&&')}  ({sub_counts[sidx]})")
+                scb.setAccessibleName(f"Show {sub['name']} in {s['name']}")
                 scb.toggled.connect(lambda on, idx=sidx: self._sub_toggled(idx, on))
                 dl.addWidget(scb)
                 self.sub_checks[sidx] = scb
             detail.hide()
             rl.addWidget(detail)
-            exp.clicked.connect(lambda _=False, d=detail, b=exp: (d.setVisible(not d.isVisible()),
-                                                                  b.setText("▾" if d.isVisible() else "▸")))
+            exp.toggled.connect(lambda on, d=detail, b=exp:
+                                (d.setVisible(on), b.setArrowType(Qt.DownArrow if on else Qt.RightArrow)))
             lay.addWidget(row)
             self.sys_checks.append(cb)
         lay.addStretch(1)
         state.visibility_changed.connect(self.sync)
+        state.render_changed.connect(self.sync)
         self.sync()
 
     def sync(self):
         self._sync = True
+        vis = self.state.visible_mask()
+        visible = np.bincount(self.ds.system_of[vis], minlength=len(self.ds.systems))
+        counts = np.bincount(self.ds.system_of, minlength=len(self.ds.systems))
+        total = int(vis.sum())
+        self.summary.setText(f"{total:,} of {self.ds.n:,} atlas structures visible" if total else
+                             "No atlas structures visible. Choose Default to restore the view.")
         for i, cb in enumerate(self.sys_checks):
             cb.setChecked(bool(self.state.system_on[i]))
+            self.count_labels[i].setText(f"{int(visible[i])}/{int(counts[i])}")
+            self.count_labels[i].setToolTip("Visible structures / total in this system")
         for sidx, cb in self.sub_checks.items():
             sys_idx = self.ds.subsystem_system[sidx]
             cb.setChecked(bool(self.state.system_on[sys_idx] and self.state.subsystem_on[sidx]))
@@ -148,6 +182,7 @@ class SystemsPanel(QWidget):
             slider.blockSignals(True)
             slider.setValue(round(float(self.state.system_alpha[i]) * 100))
             slider.blockSignals(False)
+            self.opacity_values[i].setText(f"{slider.value()}%")
         self._sync = False
 
     def _sys_toggled(self, idx, on):
@@ -173,23 +208,39 @@ class RegionsPanel(QWidget):
         self.ds = ds
         self.state = state
         self._sync = False
-        lay = QVBoxLayout(self)
+        self.setMinimumWidth(240)
+        self.setAccessibleName("Body region filters")
+        outer = QVBoxLayout(self)
+        outer.setContentsMargins(0, 0, 0, 0)
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        outer.addWidget(scroll)
+        body = QWidget()
+        scroll.setWidget(body)
+        lay = QVBoxLayout(body)
         lay.setContentsMargins(12, 12, 12, 12)
-        lay.setSpacing(6)
+        lay.setSpacing(8)
         tip = QLabel("Show only structures in the checked body regions.")
         tip.setWordWrap(True)
         tip.setStyleSheet(theme.text_css(theme.MUTED))
         lay.addWidget(tip)
-        btns = QHBoxLayout()
+        btns = FlowLayout(spacing=6)
         for label, fn in (("All", lambda: self._set_all(True)), ("None", lambda: self._set_all(False)),
                           ("Left side", lambda: self._side("_l")), ("Right side", lambda: self._side("_r"))):
             b = QPushButton(label)
+            b.setAccessibleName(f"Show {label.lower()} body regions")
             b.clicked.connect(fn)
             btns.addWidget(b)
         lay.addLayout(btns)
+        self.summary = QLabel()
+        self.summary.setWordWrap(True)
+        self.summary.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+        lay.addWidget(self.summary)
         self.checks = []
         for i, r in enumerate(ds.regions):
             cb = QCheckBox(r["name"].replace("&", "&&"))
+            cb.setAccessibleName(f"Show {r['name']}")
             cb.toggled.connect(lambda on, idx=i: (not self._sync) and self.state.set_region(idx, on))
             lay.addWidget(cb)
             self.checks.append(cb)
@@ -201,6 +252,9 @@ class RegionsPanel(QWidget):
         self._sync = True
         for i, cb in enumerate(self.checks):
             cb.setChecked(bool(self.state.region_on[i]))
+        count = int(np.count_nonzero(self.state.region_on))
+        self.summary.setText(f"{count} of {len(self.checks)} regions enabled" if count else
+                             "No regions enabled. Choose All to restore body regions.")
         self._sync = False
 
     def _set_all(self, on):

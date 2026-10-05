@@ -1,0 +1,1188 @@
+{
+  "schema_version": 1,
+  "model_id": "stomach_wall",
+  "status": "source_ready_native_visual_review_deferred",
+  "implementation_status": "Declarative manual teaching states; native camera/tooltips can be compiled for a fresh review alias. No animation, particle flow or physiology executed.",
+  "provenance": {
+    "continuation_agent": "/root/finish_stomach_model_source/finish_gastric_function",
+    "continued_utc": "2026-10-04T07:16:00Z",
+    "previous_function_file": "functional_sequences.json",
+    "previous_function_sha256": "33daf1acd960412fe16c14dad5669abd0d8f16b7c4423531ab7b5c3b4841cd7d",
+    "previous_report_sha256_before_append": "3baf348cdac0b5ab009984a7f1ead4f0b35c6a92445b445895e4a788b699ddf7",
+    "preservation": "Recovered functional_sequences.json remains byte-identical; this continuation supplements its required mechanisms rather than rewriting recovered attribution.",
+    "source_patch_inspected_sha256": "f9e4ff4506f225104aeaee5380c7199f87bfdd5617d15a9111551bc98da55fb2",
+    "input_catalog_sha256": "68f8ae6e13509a15cf92f36eeddef8a017efe41513b00624dafc5095f9557f77"
+  },
+  "exact_part_names": [
+    "Serosa",
+    "Outer longitudinal muscle",
+    "Middle circular muscle",
+    "Inner oblique muscle",
+    "Intermuscular connective tissue",
+    "Myenteric (Auerbach) plexus",
+    "Submucosa (rugal core)",
+    "Muscularis mucosae",
+    "Submucosal (Meissner) plexus",
+    "Submucosal arteries",
+    "Submucosal veins",
+    "Lymphatic vessels",
+    "Surface mucous cells & gastric pits",
+    "Isthmus & neck (mucous neck cells)",
+    "Gastric gland body epithelium",
+    "Parietal (oxyntic) cells",
+    "Chief (zymogen) cells – gland base",
+    "Enteroendocrine (ECL) cells",
+    "Lamina propria"
+  ],
+  "global_scale_note": "Fundus/body teaching specimen: 1 native unit = 1.5 mm; nominal mucosal depth about 1.95 mm and block width about 3 mm. Two representative pits feed six glands. Pit/gland transverse dimensions are magnified 5×; eight enlarged axial rows and four sectors are teaching samples, not literal cell counts or density. Vessel wall and lumen diameters are magnified 2×. External muscle layers are a partial wall crop, so whole-wall layer proportions are schematic. The specimen cut and selectively hidden host tissues reveal structures; they do not represent natural holes. Camera zoom does not change geometry scale. Design candidate awaiting native and visual review.",
+  "default_sequence_order": [
+    "acid_parietal_ecl",
+    "chief_pepsinogen",
+    "mucosal_protection",
+    "mixing_enteric_coordination"
+  ],
+  "execution_contract": {
+    "mode": "manual_named_view_steps",
+    "native_fields": [
+      "position",
+      "target",
+      "type",
+      "ortho_width",
+      "hidden",
+      "cut_on",
+      "state",
+      "note"
+    ],
+    "emphasis": "highlight_parts is declarative emphasis for selection/future UI; native adapter does not execute highlight selection.",
+    "routes": "Text-labeled ordered domains, with no coordinate arrows, particle renderer or time/flow solution.",
+    "tooltip_delivery": "Native <=10 long-name saved-view buttons expose note text as tooltip; PageUp/PageDown advances saved camera order.",
+    "application_path": "Compile or attach one opt-in episode to a newly created stomach_wall_ review alias before native ModelEntry.load()/ProceduralModel(review_model); normal five-view teaching defaults remain separately available.",
+    "variant_semantics": "Pre refine means the newly source-improved built output immediately before separate final microrefine. Post refine is an independently saved variant. These function data neither generate nor alter either geometry.",
+    "pre_refine_status": "not_built_here",
+    "post_refine_status": "not_built_here"
+  },
+  "nodes": {
+    "gastrin_input": {
+      "kind": "external_actor",
+      "scope": "outside_fundus_body_block",
+      "label": "Circulating gastrin from antral G cells",
+      "part": null
+    },
+    "vagal_input": {
+      "kind": "external_actor",
+      "scope": "outside_represented_neural_crop",
+      "label": "Vagal/enteric cholinergic secretory input",
+      "part": null
+    },
+    "ecl_basal": {
+      "kind": "part_region",
+      "scope": "represented_after_patch",
+      "part": "Enteroendocrine (ECL) cells",
+      "region": "basal epithelial compartment; no luminal contact"
+    },
+    "parietal_basal": {
+      "kind": "part_region",
+      "scope": "represented_part_unresolved_membrane",
+      "part": "Parietal (oxyntic) cells",
+      "region": "basolateral H2 and M3 receptor context"
+    },
+    "parietal_apical": {
+      "kind": "part_region",
+      "scope": "represented_part_unresolved_canaliculi",
+      "part": "Parietal (oxyntic) cells",
+      "region": "apical canalicular output toward gland lumen"
+    },
+    "chief_apical": {
+      "kind": "part_region",
+      "scope": "represented_part_unresolved_granules",
+      "part": "Chief (zymogen) cells – gland base",
+      "region": "lumen-facing apical output"
+    },
+    "surface_apical": {
+      "kind": "part_region",
+      "scope": "represented",
+      "part": "Surface mucous cells & gastric pits",
+      "region": "surface-cell apical boundary"
+    },
+    "interstitium": {
+      "kind": "unmeshed_tissue_space",
+      "scope": "local_tissue_context",
+      "part": "Lamina propria",
+      "label": "Extracellular route in lamina propria, not an empty cavity"
+    },
+    "gland_lumen": {
+      "kind": "unmeshed_luminal_space",
+      "scope": "represented_void",
+      "part": null,
+      "label": "Narrow blind gland lumen"
+    },
+    "pit_lumen": {
+      "kind": "unmeshed_luminal_space",
+      "scope": "represented_void",
+      "part": null,
+      "label": "Pit outlet to gastric lumen"
+    },
+    "gastric_lumen": {
+      "kind": "unmeshed_luminal_space",
+      "scope": "outside_local_tissue_block",
+      "part": null,
+      "label": "Gastric contents above surface"
+    },
+    "surface_gel": {
+      "kind": "unmeshed_surface_context",
+      "scope": "not_separately_modeled",
+      "part": null,
+      "label": "Adherent protective mucus gel; schematic only"
+    },
+    "myenteric_motor": {
+      "kind": "part_region",
+      "scope": "schematic_network",
+      "part": "Myenteric (Auerbach) plexus",
+      "region": "intermuscular regulatory network"
+    },
+    "muscle_layers": {
+      "kind": "part_set",
+      "scope": "partial_wall_crop",
+      "parts": [
+        "Inner oblique muscle",
+        "Middle circular muscle",
+        "Outer longitudinal muscle"
+      ]
+    },
+    "submucosal_support": {
+      "kind": "part_region",
+      "scope": "schematic_network",
+      "part": "Submucosal (Meissner) plexus",
+      "region": "local secretory/blood-flow support; no measured circuit"
+    },
+    "icc_context": {
+      "kind": "unmodeled_actor",
+      "scope": "may_exist_in_region_but_absent_from_part_inventory",
+      "part": null,
+      "label": "Interstitial cells of Cajal electrical pacing context"
+    }
+  },
+  "routes": {
+    "gastrin_to_ecl": {
+      "domain": "endocrine_context",
+      "nodes": [
+        "gastrin_input",
+        "interstitium",
+        "ecl_basal"
+      ],
+      "representation": "caption_only",
+      "label": "Gastrin: antrum → circulation → basal ECL",
+      "forbidden_domains": [
+        "gland_lumen",
+        "pit_lumen",
+        "lymphatic_lumen"
+      ],
+      "source_evidence": [
+        "parietal_review_reopened",
+        "human_ecl_reopened"
+      ]
+    },
+    "histamine_to_parietal": {
+      "domain": "basolateral_interstitial",
+      "nodes": [
+        "ecl_basal",
+        "interstitium",
+        "parietal_basal"
+      ],
+      "representation": "caption_only",
+      "label": "Histamine: ECL → neighboring parietal H2 receptor",
+      "forbidden_domains": [
+        "gland_lumen",
+        "pit_lumen",
+        "lymphatic_lumen"
+      ],
+      "source_evidence": [
+        "parietal_review_reopened"
+      ]
+    },
+    "cholinergic_to_parietal": {
+      "domain": "neural_secretory_context",
+      "nodes": [
+        "vagal_input",
+        "parietal_basal"
+      ],
+      "representation": "caption_only",
+      "label": "Cholinergic input: represented circuitry incomplete",
+      "forbidden_domains": [
+        "gland_lumen"
+      ],
+      "source_evidence": [
+        "parietal_review_reopened"
+      ]
+    },
+    "acid_to_lumen": {
+      "domain": "apical_luminal",
+      "nodes": [
+        "parietal_apical",
+        "gland_lumen",
+        "pit_lumen",
+        "gastric_lumen"
+      ],
+      "representation": "caption_only",
+      "label": "HCl: apical gland route → pit → gastric lumen",
+      "forbidden_domains": [
+        "interstitium",
+        "blood_lumen",
+        "lymphatic_lumen",
+        "through_blind_base",
+        "through_muscularis_mucosae"
+      ],
+      "source_evidence": [
+        "parietal_review_reopened",
+        "local_source"
+      ]
+    },
+    "intrinsic_factor_to_lumen": {
+      "domain": "apical_luminal",
+      "nodes": [
+        "parietal_apical",
+        "gland_lumen",
+        "pit_lumen",
+        "gastric_lumen"
+      ],
+      "representation": "caption_only",
+      "label": "Intrinsic factor: separate luminal product, downstream ileal role",
+      "forbidden_domains": [
+        "gastric_B12_uptake",
+        "interstitium"
+      ],
+      "source_evidence": [
+        "leeds_reopened"
+      ]
+    },
+    "pepsinogen_to_lumen": {
+      "domain": "apical_luminal",
+      "nodes": [
+        "chief_apical",
+        "gland_lumen",
+        "pit_lumen",
+        "gastric_lumen"
+      ],
+      "representation": "caption_only",
+      "label": "Pepsinogen: apical chief output → acidic lumen",
+      "forbidden_domains": [
+        "interstitium",
+        "blood_lumen",
+        "lymphatic_lumen",
+        "through_blind_base",
+        "through_muscularis_mucosae"
+      ],
+      "source_evidence": [
+        "siu_cells_reopened",
+        "naspghan_pepsin",
+        "local_source"
+      ]
+    },
+    "mucus_to_surface_gel": {
+      "domain": "surface_protection_context",
+      "nodes": [
+        "surface_apical",
+        "surface_gel"
+      ],
+      "representation": "caption_only",
+      "label": "Surface-cell mucus supports adherent gel",
+      "forbidden_domains": [
+        "permanent_impermeable_pit_plug"
+      ],
+      "source_evidence": [
+        "barrier_reopened",
+        "siu_cells_reopened"
+      ]
+    },
+    "bicarbonate_to_surface_gel": {
+      "domain": "surface_protection_context",
+      "nodes": [
+        "surface_apical",
+        "surface_gel"
+      ],
+      "representation": "caption_only",
+      "label": "Bicarbonate neutralizes acid approaching the epithelial surface",
+      "forbidden_domains": [
+        "parietal_acid_arrow_relabelled_as_bicarbonate"
+      ],
+      "source_evidence": [
+        "barrier_reopened"
+      ]
+    },
+    "myenteric_regulation": {
+      "domain": "neural_motor_context",
+      "nodes": [
+        "myenteric_motor",
+        "muscle_layers"
+      ],
+      "representation": "caption_only",
+      "label": "Myenteric motor regulation of smooth muscle",
+      "forbidden_domains": [
+        "claimed_literal_synapse",
+        "named_measured_motor_neuron",
+        "timed_global_wave"
+      ],
+      "source_evidence": [
+        "mayr_primary_regional",
+        "local_source"
+      ]
+    },
+    "icc_electrical_context": {
+      "domain": "unmodeled_electrical_context",
+      "nodes": [
+        "icc_context",
+        "muscle_layers"
+      ],
+      "representation": "caption_only",
+      "label": "ICC electrical coordination, distinct from yellow neural plexus",
+      "forbidden_domains": [
+        "ICC_mesh_identity_assigned_to_myenteric_plexus",
+        "fixed_3_per_min_local_contraction"
+      ],
+      "source_evidence": [
+        "human_mapping_preserved",
+        "local_source"
+      ]
+    },
+    "submucosal_regulation": {
+      "domain": "neural_support_context",
+      "nodes": [
+        "submucosal_support",
+        "surface_apical"
+      ],
+      "representation": "caption_only",
+      "label": "Local secretion/perfusion support; circuit not resolved",
+      "forbidden_domains": [
+        "claimed_complete_gastric_secretory_circuit"
+      ],
+      "source_evidence": [
+        "parietal_review_reopened",
+        "local_source"
+      ]
+    }
+  },
+  "evidence": [
+    {
+      "id": "parietal_review_reopened",
+      "title": "The Physiology of the Gastric Parietal Cell",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7327232/",
+      "kind": "authoritative physiology review",
+      "retrieval": "Direct full text opened in this continuation on 2026-10-04; sections III.A-B and IV.B read.",
+      "supports": "Basolateral secretagogues, histamine H2 pathway, closed-type ECL, apical proton pump and canalicular membrane trafficking; neural input is wider than a single displayed plexus.",
+      "limits": "Review synthesizes human and animal evidence. No molecular kinetics or literal geometry prescribed."
+    },
+    {
+      "id": "human_ecl_reopened",
+      "title": "Relationships of endocrine cells to each other and to other cell types in the human gastric fundus and corpus",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30467709/",
+      "kind": "primary human histology study",
+      "retrieval": "Direct PubMed abstract and Figure 10 caption opened in this continuation on 2026-10-04. Full PMC text returned CAPTCHA.",
+      "supports": "Human ECL at the epithelial base, processes near parietal cells, distinct EEC types; gastrin cells absent in sampled fundus/corpus.",
+      "limits": "Does not justify concentrating every biological ECL in the chief-rich gland bottom or interpreting authored cell counts as density."
+    },
+    {
+      "id": "barrier_reopened",
+      "title": "Gastroduodenal mucus bicarbonate barrier: protection against acid and pepsin",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/15591243/",
+      "kind": "authoritative physiology review abstract",
+      "retrieval": "Direct abstract opened in this continuation on 2026-10-04.",
+      "supports": "Adherent surface gel and epithelial bicarbonate establish qualitative surface acid protection; gel restricts pepsin access.",
+      "limits": "No gel thickness, pH measurements, impermeable film or computed diffusion asserted."
+    },
+    {
+      "id": "siu_cells_reopened",
+      "title": "SIU School of Medicine: Specialized cells of the GI system",
+      "url": "https://histology.siu.edu/erg/gicells.htm",
+      "kind": "medical-school histology teaching resource",
+      "retrieval": "Direct page text opened in this continuation on 2026-10-04; surface/parietal/chief/neck cell sections.",
+      "supports": "Chief-cell basal protein-synthetic cytoplasm and apical pepsinogen granules; surface cells differ from intestinal goblet cells; mucous neck phenotype.",
+      "limits": "Source describes neck-cell specialized function as incompletely clear; do not assign the whole surface barrier to them."
+    },
+    {
+      "id": "leeds_reopened",
+      "title": "University of Leeds Histology Guide: Stomach",
+      "url": "https://histology.leeds.ac.uk/home/digestive/stomach/",
+      "kind": "university histology teaching resource",
+      "retrieval": "Direct gastric-gland section opened in this continuation on 2026-10-04.",
+      "supports": "Fundus/body pits and gland composition; parietal intrinsic factor has downstream terminal-ileal B12 role.",
+      "limits": "No gastric B12 uptake or literal stem-cell timing in this model."
+    },
+    {
+      "id": "naspghan_pepsin",
+      "title": "NASPGHAN Physiology Series: Protein Digestion and Absorption",
+      "url": "https://naspghan.org/files/documents/pdfs/training/curriculum-resources/physiology-series/Protein_Digestion_Absorption_NASPGHAN.pdf",
+      "kind": "specialist-society teaching resource",
+      "retrieval": "Direct PDF text opened in this continuation on 2026-10-04; page 2, gastric phase paragraph. No page image rendered.",
+      "supports": "Chief pepsinogen and parietal HCl cooperate; acidic luminal conditions activate pepsin for gastric proteolysis.",
+      "limits": "No numerical pH threshold, digestion percentage or treatment conclusion adopted."
+    },
+    {
+      "id": "mayr_primary_regional",
+      "title": "Mechanosensitive enteric neurons in the guinea pig gastric fundus and antrum",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/nmo.14674",
+      "kind": "primary guinea-pig gastric neuronal experiment",
+      "retrieval": "Direct full text opened in this continuation on 2026-10-04; abstract/introduction and discussion read.",
+      "supports": "Regional motor specialization and complex enteric/extrinsic control; local network topology cannot be inferred from general intestinal peristaltic reflex diagrams.",
+      "limits": "Species is guinea pig. No neuron percentages, firing rates or experimental circuit identities are applied to this human teaching crop."
+    },
+    {
+      "id": "human_mapping_preserved",
+      "title": "Origin and propagation of human gastric slow-wave activity defined by high-resolution mapping",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2950696/",
+      "kind": "primary human mapping study, recovered prior evidence",
+      "retrieval": "Prior function REPORT records direct full-text retrieval. This continuation reattempted PMC and publisher access; CAPTCHA/internal-error responses prevented new direct full-text verification. Authoritative publisher/PMC search excerpts recovered title/DOI/PMID.",
+      "supports": "Retained prior conclusion: slow-wave propagation is whole-organ and spatially regional; a local fundus/body block does not establish wave speed or antral emptying.",
+      "limits": "No new human timing/velocity claim is added. Current blocked retrieval is not described as a successful direct open."
+    },
+    {
+      "id": "local_source",
+      "root": "baseline",
+      "path": "app/micro/walls.py",
+      "sections": "158-277,1988-2322",
+      "kind": "represented source implementation",
+      "supports": "Exact epithelial names, narrow pit/gland route, blind chief dome, separate muscle orientations and network hosts."
+    },
+    {
+      "id": "current_ecl_patch",
+      "root": "model",
+      "path": "source_patch.py",
+      "sha256": "f9e4ff4506f225104aeaee5380c7199f87bfdd5617d15a9111551bc98da55fb2",
+      "kind": "unexecuted model-specific source correction",
+      "supports": "Selected ee sectors replaced by chief host plus small basal compartment with no rho=0 face.",
+      "limits": "Only source inspected; actual saved normals, no-lumen-contact and tissue contact need later separate-machine checks."
+    },
+    {
+      "id": "local_native_ui",
+      "root": "baseline",
+      "path": "app/ui/model_view.py",
+      "sections": "86,278-305",
+      "kind": "bounded supported UI source",
+      "supports": "Native saved camera order and exact hidden keys; <=10 long-name stages get buttons with note tooltips and PageUp/PageDown stepping.",
+      "limits": "No persistent narration/route renderer or simulated motion is installed."
+    }
+  ],
+  "sequences": [
+    {
+      "id": "acid_parietal_ecl",
+      "title": "Acid, parietal and ECL cooperation",
+      "extends_recovered_sequences": [
+        "ecl_paracrine",
+        "parietal_output"
+      ],
+      "mechanism": "Separate basal endocrine/paracrine regulation from apical epithelial acid output.",
+      "states": [
+        {
+          "id": "acid_input",
+          "native_stage_name": "Acid: 1 External input",
+          "native_view": "Cell populations",
+          "visible_parts": [
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Muscularis mucosae"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Middle circular muscle",
+            "Inner oblique muscle",
+            "Intermuscular connective tissue",
+            "Myenteric (Auerbach) plexus",
+            "Submucosa (rugal core)",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Surface mucous cells & gastric pits",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Enteroendocrine (ECL) cells"
+          ],
+          "caption": "Antral G cells lie outside this fundus/body block. Circulating gastrin provides a basal input to the represented ECL population.",
+          "active_routes": [
+            "gastrin_to_ecl"
+          ],
+          "source_evidence": [
+            "human_ecl_reopened",
+            "parietal_review_reopened"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "Lamina propria is hidden for access; the uncovered space is tissue context. G cells and capillary delivery are unmodeled. Lower-gland ECL sampling is schematic, not measured physiological distribution.",
+          "requires": [
+            "ecl_basal_source_patch_and_saved_mesh_review"
+          ],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        },
+        {
+          "id": "acid_histamine",
+          "native_stage_name": "Acid: 2 Local signal",
+          "native_view": "Cell populations",
+          "visible_parts": [
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Muscularis mucosae"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Middle circular muscle",
+            "Inner oblique muscle",
+            "Intermuscular connective tissue",
+            "Myenteric (Auerbach) plexus",
+            "Submucosa (rugal core)",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Surface mucous cells & gastric pits",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Enteroendocrine (ECL) cells",
+            "Parietal (oxyntic) cells"
+          ],
+          "caption": "ECL histamine reaches neighboring parietal H2 receptors through extracellular tissue. It is a local regulatory signal, separate from gastric juice.",
+          "active_routes": [
+            "histamine_to_parietal"
+          ],
+          "source_evidence": [
+            "parietal_review_reopened",
+            "human_ecl_reopened"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "Basal ECL shape is schematic; no receptor, cell process network or extracellular concentration field is resolved.",
+          "requires": [
+            "ecl_basal_source_patch_and_saved_mesh_review"
+          ],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        },
+        {
+          "id": "acid_output",
+          "native_stage_name": "Acid: 3 Apical output",
+          "native_view": "Secretion route",
+          "visible_parts": [
+            "Surface mucous cells & gastric pits",
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Muscularis mucosae"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Middle circular muscle",
+            "Inner oblique muscle",
+            "Intermuscular connective tissue",
+            "Myenteric (Auerbach) plexus",
+            "Submucosa (rugal core)",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Parietal (oxyntic) cells"
+          ],
+          "caption": "Basal stimulation promotes apical acid secretion. H+/K+-ATPase exchanges hydrogen for potassium; chloride contributes to HCl. Gland lumen and pit carry luminal products outward.",
+          "active_routes": [
+            "cholinergic_to_parietal",
+            "acid_to_lumen"
+          ],
+          "source_evidence": [
+            "parietal_review_reopened",
+            "local_source"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "Canaliculi, channels and stimulated membrane recycling are explanatory context. No secretion rate or basal leak is simulated.",
+          "requires": [
+            "saved_gland_pit_continuity_and_blind_base_review"
+          ],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        },
+        {
+          "id": "acid_if",
+          "native_stage_name": "Acid: 4 Intrinsic factor",
+          "native_view": "Secretion route",
+          "visible_parts": [
+            "Surface mucous cells & gastric pits",
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Muscularis mucosae"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Middle circular muscle",
+            "Inner oblique muscle",
+            "Intermuscular connective tissue",
+            "Myenteric (Auerbach) plexus",
+            "Submucosa (rugal core)",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Parietal (oxyntic) cells"
+          ],
+          "caption": "Parietal cells also release intrinsic factor. Its vitamin B12 role is completed in the terminal ileum, outside this gastric block.",
+          "active_routes": [
+            "intrinsic_factor_to_lumen"
+          ],
+          "source_evidence": [
+            "leeds_reopened"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "Intrinsic factor is distinct from HCl and surface protection; this state does not depict stomach vitamin uptake.",
+          "requires": [],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        }
+      ],
+      "schematic_limitations": [
+        "No secretion kinetics, receptor dynamics or intracellular pump/canalicular geometry.",
+        "ECL placement correction is source-ready but saved geometry and visual polarity are deferred.",
+        "Other gastric endocrine populations may occur in the region but are not represented by the ECL part.",
+        "Current ECL source samples only lower gland sectors. That authored sampling choice does not imply biological ECL confinement to the chief-rich gland bottom."
+      ],
+      "acceptance_conditions": [
+        "Histamine stays basal/interstitial; acid stays apical/luminal.",
+        "Antral G cells are explicitly external, never a new selectable fundus/body mesh.",
+        "Native ECL view fails acceptance if the saved ECL contacts gland lumen."
+      ]
+    },
+    {
+      "id": "chief_pepsinogen",
+      "title": "Chief-cell precursor and luminal activation",
+      "extends_recovered_sequences": [
+        "chief_output",
+        "secretory_route"
+      ],
+      "mechanism": "Apical precursor secretion and acidic luminal activation cooperate without a basal drainage opening.",
+      "states": [
+        {
+          "id": "chief_polarity",
+          "native_stage_name": "Chief: 1 Polarity",
+          "native_view": "Cell populations",
+          "visible_parts": [
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Muscularis mucosae"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Middle circular muscle",
+            "Inner oblique muscle",
+            "Intermuscular connective tissue",
+            "Myenteric (Auerbach) plexus",
+            "Submucosa (rugal core)",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Surface mucous cells & gastric pits",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Chief (zymogen) cells – gland base"
+          ],
+          "caption": "Chief cells are enriched deeper in oxyntic glands. Basal rough ER supports protein production; secretory pepsinogen granules face the lumen.",
+          "active_routes": [],
+          "source_evidence": [
+            "siu_cells_reopened"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "Rough ER, granules and nuclei are histological context, not separate components in the displayed cell sample.",
+          "requires": [],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        },
+        {
+          "id": "chief_release",
+          "native_stage_name": "Chief: 2 Precursor route",
+          "native_view": "Secretion route",
+          "visible_parts": [
+            "Surface mucous cells & gastric pits",
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Muscularis mucosae"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Middle circular muscle",
+            "Inner oblique muscle",
+            "Intermuscular connective tissue",
+            "Myenteric (Auerbach) plexus",
+            "Submucosa (rugal core)",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Chief (zymogen) cells – gland base"
+          ],
+          "caption": "Chief cells release pepsinogen apically into the narrow gland lumen. The route leads to the pit and gastric lumen, never through the blind basal dome.",
+          "active_routes": [
+            "pepsinogen_to_lumen"
+          ],
+          "source_evidence": [
+            "siu_cells_reopened",
+            "local_source"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "The shared gland/pit route is a static teaching route, without particles, granule depletion or a computed flow field.",
+          "requires": [
+            "saved_gland_pit_continuity_and_blind_base_review"
+          ],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        },
+        {
+          "id": "chief_activation",
+          "native_stage_name": "Chief: 3 Acid cooperation",
+          "native_view": "Secretion route",
+          "visible_parts": [
+            "Surface mucous cells & gastric pits",
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Muscularis mucosae"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Middle circular muscle",
+            "Inner oblique muscle",
+            "Intermuscular connective tissue",
+            "Myenteric (Auerbach) plexus",
+            "Submucosa (rugal core)",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Chief (zymogen) cells – gland base",
+            "Parietal (oxyntic) cells"
+          ],
+          "caption": "Acidic luminal conditions convert pepsinogen to pepsin, initiating gastric protein digestion. Precursor secretion and enzyme activation are distinct steps.",
+          "active_routes": [
+            "pepsinogen_to_lumen",
+            "acid_to_lumen"
+          ],
+          "source_evidence": [
+            "naspghan_pepsin"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "Activation and proteolysis are caption context. No luminal pH threshold, reaction timing or digestion fraction is measured.",
+          "requires": [],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        }
+      ],
+      "schematic_limitations": [
+        "The chief-rich basal closure is a boundary, not one giant cell or a secretory outlet.",
+        "No active pepsin in lamina propria, vessels or lymphatics.",
+        "A local wall block contains no complete food bolus or intestinal absorption domain."
+      ],
+      "acceptance_conditions": [
+        "Chief secretory polarity and blind base remain readable.",
+        "Pepsinogen and pepsin are distinguished; acid is not portrayed as a chief-cell product."
+      ]
+    },
+    {
+      "id": "mucosal_protection",
+      "title": "Surface mucus, bicarbonate and tissue support",
+      "extends_recovered_sequences": [
+        "surface_defense",
+        "neck_and_renewal",
+        "vascular_neural_support"
+      ],
+      "mechanism": "Surface protection buffers incoming acid and restricts protease access while retaining open luminal gland outlets.",
+      "states": [
+        {
+          "id": "protection_mucus",
+          "native_stage_name": "Protection: 1 Surface",
+          "native_view": "Pit and oxyntic glands",
+          "visible_parts": [
+            "Surface mucous cells & gastric pits",
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Muscularis mucosae"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Middle circular muscle",
+            "Inner oblique muscle",
+            "Intermuscular connective tissue",
+            "Myenteric (Auerbach) plexus",
+            "Submucosa (rugal core)",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Surface mucous cells & gastric pits"
+          ],
+          "caption": "Surface mucous cells line the surface and pits. Their apical mucus supports an adherent gel; this differs from mucous neck-cell secretion.",
+          "active_routes": [
+            "mucus_to_surface_gel"
+          ],
+          "source_evidence": [
+            "siu_cells_reopened",
+            "barrier_reopened"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "Mucus gel is unmeshed context. Normal surface cells are not drawn or described as intestinal goblet cells.",
+          "requires": [],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        },
+        {
+          "id": "protection_buffer",
+          "native_stage_name": "Protection: 2 Buffer",
+          "native_view": "Pit and oxyntic glands",
+          "visible_parts": [
+            "Surface mucous cells & gastric pits",
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Muscularis mucosae"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Middle circular muscle",
+            "Inner oblique muscle",
+            "Intermuscular connective tissue",
+            "Myenteric (Auerbach) plexus",
+            "Submucosa (rugal core)",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Surface mucous cells & gastric pits"
+          ],
+          "caption": "Bicarbonate in the adherent gel neutralizes acid approaching the cells. Show only a qualitative acidic-lumen to protected-surface relationship.",
+          "active_routes": [
+            "bicarbonate_to_surface_gel"
+          ],
+          "source_evidence": [
+            "barrier_reopened"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "No gel thickness, pH number, impermeable coating or acid-diffusion field is claimed. Pit outlets remain open.",
+          "requires": [],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        },
+        {
+          "id": "protection_support",
+          "native_stage_name": "Protection: 3 Support",
+          "native_view": "Wall overview",
+          "visible_parts": [
+            "Surface mucous cells & gastric pits",
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Lamina propria",
+            "Muscularis mucosae",
+            "Submucosa (rugal core)",
+            "Submucosal arteries",
+            "Submucosal veins"
+          ],
+          "hidden_parts": [
+            "Serosa",
+            "Outer longitudinal muscle",
+            "Middle circular muscle",
+            "Inner oblique muscle",
+            "Intermuscular connective tissue",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Lymphatic vessels"
+          ],
+          "highlight_parts": [
+            "Surface mucous cells & gastric pits",
+            "Lamina propria"
+          ],
+          "caption": "The surface barrier restricts pepsin access. Underlying vascular support belongs to living tissue, separate from the gland route carrying gastric juice.",
+          "active_routes": [
+            "mucus_to_surface_gel",
+            "bicarbonate_to_surface_gel"
+          ],
+          "source_evidence": [
+            "barrier_reopened",
+            "local_source"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "Fine mucosal capillaries and full epithelial junction/repair biology are not modeled. Displayed artery/vein courses do not establish a complete microcirculation.",
+          "requires": [],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        }
+      ],
+      "schematic_limitations": [
+        "No mucus film or bicarbonate transporter mesh; no measured barrier thickness.",
+        "Neck-cell mucus is not assigned the entire surface barrier function.",
+        "No ulcer, epithelial repair or perfusion simulation, and no permanent gel plug sealing pit drainage."
+      ],
+      "acceptance_conditions": [
+        "The protected surface is clearly distinguished from acid-producing gland cells.",
+        "Protection is qualitative; no model color is a pH measurement.",
+        "Blood, lymph and gastric juice remain separate domains."
+      ]
+    },
+    {
+      "id": "mixing_enteric_coordination",
+      "title": "Muscle orientations and enteric coordination",
+      "extends_recovered_sequences": [
+        "muscle_directions",
+        "vascular_neural_support"
+      ],
+      "mechanism": "Orient local muscle layers and neural support without claiming whole-stomach motor propagation.",
+      "states": [
+        {
+          "id": "mixing_orientation",
+          "native_stage_name": "Mixing: 1 Orientations",
+          "native_view": "Wall nerves and vessels",
+          "visible_parts": [
+            "Inner oblique muscle",
+            "Middle circular muscle",
+            "Outer longitudinal muscle",
+            "Muscularis mucosae",
+            "Serosa"
+          ],
+          "hidden_parts": [
+            "Intermuscular connective tissue",
+            "Myenteric (Auerbach) plexus",
+            "Submucosa (rugal core)",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Surface mucous cells & gastric pits",
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Inner oblique muscle",
+            "Middle circular muscle",
+            "Outer longitudinal muscle"
+          ],
+          "caption": "Oblique, circular and longitudinal fascicles provide different orientations for gastric mechanical activity. This model samples the wall rather than an intact organ circumference.",
+          "active_routes": [],
+          "source_evidence": [
+            "local_source"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "Direction and layer identity are static; there is no chyme mesh, contraction amplitude or deformation.",
+          "requires": [],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        },
+        {
+          "id": "mixing_myenteric",
+          "native_stage_name": "Mixing: 2 Motor network",
+          "native_view": "Wall nerves and vessels",
+          "visible_parts": [
+            "Inner oblique muscle",
+            "Middle circular muscle",
+            "Outer longitudinal muscle",
+            "Muscularis mucosae",
+            "Serosa",
+            "Myenteric (Auerbach) plexus"
+          ],
+          "hidden_parts": [
+            "Intermuscular connective tissue",
+            "Submucosa (rugal core)",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Surface mucous cells & gastric pits",
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Myenteric (Auerbach) plexus"
+          ],
+          "caption": "The myenteric plexus lies between circular and longitudinal layers and supports motor regulation. Coordinated motility involves intrinsic and extrinsic control.",
+          "active_routes": [
+            "myenteric_regulation"
+          ],
+          "source_evidence": [
+            "local_source",
+            "mayr_primary_regional"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "Intermuscular connective-tissue host is hidden for access, not absent anatomically. Network is a schematic teaching sample; no identified synapses, neuron percentages or firing rates.",
+          "requires": [],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        },
+        {
+          "id": "mixing_pacing_support",
+          "native_stage_name": "Mixing: 3 Distinct roles",
+          "native_view": "Wall nerves and vessels",
+          "visible_parts": [
+            "Inner oblique muscle",
+            "Middle circular muscle",
+            "Outer longitudinal muscle",
+            "Muscularis mucosae",
+            "Serosa",
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus"
+          ],
+          "hidden_parts": [
+            "Intermuscular connective tissue",
+            "Submucosa (rugal core)",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Surface mucous cells & gastric pits",
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells",
+            "Lamina propria"
+          ],
+          "highlight_parts": [
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus"
+          ],
+          "caption": "Myenteric neural regulation is distinct from electrical coordination by unmeshed interstitial cells of Cajal. Submucosal support also contributes to local secretion and perfusion.",
+          "active_routes": [
+            "icc_electrical_context",
+            "submucosal_regulation"
+          ],
+          "source_evidence": [
+            "human_mapping_preserved",
+            "parietal_review_reopened",
+            "local_source"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "Intermuscular/submucosal hosts are hidden for access. Do not relabel the yellow neural mesh as ICC or impose a three-per-minute contraction on each fascicle.",
+          "requires": [],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        },
+        {
+          "id": "mixing_crop_limit",
+          "native_stage_name": "Mixing: 4 Regional limits",
+          "native_view": "Wall overview",
+          "visible_parts": [
+            "Surface mucous cells & gastric pits",
+            "Lamina propria",
+            "Muscularis mucosae",
+            "Submucosa (rugal core)",
+            "Inner oblique muscle",
+            "Middle circular muscle",
+            "Outer longitudinal muscle",
+            "Intermuscular connective tissue",
+            "Serosa"
+          ],
+          "hidden_parts": [
+            "Myenteric (Auerbach) plexus",
+            "Submucosal (Meissner) plexus",
+            "Submucosal arteries",
+            "Submucosal veins",
+            "Lymphatic vessels",
+            "Isthmus & neck (mucous neck cells)",
+            "Gastric gland body epithelium",
+            "Parietal (oxyntic) cells",
+            "Chief (zymogen) cells – gland base",
+            "Enteroendocrine (ECL) cells"
+          ],
+          "highlight_parts": [
+            "Submucosa (rugal core)",
+            "Inner oblique muscle",
+            "Middle circular muscle",
+            "Outer longitudinal muscle"
+          ],
+          "caption": "Fundic accommodation and distal grinding/retropulsion are regional organ functions. This fundus/body crop cannot demonstrate antral emptying, a pyloric sphincter or a measured whole-stomach wave.",
+          "active_routes": [],
+          "source_evidence": [
+            "mayr_primary_regional",
+            "human_mapping_preserved",
+            "local_source"
+          ],
+          "advance": "user_named_view_or_PageDown",
+          "display_limit": "No organ-lumen transport or ruga-flattening animation. Region-specific experimental circuit findings remain context, not the displayed network topology.",
+          "requires": [],
+          "physiological_duration_seconds": null,
+          "mesh_deformation": false
+        }
+      ],
+      "schematic_limitations": [
+        "No intact stomach, antrum, pylorus, food bolus, ICC network or extrinsic vagal trunk.",
+        "No assumed gastric peristaltic reflex copied from an intestinal textbook circuit.",
+        "No pacemaker speed, synchronous three-layer contraction or emptying prediction."
+      ],
+      "acceptance_conditions": [
+        "Three independently selectable muscle identities remain distinct.",
+        "Myenteric intermuscular location and submucosal support location remain understandable.",
+        "Function sequence states carry no physiological duration or mesh deformation."
+      ]
+    }
+  ],
+  "deferred_checks": [
+    "Saved output: gland lumens communicate with correct pit and remain blind above muscularis mucosae.",
+    "Saved output: basal ECL lacks gland-lumen contact, has correct host relationship and normals.",
+    "Native output: all exact part keys/labels, authored cut, cameras, scales and tooltip text survive roundtrip.",
+    "Visual review: sequence framing exposes polarity and muscle/plexus locations without ambiguous hidden-host cavities.",
+    "Native source adapter and later whole-app UI integration must be validated on the separate execution computer; no native app was run here.",
+    "Independent Pre refine/Post refine provenance and checks remain the lead/root delivery responsibility."
+  ],
+  "heavy_processing": "NOT RUN"
+}

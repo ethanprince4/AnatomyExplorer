@@ -1,0 +1,2513 @@
+{
+  "schema_version": 1,
+  "model_id": "thyroid_follicles",
+  "display_name": "Thyroid follicles",
+  "status": "source_ready; native UI and saved geometry acceptance deferred",
+  "expected_parts": [
+    "Follicular epithelium",
+    "Colloid",
+    "Resorption vacuoles",
+    "Parafollicular C cells",
+    "Perifollicular capillaries",
+    "Arteries (capsular & interlobular)",
+    "Veins (capsular & interlobular)",
+    "Interfollicular connective tissue",
+    "Interlobular septa",
+    "Capsule",
+    "Follicular basal lamina",
+    "Parathyroid capsule",
+    "Parathyroid chief cells",
+    "Oxyphil cells",
+    "Parathyroid adipocytes",
+    "Parathyroid capillaries"
+  ],
+  "expected_selectors": [
+    {
+      "name": "Follicular epithelium",
+      "group": "Thyroid follicles"
+    },
+    {
+      "name": "Colloid",
+      "group": "Thyroid follicles"
+    },
+    {
+      "name": "Resorption vacuoles",
+      "group": "Thyroid follicles"
+    },
+    {
+      "name": "Parafollicular C cells",
+      "group": "Thyroid follicles"
+    },
+    {
+      "name": "Perifollicular capillaries",
+      "group": "Vessels"
+    },
+    {
+      "name": "Arteries (capsular & interlobular)",
+      "group": "Vessels"
+    },
+    {
+      "name": "Veins (capsular & interlobular)",
+      "group": "Vessels"
+    },
+    {
+      "name": "Interfollicular connective tissue",
+      "group": "Capsule & stroma"
+    },
+    {
+      "name": "Interlobular septa",
+      "group": "Capsule & stroma"
+    },
+    {
+      "name": "Capsule",
+      "group": "Capsule & stroma"
+    },
+    {
+      "name": "Follicular basal lamina",
+      "group": "Thyroid follicles"
+    },
+    {
+      "name": "Parathyroid capsule",
+      "group": "Parathyroid gland"
+    },
+    {
+      "name": "Parathyroid chief cells",
+      "group": "Parathyroid gland"
+    },
+    {
+      "name": "Oxyphil cells",
+      "group": "Parathyroid gland"
+    },
+    {
+      "name": "Parathyroid adipocytes",
+      "group": "Parathyroid gland"
+    },
+    {
+      "name": "Parathyroid capillaries",
+      "group": "Parathyroid gland"
+    }
+  ],
+  "source_requirements": [
+    {
+      "root": "baseline",
+      "path": "app/micro/glands.py",
+      "sha256": "2acb8b0509b942e378854496e9450603540c0534c970805d467aa4bda169226b"
+    },
+    {
+      "root": "baseline",
+      "path": "app/micro/teaching_defaults.json",
+      "sha256": "cee66f6d873503624125325df40ae00f6270085a281ef5d0a8a6e82e11275187"
+    },
+    {
+      "root": "baseline",
+      "path": "app/micro/teaching_defaults.py",
+      "sha256": "6b2771218380635350ee9a3ce781e689ee3803e53822d0efc13f431bd5be949c"
+    },
+    {
+      "root": "baseline",
+      "path": "app/micro/registry_organs.py",
+      "sha256": "fbd839b7a8a7e3655e4d875c8f434bbbec4355b9658f8a4f9104e86ab9619bb8"
+    },
+    {
+      "root": "baseline",
+      "path": "app/viewer/procedural.py",
+      "sha256": "b0f522d6e037b394607c7e4ecff6a0be66467ad7109eb5838b5045b0ea29cf18"
+    },
+    {
+      "root": "baseline",
+      "path": "app/viewer/viewport.py",
+      "sha256": "f6cc86f76bc770741e745b2e8d4960b6082ef458df0be0a0bad27d7f16ac5d0f"
+    },
+    {
+      "root": "baseline",
+      "path": "app/viewer/camera.py",
+      "sha256": "c58160395b442eeb67fe1aed97fdcb9bb74b6f04112517534463951c0330085e"
+    }
+  ],
+  "source_cache_identity": {
+    "root": "baseline",
+    "path": "data/micro_cache/thyroid_follicles.npz",
+    "sha256": "b00ee588427dda8a23eb9ff04f288d3f312c5fb4f866ec4757626a5b173cb85d",
+    "metadata_digest": "35b8d4283eb0c5e269f6",
+    "purpose": "Identity reference only. Newly built Pre refine must be a separate immutable output, not this legacy cache."
+  },
+  "excluded_model_id": "thyroid_parathyroid_review_v2",
+  "start_view": "0 Six-follicle overview",
+  "view_order": [
+    "0 Six-follicle overview",
+    "1 Retained support and vessels",
+    "2 Follicular wall and colloid",
+    "3 Basal lamina and capillary baskets",
+    "4 Apical colloid resorption",
+    "5 Basal and interfollicular C cells",
+    "6 Parathyroid comparison sample"
+  ],
+  "native_cameras": {
+    "0 Six-follicle overview": {
+      "position": [
+        -2.6,
+        2.35,
+        3.7
+      ],
+      "target": [
+        -0.015,
+        0.35,
+        -0.02
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.65,
+      "hidden": [
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Follicular basal lamina",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": true,
+      "note": "Orient to the six representative thyroid follicles, lumen content, retained support and separate parathyroid context. The corner cut is a deliberate display section. The parathyroid corner is a separate comparison sample, not a thyroid follicle or a whole-gland location map. Fine resorption, C-cell and basket details are initially hidden to keep the hierarchy readable."
+    },
+    "1 Retained support and vessels": {
+      "position": [
+        -2.5,
+        1.75,
+        3.1
+      ],
+      "target": [
+        0,
+        0.31,
+        -0.035
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.6,
+      "hidden": [
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Follicular basal lamina",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": true,
+      "note": "Read capsule, septa and interfollicular connective tissue around the retained follicular units and sampled vascular courses. Retained support is already dissected and fitted around delivered vessels and tissue. Its shallow floor, ridge and posterior capsule are teaching context, not a complete closed thyroid capsule. Arterial and venous trunks are sampled courses; the capillary baskets are separate disconnected examples."
+    },
+    "2 Follicular wall and colloid": {
+      "position": [
+        0.34,
+        1.13,
+        2.01
+      ],
+      "target": [
+        0.34,
+        0.4,
+        0.26
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.1,
+      "hidden": [
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": true,
+      "note": "Distinguish the one-cell-thick follicular epithelial wall, extracellular colloid lumen and retained basal lamina. The camera targets the nominal front-right follicle before settling; all six units share each part mesh, so this is a camera detail view, not independent isolation of one follicle. Colloid is retained extracellular lumen content. The posterior basal lamina is opaque retained tissue; its missing anterior portion is authored dissection."
+    },
+    "3 Basal lamina and capillary baskets": {
+      "position": [
+        -1.7,
+        1.1,
+        2.55
+      ],
+      "target": [
+        -0.27,
+        0.43,
+        0.08
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.82,
+      "hidden": [
+        "Colloid",
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": false,
+      "note": "Inspect the basal side of the epithelial wall beside retained lamina and representative perifollicular baskets. Turning off the display cut restores only shader-clipped geometry; it does not restore the source-dissection portions. Three baskets sample six follicles. Neutral #99618c preserves their identity without inventing arterial-to-venous connectivity. Iodide supply and hormone transfer are functional explanations, not a depicted continuous flow circuit."
+    },
+    "4 Apical colloid resorption": {
+      "position": [
+        0.34,
+        1.04,
+        1.95
+      ],
+      "target": [
+        0.34,
+        0.4,
+        0.26
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.95,
+      "hidden": [
+        "Parafollicular C cells",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Follicular basal lamina",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": true,
+      "note": "Read scalloped colloid and the resorption markers at the epithelial apical interface. The source contains actual radial colloid concavities plus separate pale ellipsoidal resorption markers. Markers identify a teaching location; they are not solid inclusions to carve out or flowing hormone particles. Cellular uptake and processing are narrated because this original model has no separate vesicle or lysosome meshes and no animation."
+    },
+    "5 Basal and interfollicular C cells": {
+      "position": [
+        -0.75,
+        1.23,
+        2.2
+      ],
+      "target": [
+        0.17,
+        0.47,
+        0.19
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.4,
+      "hidden": [
+        "Resorption vacuoles",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": true,
+      "note": "Separate the pale-blue C-cell examples from the colloid-facing follicular epithelium. The source includes basal epithelial C-cell examples and one interfollicular example. Their teaching color identifies the cell class; routine H&E alone may not identify C cells reliably. Preserve their absence of colloid contact. Calcitonin release is toward blood, with no need to import review_v2 signaling symbols or nuclei."
+    },
+    "6 Parathyroid comparison sample": {
+      "position": [
+        0.77,
+        0.95,
+        1.38
+      ],
+      "target": [
+        0.77,
+        0.43,
+        -0.28
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.69,
+      "hidden": [
+        "Follicular epithelium",
+        "Colloid",
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Follicular basal lamina"
+      ],
+      "cut_on": false,
+      "note": "Compare a separate parathyroid sample containing chief cells, oxyphil cells, adipocytes and a sampled capillary. Thyroid parts are hidden to prevent a false impression of parathyroid colloid or inter-specimen continuity. The posterior half-capsule is retained and its anterior half is already dissected away. Cell counts and cell dimensions are schematic. The single neutral capillary lacks a depicted arterial/venous connection. This is the original context sample, not thyroid_parathyroid_review_v2."
+    }
+  },
+  "cutaway": {
+    "axes": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "at": [
+      -0.15,
+      0.25
+    ],
+    "semantics": "Native corner display cut; keep exact planes and apply consistently to all original clip-enabled parts. Turning this off does not heal source dissection.",
+    "preserve_source_planes": true
+  },
+  "scale": {
+    "metres_per_unit": 0.0005,
+    "um_per_model_unit": 500,
+    "basis": "Selected baseline _thyroid_build_candidate report plus teaching_defaults.json, not borrowed review_v2 provenance.",
+    "field_width_mm": 1,
+    "representative_follicles": 6,
+    "published_context_um": [
+      50,
+      500
+    ],
+    "source_pedagogical_targets_um": {
+      "epithelial_pitch": 50,
+      "epithelial_height_range": [
+        20.5,
+        26
+      ],
+      "basal_lamina": 2.5,
+      "capillary_outer_diameter": 13,
+      "chief_cell_diameter_range": [
+        28,
+        30
+      ],
+      "oxyphil_diameter_range": [
+        36,
+        42
+      ]
+    },
+    "targets_are_source_design_disclosures_not_measured_validation": true,
+    "scale_note": "Biological follicles vary roughly 50–500 µm across. This six-unit teaching sample uses 500 µm per model unit in source reports, with enlarged cells, basal lamina and vessel walls; it is not a uniformly life-sized specimen."
+  },
+  "material_policy": {
+    "preserve_exact_colors": {
+      "Follicular epithelium": "#b8739a",
+      "Colloid": "#eba27c",
+      "Resorption vacuoles": "#f7ecd6",
+      "Parafollicular C cells": "#8fc9e6",
+      "Perifollicular capillaries": "#99618c",
+      "Arteries (capsular & interlobular)": "#c8322c",
+      "Veins (capsular & interlobular)": "#5f5aa8",
+      "Interfollicular connective tissue": "#c9b391",
+      "Interlobular septa": "#c9b391",
+      "Capsule": "#c9b391",
+      "Follicular basal lamina": "#d8c199",
+      "Parathyroid capsule": "#d7c09c",
+      "Parathyroid chief cells": "#cda9b8",
+      "Oxyphil cells": "#bd6f72",
+      "Parathyroid adipocytes": "#e7d68b",
+      "Parathyroid capillaries": "#99618c"
+    },
+    "preserve_alpha": true,
+    "original_alpha": 1,
+    "preserve_normals_and_categories": true,
+    "no_capillary_gradient_without_connectivity": true,
+    "uniform_retained_support_color": "#c9b391",
+    "legibility": "Use opaque authored parts with exact visibility presets and moderate orthographic framing. Preserve native color mode and tissue-opacity controls without silently changing material metadata. Color and camera acceptance require separate native review.",
+    "highlight_policy": "Native selection may temporarily highlight a part; never bake highlight colors into Pre or Post geometry."
+  },
+  "layers": [
+    {
+      "id": "follicular_unit",
+      "title": "Follicular unit",
+      "selectors": [
+        {
+          "name": "Follicular epithelium",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Colloid",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Follicular basal lamina",
+          "group": "Thyroid follicles"
+        }
+      ],
+      "semantics": "Nested wall, retained extracellular lumen content and basal support; preserve legitimate adjacency.",
+      "interaction": "visibility only; no geometry subtraction, explode offsets, or mesh mutation"
+    },
+    {
+      "id": "resorption_markers",
+      "title": "Apical resorption cues",
+      "selectors": [
+        {
+          "name": "Resorption vacuoles",
+          "group": "Thyroid follicles"
+        }
+      ],
+      "semantics": "Separate ellipsoidal teaching markers associated with actual colloid concavities; do not treat markers as tissue contaminants.",
+      "interaction": "visibility only; no geometry subtraction, explode offsets, or mesh mutation"
+    },
+    {
+      "id": "c_cells",
+      "title": "Basal/interfollicular C cells",
+      "selectors": [
+        {
+          "name": "Parafollicular C cells",
+          "group": "Thyroid follicles"
+        }
+      ],
+      "semantics": "Source contains basal epithelial and separate interfollicular examples; no blanket parent or colloid-contact assumption.",
+      "interaction": "visibility only; no geometry subtraction, explode offsets, or mesh mutation"
+    },
+    {
+      "id": "vascular_examples",
+      "title": "Vascular examples",
+      "selectors": [
+        {
+          "name": "Perifollicular capillaries",
+          "group": "Vessels"
+        },
+        {
+          "name": "Arteries (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Veins (capsular & interlobular)",
+          "group": "Vessels"
+        }
+      ],
+      "semantics": "Disconnected baskets/trunks are separate examples; preserve genuine lumens and neutral capillary color.",
+      "interaction": "visibility only; no geometry subtraction, explode offsets, or mesh mutation"
+    },
+    {
+      "id": "retained_support",
+      "title": "Retained capsule and stroma",
+      "selectors": [
+        {
+          "name": "Interfollicular connective tissue",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Interlobular septa",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Capsule",
+          "group": "Capsule & stroma"
+        }
+      ],
+      "semantics": "Already dissected, fitted support; not full specimen containment or a closed organ shell.",
+      "interaction": "visibility only; no geometry subtraction, explode offsets, or mesh mutation"
+    },
+    {
+      "id": "parathyroid_context",
+      "title": "Separate parathyroid context",
+      "selectors": [
+        {
+          "name": "Parathyroid capsule",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid chief cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Oxyphil cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid adipocytes",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid capillaries",
+          "group": "Parathyroid gland"
+        }
+      ],
+      "semantics": "Separate comparison sample with its own retained posterior capsule; never merge with thyroid colloid.",
+      "interaction": "visibility only; no geometry subtraction, explode offsets, or mesh mutation"
+    }
+  ],
+  "teaching_views": [
+    {
+      "id": "overview",
+      "title": "0 Six-follicle overview",
+      "purpose": "Orient to the six representative thyroid follicles, lumen content, retained support and separate parathyroid context.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid chief cells"
+      ],
+      "hidden_parts": [
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Follicular basal lamina",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "visible_selectors": [
+        {
+          "name": "Follicular epithelium",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Colloid",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Arteries (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Veins (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Interfollicular connective tissue",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Interlobular septa",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Capsule",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Parathyroid capsule",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid chief cells",
+          "group": "Parathyroid gland"
+        }
+      ],
+      "hidden_selectors": [
+        {
+          "name": "Resorption vacuoles",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Parafollicular C cells",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Perifollicular capillaries",
+          "group": "Vessels"
+        },
+        {
+          "name": "Follicular basal lamina",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Oxyphil cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid adipocytes",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid capillaries",
+          "group": "Parathyroid gland"
+        }
+      ],
+      "focus_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Parathyroid chief cells"
+      ],
+      "label_priorities": [
+        "Follicular epithelium",
+        "Colloid",
+        "Capsule",
+        "Parathyroid chief cells"
+      ],
+      "label_priority_behavior": "Narrative priorities only. Native hidden sets reduce label clutter; no unsupported per-instance selection or label filter is implied.",
+      "native_camera": {
+        "position": [
+          -2.6,
+          2.35,
+          3.7
+        ],
+        "target": [
+          -0.015,
+          0.35,
+          -0.02
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.65,
+        "hidden": [
+          "Resorption vacuoles",
+          "Parafollicular C cells",
+          "Perifollicular capillaries",
+          "Follicular basal lamina",
+          "Oxyphil cells",
+          "Parathyroid adipocytes",
+          "Parathyroid capillaries"
+        ],
+        "cut_on": true,
+        "note": "Orient to the six representative thyroid follicles, lumen content, retained support and separate parathyroid context. The corner cut is a deliberate display section. The parathyroid corner is a separate comparison sample, not a thyroid follicle or a whole-gland location map. Fine resorption, C-cell and basket details are initially hidden to keep the hierarchy readable."
+      },
+      "scale_note": "Six representative follicles in a 1 mm-wide teaching field; authored source scale is 500 µm/model unit. Follicular cells, capillary passages, basal lamina and parathyroid cells are enlarged and counts are reduced. This is not a uniformly scaled histological specimen. Follicles 50–500 µm across describes biological context, not a calibration of every visible structure.",
+      "teaching_note": "The corner cut is a deliberate display section. The parathyroid corner is a separate comparison sample, not a thyroid follicle or a whole-gland location map. Fine resorption, C-cell and basket details are initially hidden to keep the hierarchy readable.",
+      "validation_status": "source_checked_camera_framing_and_visual_review_deferred"
+    },
+    {
+      "id": "support_context",
+      "title": "1 Retained support and vessels",
+      "purpose": "Read capsule, septa and interfollicular connective tissue around the retained follicular units and sampled vascular courses.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Parathyroid capsule"
+      ],
+      "hidden_parts": [
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Follicular basal lamina",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "visible_selectors": [
+        {
+          "name": "Follicular epithelium",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Colloid",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Interfollicular connective tissue",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Interlobular septa",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Capsule",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Arteries (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Veins (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Parathyroid capsule",
+          "group": "Parathyroid gland"
+        }
+      ],
+      "hidden_selectors": [
+        {
+          "name": "Resorption vacuoles",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Parafollicular C cells",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Perifollicular capillaries",
+          "group": "Vessels"
+        },
+        {
+          "name": "Follicular basal lamina",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Parathyroid chief cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Oxyphil cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid adipocytes",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid capillaries",
+          "group": "Parathyroid gland"
+        }
+      ],
+      "focus_parts": [
+        "Capsule",
+        "Interlobular septa",
+        "Interfollicular connective tissue",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)"
+      ],
+      "label_priorities": [
+        "Capsule",
+        "Interlobular septa",
+        "Interfollicular connective tissue",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)"
+      ],
+      "label_priority_behavior": "Narrative priorities only. Native hidden sets reduce label clutter; no unsupported per-instance selection or label filter is implied.",
+      "native_camera": {
+        "position": [
+          -2.5,
+          1.75,
+          3.1
+        ],
+        "target": [
+          0,
+          0.31,
+          -0.035
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.6,
+        "hidden": [
+          "Resorption vacuoles",
+          "Parafollicular C cells",
+          "Perifollicular capillaries",
+          "Follicular basal lamina",
+          "Parathyroid chief cells",
+          "Oxyphil cells",
+          "Parathyroid adipocytes",
+          "Parathyroid capillaries"
+        ],
+        "cut_on": true,
+        "note": "Read capsule, septa and interfollicular connective tissue around the retained follicular units and sampled vascular courses. Retained support is already dissected and fitted around delivered vessels and tissue. Its shallow floor, ridge and posterior capsule are teaching context, not a complete closed thyroid capsule. Arterial and venous trunks are sampled courses; the capillary baskets are separate disconnected examples."
+      },
+      "scale_note": "Six representative follicles in a 1 mm-wide teaching field; authored source scale is 500 µm/model unit. Follicular cells, capillary passages, basal lamina and parathyroid cells are enlarged and counts are reduced. This is not a uniformly scaled histological specimen. Follicles 50–500 µm across describes biological context, not a calibration of every visible structure.",
+      "teaching_note": "Retained support is already dissected and fitted around delivered vessels and tissue. Its shallow floor, ridge and posterior capsule are teaching context, not a complete closed thyroid capsule. Arterial and venous trunks are sampled courses; the capillary baskets are separate disconnected examples.",
+      "validation_status": "source_checked_camera_framing_and_visual_review_deferred"
+    },
+    {
+      "id": "follicular_wall",
+      "title": "2 Follicular wall and colloid",
+      "purpose": "Distinguish the one-cell-thick follicular epithelial wall, extracellular colloid lumen and retained basal lamina.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina"
+      ],
+      "hidden_parts": [
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "visible_selectors": [
+        {
+          "name": "Follicular epithelium",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Colloid",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Follicular basal lamina",
+          "group": "Thyroid follicles"
+        }
+      ],
+      "hidden_selectors": [
+        {
+          "name": "Resorption vacuoles",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Parafollicular C cells",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Perifollicular capillaries",
+          "group": "Vessels"
+        },
+        {
+          "name": "Arteries (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Veins (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Interfollicular connective tissue",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Interlobular septa",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Capsule",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Parathyroid capsule",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid chief cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Oxyphil cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid adipocytes",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid capillaries",
+          "group": "Parathyroid gland"
+        }
+      ],
+      "focus_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina"
+      ],
+      "label_priorities": [
+        "Follicular epithelium",
+        "Colloid",
+        "Follicular basal lamina"
+      ],
+      "label_priority_behavior": "Narrative priorities only. Native hidden sets reduce label clutter; no unsupported per-instance selection or label filter is implied.",
+      "native_camera": {
+        "position": [
+          0.34,
+          1.13,
+          2.01
+        ],
+        "target": [
+          0.34,
+          0.4,
+          0.26
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.1,
+        "hidden": [
+          "Resorption vacuoles",
+          "Parafollicular C cells",
+          "Perifollicular capillaries",
+          "Arteries (capsular & interlobular)",
+          "Veins (capsular & interlobular)",
+          "Interfollicular connective tissue",
+          "Interlobular septa",
+          "Capsule",
+          "Parathyroid capsule",
+          "Parathyroid chief cells",
+          "Oxyphil cells",
+          "Parathyroid adipocytes",
+          "Parathyroid capillaries"
+        ],
+        "cut_on": true,
+        "note": "Distinguish the one-cell-thick follicular epithelial wall, extracellular colloid lumen and retained basal lamina. The camera targets the nominal front-right follicle before settling; all six units share each part mesh, so this is a camera detail view, not independent isolation of one follicle. Colloid is retained extracellular lumen content. The posterior basal lamina is opaque retained tissue; its missing anterior portion is authored dissection."
+      },
+      "scale_note": "Six representative follicles in a 1 mm-wide teaching field; authored source scale is 500 µm/model unit. Follicular cells, capillary passages, basal lamina and parathyroid cells are enlarged and counts are reduced. This is not a uniformly scaled histological specimen. Follicles 50–500 µm across describes biological context, not a calibration of every visible structure.",
+      "teaching_note": "The camera targets the nominal front-right follicle before settling; all six units share each part mesh, so this is a camera detail view, not independent isolation of one follicle. Colloid is retained extracellular lumen content. The posterior basal lamina is opaque retained tissue; its missing anterior portion is authored dissection.",
+      "validation_status": "source_checked_camera_framing_and_visual_review_deferred"
+    },
+    {
+      "id": "basal_exchange",
+      "title": "3 Basal lamina and capillary baskets",
+      "purpose": "Inspect the basal side of the epithelial wall beside retained lamina and representative perifollicular baskets.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Follicular basal lamina",
+        "Perifollicular capillaries"
+      ],
+      "hidden_parts": [
+        "Colloid",
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "visible_selectors": [
+        {
+          "name": "Follicular epithelium",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Follicular basal lamina",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Perifollicular capillaries",
+          "group": "Vessels"
+        }
+      ],
+      "hidden_selectors": [
+        {
+          "name": "Colloid",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Resorption vacuoles",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Parafollicular C cells",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Arteries (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Veins (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Interfollicular connective tissue",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Interlobular septa",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Capsule",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Parathyroid capsule",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid chief cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Oxyphil cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid adipocytes",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid capillaries",
+          "group": "Parathyroid gland"
+        }
+      ],
+      "focus_parts": [
+        "Follicular basal lamina",
+        "Perifollicular capillaries",
+        "Follicular epithelium"
+      ],
+      "label_priorities": [
+        "Follicular basal lamina",
+        "Perifollicular capillaries",
+        "Follicular epithelium"
+      ],
+      "label_priority_behavior": "Narrative priorities only. Native hidden sets reduce label clutter; no unsupported per-instance selection or label filter is implied.",
+      "native_camera": {
+        "position": [
+          -1.7,
+          1.1,
+          2.55
+        ],
+        "target": [
+          -0.27,
+          0.43,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.82,
+        "hidden": [
+          "Colloid",
+          "Resorption vacuoles",
+          "Parafollicular C cells",
+          "Arteries (capsular & interlobular)",
+          "Veins (capsular & interlobular)",
+          "Interfollicular connective tissue",
+          "Interlobular septa",
+          "Capsule",
+          "Parathyroid capsule",
+          "Parathyroid chief cells",
+          "Oxyphil cells",
+          "Parathyroid adipocytes",
+          "Parathyroid capillaries"
+        ],
+        "cut_on": false,
+        "note": "Inspect the basal side of the epithelial wall beside retained lamina and representative perifollicular baskets. Turning off the display cut restores only shader-clipped geometry; it does not restore the source-dissection portions. Three baskets sample six follicles. Neutral #99618c preserves their identity without inventing arterial-to-venous connectivity. Iodide supply and hormone transfer are functional explanations, not a depicted continuous flow circuit."
+      },
+      "scale_note": "Six representative follicles in a 1 mm-wide teaching field; authored source scale is 500 µm/model unit. Follicular cells, capillary passages, basal lamina and parathyroid cells are enlarged and counts are reduced. This is not a uniformly scaled histological specimen. Follicles 50–500 µm across describes biological context, not a calibration of every visible structure.",
+      "teaching_note": "Turning off the display cut restores only shader-clipped geometry; it does not restore the source-dissection portions. Three baskets sample six follicles. Neutral #99618c preserves their identity without inventing arterial-to-venous connectivity. Iodide supply and hormone transfer are functional explanations, not a depicted continuous flow circuit.",
+      "validation_status": "source_checked_camera_framing_and_visual_review_deferred"
+    },
+    {
+      "id": "apical_resorption",
+      "title": "4 Apical colloid resorption",
+      "purpose": "Read scalloped colloid and the resorption markers at the epithelial apical interface.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Resorption vacuoles",
+        "Perifollicular capillaries"
+      ],
+      "hidden_parts": [
+        "Parafollicular C cells",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Follicular basal lamina",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "visible_selectors": [
+        {
+          "name": "Follicular epithelium",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Colloid",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Resorption vacuoles",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Perifollicular capillaries",
+          "group": "Vessels"
+        }
+      ],
+      "hidden_selectors": [
+        {
+          "name": "Parafollicular C cells",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Arteries (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Veins (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Interfollicular connective tissue",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Interlobular septa",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Capsule",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Follicular basal lamina",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Parathyroid capsule",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid chief cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Oxyphil cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid adipocytes",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid capillaries",
+          "group": "Parathyroid gland"
+        }
+      ],
+      "focus_parts": [
+        "Colloid",
+        "Resorption vacuoles",
+        "Follicular epithelium"
+      ],
+      "label_priorities": [
+        "Colloid",
+        "Resorption vacuoles",
+        "Follicular epithelium"
+      ],
+      "label_priority_behavior": "Narrative priorities only. Native hidden sets reduce label clutter; no unsupported per-instance selection or label filter is implied.",
+      "native_camera": {
+        "position": [
+          0.34,
+          1.04,
+          1.95
+        ],
+        "target": [
+          0.34,
+          0.4,
+          0.26
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.95,
+        "hidden": [
+          "Parafollicular C cells",
+          "Arteries (capsular & interlobular)",
+          "Veins (capsular & interlobular)",
+          "Interfollicular connective tissue",
+          "Interlobular septa",
+          "Capsule",
+          "Follicular basal lamina",
+          "Parathyroid capsule",
+          "Parathyroid chief cells",
+          "Oxyphil cells",
+          "Parathyroid adipocytes",
+          "Parathyroid capillaries"
+        ],
+        "cut_on": true,
+        "note": "Read scalloped colloid and the resorption markers at the epithelial apical interface. The source contains actual radial colloid concavities plus separate pale ellipsoidal resorption markers. Markers identify a teaching location; they are not solid inclusions to carve out or flowing hormone particles. Cellular uptake and processing are narrated because this original model has no separate vesicle or lysosome meshes and no animation."
+      },
+      "scale_note": "Six representative follicles in a 1 mm-wide teaching field; authored source scale is 500 µm/model unit. Follicular cells, capillary passages, basal lamina and parathyroid cells are enlarged and counts are reduced. This is not a uniformly scaled histological specimen. Follicles 50–500 µm across describes biological context, not a calibration of every visible structure.",
+      "teaching_note": "The source contains actual radial colloid concavities plus separate pale ellipsoidal resorption markers. Markers identify a teaching location; they are not solid inclusions to carve out or flowing hormone particles. Cellular uptake and processing are narrated because this original model has no separate vesicle or lysosome meshes and no animation.",
+      "validation_status": "source_checked_camera_framing_and_visual_review_deferred"
+    },
+    {
+      "id": "c_cells",
+      "title": "5 Basal and interfollicular C cells",
+      "purpose": "Separate the pale-blue C-cell examples from the colloid-facing follicular epithelium.",
+      "visible_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Parafollicular C cells",
+        "Follicular basal lamina",
+        "Perifollicular capillaries"
+      ],
+      "hidden_parts": [
+        "Resorption vacuoles",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "visible_selectors": [
+        {
+          "name": "Follicular epithelium",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Colloid",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Parafollicular C cells",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Follicular basal lamina",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Perifollicular capillaries",
+          "group": "Vessels"
+        }
+      ],
+      "hidden_selectors": [
+        {
+          "name": "Resorption vacuoles",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Arteries (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Veins (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Interfollicular connective tissue",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Interlobular septa",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Capsule",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Parathyroid capsule",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid chief cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Oxyphil cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid adipocytes",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid capillaries",
+          "group": "Parathyroid gland"
+        }
+      ],
+      "focus_parts": [
+        "Parafollicular C cells",
+        "Follicular basal lamina",
+        "Colloid"
+      ],
+      "label_priorities": [
+        "Parafollicular C cells",
+        "Colloid",
+        "Perifollicular capillaries"
+      ],
+      "label_priority_behavior": "Narrative priorities only. Native hidden sets reduce label clutter; no unsupported per-instance selection or label filter is implied.",
+      "native_camera": {
+        "position": [
+          -0.75,
+          1.23,
+          2.2
+        ],
+        "target": [
+          0.17,
+          0.47,
+          0.19
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.4,
+        "hidden": [
+          "Resorption vacuoles",
+          "Arteries (capsular & interlobular)",
+          "Veins (capsular & interlobular)",
+          "Interfollicular connective tissue",
+          "Interlobular septa",
+          "Capsule",
+          "Parathyroid capsule",
+          "Parathyroid chief cells",
+          "Oxyphil cells",
+          "Parathyroid adipocytes",
+          "Parathyroid capillaries"
+        ],
+        "cut_on": true,
+        "note": "Separate the pale-blue C-cell examples from the colloid-facing follicular epithelium. The source includes basal epithelial C-cell examples and one interfollicular example. Their teaching color identifies the cell class; routine H&E alone may not identify C cells reliably. Preserve their absence of colloid contact. Calcitonin release is toward blood, with no need to import review_v2 signaling symbols or nuclei."
+      },
+      "scale_note": "Six representative follicles in a 1 mm-wide teaching field; authored source scale is 500 µm/model unit. Follicular cells, capillary passages, basal lamina and parathyroid cells are enlarged and counts are reduced. This is not a uniformly scaled histological specimen. Follicles 50–500 µm across describes biological context, not a calibration of every visible structure.",
+      "teaching_note": "The source includes basal epithelial C-cell examples and one interfollicular example. Their teaching color identifies the cell class; routine H&E alone may not identify C cells reliably. Preserve their absence of colloid contact. Calcitonin release is toward blood, with no need to import review_v2 signaling symbols or nuclei.",
+      "validation_status": "source_checked_camera_framing_and_visual_review_deferred"
+    },
+    {
+      "id": "parathyroid",
+      "title": "6 Parathyroid comparison sample",
+      "purpose": "Compare a separate parathyroid sample containing chief cells, oxyphil cells, adipocytes and a sampled capillary.",
+      "visible_parts": [
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "hidden_parts": [
+        "Follicular epithelium",
+        "Colloid",
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Follicular basal lamina"
+      ],
+      "visible_selectors": [
+        {
+          "name": "Parathyroid capsule",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid chief cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Oxyphil cells",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid adipocytes",
+          "group": "Parathyroid gland"
+        },
+        {
+          "name": "Parathyroid capillaries",
+          "group": "Parathyroid gland"
+        }
+      ],
+      "hidden_selectors": [
+        {
+          "name": "Follicular epithelium",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Colloid",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Resorption vacuoles",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Parafollicular C cells",
+          "group": "Thyroid follicles"
+        },
+        {
+          "name": "Perifollicular capillaries",
+          "group": "Vessels"
+        },
+        {
+          "name": "Arteries (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Veins (capsular & interlobular)",
+          "group": "Vessels"
+        },
+        {
+          "name": "Interfollicular connective tissue",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Interlobular septa",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Capsule",
+          "group": "Capsule & stroma"
+        },
+        {
+          "name": "Follicular basal lamina",
+          "group": "Thyroid follicles"
+        }
+      ],
+      "focus_parts": [
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "label_priorities": [
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "label_priority_behavior": "Narrative priorities only. Native hidden sets reduce label clutter; no unsupported per-instance selection or label filter is implied.",
+      "native_camera": {
+        "position": [
+          0.77,
+          0.95,
+          1.38
+        ],
+        "target": [
+          0.77,
+          0.43,
+          -0.28
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.69,
+        "hidden": [
+          "Follicular epithelium",
+          "Colloid",
+          "Resorption vacuoles",
+          "Parafollicular C cells",
+          "Perifollicular capillaries",
+          "Arteries (capsular & interlobular)",
+          "Veins (capsular & interlobular)",
+          "Interfollicular connective tissue",
+          "Interlobular septa",
+          "Capsule",
+          "Follicular basal lamina"
+        ],
+        "cut_on": false,
+        "note": "Compare a separate parathyroid sample containing chief cells, oxyphil cells, adipocytes and a sampled capillary. Thyroid parts are hidden to prevent a false impression of parathyroid colloid or inter-specimen continuity. The posterior half-capsule is retained and its anterior half is already dissected away. Cell counts and cell dimensions are schematic. The single neutral capillary lacks a depicted arterial/venous connection. This is the original context sample, not thyroid_parathyroid_review_v2."
+      },
+      "scale_note": "Six representative follicles in a 1 mm-wide teaching field; authored source scale is 500 µm/model unit. Follicular cells, capillary passages, basal lamina and parathyroid cells are enlarged and counts are reduced. This is not a uniformly scaled histological specimen. Follicles 50–500 µm across describes biological context, not a calibration of every visible structure.",
+      "teaching_note": "Thyroid parts are hidden to prevent a false impression of parathyroid colloid or inter-specimen continuity. The posterior half-capsule is retained and its anterior half is already dissected away. Cell counts and cell dimensions are schematic. The single neutral capillary lacks a depicted arterial/venous connection. This is the original context sample, not thyroid_parathyroid_review_v2.",
+      "validation_status": "source_checked_camera_framing_and_visual_review_deferred"
+    }
+  ],
+  "functional_teaching": {
+    "presentation": "Static narrated progression using existing named parts. No added molecule, organelle, arrow, or motion geometry.",
+    "steps": [
+      {
+        "id": "supply",
+        "view": "basal_exchange",
+        "caption": "The basal vascular side supplies iodide to follicular cells; this sampled geometry does not draw a complete perfusion path."
+      },
+      {
+        "id": "storage",
+        "view": "follicular_wall",
+        "caption": "Follicular cells make thyroglobulin; hormone precursors are formed and stored with it in extracellular colloid."
+      },
+      {
+        "id": "uptake",
+        "view": "apical_resorption",
+        "caption": "TSH-stimulated colloid uptake and intracellular processing precede T3/T4 release toward nearby blood vessels; markers do not animate this mechanism."
+      },
+      {
+        "id": "calcitonin",
+        "view": "c_cells",
+        "caption": "C cells release calcitonin toward blood without reaching the colloid."
+      },
+      {
+        "id": "pth",
+        "view": "parathyroid",
+        "caption": "Chief cells in the separate parathyroid context are the PTH-secreting cell class. Oxyphil and fat are identification context, not extra thyroid follicles."
+      }
+    ],
+    "boundaries": [
+      "No physiological state change is implied by changing teaching presets.",
+      "Pre/Post refine compare processing outputs, not low/high gland activity.",
+      "Epithelium height and scalloping are illustrative morphology, not a diagnostic result or hormone-production meter."
+    ]
+  },
+  "versions": {
+    "labels": [
+      "Pre refine",
+      "Post refine"
+    ],
+    "display_mode": "one_at_a_time",
+    "side_by_side_allowed": false,
+    "preferred_version_storage_key": "thyroid_follicles",
+    "preferred_version_persisted_per_model": true,
+    "pre_refine_definition": "Immutable newly built output immediately before microrefine; never substitute legacy original.",
+    "post_refine_definition": "Separate result after supported microrefine processing; independent source/output hashes and validation.",
+    "availability_gate": "Expose each version only after its independent required output, provenance and native checks pass. Failed or missing Post refine is unavailable, never an identical fake copy.",
+    "switching": "Replace the active variant in the same viewport; use shared teaching preset names only after selectors validate against that variant. Retain preferred version and per-variant provenance.",
+    "implementation_owner": "Whole-application UI integration and launcher orchestration, outside this specialist scope."
+  },
+  "application": {
+    "entrypoint": "apply_native_teaching(model, variant=..., available_part_metadata=..., sidecar_path=...) after baseline teaching defaults and before native ProceduralModel construction.",
+    "supplied_helper": "apply_teaching.py",
+    "native_fields": [
+      "viewer_cameras",
+      "start_view",
+      "scale_note"
+    ],
+    "native_consumer": "app/viewer/procedural.py copies cameras/start_view; app/viewer/viewport.py applies hidden and cut_on with reset visibility.",
+    "unsupported_controls_not_assumed": [
+      "per-follicle isolation within merged part meshes",
+      "native per-preset label filtering",
+      "automatic caption overlay",
+      "Pre/Post persistence or version switching from this helper"
+    ],
+    "geometry_operations": "none"
+  },
+  "preview_review": {
+    "status": "deferred_no_attributable_available_model_preview",
+    "inspected_images": [],
+    "records_examined": [
+      {
+        "root": "baseline",
+        "path": "local-verification/teaching-review/native-drafts-v1/thyroid_follicles/draft-status.json",
+        "attribution": "September 30, 16-part, 315118-triangle draft; source_digest b985f9ea4ec34f97fbe6; cache_sha256 17b4dcf71cbe70f5eae72294215833b28d1423711af3f567137958c3a425f9fa. Captures are only absent Windows-path pointers and were not viewed."
+      },
+      {
+        "root": "baseline",
+        "path": "logs/model-work/thyroid_follicles/baseline-20261001/LAUNCH.json",
+        "attribution": "October 1, 16-part, 377440-triangle launch; cache_sha256 03567228b03a4fc538c86e6b3df645b8dc2897f905b06cc561e5b5780f19a7ca. screenshots_created=false. Neither record validates current b00ee588… cache or new output."
+      }
+    ],
+    "identity_exclusions": [
+      "Histology thumbnails are tissue reference images, not previews of the selected model.",
+      "review_v2 pictures, source and frozen cache cannot validate thyroid_follicles."
+    ],
+    "conclusion": "No visual acceptance claimed; final framing, label density, exact cut-face shading and color legibility remain deferred."
+  },
+  "evidence": [
+    {
+      "id": "duke_endocrine",
+      "url": "https://histology.oit.duke.edu/NormalBody/Endocrine/Endocrine_2024.html",
+      "opened_utc": "2026-10-04T08:35:43Z",
+      "relevance": "Low-to-high-power progression; colloid enclosed by simple epithelial shells; distinct parathyroid cords and oxyphil/fat context; C cells are difficult to identify in routine H&E.",
+      "source_summary_budget": "Use source-specific prose in SOURCES.md; sidecar combines source authoring metadata with teaching implementation choices."
+    },
+    {
+      "id": "histologyguide_endocrine",
+      "url": "https://www.histologyguide.org/slidebox/13-endocrine-glands.html",
+      "opened_utc": "2026-10-04T08:35:43Z",
+      "relevance": "Endocrine-gland chapter entry only; no slide image or model inspection claimed."
+    }
+  ],
+  "deferred_checks": [
+    "Verify all seven cameras against each independently saved output after final settling.",
+    "Ensure overview retains six recognizable representative follicular units plus distinct parathyroid context.",
+    "Check cut faces do not falsely read as holes, lumen obstruction or uniformly scaled tissues.",
+    "Check the detail camera targets approximate pre-settle source locations; adjust cameras only if needed after native review, without modifying model geometry.",
+    "Validate identical part names/groups and preserved RGBA/material/normal semantics in independent Pre/Post saved outputs.",
+    "Check one-at-a-time version selection, persisted preference and safe behavior when preferred version is unavailable in the future app.",
+    "No heavy geometry generation, native app, rendering, export or installation was run."
+  ],
+  "summary": "Six varied-size colloid-filled thyroid teaching follicles with enlarged epithelial cells, resorption-pocket markers, basal and interfollicular C-cell examples, three representative perifollicular baskets, dissected connective-tissue support, and a small parathyroid comparison sample.",
+  "scale_note": "Biological follicles vary roughly 50–500 µm across. This six-unit teaching sample uses 500 µm per model unit in source reports, with enlarged cells, basal lamina and vessel walls; it is not a uniformly life-sized specimen.",
+  "parts": [
+    {
+      "name": "Follicular epithelium",
+      "group": "Thyroid follicles",
+      "color": "#b8739a"
+    },
+    {
+      "name": "Colloid",
+      "group": "Thyroid follicles",
+      "color": "#eba27c"
+    },
+    {
+      "name": "Resorption vacuoles",
+      "group": "Thyroid follicles",
+      "color": "#f7ecd6"
+    },
+    {
+      "name": "Parafollicular C cells",
+      "group": "Thyroid follicles",
+      "color": "#8fc9e6"
+    },
+    {
+      "name": "Perifollicular capillaries",
+      "group": "Vessels",
+      "color": "#99618c"
+    },
+    {
+      "name": "Arteries (capsular & interlobular)",
+      "group": "Vessels",
+      "color": "#c8322c"
+    },
+    {
+      "name": "Veins (capsular & interlobular)",
+      "group": "Vessels",
+      "color": "#5f5aa8"
+    },
+    {
+      "name": "Interfollicular connective tissue",
+      "group": "Capsule & stroma",
+      "color": "#c9b391"
+    },
+    {
+      "name": "Interlobular septa",
+      "group": "Capsule & stroma",
+      "color": "#c9b391"
+    },
+    {
+      "name": "Capsule",
+      "group": "Capsule & stroma",
+      "color": "#c9b391"
+    },
+    {
+      "name": "Follicular basal lamina",
+      "group": "Thyroid follicles",
+      "color": "#d8c199"
+    },
+    {
+      "name": "Parathyroid capsule",
+      "group": "Parathyroid gland",
+      "color": "#d7c09c"
+    },
+    {
+      "name": "Parathyroid chief cells",
+      "group": "Parathyroid gland",
+      "color": "#cda9b8"
+    },
+    {
+      "name": "Oxyphil cells",
+      "group": "Parathyroid gland",
+      "color": "#bd6f72"
+    },
+    {
+      "name": "Parathyroid adipocytes",
+      "group": "Parathyroid gland",
+      "color": "#e7d68b"
+    },
+    {
+      "name": "Parathyroid capillaries",
+      "group": "Parathyroid gland",
+      "color": "#99618c"
+    }
+  ],
+  "opening_view": "0 Six-follicle overview",
+  "views": {
+    "0 Six-follicle overview": {
+      "position": [
+        -2.6,
+        2.35,
+        3.7
+      ],
+      "target": [
+        -0.015,
+        0.35,
+        -0.02
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.65,
+      "hidden": [
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Follicular basal lamina",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": true,
+      "note": "Orient to the six representative thyroid follicles, lumen content, retained support and separate parathyroid context. The corner cut is a deliberate display section. The parathyroid corner is a separate comparison sample, not a thyroid follicle or a whole-gland location map. Fine resorption, C-cell and basket details are initially hidden to keep the hierarchy readable."
+    },
+    "1 Retained support and vessels": {
+      "position": [
+        -2.5,
+        1.75,
+        3.1
+      ],
+      "target": [
+        0,
+        0.31,
+        -0.035
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.6,
+      "hidden": [
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Follicular basal lamina",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": true,
+      "note": "Read capsule, septa and interfollicular connective tissue around the retained follicular units and sampled vascular courses. Retained support is already dissected and fitted around delivered vessels and tissue. Its shallow floor, ridge and posterior capsule are teaching context, not a complete closed thyroid capsule. Arterial and venous trunks are sampled courses; the capillary baskets are separate disconnected examples."
+    },
+    "2 Follicular wall and colloid": {
+      "position": [
+        0.34,
+        1.13,
+        2.01
+      ],
+      "target": [
+        0.34,
+        0.4,
+        0.26
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.1,
+      "hidden": [
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": true,
+      "note": "Distinguish the one-cell-thick follicular epithelial wall, extracellular colloid lumen and retained basal lamina. The camera targets the nominal front-right follicle before settling; all six units share each part mesh, so this is a camera detail view, not independent isolation of one follicle. Colloid is retained extracellular lumen content. The posterior basal lamina is opaque retained tissue; its missing anterior portion is authored dissection."
+    },
+    "3 Basal lamina and capillary baskets": {
+      "position": [
+        -1.7,
+        1.1,
+        2.55
+      ],
+      "target": [
+        -0.27,
+        0.43,
+        0.08
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.82,
+      "hidden": [
+        "Colloid",
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": false,
+      "note": "Inspect the basal side of the epithelial wall beside retained lamina and representative perifollicular baskets. Turning off the display cut restores only shader-clipped geometry; it does not restore the source-dissection portions. Three baskets sample six follicles. Neutral #99618c preserves their identity without inventing arterial-to-venous connectivity. Iodide supply and hormone transfer are functional explanations, not a depicted continuous flow circuit."
+    },
+    "4 Apical colloid resorption": {
+      "position": [
+        0.34,
+        1.04,
+        1.95
+      ],
+      "target": [
+        0.34,
+        0.4,
+        0.26
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.95,
+      "hidden": [
+        "Parafollicular C cells",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Follicular basal lamina",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": true,
+      "note": "Read scalloped colloid and the resorption markers at the epithelial apical interface. The source contains actual radial colloid concavities plus separate pale ellipsoidal resorption markers. Markers identify a teaching location; they are not solid inclusions to carve out or flowing hormone particles. Cellular uptake and processing are narrated because this original model has no separate vesicle or lysosome meshes and no animation."
+    },
+    "5 Basal and interfollicular C cells": {
+      "position": [
+        -0.75,
+        1.23,
+        2.2
+      ],
+      "target": [
+        0.17,
+        0.47,
+        0.19
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.4,
+      "hidden": [
+        "Resorption vacuoles",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Parathyroid capsule",
+        "Parathyroid chief cells",
+        "Oxyphil cells",
+        "Parathyroid adipocytes",
+        "Parathyroid capillaries"
+      ],
+      "cut_on": true,
+      "note": "Separate the pale-blue C-cell examples from the colloid-facing follicular epithelium. The source includes basal epithelial C-cell examples and one interfollicular example. Their teaching color identifies the cell class; routine H&E alone may not identify C cells reliably. Preserve their absence of colloid contact. Calcitonin release is toward blood, with no need to import review_v2 signaling symbols or nuclei."
+    },
+    "6 Parathyroid comparison sample": {
+      "position": [
+        0.77,
+        0.95,
+        1.38
+      ],
+      "target": [
+        0.77,
+        0.43,
+        -0.28
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.69,
+      "hidden": [
+        "Follicular epithelium",
+        "Colloid",
+        "Resorption vacuoles",
+        "Parafollicular C cells",
+        "Perifollicular capillaries",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Interfollicular connective tissue",
+        "Interlobular septa",
+        "Capsule",
+        "Follicular basal lamina"
+      ],
+      "cut_on": false,
+      "note": "Compare a separate parathyroid sample containing chief cells, oxyphil cells, adipocytes and a sampled capillary. Thyroid parts are hidden to prevent a false impression of parathyroid colloid or inter-specimen continuity. The posterior half-capsule is retained and its anterior half is already dissected away. Cell counts and cell dimensions are schematic. The single neutral capillary lacks a depicted arterial/venous connection. This is the original context sample, not thyroid_parathyroid_review_v2."
+    }
+  },
+  "description_overrides": {
+    "Follicular epithelium": "Simple follicular epithelium facing colloid apically and blood-facing stroma basally. The six teaching units use fewer, enlarged cells. Activity influences epithelial height, but these units are not a calibrated activity or disease atlas. The small geometric clefts separate cell outlines schematically; intact follicles are sealed by epithelial junctions.",
+    "Colloid": "Colloid is the extracellular thyroglobulin-rich content of the follicular lumen, storing thyroid hormone bound within thyroglobulin. It is drawn as a filled storage domain with named marginal resorption pockets. This is not blood, mucosal tissue or an excretory duct.",
+    "Resorption vacuoles": "Pale teaching markers identify marginal resorption pockets next to the apical follicular surface. The colloid surface has separately authored concavities at these sites. These markers are not a cell population or intracellular colloid droplets, and their placement is a schematic representation of resorption.",
+    "Parafollicular C cells": "Calcitonin-secreting C cells are represented basally within some follicular epithelial sectors and by one interfollicular example. Basal examples remain covered by principal cells and do not contact colloid. Precursors enter the thyroid with the ultimobranchial body; modern mouse lineage tracing supports pharyngeal-endoderm origin, replacing the older neural-crest account. Human calcitonin has a limited and incompletely defined role in normal calcium regulation.",
+    "Perifollicular capillaries": "Three representative hollow capillary baskets illustrate the rich blood supply outside follicular basal surfaces. They represent an exchange bed; endothelial fenestrations are not geometrically resolved. These sampled baskets are not connected to the displayed artery and vein, and the neutral color does not imply arterial or venous identity.",
+    "Arteries (capsular & interlobular)": "Representative arterial course in the dissected capsular/interlobular context. In vivo, arterial branches supply the perifollicular capillary bed. This source depicts a hollow trunk rather than every named arterial origin or the missing connections to its sampled capillary baskets.",
+    "Veins (capsular & interlobular)": "Representative venous course in the dissected capsular/interlobular context. In vivo, thyroid venous channels drain the capillary bed. This source depicts a hollow trunk; the connections from its sampled baskets and all named drainage veins are not shown.",
+    "Interfollicular connective tissue": "Dissected interfollicular support is represented by a shallow connective-tissue floor fitted around the final follicular, vascular and parathyroid surfaces. The biological stroma also carries lymphatics and nerve fibers; those are not separate illustrated structures in this model.",
+    "Interlobular septa": "Retained connective-tissue septal context represented by a low ridge fitted around neighboring structures. Biological septa partly partition gland tissue and carry larger vessels. This six-follicle sample does not show a complete lobule or establish a fixed number of follicles per lobule.",
+    "Capsule": "Retained posterior true-capsule context in a dissected teaching sample. The anterior portion is removed to expose the follicles. This part is not a complete enclosing shell. The external fascial capsule and whole-gland swallowing attachments are contextual anatomy, not illustrated structures here.",
+    "Follicular basal lamina": "Magnified basal-lamina segments demonstrate the outside of the follicular epithelial layer. The anterior portion is intentionally dissected away. Membrane thickness is exaggerated for teaching; the retained segments do not form a whole-sphere containment host.",
+    "Parathyroid capsule": "Retained posterior half-capsule of the parathyroid comparison sample. It separates this cell-rich comparison tissue from the thyroid follicles. The sample is count-reduced and is not a physically scaled complete parathyroid gland.",
+    "Parathyroid chief cells": "Predominant chief-cell examples in the parathyroid comparison sample. They secrete PTH toward nearby blood. Biological parathyroid cells form cords and nests, but this source shows discrete enlarged examples rather than a continuous reconstruction of those cords.",
+    "Oxyphil cells": "Fewer, larger oxyphil-cell examples distinguish the parathyroid comparison from thyroid follicles. Their conspicuously eosinophilic cytoplasm is mitochondria-rich; their normal functional significance remains incompletely understood. These are enlarged teaching examples.",
+    "Parathyroid adipocytes": "Three sampled adipocytes show the fatty stromal component of a parathyroid comparison. Their drawn count is schematic and does not assign an age or a fat percentage to the sample.",
+    "Parathyroid capillaries": "Hollow sampled capillary beside the chief-cell examples, illustrating release of PTH toward blood. This independent course has no depicted arterial or venous connection. Its neutral color does not imply either identity, and endothelial fenestrations are not geometrically resolved."
+  },
+  "function": {
+    "schema_version": 1,
+    "model_id": "thyroid_follicles",
+    "default_sequence": "thyroid_synthesis_release",
+    "selectors": {
+      "epithelium": {
+        "name": "Follicular epithelium",
+        "group": "Thyroid follicles"
+      },
+      "colloid": {
+        "name": "Colloid",
+        "group": "Thyroid follicles"
+      },
+      "resorption": {
+        "name": "Resorption vacuoles",
+        "group": "Thyroid follicles"
+      },
+      "c_cells": {
+        "name": "Parafollicular C cells",
+        "group": "Thyroid follicles"
+      },
+      "thyroid_capillaries": {
+        "name": "Perifollicular capillaries",
+        "group": "Vessels"
+      },
+      "arterial_sample": {
+        "name": "Arteries (capsular & interlobular)",
+        "group": "Vessels"
+      },
+      "venous_sample": {
+        "name": "Veins (capsular & interlobular)",
+        "group": "Vessels"
+      },
+      "stroma": {
+        "name": "Interfollicular connective tissue",
+        "group": "Capsule & stroma"
+      },
+      "septa": {
+        "name": "Interlobular septa",
+        "group": "Capsule & stroma"
+      },
+      "capsule": {
+        "name": "Capsule",
+        "group": "Capsule & stroma"
+      },
+      "basal_lamina": {
+        "name": "Follicular basal lamina",
+        "group": "Thyroid follicles"
+      },
+      "parathyroid_capsule": {
+        "name": "Parathyroid capsule",
+        "group": "Parathyroid gland"
+      },
+      "chief_cells": {
+        "name": "Parathyroid chief cells",
+        "group": "Parathyroid gland"
+      },
+      "oxyphil_cells": {
+        "name": "Oxyphil cells",
+        "group": "Parathyroid gland"
+      },
+      "adipocytes": {
+        "name": "Parathyroid adipocytes",
+        "group": "Parathyroid gland"
+      },
+      "parathyroid_capillaries": {
+        "name": "Parathyroid capillaries",
+        "group": "Parathyroid gland"
+      }
+    },
+    "sources": {
+      "thyroid_synthesis": {
+        "title": "Endotext: Thyroid Hormone Synthesis and Secretion",
+        "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK285550/",
+        "verified": "Opened readable chapter and publisher PDF 2026-10-04; polarity, apical chemistry, storage, retrieval and proteolysis sections"
+      },
+      "nis_primary": {
+        "title": "Dai, Levy and Carrasco (1996): Cloning and characterization of the thyroid iodide transporter",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/8559252/",
+        "verified": "Opened original research abstract 2026-10-04; NIS mechanism only, rat-derived cell line expression experiment"
+      },
+      "duke_histology": {
+        "title": "Duke Histology: Endocrine System",
+        "url": "https://histology.oit.duke.edu/NormalBody/Endocrine/Endocrine_2024.html",
+        "verified": "Opened readable university source 2026-10-04; thyroid/parathyroid organization and activity caveat"
+      },
+      "calcium_homeostasis": {
+        "title": "Endotext: Calcium and Phosphate Homeostasis",
+        "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK279023/",
+        "verified": "Opened readable chapter and publisher PDF 2026-10-04; CaSR/PTH and calcitonin physiology"
+      },
+      "casr_primary": {
+        "title": "Brown et al. (1993): Cloning and characterization of an extracellular Ca2+-sensing receptor from bovine parathyroid",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/8255296/",
+        "verified": "Opened original research abstract 2026-10-04; bovine receptor identity and native response, not a human dose-response calibration"
+      },
+      "c_cell_lineage_primary": {
+        "title": "Johansson et al. (2015): Revising the embryonic origin of thyroid C cells in mice and humans",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4631767/",
+        "verified": "Opened readable primary full text 2026-10-04; direct embryonic lineage tracing in mice, human tumor-marker observations distinct"
+      }
+    },
+    "policy": {
+      "geometry_mutation": false,
+      "particle_paths": false,
+      "autoplay": false,
+      "time_semantics": "schematic",
+      "visibility_mutation": false,
+      "material_mutation": false
+    },
+    "limitations": [
+      "Teaching time and glow are schematic; they do not quantify hormones, transport rates, blood flow or biological storage duration.",
+      "Exact selectors address aggregate existing parts; this hook cannot identify a single follicular cell or draw an organelle that is absent from the mesh.",
+      "The thyroid capillary baskets and arterial/venous trunks are representative disconnected samples. No continuous artery-to-capillary-to-vein tracer route is asserted.",
+      "Parathyroid capillaries are a separate representative sample without depicted supply/drainage connections. Thyroid and parathyroid are never one endocrine circuit.",
+      "Resorption vacuoles are existing teaching markers associated with colloid scallops, not independently animated objects and not a complete modeled endocytic pathway.",
+      "Enlarged cell pitch, basal lamina and parathyroid cells preserve the original teaching layout; molecular callouts have no model-unit size.",
+      "Cell height and colloid morphology are activity cues, not sufficient evidence of hormone output or a diagnosis. Geometry never changes during playback.",
+      "Pre refine and Post refine require separate runtime instances bound to their independently verified artifact digests. Variant selection belongs to the root application.",
+      "thyroid_parathyroid_review_v2 is a distinct frozen model and is deliberately rejected by this hook.",
+      "Separate displayed cell rims and narrow teaching clefts do not depict a physiological leak. Follicular epithelium is taught as a sealed polarized barrier; iodide uptake and hormone release cross cells, not display gaps."
+    ],
+    "sequences": {
+      "structure_overview": {
+        "title": "Thyroid and parathyroid structure",
+        "steps": [
+          {
+            "id": "follicular_unit",
+            "title": "Closed follicular unit",
+            "caption": "Polarized follicular epithelium surrounds a colloid lumen; the basal face meets supporting tissue and nearby capillaries.",
+            "duration_s": 5,
+            "highlight": [
+              "epithelium",
+              "colloid",
+              "basal_lamina",
+              "thyroid_capillaries"
+            ],
+            "compartment": "follicular wall / lumen / basal exterior",
+            "source_ids": [
+              "duke_histology"
+            ]
+          },
+          {
+            "id": "separate_parathyroid",
+            "title": "Separate parathyroid context",
+            "caption": "The original corner sample has its own capsule, chief-cell cords, oxyphil cells, fat and capillary sample.",
+            "duration_s": 5,
+            "highlight": [
+              "parathyroid_capsule",
+              "chief_cells",
+              "oxyphil_cells",
+              "adipocytes",
+              "parathyroid_capillaries"
+            ],
+            "compartment": "separate parathyroid sample",
+            "source_ids": [
+              "duke_histology"
+            ]
+          },
+          {
+            "id": "c_cell_identity",
+            "title": "C-cell contextual identity",
+            "caption": "C cells are distinct from follicular cells and parathyroid chief cells; their product is calcitonin.",
+            "duration_s": 5,
+            "highlight": [
+              "c_cells"
+            ],
+            "compartment": "basal / interfollicular thyroid context",
+            "source_ids": [
+              "duke_histology"
+            ]
+          }
+        ]
+      },
+      "thyroid_synthesis_release": {
+        "title": "Thyroid synthesis and release",
+        "steps": [
+          {
+            "id": "basal_iodide_uptake",
+            "title": "Basal iodide uptake",
+            "caption": "Blood supplies iodide; NIS imports it across the blood-facing basolateral follicular-cell membrane. TSH regulates synthesis and release.",
+            "duration_s": 5,
+            "highlight": [
+              "thyroid_capillaries",
+              "epithelium",
+              "basal_lamina"
+            ],
+            "compartment": "blood-facing basolateral membrane",
+            "source_ids": [
+              "nis_primary",
+              "thyroid_synthesis"
+            ]
+          },
+          {
+            "id": "thyroglobulin_supply",
+            "title": "Apical thyroglobulin supply",
+            "caption": "Follicular cells synthesize thyroglobulin and secrete it apically into the follicular lumen.",
+            "duration_s": 5,
+            "highlight": [
+              "epithelium",
+              "colloid"
+            ],
+            "compartment": "intracellular synthesis / apical secretion",
+            "source_ids": [
+              "thyroid_synthesis"
+            ]
+          },
+          {
+            "id": "apical_iodide_delivery",
+            "title": "Apical iodide delivery",
+            "caption": "Iodide crosses the apical membrane toward the lumen; no exclusive transporter assignment is implied.",
+            "duration_s": 5,
+            "highlight": [
+              "epithelium",
+              "colloid"
+            ],
+            "compartment": "apical membrane / lumen-facing interface",
+            "source_ids": [
+              "thyroid_synthesis"
+            ]
+          },
+          {
+            "id": "organification",
+            "title": "Apical iodination",
+            "caption": "At the apical-colloid boundary, TPO with peroxide iodinates thyroglobulin tyrosines into MIT and DIT.",
+            "duration_s": 5,
+            "highlight": [
+              "epithelium",
+              "colloid"
+            ],
+            "compartment": "apical membrane / adjacent colloid",
+            "source_ids": [
+              "thyroid_synthesis"
+            ]
+          },
+          {
+            "id": "coupling",
+            "title": "Coupling on thyroglobulin",
+            "caption": "Coupling on thyroglobulin forms T4 from DIT+DIT and T3 from MIT+DIT.",
+            "duration_s": 5,
+            "highlight": [
+              "colloid",
+              "epithelium"
+            ],
+            "compartment": "apical-lumen boundary; hormone residues remain on thyroglobulin",
+            "source_ids": [
+              "thyroid_synthesis"
+            ]
+          },
+          {
+            "id": "extracellular_storage",
+            "title": "Extracellular colloid storage",
+            "caption": "Colloid stores hormone-containing thyroglobulin extracellularly; these are bound hormone residues, not a free-hormone pool.",
+            "duration_s": 5,
+            "highlight": [
+              "colloid"
+            ],
+            "compartment": "follicular lumen extracellular to the epithelium",
+            "source_ids": [
+              "thyroid_synthesis"
+            ]
+          },
+          {
+            "id": "colloid_endocytosis",
+            "title": "Apical colloid retrieval",
+            "caption": "Apical endocytosis retrieves colloid; the scallop markers identify resorption rather than circulating particles.",
+            "duration_s": 5,
+            "highlight": [
+              "resorption",
+              "colloid",
+              "epithelium"
+            ],
+            "compartment": "apical surface / intracellular endocytic compartment",
+            "source_ids": [
+              "thyroid_synthesis"
+            ]
+          },
+          {
+            "id": "lysosomal_liberation",
+            "title": "Lysosomal hormone liberation",
+            "caption": "Intracellular lysosomal proteolysis liberates T4/T3; lysosomes are explained here without claiming a modeled organelle.",
+            "duration_s": 5,
+            "highlight": [
+              "epithelium"
+            ],
+            "compartment": "intracellular lysosomal processing; text-only organelle cue",
+            "source_ids": [
+              "thyroid_synthesis"
+            ]
+          },
+          {
+            "id": "basal_hormone_release",
+            "title": "Basal thyroid-hormone release",
+            "caption": "Free thyroid hormones leave basally toward nearby capillaries; the illustrated trunks do not form a proven route.",
+            "duration_s": 5,
+            "highlight": [
+              "epithelium",
+              "basal_lamina",
+              "thyroid_capillaries"
+            ],
+            "compartment": "basolateral membrane / interstitium / nearby capillary",
+            "source_ids": [
+              "thyroid_synthesis"
+            ]
+          }
+        ]
+      },
+      "parathyroid_calcium_response": {
+        "title": "Parathyroid calcium response",
+        "steps": [
+          {
+            "id": "low_calcium_sensing",
+            "title": "Low extracellular calcium",
+            "caption": "Lower ionized calcium means less CaSR activation in parathyroid chief cells, permitting increased PTH secretion.",
+            "duration_s": 5,
+            "highlight": [
+              "chief_cells",
+              "parathyroid_capillaries"
+            ],
+            "compartment": "chief-cell surface exposed to extracellular fluid",
+            "source_ids": [
+              "casr_primary",
+              "calcium_homeostasis"
+            ]
+          },
+          {
+            "id": "pth_release",
+            "title": "PTH into nearby capillaries",
+            "caption": "Chief cells release PTH toward their own capillaries; this capillary is a separate representative vascular sample.",
+            "duration_s": 5,
+            "highlight": [
+              "chief_cells",
+              "parathyroid_capillaries"
+            ],
+            "compartment": "chief-cell secretory surface / parathyroid interstitium",
+            "source_ids": [
+              "calcium_homeostasis"
+            ]
+          },
+          {
+            "id": "pth_targets",
+            "title": "PTH target-organ effects",
+            "caption": "Off-model targets: renal calcium retention, phosphate excretion, calcitriol production and bone remodeling help restore calcium.",
+            "duration_s": 5,
+            "highlight": [
+              "chief_cells"
+            ],
+            "compartment": "kidney and bone are described off-model; no physical routes",
+            "source_ids": [
+              "calcium_homeostasis"
+            ]
+          },
+          {
+            "id": "restored_calcium_feedback",
+            "title": "Calcium feedback suppresses PTH",
+            "caption": "Rising extracellular calcium increases CaSR activation and suppresses PTH release; no dose-response curve is simulated.",
+            "duration_s": 5,
+            "highlight": [
+              "chief_cells",
+              "parathyroid_capillaries"
+            ],
+            "compartment": "extracellular-calcium feedback at chief-cell CaSR",
+            "source_ids": [
+              "calcium_homeostasis",
+              "casr_primary"
+            ]
+          }
+        ]
+      },
+      "c_cell_context": {
+        "title": "C-cell contextual distinction",
+        "steps": [
+          {
+            "id": "separate_c_cell_product",
+            "title": "C cells secrete calcitonin",
+            "caption": "Elevated calcium can stimulate calcitonin release from thyroid C cells. This does not use colloid storage or iodinated thyroglobulin.",
+            "duration_s": 5,
+            "highlight": [
+              "c_cells",
+              "thyroid_capillaries"
+            ],
+            "compartment": "thyroid basal/interfollicular C-cell context",
+            "source_ids": [
+              "calcium_homeostasis"
+            ]
+          },
+          {
+            "id": "calcitonin_scope",
+            "title": "Calcitonin physiological scope",
+            "caption": "Calcitonin inhibits osteoclast-mediated resorption; its normal adult human calcium-homeostasis role is smaller than PTH/vitamin D.",
+            "duration_s": 5,
+            "highlight": [
+              "c_cells"
+            ],
+            "compartment": "osteoclast effect described off-model",
+            "source_ids": [
+              "calcium_homeostasis"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "part_semantics": [
+    {
+      "name": "Follicular epithelium",
+      "group": "Thyroid follicles",
+      "role": "follicular_epithelial_cells",
+      "relationship_rules": [
+        "one_simple_epithelial_layer",
+        "apical_colloid_relation",
+        "basal_lamina_relation",
+        "schematic_lateral_clefts_not_ducts"
+      ]
+    },
+    {
+      "name": "Colloid",
+      "group": "Thyroid follicles",
+      "role": "follicular_lumen_contents",
+      "relationship_rules": [
+        "lumen_expected_filled",
+        "isolated_per_follicle",
+        "do_not_empty_center",
+        "preserve_named_scallops"
+      ]
+    },
+    {
+      "name": "Resorption vacuoles",
+      "group": "Thyroid follicles",
+      "role": "resorption_pocket_teaching_markers",
+      "relationship_rules": [
+        "markers_are_not_tissue_contamination",
+        "preserve_colloid_concavities",
+        "marker_surface_overlap_requires_visual_review"
+      ]
+    },
+    {
+      "name": "Parafollicular C cells",
+      "group": "Thyroid follicles",
+      "role": "mixed_basal_and_interfollicular_C_cells",
+      "relationship_rules": [
+        "basal_units_apically_covered",
+        "interfollicular_unit_has_no_epithelial_parent",
+        "no_colloid_contact",
+        "species_qualified_embryology"
+      ]
+    },
+    {
+      "name": "Perifollicular capillaries",
+      "group": "Vessels",
+      "role": "hollow_perifollicular_capillary_network",
+      "relationship_rules": [
+        "three_sampled_baskets",
+        "anastomosing_not_tree",
+        "lumen_expected_empty_of_host_tissue",
+        "no_connection_to_displayed_trunks"
+      ]
+    },
+    {
+      "name": "Arteries (capsular & interlobular)",
+      "group": "Vessels",
+      "role": "hollow_representative_arterial_course",
+      "relationship_rules": [
+        "lumen_expected_empty_of_host_tissue",
+        "complete_outer_envelope_host_exclusion",
+        "representative_course"
+      ]
+    },
+    {
+      "name": "Veins (capsular & interlobular)",
+      "group": "Vessels",
+      "role": "hollow_representative_venous_course",
+      "relationship_rules": [
+        "lumen_expected_empty_of_host_tissue",
+        "complete_outer_envelope_host_exclusion",
+        "preserve_distinct_venous_caliber"
+      ]
+    },
+    {
+      "name": "Interfollicular connective tissue",
+      "group": "Capsule & stroma",
+      "role": "dissected_interfollicular_support",
+      "relationship_rules": [
+        "legitimate_outer_surface_contact",
+        "no_vascular_lumen_occupancy",
+        "no_cell_or_colloid_replacement"
+      ]
+    },
+    {
+      "name": "Interlobular septa",
+      "group": "Capsule & stroma",
+      "role": "dissected_septal_support",
+      "relationship_rules": [
+        "partial_dissection",
+        "no_fixed_follicle_census",
+        "vessel_envelope_passages"
+      ]
+    },
+    {
+      "name": "Capsule",
+      "group": "Capsule & stroma",
+      "role": "dissected_true_capsule_context",
+      "relationship_rules": [
+        "no_global_contents_containment",
+        "preserve_intentional_cut_boundaries",
+        "no_false_capsule_identity"
+      ]
+    },
+    {
+      "name": "Follicular basal lamina",
+      "group": "Thyroid follicles",
+      "role": "magnified_dissection_of_follicular_basement_membrane",
+      "relationship_rules": [
+        "posterior_only",
+        "intentional_open_boundary",
+        "basal_attachment",
+        "magnification_disclosed"
+      ]
+    },
+    {
+      "name": "Parathyroid capsule",
+      "group": "Parathyroid gland",
+      "role": "dissected_parathyroid_comparison_capsule",
+      "relationship_rules": [
+        "separate_gland_context",
+        "posterior_half_only",
+        "no_global_contents_containment"
+      ]
+    },
+    {
+      "name": "Parathyroid chief cells",
+      "group": "Parathyroid gland",
+      "role": "parathyroid_chief_cell_examples",
+      "relationship_rules": [
+        "count_reduced",
+        "cell_size_magnified",
+        "no_follicular_colloid_relation",
+        "PTH_not_T3_T4"
+      ]
+    },
+    {
+      "name": "Oxyphil cells",
+      "group": "Parathyroid gland",
+      "role": "parathyroid_oxyphil_cell_examples",
+      "relationship_rules": [
+        "larger_than_chief_examples",
+        "count_reduced",
+        "no_invented_hormone_pathway"
+      ]
+    },
+    {
+      "name": "Parathyroid adipocytes",
+      "group": "Parathyroid gland",
+      "role": "parathyroid_adipocyte_examples",
+      "relationship_rules": [
+        "three_sampled_examples",
+        "no_age_diagnosis",
+        "no_fraction_target"
+      ]
+    },
+    {
+      "name": "Parathyroid capillaries",
+      "group": "Parathyroid gland",
+      "role": "hollow_parathyroid_capillary_example",
+      "relationship_rules": [
+        "lumen_expected_empty_of_host_tissue",
+        "independent_sample",
+        "no_inferred_arteriovenous_tree",
+        "complete_outer_envelope_host_exclusion"
+      ]
+    }
+  ],
+  "lumen_domains": [
+    {
+      "kind": "follicular_storage",
+      "boundary": "Follicular epithelium",
+      "expected_content": [
+        "Colloid"
+      ],
+      "exceptions": [
+        "Resorption vacuoles are schematic markers"
+      ],
+      "route": "No duct or vascular luminal connection"
+    },
+    {
+      "kind": "vascular_passage",
+      "parts": [
+        "Perifollicular capillaries",
+        "Arteries (capsular & interlobular)",
+        "Veins (capsular & interlobular)",
+        "Parathyroid capillaries"
+      ],
+      "expected_content": [],
+      "host_exclusion": "Reserve complete outer vessel envelope, not wall alone",
+      "connectivity": "Each basket is an anastomosing graph; no global connection to displayed trunks is authored"
+    }
+  ]
+}

@@ -1,20 +1,25 @@
+"""Native search and a metadata-only browser for the complete installed model catalog."""
+import html
+import unicodedata
+
 from PySide6.QtCore import QRectF, QSize, Qt, QTimer, Signal
-from PySide6.QtGui import QColor, QFont, QPainter
-from PySide6.QtWidgets import (QLabel, QLineEdit, QListWidget, QListWidgetItem, QStyle, QStyledItemDelegate,
-                               QVBoxLayout, QWidget)
+from PySide6.QtGui import QFont, QPainter
+from PySide6.QtWidgets import (QComboBox, QHBoxLayout, QLabel, QLineEdit, QListWidget,
+                               QListWidgetItem, QPushButton, QStyle, QStyledItemDelegate,
+                               QStyleOptionFocusRect, QTextBrowser, QVBoxLayout, QWidget)
 
 from . import theme
 
 ROLE_ENTRY = Qt.UserRole + 1
-KIND_BADGE = {"structure": "", "group": "GROUP", "landmark": "LANDMARK", "clinical": "CLINICAL", "tissue": "HISTOLOGY",
-              "micro": "3D MODEL", "lesson": "LESSON", "radiology": "RADIOLOGY"}
-KIND_COLOR = {"clinical": "#ee8a92", "tissue": "#bf9cf0", "micro": "#6fd0bb", "lesson": theme.WARNING,
-              "radiology": theme.INFO}
+KIND_BADGE = {"structure": "Structure", "group": "Group", "landmark": "Landmark", "clinical": "Clinical",
+              "tissue": "Histology", "micro": "3D model", "lesson": "Lesson", "radiology": "Radiology"}
+# Kept as a public compatibility constant; semantic colors come from the shared theme.
+KIND_COLOR = {"clinical": theme.DANGER, "tissue": theme.INFO, "micro": theme.SUCCESS,
+              "lesson": theme.ACCENT_TEXT, "radiology": theme.INFO}
 
 
 def shown_alt(entry):
-    """The part of an entry's alternative text worth showing. For structures it is the Latin name; for a radiology
-    case it is a keyword blob that starts with the modality the subtitle already gives."""
+    """Useful alternative text, without repeating the radiology modality."""
     alt = entry.alt or ""
     if entry.kind == "radiology":
         parts = entry.subtitle.split(" · ")
@@ -24,67 +29,62 @@ def shown_alt(entry):
     return alt
 
 
+def normalized(text):
+    return " ".join("".join(c for c in unicodedata.normalize("NFKD", str(text or ""))
+                            if not unicodedata.combining(c)).casefold().split())
+
+
 class ResultDelegate(QStyledItemDelegate):
-    def __init__(self, ds, parent=None):
+    """Font-scaled two-line native rows, with selection and keyboard focus distinct."""
+    def __init__(self, ds=None, parent=None):
         super().__init__(parent)
         self.ds = ds
 
     def sizeHint(self, option, index):
-        return QSize(option.rect.width(), 48)
+        return QSize(max(0, option.rect.width()), max(56, option.fontMetrics.height() * 2 + 18))
 
     def paint(self, p: QPainter, option, index):
         entry = index.data(ROLE_ENTRY)
+        if entry is None:
+            super().paint(p, option, index)
+            return
         p.save()
         p.setRenderHint(QPainter.Antialiasing)
         r = option.rect
-        card = QRectF(r.x() + 2, r.y() + 2, r.width() - 4, r.height() - 4)
-        if option.state & QStyle.State_Selected:
-            p.setPen(theme.qc(theme.ACCENT_BORDER))
-            p.setBrush(theme.qc(theme.ACCENT_SOFT))
-            p.drawRoundedRect(card.adjusted(0.5, 0.5, -0.5, -0.5), theme.R_LG, theme.R_LG)
-        elif option.state & QStyle.State_MouseOver:
-            p.setPen(Qt.NoPen)
-            p.setBrush(theme.qc(theme.RAISED))
-            p.drawRoundedRect(card, theme.R_LG, theme.R_LG)
-        if entry.kind in KIND_COLOR:
-            col = QColor(KIND_COLOR[entry.kind])
-        else:
-            col = QColor.fromRgbF(*self.ds.systems[self.ds.system_index.get(entry.system, 0)]["color"])
+        rect = QRectF(r).adjusted(2, 2, -2, -2)
+        selected = bool(option.state & QStyle.State_Selected)
+        hovered = bool(option.state & QStyle.State_MouseOver)
         p.setPen(Qt.NoPen)
-        p.setBrush(col)
-        p.drawRoundedRect(QRectF(r.x() + 9, r.y() + 12, 3, r.height() - 24), 1.5, 1.5)
-        title_font = QFont(option.font)
-        title_font.setPointSizeF(theme.FS_BODY)
-        title_font.setBold(entry.kind != "landmark")
-        p.setFont(title_font)
+        p.setBrush(theme.qc(theme.ACCENT_SOFT if selected else theme.HOVER if hovered else theme.SURFACE))
+        p.drawRoundedRect(rect, theme.R_MD, theme.R_MD)
+        tx, width = r.x() + 12, max(0, r.width() - 24)
+        font = QFont(option.font)
+        font.setBold(True)
+        p.setFont(font)
         p.setPen(theme.qc(theme.TEXT_STRONG))
-        badge = KIND_BADGE[entry.kind]
-        tx = r.x() + 21
-        p.drawText(QRectF(tx, r.y() + 6, r.width() - 30, 20), Qt.AlignLeft | Qt.AlignVCenter,
-                   p.fontMetrics().elidedText(entry.title, Qt.ElideRight, r.width() - 110))
-        sub_font = QFont(option.font)
-        sub_font.setPointSizeF(theme.FS_SMALL - 0.3)
-        p.setFont(sub_font)
-        p.setPen(theme.qc(theme.MUTED))
-        alt = shown_alt(entry)
-        subtitle = entry.subtitle + (f"  ·  {alt}" if alt else "")
-        p.drawText(QRectF(tx, r.y() + 25, r.width() - 30, 17), Qt.AlignLeft | Qt.AlignVCenter,
-                   p.fontMetrics().elidedText(subtitle, Qt.ElideRight, r.width() - 34))
-        if badge:
-            bf = QFont(option.font)
-            bf.setPointSizeF(6.8)
-            bf.setBold(True)
-            p.setFont(bf)
-            bw = p.fontMetrics().horizontalAdvance(badge) + 12
-            br = QRectF(r.right() - bw - 9, r.y() + 8, bw, 16)
-            tint = QColor(KIND_COLOR.get(entry.kind, theme.TEXT_2))
-            bg = QColor(tint)
-            bg.setAlpha(38)
-            p.setPen(Qt.NoPen)
-            p.setBrush(bg)
-            p.drawRoundedRect(br, theme.R_SM, theme.R_SM)
-            p.setPen(tint.lighter(115) if entry.kind in KIND_COLOR else theme.qc(theme.TEXT_2))
-            p.drawText(br, Qt.AlignCenter, badge)
+        line_height = p.fontMetrics().height()
+        title = getattr(entry, "title", getattr(entry, "name", ""))
+        p.drawText(QRectF(tx, r.y() + 7, width, line_height), Qt.AlignLeft | Qt.AlignVCenter,
+                   p.fontMetrics().elidedText(title, Qt.ElideRight, width))
+        font.setBold(False)
+        p.setFont(font)
+        p.setPen(theme.qc(theme.TEXT_2))
+        if hasattr(entry, "subtitle"):
+            kind = KIND_BADGE.get(entry.kind, entry.kind.capitalize())
+            alt = shown_alt(entry) if entry.kind in ("structure", "group", "landmark") else ""
+            subtitle = f"{kind} · {entry.subtitle}" + (f" · {alt}" if alt else "")
+        else:
+            subtitle = getattr(entry, "kind_name", "3D model")
+        p.drawText(QRectF(tx, r.y() + 9 + line_height, width, line_height), Qt.AlignLeft | Qt.AlignVCenter,
+                   p.fontMetrics().elidedText(subtitle, Qt.ElideRight, width))
+        if option.state & QStyle.State_HasFocus:
+            focus = QStyleOptionFocusRect()
+            focus.rect = r.adjusted(2, 2, -2, -2)
+            focus.state = option.state
+            focus.palette = option.palette
+            focus.backgroundColor = theme.qc(theme.ACCENT_SOFT if selected else theme.SURFACE)
+            style = option.widget.style() if option.widget else self.parent().style()
+            style.drawPrimitive(QStyle.PE_FrameFocusRect, focus, p, option.widget)
         p.restore()
 
 
@@ -94,9 +94,11 @@ class SearchLine(QLineEdit):
     def keyPressEvent(self, e):
         if e.key() in (Qt.Key_Down, Qt.Key_Up):
             self.navigate.emit(1 if e.key() == Qt.Key_Down else -1)
+            e.accept()
             return
-        if e.key() == Qt.Key_Escape:
+        if e.key() == Qt.Key_Escape and self.text():
             self.clear()
+            e.accept()
             return
         super().keyPressEvent(e)
 
@@ -107,31 +109,50 @@ class SearchPanel(QWidget):
 
     def __init__(self, ds, index, parent=None):
         super().__init__(parent)
-        self.ds = ds
-        self.index = index
+        self.ds, self.index = ds, index
+        self.setObjectName("studySearch")
+        self.setMinimumWidth(240)
         lay = QVBoxLayout(self)
-        lay.setContentsMargins(12, 12, 12, 6)
-        lay.setSpacing(6)
+        lay.setContentsMargins(12, 12, 12, 8)
+        lay.setSpacing(8)
         self.edit = SearchLine()
-        self.edit.setPlaceholderText(f"Search {ds.n:,} structures, landmarks, Latin…")
+        self.edit.setObjectName("studySearchInput")
+        self.edit.setAccessibleName("Search anatomy and study content")
+        self.edit.setPlaceholderText("Search anatomy, models, lessons…")
+        self.edit.setToolTip(f"Search {ds.n:,} atlas structures, Latin terms, landmarks and installed study content. "
+                             "Up/Down chooses a result; Enter opens it; Escape clears the query.")
         self.edit.setClearButtonEnabled(True)
         lay.addWidget(self.edit)
-        self.info = QLabel("")
-        self.info.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL) + " padding-left:2px;")
-        lay.addWidget(self.info)
-        self.info.hide()
+        row = QHBoxLayout()
+        self.info = QLabel("Search the atlas and study library")
+        self.info.setWordWrap(True)
+        self.info.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+        row.addWidget(self.info, 1)
+        self.kind_filter = QComboBox()
+        self.kind_filter.setAccessibleName("Search content type")
+        self.kind_filter.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+        self.kind_filter.setMinimumContentsLength(8)
+        for name, key in (("All content", ""), ("Structures", "structure"), ("Groups", "group"),
+                          ("Landmarks", "landmark"), ("3D models", "micro"), ("Histology", "tissue"),
+                          ("Lessons", "lesson"), ("Radiology", "radiology"), ("Clinical", "clinical")):
+            self.kind_filter.addItem(name, key)
+        row.addWidget(self.kind_filter)
+        lay.addLayout(row)
         self.list = QListWidget()
+        self.list.setObjectName("studySearchResults")
+        self.list.setAccessibleName("Search results")
         self.list.setItemDelegate(ResultDelegate(ds, self.list))
         self.list.setMouseTracking(True)
         self.list.setUniformItemSizes(True)
-        self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)   # every row elides to the width
+        self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         lay.addWidget(self.list, 1)
         self.list.hide()
         self._timer = QTimer(self)
         self._timer.setSingleShot(True)
         self._timer.setInterval(80)
         self._timer.timeout.connect(self._run)
-        self.edit.textChanged.connect(lambda _: self._timer.start())
+        self.edit.textChanged.connect(self._query_changed)
+        self.kind_filter.currentIndexChanged.connect(self._query_changed)
         self.edit.returnPressed.connect(self._activate_current)
         self.edit.navigate.connect(self._navigate)
         self.list.itemActivated.connect(lambda it: self.activated.emit(it.data(ROLE_ENTRY)))
@@ -144,25 +165,52 @@ class SearchPanel(QWidget):
         self.edit.setFocus()
         self.edit.selectAll()
 
-    def _run(self):
-        q = self.edit.text().strip()
+    def _query_changed(self, *_):
+        # A cleared query must not leave stale results actionable during the debounce.
         self.list.clear()
-        if not q:
-            self.info.hide()
+        if not self.edit.text().strip() and not self.kind_filter.currentData():
+            self._timer.stop()
+            self._run()
+        else:
+            self._timer.start()
+
+    def _run(self):
+        q, kind = self.edit.text().strip(), self.kind_filter.currentData()
+        self.list.clear()
+        if not q and not kind:
+            self.info.setText("Search the atlas and study library")
             self.list.hide()
             self.queryActive.emit(False)
             return
-        results = self.index.search(q)
-        for e in results:
-            it = QListWidgetItem()
-            it.setData(ROLE_ENTRY, e)
-            latin = e.alt if e.kind in ("structure", "group", "landmark") else ""   # others carry search keywords
-            it.setToolTip(f"{e.title}\n{e.subtitle}" + (f"\nLatin: {latin}" if latin else ""))
-            self.list.addItem(it)
-        self.info.setText(f"{len(results)} result{'s' if len(results) != 1 else ''}" if results else "No matches")
-        self.info.show()
-        self.list.show()
-        if results:
+        try:
+            # Filter before the display cap so a popular anatomy term cannot hide model/lesson matches.
+            results = (self.index.search(q, limit=max(150, len(self.index.entries))) if q
+                       else list(self.index.entries))
+            if kind:
+                results = [entry for entry in results if entry.kind == kind]
+        except Exception:
+            self.info.setText("Search is unavailable. Edit the query to retry, or use Browse.")
+            self.list.hide()
+            self.queryActive.emit(False)
+            return
+        count = len(results)
+        for entry in results[:150]:
+            item = QListWidgetItem()
+            item.setData(ROLE_ENTRY, entry)
+            description = f"{entry.title}\n{KIND_BADGE.get(entry.kind, entry.kind)} · {entry.subtitle}"
+            if entry.kind in ("structure", "group", "landmark") and entry.alt:
+                description += f"\nLatin: {entry.alt}"
+            item.setToolTip(description)
+            item.setData(Qt.AccessibleTextRole, description.replace("\n", ". "))
+            self.list.addItem(item)
+        if not count:
+            self.info.setText("No matches. Try a shorter name, a Latin term, or All content.")
+        elif count > 150:
+            self.info.setText(f"Showing 150 of {count:,} matches. Refine your search.")
+        else:
+            self.info.setText(f"{count:,} result{'s' if count != 1 else ''} · Enter to open")
+        self.list.setVisible(bool(count))
+        if count:
             self.list.setCurrentRow(0)
         self.queryActive.emit(True)
 
@@ -170,15 +218,204 @@ class SearchPanel(QWidget):
         if self._timer.isActive():
             self._timer.stop()
             self._run()
-        if self.list.count() == 0:
-            return
-        row = max(0, min(self.list.count() - 1, self.list.currentRow() + step))
-        self.list.setCurrentRow(row)
+        if self.list.count():
+            row = max(0, min(self.list.count() - 1, self.list.currentRow() + step))
+            self.list.setCurrentRow(row)
+            self.list.scrollToItem(self.list.currentItem())
 
     def _activate_current(self):
         if self._timer.isActive():
             self._timer.stop()
             self._run()
-        it = self.list.currentItem() or (self.list.item(0) if self.list.count() else None)
-        if it:
-            self.activated.emit(it.data(ROLE_ENTRY))
+        item = self.list.currentItem()
+        if item:
+            self.activated.emit(item.data(ROLE_ENTRY))
+
+
+class ModelCatalogPanel(QWidget):
+    """Browse every registered model without loading geometry or touching its cache."""
+    activated = Signal(str)
+    variantChosen = Signal(str, str)
+    verificationRequested = Signal()
+    verificationCancelled = Signal()
+
+    def __init__(self, content, parent=None):
+        super().__init__(parent)
+        self.content = content
+        self.setObjectName("modelCatalog")
+        self.setMinimumWidth(240)
+        lay = QVBoxLayout(self)
+        lay.setContentsMargins(12, 12, 12, 12)
+        lay.setSpacing(8)
+        title = QLabel("3D models")
+        title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE, 700))
+        lay.addWidget(title)
+        self.edit = SearchLine()
+        self.edit.setAccessibleName("Filter all 3D models")
+        self.edit.setPlaceholderText("Find a model or linked structure…")
+        self.edit.setClearButtonEnabled(True)
+        lay.addWidget(self.edit)
+        self.kind_filter = QComboBox()
+        self.kind_filter.setAccessibleName("Model collection")
+        self.kind_filter.addItem("All models", "")
+        self.kind_filter.addItem("In-house 3D models", "inhouse")
+        self.kind_filter.addItem("Microanatomy", "procedural")
+        if not getattr(content.micro_models, "is_new_catalog", False):
+            self.kind_filter.addItem("Downloaded models", "downloaded")
+        lay.addWidget(self.kind_filter)
+        self.info = QLabel()
+        self.info.setWordWrap(True)
+        self.info.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+        lay.addWidget(self.info)
+        verification = QHBoxLayout()
+        self.verify_models = QPushButton("Verify models")
+        self.verify_models.clicked.connect(self.verificationRequested)
+        self.cancel_verification = QPushButton("Cancel verification")
+        self.cancel_verification.clicked.connect(self.verificationCancelled)
+        verification.addWidget(self.verify_models)
+        verification.addWidget(self.cancel_verification)
+        lay.addLayout(verification)
+        self.list = QListWidget()
+        self.list.setAccessibleName("Installed model catalog")
+        self.list.setItemDelegate(ResultDelegate(parent=self.list))
+        self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.list.setUniformItemSizes(True)
+        self.list.setMouseTracking(True)
+        lay.addWidget(self.list, 3)
+        self.preview = QTextBrowser()
+        self.preview.setAccessibleName("Selected model overview")
+        self.preview.setOpenExternalLinks(True)
+        self.preview.setMinimumHeight(110)
+        self.preview.document().setDefaultStyleSheet(
+            f"body {{ color:{theme.TEXT}; font-size:{theme.FS_BODY}pt; }} "
+            f"h3 {{ color:{theme.TEXT_STRONG}; margin:0 0 6px; }} "
+            f"a {{ color:{theme.ACCENT_TEXT}; }} p {{ margin:5px 0; }}")
+        lay.addWidget(self.preview, 2)
+        from .variant_choice import VariantChoice
+        self.variant_choice = VariantChoice(self)
+        self.variant_choice.requested.connect(self._choose_variant)
+        lay.addWidget(self.variant_choice)
+        self.open_button = QPushButton("Open model")
+        self.open_button.setObjectName("primary")
+        self.open_button.setAccessibleName("Open selected 3D model")
+        self.open_button.clicked.connect(self._activate_current)
+        lay.addWidget(self.open_button)
+        hint = QLabel("Up/Down to choose · Enter to open")
+        hint.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+        lay.addWidget(hint)
+        self.edit.textChanged.connect(self._run)
+        self.kind_filter.currentIndexChanged.connect(self._run)
+        self.edit.navigate.connect(self._navigate)
+        self.edit.returnPressed.connect(self._activate_current)
+        self.list.itemActivated.connect(lambda _: self._activate_current())
+        self.list.currentItemChanged.connect(lambda *_: self._preview())
+        self._run()
+
+    def focus_search(self):
+        self.edit.setFocus()
+        self.edit.selectAll()
+
+    def _entries(self):
+        return sorted(self.content.micro_models.values(),
+                      key=lambda e: ({"glb": 0, "procedural": 1, "downloaded": 2}.get(e.kind, 3),
+                                     getattr(e, "order", 100), e.name.casefold()))
+
+    def _run(self, *_):
+        current = self.list.currentItem()
+        old_id = current.data(ROLE_ENTRY).id if current else None
+        terms = normalized(self.edit.text()).split()
+        kind = self.kind_filter.currentData()
+        self.list.blockSignals(True)
+        self.list.clear()
+        entries = self._entries()
+        for entry in entries:
+            targets = " ".join(str(value) for value in (getattr(entry, "targets", {}) or {}).values())
+            haystack = normalized(f"{entry.name} {entry.summary} {targets} {entry.kind_name}")
+            if (kind == "inhouse" and entry.kind not in ("glb", "procedural")) or (kind and kind != "inhouse" and entry.kind != kind) or not all(word in haystack for word in terms):
+                continue
+            item = QListWidgetItem()
+            item.setData(ROLE_ENTRY, entry)
+            item.setData(Qt.AccessibleTextRole, f"{entry.name}. {entry.kind_name}")
+            item.setToolTip(f"{entry.name}\n{entry.kind_name}\n{entry.summary}")
+            self.list.addItem(item)
+            if entry.id == old_id:
+                self.list.setCurrentItem(item)
+        if self.list.currentRow() < 0 and self.list.count():
+            self.list.setCurrentRow(0)
+        self.list.blockSignals(False)
+        count = self.list.count()
+        if not entries:
+            text = getattr(self.content, "model_catalog_error", "") or "No validated new models are installed. Run or resume the preparation launcher."
+        elif not count:
+            text = "No models match. Clear the search or choose All models."
+        else:
+            text = f"{count} of {len(entries)} models · Select one to read its overview"
+            catalog = self.content.micro_models
+            if getattr(catalog, "verification_state", None) in ("pending", "verifying"):
+                text += " · Verification pending; the selected version is checked when opened"
+            error = getattr(self.content, "model_catalog_error", "")
+            if error:
+                text += "\n" + error
+        self.info.setText(text)
+        is_new = getattr(self.content.micro_models, "is_new_catalog", False)
+        verifying = getattr(self.content.micro_models, "verification_state", None) == "verifying"
+        self.verify_models.setVisible(is_new and not verifying)
+        self.cancel_verification.setVisible(is_new and verifying)
+        self._preview()
+
+    def _preview(self):
+        item = self.list.currentItem()
+        self.open_button.setEnabled(item is not None)
+        if item is None:
+            self.variant_choice.set_entry(None)
+            self.preview.setPlainText("Choose a model to see its summary, scale and source information.")
+            return
+        e = item.data(ROLE_ENTRY)
+        self.variant_choice.set_entry(e)
+        esc = lambda value: html.escape(str(value or ""), quote=True)
+        parts = [f"<h3>{esc(e.name)}</h3><p>{esc(e.kind_name)}</p>",
+                 f"<p>{esc(e.summary) or 'No summary is included with this model.'}</p>"]
+        if getattr(e, "variant", None) == "post" and getattr(e, "outcome", None) == "no_change":
+            parts.append("<p>No changes from microrefine</p>")
+        if e.scale_note:
+            parts.append(f"<p><b>Scale:</b> {esc(e.scale_note)}</p>")
+        linked = sum(bool(self.content.tissues.get(tid, {}).get("images")) for tid in e.histology)
+        if linked:
+            parts.append(f"<p>{linked} authored histology link{'s' if linked != 1 else ''}</p>")
+        if e.credit_html:
+            parts.append(f"<p>{e.credit_html}</p>")
+        self.preview.setHtml("".join(parts))
+        self.open_button.setToolTip(f"Open {e.name} in its own viewer tab")
+
+    def _navigate(self, step):
+        if self.list.count():
+            self.list.setCurrentRow(max(0, min(self.list.count() - 1, self.list.currentRow() + step)))
+            self.list.scrollToItem(self.list.currentItem())
+
+    def _activate_current(self):
+        item = self.list.currentItem()
+        if item:
+            self.activated.emit(item.data(ROLE_ENTRY).id)
+
+    def _choose_variant(self, variant):
+        item = self.list.currentItem()
+        if item is not None:
+            self.variantChosen.emit(item.data(ROLE_ENTRY).id, variant)
+
+    def select_model(self, model_id):
+        if model_id not in self.content.micro_models:
+            return False
+        self.edit.blockSignals(True)
+        self.kind_filter.blockSignals(True)
+        self.edit.clear()
+        self.kind_filter.setCurrentIndex(0)
+        self.edit.blockSignals(False)
+        self.kind_filter.blockSignals(False)
+        self._run()
+        for row in range(self.list.count()):
+            item = self.list.item(row)
+            if item.data(ROLE_ENTRY).id == model_id:
+                self.list.setCurrentItem(item)
+                self.list.scrollToItem(item)
+                return True
+        return False

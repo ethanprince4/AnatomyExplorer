@@ -52,6 +52,7 @@ def _read(name):
 def _browser(markdown=None, text=None):
     b = QTextBrowser()
     b.setOpenExternalLinks(True)
+    b.setAccessibleName("Application licence and attribution information")
     b.document().setDefaultStyleSheet(DOC_CSS)
     b.document().setDocumentMargin(12)
     if markdown is not None:
@@ -67,6 +68,8 @@ class AboutDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle("About Anatomy Explorer")
         self.resize(820, 700)
+        self.setMinimumSize(540, 420)
+        self.setAccessibleName("About Anatomy Explorer and educational content credits")
         lay = QVBoxLayout(self)
         lay.setContentsMargins(20, 18, 20, 14)
         lay.setSpacing(12)
@@ -103,6 +106,20 @@ class AboutDialog(QDialog):
         lay.addLayout(head)
 
         tabs = QTabWidget()
+        tabs.setAccessibleName("About, credits and licence")
+        guide = ("# Getting around\n\n"
+                 "- **Ctrl+F:** Search anatomy, models, images and lessons.\n"
+                 "- **Ctrl+Shift+1–5:** Anatomy, model library, lessons, radiology and histology.\n"
+                 "- **Ctrl+Shift+P:** Find an application command.\n"
+                 "- **Ctrl+B:** Hide or show the side panels.\n"
+                 "- **F:** Frame the current selection while the 3D view has focus.\n\n"
+                 "Explore and Details share a dock on compact windows; their tabs keep both reachable. "
+                 "Open model and image tabs retain their own subject. Closing a loading model cancels it.\n\n"
+                 "Settings → Display controls interface and reading text size. Appearance changes apply on "
+                 "the next launch. Settings → Keyboard lists customizable commands.\n\n"
+                 "Study imagery and labels are educational references. Consult the source and licence "
+                 "beside each image; illustrated anatomy is not a patient-specific registration.")
+        tabs.addTab(_browser(markdown=guide), "Getting around")
         credits = _read("THIRD_PARTY_LICENSES.md") or "THIRD_PARTY_LICENSES.md was not found."
         tabs.addTab(_browser(markdown=credits), "Credits")
         tabs.addTab(_browser(text=_read("LICENSE") or "LICENSE was not found."), "Licence")

@@ -10,6 +10,12 @@ class Dataset:
 
     def __init__(self, data_dir: Path):
         self.dir = data_dir
+        from .config import FROZEN
+        if FROZEN:
+            # Fail visibly before loading an incomplete/mixed installation. The
+            # large geometry hashes were verified at packaging time.
+            from .dataset_identity import read_manifest
+            self._dataset_content_id = read_manifest(data_dir)["content_id"]
         meta = json.loads((data_dir / "anatomy.json").read_text(encoding="utf-8"))
         from .findings import attach as attach_findings
         self.findings = attach_findings(meta, data_dir)   # pathology meshes, if they have been built
@@ -103,10 +109,22 @@ class Dataset:
     def load_geometry(self):
         vertices = np.fromfile(self.dir / "vertices.bin", dtype=np.uint8)
         indices = np.fromfile(self.dir / "indices.bin", dtype=np.uint8)
+        if vertices[:64].tobytes().startswith(b"version https://git-lfs.github.com/spec/v1"):
+            raise ValueError("vertices.bin is a Git LFS pointer; download the dataset files before opening the atlas")
+        if len(vertices) % 28:
+            raise ValueError("vertices.bin is truncated or has an invalid vertex stride")
+        if len(indices) % 4:
+            raise ValueError("indices.bin is truncated or has an invalid index stride")
         if self.findings is not None:
             v, i = self.findings.geometry()
             vertices = np.concatenate([vertices, np.frombuffer(v, dtype=np.uint8)])
             indices = np.concatenate([indices, np.frombuffer(i, dtype=np.uint8)])
+        if len(vertices) != int(self.counts["vertices"]) * 28:
+            raise ValueError("vertices.bin and findings do not match the anatomy vertex count")
+        if len(indices) != int(self.counts["triangles"]) * 12:
+            raise ValueError("indices.bin and findings do not match the anatomy triangle count")
+        if len(indices) and indices.view("<u4").max() >= len(vertices) // 28:
+            raise ValueError("atlas index refers to a vertex outside the geometry buffer")
         return vertices, indices
 
     def node_structures(self, nid):

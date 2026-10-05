@@ -1,0 +1,1533 @@
+{
+  "start_view": "01 Acinus overview",
+  "metres_per_unit": 0.0012,
+  "cutaway": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "cut_at": [
+    1.1,
+    0.0
+  ],
+  "cut_on": true,
+  "home_view": [
+    0.25,
+    0.15
+  ],
+  "scale_note": "Original representative teaching acinus: 14 alveoli; 1 model unit = 1.2 mm gross calibration. Alveoli 2.3x, septa 3.5x, capillaries 3x, cells 2x; pore 2.5x per builder report. These are unequal display enlargements; do not measure barrier thickness, density, or patient dimensions from this view.",
+  "viewer_cameras": {
+    "01 Acinus overview": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Bronchiolar smooth muscle",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Trace the terminal bronchiole into the respiratory region and distinguish accompanying arterial supply from peripheral venous drainage. Cells and capillary bed are hidden for first orientation; they remain selectable parts. Original representative teaching acinus: 14 alveoli; 1 model unit = 1.2 mm gross calibration. Alveoli 2.3x, septa 3.5x, capillaries 3x, cells 2x; pore 2.5x per builder report. These are unequal display enlargements; do not measure barrier thickness, density, or patient dimensions from this view."
+    },
+    "02 Air passage": {
+      "position": [
+        0.2,
+        0.35,
+        3.6
+      ],
+      "target": [
+        -0.08,
+        0,
+        -0.02
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages"
+      ],
+      "cut_on": true,
+      "note": "Terminal bronchiole is conducting; alveoli interrupt respiratory bronchiolar walls, then line alveolar ducts and open into sac spaces. Named septal parts identify tissue around spaces, not filled air volumes. Air is an unmeshed void; this preset does not display a simulated air stream. Original representative teaching acinus: 14 alveoli; 1 model unit = 1.2 mm gross calibration. Alveoli 2.3x, septa 3.5x, capillaries 3x, cells 2x; pore 2.5x per builder report. These are unequal display enlargements; do not measure barrier thickness, density, or patient dimensions from this view."
+    },
+    "03 Blood route": {
+      "position": [
+        0.45,
+        0.5,
+        3.5
+      ],
+      "target": [
+        0.05,
+        0,
+        -0.18
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Bronchiolar smooth muscle",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": false,
+      "note": "Pulmonary arteriole → alveolar capillary bed → pulmonary venule. Septa are deliberately hidden to expose the blood network; restore them to assess the tissue relationship. Blue/red are oxygenation teaching cues; spatial capillary gradient is not measured saturation or a flow solution. Vessel names, not inherited category strings, define artery/vein identity. Original representative teaching acinus: 14 alveoli; 1 model unit = 1.2 mm gross calibration. Alveoli 2.3x, septa 3.5x, capillaries 3x, cells 2x; pore 2.5x per builder report. These are unequal display enlargements; do not measure barrier thickness, density, or patient dimensions from this view."
+    },
+    "04 Alveolar structure": {
+      "position": [
+        0.42,
+        -0.78,
+        0.9
+      ],
+      "target": [
+        0.17,
+        -0.34,
+        -0.05
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Club (Clara) cells"
+      ],
+      "cut_on": true,
+      "note": "Inspect one duct-region alveolar cluster, its septa, capillary relationship, type II cells and macrophages. Type II cells support surfactant teaching and macrophages represent luminal defense. Camera targets are source-coordinate proposals; individual cell exposure and label overlap require native visual validation. Original representative teaching acinus: 14 alveoli; 1 model unit = 1.2 mm gross calibration. Alveoli 2.3x, septa 3.5x, capillaries 3x, cells 2x; pore 2.5x per builder report. These are unequal display enlargements; do not measure barrier thickness, density, or patient dimensions from this view."
+    },
+    "05 Pore rim": {
+      "position": [
+        0.1,
+        -0.66,
+        0.6
+      ],
+      "target": [
+        0.17,
+        -0.34,
+        0
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar sacs",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "The Pores of Kohn part is annular septal tissue around a bore, not a solid air marker. The z=0 corner cut may remove part of that rim. This view does not establish that two alveolar airspaces communicate; examine the preserved neighboring spaces with the native Section control before accepting that claim. Original representative teaching acinus: 14 alveoli; 1 model unit = 1.2 mm gross calibration. Alveoli 2.3x, septa 3.5x, capillaries 3x, cells 2x; pore 2.5x per builder report. These are unequal display enlargements; do not measure barrier thickness, density, or patient dimensions from this view."
+    },
+    "06 Gas exchange relationship": {
+      "position": [
+        0.42,
+        -0.72,
+        0.85
+      ],
+      "target": [
+        0.17,
+        -0.34,
+        -0.06
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Airspace beside septal capillary is the location for O₂ diffusion from alveolar air to blood and CO₂ diffusion from blood to air. Original has no separately selectable type I lining, endothelium, fused basal lamina, surfactant film or blood-domain mesh. Explain those layers in text; this view is not a resolved barrier inset and enlarged whole septa are not diffusion thickness. Original representative teaching acinus: 14 alveoli; 1 model unit = 1.2 mm gross calibration. Alveoli 2.3x, septa 3.5x, capillaries 3x, cells 2x; pore 2.5x per builder report. These are unequal display enlargements; do not measure barrier thickness, density, or patient dimensions from this view."
+    },
+    "Function air_passage / conduction": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Air passes through the terminal bronchiole, the last conducting segment. Air is an empty compartment, not the septal mesh. The representative branches omit most real acinar generations. The static specimen does not calculate expansion, airflow rate, pressure or diffusion-versus-convection distribution.",
+      "highlight_parts": [
+        "Terminal bronchiole"
+      ]
+    },
+    "Function air_passage / transition": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Respiratory bronchioles open to alveoli; the tissue highlight identifies the region of the first exchange surfaces. Air is an empty compartment, not the septal mesh. The representative branches omit most real acinar generations. The static specimen does not calculate expansion, airflow rate, pressure or diffusion-versus-convection distribution.",
+      "highlight_parts": [
+        "Respiratory bronchioles",
+        "Interalveolar septa – respiratory bronchioles"
+      ]
+    },
+    "Function air_passage / distal_airspaces": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "The open passage continues through alveolar ducts toward common sac spaces and surrounding alveoli. Air is an empty compartment, not the septal mesh. The representative branches omit most real acinar generations. The static specimen does not calculate expansion, airflow rate, pressure or diffusion-versus-convection distribution.",
+      "highlight_parts": [
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs"
+      ]
+    },
+    "Function air_passage / expiration": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "During expiration, gas returns toward the terminal airway. Ventilation depends on chest mechanics outside this specimen. Air is an empty compartment, not the septal mesh. The representative branches omit most real acinar generations. The static specimen does not calculate expansion, airflow rate, pressure or diffusion-versus-convection distribution.",
+      "highlight_parts": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs"
+      ]
+    },
+    "Function blood_passage / arterial_entry": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": false,
+      "note": "Pulmonary arterial blood enters this specimen with relatively less oxygen. The source assertion of one connected blood carrier was not executed here. The smooth blue-to-red x field is schematic, not branch-specific saturation or velocity. Continuous perfusion does not stop or reverse with each expiration; no particle trajectories are supplied.",
+      "highlight_parts": [
+        "Pulmonary arteriole (deoxygenated)"
+      ]
+    },
+    "Function blood_passage / capillary_exchange": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": false,
+      "note": "Blood passes through the capillary bed beside the alveolar airspace. Oxygenation may increase during gas exchange. The source assertion of one connected blood carrier was not executed here. The smooth blue-to-red x field is schematic, not branch-specific saturation or velocity. Continuous perfusion does not stop or reverse with each expiration; no particle trajectories are supplied.",
+      "highlight_parts": [
+        "Alveolar capillaries"
+      ]
+    },
+    "Function blood_passage / venous_exit": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": false,
+      "note": "Pulmonary venous blood drains toward the left heart. Artery and vein identity follows the direction relative to the heart. The source assertion of one connected blood carrier was not executed here. The smooth blue-to-red x field is schematic, not branch-specific saturation or velocity. Continuous perfusion does not stop or reverse with each expiration; no particle trajectories are supplied.",
+      "highlight_parts": [
+        "Pulmonary venule (oxygenated)"
+      ]
+    },
+    "Function gas_exchange / exchange_surfaces": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Pores of Kohn",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Alveolar airspace and capillary blood are separated by a thin cellular barrier, represented here by enlarged septal tissue. The original has no separate selectable type I cell, common basement membrane or endothelium. Barrier layer chain is a conceptual text inset, never a claim that these layers were delivered as meshes. No kinetic values, saturation values, oxygen gradients or fixed alveolar wall thickness are inferred from enlarged geometry.",
+      "highlight_parts": [
+        "Alveolar capillaries",
+        "Interalveolar septa – alveolar ducts"
+      ]
+    },
+    "Function gas_exchange / oxygen": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Pores of Kohn",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "O2 crosses from alveolar air through the barrier into capillary blood. The original has no separate selectable type I cell, common basement membrane or endothelium. Barrier layer chain is a conceptual text inset, never a claim that these layers were delivered as meshes. No kinetic values, saturation values, oxygen gradients or fixed alveolar wall thickness are inferred from enlarged geometry.",
+      "highlight_parts": [
+        "Alveolar capillaries"
+      ]
+    },
+    "Function gas_exchange / carbon_dioxide": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Pores of Kohn",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "CO2 crosses from capillary blood into alveolar air and can leave during expiration. The original has no separate selectable type I cell, common basement membrane or endothelium. Barrier layer chain is a conceptual text inset, never a claim that these layers were delivered as meshes. No kinetic values, saturation values, oxygen gradients or fixed alveolar wall thickness are inferred from enlarged geometry.",
+      "highlight_parts": [
+        "Alveolar capillaries"
+      ]
+    },
+    "Function type_ii_surfactant_and_repair / identify_typeii": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Pores of Kohn",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Type II pneumocytes are secretory alveolar epithelial cells. No lamellar bodies or surfactant film are separately modeled in the original. Surfactant function and injury repair occur on different timescales; steps are conceptual, without a shared clock. No instantaneous type II-to-type I morph, soap-bubble law or collapse animation is proposed.",
+      "highlight_parts": [
+        "Type II pneumocytes"
+      ]
+    },
+    "Function type_ii_surfactant_and_repair / surface_function": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Pores of Kohn",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Surfactant at the air–liquid interface lowers surface tension and helps maintain airspace stability. No lamellar bodies or surfactant film are separately modeled in the original. Surfactant function and injury repair occur on different timescales; steps are conceptual, without a shared clock. No instantaneous type II-to-type I morph, soap-bubble law or collapse animation is proposed.",
+      "highlight_parts": [
+        "Type II pneumocytes"
+      ]
+    },
+    "Function type_ii_surfactant_and_repair / repair_capability": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Pores of Kohn",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Type II cells can self-renew and generate type I cells during repair; the direct lineage evidence cited here is from mouse experiments. No lamellar bodies or surfactant film are separately modeled in the original. Surfactant function and injury repair occur on different timescales; steps are conceptual, without a shared clock. No instantaneous type II-to-type I morph, soap-bubble law or collapse animation is proposed.",
+      "highlight_parts": [
+        "Type II pneumocytes"
+      ]
+    },
+    "Function club_cell_protection_and_repair / identify_club": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Club cells are non-ciliated secretory cells in the bronchiolar epithelium. Secreted molecules, intracellular enzymes and cilia are not separately modeled. No universal successful detoxification or identical mouse/human repair pathway is claimed. Do not animate club cells traveling to alveoli or becoming alveolar type II cells in this source.",
+      "highlight_parts": [
+        "Club (Clara) cells",
+        "Terminal bronchiole"
+      ]
+    },
+    "Function club_cell_protection_and_repair / protective_secretion": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Club-cell secretions contribute to the protective bronchiolar lining. Secreted molecules, intracellular enzymes and cilia are not separately modeled. No universal successful detoxification or identical mouse/human repair pathway is claimed. Do not animate club cells traveling to alveoli or becoming alveolar type II cells in this source.",
+      "highlight_parts": [
+        "Club (Clara) cells"
+      ]
+    },
+    "Function club_cell_protection_and_repair / chemical_metabolism": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Club cells express enzymes for xenobiotic metabolism. Some compounds can be converted into harmful products. Secreted molecules, intracellular enzymes and cilia are not separately modeled. No universal successful detoxification or identical mouse/human repair pathway is claimed. Do not animate club cells traveling to alveoli or becoming alveolar type II cells in this source.",
+      "highlight_parts": [
+        "Club (Clara) cells"
+      ]
+    },
+    "Function club_cell_protection_and_repair / repair_capability": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Club cells participate in bronchiolar epithelial regeneration. The primary repair study cited here used mice. Secreted molecules, intracellular enzymes and cilia are not separately modeled. No universal successful detoxification or identical mouse/human repair pathway is claimed. Do not animate club cells traveling to alveoli or becoming alveolar type II cells in this source.",
+      "highlight_parts": [
+        "Club (Clara) cells"
+      ]
+    },
+    "Function macrophage_clearance / identify_macrophage": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Macrophages are immune cells associated with the alveolar compartment. No physical cargo, validated crawling surface, pseudopodia or intracellular phagosome is supplied. No track to the mucociliary escalator or lymphatics is supplied; omit exit motion. This sequence makes no claim about macrophage developmental origin or complete clearance of all particles.",
+      "highlight_parts": [
+        "Alveolar macrophages"
+      ]
+    },
+    "Function macrophage_clearance / encounter_material": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Particles or microbes that reach the alveoli can encounter macrophages. No physical cargo, validated crawling surface, pseudopodia or intracellular phagosome is supplied. No track to the mucociliary escalator or lymphatics is supplied; omit exit motion. This sequence makes no claim about macrophage developmental origin or complete clearance of all particles.",
+      "highlight_parts": [
+        "Alveolar macrophages"
+      ]
+    },
+    "Function macrophage_clearance / phagocytosis": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "Macrophages can ingest such material. This static cell population identifies that role; uptake is not physically simulated. No physical cargo, validated crawling surface, pseudopodia or intracellular phagosome is supplied. No track to the mucociliary escalator or lymphatics is supplied; omit exit motion. This sequence makes no claim about macrophage developmental origin or complete clearance of all particles.",
+      "highlight_parts": [
+        "Alveolar macrophages"
+      ]
+    },
+    "Function airway_tone / identify_muscle": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells"
+      ],
+      "cut_on": true,
+      "note": "Smooth muscle surrounds conducting bronchiolar airway tissue. No geometric contraction, resistance ratio, pressure change or therapeutic response is computed. Bronchiolar muscle controls caliber; it does not drive inspiration or actively pump each alveolus. The original teaching rings illustrate muscle location rather than a fully reconstructed spiral fiber course.",
+      "highlight_parts": [
+        "Bronchiolar smooth muscle"
+      ]
+    },
+    "Function airway_tone / tone_effect": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells"
+      ],
+      "cut_on": true,
+      "note": "Greater bronchiolar muscle contraction can reduce the lumen caliber. No geometric contraction, resistance ratio, pressure change or therapeutic response is computed. Bronchiolar muscle controls caliber; it does not drive inspiration or actively pump each alveolus. The original teaching rings illustrate muscle location rather than a fully reconstructed spiral fiber course.",
+      "highlight_parts": [
+        "Bronchiolar smooth muscle",
+        "Terminal bronchiole"
+      ]
+    },
+    "Function airway_tone / duct_rims": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells"
+      ],
+      "cut_on": true,
+      "note": "Small smooth-muscle structures at alveolar duct mouths are a distinct distal arrangement. No geometric contraction, resistance ratio, pressure change or therapeutic response is computed. Bronchiolar muscle controls caliber; it does not drive inspiration or actively pump each alveolus. The original teaching rings illustrate muscle location rather than a fully reconstructed spiral fiber course.",
+      "highlight_parts": [
+        "Alveolar duct smooth muscle (knobs)",
+        "Interalveolar septa – alveolar ducts"
+      ]
+    },
+    "Function pore_identification / identify_pore_margin": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "The selected annular tissue surrounds an interalveolar opening; the hole is the space inside the ring. The annular part is tissue, not an air marker to remove. Source-authored bore dimensions are teaching exaggerations. The build must verify neighboring airspace connectivity before any visible through-pore flow arrow is added. Collateral effectiveness, pressure equilibration and infection spread are not simulated.",
+      "highlight_parts": [
+        "Pores of Kohn"
+      ]
+    },
+    "Function pore_identification / limited_collateral_route": {
+      "position": [
+        0.35,
+        0.25,
+        4.4
+      ],
+      "target": [
+        0.02,
+        0,
+        -0.04
+      ],
+      "type": "PERSP",
+      "fov_deg": 39.6,
+      "hidden": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "cut_on": true,
+      "note": "An open interalveolar connection can provide a collateral route, but the model does not quantify bypass ventilation. The annular part is tissue, not an air marker to remove. Source-authored bore dimensions are teaching exaggerations. The build must verify neighboring airspace connectivity before any visible through-pore flow arrow is added. Collateral effectiveness, pressure equilibration and infection spread are not simulated.",
+      "highlight_parts": [
+        "Pores of Kohn"
+      ]
+    }
+  },
+  "schema_version": 1,
+  "model_id": "lung_acinus",
+  "summary": "Original representative lung acinus: terminal conducting airway, respiratory bronchioles, alveolar duct/sac spaces, septa and separate pulmonary inflow/capillary/outflow routes. Five rings summarize bronchiolar muscle. Air is a void and blood lumens are implicit; the corner cut is an educational removal. Gas exchange is taught by relationship and text because this original has no separate barrier layers. Review v2 is a separate model.",
+  "descriptions": {
+    "Terminal bronchiole": "Terminal bronchiole: conducting airway before the gas-exchanging region. Its open lumen, wall and representative wall-seated club cells are retained. Ciliated and club-cell biology is explained; no ciliary motion is modeled. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Respiratory bronchioles": "Respiratory bronchioles: transitional airways with alveolar openings. These two representative branches lead into duct and sac regions; the reduced hierarchy is not an entire human acinus. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Bronchiolar smooth muscle": "Bronchiolar smooth muscle: five retained rings on the terminal bronchiole illustrate circumferential muscle location. Real bronchiolar muscle has an oblique/spiral arrangement; these rings do not reconstruct that fiber course or generate contraction. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Pulmonary arteriole (deoxygenated)": "Pulmonary arteriole: arterial inflow from the right heart carries relatively deoxygenated blood toward the alveolar capillary bed. Blue encodes oxygenation, while artery identifies direction in the circulation. This is a representative hollow wall and source-authored inlet route. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Pulmonary venule (oxygenated)": "Pulmonary venule: venous outflow carries oxygenated blood from the capillary bed toward the left heart. Red is an oxygenation cue, not the definition of an artery. Peripheral drainage is represented schematically. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Alveolar capillaries": "Alveolar capillaries: hollow interconnected teaching loops in fitted septal channels. Blue-to-red vertex color uses an unchanged spatial field; it is not measured oxygen saturation, velocity, transit time or a perfusion solution. Endothelium is implicit in the wall. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Interalveolar septa – respiratory bronchioles": "Respiratory-region alveolar septal tissue: this exact selectable source part is an x-slab of a shared tissue matrix. It outlines nearby airspaces; its slab boundary is a teaching partition, not an anatomical membrane. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Interalveolar septa – alveolar ducts": "Duct-region alveolar septal tissue: thin tissue around represented alveolar openings with fitted capillary channels. This exact selectable part is the middle x-slab of a shared matrix. Type I lining, basement membrane and endothelium are not separate selectable layers here. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Interalveolar septa – alveolar sacs": "Sac-region alveolar septal tissue: distal tissue around representative sac spaces. Its x-slab grouping does not establish an anatomical capsule. Fourteen total alveolar spaces summarize a much larger branching acinus. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Pores of Kohn": "Pores of Kohn: three retained annular tissue rims surrounding bores between paired airspaces. The selected mesh is septal tissue, while the central hole is air. Saved connectivity and both neighboring hosts must be checked before claiming actual pore communication. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Type II pneumocytes": "Type II pneumocytes: two representative cells per alveolus, locally normal-aligned and seated in fitted tissue recesses. They secrete surfactant and contribute to epithelial repair. Surfactant film, secretion kinetics and repair motion are explained in text, not built as additional structures. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Alveolar macrophages": "Alveolar macrophages: four retained spherical luminal exemplars in assigned airspaces. They illustrate phagocytosis and surfactant clearance. Cell shape, migration, lymphatic exit and mucociliary routes are not reconstructed or animated. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Club (Clara) cells": "Club (Clara) cells: ten retained secretory cell exemplars fitted to the bowed terminal airway wall and projecting into its lumen. Club-cell secretion and context-dependent metabolism/repair are explained; cell counts, cilia and toxin-response kinetics are schematic. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry.",
+    "Alveolar duct smooth muscle (knobs)": "Alveolar duct smooth muscle (knobs): retained discrete knobs illustrate muscle at duct-mouth rims. They are solid tissue, not vessel walls or moving pumps. Exact rim seating requires saved-output and native-view checks. DRAFT AWAITING USER REVIEW. Mixed-scale teaching geometry; no patient morphometry."
+  },
+  "functional_sequences": [
+    {
+      "id": "air_passage",
+      "mechanism": "A connected branching airspace carries inspired and expired gas.",
+      "visible_parts": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs"
+      ],
+      "hidden_parts": [
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "steps": [
+        {
+          "id": "conduction",
+          "highlight_parts": [
+            "Terminal bronchiole"
+          ],
+          "caption": "Air passes through the terminal bronchiole, the last conducting segment.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "transition",
+          "highlight_parts": [
+            "Respiratory bronchioles",
+            "Interalveolar septa – respiratory bronchioles"
+          ],
+          "caption": "Respiratory bronchioles open to alveoli; the tissue highlight identifies the region of the first exchange surfaces.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "distal_airspaces",
+          "highlight_parts": [
+            "Interalveolar septa – alveolar ducts",
+            "Interalveolar septa – alveolar sacs"
+          ],
+          "caption": "The open passage continues through alveolar ducts toward common sac spaces and surrounding alveoli.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "expiration",
+          "highlight_parts": [
+            "Terminal bronchiole",
+            "Respiratory bronchioles",
+            "Interalveolar septa – alveolar ducts",
+            "Interalveolar septa – alveolar sacs"
+          ],
+          "caption": "During expiration, gas returns toward the terminal airway. Ventilation depends on chest mechanics outside this specimen.",
+          "geometry_action": "none",
+          "progression": "user_paced",
+          "conceptual_direction": {
+            "kind": "conceptual_air_route",
+            "inspiration": [
+              "terminal lumen",
+              "respiratory lumen",
+              "duct lumen",
+              "sac and alveolar airspaces"
+            ],
+            "expiration": [
+              "sac and alveolar airspaces",
+              "duct lumen",
+              "respiratory lumen",
+              "terminal lumen"
+            ]
+          }
+        }
+      ],
+      "schematic_limitations": [
+        "Air is an empty compartment, not the septal mesh.",
+        "The representative branches omit most real acinar generations.",
+        "The static specimen does not calculate expansion, airflow rate, pressure or diffusion-versus-convection distribution."
+      ],
+      "source_evidence": [
+        "leeds_respiratory",
+        "nhlbi_exchange"
+      ],
+      "cutaway": "Use existing cutaway; no new clip plane or deformation is introduced."
+    },
+    {
+      "id": "blood_passage",
+      "mechanism": "Pulmonary arterial blood reaches the septal capillary bed and drains into pulmonary veins.",
+      "visible_parts": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Alveolar capillaries",
+        "Pulmonary venule (oxygenated)",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs"
+      ],
+      "hidden_parts": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "steps": [
+        {
+          "id": "arterial_entry",
+          "highlight_parts": [
+            "Pulmonary arteriole (deoxygenated)"
+          ],
+          "caption": "Pulmonary arterial blood enters this specimen with relatively less oxygen.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "capillary_exchange",
+          "highlight_parts": [
+            "Alveolar capillaries"
+          ],
+          "caption": "Blood passes through the capillary bed beside the alveolar airspace. Oxygenation may increase during gas exchange.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "venous_exit",
+          "highlight_parts": [
+            "Pulmonary venule (oxygenated)"
+          ],
+          "caption": "Pulmonary venous blood drains toward the left heart. Artery and vein identity follows the direction relative to the heart.",
+          "geometry_action": "none",
+          "progression": "user_paced",
+          "conceptual_direction": {
+            "kind": "conceptual_blood_route",
+            "ordered_parts": [
+              "Pulmonary arteriole (deoxygenated)",
+              "Alveolar capillaries",
+              "Pulmonary venule (oxygenated)"
+            ]
+          }
+        }
+      ],
+      "schematic_limitations": [
+        "The source assertion of one connected blood carrier was not executed here.",
+        "The smooth blue-to-red x field is schematic, not branch-specific saturation or velocity.",
+        "Continuous perfusion does not stop or reverse with each expiration; no particle trajectories are supplied."
+      ],
+      "source_evidence": [
+        "nhlbi_exchange",
+        "leeds_respiratory"
+      ],
+      "cutaway": "Use existing cutaway; no new clip plane or deformation is introduced."
+    },
+    {
+      "id": "gas_exchange",
+      "mechanism": "O2 and CO2 cross the alveolar-capillary barrier in opposite directions.",
+      "visible_parts": [
+        "Alveolar capillaries",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Type II pneumocytes"
+      ],
+      "hidden_parts": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Pores of Kohn",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "steps": [
+        {
+          "id": "exchange_surfaces",
+          "highlight_parts": [
+            "Alveolar capillaries",
+            "Interalveolar septa – alveolar ducts"
+          ],
+          "caption": "Alveolar airspace and capillary blood are separated by a thin cellular barrier, represented here by enlarged septal tissue.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "oxygen",
+          "highlight_parts": [
+            "Alveolar capillaries"
+          ],
+          "caption": "O2 crosses from alveolar air through the barrier into capillary blood.",
+          "geometry_action": "none",
+          "progression": "user_paced",
+          "conceptual_direction": {
+            "kind": "conceptual_diffusion",
+            "species": "O2",
+            "from": "alveolar air",
+            "to": "capillary blood"
+          }
+        },
+        {
+          "id": "carbon_dioxide",
+          "highlight_parts": [
+            "Alveolar capillaries"
+          ],
+          "caption": "CO2 crosses from capillary blood into alveolar air and can leave during expiration.",
+          "geometry_action": "none",
+          "progression": "user_paced",
+          "conceptual_direction": {
+            "kind": "conceptual_diffusion",
+            "species": "CO2",
+            "from": "capillary blood",
+            "to": "alveolar air"
+          }
+        }
+      ],
+      "schematic_limitations": [
+        "The original has no separate selectable type I cell, common basement membrane or endothelium.",
+        "Barrier layer chain is a conceptual text inset, never a claim that these layers were delivered as meshes.",
+        "No kinetic values, saturation values, oxygen gradients or fixed alveolar wall thickness are inferred from enlarged geometry."
+      ],
+      "source_evidence": [
+        "leeds_respiratory",
+        "nhlbi_exchange"
+      ],
+      "cutaway": "Use existing cutaway; no new clip plane or deformation is introduced."
+    },
+    {
+      "id": "type_ii_surfactant_and_repair",
+      "mechanism": "Type II cells provide surface-active secretion and a source of alveolar epithelial repair.",
+      "visible_parts": [
+        "Type II pneumocytes",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Alveolar capillaries"
+      ],
+      "hidden_parts": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Pores of Kohn",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "steps": [
+        {
+          "id": "identify_typeii",
+          "highlight_parts": [
+            "Type II pneumocytes"
+          ],
+          "caption": "Type II pneumocytes are secretory alveolar epithelial cells.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "surface_function",
+          "highlight_parts": [
+            "Type II pneumocytes"
+          ],
+          "caption": "Surfactant at the air–liquid interface lowers surface tension and helps maintain airspace stability.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "repair_capability",
+          "highlight_parts": [
+            "Type II pneumocytes"
+          ],
+          "caption": "Type II cells can self-renew and generate type I cells during repair; the direct lineage evidence cited here is from mouse experiments.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        }
+      ],
+      "schematic_limitations": [
+        "No lamellar bodies or surfactant film are separately modeled in the original.",
+        "Surfactant function and injury repair occur on different timescales; steps are conceptual, without a shared clock.",
+        "No instantaneous type II-to-type I morph, soap-bubble law or collapse animation is proposed."
+      ],
+      "source_evidence": [
+        "leeds_respiratory",
+        "jci_typeii_repair"
+      ],
+      "cutaway": "Use existing cutaway; no new clip plane or deformation is introduced."
+    },
+    {
+      "id": "club_cell_protection_and_repair",
+      "mechanism": "Bronchiolar club cells contribute protective secretion, chemical metabolism and epithelial repair.",
+      "visible_parts": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Club (Clara) cells",
+        "Bronchiolar smooth muscle"
+      ],
+      "hidden_parts": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "steps": [
+        {
+          "id": "identify_club",
+          "highlight_parts": [
+            "Club (Clara) cells",
+            "Terminal bronchiole"
+          ],
+          "caption": "Club cells are non-ciliated secretory cells in the bronchiolar epithelium.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "protective_secretion",
+          "highlight_parts": [
+            "Club (Clara) cells"
+          ],
+          "caption": "Club-cell secretions contribute to the protective bronchiolar lining.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "chemical_metabolism",
+          "highlight_parts": [
+            "Club (Clara) cells"
+          ],
+          "caption": "Club cells express enzymes for xenobiotic metabolism. Some compounds can be converted into harmful products.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "repair_capability",
+          "highlight_parts": [
+            "Club (Clara) cells"
+          ],
+          "caption": "Club cells participate in bronchiolar epithelial regeneration. The primary repair study cited here used mice.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        }
+      ],
+      "schematic_limitations": [
+        "Secreted molecules, intracellular enzymes and cilia are not separately modeled.",
+        "No universal successful detoxification or identical mouse/human repair pathway is claimed.",
+        "Do not animate club cells traveling to alveoli or becoming alveolar type II cells in this source."
+      ],
+      "source_evidence": [
+        "leeds_conducting",
+        "stemcells_club_repair",
+        "club_review_limits"
+      ],
+      "cutaway": "Use existing cutaway; no new clip plane or deformation is introduced."
+    },
+    {
+      "id": "macrophage_clearance",
+      "mechanism": "Alveolar macrophages provide local phagocytic defense.",
+      "visible_parts": [
+        "Alveolar macrophages",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs",
+        "Type II pneumocytes"
+      ],
+      "hidden_parts": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Pores of Kohn",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "steps": [
+        {
+          "id": "identify_macrophage",
+          "highlight_parts": [
+            "Alveolar macrophages"
+          ],
+          "caption": "Macrophages are immune cells associated with the alveolar compartment.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "encounter_material",
+          "highlight_parts": [
+            "Alveolar macrophages"
+          ],
+          "caption": "Particles or microbes that reach the alveoli can encounter macrophages.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "phagocytosis",
+          "highlight_parts": [
+            "Alveolar macrophages"
+          ],
+          "caption": "Macrophages can ingest such material. This static cell population identifies that role; uptake is not physically simulated.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        }
+      ],
+      "schematic_limitations": [
+        "No physical cargo, validated crawling surface, pseudopodia or intracellular phagosome is supplied.",
+        "No track to the mucociliary escalator or lymphatics is supplied; omit exit motion.",
+        "This sequence makes no claim about macrophage developmental origin or complete clearance of all particles."
+      ],
+      "source_evidence": [
+        "leeds_respiratory"
+      ],
+      "cutaway": "Use existing cutaway; no new clip plane or deformation is introduced."
+    },
+    {
+      "id": "airway_tone",
+      "mechanism": "Bronchiolar smooth-muscle contraction can narrow the airway.",
+      "visible_parts": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Alveolar duct smooth muscle (knobs)",
+        "Interalveolar septa – alveolar ducts"
+      ],
+      "hidden_parts": [
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar sacs",
+        "Pores of Kohn",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells"
+      ],
+      "steps": [
+        {
+          "id": "identify_muscle",
+          "highlight_parts": [
+            "Bronchiolar smooth muscle"
+          ],
+          "caption": "Smooth muscle surrounds conducting bronchiolar airway tissue.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "tone_effect",
+          "highlight_parts": [
+            "Bronchiolar smooth muscle",
+            "Terminal bronchiole"
+          ],
+          "caption": "Greater bronchiolar muscle contraction can reduce the lumen caliber.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "duct_rims",
+          "highlight_parts": [
+            "Alveolar duct smooth muscle (knobs)",
+            "Interalveolar septa – alveolar ducts"
+          ],
+          "caption": "Small smooth-muscle structures at alveolar duct mouths are a distinct distal arrangement.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        }
+      ],
+      "schematic_limitations": [
+        "No geometric contraction, resistance ratio, pressure change or therapeutic response is computed.",
+        "Bronchiolar muscle controls caliber; it does not drive inspiration or actively pump each alveolus.",
+        "The original teaching rings illustrate muscle location rather than a fully reconstructed spiral fiber course."
+      ],
+      "source_evidence": [
+        "leeds_conducting",
+        "leeds_respiratory"
+      ],
+      "cutaway": "Use existing cutaway; no new clip plane or deformation is introduced."
+    },
+    {
+      "id": "pore_identification",
+      "mechanism": "A pore is an opening through septal tissue between neighboring alveolar spaces.",
+      "visible_parts": [
+        "Pores of Kohn",
+        "Interalveolar septa – respiratory bronchioles",
+        "Interalveolar septa – alveolar ducts",
+        "Interalveolar septa – alveolar sacs"
+      ],
+      "hidden_parts": [
+        "Terminal bronchiole",
+        "Respiratory bronchioles",
+        "Bronchiolar smooth muscle",
+        "Pulmonary arteriole (deoxygenated)",
+        "Pulmonary venule (oxygenated)",
+        "Alveolar capillaries",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Club (Clara) cells",
+        "Alveolar duct smooth muscle (knobs)"
+      ],
+      "steps": [
+        {
+          "id": "identify_pore_margin",
+          "highlight_parts": [
+            "Pores of Kohn"
+          ],
+          "caption": "The selected annular tissue surrounds an interalveolar opening; the hole is the space inside the ring.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        },
+        {
+          "id": "limited_collateral_route",
+          "highlight_parts": [
+            "Pores of Kohn"
+          ],
+          "caption": "An open interalveolar connection can provide a collateral route, but the model does not quantify bypass ventilation.",
+          "geometry_action": "none",
+          "progression": "user_paced"
+        }
+      ],
+      "schematic_limitations": [
+        "The annular part is tissue, not an air marker to remove.",
+        "Source-authored bore dimensions are teaching exaggerations.",
+        "The build must verify neighboring airspace connectivity before any visible through-pore flow arrow is added.",
+        "Collateral effectiveness, pressure equilibration and infection spread are not simulated."
+      ],
+      "source_evidence": [
+        "existing_source_LUNG_D_kohn"
+      ],
+      "cutaway": "Use existing cutaway; no new clip plane or deformation is introduced."
+    }
+  ],
+  "barrier_text_inset": {
+    "id": "conceptual_barrier",
+    "display_mode": "text_only",
+    "layers": [
+      "air–liquid lining",
+      "type I alveolar cell cytoplasm",
+      "thin common basement membrane",
+      "capillary endothelium",
+      "capillary blood"
+    ],
+    "not_selectable_parts": true,
+    "scale_note": "Diagrammatic layers. Enlarged septal bulk in the specimen is not a literal diffusion distance."
+  },
+  "manual_detail_step": {
+    "view": "04 Alveolar structure",
+    "action": "Use existing native z Section control at -0.23 model units; choose retention side after inspecting adjacent airspace. This is a planar Section override, not the original corner cut. Restore Home to reset Section overrides.",
+    "automation": "Named-view parser does not read per-camera section positions; no fabricated cut_at field is inserted in camera records."
+  },
+  "acceptance": "source ready; native appearance unverified",
+  "functional_state_application": "Function camera entries apply exact native visibility and captions. highlight_parts records intended teaching emphasis; the native parser does not automatically select/highlight those parts. Use native Parts selection to inspect them. No geometry animation is implied."
+}

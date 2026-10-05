@@ -1,0 +1,307 @@
+{
+  "schema_version": 1,
+  "functional_sequences": [
+    {
+      "id": "filtration",
+      "mechanism": "Hydrostatic pressure drives selective ultrafiltration across the glomerular barrier into capsular space; blood exits through the efferent arteriole.",
+      "steps": [
+        {
+          "id": "blood_in",
+          "native_view": "Filtration: blood and capsule",
+          "groups": [
+            "S50",
+            "S51",
+            "S45",
+            "S52",
+            "S53",
+            "S72"
+          ],
+          "narrative": "Blood enters through afferent arteriole S50/S51, traverses glomerular capillary tuft S45, and exits efferent arteriole S52/S53. S72 red cells remain in vascular lumens; no red cell crosses into filtrate.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "barrier",
+          "native_view": "Filtration: exposed barrier",
+          "groups": [
+            "S73",
+            "S44",
+            "S43"
+          ],
+          "narrative": "From blood toward filtrate: fenestrated endothelium S73 with its unmodelled surface glycocalyx, glomerular basement membrane S44, then filtration slits between interdigitating podocyte foot processes S43 with unmodelled slit diaphragms. These cooperate; do not teach naked endothelial holes as free protein leaks.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "urinary_pole",
+          "native_view": "Corpuscle",
+          "groups": [
+            "S41",
+            "S42",
+            "S43",
+            "S44",
+            "S45",
+            "S55"
+          ],
+          "narrative": "Water and many small solutes enter Bowman capsular space then proximal lumen S55 at urinary pole. S41 is parietal tissue, not the filtrate domain. S42/S43 are visceral podocytes, not urinary fluid. Most albumin and blood cells remain in blood; filtrate is not whole blood.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        }
+      ],
+      "schematic_limitations": [
+        "No explicit capsular-space fluid mesh, slit-diaphragm protein, glycocalyx layer, pressure solution or solute-size sieving simulation exists. S45 combines wall components over other loops; only exposed-loop S73/S44 permit separate layer identity.",
+        "Blood-flow routes are anatomical/narrated, not computed from centerlines. Detached afferent end must not be animated as physically joined to gross arcuate artery."
+      ],
+      "source_ids": [
+        "glycocalyx",
+        "local_content"
+      ]
+    },
+    {
+      "id": "selective_transport",
+      "mechanism": "Tubular epithelial transport reclaims substances from lumen via interstitium to peritubular blood while selected substances are secreted from blood into lumen.",
+      "steps": [
+        {
+          "id": "proximal_reclaim",
+          "native_view": "Tubular processing",
+          "groups": [
+            "S55",
+            "S57",
+            "S58",
+            "S59",
+            "S67",
+            "S68"
+          ],
+          "narrative": "Brush borders S57/S59 expand luminal membrane area of proximal segments S55/S58. Apical transport takes up sodium-linked nutrients; basolateral Na/K-ATPase sustains sodium gradient. Water follows by osmosis and reabsorbed material reaches peritubular blood S67 then cortical venule S68. Organic anion/cation secretion runs in the opposite blood-to-lumen direction.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "diluting_segment",
+          "native_view": "Medullary exchange",
+          "groups": [
+            "S62"
+          ],
+          "narrative": "Thick ascending limb S62 reabsorbs salt through apical NKCC2 and basolateral Na/K-ATPase, with potassium recycling helping lumen-positive voltage. Water does not follow across this segment, so tubular fluid dilutes while the outer medullary interstitium becomes more concentrated.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "distal_fine_tuning",
+          "native_view": "Collecting duct regulation",
+          "groups": [
+            "S63",
+            "S64",
+            "S65"
+          ],
+          "narrative": "Distal convoluted tubule S63 continues NaCl reabsorption via NCC and regulated calcium handling. Connecting tubule S64 and collecting duct S65 tune sodium, potassium, acid-base balance and water by cell-specific pathways. Intercalated versus principal cells are not separately selectable in this mesh.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        }
+      ],
+      "schematic_limitations": [
+        "Transporters and epithelial polarity are narrated concepts, not resolved membrane proteins. No concentration or percent-flow prediction is derived from mesh size.",
+        "Do not identify all tubular fluid as urine immediately after filtration; tubular composition is progressively changed. Connecting tubule and collecting ducts are included as associated drainage structures though the collecting duct receives multiple nephrons."
+      ],
+      "source_ids": [
+        "tal_water",
+        "enac_localization",
+        "local_content"
+      ]
+    },
+    {
+      "id": "countercurrent_multiplier_exchange",
+      "mechanism": "Opposite tubular flows with different permeabilities help establish a medullary osmotic gradient; opposite vascular flows exchange water and solutes to limit gradient washout.",
+      "steps": [
+        {
+          "id": "opposite_tubular_directions",
+          "native_view": "Medullary exchange",
+          "groups": [
+            "S58",
+            "S60",
+            "S61",
+            "S62"
+          ],
+          "narrative": "Tubular flow descends from proximal straight segment S58 through thin descending limb S60, turns at hairpin, then ascends through thin S61 and thick S62 ascending limbs. Opposite flow direction is along separate connected tubule segments; no exchange through the hairpin wall is implied.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "multiplier",
+          "native_view": "Medullary exchange",
+          "groups": [
+            "S60",
+            "S61",
+            "S62",
+            "S66"
+          ],
+          "narrative": "Use outer-medullary TAL salt transport S62 and relatively water-permeable descending portions S60 to teach countercurrent multiplication. Thin ascending limb S61 has passive salt movement and low water permeability; it does not run the TAL active salt pump. Higher deep-medullary interstitial osmolality allows ADH-responsive collecting duct S66 water reabsorption.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "vascular_exchange",
+          "native_view": "Medullary exchange",
+          "groups": [
+            "S69",
+            "S70",
+            "S71"
+          ],
+          "narrative": "Blood descends S69 toward medullary plexuses S70 and returns S71. Qualitatively, descending blood loses water and gains solute as it meets deeper interstitium; ascending blood gains water and loses solute as it returns. This countercurrent exchange helps carry away reabsorbed water while limiting gradient washout; vasa recta do not create the gradient by active pumping.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "deep_context",
+          "native_view": "Loop of Henle",
+          "groups": [
+            "S60",
+            "S61",
+            "S69",
+            "S70",
+            "S71"
+          ],
+          "narrative": "The existing Loop of Henle camera is a hairpin close view. Use it after the full-system view to inspect deep contacts and distinguish tubular lumen from vascular lumen. Explain that nearby surfaces represent different compartments separated by tissue/interstitium, not a lumen-to-lumen shunt.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        }
+      ],
+      "schematic_limitations": [
+        "Interstitium is a narrated compartment with no selectable concentration field. No rigid 300-to-1200 mOsm profile should be stamped onto this schematic.",
+        "Inner-medullary concentration mechanisms involve urea recycling and spatial organization; the complete quantitative mechanism is not established by this single-nephron schematic. Descending thin-limb water permeability varies along regions/species; do not label every point of S60 as uniformly AQP1-rich.",
+        "One long-loop exemplar and two representative plexuses are a teaching sample, not the whole kidney network. Open venous continuation ends are preserved; they are not leaks."
+      ],
+      "source_ids": [
+        "tal_water",
+        "dvr_aqp1",
+        "thin_ascending",
+        "inner_medulla",
+        "local_content"
+      ]
+    },
+    {
+      "id": "hormonal_control",
+      "mechanism": "Vasopressin adjusts water permeability; aldosterone adjusts distal sodium/potassium transport; JGA feedback links salt delivery and local hemodynamics.",
+      "steps": [
+        {
+          "id": "vasopressin",
+          "native_view": "Collecting duct regulation",
+          "groups": [
+            "S65",
+            "S66"
+          ],
+          "narrative": "Higher vasopressin activates basolateral V2 signaling in collecting-duct principal cells, increasing apical AQP2 availability so water can move from lumen toward the hypertonic interstitium and then blood. Lower vasopressin reduces apical AQP2 and water permeability. Vasopressin supplies permeability, not the osmotic energy gradient.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "aldosterone",
+          "native_view": "Collecting duct regulation",
+          "groups": [
+            "S64",
+            "S65"
+          ],
+          "narrative": "Aldosterone acts through the mineralocorticoid receptor in aldosterone-sensitive distal epithelial cells, favoring apical ENaC activity and basolateral sodium extrusion. Sodium moves lumen-to-blood and potassium can move cell-to-lumen through potassium channels. This pathway is distinct from vasopressin-driven AQP2 water-channel trafficking; do not use ADH arrows to explain ENaC.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "high_salt_tgf",
+          "native_view": "JGA feedback",
+          "groups": [
+            "S49",
+            "S47",
+            "S50",
+            "S51"
+          ],
+          "narrative": "Higher NaCl delivery to macula densa S49 engages local ATP/adenosine signaling and afferent arteriolar smooth-muscle tone S51, tending to lower single-nephron filtration. S47 shows neighboring lacis cells, not a modeled hormone lumen. This local negative feedback is distinct from the systemic renin pathway.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "low_salt_renin",
+          "native_view": "JGA feedback",
+          "groups": [
+            "S49",
+            "S48",
+            "S50",
+            "S51",
+            "S52",
+            "S53"
+          ],
+          "narrative": "Lower macula-densa NaCl delivery, lower afferent-wall stretch, or sympathetic input can promote renin release from granular cells S48. Renin enters blood, initiating systemic angiotensin generation; angiotensin II affects arteriolar tone and can stimulate adrenal aldosterone production. Liver, lung/systemic ACE pathway and sympathetic nerves are not represented here.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        }
+      ],
+      "schematic_limitations": [
+        "AQP2, ENaC, mineralocorticoid receptor, V2 receptor and messenger cascades are conceptual labels; no independently selectable proteins or hormone particles exist. Geometry remains assembled for low/high hormone conditions.",
+        "Aldosterone target scope is S64/S65 with late distal cell context, not all of S66 uniformly. Vasopressin/aldosterone responses depend on other conditions; no urine-volume, blood-pressure, or GFR clinical prediction is made.",
+        "No intrinsic swelling, peristalsis, pumping, blood-cell filtering, invented ureter continuation, or geometrical lumen constriction is needed to communicate these functions."
+      ],
+      "source_ids": [
+        "vasopressin_aqp2",
+        "enac_localization",
+        "aldosterone_enac",
+        "tgf_a1",
+        "local_content"
+      ]
+    },
+    {
+      "id": "filtrate_to_urine",
+      "mechanism": "Filtrate undergoes sequential tubular modification; formed urine ultimately exits collecting ducts through papillary ducts into calyces, pelvis and ureter.",
+      "steps": [
+        {
+          "id": "tubular_fluid",
+          "native_view": "Nephron (15x schematic)",
+          "groups": [
+            "S55",
+            "S58",
+            "S60",
+            "S61",
+            "S62",
+            "S63",
+            "S64",
+            "S65",
+            "S66"
+          ],
+          "narrative": "Follow proximal lumen through loop, distal and connecting segments to cortical and medullary collecting ducts. Call the early fluid filtrate/tubular fluid and explain changing composition; collecting-duct outflow becomes final urine for the collecting system.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "unmodelled_bridge",
+          "native_view": "Teaching overview",
+          "groups": [
+            "S66",
+            "S04",
+            "S06"
+          ],
+          "narrative": "S66 stops short of a papilla; papillary duct continuation is omitted. Explain the anatomical continuation verbally before switching domains. No solid animation arrow may bridge the detached 15x nephron to gross papilla/calyx as an existing joined tube.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        },
+        {
+          "id": "gross_drainage",
+          "native_view": "Gross urine drainage",
+          "groups": [
+            "S04",
+            "S06",
+            "S07",
+            "S08",
+            "S09"
+          ],
+          "narrative": "At gross scale, urine leaves papillary ducts at papillae S04 into minor calyces S06, major calyces S07, pelvis S08 and ureter S09. The model contains only the upper ureter; normal peristalsis and bladder drainage are narrated, not animated or reconstructed.",
+          "state": "assembled",
+          "flux_display": "narrated, not native particle or membrane animation"
+        }
+      ],
+      "schematic_limitations": [
+        "Papillary duct and final collecting-duct connection are absent; mixed-scale detached assembly is not an anatomical physical attachment. Gross collecting-system peristalsis, urine pressure and fluid flow are not simulated."
+      ],
+      "source_ids": [
+        "local_content"
+      ]
+    }
+  ]
+}

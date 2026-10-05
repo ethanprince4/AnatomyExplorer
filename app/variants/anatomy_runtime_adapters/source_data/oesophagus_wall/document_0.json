@@ -1,0 +1,983 @@
+{
+  "oesophagus_wall": {
+    "metres_per_unit": 0.002,
+    "summary": "A thoracic oesophageal wall teaching block with non-keratinised stratified squamous epithelium, connective-tissue papillae and capillary loops, muscularis mucosae, submucosal glands and ducts, distinct enteric plexuses, and inner circular/outer longitudinal muscle under adventitia. Skeletal and smooth muscle are compared along a compressed proximal-to-distal schematic.",
+    "scale_note": "Nominal block width ≈ 4 mm (2 model units); 1 model unit = 2 mm. The +X skeletal and −X smooth muscle regions compare regional anatomy across a short specimen and do not represent the full upper-to-lower oesophageal transition in 4 mm. Three original gland sites are representative, with counts, nuclei, papillary loop diameters and basement membrane thickness schematic. Cell markings are texture cues, not segmented cells; colours identify structures and do not encode oxygenation.",
+    "cut_on": true,
+    "cutaway": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "cut_at": [
+      0.0,
+      0.0
+    ],
+    "viewer_cameras": {
+      "1 Wall overview": {
+        "position": [
+          -3.7,
+          2.6,
+          4.0
+        ],
+        "target": [
+          0,
+          0.43,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.8,
+        "hidden": [
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Luminal side is +Y; this open corner is a specimen cut. Layer order remains in place."
+      },
+      "2 Epithelium and papillae": {
+        "position": [
+          -1.6,
+          1.05,
+          2.2
+        ],
+        "target": [
+          -0.15,
+          0.67,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.15,
+        "hidden": [
+          "Adventitia",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Inner circular muscle – smooth (lower third)",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Submucosa",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Basal-to-superficial progression; nuclei are texture marks, not selectable cells. Capillary loops remain in connective-tissue papillae."
+      },
+      "3 Glands and ducts": {
+        "position": [
+          -2.0,
+          1.3,
+          2.4
+        ],
+        "target": [
+          -0.15,
+          0.48,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.75,
+        "hidden": [
+          "Adventitia",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Inner circular muscle – smooth (lower third)",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Papillary capillary loops",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Trace representative submucosal gland to its duct and luminal aperture. Use Tissue opacity to see a duct through covering layers."
+      },
+      "4 Muscle and nerve planes": {
+        "position": [
+          -2.5,
+          1.5,
+          3.0
+        ],
+        "target": [
+          0,
+          0.31,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.55,
+        "hidden": [
+          "Adventitia",
+          "Lamina propria & papillae",
+          "Basal cell layer",
+          "Intermediate (prickle) layers",
+          "Superficial squamous layer",
+          "Basement membrane",
+          "Papillary capillary loops",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Myenteric plexus lies between muscularis externa layers; submucosal plexus lies beneath muscularis mucosae. +X skeletal and -X smooth are regional teaching exemplars."
+      },
+      "5 Vessels and mucosal supply": {
+        "position": [
+          -2.5,
+          1.5,
+          3.0
+        ],
+        "target": [
+          0,
+          0.45,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.4,
+        "hidden": [
+          "Adventitia",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Inner circular muscle – smooth (lower third)",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Basal cell layer",
+          "Intermediate (prickle) layers",
+          "Superficial squamous layer",
+          "Basement membrane",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Keep vascular compartments distinct. Isolated papillary loops do not encode a connected arterial-to-venous circuit."
+      },
+      "Lesson epithelial_protection_and_renewal / surface": {
+        "position": [
+          -1.6,
+          1.05,
+          2.2
+        ],
+        "target": [
+          -0.15,
+          0.67,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.15,
+        "hidden": [
+          "Adventitia",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Inner circular muscle – smooth (lower third)",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Submucosa",
+          "Papillary capillary loops",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "The luminal surface is a moist, non-keratinised stratified lining. The coloured slabs show tissue compartments.",
+        "lesson_sequence": "epithelial_protection_and_renewal",
+        "tissue_opacity_percent": 100,
+        "focus_parts": [
+          "Superficial squamous layer"
+        ]
+      },
+      "Lesson epithelial_protection_and_renewal / basal_interface": {
+        "position": [
+          -1.6,
+          1.05,
+          2.2
+        ],
+        "target": [
+          -0.15,
+          0.67,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.15,
+        "hidden": [
+          "Adventitia",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Inner circular muscle – smooth (lower third)",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Submucosa",
+          "Papillary capillary loops",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Locate the basal compartment against the basement membrane. Basal division maintains the lining.",
+        "lesson_sequence": "epithelial_protection_and_renewal",
+        "tissue_opacity_percent": 100,
+        "focus_parts": [
+          "Basement membrane",
+          "Basal cell layer"
+        ]
+      },
+      "Lesson epithelial_protection_and_renewal / maturation": {
+        "position": [
+          -1.6,
+          1.05,
+          2.2
+        ],
+        "target": [
+          -0.15,
+          0.67,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.15,
+        "hidden": [
+          "Adventitia",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Inner circular muscle – smooth (lower third)",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Submucosa",
+          "Papillary capillary loops",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Read basal → intermediate → superficial as the direction of maturation and replacement. These are fixed shells, not tracked cells.",
+        "lesson_sequence": "epithelial_protection_and_renewal",
+        "tissue_opacity_percent": 100,
+        "focus_parts": [
+          "Basal cell layer",
+          "Intermediate (prickle) layers",
+          "Superficial squamous layer"
+        ]
+      },
+      "Lesson gland_to_surface_lubrication / submucosal_origin": {
+        "position": [
+          -2.0,
+          1.3,
+          2.4
+        ],
+        "target": [
+          -0.15,
+          0.48,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.75,
+        "hidden": [
+          "Adventitia",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Inner circular muscle – smooth (lower third)",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Papillary capillary loops",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "The retained tissue window exposes representative glands in the submucosa. Three sites are a teaching sample.",
+        "lesson_sequence": "gland_to_surface_lubrication",
+        "tissue_opacity_percent": 28,
+        "focus_parts": [
+          "Oesophageal glands proper"
+        ]
+      },
+      "Lesson gland_to_surface_lubrication / transwall_duct": {
+        "position": [
+          -2.0,
+          1.3,
+          2.4
+        ],
+        "target": [
+          -0.15,
+          0.48,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.75,
+        "hidden": [
+          "Adventitia",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Inner circular muscle – smooth (lower third)",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Submucosa",
+          "Basal cell layer",
+          "Intermediate (prickle) layers",
+          "Superficial squamous layer",
+          "Papillary capillary loops",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Follow gland body → collecting outlet → duct. The ducts traverse the mucosa and reach the surface.",
+        "lesson_sequence": "gland_to_surface_lubrication",
+        "tissue_opacity_percent": 28,
+        "focus_parts": [
+          "Gland ducts"
+        ]
+      },
+      "Lesson gland_to_surface_lubrication / surface_delivery": {
+        "position": [
+          -2.0,
+          1.3,
+          2.4
+        ],
+        "target": [
+          -0.15,
+          0.48,
+          0.0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.75,
+        "hidden": [
+          "Adventitia",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Inner circular muscle – smooth (lower third)",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Papillary capillary loops",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Duct outlets deliver mucus that eases passage over the luminal surface. The window is an artificial teaching exposure.",
+        "lesson_sequence": "gland_to_surface_lubrication",
+        "tissue_opacity_percent": 28,
+        "focus_parts": [
+          "Gland ducts",
+          "Superficial squamous layer"
+        ]
+      },
+      "Lesson mixed_region_motor_control / two_muscle_systems": {
+        "position": [
+          -2.5,
+          1.5,
+          3.0
+        ],
+        "target": [
+          0,
+          0.31,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.55,
+        "hidden": [
+          "Myenteric (Auerbach) plexus",
+          "Papillary capillary loops",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Distinguish the thin mucosal muscle layer from the thicker muscularis externa responsible for transport.",
+        "lesson_sequence": "mixed_region_motor_control",
+        "tissue_opacity_percent": 28,
+        "focus_parts": [
+          "Muscularis mucosae",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – smooth (lower third)"
+        ]
+      },
+      "Lesson mixed_region_motor_control / orientations": {
+        "position": [
+          -2.5,
+          1.5,
+          3.0
+        ],
+        "target": [
+          0,
+          0.31,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.55,
+        "hidden": [
+          "Adventitia",
+          "Myenteric (Auerbach) plexus",
+          "Submucosa",
+          "Muscularis mucosae",
+          "Lamina propria & papillae",
+          "Basal cell layer",
+          "Intermediate (prickle) layers",
+          "Superficial squamous layer",
+          "Basement membrane",
+          "Papillary capillary loops",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Circular and longitudinal orientations are shown for both muscle types. Together they participate in coordinated transport.",
+        "lesson_sequence": "mixed_region_motor_control",
+        "tissue_opacity_percent": 28,
+        "focus_parts": [
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – smooth (lower third)"
+        ]
+      },
+      "Lesson mixed_region_motor_control / control_planes": {
+        "position": [
+          -2.5,
+          1.5,
+          3.0
+        ],
+        "target": [
+          0,
+          0.31,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.55,
+        "hidden": [
+          "Submucosa",
+          "Muscularis mucosae",
+          "Lamina propria & papillae",
+          "Basal cell layer",
+          "Intermediate (prickle) layers",
+          "Superficial squamous layer",
+          "Basement membrane",
+          "Papillary capillary loops",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Myenteric ganglia occupy the intermuscular plane; the vagal mesh marks external innervation context. Their connections are not resolved.",
+        "lesson_sequence": "mixed_region_motor_control",
+        "tissue_opacity_percent": 28,
+        "focus_parts": [
+          "Myenteric (Auerbach) plexus",
+          "Oesophageal (vagal) plexus"
+        ]
+      },
+      "Lesson mixed_region_motor_control / skeletal_and_smooth_control": {
+        "position": [
+          -2.5,
+          1.5,
+          3.0
+        ],
+        "target": [
+          0,
+          0.31,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.55,
+        "hidden": [
+          "Adventitia",
+          "Submucosa",
+          "Muscularis mucosae",
+          "Lamina propria & papillae",
+          "Basal cell layer",
+          "Intermediate (prickle) layers",
+          "Superficial squamous layer",
+          "Basement membrane",
+          "Papillary capillary loops",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Striated peristalsis uses sequential central vagal excitation. Smooth peristalsis combines central, intrinsic neural and muscle influences, including excitation and inhibition. The two components must coordinate across the region.",
+        "lesson_sequence": "mixed_region_motor_control",
+        "tissue_opacity_percent": 28,
+        "focus_parts": [
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – smooth (lower third)"
+        ]
+      },
+      "Lesson fold_accommodation / folded_wall": {
+        "position": [
+          -3.7,
+          2.6,
+          4.0
+        ],
+        "target": [
+          0,
+          0.43,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.8,
+        "hidden": [
+          "Adventitia",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Inner circular muscle – smooth (lower third)",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Papillary capillary loops",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "Locate the folded luminal contour. These larger folds differ from the small lamina propria papillae.",
+        "lesson_sequence": "fold_accommodation",
+        "tissue_opacity_percent": 100,
+        "focus_parts": [
+          "Submucosa",
+          "Superficial squamous layer"
+        ]
+      },
+      "Lesson fold_accommodation / passage_context": {
+        "position": [
+          -3.7,
+          2.6,
+          4.0
+        ],
+        "target": [
+          0,
+          0.43,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.8,
+        "hidden": [
+          "Adventitia",
+          "Outer longitudinal muscle – skeletal (upper third)",
+          "Outer longitudinal muscle – smooth (lower third)",
+          "Inner circular muscle – skeletal (upper third)",
+          "Inner circular muscle – smooth (lower third)",
+          "Intermuscular connective tissue",
+          "Myenteric (Auerbach) plexus",
+          "Papillary capillary loops",
+          "Oesophageal glands proper",
+          "Gland ducts",
+          "Submucosal venous plexus",
+          "Submucosal arteries",
+          "Lymphatic vessels",
+          "Submucosal (Meissner) plexus",
+          "Oesophageal (vagal) plexus",
+          "Adventitial arteries",
+          "Adventitial veins"
+        ],
+        "cut_on": true,
+        "note": "During passage, folds can unfold as the oesophagus distends. The retained block is static: neither a bolus nor a distended tubular lumen is present.",
+        "lesson_sequence": "fold_accommodation",
+        "tissue_opacity_percent": 100,
+        "focus_parts": [
+          "Submucosa",
+          "Superficial squamous layer"
+        ]
+      }
+    },
+    "start_view": "1 Wall overview",
+    "functional_sequences": [
+      {
+        "id": "epithelial_protection_and_renewal",
+        "mechanism": "Protective stratified lining maintained from its basal compartment.",
+        "steps": [
+          {
+            "id": "surface",
+            "visible_parts": [
+              "Basement membrane",
+              "Basal cell layer",
+              "Intermediate (prickle) layers",
+              "Superficial squamous layer",
+              "Muscularis mucosae",
+              "Lamina propria & papillae"
+            ],
+            "focus_parts": [
+              "Superficial squamous layer"
+            ],
+            "caption": "The luminal surface is a moist, non-keratinised stratified lining. The coloured slabs show tissue compartments.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson epithelial_protection_and_renewal / surface"
+          },
+          {
+            "id": "basal_interface",
+            "visible_parts": [
+              "Basement membrane",
+              "Basal cell layer",
+              "Intermediate (prickle) layers",
+              "Superficial squamous layer",
+              "Muscularis mucosae",
+              "Lamina propria & papillae"
+            ],
+            "focus_parts": [
+              "Basement membrane",
+              "Basal cell layer"
+            ],
+            "caption": "Locate the basal compartment against the basement membrane. Basal division maintains the lining.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson epithelial_protection_and_renewal / basal_interface"
+          },
+          {
+            "id": "maturation",
+            "visible_parts": [
+              "Basement membrane",
+              "Basal cell layer",
+              "Intermediate (prickle) layers",
+              "Superficial squamous layer",
+              "Muscularis mucosae",
+              "Lamina propria & papillae"
+            ],
+            "focus_parts": [
+              "Basal cell layer",
+              "Intermediate (prickle) layers",
+              "Superficial squamous layer"
+            ],
+            "caption": "Read basal → intermediate → superficial as the direction of maturation and replacement. These are fixed shells, not tracked cells.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson epithelial_protection_and_renewal / maturation"
+          }
+        ],
+        "schematic_limitations": [
+          "No cell-by-cell division, movement, shedding or turnover rate is simulated. Enlarged cut-face nuclear markings are display details."
+        ],
+        "source_evidence": [
+          "https://histology.leeds.ac.uk/home/oral/oesophagus/"
+        ]
+      },
+      {
+        "id": "gland_to_surface_lubrication",
+        "mechanism": "Submucosal glands deliver lubricating secretion to the luminal surface through ducts.",
+        "steps": [
+          {
+            "id": "submucosal_origin",
+            "visible_parts": [
+              "Submucosa",
+              "Oesophageal glands proper",
+              "Gland ducts",
+              "Muscularis mucosae",
+              "Lamina propria & papillae",
+              "Basement membrane",
+              "Basal cell layer",
+              "Intermediate (prickle) layers",
+              "Superficial squamous layer"
+            ],
+            "focus_parts": [
+              "Oesophageal glands proper"
+            ],
+            "caption": "The retained tissue window exposes representative glands in the submucosa. Three sites are a teaching sample.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson gland_to_surface_lubrication / submucosal_origin"
+          },
+          {
+            "id": "transwall_duct",
+            "visible_parts": [
+              "Oesophageal glands proper",
+              "Gland ducts",
+              "Muscularis mucosae",
+              "Lamina propria & papillae",
+              "Basement membrane"
+            ],
+            "focus_parts": [
+              "Gland ducts"
+            ],
+            "caption": "Follow gland body → collecting outlet → duct. The ducts traverse the mucosa and reach the surface.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson gland_to_surface_lubrication / transwall_duct"
+          },
+          {
+            "id": "surface_delivery",
+            "visible_parts": [
+              "Submucosa",
+              "Oesophageal glands proper",
+              "Gland ducts",
+              "Muscularis mucosae",
+              "Lamina propria & papillae",
+              "Basement membrane",
+              "Basal cell layer",
+              "Intermediate (prickle) layers",
+              "Superficial squamous layer"
+            ],
+            "focus_parts": [
+              "Gland ducts",
+              "Superficial squamous layer"
+            ],
+            "caption": "Duct outlets deliver mucus that eases passage over the luminal surface. The window is an artificial teaching exposure.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson gland_to_surface_lubrication / surface_delivery"
+          }
+        ],
+        "schematic_limitations": [
+          "Acinar micro-lumina and secretory cell transport are unresolved. No particles, pressure, pH map or middle-region bicarbonate output is encoded. Human lower-segment bicarbonate measurements are contextual evidence only."
+        ],
+        "source_evidence": [
+          "https://histologyguide.com/slideview/MH-109-esophagus/14-slide-1.html",
+          "https://histology.leeds.ac.uk/home/oral/oesophagus/",
+          "https://pubmed.ncbi.nlm.nih.gov/1397875/"
+        ]
+      },
+      {
+        "id": "mixed_region_motor_control",
+        "mechanism": "Mixed muscularis externa supports transport with central and intrinsic neural control.",
+        "steps": [
+          {
+            "id": "two_muscle_systems",
+            "visible_parts": [
+              "Adventitia",
+              "Intermuscular connective tissue",
+              "Submucosa",
+              "Muscularis mucosae",
+              "Lamina propria & papillae",
+              "Basement membrane",
+              "Basal cell layer",
+              "Intermediate (prickle) layers",
+              "Superficial squamous layer",
+              "Outer longitudinal muscle – skeletal (upper third)",
+              "Inner circular muscle – skeletal (upper third)",
+              "Outer longitudinal muscle – smooth (lower third)",
+              "Inner circular muscle – smooth (lower third)"
+            ],
+            "focus_parts": [
+              "Muscularis mucosae",
+              "Outer longitudinal muscle – skeletal (upper third)",
+              "Inner circular muscle – skeletal (upper third)",
+              "Outer longitudinal muscle – smooth (lower third)",
+              "Inner circular muscle – smooth (lower third)"
+            ],
+            "caption": "Distinguish the thin mucosal muscle layer from the thicker muscularis externa responsible for transport.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson mixed_region_motor_control / two_muscle_systems"
+          },
+          {
+            "id": "orientations",
+            "visible_parts": [
+              "Outer longitudinal muscle – skeletal (upper third)",
+              "Inner circular muscle – skeletal (upper third)",
+              "Outer longitudinal muscle – smooth (lower third)",
+              "Inner circular muscle – smooth (lower third)",
+              "Intermuscular connective tissue"
+            ],
+            "focus_parts": [
+              "Outer longitudinal muscle – skeletal (upper third)",
+              "Inner circular muscle – skeletal (upper third)",
+              "Outer longitudinal muscle – smooth (lower third)",
+              "Inner circular muscle – smooth (lower third)"
+            ],
+            "caption": "Circular and longitudinal orientations are shown for both muscle types. Together they participate in coordinated transport.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson mixed_region_motor_control / orientations"
+          },
+          {
+            "id": "control_planes",
+            "visible_parts": [
+              "Outer longitudinal muscle – skeletal (upper third)",
+              "Inner circular muscle – skeletal (upper third)",
+              "Outer longitudinal muscle – smooth (lower third)",
+              "Inner circular muscle – smooth (lower third)",
+              "Intermuscular connective tissue",
+              "Adventitia",
+              "Myenteric (Auerbach) plexus",
+              "Oesophageal (vagal) plexus"
+            ],
+            "focus_parts": [
+              "Myenteric (Auerbach) plexus",
+              "Oesophageal (vagal) plexus"
+            ],
+            "caption": "Myenteric ganglia occupy the intermuscular plane; the vagal mesh marks external innervation context. Their connections are not resolved.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson mixed_region_motor_control / control_planes"
+          },
+          {
+            "id": "skeletal_and_smooth_control",
+            "visible_parts": [
+              "Outer longitudinal muscle – skeletal (upper third)",
+              "Inner circular muscle – skeletal (upper third)",
+              "Outer longitudinal muscle – smooth (lower third)",
+              "Inner circular muscle – smooth (lower third)",
+              "Intermuscular connective tissue",
+              "Myenteric (Auerbach) plexus",
+              "Oesophageal (vagal) plexus"
+            ],
+            "focus_parts": [
+              "Outer longitudinal muscle – skeletal (upper third)",
+              "Inner circular muscle – skeletal (upper third)",
+              "Outer longitudinal muscle – smooth (lower third)",
+              "Inner circular muscle – smooth (lower third)"
+            ],
+            "caption": "Striated peristalsis uses sequential central vagal excitation. Smooth peristalsis combines central, intrinsic neural and muscle influences, including excitation and inhibition. The two components must coordinate across the region.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson mixed_region_motor_control / skeletal_and_smooth_control"
+          }
+        ],
+        "schematic_limitations": [
+          "These are anatomical highlights, not contractions. No delay is assigned between muscle layers. The 4 mm comparison does not simulate an organ-length wave. No sphincter or anti-reflux mechanism is represented. Motor endplates and named excitatory/inhibitory cell subtypes are absent."
+        ],
+        "source_evidence": [
+          "https://histologyguide.com/slideview/MH-109-esophagus/14-slide-1.html",
+          "https://pubmed.ncbi.nlm.nih.gov/9422621/",
+          "https://histologyguide.com/about-us/sorenson-atlas-of-human-histology-chapters-1-and-14.pdf"
+        ]
+      },
+      {
+        "id": "fold_accommodation",
+        "mechanism": "Mucosal and submucosal folds allow accommodation of passing material.",
+        "steps": [
+          {
+            "id": "folded_wall",
+            "visible_parts": [
+              "Submucosa",
+              "Muscularis mucosae",
+              "Lamina propria & papillae",
+              "Basement membrane",
+              "Basal cell layer",
+              "Intermediate (prickle) layers",
+              "Superficial squamous layer"
+            ],
+            "focus_parts": [
+              "Submucosa",
+              "Superficial squamous layer"
+            ],
+            "caption": "Locate the folded luminal contour. These larger folds differ from the small lamina propria papillae.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson fold_accommodation / folded_wall"
+          },
+          {
+            "id": "passage_context",
+            "visible_parts": [
+              "Submucosa",
+              "Muscularis mucosae",
+              "Lamina propria & papillae",
+              "Basement membrane",
+              "Basal cell layer",
+              "Intermediate (prickle) layers",
+              "Superficial squamous layer"
+            ],
+            "focus_parts": [
+              "Submucosa",
+              "Superficial squamous layer"
+            ],
+            "caption": "During passage, folds can unfold as the oesophagus distends. The retained block is static: neither a bolus nor a distended tubular lumen is present.",
+            "geometry_action": "none",
+            "time_semantics": "reading_order_only",
+            "native_view": "Lesson fold_accommodation / passage_context"
+          }
+        ],
+        "schematic_limitations": [
+          "No fold flattening, strain, luminal calibre or pressure is simulated. A full-lumen deformable model would require separate anatomical design and native validation."
+        ],
+        "source_evidence": [
+          "https://histology.leeds.ac.uk/home/oral/oesophagus/"
+        ]
+      }
+    ]
+  }
+}

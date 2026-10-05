@@ -1,0 +1,473 @@
+{
+  "schema_version": 1,
+  "model_id": "compact_bone",
+  "status": "implemented_native_static_views",
+  "consumer_contract": "Every step names a native viewer_cameras entry using exact visibility; source text supplies mechanism and omissions. No runtime animation or physiology simulation.",
+  "animation_implementation": "none",
+  "physiological_simulation": false,
+  "functional_sequences": [
+    {
+      "id": "perfusion_diffusion",
+      "mechanism": "Distinguish vascular perfusion from extracellular exchange with osteocytes.",
+      "steps": [
+        {
+          "id": "supply",
+          "text": "Identify periosteal and medullary supply landmarks.",
+          "highlight_parts": [
+            "Periosteal artery",
+            "Nutrient artery branch"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Supply landmarks; connection continuity remains to be validated.",
+          "source_ids": [
+            "histology_ground",
+            "endotext"
+          ],
+          "missing_components": [],
+          "native_camera": "Function perfusion diffusion 1: Identify periosteal and medullary supply landmarks."
+        },
+        {
+          "id": "perforating",
+          "text": "Perforating channels house vessels linking cortical canal systems and surface supply.",
+          "highlight_parts": [
+            "Perforating (Volkmann) canals",
+            "Volkmann canal vessels"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Canal envelope and vessel lumen are different compartments.",
+          "source_ids": [
+            "histology_ground"
+          ],
+          "missing_components": [],
+          "native_camera": "Function perfusion diffusion 2: Perforating channels house vessels linking cortical canal systems and surface supply."
+        },
+        {
+          "id": "central",
+          "text": "Show the vessel pair inside the central canal. The nerve is another canal occupant.",
+          "highlight_parts": [
+            "Central (Haversian) canals",
+            "Haversian arterioles & capillaries",
+            "Haversian venules",
+            "Haversian nerve fibres"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Separate blood within vessel lumens from connective tissue around them.",
+          "source_ids": [
+            "histology_ground"
+          ],
+          "missing_components": [],
+          "native_camera": "Function perfusion diffusion 3: Show the vessel pair inside the central canal. The nerve is another canal occupant."
+        },
+        {
+          "id": "exchange",
+          "text": "Solutes reach osteocytes through pericellular extracellular fluid surrounding cells and processes. Diffusion operates in this network.",
+          "highlight_parts": [
+            "Osteocytes in lacunae",
+            "Canaliculi"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Captioned exchange concept; no particle crossing of an authored endothelial barrier.",
+          "source_ids": [
+            "endotext",
+            "price_loading"
+          ],
+          "missing_components": [
+            "Endothelial exchange barrier",
+            "Pericellular matrix",
+            "Complete extracellular lacunar-canalicular fluid volume"
+          ],
+          "native_camera": "Function perfusion diffusion 4: Solutes reach osteocytes through pericellular extracellular fluid surrounding cells and processes. Diffusion operates in this network."
+        },
+        {
+          "id": "return",
+          "text": "Identify venous drainage landmarks without inventing a capillary bridge or a proven continuous medullary route.",
+          "highlight_parts": [
+            "Haversian venules",
+            "Volkmann canal venule",
+            "Periosteal vein",
+            "Marrow sinusoid & central vein"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Separate arterial and venous instructional circuits.",
+          "source_ids": [
+            "histology_ground"
+          ],
+          "missing_components": [
+            "Capillary bridge between displayed artery and vein"
+          ],
+          "native_camera": "Function perfusion diffusion 5: Identify venous drainage landmarks without inventing a capillary bridge or a proven continuous medullary route."
+        }
+      ],
+      "scale_note": "Vessels and channels are enlarged teaching constructions; no transit time, pressure, perfusion fraction or universal 200-µm osteon diameter is assigned.",
+      "schematic_limitations": [
+        "No moving blood cells in Canaliculi.",
+        "V11 route report omits complete canalicular courses and complete medullary vascular continuity.",
+        "Do not animate geometry-following particles until saved-lumen connectivity has been verified."
+      ]
+    },
+    {
+      "id": "osteocyte_load_sensing",
+      "mechanism": "External load can alter lacunar-canalicular fluid motion and osteocyte signals regulating formation.",
+      "steps": [
+        {
+          "id": "load",
+          "text": "Introduce external mechanical loading as a conceptual cause.",
+          "highlight_parts": [
+            "Concentric lamellae (set A)",
+            "Concentric lamellae (set B)"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Label optional external arrows schematic; leave geometry static.",
+          "source_ids": [
+            "price_loading"
+          ],
+          "missing_components": [],
+          "native_camera": "Function osteocyte load sensing 1: Introduce external mechanical loading as a conceptual cause."
+        },
+        {
+          "id": "fluid",
+          "text": "Cyclic load-associated fluid displacement can enhance solute exchange.",
+          "highlight_parts": [
+            "Canaliculi"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Double-headed qualitative arrow; direction and amplitude are not geometry-derived.",
+          "source_ids": [
+            "price_loading"
+          ],
+          "missing_components": [],
+          "native_camera": "Function osteocyte load sensing 2: Cyclic load-associated fluid displacement can enhance solute exchange."
+        },
+        {
+          "id": "sensing",
+          "text": "Focus on an osteocyte and its processes as the mechanosensitive cellular network.",
+          "highlight_parts": [
+            "Osteocytes in lacunae",
+            "Canaliculi"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Distinguish cell/process from the surrounding fluid gap.",
+          "source_ids": [
+            "endotext"
+          ],
+          "missing_components": [
+            "Mechanosensitive receptors",
+            "Cytoskeletal attachments",
+            "Primary cilium"
+          ],
+          "native_camera": "Function osteocyte load sensing 3: Focus on an osteocyte and its processes as the mechanosensitive cellular network."
+        },
+        {
+          "id": "signals",
+          "text": "Experimental loading reduced osteocyte Sost/sclerostin; unloading increased expression.",
+          "highlight_parts": [
+            "Osteocytes in lacunae"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Caption-only molecular regulation.",
+          "source_ids": [
+            "robling_sclerostin"
+          ],
+          "missing_components": [
+            "Sclerostin molecules",
+            "Gene-expression machinery",
+            "Wnt/LRP signaling components"
+          ],
+          "native_camera": "Function osteocyte load sensing 4: Experimental loading reduced osteocyte Sost/sclerostin; unloading increased expression."
+        },
+        {
+          "id": "formation",
+          "text": "Reduced inhibitory signaling can favor a local formation response.",
+          "highlight_parts": [
+            "Osteoblasts",
+            "Bone-lining cells"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Relate existing surface cells to the signal concept without inventing a visible pathway.",
+          "source_ids": [
+            "robling_sclerostin"
+          ],
+          "missing_components": [
+            "Complete osteocyte-to-surface communication network"
+          ],
+          "native_camera": "Function osteocyte load sensing 5: Reduced inhibitory signaling can favor a local formation response."
+        }
+      ],
+      "scale_note": "Displayed osteocytes are sparse and enlarged 1.30 times. Canalicular lumen display diameter is 1.04 µm; rat 0.15–0.17 µm reference is comparative only.",
+      "schematic_limitations": [
+        "The fetched murine FRAP study is an experiment on ex vivo tibiae; its fitted velocity/shear estimates are not human model parameters.",
+        "No computed strain, fluid velocity, calcium transient, remodeling rate or mechanical adaptation.",
+        "External loading does not imply every osteocyte responds identically."
+      ]
+    },
+    {
+      "id": "lamellar_mechanics",
+      "mechanism": "Relate the osteon axis, matrix organization and variable collagen directions qualitatively.",
+      "steps": [
+        {
+          "id": "axis",
+          "text": "Orient the concentric matrix around the longitudinal central canal.",
+          "highlight_parts": [
+            "Central (Haversian) canals",
+            "Concentric lamellae (set A)",
+            "Concentric lamellae (set B)"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Axis marker is explanatory.",
+          "source_ids": [
+            "histology_ground"
+          ],
+          "missing_components": [],
+          "native_camera": "Function lamellar mechanics 1: Orient the concentric matrix around the longitudinal central canal."
+        },
+        {
+          "id": "matrix",
+          "text": "Recognize the lamellae as mineralized collagen matrix.",
+          "highlight_parts": [
+            "Concentric lamellae (set A)",
+            "Concentric lamellae (set B)"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "A/B colors label representative groups rather than literal tissue colors.",
+          "source_ids": [
+            "endotext"
+          ],
+          "missing_components": [],
+          "native_camera": "Function lamellar mechanics 2: Recognize the lamellae as mineralized collagen matrix."
+        },
+        {
+          "id": "orientation",
+          "text": "Inspect the enlarged fibre illustration in the telescoped osteon.",
+          "highlight_parts": [
+            "Lamellar collagen fibres (telescoped osteon)"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Disclosure separation is artificial and fixed.",
+          "source_ids": [
+            "varga_collagen"
+          ],
+          "missing_components": [],
+          "native_camera": "Function lamellar mechanics 3: Inspect the enlarged fibre illustration in the telescoped osteon."
+        },
+        {
+          "id": "variability",
+          "text": "Native human sublamellar orientation can change smoothly, with oscillating and twisted patterns within one osteon.",
+          "highlight_parts": [
+            "Lamellar collagen fibres (telescoped osteon)",
+            "Concentric lamellae (set A)",
+            "Concentric lamellae (set B)"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Two sets simplify native complexity.",
+          "source_ids": [
+            "varga_collagen"
+          ],
+          "missing_components": [],
+          "native_camera": "Function lamellar mechanics 4: Native human sublamellar orientation can change smoothly, with oscillating and twisted patterns within one osteon."
+        },
+        {
+          "id": "whole",
+          "text": "Return to the interstitial and circumferential matrix as context for load-bearing tissue.",
+          "highlight_parts": [
+            "Interstitial lamellae",
+            "Outer circumferential lamellae",
+            "Inner circumferential lamellae",
+            "Cement lines"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Discuss orientation-dependent structure qualitatively, without a numerical mechanical prediction.",
+          "source_ids": [
+            "endotext"
+          ],
+          "missing_components": [],
+          "native_camera": "Function lamellar mechanics 5: Return to the interstitial and circumferential matrix as context for load-bearing tissue."
+        }
+      ],
+      "scale_note": "Fewer displayed bands represent groups of native lamellae. Native 4–6 µm figure belongs to cited human femoral-section context; display band width is not that measurement.",
+      "schematic_limitations": [
+        "No finite-element solver, elastic constants, torsion metric or fatigue/crack propagation computation.",
+        "Perfect A/B helix alternation is not claimed to describe all native human lamellae.",
+        "Telescoping is not physiological movement or interlamellar sliding."
+      ]
+    },
+    {
+      "id": "remodeling",
+      "mechanism": "Teach cellular resorption and replacement, distinguishing trabecular surface remodeling from cortical tunneling.",
+      "steps": [
+        {
+          "id": "rest",
+          "text": "Identify cells at a resting internal bone surface.",
+          "highlight_parts": [
+            "Endosteum",
+            "Bone-lining cells",
+            "Trabeculae (spongy bone)"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Surface context; a cell type need not be active at every displayed site.",
+          "source_ids": [
+            "endotext"
+          ],
+          "missing_components": [],
+          "native_camera": "Function remodeling 1: Identify cells at a resting internal bone surface."
+        },
+        {
+          "id": "resorb",
+          "text": "An attached multinucleated osteoclast separates mineral dissolution from proteolytic matrix removal.",
+          "highlight_parts": [
+            "Osteoclasts (Howship lacunae)",
+            "Osteoclast nuclei"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Highlight the cell and recess; caption the subcellular machinery absent from geometry.",
+          "source_ids": [
+            "henriksen_resorption"
+          ],
+          "missing_components": [
+            "Ruffled border ultrastructure",
+            "Sealing zone actin ring",
+            "Acidified resorption compartment",
+            "Proton pumps",
+            "Cathepsin K and other proteases"
+          ],
+          "native_camera": "Function remodeling 2: An attached multinucleated osteoclast separates mineral dissolution from proteolytic matrix removal."
+        },
+        {
+          "id": "cortical",
+          "text": "A cortical BMU excavates a tunnel. This is distinct from the surface recess currently occupied by the displayed osteoclast.",
+          "highlight_parts": [
+            "Central (Haversian) canals",
+            "Cement lines"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Conceptual cortical-BMU caption; do not relocate the actual surface cell and claim it is a cutting cone.",
+          "source_ids": [
+            "endotext"
+          ],
+          "missing_components": [
+            "Cortical cutting cone",
+            "BMU vascular front"
+          ],
+          "native_camera": "Function remodeling 3: A cortical BMU excavates a tunnel. This is distinct from the surface recess currently occupied by the displayed osteoclast."
+        },
+        {
+          "id": "reversal",
+          "text": "Human Haversian sections show reversal/osteoprogenitor recruitment interspersed with later resorption before formation.",
+          "highlight_parts": [
+            "Cement lines"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Reversal boundary is visible; the mixed active cell population is not.",
+          "source_ids": [
+            "lassen_bmu"
+          ],
+          "missing_components": [
+            "Reversal/osteoprogenitor cells in a cortical BMU",
+            "Secondary cortical osteoclast population"
+          ],
+          "native_camera": "Function remodeling 4: Human Haversian sections show reversal/osteoprogenitor recruitment interspersed with later resorption before formation."
+        },
+        {
+          "id": "form",
+          "text": "Osteoblasts deposit osteoid; mineralization follows rather than being instantaneous.",
+          "highlight_parts": [
+            "Osteoblasts",
+            "Concentric lamellae (set A)",
+            "Concentric lamellae (set B)"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Show final bands with a caption; no mesh growth or active mineralization front is authored.",
+          "source_ids": [
+            "endotext"
+          ],
+          "missing_components": [
+            "Distinct osteoid seam",
+            "Mineralization front"
+          ],
+          "native_camera": "Function remodeling 5: Osteoblasts deposit osteoid; mineralization follows rather than being instantaneous."
+        },
+        {
+          "id": "outcome",
+          "text": "The replaced cortical region retains a central canal, while older lamellar remnants remain between newer osteons. Some formation cells become embedded osteocytes or lining cells.",
+          "highlight_parts": [
+            "Central (Haversian) canals",
+            "Cement lines",
+            "Interstitial lamellae",
+            "Osteocytes in lacunae",
+            "Bone-lining cells"
+          ],
+          "display_action": "successive_static_emphasis",
+          "schematic_cue": "Architecture and cell fates; no timed lineage transformation.",
+          "source_ids": [
+            "endotext"
+          ],
+          "missing_components": [],
+          "native_camera": "Function remodeling 6: The replaced cortical region retains a central canal, while older lamellar remnants remain between newer osteons. Some formation cells become embedded osteocytes or lining cells."
+        }
+      ],
+      "scale_note": "Steps compress a biological process lasting weeks to months into an untimed lesson. Cell density is representative; no formation rate or BMU advance speed is implied.",
+      "schematic_limitations": [
+        "Existing Osteoclasts (Howship lacunae) occupy trabecular surfaces, not an authored cortical cutting cone.",
+        "No time-varying resorption cavity, osteoid formation or mineralization mesh.",
+        "No disease mechanism, endocrine setpoint or mass-balance simulation."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "histology_ground",
+      "url": "https://www.histologyguide.org/slideview/MH-044-ground-bone/05-slide-1.html",
+      "title": "University of Minnesota Histology Guide",
+      "retrieval": "opened_body",
+      "scope": "Monkey tibia ground section; mineral matrix/space landmarks, not living cell morphology.",
+      "retrieved_on": "2026-10-04"
+    },
+    {
+      "id": "endotext",
+      "url": "https://www.ncbi.nlm.nih.gov/sites/books/NBK279149/",
+      "title": "Moreira, Dempster and Baron, Endotext",
+      "retrieval": "opened_body",
+      "scope": "Qualitative tissue physiology; no numeric rates adopted.",
+      "retrieved_on": "2026-10-04"
+    },
+    {
+      "id": "price_loading",
+      "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/jbmr.211",
+      "title": "Price et al. 2011",
+      "retrieval": "opened_publisher_full_text",
+      "scope": "Ex vivo murine FRAP; predicted velocity/shear values not human model data.",
+      "retrieved_on": "2026-10-04"
+    },
+    {
+      "id": "robling_sclerostin",
+      "url": "https://scholars.uthscsa.edu/en/publications/mechanical-stimulation-of-bone-in-vivo-reduces-osteocyte-expressi/",
+      "title": "Robling et al. 2008",
+      "retrieval": "opened_author_institutional_abstract",
+      "scope": "Experimental loading/unloading; full article not retrieved.",
+      "retrieved_on": "2026-10-04"
+    },
+    {
+      "id": "varga_collagen",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/23707503/",
+      "title": "Varga et al. 2013",
+      "retrieval": "primary_abstract_retrieved_in_web_search_direct_open_body_unavailable",
+      "scope": "Human cortical bone; abstract-level architecture support, no full-paper verification.",
+      "retrieved_on": "2026-10-04"
+    },
+    {
+      "id": "lassen_bmu",
+      "url": "https://onlinelibrary.wiley.com/doi/full/10.1002%2Fjbmr.3091",
+      "title": "Lassen et al. 2017",
+      "retrieval": "opened_publisher_full_text",
+      "scope": "Human Haversian BMU cellular continuum.",
+      "retrieved_on": "2026-10-04"
+    },
+    {
+      "id": "henriksen_resorption",
+      "url": "https://onlinelibrary.wiley.com/doi/full/10.1359/JBMR.050905",
+      "title": "Henriksen et al. 2006",
+      "retrieval": "opened_publisher_full_text",
+      "scope": "Mineral and organic degradation; no pH or protease kinetics modeled.",
+      "retrieved_on": "2026-10-04"
+    }
+  ]
+}

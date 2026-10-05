@@ -1,0 +1,599 @@
+{
+  "schema_version": 1,
+  "model_id": "colon_wall",
+  "native_properties": {
+    "metres_per_unit": 0.0005,
+    "scale_note": "Representative colon-wall teaching patch. The source geometry is uniformly magnified 3x: one displayed unit represents 500 um. Authored crypt outer diameter about 110 um and surface-to-outer-blind-base span about 486 um; these are model parameters, not universal measurements. Context strata, cell sampling, vessel caliber emphasis and gross markers are schematic.",
+    "home_view": [
+      -0.78,
+      0.34
+    ],
+    "cutaway": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "cut_at": [
+      -0.321,
+      0.0
+    ],
+    "cut_on": true,
+    "viewer_cameras": {
+      "Wall overview": {
+        "type": "ORTHO",
+        "position": [
+          -3.75,
+          3.05,
+          3.8
+        ],
+        "target": [
+          0,
+          0.9,
+          0
+        ],
+        "ortho_width": 5.8,
+        "hidden": [],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "Flat surface and crypt mouths": {
+        "type": "ORTHO",
+        "position": [
+          0,
+          6.5,
+          1.2
+        ],
+        "target": [
+          0,
+          2.395,
+          0
+        ],
+        "ortho_width": 3.2,
+        "hidden": [
+          "Serosa",
+          "Taenia coli & longitudinal muscle",
+          "Inner circular muscle",
+          "Appendix epiploica (fat tag)",
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Submucosa",
+          "Muscularis mucosae",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Lamina propria",
+          "Crypt basement membranes",
+          "Solitary lymphoid follicle",
+          "Germinal centres"
+        ],
+        "cut_on": false,
+        "state": "assembled"
+      },
+      "Crypt epithelial complements": {
+        "type": "ORTHO",
+        "position": [
+          -2.0,
+          2.5,
+          3.0
+        ],
+        "target": [
+          -0.71,
+          1.92,
+          0
+        ],
+        "ortho_width": 2.3,
+        "hidden": [
+          "Serosa",
+          "Taenia coli & longitudinal muscle",
+          "Inner circular muscle",
+          "Appendix epiploica (fat tag)",
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Submucosa",
+          "Muscularis mucosae",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Lamina propria",
+          "Crypt basement membranes",
+          "Solitary lymphoid follicle",
+          "Germinal centres"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "Basement membrane and stroma": {
+        "type": "ORTHO",
+        "position": [
+          -2.0,
+          2.5,
+          3.0
+        ],
+        "target": [
+          -0.71,
+          1.85,
+          0
+        ],
+        "ortho_width": 2.5,
+        "hidden": [
+          "Serosa",
+          "Taenia coli & longitudinal muscle",
+          "Inner circular muscle",
+          "Appendix epiploica (fat tag)",
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Submucosa",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Surface epithelium (colonocytes)",
+          "Solitary lymphoid follicle",
+          "Germinal centres"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "Follicle hierarchy": {
+        "type": "ORTHO",
+        "position": [
+          -2.0,
+          2.5,
+          2.3
+        ],
+        "target": [
+          -0.321,
+          1.85,
+          0.345
+        ],
+        "ortho_width": 1.3,
+        "hidden": [
+          "Serosa",
+          "Taenia coli & longitudinal muscle",
+          "Inner circular muscle",
+          "Appendix epiploica (fat tag)",
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Submucosa",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Crypt base stem cells (Lgr5+)",
+          "Surface epithelium (colonocytes)",
+          "Goblet cells"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "Arterial feeders and venous limits": {
+        "type": "ORTHO",
+        "position": [
+          -3.0,
+          2.3,
+          3.5
+        ],
+        "target": [
+          0,
+          1.2,
+          0
+        ],
+        "ortho_width": 3.5,
+        "hidden": [
+          "Serosa",
+          "Taenia coli & longitudinal muscle",
+          "Inner circular muscle",
+          "Appendix epiploica (fat tag)",
+          "Myenteric (Auerbach) plexus",
+          "Submucosal (Meissner) plexus",
+          "Lamina propria",
+          "Colonic crypts (of Lieberkühn)",
+          "Crypt base stem cells (Lgr5+)",
+          "Surface epithelium (colonocytes)",
+          "Goblet cells",
+          "Crypt basement membranes",
+          "Solitary lymphoid follicle",
+          "Germinal centres"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "Two enteric plexuses": {
+        "type": "ORTHO",
+        "position": [
+          -3.6,
+          2.2,
+          3.8
+        ],
+        "target": [
+          0,
+          0.78,
+          0
+        ],
+        "ortho_width": 4.0,
+        "hidden": [
+          "Serosa",
+          "Appendix epiploica (fat tag)",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Lamina propria",
+          "Colonic crypts (of Lieberkühn)",
+          "Crypt base stem cells (Lgr5+)",
+          "Surface epithelium (colonocytes)",
+          "Goblet cells",
+          "Crypt basement membranes",
+          "Solitary lymphoid follicle",
+          "Germinal centres"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      },
+      "Muscle roles": {
+        "type": "ORTHO",
+        "position": [
+          -3.8,
+          2.0,
+          3.5
+        ],
+        "target": [
+          0,
+          0.65,
+          0
+        ],
+        "ortho_width": 4.5,
+        "hidden": [
+          "Submucosal (Meissner) plexus",
+          "Submucosa",
+          "Submucosal arterioles",
+          "Submucosal venules",
+          "Mucosal branches",
+          "Lamina propria",
+          "Colonic crypts (of Lieberkühn)",
+          "Crypt base stem cells (Lgr5+)",
+          "Surface epithelium (colonocytes)",
+          "Goblet cells",
+          "Crypt basement membranes",
+          "Solitary lymphoid follicle",
+          "Germinal centres"
+        ],
+        "cut_on": true,
+        "state": "assembled"
+      }
+    },
+    "start_view": "Wall overview"
+  },
+  "teaching_views": [
+    {
+      "id": "wall_overview",
+      "native_view_name": "Wall overview",
+      "purpose": "Recognize the colon-specific mucosa within the wall, then enter selective views.",
+      "visible_parts": [
+        "Serosa",
+        "Taenia coli & longitudinal muscle",
+        "Inner circular muscle",
+        "Appendix epiploica (fat tag)",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosa",
+        "Muscularis mucosae",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Lamina propria",
+        "Colonic crypts (of Lieberkühn)",
+        "Crypt base stem cells (Lgr5+)",
+        "Surface epithelium (colonocytes)",
+        "Goblet cells",
+        "Crypt basement membranes",
+        "Solitary lymphoid follicle",
+        "Germinal centres"
+      ],
+      "hidden_parts": [],
+      "scale_note": "Representative colon-wall teaching patch. The source geometry is uniformly magnified 3x: one displayed unit represents 500 um. Authored crypt outer diameter about 110 um and surface-to-outer-blind-base span about 486 um; these are model parameters, not universal measurements. Context strata, cell sampling, vessel caliber emphasis and gross markers are schematic.",
+      "manual_cues": [
+        "Locate the flat luminal surface and crypt mouths; the regular sample is not normal crypt density.",
+        "Read mucosa → muscularis mucosae → submucosa → circular muscle → myenteric plane → longitudinal/taenia → serosa.",
+        "The exposed front-left sector is an intentional teaching cut, not ulceration.",
+        "The single broad taenia and epiploic fat tag are gross identity cues in a microscopic crop."
+      ],
+      "framing_status": "source-derived candidate; native visual validation deferred"
+    },
+    {
+      "id": "surface_mouths",
+      "native_view_name": "Flat surface and crypt mouths",
+      "purpose": "Inspect the uninterrupted surface and openings before interpreting a cut gland.",
+      "visible_parts": [
+        "Surface epithelium (colonocytes)",
+        "Goblet cells",
+        "Colonic crypts (of Lieberkühn)",
+        "Crypt base stem cells (Lgr5+)"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Taenia coli & longitudinal muscle",
+        "Inner circular muscle",
+        "Appendix epiploica (fat tag)",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosa",
+        "Muscularis mucosae",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Lamina propria",
+        "Crypt basement membranes",
+        "Solitary lymphoid follicle",
+        "Germinal centres"
+      ],
+      "scale_note": "Representative colon-wall teaching patch. The source geometry is uniformly magnified 3x: one displayed unit represents 500 um. Authored crypt outer diameter about 110 um and surface-to-outer-blind-base span about 486 um; these are model parameters, not universal measurements. Context strata, cell sampling, vessel caliber emphasis and gross markers are schematic.",
+      "manual_cues": [
+        "Observe the flat surface without small-intestinal villi.",
+        "Each crypt mouth communicates with the luminal side; surface goblet representatives replace colonocyte tissue.",
+        "Short microvilli are explained by the epithelial description; no distinct brush-border part exists.",
+        "Return to the cut crypt view to distinguish an open mouth from the closed blind base."
+      ],
+      "framing_status": "source-derived candidate; native visual validation deferred"
+    },
+    {
+      "id": "crypt_complements",
+      "native_view_name": "Crypt epithelial complements",
+      "purpose": "Follow the crypt mouth into its lumen and identify epithelial inserts at the shaft/base.",
+      "visible_parts": [
+        "Colonic crypts (of Lieberkühn)",
+        "Crypt base stem cells (Lgr5+)",
+        "Surface epithelium (colonocytes)",
+        "Goblet cells"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Taenia coli & longitudinal muscle",
+        "Inner circular muscle",
+        "Appendix epiploica (fat tag)",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosa",
+        "Muscularis mucosae",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Lamina propria",
+        "Crypt basement membranes",
+        "Solitary lymphoid follicle",
+        "Germinal centres"
+      ],
+      "scale_note": "Representative colon-wall teaching patch. The source geometry is uniformly magnified 3x: one displayed unit represents 500 um. Authored crypt outer diameter about 110 um and surface-to-outer-blind-base span about 486 um; these are model parameters, not universal measurements. Context strata, cell sampling, vessel caliber emphasis and gross markers are schematic.",
+      "manual_cues": [
+        "Use the two sectioned crypts on the x<-0.321 side of the fixed cut. The mouth opens toward the luminal surface; the rounded basal end is blind.",
+        "The crypt part is the absorptive epithelial remainder: goblet and basal cell parts fill matching complements rather than sit freely in the lumen.",
+        "Toggle Goblet cells off to inspect its occupied sites, then restore it; do the same for Crypt base stem cells (Lgr5+).",
+        "Lgr5+ is an authored molecular identity; the purple representatives do not visually demonstrate marker expression.",
+        "Each crypt uses six goblet and six basal representatives. No enteroendocrine or Paneth-cell part is modeled."
+      ],
+      "framing_status": "source-derived candidate; native visual validation deferred"
+    },
+    {
+      "id": "basement_stroma",
+      "native_view_name": "Basement membrane and stroma",
+      "purpose": "Place epithelium on its basal boundary within lamina propria.",
+      "visible_parts": [
+        "Lamina propria",
+        "Crypt basement membranes",
+        "Colonic crypts (of Lieberkühn)",
+        "Muscularis mucosae",
+        "Goblet cells",
+        "Crypt base stem cells (Lgr5+)"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Taenia coli & longitudinal muscle",
+        "Inner circular muscle",
+        "Appendix epiploica (fat tag)",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosa",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Surface epithelium (colonocytes)",
+        "Solitary lymphoid follicle",
+        "Germinal centres"
+      ],
+      "scale_note": "Representative colon-wall teaching patch. The source geometry is uniformly magnified 3x: one displayed unit represents 500 um. Authored crypt outer diameter about 110 um and surface-to-outer-blind-base span about 486 um; these are model parameters, not universal measurements. Context strata, cell sampling, vessel caliber emphasis and gross markers are schematic.",
+      "manual_cues": [
+        "Identify the thin crypt basement membrane outside the epithelium, with lamina propria external to that boundary.",
+        "The membrane thickness of 0.9 um is an authored model parameter, sharing the 3x display transform. Readability must be checked without silently thickening it.",
+        "Toggle Lamina propria, then Crypt basement membranes to inspect the gland envelope; restore both to retain tissue context.",
+        "Muscularis mucosae bounds the base of the mucosa; intercrypt lamina propria is not the crypt lumen."
+      ],
+      "framing_status": "source-derived candidate; native visual validation deferred"
+    },
+    {
+      "id": "follicle_hierarchy",
+      "native_view_name": "Follicle hierarchy",
+      "purpose": "Show a germinal centre inside its solitary follicular mantle, within lamina propria.",
+      "visible_parts": [
+        "Lamina propria",
+        "Solitary lymphoid follicle",
+        "Germinal centres",
+        "Muscularis mucosae",
+        "Colonic crypts (of Lieberkühn)",
+        "Crypt basement membranes"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Taenia coli & longitudinal muscle",
+        "Inner circular muscle",
+        "Appendix epiploica (fat tag)",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Submucosa",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Crypt base stem cells (Lgr5+)",
+        "Surface epithelium (colonocytes)",
+        "Goblet cells"
+      ],
+      "scale_note": "Representative colon-wall teaching patch. The source geometry is uniformly magnified 3x: one displayed unit represents 500 um. Authored crypt outer diameter about 110 um and surface-to-outer-blind-base span about 486 um; these are model parameters, not universal measurements. Context strata, cell sampling, vessel caliber emphasis and gross markers are schematic.",
+      "manual_cues": [
+        "The green outer follicular part is a mantle with a carved germinal-centre cavity; the pale centre is a separate selectable part.",
+        "The fixed cut crosses the follicle centre at x=-0.321 and removes the negative-X portion of this positive-Z follicle.",
+        "Toggle Germinal centres to expose its matching cavity, then restore it. Keep the mantle and lamina propria visible when teaching location.",
+        "This delivered follicle lies in the lamina-propria compartment above muscularis mucosae; other specimens can have submucosal extension, which this placement does not show."
+      ],
+      "framing_status": "source-derived candidate; native visual validation deferred"
+    },
+    {
+      "id": "vascular_limits",
+      "native_view_name": "Arterial feeders and venous limits",
+      "purpose": "Trace the displayed arterial feeder route through muscularis mucosae while retaining vascular context.",
+      "visible_parts": [
+        "Submucosa",
+        "Muscularis mucosae",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Taenia coli & longitudinal muscle",
+        "Inner circular muscle",
+        "Appendix epiploica (fat tag)",
+        "Myenteric (Auerbach) plexus",
+        "Submucosal (Meissner) plexus",
+        "Lamina propria",
+        "Colonic crypts (of Lieberkühn)",
+        "Crypt base stem cells (Lgr5+)",
+        "Surface epithelium (colonocytes)",
+        "Goblet cells",
+        "Crypt basement membranes",
+        "Solitary lymphoid follicle",
+        "Germinal centres"
+      ],
+      "scale_note": "Representative colon-wall teaching patch. The source geometry is uniformly magnified 3x: one displayed unit represents 500 um. Authored crypt outer diameter about 110 um and surface-to-outer-blind-base span about 486 um; these are model parameters, not universal measurements. Context strata, cell sampling, vessel caliber emphasis and gross markers are schematic.",
+      "manual_cues": [
+        "Follow red Submucosal arterioles into red Mucosal branches and through the muscularis-mucosae passages.",
+        "There are two arterial parents with two feeders; two blue submucosal venules are shown separately.",
+        "Native crop-end openings are displayed route boundaries. The feeder tips end in mucosal tissue without a connected exchange capillary bed.",
+        "Mucosal branches is arterial in this source; the corrected description identifies that role and does not imply villi or a represented venous branch.",
+        "No blue mucosal return route connects the displayed venules; never animate a continuous arterial-to-venous circulation or oxygen gradient here."
+      ],
+      "framing_status": "source-derived candidate; native visual validation deferred"
+    },
+    {
+      "id": "enteric_planes",
+      "native_view_name": "Two enteric plexuses",
+      "purpose": "Compare two neural planes while retaining their layer landmarks.",
+      "visible_parts": [
+        "Submucosal (Meissner) plexus",
+        "Myenteric (Auerbach) plexus",
+        "Submucosa",
+        "Muscularis mucosae",
+        "Inner circular muscle",
+        "Taenia coli & longitudinal muscle"
+      ],
+      "hidden_parts": [
+        "Serosa",
+        "Appendix epiploica (fat tag)",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Lamina propria",
+        "Colonic crypts (of Lieberkühn)",
+        "Crypt base stem cells (Lgr5+)",
+        "Surface epithelium (colonocytes)",
+        "Goblet cells",
+        "Crypt basement membranes",
+        "Solitary lymphoid follicle",
+        "Germinal centres"
+      ],
+      "scale_note": "Representative colon-wall teaching patch. The source geometry is uniformly magnified 3x: one displayed unit represents 500 um. Authored crypt outer diameter about 110 um and surface-to-outer-blind-base span about 486 um; these are model parameters, not universal measurements. Context strata, cell sampling, vessel caliber emphasis and gross markers are schematic.",
+      "manual_cues": [
+        "Find Meissner within the submucosa near muscularis mucosae; its role relates to inner-layer secretion, absorption and local control.",
+        "Find Auerbach between circular and longitudinal muscle; its role relates to motility of the muscularis externa.",
+        "Toggle Submucosa for an unobstructed Meissner network, then restore it; toggle either muscle coat to inspect the Auerbach plane and restore it.",
+        "These are sampled ganglion/strand networks, without a full circuit, external autonomic input, or electrophysiology."
+      ],
+      "framing_status": "source-derived candidate; native visual validation deferred"
+    },
+    {
+      "id": "muscle_roles",
+      "native_view_name": "Muscle roles",
+      "purpose": "Separate local mucosal movement from circular narrowing and longitudinal shortening.",
+      "visible_parts": [
+        "Muscularis mucosae",
+        "Inner circular muscle",
+        "Taenia coli & longitudinal muscle",
+        "Myenteric (Auerbach) plexus",
+        "Serosa",
+        "Appendix epiploica (fat tag)"
+      ],
+      "hidden_parts": [
+        "Submucosal (Meissner) plexus",
+        "Submucosa",
+        "Submucosal arterioles",
+        "Submucosal venules",
+        "Mucosal branches",
+        "Lamina propria",
+        "Colonic crypts (of Lieberkühn)",
+        "Crypt base stem cells (Lgr5+)",
+        "Surface epithelium (colonocytes)",
+        "Goblet cells",
+        "Crypt basement membranes",
+        "Solitary lymphoid follicle",
+        "Germinal centres"
+      ],
+      "scale_note": "Representative colon-wall teaching patch. The source geometry is uniformly magnified 3x: one displayed unit represents 500 um. Authored crypt outer diameter about 110 um and surface-to-outer-blind-base span about 486 um; these are model parameters, not universal measurements. Context strata, cell sampling, vessel caliber emphasis and gross markers are schematic.",
+      "manual_cues": [
+        "Muscularis mucosae is the thin mucosal-base sheet, distinct from muscularis externa.",
+        "The circular and longitudinal layers have distinct native surface orientations; this static patch supports explanation, not measured contraction.",
+        "Explain circular narrowing and longitudinal shortening at whole-bowel scale. A single broad taenia is shown with intervening longitudinal muscle.",
+        "The patch does not model a complete circumference, three taeniae, or a propagating peristaltic wave. The serosa/fat tag supplies external context."
+      ],
+      "framing_status": "source-derived candidate; native visual validation deferred"
+    }
+  ],
+  "cut_semantics": {
+    "axes": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1
+      ]
+    ],
+    "at": [
+      -0.321,
+      0
+    ],
+    "removed_corner": "x < -0.321 AND z > 0; the native helper flips the second axis",
+    "named_view_limitation": "Native named views apply hidden, cut_on and state, but do not apply per-view cut_at/axes/sections. All cut views use the same global cut."
+  },
+  "preview_review": {
+    "status": "no_attributable_preview_found",
+    "scope": "Recovery filename scan for colon/gut/teaching .png/.jpg/.jpeg and source/evidence catalog review. Matches were histology/radiology images, not attributable model previews. No image viewed; no rendering performed."
+  },
+  "native_application_path": [
+    "Lead writes these native properties into a new output overlay app/micro/teaching_defaults.json under colon_wall, preserving the original inputs.",
+    "Existing apply_teaching_defaults applies fields to the registered MicroModel after registration.",
+    "Existing ProceduralModel copies viewer_cameras and start_view; exact item keys equal part names.",
+    "Existing ModelViewport.reset_view chooses start_view and set_named_view sets the hidden list, cut_on and assembled state.",
+    "The later normal-selector integration must use the candidate defaults together with candidate source/cache and verify all controls. Sidecar existence alone is not installation evidence."
+  ],
+  "limitations": [
+    "Camera targets and widths are source-derived candidate framing only. No native screenshot, generation, numerical mesh acceptance or visual approval obtained.",
+    "Labels, native manual hiding/isolation and frame selection remain ordinary existing controls; this sidecar does not change label behavior.",
+    "Views deliberately use assembled state and no separation because function cannot be inferred from exploded geometry.",
+    "No dynamic flows or unsupported native opacity controls are introduced."
+  ]
+}

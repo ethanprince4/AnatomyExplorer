@@ -42,7 +42,7 @@ uniform float u_anim_t;      // cycle phase 0..1
 uniform vec4 u_aw;           // this item's four morph weights
 uniform vec4 u_ag;           // (mode, glow, decay, rate)
 
-out vec3 v_wpos;
+centroid out vec3 v_wpos;
 out vec3 v_wnrm;
 out vec3 v_opos;
 out float v_fib;
@@ -104,14 +104,14 @@ bool clipped(vec3 p) {
 """
 
 SHADOW_FS = VERSION + CLIP_COMMON + """
-in vec3 v_wpos;
+centroid in vec3 v_wpos;
 void main() {
     if (clipped(v_wpos)) discard;
 }
 """
 
 PREPASS_FS = VERSION + CLIP_COMMON + """
-in vec3 v_wpos;
+centroid in vec3 v_wpos;
 in vec3 v_wnrm;
 in vec2 v_uv;
 uniform mat4 u_view;
@@ -348,7 +348,7 @@ void main() {
 # as varyings in the geometry passes, as plain globals the cut-face pass fills in from its buffers.
 
 GEOM_INPUTS = """
-in vec3 v_wpos;
+centroid in vec3 v_wpos;
 in vec3 v_wnrm;
 in vec3 v_opos;
 in float v_fib;
@@ -580,15 +580,11 @@ float shadow(int i, vec3 P, vec3 N, vec3 L) {
     if (s.x < 0.0 || s.y < 0.0 || s.x > 1.0 || s.y > 1.0 || s.z > 1.0) return 1.0;
     // receiver-plane depth bias: follow the receiver's own depth slope across the filter kernel, so a
     // tilted surface does not shadow itself when the kernel is wide (soft area-light penumbrae)
-    vec3 sx = dFdx(s);
-    vec3 sy = dFdy(s);
-    float det = sx.x * sy.y - sx.y * sy.x;
+    // Use the continuous shading normal for the receiver plane. Screen derivatives expose
+    // individual tessellation planes on smooth curved receivers under a wide PCF kernel.
+    vec3 ns = transpose(inverse(mat3(M))) * N;
     vec2 dz = vec2(0.0);
-    if (abs(det) > 1e-12) {
-        dz = vec2(sy.y * sx.z - sx.y * sy.z, sx.x * sy.z - sy.x * sx.z) / det;
-        float lim = 4.0;
-        dz = clamp(dz, vec2(-lim), vec2(lim));
-    }
+    if (abs(ns.z) > 1e-8) dz = clamp(-ns.xy / ns.z, vec2(-4.0), vec2(4.0));
     float a = ign(gl_FragCoord.xy + float(i) * 7.0) * 6.2831853;
     mat2 R = mat2(cos(a), sin(a), -sin(a), cos(a));
     float sum = 0.0;
@@ -792,7 +788,7 @@ void main() {
 
 # Depth of one item's nearest kept front face per pixel (MIN blending)
 PARITY_FS = VERSION + CLIP_COMMON + """
-in vec3 v_wpos;
+centroid in vec3 v_wpos;
 uniform int u_flip;
 out vec4 o_depth;
 void main() {
@@ -883,6 +879,7 @@ void main() {
     gl_FragDepth = behind / (behind + u_key_scale);
     vec3 base = u_base;
     if (u_stripe == 1 || u_stripe == 2) base = mix(u_stripe_a, u_stripe_b, 0.35);
+    else if (u_use_vcol == 1) base *= v_col.rgb;
     if (u_mottle == 1) base = mix(u_mottle_a, u_mottle_b, 0.5);
     base = tissue_color(base, C, true) * u_cap_dark;
     o_albedo = vec4(base * (1.0 - u_metal), clamp(u_rough, 0.04, 1.0));

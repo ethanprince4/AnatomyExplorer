@@ -1,0 +1,1361 @@
+{
+  "schema_version": 1,
+  "model_id": "thin_skin",
+  "status": "source_design_proposal_native_review_deferred",
+  "scale_note": "Nominal block width approximately 4 mm. Epidermal thickness, appendages, vessel calibres, receptors and cellular details are selectively exaggerated; counts are representatives, not densities. Visible cutaways and hidden-tissue gaps are pedagogical dissections. Neither route colors nor sequence steps encode physiological time, measured fluid concentrations, tissue optics or receptive-field size.",
+  "native_contract": {
+    "model_attribute": "viewer_cameras",
+    "view_method": "Viewport.set_named_view(name, visibility=True)",
+    "source": "app/viewer/procedural.py and app/viewer/viewport.py",
+    "sequence_driver": "function_adapter.FunctionSession.apply / apply_step",
+    "animation_status": "Manual caption/camera/visibility/selection progression only. No morph animation, simulated secretion, moving particles, stimulus deformation, muscle contraction or electrophysiology.",
+    "restore_driver": "FunctionSession.restore / restore_steps",
+    "variant_contract": "Configure machine variant_id pre_refine or post_refine separately before ProceduralModel, with verified native-cache SHA-256 and display label Pre refine or Post refine. Restore and discard a live session before switching. All required selectors must resolve exactly for delivered variants. Explicit legacy_mode=True is metadata compatibility only, never delivery-ready.",
+    "render_state_opacity": "Per-view alpha_multipliers are transient state.part_alpha, restored with session; no saved material or mesh mutation."
+  },
+  "sources": {
+    "epidermis_atlas": "https://histology.leeds.ac.uk/home/skin/epidermis_layers/",
+    "cells_atlas": "https://histology.leeds.ac.uk/home/skin/epidermis_cells/",
+    "hair_atlas": "https://histology.leeds.ac.uk/home/skin/hair/",
+    "gland_atlas": "https://histology.leeds.ac.uk/home/skin/glands/",
+    "skin_layers_atlas": "https://histology.leeds.ac.uk/home/skin/skin_layers/",
+    "barrier_primary": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0031641",
+    "pigment_transfer_primary": "https://pubmed.ncbi.nlm.nih.gov/24141907/",
+    "pigment_cap_primary": "https://pubmed.ncbi.nlm.nih.gov/31665827/",
+    "hair_regeneration_primary": "https://pubmed.ncbi.nlm.nih.gov/22763436/",
+    "holocrine_primary": "https://pubmed.ncbi.nlm.nih.gov/27771328/",
+    "arrector_attachment_primary": "https://pubmed.ncbi.nlm.nih.gov/10678700/",
+    "duct_primary": "https://pubmed.ncbi.nlm.nih.gov/12548396/",
+    "follicular_sensory_structure_primary": "https://onlinelibrary.wiley.com/doi/10.1111/joa.13831",
+    "eccrine_structure_primary": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0178709",
+    "myoepithelial_primary": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10657463/",
+    "human_hairy_sensory_primary": "https://pubmed.ncbi.nlm.nih.gov/7776258/",
+    "meissner_distribution_primary": "https://synapse.koreamed.org/upload/synapsexml/1049acb/pdf/acb-53-325.pdf"
+  },
+  "required_selector_contract": [
+    "Stratum corneum",
+    "Stratum granulosum",
+    "Stratum spinosum",
+    "Stratum basale",
+    "Melanocytes",
+    "Papillary dermis",
+    "Reticular dermis",
+    "Hypodermis septa",
+    "Adipocytes (fat lobules)",
+    "Hair shaft",
+    "Inner root sheath",
+    "Outer root sheath",
+    "Hair bulb (matrix)",
+    "Dermal papilla of hair",
+    "Sebaceous gland",
+    "Arrector pili muscle",
+    "Eccrine sweat gland (secretory coil)",
+    "Eccrine sweat duct",
+    "Arterioles",
+    "Venules",
+    "Subpapillary plexus",
+    "Papillary capillary loops",
+    "Cutaneous nerve & branches",
+    "Free nerve endings",
+    "Hair follicle nerve endings",
+    "Pacinian corpuscles (lamellae)",
+    "Pacinian axon terminal",
+    "Keratinocyte nuclei",
+    "Keratohyalin granules",
+    "Spinous cell junctions",
+    "Basal attachment plaques",
+    "Melanocyte keratinocyte neighborhood",
+    "Melanocyte dendrite tips",
+    "Papillary collagen and fibroblasts",
+    "Reticular collagen bundles",
+    "Hair matrix cell nuclei",
+    "Hair keratinization transition",
+    "Inner root sheath cell detail",
+    "Outer root sheath cell detail",
+    "Sebaceous duct",
+    "Sebaceous basal cells",
+    "Sebaceous maturing cells",
+    "Sebum route (schematic)",
+    "Arrector pili smooth muscle nuclei",
+    "Follicular and sebaceous capillary bed",
+    "Eccrine clear cells",
+    "Eccrine dark cells",
+    "Eccrine myoepithelial basket",
+    "Eccrine duct basal cells",
+    "Eccrine duct luminal cells",
+    "Eccrine lumen contents (schematic)",
+    "Eccrine capillary supply",
+    "Pacinian tissue anchoring",
+    "Hypodermal septal fibers",
+    "Representative adipocyte membranes",
+    "Representative adipocyte lipid droplets",
+    "Representative adipocyte nuclei",
+    "Hair matrix cell profiles",
+    "Arrector pili smooth muscle fibers",
+    "Follicular connective sheath",
+    "Eccrine stromal fibers"
+  ],
+  "variant_policy": {
+    "allowed_variants": [
+      "pre_refine",
+      "post_refine"
+    ],
+    "display_labels": {
+      "pre_refine": "Pre refine",
+      "post_refine": "Post refine"
+    },
+    "layout": "single_selected_variant",
+    "hash_identity_required": true,
+    "compatibility": "Missing final detail is rejected by default; no silent substring matching, omitted anatomy or identical Before/After fabrication."
+  },
+  "views": [
+    {
+      "id": "Function: hairy specimen",
+      "purpose": "Locate four epidermal strata, the dermis, follicles, glands and deep sensory context in a generic hairy-skin block.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Hypodermis septa",
+        "Adipocytes (fat lobules)",
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "optional_visible_parts": [
+        "Keratinocyte nuclei",
+        "Keratohyalin granules",
+        "Spinous cell junctions",
+        "Basal attachment plaques",
+        "Melanocyte keratinocyte neighborhood",
+        "Melanocyte dendrite tips",
+        "Papillary collagen and fibroblasts",
+        "Reticular collagen bundles",
+        "Hair matrix cell nuclei",
+        "Hair keratinization transition",
+        "Inner root sheath cell detail",
+        "Outer root sheath cell detail",
+        "Sebaceous duct",
+        "Sebaceous basal cells",
+        "Sebaceous maturing cells",
+        "Arrector pili smooth muscle nuclei",
+        "Follicular and sebaceous capillary bed",
+        "Eccrine clear cells",
+        "Eccrine dark cells",
+        "Eccrine myoepithelial basket",
+        "Eccrine duct basal cells",
+        "Eccrine duct luminal cells",
+        "Eccrine capillary supply",
+        "Pacinian tissue anchoring",
+        "Hypodermal septal fibers",
+        "Representative adipocyte membranes",
+        "Representative adipocyte lipid droplets",
+        "Representative adipocyte nuclei",
+        "Hair matrix cell profiles",
+        "Arrector pili smooth muscle fibers",
+        "Follicular connective sheath",
+        "Eccrine stromal fibers"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          3,
+          2.1,
+          4
+        ],
+        "target": [
+          0,
+          0.66,
+          0
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.75
+      },
+      "alpha_multipliers": {
+        "Follicular connective sheath": 0.28,
+        "Eccrine stromal fibers": 0.55
+      }
+    },
+    {
+      "id": "Function: renewal",
+      "purpose": "Compare basal, spinous, granular and cornified cell organization while retaining the dermoepidermal boundary.",
+      "visible_parts": [
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Papillary dermis"
+      ],
+      "optional_visible_parts": [
+        "Keratinocyte nuclei",
+        "Keratohyalin granules",
+        "Spinous cell junctions",
+        "Basal attachment plaques",
+        "Papillary collagen and fibroblasts"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.4,
+          2.19,
+          2.9000000000000004
+        ],
+        "target": [
+          0,
+          0.94,
+          -0.3
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.85
+      },
+      "alpha_multipliers": {}
+    },
+    {
+      "id": "Function: pigment neighborhood",
+      "purpose": "Expose dendritic melanocytes with a basal keratinocyte neighborhood; removed overlying layers are a teaching dissection.",
+      "visible_parts": [
+        "Stratum basale",
+        "Melanocytes",
+        "Papillary dermis"
+      ],
+      "optional_visible_parts": [
+        "Melanocyte dendrite tips",
+        "Melanocyte keratinocyte neighborhood",
+        "Keratinocyte nuclei",
+        "Basal attachment plaques"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          0.9,
+          1.5,
+          2.7
+        ],
+        "target": [
+          0,
+          0.91,
+          -0.46
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.6
+      },
+      "alpha_multipliers": {}
+    },
+    {
+      "id": "Function: follicle unit",
+      "purpose": "Locate the anagen bulb, dermal papilla, sheaths, sebaceous unit and arrector attachments.",
+      "visible_parts": [
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Arrector pili muscle",
+        "Papillary dermis"
+      ],
+      "optional_visible_parts": [
+        "Hair matrix cell nuclei",
+        "Hair keratinization transition",
+        "Inner root sheath cell detail",
+        "Outer root sheath cell detail",
+        "Sebaceous duct",
+        "Sebaceous basal cells",
+        "Sebaceous maturing cells",
+        "Arrector pili smooth muscle nuclei",
+        "Papillary collagen and fibroblasts",
+        "Follicular and sebaceous capillary bed",
+        "Hair matrix cell profiles",
+        "Arrector pili smooth muscle fibers",
+        "Follicular connective sheath"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          1.92,
+          1.9,
+          3.2800000000000002
+        ],
+        "target": [
+          -0.48,
+          0.65,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.4
+      },
+      "alpha_multipliers": {
+        "Follicular connective sheath": 0.28
+      }
+    },
+    {
+      "id": "Function: matrix papilla",
+      "purpose": "Inspect the cellular matrix cupping a mesenchymal papilla and the transition toward keratinized hair.",
+      "visible_parts": [
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair",
+        "Hair shaft"
+      ],
+      "optional_visible_parts": [
+        "Hair matrix cell nuclei",
+        "Hair keratinization transition",
+        "Follicular and sebaceous capillary bed",
+        "Hair matrix cell profiles"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          1.7999999999999998,
+          1.71,
+          3.2800000000000002
+        ],
+        "target": [
+          -0.6,
+          0.46,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.65
+      },
+      "alpha_multipliers": {}
+    },
+    {
+      "id": "Function: sheath hierarchy",
+      "purpose": "Keep shaft and both sheaths present together so their distinct radial and axial relationships remain visible.",
+      "visible_parts": [
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Hair bulb (matrix)",
+        "Dermal papilla of hair"
+      ],
+      "optional_visible_parts": [
+        "Hair matrix cell nuclei",
+        "Hair keratinization transition",
+        "Inner root sheath cell detail",
+        "Outer root sheath cell detail",
+        "Hair matrix cell profiles",
+        "Follicular connective sheath"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          1.91,
+          1.9,
+          3.2800000000000002
+        ],
+        "target": [
+          -0.49,
+          0.65,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.2
+      },
+      "alpha_multipliers": {
+        "Follicular connective sheath": 0.28
+      }
+    },
+    {
+      "id": "Function: upper follicle",
+      "purpose": "Show the inner-sheath termination, sebaceous junction, upper follicular canal and surface exit.",
+      "visible_parts": [
+        "Hair shaft",
+        "Inner root sheath",
+        "Outer root sheath",
+        "Sebaceous gland",
+        "Stratum corneum"
+      ],
+      "optional_visible_parts": [
+        "Inner root sheath cell detail",
+        "Outer root sheath cell detail",
+        "Sebaceous duct"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          1.99,
+          2.11,
+          3.2800000000000002
+        ],
+        "target": [
+          -0.41,
+          0.86,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.85
+      },
+      "alpha_multipliers": {}
+    },
+    {
+      "id": "Function: sebocyte organization",
+      "purpose": "Inspect peripheral basal cells, differentiating lipid-filled sebocytes and the outgoing duct as separate compartments.",
+      "visible_parts": [
+        "Sebaceous gland",
+        "Outer root sheath",
+        "Hair shaft",
+        "Arrector pili muscle"
+      ],
+      "optional_visible_parts": [
+        "Sebaceous duct",
+        "Sebaceous basal cells",
+        "Sebaceous maturing cells",
+        "Outer root sheath cell detail",
+        "Arrector pili smooth muscle nuclei",
+        "Arrector pili smooth muscle fibers",
+        "Follicular connective sheath"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.0,
+          2.0,
+          3.2800000000000002
+        ],
+        "target": [
+          -0.4,
+          0.75,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.05
+      },
+      "alpha_multipliers": {
+        "Follicular connective sheath": 0.28
+      }
+    },
+    {
+      "id": "Function: sebum route",
+      "purpose": "Trace an explicitly schematic static route from a holocrine acinus through its duct and upper follicle to the skin surface.",
+      "visible_parts": [
+        "Sebaceous gland",
+        "Outer root sheath",
+        "Hair shaft",
+        "Stratum corneum"
+      ],
+      "optional_visible_parts": [
+        "Sebaceous duct",
+        "Sebaceous basal cells",
+        "Sebaceous maturing cells",
+        "Sebum route (schematic)",
+        "Outer root sheath cell detail"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.01,
+          2.1,
+          3.2800000000000002
+        ],
+        "target": [
+          -0.39,
+          0.85,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.0
+      },
+      "alpha_multipliers": {}
+    },
+    {
+      "id": "Function: arrector attachments",
+      "purpose": "Relate the smooth-muscle band to the follicular bulge and superficial connective-tissue anchorage.",
+      "visible_parts": [
+        "Arrector pili muscle",
+        "Outer root sheath",
+        "Sebaceous gland",
+        "Hair shaft",
+        "Papillary dermis"
+      ],
+      "optional_visible_parts": [
+        "Arrector pili smooth muscle nuclei",
+        "Outer root sheath cell detail",
+        "Papillary collagen and fibroblasts",
+        "Sebaceous duct",
+        "Arrector pili smooth muscle fibers",
+        "Follicular connective sheath"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.05,
+          1.98,
+          3.2800000000000002
+        ],
+        "target": [
+          -0.35,
+          0.73,
+          0.08
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.25
+      },
+      "alpha_multipliers": {
+        "Follicular connective sheath": 0.28
+      }
+    },
+    {
+      "id": "Function: eccrine unit",
+      "purpose": "Keep the secretory coil, outgoing dermal duct and epidermal course together; this unit opens independently of the follicle.",
+      "visible_parts": [
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Stratum corneum",
+        "Stratum granulosum",
+        "Stratum spinosum",
+        "Stratum basale",
+        "Reticular dermis"
+      ],
+      "optional_visible_parts": [
+        "Eccrine clear cells",
+        "Eccrine dark cells",
+        "Eccrine myoepithelial basket",
+        "Eccrine duct basal cells",
+        "Eccrine duct luminal cells",
+        "Eccrine capillary supply",
+        "Eccrine stromal fibers"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.5,
+          1.9100000000000001,
+          3.4000000000000004
+        ],
+        "target": [
+          0.1,
+          0.66,
+          0.2
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.25
+      },
+      "alpha_multipliers": {
+        "Eccrine stromal fibers": 0.55
+      }
+    },
+    {
+      "id": "Function: eccrine secretion",
+      "purpose": "Expose secretory-cell profiles, peripheral myoepithelium and an explicitly schematic lumen-content representative.",
+      "visible_parts": [
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct"
+      ],
+      "optional_visible_parts": [
+        "Eccrine clear cells",
+        "Eccrine dark cells",
+        "Eccrine myoepithelial basket",
+        "Eccrine duct basal cells",
+        "Eccrine duct luminal cells",
+        "Eccrine capillary supply",
+        "Eccrine lumen contents (schematic)",
+        "Eccrine stromal fibers"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.55,
+          1.65,
+          3.3600000000000003
+        ],
+        "target": [
+          0.15,
+          0.4,
+          0.16
+        ],
+        "type": "ORTHO",
+        "ortho_width": 0.75
+      },
+      "alpha_multipliers": {
+        "Eccrine stromal fibers": 0.55
+      }
+    },
+    {
+      "id": "Function: eccrine reabsorption",
+      "purpose": "Distinguish two-layered cuboidal duct cells from the secretory coil while following the same luminal route.",
+      "visible_parts": [
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct"
+      ],
+      "optional_visible_parts": [
+        "Eccrine duct basal cells",
+        "Eccrine duct luminal cells",
+        "Eccrine lumen contents (schematic)",
+        "Eccrine stromal fibers"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.5,
+          1.8900000000000001,
+          3.4000000000000004
+        ],
+        "target": [
+          0.1,
+          0.64,
+          0.2
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.1
+      },
+      "alpha_multipliers": {
+        "Eccrine stromal fibers": 0.55
+      }
+    },
+    {
+      "id": "Function: independent surface routes",
+      "purpose": "Compare the eccrine surface pore with the separate follicular route for hair and sebum.",
+      "visible_parts": [
+        "Eccrine sweat gland (secretory coil)",
+        "Eccrine sweat duct",
+        "Stratum corneum",
+        "Hair shaft",
+        "Outer root sheath",
+        "Sebaceous gland"
+      ],
+      "optional_visible_parts": [
+        "Sebaceous duct",
+        "Sebum route (schematic)",
+        "Eccrine lumen contents (schematic)"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.4,
+          2.17,
+          3.3400000000000003
+        ],
+        "target": [
+          0.0,
+          0.92,
+          0.14
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.1
+      },
+      "alpha_multipliers": {}
+    },
+    {
+      "id": "Function: dermal supply",
+      "purpose": "Relate deep arterial supply, superficial exchange and venous return to epidermis and appendage beds.",
+      "visible_parts": [
+        "Arterioles",
+        "Venules",
+        "Subpapillary plexus",
+        "Papillary capillary loops",
+        "Stratum basale",
+        "Papillary dermis",
+        "Reticular dermis",
+        "Dermal papilla of hair",
+        "Sebaceous gland",
+        "Eccrine sweat gland (secretory coil)"
+      ],
+      "optional_visible_parts": [
+        "Papillary collagen and fibroblasts",
+        "Reticular collagen bundles",
+        "Follicular and sebaceous capillary bed",
+        "Eccrine capillary supply",
+        "Eccrine stromal fibers"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.4,
+          1.9100000000000001,
+          3.3000000000000003
+        ],
+        "target": [
+          0,
+          0.66,
+          0.1
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.35
+      },
+      "alpha_multipliers": {
+        "Eccrine stromal fibers": 0.55
+      }
+    },
+    {
+      "id": "Function: hairy sensation",
+      "purpose": "Place free endings, follicular endings and a deep lamellar receptor with their represented tissue targets.",
+      "visible_parts": [
+        "Cutaneous nerve & branches",
+        "Free nerve endings",
+        "Hair follicle nerve endings",
+        "Hair shaft",
+        "Outer root sheath",
+        "Stratum basale",
+        "Stratum spinosum",
+        "Papillary dermis",
+        "Pacinian corpuscles (lamellae)",
+        "Pacinian axon terminal"
+      ],
+      "optional_visible_parts": [
+        "Outer root sheath cell detail",
+        "Pacinian tissue anchoring",
+        "Papillary collagen and fibroblasts",
+        "Follicular connective sheath"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.4,
+          1.87,
+          3.35
+        ],
+        "target": [
+          0,
+          0.62,
+          0.15
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.3
+      },
+      "alpha_multipliers": {
+        "Follicular connective sheath": 0.28
+      }
+    },
+    {
+      "id": "Function: Pacinian terminal",
+      "purpose": "Hide the surrounding lamellae as a dissection step while retaining the entering axon and tissue anchorage.",
+      "visible_parts": [
+        "Pacinian axon terminal",
+        "Cutaneous nerve & branches",
+        "Hypodermis septa"
+      ],
+      "optional_visible_parts": [
+        "Pacinian tissue anchoring",
+        "Hypodermal septal fibers"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.1,
+          1.44,
+          3.72
+        ],
+        "target": [
+          -0.3,
+          0.19,
+          0.52
+        ],
+        "type": "ORTHO",
+        "ortho_width": 1.25
+      },
+      "alpha_multipliers": {}
+    },
+    {
+      "id": "Function: hypodermal organization",
+      "purpose": "Distinguish a lobule-level tissue representative, magnified cellular contents and the connective septa.",
+      "visible_parts": [
+        "Adipocytes (fat lobules)",
+        "Hypodermis septa",
+        "Reticular dermis",
+        "Arterioles",
+        "Venules"
+      ],
+      "optional_visible_parts": [
+        "Representative adipocyte membranes",
+        "Representative adipocyte lipid droplets",
+        "Representative adipocyte nuclei",
+        "Hypodermal septal fibers",
+        "Reticular collagen bundles"
+      ],
+      "cut_on": false,
+      "camera": {
+        "position": [
+          2.4,
+          1.45,
+          3.3000000000000003
+        ],
+        "target": [
+          0,
+          0.2,
+          0.1
+        ],
+        "type": "ORTHO",
+        "ortho_width": 2.35
+      },
+      "alpha_multipliers": {}
+    }
+  ],
+  "functional_sequences": [
+    {
+      "id": "renewal_barrier",
+      "mechanism": "Differentiating epidermal keratinocytes renew a cornified barrier.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/epidermis_layers/",
+        "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0031641"
+      ],
+      "steps": [
+        {
+          "view": "Function: renewal",
+          "caption": "Basal keratinocytes renew the epidermis. Their attachment to the underlying basement-membrane region differs from cell-to-cell desmosomal contacts.",
+          "focus_parts": [
+            "Stratum basale"
+          ],
+          "optional_focus_parts": [
+            "Basal attachment plaques",
+            "Keratinocyte nuclei"
+          ]
+        },
+        {
+          "view": "Function: renewal",
+          "caption": "Spinous cells maintain keratin filaments and desmosomal contacts as differentiating cells become flatter toward the surface.",
+          "focus_parts": [
+            "Stratum spinosum"
+          ],
+          "optional_focus_parts": [
+            "Spinous cell junctions"
+          ]
+        },
+        {
+          "view": "Function: renewal",
+          "caption": "Granular cells contain keratohyalin granules. Separate lamellar organelles deliver extracellular barrier material; these two structures must not be conflated.",
+          "focus_parts": [
+            "Stratum granulosum"
+          ],
+          "optional_focus_parts": [
+            "Keratohyalin granules"
+          ]
+        },
+        {
+          "view": "Function: renewal",
+          "caption": "Flattened, anucleate corneocytes and extracellular lipids form the surface barrier. Shedding and renewal continue; this thin-skin model has no stratum lucidum.",
+          "focus_parts": [
+            "Stratum corneum"
+          ],
+          "optional_focus_parts": []
+        }
+      ],
+      "schematic_limitations": [
+        "Manual stages describe differentiation, not tracked cells, mitosis, permeability or timed turnover.",
+        "No universal four-week renewal clock is assigned; histological profiles and displayed counts are representative.",
+        "Lamellar secretion and tight-junction barrier maturation overlap. No lipid bilayer, lamellar-body fusion or tight-junction simulation is supplied.",
+        "Hidden strata create dissection gaps, not epidermolysis, tissue loss or physiological separation."
+      ]
+    },
+    {
+      "id": "melanin_transfer",
+      "mechanism": "Basal melanocytes distribute pigment to neighboring keratinocytes.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/epidermis_cells/",
+        "https://pubmed.ncbi.nlm.nih.gov/24141907/",
+        "https://pubmed.ncbi.nlm.nih.gov/31665827/"
+      ],
+      "steps": [
+        {
+          "view": "Function: pigment neighborhood",
+          "caption": "A basal melanocyte extends dendrites between neighboring keratinocytes; the epidermal melanin unit is a cellular relationship, not a population count inferred from this block.",
+          "focus_parts": [
+            "Melanocytes",
+            "Stratum basale"
+          ],
+          "optional_focus_parts": [
+            "Melanocyte dendrite tips",
+            "Melanocyte keratinocyte neighborhood"
+          ]
+        },
+        {
+          "view": "Function: pigment neighborhood",
+          "caption": "Pigment reaches neighboring keratinocytes from melanocyte dendritic processes. Human-skin and coculture experiments support melanocore exocytosis followed by keratinocyte uptake; this is a mechanism supported by those experiments.",
+          "focus_parts": [
+            "Melanocytes"
+          ],
+          "optional_focus_parts": [
+            "Melanocyte dendrite tips",
+            "Melanocyte keratinocyte neighborhood"
+          ]
+        },
+        {
+          "view": "Function: pigment neighborhood",
+          "caption": "Pigment can collect above keratinocyte nuclei, contributing to UV protection. The neighborhood is a magnified teaching representative; no UV dose or protection level is computed.",
+          "focus_parts": [
+            "Stratum basale"
+          ],
+          "optional_focus_parts": [
+            "Melanocyte keratinocyte neighborhood",
+            "Keratinocyte nuclei"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "The static dendrites and neighborhood do not implement vesicle transport, membrane fusion, pigment synthesis or measured transfer.",
+        "The specific transfer mechanism is evidence-qualified rather than asserted as an exclusive universal pathway.",
+        "The selector Melanocyte dendrite tips identifies cell processes, not resolved melanosomes.",
+        "Hair-bulb melanocytes are not inferred from the epidermal Melanocytes selector; hair pigment is explained by caption only."
+      ]
+    },
+    {
+      "id": "hair_production",
+      "mechanism": "An anagen follicle produces keratinized hair and an inner root sheath around a mesenchymal dermal papilla.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/hair/",
+        "https://pubmed.ncbi.nlm.nih.gov/22763436/"
+      ],
+      "steps": [
+        {
+          "view": "Function: follicle unit",
+          "caption": "This represents a growing, anagen follicle. The shaft, inner sheath, outer sheath, matrix and dermal papilla are different compartments of one pilosebaceous unit.",
+          "focus_parts": [
+            "Hair bulb (matrix)",
+            "Dermal papilla of hair"
+          ],
+          "optional_focus_parts": [
+            "Follicular connective sheath"
+          ]
+        },
+        {
+          "view": "Function: matrix papilla",
+          "caption": "Proliferating matrix epithelium cups the vascular connective-tissue papilla. The papilla supports growth signaling and supply; it does not turn into hair.",
+          "focus_parts": [
+            "Hair bulb (matrix)",
+            "Dermal papilla of hair"
+          ],
+          "optional_focus_parts": [
+            "Hair matrix cell nuclei",
+            "Follicular and sebaceous capillary bed",
+            "Hair matrix cell profiles"
+          ]
+        },
+        {
+          "view": "Function: matrix papilla",
+          "caption": "Matrix descendants differentiate upward into the hair shaft and inner root sheath. The keratinization transition marks a tissue stage, not a simulated moving front.",
+          "focus_parts": [
+            "Hair shaft",
+            "Hair bulb (matrix)"
+          ],
+          "optional_focus_parts": [
+            "Hair keratinization transition",
+            "Hair matrix cell nuclei",
+            "Hair matrix cell profiles"
+          ]
+        },
+        {
+          "view": "Function: sheath hierarchy",
+          "caption": "The inner root sheath guides the growing shaft. The outer root sheath is continuous with epidermal epithelium and remains a distinct outer compartment.",
+          "focus_parts": [
+            "Inner root sheath",
+            "Outer root sheath",
+            "Hair shaft"
+          ],
+          "optional_focus_parts": [
+            "Inner root sheath cell detail",
+            "Outer root sheath cell detail"
+          ]
+        },
+        {
+          "view": "Function: upper follicle",
+          "caption": "The inner root sheath ends below the represented sebaceous outlet, in the source isthmus–infundibulum-junction vicinity. The upper canal carries hair and sebum to the surface; fine body hair need not contain a medulla.",
+          "focus_parts": [
+            "Inner root sheath",
+            "Outer root sheath",
+            "Hair shaft"
+          ],
+          "optional_focus_parts": [
+            "Sebaceous duct"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "No follicular cycle, stem-cell lineage, elongation, keratinization kinetics or shaft displacement is simulated.",
+        "Primary dermal-papilla ablation evidence was obtained in live mice; it supports a signaling role, not human timing or the specific source geometry.",
+        "Visible cell detail is representative. Inner-sheath sublayers are not separately selectable unless explicitly added by the final source recipe.",
+        "Removing a sheath is dissection, not a normal hair-growth stage. Papilla and matrix must remain separately identifiable in the native cutaway.",
+        "The source IRS endpoint remains at 0.70 L; the outlet is at min(0.70 L + 0.085 L, ORS upper bound), not exactly 0.70 L. Both positions are authored representative landmarks in the isthmus–infundibulum-junction vicinity, not measured biological ratios. The connective sheath has a marked teaching truncation and contact windows; it is not an uninterrupted capsule."
+      ]
+    },
+    {
+      "id": "holocrine_sebum",
+      "mechanism": "Sebocytes differentiate and disintegrate, supplying sebum to a short duct and follicular canal.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/glands/",
+        "https://pubmed.ncbi.nlm.nih.gov/27771328/"
+      ],
+      "steps": [
+        {
+          "view": "Function: sebocyte organization",
+          "caption": "Peripheral basal sebocytes provide a renewing cell population for each sebaceous acinus.",
+          "focus_parts": [
+            "Sebaceous gland"
+          ],
+          "optional_focus_parts": [
+            "Sebaceous basal cells"
+          ]
+        },
+        {
+          "view": "Function: sebocyte organization",
+          "caption": "Sebocytes mature inward and accumulate lipid. Near the outgoing duct, terminally differentiating cells disintegrate and contribute their contents to sebum: holocrine secretion.",
+          "focus_parts": [
+            "Sebaceous gland"
+          ],
+          "optional_focus_parts": [
+            "Sebaceous maturing cells"
+          ]
+        },
+        {
+          "view": "Function: sebum route",
+          "caption": "The short sebaceous duct enters the upper follicle above the represented inner-sheath endpoint, in the source isthmus–infundibulum-junction vicinity. The static sebum route is an overlay; native passage continuity still requires validation.",
+          "focus_parts": [
+            "Sebaceous gland",
+            "Outer root sheath"
+          ],
+          "optional_focus_parts": [
+            "Sebaceous duct",
+            "Sebum route (schematic)"
+          ]
+        },
+        {
+          "view": "Function: independent surface routes",
+          "caption": "Sebum reaches hair and adjacent skin through the follicular canal. The neighboring eccrine duct has its own surface opening and carries sweat.",
+          "focus_parts": [
+            "Hair shaft",
+            "Outer root sheath",
+            "Eccrine sweat duct"
+          ],
+          "optional_focus_parts": [
+            "Sebum route (schematic)",
+            "Sebaceous duct"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "No living cell is destroyed by the viewer and no lipid flux is computed.",
+        "Holocrine secretion is not apical pinching or simple exocytosis. Mouse DNase2-deletion experiments support a distinct terminal cell-death mechanism, explained only by caption.",
+        "A colored route is not a patent duct, fluid, simulated flow or a duct-connectivity proof.",
+        "Native validation must confirm acinus-to-duct and duct-to-follicle continuity without creating an opening directly through the skin beside the follicle."
+      ]
+    },
+    {
+      "id": "arrector_piloerection",
+      "mechanism": "Smooth-muscle contraction transmits force between follicular and dermal attachments.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/hair/",
+        "https://pubmed.ncbi.nlm.nih.gov/10678700/"
+      ],
+      "steps": [
+        {
+          "view": "Function: arrector attachments",
+          "caption": "The arrector pili joins the follicular bulge region to superficial dermal connective tissue. Smooth-muscle cell nuclei distinguish this tissue from a generic strap.",
+          "focus_parts": [
+            "Arrector pili muscle",
+            "Outer root sheath"
+          ],
+          "optional_focus_parts": [
+            "Arrector pili smooth muscle nuclei",
+            "Papillary collagen and fibroblasts",
+            "Arrector pili smooth muscle fibers",
+            "Follicular connective sheath"
+          ]
+        },
+        {
+          "view": "Function: arrector attachments",
+          "caption": "Contraction pulls against dermal anchorage and changes the follicular angle, producing piloerection and a surface goose bump. Human scalp histology shows splaying fibers within upper-dermal collagen.",
+          "focus_parts": [
+            "Arrector pili muscle",
+            "Hair shaft",
+            "Papillary dermis"
+          ],
+          "optional_focus_parts": [
+            "Arrector pili smooth muscle nuclei",
+            "Arrector pili smooth muscle fibers"
+          ]
+        },
+        {
+          "view": "Function: arrector attachments",
+          "caption": "The muscle passes beside the sebaceous unit and may assist movement of already produced sebum. Contraction does not create sebum or replace sebocyte differentiation.",
+          "focus_parts": [
+            "Arrector pili muscle",
+            "Sebaceous gland"
+          ],
+          "optional_focus_parts": [
+            "Sebaceous duct"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Only camera, visibility, focus and caption change. No muscle shortening, follicular rotation, mechanical contact force or goose-bump deformation is implemented.",
+        "The model does not calculate thermoregulatory benefit or imply that piloerection is a major cooling route in humans.",
+        "The attachment study concerns human scalp. Broad attachment principles inform this representative body-skin unit without claiming matching regional microanatomy."
+      ]
+    },
+    {
+      "id": "eccrine_secretion_reabsorption",
+      "mechanism": "A deep secretory compartment produces sweat; a distinct duct reabsorbs salt and delivers it independently to the skin surface.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/glands/",
+        "https://pubmed.ncbi.nlm.nih.gov/12548396/",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC10657463/",
+        "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0178709"
+      ],
+      "steps": [
+        {
+          "view": "Function: eccrine unit",
+          "caption": "Follow one eccrine unit from its deep secretory coil to the outgoing dermal duct and coiled epidermal passage. This route is separate from the hair follicle.",
+          "focus_parts": [
+            "Eccrine sweat gland (secretory coil)",
+            "Eccrine sweat duct"
+          ],
+          "optional_focus_parts": [
+            "Eccrine stromal fibers"
+          ]
+        },
+        {
+          "view": "Function: eccrine secretion",
+          "caption": "Secretory clear-cell and dark-cell representatives surround the gland lumen; surrounding capillaries supply the gland. The blue content representative indicates a lumen, not measured sweat.",
+          "focus_parts": [
+            "Eccrine sweat gland (secretory coil)"
+          ],
+          "optional_focus_parts": [
+            "Eccrine clear cells",
+            "Eccrine dark cells",
+            "Eccrine capillary supply",
+            "Eccrine lumen contents (schematic)"
+          ]
+        },
+        {
+          "view": "Function: eccrine secretion",
+          "caption": "Sympathetic cholinergic stimulation activates secretion. Peripheral myoepithelial cells are contractile; isolated human-gland imaging supports a contribution to sweat transport.",
+          "focus_parts": [
+            "Eccrine sweat gland (secretory coil)"
+          ],
+          "optional_focus_parts": [
+            "Eccrine myoepithelial basket"
+          ]
+        },
+        {
+          "view": "Function: eccrine reabsorption",
+          "caption": "The duct has basal and luminal cuboidal cell layers. Its luminal transport machinery, including ENaC and CFTR, reabsorbs salt from the sweat.",
+          "focus_parts": [
+            "Eccrine sweat duct"
+          ],
+          "optional_focus_parts": [
+            "Eccrine duct basal cells",
+            "Eccrine duct luminal cells"
+          ]
+        },
+        {
+          "view": "Function: eccrine reabsorption",
+          "caption": "Ductal salt absorption makes ordinary surface sweat more dilute than the primary secretion. The amount varies with conditions; this model does not calculate concentration.",
+          "focus_parts": [
+            "Eccrine sweat duct"
+          ],
+          "optional_focus_parts": [
+            "Eccrine lumen contents (schematic)"
+          ]
+        },
+        {
+          "view": "Function: independent surface routes",
+          "caption": "The eccrine epidermal passage opens on the skin surface rather than draining into the follicle. Sweat evaporation can remove heat; the visible route does not calculate cooling.",
+          "focus_parts": [
+            "Eccrine sweat duct",
+            "Stratum corneum"
+          ],
+          "optional_focus_parts": [
+            "Eccrine lumen contents (schematic)"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "The secretory portion and duct differ by cell organization and function, not just blue color.",
+        "No channel mesh, salt ion particles, concentration gradient, lumen-pressure model, peristaltic animation or secretion-rate simulation is supplied.",
+        "Ex vivo cholinergic myoepithelial contraction evidence does not define a universal in-vivo wave speed or require uniform contraction of the entire gland.",
+        "The lumen-content selector is explicitly schematic and is hidden outside relevant route views.",
+        "The native deep coiled region can include both secretory and coiled ductal segments. This source partitions a representative secretory coil from an ascending duct; secretion must not be inferred from deep location or coiling alone.",
+        "Do not describe a selected static duct as a clinically normal sweat test or diagnose channel disease from it.",
+        "Eccrine stromal fibers are sparse connective-tissue context samples; they are not a gland capsule or another duct wall."
+      ]
+    },
+    {
+      "id": "dermal_supply_diffusion",
+      "mechanism": "Vessels support dermal and appendage tissue and supply the avascular epidermis by diffusion.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/skin_layers/"
+      ],
+      "steps": [
+        {
+          "view": "Function: dermal supply",
+          "caption": "Deep cutaneous branches supply the dermis and appendage beds. The follicular-sebaceous and eccrine capillary representatives associate circulation with the tissues it serves.",
+          "focus_parts": [
+            "Arterioles"
+          ],
+          "optional_focus_parts": [
+            "Follicular and sebaceous capillary bed",
+            "Eccrine capillary supply"
+          ]
+        },
+        {
+          "view": "Function: dermal supply",
+          "caption": "The superficial network gives rise to papillary capillary loops. Oxygen and nutrients cross into interstitial tissue and reach the avascular epidermis by diffusion; no vessel enters its strata.",
+          "focus_parts": [
+            "Papillary capillary loops",
+            "Stratum basale",
+            "Papillary dermis"
+          ],
+          "optional_focus_parts": []
+        },
+        {
+          "view": "Function: dermal supply",
+          "caption": "Venous channels collect blood from the exchange networks. Loose papillary connective tissue and coarser irregular reticular collagen provide different supporting contexts.",
+          "focus_parts": [
+            "Venules",
+            "Subpapillary plexus",
+            "Reticular dermis"
+          ],
+          "optional_focus_parts": [
+            "Papillary collagen and fibroblasts",
+            "Reticular collagen bundles"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "Vessel courses are schematic representatives, not a resolved hemodynamic model or literal blood colors.",
+        "No oxygen concentration field, red-cell transit, endothelial permeability or vasomotor animation is computed.",
+        "Display arrows, if later added, must stop diffusion explanation at tissue exchange and must never portray an epidermal blood vessel.",
+        "Legitimate capillary–tissue proximity and appendage supply contacts are retained; hiding dermis creates a dissection space."
+      ]
+    },
+    {
+      "id": "hairy_cutaneous_sensation",
+      "mechanism": "Different peripheral endings sample hair movement, superficial stimuli and deep vibration.",
+      "source_evidence": [
+        "https://pubmed.ncbi.nlm.nih.gov/7776258/",
+        "https://histology.leeds.ac.uk/home/skin/epidermis_cells/",
+        "https://synapse.koreamed.org/upload/synapsexml/1049acb/pdf/acb-53-325.pdf",
+        "https://onlinelibrary.wiley.com/doi/10.1111/joa.13831"
+      ],
+      "steps": [
+        {
+          "view": "Function: hairy sensation",
+          "caption": "Deflection of a hair can stimulate endings around its follicle. Human hairy-skin recordings identify rapidly adapting hair units; a visible ring is a representative arrangement, not one receptor per hair.",
+          "focus_parts": [
+            "Hair shaft",
+            "Hair follicle nerve endings",
+            "Outer root sheath"
+          ],
+          "optional_focus_parts": []
+        },
+        {
+          "view": "Function: hairy sensation",
+          "caption": "Free endings approach or enter the living epidermis and represent pathways for pain, temperature and itch. Their generic geometry does not identify every sensory subtype.",
+          "focus_parts": [
+            "Free nerve endings",
+            "Stratum basale",
+            "Stratum spinosum"
+          ],
+          "optional_focus_parts": []
+        },
+        {
+          "view": "Function: hairy sensation",
+          "caption": "A deep Pacinian representative places a terminal within concentric lamellae. Its envelope shapes dynamic mechanical input; the model does not calculate adaptation or a preferred vibration frequency.",
+          "focus_parts": [
+            "Pacinian corpuscles (lamellae)",
+            "Pacinian axon terminal"
+          ],
+          "optional_focus_parts": [
+            "Pacinian tissue anchoring"
+          ]
+        },
+        {
+          "view": "Function: Pacinian terminal",
+          "caption": "Hiding the lamellae exposes the entering axon and central terminal. The central terminal is a receptor component, not a vessel or fluid drain.",
+          "focus_parts": [
+            "Pacinian axon terminal",
+            "Cutaneous nerve & branches"
+          ],
+          "optional_focus_parts": [
+            "Pacinian tissue anchoring"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "No hair bending, skin indentation, afferent conduction, stimulus threshold, firing-rate trace or receptive-field calculation is implemented.",
+        "Hairy skin has additional afferent types beyond this subset; no claim of complete innervation is made.",
+        "Meissner corpuscles are not part of this new generic hairy-skin specimen. The preserved original cache may contain them; it must not silently supply the delivered function contract.",
+        "Cited Meissner distribution research examined particular human glabrous regions; it does not establish sparse Meissner occupancy in all hairy body skin.",
+        "Rapid adaptation and receptor specificity are captions, not animated spikes or electrophysiology.",
+        "Human scalp microscopy identifies lanceolate axon–terminal Schwann cell complexes outside the outer root sheath near the isthmus/upper bulge. This does not establish that every follicular ending has one adaptation class, nor universal body-vellus density; terminal Schwann-cell microanatomy is not separately resolved by the final selector recipe."
+      ]
+    },
+    {
+      "id": "hypodermal_support",
+      "mechanism": "Adipose cellular organization and fibrous septa support, cushion and connect the skin block.",
+      "source_evidence": [
+        "https://histology.leeds.ac.uk/home/skin/skin_layers/"
+      ],
+      "steps": [
+        {
+          "view": "Function: hypodermal organization",
+          "caption": "The retained Adipocytes (fat lobules) host is a lobule-level tissue representative. New cellular markers show a magnified cell membrane, lipid droplet and peripheral nucleus within that tissue.",
+          "focus_parts": [
+            "Adipocytes (fat lobules)"
+          ],
+          "optional_focus_parts": [
+            "Representative adipocyte membranes",
+            "Representative adipocyte lipid droplets",
+            "Representative adipocyte nuclei"
+          ]
+        },
+        {
+          "view": "Function: hypodermal organization",
+          "caption": "Fibrous septa separate and connect adipose lobules and carry larger vessels and nerves. These partitions are connective tissue, not empty molds left when fat is removed.",
+          "focus_parts": [
+            "Hypodermis septa",
+            "Arterioles",
+            "Venules"
+          ],
+          "optional_focus_parts": [
+            "Hypodermal septal fibers"
+          ]
+        }
+      ],
+      "schematic_limitations": [
+        "No triglyceride metabolism, adipocyte-volume change, tissue mechanics or insulating performance is simulated.",
+        "Representative cellular details do not convert a lobule into one giant adipocyte. The historical host selector is preserved for exact integration while its description must clarify scale.",
+        "Source layer positions and enlarged appendages are pedagogical; counts are not specimen densities."
+      ]
+    }
+  ],
+  "review": {
+    "agent_name": "/root/complete_thin_skin_source/design_thin_skin_function",
+    "date_utc": "2026-10-04",
+    "native_app_launched": false,
+    "geometry_processed": false,
+    "selector_contract_total": 61,
+    "new_detail_selectors": 34,
+    "camera_status": "Source-landmark poses only; framing and tissue occlusion have not been visually accepted."
+  },
+  "deferred_checks": [
+    "Native framing for every named function view, including rear-context pigment neighborhoods and foreground matrix/duct routes.",
+    "Guarantee all 61 exact selectors independently for newly built Pre refine and Post refine caches; Meissner corpuscles must be absent from the new generic hairy specimen.",
+    "Confirm matrix cups papilla with a distinct basement-membrane region and neither structure disappears in the longitudinal diagnostic section.",
+    "Confirm sebaceous duct enters a patent follicular canal; static route overlay is not accepted as a substitute.",
+    "Confirm eccrine secretory lumen joins duct lumen and the acrosyringium reaches a surface pore that is distinct from the follicular ostium.",
+    "Opaque, reverse and isolated-host inspection of cell detail, sheath changes, muscle attachments and appendage capillary relationships.",
+    "No blood vessels within epidermis; free sensory endings may cross its boundary.",
+    "Validate saved descriptions clarify cellular vs lobular representatives and anatomical vs cutaway openings.",
+    "Native roundtrip of function state with custom opacity, clipping, isolate, peel, explode and reveal state; no variant arrays or files may change.",
+    "Every selected variant retains independent provenance and output validation. Source-only schema checks cannot establish native/anatomical acceptance."
+  ]
+}

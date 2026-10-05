@@ -10,9 +10,11 @@ from __future__ import annotations
 
 import math
 import re
+from copy import deepcopy
 
 import numpy as np
 
+from ..load_control import checkpoint
 from ..config import SHADING
 from ..micro.base import rgb, tone
 from .model import Item, Look, Part, ViewerModel, srgb_to_linear
@@ -44,25 +46,65 @@ def look_for(category, colour_srgb, alpha, detail):
     return lk
 
 
+def draft_look(look, values):
+    """Explicit model-only viewing recipe; source materials stay unchanged."""
+    if not values:
+        return look
+    if set(values) - {"alpha", "translucent", "detail"}:
+        raise ValueError("Unsupported teaching Look override")
+    result = deepcopy(look)
+    if "alpha" in values:
+        result.alpha = float(values["alpha"])
+        if not 0 <= result.alpha <= 1:
+            raise ValueError("Invalid teaching alpha")
+    if "translucent" in values:
+        result.translucent = bool(values["translucent"])
+    if "detail" in values:
+        detail = tuple(float(v) for v in values["detail"])
+        if len(detail) != 3 or not all(math.isfinite(v) and v >= 0 for v in detail):
+            raise ValueError("Teaching detail needs three nonnegative finite values")
+        result.detail = detail + ((look.detail or (0, 0, 0, 0))[3],)
+    return result
+
+
 class ProceduralModel(ViewerModel):
     kind = "procedural"
 
-    def __init__(self, micro_model):
+    def __init__(self, micro_model, *, parts=None):
         super().__init__()
         self.source = micro_model
-        parts = micro_model.parts()
+        viewing = getattr(micro_model, "viewer_look", None)
+        if viewing and getattr(micro_model, "id", None) in {"heart", "whole_heart", "cardiac_muscle"}:
+            raise ValueError("Protected model cannot receive a teaching Look")
+        checkpoint()
+        parts = micro_model.parts() if parts is None else parts
+        from ..teaching_content import description as teaching_description
         verts, inds = [], []
         for i, mp in enumerate(parts):
+            checkpoint()
             pos, nrm, idx = mp.mesh.arrays()
             if len(pos) == 0 or len(idx) == 0:
                 continue
             col = tone(rgb(mp.color))
-            look = look_for(mp.category, col, mp.alpha, mp.detail)
+            look = draft_look(look_for(mp.category, col, mp.alpha, mp.detail), viewing)
+            colors = None
+            provider = getattr(micro_model, "viewer_vertex_colors", None)
+            if callable(provider):
+                colors = provider(mp.name, pos)
+                if colors is not None:
+                    colors = np.asarray(colors, dtype=np.float32)
+                    if colors.shape != (len(pos), 3) or not np.isfinite(colors).all() or np.any((colors < 0) | (colors > 1)):
+                        raise ValueError("Model vertex colors must be finite linear RGB in [0,1]")
+                    look.base = (1.0, 1.0, 1.0)
+                    look.use_vcol = True
             part = Part(id=len(self.parts) + 1, node=0, name=mp.name, mesh_name=mp.name, material_name=mp.category,
                         structure=mp.group, structure_id="", label="", extras={}, look=look)
-            self._add_part(part, pos, nrm, idx, verts, inds)
+            extra = None if colors is None else lambda vertex, colors=colors: vertex.__setitem__((slice(None), slice(13, 16)), colors)
+            self._add_part(part, pos, nrm, idx, verts, inds, extra=extra)
             it = Item(index=len(self.items), key=mp.name, name=mp.name, group=mp.group, parts=[part],
-                      description=mp.description, category=mp.category, colour=tuple(col), label=bool(mp.label),
+                      description=(mp.description if getattr(micro_model, "runtime_descriptor", None) is not None
+                                   else teaching_description(micro_model.id, mp.name, mp.description)),
+                      category=mp.category, colour=tuple(col), label=bool(mp.label),
                       clip=bool(mp.clip), bulk=bool(mp.bulk), rank=float(mp.rank))
             part.item = it.index
             self.items.append(it)
@@ -80,6 +122,13 @@ class ProceduralModel(ViewerModel):
         self.cutaway = {"axes": [tuple(axes[0]), tuple(axes[1])], "at": tuple(getattr(micro_model, "cut_at", (0.0, 0.0))),
                         "on": bool(getattr(micro_model, "cut_on", True))}
         self.home = tuple(getattr(micro_model, "home_view", DEFAULT_HOME))
+        # Authored teaching presets use the same native camera/visibility controls
+        # as imported models. Models without presets retain their existing home.
+        self.cameras = deepcopy(getattr(micro_model, "viewer_cameras", {}))
+        self.camera_order = list(self.cameras)
+        start = getattr(micro_model, "start_view", None)
+        if start in self.cameras:
+            self.sidecar["start_view"] = start
         # the colours were chosen under the old microanatomy view's brighter tone curve
         self.look_defaults = {"exposure": 0.35, "studio": 0.45}
 
@@ -88,6 +137,7 @@ class ProceduralModel(ViewerModel):
         n = len(self.vertices)
         buf = np.zeros(n, dtype=[("m", "<f2", (4, 4)), ("phase", "<f4")])
         for p, mp in zip(self.parts, self._part_sources):
+            checkpoint()
             data = getattr(mp, "anim", None)
             if not data:
                 continue

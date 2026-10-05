@@ -1,0 +1,581 @@
+{
+  "schema_version": 1,
+  "model_id": "elastic_artery",
+  "status": "source_design_ready",
+  "native_contract": "viewer_cameras records; exact part names in hidden; cut_on boolean; state=assembled; note appears in native view tooltips",
+  "planned_part_names": [
+    "Endothelium",
+    "Subendothelial layer",
+    "Internal elastic lamina",
+    "Tunica media (smooth muscle)",
+    "Elastic lamellae",
+    "External elastic lamina",
+    "External elastic lamina peel panel",
+    "Tunica adventitia",
+    "Adventitial collagen bundles",
+    "Vasa vasorum",
+    "Vasa vasorum venules",
+    "Nervi vasorum",
+    "Perivascular fat",
+    "Red blood cells",
+    "Rolling leukocyte",
+    "Elastic lamella 02",
+    "Elastic lamella 03",
+    "Elastic lamella 04",
+    "Elastic lamella 05",
+    "Elastic lamella 06",
+    "Elastic lamella 07",
+    "Elastic lamella 08",
+    "Elastic lamella 09",
+    "Elastic lamella 10",
+    "Medial smooth muscle cells (unit01)",
+    "Medial smooth muscle cells 02",
+    "Medial smooth muscle cells 03",
+    "Medial smooth muscle cells 04",
+    "Medial smooth muscle cells 05",
+    "Medial smooth muscle cells 06",
+    "Medial smooth muscle cells 07",
+    "Medial smooth muscle cells 08",
+    "Medial smooth muscle cells 09",
+    "Medial smooth muscle cells 10",
+    "Medial smooth muscle cells 11",
+    "Smooth muscle nuclei (unit01)",
+    "Smooth muscle nuclei 02",
+    "Smooth muscle nuclei 03",
+    "Smooth muscle nuclei 04",
+    "Smooth muscle nuclei 05",
+    "Smooth muscle nuclei 06",
+    "Smooth muscle nuclei 07",
+    "Smooth muscle nuclei 08",
+    "Smooth muscle nuclei 09",
+    "Smooth muscle nuclei 10",
+    "Smooth muscle nuclei 11",
+    "Endothelial cell borders",
+    "Endothelial nuclei",
+    "Subendothelial connective fibres",
+    "Adventitial fibroblasts",
+    "Adventitial fibroblast nuclei",
+    "Adventitial connective fibres",
+    "Adipocyte cell borders",
+    "Adipocyte peripheral nuclei",
+    "Nervi vasorum terminal branches",
+    "Nervi vasorum varicosities",
+    "Vasa vasorum exchange plexus",
+    "Rolling adhesion tethers",
+    "Leukocyte lobulated nucleus",
+    "7.5 µm RBC comparison bar (schematic)",
+    "10.8 µm leukocyte comparison bar (same inset scale)",
+    "Blood-cell comparison erythrocyte",
+    "Blood-cell comparison leukocyte"
+  ],
+  "camera_templates": {
+    "wall": {
+      "position": [
+        2.0,
+        -2.2,
+        -3.0
+      ],
+      "target": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.45
+    },
+    "outer": {
+      "position": [
+        1.65,
+        2.25,
+        2.65
+      ],
+      "target": [
+        0.0,
+        0.63,
+        0.48
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.15
+    },
+    "lumen": {
+      "position": [
+        0.45,
+        0.07,
+        0.1
+      ],
+      "target": [
+        0.24,
+        -0.38,
+        -0.57
+      ],
+      "type": "PERSPECTIVE",
+      "fov_deg": 38.0
+    }
+  },
+  "camera_validation_status": "Source-derived draft poses only; native visual framing deferred.",
+  "functional_sequences": [
+    {
+      "id": "windkessel_stretch_recoil",
+      "mechanism": "Elastic arterial wall expansion stores blood volume and mechanical energy during ventricular ejection; recoil releases stored energy and supports downstream flow between ejections.",
+      "source_evidence": [
+        "windkessel_primary",
+        "reservoir_author",
+        "histology_human"
+      ],
+      "mode": "manual_static_explanation",
+      "native_display_limit": "Static anatomy: these phase views explain the cycle but do not change vessel diameter, pressure, stored volume, cell shape or flow.",
+      "steps": [
+        {
+          "id": "windkessel_systole",
+          "title": "Systole: stretch and storage",
+          "native_view": "function_windkessel_systole",
+          "camera_template": "wall",
+          "caption": "During ventricular ejection, inflow can exceed outflow: the compliant wall expands and stores volume and elastic energy. Follow alternating elastic sheets and smooth muscle in the section.",
+          "visible_parts": [
+            "Endothelium",
+            "Endothelial cell borders",
+            "Endothelial nuclei",
+            "Subendothelial layer",
+            "Subendothelial connective fibres",
+            "Internal elastic lamina",
+            "Tunica media (smooth muscle)",
+            "Elastic lamellae",
+            "Elastic lamella 02",
+            "Elastic lamella 03",
+            "Elastic lamella 04",
+            "Elastic lamella 05",
+            "Elastic lamella 06",
+            "Elastic lamella 07",
+            "Elastic lamella 08",
+            "Elastic lamella 09",
+            "Elastic lamella 10",
+            "External elastic lamina",
+            "External elastic lamina peel panel",
+            "Adventitial collagen bundles",
+            "Medial smooth muscle cells (unit01)",
+            "Medial smooth muscle cells 02",
+            "Medial smooth muscle cells 03",
+            "Medial smooth muscle cells 04",
+            "Medial smooth muscle cells 05",
+            "Medial smooth muscle cells 06",
+            "Medial smooth muscle cells 07",
+            "Medial smooth muscle cells 08",
+            "Medial smooth muscle cells 09",
+            "Medial smooth muscle cells 10",
+            "Medial smooth muscle cells 11",
+            "Smooth muscle nuclei (unit01)",
+            "Smooth muscle nuclei 02",
+            "Smooth muscle nuclei 03",
+            "Smooth muscle nuclei 04",
+            "Smooth muscle nuclei 05",
+            "Smooth muscle nuclei 06",
+            "Smooth muscle nuclei 07",
+            "Smooth muscle nuclei 08",
+            "Smooth muscle nuclei 09",
+            "Smooth muscle nuclei 10",
+            "Smooth muscle nuclei 11"
+          ],
+          "cut_on": true,
+          "source_evidence": [
+            "windkessel_primary",
+            "reservoir_author"
+          ],
+          "geometry_action": "none; manual named-view change only",
+          "implementation_status": "static native camera/visibility and tooltip; physiological geometry action absent"
+        },
+        {
+          "id": "windkessel_diastole",
+          "title": "Diastole: recoil and release",
+          "native_view": "function_windkessel_diastole",
+          "camera_template": "wall",
+          "caption": "After ejection, elastic recoil reduces reservoir volume and helps sustain downstream flow against peripheral resistance. The smooth muscle examples remain anatomically present; this passive buffering is not a modeled synchronous muscle contraction.",
+          "visible_parts": [
+            "Endothelium",
+            "Endothelial cell borders",
+            "Endothelial nuclei",
+            "Subendothelial layer",
+            "Subendothelial connective fibres",
+            "Internal elastic lamina",
+            "Tunica media (smooth muscle)",
+            "Elastic lamellae",
+            "Elastic lamella 02",
+            "Elastic lamella 03",
+            "Elastic lamella 04",
+            "Elastic lamella 05",
+            "Elastic lamella 06",
+            "Elastic lamella 07",
+            "Elastic lamella 08",
+            "Elastic lamella 09",
+            "Elastic lamella 10",
+            "External elastic lamina",
+            "External elastic lamina peel panel",
+            "Adventitial collagen bundles",
+            "Medial smooth muscle cells (unit01)",
+            "Medial smooth muscle cells 02",
+            "Medial smooth muscle cells 03",
+            "Medial smooth muscle cells 04",
+            "Medial smooth muscle cells 05",
+            "Medial smooth muscle cells 06",
+            "Medial smooth muscle cells 07",
+            "Medial smooth muscle cells 08",
+            "Medial smooth muscle cells 09",
+            "Medial smooth muscle cells 10",
+            "Medial smooth muscle cells 11",
+            "Smooth muscle nuclei (unit01)",
+            "Smooth muscle nuclei 02",
+            "Smooth muscle nuclei 03",
+            "Smooth muscle nuclei 04",
+            "Smooth muscle nuclei 05",
+            "Smooth muscle nuclei 06",
+            "Smooth muscle nuclei 07",
+            "Smooth muscle nuclei 08",
+            "Smooth muscle nuclei 09",
+            "Smooth muscle nuclei 10",
+            "Smooth muscle nuclei 11"
+          ],
+          "cut_on": true,
+          "source_evidence": [
+            "windkessel_primary",
+            "reservoir_author"
+          ],
+          "geometry_action": "none; manual named-view change only",
+          "implementation_status": "static native camera/visibility and tooltip; physiological geometry action absent"
+        }
+      ],
+      "schematic_limitations": [
+        "Same mesh and same assembled pose in both phases; no physiological animation is supplied.",
+        "Pressure/volume numbers, expansion amplitude, cycle duration and apparent cell motions are not invented.",
+        "Recoil alone is not a complete arterial waveform explanation; propagating/reflected waves, resistance and distributed compliance remain outside this geometry.",
+        "Ten medial sheets represent a much larger lamellar population; thickness, cells and pores use different declared teaching enlargements."
+      ],
+      "deferred_validation": [
+        "A future dynamic extension requires separately sourced pressure/strain and coherent lumen/wall/cell morph targets."
+      ]
+    },
+    {
+      "id": "wall_supply_exchange_drainage",
+      "mechanism": "Adventitial arterial vasa feed an outer-wall exchange network; venous vasa drain it. Relatively avascular inner intima/media receive diffusional support from luminal blood.",
+      "source_evidence": [
+        "vasa_primary",
+        "vasa_drainage",
+        "histology_human"
+      ],
+      "mode": "manual_static_visibility_progression",
+      "native_display_limit": "Static representative network: no moving blood particles, computed perfusion, oxygen field or exchange rate.",
+      "steps": [
+        {
+          "id": "wall_supply",
+          "title": "Outer wall: arterial supply",
+          "native_view": "function_wall_supply",
+          "camera_template": "outer",
+          "caption": "Start with arterial vasa in the adventitial/outer-medial environment. The main arterial lumen and the wall microcirculation are separate compartments; represented continuations leave the specimen.",
+          "visible_parts": [
+            "Vasa vasorum",
+            "Vasa vasorum exchange plexus",
+            "Vasa vasorum venules",
+            "External elastic lamina",
+            "External elastic lamina peel panel",
+            "Adventitial collagen bundles",
+            "Adventitial fibroblasts"
+          ],
+          "cut_on": false,
+          "source_evidence": [
+            "vasa_primary",
+            "histology_human"
+          ],
+          "geometry_action": "none; manual named-view change only",
+          "implementation_status": "static native camera/visibility and tooltip; physiological geometry action absent"
+        },
+        {
+          "id": "wall_exchange",
+          "title": "Outer media: exchange",
+          "native_view": "function_wall_exchange",
+          "camera_template": "outer",
+          "caption": "Hide the outer wrapping and most elastic sheets to expose representative arterial-to-exchange-to-venous continuity. Retained outer sheets and medial cells indicate the depth served by the exchange plexus.",
+          "visible_parts": [
+            "Vasa vasorum",
+            "Vasa vasorum exchange plexus",
+            "Vasa vasorum venules",
+            "Elastic lamella 09",
+            "Elastic lamella 10",
+            "Medial smooth muscle cells 10",
+            "Medial smooth muscle cells 11",
+            "Smooth muscle nuclei 10",
+            "Smooth muscle nuclei 11"
+          ],
+          "cut_on": false,
+          "source_evidence": [
+            "vasa_primary",
+            "vasa_drainage"
+          ],
+          "geometry_action": "none; manual named-view change only",
+          "implementation_status": "static native camera/visibility and tooltip; physiological geometry action absent"
+        },
+        {
+          "id": "wall_drainage",
+          "title": "Outer wall: venous drainage",
+          "native_view": "function_wall_drainage",
+          "camera_template": "outer",
+          "caption": "Follow the exchange plexus toward venules that return blood from the wall to companion veins beyond the displayed field. The blue venules are drainage vessels, not extensions of the main arterial lumen.",
+          "visible_parts": [
+            "Vasa vasorum",
+            "Vasa vasorum exchange plexus",
+            "Vasa vasorum venules",
+            "Elastic lamella 10",
+            "Adventitial collagen bundles"
+          ],
+          "cut_on": false,
+          "source_evidence": [
+            "vasa_drainage"
+          ],
+          "geometry_action": "none; manual named-view change only",
+          "implementation_status": "static native camera/visibility and tooltip; physiological geometry action absent"
+        },
+        {
+          "id": "inner_wall_diffusion",
+          "title": "Inner wall: diffusional support",
+          "native_view": "function_inner_wall_diffusion",
+          "camera_template": "wall",
+          "caption": "Return to lumen-facing intima and inner medial lamellae. Luminal blood provides diffusional support across the lining to relatively avascular inner wall; this is a concentration-driven tissue route, not a tubular branch through a fenestration.",
+          "visible_parts": [
+            "Endothelium",
+            "Endothelial cell borders",
+            "Endothelial nuclei",
+            "Subendothelial layer",
+            "Subendothelial connective fibres",
+            "Internal elastic lamina",
+            "Elastic lamellae",
+            "Elastic lamella 02",
+            "Medial smooth muscle cells (unit01)",
+            "Smooth muscle nuclei (unit01)"
+          ],
+          "cut_on": true,
+          "source_evidence": [
+            "vasa_primary",
+            "histology_human"
+          ],
+          "geometry_action": "none; manual named-view change only",
+          "implementation_status": "static native camera/visibility and tooltip; physiological geometry action absent"
+        }
+      ],
+      "schematic_limitations": [
+        "Network routing, caliber, number of branches and compartment depth are representative; not a patient microangiogram.",
+        "No universal fraction of media or 29-lamellar-unit threshold is imposed from species/region-dependent experiments.",
+        "Elastic-sheet fenestrations are sheet openings, not direct patent blood connections between main lumen and wall vasa.",
+        "Visible supply/exchange/drainage continuity and actual lumens still require saved-output/native inspection on the final separate-machine build."
+      ],
+      "deferred_validation": [
+        "Native isolation must show connected arterial/exchange/venous junctions and tissue depth with supporting shells hidden."
+      ]
+    },
+    {
+      "id": "inflammatory_endothelial_recruitment",
+      "mechanism": "In an activated inflammatory example, selectin bonds tether and permit rolling; activation of leukocyte integrins enables firm endothelial arrest, followed by a selected paracellular transmigration route.",
+      "source_evidence": [
+        "arterial_selectin_primary",
+        "integrin_arrest_primary",
+        "diapedesis_primary"
+      ],
+      "mode": "manual_static_mechanism_explanation",
+      "native_display_limit": "Inflammatory illustration only. The enlarged leukocyte stays at one static endothelial contact; tethering, rolling, arrest and diapedesis are explained, not animated or reconstructed.",
+      "steps": [
+        {
+          "id": "leukocyte_tether",
+          "title": "Inflammation: selectin tether",
+          "native_view": "function_leukocyte_tether",
+          "camera_template": "lumen",
+          "caption": "Activated endothelium can present selectins that capture a passing leukocyte through its ligands. The displayed neutrophil is an enlarged contact example; the healthy aortic opening view suppresses it. The tethers are symbolic contact cues, not resolved receptor structures.",
+          "visible_parts": [
+            "Endothelium",
+            "Endothelial cell borders",
+            "Endothelial nuclei",
+            "Subendothelial layer",
+            "Subendothelial connective fibres",
+            "Internal elastic lamina",
+            "Rolling leukocyte",
+            "Rolling adhesion tethers",
+            "Leukocyte lobulated nucleus"
+          ],
+          "cut_on": false,
+          "source_evidence": [
+            "arterial_selectin_primary"
+          ],
+          "geometry_action": "none; manual named-view change only",
+          "implementation_status": "static native camera/visibility and tooltip; physiological geometry action absent"
+        },
+        {
+          "id": "leukocyte_roll",
+          "title": "Inflammation: transient rolling bonds",
+          "native_view": "function_leukocyte_roll",
+          "camera_template": "lumen",
+          "caption": "Repeated formation and release of selectin bonds can permit rolling under shear. The cell does not move in this static model, and a rolling cell need not progress to firm adhesion. The tethers are symbolic contact cues, not resolved receptor structures.",
+          "visible_parts": [
+            "Endothelium",
+            "Endothelial cell borders",
+            "Endothelial nuclei",
+            "Subendothelial layer",
+            "Subendothelial connective fibres",
+            "Internal elastic lamina",
+            "Rolling leukocyte",
+            "Rolling adhesion tethers",
+            "Leukocyte lobulated nucleus"
+          ],
+          "cut_on": false,
+          "source_evidence": [
+            "arterial_selectin_primary"
+          ],
+          "geometry_action": "none; manual named-view change only",
+          "implementation_status": "static native camera/visibility and tooltip; physiological geometry action absent"
+        },
+        {
+          "id": "leukocyte_arrest",
+          "title": "Inflammation: integrin-dependent arrest",
+          "native_view": "function_leukocyte_arrest",
+          "camera_template": "lumen",
+          "caption": "In this neutrophil illustration, integrin activation supports beta2-integrin binding to endothelial ICAM-1 and firm arrest. Adhesion depends on inflammatory signals and receptor expression, not proximity alone. The tethers are symbolic contact cues, not resolved receptor structures.",
+          "visible_parts": [
+            "Endothelium",
+            "Endothelial cell borders",
+            "Endothelial nuclei",
+            "Subendothelial layer",
+            "Subendothelial connective fibres",
+            "Internal elastic lamina",
+            "Rolling leukocyte",
+            "Rolling adhesion tethers",
+            "Leukocyte lobulated nucleus"
+          ],
+          "cut_on": false,
+          "source_evidence": [
+            "integrin_arrest_primary"
+          ],
+          "geometry_action": "none; manual named-view change only",
+          "implementation_status": "static native camera/visibility and tooltip; physiological geometry action absent"
+        },
+        {
+          "id": "leukocyte_diapedesis",
+          "title": "Inflammation: paracellular passage",
+          "native_view": "function_leukocyte_diapedesis",
+          "camera_template": "lumen",
+          "caption": "A selected paracellular route crosses an endothelial cell junction before underlying matrix. Endothelial borders mark the proposed interface; the static cell has not crossed it and the intact lining contains no permanently open hole. The tethers are symbolic contact cues, not resolved receptor structures.",
+          "visible_parts": [
+            "Endothelium",
+            "Endothelial cell borders",
+            "Endothelial nuclei",
+            "Subendothelial layer",
+            "Subendothelial connective fibres",
+            "Internal elastic lamina",
+            "Rolling leukocyte",
+            "Rolling adhesion tethers",
+            "Leukocyte lobulated nucleus"
+          ],
+          "cut_on": false,
+          "source_evidence": [
+            "diapedesis_primary"
+          ],
+          "geometry_action": "none; manual named-view change only",
+          "implementation_status": "static native camera/visibility and tooltip; physiological geometry action absent"
+        }
+      ],
+      "schematic_limitations": [
+        "Recruitment classically occurs in postcapillary venules; arterial selectin rolling evidence cited here is from atherosclerotic mouse aorta. This inset is not healthy resting human aortic behavior.",
+        "Molecular receptors are not anatomically resolved meshes; explanatory notes must not claim they are visually shown.",
+        "The sequential mechanism combines evidence across distinct experimental systems rather than claiming direct observation of this complete cascade in the modeled human artery.",
+        "No leukocyte translation, rolling rotation, cell deformation, junction opening or completed diapedesis is implemented.",
+        "A paracellular path is selected for explanation; transcellular routes and cell-specific receptor combinations exist."
+      ],
+      "deferred_validation": [
+        "Confirm the illustrative cell faces lumen-side endothelium rather than occupying the wall, and border/nucleus examples remain readable.",
+        "Keep pathological recruitment optional and hidden in the normal overview."
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "windkessel_primary",
+      "title": "Wang et al. (2003), Time-domain representation of ventricular-arterial coupling as a windkessel and wave system",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/12531729/",
+      "doi": "10.1152/ajpheart.00175.2002",
+      "type": "primary experiment",
+      "retrieved": "2026-10-04",
+      "retrieval": "Opened PubMed abstract; publisher full-text open returned 403. Publisher search index also returned results text.",
+      "supports": "Measured aortic dimensions, flows and pressure in anesthetized dogs support a volume-storage reservoir component.",
+      "limits": "Dog experiment and reservoir-wave modeling; no patient strain or pulse waveform is assigned to this model."
+    },
+    {
+      "id": "reservoir_author",
+      "title": "Parker, Introduction to reservoir/excess pressure",
+      "url": "https://kparker.bg-research.cc.ic.ac.uk/res_press_web/rp_intro.html",
+      "type": "research author explanation",
+      "retrieved": "2026-10-04",
+      "retrieval": "Opened text.",
+      "supports": "Energy storage in systole and release in diastole; warns that reservoir pressure itself also involves waves.",
+      "limits": "Interpretive reservoir-wave hypothesis, not a complete model of aortic mechanics."
+    },
+    {
+      "id": "vasa_primary",
+      "title": "Heistad et al. (1978), Regulation of Blood Flow to the Aortic Media in Dogs",
+      "url": "https://www.jci.org/articles/view/109097",
+      "doi": "10.1172/JCI109097",
+      "type": "primary experiment",
+      "retrieved": "2026-10-04",
+      "retrieval": "Opened article abstract and source lines 162-166.",
+      "supports": "Direct perfusion measurements distinguish outer thoracic medial supply from relatively avascular inner layers.",
+      "limits": "Regional/species differences matter; no fixed inner/outer fractional boundary is imposed on the human teaching specimen."
+    },
+    {
+      "id": "vasa_drainage",
+      "title": "Mulligan-Kehoe (2010), The vasa vasorum in diseased and nondiseased arteries",
+      "url": "https://journals.physiology.org/doi/full/10.1152/ajpheart.00884.2009",
+      "doi": "10.1152/ajpheart.00884.2009",
+      "type": "authoritative research review",
+      "retrieved": "2026-10-04",
+      "retrieval": "Publisher search text retrieved. Direct publisher open returned 403; PMC open returned bot check; EuropePMC open failed. No successful direct full-text open claimed.",
+      "supports": "Adventitial vasa microvascular supply and venous vasa draining wall into companion veins.",
+      "limits": "Representative supply/exchange/drainage route is an implementation abstraction, not a reconstructed human vascular tree."
+    },
+    {
+      "id": "histology_human",
+      "title": "Histology Guide, MH 065-066 Aorta and Vena Cava",
+      "url": "https://www.histologyguide.com/slideview/MH-065-066-aorta-and-vena-cava/09-slide-1.html",
+      "type": "authoritative human slide description",
+      "retrieved": "2026-10-04",
+      "retrieval": "Opened human tissue source and descriptions; slide image not reviewed.",
+      "supports": "Alternating circumferential smooth muscle and wavy elastic sheets; intima support; wall vasa and nerves.",
+      "limits": "Text supports compartments and relationships, not acceptance of candidate geometry."
+    },
+    {
+      "id": "arterial_selectin_primary",
+      "title": "Eriksson et al. (2001), Direct viewing of atherosclerosis in vivo: plaque invasion by leukocytes is initiated by the endothelial selectins",
+      "url": "https://faseb.onlinelibrary.wiley.com/doi/abs/10.1096/fj.00-0537com",
+      "doi": "10.1096/fj.00-0537com",
+      "type": "primary intravital experiment",
+      "retrieved": "2026-10-04",
+      "retrieval": "Opened article abstract.",
+      "supports": "Selectin-dependent leukocyte rolling in atherosclerotic mouse aorta.",
+      "limits": "Inflamed/diseased mouse artery, not baseline healthy human aortic recruitment or proof every rolling cell arrests."
+    },
+    {
+      "id": "integrin_arrest_primary",
+      "title": "Green et al. (2004), Shear-Dependent Capping of L-Selectin and PSGL-1 by E-Selectin Signals Activation of High-Avidity beta2-Integrin on Neutrophils",
+      "url": "https://academic.oup.com/jimmunol/article-abstract/172/12/7780/8033886",
+      "doi": "10.4049/jimmunol.172.12.7780",
+      "type": "primary cellular experiment",
+      "retrieved": "2026-10-04",
+      "retrieval": "Opened publisher abstract.",
+      "supports": "Selectin-associated signaling and beta2-integrin/ICAM-1 neutrophil arrest in cellular flow experiments.",
+      "limits": "Uses cultured endothelial/cellular systems; does not justify alpha4/VCAM-1 as the universal neutrophil arrest pathway."
+    },
+    {
+      "id": "diapedesis_primary",
+      "title": "Arif et al. (2021), PECAM-1 supports leukocyte diapedesis by tension-dependent dephosphorylation of VE-cadherin",
+      "url": "https://link.springer.com/article/10.15252/embj.2020106113",
+      "doi": "10.15252/embj.2020106113",
+      "type": "primary mechanistic experiment",
+      "retrieved": "2026-10-04",
+      "retrieval": "Opened publisher full text.",
+      "supports": "Leukocyte-triggered endothelial junction remodeling involving PECAM-1 and VE-cadherin during transmigration.",
+      "limits": "A selected paracellular illustration; pathways and sites vary. Does not depict a measured aortic diapedesis event."
+    }
+  ],
+  "heavy_processing": "NOT RUN"
+}

@@ -95,7 +95,7 @@ def safe_path(value, platform="windows-x64"):
         raise UpdateError("Update attempted to write outside the application")
     if platform != "macos-arm64" and parts[0] != "_internal" and len(parts) != 1:
         raise UpdateError("Invalid application file")
-    if any(p.casefold() in {"user", "logs", "updates", "__pycache__"} for p in parts):
+    if any(p.casefold() in {"user", "logs", "updates", "model-library", "__pycache__"} for p in parts):
         raise UpdateError("Personal or mutable files must not be shipped")
     return value
 

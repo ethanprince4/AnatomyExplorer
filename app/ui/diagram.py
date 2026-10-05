@@ -5,14 +5,18 @@ takes round the body. They are drawn for the dark theme (light strokes on a tran
 painted straight onto the panel and always at the width the panel has, never a blurry fixed-size bitmap.
 """
 from PySide6.QtCore import QEvent, QRectF, QSize, QSizeF, Qt
-from PySide6.QtGui import QImage, QPainter
+from PySide6.QtGui import QColor, QImage, QPainter
 from PySide6.QtSvg import QSvgRenderer
-from PySide6.QtWidgets import (QDialog, QFrame, QHBoxLayout, QLabel, QSizePolicy, QToolButton, QVBoxLayout,
+from PySide6.QtWidgets import (QDialog, QFrame, QHBoxLayout, QLabel, QPushButton, QSizePolicy, QToolButton, QVBoxLayout,
                                QWidget)
 
 from ..lessons import diagram_path
 from . import theme
 
+# Existing SVG teaching diagrams use light strokes on transparent backgrounds.
+# Preserve that authored appearance on both app palettes; never recolor source evidence.
+DIAGRAM_BACKGROUND = "#0e141b"
+DIAGRAM_TEXT = "#dfe6ee"
 _RENDERERS = {}
 
 
@@ -32,7 +36,7 @@ def aspect(r):
     """Height over width of a diagram, from its viewBox when it has one."""
     box = r.viewBoxF()
     size = box.size() if box.isValid() and not box.isEmpty() else QSizeF(r.defaultSize())
-    if size.width() <= 0:
+    if size.width() <= 0 or size.height() <= 0:
         return 0.6
     return size.height() / size.width()
 
@@ -48,7 +52,7 @@ def render_image(diagram_id, width, dpr=1.0, max_height=None):
         w = max_height / ratio
     h = w * ratio
     img = QImage(max(1, int(w * dpr)), max(1, int(h * dpr)), QImage.Format_ARGB32_Premultiplied)
-    img.fill(Qt.transparent)
+    img.fill(QColor(DIAGRAM_BACKGROUND))
     p = QPainter(img)
     p.setRenderHint(QPainter.Antialiasing)
     r.render(p, QRectF(0, 0, img.width(), img.height()))
@@ -63,18 +67,24 @@ class DiagramView(QWidget):
     def __init__(self, parent=None, max_height=320, zoomable=True):
         super().__init__(parent)
         self.diagram_id = None
+        self._requested_id = None
         self.max_height = max_height
         self.zoomable = zoomable
         if zoomable:
             self.setCursor(Qt.PointingHandCursor)
-            self.setToolTip("Click to enlarge")
+            self.setToolTip("Open the original diagram larger. Click or press Enter.")
+            self.setFocusPolicy(Qt.StrongFocus)
         sp = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         sp.setHeightForWidth(True)
         self.setSizePolicy(sp)
 
     def set_diagram(self, diagram_id):
+        self._requested_id = diagram_id
         self.diagram_id = diagram_id if diagram_id and renderer(diagram_id) is not None else None
-        self.setVisible(self.diagram_id is not None)
+        self.setAccessibleName("Teaching diagram: " + str(diagram_id or "none").replace("_", " "))
+        self.setAccessibleDescription("Original diagram colors are preserved on a dark background."
+                                      if self.diagram_id else "This diagram is not available in this installation.")
+        self.setVisible(bool(diagram_id))
         self.updateGeometry()
         self.update()
 
@@ -84,7 +94,7 @@ class DiagramView(QWidget):
     def heightForWidth(self, w):
         r = renderer(self.diagram_id) if self.diagram_id else None
         if r is None:
-            return 0
+            return 72 if self._requested_id else 0
         return int(min(self.max_height, w * aspect(r)))
 
     def sizeHint(self):
@@ -94,14 +104,31 @@ class DiagramView(QWidget):
     def paintEvent(self, event):
         r = renderer(self.diagram_id) if self.diagram_id else None
         if r is None:
+            if self._requested_id:
+                painter = QPainter(self)
+                painter.setPen(theme.qc(theme.WARNING))
+                painter.drawText(self.rect().adjusted(8, 8, -8, -8), Qt.AlignCenter | Qt.TextWordWrap,
+                                 "This diagram is unavailable. You can continue with the lesson text.")
+                painter.end()
             return
         ratio = aspect(r)
         w = min(float(self.width()), self.height() / ratio if ratio else self.width())
         h = w * ratio
         p = QPainter(self)
         p.setRenderHint(QPainter.Antialiasing)
+        p.fillRect(self.rect(), QColor(DIAGRAM_BACKGROUND))
         r.render(p, QRectF((self.width() - w) / 2, 0, w, h))
+        if self.hasFocus():
+            p.setPen(theme.qc(theme.ACCENT))
+            p.drawRect(self.rect().adjusted(1, 1, -2, -2))
         p.end()
+
+    def keyPressEvent(self, event):
+        if self.zoomable and self.diagram_id and event.key() in (Qt.Key_Return, Qt.Key_Enter, Qt.Key_Space):
+            show_large(self.diagram_id, self)
+            event.accept()
+            return
+        super().keyPressEvent(event)
 
     def mousePressEvent(self, e):
         if self.zoomable and self.diagram_id and e.button() == Qt.LeftButton:
@@ -115,12 +142,19 @@ def show_large(diagram_id, parent=None):
         return
     dlg = QDialog(parent)
     dlg.setWindowTitle("Diagram")
-    dlg.setStyleSheet(f"background:{theme.SUNKEN};")
+    dlg.setStyleSheet(f"background:{theme.SURFACE};")
     lay = QVBoxLayout(dlg)
     lay.setContentsMargins(16, 16, 16, 16)
     view = DiagramView(dlg, max_height=10000, zoomable=False)
     view.set_diagram(diagram_id)
-    lay.addWidget(view)
+    lay.addWidget(view, 1)
+    caption = QLabel("Original teaching diagram · source colors preserved")
+    caption.setWordWrap(True)
+    caption.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+    lay.addWidget(caption)
+    close = QPushButton("Back to lesson", dlg)
+    close.clicked.connect(dlg.accept)
+    lay.addWidget(close, 0, Qt.AlignRight)
     screen = (parent.screen() if parent is not None else None)
     avail = screen.availableGeometry() if screen is not None else None
     w = int(avail.width() * 0.7) if avail is not None else 1000
@@ -159,7 +193,7 @@ class DiagramOverlay(QFrame):
         self.title = QLabel("Diagram")
         top.addWidget(self.title, 1)
         self.big_btn = QToolButton()
-        self.big_btn.setText("⤢")
+        self.big_btn.setText("Enlarge")
         self.big_btn.setToolTip("Open full size")
         self.big_btn.clicked.connect(lambda: show_large(self.diagram_id, self.window()) if self.diagram_id else None)
         self.fold_btn = QToolButton()
@@ -196,7 +230,7 @@ class DiagramOverlay(QFrame):
         self.collapsed = on
         self.view.setVisible(not on)
         self.big_btn.setVisible(not on)
-        self.fold_btn.setText("Show diagram ▾" if on else "–")
+        self.fold_btn.setText("Show diagram" if on else "Hide")
         self.fold_btn.setToolTip("Show the diagram" if on else "Tuck the diagram away")
         self._place()
 
