@@ -41,8 +41,10 @@ def data_files():
     if not seed and (ROOT / "data/local_model_library/library.json").is_file():
         seed = ROOT / "data/local_model_library"
     if seed:
-        out.extend(seed_files(seed))
+        out.extend(seed_files(seed, STAGE / "release-seeds"))
     for rel in DATA_DIRS:
+        if seed and rel in {"data/micro_cache", "data/models"}:
+            continue  # Explicit post-only seed replaces obsolete procedural baselines.
         only = ONLY_SUFFIXES.get(rel)
         for dirpath, dirnames, filenames in os.walk(ROOT / rel):
             dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]

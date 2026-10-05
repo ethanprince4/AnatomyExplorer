@@ -1,8 +1,8 @@
 """Temporary lesson layout: reading and anatomy first, supporting panes on demand."""
 from PySide6.QtCore import QEvent, QObject, Qt
-from PySide6.QtWidgets import QSplitter
+from PySide6.QtWidgets import QSplitter, QSizePolicy
 
-from .lessons import PAGE_RUNNER
+from .lessons import PAGE_RUNNER, PAGE_COVER
 
 
 class StudyLayout(QObject):
@@ -37,13 +37,17 @@ class StudyLayout(QObject):
 
     def sync(self, *_):
         w, p = self.window, self.panel
-        studying = w.tabs.currentWidget() is p and p.stack.currentIndex() == PAGE_RUNNER
+        studying = w.tabs.currentWidget() is p and p.stack.currentIndex() in (PAGE_COVER, PAGE_RUNNER)
         if not studying:
             self.leave()
             return
         if self.snapshot is None:
             self.snapshot = (w.saveState(), w.search.isHidden(), p.meta.isHidden())
             self.floating_visibility = (not w.left_dock.isHidden(), not w.right_dock.isHidden())
+            self.nav_hidden = w.tabs.nav.isHidden()
+            self.old_tab_policy = w.tabs.sizePolicy()
+            w.tabs.set_reading_mode(True)
+            w.tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Ignored)
             w.search.hide()
             p.meta.hide()
             w.left_dock.show()
@@ -102,6 +106,9 @@ class StudyLayout(QObject):
         layout, search_hidden, meta_hidden = self.snapshot
         self.snapshot = None
         self.window.search.setVisible(not search_hidden)
+        self.window.tabs.set_reading_mode(False)
+        self.window.tabs.nav.setVisible(not self.nav_hidden)
+        self.window.tabs.setSizePolicy(self.old_tab_policy)
         self.panel.meta.setVisible(not meta_hidden)
         for view, (hidden, sizes) in self.models.items():
             try:

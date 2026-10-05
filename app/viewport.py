@@ -833,9 +833,9 @@ class Viewport(QOpenGLWidget):
                 p.setPen(Qt.NoPen)
                 p.drawEllipse(QPointF(pr[0], pr[1]), 2.6, 2.6)
                 p.setPen(QPen(QColor(accent.red(), accent.green(), accent.blue(), 170), 1.0))
-                p.setBrush(theme.qc(theme.OVERLAY, 220) if dark else QColor(255, 255, 255, 228))
+                p.setBrush(QColor(24, 34, 45))
                 p.drawRoundedRect(rect, 4, 4)
-                p.setPen(QColor(235, 240, 245) if dark else QColor(20, 25, 30))
+                p.setPen(QColor(235, 240, 245))
                 p.drawText(rect, Qt.AlignCenter, fm.elidedText(text, Qt.ElideRight, tw - 10))
                 self._section_rects.append((QRectF(rect), sid))
 
@@ -908,9 +908,9 @@ class Viewport(QOpenGLWidget):
             rect = QRectF(mx - fm.horizontalAdvance(text) / 2 - 6, my - fm.height() / 2 - 12,
                           fm.horizontalAdvance(text) + 12, fm.height() + 4)
             p.setPen(QPen(accent, 1.0))
-            p.setBrush(QColor(20, 16, 10, 220) if dark else QColor(255, 252, 240, 235))
+            p.setBrush(QColor(24, 34, 45))
             p.drawRoundedRect(rect, 4, 4)
-            p.setPen(QColor(255, 226, 160) if dark else QColor(60, 40, 10))
+            p.setPen(QColor(255, 226, 160))
             p.drawText(rect, Qt.AlignCenter, text)
 
     def paint_overlay(self, p: QPainter):
@@ -960,11 +960,11 @@ class Viewport(QOpenGLWidget):
             if any(rect.intersects(r) for r in placed) and not focus:
                 continue
             placed.append(rect.adjusted(-2, -2, 2, 2))
-            bg = theme.qc(theme.OVERLAY, 210 if not occluded else 110) if dark else QColor(255, 255, 255, 215 if not occluded else 120)
+            bg = QColor(24, 34, 45)
             p.setPen(QPen(dot, 1.0))
             p.setBrush(bg)
             p.drawRoundedRect(rect, 5, 5)
-            p.setPen(QColor(235, 240, 245, alpha) if dark else QColor(20, 25, 30, alpha))
+            p.setPen(QColor(176, 188, 201) if occluded else QColor(235, 240, 245))
             p.drawText(rect, Qt.AlignCenter, text)
 
     def _paint_gizmo(self, p, dark):
@@ -980,7 +980,7 @@ class Viewport(QOpenGLWidget):
             items.append((sz, cx + sx * r, cy - sy * r, label, col, v.sum() > 0))
         items.sort(key=lambda t: t[0])
         p.setPen(QPen(theme.qc(theme.BORDER, 90), 1.0) if dark else Qt.NoPen)
-        p.setBrush(theme.qc(theme.CANVAS, 110) if dark else QColor(255, 255, 255, 110))
+        p.setBrush(QColor(11, 16, 22, 180) if dark else QColor(255, 255, 255, 180))
         p.drawEllipse(QPointF(cx, cy), r + 14, r + 14)
         font = QFont(self.font())
         font.setPointSizeF(8.0)
@@ -1023,14 +1023,14 @@ class Viewport(QOpenGLWidget):
         rect = QRectF(x, y, w, h)
         path = QPainterPath()
         path.addRoundedRect(rect, 6, 6)
-        p.fillPath(path, theme.qc(theme.OVERLAY, 238))
-        p.setPen(QPen(theme.qc(theme.BORDER_STRONG), 1.0))
+        p.fillPath(path, QColor(24, 34, 45))
+        p.setPen(QPen(QColor(83, 101, 122), 1.0))
         p.drawPath(path)
         col = self.ds.systems[self.ds.system_of[sid]]["color"]
         p.fillRect(QRectF(x, y + 5, 3, h - 10), QColor.fromRgbF(*col))
-        p.setPen(theme.qc(theme.TEXT_STRONG))
+        p.setPen(QColor(235, 240, 245))
         p.setFont(font)
         p.drawText(QRectF(x + 11, y + 4, w, fm.height()), Qt.AlignLeft | Qt.AlignVCenter, text)
-        p.setPen(theme.qc(theme.MUTED))
+        p.setPen(QColor(176, 188, 201))
         p.setFont(small)
         p.drawText(QRectF(x + 11, y + 5 + fm.height(), w, fm2.height()), Qt.AlignLeft | Qt.AlignVCenter, sub)

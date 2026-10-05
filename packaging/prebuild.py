@@ -9,7 +9,7 @@
 3. A check that every in-house GLB model the catalogue describes (data/content/models) is really there - not a Git
    LFS pointer - and loads, so an installer never ships without the heart, the kidney or the cardiac muscle.
 
-Usage: python packaging/prebuild.py [--jobs N]"""
+Usage: python packaging/prebuild.py [--jobs N] [--skip-micro]"""
 import subprocess
 import sys
 import time
@@ -73,7 +73,8 @@ def models():
 def main():
     args = sys.argv[1:]
     jobs = int(args[args.index("--jobs") + 1]) if "--jobs" in args else 4
-    micro(jobs)
+    if "--skip-micro" not in args:
+        micro(jobs)
     anatomy()
     models()
 

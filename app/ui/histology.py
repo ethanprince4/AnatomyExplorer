@@ -7,7 +7,7 @@ from PySide6.QtWidgets import (QBoxLayout, QComboBox, QFrame, QGraphicsPixmapIte
                                QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
 from . import theme
-from .image_workspace import LocalImageLoader, control, matches_words, searchable_text
+from .image_workspace import LocalImageLoader, control, matches_words, searchable_text, image_control_card, CARD_TEXT, CARD_MUTED
 
 ROLE = Qt.UserRole + 1
 SEARCH_ROLE = Qt.UserRole + 2
@@ -302,6 +302,8 @@ class HistologyViewer(QWidget):
     """Center tab: large zoomable micrograph with caption and thumbnail strip."""
 
     structuresRequested = Signal(list)
+    browserRequested = Signal()
+    detailsRequested = Signal()
 
     def __init__(self, ds, content, parent=None):
         super().__init__(parent)
@@ -317,15 +319,22 @@ class HistologyViewer(QWidget):
         lay = QVBoxLayout(self)
         lay.setContentsMargins(12, 10, 12, 10)
         lay.setSpacing(8)
+        header_layout = QVBoxLayout()
         heading = QHBoxLayout()
         self.title = QLabel("Histology")
         self.title.setWordWrap(True)
-        self.title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE, 700))
+        self.title.setStyleSheet(theme.text_css(CARD_TEXT, theme.FS_TITLE, 700))
         heading.addWidget(self.title, 1)
         self.counter = QLabel()
-        self.counter.setStyleSheet(theme.text_css(theme.MUTED))
+        self.counter.setStyleSheet(theme.text_css(CARD_MUTED))
         heading.addWidget(self.counter)
-        lay.addLayout(heading)
+        self.browse_tissues = control("Browse tissues", "Browse histology tissues")
+        self.browse_tissues.clicked.connect(self.browserRequested.emit)
+        heading.addWidget(self.browse_tissues)
+        self.show_details = control("Details", "Show histology details")
+        self.show_details.clicked.connect(self.detailsRequested.emit)
+        heading.addWidget(self.show_details)
+        header_layout.addLayout(heading)
         choice_row = QHBoxLayout()
         self.image_choice = QComboBox()
         self.image_choice.setAccessibleName("Choose histology image")
@@ -339,7 +348,7 @@ class HistologyViewer(QWidget):
         self.next_image.clicked.connect(lambda: self.step(1))
         choice_row.addWidget(self.previous_image)
         choice_row.addWidget(self.next_image)
-        lay.addLayout(choice_row)
+        header_layout.addLayout(choice_row)
         self._tools_layout = QBoxLayout(QBoxLayout.LeftToRight)
         self._tools_layout.setContentsMargins(0, 0, 0, 0)
         image_tools = QHBoxLayout()
@@ -366,7 +375,9 @@ class HistologyViewer(QWidget):
         self.source.clicked.connect(self._open_source)
         reference_tools.addWidget(self.source)
         self._tools_layout.addLayout(reference_tools)
-        lay.addLayout(self._tools_layout)
+        header_layout.addLayout(self._tools_layout)
+        self.header_card = image_control_card(header_layout, "histologyControls")
+        lay.addWidget(self.header_card)
         split = QSplitter(Qt.Vertical)
         split.setChildrenCollapsible(False)
         self.view = ImageView()
@@ -374,11 +385,12 @@ class HistologyViewer(QWidget):
         self.view.zoomChanged.connect(self._zoom_changed)
         self.caption = QTextBrowser()
         self.caption.setOpenExternalLinks(True)
+        self.caption.setStyleSheet("QTextBrowser { background: #f8fafb; color: #24343d; border: 1px solid #cbd5db; border-radius: 10px; }")
         self.caption.setAccessibleName("Histology image caption and credit")
         self.caption.setMinimumHeight(100)
         self.caption.document().setDefaultStyleSheet(
-            f"body{{color:{theme.TEXT};}} .muted{{color:{theme.MUTED};}} "
-            f"a{{color:{theme.ACCENT_TEXT};text-decoration:none;}} h3{{margin:0;color:{theme.TEXT_STRONG};}}")
+            f"body{{color:{CARD_TEXT};}} .muted{{color:{CARD_MUTED};}} "
+            f"a{{color:#216582;text-decoration:none;}} h3{{margin:0;color:{CARD_TEXT};}}")
         self.caption.document().setDocumentMargin(10)
         split.addWidget(self.caption)
         split.setSizes([700, 160])
@@ -386,13 +398,14 @@ class HistologyViewer(QWidget):
         status_row = QHBoxLayout()
         self.image_status = QLabel("Choose a tissue image from the library.")
         self.image_status.setWordWrap(True)
-        self.image_status.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_CAPTION))
+        self.image_status.setStyleSheet(theme.text_css(CARD_MUTED, theme.FS_CAPTION))
         status_row.addWidget(self.image_status, 1)
         self.retry_image = control("Retry image", "Retry opening this histology image")
         self.retry_image.clicked.connect(lambda: self.tissue and self.show_image(self.index))
         self.retry_image.hide()
         status_row.addWidget(self.retry_image)
-        lay.addLayout(status_row)
+        self.status_card = image_control_card(status_row, "histologyStatus")
+        lay.addWidget(self.status_card)
 
         self.strip = QListWidget()
         self.strip.setViewMode(QListWidget.IconMode)

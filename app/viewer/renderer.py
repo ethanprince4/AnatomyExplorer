@@ -151,8 +151,14 @@ class FrameState:
     clip_planes: tuple = ((0.0, 1.0, 0.0, 0.0),) * 3
     clip_on: tuple = (False, False, False)
     clip_mode: int = 0
+    opaque_materials: bool = False             # display override; authored Looks stay unchanged
     anim_t: float = 0.0
     anim_frame: np.ndarray | None = None          # (2, n, 4): morph weights, (mode, glow, decay, rate)
+
+
+def _transparent_pass(part, ghost, alpha, frame):
+    return ghost or alpha < 0.999 or (not frame.opaque_materials and
+        (part.role == "covering" or part.look.translucent))
 
 
 class _U:
@@ -287,10 +293,12 @@ class Renderer:
             compact = self._use_geometry_layout(_can_compact_vertices(model))
             vertices = model.vertices[:, :6] if compact else model.vertices
             fmt, attrs = (STATIC_FMT, STATIC_ATTRS) if compact else (FMT, ATTRS)
-            self.vbo = ctx.buffer(np.ascontiguousarray(vertices, dtype=np.float32).tobytes())
-            self.ibo = ctx.buffer(np.ascontiguousarray(model.indices, dtype=np.uint32).tobytes())
+            # ModernGL accepts contiguous buffer objects directly. Avoid a
+            # second full-model bytes allocation on the GUI thread at upload.
+            self.vbo = ctx.buffer(np.ascontiguousarray(vertices, dtype=np.float32))
+            self.ibo = ctx.buffer(np.ascontiguousarray(model.indices, dtype=np.uint32))
             if model.anim_vertices is not None:
-                self.abo = ctx.buffer(np.ascontiguousarray(model.anim_vertices).view(np.uint8).tobytes())
+                self.abo = ctx.buffer(np.ascontiguousarray(model.anim_vertices).view(np.uint8))
             for name, p in self.geom.items():
                 buffers = [(self.vbo, fmt, *attrs)]
                 if self.abo is not None:
@@ -495,7 +503,7 @@ class Renderer:
                 c, r = m.part_sphere(p)
                 if np.any(planes[:, :3] @ c + planes[:, 3] < -r):
                     continue
-                if ghost[it] or alpha[it] < 0.999 or p.role == "covering" or p.look.translucent:
+                if _transparent_pass(p, bool(ghost[it]), float(alpha[it]), fs):
                     oit.append(p)
                 else:
                     draws.append(p)
@@ -973,7 +981,7 @@ class Renderer:
         if flat is None and fs.colours is not None:
             flat = fs.colours[it]
         u("u_base", np.array(flat if flat is not None else lk.base))
-        u("u_alpha", float(lk.alpha))
+        u("u_alpha", 1.0 if fs.opaque_materials else float(lk.alpha))
         u("u_rough", float(lk.rough))
         u("u_metal", float(lk.metal))
         u("u_f0", float(lk.f0))
@@ -1014,7 +1022,7 @@ class Renderer:
             u("u_detail", np.array(lk.detail, dtype=np.float32))
         else:
             u("u_detail_on", 0)
-        if lk.facing:
+        if lk.facing and not fs.opaque_materials:
             u("u_facing_on", 1)
             u("u_facing", np.array(lk.facing))
         else:

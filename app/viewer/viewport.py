@@ -68,6 +68,8 @@ class ModelViewport(QOpenGLWidget):
     contextMenuRequested = Signal(int, QPoint)
     frameTimed = Signal(float)
     glReady = Signal()
+    interactiveReady = Signal()
+    graphicsFailed = Signal(str)
     historyRequested = Signal(int)
     measureChanged = Signal(str)
     animChanged = Signal(float)          # cycle / clip position, 0..1
@@ -88,6 +90,8 @@ class ModelViewport(QOpenGLWidget):
         self.renderer = None
         self.ctx = None
         self.gl_info = ""
+        self.interactive_ready = False
+        self.graphics_error = ""
         self.rsettings = Settings()
         for k, v in getattr(model, "look_defaults", {}).items():
             setattr(self.rsettings, k, v)
@@ -146,11 +150,23 @@ class ModelViewport(QOpenGLWidget):
 
     # ------------------------------------------------------------------ GL lifecycle
     def initializeGL(self):
-        self.ctx = moderngl.create_context()
-        self.renderer = Renderer(self.ctx)
-        self.renderer.set_model(self.model)
-        self.gl_info = f"{self.ctx.info['GL_RENDERER']} · OpenGL {self.ctx.info['GL_VERSION'].split(' ')[0]}"
-        self.glReady.emit()
+        started = time.perf_counter()
+        self.startup_timings = {}
+        self.interactive_ready = False
+        self.graphics_error = ""
+        self._labels_dirty = True
+        self._warm_label_cache = None
+        self._fbo = self._fbo_id = None
+        try:
+            self.ctx = moderngl.create_context()
+            self.renderer = Renderer(self.ctx)
+            self.renderer.set_model(self.model)
+            self.gl_info = f"{self.ctx.info['GL_RENDERER']} · OpenGL {self.ctx.info['GL_VERSION'].split(' ')[0]}"
+            self.startup_timings["graphics_prepare_seconds"] = time.perf_counter() - started
+            self.glReady.emit()
+        except Exception as exc:
+            self.graphics_error = f"Could not prepare graphics: {exc}"
+            self.graphicsFailed.emit(self.graphics_error)
 
     def release_gl(self):
         if self.renderer is None:
@@ -193,6 +209,16 @@ class ModelViewport(QOpenGLWidget):
             s.background = BACKGROUND_DARK if st.get("dark_background", True) else BACKGROUND_LIGHT
 
     def paintGL(self):
+        if self.graphics_error:
+            return
+        try:
+            self._paint_frame()
+        except Exception as exc:
+            self.graphics_error = f"Could not draw this model: {exc}"
+            self.interactive_ready = False
+            self.graphicsFailed.emit(self.graphics_error)
+
+    def _paint_frame(self):
         if self.renderer is None:
             return
         t0 = time.perf_counter()
@@ -223,6 +249,27 @@ class ModelViewport(QOpenGLWidget):
         elif self._labels_dirty or self._moving_prev:
             self._compute_labels()
         self._moving_prev = busy
+        if (not self.interactive_ready and not moving and self._press is None
+                and self.renderer.frame_ok):
+            # Warm the same labels the user can enable, even when initially off.
+            # Retain their anchors for that first toggle; do not display them yet.
+            showing = self.labels_on
+            saved = self.label_items, self.section_items, self._occluded
+            warm_started = time.perf_counter()
+            try:
+                self.labels_on = True
+                self._compute_labels()
+            finally:
+                self.labels_on = showing
+                if not showing:
+                    self.label_items, self.section_items, self._occluded = saved
+            self.startup_timings["label_warm_seconds"] = time.perf_counter() - warm_started
+            finish_started = time.perf_counter()
+            self.ctx.finish()  # once per load, not on ordinary interactive frames
+            self.startup_timings["gpu_completion_seconds"] = time.perf_counter() - finish_started
+            self.startup_timings["initial_ready_frame_seconds"] = time.perf_counter() - t0
+            self.interactive_ready = True
+            self.interactiveReady.emit()
         self.frameTimed.emit((time.perf_counter() - t0) * 1000.0)
         self.overlay.update()
         if moving or animating:
@@ -265,7 +312,7 @@ class ModelViewport(QOpenGLWidget):
         mode = int(self.settings.get("color_mode", 0))
         colours = self._distinct if mode == 1 else (self._group_colours if mode == 2 else None)
         planes, on, cmode = self.clip_config()
-        fs = FrameState(visible=vis, ghost=ghost, alpha=alpha, selected=sel, hovered=int(st.hovered),
+        fs = FrameState(visible=vis, ghost=ghost, alpha=alpha, opaque_materials=bool(getattr(st,"opaque_materials",False)), selected=sel, hovered=int(st.hovered),
                         override=override, colours=colours, clip_planes=planes, clip_on=on, clip_mode=cmode)
         if self.anim_kind() == "procedural":
             fs.anim_t = self.anim_t
@@ -419,6 +466,7 @@ class ModelViewport(QOpenGLWidget):
         rec = m.cameras.get(name)
         if rec is None:
             return
+        self.state.opaque_materials = False
         self.camera.set_record(rec, duration=self.duration() if animate else 0.0,
                                zoom_path=m.sidecar.get("view_transition") == "zoom",
                                fit=(m.bounds_min, m.bounds_max, self.aspect()))
@@ -669,6 +717,12 @@ class ModelViewport(QOpenGLWidget):
             and self.settings.get("show_landmarks", True)
         if not hosts and not want_sections:
             return
+        cache_key = self._label_cache_key()
+        cached = getattr(self, "_warm_label_cache", None)
+        if cached is not None and cached[0] == cache_key:
+            self.label_items, self.section_items = list(cached[1]), list(cached[2])
+            self._occluded = dict(cached[3])
+            return
         rw, rh = self.renderer.size
         k = max(1, int(round(min(rw, rh) / 420)))
         center_ids = None
@@ -732,6 +786,19 @@ class ModelViewport(QOpenGLWidget):
             self.section_items = res
         if center_ids is None and (self.label_items or self.section_items):
             self._check_occlusion()
+        self._warm_label_cache = (cache_key, list(self.label_items), list(self.section_items), dict(self._occluded))
+
+    def _label_cache_key(self):
+        state = self.state
+        arrays = tuple(None if getattr(state, name, None) is None else
+                       np.asarray(getattr(state, name)).tobytes()
+                       for name in ("ghost_focus", "part_alpha", "system_alpha"))
+        return (self.renderer.last_vp.tobytes(), self.renderer.size,
+                state.visible_mask().tobytes(), tuple(state.selected), arrays, bool(getattr(state,"opaque_materials",False)),
+                repr(self.clip_config()), self.explode, self.anim_t, self.reveal_state,
+                self.reveal_amount, bool(self.labels_on), bool(self.names_hidden()),
+                tuple(self.settings.get(name) for name in ("max_landmarks", "max_section_labels",
+                                                           "section_labels", "show_landmarks")))
 
     def _anchor(self, ids_s, item, flags_s, k, depth, edt, center_ids=None):
         mask = ids_s == item

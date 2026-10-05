@@ -356,7 +356,9 @@ class PracticeController:
         self.dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable |
                               QDockWidget.DockWidgetClosable)
         self.panel.setMinimumWidth(300)
-        self.win.addDockWidget(Qt.RightDockWidgetArea, self.dock)
+        if not hasattr(self.win,'_floating_panels'):self.win.dock_side_panels()
+        self.win._floating_panels.register(self.dock,wrap_content=False,preferred_width=420)
+        self.panel.stack.currentChanged.connect(lambda _:self.win._floating_panels.layout())
         self.dock.visibilityChanged.connect(self._dock_visibility)
 
     def _dock_visibility(self, visible):
@@ -374,6 +376,7 @@ class PracticeController:
         if not self.active:
             self._saved = {k: self.win.settings.get(k) for k in ("show_landmarks", "show_hover_tooltip")}
             self._saved["details_visible"] = self.win.right_dock.isVisible()
+            self._saved["explore_visible"] = self.win.left_dock.isVisible()
             self._snapshot = capture_scene(self.win)
         self._end_item()
         self.lesson = lesson
@@ -390,6 +393,7 @@ class PracticeController:
         self.results = []
         self.active = True
         self.win.right_dock.hide()            # the details panel names whatever is selected
+        self.win.left_dock.hide()
         self.dock.show()
         self.dock.raise_()
         self.panel.where.setText(("Retrying missed · " if self.retrying else "") + lesson.title)
@@ -413,6 +417,7 @@ class PracticeController:
         if self.dock is not None:
             self.dock.hide()
         self.win.right_dock.setVisible(self._saved.get("details_visible", True))
+        self.win.left_dock.setVisible(self._saved.get("explore_visible", True))
 
     def _prepare(self, pool):
         """Keep the items this install can actually ask, with their atlas structures resolved."""

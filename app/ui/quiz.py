@@ -348,7 +348,9 @@ class QuizController:
         self.dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable |
                               QDockWidget.DockWidgetClosable)
         self.panel.setMinimumWidth(300)
-        self.win.addDockWidget(Qt.RightDockWidgetArea, self.dock)
+        if not hasattr(self.win,'_floating_panels'):self.win.dock_side_panels()
+        self.win._floating_panels.register(self.dock,wrap_content=False,preferred_width=420)
+        self.panel.stack.currentChanged.connect(lambda _:self.win._floating_panels.layout())
         self.dock.visibilityChanged.connect(self._dock_visibility)
 
     def _dock_visibility(self, visible):

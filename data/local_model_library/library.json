@@ -1,0 +1,450 @@
+{
+  "schema": "ae.local-library.v1",
+  "models": {
+    "axillary_skin": {
+      "name": "Axillary Skin",
+      "variants": {
+        "post": {
+          "path": "models/axillary_skin/e0887645affb/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "bladder_wall": {
+      "name": "Bladder Wall",
+      "variants": {
+        "post": {
+          "path": "models/bladder_wall/4a5222071561/refined.npz",
+          "format": "npz",
+          "companions": {
+            "umbrella_hosts": "models/bladder_wall/bcf948a8054f/companions/umbrella_hosts.npz",
+            "construction": "models/bladder_wall/bcf948a8054f/companions/construction.json"
+          },
+          "status": "review_candidate"
+        }
+      }
+    },
+    "blood_cells": {
+      "name": "Blood Cells",
+      "variants": {
+        "post": {
+          "path": "models/blood_cells/3b58d8a3f59d/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "colon_wall": {
+      "name": "Colon Wall",
+      "variants": {
+        "post": {
+          "path": "models/colon_wall/8ad999c7658f/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "compact_bone": {
+      "name": "Compact Bone",
+      "variants": {
+        "post": {
+          "path": "models/compact_bone/159bb68feef0/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "cornea": {
+      "name": "Cornea",
+      "variants": {
+        "post": {
+          "path": "models/cornea/5943deb05caf/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "duodenum": {
+      "name": "Duodenum",
+      "variants": {
+        "post": {
+          "path": "models/duodenum/e0b01338c9a1/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "ear": {
+      "name": "Ear",
+      "variants": {
+        "post": {
+          "path": "models/ear/cf0bdd3056f0/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "elastic_artery": {
+      "name": "Elastic Artery",
+      "variants": {
+        "post": {
+          "path": "models/elastic_artery/d0af3614790f/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "eyeball": {
+      "name": "Eye",
+      "variants": {
+        "post": {
+          "path": "models/eyeball/a8bdd89290cd/refined.npz",
+          "format": "npz",
+          "companions": {
+            "viewer": "models/eyeball/d8382ad7c638/companions/eyeball_refined.viewer.json"
+          },
+          "status": "review_candidate"
+        }
+      }
+    },
+    "female_reproductive": {
+      "name": "Female reproductive system",
+      "variants": {
+        "post": {
+          "path": "models/female_reproductive/0141a77f95ce/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "hepatobiliary": {
+      "name": "Hepatobiliary system",
+      "variants": {
+        "post": {
+          "path": "models/hepatobiliary/dcd377da9885/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "ileocecal_rectum": {
+      "name": "Ileocecal region and rectum",
+      "variants": {
+        "post": {
+          "path": "models/ileocecal_rectum/d3b392326303/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "ileum": {
+      "name": "Ileum",
+      "variants": {
+        "post": {
+          "path": "models/ileum/063bc534d1a6/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "jejunum_comparison_c": {
+      "name": "Jejunum",
+      "variants": {
+        "post": {
+          "path": "models/jejunum_comparison_c/484c811a76cc/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "kidney_nephron": {
+      "name": "Kidney",
+      "variants": {
+        "post": {
+          "path": "models/kidney_nephron/3e4d8aea2acb/refined.glb",
+          "format": "glb",
+          "companions": {
+            "viewer": "models/kidney_nephron/36cc1a3af2b0/companions/kidney.viewer.json"
+          },
+          "status": "review_candidate"
+        }
+      }
+    },
+    "kidney_section": {
+      "name": "Kidney Section",
+      "variants": {
+        "post": {
+          "path": "models/kidney_section/6e83861de9cd/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "liver_lobule": {
+      "name": "Liver Lobule",
+      "variants": {
+        "post": {
+          "path": "models/liver_lobule/5fe01c52d05e/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "lung_acinus": {
+      "name": "Lung acinus",
+      "variants": {
+        "post": {
+          "path": "models/lung_acinus/6ed183f32101/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "lung_acinus_review_v2": {
+      "name": "Lung acinus (version 2)",
+      "variants": {
+        "post": {
+          "path": "models/lung_acinus_review_v2/1284fc168307/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "lymph_node": {
+      "name": "Lymph Node",
+      "variants": {
+        "post": {
+          "path": "models/lymph_node/0326a6c72dd7/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "male_reproductive": {
+      "name": "Male reproductive system",
+      "variants": {
+        "post": {
+          "path": "models/male_reproductive/38331ea57e11/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "muscular_artery": {
+      "name": "Muscular Artery",
+      "variants": {
+        "post": {
+          "path": "models/muscular_artery/1a12d0347b80/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "oesophagus_wall": {
+      "name": "Oesophagus Wall",
+      "variants": {
+        "post": {
+          "path": "models/oesophagus_wall/83a68d1b405a/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "pancreas": {
+      "name": "Pancreas",
+      "variants": {
+        "post": {
+          "path": "models/pancreas/530d4968f283/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "peripheral_nerve": {
+      "name": "Peripheral Nerve",
+      "variants": {
+        "post": {
+          "path": "models/peripheral_nerve/44acc532a688/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "retina": {
+      "name": "Retina",
+      "variants": {
+        "post": {
+          "path": "models/retina/b1ef9f253212/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "scalp": {
+      "name": "Scalp",
+      "variants": {
+        "post": {
+          "path": "models/scalp/628b80ae2907/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "skeletal_muscle": {
+      "name": "Skeletal Muscle",
+      "variants": {
+        "post": {
+          "path": "models/skeletal_muscle/d286fb774f3d/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "spleen": {
+      "name": "Spleen",
+      "variants": {
+        "post": {
+          "path": "models/spleen/a83a66609161/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "stomach_wall": {
+      "name": "Stomach Wall",
+      "variants": {
+        "post": {
+          "path": "models/stomach_wall/ff90c5adcf0b/refined.npz",
+          "format": "npz",
+          "companions": {
+            "functional_sequences": "models/stomach_wall/cc9590d07e70/companions/functional_sequences.json"
+          },
+          "status": "review_candidate"
+        }
+      }
+    },
+    "thick_skin": {
+      "name": "Thick Skin",
+      "variants": {
+        "post": {
+          "path": "models/thick_skin/a43f61f4976e/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "thin_skin": {
+      "name": "Thin Skin",
+      "variants": {
+        "post": {
+          "path": "models/thin_skin/609444a2d8f4/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "thyroid_follicles": {
+      "name": "Thyroid follicles",
+      "variants": {
+        "post": {
+          "path": "models/thyroid_follicles/325524f584a9/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "thyroid_parathyroid_review_v2": {
+      "name": "Thyroid and parathyroid",
+      "variants": {
+        "post": {
+          "path": "models/thyroid_parathyroid_review_v2/786092507f45/refined.npz",
+          "format": "npz",
+          "companions": {
+            "bundle": "models/thyroid_parathyroid_review_v2/c1acc6ff85e9/companions/BUNDLE.json",
+            "teaching_views": "models/thyroid_parathyroid_review_v2/c1acc6ff85e9/companions/teaching_views.json",
+            "vessel_paths": "models/thyroid_parathyroid_review_v2/c1acc6ff85e9/companions/vessel_paths.json",
+            "colors": "models/thyroid_parathyroid_review_v2/c1acc6ff85e9/companions/vertex_colors.npz"
+          },
+          "status": "review_candidate"
+        }
+      }
+    },
+    "tongue_papillae": {
+      "name": "Tongue Papillae",
+      "variants": {
+        "post": {
+          "path": "models/tongue_papillae/3718a8afe90d/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "tooth": {
+      "name": "Tooth",
+      "variants": {
+        "post": {
+          "path": "models/tooth/3f6f4b342b21/refined.npz",
+          "format": "npz",
+          "companions": {
+            "viewer": "models/tooth/7b89f01a8573/companions/tooth.teaching.json"
+          },
+          "status": "review_candidate"
+        }
+      }
+    },
+    "trachea_wall": {
+      "name": "Trachea Wall",
+      "variants": {
+        "post": {
+          "path": "models/trachea_wall/322be5018b26/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    },
+    "vein_wall": {
+      "name": "Vein Wall",
+      "variants": {
+        "post": {
+          "path": "models/vein_wall/96bed5c6d217/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate"
+        }
+      }
+    }
+  }
+}

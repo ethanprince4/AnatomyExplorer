@@ -88,7 +88,7 @@ class ModelView(QWidget):
         if cut is not None:
             from ..viewer.procedural import cutaway_planes
             self.gl_widget.cut_planes = cutaway_planes(cut)
-            self.gl_widget.cut_on = bool(cut["on"])
+            self.gl_widget.cut_on = False
         self._view_names = list(m.camera_order)
 
         lay = QVBoxLayout(self)
@@ -139,7 +139,7 @@ class ModelView(QWidget):
         self.state.visibility_changed.connect(self._sync_tree)
         self.state.selection_changed.connect(self._show_selection)
         self._sync_tree()
-        QTimer.singleShot(0, self, lambda: self.reset_view(animate=False))
+        self.reset_view(animate=False)
         self.runtime_session = None
         self.runtime_opening_done = True
         self.runtime_opening_error = ""
@@ -152,13 +152,39 @@ class ModelView(QWidget):
                     self.teaching_controls.set_session(self.runtime_session)
                     self.runtime_opening_done = False
                     # Home reset, then authored opening, then lesson/practice on_ready.
-                    QTimer.singleShot(0, self, self._runtime_opening)
+                    self._runtime_opening()
             except Exception as exc:
                 if not local:
                     raise
                 self.runtime_session = None
                 self.teaching_controls.setToolTip('Some teaching controls are unavailable for this saved model: '+str(exc))
                 self.vmodel.runtime_warnings = list(getattr(self.vmodel, 'runtime_warnings', []))+[str(exc)]
+
+        # The GL widget stays visible beneath a sibling cover while it uploads
+        # geometry and warms its first frame. Never publish a half-ready view.
+        if hasattr(g,'interactiveReady'):
+            g.interactiveReady.connect(self._graphics_ready)
+            g.graphicsFailed.connect(self._graphics_failed)
+            self.studio.set_loading(not getattr(g,'interactive_ready',False),getattr(g,'graphics_error',''))
+
+    def _graphics_ready(self):
+        self.studio.set_loading(False)
+
+    def _graphics_failed(self,message):
+        self.studio.set_loading(True,error=message)
+
+    def _fully_visible(self):
+        state=self.state
+        state.opaque_materials=True
+        state.hidden[:]=False;state.forced[:]=False;state.isolated=None;state.ghost_focus=None
+        state.system_on[:]=True;state.subsystem_on[:]=True;state.region_on[:]=True
+        state.system_alpha[:]=1.0;state.part_alpha=np.ones(len(self.vmodel.items),dtype=np.float32)
+        state.depth_cut=0.0;state.depth_band=0.0
+        self.gl_widget.cut_on=False
+        if getattr(self,'cut',None) is not None:self.cut.setChecked(False)
+        if getattr(self,'opacity',None) is not None:self.opacity.setValue(100)
+        self.clear_sections()
+        state._vis_dirty()
 
     def _compact_reveal(self, advanced):
         body = QWidget()
@@ -194,9 +220,9 @@ class ModelView(QWidget):
         row.addWidget(cut)
         reset = QPushButton("Reset")
         def reset_reveal():
-            if self.opacity is not None:self.opacity.setValue(50)
+            if self.opacity is not None:self.opacity.setValue(100)
             self.explode.setValue(0)
-            if self.cut is not None:self.cut.setChecked(bool(getattr(self.vmodel,'cutaway',{}).get('on',False)))
+            if self.cut is not None:self.cut.setChecked(False)
         reset.clicked.connect(reset_reveal)
         row.addWidget(reset)
         more = QPushButton("More controls")
@@ -233,6 +259,7 @@ class ModelView(QWidget):
         except Exception as exc:
             self.runtime_opening_error = str(exc)
         finally:
+            self._fully_visible()
             self.runtime_opening_done = True
 
     # ------------------------------------------------------------------ side panel
@@ -576,9 +603,8 @@ class ModelView(QWidget):
             self.opacity.setFixedWidth(110)
             self.opacity.valueChanged.connect(self._opacity)
             # Apply the default to tissue layers before the first frame.
-            self.opacity.setValue(50)
-            self.opacity.setToolTip("Tissue layers start at 50% opacity; 100% is fully opaque. "
-                                    "Other structures keep their own opacity.")
+            self.opacity.setValue(100)
+            self.opacity.setToolTip("All parts start fully opaque. This slider adjusts tissue layers.")
             bar.addWidget(labelled("Tissue opacity", self.opacity))
         self.explode = QSlider(Qt.Horizontal)
         self.explode.setRange(0, 100)
@@ -825,6 +851,7 @@ class ModelView(QWidget):
     # ------------------------------------------------------------------ views and states
     def reset_view(self, animate=True):
         self.gl_widget.reset_view(animate=animate)
+        self._fully_visible()
 
     def set_named_view(self, name):
         self.gl_widget.set_named_view(name)
@@ -1025,6 +1052,7 @@ class ModelView(QWidget):
         Returns the names that are not parts of this model."""
         sids, missing = self.part_ids(names)
         if sids:
+            self.state.opaque_materials=False
             self.state.set_hidden(sids, False)
             self.state.select(sids)
             self.state.set_ghost_focus(sids)

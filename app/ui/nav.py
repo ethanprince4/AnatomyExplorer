@@ -71,7 +71,12 @@ class NavTabWidget(QTabWidget):
     # the nav lives outside the tab widget, so it has to follow it in and out of view
     def setVisible(self, visible):
         super().setVisible(visible)
-        self.nav.setVisible(visible)
+        self.nav.setVisible(visible and not getattr(self, "_reading_mode", False))
+
+    def set_reading_mode(self, active):
+        """Let lesson content use the rail while its own All lessons link stays available."""
+        self._reading_mode = bool(active)
+        self.nav.setVisible(not self.isHidden() and not self._reading_mode)
 
     def tabInserted(self, index):
         super().tabInserted(index)

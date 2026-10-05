@@ -89,6 +89,11 @@ Protected/custom frozen readers keep their own verification and decoding rules.
 def prepare_model(entry, token):
     with load_scope(token):
         from ..variants.catalog import DeferredVariantEntry, VariantPreferenceCommit
+        if not isinstance(entry, VariantPreferenceCommit):
+            # This first import can take hundreds of milliseconds. Do it while
+            # the loading indicator is present, on the existing CPU worker.
+            from scipy.ndimage import distance_transform_edt  # noqa: F401
+            checkpoint()
         if isinstance(entry, (DeferredVariantEntry, VariantPreferenceCommit)):
             return entry.prepare_cpu(token)
         from ..variants.anatomy_runtime_adapters import VariantEntry

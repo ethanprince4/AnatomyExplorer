@@ -56,7 +56,22 @@ class StudioScene(QWidget):
         self.tools['reveal'].setChecked(True)
         self._building=False
         self._initializing=False
+        self.loading_cover=QFrame(self)
+        self.loading_cover.setObjectName('studioLoadingCover')
+        self.loading_cover.setStyleSheet('QFrame#studioLoadingCover { background: rgba(20,27,34,245); } QLabel { color: #eef3f6; background: transparent; }')
+        loading_layout=QVBoxLayout(self.loading_cover);loading_layout.setContentsMargins(40,40,40,40);loading_layout.addStretch()
+        self.loading_title=QLabel('Preparing model…');self.loading_title.setWordWrap(True);self.loading_title.setStyleSheet('color: #eef3f6; font-size: 26px; font-weight: 600;')
+        self.loading_note=QLabel('Preparing the 3D view and labels. You can keep using other tabs.');self.loading_note.setWordWrap(True)
+        loading_layout.addWidget(self.loading_title);loading_layout.addWidget(self.loading_note);loading_layout.addStretch()
+        self.loading_cover.hide()
         self.setMinimumSize(340,240)
+
+    def set_loading(self,on,error=''):
+        for widget in [self.viewport,self.dock,self.teaching,*self.cards.values(),self.selection]:widget.setEnabled(not on)
+        self.loading_title.setText('Could not prepare the 3D view' if error else 'Preparing model…')
+        self.loading_note.setText((str(error)+'\n\nClose this tab and try again.') if error else 'Preparing the 3D view and labels. You can keep using other tabs.')
+        self.loading_cover.setVisible(on)
+        self.arrange()
 
     def _card(self,title,content,name,key=None):
         card=QFrame(self);card.setObjectName(name);card.setProperty('studioRole','surface');card.setAccessibleName(title+' instrument')
@@ -192,4 +207,6 @@ class StudioScene(QWidget):
             self.breadcrumb.raise_();self.subject.raise_();self.summary.raise_();self.status.raise_()
             for card in self.cards.values():card.raise_()
             self.teaching.raise_();self.selection.raise_();self.dock.raise_()
+            if hasattr(self,"loading_cover"):
+                self.loading_cover.setGeometry(self.rect());self.loading_cover.raise_()
         finally:self._laying_out=False

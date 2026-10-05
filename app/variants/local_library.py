@@ -54,6 +54,8 @@ class LocalLibrary:
             fields=dict(name=row.get('name',mid.replace('_',' ').title()),summary='',targets={},histology=[],
                         related=[],clinical=[],scale_note='',aliases={},credit_html='',order=100)
             fields.update({key:row[key] for key in fields if key in row})
+            from .display_names import display_name
+            fields['name'] = display_name(mid, fields['name'])
             result.append(SimpleNamespace(id=mid,variants=variants,**fields))
         self.expected_model_ids=tuple(meta.id for meta in result)
         self._metadata={meta.id:meta for meta in result}

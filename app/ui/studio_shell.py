@@ -127,6 +127,7 @@ class CollectionWorkspace(QWidget):
 
 def atlas_dock(window):
     host=QWidget();host.setObjectName('studioAtlasTools');host.setAttribute(Qt.WA_StyledBackground,True)
+    host.setStyleSheet('QWidget#studioAtlasTools {background:transparent;border:none;}')
     holder=QHBoxLayout(host);holder.setContentsMargins(20,10,20,16);holder.addStretch()
     dock=QWidget(host);dock.setObjectName('dock');dock.setAttribute(Qt.WA_StyledBackground,True);row=QHBoxLayout(dock)
     row.setContentsMargins(14,8,14,8);row.addStretch()
@@ -148,7 +149,7 @@ class FloatingPanels:
     def __init__(self, window):
         self.window = window
         self.host = window.workspace
-        self.panels = (window.left_dock, window.right_dock)
+        self.panels = []
         from PySide6.QtCore import QObject,QEvent
         owner=self
         class ResizeFilter(QObject):
@@ -159,28 +160,46 @@ class FloatingPanels:
                 return False
         self.filter=ResizeFilter(self.host)
         self.host.installEventFilter(self.filter)
-        for panel in self.panels:
-            was_visible=not panel.isHidden()
-            window.removeDockWidget(panel)
-            panel.setParent(self.host,Qt.Widget)
-            panel.installEventFilter(self.filter)
-            panel.setAllowedAreas(Qt.NoDockWidgetArea)
-            panel.setFeatures(QDockWidget.DockWidgetClosable)
-            panel.setAttribute(Qt.WA_StyledBackground,True)
-            panel.setStyleSheet('QDockWidget {background:#f8fafb;border:1px solid #94a6b1;border-radius:14px;}')
-            title=QWidget(panel);title.setAttribute(Qt.WA_StyledBackground,True)
-            title.setStyleSheet('background:#f8fafb;border:none;border-top-left-radius:14px;border-top-right-radius:14px;')
-            row=QHBoxLayout(title);row.setContentsMargins(14,10,10,8)
-            label=QLabel(panel.windowTitle());label.setStyleSheet('color:#24343d;font-size:16px;font-weight:600;');row.addWidget(label);row.addStretch()
-            close=QPushButton('Close');close.setAccessibleName('Close '+panel.windowTitle());close.clicked.connect(panel.hide);row.addWidget(close)
-            panel.setTitleBarWidget(title)
-            content=panel.widget()
+        for panel in (window.left_dock,window.right_dock):self.register(panel)
+        window.tabs.currentChanged.connect(self.update_title)
+        self.update_title()
+        self.layout()
+    def register(self,panel,*,wrap_content=True,preferred_width=None):
+        if panel in self.panels:return
+        self.panels.append(panel)
+        panel._studio_width=preferred_width
+        was_visible=not panel.isHidden()
+        self.window.removeDockWidget(panel)
+        panel.setParent(self.host,Qt.Widget)
+        panel.installEventFilter(self.filter)
+        panel.setAllowedAreas(Qt.NoDockWidgetArea)
+        panel.setFeatures(QDockWidget.DockWidgetClosable)
+        panel.setAttribute(Qt.WA_StyledBackground,True)
+        panel.setStyleSheet('QDockWidget {background:#f8fafb;border:1px solid #94a6b1;border-radius:14px;}')
+        title=QWidget(panel);title.setAttribute(Qt.WA_StyledBackground,True)
+        title.setStyleSheet('background:#f8fafb;border:none;border-top-left-radius:14px;border-top-right-radius:14px;')
+        row=QHBoxLayout(title);row.setContentsMargins(14,10,10,8)
+        label=QLabel(panel.windowTitle());panel._studio_title=label;label.setStyleSheet('color:#24343d;font-size:16px;font-weight:600;');row.addWidget(label);row.addStretch()
+        close=QPushButton('Close');close.setAccessibleName('Close '+panel.windowTitle());close.clicked.connect(panel.hide);row.addWidget(close)
+        panel.setTitleBarWidget(title)
+        content=panel.widget();panel._studio_content=content
+        if wrap_content:
             scroll=QScrollArea(panel);scroll.setWidgetResizable(True)
             scroll.setFrameShape(QFrame.NoFrame);scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
             scroll.setWidget(content);panel.setWidget(scroll)
-            panel.visibilityChanged.connect(lambda visible,p=panel: self.shown(p,visible))
-            panel.setVisible(was_visible)
+        panel.visibilityChanged.connect(lambda visible,p=panel: self.shown(p,visible))
+        panel.setVisible(was_visible)
         self.layout()
+
+    def update_title(self,*_):
+        tabs=self.window.tabs
+        page=tabs.tabText(tabs.currentIndex()) if tabs.currentIndex()>=0 else 'Explore'
+        title={'Lessons':'Learn','View':'View tools','Tree':'Anatomy tree'}.get(page,page)
+        panel=self.window.left_dock
+        panel.setWindowTitle(title or 'Explore')
+        panel._studio_title.setText(title or 'Explore')
+        close=panel.titleBarWidget().findChild(QPushButton)
+        if close is not None:close.setAccessibleName('Close '+(title or 'Explore'))
     def clip(self,panel):
         # QWidget masks clip descendant scroll viewports too, unlike QSS radius.
         from PySide6.QtCore import QRectF
@@ -202,11 +221,16 @@ class FloatingPanels:
             top += 100
         available=max(120,h-top-20)
         for index,panel in enumerate(self.panels):
-            content=panel.widget().widget()
+            content=panel._studio_content
             minimum=content.minimumSizeHint().width() + 26
-            preferred=max(400 if index else 450, minimum)
+            preferred=panel._studio_width or max(400 if index else 450, minimum)
             width=min(preferred,max(240,w-40))
             x=max(20,w-width-20) if index else 20
-            panel.setGeometry(x,top,width,min(760,available))
+            height=min(760,available)
+            if panel._studio_width is not None:
+                # Question body already scrolls; keep its footer outside that scroll.
+                hint=content.sizeHint().height()+panel.titleBarWidget().sizeHint().height()
+                height=min(max(440,hint),680,available)
+            panel.setGeometry(x,top,width,height)
             if panel.mask().isEmpty():self.clip(panel)
             if not panel.isHidden():panel.raise_()

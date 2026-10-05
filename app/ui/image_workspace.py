@@ -4,7 +4,7 @@ from threading import Event
 
 from PySide6.QtCore import QObject, QRunnable, QThreadPool, Signal, Slot, Qt
 from PySide6.QtGui import QImage, QImageReader
-from PySide6.QtWidgets import QPushButton, QSizePolicy
+from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget
 
 
 _IMAGE_POOL = QThreadPool()
@@ -92,3 +92,27 @@ def matches_words(query, text):
     """Order-independent terms: 'kidney ct' finds the authored CT kidney case."""
     haystack = text.casefold()
     return all(word in haystack for word in query.strip().casefold().split())
+
+
+CARD_TEXT = "#24343d"
+CARD_MUTED = "#526570"
+
+def image_control_card(layout, name):
+    """Opaque controls above the dark image canvas, independent of app theme."""
+    card = QWidget()
+    card.setObjectName(name)
+    card.setAttribute(Qt.WA_StyledBackground, True)
+    card.setStyleSheet(f"""
+        QWidget#{name} {{ background: #f8fafb; color: {CARD_TEXT};
+            border: 1px solid #cbd5db; border-radius: 12px; }}
+        QWidget#{name} QLabel, QWidget#{name} QCheckBox {{
+            background: transparent; color: {CARD_TEXT}; border: none; }}
+        QWidget#{name} QPushButton, QWidget#{name} QComboBox {{
+            background: #ffffff; color: {CARD_TEXT}; border: 1px solid #cbd5db;
+            border-radius: 6px; padding: 5px 9px; }}
+        QWidget#{name} QPushButton:hover {{ background: #e5eef2; }}
+        QWidget#{name} QPushButton:disabled {{ color: #76858e; }}
+    """)
+    layout.setContentsMargins(12, 9, 12, 9)
+    card.setLayout(layout)
+    return card

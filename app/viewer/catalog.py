@@ -251,6 +251,10 @@ def load_meta(folder=META_DIR):
 
 
 def load_catalog():
-    """Expose only the validated active new generation; original files remain untouched."""
+    """Combine refined library entries with the two protected authored models."""
     from ..variants.catalog import load_active_catalog
-    return load_active_catalog()
+    catalog = load_active_catalog()
+    for meta in load_meta():
+        if meta['id'] in ('whole_heart', 'cardiac_muscle'):
+            catalog[meta['id']] = GlbEntry(meta)
+    return catalog

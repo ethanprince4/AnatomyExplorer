@@ -97,6 +97,27 @@ class WorkspaceTests(unittest.TestCase):
     def viewer(self):
         return self.own(HistologyViewer(self.ds, self.content))
 
+    def test_image_controls_have_opaque_readable_cards(self):
+        from app.ui import theme
+        from app.ui.image_workspace import CARD_TEXT
+        # A dark image canvas must not inherit dark title/control text without a surface.
+        histology = self.viewer()
+        radiology = self.own(RadiologyPanel())
+        for panel, card, label in (
+            (histology, histology.header_card, histology.title),
+            (histology, histology.status_card, histology.image_status),
+            (radiology, radiology.header_card, radiology.title),
+            (radiology, radiology.controls_card, radiology.zoom_label),
+        ):
+            self.assertTrue(card.testAttribute(Qt.WA_StyledBackground))
+            self.assertTrue(card.isAncestorOf(label))
+            self.assertIn("#f8fafb", card.styleSheet())
+            card.ensurePolished()
+            label.ensurePolished()
+            self.assertEqual(label.palette().color(label.foregroundRole()).name(),
+                             CARD_TEXT if label is not histology.image_status else "#526570")
+        self.assertIn("#f8fafb", histology.caption.styleSheet())
+
     def test_full_authored_inventory_remains_discoverable(self):
         browser = self.browser()
         self.assertTrue(self.authored_ids)

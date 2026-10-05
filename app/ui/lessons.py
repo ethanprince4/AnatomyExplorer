@@ -445,7 +445,9 @@ class LessonsPanel(QWidget):
         row = QHBoxLayout()
         row.addWidget(self.learn_btn, 1)
         row.addWidget(self.practice_btn, 1)
-        lay.addLayout(row)
+        # Primary actions stay immediately below the title. The overview itself
+        # scrolls, so starting/resuming does not depend on reaching its bottom.
+        lay.insertLayout(3, row)
         self.length_row = QWidget()
         lr = QHBoxLayout(self.length_row)
         lr.setContentsMargins(0, 0, 0, 0)

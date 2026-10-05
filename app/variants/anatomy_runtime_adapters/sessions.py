@@ -4,7 +4,7 @@ from copy import deepcopy
 from .runtime import _hook
 from .registry import HERE,contract
 
-STATE_FIELDS=('hidden','forced','isolated','ghost_focus','depth_cut','depth_band','selected','hovered','system_alpha','system_on','subsystem_on','region_on','_undo','custom_colors','part_alpha')
+STATE_FIELDS=('hidden','forced','isolated','ghost_focus','depth_cut','depth_band','selected','hovered','system_alpha','system_on','subsystem_on','region_on','_undo','custom_colors','part_alpha','opaque_materials')
 VIEW_FIELDS=('sections','cut_on','cut_planes','labels_on','explode','reveal_state','reveal_amount','reveal_target','playing','auto_rotate','anim_t','_last_frame_time')
 CAMERA_FIELDS=('target','distance','yaw','pitch','fov','ortho','ortho_width','_anim')
 
@@ -51,6 +51,7 @@ class RuntimeSession:
 
     def _reset(self):
         self._live();g=self.viewport;s=self.state
+        s.opaque_materials=False
         for method,args in (('set_playing',(False,)),('set_explode',(0.0,))):
             fn=getattr(g,method,None)
             if callable(fn):fn(*args)
@@ -130,6 +131,7 @@ class RuntimeSession:
 
     def function(self,sequence_id,step_index=0):
         self._live()
+        self.state.opaque_materials=False
         if type(step_index) is not int or step_index<0:raise ValueError('Function step must be a nonnegative integer')
         self.busy=True
         try:

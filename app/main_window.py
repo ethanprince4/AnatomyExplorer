@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 
 import numpy as np
-from PySide6.QtCore import QByteArray, QEvent, QSettings, QSize, QStandardPaths, Qt, QTimer, QUrl
+from PySide6.QtCore import QByteArray, QEvent, QPoint, QSettings, QSize, QStandardPaths, Qt, QTimer, QUrl
 from PySide6.QtGui import QAction, QActionGroup, QColor, QDesktopServices, QGuiApplication, QKeySequence
 from PySide6.QtWidgets import (QApplication, QColorDialog, QDockWidget, QFileDialog, QInputDialog, QLabel,
                                QListWidget, QMainWindow, QMenu, QMessageBox, QPushButton, QSizePolicy, QSplitter,
@@ -128,6 +128,7 @@ class MainWindow(QMainWindow):
         self.viewport = Viewport(ds, self.state, self.settings)
         self.radiology_panel = None
         self.anatomy_tab = QSplitter(Qt.Horizontal)
+        self.anatomy_tab.splitterMoved.connect(lambda *_: self._layout_studio_chrome())
         self.anatomy_tab.setChildrenCollapsible(False)
         self.anatomy_tab.setHandleWidth(6)
         self.anatomy_tab.setAccessibleName("Radiology and anatomy comparison")
@@ -306,6 +307,9 @@ class MainWindow(QMainWindow):
             self.radiology_panel.sceneRequested.connect(self.apply_radiology_scene)
             self.radiology_panel.closeRequested.connect(self.close_radiology)
             self.radiology_panel.caseStepped.connect(self.step_radiology)
+            self.radiology_panel.browserRequested.connect(
+                lambda: self._show_nav_page(self.radiology_browser))
+            self.radiology_panel.detailsRequested.connect(self.right_dock.show)
         self.state.visibility_changed.connect(self.viewport.refresh_section)
         self.view_panel.settingsRequested.connect(self.open_settings)
         self.state.visibility_changed.connect(self._update_counts)
@@ -678,9 +682,15 @@ class MainWindow(QMainWindow):
             return
         w, h = self.workspace.width(), self.workspace.height()
         self.studio_header.subject.setGeometry(28, self.studio_header.geometry().bottom()+18, max(1,w-56), 84)
-        width=min(max(640,self.studio_tools.sizeHint().width()),max(1,w-32))
+        origin=0
+        available=w
+        if (self.center.currentWidget() is self.anatomy_tab and self.radiology_panel is not None
+                and not self.radiology_panel.isHidden()):
+            origin=self.viewport.mapTo(self.workspace,QPoint(0,0)).x()
+            available=self.viewport.width()
+        width=min(max(640,self.studio_tools.sizeHint().width()),max(1,available-32))
         height=self.studio_tools.sizeHint().height()
-        self.studio_tools.setGeometry((w-width)//2,max(0,h-height-12),width,height)
+        self.studio_tools.setGeometry(origin+(available-width)//2,max(0,h-height-12),width,height)
         self.studio_header.subject.raise_()
         self.studio_tools.raise_()
 
@@ -750,6 +760,10 @@ class MainWindow(QMainWindow):
     def show_command_palette(self):
         actions = list(self.cmds.actions.values()) + list(self.workspace_actions)
         actions.extend((self.left_dock.toggleViewAction(), self.right_dock.toggleViewAction()))
+        for menu in self.findChildren(QMenu):
+            for action in menu.actions():
+                if action.menu() is None and action not in actions:
+                    actions.append(action)
         CommandPalette(actions, self).exec()
 
     def _save_theme_preference(self, name):
@@ -780,7 +794,8 @@ class MainWindow(QMainWindow):
             collection = current is self.collection_workspace
             learning = self.lessons_panel is not None and self.tabs.currentWidget() is self.lessons_panel and not self.left_dock.isHidden()
             self.studio_header.set_workspace('collection' if collection else 'learn' if learning else 'explore')
-            self.studio_header.subject.setVisible(current is self.anatomy_tab)
+            radiology_visible=self.radiology_panel is not None and not self.radiology_panel.isHidden()
+            self.studio_header.subject.setVisible(current is self.anatomy_tab and not radiology_visible)
             self.studio_tools.setVisible(current is self.anatomy_tab)
             self._layout_studio_chrome()
             if not collection:self._studio_last_scene = current
@@ -1465,6 +1480,8 @@ class MainWindow(QMainWindow):
         if viewer is None:
             viewer = HistologyViewer(self.ds, self.content)
             viewer.structuresRequested.connect(self._histology_structures)
+            viewer.browserRequested.connect(self.show_histology_tab)
+            viewer.detailsRequested.connect(self.right_dock.show)
             self.micro_tabs["__histology__"] = viewer
             self.center.addTab(viewer, "Histology")
         viewer.show_tissue(tissue_id, index)
@@ -1472,6 +1489,8 @@ class MainWindow(QMainWindow):
         title = f"Histology · {self.content.tissues[tissue_id]['name']}"
         self.center.setTabText(self.center.indexOf(viewer), title.replace("&", "&&"))   # "&" is a mnemonic
         viewer.on_activated(self.info)
+        self.left_dock.hide()
+        self.right_dock.hide()
 
     def _histology_structures(self, names):
         sids = [s for n in names for s in self.ds.structures_named(n)]
@@ -1578,7 +1597,7 @@ class MainWindow(QMainWindow):
             self.center.setCurrentWidget(view)
             view.on_activated(self.info)
             if on_ready is not None:
-                on_ready(view)
+                self._when_view_interactive(view, on_ready)
             return
         pending = self._loading_models.get(model_id)
         if pending is not None:
@@ -1619,7 +1638,7 @@ class MainWindow(QMainWindow):
             return
         view = self.micro_tabs.get(model_id)
         if view is not None:
-            callback(view)
+            self._when_view_interactive(view, callback)
         elif (pending := self._loading_models.get(model_id)) is not None:
             if pending.serial is None:
                 callback(None)
@@ -1653,6 +1672,27 @@ class MainWindow(QMainWindow):
                 # remaining lifetime cleanup. Report its own failure separately.
                 import traceback
                 traceback.print_exc()
+
+    def _when_view_interactive(self, view, callback):
+        """CPU completion is not graphics readiness; wait for the actual first draw."""
+        viewport = view.gl_widget
+        if getattr(viewport, "graphics_error", ""):
+            callback(None)
+            return
+        ready_signal = getattr(viewport, "interactiveReady", None)
+        if ready_signal is None or getattr(viewport, "interactive_ready", False):
+            callback(view)
+            return
+        finished = [False]
+        def finish(value):
+            if finished[0]:
+                return
+            finished[0] = True
+            if not self._closing:
+                callback(value)
+        ready_signal.connect(lambda: finish(view))
+        viewport.graphicsFailed.connect(lambda message: finish(None))
+        viewport.destroyed.connect(lambda: finish(None))
 
     def _connect_model_view(self, view):
         g = view.gl_widget
@@ -1802,10 +1842,8 @@ class MainWindow(QMainWindow):
         pending.deleteLater()
         self._center_changed(self.center.currentIndex())
         if callbacks:
-            def ready():
-                self._notify_model_callbacks(callbacks, view, result.key)
-            # ModelView's queued home reset must run before lesson/practice focus.
-            QTimer.singleShot(0, view, ready)
+            self._when_view_interactive(view, lambda ready:
+                self._notify_model_callbacks(callbacks, ready, result.key))
 
     def _on_model_hover(self, view, sid):
         if self.quiz is not None and self.quiz.names_hidden():
@@ -1929,6 +1967,8 @@ class MainWindow(QMainWindow):
         self.statusBar().showMessage(f"{case.title} - labels highlight anatomy already in this reference view.", 8000)
         self._record(("rad_case", case.id))
         self._update_workspace_header()
+        self.left_dock.hide()
+        self.right_dock.hide()
 
     def apply_radiology_scene(self, case):
         """Reapply explicit case anatomy from a baseline without changing preferences.
@@ -2292,9 +2332,16 @@ class MainWindow(QMainWindow):
             # a sectioned step should frame the whole cut, not just whatever it also selected
             vp.refresh_section()
             cut = [sid for sid, _anchor, _w in vp.section_anchors]
-            if cut and step.get("frame", True) and not step.get("frame_on"):
-                vp.frame_structures(sorted(set(cut + focus)), view=want_view)
-                want_view = None
+            if step.get("frame", True) and not step.get("frame_on"):
+                # Section anchors may not exist yet (index still building or no
+                # sampled intersections). Do not retain an unrelated old target
+                # while changing visibility to the lesson's anatomy.
+                framing = sorted(set(cut + focus)) if cut else (focus or show)
+                if not framing:
+                    framing = np.flatnonzero(st.visible_mask()).tolist()
+                if framing:
+                    vp.frame_structures(framing, view=want_view)
+                    want_view = None
         if focus:
             st.select(focus)
             vp.landmark_hosts = focus if len(focus) <= 2 else []
@@ -2510,8 +2557,12 @@ class MainWindow(QMainWindow):
             data = json.loads(self.qsettings.value("last_session", "null"))
         except (TypeError, ValueError):
             data = None
-        if data:
+        if isinstance(data, dict) and data:
+            # Session continuity restores the view, not a previous lesson's
+            # transient multi-selection. Explicit saved views still use apply_view.
+            data = dict(data, selected=[])
             self.apply_view(data, animate=False)
+            self.right_dock.hide()
 
     # ------------------------------------------------------------------ commands
     def frame_selection(self):

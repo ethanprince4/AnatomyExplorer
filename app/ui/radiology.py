@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (QCheckBox, QComboBox, QGridLayout, QHBoxLayout, Q
 
 from . import theme
 from .card_list import CardList
-from .image_workspace import LocalImageLoader, control, matches_words
+from .image_workspace import LocalImageLoader, control, matches_words, image_control_card, CARD_TEXT, CARD_MUTED
 
 MARKER_R = 9.0
 ACCENT = theme.qc(theme.ACCENT_TEXT)
@@ -265,6 +265,8 @@ class RadiologyPanel(QWidget):
     structuresPicked = Signal(object, bool, str)  # [names], frame?, explicit image-label side
     sceneRequested = Signal(object)             # the case, to set the 3D view up again
     closeRequested = Signal()
+    browserRequested = Signal()
+    detailsRequested = Signal()
     caseStepped = Signal(int)
 
     def __init__(self, parent=None):
@@ -280,28 +282,37 @@ class RadiologyPanel(QWidget):
         outer.setContentsMargins(12, 10, 10, 8)
         outer.setSpacing(8)
 
+        header_layout = QVBoxLayout()
         head = QHBoxLayout()
         self.title = QLabel()
         f = QFont(self.font())
         f.setPointSizeF(theme.FS_TITLE)
         f.setBold(True)
         self.title.setFont(f)
-        self.title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE, 700))
+        self.title.setStyleSheet(theme.text_css(CARD_TEXT, theme.FS_TITLE, 700))
         self.title.setWordWrap(True)
         head.addWidget(self.title, 1)
         self.badge = QLabel()
         self.badge.setStyleSheet(theme.tag_css(theme.INFO))
         head.addWidget(self.badge, 0, Qt.AlignTop)
+        self.browse_cases = control("Browse cases", "Browse radiology cases")
+        self.browse_cases.clicked.connect(self.browserRequested.emit)
+        head.addWidget(self.browse_cases, 0, Qt.AlignTop)
+        self.show_details = control("Details", "Show radiology details")
+        self.show_details.clicked.connect(self.detailsRequested.emit)
+        head.addWidget(self.show_details, 0, Qt.AlignTop)
         close = control("Close", "Close radiology workspace")
         theme.set_variant(close, "ghost")
         close.setToolTip("Close the scan panel")
         close.clicked.connect(self.closeRequested.emit)
         head.addWidget(close, 0, Qt.AlignTop)
-        outer.addLayout(head)
+        header_layout.addLayout(head)
         self.metadata = QLabel()
         self.metadata.setWordWrap(True)
-        self.metadata.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
-        outer.addWidget(self.metadata)
+        self.metadata.setStyleSheet(theme.text_css(CARD_MUTED, theme.FS_SMALL))
+        header_layout.addWidget(self.metadata)
+        self.header_card = image_control_card(header_layout, "radiologyHeader")
+        outer.addWidget(self.header_card)
 
         self.view = RadiographView()
         self.illustration_view = RadiographView()
@@ -339,15 +350,18 @@ class RadiologyPanel(QWidget):
         self.fit_scan = control("Fit scan", "Fit image", "Fit the image (Home); the 3D reference is unchanged")
         self.fit_scan.clicked.connect(lambda: self._active_view().fit())
         row.addWidget(self.fit_scan, 0, 2)
-        image_layout.addLayout(row)
+        controls_layout = QVBoxLayout()
+        controls_layout.addLayout(row)
         self.image_status = QLabel("Choose a case to begin.")
         self.image_status.setWordWrap(True)
-        self.image_status.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_CAPTION))
-        image_layout.addWidget(self.image_status)
+        self.image_status.setStyleSheet(theme.text_css(CARD_MUTED, theme.FS_CAPTION))
+        controls_layout.addWidget(self.image_status)
         self.retry_image = control("Retry image", "Retry opening the current local image")
         self.retry_image.clicked.connect(self._reload_images)
         self.retry_image.hide()
-        image_layout.addWidget(self.retry_image)
+        controls_layout.addWidget(self.retry_image)
+        self.controls_card = image_control_card(controls_layout, "radiologyControls")
+        image_layout.addWidget(self.controls_card)
         split.addWidget(image_area)
         lower = QWidget()
         ll = QVBoxLayout(lower)
@@ -407,12 +421,12 @@ class RadiologyPanel(QWidget):
         self.question_layout.addWidget(self.question_controls)
 
         self.atlas_note = WrapLabel()
-        self.atlas_note.setStyleSheet(theme.text_css(theme.TEXT_2, theme.FS_CAPTION))
+        self.atlas_note.setStyleSheet(theme.text_css(CARD_MUTED, theme.FS_CAPTION))
 
 
         self.credit = WrapLabel()
         self.credit.setOpenExternalLinks(True)
-        self.credit.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_CAPTION))
+        self.credit.setStyleSheet(theme.text_css(CARD_MUTED, theme.FS_CAPTION))
         footer_body = QWidget()
         footer_layout = QVBoxLayout(footer_body)
         footer_layout.setContentsMargins(2, 2, 2, 2)
@@ -424,6 +438,7 @@ class RadiologyPanel(QWidget):
         self.reference_footer.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.reference_footer.setMinimumHeight(52)
         self.reference_footer.setMaximumHeight(88)
+        footer_body.setStyleSheet("background: #f8fafb; color: #24343d;")
         self.reference_footer.setWidget(footer_body)
         ll.addWidget(self.reference_footer)
         split.addWidget(lower)
