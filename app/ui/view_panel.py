@@ -158,6 +158,7 @@ class ViewPanel(QWidget):
         cl.addWidget(self.section_labels)
         self.section_list = QListWidget()
         self.section_list.setMaximumHeight(190)
+        self.section_list.setFixedHeight(48)
         self.section_list.setAccessibleName("Structures intersected by cross-section")
         self.section_list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.section_list.setToolTip("Structures the section passes through, biggest first. Click one to select it.")
@@ -207,6 +208,7 @@ class ViewPanel(QWidget):
     def show_section(self, items, ds):
         """Fill the list of structures the active cross-section passes through."""
         self.section_list.clear()
+        self.section_list.setFixedHeight(min(190,max(48,len(items)*(self.section_list.fontMetrics().height()+10)+8)))
         for sid, _anchor, weight in items:
             s = ds.structures[sid]
             name = s["name"] + (f"  ({s['side'].lower()})" if s["side"] else "")

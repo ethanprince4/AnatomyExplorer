@@ -55,7 +55,7 @@ class ModelEntry:
 
     def __init__(self, id, name, summary="", targets=None, histology=(), related=(), clinical=(), scale_note=""):
         self.id = id
-        self.name = name
+        self.name = "Heart" if id == "whole_heart" else name
         self.summary = summary
         self.targets = targets or {}
         self.histology = list(histology)
@@ -67,8 +67,7 @@ class ModelEntry:
 
     @property
     def kind_name(self):
-        return {"glb": "In-house 3D model", "procedural": "In-house 3D microanatomy model", "downloaded": "downloaded 3D model"}.get(
-            self.kind, "3D model")
+        return "downloaded 3D model" if self.kind == "downloaded" else ""
 
     def load(self):
         raise NotImplementedError

@@ -98,6 +98,7 @@ class MainWindow(QMainWindow):
             self.settings['restore_session'] = False
             self.qsettings.setValue('view_settings', json.dumps(self.settings))
             self.qsettings.setValue('studio_startup_revision', 1)
+        self.settings['show_structure_labels'] = False
         # The shell and live scene share one backdrop; this does not change lights or materials.
         self.settings.update(custom_background=True, bg_top='#141b22', bg_bottom='#141b22')
         apply_theme(QApplication.instance(), float(self.settings["ui_scale"]),
@@ -128,6 +129,8 @@ class MainWindow(QMainWindow):
         self.viewport = Viewport(ds, self.state, self.settings)
         self.radiology_panel = None
         self.anatomy_tab = QSplitter(Qt.Horizontal)
+        self.anatomy_tab.setObjectName("anatomyComparison")
+        self.anatomy_tab.setStyleSheet("QSplitter#anatomyComparison {background:#141b22;}")
         self.anatomy_tab.splitterMoved.connect(lambda *_: self._layout_studio_chrome())
         self.anatomy_tab.setChildrenCollapsible(False)
         self.anatomy_tab.setHandleWidth(6)
@@ -233,10 +236,9 @@ class MainWindow(QMainWindow):
         # Append new pages so historical tab:N script indices remain stable.
         self.catalog = ModelCatalogPanel(self.content)
         self.catalog.activated.connect(self.open_micro)
+        self.catalog.linkActivated.connect(self.on_link)
         self.catalog.variantChosen.connect(self.switch_model_variant)
         from .variants.readiness import retry_dataset_readiness, cancel_dataset_readiness
-        self.catalog.verificationRequested.connect(lambda: retry_dataset_readiness(self))
-        self.catalog.verificationCancelled.connect(lambda: cancel_dataset_readiness(self))
         self.tabs.addTab(self.catalog, "Models")
         self.tabs.setTabToolTip(self.tabs.indexOf(self.catalog), "Browse every installed 3D model")
         ll.addWidget(self.tabs.nav)
@@ -334,7 +336,8 @@ class MainWindow(QMainWindow):
         self.qsettings.setValue('studio_layout_revision', 2)
         self._update_counts()
         self._script = [c.strip() for c in script.split(";") if c.strip()] if script else None
-        self._restore_pending = restore and bool(self.settings.get("restore_session")) and not script
+        # Always begin in Explore; saved window and display preferences still apply.
+        self._restore_pending = False
         if restore and str(self.qsettings.value("borderless", "0")).lower() in ("1", "true"):
             QTimer.singleShot(0, self, lambda: self.set_borderless(True))
         from .ui.study_layout import StudyLayout
@@ -348,8 +351,8 @@ class MainWindow(QMainWindow):
         self._activity_timer.start()
         self._update_workspace_header()
         QTimer.singleShot(0, self._adapt_workspace)
-        if not script and not self._restore_pending:
-            QTimer.singleShot(0, self._show_catalog)
+        if not script:
+            QTimer.singleShot(0, self._studio_explore)
         if self._startup_notices:
             if self.content.model_catalog_error:
                 self.notice.show_message(" · ".join(self._startup_notices), "Browse models", self._show_catalog)
@@ -398,6 +401,10 @@ class MainWindow(QMainWindow):
         reg("undo", lambda: mv().undo() if mv() else self.undo())
         reg("landmarks", lambda: mv().toggle_labels() if mv() else
             self.on_setting("show_landmarks", not self.settings["show_landmarks"], sync=True))
+        structure_labels = reg("structure_labels", lambda: self.on_setting(
+            "show_structure_labels", not self.settings.get("show_structure_labels", False)))
+        structure_labels.setCheckable(True)
+        structure_labels.setChecked(bool(self.settings.get("show_structure_labels", False)))
         reg("color_mode", lambda: self.on_setting("color_mode", (int(self.settings["color_mode"]) + 1) % 3, sync=True))
         self.measure_action = reg("measure", self.toggle_measure)
         self.measure_action.setCheckable(True)
@@ -633,6 +640,7 @@ class MainWindow(QMainWindow):
         self.activity_progress.hide()
         sb.addPermanentWidget(self.activity_label)
         sb.addPermanentWidget(self.activity_progress)
+        sb.setVisible(bool(self.settings.get("show_status_bar", False)))
         self._frame_times = []
         self._last_perf = 0.0
 
@@ -648,11 +656,16 @@ class MainWindow(QMainWindow):
         self.studio_header.exploreRequested.connect(self._studio_explore)
         self.studio_header.learnRequested.connect(self._studio_learn)
         self.studio_header.collectionRequested.connect(self._show_catalog)
+        self.studio_header.radiologyRequested.connect(lambda:self._show_nav_page(self.radiology_browser))
+        self.studio_header.histologyRequested.connect(self.show_histology_tab)
         self.studio_header.searchRequested.connect(self._studio_search)
         self.workspace_layout.insertWidget(0, self.studio_header)
         self.studio_header.layout().removeWidget(self.studio_header.subject)
         self.studio_header.subject.setParent(self.workspace)
         self.tabs.removeTab(self.tabs.indexOf(self.catalog))
+        for page in (self.histology_panel,self.radiology_browser,self.lessons_panel):
+            if page is not None and self.tabs.indexOf(page)>=0:
+                self.tabs.removeTab(self.tabs.indexOf(page))
         self.collection_workspace = CollectionWorkspace(self.catalog, self)
         self.center.addTab(self.collection_workspace, "Collection")
         self.center.tabBar().setTabButton(self.center.indexOf(self.collection_workspace),
@@ -672,6 +685,17 @@ class MainWindow(QMainWindow):
         self.search.edit.setText(text)
 
     def _studio_explore(self):
+        if self.radiology_panel is not None and not self.radiology_panel.isHidden():
+            self.close_radiology()
+            for checkbox,*_ in self.view_panel.clip_widgets:checkbox.setChecked(False)
+            self.viewport.clip_on[:]=[False,False,False]
+            self.viewport.set_radiology_section_labels(None)
+            self.viewport.focus_landmark=None
+            self.clear_attachment_colours()
+            self.reset_visibility()
+            self.state.clear_selection()
+            self.viewport.refresh_section()
+            self.viewport.reset_view()
         self._show_atlas()
         self._update_workspace_header()
         if self.center.currentWidget() is self.anatomy_tab:
@@ -681,7 +705,7 @@ class MainWindow(QMainWindow):
         if not hasattr(self, 'studio_tools'):
             return
         w, h = self.workspace.width(), self.workspace.height()
-        self.studio_header.subject.setGeometry(28, self.studio_header.geometry().bottom()+18, max(1,w-56), 84)
+        self.studio_header.subject.setGeometry(28, self.studio_header.geometry().bottom()+18, max(1,w-56), 56 if self.workspace_context.isHidden() else 84)
         origin=0
         available=w
         if (self.center.currentWidget() is self.anatomy_tab and self.radiology_panel is not None
@@ -695,8 +719,8 @@ class MainWindow(QMainWindow):
         self.studio_tools.raise_()
 
     def _studio_learn(self):
-        self._studio_explore()
-        self.show_lessons()
+        if self.lessons_panel is not None:
+            self.collection_workspace.show_page(self.lessons_panel,'Lessons',mode='learn')
 
     def _register_workspace_actions(self):
         self.workspace_actions = []
@@ -735,9 +759,17 @@ class MainWindow(QMainWindow):
 
     def _show_nav_page(self, page):
         if page is None:return
+        if page in (self.histology_panel,self.radiology_browser,self.lessons_panel):
+            title='Histology' if page is self.histology_panel else 'Radiology' if page is self.radiology_browser else 'Lessons'
+            self.collection_workspace.show_page(page,title)
+            return
         if page is self.catalog:
             self._show_catalog();return
         self.search.edit.clear()
+        self.search.kind_filter.setCurrentIndex(0)
+        self.search._timer.stop()
+        self.search._run()
+        self._on_query_active(False)
         self.tabs.show()
         self.left_dock.show()
         self.left_dock.raise_()
@@ -745,8 +777,7 @@ class MainWindow(QMainWindow):
 
     def _show_catalog(self):
         self.search.edit.clear()
-        self.catalog.show()
-        self.center.setCurrentWidget(self.collection_workspace)
+        self.collection_workspace.show_page(self.catalog,'3D models')
         self.left_dock.hide()
         self.right_dock.hide()
         self.catalog.focus_search()
@@ -786,14 +817,14 @@ class MainWindow(QMainWindow):
             else:
                 count = len(self.state.selected)
                 title = "3D Anatomy"
-                subtitle = f"{count} selected · Browse, isolate or open linked study material" if count else "Choose a structure or search the atlas"
+                subtitle = ""
         self.workspace_title.setText(title)
         self.workspace_context.setText(subtitle)
+        self.workspace_context.setVisible(bool(subtitle))
         if hasattr(self, 'studio_header'):
             self.center.tabBar().hide()
             collection = current is self.collection_workspace
-            learning = self.lessons_panel is not None and self.tabs.currentWidget() is self.lessons_panel and not self.left_dock.isHidden()
-            self.studio_header.set_workspace('collection' if collection else 'learn' if learning else 'explore')
+            self.studio_header.set_workspace(self.collection_workspace.navigation_mode if collection else 'explore')
             radiology_visible=self.radiology_panel is not None and not self.radiology_panel.isHidden()
             self.studio_header.subject.setVisible(current is self.anatomy_tab and not radiology_visible)
             self.studio_tools.setVisible(current is self.anatomy_tab)
@@ -956,6 +987,10 @@ class MainWindow(QMainWindow):
             self.viewport.refresh_section()
             self.viewport.update()
         self.settings[key] = value
+        if key == "show_structure_labels":
+            self.cmds.actions["structure_labels"].setChecked(bool(value))
+        if key == "show_status_bar":
+            self.statusBar().setVisible(bool(value))
         if key == "color_mode":
             self.state.render_changed.emit()
             if hasattr(self, "color_actions"):
@@ -1627,6 +1662,8 @@ class MainWindow(QMainWindow):
         version = f" · {entry.label}" if hasattr(entry, "label") else ""
         self.center.addTab(pending, f"{label}{entry.name}{version}".replace("&", "&&"))
         self.center.setCurrentWidget(pending)
+        self.left_dock.hide()
+        self.right_dock.hide()
         try:
             pending.serial = self._model_loader.request(model_id, entry)
         except Exception as exc:
@@ -2221,8 +2258,6 @@ class MainWindow(QMainWindow):
 
     # ------------------------------------------------------------------ lessons
     def show_lessons(self, lesson_id=None):
-        if self.center.currentWidget() is getattr(self, 'collection_workspace', None):
-            self._studio_explore()
         self.viewport.set_radiology_slice(False)
         if self.lessons_panel is None:
             return

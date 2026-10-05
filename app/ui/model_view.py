@@ -76,6 +76,8 @@ class ModelView(QWidget):
         self.info = None
         t0 = time.perf_counter()
         self.vmodel = entry.load() if prepared is None else prepared.model
+        self.vmodel.label_by_family = self.entry.id == "cardiac_muscle"
+        self.vmodel.label_by_family = entry.id == "cardiac_muscle"
         self.load_seconds = time.perf_counter() - t0 if prepared is None else prepared.seconds
         self.mds = ModelDataset(self.vmodel)
         self.state = SceneState(self.mds, settings)
@@ -128,6 +130,7 @@ class ModelView(QWidget):
         self.studio.labels.setChecked(self.labels.isChecked())
         self.studio.labels.toggled.connect(self.labels.setChecked)
         self.labels.toggled.connect(self.studio.labels.setChecked)
+        self.studio.show_all.clicked.connect(self.show_all)
         self.studio.reset.clicked.connect(self.reset_view)
 
         g = self.gl_widget
@@ -175,7 +178,9 @@ class ModelView(QWidget):
 
     def _fully_visible(self):
         state=self.state
-        state.opaque_materials=True
+        # Procedural tissue opacity is a viewer control; imported GLBs already
+        # carry authored material colours and alpha that should survive opening.
+        state.opaque_materials=self.vmodel.kind == "procedural"
         state.hidden[:]=False;state.forced[:]=False;state.isolated=None;state.ghost_focus=None
         state.system_on[:]=True;state.subsystem_on[:]=True;state.region_on[:]=True
         state.system_alpha[:]=1.0;state.part_alpha=np.ones(len(self.vmodel.items),dtype=np.float32)
@@ -218,6 +223,14 @@ class ModelView(QWidget):
             cut.toggled.connect(self.cut.setChecked)
             self.cut.toggled.connect(cut.setChecked)
         row.addWidget(cut)
+        if self.teased is not None:
+            teased = QCheckBox("Teased")
+            teased.setToolTip(self.teased.toolTip())
+            teased.setChecked(self.teased.isChecked())
+            teased.toggled.connect(self.teased.setChecked)
+            self.teased.toggled.connect(teased.setChecked)
+            self.teased.hide()
+            row.addWidget(teased)
         reset = QPushButton("Reset")
         def reset_reveal():
             if self.opacity is not None:self.opacity.setValue(100)
@@ -271,68 +284,50 @@ class ModelView(QWidget):
         sl = QVBoxLayout(side)
         sl.setContentsMargins(4, 2, 4, 4)
         sl.setSpacing(6)
-        compatibility_notes = getattr(m, 'runtime_warnings', [])
-        if compatibility_notes:
-            note = QLabel('This refined model has display notes.')
-            note.setWordWrap(True)
-            note.setToolTip('\n'.join(compatibility_notes))
-            sl.addWidget(note)
-        summary_toggle = QToolButton()
-        summary_toggle.setText("About this model")
-        summary_toggle.setCheckable(True)
-        summary_toggle.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
-        summary_toggle.setArrowType(Qt.RightArrow)
-        summary_toggle.setAccessibleName("Show model summary, scale and attribution")
-        sl.addWidget(summary_toggle)
         intro_body = QWidget()
         intro_layout = QVBoxLayout(intro_body)
         intro_layout.setContentsMargins(0, 0, 0, 0)
-        intro_layout.setSpacing(6)
+        intro_layout.setSpacing(2)
+        intro_layout.setAlignment(Qt.AlignTop)
         intro_scroll = QScrollArea()
         intro_scroll.setWidgetResizable(True)
         intro_scroll.setFrameShape(QScrollArea.NoFrame)
         intro_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        intro_scroll.setMinimumHeight(100)
-        intro_scroll.setMaximumHeight(240)
+        intro_scroll.setMinimumHeight(0)
+        intro_scroll.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        intro_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        intro_scroll.setAccessibleName("Model description")
         intro_scroll.setWidget(intro_body)
-        intro_scroll.hide()
-        summary_toggle.toggled.connect(intro_scroll.setVisible)
-        summary_toggle.toggled.connect(lambda on: summary_toggle.setArrowType(Qt.DownArrow if on else Qt.RightArrow))
-        title = QLabel(e.name)
-        title.setTextFormat(Qt.PlainText)
-        title.setWordWrap(True)
-        title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE + 0.5, 700))
-        intro_layout.addWidget(title)
         from .variant_choice import VariantChoice
         self.variant_choice = VariantChoice(self)
         self.variant_choice.set_entry(e)
         self.variant_choice.requested.connect(self.variantRequested)
         self.variant_choice.componentRequested.connect(self.componentRequested)
-        sl.addWidget(self.variant_choice)
-        summ = QLabel(e.summary)
+        summ = QLabel(e.summary.strip())
         summ.setTextFormat(Qt.PlainText)
         summ.setWordWrap(True)
+        summ.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         if summ.text() != e.summary:
             summ.setToolTip(f"<p>{esc(e.summary)}</p>")      # the whole summary is in Details too
         summ.setStyleSheet(theme.text_css(theme.TEXT_2))
         intro_layout.addWidget(summ)
         if e.scale_note:
-            note = QLabel(e.scale_note)
+            note = QLabel(e.scale_note.strip())
             note.setTextFormat(Qt.PlainText)
             note.setWordWrap(True)
+            note.setAlignment(Qt.AlignTop | Qt.AlignLeft)
             note.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
             intro_layout.addWidget(note)
         if e.credit_html:
             c = QLabel(e.credit_html)
             c.setWordWrap(True)
+            c.setAlignment(Qt.AlignTop | Qt.AlignLeft)
             c.setOpenExternalLinks(True)
             c.setTextInteractionFlags(Qt.TextBrowserInteraction)
             c.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
             intro_layout.addWidget(c)
         sl.addWidget(intro_scroll)
-        stats = QLabel(f"{len(m.items)} parts in {len(m.groups)} groups · {m.triangle_count / 1e6:.1f} M triangles")
-        stats.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
-        sl.addWidget(stats)
+        sl.addWidget(self.variant_choice)
         self.filter = QLineEdit()
         self.filter.setPlaceholderText("Filter parts or groups…")
         self.filter.setAccessibleName("Filter model parts")
@@ -346,13 +341,15 @@ class ModelView(QWidget):
         self.tree = QTreeWidget()
         self.tree.setHeaderHidden(True)
         self.tree.setAccessibleName("Model parts and visibility")
-        self.tree.setMinimumHeight(100)
+        self.tree.setMinimumHeight(0)
         self.tree.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.tree.setUniformRowHeights(True)
         self.tree.setIndentation(14)
         self.tree.itemChanged.connect(self._item_changed)
         self.tree.itemClicked.connect(self._item_clicked)
         self.tree.itemActivated.connect(self._item_activated)
+        self.tree.itemExpanded.connect(self._parts_layout_changed)
+        self.tree.itemCollapsed.connect(self._parts_layout_changed)
         sl.addWidget(self.tree, 1)
         self.selection_status = QLabel("Select a part to read its details.")
         self.selection_status.setWordWrap(True)
@@ -381,15 +378,20 @@ class ModelView(QWidget):
         self.side = side
         return side
 
+    def _parts_layout_changed(self, *_):
+        if hasattr(self, "studio"):
+            self.studio.arrange()
+
     def _build_tree(self):
         self._sync = True
         self.part_items = {}
         self.group_items = {}
+        self.family_rows = set()
         for g in self.vmodel.groups:
             gi = QTreeWidgetItem(self.tree)
             gi.setToolTip(0, g.title)
-            gi.setData(0, Qt.AccessibleTextRole, f"{g.title}, {len(g.items)} parts")
-            gi.setText(0, f"{g.title}" + (f"   · {len(g.items)}" if len(g.items) > 1 else ""))
+            gi.setData(0, Qt.AccessibleTextRole, g.title)
+            gi.setText(0, g.title)
             f = gi.font(0)
             f.setBold(True)
             gi.setFont(0, f)
@@ -398,6 +400,15 @@ class ModelView(QWidget):
             gi.setData(0, ROLE, ("group", g.key))
             gi.setExpanded(False)
             self.group_items[g.key] = gi
+            if self.entry.id == "cardiac_muscle":
+                # Repeated fibres, nuclei and connective tissue are one named
+                # structure family in the UI, while retaining every mesh.
+                self.family_rows.add(g.key)
+                gi.setText(0, g.title)
+                gi.setFlags(gi.flags() & ~Qt.ItemIsAutoTristate)
+                for i in g.items:
+                    self.part_items[i] = gi
+                continue
             for i in g.items:
                 it = self.vmodel.items[i]
                 ti = QTreeWidgetItem(gi)
@@ -423,6 +434,13 @@ class ModelView(QWidget):
         matches = 0
         for key, group in self.group_items.items():
             group_text = normalized(f"{key} {group.text(0)}")
+            if key in self.family_rows:
+                sids = self._sids_of(group)
+                searchable = normalized(group_text + " " + " ".join(self.vmodel.items[i].name for i in sids))
+                show = all(term in searchable for term in terms)
+                group.setHidden(not show)
+                matches += len(sids) if show else 0
+                continue
             any_shown = False
             for index in range(group.childCount()):
                 child = group.child(index)
@@ -440,8 +458,9 @@ class ModelView(QWidget):
                 group.setExpanded(key in self._filter_expanded)
         if not terms:
             self._filter_expanded = None
-        self.parts_status.setText(f"{matches} of {len(self.vmodel.items)} parts · Check to show or hide" if matches else
+        self.parts_status.setText("Check to show or hide" if matches else
                                   "No matching parts. Clear the filter to see the full model.")
+        self._parts_layout_changed()
 
     def _sids_of(self, item):
         kind, val = item.data(0, ROLE)
@@ -476,7 +495,8 @@ class ModelView(QWidget):
         vis = self.state.visible_mask()
         self._sync = True
         for sid, it in self.part_items.items():
-            it.setCheckState(0, Qt.Checked if vis[sid] else Qt.Unchecked)
+            if it.parent() is not None:
+                it.setCheckState(0, Qt.Checked if vis[sid] else Qt.Unchecked)
         for key, gi in self.group_items.items():
             sids = self._sids_of(gi)
             n = int(vis[sids].sum()) if sids else 0
@@ -486,11 +506,10 @@ class ModelView(QWidget):
 
     def _update_selection_controls(self):
         selected = list(self.state.selected)
-        visible = self.state.visible_mask()
-        count = int(visible.sum())
-        label = (self.vmodel.items[selected[0]].name if len(selected) == 1 else
+        family = self._selected_family(selected)
+        label = (family if family else self.vmodel.items[selected[0]].name if len(selected) == 1 else
                  f"{len(selected)} parts selected" if selected else "No part selected")
-        self.selection_status.setText(f"{label} · {count} of {len(self.vmodel.items)} visible")
+        self.selection_status.setText(label if selected else "Select a structure to read its details.")
         for button in self.selection_buttons:
             button.setEnabled(bool(selected) and self.click_hook is None)
         if not selected:
@@ -508,6 +527,18 @@ class ModelView(QWidget):
         if self.state.selected:
             return list(self.state.selected)
         return []
+
+    def _selected_family(self, selected):
+        if self.entry.id != "cardiac_muscle" or not selected:
+            return None
+        groups = {self.vmodel.items[i].group for i in selected}
+        return next(iter(groups)) if len(groups) == 1 else None
+
+    def _selection_sids(self, sid):
+        group = self.vmodel.group_of(sid)
+        if self.entry.id == "cardiac_muscle" and group is not None:
+            return list(group.items)
+        return [sid]
 
     def _isolate_current(self):
         sids = self._current_or_selected()
@@ -962,7 +993,7 @@ class ModelView(QWidget):
             if self.state.clear_selection():
                 self._show_selection()
             return
-        self.state.select([sid], add=bool(modifiers & Qt.ControlModifier))
+        self.state.select(self._selection_sids(sid), add=bool(modifiers & Qt.ControlModifier))
         it = self.part_items.get(sid)
         if it:
             if it.isHidden():
@@ -981,12 +1012,13 @@ class ModelView(QWidget):
         if sid < 0 or self.click_hook is not None:
             return
         action = self.settings.get("double_click_action", "Focus")
-        self.state.select([sid])
+        sids = self._selection_sids(sid)
+        self.state.select(sids)
         if action == "Isolate":
-            self.state.isolate([sid])
+            self.state.isolate(sids)
         elif action == "X-ray focus":
-            self.state.set_ghost_focus([sid])
-        self.gl_widget.frame_structures([sid])
+            self.state.set_ghost_focus(sids)
+        self.gl_widget.frame_structures(sids)
         self._show_selection()
 
     def _context_menu(self, sid, global_pos):
@@ -1122,6 +1154,9 @@ class ModelView(QWidget):
         if hasattr(self,"studio"):
             selected = list(self.state.selected)
             if self.click_hook is not None or not selected:self.studio.set_selection("")
+            elif self._selected_family(selected):
+                item=self.vmodel.items[selected[0]]
+                self.studio.set_selection(self._selected_family(selected),item.description or "Selected model structure")
             elif len(selected)==1:
                 item=self.vmodel.items[selected[0]]
                 self.studio.set_selection(item.name,item.description or "Selected model structure")
@@ -1153,7 +1188,14 @@ class ModelView(QWidget):
             tail += f"<p class='overline'>RELATED MODELS</p><p>{related}</p>"
         if e.credit_html:
             tail += f"<p class='muted'>{e.credit_html}</p>"
-        if len(sel) == 1:
+        family = self._selected_family(sel)
+        if family:
+            descriptions = list(dict.fromkeys(m.items[i].description for i in sel if m.items[i].description))
+            description = descriptions[0] if descriptions else "No written description is included for this structure."
+            body = (f"<div class='crumb'>{esc(e.name)} › {esc(family)}</div>"
+                    f"<p class='summary'>{esc(description)}</p>{tail}")
+            self.info.show_html(f"<h1>{esc(family)}</h1>", body)
+        elif len(sel) == 1:
             it = m.items[sel[0]]
             g = m.group_of(it.index)
             siblings = [m.items[i].name for i in (g.items if g else []) if i != it.index]
@@ -1190,6 +1232,9 @@ class ModelView(QWidget):
         else:
             groups = []
             for gr in m.groups:
+                if e.id == "cardiac_muscle":
+                    groups.append(f"<p><b>{esc(gr.title)}</b></p>")
+                    continue
                 names = " · ".join(esc(m.items[i].name) for i in gr.items[:12])
                 if len(gr.items) > 12:
                     names += f" · … ({len(gr.items)} in all)"

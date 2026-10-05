@@ -246,6 +246,7 @@ class Viewport(QOpenGLWidget):
         self.landmark_hosts = []
         self.focus_landmark = None
         self._lm_cache = []
+        self._structure_labels = []
         self.section = None            # SectionIndex, attached by the main window
         self.section_anchors = []      # [(sid, anchor_xyz, weight)] on the current cut face
         self._section_geometry = None
@@ -313,6 +314,7 @@ class Viewport(QOpenGLWidget):
                              radiology_slice=self.radiology_slice)
         self._pick_frame_key = self._frame_key()
         self._update_landmarks()
+        self._update_structure_labels()
         self.frameTimed.emit((time.perf_counter() - t0) * 1000.0)
         self.overlay.update()
         if animating:
@@ -701,6 +703,48 @@ class Viewport(QOpenGLWidget):
                 items.append((i, pr, occluded))
         self._lm_cache = items
 
+    def _update_structure_labels(self):
+        self._structure_labels = []
+        if not self.settings.get("show_structure_labels", False):
+            return
+        visible = np.flatnonzero(self.state.visible_mask())
+        if not len(visible):return
+        # Project in one batch; label only structures actually present at the anchor pixel.
+        points = np.column_stack((self.ds.centroid[visible], np.ones(len(visible))))
+        clip = points @ self.renderer.last_vp.T
+        front = clip[:,3] > 1e-6
+        ndc = clip[:,:3] / np.maximum(clip[:,3:4],1e-6)
+        sizes = np.linalg.norm(self.ds.bbox_max[visible]-self.ds.bbox_min[visible],axis=1)
+        order = sorted(range(len(visible)),key=lambda i:(int(visible[i]) not in self.state.selected,-sizes[i]))
+        limit = int(self.settings.get("max_landmarks",60))
+        candidates = 0
+        for i in order:
+            if not front[i] or np.any(np.abs(ndc[i]) > 1):continue
+            sid=int(visible[i])
+            x=(ndc[i,0]*.5+.5)*self.width()
+            y=(1-(ndc[i,1]*.5+.5))*self.height()
+            candidates += 1
+            if self.renderer.pick(*self._gl_xy(QPointF(x,y))) == sid:
+                self._structure_labels.append((sid,x,y))
+            if len(self._structure_labels)>=limit or candidates>=limit*3:break
+
+    def _paint_structure_labels(self,p):
+        if not self.settings.get("show_structure_labels",False):return
+        font=QFont(self.font());font.setPointSizeF(float(self.settings.get("label_size",8.6)))
+        p.setFont(font);fm=QFontMetricsF(font);placed=[]
+        for sid,x,y in self._structure_labels:
+            text=self.ds.structures[sid]["name"]
+            tw=fm.horizontalAdvance(text)+16;th=fm.height()+10
+            for dy in (-th-14,14,-2*th-20,th+20):
+                rect=QRectF(max(4,min(self.width()-tw-4,x-tw/2)),max(4,min(self.height()-th-4,y+dy)),tw,th)
+                if not any(rect.adjusted(-4,-3,4,3).intersects(r) for r in placed):break
+            else:continue
+            placed.append(rect)
+            p.setPen(QPen(QColor("#8096a5"),1))
+            p.drawLine(QPointF(x,y),rect.center())
+            p.setBrush(QColor("#f2f6f8"));p.drawRoundedRect(rect,8,8)
+            p.setPen(QColor("#263b47"));p.drawText(rect,Qt.AlignCenter,text)
+
     # ------------------------------------------------------------------ labelled cross-section
     CLIP_AXIS = (0, 2, 1)              # sagittal -> x, coronal -> z, transverse -> y
 
@@ -800,6 +844,9 @@ class Viewport(QOpenGLWidget):
             if pr is None or not (0 <= pr[0] <= w and 0 <= pr[1] <= h):
                 continue
             columns[-1 if pr[0] < w * 0.5 else 1].append((sid, pr))
+        anchors=[pr[0] for items in columns.values() for _,pr in items]
+        model_left=min(anchors) if anchors else w*.5
+        model_right=max(anchors) if anchors else w*.5
         for side, items in columns.items():
             if not items:
                 continue
@@ -818,7 +865,7 @@ class Viewport(QOpenGLWidget):
                 ly = max(line_h * 0.6, min(bottom - line_h * 0.6, ly))
                 text = self._section_label_names.get(sid, self.ds.structures[sid]["name"])
                 tw = min(fm.horizontalAdvance(text) + 12, w * 0.28)
-                x0 = margin if side < 0 else w - margin - tw
+                x0 = max(margin,model_left-32-tw) if side < 0 else min(w-margin-tw,model_right+32)
                 rect = QRectF(x0, ly - line_h / 2 + 2, tw, fm.height() + 4)
                 join_x = rect.right() if side < 0 else rect.left()
                 elbow_x = join_x + 16 * -side
@@ -832,10 +879,10 @@ class Viewport(QOpenGLWidget):
                 p.setBrush(accent)
                 p.setPen(Qt.NoPen)
                 p.drawEllipse(QPointF(pr[0], pr[1]), 2.6, 2.6)
-                p.setPen(QPen(QColor(accent.red(), accent.green(), accent.blue(), 170), 1.0))
-                p.setBrush(QColor(24, 34, 45))
-                p.drawRoundedRect(rect, 4, 4)
-                p.setPen(QColor(235, 240, 245))
+                p.setPen(QPen(QColor("#8096a5"), 1.0))
+                p.setBrush(QColor("#f2f6f8"))
+                p.drawRoundedRect(rect, 8, 8)
+                p.setPen(QColor("#263b47"))
                 p.drawText(rect, Qt.AlignCenter, fm.elidedText(text, Qt.ElideRight, tw - 10))
                 self._section_rects.append((QRectF(rect), sid))
 
@@ -908,15 +955,16 @@ class Viewport(QOpenGLWidget):
             rect = QRectF(mx - fm.horizontalAdvance(text) / 2 - 6, my - fm.height() / 2 - 12,
                           fm.horizontalAdvance(text) + 12, fm.height() + 4)
             p.setPen(QPen(accent, 1.0))
-            p.setBrush(QColor(24, 34, 45))
-            p.drawRoundedRect(rect, 4, 4)
-            p.setPen(QColor(255, 226, 160))
+            p.setBrush(QColor("#f2f6f8"))
+            p.drawRoundedRect(rect, 8, 8)
+            p.setPen(QColor("#263b47"))
             p.drawText(rect, Qt.AlignCenter, text)
 
     def paint_overlay(self, p: QPainter):
         dark = self.settings.get("dark_background", True)
         self._paint_section_labels(p, dark)
         self._paint_landmarks(p, dark)
+        self._paint_structure_labels(p)
         self._paint_measure(p, dark)
         if self.settings.get("show_gizmo", True):
             self._paint_gizmo(p, dark)
@@ -960,11 +1008,11 @@ class Viewport(QOpenGLWidget):
             if any(rect.intersects(r) for r in placed) and not focus:
                 continue
             placed.append(rect.adjusted(-2, -2, 2, 2))
-            bg = QColor(24, 34, 45)
-            p.setPen(QPen(dot, 1.0))
+            bg = QColor("#f2f6f8")
+            p.setPen(QPen(QColor("#8096a5"), 1.0))
             p.setBrush(bg)
-            p.drawRoundedRect(rect, 5, 5)
-            p.setPen(QColor(176, 188, 201) if occluded else QColor(235, 240, 245))
+            p.drawRoundedRect(rect, 8, 8)
+            p.setPen(QColor("#526570") if occluded else QColor("#263b47"))
             p.drawText(rect, Qt.AlignCenter, text)
 
     def _paint_gizmo(self, p, dark):
@@ -1022,15 +1070,18 @@ class Viewport(QOpenGLWidget):
             y = self.hover_pos.y() - h - 12
         rect = QRectF(x, y, w, h)
         path = QPainterPath()
-        path.addRoundedRect(rect, 6, 6)
-        p.fillPath(path, QColor(24, 34, 45))
-        p.setPen(QPen(QColor(83, 101, 122), 1.0))
+        path.addRoundedRect(rect, 8, 8)
+        p.save()
+        p.setBrush(Qt.NoBrush)
+        p.fillPath(path, QColor("#f2f6f8"))
+        p.setPen(QPen(QColor("#8096a5"), 1.0))
         p.drawPath(path)
         col = self.ds.systems[self.ds.system_of[sid]]["color"]
         p.fillRect(QRectF(x, y + 5, 3, h - 10), QColor.fromRgbF(*col))
-        p.setPen(QColor(235, 240, 245))
+        p.setPen(QColor("#263b47"))
         p.setFont(font)
         p.drawText(QRectF(x + 11, y + 4, w, fm.height()), Qt.AlignLeft | Qt.AlignVCenter, text)
-        p.setPen(QColor(176, 188, 201))
+        p.setPen(QColor("#526570"))
         p.setFont(small)
         p.drawText(QRectF(x + 11, y + 5 + fm.height(), w, fm2.height()), Qt.AlignLeft | Qt.AlignVCenter, sub)
+        p.restore()

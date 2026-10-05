@@ -40,6 +40,7 @@ ACTION_DEFS = [
     ("show_all", "Show all", "Visibility", "Shift+H", "Alt+H", False),
     ("default_visibility", "Default visibility", "Visibility", "Ctrl+Shift+H", "", False),
     ("undo", "Undo visibility change", "Visibility", "Ctrl+Z", "", False),
+    ("structure_labels", "Show structure labels", "Visibility", "", "", False),
     ("landmarks", "Toggle landmark labels", "Visibility", "L", "", False),
     ("measure", "Measure distances", "Visibility", "M", "", False),
     ("peel_in", "Dissect deeper", "Visibility", "]", "", False),

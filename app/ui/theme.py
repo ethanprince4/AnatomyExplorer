@@ -125,12 +125,13 @@ FONT_FAMILY = None
 def font_family():
     global FONT_FAMILY
     if FONT_FAMILY is None:
-        if sys.platform == "darwin":
-            FONT_FAMILY = QFontDatabase.systemFont(QFontDatabase.GeneralFont).family()
-        else:
-            have = set(QFontDatabase.families())
-            FONT_FAMILY = next((f for f in _FONT_PREFS if f in have),
-                               QFontDatabase.systemFont(QFontDatabase.GeneralFont).family())
+        # Bundle the selected font so Windows and macOS use the same typeface.
+        folder=Path(__file__).parent/'resources'/'fonts'/'NotoSans'
+        for weight in ('Regular','Bold'):
+            QFontDatabase.addApplicationFont(str(folder/f'{weight}.ttf'))
+        have=set(QFontDatabase.families())
+        FONT_FAMILY=next((f for f in _FONT_PREFS if f in have),
+                         QFontDatabase.systemFont(QFontDatabase.GeneralFont).family())
     return FONT_FAMILY
 
 
@@ -328,8 +329,8 @@ QTextBrowser, QTextBrowser:focus {{ background: {SURFACE}; border: none; border-
                       selection-background-color: {ACCENT_BORDER}; selection-color: {TEXT_STRONG}; }}
 
 /* ---- scroll bars: thin, rounded, quiet until hovered */
-QScrollBar:vertical {{ background: transparent; width: 10px; margin: 2px 1px 2px 0; }}
-QScrollBar::handle:vertical {{ background: {BORDER}; border-radius: 3px; min-height: 32px; margin: 0 2px; }}
+QScrollBar:vertical {{ background: transparent; width: 8px; margin: 4px 0; }}
+QScrollBar::handle:vertical {{ background: {BORDER}; border-radius: 3px; min-height: 36px; margin: 0 1px; }}
 QScrollBar::handle:vertical:hover, QScrollBar::handle:vertical:pressed {{ background: {BORDER_STRONG}; }}
 QScrollBar:horizontal {{ background: transparent; height: 10px; margin: 0 2px 1px 2px; }}
 QScrollBar::handle:horizontal {{ background: {BORDER}; border-radius: 3px; min-width: 32px; margin: 2px 0; }}
@@ -347,7 +348,7 @@ QPushButton:checked, QToolButton:checked {{ background: {ACCENT_SOFT}; border-co
 QPushButton:checked:hover, QToolButton:checked:hover {{ background: {ACCENT_SOFT_HOVER}; }}
 QPushButton:disabled, QToolButton:disabled {{ background: {SURFACE}; border-color: {BORDER_SUBTLE}; color: {FAINT}; }}
 QPushButton::menu-indicator, QToolButton::menu-indicator {{ image: none; width: 0; }}
-QPushButton#dropButton {{ text-align: left; padding-left: 10px; background: {SUNKEN}; }}
+QPushButton#dropButton {{ text-align: center; padding: 5px 18px; background: {SUNKEN}; }}
 QPushButton#dropButton:hover {{ background: {RAISED}; }}
 QPushButton[variant="primary"] {{ background: {ACCENT}; border-color: {ACCENT}; color: {ON_ACCENT}; font-weight: 700; }}
 QPushButton[variant="primary"]:hover {{ background: {ACCENT_HOVER}; border-color: {ACCENT_HOVER}; color: {ON_ACCENT}; }}
@@ -415,11 +416,11 @@ QTreeView::indicator {{ width: 13px; height: 13px; border-radius: 3px; border: 1
 QTreeView::indicator:checked {{ background: {ACCENT}; border-color: {ACCENT}; {_img("check")} }}
 QTreeView::indicator:indeterminate {{ background: {ACCENT_BORDER}; border-color: {ACCENT_BORDER}; {_img("dash")} }}
 
-QSlider {{ background: transparent; }}
+QSlider {{ background: transparent; min-height: 24px; padding: 2px 0; }}
 QSlider::groove:horizontal {{ height: 4px; background: {BORDER}; border-radius: 2px; }}
 QSlider::sub-page:horizontal {{ background: {ACCENT_PRESSED}; border-radius: 2px; }}
 QSlider::handle:horizontal {{ background: {TEXT_STRONG}; border: 2px solid {ACCENT}; width: 10px; height: 10px;
-             margin: -6px 0; border-radius: 7px; }}
+             margin: -5px 0; border-radius: 7px; }}
 QSlider::handle:horizontal:hover {{ background: {ACCENT_HOVER}; }}
 QSlider::handle:horizontal:disabled {{ background: {FAINT}; border-color: {BORDER}; }}
 QSlider::sub-page:horizontal:disabled {{ background: {BORDER_STRONG}; }}

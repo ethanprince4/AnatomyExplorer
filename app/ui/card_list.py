@@ -114,8 +114,7 @@ class CardDelegate(QStyledItemDelegate):
         dim = bool(index.data(ROLE_DIM))
         card = rect.adjusted(MARGIN_X, 2, -MARGIN_X, -2)
         fill = theme.ACCENT_SOFT if selected else theme.HOVER if hover else theme.RAISED
-        edge = theme.ACCENT if focused else theme.ACCENT_BORDER if selected else theme.BORDER_SUBTLE
-        painter.setPen(QPen(theme.qc(edge), 2 if focused else 1))
+        painter.setPen(Qt.NoPen)
         painter.setBrush(theme.qc(fill))
         painter.drawRoundedRect(card.adjusted(1, 1, -1, -1), theme.R_MD, theme.R_MD)
         fonts, avail, titles, summaries, footer = self._metrics(option, index)
@@ -146,8 +145,12 @@ class CardDelegate(QStyledItemDelegate):
 class CardList(QListWidget):
     """List semantics, real selection/focus and wrapping subject rows."""
 
-    def __init__(self, parent=None, compact=False):
+    def __init__(self, parent=None, compact=False, collapsible=False):
         super().__init__(parent)
+        self.collapsible = collapsible
+        self._expanded_groups = set()
+        self._group_header = None
+        self.itemClicked.connect(self._toggle_group)
         self.setItemDelegate(CardDelegate(self, compact=compact))
         self.setMouseTracking(True)
         self.setUniformItemSizes(False)
@@ -162,10 +165,42 @@ class CardList(QListWidget):
         super().resizeEvent(event)
         self.scheduleDelayedItemsLayout()
 
+    def keyPressEvent(self,event):
+        item=self.currentItem()
+        if self.collapsible and item is not None and item.data(ROLE_KIND)=="header" and event.key() in (Qt.Key_Return,Qt.Key_Enter,Qt.Key_Space):
+            self._toggle_group(item)
+            event.accept()
+            return
+        super().keyPressEvent(event)
+
+    def clear(self):
+        self._group_header = None
+        super().clear()
+
+    def _toggle_group(self, item):
+        if not self.collapsible or item.data(ROLE_KIND) != "header":
+            return
+        title = item.data(ROLE_TITLE)
+        expanded = title not in self._expanded_groups
+        if expanded:self._expanded_groups.add(title)
+        else:self._expanded_groups.discard(title)
+        item.setText(("▾ " if expanded else "▸ ") + title)
+        for row in range(self.row(item)+1,self.count()):
+            child=self.item(row)
+            if child.data(ROLE_KIND)=="header":break
+            child.setHidden(not expanded)
+        self.scheduleDelayedItemsLayout()
+
     def add_header(self, text):
         item = QListWidgetItem(text)
         item.setFlags(Qt.NoItemFlags)
         item.setData(ROLE_KIND, "header")
+        if self.collapsible:
+            item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
+            item.setData(ROLE_TITLE,text)
+            item.setText(("▾ " if text in self._expanded_groups else "▸ ")+text)
+            item.setToolTip("Expand or collapse this group")
+            self._group_header=text
         self.addItem(item)
         return item
 
@@ -191,4 +226,6 @@ class CardList(QListWidget):
         item.setData(Qt.AccessibleDescriptionRole, tooltip or accessible)
         item.setToolTip(tooltip or accessible)
         self.addItem(item)
+        if self.collapsible and self._group_header is not None:
+            item.setHidden(self._group_header not in self._expanded_groups)
         return item

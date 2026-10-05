@@ -44,10 +44,12 @@ class DeferredVariantEntry:
         if local:
             self.descriptor = meta.variants[self.variant]
             self.verification_state = "available"
-        self.kind_name = "In-house 3D model" if self.kind == "glb" else "In-house 3D microanatomy model"
+        self.kind_name = ""
         self.oriented = self.kind == "glb"
         for field in ("name", "summary", "targets", "histology", "related", "clinical", "scale_note", "aliases"):
             setattr(self, field, getattr(meta, field))
+        if self.id == "whole_heart":
+            self.name = "Heart"
 
     def resolve(self, model, names):
         from ..viewer.catalog import ModelEntry

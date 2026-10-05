@@ -209,8 +209,8 @@ source code is at <https://download.qt.io/official_releases/qt/> and PySide6's a
 
 ## 6. Application resources
 
-- `app/resources/icon.png` and `icon.ico` are drawn by `tools/make_icon.py` (QPainter shapes only) and are
-  part of this project (MIT).
+- `app/resources/logo.svg` is the original Vitruvian-circle application mark. `icon.png` and `icon.ico`
+  are rendered from it by `tools/make_icon.py`; these original application graphics are part of this project (MIT).
 - The microanatomy models (`app/micro`, cached in `data/micro_cache`) are generated procedurally by this
   project's code and are MIT-licensed.
 - The 3D models in `models/` (the whole heart, the kidney with its nephron and the cardiac muscle block) were
@@ -219,3 +219,9 @@ source code is at <https://download.qt.io/official_releases/qt/> and PySide6's a
   (`models/kidney/README.md`). So are the lessons, clinical correlations, radiology case texts,
   hand-written descriptions (`data/content/descriptions_extra*.json`) and Sketchfab part notes.
 - The app uses no bundled fonts. It uses the operating system's own.
+
+## Bundled interface font
+
+Noto Sans Regular and Bold are distributed under SIL Open Font License 1.1. The complete copyright and
+license notice is included at `app/ui/resources/fonts/NotoSans/LICENSE.txt`. These font files are not MIT-licensed.
+Official source: https://github.com/notofonts/latin-greek-cyrillic/releases/tag/NotoSans-v2.015

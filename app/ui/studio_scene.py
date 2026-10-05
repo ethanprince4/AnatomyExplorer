@@ -1,6 +1,8 @@
 """Responsive native scene instruments around an unchanged OpenGL viewport."""
+from math import ceil
+from PySide6.QtGui import QTextDocument
 from PySide6.QtCore import Qt, Signal, QEvent
-from PySide6.QtWidgets import QWidget,QFrame,QVBoxLayout,QHBoxLayout,QGridLayout,QComboBox,QLabel,QPushButton,QScrollArea,QSizePolicy
+from PySide6.QtWidgets import QWidget,QFrame,QVBoxLayout,QHBoxLayout,QGridLayout,QComboBox,QLabel,QPushButton,QScrollArea,QSizePolicy,QTreeWidget,QMenu
 
 class StudioScene(QWidget):
     partsChanged=Signal(bool)
@@ -16,6 +18,8 @@ class StudioScene(QWidget):
         self.subject=QLabel(self);self.subject.setObjectName('studioSceneTitle');self.subject.setTextFormat(Qt.PlainText);self.subject.setStyleSheet(display_css(42,'#eef3f6'))
         self.summary=QLabel(self);self.summary.setObjectName('studioSceneSummary');self.summary.setTextFormat(Qt.PlainText);self.summary.setWordWrap(True)
         self.status=QLabel(self);self.status.setObjectName('studioSceneStatus')
+        self.status.hide()
+        self.summary.hide()
         # Explicit local colors survive the light application's generic QLabel rules.
         self.breadcrumb.setStyleSheet('QLabel { color: #c7d5df; background: transparent; }')
         self.summary.setStyleSheet('QLabel { color: #c7d5df; background: transparent; }')
@@ -47,10 +51,22 @@ class StudioScene(QWidget):
             button.toggled.connect(lambda on,k=key:self.show_card(k,on))
         self.measure=self.add_tool('measure','Measure',checkable=True)
         self.labels=self.add_tool('labels','Labels',checkable=True)
+        self.show_all=self.add_tool('show_all','Show all')
+        self.show_all.setToolTip('Show every part again and leave isolation')
         self.reset=self.add_tool('reset','Reset')
+        self.reset.setToolTip('Reset the camera view')
         self.function=self.add_tool('function','Function',checkable=True);self.function.hide()
         self.function.setToolTip('Show optional function steps')
         self.function.toggled.connect(lambda on:(self.teaching.setVisible(on),self.arrange()))
+        more_menu=QMenu(self)
+        for key,title in [('parts','Parts'),('reveal','Reveal controls'),('section','Cross-section')]:
+            button=self.tools[key]
+            action=more_menu.addAction(title);action.setCheckable(True)
+            action.setChecked(key in ('parts','reveal'))
+            action.toggled.connect(button.setChecked)
+            button.toggled.connect(action.setChecked)
+        for key in ('select','parts','reveal','section'):self.tools[key].hide()
+        more=self.add_tool('more','More tools');more.setMenu(more_menu)
         self.parts.installEventFilter(self)
         self.tools['parts'].setChecked(True)
         self.tools['reveal'].setChecked(True)
@@ -82,7 +98,11 @@ class StudioScene(QWidget):
         if title=='Reveal':
             position=QComboBox();position.setAccessibleName('Reveal panel position');position.addItem('Right edge','right');position.addItem('Below contents','left')
             position.currentIndexChanged.connect(lambda _:self.set_instrument_side(position.currentData()));header.addWidget(position)
-        close=QPushButton('\u00d7');close.setObjectName('headerClose');close.setAccessibleName('Close '+title);close.clicked.connect(lambda:self.tools[key or title.lower()].setChecked(False));header.addWidget(close);layout.addLayout(header)
+        close=QPushButton('\u00d7');close.setObjectName('headerClose');close.setAccessibleName('Close '+title);close.clicked.connect(lambda:self.tools[key or title.lower()].setChecked(False));header.addWidget(close)
+        if key!='parts':layout.addLayout(header)
+        else:
+            for i in range(header.count()):
+                if header.itemAt(i).widget():header.itemAt(i).widget().hide()
         if key=='parts':
             # The tree owns its scrollbar; an outer scroll area traps wheel input
             # and produces a second, competing scrollbar around the same list.
@@ -118,8 +138,7 @@ class StudioScene(QWidget):
         self.instrument_side=side;self.arrange()
 
     def set_subject(self,name,summary="",category="3D models",count=None):
-        self.subject.setText(name);self.summary.setText(summary);self.breadcrumb.setText("Collection  /  "+category)
-        self.status.setText(f"{count} parts" if count is not None else "")
+        self.subject.setText(name);self.summary.setText(summary);self.breadcrumb.clear();self.breadcrumb.hide()
         self.arrange()
 
     def set_selection(self,title,description=""):
@@ -158,10 +177,10 @@ class StudioScene(QWidget):
         try:
             w,h=self.width(),self.height();gap=16;narrow=w<620
             self.breadcrumb.setGeometry(34,18,max(1,w-100),24)
-            self.subject.setGeometry(34,49,max(1,min(680,w-68)),56)
+            self.subject.setGeometry(34,18,max(1,min(680,w-68)),56)
             self.summary.setGeometry(34,108,max(1,min(610,w-68)),48)
             self.status.setGeometry(max(16,w-190),18,155,28)
-            for index,button in enumerate(self.tools.values()):
+            for index,button in enumerate(b for b in self.tools.values() if not b.isHidden()):
                 button.setMinimumWidth(0);self.dock_layout.removeWidget(button)
                 self.dock_layout.addWidget(button,index//4 if narrow else 0,index%4 if narrow else index)
             dock_h=90 if narrow else 56
@@ -183,14 +202,67 @@ class StudioScene(QWidget):
             available_h=max(70,self.dock.y()-gap-12)
             selection_h=min(desired_h,max(110,min(320,int(h*.45))),available_h)
             self.selection.setGeometry((w-selection_w)//2,max(gap,self.dock.y()-selection_h-12),selection_w,selection_h)
-            parts=self.cards['parts'];parts_w=min(312,max(1,w-2*gap))
+            parts=self.cards['parts'];parts_w=min(390,max(1,w-68))
             parts_bottom=self.selection.y()-gap if not self.selection.isHidden() else self.dock.y()-gap
-            parts_top=176
-            parts_h=min(550,max(100,parts_bottom-parts_top))
-            if self.instrument_side=="left" and not self.cards["reveal"].isHidden():parts_h=max(100,parts_h-172)
+            parts_top=self.subject.geometry().bottom()+12
+            parts_available=max(100,parts_bottom-parts_top)
+            if self.instrument_side=="left" and not self.cards["reveal"].isHidden():parts_available=max(100,parts_available-190)
+            tree=self.parts.findChild(QTreeWidget)
+            description=self.parts.findChild(QScrollArea)
+            if description is not None:
+                content=description.widget()
+                text_width=max(60,parts_w-52)
+                labels=content.findChildren(QLabel)
+                description_h=max(0,len(labels)-1)*content.layout().spacing()
+                for label in labels:
+                    label.ensurePolished()
+                    # Measure the text itself, independent of previous widget heights.
+                    document=QTextDocument()
+                    document.setDocumentMargin(0)
+                    document.setDefaultStyleSheet("p { margin:0; } body { margin:0; }")
+                    document.setDefaultFont(label.font())
+                    if label.textFormat()==Qt.PlainText:
+                        document.setPlainText(label.text())
+                    else:
+                        document.setHtml(label.text())
+                    document.setTextWidth(text_width)
+                    label_h=max(label.fontMetrics().height(),ceil(document.size().height())+2)
+                    label.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+                    label.setFixedHeight(label_h)
+                    description_h+=label_h
+                content.setFixedHeight(description_h)
+                description.setFixedHeight(description_h+2)
+            if tree is not None:
+                def visible_rows(item):
+                    if item.isHidden():return 0
+                    return 1+(sum(visible_rows(item.child(i)) for i in range(item.childCount())) if item.isExpanded() else 0)
+                rows=sum(visible_rows(tree.topLevelItem(i)) for i in range(tree.topLevelItemCount()))
+                row_h=max(tree.fontMetrics().height()+10,tree.sizeHintForRow(0))
+                tree_h=rows*row_h+2*tree.frameWidth()+4
+                # Size each visible control independently of the tree's previous height.
+                layout=self.parts.layout()
+                margins=layout.contentsMargins()
+                overhead=margins.top()+margins.bottom()
+                controls=0
+                for i in range(layout.count()):
+                    item=layout.itemAt(i);widget=item.widget()
+                    if widget is tree or (widget is not None and widget.isHidden()):continue
+                    if widget is not None:
+                        overhead+=max(widget.minimumHeight(),widget.sizeHint().height())
+                    elif item.layout() is not None:
+                        child=item.layout()
+                        overhead+=child.heightForWidth(parts_w-52) if child.hasHeightForWidth() else child.sizeHint().height()
+                    else:continue
+                    controls+=1
+                overhead+=controls*layout.spacing()
+                outer=parts.layout().contentsMargins()
+                overhead+=outer.top()+outer.bottom()
+                tree.setFixedHeight(min(tree_h,max(40,parts_available-overhead)))
+                parts_h=overhead+tree.height()
+            else:parts_h=parts_available
             parts.setGeometry(34,parts_top,parts_w,parts_h)
-            instrument_w=min(440,max(1,w-2*gap));instrument_x=max(gap,w-instrument_w-gap)
-            instrument_y=54
+            instrument_w=min(440,max(1,w-56));instrument_x=max(28,w-instrument_w-28)
+            instrument_y=24
             if self.instrument_side=='left' and w>=760:
                 instrument_x=34
                 instrument_y=parts.geometry().bottom()+12 if not parts.isHidden() else 176
@@ -211,4 +283,9 @@ class StudioScene(QWidget):
             self.teaching.raise_();self.selection.raise_();self.dock.raise_()
             if hasattr(self,"loading_cover"):
                 self.loading_cover.setGeometry(self.rect());self.loading_cover.raise_()
+                text_width=max(120,min(560,w-80))
+                for label in (self.loading_title,self.loading_note):
+                    label.ensurePolished();label.setFixedWidth(text_width)
+                    label.setMinimumHeight(0);label.setMaximumHeight(16777215)
+                    label.setFixedHeight(max(label.fontMetrics().height(),label.heightForWidth(text_width))+12)
         finally:self._laying_out=False

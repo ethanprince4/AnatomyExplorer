@@ -247,7 +247,8 @@ class SettingsDialog(QDialog):
         self._check(page, f, "show_hover_tooltip", "Show name tooltip when hovering")
         self._check(page, f, "hover_outline", "Outline structure under the cursor")
         self._check(page, f, "show_gizmo", "Orientation gizmo")
-        self._check(page, f, "show_perf", "Frame time in status bar")
+        self._check(page, f, "show_status_bar", "Show bottom status bar")
+        self._check(page, f, "show_perf", "Show rendering time in status bar")
         self._header(f, "RENDERING")
         self._slider(page, f, "render_scale", "Render resolution", 0.5, 2.0, 0.05,
                      tip="Above 1.0 supersamples for sharper edges; below 1.0 is faster.")

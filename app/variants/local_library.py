@@ -3,6 +3,17 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 from threading import RLock
+from functools import lru_cache
+
+
+@lru_cache(maxsize=1)
+def model_descriptions():
+    """Teaching metadata stays available when a refinement omits it."""
+    from ..config import ROOT
+    path = ROOT / 'data' / 'content' / 'model_summaries.json'
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding='utf-8'))
 
 class LocalLibrary:
     is_local = True
@@ -54,6 +65,10 @@ class LocalLibrary:
             fields=dict(name=row.get('name',mid.replace('_',' ').title()),summary='',targets={},histology=[],
                         related=[],clinical=[],scale_note='',aliases={},credit_html='',order=100)
             fields.update({key:row[key] for key in fields if key in row})
+            description = model_descriptions().get(mid, {})
+            for key in ('summary', 'scale_note', 'histology'):
+                if not fields[key]:
+                    fields[key] = description.get(key, fields[key])
             from .display_names import display_name
             fields['name'] = display_name(mid, fields['name'])
             result.append(SimpleNamespace(id=mid,variants=variants,**fields))

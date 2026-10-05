@@ -374,7 +374,7 @@ class PracticeController:
             quiz.delegate = self
         self._ensure_dock()
         if not self.active:
-            self._saved = {k: self.win.settings.get(k) for k in ("show_landmarks", "show_hover_tooltip")}
+            self._saved = {k: self.win.settings.get(k) for k in ("show_landmarks", "show_structure_labels", "show_hover_tooltip")}
             self._saved["details_visible"] = self.win.right_dock.isVisible()
             self._saved["explore_visible"] = self.win.left_dock.isVisible()
             self._snapshot = capture_scene(self.win)
@@ -475,13 +475,13 @@ class PracticeController:
         return self._live() and self.cur["item"]["type"] in ("find", "name", "find_micro")
 
     def _hide_names(self):
-        for k in ("show_landmarks", "show_hover_tooltip"):
+        for k in ("show_landmarks", "show_structure_labels", "show_hover_tooltip"):
             self.win.settings[k] = False
         self.win.viewport.landmark_hosts = []
         self.win.viewport.update()
 
     def _restore_names(self):
-        for k in ("show_landmarks", "show_hover_tooltip"):
+        for k in ("show_landmarks", "show_structure_labels", "show_hover_tooltip"):
             if k in self._saved:
                 self.win.settings[k] = self._saved[k] if self._saved[k] is not None else True
         self.win.viewport.update()

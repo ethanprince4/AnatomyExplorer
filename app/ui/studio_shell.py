@@ -4,7 +4,7 @@ Every command routes to the existing application owner; no demo scenes or data.
 """
 from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtWidgets import (QWidget,QVBoxLayout,QHBoxLayout,QPushButton,
-                               QLineEdit,QToolButton,QLabel,QMenu,QDockWidget,QScrollArea,QFrame,QSplitter)
+                               QLineEdit,QToolButton,QLabel,QMenu,QDockWidget,QScrollArea,QFrame,QSplitter,QStackedWidget)
 from .shell import ElidingLabel
 from .studio_style import icon
 
@@ -13,6 +13,8 @@ class StudioHeader(QWidget):
     exploreRequested=Signal()
     learnRequested=Signal()
     collectionRequested=Signal()
+    radiologyRequested=Signal()
+    histologyRequested=Signal()
     searchRequested=Signal(str)
 
     def __init__(self,window):
@@ -28,11 +30,12 @@ class StudioHeader(QWidget):
         self.brand=QLabel('Anatomy Explorer');self.brand.setObjectName('studioBrand');row.addWidget(self.brand)
         row.addSpacing(28)
         self.navigation={}
-        for label,signal in (('Explore',self.exploreRequested),('Learn',self.learnRequested),('Collection',self.collectionRequested)):
+        for label,signal in (('Explore',self.exploreRequested),('Lessons',self.learnRequested),('3D Models',self.collectionRequested),
+                             ('Radiology',self.radiologyRequested),('Histology',self.histologyRequested)):
             button=QPushButton(label);button.setCheckable(True);button.setAccessibleName(label+' workspace')
-            button.setProperty('variant','quiet');button.setMinimumHeight(36)
+            button.setObjectName('studioNavButton')
+            button.setProperty('variant','quiet');button.setMinimumHeight(40)
             button.setMinimumWidth(button.fontMetrics().horizontalAdvance(label)+48)
-            button.setStyleSheet('QPushButton { padding: 6px 16px; }')
             button.clicked.connect(lambda checked=False,s=signal:s.emit())
             self.navigation[label.lower()]=button;row.addWidget(button)
         row.addStretch()
@@ -78,6 +81,10 @@ class StudioHeader(QWidget):
             button.setChecked(key==name)
 
     def resizeEvent(self,event):
+        # Font scaling and the active stylesheet can change after construction.
+        # Reserve padding using the final font instead of the startup font.
+        for button in self.navigation.values():
+            button.setMinimumWidth(button.fontMetrics().horizontalAdvance(button.text())+48)
         self.brand.setVisible(self.width()>=1040)
         self.search.setMaximumWidth(300 if self.width()>=1200 else 220)
         super().resizeEvent(event)
@@ -92,14 +99,14 @@ class CollectionWorkspace(QWidget):
         self.card.setMaximumWidth(1320)
         outer.addWidget(self.card,1);outer.addStretch()
         layout=QVBoxLayout(self.card);layout.setContentsMargins(20,16,20,16)
-        row=QHBoxLayout()
-        for title,callback in (('3D models',catalog.focus_search),('Histology',lambda:window._show_nav_page(window.histology_panel)),
-                               ('Radiology',lambda:window._show_nav_page(window.radiology_browser)),('Lessons',window.show_lessons)):
-            b=QPushButton(title);b.clicked.connect(callback)
-            if title=='Histology':b.setEnabled(window.histology_panel is not None)
-            if title=='Radiology':b.setEnabled(window.radiology_browser is not None)
-            row.addWidget(b)
-        row.addStretch();layout.addLayout(row);layout.addWidget(catalog,1)
+        self.pages=QStackedWidget(self.card)
+        self.navigation_mode='collection'
+        self.buttons={}
+        for title,page in (('3D models',catalog),('Histology',window.histology_panel),
+                           ('Radiology',window.radiology_browser),('Lessons',window.lessons_panel)):
+            if page is not None and self.pages.indexOf(page)<0:self.pages.addWidget(page)
+        layout.addWidget(self.pages,1)
+        self.window_owner=window
         # Reuse every original catalog widget and callback; change its composition only.
         original=catalog.layout();items=[]
         while original.count():items.append(original.takeAt(0))
@@ -117,14 +124,29 @@ class CollectionWorkspace(QWidget):
             else:
                 target.addItem(item)
             if item.widget() is catalog.list:ll.setStretch(ll.count()-1,1)
-            if item.widget() is catalog.preview:rl.setStretch(rl.count()-1,1)
+            if item.widget() is catalog.preview:rl.setStretch(rl.count()-1,0)
         original.addWidget(split,1)
-        split.setStretchFactor(0,3);split.setStretchFactor(1,2);split.setSizes([660,440])
-        for button in (catalog.verify_models,catalog.cancel_verification,catalog.open_button):
+        rl.addStretch(1)
+        left.setMinimumWidth(260)
+        split.setStretchFactor(0,1);split.setStretchFactor(1,2);split.setSizes([340,760])
+        for button in (catalog.open_button,):
             button.setMaximumWidth(max(220,button.sizeHint().width()))
         catalog.kind_filter.setMaximumWidth(360)
         self.catalog_splitter=split
         catalog.show()
+        self.show_page(catalog,'3D models')
+
+    def show_page(self,page,title=None,mode='collection'):
+        if page is None:return
+        self.navigation_mode=(title or '3D models').lower()
+        self.pages.setCurrentWidget(page)
+        for label,button in self.buttons.items():
+            button.setChecked(label==title)
+        if title=='Lab course':page.show_course()
+        if hasattr(self.window_owner,'collection_workspace'):
+            self.window_owner.center.setCurrentWidget(self)
+            self.window_owner.left_dock.hide();self.window_owner.right_dock.hide()
+            self.window_owner._update_workspace_header()
 
 
 def atlas_dock(window):
@@ -133,16 +155,21 @@ def atlas_dock(window):
     holder=QHBoxLayout(host);holder.setContentsMargins(20,10,20,16);holder.addStretch()
     dock=QWidget(host);dock.setObjectName('dock');dock.setAttribute(Qt.WA_StyledBackground,True);row=QHBoxLayout(dock)
     row.setContentsMargins(14,8,14,8);row.addStretch()
-    for label,callback in (('Parts',lambda:window._show_nav_page(window.tree)),
-                           ('Reveal',lambda:window._show_nav_page(window.view_panel))):
-        button=QPushButton(label);button.clicked.connect(callback);row.addWidget(button)
-    section=QToolButton();section.setText('Section');section.setMenu(window.section_menu)
-    section.setPopupMode(QToolButton.InstantPopup);row.addWidget(section)
-    for label,key in (('Measure','measure'),('Reset','reset_view')):
+    for label,key in (('Measure','measure'),('Show all','show_all'),('Reset','reset_view')):
         action=window.cmds.actions.get(key)
         if action is not None:
-            button=QToolButton();button.setDefaultAction(action);button.setText(label);row.addWidget(button)
-    tools=QToolButton();tools.setText('More tools');tools.setMenu(window.tools_menu)
+            button=QToolButton();button.setDefaultAction(action);button.setText(label)
+            if key=='structure_labels':button.setToolTip('Show names of visible structures')
+            elif key=='show_all':button.setToolTip('Show every structure again and leave isolation')
+            elif key=='reset_view':button.setToolTip('Reset the camera view')
+            row.addWidget(button)
+    menu=QMenu(window)
+    menu.addAction('Parts',lambda:window._show_nav_page(window.tree))
+    menu.addAction('Reveal controls',lambda:window._show_nav_page(window.view_panel))
+    menu.addMenu(window.section_menu)
+    menu.addSeparator()
+    menu.addActions(window.tools_menu.actions())
+    tools=QToolButton();tools.setText('More tools');tools.setMenu(menu)
     tools.setPopupMode(QToolButton.InstantPopup);row.addWidget(tools)
     row.addStretch();holder.addWidget(dock);holder.addStretch();return host
 
@@ -203,11 +230,22 @@ class FloatingPanels:
         close=panel.titleBarWidget().findChild(QPushButton)
         if close is not None:close.setAccessibleName('Close '+(title or 'Explore'))
     def clip(self,panel):
-        # QWidget masks clip descendant scroll viewports too, unlike QSS radius.
+        # Alpha clipping keeps descendant viewports inside smooth corners.
+        # QRegion masks have a binary pixel edge and look jagged on round cards.
         from PySide6.QtCore import QRectF
-        from PySide6.QtGui import QPainterPath,QRegion
+        from PySide6.QtGui import QPainter,QPainterPath,QImage,QPixmap,QBrush
+        from PySide6.QtWidgets import QGraphicsOpacityEffect
+        ratio=panel.devicePixelRatioF()
+        image=QImage(max(1,int(panel.width()*ratio)),max(1,int(panel.height()*ratio)),QImage.Format_ARGB32_Premultiplied)
+        image.setDevicePixelRatio(ratio);image.fill(Qt.transparent)
+        painter=QPainter(image);painter.setRenderHint(QPainter.Antialiasing)
         path=QPainterPath();path.addRoundedRect(QRectF(panel.rect()),14,14)
-        panel.setMask(QRegion(path.toFillPolygon().toPolygon()))
+        painter.fillPath(path,Qt.white);painter.end()
+        effect=getattr(panel,'_studio_corner_effect',None)
+        if effect is None:
+            effect=QGraphicsOpacityEffect(panel);effect.setOpacity(1.0)
+            panel._studio_corner_effect=effect;panel.setGraphicsEffect(effect)
+        panel.clearMask();effect.setOpacityMask(QBrush(QPixmap.fromImage(image)))
     def shown(self,panel,visible):
         if visible:
             if self.host.width()<1100:
@@ -220,7 +258,7 @@ class FloatingPanels:
         header=getattr(self.window,'studio_header',None)
         top=(header.geometry().bottom()+12) if header is not None else 20
         if self.window.center.currentWidget() is self.window.anatomy_tab:
-            top += 100
+            top=self.window.studio_header.subject.geometry().bottom()+12
         available=max(120,h-top-20)
         for index,panel in enumerate(self.panels):
             content=panel._studio_content

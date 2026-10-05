@@ -78,6 +78,7 @@ def decode_local_npz(path, token=None, warnings=None):
     warnings = warnings if warnings is not None else []
     rows = []
     with np.load(path, allow_pickle=False) as archive:
+        keys = set(archive.files)
         raw_meta = archive["meta"]
         metadata = json.loads(raw_meta.tobytes().decode("utf-8"))
         for i, original in enumerate(metadata["parts"]):
@@ -85,11 +86,11 @@ def decode_local_npz(path, token=None, warnings=None):
             row = deepcopy(original)
             row.setdefault("name", f"Part {i + 1}")
             raw = archive[f"p{i}"]
-            if raw.dtype.kind == "u" and f"b{i}" in archive:
+            if raw.dtype.kind == "u" and f"b{i}" in keys:
                 lo, span = archive[f"b{i}"]
                 vertices = (raw.astype(np.float64) / 65535.0 * span + lo).astype(np.float32)
             else:
-                vertices = raw.astype(np.float32)
+                vertices = raw.astype(np.float32, copy=False)
             if vertices.ndim != 2 or vertices.shape[1] != 3 or not np.isfinite(vertices).all():
                 raise ValueError(f"{row['name']}: unreadable vertex positions")
             indices = archive[f"i{i}"]
@@ -99,8 +100,9 @@ def decode_local_npz(path, token=None, warnings=None):
                 faces = np.cumsum(indices.astype(np.int64)).reshape(-1, 3)
             if faces.size and (faces.min() < 0 or faces.max() >= len(vertices)):
                 raise ValueError(f"{row['name']}: triangle refers to a missing vertex")
-            normals = archive[f"n{i}"].astype(np.float32) if f"n{i}" in archive else None
-            if normals is not None and archive[f"n{i}"].dtype.kind in "iu":
+            raw_normals = archive[f"n{i}"] if f"n{i}" in keys else None
+            normals = raw_normals.astype(np.float32, copy=False) if raw_normals is not None else None
+            if raw_normals is not None and raw_normals.dtype.kind in "iu":
                 normals /= 127.0
             if normals is None or normals.shape != vertices.shape or not np.isfinite(normals).all():
                 warnings.append(f"{row['name']}: missing or incompatible normals regenerated")
@@ -112,7 +114,7 @@ def decode_local_npz(path, token=None, warnings=None):
                 if not good.all():
                     normals[~good] = _normals(vertices, faces)[~good]
                     warnings.append(f"{row['name']}: zero normals repaired")
-            colors = _colors(archive[f"c{i}"] if f"c{i}" in archive else None, len(vertices), warnings, row["name"])
+            colors = _colors(archive[f"c{i}"] if f"c{i}" in keys else None, len(vertices), warnings, row["name"])
             rows.append((row, vertices, normals, faces, colors))
     return metadata, rows
 
@@ -316,7 +318,7 @@ def _component_controls(entry, descriptor, metadata, decoded, warnings):
 
 
 def prepare_local_model(entry, token=None):
-    from .anatomy_runtime_adapters.runtime import NativeBackend, _prepare_hooks, _hook, _resolve_fit_cameras
+    from .anatomy_runtime_adapters.runtime import NativeBackend, _prepare_hooks, _hook, _resolve_fit_cameras, _retire_native_backing
     _check(token)
     descriptor = getattr(entry, "descriptor", None) or entry.store.resolve(entry.id, entry.variant)
     entry.descriptor = descriptor
@@ -376,6 +378,7 @@ def prepare_local_model(entry, token=None):
         except Exception as exc:
             warnings.append(f"Some teaching metadata could not follow the current parts: {exc}")
         model.metres_per_unit = float(controls["native"].get("metres_per_unit", 0))
+        _retire_native_backing(model, [row for row, *_ in decoded])
     elif path.suffix.lower() == ".glb":
         from app.viewer.model import Model
         controls = (_component_controls(entry, descriptor, {}, [], warnings) if component else

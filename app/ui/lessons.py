@@ -244,7 +244,7 @@ class LessonsPanel(QWidget):
         self.stats.setWordWrap(True)
         self.stats.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         lay.addWidget(self.stats)
-        self.list = CardList()
+        self.list = CardList(collapsible=True)
         self.list.setAccessibleName("Lesson library")
         self.list.itemActivated.connect(self._open_item)
         self.list.itemClicked.connect(self._open_item)

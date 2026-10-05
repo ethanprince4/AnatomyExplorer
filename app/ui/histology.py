@@ -105,7 +105,7 @@ class HistologyBrowser(QWidget):
         f = micro_root.font(0)
         f.setBold(True)
         micro_root.setFont(0, f)
-        micro_root.setExpanded(True)
+        micro_root.setExpanded(False)
         for m in sorted(self.content.micro_models.values(), key=lambda m: m.name.lower()):
             it = QTreeWidgetItem(micro_root)
             it.setText(0, m.name)
@@ -153,8 +153,7 @@ class HistologyBrowser(QWidget):
                         stack.append(c)
             it.setText(1, str(count))
             it.setForeground(1, muted)
-            if len(key) == 1:
-                it.setExpanded(True)
+            it.setExpanded(False)
 
     def _clicked(self, item, _col=0):
         d = item.data(0, ROLE)
@@ -198,8 +197,8 @@ class HistologyBrowser(QWidget):
                 child_match |= rec(item.child(i), inherited or (bool(q) and direct))
             shown = child_match or (match and bool(data))
             item.setHidden(not shown)
-            if q and child_match:
-                item.setExpanded(True)
+            if item.childCount():
+                item.setExpanded(bool(q) and child_match)
             if shown and data and data[0] in ("tissue", "micro"):
                 visible += 1
             return shown

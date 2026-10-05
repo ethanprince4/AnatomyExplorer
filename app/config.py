@@ -106,10 +106,12 @@ DEFAULT_SETTINGS = {
     "show_hover_tooltip": True,
     "hover_outline": True,
     "show_perf": True,
+    "show_status_bar": False,
     # focus
     "ghost_alpha": 0.10,
     "xray_on_search": True,
     "show_landmarks": True,
+    "show_structure_labels": False,
     "section_labels": True,
     "max_section_labels": 22,
     # mouse & camera
