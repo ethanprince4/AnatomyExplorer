@@ -258,7 +258,7 @@ class ModelCatalogPanel(QWidget):
         self.kind_filter = QComboBox()
         self.kind_filter.setAccessibleName("Model collection")
         self.kind_filter.addItem("All models", "")
-        self.kind_filter.addItem("In-house 3D models", "glb")
+        self.kind_filter.addItem("In-house 3D models", "inhouse")
         self.kind_filter.addItem("Microanatomy", "procedural")
         if not getattr(content.micro_models, "is_new_catalog", False):
             self.kind_filter.addItem("Downloaded models", "downloaded")
@@ -331,7 +331,7 @@ class ModelCatalogPanel(QWidget):
         for entry in entries:
             targets = " ".join(str(value) for value in (getattr(entry, "targets", {}) or {}).values())
             haystack = normalized(f"{entry.name} {entry.summary} {targets} {entry.kind_name}")
-            if (kind and entry.kind != kind) or not all(word in haystack for word in terms):
+            if (kind == "inhouse" and entry.kind not in ("glb", "procedural")) or (kind and kind != "inhouse" and entry.kind != kind) or not all(word in haystack for word in terms):
                 continue
             item = QListWidgetItem()
             item.setData(ROLE_ENTRY, entry)

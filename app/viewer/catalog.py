@@ -67,7 +67,7 @@ class ModelEntry:
 
     @property
     def kind_name(self):
-        return {"glb": "3D model", "procedural": "3D microanatomy model", "downloaded": "downloaded 3D model"}.get(
+        return {"glb": "In-house 3D model", "procedural": "In-house 3D microanatomy model", "downloaded": "downloaded 3D model"}.get(
             self.kind, "3D model")
 
     def load(self):
