@@ -13,7 +13,7 @@ import numpy as np
 from PySide6.QtCore import QTimer, Qt, QUrl, Signal
 from PySide6.QtGui import QActionGroup
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMenu, QPushButton, QSlider,
-                               QScrollArea, QSplitter, QToolButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+                               QScrollArea, QSplitter, QGridLayout, QToolButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
 from ..state import SceneState
 from ..viewer.dataset import ModelDataset
@@ -115,10 +115,15 @@ class ModelView(QWidget):
         from .model_teaching import ModelTeachingControls
         self.teaching_controls = ModelTeachingControls(self)
         from .studio_scene import StudioScene
-        self.studio = StudioScene(self.gl_widget, side, reveal, sections, self.teaching_controls, self)
+        self.studio = StudioScene(self.gl_widget, side, self._compact_reveal(reveal), sections, self.teaching_controls, self)
+        self.studio.set_subject(entry.name, brief(entry.summary,150), getattr(entry,"kind_name","3D models"),len(self.vmodel.items))
         self.splitter = self.studio  # Retain the public layout owner; renderer stays unchanged.
         lay.addWidget(self.studio)
+        self.studio.select.clicked.connect(lambda: self.gl_widget.set_measure(False))
         self.studio.measure.toggled.connect(self.gl_widget.set_measure)
+        self.studio.measure.toggled.connect(lambda on:self.studio.select.setChecked(not on))
+        self.studio.isolateRequested.connect(self.isolate_selection)
+        self.studio.detailsRequested.connect(self._open_selected_details)
         self.gl_widget.measureChanged.connect(self._studio_measure_changed)
         self.studio.labels.setChecked(self.labels.isChecked())
         self.studio.labels.toggled.connect(self.labels.setChecked)
@@ -155,11 +160,67 @@ class ModelView(QWidget):
                 self.teaching_controls.setToolTip('Some teaching controls are unavailable for this saved model: '+str(exc))
                 self.vmodel.runtime_warnings = list(getattr(self.vmodel, 'runtime_warnings', []))+[str(exc)]
 
+    def _compact_reveal(self, advanced):
+        body = QWidget()
+        layout = QVBoxLayout(body)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(5)
+        sliders = QGridLayout()
+        sliders.setContentsMargins(0, 0, 0, 0)
+        for column, (title, original) in enumerate((("Tissue opacity", self.opacity), ("Separate layers", self.explode))):
+            label = QLabel(title)
+            sliders.addWidget(label, 0, column)
+            slider = QSlider(Qt.Horizontal)
+            slider.setAccessibleName(title)
+            if original is not None:
+                slider.setRange(original.minimum(), original.maximum())
+                slider.setValue(original.value())
+                slider.valueChanged.connect(original.setValue)
+                original.valueChanged.connect(slider.setValue)
+            else:
+                slider.setEnabled(False)
+                slider.setToolTip("This model has no tissue-opacity layers.")
+            sliders.addWidget(slider, 1, column)
+        layout.addLayout(sliders)
+        row = QHBoxLayout()
+        cut = QCheckBox("Cut-away")
+        cut.setEnabled(self.cut is not None)
+        if self.cut is not None:
+            cut.setChecked(self.cut.isChecked())
+            cut.toggled.connect(self.cut.setChecked)
+            self.cut.toggled.connect(cut.setChecked)
+        row.addWidget(cut)
+        reset = QPushButton("Reset")
+        def reset_reveal():
+            if self.opacity is not None:self.opacity.setValue(50)
+            self.explode.setValue(0)
+            if self.cut is not None:self.cut.setChecked(bool(getattr(self.vmodel,'cutaway',{}).get('on',False)))
+        reset.clicked.connect(reset_reveal)
+        row.addWidget(reset)
+        more = QPushButton("More controls")
+        more.setCheckable(True)
+        row.addWidget(more)
+        layout.addLayout(row)
+        advanced.hide()
+        layout.addWidget(advanced)
+        def expanded(on):
+            advanced.setVisible(on);body.setProperty('expanded',on)
+            if hasattr(self,'studio'):self.studio.arrange()
+        more.toggled.connect(expanded)
+        return body
+
+    def _open_selected_details(self):
+        self._show_selection()
+        dock = getattr(self.window(), 'right_dock', None)
+        if dock is not None:dock.show();dock.raise_()
+        elif self.info is not None:self.info.show();self.info.raise_()
+
     def _studio_measure_changed(self, text):
         button = self.studio.measure
         button.blockSignals(True)
         button.setChecked(self.gl_widget.measure_mode)
         button.blockSignals(False)
+        self.studio.select.setChecked(not self.gl_widget.measure_mode)
         button.setToolTip(text or "Click two points to measure. Shift-click adds another leg.")
 
     def _runtime_opening(self):
@@ -174,10 +235,10 @@ class ModelView(QWidget):
     def _side(self):
         e, m = self.entry, self.vmodel
         side = QWidget()
-        side.setMinimumWidth(250)
+        side.setMinimumWidth(0)
         side.setAccessibleName("Model overview and parts")
         sl = QVBoxLayout(side)
-        sl.setContentsMargins(14, 12, 8, 8)
+        sl.setContentsMargins(4, 2, 4, 4)
         sl.setSpacing(6)
         compatibility_notes = getattr(m, 'runtime_warnings', [])
         if compatibility_notes:
@@ -188,7 +249,7 @@ class ModelView(QWidget):
         introduction = QScrollArea()
         introduction.setWidgetResizable(True)
         introduction.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        introduction.setMaximumHeight(230)
+        introduction.setMaximumHeight(140)
         introduction.setAccessibleName("Model summary, scale and attribution")
         intro_body = QWidget()
         intro_layout = QVBoxLayout(intro_body)
@@ -1016,6 +1077,13 @@ class ModelView(QWidget):
         if hasattr(self, "selection_status"):
             self._update_selection_controls()
         self.gl_widget.invalidate_labels()
+        if hasattr(self,"studio"):
+            selected = list(self.state.selected)
+            if self.click_hook is not None or not selected:self.studio.set_selection("")
+            elif len(selected)==1:
+                item=self.vmodel.items[selected[0]]
+                self.studio.set_selection(item.name,brief(item.description or "Selected model structure",145))
+            else:self.studio.set_selection(f"{len(selected)} parts selected", "Isolate these structures or open their details.")
         if not self.info or self.click_hook is not None:
             return
         sel = list(self.state.selected)

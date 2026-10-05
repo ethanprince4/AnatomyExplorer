@@ -4,11 +4,13 @@ import json
 from PySide6.QtGui import QFontDatabase, QIcon
 
 ROOT = Path(__file__).parent / 'resources' / 'studio'
+STAGE_BACKGROUND = '#141b22'
+STAGE_TEXT = '#f4f5f7'
 PALETTES = json.loads((ROOT / 'palettes.json').read_text(encoding='utf-8'))
 
 def palette(mode=None):
     from . import theme
-    return dict(PALETTES['porcelain' if (mode or theme.THEME_NAME) == 'porcelain' else 'graphite'])
+    return dict(PALETTES['porcelain'])
 
 def display_font_family():
     families = set(QFontDatabase.families())
@@ -21,7 +23,8 @@ def display_css(size=34, color=None):
 
 def icon(name, mode=None):
     from . import theme
-    key = 'porcelain' if (mode or theme.THEME_NAME) == 'porcelain' else 'graphite'
+    key = 'porcelain'
+    name = {'layers':'parts', 'eye':'labels', 'ruler':'measure'}.get(name, name)
     return QIcon(str(ROOT / 'icons' / key / (name + '.svg')))
 
 def apply_surface(widget, name='surface'):
@@ -35,7 +38,15 @@ def build_stylesheet(scale=1.0):
     p = palette()
     return f'''
 /* Study-02 surfaces are opt-in; no widget hierarchy or render surface is replaced. */
-QWidget#studioScene {{ background:transparent; }}
+QTabWidget#studioWorkspaces {{ background:{STAGE_BACKGROUND};border:none;padding:0px;margin:0px; }}
+QTabWidget#studioWorkspaces::pane {{ background:{STAGE_BACKGROUND};border:none;padding:0px;margin:0px;top:0px; }}
+QTabWidget#studioWorkspaces > QStackedWidget {{ background:{STAGE_BACKGROUND};border:none; }}
+QWidget#globalBar QPushButton[variant="quiet"]:checked {{ background:{p['selected']};color:{p['accent']};border:1px solid {p['accent']};border-radius:9px;font-weight:600; }}
+QWidget#globalBar QPushButton[variant="quiet"]:checked:hover {{ background:{p['selected']};color:{p['accent']};border-color:{p['accent']}; }}
+
+QWidget#studioShell, QWidget#studioHeader, QWidget#studioScene {{ background:{STAGE_BACKGROUND}; }}
+QWidget#studioHeader > QWidget {{ background:transparent; }}
+QLabel#studioBrand {{ color:{p['text']};font-size:{16 * scale}px;font-weight:600;background:transparent; }}
 QFrame#studioCard > QWidget, QFrame#studioInstrument > QWidget,
 QFrame#studioDock > QWidget, QWidget#studioTeaching > QWidget {{ background:transparent; }}
 QPushButton#studioTool, QToolButton#studioTool {{ background:transparent;border:2px solid transparent;border-radius:10px;padding:6px 9px;color:{p['muted']}; }}
@@ -54,13 +65,17 @@ QWidget#selectionSurface QLabel[muted="true"] {{ color:{p['paper_muted']}; }}
 QWidget#previewSurface {{ background:{p['preview']};border:none;border-radius:16px; }}
 QWidget#selectedModel {{ background:{p['selected']};border-radius:10px; }}
 QWidget#modelRow {{ border-bottom:1px solid {p['row_edge']}; }}
-QWidget#globalBar {{ background:{p['header']};border:none;border-radius:14px; }}
+QWidget#globalBar {{ background:{p['surface']};border:none;border-radius:14px; }}
 QLineEdit#globalSearch {{ background:{p['input']};border:2px solid {p['input_border']};padding:9px 13px;border-radius:8px;color:{p['text']}; }}
 QLineEdit#globalSearch:focus {{ border-color:{p['accent']}; }}
-QWidget#deep, QFrame#studioInstrument {{ background:{p['tool']};border:1px solid {p['tool_edge']};border-radius:14px; }}
+QWidget#deep {{ background:{p['tool']};border:1px solid {p['tool_edge']};border-radius:14px; }}
+QFrame#studioInstrument {{ background:{p['surface']};border:1px solid {p['row_edge']};border-radius:14px; }}
 QWidget#dock, QFrame#studioDock {{ background:{p['surface']};border:1px solid {p['edge']};border-radius:20px; }}
-QLabel#studioDisplay, QLabel#studioCardTitle {{ {display_css(34 * scale)} }}
-QLabel#studioEyebrow {{ color:{p['muted']};font-size:{11 * scale}px;font-weight:600; }}
+QLabel#studioDisplay {{ {display_css(34 * scale, STAGE_TEXT)} }}
+QLabel#studioCardTitle {{ color:{p['text']};font-size:{18 * scale}px;font-weight:600;background:transparent; }}
+QLabel#studioSelectionTitle {{ {display_css(28 * scale, p['paper_text'])} }}
+QLabel#studioSelectionDescription {{ color:{p['paper_muted']};font-size:{13 * scale}px;background:transparent; }}
+QLabel#studioEyebrow {{ color:#c6cdd6;font-size:{11 * scale}px;font-weight:600; }}
 QPushButton[variant="quiet"] {{ background:transparent;border:2px solid transparent;color:{p['muted']};border-radius:8px;padding:6px 12px; }}
 QPushButton[variant="quiet"]:hover {{ background:{p['raised']};color:{p['text']}; }}
 QPushButton[variant="paperAction"] {{ background:{p['paper_action']};color:{p['on_paper_action']};font-weight:600;border:2px solid transparent;border-radius:8px; }}

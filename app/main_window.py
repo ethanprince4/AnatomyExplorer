@@ -623,6 +623,10 @@ class MainWindow(QMainWindow):
     def _build_workspace_header(self):
         from .ui.studio_shell import StudioHeader, CollectionWorkspace, atlas_dock
         self.studio_header = StudioHeader(self)
+        self.workspace.setObjectName('studioShell')
+        self.center.setObjectName('studioWorkspaces')
+        self.center.tabBar().hide()
+        self.menuBar().hide()
         self.workspace_title = self.studio_header.title
         self.workspace_context = self.studio_header.context
         self.studio_header.exploreRequested.connect(self._studio_explore)
@@ -748,9 +752,11 @@ class MainWindow(QMainWindow):
         self.workspace_title.setText(title)
         self.workspace_context.setText(subtitle)
         if hasattr(self, 'studio_header'):
+            self.center.tabBar().hide()
             collection = current is self.collection_workspace
             learning = self.lessons_panel is not None and self.tabs.currentWidget() is self.lessons_panel and not self.left_dock.isHidden()
             self.studio_header.set_workspace('collection' if collection else 'learn' if learning else 'explore')
+            self.studio_header.subject.setVisible(not hasattr(current, 'studio'))
             self.studio_tools.setVisible(current is self.anatomy_tab)
             if not collection:self._studio_last_scene = current
         self.cmds.actions["back"].setEnabled(self.history_pos > 0)

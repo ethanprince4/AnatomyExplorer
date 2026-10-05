@@ -28,10 +28,11 @@ class StudioThemeTests(unittest.TestCase):
         with patch.object(QFontDatabase, "families", return_value=["Noto Serif", "Georgia"]):
             self.assertEqual(studio_style.display_font_family(), "Georgia")
         self.assertTrue(studio_style.display_font_family())
-    def test_optional_slate_and_invalid_preference(self):
+    def test_legacy_and_invalid_preferences_use_only_porcelain(self):
         theme.apply_theme(APP,mode='slate')
-        self.assertEqual(theme.THEME_NAME,'slate')
-        self.assertEqual(studio_style.palette()['paper'],'#DFE4E6')
+        self.assertEqual(theme.THEME_NAME,'porcelain')
+        self.assertEqual(list(theme.THEMES), ['porcelain'])
+        self.assertEqual(studio_style.palette()['paper'],'#2D3C52')
         theme.set_theme('removed-mode')
         self.assertEqual(theme.THEME_NAME,'porcelain')
     def test_surface_preserves_real_child_and_action(self):

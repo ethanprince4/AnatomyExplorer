@@ -235,8 +235,8 @@ class SettingsDialog(QDialog):
         self.theme_picker.setCurrentIndex(max(0, self.theme_picker.findData(saved_theme)))
         self.theme_picker.currentIndexChanged.connect(
             lambda _index: self.themeChanged.emit(self.theme_picker.currentData()))
-        f.addRow("Appearance", self.theme_picker)
-        appearance_hint = QLabel("Applies when the app next starts. Educational images and model materials keep their original colours.")
+        self.theme_picker.hide()  # Study-02 Porcelain is the single approved appearance.
+        appearance_hint = QLabel("Study-02 Porcelain. Educational images and model materials keep their original colours.")
         appearance_hint.setWordWrap(True)
         appearance_hint.setStyleSheet(theme.text_css(theme.MUTED))
         f.addRow("", appearance_hint)

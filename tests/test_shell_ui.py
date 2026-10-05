@@ -116,7 +116,7 @@ class ShellTests(unittest.TestCase):
         self.assertLessEqual(label.fontMetrics().horizontalAdvance(label.text()), label.width())
         notice.deleteLater(); label.deleteLater()
 
-    def test_settings_appearance_signal_reset_and_labelled_controls(self):
+    def test_settings_single_appearance_reset_and_labelled_controls(self):
         with tempfile.TemporaryDirectory() as folder:
             settings = QSettings(str(Path(folder) / 'fixture.ini'), QSettings.IniFormat)
             host, viewport = QWidget(), QWidget()
@@ -124,8 +124,10 @@ class ShellTests(unittest.TestCase):
             dialog = SettingsDialog(dict(DEFAULT_SETTINGS), registry)
             saved = []
             dialog.themeChanged.connect(saved.append)
-            dialog.theme_picker.setCurrentIndex(dialog.theme_picker.findData('slate'))
-            self.assertEqual(saved[-1], 'slate')
+            self.assertEqual(dialog.theme_picker.count(), 1)
+            self.assertEqual(dialog.theme_picker.findData('slate'), -1)
+            self.assertTrue(dialog.theme_picker.isHidden())
+            self.assertEqual(saved, [])
             dialog.tabs.setCurrentIndex(1)
             dialog._reset_page()
             self.assertEqual(dialog.theme_picker.currentData(), 'porcelain')

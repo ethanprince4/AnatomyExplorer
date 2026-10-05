@@ -125,6 +125,11 @@ class IntegratedShellTests(unittest.TestCase):
 
     def test_studio_navigation_keeps_scene_and_routes_live_search(self):
         win=self.window
+        self.assertTrue(win.menuBar().isHidden())
+        self.assertTrue(win.center.tabBar().isHidden())
+        for _ in range(2):
+            win.studio_header._populate_commands()
+            self.assertIn('Open workspaces',[a.text() for a in win.studio_header.commands_menu.actions()])
         camera=win.viewport.camera
         win.studio_header.navigation['collection'].click()
         self.assertIs(win.center.currentWidget(),win.collection_workspace)

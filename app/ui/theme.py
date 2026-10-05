@@ -1,8 +1,8 @@
 """Shared native Porcelain/Cobalt interface tokens.
 
 Educational images, model materials and renderer backgrounds are intentionally independent.
-The alternative Slate palette is selected before widget construction; switching it is a
-next-launch preference so rich-text and painter surfaces cannot become partly themed.
+Study-02 Porcelain is the single approved appearance. Legacy saved theme values
+resolve to Porcelain before widget construction.
 """
 import sys
 import tempfile
@@ -83,14 +83,14 @@ _PORCELAIN = dict(
     SUCCESS="#307568", SUCCESS_FILL="#d2e8dc", SUCCESS_SOFT="#e4f0e9",
     WARNING="#b55752", WARNING_SOFT="#f3e4e1", DANGER="#a92c35", DANGER_FILL="#f2d6d8",
     DANGER_SOFT="#f8e7e9", INFO="#364f99", ON_TINT="#24343d")
-THEMES = {"porcelain": "Porcelain / Cobalt", "slate": "Slate / Cobalt"}
+THEMES = {"porcelain": "Porcelain / Cobalt"}
 THEME_NAME = "porcelain"
 
 
 def set_theme(name="porcelain"):
     """Choose tokens before constructing the UI. Invalid saved values use Porcelain."""
     global THEME_NAME, BG, PANEL, PANEL_2, LEVEL, TOPIC, _glyph_dir
-    THEME_NAME = name if name in THEMES else "porcelain"
+    THEME_NAME = "porcelain"
     globals().update(_PORCELAIN if THEME_NAME == "porcelain" else _DARK)
     BG, PANEL, PANEL_2 = CANVAS, SURFACE, RAISED
     LEVEL = ({"foundation": "#276653", "core": "#364f99", "advanced": "#984740"}
