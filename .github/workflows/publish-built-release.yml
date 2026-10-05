@@ -1,0 +1,50 @@
+name: Publish completed release builds
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Completed release workflow run containing both successful build artifacts
+        required: true
+      tag:
+        description: Existing release tag
+        required: true
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: AnatomyExplorer-Setup-Windows.exe
+          path: assets
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v8
+        with:
+          name: AnatomyExplorer-macOS-AppleSilicon.dmg
+          path: assets
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ github.token }}
+      - name: Prepare installer downloads within GitHub size limit
+        env:
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: python packaging/prepare_release_assets.py assets "$RELEASE_TAG"
+      - uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ inputs.tag }}
+          name: Anatomy Explorer ${{ inputs.tag }}
+          draft: true
+          files: assets/*
+          fail_on_unmatched_files: true
+          body: >-
+            Refreshed UI and post-refined model library. Existing users can use the in-app updater normally.
+            New installations: installers exceed GitHub's file limit. Download Download-Windows-Installer.ps1
+            or Download-Mac-Installer.command to download and assemble your installer. See INSTALL-DOWNLOADS.md.
+      - name: Publish completed uploads
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag }}
+        run: gh release edit "$RELEASE_TAG" --draft=false --latest
