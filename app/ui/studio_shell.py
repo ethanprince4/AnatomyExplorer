@@ -31,6 +31,8 @@ class StudioHeader(QWidget):
         for label,signal in (('Explore',self.exploreRequested),('Learn',self.learnRequested),('Collection',self.collectionRequested)):
             button=QPushButton(label);button.setCheckable(True);button.setAccessibleName(label+' workspace')
             button.setProperty('variant','quiet');button.setMinimumHeight(36)
+            button.setMinimumWidth(button.fontMetrics().horizontalAdvance(label)+48)
+            button.setStyleSheet('QPushButton { padding: 6px 16px; }')
             button.clicked.connect(lambda checked=False,s=signal:s.emit())
             self.navigation[label.lower()]=button;row.addWidget(button)
         row.addStretch()

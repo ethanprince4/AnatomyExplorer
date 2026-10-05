@@ -288,8 +288,15 @@ class ModelView(QWidget):
         intro_layout = QVBoxLayout(intro_body)
         intro_layout.setContentsMargins(0, 0, 0, 0)
         intro_layout.setSpacing(6)
-        intro_body.hide()
-        summary_toggle.toggled.connect(intro_body.setVisible)
+        intro_scroll = QScrollArea()
+        intro_scroll.setWidgetResizable(True)
+        intro_scroll.setFrameShape(QScrollArea.NoFrame)
+        intro_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        intro_scroll.setMinimumHeight(100)
+        intro_scroll.setMaximumHeight(240)
+        intro_scroll.setWidget(intro_body)
+        intro_scroll.hide()
+        summary_toggle.toggled.connect(intro_scroll.setVisible)
         summary_toggle.toggled.connect(lambda on: summary_toggle.setArrowType(Qt.DownArrow if on else Qt.RightArrow))
         title = QLabel(e.name)
         title.setTextFormat(Qt.PlainText)
@@ -302,7 +309,7 @@ class ModelView(QWidget):
         self.variant_choice.requested.connect(self.variantRequested)
         self.variant_choice.componentRequested.connect(self.componentRequested)
         sl.addWidget(self.variant_choice)
-        summ = QLabel(brief(e.summary))
+        summ = QLabel(e.summary)
         summ.setTextFormat(Qt.PlainText)
         summ.setWordWrap(True)
         if summ.text() != e.summary:
@@ -322,7 +329,7 @@ class ModelView(QWidget):
             c.setTextInteractionFlags(Qt.TextBrowserInteraction)
             c.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
             intro_layout.addWidget(c)
-        sl.addWidget(intro_body)
+        sl.addWidget(intro_scroll)
         stats = QLabel(f"{len(m.items)} parts in {len(m.groups)} groups · {m.triangle_count / 1e6:.1f} M triangles")
         stats.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         sl.addWidget(stats)
@@ -378,7 +385,6 @@ class ModelView(QWidget):
         self._sync = True
         self.part_items = {}
         self.group_items = {}
-        many = len(self.vmodel.items) > 60
         for g in self.vmodel.groups:
             gi = QTreeWidgetItem(self.tree)
             gi.setToolTip(0, g.title)
@@ -390,7 +396,7 @@ class ModelView(QWidget):
             gi.setFlags(gi.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsAutoTristate)
             gi.setCheckState(0, Qt.Checked)
             gi.setData(0, ROLE, ("group", g.key))
-            gi.setExpanded(not many or len(g.items) <= 6)
+            gi.setExpanded(False)
             self.group_items[g.key] = gi
             for i in g.items:
                 it = self.vmodel.items[i]
@@ -658,7 +664,7 @@ class ModelView(QWidget):
             a.toggled.connect(lambda on: (setattr(target, attr, on), g.update()))
             return a
 
-        toggle("Shadows", "shadows", "Use the model’s lighting defaults; toggle for this view.")
+        toggle("Shadows", "shadows", "Off when a model opens; enable for this view if wanted.")
         toggle("Orientation axes", "orientation_axes_on",
                "Show axes in the lower-left corner: X red, Y green, Z blue. "
                "Anatomically oriented models show L/R, S/I and A/P instead.", target=g)

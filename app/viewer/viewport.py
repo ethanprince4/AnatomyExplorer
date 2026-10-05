@@ -95,6 +95,7 @@ class ModelViewport(QOpenGLWidget):
         self.rsettings = Settings()
         for k, v in getattr(model, "look_defaults", {}).items():
             setattr(self.rsettings, k, v)
+        self.rsettings.shadows = False
         self.orientation_axes_on = bool(settings.get("show_gizmo", True)
                                         and getattr(entry, "oriented", False))
         self._fbo = None

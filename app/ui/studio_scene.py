@@ -62,7 +62,9 @@ class StudioScene(QWidget):
         loading_layout=QVBoxLayout(self.loading_cover);loading_layout.setContentsMargins(40,40,40,40);loading_layout.addStretch()
         self.loading_title=QLabel('Preparing model…');self.loading_title.setWordWrap(True);self.loading_title.setStyleSheet('color: #eef3f6; font-size: 26px; font-weight: 600;')
         self.loading_note=QLabel('Preparing the 3D view and labels. You can keep using other tabs.');self.loading_note.setWordWrap(True)
-        loading_layout.addWidget(self.loading_title);loading_layout.addWidget(self.loading_note);loading_layout.addStretch()
+        for label in (self.loading_title,self.loading_note):
+            label.setAlignment(Qt.AlignCenter);label.setMaximumWidth(560)
+        loading_layout.addWidget(self.loading_title,0,Qt.AlignHCenter);loading_layout.addWidget(self.loading_note,0,Qt.AlignHCenter);loading_layout.addStretch()
         self.loading_cover.hide()
         self.setMinimumSize(340,240)
 
