@@ -47,14 +47,11 @@ class StudioHeader(QWidget):
         self.commands_menu=QMenu(settings);self.commands_menu.aboutToShow.connect(self._populate_commands)
         settings.setMenu(self.commands_menu);settings.setPopupMode(QToolButton.InstantPopup);row.addWidget(settings)
         layout.addWidget(self.bar)
-        self.subject=QWidget();subject=QHBoxLayout(self.subject);subject.setContentsMargins(6,0,6,0)
+        self.subject=QWidget();self.subject.setObjectName("studioSubject");self.subject.setAttribute(Qt.WA_StyledBackground,True);subject=QHBoxLayout(self.subject);subject.setContentsMargins(6,0,6,0)
         column=QVBoxLayout();column.setSpacing(7)
         self.title=ElidingLabel('3D Anatomy');self.title.setObjectName('studioDisplay')
         self.context=ElidingLabel('Explore the atlas or choose a model');self.context.setObjectName('studioEyebrow')
         column.addWidget(self.title);column.addWidget(self.context);subject.addLayout(column,1)
-        for dock,label in ((window.left_dock,'Browse'),(window.right_dock,'Details')):
-            button=QToolButton();button.setDefaultAction(dock.toggleViewAction());button.setText(label)
-            button.setAccessibleName('Show or hide '+label.lower());subject.addWidget(button)
         layout.addWidget(self.subject)
         self.set_workspace('explore')
 
@@ -87,7 +84,7 @@ class StudioHeader(QWidget):
 class CollectionWorkspace(QWidget):
     """Give the existing catalog a full workspace instead of a narrow dock."""
     def __init__(self,catalog,window):
-        super().__init__();self.setObjectName('studioCollection')
+        super().__init__();self.setObjectName('studioCollection');self.setAttribute(Qt.WA_StyledBackground,True)
         layout=QVBoxLayout(self);layout.setContentsMargins(20,10,20,18)
         row=QHBoxLayout()
         for title,callback in (('3D models',catalog.focus_search),('Histology',lambda:window._show_nav_page(window.histology_panel)),
@@ -97,10 +94,13 @@ class CollectionWorkspace(QWidget):
             if title=='Radiology':b.setEnabled(window.radiology_browser is not None)
             row.addWidget(b)
         row.addStretch();layout.addLayout(row);layout.addWidget(catalog,1)
+        catalog.show()
 
 
 def atlas_dock(window):
-    dock=QWidget();dock.setObjectName('dock');row=QHBoxLayout(dock)
+    host=QWidget();host.setObjectName('studioAtlasTools');host.setAttribute(Qt.WA_StyledBackground,True)
+    holder=QHBoxLayout(host);holder.setContentsMargins(20,10,20,16);holder.addStretch()
+    dock=QWidget(host);dock.setObjectName('dock');dock.setAttribute(Qt.WA_StyledBackground,True);row=QHBoxLayout(dock)
     row.setContentsMargins(14,8,14,8);row.addStretch()
     for label,callback in (('Parts',lambda:window._show_nav_page(window.tree)),
                            ('Reveal',lambda:window._show_nav_page(window.view_panel))):
@@ -113,7 +113,7 @@ def atlas_dock(window):
             button=QToolButton();button.setDefaultAction(action);button.setText(label);row.addWidget(button)
     tools=QToolButton();tools.setText('More tools');tools.setMenu(window.tools_menu)
     tools.setPopupMode(QToolButton.InstantPopup);row.addWidget(tools)
-    row.addStretch();return dock
+    row.addStretch();holder.addWidget(dock);holder.addStretch();return host
 
 class FloatingPanels:
     """Keep legacy dock APIs while presenting ordinary in-workspace cards."""
@@ -145,20 +145,30 @@ class FloatingPanels:
             panel.setTitleBarWidget(title)
             content=panel.widget()
             scroll=QScrollArea(panel);scroll.setWidgetResizable(True)
-            scroll.setFrameShape(QFrame.NoFrame);scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            scroll.setFrameShape(QFrame.NoFrame);scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
             scroll.setWidget(content);panel.setWidget(scroll)
             panel.visibilityChanged.connect(lambda visible,p=panel: self.shown(p,visible))
             panel.setVisible(was_visible)
         self.layout()
     def shown(self,panel,visible):
-        if visible:self.layout();panel.raise_()
+        if visible:
+            if self.host.width()<1100:
+                for other in self.panels:
+                    if other is not panel:other.hide()
+            self.layout();panel.raise_()
     def layout(self):
+        self.window._layout_studio_chrome()
         w,h=self.host.width(),self.host.height()
         header=getattr(self.window,'studio_header',None)
         top=(header.geometry().bottom()+12) if header is not None else 20
+        if self.window.center.currentWidget() is self.window.anatomy_tab:
+            top += 100
         available=max(120,h-top-20)
         for index,panel in enumerate(self.panels):
-            width=min(380 if index else 350,max(300,w-40))
+            content=panel.widget().widget()
+            minimum=content.minimumSizeHint().width() + 26
+            preferred=max(400 if index else 450, minimum)
+            width=min(preferred,max(240,w-40))
             x=max(20,w-width-20) if index else 20
             panel.setGeometry(x,top,width,min(760,available))
             if not panel.isHidden():panel.raise_()

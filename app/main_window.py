@@ -94,6 +94,12 @@ class MainWindow(QMainWindow):
             self.settings.update(_validated_settings(saved))
         except (TypeError, ValueError):
             pass
+        if self.qsettings.value('studio_startup_revision', 0, type=int) < 1:
+            self.settings['restore_session'] = False
+            self.qsettings.setValue('view_settings', json.dumps(self.settings))
+            self.qsettings.setValue('studio_startup_revision', 1)
+        # The shell and live scene share one backdrop; this does not change lights or materials.
+        self.settings.update(custom_background=True, bg_top='#141b22', bg_bottom='#141b22')
         apply_theme(QApplication.instance(), float(self.settings["ui_scale"]),
                     mode=str(self.qsettings.value("ui_theme", "porcelain")))
         self.state = SceneState(ds, self.settings)
@@ -334,6 +340,8 @@ class MainWindow(QMainWindow):
         self._activity_timer.start()
         self._update_workspace_header()
         QTimer.singleShot(0, self._adapt_workspace)
+        if not script and not self._restore_pending:
+            QTimer.singleShot(0, self._show_catalog)
         if self._startup_notices:
             if self.content.model_catalog_error:
                 self.notice.show_message(" · ".join(self._startup_notices), "Browse models", self._show_catalog)
@@ -634,6 +642,8 @@ class MainWindow(QMainWindow):
         self.studio_header.collectionRequested.connect(self._show_catalog)
         self.studio_header.searchRequested.connect(self._studio_search)
         self.workspace_layout.insertWidget(0, self.studio_header)
+        self.studio_header.layout().removeWidget(self.studio_header.subject)
+        self.studio_header.subject.setParent(self.workspace)
         self.tabs.removeTab(self.tabs.indexOf(self.catalog))
         self.collection_workspace = CollectionWorkspace(self.catalog, self)
         self.center.addTab(self.collection_workspace, "Collection")
@@ -641,7 +651,7 @@ class MainWindow(QMainWindow):
                                          self.center.tabBar().ButtonPosition.RightSide, None)
         self._studio_last_scene = self.anatomy_tab
         self.studio_tools = atlas_dock(self)
-        self.workspace_layout.addWidget(self.studio_tools)
+        self.studio_tools.setParent(self.workspace)
         # The full original menu/toolbar remains available, without duplicate
         # tool rows taking space from the study canvas on first launch.
         for bar in self.findChildren(QToolBar):
@@ -660,6 +670,19 @@ class MainWindow(QMainWindow):
         else:
             self._show_atlas()
         self._update_workspace_header()
+        if self.center.currentWidget() is self.anatomy_tab:
+            self._show_nav_page(self.tree)
+
+    def _layout_studio_chrome(self):
+        if not hasattr(self, 'studio_tools'):
+            return
+        w, h = self.workspace.width(), self.workspace.height()
+        self.studio_header.subject.setGeometry(28, self.studio_header.geometry().bottom()+18, max(1,w-56), 84)
+        width=min(max(640,self.studio_tools.sizeHint().width()),max(1,w-32))
+        height=self.studio_tools.sizeHint().height()
+        self.studio_tools.setGeometry((w-width)//2,max(0,h-height-12),width,height)
+        self.studio_header.subject.raise_()
+        self.studio_tools.raise_()
 
     def _studio_learn(self):
         self._studio_explore()
@@ -712,6 +735,7 @@ class MainWindow(QMainWindow):
 
     def _show_catalog(self):
         self.search.edit.clear()
+        self.catalog.show()
         self.center.setCurrentWidget(self.collection_workspace)
         self.left_dock.hide()
         self.right_dock.hide()
@@ -756,8 +780,9 @@ class MainWindow(QMainWindow):
             collection = current is self.collection_workspace
             learning = self.lessons_panel is not None and self.tabs.currentWidget() is self.lessons_panel and not self.left_dock.isHidden()
             self.studio_header.set_workspace('collection' if collection else 'learn' if learning else 'explore')
-            self.studio_header.subject.setVisible(not hasattr(current, 'studio'))
+            self.studio_header.subject.setVisible(current is self.anatomy_tab)
             self.studio_tools.setVisible(current is self.anatomy_tab)
+            self._layout_studio_chrome()
             if not collection:self._studio_last_scene = current
         self.cmds.actions["back"].setEnabled(self.history_pos > 0)
         self.cmds.actions["forward"].setEnabled(self.history_pos + 1 < len(self.history))

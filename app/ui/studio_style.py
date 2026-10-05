@@ -40,6 +40,15 @@ def build_stylesheet(scale=1.0):
     p = palette()
     return f'''
 /* Study-02 surfaces are opt-in; no widget hierarchy or render surface is replaced. */
+QWidget#studioSubject {{ background:transparent;border:none; }}
+QWidget#studioSubject QToolButton {{ background:transparent;color:{STAGE_TEXT};border:1px solid #536171;border-radius:8px;padding:6px 10px; }}
+QWidget#studioSubject QToolButton:hover {{ background:#283443;color:#ffffff; }}
+QWidget#studioCollection {{ background:{p['surface']};color:{p['text']};border:1px solid {p['row_edge']};border-radius:16px; }}
+QWidget#studioCollection QListView, QWidget#studioCollection QTextBrowser {{ background:{p['surface']};color:{p['text']}; }}
+QWidget#studioAtlasTools {{ background:{STAGE_BACKGROUND};border:none; }}
+QStatusBar {{ background:{STAGE_BACKGROUND};color:#c6cdd6;border-top:1px solid #283443; }}
+QStatusBar QLabel {{ background:transparent;color:#c6cdd6; }}
+
 QTabWidget#studioWorkspaces {{ background:{STAGE_BACKGROUND};border:none;padding:0px;margin:0px; }}
 QTabWidget#studioWorkspaces::pane {{ background:{STAGE_BACKGROUND};border:none;padding:0px;margin:0px;top:0px; }}
 QTabWidget#studioWorkspaces > QStackedWidget {{ background:{STAGE_BACKGROUND};border:none; }}
