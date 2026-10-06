@@ -256,4 +256,9 @@ def load_catalog():
     for meta in load_meta():
         if meta['id'] in ('whole_heart', 'cardiac_muscle'):
             catalog[meta['id']] = GlbEntry(meta)
+    selection = ROOT / 'data/content/release_models.json'
+    if selection.is_file():
+        allowed = set(json.loads(selection.read_text(encoding='utf-8'))['model_ids'])
+        for mid in list(catalog):
+            if mid not in allowed:del catalog[mid]
     return catalog

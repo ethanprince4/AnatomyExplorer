@@ -43,7 +43,7 @@ def data_files():
     if seed:
         out.extend(seed_files(seed, STAGE / "release-seeds"))
     for rel in DATA_DIRS:
-        if seed and rel in {"data/micro_cache", "data/models"}:
+        if seed and rel in {"data/micro_cache", "data/models", "data/sketchfab_models"}:
             continue  # Explicit post-only seed replaces obsolete procedural baselines.
         only = ONLY_SUFFIXES.get(rel)
         for dirpath, dirnames, filenames in os.walk(ROOT / rel):
@@ -51,6 +51,8 @@ def data_files():
             for name in filenames:
                 src = Path(dirpath) / name
                 key = src.relative_to(ROOT).as_posix()
+                if seed and rel == "models" and src.relative_to(ROOT / "models").parts[0] not in {"heart", "cardiac-muscle"}:
+                    continue
                 if src.suffix in SKIP_SUFFIXES or name.endswith(".tmp.npz") or key in STAGED:
                     continue
                 if only is not None and src.suffix.lower() not in only:

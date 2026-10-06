@@ -18,27 +18,6 @@
         "hair_follicle"
       ]
     },
-    "bladder_wall": {
-      "name": "Bladder Wall",
-      "variants": {
-        "post": {
-          "path": "models/bladder_wall/4a5222071561/refined.npz",
-          "format": "npz",
-          "companions": {
-            "umbrella_hosts": "models/bladder_wall/bcf948a8054f/companions/umbrella_hosts.npz",
-            "construction": "models/bladder_wall/bcf948a8054f/companions/construction.json"
-          },
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A bladder-wall section showing basal, intermediate and umbrella cells with apical uroplakin plaques, the lamina propria and its vessels, and interlacing detrusor muscle bundles. Compare the layered urothelium with the deeper connective tissue and muscle rather than treating the specimen as a simple flat lining. The umbrella-cell surface and discontinuous muscularis mucosae are distinct from the large detrusor bundles that form the bladder muscle. Linked histology in Details: Urinary bladder, Transitional epithelium (urothelium), Ureter.",
-      "scale_note": "Urothelial teaching block: 1 unit = 0.5 mm (block 1 mm wide). Deeper lamina propria, detrusor and coverings are compressed; membrane and vesicle thicknesses are enlarged for teaching. The block is not a calibrated full-thickness bladder biopsy.",
-      "histology": [
-        "bladder",
-        "transitional",
-        "ureter"
-      ]
-    },
     "blood_cells": {
       "name": "Blood Cells",
       "variants": {
@@ -55,23 +34,6 @@
         "blood",
         "bone_marrow",
         "spleen"
-      ]
-    },
-    "colon_wall": {
-      "name": "Colon Wall",
-      "variants": {
-        "post": {
-          "path": "models/colon_wall/8ad999c7658f/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A colon-wall section showing straight intestinal crypts, surface colonocytes and goblet cells, a lymphoid follicle, and the surrounding connective tissue, muscle, vessels and enteric nerve plexuses. Use the crypt arrangement and goblet-cell-rich lining to distinguish this specimen from a small-intestinal villus model. The mucosa, muscularis mucosae and submucosa can be separated from the circular muscle, longitudinal taenia and external fat tag. Linked histology in Details: Colon & rectum, Vermiform appendix.",
-      "scale_note": "Crypts approximately 486 um deep; 1 unit represents 1500 um. Context strata are compressed and gross markers enlarged for teaching.",
-      "histology": [
-        "colon",
-        "appendix"
       ]
     },
     "compact_bone": {
@@ -97,10 +59,11 @@
       "name": "Cornea",
       "variants": {
         "post": {
-          "path": "models/cornea/5943deb05caf/refined.npz",
+          "path": "models/cornea/6983d924760d/refined.npz",
           "format": "npz",
           "companions": {},
-          "status": "review_candidate"
+          "status": "review_candidate",
+          "report": "models/cornea/6983d924760d/report.json"
         }
       },
       "summary": "A corneal section extending into the limbus, with epithelial cell layers, stromal lamellae and keratocytes, posterior membranes and endothelium. Limbal vessels, corneal nerves, trabecular meshwork and Schlemm canal show neighbouring relationships. Work from the tear-facing epithelium through the stromal lamellae to the posterior endothelium, then follow the transition into the limbal stem-cell region and drainage angle. The model separates the normally avascular central cornea from its vascular limbal surroundings. Linked histology in Details: Cornea, Stratified squamous epithelium (non-keratinised).",
@@ -108,23 +71,6 @@
       "histology": [
         "cornea",
         "strat_squamous_nk"
-      ]
-    },
-    "duodenum": {
-      "name": "Duodenum",
-      "variants": {
-        "post": {
-          "path": "models/duodenum/e0b01338c9a1/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A duodenal-wall section showing villi and intestinal crypts, enterocytes and goblet cells, and characteristic submucosal Brunner glands with their ducts. Villus capillaries and lacteals accompany the muscle layers and enteric plexuses. Follow a Brunner gland duct into the mucosal crypt region, and distinguish these submucosal glands from the epithelial crypts themselves. The villus core contains a capillary network, a central lacteal and smooth muscle beneath the absorptive epithelial surface. Linked histology in Details: Duodenum, Simple columnar epithelium.",
-      "scale_note": "Schematic histology crop without a verified universal physical calibration. Villi, Brunner gland terminals, epithelial cells and brush-border detail use teaching enlargement and representative counts.",
-      "histology": [
-        "duodenum",
-        "simple_columnar"
       ]
     },
     "ear": {
@@ -243,41 +189,6 @@
         "ileum"
       ]
     },
-    "ileum": {
-      "name": "Ileum",
-      "variants": {
-        "post": {
-          "path": "models/ileum/063bc534d1a6/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "An ileal-wall section showing villi, intestinal crypts, goblet and Paneth cells, with Peyer patch follicles, the follicle-associated epithelium and M cells. Muscle layers, enteric plexuses, capillaries and lacteals surround the mucosa. Compare the ordinary villus and crypt epithelium with the specialised follicle-associated dome and M-cell region. The Peyer patch follicles and germinal centres show how lymphoid tissue sits beneath the intestinal lining rather than forming another muscle or gland layer. Linked histology in Details: Ileum, Lymph node.",
-      "scale_note": "The inherited 1.5 mm per model unit is nominal. The enlarged, sampled villi, epithelial cells and lymphoid features illustrate tissue relationships rather than a calibrated histological field.",
-      "histology": [
-        "ileum",
-        "lymph_node"
-      ]
-    },
-    "jejunum_comparison_c": {
-      "name": "Jejunum",
-      "variants": {
-        "post": {
-          "path": "models/jejunum_comparison_c/484c811a76cc/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A jejunal-wall section showing villi and crypts, enterocytes with a brush border, goblet and Paneth cells, and villus capillary networks and central lacteals. The deeper muscle layers and enteric plexuses complete the wall. Follow the villus epithelium into the intervillus surface and intestinal crypts. The capillary network and lacteal occupy the villus connective-tissue core, while the deeper muscle coats and enteric plexuses show the organisation of the intestinal wall. Linked histology in Details: Jejunum, Simple columnar epithelium, Smooth muscle.",
-      "scale_note": "Block about 3 mm wide; original villus teaching height about 0.88 mm. Crypt width and comparable thin muscle layers are schematic review choices.",
-      "histology": [
-        "jejunum",
-        "simple_columnar",
-        "smooth_muscle"
-      ]
-    },
     "kidney_nephron": {
       "name": "Kidney",
       "variants": {
@@ -337,24 +248,6 @@
       "histology": [
         "liver",
         "gallbladder"
-      ]
-    },
-    "lung_acinus": {
-      "name": "Lung acinus",
-      "variants": {
-        "post": {
-          "path": "models/lung_acinus/6ed183f32101/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A pulmonary acinus showing a terminal bronchiole, respiratory bronchioles, alveolar ducts and sacs, with septa, capillaries and pores of Kohn. Type II pneumocytes, alveolar macrophages and club cells accompany the airway lining. Follow the airway from the terminal bronchiole into respiratory bronchioles and the alveolated passages. Compare the bronchiolar smooth muscle with the small smooth-muscle knobs at alveolar duct openings and the capillary-bearing walls surrounding the air spaces. Linked histology in Details: Lung alveoli, Bronchioles, Simple squamous epithelium.",
-      "scale_note": "Block ≈ 2.4 mm long; alveoli ≈ 0.2 mm across (a real acinus has more generations of ducts).",
-      "histology": [
-        "lung",
-        "bronchiole",
-        "simple_squamous"
       ]
     },
     "lung_acinus_review_v2": {
@@ -432,42 +325,6 @@
         "capillaries"
       ]
     },
-    "oesophagus_wall": {
-      "name": "Oesophagus Wall",
-      "variants": {
-        "post": {
-          "path": "models/oesophagus_wall/83a68d1b405a/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "An oesophageal-wall section showing nonkeratinised stratified squamous epithelium, submucosal glands and ducts, and skeletal and smooth muscle components. Enteric plexuses, vessels and adventitia surround the lining. Compare the protective squamous lining and papillary capillary loops with the deeper gland-and-duct system. The muscularis externa includes skeletal and smooth muscle components, and the enteric plexuses occupy distinct positions within the wall. Linked histology in Details: Oesophagus, Stratified squamous epithelium (non-keratinised), Gastro-oesophageal junction.",
-      "scale_note": "Block ≈ 4 mm wide; the muscularis externa grades from skeletal fascicles at one end to smooth muscle bundles at the other, as it does along the middle third.",
-      "histology": [
-        "oesophagus",
-        "strat_squamous_nk",
-        "gej"
-      ]
-    },
-    "pancreas": {
-      "name": "Pancreas",
-      "variants": {
-        "post": {
-          "path": "models/pancreas/530d4968f283/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Pancreatic acini with basal cytoplasm, apical zymogen granules and centroacinar cells, connected to intercalated and larger ducts. An endocrine islet shows alpha, beta and delta cells with its capillaries, surrounded by connective tissue and vessels. Follow the exocrine pathway from the acinar lumen and centroacinar cells into progressively larger ducts. Compare the granule-rich acinar cells with the pale endocrine islet and its fenestrated capillary supply; the displayed core-and-mantle cell grouping is a teaching arrangement. Linked histology in Details: Exocrine pancreas, Pancreatic islets of Langerhans, Parotid gland.",
-      "scale_note": "Block ≈ 1 mm wide; acini ≈ 80 µm and islets ≈ 150 µm across. A lobule is larger than the block.",
-      "histology": [
-        "pancreas",
-        "islets",
-        "parotid"
-      ]
-    },
     "peripheral_nerve": {
       "name": "Peripheral Nerve",
       "variants": {
@@ -502,23 +359,6 @@
         "eye"
       ]
     },
-    "scalp": {
-      "name": "Scalp",
-      "variants": {
-        "post": {
-          "path": "models/scalp/628b80ae2907/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Hair-bearing scalp skin with follicles, bulbs, root sheaths and sebaceous glands extending through the dermis into fat. The galea aponeurotica, sweat glands, vessels and sensory nerves complete the section. Follow the hair shaft into the inner and outer root sheaths, bulb and dermal papilla. The deeper fat, fibrous septa and galea distinguish this specimen from a generic epidermal block; sebaceous glands, sweat glands and follicular nerve endings surround the follicles. Linked histology in Details: Hair follicle & sebaceous gland, Thin (hairy) skin.",
-      "scale_note": "Terminal follicles extend into the hypodermis.",
-      "histology": [
-        "hair_follicle",
-        "thin_skin"
-      ]
-    },
     "skeletal_muscle": {
       "name": "Skeletal Muscle",
       "variants": {
@@ -533,98 +373,6 @@
       "scale_note": "Muscle ≈ 3 mm across. Each step of the telescope is enlarged relative to the last: myofibrils (~1 µm) and sarcomeres (~2.5 µm) are drawn 15–30× larger than life.",
       "histology": [
         "skeletal_muscle"
-      ]
-    },
-    "spleen": {
-      "name": "Spleen",
-      "variants": {
-        "post": {
-          "path": "models/spleen/a83a66609161/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Splenic white pulp with periarteriolar lymphoid sheaths, follicles and germinal centres, alongside red-pulp cords and venous sinusoids. Trabecular vessels, central arteries, penicillar arterioles and sheathed capillaries illustrate the vascular arrangement. Compare the artery-associated white-pulp regions with the cords and sinusoids of red pulp. The superficial follicular zone and perifollicular spaces represent the human teaching arrangement; the sampled vessels illustrate relationships rather than a complete perfusable vascular network. Linked histology in Details: Spleen, Lymph node, Blood cells.",
-      "scale_note": "Representative field 1.5 mm wide (750 micrometres per unit); adult follicles 0.3-0.5 mm. Slit short axis and transit depth use published human TEM means; vascular calibre, spacing and capsule thickness are illustrative. This sampled bed is not a complete perfusable vascular graph.",
-      "histology": [
-        "spleen",
-        "lymph_node",
-        "blood"
-      ]
-    },
-    "stomach_wall": {
-      "name": "Stomach Wall",
-      "variants": {
-        "post": {
-          "path": "models/stomach_wall/ff90c5adcf0b/refined.npz",
-          "format": "npz",
-          "companions": {
-            "functional_sequences": "models/stomach_wall/cc9590d07e70/companions/functional_sequences.json"
-          },
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A stomach-wall section showing gastric pits and glands with mucous, parietal, chief and enteroendocrine cells. Three muscle layers, connective tissue, vessels and enteric plexuses surround the glandular mucosa. Trace the epithelial surface into gastric pits and gland regions, comparing mucous neck cells, parietal cells and basal chief cells. Deeper in the wall, the oblique, circular and longitudinal muscle coats surround the submucosal rugal core and enteric plexuses. Linked histology in Details: Stomach (fundus & body), Pyloric antrum, Gastro-oesophageal junction.",
-      "scale_note": "Specimen-based fundic mucosa approximately 1.95 mm thick; block approximately 3 mm wide. External muscle layers show a partial wall crop, so whole-wall proportions are schematic.",
-      "histology": [
-        "stomach",
-        "pylorus",
-        "gej"
-      ]
-    },
-    "thick_skin": {
-      "name": "Thick Skin",
-      "variants": {
-        "post": {
-          "path": "models/thick_skin/a43f61f4976e/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Hairless thick skin showing a prominent stratum corneum and stratum lucidum above the deeper epidermal layers. Dermis, fat, eccrine glands and ducts, vessels, Meissner corpuscles and Pacinian corpuscles are included. Compare the thick cornified surface and stratum lucidum with the living epidermal layers and dermal papillary region. This hairless specimen includes eccrine sweat ducts and tactile sensory structures, making it useful alongside the separate thin-skin model. Linked histology in Details: Thick (glabrous) skin, Skin sensory receptors, Sweat glands.",
-      "scale_note": "Block ≈ 4 mm wide; epidermal ridges form fingerprints.",
-      "histology": [
-        "thick_skin",
-        "skin_receptors",
-        "sweat_glands"
-      ]
-    },
-    "thin_skin": {
-      "name": "Thin Skin",
-      "variants": {
-        "post": {
-          "path": "models/thin_skin/609444a2d8f4/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Hair-bearing thin skin showing epidermal layers over dermis and fat, with hair follicles, sebaceous and eccrine glands, arrector pili, vessels and sensory nerve endings. Compare the thin epidermis with the larger dermal and subcutaneous structures below it. The hair apparatus, arrector pili and sebaceous gland are distinct from the eccrine gland, while sensory endings and corpuscles show different positions within the tissue. Linked histology in Details: Thin (hairy) skin, Hair follicle & sebaceous gland, Sweat glands, Stratified squamous epithelium (keratinised).",
-      "scale_note": "Block ≈ 4 mm wide; epidermis thickness exaggerated for clarity.",
-      "histology": [
-        "thin_skin",
-        "hair_follicle",
-        "sweat_glands",
-        "strat_squamous_k"
-      ]
-    },
-    "thyroid_follicles": {
-      "name": "Thyroid follicles",
-      "variants": {
-        "post": {
-          "path": "models/thyroid_follicles/325524f584a9/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Thyroid follicles with a follicular epithelial lining, colloid and resorption vacuoles, surrounded by basal lamina, capillaries and connective tissue. Parafollicular C cells and adjacent parathyroid chief cells, oxyphil cells and fat are included. Inspect the follicular epithelial boundary around colloid and the resorption vacuoles at that interface. The vascular baskets lie outside the follicles; the separate parathyroid region provides a comparison between follicular thyroid tissue and chief-cell, oxyphil-cell and adipose tissue. Linked histology in Details: Thyroid gland, Parathyroid gland.",
-      "scale_note": "Follicles 50–500 µm across.",
-      "histology": [
-        "thyroid",
-        "parathyroid"
       ]
     },
     "thyroid_parathyroid_review_v2": {
@@ -645,45 +393,6 @@
       "summary": "Thyroid follicular cells enclosing colloid, with uptake vesicles, basal lamina and parafollicular C cells. A neighbouring parathyroid assembly shows chief cells, oxyphil cells and adipocytes, with selected nuclei, organelles and circulation. Compare colloid-containing thyroid follicles with the cellular parathyroid specimen rather than treating them as the same endocrine tissue. Selected nuclei, colloid-uptake vesicles, lipid droplets and oxyphil mitochondria expose cell-level features alongside the local vascular arrangements. No linked histology image set is assigned to this model.",
       "scale_note": "Nominal mapping: 1 model unit represents 500 micrometres. Thin layers and selected cellular organelles are enlarged for teaching; the thyroid and parathyroid are separate specimen assemblies.",
       "histology": []
-    },
-    "tongue_papillae": {
-      "name": "Tongue Papillae",
-      "variants": {
-        "post": {
-          "path": "models/tongue_papillae/3718a8afe90d/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Tongue mucosa showing filiform, fungiform, foliate and circumvallate papillae, taste buds and Von Ebner glands and ducts. Underlying muscle layers, connective tissue, vessels and nerve branches provide context. Compare keratinised filiform papillae with the taste-bud-bearing papillary types. Inspect the circumvallate trench and von Ebner duct relationship, then separate the epithelial and glandular structures from the interlacing intrinsic muscle and sensory nerve branches. Linked histology in Details: Tongue & taste buds, Stratified squamous epithelium (non-keratinised), Skeletal muscle.",
-      "scale_note": "Comparative regional arrangement rather than one histological field. Taste buds, pores and adjacent epithelium retain fourfold local enlargement; the historical 5 mm per model unit is nominal rather than specimen calibration.",
-      "histology": [
-        "tongue",
-        "strat_squamous_nk",
-        "skeletal_muscle"
-      ]
-    },
-    "tooth": {
-      "name": "Tooth",
-      "variants": {
-        "post": {
-          "path": "models/tooth/3f6f4b342b21/refined.npz",
-          "format": "npz",
-          "companions": {
-            "viewer": "models/tooth/7b89f01a8573/companions/tooth.teaching.json"
-          },
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Tooth structures including enamel, dentin, pulp chamber, root canals and cementum, surrounded by periodontal ligament, gingiva and jaw bone. Incisor, canine, premolar and molar forms are shown with their dental nerves and vessels. Inspect the cut molar from crown to roots, comparing enamel, dentin and cementum with the internal pulp spaces. Dental vessels and nerves enter through the apical region; the adjacent tooth forms illustrate differences between incisors, canines, premolars and molars. Linked histology in Details: Tooth, Lip & oral mucosa, Compact (cortical) bone, Spongy (cancellous) bone.",
-      "scale_note": "1 unit = 1 cm: the molar crown is ≈ 11 mm wide and 7.5 mm high, its roots ≈ 14 mm long. Cementum and periodontal ligament are drawn thicker than life (≈ 0.1–0.3 mm).",
-      "histology": [
-        "tooth",
-        "oral_mucosa",
-        "compact_bone",
-        "spongy_bone"
-      ]
     },
     "trachea_wall": {
       "name": "Trachea Wall",
