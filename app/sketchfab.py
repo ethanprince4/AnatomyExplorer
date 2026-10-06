@@ -64,34 +64,3 @@ def load_catalog(path=CATALOG_PATH):
     models.sort(key=lambda m: (TOPIC_ORDER.get(m.topic, 99), m.pathology, m.name.lower()))
     return models
 
-
-class SketchfabIndex:
-    """Which models to offer for a selection. Built once the lesson resolver exists, since it resolves names
-    the same way lessons do."""
-
-    def __init__(self, ds, models, resolver):
-        self.ds = ds
-        self.models = models
-        self.by_uid = {m.uid: m for m in models}
-        self.by_base = {}          # structure base name -> [model uid]
-        self.sids = {}             # model uid -> resolved structure ids
-        for m in models:
-            sids = resolver.resolve_all(m.structures)
-            self.sids[m.uid] = sids
-            for base in {ds.structures[s]["base"] for s in sids}:
-                self.by_base.setdefault(base, []).append(m.uid)
-
-    def for_structures(self, sids, limit=8):
-        """Models that depict the selection, most specific first: a model of the tricuspid valve beats a
-        whole-body vascular map when the tricuspid valve is what is selected."""
-        seen = set()
-        for base in dict.fromkeys(self.ds.structures[s]["base"] for s in sids):
-            seen.update(self.by_base.get(base, ()))
-        ranked = sorted(seen, key=lambda uid: (len(self.sids[uid]), self.by_uid[uid].name.lower()))
-        return [self.by_uid[uid] for uid in ranked[:limit]]
-
-    def for_micro(self, micro_id):
-        return [m for m in self.models if micro_id in m.micro]
-
-    def local_models(self):
-        return [m for m in self.models if m.local]

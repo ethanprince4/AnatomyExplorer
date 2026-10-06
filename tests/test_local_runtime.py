@@ -61,10 +61,13 @@ class LocalRuntimeTests(unittest.TestCase):
     def test_native_metadata_colors_and_camera_fallback(self):
         c=np.array([[.1,.2,.3]]*3,np.float32)
         model=prepare_local_model(self.entry(self.fixture(c0=c)))
-        self.assertEqual(model.source.parts()[0].clip,False)
-        self.assertEqual(model.source.parts()[0].bulk,True)
+        self.assertEqual(model.source._parts[0].clip,False)
+        self.assertEqual(model.source._parts[0].bulk,True)
         self.assertEqual(model.metres_per_unit,.002)
-        np.testing.assert_allclose(model.source.viewer_vertex_colors('Wall',self.v),c)
+        self.assertIsNone(model.source.viewer_vertex_colors)
+        with self.assertRaisesRegex(RuntimeError, 'retired'):
+            model.source.parts()
+        self.assertTrue(model.parts[0].look.use_vcol)
         self.assertEqual(model.camera_order,['Home'])
         self.assertEqual(model.items[0].description,'Saved description')
     def test_stale_animation_does_not_block_geometry(self):
