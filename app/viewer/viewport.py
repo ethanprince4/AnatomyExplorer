@@ -488,7 +488,7 @@ class ModelViewport(QOpenGLWidget):
         rec = m.cameras.get(name)
         if rec is None:
             return
-        self.state.opaque_materials = False
+        # Camera/cutaway presets retain the opacity chosen in Reveal.
         self.camera.set_record(rec, duration=self.duration() if animate else 0.0,
                                zoom_path=m.sidecar.get("view_transition") == "zoom",
                                fit=(m.bounds_min, m.bounds_max, self.aspect()))
