@@ -55,7 +55,8 @@ class ModelEntry:
 
     def __init__(self, id, name, summary="", targets=None, histology=(), related=(), clinical=(), scale_note=""):
         self.id = id
-        self.name = "Heart" if id == "whole_heart" else name
+        from ..variants.display_names import display_name
+        self.name = display_name(id, name)
         self.summary = summary
         self.targets = targets or {}
         self.histology = list(histology)

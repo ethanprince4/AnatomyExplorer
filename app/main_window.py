@@ -1659,7 +1659,7 @@ class MainWindow(QMainWindow):
         pending.retryRequested.connect(lambda: self._retry_model_load(model_id, pending))
         pending.destroyed.connect(lambda: self._cancel_model_load(model_id, pending))
         label = "3D · " if entry.kind != "procedural" else "Micro · "
-        version = f" · {entry.label}" if hasattr(entry, "label") else ""
+        version = ""
         self.center.addTab(pending, f"{label}{entry.name}{version}".replace("&", "&&"))
         self.center.setCurrentWidget(pending)
         self.left_dock.hide()

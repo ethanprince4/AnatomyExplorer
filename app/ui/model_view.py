@@ -76,7 +76,6 @@ class ModelView(QWidget):
         self.info = None
         t0 = time.perf_counter()
         self.vmodel = entry.load() if prepared is None else prepared.model
-        self.vmodel.label_by_family = self.entry.id == "cardiac_muscle"
         self.vmodel.label_by_family = entry.id == "cardiac_muscle"
         self.load_seconds = time.perf_counter() - t0 if prepared is None else prepared.seconds
         self.mds = ModelDataset(self.vmodel)
@@ -162,6 +161,9 @@ class ModelView(QWidget):
                 self.runtime_session = None
                 self.teaching_controls.setToolTip('Some teaching controls are unavailable for this saved model: '+str(exc))
                 self.vmodel.runtime_warnings = list(getattr(self.vmodel, 'runtime_warnings', []))+[str(exc)]
+
+        self.state.clear_selection()
+        self._show_selection()
 
         # The GL widget stays visible beneath a sibling cover while it uploads
         # geometry and warms its first frame. Never publish a half-ready view.
@@ -275,6 +277,8 @@ class ModelView(QWidget):
             self.runtime_opening_error = str(exc)
         finally:
             self._fully_visible()
+            self.state.clear_selection()
+            self._show_selection()
             self.runtime_opening_done = True
 
     # ------------------------------------------------------------------ side panel

@@ -126,7 +126,7 @@ class ModelLoadingTab(QWidget):
         self._fit_loading_text()
 
     def set_loading(self):
-        self.title.setText(f"Loading {self.entry.name} · {getattr(self.entry, 'label', '3D model')}…")
+        self.title.setText(f"Loading {self.entry.name}…")
         self.note.setText("Preparing the model. You can keep using other tabs, or cancel this request.")
         self.setAccessibleName(f"Loading {self.entry.name}")
         self.progress.show()
