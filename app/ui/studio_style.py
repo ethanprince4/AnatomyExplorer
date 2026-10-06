@@ -91,7 +91,7 @@ QFrame#studioInstrument {{ background:{p['surface']};border:1px solid {p['row_ed
 QWidget#dock, QFrame#studioDock {{ background:{p['surface']};border:1px solid {p['edge']};border-radius:20px; }}
 QLabel#studioDisplay {{ {display_css(34 * scale, STAGE_TEXT)} }}
 QLabel#studioCardTitle {{ color:{p['text']};font-size:{18 * scale}px;font-weight:600;background:transparent; }}
-QLabel#studioSelectionTitle {{ {display_css(28 * scale, p['paper_text'])} }}
+QLabel#studioSelectionTitle {{ {display_css(21 * scale, p['paper_text'])} }}
 QLabel#studioSelectionDescription {{ color:{p['paper_muted']};font-size:{13 * scale}px;background:transparent; }}
 QLabel#studioEyebrow {{ color:#c6cdd6;font-size:{11 * scale}px;font-weight:600; }}
 QPushButton[variant="quiet"] {{ background:transparent;border:2px solid transparent;color:{p['muted']};border-radius:8px;padding:6px 12px; }}

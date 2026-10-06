@@ -32,7 +32,7 @@ class StudioScene(QWidget):
         self.selection=QFrame(self);self.selection.setObjectName('selectionSurface')
         selection_layout=QHBoxLayout(self.selection);selection_layout.setContentsMargins(20,13,16,13)
         self.selection_text=QWidget();self.selection_text.setStyleSheet('background: transparent;')
-        text=QVBoxLayout(self.selection_text);text.setContentsMargins(0,0,0,0);text.setSpacing(6)
+        text=QVBoxLayout(self.selection_text);text.setContentsMargins(0,0,0,0);text.setSpacing(6);text.setAlignment(Qt.AlignTop)
         self.selection_title=QLabel();self.selection_title.setObjectName('studioSelectionTitle');self.selection_title.setTextFormat(Qt.PlainText);self.selection_title.setWordWrap(True)
         self.selection_description=QLabel();self.selection_description.setObjectName('studioSelectionDescription');self.selection_description.setTextFormat(Qt.PlainText);self.selection_description.setWordWrap(True)
         text.addWidget(self.selection_title);text.addWidget(self.selection_description)
@@ -199,15 +199,25 @@ class StudioScene(QWidget):
             # Measure the real wrapped labels, reserving the button column and
             # scrollbar width. Long descriptions scroll only after the cap.
             self.selection.ensurePolished()
-            text_w=max(60,selection_w-36-self.selection_actions.sizeHint().width()-self.selection.layout().spacing()-18)
-            text_h=6
+            self.selection_actions.setFixedWidth(max(100,self.selection_actions.sizeHint().width()))
+            margins=self.selection.layout().contentsMargins()
+            text_w=max(60,selection_w-margins.left()-margins.right()-self.selection_actions.width()-self.selection.layout().spacing()-20)
+            text_h=0
             for label in (self.selection_title,self.selection_description):
                 label.ensurePolished()
-                height=max(label.fontMetrics().height(),label.heightForWidth(text_w))
-                label.setMinimumHeight(height)
+                label.setFixedWidth(text_w)
+                document=QTextDocument()
+                document.setDocumentMargin(0)
+                document.setDefaultFont(label.font())
+                document.setPlainText(label.text())
+                document.setTextWidth(text_w)
+                height=ceil(document.size().height())+4 if label.text() else 0
+                label.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+                label.setFixedHeight(height)
                 text_h+=height
-            self.selection_text.setMinimumHeight(text_h)
-            desired_h=max(110,text_h+26,self.selection_actions.minimumSizeHint().height()+26)
+            text_h+=self.selection_text.layout().spacing()
+            self.selection_text.setFixedHeight(text_h)
+            desired_h=max(text_h+26,self.selection_actions.minimumSizeHint().height()+26)
             available_h=max(70,self.dock.y()-gap-12)
             selection_h=min(desired_h,max(110,min(320,int(h*.45))),available_h)
             self.selection.setGeometry((w-selection_w)//2,max(gap,self.dock.y()-selection_h-12),selection_w,selection_h)
