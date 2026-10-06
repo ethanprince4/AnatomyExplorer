@@ -1,6 +1,6 @@
 """Explicit static function-step navigation for a verified selected model."""
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QComboBox, QGridLayout, QLabel, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QComboBox, QGridLayout, QLabel, QVBoxLayout, QWidget, QHBoxLayout, QPushButton
 
 from . import theme
 from .flow import FlowLayout, WrapButton
@@ -12,8 +12,18 @@ class ModelTeachingControls(QWidget):
         self.session = None
         self.sequences = []
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(10, 6, 10, 6)
-        layout.setSpacing(4)
+        layout.setContentsMargins(16, 14, 16, 14)
+        layout.setSpacing(10)
+        header=QHBoxLayout()
+        title=QLabel("Function")
+        title.setObjectName('studioCardTitle')
+        header.addWidget(title);header.addStretch()
+        close=QPushButton("×")
+        close.setObjectName('headerClose')
+        close.setAccessibleName('Close function controls')
+        close.clicked.connect(self._close)
+        header.addWidget(close)
+        layout.addLayout(header)
         row = QGridLayout()
         self.sequence = QComboBox()
         self.sequence.setAccessibleName("Model function sequence")
@@ -52,6 +62,11 @@ class ModelTeachingControls(QWidget):
         self.apply.clicked.connect(self.show_step)
         self.overview.clicked.connect(self.show_overview)
         self.hide()
+
+    def _close(self):
+        scene=self.parentWidget()
+        if hasattr(scene,'function'):scene.function.setChecked(False)
+        else:self.hide()
 
     def set_session(self, session):
         self.session = session

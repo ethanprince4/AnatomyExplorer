@@ -72,6 +72,8 @@ QPushButton#studioTool:focus, QToolButton#studioTool:focus {{ border-color:{p['a
 QPushButton#headerClose, QToolButton#headerClose {{ background:transparent;border:none;color:{p['muted']};border-radius:6px; }}
 QPushButton#headerClose:hover, QToolButton#headerClose:hover {{ background:{p['raised']};color:{p['text']}; }}
 
+QWidget#studioTeaching QLabel {{ color:{p['text']};background:transparent; }}
+QWidget#studioTeaching QComboBox {{ background:{p['input']};color:{p['text']};border:1px solid {p['input_border']};border-radius:8px;padding:6px 10px;min-height:24px; }}
 QWidget#surface, QFrame#studioCard, QWidget#studioTeaching {{ background:{p['surface']};border:1px solid {p['tool_edge']};border-radius:16px; }}
 QWidget#surface > QWidget, QWidget#previewSurface > QWidget, QWidget#globalBar > QWidget,
 QWidget#deep > QWidget, QWidget#dock > QWidget {{ background:transparent; }}

@@ -57,7 +57,7 @@ class StudioScene(QWidget):
         self.reset.setToolTip('Reset the camera view')
         self.function=self.add_tool('function','Function',checkable=True);self.function.hide()
         self.function.setToolTip('Show optional function steps')
-        self.function.toggled.connect(lambda on:(self.teaching.setVisible(on),self.arrange()))
+        self.function.toggled.connect(self.show_function)
         more_menu=QMenu(self)
         for key,title in [('parts','Parts'),('reveal','Reveal controls'),('section','Cross-section')]:
             button=self.tools[key]
@@ -103,7 +103,7 @@ class StudioScene(QWidget):
         else:
             for i in range(header.count()):
                 if header.itemAt(i).widget():header.itemAt(i).widget().hide()
-        if key=='parts':
+        if key=='parts' or title=='Reveal':
             # The tree owns its scrollbar; an outer scroll area traps wheel input
             # and produces a second, competing scrollbar around the same list.
             layout.addWidget(content,1)
@@ -119,7 +119,16 @@ class StudioScene(QWidget):
         button.setAccessibleName(title);button.setMinimumHeight(34);button.setFocusPolicy(Qt.StrongFocus)
         self.dock_layout.addWidget(button,0,len(self.tools));self.tools[key]=button;return button
 
+    def show_function(self,on):
+        if on:
+            for key in ('reveal','section'):
+                self.show_card(key,False)
+        self.teaching.setVisible(on)
+        self.arrange()
+
     def show_card(self,key,on=True):
+        if on and key in ('reveal','section') and hasattr(self,'function'):
+            self.function.setChecked(False)
         if key=='parts' and self._practice:on=False
         if on and not self._building:
             self._active=key
@@ -266,16 +275,25 @@ class StudioScene(QWidget):
             if self.instrument_side=='left' and w>=760:
                 instrument_x=34
                 instrument_y=parts.geometry().bottom()+12 if not parts.isHidden() else 176
-            reveal_h=max(360 if self.reveal_content.property('expanded') else 174,self.reveal_content.minimumSizeHint().height()+62)
-            self.cards['reveal'].setGeometry(instrument_x,min(instrument_y,max(16,self.dock.y()-reveal_h-12)),instrument_w,min(reveal_h,max(100,h-2*gap-dock_h)))
+            reveal_card=self.cards['reveal']
+            reveal_card.ensurePolished()
+            reveal_layout=reveal_card.layout()
+            reveal_h=reveal_layout.heightForWidth(instrument_w) if reveal_layout.hasHeightForWidth() else reveal_layout.sizeHint().height()
+            reveal_h=max(reveal_h,reveal_layout.minimumSize().height())
+            self.cards['reveal'].setGeometry(instrument_x,min(instrument_y,max(16,self.dock.y()-reveal_h-12)),instrument_w,reveal_h)
             self.cards['section'].setGeometry(instrument_x,54,instrument_w,min(270,max(100,h-2*gap-dock_h)))
             if w<760:
                 # A compact temporary sheet still floats over the continuous scene.
                 for card in self.cards.values():
                     if not card.isHidden():card.setGeometry(gap,160,w-2*gap,min(card.height(),max(80,h-160-dock_h-2*gap)))
             if not self.teaching.isHidden():
-                th=min(140,max(70,self.teaching.sizeHint().height()))
-                self.teaching.setGeometry(max(gap,w-360-gap),220 if not self.cards["reveal"].isHidden() else 54,min(360,w-2*gap),th)
+                tw=min(440,max(1,w-56))
+                self.teaching.ensurePolished()
+                layout=self.teaching.layout()
+                th=layout.heightForWidth(tw) if layout.hasHeightForWidth() else layout.sizeHint().height()
+                th=max(th,layout.minimumSize().height())
+                bottom=self.selection.y()-12 if not self.selection.isHidden() else self.dock.y()-12
+                self.teaching.setGeometry(max(28,w-tw-28),max(24,bottom-th),tw,th)
             # The renderer always owns the full canvas. Tools are sibling overlays.
             self.viewport.setGeometry(self.rect());self.viewport.lower()
             self.breadcrumb.raise_();self.subject.raise_();self.summary.raise_();self.status.raise_()
