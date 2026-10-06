@@ -28,11 +28,12 @@ def validate_proposal(proposal: dict) -> None:
     if proposal.get("schema_version") != 1 or proposal.get("model_id") != MODEL_ID:
         raise ValueError("Not the supported thyroid/parathyroid lesson sidecar")
     names = proposal.get("exact_parts", [])
-    if len(names) != 30 or len(set(names)) != len(names):
-        raise ValueError("Expected 30 distinct source part identities")
+    if len(names) not in (21, 30) or len(set(names)) != len(names):
+        raise ValueError("Expected the anatomy parts with optional legacy signaling cues")
     contract = proposal.get("signal_contract", {})
     signals = contract.get("names", [])
-    if (contract.get("count") != 9 or len(signals) != 9
+    if (contract.get("count") != len(signals) or len(signals) not in (0, 9)
+            or len(names) != 21 + len(signals)
             or len(set(signals)) != 9
             or set(signals) != {name for name in names if name.startswith("Signal ")}):
         raise ValueError("Expected the exact nine Signal-prefixed source parts")

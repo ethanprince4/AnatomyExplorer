@@ -33,10 +33,10 @@ def validate_proposal(proposal):
     if proposal.get("schema_version") != 1 or proposal.get("model_id") != MODEL_ID:
         raise ValueError("Wrong thyroid teaching sidecar identity/schema")
     names = proposal.get("exact_parts", [])
-    if len(names) != 30 or len(set(names)) != len(names):
+    if len(names) not in (21, 30) or len(set(names)) != len(names):
         raise ValueError("Expected the exact unique 30-part review-v2 contract")
     signals = proposal.get("signal_parts", [])
-    if len(signals) != 9 or set(signals) != {n for n in names if n.startswith("Signal ")}:
+    if len(signals) not in (0, 9) or len(names) != 21 + len(signals) or set(signals) != {n for n in names if n.startswith("Signal ")}:
         raise ValueError("Expected exactly nine unchanged Signal-prefixed parts")
     attrs = proposal.get("native_attributes", {})
     if set(attrs) != ATTRIBUTES:
