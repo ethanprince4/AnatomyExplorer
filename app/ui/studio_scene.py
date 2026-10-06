@@ -2,7 +2,7 @@
 from math import ceil
 from PySide6.QtGui import QTextDocument
 from PySide6.QtCore import Qt, Signal, QEvent
-from PySide6.QtWidgets import QWidget,QFrame,QVBoxLayout,QHBoxLayout,QGridLayout,QComboBox,QLabel,QPushButton,QScrollArea,QSizePolicy,QTreeWidget,QMenu
+from PySide6.QtWidgets import QWidget,QFrame,QVBoxLayout,QHBoxLayout,QGridLayout,QComboBox,QLabel,QPushButton,QScrollArea,QSizePolicy,QTreeWidget,QMenu,QLayout
 
 class StudioScene(QWidget):
     partsChanged=Signal(bool)
@@ -103,6 +103,9 @@ class StudioScene(QWidget):
         else:
             for i in range(header.count()):
                 if header.itemAt(i).widget():header.itemAt(i).widget().hide()
+        if title=='Reveal':
+            layout.setSizeConstraint(QLayout.SetNoConstraint)
+            content.setSizePolicy(QSizePolicy.Preferred,QSizePolicy.Preferred)
         if key=='parts' or title=='Reveal':
             # The tree owns its scrollbar; an outer scroll area traps wheel input
             # and produces a second, competing scrollbar around the same list.
@@ -288,8 +291,12 @@ class StudioScene(QWidget):
             reveal_card=self.cards['reveal']
             reveal_card.ensurePolished()
             reveal_layout=reveal_card.layout()
+            self.reveal_content.layout().invalidate()
+            reveal_layout.invalidate()
+            reveal_card.setMinimumHeight(0)
+            self.reveal_content.setMinimumHeight(0)
             reveal_h=reveal_layout.heightForWidth(instrument_w) if reveal_layout.hasHeightForWidth() else reveal_layout.sizeHint().height()
-            reveal_h=max(reveal_h,reveal_layout.minimumSize().height())
+            reveal_h=max(0,reveal_h)
             self.cards['reveal'].setGeometry(instrument_x,min(instrument_y,max(16,self.dock.y()-reveal_h-12)),instrument_w,reveal_h)
             self.cards['section'].setGeometry(instrument_x,54,instrument_w,min(270,max(100,h-2*gap-dock_h)))
             if w<760:

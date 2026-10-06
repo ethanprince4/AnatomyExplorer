@@ -246,6 +246,8 @@ class ModelView(QWidget):
         layout.addWidget(advanced)
         def expanded(on):
             advanced.setVisible(on);body.setProperty('expanded',on)
+            layout.invalidate()
+            body.updateGeometry()
             if hasattr(self,'studio'):self.studio.arrange()
         more.toggled.connect(expanded)
         return body
