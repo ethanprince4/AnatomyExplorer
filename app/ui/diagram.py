@@ -259,3 +259,43 @@ class DiagramOverlay(QFrame):
         w, h = max(200, w), max(120, h)
         self.setGeometry(hw - w - 12, 12, w, h)      # top-right: clear of a micro model's side panel
         self.raise_()
+
+
+class LessonVisual(QWidget):
+    """The main lesson canvas for a diagram or a concept without a 3D target."""
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        from PySide6.QtWidgets import QStackedWidget, QTextBrowser, QPushButton
+        self.setObjectName("lessonVisualWorkspace")
+        self.setStyleSheet("QWidget#lessonVisualWorkspace {background:#141b22;}")
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(28, 16, 28, 20)
+        self.title = QLabel()
+        self.title.setWordWrap(True)
+        self.title.setStyleSheet("color:#eef3f6;background:transparent;font-size:18pt;font-weight:600;")
+        layout.addWidget(self.title)
+        self.pages = QStackedWidget()
+        self.diagram = DiagramView(max_height=10000)
+        self.diagram.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.pages.addWidget(self.diagram)
+        self.reading = QTextBrowser()
+        self.reading.setStyleSheet("QTextBrowser {background:#f2f6f8;color:#24343d;border-radius:14px;padding:20px;font-size:14pt;}")
+        self.reading.setOpenExternalLinks(False)
+        self.pages.addWidget(self.reading)
+        layout.addWidget(self.pages, 1)
+        self.enlarge = QPushButton("Open full-size diagram")
+        self.enlarge.setStyleSheet("font-size:12.5pt;font-weight:700;padding:8px 12px;")
+        self.enlarge.clicked.connect(lambda: show_large(self.diagram.diagram_id, self))
+        layout.addWidget(self.enlarge, 0, Qt.AlignHCenter)
+
+    def set_step(self, step):
+        self.title.setText(step.get("title", ""))
+        did = step.get("diagram") if step.get("lesson_view") == "diagram" else None
+        if did:
+            self.diagram.set_diagram(did)
+            self.pages.setCurrentWidget(self.diagram)
+        else:
+            self.reading.setHtml(step.get("text", ""))
+            self.reading.verticalScrollBar().setValue(0)
+            self.pages.setCurrentWidget(self.reading)
+        self.enlarge.setVisible(bool(did))

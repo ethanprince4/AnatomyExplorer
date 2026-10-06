@@ -102,7 +102,7 @@ DEFAULT_SETTINGS = {
     "details_scale": 1.0,
     "label_size": 8.6,
     "max_landmarks": 60,
-    "show_gizmo": True,
+    "show_gizmo": False,
     "show_hover_tooltip": True,
     "hover_outline": True,
     "show_perf": True,

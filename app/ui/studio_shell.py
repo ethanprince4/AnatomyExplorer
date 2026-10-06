@@ -143,6 +143,7 @@ class CollectionWorkspace(QWidget):
         for label,button in self.buttons.items():
             button.setChecked(label==title)
         if title=='Lab course':page.show_course()
+        if title=='Lecture exams':page.show_lecture()
         if hasattr(self.window_owner,'collection_workspace'):
             self.window_owner.center.setCurrentWidget(self)
             self.window_owner.left_dock.hide();self.window_owner.right_dock.hide()

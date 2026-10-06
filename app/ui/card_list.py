@@ -13,6 +13,8 @@ ROLE_ACCENT = Qt.UserRole + 24
 ROLE_DIM = Qt.UserRole + 25
 ROLE_PROGRESS = Qt.UserRole + 26
 ROLE_DONE = Qt.UserRole + 27
+ROLE_LEVEL = Qt.UserRole + 28
+ROLE_GROUP_KEY = Qt.UserRole + 29
 
 MARGIN_X, PAD_L, PAD_R, PAD_T, PAD_B = 2, 12, 12, 12, 12
 TEXT_L, STRIPE, GAP, MAX_LINES, TITLE_LINES = PAD_L, 0, 5, 3, 3
@@ -61,7 +63,8 @@ class CardDelegate(QStyledItemDelegate):
 
     def _metrics(self, option, index):
         fonts = self._fonts(option)
-        avail = max(1, self._width() - PAD_L - PAD_R - 2 * MARGIN_X)
+        indent = max(0, (index.data(ROLE_LEVEL) or 0) - 1) * 16
+        avail = max(1, self._width() - PAD_L - PAD_R - 2 * MARGIN_X - indent)
         title = _wrap(index.data(ROLE_TITLE), QFontMetricsF(fonts[0]), avail, TITLE_LINES) or [""]
         summary = _wrap(index.data(ROLE_SUMMARY), QFontMetricsF(fonts[1]), avail)
         badge = index.data(ROLE_BADGE) or ""
@@ -101,8 +104,23 @@ class CardDelegate(QStyledItemDelegate):
             font.setBold(kind == "header")
             painter.setFont(font)
             painter.setPen(theme.qc(theme.TEXT_2 if kind == "header" else theme.MUTED))
-            painter.drawText(rect.adjusted(PAD_L, 12, -PAD_R, -4), Qt.AlignLeft | Qt.AlignVCenter | Qt.TextWordWrap,
-                             index.data(Qt.DisplayRole) or "")
+            text = index.data(Qt.DisplayRole) or ""
+            inset = PAD_L
+            if kind == "header" and self.view.collapsible:
+                inset += (index.data(ROLE_LEVEL) or 0) * 16
+                x, y = int(rect.left() + inset + 4), int(rect.center().y() + 4)
+                expanded = index.data(ROLE_GROUP_KEY) in self.view._expanded_groups
+                painter.setPen(QPen(theme.qc(theme.TEXT_2), 1.5))
+                if expanded:
+                    painter.drawLine(x - 3, y - 2, x, y + 1)
+                    painter.drawLine(x, y + 1, x + 3, y - 2)
+                else:
+                    painter.drawLine(x - 2, y - 3, x + 1, y)
+                    painter.drawLine(x + 1, y, x - 2, y + 3)
+                inset += 16
+                text = index.data(ROLE_TITLE) or text
+            painter.drawText(rect.adjusted(inset, 12, -PAD_R, -4), Qt.AlignLeft | Qt.AlignVCenter | Qt.TextWordWrap,
+                             text)
         else:
             self._paint_card(painter, option, rect, index)
         painter.restore()
@@ -112,7 +130,8 @@ class CardDelegate(QStyledItemDelegate):
         hover = bool(option.state & QStyle.State_MouseOver)
         focused = bool(option.state & QStyle.State_HasFocus)
         dim = bool(index.data(ROLE_DIM))
-        card = rect.adjusted(MARGIN_X, 2, -MARGIN_X, -2)
+        indent = max(0, (index.data(ROLE_LEVEL) or 0) - 1) * 16
+        card = rect.adjusted(MARGIN_X + indent, 2, -MARGIN_X, -2)
         fill = theme.ACCENT_SOFT if selected else theme.HOVER if hover else theme.RAISED
         painter.setPen(Qt.NoPen)
         painter.setBrush(theme.qc(fill))
@@ -150,6 +169,7 @@ class CardList(QListWidget):
         self.collapsible = collapsible
         self._expanded_groups = set()
         self._group_header = None
+        self._group_path = []
         self.itemClicked.connect(self._toggle_group)
         self.setItemDelegate(CardDelegate(self, compact=compact))
         self.setMouseTracking(True)
@@ -175,33 +195,49 @@ class CardList(QListWidget):
 
     def clear(self):
         self._group_header = None
+        self._group_path = []
         super().clear()
 
     def _toggle_group(self, item):
         if not self.collapsible or item.data(ROLE_KIND) != "header":
             return
-        title = item.data(ROLE_TITLE)
-        expanded = title not in self._expanded_groups
-        if expanded:self._expanded_groups.add(title)
-        else:self._expanded_groups.discard(title)
-        item.setText(("▾ " if expanded else "▸ ") + title)
-        for row in range(self.row(item)+1,self.count()):
-            child=self.item(row)
-            if child.data(ROLE_KIND)=="header":break
-            child.setHidden(not expanded)
+        key = item.data(ROLE_GROUP_KEY)
+        if key in self._expanded_groups:
+            self._expanded_groups.discard(key)
+        else:
+            self._expanded_groups.add(key)
+        self._refresh_groups()
+
+    def _refresh_groups(self):
+        ancestors = []
+        for row in range(self.count()):
+            item = self.item(row)
+            level = item.data(ROLE_LEVEL) or 0
+            ancestors = ancestors[:level]
+            item.setHidden(any(key not in self._expanded_groups for key in ancestors))
+            if item.data(ROLE_KIND) == "header":
+                key = item.data(ROLE_GROUP_KEY)
+                item.setText("    " * level + ("▾ " if key in self._expanded_groups else "▸ ") + item.data(ROLE_TITLE))
+                ancestors.append(key)
         self.scheduleDelayedItemsLayout()
 
-    def add_header(self, text):
+    def add_header(self, text, level=0, key=None):
         item = QListWidgetItem(text)
         item.setFlags(Qt.NoItemFlags)
         item.setData(ROLE_KIND, "header")
+        item.setData(ROLE_LEVEL, level)
         if self.collapsible:
+            key = key or text
             item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-            item.setData(ROLE_TITLE,text)
-            item.setText(("▾ " if text in self._expanded_groups else "▸ ")+text)
+            item.setData(ROLE_TITLE, text)
+            item.setData(ROLE_GROUP_KEY, key)
+            item.setText("    " * level + ("▾ " if key in self._expanded_groups else "▸ ") + text)
             item.setToolTip("Expand or collapse this group")
-            self._group_header=text
+            self._group_path = self._group_path[:level] + [key]
+            self._group_header = key
         self.addItem(item)
+        if self.collapsible:
+            item.setHidden(any(k not in self._expanded_groups for k in self._group_path[:-1]))
         return item
 
     def add_note(self, text):
@@ -227,5 +263,6 @@ class CardList(QListWidget):
         item.setToolTip(tooltip or accessible)
         self.addItem(item)
         if self.collapsible and self._group_header is not None:
-            item.setHidden(self._group_header not in self._expanded_groups)
+            item.setData(ROLE_LEVEL, len(self._group_path))
+            item.setHidden(any(k not in self._expanded_groups for k in self._group_path))
         return item

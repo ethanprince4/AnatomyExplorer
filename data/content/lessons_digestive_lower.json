@@ -1,252 +1,402 @@
 [
 {
-  "id": "small-intestine",
-  "title": "The small intestine",
-  "system": "digestive",
-  "region": "abdomen",
-  "level": "core",
-  "minutes": 11,
-  "summary": "Six metres of absorbing surface, and three parts you can tell apart at operation.",
-  "tags": ["duodenum", "jejunum", "ileum", "mesentery"],
-  "objectives": [
-    "Name the four parts of the duodenum and their relations",
-    "Distinguish jejunum from ileum on inspection",
-    "Explain how the mucosa multiplies its surface area",
-    "Trace different absorption routes from a villus into blood capillaries and lymphatic lacteals"
+ "id": "small-intestine",
+ "title": "The small intestine",
+ "system": "digestive",
+ "region": "abdomen",
+ "level": "core",
+ "minutes": 11,
+ "summary": "Six metres of absorbing surface, and three parts you can tell apart at operation.",
+ "tags": [
+  "duodenum",
+  "jejunum",
+  "ileum",
+  "mesentery"
+ ],
+ "objectives": [
+  "Name the four parts of the duodenum and their relations",
+  "Distinguish jejunum from ileum on inspection",
+  "Explain how the mucosa multiplies its surface area",
+  "Trace different absorption routes from a villus into blood capillaries and lymphatic lacteals"
+ ],
+ "takeaways": [
+  "The duodenum is retroperitoneal except its first 2 cm, and it is where foregut becomes midgut.",
+  "Jejunum: thicker wall, wider lumen, few long vascular arcades. Ileum: thinner, narrower, many short arcades and more fat.",
+  "Folds, villi and microvilli together multiply the surface about 600-fold.",
+  "Sugars and amino acids mainly enter portal blood; chylomicrons carrying absorbed long-chain fats enter villus lacteals and lymph."
+ ],
+ "see_also": {
+  "lessons": [
+   "stomach",
+   "large-intestine",
+   "peritoneum"
   ],
-  "takeaways": [
-    "The duodenum is retroperitoneal except its first 2 cm, and it is where foregut becomes midgut.",
-    "Jejunum: thicker wall, wider lumen, few long vascular arcades. Ileum: thinner, narrower, many short arcades and more fat.",
-    "Folds, villi and microvilli together multiply the surface about 600-fold.",
-    "Sugars and amino acids mainly enter portal blood; chylomicrons carrying absorbed long-chain fats enter villus lacteals and lymph."
-  ],
-  "see_also": {"lessons": ["stomach", "large-intestine", "peritoneum"], "micro": ["duodenum", "jejunum", "ileum"], "histology": ["duodenum", "jejunum", "ileum"]},
-  "steps": [
-    {
-      "title": "The duodenum, in four parts",
-      "text": "<p>A C-shaped 25 cm tube curled round the head of the pancreas. <b>First part</b> (superior): the only mobile bit, and the site of most duodenal ulcers. <b>Second</b> (descending): the bile and pancreatic ducts open into it at the major papilla. <b>Third</b> (horizontal): crossed in front by the superior mesenteric vessels. <b>Fourth</b> (ascending): ends at the duodenojejunal flexure, held up by the suspensory muscle of the duodenum.</p><p>All of it is retroperitoneal except the first 2 cm — which is why an anterior ulcer there perforates into the peritoneal cavity while one lower down does not.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Duodenum"],
-      "show": ["Pancreas", "Stomach"],
-      "view": "anterior",
-      "frame_on": ["Duodenum"],
-      "xray": false,
-      "check": {"q": "Which part of the duodenum is intraperitoneal?",
-                "a": "Only the first 2 cm of the first part."}
-    },
-    {
-      "title": "The junction of two gut tubes",
-      "text": "<p>Halfway down the second part of the duodenum, at the <b>major duodenal papilla</b>, the foregut becomes the midgut. Everything changes at that line.</p><p>Above it, the blood supply is from the <b>coeliac trunk</b> and pain is referred to the <b>epigastrium</b>. Below, the supply is from the <b>superior mesenteric artery</b> and pain is referred to the <b>umbilicus</b>. Between them the pancreaticoduodenal arteries anastomose, so the duodenum is fed from both.</p>",
-      "systems": ["visceral", "cardiovascular"],
-      "regions": ["abdomen"],
-      "focus": ["Duodenum"],
-      "show": ["Coeliac trunk", "Superior mesenteric artery", "Bile duct"],
-      "view": "anterior",
-      "frame_on": ["Duodenum"],
-      "xray": true,
-      "check": {"q": "Where is midgut pain felt before it localises?",
-                "a": "Around the umbilicus."}
-    },
-    {
-      "title": "Jejunum or ileum?",
-      "text": "<p>There is no line between them, but they look different. The <b>jejunum</b> — the proximal two fifths — has a thicker wall, a wider lumen, tall closely packed circular folds you can feel through the wall, and a mesentery with few, long, straight vascular arcades and little fat.</p><p>The <b>ileum</b> has a thinner wall, a narrower lumen, sparse low folds, many short looping arcades, and mesenteric fat that creeps round the bowel. It also carries <b>Peyer's patches</b>, aggregates of lymphoid tissue in the antimesenteric wall.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Jejunum", "Small intestine"],
-      "show": ["Superior mesenteric artery"],
-      "view": "anterior",
-      "xray": false,
-      "micro": "jejunum",
-      "check": {"q": "How do the mesenteric vessels differ between jejunum and ileum?",
-                "a": "Jejunum: few long arcades with long straight vasa recta. Ileum: many short arcades with short vasa recta."}
-    },
-    {
-      "title": "Multiplying the surface",
-      "text": "<p>A plain 6 m tube would offer about 0.4 m² of absorbing surface. Three levels of folding raise that to roughly 200 m².</p><p><b>Plicae circulares</b>, permanent circular folds of mucosa and submucosa, multiply it about threefold. <b>Villi</b>, finger-like mucosal projections, multiply it tenfold. <b>Microvilli</b> on each enterocyte — the brush border — multiply it twentyfold. Coeliac disease destroys the villi, and the resulting loss of surface is the whole of the malabsorption.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Jejunum"],
-      "view": "anterior",
-      "xray": false,
-      "micro": "duodenum",
-      "check": {"q": "Which level of folding does coeliac disease destroy?",
-                "a": "The villi — leaving a flat mucosa and a large loss of absorptive area."}
-    },
-    {
-      "title": "The mesentery and the volvulus",
-      "text": "<p>The jejunum and ileum hang on a fan-shaped <b>mesentery</b> whose root is only about 15 cm long, running obliquely from the duodenojejunal flexure down to the right sacro-iliac joint — while its free border is six metres long.</p><p>That narrow root is the axis about which the whole small bowel can twist: a <b>volvulus</b>. It is also why an obstructed loop can strangulate quickly, since the vessels reach the bowel through the same narrow stalk.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Small intestine"],
-      "show": ["Superior mesenteric artery"],
-      "view": "anterior",
-      "xray": true,
-      "clinical": "Meckel's diverticulum: the rule of 2s — 2% of people, 2 feet from the ileocaecal valve, 2 inches long, often with 2 types of ectopic mucosa.",
-      "check": {"q": "Where does the root of the small bowel mesentery run?",
-                "a": "From the duodenojejunal flexure at L2 obliquely down to the right sacro-iliac joint."}
-    },
-    {
-      "systems": [
-        "visceral"
-      ],
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Jejunum",
-        "Small intestine"
-      ],
-      "show": [
-        "Superior mesenteric artery"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "micro": "jejunum",
-      "title": "A villus has two ways out",
-      "text": "<p>Inside each villus is a network of <b>blood capillaries</b> and a blind-ended lymphatic called a <b>lacteal</b>. Many water-soluble products of digestion, including monosaccharides and amino acids, enter the capillaries and travel towards the liver in portal blood.</p><p>Most absorbed long-chain fats are packaged into <b>chylomicrons</b> within enterocytes and enter the lacteals. They travel through intestinal lymphatics and the thoracic duct before reaching the venous circulation. Shorter-chain fatty acids can take a more direct portal route. Absorption across the lining is one step; the transport route beyond it depends on what was absorbed.</p>",
-      "check": {
-        "q": "Does a chylomicron leaving an intestinal villus normally enter a portal capillary first?",
-        "a": "No. It enters a lacteal and reaches the bloodstream through lymphatic drainage."
-      }
-    }
+  "micro": [],
+  "histology": [
+   "duodenum",
+   "jejunum",
+   "ileum"
   ]
+ },
+ "steps": [
+  {
+   "title": "The duodenum, in four parts",
+   "text": "<p>A C-shaped 25 cm tube curled round the head of the pancreas. <b>First part</b> (superior): the only mobile bit, and the site of most duodenal ulcers. <b>Second</b> (descending): the bile and pancreatic ducts open into it at the major papilla. <b>Third</b> (horizontal): crossed in front by the superior mesenteric vessels. <b>Fourth</b> (ascending): ends at the duodenojejunal flexure, held up by the suspensory muscle of the duodenum.</p><p>All of it is retroperitoneal except the first 2 cm — which is why an anterior ulcer there perforates into the peritoneal cavity while one lower down does not.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Duodenum"
+   ],
+   "show": [
+    "Pancreas",
+    "Stomach"
+   ],
+   "view": "anterior",
+   "frame_on": [
+    "Duodenum"
+   ],
+   "xray": false,
+   "check": {
+    "q": "Which part of the duodenum is intraperitoneal?",
+    "a": "Only the first 2 cm of the first part."
+   }
+  },
+  {
+   "title": "The junction of two gut tubes",
+   "text": "<p>Halfway down the second part of the duodenum, at the <b>major duodenal papilla</b>, the foregut becomes the midgut. Everything changes at that line.</p><p>Above it, the blood supply is from the <b>coeliac trunk</b> and pain is referred to the <b>epigastrium</b>. Below, the supply is from the <b>superior mesenteric artery</b> and pain is referred to the <b>umbilicus</b>. Between them the pancreaticoduodenal arteries anastomose, so the duodenum is fed from both.</p>",
+   "systems": [
+    "visceral",
+    "cardiovascular"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Duodenum"
+   ],
+   "show": [
+    "Coeliac trunk",
+    "Superior mesenteric artery",
+    "Bile duct"
+   ],
+   "view": "anterior",
+   "frame_on": [
+    "Duodenum"
+   ],
+   "xray": true,
+   "check": {
+    "q": "Where is midgut pain felt before it localises?",
+    "a": "Around the umbilicus."
+   }
+  },
+  {
+   "title": "Jejunum or ileum?",
+   "text": "<p>There is no line between them, but they look different. The <b>jejunum</b> — the proximal two fifths — has a thicker wall, a wider lumen, tall closely packed circular folds you can feel through the wall, and a mesentery with few, long, straight vascular arcades and little fat.</p><p>The <b>ileum</b> has a thinner wall, a narrower lumen, sparse low folds, many short looping arcades, and mesenteric fat that creeps round the bowel. It also carries <b>Peyer's patches</b>, aggregates of lymphoid tissue in the antimesenteric wall.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Jejunum",
+    "Small intestine"
+   ],
+   "show": [
+    "Superior mesenteric artery"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "check": {
+    "q": "How do the mesenteric vessels differ between jejunum and ileum?",
+    "a": "Jejunum: few long arcades with long straight vasa recta. Ileum: many short arcades with short vasa recta."
+   },
+   "histology": "jejunum"
+  },
+  {
+   "title": "Multiplying the surface",
+   "text": "<p>A plain 6 m tube would offer about 0.4 m² of absorbing surface. Three levels of folding raise that to roughly 200 m².</p><p><b>Plicae circulares</b>, permanent circular folds of mucosa and submucosa, multiply it about threefold. <b>Villi</b>, finger-like mucosal projections, multiply it tenfold. <b>Microvilli</b> on each enterocyte — the brush border — multiply it twentyfold. Coeliac disease destroys the villi, and the resulting loss of surface is the whole of the malabsorption.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Jejunum"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "check": {
+    "q": "Which level of folding does coeliac disease destroy?",
+    "a": "The villi — leaving a flat mucosa and a large loss of absorptive area."
+   },
+   "histology": "duodenum"
+  },
+  {
+   "title": "The mesentery and the volvulus",
+   "text": "<p>The jejunum and ileum hang on a fan-shaped <b>mesentery</b> whose root is only about 15 cm long, running obliquely from the duodenojejunal flexure down to the right sacro-iliac joint — while its free border is six metres long.</p><p>That narrow root is the axis about which the whole small bowel can twist: a <b>volvulus</b>. It is also why an obstructed loop can strangulate quickly, since the vessels reach the bowel through the same narrow stalk.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Small intestine"
+   ],
+   "show": [
+    "Superior mesenteric artery"
+   ],
+   "view": "anterior",
+   "xray": true,
+   "clinical": "Meckel's diverticulum: the rule of 2s — 2% of people, 2 feet from the ileocaecal valve, 2 inches long, often with 2 types of ectopic mucosa.",
+   "check": {
+    "q": "Where does the root of the small bowel mesentery run?",
+    "a": "From the duodenojejunal flexure at L2 obliquely down to the right sacro-iliac joint."
+   }
+  },
+  {
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Jejunum",
+    "Small intestine"
+   ],
+   "show": [
+    "Superior mesenteric artery"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "title": "A villus has two ways out",
+   "text": "<p>Inside each villus is a network of <b>blood capillaries</b> and a blind-ended lymphatic called a <b>lacteal</b>. Many water-soluble products of digestion, including monosaccharides and amino acids, enter the capillaries and travel towards the liver in portal blood.</p><p>Most absorbed long-chain fats are packaged into <b>chylomicrons</b> within enterocytes and enter the lacteals. They travel through intestinal lymphatics and the thoracic duct before reaching the venous circulation. Shorter-chain fatty acids can take a more direct portal route. Absorption across the lining is one step; the transport route beyond it depends on what was absorbed.</p>",
+   "check": {
+    "q": "Does a chylomicron leaving an intestinal villus normally enter a portal capillary first?",
+    "a": "No. It enters a lacteal and reaches the bloodstream through lymphatic drainage."
+   },
+   "histology": "jejunum"
+  }
+ ]
 },
 {
-  "id": "large-intestine",
-  "title": "The large intestine",
-  "system": "digestive",
-  "region": "abdomen",
-  "level": "core",
-  "minutes": 13,
-  "summary": "Three features that identify it at a glance, and a watershed halfway along.",
-  "tags": ["colon", "taeniae", "appendix", "watershed"],
-  "objectives": [
-    "Recognise the three distinguishing features of the large bowel",
-    "Trace the colon and name which parts are retroperitoneal",
-    "Explain the significance of the splenic flexure watershed",
-    "Distinguish the structural transition from sigmoid colon to rectum and the sensory transition at the pectinate line"
+ "id": "large-intestine",
+ "title": "The large intestine",
+ "system": "digestive",
+ "region": "abdomen",
+ "level": "core",
+ "minutes": 13,
+ "summary": "Three features that identify it at a glance, and a watershed halfway along.",
+ "tags": [
+  "colon",
+  "taeniae",
+  "appendix",
+  "watershed"
+ ],
+ "objectives": [
+  "Recognise the three distinguishing features of the large bowel",
+  "Trace the colon and name which parts are retroperitoneal",
+  "Explain the significance of the splenic flexure watershed",
+  "Distinguish the structural transition from sigmoid colon to rectum and the sensory transition at the pectinate line"
+ ],
+ "takeaways": [
+  "Taeniae coli, haustra and appendices epiploicae identify large bowel.",
+  "Ascending and descending colon are retroperitoneal; transverse and sigmoid have mesenteries.",
+  "The splenic flexure is the watershed between superior and inferior mesenteric territories.",
+  "The rectum lacks separate taeniae, haustra and omental appendices; below the pectinate line the anal canal has somatic pain-sensitive innervation."
+ ],
+ "see_also": {
+  "lessons": [
+   "small-intestine",
+   "peritoneum",
+   "abdominal-aorta"
   ],
-  "takeaways": [
-    "Taeniae coli, haustra and appendices epiploicae identify large bowel.",
-    "Ascending and descending colon are retroperitoneal; transverse and sigmoid have mesenteries.",
-    "The splenic flexure is the watershed between superior and inferior mesenteric territories.",
-    "The rectum lacks separate taeniae, haustra and omental appendices; below the pectinate line the anal canal has somatic pain-sensitive innervation."
+  "histology": [
+   "colon",
+   "appendix"
   ],
-  "see_also": {"lessons": ["small-intestine", "peritoneum", "abdominal-aorta"], "histology": ["colon", "appendix"], "micro": ["colon_wall"]},
-  "steps": [
-    {
-      "title": "Three giveaways",
-      "text": "<p>You can tell large from small bowel across a room. <b>Taeniae coli</b>: three ribbons of longitudinal muscle running the length of the colon — the outer muscle coat is not a complete sheet. <b>Haustra</b>: the sacculations produced because the taeniae are shorter than the bowel and gather it up. <b>Appendices epiploicae</b>: small fatty tags hanging off the surface.</p><p>All three stop at the rectum, where the taeniae spread out into a complete longitudinal layer again.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Ascending colon", "Transverse colon", "Descending colon", "Free taenia"],
-      "view": "anterior",
-      "xray": false,
-      "check": {"q": "Why does the colon have haustra?",
-                "a": "The taeniae coli are shorter than the bowel, so they gather it into sacculations."}
-    },
-    {
-      "title": "Round the frame",
-      "text": "<p>The colon frames the small bowel. <b>Caecum</b> in the right iliac fossa, then <b>ascending colon</b> up to the hepatic flexure, <b>transverse colon</b> across, <b>descending colon</b> down from the splenic flexure, then <b>sigmoid colon</b> and rectum.</p><p>Ascending and descending are <b>retroperitoneal</b>, fixed to the posterior wall; transverse and sigmoid hang on mesenteries and are mobile. That is why the sigmoid can twist into a volvulus and the descending colon cannot, and why a mobilising incision along the paracolic gutter frees the ascending or descending colon at operation.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Ascending colon", "Transverse colon", "Descending colon", "Sigmoid colon"],
-      "show": ["Mesocolon"],
-      "view": "anterior",
-      "xray": false,
-      "check": {"q": "Which parts of the colon are retroperitoneal?",
-                "a": "The ascending and descending colon."}
-    },
-    {
-      "title": "The caecum and the appendix",
-      "text": "<p>The <b>caecum</b> is a blind pouch below the ileocaecal junction. The three taeniae converge on the base of the <b>vermiform appendix</b>, which is how a surgeon finds it: follow a taenia down.</p><p>The base is constant — at <b>McBurney's point</b>, a third of the way from the anterior superior iliac spine to the umbilicus — but the tip wanders: retrocaecal in about two thirds, pelvic in a quarter, and occasionally subcaecal or pre-ileal. That variability is why appendicitis presents in so many ways: a retrocaecal appendix may irritate the psoas and give a positive psoas sign, a pelvic one may irritate the bladder or rectum.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Vermiform appendix"],
-      "show": ["Ascending colon", "Small intestine", "Meso-appendix"],
-      "view": "anterior",
-      "frame_on": ["Vermiform appendix"],
-      "xray": false,
-      "clinical": "Appendicitis pain starts periumbilical (visceral, midgut) and shifts to the right iliac fossa when the inflamed appendix touches the parietal peritoneum (somatic, T12–L1).",
-      "check": {"q": "Why does appendicitis pain move?",
-                "a": "It starts as poorly localised midgut visceral pain at the umbilicus and becomes sharp somatic pain at McBurney's point when the parietal peritoneum is involved."}
-    },
-    {
-      "title": "The watershed",
-      "text": "<p>The <b>superior mesenteric artery</b> supplies the colon as far as the junction of the proximal two thirds and distal third of the transverse colon; the <b>inferior mesenteric artery</b> supplies the rest. The two meet near the <b>splenic flexure</b>.</p><p>They are joined by the <b>marginal artery</b> running along the whole inner border of the colon, but the anastomosis is at its thinnest here. In a low-flow state — shock, cardiac surgery — the splenic flexure is where <b>ischaemic colitis</b> appears first.</p>",
-      "systems": ["visceral", "cardiovascular"],
-      "regions": ["abdomen"],
-      "focus": ["Transverse colon"],
-      "show": ["Superior mesenteric artery", "Inferior mesenteric artery", "Marginal artery"],
-      "view": "anterior",
-      "xray": true,
-      "check": {"q": "Where does ischaemic colitis characteristically occur, and why?",
-                "a": "At the splenic flexure — the watershed between superior and inferior mesenteric territories."}
-    },
-    {
-      "title": "What the colon is for",
-      "text": "<p>Not absorption of nutrients but of <b>water and electrolytes</b>: around 1.5 litres of fluid enters the caecum each day and around 100 ml leaves in the stool. It also houses the microbiota, which ferment residual carbohydrate into short-chain fatty acids — the colonocyte's own fuel.</p><p>Its mucosa reflects the job: no villi, a flat surface with deep crypts, and enormous numbers of <b>goblet cells</b> producing the mucus that lets a solid stool move without abrading the wall.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Descending colon", "Sigmoid colon"],
-      "view": "anterior",
-      "xray": false,
-      "micro": "colon_wall",
-      "check": {"q": "How does colonic mucosa differ from small bowel mucosa?",
-                "a": "No villi, straight deep crypts, and far more goblet cells."}
-    },
-    {
-      "systems": [
-        "visceral"
-      ],
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Ascending colon",
-        "Transverse colon",
-        "Descending colon",
-        "Sigmoid colon"
-      ],
-      "show": [
-        "Mesocolon"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "title": "The colon's three clues disappear at the rectum",
-      "text": "<p>Continue the route beyond the sigmoid colon into the <b>rectum</b>. The three taeniae spread into a continuous outer longitudinal muscle layer. The characteristic haustra and fatty omental appendices are absent, so the three external clues used to identify colon no longer apply.</p><p>The rectum follows the curve of the sacrum and acts as a reservoir before the outlet. At the anorectal junction, puborectalis maintains an angle that contributes to continence. Use the displayed sigmoid as the starting point for this continuation into the pelvis; the rectum is not separately modelled in this atlas.</p>",
-      "check": {
-        "q": "Which three external features of the colon are absent from the rectum?",
-        "a": "Separate taeniae coli, haustra and omental appendices."
-      }
-    },
-    {
-      "systems": [
-        "visceral"
-      ],
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Ascending colon",
-        "Transverse colon",
-        "Descending colon",
-        "Sigmoid colon"
-      ],
-      "show": [
-        "Mesocolon"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "title": "A short outlet with a major boundary",
-      "text": "<p>Within the anal canal, the <b>pectinate line</b> marks an important developmental and sensory transition. Above it, visceral afferents are relatively insensitive to sharply localised cutting pain. Below it, somatic supply through inferior rectal branches makes the lining sensitive to pain, touch and temperature.</p><p>Venous connections also cross this region: superior rectal veins lead towards the portal system, while middle and inferior rectal routes lead towards systemic pelvic veins. <b>Anorectal varices</b> from portal hypertension are distinct from ordinary haemorrhoidal disease. Sharing a location does not make them the same condition.</p>",
-      "check": {
-        "q": "Why is a small anal fissure below the pectinate line often very painful?",
-        "a": "The region has somatic pain-sensitive innervation through inferior rectal nerves."
-      }
-    }
-  ]
+  "micro": []
+ },
+ "steps": [
+  {
+   "title": "Three giveaways",
+   "text": "<p>You can tell large from small bowel across a room. <b>Taeniae coli</b>: three ribbons of longitudinal muscle running the length of the colon — the outer muscle coat is not a complete sheet. <b>Haustra</b>: the sacculations produced because the taeniae are shorter than the bowel and gather it up. <b>Appendices epiploicae</b>: small fatty tags hanging off the surface.</p><p>All three stop at the rectum, where the taeniae spread out into a complete longitudinal layer again.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Ascending colon",
+    "Transverse colon",
+    "Descending colon",
+    "Free taenia"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "check": {
+    "q": "Why does the colon have haustra?",
+    "a": "The taeniae coli are shorter than the bowel, so they gather it into sacculations."
+   }
+  },
+  {
+   "title": "Round the frame",
+   "text": "<p>The colon frames the small bowel. <b>Caecum</b> in the right iliac fossa, then <b>ascending colon</b> up to the hepatic flexure, <b>transverse colon</b> across, <b>descending colon</b> down from the splenic flexure, then <b>sigmoid colon</b> and rectum.</p><p>Ascending and descending are <b>retroperitoneal</b>, fixed to the posterior wall; transverse and sigmoid hang on mesenteries and are mobile. That is why the sigmoid can twist into a volvulus and the descending colon cannot, and why a mobilising incision along the paracolic gutter frees the ascending or descending colon at operation.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Ascending colon",
+    "Transverse colon",
+    "Descending colon",
+    "Sigmoid colon"
+   ],
+   "show": [
+    "Mesocolon"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "check": {
+    "q": "Which parts of the colon are retroperitoneal?",
+    "a": "The ascending and descending colon."
+   }
+  },
+  {
+   "title": "The caecum and the appendix",
+   "text": "<p>The <b>caecum</b> is a blind pouch below the ileocaecal junction. The three taeniae converge on the base of the <b>vermiform appendix</b>, which is how a surgeon finds it: follow a taenia down.</p><p>The base is constant — at <b>McBurney's point</b>, a third of the way from the anterior superior iliac spine to the umbilicus — but the tip wanders: retrocaecal in about two thirds, pelvic in a quarter, and occasionally subcaecal or pre-ileal. That variability is why appendicitis presents in so many ways: a retrocaecal appendix may irritate the psoas and give a positive psoas sign, a pelvic one may irritate the bladder or rectum.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Vermiform appendix"
+   ],
+   "show": [
+    "Ascending colon",
+    "Small intestine",
+    "Meso-appendix"
+   ],
+   "view": "anterior",
+   "frame_on": [
+    "Vermiform appendix"
+   ],
+   "xray": false,
+   "clinical": "Appendicitis pain starts periumbilical (visceral, midgut) and shifts to the right iliac fossa when the inflamed appendix touches the parietal peritoneum (somatic, T12–L1).",
+   "check": {
+    "q": "Why does appendicitis pain move?",
+    "a": "It starts as poorly localised midgut visceral pain at the umbilicus and becomes sharp somatic pain at McBurney's point when the parietal peritoneum is involved."
+   }
+  },
+  {
+   "title": "The watershed",
+   "text": "<p>The <b>superior mesenteric artery</b> supplies the colon as far as the junction of the proximal two thirds and distal third of the transverse colon; the <b>inferior mesenteric artery</b> supplies the rest. The two meet near the <b>splenic flexure</b>.</p><p>They are joined by the <b>marginal artery</b> running along the whole inner border of the colon, but the anastomosis is at its thinnest here. In a low-flow state — shock, cardiac surgery — the splenic flexure is where <b>ischaemic colitis</b> appears first.</p>",
+   "systems": [
+    "visceral",
+    "cardiovascular"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Transverse colon"
+   ],
+   "show": [
+    "Superior mesenteric artery",
+    "Inferior mesenteric artery",
+    "Marginal artery"
+   ],
+   "view": "anterior",
+   "xray": true,
+   "check": {
+    "q": "Where does ischaemic colitis characteristically occur, and why?",
+    "a": "At the splenic flexure — the watershed between superior and inferior mesenteric territories."
+   }
+  },
+  {
+   "title": "What the colon is for",
+   "text": "<p>Not absorption of nutrients but of <b>water and electrolytes</b>: around 1.5 litres of fluid enters the caecum each day and around 100 ml leaves in the stool. It also houses the microbiota, which ferment residual carbohydrate into short-chain fatty acids — the colonocyte's own fuel.</p><p>Its mucosa reflects the job: no villi, a flat surface with deep crypts, and enormous numbers of <b>goblet cells</b> producing the mucus that lets a solid stool move without abrading the wall.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Descending colon",
+    "Sigmoid colon"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "check": {
+    "q": "How does colonic mucosa differ from small bowel mucosa?",
+    "a": "No villi, straight deep crypts, and far more goblet cells."
+   },
+   "histology": "colon"
+  },
+  {
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Ascending colon",
+    "Transverse colon",
+    "Descending colon",
+    "Sigmoid colon"
+   ],
+   "show": [
+    "Mesocolon"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "title": "The colon's three clues disappear at the rectum",
+   "text": "<p>Continue the route beyond the sigmoid colon into the <b>rectum</b>. The three taeniae spread into a continuous outer longitudinal muscle layer. The characteristic haustra and fatty omental appendices are absent, so the three external clues used to identify colon no longer apply.</p><p>The rectum follows the curve of the sacrum and acts as a reservoir before the outlet. At the anorectal junction, puborectalis maintains an angle that contributes to continence. Use the displayed sigmoid as the starting point for this continuation into the pelvis; the rectum is not separately modelled in this atlas.</p>",
+   "check": {
+    "q": "Which three external features of the colon are absent from the rectum?",
+    "a": "Separate taeniae coli, haustra and omental appendices."
+   }
+  },
+  {
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Ascending colon",
+    "Transverse colon",
+    "Descending colon",
+    "Sigmoid colon"
+   ],
+   "show": [
+    "Mesocolon"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "title": "A short outlet with a major boundary",
+   "text": "<p>Within the anal canal, the <b>pectinate line</b> marks an important developmental and sensory transition. Above it, visceral afferents are relatively insensitive to sharply localised cutting pain. Below it, somatic supply through inferior rectal branches makes the lining sensitive to pain, touch and temperature.</p><p>Venous connections also cross this region: superior rectal veins lead towards the portal system, while middle and inferior rectal routes lead towards systemic pelvic veins. <b>Anorectal varices</b> from portal hypertension are distinct from ordinary haemorrhoidal disease. Sharing a location does not make them the same condition.</p>",
+   "check": {
+    "q": "Why is a small anal fissure below the pectinate line often very painful?",
+    "a": "The region has somatic pain-sensitive innervation through inferior rectal nerves."
+   }
+  }
+ ]
 },
 {
   "id": "liver-segments",

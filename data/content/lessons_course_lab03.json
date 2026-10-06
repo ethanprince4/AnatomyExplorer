@@ -308,7 +308,8 @@
      "Neutrophil",
      "Eosinophil",
      "Basophil",
-     "Small lymphocyte",
+     "B lymphocyte",
+     "T lymphocyte",
      "Monocyte"
     ],
     "check": {
@@ -528,9 +529,11 @@
     "text": "<p>Lymphocytes make up <b>20–25%</b> of white cells. Most are small - about a red cell's size - with a large, round or slightly dented, very dark <b>nucleus</b> surrounded by only a thin halo of pale blue cytoplasm; larger ones (up to ~17 µm) show more cytoplasm.</p><p>Their numbers rise in infections, especially viral ones, and in antigen–antibody reactions.</p>",
     "micro": "blood_cells",
     "micro_focus": [
-     "Small lymphocyte",
+     "B lymphocyte",
+     "T lymphocyte",
      "Large lymphocyte",
-     "Lymphocyte nucleus"
+     "B lymphocyte nucleus",
+     "T lymphocyte nucleus"
     ],
     "check": {
      "q": "How do you recognise a lymphocyte?",
@@ -604,17 +607,7 @@
    {
     "type": "find_micro",
     "model": "blood_cells",
-    "part": "Small lymphocyte"
-   },
-   {
-    "type": "find_micro",
-    "model": "blood_cells",
     "part": "Large lymphocyte"
-   },
-   {
-    "type": "find_micro",
-    "model": "blood_cells",
-    "part": "Lymphocyte nucleus"
    },
    {
     "type": "find_micro",
@@ -715,13 +708,13 @@
   "see_also": {
    "micro": [
     "blood_cells",
-    "lymph_node",
-    "spleen"
+    "lymph_node"
    ],
    "histology": [
     "blood",
     "thymus",
-    "lymph_node"
+    "lymph_node",
+    "spleen"
    ]
   }
  },
@@ -763,7 +756,8 @@
      "Erythrocytes",
      "Neutrophil",
      "Eosinophil",
-     "Small lymphocyte"
+     "B lymphocyte",
+     "T lymphocyte"
     ],
     "check": {
      "q": "What does eosin stain in a Wright-stained smear?",
@@ -776,7 +770,8 @@
     "micro": "blood_cells",
     "micro_focus": [
      "Neutrophil",
-     "Small lymphocyte",
+     "B lymphocyte",
+     "T lymphocyte",
      "Monocyte",
      "Eosinophil",
      "Basophil"
@@ -805,7 +800,8 @@
     "micro": "blood_cells",
     "micro_focus": [
      "Neutrophil",
-     "Small lymphocyte",
+     "B lymphocyte",
+     "T lymphocyte",
      "Monocyte",
      "Eosinophil",
      "Basophil"
@@ -821,11 +817,6 @@
     "type": "find_micro",
     "model": "blood_cells",
     "part": "Neutrophil"
-   },
-   {
-    "type": "find_micro",
-    "model": "blood_cells",
-    "part": "Small lymphocyte"
    },
    {
     "type": "find_micro",
@@ -1033,7 +1024,6 @@
      "Pleura"
     ],
     "show": [
-     "Heart",
      "Right lung",
      "Left lung"
     ],
@@ -1047,18 +1037,12 @@
    {
     "title": "The pericardium",
     "text": "<p>The outermost <b>fibrous pericardium</b> is a tough connective-tissue bag fused to the diaphragm; it anchors the heart and stops it overfilling. Inside it is the <b>serous pericardium</b>: a <b>parietal layer</b> lining the fibrous bag, folding back at the great vessels as the <b>visceral layer</b> (epicardium) on the heart itself.</p><p>Between the two is the <b>pericardial cavity</b>, with a little serous fluid that reduces friction.</p>",
-    "micro": "heart",
-    "micro_focus": [
-     "Fibrous pericardium",
-     "Parietal layer of serous pericardium",
-     "Pericardial cavity",
-     "Epicardium (visceral pericardium)"
-    ],
     "diagram": "lab03-pericardium",
     "check": {
      "q": "What is another name for the visceral pericardium?",
      "a": "The epicardium."
-    }
+    },
+    "lesson_view": "diagram"
    }
   ],
   "practice": [
@@ -1097,26 +1081,6 @@
    {
     "type": "name",
     "structure": "Right lung"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Fibrous pericardium"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Parietal layer of serous pericardium"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Pericardial cavity"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Epicardium (visceral pericardium)"
    },
    {
     "type": "find_micro",
@@ -1175,7 +1139,7 @@
   ],
   "see_also": {
    "micro": [
-    "heart"
+    "whole_heart"
    ],
    "histology": [
     "serosa"
@@ -1216,12 +1180,9 @@
    {
     "title": "Three layers",
     "text": "<p>The <b>epicardium</b> is the visceral pericardium: a simple squamous mesothelium over loose connective tissue and fat, in which the coronary vessels run. The <b>myocardium</b>, by far the thickest layer, is cardiac muscle. The <b>endocardium</b> is an <b>endothelium</b> (simple squamous epithelium) on a thin connective-tissue layer; it lines the chambers, covers the valves and is continuous with the lining of the vessels.</p><p>In the heart model the three layers are separate parts: the <b>epicardium</b> with its <b>epicardial fat</b>, the ventricular <b>myocardium</b> and the <b>endocardium</b>. The two thin layers are drawn thicker than life.</p>",
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
-     "Epicardium (visceral pericardium)",
-     "Epicardial fat",
-     "Left ventricle (myocardium)",
-     "Endocardium"
+     "Left ventricle (myocardium)"
     ],
     "diagram": "lab03-pericardium",
     "check": {
@@ -1260,11 +1221,10 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
      "Left ventricle (myocardium)",
-     "Right ventricle (myocardium)",
-     "Trabeculae carneae"
+     "Right ventricle (myocardium)"
     ],
     "check": {
      "q": "What are trabeculae carneae?",
@@ -1273,16 +1233,6 @@
    }
   ],
   "practice": [
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Epicardium (visceral pericardium)"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Epicardial fat"
-   },
    {
     "type": "find_micro",
     "model": "cardiac_muscle",
@@ -1308,16 +1258,6 @@
      "Subendothelial connective tissue",
      "Endothelium of the endocardium"
     ]
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Trabeculae carneae"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Endocardium"
    },
    {
     "type": "find_micro",
@@ -1376,7 +1316,6 @@
   "see_also": {
    "micro": [
     "cardiac_muscle",
-    "heart",
     "whole_heart"
    ],
    "histology": [
@@ -1738,7 +1677,14 @@
     "check": {
      "q": "What is the ligamentum arteriosum a remnant of?",
      "a": "The fetal ductus arteriosus."
-    }
+    },
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Left pulmonary artery",
+     "Pulmonary trunk",
+     "Aortic arch",
+     "Ascending aorta"
+    ]
    },
    {
     "title": "Three grooves",
@@ -1879,11 +1825,6 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
-    "part": "Ligamentum arteriosum"
-   },
-   {
-    "type": "find_micro",
     "model": "whole_heart",
     "part": "Small cardiac vein"
    },
@@ -1967,7 +1908,6 @@
   "see_also": {
    "micro": [
     "whole_heart",
-    "heart",
     "muscular_artery"
    ],
    "lessons": [
@@ -2009,13 +1949,10 @@
    {
     "title": "The septa and the atrial walls",
     "text": "<p>The <b>interatrial septum</b> divides the atria. On its right side is a shallow oval dip, the <b>fossa ovalis</b> - all that remains of the <b>foramen ovale</b>, a fetal opening that closes after birth. The thick <b>interventricular septum</b> divides the ventricles.</p><p>Parallel ridges, the <b>pectinate muscles</b>, line the auricles and front of the atria; the ventricles are lined by the irregular <b>trabeculae carneae</b>.</p>",
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
      "Interatrial septum",
-     "Fossa ovalis",
-     "Pectinate muscles",
-     "Interventricular septum",
-     "Trabeculae carneae"
+     "Interventricular septum"
     ],
     "check": {
      "q": "What is the fossa ovalis?",
@@ -2123,23 +2060,8 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
-    "part": "Fossa ovalis"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Pectinate muscles"
-   },
-   {
-    "type": "find_micro",
     "model": "whole_heart",
     "part": "Interventricular septum"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Trabeculae carneae"
    },
    {
     "type": "find_micro",
@@ -2238,8 +2160,7 @@
   ],
   "see_also": {
    "micro": [
-    "whole_heart",
-    "heart"
+    "whole_heart"
    ],
    "histology": [
     "heart_valve"
@@ -2298,7 +2219,12 @@
     "check": {
      "q": "What is the human name for the sheep's posterior vena cava?",
      "a": "Inferior vena cava."
-    }
+    },
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Superior vena cava",
+     "Inferior vena cava (thoracic part)"
+    ]
    },
    {
     "title": "Front, back, right and left",
@@ -2369,7 +2295,7 @@
    {
     "title": "The four-chamber cut",
     "text": "<p>A coronal cut from apex to base through the <b>interventricular septum</b> opens all four chambers at once. It shows the thin atrial walls, the thick left and thinner right ventricular walls, the <b>tricuspid</b> and <b>bicuspid</b> valves with their chordae and papillary muscles, the trabeculae carneae and the septa - the same view as the cut-away of the heart model.</p>",
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
      "Interventricular septum",
      "Chordae tendineae",
@@ -2437,12 +2363,7 @@
    },
    {
     "type": "find_micro",
-    "model": "heart",
-    "part": "Epicardial fat"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
+    "model": "whole_heart",
     "part": "Opening of coronary sinus"
    },
    {
@@ -2482,8 +2403,7 @@
   ],
   "see_also": {
    "micro": [
-    "whole_heart",
-    "heart"
+    "whole_heart"
    ]
   }
  }

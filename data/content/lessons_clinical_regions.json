@@ -146,7 +146,8 @@
     "check": {
      "q": "Where is the mitral valve best heard?",
      "a": "At the apex — left fifth intercostal space, midclavicular line — not over the valve itself, which lies behind the left half of the sternum at the fourth cartilage."
-    }
+    },
+    "micro": "whole_heart"
    },
    {
     "title": "Counting on the back",
@@ -2446,10 +2447,7 @@
    "histology": [
     "cardiac_muscle"
    ],
-   "micro": [
-    "whole_heart",
-    "heart"
-   ]
+   "micro": ["whole_heart"]
   },
   "steps": [
    {
@@ -2495,10 +2493,9 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
-     "Interatrial septum",
-     "Fossa ovalis"
+     "Interatrial septum"
     ],
     "check": {
      "q": "What closes the foramen ovale at birth?",
@@ -2521,10 +2518,9 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
-     "Interventricular septum",
-     "Membranous part of interventricular septum"
+     "Interventricular septum"
     ],
     "check": {
      "q": "Why are ventricular septal defects most often in the membranous part?",
@@ -2585,7 +2581,14 @@
     "check": {
      "q": "Where does coarctation of the aorta usually occur, and what signs does it cause in an adult?",
      "a": "Just beyond the left subclavian origin, at the ductus; upper limb hypertension, radiofemoral delay and rib notching from enlarged intercostal collaterals."
-    }
+    },
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Aortic arch",
+     "Brachiocephalic trunk",
+     "Left subclavian artery",
+     "Pulmonary trunk"
+    ]
    },
    {
     "title": "The venous end",
@@ -2607,10 +2610,8 @@
     ],
     "view": "posterior",
     "xray": true,
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
-     "Crista terminalis",
-     "Pectinate muscles",
      "Superior vena cava",
      "Inferior vena cava",
      "Opening of coronary sinus",

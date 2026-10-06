@@ -38,20 +38,18 @@ class HistologyBrowser(QWidget):
 
     imageRequested = Signal(str, int)
     structuresRequested = Signal(list)
-    microRequested = Signal(str)
 
     def __init__(self, ds, content, parent=None):
         super().__init__(parent)
         self.ds = ds
         self.content = content
-        self.setAccessibleName("Histology and microanatomy library")
+        self.setAccessibleName("Histology tissue and image library")
         lay = QVBoxLayout(self)
         lay.setContentsMargins(12, 10, 12, 6)
         lay.setSpacing(8)
         tissues = content.histology["tissues"]
         n_img = sum(len(t.get("images", [])) for t in tissues)
-        head = QLabel(f"{len(content.micro_models)} 3D models · {len([t for t in tissues if t.get('images')])} "
-                      f"tissues · {n_img} images")
+        head = QLabel(f"{len([t for t in tissues if t.get('images')])} tissues · {n_img} images")
         head.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         lay.addWidget(head)
         self.filter = QLineEdit()
@@ -61,22 +59,16 @@ class HistologyBrowser(QWidget):
         self.filter.textChanged.connect(self._filter)
         lay.addWidget(self.filter)
         filter_row = QHBoxLayout()
-        self.kind_filter = QComboBox()
-        self.kind_filter.setAccessibleName("Histology content type")
-        self.kind_filter.addItem("All content", "all")
-        self.kind_filter.addItem("Tissues and images", "tissue")
-        self.kind_filter.addItem("3D models", "micro")
-        self.kind_filter.currentIndexChanged.connect(lambda *_: self._filter(self.filter.text()))
-        filter_row.addWidget(self.kind_filter, 1)
         self.clear_filter = control("Clear", "Clear histology search and filter")
         self.clear_filter.clicked.connect(self._reset_filter)
+        filter_row.addStretch(1)
         filter_row.addWidget(self.clear_filter)
         lay.addLayout(filter_row)
         self.count_label = QLabel()
         self.count_label.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_CAPTION))
         lay.addWidget(self.count_label)
         self.tree = QTreeWidget()
-        self.tree.setAccessibleName("Histology tissues, images and 3D models")
+        self.tree.setAccessibleName("Histology tissues and images")
         self.tree.setHeaderHidden(True)
         self.tree.setColumnCount(2)
         self.tree.setIndentation(14)
@@ -98,20 +90,6 @@ class HistologyBrowser(QWidget):
     def _build(self):
         folders = {}
         muted = theme.qc(theme.MUTED)
-        micro_root = QTreeWidgetItem(self.tree.invisibleRootItem())
-        micro_root.setText(0, "3D models")
-        micro_root.setText(1, str(len(self.content.micro_models)))
-        micro_root.setForeground(1, muted)
-        f = micro_root.font(0)
-        f.setBold(True)
-        micro_root.setFont(0, f)
-        micro_root.setExpanded(False)
-        for m in sorted(self.content.micro_models.values(), key=lambda m: m.name.lower()):
-            it = QTreeWidgetItem(micro_root)
-            it.setText(0, m.name)
-            it.setToolTip(0, m.summary)
-            it.setData(0, ROLE, ("micro", m.id, 0))
-
         def folder(path):
             key = tuple(path)
             if key in folders:
@@ -157,14 +135,12 @@ class HistologyBrowser(QWidget):
 
     def _clicked(self, item, _col=0):
         d = item.data(0, ROLE)
-        if d and d[0] == "micro":
-            self.microRequested.emit(d[1])
-        elif d:
+        if d:
             self.imageRequested.emit(d[1], d[2])
 
     def _menu(self, pos):
         it = self.tree.itemAt(pos)
-        if not it or not it.data(0, ROLE) or it.data(0, ROLE)[0] == "micro":
+        if not it or not it.data(0, ROLE):
             return
         _, tid, idx = it.data(0, ROLE)
         t = self.content.tissues[tid]
@@ -176,22 +152,19 @@ class HistologyBrowser(QWidget):
         m.exec(self.tree.viewport().mapToGlobal(pos))
 
     def _reset_filter(self):
-        self.kind_filter.setCurrentIndex(0)
         self.filter.clear()
         self._filter("")
         self.filter.setFocus()
 
     def _filter(self, text):
         q = text.strip()
-        kind = self.kind_filter.currentData()
         visible = 0
 
         def rec(item, inherited=False):
             nonlocal visible
             data = item.data(0, ROLE)
-            allowed = not data or kind == "all" or (data[0] == "micro") == (kind == "micro")
             direct = matches_words(q, searchable_text(item.text(0), item.toolTip(0), item.data(0, SEARCH_ROLE)))
-            match = allowed and (not q or direct or inherited)
+            match = not q or direct or inherited
             child_match = False
             for i in range(item.childCount()):
                 child_match |= rec(item.child(i), inherited or (bool(q) and direct))
@@ -199,7 +172,7 @@ class HistologyBrowser(QWidget):
             item.setHidden(not shown)
             if item.childCount():
                 item.setExpanded(bool(q) and child_match)
-            if shown and data and data[0] in ("tissue", "micro"):
+            if shown and data and data[0] == "tissue":
                 visible += 1
             return shown
 
@@ -208,7 +181,7 @@ class HistologyBrowser(QWidget):
             rec(root.child(i))
         self.count_label.setText(f"{visible} topics shown")
         self.empty_state.setVisible(visible == 0)
-        self.clear_filter.setEnabled(bool(q) or kind != "all")
+        self.clear_filter.setEnabled(bool(q))
 
 
 class ImageView(QGraphicsView):

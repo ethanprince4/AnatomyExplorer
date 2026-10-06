@@ -12,7 +12,7 @@ class StudioScene(QWidget):
         super().__init__(parent)
         self.setObjectName('studioScene')
         self.viewport=viewport;viewport.setParent(self)
-        self.parts=parts;self._practice=False;self._initializing=True
+        self.parts=parts;self._practice=False;self._initializing=True;self._lesson_mode=False
         from .studio_style import display_css
         self.breadcrumb=QLabel('Collection  /  3D models',self);self.breadcrumb.setObjectName('studioSceneBreadcrumb')
         self.subject=QLabel(self);self.subject.setObjectName('studioSceneTitle');self.subject.setTextFormat(Qt.PlainText);self.subject.setStyleSheet(display_css(42,'#eef3f6'))
@@ -84,6 +84,24 @@ class StudioScene(QWidget):
         self.loading_cover.hide()
         self.setMinimumSize(340,240)
 
+    def set_lesson_mode(self, on):
+        """Use only the model canvas in a lesson; restore library instruments on exit."""
+        on = bool(on)
+        if self._lesson_mode == on:
+            return
+        overlays = [self.breadcrumb, self.subject, self.summary, self.status, self.dock,
+                    self.selection, self.teaching, *self.cards.values()]
+        if on:
+            self._lesson_restore = [(widget, not widget.isHidden()) for widget in overlays]
+            self._lesson_mode = True
+            for widget in overlays:
+                widget.hide()
+        else:
+            self._lesson_mode = False
+            for widget, visible in self._lesson_restore:
+                widget.setVisible(visible)
+        self.arrange()
+
     def set_loading(self,on,error=''):
         for widget in [self.viewport,self.dock,self.teaching,*self.cards.values(),self.selection]:widget.setEnabled(not on)
         self.loading_title.setText('Could not prepare the 3D view' if error else 'Preparing model…')
@@ -123,6 +141,7 @@ class StudioScene(QWidget):
         self.dock_layout.addWidget(button,0,len(self.tools));self.tools[key]=button;return button
 
     def show_function(self,on):
+        if self._lesson_mode:on=False
         if on:
             for key in ('reveal','section'):
                 self.show_card(key,False)
@@ -130,6 +149,7 @@ class StudioScene(QWidget):
         self.arrange()
 
     def show_card(self,key,on=True):
+        if self._lesson_mode:on=False
         if on and key in ('reveal','section') and hasattr(self,'function'):
             self.function.setChecked(False)
         if key=='parts' and self._practice:on=False
@@ -155,7 +175,7 @@ class StudioScene(QWidget):
 
     def set_selection(self,title,description=""):
         self.selection_title.setText(title);self.selection_description.setText(description)
-        self.selection.setVisible(bool(title) and not self._practice);self.arrange()
+        self.selection.setVisible(bool(title) and not self._practice and not self._lesson_mode);self.arrange()
 
     def set_practice(self,on):
         self._practice=on;self.tools['parts'].setEnabled(not on);self.labels.setEnabled(not on)
@@ -163,6 +183,8 @@ class StudioScene(QWidget):
         else:self.show_card('parts',not self.parts.isHidden())
 
     def eventFilter(self,obj,event):
+        if self._lesson_mode:
+            return super().eventFilter(obj,event)
         if event.type() in (QEvent.Show,QEvent.Hide,QEvent.ShowToParent,QEvent.HideToParent,QEvent.LayoutRequest):
             if obj is self.parts and hasattr(self,'tools') and 'parts' in self.tools:
                 visible=not self.parts.isHidden() and not self._practice
@@ -187,6 +209,16 @@ class StudioScene(QWidget):
         if self._laying_out or not hasattr(self,'dock'):return
         self._laying_out=True
         try:
+            if self._lesson_mode:
+                self.viewport.setGeometry(self.rect())
+                self.viewport.lower()
+                for widget in [self.breadcrumb,self.subject,self.summary,self.status,self.dock,
+                               self.selection,self.teaching,*self.cards.values()]:
+                    widget.hide()
+                if hasattr(self,"loading_cover"):
+                    self.loading_cover.setGeometry(self.rect())
+                    self.loading_cover.raise_()
+                return
             w,h=self.width(),self.height();gap=16;narrow=w<620
             self.breadcrumb.setGeometry(34,18,max(1,w-100),24)
             self.subject.setGeometry(34,18,max(1,min(680,w-68)),56)

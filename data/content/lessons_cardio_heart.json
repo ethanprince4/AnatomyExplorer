@@ -20,7 +20,7 @@
     "The AV delay lets the atria finish emptying before the ventricles contract.",
     "The ECG records electrical activity: depolarisation precedes contraction, and an electrical rhythm alone does not prove effective pumping."
   ],
-  "see_also": {"lessons": ["heart-chambers", "coronary-circulation"], "histology": ["cardiac_muscle"], "radiology": ["cxr_pa"], "micro": ["heart"]},
+  "see_also": {"lessons": ["heart-chambers", "coronary-circulation"], "histology": ["cardiac_muscle"], "radiology": ["cxr_pa"], "micro": ["whole_heart"]},
   "steps": [
     {
       "title": "Why a heart needs wiring",
@@ -33,99 +33,148 @@
       "histology": "cardiac_muscle"
     },
     {
-      "title": "The sinu-atrial node",
-      "text": "<p>The pacemaker sits in the wall of the <b>right atrium</b>, at the upper end of the crista terminalis where the superior vena cava enters. It depolarises spontaneously about 60–100 times a minute, faster than anything else in the heart, and so it sets the rate.</p><p>It is supplied by the sinu-atrial nodal artery, a branch of the <b>right coronary artery</b> in about 60% of people. That is why an inferior myocardial infarction so often produces a bradycardia.</p>",
-      "systems": ["visceral", "cardiovascular"],
-      "regions": ["thorax"],
-      "focus": ["Right atrium"],
-      "show": ["Superior vena cava", "Right coronary artery"],
-      "view": "anterior",
-      "xray": true,
-      "micro": "heart",
-      "micro_focus": ["Sinoatrial (SA) node", "Crista terminalis", "Superior vena cava", "Right coronary artery"],
-      "check": {"q": "Which coronary artery usually supplies the SA node?",
-                "a": "The right coronary artery, in about 60% of hearts."}
+     "title": "The sinu-atrial node",
+     "text": "<p>The pacemaker sits in the wall of the <b>right atrium</b>, at the upper end of the crista terminalis where the superior vena cava enters. It depolarises spontaneously about 60–100 times a minute, faster than anything else in the heart, and so it sets the rate.</p><p>It is supplied by the sinu-atrial nodal artery, a branch of the <b>right coronary artery</b> in about 60% of people. That is why an inferior myocardial infarction so often produces a bradycardia.</p>",
+     "systems": [
+      "visceral",
+      "cardiovascular"
+     ],
+     "regions": [
+      "thorax"
+     ],
+     "focus": [
+      "Right atrium"
+     ],
+     "show": [
+      "Superior vena cava",
+      "Right coronary artery"
+     ],
+     "view": "anterior",
+     "xray": true,
+     "check": {
+      "q": "Which coronary artery usually supplies the SA node?",
+      "a": "The right coronary artery, in about 60% of hearts."
+     },
+     "lesson_view": "diagram",
+     "diagram": "lab04-conduction"
     },
     {
-      "title": "Across the atria to the AV node",
-      "text": "<p>The wave spreads across both atria through the working muscle itself — this is the <b>P wave</b> — and converges on the <b>atrioventricular node</b>, in the interatrial septum just above the opening of the coronary sinus, within the triangle of Koch.</p><p>Atria and ventricles are otherwise separated completely by the fibrous skeleton of the heart, which is electrically inert. The normal route passes through the AV node and then the <b>atrioventricular bundle</b>, which pierces the fibrous skeleton. Accessory atrioventricular pathways are an anatomical exception. Block it and the ventricles must fall back on their own slow escape rhythm.</p>",
-      "systems": ["visceral"],
-      "regions": ["thorax"],
-      "focus": ["Right atrium", "Coronary sinus"],
-      "view": "anterior",
-      "clip": [0, 0.50],
-      "frame_on": ["Heart"],
-      "xray": true,
-      "micro": "heart",
-      "micro_focus": ["Internodal pathways & Bachmann's bundle", "Atrioventricular (AV) node", "Opening of coronary sinus", "Atrioventricular bundle (bundle of His)", "Fibrous skeleton (valve annuli)"],
-      "check": {"q": "Why does complete AV block cause a slow ventricular rate?",
-                "a": "Atrial impulses no longer reach the ventricles through the normal AV conduction pathway, so a slower subsidiary pacemaker must drive them."}
+     "title": "Across the atria to the AV node",
+     "text": "<p>The wave spreads across both atria through the working muscle itself — this is the <b>P wave</b> — and converges on the <b>atrioventricular node</b>, in the interatrial septum just above the opening of the coronary sinus, within the triangle of Koch.</p><p>Atria and ventricles are otherwise separated completely by the fibrous skeleton of the heart, which is electrically inert. The normal route passes through the AV node and then the <b>atrioventricular bundle</b>, which pierces the fibrous skeleton. Accessory atrioventricular pathways are an anatomical exception. Block it and the ventricles must fall back on their own slow escape rhythm.</p>",
+     "systems": [
+      "visceral"
+     ],
+     "regions": [
+      "thorax"
+     ],
+     "focus": [
+      "Right atrium",
+      "Coronary sinus"
+     ],
+     "view": "anterior",
+     "clip": [
+      0,
+      0.5
+     ],
+     "frame_on": [
+      "Heart"
+     ],
+     "xray": true,
+     "check": {
+      "q": "Why does complete AV block cause a slow ventricular rate?",
+      "a": "Atrial impulses no longer reach the ventricles through the normal AV conduction pathway, so a slower subsidiary pacemaker must drive them."
+     },
+     "lesson_view": "diagram",
+     "diagram": "lab04-conduction"
     },
     {
-      "title": "The delay",
-      "text": "<p>Conduction through the AV node is deliberately <b>slow</b> — about 100 milliseconds. This delay contributes to the <b>PR interval</b>, which also includes atrial and other AV conduction time. The delay exists so the atria can finish emptying before the ventricles start to contract. That atrial kick contributes perhaps 20% of ventricular filling, and its loss is why atrial fibrillation matters most in a stiff ventricle.</p><p>The node's slowness also protects the ventricles: in atrial flutter at 300 beats a minute, the AV node refuses to pass most of them.</p>",
-      "systems": ["visceral"],
-      "regions": ["thorax"],
-      "focus": ["Heart"],
-      "view": "anterior",
-      "xray": false,
-      "micro": "heart",
-      "micro_focus": ["Atrioventricular (AV) node", "Atrioventricular bundle (bundle of His)"],
-      "clinical": "Vagal manoeuvres and adenosine both work by slowing the AV node, which terminates any arrhythmia that uses it as part of its circuit."
+     "title": "The delay",
+     "text": "<p>Conduction through the AV node is deliberately <b>slow</b> — about 100 milliseconds. This delay contributes to the <b>PR interval</b>, which also includes atrial and other AV conduction time. The delay exists so the atria can finish emptying before the ventricles start to contract. That atrial kick contributes perhaps 20% of ventricular filling, and its loss is why atrial fibrillation matters most in a stiff ventricle.</p><p>The node's slowness also protects the ventricles: in atrial flutter at 300 beats a minute, the AV node refuses to pass most of them.</p>",
+     "systems": [
+      "visceral"
+     ],
+     "regions": [
+      "thorax"
+     ],
+     "focus": [
+      "Heart"
+     ],
+     "view": "anterior",
+     "xray": false,
+     "clinical": "Vagal manoeuvres and adenosine both work by slowing the AV node, which terminates any arrhythmia that uses it as part of its circuit.",
+     "lesson_view": "diagram",
+     "diagram": "lab04-conduction"
     },
     {
-      "title": "Bundle, branches and Purkinje fibres",
-      "text": "<p>From the AV node the <b>atrioventricular bundle</b> (of His) pierces the fibrous skeleton, runs along the membranous interventricular septum and divides into <b>right</b> and <b>left bundle branches</b>. These run down the septum under the endocardium and break up into the <b>Purkinje fibres</b>, which spread through the ventricular walls.</p><p>The fibres reach the <b>apex first</b> and the outflow tracts last, so the ventricle contracts from the bottom up, wringing blood towards the valves. This whole ventricular depolarisation is the <b>QRS complex</b>, and its widening is what a bundle branch block shows.</p>",
-      "systems": ["visceral"],
-      "regions": ["thorax"],
-      "focus": ["Left ventricle", "Right ventricle"],
-      "view": "anterior",
-      "clip": [0, 0.50],
-      "frame_on": ["Heart"],
-      "xray": true,
-      "micro": "heart",
-      "micro_focus": ["Atrioventricular bundle (bundle of His)", "Membranous part of interventricular septum", "Right bundle branch", "Left bundle branch", "Purkinje fibres"],
-      "check": {"q": "Why does the ventricle contract from the apex upwards?",
-                "a": "The Purkinje network reaches the apex first, so depolarisation and contraction start there."}
+     "title": "Bundle, branches and Purkinje fibres",
+     "text": "<p>From the AV node the <b>atrioventricular bundle</b> (of His) pierces the fibrous skeleton, runs along the membranous interventricular septum and divides into <b>right</b> and <b>left bundle branches</b>. These run down the septum under the endocardium and break up into the <b>Purkinje fibres</b>, which spread through the ventricular walls.</p><p>The fibres reach the <b>apex first</b> and the outflow tracts last, so the ventricle contracts from the bottom up, wringing blood towards the valves. This whole ventricular depolarisation is the <b>QRS complex</b>, and its widening is what a bundle branch block shows.</p>",
+     "systems": [
+      "visceral"
+     ],
+     "regions": [
+      "thorax"
+     ],
+     "focus": [
+      "Left ventricle",
+      "Right ventricle"
+     ],
+     "view": "anterior",
+     "clip": [
+      0,
+      0.5
+     ],
+     "frame_on": [
+      "Heart"
+     ],
+     "xray": true,
+     "check": {
+      "q": "Why does the ventricle contract from the apex upwards?",
+      "a": "The Purkinje network reaches the apex first, so depolarisation and contraction start there."
+     },
+     "lesson_view": "diagram",
+     "diagram": "lab04-conduction"
     },
     {
-      "title": "Reading it back off the ECG",
-      "text": "<p>Now the trace makes anatomical sense. <b>P wave</b>: atrial depolarisation. <b>PR interval</b>: from the start of atrial depolarisation to the start of ventricular depolarisation, including the AV nodal delay. <b>QRS</b>: ventricular depolarisation through the bundle and Purkinje system. <b>T wave</b>: ventricular repolarisation.</p><p>A long PR means slow AV conduction. A wide QRS means the ventricles are being depolarised slowly, muscle to muscle, instead of through the fast pathway — a bundle branch block, an ectopic ventricular beat, or a paced beat.</p>",
-      "systems": ["visceral"],
-      "regions": ["thorax"],
-      "focus": ["Heart"],
-      "view": "anterior",
-      "xray": false,
-      "micro": "heart",
-      "micro_focus": ["Sinoatrial (SA) node", "Atrioventricular (AV) node", "Atrioventricular bundle (bundle of His)", "Right bundle branch", "Left bundle branch", "Purkinje fibres"],
-      "check": {"q": "What does a wide QRS tell you anatomically?",
-                "a": "That the ventricles are not being depolarised through the normal fast conducting system."}
+     "title": "Reading it back off the ECG",
+     "text": "<p>Now the trace makes anatomical sense. <b>P wave</b>: atrial depolarisation. <b>PR interval</b>: from the start of atrial depolarisation to the start of ventricular depolarisation, including the AV nodal delay. <b>QRS</b>: ventricular depolarisation through the bundle and Purkinje system. <b>T wave</b>: ventricular repolarisation.</p><p>A long PR means slow AV conduction. A wide QRS means the ventricles are being depolarised slowly, muscle to muscle, instead of through the fast pathway — a bundle branch block, an ectopic ventricular beat, or a paced beat.</p>",
+     "systems": [
+      "visceral"
+     ],
+     "regions": [
+      "thorax"
+     ],
+     "focus": [
+      "Heart"
+     ],
+     "view": "anterior",
+     "xray": false,
+     "check": {
+      "q": "What does a wide QRS tell you anatomically?",
+      "a": "That the ventricles are not being depolarised through the normal fast conducting system."
+     },
+     "lesson_view": "diagram",
+     "diagram": "lab04-ecg-waveform"
     },
     {
-      "systems": [
-        "visceral"
-      ],
-      "regions": [
-        "thorax"
-      ],
-      "focus": [
-        "Heart"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "micro": "heart",
-      "micro_focus": [
-        "Right atrium (myocardium)",
-        "Left atrium (myocardium)",
-        "Right ventricle (myocardium)",
-        "Left ventricle (myocardium)"
-      ],
-      "title": "Electricity comes before the squeeze",
-      "text": "<p>A P wave is <b>atrial depolarisation</b>, not a drawing of atrial contraction. The QRS complex likewise records ventricular depolarisation. Mechanical force develops after electrical activation as the muscle cells couple that signal to calcium release and contraction.</p><p>This distinction explains why the ECG and the moving heart answer different questions. The trace shows the timing and pattern of electrical activity; valve movement and blood flow show the mechanical result. The T wave marks ventricular repolarisation, not a separate contraction of a different chamber.</p>",
-      "check": {
-        "q": "Does a QRS complex directly measure how much blood the ventricles eject?",
-        "a": "No. It records ventricular depolarisation; effective contraction and ejection are subsequent mechanical events."
-      }
+     "systems": [
+      "visceral"
+     ],
+     "regions": [
+      "thorax"
+     ],
+     "focus": [
+      "Heart"
+     ],
+     "view": "anterior",
+     "xray": false,
+     "title": "Electricity comes before the squeeze",
+     "text": "<p>A P wave is <b>atrial depolarisation</b>, not a drawing of atrial contraction. The QRS complex likewise records ventricular depolarisation. Mechanical force develops after electrical activation as the muscle cells couple that signal to calcium release and contraction.</p><p>This distinction explains why the ECG and the moving heart answer different questions. The trace shows the timing and pattern of electrical activity; valve movement and blood flow show the mechanical result. The T wave marks ventricular repolarisation, not a separate contraction of a different chamber.</p>",
+     "check": {
+      "q": "Does a QRS complex directly measure how much blood the ventricles eject?",
+      "a": "No. It records ventricular depolarisation; effective contraction and ejection are subsequent mechanical events."
+     },
+     "lesson_view": "diagram",
+     "diagram": "lab04-conduction"
     }
   ]
 },
@@ -409,16 +458,24 @@
     "Ligamentum teres, ligamentum venosum, ligamentum arteriosum, fossa ovalis, medial umbilical ligaments.",
     "The umbilical vein carries relatively oxygenated blood towards the fetus; the two umbilical arteries carry blood away towards the placenta."
   ],
-  "see_also": {"lessons": ["heart-chambers", "portal-system"], "micro": ["heart"]},
+  "see_also": {"lessons": ["heart-chambers", "portal-system"], "micro": ["whole_heart"]},
   "steps": [
     {
-      "title": "The problem the fetus is solving",
-      "text": "<p>Before birth the lungs are collapsed and full of fluid, and gas exchange happens in the <b>placenta</b>. Sending the full cardiac output through the lungs would be pointless and, because pulmonary resistance is high, expensive.</p><p>So the fetal circulation is built round three <b>shunts</b> that route oxygenated blood past the lungs and the liver, straight towards the brain and the heart.</p>",
-      "systems": ["cardiovascular"],
-      "regions": ["thorax", "abdomen"],
-      "focus": ["Heart"],
-      "view": "anterior",
-      "xray": false
+     "title": "The problem the fetus is solving",
+     "text": "<p>Before birth the lungs are collapsed and full of fluid, and gas exchange happens in the <b>placenta</b>. Sending the full cardiac output through the lungs would be pointless and, because pulmonary resistance is high, expensive.</p><p>So the fetal circulation is built round three <b>shunts</b> that route oxygenated blood past the lungs and the liver, straight towards the brain and the heart.</p>",
+     "systems": [
+      "cardiovascular"
+     ],
+     "regions": [
+      "thorax",
+      "abdomen"
+     ],
+     "focus": [
+      "Heart"
+     ],
+     "view": "anterior",
+     "xray": false,
+     "micro": "whole_heart"
     },
     {
       "title": "Ductus venosus",
@@ -433,19 +490,37 @@
                 "a": "The ligamentum venosum."}
     },
     {
-      "title": "Foramen ovale",
-      "text": "<p>The stream of oxygenated blood arriving up the inferior vena cava is directed by the valve of the IVC across the <b>right atrium</b> and through the <b>foramen ovale</b> into the left atrium — bypassing the lungs and going straight out to the aorta and the head.</p><p>At birth, the fall in pulmonary resistance raises left atrial pressure above right, and the septum primum flap is pressed against the septum secundum. It fuses over the following months, leaving the <b>fossa ovalis</b>. In about a quarter of adults it never seals completely: a <b>patent foramen ovale</b>, usually silent, occasionally a route for a paradoxical embolus.</p>",
-      "systems": ["visceral", "cardiovascular"],
-      "regions": ["thorax"],
-      "focus": ["Right atrium", "Left atrium"],
-      "view": "anterior",
-      "clip": [0, 0.50],
-      "frame_on": ["Heart"],
-      "xray": true,
-      "micro": "heart",
-      "micro_focus": ["Fossa ovalis", "Interatrial septum", "Inferior vena cava"],
-      "check": {"q": "What closes the foramen ovale at birth?",
-                "a": "Left atrial pressure exceeding right, once the lungs expand and pulmonary resistance falls."}
+     "title": "Foramen ovale",
+     "text": "<p>The stream of oxygenated blood arriving up the inferior vena cava is directed by the valve of the IVC across the <b>right atrium</b> and through the <b>foramen ovale</b> into the left atrium — bypassing the lungs and going straight out to the aorta and the head.</p><p>At birth, the fall in pulmonary resistance raises left atrial pressure above right, and the septum primum flap is pressed against the septum secundum. It fuses over the following months, leaving the <b>fossa ovalis</b>. In about a quarter of adults it never seals completely: a <b>patent foramen ovale</b>, usually silent, occasionally a route for a paradoxical embolus.</p>",
+     "systems": [
+      "visceral",
+      "cardiovascular"
+     ],
+     "regions": [
+      "thorax"
+     ],
+     "focus": [
+      "Right atrium",
+      "Left atrium"
+     ],
+     "view": "anterior",
+     "clip": [
+      0,
+      0.5
+     ],
+     "frame_on": [
+      "Heart"
+     ],
+     "xray": true,
+     "micro": "whole_heart",
+     "micro_focus": [
+      "Interatrial septum",
+      "Inferior vena cava"
+     ],
+     "check": {
+      "q": "What closes the foramen ovale at birth?",
+      "a": "Left atrial pressure exceeding right, once the lungs expand and pulmonary resistance falls."
+     }
     },
     {
       "title": "Ductus arteriosus",
@@ -462,36 +537,49 @@
                 "a": "Indometacin closes it; prostaglandin E keeps it open."}
     },
     {
-      "title": "The remnants, all together",
-      "text": "<p>Learn them as a list and they will be recognisable on any dissection.</p><p>Umbilical vein → <b>ligamentum teres</b>. Ductus venosus → <b>ligamentum venosum</b>. Foramen ovale → <b>fossa ovalis</b>. Ductus arteriosus → <b>ligamentum arteriosum</b>. Umbilical arteries → <b>medial umbilical ligaments</b> (their proximal parts stay open as the superior vesical arteries). Urachus → <b>median umbilical ligament</b>.</p>",
-      "systems": ["cardiovascular", "visceral"],
-      "regions": ["abdomen", "thorax"],
-      "focus": ["Liver", "Heart"],
-      "view": "anterior",
-      "xray": false,
-      "pitfall": "Medial umbilical ligaments are paired and are old arteries; the median umbilical ligament is single and is the old urachus.",
-      "check": {"q": "How many umbilical arteries and veins does the cord contain?",
-                "a": "Two arteries carrying deoxygenated blood to the placenta, one vein carrying oxygenated blood back."}
+     "title": "The remnants, all together",
+     "text": "<p>Learn them as a list and they will be recognisable on any dissection.</p><p>Umbilical vein → <b>ligamentum teres</b>. Ductus venosus → <b>ligamentum venosum</b>. Foramen ovale → <b>fossa ovalis</b>. Ductus arteriosus → <b>ligamentum arteriosum</b>. Umbilical arteries → <b>medial umbilical ligaments</b> (their proximal parts stay open as the superior vesical arteries). Urachus → <b>median umbilical ligament</b>.</p>",
+     "systems": [
+      "cardiovascular",
+      "visceral"
+     ],
+     "regions": [
+      "abdomen",
+      "thorax"
+     ],
+     "focus": [
+      "Liver",
+      "Heart"
+     ],
+     "view": "anterior",
+     "xray": false,
+     "pitfall": "Medial umbilical ligaments are paired and are old arteries; the median umbilical ligament is single and is the old urachus.",
+     "check": {
+      "q": "How many umbilical arteries and veins does the cord contain?",
+      "a": "Two arteries carrying deoxygenated blood to the placenta, one vein carrying oxygenated blood back."
+     },
+     "micro": "whole_heart"
     },
     {
-      "systems": [
-        "cardiovascular"
-      ],
-      "regions": [
-        "thorax",
-        "abdomen"
-      ],
-      "focus": [
-        "Heart"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "title": "Artery and vein describe direction",
-      "text": "<p>A vessel is called an <b>artery</b> because it carries blood away from the heart, not because that blood contains more oxygen. The two umbilical arteries carry relatively deoxygenated fetal blood towards the placenta. The single umbilical vein returns relatively oxygenated blood towards the fetus.</p><p>Maternal and fetal blood normally remain in separate vascular spaces while gases and other substances cross the placental barrier. The fetus receives the products of that exchange in its own blood. Keep three ideas separate: direction of flow, oxygen content and whose circulation the blood belongs to.</p>",
-      "check": {
-        "q": "Why is the oxygen-rich vessel in the umbilical cord called a vein?",
-        "a": "It returns blood from the placenta towards the fetal heart; vessel naming depends on direction, not oxygen content."
-      }
+     "systems": [
+      "cardiovascular"
+     ],
+     "regions": [
+      "thorax",
+      "abdomen"
+     ],
+     "focus": [
+      "Heart"
+     ],
+     "view": "anterior",
+     "xray": false,
+     "title": "Artery and vein describe direction",
+     "text": "<p>A vessel is called an <b>artery</b> because it carries blood away from the heart, not because that blood contains more oxygen. The two umbilical arteries carry relatively deoxygenated fetal blood towards the placenta. The single umbilical vein returns relatively oxygenated blood towards the fetus.</p><p>Maternal and fetal blood normally remain in separate vascular spaces while gases and other substances cross the placental barrier. The fetus receives the products of that exchange in its own blood. Keep three ideas separate: direction of flow, oxygen content and whose circulation the blood belongs to.</p>",
+     "check": {
+      "q": "Why is the oxygen-rich vessel in the umbilical cord called a vein?",
+      "a": "It returns blood from the placenta towards the fetal heart; vessel naming depends on direction, not oxygen content."
+     },
+     "micro": "whole_heart"
     }
   ]
 }

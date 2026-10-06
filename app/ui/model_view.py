@@ -393,7 +393,21 @@ class ModelView(QWidget):
         self.part_items = {}
         self.group_items = {}
         self.family_rows = set()
+        self.flat_parts = (len(self.vmodel.groups) == 1 and
+                           self.vmodel.groups[0].title.casefold() == "parts")
         for g in self.vmodel.groups:
+            if self.flat_parts:
+                for i in g.items:
+                    part = self.vmodel.items[i]
+                    row = QTreeWidgetItem(self.tree)
+                    row.setText(0, part.name)
+                    row.setData(0, Qt.AccessibleTextRole, part.name)
+                    row.setToolTip(0, part.description[:300])
+                    row.setFlags(row.flags() | Qt.ItemIsUserCheckable)
+                    row.setCheckState(0, Qt.Checked)
+                    row.setData(0, ROLE, ("part", i))
+                    self.part_items[i] = row
+                continue
             gi = QTreeWidgetItem(self.tree)
             gi.setToolTip(0, g.title)
             gi.setData(0, Qt.AccessibleTextRole, g.title)
@@ -438,6 +452,13 @@ class ModelView(QWidget):
         if terms and self._filter_expanded is None:
             self._filter_expanded = {key for key, item in self.group_items.items() if item.isExpanded()}
         matches = 0
+        if self.flat_parts:
+            for sid, row in self.part_items.items():
+                part = self.vmodel.items[sid]
+                searchable = normalized(f"{part.name} {part.key}")
+                show = all(term in searchable for term in terms)
+                row.setHidden(not show)
+                matches += int(show)
         for key, group in self.group_items.items():
             group_text = normalized(f"{key} {group.text(0)}")
             if key in self.family_rows:
@@ -501,7 +522,7 @@ class ModelView(QWidget):
         vis = self.state.visible_mask()
         self._sync = True
         for sid, it in self.part_items.items():
-            if it.parent() is not None:
+            if self.flat_parts or it.parent() is not None:
                 it.setCheckState(0, Qt.Checked if vis[sid] else Qt.Unchecked)
         for key, gi in self.group_items.items():
             sids = self._sids_of(gi)
@@ -1004,7 +1025,7 @@ class ModelView(QWidget):
         if it:
             if it.isHidden():
                 self.filter.clear()
-            if it.parent() is not None:
+            if self.flat_parts or it.parent() is not None:
                 it.parent().setExpanded(True)
             self.tree.blockSignals(True)
             self.tree.setCurrentItem(it)
@@ -1090,6 +1111,23 @@ class ModelView(QWidget):
         """Item indices for part names from a lesson or practice item (exact names, groups and the model's
         aliases, case-insensitive), and the names that matched nothing."""
         return self.entry.resolve(self.vmodel, names)
+
+    def show_lesson_parts(self, names):
+        """Start each lesson step from the complete model, rather than a saved reveal."""
+        self.state.clear_selection()
+        self._fully_visible()
+        if not names:
+            self.reset_view()
+            return []
+        if self.entry.id == "cardiac_muscle":
+            # A selected cell family should not make the remaining tissue disappear
+            # or zoom the lesson into one tiny junction.
+            sids, missing = self.part_ids(names)
+            self.reset_view()
+            self.state.select(sids)
+            self._show_selection()
+            return missing
+        return self.focus_parts(names)
 
     def focus_parts(self, names):
         """A lesson step's "micro_focus": select these parts, x-ray the rest, label and frame them.

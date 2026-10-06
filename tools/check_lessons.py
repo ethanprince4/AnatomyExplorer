@@ -1,6 +1,6 @@
 """Validate the lesson library: every name resolves, every key is real, every cross-reference exists.
 
-Lab-course lessons get more: their `course` place, every `practice` item (exact atlas names for find/name, part
+Lab-course and lecture-exam lessons get more: their `course` or `lecture` place, every `practice` item (exact atlas names for find/name, part
 names that resolve in the 3D model for find_micro and micro_focus - exactly as the model viewer resolves them: a
 part's name, a group's name or one of the model's aliases - valid multiple-choice answers), every `diagram` file,
 and every `practice_from` reference.
@@ -26,6 +26,15 @@ from app.lessons import PRACTICE_TYPES, diagram_path, unit_matches   # noqa: E40
 from app.lessons import Resolver, load_lessons                      # noqa: E402
 
 COURSE_ID = re.compile(r"^(lab\d{2}|exam\d)-\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*$")
+LECTURE_ID = re.compile(r"^lec\d-(ch\d{2}|review)-\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*$")
+
+
+class _NeverCancelled:
+    """The cancellation token a deferred (library) model's CPU preparation polls."""
+    cancelled = False
+
+    def check(self):
+        return None
 
 
 class MicroParts:
@@ -42,8 +51,12 @@ class MicroParts:
             return None
         if model_id not in self.loaded:
             print(f"  (loading 3D model {model_id}…)", flush=True)
+            entry = self.models[model_id]
             try:
-                self.loaded[model_id] = self.models[model_id].load()
+                if hasattr(entry, "load"):
+                    self.loaded[model_id] = entry.load()
+                else:
+                    self.loaded[model_id] = entry.prepare_cpu(_NeverCancelled())
             except Exception as exc:                   # noqa: BLE001 - a model mid-edit must not stop the check
                 self.loaded[model_id] = exc
         return self.loaded[model_id]
@@ -124,7 +137,7 @@ def main():
             return None
         if model is None and model_id not in warned_models:
             warned_models.add(model_id)
-            warn(f"{where}: 3D model {model_id!r} is not in the catalogue yet - its part names were not checked")
+            fail(f"{where}: 3D model {model_id!r} is unavailable")
         return model
 
     def check_part(model_id, part, where):
@@ -181,8 +194,38 @@ def main():
             elif len(set(rows)) != len(rows):
                 fail(f"{where}: order has the same item twice, so its order is ambiguous")
 
+    def check_lecture(lesson, where):
+        c = lesson.lecture
+        if lesson.course is not None:
+            fail(f"{where}: a lesson belongs to the lab course or a lecture exam, not both")
+        if not isinstance(c.get("exam"), int) or isinstance(c.get("exam"), bool):
+            fail(f"{where}: lecture needs an integer 'exam'")
+        chapter = c.get("chapter")
+        if chapter is not None and (not isinstance(chapter, int) or isinstance(chapter, bool)):
+            fail(f"{where}: lecture 'chapter' must be a number, or absent for the exam's full review")
+        if not isinstance(c.get("order"), int):
+            fail(f"{where}: lecture needs an integer 'order'")
+        if not c.get("unit"):
+            fail(f"{where}: lecture needs a 'unit' topic")
+        if not LECTURE_ID.match(lesson.id):
+            fail(f"{where}: a lecture-exam id looks like lec2-ch20-03-chambers-valves or lec2-review-04-practice-exam")
+        elif lesson.lecture_key:
+            exam, chapter = lesson.lecture_key
+            if not lesson.id.startswith(f"lec{exam}-ch{chapter:02d}-" if chapter else f"lec{exam}-review-"):
+                fail(f"{where}: id does not match lecture exam {exam}, chapter {chapter or 'review'}")
+            if chapter and len(lesson.practice) < 6:
+                warn(f"{where}: {len(lesson.practice)} practice items - aim for 6-15")
+        for ref in lesson.practice_from:
+            if not any(unit_matches(other, ref) for other in lessons if other is not lesson):
+                fail(f"{where}: practice_from {ref!r} matches no lesson or chapter")
+        for k, item in enumerate(lesson.practice, 1):
+            check_item(item, f"{where} practice {k}")
+
     def check_course(lesson, where):
         c = lesson.course
+        if lesson.lecture is not None:
+            check_lecture(lesson, where)
+            return
         if c is None:
             if lesson.practice or lesson.practice_from:
                 warn(f"{where}: has practice items but no 'course' - it will not appear under My lab course")
@@ -249,7 +292,7 @@ def main():
                         near = difflib.get_close_matches(name.lower(), pool, n=4, cutoff=0.6)
                         fail(f"{where} step {i} [{field}] {name!r} -> {near}")
             if step.get("micro") and step["micro"] not in MODELS:
-                # a model still being built by someone else: say so, but do not fail the library for it
+                # A released lesson must not offer a model that is unavailable.
                 parts_of(step["micro"], f"{where} step {i}")
             if step.get("histology") and step["histology"] not in tissues:
                 fail(f"{where} step {i} histology {step['histology']!r} is not a tissue")
@@ -277,8 +320,9 @@ def main():
     checks = sum(len(x.checks()) for x in lessons)
     practice = sum(len(x.practice) for x in lessons)
     course = [x for x in lessons if x.course]
+    lecture = [x for x in lessons if x.lecture]
     print(f"{len(lessons)} lessons, {steps} steps, {checks} recall questions; "
-          f"{len(course)} lab-course lessons with {practice} practice items")
+          f"{len(course)} lab-course and {len(lecture)} lecture-exam lessons with {practice} practice items")
     if warnings:
         print(f"{warnings} warnings")
     print("OK" if not bad else f"{bad} problems")

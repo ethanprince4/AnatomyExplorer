@@ -345,113 +345,180 @@
   ]
 },
 {
-  "id": "skin-appendages",
-  "title": "The appendages of the skin",
-  "system": "integumentary",
-  "region": "general",
-  "level": "core",
-  "minutes": 9,
-  "summary": "Hair, nails, two kinds of sweat gland and the receptors that make skin a sense organ.",
-  "tags": ["hair", "nail", "sweat glands", "receptors"],
-  "prereq": ["skin-layers"],
-  "objectives": [
-    "Describe the structure of a hair follicle and the growth cycle",
-    "Distinguish eccrine from apocrine sweat glands",
-    "Name the cutaneous receptors and what each detects",
-    "Distinguish the secretory coil from the reabsorptive duct of an eccrine sweat gland"
+ "id": "skin-appendages",
+ "title": "The appendages of the skin",
+ "system": "integumentary",
+ "region": "general",
+ "level": "core",
+ "minutes": 9,
+ "summary": "Hair, nails, two kinds of sweat gland and the receptors that make skin a sense organ.",
+ "tags": [
+  "hair",
+  "nail",
+  "sweat glands",
+  "receptors"
+ ],
+ "prereq": [
+  "skin-layers"
+ ],
+ "objectives": [
+  "Describe the structure of a hair follicle and the growth cycle",
+  "Distinguish eccrine from apocrine sweat glands",
+  "Name the cutaneous receptors and what each detects",
+  "Distinguish the secretory coil from the reabsorptive duct of an eccrine sweat gland"
+ ],
+ "takeaways": [
+  "Follicles, sebaceous glands and arrector pili form the pilosebaceous unit.",
+  "Eccrine glands are everywhere and cool you; apocrine glands are restricted and open into follicles.",
+  "The nail grows from the matrix under the proximal fold; the lunula is its visible edge.",
+  "The eccrine coil produces fluid and the duct reabsorbs salt; the amount of ductal modification depends partly on flow rate."
+ ],
+ "see_also": {
+  "lessons": [
+   "skin-layers",
+   "fascia-and-planes"
   ],
-  "takeaways": [
-    "Follicles, sebaceous glands and arrector pili form the pilosebaceous unit.",
-    "Eccrine glands are everywhere and cool you; apocrine glands are restricted and open into follicles.",
-    "The nail grows from the matrix under the proximal fold; the lunula is its visible edge.",
-    "The eccrine coil produces fluid and the duct reabsorbs salt; the amount of ductal modification depends partly on flow rate."
+  "micro": [
+   "axillary_skin"
   ],
-  "see_also": {"lessons": ["skin-layers", "fascia-and-planes"], "micro": ["thin_skin", "scalp", "axillary_skin"], "histology": ["hair_follicle", "sweat_glands", "nail", "skin_receptors"]},
-  "steps": [
-    {
-      "title": "The pilosebaceous unit",
-      "text": "<p>A <b>hair follicle</b> is an invagination of epidermis reaching into the dermis, with a bulb of dividing cells at its base capped over a vascular papilla. Attached to it are a <b>sebaceous gland</b> and a slip of smooth muscle, the <b>arrector pili</b>, which stands the hair up and squeezes the gland.</p><p>The three together are the pilosebaceous unit, and it is the unit that fails in acne: sebum plus keratin plugs the duct, the trapped sebum is colonised, and the follicle inflames.</p>",
-      "systems": ["regions"],
-      "regions": ["head"],
-      "focus": ["Hairs"],
-      "view": "anterior",
-      "xray": false,
-      "micro": "thin_skin",
-      "check": {"q": "What are the three parts of the pilosebaceous unit?",
-                "a": "The hair follicle, its sebaceous gland and the arrector pili muscle."}
-    },
-    {
-      "title": "Hair grows in cycles, out of phase",
-      "text": "<p>Each follicle cycles independently through <b>anagen</b> (growing, two to six years on the scalp), <b>catagen</b> (regressing, a couple of weeks) and <b>telogen</b> (resting, about three months). At any moment around 90% of scalp follicles are in anagen, which is why hair loss is gradual and unnoticed.</p><p>Synchronise them — a severe illness, childbirth, a general anaesthetic — and a large cohort enters telogen together and sheds two to three months later: <b>telogen effluvium</b>. Chemotherapy, which kills dividing cells, hits the anagen follicles instead and the loss is faster and more complete.</p>",
-      "systems": ["regions"],
-      "regions": ["head"],
-      "focus": ["Hairs"],
-      "view": "anterior",
-      "xray": false,
-      "histology": "hair_follicle",
-      "check": {"q": "Why does hair fall out two to three months after a severe illness?",
-                "a": "Many follicles are pushed into telogen at once and shed together — telogen effluvium."}
-    },
-    {
-      "title": "Two kinds of sweat gland",
-      "text": "<p><b>Eccrine</b> glands are everywhere — three million or so — and open directly onto the skin surface through their own pore. They produce watery sweat under <b>sympathetic cholinergic</b> control, which is the body's main means of losing heat.</p><p><b>Apocrine</b> glands are restricted to the axilla, the areola and the perineum, develop at puberty, and open into a <b>hair follicle</b>. Their secretion is odourless until bacteria act on it. It is the apocrine glands that are destroyed in axillary treatments for body odour, and the eccrine ones targeted for hyperhidrosis.</p>",
-      "systems": ["regions"],
-      "regions": ["thorax", "upper_limb_l"],
-      "focus": ["Hairs"],
-      "view": "anterior",
-      "xray": false,
-      "micro": "axillary_skin",
-      "check": {"q": "Where do apocrine glands open?",
-                "a": "Into a hair follicle, not directly onto the skin."}
-    },
-    {
-      "title": "The nail",
-      "text": "<p>The <b>nail plate</b> is hard keratin, produced by the <b>matrix</b> under the proximal nail fold; the white <b>lunula</b> is the visible distal edge of that matrix. It sits on the nail bed, which supplies its pink colour, and is bounded by the nail folds, with the <b>eponychium</b> (cuticle) sealing the proximal one.</p><p>Damage the matrix and the nail is permanently deformed; damage only the bed and it regrows normally. A fingernail takes about six months to grow out, a toenail up to eighteen — which is why nail changes record illnesses months old, as Beau's lines.</p>",
-      "systems": ["regions"],
-      "regions": ["upper_limb_l"],
-      "focus": ["Nail plate", "Nail"],
-      "side": "Left",
-      "view": "posterior",
-      "frame_on": ["Nail"],
-      "xray": false,
-      "histology": "nail",
-      "check": {"q": "Which part of the nail must be damaged for permanent deformity?",
-                "a": "The matrix, under the proximal nail fold."}
-    },
-    {
-      "title": "Skin as a sense organ",
-      "text": "<p>Four encapsulated receptors and two free-ending systems. <b>Meissner's corpuscles</b> in the dermal papillae detect light touch and low-frequency vibration; <b>Merkel cells</b> at the base of the epidermis detect sustained pressure and fine texture; <b>Pacinian corpuscles</b> deep in the dermis detect high-frequency vibration; <b>Ruffini endings</b> detect stretch.</p><p><b>Free nerve endings</b> carry pain and temperature, and a basket of endings round each hair follicle detects its movement. Receptor density explains two-point discrimination: about 2 mm on the fingertip and 40 mm on the back.</p>",
-      "systems": ["regions", "nervous"],
-      "regions": ["upper_limb_l"],
-      "focus": ["Palm"],
-      "side": "Left",
-      "view": "anterior",
-      "xray": false,
-      "histology": "skin_receptors",
-      "check": {"q": "Which receptor detects high-frequency vibration, and where does it sit?",
-                "a": "The Pacinian corpuscle, deep in the dermis and subcutaneous tissue."}
-    },
-    {
-      "systems": [
-        "regions"
-      ],
-      "regions": [
-        "thorax",
-        "upper_limb_l"
-      ],
-      "focus": [
-        "Hairs"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "micro": "axillary_skin",
-      "title": "The coil makes it, the duct modifies it",
-      "text": "<p>An <b>eccrine sweat gland</b> is a coiled tubular gland with a secretory portion deep in the skin and a duct leading to a surface pore. The secretory coil produces fluid; the duct then reabsorbs sodium and chloride while allowing much of the water to continue towards the surface.</p><p>The final sweat is therefore usually more dilute than the original secretion. At higher flow rates, there is less opportunity for salt reabsorption, so sweat composition can change. Producing fluid and modifying it are different jobs carried out by different portions of the same small gland.</p>",
-      "check": {
-        "q": "Which part of an eccrine gland reabsorbs much of the salt before sweat reaches the surface?",
-        "a": "The duct; the deeper secretory coil produces the initial fluid."
-      }
-    }
+  "histology": [
+   "hair_follicle",
+   "sweat_glands",
+   "nail",
+   "skin_receptors",
+   "thin_skin"
   ]
+ },
+ "steps": [
+  {
+   "title": "The pilosebaceous unit",
+   "text": "<p>A <b>hair follicle</b> is an invagination of epidermis reaching into the dermis, with a bulb of dividing cells at its base capped over a vascular papilla. Attached to it are a <b>sebaceous gland</b> and a slip of smooth muscle, the <b>arrector pili</b>, which stands the hair up and squeezes the gland.</p><p>The three together are the pilosebaceous unit, and it is the unit that fails in acne: sebum plus keratin plugs the duct, the trapped sebum is colonised, and the follicle inflames.</p>",
+   "systems": [
+    "regions"
+   ],
+   "regions": [
+    "head"
+   ],
+   "focus": [
+    "Hairs"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "check": {
+    "q": "What are the three parts of the pilosebaceous unit?",
+    "a": "The hair follicle, its sebaceous gland and the arrector pili muscle."
+   },
+   "histology": "thin_skin"
+  },
+  {
+   "title": "Hair grows in cycles, out of phase",
+   "text": "<p>Each follicle cycles independently through <b>anagen</b> (growing, two to six years on the scalp), <b>catagen</b> (regressing, a couple of weeks) and <b>telogen</b> (resting, about three months). At any moment around 90% of scalp follicles are in anagen, which is why hair loss is gradual and unnoticed.</p><p>Synchronise them — a severe illness, childbirth, a general anaesthetic — and a large cohort enters telogen together and sheds two to three months later: <b>telogen effluvium</b>. Chemotherapy, which kills dividing cells, hits the anagen follicles instead and the loss is faster and more complete.</p>",
+   "systems": [
+    "regions"
+   ],
+   "regions": [
+    "head"
+   ],
+   "focus": [
+    "Hairs"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "histology": "hair_follicle",
+   "check": {
+    "q": "Why does hair fall out two to three months after a severe illness?",
+    "a": "Many follicles are pushed into telogen at once and shed together — telogen effluvium."
+   }
+  },
+  {
+   "title": "Two kinds of sweat gland",
+   "text": "<p><b>Eccrine</b> glands are everywhere — three million or so — and open directly onto the skin surface through their own pore. They produce watery sweat under <b>sympathetic cholinergic</b> control, which is the body's main means of losing heat.</p><p><b>Apocrine</b> glands are restricted to the axilla, the areola and the perineum, develop at puberty, and open into a <b>hair follicle</b>. Their secretion is odourless until bacteria act on it. It is the apocrine glands that are destroyed in axillary treatments for body odour, and the eccrine ones targeted for hyperhidrosis.</p>",
+   "systems": [
+    "regions"
+   ],
+   "regions": [
+    "thorax",
+    "upper_limb_l"
+   ],
+   "focus": [
+    "Hairs"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "micro": "axillary_skin",
+   "check": {
+    "q": "Where do apocrine glands open?",
+    "a": "Into a hair follicle, not directly onto the skin."
+   }
+  },
+  {
+   "title": "The nail",
+   "text": "<p>The <b>nail plate</b> is hard keratin, produced by the <b>matrix</b> under the proximal nail fold; the white <b>lunula</b> is the visible distal edge of that matrix. It sits on the nail bed, which supplies its pink colour, and is bounded by the nail folds, with the <b>eponychium</b> (cuticle) sealing the proximal one.</p><p>Damage the matrix and the nail is permanently deformed; damage only the bed and it regrows normally. A fingernail takes about six months to grow out, a toenail up to eighteen — which is why nail changes record illnesses months old, as Beau's lines.</p>",
+   "systems": [
+    "regions"
+   ],
+   "regions": [
+    "upper_limb_l"
+   ],
+   "focus": [
+    "Nail plate",
+    "Nail"
+   ],
+   "side": "Left",
+   "view": "posterior",
+   "frame_on": [
+    "Nail"
+   ],
+   "xray": false,
+   "histology": "nail",
+   "check": {
+    "q": "Which part of the nail must be damaged for permanent deformity?",
+    "a": "The matrix, under the proximal nail fold."
+   }
+  },
+  {
+   "title": "Skin as a sense organ",
+   "text": "<p>Four encapsulated receptors and two free-ending systems. <b>Meissner's corpuscles</b> in the dermal papillae detect light touch and low-frequency vibration; <b>Merkel cells</b> at the base of the epidermis detect sustained pressure and fine texture; <b>Pacinian corpuscles</b> deep in the dermis detect high-frequency vibration; <b>Ruffini endings</b> detect stretch.</p><p><b>Free nerve endings</b> carry pain and temperature, and a basket of endings round each hair follicle detects its movement. Receptor density explains two-point discrimination: about 2 mm on the fingertip and 40 mm on the back.</p>",
+   "systems": [
+    "regions",
+    "nervous"
+   ],
+   "regions": [
+    "upper_limb_l"
+   ],
+   "focus": [
+    "Palm"
+   ],
+   "side": "Left",
+   "view": "anterior",
+   "xray": false,
+   "histology": "skin_receptors",
+   "check": {
+    "q": "Which receptor detects high-frequency vibration, and where does it sit?",
+    "a": "The Pacinian corpuscle, deep in the dermis and subcutaneous tissue."
+   }
+  },
+  {
+   "systems": [
+    "regions"
+   ],
+   "regions": [
+    "thorax",
+    "upper_limb_l"
+   ],
+   "focus": [
+    "Hairs"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "micro": "axillary_skin",
+   "title": "The coil makes it, the duct modifies it",
+   "text": "<p>An <b>eccrine sweat gland</b> is a coiled tubular gland with a secretory portion deep in the skin and a duct leading to a surface pore. The secretory coil produces fluid; the duct then reabsorbs sodium and chloride while allowing much of the water to continue towards the surface.</p><p>The final sweat is therefore usually more dilute than the original secretion. At higher flow rates, there is less opportunity for salt reabsorption, so sweat composition can change. Producing fluid and modifying it are different jobs carried out by different portions of the same small gland.</p>",
+   "check": {
+    "q": "Which part of an eccrine gland reabsorbs much of the salt before sweat reaches the surface?",
+    "a": "The duct; the deeper secretory coil produces the initial fluid."
+   }
+  }
+ ]
 }
 ]

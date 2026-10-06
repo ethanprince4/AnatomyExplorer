@@ -855,7 +855,7 @@ class Viewport(QOpenGLWidget):
             for k in range(1, len(ys)):                       # push apart downwards, then pull back on screen
                 ys[k] = max(ys[k], ys[k - 1] + line_h)
             # the left column stops above the orientation gizmo in the bottom-left corner
-            bottom = h - 108.0 if side < 0 and self.settings.get("show_gizmo", True) else h
+            bottom = h - 108.0 if side < 0 and self.settings.get("show_gizmo", False) else h
             over = ys[-1] - (bottom - line_h)
             if over > 0:
                 ys = [y - over for y in ys]
@@ -966,7 +966,7 @@ class Viewport(QOpenGLWidget):
         self._paint_landmarks(p, dark)
         self._paint_structure_labels(p)
         self._paint_measure(p, dark)
-        if self.settings.get("show_gizmo", True):
+        if self.settings.get("show_gizmo", False):
             self._paint_gizmo(p, dark)
         self._paint_hover(p)
 

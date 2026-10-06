@@ -5,7 +5,6 @@ Every 3D model other than the atlas itself opens in the model viewer, each in it
 - the three **in-house models** made in Blender at full resolution (`models/`): *Whole heart*, *Kidney and nephron*
   and *Cardiac muscle*;
 - the 37 **procedural microanatomy models** the app builds from code (`app/micro`, see `docs/microanatomy_models.md`);
-- the 21 **downloaded models**, Creative Commons models fetched once from Sketchfab (`data/sketchfab_models`);
 - any other `.glb` / `.gltf` file, through **File → Open 3D model file** (Ctrl+O) or by dropping it on the window.
 
 They open from **Study → 3D models**, **Details → 3D models** (the models that show the selected structure: those
@@ -66,7 +65,6 @@ and, for models in anatomical position, an orientation gizmo sit in the corners.
 | `app/viewer/camera.py` | The orbit camera, with the stored views of a model and the scale-aware zoom between them |
 | `app/viewer/gltf_loader.py`, `model.py` | glTF reading, and the viewer's model: parts, items (what is selected and labelled), groups, states, cameras |
 | `app/viewer/procedural.py` | A procedural microanatomy model as a viewer model (its colours, tissue shading, cut-away, layers and animation) |
-| `app/viewer/imported.py` | A downloaded model as a viewer model, with the hand-written part names of `data/content/sketchfab_parts` |
 | `app/viewer/catalog.py` | The catalogue of every model the app can open, and the metadata of the in-house models |
 | `app/viewer/dataset.py` | The small adapter that lets the atlas's `SceneState` (hide, isolate, x-ray, undo, selection) run a model |
 | `app/viewer/viewport.py` | The viewport widget: the atlas's mouse and trackpad handling, picking, labels, sections, measuring |
@@ -135,5 +133,4 @@ branches, Purkinje network), the fossa ovalis and crista terminalis, and the ani
 | `tools/render_model.py <id or file>` | Render a model offscreen with the viewer's renderer: `--view`, `--state`, `--section axis:pos[:flip]`, `--focus`, `--explode`, `--time`, `--frames N` for an animation GIF (`tools/render_micro.py` keeps the old command line) |
 | `tools/check_viewer.py [id ...]` | Open models in the app and drive them through its actions: drawing, picking, labels, hide / isolate / show all / undo, x-ray, a section, every stored view's hidden list, the teased state (needs OpenGL 4.1; `xvfb-run -a` on a server) |
 | `tools/check_lessons.py` | Every lesson and practice item, including every part name they give a model |
-| `tools/sketchfab_parts.py`, `tools/check_sketchfab.py` | The downloaded models' part names and catalogue |
 | `tools/blender/export_for_viewer.py` | Export a Blender model and its sidecar |

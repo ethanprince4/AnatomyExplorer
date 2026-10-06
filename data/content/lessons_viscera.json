@@ -43,7 +43,11 @@
     "check": {
      "q": "Where do you listen for the mitral valve, and why is it not over the valve itself?",
      "a": "At the apex, in the fifth intercostal space in the midclavicular line — sound is carried downstream in the direction of blood flow."
-    }
+    },
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Valvular complex of heart"
+    ]
    },
    {
     "title": "The coronary arteries",
@@ -238,41 +242,41 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "lung_acinus"
+    "micro": "lung_acinus_review_v2"
    },
    {
-     "systems": [
-       "visceral",
-       "skeletal"
-     ],
-     "focus": [
-       "Trachea"
-     ],
-     "view": "anterior",
-     "xray": true,
-     "title": "The wall changes before the air reaches an alveolus",
-     "text": "<p>In the trachea, C-shaped cartilage supports the airway. In intrapulmonary <b>bronchi</b>, cartilage becomes irregular plates and the wall still contains glands. <b>Bronchioles</b> lack both cartilage and submucosal glands; their smooth muscle can substantially change airway calibre.</p><p>A <b>terminal bronchiole</b> is the last purely conducting airway. A <b>respiratory bronchiole</b> has alveoli opening from its wall, so exchange begins before the alveolar ducts and sacs are reached. Bronchiole is a structural category, not just an informal word for any small bronchus.</p>",
-     "check": {
-       "q": "Which two supporting features present in bronchi are absent from bronchioles?",
-       "a": "Cartilage and submucosal glands."
-     }
+    "systems": [
+     "visceral",
+     "skeletal"
+    ],
+    "focus": [
+     "Trachea"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "title": "The wall changes before the air reaches an alveolus",
+    "text": "<p>In the trachea, C-shaped cartilage supports the airway. In intrapulmonary <b>bronchi</b>, cartilage becomes irregular plates and the wall still contains glands. <b>Bronchioles</b> lack both cartilage and submucosal glands; their smooth muscle can substantially change airway calibre.</p><p>A <b>terminal bronchiole</b> is the last purely conducting airway. A <b>respiratory bronchiole</b> has alveoli opening from its wall, so exchange begins before the alveolar ducts and sacs are reached. Bronchiole is a structural category, not just an informal word for any small bronchus.</p>",
+    "check": {
+     "q": "Which two supporting features present in bronchi are absent from bronchioles?",
+     "a": "Cartilage and submucosal glands."
+    }
    },
    {
-     "systems": [
-       "visceral"
-     ],
-     "focus": [
-       "Right lung"
-     ],
-     "view": "anterior",
-     "xray": true,
-     "micro": "lung_acinus",
-     "title": "Two alveolar cells divide the work",
-     "text": "<p><b>Type I pneumocytes</b> are very thin cells covering most of the alveolar surface. Along with the capillary endothelium and thin intervening basement membranes, they form the short diffusion path for gases.</p><p><b>Type II pneumocytes</b> are more cuboidal and secrete <b>surfactant</b>, which reduces surface tension at the air-liquid interface and helps keep alveoli open. They also contribute to epithelial repair. The most extensive surface cell and the main surfactant-producing cell are therefore different cell types.</p>",
-     "check": {
-       "q": "Which alveolar cell mainly provides the thin gas-exchange surface, and which produces surfactant?",
-       "a": "Type I provides most of the thin surface; type II produces surfactant."
-     }
+    "systems": [
+     "visceral"
+    ],
+    "focus": [
+     "Right lung"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "lung_acinus_review_v2",
+    "title": "Two alveolar cells divide the work",
+    "text": "<p><b>Type I pneumocytes</b> are very thin cells covering most of the alveolar surface. Along with the capillary endothelium and thin intervening basement membranes, they form the short diffusion path for gases.</p><p><b>Type II pneumocytes</b> are more cuboidal and secrete <b>surfactant</b>, which reduces surface tension at the air-liquid interface and helps keep alveoli open. They also contribute to epithelial repair. The most extensive surface cell and the main surfactant-producing cell are therefore different cell types.</p>",
+    "check": {
+     "q": "Which alveolar cell mainly provides the thin gas-exchange surface, and which produces surfactant?",
+     "a": "Type I provides most of the thin surface; type II produces surfactant."
+    }
    }
   ],
   "system": "respiratory",
@@ -302,7 +306,7 @@
     "lungs-and-pleura"
    ],
    "micro": [
-    "lung_acinus"
+    "lung_acinus_review_v2"
    ],
    "radiology": [
     "cxr_pa"
@@ -363,7 +367,7 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "stomach_wall"
+    "histology": "stomach"
    },
    {
     "title": "Referred pain",
@@ -382,40 +386,40 @@
     }
    },
    {
-     "systems": [
-       "cardiovascular",
-       "visceral"
-     ],
-     "focus": [
-       "Coeliac trunk"
-     ],
-     "view": "anterior",
-     "xray": true,
-     "title": "Two gut territories meet around the pancreatic head",
-     "text": "<p>The gastroduodenal artery gives <b>superior pancreaticoduodenal branches</b> to the pancreatic head and adjoining duodenum. <b>Inferior pancreaticoduodenal branches</b> rise from the superior mesenteric circulation. They meet in arcades around the same region.</p><p>This is an anatomical link across the foregut-midgut boundary, which lies near the entry of the bile duct into the descending duodenum. Embryological territories explain the overall supply, but communicating arcades make the adult boundary less like a sharp line drawn through a tube.</p>",
-     "check": {
-       "q": "Which arterial arcade links the coeliac and superior mesenteric territories around the duodenum?",
-       "a": "The pancreaticoduodenal arcades, joining superior branches from the gastroduodenal artery with inferior branches from the SMA."
-     }
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "focus": [
+     "Coeliac trunk"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "title": "Two gut territories meet around the pancreatic head",
+    "text": "<p>The gastroduodenal artery gives <b>superior pancreaticoduodenal branches</b> to the pancreatic head and adjoining duodenum. <b>Inferior pancreaticoduodenal branches</b> rise from the superior mesenteric circulation. They meet in arcades around the same region.</p><p>This is an anatomical link across the foregut-midgut boundary, which lies near the entry of the bile duct into the descending duodenum. Embryological territories explain the overall supply, but communicating arcades make the adult boundary less like a sharp line drawn through a tube.</p>",
+    "check": {
+     "q": "Which arterial arcade links the coeliac and superior mesenteric territories around the duodenum?",
+     "a": "The pancreaticoduodenal arcades, joining superior branches from the gastroduodenal artery with inferior branches from the SMA."
+    }
    },
    {
-     "systems": [
-       "cardiovascular",
-       "visceral"
-     ],
-     "focus": [
-       "Coeliac trunk",
-       "Superior mesenteric artery",
-       "Inferior mesenteric artery"
-     ],
-     "view": "anterior",
-     "xray": true,
-     "title": "An arterial territory is not an embryological identity",
-     "text": "<p>The <b>spleen</b> receives the splenic artery from the coeliac trunk, but it does not develop from the gut endoderm like the lining of the foregut. It develops from mesenchyme within the dorsal mesogastrium and becomes closely related to the stomach.</p><p>Its shared arterial neighbourhood therefore does not make it a digestive gland. The liver and pancreas have digestive secretory functions; the spleen filters blood and participates in immune responses. Keep blood supply, developmental origin and adult function as three related but separate ways of classifying an organ.</p>",
-     "check": {
-       "q": "Does coeliac arterial supply make the spleen an endoderm-derived digestive organ?",
-       "a": "No. It develops from mesenchyme in the dorsal mesogastrium and is a lymphoid, blood-filtering organ."
-     }
+    "systems": [
+     "cardiovascular",
+     "visceral"
+    ],
+    "focus": [
+     "Coeliac trunk",
+     "Superior mesenteric artery",
+     "Inferior mesenteric artery"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "title": "An arterial territory is not an embryological identity",
+    "text": "<p>The <b>spleen</b> receives the splenic artery from the coeliac trunk, but it does not develop from the gut endoderm like the lining of the foregut. It develops from mesenchyme within the dorsal mesogastrium and becomes closely related to the stomach.</p><p>Its shared arterial neighbourhood therefore does not make it a digestive gland. The liver and pancreas have digestive secretory functions; the spleen filters blood and participates in immune responses. Keep blood supply, developmental origin and adult function as three related but separate ways of classifying an organ.</p>",
+    "check": {
+     "q": "Does coeliac arterial supply make the spleen an endoderm-derived digestive organ?",
+     "a": "No. It develops from mesenchyme in the dorsal mesogastrium and is a lymphoid, blood-filtering organ."
+    }
    }
   ],
   "system": "digestive",
@@ -629,9 +633,6 @@
     "view": "anterior",
     "xray": true,
     "micro": "kidney_nephron",
-    "micro_focus": [
-     "Nephron"
-    ],
     "check": {
      "q": "Which part of the nephron reabsorbs most of the filtered load?",
      "a": "The proximal convoluted tubule — around two thirds of the filtered sodium and water."
@@ -648,56 +649,58 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "bladder_wall",
     "check": {
      "q": "What kind of epithelium lines the bladder, and why?",
      "a": "Urothelium (transitional epithelium) — it stretches and is impermeable to urine."
+    },
+    "histology": "bladder"
+   },
+   {
+    "systems": [
+     "visceral",
+     "cardiovascular"
+    ],
+    "focus": [
+     "Kidney",
+     "Renal pelvis"
+    ],
+    "view": "posterior",
+    "xray": true,
+    "title": "A pyramid drains through its tip",
+    "text": "<p>The renal cortex lies outside the medullary pyramids. Collecting ducts run towards the apex of a pyramid, the <b>renal papilla</b>, and empty through papillary ducts into a <b>minor calyx</b>. Several minor calyces join into larger calyces.</p><p>These feed the funnel-shaped <b>renal pelvis</b>, which narrows into the ureter. The calyces and pelvis collect urine; they are not vessels carrying renal blood. Follow the kidney towards its hilum and keep the venous, arterial and collecting-system routes separate.</p>",
+    "check": {
+     "q": "What receives urine directly from the papillary ducts at the tip of a renal pyramid?",
+     "a": "A minor calyx."
     }
    },
    {
-     "systems": [
-       "visceral",
-       "cardiovascular"
-     ],
-     "focus": [
-       "Kidney",
-       "Renal pelvis"
-     ],
-     "view": "posterior",
-     "xray": true,
-     "title": "A pyramid drains through its tip",
-     "text": "<p>The renal cortex lies outside the medullary pyramids. Collecting ducts run towards the apex of a pyramid, the <b>renal papilla</b>, and empty through papillary ducts into a <b>minor calyx</b>. Several minor calyces join into larger calyces.</p><p>These feed the funnel-shaped <b>renal pelvis</b>, which narrows into the ureter. The calyces and pelvis collect urine; they are not vessels carrying renal blood. Follow the kidney towards its hilum and keep the venous, arterial and collecting-system routes separate.</p>",
-     "check": {
-       "q": "What receives urine directly from the papillary ducts at the tip of a renal pyramid?",
-       "a": "A minor calyx."
-     }
-   },
-   {
-     "systems": [
-       "visceral"
-     ],
-     "focus": [
-       "Kidney"
-     ],
-     "view": "anterior",
-     "xray": true,
-     "micro": "kidney_nephron",
-     "micro_focus": [
-       "Afferent arteriole",
-       "Glomerular capillaries",
-       "Efferent arteriole",
-       "Peritubular capillaries",
-       "Descending vasa recta",
-       "Ascending vasa recta",
-       "Bowman capsule (parietal layer)",
-       "Proximal convoluted tubule"
-     ],
-     "title": "Blood leaves a glomerulus through another arteriole",
-     "text": "<p>Blood enters a glomerular capillary tuft through an <b>afferent arteriole</b> and leaves through an <b>efferent arteriole</b>. The efferent vessel then supplies peritubular capillaries, or the vasa recta associated with long-looped nephrons, before blood returns through the venous system.</p><p>Filtrate takes a different route: across the filtration barrier into Bowman's space, then along the nephron tubule. Reabsorbed water and solutes move from that tubular route back towards the surrounding blood vessels. Draw two paths in the microanatomy model, one for blood and one for tubular fluid.</p>",
-     "check": {
-       "q": "Does blood leaving the glomerulus normally flow into the proximal tubule?",
-       "a": "No. Blood leaves through the efferent arteriole; filtered fluid enters the tubular pathway."
-     }
+    "systems": [
+     "visceral"
+    ],
+    "focus": [
+     "Kidney"
+    ],
+    "view": "anterior",
+    "xray": true,
+    "micro": "kidney_nephron",
+    "micro_focus": [
+     "Afferent arteriole endothelium",
+     "Afferent arteriole smooth muscle",
+     "Glomerular capillary wall (endothelium and GBM)",
+     "Efferent arteriole endothelium",
+     "Efferent arteriole smooth muscle",
+     "Peritubular capillary network",
+     "Descending vasa recta",
+     "Ascending vasa recta",
+     "Parietal layer of Bowman's capsule",
+     "Proximal convoluted tubule"
+    ],
+    "title": "Blood leaves a glomerulus through another arteriole",
+    "text": "<p>Blood enters a glomerular capillary tuft through an <b>afferent arteriole</b> and leaves through an <b>efferent arteriole</b>. The efferent vessel then supplies peritubular capillaries, or the vasa recta associated with long-looped nephrons, before blood returns through the venous system.</p><p>Filtrate takes a different route: across the filtration barrier into Bowman's space, then along the nephron tubule. Reabsorbed water and solutes move from that tubular route back towards the surrounding blood vessels. Draw two paths in the microanatomy model, one for blood and one for tubular fluid.</p>",
+    "check": {
+     "q": "Does blood leaving the glomerulus normally flow into the proximal tubule?",
+     "a": "No. Blood leaves through the efferent arteriole; filtered fluid enters the tubular pathway."
+    }
    }
   ],
   "system": "urinary",
@@ -762,11 +765,11 @@
     ],
     "view": "anterior",
     "xray": false,
-    "micro": "thin_skin",
     "check": {
      "q": "Name the layers of the epidermis from the base upwards.",
      "a": "Stratum basale, spinosum, granulosum, (lucidum in thick skin) and corneum."
-    }
+    },
+    "histology": "thin_skin"
    },
    {
     "title": "Thick skin, and why fingerprints exist",
@@ -776,39 +779,39 @@
     ],
     "view": "anterior",
     "xray": false,
-    "micro": "thick_skin",
     "check": {
      "q": "Why can a superficial partial-thickness burn heal without grafting?",
      "a": "Epithelial stem cells survive in the hair follicles and sweat glands deep in the dermis."
-    }
+    },
+    "histology": "thick_skin"
    },
    {
-     "systems": [
-       "regions"
-     ],
-     "view": "anterior",
-     "xray": false,
-     "micro": "thin_skin",
-     "title": "The outer layer has no vessels",
-     "text": "<p>The <b>epidermis is avascular</b>. Its living cells receive oxygen and nutrients by diffusion from capillaries in the underlying dermis, especially the loops approaching the dermal papillae. Vessels do not run up through every epidermal layer to the surface.</p><p>Basal keratinocytes divide and their descendants move outward, changing as they form the protective cornified layer. The outer corneocytes no longer have nuclei. This combination gives a living renewing base beneath a tough exposed barrier rather than a single uniform sheet of identical cells.</p>",
-     "check": {
-       "q": "Where do the epidermis's living cells obtain nutrients if no blood vessels enter the layer?",
-       "a": "By diffusion from vessels in the underlying dermis."
-     }
+    "systems": [
+     "regions"
+    ],
+    "view": "anterior",
+    "xray": false,
+    "title": "The outer layer has no vessels",
+    "text": "<p>The <b>epidermis is avascular</b>. Its living cells receive oxygen and nutrients by diffusion from capillaries in the underlying dermis, especially the loops approaching the dermal papillae. Vessels do not run up through every epidermal layer to the surface.</p><p>Basal keratinocytes divide and their descendants move outward, changing as they form the protective cornified layer. The outer corneocytes no longer have nuclei. This combination gives a living renewing base beneath a tough exposed barrier rather than a single uniform sheet of identical cells.</p>",
+    "check": {
+     "q": "Where do the epidermis's living cells obtain nutrients if no blood vessels enter the layer?",
+     "a": "By diffusion from vessels in the underlying dermis."
+    },
+    "histology": "thin_skin"
    },
    {
-     "systems": [
-       "regions"
-     ],
-     "view": "anterior",
-     "xray": false,
-     "micro": "thin_skin",
-     "title": "Depth changes what repair requires",
-     "text": "<p>A superficial injury can be re-covered by epithelial cells from surviving basal regions and skin appendages. A deeper injury that destroys dermal connective tissue also requires repair of the structural layer beneath the epithelium.</p><p>Fibroblasts lay down collagen in that deeper repair, producing a <b>scar</b> whose organisation and appendages differ from uninjured skin. Thus a closed surface does not mean that every original layer has been recreated. Relate repair to which cells and scaffolding remain, rather than simply to the surface area of the wound.</p>",
-     "check": {
-       "q": "Why can a deep wound leave a lasting scar even after the epidermis has closed over it?",
-       "a": "The damaged dermal framework is repaired with collagen-rich scar tissue rather than fully recreating its original organisation."
-     }
+    "systems": [
+     "regions"
+    ],
+    "view": "anterior",
+    "xray": false,
+    "title": "Depth changes what repair requires",
+    "text": "<p>A superficial injury can be re-covered by epithelial cells from surviving basal regions and skin appendages. A deeper injury that destroys dermal connective tissue also requires repair of the structural layer beneath the epithelium.</p><p>Fibroblasts lay down collagen in that deeper repair, producing a <b>scar</b> whose organisation and appendages differ from uninjured skin. Thus a closed surface does not mean that every original layer has been recreated. Relate repair to which cells and scaffolding remain, rather than simply to the surface area of the wound.</p>",
+    "check": {
+     "q": "Why can a deep wound leave a lasting scar even after the epidermis has closed over it?",
+     "a": "The damaged dermal framework is repaired with collagen-rich scar tissue rather than fully recreating its original organisation."
+    },
+    "histology": "thin_skin"
    }
   ],
   "system": "integumentary",
@@ -836,13 +839,11 @@
    "lessons": [
     "fascia-and-planes"
    ],
-   "micro": [
-    "thin_skin",
-    "thick_skin"
-   ],
+   "micro": [],
    "histology": [
     "thin_skin",
-    "hair_follicle"
+    "hair_follicle",
+    "thick_skin"
    ]
   }
  }

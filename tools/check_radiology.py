@@ -20,7 +20,27 @@ def main():
     regions = {r["key"] for r in ds.regions}
     cases = load_cases()
     bad = 0
+    from app.viewer.catalog import load_catalog
+    catalog = load_catalog()
+    prepared = {}
+    token = type("Token", (), {"cancelled": False, "check": lambda self: None})()
     for case in cases:
+        model_id = case.scene.get("micro")
+        entry = catalog.get(model_id) if model_id else None
+        model = None
+        if model_id:
+            if entry is None:
+                bad += 1
+                print(f"{case.id}: model {model_id!r} is unavailable")
+            else:
+                if model_id not in prepared:
+                    prepared[model_id] = entry.load() if hasattr(entry, "load") else entry.prepare_cpu(token)
+                model = prepared[model_id]
+                for field in ("micro_focus", "micro_context"):
+                    _, missing = entry.resolve(model, case.scene.get(field, []))
+                    for name in missing:
+                        bad += 1
+                        print(f"{case.id} scene[{field}]: model part {name!r} is unavailable")
         if not case.has_image:
             bad += 1
             print(f"{case.id}: image missing ({case.image})")
@@ -43,7 +63,7 @@ def main():
                 bad += 1
                 print(f"{case.id} label {i} off the image: {lab.x}, {lab.y}")
             for name in lab.structures:
-                if not res.resolve(name):
+                if not (bool(entry.resolve(model, [name])[0]) if model is not None else res.resolve(name)):
                     bad += 1
                     print(f"{case.id} label {i} ({lab.text!r}) {name!r} -> "
                           f"{difflib.get_close_matches(name.lower(), pool, n=4, cutoff=0.6)}")

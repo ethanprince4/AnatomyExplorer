@@ -1,0 +1,2743 @@
+[
+  {
+    "id": "lec2-ch20-09-ecg",
+    "title": "The electrocardiogram: waves and intervals",
+    "lecture": {
+      "exam": 2,
+      "chapter": 20,
+      "order": 9,
+      "unit": "The heart"
+    },
+    "system": "cardiovascular",
+    "region": "thorax",
+    "level": "core",
+    "minutes": 14,
+    "summary": "What an ECG records, the P wave, QRS complex and T wave, and why a long PR (0.16 s normally) or QT (0.36 s normally) matters.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "chapter 20",
+      "ECG",
+      "EKG",
+      "P wave",
+      "QRS complex",
+      "T wave",
+      "PR interval",
+      "QT interval"
+    ],
+    "objectives": [
+      "State what an electrocardiogram records and how its waves relate to mechanical events",
+      "Match the P wave, QRS complex and T wave to atrial and ventricular depolarization and repolarization",
+      "Give the normal PR (PQ) interval (0.16 s) and list causes of a long PR interval",
+      "Give the normal QT interval (0.36 s) and list causes of a long QT interval"
+    ],
+    "takeaways": [
+      "An ECG (EKG) is a record of electrical events in the myocardium; those events can be correlated with mechanical contraction and relaxation.",
+      "P wave: depolarization of atrial myocardium, signaling the onset of atrial contraction. QRS: ventricular depolarization (onset of ventricular contraction) and atrial repolarization. T wave: ventricular repolarization, preceding ventricular relaxation.",
+      "PR (PQ) interval: 0.16 s. Atria contract and begin to relax; at the end, ventricles begin to depolarize. Long PR: delayed AP conduction through damaged or dilated atria, or through the AV node and bundle (ischemia, compression or necrosis).",
+      "QT interval: 0.36 s, from the start of the QRS to the end of the T wave. Ventricles complete contraction and start to relax. Long QT: abnormal APs through the ventricles from myocardial infarction or enlarged ventricles."
+    ],
+    "see_also": {
+      "lessons": [
+        "lec2-ch20-08-electrical-properties",
+        "lab04-02-ecg-waves-intervals"
+      ],
+      "micro": [
+        "whole_heart"
+      ]
+    },
+    "steps": [
+      {
+       "title": "What an ECG records",
+       "text": "<p>An <b>electrocardiogram</b> (ECG, also written EKG from the German spelling) is a <b>record of electrical events in the myocardium</b>. The <b>myocardium</b> is the cardiac-muscle layer of the heart wall. Electrodes on the skin pick up the summed action potentials of those cells as they depolarize (become positive inside) and repolarize (return negative inside).</p><p>The ECG can be <b>correlated with mechanical events</b>: each electrical wave is soon followed by contraction or relaxation of the chambers it belongs to. The trace does not itself measure squeeze or pressure; it measures electricity. You already know the action potentials (lesson 8) and the conduction pathway (lesson 7). This lesson is how that electricity looks on paper.</p><p>The 3D view shows the heart whose electricity is being recorded. The diagram is a labelled ECG of one beat.</p>",
+       "systems": [
+        "cardiovascular",
+        "visceral"
+       ],
+       "regions": [
+        "thorax"
+       ],
+       "focus": [
+        "Heart"
+       ],
+       "show": [
+        "Lungs",
+        "Sternum"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lec2-ecg-waves",
+       "pitfall": "The ECG records electrical events, not the contraction itself. A P wave means the atria are depolarizing; atrial contraction follows that wave.",
+       "check": {
+        "q": "What does an ECG record, and what can those electrical events be correlated with?",
+        "a": "Electrical events in the myocardium; they can be correlated with mechanical events (contraction and relaxation)."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "The P wave",
+       "text": "<p>The first small rounded deflection of a normal beat is the <b>P wave</b>.</p><p>It is produced by <b>depolarization of the atrial myocardium</b>: the action potential spreading from the SA node across the right and left atrial walls. That electrical event <b>signals the onset of atrial contraction</b> (atrial systole). Systole means contraction of a chamber.</p><p>Because the atria are smaller and their walls thinner than the ventricles, the P wave is smaller than the QRS complex that follows. If there is no P wave, the atria are not depolarizing in an organized way (you will see that in atrial fibrillation in the next lesson).</p>",
+       "diagram": "lec2-ecg-waves",
+       "check": {
+        "q": "What electrical event produces the P wave, and what mechanical event does it signal?",
+        "a": "Depolarization of the atrial myocardium; it signals the onset of atrial contraction."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "The QRS complex",
+       "text": "<p>The <b>QRS complex</b> is the large, sharp spike in the middle of the beat. It has three named parts: a small downward <b>Q</b>, a tall upward <b>R</b>, and a downward <b>S</b> after the R. Not every lead shows all three, but the name QRS is used for the whole ventricular spike.</p><p>The QRS is <b>ventricular depolarization</b>, and it <b>signals the onset of ventricular contraction</b> (ventricular systole). At the same time, the atria are repolarizing. Atrial repolarization does not appear as its own wave; it is <b>hidden inside the QRS</b> because the much larger ventricular signal swamps it.</p><p>So one complex does two jobs on the electrical timeline: ventricles depolarize (visible) and atria repolarize (invisible here).</p>",
+       "diagram": "lec2-ecg-waves",
+       "pitfall": "Atrial repolarization is not missing; it is happening during the QRS and is hidden by ventricular depolarization.",
+       "check": {
+        "q": "What two electrical events occur during the QRS complex?",
+        "a": "Ventricular depolarization (the visible spike, signaling the onset of ventricular contraction) and atrial repolarization (hidden in the QRS)."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "The T wave",
+       "text": "<p>The last rounded wave of the beat is the <b>T wave</b>. It is <b>repolarization of the ventricles</b>.</p><p>Repolarization means the ventricular muscle cells are restoring their negative resting membrane potential (about -90 mV in contractile cells). That electrical recovery <b>precedes ventricular relaxation</b> (ventricular diastole). Diastole means relaxation of a chamber.</p><p>Notice the order: electrical event first, mechanical event just after. P then atrial contraction; QRS then ventricular contraction; T then ventricular relaxation. The diagram labels each wave with the chamber and the polarity change.</p>",
+       "diagram": "lec2-ecg-waves",
+       "check": {
+        "q": "What does the T wave represent, and what mechanical event does it precede?",
+        "a": "Repolarization of the ventricles; it precedes ventricular relaxation."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "The PR (PQ) interval: 0.16 s",
+       "text": "<p>An <b>interval</b> is a stretch of the ECG that includes at least one wave. The <b>PR interval</b> (also called the <b>PQ interval</b>, because some traces have no distinct Q) is measured from the <b>start of the P wave to the start of the QRS</b>.</p><p>Its normal duration in the lecture is <b>0.16 s</b>. During that time the <b>atria contract and begin to relax</b>, and toward the <b>end of the interval the ventricles begin to depolarize</b> (the QRS starts). The 0.11 s AV-nodal delay you learned in lesson 7 sits inside this interval, which is why the PR is much longer than the 0.04 s SA-to-AV trip alone.</p><p><b>Elongation of the PR interval</b> means the AP is taking too long to get from atria to ventricles. Causes:</p><p>1. <b>Delay of AP conduction through the atria</b> because of <b>damage (for example ischemia)</b>. Ischemia is inadequate blood flow, so tissue is short of oxygen.<br>2. <b>Delay of AP conduction because of a dilated atrium</b> (a stretched, enlarged atrium: a longer path).<br>3. <b>Delay of AP conduction through the AV node and bundle</b> due to <b>ischemia, compression or necrosis</b> of the AV node or bundle. Necrosis is tissue death.</p>",
+       "systems": [],
+       "diagram": "lec2-ecg-waves",
+       "mnemonic": "<b>PR = Pause before the Rapid ventricular spike</b>, normally 0.16 s.",
+       "check": {
+        "q": "How long is a normal PR (PQ) interval, and name three causes of a long PR.",
+        "a": "0.16 s. Long PR: delayed AP conduction through damaged atria (ischemia); delayed conduction in a dilated atrium; delayed conduction through the AV node and bundle from ischemia, compression or necrosis."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "The QT interval: 0.36 s",
+       "text": "<p>The <b>QT interval</b> extends from the <b>beginning of the QRS complex to the end of the T wave</b>. The lecture value is about <b>0.36 s</b>.</p><p>During the QT the <b>ventricles are completing contraction and starting to relax</b>. It therefore covers the whole electrical life of one ventricular beat: depolarization plus the plateau plus repolarization.</p><p>A <b>long QT interval</b> reflects <b>abnormal action potentials through the ventricles</b>. Two classic causes: <b>myocardial infarction (MI)</b>, death of ventricular muscle from a blocked coronary artery (a heart attack), and <b>enlarged ventricles</b>, which take longer to activate and recover.</p><p>Put the two intervals side by side on the diagram: PR 0.16 s (atrial time plus the AV delay); QT 0.36 s (ventricular electrical time). Those two numbers are exam favourites.</p>",
+       "systems": [],
+       "diagram": "lec2-ecg-waves",
+       "clinical": "A long QT is not just a tracing curiosity: abnormal ventricular APs raise the risk of dangerous ventricular arrhythmias.",
+       "check": {
+        "q": "How long is a normal QT interval, and what two conditions produce a long QT?",
+        "a": "About 0.36 s. A long QT reflects abnormal ventricular APs from myocardial infarction or enlarged ventricles."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "One beat on the ECG, start to finish",
+       "text": "<p>Read one normal cycle off the diagram in order.</p><p><b>P wave</b> (atrial depolarization) → atria begin to contract. <b>PR interval</b> (0.16 s): atria contract and begin to relax; at the end the ventricles start to depolarize. <b>QRS complex</b>: ventricular depolarization (and hidden atrial repolarization) → ventricles begin to contract. <b>QT interval</b> (0.36 s) covers QRS through T: ventricles finish contracting and start to relax. <b>T wave</b>: ventricular repolarization → ventricular relaxation follows.</p><p>Next lesson applies this tracing to the abnormal rhythms in Table 20.1.</p>",
+       "systems": [],
+       "diagram": "lec2-ecg-waves",
+       "check": {
+        "q": "List the ECG waves in order and the electrical event each represents.",
+        "a": "P wave: atrial depolarization. QRS complex: ventricular depolarization (atrial repolarization hidden). T wave: ventricular repolarization."
+       },
+       "lesson_view": "diagram"
+      }
+    ],
+    "practice": [
+      {
+        "type": "mcq",
+        "q": "An electrocardiogram is a record of…",
+        "choices": [
+          "Pressure in the aorta",
+          "Electrical events in the myocardium",
+          "Heart sounds at the chest wall",
+          "Blood flow through the valves"
+        ],
+        "answer": 1,
+        "why": "The ECG records electrical events in the myocardium; those events can be correlated with mechanical ones."
+      },
+      {
+        "type": "mcq",
+        "q": "The P wave represents…",
+        "choices": [
+          "Ventricular depolarization",
+          "Ventricular repolarization",
+          "Depolarization of the atrial myocardium",
+          "Atrial relaxation only"
+        ],
+        "answer": 2,
+        "why": "The P wave is atrial myocardial depolarization and signals the onset of atrial contraction."
+      },
+      {
+        "type": "mcq",
+        "q": "During the QRS complex, which is TRUE?",
+        "choices": [
+          "Only the atria depolarize",
+          "The ventricles depolarize and the atria repolarize",
+          "Only the ventricles repolarize",
+          "The heart is electrically silent"
+        ],
+        "answer": 1,
+        "why": "QRS is ventricular depolarization (onset of ventricular contraction) and hides atrial repolarization."
+      },
+      {
+        "type": "mcq",
+        "q": "The T wave represents…",
+        "choices": [
+          "Atrial depolarization",
+          "Atrial contraction",
+          "Repolarization of the ventricles",
+          "Opening of the AV valves"
+        ],
+        "answer": 2,
+        "why": "The T wave is ventricular repolarization and precedes ventricular relaxation."
+      },
+      {
+        "type": "mcq",
+        "q": "The lecture value for a normal PR (PQ) interval is…",
+        "choices": [
+          "0.04 s",
+          "0.11 s",
+          "0.16 s",
+          "0.36 s"
+        ],
+        "answer": 2,
+        "why": "The PR (PQ) interval is 0.16 s. 0.04 s is SA-to-AV travel; 0.11 s is the AV delay; 0.36 s is the QT."
+      },
+      {
+        "type": "mcq",
+        "q": "The lecture value for a normal QT interval is…",
+        "choices": [
+          "0.04 s",
+          "0.16 s",
+          "0.22 s",
+          "0.36 s"
+        ],
+        "answer": 3,
+        "why": "The QT interval is about 0.36 s, from the beginning of the QRS to the end of the T wave."
+      },
+      {
+        "type": "mcq",
+        "q": "Which is NOT a listed cause of a long PR interval?",
+        "choices": [
+          "Ischemic damage delaying atrial conduction",
+          "A dilated atrium",
+          "Ischemia, compression or necrosis of the AV node or bundle",
+          "Myocardial infarction producing abnormal ventricular APs"
+        ],
+        "answer": 3,
+        "why": "MI (or enlarged ventricles) lengthens the QT, not the PR."
+      },
+      {
+        "type": "mcq",
+        "q": "A long QT interval reflects abnormal action potentials through the ventricles due to…",
+        "choices": [
+          "Excessive vagal stimulation only",
+          "Myocardial infarction or enlarged ventricles",
+          "A dilated atrium",
+          "Caffeine"
+        ],
+        "answer": 1,
+        "why": "The lecture names MI and enlarged ventricles as causes of a long QT."
+      },
+      {
+        "type": "order",
+        "q": "Put the ECG events of one beat in time order.",
+        "items": [
+          "P wave (atrial depolarization)",
+          "PR interval (atria contract and begin to relax)",
+          "QRS complex (ventricular depolarization)",
+          "T wave (ventricular repolarization)"
+        ]
+      },
+      {
+        "type": "recall",
+        "q": "During the PR interval, what are the atria doing, and what begins at the end of the interval?",
+        "a": "The atria contract and begin to relax; at the end of the interval the ventricles begin to depolarize."
+      },
+      {
+        "type": "recall",
+        "q": "From where to where is the QT interval measured, and what are the ventricles doing during it?",
+        "a": "From the beginning of the QRS complex to the end of the T wave; the ventricles complete contraction and start to relax."
+      },
+      {
+        "type": "find",
+        "structure": "Heart"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Right atrium"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Left ventricle (myocardium)"
+      }
+    ]
+  },
+  {
+    "id": "lec2-ch20-10-arrhythmias",
+    "title": "Major cardiac arrhythmias (Table 20.1)",
+    "lecture": {
+      "exam": 2,
+      "chapter": 20,
+      "order": 10,
+      "unit": "The heart"
+    },
+    "system": "cardiovascular",
+    "region": "thorax",
+    "level": "advanced",
+    "minutes": 18,
+    "summary": "Table 20.1 in full: rate problems, ectopic rhythms, blocks, and premature contractions, with every number the lecture gives.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "chapter 20",
+      "arrhythmia",
+      "tachycardia",
+      "bradycardia",
+      "fibrillation",
+      "heart block",
+      "PVC",
+      "Table 20.1"
+    ],
+    "objectives": [
+      "Define tachycardia, bradycardia and the main ectopic atrial and ventricular rhythms, with the numbers in Table 20.1",
+      "Distinguish atrial flutter, atrial fibrillation and ventricular fibrillation on both the ECG and the pump",
+      "Compare first-, second- and third-degree AV block, including PR times and rates",
+      "Describe SA-node block, sinus arrhythmia, PACs and PVCs with their listed causes"
+    ],
+    "takeaways": [
+      "Tachycardia > 100 bpm; bradycardia < 60 bpm. PAT: sudden 95-150 bpm, P before every QRS, P inverted and on the T wave.",
+      "Flutter: 300 P waves/min and 125 QRS/min (2 or 3 P per QRS). AF: no P waves, normal QRS, irregular timing. VF: no QRS, no rhythmic contraction.",
+      "SA-node block: P waves stop; AV node paces; QRS and T still normal. First-degree AV block: PR > 0.2 s. Second-degree: PR 0.25-0.45 s, some P waves not followed by QRS (2:1, 3:1, 3:2). Third-degree: P dissociated from QRS; atria ~100 bpm, ventricles < 40 bpm.",
+      "PAC: occasional short intervals; P on the QRS. PVC: prolonged QRS, exaggerated voltage, inverted T; higher fibrillation risk."
+    ],
+    "see_also": {
+      "lessons": [
+        "lec2-ch20-09-ecg",
+        "lab04-06-arrhythmias"
+      ],
+      "micro": [
+        "whole_heart"
+      ]
+    },
+    "steps": [
+      {
+       "title": "Abnormal rates: tachycardia and PAT",
+       "text": "<p>An <b>arrhythmia</b> is an abnormal heart rhythm. Table 20.1 groups them. Start with rate.</p><p><b>Tachycardia</b> means a heart rate <b>in excess of 100 beats per minute (bpm)</b>. Possible causes: <b>elevated body temperature</b>, <b>excessive sympathetic stimulation</b> (the fight-or-flight nerves firing too hard), and <b>toxic conditions</b>.</p><p><b>Paroxysmal atrial tachycardia (PAT)</b> is a <b>sudden</b> increase in heart rate to <b>95-150 bpm</b> for a few seconds or even several hours. <b>Paroxysmal</b> means it comes in bursts. A <b>P wave precedes every QRS complex</b> (so each atrial depolarization still triggers a ventricular one), but the <b>P wave is inverted and superimposed on the T wave</b>. Causes: <b>excessive sympathetic stimulation</b>, and <b>abnormally elevated permeability of slow channels</b> (the slow Ca<sup>2+</sup> channels of pacemaker and plateau physiology).</p><p>The rate-strip diagram shows a fast but still organized rhythm.</p>",
+       "systems": [
+        "cardiovascular",
+        "visceral"
+       ],
+       "regions": [
+        "thorax"
+       ],
+       "focus": [
+        "Heart"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lab04-strips-rate",
+       "check": {
+        "q": "Define tachycardia, and give the rate range and two ECG features of paroxysmal atrial tachycardia.",
+        "a": "Tachycardia: heart rate over 100 bpm. PAT: sudden 95-150 bpm; a P wave precedes every QRS; the P wave is inverted and superimposed on the T wave."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Ventricular tachycardia",
+       "text": "<p><b>Ventricular tachycardia</b> is a fast rhythm that originates in the ventricles rather than the SA node. Table 20.1's key clinical point: it <b>frequently causes fibrillation</b> (the ventricles may degenerate from a fast organized rhythm into chaotic twitching).</p><p>It is <b>often associated with damage to the AV node or ventricular muscle</b>. Damaged muscle can become an <b>ectopic focus</b>: a spot that fires on its own, out of turn. The model shows the thick ventricular walls where that damage lives.</p>",
+       "diagram": "lab04-strips-rate",
+       "clinical": "Ventricular tachycardia is an emergency precisely because it so often degenerates into ventricular fibrillation, which pumps no blood.",
+       "check": {
+        "q": "Why is ventricular tachycardia dangerous, and what damage is it often associated with?",
+        "a": "It frequently causes fibrillation. It is often associated with damage to the AV node or ventricular muscle."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Ectopic atrial rhythms: flutter and fibrillation",
+       "text": "<p>An <b>ectopic action potential</b> is one that starts in the wrong place (not the SA node). Ectopic APs in the atria produce two named rhythms.</p><p><b>Atrial flutter.</b> Symptoms: <b>300 P waves/min</b> but only <b>125 QRS complexes/min</b>, so there are <b>two or three P waves (atrial contractions) for every QRS complex (ventricular contraction)</b>. The AV node cannot pass every atrial impulse. Cause: <b>ectopic action potentials in the atria</b>.</p><p><b>Atrial fibrillation.</b> <b>Fibrillation</b> means uncoordinated twitching instead of a single squeeze. Symptoms: <b>no P waves</b>; <b>normal QRS complexes</b>; <b>irregular timing</b>; the <b>ventricles are constantly stimulated by the atria</b>; <b>reduced pumping effectiveness and reduced filling time</b>. Cause: again, <b>ectopic action potentials in the atria</b>.</p><p>Flutter still has recognizable P waves (just too many). Fibrillation has no P waves at all.</p>",
+       "diagram": "lab04-strips-ectopic",
+       "pitfall": "Atrial flutter: 300 P/min and 125 QRS/min (2 or 3 P per QRS). Atrial fibrillation: NO P waves. Do not swap them.",
+       "check": {
+        "q": "Give the P-wave and QRS rates of atrial flutter, and the key ECG features of atrial fibrillation.",
+        "a": "Flutter: 300 P waves/min and 125 QRS/min (two or three P per QRS). AF: no P waves, normal QRS complexes, irregular timing, reduced pumping and filling time."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Ventricular fibrillation",
+       "text": "<p><b>Ventricular fibrillation (VF)</b> is ectopic action potentials in the <b>ventricles</b>. The ECG shows <b>no QRS complexes</b>. Mechanically there is <b>no rhythmic contraction of the myocardium</b>: instead there are <b>many patches of asynchronously contracting ventricular muscle</b>. Asynchronous means the patches do not squeeze together, so the chamber never develops a useful pressure and <b>no blood is pumped</b>.</p><p>This is the rhythm that kills unless the heart is shocked back into a single electrical unit. Contrast it with atrial fibrillation, which still has QRS complexes and some (reduced) output.</p>",
+       "diagram": "lab04-strips-ectopic",
+       "check": {
+        "q": "What does the ECG of ventricular fibrillation lack, and what is happening in the ventricular muscle?",
+        "a": "No QRS complexes. Many patches of ventricular muscle contract asynchronously, so there is no rhythmic contraction and no useful pumping."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Bradycardia, sinus arrhythmia and SA-node block",
+       "text": "<p><b>Bradycardia</b>: heart rate <b>less than 60 bpm</b>. Causes: <b>elevated stroke volume in athletes</b> (a large, strong heart can meet the body's needs with fewer beats), <b>excessive vagal stimulation</b> (the parasympathetic brake is too hard on), and <b>carotid sinus syndrome</b> (over-sensitive baroreceptors in the carotid sinus slowing the heart).</p><p><b>Sinus arrhythmia</b>: heart rate <b>varies 5% during the respiratory cycle</b> and <b>up to 30% during deep respiration</b>. The SA node is still in charge; the rate just waxes and wanes with breathing. Cause <b>not always known</b>; occasionally <b>ischemia or inflammation</b>, or associated with <b>cardiac failure</b>.</p><p><b>SA-node block</b>: the SA node stops driving the atria. Symptoms: <b>cessation of the P wave</b>; a <b>new low heart rate</b> because the <b>AV node acts as pacemaker</b>; <b>normal QRS complex and T wave</b> (the ventricles still activate in order from the AV node down). Causes: <b>ischemia</b>, <b>tissue damage due to infarction</b>, or <b>unknown</b>.</p>",
+       "systems": [
+        "cardiovascular",
+        "visceral"
+       ],
+       "regions": [
+        "thorax"
+       ],
+       "focus": [
+        "Heart"
+       ],
+       "show": [
+        "Internal carotid artery"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lab04-strips-rate",
+       "check": {
+        "q": "Define bradycardia. What happens to the P wave and the pacemaker in SA-node block?",
+        "a": "Bradycardia: heart rate less than 60 bpm. SA-node block: P waves cease; the AV node becomes the pacemaker at a low rate; QRS and T remain normal."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "AV node block: first, second and third degree",
+       "text": "<p><b>AV node block</b> means the impulse is delayed or stopped between atria and ventricles. There are three degrees.</p><p><b>First-degree.</b> <b>PR interval greater than 0.2 second</b>. Every P still produces a QRS; the trip is just slow. Cause: <b>inflammation of the AV bundle</b>.</p><p><b>Second-degree.</b> <b>PR interval 0.25-0.45 second</b>. <b>Some P waves trigger QRS complexes and others do not</b>. Ratios of <b>2:1, 3:1 and 3:2 P waves per QRS</b> may occur. Cause: <b>excessive vagal stimulation</b>.</p><p><b>Third-degree (complete heart block).</b> The <b>P wave is dissociated from the QRS complex</b>: atria and ventricles beat independently. <b>Atrial rhythm approximately 100 bpm</b>; <b>ventricular rhythm less than 40 bpm</b> (a slow ventricular escape pacemaker). Causes: <b>ischemia of AV nodal fibres</b> or <b>compression of the AV bundle</b>.</p><p>The block-strip diagram shows a long PR, dropped QRS complexes, and complete dissociation.</p>",
+       "systems": [],
+       "diagram": "lab04-strips-block",
+       "mnemonic": "<b>1st = longer PR, every P conducted. 2nd = some P waves dropped. 3rd = P and QRS ignore each other.</b>",
+       "check": {
+        "q": "Give the PR (or rate) numbers that define first-, second- and third-degree AV block.",
+        "a": "First: PR > 0.2 s. Second: PR 0.25-0.45 s, some P waves not followed by a QRS (2:1, 3:1, 3:2). Third: P dissociated from QRS; atria ~100 bpm, ventricles < 40 bpm."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Premature contractions: PACs and PVCs",
+       "text": "<p><b>Premature atrial contractions (PACs).</b> Symptoms: <b>occasional shortened intervals between contractions</b>; the <b>P wave may be superimposed on the QRS complex</b>. They <b>frequently occur in healthy people</b>. Causes: <b>excessive smoking, lack of sleep, too much caffeine, alcoholism</b>.</p><p><b>Premature ventricular contractions (PVCs).</b> An ectopic focus in the ventricle fires early. Symptoms: <b>prolonged QRS complex</b> (the impulse spreads through ordinary muscle, not the fast Purkinje network); <b>exaggerated voltage because only one ventricle may depolarize</b>; <b>inverted T wave</b>; <b>increased probability of fibrillation</b>. Causes: <b>ectopic foci in the ventricles</b>; <b>lack of sleep</b>; <b>too much caffeine</b>; <b>irritability</b>; occasionally <b>coronary thrombosis</b> (a clot in a coronary artery).</p><p>Table 20.1 is now complete: rates, ectopy, SA and AV blocks, and premature beats. Next, the mechanical cycle those electrical events drive.</p>",
+       "diagram": "lab04-strips-ectopic",
+       "check": {
+        "q": "Give two ECG features of a PVC, and list typical PAC causes.",
+        "a": "PVC: prolonged QRS, exaggerated voltage (one ventricle may depolarize), inverted T, higher fibrillation risk. PAC causes: smoking, lack of sleep, too much caffeine, alcoholism."
+       },
+       "lesson_view": "diagram"
+      }
+    ],
+    "practice": [
+      {
+        "type": "mcq",
+        "q": "Tachycardia is a heart rate…",
+        "choices": [
+          "Less than 60 bpm",
+          "Exactly 75 bpm",
+          "In excess of 100 bpm",
+          "Always 95-150 bpm"
+        ],
+        "answer": 2,
+        "why": "Tachycardia is a rate over 100 bpm. Bradycardia is under 60. PAT is a sudden 95-150."
+      },
+      {
+        "type": "mcq",
+        "q": "In atrial flutter the lecture numbers are…",
+        "choices": [
+          "No P waves and irregular QRS complexes",
+          "300 P waves/min and 125 QRS complexes/min",
+          "Atrial rate ~100 bpm and ventricular rate < 40 bpm",
+          "PR interval of 0.16 s"
+        ],
+        "answer": 1,
+        "why": "Flutter: 300 P/min, 125 QRS/min, two or three P waves per QRS. AF has no P waves."
+      },
+      {
+        "type": "mcq",
+        "q": "Atrial fibrillation is characterized by…",
+        "choices": [
+          "300 P waves/min",
+          "No P waves, normal QRS complexes and irregular timing",
+          "No QRS complexes",
+          "PR interval > 0.2 s"
+        ],
+        "answer": 1,
+        "why": "AF: no P waves, normal QRS, irregular timing, reduced pumping and filling."
+      },
+      {
+        "type": "mcq",
+        "q": "Ventricular fibrillation shows…",
+        "choices": [
+          "Normal QRS complexes at an irregular rate",
+          "A prolonged PR interval",
+          "No QRS complexes and no rhythmic myocardial contraction",
+          "A P wave before every QRS"
+        ],
+        "answer": 2,
+        "why": "VF: no QRS; many patches of asynchronously contracting ventricular muscle."
+      },
+      {
+        "type": "mcq",
+        "q": "First-degree AV block is defined as a PR interval…",
+        "choices": [
+          "Of 0.16 s",
+          "Greater than 0.2 second",
+          "Of 0.25-0.45 second with dropped QRS complexes",
+          "That is dissociated from the QRS"
+        ],
+        "answer": 1,
+        "why": "First-degree: PR > 0.2 s (inflammation of the AV bundle). Second-degree is 0.25-0.45 s with some non-conducted P waves."
+      },
+      {
+        "type": "mcq",
+        "q": "In third-degree (complete) heart block…",
+        "choices": [
+          "Every P wave is followed by a QRS",
+          "The atrial rhythm is about 100 bpm and the ventricular rhythm is less than 40 bpm",
+          "P waves cease and the AV node paces at a low rate with no QRS",
+          "The QRS is prolonged because only one ventricle depolarizes"
+        ],
+        "answer": 1,
+        "why": "P is dissociated from QRS; atria ~100 bpm, ventricles < 40 bpm. SA-node block is the one where P waves cease."
+      },
+      {
+        "type": "mcq",
+        "q": "Second-degree AV block may show which P-to-QRS ratios?",
+        "choices": [
+          "1:1 only",
+          "2:1, 3:1 and 3:2",
+          "300:125",
+          "No relationship at all"
+        ],
+        "answer": 1,
+        "why": "Table 20.1 lists 2:1, 3:1 and 3:2 P wave/QRS ratios for second-degree block."
+      },
+      {
+        "type": "mcq",
+        "q": "A PVC typically shows…",
+        "choices": [
+          "A short PR interval and a normal QRS",
+          "A prolonged QRS, exaggerated voltage and an inverted T wave",
+          "Cessation of P waves",
+          "300 P waves/min"
+        ],
+        "answer": 1,
+        "why": "PVCs: prolonged QRS, exaggerated voltage (one ventricle may depolarize), inverted T, increased fibrillation risk."
+      },
+      {
+        "type": "mcq",
+        "q": "Sinus arrhythmia means heart rate varies…",
+        "choices": [
+          "Not at all",
+          "5% during the respiratory cycle and up to 30% during deep respiration",
+          "Always by 100 bpm",
+          "Only during exercise"
+        ],
+        "answer": 1,
+        "why": "Table 20.1: 5% with the respiratory cycle, up to 30% in deep respiration."
+      },
+      {
+        "type": "order",
+        "q": "Order AV blocks from least to most complete interruption of conduction.",
+        "items": [
+          "First-degree (PR > 0.2 s, every P conducted)",
+          "Second-degree (some P waves not followed by a QRS)",
+          "Third-degree (P dissociated from QRS)"
+        ]
+      },
+      {
+        "type": "recall",
+        "q": "What happens to the P wave in SA-node block, and what takes over as pacemaker?",
+        "a": "P waves cease; the AV node acts as pacemaker at a new low rate; QRS and T remain normal."
+      },
+      {
+        "type": "recall",
+        "q": "List the Table 20.1 causes of premature atrial contractions.",
+        "a": "Excessive smoking, lack of sleep, too much caffeine, and alcoholism (they frequently occur in healthy people)."
+      },
+      {
+        "type": "find",
+        "structure": "Heart"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Left atrium"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Left ventricle (myocardium)"
+      }
+    ]
+  },
+  {
+    "id": "lec2-ch20-11-cardiac-cycle-filling",
+    "title": "The cardiac cycle: systole, diastole and filling",
+    "lecture": {
+      "exam": 2,
+      "chapter": 20,
+      "order": 11,
+      "unit": "The heart"
+    },
+    "system": "cardiovascular",
+    "region": "thorax",
+    "level": "core",
+    "minutes": 14,
+    "summary": "The heart as two pumps, systole versus diastole, passive then active ventricular filling, and end-diastolic volume of 120-130 mL.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "chapter 20",
+      "cardiac cycle",
+      "systole",
+      "diastole",
+      "passive filling",
+      "atrial systole",
+      "EDV"
+    ],
+    "objectives": [
+      "Define the cardiac cycle, systole and diastole, and explain why blood moves from higher to lower pressure",
+      "Describe passive ventricular filling while all chambers are relaxed",
+      "Describe atrial systole as active ventricular filling, including its ECG marker and why it matters in exercise",
+      "Give the end-diastolic volume (120-130 mL) and say when it is measured"
+    ],
+    "takeaways": [
+      "The heart is two pumps working together: the atrium is the primer and the ventricle is the power.",
+      "Cardiac cycle: the repetitive pumping process from the onset of contraction to the beginning of the next contraction. Systole = contraction of a chamber; diastole = relaxation of a chamber.",
+      "Most filling at rest is passive: AV valves open, atrial pressure slightly greater than ventricular pressure. Atrial systole (P wave) then actively forces more blood in.",
+      "At rest atrial contraction is not necessary; in exercise the heart pumps 300-400% more blood and atrial contraction is necessary. EDV (end-diastolic volume) is 120-130 mL remaining in each ventricle at the end of filling."
+    ],
+    "see_also": {
+      "lessons": [
+        "lec2-ch20-09-ecg",
+        "lab04-07-heart-sounds-cycle"
+      ],
+      "micro": [
+        "whole_heart"
+      ]
+    },
+    "steps": [
+      {
+        "title": "Two pumps and one cycle",
+        "text": "<p>The heart is <b>two pumps working together</b>. Each side has an atrium and a ventricle. The <b>atrium is the primer</b>: it tops up the ventricle. The <b>ventricle is the power</b>: it is the chamber that generates the pressure that drives blood through a whole circuit.</p><p>The <b>cardiac cycle</b> is the <b>repetitive pumping process that begins with the onset of contraction and ends with the beginning of the next contraction</b>. One cycle is one heartbeat, electrical events plus the mechanical squeeze and refill that follow.</p><p>Two words you will use constantly: <b>systole</b> is <b>contraction of a chamber</b>; <b>diastole</b> is <b>relaxation of a chamber</b>. You must say which chamber. Atrial systole and ventricular systole do not happen at the same time: the atria contract first, then the ventricles.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Right atrium",
+          "Right ventricle",
+          "Left atrium",
+          "Left ventricle"
+        ],
+        "diagram": "lec2-cardiac-cycle",
+        "mnemonic": "<b>Systole = Squeeze. Diastole = Dilate (relax and fill).</b>",
+        "check": {
+          "q": "Define the cardiac cycle, systole and diastole. What is the atrium's role versus the ventricle's?",
+          "a": "The cardiac cycle is the repetitive pumping process from the onset of one contraction to the beginning of the next. Systole = contraction of a chamber; diastole = relaxation. The atrium is the primer; the ventricle is the power."
+        }
+      },
+      {
+       "title": "Pressure makes blood move",
+       "text": "<p><b>Blood moves through the circulatory system from areas of higher pressure to areas of lower pressure.</b> There is no other driving force in this chapter. <b>Contraction of the heart produces the pressure.</b></p><p>Valves exist so that when pressure reverses, blood cannot go backwards: they are one-way doors that open only when upstream pressure is higher than downstream pressure. Keep that rule in mind as filling and ejection unfold. The great veins (SVC, IVC, pulmonary veins) are the higher-pressure reservoirs that feed the relaxed atria at the start of filling.</p>",
+       "systems": [
+        "cardiovascular",
+        "visceral"
+       ],
+       "regions": [
+        "thorax"
+       ],
+       "focus": [
+        "Heart",
+        "Superior vena cava",
+        "Pulmonary veins"
+       ],
+       "show": [
+        "Aorta",
+        "Pulmonary trunk"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "check": {
+        "q": "Why does blood move through the heart and vessels, and what produces that driving force?",
+        "a": "Blood moves from higher pressure to lower pressure. Contraction of the heart produces the pressure."
+       },
+       "micro": "whole_heart",
+       "micro_focus": [
+        "Aorta",
+        "Pulmonary trunk",
+        "Superior vena cava",
+        "Pulmonary veins"
+       ]
+      },
+      {
+        "title": "Passive ventricular filling",
+        "text": "<p>Before a new cardiac cycle begins, <b>all chambers are relaxed</b> (atrial and ventricular diastole). The heart is not sucking blood in. At rest, <b>most of the blood movement into the chambers results from greater blood pressure in the veins than in the heart chambers</b>. That is <b>passive</b> filling: no cardiac muscle is contracting to pull or push it.</p><p>As blood moves into the atria, <b>much of it flows straight on into the ventricles</b> because two things are true:</p><p>1. The <b>AV valves are open</b> (the tricuspid on the right, the mitral/bicuspid on the left).<br>2. <b>Atrial pressure is slightly greater than ventricular pressure</b>.</p><p>This is <b>passive ventricular filling</b>. Later you will learn it accounts for most (~70%) of the ventricular volume. The cycle diagram marks this as the long filling stretch with both AV valves open.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Tricuspid valve",
+          "Mitral (bicuspid) valve",
+          "Right atrium",
+          "Left atrium"
+        ],
+        "diagram": "lec2-cardiac-cycle",
+        "check": {
+          "q": "During passive ventricular filling, what is the state of the chambers and the AV valves, and what pressure relationship lets blood in?",
+          "a": "All chambers are relaxed; AV valves are open; atrial pressure is slightly greater than ventricular pressure, and venous pressure is greater than chamber pressure."
+        }
+      },
+      {
+        "title": "Atrial systole: active ventricular filling",
+        "text": "<p>The SA node then generates an action potential that stimulates <b>atrial contraction</b>. On the ECG this is the <b>P wave</b>. <b>Atrial contraction begins the cardiac cycle</b> as the lecture defines it, and it <b>actively forces more blood into the ventricles</b>. This is <b>active ventricular filling</b>, also called <b>atrial systole</b>.</p><p>Depolarization spreads over the atria; they squeeze; that squeeze <b>completes ventricular filling</b>. The ventricles are still relaxed, so they accept the extra volume. The AV valves stay open; the semilunar valves stay closed.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Right atrium",
+          "Left atrium",
+          "Sinoatrial nodal artery"
+        ],
+        "diagram": "lec2-cardiac-cycle",
+        "check": {
+          "q": "What ECG wave marks atrial systole, and what does atrial contraction do to ventricular filling?",
+          "a": "The P wave. Atrial contraction actively forces more blood into the ventricles and completes ventricular filling."
+        }
+      },
+      {
+       "title": "When atrial contraction is and is not necessary",
+       "text": "<p>At <b>rest, contraction of the atria is not necessary for heart function</b>. Passive filling already puts most of the blood into the ventricles, which is why people can live with poorly contracting atria (as in atrial fibrillation) at rest, even though pumping is less efficient.</p><p>During <b>exercise, atrial contraction is necessary</b>. The heart pumps <b>300 to 400% more blood than during rest</b>. Filling time shortens because the rate is up, so the atrial primer has to push extra volume in quickly or the power chambers start each beat under-filled.</p>",
+       "systems": [],
+       "diagram": "lec2-cardiac-cycle",
+       "clinical": "Atrial fibrillation removes the atrial primer. At rest many people cope; during exercise they lose the extra filling that atrial systole should have provided.",
+       "check": {
+        "q": "Is atrial contraction necessary at rest? What about during exercise, and by how much can output rise?",
+        "a": "At rest it is not necessary. During exercise it is necessary; the heart pumps 300-400% more blood than at rest."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+        "title": "End-diastolic volume: 120-130 mL",
+        "text": "<p>When ventricular filling is complete, each ventricle holds <b>120-130 mL</b> of blood. That volume is the <b>end-diastolic volume (EDV)</b>: the amount remaining in the ventricle <b>at the end of diastole</b> (the end of filling), just as ventricular systole is about to start.</p><p>The lecture places this number at the start of isovolumetric contraction in the next lesson: ventricular muscle has begun to contract, AV valves have just shut, and those 120-130 mL are trapped in the ventricle. Think of EDV as the <b>full tank</b> before ejection.</p><p>The next lesson is what happens to that volume: isovolumetric contraction, ejection, and the leftover end-systolic volume.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Left ventricle",
+          "Right ventricle"
+        ],
+        "diagram": "lec2-cardiac-cycle",
+        "pitfall": "EDV is the volume at the END of filling (diastole), not the amount ejected. The amount ejected is stroke volume, which comes two lessons from now.",
+        "check": {
+          "q": "What is end-diastolic volume, and what is the lecture value?",
+          "a": "EDV is the volume of blood in a ventricle at the end of diastole (after filling is complete); 120-130 mL."
+        }
+      }
+    ],
+    "practice": [
+      {
+        "type": "mcq",
+        "q": "In the two-pump description, the atrium is the…",
+        "choices": [
+          "Power chamber",
+          "Primer",
+          "Only source of arterial pressure",
+          "Pacemaker of the ventricles"
+        ],
+        "answer": 1,
+        "why": "The atrium is the primer and the ventricle is the power."
+      },
+      {
+        "type": "mcq",
+        "q": "Systole means…",
+        "choices": [
+          "Relaxation of a chamber",
+          "Contraction of a chamber",
+          "Filling of a chamber",
+          "The entire cardiac cycle"
+        ],
+        "answer": 1,
+        "why": "Systole = contraction; diastole = relaxation. Always name the chamber."
+      },
+      {
+        "type": "mcq",
+        "q": "Blood moves through the circulatory system…",
+        "choices": [
+          "From lower to higher pressure",
+          "From higher to lower pressure",
+          "Only when all valves are open",
+          "Only during atrial systole"
+        ],
+        "answer": 1,
+        "why": "Flow is down a pressure gradient; contraction of the heart produces the pressure."
+      },
+      {
+        "type": "mcq",
+        "q": "Passive ventricular filling occurs because…",
+        "choices": [
+          "The ventricles suck blood in by contracting",
+          "AV valves are open and atrial pressure is slightly greater than ventricular pressure",
+          "Semilunar valves are open",
+          "The atria are in systole for the whole period"
+        ],
+        "answer": 1,
+        "why": "At rest most filling is passive: veins and atria are at slightly higher pressure than the relaxed ventricles, and AV valves are open."
+      },
+      {
+        "type": "mcq",
+        "q": "Atrial systole is represented on the ECG by the…",
+        "choices": [
+          "QRS complex",
+          "T wave",
+          "P wave",
+          "QT interval"
+        ],
+        "answer": 2,
+        "why": "The P wave is atrial depolarization, which stimulates atrial contraction (active filling)."
+      },
+      {
+        "type": "mcq",
+        "q": "During exercise the heart pumps how much more blood than at rest?",
+        "choices": [
+          "10-20% more",
+          "50% more",
+          "300-400% more",
+          "It cannot increase output"
+        ],
+        "answer": 2,
+        "why": "The lecture: 300 to 400% more blood than during rest, which is why atrial contraction becomes necessary."
+      },
+      {
+        "type": "mcq",
+        "q": "End-diastolic volume (EDV) is…",
+        "choices": [
+          "50-60 mL remaining after ejection",
+          "120-130 mL in the ventricle at the end of filling",
+          "70 mL ejected per beat",
+          "The volume in the aorta"
+        ],
+        "answer": 1,
+        "why": "EDV is 120-130 mL at the end of diastole. 50-60 mL is ESV; 70 mL is a typical stroke volume."
+      },
+      {
+        "type": "order",
+        "q": "Put the filling events in order, starting with a fully relaxed heart.",
+        "items": [
+          "All chambers relaxed; venous pressure fills the atria",
+          "Passive ventricular filling (AV valves open)",
+          "P wave and atrial systole (active filling)",
+          "EDV of 120-130 mL in each ventricle"
+        ]
+      },
+      {
+        "type": "recall",
+        "q": "Why is atrial contraction unnecessary at rest but necessary in exercise?",
+        "a": "At rest most ventricular filling is already passive. In exercise the heart pumps 300-400% more blood and filling time is shorter, so the atrial primer is needed."
+      },
+      {
+        "type": "recall",
+        "q": "Define the cardiac cycle.",
+        "a": "The repetitive pumping process that begins with the onset of contraction and ends with the beginning of the next contraction."
+      },
+      {
+        "type": "find",
+        "structure": "Heart"
+      },
+      {
+        "type": "find",
+        "structure": "Superior vena cava"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Mitral (bicuspid) valve"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Tricuspid valve"
+      }
+    ]
+  },
+  {
+    "id": "lec2-ch20-12-cardiac-cycle-ejection",
+    "title": "The cardiac cycle: isovolumetric phases, ejection and the dicrotic notch",
+    "lecture": {
+      "exam": 2,
+      "chapter": 20,
+      "order": 12,
+      "unit": "The heart"
+    },
+    "system": "cardiovascular",
+    "region": "thorax",
+    "level": "core",
+    "minutes": 16,
+    "summary": "Isovolumetric contraction, ejection at 120 mm Hg (left) and 25 mm Hg (right), ESV 50-60 mL, isovolumetric relaxation, and the dicrotic notch.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "chapter 20",
+      "isovolumetric contraction",
+      "ejection",
+      "ESV",
+      "isovolumetric relaxation",
+      "dicrotic notch"
+    ],
+    "objectives": [
+      "Describe isovolumetric contraction and state the EDV trapped in the ventricles",
+      "Give the ejection pressures of the left and right ventricles and define end-systolic volume",
+      "Describe isovolumetric relaxation and why all valves are closed",
+      "Explain the dicrotic notch and why arm blood pressure reflects aortic, not ventricular, pressure"
+    ],
+    "takeaways": [
+      "Isovolumetric contraction: ventricles contract, AV valves shut, SL valves still closed, no volume change; EDV 120-130 mL is trapped.",
+      "Ejection: SL valves open when ventricular pressure exceeds pulmonary trunk (right) and aorta (left). Peak pressures: LV 120 mm Hg, RV 25 mm Hg. ESV leftover is 50-60 mL.",
+      "Isovolumetric relaxation: T wave, ventricles relax, SL valves close as blood starts to backflow; AV valves still closed; no filling yet.",
+      "Dicrotic notch: a slight rise in aortic pressure when the aortic SL valve closes. Arm blood pressure reflects aortic pressures, not ventricular pressures. Passive filling then accounts for most (~70%) of ventricular filling."
+    ],
+    "see_also": {
+      "lessons": [
+        "lec2-ch20-11-cardiac-cycle-filling",
+        "lab04-07-heart-sounds-cycle"
+      ],
+      "micro": [
+        "whole_heart"
+      ]
+    },
+    "steps": [
+      {
+        "title": "Isovolumetric contraction",
+        "text": "<p><b>Ventricular systole</b> starts as the AP reaches the AV node, AV bundle, bundle branches and Purkinje fibres. On the ECG this is the <b>QRS complex</b>. The period of isovolumetric contraction <b>begins at completion of the QRS complex</b>.</p><p>Ventricular muscle starts to contract and <b>pressure inside the ventricles rises</b>. Blood is pushed back toward the atria, which <b>closes the AV valves</b>. The semilunar (SL) valves were already closed from the previous diastole and stay closed. With <b>all four valves closed</b>, <b>no blood flows into or out of the ventricles</b> even though they are squeezing. Volume is constant: that interval is the <b>period of isovolumetric contraction</b> (<b>iso</b> = same, <b>volumetric</b> = volume). Pressure rises; volume does not.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Tricuspid valve",
+          "Mitral (bicuspid) valve",
+          "Aortic valve",
+          "Pulmonary valve"
+        ],
+        "diagram": "lec2-cardiac-cycle",
+        "check": {
+          "q": "Why is early ventricular systole called isovolumetric contraction?",
+          "a": "The ventricles contract and pressure rises, but all valves are closed so no blood leaves or enters and ventricular volume does not change."
+        }
+      },
+      {
+        "title": "The full tank is trapped: EDV",
+        "text": "<p>At this moment <b>120-130 mL of blood remain in the ventricles from the last diastole</b>: the <b>end-diastolic volume (EDV)</b>. It is trapped until some valve opens. The AV valves just closed to start ventricular systole; the SL valves have not yet opened. The cycle diagram shows a flat ventricular-volume line during this short phase while the pressure curve climbs steeply.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Left ventricle",
+          "Right ventricle"
+        ],
+        "diagram": "lab04-cardiac-cycle",
+        "check": {
+          "q": "How much blood is in each ventricle during isovolumetric contraction, and what is that volume called?",
+          "a": "120-130 mL, the end-diastolic volume (EDV)."
+        }
+      },
+      {
+        "title": "Period of ejection: 120 mm Hg left, 25 mm Hg right",
+        "text": "<p>Ventricular contraction continues until ventricular pressure <b>overcomes the pressures in the pulmonary trunk and aorta</b>. Then the cusps of the SL valves are pushed against the vessel walls and the valves open. Blood is ejected into the arteries.</p><p>The two ventricles do not reach the same pressure, because they pump into different circuits:</p><p>• <b>120 mm Hg in the left ventricle</b> (systemic circuit, aorta)<br>• <b>25 mm Hg in the right ventricle</b> (pulmonary circuit, pulmonary trunk)</p><p>After the first spurt, pressure starts to drop as blood leaves. The model shows the exits: aortic valve into the ascending aorta, pulmonary valve into the pulmonary trunk.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Aortic valve",
+          "Pulmonary valve",
+          "Ascending aorta",
+          "Pulmonary trunk"
+        ],
+        "diagram": "lec2-cardiac-cycle",
+        "pitfall": "Same stroke volume from both ventricles, very different pressures. The thin right ventricle only has to beat 25 mm Hg; the thick left ventricle must beat 120 mm Hg.",
+        "check": {
+          "q": "What pressures open the SL valves on each side, and into which vessels does the blood go?",
+          "a": "About 120 mm Hg in the left ventricle opens the aortic valve into the aorta; about 25 mm Hg in the right ventricle opens the pulmonary valve into the pulmonary trunk."
+        }
+      },
+      {
+       "title": "End-systolic volume: 50-60 mL",
+       "text": "<p>The ventricle does not empty completely. At the <b>end of the period of ejection, 50-60 mL remain</b>. That leftover is the <b>end-systolic volume (ESV)</b>: the volume in the ventricle at the end of systole.</p><p>So a typical beat starts with ~120 mL (EDV) and ends with ~50 mL (ESV). The difference will be stroke volume in the MAP lesson. For now, remember the two tank readings: full at 120-130 mL, leftover 50-60 mL.</p>",
+       "systems": [],
+       "diagram": "lab04-cardiac-cycle",
+       "check": {
+        "q": "What is end-systolic volume, and what is the lecture value?",
+        "a": "ESV is the blood remaining in a ventricle at the end of ejection (end of systole); 50-60 mL."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+        "title": "Isovolumetric relaxation",
+        "text": "<p><b>Ventricular diastole</b> begins as the ventricles repolarize: the <b>T wave</b> of the ECG. Completion of the T wave results in ventricular relaxation. Ventricular pressure falls very rapidly, below the pressures in the pulmonary trunk and aorta.</p><p>Blood in those elastic arteries begins to flow back toward the ventricles, which <b>closes the SL valves</b>. That closure is the <b>beginning of ventricular diastole</b>. The AV valves are still closed (atrial pressure has not yet overtaken the falling ventricular pressure). With <b>all heart valves closed</b>, <b>no blood flows into the relaxing ventricles</b>. Volume is again constant: the <b>period of isovolumetric relaxation</b>.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Aortic valve",
+          "Pulmonary valve",
+          "Tricuspid valve",
+          "Mitral (bicuspid) valve"
+        ],
+        "diagram": "lec2-cardiac-cycle",
+        "check": {
+          "q": "What ECG wave leads to isovolumetric relaxation, and why is volume unchanged?",
+          "a": "The T wave (ventricular repolarization). SL valves close and AV valves are still closed, so no blood enters or leaves the relaxing ventricles."
+        }
+      },
+      {
+        "title": "Passive filling resumes (~70%)",
+        "text": "<p>While the ventricles were in systole, the atria were filling from the veins. Atrial pressure now rises above ventricular pressure, the <b>AV valves open</b>, and blood flows into the relaxed ventricles. This <b>passive ventricular filling accounts for most of ventricular filling (70%)</b>. The remaining ~30% will come from the next atrial systole.</p><p>The cycle then repeats: P wave, active filling, QRS, isovolumetric contraction, ejection, T wave, isovolumetric relaxation, passive filling.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Tricuspid valve",
+          "Mitral (bicuspid) valve",
+          "Right atrium",
+          "Left atrium"
+        ],
+        "diagram": "lec2-cardiac-cycle",
+        "check": {
+          "q": "What fraction of ventricular filling is passive, and what opens the AV valves to start it?",
+          "a": "About 70%. AV valves open when atrial pressure rises above ventricular pressure."
+        }
+      },
+      {
+       "title": "The dicrotic notch and aortic pressure",
+       "text": "<p>Look at the aortic pressure curve on the diagrams. When the <b>aortic SL valve closes</b>, pressure within the aorta <b>rises slightly</b>. That little bump is the <b>dicrotic notch</b> (sometimes called the dicrotic wave). It is caused by the elastic recoil of the aorta against a now-closed valve: blood bouncing off the closed cusps briefly raises aortic pressure.</p><p>A <b>blood pressure measurement taken in the arm is a reflection of aortic pressures, not ventricular pressures</b>. The brachial and radial arteries are downstream of the aorta; they see the aortic pulse, including that notch, not the left ventricle's 120 mm Hg peak directly.</p>",
+       "systems": [
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax",
+        "upper_limb_r",
+        "upper_limb_l"
+       ],
+       "focus": [
+        "Aorta",
+        "Aortic arch"
+       ],
+       "show": [
+        "Heart",
+        "Brachial artery",
+        "Radial artery"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lab04-cardiac-cycle",
+       "check": {
+        "q": "What is the dicrotic notch, and what does an arm blood-pressure cuff actually reflect?",
+        "a": "A slight rise in aortic pressure when the aortic SL valve closes. Arm BP reflects aortic pressures, not ventricular pressures."
+       },
+       "micro": "whole_heart",
+       "micro_focus": [
+        "Aorta",
+        "Aortic arch"
+       ]
+      }
+    ],
+    "practice": [
+      {
+        "type": "mcq",
+        "q": "During isovolumetric contraction which valves are closed?",
+        "choices": [
+          "Only the AV valves",
+          "Only the SL valves",
+          "All heart valves",
+          "None of the valves"
+        ],
+        "answer": 2,
+        "why": "AV valves have just closed and SL valves have not yet opened, so all valves are closed and volume is constant."
+      },
+      {
+        "type": "mcq",
+        "q": "Peak pressure in the left ventricle during ejection is about…",
+        "choices": [
+          "25 mm Hg",
+          "50 mm Hg",
+          "80 mm Hg",
+          "120 mm Hg"
+        ],
+        "answer": 3,
+        "why": "LV ~120 mm Hg (aorta); RV ~25 mm Hg (pulmonary trunk)."
+      },
+      {
+        "type": "mcq",
+        "q": "Peak pressure in the right ventricle during ejection is about…",
+        "choices": [
+          "5 mm Hg",
+          "25 mm Hg",
+          "80 mm Hg",
+          "120 mm Hg"
+        ],
+        "answer": 1,
+        "why": "The right ventricle ejects into the pulmonary trunk at about 25 mm Hg."
+      },
+      {
+        "type": "mcq",
+        "q": "End-systolic volume is…",
+        "choices": [
+          "120-130 mL",
+          "50-60 mL remaining after ejection",
+          "70 mL ejected",
+          "The volume of the atria"
+        ],
+        "answer": 1,
+        "why": "ESV is 50-60 mL left in the ventricle at the end of ejection. EDV is 120-130 mL."
+      },
+      {
+        "type": "mcq",
+        "q": "Isovolumetric relaxation begins when…",
+        "choices": [
+          "The AV valves open",
+          "The SL valves close at the start of ventricular diastole",
+          "The P wave occurs",
+          "EDV is reached"
+        ],
+        "answer": 1,
+        "why": "Ventricular pressure falls below arterial pressure, blood starts to backflow, SL valves close; AV valves are still closed."
+      },
+      {
+        "type": "mcq",
+        "q": "Passive ventricular filling accounts for about…",
+        "choices": [
+          "10% of ventricular filling",
+          "30% of ventricular filling",
+          "70% of ventricular filling",
+          "100% of ventricular filling"
+        ],
+        "answer": 2,
+        "why": "Passive filling accounts for most of ventricular filling (70%); atrial systole supplies the rest."
+      },
+      {
+        "type": "mcq",
+        "q": "The dicrotic notch is…",
+        "choices": [
+          "The QRS spike",
+          "A slight rise in aortic pressure when the aortic SL valve closes",
+          "The first heart sound",
+          "The P wave"
+        ],
+        "answer": 1,
+        "why": "Elastic recoil against the closed aortic valve briefly raises aortic pressure: the dicrotic notch."
+      },
+      {
+        "type": "mcq",
+        "q": "A blood-pressure measurement in the arm reflects…",
+        "choices": [
+          "Left-ventricular pressure",
+          "Right-ventricular pressure",
+          "Aortic pressures",
+          "Atrial pressure"
+        ],
+        "answer": 2,
+        "why": "Arm BP is a reflection of aortic pressures, not ventricular pressures."
+      },
+      {
+        "type": "order",
+        "q": "Put the ventricular mechanical phases in order, starting at the QRS.",
+        "items": [
+          "Isovolumetric contraction (all valves closed)",
+          "Ejection (SL valves open)",
+          "Isovolumetric relaxation (all valves closed)",
+          "Passive ventricular filling (AV valves open)"
+        ]
+      },
+      {
+        "type": "recall",
+        "q": "Give EDV, the two ejection pressures, and ESV.",
+        "a": "EDV 120-130 mL; ejection LV 120 mm Hg and RV 25 mm Hg; ESV 50-60 mL."
+      },
+      {
+        "type": "find",
+        "structure": "Aorta"
+      },
+      {
+        "type": "find",
+        "structure": "Pulmonary trunk"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Aortic valve"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Pulmonary valve"
+      }
+    ]
+  },
+  {
+    "id": "lec2-ch20-13-heart-sounds-murmurs",
+    "title": "Heart sounds, murmurs, stenosis and incompetent valves",
+    "lecture": {
+      "exam": 2,
+      "chapter": 20,
+      "order": 13,
+      "unit": "The heart"
+    },
+    "system": "cardiovascular",
+    "region": "thorax",
+    "level": "core",
+    "minutes": 14,
+    "summary": "S1 lub, S2 dup, occasional S3, and how incompetent versus stenotic valves time their murmurs around those sounds.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "chapter 20",
+      "S1",
+      "S2",
+      "S3",
+      "murmur",
+      "incompetent valve",
+      "stenosis",
+      "auscultation"
+    ],
+    "objectives": [
+      "Explain what produces the first and second heart sounds",
+      "Describe the occasional third heart sound",
+      "Distinguish an incompetent valve from stenosis by the timing of the murmur relative to S1 and S2",
+      "Relate each sound to the four valves on the heart model and to the auscultation diagram"
+    ],
+    "takeaways": [
+      "S1 (lub): AV valves and surrounding fluid vibrate as the valves close at the beginning of ventricular systole.",
+      "S2 (dup): closure of the aortic and pulmonary SL valves at the beginning of ventricular diastole.",
+      "S3 (occasional): turbulent blood flow into the ventricles, heard near the end of the first third of diastole.",
+      "Stenosis obstructs forward flow: aortic stenosis is systolic and mitral stenosis is diastolic."
+    ],
+    "see_also": {
+      "lessons": [
+        "lec2-ch20-12-cardiac-cycle-ejection",
+        "lab04-07-heart-sounds-cycle"
+      ],
+      "micro": [
+        "whole_heart"
+      ]
+    },
+    "steps": [
+      {
+        "title": "S1: the first heart sound (lub)",
+        "text": "<p>The beating heart makes sounds you can hear with a stethoscope. The <b>first heart sound</b>, <b>S1</b>, is the <b>lub</b> (sometimes written lubb). It is produced by the <b>AV valves and surrounding fluid vibrating as the valves close at the beginning of ventricular systole</b>.</p><p>That is the same moment as the start of isovolumetric contraction: ventricular pressure has risen above atrial pressure, so the tricuspid and mitral valves shut. The sound is the vibration, not a clap of leaflets in empty space. In the model, identify both AV valves: <b>tricuspid</b> between right atrium and right ventricle, <b>mitral (bicuspid)</b> between left atrium and left ventricle.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Tricuspid valve",
+          "Mitral (bicuspid) valve"
+        ],
+        "diagram": "lab04-auscultation",
+        "check": {
+          "q": "What produces S1, and when in the cycle does it occur?",
+          "a": "Vibration of the closing AV valves and surrounding fluid at the beginning of ventricular systole (the lub)."
+        }
+      },
+      {
+        "title": "S2: the second heart sound (dup)",
+        "text": "<p>The <b>second heart sound</b>, <b>S2</b>, is the <b>dup</b> (or dupp). It is produced by <b>closure of the aortic and pulmonary SL valves at the beginning of ventricular diastole</b>.</p><p>That is the same moment the dicrotic notch appears on the aortic curve: ventricular pressure has fallen below arterial pressure, blood starts to backflow, and the semilunar valves shut. In the model: <b>aortic valve</b> at the exit of the left ventricle, <b>pulmonary valve</b> at the exit of the right ventricle.</p><p>Together: <b>lub-dup</b> is one beat. Lub (AV close, systole starts), dup (SL close, diastole starts).</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Aortic valve",
+          "Pulmonary valve"
+        ],
+        "diagram": "lab04-auscultation",
+        "mnemonic": "<b>Lub = AV (low in the heart, start of systole). Dup = SL (outflow valves, start of diastole).</b>",
+        "check": {
+          "q": "What produces S2, and when in the cycle does it occur?",
+          "a": "Closure of the aortic and pulmonary SL valves at the beginning of ventricular diastole (the dup)."
+        }
+      },
+      {
+       "title": "S3: the occasional third sound",
+       "text": "<p>A <b>third heart sound (S3)</b> is only <b>occasional</b>. It is caused by <b>turbulent blood flow into the ventricles</b> and is <b>detected near the end of the first third of diastole</b>.</p><p><b>Turbulent</b> flow is swirling, noisy flow, as opposed to smooth (laminar) flow. After the AV valves open, the rush of blood into still-relaxing ventricles can make this extra sound. It is not part of the normal lub-dup pair you are expected to hear in every adult; know that it exists, what causes it, and when in diastole it sits.</p>",
+       "systems": [],
+       "diagram": "lec2-murmur-timing",
+       "check": {
+        "q": "What causes S3, and when is it heard?",
+        "a": "Turbulent blood flow into the ventricles, detected near the end of the first third of diastole."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+        "title": "Incompetent valves (regurgitation)",
+        "text": "<p>A <b>murmur</b> is an abnormal heart sound from turbulent flow through a valve that is not working properly. One failure mode is an <b>incompetent valve</b> (also called <b>valvular insufficiency</b>): the valve does not close fully, so <b>blood flows backwards when the valve should be closed</b>. That backward flow is <b>regurgitation</b>.</p><p>The turbulence causes a <b>gurgling or swishing</b> sound. Timing tells you which set of valves:</p><p>• An <b>incompetent AV valve</b>: sound heard <b>after the first heart sound</b> (the valve should be shut all through ventricular systole, so the leak is a systolic murmur after S1).<br>• An <b>incompetent SL valve</b>: sound heard <b>after the second heart sound</b> (the valve should be shut all through ventricular diastole, so the leak is a diastolic murmur after S2).</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Tricuspid valve",
+          "Mitral (bicuspid) valve",
+          "Aortic valve",
+          "Pulmonary valve"
+        ],
+        "diagram": "lec2-murmur-timing",
+        "clinical": "Mitral incompetence: systolic swish after S1 as blood goes back into the left atrium. Aortic incompetence: diastolic swish after S2 as blood falls back into the left ventricle.",
+        "check": {
+          "q": "When is the murmur of an incompetent AV valve heard, versus an incompetent SL valve?",
+          "a": "Incompetent AV: gurgling/swishing after S1. Incompetent SL: after S2."
+        }
+      },
+      {
+       "title": "Stenosis: identify the valve and the flow phase",
+       "text": "<p>Stenosis narrows a valve opening and produces turbulent forward flow when the valve should be open. Aortic stenosis therefore produces a systolic ejection murmur; mitral stenosis produces a diastolic murmur.</p><p>The lecture shorthand “before the heart sounds” is not sufficient by itself. Use the named valve and the phase of forward flow. Regurgitation instead occurs when a valve should be closed: AV regurgitation is systolic; semilunar regurgitation is diastolic.</p>",
+       "systems": [],
+       "diagram": "lec2-murmur-timing",
+       "pitfall": "Incompetent = leak AFTER the closure sound of that valve. Stenosis = rushing BEFORE the heart sounds. Students often reverse after versus before.",
+       "check": {
+        "q": "When do aortic and mitral stenosis produce their characteristic murmurs?",
+        "a": "Aortic stenosis: systole. Mitral stenosis: diastole."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+        "title": "Listening on the chest",
+        "text": "<p>Each valve is heard best at a particular spot on the chest wall, which is why heart location (lesson 1) matters for a stethoscope. The auscultation diagram marks those listening areas over the rib cage, with the sternum as the midline landmark. You are not hearing the valve at its anatomical position inside the mediastinum; you are hearing the sound where it is transmitted to the chest wall.</p><p>On the model, the four valves sit in the fibrous skeleton at the base of the heart: tricuspid, mitral, aortic, pulmonary. Match each valve to S1 (the two AV valves) or S2 (the two SL valves).</p>",
+        "systems": [
+          "cardiovascular",
+          "skeletal"
+        ],
+        "regions": [
+          "thorax"
+        ],
+        "focus": [
+          "Heart",
+          "Sternum"
+        ],
+        "show": [
+          "Ribs"
+        ],
+        "view": "anterior",
+        "xray": true,
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Tricuspid valve",
+          "Mitral (bicuspid) valve",
+          "Aortic valve",
+          "Pulmonary valve",
+          "Fibrous skeleton (valve annuli)"
+        ],
+        "diagram": "lab04-auscultation",
+        "check": {
+          "q": "Which pair of valves closes to make S1, and which pair makes S2?",
+          "a": "S1: the AV valves (tricuspid and mitral). S2: the SL valves (aortic and pulmonary)."
+        }
+      }
+    ],
+    "practice": [
+      {
+        "type": "mcq",
+        "q": "S1 (lub) is produced by…",
+        "choices": [
+          "SL valves closing at the start of diastole",
+          "AV valves and surrounding fluid vibrating as the valves close at the beginning of ventricular systole",
+          "Turbulent filling near the end of the first third of diastole",
+          "Atrial contraction"
+        ],
+        "answer": 1,
+        "why": "S1 is AV-valve closure (and surrounding fluid vibration) at the beginning of ventricular systole."
+      },
+      {
+        "type": "mcq",
+        "q": "S2 (dup) is produced by…",
+        "choices": [
+          "AV valve closure",
+          "Closure of the aortic and pulmonary SL valves at the beginning of ventricular diastole",
+          "Opening of the mitral valve",
+          "Ventricular filling only"
+        ],
+        "answer": 1,
+        "why": "S2 is SL-valve closure at the beginning of ventricular diastole."
+      },
+      {
+        "type": "mcq",
+        "q": "S3 is…",
+        "choices": [
+          "Always present in every adult",
+          "Turbulent blood flow into the ventricles near the end of the first third of diastole",
+          "Aortic valve closure",
+          "The dicrotic notch itself"
+        ],
+        "answer": 1,
+        "why": "S3 is occasional and comes from turbulent flow into the ventricles late in the first third of diastole."
+      },
+      {
+        "type": "mcq",
+        "q": "An incompetent valve (valvular insufficiency) allows…",
+        "choices": [
+          "Forward flow through a narrow opening",
+          "Blood to flow backwards when the valve is closed (regurgitation)",
+          "No flow in either direction",
+          "Only atrial filling"
+        ],
+        "answer": 1,
+        "why": "Incompetence = leak (regurgitation) when the valve should be shut."
+      },
+      {
+        "type": "mcq",
+        "q": "The murmur of an incompetent AV valve is heard…",
+        "choices": [
+          "Before S1",
+          "After the first heart sound",
+          "After the second heart sound",
+          "Only during atrial systole"
+        ],
+        "answer": 1,
+        "why": "The AV valve should be closed after S1, through ventricular systole, so the regurgitant swish is after S1."
+      },
+      {
+        "type": "mcq",
+        "q": "The murmur of an incompetent SL valve is heard…",
+        "choices": [
+          "After the first heart sound",
+          "After the second heart sound",
+          "Only at the apex",
+          "Before any heart sound and never after S2"
+        ],
+        "answer": 1,
+        "why": "The SL valve should be closed after S2, through ventricular diastole, so the leak is heard after S2."
+      },
+      {
+        "type": "mcq",
+        "q": "Which pairing gives correct stenosis murmur timing?",
+        "choices": [
+          "Aortic: systolic; mitral: diastolic",
+          "Both always systolic",
+          "Both always diastolic",
+          "Aortic: diastolic; mitral: systolic"
+        ],
+        "answer": 0,
+        "why": "A narrowed valve produces turbulence during its forward-flow phase."
+      },
+      {
+        "type": "order",
+        "q": "Put the sounds of one cycle in time order, including an occasional S3.",
+        "items": [
+          "S1 (AV valves close, ventricular systole begins)",
+          "S2 (SL valves close, ventricular diastole begins)",
+          "S3 (turbulent filling, end of first third of diastole)"
+        ]
+      },
+      {
+        "type": "recall",
+        "q": "Why is valve identity necessary to time a stenosis murmur?",
+        "a": "Stenosis causes turbulence during forward flow: systolic through an aortic valve, diastolic through a mitral valve."
+      },
+      {
+        "type": "find",
+        "structure": "Heart"
+      },
+      {
+        "type": "find",
+        "structure": "Sternum"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Tricuspid valve"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Mitral (bicuspid) valve"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Aortic valve"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Pulmonary valve"
+      }
+    ],
+    "sources": [
+      "LectureMaterials/Chapters 20-22 Lecture Notes.md: Chapter 20",
+      "https://www.msdmanuals.com/professional/cardiovascular-disorders/valvular-disorders/aortic-stenosis",
+      "https://www.msdmanuals.com/professional/cardiovascular-disorders/valvular-disorders/mitral-stenosis"
+    ]
+  },
+  {
+    "id": "lec2-ch20-14-map-cardiac-output",
+    "title": "MAP, cardiac output, stroke volume and cardiac reserve",
+    "lecture": {
+      "exam": 2,
+      "chapter": 20,
+      "order": 14,
+      "unit": "The heart"
+    },
+    "system": "cardiovascular",
+    "region": "thorax",
+    "level": "core",
+    "minutes": 14,
+    "summary": "MAP = CO times PR; CO = SV times HR; SV = EDV minus ESV (70 = 120 minus 50); 5250 mL/min at rest; cardiac reserve.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "chapter 20",
+      "MAP",
+      "cardiac output",
+      "stroke volume",
+      "heart rate",
+      "peripheral resistance",
+      "cardiac reserve"
+    ],
+    "objectives": [
+      "Write MAP = CO times PR and define each term",
+      "Write CO = SV times HR and compute the resting example 5250 mL/min = 70 mL/beat times 75 beats/min",
+      "Write SV = EDV minus ESV and compute 70 mL = 120 mL minus 50 mL",
+      "Define cardiac reserve"
+    ],
+    "takeaways": [
+      "MAP (mean arterial pressure) is slightly less than the average BP in the aorta. MAP = CO times PR.",
+      "CO (cardiac output) is the amount of blood per minute pumped by the ventricles. CO (mL/min) = SV (mL/beat) times HR (beats/min).",
+      "SV (stroke volume) is blood pumped during each heartbeat: SV = EDV minus ESV. Lecture arithmetic: 70 mL/beat = 120 mL/beat minus 50 mL/beat. Resting CO: 5250 mL/min = 70 mL/beat times 75 beats/min.",
+      "Cardiac reserve is the difference between CO at rest and maximum CO. PR (peripheral resistance) is the total resistance against which blood must be pumped."
+    ],
+    "see_also": {
+      "lessons": [
+        "lec2-ch20-12-cardiac-cycle-ejection",
+        "lab04-08-rate-control"
+      ],
+      "micro": [
+        "whole_heart"
+      ]
+    },
+    "steps": [
+      {
+       "title": "Mean arterial pressure",
+       "text": "<p><b>Mean arterial pressure (MAP)</b> is <b>slightly less than the average blood pressure in the aorta</b>. Arterial pressure rises with ejection and falls with runoff into the arterioles; MAP is the effective driving pressure for the systemic circuit, a little below a simple average of the peak and the trough because the heart spends more time in diastole than in systole.</p><p>The aorta is the vessel whose pressure MAP describes. The 3D view highlights it leaving the left ventricle.</p>",
+       "systems": [
+        "cardiovascular",
+        "visceral"
+       ],
+       "regions": [
+        "thorax"
+       ],
+       "focus": [
+        "Aorta",
+        "Aortic arch"
+       ],
+       "show": [
+        "Heart"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lec2-map-equation",
+       "check": {
+        "q": "What is MAP relative to blood pressure in the aorta?",
+        "a": "MAP is slightly less than the average BP in the aorta."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "MAP = CO times PR",
+       "text": "<p>The lecture equation is:</p><p><b>MAP = CO &times; PR</b></p><p><b>CO</b> is <b>cardiac output</b>: the <b>amount of blood per minute pumped by the ventricles</b>. <b>PR</b> is <b>peripheral resistance</b>: the <b>total resistance against which blood must be pumped</b>. Resistance is the opposition to flow in the vessels (mainly the arterioles of the systemic circuit).</p><p>Read it as: the pressure in the arteries is what you get when a given flow (CO) is pushed against a given resistance (PR). Raise either CO or PR and MAP rises; lower either and MAP falls. The equation diagram shows this product as the top line.</p>",
+       "systems": [],
+       "diagram": "lec2-map-equation",
+       "check": {
+        "q": "Write the MAP equation and define CO and PR.",
+        "a": "MAP = CO times PR. CO is cardiac output (blood per minute pumped by the ventricles). PR is peripheral resistance (total resistance against which blood must be pumped)."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "CO = SV times HR",
+       "text": "<p>Cardiac output itself is a product:</p><p><b>CO (mL/min) = SV (mL/beat) &times; HR (beats/min)</b></p><p><b>Stroke volume (SV)</b> is the <b>blood pumped during each heartbeat</b>. <b>Heart rate (HR)</b> is the <b>number of times the heart beats per minute (bpm)</b>.</p><p>You can raise output by ejecting more per beat, by beating more often, or both. The next two steps put numbers on SV and then on resting CO.</p>",
+       "systems": [
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax"
+       ],
+       "focus": [
+        "Heart"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lec2-map-equation",
+       "check": {
+        "q": "Write the cardiac-output equation and define SV and HR.",
+        "a": "CO (mL/min) = SV (mL/beat) times HR (beats/min). SV is blood pumped during each heartbeat; HR is beats per minute."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "SV = EDV minus ESV: 70 = 120 minus 50",
+       "text": "<p>Stroke volume is the difference between the full tank and the leftover:</p><p><b>SV = EDV &minus; ESV</b></p><p>The lecture arithmetic uses round numbers from the cycle: <b>70 mL/beat = 120 mL/beat &minus; 50 mL/beat</b>. (EDV was given as a range 120-130 mL and ESV as 50-60 mL; the equation uses 120 and 50 to make a clean 70.)</p><p>So of the 120 mL that were in the ventricle at the end of filling, 70 mL are ejected and 50 mL stay behind. Anything that raises EDV (more filling) or lowers ESV (a stronger squeeze) raises SV.</p>",
+       "diagram": "lec2-map-equation",
+       "check": {
+        "q": "Write SV in terms of EDV and ESV, and give the lecture numbers.",
+        "a": "SV = EDV minus ESV; 70 mL/beat = 120 mL minus 50 mL."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Resting cardiac output: 5250 mL/min",
+       "text": "<p>Plug in a typical resting heart rate of <b>75 beats/min</b>:</p><p><b>5250 mL/min = 70 mL/beat &times; 75 beats/min</b></p><p>That is about <b>5.25 litres of blood per minute</b> leaving the left ventricle (and the same volume leaving the right). The whole blood volume of an adult is roughly that order, so the heart turns the circulation over about once a minute at rest.</p><p>Memorize the chain, because exam questions will ask you to compute any missing piece:</p><p><b>MAP = CO &times; PR</b><br><b>CO = SV &times; HR</b><br><b>SV = EDV &minus; ESV</b><br><b>70 = 120 &minus; 50</b><br><b>5250 = 70 &times; 75</b></p>",
+       "systems": [],
+       "diagram": "lec2-map-equation",
+       "mnemonic": "<b>70 from 120 minus 50; 5250 from 70 times 75.</b>",
+       "check": {
+        "q": "Compute resting CO from the lecture numbers for SV and HR.",
+        "a": "5250 mL/min = 70 mL/beat times 75 beats/min."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Cardiac reserve",
+       "text": "<p><b>Cardiac reserve</b> is the <b>difference between CO at rest and maximum CO</b>. At rest you saw 5250 mL/min. In exercise, rate and stroke volume both rise (atrial filling becomes necessary, sympathetic nerves fire), so maximum CO is much higher. The unused difference is the reserve: how much extra output the heart can still call on.</p><p>A trained heart often has a larger reserve: a lower resting rate with a larger SV, and more room to climb. Disease that caps either SV or HR shrinks the reserve, which is why people with heart failure become breathless on effort.</p>",
+       "systems": [
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax"
+       ],
+       "focus": [
+        "Heart"
+       ],
+       "show": [
+        "Lungs"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lec2-map-equation",
+       "check": {
+        "q": "Define cardiac reserve.",
+        "a": "The difference between cardiac output at rest and maximum cardiac output."
+       },
+       "lesson_view": "diagram"
+      }
+    ],
+    "practice": [
+      {
+        "type": "mcq",
+        "q": "MAP equals…",
+        "choices": [
+          "SV minus HR",
+          "CO times PR",
+          "EDV times ESV",
+          "HR minus SV"
+        ],
+        "answer": 1,
+        "why": "MAP = CO times PR (cardiac output times peripheral resistance)."
+      },
+      {
+        "type": "mcq",
+        "q": "Cardiac output is…",
+        "choices": [
+          "Blood pumped during each heartbeat",
+          "The amount of blood per minute pumped by the ventricles",
+          "Slightly less than average aortic BP",
+          "The leftover volume after ejection"
+        ],
+        "answer": 1,
+        "why": "CO is blood per minute pumped by the ventricles. SV is blood per beat."
+      },
+      {
+        "type": "mcq",
+        "q": "Stroke volume equals…",
+        "choices": [
+          "EDV plus ESV",
+          "EDV minus ESV",
+          "CO minus HR",
+          "MAP times PR"
+        ],
+        "answer": 1,
+        "why": "SV = EDV minus ESV. Lecture numbers: 70 = 120 minus 50."
+      },
+      {
+        "type": "mcq",
+        "q": "Using the lecture numbers, SV is…",
+        "choices": [
+          "50 mL/beat",
+          "70 mL/beat",
+          "120 mL/beat",
+          "5250 mL/beat"
+        ],
+        "answer": 1,
+        "why": "70 mL/beat = 120 mL minus 50 mL."
+      },
+      {
+        "type": "mcq",
+        "q": "Resting CO in the lecture example is…",
+        "choices": [
+          "70 mL/min",
+          "75 mL/min",
+          "120 mL/min",
+          "5250 mL/min"
+        ],
+        "answer": 3,
+        "why": "5250 mL/min = 70 mL/beat times 75 beats/min."
+      },
+      {
+        "type": "mcq",
+        "q": "Peripheral resistance is…",
+        "choices": [
+          "The leftover ventricular volume",
+          "The total resistance against which blood must be pumped",
+          "Heart rate in bpm",
+          "The PR interval of the ECG"
+        ],
+        "answer": 1,
+        "why": "PR here is peripheral resistance, not the ECG's PR interval."
+      },
+      {
+        "type": "mcq",
+        "q": "Cardiac reserve is…",
+        "choices": [
+          "Always equal to 5250 mL/min",
+          "The difference between CO at rest and maximum CO",
+          "ESV minus EDV",
+          "MAP minus PR"
+        ],
+        "answer": 1,
+        "why": "Cardiac reserve = maximum CO minus resting CO."
+      },
+      {
+        "type": "mcq",
+        "q": "MAP is…",
+        "choices": [
+          "Exactly the average of systolic and diastolic aortic pressure",
+          "Slightly less than the average BP in the aorta",
+          "Equal to left-ventricular peak pressure",
+          "Measured only in the right atrium"
+        ],
+        "answer": 1,
+        "why": "The lecture: MAP is slightly less than average BP in the aorta."
+      },
+      {
+        "type": "order",
+        "q": "Build cardiac output from volumes and rate, in computational order.",
+        "items": [
+          "EDV (120 mL)",
+          "Minus ESV (50 mL) gives SV (70 mL/beat)",
+          "Times HR (75 beats/min)",
+          "Equals CO (5250 mL/min)"
+        ]
+      },
+      {
+        "type": "recall",
+        "q": "Write the three linked equations for MAP, CO and SV.",
+        "a": "MAP = CO times PR; CO = SV times HR; SV = EDV minus ESV."
+      },
+      {
+        "type": "recall",
+        "q": "What resting numbers does the lecture multiply to get 5250 mL/min?",
+        "a": "70 mL/beat times 75 beats/min."
+      },
+      {
+        "type": "find",
+        "structure": "Aorta"
+      },
+      {
+        "type": "find",
+        "structure": "Heart"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Left ventricle"
+      }
+    ]
+  },
+  {
+    "id": "lec2-ch20-15-heart-regulation",
+    "title": "Intrinsic and extrinsic regulation of the heart",
+    "lecture": {
+      "exam": 2,
+      "chapter": 20,
+      "order": 15,
+      "unit": "The heart"
+    },
+    "system": "cardiovascular",
+    "region": "thorax",
+    "level": "core",
+    "minutes": 16,
+    "summary": "Preload and Frank-Starling, afterload, vagal acetylcholine, sympathetic cardiac nerves, and adrenal-medulla epinephrine and norepinephrine.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "chapter 20",
+      "preload",
+      "Frank-Starling",
+      "afterload",
+      "vagus",
+      "acetylcholine",
+      "sympathetic",
+      "adrenal medulla"
+    ],
+    "objectives": [
+      "Define preload and state Frank-Starling's law of the heart",
+      "Define afterload and compare the heart's sensitivity to afterload versus preload",
+      "Describe parasympathetic (vagus, ACh) and sympathetic (cardiac nerves, epinephrine and norepinephrine) control",
+      "Explain adrenal-medulla hormonal control and how it differs in timing from nerves"
+    ],
+    "takeaways": [
+      "Intrinsic regulation comes from normal heart function: preload (stretch; Frank-Starling: greater stretch, greater force) and afterload (pressure the ventricles must produce to open the aortic valve). The heart is less sensitive to afterload than to preload.",
+      "Parasympathetic: vagus nerve secretes acetylcholine, hyperpolarizes the heart, decreases HR.",
+      "Sympathetic: cardiac nerves to SA and AV nodes, coronary vessels, and atrial and ventricular myocardium; epinephrine and norepinephrine increase HR and force, raise CO, and lower ESV (the heart empties more). Limitation: the heart still has to have time to fill.",
+      "Hormonal: epinephrine and norepinephrine from the adrenal medulla in activity, excitement or stress; slower to start than nerves but persists longer."
+    ],
+    "see_also": {
+      "lessons": [
+        "lec2-ch20-14-map-cardiac-output",
+        "lab04-08-rate-control"
+      ],
+      "micro": [
+        "kidney_nephron",
+        "whole_heart"
+      ]
+    },
+    "steps": [
+      {
+       "title": "Intrinsic versus extrinsic",
+       "text": "<p><b>Regulation of the heart</b> means changing rate and force so cardiac output matches what the body needs. There are two layers.</p><p><b>Intrinsic regulation</b> <b>results from normal heart function</b>: properties of the muscle itself (how stretched it is, what pressure it must beat against). No nerves required.</p><p><b>Extrinsic regulation</b> <b>involves neural and hormonal control</b>: nerves and blood-borne hormones turning the same muscle up or down. We start inside the heart, then add nerves, then hormones.</p>",
+       "systems": [
+        "cardiovascular",
+        "visceral"
+       ],
+       "regions": [
+        "thorax"
+       ],
+       "focus": [
+        "Heart"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lab04-rate-control",
+       "check": {
+        "q": "What is the difference between intrinsic and extrinsic regulation of the heart?",
+        "a": "Intrinsic regulation results from normal heart function (preload and afterload). Extrinsic regulation is neural and hormonal control."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Preload and Frank-Starling's law",
+       "text": "<p><b>Preload</b> is the <b>amount of stretch of the ventricular walls</b>. Filling stretches the muscle; more venous return means more stretch.</p><p><b>Frank-Starling's law of the heart</b>: <b>greater stretch (preload) means greater force of contraction</b>. Within a normal range, a more-filled ventricle squeezes harder and ejects more, so SV rises with EDV. That is how the two sides stay matched: if the right heart suddenly sends extra blood to the left, the left is stretched more and automatically pumps extra blood onward.</p><p>The diagram plots force (or SV) against stretch (or EDV): the rising Frank-Starling curve.</p>",
+       "diagram": "lec2-frank-starling",
+       "mnemonic": "<b>More in, more out.</b> Stretch the tank, and it contracts harder.",
+       "check": {
+        "q": "Define preload and state Frank-Starling's law of the heart.",
+        "a": "Preload is the amount of stretch of the ventricular walls. Greater stretch means greater force of contraction."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Afterload",
+       "text": "<p><b>Afterload</b> is the <b>pressure the contracting ventricles must produce to overcome pressure in the aorta and move blood into the aorta</b> (on the right side, the matching pressure is in the pulmonary trunk). It is the load waiting after contraction starts: the door the ventricle must push open.</p><p>The lecture is explicit: the heart is <b>not as sensitive to afterload as it is to changes in preload</b>. A moderate rise in aortic pressure does not drop SV as dramatically as a drop in filling would. Chronic high afterload (for example hypertension) still makes the left ventricle work harder over years, which matters in the heart-failure lesson.</p>",
+       "systems": [
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax"
+       ],
+       "focus": [
+        "Aorta",
+        "Aortic arch"
+       ],
+       "show": [
+        "Heart"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lec2-map-equation",
+       "pitfall": "Preload = stretch from filling (before the squeeze). Afterload = the arterial pressure that must be overcome (the load after contraction starts).",
+       "check": {
+        "q": "Define afterload. Is the heart more sensitive to afterload or to preload?",
+        "a": "Afterload is the pressure the contracting ventricles must produce to overcome aortic (or pulmonary-trunk) pressure and eject blood. The heart is less sensitive to afterload than to preload."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Parasympathetic: the vagus and acetylcholine",
+       "text": "<p>Neural control is part of extrinsic regulation. <b>Parasympathetic stimulation</b> is <b>supplied by the vagus nerve</b> (cranial nerve X). It <b>decreases heart rate</b>.</p><p>The transmitter is <b>acetylcholine (ACh)</b>, which is <b>secreted and hyperpolarizes the heart</b>. <b>Hyperpolarize</b> means the inside of the pacemaker cells becomes more negative, so it takes longer for the pacemaker potential to drift up to threshold. Beats are fewer per minute. Force of contraction is not the main vagal story; rate is.</p><p>Find the vagus in the atlas as it descends in the neck and thorax beside the heart, and find the medulla oblongata, where the cardioregulatory neurons that drive it live.</p>",
+       "systems": [
+        "cardiovascular",
+        "nervous"
+       ],
+       "regions": [
+        "thorax",
+        "neck",
+        "head"
+       ],
+       "focus": [
+        "Vagus nerve (X)",
+        "Heart",
+        "Medulla oblongata"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "check": {
+        "q": "Which nerve supplies parasympathetic control of the heart, what does it secrete, and what happens to the membrane and to HR?",
+        "a": "The vagus nerve secretes acetylcholine, which hyperpolarizes the heart and decreases heart rate."
+       },
+       "lesson_view": "diagram",
+       "diagram": "lab04-rate-control"
+      },
+      {
+       "title": "Sympathetic: cardiac nerves, epinephrine and norepinephrine",
+       "text": "<p><b>Sympathetic stimulation</b> is <b>supplied by cardiac nerves</b> to the <b>SA and AV nodes, coronary vessels, and atrial and ventricular myocardium</b>. So it can change rate, conduction, blood supply to the wall, and force.</p><p>The transmitters are <b>epinephrine and norepinephrine</b>. They <b>increase heart rate and force of contraction</b>. Increased HR raises CO. Increased force <b>lowers ESV</b>: the <b>heart empties to a greater extent</b>, so SV rises as well.</p><p>There is a <b>limitation</b>: the <b>heart has to have time to fill</b>. If rate is pushed too high, diastole becomes too short, EDV falls, and the gain in HR is offset by a loss of SV.</p>",
+       "systems": [
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax"
+       ],
+       "focus": [
+        "Heart"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lab04-rate-control",
+       "check": {
+        "q": "What do sympathetic cardiac nerves release, what happens to HR, force, CO and ESV, and what is the filling limitation?",
+        "a": "Epinephrine and norepinephrine. HR and force rise, CO rises, ESV falls (the heart empties more). Limitation: the heart still needs time to fill."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+        "title": "Hormonal control: the adrenal medulla",
+        "text": "<p>The same two chemicals can arrive in the blood. <b>Epinephrine and norepinephrine from the adrenal medulla</b> are released in response to <b>increased physical activity, emotional excitement, or stress</b>.</p><p>The <b>adrenal medulla</b> is the core of the suprarenal (adrenal) gland that sits on the kidney. Find the gland in the atlas and the medulla on the kidney model. This is <b>hormonal</b> extrinsic control: it <b>takes longer than sympathetic nerve stimulation but persists longer</b>. Nerves are fast on/fast off; adrenal catecholamines hang around in the plasma and keep HR and SV up after the nerves have quietened.</p>",
+        "systems": [
+          "cardiovascular",
+          "visceral"
+        ],
+        "regions": [
+          "abdomen",
+          "thorax"
+        ],
+        "focus": [
+          "Suprarenal gland"
+        ],
+        "show": [
+          "Kidney",
+          "Heart"
+        ],
+        "view": "anterior",
+        "xray": true,
+        "micro": "kidney_nephron",
+        "micro_focus": [
+          "Adrenal medulla"
+        ],
+        "check": {
+          "q": "Where do hormonal epinephrine and norepinephrine come from, what triggers them, and how does their time course compare with sympathetic nerves?",
+          "a": "From the adrenal medulla, in response to increased activity, emotional excitement or stress. They take longer to act than sympathetic nerves but persist longer."
+        }
+      },
+      {
+       "title": "Putting the controls together",
+       "text": "<p>A working summary:</p><p><b>Intrinsic:</b> more fill &rarr; more stretch (preload) &rarr; more force (Frank-Starling). Afterload is the aortic door; the heart cares less about it than about preload.</p><p><b>Neural:</b> vagus/ACh slows (hyperpolarization). Cardiac nerves / epinephrine and norepinephrine speed and strengthen, empty the ventricle more (lower ESV), raise CO, but cannot skip filling time.</p><p><b>Hormonal:</b> adrenal medulla, same catecholamines, slower start, longer last.</p><p>The next lesson is how the brain uses these levers when blood pressure, gases, ions and temperature change.</p>",
+       "systems": [
+        "cardiovascular",
+        "nervous",
+        "visceral"
+       ],
+       "regions": [
+        "thorax",
+        "abdomen",
+        "head"
+       ],
+       "focus": [
+        "Heart",
+        "Vagus nerve (X)",
+        "Suprarenal gland",
+        "Medulla oblongata"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lab04-rate-control",
+       "check": {
+        "q": "Name the intrinsic stretch law and the two extrinsic routes that raise HR and force.",
+        "a": "Frank-Starling (greater preload, greater force). Extrinsic: sympathetic cardiac nerves, and epinephrine/norepinephrine from the adrenal medulla."
+       },
+       "lesson_view": "diagram"
+      }
+    ],
+    "practice": [
+      {
+        "type": "mcq",
+        "q": "Preload is…",
+        "choices": [
+          "Aortic pressure the ventricle must overcome",
+          "The amount of stretch of the ventricular walls",
+          "Heart rate in bpm",
+          "Acetylcholine release"
+        ],
+        "answer": 1,
+        "why": "Preload = stretch of the ventricular walls. Afterload = pressure that must be overcome to eject."
+      },
+      {
+        "type": "mcq",
+        "q": "Frank-Starling's law of the heart states that…",
+        "choices": [
+          "Greater afterload always raises SV",
+          "Greater stretch (preload) means greater force of contraction",
+          "The vagus increases force",
+          "ESV rises as filling rises"
+        ],
+        "answer": 1,
+        "why": "Greater preload (stretch) produces greater force of contraction."
+      },
+      {
+        "type": "mcq",
+        "q": "Afterload is…",
+        "choices": [
+          "Venous return",
+          "The stretch of the ventricular walls",
+          "The pressure the contracting ventricles must produce to overcome aortic pressure and eject",
+          "The PR interval"
+        ],
+        "answer": 2,
+        "why": "Afterload is the arterial pressure that must be overcome to open the SL valves and move blood out."
+      },
+      {
+        "type": "mcq",
+        "q": "The heart is…",
+        "choices": [
+          "More sensitive to afterload than to preload",
+          "Not as sensitive to afterload as it is to changes in preload",
+          "Insensitive to both",
+          "Sensitive only to temperature"
+        ],
+        "answer": 1,
+        "why": "The lecture: the heart is not as sensitive to afterload as to preload."
+      },
+      {
+        "type": "mcq",
+        "q": "Parasympathetic supply to the heart is the…",
+        "choices": [
+          "Cardiac nerves secreting norepinephrine",
+          "Vagus nerve secreting acetylcholine, which hyperpolarizes the heart and decreases HR",
+          "Adrenal medulla",
+          "Phrenic nerve"
+        ],
+        "answer": 1,
+        "why": "Vagus, ACh, hyperpolarization, decreased HR."
+      },
+      {
+        "type": "mcq",
+        "q": "Sympathetic stimulation of the heart…",
+        "choices": [
+          "Decreases HR only",
+          "Increases HR and force, raises CO, and lowers ESV",
+          "Closes the SL valves",
+          "Has no filling limitation"
+        ],
+        "answer": 1,
+        "why": "Epinephrine and norepinephrine increase HR and force, increase CO, empty the heart more (lower ESV). Limitation: time to fill."
+      },
+      {
+        "type": "mcq",
+        "q": "Hormones from the adrenal medulla…",
+        "choices": [
+          "Act faster than nerves and wear off sooner",
+          "Are acetylcholine only",
+          "Are epinephrine and norepinephrine; they take longer than sympathetic nerves but persist longer",
+          "Decrease HR"
+        ],
+        "answer": 2,
+        "why": "Adrenal epinephrine and norepinephrine: slower onset than nerves, longer lasting. Triggered by activity, excitement, stress."
+      },
+      {
+        "type": "order",
+        "q": "Order these regulators from inside the heart outward.",
+        "items": [
+          "Preload / Frank-Starling (intrinsic)",
+          "Vagus nerve acetylcholine (parasympathetic)",
+          "Cardiac nerves epinephrine and norepinephrine (sympathetic)",
+          "Adrenal medulla hormones in the blood"
+        ]
+      },
+      {
+        "type": "recall",
+        "q": "What limitation does sympathetic speeding of the heart run into?",
+        "a": "The heart has to have time to fill; if diastole is too short, EDV and SV fall."
+      },
+      {
+        "type": "find",
+        "structure": "Heart"
+      },
+      {
+        "type": "find",
+        "structure": "Vagus nerve (X)"
+      },
+      {
+        "type": "find",
+        "structure": "Suprarenal gland"
+      },
+      {
+        "type": "find",
+        "structure": "Medulla oblongata"
+      },
+      {
+        "type": "find_micro",
+        "model": "kidney_nephron",
+        "part": "Adrenal medulla"
+      }
+    ]
+  },
+  {
+    "id": "lec2-ch20-16-homeostasis-ions-temp",
+    "title": "The heart and homeostasis: baroreceptors, chemoreceptors, ions and temperature",
+    "lecture": {
+      "exam": 2,
+      "chapter": 20,
+      "order": 16,
+      "unit": "The heart"
+    },
+    "system": "cardiovascular",
+    "region": "thorax",
+    "level": "advanced",
+    "minutes": 16,
+    "summary": "Baroreceptors in the internal carotids and aorta, chemoreceptors for pH, CO2 and O2, and how K+, Ca2+ and temperature change heart rate and force.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "chapter 20",
+      "baroreceptor",
+      "chemoreceptor",
+      "medulla oblongata",
+      "potassium",
+      "calcium",
+      "temperature"
+    ],
+    "objectives": [
+      "Locate baroreceptors and trace their reflex through the cardioregulatory center",
+      "Describe chemoreceptor control of pH, CO2 and O2",
+      "Predict the effects of high and low extracellular K+ and Ca2+ on the heart",
+      "State how body temperature changes heart rate"
+    ],
+    "takeaways": [
+      "Baroreceptors in the walls of the internal carotids and aorta send sensory APs (mainly in nerves IX and X) to the cardioregulatory center in the medulla oblongata. Cardioacceleratory neurons raise HR; cardioinhibitory neurons lower HR. The center also influences adrenal epinephrine and norepinephrine.",
+      "Central respiratory chemosensitivity involves brainstem regions, particularly the medulla; peripheral carotid and aortic bodies sense blood gases. The lecture’s hypothalamus wording should not be used as the general location rule.",
+      "High K+: HR and SV fall; ectopic APs can cause fibrillation; heart block can occur. Low K+: cardiac muscle hyperpolarizes and HR falls. High Ca2+: greater force and lower HR. Low Ca2+: higher HR.",
+      "HR rises when body temperature rises and falls when body temperature falls."
+    ],
+    "see_also": {
+      "lessons": [
+        "lec2-ch20-15-heart-regulation",
+        "lab04-08-rate-control"
+      ],
+      "micro": [
+        "whole_heart"
+      ]
+    },
+    "steps": [
+      {
+       "title": "Baroreceptors watch blood pressure",
+       "text": "<p>A <b>baroreceptor</b> is a stretch receptor that <b>monitors blood pressure</b> in the vessel wall. The lecture places them in the walls of the <b>internal carotid arteries</b> and the <b>aorta</b>.</p><p>When BP rises, the wall stretches and the baroreceptors fire more. When BP falls, they fire less. That sensory information is sent to the <b>cardioregulatory center in the medulla oblongata</b>, which can then <b>increase or decrease HR</b> to bring pressure back. Follow the arterial sensors and medullary control center in the diagram.</p>",
+       "systems": [
+        "cardiovascular",
+        "nervous"
+       ],
+       "regions": [
+        "head",
+        "neck",
+        "thorax"
+       ],
+       "focus": [
+        "Internal carotid artery",
+        "Aorta",
+        "Medulla oblongata"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lec2-baroreceptor-reflex",
+       "check": {
+        "q": "Where are the baroreceptors that monitor blood pressure, and where do they send that information?",
+        "a": "In the walls of the internal carotids and the aorta; sensory information goes to the cardioregulatory center in the medulla oblongata."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "The baroreceptor reflex wiring",
+       "text": "<p>Changes in BP stimulate the baroreceptors. Sensory neurons carrying those action potentials are found primarily in the <b>glossopharyngeal (IX)</b> and <b>vagus (X)</b> nerves (IX is named in the lecture; it is not a 3D target here). They end in the cardioregulatory center of the <b>medulla oblongata</b>.</p><p>That center has two halves: a <b>cardioacceleratory center</b> that <b>increases HR</b> and a <b>cardioinhibitory center</b> that <b>decreases HR</b>. Action potentials then travel from the center to the heart through the <b>sympathetic and parasympathetic divisions of the ANS</b> (the cardiac nerves and the vagus you just studied). The cardioregulatory center also <b>influences secretion of epinephrine and norepinephrine</b> to raise HR and SV.</p><p>So a fall in BP: fewer baroreceptor APs &rarr; less inhibition of the acceleratory side &rarr; sympathetic (and adrenal) output up, vagal output down &rarr; HR and SV up &rarr; MAP up.</p>",
+       "systems": [
+        "cardiovascular",
+        "nervous"
+       ],
+       "regions": [
+        "head",
+        "neck",
+        "thorax"
+       ],
+       "focus": [
+        "Medulla oblongata",
+        "Vagus nerve (X)",
+        "Heart"
+       ],
+       "show": [
+        "Internal carotid artery",
+        "Aorta"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lec2-baroreceptor-reflex",
+       "check": {
+        "q": "Name the two medullary centers that change HR, and name the two cranial nerves that carry most baroreceptor APs.",
+        "a": "Cardioacceleratory center increases HR; cardioinhibitory center decreases HR. Sensory APs travel mainly in glossopharyngeal (IX) and vagus (X)."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Chemoreceptors: pH and CO2",
+       "text": "<p>Chemoreceptors respond to chemical conditions rather than stretch. Central respiratory chemosensitivity is associated with brainstem regions, especially the medulla, and responds to CO2-related pH changes. Peripheral carotid and aortic bodies respond to arterial blood gases.</p><p><b>Source clarification:</b> the supplied lecture says hypothalamus for pH/CO2. That is not the standard location of the central respiratory chemoreceptor system. The hypothalamus does regulate temperature, which appears later in this lesson.</p>",
+       "systems": [
+        "nervous",
+        "cardiovascular"
+       ],
+       "regions": [
+        "head",
+        "thorax"
+       ],
+       "focus": [
+        "Medulla oblongata"
+       ],
+       "show": [
+        "Medulla oblongata"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "check": {
+        "q": "Which brain region is central to respiratory CO2/pH chemosensitivity?",
+        "a": "The brainstem, particularly medullary regions."
+       }
+      },
+      {
+       "title": "Chemoreceptors: oxygen",
+       "text": "<p>Chemoreceptors that <b>monitor O<sub>2</sub> levels</b> sit in the <b>aorta and internal carotids</b>, the same large arteries that hold baroreceptors. They are sensing dissolved oxygen in arterial blood heading to the body and brain.</p><p><b>Prolonged lowered O<sub>2</sub> levels cause increased HR</b>, which <b>increases blood pressure</b> and <b>delivers more O<sub>2</sub> to the tissues</b>. The heart is being used as a delivery pump: faster circulation when the arterial oxygen content is low for a long time.</p>",
+       "systems": [
+        "cardiovascular",
+        "nervous"
+       ],
+       "regions": [
+        "head",
+        "neck",
+        "thorax"
+       ],
+       "focus": [
+        "Aorta",
+        "Internal carotid artery"
+       ],
+       "show": [
+        "Lungs"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "check": {
+        "q": "Where are O2 chemoreceptors, and what does prolonged low O2 do to HR and BP?",
+        "a": "In the aorta and internal carotids. Prolonged low O2 increases HR, which increases BP and delivers more O2 to the tissues."
+       }
+      },
+      {
+       "title": "Potassium",
+       "text": "<p>The resting membrane potential of cardiac cells depends on K<sup>+</sup> permeability, so extracellular potassium has powerful effects.</p><p><b>Increased K<sup>+</sup></b> <b>decreases HR</b>. Both <b>HR and SV decrease</b>. <b>Ectopic action potentials</b> can result in <b>fibrillation</b>. <b>Heart block</b> (loss of AP conduction through the heart) can occur. Too much potassium outside makes the electrical system unreliable: slower, weaker, and prone to block or chaos.</p><p><b>Decreased K<sup>+</sup></b> <b>causes hyperpolarization of cardiac muscle and decreases HR</b>. The inside becomes even more negative, so pacemaker cells take longer to reach threshold.</p><p>Notice both high and low K<sup>+</sup> slow the rate, but high K<sup>+</sup> is the dangerous one for block and fibrillation.</p><p><b>Course simplification:</b> these rate arrows summarize the supplied lecture. Both high and low potassium can cause dangerous rhythm disturbances; effects vary with concentration and context.</p>",
+       "systems": [],
+       "diagram": "lab04-action-potentials",
+       "pitfall": "Both high and low potassium can disturb rhythm. The lecture’s rate arrows are simplified and do not define every clinical response.",
+       "check": {
+        "q": "What does high extracellular K+ do to HR, SV and rhythm? What does low K+ do?",
+        "a": "High K+: HR and SV decrease; ectopic APs can cause fibrillation; heart block can occur. Low K+: cardiac muscle hyperpolarizes and HR decreases."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Calcium and temperature",
+       "text": "<p><b>Increased Ca<sup>2+</sup></b> produces a <b>greater force of contraction</b> and a <b>decreased HR</b>. Extra calcium is extra trigger for the myofilaments (remember CICR from lesson 8), so the squeeze is stronger, but rate falls.</p><p><b>Decreased Ca<sup>2+</sup></b> <b>increases HR</b>.</p><p><b>Temperature:</b> <b>HR increases when body temperature increases</b>, and <b>HR decreases when body temperature decreases</b>. That matches tachycardia from elevated body temperature in Table 20.1. Fever speeds the pacemaker; hypothermia slows it.</p><p>The hypothalamus regulates temperature; this is distinct from brainstem respiratory chemosensitivity.</p><p>The hypothalamus regulates temperature; this is distinct from brainstem respiratory chemosensitivity.</p>",
+       "systems": [
+        "nervous",
+        "cardiovascular"
+       ],
+       "regions": [
+        "head",
+        "thorax"
+       ],
+       "focus": [
+        "Hypothalamus"
+       ],
+       "show": [],
+       "view": "anterior",
+       "xray": true,
+       "check": {
+        "q": "How do high Ca2+, low Ca2+, high temperature and low temperature each change the heart?",
+        "a": "High Ca2+: greater force and lower HR. Low Ca2+: higher HR. High body temperature: higher HR. Low body temperature: lower HR."
+       }
+      },
+      {
+       "title": "A homeostatic map",
+       "text": "<p>Stack the sensors:</p><p><b>Pressure:</b> baroreceptors in internal carotids and aorta &rarr; IX and X &rarr; medullary cardioregulatory center &rarr; sympathetic or parasympathetic out, plus adrenal catecholamines.</p><p><b>Gases and pH:</b> brainstem pH/CO<sub>2</sub> sensors; aortic and carotid O<sub>2</sub> sensors. Prolonged hypoxia raises HR and BP.</p><p><b>Ions and heat:</b> K<sup>+</sup> and Ca<sup>2+</sup> change excitability and force; temperature changes rate in the same direction as the temperature change.</p><p>Last lesson of the chapter: what aging and disease do when these systems cannot keep up.</p>",
+       "systems": [
+        "cardiovascular",
+        "nervous"
+       ],
+       "regions": [
+        "head",
+        "neck",
+        "thorax"
+       ],
+       "focus": [
+        "Internal carotid artery",
+        "Aorta",
+        "Medulla oblongata",
+        "Hypothalamus"
+       ],
+       "show": [
+        "Heart"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "check": {
+        "q": "Distinguish pressure sensors, peripheral gas sensors and central respiratory chemosensitivity.",
+        "a": "Pressure: carotid sinus and aortic arch baroreceptors. Peripheral gases: carotid and aortic bodies. Central respiratory chemosensitivity: brainstem, especially medulla."
+       },
+       "lesson_view": "reading"
+      }
+    ],
+    "practice": [
+      {
+        "type": "mcq",
+        "q": "Baroreceptors that monitor BP are in the walls of the…",
+        "choices": [
+          "Pulmonary veins only",
+          "Internal carotids and aorta",
+          "SVC and IVC",
+          "Radial artery only"
+        ],
+        "answer": 1,
+        "why": "Baroreceptors are in the walls of the internal carotids and the aorta."
+      },
+      {
+        "type": "mcq",
+        "q": "The cardioregulatory center is in the…",
+        "choices": [
+          "Hypothalamus",
+          "Cerebellum",
+          "Medulla oblongata",
+          "Left atrium"
+        ],
+        "answer": 2,
+        "why": "Sensory information goes to the cardioregulatory center in the medulla oblongata."
+      },
+      {
+        "type": "mcq",
+        "q": "The cardioacceleratory center…",
+        "choices": [
+          "Decreases HR",
+          "Increases HR",
+          "Closes the AV valves",
+          "Senses pH in the hypothalamus"
+        ],
+        "answer": 1,
+        "why": "Cardioacceleratory = increases HR; cardioinhibitory = decreases HR."
+      },
+      {
+        "type": "mcq",
+        "q": "Central respiratory CO2/pH chemosensitivity is especially associated with…",
+        "choices": [
+          "Medullary brainstem regions",
+          "Left ventricle",
+          "Radial artery",
+          "Femoral vein"
+        ],
+        "answer": 0,
+        "why": "The lecture’s hypothalamus shorthand is clarified here: central respiratory chemosensitivity involves the brainstem."
+      },
+      {
+        "type": "mcq",
+        "q": "Prolonged lowered O2 levels…",
+        "choices": [
+          "Decrease HR",
+          "Cause increased HR, which increases BP and delivers more O2 to tissues",
+          "Have no effect on the heart",
+          "Stop the SA node"
+        ],
+        "answer": 1,
+        "why": "Prolonged hypoxia raises HR, which raises BP and O2 delivery."
+      },
+      {
+        "type": "mcq",
+        "q": "Increased extracellular K+…",
+        "choices": [
+          "Only increases HR",
+          "Decreases HR and SV and can cause ectopic APs, fibrillation and heart block",
+          "Increases force with no rate change",
+          "Has no electrical effect"
+        ],
+        "answer": 1,
+        "why": "High K+: HR and SV down; ectopic APs can fibrillate; heart block can occur."
+      },
+      {
+        "type": "mcq",
+        "q": "Decreased extracellular K+…",
+        "choices": [
+          "Depolarizes cardiac muscle and raises HR",
+          "Hyperpolarizes cardiac muscle and decreases HR",
+          "Has no effect on HR",
+          "Always causes fibrillation"
+        ],
+        "answer": 1,
+        "why": "Low K+ hyperpolarizes cardiac muscle and decreases HR."
+      },
+      {
+        "type": "mcq",
+        "q": "Increased extracellular Ca2+ produces…",
+        "choices": [
+          "Weaker contraction and higher HR",
+          "Greater force of contraction and decreased HR",
+          "Heart block only",
+          "No change in force"
+        ],
+        "answer": 1,
+        "why": "High Ca2+: greater force, lower HR. Low Ca2+: higher HR."
+      },
+      {
+        "type": "mcq",
+        "q": "Heart rate when body temperature falls…",
+        "choices": [
+          "Increases",
+          "Decreases",
+          "Is unchanged",
+          "Always becomes ventricular fibrillation"
+        ],
+        "answer": 1,
+        "why": "HR increases when body temperature increases and decreases when body temperature decreases."
+      },
+      {
+        "type": "order",
+        "q": "Order the baroreceptor reflex from sensor to heart.",
+        "items": [
+          "Baroreceptors in internal carotids and aorta",
+          "Sensory APs in nerves IX and X",
+          "Cardioregulatory center in the medulla oblongata",
+          "Sympathetic or parasympathetic outflow to the heart"
+        ]
+      },
+      {
+        "type": "recall",
+        "q": "Where are O2 chemoreceptors, and what does prolonged low O2 do?",
+        "a": "Aorta and internal carotids. Prolonged low O2 increases HR, which increases BP and delivers more O2 to the tissues."
+      },
+      {
+        "type": "find",
+        "structure": "Internal carotid artery"
+      },
+      {
+        "type": "find",
+        "structure": "Aorta"
+      },
+      {
+        "type": "find",
+        "structure": "Medulla oblongata"
+      },
+      {
+        "type": "find",
+        "structure": "Hypothalamus"
+      }
+    ],
+    "sources": [
+      "LectureMaterials/Chapters 20-22 Lecture Notes.md: Chapter 20",
+      "https://www.ncbi.nlm.nih.gov/books/NBK482414/"
+    ]
+  },
+  {
+    "id": "lec2-ch20-17-aging-disease-chf",
+    "title": "Aging, Table 20.2 diseases, and congestive heart failure",
+    "lecture": {
+      "exam": 2,
+      "chapter": 20,
+      "order": 17,
+      "unit": "The heart"
+    },
+    "system": "cardiovascular",
+    "region": "thorax",
+    "level": "core",
+    "minutes": 16,
+    "summary": "Age-related changes in the heart, every condition in Table 20.2, and left-sided versus right-sided congestive heart failure.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "chapter 20",
+      "aging",
+      "endocarditis",
+      "myocardial infarction",
+      "congenital heart disease",
+      "CHF",
+      "Table 20.2"
+    ],
+    "objectives": [
+      "List the age-related changes in the heart",
+      "Describe each Table 20.2 inflammatory, ischemic and congenital condition",
+      "Contrast left-sided and right-sided congestive heart failure",
+      "State how failure of one side affects the other and name the treatments given"
+    ],
+    "takeaways": [
+      "Aging (more obvious with exercise or other disease): LV hypertrophy, increased aortic pressure, lipid in myocardial cells, lower maximum HR, weaker hormone effects, less flexible valves, more arrhythmias, congestive heart disease, coronary artery disease.",
+      "Table 20.2 inflammation: endocarditis (valves), pericarditis, cardiomyopathy (all chambers enlarge, may lead to CHF), rheumatic heart disease after streptococcal infection. Ischemia: coronary heart disease, coronary thrombosis, myocardial infarction (heart attack).",
+      "Congenital: septal defect, patent ductus arteriosus (aorta to pulmonary trunk, lung damage, LV works harder), valve stenosis or incompetence, cyanosis (blue skin from low peripheral O2). Heart failure in the table: progressive weakening; hypertension raises afterload.",
+      "Left-sided CHF: pulmonary congestion (blood backs up in the lungs). Right-sided: peripheral congestion (blood pools in organs, edema). Either side eventually weakens the other (decompensated heart). Treat by removing fluid and with drugs that reduce afterload and increase contractility."
+    ],
+    "see_also": {
+      "lessons": [
+        "lec2-ch20-13-heart-sounds-murmurs",
+        "lec2-ch20-15-heart-regulation",
+        "lab04-06-arrhythmias"
+      ],
+      "micro": [
+        "whole_heart"
+      ]
+    },
+    "steps": [
+      {
+        "title": "Effects of aging on the heart",
+        "text": "<p>Age-related changes are <b>more significant with exercise or other age-related diseases</b>. The lecture list:</p><p>1. <b>Hypertrophy of the left ventricle</b> (the wall thickens, usually because it has been pumping against a stiffer, higher-pressure aorta).<br>2. <b>Increased pressure in the aorta</b>.<br>3. <b>Lipid collection in myocardial cells</b> (fat building up inside the muscle cells).<br>4. <b>Maximum HR decreases</b>.<br>5. <b>Hormone effects decrease</b> (the same adrenal catecholamines do less).<br>6. <b>Valves become less flexible</b>.<br>7. <b>Increased arrhythmias</b>.<br>8. <b>Congestive heart disease</b>.<br>9. <b>Coronary artery disease</b>.</p><p>Several of these feed each other: a less flexible aorta raises afterload, the left ventricle hypertrophies, maximum rate and hormone response fall, and reserve shrinks.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Left ventricle",
+          "Left ventricle (myocardium)",
+          "Aortic valve",
+          "Mitral (bicuspid) valve"
+        ],
+        "diagram": "lec2-heart-failure",
+        "check": {
+          "q": "List at least six age-related changes in the heart.",
+          "a": "LV hypertrophy; increased aortic pressure; lipid in myocardial cells; lower maximum HR; decreased hormone effects; less flexible valves; more arrhythmias; congestive heart disease; coronary artery disease."
+        }
+      },
+      {
+        "title": "Table 20.2: inflammation of heart tissue",
+        "text": "<p>Table 20.2 groups representative diseases. First, inflammation of heart tissue.</p><p><b>Endocarditis</b>: <b>inflammation of the endocardium</b>. It <b>affects the valves more severely than other areas of the endocardium</b> and <b>may lead to scarring, causing stenosed or incompetent valves</b>.</p><p><b>Pericarditis</b>: <b>inflammation of the pericardium</b> (the sac from lesson 2).</p><p><b>Cardiomyopathy</b>: <b>disease of the myocardium of unknown cause, or occurring secondarily to other disease</b>. It <b>results in weakened cardiac muscle, causing all chambers of the heart to enlarge</b>, and <b>may eventually lead to congestive heart failure</b>.</p><p><b>Rheumatic heart disease</b>: <b>results from a streptococcal infection in young people</b>. A <b>toxin produced by the bacteria can cause rheumatic fever several weeks after the infection</b> that <b>can result in rheumatic endocarditis</b>.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Tricuspid valve",
+          "Mitral (bicuspid) valve",
+          "Aortic valve",
+          "Pulmonary valve"
+        ],
+        "diagram": "lec2-heart-failure",
+        "clinical": "A strep throat in a child is not a heart disease, but the delayed toxin-triggered rheumatic fever can scar valves for life.",
+        "check": {
+          "q": "Which layer does endocarditis attack most severely, and what is cardiomyopathy's effect on the chambers?",
+          "a": "Endocarditis hits the valves hardest (scarring can stenose or make them incompetent). Cardiomyopathy weakens muscle so all chambers enlarge and may lead to CHF."
+        }
+      },
+      {
+        "title": "Table 20.2: reduced blood flow to cardiac muscle",
+        "text": "<p>Three named conditions starve the myocardium.</p><p><b>Coronary heart disease</b>: <b>reduces the amount of blood the coronary arteries can deliver to the myocardium</b>.</p><p><b>Coronary thrombosis</b>: <b>formation of a blood clot in a coronary artery</b>. A thrombus is a clot formed in place.</p><p><b>Myocardial infarction</b>: <b>damaged cardiac muscle tissue resulting from lack of blood flow to the myocardium</b>; <b>often referred to as a heart attack</b>. Infarction means tissue death from lost blood supply. The anterior interventricular (LAD) and circumflex arteries on the model are the left-sided vessels whose blockage classically infarcts the left ventricle.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Anterior interventricular artery (LAD)",
+          "Circumflex artery",
+          "Left ventricle (myocardium)"
+        ],
+        "diagram": "lec2-heart-failure",
+        "check": {
+          "q": "Distinguish coronary heart disease, coronary thrombosis and myocardial infarction.",
+          "a": "Coronary heart disease: reduced delivery of blood through the coronary arteries. Thrombosis: a clot forming in a coronary artery. MI: damaged (dead) myocardium from lack of blood flow; a heart attack."
+        }
+      },
+      {
+        "title": "Congenital: septal defect and patent ductus arteriosus",
+        "text": "<p><b>Congenital</b> heart diseases <b>occur at birth</b>.</p><p><b>Septal defect</b>: a <b>hole in the septum between the left and right sides of the heart</b>, <b>allowing blood to flow from one side to the other</b> and <b>greatly reducing the heart's pumping effectiveness</b>. The model shows the interventricular and interatrial septa, including the fossa ovalis (the sealed fetal foramen ovale).</p><p><b>Patent ductus arteriosus</b>: the <b>ductus arteriosus fails to close after birth</b>, <b>allowing blood to flow from the aorta to the pulmonary trunk under a higher pressure, which damages the lungs</b>. Also, the <b>left ventricle must work harder to maintain adequate systemic pressure</b>. Patent means still open.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Interventricular septum",
+          "Interatrial septum",
+          "Ascending aorta",
+          "Pulmonary trunk"
+        ],
+        "diagram": "lec2-heart-failure",
+        "check": {
+          "q": "What is a septal defect? In patent ductus arteriosus, which way does blood flow and who is harmed?",
+          "a": "A hole in the septum between left and right sides, so blood crosses and pumping effectiveness falls. PDA: aorta to pulmonary trunk at high pressure, damaging the lungs; the left ventricle works harder."
+        }
+      },
+      {
+        "title": "Congenital valves, cyanosis, and heart failure in the table",
+        "text": "<p><b>Stenosis of the heart valve</b>: a <b>narrowed opening through one or more of the heart valves</b>. <b>Aortic or pulmonary semilunar stenosis increases the heart's workload</b>. <b>Bicuspid (mitral) valve stenosis causes blood to back up in the left atrium and lungs, resulting in edema of the lungs</b>. <b>Tricuspid valve stenosis</b> causes similar backup and <b>edema in the peripheral tissues</b>.</p><p><b>Incompetent heart valve</b>: valves <b>do not close correctly, and blood flows through in the reverse direction</b> (the regurgitation you timed to S1/S2).</p><p><b>Cyanosis</b> (sigh-ah-NOH-sis; cyan = blue + osis = condition of): a <b>symptom of inadequate heart function in babies with congenital heart disease</b>; the <b>infant's skin appears blue because of low oxygen levels in the blood in peripheral blood vessels</b>.</p><p><b>Heart failure</b> in Table 20.2: <b>progressive weakening of the heart muscle, reducing the heart's pumping action</b>. <b>Hypertension leading to heart failure</b> is due to <b>increased afterload</b>. Other listed contributors: <b>advanced age, malnutrition, chronic infections, toxins, severe anemias, hyperthyroidism, and hereditary factors</b>.</p>",
+        "micro": "whole_heart",
+        "micro_focus": [
+          "Mitral (bicuspid) valve",
+          "Tricuspid valve",
+          "Aortic valve",
+          "Pulmonary valve"
+        ],
+        "diagram": "lec2-heart-failure",
+        "check": {
+          "q": "Where does blood back up in mitral stenosis versus tricuspid stenosis? What is cyanosis?",
+          "a": "Mitral stenosis: left atrium and lungs (pulmonary edema). Tricuspid stenosis: peripheral tissues (edema). Cyanosis: blue skin in babies with congenital heart disease from low oxygen in peripheral blood."
+        }
+      },
+      {
+       "title": "Congestive heart failure: left versus right",
+       "text": "<p><b>Congestive heart failure (CHF)</b> means the pump is failing and blood is backing up behind it. <b>Either side of the heart can be affected.</b></p><p><b>Left-sided failure results in pulmonary congestion</b>: <b>blood backs up in the lungs</b>. The left heart cannot accept pulmonary venous return, so the lung vessels overfill. The patient is short of breath; fluid sits in the alveoli.</p><p><b>Right-sided failure results in peripheral congestion</b>: <b>blood pools in body organs, causing edema</b> (swelling from fluid in the tissues). The right heart cannot accept systemic venous return, so the liver, spleen, kidneys and dependent skin congest.</p><p>The diagram splits those two backup circuits. Atlas lungs for the left-sided story; liver, spleen and kidney for the right-sided story.</p>",
+       "systems": [
+        "cardiovascular",
+        "visceral"
+       ],
+       "regions": [
+        "thorax",
+        "abdomen"
+       ],
+       "focus": [
+        "Heart",
+        "Lungs"
+       ],
+       "show": [
+        "Liver",
+        "Spleen",
+        "Kidney"
+       ],
+       "view": "anterior",
+       "xray": true,
+       "diagram": "lec2-heart-failure",
+       "pitfall": "Left-sided failure congests the LUNGS. Right-sided failure congests the BODY. Students swap these constantly.",
+       "check": {
+        "q": "Where does blood back up in left-sided versus right-sided CHF?",
+        "a": "Left-sided: pulmonary congestion (blood backs up in the lungs). Right-sided: peripheral congestion (blood pools in body organs, causing edema)."
+       },
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Decompensation and treatment",
+       "text": "<p><b>Failure of either side ultimately weakens the other side</b>. Left failure floods the lungs, raises pulmonary pressure, and overloads the right ventricle. Right failure starves the left of output and raises systemic venous pressure. The result is a <b>decompensated, seriously weakened heart</b>: compensation (Frank-Starling, hypertrophy, extra sympathetic drive) has run out.</p><p><b>Treatment</b>: <b>removal of fluid</b>, and <b>drugs to reduce afterload and increase contractility</b>. Lowering afterload makes it easier for a weak ventricle to eject; increasing contractility raises SV and lowers ESV; taking fluid off reduces the congested backup.</p><p>That is the end of Chapter 20: from where the heart sits, through its wall, valves, electricity, ECG, cycle, sounds, equations and controls, to aging and failure.</p>",
+       "systems": [],
+       "diagram": "lec2-heart-failure",
+       "check": {
+        "q": "What happens if only one side fails for long enough, and what three treatments does the lecture name?",
+        "a": "Failure of either side ultimately weakens the other, producing a decompensated, seriously weakened heart. Treatment: remove fluid; drugs that reduce afterload; drugs that increase contractility."
+       },
+       "lesson_view": "diagram"
+      }
+    ],
+    "practice": [
+      {
+        "type": "mcq",
+        "q": "Which is NOT a listed age-related change of the heart?",
+        "choices": [
+          "Hypertrophy of the left ventricle",
+          "Increased maximum heart rate",
+          "Valves less flexible",
+          "Lipid collection in myocardial cells"
+        ],
+        "answer": 1,
+        "why": "Maximum HR decreases with age, it does not increase."
+      },
+      {
+        "type": "mcq",
+        "q": "Endocarditis affects which structures most severely?",
+        "choices": [
+          "The pericardium",
+          "The valves",
+          "The SA node only",
+          "The aorta"
+        ],
+        "answer": 1,
+        "why": "Endocarditis affects the valves more severely than other endocardium and may scar them stenosed or incompetent."
+      },
+      {
+        "type": "mcq",
+        "q": "Cardiomyopathy results in…",
+        "choices": [
+          "A patent ductus arteriosus",
+          "Weakened cardiac muscle with all chambers enlarging, and may lead to CHF",
+          "A clot in a coronary artery",
+          "Blue skin in an infant only"
+        ],
+        "answer": 1,
+        "why": "Cardiomyopathy weakens myocardium, all chambers enlarge, may lead to congestive heart failure."
+      },
+      {
+        "type": "mcq",
+        "q": "Myocardial infarction is…",
+        "choices": [
+          "Inflammation of the pericardium",
+          "Damaged cardiac muscle from lack of blood flow to the myocardium; a heart attack",
+          "A hole in the septum",
+          "Rheumatic fever"
+        ],
+        "answer": 1,
+        "why": "MI = damaged myocardium from lost blood flow; often called a heart attack."
+      },
+      {
+        "type": "mcq",
+        "q": "In patent ductus arteriosus, blood flows from…",
+        "choices": [
+          "Pulmonary trunk to aorta",
+          "Aorta to pulmonary trunk under higher pressure, damaging the lungs",
+          "Right atrium to left atrium only",
+          "The coronary sinus to the SVC"
+        ],
+        "answer": 1,
+        "why": "The open ductus lets aortic blood enter the pulmonary trunk at high pressure; the lungs are damaged and the LV works harder."
+      },
+      {
+        "type": "mcq",
+        "q": "Mitral (bicuspid) stenosis backs blood up into the…",
+        "choices": [
+          "Peripheral tissues only",
+          "Left atrium and lungs, causing pulmonary edema",
+          "Right ventricle first",
+          "Coronary sinus"
+        ],
+        "answer": 1,
+        "why": "Bicuspid stenosis: backup in the left atrium and lungs, pulmonary edema. Tricuspid stenosis: peripheral edema."
+      },
+      {
+        "type": "mcq",
+        "q": "Left-sided congestive heart failure results in…",
+        "choices": [
+          "Peripheral congestion and organ edema only",
+          "Pulmonary congestion (blood backs up in the lungs)",
+          "A septal defect",
+          "Lower afterload"
+        ],
+        "answer": 1,
+        "why": "Left-sided failure: pulmonary congestion. Right-sided: peripheral congestion."
+      },
+      {
+        "type": "mcq",
+        "q": "Right-sided congestive heart failure results in…",
+        "choices": [
+          "Pulmonary congestion only",
+          "Peripheral congestion: blood pools in body organs, causing edema",
+          "Aortic stenosis",
+          "Cyanosis of the left atrium"
+        ],
+        "answer": 1,
+        "why": "Right-sided failure pools blood in the body organs (edema)."
+      },
+      {
+        "type": "mcq",
+        "q": "Lecture treatment of a decompensated failing heart includes…",
+        "choices": [
+          "Raising afterload",
+          "Removal of fluid and drugs that reduce afterload and increase contractility",
+          "Always closing a ductus arteriosus first",
+          "Stopping all sympathetic activity permanently"
+        ],
+        "answer": 1,
+        "why": "Remove fluid; drugs to reduce afterload and increase contractility."
+      },
+      {
+        "type": "mcq",
+        "q": "Cyanosis in a baby with congenital heart disease is…",
+        "choices": [
+          "Yellow skin from liver backup",
+          "Blue skin from low oxygen in peripheral blood",
+          "A clot in the LAD",
+          "Always caused by mitral stenosis in adults"
+        ],
+        "answer": 1,
+        "why": "Cyanosis: infant skin appears blue because of low O2 in peripheral blood vessels."
+      },
+      {
+        "type": "order",
+        "q": "Order the backup of left-sided then right-sided failure.",
+        "items": [
+          "Left ventricle fails to accept pulmonary venous return",
+          "Pulmonary congestion (blood in the lungs)",
+          "Right ventricle is overloaded and fails",
+          "Peripheral congestion (edema in body organs)"
+        ]
+      },
+      {
+        "type": "recall",
+        "q": "Name the four inflammatory Table 20.2 conditions of heart tissue.",
+        "a": "Endocarditis, pericarditis, cardiomyopathy, and rheumatic heart disease."
+      },
+      {
+        "type": "find",
+        "structure": "Heart"
+      },
+      {
+        "type": "find",
+        "structure": "Lungs"
+      },
+      {
+        "type": "find_micro",
+        "model": "whole_heart",
+        "part": "Interventricular septum"
+      }
+    ]
+  }
+]

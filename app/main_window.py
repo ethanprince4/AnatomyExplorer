@@ -94,6 +94,11 @@ class MainWindow(QMainWindow):
             self.settings.update(_validated_settings(saved))
         except (TypeError, ValueError):
             pass
+        # Retire the older saved default once, while retaining future user choices.
+        if self.qsettings.value('gizmo_default_off_revision', 0, type=int) < 1:
+            self.settings['show_gizmo'] = False
+            self.qsettings.setValue('view_settings', json.dumps(self.settings))
+            self.qsettings.setValue('gizmo_default_off_revision', 1)
         if self.qsettings.value('studio_startup_revision', 0, type=int) < 1:
             self.settings['restore_session'] = False
             self.qsettings.setValue('view_settings', json.dumps(self.settings))
@@ -164,7 +169,32 @@ class MainWindow(QMainWindow):
         self.workspace_layout.setSpacing(0)
         self.notice = WorkspaceNotice()
         self.workspace_layout.addWidget(self.notice)
-        self.workspace_layout.addWidget(self.center, 1)
+        self.lesson_splitter = QSplitter(Qt.Horizontal)
+        self.lesson_splitter.setObjectName("lessonWorkspaceSplit")
+        self.lesson_splitter.setStyleSheet(
+            "QSplitter#lessonWorkspaceSplit {background:#141b22;}"
+            "QSplitter#lessonWorkspaceSplit::handle {background:#141b22;}")
+        self.lesson_splitter.setChildrenCollapsible(False)
+        self.lesson_reader = QWidget()
+        self.lesson_reader.setObjectName("lessonWorkspace")
+        self.lesson_reader.setAttribute(Qt.WA_StyledBackground, True)
+        self.lesson_reader.setStyleSheet("QWidget#lessonWorkspace {background:transparent;border:none;}")
+        self.lesson_reader_layout = QVBoxLayout(self.lesson_reader)
+        self.lesson_reader_layout.setContentsMargins(24, 12, 12, 16)
+        self.lesson_card = QWidget(self.lesson_reader)
+        self.lesson_card.setObjectName("lessonStudyCard")
+        self.lesson_card.setAttribute(Qt.WA_StyledBackground, True)
+        self.lesson_card.setStyleSheet(
+            "QWidget#lessonStudyCard {background:#f2f6f8;border:1px solid #94a6b1;border-radius:14px;}")
+        self.lesson_card_layout = QVBoxLayout(self.lesson_card)
+        self.lesson_card_layout.setContentsMargins(12, 12, 12, 12)
+        self.lesson_reader_layout.addWidget(self.lesson_card)
+        self.lesson_splitter.addWidget(self.lesson_reader)
+        self.lesson_splitter.addWidget(self.center)
+        self.lesson_splitter.setStretchFactor(0, 0)
+        self.lesson_splitter.setStretchFactor(1, 1)
+        self.lesson_reader.hide()
+        self.workspace_layout.addWidget(self.lesson_splitter, 1)
         self.setCentralWidget(self.workspace)
         self.setAcceptDrops(True)            # a .glb dropped on the window opens in the model viewer
 
@@ -190,7 +220,6 @@ class MainWindow(QMainWindow):
             self.tabs.addTab(self.histology_panel, "Histology")
             self.histology_panel.imageRequested.connect(self.open_histology)
             self.histology_panel.structuresRequested.connect(self._histology_structures)
-            self.histology_panel.microRequested.connect(self.open_micro)
         except ImportError:
             pass
         self._attachment_tint = []
@@ -656,7 +685,7 @@ class MainWindow(QMainWindow):
         self.studio_header.exploreRequested.connect(self._studio_explore)
         self.studio_header.learnRequested.connect(self._studio_learn)
         self.studio_header.collectionRequested.connect(self._show_catalog)
-        self.studio_header.radiologyRequested.connect(lambda:self._show_nav_page(self.radiology_browser))
+        self.studio_header.radiologyRequested.connect(self._studio_radiology)
         self.studio_header.histologyRequested.connect(self.show_histology_tab)
         self.studio_header.searchRequested.connect(self._studio_search)
         self.workspace_layout.insertWidget(0, self.studio_header)
@@ -673,6 +702,7 @@ class MainWindow(QMainWindow):
         self._studio_last_scene = self.anatomy_tab
         self.studio_tools = atlas_dock(self)
         self.studio_tools.setParent(self.workspace)
+        self.lesson_splitter.splitterMoved.connect(lambda *_: self._layout_studio_chrome())
         # The full original menu/toolbar remains available, without duplicate
         # tool rows taking space from the study canvas on first launch.
         for bar in self.findChildren(QToolBar):
@@ -685,6 +715,9 @@ class MainWindow(QMainWindow):
         self.search.edit.setText(text)
 
     def _studio_explore(self):
+        if self._closing:
+            return
+        self.lesson_reader.hide()
         if self.radiology_panel is not None and not self.radiology_panel.isHidden():
             self.close_radiology()
             for checkbox,*_ in self.view_panel.clip_widgets:checkbox.setChecked(False)
@@ -705,9 +738,10 @@ class MainWindow(QMainWindow):
         if not hasattr(self, 'studio_tools'):
             return
         w, h = self.workspace.width(), self.workspace.height()
-        self.studio_header.subject.setGeometry(28, self.studio_header.geometry().bottom()+18, max(1,w-56), 56 if self.workspace_context.isHidden() else 84)
-        origin=0
-        available=w
+        scene_origin = self.center.mapTo(self.workspace, QPoint(0, 0)).x()
+        self.studio_header.subject.setGeometry(scene_origin+28, self.studio_header.geometry().bottom()+18, max(1,self.center.width()-56), 56 if self.workspace_context.isHidden() else 84)
+        origin=scene_origin
+        available=self.center.width()
         if (self.center.currentWidget() is self.anatomy_tab and self.radiology_panel is not None
                 and not self.radiology_panel.isHidden()):
             origin=self.viewport.mapTo(self.workspace,QPoint(0,0)).x()
@@ -718,9 +752,40 @@ class MainWindow(QMainWindow):
         self.studio_header.subject.raise_()
         self.studio_tools.raise_()
 
+    def _studio_radiology(self):
+        if self.radiology_panel is not None and self.radiology_panel.case is not None:
+            self.open_radiology(self.radiology_panel.case.id)
+        else:
+            self._show_nav_page(self.radiology_browser)
+
     def _studio_learn(self):
-        if self.lessons_panel is not None:
-            self.collection_workspace.show_page(self.lessons_panel,'Lessons',mode='learn')
+        self.show_lessons()
+
+    def _show_lesson_reader(self):
+        """Keep the reader outside scene tabs so model changes cannot hide it."""
+        panel = self.lessons_panel
+        attach = self.lesson_card_layout.indexOf(panel) < 0
+        if attach:
+            self.collection_workspace.pages.removeWidget(panel)
+            self.lesson_card_layout.addWidget(panel)
+        if self.center.currentWidget() is self.collection_workspace:
+            scene = self._studio_last_scene
+            self.center.setCurrentWidget(scene if self.center.indexOf(scene) >= 0 else self.anatomy_tab)
+        panel.show()
+        self.lesson_reader.show()
+        if attach:
+            self.lesson_splitter.setSizes([440, max(480, self.width()-440)])
+        self.left_dock.hide()
+        self.right_dock.hide()
+        self._update_workspace_header()
+
+    def _show_lesson_library(self):
+        panel = self.lessons_panel
+        self.lesson_reader.hide()
+        if self.collection_workspace.pages.indexOf(panel) < 0:
+            self.lesson_card_layout.removeWidget(panel)
+            self.collection_workspace.pages.addWidget(panel)
+        self.collection_workspace.show_page(panel, 'Lessons')
 
     def _register_workspace_actions(self):
         self.workspace_actions = []
@@ -759,6 +824,13 @@ class MainWindow(QMainWindow):
 
     def _show_nav_page(self, page):
         if page is None:return
+        if page is self.lessons_panel:
+            from .ui.lessons import PAGE_RUNNER
+            if page.stack.currentIndex() == PAGE_RUNNER:
+                self._show_lesson_reader()
+            else:
+                self._show_lesson_library()
+            return
         if page in (self.histology_panel,self.radiology_browser,self.lessons_panel):
             title='Histology' if page is self.histology_panel else 'Radiology' if page is self.radiology_browser else 'Lessons'
             self.collection_workspace.show_page(page,title)
@@ -824,7 +896,16 @@ class MainWindow(QMainWindow):
         if hasattr(self, 'studio_header'):
             self.center.tabBar().hide()
             collection = current is self.collection_workspace
-            self.studio_header.set_workspace(self.collection_workspace.navigation_mode if collection else 'explore')
+            if collection:
+                self.lesson_reader.hide()
+            reading = not self.lesson_reader.isHidden()
+            if hasattr(self, "study_layout"):
+                self.study_layout.sync()
+            for view in self.micro_tabs.values():
+                studio = getattr(view, "studio", None)
+                if studio is not None:
+                    studio.set_lesson_mode(reading and current is view)
+            self.studio_header.set_workspace(self.collection_workspace.navigation_mode if collection else 'lessons' if reading else 'explore')
             radiology_visible=self.radiology_panel is not None and not self.radiology_panel.isHidden()
             self.studio_header.subject.setVisible(current is self.anatomy_tab and not radiology_visible)
             self.studio_tools.setVisible(current is self.anatomy_tab)
@@ -1148,6 +1229,9 @@ class MainWindow(QMainWindow):
         w = self.center.widget(index)
         if w is None:
             return
+        if w is getattr(self, '_lesson_visual', None):
+            self._studio_explore()
+            return
         if w is getattr(self, 'collection_workspace', None):
             self._studio_explore()
             return
@@ -1180,6 +1264,8 @@ class MainWindow(QMainWindow):
         mv = self.active_model_view()
         for key in ("model_next_view", "model_prev_view"):
             self.cmds.actions[key].setEnabled(mv is not None)
+        for key in ("both_sides", "peel_in", "peel_out", "peel_reset"):
+            self.cmds.actions[key].setEnabled(w is self.anatomy_tab)
         self.xray_action.setChecked(mv.state.ghost_focus is not None if mv else self.state.ghost_focus is not None)
         self.auto_rotate_action.setChecked(self.active_viewport().auto_rotate)
         vp = self._measurement_viewport()
@@ -1732,6 +1818,9 @@ class MainWindow(QMainWindow):
         viewport.destroyed.connect(lambda: finish(None))
 
     def _connect_model_view(self, view):
+        panel = self.lessons_panel
+        if not self.lesson_reader.isHidden() and panel is not None and panel.lesson is not None:
+            view.studio.set_lesson_mode(panel.lesson.steps[panel.index].get("micro") == view.entry.id)
         g = view.gl_widget
         g.measureChanged.connect(lambda text, vp=g: self._on_measure_changed(vp, text))
         g.hoverChanged.connect(lambda sid, v=view: self._on_model_hover(v, sid))
@@ -1992,6 +2081,7 @@ class MainWindow(QMainWindow):
         case = next((c for c in self.radiology_cases if c.id == case_id), None)
         if case is None or self.radiology_panel is None:
             return
+        self.lesson_reader.hide()
         self.center.setCurrentIndex(0)
         self.radiology_panel.show_case(case)
         if self.radiology_browser is not None:
@@ -2258,12 +2348,19 @@ class MainWindow(QMainWindow):
 
     # ------------------------------------------------------------------ lessons
     def show_lessons(self, lesson_id=None):
-        self.viewport.set_radiology_slice(False)
+        restore_reader = self.lesson_reader.isHidden() or (
+            self.radiology_panel is not None and not self.radiology_panel.isHidden())
+        self.close_radiology()
         if self.lessons_panel is None:
             return
         self._show_nav_page(self.lessons_panel)
         if lesson_id:
             self.lessons_panel.open_lesson(lesson_id)
+        elif restore_reader:
+            from .ui.lessons import PAGE_RUNNER
+            panel = self.lessons_panel
+            if panel.lesson is not None and panel.stack.currentIndex() == PAGE_RUNNER:
+                self.apply_lesson_step(panel.lesson.steps[panel.index])
 
     def quiz_section(self):
         """Test yourself on everything the current cross-section passes through."""
@@ -2299,23 +2396,47 @@ class MainWindow(QMainWindow):
 
     def _remember_lesson(self, lesson):
         self.qsettings.setValue("last_lesson", lesson.id)
+        from .ui.lessons import PAGE_RUNNER
+        if self.lessons_panel.stack.currentIndex() == PAGE_RUNNER:
+            self._show_lesson_reader()
+        else:
+            self._show_lesson_library()
 
     def _study_entry_picked(self, label):
-        """"Lab course" and "Lessons" share the lesson page: one opens it as the course, the other as the library."""
+        """"Lab course", "Lecture exams" and "Lessons" share the lesson page: the first two open it as that course,
+        the last as the library."""
         if self.lessons_panel is None:
             return
         if label == "Lab course":
             self.lessons_panel.show_course()
-        elif label == "Lessons" and self.lessons_panel.group_by == "course":
+        elif label == "Lecture exams":
+            self.lessons_panel.show_lecture()
+        elif label == "Lessons" and self.lessons_panel.group_by in ("course", "lecture"):
             self.lessons_panel._set_group("system")
 
     def _lesson_closed(self):
+        self._show_lesson_library()
         self.state.clear_ghost()
         self.state.clear_forced()
         self.view_panel.set_depth(0.0, False)
         self.view_panel.reset_clips()
 
     def apply_lesson_step(self, step):
+        self.close_radiology()
+        if step.get("lesson_view") in ("diagram", "reading"):
+            visual = getattr(self, "_lesson_visual", None)
+            if visual is None:
+                from .ui.diagram import LessonVisual
+                visual = self._lesson_visual = LessonVisual()
+                self.center.addTab(visual, "Lesson visual")
+                self.center.tabBar().setTabButton(self.center.indexOf(visual),
+                    self.center.tabBar().ButtonPosition.RightSide, None)
+            self.state.clear_selection()
+            self.state.clear_ghost()
+            visual.set_step(step)
+            self.center.setCurrentWidget(visual)
+            self._update_workspace_header()
+            return
         return self.apply_scene(step)
 
     def apply_scene(self, step):

@@ -7,15 +7,17 @@ remembering. How far you got is kept between runs, so the library shows what you
 Lessons written for the lab course sit at the top under "My lab course", one heading per lab in course order.
 Each opens on a cover with two ways in: Learn (the stepper) and Practice (a short graded session built from the
 lesson's practice items and step questions - see practice.py).
+Lessons written for the lecture exams have a grouping of their own ("Lecture"): one heading per exam chapter,
+then each exam's full review.
 """
 import html
 
 from PySide6.QtCore import QEvent, QRectF, Qt, QTimer, QUrl, Signal
-from PySide6.QtGui import QFont, QKeySequence, QPainter, QShortcut, QTextDocument
+from PySide6.QtGui import QFont, QKeySequence, QPainter, QShortcut, QTextDocument, QTextTable
 from PySide6.QtWidgets import (QApplication, QButtonGroup, QComboBox, QHBoxLayout, QLabel, QLineEdit, QPushButton,
                                QSizePolicy, QStackedWidget, QTextBrowser, QVBoxLayout, QWidget)
 
-from ..lessons import LessonProgress, course_units, group_lessons, practice_pool
+from ..lessons import LessonProgress, course_units, group_lessons, lecture_units, practice_pool
 from . import theme
 from .card_list import CardList
 from .flow import FlowLayout
@@ -34,6 +36,31 @@ LESSON_CSS = (f"p {{ margin-top:0px; margin-bottom:10px; line-height:130%; }}"
               f"h3 {{ margin:2px 0 7px 0; color:{theme.TEXT_STRONG}; font-size:{theme.FS_LEAD + 0.5}pt; }}"
               f"b {{ color:{theme.TEXT_STRONG}; }}"
               f"a {{ color:{theme.ACCENT_TEXT}; }}")
+
+
+class LessonReading(QTextBrowser):
+    """Rounded reading sections using document geometry, including while scrolling."""
+    def paintEvent(self, event):
+        painter = QPainter(self.viewport())
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.setPen(Qt.NoPen)
+        painter.setBrush(theme.qc(theme.RAISED))
+        layout = self.document().documentLayout()
+        for frame in self.document().rootFrame().childFrames():
+            if isinstance(frame, QTextTable):
+                # Qt's table frame rectangle includes trailing layout space;
+                # use the cell text bounds so the background cannot cover the next heading.
+                block = frame.firstCursorPosition().block()
+                rect = QRectF()
+                while block.isValid() and block.position() <= frame.lastPosition():
+                    rect = rect.united(layout.blockBoundingRect(block))
+                    block = block.next()
+                padding = frame.format().cellPadding()
+                rect = rect.adjusted(-padding, -padding, padding, padding).translated(
+                    -self.horizontalScrollBar().value(), -self.verticalScrollBar().value())
+                painter.drawRoundedRect(rect, theme.R_LG, theme.R_LG)
+        painter.end()
+        super().paintEvent(event)
 
 
 class StepBar(QWidget):
@@ -120,6 +147,7 @@ class LessonsPanel(QWidget):
         self.index = 0
         self.progress = LessonProgress(on_save_error=self.saveFailed.emit, on_saved=self.saveSucceeded.emit)
         self.has_course = any(x.unit_key for x in lessons)
+        self.has_lecture = any(x.lecture_key for x in lessons)
         self.group_by = "course" if self.has_course else "system"
         self.answer_shown = False
         self._check = None
@@ -160,6 +188,7 @@ class LessonsPanel(QWidget):
         self.lessons = list(lessons)
         self.by_id = {lesson.id: lesson for lesson in self.lessons}
         self.has_course = any(lesson.unit_key for lesson in self.lessons)
+        self.has_lecture = any(lesson.lecture_key for lesson in self.lessons)
         self._model_filter = None
         self.scope_notice.hide()
         self.filter.clear()
@@ -168,6 +197,8 @@ class LessonsPanel(QWidget):
         for button in self.group_buttons.buttons():
             if button.property("group_key") == "course":
                 button.setVisible(self.has_course)
+            elif button.property("group_key") == "lecture":
+                button.setVisible(self.has_lecture)
         self._set_group("course" if self.has_course else "system")
 
     def main_window(self):
@@ -220,7 +251,8 @@ class LessonsPanel(QWidget):
         lay.addWidget(self.scope_notice)
         row = FlowLayout(spacing=6)
         self.group_buttons = QButtonGroup(self)
-        for key, label in (("course", "Course"), ("system", "System"), ("region", "Region"), ("level", "Level")):
+        for key, label in (("course", "Lab"), ("lecture", "Lecture"), ("system", "System"), ("region", "Region"),
+                           ("level", "Level")):
             button = QPushButton(label)
             button.setCheckable(True)
             button.setChecked(key == self.group_by)
@@ -230,6 +262,8 @@ class LessonsPanel(QWidget):
             button.clicked.connect(lambda _c=False, k=key: self._set_group(k))
             if key == "course":
                 button.setVisible(self.has_course)
+            elif key == "lecture":
+                button.setVisible(self.has_lecture)
             self.group_buttons.addButton(button)
             row.addWidget(button)
         lay.addLayout(row)
@@ -254,6 +288,9 @@ class LessonsPanel(QWidget):
             button = QPushButton(label)
             button.clicked.connect(lambda _checked=False, name=method: self._window_action(name))
             actions.addWidget(button)
+        self.resume_button = QPushButton("Continue Where You Last Left Off")
+        self.resume_button.clicked.connect(lambda: self._resume_id and self.open_lesson(self._resume_id))
+        actions.addWidget(self.resume_button)
         lay.addLayout(actions)
         return page
 
@@ -303,6 +340,15 @@ class LessonsPanel(QWidget):
         self.status_filter.setCurrentIndex(0)
         self._set_group("course" if self.has_course else "system")
 
+    def show_lecture(self):
+        """The library, grouped as the lecture exams (for a "Lecture exams" entry point elsewhere in the app)."""
+        if self.stack.currentIndex() != PAGE_LIBRARY:
+            self.close_lesson()
+        self.clear_model_filter()
+        self.filter.clear()
+        self.status_filter.setCurrentIndex(0)
+        self._set_group("lecture" if self.has_lecture else "system")
+
     def _set_group(self, key):
         self.group_by = key
         for b in self.group_buttons.buttons():
@@ -331,18 +377,26 @@ class LessonsPanel(QWidget):
                 continue
             if state == "new" and (done or started) or state == "practice" and not lesson.has_practice():
                 continue
+            if self.group_by == "course" and not (lesson.unit_key and
+                    (lesson.unit_key[0] == "lab" and 1 <= lesson.unit_key[1] <= 9 or
+                     lesson.unit_key[0] == "exam" and lesson.unit_key[1] in (1, 2))):
+                continue
+            if self.group_by == "lecture" and not lesson.lecture_key:
+                continue
             shown.append(lesson)
         selected = self.list.currentItem()
         selected_id = selected.data(Qt.UserRole) if selected is not None else None
         self.list.clear()
         done, started, total = self.progress.totals(self.lessons)
         self.stats.setText(f"{len(shown)} of {total} lessons · {done} finished · {started} in progress")
-        if not needle and state == "all" and not self._model_filter:
-            for lesson in self.progress.in_progress(self.lessons)[:1]:
-                self.list.add_header("Continue learning")
-                self._add_card(lesson, prefix=f"Resume at step {min(self.progress.last_step(lesson.id) + 1, len(lesson))}. ")
+        resume = next(iter(self.progress.in_progress(self.lessons)), None)
+        self.resume_button.setVisible(resume is not None)
+        self.resume_button.setToolTip(f"Resume {resume.title}" if resume else "")
+        self._resume_id = resume.id if resume else None
         if self.group_by == "course":
             self._fill_course(shown)
+        elif self.group_by == "lecture":
+            self._fill_lecture(shown)
         else:
             for heading, _key, group in group_lessons(shown, self.group_by):
                 self.list.add_header(f"{heading} ({len(group)})")
@@ -357,18 +411,29 @@ class LessonsPanel(QWidget):
                 break
 
     def _fill_course(self, shown):
-        """My lab course first - each lab and lab practical under its own heading, mini lessons in the order they
-        are taught - then every other lesson by body system."""
-        course = [x for x in shown if x.unit_key]
-        rest = [x for x in shown if not x.unit_key]
-        for heading, _key, group in course_units(course):
+        """Only labs and practicals, in teaching order."""
+        course = [x for x in shown if x.unit_key and (x.unit_key[0] == "lab" and 1 <= x.unit_key[1] <= 9
+                                                      or x.unit_key[0] == "exam" and x.unit_key[1] in (1, 2))]
+        for heading, unit_key, group in course_units(course):
             done = sum(1 for x in group if self._finished(x))
-            short, _sep, topic = heading.partition(" · ")
-            self.list.add_header(f"{short} · {done}/{len(group)} finished" + (f"  ·  {topic}" if topic else ""))
+            _short, _sep, topic = heading.partition(" · ")
+            short = f"Lab {unit_key[1]}" if unit_key[0] == "lab" else f"Practical {unit_key[1]}"
+            self.list.add_header(f"{short} · {done}/{len(group)} finished" + (f"  ·  {topic}" if topic else ""),
+                                 key=f"lab-{unit_key[0]}-{unit_key[1]}")
             for lesson in group:
                 self._add_card(lesson)
-        for heading, _key, group in group_lessons(rest, "system"):
-            self.list.add_header(f"{heading}  ({len(group)})")
+    def _fill_lecture(self, shown):
+        """Exam > chapter > lessons, with reviews after chapters."""
+        current_exam = None
+        for heading, key, group in lecture_units([x for x in shown if x.lecture_key]):
+            exam_number, chapter = key
+            if exam_number != current_exam:
+                self.list.add_header(f"Exam {exam_number}", key=f"lecture-exam-{exam_number}")
+                current_exam = exam_number
+            done = sum(1 for x in group if self._finished(x))
+            label = heading.partition(" · ")[2] or heading
+            self.list.add_header(f"{label} · {done}/{len(group)} finished", level=1,
+                                 key=f"lecture-{exam_number}-{chapter}")
             for lesson in group:
                 self._add_card(lesson)
 
@@ -388,7 +453,7 @@ class LessonsPanel(QWidget):
                + ("\nFinished" if done else ""))
         title = lesson.title
         summary = prefix + lesson.summary
-        if lesson.unit_key:
+        if lesson.unit_key or lesson.lecture_key:
             title = lesson.title
             rec = self.progress.practice(lesson.id)
             if rec:
@@ -423,7 +488,7 @@ class LessonsPanel(QWidget):
         self.cover_title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2, 700))
         self.cover_title.setWordWrap(True)
         lay.addWidget(self.cover_title)
-        self.cover_body = QTextBrowser()
+        self.cover_body = LessonReading()
         self.cover_body.document().setDefaultStyleSheet(LESSON_CSS)
         self.cover_body.setAccessibleName("Lesson overview")
         self.cover_body.setOpenExternalLinks(False)
@@ -514,6 +579,9 @@ class LessonsPanel(QWidget):
         for heading, key, _group in course_units(self.lessons):
             if ref in (f"{key[0]}{key[1]:02d}", f"{key[0]}{key[1]}"):
                 return heading.split(" · ")[0]
+        for heading, key, _group in lecture_units(self.lessons):
+            if key[1] and ref.lower() in (f"ch{key[1]}", f"ch{key[1]:02d}"):
+                return " · ".join(heading.split(" · ")[1:])
         other = self.by_id.get(ref)
         return other.title if other is not None else ref
 
@@ -587,17 +655,7 @@ class LessonsPanel(QWidget):
         self.progress_label.setStyleSheet(theme.text_css(theme.ACCENT_TEXT, theme.FS_SMALL, 600))
         rl.addWidget(self.progress_label)
 
-        panels = QHBoxLayout()
-        self.parts_btn = QPushButton("Model parts")
-        self.details_btn = QPushButton("Details")
-        for button, tip in ((self.parts_btn, "Show or hide the model description and parts list"),
-                            (self.details_btn, "Show or hide details for the selected anatomy")):
-            button.setCheckable(True)
-            button.setToolTip(tip)
-            panels.addWidget(button)
-        rl.addLayout(panels)
-
-        self.body = QTextBrowser()
+        self.body = LessonReading()
         self.body.setAccessibleName("Lesson reading and recall")
         self.body.document().setDefaultStyleSheet(LESSON_CSS)
         self.body.setOpenExternalLinks(False)
@@ -736,7 +794,9 @@ class LessonsPanel(QWidget):
         self.body.setHtml(self._html(step, index, total))
         self.body.verticalScrollBar().setValue(0)
         self.prev_btn.setEnabled(index > 0)
-        self.next_btn.setText("Next ›" if index < total - 1 else "Finish")
+        next_lesson = self._next_in_sequence() if index == total - 1 else None
+        self.next_btn.setText("Next ›" if index < total - 1 else "Finish + Next" if next_lesson else "Finish")
+        self.next_btn.setToolTip("Finish this lesson and open " + next_lesson.title if next_lesson else "")
         self.done_btn.setText("Mark as unfinished" if self.progress.is_done(self.lesson.id)
                               else "Mark as finished")
         self.stepRequested.emit(step)
@@ -745,7 +805,7 @@ class LessonsPanel(QWidget):
     def _micro_focus(self, step):
         """A step with "micro_focus" picks those parts out in the microanatomy model the step just opened."""
         names = step.get("micro_focus")
-        if not names or not step.get("micro"):
+        if not step.get("micro"):
             return
         win = self.main_window()
         if win is None:
@@ -755,7 +815,7 @@ class LessonsPanel(QWidget):
             if (view is None or self.lesson is not lesson or self.index != index
                     or self.lesson.steps[self.index] is not step):
                 return
-            missing = view.focus_parts(names)
+            missing = view.show_lesson_parts(names)
             if missing:
                 win.statusBar().showMessage("Lesson step could not find in the model: " + ", ".join(missing), 4000)
         win.when_model_ready(step["micro"], ready)
@@ -780,6 +840,8 @@ class LessonsPanel(QWidget):
                                    img.height() / img.devicePixelRatio())
 
     def _diagram_html(self, step):
+        if step.get("lesson_view") == "diagram":
+            return ""
         did = step.get("diagram")
         if not did:
             return ""
@@ -787,9 +849,12 @@ class LessonsPanel(QWidget):
         if not shown or shown[0] != did:
             return f"<p style='color:{theme.WARNING}'>(diagram “{did}” is missing)</p>"
         _d, _w, w, h = shown
-        return (f"<p align='center' style='margin:4px 0 12px 0'><a href='diagram:{did}'>"
-                f"<img src='diagram:{did}' width='{int(w)}' height='{int(h)}'></a><br>"
-                f"<a href='diagram:{did}' style='font-size:{theme.FS_CAPTION}pt; color:{theme.MUTED}'>enlarge</a></p>")
+        return (f"<p align='center' style='margin-top:4px; margin-bottom:0px; line-height:100%'>"
+                f"<a href='diagram:{did}'><img src='diagram:{did}' width='{int(w)}' height='{int(h)}'></a></p>"
+                f"<table width='100%' cellspacing='0' cellpadding='10'><tr><td align='center'>"
+                f"<a href='diagram:{did}' style='font-size:{theme.FS_BODY + 2}pt; font-weight:700; "
+                f"color:{theme.ACCENT_TEXT}; text-decoration:none'>Open full-size diagram</a>"
+                f"</td></tr></table>")
 
     def eventFilter(self, obj, event):
         if obj is self.filter and event.type() == QEvent.KeyPress and event.key() == Qt.Key_Down:
@@ -813,12 +878,35 @@ class LessonsPanel(QWidget):
         self.body.setHtml(self._html(step, self.index, len(self.lesson)))
         self.body.verticalScrollBar().setValue(pos)
 
+    def _next_in_sequence(self):
+        """Follow authored lab/lecture order, independent of search and progress filters."""
+        if self.lesson is None:
+            return None
+        if self.lesson.lecture_key:
+            exam = self.lesson.lecture_key[0]
+            units = lecture_units([lesson for lesson in self.lessons
+                                   if lesson.lecture_key and lesson.lecture_key[0] == exam])
+        elif self.lesson.unit_key:
+            units = course_units([lesson for lesson in self.lessons if lesson.unit_key and
+                                  (lesson.unit_key[0] == "lab" and 1 <= lesson.unit_key[1] <= 9 or
+                                   lesson.unit_key[0] == "exam" and lesson.unit_key[1] in (1, 2))])
+        else:
+            return None
+        sequence = [lesson for _heading, _key, group in units for lesson in group]
+        for index, lesson in enumerate(sequence[:-1]):
+            if lesson.id == self.lesson.id:
+                return sequence[index + 1]
+        return None
+
     def _next(self):
         if self.lesson is None:
             return
         if self.index >= len(self.lesson) - 1:
+            next_lesson = self._next_in_sequence()
             self.progress.set_done(self.lesson.id, len(self.lesson), True)
-            if self.lesson.has_practice():
+            if next_lesson is not None:
+                self.open_cover(next_lesson.id)
+            elif self.lesson.has_practice():
                 self.open_cover(self.lesson.id)          # read it: now practise it
             else:
                 self.close_lesson()
@@ -836,10 +924,9 @@ class LessonsPanel(QWidget):
     # ------------------------------------------------------------------ step html
     @staticmethod
     def _panel(colour, heading, body):
-        """A calm reading section. Qt paints backgrounds reliably on table cells,
-        while the original authored HTML inside remains unchanged."""
-        return (f"<table width='100%' cellspacing='0' cellpadding='0' style='margin:10px 0'><tr>"
-                f"<td bgcolor='{theme.RAISED}' style='padding:8px 12px'>"
+        """Keep section text selectable; LessonReading paints its rounded background."""
+        return (f"<table width='100%' cellspacing='0' cellpadding='12' style='margin:10px 0'><tr>"
+                f"<td>"
                 f"<b style='color:{theme.TEXT_STRONG}'>{heading}</b>{body}</td></tr></table>")
 
     def _html(self, step, index, total):
@@ -873,9 +960,9 @@ class LessonsPanel(QWidget):
         if self._check:
             question = self._check.get("q", "")
             answer = self._check.get("a", "")
-            recall = f"<a name='recall'></a><p>{question}</p>"
+            recall = f"<p style='margin-top:5px; margin-bottom:0px; line-height:100%'><a name='recall'></a>{question}</p>"
             if self.answer_shown:
-                recall += f"<p>{answer}</p>"
+                recall += f"<p style='margin-top:8px; margin-bottom:0px; line-height:100%'>{answer}</p>"
             parts.append(self._panel(theme.ACCENT_TEXT, "Recall before you reveal", recall))
         return "".join(parts)
 

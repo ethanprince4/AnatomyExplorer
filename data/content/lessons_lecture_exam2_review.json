@@ -1,0 +1,382 @@
+[
+  {
+    "id": "lec2-review-01-pressure-flow-fluid",
+    "title": "From heartbeat to tissue fluid: integrated review",
+    "lecture": {
+      "exam": 2,
+      "order": 1,
+      "unit": "Chapters 20–22: integrated review"
+    },
+    "system": "cardiovascular",
+    "region": "general",
+    "level": "foundation",
+    "minutes": 10,
+    "summary": "Work through valve timing, cardiac output, vessel resistance and lymphatic return.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "review"
+    ],
+    "objectives": [
+      "Connect mechanisms across Chapters 20–22",
+      "Explain answers before opening the check"
+    ],
+    "takeaways": [
+      "Trace cause and effect rather than matching isolated words.",
+      "Use the chapter lessons to repair missed concepts."
+    ],
+    "steps": [
+      {
+       "title": "Pressure determines the valve state",
+       "text": "<p>During isovolumetric contraction, ventricular pressure rises after AV closure but before semilunar opening. During isovolumetric relaxation, pressure falls after semilunar closure but before AV opening. Both phases have all valves closed; one raises pressure and the other lowers it.</p><p>Connect S1 to AV closure and S2 to semilunar closure. Electrical activation precedes the resulting mechanical action.</p>",
+       "systems": [
+        "lymphatic",
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax",
+        "abdomen"
+       ],
+       "focus": [
+        "Thymus",
+        "Spleen"
+       ],
+       "view": "anterior",
+       "check": {
+        "q": "How can both isovolumetric phases have closed valves?",
+        "a": "Ventricular pressure lies between atrial and arterial pressure in both; it is rising in contraction and falling in relaxation."
+       },
+       "diagram": "lec2-valve-states",
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Calculate before interpreting",
+       "text": "<p>For EDV 130 mL, ESV 60 mL and HR 80/min: SV = 130 − 60 = 70 mL/beat, then CO = 70 × 80 = 5600 mL/min = 5.6 L/min. Ejection fraction is SV/EDV, about 54% in this example.</p><p>Keep units with every term. Cardiac output is volume per minute; ejection fraction is a proportion, not a volume.</p>",
+       "systems": [
+        "lymphatic",
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax",
+        "abdomen"
+       ],
+       "focus": [
+        "Thymus",
+        "Spleen"
+       ],
+       "view": "anterior",
+       "check": {
+        "q": "What happens to SV if ESV rises to 80 mL while EDV stays 130 mL?",
+        "a": "SV falls to 50 mL/beat; at 80/min, CO is 4.0 L/min."
+       },
+       "diagram": "lec2-map-equation",
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Radius controls resistance strongly",
+       "text": "<p>For the idealized Poiseuille model, flow is proportional to pressure difference and the fourth power of radius, and inversely proportional to viscosity and length. Halving radius increases resistance sixteenfold if the other terms are unchanged.</p><p>Total capillary area is large because many vessels run in parallel. That explains slow average velocity without implying that one capillary has a huge diameter.</p>",
+       "systems": [
+        "lymphatic",
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax",
+        "abdomen"
+       ],
+       "focus": [
+        "Thymus",
+        "Spleen"
+       ],
+       "view": "anterior",
+       "check": {
+        "q": "At fixed pressure difference, what happens to idealized flow when radius halves?",
+        "a": "Flow becomes one sixteenth."
+       },
+       "lesson_view": "reading"
+      },
+      {
+       "title": "Vessel leak and lymphatic return",
+       "text": "<p>Higher capillary hydrostatic pressure favors filtration; plasma proteins oppose it through oncotic effects. Increased permeability or impaired lymph drainage can increase tissue fluid.</p><p>The course’s traditional 30/27/3 L budget connects capillary exchange to lymph formation. Lymph nodes sample lymph; the spleen samples blood.</p>",
+       "systems": [
+        "lymphatic",
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax",
+        "abdomen"
+       ],
+       "focus": [
+        "Thymus",
+        "Spleen"
+       ],
+       "view": "anterior",
+       "check": {
+        "q": "Why can a blocked lymphatic pathway cause edema even if the heart still pumps?",
+        "a": "Fluid entering tissue cannot be returned effectively through lymphatic drainage."
+       },
+       "diagram": "lec2-capillary-exchange",
+       "lesson_view": "diagram"
+      }
+    ],
+    "practice": [
+      {
+        "type": "mcq",
+        "q": "EDV 125 mL, ESV 55 mL and HR 70/min give CO of…",
+        "choices": [
+          "4.9 L/min",
+          "7.0 L/min",
+          "70 L/min",
+          "1.8 L/min"
+        ],
+        "answer": 0,
+        "why": "SV is 70 mL; multiplying by 70/min gives 4900 mL/min."
+      },
+      {
+        "type": "mcq",
+        "q": "At fixed pressure gradient, doubling idealized radius changes flow by…",
+        "choices": [
+          "2 times",
+          "4 times",
+          "8 times",
+          "16 times"
+        ],
+        "answer": 3,
+        "why": "The radius term is raised to the fourth power."
+      },
+      {
+        "type": "mcq",
+        "q": "Which event begins ventricular diastole?",
+        "choices": [
+          "Semilunar closure",
+          "AV closure",
+          "Semilunar opening",
+          "Atrial depolarization"
+        ],
+        "answer": 0,
+        "why": "Falling ventricular pressure produces semilunar closure and S2."
+      },
+      {
+        "type": "recall",
+        "q": "Why can left-heart failure cause pulmonary edema?",
+        "a": "Inadequate left-heart output raises upstream pulmonary venous and capillary pressure, favoring filtration."
+      }
+    ],
+    "practice_from": [
+      "ch20",
+      "ch21"
+    ],
+    "sources": [
+      "LectureMaterials/Chapters 20-22 Lecture Notes.md",
+      "LectureMaterials/TEXTBOOKCONTENTS.md"
+    ]
+  },
+  {
+    "id": "lec2-review-02-defense-integration",
+    "title": "From a tissue infection to immune memory: integrated review",
+    "lecture": {
+      "exam": 2,
+      "order": 2,
+      "unit": "Chapters 20–22: integrated review"
+    },
+    "system": "cardiovascular",
+    "region": "general",
+    "level": "foundation",
+    "minutes": 10,
+    "summary": "Connect lymph drainage, innate recruitment, antigen presentation and adaptive effectors.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "review"
+    ],
+    "objectives": [
+      "Connect mechanisms across Chapters 20–22",
+      "Explain answers before opening the check"
+    ],
+    "takeaways": [
+      "Trace cause and effect rather than matching isolated words.",
+      "Use the chapter lessons to repair missed concepts."
+    ],
+    "steps": [
+      {
+       "title": "Locate the first filter",
+       "text": "<p>Material from a left-hand wound travels in lymph toward regional nodes, then larger vessels and trunks. The left upper limb ultimately drains through the thoracic-duct territory. The right lymphatic duct drains the upper-right territory, not the entire right half.</p>",
+       "systems": [
+        "lymphatic",
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax",
+        "abdomen"
+       ],
+       "focus": [
+        "Thymus",
+        "Spleen"
+       ],
+       "view": "anterior",
+       "check": {
+        "q": "Does left-arm lymph drain through the right lymphatic duct?",
+        "a": "No. It belongs to thoracic-duct territory."
+       },
+       "diagram": "lec2-lymph-drainage",
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Recruit and present",
+       "text": "<p>Inflammatory mediators recruit phagocytes. An APC processes extracellular material and displays peptide with MHC II. A matching helper T cell recognizes it and receives costimulatory signals before expansion.</p>",
+       "systems": [
+        "lymphatic",
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax",
+        "abdomen"
+       ],
+       "focus": [
+        "Thymus",
+        "Spleen"
+       ],
+       "view": "anterior",
+       "check": {
+        "q": "What does B7-CD28 add to peptide-MHC recognition?",
+        "a": "A costimulatory signal supporting activation."
+       },
+       "diagram": "lec2-helper-t-activation",
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Choose the effector by target location",
+       "text": "<p>Antibody can neutralize extracellular toxin or virus, coat targets for phagocytosis and recruit complement. A cytotoxic T cell recognizes an infected cell through peptide-MHC I and can induce death. Helper cells coordinate; regulatory cells restrain.</p>",
+       "systems": [
+        "lymphatic",
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax",
+        "abdomen"
+       ],
+       "focus": [
+        "Thymus",
+        "Spleen"
+       ],
+       "view": "anterior",
+       "check": {
+        "q": "Which arm removes a cell already producing viral protein?",
+        "a": "Cytotoxic T-cell-mediated immunity."
+       },
+       "diagram": "lec2-mhc-classes",
+       "lesson_view": "diagram"
+      },
+      {
+       "title": "Explain the next encounter",
+       "text": "<p>Memory B and T cells persist after the initial response. A later matching exposure can recruit them quickly. Receiving someone else’s antibody is different: it supplies temporary protection without, by itself, establishing your own memory.</p>",
+       "systems": [
+        "lymphatic",
+        "cardiovascular"
+       ],
+       "regions": [
+        "thorax",
+        "abdomen"
+       ],
+       "focus": [
+        "Thymus",
+        "Spleen"
+       ],
+       "view": "anterior",
+       "check": {
+        "q": "Why is maternal antibody passive even when it protects effectively?",
+        "a": "The infant receives antibody produced by the mother rather than generating it through its own response."
+       },
+       "diagram": "lec2-acquired-immunity",
+       "lesson_view": "diagram"
+      }
+    ],
+    "practice": [
+      {
+        "type": "mcq",
+        "q": "An extracellular peptide displayed to helper T cells uses…",
+        "choices": [
+          "MHC II",
+          "MHC I only",
+          "IgE as MHC",
+          "Hemoglobin"
+        ],
+        "answer": 0,
+        "why": "APCs present ingested peptides through MHC II."
+      },
+      {
+        "type": "mcq",
+        "q": "A node filters…",
+        "choices": [
+          "Lymph",
+          "Only arterial blood",
+          "Bile",
+          "Urine"
+        ],
+        "answer": 0,
+        "why": "Lymph passes through nodes; spleen filters blood."
+      },
+      {
+        "type": "mcq",
+        "q": "Giving preformed antibody is…",
+        "choices": [
+          "Passive immunity",
+          "Clonal selection in the recipient",
+          "Always vaccination",
+          "Positive thymic selection"
+        ],
+        "answer": 0,
+        "why": "Protection is transferred rather than actively generated."
+      },
+      {
+        "type": "recall",
+        "q": "Name an innate and an adaptive killing lymphocyte.",
+        "a": "NK cell is innate; cytotoxic T cell is adaptive."
+      }
+    ],
+    "practice_from": [
+      "ch22"
+    ],
+    "sources": [
+      "LectureMaterials/Chapters 20-22 Lecture Notes.md",
+      "LectureMaterials/TEXTBOOKCONTENTS.md"
+    ]
+  },
+  {
+    "id": "lec2-review-03-practice-exam",
+    "title": "Exam 2: mixed practice across Chapters 20–22",
+    "lecture": {
+      "exam": 2,
+      "order": 3,
+      "unit": "Chapters 20–22: integrated review"
+    },
+    "system": "cardiovascular",
+    "region": "general",
+    "level": "foundation",
+    "minutes": 10,
+    "summary": "A mixed practice session drawing from every chapter, including recall checks and model identification. This is study practice, not a prediction of the instructor’s exam.",
+    "tags": [
+      "lecture",
+      "exam 2",
+      "review"
+    ],
+    "objectives": [
+      "Connect mechanisms across Chapters 20–22",
+      "Explain answers before opening the check"
+    ],
+    "takeaways": [
+      "Trace cause and effect rather than matching isolated words.",
+      "Use the chapter lessons to repair missed concepts."
+    ],
+    "steps": [],
+    "practice": [],
+    "practice_from": [
+      "ch20",
+      "ch21",
+      "ch22"
+    ],
+    "sources": [
+      "LectureMaterials/Chapters 20-22 Lecture Notes.md",
+      "LectureMaterials/TEXTBOOKCONTENTS.md"
+    ]
+  }
+]

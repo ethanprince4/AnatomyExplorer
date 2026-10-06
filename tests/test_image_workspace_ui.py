@@ -187,6 +187,26 @@ class WorkspaceTests(unittest.TestCase):
         QTest.keyClick(view, Qt.Key_Home)
         self.assertEqual(view._zoom, 1)
 
+    def test_histology_library_contains_only_tissues_and_images(self):
+        content = copy.copy(self.content)
+        content.micro_models = {'fixture': SimpleNamespace(id='fixture', name='A 3D model', summary='Model')}
+        browser = self.own(HistologyBrowser(self.ds, content))
+        stack = [browser.tree.invisibleRootItem()]
+        rows = []
+        while stack:
+            row = stack.pop()
+            data = row.data(0, ROLE)
+            if data:
+                rows.append(data[0])
+            self.assertNotEqual(row.text(0), '3D models')
+            stack.extend(row.child(i) for i in range(row.childCount()))
+        self.assertTrue(rows)
+        self.assertLessEqual(set(rows), {'tissue', 'image'})
+        self.assertFalse(hasattr(browser, 'kind_filter'))
+        browser.filter.setText('__no_tissue__')
+        browser.clear_filter.click()
+        self.assertTrue(browser.empty_state.isHidden())
+
     def test_histology_tissue_search_keeps_its_images_visible(self):
         browser = self.own(HistologyBrowser(self.ds, self.content))
         browser.filter.setText("Simple squamous epithelium")

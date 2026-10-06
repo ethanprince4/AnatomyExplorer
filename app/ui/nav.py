@@ -5,7 +5,7 @@ The panel holds seven or more pages, far too many for a 330-360 px wide tab bar.
 counts pages in the order they were added) but hides its bar and groups the pages instead:
 
     Browse   Systems | Regions | Tree                     what is in the body
-    Study    Lab course | Lessons | Radiology | Histology  the study material
+    Study    Lab course | Lecture exams | Lessons | Radiology | Histology  the study material
     View     (one page, no selector)
 
 Which group a page joins, and where it sits in its selector, comes from GROUPS below and the page's tab text -
@@ -22,14 +22,14 @@ from PySide6.QtWidgets import QButtonGroup, QGridLayout, QHBoxLayout, QPushButto
 
 GROUPS = [
     ("Browse", ("Systems", "Regions", "Tree", "Models")),
-    ("Study", ("Lab course", "Lessons", "Radiology", "Histology")),
+    ("Study", ("Lab course", "Lecture exams", "Lessons", "Radiology", "Histology")),
     ("View", ("View",)),
 ]
 # selector entry -> the page it opens while no page of its own name exists
-ALIASES = {"Lab course": "Lessons"}
+ALIASES = {"Lab course": "Lessons", "Lecture exams": "Lessons"}
 TIPS = {
     "Browse": "Choose what is shown: body systems, regions, or the full anatomical tree",
-    "Study": "Lab course, guided lessons, radiology cases and histology",
+    "Study": "Lab course, lecture exams, guided lessons, radiology cases and histology",
     "View": "Colours, x-ray, cross-sections and dissection",
 }
 

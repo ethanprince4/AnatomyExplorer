@@ -37,14 +37,7 @@
     "large-intestine",
     "oesophagus"
    ],
-   "micro": [
-    "oesophagus_wall",
-    "stomach_wall",
-    "duodenum",
-    "jejunum",
-    "ileum",
-    "colon_wall"
-   ],
+   "micro": [],
    "histology": [
     "oesophagus",
     "stomach",
@@ -70,11 +63,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "oesophagus_wall",
     "check": {
      "q": "Why does the thoracic oesophagus have an adventitia rather than a serosa?",
      "a": "It lies in the posterior mediastinum, outside any serous cavity, so there is no mesothelium to cover it — only loose connective tissue."
-    }
+    },
+    "histology": "oesophagus"
    },
    {
     "title": "The stomach: a gland that churns",
@@ -91,11 +84,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "stomach_wall",
     "check": {
      "q": "Which gastric cell makes intrinsic factor, and what happens when it is lost?",
      "a": "The parietal cell. Without it vitamin B12 cannot be absorbed in the terminal ileum, and pernicious anaemia with subacute combined degeneration of the cord can follow."
-    }
+    },
+    "histology": "stomach"
    },
    {
     "title": "The duodenum: neutralising the acid",
@@ -116,11 +109,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "duodenum",
     "check": {
      "q": "You see mucous glands in the submucosa of a small bowel section. Where is it from?",
      "a": "The duodenum — Brunner glands are its identifying feature."
-    }
+    },
+    "histology": "duodenum"
    },
    {
     "title": "The jejunum: surface area",
@@ -141,11 +134,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "jejunum",
     "check": {
      "q": "What forms the core of a plica circularis, and what forms the core of a villus?",
      "a": "A plica has a submucosal core; a villus has a core of lamina propria."
-    }
+    },
+    "histology": "jejunum"
    },
    {
     "title": "The ileum: immune surveillance",
@@ -162,11 +155,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "ileum",
     "check": {
      "q": "Which part of the small intestine has Peyer patches, and on which side of the wall?",
      "a": "The ileum, on the antimesenteric border."
-    }
+    },
+    "histology": "ileum"
    },
    {
     "title": "The colon: water and mucus",
@@ -186,11 +179,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "colon_wall",
     "check": {
      "q": "Name three features that distinguish colon from small intestine in section.",
      "a": "No villi; straight crypts with abundant goblet cells; longitudinal muscle concentrated into taeniae coli."
-    }
+    },
+    "histology": "colon"
    },
    {
     "title": "Two nerve plexuses",
@@ -209,11 +202,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "jejunum",
     "check": {
      "q": "Where is the myenteric plexus, and what does it control?",
      "a": "Between the inner circular and outer longitudinal layers of the muscularis externa; it controls motility (peristalsis)."
-    }
+    },
+    "histology": "jejunum"
    }
   ]
  },
@@ -256,7 +249,7 @@
    ],
    "micro": [
     "trachea_wall",
-    "lung_acinus"
+    "lung_acinus_review_v2"
    ],
    "histology": [
     "trachea",
@@ -331,7 +324,7 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "lung_acinus",
+    "micro": "lung_acinus_review_v2",
     "check": {
      "q": "What holds a bronchiole open once it has no cartilage?",
      "a": "Radial traction from the elastic alveolar walls attached around it — the lung pulls it open."
@@ -352,7 +345,7 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "lung_acinus",
+    "micro": "lung_acinus_review_v2",
     "check": {
      "q": "Which structure defines the start of an acinus?",
      "a": "The terminal bronchiole — the acinus is everything distal to it."
@@ -373,7 +366,7 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "lung_acinus",
+    "micro": "lung_acinus_review_v2",
     "check": {
      "q": "Which cell makes surfactant, and which cell forms most of the gas-exchange surface?",
      "a": "Type II pneumocytes make surfactant; type I pneumocytes form the barrier."
@@ -399,7 +392,7 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "lung_acinus",
+    "micro": "lung_acinus_review_v2",
     "check": {
      "q": "Where do the pulmonary veins run within a lobule?",
      "a": "In the interlobular septa at the periphery, not alongside the bronchioles."
@@ -445,8 +438,7 @@
     "adrenal-glands"
    ],
    "micro": [
-    "kidney_nephron",
-    "bladder_wall"
+    "kidney_nephron"
    ],
    "histology": [
     "kidney_cortex",
@@ -473,9 +465,13 @@
     "xray": true,
     "micro": "kidney_nephron",
     "micro_focus": [
-     "Renal corpuscle",
-     "Afferent arteriole",
-     "Efferent arteriole"
+     "Parietal layer of Bowman's capsule",
+     "Podocyte coat (visceral layer)",
+     "Glomerular capillary wall (endothelium and GBM)",
+     "Afferent arteriole endothelium",
+     "Afferent arteriole smooth muscle",
+     "Efferent arteriole endothelium",
+     "Efferent arteriole smooth muscle"
     ],
     "check": {
      "q": "Name the three layers of the filtration barrier.",
@@ -499,8 +495,11 @@
     "xray": true,
     "micro": "kidney_nephron",
     "micro_focus": [
-     "Juxtaglomerular apparatus",
-     "Afferent arteriole"
+     "Juxtaglomerular (granular) cells",
+     "Macula densa",
+     "Extraglomerular mesangium (lacis cells)",
+     "Afferent arteriole endothelium",
+     "Afferent arteriole smooth muscle"
     ],
     "check": {
      "q": "What does the macula densa sense, and what do the juxtaglomerular cells secrete?",
@@ -609,11 +608,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "bladder_wall",
     "check": {
      "q": "Why does the urothelium not become leaky as the bladder stretches?",
      "a": "Its umbrella cells flatten and unfold stored membrane plaques instead of separating; tight junctions and uroplakins keep it impermeable."
-    }
+    },
+    "histology": "bladder"
    }
   ]
  },
@@ -1013,8 +1012,7 @@
     "pituitary-hypothalamus"
    ],
    "micro": [
-    "thyroid_follicles",
-    "pancreas"
+    "thyroid_parathyroid_review_v2"
    ],
    "histology": [
     "thyroid",
@@ -1039,7 +1037,7 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "thyroid_follicles",
+    "micro": "thyroid_parathyroid_review_v2",
     "check": {
      "q": "What does the height of the follicular epithelium tell you?",
      "a": "Its activity: tall cells with scant colloid indicate stimulation (for example Graves disease); flat cells with abundant colloid indicate a resting gland."
@@ -1064,7 +1062,7 @@
     ],
     "view": "posterior",
     "xray": true,
-    "micro": "thyroid_follicles",
+    "micro": "thyroid_parathyroid_review_v2",
     "check": {
      "q": "Which cells make calcitonin, and which tumour arises from them?",
      "a": "The parafollicular C cells; medullary carcinoma of the thyroid (sporadic or in MEN 2)."
@@ -1114,11 +1112,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "pancreas",
     "check": {
      "q": "Which islet cell is most numerous, and what does it secrete?",
      "a": "The beta cell; insulin."
-    }
+    },
+    "histology": "pancreas"
    },
    {
     "title": "The adrenal: salt, sugar, sex",

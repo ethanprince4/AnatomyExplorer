@@ -5,8 +5,8 @@
   data/content/models/<id>.json: their display name and summary, the atlas structures that offer them in Details,
   histology and related models, clinical notes, a readable name and description for every group and part, links
   back to the atlas, and aliases for the names lessons and practice items use.
-* Models downloaded once from Sketchfab (data/sketchfab_models/<uid>), with their creator's credit, the catalogue
-  entry in data/content/sketchfab.json and the hand-written part names in data/content/sketchfab_parts/<uid>.json.
+The active catalogue uses the refined local model library plus the protected Heart and Cardiac muscle GLBs.
+Legacy imported-model entry types remain readable for older saved references; downloads are not bundled.
 
 A catalogue entry is light: the geometry is only read when the model is opened (``entry.load()``).
 """
@@ -90,6 +90,22 @@ class ModelEntry:
                 if sid:
                     group_items.setdefault(sid, []).extend(g.items)
         aliases = {_norm(k): v for k, v in self.aliases.items()}
+        if self.id == "kidney_nephron":
+            # This model names each arterial branch separately; case labels refer
+            # to the complete anatomical family rather than one arbitrary branch.
+            families = {
+                "Segmental arteries": ("Segmental artery (",),
+                "Interlobar arteries": ("Interlobar artery (",),
+                "Arcuate arteries": ("Arcuate artery (",),
+                "Anterior and posterior divisions of the renal artery":
+                    ("Anterior division of the renal artery", "Posterior division of the renal artery"),
+                "Renal pyramids": ("Renal pyramid",),
+                "Renal cortex": ("Renal cortex,",),
+            }
+            for alias, prefixes in families.items():
+                aliases[_norm(alias)] = [item.name for item in model.items
+                                        if item.name.startswith(prefixes)]
+            aliases[_norm("Renal capsule (fibrous capsule)")] = ["Renal capsule"]
         out, missing = [], []
         for n in names or ():
             k = _norm(n)
