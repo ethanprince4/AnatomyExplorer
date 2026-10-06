@@ -34,9 +34,9 @@ def validate_proposal(proposal: dict) -> None:
     signals = contract.get("names", [])
     if (contract.get("count") != len(signals) or len(signals) not in (0, 9)
             or len(names) != 21 + len(signals)
-            or len(set(signals)) != 9
+            or len(set(signals)) != len(signals)
             or set(signals) != {name for name in names if name.startswith("Signal ")}):
-        raise ValueError("Expected the exact nine Signal-prefixed source parts")
+        raise ValueError("Signal references do not match the parts present in the model")
     if (contract.get("group") != SIGNAL_GROUP
             or contract.get("clip") is not False
             or contract.get("bulk") is not False
