@@ -6,8 +6,8 @@
 name: Release
 
 on:
-  pull_request:
-    paths: ['app/**', 'packaging/**', 'tests/**', 'requirements.txt', '.github/workflows/**']
+  # Model-only PRs need the same bounded checks as application changes.
+  pull_request: {}
   push:
     tags: ["v*"]
   workflow_dispatch:
