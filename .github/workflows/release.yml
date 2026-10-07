@@ -37,6 +37,9 @@ jobs:
       ownership_candidate: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'qt-ownership-candidate') }}
   build:
     name: Build (${{ matrix.name }})
+    # Validate PRs with the bounded gates above; build installers once from the
+    # release tag instead of building the same model library twice.
+    if: github.event_name != 'pull_request'
     # A failed source check prevents allocation of either expensive build runner.
     needs: [safety, diagnostics]
     strategy:
@@ -214,5 +217,4 @@ jobs:
           fail_on_unmatched_files: true
           files: |
             assets/*
-          body: >-
-            ${{ contains(github.event.inputs.tag || github.ref_name, '-preview.') && 'EXPERIMENTAL PREVIEW. Opt in through Updates > Enable experimental stuff in the stable app. This release adds the refreshed teaching interface and Before/After controls for a local model library. Release builds can include an initial library; accepted user models remain in external user storage and override that seed. Draft models may have bugs and are excluded from default stable updates. Turn the setting off to return to stable on the next launch. Separate preview installers use a separate application name and preserve the original stable installation. Prepared datasets and model choices remain in user-owned storage outside replaceable app versions. Notes, study progress and settings are preserved. Apple-silicon Mac DMG and Windows installer are attached. Existing signing limitations described in the README still apply.' || 'Stable update: Checks and downloads updates in the background on every launch unless automatic updates are disabled. After verification, an update-ready notice offers Restart to apply or Not now. Restart saves the current session and uses managed activation and rollback; Not now keeps studying and leaves the update for the next launch. Notes, progress, settings and the original installation are preserved. Update-channel and rollback choices cancel stale delivery and notifications. This release includes the refreshed teaching interface and Before/After controls for a local model library. Release builds can include an initial library; application updates preserve accepted models and model choices in external user storage. Apple-silicon Mac DMG and Windows installer are attached. Existing signing limitations described in the README still apply.' }}
+          body_path: docs/releases/v4.0.0.md

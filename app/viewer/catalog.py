@@ -5,7 +5,7 @@
   data/content/models/<id>.json: their display name and summary, the atlas structures that offer them in Details,
   histology and related models, clinical notes, a readable name and description for every group and part, links
   back to the atlas, and aliases for the names lessons and practice items use.
-The active catalogue uses the refined local model library plus the protected Heart and Cardiac muscle GLBs.
+The active catalogue uses the final local model library, with GLB fallbacks for older source checkouts.
 Legacy imported-model entry types remain readable for older saved references; downloads are not bundled.
 
 A catalogue entry is light: the geometry is only read when the model is opened (``entry.load()``).
@@ -267,11 +267,11 @@ def load_meta(folder=META_DIR):
 
 
 def load_catalog():
-    """Combine refined library entries with the two protected authored models."""
+    """Use the release library first; legacy GLBs only fill genuinely absent entries."""
     from ..variants.catalog import load_active_catalog
     catalog = load_active_catalog()
     for meta in load_meta():
-        if meta['id'] in ('whole_heart', 'cardiac_muscle'):
+        if meta['id'] in ('cardiac_muscle', 'whole_heart', 'kidney_nephron') and meta['id'] not in catalog:
             catalog[meta['id']] = GlbEntry(meta)
     selection = ROOT / 'data/content/release_models.json'
     if selection.is_file():

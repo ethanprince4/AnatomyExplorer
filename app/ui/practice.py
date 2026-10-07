@@ -819,6 +819,10 @@ class PracticeController:
             current["view"] = view
             current["sids"] = sids
             view.set_practice(self._micro_click, self._micro_rclick)
+            if item.get("micro_view") in view.vmodel.cameras:
+                view.gl_widget.set_named_view(item["micro_view"], animate=False)
+                # A preset may hide a cover that is itself this quiz's target.
+                view.state.set_hidden(sids, False)
             self._hide_names()
             p.feedback.setText("")
             p.prompt.setText(esc(item["part"]) + f"<div style='font-size:{theme.FS_BODY}pt; color:{theme.MUTED}; font-weight:400'>in "

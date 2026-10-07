@@ -30,19 +30,7 @@
    "Patellar L2–L4 femoral; biceps C5–C6; triceps C6–C8; calcaneal S1–S2.",
    "Meissner: light touch. Pacinian: pressure and vibration. Free endings: pain and temperature."
   ],
-  "see_also": {
-   "lessons": [
-    "lab01-01-neurons-resting-potential",
-    "lab01-05-reflex-arc",
-    "lab01-08-skin-receptors-touch"
-   ],
-   "micro": [
-    "peripheral_nerve"
-   ],
-   "histology": [
-    "thick_skin"
-   ]
-  },
+  "see_also": {"lessons": ["lab01-01-neurons-resting-potential", "lab01-05-reflex-arc", "lab01-08-skin-receptors-touch"], "micro": ["neuron", "peripheral_nerve"], "histology": ["thick_skin"]},
   "steps": [
    {
     "title": "The resting potential",
@@ -75,7 +63,7 @@
    },
    {
     "title": "Graded potentials and summation",
-    "text": "<p>At a synapse an <b>EPSP</b> is a small depolarisation and an <b>IPSP</b> a small hyperpolarisation. Both are graded and fade with time and distance, but they add. <b>Temporal summation</b> is one input firing again before its first potential has faded; <b>spatial summation</b> is several inputs firing together. An EPSP and an IPSP arriving together can cancel. If the sum reaches threshold at the <b>axon hillock</b>, an action potential fires.</p>",
+    "text": "<p>At a synapse an <b>EPSP</b> is a small depolarisation and an <b>IPSP</b> a small hyperpolarisation. Both are graded and fade with time and distance, but they add. <b>Temporal summation</b> is one input firing again before its first potential has faded; <b>spatial summation</b> is several inputs firing together. An EPSP and an IPSP arriving together can cancel. If the sum reaches threshold at the <b>axon hillock</b>, an action potential fires.</p><p>On the neuron model, find the axon hillock.</p>",
     "systems": [
      "nervous"
     ],
@@ -96,7 +84,9 @@
     "check": {
      "q": "What is the difference between temporal and spatial summation?",
      "a": "Temporal: one synapse fires repeatedly in quick succession. Spatial: several synapses fire at the same time."
-    }
+    },
+    "micro": "neuron",
+    "micro_focus": ["Dendrites", "Cell body (soma)", "Axon hillock"]
    },
    {
     "title": "Action potentials and whole nerves",
@@ -283,7 +273,8 @@
     ],
     "answer": 0,
     "why": "It is normal in infants, whose corticospinal tracts are not yet fully myelinated."
-   }
+   },
+   {"type": "find_micro", "model": "neuron", "part": "Axon hillock"}
   ]
  },
  {
@@ -1117,17 +1108,7 @@
    "Chordae and papillary muscles stop AV cusps everting.",
    "LCA → LAD + circumflex; RCA → posterior interventricular. Veins → coronary sinus → RA."
   ],
-  "see_also": {
-   "lessons": [
-    "lab03-07-chambers-blood-flow",
-    "lab03-09-septa-valves",
-    "lab03-08-surface-coronary-vessels"
-   ],
-   "micro": [
-    "whole_heart",
-    "cardiac_muscle"
-   ]
-  },
+  "see_also": {"lessons": ["lab03-07-chambers-blood-flow", "lab03-09-septa-valves", "lab03-08-surface-coronary-vessels"], "micro": ["whole_heart", "cardiac_muscle"]},
   "steps": [
    {
     "title": "Position, pericardium and wall",
@@ -1155,7 +1136,9 @@
      "q": "Name the layers from the outside of the pericardium to the heart's lumen.",
      "a": "Fibrous pericardium, parietal serous pericardium, pericardial cavity, epicardium (visceral pericardium), myocardium, endocardium."
     },
-    "lesson_view": "diagram"
+    "micro": "whole_heart",
+    "micro_focus": ["Fibrous pericardium", "Parietal layer of serous pericardium", "Visceral layer of serous pericardium (epicardium)", "Myocardium (heart wall)"],
+    "micro_view": "Pericardium: The heart in its pericardium"
    },
    {
     "title": "Blood through the heart",
@@ -1376,7 +1359,8 @@
     ],
     "answer": 0,
     "why": "They return blood from the lungs to the left atrium."
-   }
+   },
+   {"type": "find_micro", "model": "whole_heart", "part": "Fibrous pericardium", "micro_view": "Pericardium: The heart in its pericardium"}
   ]
  },
  {
@@ -1410,16 +1394,7 @@
    "PR > 0.20 s = first-degree block; QRS > 0.12 s = bundle branch block.",
    "S1 = AV valves close; S2 = semilunar valves close."
   ],
-  "see_also": {
-   "lessons": [
-    "lab04-01-conduction-system",
-    "lab04-02-ecg-waves-intervals",
-    "lab04-06-arrhythmias"
-   ],
-   "micro": [
-    "whole_heart"
-   ]
-  },
+  "see_also": {"lessons": ["lab04-01-conduction-system", "lab04-02-ecg-waves-intervals", "lab04-06-arrhythmias"], "micro": ["whole_heart"]},
   "steps": [
    {
     "title": "The conduction system",
@@ -1429,7 +1404,9 @@
      "q": "Why does the AV node delay the impulse?",
      "a": "So the atria finish contracting and emptying into the ventricles before the ventricles contract."
     },
-    "lesson_view": "diagram"
+    "micro": "whole_heart",
+    "micro_focus": ["Sinoatrial (SA) node", "Atrioventricular (AV) node", "Atrioventricular (AV) bundle (bundle of His)", "Right bundle branch", "Left bundle branch", "Purkinje fibres (left ventricle)", "Purkinje fibres (right ventricle)"],
+    "micro_view": "Conduction: Whole pathway, right heart opened"
    },
    {
     "title": "Waves, intervals and the paper",

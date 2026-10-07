@@ -32,7 +32,7 @@
   "steps": [
    {
     "title": "A heart that starts itself",
-    "text": "<p>Cardiac muscle needs no nerve to beat. A few <b>autorhythmic</b> (pacemaker) cells fire on their own, and a <b>conduction system</b> of modified cardiac muscle spreads each impulse in order.</p><p>The fastest of them, the <b>sinoatrial (SA) node</b> in the right atrial wall near the opening of the superior vena cava, fires about 70–80 times a minute - one beat every ~0.8 s - and so is the heart's <b>pacemaker</b>.</p>",
+    "text": "<p>Cardiac muscle needs no nerve to beat. A few <b>autorhythmic</b> (pacemaker) cells fire on their own, and a <b>conduction system</b> of modified cardiac muscle spreads each impulse in order.</p><p>The fastest of them, the <b>sinoatrial (SA) node</b> in the right atrial wall near the opening of the superior vena cava, fires about 70–80 times a minute - one beat every ~0.8 s - and so is the heart's <b>pacemaker</b>.</p><p>In the model it is the yellow crescent where the vena cava joins the atrium.</p>",
     "systems": [
      "cardiovascular",
      "visceral"
@@ -53,7 +53,9 @@
      "q": "Why is the SA node the pacemaker?",
      "a": "It depolarizes spontaneously faster than any other part of the heart, so it sets the rate."
     },
-    "lesson_view": "diagram"
+    "micro": "whole_heart",
+    "micro_focus": ["Sinoatrial (SA) node", "Sinoatrial (SA) nodal artery"],
+    "micro_view": "Conduction: SA node at the superior vena cava"
    },
    {
     "title": "The pacemaker potential",
@@ -79,23 +81,27 @@
    },
    {
     "title": "Node, bundle and branches",
-    "text": "<p>The impulse spreads across both atria and reaches the <b>atrioventricular (AV) node</b> low in the interatrial septum. The node <b>delays</b> it about 0.1 s so the atria finish emptying.</p><p>It then runs down the <b>AV bundle</b> (bundle of His) - the only normal electrical link through the fibrous skeleton - into the <b>right and left bundle branches</b> in the interventricular septum, and on to the <b>Purkinje fibres</b>.</p>",
+    "text": "<p>The impulse spreads across both atria and reaches the <b>atrioventricular (AV) node</b> low in the interatrial septum. The node <b>delays</b> it about 0.1 s so the atria finish emptying.</p><p>It then runs down the <b>AV bundle</b> (bundle of His) - the only normal electrical link through the fibrous skeleton - into the <b>right and left bundle branches</b> in the interventricular septum, and on to the <b>Purkinje fibres</b>.</p><p>In the model: the orange AV node, the green AV bundle piercing the cream fibrous body, and the blue bundle branches.</p>",
     "diagram": "lab04-conduction",
     "check": {
      "q": "What is the purpose of the AV nodal delay?",
      "a": "It lets the atria finish contracting and emptying before the ventricles contract."
     },
-    "lesson_view": "diagram"
+    "micro": "whole_heart",
+    "micro_focus": ["Atrioventricular (AV) node", "Atrioventricular (AV) bundle (bundle of His)", "Central fibrous body", "Right bundle branch", "Left bundle branch"],
+    "micro_view": "Conduction: Whole pathway, right heart opened"
    },
    {
     "title": "Purkinje fibres",
-    "text": "<p><b>Purkinje fibres</b> (the subendocardial conducting network) are large, pale, glycogen-rich cells just under the endocardium; the heart model draws them as a network over both ventricles. They conduct faster than any other cardiac tissue, so the ventricles are activated from the <b>apex upward</b> almost at once - squeezing blood up toward the aortic and pulmonary valves.</p>",
+    "text": "<p><b>Purkinje fibres</b> (the subendocardial conducting network) are large, pale, glycogen-rich cells just under the endocardium; the model shows them in violet, spreading over both ventricles from the apex. They conduct faster than any other cardiac tissue, so the ventricles are activated from the <b>apex upward</b> almost at once - squeezing blood up toward the aortic and pulmonary valves.</p>",
     "check": {
      "q": "Why is it useful that the ventricles are activated apex first?",
      "a": "Contraction then pushes blood upward toward the outflow valves."
     },
-    "lesson_view": "diagram",
-    "diagram": "lab04-conduction"
+    "diagram": "lab04-conduction",
+    "micro": "whole_heart",
+    "micro_focus": ["Purkinje fibres (left ventricle)", "Purkinje fibres (right ventricle)", "Right bundle branch", "Left bundle branch"],
+    "micro_view": "Conduction: Purkinje fibres from the apex"
    },
    {
     "title": "The contractile cell and its long refractory period",
@@ -198,20 +204,14 @@
     "type": "recall",
     "q": "Name the three phases of a ventricular cell's action potential and the ion for each.",
     "a": "Rapid depolarization (Na⁺ in), plateau (Ca²⁺ in), repolarization (K⁺ out)."
-   }
+   },
+   {"type": "find_micro", "model": "whole_heart", "part": "Sinoatrial (SA) node", "micro_view": "Conduction: SA node at the superior vena cava"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Atrioventricular (AV) node", "micro_view": "Conduction: Triangle of Koch: AV node and AV bundle"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Atrioventricular (AV) bundle (bundle of His)", "micro_view": "Conduction: Through the fibrous skeleton, from above"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Right bundle branch", "micro_view": "Conduction: Right bundle branch and moderator band"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Purkinje fibres (left ventricle)", "micro_view": "Conduction: Purkinje fibres from the apex"}
   ],
-  "see_also": {
-   "micro": [
-    "whole_heart",
-    "cardiac_muscle"
-   ],
-   "lessons": [
-    "conducting-system"
-   ],
-   "histology": [
-    "cardiac_muscle"
-   ]
-  }
+  "see_also": {"micro": ["whole_heart", "cardiac_muscle"], "lessons": ["conducting-system"], "histology": ["cardiac_muscle"]}
  },
  {
   "id": "lab04-02-ecg-waves-intervals",
@@ -1013,33 +1013,39 @@
   "steps": [
    {
     "title": "Arrhythmia and first-degree block",
-    "text": "<p>An <b>arrhythmia</b> is any abnormal rhythm. Causes range from emotion, caffeine and nicotine to serious heart disease. In <b>first-degree (partial) AV block</b>, conduction through the AV node or bundle is slowed: every P wave is still followed by a QRS, but the <b>PR interval exceeds 0.20 s</b>.</p>",
+    "text": "<p>An <b>arrhythmia</b> is any abnormal rhythm. Causes range from emotion, caffeine and nicotine to serious heart disease. In <b>first-degree (partial) AV block</b>, conduction through the AV node or bundle is slowed: every P wave is still followed by a QRS, but the <b>PR interval exceeds 0.20 s</b>.</p><p>In the model, the slowed stretch is the orange AV node and the green AV bundle.</p>",
     "diagram": "lab04-strips-block",
     "check": {
      "q": "What is the ECG sign of first-degree heart block?",
      "a": "A PR interval longer than 0.20 s."
     },
-    "lesson_view": "diagram"
+    "micro": "whole_heart",
+    "micro_focus": ["Atrioventricular (AV) node", "Atrioventricular (AV) bundle (bundle of His)"],
+    "micro_view": "Conduction: Triangle of Koch: AV node and AV bundle"
    },
    {
     "title": "Complete heart block",
-    "text": "<p>In <b>complete (third-degree) block</b> no impulses cross from atria to ventricles. The atria still follow the SA node, with P waves about 0.8 s apart, but the ventricles are driven by a slow escape pacemaker below the block, with QRS complexes 1.5–2.0 s apart (about <b>30–40/min</b>).</p><p>P waves and QRS complexes march along independently.</p>",
+    "text": "<p>In <b>complete (third-degree) block</b> no impulses cross from atria to ventricles. The atria still follow the SA node, with P waves about 0.8 s apart, but the ventricles are driven by a slow escape pacemaker below the block, with QRS complexes 1.5–2.0 s apart (about <b>30–40/min</b>).</p><p>P waves and QRS complexes march along independently.</p><p>In the model the block lies in the orange AV node or the green AV bundle; the escape pacemaker sits in the conducting tissue below it.</p>",
     "diagram": "lab04-strips-block",
     "check": {
      "q": "In complete heart block, what drives the ventricles?",
      "a": "A slow escape pacemaker below the block (about 30–40/min)."
     },
-    "lesson_view": "diagram"
+    "micro": "whole_heart",
+    "micro_focus": ["Atrioventricular (AV) node", "Atrioventricular (AV) bundle (bundle of His)", "Central fibrous body"],
+    "micro_view": "Conduction: Through the fibrous skeleton, from above"
    },
    {
     "title": "Bundle branch block",
-    "text": "<p>If the <b>right or left bundle branch</b> is blocked, the impulse reaches one ventricle normally and then spreads slowly through ordinary muscle to the other. The two ventricles depolarize one after the other instead of together, so the QRS becomes <b>wide (over 0.12 s)</b> and often notched.</p>",
+    "text": "<p>If the <b>right or left bundle branch</b> is blocked, the impulse reaches one ventricle normally and then spreads slowly through ordinary muscle to the other. The two ventricles depolarize one after the other instead of together, so the QRS becomes <b>wide (over 0.12 s)</b> and often notched.</p><p>In the model the blue right and left bundle branches run down either side of the septum; the left one fans into two fascicles.</p>",
     "diagram": "lab04-strips-block",
     "check": {
      "q": "Why does bundle branch block widen the QRS?",
      "a": "The ventricles depolarize one after the other (asynchronously) instead of together."
     },
-    "lesson_view": "diagram"
+    "micro": "whole_heart",
+    "micro_focus": ["Right bundle branch", "Left bundle branch", "Left anterior fascicle", "Left posterior fascicle"],
+    "micro_view": "Conduction: Whole pathway, right heart opened"
    },
    {
     "title": "Ectopic beats and atrial fibrillation",
@@ -1187,8 +1193,12 @@
     "type": "recall",
     "q": "Where is the damage in first-degree block?",
     "a": "In the AV node or slowed conduction in the AV bundle."
-   }
-  ]
+   },
+   {"type": "find_micro", "model": "whole_heart", "part": "Atrioventricular (AV) node", "micro_view": "Conduction: Triangle of Koch: AV node and AV bundle"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Right bundle branch", "micro_view": "Conduction: Right bundle branch and moderator band"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Left bundle branch", "micro_view": "Conduction: Left heart opened: left bundle branch"}
+  ],
+  "see_also": {"micro": ["whole_heart"]}
  },
  {
   "id": "lab04-07-heart-sounds-cycle",

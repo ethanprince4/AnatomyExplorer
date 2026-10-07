@@ -158,6 +158,29 @@ def _controls(entry, descriptor, metadata, decoded, warnings):
                 if str(_get(value, "path", value)).lower().endswith(".json") or (isinstance(value, dict) and "path" not in value)}
     controls = _json(_get(descriptor, "runtime_controls", companions.get("runtime_controls")), root, warnings, "Runtime controls")
     names = [r[0]["name"] for r in decoded]
+    if _get(_get(descriptor, "record", {}), "static_recipe", False):
+        # Final standalone models carry their own presentation. Older organ
+        # hooks and recipes describe different parts and must not leak into it.
+        native = helpers._native(metadata, entry.id)
+        native.update(helpers._native(supplied.get("teaching_recipe", {}), entry.id))
+        native.update(deepcopy(controls.get("native", {})))
+        native.setdefault("summary", getattr(entry, "summary", ""))
+        native.setdefault("scale_note", getattr(entry, "scale_note", ""))
+        native.setdefault("metres_per_unit", 0.0)
+        if not isinstance(native.get("home_view"), (list, tuple)):
+            native["home_view"] = [-.62, .42]
+        native.setdefault("cutaway", [[1, 0, 0], [0, 0, 1]])
+        native.setdefault("cut_at", [0, 0])
+        native.setdefault("cut_on", False)
+        native.setdefault("viewer_cameras", {})
+        native["labels_on_open"] = False
+        viewer = deepcopy(controls.get("viewer", {}))
+        viewer.setdefault("mixed_schematic_scale", entry.id in helpers.MIXED_MODELS)
+        viewer.setdefault("scale_note", native["scale_note"])
+        return _prune_selectors(dict(native=native, viewer=viewer, documents=[],
+            teaching_views=[], functional_sequences=[], verified_documents=supplied,
+            source_part_names=names, part_names=names,
+            parts=[deepcopy(row) for row, *_ in decoded]), set(names), warnings)
     controls["source_part_names"] = [p["name"] for p in controls.get("parts", [])] or list(names)
     inherited = json.loads((here / "inherited_defaults.json").read_text(encoding="utf-8"))
     native = deepcopy(inherited.get(entry.id, {}))
@@ -324,6 +347,7 @@ def prepare_local_model(entry, token=None):
     entry.descriptor = descriptor
     warnings = []
     descriptor, component = _component_descriptor(entry, descriptor, warnings)
+    standalone = bool(_get(_get(descriptor, "record", {}), "static_recipe", False))
     root = Path(_get(descriptor, "root", Path(descriptor.primary.path).parent))
     path = _path(descriptor.primary, root)
     # Some older native teaching hooks call this field 'sha256' but only use a
@@ -360,24 +384,40 @@ def prepare_local_model(entry, token=None):
         for key, value in controls["native"].items():
             setattr(micro, key, deepcopy(value))
         colors = {row["name"]: color for row, v, n, f, color in decoded if color is not None}
-        micro.viewer_vertex_colors = lambda name, positions: colors.get(name)
+        linear = {row["name"]: row["color_linear"] for row, *_ in decoded if "color_linear" in row}
+        def vertex_colors(name, positions):
+            if name in colors:
+                return colors[name]
+            if name in linear:
+                return np.broadcast_to(np.asarray(linear[name], dtype=np.float32), (len(positions), 3))
+            return None
+        micro.viewer_vertex_colors = vertex_colors
         micro.runtime_descriptor = bound
         _animation(bound, micro, parts, controls, warnings)
-        hooks_available = True
+        hooks_available = not standalone
         try:
-            if not component:_prepare_hooks(bound, micro, controls, parts)
+            if not component and not standalone:_prepare_hooks(bound, micro, controls, parts)
         except Exception as exc:
             hooks_available = False
             warnings.append(f"Some model-specific controls are unavailable for these parts: {exc}")
         model = backend.procedural(micro, parts)
         try:
-            if entry.id == "tooth" and controls["documents"]:
+            if not standalone and entry.id == "tooth" and controls["documents"]:
                 _hook(entry.id, "teaching").apply_to_viewer_model(model, controls["documents"][0], model_id=entry.id)
-            elif entry.id == "tongue_papillae" and controls["documents"]:
+            elif not standalone and entry.id == "tongue_papillae" and controls["documents"]:
                 _hook(entry.id, "teaching").install_native_metadata(model, contract=controls["documents"][0], model_id=entry.id)
         except Exception as exc:
             warnings.append(f"Some teaching metadata could not follow the current parts: {exc}")
         model.metres_per_unit = float(controls["native"].get("metres_per_unit", 0))
+        catalog = controls.get("verified_documents", {}).get("catalog", {})
+        for item in model.items:
+            display = catalog.get("parts", {}).get(item.key, {})
+            if display.get("name"):
+                item.name = display["name"]
+            if not item.description and display.get("description"):
+                item.description = display["description"]
+            if display.get("atlas"):
+                item.atlas = list(display["atlas"])
         _retire_native_backing(model, [row for row, *_ in decoded])
     elif path.suffix.lower() == ".glb":
         from app.viewer.model import Model

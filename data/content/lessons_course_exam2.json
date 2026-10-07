@@ -869,10 +869,7 @@
     "lab08-15-renal-blood-flow-nephron",
     "lab08-16-ureter-bladder-urethra"
    ],
-   "micro": [
-    "kidney_section",
-    "kidney_nephron"
-   ],
+   "micro": ["kidney_nephron"],
    "histology": [
     "bladder"
    ]
@@ -924,20 +921,13 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "kidney_section",
-    "micro_focus": [
-     "Renal cortex",
-     "Renal pyramids",
-     "Renal columns",
-     "Renal papillae",
-     "Minor calyces",
-     "Major calyces",
-     "Renal pelvis"
-    ],
+    "micro": "kidney_nephron",
+    "micro_focus": ["Source section / Renal cortex", "Source section / Renal pyramids", "Source section / Renal columns", "Source section / Renal papillae", "Source section / Minor calyces", "Source section / Major calyces", "Source section / Renal pelvis"],
     "check": {
      "q": "Trace urine from a renal papilla to the ureter.",
      "a": "Papilla → minor calyx → major calyx → renal pelvis → ureter."
-    }
+    },
+    "micro_view": "Source section opened"
    },
    {
     "title": "Blood through the kidney",
@@ -961,18 +951,14 @@
     "frame_on": [
      "Kidney"
     ],
-    "micro": "kidney_section",
-    "micro_focus": [
-     "Segmental arteries",
-     "Interlobar arteries",
-     "Arcuate arteries",
-     "Cortical radiate (interlobular) arteries"
-    ],
+    "micro": "kidney_nephron",
+    "micro_focus": ["Source section / Segmental arteries", "Source section / Interlobar arteries", "Source section / Arcuate arteries", "Source section / Cortical radiate (interlobular) arteries"],
     "diagram": "lab08-nephron-flow",
     "check": {
      "q": "Which vessel carries blood out of the glomerulus?",
      "a": "The efferent arteriole, which feeds the peritubular capillaries and vasa recta."
-    }
+    },
+    "micro_view": "Source section opened"
    },
    {
     "title": "The nephron and urine formation",
@@ -1000,7 +986,8 @@
     "check": {
      "q": "Name the three processes that form urine.",
      "a": "Glomerular filtration, tubular reabsorption and tubular secretion."
-    }
+    },
+    "micro_view": "Nephron (15x schematic)"
    },
    {
     "title": "Ureters, bladder and urethra",
@@ -1055,28 +1042,33 @@
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Renal pyramids"
-   },
-   {
-    "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Renal columns"
-   },
-   {
-    "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Minor calyces"
+    "model": "kidney_nephron",
+    "part": "Source section / Renal pyramids",
+    "micro_view": "Source section opened"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Proximal convoluted tubule"
+    "part": "Source section / Renal columns",
+    "micro_view": "Source section opened"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Macula densa"
+    "part": "Source section / Minor calyces",
+    "micro_view": "Source section opened"
+   },
+   {
+    "type": "find_micro",
+    "model": "kidney_nephron",
+    "part": "Proximal convoluted tubule",
+    "micro_view": "Nephron (15x schematic)"
+   },
+   {
+    "type": "find_micro",
+    "model": "kidney_nephron",
+    "part": "Macula densa",
+    "micro_view": "Juxtaglomerular apparatus"
    },
    {
     "type": "order",

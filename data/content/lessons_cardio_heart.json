@@ -34,7 +34,7 @@
     },
     {
      "title": "The sinu-atrial node",
-     "text": "<p>The pacemaker sits in the wall of the <b>right atrium</b>, at the upper end of the crista terminalis where the superior vena cava enters. It depolarises spontaneously about 60–100 times a minute, faster than anything else in the heart, and so it sets the rate.</p><p>It is supplied by the sinu-atrial nodal artery, a branch of the <b>right coronary artery</b> in about 60% of people. That is why an inferior myocardial infarction so often produces a bradycardia.</p>",
+     "text": "<p>The pacemaker sits in the wall of the <b>right atrium</b>, at the upper end of the crista terminalis where the superior vena cava enters. It depolarises spontaneously about 60–100 times a minute, faster than anything else in the heart, and so it sets the rate.</p><p>It is supplied by the sinu-atrial nodal artery, a branch of the <b>right coronary artery</b> in about 60% of people. That is why an inferior myocardial infarction so often produces a bradycardia.</p><p>In the conduction model the node is the yellow crescent; follow the SA nodal artery back to the right coronary artery.</p>",
      "systems": [
       "visceral",
       "cardiovascular"
@@ -55,12 +55,14 @@
       "q": "Which coronary artery usually supplies the SA node?",
       "a": "The right coronary artery, in about 60% of hearts."
      },
-     "lesson_view": "diagram",
-     "diagram": "lab04-conduction"
+     "diagram": "lab04-conduction",
+     "micro": "whole_heart",
+     "micro_focus": ["Sinoatrial (SA) node", "Sinoatrial (SA) nodal artery", "Right coronary artery"],
+     "micro_view": "Conduction: SA node at the superior vena cava"
     },
     {
      "title": "Across the atria to the AV node",
-     "text": "<p>The wave spreads across both atria through the working muscle itself — this is the <b>P wave</b> — and converges on the <b>atrioventricular node</b>, in the interatrial septum just above the opening of the coronary sinus, within the triangle of Koch.</p><p>Atria and ventricles are otherwise separated completely by the fibrous skeleton of the heart, which is electrically inert. The normal route passes through the AV node and then the <b>atrioventricular bundle</b>, which pierces the fibrous skeleton. Accessory atrioventricular pathways are an anatomical exception. Block it and the ventricles must fall back on their own slow escape rhythm.</p>",
+     "text": "<p>The wave spreads across both atria through the working muscle itself — this is the <b>P wave</b> — and converges on the <b>atrioventricular node</b>, in the interatrial septum just above the opening of the coronary sinus, within the triangle of Koch.</p><p>Atria and ventricles are otherwise separated completely by the fibrous skeleton of the heart, which is electrically inert. The normal route passes through the AV node and then the <b>atrioventricular bundle</b>, which pierces the fibrous skeleton. Accessory atrioventricular pathways are an anatomical exception. Block it and the ventricles must fall back on their own slow escape rhythm.</p><p>The model's view “Triangle of Koch: AV node and AV bundle” shows the orange AV node above the septal leaflet, in front of the coronary sinus opening.</p>",
      "systems": [
       "visceral"
      ],
@@ -84,8 +86,10 @@
       "q": "Why does complete AV block cause a slow ventricular rate?",
       "a": "Atrial impulses no longer reach the ventricles through the normal AV conduction pathway, so a slower subsidiary pacemaker must drive them."
      },
-     "lesson_view": "diagram",
-     "diagram": "lab04-conduction"
+     "diagram": "lab04-conduction",
+     "micro": "whole_heart",
+     "micro_focus": ["Atrioventricular (AV) node", "Coronary sinus", "Tricuspid valve", "Central fibrous body"],
+     "micro_view": "Conduction: Triangle of Koch: AV node and AV bundle"
     },
     {
      "title": "The delay",
@@ -102,12 +106,14 @@
      "view": "anterior",
      "xray": false,
      "clinical": "Vagal manoeuvres and adenosine both work by slowing the AV node, which terminates any arrhythmia that uses it as part of its circuit.",
-     "lesson_view": "diagram",
-     "diagram": "lab04-conduction"
+     "diagram": "lab04-conduction",
+     "micro": "whole_heart",
+     "micro_focus": ["Atrioventricular (AV) node"],
+     "micro_view": "Conduction: Triangle of Koch: AV node and AV bundle"
     },
     {
      "title": "Bundle, branches and Purkinje fibres",
-     "text": "<p>From the AV node the <b>atrioventricular bundle</b> (of His) pierces the fibrous skeleton, runs along the membranous interventricular septum and divides into <b>right</b> and <b>left bundle branches</b>. These run down the septum under the endocardium and break up into the <b>Purkinje fibres</b>, which spread through the ventricular walls.</p><p>The fibres reach the <b>apex first</b> and the outflow tracts last, so the ventricle contracts from the bottom up, wringing blood towards the valves. This whole ventricular depolarisation is the <b>QRS complex</b>, and its widening is what a bundle branch block shows.</p>",
+     "text": "<p>From the AV node the <b>atrioventricular bundle</b> (of His) pierces the fibrous skeleton, runs along the membranous interventricular septum and divides into <b>right</b> and <b>left bundle branches</b>. These run down the septum under the endocardium and break up into the <b>Purkinje fibres</b>, which spread through the ventricular walls.</p><p>The fibres reach the <b>apex first</b> and the outflow tracts last, so the ventricle contracts from the bottom up, wringing blood towards the valves. This whole ventricular depolarisation is the <b>QRS complex</b>, and its widening is what a bundle branch block shows.</p><p>In the model: the green bundle through the fibrous body, the blue branches down each side of the septum, and the violet Purkinje network, densest at the apex.</p>",
      "systems": [
       "visceral"
      ],
@@ -131,8 +137,10 @@
       "q": "Why does the ventricle contract from the apex upwards?",
       "a": "The Purkinje network reaches the apex first, so depolarisation and contraction start there."
      },
-     "lesson_view": "diagram",
-     "diagram": "lab04-conduction"
+     "diagram": "lab04-conduction",
+     "micro": "whole_heart",
+     "micro_focus": ["Atrioventricular (AV) bundle (bundle of His)", "Central fibrous body", "Right bundle branch", "Left bundle branch", "Purkinje fibres (left ventricle)", "Purkinje fibres (right ventricle)"],
+     "micro_view": "Conduction: Whole pathway, right heart opened"
     },
     {
      "title": "Reading it back off the ECG",

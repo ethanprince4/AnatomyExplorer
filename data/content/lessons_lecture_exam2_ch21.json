@@ -161,7 +161,6 @@
         "q": "Which vessel type is the site of exchange between blood and interstitial spaces?",
         "a": "Capillaries."
        },
-       "lesson_view": "diagram",
        "diagram": "lec2-vessel-sequence"
       },
       {
@@ -339,7 +338,8 @@
         "q": "Name the three tunics from the lumen outward.",
         "a": "Tunica intima (interna), tunica media, tunica externa (adventitia)."
        },
-       "lesson_view": "diagram"
+       "micro": "muscular_artery",
+       "micro_focus": ["Tunica intima", "Tunica media", "Tunica adventitia"]
       },
       {
        "title": "Tunica intima: the lining in contact with blood",
@@ -349,7 +349,8 @@
         "q": "What four things make up the tunica intima, from the blood outward?",
         "a": "Endothelium, basement membrane, lamina propria (subendothelial CT), and the internal elastic membrane (fenestrated elastic fibers)."
        },
-       "lesson_view": "diagram"
+       "micro": "muscular_artery",
+       "micro_focus": ["Endothelium", "Subendothelial layer", "Internal elastic lamina"]
       },
       {
         "title": "Tunica media: circular smooth muscle",
@@ -372,7 +373,8 @@
         "q": "What is the tunica externa made of, and what does it merge with?",
         "a": "Connective tissue that is dense near the vessel and becomes loose, merging with surrounding CT."
        },
-       "lesson_view": "diagram"
+       "micro": "muscular_artery",
+       "micro_focus": ["Tunica adventitia", "Adventitial collagen bundles", "Perivascular fat"]
       },
       {
         "title": "Elastic membranes of an artery",
@@ -663,14 +665,15 @@
       },
       {
        "title": "Arterioles",
-       "text": "<p><b>Arterioles</b> are <b>9 µm to 40 µm</b>. They <b>transport blood from small arteries to capillaries</b>.</p><p>They are the <b>smallest arteries in which all three tunics can still be differentiated</b>. Smaller than that, you are looking at a capillary (endothelium plus basement membrane).</p><p>Arterioles are still <b>capable of vasoconstriction and vasodilation</b>. Later you will see that the <b>greatest drop in blood pressure</b> happens here, because they are numerous and can change diameter.</p>",
+       "text": "<p><b>Arterioles</b> are <b>9 µm to 40 µm</b>. They <b>transport blood from small arteries to capillaries</b>.</p><p>They are the <b>smallest arteries in which all three tunics can still be differentiated</b>. Smaller than that, you are looking at a capillary (endothelium plus basement membrane).</p><p>Arterioles are still <b>capable of vasoconstriction and vasodilation</b>. Later you will see that the <b>greatest drop in blood pressure</b> happens here, because they are numerous and can change diameter.</p><p>On the capillary model, the arteriole on the left is drawn to scale (30 µm): you can still pick out a thin intima, a media of circular smooth muscle and a thin externa, and it feeds the metarteriole and the capillary network.</p>",
        "systems": [],
        "diagram": "lec2-vessel-sequence",
        "check": {
         "q": "Give the diameter of arterioles and their job.",
         "a": "9 to 40 µm; they carry blood from small arteries to capillaries and can still constrict or dilate. All three tunics can still be told apart."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Arteriole: tunica intima (endothelium)", "Arteriole: tunica media (smooth muscle)", "Arteriole: tunica externa"]
       },
       {
         "title": "Match the class to a named vessel",
@@ -851,11 +854,7 @@
       "lessons": [
         "lec2-ch21-03-artery-types"
       ],
-      "micro": [
-        "lung_acinus_review_v2",
-        "kidney_nephron",
-        "liver_lobule"
-      ],
+      "micro": ["capillary_bed", "lung_acinus_review_v2", "kidney_nephron", "liver_lobule"],
       "histology": [
         "capillaries"
       ]
@@ -863,34 +862,37 @@
     "steps": [
       {
        "title": "A capillary is an exchange tube 7 to 9 µm wide",
-       "text": "<p>A red blood cell is about 7 to 8 µm. A capillary is <b>7 to 9 µm</b>, so cells squeeze through in single file. That slow, close contact is the point: these are the <b>vessels for exchanges between blood and interstitial spaces</b>.</p><p>The wall is thin on purpose:</p><p>• <b>endothelium</b> (simple squamous epithelium)</p><p>• <b>basement membrane</b></p><p>• a <b>delicate layer of loose connective tissue</b></p><p>Scattered <b>pericapillary cells</b> around them are fibroblasts, macrophages, or undifferentiated smooth muscle cells. There is no thick media and no adventitia like an artery.</p>",
+       "text": "<p>A red blood cell is about 7 to 8 µm. A capillary is <b>7 to 9 µm</b>, so cells squeeze through in single file. That slow, close contact is the point: these are the <b>vessels for exchanges between blood and interstitial spaces</b>.</p><p>The wall is thin on purpose:</p><p>• <b>endothelium</b> (simple squamous epithelium)</p><p>• <b>basement membrane</b></p><p>• a <b>delicate layer of loose connective tissue</b></p><p>Scattered <b>pericapillary cells</b> around them are fibroblasts, macrophages, or undifferentiated smooth muscle cells. There is no thick media and no adventitia like an artery.</p><p>On the capillary model the network is drawn to scale beside a 30 µm arteriole: red cells pass along the capillaries in single file, and pericapillary cells hug the outside of the wall.</p>",
        "diagram": "lec2-capillary-types",
        "check": {
         "q": "What is the diameter of a capillary, and what three things make its wall?",
         "a": "7 to 9 µm; endothelium (simple squamous), basement membrane, and a delicate loose CT layer."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Arterial capillaries", "Venous capillaries", "Red blood cells", "Pericytes (pericapillary cells)"]
       },
       {
        "title": "How substances cross the wall",
-       "text": "<p>Substances cross by <b>diffusion</b> in two ways:</p><p><b>(1)</b> through or between endothelial cells</p><p><b>(2)</b> through <b>fenestrae</b> (windows where cytoplasm is missing and the plasma membrane is thin and porous)</p><p>Which path is available depends on the capillary type. Continuous capillaries mostly use path (1). Fenestrated and sinusoidal capillaries add path (2), and sinusoids are leaky enough that even large molecules and cells can move.</p>",
+       "text": "<p>Substances cross by <b>diffusion</b> in two ways:</p><p><b>(1)</b> through or between endothelial cells</p><p><b>(2)</b> through <b>fenestrae</b> (windows where cytoplasm is missing and the plasma membrane is thin and porous)</p><p>Which path is available depends on the capillary type. Continuous capillaries mostly use path (1). Fenestrated and sinusoidal capillaries add path (2), and sinusoids are leaky enough that even large molecules and cells can move.</p><p>On the model’s three capillary types (right, 3 times larger), compare the sealed clefts between neighbouring cells (route 1) with the fenestrae punched through the cells (route 2).</p>",
        "systems": [],
        "diagram": "lec2-capillary-types",
        "check": {
         "q": "Name the two routes by which substances cross capillary walls.",
         "a": "Through or between endothelial cells, or through fenestrae."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Continuous capillary: cell junctions", "Fenestrated capillary: endothelial cells"]
       },
       {
        "title": "Continuous capillaries",
-       "text": "<p><b>Continuous capillaries</b> are found in many locations, including <b>muscle and nervous tissue</b>.</p><p>There are <b>no gaps</b> between endothelial cells and <b>no fenestrae</b>. They are <b>less permeable to large molecules</b> than the other two types. Small lipid-soluble gases still cross the cells themselves; many water-soluble molecules use the narrow clefts between cells.</p><p>The lung's alveolar capillaries (next step) are a specialised continuous bed for gas exchange: huge surface, very thin barrier.</p>",
+       "text": "<p><b>Continuous capillaries</b> are found in many locations, including <b>muscle and nervous tissue</b>.</p><p>There are <b>no gaps</b> between endothelial cells and <b>no fenestrae</b>. They are <b>less permeable to large molecules</b> than the other two types. Small lipid-soluble gases still cross the cells themselves; many water-soluble molecules use the narrow clefts between cells.</p><p>The lung's alveolar capillaries (next step) are a specialised continuous bed for gas exchange: huge surface, very thin barrier.</p><p>On the model, the continuous capillary (top right) has its cells joined edge to edge, a complete basement membrane and a pericyte outside it.</p>",
        "diagram": "lec2-capillary-types",
        "check": {
         "q": "Where are continuous capillaries found, and why are they less leaky?",
         "a": "Many sites including muscle and nervous tissue; no gaps between endothelial cells and no fenestrae, so large molecules cross poorly."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Continuous capillary: endothelial cells", "Continuous capillary: cell junctions", "Continuous capillary: basement membrane", "Continuous capillary: pericyte"]
       },
       {
         "title": "Alveolar capillaries in the lung",
@@ -919,9 +921,10 @@
           "a": "Gases: oxygen into blood and carbon dioxide out, across a thin endothelial wall."
         }
       },
+      {"title": "Fenestrated capillaries: windows in the cells", "text": "<p><b>Fenestrated capillaries</b> have endothelial cells with <b>numerous fenestrae</b>, windows where the <b>cytoplasm is absent</b> and the <b>plasma membrane is thin and porous</b>. They are <b>highly permeable</b>.</p><p>Locations from the lecture: <b>intestinal villi, ciliary process of the eye, choroid plexus, glomeruli of the kidney</b>. All four move a lot of fluid fast: absorption in the gut, aqueous humor, CSF and glomerular filtrate.</p><p>On the model, the fenestrated capillary (middle right) still has its cells joined with no gaps and a complete basement membrane; the windows are in the cells themselves. (Real fenestrae are only 60–80 nm across; they are drawn much larger so you can see them.)</p>", "micro": "capillary_bed", "micro_focus": ["Fenestrated capillary: endothelial cells", "Fenestrated capillary: basement membrane"], "diagram": "lec2-capillary-types", "check": {"q": "Name four places fenestrated capillaries are found.", "a": "Intestinal villi, ciliary process of the eye, choroid plexus, and glomeruli of the kidney."}, "pitfall": "Fenestrated does not mean gaps between the cells. The cells are still joined; the windows go through the thin cytoplasm. Gaps between cells are a sinusoid feature."},
       {
-       "title": "Fenestrated capillaries and the glomerulus",
-       "text": "<p><b>Fenestrated capillaries</b> have endothelial cells with <b>numerous fenestrae</b> where cytoplasm is absent and the plasma membrane is thin and porous. They are <b>highly permeable</b>.</p><p>Locations from the lecture: <b>intestinal villi, ciliary process of the eye, choroid plexus, glomeruli of the kidney</b>.</p><p>On the nephron model, find the <b>glomerular capillary wall</b> and the <b>podocyte coat (visceral layer)</b> wrapping it. Filtration of blood into the nephron starts here; fenestrae plus the podocyte slits make a filter, not a solid wall.</p>",
+       "title": "The glomerulus: a fenestrated filter",
+       "text": "<p>The kidney’s glomerulus is the classic fenestrated bed: it has to filter about a fifth of the plasma that passes through it.</p><p>On the nephron model, find the <b>glomerular capillary wall</b> and the <b>podocyte coat (visceral layer)</b> wrapping it. Filtration of blood into the nephron starts here; fenestrae plus the podocyte slits make a filter, not a solid wall.</p>",
        "systems": [
         "cardiovascular",
         "visceral"
@@ -935,15 +938,15 @@
        "view": "anterior",
        "xray": true,
        "diagram": "lec2-capillary-types",
-       "check": {
-        "q": "Name four places fenestrated capillaries are found.",
-        "a": "Intestinal villi, ciliary process of the eye, choroid plexus, and glomeruli of the kidney."
-       },
-       "lesson_view": "diagram"
+       "check": {"q": "Which two layers make the glomerular filter on the nephron model?", "a": "The fenestrated capillary wall (endothelium and basement membrane) and the podocyte coat, the visceral layer of Bowman’s capsule, with the slits between its foot processes."},
+       "micro": "kidney_nephron",
+       "micro_focus": ["Glomerular capillary wall (endothelium and GBM)", "Podocyte coat (visceral layer)"],
+       "micro_view": "Corpuscle"
       },
+      {"title": "Sinusoidal capillaries: wide and leaky", "text": "<p><b>Sinusoidal capillaries</b> have a <b>large diameter</b> and <b>large fenestrae</b>, with <b>less basement membrane</b>. They are found in <b>endocrine glands</b> and the <b>liver</b>.</p><p>On the model, the sinusoid (bottom right) is far wider than the other two, its cells have large fenestrae and wide gaps between them, the basement membrane is only patches, and a macrophage sits in the lining. Proteins and even whole cells can cross: hormones leave endocrine cells this way, and plasma proteins made by hepatocytes enter the blood.</p>", "micro": "capillary_bed", "micro_focus": ["Sinusoidal capillary: endothelial cells", "Sinusoidal capillary: basement membrane", "Sinusoidal capillary: macrophage"], "diagram": "lec2-capillary-types", "check": {"q": "How do sinusoidal capillaries differ from continuous ones?", "a": "They have large diameter, large fenestrae and less basement membrane, so they are much more leaky."}},
       {
-       "title": "Sinusoidal capillaries in the liver",
-       "text": "<p><b>Sinusoidal capillaries</b> have a <b>large diameter</b> and <b>large fenestrae</b>, with <b>less basement membrane</b>. They are found in <b>endocrine glands</b> and the <b>liver</b>.</p><p>On the liver lobule, find <b>sinusoidal endothelial cells</b> lining the channels, <b>Kupffer cells</b> (macrophages sitting in the sinusoids), <b>portal venules</b> bringing blood in, and the <b>central vein</b> taking it out. Blood here is slow and leaky on purpose: hepatocytes take up nutrients; Kupffer cells clean debris.</p>",
+       "title": "Sinusoids in the liver lobule",
+       "text": "<p>On the liver lobule, find <b>sinusoidal endothelial cells</b> lining the channels, <b>Kupffer cells</b> (macrophages sitting in the sinusoids), <b>portal venules</b> bringing blood in, and the <b>central vein</b> taking it out. Blood here is slow and leaky on purpose: hepatocytes take up nutrients; Kupffer cells clean debris.</p>",
        "systems": [
         "cardiovascular",
         "visceral"
@@ -957,21 +960,20 @@
        "view": "anterior",
        "xray": true,
        "diagram": "lec2-capillary-types",
-       "check": {
-        "q": "How do sinusoidal capillaries differ from continuous ones?",
-        "a": "They have large diameter, large fenestrae and less basement membrane, so they are much more leaky."
-       },
-       "lesson_view": "diagram"
+       "check": {"q": "On the liver lobule, what brings blood into the sinusoids, what drains them, and which cells clean the blood?", "a": "Portal venules (and hepatic arterioles) bring it in; the central vein drains it; Kupffer cells (macrophages) clean it."},
+       "micro": "liver_lobule",
+       "micro_focus": ["Sinusoidal endothelial cells", "Kupffer cells", "Portal venules", "Central vein"]
       },
       {
        "title": "Match type to job",
-       "text": "<p>You can predict the type from what the organ must do.</p><p><b>Need a tight barrier</b> (brain, muscle): continuous.</p><p><b>Need rapid filtration or absorption of fluid and small solutes</b> (glomerulus, gut, choroid plexus): fenestrated.</p><p><b>Need whole proteins or cells to cross, or close contact with lining cells</b> (liver, endocrine glands): sinusoidal.</p><p>The histology set labelled capillaries shows real walls; use it to tell a tiny endothelial tube from an arteriole that still has muscle.</p>",
+       "text": "<p>You can predict the type from what the organ must do.</p><p><b>Need a tight barrier</b> (brain, muscle): continuous.</p><p><b>Need rapid filtration or absorption of fluid and small solutes</b> (glomerulus, gut, choroid plexus): fenestrated.</p><p><b>Need whole proteins or cells to cross, or close contact with lining cells</b> (liver, endocrine glands): sinusoidal.</p><p>The Capillaries slide in the Histology tab shows real walls; use it to tell a tiny endothelial tube from an arteriole that still has a ring of muscle.</p>",
        "diagram": "lec2-capillary-types",
        "check": {
         "q": "Which capillary type would you expect in a kidney glomerulus, and why?",
         "a": "Fenestrated: highly permeable windows for filtration of fluid into the nephron."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Continuous capillary: endothelial cells", "Fenestrated capillary: endothelial cells", "Sinusoidal capillary: endothelial cells"]
       }
     ],
     "practice": [
@@ -1052,12 +1054,14 @@
       {
         "type": "find_micro",
         "model": "kidney_nephron",
-        "part": "Glomerular capillary wall (endothelium and GBM)"
+        "part": "Glomerular capillary wall (endothelium and GBM)",
+        "micro_view": "Corpuscle"
       },
       {
         "type": "find_micro",
         "model": "kidney_nephron",
-        "part": "Podocyte coat (visceral layer)"
+        "part": "Podocyte coat (visceral layer)",
+        "micro_view": "Corpuscle"
       },
       {
         "type": "find_micro",
@@ -1083,7 +1087,11 @@
         "type": "recall",
         "q": "How do substances cross capillary walls?",
         "a": "By diffusion through or between endothelial cells, or through fenestrae."
-      }
+      },
+      {"type": "find_micro", "model": "capillary_bed", "part": "Fenestrated capillary: endothelial cells"},
+      {"type": "find_micro", "model": "capillary_bed", "part": "Continuous capillary: cell junctions"},
+      {"type": "find_micro", "model": "capillary_bed", "part": "Sinusoidal capillary: basement membrane"},
+      {"type": "find_micro", "model": "capillary_bed", "part": "Pericytes (pericapillary cells)"}
     ]
   },
   {
@@ -1126,9 +1134,7 @@
       "lessons": [
         "lec2-ch21-04-capillaries"
       ],
-      "micro": [
-        "axillary_skin"
-      ],
+      "micro": ["capillary_bed", "axillary_skin"],
       "histology": [
         "thin_skin",
         "capillaries"
@@ -1137,46 +1143,51 @@
     "steps": [
       {
        "title": "From arteriole into the network",
-       "text": "<p>Blood does not dump from an arteriole into a random mesh. The usual path is:</p><p><b>arteriole → metarteriole → capillary network</b></p><p>A <b>metarteriole</b> is a short vessel that still has some smooth muscle and that feeds both a direct through-channel and side branches into true capillaries.</p><p>The full sequence through the bed is:</p><p><b>arteriole → metarteriole → arterial capillaries → venous capillaries → venule</b></p><p>Follow that order on the diagram before you add sphincters and bypasses.</p>",
+       "text": "<p>Blood does not dump from an arteriole into a random mesh. The usual path is:</p><p><b>arteriole → metarteriole → capillary network</b></p><p>A <b>metarteriole</b> is a short vessel that still has some smooth muscle and that feeds both a direct through-channel and side branches into true capillaries.</p><p>The full sequence through the bed is:</p><p><b>arteriole → metarteriole → arterial capillaries → venous capillaries → venule</b></p><p>Follow that order on the model (the colour runs from arterial red to venous blue) and on the diagram, before you add sphincters and bypasses.</p>",
        "systems": [],
        "diagram": "lec2-capillary-bed",
        "check": {
         "q": "Write the path from arteriole to venule through a capillary network.",
         "a": "Arteriole → metarteriole → arterial capillaries → venous capillaries → venule."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Arteriole: tunica media (smooth muscle)", "Metarteriole", "Arterial capillaries", "Venous capillaries", "Venule"]
       },
       {
        "title": "Precapillary sphincters: intermittent versus consistent flow",
-       "text": "<p><b>Precapillary sphincters</b> are rings of smooth muscle on the metarteriole at the mouths of true capillaries. They <b>regulate blood flow into the capillary network</b>.</p><p>When they open, blood enters the side branches (true capillaries). When they close, blood stays in the through-route.</p><p>Two patterns matter for exams:</p><p>• Flow through the <b>thoroughfare channel</b> to a venule is <b>consistent</b> (always on).</p><p>• Flow through <b>arterial capillaries</b> is <b>intermittent</b> (on and off as sphincters open and close).</p>",
+       "text": "<p><b>Precapillary sphincters</b> are rings of smooth muscle on the metarteriole at the mouths of true capillaries. They <b>regulate blood flow into the capillary network</b>.</p><p>When they open, blood enters the side branches (true capillaries). When they close, blood stays in the through-route.</p><p>Two patterns matter for exams:</p><p>• Flow through the <b>thoroughfare channel</b> to a venule is <b>consistent</b> (always on).</p><p>• Flow through <b>arterial capillaries</b> is <b>intermittent</b> (on and off as sphincters open and close).</p><p>On the model, each orange cuff where a true capillary leaves the metarteriole is a precapillary sphincter. The metarteriole itself has only scattered muscle cells.</p>",
        "systems": [],
        "diagram": "lec2-capillary-bed",
        "check": {
         "q": "Which flow is consistent and which is intermittent?",
         "a": "Thoroughfare-channel flow is consistent; flow through arterial capillaries is intermittent."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Precapillary sphincters", "Metarteriole", "Metarteriole: smooth muscle cells"]
       },
       {
        "title": "The thoroughfare channel",
-       "text": "<p>The <b>thoroughfare channel</b> is the metarteriole continuing straight into a venule. It is the 'highway' through the bed. True capillaries are the 'side streets'.</p><p>Tissues can keep some flow even when most sphincters are shut, because the thoroughfare stays open. That matters in skin (next steps) when you need to dump or save heat without always loading every capillary loop.</p>",
+       "text": "<p>The <b>thoroughfare channel</b> is the metarteriole continuing straight into a venule. It is the 'highway' through the bed. True capillaries are the 'side streets'.</p><p>Tissues can keep some flow even when most sphincters are shut, because the thoroughfare stays open. That matters in skin (next steps) when you need to dump or save heat without always loading every capillary loop.</p><p>On the model, follow the metarteriole past the last capillary branch: it runs straight on as the thoroughfare channel into the venule, with no sphincters on that route.</p>",
        "systems": [],
        "diagram": "lec2-capillary-bed",
        "check": {
         "q": "What is a thoroughfare channel?",
         "a": "The direct metarteriole-to-venule route through a capillary bed, with consistent flow."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Thoroughfare channel", "Metarteriole", "Venule"]
       },
       {
        "title": "Arteriovenous anastomoses and the glomus",
-       "text": "<p><b>Arteriovenous anastomoses</b> are specialised vascular connections that let blood flow <b>directly from arterioles to small veins</b>, skipping capillaries entirely.</p><p>A <b>glomus</b> is an arteriovenous anastomosis with <b>abundant smooth muscle in its walls</b>. Glomera <b>help regulate body temperature</b> by adjusting blood flow through them. They are abundant in the <b>sole of the foot, palm of the hand, terminal phalanges and nail beds</b>.</p><p>When a glomus opens, warm arterial blood is shunted toward the skin surface (or the reverse when it closes). That is a temperature tool, not an exchange tool.</p>",
+       "text": "<p><b>Arteriovenous anastomoses</b> are specialised vascular connections that let blood flow <b>directly from arterioles to small veins</b>, skipping capillaries entirely.</p><p>A <b>glomus</b> is an arteriovenous anastomosis with <b>abundant smooth muscle in its walls</b>. Glomera <b>help regulate body temperature</b> by adjusting blood flow through them. They are abundant in the <b>sole of the foot, palm of the hand, terminal phalanges and nail beds</b>.</p><p>When a glomus opens, warm arterial blood is shunted toward the skin surface (or the reverse when it closes). That is a temperature tool, not an exchange tool.</p><p>On the model, the arch over the top of the network is the AV anastomosis: a narrow lumen in a thick coat of smooth muscle, running from the arteriole straight to the venule.</p>",
        "systems": [],
        "check": {
         "q": "What is a glomus, and where are glomera abundant?",
         "a": "An AV anastomosis with abundant smooth muscle, for temperature control; sole, palm, terminal phalanges and nail beds."
        },
-       "lesson_view": "reading"
+       "micro": "capillary_bed",
+       "micro_focus": ["AV anastomosis (glomus): smooth muscle", "AV anastomosis: endothelium", "Arteriole: tunica media (smooth muscle)", "Venule"],
+       "diagram": "lec2-capillary-bed"
       },
       {
         "title": "Skin beds: thermoregulation",
@@ -1315,7 +1326,11 @@
       {
         "type": "find",
         "structure": "Lungs"
-      }
+      },
+      {"type": "find_micro", "model": "capillary_bed", "part": "Precapillary sphincters"},
+      {"type": "find_micro", "model": "capillary_bed", "part": "Thoroughfare channel"},
+      {"type": "find_micro", "model": "capillary_bed", "part": "Metarteriole"},
+      {"type": "find_micro", "model": "capillary_bed", "part": "AV anastomosis (glomus): smooth muscle"}
     ]
   },
   {
@@ -1397,14 +1412,15 @@
       },
       {
        "title": "Venules",
-       "text": "<p><b>Venules</b> have a diameter <b>up to 50 µm</b>. They <b>drain the capillary network</b>.</p><p>Their wall is <b>endothelial cells and basement membrane with a few smooth muscle cells</b>. As venule diameter increases, the <b>proportion of smooth muscle increases</b>. They pass blood to small veins.</p><p>Think of a venule as a capillary that has started to grow a little muscle, not yet a named vein.</p>",
+       "text": "<p><b>Venules</b> have a diameter <b>up to 50 µm</b>. They <b>drain the capillary network</b>.</p><p>Their wall is <b>endothelial cells and basement membrane with a few smooth muscle cells</b>. As venule diameter increases, the <b>proportion of smooth muscle increases</b>. They pass blood to small veins.</p><p>Think of a venule as a capillary that has started to grow a little muscle, not yet a named vein.</p><p>On the capillary model, the venule on the right collects the venous capillaries and the thoroughfare channel. Its wall is little more than endothelium, with only a few smooth muscle cells outside it.</p>",
        "systems": [],
        "diagram": "lec2-vessel-sequence",
        "check": {
         "q": "What is the diameter of venules, and what do they drain?",
         "a": "Up to 50 µm; they drain the capillary network."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Venule", "Venule: smooth muscle cells", "Venous capillaries"]
       },
       {
         "title": "Small and medium veins",
@@ -1685,11 +1701,12 @@
         "q": "What does the hepatic portal system connect?",
         "a": "GI (digestive) capillaries to liver sinusoidal capillaries, carrying nutrient-rich blood with no heart in between."
        },
-       "lesson_view": "diagram"
+       "micro": "liver_lobule",
+       "micro_focus": ["Portal venules", "Sinusoidal channels", "Kupffer cells", "Central vein"]
       },
       {
        "title": "Hypothalamohypophyseal portal system",
-       "text": "<p>The <b>hypothalamohypophyseal portal system</b> runs <b>between the hypothalamus and the anterior pituitary gland</b>. Releasing and inhibiting hormones travel this short portal route so they hit the anterior pituitary in high concentration instead of being diluted in the whole bloodstream.</p><p>The atlas shows the <b>hypothalamus</b> and the <b>neurohypophysis</b> (posterior pituitary) as nearby landmarks. The portal veins themselves go to the <b>anterior</b> lobe, which is not a separate atlas piece here; use the hypothalamus as the start point.</p>",
+       "text": "<p>The <b>hypothalamohypophyseal portal system</b> runs <b>between the hypothalamus and the anterior pituitary gland</b>. Releasing and inhibiting hormones travel this short portal route so they hit the anterior pituitary in high concentration instead of being diluted in the whole bloodstream.</p><p>In the atlas, find the <b>hypothalamus</b> and, hanging below it, the <b>adenohypophysis</b> (anterior pituitary): the portal veins run down the stalk from the first to the second. The <b>neurohypophysis</b> (posterior pituitary) behind it is not on the portal route; its hormones are made in the hypothalamus and travel down axons instead.</p>",
        "systems": [
         "cardiovascular",
         "nervous"
@@ -1697,23 +1714,20 @@
        "regions": [
         "head"
        ],
-       "focus": [
-        "Hypothalamus",
-        "Neurohypophysis"
-       ],
+       "focus": ["Hypothalamus", "Adenohypophysis"],
        "view": "lateral",
-       "xray": false,
+       "xray": true,
        "diagram": "lec2-portal-systems",
        "pitfall": "The neurohypophysis stores hypothalamic hormones delivered by axons, not by this portal system. The portal system is hypothalamus → anterior pituitary.",
        "check": {
         "q": "The hypothalamohypophyseal portal system links which two regions?",
         "a": "The hypothalamus and the anterior pituitary gland."
        },
-       "lesson_view": "diagram"
+       "show": ["Neurohypophysis"]
       },
       {
        "title": "Renal nephron portal system",
-       "text": "<p>The third human portal system is the <b>renal nephron portal system</b>, <b>within the urine-forming structures of the kidneys</b>.</p><p>Blood is filtered in the glomerular capillaries, then goes through an efferent arteriole into a <b>second capillary bed</b> (peritubular capillaries and vasa recta) around the tubules. Two beds, one nephron, no heart in between: that is a portal arrangement.</p><p>Find the kidney in the atlas, then remember the glomerulus you already saw on the nephron model.</p>",
+       "text": "<p>The third human portal system is the <b>renal nephron portal system</b>, <b>within the urine-forming structures of the kidneys</b>.</p><p>Blood is filtered in the glomerular capillaries, then goes through an efferent arteriole into a <b>second capillary bed</b> (peritubular capillaries and vasa recta) around the tubules. Two beds, one nephron, no heart in between: that is a portal arrangement.</p><p>On the nephron model, follow the blood: glomerular capillaries (bed 1) → efferent arteriole → peritubular capillaries and vasa recta around the tubules (bed 2).</p>",
        "systems": [
         "cardiovascular",
         "visceral"
@@ -1731,7 +1745,9 @@
         "q": "Where is the renal nephron portal system?",
         "a": "Within the urine-forming structures of the kidneys (glomerulus then a second capillary bed around the tubules)."
        },
-       "lesson_view": "diagram"
+       "micro": "kidney_nephron",
+       "micro_focus": ["Glomerular capillary wall (endothelium and GBM)", "Efferent arteriole endothelium", "Peritubular capillary network", "Descending vasa recta"],
+       "micro_view": "Nephron (15x schematic)"
       },
       {
         "title": "Vasa vasorum, revisited as a system",
@@ -2034,8 +2050,7 @@
        "check": {
         "q": "Where is the cuff placed, and over which artery is the stethoscope placed?",
         "a": "Cuff around the arm just above the elbow; stethoscope over the brachial artery."
-       },
-       "lesson_view": "diagram"
+       }
       },
       {
        "title": "First sound systolic, silence diastolic",
@@ -2203,7 +2218,7 @@
       },
       {
        "title": "Poiseuille's law in words: diameter changes flow",
-       "text": "<p>In the idealized Poiseuille model, <b>R = 8ηL/(πr⁴)</b> and <b>Q = ΔP/R</b>. Increasing viscosity or length increases resistance; increasing radius greatly reduces it. Halving radius raises resistance sixteenfold at fixed viscosity and length.</p><p>During exercise, dilation of upstream resistance vessels and recruitment of perfused capillaries increase skeletal-muscle flow. Capillaries are not miniature muscular arterioles. Aortic flow can rise from about 5 L/min toward 25 L/min in the course example.</p>",
+       "text": "<p><b>Poiseuille’s law</b> in the lecture’s words: <b>flow decreases when resistance increases</b>, and vice versa. Resistance depends on vessel diameter, so <b>constricting a vessel increases resistance and decreases flow</b>.</p><p><b>The lecture’s exercise example:</b> the heart beats with greater force, so pressure in the aorta rises; the <b>capillaries to skeletal muscle increase in diameter</b>, so resistance falls and flow rises. Flow in the aorta can go from <b>5 L/min to 25 L/min</b>.</p><p>The full law shows why diameter dominates: <b>R = 8ηL/(πr⁴)</b>, so resistance depends on the <b>fourth power</b> of the radius. Halving the radius raises resistance 16-fold (flow falls to one sixteenth at the same ΔP), while doubling the length only doubles it. (Strictly, the widening in exercise happens in the arterioles and precapillary sphincters, which opens more capillaries; capillaries have no muscle of their own. On an exam, give the lecture’s version.)</p>",
        "systems": [],
        "check": {
         "q": "At fixed pressure gradient, viscosity and length, what does halving radius do to idealized flow?",
@@ -2359,7 +2374,8 @@
         "type": "recall",
         "q": "Using Laplace, why does an aneurysm tend to worsen?",
         "a": "A bulge raises diameter, so F = D × P increases, stretching the weak wall further."
-      }
+      },
+      {"type": "mcq", "q": "In the lecture’s exercise example, what happens to the vessels supplying skeletal muscle?", "choices": ["Their diameter increases, resistance falls and flow rises", "Their diameter decreases and flow falls", "Their length doubles", "Blood viscosity falls"], "answer": 0, "why": "The heart beats harder (aortic pressure up) and the muscle’s capillaries widen (lower resistance), so flow rises; aortic flow can go from 5 to 25 L/min."}
     ]
   },
   {
@@ -2476,12 +2492,11 @@
        "check": {
         "q": "Define pulse pressure and name the usual pulse site.",
         "a": "Systolic minus diastolic pressure. The radial artery at the wrist (carpus) is the most frequent site."
-       },
-       "lesson_view": "reading"
+       }
       },
       {
        "title": "Table 21.14: adult blood-pressure classes",
-       "text": "<p>These ACC/AHA adult numbers are a table to memorise. Systolic and diastolic are judged together with 'and' or 'or' as written.</p><table border='1' cellpadding='5' cellspacing='0' width='100%'><tr><th></th><th>Systolic (mm Hg)</th><th></th><th>Diastolic (mm Hg)</th></tr><tr><td>Normal</td><td>&lt;120</td><td>and</td><td>&lt;80</td></tr><tr><td>Elevated</td><td>120 to 129</td><td>and</td><td>&lt;80</td></tr><tr><td>Stage 1 hypertension</td><td>130 to 139</td><td>or</td><td>80 to 89</td></tr><tr><td>Stage 2 hypertension</td><td>≥140</td><td>or</td><td>≥90</td></tr><tr><td>Hypertensive crisis</td><td>&gt;180</td><td>and/or</td><td>&gt;120</td></tr></table><p>Later the lecture also uses older cutoffs for hypo- and hypertension as clinical labels. Learn both; this table is the classification chart.</p>",
+       "text": "<p>These ACC/AHA adult numbers are a table to memorise. Systolic and diastolic are judged together with 'and' or 'or' as written.</p><table border='1' cellpadding='5' cellspacing='0' width='100%'><tr><th></th><th>Systolic (mm Hg)</th><th></th><th>Diastolic (mm Hg)</th></tr><tr><td>Normal</td><td>&lt;120</td><td>and</td><td>&lt;80</td></tr><tr><td>Elevated</td><td>120 to 129</td><td>and</td><td>&lt;80</td></tr><tr><td>Stage 1 hypertension</td><td>130 to 139</td><td>or</td><td>80 to 89</td></tr><tr><td>Stage 2 hypertension</td><td>≥140</td><td>or</td><td>≥90</td></tr><tr><td>Hypertensive crisis</td><td>&gt;180</td><td>and/or</td><td>&gt;120</td></tr></table><p>Later, in the aging section, the lecture also uses older clinical cutoffs: <b>hypotension = systolic below 100 mm Hg</b> and <b>hypertension = systolic above 160 mm Hg</b>. Learn both: this table is the classification chart, those two are the labels in the hypo- and hypertension slide.</p>",
        "systems": [],
        "check": {
         "q": "What values are 'normal' and what values are a hypertensive crisis?",
@@ -2652,12 +2667,7 @@
       "Venous return rises with blood volume, venous tone, compression of veins, and arteriole dilation. Pumps: muscular (valves stop backflow), respiratory, sympathetic venoconstriction (venous tone).",
       "Standing: hydrostatic pressure raises BP below the heart and lowers it above. About 15 to 20% of blood volume can filter in the lower limbs in 15 minutes of standing still → edema. Muscle movement fixes it."
     ],
-    "see_also": {
-      "lessons": [
-        "lec2-ch21-04-capillaries",
-        "lec2-ch21-06-veins-valves"
-      ]
-    },
+    "see_also": {"lessons": ["lec2-ch21-04-capillaries", "lec2-ch21-06-veins-valves"], "micro": ["capillary_bed"]},
     "steps": [
       {
        "title": "Diffusion is the main way things cross",
@@ -2668,18 +2678,20 @@
         "q": "Give two lipid-soluble and two water-soluble examples, and the path each uses.",
         "a": "Lipid-soluble (O₂, CO₂, steroids, fatty acids) through membranes. Water-soluble (glucose, amino acids) through clefts or fenestrae."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Continuous capillary: endothelial cells", "Continuous capillary: cell junctions", "Fenestrated capillary: endothelial cells"]
       },
       {
        "title": "Fluid out at the arterial end, in at the venous end",
-       "text": "<p><b>Blood pressure, capillary permeability and osmosis</b> affect movement of fluid.</p><p><b>Fluid moves out of capillaries at the arterial end</b> (blood pressure is higher there than the osmotic pull inward).</p><p><b>Most fluid returns to capillaries at the venous end</b> (blood pressure has fallen; osmotic pull from plasma proteins now wins).</p><p>Whatever remains in the tissues is <b>picked up by the lymphatic system</b> and returned to venous circulation. That leftover is not a rounding error; it is tomorrow's lymph chapter, but the numbers are in this lecture.</p>",
+       "text": "<p><b>Blood pressure, capillary permeability and osmosis</b> affect movement of fluid.</p><p><b>Fluid moves out of capillaries at the arterial end</b> (blood pressure is higher there than the osmotic pull inward).</p><p><b>Most fluid returns to capillaries at the venous end</b> (blood pressure has fallen; osmotic pull from plasma proteins now wins).</p><p>Whatever remains in the tissues is <b>picked up by the lymphatic system</b> and returned to venous circulation. That leftover is not a rounding error; it is tomorrow's lymph chapter, but the numbers are in this lecture.</p><p>On the model, follow one capillary from its red (arterial) end to its blue (venous) end, then find the green lymphatic capillary lying among the vessels: that is where the leftover fluid goes.</p>",
        "systems": [],
        "diagram": "lec2-capillary-exchange",
        "check": {
         "q": "Where does fluid leave capillaries and where does most of it return?",
         "a": "Out at the arterial end; most returns at the venous end; leftover goes to lymphatics."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Arterial capillaries", "Venous capillaries", "Lymphatic capillary: overlapping endothelial cells"]
       },
       {
        "title": "Thirty, twenty-seven, three",
@@ -2917,23 +2929,16 @@
         "cardiovascular",
         "nervous"
        ],
-       "regions": [
-        "thorax",
-        "head"
-       ],
-       "focus": [
-        "Medulla oblongata",
-        "Aorta",
-        "Heart"
-       ],
+       "regions": ["thorax", "head", "neck", "abdomen"],
+       "focus": ["Medulla oblongata", "Aorta", "Internal carotid artery", "Suprarenal gland"],
        "view": "anterior",
        "xray": true,
        "check": {
         "q": "Write the MAP equation and name what mainly sets SV, HR and R.",
         "a": "MAP = HR × SV × PR. SV: venous return (EDV). HR: medullary centers. R: mostly vessel diameter."
        },
-       "lesson_view": "diagram",
-       "diagram": "lec2-map-equation"
+       "diagram": "lec2-map-equation",
+       "show": ["Heart"]
       },
       {
        "title": "Baroreceptor reflex: the daily controller",
@@ -2961,8 +2966,7 @@
        "check": {
         "q": "What does a baroreceptor reflex change, and when is it the main BP control?",
         "a": "It changes PR, HR and SV. It is the most important day-to-day mechanism."
-       },
-       "lesson_view": "diagram"
+       }
       },
       {
         "title": "Adrenal medullary mechanism",
@@ -3301,7 +3305,7 @@
       },
       {
        "title": "Stress-relaxation, and ADH as a textbook neighbour",
-       "text": "<p>The <b>stress-relaxation response</b> is a <b>vasomotor adjustment of blood vessels to a change in blood volume</b>. When volume (and pressure) suddenly fall, smooth muscle <b>contracts</b>; when volume rises, it slowly <b>relaxes</b>. It is <b>most effective when the BP change occurs over many minutes</b>.</p><p>The posterior pituitary (<b>neurohypophysis</b>) is on the diagram as a related long-term hormone source: <b>ADH (vasopressin)</b> is released when BP falls a lot or osmolality rises, so the kidney keeps water and vessels constrict. The lecture's own named long-term list is kidney volume, RAAS, ANH, fluid shift and stress-relaxation; ADH sits beside them in the figure.</p>",
+       "text": "<p>The <b>stress-relaxation response</b> is a <b>vasomotor adjustment of blood vessels to a change in blood volume</b>. When volume (and pressure) suddenly fall, smooth muscle <b>contracts</b>; when volume rises, it slowly <b>relaxes</b>. It is <b>most effective when the BP change occurs over many minutes</b>.</p><p>The posterior pituitary (<b>neurohypophysis</b>), shown in the atlas, is a related long-term hormone source: <b>ADH (vasopressin)</b> is released when BP falls a lot or osmolality rises, so the kidney keeps water and vessels constrict. The lecture's own named long-term list is kidney volume, RAAS, ANH, fluid shift and stress-relaxation; ADH sits beside them in the textbook figure.</p>",
        "systems": [
         "cardiovascular",
         "nervous"
@@ -3316,12 +3320,11 @@
         "Heart"
        ],
        "view": "anterior",
-       "xray": false,
+       "xray": true,
        "check": {
         "q": "What is stress-relaxation of vessels?",
         "a": "Smooth muscle slowly contracts when volume/pressure fall and relaxes when they rise; it works best over many minutes."
-       },
-       "lesson_view": "reading"
+       }
       }
     ],
     "practice": [
@@ -3452,12 +3455,7 @@
       "Give brain flow and the MAP limits for syncope and cerebral edema",
       "Define circulatory shock and list five types with causes"
     ],
-    "takeaways": [
-      "Skeletal muscle: about 1 L/min at rest (myogenic and neural); up to about 10 L/min in exercise (metabolic).",
-      "Brain: must stay about 750 mL/min. Low pH or high CO2 dilates cerebral vessels. Low MAP dilates, high MAP constricts (myogenic). MAP < 60 → syncope; MAP > 160 → cerebral edema.",
-      "Shock = inadequate flow that damages tissues (failure to keep normal BP).",
-      "Five: hypovolemic (volume: bleed, burns, diarrhea, vomiting, dehydration); neurogenic/vascular (vasodilation: stress, anesthesia); anaphylactic (histamine, leaky capillaries); septic (infection/toxins: vasodilation and leaky capillaries); cardiogenic (CO down: MI, fibrillation, arrhythmia, electrical shock)."
-    ],
+    "takeaways": ["Skeletal muscle: about 1 L/min at rest (myogenic and neural); up to about 10 L/min in exercise (metabolic).", "Brain: must stay about 750 mL/min. Low pH or high CO2 dilates cerebral vessels. Low MAP dilates, high MAP constricts (myogenic). MAP < 60 → syncope; MAP > 160 → cerebral edema.", "Shock = inadequate flow that damages tissues (failure to keep normal BP).", "Five: hypovolemic (volume: bleed, burns, diarrhea, vomiting, dehydration); neurogenic/vascular (vasodilation: stress, anesthesia); anaphylactic (histamine, leaky capillaries); septic (infection and toxins; ↓ HR and ↑ capillary permeability); cardiogenic (CO down: MI, fibrillation, arrhythmia, electrical shock)."],
     "see_also": {
       "lessons": [
         "lec2-ch21-12-short-term-bp"
@@ -3556,7 +3554,7 @@
       },
       {
        "title": "Septic and cardiogenic",
-       "text": "<p><b>Septic shock</b> is caused by <b>infection and toxins</b>. Vasodilation, increased permeability and disordered tissue perfusion are central. The lecture lists decreased HR, but tachycardia is common; a low HR is not a defining requirement.</p><p><b>Cardiogenic shock</b> is a <b>decrease in cardiac output</b>: <b>MI; fibrillations and arrhythmias; electrical shocks</b>. The volume may be normal and the vessels may be able to constrict, but the pump cannot generate MAP.</p><p>Critical closing pressure from earlier matters here: if MAP falls below the closing pressure of arterioles, flow to tissues can stop even before the heart fully does.</p>",
+       "text": "<p><b>Septic shock</b> is caused by <b>infection and toxins</b>. The lecture lists two features: <b>decreased HR</b> and <b>increased capillary permeability</b>. Toxins also dilate vessels widely, so plasma leaks out of leaky capillaries into dilated beds and pressure falls. (In the clinic a fast heart rate is more common early in sepsis; on the exam, give the lecture’s ↓ HR and ↑ capillary permeability.)</p><p><b>Cardiogenic shock</b> is a <b>decrease in cardiac output</b>: <b>MI; fibrillations and arrhythmias; electrical shocks</b>. The volume may be normal and the vessels may be able to constrict, but the pump cannot generate MAP.</p><p>Critical closing pressure from earlier matters here: if MAP falls below the closing pressure of arterioles, flow to tissues can stop even before the heart fully does.</p>",
        "systems": [
         "cardiovascular"
        ],
@@ -3570,10 +3568,7 @@
        "xray": true,
        "diagram": "lec2-shock-types",
        "clinical": "Cardiogenic shock after MI is a pump problem. Fluids that help hypovolemia can overload a failed left ventricle.",
-       "check": {
-        "q": "What causes septic shock versus cardiogenic shock?",
-        "a": "Septic: infection-associated dysregulated response with vasodilation and permeability changes. Cardiogenic: inadequate pump output, for example after myocardial injury."
-       },
+       "check": {"q": "What causes septic shock versus cardiogenic shock, and which two features does the lecture give for septic shock?", "a": "Septic: infection and toxins, with decreased HR and increased capillary permeability. Cardiogenic: decreased cardiac output from MI, fibrillations and arrhythmias, or electrical shock."},
        "lesson_view": "diagram"
       }
     ],
@@ -3690,7 +3685,8 @@
       {
         "type": "find",
         "structure": "Internal carotid artery"
-      }
+      },
+      {"type": "mcq", "q": "Which two features does the lecture list for septic shock?", "choices": ["Decreased HR and increased capillary permeability", "Reduced blood volume from bleeding", "Histamine release from an allergy", "Decreased cardiac output after an MI"], "answer": 0, "why": "Septic shock (infection and toxins): ↓ HR and ↑ capillary permeability. The others are hypovolemic, anaphylactic and cardiogenic shock."}
     ],
     "sources": [
       "LectureMaterials/Chapters 20-22 Lecture Notes.md: Chapter 21",
@@ -3775,7 +3771,7 @@
       },
       {
        "title": "Foramen ovale becomes the fossa ovalis",
-       "text": "<p>In the fetus, much of the blood entering the right atrium crosses the <b>foramen ovale</b> into the left atrium, skipping the lungs.</p><p>After birth, left atrial pressure rises, the flap closes, and the remnant is the <b>fossa ovalis</b> in the interatrial septum. Find it on the whole-heart model.</p><p>The other remnants (for lab, not required as atlas names here): ductus arteriosus → ligamentum arteriosum; ductus venosus → ligamentum venosum; umbilical vein → round ligament of the liver.</p><p>The model highlights the interatrial septum; the fossa ovalis is not a separately labeled part in this model.</p>",
+       "text": "<p>In the fetus, much of the blood entering the right atrium crosses the <b>foramen ovale</b> into the left atrium, skipping the lungs.</p><p>After birth, left atrial pressure rises, the flap closes, and the remnant is the <b>fossa ovalis</b> in the interatrial septum. On the heart model, find the interatrial septum: the fossa ovalis is the shallow oval dip in its right-atrial face.</p><p>The other remnants (for lab, not required as atlas names here): ductus arteriosus → ligamentum arteriosum; ductus venosus → ligamentum venosum; umbilical vein → round ligament of the liver.</p><p>The model highlights the whole interatrial septum; the fossa ovalis is not a separately labelled part.</p>",
        "systems": [
         "cardiovascular"
        ],
@@ -3796,7 +3792,8 @@
         "q": "What adult structure is the remnant of the foramen ovale?",
         "a": "The fossa ovalis."
        },
-       "lesson_view": "diagram"
+       "micro": "whole_heart",
+       "micro_focus": ["Interatrial septum"]
       },
       {
        "title": "Arteriosclerosis versus atherosclerosis",

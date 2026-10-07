@@ -130,7 +130,7 @@ def main():
     jobs = args[args.index("--jobs") + 1] if "--jobs" in args else "4"
     model_library = selected_model_library(args)
     if "--skip-prebuild" not in args:
-        flags = ["--skip-micro"] if model_library else []
+        flags = ["--skip-micro", "--skip-models"] if model_library else []
         run(sys.executable, PKG / "prebuild.py", "--jobs", jobs, *flags, cwd=ROOT)
     pyinstaller(version, channel, tag, model_library=model_library)
     if "--no-package" in args:

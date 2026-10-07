@@ -30,27 +30,11 @@
    "The colon has no villi, deep straight crypts packed with goblet cells, and its longitudinal muscle gathered into three taeniae.",
    "Meissner's plexus lies in the submucosa and runs secretion; Auerbach's lies between the muscle coats and runs motility."
   ],
-  "see_also": {
-   "lessons": [
-    "stomach",
-    "small-intestine",
-    "large-intestine",
-    "oesophagus"
-   ],
-   "micro": [],
-   "histology": [
-    "oesophagus",
-    "stomach",
-    "duodenum",
-    "jejunum",
-    "ileum",
-    "colon"
-   ]
-  },
+  "see_also": {"lessons": ["stomach", "small-intestine", "large-intestine", "oesophagus"], "micro": ["duodenum", "colon_wall"], "histology": ["oesophagus", "stomach", "duodenum", "jejunum", "ileum", "colon"]},
   "steps": [
    {
     "title": "The oesophagus: built for friction",
-    "text": "<p>Every segment of the tube has the same four layers: <b>mucosa</b> (epithelium, lamina propria, muscularis mucosae), <b>submucosa</b>, <b>muscularis externa</b> (inner circular, outer longitudinal) and an outer <b>serosa</b> or <b>adventitia</b>. Learn to read one and you can read them all.</p><p>In the model the oesophagus wears a thick <b>non-keratinised stratified squamous epithelium</b> — boluses scrape, they are not digested here. Mucous <b>oesophageal glands</b> sit in the submucosa and send ducts up through the mucosa. The muscle is skeletal in the upper third, smooth in the lower third and mixed between. Outside there is only loose <b>adventitia</b>: the thoracic oesophagus lies in the posterior mediastinum, not in the peritoneal cavity.</p>",
+    "text": "<p>Every segment of the tube has the same four layers: <b>mucosa</b> (epithelium, lamina propria, muscularis mucosae), <b>submucosa</b>, <b>muscularis externa</b> (inner circular, outer longitudinal) and an outer <b>serosa</b> or <b>adventitia</b>. Learn to read one and you can read them all.</p><p>On the slide, the oesophagus wears a thick <b>non-keratinised stratified squamous epithelium</b> — boluses scrape, they are not digested here. Mucous <b>oesophageal glands</b> sit in the submucosa and send ducts up through the mucosa. The muscle is skeletal in the upper third, smooth in the lower third and mixed between. Outside there is only loose <b>adventitia</b>: the thoracic oesophagus lies in the posterior mediastinum, not in the peritoneal cavity.</p>",
     "clinical": "With no serosa to hold sutures and no barrier to spread, oesophageal anastomoses leak more readily and oesophageal cancers reach mediastinal structures early. In Barrett oesophagus the squamous lining of the lower end is replaced by intestinal-type columnar epithelium with goblet cells — a metaplasia driven by acid reflux.",
     "systems": [
      "visceral"
@@ -92,7 +76,7 @@
    },
    {
     "title": "The duodenum: neutralising the acid",
-    "text": "<p>The first part of the small intestine receives acid chyme from the pylorus. Its signature is in the <b>submucosa</b>: coiled <b>Brunner glands</b> whose ducts pierce the muscularis mucosae and empty an alkaline, bicarbonate-rich mucus into the crypts. No other segment has glands in the submucosa below the oesophagus.</p><p>The villi are broad and leaf-shaped, and there are no tall plicae in the first part. Bile and pancreatic juice enter at the major papilla in the second part, finishing the job of neutralisation.</p>",
+    "text": "<p>The first part of the small intestine receives acid chyme from the pylorus. Its signature is in the <b>submucosa</b>: coiled <b>Brunner glands</b> whose ducts pierce the muscularis mucosae and empty an alkaline, bicarbonate-rich mucus into the crypts. No other segment has glands in the submucosa below the oesophagus.</p><p>The villi are broad and leaf-shaped, and there are no tall plicae in the first part. Bile and pancreatic juice enter at the major papilla in the second part, finishing the job of neutralisation.</p><p>In the duodenum model, the view “Brunner glands and ducts” shows the glands and their ducts.</p>",
     "clinical": "Duodenal ulcers are almost all in the first part, where acid arrives before bicarbonate and bile have mixed in. A posterior ulcer can erode the gastroduodenal artery, which lies directly behind it.",
     "systems": [
      "visceral"
@@ -113,7 +97,8 @@
      "q": "You see mucous glands in the submucosa of a small bowel section. Where is it from?",
      "a": "The duodenum — Brunner glands are its identifying feature."
     },
-    "histology": "duodenum"
+    "micro": "duodenum",
+    "micro_focus": ["Brunner gland mucous cells", "Brunner gland duct cells", "Submucosal connective tissue"]
    },
    {
     "title": "The jejunum: surface area",
@@ -163,7 +148,7 @@
    },
    {
     "title": "The colon: water and mucus",
-    "text": "<p>The colon absorbs water and salt, not nutrients, so the villi are gone. The mucosa is flat with deep, straight, test-tube <b>crypts</b> crowded with <b>goblet cells</b> whose mucus lubricates an increasingly solid stool. Solitary lymphoid follicles are scattered in the mucosa.</p><p>Outside, the longitudinal muscle is gathered into three bands, the <b>taeniae coli</b>. Because they are shorter than the tube, the wall bunches into <b>haustra</b>. Fat-filled appendices epiploicae hang from the serosa.</p>",
+    "text": "<p>The colon absorbs water and salt, not nutrients, so the villi are gone. The mucosa is flat with deep, straight, test-tube <b>crypts</b> crowded with <b>goblet cells</b> whose mucus lubricates an increasingly solid stool. Solitary lymphoid follicles are scattered in the mucosa.</p><p>Outside, the longitudinal muscle is gathered into three bands, the <b>taeniae coli</b>. Because they are shorter than the tube, the wall bunches into <b>haustra</b>. Fat-filled appendices epiploicae hang from the serosa.</p><p>In the colon-wall model, the view “Taenia coli and muscle layers” shows the longitudinal muscle gathered into a taenia.</p>",
     "clinical": "The three taeniae converge on the base of the appendix — follow a taenia down the caecum at operation and it leads you to the appendix, wherever its tip has wandered.",
     "systems": [
      "visceral"
@@ -183,7 +168,8 @@
      "q": "Name three features that distinguish colon from small intestine in section.",
      "a": "No villi; straight crypts with abundant goblet cells; longitudinal muscle concentrated into taeniae coli."
     },
-    "histology": "colon"
+    "micro": "colon_wall",
+    "micro_focus": ["Crypt colonocytes", "Goblet cells", "Goblet cell mucin", "Lymphoid follicle: mantle zone", "Lymphoid follicle: germinal centre", "Outer longitudinal muscle and taenia coli"]
    },
    {
     "title": "Two nerve plexuses",
@@ -476,7 +462,8 @@
     "check": {
      "q": "Name the three layers of the filtration barrier.",
      "a": "Fenestrated capillary endothelium, glomerular basement membrane and the podocyte slit diaphragms."
-    }
+    },
+    "micro_view": "Corpuscle"
    },
    {
     "title": "The juxtaglomerular apparatus",
@@ -504,7 +491,8 @@
     "check": {
      "q": "What does the macula densa sense, and what do the juxtaglomerular cells secrete?",
      "a": "The macula densa senses the NaCl concentration in the distal tubule; juxtaglomerular cells secrete renin."
-    }
+    },
+    "micro_view": "Juxtaglomerular apparatus"
    },
    {
     "title": "The proximal tubule: the bulk reclaimer",
@@ -530,7 +518,8 @@
     "check": {
      "q": "Which tubular segment reabsorbs all filtered glucose?",
      "a": "The proximal convoluted tubule (via SGLT2 and SGLT1)."
-    }
+    },
+    "micro_view": "Nephron (15x schematic)"
    },
    {
     "title": "The loop of Henle and the vasa recta",
@@ -558,7 +547,8 @@
     "check": {
      "q": "Which transporter do loop diuretics block, and where is it?",
      "a": "NKCC2, in the thick ascending limb of the loop of Henle."
-    }
+    },
+    "micro_view": "Loop of Henle"
    },
    {
     "title": "Distal tubule and collecting duct: the fine tuning",
@@ -588,7 +578,8 @@
     "check": {
      "q": "Which hormone inserts water channels in the collecting duct, and what happens without it?",
      "a": "ADH (vasopressin) inserts aquaporin-2; without it, or if the duct cannot respond, large volumes of dilute urine are passed — diabetes insipidus."
-    }
+    },
+    "micro_view": "Nephron (15x schematic)"
    },
    {
     "title": "The bladder wall: a lining that stretches",
@@ -1004,24 +995,7 @@
    "Islets are 1–2% of the pancreas: beta (insulin) in the centre, alpha (glucagon) and delta (somatostatin) around.",
    "Adrenal cortex: glomerulosa (salt), fasciculata (sugar), reticularis (sex) — blood flows through them to the medulla."
   ],
-  "see_also": {
-   "lessons": [
-    "thyroid-and-parathyroids",
-    "adrenal-glands",
-    "pancreas-and-spleen",
-    "pituitary-hypothalamus"
-   ],
-   "micro": [
-    "thyroid_parathyroid_review_v2"
-   ],
-   "histology": [
-    "thyroid",
-    "parathyroid",
-    "islets",
-    "pancreas",
-    "adrenal"
-   ]
-  },
+  "see_also": {"lessons": ["thyroid-and-parathyroids", "adrenal-glands", "pancreas-and-spleen", "pituitary-hypothalamus"], "micro": ["pancreas", "thyroid_parathyroid_review_v2"], "histology": ["thyroid", "parathyroid", "islets", "pancreas", "adrenal"]},
   "steps": [
    {
     "title": "The thyroid follicle",
@@ -1095,7 +1069,7 @@
    },
    {
     "title": "Two glands in the pancreas",
-    "text": "<p>Most of the pancreas is <b>exocrine</b>: serous <b>acini</b> of pyramidal cells with basophilic bases and apical zymogen granules, draining through intercalated ducts (whose centroacinar cells add bicarbonate) into the duct system.</p><p>Scattered among them are the pale <b>islets of Langerhans</b>, about a million, 1–2% of the mass. <b>Beta cells</b> (insulin, about 70%) fill the centre; <b>alpha cells</b> (glucagon), <b>delta cells</b> (somatostatin) and PP cells sit mainly at the periphery. Islet blood flows on to the acini around them, bathing them in high insulin.</p>",
+    "text": "<p>Most of the pancreas is <b>exocrine</b>: serous <b>acini</b> of pyramidal cells with basophilic bases and apical zymogen granules, draining through intercalated ducts (whose centroacinar cells add bicarbonate) into the duct system.</p><p>Scattered among them are the pale <b>islets of Langerhans</b>, about a million, 1–2% of the mass. <b>Beta cells</b> (insulin, about 70%) fill the centre; <b>alpha cells</b> (glucagon), <b>delta cells</b> (somatostatin) and PP cells sit mainly at the periphery. Islet blood flows on to the acini around them, bathing them in high insulin.</p><p>The pancreas model shows the acini, the duct system and an islet of the four cell types.</p>",
     "clinical": "Type 1 diabetes is autoimmune destruction of beta cells, leaving the other islet cells intact. In chronic pancreatitis the acini are lost first; the islets survive longer, but diabetes eventually follows as they are strangled by fibrosis.",
     "systems": [
      "visceral"
@@ -1116,7 +1090,8 @@
      "q": "Which islet cell is most numerous, and what does it secrete?",
      "a": "The beta cell; insulin."
     },
-    "histology": "pancreas"
+    "micro": "pancreas",
+    "micro_focus": ["Lobule: Acinar cells: apical cytoplasm", "Lobule: Zymogen granules", "Lobule: Centroacinar cells", "Lobule: Intercalated ducts", "Lobule: Beta cells (insulin)", "Lobule: Alpha cells (glucagon)", "Lobule: Delta cells (somatostatin)"]
    },
    {
     "title": "The adrenal: salt, sugar, sex",

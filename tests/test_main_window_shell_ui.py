@@ -282,7 +282,7 @@ class IntegratedShellTests(unittest.TestCase):
                             self.assertIs(win.center.currentWidget(), win.anatomy_tab)
                             self.assertTrue(win.state.visible_mask().any())
                             self.assertTrue(win.state.selected)
-        self.assertEqual(count, 221)
+        self.assertEqual(count, 223)  # ch21-04 gained the fenestrated and sinusoidal capillary steps (2026-10-07)
 
     def test_concept_diagrams_replace_models_and_restore_anatomy(self):
         win = self.window
@@ -297,7 +297,7 @@ class IntegratedShellTests(unittest.TestCase):
         panel.go(2, force=True)
         self.assertIs(win.center.currentWidget(), win.anatomy_tab)
         self.assertNotIn('micro', lesson.steps[2])
-        self.assertEqual(lesson.steps[2]['focus'], ['Medulla oblongata'])
+        self.assertEqual(lesson.steps[2]['focus'], ['Hypothalamus', 'Medulla oblongata'])  # lecture: hypothalamus; textbook: medulla
         panel.go(4, force=True)
         self.assertIs(win.center.currentWidget(), visual)
         self.assertEqual(visual.diagram.diagram_id, 'lab04-action-potentials')

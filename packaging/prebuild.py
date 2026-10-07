@@ -6,10 +6,10 @@
 2. The atlas manifest, surface samples and depth index, stamped with the installed content identity,
    written to packaging/build/stage/data/anatomy. The spec ships these in place
    of the copies in data/anatomy, which carry this machine's file times and would not match after installation.
-3. A check that every in-house GLB model the catalogue describes (data/content/models) is really there - not a Git
-   LFS pointer - and loads, so an installer never ships without the heart, the kidney or the cardiac muscle.
+3. For legacy builds without a release library, check the in-house GLB models.
+   A post-only release library replaces those assets; build.py checks its selected paths before packaging.
 
-Usage: python packaging/prebuild.py [--jobs N] [--skip-micro]"""
+Usage: python packaging/prebuild.py [--jobs N] [--skip-micro] [--skip-models]"""
 import json
 import subprocess
 import sys
@@ -81,7 +81,8 @@ def main():
     if "--skip-micro" not in args:
         micro(jobs)
     anatomy()
-    models()
+    if "--skip-models" not in args:
+        models()
 
 
 if __name__ == "__main__":

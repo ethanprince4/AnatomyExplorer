@@ -1,0 +1,135 @@
+{
+  "model_id": "skeletal_muscle_static_refinement",
+  "display_name": "Skeletal muscle",
+  "summary": "Preserved static hierarchical muscle teaching model.",
+  "metres_per_unit": 0.001,
+  "scale_note": "Multiscale schematic; seven representative fascicles and enlarged myofibrillar detail are not measured density or one common physical scale.",
+  "viewer_cameras": {
+    "Overview": {
+      "position": [
+        2.7,
+        2.1,
+        2.3
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.7,
+      "hidden": []
+    },
+    "Fascicle and fiber": {
+      "position": [
+        2.1,
+        1.0,
+        1.7
+      ],
+      "target": [
+        0.2,
+        0.0,
+        0.1
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.7,
+      "hidden": [
+        "Epimysium",
+        "Epimysial collagen bundles"
+      ]
+    },
+    "Peripheral nuclei": {
+      "position": [
+        1.4,
+        1.5,
+        2.2
+      ],
+      "target": [
+        0.65,
+        0.18,
+        0.38
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.7,
+      "hidden": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium"
+      ]
+    },
+    "Myofibril closeup": {
+      "position": [
+        1.25,
+        0.32,
+        0.85
+      ],
+      "target": [
+        1.02,
+        0.07,
+        0.486
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.33,
+      "hidden": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate",
+        "Muscle spindle capsule",
+        "Intrafusal fibres",
+        "Nuclear bag & chain nuclei",
+        "Annulospiral (Ia) sensory ending"
+      ]
+    },
+    "Muscle spindle": {
+      "position": [
+        0.8,
+        0.3,
+        0.9
+      ],
+      "target": [
+        0.28,
+        -0.08,
+        0.52
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.46,
+      "hidden": [
+        "Epimysium",
+        "Epimysial collagen bundles",
+        "Perimysium",
+        "Endomysium",
+        "Muscle fibres",
+        "Myonuclei",
+        "Satellite cells",
+        "Endomysial capillaries",
+        "Perimysial arterioles",
+        "Perimysial venules",
+        "Myofibrils",
+        "A band",
+        "I band",
+        "H zone",
+        "M line",
+        "Z disc",
+        "T tubules",
+        "Sarcoplasmic reticulum",
+        "Motor nerve branch",
+        "Neuromuscular junction",
+        "Motor end plate"
+      ]
+    }
+  },
+  "start_view": "Overview",
+  "home_view": "Overview",
+  "cut_on": false
+}

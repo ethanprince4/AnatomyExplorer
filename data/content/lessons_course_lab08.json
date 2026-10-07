@@ -1361,17 +1361,7 @@
    "Visceral peritoneum = serosa on organs; parietal peritoneum lines the wall; mesentery joins them.",
    "Kidneys, pancreas and most of the duodenum are retroperitoneal."
   ],
-  "see_also": {
-   "lessons": [
-    "micro-gut-wall"
-   ],
-   "micro": [],
-   "histology": [
-    "serosa",
-    "jejunum",
-    "duodenum"
-   ]
-  },
+  "see_also": {"lessons": ["micro-gut-wall"], "micro": ["duodenum"], "histology": ["duodenum", "serosa", "jejunum"]},
   "steps": [
    {
     "title": "Four layers",
@@ -1395,7 +1385,7 @@
    },
    {
     "title": "The gut's own nervous system",
-    "text": "<p>The <b>enteric nervous system</b> is two nerve networks in the wall. The <b>submucosal (Meissner) plexus</b> in the submucosa controls secretion and local blood flow; the <b>myenteric (Auerbach) plexus</b>, between the circular and longitudinal muscle, drives motility.</p><p>The mucosa also holds <b>lymphatic nodules</b> (mucosa-associated lymphoid tissue) and tube-shaped <b>intestinal glands</b> (crypts).</p>",
+    "text": "<p>The <b>enteric nervous system</b> is two nerve networks in the wall. The <b>submucosal (Meissner) plexus</b> in the submucosa controls secretion and local blood flow; the <b>myenteric (Auerbach) plexus</b>, between the circular and longitudinal muscle, drives motility.</p><p>The mucosa also holds <b>lymphatic nodules</b> (mucosa-associated lymphoid tissue) and tube-shaped <b>intestinal glands</b> (crypts).</p><p>In the duodenum model (view “Enteric plexuses”) both networks sit in the wall: Meissner's in the submucosa, Auerbach's between the two muscle layers.</p>",
     "systems": [
      "visceral"
     ],
@@ -1411,7 +1401,8 @@
      "q": "Which plexus lies between the two muscle layers, and what does it control?",
      "a": "The myenteric (Auerbach) plexus; gut motility."
     },
-    "histology": "duodenum"
+    "micro": "duodenum",
+    "micro_focus": ["Submucosal (Meissner) plexus", "Myenteric (Auerbach) plexus", "Myenteric ganglion neurons"]
    },
    {
     "title": "Peritoneum and mesentery",
@@ -1531,7 +1522,9 @@
     "type": "recall",
     "q": "What are lymphatic nodules in the gut mucosa?",
     "a": "Clusters of lymphocytes (MALT) guarding the lining."
-   }
+   },
+   {"type": "find_micro", "model": "duodenum", "part": "Myenteric (Auerbach) plexus"},
+   {"type": "find_micro", "model": "duodenum", "part": "Submucosal (Meissner) plexus"}
   ]
  },
  {
@@ -1797,18 +1790,7 @@
    "Duodenum: Brunner glands. Jejunum: tall villi, neither marker. Ileum: Peyer patches.",
    "The ileocecal valve stops backflow from the large intestine."
   ],
-  "see_also": {
-   "lessons": [
-    "small-intestine",
-    "micro-gut-wall"
-   ],
-   "micro": [],
-   "histology": [
-    "duodenum",
-    "jejunum",
-    "ileum"
-   ]
-  },
+  "see_also": {"lessons": ["small-intestine", "micro-gut-wall"], "micro": ["duodenum"], "histology": ["duodenum", "jejunum", "ileum"]},
   "steps": [
    {
     "title": "Three parts, five metres",
@@ -1857,7 +1839,7 @@
    },
    {
     "title": "Duodenum versus jejunum",
-    "text": "<p>The <b>duodenum</b> is identified by <b>duodenal (Brunner) glands</b> in the submucosa. They secrete alkaline mucus that protects the lining from the acid chyme arriving from the stomach.</p><p>The <b>jejunum</b> has the tallest, most numerous villi and tall circular folds, but neither Brunner glands nor Peyer patches.</p>",
+    "text": "<p>The <b>duodenum</b> is identified by <b>duodenal (Brunner) glands</b> in the submucosa. They secrete alkaline mucus that protects the lining from the acid chyme arriving from the stomach.</p><p>The <b>jejunum</b> has the tallest, most numerous villi and tall circular folds, but neither Brunner glands nor Peyer patches.</p><p>The duodenum model shows the Brunner glands in the submucosa, their ducts piercing the muscularis mucosae.</p>",
     "systems": [
      "visceral"
     ],
@@ -1869,11 +1851,12 @@
     ],
     "view": "anterior",
     "xray": true,
-    "histology": "duodenum",
     "check": {
      "q": "What do Brunner glands secrete, and why?",
      "a": "Alkaline mucus, to protect the duodenal lining from acid chyme."
-    }
+    },
+    "micro": "duodenum",
+    "micro_focus": ["Brunner gland mucous cells", "Brunner gland duct cells", "Submucosal connective tissue"]
    },
    {
     "title": "The ileum",
@@ -1959,7 +1942,9 @@
     "type": "recall",
     "q": "How does a jejunum slide differ from an ileum slide?",
     "a": "Jejunum: tall villi, no Peyer patches. Ileum: Peyer patches (aggregated lymphoid nodules)."
-   }
+   },
+   {"type": "find_micro", "model": "duodenum", "part": "Brunner gland mucous cells"},
+   {"type": "find_micro", "model": "duodenum", "part": "Central lacteals"}
   ]
  },
  {
@@ -1995,17 +1980,7 @@
    "SMA: cecum to mid-transverse colon. IMA: distal colon and rectum.",
    "Colon mucosa: straight crypts packed with goblet cells, no villi, no Peyer patches."
   ],
-  "see_also": {
-   "lessons": [
-    "large-intestine"
-   ],
-   "micro": [],
-   "histology": [
-    "colon",
-    "appendix",
-    "anal_canal"
-   ]
-  },
+  "see_also": {"lessons": ["large-intestine"], "micro": ["colon_wall"], "histology": ["colon", "appendix", "anal_canal"]},
   "steps": [
    {
     "title": "The frame around the abdomen",
@@ -2133,7 +2108,7 @@
    },
    {
     "title": "Blood supply and histology",
-    "text": "<p>The <b>superior mesenteric artery</b> supplies the cecum to about two-thirds along the transverse colon; the <b>inferior mesenteric artery</b> supplies the rest of the colon and the rectum. Both leave the abdominal aorta.</p><p>Colon mucosa is simple columnar epithelium with very many <b>goblet cells</b> in straight crypts. It has <b>no villi</b> (unlike small intestine) and <b>solitary lymphatic nodules</b> but no Peyer patches.</p>",
+    "text": "<p>The <b>superior mesenteric artery</b> supplies the cecum to about two-thirds along the transverse colon; the <b>inferior mesenteric artery</b> supplies the rest of the colon and the rectum. Both leave the abdominal aorta.</p><p>Colon mucosa is simple columnar epithelium with very many <b>goblet cells</b> in straight crypts. It has <b>no villi</b> (unlike small intestine) and <b>solitary lymphatic nodules</b> but no Peyer patches.</p><p>The colon-wall model shows the straight crypts, goblet cells and a lymphoid follicle; the colon slide is under See also.</p>",
     "systems": [
      "cardiovascular",
      "visceral"
@@ -2155,7 +2130,8 @@
      "q": "How does colon mucosa differ from small intestine and stomach?",
      "a": "No villi (unlike small intestine) and many goblet cells (unlike stomach)."
     },
-    "histology": "colon"
+    "micro": "colon_wall",
+    "micro_focus": ["Crypt colonocytes", "Goblet cells", "Goblet cell mucin", "Lymphoid follicle: mantle zone", "Lymphoid follicle: germinal centre"]
    }
   ],
   "practice": [
@@ -2625,15 +2601,7 @@
    "Accessory pancreatic duct → minor duodenal papilla.",
    "Pancreas: acini make enzymes and bicarbonate; islets make insulin and glucagon."
   ],
-  "see_also": {
-   "micro": [
-    "liver_lobule"
-   ],
-   "histology": [
-    "gallbladder",
-    "pancreas"
-   ]
-  },
+  "see_also": {"micro": ["pancreas", "liver_lobule"], "histology": ["pancreas", "islets", "gallbladder"]},
   "steps": [
    {
     "title": "What bile does",
@@ -2770,7 +2738,7 @@
    },
    {
     "title": "Exocrine and endocrine",
-    "text": "<p>As an <b>exocrine</b> gland, the pancreas's <b>acinar cells</b> secrete <b>digestive enzymes</b> and its duct cells add <b>bicarbonate</b>, a buffer that neutralises acid chyme; both flow through the pancreatic duct to the duodenum.</p><p>As an <b>endocrine</b> gland, scattered <b>pancreatic islets</b> release <b>insulin</b> (beta cells) and <b>glucagon</b> (alpha cells) into the blood.</p>",
+    "text": "<p>As an <b>exocrine</b> gland, the pancreas's <b>acinar cells</b> secrete <b>digestive enzymes</b> and its duct cells add <b>bicarbonate</b>, a buffer that neutralises acid chyme; both flow through the pancreatic duct to the duodenum.</p><p>As an <b>endocrine</b> gland, scattered <b>pancreatic islets</b> release <b>insulin</b> (beta cells) and <b>glucagon</b> (alpha cells) into the blood.</p><p>The pancreas model shows acini with apical zymogen granules and an islet among them; the pancreas slide is under See also.</p>",
     "systems": [
      "visceral"
     ],
@@ -2782,11 +2750,12 @@
     ],
     "view": "anterior",
     "xray": true,
-    "histology": "pancreas",
     "check": {
      "q": "Which pancreatic secretion neutralises acid chyme?",
      "a": "Bicarbonate, from the duct cells."
-    }
+    },
+    "micro": "pancreas",
+    "micro_focus": ["Lobule: Acinar cells: apical cytoplasm", "Lobule: Zymogen granules", "Lobule: Centroacinar cells", "Lobule: Intercalated ducts", "Lobule: Beta cells (insulin)", "Lobule: Alpha cells (glucagon)", "Lobule: Delta cells (somatostatin)"]
    }
   ],
   "practice": [
@@ -3231,16 +3200,13 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "kidney_section",
-    "micro_focus": [
-     "Fibrous capsule",
-     "Perirenal fat (adipose capsule)",
-     "Renal fascia"
-    ],
+    "micro": "kidney_nephron",
+    "micro_focus": ["Source section / Fibrous capsule", "Source section / Perirenal fat (adipose capsule)", "Source section / Renal fascia"],
     "check": {
      "q": "List the kidney's coverings from the inside out.",
      "a": "Renal (fibrous) capsule, perirenal fat, renal fascia."
-    }
+    },
+    "micro_view": "Source section overview"
    },
    {
     "title": "The hilum and the renal vessels",
@@ -3291,21 +3257,13 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "kidney_section",
-    "micro_focus": [
-     "Renal cortex",
-     "Renal pyramids",
-     "Renal columns",
-     "Renal papillae",
-     "Minor calyces",
-     "Major calyces",
-     "Renal pelvis",
-     "Renal sinus fat"
-    ],
+    "micro": "kidney_nephron",
+    "micro_focus": ["Source section / Renal cortex", "Source section / Renal pyramids", "Source section / Renal columns", "Source section / Renal papillae", "Source section / Minor calyces", "Source section / Major calyces", "Source section / Renal pelvis", "Source section / Renal sinus fat"],
     "check": {
      "q": "What separates neighbouring renal pyramids?",
      "a": "Renal columns (extensions of cortex)."
-    }
+    },
+    "micro_view": "Source section opened"
    },
    {
     "title": "Sheep and cat kidneys",
@@ -3390,43 +3348,51 @@
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Renal cortex"
+    "model": "kidney_nephron",
+    "part": "Source section / Renal cortex",
+    "micro_view": "Source section overview"
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Renal pyramids"
+    "model": "kidney_nephron",
+    "part": "Source section / Renal pyramids",
+    "micro_view": "Source section opened"
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Renal columns"
+    "model": "kidney_nephron",
+    "part": "Source section / Renal columns",
+    "micro_view": "Source section opened"
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Minor calyces"
+    "model": "kidney_nephron",
+    "part": "Source section / Minor calyces",
+    "micro_view": "Source section opened"
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Major calyces"
+    "model": "kidney_nephron",
+    "part": "Source section / Major calyces",
+    "micro_view": "Source section opened"
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Renal papillae"
+    "model": "kidney_nephron",
+    "part": "Source section / Renal papillae",
+    "micro_view": "Source section opened"
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Fibrous capsule"
+    "model": "kidney_nephron",
+    "part": "Source section / Fibrous capsule",
+    "micro_view": "Source section overview"
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Renal fascia"
+    "model": "kidney_nephron",
+    "part": "Source section / Renal fascia",
+    "micro_view": "Source section overview"
    },
    {
     "type": "order",
@@ -3532,21 +3498,14 @@
      "Kidney"
     ],
     "xray": true,
-    "micro": "kidney_section",
-    "micro_focus": [
-     "Renal artery",
-     "Segmental arteries",
-     "Interlobar arteries",
-     "Arcuate arteries",
-     "Cortical radiate (interlobular) arteries",
-     "Interlobar veins",
-     "Arcuate veins"
-    ],
+    "micro": "kidney_nephron",
+    "micro_focus": ["Source section / Renal artery", "Source section / Segmental arteries", "Source section / Interlobar arteries", "Source section / Arcuate arteries", "Source section / Cortical radiate (interlobular) arteries", "Source section / Interlobar veins", "Source section / Arcuate veins"],
     "diagram": "lab08-nephron-flow",
     "check": {
      "q": "Which vessels run along the boundary between cortex and medulla?",
      "a": "The arcuate arteries and veins."
-    }
+    },
+    "micro_view": "Source section opened"
    },
    {
     "title": "Two capillary beds in a row",
@@ -3578,7 +3537,8 @@
     "check": {
      "q": "Which capillary bed filters, and which reabsorbs?",
      "a": "The glomerulus filters; the peritubular capillaries reabsorb."
-    }
+    },
+    "micro_view": "Nephron (15x schematic)"
    },
    {
     "title": "The nephron, in order",
@@ -3608,7 +3568,8 @@
     "check": {
      "q": "Put the tubule segments in order.",
      "a": "PCT, nephron loop (descending then ascending limb), DCT, collecting duct."
-    }
+    },
+    "micro_view": "Nephron (15x schematic)"
    },
    {
     "title": "Making urine",
@@ -3633,7 +3594,8 @@
     "check": {
      "q": "What happens to GFR if the afferent arteriole constricts?",
      "a": "It falls: less blood and pressure reach the glomerulus."
-    }
+    },
+    "micro_view": "Juxtaglomerular apparatus"
    },
    {
     "title": "Reading a kidney slide",
@@ -3661,7 +3623,8 @@
     "check": {
      "q": "How do you tell a PCT from a DCT on a slide?",
      "a": "The PCT has a brush border (fuzzy lumen) and pinker cytoplasm; the DCT has none and a clearer lumen."
-    }
+    },
+    "micro_view": "Nephron (15x schematic)"
    }
   ],
   "practice": [
@@ -3676,57 +3639,68 @@
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Glomerular capillary wall (endothelium and GBM)"
+    "part": "Glomerular capillary wall (endothelium and GBM)",
+    "micro_view": "Corpuscle"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Peritubular capillary network"
+    "part": "Peritubular capillary network",
+    "micro_view": "Nephron (15x schematic)"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Descending vasa recta"
+    "part": "Descending vasa recta",
+    "micro_view": "Nephron (15x schematic)"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Parietal layer of Bowman's capsule"
+    "part": "Parietal layer of Bowman's capsule",
+    "micro_view": "Corpuscle"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Podocyte coat (visceral layer)"
+    "part": "Podocyte coat (visceral layer)",
+    "micro_view": "Corpuscle"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Proximal convoluted tubule"
+    "part": "Proximal convoluted tubule",
+    "micro_view": "Nephron (15x schematic)"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Distal convoluted tubule"
+    "part": "Distal convoluted tubule",
+    "micro_view": "Nephron (15x schematic)"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Macula densa"
+    "part": "Macula densa",
+    "micro_view": "Juxtaglomerular apparatus"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Medullary collecting duct"
+    "part": "Medullary collecting duct",
+    "micro_view": "Nephron (15x schematic)"
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Interlobar arteries"
+    "model": "kidney_nephron",
+    "part": "Source section / Interlobar arteries",
+    "micro_view": "Source section opened"
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Arcuate arteries"
+    "model": "kidney_nephron",
+    "part": "Source section / Arcuate arteries",
+    "micro_view": "Source section opened"
    },
    {
     "type": "order",

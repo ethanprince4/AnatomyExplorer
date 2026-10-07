@@ -49,7 +49,7 @@
     "steps": [
       {
        "title": "Welcome to Chapter 22: lymphatics and immunity",
-       "text": "<p>Chapters 20 and 21 built a closed loop: the <b>heart</b> raises pressure, <b>vessels</b> carry blood, and capillaries exchange fluid with the tissues. This chapter answers what happens to the fluid that does <b>not</b> go back into the blood, and how the body defends itself against things that arrive in that fluid.</p><p>The lymphatic system has three jobs you must be able to list from a blank page: <b>fluid balance</b>, <b>lipid absorption</b>, and <b>defense</b>. Immunity (innate then adaptive) is the last half of the chapter. Each lesson assumes only the ones before it.</p><p>The atlas shows the spleen (left abdomen), thymus (behind the sternum), palatine tonsil, and liver. There is no whole-body lymphatic-vessel model yet; diagrams carry the vessel story.</p>",
+       "text": "<p>Chapters 20 and 21 built a closed loop: the <b>heart</b> raises pressure, <b>vessels</b> carry blood, and capillaries exchange fluid with the tissues. This chapter answers what happens to the fluid that does <b>not</b> go back into the blood, and how the body defends itself against things that arrive in that fluid.</p><p>The lymphatic system has three jobs you must be able to list from a blank page: <b>fluid balance</b>, <b>lipid absorption</b>, and <b>defense</b>. Immunity (innate then adaptive) is the last half of the chapter. Each lesson assumes only the ones before it.</p><p>The atlas shows the spleen (left abdomen), the thymus (behind the sternum), the palatine tonsils and the lymph nodes strung along the vessels of the neck, axilla, chest, abdomen and groin. The atlas has no lymphatic vessels, so the drainage diagram in the panel carries the vessel story.</p>",
        "systems": [
         "lymphatic",
         "visceral",
@@ -63,18 +63,13 @@
         "Spleen",
         "Thymus"
        ],
-       "show": [
-        "Liver",
-        "Palatine tonsil",
-        "Sternum"
-       ],
+       "show": ["Liver", "Palatine tonsil", "Sternum", "Lymph nodes"],
        "view": "anterior",
        "xray": true,
        "check": {
         "q": "Name the three functions of the lymphatic system.",
         "a": "Fluid balance, lipid absorption, and defense."
        },
-       "lesson_view": "diagram",
        "diagram": "lec2-lymph-drainage"
       },
       {
@@ -107,7 +102,7 @@
       },
       {
        "title": "What lymph is, and the parts of the system",
-       "text": "<p><b>Lymph</b> is the fluid inside lymphatic vessels: clear (except after a fatty meal, when intestinal lymph is milky). It carries water, small solutes, some protein, lymphocytes, and anything that leaked from the tissues, including microbes.</p><p>The anatomy list for this chapter is short. Learn the names now; later lessons fill each one in.</p><p><b>Lymph</b> (the fluid). <b>Lymphatic vessels</b> (the pipes). <b>Lymphatic tissue</b> and <b>lymphatic nodules</b> (the filters scattered in mucosa). Encapsulated organs: <b>lymph nodes</b>, <b>tonsils</b>, <b>spleen</b>, <b>thymus</b>.</p>",
+       "text": "<p><b>Lymph</b> is the fluid inside lymphatic vessels: clear (except after a fatty meal, when intestinal lymph is milky). It carries water, small solutes, some protein, lymphocytes, and anything that leaked from the tissues, including microbes.</p><p>The anatomy list for this chapter is short. Learn the names now; later lessons fill each one in.</p><p><b>Lymph</b> (the fluid). <b>Lymphatic vessels</b> (the pipes). <b>Lymphatic tissue</b> and <b>lymphatic nodules</b> (diffuse and dense collections of lymphocytes, many of them in mucous membranes). <b>Tonsils</b> (groups of nodules, not fully encapsulated). The organs with a capsule: <b>lymph nodes</b>, <b>spleen</b> and <b>thymus</b>.</p>",
        "systems": [
         "lymphatic",
         "visceral"
@@ -132,7 +127,7 @@
       },
       {
        "title": "Lipid absorption: lacteals and chyle",
-       "text": "<p>Dietary fat does not go straight into blood capillaries of the gut (those capillaries take water-soluble nutrients to the hepatic portal vein). Fat and other lipid-soluble substances are taken up by special lymphatic capillaries inside intestinal villi called <b>lacteals</b>.</p><p>The lymph in lacteals is milky because it is full of fat droplets. That milky lymph is called <b>chyle</b>.</p><p>Chyle is carried through intestinal lymphatics into the intestinal trunk and then, with the rest of the body's lymph, back to the blood. After a fatty meal the thoracic-duct lymph looks like milk; that is chyle arriving in the veins.</p><p>The atlas highlights the small intestine as regional context; it does not separately label its ileum or individual Peyer patches.</p>",
+       "text": "<p>Dietary fat does not go straight into blood capillaries of the gut (those capillaries take water-soluble nutrients to the hepatic portal vein). Fat and other lipid-soluble substances are taken up by special lymphatic capillaries inside intestinal villi called <b>lacteals</b>.</p><p>The lymph in lacteals is milky because it is full of fat droplets. That milky lymph is called <b>chyle</b>.</p><p>Chyle is carried through intestinal lymphatics into the intestinal trunk and then, with the rest of the body's lymph, back to the blood. After a fatty meal the thoracic-duct lymph looks like milk; that is chyle arriving in the veins.</p><p>The atlas shows the small intestine as a whole; the ileum is not a separate atlas piece. The ileum slide shows villi, each with its central lacteal.</p>",
        "systems": [
         "lymphatic",
         "visceral"
@@ -363,19 +358,11 @@
       "Superficial lymphatics follow veins; deep lymphatics follow arteries. Vessels resemble small veins and have valves.",
       "No central pump. Movement: vessel-wall contraction (pacemaker cells in chamber smooth muscle), skeletal-muscle compression, thoracic pressure changes."
     ],
-    "see_also": {
-      "lessons": [
-        "lec2-ch22-01-functions-overview",
-        "lymphatics"
-      ],
-      "micro": [
-        "compact_bone"
-      ]
-    },
+    "see_also": {"lessons": ["lec2-ch22-01-functions-overview", "lymphatics"], "micro": ["capillary_bed", "lymph_drainage", "compact_bone"]},
     "steps": [
       {
        "title": "From tissue fluid into a lymphatic capillary",
-       "text": "<p>Lymphatic vessels carry lymph <b>away from tissues</b> (never toward them). The smallest vessels are <b>lymphatic capillaries</b>.</p><p>They are <b>more permeable than blood capillaries</b> and they <b>lack a basement membrane</b>. Their endothelium is arranged as a series of overlapping cells that work as <b>one-way valves</b> (flaps). When interstitial pressure is higher than the pressure inside, the flaps are pushed open and fluid (plus cells and debris) enters. When pressure inside is higher, the flaps are pushed shut, so lymph cannot leak back into the tissue.</p><p>The diagram is the model for this step; the atlas has no lymphatic-capillary mesh.</p>",
+       "text": "<p>Lymphatic vessels carry lymph <b>away from tissues</b> (never toward them). The smallest vessels are <b>lymphatic capillaries</b>.</p><p>They are <b>more permeable than blood capillaries</b> and they <b>lack a basement membrane</b>. Their endothelium is arranged as a series of overlapping cells that work as <b>one-way valves</b> (flaps). When interstitial pressure is higher than the pressure inside, the flaps are pushed open and fluid (plus cells and debris) enters. When pressure inside is higher, the flaps are pushed shut, so lymph cannot leak back into the tissue.</p><p>On the capillary model, find the green lymphatic capillary below the blood capillaries: its blind end, the overlapping endothelial cells whose free edges act as the flaps, and the anchoring filaments that tie it to the collagen fibres. When the tissue swells with fluid, the filaments pull the capillary open.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -397,7 +384,8 @@
         "q": "Name two structural reasons lymphatic capillaries take up interstitial fluid so easily.",
         "a": "They are more permeable than blood capillaries, and they lack a basement membrane; overlapping endothelial flaps act as one-way valves."
        },
-       "lesson_view": "diagram"
+       "micro": "capillary_bed",
+       "micro_focus": ["Lymphatic capillary: overlapping endothelial cells", "Anchoring filaments", "Collagen fibres"]
       },
       {
        "title": "Where lymphatic capillaries are absent",
@@ -426,7 +414,7 @@
       },
       {
        "title": "Lymphatic vessels look like small veins",
-       "text": "<p>Once capillaries have joined, the tubes are called <b>lymphatic vessels</b>. Their wall is like a <b>small vein</b>: thin, with some smooth muscle, and (the important part) <b>valves that ensure one-way flow</b>.</p><p>Valves divide each vessel into a series of short chambers. Lymph can go toward the heart; it cannot go backward. That is why a blocked or damaged lymphatic looks swollen distal to the block: fluid can enter but cannot pass the obstruction.</p><p>Lymph nodes sit along these vessels and filter the lymph before it is returned to blood (next lessons).</p>",
+       "text": "<p>Once capillaries have joined, the tubes are called <b>lymphatic vessels</b>. Their wall is like a <b>small vein</b>: thin, with some smooth muscle, and (the important part) <b>valves that ensure one-way flow</b>.</p><p>Valves divide each vessel into a series of short chambers. Lymph can go toward the heart; it cannot go backward. That is why a blocked or damaged lymphatic looks swollen distal to the block: fluid can enter but cannot pass the obstruction.</p><p>Lymph nodes sit along these vessels and filter the lymph before it is returned to blood (next lessons).</p><p>On the model, the lymphatic capillary drains into a collecting lymphatic vessel; inside it, find the two-leaflet valve.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -447,8 +435,9 @@
         "q": "What do lymphatic vessels resemble, and what do their valves do?",
         "a": "They resemble small veins. Valves ensure one-way flow of lymph toward the heart."
        },
-       "lesson_view": "diagram",
-       "diagram": "lec2-lymph-capillary"
+       "diagram": "lec2-lymph-capillary",
+       "micro": "capillary_bed",
+       "micro_focus": ["Collecting lymphatic vessel", "Lymphatic vessel valve", "Lymphatic capillary: overlapping endothelial cells"]
       },
       {
        "title": "There is no lymphatic heart",
@@ -469,7 +458,8 @@
         "q": "What in a lymphatic vessel acts as a pump, and what cells start the contractions?",
         "a": "Valved chambers in the vessel wall act as pumps. Pacemaker cells in the chamber smooth muscle start the contractions."
        },
-       "lesson_view": "reading"
+       "micro": "capillary_bed",
+       "micro_focus": ["Lymphatic vessel valve", "Collecting lymphatic vessel"]
       },
       {
        "title": "Skeletal muscle and thoracic pressure",
@@ -501,7 +491,7 @@
       },
       {
        "title": "Where the lymph is heading",
-       "text": "<p>Lymph in these vessels is heading toward the thorax, where trunks and ducts empty it into the great veins near the heart (next lesson). The drainage diagram shows how lymphatic territories return fluid to the veins.</p><p>Do not look for a thoracic-duct mesh in this atlas; it is not a verified structure name here. Use the drainage diagram in the next lesson for right lymphatic duct versus thoracic duct territories.</p>",
+       "text": "<p>Lymph in these vessels is heading toward the thorax, where trunks and ducts empty it into the great veins near the heart (next lesson). The drainage diagram shows how lymphatic territories return fluid to the veins.</p><p>The lymphatic trunks and ducts model shows where it all ends: the trunks gather into the <b>thoracic duct</b> and the <b>right lymphatic duct</b>, which empty into the venous angles where the internal jugular and subclavian veins meet (next lesson).</p>",
        "systems": [
         "cardiovascular",
         "lymphatic"
@@ -523,8 +513,9 @@
         "q": "Lymphatic vessels carry lymph toward which organ, and do they have a central pump?",
         "a": "Toward the heart (into thoracic veins). There is no central lymphatic pump."
        },
-       "lesson_view": "diagram",
-       "diagram": "lec2-lymph-drainage"
+       "diagram": "lec2-lymph-drainage",
+       "micro": "lymph_drainage",
+       "micro_focus": ["Thoracic duct", "Right lymphatic duct", "Cisterna chyli"]
       }
     ],
     "practice": [
@@ -636,7 +627,10 @@
       {
         "type": "find",
         "structure": "Heart"
-      }
+      },
+      {"type": "find_micro", "model": "capillary_bed", "part": "Lymphatic capillary: overlapping endothelial cells"},
+      {"type": "find_micro", "model": "capillary_bed", "part": "Anchoring filaments"},
+      {"type": "find_micro", "model": "capillary_bed", "part": "Lymphatic vessel valve"}
     ],
     "sources": [
       "LectureMaterials/Chapters 20-22 Lecture Notes.md: Chapter 22",
@@ -677,16 +671,11 @@
       "Right lymphatic duct: right head, right upper limb, right thorax.",
       "Thoracic duct: the remainder of the body."
     ],
-    "see_also": {
-      "lessons": [
-        "lec2-ch22-02-lymph-vessels",
-        "lymphatics"
-      ]
-    },
+    "see_also": {"lessons": ["lec2-ch22-02-lymph-vessels", "lymphatics"], "micro": ["lymph_drainage", "lymph_node"]},
     "steps": [
       {
        "title": "Vessels join into trunks",
-       "text": "<p>Lymphatic vessels drain into larger <b>lymphatic trunks</b>. A trunk is named for the <b>territory</b> it drains, not for a single organ. There are <b>five</b>. Learn the list with the territory beside each name; that pairing is the exam question.</p><p>Trunks then either empty into <b>large veins in the thorax</b> or into one of the two <b>lymphatic ducts</b>, which move lymph into those major veins. Either way, lymph rejoins blood near the heart.</p><p>The atlas does not model the trunks as named structures. Use the drainage diagram to follow each territory to its duct and venous destination.</p>",
+       "text": "<p>Lymphatic vessels drain into larger <b>lymphatic trunks</b>. A trunk is named for the <b>territory</b> it drains, not for a single organ. There are <b>five</b>. Learn the list with the territory beside each name; that pairing is the exam question.</p><p>Trunks then either empty into <b>large veins in the thorax</b> or into one of the two <b>lymphatic ducts</b>, which move lymph into those major veins. Either way, lymph rejoins blood near the heart.</p><p>The lymphatic trunks and ducts model draws them all on the atlas body, with the great veins, aorta, oesophagus and spine around them. Follow each trunk to its duct and into the veins; the drainage diagram below the text maps the territories.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -709,11 +698,12 @@
         "q": "What do lymphatic trunks empty into?",
         "a": "Either large veins in the thorax, or lymphatic ducts that then empty into those veins."
        },
-       "lesson_view": "diagram"
+       "micro": "lymph_drainage",
+       "micro_focus": ["Thoracic duct", "Right lymphatic duct", "Cisterna chyli"]
       },
       {
        "title": "Jugular, subclavian, bronchomediastinal",
-       "text": "<p>The three trunks of the neck and thorax:</p><p><b>Jugular trunk</b> drains the <b>head and neck</b>.</p><p><b>Subclavian trunk</b> drains the <b>upper limbs</b>, the <b>superficial thoracic wall</b>, and the <b>mammary glands</b>. Breast lymph therefore rides the subclavian trunk, which is why axillary nodes (not in this atlas) matter clinically.</p><p><b>Bronchomediastinal trunk</b> drains the <b>deep thoracic organs</b> and the <b>deep thoracic wall</b> (lungs, heart region, deep chest wall), not the skin of the chest.</p>",
+       "text": "<p>The three trunks of the neck and thorax:</p><p><b>Jugular trunk</b> drains the <b>head and neck</b>.</p><p><b>Subclavian trunk</b> drains the <b>upper limbs</b>, the <b>superficial thoracic wall</b>, and the <b>mammary glands</b>. Breast lymph therefore rides the subclavian trunk, which is why the axillary nodes matter clinically.</p><p><b>Bronchomediastinal trunk</b> drains the <b>deep thoracic organs</b> and the <b>deep thoracic wall</b> (lungs, heart region, deep chest wall), not the skin of the chest.</p><p>On the model, the jugular trunks run down beside the internal jugular veins, the subclavian trunks along the subclavian veins, and the bronchomediastinal trunks climb out of the chest, all meeting at the root of the neck.</p>",
        "systems": [
         "lymphatic",
         "visceral",
@@ -739,12 +729,13 @@
         "q": "What does the subclavian trunk drain?",
         "a": "Upper limbs, superficial thoracic wall, and mammary glands."
        },
-       "lesson_view": "diagram",
-       "diagram": "lec2-lymph-drainage"
+       "diagram": "lec2-lymph-drainage",
+       "micro": "lymph_drainage",
+       "micro_focus": ["Left jugular trunk", "Right jugular trunk", "Left subclavian trunk", "Right subclavian trunk", "Left bronchomediastinal trunk", "Right bronchomediastinal trunk"]
       },
       {
        "title": "Intestinal and lumbar trunks",
-       "text": "<p>The two trunks below the diaphragm:</p><p><b>Intestinal trunk</b> drains the <b>abdominal organs</b> (gut, and with them the chyle from lacteals). There is one intestinal trunk in the midline, not a left-right pair like the others.</p><p><b>Lumbar trunk</b> (paired) drains the <b>lower limbs</b>, the <b>pelvic and abdominal walls</b>, and the <b>pelvic organs</b>.</p><p>Gut lymph feeds the intestinal trunk via lacteals.</p>",
+       "text": "<p>The two trunks below the diaphragm:</p><p><b>Intestinal trunk</b> drains the <b>abdominal organs</b> (gut, and with them the chyle from lacteals). There is one intestinal trunk in the midline, not a left-right pair like the others.</p><p><b>Lumbar trunk</b> (paired) drains the <b>lower limbs</b>, the <b>pelvic and abdominal walls</b>, and the <b>pelvic organs</b>.</p><p>Gut lymph feeds the intestinal trunk via lacteals.</p><p>On the model, all three empty into the <b>cisterna chyli</b>, the sac in front of L1–L2, to the right of the aorta, where the thoracic duct begins.</p>",
        "systems": [
         "lymphatic",
         "visceral"
@@ -766,12 +757,13 @@
         "q": "What does the intestinal trunk drain, and what does a lumbar trunk drain?",
         "a": "Intestinal: abdominal organs. Lumbar: lower limbs, pelvic and abdominal walls, and pelvic organs."
        },
-       "lesson_view": "diagram",
-       "diagram": "lec2-lymph-drainage"
+       "diagram": "lec2-lymph-drainage",
+       "micro": "lymph_drainage",
+       "micro_focus": ["Intestinal trunk", "Right lumbar trunk", "Left lumbar trunk", "Cisterna chyli"]
       },
       {
        "title": "Right lymphatic duct: one quarter of the body",
-       "text": "<p>There are two ducts. The smaller one is the <b>right lymphatic duct</b>.</p><p>It drains only the <b>right side of the head</b>, the <b>right upper limb</b>, and the <b>right thorax</b>. That is roughly the upper-right quarter of the body.</p><p>Everything else goes to the other duct. People reverse this on exams: they think “right duct = right half of the body.” It is not. The abdomen, both lower limbs, and the entire left side (head, arm, thorax) are <b>not</b> right-duct territory.</p>",
+       "text": "<p>There are two ducts. The smaller one is the <b>right lymphatic duct</b>.</p><p>It drains only the <b>right side of the head</b>, the <b>right upper limb</b>, and the <b>right thorax</b>. That is roughly the upper-right quarter of the body.</p><p>Everything else goes to the other duct. People reverse this on exams: they think “right duct = right half of the body.” It is not. The abdomen, both lower limbs, and the entire left side (head, arm, thorax) are <b>not</b> right-duct territory.</p><p>On the model, the right lymphatic duct is the short teal vessel entering the <b>right venous angle</b>, where the right internal jugular and subclavian veins meet; its three trunks (teal) join it there.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -796,11 +788,12 @@
         "q": "Which three regions does the right lymphatic duct drain?",
         "a": "Right side of the head, right upper limb, and right thorax."
        },
-       "lesson_view": "diagram"
+       "micro": "lymph_drainage",
+       "micro_focus": ["Right lymphatic duct", "Right jugular trunk", "Right subclavian trunk", "Right bronchomediastinal trunk", "Internal jugular veins", "Right subclavian vein"]
       },
       {
        "title": "Thoracic duct: everything else",
-       "text": "<p>The <b>thoracic duct</b> drains the <b>remainder of the body</b>: the left head and neck, left upper limb, left thorax, and the entire body below the thorax (both sides of the abdomen, pelvis, and both lower limbs), including all the chyle from the intestinal trunk.</p><p>Both ducts empty lymph into <b>major veins of the thorax</b>, returning it to the blood just before the heart. The atlas does not include a verified \"Thoracic duct\" structure, so do not hunt for that name; follow the duct territories in the diagram.</p>",
+       "text": "<p>The <b>thoracic duct</b> drains the <b>remainder of the body</b>: the left head and neck, left upper limb, left thorax, and the entire body below the thorax (both sides of the abdomen, pelvis, and both lower limbs), including all the chyle from the intestinal trunk.</p><p>Both ducts empty lymph into <b>major veins of the thorax</b>, returning it to the blood just before the heart. The thoracic duct empties into the <b>left venous angle</b> (left internal jugular plus left subclavian vein).</p><p>On the model, follow it from the <b>cisterna chyli</b> up through the aortic hiatus, between the aorta and the azygos vein on the front of the spine (behind the oesophagus), across to the left at about T4–T5 and over the top into the left venous angle. The view “Whole system, from behind” hides the spine.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -823,11 +816,12 @@
         "q": "What does the thoracic duct drain?",
         "a": "The remainder of the body: everything not drained by the right lymphatic duct."
        },
-       "lesson_view": "diagram"
+       "micro": "lymph_drainage",
+       "micro_focus": ["Thoracic duct", "Cisterna chyli", "Left jugular trunk", "Left subclavian trunk", "Left bronchomediastinal trunk"]
       },
       {
        "title": "A territory drill",
-       "text": "<p>Test yourself. Lymph from the <b>right thumb</b>: right lymphatic duct. Lymph from the <b>left thumb</b>: thoracic duct. Lymph from the <b>right foot</b>: thoracic duct (lumbar trunk, then thoracic duct). Lymph from the <b>intestine</b> (chyle): intestinal trunk, then thoracic duct. Lymph from the <b>right breast</b>: subclavian trunk on the right, then right lymphatic duct.</p><p>If you can place those five, you have the ducts.</p>",
+       "text": "<p>Test yourself. Lymph from the <b>right thumb</b>: right lymphatic duct. Lymph from the <b>left thumb</b>: thoracic duct. Lymph from the <b>right foot</b>: thoracic duct (lumbar trunk, then thoracic duct). Lymph from the <b>intestine</b> (chyle): intestinal trunk, then thoracic duct. Lymph from the <b>right breast</b>: subclavian trunk on the right, then right lymphatic duct.</p><p>If you can place those five, you have the ducts.</p><p>On the model, the colours carry the answer: teal is the right lymphatic duct’s territory, green the thoracic duct’s. The right lumbar trunk is green.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -850,7 +844,8 @@
         "q": "A tumour cell leaving the right foot in lymph will next reach which duct?",
         "a": "The thoracic duct (via a lumbar trunk). The right lymphatic duct does not drain the lower limb."
        },
-       "lesson_view": "diagram"
+       "micro": "lymph_drainage",
+       "micro_focus": ["Thoracic duct", "Right lymphatic duct", "Right lumbar trunk", "Intestinal trunk", "Right subclavian trunk"]
       }
     ],
     "practice": [
@@ -957,7 +952,13 @@
       {
         "type": "find",
         "structure": "Small intestine"
-      }
+      },
+      {"type": "find_micro", "model": "lymph_drainage", "part": "Thoracic duct"},
+      {"type": "find_micro", "model": "lymph_drainage", "part": "Cisterna chyli"},
+      {"type": "find_micro", "model": "lymph_drainage", "part": "Right lymphatic duct"},
+      {"type": "find_micro", "model": "lymph_drainage", "part": "Intestinal trunk"},
+      {"type": "find_micro", "model": "lymph_drainage", "part": "Left subclavian trunk"},
+      {"type": "find_micro", "model": "lymph_drainage", "part": "Right jugular trunk"}
     ],
     "sources": [
       "LectureMaterials/Chapters 20-22 Lecture Notes.md: Chapter 22",
@@ -1043,7 +1044,7 @@
       },
       {
        "title": "Primary organs: red bone marrow and thymus",
-       "text": "<p><b>Primary lymphatic organs</b> are <b>red bone marrow</b> and the <b>thymus</b>. This is where lymphocytes become <b>immunocompetent</b>: capable of launching an immune response.</p><p><b>Pre-B cells</b> become immunocompetent in <b>red bone marrow</b>. The compact-bone model shows that marrow. The histology slide is the real tissue.</p><p><b>Pre-T cells</b> leave the marrow still immature and become immunocompetent in the <b>thymus</b> (lesson 7). Find the thymus in the superior mediastinum, behind the sternum.</p>",
+       "text": "<p><b>Primary lymphatic organs</b> are <b>red bone marrow</b> and the <b>thymus</b>. This is where lymphocytes become <b>immunocompetent</b>: capable of launching an immune response.</p><p><b>Pre-B cells</b> become immunocompetent in <b>red bone marrow</b>. The bone-marrow slide shows it: crowded blood-forming cells between fat cells. (The Compact Bone model also has a red-marrow cavity, if you want it in 3D.)</p><p><b>Pre-T cells</b> leave the marrow still immature and become immunocompetent in the <b>thymus</b> (lesson 7). Find the thymus in the superior mediastinum, behind the sternum.</p>",
        "systems": [
         "lymphatic",
         "skeletal",
@@ -1094,7 +1095,7 @@
       },
       {
        "title": "Secondary organs: where lymphocytes meet antigen",
-       "text": "<p><b>Secondary lymphatic organs</b> are <b>nodules (tonsils)</b>, <b>diffuse lymphatic tissue</b>, <b>lymph nodes</b> and the <b>spleen</b>.</p><p>These are the locations where lymphocytes interact with each other, with other immune cells, with microorganisms and with other foreign substances to produce an immune response. The meeting is the point.</p><p>Look at the spleen (blood-borne antigen) and the palatine tonsil (antigen from the mouth and nose). Node histology is in the next lesson; spleen and tonsil slides are here so you see the family resemblance: lymphocytes on a reticular mesh.</p>",
+       "text": "<p><b>Secondary lymphatic organs</b> are <b>nodules (tonsils)</b>, <b>diffuse lymphatic tissue</b>, <b>lymph nodes</b> and the <b>spleen</b>.</p><p>These are the locations where lymphocytes interact with each other, with other immune cells, with microorganisms and with other foreign substances to produce an immune response. The meeting is the point.</p><p>Look at the spleen (blood-borne antigen) and the palatine tonsil (antigen from the mouth and nose). Node histology is in the next lesson and the spleen and tonsil slides follow; in each one you will see the same family resemblance: lymphocytes on a reticular mesh.</p>",
        "systems": [
         "lymphatic",
         "visceral"
@@ -1120,7 +1121,7 @@
       },
       {
         "title": "Capsule versus no capsule: organs versus tissue, and MALT",
-        "text": "<p>Lymphatic <b>organs are encapsulated</b> (a connective-tissue capsule). Lymphatic <b>tissue is non-encapsulated</b>.</p><p>Non-encapsulated lymphatic tissue is often associated with mucous membranes lining the digestive, respiratory, urinary and reproductive tracts. That tissue is called <b>mucosa-associated lymphatic tissue (MALT)</b>.</p><p>The palatine tonsil is MALT you can see in the atlas. So are Peyer patches in the ileum (lesson 8). The tonsil histology is a nodule under epithelium, not a fully encapsulated organ like a node.</p><p>The atlas highlights the small intestine as regional context; it does not separately label its ileum or individual Peyer patches.</p>",
+        "text": "<p>Lymphatic <b>organs are encapsulated</b> (a connective-tissue capsule). Lymphatic <b>tissue is non-encapsulated</b>.</p><p>Non-encapsulated lymphatic tissue is often associated with mucous membranes lining the digestive, respiratory, urinary and reproductive tracts. That tissue is called <b>mucosa-associated lymphatic tissue (MALT)</b>.</p><p>The palatine tonsil is MALT you can see in the atlas. So are Peyer patches in the ileum (lesson 8). The tonsil histology is a nodule under epithelium, not a fully encapsulated organ like a node.</p>",
         "systems": [
           "lymphatic",
           "visceral"
@@ -1148,7 +1149,7 @@
       },
       {
         "title": "Reticular fibres, diffuse tissue and nodules",
-        "text": "<p>Both tissues and organs contain <b>fine collagen reticular fibres</b> produced by <b>reticular cells</b>. The fibres act as a <b>filter</b> to trap microorganisms and other particles, the way a net traps fish.</p><p><b>Diffuse lymphatic tissue</b>: dispersed lymphocytes and macrophages; it blends with other tissues and is associated with other lymphatic tissue.</p><p><b>Lymphatic nodules</b>: denser aggregations. They are numerous in the loose CT of digestive (including Peyer patches), respiratory, urinary and reproductive systems (MALT). When the same dense balls sit inside lymph nodes and spleen they are called <b>lymphatic follicles</b>.</p><p>The reticular-CT slide is the fibre mesh itself; the lymph-node slide shows follicles in place.</p><p>The atlas highlights the small intestine as regional context; it does not separately label its ileum or individual Peyer patches.</p>",
+        "text": "<p>Both tissues and organs contain <b>fine collagen reticular fibres</b> produced by <b>reticular cells</b>. The fibres act as a <b>filter</b> to trap microorganisms and other particles, the way a net traps fish.</p><p><b>Diffuse lymphatic tissue</b>: dispersed lymphocytes and macrophages; it blends with other tissues and is associated with other lymphatic tissue.</p><p><b>Lymphatic nodules</b>: denser aggregations. They are numerous in the loose CT of digestive (including Peyer patches), respiratory, urinary and reproductive systems (MALT). When the same dense balls sit inside lymph nodes and spleen they are called <b>lymphatic follicles</b>.</p><p>The reticular-CT slide is the fibre mesh itself; the lymph-node slide shows follicles in place.</p>",
         "systems": [
           "lymphatic"
         ],
@@ -1368,38 +1369,38 @@
         "check": {
           "q": "How big is a lymph node, and what does it do?",
           "a": "About 1-25 mm, round or bean-shaped; it filters lymph and destroys foreign substances."
-        },
-        "histology": "lymph_node"
+        }
       },
       {
         "title": "Capsule, trabeculae, cortex and medulla",
-        "text": "<p>A <b>dense connective-tissue capsule</b> wraps the node. <b>Trabeculae</b> extend inward from the capsule and partly divide the interior. <b>Reticular fibres</b> form the supporting network that actually traps particles.</p><p>The interior is organised into a <b>cortex</b> (outer) and a <b>medulla</b> (inner). Lymphocytes are packed in both; the cortex holds the denser nodules/follicles.</p><p>The histology slide is the exam picture: dark cortex under a capsule, paler medulla toward the hilum.</p>",
+        "text": "<p>A <b>dense connective-tissue capsule</b> wraps the node. <b>Trabeculae</b> extend inward from the capsule and partly divide the interior. <b>Reticular fibres</b> form the supporting network that actually traps particles.</p><p>The interior is organised into a <b>cortex</b> (outer) and a <b>medulla</b> (inner). Lymphocytes are packed in both; the cortex holds the denser nodules/follicles.</p><p>On the model, find the capsule and its trabeculae, the outer cortex with its follicles (B cells), the paracortex (T cells) and the medullary cords toward the hilum. In the Lymph node slide (Histology tab) the same layout is the exam picture: dark cortex under a capsule, paler medulla toward the hilum.</p>",
         "micro": "lymph_node",
         "check": {
           "q": "Name the two regions inside a lymph node and the two connective-tissue supports.",
           "a": "Cortex and medulla. Capsule with trabeculae, plus a reticular-fibre network."
         },
-        "histology": "lymph_node"
+        "micro_focus": ["Capsule", "Trabeculae", "Outer cortex (B-cell zone)", "Paracortex (T-cell zone)", "Medullary cords", "Reticular fibre meshwork"]
       },
       {
         "title": "More afferent than efferent",
-        "text": "<p>Several <b>afferent</b> lymphatic vessels pierce the convex surface and pour lymph in. Fewer <b>efferent</b> vessels leave at the hilum (the indented side), carrying filtered lymph out.</p><p><b>More in than out</b> is deliberate. Lymph slows inside the sinuses, so macrophages have time to phagocytose debris and lymphocytes have time to inspect antigen.</p><p>Afferent = toward the node. Efferent = away.</p>",
+        "text": "<p>Several <b>afferent</b> lymphatic vessels pierce the convex surface and pour lymph in. Fewer <b>efferent</b> vessels leave at the hilum (the indented side), carrying filtered lymph out.</p><p><b>More in than out</b> is deliberate. Lymph slows inside the sinuses, so macrophages have time to phagocytose debris and lymphocytes have time to inspect antigen.</p><p>Afferent = toward the node. Efferent = away.</p><p>On the model, follow lymph in through the afferent vessels on the convex surface, along the subcapsular and medullary sinuses, and out through the single efferent vessel at the hilum.</p>",
         "micro": "lymph_node",
         "pitfall": "Afferent vessels are more numerous. Students often reverse afferent/efferent.",
         "check": {
           "q": "Why does a node have more afferent than efferent lymphatic vessels?",
           "a": "So lymph slows inside the node and can be filtered before it leaves."
-        }
+        },
+        "micro_focus": ["Afferent lymphatic vessels", "Efferent lymphatic vessel", "Subcapsular sinus", "Medullary sinuses"]
       },
       {
         "title": "What happens to trapped substances",
-        "text": "<p>Two fates. <b>Phagocytosis</b>: macrophages eat the particle and destroy it. Or the substance <b>stimulates lymphocytes to proliferate</b>: a clone expands, and that is the start of an adaptive response (later lessons).</p><p>Lymph that leaves in the efferent vessel is cleaner than the lymph that entered, and it may now carry antibodies and activated lymphocytes downstream.</p>",
+        "text": "<p>Two fates. <b>Phagocytosis</b>: macrophages eat the particle and destroy it. Or the substance <b>stimulates lymphocytes to proliferate</b>: a clone expands, and that is the start of an adaptive response (later lessons).</p><p>Lymph that leaves in the efferent vessel is cleaner than the lymph that entered, and it may now carry antibodies and activated lymphocytes downstream.</p><p>On the model, the macrophages lining the sinuses do the phagocytosis; the germinal centres of the follicles are where activated B cells proliferate.</p>",
         "micro": "lymph_node",
         "check": {
           "q": "What two things can happen to substances trapped in a lymph node?",
           "a": "They are removed by phagocytosis, or they stimulate lymphocytes to proliferate."
         },
-        "histology": "lymph_node"
+        "micro_focus": ["Sinus macrophages", "Germinal centre - light zone", "Germinal centre - dark zone"]
       },
       {
         "title": "Cancer cells and metastasis",
@@ -1409,33 +1410,25 @@
         "check": {
           "q": "How can a cancer cell in a lymph node reach the blood?",
           "a": "It can leave in efferent lymph, enter a lymphatic duct, empty into a thoracic vein, and so enter the circulatory system (metastasis)."
-        }
+        },
+        "micro_focus": ["Afferent lymphatic vessels", "Subcapsular sinus", "Efferent lymphatic vessel"]
       },
       {
        "title": "Superficial versus deep",
-       "text": "<p>You have superficial groups (near skin of head, neck, axilla, groin) and deep groups (along viscera). This atlas does not name individual node groups as verified structures, so we do not hunt them here.</p><p>Draw from memory: capsule, cortex, medulla; many afferent in, few efferent out; filter by phagocytosis or lymphocyte proliferation; a trap that metastases use.</p>",
+       "text": "<p>Nodes come in <b>superficial</b> groups, near the skin of the neck, axilla and groin (the ones you can feel when they swell), and <b>deep</b> groups along the great vessels and viscera of the chest and abdomen. In the atlas, find the <b>cervical</b>, <b>axillary</b> and <b>inguinal</b> nodes (superficial) and the <b>mediastinal</b> and <b>abdominal</b> nodes (deep).</p><p>Draw from memory: capsule, cortex, medulla; many afferent in, few efferent out; filter by phagocytosis or lymphocyte proliferation; a trap that metastases use.</p>",
        "systems": [
         "lymphatic",
         "visceral"
        ],
-       "regions": [
-        "thorax",
-        "abdomen"
-       ],
-       "focus": [
-        "Spleen",
-        "Thymus"
-       ],
-       "show": [
-        "Liver"
-       ],
+       "regions": ["head", "neck", "thorax", "abdomen", "upper_limb_l", "upper_limb_r", "lower_limb_l", "lower_limb_r"],
+       "focus": ["Lateral cervical nodes", "Axillary nodes", "Inguinal nodes", "Mediastinal lymph nodes", "Abdominal lymph nodes"],
+       "show": ["Spleen", "Thymus"],
        "view": "anterior",
        "xray": true,
        "check": {
         "q": "Are lymph nodes only found near the skin?",
         "a": "No. There are superficial (near skin) and deep nodes."
-       },
-       "lesson_view": "reading"
+       }
       }
     ],
     "practice": [
@@ -1607,7 +1600,7 @@
     "steps": [
       {
         "title": "Where it sits, and why rupture kills",
-        "text": "<p>The spleen lies on the <b>left superior side of the abdomen</b>, tucked under the left ribs and diaphragm, lateral to the stomach. Find it in the atlas and rotate until you see how close it is to the rib cage.</p><p>It can be <b>ruptured in traumatic abdominal injuries</b>, resulting in <b>bleeding, shock and death</b>. The capsule is thin and the interior is a blood-filled sponge, so it bleeds briskly into the peritoneum.</p><p>There is no 3D micro-model of spleen used in this lecture (the histology slide is the tissue view). The atlas organ is the thing to find.</p>",
+        "text": "<p>The spleen lies on the <b>left superior side of the abdomen</b>, tucked under the left ribs and diaphragm, lateral to the stomach. Find it in the atlas and rotate until you see how close it is to the rib cage.</p><p>It can be <b>ruptured in traumatic abdominal injuries</b>, resulting in <b>bleeding, shock and death</b>. The capsule is thin and the interior is a blood-filled sponge, so it bleeds briskly into the peritoneum.</p><p>There is no 3D model of the spleen's inside; the next steps use the histology slide for that. Here, the atlas organ is the thing to find, with the splenic artery that brings it blood and the splenic vein that drains it to the portal vein.</p>",
         "systems": [
           "lymphatic",
           "visceral",
@@ -1619,11 +1612,7 @@
         "focus": [
           "Spleen"
         ],
-        "show": [
-          "Liver",
-          "Ribs",
-          "Diaphragm"
-        ],
+        "show": ["Liver", "Ribs", "Diaphragm", "Splenic artery", "Splenic vein"],
         "view": "anterior",
         "xray": true,
         "clinical": "Left-lower rib fractures and blunt trauma to the left upper quadrant are the classic setting for splenic rupture.",
@@ -1634,7 +1623,7 @@
       },
       {
         "title": "What it is made of",
-        "text": "<p>The spleen is a <b>fibrous network</b> filled with <b>macrophages</b>, <b>red blood cells</b> and <b>enlarged capillaries</b> that connect to veins. Blood is forced through that maze.</p><p>Around the arteries, a <b>periarterial lymphatic sheath (PALS)</b> and <b>lymphatic nodules</b> contain <b>lymphocytes and macrophages</b>. That is the immune side: antigen in the blood meets lymphocytes here.</p><p>The histology slide shows the capsule and the mixed pulp. Compare it with a lymph node: a node filters lymph arriving in afferent vessels; the spleen filters blood arriving in the splenic artery (not named in this atlas).</p>",
+        "text": "<p>The spleen is a <b>fibrous network</b> filled with <b>macrophages</b>, <b>red blood cells</b> and <b>enlarged capillaries</b> that connect to veins. Blood is forced through that maze.</p><p>Around the arteries, a <b>periarterial lymphatic sheath (PALS)</b> and <b>lymphatic nodules</b> contain <b>lymphocytes and macrophages</b>. That is the immune side: antigen in the blood meets lymphocytes here.</p><p>The histology slide shows the capsule and the mixed pulp. Compare it with a lymph node: a node filters lymph arriving in afferent vessels; the spleen filters blood arriving in the splenic artery (shown with the spleen in the first step).</p>",
         "systems": [
           "lymphatic",
           "visceral"
@@ -1655,7 +1644,7 @@
       },
       {
        "title": "Function 1: destroy defective red cells",
-       "text": "<p>The spleen <b>destroys defective RBCs and recycles their components</b>, especially <b>iron</b>.</p><p>A red cell lives about 120 days (Lab 3). When it is old, stiff, or misshapen it cannot squeeze through the enlarged capillaries and is eaten by macrophages. Iron is salvaged for new haemoglobin in marrow.</p><p>Find erythrocytes on the blood-cell model: anucleate biconcave discs. Those are the cells the spleen is culling.</p>",
+       "text": "<p>The spleen <b>destroys defective RBCs and recycles their components</b>, especially <b>iron</b>.</p><p>A red cell lives about 120 days (Lab 3). When it is old, stiff, or misshapen it cannot squeeze through the enlarged capillaries and is eaten by macrophages. Iron is salvaged for new haemoglobin in marrow.</p><p>On the blood-cell model, find the erythrocytes: anucleate biconcave discs, flexible enough to fold through narrow gaps. An old cell loses that flexibility, and that is what the spleen detects.</p>",
        "systems": [
         "lymphatic",
         "visceral"
@@ -1675,7 +1664,8 @@
         "q": "What does the spleen do to defective red blood cells?",
         "a": "It destroys them and recycles components such as iron."
        },
-       "histology": "spleen"
+       "micro": "blood_cells",
+       "micro_focus": ["Erythrocytes", "Erythrocyte cross-section"]
       },
       {
         "title": "Function 2: detect and respond to foreign substances",
@@ -1937,8 +1927,7 @@
         "check": {
           "q": "Where is the thymus, and how many lobes does it have?",
           "a": "Superior mediastinum; it is bilobed."
-        },
-        "histology": "thymus"
+        }
       },
       {
         "title": "Size across a lifetime",
@@ -2241,7 +2230,7 @@
       },
       {
        "title": "Waldeyer's ring: three named tonsils",
-       "text": "<p>The tonsils form a <b>ring (Waldeyer's ring)</b> around the border between the oral cavity and the pharynx. Three names:</p><p><b>Palatine</b> tonsils: the ones people call <b>'the tonsils'</b>. Paired, in the oropharynx, visible when you say 'ah'. This is the atlas structure.</p><p><b>Pharyngeal</b> tonsil: the one people call <b>'adenoids'</b>, in the nasopharynx. Enlarged adenoids block the nasal airway.</p><p><b>Lingual</b> tonsil: on the posterior tongue. Not a separate atlas name here.</p><p>Ring = palatine + pharyngeal + lingual. That list is the exam.</p>",
+       "text": "<p>The tonsils form a <b>ring (Waldeyer's ring)</b> around the border between the oral cavity and the pharynx. Three names:</p><p><b>Palatine</b> tonsils: the ones people call <b>'the tonsils'</b>. Paired, in the oropharynx, visible when you say 'ah'. This is the atlas structure.</p><p><b>Pharyngeal</b> tonsil: the one people call <b>'adenoids'</b>, in the nasopharynx. Enlarged adenoids block the nasal airway.</p><p><b>Lingual</b> tonsil: on the posterior third of the tongue. The atlas shows the palatine tonsils; the pharyngeal and lingual tonsils are not separate atlas pieces.</p><p>Ring = palatine + pharyngeal + lingual. That list is the exam.</p>",
        "systems": [
         "lymphatic",
         "visceral"
@@ -2250,17 +2239,14 @@
         "head",
         "neck"
        ],
-       "focus": [
-        "Palatine tonsil"
-       ],
+       "focus": ["Pharyngeal lymphoid ring", "Palatine tonsil"],
        "view": "anterior",
        "xray": true,
        "mnemonic": "<b>PPL</b>: Palatine (tonsils), Pharyngeal (adenoids), Lingual (tongue).",
        "check": {
         "q": "Name the three tonsils of Waldeyer's ring and the everyday names of the first two.",
         "a": "Palatine ('the tonsils'), pharyngeal ('adenoids'), lingual."
-       },
-       "lesson_view": "reading"
+       }
       },
       {
         "title": "Find the palatine tonsil",
@@ -2285,7 +2271,7 @@
       },
       {
         "title": "Peyer's patches in the ileum",
-        "text": "<p><b>Peyer's patches</b> are lymphatic nodules in the <b>ileum</b> (the last part of the small intestine). They are MALT of the gut: dense aggregations in the loose CT of the digestive tract (lesson 4).</p><p>Three jobs from lecture: <b>destroy bacteria</b>, <b>prevent breach of the intestinal wall</b>, and <b>generate lymphocyte memory</b>.</p><p>Find the ileum in the atlas. The histology slide of ileum shows the patches as dark lymphoid aggregates in the mucosa/submucosa, opposite the mesentery in a typical section.</p><p>The atlas highlights the small intestine as regional context; it does not separately label its ileum or individual Peyer patches.</p>",
+        "text": "<p><b>Peyer's patches</b> are lymphatic nodules in the <b>ileum</b> (the last part of the small intestine). They are MALT of the gut: dense aggregations in the loose CT of the digestive tract (lesson 4).</p><p>Three jobs from lecture: <b>destroy bacteria</b>, <b>prevent breach of the intestinal wall</b>, and <b>generate lymphocyte memory</b>.</p><p>The ileum slide shows the patches as dark lymphoid aggregates in the mucosa and submucosa, on the side of the wall opposite the mesentery. (In the atlas the ileum is part of the small intestine and is not a separate piece.)</p>",
         "systems": [
           "lymphatic",
           "visceral"
@@ -2310,7 +2296,7 @@
       },
       {
        "title": "Vermiform appendix: more gut MALT",
-       "text": "<p>The <b>vermiform appendix</b> hangs from the caecum and is packed with lymphatic nodules. Lecture listed it with the gut MALT neighbourhood. Find it in the atlas next to the ileum.</p><p>Same idea as Peyer patches: a sample of intestinal contents meets lymphocytes. Appendicitis is inflammation of this structure; that clinical name is extra colour, not a required lecture mechanism.</p><p>The atlas highlights the small intestine as regional context; it does not separately label its ileum or individual Peyer patches.</p>",
+       "text": "<p>The <b>vermiform appendix</b> hangs from the caecum and is packed with lymphatic nodules. Lecture listed it with the gut MALT neighbourhood. On the ileocaecal model, find the appendix hanging from the caecum just below the terminal ileum, and the lymphoid follicles crowding its wall.</p><p>Same idea as Peyer patches: a sample of intestinal contents meets lymphocytes. Appendicitis is inflammation of this structure; that clinical name is extra colour, not a required lecture mechanism.</p>",
        "systems": [
         "lymphatic",
         "visceral"
@@ -2330,11 +2316,12 @@
         "q": "The vermiform appendix is a concentration of which kind of lymphatic tissue?",
         "a": "MALT (mucosa-associated lymphatic tissue) of the gut."
        },
-       "histology": "appendix"
+       "micro": "ileocecal_rectum",
+       "micro_focus": ["Vermiform appendix", "Lymphoid follicles of the appendix", "Caecum", "Terminal ileum"]
       },
       {
         "title": "A ring at each end of the gut tube",
-        "text": "<p>Waldeyer's ring guards the <b>entrance</b> (mouth and nose into the pharynx). Peyer's patches and the appendix guard the <b>ileum and caecum</b>. Both are secondary lymphatic tissue, not primary organs. T and B cells that trained in thymus and marrow work here.</p><p>You now have the organ list: nodes, spleen, thymus, tonsils, Peyer. Next is immunity itself, starting with barriers that never need a lymphocyte.</p><p>The atlas highlights the small intestine as regional context; it does not separately label its ileum or individual Peyer patches.</p>",
+        "text": "<p>Waldeyer's ring guards the <b>entrance</b> (mouth and nose into the pharynx). Peyer's patches and the appendix guard the <b>ileum and caecum</b>. Both are secondary lymphatic tissue, not primary organs. T and B cells that trained in thymus and marrow work here.</p><p>You now have the organ list: nodes, spleen, thymus, tonsils, Peyer. Next is immunity itself, starting with barriers that never need a lymphocyte.</p>",
         "systems": [
           "lymphatic",
           "visceral"
@@ -3128,12 +3115,13 @@
         "q": "How does chemotaxis differ from phagocytosis?",
         "a": "Chemotaxis guides movement toward a signal; phagocytosis engulfs and destroys a target."
        },
-       "lesson_view": "diagram",
-       "diagram": "lec2-inflammation"
+       "diagram": "lec2-inflammation",
+       "micro": "blood_cells",
+       "micro_focus": ["Neutrophil", "Monocyte"]
       },
       {
        "title": "Phagocytosis: attach, engulf, digest",
-       "text": "<p>A phagocyte adheres to its target and encloses it in a vesicle. Fusion with lysosomes forms a <b>phagolysosome</b>. Acidification and digestive enzymes damage the ingested material; a respiratory burst generates reactive chemicals that also help kill it.</p><p>Antibody and complement coating can improve attachment. That is <b>opsonization</b>, a bridge between recognition and ingestion. Chemotaxis, opsonization and phagocytosis name different parts of the response.</p>",
+       "text": "<p><b>Phagocytosis</b> is endocytosis and destruction of a target by a phagocyte; the lecture names <b>neutrophils and macrophages</b>. In order:</p><p>• <b>Adherence</b> to the target must occur first.</p><p>• The target is enclosed in a vesicle that fuses with lysosomes, forming a <b>phagolysosome</b>, where <b>acidification and lysosomal enzymes</b> digest it.</p><p>• A <b>respiratory burst</b> makes <b>oxidizing chemicals such as hydrogen peroxide</b> that also kill it.</p><p>Antibody or complement coating makes adherence easier: that is <b>opsonization</b>, the bridge between recognizing a target and eating it.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -3155,7 +3143,7 @@
       },
       {
         "title": "Neutrophils first; macrophages persist",
-        "text": "<p><b>Neutrophils</b> usually enter infected tissue early. They phagocytose microbes and release granule contents and signals that recruit other cells. Their activity can also injure surrounding tissue; dead cells and debris contribute to pus.</p><p><b>Monocytes</b> can enter tissue and become macrophages. Macrophages generally live longer, ingest larger material, clear debris and participate in repair and antigen presentation. Tissue examples include lung alveolar macrophages, liver Kupffer cells and CNS microglia. These names describe location; many resident macrophage populations also have developmental origins before adult monocytes.</p>",
+        "text": "<p><b>Neutrophils</b> are the <b>first cells to enter infected tissue</b>, and they live only <b>a few hours</b> there. They release <b>cytokines and chemotactic factors</b> that increase the inflammatory response and recruit and activate other immune cells. Their <b>lysosomal enzymes (defensins)</b> kill microorganisms but also damage tissue, which <b>may produce pus</b>. They can also <b>cross the wall of the GI tract</b> to protect it.</p><p><b>Macrophages</b> are large free or fixed phagocytes: <b>monocytes that have entered the tissues</b>. They live longer than neutrophils, <b>ingest larger particles</b>, and produce <b>interferons, prostaglandins and complement</b>. They sit <b>beneath free surfaces</b> (skin, subcutaneous tissue, mucous and serous membranes) and in the <b>sinuses of the spleen, bone marrow, liver and lymph nodes</b>.</p><p>Names by tissue: in sinuses, <b>reticuloendothelial cells</b>; in the lungs, <b>dust cells</b>; in the liver, <b>Kupffer cells</b>; in the CNS, <b>microglia</b>. On the blood-cell model, compare the neutrophil’s multilobed nucleus with the monocyte’s kidney-shaped one (Table 22.2).</p>",
         "systems": [
           "lymphatic",
           "cardiovascular"
@@ -3174,14 +3162,11 @@
           "a": "Neutrophils arrive early; macrophages sustain phagocytosis, antigen presentation and repair."
         },
         "micro": "blood_cells",
-        "micro_focus": [
-          "Neutrophil",
-          "Monocyte"
-        ]
+        "micro_focus": ["Neutrophil", "Neutrophil nucleus", "Monocyte", "Monocyte nucleus"]
       },
       {
         "title": "Granules, parasites and inflammation",
-        "text": "<p><b>Basophils</b> circulate and can enter tissue. <b>Mast cells</b> reside in connective tissue. Both release mediators such as histamine that increase blood flow and vascular permeability.</p><p><b>Eosinophils</b> release products that damage some parasites and participate in allergic inflammation. Lecture also emphasizes their breakdown of some inflammatory chemicals: this does not mean they only suppress inflammation. In asthma and allergy they may contribute to tissue injury.</p>",
+        "text": "<p><b>Basophils and mast cells</b> promote inflammation by releasing <b>histamine and leukotrienes</b>. <b>Basophils are motile</b> and enter infected tissues; <b>mast cells are non-motile</b> and stay in connective tissue.</p><p><b>Eosinophils</b> enter tissues, <b>reduce inflammation by degrading pro-inflammatory chemicals</b>, and <b>secrete enzymes that kill some parasites</b>. (Table 22.2 adds that they also take part in the inflammation of asthma and allergies.)</p><p>On the blood-cell model, the basophil’s bilobed nucleus is hidden by large dark granules; the eosinophil has a bilobed nucleus and red-orange granules.</p>",
         "systems": [
           "lymphatic",
           "cardiovascular"
@@ -3195,19 +3180,13 @@
           "Spleen"
         ],
         "view": "anterior",
-        "check": {
-          "q": "Match histamine release and parasite defense to the relevant cells.",
-          "a": "Basophils and mast cells release histamine; eosinophils are important in parasite defense and allergic inflammation."
-        },
+        "check": {"q": "Which cells release histamine, and what two things do eosinophils do (lecture)?", "a": "Basophils and mast cells release histamine and leukotrienes. Eosinophils reduce inflammation by degrading pro-inflammatory chemicals and secrete enzymes that kill some parasites."},
         "micro": "blood_cells",
-        "micro_focus": [
-          "Basophil",
-          "Eosinophil"
-        ]
+        "micro_focus": ["Basophil", "Basophil granules", "Eosinophil", "Eosinophil granules"]
       },
       {
        "title": "Natural killer cells do not need clonal specificity",
-       "text": "<p><b>NK cells</b> are lymphocytes of innate immunity. They recognize patterns of abnormal or infected cells and induce target-cell death. They are not phagocytes and are not the same as cytotoxic T cells.</p><p>Both NK cells and cytotoxic T cells can kill virus-infected or tumor cells, but a cytotoxic T-cell clone recognizes a particular peptide with MHC I. The shared outcome does not make their recognition mechanisms identical.</p>",
+       "text": "<p><b>Natural killer (NK) cells</b> are <b>non-phagocytic lymphocytes</b> of innate immunity. They <b>lyse tumor and virus-infected cells</b>, by triggering <b>apoptosis</b> and with <b>perforins</b>, and they <b>enhance inflammation</b>. They <b>recognize classes of cells, not specific antigens</b>, which is why they count as innate.</p><p>Cytotoxic T cells also kill virus-infected and tumor cells, but a cytotoxic T-cell clone recognizes one particular peptide on MHC I. Same outcome, different recognition. On the blood-cell model, NK cells have the shape of the large (granular) lymphocyte.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -3226,7 +3205,8 @@
         "a": "Its recognition is not based on the antigen-specific, clonally selected receptor used by B and T cells."
        },
        "diagram": "lec2-lines-of-defense",
-       "lesson_view": "diagram"
+       "micro": "blood_cells",
+       "micro_focus": ["Large lymphocyte", "Large lymphocyte nucleus"]
       }
     ],
     "practice": [
@@ -3302,7 +3282,8 @@
         "type": "find_micro",
         "model": "blood_cells",
         "part": "Neutrophil"
-      }
+      },
+      {"type": "mcq", "q": "In the lungs, macrophages are called…", "choices": ["Dust cells", "Kupffer cells", "Microglia", "Reticuloendothelial cells"], "answer": 0, "why": "Lungs: dust cells. Liver: Kupffer cells. CNS: microglia. Sinuses: reticuloendothelial cells."}
     ],
     "sources": [
       "LectureMaterials/Chapters 20-22 Lecture Notes.md: Chapter 22",
@@ -3371,7 +3352,7 @@
       },
       {
        "title": "Antigens and haptens",
-       "text": "<p>An <b>antigen</b> is a molecular target of immune recognition. Course examples include microbial proteins, pollen, foods and some drugs. Not every recognized molecule can independently elicit a strong response.</p><p>A <b>hapten</b> is a small molecule that becomes immunogenic when joined to a larger carrier protein. The carrier supplies the context needed for activation. This helps explain why a small chemical attached to a body protein can become a new immune target.</p>",
+       "text": "<p>An <b>antigen</b> is a <b>large molecule that stimulates an immune response</b>. <b>Foreign antigens</b> come from an external source: <b>bacteria, viruses and other disease-causing microorganisms</b>, and also <b>pollen, animal dander, feces of mites, foods and drugs</b>.</p><p>A <b>hapten</b> is a <b>small molecule that stimulates an immune response only when attached to body proteins</b>. That is why a small drug bound to one of your own proteins can become a new immune target (penicillin allergy is the classic example).</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -3393,7 +3374,7 @@
       },
       {
        "title": "Self markers, tumor targets and tolerance",
-       "text": "<p>The body also has <b>self-antigens</b>. Recognition is not automatically an instruction to attack: normal tolerance restrains harmful responses to self.</p><p>Altered or abnormally expressed tumor antigens can become useful targets. Conversely, an inappropriate response to normal self components causes autoimmune injury. Keep these separate from allergy, which is an inappropriate response to an otherwise harmless external antigen.</p>",
+       "text": "<p><b>Self-antigens</b> are molecules <b>produced by the body</b> and <b>used as markers</b> to tell self from non-self. Normally tolerance stops the immune system from attacking them.</p><p>The lecture gives one benefit and one danger. <b>Benefit:</b> a response to <b>tumor antigens</b> (altered self) can destroy cancer cells. <b>Danger:</b> a response to normal self causes <b>tissue destruction: autoimmunity</b>.</p><p>Keep autoimmunity separate from <b>allergy</b>, which is a harmful response to a harmless external antigen.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -3455,7 +3436,8 @@
         "q": "Which receptor can bind intact antigen, and which recognizes peptide plus MHC?",
         "a": "B-cell receptor: intact antigen. T-cell receptor: peptide presented with MHC."
        },
-       "lesson_view": "reading"
+       "micro": "blood_cells",
+       "micro_focus": ["B-cell surface immunoglobulin (schematic)", "T-cell receptor (schematic)", "B lymphocyte", "T lymphocyte"]
       }
     ],
     "practice": [
@@ -3585,7 +3567,7 @@
       },
       {
        "title": "MHC I displays the inside of a nucleated cell",
-       "text": "<p><b>Endogenous</b> antigens arise within a cell, for example viral proteins made by an infected cell. Most nucleated cells display intracellular peptides on <b>MHC I</b>. CD8 cytotoxic T cells can recognize an abnormal peptide and kill the presenting target.</p><p>Normal cells also display self peptides. MHC I expression alone does not cause destruction. Mature red blood cells are the standard exception to the all-nucleated-cells rule because they have no nucleus.</p>",
+       "text": "<p><b>Endogenous antigens</b> are proteins the cell makes itself, through gene expression and protein synthesis: normal self proteins, viral proteins in an infected cell, or mutated proteins in a tumor cell.</p><p><b>MHC class I</b> molecules are <b>found on all nucleated cells</b>. They <b>display endogenous antigens</b> and, when the displayed peptide is foreign, <b>prompt immune cells to destroy the displaying cell</b>: a cytotoxic (CD8) T cell recognizes it and kills the cell. Normal self peptides on MHC I are ignored.</p><p>Mature red blood cells have no nucleus, so they carry no MHC I.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -3608,7 +3590,7 @@
       },
       {
        "title": "MHC II displays material taken up from outside",
-       "text": "<p><b>Exogenous</b> antigen enters from outside by uptake into vesicles. Professional APCs, particularly dendritic cells, macrophages and B cells, process this material and present peptides on <b>MHC II</b>.</p><p>CD4 helper T cells recognize the complex. The usual outcome is help and coordination of other immune cells, not killing the APC. Do not confuse an infected target showing MHC I with an APC requesting help through MHC II.</p>",
+       "text": "<p><b>Exogenous antigens</b> are substances taken in from the external environment <b>by phagocytosis</b> and broken down inside the cell.</p><p><b>MHC class II</b> molecules <b>display exogenous antigens</b> on <b>antigen-presenting cells (APCs)</b>: <b>B cells, macrophages, monocytes and dendritic cells</b> (in the skin, the dendritic cells are <b>Langerhans cells</b>).</p><p>A helper (CD4) T cell binds the MHC II–antigen complex. This presentation is <b>MHC-restricted</b>: the T cell needs both the antigen and the APC’s own MHC II. Unlike MHC I, it <b>does not lead to destruction of the APC</b>; it sends a signal that stimulates other immune cells to respond.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -3622,10 +3604,7 @@
         "Spleen"
        ],
        "view": "anterior",
-       "check": {
-        "q": "Name three professional APCs.",
-        "a": "Dendritic cells, macrophages and B cells."
-       },
+       "check": {"q": "Which cells does the lecture list as antigen-presenting cells?", "a": "B cells, macrophages, monocytes and dendritic cells (Langerhans cells in the skin)."},
        "diagram": "lec2-mhc-classes",
        "lesson_view": "diagram"
       },
@@ -3739,7 +3718,8 @@
         "type": "recall",
         "q": "Contrast the usual outcomes of MHC I and MHC II recognition.",
         "a": "MHC I can identify a target for cytotoxic killing; MHC II recruits helper-T coordination."
-      }
+      },
+      {"type": "mcq", "q": "Which cell is NOT one of the lecture’s antigen-presenting cells?", "choices": ["Erythrocyte", "B cell", "Dendritic cell (Langerhans cell in skin)", "Macrophage"], "answer": 0, "why": "APCs with MHC II: B cells, macrophages, monocytes and dendritic cells (Langerhans cells in the skin)."}
     ],
     "sources": [
       "LectureMaterials/Chapters 20-22 Lecture Notes.md: Chapter 22",
@@ -3809,7 +3789,7 @@
       },
       {
        "title": "Developmental positive and negative selection",
-       "text": "<p>The course describes <b>positive selection</b> as survival of potentially functional lymphocytes, and <b>negative selection</b> as removal of dangerous self-reactive cells. For thymic T cells, positive selection tests useful recognition of self-MHC; strong inappropriate self recognition can lead to deletion.</p><p>These developmental checks are distinct from antigen-driven clonal expansion during an infection. Do not say positive selection means attacking self or that it is identical to the later immune response.</p>",
+       "text": "<p>The lecture’s two selections, in its own words:</p><p><b>Positive selection</b> ensures the <b>survival of lymphocytes that react against antigens</b>; these proliferate and form clones.</p><p><b>Negative selection</b> <b>eliminates clones of lymphocytes that react against self-antigens</b>.</p><p>(In the thymus, positive selection specifically keeps the T cells that can recognize the body’s own MHC molecules, and negative selection removes those that react too strongly to self. Either way: keep the useful ones, delete the dangerous ones.)</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -3823,10 +3803,7 @@
         "Spleen"
        ],
        "view": "anterior",
-       "check": {
-        "q": "Why does positive T-cell selection involve self-MHC without requiring attack on self?",
-        "a": "T cells must read peptides on self-MHC; strong harmful self-reactivity is separately controlled by tolerance."
-       },
+       "check": {"q": "What do positive and negative selection do?", "a": "Positive selection keeps lymphocytes that react against antigens, so they can proliferate into clones; negative selection eliminates clones that react against self-antigens."},
        "lesson_view": "reading"
       },
       {
@@ -3955,7 +3932,8 @@
         "type": "recall",
         "q": "Why are developmental selection and an immune response not the same process?",
         "a": "Selection establishes a useful, tolerized repertoire; a later antigen selects and expands a matching mature clone."
-      }
+      },
+      {"type": "mcq", "q": "In the lecture, positive selection…", "choices": ["Ensures survival of lymphocytes that react against antigens", "Eliminates lymphocytes that react against self-antigens", "Destroys antigen-presenting cells", "Turns B cells into plasma cells"], "answer": 0, "why": "Positive selection keeps lymphocytes that react against antigens (they proliferate into clones); negative selection eliminates clones that react against self-antigens."}
     ],
     "sources": [
       "LectureMaterials/Chapters 20-22 Lecture Notes.md: Chapter 22",
@@ -4512,7 +4490,7 @@
       },
       {
        "title": "IgE links recognition to mediator release",
-       "text": "<p>IgE attaches to mast-cell or basophil receptors through its constant region. A matching antigen can cross-link bound IgE and trigger release of mediators such as histamine.</p><p>That connects adaptive antigen specificity to inflammatory effects. Immediate hypersensitivity can involve this pathway; a delayed T-cell-mediated skin reaction is a different mechanism.</p>",
+       "text": "<p>IgE attaches to mast-cell or basophil receptors through its constant region. A matching antigen can cross-link bound IgE and trigger release of mediators such as histamine.</p><p>That connects adaptive antigen specificity to inflammatory effects. Immediate hypersensitivity can involve this pathway; a delayed T-cell-mediated skin reaction is a different mechanism.</p><p>The lecture’s example is <b>hay fever</b>: inhaled antigens (usually plant pollen) combine with IgE on mast cells, which then release inflammatory chemicals such as histamine.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -4684,7 +4662,7 @@
       },
       {
        "title": "Perforin, granzymes and programmed death",
-       "text": "<p>The lecture emphasizes <b>perforin</b>, which helps create access through target membranes. Cytotoxic granules also contain granzymes that trigger apoptosis. Think of directed delivery of a death signal to a recognized target, not indiscriminate destruction of every nearby cell.</p><p>The same broad logic can act against tumor cells and transplanted cells carrying foreign targets. Cytotoxic cells also produce cytokines that affect inflammation and phagocyte activity.</p>",
+       "text": "<p><b>Cytotoxic T (Tc) cells</b> work in two ways:</p><p>• They <b>lyse virus-infected cells, tumor cells and tissue transplants</b>: <b>perforin forms a hole in the plasma membrane</b> of the target cell (granzymes delivered through it then trigger apoptosis).</p><p>• They <b>produce cytokines that promote phagocytosis and inflammation</b>.</p><p><b>Memory T cells</b> are produced too. The killing is aimed at a recognized target, not at every nearby cell.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -4728,7 +4706,7 @@
       },
       {
        "title": "Cytotoxic T versus natural killer",
-       "text": "<p>Both can kill abnormal cells. A cytotoxic T-cell clone recognizes a specific peptide-MHC I target after adaptive activation. NK cells use an innate balance of activating and inhibitory signals and do not use the same clone-specific T-cell receptor.</p><p>Cell shape alone in a schematic blood model cannot establish antigen specificity. Use this comparison as a mechanism question, not a claim that every killing lymphocyte looks distinct.</p>",
+       "text": "<p>Both can kill abnormal cells. A cytotoxic T-cell clone recognizes a specific peptide-MHC I target after adaptive activation. NK cells use an innate balance of activating and inhibitory signals and do not use the same clone-specific T-cell receptor.</p><p>On the blood-cell model, compare a small T lymphocyte with a large (granular) lymphocyte, the shape most NK cells have. Shape cannot tell you which cell is antigen-specific; that is a question of receptors and mechanism, which is what the exam asks.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -4746,7 +4724,8 @@
         "q": "What distinguishes cytotoxic T-cell recognition from NK recognition?",
         "a": "Specific peptide-MHC I recognition by the T-cell receptor versus innate recognition signals."
        },
-       "lesson_view": "reading"
+       "micro": "blood_cells",
+       "micro_focus": ["T lymphocyte", "Large lymphocyte"]
       },
       {
        "title": "Cellular memory and delayed reactions",
@@ -4875,7 +4854,7 @@
     "steps": [
       {
        "title": "Two axes, not four unrelated definitions",
-       "text": "<p>First ask <b>who makes the immune response?</b> Active immunity recruits the recipient’s own lymphocytes. Passive immunity supplies preformed antibodies or, in some settings, immune cells.</p><p>Then ask <b>how did the exposure happen?</b> Natural exposure occurs in ordinary biological circumstances; artificial exposure is deliberately provided. Combining the two answers gives the four categories.</p>",
+       "text": "<p><b>Immunization</b> is <b>deliberate exposure to an antigen or an antibody</b>. To classify any immunity, ask two questions.</p><p>First ask <b>who makes the immune response?</b> Active immunity recruits the recipient’s own lymphocytes. Passive immunity supplies preformed antibodies or, in some settings, immune cells.</p><p>Then ask <b>how did the exposure happen?</b> Natural exposure occurs in ordinary biological circumstances; artificial exposure is deliberately provided. Combining the two answers gives the four categories.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -4944,7 +4923,7 @@
       },
       {
        "title": "Passive artificial: supplied antibodies",
-       "text": "<p>Administered immunoglobulin or antiserum supplies ready-made antibodies: <b>passive artificial immunity</b>. The lecture includes examples related to toxins, venoms and some infections.</p><p>The conceptual advantage is immediate availability; the limitation is temporary protection without generating recipient memory by antibody transfer alone. This classification lesson does not specify treatment choices or schedules.</p>",
+       "text": "<p><b>Passive artificial immunity</b> is the <b>transfer of antibodies (or cells) from an immune animal to a nonimmune human</b>: an <b>antiserum</b>. The lecture lists where it is available: <b>rabies, hepatitis and measles</b>; the toxins of <b>tetanus, diphtheria and botulism</b>; and the <b>venoms of poisonous snakes and black widow spiders</b>.</p><p>Its advantage is <b>immediate protection</b>; its limit is that it is <b>temporary</b> and does not make the recipient’s own memory cells.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"
@@ -5159,7 +5138,7 @@
       },
       {
        "title": "Responses become less effective with age",
-       "text": "<p>The course lists slower and weaker primary and secondary responses, greater antigen requirements, less antibody and fewer newly formed memory cells. Cell-mediated control of intracellular pathogens can decline.</p><p>Reactivation of latent varicella-zoster virus as shingles illustrates reduced immune control. Autoimmune disease and cancer risks also change with age. Ordinary removal of tissue fluid is comparatively less affected than these immune responses.</p>",
+       "text": "<p>The lecture’s aging list: <b>little effect on the lymphatic system’s ability to remove fluid</b> from tissues; the <b>thymus atrophies</b>; <b>primary and secondary responses decrease</b>: more antigen is needed, the response is slower, less antibody is made and fewer memory cells are produced.</p><p>The ability of <b>cell-mediated immunity to resist intracellular pathogens decreases</b> (influenza is the example), latent pathogens can <b>reactivate</b> (herpes zoster: shingles), and <b>autoimmune diseases and cancers increase</b>.</p>",
        "systems": [
         "lymphatic",
         "cardiovascular"

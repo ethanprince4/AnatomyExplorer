@@ -1036,13 +1036,15 @@
    },
    {
     "title": "The pericardium",
-    "text": "<p>The outermost <b>fibrous pericardium</b> is a tough connective-tissue bag fused to the diaphragm; it anchors the heart and stops it overfilling. Inside it is the <b>serous pericardium</b>: a <b>parietal layer</b> lining the fibrous bag, folding back at the great vessels as the <b>visceral layer</b> (epicardium) on the heart itself.</p><p>Between the two is the <b>pericardial cavity</b>, with a little serous fluid that reduces friction.</p>",
+    "text": "<p>The outermost <b>fibrous pericardium</b> is a tough connective-tissue bag fused to the diaphragm; it anchors the heart and stops it overfilling. Inside it is the <b>serous pericardium</b>: a <b>parietal layer</b> lining the fibrous bag, folding back at the great vessels as the <b>visceral layer</b> (epicardium) on the heart itself.</p><p>Between the two is the <b>pericardial cavity</b>, with a little serous fluid that reduces friction.</p><p>In the model the sac is opened in steps at the front.</p>",
     "diagram": "lab03-pericardium",
     "check": {
      "q": "What is another name for the visceral pericardium?",
      "a": "The epicardium."
     },
-    "lesson_view": "diagram"
+    "micro": "whole_heart",
+    "micro_focus": ["Fibrous pericardium", "Parietal layer of serous pericardium", "Visceral layer of serous pericardium (epicardium)"],
+    "micro_view": "Pericardium: The heart in its pericardium"
    }
   ],
   "practice": [
@@ -1137,14 +1139,7 @@
     ]
    }
   ],
-  "see_also": {
-   "micro": [
-    "whole_heart"
-   ],
-   "histology": [
-    "serosa"
-   ]
-  }
+  "see_also": {"micro": ["whole_heart"], "histology": ["serosa"]}
  },
  {
   "id": "lab03-06-heart-wall",
@@ -1179,16 +1174,15 @@
   "steps": [
    {
     "title": "Three layers",
-    "text": "<p>The <b>epicardium</b> is the visceral pericardium: a simple squamous mesothelium over loose connective tissue and fat, in which the coronary vessels run. The <b>myocardium</b>, by far the thickest layer, is cardiac muscle. The <b>endocardium</b> is an <b>endothelium</b> (simple squamous epithelium) on a thin connective-tissue layer; it lines the chambers, covers the valves and is continuous with the lining of the vessels.</p><p>In the heart model the three layers are separate parts: the <b>epicardium</b> with its <b>epicardial fat</b>, the ventricular <b>myocardium</b> and the <b>endocardium</b>. The two thin layers are drawn thicker than life.</p>",
+    "text": "<p>The <b>epicardium</b> is the visceral pericardium: a simple squamous mesothelium over loose connective tissue and fat, in which the coronary vessels run. The <b>myocardium</b>, by far the thickest layer, is cardiac muscle. The <b>endocardium</b> is an <b>endothelium</b> (simple squamous epithelium) on a thin connective-tissue layer; it lines the chambers, covers the valves and is continuous with the lining of the vessels.</p><p>The pericardium model's wall block, magnified 3x, shows all three in order, with the pericardium outside them.</p>",
     "micro": "whole_heart",
-    "micro_focus": [
-     "Left ventricle (myocardium)"
-    ],
+    "micro_focus": ["Visceral layer of serous pericardium (epicardium) (wall block)", "Epicardial connective tissue and fat (wall block)", "Myocardium (wall block)", "Endocardium (wall block)"],
     "diagram": "lab03-pericardium",
     "check": {
      "q": "Which layer of the heart wall is thickest?",
      "a": "The myocardium."
-    }
+    },
+    "micro_view": "Pericardium: Wall block: the layers in order"
    },
    {
     "title": "Cardiac muscle cells",
@@ -1311,20 +1305,11 @@
     "type": "recall",
     "q": "Why does the spiral arrangement of myocardium matter?",
     "a": "Contraction wrings the ventricle, pushing blood from apex toward the outflow valves."
-   }
+   },
+   {"type": "find_micro", "model": "whole_heart", "part": "Visceral layer of serous pericardium (epicardium) (wall block)", "micro_view": "Pericardium: Wall block: the layers in order"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Endocardium (wall block)", "micro_view": "Pericardium: Wall block: the layers in order"}
   ],
-  "see_also": {
-   "micro": [
-    "cardiac_muscle",
-    "whole_heart"
-   ],
-   "histology": [
-    "cardiac_muscle",
-    "simple_squamous",
-    "adipose",
-    "loose_ct"
-   ]
-  }
+  "see_also": {"micro": ["whole_heart", "cardiac_muscle"], "histology": ["cardiac_muscle", "simple_squamous", "adipose", "loose_ct"]}
  },
  {
   "id": "lab03-07-chambers-blood-flow",
@@ -1948,7 +1933,7 @@
   "steps": [
    {
     "title": "The septa and the atrial walls",
-    "text": "<p>The <b>interatrial septum</b> divides the atria. On its right side is a shallow oval dip, the <b>fossa ovalis</b> - all that remains of the <b>foramen ovale</b>, a fetal opening that closes after birth. The thick <b>interventricular septum</b> divides the ventricles.</p><p>Parallel ridges, the <b>pectinate muscles</b>, line the auricles and front of the atria; the ventricles are lined by the irregular <b>trabeculae carneae</b>.</p>",
+    "text": "<p>The <b>interatrial septum</b> divides the atria. On its right side is a shallow oval dip, the <b>fossa ovalis</b> - all that remains of the <b>foramen ovale</b>, a fetal opening that closes after birth. The thick <b>interventricular septum</b> divides the ventricles.</p><p>Parallel ridges, the <b>pectinate muscles</b>, line the auricles and front of the atria; the ventricles are lined by the irregular <b>trabeculae carneae</b>.</p><p>The pericardium model's wall blocks show both kinds of ridge side by side.</p>",
     "micro": "whole_heart",
     "micro_focus": [
      "Interatrial septum",
@@ -1993,7 +1978,7 @@
    },
    {
     "title": "Chordae tendineae and papillary muscles",
-    "text": "<p>The free edges of the AV cusps are tethered by fine tendinous cords, the <b>chordae tendineae</b>, to cone-shaped <b>papillary muscles</b> projecting from the ventricular wall.</p><p>The papillary muscles contract with the ventricle and pull the cords tight, so the cusps meet and are not blown back (everted) into the atria like an umbrella in the wind.</p>",
+    "text": "<p>The free edges of the AV cusps are tethered by fine tendinous cords, the <b>chordae tendineae</b>, to cone-shaped <b>papillary muscles</b> projecting from the ventricular wall.</p><p>The papillary muscles contract with the ventricle and pull the cords tight, so the cusps meet and are not blown back (everted) into the atria like an umbrella in the wind.</p><p>The heart model's views “Inside the right heart” and “Left ventricle and mitral valve” open the walls onto both valves.</p>",
     "systems": [
      "cardiovascular",
      "visceral"
@@ -2158,14 +2143,7 @@
     "a": "Backflow from the artery into the ventricle during ventricular relaxation."
    }
   ],
-  "see_also": {
-   "micro": [
-    "whole_heart"
-   ],
-   "histology": [
-    "heart_valve"
-   ]
-  }
+  "see_also": {"micro": ["whole_heart"], "histology": ["heart_valve"]}
  },
  {
   "id": "lab03-10-sheep-heart",

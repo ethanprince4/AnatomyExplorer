@@ -1,143 +1,1505 @@
 {
   "schema": "ae.local-library.v1",
   "models": {
-    "axillary_skin": {
-      "name": "Axillary Skin",
+    "spleen": {
+      "name": "Spleen",
+      "summary": "Multiscale static human spleen anatomy with separately enlarged open-circulation filtering cutaway.",
+      "scale_note": "Native field: 1 unit = 750 micrometres. Detached filtering detail is enlarged schematically; do not use it for morphometry.",
       "variants": {
         "post": {
-          "path": "models/axillary_skin/e0887645affb/refined.npz",
+          "path": "models/spleen/v4/model.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/spleen/v4/recipe.json"
+          }
         }
-      },
-      "summary": "Hair-bearing axillary skin showing epidermal layers, dermis and fat, with large apocrine glands, eccrine coils and ducts, sebaceous glands, vessels and sensory nerves. Follow the apocrine duct towards the hair follicle and compare it with the separate eccrine secretory coil and duct. The follicular root sheaths, hair bulb and dermal papilla distinguish the hair apparatus from the surrounding glandular tissue. Linked histology in Details: Sweat glands, Hair follicle & sebaceous gland.",
-      "scale_note": "Nominal block about 3 mm wide; 1 authored unit represents approximately 1.5 mm. Epidermal cells, gland winding and fine vessels and nerves use teaching enlargement. The cell inset is a separate schematic space.",
-      "histology": [
-        "sweat_glands",
-        "hair_follicle"
-      ]
+      }
+    },
+    "oesophagus_wall": {
+      "name": "Oesophageal Wall",
+      "summary": "Static folded oesophageal tissue with nonkeratinized squamous lining, compound submucosal glands and patent ducts, smooth muscle and enteric planes.",
+      "scale_note": "Local lower thoracic wall crop, one unit approximately 0.5 mm. Cell nuclear profiles, gland/duct caliber, nerves and vessels are selectively enlarged; sample counts do not indicate density. Regional muscle transitions and whole-organ sphincters are outside scope.",
+      "variants": {
+        "post": {
+          "path": "models/oesophagus_wall/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/oesophagus_wall/v4/recipe.json"
+          }
+        }
+      }
+    },
+    "stomach_wall": {
+      "name": "Stomach Wall",
+      "summary": "Cohesive fundic wall specimen with rugal core, gastric pit-to-branched-gland architecture and layered muscle. Deliberate front stromal window; no geometry labels.",
+      "scale_note": "Local static fundic/body specimen. One unit approximately 0.6 mm vertically; transverse gland caliber, muscle relief, vessel and nerve caliber are selectively enlarged. Cell regions and twelve pit families are teaching samples, not density measurements.",
+      "variants": {
+        "post": {
+          "path": "models/stomach_wall/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/stomach_wall/v4/recipe.json"
+          }
+        }
+      }
+    },
+    "ileum": {
+      "name": "Ileum",
+      "summary": "Static ileal villus/crypt and Peyer patch tissue crop with independently selectable preserved infrastructure.",
+      "scale_note": "Nominal 1500 micrometres per unit. Six villi, nine crypts and two follicles are representative examples, not tissue density; cells and nuclei enlarged. Flat ileal specimen crop, not a whole organ or a measured histological census.",
+      "variants": {
+        "post": {
+          "path": "models/ileum/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/ileum/v4/recipe.json"
+          }
+        }
+      }
+    },
+    "tooth": {
+      "name": "Tooth",
+      "summary": "Preserved mandibular molar/jaw section and adult tooth types, locally repaired venous junctions and socket lining, with one isolated 100×-enlarged coronal dentin-pulp specimen.",
+      "scale_note": "1 unit = 1 cm. Gross dimensions are approximate authored teaching dimensions: crown about 11 mm wide and 7.5 mm high, roots about 14 mm long. Comparison teeth are drawn at 58% of the local source scale. The periodontal ligament has a nominal source band of 0.30 mm; cementum is deliberately widened for visibility (nominal mature field about 0.28–0.58 mm before the cervical taper and mesh smoothing). These field values are not post-build thickness measurements. Artery/vein calibre, spacing and shallow section-face offsets (0.28 and 0.58 mm above the canal) are schematic; no complete capillary bed is depicted. Isolated coronal dentin-pulp specimen is uniformly enlarged 100× relative to the gross tooth: 1 displayed unit corresponds to 100 micrometres there. Specimen is 68 micrometres wide and 175 micrometres tall, a local inner-dentin sample rather than total dentin thickness.",
+      "variants": {
+        "post": {
+          "path": "models/tooth/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/tooth/v4/recipe.json"
+          }
+        }
+      }
+    },
+    "tongue_papillae": {
+      "name": "Tongue Papillae",
+      "summary": "Comparative papillary mucosa, taste-organ cell relationships, sampled serous gland drainage and interweaving skeletal-muscle fascicles.",
+      "scale_note": "Comparative regional teaching arrangement, not one histologic field. Taste buds, real pores and adjacent epithelial thickness retain 4× local cellular enlargement; 19 sampled cells per bud, reduced counts and spacing. Nominal historical macro scale 5000 micrometres per BU is not a measured specimen calibration. Camera zoom is not biological magnification. New cellular and fascicular detail is schematic.",
+      "variants": {
+        "post": {
+          "path": "models/tongue_papillae/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/tongue_papillae/v4/recipe.json"
+          }
+        }
+      }
+    },
+    "bladder_wall": {
+      "name": "Bladder Wall",
+      "summary": "Static distended dome wall patch; intact layers and reversible cellular sections.",
+      "scale_note": "Schematic distended dome specimen; cellular layers are enlarged for visibility, so one world scale does not calibrate every structure.",
+      "variants": {
+        "post": {
+          "path": "models/bladder_wall/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/bladder_wall/v4/recipe.json"
+          }
+        }
+      }
+    },
+    "thin_skin": {
+      "name": "Thin Skin",
+      "summary": "Static thin hairy skin baseline with preserved appendages, patent eccrine routes and source-fitted representative epidermal and unilocular-cell sections.",
+      "scale_note": "Source-preserving schematic bulk with accepted representative cell neighborhoods; 0.002 metres per source unit.",
+      "variants": {
+        "post": {
+          "path": "models/thin_skin/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/thin_skin/v4/recipe.json"
+          }
+        }
+      }
+    },
+    "scalp": {
+      "name": "Scalp",
+      "summary": "Distinct scalp tissue display with preserved three-follicle arrangement and one refined cellular follicular unit",
+      "scale_note": "Original open-foreground/rear-panel scalp display preserved. Cellular sampling is confined to one native follicular unit. Narrow anterior dermal attachment support is explicitly reconstructed teaching context. Specimen stops at galea; deeper scalp layers excluded.",
+      "variants": {
+        "post": {
+          "path": "models/scalp/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/scalp/v4/recipe.json"
+          }
+        }
+      }
+    },
+    "thick_skin": {
+      "name": "Thick Skin",
+      "summary": "Source-preserved palm/sole skin architecture with finite source-fitted cellular, eccrine and sensory sections",
+      "scale_note": "Source block nominally 4 mm wide. Cell field, glands, receptors, counts and calibres are representative teaching geometry, not specimen morphometry. Cellular field is an in-place finite neighborhood, not another scale inset.",
+      "variants": {
+        "post": {
+          "path": "models/thick_skin/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/thick_skin/v4/recipe.json"
+          }
+        }
+      }
     },
     "blood_cells": {
       "name": "Blood Cells",
       "variants": {
         "post": {
-          "path": "models/blood_cells/3b58d8a3f59d/refined.npz",
+          "path": "models/blood_cells/v4/model.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/blood_cells/v4/recipe.json"
+          }
         }
       },
-      "summary": "A collection of erythrocytes and leukocytes, including neutrophils, eosinophils, basophils, lymphocytes and a monocyte. Nuclei, schematic lymphocyte receptors, fibrin and a separate plasma sample can be explored individually. Compare nuclear shape and cytoplasmic organisation between the granulocytes, lymphocytes and monocyte. The segmented and band neutrophils illustrate different nuclear forms; T- and B-cell receptor symbols explain functional differences that ordinary smear appearance alone does not identify. Linked histology in Details: Blood cells, Bone marrow, Spleen.",
-      "scale_note": "Cells retain true scale: 0.03 build units per micrometre. Resting T/B cells look alike on Wright stain; the teal paired T receptor and gold Y-shaped B surface immunoglobulin are greatly enlarged schematic functional cues. Surface Ig is a receptor; activated B-lineage plasmablasts/plasma cells secrete antibody. Granules retain teaching enlargement with deliberately reduced representative counts.",
+      "summary": "Retained source blood-cell comparison: mature/band granulocytes, lymphocytes, monocyte, red cells and platelets, with schematic clot and plasma samples. Arrangement is a teaching comparison, not a physiological census.",
+      "scale_note": "Retained source proportions; teaching samples are arranged separately. Enlarged T/B receptors are explicitly schematic. 31.25 micrometres per unit is inferred from the retained erythrocyte diameter (~0.24 unit = 7.5 micrometres); no dimensional recalibration.",
       "histology": [
         "blood",
         "bone_marrow",
         "spleen"
       ]
     },
-    "compact_bone": {
-      "name": "Compact Bone",
+    "cardiac_muscle": {
+      "summary": "Preserved source-authored cardiac muscle tissue section with static inspection presets.",
+      "scale_note": "10 micrometres per source unit. Source-authored tissue sections and enlarged junction detail retained; no full-cell census implied.",
+      "targets": {
+        "structures": [
+          "Left ventricle",
+          "Right ventricle",
+          "Left atrium",
+          "Right atrium",
+          "Anterior papillary muscle of right ventricle",
+          "Inferior papillary muscle of right ventricle",
+          "Septal papillary muscle of right ventricle",
+          "Inferior papillary muscle of left ventricle"
+        ],
+        "groups": [
+          "Heart"
+        ]
+      },
+      "histology": [
+        "cardiac_muscle",
+        "capillaries",
+        "skeletal_muscle",
+        "blood"
+      ],
+      "related": [
+        "whole_heart",
+        "skeletal_muscle",
+        "muscular_artery",
+        "blood_cells"
+      ],
+      "clinical": [
+        [
+          "Myocardial infarction and troponin",
+          "Occlusion of an epicardial coronary artery by thrombus on a ruptured plaque kills cardiomyocytes from the subendocardium outwards (the wavefront). Damaged cells leak cardiac troponin I and T, which rise within about 3 hours and stay raised for 1-2 weeks. Under the microscope: wavy fibres and contraction bands in the first hours, coagulative necrosis with neutrophils at 1-3 days, macrophages at 3-7 days (when the wall is weakest and rupture is most likely), granulation tissue at 1-2 weeks and a collagen scar by about 2 months. Adult cardiomyocytes renew only about 1% a year at age 25 and less later, so the loss is repaired with scar, not new muscle."
+        ],
+        [
+          "Hypertrophic cardiomyopathy",
+          "Autosomal dominant mutations in sarcomere genes (beta-myosin heavy chain, myosin-binding protein C, troponin T) cause asymmetric septal hypertrophy with myocyte disarray: fibres and myofibrils lie in a whorled, haphazard pattern instead of the parallel alignment seen here, with interstitial fibrosis. The disarray is an arrhythmic substrate and a leading cause of sudden cardiac death in young athletes."
+        ],
+        [
+          "Hypertrophy, dilatation and the capillary supply",
+          "Pressure overload (hypertension, aortic stenosis) adds sarcomeres in parallel, so cells widen and the wall thickens (concentric hypertrophy), with large rectangular 'boxcar' nuclei. Volume overload adds them in series, so cells lengthen and the chamber dilates (eccentric hypertrophy). Capillary growth does not keep pace with the larger cells, so the diffusion distance grows; and since the heart already extracts about 70-75% of the oxygen delivered, it can meet extra demand only by increasing flow, so the subendocardium of a hypertrophied ventricle is prone to ischaemia."
+        ],
+        [
+          "Arrhythmogenic cardiomyopathy and myocarditis",
+          "Mutations in desmosomal proteins of the intercalated disc (plakophilin-2 is the commonest; also desmoplakin, desmoglein-2, desmocollin-2 and plakoglobin) let cells pull apart under stretch. The lost muscle is replaced by fat and fibrous tissue, mainly in the right ventricle, giving ventricular arrhythmias and sudden death in the young. Naxos disease, from a plakoglobin mutation, adds woolly hair and thickened palms and soles because the same proteins hold skin cells together. In viral myocarditis (coxsackie B and others) lymphocytes surround and destroy individual cardiomyocytes."
+        ],
+        [
+          "Gap junctions, conduction and re-entry",
+          "Gap junctions couple the cells electrically, so the impulse spreads through the ventricle as one wave; anything that slows or uncouples them favours re-entry circuits. Acute ischaemia (acidosis, raised intracellular calcium) closes the channels. In chronic ischaemia and heart failure connexin-43 is lost from the discs and redistributed along the sides of the cells, so conduction becomes slow and disorganised; the surviving muscle at the edge of an old infarct is the typical source of ventricular tachycardia."
+        ]
+      ],
+      "aliases": {
+        "Cardiomyocytes": [
+          "group:Cardiomyocyte"
+        ],
+        "Cardiac muscle cells": [
+          "group:Cardiomyocyte"
+        ],
+        "Myocytes": [
+          "group:Cardiomyocyte"
+        ],
+        "Intercalated discs": [
+          "group:Intercalated disc"
+        ],
+        "Cardiomyocyte nuclei": [
+          "group:Nucleus myocyte"
+        ],
+        "Nuclei": [
+          "group:Nucleus myocyte"
+        ],
+        "Perinuclear zones": [
+          "group:Perinuclear zone"
+        ],
+        "Capillaries": [
+          "group:Capillary"
+        ],
+        "Red blood cells": [
+          "group:Red blood cell"
+        ],
+        "Endomysium": [
+          "group:Endomysium"
+        ],
+        "Gap junctions": [
+          "group:Junction gap"
+        ],
+        "Desmosomes": [
+          "group:Junction desmosome"
+        ],
+        "Fascia adherens": [
+          "group:Junction fascia adherens"
+        ],
+        "Intercalated disc junctions": [
+          "group:Junction fascia adherens",
+          "group:Junction desmosome",
+          "group:Junction gap"
+        ],
+        "Binucleate cardiomyocytes": [
+          "cardiomyocyte__001",
+          "cardiomyocyte__002",
+          "cardiomyocyte__010",
+          "cardiomyocyte__012",
+          "cardiomyocyte__015",
+          "cardiomyocyte__018",
+          "cardiomyocyte__022",
+          "cardiomyocyte__028",
+          "cardiomyocyte__029",
+          "cardiomyocyte__030",
+          "cardiomyocyte__037",
+          "cardiomyocyte__040"
+        ],
+        "Hero disc": [
+          "intercalated_disc__013"
+        ],
+        "Partner cell": [
+          "cardiomyocyte__021"
+        ]
+      },
+      "order": 3,
+      "name": "Cardiac Muscle",
       "variants": {
         "post": {
-          "path": "models/compact_bone/159bb68feef0/refined.npz",
+          "path": "models/cardiac_muscle/v4/model.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/cardiac_muscle/v4/recipe.json",
+            "catalog": "models/cardiac_muscle/v4/catalog.json"
+          }
         }
-      },
-      "summary": "Compact bone showing osteons with concentric lamellae, central and perforating canals, osteocytes and canaliculi. Periosteum, endosteum, bone-forming and bone-resorbing cells, and adjacent trabecular bone and marrow are also included. Trace a central canal through an osteon and compare it with the transverse Volkmann canals. A telescoped osteon exposes lamellar collagen, while the marrow-facing surface shows osteoblasts, lining cells and osteoclasts against the transition into trabecular bone. Linked histology in Details: Compact (cortical) bone, Spongy (cancellous) bone, Bone development & growth plate, Bone marrow.",
-      "scale_note": "Nominal mapping: 1 build unit represents 800 micrometres. Lamellar bands aggregate finer lamellae, and the sampled osteocytes and canaliculi are enlarged for teaching; the telescoped detail has no universal specimen scale.",
-      "histology": [
-        "compact_bone",
-        "spongy_bone",
-        "ossification",
-        "bone_marrow"
-      ]
+      }
     },
     "cornea": {
       "name": "Cornea",
       "variants": {
         "post": {
-          "path": "models/cornea/6983d924760d/refined.npz",
+          "path": "models/cornea/v4/model.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate",
-          "report": "models/cornea/6983d924760d/report.json"
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/cornea/v4/recipe.json"
+          }
         }
       },
-      "summary": "A corneal section extending into the limbus, with epithelial cell layers, stromal lamellae and keratocytes, posterior membranes and endothelium. Limbal vessels, corneal nerves, trabecular meshwork and Schlemm canal show neighbouring relationships. Work from the tear-facing epithelium through the stromal lamellae to the posterior endothelium, then follow the transition into the limbal stem-cell region and drainage angle. The model separates the normally avascular central cornea from its vascular limbal surroundings. Linked histology in Details: Cornea, Stratified squamous epithelium (non-keratinised).",
-      "scale_note": "Vertical corneal teaching scale: 1 model unit = 0.55 mm. The corneal epithelium is about 50 micrometres; the limbus is compressed laterally. The 22 stromal tiers represent many more lamellae, and the epithelial basement membrane is enlarged to be selectable.",
+      "summary": "Preserved layered corneal teaching specimen with whole stellate-cell pocket refinement",
+      "scale_note": "Vertical teaching scale 0.55mm/unit; laterally compressed specimen, enlarged representative cells; 22 stromal tiers.",
       "histology": [
         "cornea",
         "strat_squamous_nk"
-      ]
-    },
-    "ear": {
-      "name": "Ear",
-      "variants": {
-        "post": {
-          "path": "models/ear/cf0bdd3056f0/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "External, middle and inner ear anatomy, including the auricle, auditory canal, tympanic membrane, ossicles, cochlea and vestibular apparatus. Enlarged sensory assemblies show cochlear hair cells, the crista ampullaris and an otolith-bearing macula. Follow sound-transmitting structures from the tympanic membrane through the ossicles to the labyrinth, then compare the separate sensory insets. The organ of Corti, crista and macula show different relationships between hair cells, supporting cells and their overlying structures. Linked histology in Details: Inner ear & cochlea, Elastic cartilage.",
-      "scale_note": "Drawn to scale, 1 model unit = 40 mm: the auricle is ~62 mm tall, the meatus ~24 mm long, the cochlea ~9 mm across and the stapes ~3 mm. The tympanic membrane, the membranous labyrinth and the spiral organ are drawn a little thicker than life. Insets: cochlear duct ~x8, crista and macula ~x10, with their cells further enlarged.",
-      "histology": [
-        "ear",
-        "elastic_cartilage"
       ]
     },
     "elastic_artery": {
       "name": "Elastic Artery",
       "variants": {
         "post": {
-          "path": "models/elastic_artery/d0af3614790f/refined.npz",
+          "path": "models/elastic_artery/v4/model.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/elastic_artery/v4/recipe.json"
+          }
         }
       },
-      "summary": "An elastic-artery wall showing the endothelial lining, smooth muscle and repeated elastic lamellae of the media, and collagen-rich adventitia with vasa vasorum and nerves. Compare the many elastic sheets with the smooth muscle between them, and trace the outer-wall vascular supply separately from the main lumen. A peel panel exposes the external elastic lamina; blood cells are teaching furnishings rather than a measured blood sample. Linked histology in Details: Elastic artery (aorta).",
-      "scale_note": "Representative 19 mm aortic lumen. 103 elastic sheets, approximately 1.49 micrometre nominal sheet thickness and 13.96 micrometre median unit period. Pore distribution, wave relief, enlarged blood cells and legacy adventitial furnishings remain schematic teaching geometry; displayed microscopy is not a patient measurement.",
+      "summary": "Preserved elastic arterial wall with closeups of representative lamellar units, sheet apertures and adventitial routes.",
+      "scale_note": "Source teaching scale retained: nominal 19 mm lumen, one unit 13.5714 mm. Twelve enlarged representative elastic sheets include boundary laminae. Aggregate smooth-muscle media has no separately selectable cell bodies or nuclei. Blood cells and furnishing dimensions are enlarged schematic representatives. Native corner section is display clipping, not geometry deletion.",
       "histology": [
         "elastic_artery"
       ]
     },
-    "eyeball": {
-      "name": "Eye",
+    "whole_heart": {
+      "name": "Heart",
       "variants": {
         "post": {
-          "path": "models/eyeball/a8bdd89290cd/refined.npz",
+          "path": "models/whole_heart/v4/model.npz",
           "format": "npz",
+          "static_recipe": true,
           "companions": {
-            "viewer": "models/eyeball/d8382ad7c638/companions/eyeball_refined.viewer.json"
+            "teaching_recipe": "models/whole_heart/v4/recipe.json",
+            "catalog": "models/whole_heart/v4/catalog.json"
           },
-          "status": "review_candidate"
+          "runtime_controls": {
+            "viewer": {
+              "mixed_schematic_scale": true
+            }
+          }
         }
       },
-      "summary": "The eyeball and its supporting structures, including the cornea, sclera, choroid, retina, iris, lens and fluid-filled chambers. Extraocular muscles, eyelids, lacrimal structures and the optic nerve are included. Separate the fibrous, vascular and retinal coats to inspect their relationships to the lens, iris and optic nerve. Around the globe, the extraocular muscles, conjunctival folds, eyelid glands and lacrimal drainage pathway provide the surrounding orbital context. Linked histology in Details: Retina, Cornea, Eyeball, lens & eyelid.",
-      "scale_note": "Block scale: 2 units = 24 mm, the axial length of the globe. Drawn to scale except the thin coats (choroid, retina, conjunctiva, lens capsule, zonular fibres), the canal of Schlemm and the retinal vessels, which are thickened to be visible; the retina's fovea and disc are real pits and holes.",
+      "summary": "An adult heart with four chambers, valves, coronary vessels, the conduction system and pericardial sac. Named views expose the chamber interiors, SA and AV nodes, His bundle and Purkinje fibres. Enlarged wall and atrial teaching blocks show the pericardial layers, myocardium, endocardium, trabeculae and pectinate muscles.",
+      "scale_note": "Gross heart and conduction system: 1 unit = 1 cm. Wall and atrial teaching blocks are enlarged 3 times, with exaggerated thin layers. Nodes and conduction strands are thickened for visibility; the pericardial fluid gap is enlarged to about 3 mm. Internodal paths represent preferential atrial muscle routes, not insulated tracts.",
+      "histology": [
+        "cardiac_muscle",
+        "heart_valve",
+        "elastic_artery",
+        "muscular_artery",
+        "vein"
+      ],
+      "related": [
+        "cardiac_muscle",
+        "elastic_artery",
+        "muscular_artery",
+        "vein_wall",
+        "blood_cells"
+      ],
+      "targets": {
+        "structures": [
+          "Right atrium",
+          "Left atrium",
+          "Right ventricle",
+          "Left ventricle",
+          "Coronary sinus",
+          "Ascending aorta",
+          "Aortic arch",
+          "Pulmonary trunk",
+          "Superior vena cava",
+          "Inferior vena cava (thoracic part)",
+          "Left pulmonary artery",
+          "Right pulmonary artery",
+          "Left superior pulmonary vein",
+          "Left inferior pulmonary vein",
+          "Right superior pulmonary vein",
+          "Right inferior pulmonary vein"
+        ],
+        "groups": [
+          "Heart",
+          "Arteries of heart",
+          "Cardiac veins",
+          "Valvular complex of heart"
+        ]
+      },
+      "clinical": [
+        [
+          "Myocardial infarction territories and coronary dominance",
+          "Each coronary branch supplies a predictable territory, so the leads with ST elevation point to the culprit. Anterior interventricular artery (LAD): anterior wall, apex and the anterior two-thirds of the septum, leads V1-V4; an occlusion before the first septal perforator can also injure the bundle branches. Circumflex and its obtuse marginal branches: lateral wall, leads I, aVL, V5-V6 (an isolated circumflex occlusion is often quiet on the ECG). Right coronary artery: about 70-80% of hearts are right-dominant, as this model is, so the RCA supplies the inferior wall through the posterior interventricular artery (leads II, III, aVF) and the posterior wall through the posterolateral branches (ST depression in V1-V3), plus the right ventricle (ST elevation in V4R, hypotension that worsens with nitrates) and usually the sinoatrial and atrioventricular nodal arteries, hence bradycardia and heart block. About 10% of hearts are left-dominant: the circumflex then reaches the crux and an inferior infarct is a circumflex event."
+        ],
+        [
+          "Valve disease and auscultation areas",
+          "Valves are heard downstream of where they lie: aortic, right 2nd intercostal space at the sternal edge; pulmonary, left 2nd space; tricuspid, left lower sternal border; mitral, the apex (left 5th space, midclavicular line). S1 is closure of the atrioventricular valves, S2 of the semilunar valves (A2 then P2, splitting more on inspiration). Aortic stenosis: ejection systolic murmur radiating to the carotids (calcific degeneration, or a congenitally bicuspid valve). Mitral regurgitation: pansystolic murmur radiating to the axilla. Mitral stenosis (rheumatic, with fused commissures and shortened chordae): mid-diastolic rumble with an opening snap, left atrial enlargement and atrial fibrillation. Aortic regurgitation: early diastolic murmur at the left sternal edge with a collapsing pulse. Tricuspid regurgitation: pansystolic murmur at the left lower sternal border, louder on inspiration, with large v waves in the jugular pulse, usually from a dilated right ventricle stretching the annulus."
+        ],
+        [
+          "Papillary muscles, chordae and mitral regurgitation",
+          "Papillary muscles do not open or close a valve; they tether the leaflets through the chordae so the leaflets are not blown back into the atrium when the ventricle contracts. The anterolateral papillary muscle has a double blood supply (diagonal branches of the LAD and obtuse marginal branches of the circumflex); the posteromedial muscle has a single one (the posterior interventricular artery, from the RCA in right-dominant hearts), so it is the one that ruptures, 2-7 days after an inferior infarct, causing acute severe mitral regurgitation with pulmonary oedema and shock. Ruptured chordae also occur in myxomatous mitral valve prolapse (mid-systolic click, late systolic murmur) and infective endocarditis. A dilated ventricle pulls the papillary muscles apart and tethers the leaflets, giving functional mitral regurgitation."
+        ],
+        [
+          "Atrial fibrillation, the left auricle and the pulmonary veins",
+          "Most triggers of atrial fibrillation fire from muscle sleeves that extend into the pulmonary veins, so catheter ablation isolates the four pulmonary vein openings in the back wall of the left atrium. In non-valvular atrial fibrillation about 90% of left atrial thrombi form in the left auricle, a narrow pouch whose blood stagnates; embolism to the brain causes stroke, which is why patients are anticoagulated or the auricle is occluded. The circumflex artery and great cardiac vein run beside the base of the auricle, and the oesophagus lies directly behind the left atrium's posterior wall (atrio-oesophageal fistula is a rare, lethal complication of ablation)."
+        ],
+        [
+          "Cardiac veins and the coronary sinus in practice",
+          "Most cardiac venous blood returns through the great, middle and small cardiac veins to the coronary sinus, which opens into the right atrium beside the inferior vena cava; the anterior cardiac veins drain directly into the atrium. Left ventricular leads for cardiac resynchronisation therapy are passed through the coronary sinus opening (which may be guarded by a Thebesian valve) into a lateral or posterior tributary, such as the left marginal vein or the posterior vein of the left ventricle. Retrograde cardioplegia is delivered by a balloon catheter in the coronary sinus. A dilated coronary sinus points to raised right atrial pressure or a persistent left superior vena cava, which drains into it; the oblique vein of the left atrium is that vessel's remnant."
+        ],
+        [
+          "Septal defects and fetal remnants",
+          "The interatrial septum carries the fossa ovalis, the remnant of the foramen ovale. A patent foramen ovale persists in about a quarter of adults and can let a venous clot cross to the systemic circulation (paradoxical embolism). Atrial septal defects (secundum, in the fossa ovalis, is the commonest) load the right heart and give a fixed split S2. Most ventricular septal defects lie in the small membranous part of the interventricular septum below the aortic valve, beside the septal leaflet of the tricuspid valve, and give a harsh pansystolic murmur at the left lower sternal border; a large left-to-right shunt can reverse as pulmonary vascular resistance rises (Eisenmenger syndrome)."
+        ]
+      ],
+      "aliases": {
+        "Tricuspid valve": [
+          "tricuspid_anterior_leaflet",
+          "tricuspid_posterior_leaflet",
+          "tricuspid_septal_leaflet"
+        ],
+        "Mitral (bicuspid) valve": [
+          "mitral_anterior_leaflet",
+          "mitral_posterior_leaflet"
+        ],
+        "Chordae tendineae": [
+          "mitral_anterolateral_chorda_1",
+          "mitral_anterolateral_chorda_2",
+          "mitral_anterolateral_chorda_3",
+          "mitral_anterolateral_chorda_4",
+          "mitral_anterolateral_chorda_5",
+          "mitral_anterolateral_chorda_6",
+          "mitral_posteromedial_chorda_1",
+          "mitral_posteromedial_chorda_2",
+          "mitral_posteromedial_chorda_3",
+          "mitral_posteromedial_chorda_4",
+          "mitral_posteromedial_chorda_5",
+          "mitral_posteromedial_chorda_6",
+          "tricuspid_anterior_chorda_1",
+          "tricuspid_anterior_chorda_2",
+          "tricuspid_anterior_chorda_3",
+          "tricuspid_anterior_chorda_4",
+          "tricuspid_anterior_chorda_5",
+          "tricuspid_anterior_chorda_6",
+          "tricuspid_posterior_chorda_1",
+          "tricuspid_posterior_chorda_2",
+          "tricuspid_posterior_chorda_3",
+          "tricuspid_posterior_chorda_4",
+          "tricuspid_posterior_chorda_5",
+          "tricuspid_posterior_chorda_6",
+          "tricuspid_septal_chorda_1",
+          "tricuspid_septal_chorda_2",
+          "tricuspid_septal_chorda_3",
+          "tricuspid_septal_chorda_4",
+          "tricuspid_septal_chorda_5",
+          "tricuspid_septal_chorda_6"
+        ],
+        "Papillary muscles (left ventricle)": [
+          "mitral_anterolateral_papillary_muscle",
+          "mitral_posteromedial_papillary_muscle"
+        ],
+        "Papillary muscles (right ventricle)": [
+          "tricuspid_anterior_papillary_muscle",
+          "tricuspid_posterior_papillary_muscle",
+          "tricuspid_septal_papillary_muscle"
+        ],
+        "Interventricular septum": [
+          "interventricular_septum"
+        ],
+        "Interatrial septum": [
+          "interatrial_septum"
+        ],
+        "Apex of heart": [
+          "left_ventricle_apex"
+        ],
+        "Left coronary artery (left main)": [
+          "left_main_coronary_artery"
+        ],
+        "Anterior interventricular artery (LAD)": [
+          "left_anterior_descending_artery"
+        ],
+        "Circumflex artery": [
+          "left_circumflex_artery"
+        ],
+        "Left marginal artery": [
+          "first_obtuse_marginal_artery",
+          "second_obtuse_marginal_artery"
+        ],
+        "Right coronary artery": [
+          "right_coronary_artery"
+        ],
+        "Right marginal artery": [
+          "right_marginal_artery"
+        ],
+        "Posterior interventricular artery": [
+          "posterior_descending_artery"
+        ],
+        "Left ventricle (myocardium)": [
+          "interventricular_septum",
+          "left_ventricle_anterior_wall",
+          "left_ventricle_apex",
+          "left_ventricle_inferior_wall",
+          "left_ventricle_lateral_wall"
+        ],
+        "Right ventricle (myocardium)": [
+          "right_ventricle_anterior_wall",
+          "right_ventricle_inferior_wall",
+          "right_ventricle_outflow_tract"
+        ],
+        "Right atrium (myocardium)": [
+          "right_atrium_lateral_wall",
+          "right_atrium_posterior_wall",
+          "right_auricle"
+        ],
+        "Left atrium (myocardium)": [
+          "interatrial_septum",
+          "left_atrium_anterior_wall",
+          "left_atrium_posterior_wall",
+          "left_auricle"
+        ],
+        "Right auricle": [
+          "right_auricle"
+        ],
+        "Left auricle": [
+          "left_auricle"
+        ],
+        "Small cardiac vein": [
+          "small_cardiac_vein",
+          "small_cardiac_vein_tributary_1"
+        ],
+        "Great cardiac vein": [
+          "great_cardiac_vein",
+          "great_cardiac_vein_tributary_1",
+          "great_cardiac_vein_tributary_2",
+          "great_cardiac_vein_tributary_3",
+          "great_cardiac_vein_tributary_4"
+        ],
+        "Middle cardiac vein": [
+          "middle_cardiac_vein",
+          "middle_cardiac_vein_tributary_1",
+          "middle_cardiac_vein_tributary_2",
+          "middle_cardiac_vein_tributary_3"
+        ],
+        "Coronary sinus": [
+          "coronary_sinus"
+        ],
+        "Opening of coronary sinus": [
+          "coronary_sinus"
+        ],
+        "Fibrous skeleton (valve annuli)": [
+          "mitral_annulus",
+          "tricuspid_annulus"
+        ],
+        "Right atrium": [
+          "right_atrium_lateral_wall",
+          "right_atrium_posterior_wall",
+          "right_auricle"
+        ],
+        "Left atrium": [
+          "interatrial_septum",
+          "left_atrium_anterior_wall",
+          "left_atrium_posterior_wall",
+          "left_auricle"
+        ],
+        "Right ventricle": [
+          "right_ventricle_anterior_wall",
+          "right_ventricle_inferior_wall",
+          "right_ventricle_outflow_tract"
+        ],
+        "Left ventricle": [
+          "interventricular_septum",
+          "left_ventricle_anterior_wall",
+          "left_ventricle_apex",
+          "left_ventricle_inferior_wall",
+          "left_ventricle_lateral_wall"
+        ],
+        "Aortic valve": [
+          "aortic_left_coronary_cusp",
+          "aortic_non_coronary_cusp",
+          "aortic_right_coronary_cusp"
+        ],
+        "Pulmonary valve": [
+          "pulmonary_anterior_cusp",
+          "pulmonary_left_cusp",
+          "pulmonary_right_cusp"
+        ],
+        "Mitral valve": [
+          "mitral_anterior_leaflet",
+          "mitral_posterior_leaflet"
+        ],
+        "Right atrioventricular valve": [
+          "tricuspid_anterior_leaflet",
+          "tricuspid_posterior_leaflet",
+          "tricuspid_septal_leaflet"
+        ],
+        "Left atrioventricular valve": [
+          "mitral_anterior_leaflet",
+          "mitral_posterior_leaflet"
+        ],
+        "Bicuspid valve": [
+          "mitral_anterior_leaflet",
+          "mitral_posterior_leaflet"
+        ],
+        "Valvular complex of heart": [
+          "tricuspid_anterior_leaflet",
+          "tricuspid_posterior_leaflet",
+          "tricuspid_septal_leaflet",
+          "mitral_anterior_leaflet",
+          "mitral_posterior_leaflet",
+          "aortic_left_coronary_cusp",
+          "aortic_non_coronary_cusp",
+          "aortic_right_coronary_cusp",
+          "pulmonary_anterior_cusp",
+          "pulmonary_left_cusp",
+          "pulmonary_right_cusp"
+        ],
+        "Ascending aorta": [
+          "ascending_aorta"
+        ],
+        "Aortic arch": [
+          "aortic_arch"
+        ],
+        "Thoracic aorta": [
+          "descending_aorta"
+        ],
+        "Descending aorta": [
+          "descending_aorta"
+        ],
+        "Aorta": [
+          "ascending_aorta",
+          "aortic_arch",
+          "descending_aorta"
+        ],
+        "Brachiocephalic trunk": [
+          "brachiocephalic_trunk"
+        ],
+        "Pulmonary trunk": [
+          "pulmonary_trunk"
+        ],
+        "Pulmonary arteries": [
+          "left_pulmonary_artery",
+          "right_pulmonary_artery"
+        ],
+        "Superior vena cava": [
+          "superior_vena_cava"
+        ],
+        "Inferior vena cava": [
+          "inferior_vena_cava"
+        ],
+        "Inferior vena cava (thoracic part)": [
+          "inferior_vena_cava"
+        ],
+        "Venae cavae": [
+          "inferior_vena_cava",
+          "left_brachiocephalic_vein",
+          "right_brachiocephalic_vein",
+          "superior_vena_cava"
+        ],
+        "Pulmonary veins": [
+          "left_inferior_pulmonary_vein",
+          "left_superior_pulmonary_vein",
+          "right_inferior_pulmonary_vein",
+          "right_superior_pulmonary_vein"
+        ],
+        "Coronary arteries": [
+          "atrioventricular_nodal_artery",
+          "conus_artery",
+          "first_diagonal_artery",
+          "first_obtuse_marginal_artery",
+          "first_septal_perforator",
+          "left_anterior_descending_artery",
+          "left_circumflex_artery",
+          "left_main_coronary_artery",
+          "posterior_descending_artery",
+          "posterolateral_branch_of_circumflex",
+          "right_coronary_artery",
+          "right_marginal_artery",
+          "right_posterolateral_artery",
+          "second_diagonal_artery",
+          "second_obtuse_marginal_artery",
+          "second_septal_perforator",
+          "sinoatrial_nodal_artery",
+          "third_diagonal_artery",
+          "third_septal_perforator"
+        ],
+        "Arteries of heart": [
+          "atrioventricular_nodal_artery",
+          "conus_artery",
+          "first_diagonal_artery",
+          "first_obtuse_marginal_artery",
+          "first_septal_perforator",
+          "left_anterior_descending_artery",
+          "left_circumflex_artery",
+          "left_main_coronary_artery",
+          "posterior_descending_artery",
+          "posterolateral_branch_of_circumflex",
+          "right_coronary_artery",
+          "right_marginal_artery",
+          "right_posterolateral_artery",
+          "second_diagonal_artery",
+          "second_obtuse_marginal_artery",
+          "second_septal_perforator",
+          "sinoatrial_nodal_artery",
+          "third_diagonal_artery",
+          "third_septal_perforator"
+        ],
+        "Cardiac veins": [
+          "coronary_sinus",
+          "first_anterior_cardiac_vein",
+          "great_cardiac_vein",
+          "great_cardiac_vein_tributary_1",
+          "great_cardiac_vein_tributary_2",
+          "great_cardiac_vein_tributary_3",
+          "great_cardiac_vein_tributary_4",
+          "left_marginal_vein",
+          "left_marginal_vein_tributary_1",
+          "left_marginal_vein_tributary_2",
+          "middle_cardiac_vein",
+          "middle_cardiac_vein_tributary_1",
+          "middle_cardiac_vein_tributary_2",
+          "middle_cardiac_vein_tributary_3",
+          "oblique_vein_of_left_atrium",
+          "posterior_vein_of_left_ventricle",
+          "posterior_vein_of_left_ventricle_tributary_1",
+          "second_anterior_cardiac_vein",
+          "small_cardiac_vein",
+          "small_cardiac_vein_tributary_1"
+        ],
+        "Circumflex artery of heart": [
+          "left_circumflex_artery"
+        ],
+        "Left coronary artery": [
+          "left_main_coronary_artery"
+        ],
+        "Anterior interventricular artery": [
+          "left_anterior_descending_artery"
+        ],
+        "Left anterior descending artery": [
+          "left_anterior_descending_artery"
+        ],
+        "Posterior descending artery": [
+          "posterior_descending_artery"
+        ],
+        "Septal branches of anterior interventricular artery": [
+          "first_septal_perforator",
+          "second_septal_perforator",
+          "third_septal_perforator"
+        ],
+        "Septal perforators": [
+          "first_septal_perforator",
+          "second_septal_perforator",
+          "third_septal_perforator"
+        ],
+        "Diagonal arteries": [
+          "first_diagonal_artery",
+          "second_diagonal_artery",
+          "third_diagonal_artery"
+        ],
+        "Obtuse marginal arteries": [
+          "first_obtuse_marginal_artery",
+          "second_obtuse_marginal_artery"
+        ],
+        "Right inferolateral branch of right coronary artery": [
+          "right_posterolateral_artery"
+        ],
+        "Sinoatrial nodal artery": [
+          "sinoatrial_nodal_artery"
+        ],
+        "Inferior vein of left ventricle": [
+          "posterior_vein_of_left_ventricle",
+          "posterior_vein_of_left_ventricle_tributary_1"
+        ],
+        "Anterior cardiac veins": [
+          "first_anterior_cardiac_vein",
+          "second_anterior_cardiac_vein"
+        ],
+        "Oblique vein of left atrium": [
+          "oblique_vein_of_left_atrium"
+        ],
+        "Posterior leaflet of left atrioventricular valve": [
+          "mitral_posterior_leaflet"
+        ],
+        "Anterior leaflet of left atrioventricular valve": [
+          "mitral_anterior_leaflet"
+        ],
+        "Septal leaflet of right atrioventricular valve": [
+          "tricuspid_septal_leaflet"
+        ],
+        "Inferior leaflet of right atrioventricular valve": [
+          "tricuspid_posterior_leaflet"
+        ],
+        "Posterior leaflet of right atrioventricular valve": [
+          "tricuspid_posterior_leaflet"
+        ],
+        "Anterior leaflet of right atrioventricular valve": [
+          "tricuspid_anterior_leaflet"
+        ],
+        "Anterior papillary muscle of right ventricle": [
+          "tricuspid_anterior_papillary_muscle"
+        ],
+        "Inferior papillary muscle of right ventricle": [
+          "tricuspid_posterior_papillary_muscle"
+        ],
+        "Posterior papillary muscle of right ventricle": [
+          "tricuspid_posterior_papillary_muscle"
+        ],
+        "Septal papillary muscle of right ventricle": [
+          "tricuspid_septal_papillary_muscle"
+        ],
+        "Inferior papillary muscle of left ventricle": [
+          "mitral_posteromedial_papillary_muscle"
+        ],
+        "Posterior papillary muscle of left ventricle": [
+          "mitral_posteromedial_papillary_muscle"
+        ],
+        "Anterior papillary muscle of left ventricle": [
+          "mitral_anterolateral_papillary_muscle"
+        ],
+        "Papillary muscles": [
+          "mitral_anterolateral_papillary_muscle",
+          "mitral_posteromedial_papillary_muscle",
+          "tricuspid_anterior_papillary_muscle",
+          "tricuspid_posterior_papillary_muscle",
+          "tricuspid_septal_papillary_muscle"
+        ],
+        "Left coronary leaflet": [
+          "aortic_left_coronary_cusp"
+        ],
+        "Right coronary leaflet": [
+          "aortic_right_coronary_cusp"
+        ],
+        "Non-coronary leaflet": [
+          "aortic_non_coronary_cusp"
+        ],
+        "Anterior semilunar leaflet of pulmonary valve": [
+          "pulmonary_anterior_cusp"
+        ],
+        "Left semilunar leaflet of pulmonary valve": [
+          "pulmonary_left_cusp"
+        ],
+        "Right semilunar leaflet of pulmonary valve": [
+          "pulmonary_right_cusp"
+        ],
+        "Mitral annulus": [
+          "mitral_annulus"
+        ],
+        "Tricuspid annulus": [
+          "tricuspid_annulus"
+        ],
+        "Fibrous skeleton of heart": [
+          "mitral_annulus",
+          "tricuspid_annulus"
+        ],
+        "Heart chambers": [
+          "interventricular_septum",
+          "left_ventricle_anterior_wall",
+          "left_ventricle_apex",
+          "left_ventricle_inferior_wall",
+          "left_ventricle_lateral_wall",
+          "right_ventricle_anterior_wall",
+          "right_ventricle_inferior_wall",
+          "right_ventricle_outflow_tract",
+          "interatrial_septum",
+          "left_atrium_anterior_wall",
+          "left_atrium_posterior_wall",
+          "left_auricle",
+          "right_atrium_lateral_wall",
+          "right_atrium_posterior_wall",
+          "right_auricle"
+        ],
+        "Myocardium (heart wall)": [
+          "interatrial_septum",
+          "interventricular_septum",
+          "left_atrium_anterior_wall",
+          "left_atrium_posterior_wall",
+          "left_auricle",
+          "left_ventricle_anterior_wall",
+          "left_ventricle_apex",
+          "left_ventricle_inferior_wall",
+          "left_ventricle_lateral_wall",
+          "right_atrium_lateral_wall",
+          "right_atrium_posterior_wall",
+          "right_auricle",
+          "right_ventricle_anterior_wall",
+          "right_ventricle_inferior_wall",
+          "right_ventricle_outflow_tract"
+        ]
+      },
+      "order": 1
+    },
+    "hepatobiliary": {
+      "name": "Hepatobiliary system",
+      "variants": {
+        "post": {
+          "path": "models/hepatobiliary/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/hepatobiliary/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Preserved gross schematic liver, gallbladder, biliary tree, pancreas, duodenum and vessels. Exposure views isolate existing relationships; enclosed flow is not established.",
+      "scale_note": "Gross schematic source coordinates preserved; 0.1 m/unit is a display convention, not a measured anatomical reconstruction.",
+      "histology": [
+        "liver",
+        "gallbladder",
+        "pancreas",
+        "duodenum"
+      ]
+    },
+    "kidney_nephron": {
+      "name": "Kidney",
+      "variants": {
+        "post": {
+          "path": "models/kidney_nephron/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/kidney_nephron/v4/recipe.json",
+            "catalog": "models/kidney_nephron/v4/catalog.json"
+          }
+        }
+      },
+      "summary": "One kidney teaching bundle with preserved gross, independent section and 15x nephron views.",
+      "scale_note": "Gross kidney: 10 µm/unit. Detached nephron: existing 15× schematic; source size is display size/15. Independent source-section units uncalibrated; 1000× display normalization plus translation is not physical registration.",
+      "histology": [
+        "kidney_cortex",
+        "kidney_medulla",
+        "adrenal",
+        "ureter",
+        "simple_cuboidal",
+        "simple_squamous",
+        "transitional",
+        "capillaries"
+      ],
+      "targets": {
+        "structures": [
+          "Kidney",
+          "Renal pelvis",
+          "Ureter",
+          "Suprarenal gland",
+          "Left renal artery",
+          "Left renal vein",
+          "Renal sinus",
+          "Hilum of kidney",
+          "Intrarenal arteries of left kidney",
+          "Intrarenal veins of left kidney",
+          "Anterior branch of renal artery",
+          "Posterior branch of renal artery"
+        ],
+        "groups": []
+      },
+      "related": [
+        "bladder_wall",
+        "muscular_artery",
+        "blood_cells"
+      ],
+      "clinical": [
+        [
+          "Nephrotic and nephritic syndromes",
+          "Injury to the podocytes and glomerular basement membrane leaks protein. Nephrotic syndrome (more than 3.5 g of protein a day, low albumin, oedema, high cholesterol, infections and thrombosis) occurs in minimal change disease (foot-process effacement seen only by electron microscopy, steroid-responsive, commonest in children), focal segmental glomerulosclerosis, membranous nephropathy and diabetic nephropathy (thickened basement membrane, mesangial nodules). Inflammation of the glomerular capillaries causes nephritic syndrome: haematuria with red-cell casts, hypertension, oliguria and a rising creatinine, as in post-streptococcal glomerulonephritis and IgA nephropathy (IgA deposited in the mesangium). In Alport syndrome a type IV collagen defect splits the basement membrane: haematuria, deafness and eye changes."
+        ],
+        [
+          "Diuretic targets along the nephron",
+          "Each class blocks one transporter. Acetazolamide (carbonic anhydrase) and SGLT2 inhibitors act on the proximal convoluted tubule. Loop diuretics such as furosemide block NKCC2 in the thick ascending limb, the most powerful because about a quarter of the filtered sodium is reabsorbed there; they also waste calcium, since the lumen-positive potential that drives its reabsorption is lost. Thiazides block the Na-Cl cotransporter of the distal convoluted tubule and retain calcium. Amiloride (ENaC) and spironolactone or eplerenone (the mineralocorticoid receptor) act on the principal cells of the connecting tubule and collecting duct, sparing potassium. Vasopressin V2 antagonists such as tolvaptan block the insertion of aquaporin-2 in the collecting duct."
+        ],
+        [
+          "Acute tubular necrosis",
+          "Ischaemia (shock, sepsis) or toxins (aminoglycosides, contrast, cisplatin) kill tubular cells, above all in the proximal straight tubule and thick ascending limb, which work hard and lie in the poorly oxygenated outer medulla. Dead cells slough into the lumen and form muddy-brown granular casts. Urine sodium is high (fractional excretion above 2%) and the urine cannot be concentrated; the patient is oliguric for days to weeks until the tubular epithelium regenerates, often followed by a polyuric recovery phase."
+        ],
+        [
+          "Renin, ACE inhibitors and NSAIDs",
+          "Filtration is held up by two opposing tones: prostaglandin dilatation of the afferent arteriole and angiotensin II constriction of the efferent arteriole. The granular cells release renin when the afferent arteriole is stretched less, when the macula densa senses low NaCl and with sympathetic stimulation. ACE inhibitors and ARBs relax the efferent arteriole and NSAIDs remove the afferent dilatation; either can drop glomerular pressure and cause acute kidney injury when perfusion is already marginal (dehydration, heart failure, cirrhosis, bilateral renal artery stenosis), and an ACE inhibitor or ARB plus a diuretic plus an NSAID (the 'triple whammy') is especially risky. Renal artery stenosis, from atherosclerosis in older people or fibromuscular dysplasia in young women, raises blood pressure through renin."
+        ],
+        [
+          "Renal infarction and papillary necrosis",
+          "Segmental, interlobar and arcuate arteries are end arteries: an embolus (atrial fibrillation, endocarditis) causes a pale wedge-shaped infarct with its base on the capsule, with flank pain and haematuria. The papillae lie at the far end of the vasa recta, where the oxygen tension is lowest, so they die first (papillary necrosis) in analgesic nephropathy, diabetes, sickle cell disease and obstructive infection; a sloughed papilla can block the ureter."
+        ],
+        [
+          "Stones, hydronephrosis and pyelonephritis",
+          "Most stones are calcium oxalate, seeded on papillary (Randall) plaques. A stone lodges where the ureter narrows (the pelviureteric junction, the pelvic brim and the vesicoureteric junction) and causes loin-to-groin colic with haematuria. Obstruction dilates the pelvis and calyces (hydronephrosis: clubbed calyces, and a thin cortex if it lasts), and an infected obstructed kidney is an emergency that needs drainage. Ascending infection, usually E. coli and helped by reflux or obstruction, climbs the collecting ducts from the papillae to cause pyelonephritis: fever, loin pain, and white-cell casts in the urine."
+        ]
+      ],
+      "aliases": {
+        "Bowman capsule (parietal layer)": [
+          "group:S41"
+        ],
+        "Bowman's capsule": [
+          "group:S41",
+          "group:S42"
+        ],
+        "Proximal convoluted tubule": [
+          "group:S55",
+          "group:S57"
+        ],
+        "Proximal tubule": [
+          "group:S55",
+          "group:S57",
+          "group:S58",
+          "group:S59"
+        ],
+        "Thick ascending limb": [
+          "group:S62"
+        ],
+        "Distal convoluted tubule": [
+          "group:S63"
+        ],
+        "Cortical collecting duct": [
+          "group:S65"
+        ],
+        "Macula densa": [
+          "group:S49"
+        ],
+        "Afferent arteriole": [
+          "group:S50",
+          "group:S51"
+        ],
+        "Efferent arteriole": [
+          "group:S52",
+          "group:S53"
+        ],
+        "Glomerular capillaries": [
+          "group:S45",
+          "group:S73",
+          "group:S44"
+        ],
+        "Peritubular capillaries": [
+          "group:S67"
+        ],
+        "Descending vasa recta": [
+          "group:S69"
+        ],
+        "Ascending vasa recta": [
+          "group:S71"
+        ],
+        "Vasa recta": [
+          "group:S69",
+          "group:S71"
+        ],
+        "Thin descending limb": [
+          "group:S60"
+        ],
+        "Thin ascending limb": [
+          "group:S61"
+        ],
+        "Medullary collecting duct": [
+          "group:S66"
+        ],
+        "Collecting duct": [
+          "group:S65",
+          "group:S66"
+        ],
+        "Juxtaglomerular (granular) cells": [
+          "group:S48"
+        ],
+        "Juxtaglomerular apparatus": [
+          "group:S49",
+          "group:S48",
+          "group:S47"
+        ],
+        "Podocytes (visceral layer)": [
+          "group:S42",
+          "group:S43"
+        ],
+        "Podocytes": [
+          "group:S42",
+          "group:S43"
+        ],
+        "Glomerulus": [
+          "group:S42",
+          "group:S43",
+          "group:S44",
+          "group:S45",
+          "group:S46",
+          "group:S73"
+        ],
+        "Renal corpuscle": [
+          "group:S41",
+          "group:S42",
+          "group:S43",
+          "group:S44",
+          "group:S45",
+          "group:S46",
+          "group:S73"
+        ],
+        "Glomerular basement membrane": [
+          "group:S44"
+        ],
+        "Mesangium": [
+          "group:S46",
+          "group:S47"
+        ],
+        "Loop of Henle": [
+          "group:S58",
+          "group:S59",
+          "group:S60",
+          "group:S61",
+          "group:S62"
+        ],
+        "Nephron": [
+          "group:S41",
+          "group:S42",
+          "group:S43",
+          "group:S44",
+          "group:S45",
+          "group:S46",
+          "group:S55",
+          "group:S57",
+          "group:S58",
+          "group:S59",
+          "group:S60",
+          "group:S61",
+          "group:S62",
+          "group:S63",
+          "group:S64",
+          "group:S65",
+          "group:S66",
+          "group:S73"
+        ],
+        "Renal cortex": [
+          "group:S02"
+        ],
+        "Renal medulla": [
+          "group:S03",
+          "group:S04"
+        ],
+        "Renal pyramids": [
+          "group:S03"
+        ],
+        "Renal columns": [
+          "group:S05"
+        ],
+        "Renal papillae": [
+          "group:S04"
+        ],
+        "Minor calyces": [
+          "group:S06"
+        ],
+        "Major calyces": [
+          "group:S07"
+        ],
+        "Renal pelvis": [
+          "group:S08"
+        ],
+        "Ureter": [
+          "group:S09"
+        ],
+        "Segmental arteries": [
+          "group:S15"
+        ],
+        "Interlobar arteries": [
+          "group:S17"
+        ],
+        "Arcuate arteries": [
+          "group:S22"
+        ],
+        "Cortical radiate (interlobular) arteries": [
+          "group:S29"
+        ],
+        "Cortical radiate arteries": [
+          "group:S29"
+        ],
+        "Interlobular arteries": [
+          "group:S29"
+        ],
+        "Interlobar veins": [
+          "group:S18"
+        ],
+        "Arcuate veins": [
+          "group:S23"
+        ],
+        "Cortical radiate (interlobular) veins": [
+          "group:S30"
+        ],
+        "Interlobular veins": [
+          "group:S30"
+        ],
+        "Fibrous capsule": [
+          "group:S01"
+        ],
+        "Renal capsule": [
+          "group:S01"
+        ],
+        "Renal sinus fat": [
+          "group:S10"
+        ],
+        "Renal sinus": [
+          "group:S10",
+          "group:S06",
+          "group:S07",
+          "group:S08"
+        ],
+        "Renal artery": [
+          "group:S12"
+        ],
+        "Left renal artery": [
+          "group:S12"
+        ],
+        "Renal vein": [
+          "group:S20",
+          "group:S21"
+        ],
+        "Left renal vein": [
+          "group:S20",
+          "group:S21"
+        ],
+        "Adrenal gland": [
+          "group:S31",
+          "group:S32",
+          "group:S33",
+          "group:S34",
+          "group:S35",
+          "Adrenal central vein"
+        ],
+        "Suprarenal gland": [
+          "group:S31",
+          "group:S32",
+          "group:S33",
+          "group:S34",
+          "group:S35",
+          "Adrenal central vein"
+        ],
+        "Adrenal cortex": [
+          "group:S32",
+          "group:S33",
+          "group:S34"
+        ],
+        "Abdominal aorta": [
+          "group:S11"
+        ],
+        "Inferior vena cava (abdominal part)": [
+          "group:S19"
+        ],
+        "Intrarenal arteries of left kidney": [
+          "group:S15",
+          "group:S17",
+          "group:S22",
+          "group:S29"
+        ],
+        "Intrarenal veins of left kidney": [
+          "group:S18",
+          "group:S23",
+          "group:S30"
+        ],
+        "Anterior branch of renal artery": [
+          "Anterior division of the renal artery"
+        ],
+        "Posterior branch of renal artery": [
+          "Posterior division of the renal artery"
+        ],
+        "Left testicular vein": [
+          "group:S24"
+        ],
+        "Inferior phrenic artery": [
+          "group:S26"
+        ]
+      },
+      "order": 2
+    },
+    "liver_lobule": {
+      "name": "Liver Lobule",
+      "variants": {
+        "post": {
+          "path": "models/liver_lobule/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/liver_lobule/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Preserved sparse lobule anatomy with bounded endothelial nuclear bulges and removable closeup host covers.",
+      "scale_note": "Source mixed teaching enlargement; metres_per_unit is a viewer convention, not validated anatomical morphometry.",
+      "histology": [
+        "liver",
+        "gallbladder"
+      ]
+    },
+    "lung_acinus_review_v2": {
+      "name": "Lung Acinus",
+      "variants": {
+        "post": {
+          "path": "models/lung_acinus_review_v2/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/lung_acinus_review_v2/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Representative 14-airspace acinus with retained vascular routes, local wall windows, complete cellular nuclei and local layered capillary face.",
+      "scale_note": "1200 micrometres per model unit with mixed teaching enlargement; not a patient morphometry model.",
+      "histology": [
+        "lung",
+        "bronchiole",
+        "simple_squamous"
+      ]
+    },
+    "lymph_node": {
+      "name": "Lymph Node",
+      "variants": {
+        "post": {
+          "path": "models/lymph_node/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/lymph_node/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Static lymph node microanatomy with reversible coronal section.",
+      "scale_note": "Original normalized source units preserved; 1 mm/unit is a display convention, not measured patient anatomy.",
+      "histology": [
+        "lymph_node",
+        "tonsil"
+      ]
+    },
+    "muscular_artery": {
+      "name": "Muscular Artery",
+      "variants": {
+        "post": {
+          "path": "models/muscular_artery/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/muscular_artery/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Preserved muscular artery wall with bounded section and closeup inspection views.",
+      "scale_note": "Existing teaching scale retained. Representative enlarged nuclei, blood cells and routes are schematic; aggregate media does not model individual smooth-muscle cytoplasms.",
+      "histology": [
+        "muscular_artery",
+        "capillaries"
+      ]
+    },
+    "peripheral_nerve": {
+      "name": "Peripheral Nerve",
+      "variants": {
+        "post": {
+          "path": "models/peripheral_nerve/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/peripheral_nerve/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Preserved source-authored three-fascicle nerve teaching block with finite layer inspection presets.",
+      "scale_note": "Representative three fascicles; enlarged fibres and shortened internodes; not literal fibre census.",
+      "histology": [
+        "peripheral_nerve",
+        "ganglion"
+      ]
+    },
+    "retina": {
+      "name": "Retina",
+      "variants": {
+        "post": {
+          "path": "models/retina/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/retina/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Bounded source-preserving closeup/visibility refinement",
+      "scale_note": "Nominal inherited tissue reference400µm/unit; sparse selectively enlarged cells and schematic vascular calibres. The anterior teaching opening is a source geometry omission of context tissue, not a physiological empty space. ONL/INL background markers lack individual cytoplasmic hosts; no whole-nuclear ownership claim. Separate whole-eye model uses another scale.",
       "histology": [
         "retina",
-        "cornea",
         "eye"
+      ]
+    },
+    "skeletal_muscle": {
+      "name": "Skeletal Muscle",
+      "variants": {
+        "post": {
+          "path": "models/skeletal_muscle/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/skeletal_muscle/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Preserved static hierarchical muscle teaching model.",
+      "scale_note": "Multiscale schematic; seven representative fascicles and enlarged myofibrillar detail are not measured density or one common physical scale.",
+      "histology": [
+        "skeletal_muscle"
+      ]
+    },
+    "thyroid_parathyroid_review_v2": {
+      "name": "Thyroid and Parathyroid",
+      "variants": {
+        "post": {
+          "path": "models/thyroid_parathyroid_review_v2/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/thyroid_parathyroid_review_v2/v4/recipe.json",
+            "colors": "models/thyroid_parathyroid_review_v2/v4/vertex_colors.npz",
+            "color_contract": "models/thyroid_parathyroid_review_v2/v4/color_contract.json"
+          }
+        }
+      },
+      "summary": "Separate magnified thyroid and parathyroid tissue specimens. Static anatomy only.",
+      "scale_note": "500 micrometres per unit; representative cells and basal lamina enlarged. Separate specimens, not a whole-organ reconstruction. Saved specimen cuts are intentional.",
+      "histology": []
+    },
+    "trachea_wall": {
+      "name": "Trachea Wall",
+      "variants": {
+        "post": {
+          "path": "models/trachea_wall/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/trachea_wall/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Source-preserved tracheal layers with registered respiratory epithelial field",
+      "scale_note": "Representative 15 mm transverse D-shaped lumen. Mucosa/submucosa about sixfold thickened; cilia/cell detail and gland bodies are enlarged teaching geometry. Picked-point measurements use macro calibration and do not certify microscopic dimensions.",
+      "histology": [
+        "trachea",
+        "pseudostratified",
+        "hyaline_cartilage",
+        "bronchus"
+      ]
+    },
+    "vein_wall": {
+      "name": "Vein Wall",
+      "variants": {
+        "post": {
+          "path": "models/vein_wall/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/vein_wall/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Preserved venous wall and paired cusps with bounded section and closeup inspection views.",
+      "scale_note": "Existing schematic teaching scale retained. Paired nearly closed valve pose and narrow slit are preserved. Representative enlarged blood cells and wall routes; no separate cellular nuclei or cytoplasms are modeled. Axial lumen remains open; section planes are native display clipping.",
+      "histology": [
+        "vein"
+      ]
+    },
+    "male_reproductive": {
+      "name": "Male reproductive system",
+      "variants": {
+        "post": {
+          "path": "models/male_reproductive/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/male_reproductive/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Preserved adult anatomical cutaway and pre-existing histological insets. Static source relations only; no enclosed duct-flow certification.",
+      "scale_note": "Gross schematic and separately enlarged teaching insets; source coordinates preserved. Inset names carry source approximate magnification, not common geometric scale.",
+      "histology": [
+        "testis",
+        "epididymis",
+        "ductus_deferens",
+        "seminal_vesicle",
+        "prostate",
+        "penis",
+        "urethra",
+        "bladder"
       ]
     },
     "female_reproductive": {
       "name": "Female reproductive system",
       "variants": {
         "post": {
-          "path": "models/female_reproductive/0141a77f95ce/refined.npz",
+          "path": "models/female_reproductive/v4/model.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/female_reproductive/v4/recipe.json"
+          }
         }
       },
-      "summary": "Female pelvic and reproductive anatomy with the uterus, cervix, vagina, uterine tubes, ovaries and supporting ligaments. Separate teaching assemblies show ovarian follicles, breast anatomy, uterine and tubal walls, and early embryonic stages. Use the pelvic assembly to compare the uterus and vagina with the bladder and rectum, then inspect the separate microscopic specimens. Ovarian follicles, tubal mucosal folds, endometrial layers and early developmental stages are comparative teaching assemblies rather than one continuous specimen. Linked histology in Details: Ovary, Uterine tube, Uterus (endometrium & myometrium), Cervix, Vagina, Mammary gland, Placenta, Stratified squamous epithelium (non-keratinised), Smooth muscle, Adipose tissue.",
-      "scale_note": "Pelvis at life size (1 unit = 100 mm; the uterus ~7.5 cm long). The breast is shown at about 0.8x; the ovary specimen ~2.5x (follicles and corpora enlarged for clarity), the ampulla section and endometrium ~20-30x, and the early embryos nominally ~80x (10.8 mm displayed diameter represents about 135 micrometres); sperm and other fine details use separate teaching enlargement.",
+      "summary": "Preserved adult reproductive anatomy and authored static teaching sections. Exposure views support close inspection; no new physiological mechanisms.",
+      "scale_note": "Gross source convention 0.1 m/unit; separately enlarged teaching sections are schematic and not in shared anatomical scale.",
       "histology": [
         "ovary",
         "uterine_tube",
@@ -151,37 +1513,99 @@
         "adipose"
       ]
     },
-    "hepatobiliary": {
-      "name": "Hepatobiliary system",
+    "ear": {
+      "name": "Ear",
       "variants": {
         "post": {
-          "path": "models/hepatobiliary/dcd377da9885/refined.npz",
+          "path": "models/ear/v4/model.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/ear/v4/recipe.json"
+          }
         }
       },
-      "summary": "Liver lobes, gallbladder and bile ducts shown with the pancreas and duodenum. Portal and hepatic vessels, pancreatic ducts and the major and minor duodenal papillae illustrate their anatomical relationships. Trace bile from the hepatic ducts through the extrahepatic duct system to the duodenum, and distinguish this pathway from portal and hepatic blood vessels. The pancreatic ducts and duodenal papillae show where the digestive-gland drainage systems meet. Linked histology in Details: Liver, Gallbladder & bile ducts, Exocrine pancreas, Duodenum.",
-      "scale_note": "Life size: 1 unit ≈ 10 cm (the liver is ≈ 22 cm wide). The duodenum is opened from the front; calibres of the smaller ducts and arteries are slightly exaggerated.",
+      "summary": "Existing external, middle and inner ear with magnified cochlear and vestibular sensory sections. P2 preservation candidate; no new physiology.",
+      "scale_note": "Whole ear and detached enlarged sensory sections use different schematic scales. Flat positive-Z faces and nerve/tube ends are authored dissection boundaries. Geometry retained from original; no patient-specific scale claim.",
       "histology": [
-        "liver",
-        "gallbladder",
-        "pancreas",
-        "duodenum"
+        "ear",
+        "elastic_cartilage"
+      ]
+    },
+    "eyeball": {
+      "name": "Eye",
+      "variants": {
+        "post": {
+          "path": "models/eyeball/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/eyeball/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Bounded whole-eye refinement, preserving earliest geometry and authored optical transparency.",
+      "scale_note": "Right whole-eye teaching model: nominal globe axial scale 24 mm (one model unit = 12 mm). Thin coats, capsule, zonules, Schlemm canal and retinal vessels remain deliberately thickened. Representative folds, glands and lashes are selectively sampled; colors and locations are instructional, not patient data or quantitative histology.",
+      "histology": [
+        "retina",
+        "cornea",
+        "eye"
+      ]
+    },
+    "compact_bone": {
+      "name": "Compact Bone",
+      "variants": {
+        "post": {
+          "path": "models/compact_bone/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/compact_bone/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Preserved compact bone teaching block with focused osteon, lacuna, canal-course and bone-cell disclosure views. Local osteoclast nuclear containment corrected.",
+      "scale_note": "Nominal 0.65 millimetres per model unit, inferred from the source metadata describing its 0.003-unit cement boundary as 2 micrometres. Displayed lamellar bands, cells and channel calibres are selectively enlarged; not a morphometric specimen.",
+      "histology": [
+        "compact_bone",
+        "spongy_bone",
+        "ossification",
+        "bone_marrow"
+      ]
+    },
+    "axillary_skin": {
+      "name": "Axillary Skin",
+      "variants": {
+        "post": {
+          "path": "models/axillary_skin/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/axillary_skin/v4/recipe.json"
+          }
+        }
+      },
+      "summary": "Source-preserving axillary skin with separate apocrine/follicular and eccrine/surface routes, restored full context and explicit isolation views.",
+      "scale_note": "Schematic tissue block. Original geometry and relative dimensions preserved; metres_per_unit=0.001 is a viewer display convention, not validated morphometry.",
+      "histology": [
+        "sweat_glands",
+        "hair_follicle"
       ]
     },
     "ileocecal_rectum": {
       "name": "Ileocecal region and rectum",
       "variants": {
         "post": {
-          "path": "models/ileocecal_rectum/d3b392326303/refined.npz",
+          "path": "models/ileocecal_rectum/v4/model.npz",
           "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
+          "static_recipe": true,
+          "companions": {
+            "teaching_recipe": "models/ileocecal_rectum/v4/recipe.json"
+          }
         }
       },
-      "summary": "The terminal ileum, caecum and appendix alongside rectal and anal anatomy. Ileocaecal valve lips, colonic folds and taeniae, anal columns, sphincters, pelvic-floor muscles and venous plexuses can be explored separately. Inspect the terminal ileum entering between the valve lips and compare the appendix opening with the adjoining colonic wall. In the separate anorectal specimen, relate the pectinate line, venous plexuses and internal and external sphincters to the pelvic-floor muscles. Linked histology in Details: Colon & rectum, Vermiform appendix, Anal canal, Ileum.",
-      "scale_note": "Gross specimens: 1 unit ≈ 6 cm (caecum ≈ 7.5 cm wide, anal canal ≈ 4 cm long). Wall coats are drawn about 1.5× their true thickness so each layer reads in section.",
+      "summary": "Two preserved opened gross specimens, with intact source mucosa, valve, appendix, rectal layers and anal transition relationships. Histologic crypt and epithelial-cell insets are not modeled.",
+      "scale_note": "Two separate teaching specimens; terminal ileum/caecum and rectum/anal canal are not a connected gastrointestinal tract. 0.1 m per model unit is an approximate gross teaching convention, not a histologic measurement. Open specimen section boundaries are retained.",
       "histology": [
         "colon",
         "appendix",
@@ -189,244 +1613,199 @@
         "ileum"
       ]
     },
-    "kidney_nephron": {
-      "name": "Kidney",
+    "jejunum": {
+      "histology": [
+        "jejunum"
+      ],
+      "targets": {
+        "structures": [
+          "Jejunum"
+        ]
+      },
+      "name": "Jejunum",
+      "summary": "An intact jejunal teaching specimen showing villi, crypts and the supporting intestinal wall. Explore the epithelial and connective-tissue parts individually.",
+      "scale_note": "Coordinates are millimetres: 1 model unit = 1 mm. Cellular structures and sampling are intended for teaching.",
       "variants": {
         "post": {
-          "path": "models/kidney_nephron/3e4d8aea2acb/refined.glb",
-          "format": "glb",
+          "path": "models/jejunum/v4/model.npz",
+          "format": "npz",
+          "static_recipe": true,
           "companions": {
-            "viewer": "models/kidney_nephron/36cc1a3af2b0/companions/kidney.viewer.json"
-          },
-          "status": "review_candidate"
+            "teaching_recipe": "models/jejunum/v4/recipe.json"
+          }
         }
-      },
-      "summary": "A left kidney with its adrenal gland, renal vessels, calyces, pelvis and ureter, accompanied by a separately enlarged juxtamedullary nephron for studying the tubular and vascular arrangement. The detached nephron is a teaching enlargement rather than an additional anatomical connection. Compare the gross renal cortex, pyramids and collecting spaces with the enlarged microscopic exemplar alongside them. The adrenal gland and renal vessels remain part of the organ-level assembly; the nephron is independently positioned to make its tubular relationships easier to inspect. Linked histology in Details: Kidney cortex & glomerulus, Kidney medulla & collecting system, Adrenal (suprarenal) gland, Ureter, Simple cuboidal epithelium, Simple squamous epithelium, Transitional epithelium (urothelium), Capillaries & sinusoids.",
-      "scale_note": "Gross kidney anatomy retains its original scale (1 model unit = 10 micrometres). The separate nephron is enlarged 15x geometrically for teaching; cell and tubular proportions within it are retained. This is a mixed-scale schematic. The ruler reports model units rather than implying clinical lengths across the two scales.",
-      "histology": [
-        "kidney_cortex",
-        "kidney_medulla",
-        "adrenal",
-        "ureter",
-        "simple_cuboidal",
-        "simple_squamous",
-        "transitional",
-        "capillaries"
-      ]
+      }
     },
-    "kidney_section": {
-      "name": "Kidney Section",
+    "capillary_bed": {
+      "name": "Capillaries and Lymphatic Capillaries",
       "variants": {
         "post": {
-          "path": "models/kidney_section/6e83861de9cd/refined.npz",
+          "path": "models/capillary_bed/32e9bd04397d/refined.npz",
           "format": "npz",
           "companions": {},
-          "status": "review_candidate"
+          "status": "review_candidate",
+          "static_recipe": true
         }
       },
-      "summary": "A kidney section showing cortex, medullary pyramids and papillae, calyces and renal pelvis. Branching renal vessels, a nephron and collecting duct illustrate how the microscopic units fit within the organ. Trace the renal artery through segmental, interlobar, arcuate and cortical radiate branches, then follow the collecting spaces from papillae to the ureter. A lobe window shows the position of a nephron and collecting duct within the larger organ. Linked histology in Details: Kidney cortex & glomerulus, Kidney medulla & collecting system, Ureter, Adrenal (suprarenal) gland.",
-      "scale_note": "Kidney ≈ 11 cm long, 6 cm wide, 3-4 cm thick. The capsule, fascia and calyx walls are drawn thicker, and the nephron in the window many times larger, than life. Medullary streaks, medullary rays and cortical radiate vessels are fewer, enlarged representative teaching samples; their counts and calibres are schematic.",
+      "summary": "A capillary network to scale, cut through its middle: an arteriole with its three tunics, the metarteriole and its precapillary sphincters, arterial and venous capillaries (red to blue, red cells in single file), the thoroughfare channel into the venule, an arteriovenous anastomosis (glomus), and a blind-ended lymphatic capillary with overlapping endothelial flaps and anchoring filaments draining into a valved lymphatic vessel. Beside it, 3 times larger: continuous, fenestrated and sinusoidal capillaries cut lengthwise.",
+      "scale_note": "Network to scale (capillaries 8 µm, red cells 7.5 µm); the three capillary types are 3x with fenestrae enlarged further. The ruler applies to the network only.",
       "histology": [
-        "kidney_cortex",
-        "kidney_medulla",
-        "ureter",
-        "adrenal"
-      ]
-    },
-    "liver_lobule": {
-      "name": "Liver Lobule",
-      "variants": {
-        "post": {
-          "path": "models/liver_lobule/5fe01c52d05e/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Hepatocyte plates and sinusoids arranged around a central vein, with portal venules, hepatic arterioles and bile ductules at the lobule margin. Kupffer and stellate cells, bile canaliculi and liver-acinus zones are included. Distinguish the central vein from the portal-tract structures at the lobule margin. Sinusoids lie between hepatocyte plates, while bile canaliculi and canals of Hering form a separate drainage arrangement; the acinus zones provide another way to organise the same tissue. Linked histology in Details: Liver, Gallbladder & bile ducts.",
-      "scale_note": "Block ≈ 1.8 mm across; lobule ≈ 1.4 mm corner to corner.",
-      "histology": [
-        "liver",
-        "gallbladder"
-      ]
-    },
-    "lung_acinus_review_v2": {
-      "name": "Lung acinus (version 2)",
-      "variants": {
-        "post": {
-          "path": "models/lung_acinus_review_v2/1284fc168307/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A pulmonary acinus with terminal and respiratory bronchioles, alveolar ducts and sacs, and their capillary network. Type I and II pneumocytes, macrophages and club cells are shown alongside an air-blood barrier assembly with epithelial, basal-lamina and endothelial layers. Inspect shared alveolar walls and the communicating pore separately from the vascular network. The barrier assembly distinguishes the thin type I epithelial lining, basal-lamina interface and endothelial side; type II cells and macrophages are separate cellular examples. Linked histology in Details: Lung alveoli, Bronchioles, Simple squamous epithelium.",
-      "scale_note": "Gross calibration: 1 model unit represents 1.2 mm. Fourteen representative alveoli are shown; broad septa, vessels and cells use teaching enlargement. The barrier assembly exposes a thin fused interface.",
-      "histology": [
-        "lung",
-        "bronchiole",
-        "simple_squamous"
-      ]
-    },
-    "lymph_node": {
-      "name": "Lymph Node",
-      "variants": {
-        "post": {
-          "path": "models/lymph_node/0326a6c72dd7/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A lymph node showing its capsule and sinuses, cortical follicles with germinal-centre zones, T-cell paracortex and medullary cords. Afferent and efferent lymphatics, high endothelial venules and reticular fibres illustrate routes through the node. Trace the route from afferent lymphatics through subcapsular and trabecular sinuses towards the medullary sinuses and efferent outlet. Compare the B-cell follicles with the T-cell paracortex, and distinguish high endothelial venules from the lymphatic channels. Linked histology in Details: Lymph node, Tonsils (Waldeyer's ring).",
-      "scale_note": "Node approximately 1 cm long; follicles 0.5-1 mm. Vessel and cell sizes exaggerated for clarity.",
-      "histology": [
-        "lymph_node",
-        "tonsil"
-      ]
-    },
-    "male_reproductive": {
-      "name": "Male reproductive system",
-      "variants": {
-        "post": {
-          "path": "models/male_reproductive/38331ea57e11/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Male pelvic and reproductive anatomy including the prostate, seminal vesicle, urethra, penis, testis, epididymis and spermatic cord. Enlarged seminiferous-tubule and sperm assemblies show germ cells, Sertoli and Leydig cells, and sperm structure. Follow the ductal route from the testis through the epididymis and ductus deferens to the pelvic glands and urethra. The seminiferous-tubule inset separates germ-cell stages from Sertoli and Leydig cells, while the sperm inset exposes its head, midpiece and tail components. Linked histology in Details: Testis, Epididymis, Ductus deferens, Seminal vesicle, Prostate, Penis & erectile tissue, Urethra, Urinary bladder.",
-      "scale_note": "Section block ≈ 200 mm across (1 unit = 10 cm); the right testis and scrotum are opened by a second, parasagittal cut. Tubules, ducts and nerves are drawn a little wider than life; the insets are magnified (tubule ~x200, spermatozoon ~x1300).",
-      "histology": [
-        "testis",
-        "epididymis",
-        "ductus_deferens",
-        "seminal_vesicle",
-        "prostate",
-        "penis",
-        "urethra",
-        "bladder"
-      ]
-    },
-    "muscular_artery": {
-      "name": "Muscular Artery",
-      "variants": {
-        "post": {
-          "path": "models/muscular_artery/1a12d0347b80/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A muscular-artery wall showing endothelial and subendothelial layers, internal and external elastic laminae, and a smooth-muscle-rich media. Adventitial collagen, vasa vasorum, nerves and surrounding fat are included. Distinguish the wavy elastic boundaries from the smooth-muscle layers between them. The adventitial vessels and nerves supply the wall itself; the blood cells and enlarged laminar openings are explanatory structures rather than clinical measurements. Linked histology in Details: Muscular arteries & arterioles, Capillaries & sinusoids.",
-      "scale_note": "Representative muscular artery calibrated at 2.6 mm per unit. IEL/EEL apertures are enlarged and sparse for teaching; the 20x rat pore-diameter prior is an explicitly schematic design, not human pore morphometry. Blood cells and adventitial furnishings are enlarged symbols.",
-      "histology": [
+        "capillaries",
+        "loose_ct"
+      ],
+      "related": [
         "muscular_artery",
-        "capillaries"
+        "vein_wall",
+        "lymph_node",
+        "liver_lobule",
+        "kidney_nephron"
       ]
     },
-    "peripheral_nerve": {
-      "name": "Peripheral Nerve",
+    "lymph_drainage": {
+      "name": "Lymphatic Trunks and Ducts",
       "variants": {
         "post": {
-          "path": "models/peripheral_nerve/44acc532a688/refined.npz",
+          "path": "models/lymph_drainage/f98254cfa719/refined.npz",
           "format": "npz",
           "companions": {},
-          "status": "review_candidate"
+          "status": "review_candidate",
+          "static_recipe": true
         }
       },
-      "summary": "A peripheral nerve showing epineurium, perineurium and endoneurium around myelinated axons and unmyelinated C fibres. Nodes of Ranvier, Schwann cells, Remak bundles and the nerve's vessels can be explored separately. Separate the outer epineurium from the perineurial boundary of a fascicle and the endoneurium around individual fibres. Isolated myelinated fibres expose internodes and nodes of Ranvier, while the Remak bundles show unmyelinated axons associated with Schwann cells. Linked histology in Details: Peripheral nerve, Sensory & autonomic ganglia.",
-      "scale_note": "Nerve approximately 3 mm across. Three representative fascicles; fibre calibres and thin layers are enlarged schematically, with shortened internodes so that nodes of Ranvier fit in the block. Fibre dimensions are not clinical measurements.",
+      "summary": "Where lymph returns to the blood. The cisterna chyli collects the intestinal and lumbar trunks in front of L1-L2; the thoracic duct climbs through the aortic hiatus and the posterior mediastinum, crosses to the left and empties into the left venous angle. The short right lymphatic duct takes the right jugular, subclavian and bronchomediastinal trunks to the right venous angle. Green = thoracic duct territory, teal = right lymphatic duct territory.",
+      "scale_note": "Life size, 1 unit = 1 mm, built on the atlas body: the great veins, aorta, oesophagus, spine and lymph nodes are the atlas structures. The ducts and trunks are drawn at typical diameters and their courses are simplified.",
       "histology": [
+        "lymph_node"
+      ],
+      "related": [
+        "lymph_node",
+        "capillary_bed"
+      ]
+    },
+    "duodenum": {
+      "name": "Duodenum Wall",
+      "variants": {
+        "post": {
+          "path": "models/duodenum/331cf3c45775/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate",
+          "static_recipe": true
+        }
+      },
+      "summary": "A duodenal wall block: leaf-like villi covered by enterocytes and goblet cells, crypts with Paneth and stem cells, the lamina propria with lacteals and capillaries, the muscularis mucosae, a submucosa full of Brunner glands whose ducts open into the crypts, the Meissner and Auerbach plexuses, inner circular and outer longitudinal muscle, and the serosa. Brunner glands in the submucosa are what identify the duodenum.",
+      "scale_note": "Coordinates are millimetres: block 1.28 mm wide, 0.72 mm deep. Villi about 0.5 mm tall. Cell sizes, brush border and nuclei are enlarged for teaching; counts of villi, crypts and lobules are representative.",
+      "histology": [
+        "duodenum",
+        "simple_columnar"
+      ],
+      "related": [
+        "ileocecal_rectum",
+        "colon_wall",
+        "pancreas",
+        "hepatobiliary"
+      ],
+      "targets": {
+        "structures": [
+          "Duodenum"
+        ]
+      }
+    },
+    "colon_wall": {
+      "name": "Colon Wall",
+      "variants": {
+        "post": {
+          "path": "models/colon_wall/6c4d5fee78de/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate",
+          "static_recipe": true
+        }
+      },
+      "summary": "A colon wall block: a flat surface with crypt openings (no villi), straight test-tube crypts full of goblet cells with stem cells at their bases, lamina propria rich in immune cells and capillaries, a lymphoid follicle crossing the muscularis mucosae, the submucosa with vessels and Meissner's plexus, inner circular muscle, Auerbach's plexus, the outer longitudinal muscle thickened into a taenia coli, and the serosa.",
+      "scale_note": "Tissue block in millimetres: 0.96 mm wide and 0.48 mm deep; crypts about 0.44 mm deep. The separate cell detail on the right is magnified 8 times, so the ruler applies to the tissue block only. Counts are representative.",
+      "histology": [
+        "colon",
+        "appendix"
+      ],
+      "related": [
+        "ileocecal_rectum",
+        "duodenum"
+      ],
+      "targets": {
+        "structures": [
+          "Ascending colon",
+          "Transverse colon",
+          "Descending colon",
+          "Sigmoid colon",
+          "Free taenia",
+          "Mesocolic taenia",
+          "Omental taenia",
+          "Vermiform appendix"
+        ],
+        "groups": [
+          "Colon",
+          "Large intestine"
+        ]
+      }
+    },
+    "pancreas": {
+      "name": "Pancreas: Acini and Islets",
+      "variants": {
+        "post": {
+          "path": "models/pancreas/3bbaf20c3100/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate",
+          "static_recipe": true
+        }
+      },
+      "summary": "Pancreas: serous acini with basophilic bases and apical zymogen granules, centroacinar cells and intercalated ducts (no striated ducts), intralobular and interlobular ducts, and an islet of Langerhans with intermingled beta, alpha, delta and PP cells around a dense capillary network. A separate teaching set on the right repeats the islet and the exocrine units with space around them.",
+      "scale_note": "Millimetres; both regions share one scale. Counts and spacing are chosen for teaching.",
+      "histology": [
+        "pancreas",
+        "islets",
+        "parotid"
+      ],
+      "related": [
+        "hepatobiliary",
+        "duodenum",
+        "liver_lobule"
+      ],
+      "targets": {
+        "structures": [
+          "Pancreas",
+          "Head of pancreas",
+          "Neck of pancreas",
+          "Body of pancreas",
+          "Tail of pancreas",
+          "Uncinate process of pancreas",
+          "Pancreatic duct",
+          "Accessory pancreatic duct"
+        ]
+      }
+    },
+    "neuron": {
+      "name": "Neuron: Cell, Node of Ranvier and Synapse",
+      "variants": {
+        "post": {
+          "path": "models/neuron/f2af36c066a0/refined.npz",
+          "format": "npz",
+          "companions": {},
+          "status": "review_candidate",
+          "static_recipe": true
+        }
+      },
+      "summary": "A multipolar neuron: dendrites, a cell body with nucleus, nucleolus, Nissl substance (rough ER), Golgi and mitochondria, the axon hillock and initial segment, an axon wrapped in myelin with nodes of Ranvier, and axon terminals with boutons. Two enlargements: a node of Ranvier with its sodium channels, and an excitatory synapse with vesicles, active zone, calcium channels, AMPA receptors and the postsynaptic density.",
+      "scale_note": "Three scales. The whole neuron is schematic (proportions chosen for clarity, axon shortened, sodium channels drawn far larger than life). The node of Ranvier enlargement is to true scale: 1 unit = 5 nm. The synapse enlargement is to true scale: 1 unit ≈ 5.9 nm (vesicles about 40 nm, cleft about 24 nm). No single ruler applies to the whole model.",
+      "histology": [
+        "spinal_cord",
         "peripheral_nerve",
         "ganglion"
-      ]
-    },
-    "retina": {
-      "name": "Retina",
-      "variants": {
-        "post": {
-          "path": "models/retina/b1ef9f253212/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A retinal section showing rods and cones, nuclear and plexiform layers, bipolar and ganglion cells, interneurons and Müller glia. The pigment epithelium, choroid, retinal vessels and vitreous boundary provide surrounding context. Work from the pigment epithelium and photoreceptors through the outer and inner plexiform regions to the ganglion-cell and nerve-fibre layers. Horizontal and amacrine cells, Müller glia and the vascular plexuses provide cellular and supporting context for the layered arrangement. Linked histology in Details: Retina, Eyeball, lens & eyelid.",
-      "scale_note": "Retina ≈ 250 µm thick near the macula; cells are drawn larger and fewer than in life.",
-      "histology": [
-        "retina",
-        "eye"
-      ]
-    },
-    "skeletal_muscle": {
-      "name": "Skeletal Muscle",
-      "variants": {
-        "post": {
-          "path": "models/skeletal_muscle/d286fb774f3d/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Skeletal muscle showing fibres and their connective-tissue coverings, nuclei, satellite cells and vessels. Separate microscopic structures show sarcomere bands, T tubules and sarcoplasmic reticulum, together with a neuromuscular junction and muscle spindle. Work from whole-muscle coverings through fascicles and individual fibres to the separately exposed myofibrillar structures. Compare the motor end plate with the sensory muscle spindle, then inspect sarcomere bands alongside the T-tubule and sarcoplasmic-reticulum arrangement. Linked histology in Details: Skeletal muscle.",
-      "scale_note": "Muscle ≈ 3 mm across. Each step of the telescope is enlarged relative to the last: myofibrils (~1 µm) and sarcomeres (~2.5 µm) are drawn 15–30× larger than life.",
-      "histology": [
+      ],
+      "related": [
+        "peripheral_nerve",
         "skeletal_muscle"
-      ]
-    },
-    "thyroid_parathyroid_review_v2": {
-      "name": "Thyroid and parathyroid",
-      "variants": {
-        "post": {
-          "path": "models/thyroid_parathyroid_review_v2/786092507f45/refined.npz",
-          "format": "npz",
-          "companions": {
-            "bundle": "models/thyroid_parathyroid_review_v2/c1acc6ff85e9/companions/BUNDLE.json",
-            "teaching_views": "models/thyroid_parathyroid_review_v2/c1acc6ff85e9/companions/teaching_views.json",
-            "vessel_paths": "models/thyroid_parathyroid_review_v2/c1acc6ff85e9/companions/vessel_paths.json",
-            "colors": "models/thyroid_parathyroid_review_v2/c1acc6ff85e9/companions/vertex_colors.npz"
-          },
-          "status": "review_candidate"
-        }
-      },
-      "summary": "Thyroid follicular cells enclosing colloid, with uptake vesicles, basal lamina and parafollicular C cells. A neighbouring parathyroid assembly shows chief cells, oxyphil cells and adipocytes, with selected nuclei, organelles and circulation. Compare colloid-containing thyroid follicles with the cellular parathyroid specimen rather than treating them as the same endocrine tissue. Selected nuclei, colloid-uptake vesicles, lipid droplets and oxyphil mitochondria expose cell-level features alongside the local vascular arrangements. No linked histology image set is assigned to this model.",
-      "scale_note": "Nominal mapping: 1 model unit represents 500 micrometres. Thin layers and selected cellular organelles are enlarged for teaching; the thyroid and parathyroid are separate specimen assemblies.",
-      "histology": []
-    },
-    "trachea_wall": {
-      "name": "Trachea Wall",
-      "variants": {
-        "post": {
-          "path": "models/trachea_wall/322be5018b26/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A tracheal-wall section showing ciliated epithelium and goblet cells, submucosal glands and ducts, C-shaped hyaline cartilage and trachealis muscle. Cartilage cells, elastic fibres and vessels can be explored independently. Compare the ciliated lining and goblet cells with the submucosal seromucous glands and their ducts. The cartilage ring is open posteriorly, where trachealis muscle completes the wall; cartilage lacunae and cell groups can be inspected separately from the airway epithelium. Linked histology in Details: Trachea, Pseudostratified ciliated columnar epithelium, Hyaline cartilage, Bronchi.",
-      "scale_note": "Representative 15 mm transverse D-shaped lumen. Mucosa/submucosa about sixfold thickened; cilia/cell detail and gland bodies are enlarged teaching geometry. Picked-point measurements use macro calibration and do not certify microscopic dimensions.",
-      "histology": [
-        "trachea",
-        "pseudostratified",
-        "hyaline_cartilage",
-        "bronchus"
-      ]
-    },
-    "vein_wall": {
-      "name": "Vein Wall",
-      "variants": {
-        "post": {
-          "path": "models/vein_wall/96bed5c6d217/refined.npz",
-          "format": "npz",
-          "companions": {},
-          "status": "review_candidate"
-        }
-      },
-      "summary": "A vein wall showing endothelial lining, valve cusps with connective-tissue cores, a smooth-muscle media and collagen-rich adventitia. Longitudinal muscle bundles, vasa vasorum and nerves are included. Inspect the valve cusps and their connective-tissue cores against the thin muscle coat and thicker adventitia. Longitudinal muscle bundles and the surrounding vascular and nerve supply distinguish the wall furnishings from the contents of the main lumen. Linked histology in Details: Veins & venules.",
-      "scale_note": "Representative 4.48 mm nominal valved-vein lumen. Valve shape is a nearly closed teaching pose with real rear pockets. Endothelial coat, wall relief, vasa/nerves and blood cells are enlarged display geometry. Cropped sinus and native layer/coating dimensions do not certify full published sinus depth or patient morphometry.",
-      "histology": [
-        "vein"
       ]
     }
   }

@@ -663,11 +663,14 @@
      "view": "anterior",
      "xray": true,
      "title": "The pericardium is tied to its neighbours",
-     "text": "<p>The <b>fibrous pericardium</b> is attached inferiorly to the central tendon of the diaphragm and blends superiorly with the connective tissue around the great vessels. It gives the heart a relatively fixed position while allowing movement within the serous-lined sac.</p><p>The serous pericardial layers enclose a small lubricated cavity, distinct from both pleural cavities. A collection within that cavity acts on the heart directly; fluid in a pleural cavity primarily affects the lung beside it. Middle mediastinum is a location, while pericardial cavity names a particular enclosed space within it.</p>",
+     "text": "<p>The <b>fibrous pericardium</b> is attached inferiorly to the central tendon of the diaphragm and blends superiorly with the connective tissue around the great vessels. It gives the heart a relatively fixed position while allowing movement within the serous-lined sac.</p><p>The serous pericardial layers enclose a small lubricated cavity, distinct from both pleural cavities. A collection within that cavity acts on the heart directly; fluid in a pleural cavity primarily affects the lung beside it. Middle mediastinum is a location, while pericardial cavity names a particular enclosed space within it.</p><p>The pericardium model shows the fibrous sac on the diaphragm below and blending into the great vessels above, with the serous layers folding back inside it.</p>",
      "check": {
        "q": "Is the pericardial cavity continuous with either pleural cavity in normal anatomy?",
        "a": "No. The pericardial and pleural cavities are separate serous spaces."
-     }
+     },
+     "micro": "whole_heart",
+     "micro_focus": ["Fibrous pericardium", "Diaphragm (central tendon)", "Parietal layer of serous pericardium", "Visceral layer of serous pericardium (epicardium)"],
+     "micro_view": "Pericardium: The heart in its pericardium"
    }
   ],
   "system": "cardiovascular",
@@ -691,17 +694,7 @@
    "The sternal angle plane marks the arch of the aorta, the carina and T4/5.",
    "Phrenic nerves pass anterior to the lung roots on the pericardium; vagal nerves pass posterior to the roots towards the oesophageal plexus."
   ],
-  "see_also": {
-   "lessons": [
-    "aortic-arch-branches",
-    "heart-chambers",
-    "oesophagus"
-   ],
-   "radiology": [
-    "cxr_lat",
-    "ct_abdo_upper"
-   ]
-  }
+  "see_also": {"lessons": ["aortic-arch-branches", "heart-chambers", "oesophagus"], "radiology": ["cxr_lat", "ct_abdo_upper"], "micro": ["whole_heart"]}
  },
  {
   "id": "vertebral-column",

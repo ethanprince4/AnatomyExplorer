@@ -1,0 +1,192 @@
+{
+  "model_id": "muscular_artery_static_refinement",
+  "display_name": "Muscular artery",
+  "summary": "Preserved muscular artery wall with bounded section and closeup inspection views.",
+  "metres_per_unit": 0.01,
+  "home_view": [
+    0,
+    0
+  ],
+  "cut_on": false,
+  "cut_at": [
+    0,
+    0
+  ],
+  "cutaway": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "start_view": "01 Overview",
+  "viewer_cameras": {
+    "01 Overview": {
+      "position": [
+        2,
+        1.6,
+        2
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.8,
+      "hidden": [],
+      "cut_on": false
+    },
+    "02 Open end section": {
+      "position": [
+        3,
+        0.2,
+        0.2
+      ],
+      "target": [
+        0.7,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.7,
+      "hidden": [],
+      "cut_on": false
+    },
+    "03 Corner section": {
+      "position": [
+        -2,
+        1.5,
+        2
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.7,
+      "hidden": [],
+      "cut_on": true
+    },
+    "04 Media nucleus section": {
+      "position": [
+        -2,
+        0.7,
+        1.5
+      ],
+      "target": [
+        0,
+        0.2,
+        0.2
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.15,
+      "hidden": [
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": true
+    },
+    "05 Whole nuclei isolated": {
+      "position": [
+        -2,
+        0.7,
+        1.5
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.85,
+      "hidden": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": false
+    },
+    "06 Internal elastic lamina": {
+      "position": [
+        0,
+        2,
+        2
+      ],
+      "target": [
+        0,
+        0.1,
+        0.1
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.2,
+      "hidden": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle nuclei",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": false
+    },
+    "07 Adventitial routes": {
+      "position": [
+        1.5,
+        2,
+        2
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.6,
+      "hidden": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Smooth muscle nuclei",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": false
+    }
+  },
+  "scale_note": "Existing teaching scale retained. Representative enlarged nuclei, blood cells and routes are schematic; aggregate media does not model individual smooth-muscle cytoplasms."
+}

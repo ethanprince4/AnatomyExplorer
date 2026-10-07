@@ -815,7 +815,7 @@ class LessonsPanel(QWidget):
             if (view is None or self.lesson is not lesson or self.index != index
                     or self.lesson.steps[self.index] is not step):
                 return
-            missing = view.show_lesson_parts(names)
+            missing = view.show_lesson_parts(names, view_name=step.get("micro_view"))
             if missing:
                 win.statusBar().showMessage("Lesson step could not find in the model: " + ", ".join(missing), 4000)
         win.when_model_ready(step["micro"], ready)

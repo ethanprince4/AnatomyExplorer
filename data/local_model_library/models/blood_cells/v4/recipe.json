@@ -1,0 +1,289 @@
+{
+  "model_id": "blood_cells_preserved",
+  "display_name": "Blood cells (preserved source)",
+  "summary": "Retained source blood-cell comparison: mature/band granulocytes, lymphocytes, monocyte, red cells and platelets, with schematic clot and plasma samples. Arrangement is a teaching comparison, not a physiological census.",
+  "scale_note": "Retained source proportions; teaching samples are arranged separately. Enlarged T/B receptors are explicitly schematic. 31.25 micrometres per unit is inferred from the retained erythrocyte diameter (~0.24 unit = 7.5 micrometres); no dimensional recalibration.",
+  "start_view": "Overview",
+  "viewer_cameras": {
+    "Overview": {
+      "type": "ORTHO",
+      "target": [
+        0.2,
+        0,
+        0
+      ],
+      "position": [
+        0.2,
+        3.5,
+        0.25
+      ],
+      "ortho_width": 3.25,
+      "cut_on": false,
+      "hidden": []
+    },
+    "Granulocyte comparison": {
+      "type": "ORTHO",
+      "target": [
+        -0.3,
+        0,
+        0.4
+      ],
+      "position": [
+        -0.3,
+        3.5,
+        0.65
+      ],
+      "ortho_width": 2.0,
+      "cut_on": false,
+      "hidden": [
+        "Erythrocytes",
+        "Rouleau",
+        "Erythrocyte cross-section",
+        "Platelets",
+        "T lymphocyte",
+        "B lymphocyte",
+        "Large lymphocyte",
+        "T lymphocyte nucleus",
+        "B lymphocyte nucleus",
+        "Large lymphocyte nucleus",
+        "T-cell receptor (schematic)",
+        "B-cell surface immunoglobulin (schematic)",
+        "Monocyte",
+        "Monocyte nucleus",
+        "Fibrin",
+        "Activated platelets",
+        "Plasma"
+      ]
+    },
+    "Mature and band nuclei": {
+      "type": "ORTHO",
+      "target": [
+        -0.745,
+        0,
+        0.4
+      ],
+      "position": [
+        -0.745,
+        3.5,
+        0.65
+      ],
+      "ortho_width": 0.98,
+      "cut_on": false,
+      "hidden": [
+        "Erythrocytes",
+        "Rouleau",
+        "Erythrocyte cross-section",
+        "Platelets",
+        "Eosinophil",
+        "Eosinophil nucleus",
+        "Eosinophil granules",
+        "Basophil",
+        "Basophil nucleus",
+        "Basophil granules",
+        "T lymphocyte",
+        "B lymphocyte",
+        "Large lymphocyte",
+        "T lymphocyte nucleus",
+        "B lymphocyte nucleus",
+        "Large lymphocyte nucleus",
+        "T-cell receptor (schematic)",
+        "B-cell surface immunoglobulin (schematic)",
+        "Monocyte",
+        "Monocyte nucleus",
+        "Fibrin",
+        "Activated platelets",
+        "Plasma"
+      ]
+    },
+    "Lymphocyte comparison": {
+      "type": "ORTHO",
+      "target": [
+        -0.65,
+        0,
+        -0.24
+      ],
+      "position": [
+        -0.65,
+        3.5,
+        0.010000000000000009
+      ],
+      "ortho_width": 1.22,
+      "cut_on": false,
+      "hidden": [
+        "Erythrocytes",
+        "Rouleau",
+        "Erythrocyte cross-section",
+        "Platelets",
+        "Neutrophil",
+        "Band neutrophil",
+        "Neutrophil nucleus",
+        "Neutrophil granules",
+        "Eosinophil",
+        "Eosinophil nucleus",
+        "Eosinophil granules",
+        "Basophil",
+        "Basophil nucleus",
+        "Basophil granules",
+        "Monocyte",
+        "Monocyte nucleus",
+        "Fibrin",
+        "Activated platelets",
+        "Plasma"
+      ]
+    },
+    "Monocyte": {
+      "type": "ORTHO",
+      "target": [
+        0.87,
+        0,
+        0.4
+      ],
+      "position": [
+        0.87,
+        3.5,
+        0.65
+      ],
+      "ortho_width": 0.78,
+      "cut_on": false,
+      "hidden": [
+        "Erythrocytes",
+        "Rouleau",
+        "Erythrocyte cross-section",
+        "Platelets",
+        "Neutrophil",
+        "Band neutrophil",
+        "Neutrophil nucleus",
+        "Neutrophil granules",
+        "Eosinophil",
+        "Eosinophil nucleus",
+        "Eosinophil granules",
+        "Basophil",
+        "Basophil nucleus",
+        "Basophil granules",
+        "T lymphocyte",
+        "B lymphocyte",
+        "Large lymphocyte",
+        "T lymphocyte nucleus",
+        "B lymphocyte nucleus",
+        "Large lymphocyte nucleus",
+        "T-cell receptor (schematic)",
+        "B-cell surface immunoglobulin (schematic)",
+        "Fibrin",
+        "Activated platelets",
+        "Plasma"
+      ]
+    },
+    "Red cells and platelets": {
+      "type": "ORTHO",
+      "target": [
+        0.74,
+        0,
+        -0.32
+      ],
+      "position": [
+        0.74,
+        3.5,
+        -0.07
+      ],
+      "ortho_width": 1.88,
+      "cut_on": false,
+      "hidden": [
+        "Neutrophil",
+        "Band neutrophil",
+        "Neutrophil nucleus",
+        "Neutrophil granules",
+        "Eosinophil",
+        "Eosinophil nucleus",
+        "Eosinophil granules",
+        "Basophil",
+        "Basophil nucleus",
+        "Basophil granules",
+        "T lymphocyte",
+        "B lymphocyte",
+        "Large lymphocyte",
+        "T lymphocyte nucleus",
+        "B lymphocyte nucleus",
+        "Large lymphocyte nucleus",
+        "T-cell receptor (schematic)",
+        "B-cell surface immunoglobulin (schematic)",
+        "Monocyte",
+        "Monocyte nucleus",
+        "Plasma"
+      ]
+    },
+    "Preserved nuclear sections": {
+      "type": "ORTHO",
+      "target": [
+        -0.04,
+        0,
+        0.16
+      ],
+      "position": [
+        -0.04,
+        3.5,
+        0.41000000000000003
+      ],
+      "ortho_width": 2.75,
+      "cut_on": false,
+      "hidden": [
+        "Erythrocytes",
+        "Rouleau",
+        "Erythrocyte cross-section",
+        "Platelets",
+        "Neutrophil",
+        "Band neutrophil",
+        "Neutrophil granules",
+        "Eosinophil",
+        "Eosinophil granules",
+        "Basophil",
+        "Basophil granules",
+        "T lymphocyte",
+        "B lymphocyte",
+        "Large lymphocyte",
+        "T-cell receptor (schematic)",
+        "B-cell surface immunoglobulin (schematic)",
+        "Monocyte",
+        "Fibrin",
+        "Activated platelets",
+        "Plasma"
+      ]
+    },
+    "Section oblique": {
+      "type": "ORTHO",
+      "target": [
+        -0.3,
+        -0.04,
+        0.38
+      ],
+      "position": [
+        -0.3,
+        2,
+        1.4
+      ],
+      "ortho_width": 2.0,
+      "cut_on": false,
+      "hidden": [
+        "Erythrocytes",
+        "Rouleau",
+        "Erythrocyte cross-section",
+        "Platelets",
+        "T lymphocyte",
+        "B lymphocyte",
+        "Large lymphocyte",
+        "T lymphocyte nucleus",
+        "B lymphocyte nucleus",
+        "Large lymphocyte nucleus",
+        "T-cell receptor (schematic)",
+        "B-cell surface immunoglobulin (schematic)",
+        "Monocyte",
+        "Monocyte nucleus",
+        "Fibrin",
+        "Activated platelets",
+        "Plasma"
+      ]
+    }
+  },
+  "home_view": "+y",
+  "cut_on": false,
+  "metres_per_unit": 3.125e-05
+}

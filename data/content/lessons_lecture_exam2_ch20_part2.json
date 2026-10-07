@@ -49,7 +49,7 @@
     "steps": [
       {
        "title": "What an ECG records",
-       "text": "<p>An <b>electrocardiogram</b> (ECG, also written EKG from the German spelling) is a <b>record of electrical events in the myocardium</b>. The <b>myocardium</b> is the cardiac-muscle layer of the heart wall. Electrodes on the skin pick up the summed action potentials of those cells as they depolarize (become positive inside) and repolarize (return negative inside).</p><p>The ECG can be <b>correlated with mechanical events</b>: each electrical wave is soon followed by contraction or relaxation of the chambers it belongs to. The trace does not itself measure squeeze or pressure; it measures electricity. You already know the action potentials (lesson 8) and the conduction pathway (lesson 7). This lesson is how that electricity looks on paper.</p><p>The 3D view shows the heart whose electricity is being recorded. The diagram is a labelled ECG of one beat.</p>",
+       "text": "<p>An <b>electrocardiogram</b> (ECG, also written EKG from the German spelling) is a <b>record of electrical events in the myocardium</b>. The <b>myocardium</b> is the cardiac-muscle layer of the heart wall. Electrodes on the skin pick up the summed action potentials of those cells as they depolarize (become positive inside) and repolarize (return negative inside).</p><p>The ECG can be <b>correlated with mechanical events</b>: each electrical wave is soon followed by contraction or relaxation of the chambers it belongs to. The trace does not itself measure squeeze or pressure; it measures electricity. You already know the action potentials (lesson 8) and the conduction pathway (lesson 7). This lesson is how that electricity looks on paper.</p><p>The diagram is a labelled ECG of one beat.</p>",
        "systems": [
         "cardiovascular",
         "visceral"
@@ -324,7 +324,7 @@
     "steps": [
       {
        "title": "Abnormal rates: tachycardia and PAT",
-       "text": "<p>An <b>arrhythmia</b> is an abnormal heart rhythm. Table 20.1 groups them. Start with rate.</p><p><b>Tachycardia</b> means a heart rate <b>in excess of 100 beats per minute (bpm)</b>. Possible causes: <b>elevated body temperature</b>, <b>excessive sympathetic stimulation</b> (the fight-or-flight nerves firing too hard), and <b>toxic conditions</b>.</p><p><b>Paroxysmal atrial tachycardia (PAT)</b> is a <b>sudden</b> increase in heart rate to <b>95-150 bpm</b> for a few seconds or even several hours. <b>Paroxysmal</b> means it comes in bursts. A <b>P wave precedes every QRS complex</b> (so each atrial depolarization still triggers a ventricular one), but the <b>P wave is inverted and superimposed on the T wave</b>. Causes: <b>excessive sympathetic stimulation</b>, and <b>abnormally elevated permeability of slow channels</b> (the slow Ca<sup>2+</sup> channels of pacemaker and plateau physiology).</p><p>The rate-strip diagram shows a fast but still organized rhythm.</p>",
+       "text": "<p>An <b>arrhythmia</b> is an abnormal heart rhythm. Table 20.1 groups them. Start with rate.</p><p><b>Tachycardia</b> means a heart rate <b>in excess of 100 beats per minute (bpm)</b>. Possible causes: <b>elevated body temperature</b>, <b>excessive sympathetic stimulation</b> (the fight-or-flight nerves firing too hard), and <b>toxic conditions</b>.</p><p><b>Paroxysmal atrial tachycardia (PAT)</b> is a <b>sudden</b> increase in heart rate to <b>95-150 bpm</b> for a few seconds or even several hours. <b>Paroxysmal</b> means it comes in bursts. A <b>P wave precedes every QRS complex</b> (so each atrial depolarization still triggers a ventricular one), but the <b>P wave is inverted and superimposed on the T wave</b>. Causes: <b>excessive sympathetic stimulation</b>, and <b>abnormally elevated permeability of slow channels</b> (the slow Ca<sup>2+</sup> channels of pacemaker and plateau physiology).</p><p>The diagram puts sinus tachycardia and PAT one above the other: both are fast and regular, but in PAT the P waves are upside down and buried in the T waves.</p>",
        "systems": [
         "cardiovascular",
         "visceral"
@@ -337,7 +337,7 @@
        ],
        "view": "anterior",
        "xray": true,
-       "diagram": "lab04-strips-rate",
+       "diagram": "lec2-strips-tachy",
        "check": {
         "q": "Define tachycardia, and give the rate range and two ECG features of paroxysmal atrial tachycardia.",
         "a": "Tachycardia: heart rate over 100 bpm. PAT: sudden 95-150 bpm; a P wave precedes every QRS; the P wave is inverted and superimposed on the T wave."
@@ -346,8 +346,8 @@
       },
       {
        "title": "Ventricular tachycardia",
-       "text": "<p><b>Ventricular tachycardia</b> is a fast rhythm that originates in the ventricles rather than the SA node. Table 20.1's key clinical point: it <b>frequently causes fibrillation</b> (the ventricles may degenerate from a fast organized rhythm into chaotic twitching).</p><p>It is <b>often associated with damage to the AV node or ventricular muscle</b>. Damaged muscle can become an <b>ectopic focus</b>: a spot that fires on its own, out of turn. The model shows the thick ventricular walls where that damage lives.</p>",
-       "diagram": "lab04-strips-rate",
+       "text": "<p><b>Ventricular tachycardia</b> is a fast rhythm that originates in the ventricles rather than the SA node. Table 20.1's key clinical point: it <b>frequently causes fibrillation</b> (the ventricles may degenerate from a fast organized rhythm into chaotic twitching).</p><p>It is <b>often associated with damage to the AV node or ventricular muscle</b>. Damaged muscle can become an <b>ectopic focus</b>: a spot that fires on its own, out of turn. On an ECG, VT is a fast run of wide, bizarre QRS complexes with no P wave in front of each one, because each beat starts in the ventricle instead of the SA node. In the diagram, compare the bottom strip (VT) with sinus tachycardia at the top, where every QRS still has its P wave.</p>",
+       "diagram": "lec2-strips-tachy",
        "clinical": "Ventricular tachycardia is an emergency precisely because it so often degenerates into ventricular fibrillation, which pumps no blood.",
        "check": {
         "q": "Why is ventricular tachycardia dangerous, and what damage is it often associated with?",
@@ -358,7 +358,7 @@
       {
        "title": "Ectopic atrial rhythms: flutter and fibrillation",
        "text": "<p>An <b>ectopic action potential</b> is one that starts in the wrong place (not the SA node). Ectopic APs in the atria produce two named rhythms.</p><p><b>Atrial flutter.</b> Symptoms: <b>300 P waves/min</b> but only <b>125 QRS complexes/min</b>, so there are <b>two or three P waves (atrial contractions) for every QRS complex (ventricular contraction)</b>. The AV node cannot pass every atrial impulse. Cause: <b>ectopic action potentials in the atria</b>.</p><p><b>Atrial fibrillation.</b> <b>Fibrillation</b> means uncoordinated twitching instead of a single squeeze. Symptoms: <b>no P waves</b>; <b>normal QRS complexes</b>; <b>irregular timing</b>; the <b>ventricles are constantly stimulated by the atria</b>; <b>reduced pumping effectiveness and reduced filling time</b>. Cause: again, <b>ectopic action potentials in the atria</b>.</p><p>Flutter still has recognizable P waves (just too many). Fibrillation has no P waves at all.</p>",
-       "diagram": "lab04-strips-ectopic",
+       "diagram": "lec2-strips-atrial",
        "pitfall": "Atrial flutter: 300 P/min and 125 QRS/min (2 or 3 P per QRS). Atrial fibrillation: NO P waves. Do not swap them.",
        "check": {
         "q": "Give the P-wave and QRS rates of atrial flutter, and the key ECG features of atrial fibrillation.",
@@ -394,7 +394,7 @@
        ],
        "view": "anterior",
        "xray": true,
-       "diagram": "lab04-strips-rate",
+       "diagram": "lec2-strips-slow",
        "check": {
         "q": "Define bradycardia. What happens to the P wave and the pacemaker in SA-node block?",
         "a": "Bradycardia: heart rate less than 60 bpm. SA-node block: P waves cease; the AV node becomes the pacemaker at a low rate; QRS and T remain normal."
@@ -405,7 +405,7 @@
        "title": "AV node block: first, second and third degree",
        "text": "<p><b>AV node block</b> means the impulse is delayed or stopped between atria and ventricles. There are three degrees.</p><p><b>First-degree.</b> <b>PR interval greater than 0.2 second</b>. Every P still produces a QRS; the trip is just slow. Cause: <b>inflammation of the AV bundle</b>.</p><p><b>Second-degree.</b> <b>PR interval 0.25-0.45 second</b>. <b>Some P waves trigger QRS complexes and others do not</b>. Ratios of <b>2:1, 3:1 and 3:2 P waves per QRS</b> may occur. Cause: <b>excessive vagal stimulation</b>.</p><p><b>Third-degree (complete heart block).</b> The <b>P wave is dissociated from the QRS complex</b>: atria and ventricles beat independently. <b>Atrial rhythm approximately 100 bpm</b>; <b>ventricular rhythm less than 40 bpm</b> (a slow ventricular escape pacemaker). Causes: <b>ischemia of AV nodal fibres</b> or <b>compression of the AV bundle</b>.</p><p>The block-strip diagram shows a long PR, dropped QRS complexes, and complete dissociation.</p>",
        "systems": [],
-       "diagram": "lab04-strips-block",
+       "diagram": "lec2-strips-av-block",
        "mnemonic": "<b>1st = longer PR, every P conducted. 2nd = some P waves dropped. 3rd = P and QRS ignore each other.</b>",
        "check": {
         "q": "Give the PR (or rate) numbers that define first-, second- and third-degree AV block.",
@@ -1011,12 +1011,7 @@
        "check": {
         "q": "What is the dicrotic notch, and what does an arm blood-pressure cuff actually reflect?",
         "a": "A slight rise in aortic pressure when the aortic SL valve closes. Arm BP reflects aortic pressures, not ventricular pressures."
-       },
-       "micro": "whole_heart",
-       "micro_focus": [
-        "Aorta",
-        "Aortic arch"
-       ]
+       }
       }
     ],
     "practice": [
@@ -1258,14 +1253,11 @@
       },
       {
        "title": "Stenosis: identify the valve and the flow phase",
-       "text": "<p>Stenosis narrows a valve opening and produces turbulent forward flow when the valve should be open. Aortic stenosis therefore produces a systolic ejection murmur; mitral stenosis produces a diastolic murmur.</p><p>The lecture shorthand “before the heart sounds” is not sufficient by itself. Use the named valve and the phase of forward flow. Regurgitation instead occurs when a valve should be closed: AV regurgitation is systolic; semilunar regurgitation is diastolic.</p>",
+       "text": "<p><b>Valve stenosis</b> is an <b>abnormally narrow opening</b> that produces <b>very turbulent blood flow</b>. The lecture describes its sound as a <b>rushing sound before the heart sounds</b>.</p><p>Why “before”: a stenosed valve rushes while blood is being forced through it, just before the next closure sound. A narrow <b>AV valve</b> (mitral stenosis) rushes while the ventricles fill in diastole, <b>before S1</b>. A narrow <b>semilunar valve</b> (aortic stenosis) rushes during ejection, <b>before S2</b>. So aortic stenosis is a systolic murmur and mitral stenosis a diastolic one.</p><p>Compare an incompetent valve (last step): there the sound comes <b>after</b> the closure sound of the leaking valve.</p>",
        "systems": [],
        "diagram": "lec2-murmur-timing",
        "pitfall": "Incompetent = leak AFTER the closure sound of that valve. Stenosis = rushing BEFORE the heart sounds. Students often reverse after versus before.",
-       "check": {
-        "q": "When do aortic and mitral stenosis produce their characteristic murmurs?",
-        "a": "Aortic stenosis: systole. Mitral stenosis: diastole."
-       },
+       "check": {"q": "How does the lecture describe the murmur of a stenosed valve, and when do aortic and mitral stenosis murmur?", "a": "A rushing sound before the heart sounds (very turbulent flow through a narrow opening). Aortic stenosis: during ejection, before S2 (systolic). Mitral stenosis: during filling, before S1 (diastolic)."},
        "lesson_view": "diagram"
       },
       {
@@ -1428,7 +1420,8 @@
         "type": "find_micro",
         "model": "whole_heart",
         "part": "Pulmonary valve"
-      }
+      },
+      {"type": "mcq", "q": "The lecture describes the sound of a stenosed valve as…", "choices": ["A rushing sound before the heart sounds", "A gurgling sound after the heart sounds", "A third heart sound in early diastole", "No sound at all"], "answer": 0, "why": "Stenosis: an abnormally narrow opening with very turbulent flow, a rushing sound before the heart sounds. Incompetent valves gurgle or swish after them."}
     ],
     "sources": [
       "LectureMaterials/Chapters 20-22 Lecture Notes.md: Chapter 20",
@@ -1485,7 +1478,7 @@
     "steps": [
       {
        "title": "Mean arterial pressure",
-       "text": "<p><b>Mean arterial pressure (MAP)</b> is <b>slightly less than the average blood pressure in the aorta</b>. Arterial pressure rises with ejection and falls with runoff into the arterioles; MAP is the effective driving pressure for the systemic circuit, a little below a simple average of the peak and the trough because the heart spends more time in diastole than in systole.</p><p>The aorta is the vessel whose pressure MAP describes. The 3D view highlights it leaving the left ventricle.</p>",
+       "text": "<p><b>Mean arterial pressure (MAP)</b> is <b>slightly less than the average blood pressure in the aorta</b>. Arterial pressure rises with ejection and falls with runoff into the arterioles; MAP is the effective driving pressure for the systemic circuit, a little below a simple average of the peak and the trough because the heart spends more time in diastole than in systole.</p><p>The aorta is the vessel whose pressure MAP describes.</p>",
        "systems": [
         "cardiovascular",
         "visceral"
@@ -1851,7 +1844,6 @@
         "q": "Which nerve supplies parasympathetic control of the heart, what does it secrete, and what happens to the membrane and to HR?",
         "a": "The vagus nerve secretes acetylcholine, which hyperpolarizes the heart and decreases heart rate."
        },
-       "lesson_view": "diagram",
        "diagram": "lab04-rate-control"
       },
       {
@@ -1877,7 +1869,7 @@
       },
       {
         "title": "Hormonal control: the adrenal medulla",
-        "text": "<p>The same two chemicals can arrive in the blood. <b>Epinephrine and norepinephrine from the adrenal medulla</b> are released in response to <b>increased physical activity, emotional excitement, or stress</b>.</p><p>The <b>adrenal medulla</b> is the core of the suprarenal (adrenal) gland that sits on the kidney. Find the gland in the atlas and the medulla on the kidney model. This is <b>hormonal</b> extrinsic control: it <b>takes longer than sympathetic nerve stimulation but persists longer</b>. Nerves are fast on/fast off; adrenal catecholamines hang around in the plasma and keep HR and SV up after the nerves have quietened.</p>",
+        "text": "<p>The same two chemicals can arrive in the blood. <b>Epinephrine and norepinephrine from the adrenal medulla</b> are released in response to <b>increased physical activity, emotional excitement, or stress</b>.</p><p>The <b>adrenal medulla</b> is the core of the suprarenal (adrenal) gland that sits on the kidney. On the kidney model, find the adrenal gland capping the kidney and the medulla at its core. This is <b>hormonal</b> extrinsic control: it <b>takes longer than sympathetic nerve stimulation but persists longer</b>. Nerves are fast on/fast off; adrenal catecholamines hang around in the plasma and keep HR and SV up after the nerves have quietened.</p>",
         "systems": [
           "cardiovascular",
           "visceral"
@@ -1902,7 +1894,8 @@
         "check": {
           "q": "Where do hormonal epinephrine and norepinephrine come from, what triggers them, and how does their time course compare with sympathetic nerves?",
           "a": "From the adrenal medulla, in response to increased activity, emotional excitement or stress. They take longer to act than sympathetic nerves but persist longer."
-        }
+        },
+        "micro_view": "Kidney"
       },
       {
        "title": "Putting the controls together",
@@ -2052,7 +2045,8 @@
       {
         "type": "find_micro",
         "model": "kidney_nephron",
-        "part": "Adrenal medulla"
+        "part": "Adrenal medulla",
+        "micro_view": "Kidney"
       }
     ]
   },
@@ -2161,7 +2155,7 @@
       },
       {
        "title": "Chemoreceptors: pH and CO2",
-       "text": "<p>Chemoreceptors respond to chemical conditions rather than stretch. Central respiratory chemosensitivity is associated with brainstem regions, especially the medulla, and responds to CO2-related pH changes. Peripheral carotid and aortic bodies respond to arterial blood gases.</p><p><b>Source clarification:</b> the supplied lecture says hypothalamus for pH/CO2. That is not the standard location of the central respiratory chemoreceptor system. The hypothalamus does regulate temperature, which appears later in this lesson.</p>",
+       "text": "<p>Chemoreceptor reflexes regulate heart activity to keep <b>pH and blood gases</b> in their normal ranges.</p><p>The lecture puts the chemoreceptors that measure <b>pH and CO<sub>2</sub></b> in the <b>hypothalamus</b>; that is the answer the exam expects. (Most physiology texts place these central chemoreceptors in the <b>medulla oblongata</b>, beside the cardioregulatory and respiratory centers. Both are shown here: the hypothalamus above, the medulla below it in the brainstem.)</p><p>Rising CO<sub>2</sub> or falling pH signals that the tissues are not being cleared fast enough, so the reflex speeds the heart and breathing.</p>",
        "systems": [
         "nervous",
         "cardiovascular"
@@ -2170,18 +2164,11 @@
         "head",
         "thorax"
        ],
-       "focus": [
-        "Medulla oblongata"
-       ],
-       "show": [
-        "Medulla oblongata"
-       ],
+       "focus": ["Hypothalamus", "Medulla oblongata"],
+       "show": [],
        "view": "anterior",
        "xray": true,
-       "check": {
-        "q": "Which brain region is central to respiratory CO2/pH chemosensitivity?",
-        "a": "The brainstem, particularly medullary regions."
-       }
+       "check": {"q": "According to the lecture, where are the chemoreceptors that measure pH and CO₂?", "a": "In the hypothalamus (lecture). Most physiology texts place these central chemoreceptors in the medulla oblongata."}
       },
       {
        "title": "Chemoreceptors: oxygen",
@@ -2223,7 +2210,7 @@
       },
       {
        "title": "Calcium and temperature",
-       "text": "<p><b>Increased Ca<sup>2+</sup></b> produces a <b>greater force of contraction</b> and a <b>decreased HR</b>. Extra calcium is extra trigger for the myofilaments (remember CICR from lesson 8), so the squeeze is stronger, but rate falls.</p><p><b>Decreased Ca<sup>2+</sup></b> <b>increases HR</b>.</p><p><b>Temperature:</b> <b>HR increases when body temperature increases</b>, and <b>HR decreases when body temperature decreases</b>. That matches tachycardia from elevated body temperature in Table 20.1. Fever speeds the pacemaker; hypothermia slows it.</p><p>The hypothalamus regulates temperature; this is distinct from brainstem respiratory chemosensitivity.</p><p>The hypothalamus regulates temperature; this is distinct from brainstem respiratory chemosensitivity.</p>",
+       "text": "<p><b>Increased Ca<sup>2+</sup></b> produces a <b>greater force of contraction</b> and a <b>decreased HR</b>. Extra calcium is extra trigger for the myofilaments (remember CICR from lesson 8), so the squeeze is stronger, but rate falls.</p><p><b>Decreased Ca<sup>2+</sup></b> <b>increases HR</b>.</p><p><b>Temperature:</b> <b>HR increases when body temperature increases</b>, and <b>HR decreases when body temperature decreases</b>. That matches tachycardia from elevated body temperature in Table 20.1. Fever speeds the pacemaker; hypothermia slows it.</p><p>The hypothalamus (shown) is the body’s thermostat.</p>",
        "systems": [
         "nervous",
         "cardiovascular"
@@ -2245,7 +2232,7 @@
       },
       {
        "title": "A homeostatic map",
-       "text": "<p>Stack the sensors:</p><p><b>Pressure:</b> baroreceptors in internal carotids and aorta &rarr; IX and X &rarr; medullary cardioregulatory center &rarr; sympathetic or parasympathetic out, plus adrenal catecholamines.</p><p><b>Gases and pH:</b> brainstem pH/CO<sub>2</sub> sensors; aortic and carotid O<sub>2</sub> sensors. Prolonged hypoxia raises HR and BP.</p><p><b>Ions and heat:</b> K<sup>+</sup> and Ca<sup>2+</sup> change excitability and force; temperature changes rate in the same direction as the temperature change.</p><p>Last lesson of the chapter: what aging and disease do when these systems cannot keep up.</p>",
+       "text": "<p>Stack the sensors:</p><p><b>Pressure:</b> baroreceptors in internal carotids and aorta &rarr; IX and X &rarr; medullary cardioregulatory center &rarr; sympathetic or parasympathetic out, plus adrenal catecholamines.</p><p><b>Gases and pH:</b> pH/CO<sub>2</sub> sensors (lecture: hypothalamus; most texts: medulla); aortic and carotid O<sub>2</sub> sensors. Prolonged hypoxia raises HR and BP.</p><p><b>Ions and heat:</b> K<sup>+</sup> and Ca<sup>2+</sup> change excitability and force; temperature changes rate in the same direction as the temperature change.</p><p>Last lesson of the chapter: what aging and disease do when these systems cannot keep up.</p>",
        "systems": [
         "cardiovascular",
         "nervous"
@@ -2266,10 +2253,7 @@
        ],
        "view": "anterior",
        "xray": true,
-       "check": {
-        "q": "Distinguish pressure sensors, peripheral gas sensors and central respiratory chemosensitivity.",
-        "a": "Pressure: carotid sinus and aortic arch baroreceptors. Peripheral gases: carotid and aortic bodies. Central respiratory chemosensitivity: brainstem, especially medulla."
-       },
+       "check": {"q": "Where does the lecture place the baroreceptors, the O₂ chemoreceptors and the pH/CO₂ chemoreceptors?", "a": "Baroreceptors: walls of the internal carotids and aorta. O₂ chemoreceptors: aorta and internal carotids. pH/CO₂ chemoreceptors: hypothalamus (most texts say the medulla)."},
        "lesson_view": "reading"
       }
     ],
@@ -2310,18 +2294,7 @@
         "answer": 1,
         "why": "Cardioacceleratory = increases HR; cardioinhibitory = decreases HR."
       },
-      {
-        "type": "mcq",
-        "q": "Central respiratory CO2/pH chemosensitivity is especially associated with…",
-        "choices": [
-          "Medullary brainstem regions",
-          "Left ventricle",
-          "Radial artery",
-          "Femoral vein"
-        ],
-        "answer": 0,
-        "why": "The lecture’s hypothalamus shorthand is clarified here: central respiratory chemosensitivity involves the brainstem."
-      },
+      {"type": "mcq", "q": "According to the lecture, the chemoreceptors that measure pH and CO2 are in the…", "choices": ["Hypothalamus", "Left ventricle", "Radial artery", "Femoral vein"], "answer": 0, "why": "The lecture says the hypothalamus. (Most physiology texts place these central chemoreceptors in the medulla oblongata.)"},
       {
         "type": "mcq",
         "q": "Prolonged lowered O2 levels…",
@@ -2517,7 +2490,7 @@
       },
       {
         "title": "Congenital: septal defect and patent ductus arteriosus",
-        "text": "<p><b>Congenital</b> heart diseases <b>occur at birth</b>.</p><p><b>Septal defect</b>: a <b>hole in the septum between the left and right sides of the heart</b>, <b>allowing blood to flow from one side to the other</b> and <b>greatly reducing the heart's pumping effectiveness</b>. The model shows the interventricular and interatrial septa, including the fossa ovalis (the sealed fetal foramen ovale).</p><p><b>Patent ductus arteriosus</b>: the <b>ductus arteriosus fails to close after birth</b>, <b>allowing blood to flow from the aorta to the pulmonary trunk under a higher pressure, which damages the lungs</b>. Also, the <b>left ventricle must work harder to maintain adequate systemic pressure</b>. Patent means still open.</p>",
+        "text": "<p><b>Congenital</b> heart diseases <b>occur at birth</b>.</p><p><b>Septal defect</b>: a <b>hole in the septum between the left and right sides of the heart</b>, <b>allowing blood to flow from one side to the other</b> and <b>greatly reducing the heart's pumping effectiveness</b>. The model shows the interventricular and interatrial septa, The fossa ovalis, the sealed fetal foramen ovale, is a dip in the interatrial septum rather than a separate part.</p><p><b>Patent ductus arteriosus</b>: the <b>ductus arteriosus fails to close after birth</b>, <b>allowing blood to flow from the aorta to the pulmonary trunk under a higher pressure, which damages the lungs</b>. Also, the <b>left ventricle must work harder to maintain adequate systemic pressure</b>. Patent means still open.</p>",
         "micro": "whole_heart",
         "micro_focus": [
           "Interventricular septum",
@@ -2549,7 +2522,7 @@
       },
       {
        "title": "Congestive heart failure: left versus right",
-       "text": "<p><b>Congestive heart failure (CHF)</b> means the pump is failing and blood is backing up behind it. <b>Either side of the heart can be affected.</b></p><p><b>Left-sided failure results in pulmonary congestion</b>: <b>blood backs up in the lungs</b>. The left heart cannot accept pulmonary venous return, so the lung vessels overfill. The patient is short of breath; fluid sits in the alveoli.</p><p><b>Right-sided failure results in peripheral congestion</b>: <b>blood pools in body organs, causing edema</b> (swelling from fluid in the tissues). The right heart cannot accept systemic venous return, so the liver, spleen, kidneys and dependent skin congest.</p><p>The diagram splits those two backup circuits. Atlas lungs for the left-sided story; liver, spleen and kidney for the right-sided story.</p>",
+       "text": "<p><b>Congestive heart failure (CHF)</b> means the pump is failing and blood is backing up behind it. <b>Either side of the heart can be affected.</b></p><p><b>Left-sided failure results in pulmonary congestion</b>: <b>blood backs up in the lungs</b>. The left heart cannot accept pulmonary venous return, so the lung vessels overfill. The patient is short of breath; fluid sits in the alveoli.</p><p><b>Right-sided failure results in peripheral congestion</b>: <b>blood pools in body organs, causing edema</b> (swelling from fluid in the tissues). The right heart cannot accept systemic venous return, so the liver, spleen, kidneys and dependent skin congest.</p><p>The diagram splits those two backup circuits: the left side backs up into the lungs; the right side backs up into the liver, spleen, kidneys and legs.</p>",
        "systems": [
         "cardiovascular",
         "visceral"

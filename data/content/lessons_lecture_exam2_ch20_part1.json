@@ -214,7 +214,7 @@
 "steps": [
  {
   "title": "The pericardial sac: two layers",
-  "text": "<p>The heart does not sit loose in the chest. It is enclosed in a double-walled bag called the <b>pericardium</b>, or <b>pericardial sac</b>. The sac has two layers.</p><p>The <b>fibrous pericardium</b> is the <b>tough, fibrous outer layer</b>. It has two jobs: it <b>prevents overdistention</b> (stops the heart over-stretching with blood), and it <b>acts as an anchor</b>, holding the heart in place in the mediastinum.</p><p>Inside it is the <b>serous pericardium</b>, a <b>thin, transparent inner layer</b>. “Serous” means it makes a watery (serous) fluid.</p><p>The atlas does not model the pericardium, so use the diagram. The 3D view shows the heart in position for reference.</p>",
+  "text": "<p>The heart does not sit loose in the chest. It is enclosed in a double-walled bag called the <b>pericardium</b>, or <b>pericardial sac</b>. The sac has two layers.</p><p>The <b>fibrous pericardium</b> is the <b>tough, fibrous outer layer</b>. It has two jobs: it <b>prevents overdistention</b> (stops the heart over-stretching with blood), and it <b>acts as an anchor</b>, holding the heart in place in the mediastinum.</p><p>Inside it is the <b>serous pericardium</b>, a <b>thin, transparent inner layer</b>. “Serous” means it makes a watery (serous) fluid.</p><p>In the pericardium model the sac is opened in steps at the front: the white <b>fibrous pericardium</b>, then the blue serous layers inside it, then the heart.</p>",
   "systems": [
    "cardiovascular",
    "visceral"
@@ -235,11 +235,13 @@
    "q": "Give the two functions of the fibrous pericardium.",
    "a": "It prevents overdistention of the heart and anchors the heart in place."
   },
-  "lesson_view": "diagram"
+  "micro": "whole_heart",
+  "micro_focus": ["Fibrous pericardium", "Parietal layer of serous pericardium", "Visceral layer of serous pericardium (epicardium)"],
+  "micro_view": "Pericardium: The heart in its pericardium"
  },
  {
   "title": "Serous pericardium: parietal, visceral, and the cavity between",
-  "text": "<p>The serous pericardium is made of <b>simple squamous epithelium</b>, and it is folded back on itself into <b>two layers</b>.</p><p><b>a. Parietal pericardium</b>: lines the inside of the fibrous pericardium. (“Parietal” = the wall layer.)</p><p><b>b. Visceral pericardium</b>: covers the surface of the heart itself. It has a second name, the <b>epicardium</b>. (“Visceral” = the layer on the organ.)</p><p>The two layers are <b>continuous</b> with each other where the great vessels enter and leave, like a fist pushed into a balloon. Between them is a thin space, the <b>pericardial cavity</b>, filled with <b>pericardial fluid</b>. The fluid lets the heart slide against the sac with very little friction as it beats.</p>",
+  "text": "<p>The serous pericardium is made of <b>simple squamous epithelium</b>, and it is folded back on itself into <b>two layers</b>.</p><p><b>a. Parietal pericardium</b>: lines the inside of the fibrous pericardium. (“Parietal” = the wall layer.)</p><p><b>b. Visceral pericardium</b>: covers the surface of the heart itself. It has a second name, the <b>epicardium</b>. (“Visceral” = the layer on the organ.)</p><p>The two layers are <b>continuous</b> with each other where the great vessels enter and leave, like a fist pushed into a balloon. Between them is a thin space, the <b>pericardial cavity</b>, filled with <b>pericardial fluid</b>. The fluid lets the heart slide against the sac with very little friction as it beats.</p><p>In the model the parietal layer is the darker blue and the visceral layer the paler blue. The view “Serous pericardium: one layer folded back” removes the fibrous layer so you can see one turn into the other at the great vessels.</p>",
   "systems": [
    "cardiovascular",
    "visceral"
@@ -259,7 +261,9 @@
    "q": "What is another name for the visceral pericardium, and what fills the pericardial cavity?",
    "a": "The epicardium; the cavity is filled with pericardial fluid."
   },
-  "lesson_view": "diagram"
+  "micro": "whole_heart",
+  "micro_focus": ["Parietal layer of serous pericardium", "Visceral layer of serous pericardium (epicardium)"],
+  "micro_view": "Pericardium: Serous pericardium: one layer folded back"
  },
  {
   "title": "Heart wall layer 1 and 2: epicardium and myocardium",
@@ -277,22 +281,26 @@
  },
  {
   "title": "Heart wall layer 3: endocardium, plus internal ridges",
-  "text": "<p><b>Endocardium</b>: the <b>smooth inner surface of the heart chambers</b>. It is a thin layer of endothelium (simple squamous cells) over a little connective tissue, and it also covers the valves. A smooth lining matters, because a rough surface makes blood turbulent and more likely to clot.</p><p>The inner walls are not perfectly flat, though. Two kinds of muscular ridge are named.</p><p><b>Pectinate muscles</b>: <b>muscular ridges in the auricles and the right atrial wall</b>. They look like the teeth of a comb (“pectinate” = comb-like).</p><p><b>Trabeculae carneae</b>: <b>muscular ridges and columns on the inside walls of the ventricles</b> (“little beams of flesh”).</p><p>The heart-valve slide shows endocardium covering a valve leaflet. There is no 3D model of these ridges yet.</p>",
-  "histology": "heart_valve",
+  "text": "<p><b>Endocardium</b>: the <b>smooth inner surface of the heart chambers</b>. It is a thin layer of endothelium (simple squamous cells) over a little connective tissue, and it also covers the valves. A smooth lining matters, because a rough surface makes blood turbulent and more likely to clot.</p><p>The inner walls are not perfectly flat, though. Two kinds of muscular ridge are named.</p><p><b>Pectinate muscles</b>: <b>muscular ridges in the auricles and the right atrial wall</b>. They look like the teeth of a comb (“pectinate” = comb-like).</p><p><b>Trabeculae carneae</b>: <b>muscular ridges and columns on the inside walls of the ventricles</b> (“little beams of flesh”).</p><p>The wall block in the pericardium model shows the smooth <b>endocardium</b> and the <b>trabeculae carneae</b> on the inner face of a ventricle wall, with Purkinje fibres beneath the lining; the view “Wall block: inside the chamber” shows it face on. (The heart-valve slide, under See also, shows endocardium covering a valve leaflet.)</p><p>The atrial block above it shows the <b>pectinate muscles</b> running off the crista terminalis like the teeth of a comb (view “Atrial wall: pectinate muscles”): ridges in rows, where the trabeculae carneae form an irregular net.</p>",
   "mnemonic": "<b>P</b>ectinate = <b>P</b>atches up top (atria/auricles); <b>T</b>rabeculae = <b>T</b>hick lower chambers (ventricles).",
   "clinical": "<b>Endocarditis</b> (Table 20.2) is inflammation of the endocardium. It hits the valves hardest and can scar them, leaving them stenosed (narrowed) or incompetent (leaky).",
-  "check": {"q": "Where are pectinate muscles and where are trabeculae carneae?", "a": "Pectinate muscles: in the auricles and the right atrial wall. Trabeculae carneae: on the inner walls of the ventricles."}
+  "check": {"q": "Where are pectinate muscles and where are trabeculae carneae?", "a": "Pectinate muscles: in the auricles and the right atrial wall. Trabeculae carneae: on the inner walls of the ventricles."},
+  "micro": "whole_heart",
+  "micro_focus": ["Endocardium (wall block)", "Trabeculae carneae (wall block)", "Purkinje fibres (wall block)", "Pectinate muscles (atrial block)", "Crista terminalis (atrial block)"],
+  "micro_view": "Pericardium: Whole model"
  },
  {
   "title": "Putting the layers in order",
-  "text": "<p>Go from the outside of the chest inward to the blood. This order is a favourite exam question.</p><p><b>1. Fibrous pericardium</b> (tough outer sac)<br><b>2. Parietal layer of serous pericardium</b> (lines the fibrous sac)<br><b>3. Pericardial cavity</b> with pericardial fluid<br><b>4. Visceral pericardium = epicardium</b> (outer layer of the heart wall)<br><b>5. Myocardium</b> (cardiac muscle)<br><b>6. Endocardium</b> (smooth lining)<br><b>7. Blood</b> in the chamber</p><p>Notice that layer 4 belongs to both lists: it is the inner layer of the pericardium and the outer layer of the heart wall.</p>",
+  "text": "<p>Go from the outside of the chest inward to the blood. This order is a favourite exam question.</p><p><b>1. Fibrous pericardium</b> (tough outer sac)<br><b>2. Parietal layer of serous pericardium</b> (lines the fibrous sac)<br><b>3. Pericardial cavity</b> with pericardial fluid<br><b>4. Visceral pericardium = epicardium</b> (outer layer of the heart wall)<br><b>5. Myocardium</b> (cardiac muscle)<br><b>6. Endocardium</b> (smooth lining)<br><b>7. Blood</b> in the chamber</p><p>Notice that layer 4 belongs to both lists: it is the inner layer of the pericardium and the outer layer of the heart wall.</p><p>The model's view “Wall block: the layers in order” shows layers 1 to 6 cut back in steps, 3x life size.</p>",
   "systems": [],
   "diagram": "lab03-pericardium",
   "check": {
    "q": "Which single layer belongs both to the serous pericardium and to the heart wall?",
    "a": "The visceral pericardium, also called the epicardium."
   },
-  "lesson_view": "diagram"
+  "micro": "whole_heart",
+  "micro_focus": ["Fibrous pericardium (wall block)", "Parietal layer of serous pericardium (wall block)", "Pericardial cavity with pericardial fluid (wall block)", "Visceral layer of serous pericardium (epicardium) (wall block)", "Myocardium (wall block)", "Endocardium (wall block)"],
+  "micro_view": "Pericardium: Wall block: the layers in order"
  }
 ],
 "practice": [
@@ -306,7 +314,11 @@
  {"type": "recall", "q": "What is the function of pericardial fluid?", "a": "It fills the pericardial cavity and lets the heart slide with little friction as it beats."},
  {"type": "recall", "q": "Where are pectinate muscles found?", "a": "In the auricles and the right atrial wall."},
  {"type": "find_micro", "model": "whole_heart", "part": "Left ventricle (myocardium)"},
- {"type": "find_micro", "model": "cardiac_muscle", "part": "Intercalated discs"}
+ {"type": "find_micro", "model": "cardiac_muscle", "part": "Intercalated discs"},
+ {"type": "find_micro", "model": "whole_heart", "part": "Fibrous pericardium", "micro_view": "Pericardium: The heart in its pericardium"},
+ {"type": "find_micro", "model": "whole_heart", "part": "Parietal layer of serous pericardium", "micro_view": "Pericardium: The heart in its pericardium"},
+ {"type": "find_micro", "model": "whole_heart", "part": "Visceral layer of serous pericardium (epicardium)", "micro_view": "Pericardium: The heart in its pericardium"},
+ {"type": "find_micro", "model": "whole_heart", "part": "Trabeculae carneae (wall block)", "micro_view": "Pericardium: Wall block: inside the chamber"}
 ]
 },
 {
@@ -567,13 +579,7 @@
   "check": {
    "q": "What happens to the blood in the lungs?",
    "a": "CO2 is released and O2 is picked up by the red blood cells."
-  },
-  "micro": "whole_heart",
-  "micro_focus": [
-   "Pulmonary trunk",
-   "Pulmonary arteries",
-   "Pulmonary veins"
-  ]
+  }
  },
  {
   "title": "5. Left atrium → left ventricle",
@@ -660,14 +666,15 @@
  "Intercalated discs: desmosomes hold cells together; gap junctions pass action potentials → atria and ventricles each act as a functional syncytium.",
  "A long refractory period prevents tetanic contractions."
 ],
-"see_also": {"lessons": ["lab03-06-heart-wall"], "micro": ["cardiac_muscle", "whole_heart"], "histology": ["cardiac_muscle"]},
+"see_also": {"lessons": ["lab03-06-heart-wall"], "micro": ["whole_heart", "cardiac_muscle"], "histology": ["cardiac_muscle"]},
 "steps": [
  {
   "title": "The heart's fibrous “skeleton”",
-  "text": "<p>Between the atria and the ventricles is a <b>plate of fibrous connective tissue</b>, with <b>fibrous rings around each valve</b>. This is the <b>fibrous skeleton</b> of the heart. It is not bone; “skeleton” just means a supporting framework.</p><p>It has <b>four functions</b>:</p><p>1. <b>Supports the valves</b>: the rings keep the valve openings from stretching.<br>2. <b>Electrical insulation between the atria and ventricles</b>: connective tissue does not conduct action potentials, so the only electrical path from atria to ventricles is a special bundle (lesson 7).<br>3. <b>Site for muscle attachment</b>: the cardiac muscle of the chambers anchors to it.<br>4. Overall, it gives the heart a firm frame to pull against.</p><p>In the model the fibrous rings are the valve annuli.</p>",
+  "text": "<p>Between the atria and the ventricles is a <b>plate of fibrous connective tissue</b>, with <b>fibrous rings around each valve</b>. This is the <b>fibrous skeleton</b> of the heart. It is not bone; “skeleton” just means a supporting framework.</p><p>It has <b>four functions</b>:</p><p>1. <b>Supports the valves</b>: the rings keep the valve openings from stretching.<br>2. <b>Electrical insulation between the atria and ventricles</b>: connective tissue does not conduct action potentials, so the only electrical path from atria to ventricles is a special bundle (lesson 7).<br>3. <b>Site for muscle attachment</b>: the cardiac muscle of the chambers anchors to it.<br>4. Overall, it gives the heart a firm frame to pull against.</p><p>In the conduction model the fibrous rings are the <b>mitral and tricuspid annuli</b>, joined by the <b>central fibrous body</b>. The green <b>AV bundle</b> piercing it is the one electrical path across (lesson 7).</p>",
   "micro": "whole_heart",
-  "micro_focus": ["Fibrous skeleton (valve annuli)"],
-  "check": {"q": "Why is it important that the fibrous skeleton is an electrical insulator?", "a": "It stops action potentials spreading directly from atria to ventricles, so the signal must take the AV node/bundle route, which keeps atria and ventricles contracting at different times."}
+  "micro_focus": ["Mitral annulus", "Tricuspid annulus", "Central fibrous body", "Atrioventricular (AV) bundle (bundle of His)"],
+  "check": {"q": "Why is it important that the fibrous skeleton is an electrical insulator?", "a": "It stops action potentials spreading directly from atria to ventricles, so the signal must take the AV node/bundle route, which keeps atria and ventricles contracting at different times."},
+  "micro_view": "Conduction: Through the fibrous skeleton, from above"
  },
  {
   "title": "Cardiac muscle cells",
@@ -746,66 +753,78 @@
 "steps": [
  {
   "title": "A built-in wiring system",
-  "text": "<p>The heart has its own <b>intrinsic conduction system</b> that <b>relays action potentials through the heart</b> in a set order. “Intrinsic” means it is inside the heart, not part of the nervous system.</p><p>It is <b>not made of nerves</b>. It is made of <b>modified cardiac muscle cells</b> that are specialized to fire and conduct rather than contract. They form <b>2 nodes and a conducting bundle</b>:</p><p>• the <b>sinoatrial (SA) node</b><br>• the <b>atrioventricular (AV) node</b><br>• the <b>AV bundle</b>, which splits into the <b>right and left bundle branches</b> and ends in the <b>Purkinje fibres</b>.</p><p>The 3D atlas does not model the conduction tissue itself, so the diagram shows the pathway; the heart model is there for orientation.</p>",
+  "text": "<p>The heart has its own <b>intrinsic conduction system</b> that <b>relays action potentials through the heart</b> in a set order. “Intrinsic” means it is inside the heart, not part of the nervous system.</p><p>It is <b>not made of nerves</b>. It is made of <b>modified cardiac muscle cells</b> that are specialized to fire and conduct rather than contract. They form <b>2 nodes and a conducting bundle</b>:</p><p>• the <b>sinoatrial (SA) node</b><br>• the <b>atrioventricular (AV) node</b><br>• the <b>AV bundle</b>, which splits into the <b>right and left bundle branches</b> and ends in the <b>Purkinje fibres</b>.</p><p>The conduction-system model shows the whole pathway inside a see-through heart, coloured in the order it fires: <b>SA node</b> (yellow), <b>AV node</b> (orange), <b>AV bundle</b> (green), <b>bundle branches</b> (blue) and <b>Purkinje fibres</b> (violet). The diagram lays the same route out flat.</p>",
   "diagram": "lab04-conduction",
   "pitfall": "The conduction system is modified cardiac MUSCLE, not nervous tissue.",
   "check": {
    "q": "What are the components of the conduction system made of?",
    "a": "Modified cardiac muscle cells, forming two nodes (SA and AV) and a conducting bundle."
   },
-  "lesson_view": "diagram"
+  "micro": "whole_heart",
+  "micro_focus": ["Sinoatrial (SA) node", "Atrioventricular (AV) node", "Atrioventricular (AV) bundle (bundle of His)", "Right bundle branch", "Left bundle branch", "Purkinje fibres (left ventricle)", "Purkinje fibres (right ventricle)"],
+  "micro_view": "Conduction: Whole pathway, right heart opened"
  },
  {
   "title": "The SA node: the pacemaker",
-  "text": "<p>The <b>sinoatrial (SA) node</b> lies in the wall of the right atrium, <b>medial to the opening of the superior vena cava</b>.</p><p>It is <b>the pacemaker</b>: its cells <b>generate spontaneous action potentials</b> that pass to the <b>atrial muscle cells</b> and to the <b>AV node</b>. Its cells depolarize faster than any other part of the heart, so they set the pace for the whole heart.</p><p>The model cannot show the node itself, but it does show the small <b>SA nodal artery</b> that supplies it. Follow that artery to the junction of the SVC and the right atrium, and you are pointing at where the node sits.</p>",
+  "text": "<p>The <b>sinoatrial (SA) node</b> lies in the wall of the right atrium, <b>medial to the opening of the superior vena cava</b>.</p><p>It is <b>the pacemaker</b>: its cells <b>generate spontaneous action potentials</b> that pass to the <b>atrial muscle cells</b> and to the <b>AV node</b>. Its cells depolarize faster than any other part of the heart, so they set the pace for the whole heart.</p><p>In the model the SA node is the <b>yellow crescent</b> where the superior vena cava joins the right atrium. The small <b>SA nodal artery</b>, a branch of the right coronary artery, ends at it.</p>",
   "check": {
    "q": "Where is the SA node, and why is it called the pacemaker?",
    "a": "In the right atrial wall, medial to the opening of the SVC; it generates spontaneous APs that set the rhythm of the whole heart."
   },
-  "lesson_view": "diagram",
-  "diagram": "lab04-conduction"
+  "diagram": "lab04-conduction",
+  "micro": "whole_heart",
+  "micro_focus": ["Sinoatrial (SA) node", "Sinoatrial (SA) nodal artery", "Superior vena cava"],
+  "micro_view": "Conduction: SA node at the superior vena cava"
  },
  {
   "title": "Spreading over the atria to the AV node",
-  "text": "<p>Each AP generated at the SA node <b>spreads to adjacent cardiac cells of the atrium</b> through gap junctions. The atrial muscle contracts in response.</p><p>There are also <b>pathways that conduct APs from the SA node to the AV node at greater velocity</b> than through the rest of the atrial muscle. The trip from SA node to AV node takes about <b>0.04 s</b>.</p><p>The <b>atrioventricular (AV) node</b> lies <b>medial to the right AV (tricuspid) valve</b>, low in the interatrial septum. In the model its supply, the AV nodal artery, points to it.</p>",
+  "text": "<p>Each AP generated at the SA node <b>spreads to adjacent cardiac cells of the atrium</b> through gap junctions. The atrial muscle contracts in response.</p><p>There are also <b>pathways that conduct APs from the SA node to the AV node at greater velocity</b> than through the rest of the atrial muscle. The trip from SA node to AV node takes about <b>0.04 s</b>.</p><p>The <b>atrioventricular (AV) node</b> lies <b>medial to the right AV (tricuspid) valve</b>, low in the interatrial septum. In the model it is the <b>orange</b> body just above the septal leaflet of the tricuspid valve, in front of the opening of the coronary sinus.</p><p>The pale-yellow lines are the three internodal pathways (anterior, middle and posterior). Textbook note: they are preferred routes through ordinary atrial muscle, not insulated cables, and the <b>Bachmann bundle</b> carries the impulse across to the left atrium.</p>",
   "check": {
    "q": "Where is the AV node, and about how long does the AP take to reach it from the SA node?",
    "a": "Medial to the right AV (tricuspid) valve; about 0.04 s."
   },
-  "lesson_view": "diagram",
-  "diagram": "lab04-conduction"
+  "diagram": "lab04-conduction",
+  "micro": "whole_heart",
+  "micro_focus": ["Atrioventricular (AV) node", "Anterior internodal pathway", "Middle internodal pathway", "Posterior internodal pathway", "Bachmann bundle (interatrial pathway)"],
+  "micro_view": "Conduction: Atrial pathways, right atrium opened"
  },
  {
   "title": "The AV node: the deliberate delay",
-  "text": "<p>Action potentials are <b>conducted more slowly through the AV node than in any other part of the system</b>. There is a delay of about <b>0.11 s</b> from the AV node to the AV bundle.</p><p><b>Why so slow?</b> Its cells are <b>smaller in diameter</b>, have <b>fewer gap junctions</b> in their intercalated discs, and have <b>fewer myofibrils</b>. Small cells and few gap junctions both slow conduction.</p><p><b>Why bother?</b> The delay <b>ensures the ventricles receive the signal to contract only after the atria have contracted</b>. The atria get to finish emptying into the ventricles first.</p>",
+  "text": "<p>Action potentials are <b>conducted more slowly through the AV node than in any other part of the system</b>. There is a delay of about <b>0.11 s</b> from the AV node to the AV bundle.</p><p><b>Why so slow?</b> Its cells are <b>smaller in diameter</b>, have <b>fewer gap junctions</b> in their intercalated discs, and have <b>fewer myofibrils</b>. Small cells and few gap junctions both slow conduction.</p><p><b>Why bother?</b> The delay <b>ensures the ventricles receive the signal to contract only after the atria have contracted</b>. The atria get to finish emptying into the ventricles first.</p><p>In the model the AV node is the orange body; the green AV bundle leaves it.</p>",
   "systems": [],
   "diagram": "lec2-conduction-sequence",
   "check": {
    "q": "Give two structural reasons the AV node conducts slowly, and the purpose of the delay.",
    "a": "Smaller-diameter cells and fewer gap junctions (also fewer myofibrils). The delay lets the atria finish contracting before the ventricles contract."
   },
-  "lesson_view": "diagram"
+  "micro": "whole_heart",
+  "micro_focus": ["Atrioventricular (AV) node", "Atrioventricular (AV) bundle (bundle of His)"],
+  "micro_view": "Conduction: Triangle of Koch: AV node and AV bundle"
  },
  {
   "title": "AV bundle, bundle branches and Purkinje fibres",
-  "text": "<p>From the AV node the signal enters the <b>AV bundle</b> (bundle of His), which <b>passes through a hole in the fibrous skeleton</b> into the <b>interventricular septum</b>. This is the only normal electrical bridge across the insulating skeleton.</p><p>Conduction velocity <b>increases dramatically</b> from the AV node to the AV bundle.</p><p>The bundle divides into the <b>right and left bundle branches</b>, which run down either side of the septum <b>beneath the endocardium</b> to the <b>apex</b> of the right and left ventricles.</p><p>They end in <b>Purkinje fibres</b>: <b>large-diameter cardiac muscle cells with few myofibrils and many gap junctions</b>. Large size and many gap junctions make them very fast. They penetrate the myocardium and conduct the AP to the <b>ventricular muscle cells</b>.</p>",
+  "text": "<p>From the AV node the signal enters the <b>AV bundle</b> (bundle of His), which <b>passes through a hole in the fibrous skeleton</b> into the <b>interventricular septum</b>. This is the only normal electrical bridge across the insulating skeleton.</p><p>Conduction velocity <b>increases dramatically</b> from the AV node to the AV bundle.</p><p>The bundle divides into the <b>right and left bundle branches</b>, which run down either side of the septum <b>beneath the endocardium</b> to the <b>apex</b> of the right and left ventricles.</p><p>They end in <b>Purkinje fibres</b>: <b>large-diameter cardiac muscle cells with few myofibrils and many gap junctions</b>. Large size and many gap junctions make them very fast. They penetrate the myocardium and conduct the AP to the <b>ventricular muscle cells</b>.</p><p>In the model the green AV bundle passes through the cream <b>central fibrous body</b>, the thickest part of the skeleton, and divides at the top of the septum into the blue bundle branches. The left branch fans into anterior and posterior fascicles toward the two papillary muscles; much of the right branch crosses the right ventricle in the moderator band.</p>",
   "diagram": "lab04-conduction",
   "pitfall": "The AV node is slow because of small cells and few gap junctions; Purkinje fibres are fast because of large cells and many gap junctions. The same two features, in opposite directions.",
   "check": {
    "q": "What makes Purkinje fibres conduct so quickly?",
    "a": "They are large-diameter cells with many gap junctions (and few myofibrils)."
   },
-  "lesson_view": "diagram"
+  "micro": "whole_heart",
+  "micro_focus": ["Atrioventricular (AV) bundle (bundle of His)", "Central fibrous body", "Right bundle branch", "Left bundle branch", "Left anterior fascicle", "Left posterior fascicle"],
+  "micro_view": "Conduction: Whole pathway, right heart opened"
  },
  {
   "title": "The ventricles contract from apex to base",
-  "text": "<p>Because the bundle branches run all the way to the apex before turning up the outer walls, the <b>inner wall of the ventricles near the apex is stimulated first</b>. Ventricular contraction <b>begins at the apex and progresses toward the base</b>.</p><p>The ventricular muscle layers are also arranged in a <b>spiral</b>, so contraction produces a <b>wringing action</b>, like wringing out a towel. The <b>distance between apex and base decreases</b>, and blood is <b>forced upward from the apex toward the great vessels at the base</b>, which is exactly where the exits (pulmonary trunk and aorta) are.</p><p>Squeezing from the bottom up is like squeezing toothpaste from the closed end of the tube.</p>",
+  "text": "<p>Because the bundle branches run all the way to the apex before turning up the outer walls, the <b>inner wall of the ventricles near the apex is stimulated first</b>. Ventricular contraction <b>begins at the apex and progresses toward the base</b>.</p><p>The ventricular muscle layers are also arranged in a <b>spiral</b>, so contraction produces a <b>wringing action</b>, like wringing out a towel. The <b>distance between apex and base decreases</b>, and blood is <b>forced upward from the apex toward the great vessels at the base</b>, which is exactly where the exits (pulmonary trunk and aorta) are.</p><p>Squeezing from the bottom up is like squeezing toothpaste from the closed end of the tube.</p><p>In the model the violet Purkinje network is densest toward the apex and thins out toward the valves.</p>",
   "check": {
    "q": "Why does it matter that the ventricles contract from apex to base?",
    "a": "It pushes blood upward toward the exits at the base (pulmonary trunk and aorta); with the spiral muscle it wrings blood out efficiently."
   },
-  "lesson_view": "diagram",
-  "diagram": "lab04-conduction"
+  "diagram": "lab04-conduction",
+  "micro": "whole_heart",
+  "micro_focus": ["Purkinje fibres (left ventricle)", "Purkinje fibres (right ventricle)"],
+  "micro_view": "Conduction: Purkinje fibres from the apex"
  },
  {
   "title": "The whole sequence",
@@ -816,7 +835,9 @@
    "q": "List the conduction pathway in order.",
    "a": "SA node → atrial muscle (and pathways to) → AV node → AV bundle → right and left bundle branches → Purkinje fibres → ventricular muscle."
   },
-  "lesson_view": "diagram"
+  "micro": "whole_heart",
+  "micro_focus": ["Sinoatrial (SA) node", "Atrioventricular (AV) node", "Atrioventricular (AV) bundle (bundle of His)", "Right bundle branch", "Left bundle branch", "Purkinje fibres (left ventricle)", "Purkinje fibres (right ventricle)"],
+  "micro_view": "Conduction: Whole pathway, right heart opened"
  }
 ],
 "practice": [
@@ -830,7 +851,13 @@
  {"type": "mcq", "q": "Ventricular contraction begins…", "choices": ["At the base and moves to the apex", "At the apex and moves toward the base", "Everywhere at once", "In the atria"], "answer": 1, "why": "The inner wall near the apex is stimulated first, so contraction spreads apex → base."},
  {"type": "recall", "q": "Why does the ventricles' spiral muscle arrangement matter?", "a": "It produces a wringing action: the apex-to-base distance shortens and blood is forced up toward the great vessels at the base."},
  {"type": "find_micro", "model": "whole_heart", "part": "Sinoatrial nodal artery"},
- {"type": "find_micro", "model": "whole_heart", "part": "Interventricular septum"}
+ {"type": "find_micro", "model": "whole_heart", "part": "Interventricular septum"},
+ {"type": "find_micro", "model": "whole_heart", "part": "Sinoatrial (SA) node", "micro_view": "Conduction: SA node at the superior vena cava"},
+ {"type": "find_micro", "model": "whole_heart", "part": "Atrioventricular (AV) node", "micro_view": "Conduction: Triangle of Koch: AV node and AV bundle"},
+ {"type": "find_micro", "model": "whole_heart", "part": "Atrioventricular (AV) bundle (bundle of His)", "micro_view": "Conduction: Through the fibrous skeleton, from above"},
+ {"type": "find_micro", "model": "whole_heart", "part": "Central fibrous body", "micro_view": "Conduction: Through the fibrous skeleton, from above"},
+ {"type": "find_micro", "model": "whole_heart", "part": "Left bundle branch", "micro_view": "Conduction: Left heart opened: left bundle branch"},
+ {"type": "find_micro", "model": "whole_heart", "part": "Purkinje fibres (right ventricle)", "micro_view": "Conduction: Purkinje fibres from the apex"}
 ]
 },
 {
@@ -858,7 +885,7 @@
 "steps": [
  {
   "title": "The resting membrane potential",
-  "text": "<p>Like nerve and skeletal muscle cells, cardiac muscle cells have a <b>resting membrane potential (RMP)</b>: the inside of the cell is negative compared with the outside. They can also <b>conduct action potentials</b>.</p><p>The RMP depends on the membrane being <b>leaky to some ions and not others</b>:</p><p>• <b>low permeability to Na<sup>+</sup> and Ca<sup>2+</sup></b>: these positive ions, which are concentrated outside, are mostly kept out.<br>• <b>higher permeability to K<sup>+</sup></b>: K<sup>+</sup>, concentrated inside, leaks out, taking positive charge with it and leaving the inside negative.</p><p>For a contractile ventricular cell the resting value is about <b>-90 mV</b>.</p><p>This lesson is pure physiology, so the 3D view is blank; the diagrams carry it.</p>",
+  "text": "<p>Like nerve and skeletal muscle cells, cardiac muscle cells have a <b>resting membrane potential (RMP)</b>: the inside of the cell is negative compared with the outside. They can also <b>conduct action potentials</b>.</p><p>The RMP depends on the membrane being <b>leaky to some ions and not others</b>:</p><p>• <b>low permeability to Na<sup>+</sup> and Ca<sup>2+</sup></b>: these positive ions, which are concentrated outside, are mostly kept out.<br>• <b>higher permeability to K<sup>+</sup></b>: K<sup>+</sup>, concentrated inside, leaks out, taking positive charge with it and leaving the inside negative.</p><p>For a contractile ventricular cell the resting value is about <b>-90 mV</b>.</p>",
   "systems": [],
   "diagram": "lec2-cardiac-ap-phases",
   "check": {

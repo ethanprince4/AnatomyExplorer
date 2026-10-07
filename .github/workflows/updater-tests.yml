@@ -14,7 +14,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-14, ubuntu-latest]
+        # Windows source checks run locally before release. The Windows build still
+        # verifies its actual installer, frozen runtime and packaged HTTPS roots.
+        os: [macos-14, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
@@ -42,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-14]
+        os: [macos-14]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:

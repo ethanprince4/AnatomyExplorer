@@ -1,0 +1,217 @@
+{
+  "model_id": "elastic_artery_static_refinement",
+  "display_name": "Elastic artery",
+  "summary": "Preserved elastic arterial wall with closeups of representative lamellar units, sheet apertures and adventitial routes.",
+  "metres_per_unit": 0.0135714,
+  "home_view": [
+    0,
+    0
+  ],
+  "cut_on": false,
+  "cut_at": [
+    0,
+    0
+  ],
+  "cutaway": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ]
+  ],
+  "start_view": "01 Overview",
+  "viewer_cameras": {
+    "01 Overview": {
+      "position": [
+        2,
+        1.6,
+        2
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.35,
+      "hidden": [],
+      "cut_on": false
+    },
+    "02 Open end section": {
+      "position": [
+        3,
+        0.2,
+        0.2
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.6,
+      "hidden": [],
+      "cut_on": false
+    },
+    "03 Corner section": {
+      "position": [
+        -2,
+        1.5,
+        2
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.1,
+      "hidden": [],
+      "cut_on": true
+    },
+    "04 Lamellar unit closeup": {
+      "position": [
+        2,
+        0.85,
+        0.4
+      ],
+      "target": [
+        0.98,
+        0.74,
+        0.12
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.5,
+      "hidden": [
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": false
+    },
+    "05 Elastic sheet aperture panel": {
+      "position": [
+        0.48,
+        2,
+        0
+      ],
+      "target": [
+        0.48,
+        0.82,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.6,
+      "hidden": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Elastic lamellae",
+        "External elastic lamina",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": false
+    },
+    "06 Adventitial routes isolated": {
+      "position": [
+        1.5,
+        2,
+        2
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.2,
+      "hidden": [
+        "Endothelium",
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Elastic lamellae",
+        "External elastic lamina",
+        "External elastic lamina peel panel",
+        "Tunica adventitia",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": false
+    },
+    "07 Inner wall contact": {
+      "position": [
+        0.75,
+        -0.1,
+        -0.12
+      ],
+      "target": [
+        0.23,
+        -0.38,
+        -0.54
+      ],
+      "type": "ORTHO",
+      "ortho_width": 0.3,
+      "hidden": [
+        "Subendothelial layer",
+        "Internal elastic lamina",
+        "Tunica media (smooth muscle)",
+        "Elastic lamellae",
+        "External elastic lamina",
+        "External elastic lamina peel panel",
+        "Tunica adventitia",
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells"
+      ],
+      "cut_on": false
+    },
+    "08 Wall section closeup": {
+      "position": [
+        -2,
+        1.5,
+        2
+      ],
+      "target": [
+        -0.05,
+        0.45,
+        0.25
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.5,
+      "hidden": [
+        "Adventitial collagen bundles",
+        "Vasa vasorum",
+        "Vasa vasorum venules",
+        "Nervi vasorum",
+        "Perivascular fat",
+        "Red blood cells",
+        "Rolling leukocyte"
+      ],
+      "cut_on": true
+    }
+  },
+  "scale_note": "Source teaching scale retained: nominal 19 mm lumen, one unit 13.5714 mm. Twelve enlarged representative elastic sheets include boundary laminae. Aggregate smooth-muscle media has no separately selectable cell bodies or nuclei. Blood cells and furnishing dimensions are enlarged schematic representatives. Native corner section is display clipping, not geometry deletion."
+}

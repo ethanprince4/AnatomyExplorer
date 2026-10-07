@@ -1112,10 +1112,23 @@ class ModelView(QWidget):
         aliases, case-insensitive), and the names that matched nothing."""
         return self.entry.resolve(self.vmodel, names)
 
-    def show_lesson_parts(self, names):
-        """Start each lesson step from the complete model, rather than a saved reveal."""
+    def show_lesson_parts(self, names, *, view_name=None):
+        """Reset a lesson step, then retain an authored view's camera and cover masks."""
+        self._lesson_view_serial = getattr(self, "_lesson_view_serial", 0) + 1
         self.state.clear_selection()
         self._fully_visible()
+        if view_name:
+            if view_name not in self.vmodel.cameras:
+                return [f"view '{view_name}'"]
+            self.gl_widget.set_named_view(view_name, animate=False)
+            sids, missing = self.part_ids(names)
+            if sids:
+                # A named view already exposes the subject. Selecting a chamber
+                # must not restore its deliberately hidden anterior wall.
+                self.state.select(sids)
+                self.state.set_ghost_focus(sids)
+            self._show_selection()
+            return missing
         if not names:
             self.reset_view()
             return []
@@ -1140,12 +1153,15 @@ class ModelView(QWidget):
             self.state.set_ghost_focus(sids)
             self._show_selection()
             # after reset_view, which a freshly opened model queues for its first frame
-            QTimer.singleShot(250, self, lambda: self.gl_widget.frame_structures(sids))
+            serial = getattr(self, "_lesson_view_serial", 0)
+            QTimer.singleShot(250, self, lambda: self.gl_widget.frame_structures(sids)
+                              if serial == getattr(self, "_lesson_view_serial", 0) else None)
         return missing
 
     def set_practice(self, click=None, rclick=None):
         """Practice mode takes the clicks, and the parts list and labels are put away: they would give the answer."""
         on = click is not None
+        self._lesson_view_serial = getattr(self, "_lesson_view_serial", 0) + 1
         if on and self.click_hook is None:
             camera = self.gl_widget.camera
             self._practice_restore = {
