@@ -1,119 +1,205 @@
 [
 {
-  "id": "urinary-tract",
-  "title": "Ureter, bladder and urethra",
-  "system": "urinary",
-  "region": "pelvis",
-  "level": "core",
-  "minutes": 11,
-  "summary": "Three narrowings where a stone sticks, a muscle that empties on command, and two very different urethras.",
-  "tags": ["ureter", "bladder", "urethra", "stones", "catheter"],
-  "objectives": [
-    "Trace the ureter and name its three constrictions",
-    "Describe the trigone and the mechanism of continence",
-    "Explain why catheterising a male urethra is harder than a female one",
-    "Relate the terminal pelvic ureter to the uterine artery or ductus deferens"
+ "id": "urinary-tract",
+ "title": "Ureter, bladder and urethra",
+ "system": "urinary",
+ "region": "pelvis",
+ "level": "core",
+ "minutes": 11,
+ "summary": "Three narrowings where a stone sticks, a muscle that empties on command, and two very different urethras.",
+ "tags": [
+  "ureter",
+  "bladder",
+  "urethra",
+  "stones",
+  "catheter"
+ ],
+ "objectives": [
+  "Trace the ureter and name its three constrictions",
+  "Describe the trigone and the mechanism of continence",
+  "Explain why catheterising a male urethra is harder than a female one",
+  "Relate the terminal pelvic ureter to the uterine artery or ductus deferens"
+ ],
+ "takeaways": [
+  "Ureteric constrictions: pelvi-ureteric junction, crossing the pelvic brim, and the vesico-ureteric junction.",
+  "The trigone is smooth, embryologically distinct and the most sensitive part of the bladder.",
+  "The male urethra has two curves and a narrow membranous part; the female is 4 cm and straight.",
+  "Near the bladder, the ureter passes beneath the uterine artery in female anatomy and beneath the ductus deferens in male anatomy."
+ ],
+ "see_also": {
+  "lessons": [
+   "kidney-retroperitoneum",
+   "pelvic-floor",
+   "male-reproductive"
   ],
-  "takeaways": [
-    "Ureteric constrictions: pelvi-ureteric junction, crossing the pelvic brim, and the vesico-ureteric junction.",
-    "The trigone is smooth, embryologically distinct and the most sensitive part of the bladder.",
-    "The male urethra has two curves and a narrow membranous part; the female is 4 cm and straight.",
-    "Near the bladder, the ureter passes beneath the uterine artery in female anatomy and beneath the ductus deferens in male anatomy."
-  ],
-  "see_also": {"lessons": ["kidney-retroperitoneum", "pelvic-floor", "male-reproductive"], "micro": ["bladder_wall"], "histology": ["ureter", "bladder", "transitional", "urethra"]},
-  "steps": [
-    {
-      "title": "The ureter's course",
-      "text": "<p>From the <b>renal pelvis</b>, the ureter runs down on psoas major, retroperitoneally, crosses the <b>pelvic brim</b> at the bifurcation of the common iliac artery, then swings forwards along the pelvic side wall to enter the bladder obliquely.</p><p>On a plain film it follows the tips of the lumbar transverse processes and then the sacro-iliac joint — which is how a ureteric stone is located on a KUB radiograph.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Ureter"],
-      "show": ["Kidney", "Urinary bladder", "Common iliac artery"],
-      "view": "anterior",
-      "xray": true,
-      "check": {"q": "Over which vessel does the ureter cross into the pelvis?",
-                "a": "The bifurcation of the common iliac artery."}
-    },
-    {
-      "title": "Three places a stone sticks",
-      "text": "<p>The ureter is narrowed at the <b>pelvi-ureteric junction</b>, where it crosses the <b>pelvic brim</b>, and at the <b>vesico-ureteric junction</b> as it tunnels through the bladder wall — the narrowest of the three.</p><p>Pain from a stone is <b>colicky</b> and follows the ureter's innervation (T11–L2): it starts in the loin and radiates to the groin and, as the stone descends, to the scrotum or labium and the tip of the penis. 'Loin to groin' is a statement about referred segmental pain, not about the ureter's path.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Ureter"],
-      "show": ["Urinary bladder", "Kidney"],
-      "view": "anterior",
-      "frame_on": ["Ureter"],
-      "xray": true,
-      "check": {"q": "Which ureteric constriction is narrowest?",
-                "a": "The vesico-ureteric junction."}
-    },
-    {
-      "title": "The bladder and the trigone",
-      "text": "<p>An empty bladder is a pyramid lying behind the pubis; as it fills it rises out of the pelvis and can be palpated and percussed above the symphysis. That rise is why a suprapubic catheter is safe only when the bladder is full — the peritoneum is lifted off the anterior wall.</p><p>Inside, most of the mucosa is thrown into folds, but the triangle between the two ureteric orifices and the internal urethral orifice — the <b>trigone</b> — is always smooth. It develops from the mesonephric ducts rather than the cloaca, is the most sensitive part of the bladder, and is where most tumours arise.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Urinary bladder"],
-      "show": ["Ureter", "Prostate"],
-      "view": "anterior",
-      "frame_on": ["Urinary bladder"],
-      "xray": false,
-      "check": {"q": "What are the three corners of the trigone?",
-                "a": "The two ureteric orifices and the internal urethral orifice."}
-    },
-    {
-      "title": "Emptying and holding",
-      "text": "<p>The bladder wall is <b>detrusor</b> muscle, supplied by <b>parasympathetic</b> fibres from S2–S4: they contract it to void. Sympathetic fibres from T11–L2 relax the detrusor and close the internal sphincter, which in the male also prevents retrograde ejaculation.</p><p>Voluntary continence is the <b>external urethral sphincter</b>, striated muscle supplied by the <b>pudendal nerve</b> (S2–S4). So the same three sacral segments both empty the bladder and hold it: <i>S2, 3, 4 keep the urine off the floor</i>.</p>",
-      "systems": ["visceral", "nervous", "muscular"],
-      "regions": ["abdomen"],
-      "focus": ["Urinary bladder"],
-      "show": ["Levator ani", "Urethra"],
-      "view": "left",
-      "frame_on": ["Urinary bladder"],
-      "xray": true,
-      "mnemonic": "S2, 3, 4 keep the urine off the floor.",
-      "check": {"q": "Which nerve supplies the external urethral sphincter?",
-                "a": "The pudendal nerve, S2–S4."}
-    },
-    {
-      "title": "Two urethras",
-      "text": "<p>The <b>female</b> urethra is 4 cm, straight and short — easy to catheterise, and short enough that ascending infection is common.</p><p>The <b>male</b> urethra is about 20 cm in four parts: <b>pre-prostatic</b>, <b>prostatic</b> (widest and most dilatable, receiving the ejaculatory ducts), <b>membranous</b> (a short, narrow and relatively non-distensible segment passing through the external sphincter) and <b>spongy</b>. The <b>external urethral meatus</b> is normally the narrowest opening. It has two curves, and straightening the penis upwards removes the second one — which is exactly what you do when passing a catheter.</p>",
-      "systems": ["visceral"],
-      "regions": ["abdomen"],
-      "focus": ["Urethra"],
-      "show": ["Prostate", "Corpus spongiosum of penis", "Urinary bladder"],
-      "view": "left",
-      "frame_on": ["Urethra"],
-      "xray": true,
-      "clinical": "A straddle injury ruptures the bulbar (spongy) urethra; a pelvic fracture shears the membranous urethra. Blood at the meatus means do not catheterise blindly.",
-      "check": {"q": "What is normally the narrowest opening of the male urethra, and which segment is especially non-distensible?",
-                "a": "The external urethral meatus is the narrowest opening; the membranous segment is especially non-distensible."}
-    },
-    {
-      "systems": [
-        "visceral"
-      ],
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Ureter"
-      ],
-      "show": [
-        "Kidney",
-        "Urinary bladder",
-        "Common iliac artery"
-      ],
-      "view": "anterior",
-      "xray": true,
-      "title": "Water passes under two different bridges",
-      "text": "<p>Near the bladder the pelvic ureter has a relationship worth learning in both sexes. In male anatomy, the <b>ductus deferens</b> crosses over it. In female anatomy, the <b>uterine artery</b> crosses above it near the cervix.</p><p>The phrase <b>water under the bridge</b> refers to urine in the ureter passing beneath the crossing structure. The bridge is different in the two arrangements. The relationship explains why the ureter must be distinguished from neighbouring reproductive ducts or vessels when working near the bladder or cervix.</p>",
-      "check": {
-        "q": "What crosses above the ureter near the cervix?",
-        "a": "The uterine artery."
-      },
-      "mnemonic": "Water is the ureter; the bridge is uterine artery or ductus deferens, depending on the anatomy."
-    }
+  "micro": [],
+  "histology": [
+   "ureter",
+   "bladder",
+   "transitional",
+   "urethra"
   ]
+ },
+ "steps": [
+  {
+   "title": "The ureter's course",
+   "text": "<p>From the <b>renal pelvis</b>, the ureter runs down on psoas major, retroperitoneally, crosses the <b>pelvic brim</b> at the bifurcation of the common iliac artery, then swings forwards along the pelvic side wall to enter the bladder obliquely.</p><p>On a plain film it follows the tips of the lumbar transverse processes and then the sacro-iliac joint — which is how a ureteric stone is located on a KUB radiograph.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Ureter"
+   ],
+   "show": [
+    "Kidney",
+    "Urinary bladder",
+    "Common iliac artery"
+   ],
+   "view": "anterior",
+   "xray": true,
+   "check": {
+    "q": "Over which vessel does the ureter cross into the pelvis?",
+    "a": "The bifurcation of the common iliac artery."
+   }
+  },
+  {
+   "title": "Three places a stone sticks",
+   "text": "<p>The ureter is narrowed at the <b>pelvi-ureteric junction</b>, where it crosses the <b>pelvic brim</b>, and at the <b>vesico-ureteric junction</b> as it tunnels through the bladder wall — the narrowest of the three.</p><p>Pain from a stone is <b>colicky</b> and follows the ureter's innervation (T11–L2): it starts in the loin and radiates to the groin and, as the stone descends, to the scrotum or labium and the tip of the penis. 'Loin to groin' is a statement about referred segmental pain, not about the ureter's path.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Ureter"
+   ],
+   "show": [
+    "Urinary bladder",
+    "Kidney"
+   ],
+   "view": "anterior",
+   "frame_on": [
+    "Ureter"
+   ],
+   "xray": true,
+   "check": {
+    "q": "Which ureteric constriction is narrowest?",
+    "a": "The vesico-ureteric junction."
+   }
+  },
+  {
+   "title": "The bladder and the trigone",
+   "text": "<p>An empty bladder is a pyramid lying behind the pubis; as it fills it rises out of the pelvis and can be palpated and percussed above the symphysis. That rise is why a suprapubic catheter is safe only when the bladder is full — the peritoneum is lifted off the anterior wall.</p><p>Inside, most of the mucosa is thrown into folds, but the triangle between the two ureteric orifices and the internal urethral orifice — the <b>trigone</b> — is always smooth. It develops from the mesonephric ducts rather than the cloaca, is the most sensitive part of the bladder, and is where most tumours arise.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Urinary bladder"
+   ],
+   "show": [
+    "Ureter",
+    "Prostate"
+   ],
+   "view": "anterior",
+   "frame_on": [
+    "Urinary bladder"
+   ],
+   "xray": false,
+   "check": {
+    "q": "What are the three corners of the trigone?",
+    "a": "The two ureteric orifices and the internal urethral orifice."
+   }
+  },
+  {
+   "title": "Emptying and holding",
+   "text": "<p>The bladder wall is <b>detrusor</b> muscle, supplied by <b>parasympathetic</b> fibres from S2–S4: they contract it to void. Sympathetic fibres from T11–L2 relax the detrusor and close the internal sphincter, which in the male also prevents retrograde ejaculation.</p><p>Voluntary continence is the <b>external urethral sphincter</b>, striated muscle supplied by the <b>pudendal nerve</b> (S2–S4). So the same three sacral segments both empty the bladder and hold it: <i>S2, 3, 4 keep the urine off the floor</i>.</p>",
+   "systems": [
+    "visceral",
+    "nervous",
+    "muscular"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Urinary bladder"
+   ],
+   "show": [
+    "Levator ani",
+    "Urethra"
+   ],
+   "view": "left",
+   "frame_on": [
+    "Urinary bladder"
+   ],
+   "xray": true,
+   "mnemonic": "S2, 3, 4 keep the urine off the floor.",
+   "check": {
+    "q": "Which nerve supplies the external urethral sphincter?",
+    "a": "The pudendal nerve, S2–S4."
+   }
+  },
+  {
+   "title": "Two urethras",
+   "text": "<p>The <b>female</b> urethra is 4 cm, straight and short — easy to catheterise, and short enough that ascending infection is common.</p><p>The <b>male</b> urethra is about 20 cm in four parts: <b>pre-prostatic</b>, <b>prostatic</b> (widest and most dilatable, receiving the ejaculatory ducts), <b>membranous</b> (a short, narrow and relatively non-distensible segment passing through the external sphincter) and <b>spongy</b>. The <b>external urethral meatus</b> is normally the narrowest opening. It has two curves, and straightening the penis upwards removes the second one — which is exactly what you do when passing a catheter.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Urethra"
+   ],
+   "show": [
+    "Prostate",
+    "Corpus spongiosum of penis",
+    "Urinary bladder"
+   ],
+   "view": "left",
+   "frame_on": [
+    "Urethra"
+   ],
+   "xray": true,
+   "clinical": "A straddle injury ruptures the bulbar (spongy) urethra; a pelvic fracture shears the membranous urethra. Blood at the meatus means do not catheterise blindly.",
+   "check": {
+    "q": "What is normally the narrowest opening of the male urethra, and which segment is especially non-distensible?",
+    "a": "The external urethral meatus is the narrowest opening; the membranous segment is especially non-distensible."
+   }
+  },
+  {
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Ureter"
+   ],
+   "show": [
+    "Kidney",
+    "Urinary bladder",
+    "Common iliac artery"
+   ],
+   "view": "anterior",
+   "xray": true,
+   "title": "Water passes under two different bridges",
+   "text": "<p>Near the bladder the pelvic ureter has a relationship worth learning in both sexes. In male anatomy, the <b>ductus deferens</b> crosses over it. In female anatomy, the <b>uterine artery</b> crosses above it near the cervix.</p><p>The phrase <b>water under the bridge</b> refers to urine in the ureter passing beneath the crossing structure. The bridge is different in the two arrangements. The relationship explains why the ureter must be distinguished from neighbouring reproductive ducts or vessels when working near the bladder or cervix.</p>",
+   "check": {
+    "q": "What crosses above the ureter near the cervix?",
+    "a": "The uterine artery."
+   },
+   "mnemonic": "Water is the ureter; the bridge is uterine artery or ductus deferens, depending on the anatomy."
+  }
+ ]
 },
 {
   "id": "male-reproductive",
@@ -351,123 +437,208 @@
   ]
 },
 {
-  "id": "thyroid-and-parathyroids",
-  "title": "The thyroid and parathyroid glands",
-  "system": "endocrine",
-  "region": "head_neck",
-  "level": "core",
-  "minutes": 10,
-  "summary": "A gland tethered to the larynx, with two nerves running behind it that decide whether the patient can speak afterwards.",
-  "tags": ["thyroid", "parathyroid", "recurrent laryngeal", "goitre"],
-  "objectives": [
-    "Describe the position and attachments of the thyroid gland",
-    "Explain why a thyroid swelling moves on swallowing",
-    "Name the structures at risk during thyroidectomy",
-    "Distinguish follicular thyroid cells from parafollicular cells and parathyroid chief cells"
+ "id": "thyroid-and-parathyroids",
+ "title": "The thyroid and parathyroid glands",
+ "system": "endocrine",
+ "region": "head_neck",
+ "level": "core",
+ "minutes": 10,
+ "summary": "A gland tethered to the larynx, with two nerves running behind it that decide whether the patient can speak afterwards.",
+ "tags": [
+  "thyroid",
+  "parathyroid",
+  "recurrent laryngeal",
+  "goitre"
+ ],
+ "objectives": [
+  "Describe the position and attachments of the thyroid gland",
+  "Explain why a thyroid swelling moves on swallowing",
+  "Name the structures at risk during thyroidectomy",
+  "Distinguish follicular thyroid cells from parafollicular cells and parathyroid chief cells"
+ ],
+ "takeaways": [
+  "The thyroid is enclosed in pretracheal fascia and attached to the larynx, so it rises on swallowing.",
+  "The recurrent laryngeal nerve runs in the tracheo-oesophageal groove behind the gland, close to the inferior thyroid artery.",
+  "The parathyroids control calcium and are easily removed by accident.",
+  "Follicular cells make thyroid hormones, parafollicular C cells make calcitonin, and separate parathyroid chief cells make PTH."
+ ],
+ "see_also": {
+  "lessons": [
+   "larynx",
+   "neck-triangles",
+   "endocrine-overview"
   ],
-  "takeaways": [
-    "The thyroid is enclosed in pretracheal fascia and attached to the larynx, so it rises on swallowing.",
-    "The recurrent laryngeal nerve runs in the tracheo-oesophageal groove behind the gland, close to the inferior thyroid artery.",
-    "The parathyroids control calcium and are easily removed by accident.",
-    "Follicular cells make thyroid hormones, parafollicular C cells make calcitonin, and separate parathyroid chief cells make PTH."
-  ],
-  "see_also": {"lessons": ["larynx", "neck-triangles", "endocrine-overview"], "histology": ["thyroid", "parathyroid"]},
-  "steps": [
-    {
-      "title": "Position and shape",
-      "text": "<p>Two lobes either side of the trachea joined by an <b>isthmus</b> across the second to fourth tracheal rings, the whole gland lying against the larynx and upper trachea at the level of <b>C5 to T1</b>. A pyramidal lobe runs up from the isthmus in about half of people, a remnant of the thyroglossal duct.</p><p>The gland develops at the <b>foramen caecum</b> of the tongue and descends: a persistent duct leaves a midline <b>thyroglossal cyst</b>, which moves upwards when the tongue is protruded.</p>",
-      "systems": ["visceral"],
-      "regions": ["neck"],
-      "focus": ["Thyroid gland"],
-      "show": ["Trachea", "Thyroid cartilage"],
-      "view": "anterior",
-      "frame_on": ["Thyroid gland"],
-      "xray": false,
-      "check": {"q": "Where does the thyroid gland develop from?",
-                "a": "The foramen caecum at the back of the tongue, descending along the thyroglossal duct."}
-    },
-    {
-      "title": "Why it moves on swallowing",
-      "text": "<p>The gland is wrapped in the <b>pretracheal fascia</b>, which is attached to the oblique line of the thyroid cartilage and the cricoid. When you swallow, the larynx rises and takes the thyroid with it.</p><p>This is a diagnostic test at the bedside: a swelling in the neck that <b>moves up on swallowing</b> is thyroid (or attached to the larynx); one that moves on protruding the tongue is a thyroglossal cyst; one that does neither is neither.</p>",
-      "systems": ["visceral", "fascia"],
-      "regions": ["neck"],
-      "focus": ["Thyroid gland"],
-      "show": ["Thyroid cartilage", "Cricoid cartilage", "Trachea"],
-      "view": "anterior",
-      "frame_on": ["Thyroid gland"],
-      "xray": true,
-      "check": {"q": "Why does a thyroid lump move on swallowing?",
-                "a": "The gland is bound by pretracheal fascia to the larynx, which rises during a swallow."}
-    },
-    {
-      "title": "Blood supply, and the nerves that run with it",
-      "text": "<p>Two arteries a side. The <b>superior thyroid artery</b> (first branch of the external carotid) comes down to the upper pole, closely accompanied by the <b>external laryngeal nerve</b> to cricothyroid. The <b>inferior thyroid artery</b> (from the thyrocervical trunk) comes up to the lower pole, closely related to the <b>recurrent laryngeal nerve</b>.</p><p>The surgical rules follow from that: tie the superior artery <b>close to the gland</b> to spare the external laryngeal nerve, and tie the inferior artery <b>away from the gland</b> to spare the recurrent laryngeal nerve.</p>",
-      "systems": ["cardiovascular", "visceral"],
-      "regions": ["neck"],
-      "focus": ["Thyroid gland"],
-      "show": ["Inferior thyroid artery", "External carotid artery", "Vagus nerve (X)"],
-      "view": "anterior",
-      "frame_on": ["Thyroid gland"],
-      "xray": true,
-      "check": {"q": "Which nerve is at risk when the inferior thyroid artery is ligated?",
-                "a": "The recurrent laryngeal nerve."}
-    },
-    {
-      "title": "The two nerve injuries",
-      "text": "<p>Injury to the <b>external laryngeal nerve</b> paralyses cricothyroid, the muscle that tenses the vocal fold. The voice loses its high notes and tires easily — the classic complication in a singer, and easily missed in anyone else.</p><p>Injury to the <b>recurrent laryngeal nerve</b> paralyses every other laryngeal muscle on that side. One side gives hoarseness and a weak cough; <b>both</b> sides, in a total thyroidectomy, leaves the cords adducted and the airway obstructed — an emergency in the recovery room.</p>",
-      "systems": ["nervous", "visceral"],
-      "regions": ["neck"],
-      "focus": ["Laryngeal muscles"],
-      "show": ["Thyroid gland", "Vagus nerve (X)"],
-      "view": "posterior",
-      "frame_on": ["Laryngeal cartilages"],
-      "xray": true,
-      "clinical": "Stridor after thyroid surgery is bilateral recurrent laryngeal palsy or a compressing haematoma until proved otherwise — and the haematoma is released at the bedside.",
-      "check": {"q": "What is the consequence of bilateral recurrent laryngeal nerve palsy?",
-                "a": "The cords lie adducted and the airway obstructs — stridor requiring immediate intervention."}
-    },
-    {
-      "title": "The parathyroids",
-      "text": "<p>Usually four, the size of a grain of rice, on the posterior surface of the thyroid lobes. Their positions are inconsistent because of their origin: the <b>superior</b> pair come from the fourth pharyngeal pouch and stay put, while the <b>inferior</b> pair come from the third pouch, descend with the thymus, and can end up anywhere from the angle of the jaw to the mediastinum.</p><p>They secrete <b>parathyroid hormone</b>, the body's main minute-to-minute control of calcium. Remove or devascularise them at thyroidectomy and the patient becomes hypocalcaemic within a day: tingling round the mouth, Chvostek's and Trousseau's signs, and eventually tetany.</p>",
-      "systems": ["visceral"],
-      "regions": ["neck"],
-      "focus": ["Superior parathyroid gland", "Inferior parathyroid gland"],
-      "show": ["Thyroid gland"],
-      "view": "posterior",
-      "frame_on": ["Thyroid gland"],
-      "xray": true,
-      "histology": "parathyroid",
-      "check": {"q": "Why is the position of the inferior parathyroid gland so variable?",
-                "a": "It comes from the third pharyngeal pouch and descends with the thymus, so it can lie anywhere along that path."}
-    },
-    {
-      "systems": [
-        "visceral"
-      ],
-      "regions": [
-        "neck"
-      ],
-      "focus": [
-        "Thyroid gland"
-      ],
-      "show": [
-        "Trachea",
-        "Thyroid cartilage"
-      ],
-      "view": "anterior",
-      "frame_on": [
-        "Thyroid gland"
-      ],
-      "xray": false,
-      "title": "Three endocrine cell types in one small region",
-      "text": "<p>The thyroid is organised into <b>follicles</b>: epithelial cells surrounding extracellular <b>colloid</b>. Follicular cells make thyroglobulin and use it in the synthesis and storage of thyroid hormones. Hormone is released towards the surrounding capillaries when required.</p><p><b>Parafollicular C cells</b> make calcitonin. The adjacent but separate parathyroid glands contain <b>chief cells</b> making parathyroid hormone. Thyroid hormone, calcitonin and PTH therefore arise from different cell populations despite sharing a small anatomical neighbourhood. The follicle model illustrates the first of those arrangements.</p>",
-      "check": {
-        "q": "Which cells make PTH: thyroid follicular cells, thyroid C cells or parathyroid chief cells?",
-        "a": "Parathyroid chief cells."
-      },
-      "micro": "thyroid_follicles"
-    }
+  "histology": [
+   "thyroid",
+   "parathyroid"
   ]
+ },
+ "steps": [
+  {
+   "title": "Position and shape",
+   "text": "<p>Two lobes either side of the trachea joined by an <b>isthmus</b> across the second to fourth tracheal rings, the whole gland lying against the larynx and upper trachea at the level of <b>C5 to T1</b>. A pyramidal lobe runs up from the isthmus in about half of people, a remnant of the thyroglossal duct.</p><p>The gland develops at the <b>foramen caecum</b> of the tongue and descends: a persistent duct leaves a midline <b>thyroglossal cyst</b>, which moves upwards when the tongue is protruded.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "neck"
+   ],
+   "focus": [
+    "Thyroid gland"
+   ],
+   "show": [
+    "Trachea",
+    "Thyroid cartilage"
+   ],
+   "view": "anterior",
+   "frame_on": [
+    "Thyroid gland"
+   ],
+   "xray": false,
+   "check": {
+    "q": "Where does the thyroid gland develop from?",
+    "a": "The foramen caecum at the back of the tongue, descending along the thyroglossal duct."
+   }
+  },
+  {
+   "title": "Why it moves on swallowing",
+   "text": "<p>The gland is wrapped in the <b>pretracheal fascia</b>, which is attached to the oblique line of the thyroid cartilage and the cricoid. When you swallow, the larynx rises and takes the thyroid with it.</p><p>This is a diagnostic test at the bedside: a swelling in the neck that <b>moves up on swallowing</b> is thyroid (or attached to the larynx); one that moves on protruding the tongue is a thyroglossal cyst; one that does neither is neither.</p>",
+   "systems": [
+    "visceral",
+    "fascia"
+   ],
+   "regions": [
+    "neck"
+   ],
+   "focus": [
+    "Thyroid gland"
+   ],
+   "show": [
+    "Thyroid cartilage",
+    "Cricoid cartilage",
+    "Trachea"
+   ],
+   "view": "anterior",
+   "frame_on": [
+    "Thyroid gland"
+   ],
+   "xray": true,
+   "check": {
+    "q": "Why does a thyroid lump move on swallowing?",
+    "a": "The gland is bound by pretracheal fascia to the larynx, which rises during a swallow."
+   }
+  },
+  {
+   "title": "Blood supply, and the nerves that run with it",
+   "text": "<p>Two arteries a side. The <b>superior thyroid artery</b> (first branch of the external carotid) comes down to the upper pole, closely accompanied by the <b>external laryngeal nerve</b> to cricothyroid. The <b>inferior thyroid artery</b> (from the thyrocervical trunk) comes up to the lower pole, closely related to the <b>recurrent laryngeal nerve</b>.</p><p>The surgical rules follow from that: tie the superior artery <b>close to the gland</b> to spare the external laryngeal nerve, and tie the inferior artery <b>away from the gland</b> to spare the recurrent laryngeal nerve.</p>",
+   "systems": [
+    "cardiovascular",
+    "visceral"
+   ],
+   "regions": [
+    "neck"
+   ],
+   "focus": [
+    "Thyroid gland"
+   ],
+   "show": [
+    "Inferior thyroid artery",
+    "External carotid artery",
+    "Vagus nerve (X)"
+   ],
+   "view": "anterior",
+   "frame_on": [
+    "Thyroid gland"
+   ],
+   "xray": true,
+   "check": {
+    "q": "Which nerve is at risk when the inferior thyroid artery is ligated?",
+    "a": "The recurrent laryngeal nerve."
+   }
+  },
+  {
+   "title": "The two nerve injuries",
+   "text": "<p>Injury to the <b>external laryngeal nerve</b> paralyses cricothyroid, the muscle that tenses the vocal fold. The voice loses its high notes and tires easily — the classic complication in a singer, and easily missed in anyone else.</p><p>Injury to the <b>recurrent laryngeal nerve</b> paralyses every other laryngeal muscle on that side. One side gives hoarseness and a weak cough; <b>both</b> sides, in a total thyroidectomy, leaves the cords adducted and the airway obstructed — an emergency in the recovery room.</p>",
+   "systems": [
+    "nervous",
+    "visceral"
+   ],
+   "regions": [
+    "neck"
+   ],
+   "focus": [
+    "Laryngeal muscles"
+   ],
+   "show": [
+    "Thyroid gland",
+    "Vagus nerve (X)"
+   ],
+   "view": "posterior",
+   "frame_on": [
+    "Laryngeal cartilages"
+   ],
+   "xray": true,
+   "clinical": "Stridor after thyroid surgery is bilateral recurrent laryngeal palsy or a compressing haematoma until proved otherwise — and the haematoma is released at the bedside.",
+   "check": {
+    "q": "What is the consequence of bilateral recurrent laryngeal nerve palsy?",
+    "a": "The cords lie adducted and the airway obstructs — stridor requiring immediate intervention."
+   }
+  },
+  {
+   "title": "The parathyroids",
+   "text": "<p>Usually four, the size of a grain of rice, on the posterior surface of the thyroid lobes. Their positions are inconsistent because of their origin: the <b>superior</b> pair come from the fourth pharyngeal pouch and stay put, while the <b>inferior</b> pair come from the third pouch, descend with the thymus, and can end up anywhere from the angle of the jaw to the mediastinum.</p><p>They secrete <b>parathyroid hormone</b>, the body's main minute-to-minute control of calcium. Remove or devascularise them at thyroidectomy and the patient becomes hypocalcaemic within a day: tingling round the mouth, Chvostek's and Trousseau's signs, and eventually tetany.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "neck"
+   ],
+   "focus": [
+    "Superior parathyroid gland",
+    "Inferior parathyroid gland"
+   ],
+   "show": [
+    "Thyroid gland"
+   ],
+   "view": "posterior",
+   "frame_on": [
+    "Thyroid gland"
+   ],
+   "xray": true,
+   "histology": "parathyroid",
+   "check": {
+    "q": "Why is the position of the inferior parathyroid gland so variable?",
+    "a": "It comes from the third pharyngeal pouch and descends with the thymus, so it can lie anywhere along that path."
+   }
+  },
+  {
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "neck"
+   ],
+   "focus": [
+    "Thyroid gland"
+   ],
+   "show": [
+    "Trachea",
+    "Thyroid cartilage"
+   ],
+   "view": "anterior",
+   "frame_on": [
+    "Thyroid gland"
+   ],
+   "xray": false,
+   "title": "Three endocrine cell types in one small region",
+   "text": "<p>The thyroid is organised into <b>follicles</b>: epithelial cells surrounding extracellular <b>colloid</b>. Follicular cells make thyroglobulin and use it in the synthesis and storage of thyroid hormones. Hormone is released towards the surrounding capillaries when required.</p><p><b>Parafollicular C cells</b> make calcitonin. The adjacent but separate parathyroid glands contain <b>chief cells</b> making parathyroid hormone. Thyroid hormone, calcitonin and PTH therefore arise from different cell populations despite sharing a small anatomical neighbourhood. The follicle model illustrates the first of those arrangements.</p>",
+   "check": {
+    "q": "Which cells make PTH: thyroid follicular cells, thyroid C cells or parathyroid chief cells?",
+    "a": "Parathyroid chief cells."
+   },
+   "micro": "thyroid_parathyroid_review_v2"
+  }
+ ]
 },
 {
   "id": "adrenal-glands",

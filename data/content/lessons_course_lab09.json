@@ -1770,7 +1770,6 @@
      "Labia majora",
      "Labia minora",
      "Pudendal cleft",
-     "Glans of clitoris",
      "Body of clitoris (with crura)",
      "Prepuce of clitoris"
     ],
@@ -1867,11 +1866,6 @@
     "type": "find_micro",
     "model": "female_reproductive",
     "part": "Labia minora"
-   },
-   {
-    "type": "find_micro",
-    "model": "female_reproductive",
-    "part": "Glans of clitoris"
    },
    {
     "type": "find_micro",
@@ -2254,7 +2248,7 @@
    },
    {
     "title": "Sterilisation",
-    "text": "<p>In <b>vasectomy</b> (male sterilisation), each <b>ductus deferens</b> is cut and tied through a small incision in the scrotum. Sperm are still made but are reabsorbed; the glands still produce ejaculate, and erection is unaffected.</p><p>In <b>tubal ligation</b> each <b>uterine tube</b> is cut and tied, so sperm and oocyte cannot meet.</p>",
+    "text": "<p>In <b>vasectomy</b> (male sterilisation), each <b>ductus deferens</b> is cut and tied through a small incision in the scrotum. Sperm are still made but are reabsorbed; the glands still produce ejaculate, and erection is unaffected.</p><p>In <b>tubal ligation</b> each <b>uterine tube</b> is cut and tied, so sperm and oocyte cannot meet.</p><p>On the male model, find the ductus deferens leaving the tail of the epididymis: that is the tube cut in a vasectomy. (The uterine tube cut in a tubal ligation is on the female model, lesson 6.)</p>",
     "systems": [
      "visceral"
     ],
@@ -2273,11 +2267,8 @@
      "Testis"
     ],
     "xray": true,
-    "micro": "female_reproductive",
-    "micro_focus": [
-     "Isthmus of uterine tube",
-     "Ampulla of uterine tube"
-    ],
+    "micro": "male_reproductive",
+    "micro_focus": ["Ductus deferens (vas deferens)", "Tail of epididymis", "Scrotal skin"],
     "check": {
      "q": "Does vasectomy affect erection or ejaculation?",
      "a": "No: erection is unaffected and the glands still produce ejaculate, just without sperm."

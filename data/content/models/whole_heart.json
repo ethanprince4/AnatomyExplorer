@@ -2,9 +2,9 @@
   "id": "whole_heart",
   "file": "models/heart/heart.glb",
   "order": 1,
-  "name": "Whole heart",
-  "summary": "A true-scale adult heart in 17 structures: the four chambers built from 15 wall panels, the mitral, tricuspid, aortic and pulmonary valves with their chordae tendineae and papillary muscles, the coronary arteries (right-dominant) and cardiac veins, and the great vessels cut short. Hide wall panels to look inside (select a panel and press H to hide it, right-click it to hide its whole chamber, Shift+H to show everything again); arteries and oxygenated vessels are red, veins and deoxygenated vessels blue. The pericardium, epicardial fat, trabeculae and conduction system are left out; the conduction system and the heartbeat are in the separate 'Heart: chambers, valves & conduction' model.",
-  "scale_note": "True scale, 1 unit = 1 cm: about 9 cm from the middle of the atrioventricular rings to the apex, with the mitral ring about 3.2 cm and the tricuspid ring about 3.6 cm across.",
+  "name": "Heart",
+  "summary": "An adult heart with four chambers, valves, coronary vessels, the conduction system and pericardial sac. Named views expose the chamber interiors, SA and AV nodes, His bundle and Purkinje fibres. Enlarged wall and atrial teaching blocks show the pericardial layers, myocardium, endocardium, trabeculae and pectinate muscles.",
+  "scale_note": "Gross heart and conduction system: 1 unit = 1 cm. Wall and atrial teaching blocks are enlarged 3 times, with exaggerated thin layers. Nodes and conduction strands are thickened for visibility; the pericardial fluid gap is enlarged to about 3 mm. Internodal paths represent preferential atrial muscle routes, not insulated tracts.",
   "targets": {
     "structures": [
       "Right atrium",
@@ -39,7 +39,6 @@
     "vein"
   ],
   "related": [
-    "heart",
     "cardiac_muscle",
     "elastic_artery",
     "muscular_artery",

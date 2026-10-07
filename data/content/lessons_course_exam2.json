@@ -38,7 +38,7 @@
    ],
    "micro": [
     "trachea_wall",
-    "lung_acinus"
+    "lung_acinus_review_v2"
    ]
   },
   "steps": [
@@ -180,7 +180,7 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "lung_acinus",
+    "micro": "lung_acinus_review_v2",
     "micro_focus": [
      "Type II pneumocytes",
      "Alveolar macrophages",
@@ -262,12 +262,12 @@
    },
    {
     "type": "find_micro",
-    "model": "lung_acinus",
+    "model": "lung_acinus_review_v2",
     "part": "Type II pneumocytes"
    },
    {
     "type": "find_micro",
-    "model": "lung_acinus",
+    "model": "lung_acinus_review_v2",
     "part": "Alveolar macrophages"
    },
    {
@@ -570,9 +570,11 @@
     "lab08-11-liver"
    ],
    "micro": [
-    "jejunum",
-    "stomach_wall",
     "liver_lobule"
+   ],
+   "histology": [
+    "jejunum",
+    "stomach"
    ]
   },
   "steps": [
@@ -593,19 +595,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "jejunum",
-    "micro_focus": [
-     "Lamina propria",
-     "Muscularis mucosae",
-     "Submucosa",
-     "Inner circular muscle",
-     "Outer longitudinal muscle",
-     "Serosa"
-    ],
     "check": {
      "q": "Name the four tunics of the gut wall from the lumen outward.",
      "a": "Mucosa, submucosa, muscularis externa, serosa (or adventitia)."
-    }
+    },
+    "histology": "jejunum"
    },
    {
     "title": "Mouth, teeth and salivary glands",
@@ -635,18 +629,11 @@
     "frame_on": [
      "Salivary glands"
     ],
-    "micro": "tooth",
-    "micro_focus": [
-     "Enamel",
-     "Dentin",
-     "Cementum",
-     "Pulp chamber (coronal pulp)",
-     "Periodontal ligament"
-    ],
     "check": {
      "q": "Write the adult and the deciduous dental formula.",
      "a": "Adult 2-1-2-3 per quadrant (32 teeth); deciduous 2-1-0-2 (20 teeth)."
-    }
+    },
+    "histology": "tooth"
    },
    {
     "title": "Oesophagus and stomach",
@@ -674,17 +661,11 @@
     "frame_on": [
      "Stomach"
     ],
-    "micro": "stomach_wall",
-    "micro_focus": [
-     "Inner oblique muscle",
-     "Parietal (oxyntic) cells",
-     "Chief (zymogen) cells – gland base",
-     "Surface mucous cells & gastric pits"
-    ],
     "check": {
      "q": "Which gastric cells make HCl and which make pepsinogen?",
      "a": "Parietal cells make HCl (and intrinsic factor); chief cells make pepsinogen."
-    }
+    },
+    "histology": "stomach"
    },
    {
     "title": "Small intestine",
@@ -702,17 +683,11 @@
     ],
     "view": "anterior",
     "xray": false,
-    "micro": "jejunum",
-    "micro_focus": [
-     "Villus epithelium (enterocytes)",
-     "Central lacteals",
-     "Brush border (microvilli)",
-     "Goblet cells"
-    ],
     "check": {
      "q": "Which feature marks the duodenum on a slide, and which marks the ileum?",
      "a": "Brunner (duodenal) glands in the submucosa; Peyer patches in the ileum."
-    }
+    },
+    "histology": "jejunum"
    },
    {
     "title": "Large intestine",
@@ -830,26 +805,6 @@
    },
    {
     "type": "find_micro",
-    "model": "tooth",
-    "part": "Dentin"
-   },
-   {
-    "type": "find_micro",
-    "model": "stomach_wall",
-    "part": "Parietal (oxyntic) cells"
-   },
-   {
-    "type": "find_micro",
-    "model": "jejunum",
-    "part": "Central lacteals"
-   },
-   {
-    "type": "find_micro",
-    "model": "duodenum",
-    "part": "Brunner glands"
-   },
-   {
-    "type": "find_micro",
     "model": "liver_lobule",
     "part": "Central vein"
    },
@@ -914,10 +869,9 @@
     "lab08-15-renal-blood-flow-nephron",
     "lab08-16-ureter-bladder-urethra"
    ],
-   "micro": [
-    "kidney_section",
-    "kidney_nephron",
-    "bladder_wall"
+   "micro": ["kidney_nephron"],
+   "histology": [
+    "bladder"
    ]
   },
   "steps": [
@@ -967,20 +921,13 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "kidney_section",
-    "micro_focus": [
-     "Renal cortex",
-     "Renal pyramids",
-     "Renal columns",
-     "Renal papillae",
-     "Minor calyces",
-     "Major calyces",
-     "Renal pelvis"
-    ],
+    "micro": "kidney_nephron",
+    "micro_focus": ["Source section / Renal cortex", "Source section / Renal pyramids", "Source section / Renal columns", "Source section / Renal papillae", "Source section / Minor calyces", "Source section / Major calyces", "Source section / Renal pelvis"],
     "check": {
      "q": "Trace urine from a renal papilla to the ureter.",
      "a": "Papilla → minor calyx → major calyx → renal pelvis → ureter."
-    }
+    },
+    "micro_view": "Source section opened"
    },
    {
     "title": "Blood through the kidney",
@@ -1004,18 +951,14 @@
     "frame_on": [
      "Kidney"
     ],
-    "micro": "kidney_section",
-    "micro_focus": [
-     "Segmental arteries",
-     "Interlobar arteries",
-     "Arcuate arteries",
-     "Cortical radiate (interlobular) arteries"
-    ],
+    "micro": "kidney_nephron",
+    "micro_focus": ["Source section / Segmental arteries", "Source section / Interlobar arteries", "Source section / Arcuate arteries", "Source section / Cortical radiate (interlobular) arteries"],
     "diagram": "lab08-nephron-flow",
     "check": {
      "q": "Which vessel carries blood out of the glomerulus?",
      "a": "The efferent arteriole, which feeds the peritubular capillaries and vasa recta."
-    }
+    },
+    "micro_view": "Source section opened"
    },
    {
     "title": "The nephron and urine formation",
@@ -1033,7 +976,7 @@
     "xray": true,
     "micro": "kidney_nephron",
     "micro_focus": [
-     "Bowman capsule (parietal layer)",
+     "Parietal layer of Bowman's capsule",
      "Proximal convoluted tubule",
      "Thick ascending limb",
      "Distal convoluted tubule",
@@ -1043,7 +986,8 @@
     "check": {
      "q": "Name the three processes that form urine.",
      "a": "Glomerular filtration, tubular reabsorption and tubular secretion."
-    }
+    },
+    "micro_view": "Nephron (15x schematic)"
    },
    {
     "title": "Ureters, bladder and urethra",
@@ -1064,17 +1008,11 @@
     "frame_on": [
      "Urinary bladder"
     ],
-    "micro": "bladder_wall",
-    "micro_focus": [
-     "Umbrella cells",
-     "Intermediate cells",
-     "Basal cells",
-     "Middle circular detrusor"
-    ],
     "check": {
      "q": "Which epithelium lines the bladder, and why does it suit it?",
      "a": "Transitional epithelium (urothelium): its surface cells flatten as the bladder fills, so it stretches without tearing and stays waterproof."
-    }
+    },
+    "histology": "bladder"
    }
   ],
   "practice": [
@@ -1104,33 +1042,33 @@
    },
    {
     "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Renal pyramids"
-   },
-   {
-    "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Renal columns"
-   },
-   {
-    "type": "find_micro",
-    "model": "kidney_section",
-    "part": "Minor calyces"
+    "model": "kidney_nephron",
+    "part": "Source section / Renal pyramids",
+    "micro_view": "Source section opened"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Proximal convoluted tubule"
+    "part": "Source section / Renal columns",
+    "micro_view": "Source section opened"
    },
    {
     "type": "find_micro",
     "model": "kidney_nephron",
-    "part": "Macula densa"
+    "part": "Source section / Minor calyces",
+    "micro_view": "Source section opened"
    },
    {
     "type": "find_micro",
-    "model": "bladder_wall",
-    "part": "Umbrella cells"
+    "model": "kidney_nephron",
+    "part": "Proximal convoluted tubule",
+    "micro_view": "Nephron (15x schematic)"
+   },
+   {
+    "type": "find_micro",
+    "model": "kidney_nephron",
+    "part": "Macula densa",
+    "micro_view": "Juxtaglomerular apparatus"
    },
    {
     "type": "order",

@@ -146,7 +146,8 @@
     "check": {
      "q": "Where is the mitral valve best heard?",
      "a": "At the apex — left fifth intercostal space, midclavicular line — not over the valve itself, which lies behind the left half of the sternum at the fourth cartilage."
-    }
+    },
+    "micro": "whole_heart"
    },
    {
     "title": "Counting on the back",
@@ -1937,7 +1938,7 @@
    },
    {
     "title": "The thoracic duct",
-    "text": "<p>The thoracic duct begins at the <b>cisterna chyli</b> near L1–2, enters the thorax through the aortic hiatus, and ascends between the aorta and the azygos vein behind the oesophagus. At about T5 it crosses to the <b>left</b>, climbs behind the left side of the oesophagus into the neck, arches in front of the vertebral artery and ends at the junction of the <b>left internal jugular and subclavian veins</b>.</p>",
+    "text": "<p>The thoracic duct begins at the <b>cisterna chyli</b> near L1–2, enters the thorax through the aortic hiatus, and ascends between the aorta and the azygos vein behind the oesophagus. At about T5 it crosses to the <b>left</b>, climbs behind the left side of the oesophagus into the neck, arches in front of the vertebral artery and ends at the junction of the <b>left internal jugular and subclavian veins</b>.</p><p>The lymphatic trunks and ducts model shows the whole course on the atlas body; its view “Whole system, from behind” hides the spine.</p>",
     "clinical": "Chylothorax follows oesophagectomy and other thoracic surgery or lymphoma; the fluid is milky with a high triglyceride content.",
     "systems": [
      "lymphatic",
@@ -1961,7 +1962,9 @@
     "check": {
      "q": "A duct injury below T5 gives a chylothorax on which side, and above T5 on which side?",
      "a": "Below T5 usually the right; above T5 usually the left — because the duct crosses at about T5."
-    }
+    },
+    "micro": "lymph_drainage",
+    "micro_focus": ["Thoracic duct", "Cisterna chyli", "Azygos vein", "Thoracic aorta", "Oesophagus"]
    },
    {
     "title": "The sympathetic trunks and splanchnic nerves",
@@ -2446,10 +2449,7 @@
    "histology": [
     "cardiac_muscle"
    ],
-   "micro": [
-    "whole_heart",
-    "heart"
-   ]
+   "micro": ["whole_heart"]
   },
   "steps": [
    {
@@ -2495,10 +2495,9 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
-     "Interatrial septum",
-     "Fossa ovalis"
+     "Interatrial septum"
     ],
     "check": {
      "q": "What closes the foramen ovale at birth?",
@@ -2521,10 +2520,9 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
-     "Interventricular septum",
-     "Membranous part of interventricular septum"
+     "Interventricular septum"
     ],
     "check": {
      "q": "Why are ventricular septal defects most often in the membranous part?",
@@ -2585,7 +2583,14 @@
     "check": {
      "q": "Where does coarctation of the aorta usually occur, and what signs does it cause in an adult?",
      "a": "Just beyond the left subclavian origin, at the ductus; upper limb hypertension, radiofemoral delay and rib notching from enlarged intercostal collaterals."
-    }
+    },
+    "micro": "whole_heart",
+    "micro_focus": [
+     "Aortic arch",
+     "Brachiocephalic trunk",
+     "Left subclavian artery",
+     "Pulmonary trunk"
+    ]
    },
    {
     "title": "The venous end",
@@ -2607,10 +2612,8 @@
     ],
     "view": "posterior",
     "xray": true,
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
-     "Crista terminalis",
-     "Pectinate muscles",
      "Superior vena cava",
      "Inferior vena cava",
      "Opening of coronary sinus",

@@ -3,7 +3,7 @@ import os
 os.environ.setdefault('QT_QPA_PLATFORM','offscreen')
 import unittest
 from types import SimpleNamespace
-from PySide6.QtWidgets import QApplication,QWidget,QLabel
+from PySide6.QtWidgets import QApplication,QWidget,QLabel,QVBoxLayout
 from app.ui.studio_scene import StudioScene
 
 class StudioSceneTests(unittest.TestCase):
@@ -11,7 +11,8 @@ class StudioSceneTests(unittest.TestCase):
     def setUpClass(cls):cls.app=QApplication.instance() or QApplication([])
     def scene(self):
         teaching=QWidget();teaching.hide()
-        result=StudioScene(QWidget(),QWidget(),QWidget(),QWidget(),teaching)
+        reveal=QWidget();QVBoxLayout(reveal).addWidget(QLabel('Reveal controls'))
+        result=StudioScene(QWidget(),QWidget(),reveal,QWidget(),teaching)
         result.resize(1400,850);result.arrange();self.addCleanup(result.deleteLater);return result
     def test_sibling_cards_and_canvas_recovery(self):
         scene=self.scene()
@@ -33,6 +34,23 @@ class StudioSceneTests(unittest.TestCase):
         self.assertTrue(scene.rect().contains(scene.cards['reveal'].geometry()))
         self.assertTrue(scene.rect().contains(scene.dock.geometry()))
         self.assertTrue(scene.viewport.geometry().contains(scene.cards['reveal'].geometry()))
+    def test_lesson_canvas_hides_model_chrome_and_restores_library(self):
+        scene=self.scene()
+        scene.set_subject('Heart')
+        scene.set_selection('Left ventricle','A selected chamber')
+        overlays=[scene.subject,scene.dock,scene.selection,scene.teaching,*scene.cards.values()]
+        before=[not widget.isHidden() for widget in overlays]
+        scene.set_lesson_mode(True)
+        scene.set_selection('Right atrium','A later lesson step')
+        scene.show_card('reveal',True)
+        scene.resize(700,500);scene.arrange()
+        self.assertTrue(all(widget.isHidden() for widget in overlays))
+        self.assertEqual(scene.viewport.geometry(),scene.rect())
+        scene.set_lesson_mode(False)
+        self.assertEqual([not widget.isHidden() for widget in overlays],before)
+        scene.show_card('reveal',True)
+        self.assertFalse(scene.cards['reveal'].isHidden())
+
     def test_practice_does_not_offer_answer_controls(self):
         scene=self.scene();scene.set_practice(True)
         self.assertTrue(scene.cards['parts'].isHidden())

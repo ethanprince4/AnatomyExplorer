@@ -206,7 +206,7 @@
     "lab06-08-airflow-flow-volume-loop"
    ],
    "micro": [
-    "lung_acinus"
+    "lung_acinus_review_v2"
    ],
    "histology": [
     "bronchus",
@@ -230,7 +230,7 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "lung_acinus",
+    "micro": "lung_acinus_review_v2",
     "micro_focus": [
      "Bronchiolar smooth muscle",
      "Terminal bronchiole"
@@ -444,10 +444,7 @@
    "PFI: <55 poor, 55–64 low average, 65–79 high average, 80–89 good, ≥90 excellent."
   ],
   "see_also": {
-   "micro": [
-    "cardiac_muscle",
-    "skeletal_muscle"
-   ]
+   "micro": ["cardiac_muscle", "skeletal_muscle", "whole_heart"]
   },
   "steps": [
    {
@@ -496,7 +493,8 @@
     "check": {
      "q": "What does chest pain radiating down the left arm during exercise suggest?",
      "a": "Angina: myocardial ischaemia."
-    }
+    },
+    "lesson_view": "reading"
    },
    {
     "title": "The Harvard step test",
@@ -538,7 +536,8 @@
     "check": {
      "q": "A subject steps for 240 s; counts are 70, 60 and 55. What is the PFI and rating?",
      "a": "24 000 ÷ (2 × 185) = 24 000 ÷ 370 ≈ 65: high average."
-    }
+    },
+    "lesson_view": "reading"
    }
   ],
   "practice": [
@@ -691,7 +690,8 @@
     "check": {
      "q": "A 45-year-old runs 2200 m in 12 min. Rating?",
      "a": "Good (2100–2500 m for over-40s)."
-    }
+    },
+    "lesson_view": "reading"
    },
    {
     "title": "Target heart rate",
@@ -711,7 +711,8 @@
     "check": {
      "q": "Work out the target zone for a 30-year-old.",
      "a": "MHR = 190; 60–80% = 114–152 beats per minute."
-    }
+    },
+    "lesson_view": "diagram"
    }
   ],
   "practice": [

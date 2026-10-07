@@ -84,9 +84,9 @@ class CatalogTests(Widgets):
         panel = self.panel()
         panel.edit.setText("upper limb")
         self.assertEqual(panel.list.count(), 3)
-        panel.kind_filter.setCurrentIndex(panel.kind_filter.findData("glb"))
+        panel.kind_filter.setCurrentIndex(panel.kind_filter.findData("procedural"))
         self.assertEqual(panel.list.count(), 1)
-        self.assertEqual(panel.list.currentItem().data(ROLE_ENTRY).id, "heart")
+        self.assertEqual(panel.list.currentItem().data(ROLE_ENTRY).id, "p")
 
     def test_no_match_disables_open_then_select_model_clears_filters(self):
         panel = self.panel()
@@ -315,6 +315,7 @@ class ModelViewerTests(Widgets):
             groups=[SimpleNamespace(key="bones", title="Bones", items=[0, 1])], camera_order=[],
             cameras={}, has_teased=False, parts=[], states={}, triangle_count=0, kind="procedural",
             bounds_min=np.zeros(3), bounds_max=np.ones(3), sidecar={}, metres_per_unit=None)
+        m.group_of = lambda sid: m.groups[0]
         content = SimpleNamespace(tissues={}, micro_models={})
         with patch('app.ui.model_view.ModelDataset', return_value=dataset()), \
              patch('app.ui.model_view.ModelViewport', FakeModelViewport):
@@ -325,8 +326,42 @@ class ModelViewerTests(Widgets):
         view, e = self.panel()
         e.load.assert_not_called()
         self.assertEqual(len(view.part_items), 2)
-        self.assertIn("2 of 2", view.parts_status.text())
+        self.assertEqual("Check to show or hide", view.parts_status.text())
         self.assertFalse(view.selection_buttons[0].isEnabled())
+
+    def test_single_parts_group_is_flat_and_filters_and_toggles(self):
+        view, _ = self.panel()
+        view.vmodel.groups[0].title = 'Parts'
+        view.tree.clear()
+        view._build_tree()
+        self.assertTrue(view.flat_parts)
+        self.assertEqual(view.tree.topLevelItemCount(), 2)
+        self.assertFalse(view.group_items)
+        view.filter.setText('radius')
+        self.assertFalse(view.part_items[0].isHidden())
+        self.assertTrue(view.part_items[1].isHidden())
+        view.filter.clear()
+        view.part_items[0].setCheckState(0, Qt.Unchecked)
+        self.assertTrue(view.state.hidden[0])
+        view.show_all()
+        self.assertEqual(view.part_items[0].checkState(0), Qt.Checked)
+
+    def test_cardiac_lesson_restores_every_part_without_ghosting(self):
+        view, e = self.panel()
+        e.id = 'cardiac_muscle'
+        view.vmodel.kind = 'glb'
+        e.resolve = lambda model, names: ([0], [])
+        view.state.set_hidden([1], True)
+        view.state.isolate([0])
+        view.state.set_ghost_focus([0])
+        view.state.part_alpha = np.array([0.1, 0.2], dtype=np.float32)
+        self.assertEqual(view.show_lesson_parts(['Radius']), [])
+        self.assertTrue(view.state.visible_mask().all())
+        self.assertIsNone(view.state.ghost_focus)
+        self.assertIsNone(view.state.isolated)
+        self.assertFalse(view.state.opaque_materials)
+        self.assertTrue((view.state.part_alpha == 1).all())
+        self.assertEqual(view.state.selected, [0])
 
     def test_studio_measure_controls_use_viewport_api(self):
         view, _ = self.panel()
@@ -335,32 +370,22 @@ class ModelViewerTests(Widgets):
         view.gl_widget.set_measure(False)
         self.assertFalse(view.studio.measure.isChecked())
 
-    def test_study_layout_hides_and_restores_floating_parts(self):
-        from app.ui.study_layout import StudyLayout
-        from app.ui.lessons import PAGE_RUNNER
-        from PySide6.QtWidgets import QCheckBox
+    def test_lesson_model_hides_and_restores_library_instruments(self):
         view, _ = self.panel()
-        parts = QCheckBox();details = QCheckBox()
-        panel = SimpleNamespace(parts_btn=parts, details_btn=details,
-            stack=SimpleNamespace(currentIndex=lambda:PAGE_RUNNER),meta=QWidget())
-        window = SimpleNamespace(tabs=SimpleNamespace(currentWidget=lambda:panel),
-            active_model_view=lambda:view,micro_tabs={'fixture':view},search=QWidget(),restoreState=Mock())
-        reading = SimpleNamespace(window=window,panel=panel,snapshot=(b'saved',False,False),
-            models={},checked=StudyLayout.checked)
-        self.assertFalse(view.side.isHidden())
-        StudyLayout.sync(reading)
-        self.assertTrue(view.side.isHidden())
-        self.assertTrue(view.studio.cards['parts'].isHidden())
-        self.assertFalse(view.studio.tools['parts'].isChecked())
-        parts.setChecked(True);StudyLayout.sync(reading)
-        self.assertFalse(view.side.isHidden())
-        self.assertFalse(view.studio.cards['parts'].isHidden())
-        parts.setChecked(False);StudyLayout.sync(reading)
-        StudyLayout.leave(reading)
-        self.assertFalse(view.side.isHidden())
-        self.assertFalse(view.studio.cards['parts'].isHidden())
-        self.assertTrue(view.studio.tools['parts'].isChecked())
-        window.restoreState.assert_called_once_with(b'saved')
+        studio = view.studio
+        before = {key: not card.isHidden() for key, card in studio.cards.items()}
+        studio.set_lesson_mode(True)
+        view.state.select([0])
+        view._show_selection()
+        studio.arrange()
+        self.assertTrue(studio.subject.isHidden())
+        self.assertTrue(studio.selection.isHidden())
+        self.assertTrue(studio.dock.isHidden())
+        self.assertTrue(all(card.isHidden() for card in studio.cards.values()))
+        studio.set_lesson_mode(False)
+        self.assertEqual({key: not card.isHidden() for key, card in studio.cards.items()}, before)
+        view._show_selection()
+        self.assertFalse(studio.selection.isHidden())
 
     def test_part_filter_keyboard_selection_and_related_lessons(self):
         view, _ = self.panel()

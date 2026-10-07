@@ -323,113 +323,195 @@
   ]
 },
 {
-  "id": "bronchopulmonary-segments",
-  "title": "Bronchopulmonary segments",
-  "system": "respiratory",
-  "region": "thorax",
-  "level": "advanced",
-  "minutes": 11,
-  "summary": "Ten units a side, each with its own bronchus and artery — the reason a lung can be resected piece by piece.",
-  "tags": ["segments", "bronchi", "aspiration", "lobectomy"],
-  "prereq": ["bronchial-tree"],
-  "objectives": [
-    "Define a bronchopulmonary segment and say what makes it surgically resectable",
-    "Name the segments of each lobe",
-    "Predict where aspirated material lodges in a supine and an upright patient",
-    "Use posture to predict which lung segments are dependent during aspiration"
+ "id": "bronchopulmonary-segments",
+ "title": "Bronchopulmonary segments",
+ "system": "respiratory",
+ "region": "thorax",
+ "level": "advanced",
+ "minutes": 11,
+ "summary": "Ten units a side, each with its own bronchus and artery — the reason a lung can be resected piece by piece.",
+ "tags": [
+  "segments",
+  "bronchi",
+  "aspiration",
+  "lobectomy"
+ ],
+ "prereq": [
+  "bronchial-tree"
+ ],
+ "objectives": [
+  "Define a bronchopulmonary segment and say what makes it surgically resectable",
+  "Name the segments of each lobe",
+  "Predict where aspirated material lodges in a supine and an upright patient",
+  "Use posture to predict which lung segments are dependent during aspiration"
+ ],
+ "takeaways": [
+  "Each segment has its own segmental bronchus and segmental artery; the veins run between segments.",
+  "Ten segments on the right, eight to ten on the left depending on how they are counted.",
+  "Aspiration goes to the posterior segment of the right upper lobe when supine, and the right lower lobe when upright.",
+  "The right side is often favoured by airway geometry, but the dependent segments vary with posture; aspiration is not confined to one lobe."
+ ],
+ "see_also": {
+  "lessons": [
+   "bronchial-tree",
+   "lungs-and-pleura"
   ],
-  "takeaways": [
-    "Each segment has its own segmental bronchus and segmental artery; the veins run between segments.",
-    "Ten segments on the right, eight to ten on the left depending on how they are counted.",
-    "Aspiration goes to the posterior segment of the right upper lobe when supine, and the right lower lobe when upright.",
-    "The right side is often favoured by airway geometry, but the dependent segments vary with posture; aspiration is not confined to one lobe."
+  "radiology": [
+   "ct_pneumonia"
   ],
-  "see_also": {"lessons": ["bronchial-tree", "lungs-and-pleura"], "radiology": ["ct_pneumonia"], "micro": ["lung_acinus"]},
-  "steps": [
-    {
-      "title": "What a segment is",
-      "text": "<p>A <b>bronchopulmonary segment</b> is the piece of lung supplied by one segmental (tertiary) bronchus and its accompanying segmental artery. It is pyramidal, with its apex at the hilum and its base on the pleural surface, and it is wrapped in enough connective tissue to be separated from its neighbours.</p><p>Crucially, the <b>veins run in the planes between segments</b>, not within them. So a surgeon can take out a segment along its intersegmental veins without devascularising the rest — a segmentectomy.</p>",
-      "systems": ["visceral"],
-      "regions": ["thorax"],
-      "focus": ["Right main bronchus", "Left main bronchus"],
-      "show": ["Superior lobe of right lung", "Inferior lobe of right lung"],
-      "view": "anterior",
-      "xray": true,
-      "check": {"q": "Why can a bronchopulmonary segment be removed surgically?",
-                "a": "It has its own bronchus and artery, and its veins lie in the planes between segments."}
-    },
-    {
-      "title": "The right lung, ten segments",
-      "text": "<p><b>Upper lobe</b>: apical, posterior, anterior. <b>Middle lobe</b>: lateral and medial. <b>Lower lobe</b>: superior (apical), then medial, anterior, lateral and posterior basal.</p><p>Turn the model and switch on the segmental bronchi: each one heads for its own territory, and the pattern is more memorable as a set of directions than as a list of names.</p>",
-      "systems": ["visceral"],
-      "regions": ["thorax"],
-      "focus": ["Apical segmental bronchus of right lung (BI)", "Posterior segmental bronchus of right lung (BII)", "Anterior segmental bronchus of right lung (BIII)", "Lateral segmental bronchus of right lung (BIV)", "Medial segmental bronchus of right lung (BV)"],
-      "show": ["Right main bronchus", "Superior lobe of right lung", "Middle lobe of right lung"],
-      "view": "anterior",
-      "xray": true
-    },
-    {
-      "title": "The right lower lobe",
-      "text": "<p>Five segments: the <b>superior</b> segment, which points backwards from the top of the lower lobe, and then four basal segments — <b>medial</b>, <b>anterior</b>, <b>lateral</b> and <b>posterior</b>.</p><p>The superior segment of the lower lobe matters out of proportion to its size: it lies directly behind the oblique fissure, it is the most dependent part of the lung in a <b>supine</b> patient, and it is a favourite site for aspiration pneumonia and for a lung abscess.</p>",
-      "systems": ["visceral"],
-      "regions": ["thorax"],
-      "focus": ["Superior segmental bronchus of right lung (BVI)", "Posterior basal segmental bronchus of right lung (BX)", "Lateral basal segmental bronchus of right lung (BIX)"],
-      "show": ["Inferior lobe of right lung", "Right main bronchus"],
-      "view": "right",
-      "xray": true,
-      "check": {"q": "Where does aspirated material lodge in a patient who is lying flat?",
-                "a": "The superior segment of the right lower lobe, or the posterior segment of the right upper lobe."}
-    },
-    {
-      "title": "The left lung",
-      "text": "<p>The left has the same plan compressed into two lobes. In the upper lobe, the apical and posterior segments share a bronchus (<b>apicoposterior</b>), and the <b>lingula</b> takes the place of the middle lobe with superior and inferior lingular segments.</p><p>In the lower lobe, the medial and anterior basal segments often share a bronchus (<b>anteromedial basal</b>). That is why the left is counted as eight, nine or ten segments depending on the textbook — the anatomy is the same, the naming is not.</p>",
-      "systems": ["visceral"],
-      "regions": ["thorax"],
-      "focus": ["Apicoposterior segmental bronchus of left lung (BI+BII)", "Superior lingular segmental bronchus of left lung (BIV)", "Inferior lingular segmental bronchus of left lung (BV)"],
-      "show": ["Left main bronchus", "Superior lobe of left lung"],
-      "view": "left",
-      "xray": true,
-      "check": {"q": "What is the left lung's equivalent of the right middle lobe?",
-                "a": "The lingula, part of the left upper lobe."}
-    },
-    {
-      "title": "Why the right main bronchus catches everything",
-      "text": "<p>The trachea divides at the <b>carina</b>, at the level of the sternal angle. The <b>right main bronchus</b> is wider, shorter and more vertical than the left, which is pushed aside by the aortic arch.</p><p>So inhaled foreign bodies, aspirated vomit and over-inserted endotracheal tubes often enter the right side, though either side can be involved and dependent segments vary with posture. Reduced left-sided ventilation after intubation raises concern for right main-bronchus placement, among other causes, and requires prompt assessment by the treating team. The anatomical point is that an over-advanced tube can pass beyond the carina into one main bronchus.</p>",
-      "systems": ["visceral"],
-      "regions": ["thorax"],
-      "focus": ["Right main bronchus", "Left main bronchus"],
-      "show": ["Trachea", "Aortic arch"],
-      "view": "anterior",
-      "xray": true,
-      "clinical": "Check the tube tip on the chest film: it should sit a few centimetres above the carina.",
-      "check": {"q": "Why does an endotracheal tube inserted too far go into the right main bronchus?",
-                "a": "It is wider, shorter and more vertical than the left."}
-    },
-    {
-      "systems": [
-        "visceral"
-      ],
-      "regions": [
-        "thorax"
-      ],
-      "focus": [
-        "Superior segmental bronchus of right lung (BVI)",
-        "Posterior basal segmental bronchus of right lung (BX)",
-        "Lateral basal segmental bronchus of right lung (BIX)"
-      ],
-      "show": [
-        "Inferior lobe of right lung",
-        "Right main bronchus"
-      ],
-      "view": "right",
-      "xray": true,
-      "title": "Gravity chooses a different segment when you lie down",
-      "text": "<p>The more vertical right main bronchus favours entry on the right, but <b>posture</b> helps determine where aspirated material settles. When upright, basal lower-lobe segments are relatively dependent. When supine, posterior upper-lobe and superior lower-lobe segments can be dependent.</p><p>The superior segment of a lower lobe lies posteriorly and can receive material even though the word superior sounds far from the lung base. Use segment names as three-dimensional positions rather than a top-to-bottom list. Aspiration can affect either lung and more than one segment.</p>",
-      "check": {
-        "q": "Why can the superior segment of a lower lobe be involved in aspiration in a supine person?",
-        "a": "It occupies a relatively posterior, dependent position when the person is lying on their back."
-      }
-    }
+  "micro": [
+   "lung_acinus_review_v2"
   ]
+ },
+ "steps": [
+  {
+   "title": "What a segment is",
+   "text": "<p>A <b>bronchopulmonary segment</b> is the piece of lung supplied by one segmental (tertiary) bronchus and its accompanying segmental artery. It is pyramidal, with its apex at the hilum and its base on the pleural surface, and it is wrapped in enough connective tissue to be separated from its neighbours.</p><p>Crucially, the <b>veins run in the planes between segments</b>, not within them. So a surgeon can take out a segment along its intersegmental veins without devascularising the rest — a segmentectomy.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "thorax"
+   ],
+   "focus": [
+    "Right main bronchus",
+    "Left main bronchus"
+   ],
+   "show": [
+    "Superior lobe of right lung",
+    "Inferior lobe of right lung"
+   ],
+   "view": "anterior",
+   "xray": true,
+   "check": {
+    "q": "Why can a bronchopulmonary segment be removed surgically?",
+    "a": "It has its own bronchus and artery, and its veins lie in the planes between segments."
+   }
+  },
+  {
+   "title": "The right lung, ten segments",
+   "text": "<p><b>Upper lobe</b>: apical, posterior, anterior. <b>Middle lobe</b>: lateral and medial. <b>Lower lobe</b>: superior (apical), then medial, anterior, lateral and posterior basal.</p><p>Turn the model and switch on the segmental bronchi: each one heads for its own territory, and the pattern is more memorable as a set of directions than as a list of names.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "thorax"
+   ],
+   "focus": [
+    "Apical segmental bronchus of right lung (BI)",
+    "Posterior segmental bronchus of right lung (BII)",
+    "Anterior segmental bronchus of right lung (BIII)",
+    "Lateral segmental bronchus of right lung (BIV)",
+    "Medial segmental bronchus of right lung (BV)"
+   ],
+   "show": [
+    "Right main bronchus",
+    "Superior lobe of right lung",
+    "Middle lobe of right lung"
+   ],
+   "view": "anterior",
+   "xray": true
+  },
+  {
+   "title": "The right lower lobe",
+   "text": "<p>Five segments: the <b>superior</b> segment, which points backwards from the top of the lower lobe, and then four basal segments — <b>medial</b>, <b>anterior</b>, <b>lateral</b> and <b>posterior</b>.</p><p>The superior segment of the lower lobe matters out of proportion to its size: it lies directly behind the oblique fissure, it is the most dependent part of the lung in a <b>supine</b> patient, and it is a favourite site for aspiration pneumonia and for a lung abscess.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "thorax"
+   ],
+   "focus": [
+    "Superior segmental bronchus of right lung (BVI)",
+    "Posterior basal segmental bronchus of right lung (BX)",
+    "Lateral basal segmental bronchus of right lung (BIX)"
+   ],
+   "show": [
+    "Inferior lobe of right lung",
+    "Right main bronchus"
+   ],
+   "view": "right",
+   "xray": true,
+   "check": {
+    "q": "Where does aspirated material lodge in a patient who is lying flat?",
+    "a": "The superior segment of the right lower lobe, or the posterior segment of the right upper lobe."
+   }
+  },
+  {
+   "title": "The left lung",
+   "text": "<p>The left has the same plan compressed into two lobes. In the upper lobe, the apical and posterior segments share a bronchus (<b>apicoposterior</b>), and the <b>lingula</b> takes the place of the middle lobe with superior and inferior lingular segments.</p><p>In the lower lobe, the medial and anterior basal segments often share a bronchus (<b>anteromedial basal</b>). That is why the left is counted as eight, nine or ten segments depending on the textbook — the anatomy is the same, the naming is not.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "thorax"
+   ],
+   "focus": [
+    "Apicoposterior segmental bronchus of left lung (BI+BII)",
+    "Superior lingular segmental bronchus of left lung (BIV)",
+    "Inferior lingular segmental bronchus of left lung (BV)"
+   ],
+   "show": [
+    "Left main bronchus",
+    "Superior lobe of left lung"
+   ],
+   "view": "left",
+   "xray": true,
+   "check": {
+    "q": "What is the left lung's equivalent of the right middle lobe?",
+    "a": "The lingula, part of the left upper lobe."
+   }
+  },
+  {
+   "title": "Why the right main bronchus catches everything",
+   "text": "<p>The trachea divides at the <b>carina</b>, at the level of the sternal angle. The <b>right main bronchus</b> is wider, shorter and more vertical than the left, which is pushed aside by the aortic arch.</p><p>So inhaled foreign bodies, aspirated vomit and over-inserted endotracheal tubes often enter the right side, though either side can be involved and dependent segments vary with posture. Reduced left-sided ventilation after intubation raises concern for right main-bronchus placement, among other causes, and requires prompt assessment by the treating team. The anatomical point is that an over-advanced tube can pass beyond the carina into one main bronchus.</p>",
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "thorax"
+   ],
+   "focus": [
+    "Right main bronchus",
+    "Left main bronchus"
+   ],
+   "show": [
+    "Trachea",
+    "Aortic arch"
+   ],
+   "view": "anterior",
+   "xray": true,
+   "clinical": "Check the tube tip on the chest film: it should sit a few centimetres above the carina.",
+   "check": {
+    "q": "Why does an endotracheal tube inserted too far go into the right main bronchus?",
+    "a": "It is wider, shorter and more vertical than the left."
+   }
+  },
+  {
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "thorax"
+   ],
+   "focus": [
+    "Superior segmental bronchus of right lung (BVI)",
+    "Posterior basal segmental bronchus of right lung (BX)",
+    "Lateral basal segmental bronchus of right lung (BIX)"
+   ],
+   "show": [
+    "Inferior lobe of right lung",
+    "Right main bronchus"
+   ],
+   "view": "right",
+   "xray": true,
+   "title": "Gravity chooses a different segment when you lie down",
+   "text": "<p>The more vertical right main bronchus favours entry on the right, but <b>posture</b> helps determine where aspirated material settles. When upright, basal lower-lobe segments are relatively dependent. When supine, posterior upper-lobe and superior lower-lobe segments can be dependent.</p><p>The superior segment of a lower lobe lies posteriorly and can receive material even though the word superior sounds far from the lung base. Use segment names as three-dimensional positions rather than a top-to-bottom list. Aspiration can affect either lung and more than one segment.</p>",
+   "check": {
+    "q": "Why can the superior segment of a lower lobe be involved in aspiration in a supine person?",
+    "a": "It occupies a relatively posterior, dependent position when the person is lying on their back."
+   }
+  }
+ ]
 }
 ]

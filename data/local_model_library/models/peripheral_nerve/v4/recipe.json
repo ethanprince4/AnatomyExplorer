@@ -1,0 +1,281 @@
+{
+  "model_id": "peripheral_nerve_static_refinement",
+  "display_name": "Peripheral nerve",
+  "summary": "Preserved source-authored three-fascicle nerve teaching block with finite layer inspection presets.",
+  "viewer_cameras": {
+    "Overview": {
+      "type": "ORTHO",
+      "position": [
+        3,
+        2,
+        1.8
+      ],
+      "target": [
+        -0.1,
+        0,
+        0
+      ],
+      "up": [
+        0,
+        0,
+        1
+      ],
+      "ortho_width": 2.5,
+      "hidden": []
+    },
+    "Cross section": {
+      "type": "ORTHO",
+      "position": [
+        -3,
+        0,
+        0
+      ],
+      "target": [
+        -1,
+        0,
+        0
+      ],
+      "up": [
+        0,
+        0,
+        1
+      ],
+      "ortho_width": 1.8,
+      "hidden": []
+    },
+    "Fascicles": {
+      "type": "ORTHO",
+      "position": [
+        2,
+        1.5,
+        1.1
+      ],
+      "target": [
+        0.15,
+        0,
+        0
+      ],
+      "up": [
+        0,
+        0,
+        1
+      ],
+      "ortho_width": 1.55,
+      "hidden": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ]
+    },
+    "Single fibre sheath": {
+      "type": "ORTHO",
+      "position": [
+        1.7,
+        0.8,
+        1.2
+      ],
+      "target": [
+        0.7,
+        0.02,
+        0.28
+      ],
+      "up": [
+        0,
+        0,
+        1
+      ],
+      "ortho_width": 0.52,
+      "hidden": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Endoneurial capillaries",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ]
+    },
+    "Internodes and nodes": {
+      "type": "ORTHO",
+      "position": [
+        1.7,
+        0.8,
+        1.2
+      ],
+      "target": [
+        0.7,
+        0.02,
+        0.28
+      ],
+      "up": [
+        0,
+        0,
+        1
+      ],
+      "ortho_width": 0.52,
+      "hidden": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Endoneurial capillaries",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ]
+    },
+    "Nuclear pocket": {
+      "type": "ORTHO",
+      "position": [
+        0.855,
+        0,
+        1.313
+      ],
+      "target": [
+        0.855,
+        0,
+        0.313
+      ],
+      "up": [
+        0,
+        0,
+        1
+      ],
+      "ortho_width": 0.16,
+      "hidden": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Myelin sheaths (internodes)",
+        "Axons",
+        "Nodes of Ranvier",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Endoneurial capillaries",
+        "Schwann basal lamina",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ]
+    },
+    "Nucleus isolated": {
+      "type": "ORTHO",
+      "position": [
+        0.855,
+        0,
+        1.313
+      ],
+      "target": [
+        0.855,
+        0,
+        0.313
+      ],
+      "up": [
+        0,
+        0,
+        1
+      ],
+      "ortho_width": 0.08,
+      "hidden": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Myelin sheaths (internodes)",
+        "Axons",
+        "Nodes of Ranvier",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Endoneurial capillaries",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ]
+    },
+    "Remak bundle": {
+      "type": "ORTHO",
+      "position": [
+        1.5,
+        -0.079,
+        0.177
+      ],
+      "target": [
+        0.76,
+        -0.079,
+        0.177
+      ],
+      "up": [
+        0,
+        0,
+        1
+      ],
+      "ortho_width": 0.18,
+      "hidden": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Myelin sheaths (internodes)",
+        "Axons",
+        "Nodes of Ranvier",
+        "Schwann cell nuclei",
+        "Endoneurial capillaries",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ]
+    },
+    "Axon isolated": {
+      "type": "ORTHO",
+      "position": [
+        1.7,
+        0.8,
+        1.2
+      ],
+      "target": [
+        0.7,
+        0.02,
+        0.28
+      ],
+      "up": [
+        0,
+        0,
+        1
+      ],
+      "ortho_width": 0.52,
+      "hidden": [
+        "Epineurium",
+        "Epineurial collagen bundles",
+        "Perineurium",
+        "Endoneurium",
+        "Myelin sheaths (internodes)",
+        "Schwann cell nuclei",
+        "Remak Schwann cells",
+        "Unmyelinated axons (C fibres)",
+        "Endoneurial capillaries",
+        "Schwann cell outer cytoplasm",
+        "Schwann basal lamina",
+        "Epineurial fat",
+        "Vasa nervorum (arterioles)",
+        "Vasa nervorum (venules)"
+      ]
+    }
+  },
+  "start_view": "Overview",
+  "home_view": "Overview",
+  "cut_on": false,
+  "scale_note": "Representative three fascicles; enlarged fibres and shortened internodes; not literal fibre census.",
+  "metres_per_unit": 0.0015
+}

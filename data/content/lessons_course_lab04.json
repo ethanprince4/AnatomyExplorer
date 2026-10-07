@@ -32,7 +32,7 @@
   "steps": [
    {
     "title": "A heart that starts itself",
-    "text": "<p>Cardiac muscle needs no nerve to beat. A few <b>autorhythmic</b> (pacemaker) cells fire on their own, and a <b>conduction system</b> of modified cardiac muscle spreads each impulse in order.</p><p>The fastest of them, the <b>sinoatrial (SA) node</b> in the right atrial wall near the opening of the superior vena cava, fires about 70–80 times a minute - one beat every ~0.8 s - and so is the heart's <b>pacemaker</b>.</p>",
+    "text": "<p>Cardiac muscle needs no nerve to beat. A few <b>autorhythmic</b> (pacemaker) cells fire on their own, and a <b>conduction system</b> of modified cardiac muscle spreads each impulse in order.</p><p>The fastest of them, the <b>sinoatrial (SA) node</b> in the right atrial wall near the opening of the superior vena cava, fires about 70–80 times a minute - one beat every ~0.8 s - and so is the heart's <b>pacemaker</b>.</p><p>In the model it is the yellow crescent where the vena cava joins the atrium.</p>",
     "systems": [
      "cardiovascular",
      "visceral"
@@ -48,16 +48,14 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "heart",
-    "micro_focus": [
-     "Sinoatrial (SA) node",
-     "Superior vena cava"
-    ],
     "diagram": "lab04-conduction",
     "check": {
      "q": "Why is the SA node the pacemaker?",
      "a": "It depolarizes spontaneously faster than any other part of the heart, so it sets the rate."
-    }
+    },
+    "micro": "whole_heart",
+    "micro_focus": ["Sinoatrial (SA) node", "Sinoatrial (SA) nodal artery"],
+    "micro_view": "Conduction: SA node at the superior vena cava"
    },
    {
     "title": "The pacemaker potential",
@@ -75,45 +73,35 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "heart",
-    "micro_focus": [
-     "Sinoatrial (SA) node"
-    ],
     "check": {
      "q": "Which ion carries the upstroke of the SA-node action potential?",
      "a": "Calcium (Ca²⁺)."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "Node, bundle and branches",
-    "text": "<p>The impulse spreads across both atria and reaches the <b>atrioventricular (AV) node</b> low in the interatrial septum. The node <b>delays</b> it about 0.1 s so the atria finish emptying.</p><p>It then runs down the <b>AV bundle</b> (bundle of His) - the only normal electrical link through the fibrous skeleton - into the <b>right and left bundle branches</b> in the interventricular septum, and on to the <b>Purkinje fibres</b>.</p>",
-    "micro": "heart",
-    "micro_focus": [
-     "Sinoatrial (SA) node",
-     "Atrioventricular (AV) node",
-     "Atrioventricular bundle (bundle of His)",
-     "Right bundle branch",
-     "Left bundle branch",
-     "Purkinje fibres"
-    ],
+    "text": "<p>The impulse spreads across both atria and reaches the <b>atrioventricular (AV) node</b> low in the interatrial septum. The node <b>delays</b> it about 0.1 s so the atria finish emptying.</p><p>It then runs down the <b>AV bundle</b> (bundle of His) - the only normal electrical link through the fibrous skeleton - into the <b>right and left bundle branches</b> in the interventricular septum, and on to the <b>Purkinje fibres</b>.</p><p>In the model: the orange AV node, the green AV bundle piercing the cream fibrous body, and the blue bundle branches.</p>",
     "diagram": "lab04-conduction",
     "check": {
      "q": "What is the purpose of the AV nodal delay?",
      "a": "It lets the atria finish contracting and emptying before the ventricles contract."
-    }
+    },
+    "micro": "whole_heart",
+    "micro_focus": ["Atrioventricular (AV) node", "Atrioventricular (AV) bundle (bundle of His)", "Central fibrous body", "Right bundle branch", "Left bundle branch"],
+    "micro_view": "Conduction: Whole pathway, right heart opened"
    },
    {
     "title": "Purkinje fibres",
-    "text": "<p><b>Purkinje fibres</b> (the subendocardial conducting network) are large, pale, glycogen-rich cells just under the endocardium; the heart model draws them as a network over both ventricles. They conduct faster than any other cardiac tissue, so the ventricles are activated from the <b>apex upward</b> almost at once - squeezing blood up toward the aortic and pulmonary valves.</p>",
-    "micro": "heart",
-    "micro_focus": [
-     "Purkinje fibres",
-     "Endocardium"
-    ],
+    "text": "<p><b>Purkinje fibres</b> (the subendocardial conducting network) are large, pale, glycogen-rich cells just under the endocardium; the model shows them in violet, spreading over both ventricles from the apex. They conduct faster than any other cardiac tissue, so the ventricles are activated from the <b>apex upward</b> almost at once - squeezing blood up toward the aortic and pulmonary valves.</p>",
     "check": {
      "q": "Why is it useful that the ventricles are activated apex first?",
      "a": "Contraction then pushes blood upward toward the outflow valves."
-    }
+    },
+    "diagram": "lab04-conduction",
+    "micro": "whole_heart",
+    "micro_focus": ["Purkinje fibres (left ventricle)", "Purkinje fibres (right ventricle)", "Right bundle branch", "Left bundle branch"],
+    "micro_view": "Conduction: Purkinje fibres from the apex"
    },
    {
     "title": "The contractile cell and its long refractory period",
@@ -131,36 +119,6 @@
    }
   ],
   "practice": [
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Sinoatrial (SA) node"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Atrioventricular (AV) node"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Atrioventricular bundle (bundle of His)"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Right bundle branch"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Left bundle branch"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Purkinje fibres"
-   },
    {
     "type": "mcq",
     "q": "Where do Purkinje fibres lie?",
@@ -246,21 +204,14 @@
     "type": "recall",
     "q": "Name the three phases of a ventricular cell's action potential and the ion for each.",
     "a": "Rapid depolarization (Na⁺ in), plateau (Ca²⁺ in), repolarization (K⁺ out)."
-   }
+   },
+   {"type": "find_micro", "model": "whole_heart", "part": "Sinoatrial (SA) node", "micro_view": "Conduction: SA node at the superior vena cava"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Atrioventricular (AV) node", "micro_view": "Conduction: Triangle of Koch: AV node and AV bundle"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Atrioventricular (AV) bundle (bundle of His)", "micro_view": "Conduction: Through the fibrous skeleton, from above"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Right bundle branch", "micro_view": "Conduction: Right bundle branch and moderator band"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Purkinje fibres (left ventricle)", "micro_view": "Conduction: Purkinje fibres from the apex"}
   ],
-  "see_also": {
-   "micro": [
-    "heart",
-    "cardiac_muscle",
-    "whole_heart"
-   ],
-   "lessons": [
-    "conducting-system"
-   ],
-   "histology": [
-    "cardiac_muscle"
-   ]
-  }
+  "see_also": {"micro": ["whole_heart", "cardiac_muscle"], "lessons": ["conducting-system"], "histology": ["cardiac_muscle"]}
  },
  {
   "id": "lab04-02-ecg-waves-intervals",
@@ -317,22 +268,18 @@
     "check": {
      "q": "Does the ECG record the heart's contraction?",
      "a": "No - it records electrical activity (depolarization and repolarization)."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "P, QRS and T",
     "text": "<p>The small <b>P wave</b> is atrial depolarization. The sharp <b>QRS complex</b> is ventricular depolarization: Q is the first downward deflection, R the tall upward spike, S the downward deflection after it. Atrial repolarization happens at the same time and is hidden inside the QRS.</p><p>The rounded <b>T wave</b> is ventricular repolarization.</p>",
     "diagram": "lab04-ecg-waveform",
-    "micro": "heart",
-    "micro_focus": [
-     "Right atrium (myocardium)",
-     "Left atrium (myocardium)",
-     "Left ventricle (myocardium)"
-    ],
     "check": {
      "q": "Why is there no visible wave for atrial repolarization?",
      "a": "It occurs during ventricular depolarization and is hidden in the QRS complex."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "The intervals",
@@ -341,7 +288,8 @@
     "check": {
      "q": "What is the normal PR interval, and what delay does it include?",
      "a": "0.12–0.20 s; it includes the AV nodal delay."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "Rest between beats",
@@ -350,7 +298,8 @@
     "check": {
      "q": "What is happening to the heart during the T–P segment?",
      "a": "It is at rest (diastole) and the ventricles are filling."
-    }
+    },
+    "lesson_view": "diagram"
    }
   ],
   "practice": [
@@ -513,7 +462,9 @@
     "check": {
      "q": "Which electrode is the ground?",
      "a": "The right-leg (RL) electrode."
-    }
+    },
+    "lesson_view": "diagram",
+    "diagram": "lab04-einthoven"
    },
    {
     "title": "Three bipolar leads",
@@ -534,7 +485,8 @@
     "check": {
      "q": "Which two electrodes make lead II, and which is positive?",
      "a": "Right arm (negative) and left leg (positive)."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "Einthoven's triangle",
@@ -555,7 +507,8 @@
     "check": {
      "q": "At what angles do leads I, II and III look at the heart?",
      "a": "0°, +60° and +120°."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "Keeping the trace clean",
@@ -575,7 +528,8 @@
     "check": {
      "q": "Why does clenching the fists spoil an ECG?",
      "a": "Skeletal-muscle depolarization adds electrical interference (artifact) to the trace."
-    }
+    },
+    "lesson_view": "reading"
    }
   ],
   "practice": [
@@ -708,7 +662,8 @@
     "check": {
      "q": "How long is one small square at 25 mm/s?",
      "a": "0.04 s."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "Heart rate from R–R",
@@ -717,7 +672,8 @@
     "check": {
      "q": "The R–R interval is 25 mm. What is the heart rate?",
      "a": "25 × 0.04 = 1.0 s, so 60 beats/min."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "Too fast, too slow",
@@ -726,7 +682,8 @@
     "check": {
      "q": "Define tachycardia and bradycardia.",
      "a": "Tachycardia: resting rate > 100/min. Bradycardia: < 60/min."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "What exercise does",
@@ -751,7 +708,8 @@
     "check": {
      "q": "Which part of the ECG cycle shortens most with exercise?",
      "a": "The T–P segment (resting interval)."
-    }
+    },
+    "lesson_view": "diagram"
    }
   ],
   "practice": [
@@ -875,15 +833,11 @@
     "title": "One average arrow",
     "text": "<p>Ventricular depolarization spreads in many directions at once, but they add up to one average vector - the <b>mean electrical axis</b>. Normally it points from the base down and to the left toward the apex, roughly along the <b>interventricular septum</b>.</p><p>On the hexaxial (axis) circle used to plot it, 0° points to the patient's left and +90° straight down. The normal range is <b>0° to +90°</b>; many accept −30° to +90°.</p>",
     "diagram": "lab04-axis-circle",
-    "micro": "whole_heart",
-    "micro_focus": [
-     "Interventricular septum",
-     "Apex of heart"
-    ],
     "check": {
      "q": "What is the normal range of the mean electrical axis?",
      "a": "0° to +90° (often −30° to +90° is accepted)."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "Finding it from two leads",
@@ -904,7 +858,8 @@
     "check": {
      "q": "How is the net QRS deflection calculated?",
      "a": "R-wave height minus the Q and S depths (positive minus negative deflections)."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "When the axis swings",
@@ -930,7 +885,8 @@
     "check": {
      "q": "Which way does left ventricular hypertrophy move the axis?",
      "a": "To the left (left axis deviation)."
-    }
+    },
+    "lesson_view": "diagram"
    }
   ],
   "practice": [
@@ -1057,47 +1013,39 @@
   "steps": [
    {
     "title": "Arrhythmia and first-degree block",
-    "text": "<p>An <b>arrhythmia</b> is any abnormal rhythm. Causes range from emotion, caffeine and nicotine to serious heart disease. In <b>first-degree (partial) AV block</b>, conduction through the AV node or bundle is slowed: every P wave is still followed by a QRS, but the <b>PR interval exceeds 0.20 s</b>.</p>",
+    "text": "<p>An <b>arrhythmia</b> is any abnormal rhythm. Causes range from emotion, caffeine and nicotine to serious heart disease. In <b>first-degree (partial) AV block</b>, conduction through the AV node or bundle is slowed: every P wave is still followed by a QRS, but the <b>PR interval exceeds 0.20 s</b>.</p><p>In the model, the slowed stretch is the orange AV node and the green AV bundle.</p>",
     "diagram": "lab04-strips-block",
-    "micro": "heart",
-    "micro_focus": [
-     "Atrioventricular (AV) node",
-     "Atrioventricular bundle (bundle of His)"
-    ],
     "check": {
      "q": "What is the ECG sign of first-degree heart block?",
      "a": "A PR interval longer than 0.20 s."
-    }
+    },
+    "micro": "whole_heart",
+    "micro_focus": ["Atrioventricular (AV) node", "Atrioventricular (AV) bundle (bundle of His)"],
+    "micro_view": "Conduction: Triangle of Koch: AV node and AV bundle"
    },
    {
     "title": "Complete heart block",
-    "text": "<p>In <b>complete (third-degree) block</b> no impulses cross from atria to ventricles. The atria still follow the SA node, with P waves about 0.8 s apart, but the ventricles are driven by a slow escape pacemaker below the block, with QRS complexes 1.5–2.0 s apart (about <b>30–40/min</b>).</p><p>P waves and QRS complexes march along independently.</p>",
+    "text": "<p>In <b>complete (third-degree) block</b> no impulses cross from atria to ventricles. The atria still follow the SA node, with P waves about 0.8 s apart, but the ventricles are driven by a slow escape pacemaker below the block, with QRS complexes 1.5–2.0 s apart (about <b>30–40/min</b>).</p><p>P waves and QRS complexes march along independently.</p><p>In the model the block lies in the orange AV node or the green AV bundle; the escape pacemaker sits in the conducting tissue below it.</p>",
     "diagram": "lab04-strips-block",
-    "micro": "heart",
-    "micro_focus": [
-     "Atrioventricular (AV) node",
-     "Atrioventricular bundle (bundle of His)",
-     "Purkinje fibres"
-    ],
     "check": {
      "q": "In complete heart block, what drives the ventricles?",
      "a": "A slow escape pacemaker below the block (about 30–40/min)."
-    }
+    },
+    "micro": "whole_heart",
+    "micro_focus": ["Atrioventricular (AV) node", "Atrioventricular (AV) bundle (bundle of His)", "Central fibrous body"],
+    "micro_view": "Conduction: Through the fibrous skeleton, from above"
    },
    {
     "title": "Bundle branch block",
-    "text": "<p>If the <b>right or left bundle branch</b> is blocked, the impulse reaches one ventricle normally and then spreads slowly through ordinary muscle to the other. The two ventricles depolarize one after the other instead of together, so the QRS becomes <b>wide (over 0.12 s)</b> and often notched.</p>",
+    "text": "<p>If the <b>right or left bundle branch</b> is blocked, the impulse reaches one ventricle normally and then spreads slowly through ordinary muscle to the other. The two ventricles depolarize one after the other instead of together, so the QRS becomes <b>wide (over 0.12 s)</b> and often notched.</p><p>In the model the blue right and left bundle branches run down either side of the septum; the left one fans into two fascicles.</p>",
     "diagram": "lab04-strips-block",
-    "micro": "heart",
-    "micro_focus": [
-     "Right bundle branch",
-     "Left bundle branch",
-     "Interventricular septum"
-    ],
     "check": {
      "q": "Why does bundle branch block widen the QRS?",
      "a": "The ventricles depolarize one after the other (asynchronously) instead of together."
-    }
+    },
+    "micro": "whole_heart",
+    "micro_focus": ["Right bundle branch", "Left bundle branch", "Left anterior fascicle", "Left posterior fascicle"],
+    "micro_view": "Conduction: Whole pathway, right heart opened"
    },
    {
     "title": "Ectopic beats and atrial fibrillation",
@@ -1116,15 +1064,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "whole_heart",
-    "micro_focus": [
-     "Left atrium",
-     "Right atrium"
-    ],
     "check": {
      "q": "Name two ECG features of atrial fibrillation.",
      "a": "No distinct P waves and an irregularly irregular (often fast) QRS rhythm."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "Ventricular fibrillation and infarction",
@@ -1145,35 +1089,14 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "whole_heart",
-    "micro_focus": [
-     "Anterior interventricular artery (LAD)",
-     "Circumflex artery (LCx)",
-     "Right coronary artery",
-     "Left ventricle"
-    ],
     "check": {
      "q": "What is the treatment for ventricular fibrillation?",
      "a": "Immediate defibrillation."
-    }
+    },
+    "lesson_view": "diagram"
    }
   ],
   "practice": [
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Atrioventricular (AV) node"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Right bundle branch"
-   },
-   {
-    "type": "find_micro",
-    "model": "heart",
-    "part": "Left bundle branch"
-   },
    {
     "type": "find_micro",
     "model": "whole_heart",
@@ -1270,8 +1193,12 @@
     "type": "recall",
     "q": "Where is the damage in first-degree block?",
     "a": "In the AV node or slowed conduction in the AV bundle."
-   }
-  ]
+   },
+   {"type": "find_micro", "model": "whole_heart", "part": "Atrioventricular (AV) node", "micro_view": "Conduction: Triangle of Koch: AV node and AV bundle"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Right bundle branch", "micro_view": "Conduction: Right bundle branch and moderator band"},
+   {"type": "find_micro", "model": "whole_heart", "part": "Left bundle branch", "micro_view": "Conduction: Left heart opened: left bundle branch"}
+  ],
+  "see_also": {"micro": ["whole_heart"]}
  },
  {
   "id": "lab04-07-heart-sounds-cycle",
@@ -1320,7 +1247,7 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
      "Tricuspid valve",
      "Mitral (bicuspid) valve",
@@ -1355,7 +1282,7 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "heart",
+    "micro": "whole_heart",
     "micro_focus": [
      "Tricuspid valve",
      "Mitral (bicuspid) valve",
@@ -1424,7 +1351,8 @@
     "check": {
      "q": "Where is the mitral valve best heard?",
      "a": "At the apex: 5th left intercostal space, midclavicular line."
-    }
+    },
+    "lesson_view": "diagram"
    }
   ],
   "practice": [
@@ -1625,7 +1553,9 @@
     "check": {
      "q": "Where are the baroreceptors that adjust heart rate with posture?",
      "a": "In the carotid sinus, at the origin of the internal carotid artery (and the aortic arch)."
-    }
+    },
+    "lesson_view": "diagram",
+    "diagram": "lec2-baroreceptor-reflex"
    },
    {
     "title": "Autonomic control",
@@ -1651,7 +1581,8 @@
     "check": {
      "q": "Which receptor mediates the effect of acetylcholine on the heart?",
      "a": "The muscarinic (M2) cholinergic receptor."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "Drugs that mimic or block",
@@ -1676,7 +1607,8 @@
     "check": {
      "q": "Why does atropine speed the heart?",
      "a": "It blocks muscarinic receptors, removing the slowing effect of vagal acetylcholine."
-    }
+    },
+    "lesson_view": "diagram"
    },
    {
     "title": "Temperature and the frog heart",
@@ -1698,15 +1630,11 @@
     ],
     "view": "anterior",
     "xray": true,
-    "micro": "heart",
-    "micro_focus": [
-     "Sinoatrial (SA) node",
-     "Superior vena cava"
-    ],
     "check": {
      "q": "What is a Q10 of 2?",
      "a": "The rate of a process doubles for each 10 °C rise in temperature."
-    }
+    },
+    "lesson_view": "diagram"
    }
   ],
   "practice": [

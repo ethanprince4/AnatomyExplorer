@@ -16,10 +16,10 @@ RELEASE_TAG = os.environ.get("APP_RELEASE_TAG", f"v{VERSION}")
 APP_NAME = "Anatomy Explorer Experimental" if CHANNEL == "experimental" else "Anatomy Explorer"
 
 # Everything the app reads at run time. Personal data (data/user), the raw Z-Anatomy source and scratch output are
-# never shipped; data/anatomy's surface-sample and depth caches come from the stage (see prebuild.py). models/ holds
-# the in-house GLB models the model viewer opens (each .glb with its .viewer.json sidecar).
+# never shipped; data/anatomy's surface-sample and depth caches come from the stage (see prebuild.py).
+# Legacy models/ assets are collected only for builds without a post-only release library.
 DATA_DIRS = ["data/anatomy", "data/content", "data/findings", "data/histology", "data/radiology",
-             "data/sketchfab_models", "data/micro_cache", "data/models", "models", "app/resources", "app/ui/resources",
+             "data/micro_cache", "data/models", "models", "app/resources", "app/ui/resources",
              "app/variants/anatomy_runtime_adapters", "app/variants/anatomy_variants"]
 SKIP_DIRS = {"__pycache__", ".git", "model-library"}
 SKIP_SUFFIXES = {".pyc", ".tmp", ".part", ".stackdump"}
@@ -43,8 +43,8 @@ def data_files():
     if seed:
         out.extend(seed_files(seed, STAGE / "release-seeds"))
     for rel in DATA_DIRS:
-        if seed and rel in {"data/micro_cache", "data/models"}:
-            continue  # Explicit post-only seed replaces obsolete procedural baselines.
+        if seed and rel in {"data/micro_cache", "data/models", "models"}:
+            continue  # The post-only seed contains every selected model and companion.
         only = ONLY_SUFFIXES.get(rel)
         for dirpath, dirnames, filenames in os.walk(ROOT / rel):
             dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]

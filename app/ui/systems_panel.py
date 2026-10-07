@@ -32,7 +32,8 @@ PRESET_LABELS = {
 
 def swatch(rgb):
     lab = QLabel()
-    lab.setFixedSize(12, 12)
+    lab.setFixedSize(16, 16)
+    lab.setToolTip("System colour; use the checkbox to show or hide this system")
     c = QColor.fromRgbF(*rgb)
     lab.setStyleSheet(f"background:{c.name()}; border-radius:3px; border:1px solid rgba(0,0,0,70);")
     return lab

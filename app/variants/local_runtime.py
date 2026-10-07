@@ -78,6 +78,7 @@ def decode_local_npz(path, token=None, warnings=None):
     warnings = warnings if warnings is not None else []
     rows = []
     with np.load(path, allow_pickle=False) as archive:
+        keys = set(archive.files)
         raw_meta = archive["meta"]
         metadata = json.loads(raw_meta.tobytes().decode("utf-8"))
         for i, original in enumerate(metadata["parts"]):
@@ -85,11 +86,11 @@ def decode_local_npz(path, token=None, warnings=None):
             row = deepcopy(original)
             row.setdefault("name", f"Part {i + 1}")
             raw = archive[f"p{i}"]
-            if raw.dtype.kind == "u" and f"b{i}" in archive:
+            if raw.dtype.kind == "u" and f"b{i}" in keys:
                 lo, span = archive[f"b{i}"]
                 vertices = (raw.astype(np.float64) / 65535.0 * span + lo).astype(np.float32)
             else:
-                vertices = raw.astype(np.float32)
+                vertices = raw.astype(np.float32, copy=False)
             if vertices.ndim != 2 or vertices.shape[1] != 3 or not np.isfinite(vertices).all():
                 raise ValueError(f"{row['name']}: unreadable vertex positions")
             indices = archive[f"i{i}"]
@@ -99,8 +100,9 @@ def decode_local_npz(path, token=None, warnings=None):
                 faces = np.cumsum(indices.astype(np.int64)).reshape(-1, 3)
             if faces.size and (faces.min() < 0 or faces.max() >= len(vertices)):
                 raise ValueError(f"{row['name']}: triangle refers to a missing vertex")
-            normals = archive[f"n{i}"].astype(np.float32) if f"n{i}" in archive else None
-            if normals is not None and archive[f"n{i}"].dtype.kind in "iu":
+            raw_normals = archive[f"n{i}"] if f"n{i}" in keys else None
+            normals = raw_normals.astype(np.float32, copy=False) if raw_normals is not None else None
+            if raw_normals is not None and raw_normals.dtype.kind in "iu":
                 normals /= 127.0
             if normals is None or normals.shape != vertices.shape or not np.isfinite(normals).all():
                 warnings.append(f"{row['name']}: missing or incompatible normals regenerated")
@@ -112,7 +114,7 @@ def decode_local_npz(path, token=None, warnings=None):
                 if not good.all():
                     normals[~good] = _normals(vertices, faces)[~good]
                     warnings.append(f"{row['name']}: zero normals repaired")
-            colors = _colors(archive[f"c{i}"] if f"c{i}" in archive else None, len(vertices), warnings, row["name"])
+            colors = _colors(archive[f"c{i}"] if f"c{i}" in keys else None, len(vertices), warnings, row["name"])
             rows.append((row, vertices, normals, faces, colors))
     return metadata, rows
 
@@ -156,6 +158,29 @@ def _controls(entry, descriptor, metadata, decoded, warnings):
                 if str(_get(value, "path", value)).lower().endswith(".json") or (isinstance(value, dict) and "path" not in value)}
     controls = _json(_get(descriptor, "runtime_controls", companions.get("runtime_controls")), root, warnings, "Runtime controls")
     names = [r[0]["name"] for r in decoded]
+    if _get(_get(descriptor, "record", {}), "static_recipe", False):
+        # Final standalone models carry their own presentation. Older organ
+        # hooks and recipes describe different parts and must not leak into it.
+        native = helpers._native(metadata, entry.id)
+        native.update(helpers._native(supplied.get("teaching_recipe", {}), entry.id))
+        native.update(deepcopy(controls.get("native", {})))
+        native.setdefault("summary", getattr(entry, "summary", ""))
+        native.setdefault("scale_note", getattr(entry, "scale_note", ""))
+        native.setdefault("metres_per_unit", 0.0)
+        if not isinstance(native.get("home_view"), (list, tuple)):
+            native["home_view"] = [-.62, .42]
+        native.setdefault("cutaway", [[1, 0, 0], [0, 0, 1]])
+        native.setdefault("cut_at", [0, 0])
+        native.setdefault("cut_on", False)
+        native.setdefault("viewer_cameras", {})
+        native["labels_on_open"] = False
+        viewer = deepcopy(controls.get("viewer", {}))
+        viewer.setdefault("mixed_schematic_scale", entry.id in helpers.MIXED_MODELS)
+        viewer.setdefault("scale_note", native["scale_note"])
+        return _prune_selectors(dict(native=native, viewer=viewer, documents=[],
+            teaching_views=[], functional_sequences=[], verified_documents=supplied,
+            source_part_names=names, part_names=names,
+            parts=[deepcopy(row) for row, *_ in decoded]), set(names), warnings)
     controls["source_part_names"] = [p["name"] for p in controls.get("parts", [])] or list(names)
     inherited = json.loads((here / "inherited_defaults.json").read_text(encoding="utf-8"))
     native = deepcopy(inherited.get(entry.id, {}))
@@ -316,12 +341,13 @@ def _component_controls(entry, descriptor, metadata, decoded, warnings):
 
 
 def prepare_local_model(entry, token=None):
-    from .anatomy_runtime_adapters.runtime import NativeBackend, _prepare_hooks, _hook, _resolve_fit_cameras
+    from .anatomy_runtime_adapters.runtime import NativeBackend, _prepare_hooks, _hook, _resolve_fit_cameras, _retire_native_backing
     _check(token)
     descriptor = getattr(entry, "descriptor", None) or entry.store.resolve(entry.id, entry.variant)
     entry.descriptor = descriptor
     warnings = []
     descriptor, component = _component_descriptor(entry, descriptor, warnings)
+    standalone = bool(_get(_get(descriptor, "record", {}), "static_recipe", False))
     root = Path(_get(descriptor, "root", Path(descriptor.primary.path).parent))
     path = _path(descriptor.primary, root)
     # Some older native teaching hooks call this field 'sha256' but only use a
@@ -358,24 +384,41 @@ def prepare_local_model(entry, token=None):
         for key, value in controls["native"].items():
             setattr(micro, key, deepcopy(value))
         colors = {row["name"]: color for row, v, n, f, color in decoded if color is not None}
-        micro.viewer_vertex_colors = lambda name, positions: colors.get(name)
+        linear = {row["name"]: row["color_linear"] for row, *_ in decoded if "color_linear" in row}
+        def vertex_colors(name, positions):
+            if name in colors:
+                return colors[name]
+            if name in linear:
+                return np.broadcast_to(np.asarray(linear[name], dtype=np.float32), (len(positions), 3))
+            return None
+        micro.viewer_vertex_colors = vertex_colors
         micro.runtime_descriptor = bound
         _animation(bound, micro, parts, controls, warnings)
-        hooks_available = True
+        hooks_available = not standalone
         try:
-            if not component:_prepare_hooks(bound, micro, controls, parts)
+            if not component and not standalone:_prepare_hooks(bound, micro, controls, parts)
         except Exception as exc:
             hooks_available = False
             warnings.append(f"Some model-specific controls are unavailable for these parts: {exc}")
         model = backend.procedural(micro, parts)
         try:
-            if entry.id == "tooth" and controls["documents"]:
+            if not standalone and entry.id == "tooth" and controls["documents"]:
                 _hook(entry.id, "teaching").apply_to_viewer_model(model, controls["documents"][0], model_id=entry.id)
-            elif entry.id == "tongue_papillae" and controls["documents"]:
+            elif not standalone and entry.id == "tongue_papillae" and controls["documents"]:
                 _hook(entry.id, "teaching").install_native_metadata(model, contract=controls["documents"][0], model_id=entry.id)
         except Exception as exc:
             warnings.append(f"Some teaching metadata could not follow the current parts: {exc}")
         model.metres_per_unit = float(controls["native"].get("metres_per_unit", 0))
+        catalog = controls.get("verified_documents", {}).get("catalog", {})
+        for item in model.items:
+            display = catalog.get("parts", {}).get(item.key, {})
+            if display.get("name"):
+                item.name = display["name"]
+            if not item.description and display.get("description"):
+                item.description = display["description"]
+            if display.get("atlas"):
+                item.atlas = list(display["atlas"])
+        _retire_native_backing(model, [row for row, *_ in decoded])
     elif path.suffix.lower() == ".glb":
         from app.viewer.model import Model
         controls = (_component_controls(entry, descriptor, {}, [], warnings) if component else

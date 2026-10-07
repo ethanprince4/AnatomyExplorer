@@ -36,7 +36,7 @@ class PostSeedTests(unittest.TestCase):
         export_post_library(self.root,target)
         data=json.loads((target/'library.json').read_text())
         self.assertEqual(set(data['models']),{'lung_acinus_review_v2'})
-        self.assertEqual(data['models']['lung_acinus_review_v2']['name'],'Lung acinus (version 2)')
+        self.assertEqual(data['models']['lung_acinus_review_v2']['name'],'Lung Acinus')
         self.assertEqual((target/'post.npz').read_bytes(),b'asset')
         with self.assertRaisesRegex(ValueError,'empty directory'):export_post_library(self.root,target)
         with self.assertRaisesRegex(ValueError,'outside'):export_post_library(self.root,self.root/'export')

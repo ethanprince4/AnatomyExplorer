@@ -17,9 +17,11 @@ class VariantChoice(QWidget):
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
         outer.setSpacing(4)
-        layout = QHBoxLayout()
+        self.version_row = QWidget()
+        layout = QHBoxLayout(self.version_row)
+        layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(8)
-        outer.addLayout(layout)
+        outer.addWidget(self.version_row)
         label = QLabel("Version")
         label.setStyleSheet(theme.text_css(theme.TEXT_2, theme.FS_SMALL))
         self.choice = QComboBox()
@@ -93,7 +95,9 @@ class VariantChoice(QWidget):
             self.choice.setCurrentIndex(self.choice.findData(selected))
         finally:
             self.choice.blockSignals(False)
-        self.setVisible(entry is not None and bool(available))
+        self.version_row.hide()
+        self.result_status.hide()
+        self.setVisible(entry is not None and bool(components))
         self.choice.setEnabled(bool(available))
 
     def _requested(self, index):

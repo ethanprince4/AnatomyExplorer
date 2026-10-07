@@ -1,0 +1,257 @@
+{
+  "model_id": "spleen_static_overhaul",
+  "display_name": "Spleen: human structure and filtering - static overhaul",
+  "summary": "Multiscale static human spleen anatomy with separately enlarged open-circulation filtering cutaway.",
+  "metres_per_unit": 0.00075,
+  "home_view": [
+    -0.62,
+    0.42
+  ],
+  "cutaway": [
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "cut_at": [
+    0.0,
+    0.0
+  ],
+  "cut_on": false,
+  "start_view": "01 Field overview",
+  "viewer_cameras": {
+    "01 Field overview": {
+      "position": [
+        2.5,
+        2.8,
+        -3.6
+      ],
+      "target": [
+        0,
+        0.52,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.35,
+      "hidden": [
+        "Perifollicular open spaces",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Inset: sinus endothelial staves",
+        "Inset: discontinuous basement-membrane hoops",
+        "Inset: extravascular cord reticular scaffold",
+        "Inset: red cells in cord space",
+        "Inset: flexible red cell at true stave gap",
+        "Inset: red cells in sinus lumen",
+        "Inset: cord macrophage",
+        "Inset: macrophage nucleus",
+        "Inset: rigid red cell retained for clearance",
+        "Inset: open terminal arterial capillary",
+        "Inset: patent venous outflow sleeve"
+      ],
+      "cut_on": false,
+      "note": "Human spleen microanatomical field, not the whole organ. Two responding follicles shown. Overview hides separate enlarged filtering inset."
+    },
+    "02 White pulp relationships": {
+      "position": [
+        1.5,
+        2.1,
+        -3.7
+      ],
+      "target": [
+        0.08,
+        0.6,
+        0.08
+      ],
+      "type": "ORTHO",
+      "ortho_width": 1.7,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Perifollicular open spaces",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein",
+        "Splenic cords (of Billroth)",
+        "Inset: sinus endothelial staves",
+        "Inset: discontinuous basement-membrane hoops",
+        "Inset: extravascular cord reticular scaffold",
+        "Inset: red cells in cord space",
+        "Inset: flexible red cell at true stave gap",
+        "Inset: red cells in sinus lumen",
+        "Inset: cord macrophage",
+        "Inset: macrophage nucleus",
+        "Inset: rigid red cell retained for clearance",
+        "Inset: open terminal arterial capillary",
+        "Inset: patent venous outflow sleeve"
+      ],
+      "cut_on": false,
+      "note": "T-cell-rich PALS around artery; B-cell follicle and responding germinal centre; human superficial follicular region. No rodent marginal sinus."
+    },
+    "03 Arterial supply to open cords": {
+      "position": [
+        2.7,
+        2.8,
+        -3.8
+      ],
+      "target": [
+        0,
+        0.5,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabecular vein",
+        "Pulp vein",
+        "Inset: sinus endothelial staves",
+        "Inset: discontinuous basement-membrane hoops",
+        "Inset: extravascular cord reticular scaffold",
+        "Inset: red cells in cord space",
+        "Inset: flexible red cell at true stave gap",
+        "Inset: red cells in sinus lumen",
+        "Inset: cord macrophage",
+        "Inset: macrophage nucleus",
+        "Inset: rigid red cell retained for clearance",
+        "Inset: open terminal arterial capillary",
+        "Inset: patent venous outflow sleeve"
+      ],
+      "cut_on": false,
+      "note": "Follow central arterial branches into red pulp. Open endings discharge into cords; sheath presence varies in humans."
+    },
+    "04 Filtering detail": {
+      "position": [
+        4.8,
+        2.0,
+        -3.2
+      ],
+      "target": [
+        2.55,
+        0.42,
+        -0.18
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein",
+        "Splenic cords (of Billroth)"
+      ],
+      "cut_on": false,
+      "note": "Separately enlarged static schematic. Distinguish open capillary, extravascular cords, true stave gaps and sinus lumen. Front wall window is artificial."
+    },
+    "05 Deformation and clearance": {
+      "position": [
+        4.0,
+        1.7,
+        -3.8
+      ],
+      "target": [
+        2.92,
+        0.38,
+        -0.26
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.1,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Venous sinusoids (stave cells)",
+        "Ring fibres",
+        "Trabeculae",
+        "Trabecular artery",
+        "Trabecular vein",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Pulp vein",
+        "Splenic cords (of Billroth)",
+        "Inset: open terminal arterial capillary"
+      ],
+      "cut_on": false,
+      "note": "Flexible cell enters through a gap. A retained cell is shown separately at a cord macrophage. Static illustrative poses, not a mechanical solver."
+    },
+    "06 Venous return": {
+      "position": [
+        2.5,
+        2.8,
+        -3.6
+      ],
+      "target": [
+        0,
+        0.38,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 2.35,
+      "hidden": [
+        "Mesothelium (visceral peritoneum)",
+        "Capsule",
+        "Periarteriolar lymphoid sheath (PALS)",
+        "Splenic follicles & mantle zone",
+        "Germinal centres",
+        "Perifollicular open spaces",
+        "Superficial follicular zone (human)",
+        "Trabeculae",
+        "Trabecular artery",
+        "Central artery & follicular branches",
+        "Penicillar arterioles",
+        "Sheathed capillaries (Schweigger-Seidel sheaths)",
+        "Splenic cords (of Billroth)",
+        "Inset: sinus endothelial staves",
+        "Inset: discontinuous basement-membrane hoops",
+        "Inset: extravascular cord reticular scaffold",
+        "Inset: red cells in cord space",
+        "Inset: flexible red cell at true stave gap",
+        "Inset: red cells in sinus lumen",
+        "Inset: cord macrophage",
+        "Inset: macrophage nucleus",
+        "Inset: rigid red cell retained for clearance",
+        "Inset: open terminal arterial capillary",
+        "Inset: patent venous outflow sleeve"
+      ],
+      "cut_on": false,
+      "note": "Sinuses drain through pulp and trabecular veins. This representative field is not a complete perfusion territory."
+    }
+  },
+  "scale_note": "Native field: 1 unit = 750 micrometres. Detached filtering detail is enlarged schematically; do not use it for morphometry."
+}

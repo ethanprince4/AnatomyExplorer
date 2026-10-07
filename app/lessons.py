@@ -10,6 +10,8 @@ recall question on each step (`check`), the things worth carrying away (`takeawa
 
 Lessons written for the lab course also carry a `course` place (lab or lab practical, and their order within it)
 and a list of `practice` items, which Practice mode (app/ui/practice.py) turns into a short graded session.
+Lessons written for the lecture exams carry a `lecture` place instead: {"exam": 2, "chapter": 20, "order": 1,
+"unit": "The heart"}, with no chapter for an exam's full review.
 """
 import datetime
 import hashlib
@@ -94,6 +96,8 @@ class Lesson:
         self.tags = list(raw.get("tags", []))
         course = raw.get("course")
         self.course = dict(course) if isinstance(course, dict) else None
+        lecture = raw.get("lecture")
+        self.lecture = dict(lecture) if isinstance(lecture, dict) else None
         self.practice = [dict(x) for x in raw.get("practice", []) if isinstance(x, dict)]
         self.practice_from = [str(x) for x in raw.get("practice_from", [])]
 
@@ -141,8 +145,26 @@ class Lesson:
             return str(c["unit"])
         key = self.unit_key
         if key is None:
-            return ""
+            return self.lecture_name
         return f"Lab {key[1]}" if key[0] == "lab" else f"Lab Practical {key[1]}"
+
+    @property
+    def lecture_key(self):
+        """(exam, chapter) for a lecture-exam lesson - chapter 0 for the exam's full review - None otherwise."""
+        c = self.lecture
+        if not c or c.get("exam") is None:
+            return None
+        return (int(c["exam"]), int(c.get("chapter") or 0))
+
+    @property
+    def lecture_name(self):
+        """"Exam 2 · Chapter 20 · The heart", or "Exam 2 · Full review · ..." for the whole-exam review."""
+        key = self.lecture_key
+        if key is None:
+            return ""
+        place = f"Chapter {key[1]}" if key[1] else "Full review"
+        topic = str((self.lecture or {}).get("unit") or "")
+        return f"Exam {key[0]} · {place}" + (f" · {topic}" if topic else "")
 
     def has_practice(self):
         return bool(self.practice or self.practice_from or self.checks())
@@ -403,10 +425,15 @@ class Resolver:
 
 
 # ====================================================================== the lab course
+def _course_unit_order(key):
+    kind, n = key
+    return n if kind == "lab" else {1: 5.5, 2: 9.5}.get(n, 100 + n)
+
+
 def course_sort_key(lesson):
     kind, n = lesson.unit_key or ("zz", 99)
-    # the labs in number order, then the lab practicals, and within each by the lesson's own order
-    return (0 if kind == "lab" else 1, n, int((lesson.course or {}).get("order", 99)), lesson.id)
+    # Practical 1 follows Lab 5; Practical 2 follows Lab 9.
+    return (_course_unit_order((kind, n)), int((lesson.course or {}).get("order", 99)), lesson.id)
 
 
 def course_units(lessons):
@@ -417,7 +444,7 @@ def course_units(lessons):
         if key is not None:
             units.setdefault(key, []).append(lesson)
     out = []
-    for key in sorted(units, key=lambda k: (0 if k[0] == "lab" else 1, k[1])):
+    for key in sorted(units, key=_course_unit_order):
         group = sorted(units[key], key=course_sort_key)
         heading = next((x.unit_name for x in group if (x.course or {}).get("unit")), group[0].unit_name)
         out.append((heading, key, group))
@@ -425,11 +452,38 @@ def course_units(lessons):
 
 
 def unit_matches(lesson, ref):
-    """True when `ref` ("lab03", "lab3", "exam1" or a lesson id) names this lesson or the unit it belongs to."""
+    """True when `ref` ("lab03", "lab3", "exam1", a lecture chapter "ch20", or a lesson id) names this lesson or
+    the unit it belongs to."""
     if ref == lesson.id:
         return True
-    m = re.fullmatch(r"(lab|exam)0*(\d+)", (ref or "").strip().lower())
+    ref = (ref or "").strip().lower()
+    m = re.fullmatch(r"ch0*(\d+)", ref)
+    if m:
+        return bool(lesson.lecture_key and lesson.lecture_key[1] == int(m.group(1)))
+    m = re.fullmatch(r"(lab|exam)0*(\d+)", ref)
     return bool(m and lesson.unit_key == (m.group(1), int(m.group(2))))
+
+
+# ====================================================================== the lecture exams
+def lecture_sort_key(lesson):
+    exam, chapter = lesson.lecture_key or (99, 99)
+    # each exam's chapters in number order, then its full review
+    return (exam, chapter or 999, int((lesson.lecture or {}).get("order", 99)), lesson.id)
+
+
+def lecture_units(lessons):
+    """[(heading, (exam, chapter), [lesson])] for every lecture chapter, each exam's full review after its chapters."""
+    units = {}
+    for lesson in lessons:
+        key = lesson.lecture_key
+        if key is not None:
+            units.setdefault(key, []).append(lesson)
+    out = []
+    for key in sorted(units, key=lambda k: (k[0], k[1] or 999)):
+        group = sorted(units[key], key=lecture_sort_key)
+        heading = next((x.lecture_name for x in group if (x.lecture or {}).get("unit")), group[0].lecture_name)
+        out.append((heading, key, group))
+    return out
 
 
 # ====================================================================== practice items

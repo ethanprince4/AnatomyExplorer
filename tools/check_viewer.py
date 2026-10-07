@@ -30,7 +30,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-DEFAULT_IDS = ["whole_heart", "cardiac_muscle", "kidney_nephron", "thin_skin", "sketchfab:0ff5"]
+DEFAULT_IDS = ["whole_heart", "cardiac_muscle", "kidney_nephron", "thin_skin"]
 
 
 def pump(app, seconds=0.3):

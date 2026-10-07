@@ -2,9 +2,9 @@
   "id": "kidney_nephron",
   "file": "models/kidney/kidney.glb",
   "order": 2,
-  "name": "Kidney and nephron",
-  "summary": "The existing left kidney, adrenal gland, renal vessels and ureter, with its actual juxtamedullary nephron moved alongside and enlarged 15x for independent navigation. Teaching overview shows both. Kidney and Lobe opened retain the original gross-anatomy framing; Nephron (15x schematic) focuses the enlarged assembly. The detached exemplar does not depict a new vessel connection.",
-  "scale_note": "Gross kidney anatomy retains its original scale (1 model unit = 10 micrometres). The separate nephron is enlarged 15x geometrically for teaching; cell and tubular proportions within it are retained. This is a mixed-scale schematic. The ruler reports model units rather than implying clinical lengths across the two scales.",
+  "name": "Kidney",
+  "summary": "One kidney teaching bundle with preserved gross, independent section and 15x nephron views.",
+  "scale_note": "Gross kidney: 10 µm/unit. Detached nephron: existing 15× schematic; source size is display size/15. Independent source-section units uncalibrated; 1000× display normalization plus translation is not physical registration.",
   "targets": {
     "structures": [
       "Kidney",
@@ -33,7 +33,6 @@
     "capillaries"
   ],
   "related": [
-    "kidney_section",
     "bladder_wall",
     "muscular_artery",
     "blood_cells"

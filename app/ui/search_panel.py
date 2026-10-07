@@ -2,8 +2,8 @@
 import html
 import unicodedata
 
-from PySide6.QtCore import QRectF, QSize, Qt, QTimer, Signal
-from PySide6.QtGui import QFont, QPainter
+from PySide6.QtCore import QRectF, QSize, Qt, QTimer, Signal, QUrl
+from PySide6.QtGui import QFont, QPainter, QDesktopServices
 from PySide6.QtWidgets import (QComboBox, QHBoxLayout, QLabel, QLineEdit, QListWidget,
                                QListWidgetItem, QPushButton, QStyle, QStyledItemDelegate,
                                QStyleOptionFocusRect, QTextBrowser, QVBoxLayout, QWidget)
@@ -36,12 +36,13 @@ def normalized(text):
 
 class ResultDelegate(QStyledItemDelegate):
     """Font-scaled two-line native rows, with selection and keyboard focus distinct."""
-    def __init__(self, ds=None, parent=None):
+    def __init__(self, ds=None, parent=None, compact=False):
         super().__init__(parent)
         self.ds = ds
+        self.compact = compact
 
     def sizeHint(self, option, index):
-        return QSize(max(0, option.rect.width()), max(56, option.fontMetrics.height() * 2 + 18))
+        return QSize(max(0, option.rect.width()), max(32,option.fontMetrics.height()+14) if self.compact else max(56, option.fontMetrics.height() * 2 + 18))
 
     def paint(self, p: QPainter, option, index):
         entry = index.data(ROLE_ENTRY)
@@ -66,6 +67,9 @@ class ResultDelegate(QStyledItemDelegate):
         title = getattr(entry, "title", getattr(entry, "name", ""))
         p.drawText(QRectF(tx, r.y() + 7, width, line_height), Qt.AlignLeft | Qt.AlignVCenter,
                    p.fontMetrics().elidedText(title, Qt.ElideRight, width))
+        if self.compact:
+            p.restore()
+            return
         font.setBold(False)
         p.setFont(font)
         p.setPen(theme.qc(theme.TEXT_2))
@@ -77,14 +81,6 @@ class ResultDelegate(QStyledItemDelegate):
             subtitle = getattr(entry, "kind_name", "3D model")
         p.drawText(QRectF(tx, r.y() + 9 + line_height, width, line_height), Qt.AlignLeft | Qt.AlignVCenter,
                    p.fontMetrics().elidedText(subtitle, Qt.ElideRight, width))
-        if option.state & QStyle.State_HasFocus:
-            focus = QStyleOptionFocusRect()
-            focus.rect = r.adjusted(2, 2, -2, -2)
-            focus.state = option.state
-            focus.palette = option.palette
-            focus.backgroundColor = theme.qc(theme.ACCENT_SOFT if selected else theme.SURFACE)
-            style = option.widget.style() if option.widget else self.parent().style()
-            style.drawPrimitive(QStyle.PE_FrameFocusRect, focus, p, option.widget)
         p.restore()
 
 
@@ -232,9 +228,25 @@ class SearchPanel(QWidget):
             self.activated.emit(item.data(ROLE_ENTRY))
 
 
+class ModelOverview(QTextBrowser):
+    """Keep the overview and its open button together, without a full-height empty pane."""
+    def __init__(self,parent=None):
+        super().__init__(parent)
+        self.document().contentsChanged.connect(self.fit_content)
+
+    def fit_content(self):
+        natural=int(self.document().documentLayout().documentSize().height())+24
+        available=max(160,self.parentWidget().height()-130) if self.parentWidget() else 650
+        self.setFixedHeight(min(available,650,max(140,natural)))
+
+    def resizeEvent(self,event):
+        super().resizeEvent(event)
+        self.fit_content()
+
 class ModelCatalogPanel(QWidget):
     """Browse every registered model without loading geometry or touching its cache."""
     activated = Signal(str)
+    linkActivated = Signal(str, str)
     variantChosen = Signal(str, str)
     verificationRequested = Signal()
     verificationCancelled = Signal()
@@ -258,7 +270,7 @@ class ModelCatalogPanel(QWidget):
         self.kind_filter = QComboBox()
         self.kind_filter.setAccessibleName("Model collection")
         self.kind_filter.addItem("All models", "")
-        self.kind_filter.addItem("In-house 3D models", "inhouse")
+        self.kind_filter.addItem("3D models", "inhouse")
         self.kind_filter.addItem("Microanatomy", "procedural")
         if not getattr(content.micro_models, "is_new_catalog", False):
             self.kind_filter.addItem("Downloaded models", "downloaded")
@@ -267,28 +279,22 @@ class ModelCatalogPanel(QWidget):
         self.info.setWordWrap(True)
         self.info.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         lay.addWidget(self.info)
-        verification = QHBoxLayout()
-        self.verify_models = QPushButton("Verify models")
-        self.verify_models.clicked.connect(self.verificationRequested)
-        self.cancel_verification = QPushButton("Cancel verification")
-        self.cancel_verification.clicked.connect(self.verificationCancelled)
-        verification.addWidget(self.verify_models)
-        verification.addWidget(self.cancel_verification)
-        lay.addLayout(verification)
         self.list = QListWidget()
         self.list.setAccessibleName("Installed model catalog")
-        self.list.setItemDelegate(ResultDelegate(parent=self.list))
+        self.list.setItemDelegate(ResultDelegate(parent=self.list, compact=True))
         self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.list.setUniformItemSizes(True)
         self.list.setMouseTracking(True)
         lay.addWidget(self.list, 3)
-        self.preview = QTextBrowser()
+        self.preview = ModelOverview()
         self.preview.setAccessibleName("Selected model overview")
-        self.preview.setOpenExternalLinks(True)
+        self.preview.setOpenLinks(False)
+        self.preview.anchorClicked.connect(self._overview_link)
         self.preview.setMinimumHeight(110)
         self.preview.document().setDefaultStyleSheet(
             f"body {{ color:{theme.TEXT}; font-size:{theme.FS_BODY}pt; }} "
-            f"h3 {{ color:{theme.TEXT_STRONG}; margin:0 0 6px; }} "
+            f"h3 {{ color:{theme.TEXT_STRONG}; margin:0 0 10px; font-size:18pt; }} "
+            f"h4 {{ color:{theme.TEXT_STRONG}; margin:16px 0 6px; }} "
             f"a {{ color:{theme.ACCENT_TEXT}; }} p {{ margin:5px 0; }}")
         lay.addWidget(self.preview, 2)
         from .variant_choice import VariantChoice
@@ -359,9 +365,11 @@ class ModelCatalogPanel(QWidget):
         self.info.setText(text)
         is_new = getattr(self.content.micro_models, "is_new_catalog", False)
         verifying = getattr(self.content.micro_models, "verification_state", None) == "verifying"
-        self.verify_models.setVisible(is_new and not verifying)
-        self.cancel_verification.setVisible(is_new and verifying)
         self._preview()
+
+    def _overview_link(self,url):
+        if url.scheme()=="histo":self.linkActivated.emit("histo",url.path())
+        elif url.scheme() in ("https","http"):QDesktopServices.openUrl(url)
 
     def _preview(self):
         item = self.list.currentItem()
@@ -373,15 +381,18 @@ class ModelCatalogPanel(QWidget):
         e = item.data(ROLE_ENTRY)
         self.variant_choice.set_entry(e)
         esc = lambda value: html.escape(str(value or ""), quote=True)
-        parts = [f"<h3>{esc(e.name)}</h3><p>{esc(e.kind_name)}</p>",
+        parts = [f"<h3>{esc(e.name)}</h3><h4>Overview</h4>",
                  f"<p>{esc(e.summary) or 'No summary is included with this model.'}</p>"]
         if getattr(e, "variant", None) == "post" and getattr(e, "outcome", None) == "no_change":
             parts.append("<p>No changes from microrefine</p>")
         if e.scale_note:
-            parts.append(f"<p><b>Scale:</b> {esc(e.scale_note)}</p>")
-        linked = sum(bool(self.content.tissues.get(tid, {}).get("images")) for tid in e.histology)
-        if linked:
-            parts.append(f"<p>{linked} authored histology link{'s' if linked != 1 else ''}</p>")
+            parts.append(f"<h4>Scale</h4><p>{esc(e.scale_note)}</p>")
+        links=[]
+        for tid in e.histology:
+            tissue=self.content.tissues.get(tid,{})
+            if tissue.get("images"):
+                links.append(f'<li><a href="histo:{esc(tid)}">{esc(tissue.get("name",tid))}</a></li>')
+        if links:parts.append("<h4>Related histology</h4><ul>"+"".join(links)+"</ul>")
         if e.credit_html:
             parts.append(f"<p>{e.credit_html}</p>")
         self.preview.setHtml("".join(parts))

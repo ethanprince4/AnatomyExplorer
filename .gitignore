@@ -22,3 +22,13 @@ logs/
 # Packaging output (packaging/build.py)
 packaging/build/
 packaging/dist/
+
+# Models excluded from this release; archive lives in the project hub.
+/data/local_model_library/models/jejunum_comparison_c/
+/data/local_model_library/models/lung_acinus/
+/data/local_model_library/models/thyroid_follicles/
+
+# Local preview launchers and model-review history
+/Launch preview.cmd
+/Launch preview.py
+/data/local_model_library/history.json

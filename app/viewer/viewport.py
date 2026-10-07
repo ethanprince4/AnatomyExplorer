@@ -27,8 +27,8 @@ from PySide6.QtOpenGLWidgets import QOpenGLWidget
 
 
 def _annotation_plate(dark, alpha):
-    """Painter label background follows the viewport, independently of UI chrome."""
-    return QColor(24, 34, 45, alpha) if dark else QColor(255, 255, 255, alpha)
+    """Porcelain cards remain readable against the 3D scene."""
+    return QColor(242, 246, 248, alpha)
 
 
 from ..ui import theme
@@ -95,7 +95,8 @@ class ModelViewport(QOpenGLWidget):
         self.rsettings = Settings()
         for k, v in getattr(model, "look_defaults", {}).items():
             setattr(self.rsettings, k, v)
-        self.orientation_axes_on = bool(settings.get("show_gizmo", True)
+        self.rsettings.shadows = False
+        self.orientation_axes_on = bool(settings.get("show_gizmo", False)
                                         and getattr(entry, "oriented", False))
         self._fbo = None
         self._fbo_id = None
@@ -176,7 +177,25 @@ class ModelViewport(QOpenGLWidget):
             self.renderer.release()
         finally:
             self.renderer = None
+            self.interactive_ready = False
+            self._fbo = self._fbo_id = None
+            self._warm_label_cache = None
             self.doneCurrent()
+
+    def hideEvent(self, event):
+        # Tabs share contexts: hiding a widget does not free its GPU allocations.
+        # Keep the CPU model and camera, but retire the inactive tab's buffers.
+        self.release_gl()
+        super().hideEvent(event)
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        if self.ctx is not None and self.renderer is None:
+            owner = self.parent()
+            studio = getattr(owner, "set_loading", None)
+            if studio is not None:
+                studio(True)
+            self.update()
 
     def _physical_size(self):
         dpr = self.devicePixelRatioF()
@@ -219,6 +238,9 @@ class ModelViewport(QOpenGLWidget):
             self.graphicsFailed.emit(self.graphics_error)
 
     def _paint_frame(self):
+        if self.renderer is None and self.ctx is not None:
+            # paintGL already owns the current Qt context. Restore only this tab.
+            self.initializeGL()
         if self.renderer is None:
             return
         t0 = time.perf_counter()
@@ -466,7 +488,7 @@ class ModelViewport(QOpenGLWidget):
         rec = m.cameras.get(name)
         if rec is None:
             return
-        self.state.opaque_materials = False
+        # Camera/cutaway presets retain the opacity chosen in Reveal.
         self.camera.set_record(rec, duration=self.duration() if animate else 0.0,
                                zoom_path=m.sidecar.get("view_transition") == "zoom",
                                fit=(m.bounds_min, m.bounds_max, self.aspect()))
@@ -758,7 +780,7 @@ class ModelViewport(QOpenGLWidget):
             group_size[self.model.items[i].group] = group_size.get(self.model.items[i].group, 0) + 1
         for i in sorted(cands, key=lambda i: (i not in sel, -counts[i])):
             it = self.model.items[i]
-            if i not in sel and crowded and group_size.get(it.group, 0) >= 4:
+            if getattr(self.model, 'label_by_family', False) or (i not in sel and crowded and group_size.get(it.group, 0) >= 4):
                 if it.group in seen_groups:
                     continue
                 seen_groups[it.group] = i
@@ -988,10 +1010,10 @@ class ModelViewport(QOpenGLWidget):
             p.drawEllipse(QPointF(ax, ay), r, r)
             placed.append(rect.adjusted(-2, -2, 2, 2))
             bg = _annotation_plate(dark, (210 if not occluded else 110) if dark else (215 if not occluded else 120))
-            p.setPen(QPen(dot, 1.0))
+            p.setPen(QPen(QColor("#8096a5"), 1.0))
             p.setBrush(bg)
-            p.drawRoundedRect(rect, 5, 5)
-            p.setPen(QColor(235, 240, 245, alpha) if dark else QColor(20, 25, 30, alpha))
+            p.drawRoundedRect(rect, 8, 8)
+            p.setPen(QColor(36, 52, 61, alpha))
             p.drawText(rect, Qt.AlignCenter, fm.elidedText(text, Qt.ElideRight, tw - 10))
             self._label_rects.append((QRectF(rect), i))
 
@@ -1012,6 +1034,9 @@ class ModelViewport(QOpenGLWidget):
                 continue
             columns[-1 if pr[0] < w * 0.5 else 1].append((i, pr))
         sel = set(int(s) for s in self.state.selected)
+        anchors=[pr[0] for items in columns.values() for _,pr in items]
+        model_left=min(anchors) if anchors else w*.5
+        model_right=max(anchors) if anchors else w*.5
         for side, items in columns.items():
             if not items:
                 continue
@@ -1029,7 +1054,7 @@ class ModelViewport(QOpenGLWidget):
                 ly = max(line_h * 0.6, min(bottom - line_h * 0.6, ly))
                 text = self.model.items[i].name
                 tw = min(fm.horizontalAdvance(text) + 12, w * 0.28)
-                x0 = margin if side < 0 else w - margin - tw
+                x0 = max(margin,model_left-32-tw) if side < 0 else min(w-margin-tw,model_right+32)
                 rect = QRectF(x0, ly - line_h / 2 + 2, tw, fm.height() + 4)
                 join_x = rect.right() if side < 0 else rect.left()
                 elbow_x = join_x + 16 * -side
@@ -1043,10 +1068,10 @@ class ModelViewport(QOpenGLWidget):
                 p.setBrush(accent)
                 p.setPen(Qt.NoPen)
                 p.drawEllipse(QPointF(pr[0], pr[1]), 2.6, 2.6)
-                p.setPen(QPen(QColor(accent.red(), accent.green(), accent.blue(), 170), 1.0))
+                p.setPen(QPen(QColor("#8096a5"), 1.0))
                 p.setBrush(_annotation_plate(dark, 220 if dark else 228))
-                p.drawRoundedRect(rect, 4, 4)
-                p.setPen(QColor(235, 240, 245) if dark else QColor(20, 25, 30))
+                p.drawRoundedRect(rect, 8, 8)
+                p.setPen(QColor(36, 52, 61))
                 p.drawText(rect, Qt.AlignCenter, fm.elidedText(text, Qt.ElideRight, tw - 10))
                 self._label_rects.append((QRectF(rect), i))
 
@@ -1146,8 +1171,8 @@ class ModelViewport(QOpenGLWidget):
                 or not self.settings.get("show_hover_tooltip", True)):
             return
         it = self.model.items[sid]
-        text = it.name
-        sub = it.group if it.group != it.name else ""
+        text = it.group if getattr(self.model, 'label_by_family', False) else it.name
+        sub = it.group if it.group != text else ""
         font = QFont(self.font())
         font.setPointSizeF(9.5)
         font.setBold(True)
@@ -1164,22 +1189,22 @@ class ModelViewport(QOpenGLWidget):
             y = self.hover_pos.y() - h - 12
         rect = QRectF(x, y, w, h)
         path = QPainterPath()
-        path.addRoundedRect(rect, 6, 6)
+        path.addRoundedRect(rect, 8, 8)
         # Isolate the tooltip from brushes left by labels or other overlays.
         # drawPath otherwise fills it again with the previous label's brush.
         p.save()
         p.setBrush(Qt.NoBrush)
-        p.fillPath(path, QColor('#263544'))
-        p.setPen(QPen(QColor('#82949f'), 1.0))
+        p.fillPath(path, QColor('#f2f6f8'))
+        p.setPen(QPen(QColor('#8096a5'), 1.0))
         p.drawPath(path)
         g = self.model.group_of(sid)
         col = g.colour if g is not None else it.colour
         p.fillRect(QRectF(x, y + 5, 3, h - 10), QColor.fromRgbF(*[float(c) for c in col]))
-        p.setPen(QColor('#f3f6f9'))
+        p.setPen(QColor('#24343D'))
         p.setFont(font)
         p.drawText(QRectF(x + 11, y + 4, w, fm.height()), Qt.AlignLeft | Qt.AlignVCenter, text)
         if sub:
-            p.setPen(QColor('#c7d5df'))
+            p.setPen(QColor('#526570'))
             p.setFont(small)
             p.drawText(QRectF(x + 11, y + 5 + fm.height(), w, fm2.height()), Qt.AlignLeft | Qt.AlignVCenter, sub)
         p.restore()

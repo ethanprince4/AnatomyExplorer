@@ -1,0 +1,213 @@
+{
+  "model_id": "oesophagus_wall_static_overhaul",
+  "display_name": "Lower thoracic oesophageal wall",
+  "summary": "Static folded oesophageal tissue with nonkeratinized squamous lining, compound submucosal glands and patent ducts, smooth muscle and enteric planes.",
+  "metres_per_unit": 0.0005,
+  "orientation_note": "Native viewer x transverse, y luminal, z negative longitudinal. Blender source x transverse, y longitudinal, z luminal. Export and cameras use the same proper rotation.",
+  "scale_note": "Local lower thoracic wall crop, one unit approximately 0.5 mm. Cell nuclear profiles, gland/duct caliber, nerves and vessels are selectively enlarged; sample counts do not indicate density. Regional muscle transitions and whole-organ sphincters are outside scope.",
+  "start_view": "Folded wall",
+  "viewer_cameras": {
+    "Folded wall": {
+      "position": [
+        8,
+        8,
+        11
+      ],
+      "target": [
+        0,
+        1.9,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 7.6,
+      "hidden": [
+        "Submucosa dissection cover",
+        "Lamina propria and papillae dissection cover"
+      ]
+    },
+    "Gland ducts": {
+      "position": [
+        5,
+        5.4,
+        10
+      ],
+      "target": [
+        0,
+        2.1,
+        0.65
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 6.8,
+      "hidden": [
+        "Submucosa dissection cover",
+        "Lamina propria and papillae dissection cover",
+        "Muscularis mucosae"
+      ]
+    },
+    "Enteric planes": {
+      "position": [
+        6,
+        5,
+        9
+      ],
+      "target": [
+        0,
+        0.9,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 7.6,
+      "hidden": [
+        "Submucosa dissection cover",
+        "Lamina propria and papillae dissection cover",
+        "Basal epithelial nuclear profiles",
+        "Basal squamous epithelial layer",
+        "Basement membrane",
+        "Flattened superficial nuclear profiles",
+        "Intermediate epithelial nuclear profiles",
+        "Intermediate squamous epithelial layers",
+        "Superficial nucleated squamous layers",
+        "Muscularis mucosae",
+        "Lamina propria and papillae",
+        "Circular fascicle relief",
+        "Inner circular smooth muscle dissection cover",
+        "Myenteric connective tissue plane dissection cover"
+      ]
+    },
+    "Squamous close-up": {
+      "position": [
+        -4,
+        4.5,
+        7
+      ],
+      "target": [
+        -1.4,
+        2.75,
+        1.65
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 3.2,
+      "hidden": [
+        "Submucosa dissection cover",
+        "Lamina propria and papillae dissection cover"
+      ]
+    },
+    "Papillary interface": {
+      "position": [
+        4,
+        5,
+        8
+      ],
+      "target": [
+        0,
+        2.6,
+        0.8
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 6,
+      "hidden": [
+        "Submucosa dissection cover",
+        "Lamina propria and papillae dissection cover",
+        "Basal epithelial nuclear profiles",
+        "Basal squamous epithelial layer",
+        "Basement membrane",
+        "Flattened superficial nuclear profiles",
+        "Intermediate epithelial nuclear profiles",
+        "Intermediate squamous epithelial layers",
+        "Superficial nucleated squamous layers"
+      ]
+    },
+    "Intact folded wall": {
+      "position": [
+        8,
+        8,
+        11
+      ],
+      "target": [
+        0,
+        1.9,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 7.6,
+      "hidden": []
+    },
+    "Glands isolated": {
+      "position": [
+        5,
+        5,
+        10
+      ],
+      "target": [
+        0,
+        2.1,
+        0.5
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "type": "ORTHO",
+      "ortho_width": 6.5,
+      "hidden": [
+        "Adventitia",
+        "Basal epithelial nuclear profiles",
+        "Basal squamous epithelial layer",
+        "Basement membrane",
+        "Circular fascicle relief",
+        "Flattened superficial nuclear profiles",
+        "Inner circular smooth muscle",
+        "Inner circular smooth muscle dissection cover",
+        "Intermediate epithelial nuclear profiles",
+        "Intermediate squamous epithelial layers",
+        "Lamina propria and papillae",
+        "Lamina propria and papillae dissection cover",
+        "Local lymphatic vessel",
+        "Longitudinal fascicle relief",
+        "Muscularis mucosae",
+        "Myenteric connective tissue plane",
+        "Myenteric connective tissue plane dissection cover",
+        "Myenteric plexus",
+        "Outer longitudinal smooth muscle",
+        "Papillary capillary loops and basal channels",
+        "Sparse submucosal plexus",
+        "Submucosa",
+        "Submucosa dissection cover",
+        "Submucosal artery",
+        "Submucosal vein",
+        "Superficial nucleated squamous layers"
+      ]
+    }
+  }
+}

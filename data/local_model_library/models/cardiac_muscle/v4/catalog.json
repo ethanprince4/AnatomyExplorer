@@ -1,0 +1,255 @@
+{
+  "id": "cardiac_muscle",
+  "order": 3,
+  "name": "Cardiac Muscle",
+  "summary": "Preserved source-authored cardiac muscle tissue section with static inspection presets.",
+  "scale_note": "10 micrometres per source unit. Source-authored tissue sections and enlarged junction detail retained; no full-cell census implied.",
+  "oriented": false,
+  "targets": {
+    "structures": [
+      "Left ventricle",
+      "Right ventricle",
+      "Left atrium",
+      "Right atrium",
+      "Anterior papillary muscle of right ventricle",
+      "Inferior papillary muscle of right ventricle",
+      "Septal papillary muscle of right ventricle",
+      "Inferior papillary muscle of left ventricle"
+    ],
+    "groups": [
+      "Heart"
+    ]
+  },
+  "histology": [
+    "cardiac_muscle",
+    "capillaries",
+    "skeletal_muscle",
+    "blood"
+  ],
+  "related": [
+    "whole_heart",
+    "skeletal_muscle",
+    "muscular_artery",
+    "blood_cells"
+  ],
+  "clinical": [
+    [
+      "Myocardial infarction and troponin",
+      "Occlusion of an epicardial coronary artery by thrombus on a ruptured plaque kills cardiomyocytes from the subendocardium outwards (the wavefront). Damaged cells leak cardiac troponin I and T, which rise within about 3 hours and stay raised for 1-2 weeks. Under the microscope: wavy fibres and contraction bands in the first hours, coagulative necrosis with neutrophils at 1-3 days, macrophages at 3-7 days (when the wall is weakest and rupture is most likely), granulation tissue at 1-2 weeks and a collagen scar by about 2 months. Adult cardiomyocytes renew only about 1% a year at age 25 and less later, so the loss is repaired with scar, not new muscle."
+    ],
+    [
+      "Hypertrophic cardiomyopathy",
+      "Autosomal dominant mutations in sarcomere genes (beta-myosin heavy chain, myosin-binding protein C, troponin T) cause asymmetric septal hypertrophy with myocyte disarray: fibres and myofibrils lie in a whorled, haphazard pattern instead of the parallel alignment seen here, with interstitial fibrosis. The disarray is an arrhythmic substrate and a leading cause of sudden cardiac death in young athletes."
+    ],
+    [
+      "Hypertrophy, dilatation and the capillary supply",
+      "Pressure overload (hypertension, aortic stenosis) adds sarcomeres in parallel, so cells widen and the wall thickens (concentric hypertrophy), with large rectangular 'boxcar' nuclei. Volume overload adds them in series, so cells lengthen and the chamber dilates (eccentric hypertrophy). Capillary growth does not keep pace with the larger cells, so the diffusion distance grows; and since the heart already extracts about 70-75% of the oxygen delivered, it can meet extra demand only by increasing flow, so the subendocardium of a hypertrophied ventricle is prone to ischaemia."
+    ],
+    [
+      "Arrhythmogenic cardiomyopathy and myocarditis",
+      "Mutations in desmosomal proteins of the intercalated disc (plakophilin-2 is the commonest; also desmoplakin, desmoglein-2, desmocollin-2 and plakoglobin) let cells pull apart under stretch. The lost muscle is replaced by fat and fibrous tissue, mainly in the right ventricle, giving ventricular arrhythmias and sudden death in the young. Naxos disease, from a plakoglobin mutation, adds woolly hair and thickened palms and soles because the same proteins hold skin cells together. In viral myocarditis (coxsackie B and others) lymphocytes surround and destroy individual cardiomyocytes."
+    ],
+    [
+      "Gap junctions, conduction and re-entry",
+      "Gap junctions couple the cells electrically, so the impulse spreads through the ventricle as one wave; anything that slows or uncouples them favours re-entry circuits. Acute ischaemia (acidosis, raised intracellular calcium) closes the channels. In chronic ischaemia and heart failure connexin-43 is lost from the discs and redistributed along the sides of the cells, so conduction becomes slow and disorganised; the surviving muscle at the edge of an old infarct is the typical source of ventricular tachycardia."
+    ]
+  ],
+  "groups": {
+    "S01": {
+      "name": "Cardiomyocytes",
+      "description": "Cardiomyocytes are the cardiac muscle cells: short cylinders about 90 µm long and 20 µm wide here (80-100 µm in life, where they also branch) that join end to end through intercalated discs into a continuous network of fibres. Each has a central oval nucleus (12 of the 48 have two) and is cross-striated by repeating sarcomeres 2.2 µm long, drawn as bands on the cell surface. Mitochondria fill about a third of the cell, so the muscle runs almost entirely on aerobic metabolism."
+    },
+    "S14": {
+      "name": "Endomysium",
+      "description": "The delicate connective-tissue sheath of fine collagen fibres around every cardiomyocyte, drawn here as a see-through cover. It carries the capillaries and nerve twigs, about one capillary to each cell, and ties neighbouring cells together so that force is shared through the wall; it is the layer that thickens in myocardial fibrosis."
+    },
+    "S02": {
+      "name": "Intercalated discs",
+      "description": "Intercalated discs are the step-shaped junctions between the ends of cardiomyocytes, found only in cardiac muscle and seen in H&E sections as dark transverse lines. The parts that run across the fibre (transverse parts) carry the fascia adherens and desmosomes that lock cells together mechanically; the parts that run along the fibre (longitudinal parts) carry the gap junctions that pass current. There are 30 discs here, each about 18 µm across."
+    },
+    "S12": {
+      "name": "Desmosomes",
+      "description": "Spot-weld junctions on the transverse parts of the disc that tie the desmin intermediate filaments of neighbouring cells together (desmoglein-2, desmocollin-2, plakoglobin, plakophilin-2 and desmoplakin). They resist the shear as the ventricle fills and empties, and mutations in them cause arrhythmogenic cardiomyopathy. Only the hero disc carries them in this model, and they appear only in the teased state."
+    },
+    "S11": {
+      "name": "Fascia adherens",
+      "description": "The main mechanical anchor of the disc: a broad band on the transverse part where the thin actin filaments of the last sarcomere insert into the cell membrane (N-cadherin, catenins, vinculin), so the force of one cell's contraction is passed straight to the next. It stands in for a Z line at the end of each cell. Only the hero disc carries it in this model, and it appears only in the teased state."
+    },
+    "S13": {
+      "name": "Gap junctions",
+      "description": "Clusters of paired channels (connexons, mostly connexin-43 in ventricular muscle) on the longitudinal, side-facing parts of the disc, letting ions and small molecules pass directly from cell to cell. They let the action potential spread as if the muscle were one cell (a functional syncytium), so the ventricle contracts as a wave. Only the hero disc carries them in this model, and they appear only in the teased state."
+    },
+    "S03": {
+      "name": "Cardiomyocyte nuclei",
+      "description": "Cardiomyocyte nuclei are oval and pale, about 14 µm long and 5 µm wide, and lie in the middle of the cell with the myofibrils around them (skeletal muscle nuclei sit at the edge). Each cell has one or two: 60 nuclei in 48 cells here. In hypertrophy the nuclei enlarge, become rectangular ('boxcar') and more polyploid."
+    },
+    "S04": {
+      "name": "Perinuclear zones (sarcoplasm cones)",
+      "description": "Perinuclear zones are the cone-shaped pale areas of sarcoplasm at each end of a nucleus, about 28 µm long here and free of myofibrils, where the Golgi complex, mitochondria and glycogen lie. In older hearts it collects yellow-brown lipofuscin granules, the 'wear and tear' pigment, and in a section it is the pale spindle that flanks a nucleus."
+    },
+    "S07": {
+      "name": "Capillaries",
+      "description": "Capillaries are continuous vessels about 7 µm wide that run in the endomysium alongside the fibres, so no cell is more than about 10 µm from blood. Here 18 vessels cross the 200 µm block and are cut open at its faces. Heart muscle takes about 70-75% of the oxygen from its blood at rest, so it can meet extra demand only by increasing coronary flow."
+    },
+    "S08": {
+      "name": "Red blood cells",
+      "description": "Red cells (erythrocytes, about 7-8 µm across) lying in the capillary lumens, which are barely wider than the cells. The plum-coloured cells at the downstream end of a capillary are deoxygenated, having given up oxygen to the muscle; the brighter ones are oxygenated."
+    }
+  },
+  "parts": {
+    "intercalated_disc__013": {
+      "name": "Hero intercalated disc (disc 13)",
+      "description": "The one disc built to open. At rest it looks like every other disc; in the teased state its partner cell (cardiomyocyte 21) is pulled back 20 µm and the disc opens in place, showing the junctions on its faces: fascia adherens and desmosomes on the transverse parts, gap junctions on the longitudinal parts."
+    },
+    "cardiomyocyte__021": {
+      "name": "Cardiomyocyte 21 (partner cell of the hero disc)",
+      "description": "The cell on the far side of the hero disc. In the teased state it slides 20 µm back along its own axis, taking its endomysium, nucleus and perinuclear zone with it, and so opens the disc."
+    },
+    "endomysium__021": {
+      "name": "Endomysium 21 (covering of the partner cell)",
+      "description": "Moves with cardiomyocyte 21 when the disc is opened in the teased state."
+    },
+    "nucleus_myocyte__027": {
+      "name": "Cardiomyocyte nucleus 27 (in the partner cell)",
+      "description": "The nucleus of cardiomyocyte 21; it moves with the cell in the teased state."
+    },
+    "perinuclear_zone__021": {
+      "name": "Perinuclear zone 21 (in the partner cell)",
+      "description": "The pale zone around the nucleus of cardiomyocyte 21; it moves with the cell in the teased state."
+    },
+    "junction_fascia_adherens__001": {
+      "name": "Fascia adherens (hero disc)",
+      "description": "The plates across the fibre on the transverse parts of the hero disc, where the thin filaments of the last sarcomere anchor. Hidden at rest and shown in the teased state."
+    },
+    "junction_desmosome__001": {
+      "name": "Desmosomes (hero disc)",
+      "description": "The desmosome plaques, also on the transverse parts of the hero disc. Hidden at rest and shown in the teased state."
+    },
+    "junction_gap__001": {
+      "name": "Gap junctions (hero disc)",
+      "description": "The gap junction plaques on the longitudinal parts of the hero disc, running along the fibre. Hidden at rest and shown in the teased state."
+    },
+    "cardiomyocyte__001": {
+      "name": "Binucleate cardiomyocyte 1",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "cardiomyocyte__002": {
+      "name": "Binucleate cardiomyocyte 2",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "cardiomyocyte__010": {
+      "name": "Binucleate cardiomyocyte 10",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "cardiomyocyte__012": {
+      "name": "Binucleate cardiomyocyte 12",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "cardiomyocyte__015": {
+      "name": "Binucleate cardiomyocyte 15",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "cardiomyocyte__018": {
+      "name": "Binucleate cardiomyocyte 18",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "cardiomyocyte__022": {
+      "name": "Binucleate cardiomyocyte 22",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "cardiomyocyte__028": {
+      "name": "Binucleate cardiomyocyte 28",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "cardiomyocyte__029": {
+      "name": "Binucleate cardiomyocyte 29",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "cardiomyocyte__030": {
+      "name": "Binucleate cardiomyocyte 30",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "cardiomyocyte__037": {
+      "name": "Binucleate cardiomyocyte 37",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "cardiomyocyte__040": {
+      "name": "Binucleate cardiomyocyte 40",
+      "description": "A cardiomyocyte with two nuclei in a row along its axis, each with its own pale perinuclear zone. About a quarter of human cardiomyocytes are binucleate, more in older or hypertrophied hearts."
+    },
+    "red_blood_cell__001": {
+      "name": "Red blood cells (in the capillaries)",
+      "description": "The red cells in the capillary lumens, drawn as one mesh for the whole block."
+    },
+    "red_blood_cell__002": {
+      "name": "Red blood cells, deoxygenated (downstream end of a capillary)",
+      "description": "The plum-coloured cells at the downstream end of a capillary, where blood has given up its oxygen to the muscle."
+    }
+  },
+  "aliases": {
+    "Cardiomyocytes": [
+      "group:Cardiomyocyte"
+    ],
+    "Cardiac muscle cells": [
+      "group:Cardiomyocyte"
+    ],
+    "Myocytes": [
+      "group:Cardiomyocyte"
+    ],
+    "Intercalated discs": [
+      "group:Intercalated disc"
+    ],
+    "Cardiomyocyte nuclei": [
+      "group:Nucleus myocyte"
+    ],
+    "Nuclei": [
+      "group:Nucleus myocyte"
+    ],
+    "Perinuclear zones": [
+      "group:Perinuclear zone"
+    ],
+    "Capillaries": [
+      "group:Capillary"
+    ],
+    "Red blood cells": [
+      "group:Red blood cell"
+    ],
+    "Endomysium": [
+      "group:Endomysium"
+    ],
+    "Gap junctions": [
+      "group:Junction gap"
+    ],
+    "Desmosomes": [
+      "group:Junction desmosome"
+    ],
+    "Fascia adherens": [
+      "group:Junction fascia adherens"
+    ],
+    "Intercalated disc junctions": [
+      "group:Junction fascia adherens",
+      "group:Junction desmosome",
+      "group:Junction gap"
+    ],
+    "Binucleate cardiomyocytes": [
+      "cardiomyocyte__001",
+      "cardiomyocyte__002",
+      "cardiomyocyte__010",
+      "cardiomyocyte__012",
+      "cardiomyocyte__015",
+      "cardiomyocyte__018",
+      "cardiomyocyte__022",
+      "cardiomyocyte__028",
+      "cardiomyocyte__029",
+      "cardiomyocyte__030",
+      "cardiomyocyte__037",
+      "cardiomyocyte__040"
+    ],
+    "Hero disc": [
+      "intercalated_disc__013"
+    ],
+    "Partner cell": [
+      "cardiomyocyte__021"
+    ]
+  }
+}

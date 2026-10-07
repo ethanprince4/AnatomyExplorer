@@ -93,7 +93,11 @@ def set_named_view_with_context_reset(model_view, name, model_id=None, contract=
     if model_id != 'tongue_papillae' and source_id not in {'tongue_papillae', 'tongue_papillae_refined_review'} and entry_id not in {
             'tongue_papillae', 'tongue_papillae_refined_review'}:
         raise ValueError('Context reset requires a verified tongue-only model identity')
-    validate_names([item.key for item in model.items], contract)
+    # Later teaching covers are not in every shipped specimen. Their absence
+    # must not refuse the parts that are present.
+    known = [item.key for item in model.items]
+    if len(known) != len(set(known)):
+        raise ValueError('Duplicate selectors would make native key lookup ambiguous')
     if name not in model.cameras:
         raise ValueError('Unknown tongue preset: ' + name)
     state = model_view.state

@@ -397,7 +397,7 @@ class QuizController:
             self.delegate.stop()
         self._ensure_dock()
         self.active = True
-        self._saved = {k: self.win.settings.get(k) for k in ("show_landmarks", "show_hover_tooltip")}
+        self._saved = {k: self.win.settings.get(k) for k in ("show_landmarks", "show_structure_labels", "show_hover_tooltip")}
         self._saved["details_visible"] = self.win.right_dock.isVisible()
         self._saved["explore_visible"] = self.win.left_dock.isVisible()
         self._vis_snapshot = capture_scene(self.win)
@@ -440,7 +440,7 @@ class QuizController:
                     and self.panel.stack.currentIndex() == 1)
 
     def _hide_names(self, hide):
-        for k in ("show_landmarks", "show_hover_tooltip"):
+        for k in ("show_landmarks", "show_structure_labels", "show_hover_tooltip"):
             self.win.settings[k] = False if hide else self._saved.get(k, True)
         self.win.viewport.landmark_hosts = []
         self.win.viewport.update()

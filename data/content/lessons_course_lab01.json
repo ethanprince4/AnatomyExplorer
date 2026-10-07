@@ -32,19 +32,11 @@
    "Raising extracellular K+ depolarises the cell; changing extracellular Na+ barely moves the resting potential.",
    "The Na+/K+ ATPase (3 Na+ out, 2 K+ in) maintains the gradients; ouabain blocks it and the gradients slowly run down."
   ],
-  "see_also": {
-   "micro": [
-    "peripheral_nerve",
-    "skeletal_muscle"
-   ],
-   "histology": [
-    "peripheral_nerve"
-   ]
-  },
+  "see_also": {"micro": ["neuron", "peripheral_nerve", "skeletal_muscle"], "histology": ["peripheral_nerve"]},
   "steps": [
    {
     "title": "Three parts of a neuron",
-    "text": "<p>A neuron has <b>dendrites</b> that receive signals, a <b>cell body</b> (soma) holding the nucleus that adds those signals up, and a single <b>axon</b> that carries the output away. The axon begins at the <b>axon hillock</b>, the trigger zone, and ends in terminals that release neurotransmitter onto the next cell.</p><p>Information therefore flows one way: dendrite, cell body, axon, terminal.</p>",
+    "text": "<p>A neuron has <b>dendrites</b> that receive signals, a <b>cell body</b> (soma) holding the nucleus that adds those signals up, and a single <b>axon</b> that carries the output away. The axon begins at the <b>axon hillock</b>, the trigger zone, and ends in terminals that release neurotransmitter onto the next cell.</p><p>Information therefore flows one way: dendrite, cell body, axon, terminal.</p><p>The neuron model shows the whole cell, from dendrites to the boutons of the axon terminals.</p>",
     "diagram": "lab01-neuron",
     "systems": [
      "nervous",
@@ -63,7 +55,9 @@
      "q": "Which part of a neuron conducts the signal away from the cell body?",
      "a": "The axon, starting at the axon hillock and ending at the axon terminals."
     },
-    "side": "Right"
+    "side": "Right",
+    "micro": "neuron",
+    "micro_focus": ["Cell body (soma)", "Dendrites", "Axon hillock", "Axon initial segment", "Axon", "Axon terminals and boutons"]
    },
    {
     "title": "A nerve is a cable of axons",
@@ -321,14 +315,7 @@
    "Spatial summation: inputs from different synapses arriving together add; an EPSP and an IPSP can cancel.",
    "If the summed potential at the axon hillock reaches threshold, an action potential fires."
   ],
-  "see_also": {
-   "lessons": [
-    "lab01-01-neurons-resting-potential"
-   ],
-   "micro": [
-    "skeletal_muscle"
-   ]
-  },
+  "see_also": {"lessons": ["lab01-01-neurons-resting-potential"], "micro": ["neuron", "skeletal_muscle"]},
   "steps": [
    {
     "title": "Synapses make graded potentials",
@@ -413,7 +400,7 @@
    },
    {
     "title": "Spatial summation and cancellation",
-    "text": "<p>A motor neuron in the anterior horn receives thousands of synapses. EPSPs from <b>different synapses at the same moment</b> add together: <b>spatial summation</b>.</p><p>Excitation and inhibition are summed too: an EPSP and an IPSP of equal size arriving together <b>cancel</b>. The neuron fires only if the net potential at the <b>axon hillock</b> reaches <b>threshold</b> - so every cell is constantly weighing its inputs.</p>",
+    "text": "<p>A motor neuron in the anterior horn receives thousands of synapses. EPSPs from <b>different synapses at the same moment</b> add together: <b>spatial summation</b>.</p><p>Excitation and inhibition are summed too: an EPSP and an IPSP of equal size arriving together <b>cancel</b>. The neuron fires only if the net potential at the <b>axon hillock</b> reaches <b>threshold</b> - so every cell is constantly weighing its inputs.</p><p>On the neuron model, find the axon hillock where the cell body narrows into the axon.</p>",
     "diagram": "lab01-summation",
     "systems": [
      "nervous"
@@ -435,7 +422,9 @@
     "check": {
      "q": "An EPSP and an equal IPSP arrive at the same time. What happens?",
      "a": "They cancel, leaving the membrane near rest; no action potential is triggered."
-    }
+    },
+    "micro": "neuron",
+    "micro_focus": ["Dendrites", "Cell body (soma)", "Axon hillock", "Axon initial segment"]
    }
   ],
   "practice": [
@@ -528,7 +517,8 @@
      "Axon hillock reaches threshold",
      "Action potential fires"
     ]
-   }
+   },
+   {"type": "find_micro", "model": "neuron", "part": "Axon hillock"}
   ]
  },
  {
@@ -567,18 +557,11 @@
    "Absolute refractory period: no second spike at any strength. Relative: a second spike needs a stronger stimulus.",
    "A nerve's compound action potential is the sum of many axons' spikes, so it grows from threshold to maximal stimulus as more axons are recruited."
   ],
-  "see_also": {
-   "lessons": [
-    "lab01-02-graded-potentials-summation"
-   ],
-   "micro": [
-    "peripheral_nerve"
-   ]
-  },
+  "see_also": {"lessons": ["lab01-02-graded-potentials-summation"], "micro": ["neuron", "peripheral_nerve"]},
   "steps": [
    {
     "title": "The spike and its channels",
-    "text": "<p>When the axon hillock reaches <b>threshold</b> (about -55 mV), <b>voltage-gated Na+ channels</b> open and Na+ rushes in: <b>depolarisation</b>, overshooting to about +30 mV. Within a millisecond the Na+ channels inactivate and slower <b>voltage-gated K+ channels</b> open, letting K+ out: <b>repolarisation</b>. The K+ channels are slow to close, so the membrane briefly dips below rest: <b>hyperpolarisation</b>, the undershoot.</p>",
+    "text": "<p>When the axon hillock reaches <b>threshold</b> (about -55 mV), <b>voltage-gated Na+ channels</b> open and Na+ rushes in: <b>depolarisation</b>, overshooting to about +30 mV. Within a millisecond the Na+ channels inactivate and slower <b>voltage-gated K+ channels</b> open, letting K+ out: <b>repolarisation</b>. The K+ channels are slow to close, so the membrane briefly dips below rest: <b>hyperpolarisation</b>, the undershoot.</p><p>The neuron model's view “Sodium channels at the node” shows such channels clustered at a node of Ranvier.</p>",
     "diagram": "lab01-action-potential",
     "systems": [
      "nervous"
@@ -590,11 +573,8 @@
      "Sciatic nerve"
     ],
     "view": "posterior",
-    "micro": "peripheral_nerve",
-    "micro_focus": [
-     "Axons",
-     "Nodes of Ranvier"
-    ],
+    "micro": "neuron",
+    "micro_focus": ["Node detail: NaV1.6 channel 1, α subunit", "Node detail: NaV1.6 channel 2, α subunit", "Node detail: NaV1.6 channel 3, α subunit", "Node detail: axon membrane at the node"],
     "check": {
      "q": "Which channel opening causes the rising phase, and which the falling phase?",
      "a": "Voltage-gated Na+ channels (Na+ in) for depolarisation; voltage-gated K+ channels (K+ out) for repolarisation."
@@ -772,7 +752,8 @@
      "Hyperpolarisation (undershoot)",
      "Return to rest"
     ]
-   }
+   },
+   {"type": "find_micro", "model": "neuron", "part": "Node of Ranvier 1"}
   ]
  },
  {
@@ -1955,10 +1936,7 @@
    "lessons": [
     "lab01-09-proprioception-referred-pain"
    ],
-   "micro": [
-    "thick_skin",
-    "thin_skin"
-   ],
+   "micro": [],
    "histology": [
     "skin_receptors",
     "thick_skin",
@@ -1982,18 +1960,12 @@
      "Distal phalanx of second finger of hand"
     ],
     "view": "anterior",
-    "micro": "thick_skin",
-    "micro_focus": [
-     "Meissner corpuscles",
-     "Pacinian corpuscles (lamellae)",
-     "Papillary dermis",
-     "Stratum basale"
-    ],
     "check": {
      "q": "Which receptor sits in the dermal papillae, and which deep in the dermis?",
      "a": "Meissner corpuscles in the dermal papillae; Pacinian corpuscles deep in the dermis and hypodermis."
     },
-    "side": "Right"
+    "side": "Right",
+    "histology": "thick_skin"
    },
    {
     "title": "Pain and temperature: free nerve endings",
@@ -2009,17 +1981,12 @@
      "Anterior region of forearm"
     ],
     "view": "anterior",
-    "micro": "thin_skin",
-    "micro_focus": [
-     "Free nerve endings",
-     "Cutaneous nerve & branches",
-     "Hair follicle nerve endings"
-    ],
     "check": {
      "q": "Which are more numerous in the skin, cold spots or warm spots?",
      "a": "Cold spots."
     },
-    "side": "Right"
+    "side": "Right",
+    "histology": "thin_skin"
    },
    {
     "title": "Two-point discrimination",
@@ -2080,17 +2047,12 @@
      "Right hand"
     ],
     "view": "anterior",
-    "micro": "thick_skin",
-    "micro_focus": [
-     "Meissner corpuscles",
-     "Pacinian corpuscles (lamellae)",
-     "Free nerve endings"
-    ],
     "check": {
      "q": "One hand has been in cold water, the other in warm. Both go into room-temperature water. What does each feel?",
      "a": "The cold-adapted hand feels warmth; the warm-adapted hand feels cool - perception is relative, not absolute."
     },
-    "side": "Right"
+    "side": "Right",
+    "histology": "thick_skin"
    }
   ],
   "practice": [
@@ -2121,26 +2083,6 @@
    {
     "type": "find",
     "structure": "Postcentral gyrus"
-   },
-   {
-    "type": "find_micro",
-    "model": "thick_skin",
-    "part": "Meissner corpuscles"
-   },
-   {
-    "type": "find_micro",
-    "model": "thick_skin",
-    "part": "Pacinian corpuscles (lamellae)"
-   },
-   {
-    "type": "find_micro",
-    "model": "thin_skin",
-    "part": "Free nerve endings"
-   },
-   {
-    "type": "find_micro",
-    "model": "thick_skin",
-    "part": "Papillary dermis"
    },
    {
     "type": "mcq",

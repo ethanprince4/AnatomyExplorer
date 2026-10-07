@@ -1,0 +1,891 @@
+{
+  "id": "kidney_nephron",
+  "order": 2,
+  "name": "Kidney",
+  "summary": "One kidney teaching bundle with preserved gross, independent section and 15x nephron views.",
+  "scale_note": "Gross kidney: 10 µm/unit. Detached nephron: existing 15× schematic; source size is display size/15. Independent source-section units uncalibrated; 1000× display normalization plus translation is not physical registration.",
+  "targets": {
+    "structures": [
+      "Kidney",
+      "Renal pelvis",
+      "Ureter",
+      "Suprarenal gland",
+      "Left renal artery",
+      "Left renal vein",
+      "Renal sinus",
+      "Hilum of kidney",
+      "Intrarenal arteries of left kidney",
+      "Intrarenal veins of left kidney",
+      "Anterior branch of renal artery",
+      "Posterior branch of renal artery"
+    ],
+    "groups": []
+  },
+  "histology": [
+    "kidney_cortex",
+    "kidney_medulla",
+    "adrenal",
+    "ureter",
+    "simple_cuboidal",
+    "simple_squamous",
+    "transitional",
+    "capillaries"
+  ],
+  "related": [
+    "bladder_wall",
+    "muscular_artery",
+    "blood_cells"
+  ],
+  "clinical": [
+    [
+      "Nephrotic and nephritic syndromes",
+      "Injury to the podocytes and glomerular basement membrane leaks protein. Nephrotic syndrome (more than 3.5 g of protein a day, low albumin, oedema, high cholesterol, infections and thrombosis) occurs in minimal change disease (foot-process effacement seen only by electron microscopy, steroid-responsive, commonest in children), focal segmental glomerulosclerosis, membranous nephropathy and diabetic nephropathy (thickened basement membrane, mesangial nodules). Inflammation of the glomerular capillaries causes nephritic syndrome: haematuria with red-cell casts, hypertension, oliguria and a rising creatinine, as in post-streptococcal glomerulonephritis and IgA nephropathy (IgA deposited in the mesangium). In Alport syndrome a type IV collagen defect splits the basement membrane: haematuria, deafness and eye changes."
+    ],
+    [
+      "Diuretic targets along the nephron",
+      "Each class blocks one transporter. Acetazolamide (carbonic anhydrase) and SGLT2 inhibitors act on the proximal convoluted tubule. Loop diuretics such as furosemide block NKCC2 in the thick ascending limb, the most powerful because about a quarter of the filtered sodium is reabsorbed there; they also waste calcium, since the lumen-positive potential that drives its reabsorption is lost. Thiazides block the Na-Cl cotransporter of the distal convoluted tubule and retain calcium. Amiloride (ENaC) and spironolactone or eplerenone (the mineralocorticoid receptor) act on the principal cells of the connecting tubule and collecting duct, sparing potassium. Vasopressin V2 antagonists such as tolvaptan block the insertion of aquaporin-2 in the collecting duct."
+    ],
+    [
+      "Acute tubular necrosis",
+      "Ischaemia (shock, sepsis) or toxins (aminoglycosides, contrast, cisplatin) kill tubular cells, above all in the proximal straight tubule and thick ascending limb, which work hard and lie in the poorly oxygenated outer medulla. Dead cells slough into the lumen and form muddy-brown granular casts. Urine sodium is high (fractional excretion above 2%) and the urine cannot be concentrated; the patient is oliguric for days to weeks until the tubular epithelium regenerates, often followed by a polyuric recovery phase."
+    ],
+    [
+      "Renin, ACE inhibitors and NSAIDs",
+      "Filtration is held up by two opposing tones: prostaglandin dilatation of the afferent arteriole and angiotensin II constriction of the efferent arteriole. The granular cells release renin when the afferent arteriole is stretched less, when the macula densa senses low NaCl and with sympathetic stimulation. ACE inhibitors and ARBs relax the efferent arteriole and NSAIDs remove the afferent dilatation; either can drop glomerular pressure and cause acute kidney injury when perfusion is already marginal (dehydration, heart failure, cirrhosis, bilateral renal artery stenosis), and an ACE inhibitor or ARB plus a diuretic plus an NSAID (the 'triple whammy') is especially risky. Renal artery stenosis, from atherosclerosis in older people or fibromuscular dysplasia in young women, raises blood pressure through renin."
+    ],
+    [
+      "Renal infarction and papillary necrosis",
+      "Segmental, interlobar and arcuate arteries are end arteries: an embolus (atrial fibrillation, endocarditis) causes a pale wedge-shaped infarct with its base on the capsule, with flank pain and haematuria. The papillae lie at the far end of the vasa recta, where the oxygen tension is lowest, so they die first (papillary necrosis) in analgesic nephropathy, diabetes, sickle cell disease and obstructive infection; a sloughed papilla can block the ureter."
+    ],
+    [
+      "Stones, hydronephrosis and pyelonephritis",
+      "Most stones are calcium oxalate, seeded on papillary (Randall) plaques. A stone lodges where the ureter narrows (the pelviureteric junction, the pelvic brim and the vesicoureteric junction) and causes loin-to-groin colic with haematuria. Obstruction dilates the pelvis and calyces (hydronephrosis: clubbed calyces, and a thin cortex if it lasts), and an infected obstructed kidney is an emergency that needs drainage. Ascending infection, usually E. coli and helped by reflux or obstruction, climbs the collecting ducts from the papillae to cause pyelonephritis: fever, loin pain, and white-cell casts in the urine."
+    ]
+  ],
+  "groups": {
+    "S01": {
+      "name": "Renal capsule (fibrous capsule)",
+      "description": "The thin, tough capsule of dense collagen that wraps the kidney's surface and lines the hilum. In health it strips cleanly from the cortex; when the kidney swells (acute pyelonephritis, bleeding under the capsule) it is stretched and causes loin pain. The perirenal fat and renal fascia outside it are not modelled.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S02": {
+      "name": "Renal cortex",
+      "description": "The outer, granular layer of the kidney, about 7 mm thick at the nephron's site. It holds every renal corpuscle and convoluted tubule, the medullary rays (bundles of straight tubules running out from the pyramids) and the interlobular vessels, and it dips between the pyramids as the renal columns. Fifteen pieces are modelled: the cortical arch over each of the eleven lobes and four pieces around the hilum.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S03": {
+      "name": "Renal pyramids",
+      "description": "Cone-shaped masses of medulla, eleven here, with their bases against the cortex and their tips forming the papillae. The stripes come from parallel straight tubules (loops of Henle and collecting ducts) and vasa recta running towards the papilla; each pyramid has an outer medulla (outer and inner stripes) and an inner medulla.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S04": {
+      "name": "Renal papillae",
+      "description": "The rounded tip of each pyramid, projecting into a minor calyx. The papillary ducts (of Bellini) open through its area cribrosa and drain urine into the calyx. The papilla lies at the end of the vasa recta with the lowest oxygen supply in the kidney, so it is the first part to die in papillary necrosis.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S05": {
+      "name": "Renal columns",
+      "description": "The columns of Bertin: cortical tissue that extends down between neighbouring pyramids to the renal sinus and carries the interlobar vessels. Nineteen are modelled, each named for the two lobes it separates. A hypertrophied column can mimic a tumour on ultrasound.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S06": {
+      "name": "Minor calyces",
+      "description": "Cup-shaped funnels, eleven here, each catching the urine from one papilla. Groups of them merge into major calyces. Their walls carry urothelium and smooth muscle that pushes urine on by peristalsis.",
+      "atlas": [
+        "Renal pelvis"
+      ]
+    },
+    "S07": {
+      "name": "Major calyces",
+      "description": "The three collecting channels (superior, middle and inferior) formed where several minor calyces join, each draining into the renal pelvis.",
+      "atlas": [
+        "Renal pelvis"
+      ]
+    },
+    "S08": {
+      "name": "Renal pelvis",
+      "description": "The funnel where the major calyces unite inside the renal sinus. Lined by urothelium (transitional epithelium), it narrows at the pelviureteric junction and continues as the ureter.",
+      "atlas": [
+        "Renal pelvis"
+      ]
+    },
+    "S09": {
+      "name": "Ureter",
+      "description": "The muscular tube, about 25 cm long in life, that carries urine to the bladder by peristalsis; only its upper end is drawn. It is narrowest at the pelviureteric junction, where it crosses the pelvic brim and where it enters the bladder, the three common places for stones to lodge.",
+      "atlas": [
+        "Ureter"
+      ]
+    },
+    "S10": {
+      "name": "Renal sinus fat",
+      "description": "The fat that fills the renal sinus around the calyces, pelvis and hilar vessels. It is continuous through the hilum with the perirenal fat outside the capsule and cushions the collecting system.",
+      "atlas": [
+        "Renal sinus"
+      ]
+    },
+    "S11": {
+      "name": "Abdominal aorta (cut)",
+      "description": "A cut length of the abdominal aorta beside the kidney. The renal arteries arise from it at about L1-L2, just below the superior mesenteric artery, and the left renal vein crosses in front of it on the way to the inferior vena cava.",
+      "atlas": [
+        "Abdominal aorta"
+      ]
+    },
+    "S12": {
+      "name": "Renal artery",
+      "description": "Arises from the aorta at about L1-L2; the two renal arteries together carry about a fifth of the cardiac output. Near the hilum it divides into anterior and posterior divisions. Narrowing of it (atherosclerosis, fibromuscular dysplasia) causes renovascular hypertension.",
+      "atlas": [
+        "Left renal artery"
+      ]
+    },
+    "S13": {
+      "name": "Anterior and posterior divisions of the renal artery",
+      "description": "The renal artery splits near the hilum into a larger anterior division, which passes in front of the pelvis and gives the apical, upper, middle and lower segmental arteries, and a posterior division, which passes behind the pelvis to the posterior segment."
+    },
+    "S15": {
+      "name": "Segmental arteries",
+      "description": "The five end arteries (apical, upper, middle, lower and posterior) that divide the kidney into vascular segments. They do not anastomose, so blocking one infarcts its whole segment.",
+      "atlas": [
+        "Intrarenal arteries of left kidney"
+      ]
+    },
+    "S17": {
+      "name": "Interlobar arteries",
+      "description": "Arteries that run outward between the pyramids, in the renal columns, towards the cortex; eleven are modelled. At the base of a pyramid each bends over it as the arcuate arteries.",
+      "atlas": [
+        "Intrarenal arteries of left kidney"
+      ]
+    },
+    "S18": {
+      "name": "Interlobar veins",
+      "description": "Veins that run in the renal columns beside the interlobar arteries, receiving the arcuate veins and draining towards the renal vein.",
+      "atlas": [
+        "Intrarenal veins of left kidney"
+      ]
+    },
+    "S19": {
+      "name": "Inferior vena cava (cut)",
+      "description": "A cut length of the inferior vena cava. The left renal vein, with the gonadal and suprarenal veins, joins it at about L1-L2, while the short right renal vein enters directly. A renal cell carcinoma can grow along the renal vein into the vena cava.",
+      "atlas": [
+        "Inferior vena cava (abdominal part)"
+      ]
+    },
+    "S20": {
+      "name": "Renal vein",
+      "description": "Leaves the hilum in front of the renal artery and drains to the inferior vena cava. The left renal vein is long (about 7.5 cm), crosses in front of the aorta below the superior mesenteric artery and receives the left suprarenal and gonadal veins; squeezing between the artery and the aorta causes nutcracker syndrome (haematuria, flank pain). The right renal vein is short.",
+      "atlas": [
+        "Left renal vein"
+      ]
+    },
+    "S21": {
+      "name": "Renal vein trunks",
+      "description": "The upper, middle and lower trunks that collect the blood of each part of the kidney at the hilum. The upper and middle trunks join in a common trunk, which unites with the lower trunk to form the renal vein.",
+      "atlas": [
+        "Left renal vein"
+      ]
+    },
+    "S22": {
+      "name": "Arcuate arteries",
+      "description": "Arteries that arch over the base of each pyramid at the corticomedullary junction, parallel to the surface, two for each of the eleven lobes, one on each side of the pyramid. They are end arteries and give off the interlobular arteries at right angles into the cortex; the afferent arteriole of the nephron in this model leaves one of them.",
+      "atlas": [
+        "Intrarenal arteries of left kidney"
+      ]
+    },
+    "S23": {
+      "name": "Arcuate veins",
+      "description": "Veins that arch beside the arcuate arteries at the base of the pyramids, receiving the interlobular veins and the ascending vasa recta and draining to the interlobar veins. Unlike the arteries they anastomose freely.",
+      "atlas": [
+        "Intrarenal veins of left kidney"
+      ]
+    },
+    "S24": {
+      "name": "Left gonadal vein (cut)",
+      "description": "The left testicular (or ovarian) vein, cut short. It drains into the left renal vein, not straight into the vena cava as on the right, so obstruction of the renal vein can show up as a left varicocele.",
+      "atlas": [
+        "Left testicular vein"
+      ]
+    },
+    "S26": {
+      "name": "Left inferior phrenic artery (cut)",
+      "description": "The artery to the underside of the diaphragm, cut short. It gives off the superior suprarenal arteries to the adrenal gland.",
+      "atlas": [
+        "Inferior phrenic artery"
+      ]
+    },
+    "S27": {
+      "name": "Suprarenal arteries",
+      "description": "The small arteries of the adrenal gland: the superior suprarenal arteries (from the inferior phrenic artery; two are drawn), the middle suprarenal artery (from the aorta) and the inferior suprarenal artery (usually from the renal artery; here it leaves the aorta beside the renal artery's origin). They form a plexus in the capsule from which sinusoids carry blood from the cortex to the medulla."
+    },
+    "S28": {
+      "name": "Suprarenal veins",
+      "description": "The central vein drains the adrenal medulla and leaves the gland as the left suprarenal vein, which joins the left renal vein. On the right the adrenal vein is very short and enters the vena cava directly, which makes it hard to catheterise for adrenal vein sampling."
+    },
+    "S29": {
+      "name": "Interlobular (cortical radiate) arteries",
+      "description": "Branches of the arcuate arteries that run radially outward through the cortex between the medullary rays, giving off the afferent arterioles to the glomeruli along their length and ending in the capsular plexus. Twenty-two groups of them are modelled, one for each arcuate artery.",
+      "atlas": [
+        "Intrarenal arteries of left kidney"
+      ]
+    },
+    "S30": {
+      "name": "Interlobular (cortical radiate) veins",
+      "description": "Veins that run beside the interlobular arteries, collecting the peritubular capillaries and the subcapsular veins and draining to the arcuate veins.",
+      "atlas": [
+        "Intrarenal veins of left kidney"
+      ]
+    },
+    "S31": {
+      "name": "Adrenal capsule",
+      "description": "The fibrous capsule of the adrenal (suprarenal) gland, which sits above and in front of the kidney's upper pole inside the same renal fascia, separated from the kidney by fat.",
+      "atlas": [
+        "Suprarenal gland"
+      ]
+    },
+    "S32": {
+      "name": "Zona glomerulosa",
+      "description": "The thin outer cortical zone just under the capsule, whose cells lie in rounded clusters and secrete aldosterone under angiotensin II and potassium rather than ACTH. An aldosterone-secreting adenoma (Conn syndrome) causes hypertension with low potassium.",
+      "atlas": [
+        "Suprarenal gland"
+      ]
+    },
+    "S33": {
+      "name": "Zona fasciculata",
+      "description": "The thick middle zone, about three-quarters of the cortex, whose pale, lipid-rich cells lie in straight cords between sinusoids. It secretes cortisol under ACTH; excess causes Cushing syndrome.",
+      "atlas": [
+        "Suprarenal gland"
+      ]
+    },
+    "S34": {
+      "name": "Zona reticularis",
+      "description": "The innermost cortical zone, whose small, darker cells form a network beside the medulla and secrete adrenal androgens (DHEA) and some cortisol under ACTH. In 21-hydroxylase deficiency the block in cortisol and aldosterone synthesis diverts precursors into androgens.",
+      "atlas": [
+        "Suprarenal gland"
+      ]
+    },
+    "S35": {
+      "name": "Adrenal medulla",
+      "description": "The core of the gland, made of chromaffin cells (modified sympathetic ganglion cells without axons) that release adrenaline (about 80% of the output) and noradrenaline into the blood when driven by preganglionic sympathetic fibres; it drains by the central vein. A phaeochromocytoma is a tumour of these cells: paroxysmal hypertension, headache and sweating.",
+      "atlas": [
+        "Suprarenal gland"
+      ]
+    },
+    "S41": {
+      "name": "Parietal layer of Bowman's capsule",
+      "description": "The outer wall of Bowman's capsule: a simple squamous epithelium on a basement membrane that encloses Bowman's space, where the filtrate collects; it is drawn see-through. At the urinary pole it becomes the cuboidal epithelium of the proximal tubule, and at the vascular pole it folds back over the capillaries as the visceral layer. In rapidly progressive glomerulonephritis its cells proliferate into crescents that fill the space.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S42": {
+      "name": "Podocyte coat (visceral layer)",
+      "description": "The visceral layer of Bowman's capsule: the layer of podocytes that covers the glomerular capillaries, drawn as a coat over the whole tuft. Their interdigitating foot processes leave filtration slits about 40 nm wide, closed by a slit diaphragm of nephrin and podocin.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S43": {
+      "name": "Podocytes on the exposed loop",
+      "description": "Three podocytes (A, B and C) drawn in detail on one capillary loop laid bare. Each has a cell body and primary processes that give off foot processes (pedicels), which interdigitate with those of the neighbouring cells around the capillary. The foot processes flatten out (effacement) in nephrotic syndrome.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S44": {
+      "name": "Glomerular basement membrane (exposed loop)",
+      "description": "The glomerular basement membrane (GBM) is made jointly by the endothelium and the podocytes and is about 300-350 nm thick in adults: lamina rara interna, lamina densa and lamina rara externa of type IV collagen, laminin and heparan sulfate. It is the size and charge barrier that holds back large, negatively charged proteins such as albumin, and Alport syndrome and anti-GBM (Goodpasture) disease attack it. Here it is shown on the exposed loop.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S45": {
+      "name": "Glomerular capillary wall",
+      "description": "The wall of the capillary tuft inside the corpuscle: fenestrated endothelium (pores of 70-100 nm without diaphragms) on the basement membrane, drawn as one layer. Water and small solutes pass through it; blood cells and most plasma proteins do not.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S46": {
+      "name": "Intraglomerular mesangium",
+      "description": "Mesangial cells and matrix in the axis of the tuft between the capillary loops, supporting them. The cells are contractile (adjusting the filtering surface), clear trapped material and make matrix. The mesangium expands in diabetic nephropathy and is where IgA is deposited in IgA nephropathy.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S47": {
+      "name": "Extraglomerular mesangium (lacis cells)",
+      "description": "Pale cells (lacis or Goormaghtigh cells) packed in the triangle between the afferent and efferent arterioles and the macula densa, continuous with the mesangium inside the glomerulus. They are thought to relay signals between the macula densa and the granular cells.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S48": {
+      "name": "Juxtaglomerular (granular) cells",
+      "description": "Modified smooth muscle cells in the wall of the afferent arteriole, packed with renin granules. They release renin when the arteriole is stretched less (low perfusion pressure), when the macula densa senses low NaCl and on sympathetic beta-1 stimulation, starting the renin-angiotensin-aldosterone cascade.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S49": {
+      "name": "Macula densa",
+      "description": "A patch of tall, narrow, crowded cells at the end of the thick ascending limb, where it touches the glomerulus between the two arterioles. It senses NaCl delivery (through NKCC2) and signals the arterioles: high NaCl constricts the afferent arteriole so filtration falls (tubuloglomerular feedback), and low NaCl triggers renin release.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S50": {
+      "name": "Afferent arteriole endothelium",
+      "description": "The lining of the afferent arteriole, the short, wide vessel that brings blood to the glomerulus. In this juxtamedullary nephron it leaves the arcuate artery directly.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S51": {
+      "name": "Afferent arteriole smooth muscle",
+      "description": "The muscular wall of the afferent arteriole, which controls how much blood enters the glomerulus. It constricts when stretched (myogenic response) and with tubuloglomerular feedback, and it is relaxed by vasodilator prostaglandins, so NSAIDs can lower filtration. The granular cells are modified cells of this layer.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S52": {
+      "name": "Efferent arteriole endothelium",
+      "description": "The lining of the efferent arteriole, which carries blood out of the glomerulus. It is narrower than the afferent vessel, which keeps the glomerular pressure high; in juxtamedullary nephrons it goes on to supply the vasa recta and the peritubular capillaries.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S53": {
+      "name": "Efferent arteriole smooth muscle",
+      "description": "The muscular wall of the efferent arteriole. Angiotensin II constricts it, holding up glomerular pressure and filtration when renal perfusion falls; ACE inhibitors and ARBs relax it and can raise creatinine, particularly in renal artery stenosis.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S55": {
+      "name": "Proximal convoluted tubule",
+      "description": "The first tubule segment, coiled in the cortex beside its corpuscle and leading from the urinary pole. Its cuboidal cells have a tall brush border, deep basal infoldings and many mitochondria, which gives the pink, granular cytoplasm and ragged lumen seen in sections. It reabsorbs about two-thirds of the filtered water and sodium, almost all the glucose and amino acids and most of the bicarbonate, and secretes organic acids and bases.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S57": {
+      "name": "Brush border (proximal convoluted tubule)",
+      "description": "The apical microvilli of the convoluted proximal tubule cells, about 1 µm tall, drawn as a separate layer. They greatly increase the luminal surface and carry the transporters and enzymes for reabsorption.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S58": {
+      "name": "Proximal straight tubule",
+      "description": "The straight part of the proximal tubule (pars recta), running down the medullary ray into the outer medulla as the thick descending limb of the loop of Henle. Its cells resemble those of the convoluted part but are shorter, with fewer mitochondria; it secretes many drugs and organic anions and is easily injured by ischaemia and toxins.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S59": {
+      "name": "Brush border (proximal straight tubule)",
+      "description": "The microvilli lining the straight part of the proximal tubule, drawn as a separate layer; shorter than in the convoluted part.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S60": {
+      "name": "Thin descending limb",
+      "description": "Flat squamous cells with few organelles form this limb, which runs down into the medulla to the hairpin turn. It is highly permeable to water (aquaporin-1) but not to salt, so water leaves into the hypertonic interstitium and the fluid inside becomes more concentrated as it descends.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S61": {
+      "name": "Thin ascending limb",
+      "description": "The other half of the hairpin, climbing back towards the outer medulla; only the long loops of juxtamedullary nephrons like this one have one. Its squamous cells are impermeable to water but permeable to NaCl, which leaves passively down its gradient.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S62": {
+      "name": "Thick ascending limb",
+      "description": "Cuboidal cells packed with mitochondria, with few short microvilli, line this limb as it rises through the outer medulla into the cortex. NKCC2 (blocked by loop diuretics) and the Na-K-ATPase reabsorb about a quarter of the filtered NaCl, but the wall is water-tight, so the fluid is diluted and the interstitium made hypertonic. It secretes Tamm-Horsfall protein (uromodulin), and its lumen-positive potential drives calcium and magnesium reabsorption; it ends at the macula densa.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S63": {
+      "name": "Distal convoluted tubule",
+      "description": "A shorter coil in the cortex with cuboidal cells that lack a brush border but have many mitochondria and deep basal folds, so its lumen is wider and cleaner than a proximal tubule's. The Na-Cl cotransporter (NCC, blocked by thiazides) reabsorbs 5-10% of the filtered sodium, and PTH-regulated calcium reabsorption also occurs here.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S64": {
+      "name": "Connecting tubule",
+      "description": "The short link between the distal tubule and the collecting duct, made of a mixture of distal tubule cells, principal cells and intercalated cells. Sodium is reabsorbed through ENaC and potassium secreted under aldosterone, so it is where the aldosterone-sensitive part of the nephron begins.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S65": {
+      "name": "Cortical collecting duct",
+      "description": "The first part of the collecting duct, running down the medullary ray in the cortex; many nephrons drain into it. Pale principal cells (ENaC, ROMK and, under ADH, aquaporin-2) handle sodium, potassium and water and are the target of amiloride, spironolactone and vasopressin antagonists; dark intercalated cells secrete acid or bicarbonate to fine-tune pH.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S66": {
+      "name": "Medullary collecting duct",
+      "description": "The collecting duct inside the pyramid, running straight to the papilla and widening as ducts merge, with taller cells than the cortical part. Under ADH it becomes permeable to water (aquaporin-2), so urine is concentrated by the hypertonic interstitium; its inner part is also permeable to urea. In this model it stops about 5 mm short of the papilla, and its last stretch, the papillary duct of Bellini, is not modelled.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S67": {
+      "name": "Peritubular capillaries",
+      "description": "The fenestrated capillary network fed by the efferent arteriole that wraps the convoluted tubules in the cortex. Its low hydrostatic and high oncotic pressure, the result of filtration removing water but not protein, draw back the fluid the tubules reabsorb. It drains to the interlobular veins.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S68": {
+      "name": "Cortical venule",
+      "description": "The small vein that collects the peritubular capillary network in the cortex and carries the blood towards the interlobular vein; its end is left as an open cut.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S69": {
+      "name": "Descending vasa recta",
+      "description": "Long, straight vessels from the efferent arteriole of a juxtamedullary glomerulus that run down into the medulla beside the loops of Henle. Their continuous endothelium carries urea transporters and aquaporin-1, so the blood equilibrates with the interstitium as it descends.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S70": {
+      "name": "Medullary capillary plexus",
+      "description": "Capillary networks arising from the vasa recta that wrap the loops of Henle and collecting ducts in the medulla, which receives only a small fraction of the renal blood flow. Two are drawn: one in the inner stripe of the outer medulla and one deep, near the loop's hairpin.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S71": {
+      "name": "Ascending vasa recta",
+      "description": "Wide, fenestrated vessels that carry blood back out of the medulla to the arcuate and interlobular veins. Because they run beside the descending vessels and limbs, water and solute exchange by countercurrent exchange, removing the reabsorbed water without washing out the medullary gradient. Their venous ends are left open in this model.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S72": {
+      "name": "Red blood cells",
+      "description": "Red cells (about 7-8 µm across) shown for scale inside the afferent arteriole, three ascending vasa recta and the cortical venule, whose lumens are only a little wider than a cell.",
+      "atlas": [
+        "Kidney"
+      ]
+    },
+    "S73": {
+      "name": "Endothelium (exposed loop)",
+      "description": "The fenestrated endothelium of the capillary loop laid bare to show the podocytes. Its pores (70-100 nm) have no diaphragm and lie under the basement membrane; its surface glycocalyx also helps to hold back plasma proteins.",
+      "atlas": [
+        "Kidney"
+      ]
+    }
+  },
+  "parts": {
+    "Renal cortex, anterior lip of the hilum": {
+      "name": "Renal cortex, anterior lip of the hilum",
+      "description": "The cortex that turns in round the front of the hilum, the slit through which the renal vessels and pelvis enter the sinus."
+    },
+    "Renal cortex, posterior lip of the hilum": {
+      "name": "Renal cortex, posterior lip of the hilum",
+      "description": "The cortex that turns in round the back of the hilum."
+    },
+    "Renal cortex, medial border above the hilum": {
+      "name": "Renal cortex, medial border above the hilum",
+      "description": "The cortex forming the medial border of the kidney above the hilum."
+    },
+    "Renal cortex, medial border below the hilum": {
+      "name": "Renal cortex, medial border below the hilum",
+      "description": "The cortex forming the medial border of the kidney below the hilum."
+    },
+    "Renal cortex, cortical arch (middle anterior lobe)": {
+      "name": "Renal cortex, cortical arch (middle anterior lobe)",
+      "description": "The cortex over the lobe that holds the modelled nephron. The stage views hide it, with the capsule and the pyramid, to expose the nephron."
+    },
+    "Renal pyramid (middle anterior)": {
+      "name": "Renal pyramid (middle anterior)",
+      "description": "The pyramid that holds the loop of Henle and collecting duct of the modelled nephron; the stage views hide it."
+    },
+    "Renal papilla (middle anterior)": {
+      "name": "Renal papilla (middle anterior)",
+      "description": "The papilla towards which the modelled nephron's collecting duct runs."
+    },
+    "Minor calyx (middle anterior)": {
+      "name": "Minor calyx (middle anterior)",
+      "description": "The calyx that receives the urine from the papilla of the lobe holding the modelled nephron."
+    },
+    "Arcuate artery (middle anterior, upper side)": {
+      "name": "Arcuate artery (middle anterior, upper side)",
+      "description": "The arcuate artery from which the modelled nephron's afferent arteriole arises; it is drawn with finer sides than the others so it stays smooth in the close views."
+    },
+    "Arcuate vein (middle anterior, upper side)": {
+      "name": "Arcuate vein (middle anterior, upper side)",
+      "description": "The arcuate vein beside the arcuate artery of the modelled nephron; drawn finer for the close views."
+    },
+    "Interlobular arteries (middle anterior, upper side)": {
+      "name": "Interlobular arteries (middle anterior, upper side)",
+      "description": "The interlobular arteries rising from the arcuate artery of the modelled nephron; drawn finer for the close views."
+    },
+    "Interlobular veins (middle anterior, upper side)": {
+      "name": "Interlobular veins (middle anterior, upper side)",
+      "description": "The interlobular veins beside the modelled nephron; drawn finer for the close views."
+    },
+    "Inferior suprarenal artery": {
+      "name": "Inferior suprarenal artery",
+      "description": "Usually a branch of the renal artery to the lower part of the adrenal gland; in this model it leaves the aorta beside the origin of the renal artery.",
+      "atlas": [
+        "Inferior suprarenal artery"
+      ]
+    },
+    "Adrenal central vein": {
+      "name": "Adrenal central vein",
+      "description": "The central vein of the adrenal gland, running along the medulla and leaving the gland as the left suprarenal vein.",
+      "atlas": [
+        "Suprarenal gland"
+      ]
+    },
+    "Anterior division of the renal artery": {
+      "name": "Anterior division of the renal artery",
+      "description": "The larger division, passing in front of the renal pelvis and giving the apical, upper, middle and lower segmental arteries.",
+      "atlas": [
+        "Anterior branch of renal artery"
+      ]
+    },
+    "Posterior division of the renal artery": {
+      "name": "Posterior division of the renal artery",
+      "description": "The smaller division, passing behind the renal pelvis to supply the posterior segment.",
+      "atlas": [
+        "Posterior branch of renal artery"
+      ]
+    },
+    "Medullary capillary plexus (inner stripe)": {
+      "name": "Medullary capillary plexus (inner stripe)",
+      "description": "The capillary plexus at the start of the inner stripe of the outer medulla, where the thin ascending limb gives way to the thick one."
+    },
+    "Medullary capillary plexus (deep)": {
+      "name": "Medullary capillary plexus (deep)",
+      "description": "The capillary plexus deep in the medulla, around the hairpin of the loop of Henle."
+    },
+    "Podocyte A on the exposed capillary loop": {
+      "name": "Podocyte A on the exposed capillary loop",
+      "description": "One of the three podocytes drawn in detail on the exposed capillary loop: a cell body with primary processes and interdigitating foot processes that wrap the capillary and leave the filtration slits between them."
+    },
+    "Podocyte B on the exposed capillary loop": {
+      "name": "Podocyte B on the exposed capillary loop",
+      "description": "One of the three podocytes drawn in detail on the exposed capillary loop: a cell body with primary processes and interdigitating foot processes that wrap the capillary and leave the filtration slits between them."
+    },
+    "Podocyte C on the exposed capillary loop": {
+      "name": "Podocyte C on the exposed capillary loop",
+      "description": "One of the three podocytes drawn in detail on the exposed capillary loop: a cell body with primary processes and interdigitating foot processes that wrap the capillary and leave the filtration slits between them."
+    },
+    "Red blood cells in the afferent arteriole": {
+      "name": "Red blood cells in the afferent arteriole",
+      "description": "Red cells in the lumen of the afferent arteriole, showing how narrow the vessel is."
+    },
+    "Red blood cells in the cortical venule": {
+      "name": "Red blood cells in the cortical venule",
+      "description": "Red cells in the lumen of the cortical venule."
+    },
+    "Red blood cells in ascending vasa rectum 1": {
+      "name": "Red blood cells in ascending vasa rectum 1",
+      "description": "Red cells in the lumen of an ascending vasa rectum, one of three drawn."
+    },
+    "Red blood cells in ascending vasa rectum 2": {
+      "name": "Red blood cells in ascending vasa rectum 2",
+      "description": "Red cells in the lumen of an ascending vasa rectum, one of three drawn."
+    },
+    "Red blood cells in ascending vasa rectum 3": {
+      "name": "Red blood cells in ascending vasa rectum 3",
+      "description": "Red cells in the lumen of an ascending vasa rectum, one of three drawn."
+    }
+  },
+  "aliases": {
+    "Bowman capsule (parietal layer)": [
+      "group:S41"
+    ],
+    "Bowman's capsule": [
+      "group:S41",
+      "group:S42"
+    ],
+    "Proximal convoluted tubule": [
+      "group:S55",
+      "group:S57"
+    ],
+    "Proximal tubule": [
+      "group:S55",
+      "group:S57",
+      "group:S58",
+      "group:S59"
+    ],
+    "Thick ascending limb": [
+      "group:S62"
+    ],
+    "Distal convoluted tubule": [
+      "group:S63"
+    ],
+    "Cortical collecting duct": [
+      "group:S65"
+    ],
+    "Macula densa": [
+      "group:S49"
+    ],
+    "Afferent arteriole": [
+      "group:S50",
+      "group:S51"
+    ],
+    "Efferent arteriole": [
+      "group:S52",
+      "group:S53"
+    ],
+    "Glomerular capillaries": [
+      "group:S45",
+      "group:S73",
+      "group:S44"
+    ],
+    "Peritubular capillaries": [
+      "group:S67"
+    ],
+    "Descending vasa recta": [
+      "group:S69"
+    ],
+    "Ascending vasa recta": [
+      "group:S71"
+    ],
+    "Vasa recta": [
+      "group:S69",
+      "group:S71"
+    ],
+    "Thin descending limb": [
+      "group:S60"
+    ],
+    "Thin ascending limb": [
+      "group:S61"
+    ],
+    "Medullary collecting duct": [
+      "group:S66"
+    ],
+    "Collecting duct": [
+      "group:S65",
+      "group:S66"
+    ],
+    "Juxtaglomerular (granular) cells": [
+      "group:S48"
+    ],
+    "Juxtaglomerular apparatus": [
+      "group:S49",
+      "group:S48",
+      "group:S47"
+    ],
+    "Podocytes (visceral layer)": [
+      "group:S42",
+      "group:S43"
+    ],
+    "Podocytes": [
+      "group:S42",
+      "group:S43"
+    ],
+    "Glomerulus": [
+      "group:S42",
+      "group:S43",
+      "group:S44",
+      "group:S45",
+      "group:S46",
+      "group:S73"
+    ],
+    "Renal corpuscle": [
+      "group:S41",
+      "group:S42",
+      "group:S43",
+      "group:S44",
+      "group:S45",
+      "group:S46",
+      "group:S73"
+    ],
+    "Glomerular basement membrane": [
+      "group:S44"
+    ],
+    "Mesangium": [
+      "group:S46",
+      "group:S47"
+    ],
+    "Loop of Henle": [
+      "group:S58",
+      "group:S59",
+      "group:S60",
+      "group:S61",
+      "group:S62"
+    ],
+    "Nephron": [
+      "group:S41",
+      "group:S42",
+      "group:S43",
+      "group:S44",
+      "group:S45",
+      "group:S46",
+      "group:S55",
+      "group:S57",
+      "group:S58",
+      "group:S59",
+      "group:S60",
+      "group:S61",
+      "group:S62",
+      "group:S63",
+      "group:S64",
+      "group:S65",
+      "group:S66",
+      "group:S73"
+    ],
+    "Renal cortex": [
+      "group:S02"
+    ],
+    "Renal medulla": [
+      "group:S03",
+      "group:S04"
+    ],
+    "Renal pyramids": [
+      "group:S03"
+    ],
+    "Renal columns": [
+      "group:S05"
+    ],
+    "Renal papillae": [
+      "group:S04"
+    ],
+    "Minor calyces": [
+      "group:S06"
+    ],
+    "Major calyces": [
+      "group:S07"
+    ],
+    "Renal pelvis": [
+      "group:S08"
+    ],
+    "Ureter": [
+      "group:S09"
+    ],
+    "Segmental arteries": [
+      "group:S15"
+    ],
+    "Interlobar arteries": [
+      "group:S17"
+    ],
+    "Arcuate arteries": [
+      "group:S22"
+    ],
+    "Cortical radiate (interlobular) arteries": [
+      "group:S29"
+    ],
+    "Cortical radiate arteries": [
+      "group:S29"
+    ],
+    "Interlobular arteries": [
+      "group:S29"
+    ],
+    "Interlobar veins": [
+      "group:S18"
+    ],
+    "Arcuate veins": [
+      "group:S23"
+    ],
+    "Cortical radiate (interlobular) veins": [
+      "group:S30"
+    ],
+    "Interlobular veins": [
+      "group:S30"
+    ],
+    "Fibrous capsule": [
+      "group:S01"
+    ],
+    "Renal capsule": [
+      "group:S01"
+    ],
+    "Renal sinus fat": [
+      "group:S10"
+    ],
+    "Renal sinus": [
+      "group:S10",
+      "group:S06",
+      "group:S07",
+      "group:S08"
+    ],
+    "Renal artery": [
+      "group:S12"
+    ],
+    "Left renal artery": [
+      "group:S12"
+    ],
+    "Renal vein": [
+      "group:S20",
+      "group:S21"
+    ],
+    "Left renal vein": [
+      "group:S20",
+      "group:S21"
+    ],
+    "Adrenal gland": [
+      "group:S31",
+      "group:S32",
+      "group:S33",
+      "group:S34",
+      "group:S35",
+      "Adrenal central vein"
+    ],
+    "Suprarenal gland": [
+      "group:S31",
+      "group:S32",
+      "group:S33",
+      "group:S34",
+      "group:S35",
+      "Adrenal central vein"
+    ],
+    "Adrenal cortex": [
+      "group:S32",
+      "group:S33",
+      "group:S34"
+    ],
+    "Abdominal aorta": [
+      "group:S11"
+    ],
+    "Inferior vena cava (abdominal part)": [
+      "group:S19"
+    ],
+    "Intrarenal arteries of left kidney": [
+      "group:S15",
+      "group:S17",
+      "group:S22",
+      "group:S29"
+    ],
+    "Intrarenal veins of left kidney": [
+      "group:S18",
+      "group:S23",
+      "group:S30"
+    ],
+    "Anterior branch of renal artery": [
+      "Anterior division of the renal artery"
+    ],
+    "Posterior branch of renal artery": [
+      "Posterior division of the renal artery"
+    ],
+    "Left testicular vein": [
+      "group:S24"
+    ],
+    "Inferior phrenic artery": [
+      "group:S26"
+    ]
+  }
+}

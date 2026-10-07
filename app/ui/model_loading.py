@@ -1,6 +1,6 @@
 """Qt-owned delivery of CPU models, plus a small closeable pending tab."""
 from PySide6.QtCore import QObject, QThread, QTimer, Signal, Qt
-from PySide6.QtWidgets import QHBoxLayout, QLabel, QProgressBar, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QHBoxLayout, QLabel, QProgressBar, QPushButton, QVBoxLayout, QWidget, QSizePolicy
 
 from . import theme
 
@@ -63,28 +63,44 @@ class ModelLoadingTab(QWidget):
         self.serial = None
         self.callbacks = []
         self.setAccessibleName(f"Loading {entry.name}")
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(32, 24, 32, 24)
-        layout.setSpacing(12)
-        layout.addStretch()
+        outer=QVBoxLayout(self)
+        outer.setContentsMargins(32,24,32,24)
+        outer.addStretch()
+        self.loading_content=content=QWidget(self);content.setObjectName("modelLoadingContent")
+        content.setMaximumWidth(560)
+        content.setStyleSheet("QWidget#modelLoadingContent {background:transparent;}")
+        content.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Preferred)
+        layout=QVBoxLayout(content);layout.setContentsMargins(0,0,0,0);layout.setSpacing(16)
+        outer.addWidget(content,0,Qt.AlignHCenter)
+        outer.addStretch()
         self.title = QLabel()
         self.title.setTextFormat(Qt.PlainText)
         self.title.setWordWrap(True)
+        self.title.setAlignment(Qt.AlignCenter)
+        self.title.setMaximumWidth(560)
         self.title.setStyleSheet(theme.text_css("#eef3f6", theme.FS_H2, 600))
+        self.title.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Preferred)
+        self.title.setStyleSheet(self.title.styleSheet()+"background:transparent;")
         layout.addWidget(self.title)
         self.note = QLabel()
         self.note.setTextFormat(Qt.PlainText)
         self.note.setWordWrap(True)
+        self.note.setAlignment(Qt.AlignCenter)
+        self.note.setMaximumWidth(560)
         self.note.setTextInteractionFlags(Qt.TextSelectableByMouse | Qt.TextSelectableByKeyboard)
         self.note.setStyleSheet(theme.text_css("#c7d5df"))
+        self.note.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Preferred)
+        self.note.setStyleSheet(self.note.styleSheet()+"background:transparent;")
         layout.addWidget(self.note)
         self.progress = QProgressBar()
         self.progress.setAccessibleName("Model loading in progress")
         self.progress.setRange(0, 0)
         self.progress.setTextVisible(False)
         self.progress.setMaximumWidth(420)
-        layout.addWidget(self.progress)
+        self.progress.setMinimumWidth(220)
+        layout.addWidget(self.progress, 0, Qt.AlignHCenter)
         actions = QHBoxLayout()
+        actions.addStretch()
         self.retry = QPushButton("Try again")
         self.retry.setObjectName("primary")
         self.retry.clicked.connect(self.retryRequested)
@@ -94,16 +110,29 @@ class ModelLoadingTab(QWidget):
         actions.addWidget(self.cancel)
         actions.addStretch()
         layout.addLayout(actions)
-        layout.addStretch()
         self.set_loading()
 
+    def _fit_loading_text(self):
+        if not hasattr(self,"loading_content") or not hasattr(self,"note"):return
+        width=max(120,min(560,self.width()-64))
+        self.loading_content.setFixedWidth(width)
+        for label in (self.title,self.note):
+            label.ensurePolished()
+            label.setMinimumHeight(0);label.setMaximumHeight(16777215)
+            label.setFixedHeight(max(label.fontMetrics().height(),label.heightForWidth(width))+12)
+
+    def resizeEvent(self,event):
+        super().resizeEvent(event)
+        self._fit_loading_text()
+
     def set_loading(self):
-        self.title.setText(f"Loading {self.entry.name} · {getattr(self.entry, 'label', '3D model')}…")
+        self.title.setText(f"Loading {self.entry.name}…")
         self.note.setText("Preparing the model. You can keep using other tabs, or cancel this request.")
         self.setAccessibleName(f"Loading {self.entry.name}")
         self.progress.show()
         self.retry.hide()
         self.cancel.setText("Cancel loading")
+        self._fit_loading_text()
 
     def set_error(self, message):
         self.title.setText(f"Could not open {self.entry.name}")
@@ -112,3 +141,4 @@ class ModelLoadingTab(QWidget):
         self.progress.hide()
         self.retry.show()
         self.cancel.setText("Close tab")
+        self._fit_loading_text()

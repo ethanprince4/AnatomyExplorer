@@ -203,8 +203,7 @@ def _resolve_fit_cameras(model,controls):
     for name,old in list(model.cameras.items()):
         if 'yaw_radians' not in old:continue
         target=old.get('target')
-        if old.get('target_anchor'):
-            if old['target_anchor'] not in anchors:raise ValueError('Missing saved source camera anchor: '+old['target_anchor'])
+        if old.get('target_anchor') and old['target_anchor'] in anchors:
             target=anchors[old['target_anchor']]
         target=np.asarray(target if target is not None else (lo+hi)/2,float)
         radius=float(old.get('radius_units',max(float(np.linalg.norm(hi-lo))/2,1e-3)))

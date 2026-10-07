@@ -280,6 +280,12 @@ def build_skin(kind="thin"):
     # ------------------------------------------------------------------ vessels, nerves, receptors
     parts += _vessels(cfg, dej, geo["papillae"], y_ret)
     parts += _nerves(kind, cfg, dej, geo["papillae"], fols, rng)
+    if kind == "axilla":
+        # Embedded structures share the specimen's cut planes; otherwise their
+        # networks remain floating in the corner where tissue was removed.
+        for part in parts:
+            if part.group in {VS, "Sensory receptors"}:
+                part.clip = True
     return settle(parts, seed={"thin": 101, "thick": 102, "scalp": 103, "axilla": 104}[kind],
                   amp_xz=0.030, amp_y=0.070, freq=1.7)
 

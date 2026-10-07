@@ -7,6 +7,18 @@ from unittest.mock import Mock
 from app.main_window import MainWindow
 
 class LessonFramingTests(unittest.TestCase):
+    def test_named_model_lesson_keeps_camera_and_hidden_covers(self):
+        from app.ui.model_view import ModelView
+        host = SimpleNamespace(state=Mock(), gl_widget=Mock(),
+            vmodel=SimpleNamespace(cameras={'Inside': {}}),
+            _fully_visible=Mock(), part_ids=Mock(return_value=([2, 4], [])),
+            _show_selection=Mock(), focus_parts=Mock())
+        self.assertEqual(ModelView.show_lesson_parts(host, ['Valve'], view_name='Inside'), [])
+        host.gl_widget.set_named_view.assert_called_once_with('Inside', animate=False)
+        host.state.select.assert_called_once_with([2, 4])
+        host.state.set_hidden.assert_not_called()
+        host.focus_parts.assert_not_called()
+
     def scene(self,anchors=()):
         state=Mock();state.visible_mask.return_value=[False,True,True]
         vp=Mock();vp.section_anchors=anchors;vp.clip_on=[False,True,False]

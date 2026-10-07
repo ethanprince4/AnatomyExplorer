@@ -48,7 +48,23 @@ The seed is optional at the code level so source-only builds remain usable.
 **Before publishing a model-bearing release, include the intended seed and
 verify it in a fresh installation without an external library.** An absent seed
 does not automatically download the accepted models from this local computer.
-Ordinary bundled atlas and legacy models continue to follow existing packaging.
+The bundled whole-body atlas continues to follow existing packaging.
+
+For the v4.0.0 release, the post-only NPZ library is the complete production model
+source. With that seed present, packaging excludes the old `models/` GLBs,
+procedural baseline caches and unreferenced model folders. Only primary model
+files and explicitly declared companions from `library.json` enter the seed.
+Prebuild still prepares atlas caches, but does not regenerate models or load
+obsolete GLBs. Legacy source-only builds without a seed retain their GLB path.
+
+Build the approved merge with `python packaging/build.py --version v4.0.0`, or
+push the `v4.0.0` tag on that commit to use the release workflow. The build writes
+`4.0.0` into the packaged `VERSION`; the checkout does not masquerade as an
+installed release. PR artifacts keep their separate experimental version.
+
+Windows source checks run locally before publishing. CI retains the actual
+Windows installer/runtime/HTTPS checks and native macOS platform/update checks.
+It does not repeat the Windows source-test jobs or run broad test discovery.
 
 ## Verification and publication boundary
 

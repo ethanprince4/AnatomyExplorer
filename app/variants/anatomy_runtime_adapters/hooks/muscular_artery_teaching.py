@@ -149,7 +149,9 @@ def apply_controls(model_view, view, spec):
     body = "<p>" + escape(view["purpose"]) + "</p>"
     body += "<p>" + escape(view["scale_note"]) + "</p>"
     body += "<p>" + escape(view["inspection_task"]) + "</p>"
-    model_view.info.show_html("<h1>" + escape(view["id"]) + "</h1>", body)
+    # The info panel is attached after opening. Skipping it here lets the model load.
+    if model_view.info is not None:
+        model_view.info.show_html("<h1>" + escape(view["id"]) + "</h1>", body)
 
 
 def install_controller(model_view, spec=None):

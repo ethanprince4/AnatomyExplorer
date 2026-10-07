@@ -5,8 +5,8 @@
   data/content/models/<id>.json: their display name and summary, the atlas structures that offer them in Details,
   histology and related models, clinical notes, a readable name and description for every group and part, links
   back to the atlas, and aliases for the names lessons and practice items use.
-* Models downloaded once from Sketchfab (data/sketchfab_models/<uid>), with their creator's credit, the catalogue
-  entry in data/content/sketchfab.json and the hand-written part names in data/content/sketchfab_parts/<uid>.json.
+The active catalogue uses the final local model library, with GLB fallbacks for older source checkouts.
+Legacy imported-model entry types remain readable for older saved references; downloads are not bundled.
 
 A catalogue entry is light: the geometry is only read when the model is opened (``entry.load()``).
 """
@@ -55,7 +55,8 @@ class ModelEntry:
 
     def __init__(self, id, name, summary="", targets=None, histology=(), related=(), clinical=(), scale_note=""):
         self.id = id
-        self.name = name
+        from ..variants.display_names import display_name
+        self.name = display_name(id, name)
         self.summary = summary
         self.targets = targets or {}
         self.histology = list(histology)
@@ -67,8 +68,7 @@ class ModelEntry:
 
     @property
     def kind_name(self):
-        return {"glb": "In-house 3D model", "procedural": "In-house 3D microanatomy model", "downloaded": "downloaded 3D model"}.get(
-            self.kind, "3D model")
+        return "downloaded 3D model" if self.kind == "downloaded" else ""
 
     def load(self):
         raise NotImplementedError
@@ -90,6 +90,22 @@ class ModelEntry:
                 if sid:
                     group_items.setdefault(sid, []).extend(g.items)
         aliases = {_norm(k): v for k, v in self.aliases.items()}
+        if self.id == "kidney_nephron":
+            # This model names each arterial branch separately; case labels refer
+            # to the complete anatomical family rather than one arbitrary branch.
+            families = {
+                "Segmental arteries": ("Segmental artery (",),
+                "Interlobar arteries": ("Interlobar artery (",),
+                "Arcuate arteries": ("Arcuate artery (",),
+                "Anterior and posterior divisions of the renal artery":
+                    ("Anterior division of the renal artery", "Posterior division of the renal artery"),
+                "Renal pyramids": ("Renal pyramid",),
+                "Renal cortex": ("Renal cortex,",),
+            }
+            for alias, prefixes in families.items():
+                aliases[_norm(alias)] = [item.name for item in model.items
+                                        if item.name.startswith(prefixes)]
+            aliases[_norm("Renal capsule (fibrous capsule)")] = ["Renal capsule"]
         out, missing = [], []
         for n in names or ():
             k = _norm(n)
@@ -251,10 +267,15 @@ def load_meta(folder=META_DIR):
 
 
 def load_catalog():
-    """Combine refined library entries with the two protected authored models."""
+    """Use the release library first; legacy GLBs only fill genuinely absent entries."""
     from ..variants.catalog import load_active_catalog
     catalog = load_active_catalog()
     for meta in load_meta():
-        if meta['id'] in ('whole_heart', 'cardiac_muscle'):
+        if meta['id'] in ('cardiac_muscle', 'whole_heart', 'kidney_nephron') and meta['id'] not in catalog:
             catalog[meta['id']] = GlbEntry(meta)
+    selection = ROOT / 'data/content/release_models.json'
+    if selection.is_file():
+        allowed = set(json.loads(selection.read_text(encoding='utf-8'))['model_ids'])
+        for mid in list(catalog):
+            if mid not in allowed:del catalog[mid]
     return catalog

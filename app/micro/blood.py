@@ -21,7 +21,7 @@ from scipy.spatial import cKDTree
 
 from .cellkit import star_cell
 from .cells import hex_points
-from .geometry import Mesh, box as box_mesh, compute_normals, tube
+from .geometry import Mesh, compute_normals, tube, ellipsoid as ellipsoid_mesh
 from .kit import Volume, capsule, ellipsoid, mesh_part, smooth_path
 from .sdf import BIG
 
@@ -749,7 +749,19 @@ def build_blood():
                            category="other", clip=False, detail=(0.15, 0, 0, 0)))
 
     # ------------------------------------------------------------------ plasma
-    plasma = box_mesh(((X0 + X1) / 2, (Y_LO + Y_HI) / 2, (Z0 + Z1) / 2), (X1 - X0, Y_HI - Y_LO, Z1 - Z0))
+    plasma = plasma_sample_mesh()
     parts.append(mesh_part(plasma, "Plasma", GROUP_PLASMA, C["plasma"], DESC["plasma"], category="csf",
-                           alpha=0.24, bulk=True, rank=-1, detail=(0.02, 0, 0, 0)))
+                           alpha=1.0, bulk=False, rank=-1, detail=(0.02, 0, 0, 0)))
     return parts
+
+
+def plasma_sample_mesh():
+    """Cell-sized schematic fluid sample beside the smear, never enclosing cells."""
+    center = np.array((X1 + 0.24, -0.02, LANE_Z))
+    radii = np.array((0.12, 0.085, 0.105))
+    vertices, _, faces = ellipsoid_mesh(center, radii, res=24).arrays()
+    unit = (vertices - center) / radii
+    # Gentle lobes distinguish the fluid sample from a spherical blood cell.
+    bulge = 1 + 0.09 * np.sin(3 * unit[:, 0] + unit[:, 2]) * np.cos(2 * unit[:, 1])
+    vertices = (center + (vertices - center) * bulge[:, None]).astype(np.float32)
+    return Mesh().add(vertices, faces)

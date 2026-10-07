@@ -374,7 +374,7 @@ class PracticeController:
             quiz.delegate = self
         self._ensure_dock()
         if not self.active:
-            self._saved = {k: self.win.settings.get(k) for k in ("show_landmarks", "show_hover_tooltip")}
+            self._saved = {k: self.win.settings.get(k) for k in ("show_landmarks", "show_structure_labels", "show_hover_tooltip")}
             self._saved["details_visible"] = self.win.right_dock.isVisible()
             self._saved["explore_visible"] = self.win.left_dock.isVisible()
             self._snapshot = capture_scene(self.win)
@@ -475,13 +475,13 @@ class PracticeController:
         return self._live() and self.cur["item"]["type"] in ("find", "name", "find_micro")
 
     def _hide_names(self):
-        for k in ("show_landmarks", "show_hover_tooltip"):
+        for k in ("show_landmarks", "show_structure_labels", "show_hover_tooltip"):
             self.win.settings[k] = False
         self.win.viewport.landmark_hosts = []
         self.win.viewport.update()
 
     def _restore_names(self):
-        for k in ("show_landmarks", "show_hover_tooltip"):
+        for k in ("show_landmarks", "show_structure_labels", "show_hover_tooltip"):
             if k in self._saved:
                 self.win.settings[k] = self._saved[k] if self._saved[k] is not None else True
         self.win.viewport.update()
@@ -819,6 +819,10 @@ class PracticeController:
             current["view"] = view
             current["sids"] = sids
             view.set_practice(self._micro_click, self._micro_rclick)
+            if item.get("micro_view") in view.vmodel.cameras:
+                view.gl_widget.set_named_view(item["micro_view"], animate=False)
+                # A preset may hide a cover that is itself this quiz's target.
+                view.state.set_hidden(sids, False)
             self._hide_names()
             p.feedback.setText("")
             p.prompt.setText(esc(item["part"]) + f"<div style='font-size:{theme.FS_BODY}pt; color:{theme.MUTED}; font-weight:400'>in "

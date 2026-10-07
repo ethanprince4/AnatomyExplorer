@@ -1,0 +1,269 @@
+{
+  "model_id": "hepatobiliary_static_refinement",
+  "display_name": "Hepatobiliary anatomy",
+  "summary": "Preserved gross schematic liver, gallbladder, biliary tree, pancreas, duodenum and vessels. Exposure views isolate existing relationships; enclosed flow is not established.",
+  "metres_per_unit": 0.1,
+  "scale_note": "Gross schematic source coordinates preserved; 0.1 m/unit is a display convention, not a measured anatomical reconstruction.",
+  "viewer_cameras": {
+    "Anterior overview": {
+      "type": "ORTHO",
+      "position": [
+        0,
+        0,
+        5
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "ortho_width": 3.2,
+      "hidden": []
+    },
+    "Visceral overview": {
+      "type": "ORTHO",
+      "position": [
+        0,
+        -3,
+        4
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "ortho_width": 3.2,
+      "hidden": []
+    },
+    "Posterior overview": {
+      "type": "ORTHO",
+      "position": [
+        0,
+        0,
+        -5
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "ortho_width": 3.2,
+      "hidden": []
+    },
+    "Duct and vessel exposure": {
+      "type": "ORTHO",
+      "position": [
+        0,
+        0,
+        5
+      ],
+      "target": [
+        -0.05,
+        -0.05,
+        0.1
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "ortho_width": 2.9,
+      "hidden": [
+        "Right lobe of liver",
+        "Left lobe of liver",
+        "Quadrate lobe",
+        "Caudate lobe",
+        "Porta hepatis",
+        "Bare area of liver",
+        "Coronary ligament",
+        "Right triangular ligament",
+        "Falciform ligament",
+        "Left triangular ligament",
+        "Round ligament of liver (ligamentum teres)",
+        "Ligamentum venosum",
+        "Fundus of gallbladder",
+        "Body of gallbladder",
+        "Neck of gallbladder",
+        "Head of pancreas",
+        "Uncinate process of pancreas",
+        "Neck of pancreas",
+        "Body of pancreas",
+        "Tail of pancreas"
+      ]
+    },
+    "Gallbladder junction closeup": {
+      "type": "ORTHO",
+      "position": [
+        -0.3,
+        0.05,
+        3
+      ],
+      "target": [
+        -0.3,
+        0.05,
+        0.12
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "ortho_width": 0.9,
+      "hidden": [
+        "Right lobe of liver",
+        "Left lobe of liver",
+        "Quadrate lobe",
+        "Caudate lobe",
+        "Porta hepatis",
+        "Bare area of liver",
+        "Coronary ligament",
+        "Right triangular ligament",
+        "Falciform ligament",
+        "Left triangular ligament",
+        "Round ligament of liver (ligamentum teres)",
+        "Ligamentum venosum",
+        "Head of pancreas",
+        "Uncinate process of pancreas",
+        "Neck of pancreas",
+        "Body of pancreas",
+        "Tail of pancreas"
+      ]
+    },
+    "Ampulla exposure": {
+      "type": "ORTHO",
+      "position": [
+        -0.44,
+        -0.48,
+        3
+      ],
+      "target": [
+        -0.44,
+        -0.48,
+        -0.06
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "ortho_width": 0.65,
+      "hidden": [
+        "Right lobe of liver",
+        "Left lobe of liver",
+        "Quadrate lobe",
+        "Caudate lobe",
+        "Porta hepatis",
+        "Bare area of liver",
+        "Coronary ligament",
+        "Right triangular ligament",
+        "Falciform ligament",
+        "Left triangular ligament",
+        "Round ligament of liver (ligamentum teres)",
+        "Ligamentum venosum",
+        "Fundus of gallbladder",
+        "Body of gallbladder",
+        "Neck of gallbladder",
+        "Head of pancreas",
+        "Uncinate process of pancreas",
+        "Neck of pancreas",
+        "Body of pancreas",
+        "Tail of pancreas",
+        "Duodenum: superior part (D1)",
+        "Duodenum: descending part (D2)",
+        "Duodenum: horizontal part (D3)",
+        "Duodenum: ascending part (D4)",
+        "Duodenal mucosa (circular folds)",
+        "Pylorus (cut end of stomach)",
+        "Jejunum (cut)"
+      ]
+    },
+    "Duct terminal inspection": {
+      "type": "ORTHO",
+      "position": [
+        -0.45,
+        -0.5,
+        3
+      ],
+      "target": [
+        -0.45,
+        -0.5,
+        -0.07
+      ],
+      "up": [
+        0,
+        1,
+        0
+      ],
+      "ortho_width": 0.3,
+      "hidden": [
+        "Right lobe of liver",
+        "Left lobe of liver",
+        "Quadrate lobe",
+        "Caudate lobe",
+        "Porta hepatis",
+        "Bare area of liver",
+        "Coronary ligament",
+        "Right triangular ligament",
+        "Falciform ligament",
+        "Left triangular ligament",
+        "Round ligament of liver (ligamentum teres)",
+        "Ligamentum venosum",
+        "Fundus of gallbladder",
+        "Body of gallbladder",
+        "Neck of gallbladder",
+        "Cystic duct",
+        "Right hepatic duct",
+        "Left hepatic duct",
+        "Common hepatic duct",
+        "Sphincter of Oddi (hepatopancreatic sphincter)",
+        "Head of pancreas",
+        "Uncinate process of pancreas",
+        "Neck of pancreas",
+        "Body of pancreas",
+        "Tail of pancreas",
+        "Duodenum: superior part (D1)",
+        "Duodenum: descending part (D2)",
+        "Duodenum: horizontal part (D3)",
+        "Duodenum: ascending part (D4)",
+        "Duodenal mucosa (circular folds)",
+        "Major duodenal papilla",
+        "Minor duodenal papilla",
+        "Pylorus (cut end of stomach)",
+        "Jejunum (cut)",
+        "Hepatic veins",
+        "Hepatic portal vein",
+        "Splenic vein",
+        "Superior mesenteric vein",
+        "Inferior mesenteric vein",
+        "Inferior vena cava",
+        "Abdominal aorta",
+        "Coeliac trunk",
+        "Common hepatic artery",
+        "Hepatic artery proper",
+        "Right hepatic artery",
+        "Left hepatic artery",
+        "Cystic artery",
+        "Gastroduodenal artery",
+        "Splenic artery",
+        "Left gastric artery (cut)",
+        "Superior mesenteric artery"
+      ]
+    }
+  },
+  "start_view": "Anterior overview"
+}

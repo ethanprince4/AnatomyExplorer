@@ -92,7 +92,7 @@ class RuntimeSession:
             return _hook(self.model_id,'teaching').apply_controls(self.view,record,self.docs[0])
         if self.model_id=='scalp' and record:
             anchors=self.controls['verified_documents'].get('construction',{}).get('anchors',{})
-            return _hook('scalp','teaching').apply_view(self.view,record['id'],path=_path('scalp'),anchors=anchors)
+            return _hook('scalp','teaching').apply_view(self.view,record['id'],path=_path('scalp'),anchors=anchors,require_refined_additions=False)
         if self.model_id=='duodenum' and record:
             self.model.source.duodenum_teaching=self.docs[0]
             return _hook('duodenum','teaching').apply_to_viewport(self.viewport,view_id=record['id'])

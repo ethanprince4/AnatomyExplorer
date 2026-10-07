@@ -14,9 +14,9 @@ def palette(mode=None):
     return dict(PALETTES['porcelain'])
 
 def display_font_family():
-    families = set(QFontDatabase.families())
-    return next((f for f in ('Georgia', 'Bitstream Charter', 'Noto Serif', 'DejaVu Serif') if f in families),
-                QFontDatabase.systemFont(QFontDatabase.TitleFont).family())
+    from .theme import font_family
+    return font_family()
+
 
 def display_css(size=34, color=None):
     p = palette()
@@ -53,8 +53,12 @@ QStatusBar QLabel {{ background:transparent;color:#c6cdd6; }}
 QTabWidget#studioWorkspaces {{ background:{STAGE_BACKGROUND};border:none;padding:0px;margin:0px; }}
 QTabWidget#studioWorkspaces::pane {{ background:{STAGE_BACKGROUND};border:none;padding:0px;margin:0px;top:0px; }}
 QTabWidget#studioWorkspaces > QStackedWidget {{ background:{STAGE_BACKGROUND};border:none; }}
-QWidget#globalBar QPushButton[variant="quiet"]:checked {{ background:{p['selected']};color:{p['accent']};border:1px solid {p['accent']};border-radius:9px;font-weight:600; }}
-QWidget#globalBar QPushButton[variant="quiet"]:checked:hover {{ background:{p['selected']};color:{p['accent']};border-color:{p['accent']}; }}
+QWidget#globalBar QPushButton#studioNavButton {{ background:transparent;color:{p['text']};border:1px solid transparent;
+    border-radius:10px;padding:7px 16px;font-size:{14 * scale}px;font-weight:600; }}
+QWidget#globalBar QPushButton#studioNavButton:hover {{ background:{p['raised']};color:{p['text']};border-color:{p['row_edge']}; }}
+QWidget#globalBar QPushButton#studioNavButton:checked {{ background:{p['selected']};color:{p['accent']};border:1px solid {p['accent']}; }}
+QWidget#globalBar QPushButton#studioNavButton:checked:hover {{ background:{p['selected']};color:{p['accent']};border-color:{p['accent']}; }}
+QWidget#globalBar QPushButton#studioNavButton:focus {{ border-color:{p['accent']}; }}
 
 QWidget#studioShell, QWidget#studioHeader, QWidget#studioScene {{ background:{STAGE_BACKGROUND}; }}
 
@@ -68,6 +72,8 @@ QPushButton#studioTool:focus, QToolButton#studioTool:focus {{ border-color:{p['a
 QPushButton#headerClose, QToolButton#headerClose {{ background:transparent;border:none;color:{p['muted']};border-radius:6px; }}
 QPushButton#headerClose:hover, QToolButton#headerClose:hover {{ background:{p['raised']};color:{p['text']}; }}
 
+QWidget#studioTeaching QLabel {{ color:{p['text']};background:transparent; }}
+QWidget#studioTeaching QComboBox {{ background:{p['input']};color:{p['text']};border:1px solid {p['input_border']};border-radius:8px;padding:6px 10px;min-height:24px; }}
 QWidget#surface, QFrame#studioCard, QWidget#studioTeaching {{ background:{p['surface']};border:1px solid {p['tool_edge']};border-radius:16px; }}
 QWidget#surface > QWidget, QWidget#previewSurface > QWidget, QWidget#globalBar > QWidget,
 QWidget#deep > QWidget, QWidget#dock > QWidget {{ background:transparent; }}
@@ -85,7 +91,7 @@ QFrame#studioInstrument {{ background:{p['surface']};border:1px solid {p['row_ed
 QWidget#dock, QFrame#studioDock {{ background:{p['surface']};border:1px solid {p['edge']};border-radius:20px; }}
 QLabel#studioDisplay {{ {display_css(34 * scale, STAGE_TEXT)} }}
 QLabel#studioCardTitle {{ color:{p['text']};font-size:{18 * scale}px;font-weight:600;background:transparent; }}
-QLabel#studioSelectionTitle {{ {display_css(28 * scale, p['paper_text'])} }}
+QLabel#studioSelectionTitle {{ {display_css(21 * scale, p['paper_text'])} }}
 QLabel#studioSelectionDescription {{ color:{p['paper_muted']};font-size:{13 * scale}px;background:transparent; }}
 QLabel#studioEyebrow {{ color:#c6cdd6;font-size:{11 * scale}px;font-weight:600; }}
 QPushButton[variant="quiet"] {{ background:transparent;border:2px solid transparent;color:{p['muted']};border-radius:8px;padding:6px 12px; }}

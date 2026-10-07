@@ -82,40 +82,10 @@ def check_radiology():
     return counts
 
 
-def check_sketchfab():
-    notices = (ROOT / "THIRD_PARTY_LICENSES.md")
-    notices = notices.read_text(encoding="utf-8") if notices.exists() else ""
-    counts = Counter()
-    for folder in sorted((DATA / "sketchfab_models").iterdir()):
-        if not folder.is_dir():
-            continue
-        where = f"sketchfab_models/{folder.name}"
-        info_path = folder / "info.json"
-        if not info_path.exists():
-            problem(f"{where}: no info.json")
-            continue
-        info = json.loads(info_path.read_text(encoding="utf-8"))
-        need(where, info, ("uid", "name", "author", "license", "license_slug", "license_url", "source_url"))
-        slug = info.get("license_slug", "")
-        if slug not in SKETCHFAB_FREE | SKETCHFAB_NC:
-            problem(f"{where}: licence {slug!r} not allowed")
-        if slug in SKETCHFAB_NC and "non-commercial" not in notices.lower():
-            problem(f"{where}: NonCommercial model but THIRD_PARTY_LICENSES.md has no non-commercial notice")
-        if folder.name not in notices:
-            problem(f"{where}: not listed in THIRD_PARTY_LICENSES.md")
-        counts[slug] += 1
-    nc = sum(v for k, v in counts.items() if k in SKETCHFAB_NC)
-    nd = sum(v for k, v in counts.items() if k in SKETCHFAB_ND)
-    print(f"downloaded Sketchfab models: {sum(counts.values())} - "
-          + ", ".join(f"{k} {v}" for k, v in sorted(counts.items()))
-          + f"; {nc} NonCommercial (allowed with notice), {nd} NoDerivatives")
-
-
 def main():
     check_notices()
     check_histology()
     check_radiology()
-    check_sketchfab()
     print("OK" if not bad else f"{bad} problems")
     return 1 if bad else 0
 

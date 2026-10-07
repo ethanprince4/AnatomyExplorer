@@ -199,11 +199,27 @@ def read_manifest(root):
     return validate_manifest(json.loads(path.read_text(encoding="utf-8")))
 
 
+def set_staged_mode(path, mode):
+    """Apply staging permissions without changing a shared live-version inode."""
+    stat = path.stat()
+    if stat.st_mode & 0o777 == mode:
+        return
+    if stat.st_nlink > 1:
+        # A resumed stage can contain hardlinks from an earlier prepare.
+        temporary = path.with_name(path.name + '.mode-copy')
+        try:
+            shutil.copyfile(path, temporary)
+            os.replace(temporary, path)
+        finally:
+            temporary.unlink(missing_ok=True)
+    os.chmod(path, mode)
+
+
 def installed_metadata(root):
     """Cheap display/channel identity; never a substitute for integrity checks.
 
     Original signed Mac bundles have VERSION/channel metadata, no external
-    manifest. UI/readiness must not inventory gigabytes. prepare/verify still do.
+    manifest. Version/channel reads must not inventory gigabytes; verify still checks the staged update.
     """
     root = Path(root)
     path = manifest_path(root)
@@ -494,7 +510,7 @@ class UpdateStore:
         # This path only exists in new preview original installers. Immutable
         # stable protocol-1 launchers use their retained stable anchor instead.
         return (self.policy()[0] == "stable" and manifest_channel(installed) == "experimental" and
-                manifest_channel(target) == "stable" and manifest_channel(read_manifest(self.base)) == "experimental")
+                manifest_channel(target) == "stable" and manifest_channel(installed_metadata(self.base)) == "experimental")
 
     def verify(self, root, manifest=None):
         root = Path(root)
@@ -543,12 +559,12 @@ class UpdateStore:
                 raise UpdateError("Download source differs from selected update channel")
             state = self.state()
             current = self.active()
-            installed = read_manifest(current)
+            installed = installed_metadata(current)
             if state.get("rollback_requested"):
                 return {"status": "returning", "downloaded": 0, "reused": 0,
                         "return_to_stable": bool(state.get("return_to_stable"))}
             if (token[0] == "experimental" and "stable_anchor" not in state and
-                    manifest_channel(read_manifest(self.base)) != "experimental"):
+                    manifest_channel(installed_metadata(self.base)) != "experimental"):
                 raise UpdateError("Experimental updates require an explicit opt-in and stable recovery anchor")
             if (version_tuple(manifest["version"]) <= version_tuple(installed["version"]) and
                     not self.direct_stable_return(installed, manifest)):
@@ -565,7 +581,6 @@ class UpdateStore:
             if self.versions.resolve().parent != self.root:
                 raise UpdateError("Unsafe versions directory")
             cache.mkdir(exist_ok=True)
-            old = {e["path"]: e for e in installed["files"]}
             total = sum(e["size"] for e in manifest["files"])
             # Conservative before even creating a stage: full copy plus all raw chunks
             # and a reserve, including on filesystems that cannot hardlink.
@@ -584,7 +599,7 @@ class UpdateStore:
                     dest.parent.mkdir(parents=True, exist_ok=True)
                     if dest.is_file() and dest.stat().st_size == e["size"] and file_sha(dest) == e["sha256"]:
                         if self.mac:
-                            os.chmod(dest, e.get("mode", 0o644))
+                            set_staged_mode(dest, e.get("mode", 0o644))
                         reused += e["size"]
                         continue
                     dest.unlink(missing_ok=True)
@@ -598,7 +613,7 @@ class UpdateStore:
                             shutil.copyfile(prior, dest)
                         reused += e["size"]
                         if self.mac:
-                            os.chmod(dest, e.get("mode", 0o644))
+                            set_staged_mode(dest, e.get("mode", 0o644))
                         continue
                     # Reuse same-offset blocks in an otherwise changed large file.
                     prior_file = open(prior, "rb") if prior.is_file() and prior.resolve().is_relative_to(current.resolve()) else None
@@ -638,7 +653,7 @@ class UpdateStore:
                     if file_sha(dest) != e["sha256"]:
                         raise UpdateError("Completed file failed integrity verification")
                     if self.mac:
-                        os.chmod(dest, e.get("mode", 0o644))
+                        set_staged_mode(dest, e.get("mode", 0o644))
                 for link in manifest.get("symlinks", []):
                     p = stage / link["path"]
                     if not p.parent.resolve().is_relative_to(stage.resolve()):
@@ -681,7 +696,7 @@ class UpdateStore:
                     state.pop("pending", None)
                     atomic_json(self.state_file, state)
                     return self.active()
-                installed = read_manifest(self.active())
+                installed = installed_metadata(self.active())
                 if (version_tuple(manifest["version"]) <= version_tuple(installed["version"]) and
                         not self.direct_stable_return(installed, manifest)):
                     state.pop("pending", None)

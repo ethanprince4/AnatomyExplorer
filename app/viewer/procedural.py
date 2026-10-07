@@ -161,7 +161,7 @@ class ProceduralModel(ViewerModel):
 
     def anim_frame(self, t):
         """(2, n_items, 4) weights and (mode, glow, decay, rate) at cycle phase t (0..1)."""
-        return self.animation.frame(self.anim_names, t)
+        return np.asarray(self.animation.frame(self.anim_names, t), dtype=np.float32)
 
 
 def cutaway_planes(cut, axis_positions=None):
