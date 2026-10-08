@@ -297,7 +297,9 @@ class WorkspaceTests(unittest.TestCase):
                 self.assertIs(panel.case, case)
                 self.assertEqual(panel.title.text(), case.title)
                 self.assertEqual(panel.legend.count(), len(case.labels))
-                self.assertEqual(panel.question_choice.count(), len(case.questions))
+                self.assertEqual(panel.questions_shown, len(case.questions))
+                self.assertFalse(any(panel.question_choice.view().isRowHidden(row)
+                                     for row in range(len(case.questions))))
                 self.assertEqual(panel.atlas_note.text(), case.atlas_note)
                 if case.questions:
                     self.assertIn(case.questions[0]["prompt"], panel.check_notes.toPlainText())

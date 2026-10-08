@@ -430,6 +430,7 @@ class RadiologyPanel(QWidget):
         question_row = QVBoxLayout()
         question_row.setContentsMargins(0, 0, 0, 0)
         self.question_choice = QComboBox()
+        self.questions_shown = 0
         self.question_choice.setAccessibleName("Teaching question")
         self.question_choice.setMinimumContentsLength(10)
         self.question_choice.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
@@ -514,8 +515,8 @@ class RadiologyPanel(QWidget):
         self.question_choice.blockSignals(True)
         self.legend.setMaximumHeight(16777215)
         # Previous and Next run this with the picker on screen: rows are rewritten, never removed (see stable_rows).
-        fill_combo(self.question_choice, [(f"Question {index + 1} of {len(case.questions)}", index)
-                                          for index in range(len(case.questions))])
+        self.questions_shown = fill_combo(self.question_choice, [(f"Question {index + 1} of {len(case.questions)}", index)
+                                                                  for index in range(len(case.questions))])
         self.question_choice.setCurrentIndex(0 if case.questions else -1)
         self.question_choice.blockSignals(False)
         self.question_controls.setVisible(bool(case.questions))
