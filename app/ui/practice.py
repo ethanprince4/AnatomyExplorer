@@ -26,6 +26,7 @@ from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (QAbstractItemView, QDockWidget, QFrame, QHBoxLayout, QLabel, QListWidget,
                                QListWidgetItem, QPushButton, QScrollArea, QStackedWidget, QVBoxLayout, QWidget)
 
+from ..actions import key_text
 from .. import srs
 from ..storage import load_json, write_json
 from ..lessons import TYPE_NAME, build_session, default_length, item_key, practice_pool
@@ -48,8 +49,8 @@ MAX_CHOICES = 6
 SCENE_KEYS = ("systems", "regions", "side", "show", "focus", "ghost_focus", "dissect", "layer_only", "clip",
               "view", "frame_on", "camera", "reset_clips")
 TIPS = {
-    "find": "Left-click it in the 3D view. <b>Right-click</b> anything in the way to peel it off (Ctrl+Z puts it "
-            "back). Three wrong clicks and it is shown to you.",
+    "find": "Left-click it in the 3D view. <b>Right-click</b> anything in the way to peel it off "
+            f"({key_text('Ctrl+Z')} puts it back). Three wrong clicks and it is shown to you.",
     "name": "The highlighted structure: which is it?",
     "find_micro": "Left-click the part in the model. <b>Right-click</b> a part to peel it away. Three wrong clicks "
                   "and it is shown to you.",

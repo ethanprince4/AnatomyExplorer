@@ -67,7 +67,7 @@ class ResponsiveStartupTests(unittest.TestCase):
         window.catalog.edit.setText("generated")
         QAPP.processEvents()
         self.assertEqual(beats, ["responsive"])
-        self.assertEqual(window.catalog.list.count(), 1)
+        self.assertEqual(window.catalog.shown, 1)
         self.assertEqual(catalog.verification_state, "verifying")
         cancel_dataset_readiness(window)
         release.set()

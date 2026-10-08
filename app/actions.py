@@ -1,5 +1,6 @@
 """Rebindable commands. Shortcuts are stored in QSettings under 'keybindings'."""
 import json
+import sys
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QKeySequence
@@ -61,6 +62,34 @@ ACTION_DEFS = [
     ("model_state", "Assembled / teased", "3D models", "T", "", False),
     ("model_play", "Play / pause the animation", "3D models", "Space", "", False),
 ]
+
+# Qt reads Ctrl as Command on a Mac, where Command+Q quits, Command+H hides the app, F11 shows the desktop and
+# Command+Shift+3/4/5 take screenshots, so those defaults never reach the app (or quit it). The Mac's Delete key
+# sends Backspace, and Control+Command+F is its fullscreen key.
+MAC = sys.platform == "darwin"
+MAC_DEFAULTS = {
+    "fullscreen": ("Meta+Ctrl+F", "F11"),
+    "histology_tab": ("Meta+Ctrl+5", ""),
+    "hide": ("H", "Backspace"),
+    "quiz": ("Ctrl+Alt+Q", ""),
+}
+if MAC:
+    ACTION_DEFS = [d[:3] + MAC_DEFAULTS.get(d[0], d[3:5]) + d[5:] for d in ACTION_DEFS]
+
+# The workspace switcher's modifier: Control+Command on a Mac, whose Command+Shift+3/4/5 are screenshots.
+WORKSPACE_MODIFIER = "Meta+Ctrl+" if MAC else "Ctrl+Shift+"
+# Command+click adds to a selection on a Mac, where Control+click is a right-click.
+SELECT_MODIFIER = "\N{PLACE OF INTEREST SIGN}" if MAC else "Ctrl"
+
+
+def key_text(sequence):
+    """A shortcut written the way this platform shows it: Ctrl+F on Windows, the Command symbols on a Mac."""
+    return QKeySequence(sequence).toString(QKeySequence.NativeText)
+
+
+def default_key_text(action_id):
+    """The default primary shortcut of a command, as key_text writes it."""
+    return key_text(next(d[3] for d in ACTION_DEFS if d[0] == action_id))
 
 
 class ActionRegistry:

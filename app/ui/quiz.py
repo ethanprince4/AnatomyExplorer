@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (QCheckBox, QComboBox, QCompleter, QDockWidget, QF
                                QHBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem, QPushButton, QSpinBox,
                                QScrollArea, QSizePolicy, QStackedWidget, QVBoxLayout, QWidget)
 
+from ..actions import key_text
 from ..config import USER_DIR
 from .. import srs
 from ..storage import load_json, write_json
@@ -665,10 +666,10 @@ class QuizController:
             self.win.viewport.frame_structures([s for v in self.pool.values() for s in v])
         self.win.viewport.setFocus()
         tips = {"find": "Left-click the structure in the 3D view; <b>right-click</b> anything in the way to peel it "
-                        "off (Ctrl+Z puts it back). Three wrong clicks reveal the answer.",
+                        f"off ({key_text('Ctrl+Z')} puts it back). Three wrong clicks reveal the answer.",
                 "hunt": "Everything is switched on and nothing is named. Move as usual, <b>right-click</b> to peel a "
                         "structure out of the way, <b>left-click</b> the one you think it is. Three tries, then it "
-                        "shows you — and tells you what you clicked. Ctrl+Z puts back the last thing you hid.",
+                        f"shows you — and tells you what you clicked. {key_text('Ctrl+Z')} puts back the last thing you hid.",
                 "choice": "The structure is outlined (and everything else x-rayed). Pick its name.",
                 "typed": "Type the name; suggestions appear as you type. Minor wording differences such as "
                          "'muscle' or 'bone' are ignored."}
@@ -791,7 +792,7 @@ class QuizController:
             self._peeled.append(int(sid))
             n = len(self._peeled)
             self.panel.peeled.setText(f"{n} structure{'s' if n != 1 else ''} peeled away "
-                                      "— Ctrl+Z puts the last one back")
+                                      f"— {key_text('Ctrl+Z')} puts the last one back")
             self.panel.unhide_btn.show()
         return True                       # never a context menu mid-question, even on empty space
 
@@ -963,8 +964,11 @@ class QuizController:
         if not text:
             return
         s0 = self.ds.structures[cur["sids"][0]]
-        accepted = {_norm_answer(cur["base"]), _norm_answer(s0.get("latin") or "")}
-        ok = _norm_answer(text) in accepted
+        accepted = {answer for answer in (_norm_answer(cur["base"]), _norm_answer(s0.get("latin") or "")) if answer}
+        typed = _norm_answer(text)
+        if not typed:
+            return
+        ok = typed in accepted
         if ok:
             p.feedback.setText(f'<span style="color:{theme.SUCCESS}; font-weight:700">Correct!</span>')
         else:

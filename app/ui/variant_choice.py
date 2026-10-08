@@ -87,9 +87,9 @@ class VariantChoice(QWidget):
         no_change = selected == "post" and getattr(entry, "outcome", None) == "no_change"
         baseline = getattr(entry, "baseline_defects", None)
         pre_scope = selected == "pre" and getattr(entry, "validation_scope", None) == "source_technical_correspondence"
-        text = "No changes from microrefine" if no_change else "Pre refine snapshot Â· technical integrity checked" if pre_scope else ""
+        text = "No changes from microrefine" if no_change else "Pre refine snapshot · technical integrity checked" if pre_scope else ""
         if pre_scope and baseline and baseline.get("findings"):
-            text += " Â· Baseline defects recorded"
+            text += " · Baseline defects recorded"
         self.result_status.setText(text)
         self.result_status.setVisible(bool(text))
         choice_blocked = self.choice.blockSignals(True)

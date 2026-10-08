@@ -1,20 +1,25 @@
 # Radiology cases
 
 A case puts one still image — a radiograph, a CT slice or an MR slice — beside the live 3D model, labelled on
-both sides, and sets the model up so the two show the same thing. Ctrl+R, or the **Radiology** tab on the left.
+both sides, and sets the model up so the two show the same thing. Ctrl+R, or the **Radiology** workspace (**Study → Radiology**).
 
-There are 24 cases — 19 of normal anatomy and 5 showing pathology:
+There are 104 cases, each with its own image in `data/radiology/images`. They span eight modalities: X-ray 29,
+ultrasound 19, MRI 15, CT 12, angiography 10, nuclear medicine 8, fluoroscopy 6 and mammography 5. By region:
 
 | Region | Cases |
 |---|---|
-| Thorax — pathology | massive pleural effusion, right middle lobe pneumonia, pneumothorax on expiration, heart failure, CT of the same pneumonia |
-| Thorax | chest PA, chest lateral, CT axial through the heart |
-| Abdomen | CT axial at the liver and spleen |
-| Head | CT axial non-contrast, MRI axial T2 |
-| Spine | cervical spine lateral |
-| Pelvis | pelvis AP |
-| Upper limb | shoulder AP glenoid (Grashey), elbow AP, wrist lateral, hand dorsopalmar |
-| Lower limb | hip AP, knee AP, knee lateral, MRI knee sagittal, ankle AP, ankle lateral, foot lateral weight-bearing |
+| Abdomen | 21 |
+| Head and neck | 21 |
+| Thorax | 20 |
+| Lower limb | 12 |
+| Upper limb | 8 |
+| Pelvis | 8 |
+| Spine | 7 |
+| Breast | 5 |
+| Whole body | 2 |
+
+Five chest cases (four films and a CT, in `data/content/radiology_pathology.json`) show disease that the model can
+display; see [Showing the pathology in the model](#showing-the-pathology-in-the-model).
 
 ## What a case is made of
 
@@ -169,7 +174,8 @@ the image with (0, 0) at the top left.
 .venv/Scripts/python.exe tools/fetch_radiology.py                                    # download the wanted list
 ```
 
-The wanted list is `data/radiology/cache/wanted.json`, a map of case id → Commons `File:` title. The fetcher
+The wanted list is `data/radiology/cache/wanted.json`, a map of case id → Commons `File:` title (it holds 24 of the 104
+current images; `data/radiology/sources.json` records all of them). The fetcher
 takes the standard 1280 px thumbnail, backs off on rate limits, and records the author, licence, description and
 source page in `data/radiology/sources.json`. Only use normal-anatomy images with a licence that allows reuse,
 and check each one by eye before adding it — a guessed file title usually does not exist.

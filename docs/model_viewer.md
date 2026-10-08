@@ -2,19 +2,18 @@
 
 Every 3D model other than the atlas itself opens in the model viewer, each in its own tab beside **3D Anatomy**:
 
-- the three **in-house models** made in Blender at full resolution (`models/`): *Whole heart*, *Kidney and nephron*
-  and *Cardiac muscle*;
-- the 37 **procedural microanatomy models** the app builds from code (`app/micro`, see `docs/microanatomy_models.md`);
+- the three **in-house models** made in Blender at full resolution (notes in `models/`; loaded from
+  `data/local_model_library`): *Whole heart*, *Kidney and nephron* and *Cardiac muscle*;
+- the other **microanatomy and organ models** in `data/local_model_library` (38 in all; their geometry is built by the
+  code in `app/micro`, see `docs/microanatomy_models.md`);
 - any other `.glb` / `.gltf` file, through **File → Open 3D model file** (Ctrl+O) or by dropping it on the window.
 
 They open from **Study → 3D models**, **Details → 3D models** (the models that show the selected structure: those
 that show the structure itself first, then those of its nearest group and so on, and within each the in-house models
-before the procedural and downloaded ones, so selecting any part of the heart offers the whole heart first), search, the top folder of the Histology tab, the **Related** menu of another model, and lesson steps
+before the procedural ones, so selecting any part of the heart offers the whole heart first), search, the top folder of the Histology tab, the **Related** menu of another model, and lesson steps
 and practice items (`micro`, `micro_focus`, `find_micro`).
 
-The viewer replaced three older pieces: the app's own microanatomy view, the standalone viewer the Blender models were
-delivered with (`viewer/`), and the embedded Sketchfab player, which streamed models from sketchfab.com. The app has
-no web view and needs no internet connection.
+The app has no web view and needs no internet connection.
 
 ## Controls
 
@@ -31,19 +30,18 @@ Camera** or **Settings → Keyboard** applies to both.
 | Arrows / WASD, = / -, R | Turn, zoom, auto-rotate |
 | H, I, X, Shift+H, Ctrl+Z, Esc | Hide, isolate, x-ray everything but the selection, show all, undo, clear (measurement, then x-ray, then selection) |
 | L | Labels on or off |
-| M | Measure (in µm, mm or cm from the model's scale; a downloaded model whose real size is not known gives lengths as a percentage of its width) |
+| M | Measure (in µm, mm or cm from the model's scale; a model whose real size is not known gives lengths as a percentage of its width) |
 | Ctrl+Alt+1 / 2 / 3 | Sagittal, coronal and transverse sections |
 | F12, Ctrl+Shift+S | Screenshot, labelled figure |
-| **PgDown / PgUp** | Next / previous stored view of the model (its view buttons or the **Views** menu) |
+| **PgDown / PgUp** | Next / previous stored view of the model (also its view buttons) |
 | **T** | Assembled / teased (the cardiac muscle opens its hero intercalated disc in place) |
 | **P** | Perspective / flat (orthographic) projection |
 | **Space** | Play / pause the model's animation (the procedural heart's heartbeat, the pancreas's secretion cycle) |
 
 The keys in bold exist only for models and are rebindable under **3D models** in Settings → Keyboard. The atlas's
 dissection keys (`[`, `]`, `Ctrl+[`) and **B** (both sides) have no meaning in a model and do nothing in a model tab.
-Where the standalone viewer the Blender models came with used other keys, the atlas's win: its **Shift+H** and
-**Shift+I** (hide or isolate a whole structure) are the right-click menu's *Hide all …* and *Select all …* (then **I**),
-**Shift+H** and **Alt+H** show everything as in the atlas, and its number keys for views are **PgDown / PgUp**.
+In a model, **Shift+H** and **Alt+H** show everything, as in the atlas, and the right-click menu's *Hide all …* hides a
+whole group.
 
 ## Labels
 
@@ -82,7 +80,8 @@ surface. Procedural models shade them like a stained section; the others in the 
 
 A model is a `.glb` and a `.viewer.json` sidecar with the same name, in `models/<name>/`, plus a metadata file in
 `data/content/models/<id>.json`. `tools/blender/export_for_viewer.py` exports both from a frozen `.blend` (headless
-Blender; the original file is never opened or saved) into `models/<name>/`.
+Blender; the original file is never opened or saved) into `models/<name>/`. The app opens such a file this way only
+for the three in-house ids, and only when the model library has no model with the same id (`app/viewer/catalog.py`).
 
 The sidecar carries what glTF cannot: `um_per_bu` (micrometres per unit, for the scale bar and measuring), `states`
 (offsets per node for the teased state), `materials` (the procedural recipes: stripe period and bands, nucleus
@@ -123,8 +122,8 @@ The atlas keeps the Z-Anatomy heart: it is part of the body, and anything about 
 (the mediastinum, the chest wall, surface markings, the ECG leads, the fetal circulation with its liver and umbilical
 vessels, referred pain) is taught on it. Wherever the heart is studied on its own - its chambers, walls, valves,
 coronary vessels, the lab-course practice items - lessons open the *Whole heart* model instead. The procedural *Heart:
-chambers, valves & conduction* model stays for what only it shows: the conduction system (SA and AV nodes, bundle
-branches, Purkinje network), the fossa ovalis and crista terminalis, and the animated heartbeat.
+chambers, valves & conduction* model (`app/micro/heart.py`) is not loaded by the current catalogue, so none of its views
+(the conduction system, the fossa ovalis and crista terminalis, the animated heartbeat) is in the app at present.
 
 ## Tools
 

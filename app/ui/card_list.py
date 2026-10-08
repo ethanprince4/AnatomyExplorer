@@ -16,6 +16,12 @@ ROLE_DONE = Qt.UserRole + 27
 ROLE_LEVEL = Qt.UserRole + 28
 ROLE_GROUP_KEY = Qt.UserRole + 29
 
+# Every role a row can carry; a reused row is rewritten across all of them (see CardList.clear).
+ROW_ROLES = (Qt.DisplayRole, Qt.ToolTipRole, Qt.AccessibleTextRole, Qt.AccessibleDescriptionRole, Qt.UserRole,
+             ROLE_KIND, ROLE_TITLE, ROLE_SUMMARY, ROLE_BADGE, ROLE_ACCENT, ROLE_DIM, ROLE_PROGRESS, ROLE_DONE,
+             ROLE_LEVEL, ROLE_GROUP_KEY)
+DEFAULT_FLAGS = Qt.ItemIsSelectable | Qt.ItemIsEnabled
+
 MARGIN_X, PAD_L, PAD_R, PAD_T, PAD_B = 2, 12, 12, 12, 12
 TEXT_L, STRIPE, GAP, MAX_LINES, TITLE_LINES = PAD_L, 0, 5, 3, 3
 
@@ -170,6 +176,7 @@ class CardList(QListWidget):
         self._expanded_groups = set()
         self._group_header = None
         self._group_path = []
+        self._used = 0
         self.itemClicked.connect(self._toggle_group)
         self.setItemDelegate(CardDelegate(self, compact=compact))
         self.setMouseTracking(True)
@@ -194,9 +201,43 @@ class CardList(QListWidget):
         super().keyPressEvent(event)
 
     def clear(self):
+        """Start a rebuild. Rows are hidden for reuse rather than removed: these lists are rebuilt on every filter
+        keystroke and case step while on screen, and removing rows can crash Qt's macOS accessibility bridge (see
+        stable_rows). Python callers see count() as the rows in use, as after a real clear."""
         self._group_header = None
         self._group_path = []
-        super().clear()
+        self._used = 0
+        self.selectionModel().reset()        # like a model reset: no current row, and no signals
+        for row in range(super().count()):
+            item = self.item(row)
+            self._rewrite(item, {}, Qt.NoItemFlags)
+            item.setHidden(True)
+        self.scheduleDelayedItemsLayout()
+
+    def count(self):
+        return self._used
+
+    def _row(self, values, flags=DEFAULT_FLAGS):
+        """The next row of the rebuild, reused when one is spare, holding exactly these role values."""
+        if self._used < super().count():
+            item = self.item(self._used)
+        else:
+            item = QListWidgetItem()
+            self.addItem(item)
+        self._used += 1
+        self._rewrite(item, values, flags)
+        item.setHidden(False)
+        return item
+
+    @staticmethod
+    def _rewrite(item, values, flags):
+        # Only roles that change are written, so refilling an unchanged list notifies nobody.
+        for role in ROW_ROLES:
+            value = values.get(role)
+            if item.data(role) != value:
+                item.setData(role, value)
+        if item.flags() != flags:
+            item.setFlags(flags)
 
     def _toggle_group(self, item):
         if not self.collapsible or item.data(ROLE_KIND) != "header":
@@ -210,7 +251,7 @@ class CardList(QListWidget):
 
     def _refresh_groups(self):
         ancestors = []
-        for row in range(self.count()):
+        for row in range(self._used):
             item = self.item(row)
             level = item.data(ROLE_LEVEL) or 0
             ancestors = ancestors[:level]
@@ -222,46 +263,32 @@ class CardList(QListWidget):
         self.scheduleDelayedItemsLayout()
 
     def add_header(self, text, level=0, key=None):
-        item = QListWidgetItem(text)
-        item.setFlags(Qt.NoItemFlags)
-        item.setData(ROLE_KIND, "header")
-        item.setData(ROLE_LEVEL, level)
+        values = {Qt.DisplayRole: text, ROLE_KIND: "header", ROLE_LEVEL: level}
+        flags = Qt.NoItemFlags
         if self.collapsible:
             key = key or text
-            item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-            item.setData(ROLE_TITLE, text)
-            item.setData(ROLE_GROUP_KEY, key)
-            item.setText("    " * level + ("▾ " if key in self._expanded_groups else "▸ ") + text)
-            item.setToolTip("Expand or collapse this group")
+            flags = Qt.ItemIsEnabled | Qt.ItemIsSelectable
+            values.update({Qt.DisplayRole: "    " * level + ("▾ " if key in self._expanded_groups else "▸ ") + text,
+                           ROLE_TITLE: text, ROLE_GROUP_KEY: key, Qt.ToolTipRole: "Expand or collapse this group"})
             self._group_path = self._group_path[:level] + [key]
             self._group_header = key
-        self.addItem(item)
+        item = self._row(values, flags)
         if self.collapsible:
             item.setHidden(any(k not in self._expanded_groups for k in self._group_path[:-1]))
         return item
 
     def add_note(self, text):
-        item = QListWidgetItem(text)
-        item.setFlags(Qt.NoItemFlags)
-        item.setData(ROLE_KIND, "note")
-        self.addItem(item)
-        return item
+        return self._row({Qt.DisplayRole: text, ROLE_KIND: "note"}, Qt.NoItemFlags)
 
     def add_card(self, title, summary="", badge="", accent=None, data=None, tooltip="", dim=False,
                  progress=0.0, done=False):
-        item = QListWidgetItem(title)
-        for role, value in ((ROLE_KIND, "card"), (ROLE_TITLE, title), (ROLE_SUMMARY, summary),
-                            (ROLE_BADGE, badge), (ROLE_ACCENT, accent), (ROLE_DIM, dim),
-                            (ROLE_DONE, done), (ROLE_PROGRESS, max(0.0, min(1.0, float(progress))))):
-            item.setData(role, value)
-        if data is not None:
-            item.setData(Qt.UserRole, data)
         status = "Finished" if done else f"{round(progress * 100)}% read" if progress else ""
         accessible = ". ".join(str(x) for x in (title, summary, badge, status) if x)
-        item.setData(Qt.AccessibleTextRole, accessible)
-        item.setData(Qt.AccessibleDescriptionRole, tooltip or accessible)
-        item.setToolTip(tooltip or accessible)
-        self.addItem(item)
+        item = self._row({Qt.DisplayRole: title, ROLE_KIND: "card", ROLE_TITLE: title, ROLE_SUMMARY: summary,
+                          ROLE_BADGE: badge, ROLE_ACCENT: accent, ROLE_DIM: dim, ROLE_DONE: done,
+                          ROLE_PROGRESS: max(0.0, min(1.0, float(progress))), Qt.UserRole: data,
+                          Qt.AccessibleTextRole: accessible, Qt.AccessibleDescriptionRole: tooltip or accessible,
+                          Qt.ToolTipRole: tooltip or accessible})
         if self.collapsible and self._group_header is not None:
             item.setData(ROLE_LEVEL, len(self._group_path))
             item.setHidden(any(k not in self._expanded_groups for k in self._group_path))

@@ -190,9 +190,13 @@ jobs:
     name: Publish release
     needs: [build, safety, diagnostics]
     if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.tag != ''
-    runs-on: ubuntu-latest
+    # macOS because prepare_release_assets.py builds the Mac installer app with osacompile, codesign and ditto.
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
       - uses: actions/download-artifact@v8
         with:
           name: AnatomyExplorer-Setup-Windows.exe

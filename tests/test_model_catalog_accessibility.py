@@ -92,6 +92,30 @@ class CatalogAccessibilityTests(unittest.TestCase):
         self.assertEqual(reset, [], "Catalog clicks must preserve the combo models")
         self.assertEqual(opened, [], "Selecting a catalog entry must not load geometry")
 
+    def test_refresh_and_filter_keep_accessible_list_rows_alive(self):
+        removed, reset = [], []
+        model = self.panel.list.model()
+        model.rowsRemoved.connect(lambda *args: removed.append(args))
+        model.modelReset.connect(lambda: reset.append(True))
+        item = self.panel.list.item(1)
+        QTest.mouseClick(self.panel.list.viewport(), Qt.LeftButton,
+                         pos=self.panel.list.visualItemRect(item).center())
+        iface = QAccessible.queryAccessibleInterface(self.panel.list)
+        for index in range(iface.childCount()):
+            self.assertTrue(iface.child(index).isValid())
+
+        self.panel._run()       # what a finished model load and each verification step do
+        self.assertEqual(self.panel.list.currentItem().data(ROLE_ENTRY).id, "B skin")
+        self.panel.edit.setText("inset")
+        self.assertEqual(self.panel.shown, 1)
+        self.assertEqual(self.panel.list.currentItem().data(ROLE_ENTRY).id, "C inset")
+        self.assertTrue(self.panel.list.item(1).isHidden())
+        self.panel.edit.clear()
+        self.assertEqual(self.panel.shown, 3)
+        self.assertFalse(any(self.panel.list.item(row).isHidden() for row in range(3)))
+        self.assertEqual(removed, [], "Refreshing the catalog must not remove cached list rows")
+        self.assertEqual(reset, [], "Refreshing the catalog must preserve the list model")
+
     def test_unavailable_scene_cannot_be_requested(self):
         controls = self.panel.variant_choice
         controls.set_entry(self.entries[2])

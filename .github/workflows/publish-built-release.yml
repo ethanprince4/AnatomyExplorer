@@ -13,9 +13,13 @@ permissions:
   actions: read
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    # macOS because prepare_release_assets.py builds the Mac installer app with osacompile, codesign and ditto.
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
       - uses: actions/download-artifact@v8
         with:
           name: AnatomyExplorer-Setup-Windows.exe
@@ -41,8 +45,9 @@ jobs:
           fail_on_unmatched_files: true
           body: >-
             Refreshed UI and post-refined model library. Existing users can use the in-app updater normally.
-            New installations: installers exceed GitHub's file limit. Download Download-Windows-Installer.ps1
-            or Download-Mac-Installer.command to download and assemble your installer. See INSTALL-DOWNLOADS.md.
+            New installations: installers exceed GitHub's file limit. Windows: download Download-Windows-Installer.ps1
+            and run it with PowerShell. Mac: download Install-Anatomy-Explorer-Mac.zip, unzip it and double-click
+            Install Anatomy Explorer. See INSTALL-DOWNLOADS.md.
       - name: Publish completed uploads
         env:
           GH_TOKEN: ${{ github.token }}

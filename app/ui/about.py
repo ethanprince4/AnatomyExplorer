@@ -6,6 +6,7 @@ from PySide6.QtGui import QFont, QPixmap
 from PySide6.QtWidgets import (QDialog, QDialogButtonBox, QHBoxLayout, QLabel, QTabWidget, QTextBrowser,
                                QVBoxLayout)
 
+from ..actions import WORKSPACE_MODIFIER, default_key_text, key_text
 from ..config import FROZEN, ROOT
 from . import theme
 
@@ -108,10 +109,10 @@ class AboutDialog(QDialog):
         tabs = QTabWidget()
         tabs.setAccessibleName("About, credits and licence")
         guide = ("# Getting around\n\n"
-                 "- **Ctrl+F:** Search anatomy, models, images and lessons.\n"
-                 "- **Ctrl+Shift+1–5:** Anatomy, model library, lessons, radiology and histology.\n"
-                 "- **Ctrl+Shift+P:** Find an application command.\n"
-                 "- **Ctrl+B:** Hide or show the side panels.\n"
+                 f"- **{default_key_text('search')}:** Search anatomy, models, images and lessons.\n"
+                 f"- **{key_text(WORKSPACE_MODIFIER + '1')}–5:** Anatomy, model library, lessons, radiology and histology.\n"
+                 f"- **{key_text('Ctrl+Shift+P')}:** Find an application command.\n"
+                 f"- **{default_key_text('toggle_panels')}:** Hide or show the side panels.\n"
                  "- **F:** Frame the current selection while the 3D view has focus.\n\n"
                  "Explore and Details share a dock on compact windows; their tabs keep both reachable. "
                  "Open model and image tabs retain their own subject. Closing a loading model cancels it.\n\n"

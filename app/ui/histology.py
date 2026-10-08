@@ -3,11 +3,13 @@ import html
 from PySide6.QtCore import QRectF, QSize, Qt, QUrl, Signal
 from PySide6.QtGui import QDesktopServices, QIcon, QPainter, QPixmap
 from PySide6.QtWidgets import (QBoxLayout, QComboBox, QFrame, QGraphicsPixmapItem, QGraphicsScene, QGraphicsView, QHBoxLayout, QLabel,
-                               QLineEdit, QListWidget, QListWidgetItem, QMenu, QPushButton, QSplitter, QTextBrowser,
+                               QLineEdit, QListWidget, QMenu, QPushButton, QSplitter, QTextBrowser,
                                QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
 from . import theme
-from .image_workspace import LocalImageLoader, control, matches_words, searchable_text, image_control_card, CARD_TEXT, CARD_MUTED
+from .stable_rows import fill_combo, fill_list
+from .image_workspace import (LocalImageLoader, control, matches_words, searchable_text, image_control_card, CARD_TEXT,
+                              CARD_MUTED, pinch_steps, trackpad_scroll)
 
 ROLE = Qt.UserRole + 1
 SEARCH_ROLE = Qt.UserRole + 2
@@ -248,8 +250,18 @@ class ImageView(QGraphicsView):
         self.zoomChanged.emit(target)
 
     def wheelEvent(self, event):
+        if trackpad_scroll(event):
+            super().wheelEvent(event)      # a two-finger swipe scrolls the zoomed image; a pinch zooms
+            return
         self.zoom_by(event.angleDelta().y() / 120.0)
         event.accept()
+
+    def viewportEvent(self, event):
+        steps = pinch_steps(event, 1.2)
+        if steps is not None:
+            self.zoom_by(steps)
+            return True
+        return super().viewportEvent(event)
 
     def keyPressEvent(self, event):
         if event.key() in (Qt.Key_Plus, Qt.Key_Equal, Qt.Key_Minus):
@@ -418,33 +430,40 @@ class HistologyViewer(QWidget):
             self.view.set_message("No images are available for this tissue. Choose another tissue from the library.")
             self.image_status.setText(self.view._message)
             self.caption.clear()
-            self.strip.clear()
-            self.image_choice.clear()
+            self._fill_images([])
             self.counter.clear()
             self._set_controls(False)
             self.retry_image.hide()
             return
         if self.tissue is not t:
             self.tissue = t
-            self.strip.blockSignals(True)
-            self.image_choice.blockSignals(True)
-            self.strip.clear()
-            self.image_choice.clear()
-            for i, img in enumerate(t["images"]):
-                it = QListWidgetItem(QIcon(str(self.content.thumb_path(img))), str(i + 1))
-                it.setToolTip(img["title"])
-                it.setData(Qt.AccessibleTextRole, img["title"])
-                self.strip.addItem(it)
-                self.image_choice.addItem(img["title"], i)
-                self.image_choice.setItemData(i, img["title"], Qt.ToolTipRole)
-            self.strip.blockSignals(False)
-            self.image_choice.blockSignals(False)
+            self._fill_images(t["images"])
             self.names = linked_structure_names(self.ds, t)
             self.show3d.setText("Show in 3D" if self.names else "No 3D link")
             self.show3d.setToolTip(f"Show {len(self.names)} linked structures. Images are not spatially registered to the 3D reference."
                                    if self.names else "This tissue has no authored structures in the installed atlas.")
         self.show_image(max(0, min(index, len(t["images"]) - 1)))
         self._update_info()
+
+    def _fill_images(self, images):
+        """Thumbnails and the image picker for a tissue. A tissue change comes from a click in the library with
+        both views alive, so their rows are rewritten rather than removed (see stable_rows)."""
+        def fill(item, numbered):
+            row, img = numbered
+            item.setIcon(QIcon(str(self.content.thumb_path(img))))
+            item.setText(str(row + 1))
+            item.setToolTip(img["title"])
+            item.setData(Qt.AccessibleTextRole, img["title"])
+
+        self.strip.blockSignals(True)
+        self.image_choice.blockSignals(True)
+        fill_list(self.strip, list(enumerate(images)), fill)
+        fill_combo(self.image_choice, [(img["title"], row) for row, img in enumerate(images)])
+        if not images:
+            self.strip.setCurrentRow(-1)
+            self.image_choice.setCurrentIndex(-1)
+        self.strip.blockSignals(False)
+        self.image_choice.blockSignals(False)
 
     def _choose_image(self, index):
         if self.tissue and index >= 0 and index != self.index:

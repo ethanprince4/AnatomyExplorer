@@ -1,14 +1,29 @@
 """Native two-dimensional image-workspace helpers. No renderer or model access."""
+import math
 from pathlib import Path
 from threading import Event
 
-from PySide6.QtCore import QObject, QRunnable, QThreadPool, Signal, Slot, Qt
+from PySide6.QtCore import QEvent, QObject, QRunnable, QThreadPool, Signal, Slot, Qt
 from PySide6.QtGui import QImage, QImageReader
 from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget
 
 
 _IMAGE_POOL = QThreadPool()
 _IMAGE_POOL.setMaxThreadCount(2)
+
+
+def trackpad_scroll(event):
+    """True for a trackpad swipe, which pans an image as in other image viewers; a mouse wheel zooms. macOS gives
+    every trackpad scroll (and its momentum after the fingers lift) a phase, Linux a pixel delta; a wheel has
+    neither. Windows touchpads report neither and keep zooming, as before."""
+    return event.phase() != Qt.NoScrollPhase or not event.pixelDelta().isNull()
+
+
+def pinch_steps(event, base):
+    """Zoom steps, in powers of base, for a trackpad pinch; None for any other event."""
+    if event.type() == QEvent.NativeGesture and event.gestureType() == Qt.ZoomNativeGesture:
+        return math.log1p(max(-0.9, event.value())) / math.log(base)    # value() is this event's change in scale
+    return None
 
 
 class _ImageResult(QObject):

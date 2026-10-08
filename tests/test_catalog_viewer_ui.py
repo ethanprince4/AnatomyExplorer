@@ -75,7 +75,7 @@ class CatalogTests(Widgets):
 
     def test_all_catalog_kinds_and_metadata_do_not_load_models(self):
         panel = self.panel()
-        self.assertEqual(panel.list.count(), 3)
+        self.assertEqual(panel.shown, 3)
         self.assertIn("Schematic enlargement", panel.preview.toPlainText())
         for e in self.entries:
             e.load.assert_not_called()
@@ -83,15 +83,15 @@ class CatalogTests(Widgets):
     def test_filter_linked_structure_and_kind(self):
         panel = self.panel()
         panel.edit.setText("upper limb")
-        self.assertEqual(panel.list.count(), 3)
+        self.assertEqual(panel.shown, 3)
         panel.kind_filter.setCurrentIndex(panel.kind_filter.findData("procedural"))
-        self.assertEqual(panel.list.count(), 1)
+        self.assertEqual(panel.shown, 1)
         self.assertEqual(panel.list.currentItem().data(ROLE_ENTRY).id, "p")
 
     def test_no_match_disables_open_then_select_model_clears_filters(self):
         panel = self.panel()
         panel.edit.setText("does not exist")
-        self.assertEqual(panel.list.count(), 0)
+        self.assertEqual(panel.shown, 0)
         self.assertFalse(panel.open_button.isEnabled())
         self.assertIn("No models match", panel.info.text())
         self.assertTrue(panel.select_model("heart"))
@@ -115,7 +115,7 @@ class CatalogTests(Widgets):
         self.assertEqual(panel.list.currentRow(), 1)
         panel.edit.setText("Whole")
         QTest.keyClick(panel.edit, Qt.Key_Escape)
-        self.assertEqual(panel.list.count(), 3)
+        self.assertEqual(panel.shown, 3)
         empty = self.keep(ModelCatalogPanel(SimpleNamespace(micro_models={}, tissues={})))
         self.assertFalse(empty.open_button.isEnabled())
         self.assertIn("No validated new models", empty.info.text())
@@ -133,7 +133,7 @@ class SearchTests(Widgets):
         panel, index = self.panel()
         panel.kind_filter.setCurrentIndex(panel.kind_filter.findData("micro"))
         panel._timer.stop(); panel._run()
-        self.assertEqual(panel.list.count(), 1)
+        self.assertEqual(panel.shown, 1)
         self.assertEqual(panel.list.item(0).data(ROLE_ENTRY).kind, "micro")
         panel.edit.setText("radius")
         panel._timer.stop(); panel._run()
@@ -149,7 +149,7 @@ class SearchTests(Widgets):
         panel.edit.clear()
         panel._activate_current()
         self.assertEqual(len(opened), 1)
-        self.assertEqual(panel.list.count(), 0)
+        self.assertEqual(panel.shown, 0)
         self.assertFalse(active[-1])
 
     def test_failure_has_recovery_message_and_no_stale_activation(self):
@@ -157,7 +157,7 @@ class SearchTests(Widgets):
         index.search.side_effect = ValueError("invalid index")
         panel.edit.setText("radius"); panel._timer.stop(); panel._run()
         self.assertIn("retry", panel.info.text())
-        self.assertEqual(panel.list.count(), 0)
+        self.assertEqual(panel.shown, 0)
 
     def test_rows_grow_with_font_scale(self):
         delegate = ResultDelegate()

@@ -80,6 +80,17 @@ class StudioHeader(QWidget):
         for key,button in self.navigation.items():
             button.setChecked(key==name)
 
+    def mousePressEvent(self,event):
+        # A borderless window has no title bar, and the menu bar is hidden (on a Mac it is the system's, outside
+        # the window): the empty part of this header is where it is dragged. Buttons and the search box keep
+        # their clicks; presses on the bar and the brand reach here.
+        handle=self._owner.windowHandle()
+        if (getattr(self._owner,'_borderless',False) and event.button()==Qt.LeftButton and handle is not None
+                and handle.startSystemMove()):
+            event.accept()
+            return
+        super().mousePressEvent(event)
+
     def resizeEvent(self,event):
         # Font scaling and the active stylesheet can change after construction.
         # Reserve padding using the final font instead of the startup font.

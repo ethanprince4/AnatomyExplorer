@@ -15,6 +15,7 @@ from PySide6.QtGui import QActionGroup
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMenu, QPushButton, QSlider,
                                QScrollArea, QSplitter, QGridLayout, QToolButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
+from ..actions import key_text
 from ..state import SceneState
 from ..viewer.dataset import ModelDataset
 from ..viewer.viewport import SECTION_NAMES, ModelViewport
@@ -641,7 +642,7 @@ class ModelView(QWidget):
             bar.addWidget(self.cut)
         sec = QToolButton()
         sec.setText("Section")
-        sec.setToolTip("Sagittal, coronal and transverse cross-sections through the model (Ctrl+Alt+1/2/3)")
+        sec.setToolTip(f"Sagittal, coronal and transverse cross-sections through the model ({key_text('Ctrl+Alt+1')}/2/3)")
         sec.setPopupMode(QToolButton.InstantPopup)
         smenu = QMenu(sec)
         self.section_actions = []
@@ -1025,7 +1026,7 @@ class ModelView(QWidget):
         if it:
             if it.isHidden():
                 self.filter.clear()
-            if self.flat_parts or it.parent() is not None:
+            if it.parent() is not None:
                 it.parent().setExpanded(True)
             self.tree.blockSignals(True)
             self.tree.setCurrentItem(it)

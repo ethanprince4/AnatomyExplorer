@@ -1,35 +1,113 @@
 """Split oversized installers for GitHub; updater packs remain unchanged."""
 import argparse
+import hashlib
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 LIMIT = 2_147_483_648
 PART = 1_000_000_000
+REPO = 'https://github.com/ethanprince4/AnatomyExplorer/releases/download'
+HERE = Path(__file__).resolve().parent
+MAC_APP = 'Install Anatomy Explorer.app'
+MAC_INSTALLER = 'Install-Anatomy-Explorer-Mac.zip'
+
+
+def run(*cmd):
+    print('+', ' '.join(str(c) for c in cmd), flush=True)
+    subprocess.run([str(c) for c in cmd], check=True)
+
+
+def sha256(path):
+    digest = hashlib.sha256()
+    with path.open('rb') as source:
+        for block in iter(lambda: source.read(1 << 20), b''):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def split(path, folder):
+    """Write path.partNNN files into folder and return their names in order."""
+    names = []
+    with path.open('rb') as source:
+        number = 1
+        while True:
+            data = source.read(PART)
+            if not data:
+                break
+            name = f'{path.name}.part{number:03d}'
+            (folder / name).write_bytes(data)
+            names.append(name)
+            number += 1
+    return names
+
+
+def mac_app_name(tag):
+    """The app name build.py gives the bundle (the experimental channel is the '-preview.' tags)."""
+    return 'Anatomy Explorer Experimental' if '-preview.' in tag else 'Anatomy Explorer'
+
+
+def fill(template_name, values):
+    text = (HERE / 'mac_installer' / template_name).read_text(encoding='utf-8')
+    for key, value in values.items():
+        text = text.replace(key, value)
+    leftover = re.search(r'@[A-Z]+@', text)
+    if leftover:
+        raise ValueError(f'{template_name}: no value for {leftover.group(0)}')
+    return text
+
+
+def mac_installer_script(base, dmg_name, bundle, total, parts):
+    """install.sh for the applet. parts is [(file name, sha256)] in join order."""
+    for name, _ in parts:
+        if not re.fullmatch(r'[A-Za-z0-9._-]+', name):
+            raise ValueError(f'Unsafe part name: {name}')
+    lines = [f"  '{name} {digest}'" for name, digest in parts]
+    return fill('install.sh.in', {'@BASE@': base, '@DMG@': dmg_name, '@BUNDLE@': bundle,
+                                  '@TOTAL@': str(total), '@PARTS@': '\n'.join(lines)})
+
+
+def build_mac_installer(folder, tag, dmg_name, total, parts):
+    """Create folder/Install-Anatomy-Explorer-Mac.zip: an ad-hoc signed AppleScript applet that runs install.sh."""
+    if sys.platform != 'darwin':
+        raise SystemExit('An oversized Mac installer needs macOS to build the installer app (osacompile, codesign, ditto)')
+    name = mac_app_name(tag)
+    work = Path(tempfile.mkdtemp(prefix='ae-installer-'))
+    try:
+        source = work / 'installer.applescript'
+        source.write_text(fill('Installer.applescript.in', {'@NAME@': name, '@VERSION@': tag}), encoding='utf-8')
+        applet = work / MAC_APP
+        run('osacompile', '-x', '-o', applet, source)
+        if not (applet / 'Contents/Resources').is_dir():
+            raise SystemExit(f'osacompile did not produce an application bundle at {applet}')
+        script = applet / 'Contents/Resources/install.sh'
+        script.write_text(mac_installer_script(f'{REPO}/{tag}', dmg_name, name + '.app', total, parts), encoding='utf-8')
+        script.chmod(0o755)
+        # Written after osacompile, so the signature covers the embedded script.
+        run('codesign', '--force', '--deep', '--sign', '-', applet)
+        run('codesign', '--verify', '--deep', '--strict', applet)
+        out = folder / MAC_INSTALLER
+        out.unlink(missing_ok=True)
+        run('ditto', '-c', '-k', '--keepParent', applet, out)
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
 
 
 def prepare(folder, tag):
-    import re
     if not re.fullmatch(r'v[0-9A-Za-z.+-]+', tag):
         raise ValueError('Invalid release tag')
-    base = f'https://github.com/ethanprince4/AnatomyExplorer/releases/download/{tag}'
+    base = f'{REPO}/{tag}'
     notes = ['# Installer downloads', '', 'Existing users: use the in-app updater normally.', '',
-             'New installations: download the Windows .ps1 or Mac .command helper below and run it. '
-             'It downloads and joins the installer parts in its own folder, then opens the installer. '
-             'Windows: right-click the .ps1 and choose Run with PowerShell. '
-             'Mac: run bash followed by the downloaded .command file in Terminal.', '']
+             'New installations: installers larger than GitHub\'s file limit are split into parts. Use the helper '
+             'below. It downloads and checks the parts in its own folder, joins them and then starts the installer.', '']
     for path in sorted(folder.iterdir()):
         if path.suffix.lower() not in ('.exe', '.dmg') or path.stat().st_size < LIMIT:
             continue
-        parts = []
-        with path.open('rb') as source:
-            number = 1
-            while True:
-                data = source.read(PART)
-                if not data:
-                    break
-                name = f'{path.name}.part{number:03d}'
-                (folder / name).write_bytes(data)
-                parts.append(name)
-                number += 1
+        total = path.stat().st_size
+        parts = split(path, folder)
         if path.suffix.lower() == '.exe':
             script = ["$ErrorActionPreference='Stop'", 'Set-Location -LiteralPath $PSScriptRoot']
             for name in parts:
@@ -39,15 +117,18 @@ def prepare(folder, tag):
                 script.append(f"  $src=[IO.File]::OpenRead((Join-Path $PSScriptRoot '{name}')); try {{$src.CopyTo($out)}} finally {{$src.Dispose()}}")
             script += ['} finally {$out.Dispose()}', f"Start-Process -FilePath (Join-Path $PSScriptRoot '{path.name}')"]
             helper = 'Download-Windows-Installer.ps1'
+            (folder / helper).write_text('\n'.join(script) + '\n', encoding='utf-8')
+            notes.append(f'- {helper} (Windows): reconstructs {path.name} from {len(parts)} parts. Right-click it and '
+                         'choose Run with PowerShell.')
         else:
-            script = ['#!/bin/bash', 'set -euo pipefail', 'cd "$(dirname "$0")"']
-            for name in parts:
-                script.append(f'curl --fail --location --retry 3 "{base}/{name}" --output "{name}"')
-            script += ['cat ' + ' '.join(f'"{n}"' for n in parts) + f' > "{path.name}.assembling"',
-                       f'mv "{path.name}.assembling" "{path.name}"', f'open "{path.name}"']
-            helper = 'Download-Mac-Installer.command'
-        (folder / helper).write_text('\n'.join(script) + '\n', encoding='utf-8')
-        notes.append(f'- {helper}: reconstructs {path.name} from {len(parts)} parts.')
+            build_mac_installer(folder, tag, path.name, total, [(name, sha256(folder / name)) for name in parts])
+            notes.append(f'- {MAC_INSTALLER} (Mac, Apple silicon): reconstructs {path.name} from {len(parts)} parts. '
+                         f'Unzip it and double-click "{MAC_APP[:-4]}". It downloads about {total / 1e9:.1f} GB, checks '
+                         f'each part, copies the app into Applications and opens it. It needs about '
+                         f'{(2 * total + 2 ** 30) / 1e9:.0f} GB of free disk space while it runs; if it stops, run it '
+                         'again. The first time, macOS may say it cannot be opened, because the project has no paid '
+                         'Apple developer certificate: open System Settings > Privacy & Security, scroll down and click '
+                         'Open Anyway (on macOS 14 and earlier, right-click it and choose Open also works).')
         path.unlink()  # Only the disposable publish staging copy; build artifacts are retained.
     (folder / 'INSTALL-DOWNLOADS.md').write_text('\n'.join(notes) + '\n', encoding='utf-8')
 

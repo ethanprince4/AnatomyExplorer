@@ -720,6 +720,26 @@ class UpdateStore:
             atomic_json(self.state_file, state)
             return True
 
+    def adopt_newer_base(self):
+        """Run a reinstalled original app instead of an older update made for the one it replaced.
+
+        Updates are kept per install location, so dragging a newer release over the app leaves state pointing at
+        the version it had updated to before, and that older copy kept launching. When the original now has the
+        same channel and at least the active version, the updates are set aside and the original runs; a staged
+        version newer than it stays pending."""
+        with lock(self.root / "state.lock"):
+            state = self.state()
+            current = state.get("current")
+            if current is None or state.get("trial") or state.get("rollback_requested") or state.get("return_to_stable"):
+                return False
+            base, active = installed_metadata(self.base), installed_metadata(self.path(current))
+            if (manifest_channel(base) != manifest_channel(active) or
+                    version_tuple(base["version"]) < version_tuple(active["version"])):
+                return False
+            state.update(current=None, previous=None)
+            atomic_json(self.state_file, state)
+            return True
+
     def healthy(self):
         with lock(self.root / "state.lock"):
             state = self.state()
@@ -802,6 +822,10 @@ def launch_managed(arguments, *, base=None, wait_seconds=0):
         # A prior trial that never reached the UI is also rolled back after a power loss.
         if store.state().get("trial") or store.state().get("rollback_requested"):
             store.rollback()
+        try:
+            store.adopt_newer_base()
+        except (OSError, ValueError, KeyError, UpdateError):
+            pass  # an unreadable version label must never stop the app from opening
         try:
             selected = store.activate()
         except (OSError, ValueError, UpdateError) as exc:
