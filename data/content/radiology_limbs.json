@@ -212,7 +212,8 @@
   ],
   "scene": {
    "systems": [
-    "skeletal"
+    "skeletal",
+    "joints"
    ],
    "regions": [
     "upper_limb_l"
@@ -234,7 +235,8 @@
     "Second metacarpal bone",
     "Third metacarpal bone",
     "Fourth metacarpal bone",
-    "Fifth metacarpal bone"
+    "Fifth metacarpal bone",
+    "Articular capsule of radiocarpal joint"
    ],
    "frame_on": [
     "Radius",
@@ -329,9 +331,7 @@
     "y": 0.368,
     "text": "Radiocarpal joint",
     "structures": [
-     "Triquetrum bone",
-     "Scaphoid bone",
-     "Lunate bone"
+     "Articular capsule of radiocarpal joint"
     ],
     "side": "Left",
     "note": "the joint between the distal radius and the proximal carpal row"
@@ -423,13 +423,17 @@
     "Rectus femoris muscle",
     "Vastus intermedius muscle",
     "Suprapatellar bursa",
-    "Infrapatellar fat pad",
-    "Articular capsule of knee joint"
+    "Infrapatellar fat pad"
    ],
    "frame_on": [
     "Patella",
     "Femur",
-    "Tibia"
+    "Tibia",
+    "Fibula",
+    "Rectus femoris muscle",
+    "Vastus intermedius muscle",
+    "Suprapatellar bursa",
+    "Infrapatellar fat pad"
    ],
    "show": [
     "Suprapatellar bursa",
@@ -606,7 +610,8 @@
   ],
   "scene": {
    "systems": [
-    "skeletal"
+    "skeletal",
+    "joints"
    ],
    "regions": [
     "lower_limb_r"
@@ -630,12 +635,14 @@
     "Fifth metatarsal bone",
     "Sesamoid bones of foot",
     "Proximal phalanx of first finger of foot",
-    "Distal phalanx of first finger of foot"
+    "Distal phalanx of first finger of foot",
+    "Posterior talocalcaneal ligament"
    ],
    "frame_on": [
     "Talus",
     "Calcaneus",
-    "First metatarsal bone"
+    "First metatarsal bone",
+    "Posterior talocalcaneal ligament"
    ]
   },
   "labels": [
@@ -698,8 +705,7 @@
     "y": 0.53,
     "text": "Subtalar joint",
     "structures": [
-     "Talus",
-     "Calcaneus"
+     "Posterior talocalcaneal ligament"
     ],
     "note": "posterior facet – inversion and eversion happen here"
    },
@@ -848,7 +854,8 @@
    "view": "anterior",
    "show": [
     "Obturator membrane",
-    "Pubic symphysis"
+    "Pubic symphysis",
+    "Articular capsule of hip joint"
    ],
    "ghost_focus": [
     "Hip bone",
@@ -856,7 +863,8 @@
     "Sacrum",
     "Vertebra L5",
     "Pubic symphysis",
-    "Obturator membrane"
+    "Obturator membrane",
+    "Articular capsule of hip joint"
    ],
    "frame_on": [
     "Hip bone",

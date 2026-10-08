@@ -37,13 +37,16 @@
     "Scapula",
     "Clavicle",
     "Glenohumeral joint",
-    "Acromioclavicular joint"
+    "Acromioclavicular joint",
+    "Subacromial bursa"
    ],
    "frame_on": [
     "Glenohumeral joint",
     "Scapula",
     "Clavicle",
-    "Humerus"
+    "Humerus",
+    "Acromioclavicular joint",
+    "Subacromial bursa"
    ]
   },
   "labels": [
@@ -220,8 +223,6 @@
    "side": "Left",
    "view": "anterior",
    "ghost_focus": [
-    "Tibia",
-    "Fibula",
     "Medial malleolus",
     "Lateral malleolus",
     "Talus",
@@ -232,6 +233,8 @@
     "Tibionavicular ligament"
    ],
    "frame_on": [
+    "Tibia",
+    "Fibula",
     "Medial malleolus",
     "Lateral malleolus",
     "Talus",
@@ -411,6 +414,8 @@
     "Lateral talocalcaneal ligament"
    ],
    "frame_on": [
+    "Tibia",
+    "Fibula",
     "Talus",
     "Calcaneus",
     "Navicular bone",

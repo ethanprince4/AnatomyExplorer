@@ -330,16 +330,20 @@
     "neck"
    ],
    "view": "anterior",
-   "focus": [
-    "Left common carotid artery",
-    "Right common carotid artery"
-   ],
    "show": [
+    "Left common carotid artery",
+    "Right common carotid artery",
     "Common carotid intimal flap (dissection)"
    ],
    "ghost_focus": [
     "Common carotid intimal flap (dissection)"
    ],
+   "frame_on": [
+    "Left common carotid artery",
+    "Right common carotid artery",
+    "Common carotid intimal flap (dissection)"
+   ],
+   "xray": true,
    "isolate": true
   }
  },
@@ -389,7 +393,7 @@
     "y": 0.73,
     "text": "Recorded spectral velocity trace",
     "structures": [
-     "Internal carotid artery"
+     "Left common carotid artery"
     ],
     "side": "Left",
     "note": "The source's left ICA measurement retains a spectral waveform."
@@ -409,7 +413,7 @@
     "y": 0.699,
     "text": "End-diastolic velocity",
     "structures": [
-     "Internal carotid artery"
+     "External carotid artery"
     ],
     "side": "Left",
     "note": "End-diastolic velocity 151.7 cm/s on the left ICA MID spectral trace."
@@ -430,7 +434,8 @@
     "Internal carotid artery",
     "External carotid artery",
     "Left common carotid artery",
-    "Internal jugular vein"
+    "Internal jugular vein",
+    "Left ICA near-occlusion plaque"
    ],
    "show": [
     "Left ICA near-occlusion plaque"
@@ -440,7 +445,9 @@
    "view": "left",
    "frame_on": [
     "Internal carotid artery",
-    "Left common carotid artery"
+    "External carotid artery",
+    "Left common carotid artery",
+    "Left ICA near-occlusion plaque"
    ]
   }
  },
@@ -504,9 +511,7 @@
     "x": 0.775,
     "y": 0.366,
     "text": "Cyst-wall papillary projection",
-    "structures": [
-     "Paraovarian cyst (right adnexa)"
-    ],
+    "structures": [],
     "side": "Right",
     "note": "The source arrow identifies a papillary projection on the cyst wall. The cyst lies in the right broad ligament beside the ovary and is modelled as a fluid-filled finding; the papillary projection itself is not modelled separately."
    },
@@ -546,6 +551,13 @@
    "isolate": false,
    "show": [
     "Paraovarian cyst (right adnexa)"
+   ],
+   "ghost_focus": [
+    "Paraovarian cyst (right adnexa)"
+   ],
+   "frame_on": [
+    "Paraovarian cyst (right adnexa)",
+    "Urinary bladder"
    ]
   }
  }

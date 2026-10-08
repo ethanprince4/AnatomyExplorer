@@ -150,13 +150,19 @@
     "abdomen"
    ],
    "focus": [
-    "Liver",
     "Hepatic veins"
    ],
    "ghost_focus": [
     "Hepatic veins"
    ],
-   "isolate": true,
+   "show": [
+    "Liver"
+   ],
+   "frame_on": [
+    "Liver",
+    "Hepatic veins"
+   ],
+   "isolate": false,
    "xray": true,
    "view": "anterior"
   }
@@ -219,10 +225,10 @@
     "y": 0.496,
     "text": "Renal sinus",
     "structures": [
-     "Renal pelvis",
-     "Kidney"
+     "Left renal vein",
+     "Right renal vein"
     ],
-    "note": "Bright central renal sinus at the quadruple-asterisk marker."
+    "note": "Bright central renal sinus at the quadruple-asterisk marker. The atlas has no sinus fat, so the hilar renal veins stand in for it."
    },
    {
     "x": 0.483,
@@ -260,13 +266,18 @@
    "view": "anterior",
    "xray": true,
    "focus": [
-    "Kidney"
+    "Kidney",
+    "Renal pelvis",
+    "Left renal vein",
+    "Right renal vein"
    ],
    "show": [
     "Renal pelvis"
    ],
    "ghost_focus": [
-    "Renal pelvis"
+    "Renal pelvis",
+    "Left renal vein",
+    "Right renal vein"
    ],
    "isolate": true
   }
@@ -356,11 +367,18 @@
     "Hydronephrosis (dilated renal pelvis)"
    ],
    "focus": [
-    "Kidney",
-    "Renal pelvis"
+    "Kidney"
    ],
-   "isolate": true,
-   "xray": false
+   "ghost_focus": [
+    "Renal pelvis",
+    "Hydronephrosis (dilated renal pelvis)"
+   ],
+   "frame_on": [
+    "Kidney",
+    "Hydronephrosis (dilated renal pelvis)"
+   ],
+   "isolate": false,
+   "xray": true
   }
  },
  {
@@ -455,8 +473,15 @@
     "Gallstones (dependent, shadowing)",
     "Biliary sludge (dependent layer)"
    ],
+   "ghost_focus": [
+    "Liver",
+    "Gallstones (dependent, shadowing)",
+    "Biliary sludge (dependent layer)"
+   ],
    "frame_on": [
-    "Gallbladder"
+    "Gallbladder",
+    "Gallstones (dependent, shadowing)",
+    "Biliary sludge (dependent layer)"
    ],
    "show": [
     "Liver",
@@ -464,7 +489,7 @@
     "Biliary sludge (dependent layer)"
    ],
    "isolate": true,
-   "xray": false
+   "xray": true
   }
  },
  {
@@ -517,9 +542,9 @@
     "y": 0.783,
     "text": "Posterior acoustic shadow",
     "structures": [
-     "Gallbladder"
+     "Duodenum"
     ],
-    "note": "Reduced echoes posterior to the gallstone; the dark shadow is the sound beam blocked by the stone, not a separate structure."
+    "note": "Reduced echoes posterior to the gallstone; the dark shadow is the sound beam blocked by the stone, not a structure. The 3D reference points to the duodenum, which lies behind the gallbladder neck."
    },
    {
     "x": 0.75,
@@ -549,7 +574,8 @@
     "Gallbladder",
     "Liver",
     "Impacted gallstone",
-    "Gallbladder wall thickening"
+    "Gallbladder wall thickening",
+    "Duodenum"
    ],
    "show": [
     "Impacted gallstone",
@@ -558,7 +584,9 @@
    "isolate": true,
    "frame_on": [
     "Gallbladder",
-    "Impacted gallstone"
+    "Impacted gallstone",
+    "Duodenum",
+    "Liver"
    ],
    "view": "anterior"
   }
@@ -844,7 +872,8 @@
    "focus": [
     "Femoral vein",
     "Femoral artery",
-    "Deep femoral vein"
+    "Deep femoral vein",
+    "Femoral vein thrombus"
    ],
    "show": [
     "Femoral vein thrombus"
@@ -1220,8 +1249,7 @@
    "isolate": true,
    "xray": true,
    "ghost_focus": [
-    "Baker's cyst fluid",
-    "Popliteal fossa"
+    "Baker's cyst fluid"
    ],
    "frame_on": [
     "Baker's cyst fluid"
@@ -1960,7 +1988,9 @@
    "focus": [
     "Calcaneus",
     "Talus",
-    "Calcaneal fracture line"
+    "Calcaneal fracture line",
+    "Tibia",
+    "Third metatarsal bone"
    ],
    "ghost_focus": [
     "Calcaneal fracture line",
@@ -2084,6 +2114,7 @@
     "Hip bone",
     "Ureter",
     "Renal pelvis",
+    "Kidney",
     "Right renal calculus (xr_bilateral_renal_stones)",
     "Left renal calculus (xr_bilateral_renal_stones)",
     "Internal iliac vein"
@@ -2108,7 +2139,9 @@
     "Kidney",
     "Vertebra L2",
     "Sacrum",
-    "Internal iliac vein"
+    "Internal iliac vein",
+    "Right renal calculus (xr_bilateral_renal_stones)",
+    "Left renal calculus (xr_bilateral_renal_stones)"
    ],
    "xray": true,
    "isolate": false

@@ -37,24 +37,20 @@
     "Vertebra T6",
     "Left ventricle",
     "Right pulmonary artery",
-    "Left pulmonary artery"
-   ],
-   "ghost_focus": [
+    "Left pulmonary artery",
     "Superior lobe of right lung",
     "Middle lobe of right lung",
     "Inferior lobe of right lung",
     "Superior lobe of left lung",
-    "Inferior lobe of left lung",
+    "Inferior lobe of left lung"
+   ],
+   "ghost_focus": [
     "Right atrium",
-    "Left atrium",
-    "Right ventricle",
     "Left ventricle",
     "Superior vena cava",
     "Inferior vena cava (thoracic part)",
-    "Ascending aorta",
     "Aortic arch",
     "Thoracic aorta",
-    "Pulmonary trunk",
     "Right pulmonary artery",
     "Left pulmonary artery",
     "Trachea",
@@ -67,6 +63,20 @@
     "Vertebra T6"
    ],
    "frame_on": [
+    "Trachea",
+    "Clavicle",
+    "Scapula",
+    "Humerus",
+    "Superior vena cava",
+    "Thoracic aorta",
+    "Right atrium",
+    "Left ventricle",
+    "Right pulmonary artery",
+    "Left pulmonary artery",
+    "Sixth rib",
+    "Diaphragm",
+    "Vertebra T5",
+    "Vertebra T6",
     "Superior lobe of right lung",
     "Middle lobe of right lung",
     "Inferior lobe of right lung",
@@ -517,7 +527,8 @@
   ],
   "scene": {
    "systems": [
-    "skeletal"
+    "skeletal",
+    "joints"
    ],
    "regions": [
     "upper_limb_l"
@@ -538,6 +549,7 @@
     "Third metacarpal bone",
     "Fourth metacarpal bone",
     "Fifth metacarpal bone",
+    "Articular capsules of metacarpophalangeal joints",
     "Proximal phalanx of first finger of hand",
     "Distal phalanx of first finger of hand",
     "Proximal phalanx of second finger of hand",
@@ -596,8 +608,7 @@
     "y": 0.435,
     "text": "Metacarpophalangeal joint",
     "structures": [
-     "Third metacarpal bone",
-     "Proximal phalanx of third finger of hand"
+     "Articular capsules of metacarpophalangeal joints"
     ],
     "side": "Left",
     "note": "the knuckle: head of the third metacarpal meets the proximal phalanx"
@@ -1000,15 +1011,18 @@
    "view": "anterior",
    "show": [
     "Hip bone",
-    "Femur"
+    "Femur",
+    "Obturator membrane"
    ],
    "ghost_focus": [
     "Hip bone",
-    "Femur"
+    "Femur",
+    "Obturator membrane"
    ],
    "frame_on": [
     "Hip bone",
-    "Femur"
+    "Femur",
+    "Obturator membrane"
    ]
   },
   "labels": [
@@ -1085,9 +1099,10 @@
     "y": 0.47,
     "text": "Obturator foramen",
     "structures": [
-     "Hip bone"
+     "Obturator membrane"
     ],
-    "side": "Right"
+    "side": "Right",
+    "note": "the obturator membrane closes the foramen"
    },
    {
     "x": 0.62,
@@ -1362,7 +1377,11 @@
    "view": "inferior",
    "show": [
     "Hepatic veins"
-   ]
+   ],
+   "ghost_focus": [
+    "Hepatic veins"
+   ],
+   "xray": true
   },
   "labels": [
    {
