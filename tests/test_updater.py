@@ -287,6 +287,68 @@ class UpdaterTests(unittest.TestCase):
         self.assertEqual(list(outside.iterdir()), [])
 
 
+@unittest.skipIf(os.name == "nt", "a Mac bundle layout with POSIX permissions")
+class ReplaceOriginalMacAppTests(unittest.TestCase):
+    """An update that ran healthily can be copied over the original app, so Finder shows its version and icon."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        root = fixture_root(self.temp.name)
+        self.base = root / "Applications/Anatomy Explorer.app"
+        (self.base / "Contents/MacOS").mkdir(parents=True)
+        (self.base / "Contents/Resources/data").mkdir(parents=True)
+        (self.base / "Contents/MacOS/AnatomyExplorer").write_bytes(b"old launcher")
+        os.chmod(self.base / "Contents/MacOS/AnatomyExplorer", 0o755)
+        (self.base / "Contents/Resources/VERSION").write_text("3.1.0")
+        (self.base / "Contents/Resources/icon.icns").write_bytes(b"old icon")
+        (self.base / "Contents/Resources/data/atlas.bin").write_bytes(os.urandom(300_000))
+        candidate = root / "next/Anatomy Explorer.app"
+        shutil.copytree(self.base, candidate, symlinks=True)
+        (candidate / "Contents/Resources/VERSION").write_text("3.1.1")
+        (candidate / "Contents/Resources/icon.icns").write_bytes(b"new icon")
+        manifest = create_payload(candidate, root / "packs", "3.1.1", "macos-arm64")
+        self.store = u.UpdateStore(self.base, root / "updates")
+        self.store.prepare(manifest, LocalSource(root / "packs"))
+        self.updated = self.store.activate()
+
+    def tearDown(self):
+        self.temp.cleanup()
+
+    def test_replaces_the_original_with_the_running_update(self):
+        self.assertIsNone(self.store.replaceable_base(), "a trial launch is not offered yet")
+        self.store.healthy()
+        self.assertEqual(self.store.replaceable_base(), "3.1.1")
+        self.assertEqual(self.store.replace_base(), "3.1.1")
+        self.assertEqual((self.base / "Contents/Resources/VERSION").read_text(), "3.1.1")
+        self.assertEqual((self.base / "Contents/Resources/icon.icns").read_bytes(), b"new icon")
+        self.assertTrue(os.access(self.base / "Contents/MacOS/AnatomyExplorer", os.X_OK))
+        self.assertIsNone(self.store.state().get("current"))
+        self.assertEqual(self.store.active(), self.base)
+        self.assertEqual([p.name for p in self.base.parent.iterdir()], ["Anatomy Explorer.app"])
+        self.assertIsNone(self.store.replaceable_base())
+        # The original is set aside (its launcher may still run) and goes at the next healthy launch's cleanup.
+        self.assertTrue(any((self.store.root / "retired").iterdir()))
+        self.store.cleanup()
+        self.assertFalse((self.store.root / "retired").exists())
+        self.assertFalse(self.updated.exists())
+
+    def test_a_damaged_update_leaves_the_original_untouched(self):
+        self.store.healthy()
+        (self.updated / "Contents/Resources/data/atlas.bin").write_bytes(b"damaged")
+        with self.assertRaisesRegex(u.UpdateError, "integrity"):
+            self.store.replace_base()
+        self.assertEqual((self.base / "Contents/Resources/VERSION").read_text(), "3.1.0")
+        self.assertEqual([p.name for p in self.base.parent.iterdir()], ["Anatomy Explorer.app"])
+        self.assertEqual(self.store.active(), self.updated)
+
+    def test_not_offered_for_another_channel_or_an_unwritable_folder(self):
+        self.store.healthy()
+        with patch.object(u.os, "access", return_value=False):
+            self.assertIsNone(self.store.replaceable_base())
+        windows = u.UpdateStore(self.base.parent, self.store.root)
+        self.assertIsNone(windows.replaceable_base())
+
+
 @unittest.skipUnless(sys.platform == "darwin", "real macOS signature/symlink check runs on macOS CI")
 class MacBundleTests(unittest.TestCase):
     def test_signed_bundle_incremental_reconstruction(self):

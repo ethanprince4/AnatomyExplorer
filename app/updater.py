@@ -740,6 +740,76 @@ class UpdateStore:
             atomic_json(self.state_file, state)
             return True
 
+    def replaceable_base(self):
+        """The version that could replace the original Mac app, or None.
+
+        Updates run from the update store, so Finder keeps showing the original app in /Applications with its
+        old version and icon. Once an update has run healthily, it can be copied over the original instead."""
+        if not self.mac or "/AppTranslocation/" in str(self.base):
+            return None
+        state = self.state()
+        current = state.get("current")
+        if (current is None or state.get("trial") or state.get("rollback_requested") or
+                state.get("return_to_stable") or not os.access(self.base.parent, os.W_OK)):
+            return None
+        try:
+            base, active = installed_metadata(self.base), installed_metadata(self.path(current))
+        except (OSError, ValueError, UpdateError):
+            return None
+        if (manifest_channel(base) != manifest_channel(active) or
+                version_tuple(active["version"]) <= version_tuple(base["version"])):
+            return None
+        return active["version"]
+
+    def replace_base(self, progress=lambda message: None):
+        """Copy the running update over the original Mac app, verified, then run the original again.
+
+        The copy is checked file by file against the update's manifest (and its signature on macOS) before the
+        swap. The original is set aside, not deleted: its launcher may still be running, so it is removed by the
+        next cleanup. Returns the version now installed."""
+        version = self.replaceable_base()
+        if version is None:
+            raise UpdateError("The app in Applications cannot be replaced from here")
+        with lock(self.root / "prepare.lock"):
+            state = self.state()
+            active = self.path(state["current"])
+            manifest = read_manifest(active)
+            parent = self.base.parent
+            staging = parent / f".{self.base.name}.{uuid.uuid4().hex[:12]}.staging"
+            try:
+                progress(f"Copying version {version}…")
+                shutil.copytree(active, staging, symlinks=True)
+                progress("Checking the copy…")
+                self.verify(staging, manifest)
+                retired = self.root / "retired"
+                retired.mkdir(parents=True, exist_ok=True)
+                old = retired / f"{uuid.uuid4().hex[:12]}.app"
+                try:
+                    os.rename(self.base, old)
+                except OSError:            # another volume: set it aside next to the app
+                    old = parent / f".{self.base.name}.{uuid.uuid4().hex[:12]}.replaced"
+                    os.rename(self.base, old)
+                try:
+                    os.rename(staging, self.base)
+                except OSError:
+                    os.rename(old, self.base)
+                    raise
+            finally:
+                if staging.exists():
+                    shutil.rmtree(staging, ignore_errors=True)
+            with lock(self.root / "state.lock"):
+                state = self.state()
+                state.update(current=None, previous=None)
+                atomic_json(self.state_file, state)
+            with contextlib.suppress(OSError):
+                os.utime(self.base)        # Finder and Launch Services pick up the new icon and version
+            if sys.platform == "darwin":
+                lsregister = Path("/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework"
+                                  "/Support/lsregister")
+                if lsregister.exists():
+                    subprocess.run([str(lsregister), "-f", str(self.base)], capture_output=True)
+        return version
+
     def healthy(self):
         with lock(self.root / "state.lock"):
             state = self.state()
@@ -765,6 +835,9 @@ class UpdateStore:
             with lock(self.root / "prepare.lock"):
                 state = self.state()
                 keep = {state.get(k) for k in ("current", "previous", "pending", "stable_anchor")}
+                retired = self.root / "retired"
+                if retired.is_dir() and not retired.is_symlink():
+                    shutil.rmtree(retired, ignore_errors=True)   # originals replaced by an update (replace_base)
                 if not self.versions.exists():
                     return
                 for path in self.versions.iterdir():
