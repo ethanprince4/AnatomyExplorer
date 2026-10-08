@@ -2328,12 +2328,15 @@ class MainWindow(QMainWindow):
         if authored is not None:
             return [(entry["text"], resolve_reference(self.ds, self.lesson_resolver, entry.get("structures", []),
                                                       entry.get("side") or side), bool(entry.get("surface_anchor")))
+                    + ((tuple(entry["at"]),) if entry.get("at") else ())
                     for entry in authored]
         groups = []
         for number, label in enumerate(case.labels, 1):
             ids = resolve_reference(self.ds, self.lesson_resolver, label.structures, label.side or side)
             if ids:
-                groups.append((f"{number}  {label.text}", ids, False))
+                # a pinned label carries its point, so several labels can name places on one structure
+                at = getattr(label, "at", None)
+                groups.append((f"{number}  {label.text}", ids, False) + ((at,) if at else ()))
         return groups or None
 
     def _show_radiology_labels(self, on):

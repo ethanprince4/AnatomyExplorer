@@ -335,8 +335,10 @@ class Viewport(QOpenGLWidget):
     def set_radiology_section_labels(self, groups=None):
         """Temporary authored names/IDs for this case; never alter preferences.
 
-        Each group is (display_text, structure_ids, surface_anchor). One physically intersecting,
-        visible representative anchors each name. Rendering remains independent.
+        Each group is (display_text, structure_ids, surface_anchor[, at]). One physically intersecting,
+        visible representative anchors each name; a group with ``at`` (a point on its structures) is drawn there
+        when that point is visible, so several groups can name places on one structure. Rendering remains
+        independent.
         None restores ordinary atlas labels; an empty list deliberately hides them.
         """
         self._radiology_label_groups = groups
@@ -805,26 +807,35 @@ class Viewport(QOpenGLWidget):
         _, axis, value = plane
         limit = int(self.settings.get("max_section_labels", 22))
         self._section_label_names = {}
+        self._section_texts = []          # a radiology case's name per anchor (pinned labels can share a structure)
         if self._radiology_label_groups is None:
             self.section_anchors = self.section.cut(axis, value, self.state.visible_mask(), limit=limit)
         else:
             visible = self.state.visible_mask()
-            groups = [(text, self.radiology_reference_ids(ids), surface)
-                      for text, ids, surface in self._radiology_label_groups]
+            groups = [(g[0], self.radiology_reference_ids(g[1]), g[2], g[3] if len(g) > 3 else None)
+                      for g in self._radiology_label_groups]
             mask = np.zeros(self.ds.n, dtype=bool)
-            for _text, ids, _surface in groups:
+            for _text, ids, _surface, _at in groups:
                 mask[ids] = True
             anchors = self.section.cut(axis, value, visible & mask, limit=self.ds.n)
             by_sid = {sid: (sid, anchor, weight) for sid, anchor, weight in anchors}
             self.section_anchors = []
-            for text, ids, surface in groups:
+            for text, ids, surface, at in groups:
                 candidates = [by_sid[sid] for sid in ids if sid in by_sid]
                 if candidates:
                     item = max(candidates, key=lambda x: x[2])
+                    if at is not None:                 # pinned: its point, laid onto this cut
+                        point = np.asarray(at, dtype=float).copy()
+                        point[axis] = value
+                        self.section_anchors.append((item[0], point, item[2]))
+                        self._section_texts.append(text)
+                        self._section_label_names.setdefault(item[0], text)
+                        continue
                     if surface:
                         item = (item[0], self._radiology_surface_anchor(item[0], axis, value, item[1]), item[2])
                     if item[0] not in self._section_label_names:
                         self.section_anchors.append(item)
+                        self._section_texts.append(text)
                         self._section_label_names[item[0]] = text
         if self.sectionChanged:
             self.sectionChanged(self.section_anchors)
@@ -858,7 +869,15 @@ class Viewport(QOpenGLWidget):
         anchors, names = [], {}
         if ids is not None:
             from scipy.ndimage import distance_transform_edt, label
-            for text, sids, _surface in groups:
+            for group in groups:
+                text, sids = group[0], group[1]
+                if len(group) > 3:
+                    # pinned: drawn at its point when one of its structures is what shows there
+                    sid = self._visible_pin(group[3], sids, ids, step)
+                    if sid is not None:
+                        anchors.append((sid, np.asarray(group[3], dtype=float), 1.0, text))
+                        names.setdefault(sid, text)
+                    continue
                 members = np.asarray([s + 1 for s in sids if s not in names], dtype=np.int32)
                 if not len(members):
                     continue
@@ -874,18 +893,41 @@ class Viewport(QOpenGLWidget):
                 point = self.renderer.world_at(x * step + step // 2, y * step + step // 2)
                 if point is None or sid in names:
                     continue
-                anchors.append((sid, np.asarray(point, dtype=float), float(mask.sum())))
+                anchors.append((sid, np.asarray(point, dtype=float), float(mask.sum()), text))
                 names[sid] = text
         self._reference_anchors = anchors
         self._reference_names = names
 
+    def _visible_pin(self, at, sids, ids, step):
+        """The structure of ``sids`` seen at the pixel of point ``at`` (or right beside it) in the id image whose
+        rows run bottom-up, or None when the point is off screen or something else covers it."""
+        clip = self.renderer.last_vp @ np.array([at[0], at[1], at[2], 1.0])
+        if clip[3] <= 1e-6:
+            return None
+        rw, rh = self.renderer.size
+        col = int((clip[0] / clip[3] * 0.5 + 0.5) * rw) // step
+        row = int((clip[1] / clip[3] * 0.5 + 0.5) * rh) // step
+        if not (0 <= row < ids.shape[0] and 0 <= col < ids.shape[1]):
+            return None
+        near = ids[max(row - 1, 0):row + 2, max(col - 1, 0):col + 2].ravel()
+        wanted = set(int(s) + 1 for s in sids)
+        hits = [int(v) for v in near if int(v) in wanted]
+        if not hits:
+            return None
+        here = int(ids[row, col])
+        return (here if here in wanted else hits[0]) - 1
+
     def _paint_section_labels(self, p, dark):
         """Lay the names out in two columns with leader lines, the way an atlas plate is labelled."""
         anchors, label_names = self.section_anchors, self._section_label_names
+        texts = getattr(self, "_section_texts", [])
         if not anchors and self._reference_anchors and self.active_section() is None:
             anchors, label_names = self._reference_anchors, getattr(self, "_reference_names", {})
+            texts = [a[3] for a in anchors]
         if not anchors:
             return
+        if len(texts) != len(anchors):
+            texts = [None] * len(anchors)
         font = QFont(self.font())
         font.setPointSizeF(float(self.settings.get("label_size", 8.6)))
         p.setFont(font)
@@ -895,19 +937,19 @@ class Viewport(QOpenGLWidget):
         margin = 12.0
         self._section_rects = []
         columns = {-1: [], 1: []}
-        for sid, anchor, _weight in anchors:
+        for (sid, anchor, *_rest), text in zip(anchors, texts):
             pr = self.project(anchor)
             if pr is None or not (0 <= pr[0] <= w and 0 <= pr[1] <= h):
                 continue
-            columns[-1 if pr[0] < w * 0.5 else 1].append((sid, pr))
-        anchors=[pr[0] for items in columns.values() for _,pr in items]
+            columns[-1 if pr[0] < w * 0.5 else 1].append((sid, pr, text))
+        anchors=[item[1][0] for items in columns.values() for item in items]
         model_left=min(anchors) if anchors else w*.5
         model_right=max(anchors) if anchors else w*.5
         for side, items in columns.items():
             if not items:
                 continue
             items.sort(key=lambda t: t[1][1])
-            ys = [float(pr[1]) for _, pr in items]
+            ys = [float(item[1][1]) for item in items]
             for k in range(1, len(ys)):                       # push apart downwards, then pull back on screen
                 ys[k] = max(ys[k], ys[k - 1] + line_h)
             # the left column stops above the orientation gizmo in the bottom-left corner
@@ -917,9 +959,9 @@ class Viewport(QOpenGLWidget):
                 ys = [y - over for y in ys]
                 for k in range(len(ys) - 2, -1, -1):
                     ys[k] = min(ys[k], ys[k + 1] - line_h)
-            for (sid, pr), ly in zip(items, ys):
+            for (sid, pr, own), ly in zip(items, ys):
                 ly = max(line_h * 0.6, min(bottom - line_h * 0.6, ly))
-                text = label_names.get(sid, self.ds.structures[sid]["name"])
+                text = own or label_names.get(sid, self.ds.structures[sid]["name"])
                 tw = min(fm.horizontalAdvance(text) + 12, w * 0.28)
                 x0 = max(margin,model_left-32-tw) if side < 0 else min(w-margin-tw,model_right+32)
                 rect = QRectF(x0, ly - line_h / 2 + 2, tw, fm.height() + 4)
