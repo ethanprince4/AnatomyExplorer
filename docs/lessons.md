@@ -1,38 +1,38 @@
 # Guided lessons
 
 A lesson is a short scripted walk through one topic. Each step writes a paragraph or two, sets the 3D view up
-to match it, and can ask a question before you move on. Ctrl+L, or **Lessons** (or **Lab course**) on the
-Explore panel's **Study** tab.
+to match it, and can ask a question before you move on. Ctrl+L, or **Lessons** (or **Lab course** / **Lecture exams**) in the
+Explore panel's **Study** group.
 
-There are **246 lessons, 1,278 steps and 1,189 recall questions**: 137 guided lessons (810 steps, 721 recall
-questions) and 109 lab-course mini lessons and reviews (468 steps, 468 recall questions, 1,900 practice items; see
+There are **303 lessons, 1,614 steps and 1,525 recall questions**: 194 guided lessons (1,146 steps, 1,057 recall
+questions) and 109 lab-course mini lessons and reviews (468 steps, 468 recall questions, 1,824 practice items; see
 [The lab course](#the-lab-course)). They are filed under twelve body systems and eight regions. The browser groups
-them four ways — **Course**, **System**, **Region** or **Level** — and remembers how far through each one you got.
+them five ways — **Lab**, **Lecture**, **System**, **Region** or **Level** — and remembers how far through each one you got.
 `tools/check_lessons.py` prints the current totals.
 
 | System | Lessons | | Region | Lessons |
 |---|---|---|---|---|
-| Cardiovascular | 57 | | Head & neck | 59 |
-| Nervous | 35 | | Thorax | 50 |
-| Digestive | 30 | | Whole body | 40 |
-| Muscular | 26 | | Abdomen | 35 |
+| Cardiovascular | 94 | | Head & neck | 60 |
+| Nervous | 35 | | Thorax | 72 |
+| Digestive | 30 | | Whole body | 70 |
+| Muscular | 26 | | Abdomen | 38 |
 | Respiratory | 23 | | Pelvis & perineum | 21 |
-| Special senses | 19 | | Upper limb | 17 |
+| Special senses | 19 | | Upper limb | 18 |
 | Reproductive | 16 | | Lower limb | 17 |
 | Skeletal | 16 | | Back & spine | 7 |
-| Lymphatic & immune | 8 | | | |
+| Lymphatic & immune | 28 | | | |
 | Urinary | 7 | | | |
 | Endocrine | 5 | | | |
 | Skin & fascia | 4 | | | |
 
-Levels are **Foundation** (22), **Core** (183) and **Advanced** (41). Advanced lessons usually name a
+Levels are **Foundation** (45), **Core** (211) and **Advanced** (47). Advanced lessons usually name a
 `prereq`, which the runner shows under the title as "After: …".
 
 ## The lab course
 
 Lessons written for the lab course (`data/content/lessons_course_lab01.json` … `lessons_course_lab09.json`,
 `lessons_course_exam1.json`, `lessons_course_exam2.json`) are bite-sized *mini lessons*, and the library opens
-on them: the **Course** grouping (the default whenever course lessons exist) lists **Lab 1 … Lab 9, Lab
+on them: the **Lab** grouping (the default whenever course lessons exist) lists **Lab 1 … Lab 9, Lab
 Practical 1, Lab Practical 2** in that order, each heading showing how many of its mini lessons you have
 finished (`LAB 3  4/10 ✓ · BLOOD & HEART STRUCTURE`), and the mini lessons under it in course order with a ✓
 once read and their best practice score. Every other lesson follows underneath by body system; **System**,
@@ -47,8 +47,8 @@ once read and their best practice score. Every other lesson follows underneath b
 | Lab 5 · Blood vessels & circulation | 13 | | Lab Practical 2 · Labs 6–9 | 7 |
 | Lab Practical 1 · Labs 1–5 | 9 | | | |
 
-Each lab practical is a set of review lessons ending in a practice exam with no steps. The 1,900 practice items
-are 567 `find`, 470 `find_micro`, 320 `mcq`, 265 `recall`, 180 `name` and 98 `order`.
+Each lab practical is a set of review lessons ending in a practice exam with no steps. The 1,824 practice items
+are 567 `find`, 394 `find_micro`, 320 `mcq`, 265 `recall`, 180 `name` and 98 `order`.
 
 Clicking a course lesson opens its **cover**: the objectives, how far you got, your practice scores and two
 buttons:
@@ -168,8 +168,8 @@ can be split up however is convenient. One object per lesson:
   model or the histology slide.
 - Which heart: a step about the heart on its own (its chambers, walls, valves, coronary vessels) opens the
   `whole_heart` model with `micro` and `micro_focus`; a step about its position and relations (the mediastinum,
-  surface markings, the ECG leads, the fetal circulation) stays on the atlas's heart; the conduction system and
-  the heartbeat animation are in the procedural `heart` model. See `docs/model_viewer.md`.
+  surface markings, the ECG leads, the fetal circulation) stays on the atlas's heart; the procedural `heart` model
+  (conduction system and heartbeat animation) is not loaded by the current catalogue. See `docs/model_viewer.md`.
 - `minutes` is an estimate shown in the header; if it is omitted, two minutes a step is assumed.
 
 ## What a step looks like
@@ -248,8 +248,8 @@ were last in the middle of. Nothing else in the app reads the file, and deleting
 
    For the lab course it also checks the `course` fields and the id pattern, every practice item (its type and
    fields, exact atlas names for `find`/`name`, a valid `mcq` answer index, no duplicate `order` rows), the
-   part names for `find_micro` and `micro_focus` — by loading each model from the model catalogue (the in-house
-   GLB models, and the procedural ones from `data/micro_cache`, which can take a minute the first time) — that
+   part names for `find_micro` and `micro_focus` — by loading each model from the model catalogue (the same
+   model library the app loads) — that
    every `diagram` exists as a well-formed SVG with a `viewBox`, and
    that `practice_from` names real labs. A micro model that is not registered yet (or will not build right now)
    is a warning, not a failure. Warnings also flag mini lessons outside 3–5 steps or with fewer than six

@@ -1,6 +1,6 @@
 # Microanatomy models: structure list and modelling brief
 
-There are 37 procedural models, built by the app's own code. (The procedural nephron and cardiac muscle blocks were retired for the in-house Blender models *Kidney and nephron* and *Cardiac muscle* in `models/`, which open in the same model viewer: see `docs/model_viewer.md`.) Most are a small block (or tube segment) of tissue; the lymph node is modelled whole, blood is a thin film of cells, and ten show whole organs or regions at dissection scale: the heart, eyeball, ear, a kidney in coronal section, the liver with the bile ducts and pancreas, the ileocaecal region with the rectum and anal canal, a tooth, and the female and male pelvis (the ear and the two pelvis models with magnified insets beside the specimen). Every structure below is a separate, selectable object in the app. Structures are grouped exactly as the app's layer tree shows them, in the same order.
+The builder code in `app/micro` registers 37 procedural models. (The procedural nephron and cardiac muscle blocks were retired for the in-house Blender models *Kidney and nephron* and *Cardiac muscle*, which open in the same model viewer: see `docs/model_viewer.md`.) The app's model list now comes from the model library (`data/local_model_library`), not from these registrations, so this document describes the builders rather than what the app displays. Most are a small block (or tube segment) of tissue; the lymph node is modelled whole, blood is a thin film of cells, and ten show whole organs or regions at dissection scale: the heart, eyeball, ear, a kidney in coronal section, the liver with the bile ducts and pancreas, the ileocaecal region with the rectum and anal canal, a tooth, and the female and male pelvis (the ear and the two pelvis models with magnified insets beside the specimen). Every structure below is a separate, selectable object in the app. Structures are grouped exactly as the app's layer tree shows them, in the same order.
 
 ## Requirements for replacement models (Blender or any other tool)
 
@@ -12,7 +12,7 @@ There are 37 procedural models, built by the app's own code. (The procedural nep
   - Organ models are drawn to a real scale of their own, stated in the model's scale note (the heart at 1 unit ≈ 6 cm, the eye at 2 units = 24 mm, the pelvis models at 1 unit = 10 cm).
 - **Cut-away.** The default cut removes the quadrant x < 0, z > 0 (tubes: x < 0, y > 0). Place key structures (follicles, glands, villi, osteons) so they cross those planes and get sectioned lengthwise. Organ models set their own cut, usually the plane an atlas would section them in (the heart's four-chamber plane, a median section of the pelvis, a coronal section of the kidney or temporal bone).
 - **Budget:** about 1–1.5 million triangles per model, built in under three minutes. Materials are optional; colours are assigned per structure in the app.
-- **Format:** glTF 2.0 (`.glb`) with a `.viewer.json` sidecar, exported by `tools/blender/export_for_viewer.py`. A model in that form goes in `models/<name>/`, is described in `data/content/models/<id>.json` and opens in the model viewer like the three in-house models (`docs/model_viewer.md`).
+- **Format:** glTF 2.0 (`.glb`) with a `.viewer.json` sidecar, exported by `tools/blender/export_for_viewer.py`. A model in that form goes in `models/<name>/`, is described in `data/content/models/<id>.json` ; the app loads such a file only for the three in-house ids (`docs/model_viewer.md`).
 
 ## How the current models are built
 
@@ -80,7 +80,7 @@ All of it is in `app/micro/`. A model is a `MicroModel` (id, name, summary, buil
 | `cellkit.py` | Helpers shared by the liver lobule and lung acinus |
 | `base.py`, `cache.py`, `cells.py`, `geometry.py`, `kit.py`, `organic.py`, `sdf.py` | The shared toolkit: parts and models, the disk cache, cell mosaics, mesh primitives, signed-distance modelling and the warps and reliefs. Editing any of these invalidates every model's cache |
 
-Built models are cached in `data/micro_cache/<id>.npz`; a model is rebuilt when the toolkit or its own builder files change. `tools/build_micro.py` builds them all in parallel and `tools/render_micro.py <id>` renders one offscreen.
+Built models are cached in `data/micro_cache/<id>.npz`. `tools/build_micro.py` builds them all in parallel (or the ids you name) and `tools/render_micro.py <id>` renders one offscreen.
 
 ## Skin
 
