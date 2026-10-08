@@ -62,7 +62,11 @@ class Atlas:
             self.by_name.setdefault(s["name"], []).append(s)
 
     def records(self, name, side=""):
-        found = [s for s in self.by_name.get(name, []) if not side or s["side"].lower() in (side.lower(), "")]
+        if name.startswith("@"):                     # a whole subsystem, e.g. "@Brain" for the brain's surface
+            pool = [s for s in self.meta["structures"] if s["subsystem"] == name[1:]]
+        else:
+            pool = self.by_name.get(name, [])
+        found = [s for s in pool if not side or s["side"].lower() in (side.lower(), "")]
         if not found:
             raise KeyError(f"no atlas structure {name!r}" + (f" on the {side} side" if side else ""))
         return found
