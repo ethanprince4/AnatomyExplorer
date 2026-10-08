@@ -77,6 +77,11 @@ jobs:
       - name: Test local library loading and independent imports
         timeout-minutes: 5
         run: python -m pytest tests/test_local_library.py tests/test_local_runtime.py tests/test_import_refiner.py -q
+      - name: Exercise model catalog clicks with native Mac accessibility
+        timeout-minutes: 2
+        env:
+          QT_QPA_PLATFORM: cocoa
+        run: python -m unittest tests.test_model_catalog_accessibility -v
       - name: Require actual Mac production ID readback controls
         timeout-minutes: 5
         if: runner.os == 'macOS'

@@ -30,6 +30,11 @@ class VariantChoice(QWidget):
         self.choice.setToolTip("Pre refine is the newly built model before microrefine. Post refine is its separate validated result.")
         self.choice.setMinimumContentsLength(12)
         self.choice.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+        # Keep these rows alive for the lifetime of the control. Clearing a combo
+        # during catalog selection can invalidate Qt's cached accessibility cells
+        # on macOS, even when the combo is hidden and its signals are blocked.
+        for key, title in LABELS.items():
+            self.choice.addItem(title, key)
         label.setBuddy(self.choice)
         layout.addWidget(label)
         layout.addWidget(self.choice, 1)
@@ -41,6 +46,8 @@ class VariantChoice(QWidget):
         self.scene = QComboBox()
         self.scene.setAccessibleName("Axillary model scene")
         self.scene.setAccessibleDescription("Skin or enlarged cell inset in separate scene spaces, in the selected model version")
+        for component, title in (("main", "Skin"), ("cell_inset", "Cell inset")):
+            self.scene.addItem(title, component)
         scene_label.setBuddy(self.scene)
         scenes.addWidget(scene_label)
         scenes.addWidget(self.scene, 1)
@@ -64,16 +71,18 @@ class VariantChoice(QWidget):
         selected = getattr(entry, "variant", None)
         self._selected = selected
         components = tuple(getattr(entry, "available_components", ()))
+        self._components = components
         self._component = getattr(entry, "component", "main")
-        self.scene.blockSignals(True)
+        scene_blocked = self.scene.blockSignals(True)
         try:
-            self.scene.clear()
-            for component, title in (("main", "Skin"), ("cell_inset", "Cell inset")):
-                if component in components:
-                    self.scene.addItem(title, component)
-            self.scene.setCurrentIndex(self.scene.findData(self._component))
+            for index in range(self.scene.count()):
+                enabled = self.scene.itemData(index) in components
+                self.scene.model().item(index).setEnabled(enabled)
+                self.scene.view().setRowHidden(index, not enabled)
+            self.scene.setCurrentIndex(self.scene.findData(self._component)
+                                       if self._component in components else -1)
         finally:
-            self.scene.blockSignals(False)
+            self.scene.blockSignals(scene_blocked)
         self.scene_row.setVisible(bool(components))
         no_change = selected == "post" and getattr(entry, "outcome", None) == "no_change"
         baseline = getattr(entry, "baseline_defects", None)
@@ -83,18 +92,20 @@ class VariantChoice(QWidget):
             text += " Â· Baseline defects recorded"
         self.result_status.setText(text)
         self.result_status.setVisible(bool(text))
-        self.choice.blockSignals(True)
+        choice_blocked = self.choice.blockSignals(True)
         try:
-            self.choice.clear()
-            for key, text in labels.items():
-                self.choice.addItem(text, key)
-                item = self.choice.model().item(self.choice.count() - 1)
+            for index in range(self.choice.count()):
+                key = self.choice.itemData(index)
+                self.choice.setItemText(index, labels[key])
+                item = self.choice.model().item(index)
                 item.setEnabled(key in available)
-                if key not in available:
+                if key in available:
+                    item.setData(None, Qt.ToolTipRole)
+                else:
                     item.setData("This version has not been imported into the local library." if local else "This validated version is not available. Run or resume the model preparation launcher.", Qt.ToolTipRole)
             self.choice.setCurrentIndex(self.choice.findData(selected))
         finally:
-            self.choice.blockSignals(False)
+            self.choice.blockSignals(choice_blocked)
         self.version_row.hide()
         self.result_status.hide()
         self.setVisible(entry is not None and bool(components))
@@ -110,6 +121,6 @@ class VariantChoice(QWidget):
 
     def _component_requested(self, index):
         component = self.scene.itemData(index)
-        if component and component != self._component:
+        if component in self._components and component != self._component:
             self.componentRequested.emit(component)
             self.scene.setCurrentIndex(self.scene.findData(self._component))
