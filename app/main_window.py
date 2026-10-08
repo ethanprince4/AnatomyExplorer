@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (QApplication, QColorDialog, QDockWidget, QFileDia
                                QListWidget, QMainWindow, QMenu, QMessageBox, QPushButton, QSizePolicy, QSplitter,
                                QTabWidget, QToolButton, QToolBar, QVBoxLayout, QWidget, QDialog, QHBoxLayout, QProgressBar)
 
-from .actions import ActionRegistry
+from .actions import WORKSPACE_MODIFIER, ActionRegistry
 from .camera import OrbitCamera
 from .config import APP_NAME, DEFAULT_SETTINGS, ORG_NAME
 from .content import ContentIndex
@@ -790,11 +790,11 @@ class MainWindow(QMainWindow):
     def _register_workspace_actions(self):
         self.workspace_actions = []
         menu = self.menuBar().addMenu("&Workspace")
-        entries = [("3D Anatomy", self._show_atlas, "Ctrl+Shift+1"),
-                   ("Model library", self._show_catalog, "Ctrl+Shift+2"),
-                   ("Lessons", self.show_lessons, "Ctrl+Shift+3"),
-                   ("Radiology", self.show_radiology, "Ctrl+Shift+4"),
-                   ("Histology", self.show_histology_tab, "Ctrl+Shift+5"),
+        entries = [("3D Anatomy", self._show_atlas, WORKSPACE_MODIFIER + "1"),
+                   ("Model library", self._show_catalog, WORKSPACE_MODIFIER + "2"),
+                   ("Lessons", self.show_lessons, WORKSPACE_MODIFIER + "3"),
+                   ("Radiology", self.show_radiology, WORKSPACE_MODIFIER + "4"),
+                   ("Histology", self.show_histology_tab, WORKSPACE_MODIFIER + "5"),
                    ("Find a command…", self.show_command_palette, "Ctrl+Shift+P")]
         for title, callback, shortcut in entries:
             action = QAction(title, self)

@@ -2,6 +2,7 @@ from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QListWidget,
                                QListWidgetItem, QPushButton, QScrollArea, QSlider, QVBoxLayout, QWidget)
 
+from ..actions import SELECT_MODIFIER
 from . import theme
 
 CLIP_NAMES = ["Sagittal (left / right)", "Coronal (front / back)", "Transverse (top / bottom)"]
@@ -201,7 +202,7 @@ class ViewPanel(QWidget):
             w.blockSignals(False)
         self.help_text.setText(
             f"<b>{s['orbit_button']}-drag</b> rotate · <b>{s['pan_button']}-drag</b> or <b>Shift+drag</b> pan · "
-            "<b>Wheel</b> zoom<br><b>Click</b> select · <b>Ctrl+click</b> multi-select · "
+            f"<b>Wheel</b> zoom<br><b>Click</b> select · <b>{SELECT_MODIFIER}+click</b> multi-select · "
             f"<b>Double-click</b> {s['double_click_action'].lower()} · <b>Right-click</b> menu · "
             "<b>Mouse back/forward</b> history<br>Every shortcut can be changed in Settings → Keyboard.")
 

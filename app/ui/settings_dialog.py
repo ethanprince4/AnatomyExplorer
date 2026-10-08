@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (QCheckBox, QColorDialog, QComboBox, QDialog, QDia
                                QFormLayout, QHBoxLayout, QHeaderView, QKeySequenceEdit, QLabel, QLineEdit,
                                QPushButton, QScrollArea, QSlider, QTableWidget, QTabWidget, QVBoxLayout, QWidget)
 
-from ..actions import ACTION_DEFS
+from ..actions import ACTION_DEFS, SELECT_MODIFIER, WORKSPACE_MODIFIER, key_text
 from ..config import DEFAULT_SETTINGS
 from . import theme
 
@@ -192,7 +192,7 @@ class SettingsDialog(QDialog):
         self._slider(page, f, "zoom_sensitivity", "Zoom sensitivity", 0.2, 3.0, 0.1)
         self._combo(page, f, "orbit_button", "Rotate with", ["Left", "Right", "Middle"])
         self._combo(page, f, "pan_button", "Pan with", ["Right", "Middle", "Left"])
-        hint = QLabel("Shift + rotate button always pans. Ctrl + left-click adds to the selection.")
+        hint = QLabel(f"Shift + rotate button always pans. {SELECT_MODIFIER} + left-click adds to the selection.")
         hint.setStyleSheet(theme.text_css(theme.MUTED))
         f.addRow("", hint)
         self._check(page, f, "invert_orbit_x", "Invert horizontal rotation")
@@ -331,8 +331,10 @@ class SettingsDialog(QDialog):
         tip.setStyleSheet(theme.text_css(theme.MUTED))
         tip.setWordWrap(True)
         lay.addWidget(tip)
-        shell_keys = QLabel("Workspace shortcuts: Ctrl+Shift+1 Anatomy · Ctrl+Shift+2 Models · Ctrl+Shift+3 Lessons · "
-                            "Ctrl+Shift+4 Radiology · Ctrl+Shift+5 Histology · Ctrl+Shift+P Commands")
+        names = ("Anatomy", "Models", "Lessons", "Radiology", "Histology")
+        shell_keys = QLabel("Workspace shortcuts: " + " · ".join(
+            f"{key_text(WORKSPACE_MODIFIER + str(n))} {name}" for n, name in enumerate(names, 1))
+            + f" · {key_text('Ctrl+Shift+P')} Commands")
         shell_keys.setWordWrap(True)
         shell_keys.setStyleSheet(theme.text_css(theme.MUTED))
         lay.addWidget(shell_keys)

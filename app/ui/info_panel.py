@@ -7,6 +7,7 @@ from PySide6.QtCore import Signal, QUrl, Qt
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QPushButton, QTextBrowser, QVBoxLayout, QWidget
 
+from ..actions import default_key_text
 from .flow import FlowLayout
 
 from . import theme
@@ -402,10 +403,10 @@ class InfoPanel(QWidget):
 <div class="muted">{ds.n:,} structures · {len(ds.landmarks):,} landmarks · {tris:.1f} M triangles</div>
 <div class="muted">{" · ".join(extras)}</div>
 <h3>Explore and study</h3>
-<p><b>Search</b> (Ctrl+F) for any structure, group, landmark or Latin term. The result is highlighted,
+<p><b>Search</b> ({default_key_text("search")}) for any structure, group, landmark or Latin term. The result is highlighted,
 framed, and everything else turns to x-ray. Search also finds conditions and signs ("carpal tunnel",
 "Horner"), tissues and 3D models.</p>
-<p><b>Lessons</b> (Ctrl+L) are short guided walks – the brachial plexus, the inguinal canal, the circle of
+<p><b>Lessons</b> ({default_key_text("lessons")}) are short guided walks – the brachial plexus, the inguinal canal, the circle of
 Willis. Browse them by body system, by region or by level. Each one opens with what you should be able to do
 by the end, sets the view up for you step by step, asks you a question before you move on, and finishes with
 what to remember. The library keeps your place, and "Quiz me" tests you on everything the lesson named.</p>
@@ -413,15 +414,15 @@ what to remember. The library keeps your place, and "Quiz me" tests you on every
 inwards, evenly everywhere, the way a real dissection does.</p>
 <p><b>Cross-sections</b> label themselves. Turn one on and every structure the plane cuts is named around the
 edge of the view; click a label to select it.</p>
-<p><b>Quiz</b> (Ctrl+Q) tests you on what's visible: find a structure in 3D, or name the highlighted one.
+<p><b>Quiz</b> ({default_key_text("quiz")}) tests you on what's visible: find a structure in 3D, or name the highlighted one.
 Structures come back on a spaced-repetition schedule – sooner if you miss them. Study &rsaquo; My progress
 shows how you are doing.</p>
 <p><b>Hunt</b> is the quiz mode with the labels off and everything switched on. You are given one structure to
 find in the whole body: right-click to peel things out of the way, left-click when you think you have it.
 Three tries, then it shows you the answer and what you clicked instead.</p>
-<p><b>Radiology</b> (Ctrl+R) shows a radiograph, CT or MR slice beside the model, labelled on both sides and
+<p><b>Radiology</b> ({default_key_text("radiology")}) shows a radiograph, CT or MR slice beside the model, labelled on both sides and
 with the 3D view set up to match the film. Click a label on the image to find it in 3D.</p>
-<p><b>Measure</b> (M) gives the distance between any two points you click; Ctrl+Shift+S exports the view as a
+<p><b>Measure</b> (M) gives the distance between any two points you click; {default_key_text("export_figure")} exports the view as a
 captioned, labelled figure.</p>
 <p><b>3D models</b> (Study &rsaquo; 3D models) open in a tab of their own: the whole heart, the kidney with its
 nephron, cardiac muscle, the microanatomy blocks and more. They use the same mouse, keys and labels as the atlas;
@@ -430,7 +431,7 @@ PgDown and PgUp step through a model's stored views.</p>
 The <b>Histology</b> tab browses tissue micrographs.</p>
 <p><b>Click</b> anything in 3D to see its summary, clinical correlations, histology and 3D models here.
 Sections are collapsible, and remember whether you left them open.</p>
-<p><b>Settings</b> (Ctrl+,) has mouse sensitivity, key bindings and display options.</p>
+<p><b>Settings</b> ({default_key_text("settings")}) has mouse sensitivity, key bindings and display options.</p>
 <h3>Data sources</h3><ul>{attr}<li>Histology micrographs: Wikimedia Commons contributors (author and
 license shown with each image)</li></ul>
 """, keep_scroll)
