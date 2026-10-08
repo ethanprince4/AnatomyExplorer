@@ -113,6 +113,11 @@ FS_LEAD = 10.5
 FS_TITLE = 12.5
 FS_H2 = 15.0
 FS_H1 = 17.0
+if sys.platform == "darwin":
+    # Qt draws a point as one pixel on a Mac (72 dpi) but 4/3 of one on Windows (96 dpi), where these sizes and the
+    # pixel-sized studio chrome around them were set. Unscaled, every line of text is a quarter smaller on a Mac.
+    FS_CAPTION, FS_SMALL, FS_BODY, FS_LEAD, FS_TITLE, FS_H2, FS_H1 = (
+        size * 96 / 72 for size in (FS_CAPTION, FS_SMALL, FS_BODY, FS_LEAD, FS_TITLE, FS_H2, FS_H1))
 
 SP_1, SP_2, SP_3, SP_4, SP_5 = 4, 8, 12, 16, 24
 R_SM, R_MD, R_LG, R_XL = 4, 6, 8, 12

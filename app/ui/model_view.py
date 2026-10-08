@@ -1026,7 +1026,7 @@ class ModelView(QWidget):
         if it:
             if it.isHidden():
                 self.filter.clear()
-            if self.flat_parts or it.parent() is not None:
+            if it.parent() is not None:
                 it.parent().setExpanded(True)
             self.tree.blockSignals(True)
             self.tree.setCurrentItem(it)

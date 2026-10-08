@@ -194,7 +194,7 @@ class ModelViewport(QOpenGLWidget):
             owner = self.parent()
             studio = getattr(owner, "set_loading", None)
             if studio is not None:
-                studio(True)
+                studio(True, self.graphics_error) if self.graphics_error else studio(True)
             self.update()
 
     def _physical_size(self):

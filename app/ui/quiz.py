@@ -964,8 +964,11 @@ class QuizController:
         if not text:
             return
         s0 = self.ds.structures[cur["sids"][0]]
-        accepted = {_norm_answer(cur["base"]), _norm_answer(s0.get("latin") or "")}
-        ok = _norm_answer(text) in accepted
+        accepted = {answer for answer in (_norm_answer(cur["base"]), _norm_answer(s0.get("latin") or "")) if answer}
+        typed = _norm_answer(text)
+        if not typed:
+            return
+        ok = typed in accepted
         if ok:
             p.feedback.setText(f'<span style="color:{theme.SUCCESS}; font-weight:700">Correct!</span>')
         else:

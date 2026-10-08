@@ -195,6 +195,7 @@ class TreePanel(QWidget):
         m.addSeparator()
         m.addAction("Expand all below", lambda: self._expand(it))
         m.exec(self.tree.viewport().mapToGlobal(pos))
+        m.deleteLater()
 
     def _expand(self, it):
         it.setExpanded(True)

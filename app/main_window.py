@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (QApplication, QColorDialog, QDockWidget, QFileDia
                                QListWidget, QMainWindow, QMenu, QMessageBox, QPushButton, QSizePolicy, QSplitter,
                                QTabWidget, QToolButton, QToolBar, QVBoxLayout, QWidget, QDialog, QHBoxLayout, QProgressBar)
 
-from .actions import WORKSPACE_MODIFIER, ActionRegistry
+from .actions import WORKSPACE_MODIFIER, ActionRegistry, default_key_text
 from .camera import OrbitCamera
 from .config import APP_NAME, DEFAULT_SETTINGS, ORG_NAME
 from .content import ContentIndex
@@ -1160,8 +1160,8 @@ class MainWindow(QMainWindow):
             self.setWindowFlag(Qt.FramelessWindowHint, True)
             self.show()
             self.setGeometry(self._work_area())
-            self.statusBar().showMessage("Borderless window — Shift+F11 to bring the title bar back, "
-                                         "drag the empty part of the menu bar to move it", 6000)
+            self.statusBar().showMessage(f"Borderless window — {default_key_text('borderless')} to bring the title bar "
+                                         "back, drag the empty part of the top bar to move it", 6000)
         else:
             self.setWindowFlag(Qt.FramelessWindowHint, False)
             self.show()
@@ -1509,6 +1509,7 @@ class MainWindow(QMainWindow):
             for key in ("show_all", "default_visibility", "reset_view", "undo", "auto_rotate"):
                 m.addAction(a[key])
         m.exec(global_pos)
+        m.deleteLater()
 
     def pick_color(self):
         if not self.state.selected:
