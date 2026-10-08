@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (QApplication, QButtonGroup, QComboBox, QHBoxLayou
 from ..lessons import LessonProgress, course_units, group_lessons, lecture_units, practice_pool
 from . import theme
 from .card_list import CardList
+from .stable_rows import fill_combo
 from .flow import FlowLayout
 
 # one colour per body system, so the stripe down the side of a card says what kind of lesson it is
@@ -646,6 +647,7 @@ class LessonsPanel(QWidget):
         self.bar.stepClicked.connect(lambda i: self.go(i, force=True))
         rl.addWidget(self.bar)
         self.step_picker = QComboBox()
+        self.steps_shown = 0
         self.step_picker.setAccessibleName("Jump to lesson step")
         self.step_picker.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
         self.step_picker.setMinimumContentsLength(14)
@@ -749,9 +751,9 @@ class LessonsPanel(QWidget):
         self.run_back.setText("‹ Lesson overview")
         self.run_practice.setVisible(lesson.has_practice())
         self.step_picker.blockSignals(True)
-        self.step_picker.clear()
-        for i, step in enumerate(lesson.steps):
-            self.step_picker.addItem(f"{i + 1}. {step.get('title') or 'Step ' + str(i + 1)}", i)
+        # rewritten in place, never cleared: lessons open from clicks with the picker on screen (see stable_rows)
+        self.steps_shown = fill_combo(self.step_picker, [(f"{i + 1}. {step.get('title') or 'Step ' + str(i + 1)}", i)
+                                                         for i, step in enumerate(lesson.steps)])
         self.step_picker.blockSignals(False)
         self.tools_toggle.setChecked(False)
         self.stack.setCurrentIndex(PAGE_RUNNER)

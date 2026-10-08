@@ -20,6 +20,7 @@ from .search import SearchIndex
 from .state import SceneState
 from .ui.info_panel import InfoPanel
 from .ui.nav import NavTabWidget
+from .ui.places import PlaceHistory
 from .ui.search_panel import SearchPanel, ModelCatalogPanel
 from .ui.shell import CommandPalette, ElidingLabel, WorkspaceNotice
 from .ui.settings_dialog import SettingsDialog
@@ -114,9 +115,13 @@ class MainWindow(QMainWindow):
         if self.content.model_catalog_error:
             self._startup_notices.append(self.content.model_catalog_error)
         self.index.add_content(self.content)
-        self.history = []
-        self.history_pos = -1
-        self._navigating = False
+        # Back/Forward across the whole app (ui/places.py): a place is recorded once a click has settled.
+        self.places = PlaceHistory()
+        self._restoring_place = False
+        self._place_timer = QTimer(self)
+        self._place_timer.setSingleShot(True)
+        self._place_timer.setInterval(350)
+        self._place_timer.timeout.connect(self._capture_place)
         self.settings_dialog = None
         self.micro_tabs = {}             # every open model tab (and the histology viewer), by id
         self._loading_models = {}
@@ -247,6 +252,9 @@ class MainWindow(QMainWindow):
                 self.lessons_panel.stepRequested.connect(self.apply_lesson_step)
                 self.lessons_panel.lessonClosed.connect(self._lesson_closed)
                 self.lessons_panel.lessonOpened.connect(self._remember_lesson)
+                for signal in (self.lessons_panel.stepRequested, self.lessons_panel.lessonOpened,
+                               self.lessons_panel.lessonClosed):
+                    signal.connect(self._note_place)
                 self.lessons_panel.quizRequested.connect(self.quiz_lesson)
                 self.tabs.entry_picked.connect(self._study_entry_picked)
                 # Diagrams stay in the lesson; enlargement is an explicit action.
@@ -688,6 +696,9 @@ class MainWindow(QMainWindow):
         self.studio_header.radiologyRequested.connect(self._studio_radiology)
         self.studio_header.histologyRequested.connect(self.show_histology_tab)
         self.studio_header.searchRequested.connect(self._studio_search)
+        self.studio_header.backRequested.connect(lambda: self.go_place(-1))
+        self.studio_header.forwardRequested.connect(lambda: self.go_place(1))
+        self.studio_header.places_menu.aboutToShow.connect(self._fill_places_menu)
         self.workspace_layout.insertWidget(0, self.studio_header)
         self.studio_header.layout().removeWidget(self.studio_header.subject)
         self.studio_header.subject.setParent(self.workspace)
@@ -696,6 +707,7 @@ class MainWindow(QMainWindow):
             if page is not None and self.tabs.indexOf(page)>=0:
                 self.tabs.removeTab(self.tabs.indexOf(page))
         self.collection_workspace = CollectionWorkspace(self.catalog, self)
+        self.collection_workspace.pages.currentChanged.connect(self._note_place)
         self.center.addTab(self.collection_workspace, "Collection")
         self.center.tabBar().setTabButton(self.center.indexOf(self.collection_workspace),
                                          self.center.tabBar().ButtonPosition.RightSide, None)
@@ -911,8 +923,7 @@ class MainWindow(QMainWindow):
             self.studio_tools.setVisible(current is self.anatomy_tab)
             self._layout_studio_chrome()
             if not collection:self._studio_last_scene = current
-        self.cmds.actions["back"].setEnabled(self.history_pos > 0)
-        self.cmds.actions["forward"].setEnabled(self.history_pos + 1 < len(self.history))
+        self._update_place_buttons()
 
     def _update_activity(self):
         if self._closing:
@@ -1277,47 +1288,139 @@ class MainWindow(QMainWindow):
         self._update_counts()
         self._on_selection_changed()
         self._update_workspace_header()
+        self._note_place()
 
     # ------------------------------------------------------------------ history
     def _record(self, entry):
-        if self._navigating:
-            return
-        if 0 <= self.history_pos < len(self.history) and self.history[self.history_pos] == entry:
-            return
-        del self.history[self.history_pos + 1:]
-        self.history.append(entry)
-        if len(self.history) > 200:
-            self.history.pop(0)
-        self.history_pos = len(self.history) - 1
-        self._update_workspace_header()
+        """An atlas selection, landmark or radiology pick the user made: it settles into a place for Back."""
+        self._note_place()
 
     def navigate(self, step):
-        pos = self.history_pos + step
-        if not (0 <= pos < len(self.history)):
+        """Back and Forward (keys and mouse buttons) go through every place visited, not only atlas selections."""
+        self.go_place(step)
+
+    # ------------------------------------------------------------------ places (Back / Forward)
+    def _note_place(self, *_):
+        if not self._restoring_place:
+            self._place_timer.start()
+
+    def _capture_place(self):
+        if self._restoring_place or self._closing or not hasattr(self, "studio_header"):
             return
-        self.history_pos = pos
-        kind, payload = self.history[pos]
-        self._navigating = True
+        place = self._current_place()
+        if place is not None:
+            self.places.push(*place)
+        self._update_place_buttons()
+
+    def _current_place(self):
+        """(key, label) for what is on screen: the scene and the lesson step read beside it, if any."""
+        from .ui.model_view import ModelView
+        w = self.center.currentWidget()
+        panel = self.lessons_panel
+        lesson = None
+        if panel is not None and panel.lesson is not None and not self.lesson_reader.isHidden():
+            lesson = (panel.lesson.id, int(panel.index))
+        if w is getattr(self, "collection_workspace", None):
+            title = self.collection_workspace.navigation_mode
+            scene, label = ("page", title), f"{title[:1].upper()}{title[1:]} library".replace("3d", "3D")
+            lesson = None
+        elif w is self.micro_tabs.get("__histology__"):
+            if w.tissue is None:
+                return None
+            scene, label = ("histology", w.tissue["id"], int(w.index)), f"Histology – {w.tissue['name']}"
+        elif isinstance(w, ModelView):
+            selected = sorted(int(i) for i in w.state.selected)[:30]
+            scene = ("model", w.entry.id, tuple(selected))
+            label = f"{w.entry.name} model"
+            if len(selected) == 1:
+                label += f" – {w.vmodel.items[selected[0]].name}"
+            elif selected:
+                label += f" – {len(selected)} parts"
+        elif self.radiology_panel is not None and not self.radiology_panel.isHidden() and self.radiology_panel.case:
+            case = self.radiology_panel.case
+            scene, label = ("radiology", case.id), f"Radiology – {case.title}"
+        else:
+            selected = [int(i) for i in self.state.selected][:30]
+            scene = ("atlas", tuple(selected))
+            label = "3D anatomy"
+            if len(selected) == 1:
+                label += f" – {self.ds.structures[selected[0]]['name']}"
+            elif selected:
+                label += f" – {len(selected)} structures"
+        if lesson is not None:
+            label = f"Lesson: {panel.lesson.title}, step {lesson[1] + 1}" + (
+                f" · {label}" if scene[0] != "atlas" else "")
+        return (scene, lesson), label
+
+    def go_place(self, step):
+        self._restore_place(self.places.go(step))
+
+    def _restore_place(self, key):
+        if key is None:
+            return
+        self._place_timer.stop()
+        self._restoring_place = True
         try:
-            if self.center.currentIndex() != 0:
-                self.center.setCurrentIndex(0)
-            if kind == "sids":
-                self.select_and_focus(list(payload), xray=self.state.ghost_focus is not None)
-            elif kind == "node":
-                self.on_node_activated(payload, xray=self.state.ghost_focus is not None)
-            elif kind == "lm":
-                self.focus_landmark(payload)
-            elif kind == "rad_case":
-                self.open_radiology(payload)
-            elif kind == "rad_pick":
-                case_id, names, side = payload
-                current = self.radiology_panel.case if self.radiology_panel is not None else None
-                if current is None or current.id != case_id:
-                    self.open_radiology(case_id)
-                self.on_radiology_pick(list(names), frame=False, side=side)
+            scene, lesson = key
+            panel = self.lessons_panel
+            if lesson is not None and panel is not None:
+                from .ui.lessons import PAGE_RUNNER
+                lesson_id, step = lesson
+                if panel.lesson is None or panel.lesson.id != lesson_id or panel.stack.currentIndex() != PAGE_RUNNER:
+                    panel.open_lesson(lesson_id)
+                panel.go(step)
+                self._show_lesson_reader()
+            elif scene[0] != "page" and not self.lesson_reader.isHidden():
+                self.lesson_reader.hide()
+            kind = scene[0]
+            if kind == "page":
+                pages = {"3d models": self._show_catalog, "lessons": self._show_lesson_library,
+                         "histology": self.show_histology_tab,
+                         "radiology": lambda: self._show_nav_page(self.radiology_browser)}
+                pages.get(scene[1], self._show_atlas)()
+            elif kind == "histology":
+                self.open_histology(scene[1], scene[2])
+            elif kind == "radiology":
+                self.open_radiology(scene[1])
+            elif kind == "model":
+                def select(view, parts=list(scene[2])):
+                    if view is not None and list(view.state.selected) != parts:
+                        view.state.select(parts)
+                self.open_micro(scene[1], on_ready=select)
+            else:
+                if self.center.currentIndex() != 0 or (self.radiology_panel is not None
+                                                       and not self.radiology_panel.isHidden()):
+                    self._show_atlas()
+                if scene[1]:
+                    self.select_and_focus(list(scene[1]))
+                elif self.state.selected:
+                    self.state.select([])
         finally:
-            self._navigating = False
-            self._update_workspace_header()
+            # what the restore itself changes (a lesson step applying its scene, a model finishing loading) is
+            # part of going back, not a new place
+            QTimer.singleShot(500, self._end_place_restore)
+        self._update_place_buttons()
+
+    def _end_place_restore(self):
+        self._restoring_place = False
+
+    def _fill_places_menu(self):
+        menu = self.studio_header.places_menu
+        menu.clear()
+        for index, label, current in self.places.recent():
+            action = menu.addAction(label)
+            action.setCheckable(True)
+            action.setChecked(current)
+            action.triggered.connect(lambda _checked=False, i=index: self._restore_place(self.places.jump(i)))
+        if menu.isEmpty():
+            menu.addAction("No places yet").setEnabled(False)
+
+    def _update_place_buttons(self):
+        back, forward = self.places.label(-1), self.places.label(1)
+        self.cmds.actions["back"].setEnabled(bool(back))
+        self.cmds.actions["forward"].setEnabled(bool(forward))
+        if hasattr(self, "studio_header"):
+            self.studio_header.set_places(back, forward)
 
     # ------------------------------------------------------------------ selection logic
     def select_and_focus(self, sids, xray=False, frame=True, info=True):
@@ -1520,6 +1623,11 @@ class MainWindow(QMainWindow):
 
     def on_link(self, scheme, payload):
         xray = self.state.ghost_focus is not None
+        if scheme == "modeloverview":
+            view = self.active_model_view()
+            if view is not None and view.entry.id == payload:
+                view.state.select([])        # an empty selection shows the model's own overview in Details
+            return
         if scheme == "modelpart":
             view = self.active_model_view()
             model_id, separator, raw_index = payload.rpartition("|")
@@ -1613,6 +1721,7 @@ class MainWindow(QMainWindow):
         viewer.on_activated(self.info)
         self.left_dock.hide()
         self.right_dock.hide()
+        self._note_place()
 
     def _histology_structures(self, names):
         sids = [s for n in names for s in self.ds.structures_named(n)]
@@ -1958,6 +2067,7 @@ class MainWindow(QMainWindow):
         del self._loading_models[result.key]
         self.micro_tabs[result.key] = view
         view.setParent(self.center)
+        view.state.selection_changed.connect(self._note_place)
         # No stale completion steals focus from a newer tab or atlas navigation.
         self.center.blockSignals(True)
         try:

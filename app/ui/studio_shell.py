@@ -16,6 +16,8 @@ class StudioHeader(QWidget):
     radiologyRequested=Signal()
     histologyRequested=Signal()
     searchRequested=Signal(str)
+    backRequested=Signal()
+    forwardRequested=Signal()
 
     def __init__(self,window):
         super().__init__()
@@ -28,7 +30,19 @@ class StudioHeader(QWidget):
         row=QHBoxLayout(self.bar);row.setContentsMargins(20,5,20,5);row.setSpacing(16)
         brand_icon=QLabel();brand_icon.setPixmap(icon('brand').pixmap(26,26));row.addWidget(brand_icon)
         self.brand=QLabel('Anatomy Explorer');self.brand.setObjectName('studioBrand');row.addWidget(self.brand)
-        row.addSpacing(28)
+        row.addSpacing(16)
+        # Back returns to the place before this one, anywhere in the app; its arrow lists the recent places.
+        self.back_button=QToolButton();self.back_button.setIcon(icon('back'));self.back_button.setIconSize(QSize(22,22))
+        self.back_button.setAccessibleName('Back to the previous place')
+        self.places_menu=QMenu(self.back_button)
+        self.back_button.setMenu(self.places_menu);self.back_button.setPopupMode(QToolButton.MenuButtonPopup)
+        self.back_button.clicked.connect(self.backRequested.emit)
+        self.forward_button=QToolButton();self.forward_button.setIcon(icon('forward'));self.forward_button.setIconSize(QSize(22,22))
+        self.forward_button.setAccessibleName('Forward to the next place')
+        self.forward_button.clicked.connect(self.forwardRequested.emit)
+        for button in (self.back_button,self.forward_button):
+            button.setEnabled(False);row.addWidget(button)
+        row.addSpacing(12)
         self.navigation={}
         for label,signal in (('Explore',self.exploreRequested),('Lessons',self.learnRequested),('3D Models',self.collectionRequested),
                              ('Radiology',self.radiologyRequested),('Histology',self.histologyRequested)):
@@ -75,6 +89,12 @@ class StudioHeader(QWidget):
         menu.addSeparator()
         for action in window.menuBar().actions():
             if action.menu() is not None:menu.addMenu(action.menu())
+
+    def set_places(self,back_label,forward_label):
+        """Enable Back and Forward and name where each goes."""
+        for button,label,verb in ((self.back_button,back_label,'Back'),(self.forward_button,forward_label,'Forward')):
+            button.setEnabled(bool(label))
+            button.setToolTip(f'{verb} to {label}' if label else f'Nothing to go {verb.lower()} to yet')
 
     def set_workspace(self,name):
         for key,button in self.navigation.items():
