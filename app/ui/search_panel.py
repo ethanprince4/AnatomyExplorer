@@ -5,10 +5,11 @@ import unicodedata
 from PySide6.QtCore import QRectF, QSize, Qt, QTimer, Signal, QUrl
 from PySide6.QtGui import QFont, QPainter, QDesktopServices
 from PySide6.QtWidgets import (QComboBox, QHBoxLayout, QLabel, QLineEdit, QListWidget,
-                               QListWidgetItem, QPushButton, QStyle, QStyledItemDelegate,
+                               QPushButton, QStyle, QStyledItemDelegate,
                                QStyleOptionFocusRect, QTextBrowser, QVBoxLayout, QWidget)
 
 from . import theme
+from .stable_rows import fill_list
 
 ROLE_ENTRY = Qt.UserRole + 1
 KIND_BADGE = {"structure": "Structure", "group": "Group", "landmark": "Landmark", "clinical": "Clinical",
@@ -143,6 +144,7 @@ class SearchPanel(QWidget):
         self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         lay.addWidget(self.list, 1)
         self.list.hide()
+        self.shown = 0
         self._timer = QTimer(self)
         self._timer.setSingleShot(True)
         self._timer.setInterval(80)
@@ -162,18 +164,31 @@ class SearchPanel(QWidget):
         self.edit.selectAll()
 
     def _query_changed(self, *_):
-        # A cleared query must not leave stale results actionable during the debounce.
-        self.list.clear()
+        # A cleared query must not leave stale results actionable during the debounce. The rows are hidden rather
+        # than removed: this runs on every keystroke with the results on screen (see stable_rows).
+        self._show_results([])
         if not self.edit.text().strip() and not self.kind_filter.currentData():
             self._timer.stop()
             self._run()
         else:
             self._timer.start()
 
+    def _show_results(self, entries):
+        def fill(item, entry):
+            description = f"{entry.title}\n{KIND_BADGE.get(entry.kind, entry.kind)} · {entry.subtitle}"
+            if entry.kind in ("structure", "group", "landmark") and entry.alt:
+                description += f"\nLatin: {entry.alt}"
+            item.setData(ROLE_ENTRY, entry)
+            item.setToolTip(description)
+            item.setData(Qt.AccessibleTextRole, description.replace("\n", ". "))
+
+        self.shown = fill_list(self.list, entries, fill)
+        self.list.setCurrentRow(0 if self.shown else -1)
+
     def _run(self):
         q, kind = self.edit.text().strip(), self.kind_filter.currentData()
-        self.list.clear()
         if not q and not kind:
+            self._show_results([])
             self.info.setText("Search the atlas and study library")
             self.list.hide()
             self.queryActive.emit(False)
@@ -185,20 +200,13 @@ class SearchPanel(QWidget):
             if kind:
                 results = [entry for entry in results if entry.kind == kind]
         except Exception:
+            self._show_results([])
             self.info.setText("Search is unavailable. Edit the query to retry, or use Browse.")
             self.list.hide()
             self.queryActive.emit(False)
             return
         count = len(results)
-        for entry in results[:150]:
-            item = QListWidgetItem()
-            item.setData(ROLE_ENTRY, entry)
-            description = f"{entry.title}\n{KIND_BADGE.get(entry.kind, entry.kind)} · {entry.subtitle}"
-            if entry.kind in ("structure", "group", "landmark") and entry.alt:
-                description += f"\nLatin: {entry.alt}"
-            item.setToolTip(description)
-            item.setData(Qt.AccessibleTextRole, description.replace("\n", ". "))
-            self.list.addItem(item)
+        self._show_results(results[:150])
         if not count:
             self.info.setText("No matches. Try a shorter name, a Latin term, or All content.")
         elif count > 150:
@@ -206,16 +214,14 @@ class SearchPanel(QWidget):
         else:
             self.info.setText(f"{count:,} result{'s' if count != 1 else ''} · Enter to open")
         self.list.setVisible(bool(count))
-        if count:
-            self.list.setCurrentRow(0)
         self.queryActive.emit(True)
 
     def _navigate(self, step):
         if self._timer.isActive():
             self._timer.stop()
             self._run()
-        if self.list.count():
-            row = max(0, min(self.list.count() - 1, self.list.currentRow() + step))
+        if self.shown:
+            row = max(0, min(self.shown - 1, self.list.currentRow() + step))
             self.list.setCurrentRow(row)
             self.list.scrollToItem(self.list.currentItem())
 
@@ -224,7 +230,7 @@ class SearchPanel(QWidget):
             self._timer.stop()
             self._run()
         item = self.list.currentItem()
-        if item:
+        if item and not item.isHidden():
             self.activated.emit(item.data(ROLE_ENTRY))
 
 
@@ -285,6 +291,7 @@ class ModelCatalogPanel(QWidget):
         self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.list.setUniformItemSizes(True)
         self.list.setMouseTracking(True)
+        self.shown = 0
         lay.addWidget(self.list, 3)
         self.preview = ModelOverview()
         self.preview.setAccessibleName("Selected model overview")
@@ -328,28 +335,28 @@ class ModelCatalogPanel(QWidget):
 
     def _run(self, *_):
         current = self.list.currentItem()
-        old_id = current.data(ROLE_ENTRY).id if current else None
+        old_id = current.data(ROLE_ENTRY).id if current is not None and not current.isHidden() else None
         terms = normalized(self.edit.text()).split()
         kind = self.kind_filter.currentData()
-        self.list.blockSignals(True)
-        self.list.clear()
         entries = self._entries()
+        shown = []
         for entry in entries:
             targets = " ".join(str(value) for value in (getattr(entry, "targets", {}) or {}).values())
             haystack = normalized(f"{entry.name} {entry.summary} {targets} {entry.kind_name}")
             if (kind == "inhouse" and entry.kind not in ("glb", "procedural")) or (kind and kind != "inhouse" and entry.kind != kind) or not all(word in haystack for word in terms):
                 continue
-            item = QListWidgetItem()
+            shown.append(entry)
+
+        def fill(item, entry):
             item.setData(ROLE_ENTRY, entry)
             item.setData(Qt.AccessibleTextRole, f"{entry.name}. {entry.kind_name}")
             item.setToolTip(f"{entry.name}\n{entry.kind_name}\n{entry.summary}")
-            self.list.addItem(item)
-            if entry.id == old_id:
-                self.list.setCurrentItem(item)
-        if self.list.currentRow() < 0 and self.list.count():
-            self.list.setCurrentRow(0)
+
+        # Runs after a model opens and while models are verified, with this list focused: never remove its rows.
+        self.list.blockSignals(True)
+        self.shown = count = fill_list(self.list, shown, fill)
+        self.list.setCurrentRow(next((row for row, entry in enumerate(shown) if entry.id == old_id), 0 if count else -1))
         self.list.blockSignals(False)
-        count = self.list.count()
         if not entries:
             text = getattr(self.content, "model_catalog_error", "") or "No validated new models are installed. Run or resume the preparation launcher."
         elif not count:
@@ -399,13 +406,13 @@ class ModelCatalogPanel(QWidget):
         self.open_button.setToolTip(f"Open {e.name} in its own viewer tab")
 
     def _navigate(self, step):
-        if self.list.count():
-            self.list.setCurrentRow(max(0, min(self.list.count() - 1, self.list.currentRow() + step)))
+        if self.shown:
+            self.list.setCurrentRow(max(0, min(self.shown - 1, self.list.currentRow() + step)))
             self.list.scrollToItem(self.list.currentItem())
 
     def _activate_current(self):
         item = self.list.currentItem()
-        if item:
+        if item and not item.isHidden():
             self.activated.emit(item.data(ROLE_ENTRY).id)
 
     def _choose_variant(self, variant):
@@ -423,7 +430,7 @@ class ModelCatalogPanel(QWidget):
         self.edit.blockSignals(False)
         self.kind_filter.blockSignals(False)
         self._run()
-        for row in range(self.list.count()):
+        for row in range(self.shown):
             item = self.list.item(row)
             if item.data(ROLE_ENTRY).id == model_id:
                 self.list.setCurrentItem(item)

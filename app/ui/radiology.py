@@ -10,7 +10,9 @@ from PySide6.QtWidgets import (QCheckBox, QComboBox, QGridLayout, QHBoxLayout, Q
 
 from . import theme
 from .card_list import CardList
-from .image_workspace import LocalImageLoader, control, matches_words, image_control_card, CARD_TEXT, CARD_MUTED
+from .stable_rows import fill_combo
+from .image_workspace import (LocalImageLoader, control, matches_words, image_control_card, CARD_TEXT, CARD_MUTED,
+                              pinch_steps, trackpad_scroll)
 
 MARKER_R = 9.0
 ACCENT = theme.qc(theme.ACCENT_TEXT)
@@ -209,7 +211,23 @@ class RadiographView(QWidget):
         if self.pixmap.isNull():
             e.ignore()
             return
-        steps = e.angleDelta().y() / 120.0
+        e.accept()
+        if trackpad_scroll(e):
+            # a two-finger swipe moves a zoomed film (momentum included); a pinch zooms, in event()
+            if self._zoom > 1.0:
+                self._pan += QPointF(e.pixelDelta() if not e.pixelDelta().isNull() else e.angleDelta() / 8)
+                self.update()
+            return
+        self._zoom_at(e.position(), e.angleDelta().y() / 120.0)
+
+    def event(self, e):
+        steps = pinch_steps(e, 1.18)
+        if steps is not None and not self.pixmap.isNull():
+            self._zoom_at(e.position(), steps)
+            return True
+        return super().event(e)
+
+    def _zoom_at(self, pos, steps):
         if not steps:
             return
         old = self._zoom
@@ -218,13 +236,12 @@ class RadiographView(QWidget):
             return
         # keep the point under the cursor still
         r = self._base_rect()
-        cursor = e.position() - r.center() - self._pan
+        cursor = pos - r.center() - self._pan
         self._pan -= cursor * (self._zoom / old - 1.0)
         if self._zoom <= 1.0:
             self._pan = QPointF(0.0, 0.0)
         self.zoomChanged.emit(self._zoom)
         self.update()
-        e.accept()
 
     def leaveEvent(self, e):
         if self.hot != -1:
@@ -496,9 +513,10 @@ class RadiologyPanel(QWidget):
         self.atlas_note.setText(case.atlas_note)
         self.question_choice.blockSignals(True)
         self.legend.setMaximumHeight(16777215)
-        self.question_choice.clear()
-        for index, question in enumerate(case.questions):
-            self.question_choice.addItem(f"Question {index + 1} of {len(case.questions)}", index)
+        # Previous and Next run this with the picker on screen: rows are rewritten, never removed (see stable_rows).
+        fill_combo(self.question_choice, [(f"Question {index + 1} of {len(case.questions)}", index)
+                                          for index in range(len(case.questions))])
+        self.question_choice.setCurrentIndex(0 if case.questions else -1)
         self.question_choice.blockSignals(False)
         self.question_controls.setVisible(bool(case.questions))
         self.study_tabs.setTabVisible(self.study_tabs.indexOf(self.question_page), bool(case.questions))

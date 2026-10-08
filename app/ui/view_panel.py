@@ -1,8 +1,9 @@
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QListWidget,
-                               QListWidgetItem, QPushButton, QScrollArea, QSlider, QVBoxLayout, QWidget)
+                               QPushButton, QScrollArea, QSlider, QVBoxLayout, QWidget)
 
 from ..actions import SELECT_MODIFIER
+from .stable_rows import fill_list
 from . import theme
 
 CLIP_NAMES = ["Sagittal (left / right)", "Coronal (front / back)", "Transverse (top / bottom)"]
@@ -208,23 +209,25 @@ class ViewPanel(QWidget):
 
     def show_section(self, items, ds):
         """Fill the list of structures the active cross-section passes through."""
-        self.section_list.clear()
+        # Runs on every tick of a section slider: rows are rewritten, never removed (see stable_rows).
         self.section_list.setFixedHeight(min(190,max(48,len(items)*(self.section_list.fontMetrics().height()+10)+8)))
+        rows = []
         for sid, _anchor, weight in items:
             s = ds.structures[sid]
-            name = s["name"] + (f"  ({s['side'].lower()})" if s["side"] else "")
-            it = QListWidgetItem(name)
-            it.setData(Qt.UserRole, sid)
-            it.setToolTip(name)
-            self.section_list.addItem(it)
+            rows.append((sid, s["name"] + (f"  ({s['side'].lower()})" if s["side"] else "")))
         if not items:
             active = any(cb.isChecked() for cb, *_ in self.clip_widgets)
-            message = ("No visible structures at this cut. Move the section or show more anatomy." if active else
-                       "Enable a cross-section to see the structures it intersects.")
-            placeholder = QListWidgetItem(message)
-            placeholder.setFlags(Qt.NoItemFlags)
-            placeholder.setToolTip(message)
-            self.section_list.addItem(placeholder)
+            rows.append((None, "No visible structures at this cut. Move the section or show more anatomy." if active else
+                         "Enable a cross-section to see the structures it intersects."))
+
+        def fill(item, row):
+            sid, text = row
+            item.setText(text)
+            item.setToolTip(text)
+            item.setData(Qt.UserRole, sid)
+            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled if sid is not None else Qt.NoItemFlags)
+
+        fill_list(self.section_list, rows, fill)
 
     def _pick_section(self, item):
         sid = item.data(Qt.UserRole)

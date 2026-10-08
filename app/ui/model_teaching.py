@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QComboBox, QGridLayout, QLabel, QVBoxLayout, QWidg
 
 from . import theme
 from .flow import FlowLayout, WrapButton
+from .stable_rows import fill_combo
 
 
 class ModelTeachingControls(QWidget):
@@ -11,6 +12,7 @@ class ModelTeachingControls(QWidget):
         super().__init__(parent)
         self.session = None
         self.sequences = []
+        self.steps = 0
         layout = QVBoxLayout(self)
         layout.setContentsMargins(16, 14, 16, 14)
         layout.setSpacing(10)
@@ -72,27 +74,30 @@ class ModelTeachingControls(QWidget):
         self.session = session
         self.sequences = [record for record in session.controls.get("functional_sequences", ())
                           if record.get("id") and isinstance(record.get("steps", record.get("stages")), list)]
-        self.sequence.clear()
-        for record in self.sequences:
-            self.sequence.addItem(record.get("title") or record.get("name") or record.get("mechanism") or record["id"],
-                                  record["id"])
+        fill_combo(self.sequence, [(record.get("title") or record.get("name") or record.get("mechanism") or record["id"],
+                                    record["id"]) for record in self.sequences])
+        self.sequence.setCurrentIndex(0 if self.sequences else -1)
         self._fill_steps()
         self.setVisible(bool(self.sequences))
 
     def _fill_steps(self):
-        self.step.clear()
+        # Runs inside the sequence combo's activated signal with the step combo on screen: rows are rewritten,
+        # never removed (see stable_rows).
+        steps = []
         index = self.sequence.currentIndex()
         if 0 <= index < len(self.sequences):
             record = self.sequences[index]
             for i, value in enumerate(record.get("steps", record.get("stages", ()))):
                 title = (value.get("title") or value.get("label") or value.get("name") or value.get("id")) if isinstance(value, dict) else str(value)
-                self.step.addItem(f"{i + 1}. {title or 'Step ' + str(i + 1)}", i)
+                steps.append((f"{i + 1}. {title or 'Step ' + str(i + 1)}", i))
+        self.steps = fill_combo(self.step, steps)
+        self.step.setCurrentIndex(0 if self.steps else -1)
         self._sync()
 
     def _sync(self):
         index = self.step.currentIndex()
         self.previous.setEnabled(index > 0)
-        self.next.setEnabled(0 <= index < self.step.count() - 1)
+        self.next.setEnabled(0 <= index < self.steps - 1)
         self.apply.setEnabled(index >= 0)
 
     def _sequence_activated(self, *_):
@@ -101,7 +106,7 @@ class ModelTeachingControls(QWidget):
 
     def _advance(self, direction):
         index = self.step.currentIndex() + direction
-        if 0 <= index < self.step.count():
+        if 0 <= index < self.steps:
             self.step.setCurrentIndex(index)
             self.show_step()
 
