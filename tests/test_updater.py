@@ -242,6 +242,30 @@ class UpdaterTests(unittest.TestCase):
         self.assertEqual(popen.call_count, 2)
         self.assertEqual(self.store.active(), self.base)
 
+    def test_reinstalled_newer_base_replaces_older_update(self):
+        self.store.prepare(self.manifest, LocalSource(self.packs))
+        updated = self.store.activate()
+        self.store.healthy()
+        self.assertNotEqual(updated, self.base)
+        child = unittest.mock.Mock(returncode=0)
+        child.poll.return_value = 0
+
+        def spawn(command, env):
+            Path(env["AE_READY_FILE"]).write_text("ready")
+            return child
+
+        # An older original keeps running its update.
+        with patch.object(u, "store_for", return_value=self.store), patch.object(u.subprocess, "Popen", side_effect=spawn) as popen:
+            u.launch_managed([])
+        self.assertEqual(Path(popen.call_args.args[0][0]).parent, updated)
+        # The user installs a newer release over the original: it runs, not the older update.
+        (self.base / "_internal/VERSION").write_text("3.1.2")
+        create_payload(self.base, self.root / "reinstallpacks", "3.1.2")
+        with patch.object(u, "store_for", return_value=self.store), patch.object(u.subprocess, "Popen", side_effect=spawn) as popen:
+            u.launch_managed([])
+        self.assertEqual(Path(popen.call_args.args[0][0]).parent, self.base)
+        self.assertIsNone(self.store.state().get("current"))
+
     def test_cleanup_does_not_delete_unpublished_prepared_version(self):
         self.store.versions.mkdir(parents=True)
         version = self.store.versions / "3.2.0-aaaaaaaaaaaaaaaa"
