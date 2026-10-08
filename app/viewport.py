@@ -872,12 +872,13 @@ class Viewport(QOpenGLWidget):
             for group in groups:
                 text, sids = group[0], group[1]
                 if len(group) > 3:
-                    # pinned: drawn at its point when one of its structures is what shows there
+                    # pinned: drawn at its point when one of its structures is what shows there; a covered point
+                    # falls back to the structure's largest visible patch below, like an unpinned label
                     sid = self._visible_pin(group[3], sids, ids, step)
                     if sid is not None:
                         anchors.append((sid, np.asarray(group[3], dtype=float), 1.0, text))
                         names.setdefault(sid, text)
-                    continue
+                        continue
                 members = np.asarray([s + 1 for s in sids if s not in names], dtype=np.int32)
                 if not len(members):
                     continue
