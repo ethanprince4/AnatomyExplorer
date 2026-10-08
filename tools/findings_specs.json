@@ -1,31 +1,5 @@
 [
  {
-  "name": "Left acetabular posterior column fragment",
-  "latin": "Fragmentum acetabuli posterius sinistrum",
-  "material": "Fracture",
-  "subsystem": "Acetabular fracture",
-  "regions": [
-   "abdomen"
-  ],
-  "note": "A displaced fragment of the posterior column of the left acetabulum, part of a comminuted fracture.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Hip bone",
-    "side": "Left",
-    "x": 0.417,
-    "y": 0.34,
-    "z": 0.361
-   },
-   "radii_mm": [
-    9,
-    7,
-    7
-   ],
-   "irregular": 0.3
-  }
- },
- {
   "name": "Left acetabular anterior column fragment",
   "latin": "Fragmentum acetabuli anterius sinistrum",
   "material": "Fracture",
@@ -41,7 +15,9 @@
     "side": "Left",
     "x": 0.567,
     "y": 0.293,
-    "z": 0.758
+    "z": 0.758,
+    "surface": true,
+    "offset_mm": 6
    },
    "radii_mm": [
     8,
@@ -107,6 +83,57 @@
   }
  },
  {
+  "name": "Left acetabular posterior column fragment",
+  "latin": "Fragmentum acetabuli posterius sinistrum",
+  "material": "Fracture",
+  "subsystem": "Acetabular fracture",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "A displaced fragment of the posterior column of the left acetabulum, part of a comminuted fracture.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Hip bone",
+    "side": "Left",
+    "x": 0.417,
+    "y": 0.34,
+    "z": 0.361
+   },
+   "radii_mm": [
+    9,
+    7,
+    7
+   ],
+   "irregular": 0.3
+  }
+ },
+ {
+  "name": "Left renal calculus",
+  "material": "Stone",
+  "subsystem": "Renal calculi",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "A small dense calculus in the left kidney, near the renal pelvis; it is bright on non-contrast CT.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Kidney",
+    "side": "Left",
+    "x": 0.45,
+    "y": 0.28,
+    "z": 0.63
+   },
+   "radii_mm": [
+    3,
+    3,
+    3
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
   "name": "Right renal calculus",
   "material": "Stone",
   "subsystem": "Renal calculi",
@@ -127,31 +154,6 @@
      -8,
      0
     ]
-   },
-   "radii_mm": [
-    3,
-    3,
-    3
-   ],
-   "irregular": 0.1
-  }
- },
- {
-  "name": "Left renal calculus",
-  "material": "Stone",
-  "subsystem": "Renal calculi",
-  "regions": [
-   "abdomen"
-  ],
-  "note": "A small dense calculus in the left kidney, near the renal pelvis; it is bright on non-contrast CT.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Kidney",
-    "side": "Left",
-    "x": 0.45,
-    "y": 0.28,
-    "z": 0.63
    },
    "radii_mm": [
     3,
@@ -253,30 +255,6 @@
   }
  },
  {
-  "name": "Saddle pulmonary embolus",
-  "material": "Blood clot",
-  "subsystem": "Pulmonary embolism",
-  "regions": [
-   "thorax"
-  ],
-  "note": "A saddle clot sits across the pulmonary arterial bifurcation and extends into both pulmonary arteries.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Bifurcation of pulmonary trunk",
-    "x": 0.5,
-    "y": 0.5,
-    "z": 0.5
-   },
-   "radii_mm": [
-    8,
-    6,
-    6
-   ],
-   "irregular": 0.2
-  }
- },
- {
   "name": "Left lobar pulmonary embolus",
   "material": "Blood clot",
   "subsystem": "Pulmonary embolism",
@@ -324,6 +302,30 @@
     "z": 0.5
    },
    "radius_mm": 4
+  }
+ },
+ {
+  "name": "Saddle pulmonary embolus",
+  "material": "Blood clot",
+  "subsystem": "Pulmonary embolism",
+  "regions": [
+   "thorax"
+  ],
+  "note": "A saddle clot sits across the pulmonary arterial bifurcation and extends into both pulmonary arteries.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Bifurcation of pulmonary trunk",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "radii_mm": [
+    8,
+    6,
+    6
+   ],
+   "irregular": 0.2
   }
  },
  {
@@ -434,31 +436,6 @@
   }
  },
  {
-  "name": "Gallbladder stones",
-  "material": "Stone",
-  "subsystem": "Gallstone disease",
-  "regions": [
-   "abdomen"
-  ],
-  "note": "Multiple gallstones in the gallbladder, seen as filling defects in the fluid-filled gallbladder on MRCP.",
-  "shape": {
-   "type": "cluster",
-   "at": {
-    "structure": "Gallbladder",
-    "x": 0.5,
-    "y": 0.5,
-    "z": 0.5
-   },
-   "spread_mm": [
-    12,
-    8,
-    8
-   ],
-   "count": 4,
-   "size_mm": 4
-  }
- },
- {
   "name": "Common bile duct stone",
   "material": "Stone",
   "subsystem": "Choledocholithiasis",
@@ -481,6 +458,31 @@
     3
    ],
    "irregular": 0.1
+  }
+ },
+ {
+  "name": "Gallbladder stones",
+  "material": "Stone",
+  "subsystem": "Gallstone disease",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Multiple gallstones in the gallbladder, seen as filling defects in the fluid-filled gallbladder on MRCP.",
+  "shape": {
+   "type": "cluster",
+   "at": {
+    "structure": "Gallbladder",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "spread_mm": [
+    12,
+    8,
+    8
+   ],
+   "count": 4,
+   "size_mm": 4
   }
  },
  {
@@ -561,32 +563,6 @@
   }
  },
  {
-  "name": "Uterine fibroid (illustrative)",
-  "material": "Mass",
-  "subsystem": "Uterine fibroids",
-  "regions": [
-   "abdomen"
-  ],
-  "note": "Well-circumscribed uterine fibroid (leiomyoma) in the central pelvis, shown illustratively. The atlas has no uterus, so its position is approximate.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Sacrum",
-    "x": 0.55,
-    "y": 0.5,
-    "z": 1.0,
-    "surface": true,
-    "offset_mm": 45
-   },
-   "radii_mm": [
-    24,
-    20,
-    22
-   ],
-   "irregular": 0.1
-  }
- },
- {
   "name": "Second uterine fibroid (illustrative)",
   "material": "Mass",
   "subsystem": "Uterine fibroids",
@@ -610,6 +586,32 @@
     12
    ],
    "irregular": 0.15
+  }
+ },
+ {
+  "name": "Uterine fibroid (illustrative)",
+  "material": "Mass",
+  "subsystem": "Uterine fibroids",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Well-circumscribed uterine fibroid (leiomyoma) in the central pelvis, shown illustratively. The atlas has no uterus, so its position is approximate.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Sacrum",
+    "x": 0.55,
+    "y": 0.5,
+    "z": 1.0,
+    "surface": true,
+    "offset_mm": 45
+   },
+   "radii_mm": [
+    24,
+    20,
+    22
+   ],
+   "irregular": 0.1
   }
  },
  {
@@ -652,7 +654,7 @@
    "at": {
     "structure": "Humerus",
     "side": "Right",
-    "x": 0.56,
+    "x": 0.36,
     "y": 0.92,
     "z": 0.5,
     "surface": true,
@@ -692,31 +694,6 @@
   }
  },
  {
-  "name": "Right medial thalamic FLAIR signal abnormality",
-  "material": "Inflamed tissue",
-  "subsystem": "Wernicke encephalopathy",
-  "regions": [
-   "head"
-  ],
-  "note": "Hyperintense FLAIR signal in the right mesial dorsal thalamus, the abnormality described in Wernicke encephalopathy (oedema or gliosis; illustrative marker, not registered to this scan).",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Thalamus",
-    "side": "Right",
-    "x": 0.78,
-    "y": 0.5,
-    "z": 0.5
-   },
-   "radii_mm": [
-    4,
-    3,
-    5
-   ],
-   "irregular": 0.15
-  }
- },
- {
   "name": "Left medial thalamic FLAIR signal abnormality",
   "material": "Inflamed tissue",
   "subsystem": "Wernicke encephalopathy",
@@ -742,6 +719,31 @@
   }
  },
  {
+  "name": "Right medial thalamic FLAIR signal abnormality",
+  "material": "Inflamed tissue",
+  "subsystem": "Wernicke encephalopathy",
+  "regions": [
+   "head"
+  ],
+  "note": "Hyperintense FLAIR signal in the right mesial dorsal thalamus, the abnormality described in Wernicke encephalopathy (oedema or gliosis; illustrative marker, not registered to this scan).",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Thalamus",
+    "side": "Right",
+    "x": 0.78,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "radii_mm": [
+    4,
+    3,
+    5
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
   "name": "Left breast (illustrative)",
   "material": "Breast tissue",
   "subsystem": "Mammary gland",
@@ -753,30 +755,6 @@
    "type": "breast",
    "side": "Left",
    "depth_mm": 45
-  }
- },
- {
-  "name": "Small breast cancer (illustrative)",
-  "material": "Mass",
-  "subsystem": "Breast cancer",
-  "regions": [
-   "thorax"
-  ],
-  "note": "Small irregular mass in the breast near the chest wall at the arrowed site, about 9 mm across, shown illustratively. The source identifies it as cancerous; histological type and BI-RADS are not supplied.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Left breast (illustrative)",
-    "x": 0.75,
-    "y": 0.5,
-    "z": 0.25
-   },
-   "radii_mm": [
-    4.5,
-    4,
-    4.5
-   ],
-   "irregular": 0.25
   }
  },
  {
@@ -830,30 +808,6 @@
   }
  },
  {
-  "name": "Nipple (illustrative)",
-  "material": "Breast tissue",
-  "subsystem": "Mammary gland",
-  "regions": [
-   "thorax"
-  ],
-  "note": "Illustrative nipple at the anterior tip of the breast.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Left breast (illustrative)",
-    "x": 0.5,
-    "y": 0.5,
-    "z": 1.0
-   },
-   "radii_mm": [
-    4,
-    4,
-    5
-   ],
-   "irregular": 0.0
-  }
- },
- {
   "name": "Right breast (illustrative)",
   "material": "Breast tissue",
   "subsystem": "Breast",
@@ -865,55 +819,6 @@
    "type": "breast",
    "side": "Right",
    "depth_mm": 45
-  }
- },
- {
-  "name": "Fibroglandular core (illustrative)",
-  "material": "Breast tissue",
-  "subsystem": "Breast",
-  "regions": [
-   "thorax"
-  ],
-  "note": "Dense fibroglandular tissue inside the illustrative breast.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Right breast (illustrative)",
-    "x": 0.5,
-    "y": 0.5,
-    "z": 0.5
-   },
-   "radii_mm": [
-    18,
-    14,
-    12
-   ],
-   "irregular": 0.2
-  }
- },
- {
-  "name": "Grouped calcifications (illustrative)",
-  "material": "Calcification",
-  "subsystem": "Breast calcifications",
-  "regions": [
-   "thorax"
-  ],
-  "note": "Grouped microcalcifications in the glandular tissue, as marked by the source annotations. Malignancy is not established.",
-  "shape": {
-   "type": "cluster",
-   "at": {
-    "structure": "Fibroglandular core (illustrative)",
-    "x": 0.5,
-    "y": 0.5,
-    "z": 0.5
-   },
-   "spread_mm": [
-    10,
-    8,
-    6
-   ],
-   "count": 30,
-   "size_mm": 0.6
   }
  },
  {
@@ -931,31 +836,6 @@
   }
  },
  {
-  "name": "Nipple (illustrative) (mammo_vascular_calcification)",
-  "material": "Breast tissue",
-  "subsystem": "Breast",
-  "regions": [
-   "thorax"
-  ],
-  "note": "Illustrative nipple at the anterior tip of the breast; on the scan it is an imaging marker, not a lesion.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Left breast (illustrative)",
-    "x": 0.5,
-    "y": 0.3,
-    "z": 1.0,
-    "surface": true,
-    "offset_mm": 2
-   },
-   "radii_mm": [
-    4,
-    4,
-    4
-   ]
-  }
- },
- {
   "name": "Vascular breast calcification",
   "material": "Calcification",
   "subsystem": "Breast calcification",
@@ -966,43 +846,18 @@
   "shape": {
    "type": "tube",
    "from": {
-    "structure": "Left breast (illustrative)",
+    "structure": "Left breast (illustrative) (mammo_vascular_calcification)",
     "x": 0.5,
     "y": 0.78,
     "z": 0.2
    },
    "to": {
-    "structure": "Left breast (illustrative)",
+    "structure": "Left breast (illustrative) (mammo_vascular_calcification)",
     "x": 0.5,
     "y": 0.67,
     "z": 0.5
    },
    "radius_mm": 0.6
-  }
- },
- {
-  "name": "Separate breast calcification",
-  "material": "Calcification",
-  "subsystem": "Breast calcification",
-  "regions": [
-   "thorax"
-  ],
-  "note": "A separate punctate calcification within the breast tissue.",
-  "shape": {
-   "type": "cluster",
-   "at": {
-    "structure": "Left breast (illustrative)",
-    "x": 0.5,
-    "y": 0.4,
-    "z": 0.25
-   },
-   "spread_mm": [
-    4,
-    4,
-    4
-   ],
-   "count": 4,
-   "size_mm": 1.0
   }
  },
  {
@@ -1023,31 +878,6 @@
     1.0,
     2.0
    ]
-  }
- },
- {
-  "name": "Barium in left lower-lobe bronchus",
-  "material": "Fluid",
-  "subsystem": "Pulmonary aspiration",
-  "regions": [
-   "thorax"
-  ],
-  "note": "Barium drawn into the left lower-lobe bronchus during a swallow. It is shown as a fluid-filled tube in the lumen, so the contrast of the airway can be matched to the scan.",
-  "shape": {
-   "type": "tube",
-   "from": {
-    "structure": "Left inferior lobar bronchus",
-    "x": 0.0,
-    "y": 1.0,
-    "z": 0.5
-   },
-   "to": {
-    "structure": "Left inferior lobar bronchus",
-    "x": 1.0,
-    "y": 0.0,
-    "z": 0.5
-   },
-   "radius_mm": 3.0
   }
  },
  {
@@ -1073,6 +903,31 @@
     "z": 0.427
    },
    "radius_mm": 1.5
+  }
+ },
+ {
+  "name": "Barium in left lower-lobe bronchus",
+  "material": "Fluid",
+  "subsystem": "Pulmonary aspiration",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Barium drawn into the left lower-lobe bronchus during a swallow. It is shown as a fluid-filled tube in the lumen, so the contrast of the airway can be matched to the scan.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Left inferior lobar bronchus",
+    "x": 0.0,
+    "y": 1.0,
+    "z": 0.5
+   },
+   "to": {
+    "structure": "Left inferior lobar bronchus",
+    "x": 1.0,
+    "y": 0.0,
+    "z": 0.5
+   },
+   "radius_mm": 3.0
   }
  },
  {
@@ -1102,32 +957,6 @@
   }
  },
  {
-  "name": "Left main coronary stenosis",
-  "material": "Mass",
-  "subsystem": "Coronary stenosis",
-  "regions": [
-   "thorax"
-  ],
-  "note": "Critical atheromatous narrowing of the proximal left main coronary artery, the lesion marked by the source's red arrow. The plaque is illustrative.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Left coronary artery",
-    "x": 0.255,
-    "y": 0.632,
-    "z": 0.426,
-    "surface": true,
-    "offset_mm": 0
-   },
-   "radii_mm": [
-    3,
-    2.5,
-    2.5
-   ],
-   "irregular": 0.2
-  }
- },
- {
   "name": "Circumflex coronary stenosis",
   "material": "Mass",
   "subsystem": "Coronary stenosis",
@@ -1143,10 +972,36 @@
     "y": 0.834,
     "z": 0.379,
     "surface": true,
-    "offset_mm": 0
+    "offset_mm": 1.5
    },
    "radii_mm": [
     3.5,
+    2.5,
+    2.5
+   ],
+   "irregular": 0.2
+  }
+ },
+ {
+  "name": "Left main coronary stenosis",
+  "material": "Mass",
+  "subsystem": "Coronary stenosis",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Critical atheromatous narrowing of the proximal left main coronary artery, the lesion marked by the source's red arrow. The plaque is illustrative.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Left coronary artery",
+    "x": 0.255,
+    "y": 0.632,
+    "z": 0.426,
+    "surface": true,
+    "offset_mm": 1.5
+   },
+   "radii_mm": [
+    3,
     2.5,
     2.5
    ],
@@ -1195,8 +1050,9 @@
     "structure": "Left renal artery",
     "x": 0.4,
     "y": 0.5,
-    "z": 0.5,
-    "surface": true
+    "z": 1.0,
+    "surface": true,
+    "offset_mm": 1
    },
    "radii_mm": [
     3,
@@ -1283,6 +1139,33 @@
   }
  },
  {
+  "name": "Collateral vessels around the occlusion",
+  "subsystem": "Arterial collaterals",
+  "regions": [
+   "lower_limb_r"
+  ],
+  "note": "Small collateral channels bridge from the posterior tibial artery to the fibular artery and carry blood around the occlusion.",
+  "material": "Abnormal vessel",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Posterior tibial artery",
+    "side": "Right",
+    "x": 0.5,
+    "y": 0.8,
+    "z": 0.5
+   },
+   "to": {
+    "structure": "Fibular artery",
+    "side": "Right",
+    "x": 0.5,
+    "y": 0.8,
+    "z": 0.5
+   },
+   "radius_mm": 1.0
+  }
+ },
+ {
   "name": "Posterior tibial artery occlusion",
   "subsystem": "Arterial occlusion",
   "regions": [
@@ -1310,30 +1193,30 @@
   }
  },
  {
-  "name": "Collateral vessels around the occlusion",
-  "subsystem": "Arterial collaterals",
+  "name": "Distal popliteal occlusion",
+  "material": "Blood clot",
+  "subsystem": "Arterial occlusion",
   "regions": [
-   "lower_limb_r"
+   "lower_limb_l"
   ],
-  "note": "Small collateral channels bridge from the posterior tibial artery to the fibular artery and carry blood around the occlusion.",
-  "material": "Abnormal vessel",
+  "note": "A thrombus at the popliteal artery blocks flow to the leg below the knee.",
   "shape": {
-   "type": "tube",
-   "from": {
-    "structure": "Posterior tibial artery",
-    "side": "Right",
+   "type": "blob",
+   "at": {
+    "structure": "Popliteal artery",
+    "side": "Left",
     "x": 0.5,
-    "y": 0.8,
-    "z": 0.5
+    "y": 0.5,
+    "z": 1.0,
+    "surface": true,
+    "offset_mm": 2
    },
-   "to": {
-    "structure": "Fibular artery",
-    "side": "Right",
-    "x": 0.5,
-    "y": 0.8,
-    "z": 0.5
-   },
-   "radius_mm": 1.0
+   "radii_mm": [
+    6,
+    5,
+    5
+   ],
+   "irregular": 0.25
   }
  },
  {
@@ -1368,33 +1251,6 @@
   }
  },
  {
-  "name": "Distal popliteal occlusion",
-  "material": "Blood clot",
-  "subsystem": "Arterial occlusion",
-  "regions": [
-   "lower_limb_l"
-  ],
-  "note": "A thrombus at the popliteal artery blocks flow to the leg below the knee.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Popliteal artery",
-    "side": "Left",
-    "x": 0.5,
-    "y": 0.5,
-    "z": 1.0,
-    "surface": true,
-    "offset_mm": 2
-   },
-   "radii_mm": [
-    6,
-    5,
-    5
-   ],
-   "irregular": 0.25
-  }
- },
- {
   "name": "Left subcapital insufficiency fracture",
   "material": "Fracture",
   "subsystem": "Insufficiency fracture",
@@ -1422,32 +1278,6 @@
   }
  },
  {
-  "name": "Toxic adenoma",
-  "material": "Mass",
-  "subsystem": "Thyroid nodule",
-  "regions": [
-   "neck"
-  ],
-  "note": "A dominant hot nodule in the thyroid; the rest of the gland is suppressed on the scan. The model shows the nodule's position and size, not its uptake.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Thyroid gland",
-    "x": 0.5,
-    "y": 0.3,
-    "z": 0.9,
-    "surface": true,
-    "offset_mm": 2
-   },
-   "radii_mm": [
-    11,
-    10,
-    10
-   ],
-   "irregular": 0.1
-  }
- },
- {
   "name": "Multinodular goitre nodules",
   "material": "Mass",
   "subsystem": "Multinodular goitre",
@@ -1472,6 +1302,32 @@
    ],
    "count": 6,
    "size_mm": 6
+  }
+ },
+ {
+  "name": "Toxic adenoma",
+  "material": "Mass",
+  "subsystem": "Thyroid nodule",
+  "regions": [
+   "neck"
+  ],
+  "note": "A dominant hot nodule in the thyroid; the rest of the gland is suppressed on the scan. The model shows the nodule's position and size, not its uptake.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Thyroid gland",
+    "x": 0.5,
+    "y": 0.3,
+    "z": 0.9,
+    "surface": true,
+    "offset_mm": 2
+   },
+   "radii_mm": [
+    11,
+    10,
+    10
+   ],
+   "irregular": 0.1
   }
  },
  {
@@ -1539,7 +1395,9 @@
     "structure": "Paratracheal thoracic nodes",
     "x": 0.42,
     "y": 0.5,
-    "z": 0.7
+    "z": 0.7,
+    "surface": true,
+    "offset_mm": 12
    },
    "radii_mm": [
     12,
@@ -1676,31 +1534,6 @@
   }
  },
  {
-  "name": "Gallstones (dependent, shadowing)",
-  "material": "Stone",
-  "subsystem": "Cholelithiasis",
-  "regions": [
-   "abdomen"
-  ],
-  "note": "Echogenic gallstones lying in the dependent part of the gallbladder, producing posterior acoustic shadowing.",
-  "shape": {
-   "type": "cluster",
-   "at": {
-    "structure": "Gallbladder",
-    "x": 0.5,
-    "y": 0.1,
-    "z": 0.4
-   },
-   "spread_mm": [
-    10,
-    4,
-    7
-   ],
-   "count": 6,
-   "size_mm": 3
-  }
- },
- {
   "name": "Biliary sludge (dependent layer)",
   "material": "Fluid",
   "subsystem": "Biliary sludge",
@@ -1731,29 +1564,28 @@
   }
  },
  {
-  "name": "Impacted gallstone",
+  "name": "Gallstones (dependent, shadowing)",
   "material": "Stone",
-  "subsystem": "Gallstone disease",
+  "subsystem": "Cholelithiasis",
   "regions": [
    "abdomen"
   ],
-  "note": "A stone of about 1.9 cm impacted at the gallbladder neck, the cause of the acoustic shadow behind it on ultrasound.",
+  "note": "Echogenic gallstones lying in the dependent part of the gallbladder, producing posterior acoustic shadowing.",
   "shape": {
-   "type": "blob",
+   "type": "cluster",
    "at": {
     "structure": "Gallbladder",
-    "x": 0.6,
-    "y": 0.7,
-    "z": 0.8,
-    "surface": true,
-    "offset_mm": 3
+    "x": 0.5,
+    "y": 0.1,
+    "z": 0.4
    },
-   "radii_mm": [
+   "spread_mm": [
     10,
-    9,
-    9
+    4,
+    7
    ],
-   "irregular": 0.1
+   "count": 6,
+   "size_mm": 3
   }
  },
  {
@@ -1770,6 +1602,32 @@
     "Gallbladder"
    ],
    "mm": 2
+  }
+ },
+ {
+  "name": "Impacted gallstone",
+  "material": "Stone",
+  "subsystem": "Gallstone disease",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "A stone of about 1.9 cm impacted at the gallbladder neck, the cause of the acoustic shadow behind it on ultrasound.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Gallbladder",
+    "x": 0.5,
+    "y": 0.3,
+    "z": 0.85,
+    "surface": true,
+    "offset_mm": 3
+   },
+   "radii_mm": [
+    10,
+    9,
+    9
+   ],
+   "irregular": 0.1
   }
  },
  {
@@ -2052,31 +1910,6 @@
   }
  },
  {
-  "name": "Right renal calculus (xr_bilateral_renal_stones)",
-  "material": "Stone",
-  "subsystem": "Renal calculi",
-  "regions": [
-   "abdomen"
-  ],
-  "note": "Radiopaque renal calculus in the right kidney, visible on the frontal abdominal radiograph.",
-  "shape": {
-   "type": "blob",
-   "at": {
-    "structure": "Kidney",
-    "side": "Right",
-    "x": 0.6,
-    "y": 0.4,
-    "z": 0.5
-   },
-   "radii_mm": [
-    4,
-    4,
-    4
-   ],
-   "irregular": 0.15
-  }
- },
- {
   "name": "Left renal calculus (xr_bilateral_renal_stones)",
   "material": "Stone",
   "subsystem": "Renal calculi",
@@ -2102,6 +1935,62 @@
   }
  },
  {
+  "name": "Right renal calculus (xr_bilateral_renal_stones)",
+  "material": "Stone",
+  "subsystem": "Renal calculi",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Radiopaque renal calculus in the right kidney, visible on the frontal abdominal radiograph.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Kidney",
+    "side": "Right",
+    "x": 0.6,
+    "y": 0.4,
+    "z": 0.5
+   },
+   "radii_mm": [
+    4,
+    4,
+    4
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
+  "name": "Left pleural air (pneumothorax)",
+  "material": "Air in pleural space",
+  "subsystem": "Pneumothorax",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Air in the left pleural space between the collapsed lung and the chest wall, outside the visceral pleural line.",
+  "shape": {
+   "type": "layer",
+   "structures": [
+    "Superior lobe of left lung"
+   ],
+   "side": "Left",
+   "thickness_mm": 12,
+   "window": {
+    "x": [
+     0.5,
+     1.0
+    ],
+    "y": [
+     0.6,
+     1.0
+    ],
+    "z": [
+     0.0,
+     1.0
+    ]
+   }
+  }
+ },
+ {
   "name": "Dilated upper lobe vessels",
   "material": "Abnormal vessel",
   "subsystem": "Pulmonary circulation",
@@ -2121,6 +2010,230 @@
     1.7,
     1.7
    ]
+  }
+ },
+ {
+  "name": "Nipple (illustrative)",
+  "material": "Breast tissue",
+  "subsystem": "Mammary gland",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Illustrative nipple at the anterior tip of the breast.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Left breast (illustrative)",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 1.0,
+    "surface": true,
+    "offset_mm": 2
+   },
+   "radii_mm": [
+    4,
+    4,
+    5
+   ],
+   "irregular": 0.0
+  }
+ },
+ {
+  "name": "Small breast cancer (illustrative)",
+  "material": "Mass",
+  "subsystem": "Breast cancer",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Small irregular mass in the breast near the chest wall at the arrowed site, about 9 mm across, shown illustratively. The source identifies it as cancerous; histological type and BI-RADS are not supplied.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Left breast (illustrative)",
+    "x": 0.75,
+    "y": 0.5,
+    "z": 0.25
+   },
+   "radii_mm": [
+    4.5,
+    4,
+    4.5
+   ],
+   "irregular": 0.25
+  }
+ },
+ {
+  "name": "Breast skin (illustrative)",
+  "material": "Breast tissue",
+  "subsystem": "Mammary gland",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Small illustrative patch of skin on the anterior-lateral surface of the breast. The atlas has no skin structure, so this patch stands for the skin line seen on the mammogram.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Left breast (illustrative)",
+    "x": 0.6,
+    "y": 0.3,
+    "z": 0.8,
+    "surface": true,
+    "offset_mm": 0
+   },
+   "radii_mm": [
+    4,
+    4,
+    2
+   ],
+   "irregular": 0.0
+  }
+ },
+ {
+  "name": "Fibroglandular tissue (illustrative)",
+  "material": "Breast tissue",
+  "subsystem": "Mammary gland",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Illustrative cluster of small glandular nodules inside the breast, away from the cancer, standing for the dense fibroglandular tissue on the mammogram. The atlas has no glandular tissue, so the nodules are schematic.",
+  "shape": {
+   "type": "cluster",
+   "at": {
+    "structure": "Left breast (illustrative)",
+    "x": 0.35,
+    "y": 0.5,
+    "z": 0.6
+   },
+   "spread_mm": [
+    10,
+    10,
+    10
+   ],
+   "count": 12,
+   "size_mm": 3.5
+  }
+ },
+ {
+  "name": "Fibroglandular core (illustrative)",
+  "material": "Breast tissue",
+  "subsystem": "Breast",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Dense fibroglandular tissue inside the illustrative breast.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Right breast (illustrative)",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "radii_mm": [
+    18,
+    14,
+    12
+   ],
+   "irregular": 0.2
+  }
+ },
+ {
+  "name": "Adipose tissue of breast (illustrative)",
+  "material": "Breast tissue",
+  "subsystem": "Breast",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Radiolucent fatty breast tissue lying outside the glandular core. Illustrative, not a registration of this scan.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Right breast (illustrative)",
+    "x": 0.8,
+    "y": 0.45,
+    "z": 0.35
+   },
+   "radii_mm": [
+    14,
+    12,
+    12
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Nipple (illustrative) (mammo_vascular_calcification)",
+  "material": "Breast tissue",
+  "subsystem": "Breast",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Illustrative nipple at the anterior tip of the breast; on the scan it is an imaging marker, not a lesion.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Left breast (illustrative) (mammo_vascular_calcification)",
+    "x": 0.5,
+    "y": 0.3,
+    "z": 1.0,
+    "surface": true,
+    "offset_mm": 2
+   },
+   "radii_mm": [
+    4,
+    4,
+    4
+   ]
+  }
+ },
+ {
+  "name": "Separate breast calcification",
+  "material": "Calcification",
+  "subsystem": "Breast calcification",
+  "regions": [
+   "thorax"
+  ],
+  "note": "A separate punctate calcification within the breast tissue.",
+  "shape": {
+   "type": "cluster",
+   "at": {
+    "structure": "Left breast (illustrative) (mammo_vascular_calcification)",
+    "x": 0.5,
+    "y": 0.4,
+    "z": 0.25
+   },
+   "spread_mm": [
+    4,
+    4,
+    4
+   ],
+   "count": 4,
+   "size_mm": 1.0
+  }
+ },
+ {
+  "name": "Grouped calcifications (illustrative)",
+  "material": "Calcification",
+  "subsystem": "Breast calcifications",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Grouped microcalcifications in the glandular tissue, as marked by the source annotations. Malignancy is not established.",
+  "shape": {
+   "type": "cluster",
+   "at": {
+    "structure": "Fibroglandular core (illustrative)",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "spread_mm": [
+    10,
+    8,
+    6
+   ],
+   "count": 30,
+   "size_mm": 0.6
   }
  }
 ]

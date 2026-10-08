@@ -37,24 +37,20 @@
     "Vertebra T6",
     "Left ventricle",
     "Right pulmonary artery",
-    "Left pulmonary artery"
-   ],
-   "ghost_focus": [
+    "Left pulmonary artery",
     "Superior lobe of right lung",
     "Middle lobe of right lung",
     "Inferior lobe of right lung",
     "Superior lobe of left lung",
-    "Inferior lobe of left lung",
+    "Inferior lobe of left lung"
+   ],
+   "ghost_focus": [
     "Right atrium",
-    "Left atrium",
-    "Right ventricle",
     "Left ventricle",
     "Superior vena cava",
     "Inferior vena cava (thoracic part)",
-    "Ascending aorta",
     "Aortic arch",
     "Thoracic aorta",
-    "Pulmonary trunk",
     "Right pulmonary artery",
     "Left pulmonary artery",
     "Trachea",
@@ -67,6 +63,20 @@
     "Vertebra T6"
    ],
    "frame_on": [
+    "Trachea",
+    "Clavicle",
+    "Scapula",
+    "Humerus",
+    "Superior vena cava",
+    "Thoracic aorta",
+    "Right atrium",
+    "Left ventricle",
+    "Right pulmonary artery",
+    "Left pulmonary artery",
+    "Sixth rib",
+    "Diaphragm",
+    "Vertebra T5",
+    "Vertebra T6",
     "Superior lobe of right lung",
     "Middle lobe of right lung",
     "Inferior lobe of right lung",
@@ -186,7 +196,12 @@
      "Diaphragm"
     ],
     "side": "Right",
-    "note": "higher than the left – the liver is under it"
+    "note": "higher than the left – the liver is under it",
+    "at": [
+     -0.0621,
+     1.2365,
+     0.0917
+    ]
    },
    {
     "x": 0.745,
@@ -195,7 +210,12 @@
     "structures": [
      "Diaphragm"
     ],
-    "side": "Left"
+    "side": "Left",
+    "at": [
+     0.0829,
+     1.239,
+     0.017
+    ]
    },
    {
     "x": 0.105,
@@ -517,7 +537,8 @@
   ],
   "scene": {
    "systems": [
-    "skeletal"
+    "skeletal",
+    "joints"
    ],
    "regions": [
     "upper_limb_l"
@@ -538,6 +559,7 @@
     "Third metacarpal bone",
     "Fourth metacarpal bone",
     "Fifth metacarpal bone",
+    "Articular capsules of metacarpophalangeal joints",
     "Proximal phalanx of first finger of hand",
     "Distal phalanx of first finger of hand",
     "Proximal phalanx of second finger of hand",
@@ -596,8 +618,7 @@
     "y": 0.435,
     "text": "Metacarpophalangeal joint",
     "structures": [
-     "Third metacarpal bone",
-     "Proximal phalanx of third finger of hand"
+     "Articular capsules of metacarpophalangeal joints"
     ],
     "side": "Left",
     "note": "the knuckle: head of the third metacarpal meets the proximal phalanx"
@@ -841,7 +862,12 @@
     "structures": [
      "Femur"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.1006,
+     0.6504,
+     0.011
+    ]
    },
    {
     "x": 0.45,
@@ -860,7 +886,12 @@
     "structures": [
      "Femur"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.0485,
+     0.4604,
+     -0.0068
+    ]
    },
    {
     "x": 0.285,
@@ -869,7 +900,12 @@
     "structures": [
      "Femur"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.1112,
+     0.4561,
+     -0.0172
+    ]
    },
    {
     "x": 0.45,
@@ -888,7 +924,12 @@
     "structures": [
      "Tibia"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.0798,
+     0.4208,
+     -0.0037
+    ]
    },
    {
     "x": 0.575,
@@ -918,7 +959,12 @@
      "Fibula"
     ],
     "side": "Right",
-    "note": "the common fibular nerve wraps round its neck"
+    "note": "the common fibular nerve wraps round its neck",
+    "at": [
+     -0.1221,
+     0.4008,
+     -0.0341
+    ]
    },
    {
     "x": 0.145,
@@ -927,7 +973,12 @@
     "structures": [
      "Fibula"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.1052,
+     0.2192,
+     -0.0412
+    ]
    },
    {
     "x": 0.42,
@@ -936,7 +987,12 @@
     "structures": [
      "Tibia"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.0798,
+     0.2598,
+     -0.008
+    ]
    }
   ],
   "questions": [
@@ -1000,15 +1056,18 @@
    "view": "anterior",
    "show": [
     "Hip bone",
-    "Femur"
+    "Femur",
+    "Obturator membrane"
    ],
    "ghost_focus": [
     "Hip bone",
-    "Femur"
+    "Femur",
+    "Obturator membrane"
    ],
    "frame_on": [
     "Hip bone",
-    "Femur"
+    "Femur",
+    "Obturator membrane"
    ]
   },
   "labels": [
@@ -1020,7 +1079,12 @@
      "Femur"
     ],
     "side": "Right",
-    "note": "intracapsular – fracture here risks avascular necrosis"
+    "note": "intracapsular – fracture here risks avascular necrosis",
+    "at": [
+     -0.0908,
+     0.8691,
+     0.0159
+    ]
    },
    {
     "x": 0.47,
@@ -1030,7 +1094,12 @@
      "Hip bone"
     ],
     "side": "Right",
-    "note": "the dense sourcil takes the weight"
+    "note": "the dense sourcil takes the weight",
+    "at": [
+     -0.0757,
+     0.8802,
+     0.0221
+    ]
    },
    {
     "x": 0.34,
@@ -1039,7 +1108,12 @@
     "structures": [
      "Femur"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.1167,
+     0.8462,
+     0.0047
+    ]
    },
    {
     "x": 0.155,
@@ -1049,7 +1123,12 @@
      "Femur"
     ],
     "side": "Right",
-    "note": "gluteus medius and minimus insert here"
+    "note": "gluteus medius and minimus insert here",
+    "at": [
+     -0.1351,
+     0.8344,
+     0.0017
+    ]
    },
    {
     "x": 0.41,
@@ -1059,7 +1138,12 @@
      "Femur"
     ],
     "side": "Right",
-    "note": "iliopsoas – prominent when the hip is externally rotated"
+    "note": "iliopsoas – prominent when the hip is externally rotated",
+    "at": [
+     -0.0927,
+     0.7912,
+     -0.0156
+    ]
    },
    {
     "x": 0.245,
@@ -1069,7 +1153,12 @@
      "Femur"
     ],
     "side": "Right",
-    "note": "the capsule attaches here – the extracapsular boundary"
+    "note": "the capsule attaches here – the extracapsular boundary",
+    "at": [
+     -0.1139,
+     0.807,
+     0.0003
+    ]
    },
    {
     "x": 0.22,
@@ -1078,16 +1167,22 @@
     "structures": [
      "Femur"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.1029,
+     0.6552,
+     0.0105
+    ]
    },
    {
     "x": 0.775,
     "y": 0.47,
     "text": "Obturator foramen",
     "structures": [
-     "Hip bone"
+     "Obturator membrane"
     ],
-    "side": "Right"
+    "side": "Right",
+    "note": "the obturator membrane closes the foramen"
    },
    {
     "x": 0.62,
@@ -1097,7 +1192,12 @@
      "Hip bone"
     ],
     "side": "Right",
-    "note": "Shenton's line runs onto its lower border"
+    "note": "Shenton's line runs onto its lower border",
+    "at": [
+     -0.0289,
+     0.8489,
+     0.0471
+    ]
    },
    {
     "x": 0.665,
@@ -1106,7 +1206,12 @@
     "structures": [
      "Hip bone"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.0201,
+     0.8223,
+     0.017
+    ]
    }
   ],
   "questions": [
@@ -1207,7 +1312,12 @@
     "structures": [
      "Axis (C2)"
     ],
-    "note": "the atlas pivots around it"
+    "note": "the atlas pivots around it",
+    "at": [
+     0.0213,
+     1.5322,
+     -0.006
+    ]
    },
    {
     "x": 0.357,
@@ -1250,7 +1360,12 @@
     "structures": [
      "Cervical vertebrae"
     ],
-    "note": "shingled like tiles on a roof"
+    "note": "shingled like tiles on a roof",
+    "at": [
+     0.0279,
+     1.5056,
+     -0.0206
+    ]
    },
    {
     "x": 0.5,
@@ -1259,7 +1374,12 @@
     "structures": [
      "Cervical vertebrae"
     ],
-    "note": "C7 is the vertebra prominens"
+    "note": "C7 is the vertebra prominens",
+    "at": [
+     0.0032,
+     1.5011,
+     -0.0411
+    ]
    },
    {
     "x": 0.215,
@@ -1285,6 +1405,11 @@
     "text": "Body of C2",
     "structures": [
      "Axis (C2)"
+    ],
+    "at": [
+     0.0142,
+     1.5249,
+     -0.012
     ]
    }
   ],
@@ -1362,7 +1487,11 @@
    "view": "inferior",
    "show": [
     "Hepatic veins"
-   ]
+   ],
+   "ghost_focus": [
+    "Hepatic veins"
+   ],
+   "xray": true
   },
   "labels": [
    {

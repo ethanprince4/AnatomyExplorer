@@ -61,6 +61,25 @@ class SplitTests(unittest.TestCase):
         self.assertIn('Download-Windows-Installer.ps1', notes)
         self.assertNotIn('.command', notes)
 
+    def test_each_build_writes_its_own_notes_and_publishing_joins_them(self):
+        folder = self.tmp / 'assets'
+        folder.mkdir()
+        (folder / 'AnatomyExplorer-Setup-Windows.exe').write_bytes(b'abcdefghijkl')
+        prep.prepare(folder, TAG, 'INSTALL-DOWNLOADS-Windows.md')
+        (folder / 'INSTALL-DOWNLOADS-macOS.md').write_text(
+            '\n'.join(prep.NOTES_HEADER + [f'- {prep.MAC_INSTALLER} (Mac, Apple silicon): reconstructs it.']) + '\n',
+            encoding='utf-8')
+        prep.combine_notes(folder)
+        names = sorted(p.name for p in folder.iterdir())
+        self.assertIn('INSTALL-DOWNLOADS.md', names)
+        self.assertFalse([n for n in names if n.startswith('INSTALL-DOWNLOADS-')])
+        notes = (folder / 'INSTALL-DOWNLOADS.md').read_text(encoding='utf-8')
+        self.assertEqual(notes.count('# Installer downloads'), 1)
+        self.assertIn('- Download-Windows-Installer.ps1 (Windows)', notes)
+        self.assertIn(f'- {prep.MAC_INSTALLER} (Mac', notes)
+        prep.combine_notes(folder)          # nothing left to join: the notes stay as they are
+        self.assertEqual((folder / 'INSTALL-DOWNLOADS.md').read_text(encoding='utf-8'), notes)
+
     def test_mac_split_builds_the_installer_app_on_macos_only(self):
         folder = self.tmp / 'assets'
         folder.mkdir()
@@ -70,21 +89,34 @@ class SplitTests(unittest.TestCase):
                 prep.prepare(folder, TAG)
             self.assertTrue((folder / f'{DMG}.part001').exists())
             return
-        # The real osacompile, codesign and ditto, as the publishing job runs them.
+        # The real osacompile, codesign and hdiutil, as the publishing job runs them.
         prep.prepare(folder, TAG)
         self.assertFalse((folder / DMG).exists())
-        archive = folder / prep.MAC_INSTALLER
-        self.assertTrue(archive.is_file())
-        unpacked = self.tmp / 'unpacked'
-        subprocess.run(['ditto', '-x', '-k', str(archive), str(unpacked)], check=True)
-        applet = unpacked / prep.MAC_APP
-        script = applet / 'Contents/Resources/install.sh'
-        self.assertTrue(os.access(script, os.X_OK))
-        self.assertTrue((applet / 'Contents/Resources/Scripts/main.scpt').is_file())
-        subprocess.run(['codesign', '--verify', '--deep', '--strict', str(applet)], check=True)
-        subprocess.run(['/bin/bash', '-n', str(script)], check=True)
-        self.assertIn(f'{DMG}.part004', script.read_text(encoding='utf-8'))
+        image = folder / prep.MAC_INSTALLER
+        self.assertTrue(image.is_file())
+        mount = self.tmp / 'mounted'
+        mount.mkdir()
+        subprocess.run(['hdiutil', 'attach', '-nobrowse', '-readonly', '-mountpoint', str(mount), str(image)], check=True)
+        try:
+            # Opening the image shows exactly one thing: the installer.
+            self.assertEqual(sorted(p.name for p in mount.iterdir() if not p.name.startswith('.')), [prep.MAC_APP])
+            applet = mount / prep.MAC_APP
+            script = applet / 'Contents/Resources/install.sh'
+            self.assertTrue(os.access(script, os.X_OK))
+            self.assertTrue((applet / 'Contents/Resources/Scripts/main.scpt').is_file())
+            subprocess.run(['codesign', '--verify', '--deep', '--strict', str(applet)], check=True)
+            subprocess.run(['/bin/bash', '-n', str(script)], check=True)
+            self.assertIn(f'{DMG}.part004', script.read_text(encoding='utf-8'))
+        finally:
+            subprocess.run(['hdiutil', 'detach', str(mount)], check=False)
         self.assertIn(prep.MAC_INSTALLER, (folder / 'INSTALL-DOWNLOADS.md').read_text(encoding='utf-8'))
+
+    def test_front_page_links_name_the_files_a_release_publishes(self):
+        # The README links use releases/latest/download/<file>, so they follow each release by themselves; they break
+        # only if a published file is renamed without them.
+        readme = (Path(__file__).resolve().parent.parent / 'README.md').read_text(encoding='utf-8')
+        linked = set(re.findall(r'releases/latest/download/([^)\s]+)\)', readme))
+        self.assertEqual(linked, {prep.MAC_INSTALLER, prep.WINDOWS_HELPER})
 
     def test_installer_app_names_follow_the_channel(self):
         self.assertEqual(prep.mac_app_name('v4.0.1'), 'Anatomy Explorer')

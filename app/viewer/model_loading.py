@@ -88,21 +88,30 @@ Protected/custom frozen readers keep their own verification and decoding rules.
 
 def prepare_model(entry, token):
     with load_scope(token):
-        from ..variants.catalog import DeferredVariantEntry, VariantPreferenceCommit
-        if not isinstance(entry, VariantPreferenceCommit):
-            # This first import can take hundreds of milliseconds. Do it while
-            # the loading indicator is present, on the existing CPU worker.
-            from scipy.ndimage import distance_transform_edt  # noqa: F401
-            checkpoint()
-        if isinstance(entry, (DeferredVariantEntry, VariantPreferenceCommit)):
-            return entry.prepare_cpu(token)
-        from ..variants.anatomy_runtime_adapters import VariantEntry
-        if isinstance(entry, VariantEntry):
-            return entry.prepare_cpu(token)
-        from .catalog import ProceduralEntry
-        if isinstance(entry, ProceduralEntry):
-            return load_cached_procedural(entry)
-        return entry.load()
+        model = _prepare_model(entry, token)
+        from .model import ViewerModel
+        if isinstance(model, ViewerModel) and model.lod is None:
+            from .lod import build
+            model.lod = build(model, checkpoint)
+        return model
+
+
+def _prepare_model(entry, token):
+    from ..variants.catalog import DeferredVariantEntry, VariantPreferenceCommit
+    if not isinstance(entry, VariantPreferenceCommit):
+        # This first import can take hundreds of milliseconds. Do it while
+        # the loading indicator is present, on the existing CPU worker.
+        from scipy.ndimage import distance_transform_edt  # noqa: F401
+        checkpoint()
+    if isinstance(entry, (DeferredVariantEntry, VariantPreferenceCommit)):
+        return entry.prepare_cpu(token)
+    from ..variants.anatomy_runtime_adapters import VariantEntry
+    if isinstance(entry, VariantEntry):
+        return entry.prepare_cpu(token)
+    from .catalog import ProceduralEntry
+    if isinstance(entry, ProceduralEntry):
+        return load_cached_procedural(entry)
+    return entry.load()
 
 
 @dataclass

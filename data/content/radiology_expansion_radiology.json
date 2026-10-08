@@ -86,10 +86,10 @@
     "Lactiferous ducts",
     "Lactiferous sinuses",
     "Adipose tissue of breast",
-    "Suspensory ligaments (of Cooper)"
+    "Suspensory ligaments (of Cooper)",
+    "Skin of breast"
    ],
    "micro_context": [
-    "Skin of breast",
     "Pectoralis major",
     "Ribs"
    ],
@@ -258,18 +258,18 @@
     "y": 0.62,
     "text": "Skin of breast",
     "structures": [
-     "Left breast (illustrative)"
+     "Breast skin (illustrative)"
     ],
-    "note": "Outer skin line of the breast on the lateral edge of the image. The illustrative breast surface stands for the skin."
+    "note": "Outer skin line of the breast on the lateral edge of the image. The atlas has no skin structure, so a small illustrative solid patch on the breast surface stands for the skin."
    },
    {
     "x": 0.4,
     "y": 0.5,
     "text": "Fibroglandular tissue",
     "structures": [
-     "Left breast (illustrative)"
+     "Fibroglandular tissue (illustrative)"
     ],
-    "note": "Dense glandular breast tissue (lobules and ducts) seen as the bright streaky tissue of the breast. The atlas has no glandular tissue, so the illustrative breast stands for it."
+    "note": "Dense glandular breast tissue (lobules and ducts) seen as the bright streaky tissue of the breast. The atlas has no glandular tissue, so an illustrative cluster of glandular nodules inside the breast stands for it."
    }
   ],
   "atlas_note": "The atlas provides chest-wall and breast-region orientation. It does not contain compressed breast parenchyma or reproduce a mammographic projection. The finding is demonstrated on the mammogram.",
@@ -288,6 +288,8 @@
     "Vascular calcification (illustrative) 1",
     "Vascular calcification (illustrative) 2",
     "Nipple (illustrative)",
+    "Breast skin (illustrative)",
+    "Fibroglandular tissue (illustrative)",
     "Clavicular head of pectoralis major muscle",
     "Sternocostal head of pectoralis major muscle",
     "Fourth rib",
@@ -300,10 +302,15 @@
     "Small breast cancer (illustrative)",
     "Vascular calcification (illustrative) 1",
     "Vascular calcification (illustrative) 2",
-    "Nipple (illustrative)"
+    "Nipple (illustrative)",
+    "Breast skin (illustrative)",
+    "Fibroglandular tissue (illustrative)"
    ],
    "frame_on": [
-    "Left breast (illustrative)"
+    "Left breast (illustrative)",
+    "Nipple (illustrative)",
+    "Breast skin (illustrative)",
+    "Fibroglandular tissue (illustrative)"
    ],
    "view": "superior",
    "side": "Left"
@@ -357,7 +364,12 @@
     "structures": [
      "Grouped calcifications (illustrative)"
     ],
-    "note": "The source marks this calcification group in the CC projection."
+    "note": "The source marks this calcification group in the CC projection.",
+    "at": [
+     -0.1191,
+     1.2805,
+     0.1204
+    ]
    },
    {
     "x": 0.82,
@@ -366,7 +378,12 @@
     "structures": [
      "Grouped calcifications (illustrative)"
     ],
-    "note": "The source marks the corresponding group in the MLO projection."
+    "note": "The source marks the corresponding group in the MLO projection.",
+    "at": [
+     -0.1116,
+     1.2849,
+     0.1137
+    ]
    },
    {
     "x": 0.26,
@@ -391,7 +408,7 @@
     "y": 0.62,
     "text": "Adipose tissue of breast",
     "structures": [
-     "Right breast (illustrative)"
+     "Adipose tissue of breast (illustrative)"
     ],
     "note": "Radiolucent fatty breast tissue surrounding the glandular tissue on the MLO view."
    }
@@ -408,17 +425,23 @@
    "show": [
     "Right breast (illustrative)",
     "Fibroglandular core (illustrative)",
-    "Grouped calcifications (illustrative)"
+    "Grouped calcifications (illustrative)",
+    "Adipose tissue of breast (illustrative)"
    ],
    "focus": [
+    "Fibroglandular core (illustrative)",
     "Grouped calcifications (illustrative)"
    ],
    "ghost_focus": [
+    "Fibroglandular core (illustrative)",
     "Grouped calcifications (illustrative)",
-    "Fibroglandular core (illustrative)"
+    "Adipose tissue of breast (illustrative)"
    ],
    "frame_on": [
-    "Right breast (illustrative)"
+    "Right breast (illustrative)",
+    "Fibroglandular core (illustrative)",
+    "Grouped calcifications (illustrative)",
+    "Adipose tissue of breast (illustrative)"
    ],
    "xray": true,
    "side": "Right",
@@ -512,6 +535,7 @@
    ],
    "ghost_focus": [
     "Sternocostal head of pectoralis major muscle",
+    "Nipple (illustrative) (mammo_vascular_calcification)",
     "Vascular breast calcification",
     "Separate breast calcification"
    ],
@@ -708,12 +732,12 @@
     "Dilated oesophagus in achalasia"
    ],
    "ghost_focus": [
-    "Oesophagus",
     "Dilated oesophagus in achalasia"
    ],
    "xray": true,
    "frame_on": [
-    "Oesophagus"
+    "Oesophagus",
+    "Dilated oesophagus in achalasia"
    ]
   }
  },
@@ -790,11 +814,21 @@
     "Barium in left lower-lobe bronchus",
     "Barium in left basal segmental bronchi"
    ],
+   "focus": [
+    "Barium in left lower-lobe bronchus",
+    "Barium in left basal segmental bronchi"
+   ],
    "ghost_focus": [
     "Oesophagus",
     "Trachea",
     "Left main bronchus",
     "Right main bronchus",
+    "Barium in left lower-lobe bronchus",
+    "Barium in left basal segmental bronchi"
+   ],
+   "frame_on": [
+    "Oesophagus",
+    "Left inferior lobar bronchus",
     "Barium in left lower-lobe bronchus",
     "Barium in left basal segmental bronchi"
    ],
@@ -894,7 +928,6 @@
     "Vertebra C6"
    ],
    "ghost_focus": [
-    "Oesophagus",
     "Killian-Jamieson diverticulum",
     "Laryngopharynx",
     "Cricoid cartilage",
@@ -906,7 +939,11 @@
    "frame_on": [
     "Hyoid bone",
     "Vertebra C3",
-    "Oesophagus"
+    "Oesophagus",
+    "Cricoid cartilage",
+    "Killian-Jamieson diverticulum",
+    "Vertebra C5",
+    "Vertebra C6"
    ],
    "xray": true
   }
@@ -1044,8 +1081,7 @@
     "y": 0.441,
     "text": "Source-marked uterine adhesions",
     "structures": [
-     "Body of uterus (myometrium)",
-     "Uterine cavity"
+     "Endometrium - functional layer"
     ],
     "note": "The source red bracket marks adhesions in the uterine body."
    },
@@ -1092,11 +1128,14 @@
   "scene": {
    "micro": "female_reproductive",
    "micro_focus": [
-    "Uterus",
-    "Cervix",
+    "Uterine cavity",
+    "Endometrium - functional layer",
+    "Cervical canal",
     "Uterine tubes"
    ],
    "micro_context": [
+    "Uterus",
+    "Cervix",
     "Bony pelvis",
     "Ovaries"
    ],
@@ -1417,13 +1456,27 @@
     "thorax"
    ],
    "view": "anterior",
-   "xray": false,
+   "xray": true,
    "focus": [
     "Left coronary artery",
     "Circumflex artery of heart",
-    "Anterior interventricular artery"
+    "Anterior interventricular artery",
+    "Ascending aorta",
+    "Left main coronary stenosis",
+    "Circumflex coronary stenosis"
+   ],
+   "ghost_focus": [
+    "Left main coronary stenosis",
+    "Circumflex coronary stenosis"
    ],
    "show": [
+    "Left main coronary stenosis",
+    "Circumflex coronary stenosis"
+   ],
+   "frame_on": [
+    "Left coronary artery",
+    "Circumflex artery of heart",
+    "Anterior interventricular artery",
     "Ascending aorta",
     "Left main coronary stenosis",
     "Circumflex coronary stenosis"
@@ -1655,7 +1708,12 @@
      "Proper palmar digital arteries",
      "Dorsal digital arteries of hand"
     ],
-    "note": "Branching arterial vessels follow the finger."
+    "note": "Branching arterial vessels follow the finger.",
+    "at": [
+     -0.3184,
+     0.8197,
+     0.0549
+    ]
    },
    {
     "x": 0.206,
@@ -1665,7 +1723,12 @@
      "Proper palmar digital arteries",
      "Dorsal digital arteries of hand"
     ],
-    "note": "Another digit shows its arterial branching network."
+    "note": "Another digit shows its arterial branching network.",
+    "at": [
+     0.2271,
+     0.731,
+     0.0765
+    ]
    },
    {
     "x": 0.26,
@@ -1681,10 +1744,14 @@
     "y": 0.835,
     "text": "Palmar arterial branch",
     "structures": [
-     "Common palmar digital arteries",
      "Superficial palmar arch"
     ],
-    "note": "A thick palmar vessel gives off branches toward the fingers."
+    "note": "A thick palmar vessel gives off branches toward the fingers.",
+    "at": [
+     0.2484,
+     0.8123,
+     0.0316
+    ]
    }
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
@@ -1783,7 +1850,7 @@
     "y": 0.667,
     "text": "Interlobar artery (lower pole)",
     "structures": [
-     "Gross / interlobar artery"
+     "Interlobar arteries (section diagram)"
     ],
     "note": "This branch runs from the hilum down towards the lower pole, where it divides into arcuate branches."
    },
@@ -1807,7 +1874,8 @@
     "Gross / segmental artery",
     "Gross / interlobar artery",
     "Gross / arcuate artery",
-    "Gross / interlobular artery"
+    "Gross / interlobular artery",
+    "Interlobar arteries (section diagram)"
    ],
    "micro_context": [
     "Renal capsule",
@@ -1914,9 +1982,19 @@
     "abdomen"
    ],
    "view": "anterior",
-   "xray": false,
+   "xray": true,
    "focus": [
     "Abdominal aorta",
+    "Left renal artery",
+    "Right renal artery",
+    "Anterior branch of renal artery",
+    "Posterior branch of renal artery",
+    "Left renal artery bead 1",
+    "Left renal artery bead 2",
+    "Left renal artery bead 3",
+    "Right renal artery distal aneurysm"
+   ],
+   "ghost_focus": [
     "Left renal artery",
     "Right renal artery",
     "Anterior branch of renal artery",
@@ -1932,7 +2010,16 @@
     "Left renal artery bead 3",
     "Right renal artery distal aneurysm"
    ],
-   "isolate": true
+   "isolate": true,
+   "frame_on": [
+    "Abdominal aorta",
+    "Left renal artery",
+    "Right renal artery",
+    "Left renal artery bead 1",
+    "Left renal artery bead 2",
+    "Left renal artery bead 3",
+    "Right renal artery distal aneurysm"
+   ]
   }
  },
  {
@@ -2102,7 +2189,12 @@
      "Dorsalis pedis artery"
     ],
     "side": "Right",
-    "note": "The continuation of the anterior tibial artery across the dorsum of the foot."
+    "note": "The continuation of the anterior tibial artery across the dorsum of the foot.",
+    "at": [
+     -0.0813,
+     0.0531,
+     0.0491
+    ]
    },
    {
     "x": 0.655,
@@ -2147,7 +2239,22 @@
     "Collateral vessels around the occlusion"
    ],
    "isolate": true,
-   "xray": false
+   "xray": false,
+   "ghost_focus": [
+    "Dorsalis pedis artery",
+    "Calcaneal branches of fibular artery",
+    "Posterior tibial artery occlusion",
+    "Collateral vessels around the occlusion"
+   ],
+   "frame_on": [
+    "Anterior tibial artery",
+    "Fibular artery",
+    "Collateral vessels around the occlusion",
+    "Dorsalis pedis artery",
+    "Lateral tarsal artery",
+    "Calcaneal branches of fibular artery",
+    "Posterior tibial artery occlusion"
+   ]
   }
  },
  {
@@ -2262,6 +2369,21 @@
    ],
    "show": [
     "Femur",
+    "Tibia",
+    "Fibula",
+    "Proximal femoral occlusion",
+    "Distal popliteal occlusion"
+   ],
+   "ghost_focus": [
+    "Tibia",
+    "Fibula",
+    "Proximal femoral occlusion",
+    "Distal popliteal occlusion"
+   ],
+   "frame_on": [
+    "Femoral artery",
+    "Deep femoral artery",
+    "Popliteal artery",
     "Tibia",
     "Fibula",
     "Proximal femoral occlusion",
@@ -2603,12 +2725,16 @@
     "Multinodular goitre nodules"
    ],
    "focus": [
-    "Thyroid gland"
+    "Thyroid gland",
+    "Toxic adenoma",
+    "Multinodular goitre nodules"
    ],
    "isolate": true,
    "view": "anterior",
    "frame_on": [
-    "Thyroid gland"
+    "Thyroid gland",
+    "Toxic adenoma",
+    "Multinodular goitre nodules"
    ],
    "xray": false
   }
@@ -2659,7 +2785,12 @@
      "Middle lobe of right lung",
      "Inferior lobe of right lung"
     ],
-    "note": "Posterior xenon-133 ventilation distribution in panel A. Fairly uniform ventilation of both lungs."
+    "note": "Posterior xenon-133 ventilation distribution in panel A. Fairly uniform ventilation of both lungs.",
+    "at": [
+     0.0576,
+     1.3508,
+     0.0495
+    ]
    },
    {
     "x": 0.75,
@@ -2672,7 +2803,12 @@
      "Middle lobe of right lung",
      "Inferior lobe of right lung"
     ],
-    "note": "Posterior technetium-99m MAA perfusion distribution in panel B. Regional perfusion defects against the ventilation pattern indicate pulmonary embolism."
+    "note": "Posterior technetium-99m MAA perfusion distribution in panel B. Regional perfusion defects against the ventilation pattern indicate pulmonary embolism.",
+    "at": [
+     0.0859,
+     1.2055,
+     0.0926
+    ]
    },
    {
     "x": 0.18,
@@ -2738,7 +2874,9 @@
     "Inferior lobe of left lung",
     "Superior lobe of right lung",
     "Middle lobe of right lung",
-    "Inferior lobe of right lung"
+    "Inferior lobe of right lung",
+    "Left pulmonary artery",
+    "Left lower lobe pulmonary embolus"
    ],
    "show": [
     "Left pulmonary artery",
@@ -2746,6 +2884,14 @@
    ],
    "ghost_focus": [
     "Left pulmonary artery",
+    "Left lower lobe pulmonary embolus"
+   ],
+   "frame_on": [
+    "Superior lobe of left lung",
+    "Inferior lobe of left lung",
+    "Superior lobe of right lung",
+    "Middle lobe of right lung",
+    "Inferior lobe of right lung",
     "Left lower lobe pulmonary embolus"
    ],
    "isolate": true,
@@ -2795,7 +2941,12 @@
     "structures": [
      "Kidney"
     ],
-    "note": "Right and left renal time-activity curves from the DTPA study."
+    "note": "Right and left renal time-activity curves from the DTPA study.",
+    "at": [
+     0.0661,
+     1.1147,
+     -0.0371
+    ]
    },
    {
     "x": 0.77,
@@ -2804,14 +2955,19 @@
     "structures": [
      "Kidney"
     ],
-    "note": "Right and left renal time-activity curves from the MAG3 study."
+    "note": "Right and left renal time-activity curves from the MAG3 study.",
+    "at": [
+     -0.0616,
+     1.1031,
+     -0.0308
+    ]
    },
    {
     "x": 0.09,
     "y": 0.915,
     "text": "Kidney with brisk tracer uptake",
     "structures": [
-     "Kidney"
+     "Renal pelvis"
     ],
     "side": "Right",
     "note": "Posterior MAG3 image: strong cortical tracer uptake and a steep early rise on the renogram, so this kidney is functioning well."
@@ -2821,7 +2977,7 @@
     "y": 0.91,
     "text": "Kidney with poor tracer uptake",
     "structures": [
-     "Kidney"
+     "Renal pelvis"
     ],
     "side": "Left",
     "note": "Posterior MAG3 image: much weaker uptake and a flat renogram curve, matching the markedly impaired left renal function described in the case."
@@ -2840,10 +2996,14 @@
     "back"
    ],
    "focus": [
-    "Kidney"
+    "Kidney",
+    "Renal pelvis"
+   ],
+   "ghost_focus": [
+    "Renal pelvis"
    ],
    "isolate": true,
-   "xray": false,
+   "xray": true,
    "view": "posterior"
   }
  },
@@ -3008,20 +3168,15 @@
     "y": 0.15,
     "text": "B1: Stress H2-15O PET",
     "structures": [
-     "Left ventricle, anterior wall",
-     "Left ventricle, lateral wall",
-     "Left ventricle, inferior wall",
-     "Interventricular septum",
-     "Apex of left ventricle"
+     "Papillary muscles"
     ],
-    "note": "Source panel B1 shows stress H2-15O PET."
+    "note": "Source panel B1 shows stress H2-15O PET; its short-axis slice cuts the mid left ventricle, where the papillary muscles lie."
    },
    {
     "x": 0.92,
     "y": 0.39,
     "text": "C1: Source-marked coronary stenosis",
     "structures": [
-     "Severe coronary stenosis",
      "Left coronary artery",
      "Anterior interventricular artery",
      "Circumflex artery of heart",
@@ -3050,6 +3205,7 @@
     "Left ventricle, inferior wall",
     "Interventricular septum",
     "Apex of left ventricle",
+    "Papillary muscles",
     "Coronary arteries",
     "First diagonal artery",
     "First obtuse marginal artery",
@@ -3173,7 +3329,8 @@
     "Trachea",
     "Vertebra T4",
     "Aortic arch",
-    "Paratracheal thoracic nodes"
+    "Paratracheal thoracic nodes",
+    "Hodgkin paratracheal nodal mass"
    ]
   }
  }

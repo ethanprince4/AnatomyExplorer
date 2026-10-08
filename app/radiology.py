@@ -16,7 +16,7 @@ ATLAS_NOTE = ("The atlas illustrates related anatomy. It is not registered to th
 
 
 class Label:
-    __slots__ = ("x", "y", "text", "note", "structures", "side")
+    __slots__ = ("x", "y", "text", "note", "structures", "side", "at")
 
     def __init__(self, raw):
         self.x = float(raw["x"])
@@ -26,6 +26,8 @@ class Label:
         self.side = raw.get("side", "")
         s = raw.get("structure") or raw.get("structures") or []
         self.structures = [s] if isinstance(s, str) else list(s)
+        at = raw.get("at")                 # a point on the structure in atlas space: where its 3D number goes
+        self.at = tuple(float(v) for v in at) if at is not None and len(at) == 3 else None
 
 
 class Case:

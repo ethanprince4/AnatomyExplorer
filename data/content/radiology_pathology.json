@@ -31,7 +31,11 @@
     "Superior lobe of left lung",
     "Inferior lobe of left lung",
     "Sixth rib",
-    "Left subclavian vein"
+    "Left subclavian vein",
+    "Left atrium"
+   ],
+   "focus": [
+    "Right pleural effusion"
    ],
    "ghost_focus": [
     "Right pleural effusion",
@@ -41,10 +45,12 @@
     "Inferior lobe of left lung",
     "Sixth rib",
     "Clavicle",
-    "Left subclavian vein"
+    "Left subclavian vein",
+    "Left atrium"
    ],
    "frame_on": [
-    "Lungs"
+    "Lungs",
+    "Right pleural effusion"
    ]
   },
   "labels": [
@@ -80,7 +86,7 @@
     "y": 0.5,
     "text": "Displaced heart border",
     "structures": [
-     "Mediastinum shifted to the left"
+     "Left atrium"
     ]
    },
    {
@@ -201,7 +207,6 @@
    "ghost_focus": [
     "Consolidated right middle lobe",
     "Right atrium",
-    "Right ventricle",
     "Left atrium",
     "Left ventricle",
     "Pulmonary trunk",
@@ -363,11 +368,12 @@
    "view": "anterior",
    "show": [
     "Collapsed left lung (pneumothorax)",
-    "Air in the left pleural space"
+    "Left pleural air (pneumothorax)"
    ],
    "ghost_focus": [
     "Collapsed left lung (pneumothorax)",
-    "Air in the left pleural space",
+    "Left pleural air (pneumothorax)",
+    "Inferior lobe of left lung",
     "Superior lobe of right lung",
     "Middle lobe of right lung",
     "Inferior lobe of right lung",
@@ -379,7 +385,8 @@
    ],
    "frame_on": [
     "Collapsed left lung (pneumothorax)",
-    "Air in the left pleural space",
+    "Left pleural air (pneumothorax)",
+    "Inferior lobe of left lung",
     "Superior lobe of right lung",
     "Inferior lobe of right lung"
    ]
@@ -400,7 +407,7 @@
     "y": 0.16,
     "text": "Pleural air, no lung markings",
     "structures": [
-     "Air in the left pleural space"
+     "Left pleural air (pneumothorax)"
     ],
     "side": "Left",
     "note": "black, and empty: vessels stop at the line"
@@ -410,7 +417,7 @@
     "y": 0.47,
     "text": "Collapsed left lung",
     "structures": [
-     "Collapsed left lung (pneumothorax)"
+     "Inferior lobe of left lung"
     ],
     "side": "Left",
     "note": "denser than normal, because the same tissue is packed into less space"
@@ -554,14 +561,14 @@
     "Enlarged heart",
     "Dilated upper lobe vessels",
     "Small bilateral pleural effusions",
-    "Lungs",
     "Pulmonary arteries",
     "Pulmonary veins",
     "Manubrium of sternum",
     "Diaphragm"
    ],
    "frame_on": [
-    "Lungs"
+    "Lungs",
+    "Small bilateral pleural effusions"
    ]
   },
   "labels": [
@@ -585,13 +592,12 @@
     "note": "normally the smaller ones — equal or bigger means diversion"
    },
    {
-    "x": 0.16,
-    "y": 0.7,
+    "x": 0.85,
+    "y": 0.68,
     "text": "Kerley B lines",
     "structures": [
-     "Inferior lobe of right lung"
-    ],
-    "note": "short horizontal lines at the pleural surface: thickened septa"
+     "Inferior lobe of left lung"
+    ]
    },
    {
     "x": 0.85,

@@ -45,7 +45,12 @@
     "structures": [
      "Humerus"
     ],
-    "side": "Left"
+    "side": "Left",
+    "at": [
+     0.1986,
+     1.1347,
+     -0.0411
+    ]
    },
    {
     "x": 0.455,
@@ -65,7 +70,12 @@
      "Humerus"
     ],
     "side": "Left",
-    "note": "the ulnar nerve runs in a groove behind it"
+    "note": "the ulnar nerve runs in a groove behind it",
+    "at": [
+     0.1876,
+     1.1062,
+     -0.0309
+    ]
    },
    {
     "x": 0.615,
@@ -75,7 +85,12 @@
      "Humerus"
     ],
     "side": "Left",
-    "note": "common extensor origin – tennis elbow"
+    "note": "common extensor origin – tennis elbow",
+    "at": [
+     0.2467,
+     1.1142,
+     -0.0384
+    ]
    },
    {
     "x": 0.44,
@@ -84,7 +99,12 @@
     "structures": [
      "Humerus"
     ],
-    "side": "Left"
+    "side": "Left",
+    "at": [
+     0.1876,
+     1.0983,
+     -0.0367
+    ]
    },
    {
     "x": 0.585,
@@ -94,7 +114,12 @@
      "Humerus"
     ],
     "side": "Left",
-    "note": "the radiocapitellar line must point here"
+    "note": "the radiocapitellar line must point here",
+    "at": [
+     0.2383,
+     1.1092,
+     -0.0272
+    ]
    },
    {
     "x": 0.345,
@@ -123,7 +148,12 @@
     "structures": [
      "Ulna"
     ],
-    "side": "Left"
+    "side": "Left",
+    "at": [
+     0.2127,
+     1.0885,
+     -0.0415
+    ]
    },
    {
     "x": 0.605,
@@ -133,7 +163,12 @@
      "Radius"
     ],
     "side": "Left",
-    "note": "spins in the anular ligament to pronate"
+    "note": "spins in the anular ligament to pronate",
+    "at": [
+     0.2356,
+     1.0823,
+     -0.0219
+    ]
    },
    {
     "x": 0.6,
@@ -142,7 +177,12 @@
     "structures": [
      "Radius"
     ],
-    "side": "Left"
+    "side": "Left",
+    "at": [
+     0.2321,
+     1.0734,
+     -0.0251
+    ]
    },
    {
     "x": 0.505,
@@ -151,7 +191,12 @@
     "structures": [
      "Radius"
     ],
-    "side": "Left"
+    "side": "Left",
+    "at": [
+     0.2317,
+     1.0608,
+     -0.0211
+    ]
    },
    {
     "x": 0.355,
@@ -160,7 +205,12 @@
     "structures": [
      "Ulna"
     ],
-    "side": "Left"
+    "side": "Left",
+    "at": [
+     0.2142,
+     1.0696,
+     -0.0437
+    ]
    }
   ],
   "questions": [
@@ -212,7 +262,8 @@
   ],
   "scene": {
    "systems": [
-    "skeletal"
+    "skeletal",
+    "joints"
    ],
    "regions": [
     "upper_limb_l"
@@ -234,7 +285,8 @@
     "Second metacarpal bone",
     "Third metacarpal bone",
     "Fourth metacarpal bone",
-    "Fifth metacarpal bone"
+    "Fifth metacarpal bone",
+    "Articular capsule of radiocarpal joint"
    ],
    "frame_on": [
     "Radius",
@@ -329,9 +381,7 @@
     "y": 0.368,
     "text": "Radiocarpal joint",
     "structures": [
-     "Triquetrum bone",
-     "Scaphoid bone",
-     "Lunate bone"
+     "Articular capsule of radiocarpal joint"
     ],
     "side": "Left",
     "note": "the joint between the distal radius and the proximal carpal row"
@@ -423,13 +473,17 @@
     "Rectus femoris muscle",
     "Vastus intermedius muscle",
     "Suprapatellar bursa",
-    "Infrapatellar fat pad",
-    "Articular capsule of knee joint"
+    "Infrapatellar fat pad"
    ],
    "frame_on": [
     "Patella",
     "Femur",
-    "Tibia"
+    "Tibia",
+    "Fibula",
+    "Rectus femoris muscle",
+    "Vastus intermedius muscle",
+    "Suprapatellar bursa",
+    "Infrapatellar fat pad"
    ],
    "show": [
     "Suprapatellar bursa",
@@ -475,7 +529,12 @@
     "structures": [
      "Femur"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.0913,
+     0.6779,
+     -0.0123
+    ]
    },
    {
     "x": 0.43,
@@ -485,7 +544,12 @@
      "Femur"
     ],
     "side": "Right",
-    "note": "medial and lateral superimposed"
+    "note": "medial and lateral superimposed",
+    "at": [
+     -0.0354,
+     0.4568,
+     -0.0226
+    ]
    },
    {
     "x": 0.44,
@@ -514,7 +578,12 @@
      "Tibia"
     ],
     "side": "Right",
-    "note": "slopes about 10° posteriorly"
+    "note": "slopes about 10° posteriorly",
+    "at": [
+     -0.0407,
+     0.4162,
+     -0.0269
+    ]
    },
    {
     "x": 0.2,
@@ -525,7 +594,12 @@
      "Tibia"
     ],
     "side": "Right",
-    "note": "The atlas has no separate patellar ligament entry; this points at the patella and the tibia it joins."
+    "note": "The atlas has no separate patellar ligament entry; this points at the patella and the tibia it joins.",
+    "at": [
+     -0.068,
+     0.4346,
+     0.003
+    ]
    },
    {
     "x": 0.315,
@@ -535,7 +609,12 @@
      "Tibia"
     ],
     "side": "Right",
-    "note": "The atlas has no separate tuberosity entry; this points at the tibia that carries it."
+    "note": "The atlas has no separate tuberosity entry; this points at the tibia that carries it.",
+    "at": [
+     -0.0725,
+     0.3757,
+     -0.0035
+    ]
    },
    {
     "x": 0.77,
@@ -553,7 +632,12 @@
     "structures": [
      "Tibia"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.0707,
+     0.239,
+     -0.0231
+    ]
    }
   ],
   "questions": [
@@ -606,7 +690,8 @@
   ],
   "scene": {
    "systems": [
-    "skeletal"
+    "skeletal",
+    "joints"
    ],
    "regions": [
     "lower_limb_r"
@@ -630,12 +715,14 @@
     "Fifth metatarsal bone",
     "Sesamoid bones of foot",
     "Proximal phalanx of first finger of foot",
-    "Distal phalanx of first finger of foot"
+    "Distal phalanx of first finger of foot",
+    "Posterior talocalcaneal ligament"
    ],
    "frame_on": [
     "Talus",
     "Calcaneus",
-    "First metatarsal bone"
+    "First metatarsal bone",
+    "Posterior talocalcaneal ligament"
    ]
   },
   "labels": [
@@ -673,7 +760,12 @@
     "structures": [
      "Talus"
     ],
-    "note": "no muscle attaches to the talus at all"
+    "note": "no muscle attaches to the talus at all",
+    "at": [
+     -0.0584,
+     0.0669,
+     -0.0335
+    ]
    },
    {
     "x": 0.685,
@@ -681,6 +773,11 @@
     "text": "Head of talus",
     "structures": [
      "Talus"
+    ],
+    "at": [
+     -0.0596,
+     0.0689,
+     -0.013
     ]
    },
    {
@@ -698,8 +795,7 @@
     "y": 0.53,
     "text": "Subtalar joint",
     "structures": [
-     "Talus",
-     "Calcaneus"
+     "Posterior talocalcaneal ligament"
     ],
     "note": "posterior facet – inversion and eversion happen here"
    },
@@ -709,6 +805,11 @@
     "text": "Calcaneus",
     "structures": [
      "Calcaneus"
+    ],
+    "at": [
+     -0.067,
+     0.042,
+     -0.0505
     ]
    },
    {
@@ -718,7 +819,12 @@
     "structures": [
      "Calcaneus"
     ],
-    "note": "the Achilles tendon inserts here"
+    "note": "the Achilles tendon inserts here",
+    "at": [
+     -0.0575,
+     0.0384,
+     -0.0768
+    ]
    },
    {
     "x": 0.65,
@@ -848,7 +954,8 @@
    "view": "anterior",
    "show": [
     "Obturator membrane",
-    "Pubic symphysis"
+    "Pubic symphysis",
+    "Articular capsule of hip joint"
    ],
    "ghost_focus": [
     "Hip bone",
@@ -856,7 +963,8 @@
     "Sacrum",
     "Vertebra L5",
     "Pubic symphysis",
-    "Obturator membrane"
+    "Obturator membrane",
+    "Articular capsule of hip joint"
    ],
    "frame_on": [
     "Hip bone",
@@ -880,7 +988,12 @@
      "Hip bone"
     ],
     "side": "Right",
-    "note": "at the level of L4 – the landmark for a lumbar puncture"
+    "note": "at the level of L4 – the landmark for a lumbar puncture",
+    "at": [
+     -0.1095,
+     1.0053,
+     -0.008
+    ]
    },
    {
     "x": 0.235,
@@ -890,7 +1003,12 @@
      "Hip bone"
     ],
     "side": "Right",
-    "note": "the iliac fossa, thin enough to see bowel gas through"
+    "note": "the iliac fossa, thin enough to see bowel gas through",
+    "at": [
+     -0.096,
+     0.962,
+     -0.0116
+    ]
    },
    {
     "x": 0.415,
@@ -909,6 +1027,11 @@
     "text": "Sacrum",
     "structures": [
      "Sacrum"
+    ],
+    "at": [
+     0.0,
+     0.9373,
+     -0.0221
     ]
    },
    {
@@ -918,7 +1041,12 @@
     "structures": [
      "Sacrum"
     ],
-    "note": "their arcuate cortices must be unbroken"
+    "note": "their arcuate cortices must be unbroken",
+    "at": [
+     -0.0171,
+     0.9132,
+     -0.0694
+    ]
    },
    {
     "x": 0.19,
@@ -927,7 +1055,12 @@
     "structures": [
      "Femur"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.119,
+     0.8575,
+     -0.0262
+    ]
    },
    {
     "x": 0.175,
@@ -937,7 +1070,12 @@
      "Hip bone"
     ],
     "side": "Right",
-    "note": "the dense sourcil takes the load"
+    "note": "the dense sourcil takes the load",
+    "at": [
+     -0.0953,
+     0.8927,
+     0.0268
+    ]
    },
    {
     "x": 0.145,
@@ -946,7 +1084,12 @@
     "structures": [
      "Femur"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.108,
+     0.8209,
+     0.0017
+    ]
    },
    {
     "x": 0.055,
@@ -955,7 +1098,12 @@
     "structures": [
      "Femur"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.1399,
+     0.8361,
+     -0.0024
+    ]
    },
    {
     "x": 0.2,
@@ -964,7 +1112,12 @@
     "structures": [
      "Femur"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.0905,
+     0.8014,
+     -0.0193
+    ]
    },
    {
     "x": 0.26,
@@ -984,7 +1137,12 @@
     "structures": [
      "Hip bone"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.0336,
+     0.8481,
+     0.0417
+    ]
    },
    {
     "x": 0.385,
@@ -1003,7 +1161,12 @@
     "structures": [
      "Hip bone"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.0223,
+     0.8266,
+     0.0195
+    ]
    },
    {
     "x": 0.49,
@@ -1022,7 +1185,12 @@
      "Hip bone"
     ],
     "side": "Right",
-    "note": "what you sit on – the hamstring origin"
+    "note": "what you sit on – the hamstring origin",
+    "at": [
+     -0.0618,
+     0.8075,
+     -0.0371
+    ]
    },
    {
     "x": 0.79,

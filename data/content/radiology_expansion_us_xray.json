@@ -150,13 +150,19 @@
     "abdomen"
    ],
    "focus": [
-    "Liver",
     "Hepatic veins"
    ],
    "ghost_focus": [
     "Hepatic veins"
    ],
-   "isolate": true,
+   "show": [
+    "Liver"
+   ],
+   "frame_on": [
+    "Liver",
+    "Hepatic veins"
+   ],
+   "isolate": false,
    "xray": true,
    "view": "anterior"
   }
@@ -203,7 +209,12 @@
     "structures": [
      "Kidney"
     ],
-    "note": "Outer renal parenchyma at the triple-asterisk marker."
+    "note": "Outer renal parenchyma at the triple-asterisk marker.",
+    "at": [
+     -0.0805,
+     1.1027,
+     -0.0051
+    ]
    },
    {
     "x": 0.493,
@@ -219,10 +230,10 @@
     "y": 0.496,
     "text": "Renal sinus",
     "structures": [
-     "Renal pelvis",
-     "Kidney"
+     "Left renal vein",
+     "Right renal vein"
     ],
-    "note": "Bright central renal sinus at the quadruple-asterisk marker."
+    "note": "Bright central renal sinus at the quadruple-asterisk marker. The atlas has no sinus fat, so the hilar renal veins stand in for it."
    },
    {
     "x": 0.483,
@@ -260,13 +271,18 @@
    "view": "anterior",
    "xray": true,
    "focus": [
-    "Kidney"
+    "Kidney",
+    "Renal pelvis",
+    "Left renal vein",
+    "Right renal vein"
    ],
    "show": [
     "Renal pelvis"
    ],
    "ghost_focus": [
-    "Renal pelvis"
+    "Renal pelvis",
+    "Left renal vein",
+    "Right renal vein"
    ],
    "isolate": true
   }
@@ -356,11 +372,18 @@
     "Hydronephrosis (dilated renal pelvis)"
    ],
    "focus": [
-    "Kidney",
-    "Renal pelvis"
+    "Kidney"
    ],
-   "isolate": true,
-   "xray": false
+   "ghost_focus": [
+    "Renal pelvis",
+    "Hydronephrosis (dilated renal pelvis)"
+   ],
+   "frame_on": [
+    "Kidney",
+    "Hydronephrosis (dilated renal pelvis)"
+   ],
+   "isolate": false,
+   "xray": true
   }
  },
  {
@@ -413,7 +436,12 @@
     "structures": [
      "Gallbladder"
     ],
-    "note": "Fluid-filled gallbladder above the dependent material."
+    "note": "Fluid-filled gallbladder above the dependent material.",
+    "at": [
+     -0.0497,
+     1.1211,
+     0.0799
+    ]
    },
    {
     "x": 0.47,
@@ -422,7 +450,12 @@
     "structures": [
      "Gallbladder"
     ],
-    "note": "Bright echogenic anterior wall of the gallbladder."
+    "note": "Bright echogenic anterior wall of the gallbladder.",
+    "at": [
+     -0.0433,
+     1.119,
+     0.0773
+    ]
    },
    {
     "x": 0.13,
@@ -455,8 +488,15 @@
     "Gallstones (dependent, shadowing)",
     "Biliary sludge (dependent layer)"
    ],
+   "ghost_focus": [
+    "Liver",
+    "Gallstones (dependent, shadowing)",
+    "Biliary sludge (dependent layer)"
+   ],
    "frame_on": [
-    "Gallbladder"
+    "Gallbladder",
+    "Gallstones (dependent, shadowing)",
+    "Biliary sludge (dependent layer)"
    ],
    "show": [
     "Liver",
@@ -464,7 +504,7 @@
     "Biliary sludge (dependent layer)"
    ],
    "isolate": true,
-   "xray": false
+   "xray": true
   }
  },
  {
@@ -517,9 +557,9 @@
     "y": 0.783,
     "text": "Posterior acoustic shadow",
     "structures": [
-     "Gallbladder"
+     "Duodenum"
     ],
-    "note": "Reduced echoes posterior to the gallstone; the dark shadow is the sound beam blocked by the stone, not a separate structure."
+    "note": "Reduced echoes posterior to the gallstone; the dark shadow is the sound beam blocked by the stone, not a structure. The 3D reference points to the duodenum, which lies behind the gallbladder neck."
    },
    {
     "x": 0.75,
@@ -549,7 +589,8 @@
     "Gallbladder",
     "Liver",
     "Impacted gallstone",
-    "Gallbladder wall thickening"
+    "Gallbladder wall thickening",
+    "Duodenum"
    ],
    "show": [
     "Impacted gallstone",
@@ -558,7 +599,9 @@
    "isolate": true,
    "frame_on": [
     "Gallbladder",
-    "Impacted gallstone"
+    "Impacted gallstone",
+    "Duodenum",
+    "Liver"
    ],
    "view": "anterior"
   }
@@ -685,7 +728,12 @@
      "Left common carotid artery",
      "Right common carotid artery"
     ],
-    "note": "Arterial cross-section lateral to the thyroid, marked 1."
+    "note": "Arterial cross-section lateral to the thyroid, marked 1.",
+    "at": [
+     -0.0246,
+     1.4495,
+     0.006
+    ]
    },
    {
     "x": 0.249,
@@ -722,7 +770,12 @@
      "Left common carotid artery",
      "Right common carotid artery"
     ],
-    "note": "Round arterial cross-section lateral to the opposite thyroid lobe, marked 5."
+    "note": "Round arterial cross-section lateral to the opposite thyroid lobe, marked 5.",
+    "at": [
+     0.028,
+     1.4646,
+     0.0014
+    ]
    }
   ],
   "references": [
@@ -844,7 +897,8 @@
    "focus": [
     "Femoral vein",
     "Femoral artery",
-    "Deep femoral vein"
+    "Deep femoral vein",
+    "Femoral vein thrombus"
    ],
    "show": [
     "Femoral vein thrombus"
@@ -1013,7 +1067,12 @@
     "structures": [
      "Abdominal aorta"
     ],
-    "note": "Dark central lumen of the abdominal aorta."
+    "note": "Dark central lumen of the abdominal aorta.",
+    "at": [
+     0.0072,
+     1.1297,
+     0.0263
+    ]
    },
    {
     "x": 0.45,
@@ -1022,7 +1081,12 @@
     "structures": [
      "Abdominal aorta"
     ],
-    "note": "Anterior outer wall of the aorta. Aneurysm size is measured from outer wall to outer wall, not lumen to lumen."
+    "note": "Anterior outer wall of the aorta. Aneurysm size is measured from outer wall to outer wall, not lumen to lumen.",
+    "at": [
+     0.0051,
+     1.1724,
+     0.0124
+    ]
    },
    {
     "x": 0.45,
@@ -1220,8 +1284,7 @@
    "isolate": true,
    "xray": true,
    "ghost_focus": [
-    "Baker's cyst fluid",
-    "Popliteal fossa"
+    "Baker's cyst fluid"
    ],
    "frame_on": [
     "Baker's cyst fluid"
@@ -1667,7 +1730,12 @@
      "Clavicle"
     ],
     "side": "Left",
-    "note": "Separated medial fragment of the fractured clavicle, with its cortex ending at the fracture gap."
+    "note": "Separated medial fragment of the fractured clavicle, with its cortex ending at the fracture gap.",
+    "at": [
+     0.0435,
+     1.4069,
+     0.0447
+    ]
    },
    {
     "x": 0.8,
@@ -1677,7 +1745,12 @@
      "Clavicle"
     ],
     "side": "Left",
-    "note": "Lateral fragment, displaced relative to the medial piece."
+    "note": "Lateral fragment, displaced relative to the medial piece.",
+    "at": [
+     0.0992,
+     1.4132,
+     0.0003
+    ]
    },
    {
     "x": 0.93,
@@ -1687,7 +1760,12 @@
      "Clavicle"
     ],
     "side": "Left",
-    "note": "Lateral end of the clavicle running toward the acromioclavicular region."
+    "note": "Lateral end of the clavicle running toward the acromioclavicular region.",
+    "at": [
+     0.1394,
+     1.4171,
+     -0.0266
+    ]
    }
   ],
   "references": [
@@ -1960,7 +2038,9 @@
    "focus": [
     "Calcaneus",
     "Talus",
-    "Calcaneal fracture line"
+    "Calcaneal fracture line",
+    "Tibia",
+    "Third metatarsal bone"
    ],
    "ghost_focus": [
     "Calcaneal fracture line",
@@ -2084,6 +2164,7 @@
     "Hip bone",
     "Ureter",
     "Renal pelvis",
+    "Kidney",
     "Right renal calculus (xr_bilateral_renal_stones)",
     "Left renal calculus (xr_bilateral_renal_stones)",
     "Internal iliac vein"
@@ -2108,7 +2189,9 @@
     "Kidney",
     "Vertebra L2",
     "Sacrum",
-    "Internal iliac vein"
+    "Internal iliac vein",
+    "Right renal calculus (xr_bilateral_renal_stones)",
+    "Left renal calculus (xr_bilateral_renal_stones)"
    ],
    "xray": true,
    "isolate": false
@@ -2157,7 +2240,12 @@
     "structures": [
      "Mandible"
     ],
-    "note": "Lower jaw beneath the lower tooth row."
+    "note": "Lower jaw beneath the lower tooth row.",
+    "at": [
+     -0.0358,
+     1.5137,
+     0.0438
+    ]
    },
    {
     "x": 0.385,
@@ -2186,7 +2274,12 @@
     "structures": [
      "Mandible"
     ],
-    "note": "Vertical ramus of the mandible behind the tooth rows."
+    "note": "Vertical ramus of the mandible behind the tooth rows.",
+    "at": [
+     -0.0453,
+     1.5499,
+     0.0188
+    ]
    }
   ],
   "references": [

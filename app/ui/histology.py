@@ -1,7 +1,7 @@
 import html
 
 from PySide6.QtCore import QPointF, QRectF, QSize, Qt, QUrl, Signal
-from PySide6.QtGui import QColor, QDesktopServices, QFontMetricsF, QIcon, QPainter, QPen, QPixmap
+from PySide6.QtGui import QColor, QDesktopServices, QFont, QFontMetricsF, QIcon, QPainter, QPen, QPixmap
 from PySide6.QtWidgets import (QBoxLayout, QCheckBox, QComboBox, QFrame, QGraphicsPixmapItem, QGraphicsScene, QGraphicsView, QHBoxLayout, QLabel,
                                QLineEdit, QListWidget, QMenu, QPushButton, QSplitter, QTextBrowser,
                                QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
@@ -226,27 +226,84 @@ class ImageView(QGraphicsView):
         self.viewport().update()
 
     def _paint_labels(self, painter):
-        """Numbered marks with their names, kept a constant size on screen whatever the zoom."""
+        """Labels drawn like an atlas plate, at a constant size on screen whatever the zoom: a small ring on the
+        structure (it does not hide it), a fine leader line, and the number and name in a dark pill placed clear of
+        the point, of the other labels and of the view's edges."""
+        import math
         pix = self.item.pixmap()
-        fm = QFontMetricsF(painter.font())
-        for number, lab in enumerate(self.labels, 1):
-            at = self.mapFromScene(QPointF(float(lab["x"]) * pix.width(), float(lab["y"]) * pix.height()))
-            centre = QPointF(at)
-            painter.setPen(QPen(QColor(255, 255, 255), 2))
-            painter.setBrush(QColor(37, 70, 160, 235))
-            painter.drawEllipse(centre, 10, 10)
-            painter.setPen(QColor(255, 255, 255))
-            painter.drawText(QRectF(centre.x() - 10, centre.y() - 10, 20, 20), Qt.AlignCenter, str(number))
+        font = QFont(painter.font())
+        font.setPointSizeF(max(9.5, font.pointSizeF()))
+        font.setWeight(QFont.DemiBold)
+        painter.setFont(font)
+        fm = QFontMetricsF(font)
+        vw, vh = float(self.viewport().width()), float(self.viewport().height())
+        # fixed colours: the labels sit on the slide, so they must read the same in the light and dark themes
+        accent, on_accent, ink = QColor("#3cc6d3"), QColor("#04191d"), QColor("#f4f7fa")
+        points = [QPointF(self.mapFromScene(QPointF(float(lab["x"]) * pix.width(), float(lab["y"]) * pix.height())))
+                  for lab in self.labels]
+        middle = QPointF(vw / 2.0, vh / 2.0)
+        height = fm.height() + 8.0
+        pills = []                                          # (rect, badge width, number, text, point, anchor)
+        for number, (lab, p) in enumerate(zip(self.labels, points), 1):
             text = str(lab["text"])
-            width = fm.horizontalAdvance(text) + 12
-            box = QRectF(centre.x() + 14, centre.y() - fm.height() / 2 - 3, width, fm.height() + 6)
-            if box.right() > self.viewport().width() - 4:
-                box.moveRight(centre.x() - 14)
-            painter.setPen(QPen(QColor("#8096a5"), 1))
-            painter.setBrush(QColor(242, 246, 248, 230))
-            painter.drawRoundedRect(box, 7, 7)
-            painter.setPen(QColor("#263b47"))
-            painter.drawText(box, Qt.AlignCenter, text)
+            badge = max(height, fm.horizontalAdvance(str(number)) + 12.0)
+            width = badge + fm.horizontalAdvance(text) + 14.0
+            outward = math.atan2(p.y() - middle.y(), p.x() - middle.x())
+            chosen = fallback = None
+            for distance in (44.0, 70.0, 100.0):
+                for turn in (0, 30, -30, 60, -60, 90, -90, 125, -125, 180):
+                    a = outward + math.radians(turn)
+                    cx, cy = p.x() + distance * math.cos(a), p.y() + distance * math.sin(a)
+                    left = cx if math.cos(a) >= 0 else cx - width
+                    rect = QRectF(left, cy - height / 2.0, width, height)
+                    if not (rect.left() >= 6 and rect.top() >= 6 and rect.right() <= vw - 6 and rect.bottom() <= vh - 6):
+                        continue
+                    fallback = fallback or rect
+                    if (not any(rect.adjusted(-4, -4, 4, 4).intersects(r[0]) for r in pills) and
+                            not any(rect.adjusted(-6, -6, 6, 6).contains(q) for q in points)):
+                        chosen = rect
+                        break
+                if chosen is not None:
+                    break
+            best = chosen or fallback
+            if best is None:                                # crowded: beside the point, kept in view
+                left = min(max(p.x() + 14.0, 6.0), vw - width - 6.0)
+                best = QRectF(left, min(max(p.y() - height / 2.0, 6.0), vh - height - 6.0), width, height)
+            anchor = QPointF(best.left() if best.center().x() >= p.x() else best.right(), best.center().y())
+            pills.append((best, badge, number, text, p, anchor))
+        # leader lines first, so the rings and pills sit on top of them
+        for rect, _badge, _n, _t, p, anchor in pills:
+            dx, dy = anchor.x() - p.x(), anchor.y() - p.y()
+            length = max(math.hypot(dx, dy), 1e-6)
+            start = QPointF(p.x() + dx / length * 6.5, p.y() + dy / length * 6.5)
+            painter.setPen(QPen(QColor(0, 0, 0, 150), 3.2, Qt.SolidLine, Qt.RoundCap))
+            painter.drawLine(start, anchor)
+            painter.setPen(QPen(QColor(255, 255, 255, 235), 1.4, Qt.SolidLine, Qt.RoundCap))
+            painter.drawLine(start, anchor)
+        for rect, badge, number, text, p, _anchor in pills:
+            painter.setPen(QPen(QColor(0, 0, 0, 160), 3.6))
+            painter.setBrush(Qt.NoBrush)
+            painter.drawEllipse(p, 5.5, 5.5)
+            painter.setPen(QPen(QColor(255, 255, 255), 1.8))
+            painter.drawEllipse(p, 5.5, 5.5)
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(accent)
+            painter.drawEllipse(p, 2.2, 2.2)
+            radius = rect.height() / 2.0
+            painter.setBrush(QColor(0, 0, 0, 70))           # a soft shadow lifts the pill off any slide
+            painter.drawRoundedRect(rect.translated(0, 1.5), radius, radius)
+            painter.setBrush(QColor(16, 21, 28, 228))
+            painter.setPen(QPen(QColor(255, 255, 255, 46), 1.0))
+            painter.drawRoundedRect(rect, radius, radius)
+            disc = QRectF(rect.left() + 3.0, rect.top() + 3.0, badge - 6.0, rect.height() - 6.0)
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(accent)
+            painter.drawRoundedRect(disc, disc.height() / 2.0, disc.height() / 2.0)
+            painter.setPen(on_accent)
+            painter.drawText(disc, Qt.AlignCenter, str(number))
+            painter.setPen(ink)
+            painter.drawText(QRectF(rect.left() + badge + 2.0, rect.top(), rect.width() - badge - 8.0, rect.height()),
+                             Qt.AlignVCenter | Qt.AlignLeft, text)
 
     def drawForeground(self, painter, rect):
         super().drawForeground(painter, rect)

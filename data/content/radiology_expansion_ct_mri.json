@@ -98,6 +98,22 @@
     "Left acetabular comminuted fragments",
     "Left acetabular fracture line"
    ],
+   "ghost_focus": [
+    "Left acetabular posterior column fragment",
+    "Left acetabular anterior column fragment",
+    "Left acetabular comminuted fragments",
+    "Left acetabular fracture line"
+   ],
+   "xray": true,
+   "frame_on": [
+    "Femur",
+    "Hip bone",
+    "Sacrum",
+    "Left acetabular posterior column fragment",
+    "Left acetabular anterior column fragment",
+    "Left acetabular comminuted fragments",
+    "Left acetabular fracture line"
+   ],
    "clip": [
     2,
     0.5
@@ -1496,10 +1512,24 @@
     "Spinal dura",
     "Cauda equina"
    ],
+   "ghost_focus": [
+    "L4-L5 left paramedian disc herniation",
+    "Spinal dura",
+    "Cauda equina",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Intervertebral disc L4-L5",
+    "Intervertebral disc L5-S1"
+   ],
+   "xray": true,
    "frame_on": [
     "Vertebra L4",
     "Vertebra L5",
-    "Intervertebral disc L4-L5"
+    "Intervertebral disc L4-L5",
+    "Intervertebral disc L5-S1",
+    "L4-L5 left paramedian disc herniation",
+    "Spinal dura",
+    "Cauda equina"
    ],
    "clip": [
     0,
@@ -2018,12 +2048,18 @@
    "side": "Right",
    "frame_on": [
     "Supraspinatus muscle",
-    "Humerus"
+    "Humerus",
+    "Subdeltoid bursa",
+    "Supraspinatus tendon tear"
    ],
    "show": [
     "Supraspinatus tendon tear",
     "Subdeltoid bursa"
-   ]
+   ],
+   "ghost_focus": [
+    "Supraspinatus tendon tear"
+   ],
+   "xray": true
   },
   "id": "mri_supraspinatus_tear",
   "atlas_note": "The shoulder image is oblique. This illustrative right-shoulder atlas section uses an approximate orthogonal plane; it is not registered to the scan and does not establish the patient's side.",

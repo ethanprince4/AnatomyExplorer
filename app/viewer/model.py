@@ -160,6 +160,7 @@ class ViewerModel:
         self.structures: list[Structure] = []
         self.vertices = None           # (V, 19) float32
         self.indices = None            # (I,) uint32
+        self.lod = None                # {part id: lod.PartLod}: coarser copies of large parts, made while loading
         self.anim_vertices = None      # (V,) structured: four morph targets and a phase (procedural animation)
         self.animation = None          # app.micro.anim.Animation of a procedural model
         self.node_world = [np.eye(4)]  # rest world matrices (4x4) per node
