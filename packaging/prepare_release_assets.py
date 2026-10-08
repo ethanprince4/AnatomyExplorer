@@ -17,6 +17,7 @@ REPO = 'https://github.com/ethanprince4/AnatomyExplorer/releases/download'
 HERE = Path(__file__).resolve().parent
 MAC_APP = 'Install Anatomy Explorer.app'
 MAC_INSTALLER = 'Install-Anatomy-Explorer-Mac.dmg'
+WINDOWS_HELPER = 'Download-Windows-Installer.ps1'
 
 
 def run(*cmd):
@@ -129,7 +130,7 @@ def prepare(folder, tag, notes_name=NOTES):
             for name in parts:
                 script.append(f"  $src=[IO.File]::OpenRead((Join-Path $PSScriptRoot '{name}')); try {{$src.CopyTo($out)}} finally {{$src.Dispose()}}")
             script += ['} finally {$out.Dispose()}', f"Start-Process -FilePath (Join-Path $PSScriptRoot '{path.name}')"]
-            helper = 'Download-Windows-Installer.ps1'
+            helper = WINDOWS_HELPER
             (folder / helper).write_text('\n'.join(script) + '\n', encoding='utf-8')
             notes.append(f'- {helper} (Windows): reconstructs {path.name} from {len(parts)} parts. Right-click it and '
                          'choose Run with PowerShell.')

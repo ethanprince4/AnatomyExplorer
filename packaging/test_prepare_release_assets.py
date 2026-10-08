@@ -111,6 +111,13 @@ class SplitTests(unittest.TestCase):
             subprocess.run(['hdiutil', 'detach', str(mount)], check=False)
         self.assertIn(prep.MAC_INSTALLER, (folder / 'INSTALL-DOWNLOADS.md').read_text(encoding='utf-8'))
 
+    def test_front_page_links_name_the_files_a_release_publishes(self):
+        # The README links use releases/latest/download/<file>, so they follow each release by themselves; they break
+        # only if a published file is renamed without them.
+        readme = (Path(__file__).resolve().parent.parent / 'README.md').read_text(encoding='utf-8')
+        linked = set(re.findall(r'releases/latest/download/([^)\s]+)\)', readme))
+        self.assertEqual(linked, {prep.MAC_INSTALLER, prep.WINDOWS_HELPER})
+
     def test_installer_app_names_follow_the_channel(self):
         self.assertEqual(prep.mac_app_name('v4.0.1'), 'Anatomy Explorer')
         self.assertEqual(prep.mac_app_name('v4.1.0-preview.2'), 'Anatomy Explorer Experimental')
