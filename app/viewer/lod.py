@@ -13,6 +13,8 @@ MIN_TRIANGLES = 2000        # smaller parts cost little at any distance
 MIN_KEEP = 50               # a level never takes a part below this many triangles
 MIN_GAIN = 0.8              # a level is kept only if it drops at least a fifth of the triangles
 _BITS = 21                  # grid coordinates per axis packed into one int64 key
+REFERENCE_PIXELS = 1000     # a part gets levels only if its finest one is under a pixel with the whole model this
+                            # many pixels across (about the opening view); other parts would draw in full anyway
 
 
 class PartLod:
@@ -33,8 +35,9 @@ def _triangle_keys(t, n):
     return (a * n + b) * n + c
 
 
-def part_levels(pos, tris, vertex_base, vertex_count):
-    """The coarser levels of one part (``tris``: (n, 3) global vertex indices), or None if it gains nothing."""
+def part_levels(pos, tris, vertex_base, vertex_count, max_cell=np.inf):
+    """The coarser levels of one part (``tris``: (n, 3) global vertex indices), or None if it gains nothing or its
+    finest level's cell (in the part's units) would be larger than ``max_cell``."""
     if len(tris) < MIN_TRIANGLES or vertex_count <= 0:
         return None
     if int(tris.min()) < vertex_base or int(tris.max()) >= vertex_base + vertex_count:
@@ -42,7 +45,7 @@ def part_levels(pos, tris, vertex_base, vertex_count):
     local = pos[vertex_base:vertex_base + vertex_count]
     sample = tris[::max(1, len(tris) // 20000)]
     cell = 2.0 * float(np.median(np.linalg.norm(pos[sample[:, 0]] - pos[sample[:, 1]], axis=1)))
-    if not np.isfinite(cell) or cell <= 0.0:
+    if not np.isfinite(cell) or cell <= 0.0 or cell > max_cell:
         return None
     q = np.floor((local - local.min(0)) / cell).astype(np.int64)
     if q.size == 0 or int(q.max()) >= 1 << _BITS:
@@ -78,6 +81,7 @@ def build(model, check=None):
     if model.anim_vertices is not None or model.vertices is None:
         return {}
     pos = model.vertices[:, :3]
+    pixel = float(np.linalg.norm(np.asarray(model.bounds_max) - np.asarray(model.bounds_min))) / REFERENCE_PIXELS
     out = {}
     for p in model.parts:
         if check is not None:
@@ -85,7 +89,8 @@ def build(model, check=None):
         if p.count < 3 * MIN_TRIANGLES or p.look.texture is not None:
             continue
         tris = model.indices[p.first:p.first + p.count].reshape(-1, 3).astype(np.int64)
-        lod = part_levels(pos, tris, p.vertex_base, p.vertex_count)
+        scale = float(np.max(np.linalg.norm(model.part_matrix(p)[:3, :3], axis=0)))
+        lod = part_levels(pos, tris, p.vertex_base, p.vertex_count, pixel / max(scale, 1e-12))
         if lod is not None:
             out[p.id] = lod
     return out
