@@ -1,0 +1,118 @@
+{
+ "schema": 1,
+ "model_id": "blood_cells",
+ "tree": [
+  {
+   "path": [
+    "Blood fluid"
+   ],
+   "groups": [
+    "Plasma"
+   ]
+  },
+  {
+   "path": [
+    "Blood cells"
+   ],
+   "groups": [
+    "Red cells & platelets"
+   ]
+  },
+  {
+   "path": [
+    "Blood cells",
+    "White blood cells"
+   ],
+   "groups": [
+    "Granulocytes",
+    "Agranulocytes"
+   ]
+  },
+  {
+   "path": [
+    "Clotting"
+   ],
+   "groups": [
+    "Clot"
+   ]
+  }
+ ],
+ "titles": {
+  "Red cells & platelets": "Red cells and platelets",
+  "Granulocytes": "Granulocytes (grainy white cells)",
+  "Agranulocytes": "Agranulocytes (lymphocytes and monocytes)",
+  "Clot": "Blood clot (fibrin and platelets)",
+  "Plasma": "Plasma (the liquid part of blood)"
+ },
+ "groups": {
+  "Red cells & platelets": {
+   "clinical": [
+    [
+     "Iron-deficiency anaemia",
+     "Without enough iron the marrow makes too little haemoglobin, so red cells become small and pale (microcytic and hypochromic), with a wider central pallor on a blood smear."
+    ],
+    [
+     "Low platelet count",
+     "A platelet count below the normal range of about 150,000 to 400,000/mm3 (thrombocytopenia) tends to cause easy bruising and bleeding, mostly from the skin and mucous membranes."
+    ]
+   ],
+   "histology": [
+    "blood"
+   ]
+  },
+  "Granulocytes": {
+   "description": "Granulocytes are white blood cells whose cytoplasm holds visible granules: neutrophils, the most common, which engulf and destroy bacteria; eosinophils, which fight parasites and drive allergic reactions; and basophils, the rarest, which release histamine in allergy. Their nuclei are lobed, which helps tell them apart from the round-nucleated lymphocytes.",
+   "clinical": [
+    [
+     "Neutropenia (low neutrophil count)",
+     "A neutrophil count below about 1,500/mm3 (neutropenia) leaves the body vulnerable to serious bacterial infection, and the risk rises as the count falls."
+    ],
+    [
+     "High eosinophil count (eosinophilia)",
+     "A high eosinophil count is typical of parasitic worm infections and of allergic disorders such as asthma."
+    ]
+   ],
+   "histology": [
+    "blood"
+   ]
+  },
+  "Agranulocytes": {
+   "description": "Agranulocytes are white blood cells without the conspicuous granules of granulocytes. Lymphocytes in this group include T cells and B cells, which drive the adaptive immune response, and natural killer cells, which destroy virus-infected and tumour cells. Monocytes, the largest white blood cells, become macrophages once they leave the blood for the tissues.",
+   "clinical": [
+    [
+     "Infectious mononucleosis",
+     "Infectious mononucleosis, most often caused by Epstein-Barr virus, produces a large rise in atypical lymphocytes, which are large, activated T cells."
+    ],
+    [
+     "Chronic lymphocytic leukaemia",
+     "Chronic lymphocytic leukaemia is a cancer in which clonal B lymphocytes that look like small lymphocytes accumulate in the blood, marrow and lymph nodes."
+    ]
+   ],
+   "histology": [
+    "blood"
+   ]
+  },
+  "Clot": {
+   "clinical": [
+    [
+     "Thrombosis",
+     "A clot that forms inside an intact vessel is a thrombosis; in a deep leg vein it causes deep vein thrombosis, and a fragment that breaks off and lodges in the lungs causes a pulmonary embolism."
+    ],
+    [
+     "Haemophilia",
+     "In haemophilia, a missing clotting factor (VIII or IX) means too little thrombin is generated to convert fibrinogen into fibrin, so clots form slowly and bleeding lasts longer."
+    ]
+   ]
+  },
+  "Plasma": {
+   "description": "Plasma is the straw-coloured liquid that makes up about 55% of blood volume and carries the blood cells and platelets. It is mostly water, with dissolved proteins such as albumin and fibrinogen, electrolytes, nutrients, hormones and waste products.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Low plasma albumin",
+     "Low plasma albumin (hypoalbuminaemia), seen in liver disease, nephrotic syndrome and malnutrition, weakens the osmotic pull that keeps fluid inside vessels, so fluid leaks into the tissues as oedema."
+    ]
+   ]
+  }
+ }
+}

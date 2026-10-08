@@ -1,0 +1,190 @@
+{
+ "schema": 1,
+ "model_id": "cornea",
+ "tree": [
+  {
+   "path": [
+    "Layers of the cornea",
+    "Outer surface"
+   ],
+   "groups": [
+    "Epithelium"
+   ]
+  },
+  {
+   "path": [
+    "Layers of the cornea",
+    "Just under the surface"
+   ],
+   "groups": [
+    "Anterior cornea"
+   ]
+  },
+  {
+   "path": [
+    "Layers of the cornea",
+    "Thick middle"
+   ],
+   "groups": [
+    "Stroma"
+   ]
+  },
+  {
+   "path": [
+    "Layers of the cornea",
+    "Back surface"
+   ],
+   "groups": [
+    "Posterior cornea"
+   ]
+  },
+  {
+   "path": [
+    "Edge and drainage",
+    "Where cornea meets sclera"
+   ],
+   "groups": [
+    "Limbus"
+   ]
+  },
+  {
+   "path": [
+    "Edge and drainage",
+    "Where fluid drains"
+   ],
+   "groups": [
+    "Drainage angle"
+   ]
+  },
+  {
+   "path": [
+    "Nerves"
+   ],
+   "groups": [
+    "Nerves"
+   ]
+  }
+ ],
+ "titles": {
+  "Epithelium": "Epithelium (outer surface)",
+  "Limbus": "Limbus (edge of the cornea)",
+  "Anterior cornea": "Bowman layer and basement membrane",
+  "Stroma": "Stroma (thick middle layer)",
+  "Posterior cornea": "Back of the cornea",
+  "Drainage angle": "Drainage angle",
+  "Nerves": "Corneal nerves"
+ },
+ "groups": {
+  "Epithelium": {
+   "clinical": [
+    [
+     "Dry eye",
+     "An unstable tear film leaves the surface cells dry and speckled with tiny erosions, which causes stinging and blurred vision."
+    ],
+    [
+     "Corneal abrasion",
+     "Basal cells divide and slide across the wound to refill the gap, so a small scratch on the surface usually heals within a few days."
+    ]
+   ],
+   "histology": [
+    "strat_squamous_nk",
+    "cornea"
+   ]
+  },
+  "Limbus": {
+   "description": "The limbus is the narrow ring where the clear cornea meets the white sclera. Here the epithelium thickens, and the limbal stem cells, tucked between ridges of tissue called palisades of Vogt, keep renewing the corneal surface. Nearby, the conjunctiva's goblet cells make mucin for the tear film, and blood vessels run around the rim.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Limbal stem cell deficiency",
+     "If these stem cells are lost, for example after a chemical burn, the surface is taken over by conjunctiva-like tissue with blood vessels, which clouds the cornea."
+    ],
+    [
+     "Pterygium",
+     "A wedge of conjunctiva grows over the limbus onto the cornea, most often in people with long-term sun exposure."
+    ]
+   ],
+   "histology": [
+    "eye"
+   ]
+  },
+  "Anterior cornea": {
+   "description": "Directly under the surface cells lies the epithelial basement membrane, which anchors them firmly in place. Below it, Bowman layer is a thin, cell-free sheet of collagen that does not regenerate, so injuries that reach it heal with a scar.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Recurrent corneal erosion",
+     "When the basement membrane is loose, as in basement membrane dystrophy, the surface cells peel away, often on waking, causing sharp pain."
+    ],
+    [
+     "Laser eye surgery (PRK)",
+     "PRK removes the surface cells and then reshapes the cornea by lasering Bowman layer and some of the stroma beneath it."
+    ]
+   ],
+   "histology": [
+    "cornea"
+   ]
+  },
+  "Stroma": {
+   "clinical": [
+    [
+     "Corneal scarring",
+     "After injury, keratocytes turn into repair cells that lay down disordered collagen, so the scar is cloudy rather than clear."
+    ],
+    [
+     "Macular corneal dystrophy",
+     "An inherited fault in keratan sulphate processing causes abnormal deposits that cloud the stroma."
+    ]
+   ],
+   "histology": [
+    "cornea"
+   ]
+  },
+  "Posterior cornea": {
+   "description": "The back surface of the cornea faces the inside of the eye. It is lined by Descemet membrane, a basement membrane made by the endothelium, and a single layer of endothelial cells sits on the inner side of that membrane. The endothelium pumps fluid out of the stroma to keep it dehydrated and clear, so when these cells are lost the cornea swells and clouds. A thin collagen layer named after Dua lies between the stroma and Descemet membrane, though some experts doubt it is a separate layer.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Fuchs endothelial dystrophy",
+     "The endothelium slowly declines and Descemet membrane thickens with wart-like bumps called guttae, which typically cause blurred vision on waking."
+    ],
+    [
+     "Bullous keratopathy",
+     "When the endothelium can no longer pump fluid out, the stroma swells and painful blisters form on the surface of the cornea."
+    ]
+   ],
+   "histology": [
+    "cornea"
+   ]
+  },
+  "Drainage angle": {
+   "description": "The drainage angle is the narrow corner where the iris meets the cornea and sclera, and it is the main exit route for aqueous humour, the fluid that nourishes the front of the eye. Fluid filters through the trabecular meshwork, a porous sieve of tissue whose front edge is marked by Schwalbe line, and then enters Schlemm canal, a ring-shaped channel. From there it drains through collector channels into small veins that run through and just outside the sclera.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Primary open-angle glaucoma",
+     "Resistance to outflow through the trabecular meshwork raises eye pressure, which slowly damages the optic nerve."
+    ],
+    [
+     "Angle-closure glaucoma",
+     "If the iris blocks the drainage angle, fluid cannot leave the eye, and pressure can rise suddenly, causing severe pain and redness."
+    ]
+   ],
+   "histology": [
+    "eye"
+   ]
+  },
+  "Nerves": {
+   "clinical": [
+    [
+     "Neurotrophic keratopathy",
+     "Damage to the trigeminal nerve (its ophthalmic branch) leaves the cornea numb, so the surface epithelium heals poorly and can break down."
+    ],
+    [
+     "Laser eye surgery (LASIK)",
+     "The corneal flap cut severs corneal nerves, so sensation and tear production fall for months until the nerves regrow."
+    ]
+   ]
+  }
+ }
+}

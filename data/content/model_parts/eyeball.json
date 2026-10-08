@@ -1,0 +1,286 @@
+{
+ "schema": 1,
+ "model_id": "eyeball",
+ "tree": [
+  {
+   "path": [
+    "Eyeball wall",
+    "Outer layer"
+   ],
+   "groups": [
+    "Fibrous tunic"
+   ]
+  },
+  {
+   "path": [
+    "Eyeball wall",
+    "Middle layer"
+   ],
+   "groups": [
+    "Vascular tunic (uvea)"
+   ]
+  },
+  {
+   "path": [
+    "Eyeball wall",
+    "Inner layer"
+   ],
+   "groups": [
+    "Nervous tunic (retina)"
+   ]
+  },
+  {
+   "path": [
+    "Inside the eye",
+    "Focusing"
+   ],
+   "groups": [
+    "Lens & zonule"
+   ]
+  },
+  {
+   "path": [
+    "Inside the eye",
+    "Fluid-filled chambers"
+   ],
+   "groups": [
+    "Anterior segment (aqueous humor)",
+    "Posterior segment (vitreous chamber)"
+   ]
+  },
+  {
+   "path": [
+    "Nerve and blood supply"
+   ],
+   "groups": [
+    "Optic nerve & vessels"
+   ]
+  },
+  {
+   "path": [
+    "Eye movement"
+   ],
+   "groups": [
+    "Extrinsic eye muscles"
+   ]
+  },
+  {
+   "path": [
+    "Eyelids and tear film",
+    "Eyelids"
+   ],
+   "groups": [
+    "Eyelids"
+   ]
+  },
+  {
+   "path": [
+    "Eyelids and tear film",
+    "Conjunctiva"
+   ],
+   "groups": [
+    "Conjunctiva"
+   ]
+  },
+  {
+   "path": [
+    "Eyelids and tear film",
+    "Tear production and drainage"
+   ],
+   "groups": [
+    "Lacrimal apparatus"
+   ]
+  }
+ ],
+ "titles": {
+  "Fibrous tunic": "Sclera and cornea",
+  "Vascular tunic (uvea)": "Uvea (iris, ciliary body and choroid)",
+  "Nervous tunic (retina)": "Retina",
+  "Lens & zonule": "Lens and suspensory ligaments",
+  "Anterior segment (aqueous humor)": "Aqueous humour chambers",
+  "Posterior segment (vitreous chamber)": "Vitreous body",
+  "Optic nerve & vessels": "Optic nerve and retinal vessels",
+  "Extrinsic eye muscles": "Eye muscles",
+  "Eyelids": "Eyelids",
+  "Conjunctiva": "Conjunctiva",
+  "Lacrimal apparatus": "Tear gland and tear drainage"
+ },
+ "groups": {
+  "Fibrous tunic": {
+   "description": "The sclera is the tough white outer wall of the eyeball, made of dense irregular connective tissue rich in type I collagen. The cornea at the front is the clear, avascular window that provides most of the eye's refracting power. At the corneoscleral edge, the trabecular meshwork drains aqueous humour into the canal of Schlemm.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Glaucoma",
+     "Raised pressure inside the eye, usually from reduced outflow of aqueous humour through the trabecular meshwork, can damage the optic nerve. Open-angle glaucoma often causes slow loss of peripheral vision without pain."
+    ],
+    [
+     "Corneal scarring",
+     "Infection, injury or dystrophy can leave the cornea cloudy and blur vision. A corneal transplant (keratoplasty) can restore clarity when scarring is severe."
+    ]
+   ],
+   "histology": [
+    "cornea",
+    "dense_irregular"
+   ]
+  },
+  "Vascular tunic (uvea)": {
+   "description": "The uvea is the pigmented, blood-rich middle layer of the eyeball. The choroid at the back nourishes the outer retina. The ciliary body makes aqueous humour, and its ciliary muscle changes the shape of the lens for focusing, while the iris changes pupil size to control how much light enters.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Uveitis",
+     "Inflammation of the uvea causes eye pain, redness and light sensitivity, and needs prompt treatment to protect vision."
+    ],
+    [
+     "Acute angle-closure glaucoma",
+     "The peripheral iris can bow forward and block the drainage angle, causing a sudden rise in eye pressure with severe pain, headache, nausea and a red eye. It is an emergency."
+    ]
+   ],
+   "histology": [
+    "eye"
+   ]
+  },
+  "Nervous tunic (retina)": {
+   "description": "The retina is the light-sensitive inner layer lining the back of the eye. Rods and cones convert light into nerve signals that pass through bipolar and ganglion cells, whose axons leave the eye as the optic nerve. The macula and fovea give sharp central vision, and the optic disc, where the nerve leaves, has no photoreceptors and forms the blind spot.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Retinal detachment",
+     "The neural retina can separate from the pigment layer beneath it, causing flashes, floaters and a curtain-like shadow over vision. It is an emergency needing urgent treatment."
+    ],
+    [
+     "Age-related macular degeneration",
+     "Degeneration of the macula, mostly in people over 50, damages the central vision needed for reading and recognising faces, while peripheral vision is usually preserved."
+    ]
+   ],
+   "histology": [
+    "retina"
+   ]
+  },
+  "Lens & zonule": {
+   "description": "The lens is a transparent, flexible, biconvex body behind the iris that focuses light onto the retina. Zonular fibres hold it in place around the ciliary body; when the ciliary muscle contracts, the zonules slacken and the lens becomes rounder for near vision.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Cataract",
+     "Clouding of the lens causes gradual, painless blurring and glare. Surgery replacing the cloudy lens with an artificial one is one of the most common operations worldwide."
+    ],
+    [
+     "Lens displacement in Marfan syndrome",
+     "Marfan syndrome, caused by fibrillin-1 defects, weakens the zonular fibres so the lens can shift, most often upwards (ectopia lentis)."
+    ]
+   ],
+   "histology": [
+    "eye"
+   ]
+  },
+  "Anterior segment (aqueous humor)": {
+   "description": "Aqueous humour is a clear watery fluid made by the ciliary processes. It fills the anterior chamber in front of the iris and the posterior chamber behind it, nourishes the avascular cornea and lens, and leaves the eye mainly through the trabecular meshwork.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Hypopyon",
+     "Pus collecting in the anterior chamber, seen in severe eye infection or inflammation, forms a visible level at the bottom of the chamber."
+    ],
+    [
+     "Blocked aqueous drainage",
+     "Aqueous humour is made continuously by the ciliary processes; if its outflow is blocked, pressure rises and glaucoma can result."
+    ]
+   ],
+   "histology": [
+    "eye"
+   ]
+  },
+  "Posterior segment (vitreous chamber)": {
+   "description": "The vitreous body is a clear, gel-like mass, about 4 mL, that fills the large space behind the lens. It is mostly water held in a fine collagen and hyaluronan network, and it helps keep the retina flat against the back of the eye.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Posterior vitreous detachment",
+     "With age the vitreous liquefies and can pull away from the retina, causing new floaters and flashes of light. It is usually harmless, but occasionally it tears the retina, which needs checking."
+    ]
+   ],
+   "histology": [
+    "eye"
+   ]
+  },
+  "Optic nerve & vessels": {
+   "clinical": [
+    [
+     "Optic neuritis",
+     "Inflammation of the optic nerve causes pain on eye movement and blurred or dimmed vision, often in one eye. It can be an early sign of multiple sclerosis."
+    ],
+    [
+     "Central retinal artery occlusion",
+     "A blocked central retinal artery causes sudden, painless loss of vision in one eye; the retina often looks pale, with a cherry-red spot at the macula. It is an emergency."
+    ]
+   ]
+  },
+  "Extrinsic eye muscles": {
+   "description": "Six extraocular muscles move each eyeball: four rectus muscles and two oblique muscles, all supplied by cranial nerves III, IV and VI. The recti arise from the common tendinous ring at the back of the orbit, and the superior oblique tendon passes through the trochlea, a pulley on the orbit's upper inner wall. Also included is the levator palpebrae superioris, which lifts the upper eyelid.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Cranial nerve palsy",
+     "Damage to cranial nerve III, IV or VI weakens the muscles it supplies, causing double vision. For example, a sixth-nerve palsy stops the lateral rectus turning the eye outward."
+    ],
+    [
+     "Strabismus",
+     "Misalignment of the eyes, which can result from imbalance between these muscles, stops the two eyes fixing on the same point and can lead to amblyopia if untreated in childhood."
+    ]
+   ],
+   "histology": [
+    "skeletal_muscle"
+   ]
+  },
+  "Eyelids": {
+   "clinical": [
+    [
+     "Ptosis",
+     "Drooping of the upper eyelid, from weakness of levator palpebrae superioris or damage to cranial nerve III, can partly block vision."
+    ],
+    [
+     "Chalazion",
+     "A blocked meibomian gland forms a painless lump in the eyelid, called a chalazion."
+    ]
+   ],
+   "histology": [
+    "eye",
+    "thin_skin"
+   ]
+  },
+  "Conjunctiva": {
+   "description": "The conjunctiva is a thin, transparent mucous membrane that lines the inside of the eyelids and folds back over the white of the eye, forming recesses called fornices. Goblet cells in it make mucus for the tear film, and it ends at the limbus, where the clear cornea begins.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Conjunctivitis",
+     "Inflammation of the conjunctiva makes the eye red and sticky or watery. Most cases are viral or allergic and settle on their own, though bacterial infection may need antibiotic drops."
+    ],
+    [
+     "Pterygium",
+     "A wedge-shaped fold of fibrovascular tissue growing from the bulbar conjunctiva can spread onto the cornea, usually from the nasal side, and is linked to long-term sun exposure."
+    ]
+   ],
+   "histology": [
+    "strat_cub_col",
+    "strat_squamous_nk"
+   ]
+  },
+  "Lacrimal apparatus": {
+   "description": "The lacrimal gland, in the upper outer part of the orbit, makes the watery layer of tears. Tears spread across the eye with each blink and drain through the puncta, canaliculi, lacrimal sac and nasolacrimal duct into the nose.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Dry eye",
+     "Reduced or poor-quality tears leave the eye dry, gritty and irritated. Causes include ageing, some medicines and autoimmune disease such as Sjögren syndrome, which also damages the lacrimal gland."
+    ],
+    [
+     "Blocked tear drainage",
+     "A blocked nasolacrimal duct causes watering of the eye and can lead to infection of the lacrimal sac. Blockage is common in newborns and often clears within the first year."
+    ]
+   ]
+  }
+ }
+}

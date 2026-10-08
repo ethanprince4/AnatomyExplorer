@@ -1,0 +1,100 @@
+{
+ "schema": 1,
+ "model_id": "thyroid_parathyroid_review_v2",
+ "tree": [
+  {
+   "path": [
+    "Thyroid gland"
+   ],
+   "groups": [
+    "Thyroid follicles"
+   ]
+  },
+  {
+   "path": [
+    "Thyroid gland",
+    "Support and blood supply"
+   ],
+   "groups": [
+    "Capsule & stroma",
+    "Thyroid vessels"
+   ]
+  },
+  {
+   "path": [
+    "Parathyroid gland"
+   ],
+   "groups": [
+    "Parathyroid specimen"
+   ]
+  }
+ ],
+ "titles": {
+  "Thyroid follicles": "Thyroid follicles",
+  "Capsule & stroma": "Capsule and supporting tissue",
+  "Thyroid vessels": "Thyroid blood supply",
+  "Parathyroid specimen": "Parathyroid tissue"
+ },
+ "groups": {
+  "Thyroid follicles": {
+   "description": "Thyroid follicles are hollow spheres lined by a single layer of follicular cells and filled with colloid, a thyroglobulin-rich store where thyroid hormones are made and kept. The follicular cells take colloid back in by endocytosis, break it down and release T3 and T4 into the blood. Parafollicular C cells, found between the follicles, make calcitonin instead of thyroid hormone.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Graves disease",
+     "In Graves disease, antibodies that stimulate the TSH receptor make the follicular cells grow and overproduce hormone. The follicles then show tall cells, and the colloid often has scalloped edges where the cells have taken it back in."
+    ],
+    [
+     "Hashimoto thyroiditis",
+     "In Hashimoto thyroiditis the immune system attacks the gland, with lymphocytes infiltrating the tissue and destroying follicles, so the gland often becomes underactive."
+    ]
+   ],
+   "histology": [
+    "thyroid"
+   ]
+  },
+  "Capsule & stroma": {
+   "description": "A fibrous capsule wraps the thyroid and sends thin septa into the gland. Fine reticular connective tissue fills the spaces between follicles, holding them in place and carrying blood vessels and nerves.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Riedel thyroiditis",
+     "Riedel thyroiditis is a rare condition in which dense fibrous tissue replaces normal thyroid tissue and can spread into the neck around the gland. The thyroid then feels hard and woody and may press on nearby structures."
+    ]
+   ],
+   "histology": [
+    "thyroid"
+   ]
+  },
+  "Thyroid vessels": {
+   "description": "The thyroid is richly supplied with blood by the superior and inferior thyroid arteries, and a dense capillary network surrounds each follicle. Blood leaves through the thyroid veins, carrying released hormones into the circulation.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Risk to the voice nerve in thyroid surgery",
+     "The inferior thyroid artery runs close to the recurrent laryngeal nerve, which controls most of the voice box muscles. Surgeons take care when they tie off this artery during thyroid surgery, because nerve injury can cause a hoarse voice."
+    ]
+   ],
+   "histology": [
+    "thyroid"
+   ]
+  },
+  "Parathyroid specimen": {
+   "description": "The parathyroid glands are usually four small glands lying behind the thyroid. They make parathyroid hormone (PTH), which raises blood calcium, and their cells form solid cords and clusters rather than fluid-filled follicles. Most cells are chief cells, which make PTH; oxyphil cells are larger and rich in mitochondria, and their exact function is not well understood.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Primary hyperparathyroidism",
+     "Most cases are caused by a single benign tumor (adenoma) of parathyroid cells that makes too much PTH. The excess hormone raises blood calcium, which can lead to kidney stones and bone loss."
+    ],
+    [
+     "Low calcium after thyroid surgery",
+     "The parathyroid glands lie behind the thyroid, so they can be damaged or removed during thyroid surgery. Without enough PTH, blood calcium falls, which causes tingling and muscle cramps."
+    ]
+   ],
+   "histology": [
+    "parathyroid"
+   ]
+  }
+ }
+}

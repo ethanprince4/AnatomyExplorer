@@ -1,0 +1,162 @@
+{
+ "schema": 1,
+ "model_id": "colon_wall",
+ "tree": [
+  {
+   "path": [
+    "Mucosa",
+    "Lining"
+   ],
+   "groups": [
+    "Epithelium"
+   ]
+  },
+  {
+   "path": [
+    "Mucosa",
+    "Connective tissue"
+   ],
+   "groups": [
+    "Mucosa"
+   ]
+  },
+  {
+   "path": [
+    "Mucosa",
+    "Immune tissue"
+   ],
+   "groups": [
+    "Lymphoid tissue"
+   ]
+  },
+  {
+   "path": [
+    "Submucosa"
+   ],
+   "groups": [
+    "Submucosa"
+   ]
+  },
+  {
+   "path": [
+    "Muscle layers"
+   ],
+   "groups": [
+    "Muscularis externa"
+   ]
+  },
+  {
+   "path": [
+    "Outer covering"
+   ],
+   "groups": [
+    "Serosa"
+   ]
+  },
+  {
+   "path": [
+    "Close-ups"
+   ],
+   "groups": [
+    "Cell detail (8×)"
+   ]
+  }
+ ],
+ "titles": {
+  "Epithelium": "Lining cells (epithelium)",
+  "Mucosa": "Connective tissue, small vessels and muscularis mucosae",
+  "Lymphoid tissue": "Lymphoid follicle",
+  "Submucosa": "Connective tissue, vessels and nerve plexus",
+  "Muscularis externa": "Muscle coats and nerve plexus",
+  "Serosa": "Outer covering (serosa)",
+  "Cell detail (8×)": "Cell close-ups (magnified 8×)"
+ },
+ "groups": {
+  "Epithelium": {
+   "description": "The colon is lined by a single layer of tall absorptive cells (colonocytes) interspersed with many mucus-secreting goblet cells. It has no villi, so the surface is flat and pitted by the openings of straight crypts, where stem cells at the base constantly replace the lining.",
+   "clinical": [
+    [
+     "Colorectal cancer",
+     "Most colorectal cancers develop from adenomatous polyps in this lining. Loss of the APC gene is usually an early step, which switches on Wnt signalling in the crypt cells."
+    ]
+   ],
+   "histology": [
+    "colon",
+    "simple_columnar"
+   ]
+  },
+  "Mucosa": {
+   "description": "The lamina propria is the loose connective tissue packed between the crypts, rich in immune cells and capillaries. Arterioles and venules run through it, and the thin muscularis mucosae at its base separates the mucosa from the submucosa.",
+   "clinical": [
+    [
+     "Ulcerative colitis",
+     "In ulcerative colitis, inflammation is confined to the mucosa and usually starts in the rectum, spreading continuously upward. The lamina propria fills with neutrophils and plasma cells, and neutrophils that invade the crypts form crypt abscesses."
+    ]
+   ],
+   "histology": [
+    "colon",
+    "loose_ct"
+   ]
+  },
+  "Lymphoid tissue": {
+   "clinical": [
+    [
+     "Enlarged follicles",
+     "Solitary lymphoid follicles in the colon are normal parts of the gut immune system, but they can swell (lymphoid hyperplasia) during infection."
+    ]
+   ],
+   "histology": [
+    "colon",
+    "appendix"
+   ]
+  },
+  "Submucosa": {
+   "clinical": [
+    [
+     "Hirschsprung disease",
+     "The submucosal (Meissner) plexus is also missing from the aganglionic distal segment in Hirschsprung disease, so that part of the bowel cannot relax and the bowel above it dilates."
+    ]
+   ],
+   "histology": [
+    "colon",
+    "dense_irregular"
+   ]
+  },
+  "Muscularis externa": {
+   "description": "The muscle coat of the colon wall has two layers. The inner circular layer narrows the lumen, while the outer longitudinal layer shortens the colon and is gathered into three bands, the taeniae coli. The myenteric (Auerbach's) plexus, a network of nerve ganglia, lies between the two layers and coordinates their contractions.",
+   "clinical": [
+    [
+     "Diverticular disease",
+     "Diverticula (pouches) form where the mucosa and submucosa bulge outward through weak spots in the muscle coat where blood vessels pierce it, most often in the sigmoid colon."
+    ],
+    [
+     "Hirschsprung disease",
+     "In Hirschsprung disease the distal bowel lacks ganglion cells in the myenteric (Auerbach) plexus, so this segment cannot relax and the bowel above it dilates; it often presents in newborns with delayed passage of meconium."
+    ]
+   ],
+   "histology": [
+    "colon",
+    "smooth_muscle"
+   ]
+  },
+  "Serosa": {
+   "clinical": [
+    [
+     "Peritonitis",
+     "Perforation of the colon, for example from diverticulitis or a tumour, lets faeces spill into the peritoneal cavity, which this serosa lines, and causes peritonitis."
+    ]
+   ],
+   "histology": [
+    "serosa",
+    "simple_squamous"
+   ]
+  },
+  "Cell detail (8×)": {
+   "description": "This close-up shows the cells of the colon wall at 8 times magnification. Colonocytes and goblet cells rest on a basement membrane, beneath which lie the lamina propria's fibroblasts, capillaries and red blood cells. In a goblet cell the nucleus is pushed down to the broad base, and the upper cell is filled with a rounded mucin mass made of granules about 1 micrometre across.",
+   "histology": [
+    "colon",
+    "simple_columnar"
+   ]
+  }
+ }
+}

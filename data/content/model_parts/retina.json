@@ -1,0 +1,164 @@
+{
+ "schema": 1,
+ "model_id": "retina",
+ "tree": [
+  {
+   "path": [
+    "Outer wall of the eye"
+   ],
+   "groups": [
+    "Choroid & sclera"
+   ]
+  },
+  {
+   "path": [
+    "Layers of the retina",
+    "Outer layers"
+   ],
+   "groups": [
+    "Outer retina"
+   ]
+  },
+  {
+   "path": [
+    "Layers of the retina",
+    "Nerve cell layers"
+   ],
+   "groups": [
+    "Neural retina layers"
+   ]
+  },
+  {
+   "path": [
+    "Layers of the retina",
+    "Cell types"
+   ],
+   "groups": [
+    "Retinal neurons & glia"
+   ]
+  },
+  {
+   "path": [
+    "Inner surface"
+   ],
+   "groups": [
+    "Inner limiting membrane & vitreous"
+   ]
+  },
+  {
+   "path": [
+    "Blood supply"
+   ],
+   "groups": [
+    "Retinal vessels"
+   ]
+  }
+ ],
+ "titles": {
+  "Choroid & sclera": "Sclera and choroid",
+  "Outer retina": "Rods, cones and pigment layer",
+  "Neural retina layers": "Nerve cell and fibre layers",
+  "Retinal neurons & glia": "Connecting nerve cells and Müller glia",
+  "Inner limiting membrane & vitreous": "Inner limiting membrane and vitreous",
+  "Retinal vessels": "Retinal blood vessels"
+ },
+ "groups": {
+  "Choroid & sclera": {
+   "description": "The sclera is the tough white outer wall of the eyeball, made of dense collagen that continues with the optic nerve sheath behind and the cornea in front. Behind the retina, the choroid is a pigmented, highly vascular layer that supplies the outer retina through its inner capillary bed, the choriocapillaris, which sits against Bruch membrane.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Uveal melanoma",
+     "The choroid is the most common site of uveal melanoma, the most common primary cancer inside the eye in adults. The tumour grows from melanocytes in this pigmented layer."
+    ],
+    [
+     "Wet age-related macular degeneration",
+     "New vessels grow from the choriocapillaris through a break in Bruch membrane and leak fluid and blood beneath the macula. Anti-VEGF injections are the standard treatment."
+    ]
+   ],
+   "histology": [
+    "eye",
+    "dense_irregular"
+   ]
+  },
+  "Outer retina": {
+   "description": "The outer retina is the light-sensing region. The retinal pigment epithelium absorbs stray light and recycles the pigment that photoreceptors use, while rods and cones have outer segments packed with light-sensitive pigment. Rods work in dim light, and cones give colour vision and sharp detail in bright light.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Retinitis pigmentosa",
+     "In this inherited condition, rods die first, causing night blindness and loss of peripheral vision, and cones are lost later."
+    ],
+    [
+     "Age-related macular degeneration",
+     "With ageing, waste (lipofuscin) builds up in the pigment epithelium and drusen form beneath it. In dry AMD, the pigment layer and overlying photoreceptors of the macula slowly waste away, causing central vision loss."
+    ]
+   ],
+   "histology": [
+    "retina"
+   ]
+  },
+  "Neural retina layers": {
+   "description": "The neural retina is built from stacked layers of nerve cell bodies, separated by layers where synapses form. Signals pass from photoreceptors through bipolar cells to ganglion cells, whose axons form the nerve fibre layer and leave the eye as the optic nerve.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Glaucoma",
+     "Glaucoma causes progressive loss of retinal ganglion cells and thinning of the nerve fibre layer, producing characteristic blind spots in the visual field."
+    ],
+    [
+     "Diabetic macular oedema",
+     "Leaking capillaries in diabetes cause fluid to collect in the macula, mainly in the inner nuclear and outer plexiform layers, which blurs central vision."
+    ]
+   ],
+   "histology": [
+    "retina"
+   ]
+  },
+  "Retinal neurons & glia": {
+   "clinical": [
+    [
+     "Congenital night blindness",
+     "Some inherited forms of congenital night blindness are caused by GRM6 mutations, which disable the mGluR6 receptor that ON bipolar cells need to receive rod and cone signals."
+    ]
+   ],
+   "histology": [
+    "retina"
+   ]
+  },
+  "Retinal vessels": {
+   "description": "The inner retina has its own blood supply from the central retinal artery, whose branches run in the nerve fibre layer and are end arteries, so each branch supplies its own territory. The superficial and deep capillary beds feed the inner layers, while the outer retina depends on the choroid instead.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Central retinal artery occlusion",
+     "Retinal arteries are end arteries with no backup supply, so a blocked central retinal artery causes sudden, painless loss of vision in one eye."
+    ],
+    [
+     "Diabetic retinopathy",
+     "High blood sugar damages the pericytes that support retinal capillaries, causing microaneurysms, leakage and capillary dropout in the superficial and deep plexuses."
+    ]
+   ],
+   "histology": [
+    "retina"
+   ]
+  },
+  "Inner limiting membrane & vitreous": {
+   "description": "The inner limiting membrane is the thin basement membrane made by the end-feet of Müller cells, forming the boundary between the retina and the vitreous. The vitreous body is a clear gel of collagen fibrils and hyaluronan that fills the eye in front of the retina and is attached most firmly at the optic disc, the macula and the vitreous base.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Posterior vitreous detachment",
+     "With age the vitreous gel can pull away from the retina, causing flashes and floaters. Sometimes the pull tears the retina, which can lead to retinal detachment."
+    ],
+    [
+     "Macular hole and epiretinal membrane surgery",
+     "Eye surgeons peel the inner limiting membrane during vitrectomy to close macular holes and remove scar membranes that pull on the macula."
+    ]
+   ],
+   "histology": [
+    "retina"
+   ]
+  }
+ }
+}

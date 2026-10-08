@@ -1,0 +1,173 @@
+{
+ "schema": 1,
+ "model_id": "ileum",
+ "tree": [
+  {
+   "path": [
+    "Gut wall",
+    "Outer layers"
+   ],
+   "groups": [
+    "Serosa & muscularis externa"
+   ]
+  },
+  {
+   "path": [
+    "Gut wall",
+    "Middle layer"
+   ],
+   "groups": [
+    "Submucosa"
+   ]
+  },
+  {
+   "path": [
+    "Gut wall",
+    "Inner layer"
+   ],
+   "groups": [
+    "Mucosa"
+   ]
+  },
+  {
+   "path": [
+    "Gut wall",
+    "Blood and nerve supply"
+   ],
+   "groups": [
+    "Nerves & vessels"
+   ]
+  },
+  {
+   "path": [
+    "Villi and crypts"
+   ],
+   "groups": [
+    "Villi",
+    "Cellular epithelium"
+   ]
+  },
+  {
+   "path": [
+    "Immune tissue"
+   ],
+   "groups": [
+    "Lymphoid cellular regions"
+   ]
+  }
+ ],
+ "titles": {
+  "Serosa & muscularis externa": "Serosa and muscle layers",
+  "Submucosa": "Submucosa",
+  "Mucosa": "Mucosa support layers",
+  "Nerves & vessels": "Nerves and vessels",
+  "Villi": "Villi",
+  "Lymphoid cellular regions": "Peyer's patches",
+  "Cellular epithelium": "Gut lining cells"
+ },
+ "groups": {
+  "Serosa & muscularis externa": {
+   "clinical": [
+    [
+     "Peritonitis",
+     "Peritonitis is inflammation of the peritoneum, the serosa that covers the bowel. It follows bowel perforation or spreading infection and causes severe abdominal pain and tenderness, and it usually needs urgent treatment."
+    ],
+    [
+     "Adhesions",
+     "Fibrous bands can form between serosal surfaces after abdominal surgery or infection. They can twist or block the small bowel, causing obstruction."
+    ]
+   ],
+   "histology": [
+    "serosa",
+    "smooth_muscle"
+   ]
+  },
+  "Submucosa": {
+   "clinical": [
+    [
+     "Anastomotic leak",
+     "Surgeons place sutures through the submucosa at a bowel join (an anastomosis) because it is the strongest layer and holds stitches best. A leak at that join is a serious complication."
+    ]
+   ],
+   "histology": [
+    "dense_irregular",
+    "ileum"
+   ]
+  },
+  "Mucosa": {
+   "clinical": [
+    [
+     "Coeliac disease",
+     "In coeliac disease, an immune reaction to gluten fills the lamina propria with lymphocytes and plasma cells, and the villi flatten. Absorption falls, causing weight loss, diarrhoea and anaemia."
+    ]
+   ],
+   "histology": [
+    "ileum",
+    "loose_ct"
+   ]
+  },
+  "Nerves & vessels": {
+   "clinical": [
+    [
+     "Hirschsprung disease",
+     "In Hirschsprung disease, the myenteric and submucosal plexuses fail to form in a segment of bowel, so that segment stays constricted and the bowel above it swells. It usually presents in newborns who fail to pass meconium."
+    ],
+    [
+     "Mesenteric ischaemia",
+     "The ileum is fed by branches of the superior mesenteric artery. If that artery is blocked, for example by a clot, the bowel can lose its blood supply, causing severe pain and tissue death if not treated quickly."
+    ]
+   ],
+   "histology": [
+    "ileum"
+   ]
+  },
+  "Villi": {
+   "description": "Each villus is a finger-like fold of the mucosa that greatly increases the surface area for absorption. Its core holds loose connective tissue, a central lacteal that takes up dietary fat as chylomicrons, and a fenestrated capillary network that absorbs sugars and amino acids. Strands of smooth muscle run up the core and shorten the villus, squeezing fat-rich lymph out of the lacteal.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Intestinal lymphangiectasia",
+     "Dilated or blocked lacteals let lymph and protein leak into the bowel, causing protein loss, low blood albumin and swelling of the legs. Dietary fat is also poorly absorbed because it cannot leave the villus normally."
+    ]
+   ],
+   "histology": [
+    "ileum"
+   ]
+  },
+  "Lymphoid cellular regions": {
+   "description": "Peyer's patches are clusters of lymphoid follicles in the ileal wall that help defend the gut against swallowed microbes. Active follicles contain a germinal centre, where B cells multiply and mature into IgA-producing cells, surrounded by a mantle of small lymphocytes. The subepithelial dome sits just under the lining, where specialised M cells carry antigens from the gut lumen to immune cells.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Typhoid fever",
+     "Salmonella Typhi invades the Peyer's patches, which swell, then die and ulcerate, mostly in the second and third weeks of infection. The ulcers can perforate the terminal ileum, causing peritonitis."
+    ],
+    [
+     "Crohn disease",
+     "Crohn disease often affects the terminal ileum. Its earliest lesions are small aphthous ulcers that form over lymphoid follicles such as Peyer's patches."
+    ]
+   ],
+   "histology": [
+    "ileum"
+   ]
+  },
+  "Cellular epithelium": {
+   "description": "The ileum's lining is a single layer of tall cells, mostly absorptive enterocytes whose microvilli form a brush border. Goblet cells on the villi make protective mucus, and Paneth cells at the base of the crypts release antimicrobial substances. Stem cells in the crypts replace the whole lining about every few days.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Rotavirus infection",
+     "Rotavirus infects the enterocytes near the villus tips, destroying them. This shortens the villi and causes watery diarrhoea, mainly in young children."
+    ],
+    [
+     "Lactose intolerance",
+     "Enterocytes make lactase, the brush-border enzyme that splits milk sugar. When lactase is low, undigested lactose is fermented in the colon, causing bloating, gas and diarrhoea."
+    ]
+   ],
+   "histology": [
+    "simple_columnar",
+    "ileum"
+   ]
+  }
+ }
+}

@@ -1,0 +1,282 @@
+{
+ "schema": 1,
+ "model_id": "neuron",
+ "tree": [
+  {
+   "path": [
+    "Cell body"
+   ],
+   "groups": [
+    "Neuron: cell body"
+   ]
+  },
+  {
+   "path": [
+    "Cell body",
+    "Nucleus"
+   ],
+   "groups": [
+    "Neuron: nucleus"
+   ]
+  },
+  {
+   "path": [
+    "Cell body",
+    "Organelles"
+   ],
+   "groups": [
+    "Neuron: soma organelles"
+   ]
+  },
+  {
+   "path": [
+    "Dendrites and axon"
+   ],
+   "groups": [
+    "Neuron: dendrites and axon"
+   ]
+  },
+  {
+   "path": [
+    "Dendrites and axon",
+    "Myelin"
+   ],
+   "groups": [
+    "Neuron: myelin"
+   ]
+  },
+  {
+   "path": [
+    "Dendrites and axon",
+    "Nodes of Ranvier"
+   ],
+   "groups": [
+    "Neuron: nodes of Ranvier",
+    "Neuron: node sodium channels"
+   ]
+  },
+  {
+   "path": [
+    "Dendrites and axon",
+    "Node close-up"
+   ],
+   "groups": [
+    "Node detail",
+    "Node detail: sodium channels"
+   ]
+  },
+  {
+   "path": [
+    "Synapse"
+   ],
+   "groups": [
+    "Synapse: membranes"
+   ]
+  },
+  {
+   "path": [
+    "Synapse",
+    "Presynaptic side"
+   ],
+   "groups": [
+    "Synapse: bouton contents",
+    "Synapse: release site",
+    "Synapse: calcium channels"
+   ]
+  },
+  {
+   "path": [
+    "Synapse",
+    "Postsynaptic side"
+   ],
+   "groups": [
+    "Synapse: postsynaptic side",
+    "Synapse: AMPA receptors"
+   ]
+  }
+ ],
+ "titles": {
+  "Neuron: cell body": "Cell body (soma)",
+  "Neuron: nucleus": "Nuclear envelope and nucleolus",
+  "Neuron: soma organelles": "Rough ER, Golgi and mitochondria",
+  "Neuron: dendrites and axon": "Dendrites, axon and terminals",
+  "Neuron: myelin": "Myelin sheath",
+  "Neuron: nodes of Ranvier": "Gaps in the myelin",
+  "Neuron: node sodium channels": "Sodium channels at the nodes",
+  "Node detail": "Node of Ranvier, close-up",
+  "Node detail: sodium channels": "Sodium channels, close-up",
+  "Synapse: membranes": "Membranes on each side",
+  "Synapse: bouton contents": "Inside the axon terminal",
+  "Synapse: release site": "Vesicle release site",
+  "Synapse: calcium channels": "Calcium channels",
+  "Synapse: postsynaptic side": "Postsynaptic density and spine",
+  "Synapse: AMPA receptors": "AMPA receptors"
+ },
+ "groups": {
+  "Neuron: cell body": {
+   "description": "The cell body, or soma, contains the nucleus and the protein-making machinery of the cell. It integrates the signals arriving from the dendrites, and the impulse is usually started just beyond it, at the axon hillock and initial segment.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Amyotrophic lateral sclerosis",
+     "In amyotrophic lateral sclerosis, motor neurons whose cell bodies lie in the motor cortex, brainstem and spinal cord gradually die. This causes progressive muscle weakness and wasting."
+    ]
+   ],
+   "histology": [
+    "spinal_cord",
+    "ganglion"
+   ]
+  },
+  "Neuron: nucleus": {
+   "histology": [
+    "spinal_cord"
+   ]
+  },
+  "Neuron: soma organelles": {
+   "description": "The rough ER, studded with ribosomes, appears as Nissl substance, which stains strongly in lab slides, and it makes membrane and secreted proteins. The Golgi apparatus packages and sorts these proteins, and the mitochondria make most of the cell's energy as ATP.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Chromatolysis after axon injury",
+     "When an axon is cut, the cell body often swells and its Nissl substance breaks up, a change called chromatolysis. This is thought to reflect a shift of the neuron's protein-making machinery toward repairing the damaged axon."
+    ],
+    [
+     "Mitochondrial disease",
+     "Mitochondrial diseases, caused by faults in the energy-making machinery of mitochondria, often affect the brain, nerves and muscles. These tissues depend heavily on energy supply, so they are commonly affected."
+    ]
+   ],
+   "histology": [
+    "spinal_cord"
+   ]
+  },
+  "Neuron: dendrites and axon": {
+   "description": "Dendrites are branching processes that receive signals from other neurons and carry them toward the cell body. The axon is a single long process that carries impulses away from the cell body, and it ends in terminals (boutons) that pass the signal on to the next cell.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Diabetic neuropathy",
+     "The longest axons, such as those running to the feet, are usually damaged first. In diabetic neuropathy this causes numbness, tingling and pain that start in the toes and feet."
+    ],
+    [
+     "Alzheimer disease",
+     "Loss of dendritic spines, the small bumps on dendrites that receive synapses, is an early change in Alzheimer disease. This loss is thought to contribute to memory problems."
+    ]
+   ],
+   "histology": [
+    "peripheral_nerve",
+    "spinal_cord"
+   ]
+  },
+  "Neuron: myelin": {
+   "description": "Myelin is a fatty insulating wrap made of many layers of glial cell membrane around the axon. Oligodendrocytes make it in the brain and spinal cord, and Schwann cells make it in peripheral nerves. Because it lets the impulse jump between nodes, conduction is much faster.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Multiple sclerosis",
+     "In multiple sclerosis the immune system attacks myelin in the brain and spinal cord, leaving scarred patches called plaques. The damaged areas slow or block nerve signals."
+    ],
+    [
+     "Guillain-Barré syndrome",
+     "In the common form of Guillain-Barré syndrome the immune system attacks the myelin of peripheral nerves, often after an infection. The resulting weakness typically spreads over days."
+    ]
+   ],
+   "histology": [
+    "peripheral_nerve",
+    "spinal_cord"
+   ]
+  },
+  "Neuron: nodes of Ranvier": {
+   "description": "Nodes of Ranvier are short gaps between the myelin segments of an axon, where the axon membrane is bare. Voltage-gated sodium channels cluster here, so the action potential is regenerated at each node and appears to jump from node to node. This jumping, called saltatory conduction, makes signals travel much faster than along an unmyelinated axon.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Acute motor axonal neuropathy",
+     "In acute motor axonal neuropathy, a form of Guillain-Barré syndrome, antibodies attack the axon membrane at the nodes of Ranvier and damage motor nerves directly. This causes weakness that can develop over days."
+    ]
+   ],
+   "histology": [
+    "peripheral_nerve"
+   ]
+  },
+  "Neuron: node sodium channels": {
+   "description": "Voltage-gated sodium channels cluster at each node of Ranvier. When the membrane depolarises they open and let sodium in, regenerating the action potential so the signal reaches the next node.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Local anaesthetics",
+     "Local anaesthetics such as lidocaine block these sodium channels. Blocking them stops impulses in that nerve, which is how a numbing injection works."
+    ],
+    [
+     "Pufferfish poison",
+     "Tetrodotoxin, a toxin found in pufferfish, blocks the same channels. It can cause paralysis because nerve impulses can no longer be generated."
+    ]
+   ]
+  },
+  "Node detail: sodium channels": {
+   "description": "NaV1.6 is one of the main sodium channels at the node of Ranvier. Its large alpha subunit forms the pore through the membrane, and a smaller beta1 subunit helps anchor the channel at the node.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "SCN8A epilepsy",
+     "Mutations in SCN8A, the gene that encodes this channel, can cause severe early-onset epilepsy with developmental delay."
+    ]
+   ]
+  },
+  "Node detail": {
+   "description": "A node of Ranvier is packed with sodium channels, and its membrane is supported by a scaffold of spectrin and actin, which ankyrin-G links to the channels. On each side the myelin ends in paranodal loops that seal against the axon and keep the channels confined to the node.",
+   "replace_part_descriptions": true
+  },
+  "Synapse: membranes": {
+   "description": "A synapse is the junction where one neuron passes a signal to another. The presynaptic side is the membrane of the axon terminal, the postsynaptic side is the membrane of a dendritic spine, and a narrow gap called the synaptic cleft separates them.",
+   "replace_part_descriptions": true
+  },
+  "Synapse: bouton contents": {
+   "description": "The axon terminal, or bouton, is packed with synaptic vesicles filled with neurotransmitter. Mitochondria supply the energy for recycling vesicles and pumping calcium, and motor proteins carry cargo such as vesicles and mitochondria along microtubules to the terminal.",
+   "replace_part_descriptions": true
+  },
+  "Synapse: release site": {
+   "description": "At the active zone, synaptic vesicles dock against the presynaptic membrane, held by protein tethers and ready to fuse. When a vesicle fuses with the membrane it releases its glutamate into the synaptic cleft, where it can reach receptors on the other side.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Botulinum toxin",
+     "Botulinum toxin, made by the bacterium Clostridium botulinum, cuts the SNARE proteins that let vesicles fuse, so the nerve cannot release its transmitter. This paralyses muscle, and purified forms are used medically to relax overactive muscles."
+    ]
+   ]
+  },
+  "Synapse: calcium channels": {
+   "description": "These are N-type (CaV2.2) voltage-gated calcium channels in the presynaptic membrane, clustered at the active zone. When an action potential arrives, calcium flows in through them and triggers synaptic vesicles to fuse and release their transmitter.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Gabapentin and pregabalin",
+     "These drugs, used for nerve pain and epilepsy, bind to the α2δ subunit of these channels. This reduces the number of channels reaching the membrane, so less calcium enters and less transmitter is released."
+    ],
+    [
+     "Ziconotide",
+     "Ziconotide, a peptide from cone snail venom, blocks N-type calcium channels. It is given into the spinal fluid to treat severe chronic pain."
+    ]
+   ]
+  },
+  "Synapse: postsynaptic side": {
+   "description": "The postsynaptic density is a thick protein scaffold under the postsynaptic membrane that holds the receptors opposite the release site. Actin filaments in the spine shape its head and neck, and these change as synapses strengthen or weaken.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Phelan-McDermid syndrome",
+     "SHANK3 is a major scaffold protein of the postsynaptic density. Losing one working copy of its gene, usually through a deletion at the end of chromosome 22 (22q13), causes Phelan-McDermid syndrome, with intellectual disability, delayed speech and autism-like features."
+    ]
+   ]
+  },
+  "Synapse: AMPA receptors": {
+   "description": "AMPA receptors are glutamate-gated channels in the postsynaptic membrane and are the main fast excitatory receptors in the brain. Each receptor is built from four subunits, such as GluA2, and when glutamate binds the channel opens to let sodium in, depolarising the spine.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Stroke and excitotoxicity",
+     "After a stroke, too much glutamate is released and overactivates glutamate receptors, including AMPA receptors. The excess calcium and sodium entry injures and kills neurons, a process called excitotoxicity."
+    ]
+   ]
+  }
+ }
+}

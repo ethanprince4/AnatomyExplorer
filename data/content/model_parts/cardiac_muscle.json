@@ -1,0 +1,163 @@
+{
+ "schema": 1,
+ "model_id": "cardiac_muscle",
+ "tree": [
+  {
+   "path": [
+    "Muscle cell"
+   ],
+   "groups": [
+    "Cardiomyocyte",
+    "Endomysium"
+   ]
+  },
+  {
+   "path": [
+    "Muscle cell",
+    "Inside the cell"
+   ],
+   "groups": [
+    "Nucleus myocyte",
+    "Perinuclear zone"
+   ]
+  },
+  {
+   "path": [
+    "Connections between cells"
+   ],
+   "groups": [
+    "Intercalated disc"
+   ]
+  },
+  {
+   "path": [
+    "Connections between cells",
+    "Junctions on the disc"
+   ],
+   "groups": [
+    "Junction fascia adherens",
+    "Junction desmosome",
+    "Junction gap"
+   ]
+  },
+  {
+   "path": [
+    "Blood supply"
+   ],
+   "groups": [
+    "Capillary",
+    "Red blood cell"
+   ]
+  }
+ ],
+ "titles": {
+  "Cardiomyocyte": "Cardiomyocyte (the whole cell)",
+  "Endomysium": "Endomysium (sheath around each cell)",
+  "Nucleus myocyte": "Nucleus",
+  "Perinuclear zone": "Perinuclear zone (around the nucleus)",
+  "Intercalated disc": "Intercalated disc",
+  "Junction fascia adherens": "Fascia adherens (anchor band)",
+  "Junction desmosome": "Desmosome (rivet junction)",
+  "Junction gap": "Gap junction (electrical link)",
+  "Capillary": "Capillary",
+  "Red blood cell": "Red blood cell"
+ },
+ "groups": {
+  "Cardiomyocyte": {
+   "description": "Cardiomyocytes are the striated, branched contractile cells of heart muscle. Each usually has one central nucleus, though a minority have two. They are joined end to end at intercalated discs, so each chamber of the heart contracts as one coordinated unit.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Heart attack and troponin",
+     "When a blocked coronary artery starves cardiomyocytes of oxygen, they die and leak cardiac troponin into the blood. A rising troponin level is the blood test used to confirm the injury, and because adult cardiomyocytes regenerate poorly, the dead cells are replaced by scar."
+    ],
+    [
+     "Hypertrophic cardiomyopathy",
+     "In hypertrophic cardiomyopathy the individual cardiomyocytes enlarge and lie in disorganised, crisscross arrays, which thickens the ventricular wall. Many cases are caused by inherited mutations in genes for sarcomere proteins."
+    ]
+   ],
+   "histology": [
+    "cardiac_muscle"
+   ]
+  },
+  "Endomysium": {
+   "description": "The endomysium is a fine sheath of connective tissue that surrounds each individual cardiomyocyte. It is made of a thin basement membrane and fine collagen fibres that hold each cell in place and help transmit its contractile force.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Fibrosis after inflammation or injury",
+     "In myocarditis, inflammatory cells invade the thin tissue between the cells, and in many cardiomyopathies that space is later filled with collagen (interstitial fibrosis). This stiffens the wall and can disrupt the orderly spread of the electrical impulse."
+    ]
+   ],
+   "histology": [
+    "cardiac_muscle"
+   ]
+  },
+  "Intercalated disc": {
+   "description": "The intercalated disc is the specialised junction where the ends of two neighbouring cardiomyocytes meet. It looks like a dark, step-like line across the fibre and contains mechanical junctions (fascia adherens and desmosomes) and electrical gap junctions. The disc keeps the cells attached during each contraction and lets the impulse pass from one cell to the next.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "cardiac_muscle"
+   ]
+  },
+  "Junction desmosome": {
+   "description": "A desmosome is a rivet-like junction that binds two neighbouring cell membranes together. Cadherin proteins on each side grip intermediate filaments in the cytoplasm, which spreads the pull of contraction through the tissue. Desmosomes are too small to see with a light microscope.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Arrhythmogenic cardiomyopathy",
+     "Mutations in desmosome genes, such as plakophilin-2 and desmoplakin, weaken the junction, so cells are more likely to detach and die under the stress of each beat. The dead muscle is replaced by fibrous and fatty tissue, most often in the right ventricle, which can trigger dangerous arrhythmias."
+    ]
+   ]
+  },
+  "Junction fascia adherens": {
+   "description": "The fascia adherens is a band-shaped adhesion junction across the fibre, where the thin actin filaments of the last sarcomere anchor to the cell membrane. It transmits the force of contraction from one cell to the next.",
+   "replace_part_descriptions": true
+  },
+  "Junction gap": {
+   "description": "A gap junction is a small channel made of connexin proteins that connects the cytoplasm of two neighbouring cells. Ions pass directly through it, so the electrical impulse spreads quickly from cell to cell along the fibre.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Gap junctions and re-entry",
+     "After a heart attack or in heart failure, connexin-43 is reduced or moved to the sides of the cell, so conduction slows and re-entrant circuits can form, a basis for dangerous arrhythmias."
+    ]
+   ]
+  },
+  "Nucleus myocyte": {
+   "description": "The nucleus of a cardiomyocyte is oval and usually single and central, although some cells have two. It holds the cell's DNA and is where the genes for the cell's proteins are read.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "cardiac_muscle"
+   ]
+  },
+  "Perinuclear zone": {
+   "description": "The pale zone around the nucleus is mostly cytoplasm with few myofibrils. It contains the Golgi apparatus, mitochondria and glycogen granules, which the cell needs to make its proteins and fuel its contraction.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "cardiac_muscle"
+   ]
+  },
+  "Capillary": {
+   "description": "A capillary is the smallest type of blood vessel, with a wall of one layer of endothelial cells. In the heart, capillaries run between the cardiomyocytes and supply them with oxygen and nutrients while taking away carbon dioxide and waste.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Hypertrophy and the capillary supply",
+     "When cardiomyocytes enlarge (hypertrophy), the capillary network often does not grow in step with them, so each cell gets a smaller share of oxygen and nutrients. This mismatch is one reason a thickened heart muscle can become short of oxygen."
+    ]
+   ],
+   "histology": [
+    "capillaries",
+    "cardiac_muscle"
+   ]
+  },
+  "Red blood cell": {
+   "description": "Red blood cells are small, biconcave, anucleate discs packed with haemoglobin, which carries oxygen. Inside the capillary they release oxygen across the thin wall to the heart muscle cells.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "blood"
+   ]
+  }
+ }
+}

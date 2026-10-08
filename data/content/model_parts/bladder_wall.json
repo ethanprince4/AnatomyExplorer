@@ -1,0 +1,166 @@
+{
+ "schema": 1,
+ "model_id": "bladder_wall",
+ "tree": [
+  {
+   "path": [
+    "Lining"
+   ],
+   "groups": [
+    "Urothelium"
+   ]
+  },
+  {
+   "path": [
+    "Lining",
+    "Surface cells"
+   ],
+   "groups": [
+    "Umbrella cell envelopes",
+    "Umbrella cell contents"
+   ]
+  },
+  {
+   "path": [
+    "Supporting tissue"
+   ],
+   "groups": [
+    "Lamina propria"
+   ]
+  },
+  {
+   "path": [
+    "Muscle"
+   ],
+   "groups": [
+    "Detrusor muscle"
+   ]
+  },
+  {
+   "path": [
+    "Outer coat"
+   ],
+   "groups": [
+    "Adventitia & serosa"
+   ]
+  },
+  {
+   "path": [
+    "Blood supply and nerves"
+   ],
+   "groups": [
+    "Vessels & nerves"
+   ]
+  }
+ ],
+ "titles": {
+  "Urothelium": "Urothelium (bladder lining)",
+  "Umbrella cell envelopes": "Umbrella cells",
+  "Umbrella cell contents": "Umbrella cell nuclei and vesicles",
+  "Lamina propria": "Lamina propria (connective tissue)",
+  "Detrusor muscle": "Detrusor (bladder muscle)",
+  "Adventitia & serosa": "Adventitia and serosa",
+  "Vessels & nerves": "Arteries, veins and nerves"
+ },
+ "groups": {
+  "Urothelium": {
+   "description": "The urothelium is the specialised lining of the bladder. It is a transitional epithelium that forms a tight barrier, so urine does not soak into the wall. Basal cells on the basement membrane regenerate the lining, intermediate cells sit above them, and large umbrella cells cover the surface, where uroplakin plaques make the membrane almost impermeable to urine.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Bladder cancer",
+     "Most bladder cancers begin in the urothelium, and urothelial (transitional cell) carcinoma is the most common type. Painless blood in the urine (haematuria) is the most common early sign and always needs investigation."
+    ],
+    [
+     "Chemotherapy damage",
+     "The chemotherapy drug cyclophosphamide is broken down into acrolein, which injures the urothelium and can cause bleeding inflammation of the bladder (haemorrhagic cystitis)."
+    ]
+   ],
+   "histology": [
+    "transitional"
+   ]
+  },
+  "Umbrella cell envelopes": {
+   "description": "Umbrella cells are the large, dome-shaped cells that form the surface layer of the urothelium, facing the urine. As the bladder fills, membrane stored inside them is added to the surface, so the surface can expand as the bladder stretches.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Urine cytology",
+     "Umbrella cells shed into the urine can be examined under the microscope (urine cytology), which is one way doctors look for bladder cancer."
+    ]
+   ],
+   "histology": [
+    "transitional"
+   ]
+  },
+  "Umbrella cell contents": {
+   "description": "Umbrella cells often have large nuclei, and many contain two (binucleate). This is normal in the surface layer and is not a sign of cancer. Their upper cytoplasm holds fusiform vesicles that store uroplakin-rich membrane, which is delivered to the surface when the bladder fills.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Normal versus abnormal nuclei",
+     "Binucleate umbrella cells are normal, but enlarged, irregular nuclei in cells shed into the urine can point to urothelial carcinoma and need expert review."
+    ]
+   ],
+   "histology": [
+    "transitional"
+   ]
+  },
+  "Lamina propria": {
+   "description": "The lamina propria is the connective-tissue layer directly beneath the urothelium. It holds a dense suburothelial capillary plexus with small arterioles and venules, because the urothelium has no blood vessels of its own and is nourished by diffusion from this bed.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Tumour depth",
+     "Bladder cancers are staged by how deep they grow. Tumours that reach the lamina propria (stage T1) but not the detrusor muscle are non-muscle-invasive and are usually removed by transurethral resection."
+    ]
+   ],
+   "histology": [
+    "loose_ct"
+   ]
+  },
+  "Detrusor muscle": {
+   "description": "The detrusor is the thick smooth-muscle wall of the bladder. Its fibres form one interlaced meshwork, so the whole bladder contracts together to empty (voiding), under parasympathetic control. Its inner, middle and outer layers are only clearly separate near the bladder neck.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Overactive bladder",
+     "Involuntary detrusor contractions cause sudden urgency, frequent urination and sometimes leaking (urge incontinence)."
+    ],
+    [
+     "Bladder that will not empty",
+     "If the nerves that drive the detrusor are damaged, for example by spinal cord injury or diabetes, the muscle may fail to contract, so the bladder cannot empty fully (urinary retention)."
+    ]
+   ],
+   "histology": [
+    "smooth_muscle"
+   ]
+  },
+  "Adventitia & serosa": {
+   "description": "The outer coat of the bladder is adventitia, a connective-tissue sheath that holds fat, vessels and nerves and fixes the bladder to the pelvic walls. The dome (upper surface) is instead covered by serosa, which is peritoneum, so that surface borders the peritoneal cavity.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Bladder rupture",
+     "A full bladder hit on its dome, for example in a blow to the lower abdomen, can rupture into the peritoneal cavity and spill urine into the abdomen. Pelvic fractures more often tear the bladder outside the peritoneum."
+    ]
+   ],
+   "histology": [
+    "serosa",
+    "adipose"
+   ]
+  },
+  "Vessels & nerves": {
+   "clinical": [
+    [
+     "Pelvic surgery",
+     "Operations on the prostate, rectum or pelvis can damage the nerves that control the bladder, causing difficulty emptying or leaking."
+    ]
+   ],
+   "histology": [
+    "muscular_artery",
+    "peripheral_nerve"
+   ]
+  }
+ }
+}

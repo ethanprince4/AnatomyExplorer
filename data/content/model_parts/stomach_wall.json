@@ -1,0 +1,169 @@
+{
+ "schema": 1,
+ "model_id": "stomach_wall",
+ "tree": [
+  {
+   "path": [
+    "Outer covering"
+   ],
+   "groups": [
+    "Serosa"
+   ]
+  },
+  {
+   "path": [
+    "Muscle coat"
+   ],
+   "groups": [
+    "Muscularis externa"
+   ]
+  },
+  {
+   "path": [
+    "Nerve networks"
+   ],
+   "groups": [
+    "Enteric plexuses"
+   ]
+  },
+  {
+   "path": [
+    "Support layer"
+   ],
+   "groups": [
+    "Submucosa"
+   ]
+  },
+  {
+   "path": [
+    "Support layer",
+    "Blood and lymph vessels"
+   ],
+   "groups": [
+    "Vessels"
+   ]
+  },
+  {
+   "path": [
+    "Inner lining"
+   ],
+   "groups": [
+    "Mucosa"
+   ]
+  },
+  {
+   "path": [
+    "Inner lining",
+    "Glands"
+   ],
+   "groups": [
+    "Gastric glands"
+   ]
+  }
+ ],
+ "titles": {
+  "Gastric glands": "Gastric glands",
+  "Muscularis externa": "Muscularis externa",
+  "Mucosa": "Mucosa",
+  "Enteric plexuses": "Enteric nerve plexuses",
+  "Serosa": "Serosa",
+  "Submucosa": "Submucosa",
+  "Vessels": "Blood and lymph vessels"
+ },
+ "groups": {
+  "Gastric glands": {
+   "description": "Fundic gastric glands are tubular glands that open into the surface pits of the stomach. Parietal cells secrete hydrochloric acid and intrinsic factor, and chief cells secrete pepsinogen and gastric lipase. Enterochromaffin-like (ECL) cells release histamine that stimulates the parietal cells to make acid.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Autoimmune gastritis",
+     "Autoimmune gastritis destroys the parietal cells in the body and fundus of the stomach, so less acid and intrinsic factor is made. Without intrinsic factor, vitamin B12 cannot be absorbed, which can cause pernicious anaemia."
+    ],
+    [
+     "Zollinger-Ellison syndrome",
+     "A gastrin-secreting tumour (gastrinoma) overstimulates the parietal cells, causing excess acid and recurrent peptic ulcers."
+    ]
+   ],
+   "histology": [
+    "stomach"
+   ]
+  },
+  "Muscularis externa": {
+   "description": "The muscularis externa is the muscle coat of the stomach wall, made of smooth muscle in three layers: an outer longitudinal layer, a middle circular layer and an inner oblique layer. Together they churn food and move it toward the pylorus.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Gastroparesis",
+     "Gastroparesis is delayed emptying of the stomach with no physical blockage, caused by weak or poorly coordinated contractions of the stomach wall, often from nerve damage. Diabetes is one of its most common causes, and it can cause nausea, bloating and feeling full early."
+    ]
+   ],
+   "histology": [
+    "smooth_muscle"
+   ]
+  },
+  "Mucosa": {
+   "description": "The mucosa is the innermost layer of the stomach wall. Its lamina propria is loose connective tissue that fills the space between the gastric glands, and the thin muscularis mucosae beneath it is a smooth muscle sheet that separates the mucosa from the submucosa.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Peptic ulcer",
+     "A peptic ulcer is a break in the lining that extends through the muscularis mucosae, whereas an erosion stays above it. Helicobacter pylori infection and NSAID painkillers are the most common causes."
+    ]
+   ],
+   "histology": [
+    "stomach"
+   ]
+  },
+  "Enteric plexuses": {
+   "description": "The enteric nervous system is a network of nerve ganglia in the stomach wall that can coordinate movement and secretion largely on its own. The myenteric plexus lies between the longitudinal and circular muscle layers and controls their contractions, while the submucosal plexus sits in the submucosa and controls secretion and local blood flow.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Vagotomy",
+     "Vagotomy, once used to treat peptic ulcers, cuts the vagus nerve fibres that feed the stomach's enteric nerve networks. It lowers acid output but can slow stomach emptying."
+    ]
+   ],
+   "histology": [
+    "ileum"
+   ]
+  },
+  "Serosa": {
+   "description": "The serosa is the outermost layer of the stomach wall: a thin connective tissue layer covered by mesothelium, the smooth lining of the peritoneal cavity. It lets the stomach slide smoothly against neighbouring organs.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Perforated stomach ulcer",
+     "A stomach ulcer that perforates through the serosa lets stomach contents spill into the abdomen, causing peritonitis, which is a surgical emergency."
+    ]
+   ],
+   "histology": [
+    "serosa"
+   ]
+  },
+  "Submucosa": {
+   "description": "The submucosa is a layer of connective tissue between the mucosa and the muscle coat. It carries the larger blood vessels, lymphatics and nerve networks of the stomach wall, and it lets the mucosa fold into the ridges called rugae.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "stomach"
+   ]
+  },
+  "Vessels": {
+   "description": "Arteries branch into a network in the submucosa that supplies the stomach wall. Submucosal veins drain blood toward the portal system, and lymphatic vessels carry lymph away from the wall.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Gastric varices",
+     "In portal hypertension, most often from cirrhosis, the submucosal veins of the stomach can swell into varices that may bleed heavily."
+    ],
+    [
+     "Lymphatic spread of stomach cancer",
+     "Stomach cancer can spread through submucosal lymphatic vessels to nearby lymph nodes."
+    ]
+   ],
+   "histology": [
+    "muscular_artery",
+    "vein"
+   ]
+  }
+ }
+}

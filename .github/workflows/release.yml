@@ -221,4 +221,4 @@ jobs:
           fail_on_unmatched_files: true
           files: |
             assets/*
-          body_path: docs/releases/v4.0.1.md
+          body_path: docs/releases/${{ github.event.inputs.tag || github.ref_name }}.md

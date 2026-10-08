@@ -1,0 +1,170 @@
+{
+ "schema": 1,
+ "model_id": "lymph_node",
+ "tree": [
+  {
+   "path": [
+    "Capsule and framework"
+   ],
+   "groups": [
+    "Capsule & trabeculae"
+   ]
+  },
+  {
+   "path": [
+    "Entry and exit"
+   ],
+   "groups": [
+    "Lymphatics",
+    "Hilum & vessels"
+   ]
+  },
+  {
+   "path": [
+    "Filtering channels"
+   ],
+   "groups": [
+    "Sinuses"
+   ]
+  },
+  {
+   "path": [
+    "Cortex",
+    "Outer cortex"
+   ],
+   "groups": [
+    "Cortex"
+   ]
+  },
+  {
+   "path": [
+    "Cortex",
+    "Deep cortex"
+   ],
+   "groups": [
+    "Paracortex"
+   ]
+  },
+  {
+   "path": [
+    "Medulla"
+   ],
+   "groups": [
+    "Medulla"
+   ]
+  }
+ ],
+ "titles": {
+  "Capsule & trabeculae": "Capsule and trabeculae",
+  "Lymphatics": "Lymph vessels in and out",
+  "Hilum & vessels": "Hilum, artery and vein",
+  "Sinuses": "Lymph sinuses",
+  "Cortex": "B-cell follicles and germinal centres",
+  "Paracortex": "T-cell zone and high endothelial venules",
+  "Medulla": "Medullary cords"
+ },
+ "groups": {
+  "Capsule & trabeculae": {
+   "description": "The capsule is a sheath of dense irregular connective tissue, rich in collagen, that encloses the whole node. Trabeculae are connective-tissue septa that run inward from the capsule, carry blood vessels and partly divide the cortex into compartments.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Extranodal extension",
+     "Cancer that breaks through the nodal capsule is called extranodal extension. Pathologists record it because it is an adverse prognostic feature, for example in head and neck squamous cell carcinoma."
+    ]
+   ],
+   "histology": [
+    "dense_irregular",
+    "lymph_node"
+   ]
+  },
+  "Hilum & vessels": {
+   "description": "The hilum is the indentation on the concave side where the nodal artery enters and the vein and efferent lymphatic vessel leave; it is packed with connective tissue and fat that continues from the capsule. The artery branches through the trabeculae and medulla into capillary beds, and blood drains through postcapillary venules, including the high endothelial venules of the paracortex.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Loss of fatty hilum",
+     "On ultrasound or CT, a node that loses its fatty hilum and becomes rounder is more likely to be abnormal, whether the cause is reactive or malignant."
+    ]
+   ],
+   "histology": [
+    "muscular_artery",
+    "vein"
+   ]
+  },
+  "Sinuses": {
+   "description": "Lymph flows from the afferent vessels into the subcapsular sinus, then along the trabecular sinuses through the cortex to the medullary sinuses. The sinuses are lined by endothelium and crossed by reticular fibres, and sinus macrophages trap particles and microbes as the lymph filters past them.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Early metastasis",
+     "Cancer cells carried in afferent lymph are often first caught in the subcapsular sinus, so early deposits of metastatic cancer are commonly seen there."
+    ]
+   ],
+   "histology": [
+    "lymph_node"
+   ]
+  },
+  "Cortex": {
+   "description": "The outer cortex is the B-cell zone: round follicles of densely packed naive B cells sit on a meshwork of follicular dendritic cells, with diffuse lymphoid tissue between them. After antigen stimulation a follicle becomes a secondary follicle, with a germinal centre whose dark zone holds dividing, mutating B cells and whose light zone selects B cells with higher-affinity antigen receptors, surrounded by a mantle of naive B cells.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Follicular lymphoma",
+     "Follicular lymphoma is a cancer of germinal-centre B cells, most often with the t(14;18) translocation that over-expresses BCL2."
+    ],
+    [
+     "Reactive follicular hyperplasia",
+     "After viral infection or other antigen stimulation, germinal centres enlarge and multiply, a common reactive pattern in lymph nodes."
+    ]
+   ],
+   "histology": [
+    "lymph_node",
+    "tonsil"
+   ]
+  },
+  "Paracortex": {
+   "description": "The paracortex, or deep cortex, is the T-cell zone that lies between the follicles and the medulla. Dendritic cells arriving in afferent lymph present antigen to T cells here, and naive lymphocytes enter the node from the blood through the high endothelial venules that line this region.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Infectious mononucleosis",
+     "Infectious mononucleosis, caused by Epstein-Barr virus, makes the paracortex expand with large immunoblasts, so the node can look like lymphoma."
+    ]
+   ],
+   "histology": [
+    "lymph_node"
+   ]
+  },
+  "Medulla": {
+   "description": "The medulla contains branching medullary cords of lymphoid tissue, rich in plasma cells, macrophages and lymphocytes, that continue from the paracortex. Plasma cells in the cords secrete antibody into the lymph leaving the node.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Plasma-cell-rich medulla",
+     "A medulla crowded with plasma cells is a reactive pattern seen with long-standing antigen stimulation, such as chronic infection or autoimmune disease."
+    ]
+   ],
+   "histology": [
+    "lymph_node"
+   ]
+  },
+  "Lymphatics": {
+   "description": "Afferent lymphatic vessels are thin-walled collecting vessels that pierce the capsule on the convex surface and empty into the subcapsular sinus, with valves that keep lymph flowing one way. The efferent vessel, usually just one, leaves at the hilum and carries filtered lymph, plasma-cell antibody and activated lymphocytes toward the next node in the chain or the main lymph trunks.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Lymphoedema",
+     "Blocked or removed lymph drainage causes lymphoedema, for example in the arm after axillary node clearance for breast cancer."
+    ],
+    [
+     "Route of metastasis",
+     "Cancer reaches a node through its afferent lymphatics, which is why sentinel node biopsy follows the lymph drainage of a tumour."
+    ]
+   ],
+   "histology": [
+    "lymph_node"
+   ]
+  }
+ }
+}

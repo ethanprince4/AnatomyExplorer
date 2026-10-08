@@ -1,0 +1,193 @@
+{
+ "schema": 1,
+ "model_id": "jejunum",
+ "tree": [
+  {
+   "path": [
+    "Outer layers"
+   ],
+   "groups": [
+    "Serosa & muscularis externa"
+   ]
+  },
+  {
+   "path": [
+    "Submucosa"
+   ],
+   "groups": [
+    "Submucosa"
+   ]
+  },
+  {
+   "path": [
+    "Nerves and blood supply"
+   ],
+   "groups": [
+    "Nerves & vessels"
+   ]
+  },
+  {
+   "path": [
+    "Mucosa and villi",
+    "Crypts and glands"
+   ],
+   "groups": [
+    "Mucosa"
+   ]
+  },
+  {
+   "path": [
+    "Mucosa and villi",
+    "Villi"
+   ],
+   "groups": [
+    "Villi"
+   ]
+  },
+  {
+   "path": [
+    "Epithelial cells",
+    "Lining sheet"
+   ],
+   "groups": [
+    "Representative epithelial field"
+   ]
+  },
+  {
+   "path": [
+    "Epithelial cells",
+    "Villus cells"
+   ],
+   "groups": [
+    "Retained villus fields"
+   ]
+  },
+  {
+   "path": [
+    "Epithelial cells",
+    "Whole cells"
+   ],
+   "groups": [
+    "Intact teaching unit"
+   ]
+  }
+ ],
+ "titles": {
+  "Serosa & muscularis externa": "Serosa and muscle layers",
+  "Nerves & vessels": "Nerves and blood vessels",
+  "Mucosa": "Mucosa and crypts",
+  "Villi": "Villi",
+  "Submucosa": "Submucosa",
+  "Retained villus fields": "Villus cells and brush border",
+  "Representative epithelial field": "Sample cells in the lining",
+  "Intact teaching unit": "Whole cells with nuclei"
+ },
+ "groups": {
+  "Serosa & muscularis externa": {
+   "clinical": [
+    [
+     "Peritonitis",
+     "Peritonitis is inflammation of the peritoneum, which includes this serosa layer. It is often caused by a perforated bowel and is a surgical emergency."
+    ],
+    [
+     "Intestinal pseudo-obstruction",
+     "In this condition the gut muscle or its nerves fail to move contents along, so the bowel behaves as if it were blocked even though nothing physically blocks it."
+    ]
+   ],
+   "histology": [
+    "serosa",
+    "smooth_muscle"
+   ]
+  },
+  "Nerves & vessels": {
+   "description": "The myenteric plexus, between the muscle layers, and the submucosal plexus are networks of nerve cells that control gut movement, secretion and local blood flow. Small arteries and veins run through the wall to supply it, with branches that feed the villi.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Hirschsprung disease",
+     "In Hirschsprung disease, a short segment of the distal bowel, usually the rectum and sigmoid colon, lacks the nerve cells of the myenteric and submucosal plexuses. That segment cannot relax, so the bowel above it becomes swollen and blocked."
+    ],
+    [
+     "Mesenteric ischaemia",
+     "The jejunum is fed by branches of the superior mesenteric artery. If one of these is blocked, for example by a clot, the bowel wall loses its blood supply, causing severe pain that can progress to tissue death."
+    ]
+   ],
+   "histology": [
+    "ganglion",
+    "muscular_artery"
+   ]
+  },
+  "Mucosa": {
+   "clinical": [
+    [
+     "Coeliac disease",
+     "In coeliac disease, an immune reaction to gluten increases lymphocytes and plasma cells in the lamina propria, and the crypts lengthen as the villi flatten."
+    ],
+    [
+     "Cholera",
+     "The toxin from Vibrio cholerae keeps the crypt cells in a secretory state, so they pump chloride and water into the bowel lumen. This causes profuse, watery diarrhoea."
+    ]
+   ],
+   "histology": [
+    "jejunum",
+    "simple_columnar"
+   ]
+  },
+  "Villi": {
+   "description": "Each villus is a finger-like fold of the lining with a connective tissue core. Its parts are the brush border of microvilli on the absorbing cells, a central lacteal that takes up dietary fat, a capillary network that carries away absorbed sugars and amino acids, strands of smooth muscle that shorten the villus, and mucus-making goblet cells in the lining.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Coeliac disease",
+     "In coeliac disease, an immune reaction to gluten flattens the villi (villous atrophy). The absorbing surface shrinks, so nutrients are poorly absorbed."
+    ],
+    [
+     "Intestinal lymphangiectasia",
+     "In intestinal lymphangiectasia the central lacteals are dilated and leak lymph into the bowel. Fat is poorly absorbed and protein is lost."
+    ]
+   ],
+   "histology": [
+    "jejunum",
+    "loose_ct"
+   ]
+  },
+  "Submucosa": {
+   "clinical": [
+    [
+     "Diverticula",
+     "Small-bowel diverticula are pouches of mucosa and submucosa that bulge out through gaps in the muscle layer, usually where blood vessels pierce the wall."
+    ]
+   ],
+   "histology": [
+    "dense_irregular"
+   ]
+  },
+  "Retained villus fields": {
+   "description": "These are the lining cells of a villus: absorbing enterocytes and mucus-making goblet cells, each with its own nucleus. The free surface of the enterocytes carries a brush border of microvilli, which greatly increases the absorbing area.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Lactose intolerance",
+     "Enterocytes on the brush border make lactase, the enzyme that splits lactose into sugars. When lactase is low, undigested lactose reaches the colon, where bacteria ferment it, causing bloating, cramps and diarrhoea."
+    ]
+   ],
+   "histology": [
+    "simple_columnar"
+   ]
+  },
+  "Representative epithelial field": {
+   "description": "This is the continuous sheet of lining epithelium that covers the villi and runs down into the crypts. Sample enterocytes and goblet cells are picked out so you can see each cell's body and nucleus, plus its brush border or mucus.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "simple_columnar"
+   ]
+  },
+  "Intact teaching unit": {
+   "description": "These are whole cells from the jejunal lining, each shown with its own nucleus. Tall columnar cells like these keep the nucleus near the base, away from the brush border at the top.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "simple_columnar"
+   ]
+  }
+ }
+}

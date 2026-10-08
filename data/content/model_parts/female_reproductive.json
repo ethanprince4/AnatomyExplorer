@@ -1,0 +1,374 @@
+{
+ "schema": 1,
+ "model_id": "female_reproductive",
+ "tree": [
+  {
+   "path": [
+    "Pelvic bones and floor"
+   ],
+   "groups": [
+    "Bony pelvis",
+    "Pelvic floor"
+   ]
+  },
+  {
+   "path": [
+    "Uterus, cervix and vagina"
+   ],
+   "groups": [
+    "Uterus",
+    "Cervix",
+    "Vagina"
+   ]
+  },
+  {
+   "path": [
+    "Ovaries and uterine tubes"
+   ],
+   "groups": [
+    "Ovaries",
+    "Uterine tubes"
+   ]
+  },
+  {
+   "path": [
+    "Ligaments and pelvic lining"
+   ],
+   "groups": [
+    "Ligaments",
+    "Peritoneum"
+   ]
+  },
+  {
+   "path": [
+    "Blood supply"
+   ],
+   "groups": [
+    "Vessels"
+   ]
+  },
+  {
+   "path": [
+    "Nearby organs"
+   ],
+   "groups": [
+    "Neighbouring organs"
+   ]
+  },
+  {
+   "path": [
+    "Vulva and breast"
+   ],
+   "groups": [
+    "External genitalia (vulva)",
+    "Mammary gland (breast)"
+   ]
+  },
+  {
+   "path": [
+    "Close-up views",
+    "Ovary"
+   ],
+   "groups": [
+    "Magnified: ovary (sectioned)"
+   ]
+  },
+  {
+   "path": [
+    "Close-up views",
+    "Uterine tube"
+   ],
+   "groups": [
+    "Magnified: uterine tube wall (ampulla)"
+   ]
+  },
+  {
+   "path": [
+    "Close-up views",
+    "Uterine lining"
+   ],
+   "groups": [
+    "Magnified: endometrium & implantation"
+   ]
+  },
+  {
+   "path": [
+    "Close-up views",
+    "Fertilisation"
+   ],
+   "groups": [
+    "Magnified: fertilization to blastocyst"
+   ]
+  }
+ ],
+ "titles": {
+  "Bony pelvis": "Pelvic bones and lower spine",
+  "Pelvic floor": "Pelvic floor muscles",
+  "Uterus": "Uterus (womb)",
+  "Cervix": "Cervix (neck of the womb)",
+  "Vagina": "Vagina",
+  "Ovaries": "Ovaries",
+  "Uterine tubes": "Uterine (fallopian) tubes",
+  "Ligaments": "Supporting ligaments",
+  "Peritoneum": "Pelvic lining (peritoneum) and pouches",
+  "Vessels": "Blood vessels",
+  "Neighbouring organs": "Bladder, urethra, ureters, rectum and anus",
+  "External genitalia (vulva)": "External genitalia (vulva)",
+  "Mammary gland (breast)": "Breast (mammary gland)",
+  "Magnified: ovary (sectioned)": "Ovary in section",
+  "Magnified: uterine tube wall (ampulla)": "Wall of the uterine tube",
+  "Magnified: endometrium & implantation": "Uterine lining and implantation",
+  "Magnified: fertilization to blastocyst": "Fertilisation to blastocyst"
+ },
+ "groups": {
+  "Bony pelvis": {
+   "clinical": [
+    [
+     "Pelvic shape in childbirth",
+     "The size and shape of the bony pelvic inlet and outlet set the passage a baby must pass through during labour."
+    ],
+    [
+     "Slipped disc at L5/S1",
+     "A herniated lumbosacral (L5/S1) disc, with L4/5 the other common site, can press on a spinal nerve root and cause back pain radiating down the leg (sciatica)."
+    ]
+   ],
+   "histology": [
+    "compact_bone",
+    "spongy_bone"
+   ]
+  },
+  "Pelvic floor": {
+   "clinical": [
+    [
+     "Pelvic organ prolapse",
+     "Weakened levator ani and supporting tissue, often after vaginal childbirth, can let the bladder, uterus or rectum sag down into the vagina. This is called prolapse."
+    ],
+    [
+     "Stress incontinence",
+     "Pelvic floor weakness is a common cause of stress urinary incontinence, where urine leaks on coughing, sneezing or lifting."
+    ]
+   ],
+   "histology": [
+    "skeletal_muscle"
+   ]
+  },
+  "Uterus": {
+   "clinical": [
+    [
+     "Fibroids",
+     "Uterine fibroids (leiomyomas) are benign smooth muscle tumours of the myometrium, common in women of reproductive age. They can cause heavy periods and pelvic pressure."
+    ],
+    [
+     "Postpartum haemorrhage",
+     "After delivery the myometrium must contract to compress the vessels of the placental site. Failure to contract (uterine atony) is the commonest cause of severe bleeding after childbirth."
+    ]
+   ],
+   "histology": [
+    "uterus"
+   ]
+  },
+  "Cervix": {
+   "clinical": [
+    [
+     "Cervical screening",
+     "Most cervical cancers arise in the transformation zone, where squamous and columnar epithelium meet. This is the area sampled at cervical screening."
+    ],
+    [
+     "HPV infection",
+     "Almost all cervical cancers are caused by persistent infection with high-risk types of human papillomavirus (HPV)."
+    ]
+   ],
+   "histology": [
+    "cervix"
+   ]
+  },
+  "Vagina": {
+   "clinical": [
+    [
+     "Vaginal atrophy after menopause",
+     "Falling oestrogen after the menopause thins the squamous lining of the vagina, causing dryness, soreness and painful intercourse."
+    ]
+   ],
+   "histology": [
+    "vagina",
+    "strat_squamous_nk"
+   ]
+  },
+  "Uterine tubes": {
+   "clinical": [
+    [
+     "Ectopic pregnancy",
+     "Most ectopic pregnancies implant in the uterine tube, usually in the ampulla, and can rupture causing severe internal bleeding."
+    ],
+    [
+     "Salpingitis",
+     "Infection of the tube can scar and block it, causing infertility and raising the risk of ectopic pregnancy."
+    ]
+   ],
+   "histology": [
+    "uterine_tube"
+   ]
+  },
+  "Ovaries": {
+   "clinical": [
+    [
+     "Polycystic ovary syndrome",
+     "A common hormonal disorder that causes irregular ovulation and raised androgen levels. The ovaries often show many small peripheral follicles on ultrasound."
+    ],
+    [
+     "Ovarian torsion",
+     "The ovary can twist on its blood-vessel pedicle, cutting off its blood supply and causing sudden severe pelvic pain that needs urgent surgery."
+    ]
+   ],
+   "histology": [
+    "ovary"
+   ]
+  },
+  "Ligaments": {
+   "clinical": [
+    [
+     "Uterine prolapse",
+     "The cardinal and uterosacral ligaments help hold the cervix and uterus in place. Stretching of these supports, together with pelvic floor weakness, contributes to uterine prolapse."
+    ],
+    [
+     "Round ligament pain",
+     "Sharp pain in the groin during the second trimester is often round ligament pain, caused by stretching as the uterus enlarges."
+    ]
+   ],
+   "histology": [
+    "dense_regular"
+   ]
+  },
+  "Peritoneum": {
+   "clinical": [
+    [
+     "Endometriosis",
+     "Endometriosis is growth of endometrial-type tissue outside the uterus. It commonly implants on the pelvic peritoneum, including the rectouterine pouch, and on the ovaries, causing pelvic pain and sometimes infertility."
+    ],
+    [
+     "Fluid in the rectouterine pouch",
+     "Blood from a ruptured ectopic pregnancy, or pus, can collect in the rectouterine pouch and can be felt on vaginal examination of the posterior fornix."
+    ]
+   ],
+   "histology": [
+    "serosa"
+   ]
+  },
+  "Vessels": {
+   "clinical": [
+    [
+     "Bleeding after childbirth",
+     "Severe postpartum bleeding can be controlled by embolising the uterine arteries, which is less invasive than tying the internal iliac arteries."
+    ],
+    [
+     "Ureter injury in hysterectomy",
+     "The ureter runs beneath the uterine artery close to the cervix, so it is at risk of injury during hysterectomy."
+    ]
+   ],
+   "histology": [
+    "muscular_artery",
+    "vein"
+   ]
+  },
+  "Neighbouring organs": {
+   "clinical": [
+    [
+     "Urinary tract infection",
+     "The short female urethra lies close to the vagina and anus, making urinary tract infection, especially cystitis (bladder infection), much more common in women than men."
+    ],
+    [
+     "Bladder injury at caesarean section",
+     "The bladder sits in front of the lower uterine segment and can be injured during caesarean section, especially where there are adhesions."
+    ]
+   ],
+   "histology": [
+    "bladder",
+    "ureter"
+   ]
+  },
+  "External genitalia (vulva)": {
+   "clinical": [
+    [
+     "Bartholin's cyst",
+     "Blocked Bartholin's (greater vestibular) glands can form a painful cyst or abscess beside the vaginal opening."
+    ],
+    [
+     "Perineal tears",
+     "Tears of the vestibule and perineal body are common in vaginal childbirth, and both tears and episiotomies are repaired in layers."
+    ]
+   ],
+   "histology": [
+    "thin_skin",
+    "strat_squamous_nk"
+   ]
+  },
+  "Mammary gland (breast)": {
+   "clinical": [
+    [
+     "Breast cancer",
+     "Most breast cancers arise from the ducts or lobules. A tumour that pulls on the suspensory (Cooper's) ligaments can dimple the overlying skin."
+    ],
+    [
+     "Mastitis",
+     "A blocked lactiferous duct in a breastfeeding woman can become infected, causing a red, painful breast (mastitis)."
+    ]
+   ],
+   "histology": [
+    "mammary"
+   ]
+  },
+  "Magnified: ovary (sectioned)": {
+   "clinical": [
+    [
+     "Ovarian cancer",
+     "Ovarian epithelial tumours, the most common ovarian cancers, were long thought to arise from this surface layer. They are often diagnosed late because early symptoms are vague."
+    ],
+    [
+     "Hilus cell tumour",
+     "Rare hilus cell tumours of the ovary can produce androgens, causing virilisation such as facial hair and a deeper voice."
+    ]
+   ],
+   "histology": [
+    "ovary"
+   ]
+  },
+  "Magnified: uterine tube wall (ampulla)": {
+   "clinical": [
+    [
+     "Scarring from salpingitis",
+     "Infection of the tube can scar and fuse the mucosal folds, blocking the lumen and trapping the embryo, which can cause ectopic pregnancy."
+    ]
+   ],
+   "histology": [
+    "uterine_tube"
+   ]
+  },
+  "Magnified: endometrium & implantation": {
+   "clinical": [
+    [
+     "Asherman's syndrome",
+     "Scarring of the endometrium, often after curettage or uterine surgery, causes thin or absent periods and can lead to infertility."
+    ],
+    [
+     "Endometrial cancer",
+     "Endometrial cancer typically presents with abnormal or postmenopausal bleeding, so any such bleeding needs investigation."
+    ]
+   ],
+   "histology": [
+    "uterus"
+   ]
+  },
+  "Magnified: fertilization to blastocyst": {
+   "clinical": [
+    [
+     "Fertile window",
+     "Conception is only possible in the few days before ovulation and about a day after it. The egg survives about 24 hours, while sperm can survive several days in the female tract."
+    ],
+    [
+     "IVF",
+     "In IVF the egg is fertilised in a laboratory dish and the embryo is transferred to the uterus, often at the blastocyst stage."
+    ]
+   ]
+  }
+ }
+}

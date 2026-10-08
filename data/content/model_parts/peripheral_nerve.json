@@ -1,0 +1,67 @@
+{
+ "schema": 1,
+ "model_id": "peripheral_nerve",
+ "tree": [
+  {
+   "path": [],
+   "groups": [
+    "Connective tissue",
+    "Nerve fibres",
+    "Vessels"
+   ]
+  }
+ ],
+ "titles": {
+  "Connective tissue": "Connective tissue",
+  "Nerve fibres": "Nerve fibres",
+  "Vessels": "Blood vessels"
+ },
+ "groups": {
+  "Connective tissue": {
+   "clinical": [
+    [
+     "Nerve injury grades",
+     "Seddon's classification grades nerve injuries by how much of the nerve is disrupted. In axonotmesis the axons are cut but the connective tissue sheaths survive, so the nerve can regrow; in neurotmesis the sheaths are severed too and surgical repair is usually needed."
+    ]
+   ],
+   "histology": [
+    "peripheral_nerve",
+    "dense_irregular"
+   ]
+  },
+  "Nerve fibres": {
+   "description": "Each nerve fibre is an axon with Schwann cells around it. In myelinated fibres one Schwann cell wraps a single axon segment in a myelin sheath, and the gaps between successive Schwann cells (nodes of Ranvier) are where the impulse is regenerated, so it jumps from node to node. Unmyelinated (C) fibres have no spiral sheath; several thin axons sit in grooves of one Schwann cell.",
+   "clinical": [
+    [
+     "Guillain-Barré syndrome",
+     "In Guillain-Barré syndrome the immune system attacks the myelin sheaths of peripheral nerves (in some forms the axons too), causing weakness and tingling that build over days to weeks, often after a respiratory or gut infection."
+    ],
+    [
+     "Charcot-Marie-Tooth disease",
+     "The most common form, CMT1A, is caused by an extra copy of the PMP22 gene, which leads to abnormal myelin. Nerves conduct slowly, and weakness and wasting usually start in the feet and lower legs."
+    ]
+   ],
+   "histology": [
+    "peripheral_nerve"
+   ]
+  },
+  "Vessels": {
+   "description": "The blood supply of a nerve runs in two parts. Arterioles from nearby arteries form a longitudinal network in the epineurium (the vasa nervorum), and their branches pierce the perineurium to feed the endoneurial capillaries inside each fascicle. The endoneurial capillaries have tight junctions and form the vascular part of the blood-nerve barrier, and venules drain blood back out through the perineurium.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Diabetic neuropathy",
+     "In diabetes, damage to the small vessels that supply nerves (the vasa nervorum) is one contributor to diabetic neuropathy, alongside direct metabolic injury to the nerve. The neuropathy typically starts in the feet, with numbness, tingling and pain."
+    ],
+    [
+     "Vasculitic neuropathy",
+     "In systemic vasculitis, inflammation of the vasa nervorum can block blood flow to parts of a nerve. The result is mononeuritis multiplex: painful weakness and numbness in several separate areas, each supplied by a different nerve."
+    ]
+   ],
+   "histology": [
+    "peripheral_nerve",
+    "capillaries"
+   ]
+  }
+ }
+}

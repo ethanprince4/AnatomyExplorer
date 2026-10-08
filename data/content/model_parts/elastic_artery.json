@@ -1,0 +1,88 @@
+{
+ "schema": 1,
+ "model_id": "elastic_artery",
+ "tree": [
+  {
+   "path": [],
+   "groups": [
+    "Tunica intima",
+    "Tunica media",
+    "Tunica adventitia",
+    "Blood"
+   ]
+  }
+ ],
+ "titles": {
+  "Tunica intima": "Tunica intima (inner lining)",
+  "Tunica media": "Tunica media (middle layer)",
+  "Tunica adventitia": "Tunica adventitia (outer layer)",
+  "Blood": "Blood cells in the lumen"
+ },
+ "groups": {
+  "Tunica intima": {
+   "clinical": [
+    [
+     "Where atherosclerosis begins",
+     "Atherosclerosis starts in the intima, where LDL cholesterol collects beneath a damaged endothelium and forms fatty streaks that can grow into plaques."
+    ],
+    [
+     "Endothelial damage",
+     "Smoking, high blood pressure and high LDL cholesterol all injure the endothelium and reduce its nitric oxide release, an early step in atherosclerosis."
+    ]
+   ],
+   "histology": [
+    "elastic_artery"
+   ]
+  },
+  "Tunica media": {
+   "description": "The tunica media is the thick middle coat of an elastic artery. It is made of repeated lamellar units: a sheet of elastin with smooth muscle cells, collagen and ground substance between each pair of sheets. The smooth muscle cells make the elastin and collagen, and the elastic sheets stretch in systole and recoil in diastole to keep blood flowing.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Marfan syndrome",
+     "Marfan syndrome, caused by a fibrillin-1 defect, weakens the elastic lamellae of the media, causing cystic medial degeneration, aortic dilation and a risk of dissection."
+    ],
+    [
+     "Ageing stiffens the aorta",
+     "With age and long-standing hypertension the elastic lamellae fragment and the aorta stiffens, which raises systolic pressure and pulse pressure."
+    ]
+   ],
+   "histology": [
+    "elastic_artery",
+    "smooth_muscle"
+   ]
+  },
+  "Tunica adventitia": {
+   "description": "The tunica adventitia is the outer coat of the aorta, made of connective tissue: wavy type I collagen bundles with elastic fibres, fibroblasts, nerves and small vessels. Its collagen limits how far the wall can stretch. The aortic wall is too thick to be fed from the lumen alone, so small vessels called vasa vasorum run through the outer wall to supply it.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Rupture through the outer wall",
+     "When an aneurysm or dissection tears through the adventitia, blood escapes into the pericardium, mediastinum or pleural cavity, which is life-threatening."
+    ],
+    [
+     "Syphilitic aortitis",
+     "Tertiary syphilis inflames the vasa vasorum of the ascending aorta; the resulting loss of medial elastic tissue weakens the wall and can produce an aneurysm."
+    ]
+   ],
+   "histology": [
+    "elastic_artery"
+   ]
+  },
+  "Blood": {
+   "clinical": [
+    [
+     "Hereditary spherocytosis",
+     "Red cells lose their biconcave shape and become spherical, so the spleen removes them early, causing haemolytic anaemia."
+    ],
+    [
+     "Leukocyte adhesion deficiency",
+     "Defective beta-2 integrins stop leukocytes from sticking to the endothelium and leaving the blood, so affected patients get recurrent bacterial infections."
+    ]
+   ],
+   "histology": [
+    "blood"
+   ]
+  }
+ }
+}

@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineE
 from ..actions import key_text
 from ..state import SceneState
 from ..viewer.dataset import ModelDataset
+from ..viewer.part_guide import load_part_guide
 from ..viewer.viewport import SECTION_NAMES, ModelViewport
 from . import theme
 from .flow import FlowLayout
@@ -390,58 +391,94 @@ class ModelView(QWidget):
             self.studio.arrange()
 
     def _build_tree(self):
+        """Parts under plain categories (the model's guide, else its group keys' own "A / B" paths). A group of one
+        part is that part's row; a larger group is a row of its parts. Top-level categories start open."""
         self._sync = True
         self.part_items = {}
         self.group_items = {}
+        self.category_items = []
         self.family_rows = set()
+        self.guide = load_part_guide(self.entry.id, set(getattr(self.content, "tissues", {}) or {}))
         self.flat_parts = (len(self.vmodel.groups) == 1 and
                            self.vmodel.groups[0].title.casefold() == "parts")
-        for g in self.vmodel.groups:
+        categories = {}
+
+        def checkable(row, title, tip=""):
+            row.setText(0, title)
+            row.setData(0, Qt.AccessibleTextRole, title)
+            if tip:
+                row.setToolTip(0, tip[:300])
+            row.setFlags(row.flags() | Qt.ItemIsUserCheckable)
+            row.setCheckState(0, Qt.Checked)
+            return row
+
+        def heading(row, title, role):
+            checkable(row, title, title)
+            f = row.font(0)
+            f.setBold(True)
+            row.setFont(0, f)
+            row.setFlags(row.flags() | Qt.ItemIsAutoTristate)
+            row.setData(0, ROLE, role)
+            row.setExpanded(False)
+            return row
+
+        def category(path):
+            if not path:
+                return self.tree.invisibleRootItem()
+            if path not in categories:
+                row = heading(QTreeWidgetItem(category(path[:-1])), path[-1], ("category", path))
+                row.setExpanded(len(path) == 1)
+                categories[path] = row
+                self.category_items.append(row)
+            return categories[path]
+
+        def part_row(parent, i, path=()):
+            part = self.vmodel.items[i]
+            name = part.name
+            # "Source section / Renal fascia" under the Source section category reads as "Renal fascia"
+            while " / " in name and name.split(" / ", 1)[0].casefold() in {p.casefold() for p in path}:
+                name = name.split(" / ", 1)[1]
+            row = checkable(QTreeWidgetItem(parent), name, self._part_description(part))
+            row.setData(0, ROLE, ("part", i))
+            self.part_items[i] = row
+
+        rank = {key: n for n, key in enumerate(self.guide.order)}
+        for g in sorted(self.vmodel.groups, key=lambda g: rank.get(g.key, len(rank))):
             if self.flat_parts:
                 for i in g.items:
-                    part = self.vmodel.items[i]
-                    row = QTreeWidgetItem(self.tree)
-                    row.setText(0, part.name)
-                    row.setData(0, Qt.AccessibleTextRole, part.name)
-                    row.setToolTip(0, part.description[:300])
-                    row.setFlags(row.flags() | Qt.ItemIsUserCheckable)
-                    row.setCheckState(0, Qt.Checked)
-                    row.setData(0, ROLE, ("part", i))
-                    self.part_items[i] = row
+                    part_row(self.tree, i)
                 continue
-            gi = QTreeWidgetItem(self.tree)
-            gi.setToolTip(0, g.title)
-            gi.setData(0, Qt.AccessibleTextRole, g.title)
-            gi.setText(0, g.title)
-            f = gi.font(0)
-            f.setBold(True)
-            gi.setFont(0, f)
-            gi.setFlags(gi.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsAutoTristate)
-            gi.setCheckState(0, Qt.Checked)
-            gi.setData(0, ROLE, ("group", g.key))
-            gi.setExpanded(False)
-            self.group_items[g.key] = gi
+            path, title = self.guide.path(g.key, g.title)
+            parent = category(path)
             if self.entry.id == "cardiac_muscle":
                 # Repeated fibres, nuclei and connective tissue are one named
                 # structure family in the UI, while retaining every mesh.
-                self.family_rows.add(g.key)
-                gi.setText(0, g.title)
+                gi = heading(QTreeWidgetItem(parent), title, ("group", g.key))
                 gi.setFlags(gi.flags() & ~Qt.ItemIsAutoTristate)
+                self.family_rows.add(g.key)
+                self.group_items[g.key] = gi
                 for i in g.items:
                     self.part_items[i] = gi
-                continue
-            for i in g.items:
-                it = self.vmodel.items[i]
-                ti = QTreeWidgetItem(gi)
-                ti.setText(0, it.name)
-                ti.setData(0, Qt.AccessibleTextRole, it.name)
-                if it.description:
-                    ti.setToolTip(0, it.description[:300])
-                ti.setFlags(ti.flags() | Qt.ItemIsUserCheckable)
-                ti.setCheckState(0, Qt.Checked)
-                ti.setData(0, ROLE, ("part", i))
-                self.part_items[i] = ti
+            elif len(g.items) == 1:
+                part_row(parent, g.items[0], path)
+            else:
+                gi = heading(QTreeWidgetItem(parent), title, ("group", g.key))
+                self.group_items[g.key] = gi
+                for i in g.items:
+                    part_row(gi, i, path)
         self._sync = False
+
+    def _part_description(self, part):
+        """A part's teaching text: its own, unless its guide replaces build notes, else its structure's."""
+        guide = self.guide.group(part.group)
+        if guide.replace_part_descriptions or not part.description:
+            return guide.description or part.description
+        return part.description
+
+    def _structure_name(self, part):
+        """Where a part sits, for the Details crumb: its categories and its structure's title."""
+        path, title = self.guide.path(part.group, part.group)
+        return " › ".join([*path, title])
 
     def set_lessons_available(self, count):
         count = max(0, int(count))
@@ -450,41 +487,37 @@ class ModelView(QWidget):
 
     def _filter_tree(self, text):
         terms = normalized(text).split()
+        rows = [*self.category_items, *self.group_items.values()]
         if terms and self._filter_expanded is None:
-            self._filter_expanded = {key for key, item in self.group_items.items() if item.isExpanded()}
-        matches = 0
-        if self.flat_parts:
-            for sid, row in self.part_items.items():
-                part = self.vmodel.items[sid]
-                searchable = normalized(f"{part.name} {part.key}")
+            self._filter_expanded = {id(row) for row in rows if row.isExpanded()}
+
+        def visit(row, context):
+            """Show the rows matching every term (a part also matches by its group and categories); returns how
+            many parts stay listed."""
+            kind, val = row.data(0, ROLE)
+            if kind == "part":
+                part = self.vmodel.items[val]
+                show = all(term in normalized(f"{part.name} {part.key} {context}") for term in terms)
+                row.setHidden(not show)
+                return int(show)
+            label = f"{context} {val if kind == 'group' else ''} {row.text(0)}"
+            if val in self.family_rows:
+                sids = self._sids_of(row)
+                searchable = normalized(label + " " + " ".join(self.vmodel.items[i].name for i in sids))
                 show = all(term in searchable for term in terms)
                 row.setHidden(not show)
-                matches += int(show)
-        for key, group in self.group_items.items():
-            group_text = normalized(f"{key} {group.text(0)}")
-            if key in self.family_rows:
-                sids = self._sids_of(group)
-                searchable = normalized(group_text + " " + " ".join(self.vmodel.items[i].name for i in sids))
-                show = all(term in searchable for term in terms)
-                group.setHidden(not show)
-                matches += len(sids) if show else 0
-                continue
-            any_shown = False
-            for index in range(group.childCount()):
-                child = group.child(index)
-                kind, sid = child.data(0, ROLE)
-                part = self.vmodel.items[sid]
-                text = normalized(f"{part.name} {part.key} {group_text}")
-                show = all(term in text for term in terms)
-                child.setHidden(not show)
-                any_shown |= show
-                matches += int(show)
-            group.setHidden(not any_shown)
-            if terms and any_shown:
-                group.setExpanded(True)
-            elif not terms and self._filter_expanded is not None:
-                group.setExpanded(key in self._filter_expanded)
-        if not terms:
+                return len(sids) if show else 0
+            shown = sum(visit(row.child(index), label) for index in range(row.childCount()))
+            row.setHidden(not shown)
+            if terms and shown:
+                row.setExpanded(True)
+            return shown
+
+        root = self.tree.invisibleRootItem()
+        matches = sum(visit(root.child(index), "") for index in range(root.childCount()))
+        if not terms and self._filter_expanded is not None:
+            for row in rows:
+                row.setExpanded(id(row) in self._filter_expanded)
             self._filter_expanded = None
         self.parts_status.setText("Check to show or hide" if matches else
                                   "No matching parts. Clear the filter to see the full model.")
@@ -494,8 +527,10 @@ class ModelView(QWidget):
         kind, val = item.data(0, ROLE)
         if kind == "part":
             return [val]
-        g = next((g for g in self.vmodel.groups if g.key == val), None)
-        return list(g.items) if g else []
+        if kind == "group":
+            g = next((g for g in self.vmodel.groups if g.key == val), None)
+            return list(g.items) if g else []
+        return [sid for index in range(item.childCount()) for sid in self._sids_of(item.child(index))]
 
     def _item_changed(self, item, col):
         if self._sync:
@@ -523,9 +558,9 @@ class ModelView(QWidget):
         vis = self.state.visible_mask()
         self._sync = True
         for sid, it in self.part_items.items():
-            if self.flat_parts or it.parent() is not None:
+            if it.data(0, ROLE)[0] == "part":      # not a structure family's shared row
                 it.setCheckState(0, Qt.Checked if vis[sid] else Qt.Unchecked)
-        for key, gi in self.group_items.items():
+        for gi in [*self.group_items.values(), *self.category_items]:
             sids = self._sids_of(gi)
             n = int(vis[sids].sum()) if sids else 0
             gi.setCheckState(0, Qt.Checked if n == len(sids) else Qt.Unchecked if n == 0 else Qt.PartiallyChecked)
@@ -1026,8 +1061,10 @@ class ModelView(QWidget):
         if it:
             if it.isHidden():
                 self.filter.clear()
-            if it.parent() is not None:
-                it.parent().setExpanded(True)
+            parent = it.parent()
+            while parent is not None:          # every level above it, so the row can be seen
+                parent.setExpanded(True)
+                parent = parent.parent()
             self.tree.blockSignals(True)
             self.tree.setCurrentItem(it)
             self.tree.blockSignals(False)
@@ -1208,26 +1245,14 @@ class ModelView(QWidget):
         self.info = info
         self._show_selection()
 
-    def _show_selection(self):
-        if hasattr(self, "selection_status"):
-            self._update_selection_controls()
-        self.gl_widget.invalidate_labels()
-        if hasattr(self,"studio"):
-            selected = list(self.state.selected)
-            if self.click_hook is not None or not selected:self.studio.set_selection("")
-            elif self._selected_family(selected):
-                item=self.vmodel.items[selected[0]]
-                self.studio.set_selection(self._selected_family(selected),item.description or "Selected model structure")
-            elif len(selected)==1:
-                item=self.vmodel.items[selected[0]]
-                self.studio.set_selection(item.name,item.description or "Selected model structure")
-            else:self.studio.set_selection(f"{len(selected)} parts selected", "Isolate these structures or open their details.")
-        if not self.info or self.click_hook is not None:
-            return
-        sel = list(self.state.selected)
-        e, m = self.entry, self.vmodel
+    def _notes_html(self, clinical, tissues):
+        """Clinical notes and histology thumbnails, as Details shows them."""
+        html_out = ""
+        clinical = "".join(f"<p><b>{esc(t)}</b><br>{esc(x)}</p>" for t, x in dict.fromkeys(map(tuple, clinical)))
+        if clinical:
+            html_out += f"<p class='overline'>CLINICAL CORRELATIONS</p>{clinical}"
         hist = []
-        for tid in e.histology:
+        for tid in dict.fromkeys(tissues):
             t = self.content.tissues.get(tid)
             if not t or not t.get("images"):
                 continue
@@ -1237,24 +1262,53 @@ class ModelView(QWidget):
                 for i, img in enumerate(t["images"][:3]))
             hist.append(f'<p><b><a href="histo:{esc(tid)}|0">{esc(t["name"])}</a></b></p>'
                         f'<table cellspacing="0" cellpadding="0"><tr>{thumbs}</tr></table>')
+        if hist:
+            html_out += "<p class='overline'>HISTOLOGY</p>" + "".join(hist)
+        return html_out
+
+    def _structure_notes(self, groups):
+        """The clinical notes and tissues the part guide gives these structures, and nothing of the whole model's."""
+        guides = [self.guide.group(key) for key in sorted(groups)]
+        return self._notes_html([note for g in guides for note in g.clinical],
+                                [tissue for g in guides for tissue in g.histology])
+
+    def _show_selection(self):
+        if hasattr(self, "selection_status"):
+            self._update_selection_controls()
+        self.gl_widget.invalidate_labels()
+        if hasattr(self,"studio"):
+            selected = list(self.state.selected)
+            if self.click_hook is not None or not selected:self.studio.set_selection("")
+            elif self._selected_family(selected):
+                item=self.vmodel.items[selected[0]]
+                self.studio.set_selection(self._selected_family(selected),self._part_description(item) or "Selected model structure")
+            elif len(selected)==1:
+                item=self.vmodel.items[selected[0]]
+                self.studio.set_selection(item.name,self._part_description(item) or "Selected model structure")
+            else:self.studio.set_selection(f"{len(selected)} parts selected", "Isolate these structures or open their details.")
+        if not self.info or self.click_hook is not None:
+            return
+        sel = list(self.state.selected)
+        e, m = self.entry, self.vmodel
         related = " · ".join(f'<a href="micro:{esc(r)}">{esc(self.content.micro_models[r].name)}</a>'
                              for r in e.related if r in self.content.micro_models and r != e.id)
-        clinical = "".join(f"<p><b>{esc(t)}</b><br>{esc(x)}</p>" for t, x in e.clinical)
-        tail = ""
-        if clinical:
-            tail += f"<p class='overline'>CLINICAL CORRELATIONS</p>{clinical}"
-        if hist:
-            tail += "<p class='overline'>HISTOLOGY</p>" + "".join(hist)
+        # The whole model's clinical notes and tissues belong to its overview. A selected structure shows only its
+        # own (from the model's part guide), so the adrenal capsule of the kidney never reads about nephritis.
+        tail = self._notes_html(e.clinical, e.histology)
         if related:
             tail += f"<p class='overline'>RELATED MODELS</p><p>{related}</p>"
         if e.credit_html:
             tail += f"<p class='muted'>{e.credit_html}</p>"
+        overview = (f"<p class='overline'>THE WHOLE MODEL</p><p><a href=\"modeloverview:{esc(e.id)}\">About the "
+                    f"{esc(e.name)} model</a> – its overview, clinical notes and histology.</p>")
         family = self._selected_family(sel)
         if family:
-            descriptions = list(dict.fromkeys(m.items[i].description for i in sel if m.items[i].description))
+            descriptions = list(dict.fromkeys(self._part_description(m.items[i]) for i in sel
+                                              if self._part_description(m.items[i])))
             description = descriptions[0] if descriptions else "No written description is included for this structure."
+            notes = self._structure_notes({m.items[i].group for i in sel})
             body = (f"<div class='crumb'>{esc(e.name)} › {esc(family)}</div>"
-                    f"<p class='summary'>{esc(description)}</p>{tail}")
+                    f"<p class='summary'>{esc(description)}</p>{notes}{overview}")
             self.info.show_html(f"<h1>{esc(family)}</h1>", body)
         elif len(sel) == 1:
             it = m.items[sel[0]]
@@ -1264,7 +1318,7 @@ class ModelView(QWidget):
             if it.atlas:
                 atlas = (f"<p><a href=\"atlas:{esc('|'.join(it.atlas))}\">Show {esc(it.name.lower())} in the "
                          f"atlas</a></p>")
-            desc = it.description or "No written description is included for this part."
+            desc = self._part_description(it) or "No written description is included for this part."
             size = ""
             if m.metres_per_unit and it.parts and not m.sidecar.get("mixed_schematic_scale"):
                 b = m.item_bounds([it.index])
@@ -1275,20 +1329,21 @@ class ModelView(QWidget):
             if siblings:
                 shown = siblings[:24]
                 extra = f" and {len(siblings) - len(shown)} more" if len(siblings) > len(shown) else ""
-                more = (f"<p class='overline'>ALSO IN {esc(it.group.upper())}</p>"
+                more = (f"<p class='overline'>ALSO IN {esc(self.guide.path(it.group, it.group)[1].upper())}</p>"
                         f"<p class='muted'>{esc(' · '.join(shown))}{esc(extra)}</p>")
-            body = (f"<div class='crumb'>{esc(e.name)} › {esc(it.group)}</div>"
-                    f"<p class='summary'>{esc(desc)}</p>{size}{atlas}{more}{tail}")
+            body = (f"<div class='crumb'>{esc(e.name)} › {esc(self._structure_name(it))}</div>"
+                    f"<p class='summary'>{esc(desc)}</p>{size}{atlas}{self._structure_notes({it.group})}{more}"
+                    f"{overview}")
             self.info.show_html(f"<h1>{esc(it.name)}</h1>", body)
         elif len(sel) > 1:
             rows=[]
             for index in sel:
                 item=m.items[index]
                 href=QUrl('modelpart:'+e.id+'|'+str(index)).toString()
-                description=item.description or 'No written description is included for this part.'
+                description=self._part_description(item) or 'No written description is included for this part.'
                 rows.append(f'<p><a href="{esc(href)}"><b>{esc(item.name)}</b></a><br>{esc(brief(description,320))}</p>')
             body=(f"<div class='crumb'>{esc(e.name)}</div>"
-                  "<p class='summary'>Choose a part below to open its individual details.</p>"+''.join(rows))
+                  "<p class='summary'>Choose a part below to open its individual details.</p>"+''.join(rows)+overview)
             self.info.show_html(f"<h1>{len(sel)} selected parts</h1>",body)
         else:
             groups = []

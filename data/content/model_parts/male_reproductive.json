@@ -1,0 +1,265 @@
+{
+ "schema": 1,
+ "model_id": "male_reproductive",
+ "tree": [
+  {
+   "path": [
+    "Pelvis and surroundings"
+   ],
+   "groups": [
+    "Pelvis (context)"
+   ]
+  },
+  {
+   "path": [
+    "Testis and scrotum",
+    "Testis and epididymis"
+   ],
+   "groups": [
+    "Testis & epididymis"
+   ]
+  },
+  {
+   "path": [
+    "Testis and scrotum",
+    "Scrotum and coverings"
+   ],
+   "groups": [
+    "Scrotum & coverings"
+   ]
+  },
+  {
+   "path": [
+    "Testis and scrotum",
+    "Spermatic cord and groin"
+   ],
+   "groups": [
+    "Spermatic cord & inguinal canal"
+   ]
+  },
+  {
+   "path": [
+    "Bladder, prostate and urethra",
+    "Bladder and urethra"
+   ],
+   "groups": [
+    "Bladder & urethra"
+   ]
+  },
+  {
+   "path": [
+    "Bladder, prostate and urethra",
+    "Prostate and seminal glands"
+   ],
+   "groups": [
+    "Prostate & seminal glands"
+   ]
+  },
+  {
+   "path": [
+    "Penis and perineum",
+    "Penis"
+   ],
+   "groups": [
+    "Penis"
+   ]
+  },
+  {
+   "path": [
+    "Penis and perineum",
+    "Root of the penis"
+   ],
+   "groups": [
+    "Root of penis & perineum"
+   ]
+  },
+  {
+   "path": [
+    "Close-up views",
+    "Seminiferous tubule"
+   ],
+   "groups": [
+    "Seminiferous tubule (inset, ~x200)"
+   ]
+  },
+  {
+   "path": [
+    "Close-up views",
+    "Sperm cell"
+   ],
+   "groups": [
+    "Spermatozoon (inset, ~x1300)"
+   ]
+  }
+ ],
+ "titles": {
+  "Pelvis (context)": "Pelvic bones and nearby structures",
+  "Testis & epididymis": "Testis and epididymis",
+  "Scrotum & coverings": "Scrotum and its coverings",
+  "Spermatic cord & inguinal canal": "Spermatic cord and inguinal canal",
+  "Bladder & urethra": "Bladder and urethra",
+  "Prostate & seminal glands": "Prostate and seminal glands",
+  "Penis": "Penis",
+  "Root of penis & perineum": "Root of the penis and perineum",
+  "Seminiferous tubule (inset, ~x200)": "Seminiferous tubule (magnified)",
+  "Spermatozoon (inset, ~x1300)": "Sperm cell (magnified)"
+ },
+ "groups": {
+  "Pelvis (context)": {
+   "clinical": [
+    [
+     "Digital rectal exam",
+     "Digital rectal examination palpates the prostate through the front wall of the rectum. A hard, irregular nodule felt there raises suspicion of prostate cancer."
+    ],
+    [
+     "Fluid in the rectovesical pouch",
+     "The rectovesical pouch is the lowest part of the male peritoneal cavity, so blood, pus or tumour deposits from the abdomen collect there and can be felt on rectal examination."
+    ]
+   ],
+   "histology": [
+    "compact_bone",
+    "colon"
+   ]
+  },
+  "Testis & epididymis": {
+   "clinical": [
+    [
+     "Painless testicular lump",
+     "Most testicular tumours are germ cell tumours that start in the seminiferous tubules. A painless, firm lump in the testis needs prompt medical assessment."
+    ],
+    [
+     "Epididymitis",
+     "Inflammation of the epididymis causes pain and swelling at the back of the testis. In sexually active young men it is most often caused by chlamydia or gonorrhoea."
+    ]
+   ],
+   "histology": [
+    "testis",
+    "epididymis"
+   ]
+  },
+  "Scrotum & coverings": {
+   "clinical": [
+    [
+     "Hydrocele",
+     "A hydrocele is fluid collecting in the tunica vaginalis, the serous sac around the front of the testis. It causes painless scrotal swelling that transilluminates, meaning a light shone behind it glows through."
+    ],
+    [
+     "Cremasteric reflex",
+     "Stroking the inner thigh makes the cremaster muscle contract and lift the testis. This reflex tests the L1-L2 nerve supply."
+    ]
+   ],
+   "histology": [
+    "thin_skin",
+    "smooth_muscle"
+   ]
+  },
+  "Spermatic cord & inguinal canal": {
+   "clinical": [
+    [
+     "Indirect inguinal hernia",
+     "An indirect inguinal hernia passes through the deep inguinal ring, lateral to the inferior epigastric artery, and then along the inguinal canal inside the spermatic cord into the scrotum."
+    ],
+    [
+     "Testicular torsion",
+     "Twisting of the spermatic cord cuts off blood flow to the testis, causing sudden severe pain. It is a surgical emergency, because the testis is often lost if the cord is not untwisted within about 6 hours."
+    ]
+   ],
+   "histology": [
+    "ductus_deferens",
+    "vein"
+   ]
+  },
+  "Bladder & urethra": {
+   "clinical": [
+    [
+     "Urethral tear in pelvic fracture",
+     "The membranous urethra is held fixed by the puboprostatic ligaments, so it is the part most often torn in pelvic fractures. Blood at the urethral opening after a pelvic injury suggests this kind of tear."
+    ],
+    [
+     "Reflux from the bladder",
+     "The ureter enters the bladder obliquely, and this arrangement works as a flap valve that stops urine flowing back up. If the valve fails, urine refluxes up the ureter, raising the risk of kidney infection."
+    ]
+   ],
+   "histology": [
+    "bladder",
+    "urethra"
+   ]
+  },
+  "Prostate & seminal glands": {
+   "clinical": [
+    [
+     "Benign prostatic enlargement",
+     "The transition zone enlarges with age and squeezes the prostatic urethra. This causes difficulty starting to pass urine, a weak stream and frequent urination."
+    ],
+    [
+     "Prostate cancer",
+     "About 70% of prostate cancers arise in the peripheral zone, which lies at the back of the gland and is felt on rectal examination."
+    ]
+   ],
+   "histology": [
+    "prostate",
+    "seminal_vesicle"
+   ]
+  },
+  "Penis": {
+   "clinical": [
+    [
+     "Penile fracture",
+     "Rupture of the tunica albuginea during forceful bending of an erect penis causes a penile fracture. It is a urological emergency that usually needs surgical repair."
+    ],
+    [
+     "Erectile dysfunction",
+     "Erection depends on arterial blood filling the corpora cavernosa and on the tunica albuginea trapping that blood. Narrowed arteries, for example from atherosclerosis, are a common cause of erectile dysfunction."
+    ]
+   ],
+   "histology": [
+    "penis"
+   ]
+  },
+  "Root of penis & perineum": {
+   "clinical": [
+    [
+     "Straddle injury",
+     "A blow to the perineum, such as a fall onto a bar, can crush the bulb of the penis against the pubic arch and tear the spongy urethra."
+    ],
+    [
+     "Bulbocavernosus reflex",
+     "Squeezing the glans or tugging a urinary catheter makes the bulbospongiosus contract. Testing this reflex checks the S2-S4 spinal segments, and loss of it suggests damage to the sacral cord or its nerves."
+    ]
+   ],
+   "histology": [
+    "skeletal_muscle"
+   ]
+  },
+  "Seminiferous tubule (inset, ~x200)": {
+   "clinical": [
+    [
+     "Klinefelter syndrome",
+     "In Klinefelter syndrome (47,XXY) the seminiferous tubules are small and hyalinised, so sperm production fails and the testes stay small and firm."
+    ],
+    [
+     "Undescended testis",
+     "Spermatogenesis needs a temperature a few degrees below core body temperature, so a testis that fails to descend into the scrotum has impaired sperm production and a higher risk of germ cell tumour."
+    ]
+   ],
+   "histology": [
+    "testis"
+   ]
+  },
+  "Spermatozoon (inset, ~x1300)": {
+   "clinical": [
+    [
+     "Kartagener syndrome",
+     "Absent dynein arms in the axoneme cause primary ciliary dyskinesia, which is called Kartagener syndrome when situs inversus is also present. The sperm tails are immotile, so affected men are usually infertile, and airway cilia fail, causing chronic chest and sinus infections."
+    ],
+    [
+     "Intracytoplasmic sperm injection",
+     "In intracytoplasmic sperm injection a single sperm is injected straight into an egg, bypassing the acrosome reaction and zona pellucida. It is used for severe male infertility."
+    ]
+   ],
+   "histology": [
+    "testis"
+   ]
+  }
+ }
+}

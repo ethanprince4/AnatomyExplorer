@@ -1,0 +1,255 @@
+{
+ "schema": 1,
+ "model_id": "ear",
+ "tree": [
+  {
+   "path": [
+    "Skull and skin"
+   ],
+   "groups": [
+    "Temporal bone",
+    "Surrounding tissues"
+   ]
+  },
+  {
+   "path": [
+    "Outer ear"
+   ],
+   "groups": [
+    "External ear"
+   ]
+  },
+  {
+   "path": [
+    "Middle ear"
+   ],
+   "groups": [
+    "Middle ear"
+   ]
+  },
+  {
+   "path": [
+    "Middle ear",
+    "Ear bones"
+   ],
+   "groups": [
+    "Auditory ossicles",
+    "Ossicular ligaments & muscles"
+   ]
+  },
+  {
+   "path": [
+    "Inner ear"
+   ],
+   "groups": [
+    "Inner ear – bony labyrinth",
+    "Inner ear – membranous labyrinth"
+   ]
+  },
+  {
+   "path": [
+    "Inner ear",
+    "Hearing (cochlea)"
+   ],
+   "groups": [
+    "Inset: cochlear duct (magnified)"
+   ]
+  },
+  {
+   "path": [
+    "Inner ear",
+    "Balance organs"
+   ],
+   "groups": [
+    "Inset: crista ampullaris (magnified)",
+    "Inset: macula (magnified)"
+   ]
+  },
+  {
+   "path": [
+    "Nerves"
+   ],
+   "groups": [
+    "Nerves"
+   ]
+  }
+ ],
+ "titles": {
+  "Temporal bone": "Temporal bone (side of the skull)",
+  "Surrounding tissues": "Skin and fat around the ear",
+  "External ear": "Auricle and ear canal",
+  "Middle ear": "Eardrum, middle ear and Eustachian tube",
+  "Auditory ossicles": "The three ear bones",
+  "Ossicular ligaments & muscles": "Ligaments and muscles of the ear bones",
+  "Inner ear – bony labyrinth": "Bony chambers of the inner ear",
+  "Inner ear – membranous labyrinth": "Membrane-lined ducts of the inner ear",
+  "Inset: cochlear duct (magnified)": "Cochlea in cross-section (close-up)",
+  "Inset: crista ampullaris (magnified)": "Semicircular canal sensor, close-up",
+  "Inset: macula (magnified)": "Gravity sensor (macula), close-up",
+  "Nerves": "Nerves of the ear"
+ },
+ "groups": {
+  "Temporal bone": {
+   "clinical": [
+    [
+     "Mastoiditis",
+     "Infection can spread from the middle ear into the mastoid air cells, causing pain, swelling and tenderness behind the ear."
+    ],
+    [
+     "Petrous bone fracture",
+     "A fracture through the petrous part of the temporal bone can damage the facial nerve and inner ear, causing facial weakness, hearing loss and vertigo."
+    ]
+   ],
+   "histology": [
+    "compact_bone"
+   ]
+  },
+  "Surrounding tissues": {
+   "histology": [
+    "thin_skin",
+    "adipose"
+   ]
+  },
+  "External ear": {
+   "clinical": [
+    [
+     "Otitis externa (swimmer's ear)",
+     "Infection or inflammation of the skin lining the ear canal makes the tragus and auricle painful when pressed or when the ear is pulled."
+    ],
+    [
+     "Cauliflower ear",
+     "A blow to the auricle can rupture vessels under the perichondrium and form a haematoma. If it is not drained promptly, it can organise into fibrous tissue and permanently deform the cartilage."
+    ]
+   ],
+   "histology": [
+    "elastic_cartilage",
+    "thin_skin"
+   ]
+  },
+  "Middle ear": {
+   "clinical": [
+    [
+     "Otitis media",
+     "Infection of the middle ear, often after a cold, fills the cavity with fluid and pus, which can bulge or perforate the eardrum and cause pain."
+    ],
+    [
+     "Eustachian tube dysfunction",
+     "The pharyngotympanic (auditory) tube equalises air pressure in the middle ear with the throat. When it stays blocked, negative pressure pulls the eardrum inward, muffling hearing and causing ear fullness."
+    ]
+   ],
+   "histology": [
+    "simple_squamous",
+    "pseudostratified"
+   ]
+  },
+  "Auditory ossicles": {
+   "clinical": [
+    [
+     "Otosclerosis",
+     "Abnormal bone remodelling fixes the stapes footplate in the oval window, reducing sound transmission and causing progressive conductive hearing loss. Stapedectomy or a prosthesis can improve hearing."
+    ],
+    [
+     "Erosion of the incus (cholesteatoma)",
+     "Chronic infection or a cholesteatoma most often erodes the long process of the incus, breaking the chain and causing conductive hearing loss."
+    ]
+   ],
+   "histology": [
+    "compact_bone"
+   ]
+  },
+  "Ossicular ligaments & muscles": {
+   "clinical": [
+    [
+     "Loss of stapedius function",
+     "The stapedius is supplied by the facial nerve. If it is paralysed, for example by facial nerve palsy, the stapes is no longer damped and loud sounds become painful (hyperacusis)."
+    ]
+   ],
+   "histology": [
+    "skeletal_muscle",
+    "dense_regular"
+   ]
+  },
+  "Inner ear – bony labyrinth": {
+   "clinical": [
+    [
+     "Cochlear implant",
+     "An implant electrode is threaded through the round window or a small opening into the scala tympani, where it electrically stimulates the spiral ganglion neurons to give useful hearing."
+    ],
+    [
+     "Labyrinthitis",
+     "Inflammation of the labyrinth, usually from a viral infection or spread of a middle ear infection, causes vertigo, nausea and sometimes hearing loss."
+    ]
+   ],
+   "histology": [
+    "ear",
+    "compact_bone"
+   ]
+  },
+  "Inner ear – membranous labyrinth": {
+   "clinical": [
+    [
+     "Ménière disease",
+     "Excess endolymph distends the membranous labyrinth (endolymphatic hydrops), causing attacks of vertigo, fluctuating low-frequency hearing loss, tinnitus and aural fullness."
+    ],
+    [
+     "Noise-induced hearing loss",
+     "Loud noise and ageing damage the hair cells of the spiral organ, outer hair cells first. The damage is usually permanent because mammalian hair cells do not regenerate."
+    ]
+   ],
+   "histology": [
+    "ear"
+   ]
+  },
+  "Nerves": {
+   "clinical": [
+    [
+     "Vestibular schwannoma",
+     "A benign Schwann cell tumour, usually on the vestibular nerve in the internal acoustic meatus, causes slowly progressive one-sided hearing loss, tinnitus and imbalance."
+    ],
+    [
+     "Facial nerve damage",
+     "The facial nerve runs through the temporal bone beside the middle ear. Infection, surgery or fracture there can damage it and weaken the face on that side."
+    ]
+   ],
+   "histology": [
+    "peripheral_nerve",
+    "ganglion"
+   ]
+  },
+  "Inset: cochlear duct (magnified)": {
+   "clinical": [
+    [
+     "GJB2 (connexin 26) deafness",
+     "Mutations in GJB2, which encodes connexin 26, are a very common cause of inherited hearing loss. The gap junctions it forms let fibrocytes in the spiral ligament recycle potassium back to the stria vascularis."
+    ]
+   ],
+   "histology": [
+    "ear"
+   ]
+  },
+  "Inset: crista ampullaris (magnified)": {
+   "clinical": [
+    [
+     "Benign positional vertigo (BPPV)",
+     "Loose calcium-crystal debris that drifts into a semicircular canal can push on the cupula, causing brief spinning vertigo when the head moves into particular positions."
+    ]
+   ],
+   "histology": [
+    "ear"
+   ]
+  },
+  "Inset: macula (magnified)": {
+   "description": "The macula is a flat sensory patch in the utricle and saccule that detects head position and linear acceleration. Its hair bundles project into a gel layer weighted with calcium-carbonate crystals (otoconia); gravity or acceleration shifts this layer, bends the hair bundles and signals the brain about head orientation.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Benign positional vertigo (BPPV)",
+     "Otoconia that break free from this patch can drift into a semicircular canal and cause benign positional vertigo, often after head injury or with ageing."
+    ]
+   ],
+   "histology": [
+    "ear"
+   ]
+  }
+ }
+}

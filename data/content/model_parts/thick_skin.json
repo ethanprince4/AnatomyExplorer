@@ -1,0 +1,218 @@
+{
+ "schema": 1,
+ "model_id": "thick_skin",
+ "tree": [
+  {
+   "path": [
+    "Epidermis"
+   ],
+   "groups": [
+    "Epidermis"
+   ]
+  },
+  {
+   "path": [
+    "Epidermis",
+    "Cells"
+   ],
+   "groups": [
+    "Epidermal cells"
+   ]
+  },
+  {
+   "path": [
+    "Epidermis",
+    "Cell close-up"
+   ],
+   "groups": [
+    "Epidermal detail"
+   ]
+  },
+  {
+   "path": [
+    "Dermis and hypodermis"
+   ],
+   "groups": [
+    "Dermis",
+    "Hypodermis"
+   ]
+  },
+  {
+   "path": [
+    "Blood and nerve supply"
+   ],
+   "groups": [
+    "Vessels & nerves"
+   ]
+  },
+  {
+   "path": [
+    "Sweat glands"
+   ],
+   "groups": [
+    "Glands"
+   ]
+  },
+  {
+   "path": [
+    "Sweat glands",
+    "Cell close-up"
+   ],
+   "groups": [
+    "Eccrine cellular detail"
+   ]
+  },
+  {
+   "path": [
+    "Touch receptors"
+   ],
+   "groups": [
+    "Sensory receptors"
+   ]
+  },
+  {
+   "path": [
+    "Touch receptors",
+    "Cell close-up"
+   ],
+   "groups": [
+    "Sensory cellular detail"
+   ]
+  },
+  {
+   "path": [
+    "Cutaway helpers"
+   ],
+   "groups": [
+    "Closed covers"
+   ]
+  }
+ ],
+ "titles": {
+  "Epidermis": "Epidermis layers",
+  "Epidermal cells": "Skin cells in each layer",
+  "Epidermal detail": "Nuclei, granules and melanocytes",
+  "Dermis": "Dermis (papillary and reticular)",
+  "Hypodermis": "Hypodermis (fatty layer)",
+  "Vessels & nerves": "Blood vessels and nerves",
+  "Glands": "Sweat glands and ducts",
+  "Eccrine cellular detail": "Sweat gland and duct cells",
+  "Sensory receptors": "Touch and pressure receptors",
+  "Sensory cellular detail": "Meissner corpuscle close-up",
+  "Closed covers": "Cutaway overlays"
+ },
+ "groups": {
+  "Epidermis": {
+   "description": "The epidermis is the outer layer of the skin. In thick skin of the palms and soles it has five layers, from the basal layer where new cells are made up to the dead, flattened stratum corneum at the surface.",
+   "clinical": [
+    [
+     "Calluses",
+     "A callus is a local thickening of the stratum corneum that forms in response to repeated friction and pressure. Calluses are common on the palms and soles."
+    ]
+   ],
+   "histology": [
+    "thick_skin",
+    "strat_squamous_k"
+   ]
+  },
+  "Epidermal cells": {
+   "description": "Keratinocytes are the cells that make up most of the epidermis. They are born in the basal layer, move upward through the spinous and granular layers, and at the surface have lost their nuclei and become flat, dead cells filled with keratin.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Psoriasis",
+     "In psoriasis, keratinocytes turn over far faster than normal, so the epidermis thickens into raised, scaly plaques. Palms and soles can be affected."
+    ]
+   ],
+   "histology": [
+    "strat_squamous_k"
+   ]
+  },
+  "Epidermal detail": {
+   "description": "Close-up detail inside the epidermal layers. Keratinocyte nuclei and keratohyalin granules mark the living layers, and cell borders outline the flattened dead cells at the surface. Melanocytes, the pigment cells of the basal layer, send dendrites between keratinocytes and pass them melanin in packets called melanosomes.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Acral melanoma",
+     "Acral melanoma is a melanoma that arises from melanocytes on the palms, soles and under the nails."
+    ]
+   ],
+   "histology": [
+    "strat_squamous_k"
+   ]
+  },
+  "Dermis": {
+   "clinical": [
+    [
+     "Stretch marks",
+     "Stretch marks (striae) form when rapid stretching, as in growth or pregnancy, tears the collagen and elastic fibres of the dermis."
+    ]
+   ],
+   "histology": [
+    "loose_ct",
+    "dense_irregular"
+   ]
+  },
+  "Hypodermis": {
+   "description": "The hypodermis, also called the subcutis, is the layer of fat under the dermis. Its fat lobules are separated by fibrous septa that anchor the dermis to deeper fascia and carry larger vessels and nerves. It insulates, cushions and stores energy.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Cellulitis",
+     "Cellulitis is a bacterial infection of the dermis and subcutaneous fat, making an area of skin red, warm, swollen and tender."
+    ]
+   ],
+   "histology": [
+    "adipose"
+   ]
+  },
+  "Vessels & nerves": {
+   "description": "Blood reaches the skin through arterioles, which feed the subpapillary plexus and a capillary loop in each dermal papilla, and venules drain it into the venous plexuses. Cutaneous nerves carry sensory fibres through the dermis, and free nerve endings in the epidermis and dermis detect pain, temperature and itch.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "capillaries",
+    "muscular_artery"
+   ]
+  },
+  "Glands": {
+   "clinical": [
+    [
+     "Cystic fibrosis",
+     "In cystic fibrosis a faulty CFTR chloride channel in the sweat duct stops chloride being reabsorbed, so sweat is unusually salty. This is the basis of the sweat chloride test."
+    ],
+    [
+     "Hyperhidrosis",
+     "Hyperhidrosis is excessive sweating, often focal and most common on the palms, soles and armpits. It is driven by overactive sympathetic stimulation of eccrine sweat glands."
+    ]
+   ],
+   "histology": [
+    "sweat_glands"
+   ]
+  },
+  "Eccrine cellular detail": {
+   "description": "A close-up of the cells of an eccrine sweat gland. Clear cells make the watery primary sweat, dark cells add glycoprotein, and myoepithelial cells beneath them contract to push sweat out. The duct cells reabsorb salt, so sweat reaching the surface is less salty than the sweat made in the coil.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "sweat_glands"
+   ]
+  },
+  "Sensory receptors": {
+   "description": "Specialised endings in the skin that detect touch and pressure. Meissner corpuscles, in the dermal papillae of hairless palm and sole skin, detect light touch and fine texture. Pacinian corpuscles are large, onion-like capsules of many concentric lamellae in the deep dermis and hypodermis, and they respond best to rapid vibration and changes in pressure.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "skin_receptors"
+   ]
+  },
+  "Sensory cellular detail": {
+   "description": "A close-up of one Meissner corpuscle, a light-touch receptor in the dermal papillae of hairless palm and sole skin. Its capsule is made of flattened lamellar cells, which are modified Schwann cells, and the axon terminal inside them detects touch.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "skin_receptors"
+   ]
+  },
+  "Closed covers": {
+   "description": "These are helper pieces that hide or reveal the surrounding tissue, so that each close-up cutaway can be seen. They are not body structures and have no teaching content of their own.",
+   "replace_part_descriptions": true
+  }
+ }
+}

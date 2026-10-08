@@ -1,0 +1,152 @@
+{
+ "schema": 1,
+ "model_id": "lymph_drainage",
+ "tree": [
+  {
+   "path": [
+    "Lymph ducts",
+    "Thoracic duct"
+   ],
+   "groups": [
+    "Thoracic duct system"
+   ]
+  },
+  {
+   "path": [
+    "Lymph ducts",
+    "Right lymphatic duct"
+   ],
+   "groups": [
+    "Right lymphatic duct system"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels",
+    "Veins"
+   ],
+   "groups": [
+    "Great veins"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels",
+    "Arteries"
+   ],
+   "groups": [
+    "Aorta and branches"
+   ]
+  },
+  {
+   "path": [
+    "Lymph nodes"
+   ],
+   "groups": [
+    "Lymph nodes"
+   ]
+  },
+  {
+   "path": [
+    "Nearby structures"
+   ],
+   "groups": [
+    "Viscera",
+    "Skeleton",
+    "Diaphragm"
+   ]
+  }
+ ],
+ "titles": {
+  "Thoracic duct system": "Thoracic duct and its trunks",
+  "Right lymphatic duct system": "Right lymphatic duct and its trunks",
+  "Great veins": "Great veins",
+  "Aorta and branches": "Aorta and its branches",
+  "Lymph nodes": "Regional lymph node groups",
+  "Viscera": "Oesophagus and trachea",
+  "Skeleton": "Spine and clavicles",
+  "Diaphragm": "Diaphragm"
+ },
+ "groups": {
+  "Thoracic duct system": {
+   "description": "The thoracic duct is the body's main lymph channel. It collects lymph from the lower body and the left side of the head, neck, chest and arm, and returns it to the blood at the left venous angle.",
+   "clinical": [
+    [
+     "Chylothorax after duct injury",
+     "If the thoracic duct is torn, for example during chest surgery, trauma or a tumour in the chest, chyle can leak into the pleural space. This is called a chylothorax."
+    ],
+    [
+     "Virchow node above the left collarbone",
+     "Tumour cells from the abdomen can travel up the thoracic duct to this node, so a hard, enlarged node above the left collarbone can be a warning sign of abdominal cancer."
+    ]
+   ]
+  },
+  "Great veins": {
+   "description": "The internal jugular and subclavian veins join at each venous angle, where lymph returns to the blood. The two brachiocephalic veins unite to form the superior vena cava, which brings blood from the head, neck and arms to the heart; the inferior vena cava does the same for the lower body. The azygos and hemiazygos veins drain the posterior chest wall.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Superior vena cava obstruction",
+     "A tumour or clot that blocks the superior vena cava makes the face, neck and arms swell and dilates the veins over the chest wall. Lung cancer and lymphoma in the mediastinum are the classic causes."
+    ]
+   ],
+   "histology": [
+    "vein"
+   ]
+  },
+  "Aorta and branches": {
+   "description": "The aorta is the main artery leaving the heart. It rises from the left ventricle, arches back over the root of the left lung and descends through the chest and abdomen. Its branches, including the brachiocephalic trunk, left common carotid, left subclavian and coeliac arteries, supply the head, neck, arms and abdominal organs.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "elastic_artery",
+    "muscular_artery"
+   ]
+  },
+  "Lymph nodes": {
+   "description": "Lymph nodes are small bean-shaped filters along the lymph vessels. Lymph passes through them, where immune cells can trap germs and cancer cells. The groups shown here are the main regional stations draining the neck, armpit, chest and abdomen.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Armpit nodes in breast cancer",
+     "Breast cancer often spreads first to the armpit (axillary) nodes, so these nodes are checked during breast cancer surgery, often by sentinel node biopsy. If many of them are removed, lymph from the arm can back up and cause lasting swelling (lymphoedema)."
+    ],
+    [
+     "Neck nodes in throat infection",
+     "Cervical nodes often swell and feel tender during throat infections such as tonsillitis."
+    ]
+   ],
+   "histology": [
+    "lymph_node"
+   ]
+  },
+  "Viscera": {
+   "description": "The oesophagus (food tube) and trachea (windpipe) are shown as landmarks. The thoracic duct passes behind the oesophagus as it climbs through the chest, so the two lie very close together.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Duct injury in oesophageal surgery",
+     "Surgery on the oesophagus can tear the thoracic duct, which runs close behind it, and cause a chylothorax."
+    ]
+   ],
+   "histology": [
+    "oesophagus",
+    "trachea"
+   ]
+  },
+  "Skeleton": {
+   "description": "The spine (cervical, thoracic and lumbar vertebrae) protects the spinal cord, and the thoracic duct and cisterna chyli lie in front of it. The clavicles (collarbones) lie close to the venous angles, where lymph enters the blood.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "compact_bone",
+    "spongy_bone"
+   ]
+  },
+  "Diaphragm": {
+   "description": "The diaphragm is the dome-shaped skeletal muscle that separates the chest from the abdomen and drives breathing. The aorta and thoracic duct pass through it at the aortic hiatus, an opening near the spine.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "skeletal_muscle"
+   ]
+  }
+ }
+}

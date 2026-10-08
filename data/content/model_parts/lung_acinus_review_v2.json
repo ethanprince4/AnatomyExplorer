@@ -1,0 +1,144 @@
+{
+ "schema": 1,
+ "model_id": "lung_acinus_review_v2",
+ "tree": [
+  {
+   "path": [
+    "Airways"
+   ],
+   "groups": [
+    "Airways"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels"
+   ],
+   "groups": [
+    "Vessels"
+   ]
+  },
+  {
+   "path": [
+    "Alveoli"
+   ],
+   "groups": [
+    "Alveoli"
+   ]
+  },
+  {
+   "path": [
+    "Alveoli",
+    "Gas exchange barrier"
+   ],
+   "groups": [
+    "Air–blood barrier"
+   ]
+  },
+  {
+   "path": [
+    "Viewing aids",
+    "Wall cut-aways"
+   ],
+   "groups": [
+    "Local specimen covers"
+   ]
+  },
+  {
+   "path": [
+    "Viewing aids",
+    "Cell caps"
+   ],
+   "groups": [
+    "Cell specimen covers"
+   ]
+  }
+ ],
+ "titles": {
+  "Airways": "Small airways (bronchioles)",
+  "Vessels": "Pulmonary blood vessels",
+  "Alveoli": "Alveoli and their walls",
+  "Air–blood barrier": "Air–blood barrier",
+  "Local specimen covers": "Wall cut-away windows",
+  "Cell specimen covers": "Cell caps (to see nuclei)"
+ },
+ "groups": {
+  "Airways": {
+   "description": "The small airways carry air from the larger bronchi into the acinus. The terminal bronchiole is the last airway that only conducts air, and respiratory bronchioles, whose walls have scattered alveoli, are where gas exchange begins. Their smooth muscle can narrow them, and club cells secrete a protective protein and surfactant components.",
+   "clinical": [
+    [
+     "Asthma attacks",
+     "In asthma, the smooth muscle around the small airways contracts and narrows them. Inhaled β2-agonists relax this muscle and reopen the airway."
+    ],
+    [
+     "Smoking-related emphysema",
+     "In smokers, inflammation starts in the respiratory bronchioles and destroys the alveoli around them, causing centrilobular emphysema."
+    ]
+   ],
+   "histology": [
+    "bronchiole"
+   ]
+  },
+  "Vessels": {
+   "description": "The pulmonary arterioles carry deoxygenated blood from the right side of the heart alongside the airways to the capillaries that surround the alveoli. The capillaries form a dense sheet across the septa, and the pulmonary venules carry oxygenated blood back out along the edges of each lobule.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Pulmonary embolism",
+     "A blood clot lodged in a pulmonary artery blocks blood flow to part of the lung. That area is still ventilated but receives little blood, so oxygen uptake falls and the right side of the heart can be strained."
+    ],
+    [
+     "Pulmonary hypertension",
+     "Chronic low oxygen, as in severe COPD, makes the small pulmonary arterioles narrow and thicken. Pressure rises in the lung circulation and can eventually strain the right side of the heart."
+    ]
+   ],
+   "histology": [
+    "capillaries",
+    "lung"
+   ]
+  },
+  "Alveoli": {
+   "description": "The alveoli are the small, thin-walled air sacs where gas exchange takes place. Their walls, the interalveolar septa, are lined mainly by flat type I cells that handle gas exchange, with cuboidal type II cells that make surfactant and alveolar macrophages that clear dust and microbes. Small pores of Kohn connect neighbouring alveoli.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Emphysema",
+     "Destruction of alveolar walls removes gas-exchange surface and leaves the lung overinflated. In alpha-1 antitrypsin deficiency the damage is panacinar, affecting the whole acinus and worst in the lower lobes."
+    ],
+    [
+     "Spread of pneumonia",
+     "In lobar pneumonia, exudate fills the alveoli, and the pores of Kohn let infection spread from one alveolus to the next."
+    ]
+   ],
+   "histology": [
+    "lung"
+   ]
+  },
+  "Air–blood barrier": {
+   "description": "This is the thin wall between the air in an alveolus and the blood in a capillary. It is built from the flat type I cell, the fused basement membranes and the capillary endothelium, and is less than a micrometre thick, so gases diffuse across it quickly.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Pulmonary fibrosis",
+     "Scarring of the lung thickens the air–blood barrier, so gases cross it more slowly. People feel breathless, especially on exertion."
+    ],
+    [
+     "Acute lung injury (ARDS)",
+     "In acute respiratory distress syndrome, the barrier is injured and leaks, so fluid floods the alveoli and gas exchange fails."
+    ]
+   ],
+   "histology": [
+    "simple_squamous",
+    "lung"
+   ]
+  },
+  "Local specimen covers": {
+   "description": "These are removable openings cut into the walls of the air spaces so you can look inside. They are a viewing aid, not a natural gap in the lung.",
+   "replace_part_descriptions": true
+  },
+  "Cell specimen covers": {
+   "description": "These are removable caps over the cytoplasm of some cells. Hiding a cap shows the whole, uncut nucleus inside that cell. They are a viewing aid, not a real anatomical structure.",
+   "replace_part_descriptions": true
+  }
+ }
+}

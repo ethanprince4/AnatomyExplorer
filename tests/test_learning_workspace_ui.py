@@ -160,7 +160,7 @@ class LearningWorkspaceTests(unittest.TestCase):
                 self.assertEqual(panel.cover_title.text(), lesson.title)
                 if len(lesson):
                     panel.open_lesson(lesson.id)
-                    self.assertEqual(panel.step_picker.count(), len(lesson))
+                    self.assertEqual(panel.steps_shown, len(lesson))
                     self.assertEqual(panel.lesson.id, lesson.id)
                     for index in range(len(lesson)):
                         panel.go(index, force=True)

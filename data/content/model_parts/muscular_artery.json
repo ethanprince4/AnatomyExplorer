@@ -1,0 +1,90 @@
+{
+ "schema": 1,
+ "model_id": "muscular_artery",
+ "tree": [
+  {
+   "path": [
+    "Vessel wall"
+   ],
+   "groups": [
+    "Tunica intima",
+    "Tunica media",
+    "Tunica adventitia"
+   ]
+  },
+  {
+   "path": [
+    "Inside the vessel"
+   ],
+   "groups": [
+    "Blood"
+   ]
+  }
+ ],
+ "titles": {
+  "Tunica intima": "Inner lining (tunica intima)",
+  "Tunica media": "Muscle layer (tunica media)",
+  "Tunica adventitia": "Outer layer (tunica adventitia)",
+  "Blood": "Blood cells"
+ },
+ "groups": {
+  "Tunica intima": {
+   "description": "The innermost layer, facing the blood. It is a single sheet of flat endothelial cells, which release nitric oxide to relax the vessel, on a thin layer of connective tissue. The internal elastic lamina, a sheet of elastin, separates it from the middle muscle layer.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Atherosclerosis",
+     "Endothelial injury lets LDL cholesterol collect in the subendothelial layer, where it is oxidised and attracts inflammatory cells. This builds the fatty plaques of atherosclerosis."
+    ],
+    [
+     "Endothelial dysfunction",
+     "A damaged endothelium makes less nitric oxide, so the artery constricts more readily and platelets stick to it more easily, promoting clots. This is an early step in cardiovascular disease."
+    ]
+   ],
+   "histology": [
+    "muscular_artery",
+    "simple_squamous"
+   ]
+  },
+  "Tunica media": {
+   "description": "The thick middle layer of smooth muscle cells, arranged in rings or a shallow spiral around the vessel, with elastic and collagen fibres between them; its cigar-shaped nuclei belong to these cells. Contraction narrows the artery to control blood flow and pressure, and the outer edge of the layer is the external elastic lamina, a thin elastic sheet.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "High blood pressure",
+     "Long-standing high blood pressure makes the smooth muscle of this layer thicken (hypertrophy) and the artery wall stiffen and remodel. This raises peripheral resistance and keeps blood pressure high."
+    ],
+    [
+     "Polyarteritis nodosa",
+     "This inflammatory disease damages the walls of medium-sized and small muscular arteries, with inflammation and fibrinoid necrosis of the arterial wall. It often causes small aneurysms and infarcts in the organs these arteries supply."
+    ]
+   ],
+   "histology": [
+    "muscular_artery",
+    "smooth_muscle"
+   ]
+  },
+  "Tunica adventitia": {
+   "description": "The outer coat of connective tissue, mostly collagen with some elastic fibres and fibroblasts. It anchors the artery to the surrounding tissue and carries the small vessels (vasa vasorum) and nerves that supply the wall.",
+   "histology": [
+    "muscular_artery",
+    "dense_irregular"
+   ]
+  },
+  "Blood": {
+   "clinical": [
+    [
+     "Sickle cell disease",
+     "Sickle-shaped red cells are stiff and can block small vessels, causing pain and damage to the tissue they supply."
+    ],
+    [
+     "Acute inflammation",
+     "Neutrophils roll along inflamed endothelium, stick, and squeeze out into the tissue to fight infection; they are the first white cells to arrive in acute inflammation."
+    ]
+   ],
+   "histology": [
+    "blood"
+   ]
+  }
+ }
+}

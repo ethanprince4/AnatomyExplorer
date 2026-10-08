@@ -1,0 +1,174 @@
+{
+ "schema": 1,
+ "model_id": "oesophagus_wall",
+ "tree": [
+  {
+   "path": [
+    "Mucosa",
+    "Lining"
+   ],
+   "groups": [
+    "Squamous epithelium"
+   ]
+  },
+  {
+   "path": [
+    "Mucosa",
+    "Deeper mucosa"
+   ],
+   "groups": [
+    "Mucosa"
+   ]
+  },
+  {
+   "path": [
+    "Submucosa and glands"
+   ],
+   "groups": [
+    "Submucosa",
+    "Oesophageal glands"
+   ]
+  },
+  {
+   "path": [
+    "Muscle layers"
+   ],
+   "groups": [
+    "Muscularis externa"
+   ]
+  },
+  {
+   "path": [
+    "Outer layer"
+   ],
+   "groups": [
+    "Outer connective tissue"
+   ]
+  },
+  {
+   "path": [
+    "Vessels and nerves"
+   ],
+   "groups": [
+    "Vessels",
+    "Enteric plexuses"
+   ]
+  }
+ ],
+ "titles": {
+  "Outer connective tissue": "Adventitia (outer connective tissue)",
+  "Squamous epithelium": "Stratified squamous epithelium",
+  "Muscularis externa": "Muscle wall (muscularis externa)",
+  "Oesophageal glands": "Submucosal glands and ducts",
+  "Mucosa": "Lamina propria and muscularis mucosae",
+  "Vessels": "Blood and lymph vessels",
+  "Enteric plexuses": "Enteric nerve plexuses",
+  "Submucosa": "Submucosa"
+ },
+ "groups": {
+  "Outer connective tissue": {
+   "description": "The adventitia is the outer layer of the thoracic oesophagus. It is loose connective tissue that blends into the surrounding chest and carries the blood vessels, lymphatics and nerves that supply the wall. This part has no serosa, unlike the stomach and intestine.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Spread into the chest",
+     "The thoracic oesophagus has no serosa, so a cancer growing outward can invade directly into the trachea, aorta and other chest structures."
+    ]
+   ],
+   "histology": [
+    "loose_ct"
+   ]
+  },
+  "Squamous epithelium": {
+   "description": "This is the lining of the oesophagus: a thick stack of cell layers, flattened only at the surface, resting on a basement membrane. Cells made by the basal layer move upward to replace the surface cells as they wear away. The lining is not keratinised, so its surface cells keep their nuclei, unlike skin.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Squamous cell cancer",
+     "Most oesophageal cancers worldwide are squamous cell carcinomas, which arise from this lining. Smoking and heavy alcohol use are major risk factors."
+    ],
+    [
+     "Barrett oesophagus",
+     "Long-term acid reflux can replace the lower oesophageal lining with intestinal-type columnar cells (Barrett oesophagus). This raises the risk of adenocarcinoma."
+    ]
+   ],
+   "histology": [
+    "strat_squamous_nk"
+   ]
+  },
+  "Muscularis externa": {
+   "description": "The muscularis externa is the muscle wall of this part of the oesophagus. In this lower section it is smooth muscle, arranged as an inner circular layer and an outer longitudinal layer. Waves of contraction through both layers (peristalsis) push food toward the stomach.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Achalasia",
+     "In achalasia the lower oesophageal muscle fails to relax when swallowing, so food collects in the oesophagus and the normal wave-like contraction is lost."
+    ]
+   ],
+   "histology": [
+    "smooth_muscle"
+   ]
+  },
+  "Oesophageal glands": {
+   "description": "The oesophagus has compound mucous glands in the submucosa. Their blind-ending secretory branches drain into a collecting duct, and each duct passes through the muscularis mucosae and mucosa to open on the surface, releasing mucus that lubricates food.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "oesophagus"
+   ]
+  },
+  "Mucosa": {
+   "description": "The lamina propria is the loose connective tissue under the lining, forming low papillae that rise into the epithelium. The muscularis mucosae is a thin layer of smooth muscle lying below it, and the gland ducts pass through it on the way to the surface.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Mallory-Weiss tear",
+     "Forceful or repeated vomiting can tear the mucosa near the junction with the stomach, which may cause bleeding."
+    ]
+   ],
+   "histology": [
+    "loose_ct",
+    "smooth_muscle"
+   ]
+  },
+  "Vessels": {
+   "description": "The wall has its own blood supply. The submucosal artery and vein run through the submucosa, capillary loops in the lamina propria nourish the lining, and lymphatic vessels carry fluid away from the wall.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Oesophageal varices",
+     "Dilated veins in the lower oesophageal submucosa form when portal hypertension, for example from cirrhosis, forces blood into collateral veins that link the portal and systemic circulations. These veins can rupture and bleed heavily."
+    ]
+   ],
+   "histology": [
+    "capillaries",
+    "muscular_artery"
+   ]
+  },
+  "Enteric plexuses": {
+   "description": "The enteric plexuses are networks of nerve cells and fibres inside the wall that control movement and secretion largely independently of the brain. The myenteric plexus lies between the two muscle layers and drives peristalsis. The submucosal plexus, which is sparse in this part of the tube, lies in the submucosa and mainly controls secretion.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Achalasia",
+     "Achalasia is linked to loss of inhibitory nerve cells in the myenteric plexus, so the lower oesophageal muscle does not relax properly during swallowing."
+    ]
+   ],
+   "histology": [
+    "ganglion"
+   ]
+  },
+  "Submucosa": {
+   "description": "The submucosa is the connective tissue layer beneath the mucosa. Its core supports the longitudinal folds of the lining and carries the glands, blood vessels and nerves of the wall.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Depth of early cancer",
+     "Early oesophageal cancer is staged partly by how deep it grows. Reaching the submucosa marks a more advanced stage than staying in the mucosa."
+    ]
+   ],
+   "histology": [
+    "dense_irregular"
+   ]
+  }
+ }
+}
