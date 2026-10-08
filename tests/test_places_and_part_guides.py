@@ -3,6 +3,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from app.ui.places import PlaceHistory
@@ -74,6 +75,18 @@ class PartGuideTests(unittest.TestCase):
     def test_replacement_needs_a_description(self):
         g = self.guide({"groups": {"A": {"description": " ", "replace_part_descriptions": True}}})
         self.assertFalse(g.group("A").replace_part_descriptions)
+
+    def test_a_part_description_comes_before_its_group(self):
+        g = self.guide({"groups": {"Taste": {"description": "Taste buds are ...", "replace_part_descriptions": True},
+                                   "Plain": {"description": "Group text."}},
+                        "parts": [{"keys": ["Basal taste cells", "Basal taste cells 2"], "description": "Basal cells are ..."},
+                                  {"keys": ["Taste pore"], "description": " "}, "bad", {"keys": "x", "description": "y"}]})
+        part = lambda key, group, own="": SimpleNamespace(key=key, group=group, description=own)
+        self.assertEqual(g.description(part("Basal taste cells 2", "Taste", "Build note")), "Basal cells are ...")
+        self.assertEqual(g.description(part("Taste pore", "Taste", "Build note")), "Taste buds are ...")
+        self.assertEqual(g.description(part("Other", "Plain", "Own text.")), "Own text.")
+        self.assertEqual(g.description(part("Other", "Plain")), "Group text.")
+        self.assertEqual(g.description(part("Other", "Missing")), "")
 
     def test_kidney_no_longer_carries_the_adrenal_gland(self):
         g = part_guide.load_part_guide("kidney_nephron")

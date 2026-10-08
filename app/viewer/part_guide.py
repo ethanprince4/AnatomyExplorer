@@ -3,14 +3,17 @@
 A model's parts carry a group key, often an internal path such as "Gross / renal capsule". A guide arranges those groups
 under plain categories for the parts tree, gives each a readable title, and holds what Details shows for a structure: a
 teaching description (in place of build notes, when replace_part_descriptions is set), clinical notes about that
-structure, and the histology tissues that show it. Everything is optional, and anything malformed is ignored, so a model
-without a guide keeps working; its groups are then nested by the segments of their own keys.
+structure, and the histology tissues that show it. "parts" gives individual parts their own description, by part key,
+where the group's text would describe a neighbour (a taste-bud paragraph for the basal taste cells); one entry covers
+every copy of a structure. Everything is optional, and anything malformed is ignored, so a model without a guide keeps
+working; its groups are then nested by the segments of their own keys.
 
     {"schema": 1,
      "tree": [{"path": ["Kidney", "Blood vessels"], "groups": ["Gross / renal artery", ...]}, ...],
      "titles": {"Gross / renal artery": "Renal artery", ...},
      "groups": {"Gross / renal artery": {"description": "...", "replace_part_descriptions": false,
                                          "clinical": [["Title", "Text"], ...], "histology": ["muscular_artery"]}},
+     "parts": [{"keys": ["Basal taste cells"], "description": "..."}, ...],
      "exclude": {"groups": [...], "targets": [...], "aliases": [...], "histology": [...]}}
 
 "exclude" retires what does not belong to the model (the adrenal gland that came with the kidney): those groups' parts
@@ -38,6 +41,7 @@ class PartGuide:
     order: list = field(default_factory=list)         # group keys in outline order
     titles: dict = field(default_factory=dict)        # group key -> display title
     groups: dict = field(default_factory=dict)        # group key -> GroupGuide
+    descriptions: dict = field(default_factory=dict)  # part key -> its own teaching description
     excluded_groups: frozenset = frozenset()
     excluded_targets: frozenset = frozenset()
     excluded_aliases: frozenset = frozenset()
@@ -55,6 +59,17 @@ class PartGuide:
 
     def group(self, key):
         return self.groups.get(key) or GroupGuide()
+
+    def description(self, part):
+        """A part's teaching text: the guide's for that part, else its own unless the guide replaces its group's build
+        notes, else its group's."""
+        own = self.descriptions.get(part.key)
+        if own:
+            return own
+        group = self.group(part.group)
+        if group.replace_part_descriptions or not part.description:
+            return group.description or part.description
+        return part.description
 
 
 def _sentence(text):
@@ -109,4 +124,8 @@ def load_part_guide(model_id, tissue_ids=None):
             histology = [t for t in histology if t in tissue_ids]
         guide.groups[key] = GroupGuide(description.strip(), raw.get("replace_part_descriptions") is True and
                                        bool(description.strip()), clinical[:3], histology)
+    for raw in data.get("parts") or [] if isinstance(data.get("parts"), list) else ():
+        text = raw.get("description") if isinstance(raw, dict) and isinstance(raw.get("description"), str) else ""
+        for key in _strings(raw.get("keys")) if text.strip() else ():
+            guide.descriptions.setdefault(key, text.strip())
     return guide
