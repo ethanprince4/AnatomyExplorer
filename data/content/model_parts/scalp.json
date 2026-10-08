@@ -1,0 +1,288 @@
+{
+ "schema": 1,
+ "model_id": "scalp",
+ "tree": [
+  {
+   "path": [
+    "Skin layers",
+    "Outer skin"
+   ],
+   "groups": [
+    "Epidermis",
+    "Dermis"
+   ]
+  },
+  {
+   "path": [
+    "Skin layers",
+    "Deeper layers"
+   ],
+   "groups": [
+    "Hypodermis",
+    "Galea aponeurotica"
+   ]
+  },
+  {
+   "path": [
+    "Hair follicle",
+    "Whole follicle"
+   ],
+   "groups": [
+    "Hair follicle"
+   ]
+  },
+  {
+   "path": [
+    "Hair follicle",
+    "Parts"
+   ],
+   "groups": [
+    "Follicle context"
+   ]
+  },
+  {
+   "path": [
+    "Hair follicle",
+    "Cells"
+   ],
+   "groups": [
+    "Follicle cellular field"
+   ]
+  },
+  {
+   "path": [
+    "Glands and muscle"
+   ],
+   "groups": [
+    "Glands"
+   ]
+  },
+  {
+   "path": [
+    "Glands and muscle",
+    "Oil gland and hair muscle"
+   ],
+   "groups": [
+    "Associated appendages"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels and nerves"
+   ],
+   "groups": [
+    "Vessels & nerves"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels and nerves",
+    "Touch and vibration"
+   ],
+   "groups": [
+    "Sensory receptors"
+   ]
+  },
+  {
+   "path": [
+    "Model helper pieces (not real tissue)",
+    "Follicle wall"
+   ],
+   "groups": [
+    "Unit restoration covers"
+   ]
+  },
+  {
+   "path": [
+    "Model helper pieces (not real tissue)",
+    "Cell surfaces"
+   ],
+   "groups": [
+    "Cell restoration covers"
+   ]
+  },
+  {
+   "path": [
+    "Model helper pieces (not real tissue)",
+    "Muscle anchor"
+   ],
+   "groups": [
+    "Reconstructed teaching context"
+   ]
+  }
+ ],
+ "titles": {
+  "Epidermis": "Epidermis (outer skin)",
+  "Dermis": "Dermis (inner skin)",
+  "Hypodermis": "Hypodermis (fat layer)",
+  "Galea aponeurotica": "Galea (tough scalp sheet)",
+  "Hair follicle": "Whole hair follicle",
+  "Follicle context": "Inside the follicle",
+  "Follicle cellular field": "Outer root sheath cells",
+  "Glands": "Oil and sweat glands",
+  "Associated appendages": "Oil gland, duct and hair muscle",
+  "Vessels & nerves": "Blood vessels and nerves",
+  "Sensory receptors": "Pacinian corpuscles (vibration sensors)",
+  "Unit restoration covers": "Follicle wall (model only)",
+  "Cell restoration covers": "Cell surface (model only)",
+  "Reconstructed teaching context": "Muscle anchor (model only)"
+ },
+ "groups": {
+  "Epidermis": {
+   "description": "The epidermis is the thin outer layer of the skin, made of keratinocytes that rise from the basal layer to the dead, flattened surface and are shed. Melanocytes sit among the basal cells and make the pigment melanin that colours the skin.",
+   "clinical": [
+    [
+     "Psoriasis",
+     "Keratinocytes turn over far too quickly, so thick, silvery scales build up on the surface of the epidermis. Scalp involvement is common."
+    ],
+    [
+     "Vitiligo",
+     "Loss of melanocytes from the basal layer, usually from an autoimmune attack, leaves smooth white patches of skin."
+    ]
+   ],
+   "histology": [
+    "thin_skin",
+    "strat_squamous_k"
+   ]
+  },
+  "Dermis": {
+   "clinical": [
+    [
+     "Keloid scar",
+     "After injury, the dermis makes excess collagen, forming a raised scar that grows beyond the original wound edge."
+    ]
+   ],
+   "histology": [
+    "thin_skin",
+    "dense_irregular"
+   ]
+  },
+  "Hypodermis": {
+   "description": "The hypodermis is the layer of fat beneath the dermis. In the scalp, tough fibrous septa bind the skin firmly to the galea and carry the larger blood vessels and nerves, while fat lobules fill the spaces between them.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Heavy scalp bleeding",
+     "The fibrous septa hold cut blood vessels open, so scalp wounds bleed heavily."
+    ]
+   ],
+   "histology": [
+    "adipose",
+    "dense_irregular"
+   ]
+  },
+  "Galea aponeurotica": {
+   "description": "The galea aponeurotica is a tough, fibrous sheet covering the top of the skull, linking the frontalis muscle at the forehead to the occipitalis muscle at the back of the head. Beneath it lies loose areolar tissue, which lets the scalp slide over the skull.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Subgaleal haemorrhage",
+     "Bleeding into the loose layer under the galea can spread across the whole scalp and cause major blood loss. It is a recognised risk in newborns after vacuum-assisted delivery."
+    ]
+   ],
+   "histology": [
+    "dense_regular"
+   ]
+  },
+  "Hair follicle": {
+   "description": "The hair follicle is a pocket in the skin that grows a hair. It holds the hair shaft, the inner and outer root sheaths around it, and the hair bulb, where fast-dividing cells build the hair. The dermal papilla, a cap of connective tissue at the base of the bulb, feeds these cells and helps control hair growth.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Alopecia areata",
+     "The immune system attacks growing (anagen) follicles, causing patchy hair loss. The follicles usually survive, so hair often regrows."
+    ],
+    [
+     "Androgenetic alopecia",
+     "Androgens gradually shrink hair follicles (miniaturisation), so hairs become finer and shorter over time."
+    ]
+   ],
+   "histology": [
+    "hair_follicle"
+   ]
+  },
+  "Follicle context": {
+   "description": "From the outside in, the follicle wall is made of the outer root sheath, which continues from the epidermis, and the inner root sheath, which surrounds the lower hair shaft. At the base, matrix cells divide to make new hair and wrap around the dermal papilla.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Chemotherapy hair loss",
+     "Matrix cells divide rapidly, so cytotoxic drugs damage them and hairs break or fall out during treatment. Hair usually regrows afterwards."
+    ]
+   ],
+   "histology": [
+    "hair_follicle"
+   ]
+  },
+  "Follicle cellular field": {
+   "description": "The outer root sheath is the outer wall of the hair follicle, and it is continuous with the epidermis above. Its cells are keratinocytes, each with a nucleus surrounded by cytoplasm.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "hair_follicle"
+   ]
+  },
+  "Glands": {
+   "description": "Sebaceous (oil) glands sit beside the follicle and release an oily secretion called sebum into its upper part, which lubricates the skin and hair. Eccrine sweat glands are coiled tubes deep in the dermis and hypodermis that make watery sweat, which a duct carries up to the surface. The arrector pili, a tiny muscle attached to each follicle, pulls the hair upright when it contracts.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Acne",
+     "Sebaceous glands make excess sebum, which can block the follicle with keratin and bacteria, forming spots."
+    ],
+    [
+     "Cystic fibrosis",
+     "A faulty CFTR channel in the sweat duct stops salt being reabsorbed, so sweat is unusually salty; the sweat chloride test uses this to diagnose the condition."
+    ]
+   ],
+   "histology": [
+    "sweat_glands",
+    "hair_follicle"
+   ]
+  },
+  "Associated appendages": {
+   "description": "The sebaceous gland drains through a short duct into the upper part of the hair follicle, releasing sebum. The arrector pili is a tiny smooth muscle attached to the follicle; when it contracts it pulls the hair upright, which causes goosebumps.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "hair_follicle"
+   ]
+  },
+  "Vessels & nerves": {
+   "description": "The scalp's blood supply forms two networks: a deep plexus at the junction of the dermis and fat that feeds the follicles and glands, and a subpapillary plexus that gives each papilla a capillary loop. Free nerve endings sense pain and temperature, nerve endings wrapped around each hair follicle detect hair movement, and cutaneous nerves carry these signals to the brain or spinal cord.",
+   "clinical": [
+    [
+     "Shingles",
+     "Varicella-zoster virus reactivates in a sensory nerve ganglion and travels down one cutaneous nerve, causing a painful, one-sided band of blisters."
+    ]
+   ],
+   "histology": [
+    "capillaries",
+    "skin_receptors"
+   ]
+  },
+  "Sensory receptors": {
+   "description": "Pacinian corpuscles are onion-shaped sensors in the deep dermis and hypodermis. Layers of flattened cells around the nerve ending filter out steady pressure, so the corpuscle responds mainly to quick vibration and changes in pressure.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Loss of vibration sense",
+     "Vibration sense, tested with a 128 Hz tuning fork, is an early sign of peripheral neuropathy such as diabetic neuropathy."
+    ]
+   ],
+   "histology": [
+    "skin_receptors"
+   ]
+  },
+  "Unit restoration covers": {
+   "description": "These are thin model-only overlays that sit over the follicle parts and the sebaceous duct wall, keeping their outlines continuous. They are not separate anatomy; the tissue beneath is described under the follicle and gland entries.",
+   "replace_part_descriptions": true
+  },
+  "Cell restoration covers": {
+   "description": "These are thin model-only overlays that sit over the outer root sheath cells so each cell looks whole. They are not cells in their own right; the real cells are described under Outer root sheath cells.",
+   "replace_part_descriptions": true
+  },
+  "Reconstructed teaching context": {
+   "description": "A model-only piece that joins the arrector pili muscle to the papillary dermis, the upper layer of the dermis. In real skin the muscle is anchored in this layer; this piece only approximates that connection and is not a separate structure.",
+   "replace_part_descriptions": true
+  }
+ }
+}

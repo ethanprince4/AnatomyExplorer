@@ -1,0 +1,158 @@
+{
+ "schema": 1,
+ "model_id": "axillary_skin",
+ "tree": [
+  {
+   "path": [
+    "Layers of the skin"
+   ],
+   "groups": [
+    "Epidermis",
+    "Dermis",
+    "Hypodermis"
+   ]
+  },
+  {
+   "path": [
+    "Hair and glands"
+   ],
+   "groups": [
+    "Hair follicle",
+    "Glands"
+   ]
+  },
+  {
+   "path": [
+    "Blood supply and nerves"
+   ],
+   "groups": [
+    "Vessels & nerves",
+    "Sensory receptors"
+   ]
+  }
+ ],
+ "titles": {
+  "Epidermis": "Epidermis (outer layer)",
+  "Dermis": "Dermis (middle layer)",
+  "Hypodermis": "Hypodermis (fat layer)",
+  "Hair follicle": "Hair follicle",
+  "Glands": "Glands and arrector pili muscle",
+  "Vessels & nerves": "Blood vessels and nerves",
+  "Sensory receptors": "Sensory receptors"
+ },
+ "groups": {
+  "Epidermis": {
+   "description": "The epidermis is the thin, outer layer of skin, made of keratinised stratified squamous epithelium. Its cells are made in the basal layer, move upward, flatten and fill with keratin until they die and shed from the surface. Melanocytes sit among the basal cells and pass the pigment melanin to neighbouring keratinocytes.",
+   "clinical": [
+    [
+     "Psoriasis",
+     "A chronic inflammatory disease in which keratinocytes turn over far faster than normal, so the epidermis thickens and silvery scales form."
+    ],
+    [
+     "Bullous pemphigoid",
+     "An autoimmune blistering disease in which antibodies attack hemidesmosome proteins in the basal layer, so the epidermis separates from the dermis and tense blisters form."
+    ]
+   ],
+   "histology": [
+    "thin_skin",
+    "strat_squamous_k"
+   ]
+  },
+  "Dermis": {
+   "clinical": [
+    [
+     "Keloid",
+     "Excess collagen deposited after injury grows beyond the original wound edges, unlike a hypertrophic scar, which stays within them."
+    ],
+    [
+     "Systemic sclerosis (scleroderma)",
+     "An autoimmune disease in which excess collagen builds up in the dermis, making the skin thick and hard, and it can also affect internal organs."
+    ]
+   ],
+   "histology": [
+    "dense_irregular",
+    "loose_ct"
+   ]
+  },
+  "Hypodermis": {
+   "clinical": [
+    [
+     "Lipoma",
+     "A benign, usually painless tumour of mature fat cells that forms a soft, mobile lump in the subcutaneous fat."
+    ],
+    [
+     "Erythema nodosum",
+     "Tender red nodules, usually on the shins, caused by inflammation of the fibrous septa that divide the subcutaneous fat."
+    ]
+   ],
+   "histology": [
+    "adipose"
+   ]
+  },
+  "Hair follicle": {
+   "description": "A hair follicle is a tube of epidermis that grows down into the dermis and makes the hair. Matrix cells in the bulb at its base divide rapidly to form the hair shaft and inner root sheath. The dermal papilla, a small cluster of dermal cells tucked into the base of the bulb, regulates hair growth and the hair cycle.",
+   "clinical": [
+    [
+     "Alopecia areata",
+     "An autoimmune condition in which immune cells attack growing (anagen) hair follicles, causing patchy hair loss."
+    ],
+    [
+     "Hidradenitis suppurativa",
+     "A chronic, painful inflammatory disease of hair follicles in the armpits and groin, where blocked follicles rupture into abscesses and sinus tracts."
+    ]
+   ],
+   "histology": [
+    "hair_follicle"
+   ]
+  },
+  "Glands": {
+   "description": "Armpit skin has several kinds of gland. Eccrine sweat glands open onto the skin surface and cool the body by evaporation, apocrine glands open into hair follicles and make a thick, protein-rich secretion that becomes odorous when skin bacteria break it down, and sebaceous glands release oily sebum to lubricate hair and skin. The arrector pili muscles attached to hair follicles pull the hairs upright.",
+   "clinical": [
+    [
+     "Acne vulgaris",
+     "Acne forms when hair follicles and their attached sebaceous glands become blocked with excess sebum and skin bacteria, producing blackheads and inflamed spots."
+    ],
+    [
+     "Primary focal hyperhidrosis",
+     "Excessive sweating from overactive eccrine glands with no underlying cause, most often affecting the armpits, palms and soles."
+    ]
+   ],
+   "histology": [
+    "sweat_glands",
+    "hair_follicle"
+   ]
+  },
+  "Vessels & nerves": {
+   "description": "Blood reaches the skin through arterioles in a deep plexus at the junction of dermis and hypodermis and a subpapillary plexus in the upper dermis, with capillary loops rising into each dermal papilla to feed the avascular epidermis. Cutaneous nerves run through the deep dermis and hypodermis and branch to free nerve endings that sense pain and temperature. Hair follicle nerve endings wrap around each follicle and detect hair movement.",
+   "clinical": [
+    [
+     "Herpes zoster (shingles)",
+     "Reactivation of the chickenpox virus in a sensory ganglion causes a painful, blistering rash along the skin area supplied by one cutaneous nerve (a dermatome)."
+    ],
+    [
+     "Infantile haemangioma",
+     "A benign tumour of blood vessel-lining cells that appears in the first weeks of life, grows over the first months and then slowly shrinks, usually disappearing over the following years."
+    ]
+   ],
+   "histology": [
+    "capillaries",
+    "peripheral_nerve"
+   ]
+  },
+  "Sensory receptors": {
+   "clinical": [
+    [
+     "Loss of vibration sense",
+     "Vibration sense depends on large myelinated fibres, including those from Pacinian corpuscles, and is one of the first senses lost in peripheral neuropathy such as diabetic neuropathy."
+    ],
+    [
+     "Leprosy",
+     "Mycobacterium leprae damages peripheral nerves, causing loss of sensation in numb, pale or reddish patches of skin."
+    ]
+   ],
+   "histology": [
+    "skin_receptors"
+   ]
+  }
+ }
+}

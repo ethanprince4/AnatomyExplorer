@@ -1,0 +1,105 @@
+{
+ "schema": 1,
+ "model_id": "compact_bone",
+ "tree": [
+  {
+   "path": [
+    "Outer surface"
+   ],
+   "groups": [
+    "Periosteum"
+   ]
+  },
+  {
+   "path": [
+    "Compact bone"
+   ],
+   "groups": [
+    "Osteons"
+   ]
+  },
+  {
+   "path": [
+    "Compact bone",
+    "Between and around osteons"
+   ],
+   "groups": [
+    "Canals",
+    "Lamellar systems"
+   ]
+  },
+  {
+   "path": [
+    "Inner surface and marrow"
+   ],
+   "groups": [
+    "Endosteum & marrow"
+   ]
+  }
+ ],
+ "titles": {
+  "Periosteum": "Periosteum (outer covering)",
+  "Osteons": "Osteons (Haversian systems)",
+  "Canals": "Volkmann canals and their vessels",
+  "Lamellar systems": "Lamellae between and around osteons",
+  "Endosteum & marrow": "Endosteum and marrow"
+ },
+ "groups": {
+  "Periosteum": {
+   "clinical": [
+    [
+     "Periostitis",
+     "Inflammation of the periosteum (periostitis) causes localised bone pain, because the fibrous layer is richly supplied with sensory nerves."
+    ],
+    [
+     "Fracture healing",
+     "The cambium layer contributes the periosteal callus that bridges a fracture during healing."
+    ]
+   ],
+   "histology": [
+    "dense_irregular"
+   ]
+  },
+  "Osteons": {
+   "description": "An osteon (Haversian system) is the basic structural unit of compact bone: concentric rings of bone matrix (lamellae) wrapped around a central (Haversian) canal that carries blood vessels and nerves. Osteocytes sit in small cavities called lacunae between the lamellae and connect with each other and with the canal through tiny channels called canaliculi. Osteons run roughly parallel to the long axis of the bone, so they appear as round cross-sections in a transverse section.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Paget disease of bone",
+     "In Paget disease, osteoclasts resorb bone excessively and the replacement osteons form in a disorganised mosaic pattern, so affected bone is enlarged and weaker than normal."
+    ]
+   ],
+   "histology": [
+    "compact_bone"
+   ]
+  },
+  "Canals": {
+   "description": "Volkmann (perforating) canals run across the cortex, transversely or obliquely rather than along the long axis of the bone. They link central canals with each other and with the periosteal and marrow surfaces, and carry the vessels that join the periosteal and nutrient blood supplies. Unlike central canals, they have no concentric lamellae around them.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "compact_bone"
+   ]
+  },
+  "Lamellar systems": {
+   "histology": [
+    "compact_bone"
+   ]
+  },
+  "Endosteum & marrow": {
+   "clinical": [
+    [
+     "Osteoporosis",
+     "In osteoporosis, osteoclast resorption outpaces osteoblast bone formation during remodelling, thinning the trabeculae and cortex and raising fracture risk."
+    ],
+    [
+     "Bone marrow sampling",
+     "Bone marrow aspiration, usually from the posterior iliac crest or the sternum, samples red marrow to help diagnose blood disorders."
+    ]
+   ],
+   "histology": [
+    "bone_marrow",
+    "spongy_bone"
+   ]
+  }
+ }
+}

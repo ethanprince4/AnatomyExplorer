@@ -1,0 +1,147 @@
+{
+ "schema": 1,
+ "model_id": "duodenum",
+ "tree": [
+  {
+   "path": [
+    "Inner lining (mucosa)",
+    "Surface lining"
+   ],
+   "groups": [
+    "Epithelium"
+   ]
+  },
+  {
+   "path": [
+    "Inner lining (mucosa)",
+    "Villi"
+   ],
+   "groups": [
+    "Villi"
+   ]
+  },
+  {
+   "path": [
+    "Inner lining (mucosa)",
+    "Base of the mucosa"
+   ],
+   "groups": [
+    "Mucosa"
+   ]
+  },
+  {
+   "path": [
+    "Submucosa"
+   ],
+   "groups": [
+    "Submucosa"
+   ]
+  },
+  {
+   "path": [
+    "Muscle layers"
+   ],
+   "groups": [
+    "Muscularis externa"
+   ]
+  },
+  {
+   "path": [
+    "Outer covering"
+   ],
+   "groups": [
+    "Serosa"
+   ]
+  }
+ ],
+ "titles": {
+  "Epithelium": "Lining cells (epithelium)",
+  "Villi": "Villi (core and vessels)",
+  "Mucosa": "Support tissue, vessels and thin muscle",
+  "Submucosa": "Submucosa (Brunner glands)",
+  "Muscularis externa": "Muscle layers and nerve plexus",
+  "Serosa": "Outer covering (serosa)"
+ },
+ "groups": {
+  "Epithelium": {
+   "description": "The lining is a single layer of tall column-shaped cells. Most are absorptive enterocytes with a brush border of microvilli on their surface, and scattered goblet cells secrete mucus. At the base of the crypts, stem cells keep renewing the lining, and Paneth cells there release antibacterial granules.",
+   "clinical": [
+    [
+     "Coeliac disease",
+     "In coeliac disease, an immune reaction to gluten flattens the villi and damages the enterocytes. The lining then absorbs less, so iron and fat-soluble vitamins are often poorly absorbed."
+    ],
+    [
+     "Lactose intolerance",
+     "Lactase, an enzyme on the brush border, splits milk sugar. When it is low, lactose reaches the colon, where bacteria ferment it and cause bloating and diarrhoea."
+    ]
+   ],
+   "histology": [
+    "simple_columnar"
+   ]
+  },
+  "Villi": {
+   "description": "Each villus is a small leaf-like fold of the mucosa with a core of loose connective tissue. The core holds a central lacteal that takes up absorbed fat, a capillary network that takes up sugars and amino acids, and smooth-muscle strands that can shorten the villus.",
+   "clinical": [
+    [
+     "Intestinal lymphangiectasia",
+     "When the central lacteals are dilated, protein-rich lymph leaks into the gut. This causes low blood protein, swelling of the legs and diarrhoea."
+    ]
+   ],
+   "histology": [
+    "duodenum"
+   ]
+  },
+  "Mucosa": {
+   "description": "The base of the mucosa is loose connective tissue called lamina propria, which fills the space between the crypts and carries lymphatic and small blood vessels. Its lowest layer is the muscularis mucosae, a thin sheet of smooth muscle that separates the mucosa from the submucosa and whose contraction helps fold the mucosa.",
+   "histology": [
+    "loose_ct",
+    "smooth_muscle"
+   ]
+  },
+  "Submucosa": {
+   "description": "The submucosa is a layer of dense connective tissue between the mucosa and the muscle coat. In the duodenum it is packed with Brunner glands, which secrete alkaline mucus that neutralises stomach acid, and it carries the blood vessels and the submucosal (Meissner) nerve plexus.",
+   "clinical": [
+    [
+     "Bleeding duodenal ulcer",
+     "A duodenal ulcer that erodes through the mucosa can open a blood vessel in the submucosa and cause bleeding. Ulcers on the back wall of the first part of the duodenum are the most likely to erode into the gastroduodenal artery and cause severe bleeding."
+    ],
+    [
+     "Rare benign growths",
+     "Brunner gland adenomas are rare, benign tumours that arise from these glands in the submucosa."
+    ]
+   ],
+   "histology": [
+    "duodenum"
+   ]
+  },
+  "Muscularis externa": {
+   "description": "The muscularis externa is the muscle coat of the gut, with an inner circular layer and an outer longitudinal layer. Between them lies the myenteric (Auerbach) plexus, a network of nerve ganglia that coordinates the waves of contraction called peristalsis.",
+   "clinical": [
+    [
+     "Chagas disease",
+     "In Chagas disease, a parasite infection destroys the myenteric plexus, so the gut muscle loses its coordination. The gut dilates most noticeably as megaoesophagus and megacolon."
+    ],
+    [
+     "Intestinal pseudo-obstruction",
+     "This is a failure of the gut's nerve and muscle control, which causes obstruction-like symptoms even though nothing physically blocks the bowel."
+    ]
+   ],
+   "histology": [
+    "smooth_muscle"
+   ]
+  },
+  "Serosa": {
+   "description": "The serosa is a thin outer covering of simple squamous mesothelium over loose connective tissue, which keeps organ surfaces smooth and slippery. The first part of the duodenum sits in the peritoneal cavity and is covered by serosa, while the rest lies behind the peritoneum and has an adventitia instead.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Perforated duodenal ulcer",
+     "A deep duodenal ulcer can perforate through every layer, including the serosa. Gut contents then spill into the abdomen and cause peritonitis, which is a surgical emergency."
+    ]
+   ],
+   "histology": [
+    "serosa"
+   ]
+  }
+ }
+}

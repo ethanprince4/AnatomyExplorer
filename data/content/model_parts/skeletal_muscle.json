@@ -1,0 +1,123 @@
+{
+ "schema": 1,
+ "model_id": "skeletal_muscle",
+ "tree": [
+  {
+   "path": [
+    "Whole muscle"
+   ],
+   "groups": [
+    "Connective tissue"
+   ]
+  },
+  {
+   "path": [
+    "Whole muscle",
+    "Stretch sensors"
+   ],
+   "groups": [
+    "Muscle spindle"
+   ]
+  },
+  {
+   "path": [
+    "Blood and nerve supply"
+   ],
+   "groups": [
+    "Nerves & vessels"
+   ]
+  },
+  {
+   "path": [
+    "Muscle cells"
+   ],
+   "groups": [
+    "Muscle fibres"
+   ]
+  },
+  {
+   "path": [
+    "Muscle cells",
+    "Inside a muscle fibre"
+   ],
+   "groups": [
+    "Sarcomere"
+   ]
+  }
+ ],
+ "titles": {
+  "Connective tissue": "Connective tissue sheaths",
+  "Muscle spindle": "Muscle spindle (stretch receptor)",
+  "Nerves & vessels": "Nerves and blood vessels",
+  "Muscle fibres": "Muscle fibres",
+  "Sarcomere": "Sarcomere (contractile unit)"
+ },
+ "groups": {
+  "Connective tissue": {
+   "clinical": [
+    [
+     "Fibrosis in muscular dystrophy",
+     "In muscular dystrophies, repeated cycles of fibre damage and repair leave scar-like collagen behind. The perimysium and endomysium thicken with fibrous tissue (fibrosis), so the muscle becomes stiffer and weaker."
+    ]
+   ],
+   "histology": [
+    "dense_irregular"
+   ]
+  },
+  "Muscle spindle": {
+   "clinical": [
+    [
+     "Knee-jerk reflex",
+     "The knee-jerk (patellar tendon) reflex depends on Ia sensory endings in muscle spindles. A lost reflex points to a break in the reflex arc, such as a peripheral nerve or nerve-root lesion, while an exaggerated reflex points to an upper motor neuron lesion."
+    ]
+   ],
+   "histology": [
+    "skeletal_muscle"
+   ]
+  },
+  "Nerves & vessels": {
+   "description": "Several capillaries surround every muscle fibre, while arterioles and venules run between the fascicles to feed and drain the muscle. Motor nerve branches carry the signal to the fibres and meet each fibre at its motor end plate, the neuromuscular junction.",
+   "clinical": [
+    [
+     "Myasthenia gravis",
+     "In myasthenia gravis, antibodies attack acetylcholine receptors at the motor end plate, so signals cross the neuromuscular junction poorly. This causes weakness that gets worse with repeated use."
+    ],
+    [
+     "Denervation",
+     "If a motor nerve is cut or crushed, the fibres it supplied lose their stimulus and waste away (denervation atrophy), so the muscle weakens."
+    ]
+   ],
+   "histology": [
+    "muscular_artery",
+    "peripheral_nerve"
+   ]
+  },
+  "Muscle fibres": {
+   "clinical": [
+    [
+     "Central nuclei",
+     "Nuclei lying in the middle of a fibre, rather than at its edge, are a sign that the fibre was damaged and has regenerated. They are typical of many myopathies."
+    ],
+    [
+     "Rhabdomyolysis",
+     "Rhabdomyolysis is the breakdown of skeletal muscle fibres, releasing myoglobin and creatine kinase into the blood. Myoglobin can cause kidney injury."
+    ]
+   ],
+   "histology": [
+    "skeletal_muscle"
+   ]
+  },
+  "Sarcomere": {
+   "description": "A sarcomere is the repeating contractile unit of a myofibril, running from one Z disc to the next. Its thick and thin filaments slide past each other to shorten it, while T tubules carry the electrical signal deep into the fibre and the sarcoplasmic reticulum stores and releases the calcium that triggers contraction.",
+   "clinical": [
+    [
+     "Malignant hyperthermia",
+     "Mutations in the RYR1 gene, which encodes the ryanodine receptor on the sarcoplasmic reticulum, can cause malignant hyperthermia. Volatile anaesthetic gases and succinylcholine can trigger uncontrolled calcium release, causing sustained contraction, very high temperature and metabolic crisis."
+    ]
+   ],
+   "histology": [
+    "skeletal_muscle"
+   ]
+  }
+ }
+}

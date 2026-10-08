@@ -1,0 +1,140 @@
+{
+ "schema": 1,
+ "model_id": "spleen",
+ "tree": [
+  {
+   "path": [
+    "Covering and framework"
+   ],
+   "groups": [
+    "Capsule & trabeculae"
+   ]
+  },
+  {
+   "path": [
+    "Blood supply"
+   ],
+   "groups": [
+    "Vessels"
+   ]
+  },
+  {
+   "path": [
+    "Red pulp"
+   ],
+   "groups": [
+    "Red pulp"
+   ]
+  },
+  {
+   "path": [
+    "Red pulp",
+    "Filtering in detail"
+   ],
+   "groups": [
+    "Filtering detail - enlarged schematic"
+   ]
+  },
+  {
+   "path": [
+    "White pulp"
+   ],
+   "groups": [
+    "White pulp"
+   ]
+  },
+  {
+   "path": [
+    "White pulp",
+    "Edge of follicles"
+   ],
+   "groups": [
+    "Follicular surface"
+   ]
+  }
+ ],
+ "titles": {
+  "Capsule & trabeculae": "Capsule and trabeculae",
+  "Vessels": "Blood vessels",
+  "Red pulp": "Red pulp",
+  "Filtering detail - enlarged schematic": "Enlarged filtering close-up",
+  "White pulp": "White pulp",
+  "Follicular surface": "Marginal zone"
+ },
+ "groups": {
+  "Capsule & trabeculae": {
+   "description": "The spleen is wrapped in a thin outer capsule of dense connective tissue, covered over most of its surface by mesothelium (the visceral layer of the peritoneum). Trabeculae are connective-tissue partitions that branch inward from the capsule and carry blood vessels into the organ, forming the spleen's supporting framework.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Splenic rupture",
+     "The capsule is thin and encloses a soft, blood-rich organ, so a blow to the left upper abdomen can tear it and cause serious internal bleeding."
+    ]
+   ],
+   "histology": [
+    "serosa",
+    "dense_irregular"
+   ]
+  },
+  "White pulp": {
+   "description": "White pulp is the lymphoid tissue of the spleen. It holds T-cell zones around the central arterioles (the periarteriolar lymphoid sheath) and B-cell follicles, where immune cells screen blood-borne antigens and make antibodies. Germinal centres inside follicles are where B cells multiply and refine their antibodies during an immune response.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Risk after splenectomy",
+     "White pulp helps clear encapsulated bacteria such as pneumococci. After the spleen is removed, people remain at risk of severe infection by these bacteria, so vaccines are usually given beforehand."
+    ]
+   ],
+   "histology": [
+    "spleen"
+   ]
+  },
+  "Follicular surface": {
+   "description": "The marginal zone is the outer border of each white pulp follicle, where white pulp meets red pulp. It contains marginal-zone B cells and blood-filled spaces that catch blood-borne antigens. In humans this border is open rather than the neat ring of lined vessels seen in rodents.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "spleen"
+   ]
+  },
+  "Red pulp": {
+   "description": "Red pulp is the filtering part of the spleen. Blood flows from small arteries into open splenic cords, where macrophages remove old or damaged red cells, and then drains into venous sinuses; it is named for the many red cells it holds.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "spleen",
+    "reticular_ct"
+   ]
+  },
+  "Vessels": {
+   "description": "Blood enters the spleen through the splenic artery, which branches into trabecular arteries. Central arterioles run through the white pulp and continue as penicillar arterioles that open into the red pulp. Blood leaves through pulp veins and trabecular veins, which join the splenic vein and carry it to the portal vein.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Portal hypertension",
+     "In cirrhosis and other causes of high portal pressure, blood backs up in the splenic vein, so the spleen becomes congested and enlarged (splenomegaly) and can trap blood cells, causing hypersplenism."
+    ]
+   ],
+   "histology": [
+    "muscular_artery",
+    "vein"
+   ]
+  },
+  "Filtering detail - enlarged schematic": {
+   "description": "Splenic venous sinuses are lined by long, rod-like endothelial cells (stave cells), with narrow slits between them. Flexible, healthy red cells can squeeze through these slits into the sinus, while stiff or aged red cells are held back in the cords, where macrophages remove them.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Rigid red cells",
+     "Stiff or misshapen red cells, such as spherocytes in hereditary spherocytosis, are trapped in the red pulp and destroyed there. Removing the spleen often helps these patients."
+    ],
+    [
+     "Sickle cell disease",
+     "Sickled red cells can clog the slits and cords of the red pulp, causing repeated small infarcts that can shrink the spleen and leave the patient functionally asplenic."
+    ]
+   ],
+   "histology": [
+    "capillaries",
+    "spleen"
+   ]
+  }
+ }
+}

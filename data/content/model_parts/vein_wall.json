@@ -1,0 +1,97 @@
+{
+ "schema": 1,
+ "model_id": "vein_wall",
+ "tree": [
+  {
+   "path": [
+    "Vein wall",
+    "Inner lining"
+   ],
+   "groups": [
+    "Tunica intima"
+   ]
+  },
+  {
+   "path": [
+    "Vein wall",
+    "Middle layer"
+   ],
+   "groups": [
+    "Tunica media"
+   ]
+  },
+  {
+   "path": [
+    "Vein wall",
+    "Outer layer"
+   ],
+   "groups": [
+    "Tunica adventitia"
+   ]
+  },
+  {
+   "path": [
+    "Blood in the vein"
+   ],
+   "groups": [
+    "Blood"
+   ]
+  }
+ ],
+ "titles": {
+  "Tunica intima": "Lining and valves (tunica intima)",
+  "Tunica media": "Muscle layer (tunica media)",
+  "Tunica adventitia": "Outer coat (tunica adventitia)",
+  "Blood": "Blood cells"
+ },
+ "groups": {
+  "Tunica intima": {
+   "description": "The innermost coat, the part of the vein that touches the blood. It is a single layer of flat endothelial cells on a thin sheet of connective tissue, with few elastic fibres. The paired semilunar valve cusps are folds of this lining, reinforced with connective tissue, that stop blood flowing backwards, away from the heart.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Incompetent valves and varicose veins",
+     "When the valve cusps fail to close fully, blood leaks backwards, away from the heart, and pressure builds up in the vein. Failing valves in the leg veins are a major cause of varicose veins."
+    ],
+    [
+     "Deep vein thrombosis",
+     "Injury to the endothelium, slow blood flow and a tendency to clot make up Virchow's triad, the basis of deep vein thrombosis. It usually forms in a deep vein of the leg."
+    ]
+   ],
+   "histology": [
+    "vein",
+    "simple_squamous"
+   ]
+  },
+  "Tunica media": {
+   "clinical": [
+    [
+     "Weak, easily stretched wall",
+     "The thin media lets a vein stretch easily when pressure rises. Chronic pressure in the leg veins can dilate and weaken the wall, which contributes to varicose veins."
+    ]
+   ],
+   "histology": [
+    "vein",
+    "smooth_muscle"
+   ]
+  },
+  "Tunica adventitia": {
+   "description": "The outer coat and the thickest layer of a vein. It is made of collagen and elastic fibres with fibroblasts, longitudinal smooth muscle bundles, nerves and small vessels (vasa vasorum) that supply the wall. Perivascular fat lies just outside it.",
+   "histology": [
+    "vein",
+    "dense_irregular"
+   ]
+  },
+  "Blood": {
+   "clinical": [
+    [
+     "Anaemia",
+     "Red blood cells carry oxygen on haemoglobin. In anaemia there are too few red cells or too little haemoglobin, so the tissues receive less oxygen."
+    ]
+   ],
+   "histology": [
+    "blood"
+   ]
+  }
+ }
+}

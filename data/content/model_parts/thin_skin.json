@@ -1,0 +1,255 @@
+{
+ "schema": 1,
+ "model_id": "thin_skin",
+ "tree": [
+  {
+   "path": [
+    "Epidermis"
+   ],
+   "groups": [
+    "Epidermis – bulk context"
+   ]
+  },
+  {
+   "path": [
+    "Epidermis",
+    "Cells"
+   ],
+   "groups": [
+    "Epidermis – cellular field"
+   ]
+  },
+  {
+   "path": [
+    "Dermis"
+   ],
+   "groups": [
+    "Dermis – superficial context",
+    "Dermis – retained context"
+   ]
+  },
+  {
+   "path": [
+    "Hypodermis"
+   ],
+   "groups": [
+    "Hypodermis – bulk context"
+   ]
+  },
+  {
+   "path": [
+    "Hypodermis",
+    "Cells"
+   ],
+   "groups": [
+    "Hypodermis – unilocular cell field"
+   ]
+  },
+  {
+   "path": [
+    "Hair and glands"
+   ],
+   "groups": [
+    "Hair follicle",
+    "Glands"
+   ]
+  },
+  {
+   "path": [
+    "Vessels and nerves"
+   ],
+   "groups": [
+    "Vessels & nerves"
+   ]
+  },
+  {
+   "path": [
+    "Vessels and nerves",
+    "Nerve endings"
+   ],
+   "groups": [
+    "Sensory receptors"
+   ]
+  },
+  {
+   "path": [
+    "Removable covers"
+   ],
+   "groups": [
+    "Tissue restoration covers",
+    "Cell-field restoration covers"
+   ]
+  }
+ ],
+ "titles": {
+  "Epidermis – bulk context": "Epidermis layers",
+  "Epidermis – cellular field": "Keratinocytes and melanocytes",
+  "Dermis – superficial context": "Papillary dermis",
+  "Dermis – retained context": "Reticular dermis",
+  "Hypodermis – bulk context": "Fat lobules and septa",
+  "Hypodermis – unilocular cell field": "Adipocytes (fat cells)",
+  "Hair follicle": "Hair follicle",
+  "Glands": "Glands and hair muscle",
+  "Vessels & nerves": "Small blood vessels and nerves",
+  "Sensory receptors": "Pressure and vibration receptors",
+  "Tissue restoration covers": "Dermis and fat covers",
+  "Cell-field restoration covers": "Epidermis and fat cell covers"
+ },
+ "groups": {
+  "Epidermis – bulk context": {
+   "clinical": [
+    [
+     "Psoriasis",
+     "In psoriasis, keratinocytes are made far faster than normal, so the epidermis thickens and the outer layer stays scaly and keeps its nuclei (parakeratosis)."
+    ],
+    [
+     "Bullous pemphigoid",
+     "Autoantibodies attack the hemidesmosome proteins (BP180 and BP230) that anchor basal cells to the basement membrane. The epidermis then splits from the dermis and forms tense blisters, mostly in older adults."
+    ]
+   ],
+   "histology": [
+    "thin_skin",
+    "strat_squamous_k"
+   ]
+  },
+  "Epidermis – cellular field": {
+   "description": "Keratinocytes, the main cells of the epidermis, mature as they move from the basal layer to the surface. They divide at the bottom, fill with keratin and keratohyalin granules, and finally die as flat, horny cells. Melanocytes sit among the basal cells and pass melanin to nearby keratinocytes, which shades the nucleus against UV light.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Melanoma",
+     "Malignant melanoma arises from melanocytes, often after intense UV exposure. The ABCDE rule (asymmetry, irregular border, colour variation, diameter over 6 mm, evolving shape) helps spot it early."
+    ],
+    [
+     "Filaggrin and skin barrier",
+     "Filaggrin, released from keratohyalin granules, binds keratin filaments and helps keep the outer skin hydrated. Loss-of-function mutations in its gene cause ichthyosis vulgaris and raise the risk of atopic dermatitis."
+    ]
+   ],
+   "histology": [
+    "strat_squamous_k",
+    "thin_skin"
+   ]
+  },
+  "Dermis – superficial context": {
+   "histology": [
+    "loose_ct"
+   ]
+  },
+  "Dermis – retained context": {
+   "description": "The deeper, thicker part of the dermis, made of dense irregular connective tissue rich in type I collagen. It gives the skin its strength and stretch resistance and carries the hair follicles, sweat glands, vessels and nerves.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Keloid",
+     "Keloids form when the dermis lays down excess collagen after injury, producing raised scars that grow beyond the original wound edge."
+    ],
+    [
+     "Stretch marks",
+     "Stretch marks (striae) appear when rapid stretching tears the collagen and elastic fibres of the dermis, leaving pale streaks."
+    ]
+   ],
+   "histology": [
+    "dense_irregular"
+   ]
+  },
+  "Tissue restoration covers": {
+   "description": "The dermis and the fatty hypodermis form the outer covering over the hair follicles, glands and vessels. The reticular dermis is dense connective tissue rich in type I collagen, and the hypodermis below is white fat divided into lobules by fibrous septa.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "dense_irregular",
+    "adipose"
+   ]
+  },
+  "Hypodermis – bulk context": {
+   "description": "The hypodermis is the layer of white fat beneath the dermis, divided into lobules by fibrous septa. The septa tie the skin to the deep fascia and carry the larger vessels and nerves, while the fat insulates, cushions and stores energy.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Lipoma",
+     "A lipoma is a common, benign tumour of mature fat cells that forms a soft, movable lump in the subcutaneous fat."
+    ]
+   ],
+   "histology": [
+    "adipose"
+   ]
+  },
+  "Cell-field restoration covers": {
+   "description": "This group contains the cells of the epidermis and of the fat layer. Keratinocytes make keratin and form most of the epidermis, melanocytes make the pigment melanin, and adipocytes are large fat cells that store energy in a single lipid droplet.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "strat_squamous_k",
+    "adipose"
+   ]
+  },
+  "Hypodermis – unilocular cell field": {
+   "description": "Adipocytes are large fat cells that store energy in a single lipid droplet. The droplet pushes the nucleus and thin cytoplasm to the rim, and clusters of these cells form the fat lobules of the hypodermis that cushion and insulate the body.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Obesity",
+     "In obesity, adipocytes enlarge and can also increase in number, so the fat stores grow."
+    ]
+   ],
+   "histology": [
+    "adipose"
+   ]
+  },
+  "Hair follicle": {
+   "description": "Each hair grows from a follicle, a tube of epidermis that sinks into the dermis. Cells in the bulb divide rapidly to form the hair shaft and root sheaths, while the dermal papilla below signals them to grow.",
+   "clinical": [
+    [
+     "Hair loss from chemotherapy",
+     "Chemotherapy drugs kill the fast-dividing matrix cells in the hair bulb, so hair falls out within a few weeks of treatment (anagen effluvium)."
+    ],
+    [
+     "Androgenetic alopecia",
+     "In androgenetic alopecia, androgens such as dihydrotestosterone (DHT) gradually shrink terminal follicles into fine vellus-type follicles, so hair becomes thinner and shorter over time."
+    ]
+   ],
+   "histology": [
+    "hair_follicle"
+   ]
+  },
+  "Glands": {
+   "clinical": [
+    [
+     "Acne",
+     "Acne forms when sebaceous glands make excess sebum and the follicle opening becomes blocked, letting Cutibacterium acnes bacteria multiply."
+    ],
+    [
+     "Cystic fibrosis",
+     "Cystic fibrosis is caused by faulty CFTR chloride channels, so sweat ducts reabsorb too little chloride and sweat is unusually salty. The sweat chloride test is a standard diagnostic test for it."
+    ]
+   ],
+   "histology": [
+    "sweat_glands",
+    "hair_follicle"
+   ]
+  },
+  "Vessels & nerves": {
+   "description": "Arterioles and venules form plexuses in the dermis and hypodermis that feed the skin, follicles and glands. Capillary loops rise into the dermal papillae to supply the living epidermis, and sensory nerves carry touch, pain and temperature signals to the spinal cord and brain.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Raynaud phenomenon",
+     "In Raynaud phenomenon, small arteries and arterioles in the fingers and toes go into spasm in cold or stress, so the skin turns white, then blue, then red as blood returns."
+    ],
+    [
+     "Shingles",
+     "Shingles occurs when varicella-zoster virus, dormant in a sensory nerve ganglion, reactivates and travels along one sensory nerve. It causes a painful blistering rash in a single band of skin, called a dermatome."
+    ]
+   ],
+   "histology": [
+    "muscular_artery",
+    "capillaries"
+   ]
+  },
+  "Sensory receptors": {
+   "description": "A Pacinian corpuscle is an onion-like receptor, about 1 to 2 mm across, made of concentric lamellae around a single nerve ending in the deep dermis and hypodermis. The lamellae filter out steady pressure, so the corpuscle responds to vibration and rapid changes in pressure, and its myelinated axon carries the signal to the spinal cord.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "skin_receptors"
+   ]
+  }
+ }
+}

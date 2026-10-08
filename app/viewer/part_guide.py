@@ -10,7 +10,11 @@ without a guide keeps working; its groups are then nested by the segments of the
      "tree": [{"path": ["Kidney", "Blood vessels"], "groups": ["Gross / renal artery", ...]}, ...],
      "titles": {"Gross / renal artery": "Renal artery", ...},
      "groups": {"Gross / renal artery": {"description": "...", "replace_part_descriptions": false,
-                                         "clinical": [["Title", "Text"], ...], "histology": ["muscular_artery"]}}}
+                                         "clinical": [["Title", "Text"], ...], "histology": ["muscular_artery"]}},
+     "exclude": {"groups": [...], "targets": [...], "aliases": [...], "histology": [...]}}
+
+"exclude" retires what does not belong to the model (the adrenal gland that came with the kidney): those groups' parts
+are not loaded, and the atlas structures, aliases and tissues listed stop pointing at the model.
 """
 import json
 from dataclasses import dataclass, field
@@ -34,6 +38,10 @@ class PartGuide:
     order: list = field(default_factory=list)         # group keys in outline order
     titles: dict = field(default_factory=dict)        # group key -> display title
     groups: dict = field(default_factory=dict)        # group key -> GroupGuide
+    excluded_groups: frozenset = frozenset()
+    excluded_targets: frozenset = frozenset()
+    excluded_aliases: frozenset = frozenset()
+    excluded_histology: frozenset = frozenset()
 
     def path(self, key, title=None):
         """Category titles above a group, and its title: from the guide, else from the key's own " / " segments,
@@ -74,6 +82,11 @@ def load_part_guide(model_id, tissue_ids=None):
         return guide
     if not isinstance(data, dict):
         return guide
+    exclude = data.get("exclude") if isinstance(data.get("exclude"), dict) else {}
+    guide.excluded_groups = frozenset(_strings(exclude.get("groups")))
+    guide.excluded_targets = frozenset(_strings(exclude.get("targets")))
+    guide.excluded_aliases = frozenset(_strings(exclude.get("aliases")))
+    guide.excluded_histology = frozenset(_strings(exclude.get("histology")))
     for node in data.get("tree") or []:
         if not isinstance(node, dict):
             continue

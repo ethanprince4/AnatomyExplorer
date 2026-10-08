@@ -1,0 +1,236 @@
+{
+ "schema": 1,
+ "model_id": "ileocecal_rectum",
+ "tree": [
+  {
+   "path": [
+    "Ileocaecal region",
+    "Large bowel"
+   ],
+   "groups": [
+    "Ileocaecal region – Caecum & colon"
+   ]
+  },
+  {
+   "path": [
+    "Ileocaecal region",
+    "Ileum and valve"
+   ],
+   "groups": [
+    "Ileocaecal region – Ileocaecal junction"
+   ]
+  },
+  {
+   "path": [
+    "Ileocaecal region",
+    "Appendix"
+   ],
+   "groups": [
+    "Ileocaecal region – Vermiform appendix"
+   ]
+  },
+  {
+   "path": [
+    "Rectum",
+    "Wall"
+   ],
+   "groups": [
+    "Rectum & anal canal – Rectal wall"
+   ]
+  },
+  {
+   "path": [
+    "Rectum",
+    "Muscle layers"
+   ],
+   "groups": [
+    "Rectum & anal canal – Muscle coats"
+   ]
+  },
+  {
+   "path": [
+    "Rectum",
+    "Blood supply and lymph nodes"
+   ],
+   "groups": [
+    "Rectum & anal canal – Vessels, nerves & nodes"
+   ]
+  },
+  {
+   "path": [
+    "Rectum",
+    "Surrounding fat"
+   ],
+   "groups": [
+    "Rectum & anal canal – Fat & fossae"
+   ]
+  },
+  {
+   "path": [
+    "Anal canal",
+    "Lining"
+   ],
+   "groups": [
+    "Rectum & anal canal – Anal canal lining"
+   ]
+  },
+  {
+   "path": [
+    "Anal canal",
+    "Sphincters and pelvic floor"
+   ],
+   "groups": [
+    "Rectum & anal canal – Pelvic floor & sphincters"
+   ]
+  }
+ ],
+ "titles": {
+  "Ileocaecal region – Caecum & colon": "Caecum and colon",
+  "Ileocaecal region – Ileocaecal junction": "Terminal ileum and ileocaecal valve",
+  "Ileocaecal region – Vermiform appendix": "Vermiform appendix",
+  "Rectum & anal canal – Rectal wall": "Rectal wall",
+  "Rectum & anal canal – Anal canal lining": "Lining of the anal canal",
+  "Rectum & anal canal – Vessels, nerves & nodes": "Blood vessels and lymph nodes",
+  "Rectum & anal canal – Muscle coats": "Rectal muscle layers and internal anal sphincter",
+  "Rectum & anal canal – Pelvic floor & sphincters": "Anal sphincters and pelvic floor muscles",
+  "Rectum & anal canal – Fat & fossae": "Fat around the rectum and anal canal"
+ },
+ "groups": {
+  "Ileocaecal region – Caecum & colon": {
+   "clinical": [
+    [
+     "Right-sided colon cancer",
+     "Cancers of the caecum and ascending colon often cause iron-deficiency anaemia from slow, hidden bleeding, because the lumen is wide and the stool is still liquid, so obstruction is less common."
+    ],
+    [
+     "Caecal volvulus",
+     "The caecum is mobile and can twist on itself (caecal volvulus), which blocks the large bowel and can compromise its blood supply."
+    ]
+   ],
+   "histology": [
+    "colon"
+   ]
+  },
+  "Ileocaecal region – Ileocaecal junction": {
+   "clinical": [
+    [
+     "Crohn disease",
+     "Crohn disease most often involves the terminal ileum and caecum, causing right lower abdominal pain, diarrhoea and weight loss."
+    ],
+    [
+     "Loss of the terminal ileum",
+     "The terminal ileum absorbs vitamin B12 and recycles bile salts, so extensive resection causes B12 deficiency and bile-salt diarrhoea."
+    ]
+   ],
+   "histology": [
+    "ileum"
+   ]
+  },
+  "Ileocaecal region – Vermiform appendix": {
+   "clinical": [
+    [
+     "Appendicitis pain",
+     "Appendicitis usually starts as pain around the umbilicus that moves to the right iliac fossa, where tenderness is greatest at McBurney point."
+    ],
+    [
+     "Appendix obstruction",
+     "The narrow lumen can be blocked by a faecal stone (appendicolith) or by swelling of lymphoid follicles, which leads to inflammation and infection."
+    ]
+   ],
+   "histology": [
+    "appendix"
+   ]
+  },
+  "Rectum & anal canal – Rectal wall": {
+   "clinical": [
+    [
+     "Digital rectal examination",
+     "Tumours in the lower rectum can be felt with a gloved finger on digital rectal examination."
+    ],
+    [
+     "Rectal perforation",
+     "A perforation above the peritoneal reflection spills contents into the peritoneal cavity and causes peritonitis; a perforation below it is extraperitoneal."
+    ]
+   ],
+   "histology": [
+    "colon"
+   ]
+  },
+  "Rectum & anal canal – Anal canal lining": {
+   "clinical": [
+    [
+     "Anal fissure",
+     "An anal fissure is a tear in the lining below the pectinate line, usually in the back midline, causing pain and bleeding on defaecation."
+    ],
+    [
+     "Anal gland abscesses",
+     "Infection of the anal glands, which open into the anal sinuses, can form perianal, intersphincteric or ischioanal abscesses."
+    ]
+   ],
+   "histology": [
+    "anal_canal"
+   ]
+  },
+  "Rectum & anal canal – Vessels, nerves & nodes": {
+   "clinical": [
+    [
+     "Rectal varices",
+     "In portal hypertension, veins of the rectal venous plexus can dilate into rectal varices. The superior rectal vein drains to the portal system, while the middle and inferior rectal veins drain to the systemic circulation, so this plexus acts as a portosystemic link."
+    ],
+    [
+     "Lymph drainage of the rectum",
+     "Lymph from the upper rectum drains up the superior rectal vessels to the mesorectal and inferior mesenteric nodes, whereas lymph from below the pectinate line drains to the superficial inguinal nodes."
+    ]
+   ],
+   "histology": [
+    "vein",
+    "muscular_artery"
+   ]
+  },
+  "Rectum & anal canal – Muscle coats": {
+   "clinical": [
+    [
+     "Internal anal sphincter",
+     "The internal anal sphincter provides most of the resting tone of the anal canal, so its damage causes passive leakage of gas and mucus."
+    ],
+    [
+     "Chronic anal fissure",
+     "Spasm of the internal anal sphincter is thought to keep chronic anal fissures open, so treatment aims to relax it, for example with topical glyceryl trinitrate or a surgical sphincterotomy."
+    ]
+   ],
+   "histology": [
+    "smooth_muscle"
+   ]
+  },
+  "Rectum & anal canal – Pelvic floor & sphincters": {
+   "clinical": [
+    [
+     "Obstetric anal sphincter injury",
+     "Third- and fourth-degree obstetric perineal tears involve the external anal sphincter, and damage to it can cause faecal incontinence."
+    ],
+    [
+     "Puborectalis and defaecation",
+     "Puborectalis pulls the anorectal junction forward to form the anorectal angle, and it relaxes during defaecation to straighten the angle so stool can pass."
+    ]
+   ],
+   "histology": [
+    "skeletal_muscle"
+   ]
+  },
+  "Rectum & anal canal – Fat & fossae": {
+   "clinical": [
+    [
+     "Total mesorectal excision",
+     "Rectal cancer surgery removes the rectum together with its surrounding fat and fascia, which lowers the risk of local recurrence."
+    ],
+    [
+     "Ischioanal abscess",
+     "Infection of the ischioanal fat forms an ischioanal abscess, usually spreading from an infected anal gland, and these abscesses can become large."
+    ]
+   ],
+   "histology": [
+    "adipose"
+   ]
+  }
+ }
+}

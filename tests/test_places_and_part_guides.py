@@ -75,6 +75,14 @@ class PartGuideTests(unittest.TestCase):
         g = self.guide({"groups": {"A": {"description": " ", "replace_part_descriptions": True}}})
         self.assertFalse(g.group("A").replace_part_descriptions)
 
+    def test_kidney_no_longer_carries_the_adrenal_gland(self):
+        g = part_guide.load_part_guide("kidney_nephron")
+        self.assertIn("Gross / adrenal capsule", g.excluded_groups)
+        self.assertIn("Source section / Suprarenal gland", g.excluded_groups)
+        self.assertIn("Suprarenal gland", g.excluded_targets)
+        self.assertIn("adrenal", g.excluded_histology)
+        self.assertFalse(set(g.order) & g.excluded_groups)
+
     def test_shipped_guides_are_valid(self):
         for path in sorted(part_guide.GUIDE_DIR.glob("*.json")):
             with self.subTest(path.name):

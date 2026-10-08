@@ -1,0 +1,119 @@
+{
+ "schema": 1,
+ "model_id": "tongue_papillae",
+ "tree": [
+  {
+   "path": [
+    "Tongue surface"
+   ],
+   "groups": [
+    "Mucosa",
+    "Papillae",
+    "Taste buds"
+   ]
+  },
+  {
+   "path": [
+    "Inside the tongue"
+   ],
+   "groups": [
+    "Intrinsic muscle",
+    "Glands",
+    "Nerves & vessels"
+   ]
+  }
+ ],
+ "titles": {
+  "Mucosa": "Surface lining (mucosa)",
+  "Papillae": "Papillae (surface bumps)",
+  "Taste buds": "Taste buds",
+  "Intrinsic muscle": "Intrinsic tongue muscles",
+  "Glands": "Von Ebner glands and ducts",
+  "Nerves & vessels": "Nerves and blood vessels"
+ },
+ "groups": {
+  "Mucosa": {
+   "description": "The mucosa is the moist lining covering the upper surface of the tongue. It is a stratified squamous epithelium, keratinised mainly over the filiform papillae and non-keratinised elsewhere, sitting on a basement membrane above a lamina propria of connective tissue that rises up into the papillae.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Tongue cancer",
+     "Most tongue cancers are squamous cell carcinomas that arise in this lining, and the side (lateral) border of the tongue is their most common site."
+    ]
+   ],
+   "histology": [
+    "tongue",
+    "strat_squamous_k"
+   ]
+  },
+  "Papillae": {
+   "description": "Papillae are the small raised bumps on the top of the tongue, each with a core of connective tissue covered by epithelium. Filiform papillae are the most numerous and give the tongue its rough texture, but they have no taste buds. The other three types carry taste buds: fungiform papillae are mushroom-shaped and scattered among the filiform papillae, foliate papillae are folds on the sides of the back of the tongue, and circumvallate papillae are large and sunk in a trench just in front of the V-shaped groove at the back.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Geographic tongue",
+     "A harmless condition in which patches of filiform papillae are lost, leaving smooth red areas that change shape and move over time."
+    ],
+    [
+     "Hairy tongue",
+     "When filiform papillae fail to shed their keratin, they can grow abnormally long and sometimes turn dark, a condition called hairy or black hairy tongue. Poor oral hygiene, smoking and some antibiotics are linked to it."
+    ]
+   ],
+   "histology": [
+    "tongue"
+   ]
+  },
+  "Taste buds": {
+   "description": "Taste buds are barrel-shaped clusters of cells that span the full thickness of the epithelium and open to the surface through a small taste pore. Receptor cells inside detect sweet, sour, salty, bitter and umami tastes, and their microvilli (taste hairs) reach into the pore to meet dissolved food.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Taste loss from nerve damage",
+     "Damage to the chorda tympani, or to the facial nerve (VII) before it gives off the chorda, can reduce taste on the front two-thirds of the tongue on that side."
+    ]
+   ],
+   "histology": [
+    "tongue"
+   ]
+  },
+  "Intrinsic muscle": {
+   "description": "The intrinsic tongue muscles lie entirely inside the tongue, in four sets: superior longitudinal, inferior longitudinal, transverse and vertical. They change the tongue's shape, for example by curling its tip, narrowing and lengthening it, or flattening it, and they are skeletal muscle supplied by the hypoglossal nerve (XII). Thin sheets of connective tissue (perimysium) wrap the fibre bundles, with a little fat between them.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Tongue muscle wasting",
+     "Long-standing damage to the hypoglossal nerve (XII) makes the tongue muscles on that side shrink (atrophy) and may cause visible twitching (fasciculation)."
+    ]
+   ],
+   "histology": [
+    "skeletal_muscle",
+    "tongue"
+   ]
+  },
+  "Glands": {
+   "description": "Von Ebner glands are small serous glands lying among the muscle fibres under the back papillae. Their watery secretion flows out through ducts into the trenches of the circumvallate papillae and the clefts of the foliate papillae, rinsing the taste pores so that food chemicals can keep reaching the taste buds.",
+   "replace_part_descriptions": true,
+   "histology": [
+    "tongue"
+   ]
+  },
+  "Nerves & vessels": {
+   "description": "The tongue's nerves carry different signals: the glossopharyngeal nerve (IX) supplies sensation and taste to the back third; the lingual nerve (V3) gives general sensation to the front two-thirds, while its taste fibres come from the facial nerve (VII) through the chorda tympani; and the hypoglossal nerve (XII) supplies the tongue's movement muscles. The lingual artery, a branch of the external carotid, supplies the tongue, and the deep lingual vein drains it.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Lingual nerve injury",
+     "The lingual nerve runs close to the lower wisdom teeth, so injury during their removal can numb the front two-thirds of the tongue on that side."
+    ],
+    [
+     "Hypoglossal nerve palsy",
+     "Damage to the hypoglossal nerve (XII) weakens the tongue on that side; when the tongue is pushed out it deviates toward the weak side, and speech and swallowing can be affected."
+    ]
+   ],
+   "histology": [
+    "peripheral_nerve",
+    "muscular_artery"
+   ]
+  }
+ }
+}

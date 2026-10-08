@@ -1,0 +1,156 @@
+{
+ "schema": 1,
+ "model_id": "liver_lobule",
+ "tree": [
+  {
+   "path": [
+    "Overall layout"
+   ],
+   "groups": [
+    "Liver acinus (Rappaport)"
+   ]
+  },
+  {
+   "path": [
+    "Blood flow",
+    "Entry at the corners"
+   ],
+   "groups": [
+    "Portal triads"
+   ]
+  },
+  {
+   "path": [
+    "Blood flow",
+    "Through the lobule"
+   ],
+   "groups": [
+    "Sinusoids"
+   ]
+  },
+  {
+   "path": [
+    "Blood flow",
+    "Exit at the centre"
+   ],
+   "groups": [
+    "Central vein"
+   ]
+  },
+  {
+   "path": [
+    "Liver cells"
+   ],
+   "groups": [
+    "Hepatocytes"
+   ]
+  },
+  {
+   "path": [
+    "Bile route"
+   ],
+   "groups": [
+    "Bile flow"
+   ]
+  }
+ ],
+ "titles": {
+  "Liver acinus (Rappaport)": "Liver acinus (functional unit)",
+  "Portal triads": "Portal triads (corner vessels and ducts)",
+  "Sinusoids": "Sinusoids (blood channels)",
+  "Central vein": "Central vein",
+  "Hepatocytes": "Liver cells (hepatocytes)",
+  "Bile flow": "Bile flow"
+ },
+ "groups": {
+  "Liver acinus (Rappaport)": {
+   "clinical": [
+    [
+     "Zone 3 is hit first",
+     "Oxygen falls from zone 1 to zone 3, so zone 3 is the first to be damaged when blood supply to the lobule falls, as in shock or heart failure."
+    ]
+   ],
+   "histology": [
+    "liver"
+   ]
+  },
+  "Portal triads": {
+   "clinical": [
+    [
+     "Primary biliary cholangitis",
+     "Primary biliary cholangitis is an autoimmune disease that destroys the small bile ductules of the portal tracts. The result is cholestasis and, over time, scarring of the portal tracts."
+    ],
+    [
+     "Portal hypertension",
+     "Scarring that blocks blood flow through the liver, as in cirrhosis, raises pressure in the portal venous system. This is portal hypertension, which causes oesophageal varices and ascites."
+    ]
+   ],
+   "histology": [
+    "liver"
+   ]
+  },
+  "Sinusoids": {
+   "description": "Sinusoids are the thin-walled, leaky blood channels between the hepatocyte plates, carrying mixed portal and arterial blood from the portal tract to the central vein. Their lining is made of flat, discontinuous endothelial cells with no basement membrane. Kupffer cells, the liver's macrophages, sit on the lumen side to clear bacteria and debris, while stellate (Ito) cells lie in the space of Disse, storing vitamin A and making extracellular matrix.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Liver scarring",
+     "When the liver is injured, stellate (Ito) cells are activated and lay down collagen, which is the main source of scarring in fibrosis and cirrhosis."
+    ],
+    [
+     "Capillarised sinusoids",
+     "In chronic liver disease the sinusoidal lining becomes capillarised, losing its fenestrae and gaining a basement membrane. This impairs exchange between the blood and the hepatocytes."
+    ]
+   ],
+   "histology": [
+    "capillaries",
+    "liver"
+   ]
+  },
+  "Central vein": {
+   "clinical": [
+    [
+     "Budd-Chiari syndrome",
+     "Budd-Chiari syndrome is blockage of the hepatic veins, usually by thrombosis, so blood backs up into the central veins. It causes abdominal pain, an enlarged liver and ascites."
+    ],
+    [
+     "Right heart failure congestion",
+     "Raised pressure in the right heart is passed back through the hepatic veins to the central veins. Long-standing congestion gives the 'nutmeg' liver, with dark centrilobular congestion and necrosis."
+    ]
+   ],
+   "histology": [
+    "liver"
+   ]
+  },
+  "Hepatocytes": {
+   "clinical": [
+    [
+     "Zone 3 injury",
+     "Centrilobular (zone 3) necrosis is the classic pattern of ischaemia and of congestive 'nutmeg' liver from right heart failure. Paracetamol (acetaminophen) overdose also injures zone 3, because enzymes such as CYP2E1 there convert the drug into a toxic metabolite."
+    ],
+    [
+     "Zone 1 and zone 2 injury",
+     "Chronic viral hepatitis classically damages periportal (zone 1) hepatocytes, with interface (piecemeal) necrosis at the limiting plate. Yellow fever instead causes midzonal (zone 2) necrosis."
+    ]
+   ],
+   "histology": [
+    "liver"
+   ]
+  },
+  "Bile flow": {
+   "clinical": [
+    [
+     "Jaundice and itching",
+     "If bile cannot drain, it regurgitates into the blood and causes jaundice and itching. A gallstone blocking the bile duct, or certain drugs, can cause this cholestasis."
+    ],
+    [
+     "Ductular reaction",
+     "After severe or repeated liver injury, progenitor cells in the canals of Hering proliferate, forming a ductular reaction that is seen on biopsy in chronic liver disease."
+    ]
+   ],
+   "histology": [
+    "liver"
+   ]
+  }
+ }
+}

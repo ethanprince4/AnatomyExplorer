@@ -1,0 +1,180 @@
+{
+ "schema": 1,
+ "model_id": "hepatobiliary",
+ "tree": [
+  {
+   "path": [
+    "Liver"
+   ],
+   "groups": [
+    "Liver",
+    "Liver ligaments"
+   ]
+  },
+  {
+   "path": [
+    "Bile drainage"
+   ],
+   "groups": [
+    "Gallbladder & bile ducts"
+   ]
+  },
+  {
+   "path": [
+    "Pancreas"
+   ],
+   "groups": [
+    "Pancreas"
+   ]
+  },
+  {
+   "path": [
+    "Digestive tube"
+   ],
+   "groups": [
+    "Duodenum",
+    "Stomach & jejunum (cut ends)"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels"
+   ],
+   "groups": [
+    "Arteries",
+    "Veins"
+   ]
+  }
+ ],
+ "titles": {
+  "Liver": "Lobes and surfaces",
+  "Liver ligaments": "Liver ligaments",
+  "Gallbladder & bile ducts": "Gallbladder and bile ducts",
+  "Pancreas": "Gland and ducts",
+  "Duodenum": "Duodenum",
+  "Stomach & jejunum (cut ends)": "Stomach outlet and jejunum",
+  "Veins": "Veins",
+  "Arteries": "Arteries"
+ },
+ "groups": {
+  "Liver": {
+   "clinical": [
+    [
+     "Cirrhosis",
+     "Long-term liver damage, most often from alcohol, hepatitis B or C, or fatty liver disease, replaces normal liver tissue with scar and regenerative nodules. The scarring distorts the lobes and blocks blood flow through the liver."
+    ],
+    [
+     "Viral hepatitis",
+     "Viral hepatitis inflames the liver cells and can cause jaundice (yellow skin and eyes) and pain under the right ribs."
+    ]
+   ],
+   "histology": [
+    "liver"
+   ]
+  },
+  "Liver ligaments": {
+   "clinical": [
+    [
+     "Caput medusae",
+     "In portal hypertension, the paraumbilical veins that run with the round ligament in the free edge of the falciform ligament can dilate. This creates a visible network of swollen veins around the navel."
+    ]
+   ],
+   "histology": [
+    "serosa"
+   ]
+  },
+  "Gallbladder & bile ducts": {
+   "clinical": [
+    [
+     "Gallstones",
+     "Gallstones often lodge in the neck of the gallbladder (Hartmann's pouch) and can block the cystic duct, causing acute cholecystitis (an inflamed gallbladder)."
+    ],
+    [
+     "Obstructive jaundice",
+     "A stone or tumour blocking the common bile duct stops bile reaching the duodenum. This causes obstructive jaundice, with yellow skin, pale stools and dark urine."
+    ]
+   ],
+   "histology": [
+    "gallbladder"
+   ]
+  },
+  "Pancreas": {
+   "clinical": [
+    [
+     "Acute pancreatitis",
+     "Inflammation of the pancreas, most often from gallstones or alcohol, activates digestive enzymes inside the gland itself. It causes severe upper abdominal pain that radiates through to the back."
+    ],
+    [
+     "Pancreatic head cancer",
+     "A tumour of the pancreatic head can squeeze the common bile duct, which runs in a groove on the back of the head. This blocks bile flow and causes painless jaundice."
+    ]
+   ],
+   "histology": [
+    "pancreas",
+    "islets"
+   ]
+  },
+  "Duodenum": {
+   "clinical": [
+    [
+     "Duodenal ulcer",
+     "Most duodenal ulcers form in the first part of the duodenum (D1). They are commonly caused by Helicobacter pylori infection or regular NSAID use."
+    ],
+    [
+     "Superior mesenteric artery syndrome",
+     "The third part of the duodenum can be squeezed between the aorta and the superior mesenteric artery, causing obstruction with vomiting."
+    ]
+   ],
+   "histology": [
+    "duodenum"
+   ]
+  },
+  "Stomach & jejunum (cut ends)": {
+   "clinical": [
+    [
+     "Pyloric stenosis",
+     "In infants, the pyloric muscle thickens and narrows the stomach outlet, causing forceful, non-bilious vomiting a few weeks after birth."
+    ],
+    [
+     "Coeliac disease",
+     "Coeliac disease flattens the villi of the proximal small intestine (the duodenum and jejunum), so nutrients are absorbed poorly."
+    ]
+   ],
+   "histology": [
+    "pylorus",
+    "jejunum"
+   ]
+  },
+  "Veins": {
+   "clinical": [
+    [
+     "Portal hypertension",
+     "Increased resistance to blood flow through the liver, most often from cirrhosis, raises pressure in the hepatic portal vein. Blood is diverted into side channels, such as the veins of the lower oesophagus, which can swell into varices that bleed."
+    ],
+    [
+     "Budd-Chiari syndrome",
+     "Blockage of the hepatic veins stops blood leaving the liver, causing congestion, pain under the right ribs and ascites."
+    ]
+   ],
+   "histology": [
+    "vein"
+   ]
+  },
+  "Arteries": {
+   "clinical": [
+    [
+     "Bleeding duodenal ulcer",
+     "The gastroduodenal artery runs behind the first part of the duodenum, so an ulcer eroding through the back wall can cause severe bleeding."
+    ],
+    [
+     "Cystic artery in gallbladder surgery",
+     "The cystic artery, usually a branch of the right hepatic artery, supplies the gallbladder. Surgeons must identify and control it during gallbladder removal (cholecystectomy)."
+    ]
+   ],
+   "histology": [
+    "elastic_artery",
+    "muscular_artery"
+   ]
+  }
+ }
+}

@@ -1,0 +1,129 @@
+{
+ "schema": 1,
+ "model_id": "tooth",
+ "tree": [
+  {
+   "path": [
+    "Tooth types"
+   ],
+   "groups": [
+    "Tooth – Adult tooth types"
+   ]
+  },
+  {
+   "path": [
+    "Parts of a tooth"
+   ],
+   "groups": [
+    "Tooth – Molar in section"
+   ]
+  },
+  {
+   "path": [
+    "Holding the tooth in place"
+   ],
+   "groups": [
+    "Tooth – Periodontium & jaw"
+   ]
+  },
+  {
+   "path": [
+    "Blood and nerve supply"
+   ],
+   "groups": [
+    "Tooth – Nerves & vessels"
+   ]
+  },
+  {
+   "path": [
+    "Under the microscope"
+   ],
+   "groups": [
+    "Tooth – Coronal dentin-pulp histology (100× display)"
+   ]
+  }
+ ],
+ "titles": {
+  "Tooth – Adult tooth types": "The four tooth types",
+  "Tooth – Molar in section": "Molar cut open",
+  "Tooth – Periodontium & jaw": "Jaw, gums and ligament",
+  "Tooth – Nerves & vessels": "Nerves and blood vessels",
+  "Tooth – Coronal dentin-pulp histology (100× display)": "Dentin and pulp, magnified"
+ },
+ "groups": {
+  "Tooth – Adult tooth types": {
+   "clinical": [
+    [
+     "Wisdom teeth",
+     "The third molars, or wisdom teeth, erupt last and often lack room in the jaw. They can become impacted and may need to be removed."
+    ]
+   ]
+  },
+  "Tooth – Molar in section": {
+   "clinical": [
+    [
+     "Tooth decay",
+     "Bacteria in plaque turn sugar into acid that dissolves enamel. Once decay passes through enamel into dentin, it spreads faster and can reach the pulp."
+    ],
+    [
+     "Infected pulp",
+     "Decay or injury can inflame and kill the pulp, causing toothache. Root canal treatment removes the pulp and fills the canals."
+    ]
+   ],
+   "histology": [
+    "tooth"
+   ]
+  },
+  "Tooth – Periodontium & jaw": {
+   "clinical": [
+    [
+     "Gum disease",
+     "Periodontitis destroys the periodontal ligament and alveolar bone, so teeth loosen and can be lost. It usually develops from gingivitis, inflammation of the gums that can be reversed by removing plaque."
+    ],
+    [
+     "Bone loss on X-ray",
+     "The thin white line of alveolar bone around each root (the lamina dura) shows on dental X-rays. Thinning or loss of that line is a sign of bone loss from periodontal disease."
+    ]
+   ],
+   "histology": [
+    "compact_bone",
+    "spongy_bone"
+   ]
+  },
+  "Tooth – Nerves & vessels": {
+   "description": "The inferior alveolar nerve, artery and vein run together in the mandibular canal of the lower jaw. Small dental branches enter each tooth through its apical foramen to reach the pulp. The nerve carries sensation such as pain, the artery supplies blood to the pulp and the vein drains it.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Numbing a lower tooth",
+     "An injection of local anaesthetic near the mandibular foramen (an inferior alveolar nerve block) numbs the lower teeth on that side."
+    ],
+    [
+     "Nerve injury",
+     "Damage to the inferior alveolar nerve, for example during removal of a lower wisdom tooth, can cause numbness of the lower lip and chin."
+    ]
+   ],
+   "histology": [
+    "peripheral_nerve",
+    "muscular_artery"
+   ]
+  },
+  "Tooth – Coronal dentin-pulp histology (100× display)": {
+   "description": "Dentin is the hard layer under the enamel, and it is pierced by fine tubules. Odontoblast cells line the pulp and send processes into those tubules, so living cells reach into the hard tissue. Between the odontoblasts and the mature dentin lies predentin, which is not yet mineralised, and the pulp inside is soft connective tissue with fibroblasts.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Sensitive teeth",
+     "When enamel wears away or gums recede and expose the root, the open dentin tubules let cold, sweet or touch stimuli reach the pulp, causing sensitivity."
+    ],
+    [
+     "Repair dentin",
+     "When decay or wear irritates the pulp, odontoblasts lay down extra reparative dentin to wall off the damage."
+    ]
+   ],
+   "histology": [
+    "tooth"
+   ]
+  }
+ }
+}

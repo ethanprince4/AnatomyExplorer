@@ -1,0 +1,173 @@
+{
+ "schema": 1,
+ "model_id": "capillary_bed",
+ "tree": [
+  {
+   "path": [
+    "Blood vessels",
+    "Arterial side"
+   ],
+   "groups": [
+    "Arteriole"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels",
+    "Capillary bed"
+   ],
+   "groups": [
+    "Capillary network"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels",
+    "Venous side"
+   ],
+   "groups": [
+    "Venule"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels",
+    "Shortcuts"
+   ],
+   "groups": [
+    "Arteriovenous anastomosis"
+   ]
+  },
+  {
+   "path": [
+    "Blood"
+   ],
+   "groups": [
+    "Blood"
+   ]
+  },
+  {
+   "path": [
+    "Surrounding tissue"
+   ],
+   "groups": [
+    "Connective tissue"
+   ]
+  },
+  {
+   "path": [
+    "Lymphatics"
+   ],
+   "groups": [
+    "Lymphatics"
+   ]
+  },
+  {
+   "path": [
+    "Capillary types"
+   ],
+   "groups": [
+    "Capillary types (3x)"
+   ]
+  }
+ ],
+ "titles": {
+  "Arteriole": "Arteriole",
+  "Capillary network": "Capillary network",
+  "Venule": "Venule",
+  "Arteriovenous anastomosis": "Arteriovenous shunt (glomus)",
+  "Lymphatics": "Lymphatic vessels",
+  "Blood": "Red blood cells",
+  "Connective tissue": "Surrounding connective tissue",
+  "Capillary types (3x)": "Capillary types (enlarged)"
+ },
+ "groups": {
+  "Arteriole": {
+   "clinical": [
+    [
+     "Hypertension",
+     "Arterioles are the main resistance vessels, so sustained constriction of their smooth muscle raises peripheral resistance and blood pressure. Many blood pressure drugs work by relaxing arteriolar smooth muscle."
+    ]
+   ],
+   "histology": [
+    "muscular_artery"
+   ]
+  },
+  "Capillary network": {
+   "description": "The capillary bed lies between arterioles and venules. Blood enters from an arteriole through a metarteriole, then passes through true capillaries (opened and closed by precapillary sphincters) or the thoroughfare channel, and drains into a venule.",
+   "clinical": [
+    [
+     "Diabetes",
+     "High blood sugar thickens the basement membrane of capillaries, contributing to small-vessel complications such as retinopathy and nephropathy."
+    ]
+   ],
+   "histology": [
+    "capillaries"
+   ]
+  },
+  "Venule": {
+   "clinical": [
+    [
+     "Inflammation",
+     "During inflammation, white blood cells leave the bloodstream mainly through postcapillary venules, and fluid leaking from these venules causes the oedema seen in inflamed tissue."
+    ]
+   ],
+   "histology": [
+    "vein"
+   ]
+  },
+  "Arteriovenous anastomosis": {
+   "clinical": [
+    [
+     "Glomus tumour",
+     "A glomus tumour grows from a glomus body, a shunt-like structure in the skin, and typically causes intense, sharp pain, often under a fingernail. Surgical removal is the usual treatment."
+    ]
+   ]
+  },
+  "Lymphatics": {
+   "description": "Lymphatic capillaries start blind-ended in the tissues and take up excess interstitial fluid, which becomes lymph. Lymph flows through valved collecting vessels toward lymph nodes and returns to the blood near the base of the neck.",
+   "clinical": [
+    [
+     "Lymphoedema",
+     "Blocked or damaged lymph vessels, for example after lymph node removal in breast cancer surgery, lead to lymphoedema, a build-up of protein-rich fluid that swells the tissue."
+    ]
+   ]
+  },
+  "Blood": {
+   "clinical": [
+    [
+     "Sickle cell disease",
+     "In sickle cell disease, red cells become stiff and sickle-shaped, and they can jam capillaries and other small vessels, causing pain and tissue damage."
+    ]
+   ],
+   "histology": [
+    "blood"
+   ]
+  },
+  "Connective tissue": {
+   "description": "Loose connective tissue surrounds the capillaries and supports them. It contains fibroblasts that make collagen and ground substance, macrophages that clear debris and pathogens, and pericytes that wrap the capillary wall. Collagen fibres give the tissue its strength, and lymphatic capillaries are anchored to them.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Scurvy",
+     "Vitamin C is needed to make stable collagen, so deficiency (scurvy) weakens connective tissue and makes capillaries fragile, causing bleeding into the skin and gums."
+    ]
+   ],
+   "histology": [
+    "loose_ct"
+   ]
+  },
+  "Capillary types (3x)": {
+   "description": "The three capillary types differ in how leaky they are. Continuous capillaries have a complete endothelium with no pores, fenestrated capillaries have pores (as in kidney glomeruli and intestinal villi), and sinusoidal capillaries are wide and leaky, with gaps between cells and an incomplete basement membrane (as in liver, spleen and bone marrow).",
+   "clinical": [
+    [
+     "Blood-brain barrier",
+     "Continuous capillaries in the brain have tight junctions and astrocyte support, forming the blood-brain barrier, which keeps many drugs and large molecules out of the brain."
+    ]
+   ],
+   "histology": [
+    "capillaries"
+   ]
+  }
+ }
+}

@@ -1,0 +1,516 @@
+{
+ "schema": 1,
+ "model_id": "whole_heart",
+ "tree": [
+  {
+   "path": [
+    "Chambers",
+    "Atria"
+   ],
+   "groups": [
+    "Left atrium",
+    "Right atrium"
+   ]
+  },
+  {
+   "path": [
+    "Chambers",
+    "Ventricles"
+   ],
+   "groups": [
+    "Left ventricle",
+    "Right ventricle"
+   ]
+  },
+  {
+   "path": [
+    "Heart valves",
+    "Valve rings"
+   ],
+   "groups": [
+    "Valve annuli (fibrous rings)"
+   ]
+  },
+  {
+   "path": [
+    "Heart valves",
+    "Left side"
+   ],
+   "groups": [
+    "Mitral valve",
+    "Aortic valve"
+   ]
+  },
+  {
+   "path": [
+    "Heart valves",
+    "Right side"
+   ],
+   "groups": [
+    "Tricuspid valve",
+    "Pulmonary valve"
+   ]
+  },
+  {
+   "path": [
+    "Heart valves",
+    "Valve support"
+   ],
+   "groups": [
+    "Chordae tendineae",
+    "Papillary muscles"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels",
+    "Body circulation"
+   ],
+   "groups": [
+    "Aorta and arch branches",
+    "Venae cavae and brachiocephalic veins"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels",
+    "Lung circulation"
+   ],
+   "groups": [
+    "Pulmonary trunk and arteries",
+    "Pulmonary veins"
+   ]
+  },
+  {
+   "path": [
+    "Blood vessels",
+    "Heart's own blood supply"
+   ],
+   "groups": [
+    "Coronary arteries",
+    "Cardiac veins"
+   ]
+  },
+  {
+   "path": [
+    "Electrical system"
+   ],
+   "groups": [
+    "Conduction system",
+    "Atrial pathways"
+   ]
+  },
+  {
+   "path": [
+    "Heart wall and coverings",
+    "Outer covering"
+   ],
+   "groups": [
+    "Pericardium"
+   ]
+  },
+  {
+   "path": [
+    "Heart wall and coverings",
+    "Wall layers"
+   ],
+   "groups": [
+    "Wall block (3x)",
+    "Atrial wall block (3x)"
+   ]
+  },
+  {
+   "path": [
+    "Support structures"
+   ],
+   "groups": [
+    "Fibrous skeleton",
+    "Diaphragm"
+   ]
+  }
+ ],
+ "titles": {
+  "Left atrium": "Left atrium",
+  "Left ventricle": "Left ventricle",
+  "Right atrium": "Right atrium",
+  "Right ventricle": "Right ventricle",
+  "Coronary arteries": "Coronary arteries",
+  "Cardiac veins": "Cardiac veins",
+  "Aorta and arch branches": "Aorta and its arch branches",
+  "Venae cavae and brachiocephalic veins": "Venae cavae and brachiocephalic veins",
+  "Pulmonary veins": "Pulmonary veins",
+  "Pulmonary trunk and arteries": "Pulmonary trunk and arteries",
+  "Aortic valve": "Aortic valve",
+  "Valve annuli (fibrous rings)": "Fibrous valve rings",
+  "Mitral valve": "Mitral valve",
+  "Chordae tendineae": "Chordae tendineae (heart strings)",
+  "Papillary muscles": "Papillary muscles",
+  "Pulmonary valve": "Pulmonary valve",
+  "Tricuspid valve": "Tricuspid valve",
+  "Conduction system": "Conduction system",
+  "Atrial pathways": "Atrial pathways",
+  "Fibrous skeleton": "Fibrous skeleton",
+  "Pericardium": "Pericardium",
+  "Diaphragm": "Diaphragm",
+  "Wall block (3x)": "Heart wall layers",
+  "Atrial wall block (3x)": "Atrial wall layers"
+ },
+ "groups": {
+  "Left atrium": {
+   "description": "The left atrium receives oxygen-rich blood from the four pulmonary veins and pumps it through the mitral valve into the left ventricle. Its thin back wall lies in front of the oesophagus, and the left auricle is a small pouch that curls forward beside the pulmonary trunk. The interatrial septum separates it from the right atrium and carries the fossa ovalis, a remnant of the fetal foramen ovale.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Atrial fibrillation and clots",
+     "In atrial fibrillation the atria quiver instead of contracting properly, and blood pools in the left auricle. Clots that form there can break loose and cause a stroke, which is why many patients take anticoagulant drugs."
+    ],
+    [
+     "Patent foramen ovale",
+     "The fetal opening between the atria normally closes after birth, but in some adults a gap stays partly open. It is often harmless, but it can let a clot pass from the right side of the heart to the left."
+    ]
+   ],
+   "histology": [
+    "cardiac_muscle"
+   ]
+  },
+  "Left ventricle": {
+   "description": "The left ventricle is the thick-walled chamber that pumps oxygen-rich blood out through the aortic valve to the whole body. Its wall is several times thicker than the right ventricle's, and it forms the apex of the heart, the front and side walls, and the interventricular septum. Most of it is supplied by the left anterior descending artery (front wall, septum and apex) and the circumflex artery (side wall), with the right coronary artery supplying the inferior wall in most people.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Heart attack territories",
+     "Each territory of the left ventricle is supplied mainly by one coronary artery. Blockage of the LAD damages the front wall and septum, the right coronary artery usually damages the inferior wall, and the circumflex artery damages the lateral wall."
+    ],
+    [
+     "Ventricular septal defect",
+     "A hole in the interventricular septum, one of the most common congenital heart defects, lets blood pass from the left ventricle into the right. Small defects often close on their own, while large ones overload the lungs with extra blood."
+    ]
+   ],
+   "histology": [
+    "cardiac_muscle"
+   ]
+  },
+  "Right atrium": {
+   "description": "The right atrium receives deoxygenated blood from the superior and inferior venae cavae and the coronary sinus, then pumps it through the tricuspid valve into the right ventricle. Its back wall is smooth where the venae cavae enter, while its free side is ridged by pectinate muscles that run from the crista terminalis toward the right auricle, a broad pouch that overlaps the aortic root. The sinoatrial node sits near the upper end of the crista terminalis.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Atrial flutter",
+     "The typical flutter circuit runs around the tricuspid valve inside the right atrium. Ablation of the isthmus between the inferior vena cava and the tricuspid ring is a standard, usually curative treatment."
+    ]
+   ],
+   "histology": [
+    "cardiac_muscle"
+   ]
+  },
+  "Right ventricle": {
+   "description": "The right ventricle receives blood from the right atrium through the tricuspid valve and pumps it through a smooth outflow tract, the infundibulum, and the pulmonary valve into the lungs. Its wall is much thinner than the left ventricle's, and its front and lower walls are supplied mainly by branches of the right coronary artery. Three papillary muscles (anterior, posterior and septal) anchor the chordae that stop the tricuspid leaflets prolapsing into the right atrium during systole.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Right ventricular infarction",
+     "A blocked right coronary artery often damages the right ventricle as well as the inferior wall of the left ventricle. A weakened right ventricle may cause a sudden fall in blood pressure, so treatment must take it into account."
+    ],
+    [
+     "Pulmonary hypertension",
+     "Long-standing high pressure in the lung circulation, for example from chronic lung disease, makes the right ventricle thicken to pump harder and eventually dilate and fail."
+    ]
+   ],
+   "histology": [
+    "cardiac_muscle"
+   ]
+  },
+  "Coronary arteries": {
+   "description": "The coronary arteries leave the aortic root just above the aortic valve and run over the heart surface to supply the heart muscle itself. The left main artery divides into the left anterior descending and circumflex arteries, while the right coronary artery supplies the right heart and usually the posterior descending artery. Blockage of any of these arteries starves the muscle beyond it and can cause a heart attack.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Coronary artery disease",
+     "Atherosclerotic plaques narrow the coronary arteries, often the LAD, and limit blood flow, especially during exercise. If a plaque ruptures and blocks the artery, the area it supplies undergoes infarction."
+    ],
+    [
+     "Heart block in inferior infarcts",
+     "The AV nodal artery usually comes from the right coronary artery, so an inferior infarct can damage the AV node and cause heart block."
+    ]
+   ],
+   "histology": [
+    "muscular_artery"
+   ]
+  },
+  "Cardiac veins": {
+   "clinical": [
+    [
+     "Coronary sinus and a left superior vena cava",
+     "The coronary sinus is the main drain of the cardiac veins, opening into the right atrium. In an uncommon persistent left superior vena cava, a vein from the left side of the chest drains into it, so the sinus looks enlarged on imaging."
+    ],
+    [
+     "Pacing the left ventricle",
+     "Pacing leads for cardiac resynchronisation are often threaded through the coronary sinus into a lateral cardiac vein to pace the left ventricle. This is why the anatomy of the coronary sinus matters before device placement."
+    ]
+   ],
+   "histology": [
+    "vein"
+   ]
+  },
+  "Aorta and arch branches": {
+   "description": "The aorta leaves the left ventricle through the aortic valve, rises as the ascending aorta, arches over the left pulmonary artery and left main bronchus, and continues down the chest as the descending aorta. The arch gives off the brachiocephalic trunk, left common carotid and left subclavian arteries, which supply the head, neck and arms.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Aortic dissection",
+     "A tear in the inner wall of the aorta lets blood split the layers of the wall. A dissection of the ascending aorta (type A) is a surgical emergency because it can rupture or block branches such as the coronary arteries."
+    ],
+    [
+     "Coarctation of the aorta",
+     "A narrowing of the aorta, usually just beyond the left subclavian artery, raises blood pressure in the arms and reduces flow to the legs. Doctors look for it by comparing blood pressure in the arms with that in the legs."
+    ]
+   ],
+   "histology": [
+    "elastic_artery"
+   ]
+  },
+  "Venae cavae and brachiocephalic veins": {
+   "description": "The superior vena cava is formed where the two brachiocephalic veins join, and it carries blood from the head, neck and arms into the top of the right atrium. The inferior vena cava passes through the diaphragm and returns blood from the lower body to the bottom of the right atrium. The left brachiocephalic vein crosses in front of the arch branches to reach the right side.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Superior vena cava syndrome",
+     "Blockage of the superior vena cava, often by a lung tumour or enlarged lymph nodes, causes swelling of the face, neck and arms with distended veins over the chest. It needs urgent treatment."
+    ],
+    [
+     "Central venous lines",
+     "Central venous catheters are often advanced through the superior vena cava, with the tip ideally near its junction with the right atrium. That is why the tip position is checked on an X-ray."
+    ]
+   ],
+   "histology": [
+    "vein"
+   ]
+  },
+  "Pulmonary veins": {
+   "clinical": [
+    [
+     "Pulmonary veins and atrial fibrillation",
+     "Rapid electrical firing from muscle sleeves that extend onto the pulmonary veins often starts atrial fibrillation. Catheter ablation that isolates these veins is a common treatment."
+    ]
+   ],
+   "histology": [
+    "vein"
+   ]
+  },
+  "Pulmonary trunk and arteries": {
+   "clinical": [
+    [
+     "Pulmonary embolism",
+     "A clot, usually from a deep vein in the leg, can lodge in a pulmonary artery and block blood flow to part of the lung. A very large clot at the bifurcation can block both pulmonary arteries and cause sudden collapse."
+    ],
+    [
+     "Patent ductus arteriosus",
+     "The ductus arteriosus is a fetal shunt between the pulmonary artery and the aorta that normally closes soon after birth; the ligamentum arteriosum is its remnant. If it stays open, it causes a continuous 'machinery' murmur and extra blood flow to the lungs."
+    ]
+   ],
+   "histology": [
+    "elastic_artery"
+   ]
+  },
+  "Aortic valve": {
+   "clinical": [
+    [
+     "Aortic stenosis",
+     "Calcium deposits stiffen and narrow the aortic valve, so the left ventricle must work harder. The classic murmur is a harsh systolic sound heard at the upper right sternal edge that may radiate to the neck."
+    ],
+    [
+     "Bicuspid aortic valve",
+     "Some people are born with two cusps instead of three. This is the most common congenital valve anomaly, and it often leads to stenosis or regurgitation and is linked to dilatation of the aorta."
+    ]
+   ],
+   "histology": [
+    "heart_valve"
+   ]
+  },
+  "Valve annuli (fibrous rings)": {
+   "description": "Rings of dense fibrous tissue surround the mitral and tricuspid openings. They give the atrioventricular valves their shape and anchor the leaflets, and they stretch when the chambers dilate, which can let blood leak back.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Functional mitral regurgitation",
+     "When the left ventricle or left atrium enlarges, the mitral ring widens and the leaflets no longer meet, so blood leaks back even though the valve leaflets are healthy."
+    ],
+    [
+     "Functional tricuspid regurgitation",
+     "Right ventricular dilatation, for example from pulmonary hypertension or left heart failure, stretches the tricuspid ring so the leaflets fail to close."
+    ]
+   ],
+   "histology": [
+    "heart_valve"
+   ]
+  },
+  "Mitral valve": {
+   "clinical": [
+    [
+     "Mitral valve prolapse",
+     "In prolapse the leaflets bulge back into the left atrium during systole. The posterior leaflet is most often involved, and the condition can cause a mid-systolic click and regurgitation."
+    ],
+    [
+     "Mitral stenosis",
+     "The leaflets thicken and fuse, classically after rheumatic fever, which narrows the opening and enlarges the left atrium. It produces a rumbling diastolic murmur best heard at the apex."
+    ]
+   ],
+   "histology": [
+    "heart_valve"
+   ]
+  },
+  "Chordae tendineae": {
+   "clinical": [
+    [
+     "Ruptured chordae",
+     "The chordae stop the leaflets prolapsing into the atrium during systole. If one ruptures, for example after a heart attack, endocarditis or in prolapse, sudden severe mitral regurgitation and breathlessness can follow."
+    ]
+   ],
+   "histology": [
+    "heart_valve"
+   ]
+  },
+  "Papillary muscles": {
+   "description": "Papillary muscles are cone-shaped muscles arising from the ventricular wall. The chordae tendineae attach to their tips, so they hold the valve leaflets closed and stop them prolapsing into the atria during systole. The left ventricle has two (anterolateral and posteromedial) and the right ventricle has three (anterior, posterior and septal).",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Papillary muscle rupture",
+     "The posteromedial papillary muscle usually has a single blood supply from the posterior descending artery, so an inferior infarct can cause it to rupture. This produces sudden severe mitral regurgitation and is a surgical emergency."
+    ],
+    [
+     "Ischaemic mitral regurgitation",
+     "If a papillary muscle is weakened by ischaemia, or the ventricle dilates, it pulls the leaflets apart so they cannot close fully, and blood leaks back into the atrium."
+    ]
+   ],
+   "histology": [
+    "cardiac_muscle"
+   ]
+  },
+  "Pulmonary valve": {
+   "clinical": [
+    [
+     "Pulmonary stenosis",
+     "Usually congenital, a narrowed pulmonary valve makes the right ventricle work harder and thicken. It causes a systolic ejection murmur heard at the upper left sternal edge."
+    ]
+   ],
+   "histology": [
+    "heart_valve"
+   ]
+  },
+  "Tricuspid valve": {
+   "clinical": [
+    [
+     "Ebstein anomaly",
+     "In this congenital malformation the septal and posterior leaflets are displaced down toward the apex, and the upper part of the right ventricle becomes thin and works like part of the atrium. The result is tricuspid regurgitation and an enlarged right atrium."
+    ],
+    [
+     "Tricuspid valve endocarditis",
+     "Infection of the tricuspid valve is especially common in people who inject drugs, and fragments of infected vegetation can lodge in the lungs as septic emboli."
+    ]
+   ],
+   "histology": [
+    "heart_valve"
+   ]
+  },
+  "Conduction system": {
+   "description": "The conduction system generates and carries the heartbeat. The sinoatrial node in the right atrium sets the rhythm, and the impulse passes through the atrioventricular (AV) node and bundle of His, then down both bundle branches into the Purkinje fibres, which make the ventricles contract from the apex upward.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Heart block",
+     "If the AV node or His bundle is damaged, impulses are slowed or blocked, so the ventricles beat more slowly or on their own rhythm. A pacemaker is often needed to keep a safe rate."
+    ],
+    [
+     "Bundle branch block",
+     "A block in the right or left bundle branch makes one ventricle depolarise late, which widens the QRS complex on the ECG."
+    ]
+   ]
+  },
+  "Atrial pathways": {
+   "description": "Atrial pathways are tracts of atrial muscle that carry the impulse from the sinoatrial node toward the atrioventricular node. The anterior, middle and posterior internodal pathways run to the AV node, and Bachmann bundle carries the impulse across the roof of the atria into the left atrium so that both atria contract almost together.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Atrial fibrillation",
+     "In atrial fibrillation chaotic electrical impulses spread across the atria, so they quiver instead of contracting in an organised way. The irregular impulses reaching the AV node make the heartbeat irregular."
+    ],
+    [
+     "Interatrial block",
+     "Slow conduction through Bachmann bundle is thought to cause interatrial block, in which the P wave lasts 120 ms or more. It is linked to a higher risk of atrial fibrillation."
+    ]
+   ]
+  },
+  "Fibrous skeleton": {
+   "clinical": [
+    [
+     "Accessory pathways",
+     "The fibrous skeleton normally insulates the atrial muscle from the ventricular muscle, so the AV node is the only route for impulses. An extra muscle bridge across this barrier, as in Wolff-Parkinson-White syndrome, lets impulses bypass the node and can cause fast rhythms."
+    ]
+   ],
+   "histology": [
+    "dense_irregular"
+   ]
+  },
+  "Pericardium": {
+   "clinical": [
+    [
+     "Pericarditis",
+     "Inflammation of the pericardial layers, often after a viral infection or heart attack, causes sharp chest pain that eases when the patient sits forward. A friction rub may be heard through a stethoscope."
+    ],
+    [
+     "Cardiac tamponade",
+     "Fluid collecting in the pericardial cavity can compress the heart. Because the fibrous pericardium stretches very little, a rapid build-up of even moderate fluid can stop the heart filling and cause shock."
+    ]
+   ],
+   "histology": [
+    "heart_valve"
+   ]
+  },
+  "Diaphragm": {
+   "description": "The diaphragm is the main breathing muscle and forms the floor of the chest cavity. Its central tendon is fused with the fibrous pericardium, which is why the heart rests on the diaphragm and why the lower wall of the left ventricle is called diaphragmatic.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Pericardial pain felt in the shoulder",
+     "The phrenic nerve supplies both the diaphragm and the pericardium, so irritation of the pericardium can be felt as pain in the shoulder, neck or upper abdomen."
+    ]
+   ],
+   "histology": [
+    "skeletal_muscle"
+   ]
+  },
+  "Wall block (3x)": {
+   "description": "This enlarged cross-section of the heart wall runs from the outside in: the fibrous and serous pericardium around the pericardial cavity, the epicardium with its coronary vessels and fat, the thick myocardium, and the endocardium that lines the chamber and touches the blood. Trabeculae carneae, the muscular ridges inside the ventricle, and Purkinje fibres are also included.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Heart attack and scarring",
+     "Cardiac muscle that loses its blood supply dies, and adult heart muscle regenerates very poorly, so the area heals with scar tissue."
+    ],
+    [
+     "Infective endocarditis",
+     "Bacteria can settle on the endocardium, usually over a heart valve, and form growths called vegetations that may break off as emboli."
+    ]
+   ],
+   "histology": [
+    "cardiac_muscle",
+    "heart_valve"
+   ]
+  },
+  "Atrial wall block (3x)": {
+   "description": "This enlarged cross-section of the right atrial wall shows thin atrial muscle, with smooth endocardium on the inside and epicardium on the outside. Inside the chamber, the crista terminalis and the pectinate muscles form muscular ridges, and the sinoatrial node lies near the top of the crista terminalis.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Sinus node disease",
+     "Disease of the sinoatrial node, near the top of the crista terminalis, can cause a slow heart rate or pauses, and a pacemaker is often needed."
+    ]
+   ],
+   "histology": [
+    "cardiac_muscle",
+    "heart_valve"
+   ]
+  }
+ }
+}

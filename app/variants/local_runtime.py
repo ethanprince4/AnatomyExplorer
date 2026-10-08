@@ -14,6 +14,8 @@ import uuid
 
 import numpy as np
 
+from ..viewer.part_guide import load_part_guide
+
 
 def _get(value, key, default=None):
     return value.get(key, default) if isinstance(value, dict) else getattr(value, key, default)
@@ -365,6 +367,12 @@ def prepare_local_model(entry, token=None):
     backend = NativeBackend()
     if path.suffix.lower() == ".npz":
         metadata, decoded = decode_local_npz(path, token, warnings)
+        retired = load_part_guide(entry.id).excluded_groups
+        if retired:
+            # Parts a model's guide retires (the adrenal gland that came with the kidney); references to them in
+            # views and recipes are pruned like any removed part.
+            decoded = [row for row in decoded if row[0].get("group", "Model") not in retired]
+            metadata = {**metadata, "parts": [p for p in metadata.get("parts", []) if p.get("group", "Model") not in retired]}
         _load_color_companion(descriptor, decoded, warnings)
         controls = (_component_controls(entry, descriptor, metadata, decoded, warnings) if component else
                     _controls(entry, descriptor, metadata, decoded, warnings))

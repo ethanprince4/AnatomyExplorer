@@ -1,0 +1,98 @@
+{
+ "schema": 1,
+ "model_id": "trachea_wall",
+ "tree": [
+  {
+   "path": [],
+   "groups": [
+    "Wall layers",
+    "Cartilage",
+    "Mucosa & submucosa",
+    "Glands",
+    "Epithelium"
+   ]
+  }
+ ],
+ "titles": {
+  "Wall layers": "Outer layer (adventitia)",
+  "Cartilage": "Cartilage rings and trachealis muscle",
+  "Mucosa & submucosa": "Mucosa and submucosa",
+  "Glands": "Mucous and serous glands",
+  "Epithelium": "Airway lining (epithelium)"
+ },
+ "groups": {
+  "Wall layers": {
+   "clinical": [
+    [
+     "Thyroid surgery",
+     "The recurrent laryngeal nerves ascend in the groove between the trachea and oesophagus, through the loose tissue of this layer. Injury to them during thyroid surgery can paralyse one vocal fold and cause hoarseness."
+    ]
+   ],
+   "histology": [
+    "loose_ct"
+   ]
+  },
+  "Cartilage": {
+   "description": "The C-shaped hyaline cartilage rings keep the windpipe open, and the trachealis muscle bridges the open back wall where the rings do not meet. Hyaline cartilage has no blood supply, so its chondrocytes, which sit in small spaces called lacunae, are fed by diffusion from the perichondrium.",
+   "clinical": [
+    [
+     "Tracheomalacia",
+     "Weak tracheal cartilage lets the airway collapse when breathing out, causing noisy breathing or wheeze. It can be present from birth or develop later, for example after prolonged mechanical ventilation."
+    ],
+    [
+     "Tracheal stenosis",
+     "A narrowed windpipe can follow prolonged intubation or a tracheostomy, where cuff pressure damages the rings and the healing scar narrows the lumen."
+    ]
+   ],
+   "histology": [
+    "hyaline_cartilage",
+    "smooth_muscle"
+   ]
+  },
+  "Mucosa & submucosa": {
+   "description": "The lamina propria is loose connective tissue just under the lining, packed with lymphocytes, IgA plasma cells, mast cells and capillaries. The submucosa lies deeper, holding the seromucous glands and larger blood vessels, and elastic fibres give the airway wall its springy recoil.",
+   "clinical": [
+    [
+     "Asthma",
+     "In asthma the lamina propria and submucosa swell and fill with inflammatory cells, which narrows the airway and makes breathing out difficult."
+    ]
+   ],
+   "histology": [
+    "loose_ct"
+   ]
+  },
+  "Glands": {
+   "description": "Mucous glands in the submucosa, most numerous in the back wall and between the rings, make sticky mucus that traps dust and microbes. Serous cells capping each tubule add watery fluid containing lysozyme and secretory IgA, and ducts carry the secretion through the lining to the surface.",
+   "replace_part_descriptions": true,
+   "clinical": [
+    [
+     "Chronic bronchitis",
+     "Hypertrophy of these mucous glands raises mucus output and causes a productive cough. Clinically, chronic bronchitis means a cough with sputum on most days for at least three months in each of two successive years."
+    ],
+    [
+     "Cystic fibrosis",
+     "A faulty CFTR chloride channel in these cells leaves the secretion thick and dehydrated, so mucus clogs the airways and clearance fails."
+    ]
+   ],
+   "histology": [
+    "trachea"
+   ]
+  },
+  "Epithelium": {
+   "description": "The lining is pseudostratified ciliated columnar epithelium: every cell touches the basement membrane, but only the tall ciliated and goblet cells reach the lumen, so the nuclei look scattered at different heights. Beating cilia sweep the mucus blanket upward, and short basal cells at the base act as stem cells that renew the lining.",
+   "clinical": [
+    [
+     "Primary ciliary dyskinesia",
+     "Inherited defects in the cilia's dynein arms impair their beating, so mucus is not cleared and sinus infections and bronchiectasis follow. When the organs are also reversed left to right (situs inversus), the combination is called Kartagener syndrome."
+    ],
+    [
+     "Smoking",
+     "Long-term cigarette smoke destroys cilia, increases goblet cells and can change the lining to flat squamous cells (squamous metaplasia), so mucus builds up and clears poorly."
+    ]
+   ],
+   "histology": [
+    "pseudostratified"
+   ]
+  }
+ }
+}

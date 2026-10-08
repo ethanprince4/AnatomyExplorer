@@ -48,8 +48,21 @@ class DeferredVariantEntry:
         self.oriented = self.kind == "glb"
         for field in ("name", "summary", "targets", "histology", "related", "clinical", "scale_note", "aliases"):
             setattr(self, field, getattr(meta, field))
+        self._retire_from_guide()
         if self.id == "whole_heart":
             self.name = "Heart"
+
+    def _retire_from_guide(self):
+        """Atlas structures, aliases and tissues the model's part guide says do not belong to it."""
+        from ..viewer.part_guide import load_part_guide
+        guide = load_part_guide(self.id)
+        if isinstance(self.targets, dict) and guide.excluded_targets:
+            self.targets = {**self.targets, "structures": [s for s in self.targets.get("structures") or []
+                                                           if s not in guide.excluded_targets]}
+        if isinstance(self.aliases, dict) and guide.excluded_aliases:
+            self.aliases = {k: v for k, v in self.aliases.items() if k not in guide.excluded_aliases}
+        if guide.excluded_histology:
+            self.histology = [t for t in self.histology or [] if t not in guide.excluded_histology]
 
     def resolve(self, model, names):
         from ..viewer.catalog import ModelEntry
