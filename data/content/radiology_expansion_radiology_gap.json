@@ -35,8 +35,7 @@
     "y": 0.405,
     "text": "Right testicular parenchyma",
     "structures": [
-     "Lobules of testis (interstitial tissue)",
-     "Seminiferous tubules"
+     "Testis"
     ],
     "side": "Right",
     "note": "The source's normal right testicular tissue."
@@ -46,8 +45,7 @@
     "y": 0.392,
     "text": "Contralateral testis",
     "structures": [
-     "Lobules of testis (interstitial tissue)",
-     "Tunica albuginea of testis"
+     "Testis"
     ],
     "side": "Left",
     "note": "The source annotation identifies the left testis at the edge of the view."
@@ -57,39 +55,31 @@
     "y": 0.362,
     "text": "Color Doppler signal in right testis",
     "structures": [
-     "Testicular artery"
+     "Right testicular artery"
     ],
     "side": "Right",
     "note": "Small color signals are source-annotated normal vascularity."
-   },
-   {
-    "x": 0.5,
-    "y": 0.19,
-    "text": "Scrotal wall",
-    "structures": [
-     "Scrotal skin",
-     "Dartos muscle & fascia"
-    ],
-    "note": "Scrotal skin and dartos layer lying over the testes in this transverse scan."
    }
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
   "scene": {
-   "micro": "male_reproductive",
-   "micro_focus": [
-    "Lobules of testis (interstitial tissue)",
-    "Seminiferous tubules",
-    "Tunica albuginea of testis",
-    "Testicular artery"
+   "systems": [
+    "visceral",
+    "cardiovascular"
    ],
-   "micro_context": [
-    "Scrotal skin",
-    "Dartos muscle & fascia",
-    "External spermatic fascia",
-    "Tunica vaginalis (parietal layer)",
-    "Pampiniform plexus & testicular vein"
+   "regions": [
+    "abdomen",
+    "lower_limb_r",
+    "lower_limb_l"
    ],
-   "model_view": "inferior"
+   "focus": [
+    "Testis",
+    "Right testicular artery",
+    "Left testicular artery"
+   ],
+   "isolate": true,
+   "xray": false,
+   "view": "anterior"
   }
  },
  {
@@ -247,9 +237,7 @@
    ],
    "side": "Left",
    "show": [
-    "Left ICA complete occlusion",
-    "Thyroid gland",
-    "Sternocleidomastoid muscle"
+    "Left ICA complete occlusion"
    ],
    "focus": [
     "Internal carotid artery",
@@ -311,6 +299,26 @@
      "Right common carotid artery"
     ],
     "note": "The source does not map these channels to true versus false lumen."
+   },
+   {
+    "x": 0.5,
+    "y": 0.5,
+    "text": "Upper luminal channel",
+    "structures": [
+     "Left common carotid artery",
+     "Right common carotid artery"
+    ],
+    "note": "Anechoic lumen lying above the flap, on the other side of it from the lower channel."
+   },
+   {
+    "x": 0.5,
+    "y": 0.79,
+    "text": "Posterior vessel wall",
+    "structures": [
+     "Left common carotid artery",
+     "Right common carotid artery"
+    ],
+    "note": "Echogenic deep wall of the common carotid artery, below the lower channel."
    }
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
@@ -327,6 +335,9 @@
     "Right common carotid artery"
    ],
    "show": [
+    "Common carotid intimal flap (dissection)"
+   ],
+   "ghost_focus": [
     "Common carotid intimal flap (dissection)"
    ],
    "isolate": true
@@ -388,7 +399,7 @@
     "y": 0.517,
     "text": "Peak systolic velocity",
     "structures": [
-     "Internal carotid artery"
+     "Left ICA near-occlusion plaque"
     ],
     "side": "Left",
     "note": "Peak systolic velocity 479.6 cm/s on the left ICA MID spectral trace, high-grade stenosis range."
@@ -494,10 +505,10 @@
     "y": 0.366,
     "text": "Cyst-wall papillary projection",
     "structures": [
-     "Broad ligament - mesosalpinx"
+     "Paraovarian cyst (right adnexa)"
     ],
     "side": "Right",
-    "note": "The source arrow identifies a papillary projection on the cyst wall. The paraovarian cyst lies in the broad ligament (mesosalpinx); the cyst itself is not modelled in the gallery model."
+    "note": "The source arrow identifies a papillary projection on the cyst wall. The cyst lies in the right broad ligament beside the ovary and is modelled as a fluid-filled finding; the papillary projection itself is not modelled separately."
    },
    {
     "x": 0.16,
@@ -532,7 +543,10 @@
    ],
    "model_view": "anterior",
    "xray": true,
-   "isolate": false
+   "isolate": false,
+   "show": [
+    "Paraovarian cyst (right adnexa)"
+   ]
   }
  }
 ]

@@ -32,9 +32,12 @@
     "Scapula",
     "Humerus",
     "Sixth rib",
-    "Ribs",
-    "Thoracic vertebrae",
-    "Diaphragm"
+    "Diaphragm",
+    "Vertebra T5",
+    "Vertebra T6",
+    "Left ventricle",
+    "Right pulmonary artery",
+    "Left pulmonary artery"
    ],
    "ghost_focus": [
     "Superior lobe of right lung",
@@ -54,7 +57,14 @@
     "Pulmonary trunk",
     "Right pulmonary artery",
     "Left pulmonary artery",
-    "Trachea"
+    "Trachea",
+    "Clavicle",
+    "Scapula",
+    "Humerus",
+    "Sixth rib",
+    "Diaphragm",
+    "Vertebra T5",
+    "Vertebra T6"
    ],
    "frame_on": [
     "Superior lobe of right lung",
@@ -130,7 +140,7 @@
     "note": "the whole right heart border"
    },
    {
-    "x": 0.615,
+    "x": 0.715,
     "y": 0.68,
     "text": "Left ventricle",
     "structures": [
@@ -234,7 +244,8 @@
     "y": 0.42,
     "text": "Thoracic spine",
     "structures": [
-     "Thoracic vertebrae"
+     "Vertebra T5",
+     "Vertebra T6"
     ],
     "note": "should be faintly visible through the heart"
    }
@@ -319,7 +330,8 @@
     "Left pulmonary artery",
     "Right pulmonary artery",
     "Inferior lobe of left lung",
-    "Inferior lobe of right lung"
+    "Inferior lobe of right lung",
+    "Middle lobe of right lung"
    ],
    "ghost_focus": [
     "Heart",
@@ -331,9 +343,12 @@
     "Right pulmonary artery",
     "Body of sternum",
     "Thoracic vertebrae",
+    "Intervertebral disc",
     "Sixth rib",
     "Scapula",
-    "Diaphragm"
+    "Diaphragm",
+    "Middle lobe of right lung",
+    "Inferior lobe of left lung"
    ],
    "frame_on": [
     "Lungs",
@@ -355,7 +370,7 @@
     "y": 0.415,
     "text": "Retrosternal clear space",
     "structures": [
-     "Lungs"
+     "Middle lobe of right lung"
     ],
     "note": "should be black; filled = anterior mediastinal mass"
    },
@@ -436,8 +451,8 @@
     ]
    },
    {
-    "x": 0.6,
-    "y": 0.8,
+    "x": 0.684,
+    "y": 0.87,
     "text": "Posterior costophrenic recess",
     "structures": [
      "Inferior lobe of left lung"
@@ -597,7 +612,7 @@
     "side": "Left"
    },
    {
-    "x": 0.155,
+    "x": 0.22,
     "y": 0.57,
     "text": "Fifth metacarpal",
     "structures": [
@@ -607,8 +622,8 @@
     "note": "its neck is the boxer's fracture"
    },
    {
-    "x": 0.63,
-    "y": 0.665,
+    "x": 0.64,
+    "y": 0.725,
     "text": "First metacarpal",
     "structures": [
      "First metacarpal bone"
@@ -616,8 +631,8 @@
     "side": "Left"
    },
    {
-    "x": 0.755,
-    "y": 0.555,
+    "x": 0.83,
+    "y": 0.57,
     "text": "Proximal phalanx of thumb",
     "structures": [
      "Proximal phalanx of first finger of hand"
@@ -625,8 +640,8 @@
     "side": "Left"
    },
    {
-    "x": 0.875,
-    "y": 0.44,
+    "x": 0.91,
+    "y": 0.48,
     "text": "Distal phalanx of thumb",
     "structures": [
      "Distal phalanx of first finger of hand"
@@ -798,14 +813,18 @@
     "Patella",
     "Tibia",
     "Fibula",
-    "Medial meniscus"
+    "Medial meniscus",
+    "Lateral meniscus",
+    "Anterior cruciate ligament"
    ],
    "ghost_focus": [
     "Femur",
     "Patella",
     "Tibia",
     "Fibula",
-    "Medial meniscus"
+    "Medial meniscus",
+    "Lateral meniscus",
+    "Anterior cruciate ligament"
    ],
    "frame_on": [
     "Femur",
@@ -857,10 +876,10 @@
     "y": 0.425,
     "text": "Intercondylar fossa",
     "structures": [
-     "Femur"
+     "Anterior cruciate ligament"
     ],
     "side": "Right",
-    "note": "where the cruciates attach"
+    "note": "where the cruciates attach; the 3D shows the anterior cruciate ligament running through it"
    },
    {
     "x": 0.46,
@@ -886,9 +905,10 @@
     "y": 0.505,
     "text": "Lateral tibial plateau",
     "structures": [
-     "Tibia"
+     "Lateral meniscus"
     ],
-    "side": "Right"
+    "side": "Right",
+    "note": "the 3D shows the lateral meniscus lying on this plateau; the meniscus itself is radiolucent"
    },
    {
     "x": 0.185,
@@ -1061,8 +1081,8 @@
     "side": "Right"
    },
    {
-    "x": 0.76,
-    "y": 0.579,
+    "x": 0.775,
+    "y": 0.47,
     "text": "Obturator foramen",
     "structures": [
      "Hip bone"
@@ -1190,14 +1210,6 @@
     "note": "the atlas pivots around it"
    },
    {
-    "x": 0.366,
-    "y": 0.22,
-    "text": "Body of C2",
-    "structures": [
-     "Axis (C2)"
-    ]
-   },
-   {
     "x": 0.357,
     "y": 0.402,
     "text": "Body of C4",
@@ -1266,6 +1278,14 @@
      "Thyroid cartilage"
     ],
     "note": "the larynx, at about C4-C6"
+   },
+   {
+    "x": 0.366,
+    "y": 0.22,
+    "text": "Body of C2",
+    "structures": [
+     "Axis (C2)"
+    ]
    }
   ],
   "questions": [
@@ -1339,7 +1359,10 @@
     2,
     0.68
    ],
-   "view": "inferior"
+   "view": "inferior",
+   "show": [
+    "Hepatic veins"
+   ]
   },
   "labels": [
    {
@@ -1356,7 +1379,7 @@
     "y": 0.22,
     "text": "Liver, left lobe",
     "structures": [
-     "Liver"
+     "Left medial segment of liver (IV)"
     ]
    },
    {

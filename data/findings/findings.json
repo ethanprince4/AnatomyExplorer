@@ -732,19 +732,19 @@
    "i_count": 3840,
    "bbox": [
     [
-     -0.05523522198200226,
-     1.0613166093826294,
+     -0.05823522433638573,
+     1.0533167123794556,
      -0.016107527539134026
     ],
     [
-     -0.04921842738986015,
-     1.067358374595642,
+     -0.05221842601895332,
+     1.0593583583831787,
      -0.01005468424409628
     ]
    ],
    "centroid": [
-    -0.052162978798151016,
-    1.0645153522491455,
+    -0.05516296625137329,
+    1.0565154552459717,
     -0.013128290884196758
    ]
   },
@@ -1077,18 +1077,18 @@
     [
      -0.004368255380541086,
      1.4938455820083618,
-     -0.05616465210914612
+     -0.0251646526157856
     ],
     [
      0.003785950830206275,
      1.4979772567749023,
-     -0.049967795610427856
+     -0.018967794254422188
     ]
    ],
    "centroid": [
     -0.0001616877707419917,
     1.496109962463379,
-    -0.0531437061727047
+    -0.02214370109140873
    ]
   },
   {
@@ -1231,20 +1231,20 @@
    "i_count": 3840,
    "bbox": [
     [
-     0.00239507295191288,
-     0.9886592030525208,
-     -0.02496330812573433
+     -0.0021213768050074577,
+     0.9885268211364746,
+     -0.025269852951169014
     ],
     [
-     0.014502434059977531,
-     0.9988585114479065,
-     -0.016812151297926903
+     0.009985984303057194,
+     0.9987261295318604,
+     -0.017118696123361588
     ]
    ],
    "centroid": [
-    0.008611747063696384,
-    0.9941567778587341,
-    -0.020978476852178574
+    0.004095302429050207,
+    0.9940242767333984,
+    -0.021285053342580795
    ]
   },
   {
@@ -1355,20 +1355,20 @@
    "i_count": 3840,
    "bbox": [
     [
-     -0.20223474502563477,
-     1.3752403259277344,
-     -0.038958366960287094
+     -0.20115387439727783,
+     1.3768107891082764,
+     -0.038024261593818665
     ],
     [
-     -0.19416317343711853,
-     1.387479543685913,
-     -0.01450489554554224
+     -0.1930823028087616,
+     1.3890498876571655,
+     -0.01357079204171896
     ]
    ],
    "centroid": [
-    -0.19809021055698395,
-    1.381837010383606,
-    -0.027003953233361244
+    -0.1970093697309494,
+    1.3834073543548584,
+    -0.02606981433928013
    ]
   },
   {
@@ -1465,6 +1465,378 @@
    ]
   },
   {
+   "name": "Left breast (illustrative)",
+   "latin": "",
+   "subsystem": "Mammary gland",
+   "note": "Illustrative breast on the chest wall, shown for the mammogram. The atlas has no breast, so its shape and size are schematic. The source image does not state laterality.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 446593,
+   "v_count": 2562,
+   "i_start": 2660226,
+   "i_count": 15360,
+   "bbox": [
+    [
+     0.07618144899606705,
+     1.2450313568115234,
+     0.0796903744339943
+    ],
+    [
+     0.15043491125106812,
+     1.317563772201538,
+     0.15194463729858398
+    ]
+   ],
+   "centroid": [
+    0.11457812786102295,
+    1.2837685346603394,
+    0.11641217023134232
+   ]
+  },
+  {
+   "name": "Small breast cancer (illustrative)",
+   "latin": "",
+   "subsystem": "Breast cancer",
+   "note": "Small irregular mass in the breast near the chest wall at the arrowed site, about 9 mm across, shown illustratively. The source identifies it as cancerous; histological type and BI-RADS are not supplied.",
+   "material": "Mass",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 449155,
+   "v_count": 642,
+   "i_start": 2675586,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.12699535489082336,
+     1.2764496803283691,
+     0.09329830855131149
+    ],
+    [
+     0.1362638771533966,
+     1.2848261594772339,
+     0.10277672857046127
+    ]
+   ],
+   "centroid": [
+    0.13179966807365417,
+    1.281114101409912,
+    0.09791260957717896
+   ]
+  },
+  {
+   "name": "Vascular calcification (illustrative) 1",
+   "latin": "",
+   "subsystem": "Vascular calcification",
+   "note": "Thin curving calcified vessel segment in the upper breast, shown illustratively next to the cancer.",
+   "material": "Calcification",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 449797,
+   "v_count": 418,
+   "i_start": 2679426,
+   "i_count": 2496,
+   "bbox": [
+    [
+     0.12003719806671143,
+     1.2805975675582886,
+     0.08684424310922623
+    ],
+    [
+     0.12291493266820908,
+     1.281997561454773,
+     0.10143821686506271
+    ]
+   ],
+   "centroid": [
+    0.12147607654333115,
+    1.2812978029251099,
+    0.0941411554813385
+   ]
+  },
+  {
+   "name": "Vascular calcification (illustrative) 2",
+   "latin": "",
+   "subsystem": "Vascular calcification",
+   "note": "Second segment of the curving calcified vessel, continuing forward from the first.",
+   "material": "Calcification",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 450215,
+   "v_count": 338,
+   "i_start": 2681922,
+   "i_count": 2016,
+   "bbox": [
+    [
+     0.11635863035917282,
+     1.2805975675582886,
+     0.10113980621099472
+    ],
+    [
+     0.12139575183391571,
+     1.281997561454773,
+     0.11243164539337158
+    ]
+   ],
+   "centroid": [
+    0.11887718737125397,
+    1.2812981605529785,
+    0.10678578168153763
+   ]
+  },
+  {
+   "name": "Nipple (illustrative)",
+   "latin": "",
+   "subsystem": "Mammary gland",
+   "note": "Illustrative nipple at the anterior tip of the breast.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 450553,
+   "v_count": 642,
+   "i_start": 2683938,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.10930818319320679,
+     1.2772976160049438,
+     0.14694464206695557
+    ],
+    [
+     0.11730818450450897,
+     1.2852975130081177,
+     0.1569446474313736
+    ]
+   ],
+   "centroid": [
+    0.11330821365118027,
+    1.281294822692871,
+    0.15194454789161682
+   ]
+  },
+  {
+   "name": "Right breast (illustrative)",
+   "latin": "",
+   "subsystem": "Breast",
+   "note": "Illustrative breast with fatty outer tissue. It is not a registration of this scan.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 451195,
+   "v_count": 2562,
+   "i_start": 2687778,
+   "i_count": 15360,
+   "bbox": [
+    [
+     -0.15043491125106812,
+     1.2450313568115234,
+     0.0796903744339943
+    ],
+    [
+     -0.07618144899606705,
+     1.317563772201538,
+     0.15194463729858398
+    ]
+   ],
+   "centroid": [
+    -0.11457820236682892,
+    1.2837685346603394,
+    0.11641211062669754
+   ]
+  },
+  {
+   "name": "Fibroglandular core (illustrative)",
+   "latin": "",
+   "subsystem": "Breast",
+   "note": "Dense fibroglandular tissue inside the illustrative breast.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 453757,
+   "v_count": 642,
+   "i_start": 2703138,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.13246767222881317,
+     1.2649234533309937,
+     0.10407224297523499
+    ],
+    [
+     -0.09577374160289764,
+     1.2938450574874878,
+     0.12885966897010803
+    ]
+   ],
+   "centroid": [
+    -0.11353809386491776,
+    1.28078031539917,
+    0.11615607142448425
+   ]
+  },
+  {
+   "name": "Grouped calcifications (illustrative)",
+   "latin": "",
+   "subsystem": "Breast calcifications",
+   "note": "Grouped microcalcifications in the glandular tissue, as marked by the source annotations. Malignancy is not established.",
+   "material": "Calcification",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 454399,
+   "v_count": 1260,
+   "i_start": 2706978,
+   "i_count": 7200,
+   "bbox": [
+    [
+     -0.12208773195743561,
+     1.272337555885315,
+     0.11232098191976547
+    ],
+    [
+     -0.10916956514120102,
+     1.2873514890670776,
+     0.12179940193891525
+    ]
+   ],
+   "centroid": [
+    -0.11454594880342484,
+    1.2804195880889893,
+    0.11666771024465561
+   ]
+  },
+  {
+   "name": "Left breast (illustrative) (mammo_vascular_calcification)",
+   "latin": "",
+   "subsystem": "Breast",
+   "note": "Illustrative breast outline for the mammogram; the calcifications lie within it.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 455659,
+   "v_count": 2562,
+   "i_start": 2714178,
+   "i_count": 15360,
+   "bbox": [
+    [
+     0.07501855492591858,
+     1.2442834377288818,
+     0.07814054936170578
+    ],
+    [
+     0.18031804263591766,
+     1.3419277667999268,
+     0.18737955391407013
+    ]
+   ],
+   "centroid": [
+    0.12260624021291733,
+    1.290510892868042,
+    0.12539082765579224
+   ]
+  },
+  {
+   "name": "Nipple (illustrative) (mammo_vascular_calcification)",
+   "latin": "",
+   "subsystem": "Breast",
+   "note": "Illustrative nipple at the anterior tip of the breast; on the scan it is an imaging marker, not a lesion.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 458221,
+   "v_count": 642,
+   "i_start": 2729538,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.10930818319320679,
+     1.2627910375595093,
+     0.1479446440935135
+    ],
+    [
+     0.11730818450450897,
+     1.2707910537719727,
+     0.15594464540481567
+    ]
+   ],
+   "centroid": [
+    0.11330821365118027,
+    1.2667908668518066,
+    0.1519446074962616
+   ]
+  },
+  {
+   "name": "Vascular breast calcification",
+   "latin": "",
+   "subsystem": "Breast calcification",
+   "note": "Curvilinear calcification in the wall of a breast artery, seen as a thin curved line within the breast tissue.",
+   "material": "Calcification",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 458863,
+   "v_count": 786,
+   "i_start": 2733378,
+   "i_count": 4704,
+   "bbox": [
+    [
+     0.112708181142807,
+     1.2930649518966675,
+     0.09393397718667984
+    ],
+    [
+     0.11390817910432816,
+     1.302169680595398,
+     0.11602476239204407
+    ]
+   ],
+   "centroid": [
+    0.11330821365118027,
+    1.2976173162460327,
+    0.10497934371232986
+   ]
+  },
+  {
+   "name": "Separate breast calcification",
+   "latin": "",
+   "subsystem": "Breast calcification",
+   "note": "A separate punctate calcification within the breast tissue.",
+   "material": "Calcification",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 459649,
+   "v_count": 168,
+   "i_start": 2738082,
+   "i_count": 960,
+   "bbox": [
+    [
+     0.11118457466363907,
+     1.2722358703613281,
+     0.09595344960689545
+    ],
+    [
+     0.1150987297296524,
+     1.2772318124771118,
+     0.10041235387325287
+    ]
+   ],
+   "centroid": [
+    0.11311997473239899,
+    1.2742700576782227,
+    0.09795759618282318
+   ]
+  },
+  {
    "name": "Dilated oesophagus in achalasia",
    "latin": "",
    "subsystem": "Oesophageal motility",
@@ -1473,9 +1845,9 @@
    "regions": [
     "thorax"
    ],
-   "v_start": 446593,
+   "v_start": 459817,
    "v_count": 8160,
-   "i_start": 2660226,
+   "i_start": 2739042,
    "i_count": 48960,
    "bbox": [
     [
@@ -1496,6 +1868,68 @@
    ]
   },
   {
+   "name": "Barium in left lower-lobe bronchus",
+   "latin": "",
+   "subsystem": "Pulmonary aspiration",
+   "note": "Barium drawn into the left lower-lobe bronchus during a swallow. It is shown as a fluid-filled tube in the lumen, so the contrast of the airway can be matched to the scan.",
+   "material": "Fluid",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 467977,
+   "v_count": 402,
+   "i_start": 2788002,
+   "i_count": 2400,
+   "bbox": [
+    [
+     0.037024714052677155,
+     1.2809430360794067,
+     -0.023230861872434616
+    ],
+    [
+     0.08194655179977417,
+     1.328643560409546,
+     -0.017230862751603127
+    ]
+   ],
+   "centroid": [
+    0.059485625475645065,
+    1.304793357849121,
+    -0.020230883732438087
+   ]
+  },
+  {
+   "name": "Barium in left basal segmental bronchi",
+   "latin": "",
+   "subsystem": "Pulmonary aspiration",
+   "note": "Barium carried on from the lower-lobe bronchus into a basal segmental branch, the branching contrast seen on the scan.",
+   "material": "Fluid",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 468379,
+   "v_count": 866,
+   "i_start": 2790402,
+   "i_count": 5184,
+   "bbox": [
+    [
+     0.07825914770364761,
+     1.2242273092269897,
+     -0.0477072112262249
+    ],
+    [
+     0.0880976989865303,
+     1.2836129665374756,
+     -0.018860941752791405
+    ]
+   ],
+   "centroid": [
+    0.08317842334508896,
+    1.2539204359054565,
+    -0.03328406810760498
+   ]
+  },
+  {
    "name": "Killian-Jamieson diverticulum",
    "latin": "",
    "subsystem": "Oesophageal diverticulum",
@@ -1504,26 +1938,88 @@
    "regions": [
     "neck"
    ],
-   "v_start": 454753,
+   "v_start": 469245,
    "v_count": 642,
-   "i_start": 2709186,
+   "i_start": 2795586,
    "i_count": 3840,
    "bbox": [
     [
-     -0.010592721402645111,
-     1.4101572036743164,
-     -0.014799385331571102
+     -0.01311333104968071,
+     1.4267770051956177,
+     -0.010587741620838642
     ],
     [
-     0.007457667961716652,
-     1.4242544174194336,
-     -0.0006760842516086996
+     0.0049370587803423405,
+     1.4408742189407349,
+     0.0035355594009160995
     ]
    ],
    "centroid": [
-    -0.0013760436559095979,
-    1.4176217317581177,
-    -0.007847846485674381
+    -0.0038966534193605185,
+    1.4342402219772339,
+    -0.003636202309280634
+   ]
+  },
+  {
+   "name": "Left main coronary stenosis",
+   "latin": "",
+   "subsystem": "Coronary stenosis",
+   "note": "Critical atheromatous narrowing of the proximal left main coronary artery, the lesion marked by the source's red arrow. The plaque is illustrative.",
+   "material": "Mass",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 469887,
+   "v_count": 642,
+   "i_start": 2799426,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.021688193082809448,
+     1.3259223699569702,
+     0.01978556253015995
+    ],
+    [
+     0.027803847566246986,
+     1.3310869932174683,
+     0.024949610233306885
+    ]
+   ],
+   "centroid": [
+    0.02484309673309326,
+    1.3287549018859863,
+    0.022303001955151558
+   ]
+  },
+  {
+   "name": "Circumflex coronary stenosis",
+   "latin": "",
+   "subsystem": "Coronary stenosis",
+   "note": "Critical narrowing of the proximal circumflex artery, the lesion marked by the source's red arrow. The plaque is illustrative.",
+   "material": "Mass",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 470529,
+   "v_count": 642,
+   "i_start": 2803266,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.04507044702768326,
+     1.31005859375,
+     0.008100470528006554
+    ],
+    [
+     0.05220538005232811,
+     1.315223217010498,
+     0.013264518231153488
+    ]
+   ],
+   "centroid": [
+    0.04875119403004646,
+    1.3128904104232788,
+    0.010617936961352825
    ]
   },
   {
@@ -1535,9 +2031,9 @@
    "regions": [
     "head"
    ],
-   "v_start": 455395,
+   "v_start": 471171,
    "v_count": 642,
-   "i_start": 2713026,
+   "i_start": 2807106,
    "i_count": 3840,
    "bbox": [
     [
@@ -1561,14 +2057,14 @@
    "name": "Left renal artery bead 1",
    "latin": "",
    "subsystem": "Renal artery fibromuscular dysplasia",
-   "note": "Fibromuscular dysplasia of the lower accessory left renal artery: one bead of the string-of-beads wall contour.",
+   "note": "Fibromuscular dysplasia of the lower accessory left renal artery: one bead of the string-of-beads wall contour. The atlas has no accessory renal artery, so the beads are shown on the left renal artery.",
    "material": "Abnormal vessel",
    "regions": [
     "abdomen"
    ],
-   "v_start": 456037,
+   "v_start": 471813,
    "v_count": 642,
-   "i_start": 2716866,
+   "i_start": 2810946,
    "i_count": 3840,
    "bbox": [
     [
@@ -1592,14 +2088,14 @@
    "name": "Left renal artery bead 2",
    "latin": "",
    "subsystem": "Renal artery fibromuscular dysplasia",
-   "note": "Fibromuscular dysplasia of the lower accessory left renal artery: a second bead of the string-of-beads wall contour.",
+   "note": "Fibromuscular dysplasia of the lower accessory left renal artery: a second bead of the string-of-beads wall contour. The atlas has no accessory renal artery, so the beads are shown on the left renal artery.",
    "material": "Abnormal vessel",
    "regions": [
     "abdomen"
    ],
-   "v_start": 456679,
+   "v_start": 472455,
    "v_count": 642,
-   "i_start": 2720706,
+   "i_start": 2814786,
    "i_count": 3840,
    "bbox": [
     [
@@ -1623,14 +2119,14 @@
    "name": "Left renal artery bead 3",
    "latin": "",
    "subsystem": "Renal artery fibromuscular dysplasia",
-   "note": "Fibromuscular dysplasia of the lower accessory left renal artery: a third bead of the string-of-beads wall contour.",
+   "note": "Fibromuscular dysplasia of the lower accessory left renal artery: a third bead of the string-of-beads wall contour. The atlas has no accessory renal artery, so the beads are shown on the left renal artery.",
    "material": "Abnormal vessel",
    "regions": [
     "abdomen"
    ],
-   "v_start": 457321,
+   "v_start": 473097,
    "v_count": 642,
-   "i_start": 2724546,
+   "i_start": 2818626,
    "i_count": 3840,
    "bbox": [
     [
@@ -1659,9 +2155,9 @@
    "regions": [
     "abdomen"
    ],
-   "v_start": 457963,
+   "v_start": 473739,
    "v_count": 642,
-   "i_start": 2728386,
+   "i_start": 2822466,
    "i_count": 3840,
    "bbox": [
     [
@@ -1690,9 +2186,9 @@
    "regions": [
     "lower_limb_r"
    ],
-   "v_start": 458605,
+   "v_start": 474381,
    "v_count": 2674,
-   "i_start": 2732226,
+   "i_start": 2826306,
    "i_count": 16032,
    "bbox": [
     [
@@ -1721,9 +2217,9 @@
    "regions": [
     "lower_limb_r"
    ],
-   "v_start": 461279,
+   "v_start": 477055,
    "v_count": 642,
-   "i_start": 2748258,
+   "i_start": 2842338,
    "i_count": 3840,
    "bbox": [
     [
@@ -1752,26 +2248,26 @@
    "regions": [
     "lower_limb_l"
    ],
-   "v_start": 461921,
-   "v_count": 434,
-   "i_start": 2752098,
-   "i_count": 2592,
+   "v_start": 477697,
+   "v_count": 514,
+   "i_start": 2846178,
+   "i_count": 3072,
    "bbox": [
     [
-     0.05735272169113159,
-     0.7965666055679321,
-     0.012356678955256939
+     0.0503961406648159,
+     0.7484660148620605,
+     0.03765634819865227
     ],
     [
-     0.06535272300243378,
-     0.8811671733856201,
-     0.02035667933523655
+     0.0701172798871994,
+     0.8635885715484619,
+     0.052648767828941345
     ]
    ],
    "centroid": [
-    0.0613526776432991,
-    0.8388668298721313,
-    0.016356684267520905
+    0.06025667116045952,
+    0.8060271739959717,
+    0.045152559876441956
    ]
   },
   {
@@ -1783,26 +2279,26 @@
    "regions": [
     "lower_limb_l"
    ],
-   "v_start": 462355,
+   "v_start": 478211,
    "v_count": 642,
-   "i_start": 2754690,
+   "i_start": 2849250,
    "i_count": 3840,
    "bbox": [
     [
-     0.07269284874200821,
-     0.4647987186908722,
-     -0.043709300458431244
+     0.06682277470827103,
+     0.47921013832092285,
+     -0.04707318916916847
     ],
     [
-     0.08299119770526886,
-     0.4731752276420593,
-     -0.03528403863310814
+     0.07918078452348709,
+     0.48968082666397095,
+     -0.03654161095619202
     ]
    ],
    "centroid": [
-    0.0780310183763504,
-    0.46946173906326294,
-    -0.039607711136341095
+    0.07322856783866882,
+    0.48503896594047546,
+    -0.0419461727142334
    ]
   },
   {
@@ -1814,26 +2310,150 @@
    "regions": [
     "lower_limb_l"
    ],
-   "v_start": 462997,
+   "v_start": 478853,
    "v_count": 642,
-   "i_start": 2758530,
+   "i_start": 2853090,
    "i_count": 3840,
    "bbox": [
     [
-     0.08603311330080032,
-     0.8356993794441223,
-     -0.030256452038884163
+     0.06702500581741333,
+     0.8303307890892029,
+     -0.015542678534984589
     ],
     [
-     0.10419414937496185,
-     0.8499784469604492,
-     -0.015991928055882454
+     0.08518604934215546,
+     0.844609797000885,
+     -0.0012781537370756269
     ]
    ],
    "centroid": [
-    0.09535808861255646,
-    0.8433951735496521,
-    -0.023283034563064575
+    0.07634998857975006,
+    0.8380265831947327,
+    -0.008569258265197277
+   ]
+  },
+  {
+   "name": "Toxic adenoma",
+   "latin": "",
+   "subsystem": "Thyroid nodule",
+   "note": "A dominant hot nodule in the thyroid; the rest of the gland is suppressed on the scan. The model shows the nodule's position and size, not its uptake.",
+   "material": "Mass",
+   "regions": [
+    "neck"
+   ],
+   "v_start": 479495,
+   "v_count": 642,
+   "i_start": 2856930,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.011335021816194057,
+     1.455007553100586,
+     0.02161150425672531
+    ],
+    [
+     0.010726566426455975,
+     1.4751464128494263,
+     0.04178764671087265
+    ]
+   ],
+   "centroid": [
+    -7.019209442660213e-05,
+    1.4656707048416138,
+    0.031542278826236725
+   ]
+  },
+  {
+   "name": "Multinodular goitre nodules",
+   "latin": "",
+   "subsystem": "Multinodular goitre",
+   "note": "Several nodules of different sizes across both lobes of the thyroid. The model shows where the nodules sit, not the hot and cold uptake.",
+   "material": "Mass",
+   "regions": [
+    "neck"
+   ],
+   "v_start": 480137,
+   "v_count": 252,
+   "i_start": 2860770,
+   "i_count": 1440,
+   "bbox": [
+    [
+     -0.011513923294842243,
+     1.4623863697052002,
+     0.021800877526402473
+    ],
+    [
+     0.010207275860011578,
+     1.4901045560836792,
+     0.040257491171360016
+    ]
+   ],
+   "centroid": [
+    -0.0006306549184955657,
+    1.4760574102401733,
+    0.03041689097881317
+   ]
+  },
+  {
+   "name": "Left lower lobe pulmonary embolus",
+   "latin": "",
+   "subsystem": "Pulmonary embolism",
+   "note": "A clot lodged in a left pulmonary artery branch to the lower lobe, explaining the medial lower-zone perfusion defect with preserved ventilation.",
+   "material": "Blood clot",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 480389,
+   "v_count": 642,
+   "i_start": 2862210,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.05357271060347557,
+     1.3122090101242065,
+     -0.03158184140920639
+    ],
+    [
+     0.06784257292747498,
+     1.3204723596572876,
+     -0.02125374600291252
+    ]
+   ],
+   "centroid": [
+    0.060934167355298996,
+    1.3167396783828735,
+    -0.026546912267804146
+   ]
+  },
+  {
+   "name": "Severe coronary stenosis",
+   "latin": "",
+   "subsystem": "Coronary artery disease",
+   "note": "Severe narrowing of a coronary artery on the angiogram (panel C). The source does not name the branch, so the mid anterior interventricular (LAD) artery is shown as an illustrative site.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 481031,
+   "v_count": 642,
+   "i_start": 2866050,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.05092514678835869,
+     1.2905893325805664,
+     0.06008543446660042
+    ],
+    [
+     0.059079352766275406,
+     1.294721007347107,
+     0.06421667337417603
+    ]
+   ],
+   "centroid": [
+    0.0551317036151886,
+    1.2928539514541626,
+    0.06209937855601311
    ]
   },
   {
@@ -1845,9 +2465,9 @@
    "regions": [
     "thorax"
    ],
-   "v_start": 463639,
+   "v_start": 481673,
    "v_count": 642,
-   "i_start": 2762370,
+   "i_start": 2869890,
    "i_count": 3840,
    "bbox": [
     [
@@ -1876,26 +2496,26 @@
    "regions": [
     "neck"
    ],
-   "v_start": 464281,
-   "v_count": 498,
-   "i_start": 2766210,
-   "i_count": 2976,
+   "v_start": 482315,
+   "v_count": 626,
+   "i_start": 2873730,
+   "i_count": 3744,
    "bbox": [
     [
-     0.02074618451297283,
-     1.5211338996887207,
-     0.009007074870169163
+     0.021281559020280838,
+     1.523154616355896,
+     0.00950707495212555
     ],
     [
-     0.025146184489130974,
-     1.5743634700775146,
-     0.013407074846327305
+     0.03515239432454109,
+     1.5747084617614746,
+     0.012907074764370918
     ]
    ],
    "centroid": [
-    0.02294621430337429,
-    1.5477467775344849,
-    0.01120707206428051
+    0.028216976672410965,
+    1.5489314794540405,
+    0.011207087896764278
    ]
   },
   {
@@ -1907,9 +2527,9 @@
    "regions": [
     "neck"
    ],
-   "v_start": 464779,
+   "v_start": 482941,
    "v_count": 1106,
-   "i_start": 2769186,
+   "i_start": 2877474,
    "i_count": 6624,
    "bbox": [
     [
@@ -1938,26 +2558,57 @@
    "regions": [
     "neck"
    ],
-   "v_start": 465885,
+   "v_start": 484047,
    "v_count": 642,
-   "i_start": 2775810,
+   "i_start": 2884098,
    "i_count": 3840,
    "bbox": [
     [
-     0.02181970328092575,
-     1.5406335592269897,
-     -0.00018404037109576166
+     0.02690412849187851,
+     1.5397168397903442,
+     0.0016917817993089557
     ],
     [
-     0.03224513307213783,
-     1.5491459369659424,
-     0.008413717150688171
+     0.03315938636660576,
+     1.5450371503829956,
+     0.007065380457788706
     ]
    ],
    "centroid": [
-    0.02723778784275055,
-    1.5454280376434326,
-    0.00399845140054822
+    0.030154986307024956,
+    1.5427151918411255,
+    0.004305838141590357
+   ]
+  },
+  {
+   "name": "Paraovarian cyst (right adnexa)",
+   "latin": "",
+   "subsystem": "Paraovarian cyst",
+   "note": "Fluid-filled paraovarian cyst in the right broad ligament beside the ovary, about 5 cm across, with a papillary projection on its wall; the adjacent right fallopian tube was torsed, confirmed at laparoscopy.",
+   "material": "Fluid",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 484689,
+   "v_count": 642,
+   "i_start": 2887938,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.03502047806978226,
+     0.8260210752487183,
+     -0.04075418412685394
+    ],
+    [
+     0.015119493007659912,
+     0.870326578617096,
+     0.0036333336029201746
+    ]
+   ],
+   "centroid": [
+    -0.009418592788279057,
+    0.8494802713394165,
+    -0.018906492739915848
    ]
   },
   {
@@ -1969,9 +2620,9 @@
    "regions": [
     "abdomen"
    ],
-   "v_start": 466527,
+   "v_start": 485331,
    "v_count": 638,
-   "i_start": 2779650,
+   "i_start": 2891778,
    "i_count": 3786,
    "bbox": [
     [
@@ -2000,9 +2651,9 @@
    "regions": [
     "abdomen"
    ],
-   "v_start": 467165,
+   "v_start": 485969,
    "v_count": 252,
-   "i_start": 2783436,
+   "i_start": 2895564,
    "i_count": 1440,
    "bbox": [
     [
@@ -2031,9 +2682,9 @@
    "regions": [
     "abdomen"
    ],
-   "v_start": 467417,
+   "v_start": 486221,
    "v_count": 564,
-   "i_start": 2784876,
+   "i_start": 2897004,
    "i_count": 3372,
    "bbox": [
     [
@@ -2062,26 +2713,26 @@
    "regions": [
     "abdomen"
    ],
-   "v_start": 467981,
+   "v_start": 486785,
    "v_count": 642,
-   "i_start": 2788248,
+   "i_start": 2900376,
    "i_count": 3840,
    "bbox": [
     [
-     -0.0544433556497097,
-     1.1414976119995117,
-     0.048422910273075104
+     -0.05343098193407059,
+     1.133521318435669,
+     0.059234850108623505
     ],
     [
-     -0.03639296442270279,
-     1.1576087474822998,
-     0.0645638257265091
+     -0.03337499126791954,
+     1.1516462564468384,
+     0.07739338278770447
     ]
    ],
    "centroid": [
-    -0.04522666707634926,
-    1.1500272750854492,
-    0.05636753514409065
+    -0.043190229684114456,
+    1.1431188583374023,
+    0.06817254424095154
    ]
   },
   {
@@ -2093,9 +2744,9 @@
    "regions": [
     "abdomen"
    ],
-   "v_start": 468623,
+   "v_start": 487427,
    "v_count": 363,
-   "i_start": 2792088,
+   "i_start": 2904216,
    "i_count": 2166,
    "bbox": [
     [
@@ -2124,26 +2775,26 @@
    "regions": [
     "neck"
    ],
-   "v_start": 468986,
-   "v_count": 1302,
-   "i_start": 2794254,
-   "i_count": 7800,
+   "v_start": 487790,
+   "v_count": 642,
+   "i_start": 2906382,
+   "i_count": 3840,
    "bbox": [
     [
-     -0.03160880506038666,
-     1.4523240327835083,
-     -0.008647014386951923
+     -0.027963483706116676,
+     1.4472332000732422,
+     0.003704062197357416
     ],
     [
-     0.031608838587999344,
-     1.4915586709976196,
-     0.0433163084089756
+     -0.011820335872471333,
+     1.4880304336547852,
+     0.026119744405150414
     ]
    ],
    "centroid": [
-    1.518012915369127e-08,
-    1.4702295064926147,
-    0.011878506280481815
+    -0.019674576818943024,
+    1.4692223072052002,
+    0.014662278816103935
    ]
   },
   {
@@ -2155,9 +2806,9 @@
    "regions": [
     "lower_limb_l"
    ],
-   "v_start": 470288,
+   "v_start": 488432,
    "v_count": 1058,
-   "i_start": 2802054,
+   "i_start": 2910222,
    "i_count": 6336,
    "bbox": [
     [
@@ -2186,9 +2837,9 @@
    "regions": [
     "abdomen"
    ],
-   "v_start": 471346,
+   "v_start": 489490,
    "v_count": 1020,
-   "i_start": 2808390,
+   "i_start": 2916558,
    "i_count": 6048,
    "bbox": [
     [
@@ -2217,9 +2868,9 @@
    "regions": [
     "lower_limb_l"
    ],
-   "v_start": 472366,
+   "v_start": 490510,
    "v_count": 642,
-   "i_start": 2814438,
+   "i_start": 2922606,
    "i_count": 3840,
    "bbox": [
     [
@@ -2248,9 +2899,9 @@
    "regions": [
     "abdomen"
    ],
-   "v_start": 473008,
+   "v_start": 491152,
    "v_count": 13836,
-   "i_start": 2818278,
+   "i_start": 2926446,
    "i_count": 82944,
    "bbox": [
     [
@@ -2280,26 +2931,26 @@
     "back",
     "abdomen"
    ],
-   "v_start": 486844,
+   "v_start": 504988,
    "v_count": 642,
-   "i_start": 2901222,
+   "i_start": 3009390,
    "i_count": 3840,
    "bbox": [
     [
-     -0.008355238474905491,
-     1.0556142330169678,
-     -0.007781723514199257
+     -0.008355239406228065,
+     1.0535119771957397,
+     0.014984377659857273
     ],
     [
-     0.007787909358739853,
-     1.0658135414123535,
-     0.004445011727511883
+     0.007787908893078566,
+     1.065751075744629,
+     0.027211112901568413
     ]
    ],
    "centroid": [
-    -6.633401062572375e-05,
-    1.061111569404602,
-    -0.0018045103643089533
+    -6.633430166402832e-05,
+    1.0601089000701904,
+    0.020961591973900795
    ]
   },
   {
@@ -2311,9 +2962,9 @@
    "regions": [
     "upper_limb_l"
    ],
-   "v_start": 487486,
+   "v_start": 505630,
    "v_count": 610,
-   "i_start": 2905062,
+   "i_start": 3013230,
    "i_count": 3648,
    "bbox": [
     [
@@ -2342,9 +2993,9 @@
    "regions": [
     "upper_limb_l"
    ],
-   "v_start": 488096,
+   "v_start": 506240,
    "v_count": 642,
-   "i_start": 2908710,
+   "i_start": 3016878,
    "i_count": 3840,
    "bbox": [
     [
@@ -2373,9 +3024,9 @@
    "regions": [
     "upper_limb_l"
    ],
-   "v_start": 488738,
+   "v_start": 506882,
    "v_count": 642,
-   "i_start": 2912550,
+   "i_start": 3020718,
    "i_count": 3840,
    "bbox": [
     [
@@ -2404,26 +3055,26 @@
    "regions": [
     "upper_limb_l"
    ],
-   "v_start": 489380,
-   "v_count": 642,
-   "i_start": 2916390,
-   "i_count": 3840,
+   "v_start": 507524,
+   "v_count": 242,
+   "i_start": 3024558,
+   "i_count": 1440,
    "bbox": [
     [
-     0.07869205623865128,
-     1.4043619632720947,
-     -0.002818529959768057
+     0.08503991365432739,
+     1.4046058654785156,
+     -0.0032367894891649485
     ],
     [
-     0.08911748230457306,
-     1.4128743410110474,
-     0.0057792277075350285
+     0.09139034152030945,
+     1.4195970296859741,
+     0.009168129414319992
     ]
    ],
    "centroid": [
-    0.08411015570163727,
-    1.4091578722000122,
-    0.001363959745503962
+    0.08821512013673782,
+    1.412101149559021,
+    0.002965670544654131
    ]
   },
   {
@@ -2435,9 +3086,9 @@
    "regions": [
     "lower_limb_r"
    ],
-   "v_start": 490022,
+   "v_start": 507766,
    "v_count": 546,
-   "i_start": 2920230,
+   "i_start": 3025998,
    "i_count": 3264,
    "bbox": [
     [
@@ -2466,9 +3117,9 @@
    "regions": [
     "abdomen"
    ],
-   "v_start": 490568,
+   "v_start": 508312,
    "v_count": 642,
-   "i_start": 2923494,
+   "i_start": 3029262,
    "i_count": 3840,
    "bbox": [
     [
@@ -2497,9 +3148,9 @@
    "regions": [
     "abdomen"
    ],
-   "v_start": 491210,
+   "v_start": 508954,
    "v_count": 642,
-   "i_start": 2927334,
+   "i_start": 3033102,
    "i_count": 3840,
    "bbox": [
     [
@@ -2528,9 +3179,9 @@
    "regions": [
     "thorax"
    ],
-   "v_start": 491852,
+   "v_start": 509596,
    "v_count": 10656,
-   "i_start": 2931174,
+   "i_start": 3036942,
    "i_count": 62208,
    "bbox": [
     [

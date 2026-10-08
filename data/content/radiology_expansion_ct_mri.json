@@ -505,10 +505,6 @@
     "Thalamus",
     "Caudate nucleus",
     "Putamen"
-   ],
-   "frame_on": [
-    "Left subdural haematoma (convexity)",
-    "Right subdural haematoma (convexity)"
    ]
   },
   "id": "ct_bilateral_subdural",
@@ -623,6 +619,7 @@
     0.62
    ],
    "view": "inferior",
+   "side": "Right",
    "show": [
     "Right proximal ureteric stone",
     "Kidney",
@@ -761,7 +758,7 @@
    ],
    "clip": [
     2,
-    0.767
+    0.77
    ],
    "view": "inferior"
   },
@@ -1140,15 +1137,6 @@
      "Duodenum"
     ],
     "note": "Bright duodenal fluid in the duodenum, marked d on the source image."
-   },
-   {
-    "x": 0.36,
-    "y": 0.25,
-    "text": "Common hepatic duct",
-    "structures": [
-     "Bile duct"
-    ],
-    "note": "Confluence of the hepatic ducts forming the common hepatic duct above the cystic duct junction."
    }
   ],
   "scene": {
@@ -1171,6 +1159,14 @@
     "Common bile duct stone"
    ],
    "isolate": true,
+   "ghost_focus": [
+    "Bile duct",
+    "Pancreatic duct",
+    "Duodenum",
+    "Gallbladder stones",
+    "Common bile duct stone"
+   ],
+   "xray": true,
    "view": "anterior"
   },
   "id": "mri_choledocholithiasis",
@@ -1244,15 +1240,6 @@
     ],
     "side": "Right",
     "note": "patient's right: the smaller chamber on the image left"
-   },
-   {
-    "x": 0.35,
-    "y": 0.3,
-    "text": "Left ventricular cavity",
-    "structures": [
-     "Left ventricle"
-    ],
-    "note": "the cavity of the left ventricle, which is enlarged in the left image"
    }
   ],
   "scene": {
@@ -1364,9 +1351,6 @@
    }
   ],
   "scene": {
-   "systems": [
-    "nervous"
-   ],
    "regions": [
     "head"
    ],
@@ -1508,7 +1492,9 @@
     "back"
    ],
    "show": [
-    "L4-L5 left paramedian disc herniation"
+    "L4-L5 left paramedian disc herniation",
+    "Spinal dura",
+    "Cauda equina"
    ],
    "frame_on": [
     "Vertebra L4",
@@ -1593,6 +1579,16 @@
     ],
     "side": "Right",
     "note": "Lower chamber on the image left, below the dark atrioventricular valve line."
+   },
+   {
+    "x": 0.55,
+    "y": 0.75,
+    "text": "Left atrium",
+    "structures": [
+     "Left atrium"
+    ],
+    "side": "Left",
+    "note": "Left atrial blood pool below the mitral valve line, behind the left ventricle."
    }
   ],
   "scene": {
@@ -1607,7 +1603,8 @@
    "frame_on": [
     "Left ventricle",
     "Right ventricle",
-    "Right atrium"
+    "Right atrium",
+    "Left atrium"
    ]
   },
   "id": "mri_normal_four_chamber_cine",
@@ -1664,8 +1661,8 @@
     "note": "Normal fluid-filled gallbladder, bright on MRCP."
    },
    {
-    "x": 0.419,
-    "y": 0.519,
+    "x": 0.44,
+    "y": 0.52,
     "text": "Bile duct",
     "structures": [
      "Common bile duct"
@@ -1778,7 +1775,7 @@
     "note": "Source-annotated uterine fibroid in the central pelvis. The atlas has no uterus mesh, so the fibroids are shown illustratively on the anterior surface of the sacrum, where the uterus lies. The displayed colours are a false-colour visualisation, not tissue signal."
    },
    {
-    "x": 0.79,
+    "x": 0.75,
     "y": 0.464,
     "text": "Left pelvic bone",
     "structures": [
@@ -1787,7 +1784,7 @@
     "side": "Left"
    },
    {
-    "x": 0.21,
+    "x": 0.27,
     "y": 0.46,
     "text": "Right pelvic bone",
     "structures": [
@@ -1886,14 +1883,13 @@
     "y": 0.523,
     "text": "Enhanced cortical region",
     "structures": [
-     "Right frontal cortical infarct",
      "Middle frontal gyrus"
     ],
     "side": "Right",
     "note": "Source describes blood-brain-barrier disruption on gadolinium-enhanced T1."
    },
    {
-    "x": 0.265,
+    "x": 0.232,
     "y": 0.42,
     "text": "Interhemispheric fissure",
     "structures": [
@@ -2308,7 +2304,7 @@
      "Middle cerebral artery (M1-segment)"
     ],
     "side": "Left",
-    "note": "Related arterial anatomy; projection orientation and laterality are not independently assigned."
+    "note": "M1 segment on the patient's left, where the internal carotid artery terminus turns laterally."
    },
    {
     "x": 0.25,

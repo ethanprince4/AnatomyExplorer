@@ -40,7 +40,10 @@
     "Acromioclavicular joint"
    ],
    "frame_on": [
-    "Glenohumeral joint"
+    "Glenohumeral joint",
+    "Scapula",
+    "Clavicle",
+    "Humerus"
    ]
   },
   "labels": [
@@ -393,19 +396,25 @@
    ],
    "side": "Left",
    "view": "left",
+   "show": [
+    "Talocalcaneal interosseous ligament",
+    "Lateral talocalcaneal ligament"
+   ],
    "ghost_focus": [
     "Tibia",
     "Fibula",
     "Talus",
     "Calcaneus",
     "Navicular bone",
-    "Cuboid bone"
+    "Cuboid bone",
+    "Talocalcaneal interosseous ligament",
+    "Lateral talocalcaneal ligament"
    ],
    "frame_on": [
-    "Tibia",
-    "Fibula",
     "Talus",
-    "Calcaneus"
+    "Calcaneus",
+    "Navicular bone",
+    "Cuboid bone"
    ]
   },
   "labels": [
@@ -473,8 +482,7 @@
     "y": 0.655,
     "text": "Sinus tarsi",
     "structures": [
-     "Talus",
-     "Calcaneus"
+     "Talocalcaneal interosseous ligament"
     ]
    },
    {
@@ -482,8 +490,7 @@
     "y": 0.665,
     "text": "Subtalar joint",
     "structures": [
-     "Talus",
-     "Calcaneus"
+     "Lateral talocalcaneal ligament"
     ],
     "note": "the posterior facet, in profile"
    },

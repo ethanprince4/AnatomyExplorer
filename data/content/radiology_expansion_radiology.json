@@ -79,7 +79,6 @@
   "scene": {
    "micro": "female_reproductive",
    "micro_focus": [
-    "Skin of breast",
     "Areola",
     "Nipple",
     "Lobes of mammary gland",
@@ -90,6 +89,7 @@
     "Suspensory ligaments (of Cooper)"
    ],
    "micro_context": [
+    "Skin of breast",
     "Pectoralis major",
     "Ribs"
    ],
@@ -158,6 +158,15 @@
      "Nipple"
     ],
     "note": "Nipple at the anterior skin edge of the breast on this projection."
+   },
+   {
+    "x": 0.4,
+    "y": 0.2,
+    "text": "Skin of breast",
+    "structures": [
+     "Skin of breast"
+    ],
+    "note": "Skin line along the upper edge of the breast, where the tissue meets the dark background on the film."
    }
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
@@ -221,64 +230,83 @@
     "y": 0.126,
     "text": "Source-identified small cancerous lesion",
     "structures": [
-     "Lobules (alveolar glands)"
+     "Small breast cancer (illustrative)"
     ],
-    "note": "Small opacity at the tip of the source arrow; the NCI caption identifies it as cancerous. Histological type and BI-RADS are not supplied. Shown within the glandular tissue (lobules) of the breast."
+    "note": "Small opacity at the tip of the source arrow; the NCI caption identifies it as cancerous. Shown as an illustrative mass near the chest wall of the breast; its position and size are schematic."
    },
    {
     "x": 0.22,
     "y": 0.184,
     "text": "Vascular calcific deposits",
     "structures": [
-     "Adipose tissue of breast"
+     "Vascular calcification (illustrative) 1",
+     "Vascular calcification (illustrative) 2"
     ],
-    "note": "Thin, curving tubular calcifications along the vessels in the upper breast. The model has no blood vessels, so they are placed in the adjacent breast adipose tissue."
+    "note": "Thin, curving tubular calcifications along the vessels in the upper breast. The atlas has no blood vessels, so they are shown as illustrative calcified tubules inside the breast."
    },
    {
     "x": 0.745,
     "y": 0.41,
     "text": "Nipple",
     "structures": [
-     "Nipple"
+     "Nipple (illustrative)"
     ],
-    "note": "The projecting nipple at the anterior edge of the breast on the mammogram."
+    "note": "The projecting nipple at the anterior edge of the breast on the mammogram, shown as an illustrative nipple at the front of the breast."
    },
    {
     "x": 0.7,
     "y": 0.62,
     "text": "Skin of breast",
     "structures": [
-     "Skin of breast"
+     "Left breast (illustrative)"
     ],
-    "note": "Outer skin line of the breast on the lateral edge of the image."
+    "note": "Outer skin line of the breast on the lateral edge of the image. The illustrative breast surface stands for the skin."
    },
    {
     "x": 0.4,
     "y": 0.5,
     "text": "Fibroglandular tissue",
     "structures": [
-     "Lobules (alveolar glands)",
-     "Lactiferous ducts"
+     "Left breast (illustrative)"
     ],
-    "note": "Dense glandular breast tissue (lobules and ducts) seen as the bright streaky tissue of the breast."
+    "note": "Dense glandular breast tissue (lobules and ducts) seen as the bright streaky tissue of the breast. The atlas has no glandular tissue, so the illustrative breast stands for it."
    }
   ],
   "atlas_note": "The atlas provides chest-wall and breast-region orientation. It does not contain compressed breast parenchyma or reproduce a mammographic projection. The finding is demonstrated on the mammogram.",
   "scene": {
-   "micro": "female_reproductive",
-   "micro_focus": [
-    "Lobules (alveolar glands)",
-    "Lactiferous ducts",
-    "Adipose tissue of breast",
-    "Lobes of mammary gland",
-    "Nipple",
-    "Skin of breast"
+   "systems": [
+    "regions",
+    "muscular",
+    "skeletal"
    ],
-   "micro_context": [
-    "Pectoralis major",
-    "Ribs"
+   "regions": [
+    "thorax"
    ],
-   "model_view": "superior"
+   "show": [
+    "Left breast (illustrative)",
+    "Small breast cancer (illustrative)",
+    "Vascular calcification (illustrative) 1",
+    "Vascular calcification (illustrative) 2",
+    "Nipple (illustrative)",
+    "Clavicular head of pectoralis major muscle",
+    "Sternocostal head of pectoralis major muscle",
+    "Fourth rib",
+    "Fifth rib",
+    "Sixth rib",
+    "Body of sternum"
+   ],
+   "isolate": true,
+   "ghost_focus": [
+    "Small breast cancer (illustrative)",
+    "Vascular calcification (illustrative) 1",
+    "Vascular calcification (illustrative) 2",
+    "Nipple (illustrative)"
+   ],
+   "frame_on": [
+    "Left breast (illustrative)"
+   ],
+   "view": "superior",
+   "side": "Left"
   },
   "illustration": {
    "file": "mammography-projection.svg",
@@ -327,8 +355,7 @@
     "y": 0.6,
     "text": "Grouped calcifications in CC view",
     "structures": [
-     "Lobules (alveolar glands)",
-     "Lactiferous ducts"
+     "Grouped calcifications (illustrative)"
     ],
     "note": "The source marks this calcification group in the CC projection."
    },
@@ -337,8 +364,7 @@
     "y": 0.46,
     "text": "Grouped calcifications in MLO view",
     "structures": [
-     "Lobules (alveolar glands)",
-     "Lactiferous ducts"
+     "Grouped calcifications (illustrative)"
     ],
     "note": "The source marks the corresponding group in the MLO projection."
    },
@@ -347,7 +373,7 @@
     "y": 0.25,
     "text": "Fibroglandular tissue",
     "structures": [
-     "Lobules (alveolar glands)"
+     "Fibroglandular core (illustrative)"
     ],
     "note": "Dense fibroglandular tissue is identified by the source annotation."
    },
@@ -356,8 +382,7 @@
     "y": 0.42,
     "text": "Fibroglandular tissue in MLO view",
     "structures": [
-     "Lobules (alveolar glands)",
-     "Lactiferous ducts"
+     "Fibroglandular core (illustrative)"
     ],
     "note": "Dense fibroglandular breast tissue in the mediolateral oblique projection, the same tissue as the CC label above."
    },
@@ -366,25 +391,38 @@
     "y": 0.62,
     "text": "Adipose tissue of breast",
     "structures": [
-     "Adipose tissue of breast"
+     "Right breast (illustrative)"
     ],
     "note": "Radiolucent fatty breast tissue surrounding the glandular tissue on the MLO view."
    }
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
   "scene": {
-   "micro": "female_reproductive",
-   "micro_focus": [
-    "Lobules (alveolar glands)",
-    "Lactiferous ducts",
-    "Adipose tissue of breast",
-    "Lobes of mammary gland"
+   "systems": [
+    "skeletal",
+    "muscular"
    ],
-   "micro_context": [
-    "Pectoralis major",
-    "Ribs"
+   "regions": [
+    "thorax"
    ],
-   "model_view": "superior"
+   "show": [
+    "Right breast (illustrative)",
+    "Fibroglandular core (illustrative)",
+    "Grouped calcifications (illustrative)"
+   ],
+   "focus": [
+    "Grouped calcifications (illustrative)"
+   ],
+   "ghost_focus": [
+    "Grouped calcifications (illustrative)",
+    "Fibroglandular core (illustrative)"
+   ],
+   "frame_on": [
+    "Right breast (illustrative)"
+   ],
+   "xray": true,
+   "side": "Right",
+   "view": "superior"
   }
  },
  {
@@ -423,7 +461,7 @@
     "y": 0.31,
     "text": "Vascular calcification",
     "structures": [
-     "Adipose tissue of breast"
+     "Vascular breast calcification"
     ],
     "note": "The calcification follows a vascular outline."
    },
@@ -432,8 +470,9 @@
     "y": 0.11,
     "text": "Pectoralis major",
     "structures": [
-     "Pectoralis major"
+     "Sternocostal head of pectoralis major muscle"
     ],
+    "side": "Left",
     "note": "The pectoral muscle forms the dense upper contour in this MLO view."
    },
    {
@@ -441,7 +480,7 @@
     "y": 0.6,
     "text": "Separate calcification",
     "structures": [
-     "Lobules (alveolar glands)"
+     "Separate breast calcification"
     ],
     "note": "A separate calcification is marked by the source, lying within the breast tissue."
    },
@@ -450,26 +489,37 @@
     "y": 0.71,
     "text": "Nipple",
     "structures": [
-     "Nipple"
+     "Nipple (illustrative) (mammo_vascular_calcification)"
     ],
     "note": "The round marker on the nipple is an imaging marker, not a lesion."
    }
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
   "scene": {
-   "micro": "female_reproductive",
-   "micro_focus": [
-    "Skin of breast",
-    "Adipose tissue of breast",
-    "Lobules (alveolar glands)",
-    "Lactiferous ducts",
-    "Nipple"
+   "systems": [
+    "skeletal",
+    "muscular"
    ],
-   "micro_context": [
-    "Pectoralis major",
-    "Ribs"
+   "regions": [
+    "thorax",
+    "upper_limb_l"
    ],
-   "model_view": "left"
+   "show": [
+    "Left breast (illustrative) (mammo_vascular_calcification)",
+    "Nipple (illustrative) (mammo_vascular_calcification)",
+    "Vascular breast calcification",
+    "Separate breast calcification"
+   ],
+   "ghost_focus": [
+    "Sternocostal head of pectoralis major muscle",
+    "Vascular breast calcification",
+    "Separate breast calcification"
+   ],
+   "frame_on": [
+    "Left breast (illustrative) (mammo_vascular_calcification)"
+   ],
+   "side": "Left",
+   "view": "right"
   }
  },
  {
@@ -520,6 +570,25 @@
      "Cervical vertebrae"
     ],
     "note": "Cervical vertebral bodies lie posterior to the contrast column."
+   },
+   {
+    "x": 0.26,
+    "y": 0.53,
+    "text": "Hypopharynx (laryngopharynx) with barium",
+    "structures": [
+     "Laryngopharynx"
+    ],
+    "note": "Barium coats the laryngopharyngeal mucosa in front of the upper spine, above the oesophageal inlet."
+   },
+   {
+    "x": 0.55,
+    "y": 0.62,
+    "text": "Lower cervical vertebral bodies",
+    "structures": [
+     "Vertebra C5",
+     "Vertebra C6"
+    ],
+    "note": "The lower cervical vertebral bodies (C5 to C6) lie posterior to the contrast column."
    }
   ],
   "atlas_note": "Illustrative lateral cervical reference, anterior at left. The lower esophagus is intentionally cut away below the cervical region; this cut is a teaching boundary, not the source fluoroscopic beam plane. No patient registration or image-side assignment is implied.",
@@ -533,19 +602,25 @@
    ],
    "show": [
     "Oesophagus",
-    "Cervical vertebrae"
+    "Cervical vertebrae",
+    "Laryngopharynx",
+    "Vertebra C5",
+    "Vertebra C6"
    ],
    "focus": [
     "Oesophagus",
-    "Cervical vertebrae"
+    "Cervical vertebrae",
+    "Laryngopharynx"
    ],
    "ghost_focus": [
     "Oesophagus",
-    "Cervical vertebrae"
+    "Cervical vertebrae",
+    "Laryngopharynx"
    ],
    "frame_on": [
-    "Cervical vertebrae",
-    "Oesophagus"
+    "Oesophagus",
+    "Vertebra C3",
+    "Vertebra C7"
    ],
    "isolate": false,
    "xray": true,
@@ -684,27 +759,19 @@
     "structures": [
      "Oesophagus"
     ],
-    "note": "The continuous contrast column outlines the esophagus."
+    "note": "The continuous contrast column outlines the esophagus. It continues up into the cervicothoracic oesophagus, the source of the aspirated material."
    },
    {
     "x": 0.792,
     "y": 0.477,
     "text": "Aspirated contrast in branching airways",
     "structures": [
-     "Left inferior lobar bronchus",
-     "Inferior lobe of left lung"
+     "Barium in left lower-lobe bronchus",
+     "Barium in left basal segmental bronchi",
+     "Left inferior lobar bronchus"
     ],
     "side": "Left",
     "note": "Branching contrast outside the esophageal column is source-identified aspiration, here in the left lower-lobe airways."
-   },
-   {
-    "x": 0.42,
-    "y": 0.25,
-    "text": "Upper oesophagus",
-    "structures": [
-     "Oesophagus"
-    ],
-    "note": "The contrast column continues up into the cervicothoracic oesophagus, the source of the aspirated material."
    }
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
@@ -719,13 +786,17 @@
     "thorax"
    ],
    "view": "anterior",
+   "show": [
+    "Barium in left lower-lobe bronchus",
+    "Barium in left basal segmental bronchi"
+   ],
    "ghost_focus": [
     "Oesophagus",
     "Trachea",
     "Left main bronchus",
     "Right main bronchus",
-    "Left inferior lobar bronchus",
-    "Inferior lobe of left lung"
+    "Barium in left lower-lobe bronchus",
+    "Barium in left basal segmental bronchi"
    ],
    "xray": true
   }
@@ -766,7 +837,6 @@
     "y": 0.553,
     "text": "Closed upper esophageal sphincter",
     "structures": [
-     "Oesophagus",
      "Cricoid cartilage"
     ],
     "note": "The red arrowhead marks the closed upper esophageal sphincter, at the level of the cricoid cartilage."
@@ -778,7 +848,6 @@
     "structures": [
      "Killian-Jamieson diverticulum"
     ],
-    "side": "Right",
     "note": "The long arrow marks the contrast-filled Killian-Jamieson diverticulum, a lateral outpouching of the cervical oesophagus."
    },
    {
@@ -791,8 +860,8 @@
     "note": "The barium column lies in the lumen of the cervical oesophagus below the upper oesophageal sphincter."
    },
    {
-    "x": 0.47,
-    "y": 0.57,
+    "x": 0.48,
+    "y": 0.5,
     "text": "Cervical vertebral bodies",
     "structures": [
      "Vertebra C5",
@@ -828,7 +897,16 @@
     "Oesophagus",
     "Killian-Jamieson diverticulum",
     "Laryngopharynx",
-    "Cricoid cartilage"
+    "Cricoid cartilage",
+    "Vertebra C3",
+    "Vertebra C4",
+    "Vertebra C5",
+    "Vertebra C6"
+   ],
+   "frame_on": [
+    "Hyoid bone",
+    "Vertebra C3",
+    "Oesophagus"
    ],
    "xray": true
   }
@@ -910,9 +988,6 @@
    "micro": "female_reproductive",
    "micro_focus": [
     "Uterine cavity",
-    "Body of uterus (myometrium)",
-    "Fundus of uterus (myometrium)",
-    "Isthmus of uterus (myometrium)",
     "Cervix of uterus",
     "Uterine (intramural) part of uterine tube",
     "Isthmus of uterine tube",
@@ -922,6 +997,9 @@
     "Abdominal ostium of uterine tube"
    ],
    "micro_context": [
+    "Body of uterus (myometrium)",
+    "Fundus of uterus (myometrium)",
+    "Isthmus of uterus (myometrium)",
     "Sacrum",
     "Hip bone",
     "Pubic symphysis",
@@ -1132,6 +1210,23 @@
     "Descending colon",
     "Sigmoid colon"
    ],
+   "focus": [
+    "Vertebra L1",
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Sacrum",
+    "Hip bone",
+    "Ascending colon",
+    "Transverse colon",
+    "Descending colon",
+    "Sigmoid colon"
+   ],
+   "frame_on": [
+    "Vertebra L1",
+    "Hip bone"
+   ],
    "ghost_focus": [
     "Vertebra L1",
     "Vertebra L2",
@@ -1281,7 +1376,7 @@
     "y": 0.16,
     "text": "Left main coronary narrowing",
     "structures": [
-     "Left coronary artery (left main)"
+     "Left coronary artery"
     ],
     "note": "The source red arrow identifies critical left main narrowing."
    },
@@ -1290,7 +1385,7 @@
     "y": 0.44,
     "text": "Circumflex narrowing",
     "structures": [
-     "Circumflex artery (LCx)"
+     "Circumflex artery of heart"
     ],
     "note": "The source red arrow identifies critical circumflex narrowing."
    },
@@ -1299,34 +1394,41 @@
     "y": 0.341,
     "text": "LAD (anterior interventricular artery)",
     "structures": [
-     "Anterior interventricular artery (LAD)"
+     "Anterior interventricular artery"
     ],
     "note": "The other main branch of the left main trunk, running toward the apex. The source does not name it."
+   },
+   {
+    "x": 0.26,
+    "y": 0.24,
+    "text": "Aortic root",
+    "structures": [
+     "Ascending aorta"
+    ],
+    "note": "The contrast-filled aortic root at the upper left of the image; the left main coronary artery arises from its left sinus."
    }
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
   "scene": {
-   "micro": "whole_heart",
-   "micro_focus": [
-    "Left coronary artery (left main)",
-    "Circumflex artery (LCx)",
-    "Anterior interventricular artery (LAD)",
-    "First diagonal artery",
-    "Second diagonal artery",
-    "First obtuse marginal artery",
-    "Second obtuse marginal artery",
-    "Posterolateral branch of circumflex artery",
-    "First septal perforator"
+   "systems": [
+    "cardiovascular"
    ],
-   "micro_context": [
+   "regions": [
+    "thorax"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "focus": [
+    "Left coronary artery",
+    "Circumflex artery of heart",
+    "Anterior interventricular artery"
+   ],
+   "show": [
     "Ascending aorta",
-    "Left ventricle",
-    "Left atrium"
+    "Left main coronary stenosis",
+    "Circumflex coronary stenosis"
    ],
-   "model_view": "anterior",
-   "show": [],
-   "isolate": true,
-   "xray": false
+   "isolate": true
   }
  },
  {
@@ -1381,8 +1483,8 @@
     "note": "Branch of the supraclinoid internal carotid artery that runs medially towards the orbit; the loop beside the carotid bend in this frontal view is the supraclinoid segment."
    },
    {
-    "x": 0.43,
-    "y": 0.67,
+    "x": 0.465,
+    "y": 0.75,
     "text": "Middle cerebral artery (M1)",
     "structures": [
      "Middle cerebral artery (M1-segment)"
@@ -1391,8 +1493,8 @@
     "note": "The lateral trunk leaving the carotid bifurcation towards the Sylvian fissure; its branches fan out over the lateral hemisphere."
    },
    {
-    "x": 0.56,
-    "y": 0.58,
+    "x": 0.563,
+    "y": 0.553,
     "text": "Anterior cerebral artery",
     "structures": [
      "Anterior cerebral artery"
@@ -1503,7 +1605,8 @@
     "Parietal branches of middle cerebral artery",
     "Temporal branches of middle cerebral artery",
     "Middle cerebral artery (M3-segment)",
-    "Posterior cerebral artery"
+    "Posterior cerebral artery",
+    "Cerebral arterial aneurysm"
    ],
    "show": [
     "Cerebral arterial aneurysm"
@@ -1567,12 +1670,11 @@
    {
     "x": 0.26,
     "y": 0.9,
-    "text": "Forearm artery entering the hand",
+    "text": "Common palmar digital artery",
     "structures": [
-     "Radial artery",
-     "Ulnar artery"
+     "Common palmar digital arteries"
     ],
-    "note": "The thick vessel at the wrist end of the image is one of the forearm arteries (radial or ulnar) supplying the hand."
+    "note": "A thick palmar trunk at the base of the fingers, feeding the digital arteries above it."
    },
    {
     "x": 0.61,
@@ -1602,16 +1704,14 @@
     "Palmar metacarpal arteries",
     "Dorsal metacarpal arteries",
     "Superficial palmar arch",
-    "Deep palmar arch",
-    "Radial artery",
-    "Ulnar artery",
-    "Palmar carpal branch of radial artery",
-    "Dorsal carpal branch of ulnar artery"
+    "Deep palmar arch"
    ],
    "isolate": true,
    "frame_on": [
     "Proper palmar digital arteries",
-    "Dorsal digital arteries of hand"
+    "Dorsal digital arteries of hand",
+    "Common palmar digital arteries",
+    "Superficial palmar arch"
    ]
   }
  },
@@ -1650,7 +1750,7 @@
   "labels": [
    {
     "x": 0.603,
-    "y": 0.42,
+    "y": 0.46,
     "text": "Renal arterial trunk",
     "structures": [
      "Renal artery"
@@ -1659,7 +1759,7 @@
    },
    {
     "x": 0.274,
-    "y": 0.629,
+    "y": 0.66,
     "text": "Intrarenal arterial branches",
     "structures": [
      "Gross / segmental artery",
@@ -1674,7 +1774,7 @@
     "y": 0.329,
     "text": "Interlobar artery (upper pole)",
     "structures": [
-     "Gross / interlobar artery"
+     "Interlobar artery (upper polar / upper posterior)"
     ],
     "note": "Interlobar arteries run up through the renal columns between the pyramids, carrying contrast towards the upper pole."
    },
@@ -1758,7 +1858,6 @@
     "y": 0.526,
     "text": "Accessory left renal artery: string-of-beads",
     "structures": [
-     "Left renal artery",
      "Left renal artery bead 1",
      "Left renal artery bead 2",
      "Left renal artery bead 3"
@@ -1771,7 +1870,6 @@
     "y": 0.532,
     "text": "Right renal artery aneurysm",
     "structures": [
-     "Right renal artery",
      "Right renal artery distal aneurysm"
     ],
     "side": "Right",
@@ -1822,7 +1920,11 @@
     "Left renal artery",
     "Right renal artery",
     "Anterior branch of renal artery",
-    "Posterior branch of renal artery"
+    "Posterior branch of renal artery",
+    "Left renal artery bead 1",
+    "Left renal artery bead 2",
+    "Left renal artery bead 3",
+    "Right renal artery distal aneurysm"
    ],
    "show": [
     "Left renal artery bead 1",
@@ -1907,16 +2009,6 @@
      "Segmental artery (lower)"
     ],
     "note": "A branch of the renal artery running down towards the lower pole of the kidney."
-   },
-   {
-    "x": 0.889,
-    "y": 0.638,
-    "text": "Interlobar branch",
-    "structures": [
-     "Interlobar artery (lower anterior / lower polar)",
-     "Interlobar artery (lower posterior / lower polar)"
-    ],
-    "note": "A tapering intrarenal branch of the renal artery opacified by contrast."
    }
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
@@ -2047,13 +2139,10 @@
    "focus": [
     "Anterior tibial artery",
     "Fibular artery",
-    "Posterior tibial artery",
     "Dorsalis pedis artery",
     "Lateral tarsal artery",
     "Dorsal metatarsal arteries",
-    "Calcaneal branches of fibular artery"
-   ],
-   "show": [
+    "Calcaneal branches of fibular artery",
     "Posterior tibial artery occlusion",
     "Collateral vessels around the occlusion"
    ],
@@ -2117,14 +2206,14 @@
     "note": "The lateral thigh vessel that opacifies down from the top of the field."
    },
    {
-    "x": 0.51,
-    "y": 0.35,
-    "text": "Superficial femoral artery",
+    "x": 0.56,
+    "y": 0.82,
+    "text": "Fibula",
     "structures": [
-     "Femoral artery"
+     "Fibula"
     ],
     "side": "Left",
-    "note": "The medial thigh artery running down toward the knee."
+    "note": "The thin lower-leg bone lateral to the tibia, seen on the image, for orientation."
    },
    {
     "x": 0.62,
@@ -2169,7 +2258,6 @@
    "focus": [
     "Femoral artery",
     "Deep femoral artery",
-    "Medial circumflex femoral artery",
     "Popliteal artery"
    ],
    "show": [
@@ -2179,7 +2267,7 @@
     "Proximal femoral occlusion",
     "Distal popliteal occlusion"
    ],
-   "isolate": true,
+   "isolate": false,
    "xray": true,
    "view": "anterior",
    "side": "Left"
@@ -2305,7 +2393,11 @@
     "lower_limb_r",
     "lower_limb_l"
    ],
-   "view": "anterior"
+   "view": "anterior",
+   "frame_on": [
+    "Frontal bone",
+    "Calcaneus"
+   ]
   }
  },
  {
@@ -2405,6 +2497,12 @@
    "show": [
     "Left subcapital insufficiency fracture"
    ],
+   "frame_on": [
+    "Vertebra T4",
+    "Clavicle",
+    "Femur",
+    "Tibia"
+   ],
    "view": "anterior",
    "xray": false
   }
@@ -2462,25 +2560,26 @@
     "structures": [
      "Thyroid gland"
     ],
-    "note": "Panel B is the source's Graves disease pattern: diffuse, symmetrical uptake over both lobes. The atlas shows the gland only, not the uptake."
+    "side": "Right",
+    "note": "Panel B is the source's Graves disease pattern: diffuse, symmetrical uptake over both lobes. The atlas has one thyroid structure, so the marker sits on the right lobe; the uptake is not drawn."
    },
    {
     "x": 0.68,
     "y": 0.5,
     "text": "C: Toxic multinodular goitre",
     "structures": [
-     "Thyroid gland"
+     "Multinodular goitre nodules"
     ],
-    "note": "Panel C is the source's toxic multinodular goitre pattern: uneven hot and cold areas across both lobes. The atlas shows the gland only, not the uptake."
+    "note": "Panel C is the source's toxic multinodular goitre pattern: uneven hot and cold areas across both lobes. The model shows the nodules across both lobes; the hot and cold uptake is not drawn."
    },
    {
     "x": 0.9,
     "y": 0.67,
     "text": "D: Toxic adenoma",
     "structures": [
-     "Thyroid gland"
+     "Toxic adenoma"
     ],
-    "note": "Panel D is the source's toxic adenoma pattern: a dominant hot nodule with suppressed uptake in the rest of the gland. The atlas shows the gland only, not the nodule."
+    "note": "Panel D is the source's toxic adenoma pattern: a dominant hot nodule with suppressed uptake in the rest of the gland. The model shows the nodule's position and size; the uptake is not drawn."
    },
    {
     "x": 0.68,
@@ -2489,7 +2588,8 @@
     "structures": [
      "Thyroid gland"
     ],
-    "note": "Panel E is the source's thyroiditis pattern: decreased or absent uptake. The atlas shows the gland only, not the uptake."
+    "side": "Left",
+    "note": "Panel E is the source's thyroiditis pattern: decreased or absent uptake. The atlas has one thyroid structure, so the marker sits on the left lobe; the diffuse uptake is not drawn."
    }
   ],
   "atlas_note": "Normal thyroid anatomy is orientation context only. The source panels show tracer uptake patterns; the atlas does not reproduce Graves disease, a toxic nodule or uptake intensity. Panel letters A-E follow the original figure.",
@@ -2498,7 +2598,9 @@
     "visceral"
    ],
    "show": [
-    "Thyroid gland"
+    "Thyroid gland",
+    "Toxic adenoma",
+    "Multinodular goitre nodules"
    ],
    "focus": [
     "Thyroid gland"
@@ -2600,11 +2702,10 @@
     "y": 0.45,
     "text": "B: Left lung, perfusion",
     "structures": [
-     "Superior lobe of left lung",
-     "Inferior lobe of left lung"
+     "Left lower lobe pulmonary embolus"
     ],
     "side": "Left",
-    "note": "Left lung field on the perfusion (MAA) image, where regional perfusion defects are seen."
+    "note": "Left lung field on the perfusion (MAA) image, where regional perfusion defects are seen. The clot shown in 3D lies in the left pulmonary artery branch to the lower lobe."
    },
    {
     "x": 0.84,
@@ -2639,8 +2740,16 @@
     "Middle lobe of right lung",
     "Inferior lobe of right lung"
    ],
+   "show": [
+    "Left pulmonary artery",
+    "Left lower lobe pulmonary embolus"
+   ],
+   "ghost_focus": [
+    "Left pulmonary artery",
+    "Left lower lobe pulmonary embolus"
+   ],
    "isolate": true,
-   "xray": false,
+   "xray": true,
    "view": "posterior"
   }
  },
@@ -2704,6 +2813,7 @@
     "structures": [
      "Kidney"
     ],
+    "side": "Right",
     "note": "Posterior MAG3 image: strong cortical tracer uptake and a steep early rise on the renogram, so this kidney is functioning well."
    },
    {
@@ -2713,6 +2823,7 @@
     "structures": [
      "Kidney"
     ],
+    "side": "Left",
     "note": "Posterior MAG3 image: much weaker uptake and a flat renogram curve, matching the markedly impaired left renal function described in the case."
    }
   ],
@@ -2796,10 +2907,9 @@
     "y": 0.44,
     "text": "Stress vertical long-axis slices",
     "structures": [
-     "Left ventricle, anterior wall",
      "Interventricular septum",
-     "Left ventricle, inferior wall",
-     "Apex of left ventricle"
+     "Left ventricle, anterior wall",
+     "Left ventricle, inferior wall"
     ],
     "note": "STR in the vertical long-axis (vax) row: the left ventricular walls and septum in the stress study."
    },
@@ -2819,9 +2929,8 @@
     "y": 0.895,
     "text": "Rest horizontal long-axis slices",
     "structures": [
-     "Apex of left ventricle",
      "Left ventricle, lateral wall",
-     "Interventricular septum"
+     "Apex of left ventricle"
     ],
     "note": "RST in the horizontal long-axis (hax) row: the apex and walls of the left ventricle at rest."
    }
@@ -2908,17 +3017,18 @@
     "note": "Source panel B1 shows stress H2-15O PET."
    },
    {
-    "x": 0.908,
-    "y": 0.22,
+    "x": 0.92,
+    "y": 0.39,
     "text": "C1: Source-marked coronary stenosis",
     "structures": [
-     "Left coronary artery (left main)",
-     "Anterior interventricular artery (LAD)",
-     "Circumflex artery (LCx)",
+     "Severe coronary stenosis",
+     "Left coronary artery",
+     "Anterior interventricular artery",
+     "Circumflex artery of heart",
      "First diagonal artery",
      "First obtuse marginal artery"
     ],
-    "note": "The source angiogram arrow identifies a coronary stenosis. The branch is not named in the composite image, so the left coronary tree is shown."
+    "note": "The source angiogram arrows identify a coronary stenosis. The branch is not named in the composite image, so the left coronary tree is shown; the stenosis is drawn on the anterior interventricular artery as an illustrative site."
    },
    {
     "x": 0.09,
@@ -2940,9 +3050,7 @@
     "Left ventricle, inferior wall",
     "Interventricular septum",
     "Apex of left ventricle",
-    "Left coronary artery (left main)",
-    "Anterior interventricular artery (LAD)",
-    "Circumflex artery (LCx)",
+    "Coronary arteries",
     "First diagonal artery",
     "First obtuse marginal artery",
     "Posterior interventricular artery",
@@ -2953,6 +3061,9 @@
     "Right ventricle, inferior wall",
     "Left atrium, anterior wall",
     "Ascending aorta"
+   ],
+   "show": [
+    "Severe coronary stenosis"
    ],
    "model_view": "anterior"
   }
@@ -3002,7 +3113,7 @@
     "y": 0.751,
     "text": "Corresponding fused activity and anatomy",
     "structures": [
-     "Hodgkin paratracheal nodal mass"
+     "Paratracheal thoracic nodes"
     ],
     "note": "The fusion panel locates corresponding activity within CT anatomy."
    },
@@ -3038,7 +3149,7 @@
     "y": 0.294,
     "text": "Thoracic aorta",
     "structures": [
-     "Thoracic aorta"
+     "Aortic arch"
     ],
     "note": "Round contrast-free aorta in the left posterior mediastinum, beside the vertebral body."
    }
@@ -3051,11 +3162,18 @@
    ],
    "clip": [
     2,
-    0.8
+    0.79
    ],
    "view": "inferior",
    "show": [
     "Hodgkin paratracheal nodal mass"
+   ],
+   "frame_on": [
+    "Manubrium of sternum",
+    "Trachea",
+    "Vertebra T4",
+    "Aortic arch",
+    "Paratracheal thoracic nodes"
    ]
   }
  }

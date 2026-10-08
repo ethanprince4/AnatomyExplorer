@@ -201,7 +201,10 @@
    "ghost_focus": [
     "Consolidated right middle lobe",
     "Right atrium",
+    "Right ventricle",
+    "Left atrium",
     "Left ventricle",
+    "Pulmonary trunk",
     "Aortic arch",
     "Middle lobe of right lung",
     "Superior lobe of right lung",
@@ -370,7 +373,9 @@
     "Inferior lobe of right lung",
     "Trachea",
     "Superior vena cava",
-    "Left subclavian vein"
+    "Left brachiocephalic vein",
+    "Left subclavian vein",
+    "Diaphragm"
    ],
    "frame_on": [
     "Collapsed left lung (pneumothorax)",
@@ -391,8 +396,8 @@
     "note": "the visible lung edge - check for absent lung markings beyond it"
    },
    {
-    "x": 0.72,
-    "y": 0.17,
+    "x": 0.64,
+    "y": 0.16,
     "text": "Pleural air, no lung markings",
     "structures": [
      "Air in the left pleural space"
@@ -434,11 +439,12 @@
    },
    {
     "x": 0.6,
-    "y": 0.235,
+    "y": 0.2,
     "text": "Port catheter",
     "structures": [
-     "Superior vena cava"
-    ]
+     "Left brachiocephalic vein"
+    ],
+    "note": "the catheter arches over the top of the mediastinum through the left brachiocephalic vein to the SVC"
    },
    {
     "x": 0.5,
@@ -454,7 +460,7 @@
     "y": 0.78,
     "text": "Absent breast shadow",
     "structures": [
-     "Sixth rib"
+     "Diaphragm"
     ],
     "side": "Right",
     "note": "bilateral mastectomy: the lower zones look darker than usual"
@@ -540,7 +546,9 @@
     "Body of sternum",
     "Clavicle",
     "Ribs",
-    "Thoracic vertebrae"
+    "Thoracic vertebrae",
+    "Manubrium of sternum",
+    "Diaphragm"
    ],
    "ghost_focus": [
     "Enlarged heart",
@@ -548,7 +556,9 @@
     "Small bilateral pleural effusions",
     "Lungs",
     "Pulmonary arteries",
-    "Pulmonary veins"
+    "Pulmonary veins",
+    "Manubrium of sternum",
+    "Diaphragm"
    ],
    "frame_on": [
     "Lungs"
@@ -596,7 +606,9 @@
     "y": 0.52,
     "text": "Fluid in the horizontal fissure",
     "structures": [
-     "Small bilateral pleural effusions"
+     "Small bilateral pleural effusions",
+     "Superior lobe of right lung",
+     "Middle lobe of right lung"
     ],
     "note": "often the first effusion you can actually see"
    },
@@ -605,7 +617,8 @@
     "y": 0.82,
     "text": "Blunted costophrenic angle",
     "structures": [
-     "Small bilateral pleural effusions"
+     "Small bilateral pleural effusions",
+     "Diaphragm"
     ]
    },
    {
@@ -622,6 +635,7 @@
     "y": 0.335,
     "text": "Sternal wires and surgical clips",
     "structures": [
+     "Manubrium of sternum",
      "Body of sternum"
     ],
     "note": "previous coronary artery bypass grafting"
@@ -723,7 +737,7 @@
     "y": 0.566,
     "text": "Bronchi",
     "structures": [
-     "Right main bronchus"
+     "Anterior basal segmental bronchus of right lung (BVIII)"
     ],
     "side": "Right",
     "note": "still open and full of air, an air bronchogram"
@@ -758,7 +772,7 @@
    },
    {
     "x": 0.505,
-    "y": 0.81,
+    "y": 0.745,
     "text": "Vertebral body",
     "structures": [
      "Vertebra T8"

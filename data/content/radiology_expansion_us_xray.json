@@ -69,6 +69,10 @@
    ],
    "view": "right",
    "focus": [
+    "Liver",
+    "Diaphragm"
+   ],
+   "frame_on": [
     "Liver"
    ],
    "show": [
@@ -149,8 +153,11 @@
     "Liver",
     "Hepatic veins"
    ],
+   "ghost_focus": [
+    "Hepatic veins"
+   ],
    "isolate": true,
-   "xray": false,
+   "xray": true,
    "view": "anterior"
   }
  },
@@ -212,6 +219,7 @@
     "y": 0.496,
     "text": "Renal sinus",
     "structures": [
+     "Renal pelvis",
      "Kidney"
     ],
     "note": "Bright central renal sinus at the quadruple-asterisk marker."
@@ -250,17 +258,15 @@
     "abdomen"
    ],
    "view": "anterior",
-   "xray": false,
+   "xray": true,
    "focus": [
     "Kidney"
    ],
    "show": [
-    "Renal pelvis",
-    "Left renal artery",
-    "Right renal artery",
-    "Left renal vein",
-    "Right renal vein",
-    "Suprarenal gland"
+    "Renal pelvis"
+   ],
+   "ghost_focus": [
+    "Renal pelvis"
    ],
    "isolate": true
   }
@@ -396,8 +402,7 @@
     "y": 0.702,
     "text": "Gallstones",
     "structures": [
-     "Gallstones (dependent, shadowing)",
-     "Gallbladder"
+     "Gallstones (dependent, shadowing)"
     ],
     "note": "Bright dependent stones within the gallbladder, with posterior acoustic shadowing."
    },
@@ -445,11 +450,16 @@
    ],
    "view": "anterior",
    "focus": [
+    "Gallbladder",
+    "Liver",
+    "Gallstones (dependent, shadowing)",
+    "Biliary sludge (dependent layer)"
+   ],
+   "frame_on": [
     "Gallbladder"
    ],
    "show": [
     "Liver",
-    "Duodenum",
     "Gallstones (dependent, shadowing)",
     "Biliary sludge (dependent layer)"
    ],
@@ -506,7 +516,9 @@
     "x": 0.49,
     "y": 0.783,
     "text": "Posterior acoustic shadow",
-    "structures": [],
+    "structures": [
+     "Gallbladder"
+    ],
     "note": "Reduced echoes posterior to the gallstone; the dark shadow is the sound beam blocked by the stone, not a separate structure."
    },
    {
@@ -544,6 +556,10 @@
     "Gallbladder wall thickening"
    ],
    "isolate": true,
+   "frame_on": [
+    "Gallbladder",
+    "Impacted gallstone"
+   ],
    "view": "anterior"
   }
  },
@@ -585,7 +601,6 @@
     "y": 0.541,
     "text": "Right thyroid lobe",
     "structures": [
-     "Thyroid gland",
      "Hashimoto thyroiditis enlarged right lobe"
     ],
     "side": "Right",
@@ -613,14 +628,17 @@
    "side": "Right",
    "xray": false,
    "focus": [
-    "Thyroid gland"
-   ],
-   "show": [
     "Thyroid gland",
     "Hashimoto thyroiditis enlarged right lobe",
     "Right common carotid artery",
     "Internal jugular vein",
     "Sternothyroid muscle"
+   ],
+   "show": [
+    "Hashimoto thyroiditis enlarged right lobe"
+   ],
+   "frame_on": [
+    "Thyroid gland"
    ],
    "isolate": true
   }
@@ -818,11 +836,11 @@
     "joints"
    ],
    "view": "anterior",
-   "xray": false,
+   "xray": true,
    "regions": [
-    "lower_limb_l",
-    "lower_limb_r"
+    "lower_limb_l"
    ],
+   "side": "Left",
    "focus": [
     "Femoral vein",
     "Femoral artery",
@@ -830,6 +848,11 @@
    ],
    "show": [
     "Femoral vein thrombus"
+   ],
+   "ghost_focus": [
+    "Femoral vein thrombus",
+    "Femoral artery",
+    "Deep femoral vein"
    ],
    "isolate": true
   }
@@ -936,7 +959,9 @@
    ],
    "focus": [
     "Abdominal aorta",
-    "Abdominal aortic aneurysm"
+    "Abdominal aortic aneurysm",
+    "Rectus abdominis muscle",
+    "Vertebra L1"
    ],
    "isolate": true,
    "xray": false,
@@ -1294,6 +1319,11 @@
    "show": [
     "Dilated small bowel with air-fluid levels"
    ],
+   "focus": [
+    "Dilated small bowel with air-fluid levels",
+    "Stomach",
+    "Descending colon"
+   ],
    "ghost_focus": [
     "Dilated small bowel with air-fluid levels",
     "Jejunum",
@@ -1417,7 +1447,9 @@
     "L3 compression fracture"
    ],
    "focus": [
+    "Vertebra L2",
     "Vertebra L3",
+    "Vertebra L4",
     "L3 compression fracture"
    ],
    "ghost_focus": [
@@ -1425,6 +1457,11 @@
     "Vertebra L3",
     "Vertebra L4",
     "L3 compression fracture"
+   ],
+   "frame_on": [
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4"
    ],
    "xray": true,
    "isolate": false
@@ -1472,6 +1509,7 @@
     "text": "Distal radius fracture (lateral view)",
     "structures": [
      "Distal radius fracture",
+     "Dorsally displaced radial fragment",
      "Radius"
     ],
     "side": "Left",
@@ -1538,7 +1576,13 @@
     "Trapezoid bone",
     "Capitate bone",
     "Hamate bone",
+    "First metacarpal bone",
+    "Second metacarpal bone",
+    "Third metacarpal bone",
+    "Fourth metacarpal bone",
+    "Fifth metacarpal bone",
     "Distal radius fracture",
+    "Dorsally displaced radial fragment",
     "Ulnar styloid fracture"
    ],
    "ghost_focus": [
@@ -1552,12 +1596,22 @@
     "Trapezoid bone",
     "Capitate bone",
     "Hamate bone",
+    "First metacarpal bone",
+    "Second metacarpal bone",
+    "Third metacarpal bone",
+    "Fourth metacarpal bone",
+    "Fifth metacarpal bone",
     "Distal radius fracture",
+    "Dorsally displaced radial fragment",
     "Ulnar styloid fracture"
    ],
    "frame_on": [
     "Radius",
-    "Ulna"
+    "Ulna",
+    "Scaphoid bone",
+    "Capitate bone",
+    "Second metacarpal bone",
+    "Fifth metacarpal bone"
    ]
   }
  },
@@ -1658,6 +1712,11 @@
     "Clavicle",
     "Scapula",
     "Humerus",
+    "First rib",
+    "Second rib",
+    "Third rib",
+    "Fourth rib",
+    "Fifth rib",
     "Clavicular fracture"
    ],
    "ghost_focus": [
@@ -1665,6 +1724,10 @@
     "Scapula",
     "Humerus",
     "Clavicular fracture"
+   ],
+   "frame_on": [
+    "Clavicle",
+    "Scapula"
    ],
    "view": "anterior"
   }
@@ -1879,7 +1942,7 @@
     "lower_limb_r"
    ],
    "side": "Right",
-   "view": "right",
+   "view": "left",
    "show": [
     "Tibia",
     "Fibula",
@@ -1900,9 +1963,16 @@
     "Calcaneal fracture line"
    ],
    "ghost_focus": [
+    "Calcaneal fracture line",
+    "Talus",
+    "Tibia",
+    "Third metatarsal bone"
+   ],
+   "frame_on": [
+    "Tibia",
     "Calcaneus",
     "Talus",
-    "Calcaneal fracture line"
+    "Third metatarsal bone"
    ],
    "xray": true,
    "isolate": false
@@ -2012,7 +2082,6 @@
     "Vertebra L5",
     "Sacrum",
     "Hip bone",
-    "Kidney",
     "Ureter",
     "Renal pelvis",
     "Right renal calculus (xr_bilateral_renal_stones)",
@@ -2020,13 +2089,25 @@
     "Internal iliac vein"
    ],
    "focus": [
-    "Kidney"
+    "Vertebra L2",
+    "Internal iliac vein"
    ],
    "ghost_focus": [
-    "Kidney",
     "Right renal calculus (xr_bilateral_renal_stones)",
     "Left renal calculus (xr_bilateral_renal_stones)",
+    "Vertebra L1",
     "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Sacrum",
+    "Hip bone",
+    "Internal iliac vein"
+   ],
+   "frame_on": [
+    "Kidney",
+    "Vertebra L2",
+    "Sacrum",
     "Internal iliac vein"
    ],
    "xray": true,
@@ -2085,7 +2166,7 @@
     "structures": [
      "Temporal bone"
     ],
-    "side": "Left",
+    "side": "Right",
     "note": "Honeycomb air-cell pattern in the mastoid region."
    },
    {
@@ -2095,7 +2176,7 @@
     "structures": [
      "Maxilla"
     ],
-    "side": "Left",
+    "side": "Right",
     "note": "Air-filled sinus above the upper tooth row, within the maxilla."
    },
    {
@@ -2124,9 +2205,22 @@
     "head",
     "neck"
    ],
-   "view": "left",
-   "side": "Left",
+   "view": "right",
+   "side": "Right",
    "xray": true,
+   "focus": [
+    "Mandible",
+    "Maxilla",
+    "Temporal bone",
+    "Sphenoid bone",
+    "Frontal bone",
+    "Parietal bone",
+    "Occipital bone",
+    "Zygomatic bone",
+    "Nasal bone",
+    "Atlas (C1)",
+    "Axis (C2)"
+   ],
    "ghost_focus": [
     "Mandible",
     "Maxilla",
@@ -2332,12 +2426,11 @@
    {
     "x": 0.52,
     "y": 0.84,
-    "text": "Femoral head",
+    "text": "Hip joint",
     "structures": [
-     "Femur",
      "Hip bone"
     ],
-    "note": "Rounded femoral head in the hip joint at the inferior edge of the film."
+    "note": "Rounded femoral head seated in the acetabulum of the hip bone at the inferior edge of the film."
    }
   ],
   "references": [
@@ -2384,9 +2477,10 @@
     "Intervertebral disc L3-L4",
     "Intervertebral disc L4-L5",
     "Intervertebral disc L5-S1",
-    "Sacrum"
+    "Sacrum",
+    "Hip bone"
    ],
-   "view": "left"
+   "view": "right"
   }
  }
 ]
