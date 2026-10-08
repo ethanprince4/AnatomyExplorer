@@ -394,7 +394,7 @@ class MainWindow(QMainWindow):
         self._update_workspace_header()
         QTimer.singleShot(0, self._adapt_workspace)
         if not script:
-            QTimer.singleShot(0, self._studio_explore)
+            QTimer.singleShot(0, self._startup_explore)
         if self._startup_notices:
             if self.content.model_catalog_error:
                 self.notice.show_message(" · ".join(self._startup_notices), "Browse models", self._show_catalog)
@@ -730,6 +730,13 @@ class MainWindow(QMainWindow):
     def _studio_search(self, text):
         self._focus_search()
         self.search.edit.setText(text)
+
+    def _startup_explore(self):
+        """The opening Explore view, unless a page was already opened before the event loop started."""
+        if self._closing:
+            return
+        if self.center.currentIndex() == 0:
+            self._studio_explore()
 
     def _studio_explore(self):
         if self._closing:
