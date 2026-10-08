@@ -25,14 +25,15 @@ on run
 		delay 2
 		set isRunning to do shell script "kill -0 \"$(cat " & quoted form of (workDir & "/pid") & " 2>/dev/null)\" 2>/dev/null && echo yes || echo no"
 		set fields to my splitBar(do shell script "cat " & quoted form of (workDir & "/status") & " 2>/dev/null || true")
-		set kind to ""
-		if (count of fields) is 3 then set kind to item 1 of fields
-		if kind is "done" then exit repeat
-		if kind is "failed" then
+		-- not "kind": that is an AppleScript property, and setting it fails with "Can't set «class kind»" (-10006)
+		set statusKind to ""
+		if (count of fields) is 3 then set statusKind to item 1 of fields
+		if statusKind is "done" then exit repeat
+		if statusKind is "failed" then
 			display dialog (item 3 of fields) buttons {"OK"} default button "OK" with icon stop
 			return
 		end if
-		if kind is "progress" then
+		if statusKind is "progress" then
 			set progress completed steps to (item 2 of fields) as integer
 			set progress additional description to item 3 of fields
 		end if
