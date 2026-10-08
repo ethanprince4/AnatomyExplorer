@@ -469,11 +469,7 @@ class ModelView(QWidget):
         self._sync = False
 
     def _part_description(self, part):
-        """A part's teaching text: its own, unless its guide replaces build notes, else its structure's."""
-        guide = self.guide.group(part.group)
-        if guide.replace_part_descriptions or not part.description:
-            return guide.description or part.description
-        return part.description
+        return self.guide.description(part)
 
     def _structure_name(self, part):
         """Where a part sits, for the Details crumb: its categories and its structure's title."""

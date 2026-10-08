@@ -3,6 +3,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from app.ui.places import PlaceHistory
@@ -75,6 +76,18 @@ class PartGuideTests(unittest.TestCase):
         g = self.guide({"groups": {"A": {"description": " ", "replace_part_descriptions": True}}})
         self.assertFalse(g.group("A").replace_part_descriptions)
 
+    def test_a_part_description_comes_before_its_group(self):
+        g = self.guide({"groups": {"Taste": {"description": "Taste buds are ...", "replace_part_descriptions": True},
+                                   "Plain": {"description": "Group text."}},
+                        "parts": [{"keys": ["Basal taste cells", "Basal taste cells 2"], "description": "Basal cells are ..."},
+                                  {"keys": ["Taste pore"], "description": " "}, "bad", {"keys": "x", "description": "y"}]})
+        part = lambda key, group, own="": SimpleNamespace(key=key, group=group, description=own)
+        self.assertEqual(g.description(part("Basal taste cells 2", "Taste", "Build note")), "Basal cells are ...")
+        self.assertEqual(g.description(part("Taste pore", "Taste", "Build note")), "Taste buds are ...")
+        self.assertEqual(g.description(part("Other", "Plain", "Own text.")), "Own text.")
+        self.assertEqual(g.description(part("Other", "Plain")), "Group text.")
+        self.assertEqual(g.description(part("Other", "Missing")), "")
+
     def test_kidney_no_longer_carries_the_adrenal_gland(self):
         g = part_guide.load_part_guide("kidney_nephron")
         self.assertIn("Gross / adrenal capsule", g.excluded_groups)
@@ -90,6 +103,12 @@ class PartGuideTests(unittest.TestCase):
                 self.assertIsInstance(data.get("tree"), list)
                 placed = [key for node in data["tree"] for key in node["groups"]]
                 self.assertEqual(len(placed), len(set(placed)), "a group is placed twice")
+                described = [key for entry in data.get("parts", []) for key in entry["keys"]]
+                self.assertEqual(len(described), len(set(described)), "a part is described twice")
+                for entry in data.get("parts", []):
+                    text = entry["description"]
+                    self.assertTrue(entry["keys"] and 25 <= len(text.split()) <= 130, text)
+                    self.assertNotRegex(text, r"&[a-z]+;|<[a-z/]|preserved source|per unit|cover:|__", text)
 
 
 if __name__ == "__main__":
