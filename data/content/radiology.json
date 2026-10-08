@@ -1,1228 +1,1521 @@
 [
-  {
-    "id": "cxr_pa",
-    "title": "Chest radiograph — PA",
-    "modality": "X-ray",
-    "region": "Thorax",
-    "summary": "The film you will read more than any other: silhouettes, not structures.",
-    "text": "<p>A posteroanterior film: the beam passes from back to front with the patient's chest against the detector, so the heart – close to the detector – is magnified as little as possible. The patient's <b>right</b> is on <i>your</i> left.</p><p>What you see is not organs but the <b>edges</b> where tissues of different density meet. The heart border is visible only because air-filled lung lies against it. Lose the air and you lose the line: that is why consolidation, collapse and effusion all announce themselves as a silhouette that has gone missing.</p><p>The model beside it is set up the same way – lungs, heart and great vessels solid, the ribcage left translucent, the way the beam sees them.</p>",
-    "reading": [
-      "Check it is adequate: the medial ends of the clavicles equidistant from the spine (rotation), ten posterior ribs visible (inspiration), and the vertebrae faintly visible through the heart (penetration).",
-      "Trachea central, then the mediastinal contours in order: right paratracheal stripe and SVC, right atrium, then aortic knuckle, pulmonary trunk, left ventricle.",
-      "Hila: the left is normally 1–2 cm higher than the right, because the left pulmonary artery arches over the left main bronchus.",
-      "Both hemidiaphragms sharp, right about 2 cm higher than left because of the liver, and both costophrenic angles crisp.",
-      "Then the lung fields zone by zone, comparing left with right, and finally the bones and soft tissues."
-    ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "regions": [
-        "thorax"
-      ],
-      "view": "anterior",
-      "ghost_focus": [
-        "Right lung",
-        "Left lung",
-        "Heart",
-        "Aortic arch",
-        "Thoracic aorta",
-        "Trachea",
-        "Superior vena cava"
-      ],
-      "frame_on": [
-        "Right lung",
-        "Left lung"
-      ]
-    },
-    "labels": [
-      {
-        "x": 0.465,
-        "y": 0.1,
-        "text": "Trachea",
-        "structure": "Trachea",
-        "note": "central, deviating slightly right at the arch"
-      },
-      {
-        "x": 0.2,
-        "y": 0.13,
-        "text": "Right clavicle",
-        "structure": "Clavicle",
-        "side": "Right"
-      },
-      {
-        "x": 0.155,
-        "y": 0.28,
-        "text": "Right scapula",
-        "structure": "Scapula",
-        "note": "rotated off the lung field in a good PA",
-        "side": "Right"
-      },
-      {
-        "x": 0.085,
-        "y": 0.115,
-        "text": "Right humeral head",
-        "structure": "Humerus",
-        "side": "Right"
-      },
-      {
-        "x": 0.43,
-        "y": 0.215,
-        "text": "Superior vena cava",
-        "structure": "Superior vena cava",
-        "note": "forms the upper right mediastinal border"
-      },
-      {
-        "x": 0.545,
-        "y": 0.56,
-        "text": "Descending thoracic aorta",
-        "structure": "Thoracic aorta"
-      },
-      {
-        "x": 0.435,
-        "y": 0.62,
-        "text": "Right atrium",
-        "structure": "Right atrium",
-        "note": "the whole right heart border",
-        "side": "Right"
-      },
-      {
-        "x": 0.615,
-        "y": 0.68,
-        "text": "Left ventricle",
-        "structure": "Left ventricle",
-        "note": "the lower left heart border",
-        "side": "Left"
-      },
-      {
-        "x": 0.36,
-        "y": 0.465,
-        "text": "Right hilum",
-        "structures": [
-          "Right pulmonary artery"
-        ],
-        "note": "mostly pulmonary artery, not nodes",
-        "side": "Right"
-      },
-      {
-        "x": 0.6,
-        "y": 0.435,
-        "text": "Left hilum",
-        "structures": [
-          "Left pulmonary artery"
-        ],
-        "note": "normally higher than the right",
-        "side": "Left"
-      },
-      {
-        "x": 0.22,
-        "y": 0.45,
-        "text": "Posterior sixth rib",
-        "structure": "Sixth rib",
-        "side": "Right"
-      },
-      {
-        "x": 0.275,
-        "y": 0.785,
-        "text": "Right hemidiaphragm",
-        "structure": "Diaphragm",
-        "note": "higher than the left – the liver is under it",
-        "side": "Right"
-      },
-      {
-        "x": 0.745,
-        "y": 0.835,
-        "text": "Left hemidiaphragm",
-        "structure": "Diaphragm",
-        "side": "Left"
-      },
-      {
-        "x": 0.105,
-        "y": 0.825,
-        "text": "Right costophrenic angle",
-        "structure": "Right lung",
-        "note": "the first place an effusion blunts",
-        "side": "Right"
-      },
-      {
-        "x": 0.895,
-        "y": 0.865,
-        "text": "Left costophrenic angle",
-        "structure": "Left lung",
-        "side": "Left"
-      },
-      {
-        "x": 0.235,
-        "y": 0.62,
-        "text": "Right lung",
-        "structure": "Right lung",
-        "note": "three lobes",
-        "side": "Right"
-      },
-      {
-        "x": 0.775,
-        "y": 0.6,
-        "text": "Left lung",
-        "structure": "Left lung",
-        "note": "two lobes",
-        "side": "Left"
-      },
-      {
-        "x": 0.49,
-        "y": 0.42,
-        "text": "Thoracic spine",
-        "structure": "Thoracic vertebrae",
-        "note": "should be faintly visible through the heart"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which chambers form the right heart border and the lower left heart border on this PA film?",
-        "answer": "The right atrium forms the right border; the left ventricle forms the lower left border.",
-        "explanation": "These external contours are useful anatomical landmarks even though the individual chambers are not directly outlined throughout the cardiac silhouette.",
-        "structures": [
-          "Right atrium",
-          "Left ventricle"
-        ]
-      },
-      {
-        "prompt": "Why is the heart border sharply visible against the lungs on this normal film?",
-        "answer": "Air-filled lung contrasts with the denser cardiac soft tissue.",
-        "explanation": "A visible silhouette depends on that contrast. If adjacent lung becomes opaque, the shared border can disappear: the silhouette sign.",
-        "structures": [
-          "Heart",
-          "Right lung",
-          "Left lung"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Original image provenance: File:Normal posteroanterior (PA) chest radiograph (X-ray).jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Normal_posteroanterior_(PA)_chest_radiograph_(X-ray).jpg"
-      },
-      {
-        "title": "Radiology Masterclass: Chest X-ray Anatomy - Heart size and contours",
-        "url": "https://www.radiologymasterclass.co.uk/tutorials/chest/chest_home_anatomy/chest_anatomy_page8"
-      },
-      {
-        "title": "The Radiology Assistant: Chest X-Ray - Basic Interpretation",
-        "url": "https://radiologyassistant.nl/chest/chest-x-ray/basic-interpretation"
-      },
-      {
-        "title": "ACR/RSNA RadiologyInfo: Chest X-ray",
-        "url": "https://www.radiologyinfo.org/en/info/chestrad"
-      }
-    ],
-    "finding": "Normal anatomy",
-    "plane": "PA projection"
+ {
+  "id": "cxr_pa",
+  "title": "Chest radiograph — PA",
+  "modality": "X-ray",
+  "region": "Thorax",
+  "summary": "The film you will read more than any other: silhouettes, not structures.",
+  "text": "<p>A posteroanterior film: the beam passes from back to front with the patient's chest against the detector, so the heart – close to the detector – is magnified as little as possible. The patient's <b>right</b> is on <i>your</i> left.</p><p>What you see is not organs but the <b>edges</b> where tissues of different density meet. The heart border is visible only because air-filled lung lies against it. Lose the air and you lose the line: that is why consolidation, collapse and effusion all announce themselves as a silhouette that has gone missing.</p><p>The model beside it is set up the same way – lungs, heart and great vessels solid, the ribcage left translucent, the way the beam sees them.</p>",
+  "reading": [
+   "Check it is adequate: the medial ends of the clavicles equidistant from the spine (rotation), ten posterior ribs visible (inspiration), and the vertebrae faintly visible through the heart (penetration).",
+   "Trachea central, then the mediastinal contours in order: right paratracheal stripe and SVC, right atrium, then aortic knuckle, pulmonary trunk, left ventricle.",
+   "Hila: the left is normally 1–2 cm higher than the right, because the left pulmonary artery arches over the left main bronchus.",
+   "Both hemidiaphragms sharp, right about 2 cm higher than left because of the liver, and both costophrenic angles crisp.",
+   "Then the lung fields zone by zone, comparing left with right, and finally the bones and soft tissues."
+  ],
+  "scene": {
+   "systems": [
+    "skeletal",
+    "cardiovascular",
+    "visceral",
+    "joints"
+   ],
+   "regions": [
+    "thorax",
+    "back",
+    "upper_limb_r",
+    "upper_limb_l"
+   ],
+   "view": "anterior",
+   "show": [
+    "Clavicle",
+    "Scapula",
+    "Humerus",
+    "Sixth rib",
+    "Ribs",
+    "Thoracic vertebrae",
+    "Diaphragm"
+   ],
+   "ghost_focus": [
+    "Superior lobe of right lung",
+    "Middle lobe of right lung",
+    "Inferior lobe of right lung",
+    "Superior lobe of left lung",
+    "Inferior lobe of left lung",
+    "Right atrium",
+    "Left atrium",
+    "Right ventricle",
+    "Left ventricle",
+    "Superior vena cava",
+    "Inferior vena cava (thoracic part)",
+    "Ascending aorta",
+    "Aortic arch",
+    "Thoracic aorta",
+    "Pulmonary trunk",
+    "Right pulmonary artery",
+    "Left pulmonary artery",
+    "Trachea"
+   ],
+   "frame_on": [
+    "Superior lobe of right lung",
+    "Middle lobe of right lung",
+    "Inferior lobe of right lung",
+    "Superior lobe of left lung",
+    "Inferior lobe of left lung"
+   ]
   },
-  {
-    "id": "cxr_lat",
-    "title": "Chest radiograph — lateral",
-    "modality": "X-ray",
-    "region": "Thorax",
-    "summary": "The second view that turns a shadow into a place.",
-    "steps": [],
-    "text": "<p>Anterior is to the <b>left</b> of the image, posterior to the right. A lateral adds the third dimension the PA cannot give: whether a shadow lies in front of or behind the fissures, whether the retrosternal space is filled, and how deep the posterior costophrenic recess is.</p><p>Two clear spaces matter. The <b>retrosternal</b> space should be dark – filled means an anterior mediastinal mass or right ventricular enlargement. The <b>retrocardiac</b> space should also be dark – filled means a left lower lobe problem.</p>",
-    "reading": [
-      "Anterior on the left, posterior on the right; the arms are raised so the humeri are out of the way.",
-      "Follow the trachea down: it should run posteriorly, and the posterior wall is a thin line.",
-      "The retrosternal clear space, then the retrocardiac space, then the posterior costophrenic recess – the lowest point of the pleural cavity, and the first to fill with fluid.",
-      "The vertebral bodies should get progressively clearer as you move down; a sudden increase in density is a lower lobe problem."
+  "labels": [
+   {
+    "x": 0.465,
+    "y": 0.1,
+    "text": "Trachea",
+    "structures": [
+     "Trachea"
     ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "regions": [
-        "thorax"
-      ],
-      "view": "left",
-      "ghost_focus": [
-        "Right lung",
-        "Left lung",
-        "Heart",
-        "Aortic arch",
-        "Thoracic aorta",
-        "Trachea"
-      ],
-      "frame_on": [
-        "Right lung",
-        "Left lung"
-      ]
-    },
-    "labels": [
-      {
-        "x": 0.115,
-        "y": 0.35,
-        "text": "Sternum",
-        "structures": [
-          "Body of sternum"
-        ],
-        "note": "the anterior chest wall"
-      },
-      {
-        "x": 0.254,
-        "y": 0.415,
-        "text": "Retrosternal clear space",
-        "structure": "Left lung",
-        "note": "should be black; filled = anterior mediastinal mass"
-      },
-      {
-        "x": 0.44,
-        "y": 0.205,
-        "text": "Trachea",
-        "structure": "Trachea",
-        "note": "runs downwards and backwards"
-      },
-      {
-        "x": 0.5,
-        "y": 0.315,
-        "text": "Aortic arch",
-        "structure": "Aortic arch"
-      },
-      {
-        "x": 0.46,
-        "y": 0.47,
-        "text": "Hilar vessels",
-        "structures": [
-          "Left pulmonary artery"
-        ]
-      },
-      {
-        "x": 0.285,
-        "y": 0.625,
-        "text": "Heart",
-        "structure": "Heart",
-        "note": "sits on the anterior part of the diaphragm"
-      },
-      {
-        "x": 0.665,
-        "y": 0.5,
-        "text": "Thoracic vertebral body",
-        "structure": "Thoracic vertebrae"
-      },
-      {
-        "x": 0.665,
-        "y": 0.565,
-        "text": "Intervertebral disc space",
-        "structure": "Thoracic vertebrae"
-      },
-      {
-        "x": 0.72,
-        "y": 0.5,
-        "text": "Posterior ribs",
-        "structure": "Sixth rib"
-      },
-      {
-        "x": 0.615,
-        "y": 0.25,
-        "text": "Scapulae",
-        "structure": "Scapula",
-        "note": "both, superimposed behind the chest"
-      },
-      {
-        "x": 0.36,
-        "y": 0.755,
-        "text": "Hemidiaphragm",
-        "structure": "Diaphragm"
-      },
-      {
-        "x": 0.6,
-        "y": 0.8,
-        "text": "Posterior costophrenic recess",
-        "structure": "Left lung",
-        "note": "the deepest part of the pleural cavity"
-      }
+    "note": "central, deviating slightly right at the arch"
+   },
+   {
+    "x": 0.2,
+    "y": 0.13,
+    "text": "Right clavicle",
+    "structures": [
+     "Clavicle"
     ],
-    "questions": [
-      {
-        "prompt": "What normal change should you see as you follow the thoracic vertebral bodies down this lateral film?",
-        "answer": "They should become progressively more radiolucent, or darker.",
-        "explanation": "Increasing aerated lung overlies the lower vertebrae. Unexpected increasing opacity over the lower thoracic spine is the spine sign and can suggest a lower-lobe process.",
-        "structures": [
-          "Thoracic vertebrae",
-          "Right lung",
-          "Left lung"
-        ]
-      },
-      {
-        "prompt": "Why should you inspect the posterior costophrenic recess for a small pleural effusion?",
-        "answer": "Fluid collects in dependent pleural recesses, and a lateral film can reveal a smaller effusion than a PA film.",
-        "explanation": "Blunting of the normally sharp posterior recess can therefore be an early clue to pleural fluid.",
-        "structures": [
-          "Left lung",
-          "Diaphragm"
-        ]
-      }
+    "side": "Right"
+   },
+   {
+    "x": 0.155,
+    "y": 0.28,
+    "text": "Right scapula",
+    "structures": [
+     "Scapula"
     ],
-    "references": [
-      {
-        "title": "Original image provenance: File:Normal lateral chest radiograph (X-ray).jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Normal_lateral_chest_radiograph_(X-ray).jpg"
-      },
-      {
-        "title": "The Radiology Assistant: Chest X-Ray - Basic Interpretation",
-        "url": "https://radiologyassistant.nl/chest/chest-x-ray/basic-interpretation"
-      },
-      {
-        "title": "Radiology Masterclass: Chest X-ray Abnormalities - Pleural disease",
-        "url": "https://www.radiologymasterclass.co.uk/tutorials/chest/chest_pathology/chest_pathology_page4"
-      },
-      {
-        "title": "American Family Physician: Diagnostic Approach to Pleural Effusion",
-        "url": "https://www.aafp.org/afp/2014/0715/p99"
-      }
+    "side": "Right",
+    "note": "rotated off the lung field in a good PA"
+   },
+   {
+    "x": 0.085,
+    "y": 0.115,
+    "text": "Right humeral head",
+    "structures": [
+     "Humerus"
     ],
-    "finding": "Normal anatomy",
-    "plane": "Lateral projection"
+    "side": "Right"
+   },
+   {
+    "x": 0.43,
+    "y": 0.215,
+    "text": "Superior vena cava",
+    "structures": [
+     "Superior vena cava"
+    ],
+    "note": "forms the upper right mediastinal border"
+   },
+   {
+    "x": 0.545,
+    "y": 0.56,
+    "text": "Descending thoracic aorta",
+    "structures": [
+     "Thoracic aorta"
+    ]
+   },
+   {
+    "x": 0.435,
+    "y": 0.62,
+    "text": "Right atrium",
+    "structures": [
+     "Right atrium"
+    ],
+    "side": "Right",
+    "note": "the whole right heart border"
+   },
+   {
+    "x": 0.615,
+    "y": 0.68,
+    "text": "Left ventricle",
+    "structures": [
+     "Left ventricle"
+    ],
+    "side": "Left",
+    "note": "the lower left heart border"
+   },
+   {
+    "x": 0.36,
+    "y": 0.465,
+    "text": "Right hilum",
+    "structures": [
+     "Right pulmonary artery"
+    ],
+    "side": "Right",
+    "note": "mostly pulmonary artery, not nodes"
+   },
+   {
+    "x": 0.6,
+    "y": 0.435,
+    "text": "Left hilum",
+    "structures": [
+     "Left pulmonary artery"
+    ],
+    "side": "Left",
+    "note": "normally higher than the right"
+   },
+   {
+    "x": 0.22,
+    "y": 0.45,
+    "text": "Posterior sixth rib",
+    "structures": [
+     "Sixth rib"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.275,
+    "y": 0.785,
+    "text": "Right hemidiaphragm",
+    "structures": [
+     "Diaphragm"
+    ],
+    "side": "Right",
+    "note": "higher than the left – the liver is under it"
+   },
+   {
+    "x": 0.745,
+    "y": 0.835,
+    "text": "Left hemidiaphragm",
+    "structures": [
+     "Diaphragm"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.105,
+    "y": 0.825,
+    "text": "Right costophrenic angle",
+    "structures": [
+     "Inferior lobe of right lung"
+    ],
+    "side": "Right",
+    "note": "the first place an effusion blunts"
+   },
+   {
+    "x": 0.895,
+    "y": 0.865,
+    "text": "Left costophrenic angle",
+    "structures": [
+     "Inferior lobe of left lung"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.235,
+    "y": 0.62,
+    "text": "Right lung",
+    "structures": [
+     "Superior lobe of right lung",
+     "Middle lobe of right lung",
+     "Inferior lobe of right lung"
+    ],
+    "side": "Right",
+    "note": "three lobes"
+   },
+   {
+    "x": 0.775,
+    "y": 0.6,
+    "text": "Left lung",
+    "structures": [
+     "Superior lobe of left lung",
+     "Inferior lobe of left lung"
+    ],
+    "side": "Left",
+    "note": "two lobes"
+   },
+   {
+    "x": 0.49,
+    "y": 0.42,
+    "text": "Thoracic spine",
+    "structures": [
+     "Thoracic vertebrae"
+    ],
+    "note": "should be faintly visible through the heart"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which chambers form the right heart border and the lower left heart border on this PA film?",
+    "answer": "The right atrium forms the right border; the left ventricle forms the lower left border.",
+    "explanation": "These external contours are useful anatomical landmarks even though the individual chambers are not directly outlined throughout the cardiac silhouette.",
+    "structures": [
+     "Right atrium",
+     "Left ventricle"
+    ]
+   },
+   {
+    "prompt": "Why is the heart border sharply visible against the lungs on this normal film?",
+    "answer": "Air-filled lung contrasts with the denser cardiac soft tissue.",
+    "explanation": "A visible silhouette depends on that contrast. If adjacent lung becomes opaque, the shared border can disappear: the silhouette sign.",
+    "structures": [
+     "Heart",
+     "Right lung",
+     "Left lung"
+    ]
+   }
+  ],
+  "references": [
+   {
+    "title": "Original image provenance: File:Normal posteroanterior (PA) chest radiograph (X-ray).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Normal_posteroanterior_(PA)_chest_radiograph_(X-ray).jpg"
+   },
+   {
+    "title": "Radiology Masterclass: Chest X-ray Anatomy - Heart size and contours",
+    "url": "https://www.radiologymasterclass.co.uk/tutorials/chest/chest_home_anatomy/chest_anatomy_page8"
+   },
+   {
+    "title": "The Radiology Assistant: Chest X-Ray - Basic Interpretation",
+    "url": "https://radiologyassistant.nl/chest/chest-x-ray/basic-interpretation"
+   },
+   {
+    "title": "ACR/RSNA RadiologyInfo: Chest X-ray",
+    "url": "https://www.radiologyinfo.org/en/info/chestrad"
+   }
+  ],
+  "finding": "Normal anatomy",
+  "plane": "PA projection"
+ },
+ {
+  "id": "cxr_lat",
+  "title": "Chest radiograph — lateral",
+  "modality": "X-ray",
+  "region": "Thorax",
+  "summary": "The second view that turns a shadow into a place.",
+  "steps": [],
+  "text": "<p>Anterior is to the <b>left</b> of the image, posterior to the right. A lateral adds the third dimension the PA cannot give: whether a shadow lies in front of or behind the fissures, whether the retrosternal space is filled, and how deep the posterior costophrenic recess is.</p><p>Two clear spaces matter. The <b>retrosternal</b> space should be dark – filled means an anterior mediastinal mass or right ventricular enlargement. The <b>retrocardiac</b> space should also be dark – filled means a left lower lobe problem.</p>",
+  "reading": [
+   "Anterior on the left, posterior on the right; the arms are raised so the humeri are out of the way.",
+   "Follow the trachea down: it should run posteriorly, and the posterior wall is a thin line.",
+   "The retrosternal clear space, then the retrocardiac space, then the posterior costophrenic recess – the lowest point of the pleural cavity, and the first to fill with fluid.",
+   "The vertebral bodies should get progressively clearer as you move down; a sudden increase in density is a lower lobe problem."
+  ],
+  "scene": {
+   "systems": [
+    "skeletal",
+    "cardiovascular",
+    "visceral",
+    "joints"
+   ],
+   "regions": [
+    "thorax",
+    "back"
+   ],
+   "view": "left",
+   "show": [
+    "Lungs",
+    "Body of sternum",
+    "Manubrium of sternum",
+    "Thoracic vertebrae",
+    "Intervertebral disc",
+    "Sixth rib",
+    "Scapula",
+    "Diaphragm",
+    "Left pulmonary artery",
+    "Right pulmonary artery",
+    "Inferior lobe of left lung",
+    "Inferior lobe of right lung"
+   ],
+   "ghost_focus": [
+    "Heart",
+    "Aortic arch",
+    "Thoracic aorta",
+    "Trachea",
+    "Pulmonary trunk",
+    "Left pulmonary artery",
+    "Right pulmonary artery",
+    "Body of sternum",
+    "Thoracic vertebrae",
+    "Sixth rib",
+    "Scapula",
+    "Diaphragm"
+   ],
+   "frame_on": [
+    "Lungs",
+    "Heart"
+   ]
   },
-  {
-    "id": "hand_pa",
-    "title": "Hand — dorsopalmar",
-    "modality": "X-ray",
-    "region": "Upper limb",
-    "summary": "Eight carpal bones in two rows, and the order you must know them in.",
-    "text": "<p>A left hand. Two rows of four carpal bones: from the thumb side, <b>scaphoid, lunate, triquetrum, pisiform</b> proximally and <b>trapezium, trapezoid, capitate, hamate</b> distally – <i>Some Lovers Try Positions That They Cannot Handle</i>.</p><p>The bone to look at hardest is the <b>scaphoid</b>: its blood supply enters distally and runs backwards, so a proximal fracture can compromise the blood supply to the proximal pole. Up to a quarter of scaphoid fractures are invisible on the first film, which is why a tender snuffbox is immobilised and re-imaged rather than discharged.</p>",
-    "reading": [
-      "Three smooth, parallel arcs should be traceable across the carpus (Gilula's lines); a step in any of them means a carpal dislocation.",
-      "Joint spaces should all be about 2 mm and even; widening of the scapholunate space beyond 3 mm is the Terry Thomas sign of a scapholunate tear.",
-      "Follow each metacarpal from base to head, then every phalanx – the fifth metacarpal neck is the commonest fracture in the hand.",
-      "Finally the soft tissues and the alignment of the carpal rows on the lateral view."
+  "labels": [
+   {
+    "x": 0.115,
+    "y": 0.35,
+    "text": "Sternum",
+    "structures": [
+     "Body of sternum"
     ],
-    "scene": {
-      "systems": [
-        "skeletal"
-      ],
-      "regions": [
-        "upper_limb_l"
-      ],
-      "side": "Left",
-      "view": "anterior",
-      "frame_on": [
-        "Scaphoid bone",
-        "Third metacarpal bone",
-        "Distal phalanx of third finger of hand"
-      ]
-    },
-    "labels": [
-      {
-        "x": 0.435,
-        "y": 0.075,
-        "text": "Distal phalanx, middle finger",
-        "structure": "Distal phalanx of third finger of hand"
-      },
-      {
-        "x": 0.44,
-        "y": 0.185,
-        "text": "Middle phalanx",
-        "structure": "Middle phalanx of third finger of hand"
-      },
-      {
-        "x": 0.45,
-        "y": 0.33,
-        "text": "Proximal phalanx",
-        "structure": "Proximal phalanx of third finger of hand"
-      },
-      {
-        "x": 0.425,
-        "y": 0.435,
-        "text": "Metacarpophalangeal joint",
-        "structure": "Metacarpophalangeal joints"
-      },
-      {
-        "x": 0.395,
-        "y": 0.55,
-        "text": "Third metacarpal",
-        "structure": "Third metacarpal bone"
-      },
-      {
-        "x": 0.155,
-        "y": 0.57,
-        "text": "Fifth metacarpal",
-        "structure": "Fifth metacarpal bone",
-        "note": "its neck is the boxer's fracture"
-      },
-      {
-        "x": 0.63,
-        "y": 0.665,
-        "text": "First metacarpal",
-        "structure": "First metacarpal bone"
-      },
-      {
-        "x": 0.755,
-        "y": 0.555,
-        "text": "Proximal phalanx of thumb",
-        "structure": "Proximal phalanx of first finger of hand"
-      },
-      {
-        "x": 0.875,
-        "y": 0.44,
-        "text": "Distal phalanx of thumb",
-        "structure": "Distal phalanx of first finger of hand"
-      },
-      {
-        "x": 0.5,
-        "y": 0.76,
-        "text": "Trapezium",
-        "structure": "Trapezium bone",
-        "note": "under the thumb"
-      },
-      {
-        "x": 0.44,
-        "y": 0.73,
-        "text": "Trapezoid",
-        "structure": "Trapezoid bone"
-      },
-      {
-        "x": 0.36,
-        "y": 0.735,
-        "text": "Capitate",
-        "structure": "Capitate bone",
-        "note": "the largest, under the third metacarpal"
-      },
-      {
-        "x": 0.25,
-        "y": 0.74,
-        "text": "Hamate",
-        "structure": "Hamate bone",
-        "note": "its hook roofs Guyon's canal"
-      },
-      {
-        "x": 0.455,
-        "y": 0.82,
-        "text": "Scaphoid",
-        "structure": "Scaphoid bone",
-        "note": "retrograde blood supply - proximal fractures risk avascular necrosis"
-      },
-      {
-        "x": 0.385,
-        "y": 0.83,
-        "text": "Lunate",
-        "structure": "Lunate bone",
-        "note": "dislocates into the carpal tunnel"
-      },
-      {
-        "x": 0.31,
-        "y": 0.845,
-        "text": "Triquetrum",
-        "structure": "Triquetrum bone"
-      },
-      {
-        "x": 0.245,
-        "y": 0.8,
-        "text": "Pisiform",
-        "structure": "Pisiform bone",
-        "note": "a sesamoid in flexor carpi ulnaris"
-      },
-      {
-        "x": 0.38,
-        "y": 0.94,
-        "text": "Radius",
-        "structure": "Radius",
-        "note": "takes 80% of the load at the wrist"
-      },
-      {
-        "x": 0.235,
-        "y": 0.95,
-        "text": "Ulna",
-        "structure": "Ulna"
-      }
+    "note": "the anterior chest wall"
+   },
+   {
+    "x": 0.254,
+    "y": 0.415,
+    "text": "Retrosternal clear space",
+    "structures": [
+     "Lungs"
     ],
-    "questions": [
-      {
-        "prompt": "From the thumb side, name the labelled proximal carpal row.",
-        "answer": "Scaphoid, lunate, triquetrum, pisiform.",
-        "explanation": "Read the row from radial to ulnar.",
-        "structures": [
-          "Scaphoid bone",
-          "Lunate bone",
-          "Triquetrum bone",
-          "Pisiform bone"
-        ]
-      },
-      {
-        "prompt": "Which digit has two phalanges rather than three?",
-        "answer": "Thumb.",
-        "explanation": "It has proximal and distal phalanges, with no middle phalanx.",
-        "structures": [
-          "Proximal phalanx of first finger of hand",
-          "Distal phalanx of first finger of hand"
-        ]
-      }
+    "note": "should be black; filled = anterior mediastinal mass"
+   },
+   {
+    "x": 0.44,
+    "y": 0.205,
+    "text": "Trachea",
+    "structures": [
+     "Trachea"
     ],
-    "references": [
-      {
-        "title": "Original image provenance: File:X-ray of normal hand by dorsoplantar projection.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:X-ray_of_normal_hand_by_dorsoplantar_projection.jpg"
-      },
-      {
-        "title": "OpenStax Anatomy and Physiology 2e: 8.2 Bones of the Upper Limb",
-        "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-2-bones-of-the-upper-limb"
-      },
-      {
-        "title": "AAOS OrthoInfo: Scaphoid Fracture of the Wrist",
-        "url": "https://www.orthoinfo.org/diseases--conditions/scaphoid-fracture-of-the-wrist/"
-      }
+    "note": "runs downwards and backwards"
+   },
+   {
+    "x": 0.5,
+    "y": 0.315,
+    "text": "Aortic arch",
+    "structures": [
+     "Aortic arch"
+    ]
+   },
+   {
+    "x": 0.46,
+    "y": 0.47,
+    "text": "Hilar vessels",
+    "structures": [
+     "Left pulmonary artery"
+    ]
+   },
+   {
+    "x": 0.285,
+    "y": 0.625,
+    "text": "Heart",
+    "structures": [
+     "Heart"
     ],
-    "finding": "Normal anatomy",
-    "plane": "Dorsopalmar projection"
+    "note": "sits on the anterior part of the diaphragm"
+   },
+   {
+    "x": 0.665,
+    "y": 0.5,
+    "text": "Thoracic vertebral body",
+    "structures": [
+     "Thoracic vertebrae"
+    ]
+   },
+   {
+    "x": 0.665,
+    "y": 0.565,
+    "text": "Intervertebral disc space",
+    "structures": [
+     "Intervertebral disc"
+    ]
+   },
+   {
+    "x": 0.72,
+    "y": 0.5,
+    "text": "Posterior ribs",
+    "structures": [
+     "Sixth rib"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.615,
+    "y": 0.25,
+    "text": "Scapulae",
+    "structures": [
+     "Scapula"
+    ],
+    "note": "both, superimposed behind the chest"
+   },
+   {
+    "x": 0.36,
+    "y": 0.755,
+    "text": "Hemidiaphragm",
+    "structures": [
+     "Diaphragm"
+    ]
+   },
+   {
+    "x": 0.6,
+    "y": 0.8,
+    "text": "Posterior costophrenic recess",
+    "structures": [
+     "Inferior lobe of left lung"
+    ],
+    "note": "the deepest part of the pleural cavity"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "What normal change should you see as you follow the thoracic vertebral bodies down this lateral film?",
+    "answer": "They should become progressively more radiolucent, or darker.",
+    "explanation": "Increasing aerated lung overlies the lower vertebrae. Unexpected increasing opacity over the lower thoracic spine is the spine sign and can suggest a lower-lobe process.",
+    "structures": [
+     "Thoracic vertebrae",
+     "Right lung",
+     "Left lung"
+    ]
+   },
+   {
+    "prompt": "Why should you inspect the posterior costophrenic recess for a small pleural effusion?",
+    "answer": "Fluid collects in dependent pleural recesses, and a lateral film can reveal a smaller effusion than a PA film.",
+    "explanation": "Blunting of the normally sharp posterior recess can therefore be an early clue to pleural fluid.",
+    "structures": [
+     "Left lung",
+     "Diaphragm"
+    ]
+   }
+  ],
+  "references": [
+   {
+    "title": "Original image provenance: File:Normal lateral chest radiograph (X-ray).jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Normal_lateral_chest_radiograph_(X-ray).jpg"
+   },
+   {
+    "title": "The Radiology Assistant: Chest X-Ray - Basic Interpretation",
+    "url": "https://radiologyassistant.nl/chest/chest-x-ray/basic-interpretation"
+   },
+   {
+    "title": "Radiology Masterclass: Chest X-ray Abnormalities - Pleural disease",
+    "url": "https://www.radiologymasterclass.co.uk/tutorials/chest/chest_pathology/chest_pathology_page4"
+   },
+   {
+    "title": "American Family Physician: Diagnostic Approach to Pleural Effusion",
+    "url": "https://www.aafp.org/afp/2014/0715/p99"
+   }
+  ],
+  "finding": "Normal anatomy",
+  "plane": "Lateral projection"
+ },
+ {
+  "id": "hand_pa",
+  "title": "Hand — dorsopalmar",
+  "modality": "X-ray",
+  "region": "Upper limb",
+  "summary": "Eight carpal bones in two rows, and the order you must know them in.",
+  "text": "<p>A left hand. Two rows of four carpal bones: from the thumb side, <b>scaphoid, lunate, triquetrum, pisiform</b> proximally and <b>trapezium, trapezoid, capitate, hamate</b> distally – <i>Some Lovers Try Positions That They Cannot Handle</i>.</p><p>The bone to look at hardest is the <b>scaphoid</b>: its blood supply enters distally and runs backwards, so a proximal fracture can compromise the blood supply to the proximal pole. Up to a quarter of scaphoid fractures are invisible on the first film, which is why a tender snuffbox is immobilised and re-imaged rather than discharged.</p>",
+  "reading": [
+   "Three smooth, parallel arcs should be traceable across the carpus (Gilula's lines); a step in any of them means a carpal dislocation.",
+   "Joint spaces should all be about 2 mm and even; widening of the scapholunate space beyond 3 mm is the Terry Thomas sign of a scapholunate tear.",
+   "Follow each metacarpal from base to head, then every phalanx – the fifth metacarpal neck is the commonest fracture in the hand.",
+   "Finally the soft tissues and the alignment of the carpal rows on the lateral view."
+  ],
+  "scene": {
+   "systems": [
+    "skeletal"
+   ],
+   "regions": [
+    "upper_limb_l"
+   ],
+   "side": "Left",
+   "view": "anterior",
+   "ghost_focus": [
+    "Scaphoid bone",
+    "Lunate bone",
+    "Triquetrum bone",
+    "Pisiform bone",
+    "Trapezium bone",
+    "Trapezoid bone",
+    "Capitate bone",
+    "Hamate bone",
+    "First metacarpal bone",
+    "Second metacarpal bone",
+    "Third metacarpal bone",
+    "Fourth metacarpal bone",
+    "Fifth metacarpal bone",
+    "Proximal phalanx of first finger of hand",
+    "Distal phalanx of first finger of hand",
+    "Proximal phalanx of second finger of hand",
+    "Middle phalanx of second finger of hand",
+    "Distal phalanx of second finger of hand",
+    "Proximal phalanx of third finger of hand",
+    "Middle phalanx of third finger of hand",
+    "Distal phalanx of third finger of hand",
+    "Proximal phalanx of fourth finger of hand",
+    "Middle phalanx of fourth finger of hand",
+    "Distal phalanx of fourth finger of hand",
+    "Proximal phalanx of fifth finger of hand",
+    "Middle phalanx of fifth finger of hand",
+    "Distal phalanx of fifth finger of hand",
+    "Radius",
+    "Ulna"
+   ],
+   "frame_on": [
+    "Radius",
+    "Ulna",
+    "Third metacarpal bone",
+    "Distal phalanx of third finger of hand",
+    "Distal phalanx of first finger of hand"
+   ]
   },
-  {
-    "id": "knee_ap",
-    "title": "Knee — AP",
-    "modality": "X-ray",
-    "region": "Lower limb",
-    "summary": "Two condyles on a plateau, and the joint space that tells you about the cartilage.",
-    "text": "<p>A right knee. The film shows bone; almost everything that goes wrong with a knee – menisci, cruciates, cartilage – is invisible on it. What the film does show is <b>alignment</b>, <b>joint space</b> (a surrogate for cartilage thickness) and <b>fractures</b>.</p><p>The patella is superimposed on the femur in this projection, so it is assessed on a lateral or skyline view.</p>",
-    "reading": [
-      "Joint space: compare medial with lateral. Narrowing with subchondral sclerosis and osteophytes is osteoarthritis, and the medial compartment usually goes first.",
-      "Trace both cortical outlines of femur, tibia and fibula for a break in the line.",
-      "A lipohaemarthrosis – a fat–fluid level in the suprapatellar pouch on a horizontal-beam lateral – means an intra-articular fracture even if you cannot see the fracture.",
-      "In a child, check the physes; a Salter–Harris injury can look almost normal."
+  "labels": [
+   {
+    "x": 0.435,
+    "y": 0.075,
+    "text": "Distal phalanx, middle finger",
+    "structures": [
+     "Distal phalanx of third finger of hand"
     ],
-    "scene": {
-      "systems": [
-        "skeletal"
-      ],
-      "regions": [
-        "lower_limb_r"
-      ],
-      "side": "Right",
-      "view": "anterior",
-      "frame_on": [
-        "Patella",
-        "Medial meniscus"
-      ]
-    },
-    "labels": [
-      {
-        "x": 0.45,
-        "y": 0.12,
-        "text": "Femoral shaft",
-        "structure": "Femur"
-      },
-      {
-        "x": 0.45,
-        "y": 0.275,
-        "text": "Patella",
-        "structure": "Patella",
-        "note": "superimposed on the femur in AP"
-      },
-      {
-        "x": 0.6,
-        "y": 0.4,
-        "text": "Medial femoral condyle",
-        "structure": "Femur"
-      },
-      {
-        "x": 0.285,
-        "y": 0.4,
-        "text": "Lateral femoral condyle",
-        "structure": "Femur"
-      },
-      {
-        "x": 0.45,
-        "y": 0.425,
-        "text": "Intercondylar fossa",
-        "structure": "Femur",
-        "note": "where the cruciates attach"
-      },
-      {
-        "x": 0.46,
-        "y": 0.47,
-        "text": "Intercondylar eminence",
-        "structure": "Tibia"
-      },
-      {
-        "x": 0.575,
-        "y": 0.485,
-        "text": "Medial joint space",
-        "structure": "Medial meniscus",
-        "note": "the meniscus itself is radiolucent"
-      },
-      {
-        "x": 0.285,
-        "y": 0.505,
-        "text": "Lateral tibial plateau",
-        "structure": "Tibia"
-      },
-      {
-        "x": 0.185,
-        "y": 0.6,
-        "text": "Head of fibula",
-        "structure": "Fibula",
-        "note": "the common fibular nerve wraps round its neck"
-      },
-      {
-        "x": 0.145,
-        "y": 0.8,
-        "text": "Fibular shaft",
-        "structure": "Fibula"
-      },
-      {
-        "x": 0.42,
-        "y": 0.75,
-        "text": "Tibial shaft",
-        "structure": "Tibia"
-      }
+    "side": "Left"
+   },
+   {
+    "x": 0.44,
+    "y": 0.185,
+    "text": "Middle phalanx",
+    "structures": [
+     "Middle phalanx of third finger of hand"
     ],
-    "questions": [
-      {
-        "prompt": "Which labelled lower-leg bone contacts the femoral condyles?",
-        "answer": "Tibia.",
-        "explanation": "Its plateaus form the tibiofemoral articulation.",
-        "structures": [
-          "Tibia",
-          "Femur"
-        ]
-      },
-      {
-        "prompt": "Does the Medial joint space label mean the meniscus is directly visible on X-ray?",
-        "answer": "No.",
-        "explanation": "Radiographs provide limited soft-tissue detail; MRI evaluates menisci and ligaments more directly.",
-        "structures": [
-          "Medial meniscus"
-        ]
-      }
+    "side": "Left"
+   },
+   {
+    "x": 0.45,
+    "y": 0.33,
+    "text": "Proximal phalanx",
+    "structures": [
+     "Proximal phalanx of third finger of hand"
     ],
-    "references": [
-      {
-        "title": "Original image provenance: File:X-ray of a normal knee by anteroposterior projection.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:X-ray_of_a_normal_knee_by_anteroposterior_projection.jpg"
-      },
-      {
-        "title": "OpenStax Anatomy and Physiology 2e: 8.4 Bones of the Lower Limb",
-        "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
-      },
-      {
-        "title": "ACR/RSNA RadiologyInfo: Bone X-ray",
-        "url": "https://www.radiologyinfo.org/en/info/bonerad"
-      }
+    "side": "Left"
+   },
+   {
+    "x": 0.425,
+    "y": 0.435,
+    "text": "Metacarpophalangeal joint",
+    "structures": [
+     "Third metacarpal bone",
+     "Proximal phalanx of third finger of hand"
     ],
-    "finding": "Normal anatomy",
-    "plane": "AP projection"
+    "side": "Left",
+    "note": "the knuckle: head of the third metacarpal meets the proximal phalanx"
+   },
+   {
+    "x": 0.395,
+    "y": 0.55,
+    "text": "Third metacarpal",
+    "structures": [
+     "Third metacarpal bone"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.155,
+    "y": 0.57,
+    "text": "Fifth metacarpal",
+    "structures": [
+     "Fifth metacarpal bone"
+    ],
+    "side": "Left",
+    "note": "its neck is the boxer's fracture"
+   },
+   {
+    "x": 0.63,
+    "y": 0.665,
+    "text": "First metacarpal",
+    "structures": [
+     "First metacarpal bone"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.755,
+    "y": 0.555,
+    "text": "Proximal phalanx of thumb",
+    "structures": [
+     "Proximal phalanx of first finger of hand"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.875,
+    "y": 0.44,
+    "text": "Distal phalanx of thumb",
+    "structures": [
+     "Distal phalanx of first finger of hand"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.5,
+    "y": 0.76,
+    "text": "Trapezium",
+    "structures": [
+     "Trapezium bone"
+    ],
+    "side": "Left",
+    "note": "under the thumb"
+   },
+   {
+    "x": 0.44,
+    "y": 0.73,
+    "text": "Trapezoid",
+    "structures": [
+     "Trapezoid bone"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.36,
+    "y": 0.735,
+    "text": "Capitate",
+    "structures": [
+     "Capitate bone"
+    ],
+    "side": "Left",
+    "note": "the largest, under the third metacarpal"
+   },
+   {
+    "x": 0.25,
+    "y": 0.74,
+    "text": "Hamate",
+    "structures": [
+     "Hamate bone"
+    ],
+    "side": "Left",
+    "note": "its hook roofs Guyon's canal"
+   },
+   {
+    "x": 0.455,
+    "y": 0.82,
+    "text": "Scaphoid",
+    "structures": [
+     "Scaphoid bone"
+    ],
+    "side": "Left",
+    "note": "retrograde blood supply - proximal fractures risk avascular necrosis"
+   },
+   {
+    "x": 0.385,
+    "y": 0.83,
+    "text": "Lunate",
+    "structures": [
+     "Lunate bone"
+    ],
+    "side": "Left",
+    "note": "dislocates into the carpal tunnel"
+   },
+   {
+    "x": 0.31,
+    "y": 0.845,
+    "text": "Triquetrum",
+    "structures": [
+     "Triquetrum bone"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.245,
+    "y": 0.8,
+    "text": "Pisiform",
+    "structures": [
+     "Pisiform bone"
+    ],
+    "side": "Left",
+    "note": "a sesamoid in flexor carpi ulnaris"
+   },
+   {
+    "x": 0.38,
+    "y": 0.94,
+    "text": "Radius",
+    "structures": [
+     "Radius"
+    ],
+    "side": "Left",
+    "note": "takes 80% of the load at the wrist"
+   },
+   {
+    "x": 0.235,
+    "y": 0.95,
+    "text": "Ulna",
+    "structures": [
+     "Ulna"
+    ],
+    "side": "Left"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "From the thumb side, name the labelled proximal carpal row.",
+    "answer": "Scaphoid, lunate, triquetrum, pisiform.",
+    "explanation": "Read the row from radial to ulnar.",
+    "structures": [
+     "Scaphoid bone",
+     "Lunate bone",
+     "Triquetrum bone",
+     "Pisiform bone"
+    ]
+   },
+   {
+    "prompt": "Which digit has two phalanges rather than three?",
+    "answer": "Thumb.",
+    "explanation": "It has proximal and distal phalanges, with no middle phalanx.",
+    "structures": [
+     "Proximal phalanx of first finger of hand",
+     "Distal phalanx of first finger of hand"
+    ]
+   }
+  ],
+  "references": [
+   {
+    "title": "Original image provenance: File:X-ray of normal hand by dorsoplantar projection.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:X-ray_of_normal_hand_by_dorsoplantar_projection.jpg"
+   },
+   {
+    "title": "OpenStax Anatomy and Physiology 2e: 8.2 Bones of the Upper Limb",
+    "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-2-bones-of-the-upper-limb"
+   },
+   {
+    "title": "AAOS OrthoInfo: Scaphoid Fracture of the Wrist",
+    "url": "https://www.orthoinfo.org/diseases--conditions/scaphoid-fracture-of-the-wrist/"
+   }
+  ],
+  "finding": "Normal anatomy",
+  "plane": "Dorsopalmar projection"
+ },
+ {
+  "id": "knee_ap",
+  "title": "Knee — AP",
+  "modality": "X-ray",
+  "region": "Lower limb",
+  "summary": "Two condyles on a plateau, and the joint space that tells you about the cartilage.",
+  "text": "<p>A right knee. The film shows bone; almost everything that goes wrong with a knee – menisci, cruciates, cartilage – is invisible on it. What the film does show is <b>alignment</b>, <b>joint space</b> (a surrogate for cartilage thickness) and <b>fractures</b>.</p><p>The patella is superimposed on the femur in this projection, so it is assessed on a lateral or skyline view.</p>",
+  "reading": [
+   "Joint space: compare medial with lateral. Narrowing with subchondral sclerosis and osteophytes is osteoarthritis, and the medial compartment usually goes first.",
+   "Trace both cortical outlines of femur, tibia and fibula for a break in the line.",
+   "A lipohaemarthrosis – a fat–fluid level in the suprapatellar pouch on a horizontal-beam lateral – means an intra-articular fracture even if you cannot see the fracture.",
+   "In a child, check the physes; a Salter–Harris injury can look almost normal."
+  ],
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints"
+   ],
+   "regions": [
+    "lower_limb_r"
+   ],
+   "side": "Right",
+   "view": "anterior",
+   "show": [
+    "Femur",
+    "Patella",
+    "Tibia",
+    "Fibula",
+    "Medial meniscus"
+   ],
+   "ghost_focus": [
+    "Femur",
+    "Patella",
+    "Tibia",
+    "Fibula",
+    "Medial meniscus"
+   ],
+   "frame_on": [
+    "Femur",
+    "Patella",
+    "Tibia",
+    "Fibula"
+   ]
   },
-  {
-    "id": "hip_ap",
-    "title": "Hip — AP",
-    "modality": "X-ray",
-    "region": "Lower limb",
-    "summary": "The film you read at 3 a.m., and the lines that make an occult fracture visible.",
-    "text": "<p>A right hip. The femoral head sits in the acetabulum; the neck runs up and medially at about 125 degrees to the shaft.</p><p>The reason this film matters so much is the <b>blood supply</b>. Retinacular branches of the medial circumflex femoral artery run up the neck beneath the capsule, so an <b>intracapsular</b> fracture can disrupt the blood supply and increase the risk of avascular necrosis. The choice between fixation and replacement depends on the fracture pattern and the patient's age.</p>",
-    "reading": [
-      "Trace Shenton's line – a smooth curve from the medial femoral neck onto the inferior border of the superior pubic ramus. A step in it means a fractured neck of femur or a dislocated hip.",
-      "Compare the two sides for the neck–shaft angle and for shortening or external rotation (the lesser trochanter becomes more prominent).",
-      "Follow the cortex of the neck, both trochanters and the acetabular rim.",
-      "Check the joint space and the sourcil – the dense weight-bearing roof of the acetabulum."
+  "labels": [
+   {
+    "x": 0.45,
+    "y": 0.12,
+    "text": "Femoral shaft",
+    "structures": [
+     "Femur"
     ],
-    "scene": {
-      "systems": [
-        "skeletal"
-      ],
-      "regions": [
-        "abdomen",
-        "lower_limb_r"
-      ],
-      "side": "Right",
-      "view": "anterior",
-      "frame_on": [
-        "Hip joint"
-      ]
-    },
-    "labels": [
-      {
-        "x": 0.45,
-        "y": 0.19,
-        "text": "Head of femur",
-        "structure": "Head of femur",
-        "note": "intracapsular – fracture here risks avascular necrosis"
-      },
-      {
-        "x": 0.47,
-        "y": 0.085,
-        "text": "Acetabular roof",
-        "structure": "Acetabulum",
-        "note": "the dense sourcil takes the weight"
-      },
-      {
-        "x": 0.34,
-        "y": 0.33,
-        "text": "Neck of femur",
-        "structure": "Neck of femur"
-      },
-      {
-        "x": 0.155,
-        "y": 0.26,
-        "text": "Greater trochanter",
-        "structure": "Greater trochanter",
-        "note": "gluteus medius and minimus insert here"
-      },
-      {
-        "x": 0.41,
-        "y": 0.573,
-        "text": "Lesser trochanter",
-        "structure": "Lesser trochanter",
-        "note": "iliopsoas – prominent when the hip is externally rotated"
-      },
-      {
-        "x": 0.245,
-        "y": 0.45,
-        "text": "Intertrochanteric line",
-        "structure": "Intertrochanteric line",
-        "note": "the capsule attaches here – the extracapsular boundary"
-      },
-      {
-        "x": 0.22,
-        "y": 0.8,
-        "text": "Femoral shaft",
-        "structure": "Femur"
-      },
-      {
-        "x": 0.76,
-        "y": 0.579,
-        "text": "Obturator foramen",
-        "structure": "Obturator foramen"
-      },
-      {
-        "x": 0.62,
-        "y": 0.29,
-        "text": "Superior pubic ramus",
-        "structure": "Superior pubic ramus",
-        "note": "Shenton's line runs onto its lower border"
-      },
-      {
-        "x": 0.665,
-        "y": 0.645,
-        "text": "Ischium",
-        "structure": "Ischial tuberosity"
-      }
+    "side": "Right"
+   },
+   {
+    "x": 0.45,
+    "y": 0.275,
+    "text": "Patella",
+    "structures": [
+     "Patella"
     ],
-    "questions": [
-      {
-        "prompt": "Which labelled socket receives the femoral head?",
-        "answer": "Acetabulum.",
-        "explanation": "Together they form the ball-and-socket hip joint.",
-        "structures": [
-          "Acetabulum",
-          "Head of femur"
-        ]
-      },
-      {
-        "prompt": "Can a normal-looking hip radiograph exclude an occult fracture?",
-        "answer": "No.",
-        "explanation": "Some hip fractures are difficult to see; persistent suspicion can require further imaging.",
-        "structures": [
-          "Neck of femur",
-          "Head of femur"
-        ]
-      }
+    "side": "Right",
+    "note": "superimposed on the femur in AP"
+   },
+   {
+    "x": 0.6,
+    "y": 0.4,
+    "text": "Medial femoral condyle",
+    "structures": [
+     "Femur"
     ],
-    "references": [
-      {
-        "title": "Original image provenance: File:X-ray of a normal hip.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:X-ray_of_a_normal_hip.jpg"
-      },
-      {
-        "title": "AAOS OrthoInfo: Osteonecrosis of the Hip",
-        "url": "https://www.orthoinfo.org/diseases--conditions/osteonecrosis-of-the-hip/"
-      },
-      {
-        "title": "ACR/RSNA RadiologyInfo: Bone X-ray",
-        "url": "https://www.radiologyinfo.org/en/info/bonerad"
-      },
-      {
-        "title": "NHS: Broken hip",
-        "url": "https://www.nhs.uk/conditions/broken-hip/"
-      }
+    "side": "Right"
+   },
+   {
+    "x": 0.285,
+    "y": 0.4,
+    "text": "Lateral femoral condyle",
+    "structures": [
+     "Femur"
     ],
-    "finding": "Hip anatomy",
-    "plane": "AP projection"
+    "side": "Right"
+   },
+   {
+    "x": 0.45,
+    "y": 0.425,
+    "text": "Intercondylar fossa",
+    "structures": [
+     "Femur"
+    ],
+    "side": "Right",
+    "note": "where the cruciates attach"
+   },
+   {
+    "x": 0.46,
+    "y": 0.47,
+    "text": "Intercondylar eminence",
+    "structures": [
+     "Tibia"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.575,
+    "y": 0.485,
+    "text": "Medial joint space",
+    "structures": [
+     "Medial meniscus"
+    ],
+    "side": "Right",
+    "note": "the meniscus itself is radiolucent"
+   },
+   {
+    "x": 0.285,
+    "y": 0.505,
+    "text": "Lateral tibial plateau",
+    "structures": [
+     "Tibia"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.185,
+    "y": 0.6,
+    "text": "Head of fibula",
+    "structures": [
+     "Fibula"
+    ],
+    "side": "Right",
+    "note": "the common fibular nerve wraps round its neck"
+   },
+   {
+    "x": 0.145,
+    "y": 0.8,
+    "text": "Fibular shaft",
+    "structures": [
+     "Fibula"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.42,
+    "y": 0.75,
+    "text": "Tibial shaft",
+    "structures": [
+     "Tibia"
+    ],
+    "side": "Right"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which labelled lower-leg bone contacts the femoral condyles?",
+    "answer": "Tibia.",
+    "explanation": "Its plateaus form the tibiofemoral articulation.",
+    "structures": [
+     "Tibia",
+     "Femur"
+    ]
+   },
+   {
+    "prompt": "Does the Medial joint space label mean the meniscus is directly visible on X-ray?",
+    "answer": "No.",
+    "explanation": "Radiographs provide limited soft-tissue detail; MRI evaluates menisci and ligaments more directly.",
+    "structures": [
+     "Medial meniscus"
+    ]
+   }
+  ],
+  "references": [
+   {
+    "title": "Original image provenance: File:X-ray of a normal knee by anteroposterior projection.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:X-ray_of_a_normal_knee_by_anteroposterior_projection.jpg"
+   },
+   {
+    "title": "OpenStax Anatomy and Physiology 2e: 8.4 Bones of the Lower Limb",
+    "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb"
+   },
+   {
+    "title": "ACR/RSNA RadiologyInfo: Bone X-ray",
+    "url": "https://www.radiologyinfo.org/en/info/bonerad"
+   }
+  ],
+  "finding": "Normal anatomy",
+  "plane": "AP projection"
+ },
+ {
+  "id": "hip_ap",
+  "title": "Hip — AP",
+  "modality": "X-ray",
+  "region": "Lower limb",
+  "summary": "The film you read at 3 a.m., and the lines that make an occult fracture visible.",
+  "text": "<p>A right hip. The femoral head sits in the acetabulum; the neck runs up and medially at about 125 degrees to the shaft.</p><p>The reason this film matters so much is the <b>blood supply</b>. Retinacular branches of the medial circumflex femoral artery run up the neck beneath the capsule, so an <b>intracapsular</b> fracture can disrupt the blood supply and increase the risk of avascular necrosis. The choice between fixation and replacement depends on the fracture pattern and the patient's age.</p>",
+  "reading": [
+   "Trace Shenton's line – a smooth curve from the medial femoral neck onto the inferior border of the superior pubic ramus. A step in it means a fractured neck of femur or a dislocated hip.",
+   "Compare the two sides for the neck–shaft angle and for shortening or external rotation (the lesser trochanter becomes more prominent).",
+   "Follow the cortex of the neck, both trochanters and the acetabular rim.",
+   "Check the joint space and the sourcil – the dense weight-bearing roof of the acetabulum."
+  ],
+  "scene": {
+   "systems": [
+    "skeletal"
+   ],
+   "regions": [
+    "abdomen",
+    "lower_limb_r"
+   ],
+   "side": "Right",
+   "view": "anterior",
+   "show": [
+    "Hip bone",
+    "Femur"
+   ],
+   "ghost_focus": [
+    "Hip bone",
+    "Femur"
+   ],
+   "frame_on": [
+    "Hip bone",
+    "Femur"
+   ]
   },
-  {
-    "id": "cspine_lat",
-    "title": "Cervical spine — lateral",
-    "modality": "X-ray",
-    "region": "Spine",
-    "summary": "Three lines, seven vertebrae, and the one you must see to call it adequate.",
-    "text": "<p>Anterior is to the left. A lateral cervical spine is read along <b>three smooth lines</b> – the anterior vertebral, posterior vertebral and spinolaminar lines. Any step in them is significant until proved otherwise.</p><p>It is only adequate if you can see the whole of <b>C7</b> and the top of T1: the cervicothoracic junction is where injuries hide.</p>",
-    "reading": [
-      "Adequacy: C1 to the top of T1 visible.",
-      "Alignment: the three lines, each a smooth lordotic curve.",
-      "Bones: the height and cortex of every body, the dens and its relation to the anterior arch of C1 (the atlanto-dental interval, under 3 mm in an adult).",
-      "Cartilage: disc spaces of even height.",
-      "Soft tissues: the prevertebral space – under about 7 mm at C2 and under 22 mm at C6; widening means haematoma."
+  "labels": [
+   {
+    "x": 0.45,
+    "y": 0.19,
+    "text": "Head of femur",
+    "structures": [
+     "Femur"
     ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "joints",
-        "visceral"
-      ],
-      "regions": [
-        "neck",
-        "head"
-      ],
-      "view": "left",
-      "frame_on": [
-        "Cervical vertebrae"
-      ]
-    },
-    "labels": [
-      {
-        "x": 0.33,
-        "y": 0.1,
-        "text": "Mandible",
-        "structure": "Mandible"
-      },
-      {
-        "x": 0.375,
-        "y": 0.148,
-        "text": "Dens of C2",
-        "structure": "Axis (C2)",
-        "note": "the atlas pivots around it"
-      },
-      {
-        "x": 0.366,
-        "y": 0.22,
-        "text": "Body of C2",
-        "structure": "Axis (C2)"
-      },
-      {
-        "x": 0.357,
-        "y": 0.402,
-        "text": "Body of C4",
-        "structure": "Vertebra C4"
-      },
-      {
-        "x": 0.337,
-        "y": 0.512,
-        "text": "C5/C6 disc space",
-        "structure": "Intervertebral disc C5-C6",
-        "note": "the commonest level for degenerative change"
-      },
-      {
-        "x": 0.328,
-        "y": 0.555,
-        "text": "Body of C6",
-        "structure": "Vertebra C6"
-      },
-      {
-        "x": 0.318,
-        "y": 0.616,
-        "text": "Body of C7",
-        "structure": "Vertebra C7",
-        "note": "must be visible for the film to be adequate"
-      },
-      {
-        "x": 0.48,
-        "y": 0.45,
-        "text": "Facet joints",
-        "structure": "Cervical vertebrae",
-        "note": "shingled like tiles on a roof"
-      },
-      {
-        "x": 0.5,
-        "y": 0.55,
-        "text": "Spinous process",
-        "structure": "Cervical vertebrae",
-        "note": "C7 is the vertebra prominens"
-      },
-      {
-        "x": 0.215,
-        "y": 0.42,
-        "text": "Prevertebral soft tissue",
-        "structure": "Pharynx",
-        "note": "widening means a haematoma"
-      },
-      {
-        "x": 0.125,
-        "y": 0.6,
-        "text": "Airway",
-        "structure": "Thyroid cartilage",
-        "note": "the larynx, at about C4-C6"
-      }
+    "side": "Right",
+    "note": "intracapsular – fracture here risks avascular necrosis"
+   },
+   {
+    "x": 0.47,
+    "y": 0.085,
+    "text": "Acetabular roof",
+    "structures": [
+     "Hip bone"
     ],
-    "questions": [
-      {
-        "prompt": "Which labelled C2 projection acts as a pivot for rotation?",
-        "answer": "Dens.",
-        "explanation": "The atlas rotates around it.",
-        "structures": [
-          "Axis (C2)"
-        ]
-      },
-      {
-        "prompt": "What occupies the labelled C5/C6 disc space?",
-        "answer": "A fibrocartilaginous intervertebral disc.",
-        "explanation": "It cushions and binds adjacent vertebral bodies.",
-        "structures": [
-          "Intervertebral disc C5-C6"
-        ]
-      }
+    "side": "Right",
+    "note": "the dense sourcil takes the weight"
+   },
+   {
+    "x": 0.34,
+    "y": 0.33,
+    "text": "Neck of femur",
+    "structures": [
+     "Femur"
     ],
-    "references": [
-      {
-        "title": "Original image provenance: File:X-ray of the cervical spine of a 20 year old male - lateral.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:X-ray_of_the_cervical_spine_of_a_20_year_old_male_-_lateral.jpg"
-      },
-      {
-        "title": "OpenStax Anatomy and Physiology 2e: 7.3 The Vertebral Column",
-        "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
-      }
+    "side": "Right"
+   },
+   {
+    "x": 0.155,
+    "y": 0.26,
+    "text": "Greater trochanter",
+    "structures": [
+     "Femur"
     ],
-    "finding": "Normal anatomy",
-    "plane": "Lateral projection"
+    "side": "Right",
+    "note": "gluteus medius and minimus insert here"
+   },
+   {
+    "x": 0.41,
+    "y": 0.573,
+    "text": "Lesser trochanter",
+    "structures": [
+     "Femur"
+    ],
+    "side": "Right",
+    "note": "iliopsoas – prominent when the hip is externally rotated"
+   },
+   {
+    "x": 0.245,
+    "y": 0.45,
+    "text": "Intertrochanteric line",
+    "structures": [
+     "Femur"
+    ],
+    "side": "Right",
+    "note": "the capsule attaches here – the extracapsular boundary"
+   },
+   {
+    "x": 0.22,
+    "y": 0.8,
+    "text": "Femoral shaft",
+    "structures": [
+     "Femur"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.76,
+    "y": 0.579,
+    "text": "Obturator foramen",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.62,
+    "y": 0.29,
+    "text": "Superior pubic ramus",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Right",
+    "note": "Shenton's line runs onto its lower border"
+   },
+   {
+    "x": 0.665,
+    "y": 0.645,
+    "text": "Ischium",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Right"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which labelled socket receives the femoral head?",
+    "answer": "Acetabulum.",
+    "explanation": "Together they form the ball-and-socket hip joint.",
+    "structures": [
+     "Acetabulum",
+     "Head of femur"
+    ]
+   },
+   {
+    "prompt": "Can a normal-looking hip radiograph exclude an occult fracture?",
+    "answer": "No.",
+    "explanation": "Some hip fractures are difficult to see; persistent suspicion can require further imaging.",
+    "structures": [
+     "Neck of femur",
+     "Head of femur"
+    ]
+   }
+  ],
+  "references": [
+   {
+    "title": "Original image provenance: File:X-ray of a normal hip.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:X-ray_of_a_normal_hip.jpg"
+   },
+   {
+    "title": "AAOS OrthoInfo: Osteonecrosis of the Hip",
+    "url": "https://www.orthoinfo.org/diseases--conditions/osteonecrosis-of-the-hip/"
+   },
+   {
+    "title": "ACR/RSNA RadiologyInfo: Bone X-ray",
+    "url": "https://www.radiologyinfo.org/en/info/bonerad"
+   },
+   {
+    "title": "NHS: Broken hip",
+    "url": "https://www.nhs.uk/conditions/broken-hip/"
+   }
+  ],
+  "finding": "Hip anatomy",
+  "plane": "AP projection"
+ },
+ {
+  "id": "cspine_lat",
+  "title": "Cervical spine — lateral",
+  "modality": "X-ray",
+  "region": "Spine",
+  "summary": "Three lines, seven vertebrae, and the one you must see to call it adequate.",
+  "text": "<p>Anterior is to the left. A lateral cervical spine is read along <b>three smooth lines</b> – the anterior vertebral, posterior vertebral and spinolaminar lines. Any step in them is significant until proved otherwise.</p><p>It is only adequate if you can see the whole of <b>C7</b> and the top of T1: the cervicothoracic junction is where injuries hide.</p>",
+  "reading": [
+   "Adequacy: C1 to the top of T1 visible.",
+   "Alignment: the three lines, each a smooth lordotic curve.",
+   "Bones: the height and cortex of every body, the dens and its relation to the anterior arch of C1 (the atlanto-dental interval, under 3 mm in an adult).",
+   "Cartilage: disc spaces of even height.",
+   "Soft tissues: the prevertebral space – under about 7 mm at C2 and under 22 mm at C6; widening means haematoma."
+  ],
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints",
+    "visceral"
+   ],
+   "regions": [
+    "head",
+    "neck"
+   ],
+   "view": "left",
+   "ghost_focus": [
+    "Cervical vertebrae",
+    "Occipital bone",
+    "Mandible",
+    "Laryngopharynx",
+    "Thyroid cartilage",
+    "Intervertebral disc C2-C3",
+    "Intervertebral disc C3-C4",
+    "Intervertebral disc C4-C5",
+    "Intervertebral disc C5-C6",
+    "Intervertebral disc C6-C7"
+   ],
+   "frame_on": [
+    "Cervical vertebrae"
+   ]
   },
-  {
-    "id": "ct_abdo_kidney",
-    "title": "CT abdomen — axial, liver and spleen",
-    "modality": "CT",
-    "region": "Abdomen",
-    "summary": "One slice at T11/12, and the habit of orientation that makes CT readable.",
-    "crop": [
-      0.0,
-      0.0,
-      0.635,
-      1.0
+  "labels": [
+   {
+    "x": 0.33,
+    "y": 0.1,
+    "text": "Mandible",
+    "structures": [
+     "Mandible"
+    ]
+   },
+   {
+    "x": 0.375,
+    "y": 0.148,
+    "text": "Dens of C2",
+    "structures": [
+     "Axis (C2)"
     ],
-    "text": "<p>An axial slice, seen as if from the patient's feet: the patient's <b>right</b> is on <i>your</i> left, anterior is at the top, posterior at the bottom. This one is at about the level of <b>T11/T12</b>, where the liver, stomach and spleen sit under the diaphragm.</p><p>CT gives you density in Hounsfield units: air about −1000, fat around −80, water 0, soft tissue 30–70, acute blood 50–80, bone and contrast several hundred and up. The window you look through decides what you can see at all, which is why the same slice is reviewed on soft-tissue, lung and bone settings.</p><p>The 3D atlas illustrates related transverse anatomy. It is not registered to this patient's image, so its cut level and the structures intersected may differ.</p>",
-    "reading": [
-      "Fix the orientation first: patient's right on your left, anterior up.",
-      "Then work by compartment rather than by eye-catching abnormality: solid organs, hollow viscera, vessels, retroperitoneum, bones, body wall.",
-      "Follow the aorta and IVC down through the slices – they are your fixed landmarks, and their calibre and position tell you a great deal.",
-      "Compare left with right for the paired structures: kidneys, psoas, paraspinal muscles, ribs."
+    "note": "the atlas pivots around it"
+   },
+   {
+    "x": 0.366,
+    "y": 0.22,
+    "text": "Body of C2",
+    "structures": [
+     "Axis (C2)"
+    ]
+   },
+   {
+    "x": 0.357,
+    "y": 0.402,
+    "text": "Body of C4",
+    "structures": [
+     "Vertebra C4"
+    ]
+   },
+   {
+    "x": 0.337,
+    "y": 0.512,
+    "text": "C5/C6 disc space",
+    "structures": [
+     "Intervertebral disc C5-C6"
     ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "regions": [
-        "abdomen",
-        "thorax"
-      ],
-      "clip": [
-        2,
-        0.665
-      ],
-      "view": "inferior",
-      "show": [
-        "Liver",
-        "Stomach",
-        "Mucosa of stomach",
-        "Spleen",
-        "Abdominal aorta",
-        "Inferior vena cava (abdominal part)",
-        "Vertebra T12",
-        "Diaphragm",
-        "Rectus abdominis muscle",
-        "Transversus abdominis muscle",
-        "Tenth rib",
-        "Right lung",
-        "Left lung",
-        "External abdominal oblique muscle",
-        "Internal abdominal oblique muscle"
-      ],
-      "isolate": true,
-      "slice_only": true,
-      "xray": false,
-      "reference_labels": [
-        {
-          "text": "Liver",
-          "structures": [
-            "Liver"
-          ]
-        },
-        {
-          "text": "Stomach wall",
-          "structures": [
-            "Stomach",
-            "Mucosa of stomach"
-          ],
-          "surface_anchor": true
-        },
-        {
-          "text": "Spleen",
-          "structures": [
-            "Spleen"
-          ]
-        },
-        {
-          "text": "Aorta",
-          "structures": [
-            "Abdominal aorta"
-          ]
-        },
-        {
-          "text": "IVC",
-          "structures": [
-            "Inferior vena cava (abdominal part)"
-          ]
-        },
-        {
-          "text": "T12 body",
-          "structures": [
-            "Vertebra T12"
-          ]
-        },
-        {
-          "text": "Spinal cord",
-          "structures": [
-            "Spinal cord"
-          ]
-        },
-        {
-          "text": "Body-wall muscle",
-          "structures": [
-            "Rectus abdominis muscle"
-          ]
-        }
-      ]
-    },
-    "labels": [
-      {
-        "x": 0.252,
-        "y": 0.35,
-        "text": "Liver, right lobe",
-        "structure": "Liver",
-        "note": "homogeneous, slightly denser than muscle"
-      },
-      {
-        "x": 0.472,
-        "y": 0.22,
-        "text": "Liver, left lobe",
-        "structure": "Liver"
-      },
-      {
-        "x": 0.394,
-        "y": 0.27,
-        "text": "Hepatic veins",
-        "structure": "Hepatic veins",
-        "note": "bright with contrast, converging on the IVC"
-      },
-      {
-        "x": 0.661,
-        "y": 0.42,
-        "text": "Stomach",
-        "structure": "Stomach"
-      },
-      {
-        "x": 0.78,
-        "y": 0.455,
-        "text": "Spleen",
-        "structure": "Spleen",
-        "note": "patient's left, posterolateral"
-      },
-      {
-        "x": 0.515,
-        "y": 0.44,
-        "text": "Inferior vena cava",
-        "structure": "Inferior vena cava (abdominal part)",
-        "note": "to the patient's right of the aorta"
-      },
-      {
-        "x": 0.555,
-        "y": 0.478,
-        "text": "Abdominal aorta",
-        "structure": "Abdominal aorta"
-      },
-      {
-        "x": 0.465,
-        "y": 0.575,
-        "text": "Crus of the diaphragm",
-        "structure": "Diaphragm",
-        "note": "a thin band alongside the vertebra"
-      },
-      {
-        "x": 0.512,
-        "y": 0.625,
-        "text": "Vertebral body",
-        "structure": "Vertebra T12"
-      },
-      {
-        "x": 0.512,
-        "y": 0.678,
-        "text": "Spinal canal",
-        "structures": [
-          "Vertebra T12",
-          "Spinal cord"
-        ],
-        "note": "The spinal canal is the space behind the vertebral body enclosed by its posterior arch; the spinal cord lies within it. The atlas shows related bone and cord, not a registered patient canal boundary."
-      },
-      {
-        "x": 0.145,
-        "y": 0.6,
-        "text": "Rib",
-        "structure": "Tenth rib"
-      },
-      {
-        "x": 0.37,
-        "y": 0.72,
-        "text": "Erector spinae",
-        "structure": "Erector spinae"
-      },
-      {
-        "x": 0.892,
-        "y": 0.512,
-        "text": "Subcutaneous fat",
-        "note": "about −80 HU — darker than muscle, brighter than lung"
-      },
-      {
-        "x": 0.181,
-        "y": 0.125,
-        "text": "Lung in the costophrenic recess",
-        "structure": "Right lung",
-        "note": "black: the pleural cavity still reaches this far down"
-      }
+    "note": "the commonest level for degenerative change"
+   },
+   {
+    "x": 0.328,
+    "y": 0.555,
+    "text": "Body of C6",
+    "structures": [
+     "Vertebra C6"
+    ]
+   },
+   {
+    "x": 0.318,
+    "y": 0.616,
+    "text": "Body of C7",
+    "structures": [
+     "Vertebra C7"
     ],
-    "questions": [
-      {
-        "prompt": "Which labelled veins drain the liver into the inferior vena cava?",
-        "answer": "Hepatic veins.",
-        "explanation": "Follow their convergence into the IVC; they drain blood out of the liver.",
-        "structures": [
-          "Hepatic veins",
-          "Inferior vena cava (abdominal part)",
-          "Liver"
-        ]
-      },
-      {
-        "prompt": "Which two labelled large vessels are useful central landmarks on abdominal CT?",
-        "answer": "Abdominal aorta and inferior vena cava.",
-        "explanation": "Use the labels to distinguish the arterial and venous pathways before following them through other slices.",
-        "structures": [
-          "Abdominal aorta",
-          "Inferior vena cava (abdominal part)"
-        ]
-      }
+    "note": "must be visible for the film to be adequate"
+   },
+   {
+    "x": 0.48,
+    "y": 0.45,
+    "text": "Facet joints",
+    "structures": [
+     "Cervical vertebrae"
     ],
-    "references": [
-      {
-        "title": "Original image provenance: File:CT of a normal abdomen and pelvis, axial plane 35.png",
-        "url": "https://commons.wikimedia.org/wiki/File:CT_of_a_normal_abdomen_and_pelvis,_axial_plane_35.png"
-      },
-      {
-        "title": "OpenStax Anatomy and Physiology 2e: 20.5 Circulatory Pathways",
-        "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/20-5-circulatory-pathways"
-      },
-      {
-        "title": "ACR/RSNA RadiologyInfo: Abdominal and Pelvic CT",
-        "url": "https://www.radiologyinfo.org/en/info/abdominct"
-      }
+    "note": "shingled like tiles on a roof"
+   },
+   {
+    "x": 0.5,
+    "y": 0.55,
+    "text": "Spinous process",
+    "structures": [
+     "Cervical vertebrae"
     ],
-    "finding": "Normal anatomy",
-    "plane": "Axial",
-    "atlas_note": "Illustrative transverse atlas section: major organs, vessels, vertebral/cord anatomy and existing body-wall muscles. No synthetic skin or fat contour is added. The atlas is not registered to this CT; exact shape and level may differ."
-  }
+    "note": "C7 is the vertebra prominens"
+   },
+   {
+    "x": 0.215,
+    "y": 0.42,
+    "text": "Prevertebral soft tissue",
+    "structures": [
+     "Laryngopharynx"
+    ],
+    "note": "widening means a haematoma"
+   },
+   {
+    "x": 0.125,
+    "y": 0.6,
+    "text": "Airway",
+    "structures": [
+     "Thyroid cartilage"
+    ],
+    "note": "the larynx, at about C4-C6"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which labelled C2 projection acts as a pivot for rotation?",
+    "answer": "Dens.",
+    "explanation": "The atlas rotates around it.",
+    "structures": [
+     "Axis (C2)"
+    ]
+   },
+   {
+    "prompt": "What occupies the labelled C5/C6 disc space?",
+    "answer": "A fibrocartilaginous intervertebral disc.",
+    "explanation": "It cushions and binds adjacent vertebral bodies.",
+    "structures": [
+     "Intervertebral disc C5-C6"
+    ]
+   }
+  ],
+  "references": [
+   {
+    "title": "Original image provenance: File:X-ray of the cervical spine of a 20 year old male - lateral.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:X-ray_of_the_cervical_spine_of_a_20_year_old_male_-_lateral.jpg"
+   },
+   {
+    "title": "OpenStax Anatomy and Physiology 2e: 7.3 The Vertebral Column",
+    "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column"
+   }
+  ],
+  "finding": "Normal anatomy",
+  "plane": "Lateral projection"
+ },
+ {
+  "id": "ct_abdo_kidney",
+  "title": "CT abdomen — axial, liver and spleen",
+  "modality": "CT",
+  "region": "Abdomen",
+  "summary": "One slice at T11/12, and the habit of orientation that makes CT readable.",
+  "crop": [
+   0.0,
+   0.0,
+   0.635,
+   1.0
+  ],
+  "text": "<p>An axial slice, seen as if from the patient's feet: the patient's <b>right</b> is on <i>your</i> left, anterior is at the top, posterior at the bottom. This one is at about the level of <b>T11/T12</b>, where the liver, stomach and spleen sit under the diaphragm.</p><p>CT gives you density in Hounsfield units: air about −1000, fat around −80, water 0, soft tissue 30–70, acute blood 50–80, bone and contrast several hundred and up. The window you look through decides what you can see at all, which is why the same slice is reviewed on soft-tissue, lung and bone settings.</p><p>The 3D atlas illustrates related transverse anatomy. It is not registered to this patient's image, so its cut level and the structures intersected may differ.</p>",
+  "reading": [
+   "Fix the orientation first: patient's right on your left, anterior up.",
+   "Then work by compartment rather than by eye-catching abnormality: solid organs, hollow viscera, vessels, retroperitoneum, bones, body wall.",
+   "Follow the aorta and IVC down through the slices – they are your fixed landmarks, and their calibre and position tell you a great deal.",
+   "Compare left with right for the paired structures: kidneys, psoas, paraspinal muscles, ribs."
+  ],
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints",
+    "muscular",
+    "cardiovascular",
+    "lymphatic",
+    "nervous",
+    "visceral",
+    "fascia",
+    "regions"
+   ],
+   "regions": [
+    "thorax",
+    "abdomen",
+    "back"
+   ],
+   "clip": [
+    2,
+    0.68
+   ],
+   "view": "inferior"
+  },
+  "labels": [
+   {
+    "x": 0.252,
+    "y": 0.35,
+    "text": "Liver, right lobe",
+    "structures": [
+     "Liver"
+    ],
+    "note": "homogeneous, slightly denser than muscle"
+   },
+   {
+    "x": 0.472,
+    "y": 0.22,
+    "text": "Liver, left lobe",
+    "structures": [
+     "Liver"
+    ]
+   },
+   {
+    "x": 0.394,
+    "y": 0.27,
+    "text": "Hepatic veins",
+    "structures": [
+     "Hepatic veins"
+    ],
+    "note": "bright with contrast, converging on the IVC"
+   },
+   {
+    "x": 0.661,
+    "y": 0.42,
+    "text": "Stomach",
+    "structures": [
+     "Stomach"
+    ]
+   },
+   {
+    "x": 0.78,
+    "y": 0.455,
+    "text": "Spleen",
+    "structures": [
+     "Spleen"
+    ],
+    "note": "patient's left, posterolateral"
+   },
+   {
+    "x": 0.515,
+    "y": 0.44,
+    "text": "Inferior vena cava",
+    "structures": [
+     "Inferior vena cava (thoracic part)",
+     "Inferior vena cava (abdominal part)"
+    ],
+    "note": "to the patient's right of the aorta"
+   },
+   {
+    "x": 0.555,
+    "y": 0.478,
+    "text": "Abdominal aorta",
+    "structures": [
+     "Abdominal aorta"
+    ]
+   },
+   {
+    "x": 0.465,
+    "y": 0.575,
+    "text": "Crus of the diaphragm",
+    "structures": [
+     "Diaphragm"
+    ],
+    "side": "Right",
+    "note": "a thin band alongside the vertebra"
+   },
+   {
+    "x": 0.512,
+    "y": 0.625,
+    "text": "Vertebral body",
+    "structures": [
+     "Vertebra T11"
+    ]
+   },
+   {
+    "x": 0.512,
+    "y": 0.678,
+    "text": "Spinal canal",
+    "structures": [
+     "Spinal dura",
+     "White matter of spinal cord"
+    ],
+    "note": "The spinal canal is the space behind the vertebral body enclosed by its posterior arch; the spinal cord lies within it. The atlas shows related bone and cord, not a registered patient canal boundary."
+   },
+   {
+    "x": 0.145,
+    "y": 0.6,
+    "text": "Rib",
+    "structures": [
+     "Tenth rib"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.41,
+    "y": 0.745,
+    "text": "Erector spinae",
+    "structures": [
+     "Iliocostalis thoracis muscle",
+     "Longissimus thoracis muscle"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.181,
+    "y": 0.125,
+    "text": "Lung in the costophrenic recess",
+    "structures": [
+     "Inferior lobe of right lung"
+    ],
+    "side": "Right",
+    "note": "black: the pleural cavity still reaches this far down"
+   },
+   {
+    "x": 0.72,
+    "y": 0.165,
+    "text": "Lung in the costophrenic recess, left",
+    "structures": [
+     "Inferior lobe of left lung"
+    ],
+    "side": "Left",
+    "note": "air-filled lung tip along the anterior left chest wall"
+   },
+   {
+    "x": 0.89,
+    "y": 0.51,
+    "text": "Subcutaneous fat",
+    "structures": [
+     "Soft tissue of trunk (section fill)"
+    ]
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which labelled veins drain the liver into the inferior vena cava?",
+    "answer": "Hepatic veins.",
+    "explanation": "Follow their convergence into the IVC; they drain blood out of the liver.",
+    "structures": [
+     "Hepatic veins",
+     "Inferior vena cava (abdominal part)",
+     "Liver"
+    ]
+   },
+   {
+    "prompt": "Which two labelled large vessels are useful central landmarks on abdominal CT?",
+    "answer": "Abdominal aorta and inferior vena cava.",
+    "explanation": "Use the labels to distinguish the arterial and venous pathways before following them through other slices.",
+    "structures": [
+     "Abdominal aorta",
+     "Inferior vena cava (abdominal part)"
+    ]
+   }
+  ],
+  "references": [
+   {
+    "title": "Original image provenance: File:CT of a normal abdomen and pelvis, axial plane 35.png",
+    "url": "https://commons.wikimedia.org/wiki/File:CT_of_a_normal_abdomen_and_pelvis,_axial_plane_35.png"
+   },
+   {
+    "title": "OpenStax Anatomy and Physiology 2e: 20.5 Circulatory Pathways",
+    "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/20-5-circulatory-pathways"
+   },
+   {
+    "title": "ACR/RSNA RadiologyInfo: Abdominal and Pelvic CT",
+    "url": "https://www.radiologyinfo.org/en/info/abdominct"
+   }
+  ],
+  "finding": "Normal anatomy",
+  "plane": "Axial",
+  "atlas_note": "Illustrative transverse atlas section: major organs, vessels, vertebral/cord anatomy and existing body-wall muscles. No synthetic skin or fat contour is added. The atlas is not registered to this CT; exact shape and level may differ."
+ }
 ]

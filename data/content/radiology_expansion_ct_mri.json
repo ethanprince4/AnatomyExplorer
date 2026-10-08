@@ -1,1719 +1,2382 @@
 [
-  {
-    "title": "CT pelvis — left acetabular fracture",
-    "modality": "CT",
-    "region": "Pelvis",
-    "plane": "Axial",
-    "finding": "Acetabular fracture",
-    "tags": [
-      "CT",
-      "axial",
-      "pelvis",
-      "acetabulum",
-      "fracture",
-      "bone window",
-      "pathology"
+ {
+  "title": "CT pelvis — left acetabular fracture",
+  "modality": "CT",
+  "region": "Pelvis",
+  "plane": "Axial",
+  "finding": "Acetabular fracture",
+  "tags": [
+   "CT",
+   "axial",
+   "pelvis",
+   "acetabulum",
+   "fracture",
+   "bone window",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:Acetabular Fracture CT.png — creator's description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:Acetabular_Fracture_CT.png"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which acetabular components does the source describe as involved in this fracture?",
+    "options": [
+     "Anterior and posterior columns",
+     "Only the femoral neck",
+     "Only the sacrum"
     ],
-    "references": [
-      {
-        "title": "File:Acetabular Fracture CT.png — creator's description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:Acetabular_Fracture_CT.png"
-      }
+    "answer": 0,
+    "explanation": "The source identifies a complex comminuted acetabular fracture involving both columns. The CT is axial and displayed on bone windows."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.693,
+    "y": 0.486,
+    "text": "Left femoral head",
+    "structures": [
+     "Femur"
     ],
-    "questions": [
-      {
-        "prompt": "Which acetabular components does the source describe as involved in this fracture?",
-        "options": [
-          "Anterior and posterior columns",
-          "Only the femoral neck",
-          "Only the sacrum"
-        ],
-        "answer": 0,
-        "explanation": "The source identifies a complex comminuted acetabular fracture involving both columns. The CT is axial and displayed on bone windows."
-      }
+    "side": "Left",
+    "note": "Related normal femur anatomy in the atlas; source fracture is in the acetabulum."
+   },
+   {
+    "x": 0.636,
+    "y": 0.539,
+    "text": "Left acetabular fracture region",
+    "structures": [
+     "Hip bone",
+     "Left acetabular posterior column fragment",
+     "Left acetabular comminuted fragments"
     ],
-    "labels": [
-      {
-        "x": 0.693,
-        "y": 0.486,
-        "text": "Left femoral head",
-        "note": "Related normal femur anatomy in the atlas; source fracture is in the acetabulum.",
-        "side": "Left",
-        "structures": [
-          "Femur"
-        ]
-      },
-      {
-        "x": 0.636,
-        "y": 0.539,
-        "text": "Left acetabular fracture region",
-        "note": "The source describes comminution involving both anterior and posterior columns. Atlas shows related normal hip-bone anatomy.",
-        "side": "Left",
-        "structures": [
-          "Hip bone"
-        ]
-      }
+    "side": "Left",
+    "note": "The source describes comminution involving both anterior and posterior columns. Atlas shows related normal hip-bone anatomy."
+   },
+   {
+    "x": 0.28,
+    "y": 0.47,
+    "text": "Right femoral head",
+    "structures": [
+     "Femur"
     ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "joints",
-        "muscular"
-      ],
-      "regions": [
-        "abdomen"
-      ],
-      "clip": [
-        2,
-        0.493
-      ],
-      "view": "inferior",
-      "slice_only": true,
-      "side": "Left"
-    },
-    "id": "ct_acetabular_fracture",
-    "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
-    "summary": "Axial bone-window CT of a comminuted left acetabular fracture.",
-    "text": "<p>The source describes a complex comminuted fracture involving both acetabular columns. Compare the irregular acetabular contour around the left femoral head with the opposite side. The fracture is in the pelvic socket; the nearby femoral head is a separate structure.</p>",
-    "reading": [
-      "Locate both femoral heads and their surrounding acetabula.",
-      "Compare the broken left acetabular contour with the opposite socket.",
-      "Use the atlas to relate the hip bone to the femoral head."
-    ]
+    "side": "Right",
+    "note": "Normal right femoral head seated in the right acetabulum, for comparison with the injured left side."
+   },
+   {
+    "x": 0.48,
+    "y": 0.84,
+    "text": "Sacrum (tip)",
+    "structures": [
+     "Sacrum"
+    ],
+    "note": "Posterior pelvic bone at the level of the cut."
+   },
+   {
+    "x": 0.4,
+    "y": 0.31,
+    "text": "Right hip bone",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Right",
+    "note": "Normal right hip bone, for comparison with the injured left acetabulum."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "abdomen",
+    "back",
+    "lower_limb_l",
+    "lower_limb_r"
+   ],
+   "show": [
+    "Left acetabular posterior column fragment",
+    "Left acetabular anterior column fragment",
+    "Left acetabular comminuted fragments",
+    "Left acetabular fracture line"
+   ],
+   "clip": [
+    2,
+    0.5
+   ],
+   "view": "inferior",
+   "slice_only": true
   },
-  {
-    "title": "CT abdomen — source-described appendicitis",
-    "modality": "CT",
-    "region": "Abdomen",
-    "plane": "Axial",
-    "finding": "Appendicitis",
-    "tags": [
-      "CT",
-      "axial",
-      "abdomen",
-      "appendix",
-      "appendicitis",
-      "pathology"
+  "id": "ct_acetabular_fracture",
+  "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
+  "summary": "Axial bone-window CT of a comminuted left acetabular fracture.",
+  "text": "<p>The source describes a complex comminuted fracture involving both acetabular columns. Compare the irregular acetabular contour around the left femoral head with the opposite side. The fracture is in the pelvic socket; the nearby femoral head is a separate structure.</p>",
+  "reading": [
+   "Locate both femoral heads and their surrounding acetabula.",
+   "Compare the broken left acetabular contour with the opposite socket.",
+   "Use the atlas to relate the hip bone to the femoral head."
+  ]
+ },
+ {
+  "title": "CT abdomen — source-described appendicitis",
+  "modality": "CT",
+  "region": "Abdomen",
+  "plane": "Axial",
+  "finding": "Appendicitis",
+  "tags": [
+   "CT",
+   "axial",
+   "abdomen",
+   "appendix",
+   "appendicitis",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:Appendicitis.png — creator's description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:Appendicitis.png"
+   },
+   {
+    "title": "Sharma and Agrawal (2008): CT signs of appendicitis, annotated Figures 1-2",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2766912/"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which anatomical structure is affected in the condition identified by the source?",
+    "options": [
+     "Vermiform appendix",
+     "Proximal ureter",
+     "Acetabulum"
     ],
-    "references": [
-      {
-        "title": "File:Appendicitis.png — creator's description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:Appendicitis.png"
-      },
-      {
-        "title": "Sharma and Agrawal (2008): CT signs of appendicitis, annotated Figures 1-2",
-        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2766912/"
-      }
+    "answer": 0,
+    "explanation": "James Heilman identifies this CT as appendicitis. The reference atlas can show the appendix's relationship to neighboring anatomy, but it is not registered to this patient's slice."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.336,
+    "y": 0.608,
+    "text": "Right psoas major",
+    "structures": [
+     "Psoas major"
     ],
-    "questions": [
-      {
-        "prompt": "Which anatomical structure is affected in the condition identified by the source?",
-        "options": [
-          "Vermiform appendix",
-          "Proximal ureter",
-          "Acetabulum"
-        ],
-        "answer": 0,
-        "explanation": "James Heilman identifies this CT as appendicitis. The reference atlas can show the appendix's relationship to neighboring anatomy, but it is not registered to this patient's slice."
-      }
+    "side": "Right",
+    "note": "Posterior muscle orientation landmark; this marker does not localize the appendix or appendicitis."
+   },
+   {
+    "x": 0.597,
+    "y": 0.608,
+    "text": "Left psoas major",
+    "structures": [
+     "Psoas major"
     ],
-    "labels": [
-      {
-        "x": 0.336,
-        "y": 0.608,
-        "text": "Right psoas major",
-        "note": "Posterior muscle orientation landmark; this marker does not localize the appendix or appendicitis.",
-        "side": "Right",
-        "structures": [
-          "Psoas major"
-        ]
-      },
-      {
-        "x": 0.597,
-        "y": 0.608,
-        "text": "Left psoas major",
-        "side": "Left",
-        "structures": [
-          "Psoas major"
-        ],
-        "note": "Posterior muscle orientation landmark; this marker does not localize the appendix or appendicitis."
-      }
+    "side": "Left",
+    "note": "Posterior muscle orientation landmark; this marker does not localize the appendix or appendicitis."
+   },
+   {
+    "x": 0.5,
+    "y": 0.58,
+    "text": "Lumbar vertebral body",
+    "structures": [
+     "Vertebra L4"
     ],
-    "scene": {
-      "systems": [
-        "visceral",
-        "muscular",
-        "skeletal"
-      ],
-      "regions": [
-        "abdomen"
-      ],
-      "clip": [
-        2,
-        0.544
-      ],
-      "view": "inferior",
-      "slice_only": true,
-      "show": [
-        "Vermiform appendix",
-        "Ascending colon"
-      ],
-      "frame_on": [
-        "Ascending colon",
-        "Hip bone"
-      ],
-      "xray": false
-    },
-    "id": "ct_appendicitis",
-    "atlas_note": "The abdominal reference retains body-wall, bowel and vertebral context. A separate normal-versus-inflamed schematic teaches published appendicitis features; it is not registered to this CT and does not establish this patient's appendix boundary.",
-    "summary": "Axial CT in an appendicitis case, with normal-versus-inflamed appendix comparison.",
-    "text": "<p>The appendix is a blind-ending tube connected to the proximal colon. Published CT signs of appendicitis include an enlarged, thick-walled appendix and inflammatory change in the surrounding fat. Compare these general features in the normal-versus-inflamed teaching schematic. The creator identifies this original CT as appendicitis, but its exact appendix boundary has not been localized.</p>",
-    "reading": [
-      "Use the abdominal wall, bowel, psoas muscles and vertebral body to orient the axial image.",
-      "Compare normal and inflamed appendix wall thickness in the teaching schematic.",
-      "Compare the general inflammatory changes around the appendix in the teaching view; the linked published review contains annotated clinical examples."
+    "note": "Vertebral body at the level of the iliac wings. The spinal canal lies directly behind it."
+   },
+   {
+    "x": 0.1,
+    "y": 0.6,
+    "text": "Right iliac wing",
+    "structures": [
+     "Hip bone"
     ],
-    "illustration": {
-      "file": "appendicitis-signs.svg",
-      "title": "General appendicitis signs",
-      "kind": "original pedagogical schematic",
-      "patient_registered": false,
-      "scale": "Illustrative shapes and teaching magnification; no patient measurements",
-      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2766912/",
-      "license": "CC0-1.0",
-      "author": "Anatomy Explorer radiology teaching draft"
-    }
+    "side": "Right",
+    "note": "Patient's right ilium, shown on the image left."
+   },
+   {
+    "x": 0.9,
+    "y": 0.6,
+    "text": "Left iliac wing",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Left",
+    "note": "Patient's left ilium, shown on the image right."
+   },
+   {
+    "x": 0.22,
+    "y": 0.3,
+    "text": "Ascending colon",
+    "structures": [
+     "Ascending colon"
+    ],
+    "side": "Right",
+    "note": "Gas-filled right-sided colon. The appendix arises from the caecum at its lower end and is not localized on this slice."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "abdomen",
+    "back"
+   ],
+   "clip": [
+    2,
+    0.578
+   ],
+   "view": "inferior",
+   "frame_on": [
+    "Psoas major",
+    "Hip bone"
+   ],
+   "xray": false
   },
-  {
-    "title": "CT kidneys — bilateral renal calculi, coronal",
-    "modality": "CT",
-    "region": "Abdomen",
-    "plane": "Coronal",
-    "finding": "Renal calculi",
-    "tags": [
-      "CT",
-      "coronal",
-      "kidney",
-      "renal calculi",
-      "noncontrast",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:Non-contrast CT of multiple bilateral renal calculi.jpg — creator's description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:Non-contrast_CT_of_multiple_bilateral_renal_calculi.jpg"
-      },
-      {
-        "title": "Computed Tomography in Abdominal Imaging: How to Gain Maximum Diagnostic Information at the Lowest Radiation Dose, in Selected Topics on Computed Tomography (2013)",
-        "url": "https://doi.org/10.5772/55903"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Where are the two arrowed calculi in this cropped coronal image?",
-        "options": [
-          "Within the kidneys",
-          "Within the urinary bladder",
-          "Within the gallbladder"
-        ],
-        "answer": 0,
-        "explanation": "The source depicts multiple bilateral renal calculi. The coronal panel shows bright calculi at the arrow tips within both kidneys; this differs from the separate proximal-ureteric-stone case."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.31,
-        "y": 0.364,
-        "text": "Right renal calculus",
-        "note": "Coordinates point to the creator-marked bright renal focus; atlas link shows the related kidney, not a stone mesh.",
-        "side": "Right",
-        "structures": [
-          "Kidney"
-        ]
-      },
-      {
-        "x": 0.705,
-        "y": 0.312,
-        "text": "Left renal calculus",
-        "note": "Coordinates point to the creator-marked bright renal focus in the other kidney.",
-        "side": "Left",
-        "structures": [
-          "Kidney"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "visceral",
-        "skeletal"
-      ],
-      "regions": [
-        "abdomen"
-      ],
-      "clip": [
-        1,
-        0.455
-      ],
-      "view": "anterior",
-      "slice_only": true
-    },
-    "id": "ct_bilateral_renal_calculi",
-    "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
-    "summary": "Coronal noncontrast CT with creator-marked calculi in both kidneys.",
-    "text": "<p>This is the coronal panel of the source's axial-and-coronal comparison. The arrows mark bright calculi in both kidneys. Compare their renal location with the separate proximal-ureteric-stone case: the kidneys and ureters are neighboring parts of the urinary tract, but they are distinct anatomical locations.</p>",
-    "reading": [
-      "Identify both kidneys on either side of the lumbar spine.",
-      "Find the bright foci marked by the original arrows.",
-      "Relate renal calculi to the kidney rather than assigning them to the ureter or bladder."
-    ]
-  },
-  {
-    "title": "CT head — bilateral subdural bleeding",
-    "modality": "CT",
-    "region": "Head and neck",
-    "plane": "Axial",
-    "finding": "Subdural bleeding",
-    "tags": [
-      "CT",
-      "axial",
-      "head",
-      "subdural",
-      "intracranial hemorrhage",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:BilateralSubDur.png — creator's description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:BilateralSubDur.png"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "What is the source-described distribution of bleeding in this case?",
-        "options": [
-          "Bilateral subdural collections",
-          "A single intraparenchymal tumor",
-          "A normal ventricular system only"
-        ],
-        "answer": 0,
-        "explanation": "James Heilman identifies this image as a bilateral subdural bleed. The collections lie peripherally rather than being normal atlas structures or a measured patient-specific atlas match."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.75,
-        "y": 0.19,
-        "text": "Subdural collection",
-        "note": "Peripheral collection identified as blood by the source; no hematoma or pathological surface exists in the normal reference atlas.",
-        "structures": []
-      },
-      {
-        "x": 0.485,
-        "y": 0.16,
-        "text": "Falx cerebri",
-        "note": "Midline dural landmark, separate from the source-described subdural collections.",
-        "structures": [
-          "Falx cerebri"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "nervous",
-        "skeletal",
-        "cardiovascular"
-      ],
-      "regions": [
-        "head"
-      ],
-      "clip": [
-        2,
-        0.941
-      ],
-      "view": "inferior",
-      "slice_only": true
-    },
-    "id": "ct_bilateral_subdural",
-    "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
-    "summary": "Axial CT of bilateral subdural bleeding.",
-    "text": "<p>Examine the peripheral subdural collections and use the falx as a midline anatomical landmark. Compare the contours along both cerebral surfaces with the inner skull margin.</p>",
-    "reading": [
-      "Find the midline falx and compare the two cerebral sides.",
-      "Inspect the collections between the cerebral surface and skull.",
-      "Relate the collections to the extra-axial space."
-    ]
-  },
-  {
-    "title": "CT urinary tract — obstructing right proximal ureteric stone",
-    "modality": "CT",
-    "region": "Abdomen",
-    "plane": "Axial",
-    "finding": "Ureteric stone",
-    "tags": [
-      "CT",
-      "axial",
-      "urinary tract",
-      "ureteric stone",
-      "hydronephrosis",
-      "noncontrast",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:KidneyStone.JPG — creator's description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:KidneyStone.JPG"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which urinary-tract segment contains the arrowed calculus according to the source?",
-        "options": [
-          "Right proximal ureter",
-          "Left distal ureter",
-          "Urinary bladder"
-        ],
-        "answer": 0,
-        "explanation": "The creator identifies a right proximal ureteric stone producing mild obstruction and hydronephrosis on noncontrast CT. Stone size and clinical symptoms are not documented here."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.407,
-        "y": 0.456,
-        "text": "Right proximal ureteric stone",
-        "note": "Bright focus at the creator's arrow tip. The source describes mild obstruction and hydronephrosis.",
-        "side": "Right",
-        "structures": [
-          "Ureter"
-        ]
-      },
-      {
-        "x": 0.293,
-        "y": 0.512,
-        "text": "Right kidney",
-        "side": "Right",
-        "structures": [
-          "Kidney"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "visceral",
-        "skeletal",
-        "muscular"
-      ],
-      "regions": [
-        "abdomen"
-      ],
-      "clip": [
-        2,
-        0.628
-      ],
-      "view": "inferior",
-      "slice_only": true,
-      "side": "Right"
-    },
-    "id": "ct_obstructing_ureteric_stone",
-    "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
-    "summary": "Noncontrast axial CT with a right proximal ureteric stone and source-described mild obstruction.",
-    "text": "<p>The creator's arrow marks a right proximal ureteric stone. The source also describes mild obstruction and hydronephrosis. Locate the right kidney, then relate the adjacent stone to the proximal ureter. The photographed scan has a warm cast and slight perspective distortion, so this teaching image should not be used for precise stone measurements.</p>",
-    "reading": [
-      "Locate the bright focus at the black arrow tip.",
-      "Relate the focus to the right kidney and proximal ureter.",
-      "Compare this obstructing ureteric-stone case with the bilateral renal-calculi case."
-    ]
-  },
-  {
-    "title": "CT pulmonary arteries — saddle embolus",
-    "modality": "CT",
-    "region": "Thorax",
-    "plane": "Axial",
-    "finding": "Pulmonary embolism",
-    "tags": [
-      "CT",
-      "axial",
-      "CTPA",
-      "pulmonary embolism",
-      "pulmonary arteries",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:Pulmonary embolism CTPA.JPEG — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:Pulmonary_embolism_CTPA.JPEG"
-      },
-      {
-        "title": "Myat and Ahsan (2007), Percutaneous mechanical thrombectomy for the treatment of acute massive pulmonary embolism: case report, Figure 1, DOI 10.1186/1477-9560-5-20",
-        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2222237/"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which arterial circulation contains the source-described saddle embolus?",
-        "options": [
-          "Pulmonary arterial circulation",
-          "Portal venous circulation",
-          "Renal collecting system"
-        ],
-        "answer": 0,
-        "explanation": "The CTPA source describes an embolus extending across the pulmonary arterial bifurcation and into lobar branches on both sides."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.565,
-        "y": 0.478,
-        "text": "Pulmonary arterial filling defect",
-        "note": "Source-confirmed embolus; the atlas depicts the related normal artery.",
-        "structures": [
-          "Left pulmonary artery"
-        ]
-      },
-      {
-        "x": 0.551,
-        "y": 0.655,
-        "text": "Descending thoracic aorta",
-        "structures": [
-          "Thoracic aorta"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "cardiovascular",
-        "visceral",
-        "skeletal"
-      ],
-      "regions": [
-        "thorax"
-      ],
-      "clip": [
-        2,
-        0.762
-      ],
-      "view": "inferior",
-      "slice_only": true
-    },
-    "id": "ct_saddle_pulmonary_embolism",
-    "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
-    "summary": "Axial CT pulmonary angiography with a source-described saddle embolus.",
-    "text": "<p>A saddle embolus occupies the pulmonary arterial bifurcation and extends into branches on both sides. Look for the intraluminal filling defect within the contrast-enhanced pulmonary artery. The descending thoracic aorta provides a separate posterior vascular landmark.</p>",
-    "reading": [
-      "Identify the contrast-enhanced pulmonary arteries.",
-      "Find the intraluminal filling defect.",
-      "Distinguish the pulmonary arterial circulation from the descending aorta."
-    ]
-  },
-  {
-    "title": "CT thoracic spine — T9–T10 fractures",
-    "modality": "CT",
-    "region": "Spine",
-    "plane": "Sagittal",
-    "finding": "Chance fracture",
-    "tags": [
-      "CT",
-      "sagittal",
-      "thoracic spine",
-      "Chance fracture",
-      "T9",
-      "T10",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:PchancefracCT.png — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:PchancefracCT.png"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which levels are injured in the creator's description?",
-        "options": [
-          "T9 and T10",
-          "L4 and L5",
-          "C1 and C2"
-        ],
-        "answer": 0,
-        "explanation": "The source describes a T10 Chance fracture together with a T9 fracture after a seatbelt injury in a motor vehicle collision."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.49,
-        "y": 0.436,
-        "text": "T9–T10 fracture region",
-        "structures": [
-          "Vertebra T9",
-          "Vertebra T10"
-        ],
-        "note": "Creator describes T10 Chance fracture and an associated T9 fracture."
-      }
-    ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "joints",
-        "nervous"
-      ],
-      "regions": [
-        "back",
-        "thorax"
-      ],
-      "clip": [
-        0,
-        0.5
-      ],
-      "view": "left",
-      "slice_only": true,
-      "frame_on": [
-        "Vertebra T8",
-        "Vertebra T9",
-        "Vertebra T10",
-        "Vertebra T11"
-      ]
-    },
-    "id": "ct_thoracic_chance_fracture",
-    "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
-    "summary": "Sagittal CT of source-described T10 Chance and T9 fractures.",
-    "text": "<p>The circled region contains the thoracic vertebral injuries described as a T10 Chance fracture and a T9 fracture after a seatbelt injury. Trace the vertebral bodies, disc spaces and posterior elements through the sagittal section. Compare their disrupted contours with the adjacent vertebral levels.</p>",
-    "reading": [
-      "Orient anterior vertebral bodies against posterior elements.",
-      "Inspect the circled fracture region.",
-      "Compare the injured region with adjacent levels."
-    ]
-  },
-  {
-    "title": "CT aorta — descending Stanford type B dissection",
-    "modality": "CT",
-    "region": "Thorax",
-    "plane": "Axial",
-    "finding": "Aortic dissection",
-    "tags": [
-      "CT",
-      "axial",
-      "contrast",
-      "aortic dissection",
-      "Stanford B",
-      "thorax",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:Descending (Type B Stanford) Aortic Dissection.PNG — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:Descending_(Type_B_Stanford)_Aortic_Dissection.PNG"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which aortic segment is affected in this source-described Stanford type B case?",
-        "options": [
-          "Descending thoracic aorta",
-          "Pulmonary trunk",
-          "Common bile duct"
-        ],
-        "answer": 0,
-        "explanation": "The creator identifies the descending aorta as the site of this traumatic type B dissection."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.591,
-        "y": 0.652,
-        "text": "Dissected descending aorta",
-        "note": "Original circle marks the source-described type B dissection.",
-        "structures": [
-          "Thoracic aorta"
-        ]
-      },
-      {
-        "x": 0.538,
-        "y": 0.412,
-        "text": "Heart",
-        "structures": [
-          "Heart"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "cardiovascular",
-        "visceral",
-        "skeletal"
-      ],
-      "regions": [
-        "thorax"
-      ],
-      "clip": [
-        2,
-        0.745
-      ],
-      "view": "inferior",
-      "slice_only": true
-    },
-    "id": "ct_type_b_aortic_dissection",
-    "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
-    "summary": "Contrast-enhanced axial CT of a descending aortic dissection.",
-    "text": "<p>The circled descending thoracic aorta contains the flap in the source-described traumatic Stanford type B dissection. Locate it behind the heart and beside the vertebral body. Follow the aortic lumen separately from the surrounding lung and cardiac chambers.</p>",
-    "reading": [
-      "Locate the descending thoracic aorta.",
-      "Inspect the circled lumen for its dividing flap.",
-      "Relate the aorta to the heart and vertebral body."
-    ]
-  },
-  {
-    "title": "MRI cervical cord — transverse myelitis comparison",
-    "modality": "MRI",
-    "region": "Head and neck",
-    "plane": "Axial",
-    "finding": "Transverse myelitis",
-    "tags": [
-      "MRI",
-      "axial",
-      "T2",
-      "cervical spinal cord",
-      "transverse myelitis",
-      "comparison",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:Transverse Myelitis.PNG — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:Transverse_Myelitis.PNG"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "What differs in the red-circled cord compared with the green-circled comparison?",
-        "options": [
-          "Increased central cord T2 signal",
-          "An acetabular fracture",
-          "A ureteric stone"
-        ],
-        "answer": 0,
-        "explanation": "The creator identifies increased T2 signal in the central cervical cord in the transverse myelitis image."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.493,
-        "y": 0.22,
-        "text": "Normal-signal cord comparison",
-        "structures": [
-          "Spinal cord"
-        ]
-      },
-      {
-        "x": 0.489,
-        "y": 0.72,
-        "text": "Increased central cord T2 signal",
-        "note": "Abnormal signal in the source-described transverse myelitis example.",
-        "structures": [
-          "Spinal cord"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "nervous",
-        "skeletal",
-        "joints"
-      ],
-      "regions": [
-        "neck"
-      ],
-      "clip": [
-        2,
-        0.858
-      ],
-      "view": "inferior",
-      "slice_only": true
-    },
-    "id": "mri_cervical_transverse_myelitis",
-    "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
-    "summary": "Axial T2 MRI comparing normal cord signal with central cord hyperintensity.",
-    "text": "<p>Compare the spinal cord inside the green and red circles. The green-marked image shows normal cord signal; the red-marked image shows increased central T2 signal in transverse myelitis. The cord lies behind the vertebral body, within the spinal canal.</p>",
-    "reading": [
-      "Locate the spinal cord behind the vertebral body.",
-      "Compare central cord signal in the two images.",
-      "Separate cord signal from the surrounding bright fluid."
-    ]
-  },
-  {
-    "title": "MRCP — gallbladder and common bile duct stones",
-    "modality": "MRI",
-    "region": "Abdomen",
-    "plane": "Projection",
-    "finding": "Choledocholithiasis",
-    "tags": [
-      "MRI",
-      "MRCP",
-      "projection",
-      "biliary tract",
-      "choledocholithiasis",
-      "gallstones",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:MRCP Choledocholithiasis.jpg — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:MRCP_Choledocholithiasis.jpg"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which two locations contain stones according to the marked source?",
-        "options": [
-          "Gallbladder and common bile duct",
-          "Both femoral heads",
-          "Both cerebral ventricles"
-        ],
-        "answer": 0,
-        "explanation": "The source labels a as the stone-containing gallbladder and b as common-bile-duct stones; c marks the pancreatic duct."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.251,
-        "y": 0.297,
-        "text": "Gallbladder stones",
-        "structures": [
-          "Gallbladder"
-        ]
-      },
-      {
-        "x": 0.387,
-        "y": 0.712,
-        "text": "Common bile duct stones",
-        "structures": [
-          "Bile duct"
-        ]
-      },
-      {
-        "x": 0.574,
-        "y": 0.5,
-        "text": "Pancreatic duct",
-        "structures": [
-          "Pancreatic duct"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "visceral"
-      ],
-      "regions": [
-        "abdomen"
-      ],
-      "view": "anterior",
-      "slice_only": false,
-      "projection_reference": true
-    },
-    "id": "mri_choledocholithiasis",
-    "atlas_note": "MRCP projects the fluid-filled duct system. The atlas shows related normal ducts and gallbladder; it is not a matching coronal slice or a patient-registered projection.",
-    "summary": "MRCP projection with source-marked gallbladder and common-bile-duct stones.",
-    "text": "<p>The gallbladder and bile duct are bright fluid-filled structures in this MRCP projection. The source marks stones in the gallbladder and common bile duct, alongside the pancreatic duct and duodenal fluid. Follow the biliary tree as a connected system, while keeping each stone's location distinct.</p>",
-    "reading": [
-      "Find the gallbladder marked a.",
-      "Follow the bile duct to the stones marked b.",
-      "Distinguish the pancreatic duct marked c from the bile duct."
-    ]
-  },
-  {
-    "title": "MRI heart — dilated cardiomyopathy and normal comparison",
-    "modality": "MRI",
-    "region": "Thorax",
-    "plane": "Oblique",
-    "finding": "Dilated cardiomyopathy",
-    "tags": [
-      "MRI",
-      "oblique cardiac",
-      "four-chamber",
-      "dilated cardiomyopathy",
-      "comparison",
-      "normal",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:Cardiomr dcm.jpg — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:Cardiomr_dcm.jpg"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which source-described condition is shown in the left image?",
-        "options": [
-          "Dilated cardiomyopathy",
-          "Bilateral renal calculi",
-          "Transverse myelitis"
-        ],
-        "answer": 0,
-        "explanation": "The creator identifies dilated cardiomyopathy on the left and a normal heart on the right. No ejection fraction or functional measurement is supplied."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.294,
-        "y": 0.543,
-        "text": "Dilated cardiomyopathy example",
-        "structures": [
-          "Heart"
-        ]
-      },
-      {
-        "x": 0.836,
-        "y": 0.385,
-        "text": "Normal cardiac comparison",
-        "structures": [
-          "Heart"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "cardiovascular",
-        "visceral"
-      ],
-      "regions": [
-        "thorax"
-      ],
-      "clip": [
-        1,
-        0.6
-      ],
-      "view": "anterior",
-      "slice_only": true,
-      "frame_on": [
-        "Heart"
-      ]
-    },
-    "id": "mri_dilated_cardiomyopathy_comparison",
-    "atlas_note": "The cardiac images are oblique. The atlas section is an approximate orthogonal normal-anatomy reference, not a registered four-chamber reconstruction of either scan.",
-    "summary": "Cardiac MRI comparing source-described dilated cardiomyopathy with a normal heart.",
-    "text": "<p>Compare the cardiac anatomy in the two oblique views. The left image shows the source's dilated cardiomyopathy example, while the right image provides its normal comparison. Identify the chambers and their relationships without treating static image size as a measurement of ventricular function.</p>",
-    "reading": [
-      "Identify the two cardiac examples.",
-      "Compare chamber shape and anatomical relationships.",
-      "Keep morphology separate from unreported functional measurements."
-    ]
-  },
-  {
-    "title": "MRI brain — four-hour basal ganglia infarction on DWI",
-    "modality": "MRI",
-    "region": "Head and neck",
-    "plane": "Axial",
-    "finding": "Cerebral infarction",
-    "tags": [
-      "MRI",
-      "axial",
-      "DWI",
-      "basal ganglia",
-      "cerebral infarction",
-      "pathology",
-      "same-case ADC companion"
-    ],
-    "references": [
-      {
-        "title": "File:Cerebral infarction after 4 hours on DWI MRI.jpg — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:Cerebral_infarction_after_4_hours_on_DWI_MRI.jpg"
-      },
-      {
-        "title": "Shen et al. (2011), The use of MRI apparent diffusion coefficient (ADC) in monitoring the development of brain infarction, DOI 10.1186/1471-2342-11-2",
-        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3022840/"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "How does the infarcted region appear on the DWI image in this four-hour source case?",
-        "options": [
-          "Brighter than the surrounding brain",
-          "As a renal calculus",
-          "As a fractured bone"
-        ],
-        "answer": 0,
-        "explanation": "The source comparison shows a conspicuous DWI abnormality and lower ADC in the infarcted basal ganglia, while conventional T2 did not reveal the region clearly."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.674,
-        "y": 0.422,
-        "text": "Bright DWI abnormality",
-        "structures": [],
-        "note": "Visible source abnormality in the source-described basal ganglia infarction. It is not a registered Putamen or Globus pallidus boundary; the paired sequence belongs to the same source patient."
-      }
-    ],
-    "scene": {
-      "systems": [
-        "nervous"
-      ],
-      "regions": [
-        "head"
-      ],
-      "clip": [
-        2,
-        0.934
-      ],
-      "view": "inferior",
-      "slice_only": true,
-      "show": [
-        "Putamen",
-        "Globus pallidus",
-        "Caudate nucleus",
-        "Lateral ventricle"
-      ],
-      "isolate": true,
-      "frame_on": [
-        "Putamen",
-        "Globus pallidus",
-        "Caudate nucleus",
-        "Lateral ventricle"
-      ],
-      "xray": false
-    },
-    "id": "mri_hyperacute_basal_ganglia_infarct",
-    "atlas_note": "The focused normal deep-gray/ventricular reference supplies anatomical context only. The pathological signal correspondence is shown by the paired same-patient DWI and ADC source images, not by a normal Putamen or Globus pallidus mesh.",
-    "summary": "Axial DWI in the source's four-hour basal ganglia infarction case.",
-    "text": "<p>The infarcted basal ganglia region is bright on this diffusion-weighted image. The paired four-hour ADC case shows the same patient and infarction, with a lower apparent diffusion coefficient in the corresponding region. The conventional T2 comparison did not show the infarction clearly.</p>",
-    "reading": [
-      "Identify the bright regional DWI abnormality.",
-      "Relate its location to the basal ganglia.",
-      "Compare it with the lower-ADC region in the paired four-hour ADC case."
-    ],
-    "paired_case_id": "mri_hyperacute_basal_ganglia_infarct_adc",
-    "patient_source_group": "shen_2011_four_hour_basal_ganglia_infarction",
-    "illustration": {
-      "file": "dwi-adc-territory.svg",
-      "title": "DWI, paired ADC and deep cerebral anatomy",
-      "kind": "original pedagogical schematic",
-      "patient_registered": false,
-      "scale": "Illustrative shapes and teaching magnification; no patient measurements",
-      "source_url": "https://commons.wikimedia.org/wiki/File:Cerebral_infarction_after_4_hours_on_DWI_MRI.jpg",
-      "license": "CC0-1.0",
-      "author": "Anatomy Explorer radiology teaching draft"
-    }
-  },
-  {
-    "title": "MRI lumbar spine — L4–L5 disc herniation",
-    "modality": "MRI",
-    "region": "Spine",
-    "plane": "Sagittal",
-    "finding": "Disc herniation",
-    "tags": [
-      "MRI",
-      "sagittal",
-      "lumbar spine",
-      "L4-L5",
-      "disc herniation",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:Hernie discale L4 L5.png — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:Hernie_discale_L4_L5.png"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which level does the report associate with the left L5-root conflict?",
-        "options": [
-          "L4–L5",
-          "L5–S1",
-          "T9–T10"
-        ],
-        "answer": 0,
-        "explanation": "The report describes a left paramedian L4–L5 herniation affecting the emerging left L5 root sheath. It describes the lower L5–S1 overhang without obvious root impingement."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.415,
-        "y": 0.647,
-        "text": "Posterior L4–L5 disc",
-        "note": "Source-described left paramedian herniation at this level.",
-        "structures": [
-          "Intervertebral disc L4-L5"
-        ]
-      },
-      {
-        "x": 0.406,
-        "y": 0.756,
-        "text": "L5–S1 disc",
-        "note": "Source reports disc overhang here without obvious radicular impingement.",
-        "structures": [
-          "Intervertebral disc L5-S1"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "joints",
-        "nervous"
-      ],
-      "regions": [
-        "abdomen",
-        "back"
-      ],
-      "clip": [
-        0,
-        0.5
-      ],
-      "view": "left",
-      "slice_only": true,
-      "frame_on": [
-        "Lumbar vertebrae"
-      ]
-    },
-    "id": "mri_l4_l5_disc_herniation",
-    "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
-    "summary": "Sagittal lumbar MRI with a source-described left paramedian L4–L5 herniation.",
-    "text": "<p>Follow the posterior disc margins beside the bright fluid-filled dural sac. The report relates the L4–L5 herniation to the left L5-root sheath. The lower circled L5–S1 disc also overhangs, but the report does not describe obvious root impingement there.</p>",
-    "reading": [
-      "Trace the vertebral bodies and intervertebral discs.",
-      "Compare the two circled posterior disc margins.",
-      "Relate the L4–L5 level to the traversing L5-root region."
-    ]
-  },
-  {
-    "title": "MRI heart — four-chamber anatomy",
-    "modality": "MRI",
-    "region": "Thorax",
-    "plane": "Oblique",
-    "finding": "Normal anatomy",
-    "tags": [
-      "MRI",
-      "oblique cardiac",
-      "four-chamber",
-      "normal anatomy",
-      "cine source",
-      "static frame"
-    ],
-    "references": [
-      {
-        "title": "File:4-CH cine normal.gif — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:4-CH_cine_normal.gif"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which view is represented by this cardiac image?",
-        "options": [
-          "Four-chamber cardiac view",
-          "Axial kidney CT",
-          "MRCP duct projection"
-        ],
-        "answer": 0,
-        "explanation": "The creator identifies a four-chamber cine CMR. This static frame retains the chamber relationships from that source sequence."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.614,
-        "y": 0.466,
-        "text": "Left ventricle",
-        "structures": [
-          "Left ventricle"
-        ]
-      },
-      {
-        "x": 0.383,
-        "y": 0.343,
-        "text": "Right ventricle",
-        "structures": [
-          "Right ventricle"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "cardiovascular",
-        "visceral"
-      ],
-      "regions": [
-        "thorax"
-      ],
-      "clip": [
-        1,
-        0.6
-      ],
-      "view": "anterior",
-      "slice_only": true,
-      "frame_on": [
-        "Heart"
-      ]
-    },
-    "id": "mri_normal_four_chamber_cine",
-    "atlas_note": "The cardiac image is oblique. The atlas section is an approximate orthogonal normal-anatomy reference, not a registered four-chamber reconstruction of this scan.",
-    "summary": "Four-chamber cardiac anatomy from the creator's normal cine CMR.",
-    "text": "<p>Identify the left and right ventricles in this oblique four-chamber view, then follow their relationship to the atria. The left ventricular cavity and the right ventricular cavity are separated by the interventricular septal region. The atlas provides normal cardiac anatomy for comparison.</p>",
-    "reading": [
-      "Find both ventricular cavities.",
-      "Relate the ventricles to the atria.",
-      "Distinguish the chamber labels from the intervening septal region."
-    ]
-  },
-  {
-    "title": "MRCP — normal biliary and pancreatic ducts",
-    "modality": "MRI",
-    "region": "Abdomen",
-    "plane": "Projection",
-    "finding": "Normal anatomy",
-    "tags": [
-      "MRI",
-      "MRCP",
-      "projection",
-      "biliary tract",
-      "pancreatic duct",
-      "normal"
-    ],
-    "references": [
-      {
-        "title": "File:MRCP Normalbefund 66M - MR - 001.jpg — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:MRCP_Normalbefund_66M_-_MR_-_001.jpg"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "What structure connects the liver's biliary branches toward the duodenum in this projection?",
-        "options": [
-          "Bile duct",
-          "Thoracic aorta",
-          "Femoral neck"
-        ],
-        "answer": 0,
-        "explanation": "The bile duct carries the biliary pathway toward the duodenum. The source identifies this MRCP as normal, including an accessory pancreatic duct."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.322,
-        "y": 0.45,
-        "text": "Gallbladder",
-        "structures": [
-          "Gallbladder"
-        ]
-      },
-      {
-        "x": 0.419,
-        "y": 0.519,
-        "text": "Bile duct",
-        "structures": [
-          "Bile duct"
-        ]
-      },
-      {
-        "x": 0.61,
-        "y": 0.464,
-        "text": "Pancreatic duct",
-        "structures": [
-          "Pancreatic duct"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "visceral"
-      ],
-      "regions": [
-        "abdomen"
-      ],
-      "view": "anterior",
-      "slice_only": false,
-      "projection_reference": true,
-      "show": [
-        "Gallbladder",
-        "Bile duct",
-        "Pancreatic duct",
-        "Accessory pancreatic duct"
-      ],
-      "isolate": true,
-      "frame_on": [
-        "Gallbladder",
-        "Bile duct",
-        "Pancreatic duct"
-      ],
-      "xray": false
-    },
-    "id": "mri_normal_mrcp",
-    "atlas_note": "Focused normal gallbladder, bile-duct and pancreatic-duct anatomy accompanies this MRCP projection. It is not a matching coronal slice. The accessory pancreatic duct is included as source-described anatomical context; its tiny branch is not assigned a new scan marker.",
-    "summary": "A source-described normal MRCP projection of the biliary and pancreatic ducts.",
-    "text": "<p>Follow the branching bile ducts toward the gallbladder and duodenum. The pancreatic duct approaches the distal duct junction along a separate course. The source describes a normal MRCP and also notes the accessory pancreatic duct of Santorini.</p>",
-    "reading": [
-      "Locate the gallbladder.",
-      "Trace the bile duct separately from the pancreatic duct.",
-      "Compare the duct appearance with the stone-containing MRCP case."
-    ]
-  },
-  {
-    "title": "MRI pelvis — uterine fibroids, false-color axial image",
-    "modality": "MRI",
-    "region": "Pelvis",
-    "plane": "Axial",
-    "finding": "Uterine fibroids",
-    "tags": [
-      "MRI",
-      "axial",
-      "pelvis",
-      "uterus",
-      "fibroids",
-      "false-color",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:Pelvic MRI 06 14.jpg — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:Pelvic_MRI_06_14.jpg"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which organ contains the source-annotated fibroid?",
-        "options": [
-          "Uterus",
-          "Kidney",
-          "Gallbladder"
-        ],
-        "answer": 0,
-        "explanation": "The creator identifies multiple fibroids in the uterus on this pelvic MRI. The uterus lies centrally within the pelvis, between the urinary bladder and rectum."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.564,
-        "y": 0.509,
-        "text": "Uterine fibroid",
-        "note": "Position is grounded in the creator's Commons annotation; the current atlas does not contain a uterus mesh.",
-        "structures": []
-      },
-      {
-        "x": 0.79,
-        "y": 0.464,
-        "text": "Left pelvic bone",
-        "side": "Left",
-        "structures": [
-          "Hip bone"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "visceral",
-        "muscular"
-      ],
-      "regions": [
-        "abdomen"
-      ],
-      "clip": [
-        2,
-        0.515
-      ],
-      "view": "inferior",
-      "slice_only": true,
-      "side": "Left"
-    },
-    "id": "mri_pelvic_fibroids",
-    "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
-    "summary": "False-color axial pelvic MRI with source-described uterine fibroids.",
-    "text": "<p>The creator identifies multiple uterine fibroids, with a fibroid annotated in the central pelvic organ. Use the surrounding pelvic bones to orient the axial view. The displayed colors are a visualization choice, so they should not be read as the usual grayscale T1 or T2 tissue signal.</p>",
-    "reading": [
-      "Orient the axial view with the pelvic bones.",
-      "Find the annotated uterine fibroid region.",
-      "Distinguish organ location from the display's false-color appearance."
-    ]
-  },
-  {
-    "title": "MRI brain — subacute cortical infarct, DWI and enhanced T1",
-    "modality": "MRI",
-    "region": "Head and neck",
-    "plane": "Axial",
-    "finding": "Cerebral infarction",
-    "tags": [
-      "MRI",
-      "axial",
-      "DWI",
-      "enhanced T1",
-      "cortical infarction",
-      "right frontal",
-      "paired sequences",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:Kortikaler Infarkt mit Schrankenstoerung.jpg — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:Kortikaler_Infarkt_mit_Schrankenstoerung.jpg"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which two sequences are compared in this cortical infarction case?",
-        "options": [
-          "DWI and gadolinium-enhanced T1",
-          "MRCP and a bone-window CT",
-          "Normal hand and ankle radiographs"
-        ],
-        "answer": 0,
-        "explanation": "The left panel is DWI with a persistent cortical diffusion abnormality. The right panel is enhanced T1 with source-described cortical enhancement."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.158,
-        "y": 0.505,
-        "text": "Cortical DWI abnormality",
-        "side": "Right",
-        "structures": [
-          "Frontal lobe"
-        ]
-      },
-      {
-        "x": 0.622,
-        "y": 0.523,
-        "text": "Enhanced cortical region",
-        "side": "Right",
-        "note": "Source describes blood-brain-barrier disruption on gadolinium-enhanced T1.",
-        "structures": [
-          "Frontal lobe"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "nervous",
-        "skeletal"
-      ],
-      "regions": [
-        "head"
-      ],
-      "clip": [
-        2,
-        0.958
-      ],
-      "view": "inferior",
-      "slice_only": true,
-      "side": "Right"
-    },
-    "id": "mri_subacute_cortical_infarct",
-    "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
-    "summary": "Paired axial DWI and enhanced T1 images of a few-days-old cortical infarct.",
-    "text": "<p>The right superior frontal cortical lesion remains conspicuous on DWI, shown on the left. The paired gadolinium-enhanced T1 image shows a curving cortical enhancement pattern that the source relates to blood-brain-barrier disruption. Compare the same cortical region across both sequences.</p>",
-    "reading": [
-      "Locate the DWI abnormality on the left panel.",
-      "Find the corresponding enhanced cortical region on the right panel.",
-      "Keep sequence appearance distinct from the anatomical location."
-    ]
-  },
-  {
-    "title": "MRI shoulder — complete supraspinatus tear",
-    "modality": "MRI",
-    "region": "Upper limb",
-    "plane": "Oblique",
-    "finding": "Supraspinatus tear",
-    "tags": [
-      "MRI",
-      "sagittal oblique",
-      "T2 fat-suppressed",
-      "shoulder",
-      "supraspinatus",
-      "rotator cuff tear",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:2 MRI. Complete tear and rupture of the supraspinatus tendon. Wide transmural damage (2.4 x 2.4 cm)..jpg — image description and file license",
-        "url": "https://commons.wikimedia.org/wiki/File:2_MRI._Complete_tear_and_rupture_of_the_supraspinatus_tendon._Wide_transmural_damage_(2.4_x_2.4_cm)..jpg"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which rotator-cuff tendon is disrupted in the source description?",
-        "options": [
-          "Supraspinatus tendon",
-          "Achilles tendon",
-          "Patellar tendon"
-        ],
-        "answer": 0,
-        "explanation": "The source identifies a complete supraspinatus rupture. The retained measurement annotation belongs to the original scan; it is not a new measurement made in the app."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.486,
-        "y": 0.285,
-        "text": "Supraspinatus tear region",
-        "note": "Source describes a complete tear with approximately 2.4 by 2.4 cm involvement.",
-        "structures": [
-          "Supraspinatus muscle"
-        ]
-      },
-      {
-        "x": 0.555,
-        "y": 0.57,
-        "text": "Humeral head",
-        "structures": [
-          "Humerus"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "joints"
-      ],
-      "regions": [
-        "upper_limb_r",
-        "thorax"
-      ],
-      "clip": [
-        0,
-        0.22
-      ],
-      "view": "right",
-      "slice_only": true,
-      "frame_on": [
-        "Glenohumeral joint",
-        "Supraspinatus muscle"
-      ],
-      "side": "Right"
-    },
-    "id": "mri_supraspinatus_tear",
-    "atlas_note": "The shoulder image is oblique. This illustrative right-shoulder atlas section uses an approximate orthogonal plane; it is not registered to the scan and does not establish the patient's side.",
-    "summary": "Cropped sagittal oblique shoulder MRI with a complete supraspinatus tear.",
-    "text": "<p>The source describes a complete supraspinatus tendon tear above the humeral head. Identify the superior tendon-defect region and compare it with the normal tendon insertion anatomy in the atlas. The fluid-bright scan uses the source's sagittal T2 fat-suppressed protocol.</p>",
-    "reading": [
-      "Locate the humeral head.",
-      "Inspect the superior tendon-defect region.",
-      "Relate the supraspinatus tendon to its humeral insertion."
-    ]
-  },
-  {
-    "title": "MRI brain - four-hour infarction on ADC, paired with DWI",
-    "modality": "MRI",
-    "region": "Head and neck",
-    "plane": "Axial",
-    "finding": "Cerebral infarction",
-    "tags": [
-      "MRI",
-      "axial",
-      "ADC",
-      "DWI comparison",
-      "basal ganglia",
-      "cerebral infarction",
-      "same patient",
-      "paired sequence",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "Four-hour cerebral infarction - ADC image",
-        "url": "https://commons.wikimedia.org/wiki/File:Cerebral_infarction_after_4_hours_on_ADC_MRI.jpg"
-      },
-      {
-        "title": "The use of MRI apparent diffusion coefficient (ADC) in monitoring the development of brain infarction",
-        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3022840/"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "How does the infarcted region appear in this patient's paired DWI and ADC images?",
-        "options": [
-          "High DWI signal with low ADC",
-          "Low DWI signal with high ADC",
-          "Low DWI signal with low ADC"
-        ],
-        "answer": 0,
-        "explanation": "The source shows this same four-hour basal ganglia infarction case with a conspicuous bright region on DWI and a lower apparent diffusion coefficient in the corresponding region on the ADC map."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.67,
-        "y": 0.415,
-        "text": "Lower-ADC infarct region",
-        "structures": [
-          "Putamen",
-          "Globus pallidus"
-        ],
-        "note": "The source locates the infarction in the basal ganglia. Links show related anatomy; the low-resolution image does not support precise subnuclear localization."
-      }
-    ],
-    "scene": {
-      "systems": [
-        "nervous",
-        "skeletal"
-      ],
-      "regions": [
-        "head"
-      ],
-      "clip": [
-        2,
-        0.934
-      ],
-      "view": "inferior",
-      "slice_only": true
-    },
-    "id": "mri_hyperacute_basal_ganglia_infarct_adc",
-    "atlas_note": "The atlas shows related normal basal ganglia anatomy at an approximate axial level. It is not registered to either sequence. These low-resolution source images support qualitative signal comparison, not fine subnuclear localization.",
-    "summary": "Axial ADC map paired with the DWI image from the same four-hour infarction case.",
-    "text": "<p>This ADC map and the four-hour basal ganglia DWI case show the same patient and infarction. The infarcted region is bright on DWI and has a lower apparent diffusion coefficient here. Compare the corresponding basal ganglia region across the two images, keeping tissue location separate from sequence-dependent signal.</p>",
-    "reading": [
-      "Locate the lower-ADC region in the basal ganglia.",
-      "Compare it with the bright region in the paired four-hour DWI case.",
-      "Use the paired signal pattern rather than DWI brightness alone."
-    ],
-    "paired_case_id": "mri_hyperacute_basal_ganglia_infarct",
-    "patient_source_group": "shen_2011_four_hour_basal_ganglia_infarction"
-  },
-  {
-    "title": "MRI brain - Wernicke encephalopathy on FLAIR",
-    "modality": "MRI",
-    "region": "Head and neck",
-    "plane": "Axial",
-    "finding": "Wernicke encephalopathy",
-    "tags": [
-      "MRI",
-      "axial",
-      "FLAIR",
-      "thalami",
-      "Wernicke encephalopathy",
-      "pathology"
-    ],
-    "references": [
-      {
-        "title": "File:MRI FLAIR sequence Wernicke Encephalopathy.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:MRI_FLAIR_sequence_Wernicke_Encephalopathy.jpg"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which structures contain the abnormal signal identified by the creator?",
-        "options": [
-          "Mesial dorsal thalami",
-          "Renal pelvises",
-          "Supraspinatus tendons"
-        ],
-        "answer": 0,
-        "explanation": "The creator identifies abnormal hyperintense signal in the mesial dorsal thalami on axial FLAIR MRI in Wernicke encephalopathy."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.448,
-        "y": 0.553,
-        "text": "Medial thalamic signal abnormality",
-        "note": "Creator describes abnormal hyperintense signal in the mesial dorsal thalami. This marker shows the image region; no additional clinical details are inferred.",
-        "structures": [
-          "Thalamus"
-        ]
-      },
-      {
-        "x": 0.542,
-        "y": 0.55,
-        "text": "Opposite medial thalamic region",
-        "structures": [
-          "Thalamus"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "nervous",
-        "skeletal"
-      ],
-      "regions": [
-        "head"
-      ],
-      "clip": [
-        2,
-        0.927
-      ],
-      "view": "inferior",
-      "slice_only": true
-    },
-    "id": "mri_flair_wernicke_encephalopathy",
-    "atlas_note": "The atlas illustrates normal thalamic anatomy at an approximate axial level. It is not registered to this FLAIR image or its signal abnormality.",
-    "summary": "Axial FLAIR MRI with thalamic signal abnormality in Wernicke encephalopathy.",
-    "text": "<p>Compare the medial thalamic regions on either side of the midline. The source describes abnormal hyperintense signal in the mesial dorsal thalami in Wernicke encephalopathy. Locate the paired thalami in the central brain and relate them to the neighboring ventricular spaces.</p>",
-    "reading": [
-      "Orient the axial brain image.",
-      "Compare the medial thalamic signal on both sides.",
-      "Relate the paired thalami to the midline ventricular region."
-    ]
-  },
-  {
-    "title": "MRA brain - circle of Willis projection",
-    "modality": "MRI",
-    "region": "Head and neck",
-    "plane": "Projection",
-    "finding": "Cerebral arterial anatomy",
-    "tags": [
-      "MRI",
-      "MRA",
-      "TOF",
-      "maximum-intensity projection",
-      "circle of Willis",
-      "cerebral arteries",
-      "anatomy"
-    ],
-    "references": [
-      {
-        "title": "File:Mra-mip.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Mra-mip.jpg"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "How was the vessel-focused image presented according to its creator?",
-        "options": [
-          "Maximum-intensity projection of time-of-flight MRA",
-          "A single sagittal CT bone section",
-          "A plain abdominal radiograph"
-        ],
-        "answer": 0,
-        "explanation": "The source describes a maximum-intensity projection of time-of-flight MR angiography acquired at 4 Tesla and showing the circle of Willis."
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.52,
-        "y": 0.289,
-        "text": "Anterior cerebral arterial region",
-        "structures": [
-          "Anterior cerebral artery"
-        ]
-      },
-      {
-        "x": 0.705,
-        "y": 0.358,
-        "text": "Middle cerebral arterial region",
-        "note": "Related arterial anatomy; projection orientation and laterality are not independently assigned.",
-        "structures": [
-          "Middle cerebral artery (M1-segment)"
-        ]
-      }
-    ],
-    "scene": {
-      "systems": [
-        "cardiovascular"
-      ],
-      "regions": [
-        "head"
-      ],
-      "view": "inferior",
-      "slice_only": false,
-      "projection_reference": true
-    },
-    "id": "mri_tof_mra_circle_of_willis",
-    "atlas_note": "The source is an MR angiography projection. The atlas shows related cerebral arteries in three dimensions, not a matching axial slice or a patient-registered projection.",
-    "summary": "Time-of-flight MR angiography projection showing cerebral arterial anatomy.",
-    "text": "<p>Follow the bright arterial branches through the central circle-of-Willis region. The anterior cerebral arteries course toward the anterior midline, while the middle cerebral arteries extend laterally. This maximum-intensity projection combines vascular information through a volume, so vessels from different depths may overlap.</p>",
-    "reading": [
-      "Locate the central arterial junctions.",
-      "Follow anterior branches toward the midline and middle cerebral branches laterally.",
-      "Recognize that projection overlap differs from a single anatomical slice."
-    ]
+  "id": "ct_appendicitis",
+  "atlas_note": "The abdominal reference retains body-wall, bowel and vertebral context. A separate normal-versus-inflamed schematic teaches published appendicitis features; it is not registered to this CT and does not establish this patient's appendix boundary.",
+  "summary": "Axial CT in an appendicitis case, with normal-versus-inflamed appendix comparison.",
+  "text": "<p>The appendix is a blind-ending tube connected to the proximal colon. Published CT signs of appendicitis include an enlarged, thick-walled appendix and inflammatory change in the surrounding fat. Compare these general features in the normal-versus-inflamed teaching schematic. The creator identifies this original CT as appendicitis, but its exact appendix boundary has not been localized.</p>",
+  "reading": [
+   "Use the abdominal wall, bowel, psoas muscles and vertebral body to orient the axial image.",
+   "Compare normal and inflamed appendix wall thickness in the teaching schematic.",
+   "Compare the general inflammatory changes around the appendix in the teaching view; the linked published review contains annotated clinical examples."
+  ],
+  "illustration": {
+   "file": "appendicitis-signs.svg",
+   "title": "General appendicitis signs",
+   "kind": "original pedagogical schematic",
+   "patient_registered": false,
+   "scale": "Illustrative shapes and teaching magnification; no patient measurements",
+   "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2766912/",
+   "license": "CC0-1.0",
+   "author": "Anatomy Explorer radiology teaching draft"
   }
+ },
+ {
+  "title": "CT kidneys — bilateral renal calculi, coronal",
+  "modality": "CT",
+  "region": "Abdomen",
+  "plane": "Coronal",
+  "finding": "Renal calculi",
+  "tags": [
+   "CT",
+   "coronal",
+   "kidney",
+   "renal calculi",
+   "noncontrast",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:Non-contrast CT of multiple bilateral renal calculi.jpg — creator's description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:Non-contrast_CT_of_multiple_bilateral_renal_calculi.jpg"
+   },
+   {
+    "title": "Computed Tomography in Abdominal Imaging: How to Gain Maximum Diagnostic Information at the Lowest Radiation Dose, in Selected Topics on Computed Tomography (2013)",
+    "url": "https://doi.org/10.5772/55903"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Where are the two arrowed calculi in this cropped coronal image?",
+    "options": [
+     "Within the kidneys",
+     "Within the urinary bladder",
+     "Within the gallbladder"
+    ],
+    "answer": 0,
+    "explanation": "The source depicts multiple bilateral renal calculi. The coronal panel shows bright calculi at the arrow tips within both kidneys; this differs from the separate proximal-ureteric-stone case."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.31,
+    "y": 0.364,
+    "text": "Right renal calculus",
+    "structures": [
+     "Right renal calculus",
+     "Kidney"
+    ],
+    "side": "Right",
+    "note": "Coordinates point to the creator-marked bright renal focus; the 3D stone is an illustrative blob placed in the right kidney, not the exact calculus shape."
+   },
+   {
+    "x": 0.705,
+    "y": 0.312,
+    "text": "Left renal calculus",
+    "structures": [
+     "Left renal calculus",
+     "Kidney"
+    ],
+    "side": "Left",
+    "note": "Coordinates point to the creator-marked bright renal focus in the other kidney; the 3D stone is an illustrative blob placed in the left kidney."
+   },
+   {
+    "x": 0.5,
+    "y": 0.42,
+    "text": "Lumbar vertebral body",
+    "structures": [
+     "Vertebra L1",
+     "Vertebra L2"
+    ],
+    "note": "The bright bone in the midline; the kidneys sit either side of it."
+   },
+   {
+    "x": 0.37,
+    "y": 0.46,
+    "text": "Right psoas major",
+    "structures": [
+     "Psoas major"
+    ],
+    "side": "Right",
+    "note": "Grey muscle lying beside the vertebral body, below the right kidney."
+   },
+   {
+    "x": 0.62,
+    "y": 0.42,
+    "text": "Left psoas major",
+    "structures": [
+     "Psoas major"
+    ],
+    "side": "Left",
+    "note": "Grey muscle lying beside the vertebral body, below the left kidney."
+   },
+   {
+    "x": 0.17,
+    "y": 0.62,
+    "text": "Right iliac bone",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Right",
+    "note": "Bright iliac wing at the edge of the field."
+   },
+   {
+    "x": 0.8,
+    "y": 0.62,
+    "text": "Left iliac bone",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Left",
+    "note": "Bright iliac wing at the edge of the field."
+   },
+   {
+    "x": 0.5,
+    "y": 0.9,
+    "text": "Urinary bladder",
+    "structures": [
+     "Urinary bladder"
+    ],
+    "note": "Rounded fluid-filled structure in the lower midline of the pelvis."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "abdomen",
+    "back"
+   ],
+   "clip": [
+    1,
+    0.46
+   ],
+   "view": "anterior",
+   "show": [
+    "Right renal calculus",
+    "Left renal calculus"
+   ]
+  },
+  "id": "ct_bilateral_renal_calculi",
+  "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
+  "summary": "Coronal noncontrast CT with creator-marked calculi in both kidneys.",
+  "text": "<p>This is the coronal panel of the source's axial-and-coronal comparison. The arrows mark bright calculi in both kidneys. Compare their renal location with the separate proximal-ureteric-stone case: the kidneys and ureters are neighboring parts of the urinary tract, but they are distinct anatomical locations.</p>",
+  "reading": [
+   "Identify both kidneys on either side of the lumbar spine.",
+   "Find the bright foci marked by the original arrows.",
+   "Relate renal calculi to the kidney rather than assigning them to the ureter or bladder."
+  ]
+ },
+ {
+  "title": "CT head — bilateral subdural bleeding",
+  "modality": "CT",
+  "region": "Head and neck",
+  "plane": "Axial",
+  "finding": "Subdural bleeding",
+  "tags": [
+   "CT",
+   "axial",
+   "head",
+   "subdural",
+   "intracranial hemorrhage",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:BilateralSubDur.png — creator's description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:BilateralSubDur.png"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "What is the source-described distribution of bleeding in this case?",
+    "options": [
+     "Bilateral subdural collections",
+     "A single intraparenchymal tumor",
+     "A normal ventricular system only"
+    ],
+    "answer": 0,
+    "explanation": "James Heilman identifies this image as a bilateral subdural bleed. The collections lie peripherally rather than being normal atlas structures or a measured patient-specific atlas match."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.75,
+    "y": 0.19,
+    "text": "Subdural collection",
+    "structures": [
+     "Left subdural haematoma (convexity)"
+    ],
+    "side": "Left",
+    "note": "Peripheral collection identified as blood by the source. In the 3D reference it is an illustrative subdural haematoma layer over the left convexity, not a measured match to this patient."
+   },
+   {
+    "x": 0.485,
+    "y": 0.16,
+    "text": "Falx cerebri",
+    "structures": [
+     "Falx cerebri"
+    ],
+    "note": "Midline dural landmark, separate from the source-described subdural collections."
+   },
+   {
+    "x": 0.21,
+    "y": 0.2,
+    "text": "Right subdural collection",
+    "structures": [
+     "Right subdural haematoma (convexity)"
+    ],
+    "side": "Right",
+    "note": "Thinner, lighter crescent along the right frontoparietal convexity (image left), also a subdural collection."
+   },
+   {
+    "x": 0.347,
+    "y": 0.611,
+    "text": "Right lateral ventricle (atrium)",
+    "structures": [
+     "Lateral ventricle"
+    ],
+    "side": "Right",
+    "note": "Atrium of the right lateral ventricle, with a calcified choroid plexus."
+   },
+   {
+    "x": 0.639,
+    "y": 0.65,
+    "text": "Left lateral ventricle (atrium)",
+    "structures": [
+     "Lateral ventricle"
+    ],
+    "side": "Left",
+    "note": "Atrium of the left lateral ventricle, with a calcified choroid plexus."
+   },
+   {
+    "x": 0.492,
+    "y": 0.572,
+    "text": "Pineal gland",
+    "structures": [
+     "Pineal gland"
+    ],
+    "note": "Midline calcification behind the third ventricle, typically the pineal gland; a normal midline landmark."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "head"
+   ],
+   "clip": [
+    2,
+    0.929
+   ],
+   "view": "inferior",
+   "slice_only": true,
+   "show": [
+    "Left subdural haematoma (convexity)",
+    "Right subdural haematoma (convexity)",
+    "Falx cerebri",
+    "Lateral ventricle",
+    "Third ventricle",
+    "Choroid plexus",
+    "Pineal gland",
+    "Thalamus",
+    "Caudate nucleus",
+    "Putamen"
+   ],
+   "frame_on": [
+    "Left subdural haematoma (convexity)",
+    "Right subdural haematoma (convexity)"
+   ]
+  },
+  "id": "ct_bilateral_subdural",
+  "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
+  "summary": "Axial CT of bilateral subdural bleeding.",
+  "text": "<p>Examine the peripheral subdural collections and use the falx as a midline anatomical landmark. Compare the contours along both cerebral surfaces with the inner skull margin.</p>",
+  "reading": [
+   "Find the midline falx and compare the two cerebral sides.",
+   "Inspect the collections between the cerebral surface and skull.",
+   "Relate the collections to the extra-axial space."
+  ]
+ },
+ {
+  "title": "CT urinary tract — obstructing right proximal ureteric stone",
+  "modality": "CT",
+  "region": "Abdomen",
+  "plane": "Axial",
+  "finding": "Ureteric stone",
+  "tags": [
+   "CT",
+   "axial",
+   "urinary tract",
+   "ureteric stone",
+   "hydronephrosis",
+   "noncontrast",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:KidneyStone.JPG — creator's description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:KidneyStone.JPG"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which urinary-tract segment contains the arrowed calculus according to the source?",
+    "options": [
+     "Right proximal ureter",
+     "Left distal ureter",
+     "Urinary bladder"
+    ],
+    "answer": 0,
+    "explanation": "The creator identifies a right proximal ureteric stone producing mild obstruction and hydronephrosis on noncontrast CT. Stone size and clinical symptoms are not documented here."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.407,
+    "y": 0.456,
+    "text": "Right proximal ureteric stone",
+    "structures": [
+     "Right proximal ureteric stone",
+     "Ureter"
+    ],
+    "side": "Right",
+    "note": "Bright focus at the creator's arrow tip. The source describes mild obstruction and hydronephrosis."
+   },
+   {
+    "x": 0.293,
+    "y": 0.512,
+    "text": "Right kidney",
+    "structures": [
+     "Kidney"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.456,
+    "y": 0.53,
+    "text": "Inferior vena cava",
+    "structures": [
+     "Inferior vena cava (abdominal part)"
+    ],
+    "note": "Lies to the patient's right of the aorta, in front of the vertebral body."
+   },
+   {
+    "x": 0.511,
+    "y": 0.53,
+    "text": "Abdominal aorta",
+    "structures": [
+     "Abdominal aorta"
+    ],
+    "note": "Round vessel just to the patient's left of the midline, in front of the vertebral body."
+   },
+   {
+    "x": 0.5,
+    "y": 0.63,
+    "text": "Vertebral body",
+    "structures": [
+     "Vertebra L1"
+    ],
+    "note": "Bright bone at the midline; the spinal canal lies behind it."
+   },
+   {
+    "x": 0.35,
+    "y": 0.8,
+    "text": "Erector spinae (right)",
+    "structures": [
+     "Iliocostalis lumborum muscle"
+    ],
+    "side": "Right",
+    "note": "Posterior paraspinal muscle lateral to the spinous process."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "abdomen",
+    "back"
+   ],
+   "clip": [
+    2,
+    0.62
+   ],
+   "view": "inferior",
+   "show": [
+    "Right proximal ureteric stone",
+    "Kidney",
+    "Ureter",
+    "Inferior vena cava (abdominal part)",
+    "Abdominal aorta",
+    "Vertebra L1",
+    "Iliocostalis lumborum muscle"
+   ],
+   "slice_only": true
+  },
+  "id": "ct_obstructing_ureteric_stone",
+  "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
+  "summary": "Noncontrast axial CT with a right proximal ureteric stone and source-described mild obstruction.",
+  "text": "<p>The creator's arrow marks a right proximal ureteric stone. The source also describes mild obstruction and hydronephrosis. Locate the right kidney, then relate the adjacent stone to the proximal ureter. The photographed scan has a warm cast and slight perspective distortion, so this teaching image should not be used for precise stone measurements.</p>",
+  "reading": [
+   "Locate the bright focus at the black arrow tip.",
+   "Relate the focus to the right kidney and proximal ureter.",
+   "Compare this obstructing ureteric-stone case with the bilateral renal-calculi case."
+  ]
+ },
+ {
+  "title": "CT pulmonary arteries — saddle embolus",
+  "modality": "CT",
+  "region": "Thorax",
+  "plane": "Axial",
+  "finding": "Pulmonary embolism",
+  "tags": [
+   "CT",
+   "axial",
+   "CTPA",
+   "pulmonary embolism",
+   "pulmonary arteries",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:Pulmonary embolism CTPA.JPEG — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:Pulmonary_embolism_CTPA.JPEG"
+   },
+   {
+    "title": "Myat and Ahsan (2007), Percutaneous mechanical thrombectomy for the treatment of acute massive pulmonary embolism: case report, Figure 1, DOI 10.1186/1477-9560-5-20",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2222237/"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which arterial circulation contains the source-described saddle embolus?",
+    "options": [
+     "Pulmonary arterial circulation",
+     "Portal venous circulation",
+     "Renal collecting system"
+    ],
+    "answer": 0,
+    "explanation": "The CTPA source describes an embolus extending across the pulmonary arterial bifurcation and into lobar branches on both sides."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.565,
+    "y": 0.478,
+    "text": "Pulmonary arterial filling defect",
+    "structures": [
+     "Left pulmonary artery",
+     "Saddle pulmonary embolus"
+    ],
+    "note": "Source-confirmed embolus; the atlas depicts the related normal artery."
+   },
+   {
+    "x": 0.551,
+    "y": 0.655,
+    "text": "Descending thoracic aorta",
+    "structures": [
+     "Thoracic aorta"
+    ]
+   },
+   {
+    "x": 0.482,
+    "y": 0.349,
+    "text": "Ascending aorta",
+    "structures": [
+     "Ascending aorta"
+    ]
+   },
+   {
+    "x": 0.415,
+    "y": 0.41,
+    "text": "Superior vena cava",
+    "structures": [
+     "Superior vena cava"
+    ]
+   },
+   {
+    "x": 0.48,
+    "y": 0.14,
+    "text": "Body of sternum",
+    "structures": [
+     "Body of sternum"
+    ]
+   },
+   {
+    "x": 0.46,
+    "y": 0.68,
+    "text": "Thoracic vertebra (T6)",
+    "structures": [
+     "Vertebra T6"
+    ]
+   }
+  ],
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints",
+    "muscular",
+    "cardiovascular",
+    "lymphatic",
+    "nervous",
+    "visceral",
+    "fascia",
+    "regions"
+   ],
+   "regions": [
+    "thorax",
+    "back"
+   ],
+   "show": [
+    "Saddle pulmonary embolus",
+    "Left lobar pulmonary embolus",
+    "Right lobar pulmonary embolus",
+    "Left pulmonary artery",
+    "Thoracic aorta",
+    "Ascending aorta",
+    "Superior vena cava",
+    "Body of sternum",
+    "Vertebra T6"
+   ],
+   "clip": [
+    2,
+    0.767
+   ],
+   "view": "inferior"
+  },
+  "id": "ct_saddle_pulmonary_embolism",
+  "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
+  "summary": "Axial CT pulmonary angiography with a source-described saddle embolus.",
+  "text": "<p>A saddle embolus occupies the pulmonary arterial bifurcation and extends into branches on both sides. Look for the intraluminal filling defect within the contrast-enhanced pulmonary artery. The descending thoracic aorta provides a separate posterior vascular landmark.</p>",
+  "reading": [
+   "Identify the contrast-enhanced pulmonary arteries.",
+   "Find the intraluminal filling defect.",
+   "Distinguish the pulmonary arterial circulation from the descending aorta."
+  ]
+ },
+ {
+  "title": "CT thoracic spine — T9–T10 fractures",
+  "modality": "CT",
+  "region": "Spine",
+  "plane": "Sagittal",
+  "finding": "Chance fracture",
+  "tags": [
+   "CT",
+   "sagittal",
+   "thoracic spine",
+   "Chance fracture",
+   "T9",
+   "T10",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:PchancefracCT.png — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:PchancefracCT.png"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which levels are injured in the creator's description?",
+    "options": [
+     "T9 and T10",
+     "L4 and L5",
+     "C1 and C2"
+    ],
+    "answer": 0,
+    "explanation": "The source describes a T10 Chance fracture together with a T9 fracture after a seatbelt injury in a motor vehicle collision."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.49,
+    "y": 0.436,
+    "text": "T9–T10 fracture region",
+    "structures": [
+     "Vertebra T9",
+     "Vertebra T10",
+     "T9 vertebral body fracture",
+     "T10 Chance fracture"
+    ],
+    "note": "Creator describes T10 Chance fracture and an associated T9 fracture."
+   },
+   {
+    "x": 0.5,
+    "y": 0.57,
+    "text": "T10 fracture line",
+    "structures": [
+     "T10 Chance fracture"
+    ],
+    "note": "Horizontal fracture line through the T10 body and posterior elements (Chance pattern, seatbelt flexion-distraction)."
+   },
+   {
+    "x": 0.5,
+    "y": 0.39,
+    "text": "Intervertebral disc",
+    "structures": [
+     "Intervertebral disc T9-T10"
+    ],
+    "note": "Grey disc band between the bright endplates of the adjacent bodies."
+   },
+   {
+    "x": 0.67,
+    "y": 0.4,
+    "text": "Spinal cord in the canal",
+    "structures": [
+     "White matter of spinal cord",
+     "Spinal dura"
+    ],
+    "note": "The canal lies behind the vertebral bodies; the cord and its dural sac fill it. The atlas shows related cord, not a registered patient canal boundary."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "thorax",
+    "back"
+   ],
+   "show": [
+    "T10 Chance fracture",
+    "T9 vertebral body fracture",
+    "Vertebra T9",
+    "Vertebra T10",
+    "Intervertebral disc T9-T10",
+    "White matter of spinal cord",
+    "Spinal dura"
+   ],
+   "clip": [
+    0,
+    0.5
+   ],
+   "view": "left",
+   "frame_on": [
+    "Vertebra T8",
+    "Vertebra T9",
+    "Vertebra T10",
+    "Vertebra T11"
+   ]
+  },
+  "id": "ct_thoracic_chance_fracture",
+  "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
+  "summary": "Sagittal CT of source-described T10 Chance and T9 fractures.",
+  "text": "<p>The circled region contains the thoracic vertebral injuries described as a T10 Chance fracture and a T9 fracture after a seatbelt injury. Trace the vertebral bodies, disc spaces and posterior elements through the sagittal section. Compare their disrupted contours with the adjacent vertebral levels.</p>",
+  "reading": [
+   "Orient anterior vertebral bodies against posterior elements.",
+   "Inspect the circled fracture region.",
+   "Compare the injured region with adjacent levels."
+  ]
+ },
+ {
+  "title": "CT aorta — descending Stanford type B dissection",
+  "modality": "CT",
+  "region": "Thorax",
+  "plane": "Axial",
+  "finding": "Aortic dissection",
+  "tags": [
+   "CT",
+   "axial",
+   "contrast",
+   "aortic dissection",
+   "Stanford B",
+   "thorax",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:Descending (Type B Stanford) Aortic Dissection.PNG — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:Descending_(Type_B_Stanford)_Aortic_Dissection.PNG"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which aortic segment is affected in this source-described Stanford type B case?",
+    "options": [
+     "Descending thoracic aorta",
+     "Pulmonary trunk",
+     "Common bile duct"
+    ],
+    "answer": 0,
+    "explanation": "The creator identifies the descending aorta as the site of this traumatic type B dissection."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.591,
+    "y": 0.652,
+    "text": "Dissected descending aorta",
+    "structures": [
+     "Thoracic aorta",
+     "Aortic dissection flap"
+    ],
+    "note": "Original circle marks the source-described type B dissection."
+   },
+   {
+    "x": 0.538,
+    "y": 0.412,
+    "text": "Heart",
+    "structures": [
+     "Heart"
+    ]
+   },
+   {
+    "x": 0.505,
+    "y": 0.67,
+    "text": "Vertebral body",
+    "structures": [
+     "Vertebra T7"
+    ],
+    "note": "Vertebral body on the midline, with the descending aorta on its left (image right)."
+   },
+   {
+    "x": 0.2,
+    "y": 0.5,
+    "text": "Right lung",
+    "structures": [
+     "Inferior lobe of right lung"
+    ],
+    "side": "Right",
+    "note": "Air-filled lung on the patient's right, shown on the image left."
+   },
+   {
+    "x": 0.8,
+    "y": 0.5,
+    "text": "Left lung",
+    "structures": [
+     "Inferior lobe of left lung"
+    ],
+    "side": "Left",
+    "note": "Air-filled lung on the patient's left, shown on the image right."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "thorax",
+    "back"
+   ],
+   "clip": [
+    2,
+    0.738
+   ],
+   "view": "inferior",
+   "show": [
+    "Aortic dissection flap"
+   ]
+  },
+  "id": "ct_type_b_aortic_dissection",
+  "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
+  "summary": "Contrast-enhanced axial CT of a descending aortic dissection.",
+  "text": "<p>The circled descending thoracic aorta contains the flap in the source-described traumatic Stanford type B dissection. Locate it behind the heart and beside the vertebral body. Follow the aortic lumen separately from the surrounding lung and cardiac chambers.</p>",
+  "reading": [
+   "Locate the descending thoracic aorta.",
+   "Inspect the circled lumen for its dividing flap.",
+   "Relate the aorta to the heart and vertebral body."
+  ]
+ },
+ {
+  "title": "MRI cervical cord — transverse myelitis comparison",
+  "modality": "MRI",
+  "region": "Head and neck",
+  "plane": "Axial",
+  "finding": "Transverse myelitis",
+  "tags": [
+   "MRI",
+   "axial",
+   "T2",
+   "cervical spinal cord",
+   "transverse myelitis",
+   "comparison",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:Transverse Myelitis.PNG — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:Transverse_Myelitis.PNG"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "What differs in the red-circled cord compared with the green-circled comparison?",
+    "options": [
+     "Increased central cord T2 signal",
+     "An acetabular fracture",
+     "A ureteric stone"
+    ],
+    "answer": 0,
+    "explanation": "The creator identifies increased T2 signal in the central cervical cord in the transverse myelitis image."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.493,
+    "y": 0.22,
+    "text": "Normal-signal cord comparison",
+    "structures": [
+     "White matter of spinal cord"
+    ]
+   },
+   {
+    "x": 0.489,
+    "y": 0.72,
+    "text": "Increased central cord T2 signal",
+    "structures": [
+     "Transverse myelitis central cord hyperintensity",
+     "White matter of spinal cord"
+    ],
+    "note": "Abnormal signal in the source-described transverse myelitis example."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "neck",
+    "back"
+   ],
+   "show": [
+    "Transverse myelitis central cord hyperintensity"
+   ],
+   "clip": [
+    2,
+    0.858
+   ],
+   "view": "inferior"
+  },
+  "id": "mri_cervical_transverse_myelitis",
+  "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
+  "summary": "Axial T2 MRI comparing normal cord signal with central cord hyperintensity.",
+  "text": "<p>Compare the spinal cord inside the green and red circles. The green-marked image shows normal cord signal; the red-marked image shows increased central T2 signal in transverse myelitis. The cord lies behind the vertebral body, within the spinal canal.</p>",
+  "reading": [
+   "Locate the spinal cord behind the vertebral body.",
+   "Compare central cord signal in the two images.",
+   "Separate cord signal from the surrounding bright fluid."
+  ]
+ },
+ {
+  "title": "MRCP — gallbladder and common bile duct stones",
+  "modality": "MRI",
+  "region": "Abdomen",
+  "plane": "Projection",
+  "finding": "Choledocholithiasis",
+  "tags": [
+   "MRI",
+   "MRCP",
+   "projection",
+   "biliary tract",
+   "choledocholithiasis",
+   "gallstones",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:MRCP Choledocholithiasis.jpg — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:MRCP_Choledocholithiasis.jpg"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which two locations contain stones according to the marked source?",
+    "options": [
+     "Gallbladder and common bile duct",
+     "Both femoral heads",
+     "Both cerebral ventricles"
+    ],
+    "answer": 0,
+    "explanation": "The source labels a as the stone-containing gallbladder and b as common-bile-duct stones; c marks the pancreatic duct."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.251,
+    "y": 0.297,
+    "text": "Gallbladder stones",
+    "structures": [
+     "Gallbladder",
+     "Gallbladder stones"
+    ],
+    "note": "Filling defects (stones) within the fluid-filled gallbladder on MRCP."
+   },
+   {
+    "x": 0.387,
+    "y": 0.712,
+    "text": "Common bile duct stones",
+    "structures": [
+     "Bile duct",
+     "Common bile duct stone"
+    ],
+    "note": "Filling defect (stone) in the distal common bile duct, obstructing the fluid column."
+   },
+   {
+    "x": 0.574,
+    "y": 0.5,
+    "text": "Pancreatic duct",
+    "structures": [
+     "Pancreatic duct"
+    ],
+    "note": "Normal pancreatic duct, distinct from the common bile duct."
+   },
+   {
+    "x": 0.29,
+    "y": 0.8,
+    "text": "Duodenum (fluid)",
+    "structures": [
+     "Duodenum"
+    ],
+    "note": "Bright duodenal fluid in the duodenum, marked d on the source image."
+   },
+   {
+    "x": 0.36,
+    "y": 0.25,
+    "text": "Common hepatic duct",
+    "structures": [
+     "Bile duct"
+    ],
+    "note": "Confluence of the hepatic ducts forming the common hepatic duct above the cystic duct junction."
+   }
+  ],
+  "scene": {
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Gallbladder",
+    "Bile duct",
+    "Pancreatic duct",
+    "Duodenum",
+    "Gallbladder stones",
+    "Common bile duct stone"
+   ],
+   "show": [
+    "Gallbladder stones",
+    "Common bile duct stone"
+   ],
+   "isolate": true,
+   "view": "anterior"
+  },
+  "id": "mri_choledocholithiasis",
+  "atlas_note": "MRCP projects the fluid-filled duct system. The atlas shows related normal ducts and gallbladder; it is not a matching coronal slice or a patient-registered projection.",
+  "summary": "MRCP projection with source-marked gallbladder and common-bile-duct stones.",
+  "text": "<p>The gallbladder and bile duct are bright fluid-filled structures in this MRCP projection. The source marks stones in the gallbladder and common bile duct, alongside the pancreatic duct and duodenal fluid. Follow the biliary tree as a connected system, while keeping each stone's location distinct.</p>",
+  "reading": [
+   "Find the gallbladder marked a.",
+   "Follow the bile duct to the stones marked b.",
+   "Distinguish the pancreatic duct marked c from the bile duct."
+  ]
+ },
+ {
+  "title": "MRI heart — dilated cardiomyopathy and normal comparison",
+  "modality": "MRI",
+  "region": "Thorax",
+  "plane": "Oblique",
+  "finding": "Dilated cardiomyopathy",
+  "tags": [
+   "MRI",
+   "oblique cardiac",
+   "four-chamber",
+   "dilated cardiomyopathy",
+   "comparison",
+   "normal",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:Cardiomr dcm.jpg — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:Cardiomr_dcm.jpg"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which source-described condition is shown in the left image?",
+    "options": [
+     "Dilated cardiomyopathy",
+     "Bilateral renal calculi",
+     "Transverse myelitis"
+    ],
+    "answer": 0,
+    "explanation": "The creator identifies dilated cardiomyopathy on the left and a normal heart on the right. No ejection fraction or functional measurement is supplied."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.294,
+    "y": 0.543,
+    "text": "Dilated cardiomyopathy example",
+    "structures": [
+     "Dilated left ventricle"
+    ],
+    "note": "the enlarged, rounded left ventricle; the image shows chamber size only, with no ejection fraction"
+   },
+   {
+    "x": 0.836,
+    "y": 0.385,
+    "text": "Normal cardiac comparison",
+    "structures": [
+     "Left ventricle"
+    ],
+    "note": "the normal panel: the chamber here is of normal size; the 3D finding shows the dilated left ventricle from the left image"
+   },
+   {
+    "x": 0.17,
+    "y": 0.46,
+    "text": "Right atrium",
+    "structures": [
+     "Right atrium"
+    ],
+    "side": "Right",
+    "note": "patient's right: the smaller chamber on the image left"
+   },
+   {
+    "x": 0.35,
+    "y": 0.3,
+    "text": "Left ventricular cavity",
+    "structures": [
+     "Left ventricle"
+    ],
+    "note": "the cavity of the left ventricle, which is enlarged in the left image"
+   }
+  ],
+  "scene": {
+   "regions": [
+    "thorax"
+   ],
+   "clip": [
+    1,
+    0.6
+   ],
+   "view": "anterior",
+   "show": [
+    "Dilated left ventricle"
+   ],
+   "frame_on": [
+    "Left ventricle",
+    "Right ventricle",
+    "Left atrium",
+    "Right atrium"
+   ]
+  },
+  "id": "mri_dilated_cardiomyopathy_comparison",
+  "atlas_note": "The cardiac images are oblique. The atlas section is an approximate orthogonal normal-anatomy reference, not a registered four-chamber reconstruction of either scan.",
+  "summary": "Cardiac MRI comparing source-described dilated cardiomyopathy with a normal heart.",
+  "text": "<p>Compare the cardiac anatomy in the two oblique views. The left image shows the source's dilated cardiomyopathy example, while the right image provides its normal comparison. Identify the chambers and their relationships without treating static image size as a measurement of ventricular function.</p>",
+  "reading": [
+   "Identify the two cardiac examples.",
+   "Compare chamber shape and anatomical relationships.",
+   "Keep morphology separate from unreported functional measurements."
+  ]
+ },
+ {
+  "title": "MRI brain — four-hour basal ganglia infarction on DWI",
+  "modality": "MRI",
+  "region": "Head and neck",
+  "plane": "Axial",
+  "finding": "Cerebral infarction",
+  "tags": [
+   "MRI",
+   "axial",
+   "DWI",
+   "basal ganglia",
+   "cerebral infarction",
+   "pathology",
+   "same-case ADC companion"
+  ],
+  "references": [
+   {
+    "title": "File:Cerebral infarction after 4 hours on DWI MRI.jpg — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:Cerebral_infarction_after_4_hours_on_DWI_MRI.jpg"
+   },
+   {
+    "title": "Shen et al. (2011), The use of MRI apparent diffusion coefficient (ADC) in monitoring the development of brain infarction, DOI 10.1186/1471-2342-11-2",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3022840/"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "How does the infarcted region appear on the DWI image in this four-hour source case?",
+    "options": [
+     "Brighter than the surrounding brain",
+     "As a renal calculus",
+     "As a fractured bone"
+    ],
+    "answer": 0,
+    "explanation": "The source comparison shows a conspicuous DWI abnormality and lower ADC in the infarcted basal ganglia, while conventional T2 did not reveal the region clearly."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.674,
+    "y": 0.422,
+    "text": "Bright DWI abnormality",
+    "structures": [
+     "Left basal ganglia infarct"
+    ],
+    "side": "Left",
+    "note": "Restricted diffusion (bright on DWI) in the left basal ganglia: the hyperacute infarct, four hours after onset. It lies over the lentiform nucleus and adjacent deep grey matter, and corresponds to the lower-ADC region in the paired ADC case."
+   },
+   {
+    "x": 0.33,
+    "y": 0.43,
+    "text": "Right putamen (normal)",
+    "structures": [
+     "Putamen"
+    ],
+    "side": "Right",
+    "note": "Normal right lentiform nucleus, the unaffected comparison side."
+   },
+   {
+    "x": 0.63,
+    "y": 0.6,
+    "text": "Left lateral ventricle",
+    "structures": [
+     "Lateral ventricle"
+    ],
+    "side": "Left",
+    "note": "Left lateral ventricle (temporal horn region), a dark CSF space on the scan."
+   },
+   {
+    "x": 0.33,
+    "y": 0.57,
+    "text": "Right lateral ventricle",
+    "structures": [
+     "Lateral ventricle"
+    ],
+    "side": "Right",
+    "note": "Right lateral ventricle, the normal side for comparison."
+   }
+  ],
+  "scene": {
+   "systems": [
+    "nervous"
+   ],
+   "regions": [
+    "head"
+   ],
+   "clip": [
+    2,
+    0.934
+   ],
+   "view": "inferior",
+   "show": [
+    "Putamen",
+    "Globus pallidus",
+    "Caudate nucleus",
+    "Lateral ventricle",
+    "Left basal ganglia infarct"
+   ],
+   "frame_on": [
+    "Putamen",
+    "Globus pallidus",
+    "Caudate nucleus",
+    "Lateral ventricle",
+    "Left basal ganglia infarct"
+   ],
+   "xray": false
+  },
+  "id": "mri_hyperacute_basal_ganglia_infarct",
+  "atlas_note": "The focused normal deep-gray/ventricular reference supplies anatomical context only. The pathological signal correspondence is shown by the paired same-patient DWI and ADC source images, not by a normal Putamen or Globus pallidus mesh.",
+  "summary": "Axial DWI in the source's four-hour basal ganglia infarction case.",
+  "text": "<p>The infarcted basal ganglia region is bright on this diffusion-weighted image. The paired four-hour ADC case shows the same patient and infarction, with a lower apparent diffusion coefficient in the corresponding region. The conventional T2 comparison did not show the infarction clearly.</p>",
+  "reading": [
+   "Identify the bright regional DWI abnormality.",
+   "Relate its location to the basal ganglia.",
+   "Compare it with the lower-ADC region in the paired four-hour ADC case."
+  ],
+  "paired_case_id": "mri_hyperacute_basal_ganglia_infarct_adc",
+  "patient_source_group": "shen_2011_four_hour_basal_ganglia_infarction",
+  "illustration": {
+   "file": "dwi-adc-territory.svg",
+   "title": "DWI, paired ADC and deep cerebral anatomy",
+   "kind": "original pedagogical schematic",
+   "patient_registered": false,
+   "scale": "Illustrative shapes and teaching magnification; no patient measurements",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cerebral_infarction_after_4_hours_on_DWI_MRI.jpg",
+   "license": "CC0-1.0",
+   "author": "Anatomy Explorer radiology teaching draft"
+  }
+ },
+ {
+  "title": "MRI lumbar spine — L4–L5 disc herniation",
+  "modality": "MRI",
+  "region": "Spine",
+  "plane": "Sagittal",
+  "finding": "Disc herniation",
+  "tags": [
+   "MRI",
+   "sagittal",
+   "lumbar spine",
+   "L4-L5",
+   "disc herniation",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:Hernie discale L4 L5.png — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:Hernie_discale_L4_L5.png"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which level does the report associate with the left L5-root conflict?",
+    "options": [
+     "L4–L5",
+     "L5–S1",
+     "T9–T10"
+    ],
+    "answer": 0,
+    "explanation": "The report describes a left paramedian L4–L5 herniation affecting the emerging left L5 root sheath. It describes the lower L5–S1 overhang without obvious root impingement."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.415,
+    "y": 0.647,
+    "text": "Posterior L4–L5 disc",
+    "structures": [
+     "Intervertebral disc L4-L5"
+    ],
+    "note": "Source-described left paramedian herniation at this level."
+   },
+   {
+    "x": 0.406,
+    "y": 0.756,
+    "text": "L5–S1 disc",
+    "structures": [
+     "Intervertebral disc L5-S1"
+    ],
+    "note": "Source reports disc overhang here without obvious radicular impingement."
+   },
+   {
+    "x": 0.49,
+    "y": 0.63,
+    "text": "L4–L5 herniation",
+    "structures": [
+     "L4-L5 left paramedian disc herniation"
+    ],
+    "note": "Posterior disc herniation indenting the thecal sac, left paramedian; the report links it to the left L5 root sheath."
+   },
+   {
+    "x": 0.28,
+    "y": 0.55,
+    "text": "Vertebral body L4",
+    "structures": [
+     "Vertebra L4"
+    ],
+    "note": "Lumbar vertebral body above the L4–L5 disc."
+   },
+   {
+    "x": 0.28,
+    "y": 0.7,
+    "text": "Vertebral body L5",
+    "structures": [
+     "Vertebra L5"
+    ],
+    "note": "Lumbar vertebral body between the L4–L5 and L5–S1 discs."
+   },
+   {
+    "x": 0.52,
+    "y": 0.4,
+    "text": "Thecal sac (CSF)",
+    "structures": [
+     "Spinal dura",
+     "Cauda equina"
+    ],
+    "note": "Bright cerebrospinal fluid in the dural sac; the herniation indents its posterior margin at L4–L5."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "abdomen",
+    "back"
+   ],
+   "show": [
+    "L4-L5 left paramedian disc herniation"
+   ],
+   "frame_on": [
+    "Vertebra L4",
+    "Vertebra L5",
+    "Intervertebral disc L4-L5"
+   ],
+   "clip": [
+    0,
+    0.5
+   ],
+   "view": "left"
+  },
+  "id": "mri_l4_l5_disc_herniation",
+  "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
+  "summary": "Sagittal lumbar MRI with a source-described left paramedian L4–L5 herniation.",
+  "text": "<p>Follow the posterior disc margins beside the bright fluid-filled dural sac. The report relates the L4–L5 herniation to the left L5-root sheath. The lower circled L5–S1 disc also overhangs, but the report does not describe obvious root impingement there.</p>",
+  "reading": [
+   "Trace the vertebral bodies and intervertebral discs.",
+   "Compare the two circled posterior disc margins.",
+   "Relate the L4–L5 level to the traversing L5-root region."
+  ]
+ },
+ {
+  "title": "MRI heart — four-chamber anatomy",
+  "modality": "MRI",
+  "region": "Thorax",
+  "plane": "Oblique",
+  "finding": "Normal anatomy",
+  "tags": [
+   "MRI",
+   "oblique cardiac",
+   "four-chamber",
+   "normal anatomy",
+   "cine source",
+   "static frame"
+  ],
+  "references": [
+   {
+    "title": "File:4-CH cine normal.gif — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:4-CH_cine_normal.gif"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which view is represented by this cardiac image?",
+    "options": [
+     "Four-chamber cardiac view",
+     "Axial kidney CT",
+     "MRCP duct projection"
+    ],
+    "answer": 0,
+    "explanation": "The creator identifies a four-chamber cine CMR. This static frame retains the chamber relationships from that source sequence."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.614,
+    "y": 0.466,
+    "text": "Left ventricle",
+    "structures": [
+     "Left ventricle"
+    ],
+    "side": "Left",
+    "note": "Thick-walled left ventricular cavity on the image right of the septal line."
+   },
+   {
+    "x": 0.383,
+    "y": 0.343,
+    "text": "Right ventricle",
+    "structures": [
+     "Right ventricle"
+    ],
+    "side": "Right",
+    "note": "Thinner-walled right ventricular cavity on the image left, anterior to the septum."
+   },
+   {
+    "x": 0.3,
+    "y": 0.66,
+    "text": "Right atrium",
+    "structures": [
+     "Right atrium"
+    ],
+    "side": "Right",
+    "note": "Lower chamber on the image left, below the dark atrioventricular valve line."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "thorax"
+   ],
+   "clip": [
+    1,
+    0.6
+   ],
+   "view": "anterior",
+   "frame_on": [
+    "Left ventricle",
+    "Right ventricle",
+    "Right atrium"
+   ]
+  },
+  "id": "mri_normal_four_chamber_cine",
+  "atlas_note": "The cardiac image is oblique. The atlas section is an approximate orthogonal normal-anatomy reference, not a registered four-chamber reconstruction of this scan.",
+  "summary": "Four-chamber cardiac anatomy from the creator's normal cine CMR.",
+  "text": "<p>Identify the left and right ventricles in this oblique four-chamber view, then follow their relationship to the atria. The left ventricular cavity and the right ventricular cavity are separated by the interventricular septal region. The atlas provides normal cardiac anatomy for comparison.</p>",
+  "reading": [
+   "Find both ventricular cavities.",
+   "Relate the ventricles to the atria.",
+   "Distinguish the chamber labels from the intervening septal region."
+  ]
+ },
+ {
+  "title": "MRCP — normal biliary and pancreatic ducts",
+  "modality": "MRI",
+  "region": "Abdomen",
+  "plane": "Projection",
+  "finding": "Normal anatomy",
+  "tags": [
+   "MRI",
+   "MRCP",
+   "projection",
+   "biliary tract",
+   "pancreatic duct",
+   "normal"
+  ],
+  "references": [
+   {
+    "title": "File:MRCP Normalbefund 66M - MR - 001.jpg — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:MRCP_Normalbefund_66M_-_MR_-_001.jpg"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "What structure connects the liver's biliary branches toward the duodenum in this projection?",
+    "options": [
+     "Bile duct",
+     "Thoracic aorta",
+     "Femoral neck"
+    ],
+    "answer": 0,
+    "explanation": "The bile duct carries the biliary pathway toward the duodenum. The source identifies this MRCP as normal, including an accessory pancreatic duct."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.322,
+    "y": 0.45,
+    "text": "Gallbladder",
+    "structures": [
+     "Body of gallbladder",
+     "Fundus of gallbladder"
+    ],
+    "note": "Normal fluid-filled gallbladder, bright on MRCP."
+   },
+   {
+    "x": 0.419,
+    "y": 0.519,
+    "text": "Bile duct",
+    "structures": [
+     "Common bile duct"
+    ],
+    "note": "Normal common bile duct running toward the duodenum."
+   },
+   {
+    "x": 0.61,
+    "y": 0.464,
+    "text": "Pancreatic duct",
+    "structures": [
+     "Main pancreatic duct"
+    ],
+    "note": "Normal main pancreatic duct, a separate course from the bile duct."
+   },
+   {
+    "x": 0.3,
+    "y": 0.27,
+    "text": "Common hepatic duct",
+    "structures": [
+     "Common hepatic duct"
+    ],
+    "note": "Confluence of the right and left hepatic ducts, feeding the common hepatic duct."
+   },
+   {
+    "x": 0.44,
+    "y": 0.195,
+    "text": "Left hepatic duct",
+    "structures": [
+     "Left hepatic duct"
+    ],
+    "note": "Left intrahepatic duct branch draining toward the hepatic confluence."
+   }
+  ],
+  "scene": {
+   "micro": "hepatobiliary",
+   "micro_focus": [
+    "Fundus of gallbladder",
+    "Body of gallbladder",
+    "Neck of gallbladder",
+    "Right hepatic duct",
+    "Left hepatic duct",
+    "Common hepatic duct",
+    "Common bile duct",
+    "Hepatopancreatic ampulla (of Vater)",
+    "Main pancreatic duct",
+    "Accessory pancreatic duct"
+   ],
+   "micro_context": [
+    "Right lobe of liver",
+    "Left lobe of liver",
+    "Head of pancreas",
+    "Body of pancreas",
+    "Duodenum: descending part (D2)"
+   ],
+   "model_view": "anterior"
+  },
+  "id": "mri_normal_mrcp",
+  "atlas_note": "Focused normal gallbladder, bile-duct and pancreatic-duct anatomy accompanies this MRCP projection. It is not a matching coronal slice. The accessory pancreatic duct is included as source-described anatomical context; its tiny branch is not assigned a new scan marker.",
+  "summary": "A source-described normal MRCP projection of the biliary and pancreatic ducts.",
+  "text": "<p>Follow the branching bile ducts toward the gallbladder and duodenum. The pancreatic duct approaches the distal duct junction along a separate course. The source describes a normal MRCP and also notes the accessory pancreatic duct of Santorini.</p>",
+  "reading": [
+   "Locate the gallbladder.",
+   "Trace the bile duct separately from the pancreatic duct.",
+   "Compare the duct appearance with the stone-containing MRCP case."
+  ]
+ },
+ {
+  "title": "MRI pelvis — uterine fibroids, false-color axial image",
+  "modality": "MRI",
+  "region": "Pelvis",
+  "plane": "Axial",
+  "finding": "Uterine fibroids",
+  "tags": [
+   "MRI",
+   "axial",
+   "pelvis",
+   "uterus",
+   "fibroids",
+   "false-color",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:Pelvic MRI 06 14.jpg — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:Pelvic_MRI_06_14.jpg"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which organ contains the source-annotated fibroid?",
+    "options": [
+     "Uterus",
+     "Kidney",
+     "Gallbladder"
+    ],
+    "answer": 0,
+    "explanation": "The creator identifies multiple fibroids in the uterus on this pelvic MRI. The uterus lies centrally within the pelvis, between the urinary bladder and rectum."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.564,
+    "y": 0.509,
+    "text": "Uterine fibroid",
+    "structures": [
+     "Uterine fibroid (illustrative)",
+     "Second uterine fibroid (illustrative)"
+    ],
+    "note": "Source-annotated uterine fibroid in the central pelvis. The atlas has no uterus mesh, so the fibroids are shown illustratively on the anterior surface of the sacrum, where the uterus lies. The displayed colours are a false-colour visualisation, not tissue signal."
+   },
+   {
+    "x": 0.79,
+    "y": 0.464,
+    "text": "Left pelvic bone",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.21,
+    "y": 0.46,
+    "text": "Right pelvic bone",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.8,
+    "y": 0.62,
+    "text": "Left gluteus maximus",
+    "structures": [
+     "Gluteus maximus muscle"
+    ],
+    "side": "Left",
+    "note": "Posterior pelvic and gluteal musculature at the level of the iliac wings."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "abdomen",
+    "back",
+    "lower_limb_l",
+    "lower_limb_r"
+   ],
+   "show": [
+    "Uterine fibroid (illustrative)",
+    "Second uterine fibroid (illustrative)",
+    "Hip bone",
+    "Sacrum",
+    "Gluteus maximus muscle"
+   ],
+   "clip": [
+    2,
+    0.515
+   ],
+   "view": "inferior"
+  },
+  "id": "mri_pelvic_fibroids",
+  "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
+  "summary": "False-color axial pelvic MRI with source-described uterine fibroids.",
+  "text": "<p>The creator identifies multiple uterine fibroids, with a fibroid annotated in the central pelvic organ. Use the surrounding pelvic bones to orient the axial view. The displayed colors are a visualization choice, so they should not be read as the usual grayscale T1 or T2 tissue signal.</p>",
+  "reading": [
+   "Orient the axial view with the pelvic bones.",
+   "Find the annotated uterine fibroid region.",
+   "Distinguish organ location from the display's false-color appearance."
+  ]
+ },
+ {
+  "title": "MRI brain — subacute cortical infarct, DWI and enhanced T1",
+  "modality": "MRI",
+  "region": "Head and neck",
+  "plane": "Axial",
+  "finding": "Cerebral infarction",
+  "tags": [
+   "MRI",
+   "axial",
+   "DWI",
+   "enhanced T1",
+   "cortical infarction",
+   "right frontal",
+   "paired sequences",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:Kortikaler Infarkt mit Schrankenstoerung.jpg — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:Kortikaler_Infarkt_mit_Schrankenstoerung.jpg"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which two sequences are compared in this cortical infarction case?",
+    "options": [
+     "DWI and gadolinium-enhanced T1",
+     "MRCP and a bone-window CT",
+     "Normal hand and ankle radiographs"
+    ],
+    "answer": 0,
+    "explanation": "The left panel is DWI with a persistent cortical diffusion abnormality. The right panel is enhanced T1 with source-described cortical enhancement."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.158,
+    "y": 0.505,
+    "text": "Cortical DWI abnormality",
+    "structures": [
+     "Right frontal cortical infarct",
+     "Middle frontal gyrus"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.622,
+    "y": 0.523,
+    "text": "Enhanced cortical region",
+    "structures": [
+     "Right frontal cortical infarct",
+     "Middle frontal gyrus"
+    ],
+    "side": "Right",
+    "note": "Source describes blood-brain-barrier disruption on gadolinium-enhanced T1."
+   },
+   {
+    "x": 0.265,
+    "y": 0.42,
+    "text": "Interhemispheric fissure",
+    "structures": [
+     "Falx cerebri"
+    ]
+   },
+   {
+    "x": 0.33,
+    "y": 0.42,
+    "text": "Left middle frontal gyrus",
+    "structures": [
+     "Middle frontal gyrus"
+    ],
+    "side": "Left"
+   }
+  ],
+  "scene": {
+   "regions": [
+    "head"
+   ],
+   "clip": [
+    2,
+    0.958
+   ],
+   "view": "inferior",
+   "show": [
+    "Right frontal cortical infarct"
+   ]
+  },
+  "id": "mri_subacute_cortical_infarct",
+  "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
+  "summary": "Paired axial DWI and enhanced T1 images of a few-days-old cortical infarct.",
+  "text": "<p>The right superior frontal cortical lesion remains conspicuous on DWI, shown on the left. The paired gadolinium-enhanced T1 image shows a curving cortical enhancement pattern that the source relates to blood-brain-barrier disruption. Compare the same cortical region across both sequences.</p>",
+  "reading": [
+   "Locate the DWI abnormality on the left panel.",
+   "Find the corresponding enhanced cortical region on the right panel.",
+   "Keep sequence appearance distinct from the anatomical location."
+  ]
+ },
+ {
+  "title": "MRI shoulder — complete supraspinatus tear",
+  "modality": "MRI",
+  "region": "Upper limb",
+  "plane": "Oblique",
+  "finding": "Supraspinatus tear",
+  "tags": [
+   "MRI",
+   "sagittal oblique",
+   "T2 fat-suppressed",
+   "shoulder",
+   "supraspinatus",
+   "rotator cuff tear",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:2 MRI. Complete tear and rupture of the supraspinatus tendon. Wide transmural damage (2.4 x 2.4 cm)..jpg — image description and file license",
+    "url": "https://commons.wikimedia.org/wiki/File:2_MRI._Complete_tear_and_rupture_of_the_supraspinatus_tendon._Wide_transmural_damage_(2.4_x_2.4_cm)..jpg"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which rotator-cuff tendon is disrupted in the source description?",
+    "options": [
+     "Supraspinatus tendon",
+     "Achilles tendon",
+     "Patellar tendon"
+    ],
+    "answer": 0,
+    "explanation": "The source identifies a complete supraspinatus rupture. The retained measurement annotation belongs to the original scan; it is not a new measurement made in the app."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.486,
+    "y": 0.285,
+    "text": "Supraspinatus tear region",
+    "structures": [
+     "Supraspinatus muscle",
+     "Supraspinatus tendon tear"
+    ],
+    "side": "Right",
+    "note": "Source describes a complete tear with approximately 2.4 by 2.4 cm involvement."
+   },
+   {
+    "x": 0.555,
+    "y": 0.57,
+    "text": "Humeral head",
+    "structures": [
+     "Humerus"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.58,
+    "y": 0.33,
+    "text": "Tendon defect",
+    "structures": [
+     "Supraspinatus tendon tear"
+    ],
+    "side": "Right",
+    "note": "Complete transmural supraspinatus tear: the tendon is absent over about 2.4 cm and the gap is filled with fluid."
+   },
+   {
+    "x": 0.3,
+    "y": 0.4,
+    "text": "Subdeltoid bursa",
+    "structures": [
+     "Subdeltoid bursa"
+    ],
+    "side": "Right",
+    "note": "Fluid-bright subdeltoid bursa lying above the rotator cuff, beneath the deltoid."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "upper_limb_r",
+    "thorax",
+    "back"
+   ],
+   "clip": [
+    0,
+    0.22
+   ],
+   "view": "right",
+   "side": "Right",
+   "frame_on": [
+    "Supraspinatus muscle",
+    "Humerus"
+   ],
+   "show": [
+    "Supraspinatus tendon tear",
+    "Subdeltoid bursa"
+   ]
+  },
+  "id": "mri_supraspinatus_tear",
+  "atlas_note": "The shoulder image is oblique. This illustrative right-shoulder atlas section uses an approximate orthogonal plane; it is not registered to the scan and does not establish the patient's side.",
+  "summary": "Cropped sagittal oblique shoulder MRI with a complete supraspinatus tear.",
+  "text": "<p>The source describes a complete supraspinatus tendon tear above the humeral head. Identify the superior tendon-defect region and compare it with the normal tendon insertion anatomy in the atlas. The fluid-bright scan uses the source's sagittal T2 fat-suppressed protocol.</p>",
+  "reading": [
+   "Locate the humeral head.",
+   "Inspect the superior tendon-defect region.",
+   "Relate the supraspinatus tendon to its humeral insertion."
+  ]
+ },
+ {
+  "title": "MRI brain - four-hour infarction on ADC, paired with DWI",
+  "modality": "MRI",
+  "region": "Head and neck",
+  "plane": "Axial",
+  "finding": "Cerebral infarction",
+  "tags": [
+   "MRI",
+   "axial",
+   "ADC",
+   "DWI comparison",
+   "basal ganglia",
+   "cerebral infarction",
+   "same patient",
+   "paired sequence",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "Four-hour cerebral infarction - ADC image",
+    "url": "https://commons.wikimedia.org/wiki/File:Cerebral_infarction_after_4_hours_on_ADC_MRI.jpg"
+   },
+   {
+    "title": "The use of MRI apparent diffusion coefficient (ADC) in monitoring the development of brain infarction",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3022840/"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "How does the infarcted region appear in this patient's paired DWI and ADC images?",
+    "options": [
+     "High DWI signal with low ADC",
+     "Low DWI signal with high ADC",
+     "Low DWI signal with low ADC"
+    ],
+    "answer": 0,
+    "explanation": "The source shows this same four-hour basal ganglia infarction case with a conspicuous bright region on DWI and a lower apparent diffusion coefficient in the corresponding region on the ADC map."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.67,
+    "y": 0.415,
+    "text": "Lower-ADC infarct region",
+    "structures": [
+     "Left basal ganglia infarct (mri_hyperacute_basal_ganglia_infarct_adc)",
+     "Putamen",
+     "Globus pallidus"
+    ],
+    "side": "Left",
+    "note": "The source locates the infarction in the basal ganglia. Links show related anatomy; the low-resolution image does not support precise subnuclear localization."
+   },
+   {
+    "x": 0.66,
+    "y": 0.64,
+    "text": "Left lateral ventricle",
+    "structures": [
+     "Lateral ventricle"
+    ],
+    "side": "Left",
+    "note": "Bright (high ADC) CSF in the occipital horn of the left lateral ventricle."
+   },
+   {
+    "x": 0.3,
+    "y": 0.6,
+    "text": "Right lateral ventricle",
+    "structures": [
+     "Lateral ventricle"
+    ],
+    "side": "Right",
+    "note": "Bright (high ADC) CSF in the occipital horn of the right lateral ventricle."
+   },
+   {
+    "x": 0.33,
+    "y": 0.415,
+    "text": "Right basal ganglia (normal comparison)",
+    "structures": [
+     "Putamen",
+     "Globus pallidus"
+    ],
+    "side": "Right",
+    "note": "Normal-signal right lentiform nucleus, the side-to-side comparison for the left lower-ADC region."
+   },
+   {
+    "x": 0.5,
+    "y": 0.52,
+    "text": "Third ventricle",
+    "structures": [
+     "Third ventricle"
+    ],
+    "note": "Midline CSF space between the thalami, bright on ADC."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "head"
+   ],
+   "clip": [
+    2,
+    0.934
+   ],
+   "view": "inferior",
+   "show": [
+    "Left basal ganglia infarct (mri_hyperacute_basal_ganglia_infarct_adc)"
+   ]
+  },
+  "id": "mri_hyperacute_basal_ganglia_infarct_adc",
+  "atlas_note": "The atlas shows related normal basal ganglia anatomy at an approximate axial level. It is not registered to either sequence. These low-resolution source images support qualitative signal comparison, not fine subnuclear localization.",
+  "summary": "Axial ADC map paired with the DWI image from the same four-hour infarction case.",
+  "text": "<p>This ADC map and the four-hour basal ganglia DWI case show the same patient and infarction. The infarcted region is bright on DWI and has a lower apparent diffusion coefficient here. Compare the corresponding basal ganglia region across the two images, keeping tissue location separate from sequence-dependent signal.</p>",
+  "reading": [
+   "Locate the lower-ADC region in the basal ganglia.",
+   "Compare it with the bright region in the paired four-hour DWI case.",
+   "Use the paired signal pattern rather than DWI brightness alone."
+  ],
+  "paired_case_id": "mri_hyperacute_basal_ganglia_infarct",
+  "patient_source_group": "shen_2011_four_hour_basal_ganglia_infarction"
+ },
+ {
+  "title": "MRI brain - Wernicke encephalopathy on FLAIR",
+  "modality": "MRI",
+  "region": "Head and neck",
+  "plane": "Axial",
+  "finding": "Wernicke encephalopathy",
+  "tags": [
+   "MRI",
+   "axial",
+   "FLAIR",
+   "thalami",
+   "Wernicke encephalopathy",
+   "pathology"
+  ],
+  "references": [
+   {
+    "title": "File:MRI FLAIR sequence Wernicke Encephalopathy.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:MRI_FLAIR_sequence_Wernicke_Encephalopathy.jpg"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which structures contain the abnormal signal identified by the creator?",
+    "options": [
+     "Mesial dorsal thalami",
+     "Renal pelvises",
+     "Supraspinatus tendons"
+    ],
+    "answer": 0,
+    "explanation": "The creator identifies abnormal hyperintense signal in the mesial dorsal thalami on axial FLAIR MRI in Wernicke encephalopathy."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.448,
+    "y": 0.553,
+    "text": "Medial thalamic signal abnormality",
+    "structures": [
+     "Right medial thalamic FLAIR signal abnormality",
+     "Thalamus"
+    ],
+    "side": "Right",
+    "note": "Creator describes abnormal hyperintense signal in the mesial dorsal thalami. This marker shows the image region; no additional clinical details are inferred."
+   },
+   {
+    "x": 0.542,
+    "y": 0.55,
+    "text": "Opposite medial thalamic region",
+    "structures": [
+     "Left medial thalamic FLAIR signal abnormality",
+     "Thalamus"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.5,
+    "y": 0.44,
+    "text": "Third ventricle",
+    "structures": [
+     "Third ventricle"
+    ],
+    "note": "Midline CSF space between the two thalami."
+   },
+   {
+    "x": 0.31,
+    "y": 0.65,
+    "text": "Right lateral ventricle (atrium)",
+    "structures": [
+     "Lateral ventricle"
+    ],
+    "side": "Right",
+    "note": "Dark CSF-filled posterior part of the right lateral ventricle."
+   }
+  ],
+  "scene": {
+   "regions": [
+    "head"
+   ],
+   "clip": [
+    2,
+    0.932
+   ],
+   "view": "inferior",
+   "show": [
+    "Thalamus",
+    "Third ventricle",
+    "Lateral ventricle",
+    "Right medial thalamic FLAIR signal abnormality",
+    "Left medial thalamic FLAIR signal abnormality"
+   ]
+  },
+  "id": "mri_flair_wernicke_encephalopathy",
+  "atlas_note": "The atlas illustrates normal thalamic anatomy at an approximate axial level. It is not registered to this FLAIR image or its signal abnormality.",
+  "summary": "Axial FLAIR MRI with thalamic signal abnormality in Wernicke encephalopathy.",
+  "text": "<p>Compare the medial thalamic regions on either side of the midline. The source describes abnormal hyperintense signal in the mesial dorsal thalami in Wernicke encephalopathy. Locate the paired thalami in the central brain and relate them to the neighboring ventricular spaces.</p>",
+  "reading": [
+   "Orient the axial brain image.",
+   "Compare the medial thalamic signal on both sides.",
+   "Relate the paired thalami to the midline ventricular region."
+  ]
+ },
+ {
+  "title": "MRA brain - circle of Willis projection",
+  "modality": "MRI",
+  "region": "Head and neck",
+  "plane": "Projection",
+  "finding": "Cerebral arterial anatomy",
+  "tags": [
+   "MRI",
+   "MRA",
+   "TOF",
+   "maximum-intensity projection",
+   "circle of Willis",
+   "cerebral arteries",
+   "anatomy"
+  ],
+  "references": [
+   {
+    "title": "File:Mra-mip.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Mra-mip.jpg"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "How was the vessel-focused image presented according to its creator?",
+    "options": [
+     "Maximum-intensity projection of time-of-flight MRA",
+     "A single sagittal CT bone section",
+     "A plain abdominal radiograph"
+    ],
+    "answer": 0,
+    "explanation": "The source describes a maximum-intensity projection of time-of-flight MR angiography acquired at 4 Tesla and showing the circle of Willis."
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.52,
+    "y": 0.289,
+    "text": "Anterior cerebral arterial region",
+    "structures": [
+     "Anterior cerebral artery"
+    ]
+   },
+   {
+    "x": 0.705,
+    "y": 0.358,
+    "text": "Middle cerebral arterial region",
+    "structures": [
+     "Middle cerebral artery (M1-segment)"
+    ],
+    "side": "Left",
+    "note": "Related arterial anatomy; projection orientation and laterality are not independently assigned."
+   },
+   {
+    "x": 0.25,
+    "y": 0.36,
+    "text": "Middle cerebral artery M1 (right)",
+    "structures": [
+     "Middle cerebral artery (M1-segment)"
+    ],
+    "side": "Right",
+    "note": "M1 segment on the patient's right, where the internal carotid artery terminus turns laterally."
+   },
+   {
+    "x": 0.39,
+    "y": 0.52,
+    "text": "Posterior cerebral arterial region (right)",
+    "structures": [
+     "Posterior cerebral artery"
+    ],
+    "side": "Right",
+    "note": "Posterior cerebral artery curving posteriorly on the patient's right."
+   },
+   {
+    "x": 0.555,
+    "y": 0.58,
+    "text": "Posterior cerebral arterial region (left)",
+    "structures": [
+     "Posterior cerebral artery"
+    ],
+    "side": "Left",
+    "note": "Posterior cerebral artery curving posteriorly on the patient's left."
+   },
+   {
+    "x": 0.768,
+    "y": 0.46,
+    "text": "Insular branch of middle cerebral artery (left)",
+    "structures": [
+     "Insular branches of middle cerebral artery (M2-segment)"
+    ],
+    "side": "Left",
+    "note": "M2 branch running posteriorly from the left middle cerebral artery bifurcation."
+   }
+  ],
+  "scene": {
+   "systems": [
+    "cardiovascular"
+   ],
+   "regions": [
+    "head"
+   ],
+   "focus": [
+    "Anterior cerebral artery",
+    "Internal carotid artery",
+    "Middle cerebral artery (M1-segment)",
+    "Insular branches of middle cerebral artery (M2-segment)",
+    "Insular branches of middle cerebral artery (M2)",
+    "Posterior cerebral artery"
+   ],
+   "isolate": true,
+   "view": "inferior"
+  },
+  "id": "mri_tof_mra_circle_of_willis",
+  "atlas_note": "The source is an MR angiography projection. The atlas shows related cerebral arteries in three dimensions, not a matching axial slice or a patient-registered projection.",
+  "summary": "Time-of-flight MR angiography projection showing cerebral arterial anatomy.",
+  "text": "<p>Follow the bright arterial branches through the central circle-of-Willis region. The anterior cerebral arteries course toward the anterior midline, while the middle cerebral arteries extend laterally. This maximum-intensity projection combines vascular information through a volume, so vessels from different depths may overlap.</p>",
+  "reading": [
+   "Locate the central arterial junctions.",
+   "Follow anterior branches toward the midline and middle cerebral branches laterally.",
+   "Recognize that projection overlap differs from a single anatomical slice."
+  ]
+ }
 ]

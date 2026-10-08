@@ -1,1838 +1,2392 @@
 [
-  {
-    "title": "Normal liver: sagittal ultrasound",
-    "plane": "Sagittal",
-    "region": "Abdomen",
-    "finding": "Normal anatomy",
-    "summary": "Normal liver parenchyma in a sagittal ultrasound view.",
-    "text": "<p>The liver is shown in a sagittal view at the midclavicular line. Identify the gray hepatic parenchyma beneath the curved superficial scan boundary.</p>",
-    "reading": [
-      "Locate the liver parenchyma.",
-      "Follow the sagittal view through the hepatic tissue."
-    ],
-    "tags": [
-      "normal",
-      "liver",
-      "hepatic parenchyma",
-      "sagittal",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "Which organ contains the labeled parenchyma?",
-        "options": [
-          "Liver",
-          "Spleen",
-          "Kidney"
-        ],
-        "answer": 0,
-        "explanation": "The labeled tissue is hepatic parenchyma."
-      }
-    ],
-    "id": "us_normal_liver",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Liver parenchyma",
-        "x": 0.432,
-        "y": 0.636,
-        "note": "Hepatic tissue in the sagittal scan.",
-        "structures": [
-          "Liver"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Ultrasonography of a normal liver.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_a_normal_liver.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Liver"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Focal hepatic steatosis: ultrasound",
-    "plane": "Unspecified",
-    "region": "Abdomen",
-    "finding": "Focal steatosis",
-    "summary": "An echogenic focus of hepatic steatosis surrounds a traversing vein.",
-    "text": "<p>The bright hepatic focus illustrates focal steatosis. A hepatic vein passes through the focus without compression. Preserved vessel course favors focal fat in this example; it does not independently exclude every hepatic mass.</p>",
-    "reading": [
-      "Locate the brighter hepatic focus beneath the arrow.",
-      "Follow the dark traversing vein through the focus."
-    ],
-    "tags": [
-      "pathology",
-      "liver",
-      "focal steatosis",
-      "hepatic vein",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "Which feature favors focal steatosis in this example?",
-        "options": [
-          "A traversing hepatic vein remains uncompressed",
-          "A dense posterior acoustic shadow",
-          "A large obstructing calculus"
-        ],
-        "answer": 0,
-        "explanation": "The hepatic vein retains its course through the echogenic focus."
-      }
-    ],
-    "id": "us_focal_steatosis",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Focal steatosis",
-        "x": 0.581,
-        "y": 0.41,
-        "note": "Echogenic focal hepatic tissue.",
-        "structures": [
-          "Liver"
-        ]
-      },
-      {
-        "text": "Traversing hepatic vein",
-        "x": 0.523,
-        "y": 0.498,
-        "note": "A dark vein courses through the focus without compression.",
-        "structures": []
-      }
-    ],
-    "references": [
-      {
-        "title": "Ultrasonography of focal steatosis.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_focal_steatosis.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Liver"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Normal adult kidney: longitudinal ultrasound",
-    "plane": "Longitudinal",
-    "region": "Abdomen",
-    "finding": "Normal anatomy",
-    "summary": "Cortex, pyramid and renal sinus in a normal adult kidney.",
-    "text": "<p>The kidney is shown along its long axis. Three asterisks mark the cortex, two mark a pyramid, and four mark the renal sinus. The central sinus is brighter than the surrounding renal parenchyma.</p>",
-    "reading": [
-      "Find the cortex at the triple-asterisk marker.",
-      "Compare the pyramid with the brighter renal sinus."
-    ],
-    "tags": [
-      "normal",
-      "kidney",
-      "renal cortex",
-      "renal pyramid",
-      "renal sinus",
-      "longitudinal",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "Which structure is marked by four asterisks?",
-        "options": [
-          "Renal sinus",
-          "Renal cortex",
-          "Renal pyramid"
-        ],
-        "answer": 0,
-        "explanation": "Four asterisks mark the bright central renal sinus."
-      }
-    ],
-    "id": "us_normal_adult_kidney",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Renal cortex",
-        "x": 0.571,
-        "y": 0.356,
-        "note": "Outer renal parenchyma at the triple-asterisk marker.",
-        "structures": [
-          "Kidney"
-        ]
-      },
-      {
-        "text": "Renal pyramid",
-        "x": 0.493,
-        "y": 0.393,
-        "note": "Renal pyramid at the double-asterisk marker.",
-        "structures": [
-          "Kidney"
-        ]
-      },
-      {
-        "text": "Renal sinus",
-        "x": 0.465,
-        "y": 0.496,
-        "note": "Bright central renal sinus at the quadruple-asterisk marker.",
-        "structures": [
-          "Kidney"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Normal adult kidney.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Normal_adult_kidney.jpg"
-      },
-      {
-        "title": "Ultrasonography of the Kidney: A Pictorial Review, Diagnostics 6(1):2 (2015)",
-        "url": "https://doi.org/10.3390/diagnostics6010002"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Kidney"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Hydronephrosis with cortical atrophy: ultrasound",
-    "plane": "Longitudinal",
-    "region": "Abdomen",
-    "finding": "Hydronephrosis",
-    "summary": "Dilated anechoic renal pelvis and calyces with cortical atrophy.",
-    "text": "<p>Hydronephrosis expands the dark renal pelvis and calyces. Cortical atrophy accompanies the collecting-system dilatation in this example. The image alone does not establish the cause or duration of obstruction.</p>",
-    "reading": [
-      "Identify the expanded dark collecting-system spaces.",
-      "Locate the dilated calyx between the calipers.",
-      "Compare the collecting system with the separate normal kidney image."
-    ],
-    "tags": [
-      "pathology",
-      "kidney",
-      "hydronephrosis",
-      "renal calyx",
-      "collecting system",
-      "cortical atrophy",
-      "longitudinal",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "What is the dark space between the calipers?",
-        "options": [
-          "A dilated calyx",
-          "A solid renal mass",
-          "A calcified stone"
-        ],
-        "answer": 0,
-        "explanation": "The anechoic calyx is enlarged as part of the hydronephrosis."
-      }
-    ],
-    "id": "us_hydronephrosis_cortical_atrophy",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Dilated calyx",
-        "x": 0.402,
-        "y": 0.399,
-        "note": "Anechoic collecting-system space between the calipers.",
-        "structures": [
-          "Kidney"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Ultrasonography of hydronephrosis with dilated anechoic pelvis and calyces, along with cortical atrophy.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_hydronephrosis_with_dilated_anechoic_pelvis_and_calyces%2C_along_with_cortical_atrophy.jpg"
-      },
-      {
-        "title": "Ultrasonography of the Kidney: A Pictorial Review, Diagnostics 6(1):2 (2015)",
-        "url": "https://doi.org/10.3390/diagnostics6010002"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Kidney"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Gallstones and biliary sludge: ultrasound",
-    "plane": "Unspecified",
-    "region": "Abdomen",
-    "finding": "Cholelithiasis",
-    "summary": "Echogenic gallstones and sludge within the gallbladder.",
-    "text": "<p>Gallstones and sludge occupy the dependent part of the gallbladder. Echogenic stones produce posterior acoustic shadowing. This example is described as cholelithiasis without current cholecystitis; a single image does not replace the complete clinical and ultrasound assessment.</p>",
-    "reading": [
-      "Identify the dark gallbladder lumen.",
-      "Find the bright dependent gallstones and the mixed echoes of sludge."
-    ],
-    "tags": [
-      "pathology",
-      "gallbladder",
-      "gallstones",
-      "cholelithiasis",
-      "biliary sludge",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "Which finding is present in the dependent gallbladder?",
-        "options": [
-          "Gallstones and sludge",
-          "Color Doppler flow",
-          "A dilated renal calyx"
-        ],
-        "answer": 0,
-        "explanation": "The dependent bright calculi and mixed echoes illustrate gallstones and sludge."
-      }
-    ],
-    "id": "us_gallstones_sludge",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Gallstones",
-        "x": 0.486,
-        "y": 0.702,
-        "note": "Bright dependent stones within the gallbladder.",
-        "structures": [
-          "Gallbladder"
-        ]
-      },
-      {
-        "text": "Gallbladder lumen",
-        "x": 0.477,
-        "y": 0.474,
-        "note": "Fluid-filled gallbladder above the dependent material.",
-        "structures": [
-          "Gallbladder"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Ultrasonography of sludge and gallstones.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_sludge_and_gallstones.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Gallbladder"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Impacted gallstone with cholecystitis: ultrasound",
-    "plane": "Unspecified",
-    "region": "Abdomen",
-    "finding": "Cholecystitis",
-    "summary": "An impacted gallbladder-neck stone produces posterior acoustic shadowing.",
-    "text": "<p>The bright stone at the white arrow is impacted at the gallbladder neck. A dark acoustic shadow extends behind it. The accompanying clinical description reports cholecystitis, a 1.9 cm stone and a 4 mm gallbladder wall.</p>",
-    "reading": [
-      "Find the echogenic stone at the white arrow.",
-      "Trace the dark posterior acoustic shadow."
-    ],
-    "tags": [
-      "pathology",
-      "gallbladder",
-      "gallstone",
-      "cholelithiasis",
-      "cholecystitis",
-      "acoustic shadow",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "What imaging feature is visible behind the bright gallstone?",
-        "options": [
-          "Posterior acoustic shadowing",
-          "Color Doppler flow",
-          "Posterior acoustic enhancement"
-        ],
-        "answer": 0,
-        "explanation": "The stone attenuates the ultrasound beam and leaves a dark posterior shadow."
-      }
-    ],
-    "id": "us_impacted_gallstone_cholecystitis",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Gallstone",
-        "x": 0.493,
-        "y": 0.481,
-        "note": "Echogenic impacted gallbladder-neck stone.",
-        "structures": [
-          "Gallbladder"
-        ]
-      },
-      {
-        "text": "Posterior acoustic shadow",
-        "x": 0.49,
-        "y": 0.783,
-        "note": "Reduced echoes posterior to the gallstone.",
-        "structures": []
-      }
-    ],
-    "references": [
-      {
-        "title": "Gallstones.PNG",
-        "url": "https://commons.wikimedia.org/wiki/File:Gallstones.PNG"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Gallbladder"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Hashimoto thyroiditis: longitudinal ultrasound",
-    "plane": "Longitudinal",
-    "region": "Head and neck",
-    "finding": "Hashimoto thyroiditis",
-    "summary": "An enlarged hypoechoic right thyroid lobe in Hashimoto thyroiditis.",
-    "text": "<p>The right thyroid lobe appears enlarged and hypoechoic in this longitudinal view of hypertrophic Hashimoto thyroiditis. Its echotexture is heterogeneous. Ultrasound appearance must be interpreted with the clinical and laboratory findings.</p>",
-    "reading": [
-      "Locate the thyroid lobe between the calipers.",
-      "Observe its low echogenicity and heterogeneous internal texture."
-    ],
-    "tags": [
-      "pathology",
-      "thyroid",
-      "Hashimoto thyroiditis",
-      "longitudinal",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "Which gland is enlarged and hypoechoic here?",
-        "options": [
-          "Thyroid",
-          "Parotid",
-          "Adrenal"
-        ],
-        "answer": 0,
-        "explanation": "The longitudinal image shows the right thyroid lobe in Hashimoto thyroiditis."
-      }
-    ],
-    "id": "us_hashimoto_thyroiditis",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Right thyroid lobe",
-        "x": 0.486,
-        "y": 0.541,
-        "note": "Enlarged hypoechoic thyroid tissue.",
-        "structures": [
-          "Thyroid gland"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Hashimoto-Thyreoiditis.JPG",
-        "url": "https://commons.wikimedia.org/wiki/File:Hashimoto-Thyreoiditis.JPG"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "focus": [
-        "Thyroid gland"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Thyroid and adjacent neck anatomy: transverse ultrasound",
-    "plane": "Transverse",
-    "region": "Head and neck",
-    "finding": "Thyroid anatomy",
-    "summary": "Thyroid lobes lie beside the trachea and carotid vessels.",
-    "text": "<p>The thyroid lobes flank the central trachea in this transverse neck view. The numbered image identifies the thyroid lobes as 2 and 4, the trachea as 3, and common carotid arteries as 1 and 5. This image teaches spatial anatomy without establishing a normal thyroid examination.</p>",
-    "reading": [
-      "Locate the thyroid tissue beside the central trachea using the original numbered image.",
-      "Compare the lateral carotid cross-sections with the transverse atlas reference; source laterality is unspecified."
-    ],
-    "tags": [
-      "anatomy reference",
-      "thyroid",
-      "trachea",
-      "common carotid artery",
-      "transverse",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "Which numbered structure lies centrally between the thyroid lobes?",
-        "options": [
-          "Trachea (3)",
-          "Carotid artery (1)",
-          "Jugular vein (6)"
-        ],
-        "answer": 0,
-        "explanation": "The trachea lies between the thyroid lobes in the transverse neck view."
-      }
-    ],
-    "id": "us_thyroid_anatomy_reference",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Thyroid lobe",
-        "x": 0.249,
-        "y": 0.41091,
-        "note": "Thyroid tissue beside the trachea, marked 2.",
-        "structures": [
-          "Thyroid gland"
-        ]
-      },
-      {
-        "text": "Trachea",
-        "x": 0.514,
-        "y": 0.3616,
-        "note": "Central trachea, marked 3.",
-        "structures": [
-          "Trachea"
-        ]
-      },
-      {
-        "text": "Common carotid artery",
-        "x": 0.104,
-        "y": 0.45892,
-        "note": "Arterial cross-section lateral to the thyroid, marked 1.",
-        "structures": [
-          "Left common carotid artery",
-          "Right common carotid artery"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "SD-Sono001-Nummern.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:SD-Sono001-Nummern.jpg"
-      }
-    ],
-    "atlas_note": "Illustrative lower-thyroid transverse atlas section, chosen where the existing thyroid and trachea intersect. It is not registered to this ultrasound; the source plane and side are not inferred from the atlas.",
-    "scene": {
-      "systems": [
-        "visceral",
-        "muscular",
-        "cardiovascular"
-      ],
-      "regions": [
-        "neck"
-      ],
-      "show": [
-        "Thyroid gland",
-        "Trachea",
-        "Left common carotid artery",
-        "Right common carotid artery",
-        "Sternohyoid muscle",
-        "Sternothyroid muscle"
-      ],
-      "isolate": true,
-      "clip": [
-        2,
-        0.836
-      ],
-      "slice_only": true,
-      "view": "inferior",
-      "xray": false,
-      "reference_labels": [
-        {
-          "text": "Thyroid",
-          "structures": [
-            "Thyroid gland"
-          ],
-          "surface_anchor": true
-        },
-        {
-          "text": "Trachea",
-          "structures": [
-            "Trachea"
-          ],
-          "surface_anchor": true
-        },
-        {
-          "text": "Carotid (atlas L)",
-          "structures": [
-            "Left common carotid artery"
-          ]
-        },
-        {
-          "text": "Carotid (atlas R)",
-          "structures": [
-            "Right common carotid artery"
-          ]
-        }
-      ]
-    }
-  },
-  {
-    "title": "Femoral-vein thrombosis: color Doppler ultrasound",
-    "plane": "Longitudinal",
-    "region": "Lower limb",
-    "finding": "Deep vein thrombosis",
-    "summary": "Echogenic thrombus and absent color flow in the femoral vein.",
-    "text": "<p>The femoral vein contains echogenic thrombus and lacks the color filling seen in the neighboring femoral artery and deep femoral vein. The femoral vein belongs to the deep venous system. A static Doppler image does not demonstrate a compression examination.</p>",
-    "reading": [
-      "Compare the middle femoral vein with the color-filled vessels above and below it.",
-      "Locate the thrombus within the femoral vein."
-    ],
-    "tags": [
-      "pathology",
-      "vascular",
-      "femoral vein",
-      "deep vein thrombosis",
-      "color Doppler",
-      "longitudinal",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "Which vessel contains the thrombus in this image?",
-        "options": [
-          "Femoral vein",
-          "Femoral artery",
-          "Deep femoral vein"
-        ],
-        "answer": 0,
-        "explanation": "The middle femoral vein contains echogenic material and lacks color filling."
-      }
-    ],
-    "id": "us_femoral_dvt",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Femoral-vein thrombus",
-        "x": 0.562,
-        "y": 0.472,
-        "note": "Echogenic material in the femoral vein without color filling.",
-        "structures": [
-          "Femoral vein"
-        ]
-      },
-      {
-        "text": "Femoral artery",
-        "x": 0.548,
-        "y": 0.228,
-        "note": "Adjacent artery with color flow.",
-        "structures": [
-          "Femoral artery"
-        ]
-      },
-      {
-        "text": "Deep femoral vein",
-        "x": 0.571,
-        "y": 0.693,
-        "note": "Adjacent deep femoral vein with color flow.",
-        "structures": [
-          "Deep femoral vein"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Ultrasonography of deep vein thrombosis of the femoral vein.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_deep_vein_thrombosis_of_the_femoral_vein.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "lower_limb_l",
-        "lower_limb_r"
-      ],
-      "focus": [
-        "Femoral vein",
-        "Femoral artery",
-        "Deep femoral vein"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Abdominal aortic aneurysm: transverse ultrasound",
-    "plane": "Transverse",
-    "region": "Abdomen",
-    "finding": "Abdominal aortic aneurysm",
-    "summary": "An enlarged abdominal aorta in an axial ultrasound view.",
-    "text": "<p>The abdominal aorta is aneurysmal in this transverse view. The image illustrates enlargement of the vessel; it does not provide a calibrated diameter measurement or establish rupture.</p>",
-    "reading": [
-      "Locate the enlarged aortic cross-section.",
-      "Assess the vessel outline without inferring an unmeasured diameter."
-    ],
-    "tags": [
-      "pathology",
-      "vascular",
-      "abdominal aorta",
-      "aortic aneurysm",
-      "transverse",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "Which vessel is aneurysmal in this transverse view?",
-        "options": [
-          "Abdominal aorta",
-          "Femoral vein",
-          "Common carotid artery"
-        ],
-        "answer": 0,
-        "explanation": "The enlarged abdominal aorta is shown in cross-section."
-      }
-    ],
-    "id": "us_aaa_axial",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Aortic aneurysm",
-        "x": 0.612,
-        "y": 0.651,
-        "note": "Enlarged abdominal aortic cross-section.",
-        "structures": [
-          "Abdominal aorta"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Ultrasonography of abdominal aortic aneurysm in axial plane.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_abdominal_aortic_aneurysm_in_axial_plane.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Abdominal aorta"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Normal abdominal aorta: transverse ultrasound",
-    "plane": "Transverse",
-    "region": "Abdomen",
-    "finding": "Normal anatomy",
-    "summary": "A normal aortic cross-section with lumen-only calipers.",
-    "text": "<p>The normal abdominal aorta is shown in cross-section. The displayed calipers span only the lumen and therefore do not represent the full aortic diameter. Assessment of aneurysm size requires measurement from outer wall to outer wall.</p>",
-    "reading": [
-      "Locate the aortic lumen and surrounding vessel wall.",
-      "Distinguish the lumen-only calipers from an outer-wall diameter measurement."
-    ],
-    "tags": [
-      "normal",
-      "vascular",
-      "abdominal aorta",
-      "measurement",
-      "transverse",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "What do the displayed calipers span?",
-        "options": [
-          "The aortic lumen only",
-          "The full outer-wall diameter",
-          "The kidney length"
-        ],
-        "answer": 0,
-        "explanation": "The calipers lie within the lumen; they do not span the full external diameter."
-      }
-    ],
-    "id": "us_normal_aorta_measurement_caveat",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Aortic lumen",
-        "x": 0.451,
-        "y": 0.431,
-        "note": "Dark central lumen of the abdominal aorta.",
-        "structures": [
-          "Abdominal aorta"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "US normal abdominal aorta.JPG",
-        "url": "https://commons.wikimedia.org/wiki/File:US_normal_abdominal_aorta.JPG"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Abdominal aorta"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Fetal crown-rump length: sagittal ultrasound",
-    "plane": "Sagittal",
-    "region": "Pelvis",
-    "finding": "Fetal biometry",
-    "summary": "Crown-rump length in a fetus at approximately 12 weeks.",
-    "text": "<p>The fetus is shown in a sagittal profile at approximately 12 weeks. The crown-rump length line joins the crown of the head and the rump. This single biometry image does not establish a complete normal fetal examination.</p>",
-    "reading": [
-      "Identify the fetal head and trunk in profile.",
-      "Follow the crown-rump length line between its endpoints."
-    ],
-    "tags": [
-      "anatomy reference",
-      "obstetric",
-      "fetus",
-      "crown-rump length",
-      "sagittal",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "Which endpoints define crown-rump length?",
-        "options": [
-          "Crown of the head and rump",
-          "Head and heel",
-          "Both femoral heads"
-        ],
-        "answer": 0,
-        "explanation": "The line measures from the crown of the fetal head to the rump."
-      }
-    ],
-    "id": "us_fetal_crl_12_weeks",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Crown",
-        "x": 0.235,
-        "y": 0.57825,
-        "note": "Crown endpoint of the fetal length measurement.",
-        "structures": []
-      },
-      {
-        "text": "Rump",
-        "x": 0.738,
-        "y": 0.71239,
-        "note": "Rump endpoint of the fetal length measurement.",
-        "structures": []
-      }
-    ],
-    "references": [
-      {
-        "title": "CRL Crown rump length 12 weeks ecografia Dr. Wolfgang Moroder.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:CRL_Crown_rump_length_12_weeks_ecografia_Dr._Wolfgang_Moroder.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ]
-    }
-  },
-  {
-    "title": "Baker's cyst: longitudinal knee ultrasound",
-    "plane": "Longitudinal",
-    "region": "Lower limb",
-    "finding": "Baker's cyst",
-    "summary": "A fluid-filled cyst in the posterior left knee.",
-    "text": "<p>The dark fluid collection in the posterior left knee illustrates a Baker's cyst. Its elongated shape is visible in the longitudinal view. The image does not establish cyst rupture or exclude deep vein thrombosis.</p>",
-    "reading": [
-      "Locate the anechoic cystic collection.",
-      "Follow its elongated outline in the posterior knee."
-    ],
-    "tags": [
-      "pathology",
-      "soft tissue",
-      "knee",
-      "Baker's cyst",
-      "longitudinal",
-      "ultrasound"
-    ],
-    "questions": [
-      {
-        "prompt": "Which appearance is visible within the cyst?",
-        "options": [
-          "A dark fluid-filled space",
-          "Dense mineralized bone",
-          "Color-filled arterial lumen"
-        ],
-        "answer": 0,
-        "explanation": "The cyst is largely anechoic, consistent with a fluid collection."
-      }
-    ],
-    "id": "us_baker_cyst",
-    "modality": "Ultrasound",
-    "labels": [
-      {
-        "text": "Baker's cyst",
-        "x": 0.4831,
-        "y": 0.30028,
-        "note": "Fluid-filled cystic collection in the posterior knee.",
-        "structures": [
-          "Popliteal fossa"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Baker's cyst.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Baker's_cyst.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "lower_limb_l",
-        "lower_limb_r"
-      ],
-      "focus": [
-        "Popliteal fossa"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Small bowel obstruction: upright abdominal radiograph",
-    "plane": "Projection",
-    "region": "Abdomen",
-    "finding": "Small bowel obstruction",
-    "summary": "Multiple air-fluid levels on an upright abdominal radiograph.",
-    "text": "<p>Multiple bowel air-fluid levels are visible on this upright abdominal radiograph. The appearance illustrates small bowel obstruction. A single projection does not establish the cause or transition point.</p>",
-    "reading": [
-      "Locate the horizontal interfaces between bowel gas and fluid.",
-      "Compare the fluid levels across several bowel loops."
-    ],
-    "tags": [
-      "pathology",
-      "small bowel",
-      "obstruction",
-      "air-fluid levels",
-      "upright",
-      "abdomen",
-      "X-ray"
-    ],
-    "questions": [
-      {
-        "prompt": "What feature is visible at the labeled targets?",
-        "options": [
-          "Air-fluid levels",
-          "Renal calculi",
-          "Bone fractures"
-        ],
-        "answer": 0,
-        "explanation": "Horizontal gas-fluid interfaces are visible in the bowel loops."
-      }
-    ],
-    "id": "xr_small_bowel_obstruction",
-    "modality": "X-ray",
-    "labels": [
-      {
-        "text": "Air-fluid level",
-        "x": 0.808,
-        "y": 0.597,
-        "note": "Horizontal interface between bowel gas and fluid.",
-        "structures": []
-      },
-      {
-        "text": "Air-fluid level",
-        "x": 0.23315,
-        "y": 0.65,
-        "note": "Horizontal interface between bowel gas and fluid.",
-        "structures": []
-      }
-    ],
-    "references": [
-      {
-        "title": "Upright X-ray demonstrating small bowel obstruction.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Upright_X-ray_demonstrating_small_bowel_obstruction.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ]
-    }
-  },
-  {
-    "title": "L3 compression fracture: lateral lumbar radiograph",
-    "plane": "Projection",
-    "region": "Spine",
-    "finding": "Compression fracture",
-    "summary": "Reduced height of the L3 vertebral body.",
-    "text": "<p>The L3 vertebral body shows reduced height and upper endplate depression. Compare it with adjacent lumbar vertebral bodies on the lateral image. The image alone does not establish fracture acuity or cause.</p>",
-    "reading": [
-      "Locate the compressed L3 vertebral body.",
-      "Compare its height and endplate contour with neighboring vertebrae."
-    ],
-    "tags": [
-      "pathology",
-      "lumbar spine",
-      "L3",
-      "compression fracture",
-      "lateral",
-      "X-ray"
-    ],
-    "questions": [
-      {
-        "prompt": "Which feature marks the compression fracture?",
-        "options": [
-          "Reduced vertebral-body height",
-          "An enlarged renal pelvis",
-          "A gallstone shadow"
-        ],
-        "answer": 0,
-        "explanation": "The affected L3 body has reduced height and endplate depression."
-      }
-    ],
-    "id": "xr_l3_compression_fracture",
-    "modality": "X-ray",
-    "labels": [
-      {
-        "text": "L3 vertebral body",
-        "x": 0.3,
-        "y": 0.489,
-        "note": "Compressed vertebral body with reduced height and endplate depression.",
-        "structures": [
-          "Vertebra L3"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Compressionfracture.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Compressionfracture.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "back"
-      ],
-      "focus": [
-        "Vertebra L3"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Left distal radius fracture: frontal and lateral radiographs",
-    "plane": "Projection",
-    "region": "Upper limb",
-    "finding": "Colles fracture",
-    "summary": "Left distal radius fracture in frontal and lateral views.",
-    "text": "<p>The distal radius fracture is visible in frontal and lateral views of the left wrist. The lateral image shows displacement of the distal fragment. The injury also includes an ulnar styloid fracture.</p>",
-    "reading": [
-      "Compare the distal radial cortex across both views.",
-      "Locate the displaced fragment on the lateral image."
-    ],
-    "tags": [
-      "pathology",
-      "left wrist",
-      "distal radius",
-      "Colles fracture",
-      "ulnar styloid fracture",
-      "frontal",
-      "lateral",
-      "X-ray"
-    ],
-    "questions": [
-      {
-        "prompt": "Which bone is fractured beside the blue arrows?",
-        "options": [
-          "Radius",
-          "Humerus",
-          "Clavicle"
-        ],
-        "answer": 0,
-        "explanation": "Both projections show the distal radius fracture."
-      }
-    ],
-    "id": "xr_colles_ulnar_styloid",
-    "modality": "X-ray",
-    "labels": [
-      {
-        "text": "Distal radius fracture (lateral view)",
-        "x": 0.75,
-        "y": 0.481,
-        "note": "Displaced distal radial fracture in the lateral panel.",
-        "structures": [
-          "Radius"
-        ]
-      },
-      {
-        "text": "Distal radius fracture (frontal view)",
-        "x": 0.328,
-        "y": 0.514,
-        "note": "Distal radial cortical disruption in the frontal panel.",
-        "structures": [
-          "Radius"
-        ]
-      },
-      {
-        "text": "Ulna",
-        "x": 0.12,
-        "y": 0.65,
-        "note": "Distal ulna shaft in the frontal panel.",
-        "structures": [
-          "Ulna"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Collesfracture.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Collesfracture.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
-    "scene": {
-      "systems": [
-        "skeletal"
-      ],
-      "regions": [
-        "upper_limb_l"
-      ],
-      "side": "Left",
-      "view": "anterior",
-      "frame_on": [
-        "Radius"
-      ],
-      "ghost_focus": [
-        "Radius",
-        "Ulna"
-      ]
-    }
-  },
-  {
-    "title": "Clavicular fracture: frontal radiograph",
-    "plane": "Projection",
-    "region": "Upper limb",
-    "finding": "Clavicular fracture",
-    "summary": "Interrupted clavicular continuity with separated fragments.",
-    "text": "<p>The fracture interrupts clavicular continuity, with separated fragments. Trace the cortical edges into the fracture gap.</p>",
-    "reading": [
-      "Identify the clavicle within the circled region.",
-      "Follow each cortical edge toward the fracture gap."
-    ],
-    "tags": [
-      "pathology",
-      "clavicle",
-      "fracture",
-      "frontal",
-      "X-ray"
-    ],
-    "questions": [
-      {
-        "prompt": "Which bone has the visible cortical interruption?",
-        "options": [
-          "Clavicle",
-          "Scapula",
-          "Humerus"
-        ],
-        "answer": 0,
-        "explanation": "The fracture gap interrupts the clavicle."
-      }
-    ],
-    "id": "xr_clavicular_fracture",
-    "modality": "X-ray",
-    "labels": [
-      {
-        "text": "Clavicular fracture",
-        "x": 0.65,
-        "y": 0.225036,
-        "note": "Fracture gap interrupts clavicular continuity.",
-        "structures": [
-          "Clavicle"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Clavicular fracture.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Clavicular_fracture.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "upper_limb_l",
-        "upper_limb_r"
-      ],
-      "focus": [
-        "Clavicle"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Lumbar scoliosis: standing frontal radiograph",
-    "plane": "Projection",
-    "region": "Spine",
-    "finding": "Scoliosis",
-    "summary": "Opposing curves in the lumbar vertebral column.",
-    "text": "<p>The lumbar vertebral column shows opposing curves on the standing frontal radiograph. Trace successive vertebral-body centers through the lumbar region. The entire spine is not included, and no Cobb angle is provided.</p>",
-    "reading": [
-      "Follow the lumbar vertebral-body centers.",
-      "Observe changes in curve direction within the imaged region."
-    ],
-    "tags": [
-      "pathology",
-      "lumbar spine",
-      "scoliosis",
-      "standing",
-      "frontal",
-      "X-ray"
-    ],
-    "questions": [
-      {
-        "prompt": "Which alignment finding is illustrated?",
-        "options": [
-          "Scoliosis",
-          "Aortic aneurysm",
-          "Bowel obstruction"
-        ],
-        "answer": 0,
-        "explanation": "The vertebral column curves laterally in the frontal projection."
-      }
-    ],
-    "id": "xr_scoliosis",
-    "modality": "X-ray",
-    "labels": [
-      {
-        "text": "Lumbar vertebral column",
-        "x": 0.435,
-        "y": 0.437137,
-        "note": "Lumbar vertebral bodies follow the curved column.",
-        "structures": []
-      }
-    ],
-    "references": [
-      {
-        "title": "Scoliosis.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Scoliosis.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "back"
-      ]
-    }
-  },
-  {
-    "title": "Calcaneal fracture: lateral hindfoot radiograph",
-    "plane": "Projection",
-    "region": "Lower limb",
-    "finding": "Calcaneal fracture",
-    "summary": "A fractured heel bone below the talus.",
-    "text": "<p>The calcaneus is fractured in this lateral hindfoot radiograph. Identify the heel bone below the talus. The image is presented without a measured angle or fracture classification.</p>",
-    "reading": [
-      "Locate the calcaneus beneath the talus.",
-      "Observe the disrupted heel-bone contour and internal trabecular pattern."
-    ],
-    "tags": [
-      "pathology",
-      "calcaneus",
-      "heel",
-      "fracture",
-      "hindfoot",
-      "lateral",
-      "X-ray"
-    ],
-    "questions": [
-      {
-        "prompt": "Which labeled bone forms the heel?",
-        "options": [
-          "Calcaneus",
-          "Talus",
-          "Patella"
-        ],
-        "answer": 0,
-        "explanation": "The calcaneus is the large heel bone below the talus."
-      }
-    ],
-    "id": "xr_calcaneus_fracture",
-    "modality": "X-ray",
-    "labels": [
-      {
-        "text": "Calcaneus",
-        "x": 0.691,
-        "y": 0.618,
-        "note": "Heel bone beneath the talus.",
-        "structures": [
-          "Calcaneus"
-        ]
-      },
-      {
-        "text": "Talus",
-        "x": 0.646,
-        "y": 0.332,
-        "note": "Talar body above the calcaneus and beneath the tibia.",
-        "structures": [
-          "Talus"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Calcaneus Fracture.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Calcaneus_Fracture.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "lower_limb_l",
-        "lower_limb_r"
-      ],
-      "focus": [
-        "Calcaneus",
-        "Talus"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Bilateral renal calculi: abdominal radiograph",
-    "plane": "Projection",
-    "region": "Abdomen",
-    "finding": "Renal calculi",
-    "summary": "Renal calculi in both upper abdominal renal regions.",
-    "text": "<p>Bilateral renal calculi appear as radiopaque foci in the upper abdomen. Rounded pelvic calcifications represent phleboliths and should be distinguished from the renal calculi. The radiograph does not establish urinary obstruction or renal function.</p>",
-    "reading": [
-      "Locate calculi in both upper abdominal renal regions.",
-      "Compare their location with the rounded pelvic phlebolith."
-    ],
-    "tags": [
-      "pathology",
-      "kidney",
-      "renal calculi",
-      "phleboliths",
-      "KUB",
-      "frontal",
-      "X-ray"
-    ],
-    "questions": [
-      {
-        "prompt": "Which finding should be distinguished from renal calculi?",
-        "options": [
-          "Pelvic phleboliths",
-          "Thyroid lobes",
-          "Aortic lumen"
-        ],
-        "answer": 0,
-        "explanation": "The separate rounded pelvic calcifications are phleboliths."
-      }
-    ],
-    "id": "xr_bilateral_renal_stones",
-    "modality": "X-ray",
-    "labels": [
-      {
-        "text": "Renal calculi (image left)",
-        "x": 0.3,
-        "y": 0.315,
-        "note": "Radiopaque calculi in the upper abdominal renal region.",
-        "structures": [
-          "Kidney"
-        ]
-      },
-      {
-        "text": "Renal calculi (image right)",
-        "x": 0.699,
-        "y": 0.23,
-        "note": "Radiopaque calculi in the opposite upper abdominal renal region.",
-        "structures": [
-          "Kidney"
-        ]
-      },
-      {
-        "text": "Pelvic phlebolith",
-        "x": 0.311,
-        "y": 0.864,
-        "note": "Rounded venous calcification in the pelvis.",
-        "structures": []
-      }
-    ],
-    "references": [
-      {
-        "title": "Kidney stones abdominal X-ray.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Kidney_stones_abdominal_X-ray.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Kidney"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Skull anatomy: lateral radiograph",
-    "plane": "Projection",
-    "region": "Head and neck",
-    "finding": "Skull anatomy",
-    "summary": "Mandible, maxillary sinus and mastoid air cells in lateral projection.",
-    "text": "<p>A lateral skull radiograph depicts the mandible, maxillary sinus and mastoid air cells. Paired structures overlap in this projection. This anatomy reference does not establish a complete normal skull examination.</p>",
-    "reading": [
-      "Locate the mandibular body beneath the lower teeth.",
-      "Find the maxillary sinus above the upper teeth.",
-      "Identify the honeycomb appearance of the mastoid air cells."
-    ],
-    "tags": [
-      "anatomy reference",
-      "skull",
-      "mandible",
-      "maxillary sinus",
-      "mastoid air cells",
-      "lateral",
-      "X-ray"
-    ],
-    "questions": [
-      {
-        "prompt": "Which labeled bone supports the lower teeth?",
-        "options": [
-          "Mandible",
-          "Frontal bone",
-          "Clavicle"
-        ],
-        "answer": 0,
-        "explanation": "The mandible forms the lower jaw."
-      }
-    ],
-    "id": "xr_lateral_skull_anatomy_reference",
-    "modality": "X-ray",
-    "labels": [
-      {
-        "text": "Mandible",
-        "x": 0.758,
-        "y": 0.89,
-        "note": "Lower jaw beneath the lower tooth row.",
-        "structures": [
-          "Mandible"
-        ]
-      },
-      {
-        "text": "Mastoid air cells",
-        "x": 0.385,
-        "y": 0.588,
-        "note": "Honeycomb air-cell pattern in the mastoid region.",
-        "structures": []
-      },
-      {
-        "text": "Maxillary sinus",
-        "x": 0.788,
-        "y": 0.633,
-        "note": "Air-filled sinus above the upper tooth row.",
-        "structures": []
-      }
-    ],
-    "references": [
-      {
-        "title": "Schaedel im Röntgen seitlich.png",
-        "url": "https://commons.wikimedia.org/wiki/File:Schaedel_im_R%C3%B6ntgen_seitlich.png"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "focus": [
-        "Mandible"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Lumbar anatomy: AP radiograph",
-    "plane": "Projection",
-    "region": "Spine",
-    "finding": "Lumbar anatomy",
-    "summary": "Lumbar vertebral bodies and sacrum in AP projection.",
-    "text": "<p>The AP lumbar projection shows the vertebral bodies and sacrum. Locate the sacrum below the lumbar vertebral column. This anatomy reference does not establish clinical normality or exclude subtle pathology.</p>",
-    "reading": [
-      "Identify a lumbar vertebral body.",
-      "Locate the sacrum beneath the lumbar column."
-    ],
-    "tags": [
-      "anatomy reference",
-      "lumbar spine",
-      "sacrum",
-      "AP",
-      "X-ray"
-    ],
-    "questions": [
-      {
-        "prompt": "Which bone lies below the lumbar vertebral column?",
-        "options": [
-          "Sacrum",
-          "Clavicle",
-          "Mandible"
-        ],
-        "answer": 0,
-        "explanation": "The sacrum continues the spinal column inferior to the lumbar vertebrae."
-      }
-    ],
-    "id": "xr_lumbar_ap_anatomy_only",
-    "modality": "X-ray",
-    "labels": [
-      {
-        "text": "Lumbar vertebral body",
-        "x": 0.488,
-        "y": 0.463821,
-        "note": "Lumbar vertebral body with visible endplate boundaries.",
-        "structures": []
-      },
-      {
-        "text": "Sacrum",
-        "x": 0.51,
-        "y": 0.77922,
-        "note": "Sacral bone below the lumbar vertebral column.",
-        "structures": [
-          "Sacrum"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "AP lumbar xray.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:AP_lumbar_xray.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "back"
-      ],
-      "focus": [
-        "Sacrum"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "title": "Lumbar anatomy: lateral radiograph",
-    "plane": "Projection",
-    "region": "Spine",
-    "finding": "Lumbar anatomy",
-    "summary": "Vertebral-body profiles, disc spaces and sacrum in lateral projection.",
-    "text": "<p>The lateral lumbar radiograph displays vertebral-body profiles and intervening disc spaces. Identify the sacrum below the lumbar column. This anatomy reference does not establish clinical normality or exclude subtle pathology.</p>",
-    "reading": [
-      "Find the lumbar vertebral-body profiles.",
-      "Identify an intervertebral disc space.",
-      "Follow the column inferiorly to the sacrum."
-    ],
-    "tags": [
-      "anatomy reference",
-      "lumbar spine",
-      "intervertebral disc space",
-      "sacrum",
-      "lateral",
-      "X-ray"
-    ],
-    "questions": [
-      {
-        "prompt": "What separates adjacent vertebral-body endplates?",
-        "options": [
-          "An intervertebral disc space",
-          "A gallbladder lumen",
-          "A carotid artery"
-        ],
-        "answer": 0,
-        "explanation": "The radiolucent interval corresponds to an intervertebral disc space."
-      }
-    ],
-    "id": "xr_lumbar_lateral_anatomy_only",
-    "modality": "X-ray",
-    "labels": [
-      {
-        "text": "Lumbar vertebral body",
-        "x": 0.49,
-        "y": 0.39,
-        "note": "Lumbar vertebral body with visible endplate boundaries.",
-        "structures": []
-      },
-      {
-        "text": "Intervertebral disc space",
-        "x": 0.508,
-        "y": 0.449,
-        "note": "Radiolucent interval between adjacent vertebral-body endplates.",
-        "structures": []
-      },
-      {
-        "text": "Sacrum",
-        "x": 0.444,
-        "y": 0.671,
-        "note": "Sacral bone below the lumbar vertebral column.",
-        "structures": [
-          "Sacrum"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Lateral lumbar x ray.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:Lateral_lumbar_x_ray.jpg"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "back"
-      ],
-      "focus": [
-        "Sacrum"
-      ],
-      "isolate": true
-    }
+ {
+  "title": "Normal liver: sagittal ultrasound",
+  "plane": "Sagittal",
+  "region": "Abdomen",
+  "finding": "Normal anatomy",
+  "summary": "Normal liver parenchyma in a sagittal ultrasound view.",
+  "text": "<p>The liver is shown in a sagittal view at the midclavicular line. Identify the gray hepatic parenchyma beneath the curved superficial scan boundary.</p>",
+  "reading": [
+   "Locate the liver parenchyma.",
+   "Follow the sagittal view through the hepatic tissue."
+  ],
+  "tags": [
+   "normal",
+   "liver",
+   "hepatic parenchyma",
+   "sagittal",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "Which organ contains the labeled parenchyma?",
+    "options": [
+     "Liver",
+     "Spleen",
+     "Kidney"
+    ],
+    "answer": 0,
+    "explanation": "The labeled tissue is hepatic parenchyma."
+   }
+  ],
+  "id": "us_normal_liver",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.432,
+    "y": 0.636,
+    "text": "Liver parenchyma",
+    "structures": [
+     "Liver"
+    ],
+    "note": "Hepatic tissue in the sagittal scan."
+   },
+   {
+    "x": 0.2,
+    "y": 0.71,
+    "text": "Diaphragm",
+    "structures": [
+     "Diaphragm"
+    ],
+    "note": "Echogenic curved diaphragmatic surface beneath the liver dome; identification by position only."
+   }
+  ],
+  "references": [
+   {
+    "title": "Ultrasonography of a normal liver.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_a_normal_liver.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "systems": [
+    "muscular",
+    "visceral"
+   ],
+   "regions": [
+    "thorax",
+    "abdomen"
+   ],
+   "view": "right",
+   "focus": [
+    "Liver"
+   ],
+   "show": [
+    "Diaphragm"
+   ],
+   "isolate": true,
+   "xray": false
   }
+ },
+ {
+  "title": "Focal hepatic steatosis: ultrasound",
+  "plane": "Unspecified",
+  "region": "Abdomen",
+  "finding": "Focal steatosis",
+  "summary": "An echogenic focus of hepatic steatosis surrounds a traversing vein.",
+  "text": "<p>The bright hepatic focus illustrates focal steatosis. A hepatic vein passes through the focus without compression. Preserved vessel course favors focal fat in this example; it does not independently exclude every hepatic mass.</p>",
+  "reading": [
+   "Locate the brighter hepatic focus beneath the arrow.",
+   "Follow the dark traversing vein through the focus."
+  ],
+  "tags": [
+   "pathology",
+   "liver",
+   "focal steatosis",
+   "hepatic vein",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "Which feature favors focal steatosis in this example?",
+    "options": [
+     "A traversing hepatic vein remains uncompressed",
+     "A dense posterior acoustic shadow",
+     "A large obstructing calculus"
+    ],
+    "answer": 0,
+    "explanation": "The hepatic vein retains its course through the echogenic focus."
+   }
+  ],
+  "id": "us_focal_steatosis",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.581,
+    "y": 0.41,
+    "text": "Focal steatosis",
+    "structures": [
+     "Liver"
+    ],
+    "note": "Echogenic focal hepatic tissue (focal fatty change) beneath the arrow."
+   },
+   {
+    "x": 0.523,
+    "y": 0.498,
+    "text": "Traversing hepatic vein",
+    "structures": [
+     "Hepatic veins"
+    ],
+    "note": "A dark vein courses through the focus without compression."
+   }
+  ],
+  "references": [
+   {
+    "title": "Ultrasonography of focal steatosis.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_focal_steatosis.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "systems": [
+    "visceral",
+    "cardiovascular"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Liver",
+    "Hepatic veins"
+   ],
+   "isolate": true,
+   "xray": false,
+   "view": "anterior"
+  }
+ },
+ {
+  "title": "Normal adult kidney: longitudinal ultrasound",
+  "plane": "Longitudinal",
+  "region": "Abdomen",
+  "finding": "Normal anatomy",
+  "summary": "Cortex, pyramid and renal sinus in a normal adult kidney.",
+  "text": "<p>The kidney is shown along its long axis. Three asterisks mark the cortex, two mark a pyramid, and four mark the renal sinus. The central sinus is brighter than the surrounding renal parenchyma.</p>",
+  "reading": [
+   "Find the cortex at the triple-asterisk marker.",
+   "Compare the pyramid with the brighter renal sinus."
+  ],
+  "tags": [
+   "normal",
+   "kidney",
+   "renal cortex",
+   "renal pyramid",
+   "renal sinus",
+   "longitudinal",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "Which structure is marked by four asterisks?",
+    "options": [
+     "Renal sinus",
+     "Renal cortex",
+     "Renal pyramid"
+    ],
+    "answer": 0,
+    "explanation": "Four asterisks mark the bright central renal sinus."
+   }
+  ],
+  "id": "us_normal_adult_kidney",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.571,
+    "y": 0.356,
+    "text": "Renal cortex",
+    "structures": [
+     "Kidney"
+    ],
+    "note": "Outer renal parenchyma at the triple-asterisk marker."
+   },
+   {
+    "x": 0.493,
+    "y": 0.393,
+    "text": "Renal pyramid",
+    "structures": [
+     "Kidney"
+    ],
+    "note": "Renal pyramid at the double-asterisk marker."
+   },
+   {
+    "x": 0.465,
+    "y": 0.496,
+    "text": "Renal sinus",
+    "structures": [
+     "Kidney"
+    ],
+    "note": "Bright central renal sinus at the quadruple-asterisk marker."
+   },
+   {
+    "x": 0.483,
+    "y": 0.44,
+    "text": "Renal pelvis",
+    "structures": [
+     "Renal pelvis"
+    ],
+    "note": "Anechoic renal pelvis and calyceal urine at the centre of the sinus; dark on ultrasound."
+   }
+  ],
+  "references": [
+   {
+    "title": "Normal adult kidney.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Normal_adult_kidney.jpg"
+   },
+   {
+    "title": "Ultrasonography of the Kidney: A Pictorial Review, Diagnostics 6(1):2 (2015)",
+    "url": "https://doi.org/10.3390/diagnostics6010002"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "muscular",
+    "nervous",
+    "cardiovascular",
+    "visceral",
+    "joints"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "focus": [
+    "Kidney"
+   ],
+   "show": [
+    "Renal pelvis",
+    "Left renal artery",
+    "Right renal artery",
+    "Left renal vein",
+    "Right renal vein",
+    "Suprarenal gland"
+   ],
+   "isolate": true
+  }
+ },
+ {
+  "title": "Hydronephrosis with cortical atrophy: ultrasound",
+  "plane": "Longitudinal",
+  "region": "Abdomen",
+  "finding": "Hydronephrosis",
+  "summary": "Dilated anechoic renal pelvis and calyces with cortical atrophy.",
+  "text": "<p>Hydronephrosis expands the dark renal pelvis and calyces. Cortical atrophy accompanies the collecting-system dilatation in this example. The image alone does not establish the cause or duration of obstruction.</p>",
+  "reading": [
+   "Identify the expanded dark collecting-system spaces.",
+   "Locate the dilated calyx between the calipers.",
+   "Compare the collecting system with the separate normal kidney image."
+  ],
+  "tags": [
+   "pathology",
+   "kidney",
+   "hydronephrosis",
+   "renal calyx",
+   "collecting system",
+   "cortical atrophy",
+   "longitudinal",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "What is the dark space between the calipers?",
+    "options": [
+     "A dilated calyx",
+     "A solid renal mass",
+     "A calcified stone"
+    ],
+    "answer": 0,
+    "explanation": "The anechoic calyx is enlarged as part of the hydronephrosis."
+   }
+  ],
+  "id": "us_hydronephrosis_cortical_atrophy",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.402,
+    "y": 0.399,
+    "text": "Dilated calyx",
+    "structures": [
+     "Renal pelvis",
+     "Hydronephrosis (dilated renal pelvis)"
+    ],
+    "side": "Right",
+    "note": "Anechoic collecting-system space between the calipers, part of the hydronephrosis."
+   },
+   {
+    "x": 0.58,
+    "y": 0.36,
+    "text": "Dilated renal pelvis",
+    "structures": [
+     "Renal pelvis",
+     "Hydronephrosis (dilated renal pelvis)"
+    ],
+    "side": "Right",
+    "note": "Anechoic renal pelvis expanded by urine; the dilatation is the pathology on this image."
+   }
+  ],
+  "references": [
+   {
+    "title": "Ultrasonography of hydronephrosis with dilated anechoic pelvis and calyces, along with cortical atrophy.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_hydronephrosis_with_dilated_anechoic_pelvis_and_calyces%2C_along_with_cortical_atrophy.jpg"
+   },
+   {
+    "title": "Ultrasonography of the Kidney: A Pictorial Review, Diagnostics 6(1):2 (2015)",
+    "url": "https://doi.org/10.3390/diagnostics6010002"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "systems": [
+    "visceral",
+    "cardiovascular"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "side": "Right",
+   "view": "anterior",
+   "show": [
+    "Hydronephrosis (dilated renal pelvis)"
+   ],
+   "focus": [
+    "Kidney",
+    "Renal pelvis"
+   ],
+   "isolate": true,
+   "xray": false
+  }
+ },
+ {
+  "title": "Gallstones and biliary sludge: ultrasound",
+  "plane": "Unspecified",
+  "region": "Abdomen",
+  "finding": "Cholelithiasis",
+  "summary": "Echogenic gallstones and sludge within the gallbladder.",
+  "text": "<p>Gallstones and sludge occupy the dependent part of the gallbladder. Echogenic stones produce posterior acoustic shadowing. This example is described as cholelithiasis without current cholecystitis; a single image does not replace the complete clinical and ultrasound assessment.</p>",
+  "reading": [
+   "Identify the dark gallbladder lumen.",
+   "Find the bright dependent gallstones and the mixed echoes of sludge."
+  ],
+  "tags": [
+   "pathology",
+   "gallbladder",
+   "gallstones",
+   "cholelithiasis",
+   "biliary sludge",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "Which finding is present in the dependent gallbladder?",
+    "options": [
+     "Gallstones and sludge",
+     "Color Doppler flow",
+     "A dilated renal calyx"
+    ],
+    "answer": 0,
+    "explanation": "The dependent bright calculi and mixed echoes illustrate gallstones and sludge."
+   }
+  ],
+  "id": "us_gallstones_sludge",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.486,
+    "y": 0.702,
+    "text": "Gallstones",
+    "structures": [
+     "Gallstones (dependent, shadowing)",
+     "Gallbladder"
+    ],
+    "note": "Bright dependent stones within the gallbladder, with posterior acoustic shadowing."
+   },
+   {
+    "x": 0.477,
+    "y": 0.474,
+    "text": "Gallbladder lumen",
+    "structures": [
+     "Gallbladder"
+    ],
+    "note": "Fluid-filled gallbladder above the dependent material."
+   },
+   {
+    "x": 0.47,
+    "y": 0.345,
+    "text": "Gallbladder wall",
+    "structures": [
+     "Gallbladder"
+    ],
+    "note": "Bright echogenic anterior wall of the gallbladder."
+   },
+   {
+    "x": 0.13,
+    "y": 0.72,
+    "text": "Liver",
+    "structures": [
+     "Liver"
+    ],
+    "note": "Adjacent liver parenchyma beside the gallbladder."
+   }
+  ],
+  "references": [
+   {
+    "title": "Ultrasonography of sludge and gallstones.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_sludge_and_gallstones.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "view": "anterior",
+   "focus": [
+    "Gallbladder"
+   ],
+   "show": [
+    "Liver",
+    "Duodenum",
+    "Gallstones (dependent, shadowing)",
+    "Biliary sludge (dependent layer)"
+   ],
+   "isolate": true,
+   "xray": false
+  }
+ },
+ {
+  "title": "Impacted gallstone with cholecystitis: ultrasound",
+  "plane": "Unspecified",
+  "region": "Abdomen",
+  "finding": "Cholecystitis",
+  "summary": "An impacted gallbladder-neck stone produces posterior acoustic shadowing.",
+  "text": "<p>The bright stone at the white arrow is impacted at the gallbladder neck. A dark acoustic shadow extends behind it. The accompanying clinical description reports cholecystitis, a 1.9 cm stone and a 4 mm gallbladder wall.</p>",
+  "reading": [
+   "Find the echogenic stone at the white arrow.",
+   "Trace the dark posterior acoustic shadow."
+  ],
+  "tags": [
+   "pathology",
+   "gallbladder",
+   "gallstone",
+   "cholelithiasis",
+   "cholecystitis",
+   "acoustic shadow",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "What imaging feature is visible behind the bright gallstone?",
+    "options": [
+     "Posterior acoustic shadowing",
+     "Color Doppler flow",
+     "Posterior acoustic enhancement"
+    ],
+    "answer": 0,
+    "explanation": "The stone attenuates the ultrasound beam and leaves a dark posterior shadow."
+   }
+  ],
+  "id": "us_impacted_gallstone_cholecystitis",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.493,
+    "y": 0.481,
+    "text": "Gallstone",
+    "structures": [
+     "Gallbladder",
+     "Impacted gallstone"
+    ],
+    "note": "Echogenic impacted gallbladder-neck stone (about 1.9 cm), with posterior acoustic shadowing."
+   },
+   {
+    "x": 0.49,
+    "y": 0.783,
+    "text": "Posterior acoustic shadow",
+    "structures": [],
+    "note": "Reduced echoes posterior to the gallstone; the dark shadow is the sound beam blocked by the stone, not a separate structure."
+   },
+   {
+    "x": 0.75,
+    "y": 0.55,
+    "text": "Liver",
+    "structures": [
+     "Liver"
+    ],
+    "note": "Echogenic liver parenchyma beside the gallbladder on the right of the image."
+   }
+  ],
+  "references": [
+   {
+    "title": "Gallstones.PNG",
+    "url": "https://commons.wikimedia.org/wiki/File:Gallstones.PNG"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "systems": [
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Gallbladder",
+    "Liver",
+    "Impacted gallstone",
+    "Gallbladder wall thickening"
+   ],
+   "show": [
+    "Impacted gallstone",
+    "Gallbladder wall thickening"
+   ],
+   "isolate": true,
+   "view": "anterior"
+  }
+ },
+ {
+  "title": "Hashimoto thyroiditis: longitudinal ultrasound",
+  "plane": "Longitudinal",
+  "region": "Head and neck",
+  "finding": "Hashimoto thyroiditis",
+  "summary": "An enlarged hypoechoic right thyroid lobe in Hashimoto thyroiditis.",
+  "text": "<p>The right thyroid lobe appears enlarged and hypoechoic in this longitudinal view of hypertrophic Hashimoto thyroiditis. Its echotexture is heterogeneous. Ultrasound appearance must be interpreted with the clinical and laboratory findings.</p>",
+  "reading": [
+   "Locate the thyroid lobe between the calipers.",
+   "Observe its low echogenicity and heterogeneous internal texture."
+  ],
+  "tags": [
+   "pathology",
+   "thyroid",
+   "Hashimoto thyroiditis",
+   "longitudinal",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "Which gland is enlarged and hypoechoic here?",
+    "options": [
+     "Thyroid",
+     "Parotid",
+     "Adrenal"
+    ],
+    "answer": 0,
+    "explanation": "The longitudinal image shows the right thyroid lobe in Hashimoto thyroiditis."
+   }
+  ],
+  "id": "us_hashimoto_thyroiditis",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.486,
+    "y": 0.541,
+    "text": "Right thyroid lobe",
+    "structures": [
+     "Thyroid gland",
+     "Hashimoto thyroiditis enlarged right lobe"
+    ],
+    "side": "Right",
+    "note": "Enlarged hypoechoic thyroid tissue."
+   }
+  ],
+  "references": [
+   {
+    "title": "Hashimoto-Thyreoiditis.JPG",
+    "url": "https://commons.wikimedia.org/wiki/File:Hashimoto-Thyreoiditis.JPG"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "systems": [
+    "visceral",
+    "cardiovascular",
+    "muscular",
+    "regions"
+   ],
+   "regions": [
+    "neck"
+   ],
+   "view": "anterior",
+   "side": "Right",
+   "xray": false,
+   "focus": [
+    "Thyroid gland"
+   ],
+   "show": [
+    "Thyroid gland",
+    "Hashimoto thyroiditis enlarged right lobe",
+    "Right common carotid artery",
+    "Internal jugular vein",
+    "Sternothyroid muscle"
+   ],
+   "isolate": true
+  }
+ },
+ {
+  "title": "Thyroid and adjacent neck anatomy: transverse ultrasound",
+  "plane": "Transverse",
+  "region": "Head and neck",
+  "finding": "Thyroid anatomy",
+  "summary": "Thyroid lobes lie beside the trachea and carotid vessels.",
+  "text": "<p>The thyroid lobes flank the central trachea in this transverse neck view. The numbered image identifies the thyroid lobes as 2 and 4, the trachea as 3, and common carotid arteries as 1 and 5. This image teaches spatial anatomy without establishing a normal thyroid examination.</p>",
+  "reading": [
+   "Locate the thyroid tissue beside the central trachea using the original numbered image.",
+   "Compare the lateral carotid cross-sections with the transverse atlas reference; source laterality is unspecified."
+  ],
+  "tags": [
+   "anatomy reference",
+   "thyroid",
+   "trachea",
+   "common carotid artery",
+   "transverse",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "Which numbered structure lies centrally between the thyroid lobes?",
+    "options": [
+     "Trachea (3)",
+     "Carotid artery (1)",
+     "Jugular vein (6)"
+    ],
+    "answer": 0,
+    "explanation": "The trachea lies between the thyroid lobes in the transverse neck view."
+   }
+  ],
+  "id": "us_thyroid_anatomy_reference",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.104,
+    "y": 0.459,
+    "text": "Common carotid artery",
+    "structures": [
+     "Left common carotid artery",
+     "Right common carotid artery"
+    ],
+    "note": "Arterial cross-section lateral to the thyroid, marked 1."
+   },
+   {
+    "x": 0.249,
+    "y": 0.411,
+    "text": "Thyroid lobe",
+    "structures": [
+     "Thyroid gland"
+    ],
+    "note": "Thyroid tissue beside the trachea, marked 2."
+   },
+   {
+    "x": 0.514,
+    "y": 0.362,
+    "text": "Trachea",
+    "structures": [
+     "Trachea"
+    ],
+    "note": "Central trachea, marked 3."
+   },
+   {
+    "x": 0.781,
+    "y": 0.453,
+    "text": "Thyroid lobe (opposite side)",
+    "structures": [
+     "Thyroid gland"
+    ],
+    "note": "Thyroid tissue on the other side of the trachea, marked 4."
+   },
+   {
+    "x": 0.902,
+    "y": 0.503,
+    "text": "Common carotid artery (opposite side)",
+    "structures": [
+     "Left common carotid artery",
+     "Right common carotid artery"
+    ],
+    "note": "Round arterial cross-section lateral to the opposite thyroid lobe, marked 5."
+   }
+  ],
+  "references": [
+   {
+    "title": "SD-Sono001-Nummern.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:SD-Sono001-Nummern.jpg"
+   }
+  ],
+  "atlas_note": "Illustrative lower-thyroid transverse atlas section, chosen where the existing thyroid and trachea intersect. It is not registered to this ultrasound; the source plane and side are not inferred from the atlas.",
+  "scene": {
+   "systems": [
+    "visceral",
+    "muscular",
+    "cardiovascular"
+   ],
+   "regions": [
+    "neck"
+   ],
+   "focus": [
+    "Thyroid gland",
+    "Trachea",
+    "Left common carotid artery",
+    "Right common carotid artery",
+    "Sternohyoid muscle",
+    "Sternothyroid muscle"
+   ],
+   "isolate": true,
+   "xray": false,
+   "view": "inferior"
+  }
+ },
+ {
+  "title": "Femoral-vein thrombosis: color Doppler ultrasound",
+  "plane": "Longitudinal",
+  "region": "Lower limb",
+  "finding": "Deep vein thrombosis",
+  "summary": "Echogenic thrombus and absent color flow in the femoral vein.",
+  "text": "<p>The femoral vein contains echogenic thrombus and lacks the color filling seen in the neighboring femoral artery and deep femoral vein. The femoral vein belongs to the deep venous system. A static Doppler image does not demonstrate a compression examination.</p>",
+  "reading": [
+   "Compare the middle femoral vein with the color-filled vessels above and below it.",
+   "Locate the thrombus within the femoral vein."
+  ],
+  "tags": [
+   "pathology",
+   "vascular",
+   "femoral vein",
+   "deep vein thrombosis",
+   "color Doppler",
+   "longitudinal",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "Which vessel contains the thrombus in this image?",
+    "options": [
+     "Femoral vein",
+     "Femoral artery",
+     "Deep femoral vein"
+    ],
+    "answer": 0,
+    "explanation": "The middle femoral vein contains echogenic material and lacks color filling."
+   }
+  ],
+  "id": "us_femoral_dvt",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.562,
+    "y": 0.472,
+    "text": "Femoral-vein thrombus",
+    "structures": [
+     "Femoral vein thrombus",
+     "Femoral vein"
+    ],
+    "side": "Left",
+    "note": "Echogenic material in the femoral vein without color filling."
+   },
+   {
+    "x": 0.548,
+    "y": 0.228,
+    "text": "Femoral artery",
+    "structures": [
+     "Femoral artery"
+    ],
+    "note": "Adjacent artery with color flow."
+   },
+   {
+    "x": 0.571,
+    "y": 0.693,
+    "text": "Deep femoral vein",
+    "structures": [
+     "Deep femoral vein"
+    ],
+    "note": "Adjacent deep femoral vein with color flow."
+   }
+  ],
+  "references": [
+   {
+    "title": "Ultrasonography of deep vein thrombosis of the femoral vein.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_deep_vein_thrombosis_of_the_femoral_vein.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "muscular",
+    "nervous",
+    "cardiovascular",
+    "visceral",
+    "joints"
+   ],
+   "view": "anterior",
+   "xray": false,
+   "regions": [
+    "lower_limb_l",
+    "lower_limb_r"
+   ],
+   "focus": [
+    "Femoral vein",
+    "Femoral artery",
+    "Deep femoral vein"
+   ],
+   "show": [
+    "Femoral vein thrombus"
+   ],
+   "isolate": true
+  }
+ },
+ {
+  "title": "Abdominal aortic aneurysm: transverse ultrasound",
+  "plane": "Transverse",
+  "region": "Abdomen",
+  "finding": "Abdominal aortic aneurysm",
+  "summary": "An enlarged abdominal aorta in an axial ultrasound view.",
+  "text": "<p>The abdominal aorta is aneurysmal in this transverse view. The image illustrates enlargement of the vessel; it does not provide a calibrated diameter measurement or establish rupture.</p>",
+  "reading": [
+   "Locate the enlarged aortic cross-section.",
+   "Assess the vessel outline without inferring an unmeasured diameter."
+  ],
+  "tags": [
+   "pathology",
+   "vascular",
+   "abdominal aorta",
+   "aortic aneurysm",
+   "transverse",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "Which vessel is aneurysmal in this transverse view?",
+    "options": [
+     "Abdominal aorta",
+     "Femoral vein",
+     "Common carotid artery"
+    ],
+    "answer": 0,
+    "explanation": "The enlarged abdominal aorta is shown in cross-section."
+   }
+  ],
+  "id": "us_aaa_axial",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.612,
+    "y": 0.651,
+    "text": "Aortic aneurysm",
+    "structures": [
+     "Abdominal aortic aneurysm",
+     "Abdominal aorta"
+    ],
+    "note": "Enlarged abdominal aortic cross-section."
+   },
+   {
+    "x": 0.5,
+    "y": 0.42,
+    "text": "Aneurysm wall",
+    "structures": [
+     "Abdominal aortic aneurysm"
+    ],
+    "note": "Anterior wall of the dilated aortic sac."
+   },
+   {
+    "x": 0.45,
+    "y": 0.28,
+    "text": "Anterior abdominal wall",
+    "structures": [
+     "Rectus abdominis muscle"
+    ],
+    "note": "Muscle layers of the anterior abdominal wall in front of the aorta."
+   },
+   {
+    "x": 0.5,
+    "y": 0.93,
+    "text": "Vertebral body (L1)",
+    "structures": [
+     "Vertebra L1"
+    ],
+    "note": "Bony posterior margin behind the aneurysm."
+   }
+  ],
+  "references": [
+   {
+    "title": "Ultrasonography of abdominal aortic aneurysm in axial plane.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Ultrasonography_of_abdominal_aortic_aneurysm_in_axial_plane.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints",
+    "muscular",
+    "cardiovascular",
+    "lymphatic",
+    "nervous",
+    "visceral",
+    "fascia",
+    "regions"
+   ],
+   "regions": [
+    "abdomen",
+    "back"
+   ],
+   "show": [
+    "Abdominal aortic aneurysm",
+    "Rectus abdominis muscle",
+    "Vertebra L1"
+   ],
+   "focus": [
+    "Abdominal aorta",
+    "Abdominal aortic aneurysm"
+   ],
+   "isolate": true,
+   "xray": false,
+   "clip": [
+    2,
+    0.635
+   ],
+   "view": "inferior"
+  }
+ },
+ {
+  "title": "Normal abdominal aorta: transverse ultrasound",
+  "plane": "Transverse",
+  "region": "Abdomen",
+  "finding": "Normal anatomy",
+  "summary": "A normal aortic cross-section with lumen-only calipers.",
+  "text": "<p>The normal abdominal aorta is shown in cross-section. The displayed calipers span only the lumen and therefore do not represent the full aortic diameter. Assessment of aneurysm size requires measurement from outer wall to outer wall.</p>",
+  "reading": [
+   "Locate the aortic lumen and surrounding vessel wall.",
+   "Distinguish the lumen-only calipers from an outer-wall diameter measurement."
+  ],
+  "tags": [
+   "normal",
+   "vascular",
+   "abdominal aorta",
+   "measurement",
+   "transverse",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "What do the displayed calipers span?",
+    "options": [
+     "The aortic lumen only",
+     "The full outer-wall diameter",
+     "The kidney length"
+    ],
+    "answer": 0,
+    "explanation": "The calipers lie within the lumen; they do not span the full external diameter."
+   }
+  ],
+  "id": "us_normal_aorta_measurement_caveat",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.451,
+    "y": 0.431,
+    "text": "Aortic lumen",
+    "structures": [
+     "Abdominal aorta"
+    ],
+    "note": "Dark central lumen of the abdominal aorta."
+   },
+   {
+    "x": 0.45,
+    "y": 0.32,
+    "text": "Anterior aortic wall",
+    "structures": [
+     "Abdominal aorta"
+    ],
+    "note": "Anterior outer wall of the aorta. Aneurysm size is measured from outer wall to outer wall, not lumen to lumen."
+   },
+   {
+    "x": 0.45,
+    "y": 0.48,
+    "text": "Posterior aortic wall",
+    "structures": [
+     "Abdominal aorta"
+    ],
+    "note": "Posterior wall of the aorta, lying in front of the spine."
+   },
+   {
+    "x": 0.535,
+    "y": 0.43,
+    "text": "Caliper end point",
+    "structures": [
+     "Abdominal aorta"
+    ],
+    "note": "Right-hand caliper end. The calipers span only the lumen, so this measurement underestimates the true aortic diameter."
+   }
+  ],
+  "references": [
+   {
+    "title": "US normal abdominal aorta.JPG",
+    "url": "https://commons.wikimedia.org/wiki/File:US_normal_abdominal_aorta.JPG"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "systems": [
+    "cardiovascular",
+    "skeletal",
+    "visceral"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "focus": [
+    "Abdominal aorta",
+    "Inferior vena cava (abdominal part)"
+   ],
+   "isolate": true,
+   "view": "anterior"
+  }
+ },
+ {
+  "title": "Fetal crown-rump length: sagittal ultrasound",
+  "plane": "Sagittal",
+  "region": "Pelvis",
+  "finding": "Fetal biometry",
+  "summary": "Crown-rump length in a fetus at approximately 12 weeks.",
+  "text": "<p>The fetus is shown in a sagittal profile at approximately 12 weeks. The crown-rump length line joins the crown of the head and the rump. This single biometry image does not establish a complete normal fetal examination.</p>",
+  "reading": [
+   "Identify the fetal head and trunk in profile.",
+   "Follow the crown-rump length line between its endpoints."
+  ],
+  "tags": [
+   "anatomy reference",
+   "obstetric",
+   "fetus",
+   "crown-rump length",
+   "sagittal",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "Which endpoints define crown-rump length?",
+    "options": [
+     "Crown of the head and rump",
+     "Head and heel",
+     "Both femoral heads"
+    ],
+    "answer": 0,
+    "explanation": "The line measures from the crown of the fetal head to the rump."
+   }
+  ],
+  "id": "us_fetal_crl_12_weeks",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.235,
+    "y": 0.578,
+    "text": "Crown",
+    "structures": [],
+    "note": "Crown endpoint of the fetal length measurement. The fetus is not modelled in the 3D reference, so this label is not anchored to a structure."
+   },
+   {
+    "x": 0.738,
+    "y": 0.712,
+    "text": "Rump",
+    "structures": [],
+    "note": "Rump endpoint of the fetal length measurement. The fetus is not modelled in the 3D reference, so this label is not anchored to a structure."
+   }
+  ],
+  "references": [
+   {
+    "title": "CRL Crown rump length 12 weeks ecografia Dr. Wolfgang Moroder.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:CRL_Crown_rump_length_12_weeks_ecografia_Dr._Wolfgang_Moroder.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "micro": "female_reproductive",
+   "micro_focus": [
+    "Fundus of uterus (myometrium)",
+    "Body of uterus (myometrium)",
+    "Isthmus of uterus (myometrium)",
+    "Cervix of uterus"
+   ],
+   "micro_context": [
+    "Urinary bladder",
+    "Rectum",
+    "Sacrum",
+    "Coccyx"
+   ],
+   "model_view": "left"
+  }
+ },
+ {
+  "title": "Baker's cyst: longitudinal knee ultrasound",
+  "plane": "Longitudinal",
+  "region": "Lower limb",
+  "finding": "Baker's cyst",
+  "summary": "A fluid-filled cyst in the posterior left knee.",
+  "text": "<p>The dark fluid collection in the posterior left knee illustrates a Baker's cyst. Its elongated shape is visible in the longitudinal view. The image does not establish cyst rupture or exclude deep vein thrombosis.</p>",
+  "reading": [
+   "Locate the anechoic cystic collection.",
+   "Follow its elongated outline in the posterior knee."
+  ],
+  "tags": [
+   "pathology",
+   "soft tissue",
+   "knee",
+   "Baker's cyst",
+   "longitudinal",
+   "ultrasound"
+  ],
+  "questions": [
+   {
+    "prompt": "Which appearance is visible within the cyst?",
+    "options": [
+     "A dark fluid-filled space",
+     "Dense mineralized bone",
+     "Color-filled arterial lumen"
+    ],
+    "answer": 0,
+    "explanation": "The cyst is largely anechoic, consistent with a fluid collection."
+   }
+  ],
+  "id": "us_baker_cyst",
+  "modality": "Ultrasound",
+  "labels": [
+   {
+    "x": 0.483,
+    "y": 0.3,
+    "text": "Baker's cyst",
+    "structures": [
+     "Baker's cyst fluid",
+     "Popliteal fossa"
+    ],
+    "side": "Left",
+    "note": "Fluid-filled cystic collection in the posterior knee."
+   }
+  ],
+  "references": [
+   {
+    "title": "Baker's cyst.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Baker's_cyst.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
+  "scene": {
+   "systems": [
+    "muscular",
+    "cardiovascular",
+    "fascia",
+    "joints"
+   ],
+   "regions": [
+    "lower_limb_l"
+   ],
+   "side": "Left",
+   "view": "posterior",
+   "show": [
+    "Baker's cyst fluid"
+   ],
+   "focus": [
+    "Popliteal fossa",
+    "Baker's cyst fluid",
+    "Semimembranosus muscle",
+    "Medial head of gastrocnemius",
+    "Lateral head of gastrocnemius",
+    "Popliteal artery",
+    "Popliteal vein"
+   ],
+   "isolate": true,
+   "xray": true,
+   "ghost_focus": [
+    "Baker's cyst fluid",
+    "Popliteal fossa"
+   ],
+   "frame_on": [
+    "Baker's cyst fluid"
+   ]
+  }
+ },
+ {
+  "title": "Small bowel obstruction: upright abdominal radiograph",
+  "plane": "Projection",
+  "region": "Abdomen",
+  "finding": "Small bowel obstruction",
+  "summary": "Multiple air-fluid levels on an upright abdominal radiograph.",
+  "text": "<p>Multiple bowel air-fluid levels are visible on this upright abdominal radiograph. The appearance illustrates small bowel obstruction. A single projection does not establish the cause or transition point.</p>",
+  "reading": [
+   "Locate the horizontal interfaces between bowel gas and fluid.",
+   "Compare the fluid levels across several bowel loops."
+  ],
+  "tags": [
+   "pathology",
+   "small bowel",
+   "obstruction",
+   "air-fluid levels",
+   "upright",
+   "abdomen",
+   "X-ray"
+  ],
+  "questions": [
+   {
+    "prompt": "What feature is visible at the labeled targets?",
+    "options": [
+     "Air-fluid levels",
+     "Renal calculi",
+     "Bone fractures"
+    ],
+    "answer": 0,
+    "explanation": "Horizontal gas-fluid interfaces are visible in the bowel loops."
+   }
+  ],
+  "id": "xr_small_bowel_obstruction",
+  "modality": "X-ray",
+  "labels": [
+   {
+    "x": 0.808,
+    "y": 0.597,
+    "text": "Air-fluid level",
+    "structures": [
+     "Dilated small bowel with air-fluid levels"
+    ],
+    "note": "Horizontal interface between bowel gas and fluid."
+   },
+   {
+    "x": 0.233,
+    "y": 0.65,
+    "text": "Air-fluid level",
+    "structures": [
+     "Dilated small bowel with air-fluid levels"
+    ],
+    "note": "Horizontal interface between bowel gas and fluid."
+   },
+   {
+    "x": 0.8,
+    "y": 0.22,
+    "text": "Gastric air bubble",
+    "structures": [
+     "Stomach"
+    ],
+    "note": "Gas in the stomach, which rises to the non-dependent part of the stomach on an upright film."
+   },
+   {
+    "x": 0.94,
+    "y": 0.4,
+    "text": "Descending colon gas",
+    "structures": [
+     "Descending colon"
+    ],
+    "note": "Gas-filled descending colon in the left flank."
+   }
+  ],
+  "references": [
+   {
+    "title": "Upright X-ray demonstrating small bowel obstruction.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Upright_X-ray_demonstrating_small_bowel_obstruction.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "visceral",
+    "findings"
+   ],
+   "regions": [
+    "abdomen"
+   ],
+   "show": [
+    "Dilated small bowel with air-fluid levels"
+   ],
+   "ghost_focus": [
+    "Dilated small bowel with air-fluid levels",
+    "Jejunum",
+    "Stomach",
+    "Ascending colon",
+    "Transverse colon",
+    "Descending colon",
+    "Sigmoid colon",
+    "Vertebra L1",
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Sacrum",
+    "Hip bone"
+   ],
+   "xray": true,
+   "view": "anterior"
+  }
+ },
+ {
+  "title": "L3 compression fracture: lateral lumbar radiograph",
+  "plane": "Projection",
+  "region": "Spine",
+  "finding": "Compression fracture",
+  "summary": "Reduced height of the L3 vertebral body.",
+  "text": "<p>The L3 vertebral body shows reduced height and upper endplate depression. Compare it with adjacent lumbar vertebral bodies on the lateral image. The image alone does not establish fracture acuity or cause.</p>",
+  "reading": [
+   "Locate the compressed L3 vertebral body.",
+   "Compare its height and endplate contour with neighboring vertebrae."
+  ],
+  "tags": [
+   "pathology",
+   "lumbar spine",
+   "L3",
+   "compression fracture",
+   "lateral",
+   "X-ray"
+  ],
+  "questions": [
+   {
+    "prompt": "Which feature marks the compression fracture?",
+    "options": [
+     "Reduced vertebral-body height",
+     "An enlarged renal pelvis",
+     "A gallstone shadow"
+    ],
+    "answer": 0,
+    "explanation": "The affected L3 body has reduced height and endplate depression."
+   }
+  ],
+  "id": "xr_l3_compression_fracture",
+  "modality": "X-ray",
+  "labels": [
+   {
+    "x": 0.3,
+    "y": 0.489,
+    "text": "L3 vertebral body",
+    "structures": [
+     "Vertebra L3"
+    ],
+    "note": "Compressed vertebral body with reduced height and endplate depression."
+   },
+   {
+    "x": 0.31,
+    "y": 0.465,
+    "text": "L3 compression fracture",
+    "structures": [
+     "L3 compression fracture"
+    ],
+    "note": "Loss of height of the L3 body with depression of the upper endplate; the image alone does not establish acuity or cause."
+   },
+   {
+    "x": 0.3,
+    "y": 0.41,
+    "text": "L2 vertebral body",
+    "structures": [
+     "Vertebra L2"
+    ],
+    "note": "Normal lumbar body above L3, for comparison of height and endplate contour."
+   },
+   {
+    "x": 0.3,
+    "y": 0.575,
+    "text": "L4 vertebral body",
+    "structures": [
+     "Vertebra L4"
+    ],
+    "note": "Normal lumbar body below L3, for comparison of height and endplate contour."
+   }
+  ],
+  "references": [
+   {
+    "title": "Compressionfracture.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Compressionfracture.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints"
+   ],
+   "regions": [
+    "back",
+    "abdomen"
+   ],
+   "view": "left",
+   "show": [
+    "Vertebra L1",
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Sacrum",
+    "Intervertebral disc L1-L2",
+    "Intervertebral disc L2-L3",
+    "Intervertebral disc L3-L4",
+    "Intervertebral disc L4-L5",
+    "Intervertebral disc L5-S1",
+    "L3 compression fracture"
+   ],
+   "focus": [
+    "Vertebra L3",
+    "L3 compression fracture"
+   ],
+   "ghost_focus": [
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "L3 compression fracture"
+   ],
+   "xray": true,
+   "isolate": false
+  }
+ },
+ {
+  "title": "Left distal radius fracture: frontal and lateral radiographs",
+  "plane": "Projection",
+  "region": "Upper limb",
+  "finding": "Colles fracture",
+  "summary": "Left distal radius fracture in frontal and lateral views.",
+  "text": "<p>The distal radius fracture is visible in frontal and lateral views of the left wrist. The lateral image shows displacement of the distal fragment. The injury also includes an ulnar styloid fracture.</p>",
+  "reading": [
+   "Compare the distal radial cortex across both views.",
+   "Locate the displaced fragment on the lateral image."
+  ],
+  "tags": [
+   "pathology",
+   "left wrist",
+   "distal radius",
+   "Colles fracture",
+   "ulnar styloid fracture",
+   "frontal",
+   "lateral",
+   "X-ray"
+  ],
+  "questions": [
+   {
+    "prompt": "Which bone is fractured beside the blue arrows?",
+    "options": [
+     "Radius",
+     "Humerus",
+     "Clavicle"
+    ],
+    "answer": 0,
+    "explanation": "Both projections show the distal radius fracture."
+   }
+  ],
+  "id": "xr_colles_ulnar_styloid",
+  "modality": "X-ray",
+  "labels": [
+   {
+    "x": 0.75,
+    "y": 0.481,
+    "text": "Distal radius fracture (lateral view)",
+    "structures": [
+     "Distal radius fracture",
+     "Radius"
+    ],
+    "side": "Left",
+    "note": "Displaced distal radial fracture in the lateral panel."
+   },
+   {
+    "x": 0.328,
+    "y": 0.514,
+    "text": "Distal radius fracture (frontal view)",
+    "structures": [
+     "Distal radius fracture",
+     "Radius"
+    ],
+    "side": "Left",
+    "note": "Distal radial cortical disruption in the frontal panel."
+   },
+   {
+    "x": 0.12,
+    "y": 0.65,
+    "text": "Ulna",
+    "structures": [
+     "Ulna"
+    ],
+    "side": "Left",
+    "note": "Distal ulna shaft in the frontal panel."
+   },
+   {
+    "x": 0.115,
+    "y": 0.41,
+    "text": "Ulnar styloid fracture",
+    "structures": [
+     "Ulnar styloid fracture",
+     "Ulna"
+    ],
+    "side": "Left",
+    "note": "Fracture of the ulnar styloid at the distal ulna, seen as a small separated fragment in the frontal panel."
+   }
+  ],
+  "references": [
+   {
+    "title": "Collesfracture.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Collesfracture.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints"
+   ],
+   "regions": [
+    "upper_limb_l"
+   ],
+   "side": "Left",
+   "view": "anterior",
+   "show": [
+    "Radius",
+    "Ulna",
+    "Scaphoid bone",
+    "Lunate bone",
+    "Triquetrum bone",
+    "Pisiform bone",
+    "Trapezium bone",
+    "Trapezoid bone",
+    "Capitate bone",
+    "Hamate bone",
+    "Distal radius fracture",
+    "Ulnar styloid fracture"
+   ],
+   "ghost_focus": [
+    "Radius",
+    "Ulna",
+    "Scaphoid bone",
+    "Lunate bone",
+    "Triquetrum bone",
+    "Pisiform bone",
+    "Trapezium bone",
+    "Trapezoid bone",
+    "Capitate bone",
+    "Hamate bone",
+    "Distal radius fracture",
+    "Ulnar styloid fracture"
+   ],
+   "frame_on": [
+    "Radius",
+    "Ulna"
+   ]
+  }
+ },
+ {
+  "title": "Clavicular fracture: frontal radiograph",
+  "plane": "Projection",
+  "region": "Upper limb",
+  "finding": "Clavicular fracture",
+  "summary": "Interrupted clavicular continuity with separated fragments.",
+  "text": "<p>The fracture interrupts clavicular continuity, with separated fragments. Trace the cortical edges into the fracture gap.</p>",
+  "reading": [
+   "Identify the clavicle within the circled region.",
+   "Follow each cortical edge toward the fracture gap."
+  ],
+  "tags": [
+   "pathology",
+   "clavicle",
+   "fracture",
+   "frontal",
+   "X-ray"
+  ],
+  "questions": [
+   {
+    "prompt": "Which bone has the visible cortical interruption?",
+    "options": [
+     "Clavicle",
+     "Scapula",
+     "Humerus"
+    ],
+    "answer": 0,
+    "explanation": "The fracture gap interrupts the clavicle."
+   }
+  ],
+  "id": "xr_clavicular_fracture",
+  "modality": "X-ray",
+  "labels": [
+   {
+    "x": 0.65,
+    "y": 0.225,
+    "text": "Clavicular fracture",
+    "structures": [
+     "Clavicular fracture",
+     "Clavicle"
+    ],
+    "side": "Left",
+    "note": "Fracture gap interrupts clavicular continuity."
+   },
+   {
+    "x": 0.55,
+    "y": 0.23,
+    "text": "Medial clavicular fragment",
+    "structures": [
+     "Clavicle"
+    ],
+    "side": "Left",
+    "note": "Separated medial fragment of the fractured clavicle, with its cortex ending at the fracture gap."
+   },
+   {
+    "x": 0.8,
+    "y": 0.27,
+    "text": "Lateral clavicular fragment",
+    "structures": [
+     "Clavicle"
+    ],
+    "side": "Left",
+    "note": "Lateral fragment, displaced relative to the medial piece."
+   },
+   {
+    "x": 0.93,
+    "y": 0.26,
+    "text": "Lateral clavicle (acromial end)",
+    "structures": [
+     "Clavicle"
+    ],
+    "side": "Left",
+    "note": "Lateral end of the clavicle running toward the acromioclavicular region."
+   }
+  ],
+  "references": [
+   {
+    "title": "Clavicular fracture.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Clavicular_fracture.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints"
+   ],
+   "regions": [
+    "thorax",
+    "upper_limb_l",
+    "back"
+   ],
+   "side": "Left",
+   "show": [
+    "Clavicle",
+    "Scapula",
+    "Humerus",
+    "Clavicular fracture"
+   ],
+   "ghost_focus": [
+    "Clavicle",
+    "Scapula",
+    "Humerus",
+    "Clavicular fracture"
+   ],
+   "view": "anterior"
+  }
+ },
+ {
+  "title": "Lumbar scoliosis: standing frontal radiograph",
+  "plane": "Projection",
+  "region": "Spine",
+  "finding": "Scoliosis",
+  "summary": "Opposing curves in the lumbar vertebral column.",
+  "text": "<p>The lumbar vertebral column shows opposing curves on the standing frontal radiograph. Trace successive vertebral-body centers through the lumbar region. The entire spine is not included, and no Cobb angle is provided.</p>",
+  "reading": [
+   "Follow the lumbar vertebral-body centers.",
+   "Observe changes in curve direction within the imaged region."
+  ],
+  "tags": [
+   "pathology",
+   "lumbar spine",
+   "scoliosis",
+   "standing",
+   "frontal",
+   "X-ray"
+  ],
+  "questions": [
+   {
+    "prompt": "Which alignment finding is illustrated?",
+    "options": [
+     "Scoliosis",
+     "Aortic aneurysm",
+     "Bowel obstruction"
+    ],
+    "answer": 0,
+    "explanation": "The vertebral column curves laterally in the frontal projection."
+   }
+  ],
+  "id": "xr_scoliosis",
+  "modality": "X-ray",
+  "labels": [
+   {
+    "x": 0.435,
+    "y": 0.437,
+    "text": "Lumbar vertebral column",
+    "structures": [
+     "Vertebra L1",
+     "Vertebra L2",
+     "Vertebra L3",
+     "Vertebra L4",
+     "Vertebra L5"
+    ],
+    "note": "Lumbar vertebral bodies follow the curved column."
+   },
+   {
+    "x": 0.47,
+    "y": 0.66,
+    "text": "Sacrum",
+    "structures": [
+     "Sacrum"
+    ],
+    "note": "Sacrum below the lumbar column; the lumbar curve is traced from the body centres above it."
+   },
+   {
+    "x": 0.2,
+    "y": 0.6,
+    "text": "Right iliac wing",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Right",
+    "note": "Right ilium at the iliac crest; the patient's right is on the image left."
+   },
+   {
+    "x": 0.8,
+    "y": 0.58,
+    "text": "Left iliac wing",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Left",
+    "note": "Left ilium at the iliac crest; the patient's left is on the image right."
+   }
+  ],
+  "references": [
+   {
+    "title": "Scoliosis.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Scoliosis.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints"
+   ],
+   "regions": [
+    "back",
+    "abdomen"
+   ],
+   "focus": [
+    "Vertebra T12",
+    "Vertebra L1",
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Sacrum",
+    "Hip bone"
+   ],
+   "ghost_focus": [
+    "Vertebra T12",
+    "Vertebra L1",
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Sacrum",
+    "Hip bone"
+   ],
+   "xray": true,
+   "isolate": false,
+   "view": "anterior"
+  }
+ },
+ {
+  "title": "Calcaneal fracture: lateral hindfoot radiograph",
+  "plane": "Projection",
+  "region": "Lower limb",
+  "finding": "Calcaneal fracture",
+  "summary": "A fractured heel bone below the talus.",
+  "text": "<p>The calcaneus is fractured in this lateral hindfoot radiograph. Identify the heel bone below the talus. The image is presented without a measured angle or fracture classification.</p>",
+  "reading": [
+   "Locate the calcaneus beneath the talus.",
+   "Observe the disrupted heel-bone contour and internal trabecular pattern."
+  ],
+  "tags": [
+   "pathology",
+   "calcaneus",
+   "heel",
+   "fracture",
+   "hindfoot",
+   "lateral",
+   "X-ray"
+  ],
+  "questions": [
+   {
+    "prompt": "Which labeled bone forms the heel?",
+    "options": [
+     "Calcaneus",
+     "Talus",
+     "Patella"
+    ],
+    "answer": 0,
+    "explanation": "The calcaneus is the large heel bone below the talus."
+   }
+  ],
+  "id": "xr_calcaneus_fracture",
+  "modality": "X-ray",
+  "labels": [
+   {
+    "x": 0.691,
+    "y": 0.618,
+    "text": "Calcaneus",
+    "structures": [
+     "Calcaneus"
+    ],
+    "side": "Right",
+    "note": "Heel bone beneath the talus."
+   },
+   {
+    "x": 0.646,
+    "y": 0.332,
+    "text": "Talus",
+    "structures": [
+     "Talus"
+    ],
+    "side": "Right",
+    "note": "Talar body above the calcaneus and beneath the tibia."
+   },
+   {
+    "x": 0.84,
+    "y": 0.2,
+    "text": "Tibia",
+    "structures": [
+     "Tibia"
+    ],
+    "side": "Right",
+    "note": "Distal tibia of the leg, above the talus."
+   },
+   {
+    "x": 0.25,
+    "y": 0.38,
+    "text": "Third metatarsal bone",
+    "structures": [
+     "Third metatarsal bone"
+    ],
+    "side": "Right",
+    "note": "Metatarsal shaft of the midfoot, in front of the navicular and cuboid."
+   }
+  ],
+  "references": [
+   {
+    "title": "Calcaneus Fracture.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Calcaneus_Fracture.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints"
+   ],
+   "regions": [
+    "lower_limb_r"
+   ],
+   "side": "Right",
+   "view": "right",
+   "show": [
+    "Tibia",
+    "Fibula",
+    "Talus",
+    "Calcaneus",
+    "Navicular bone",
+    "Cuboid bone",
+    "First metatarsal bone",
+    "Second metatarsal bone",
+    "Third metatarsal bone",
+    "Fourth metatarsal bone",
+    "Fifth metatarsal bone",
+    "Calcaneal fracture line"
+   ],
+   "focus": [
+    "Calcaneus",
+    "Talus",
+    "Calcaneal fracture line"
+   ],
+   "ghost_focus": [
+    "Calcaneus",
+    "Talus",
+    "Calcaneal fracture line"
+   ],
+   "xray": true,
+   "isolate": false
+  }
+ },
+ {
+  "title": "Bilateral renal calculi: abdominal radiograph",
+  "plane": "Projection",
+  "region": "Abdomen",
+  "finding": "Renal calculi",
+  "summary": "Renal calculi in both upper abdominal renal regions.",
+  "text": "<p>Bilateral renal calculi appear as radiopaque foci in the upper abdomen. Rounded pelvic calcifications represent phleboliths and should be distinguished from the renal calculi. The radiograph does not establish urinary obstruction or renal function.</p>",
+  "reading": [
+   "Locate calculi in both upper abdominal renal regions.",
+   "Compare their location with the rounded pelvic phlebolith."
+  ],
+  "tags": [
+   "pathology",
+   "kidney",
+   "renal calculi",
+   "phleboliths",
+   "KUB",
+   "frontal",
+   "X-ray"
+  ],
+  "questions": [
+   {
+    "prompt": "Which finding should be distinguished from renal calculi?",
+    "options": [
+     "Pelvic phleboliths",
+     "Thyroid lobes",
+     "Aortic lumen"
+    ],
+    "answer": 0,
+    "explanation": "The separate rounded pelvic calcifications are phleboliths."
+   }
+  ],
+  "id": "xr_bilateral_renal_stones",
+  "modality": "X-ray",
+  "labels": [
+   {
+    "x": 0.3,
+    "y": 0.315,
+    "text": "Renal calculi (image left)",
+    "structures": [
+     "Right renal calculus (xr_bilateral_renal_stones)",
+     "Kidney"
+    ],
+    "side": "Right",
+    "note": "Radiopaque calculus in the right upper abdominal renal region (patient right; image left)."
+   },
+   {
+    "x": 0.699,
+    "y": 0.23,
+    "text": "Renal calculi (image right)",
+    "structures": [
+     "Left renal calculus (xr_bilateral_renal_stones)",
+     "Kidney"
+    ],
+    "side": "Left",
+    "note": "Radiopaque calculus in the left upper abdominal renal region (patient left; image right)."
+   },
+   {
+    "x": 0.311,
+    "y": 0.864,
+    "text": "Pelvic phlebolith",
+    "structures": [
+     "Internal iliac vein"
+    ],
+    "side": "Right",
+    "note": "Rounded venous calcification in the pelvic venous plexus. Distinct from the renal calculi; not in the urinary tract."
+   },
+   {
+    "x": 0.45,
+    "y": 0.25,
+    "text": "Lumbar spine (L2)",
+    "structures": [
+     "Vertebra L2"
+    ],
+    "note": "Lumbar vertebral bodies outlined on the frontal film; the renal calculi lie lateral to the spine."
+   }
+  ],
+  "references": [
+   {
+    "title": "Kidney stones abdominal X-ray.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Kidney_stones_abdominal_X-ray.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "visceral",
+    "cardiovascular",
+    "muscular"
+   ],
+   "regions": [
+    "abdomen",
+    "back"
+   ],
+   "view": "anterior",
+   "show": [
+    "Vertebra L1",
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Sacrum",
+    "Hip bone",
+    "Kidney",
+    "Ureter",
+    "Renal pelvis",
+    "Right renal calculus (xr_bilateral_renal_stones)",
+    "Left renal calculus (xr_bilateral_renal_stones)",
+    "Internal iliac vein"
+   ],
+   "focus": [
+    "Kidney"
+   ],
+   "ghost_focus": [
+    "Kidney",
+    "Right renal calculus (xr_bilateral_renal_stones)",
+    "Left renal calculus (xr_bilateral_renal_stones)",
+    "Vertebra L2",
+    "Internal iliac vein"
+   ],
+   "xray": true,
+   "isolate": false
+  }
+ },
+ {
+  "title": "Skull anatomy: lateral radiograph",
+  "plane": "Projection",
+  "region": "Head and neck",
+  "finding": "Skull anatomy",
+  "summary": "Mandible, maxillary sinus and mastoid air cells in lateral projection.",
+  "text": "<p>A lateral skull radiograph depicts the mandible, maxillary sinus and mastoid air cells. Paired structures overlap in this projection. This anatomy reference does not establish a complete normal skull examination.</p>",
+  "reading": [
+   "Locate the mandibular body beneath the lower teeth.",
+   "Find the maxillary sinus above the upper teeth.",
+   "Identify the honeycomb appearance of the mastoid air cells."
+  ],
+  "tags": [
+   "anatomy reference",
+   "skull",
+   "mandible",
+   "maxillary sinus",
+   "mastoid air cells",
+   "lateral",
+   "X-ray"
+  ],
+  "questions": [
+   {
+    "prompt": "Which labeled bone supports the lower teeth?",
+    "options": [
+     "Mandible",
+     "Frontal bone",
+     "Clavicle"
+    ],
+    "answer": 0,
+    "explanation": "The mandible forms the lower jaw."
+   }
+  ],
+  "id": "xr_lateral_skull_anatomy_reference",
+  "modality": "X-ray",
+  "labels": [
+   {
+    "x": 0.758,
+    "y": 0.89,
+    "text": "Mandible",
+    "structures": [
+     "Mandible"
+    ],
+    "note": "Lower jaw beneath the lower tooth row."
+   },
+   {
+    "x": 0.385,
+    "y": 0.588,
+    "text": "Mastoid air cells",
+    "structures": [
+     "Temporal bone"
+    ],
+    "side": "Left",
+    "note": "Honeycomb air-cell pattern in the mastoid region."
+   },
+   {
+    "x": 0.788,
+    "y": 0.633,
+    "text": "Maxillary sinus",
+    "structures": [
+     "Maxilla"
+    ],
+    "side": "Left",
+    "note": "Air-filled sinus above the upper tooth row, within the maxilla."
+   },
+   {
+    "x": 0.65,
+    "y": 0.78,
+    "text": "Mandibular ramus",
+    "structures": [
+     "Mandible"
+    ],
+    "note": "Vertical ramus of the mandible behind the tooth rows."
+   }
+  ],
+  "references": [
+   {
+    "title": "Schaedel im Röntgen seitlich.png",
+    "url": "https://commons.wikimedia.org/wiki/File:Schaedel_im_R%C3%B6ntgen_seitlich.png"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints"
+   ],
+   "regions": [
+    "head",
+    "neck"
+   ],
+   "view": "left",
+   "side": "Left",
+   "xray": true,
+   "ghost_focus": [
+    "Mandible",
+    "Maxilla",
+    "Temporal bone",
+    "Sphenoid bone",
+    "Frontal bone",
+    "Parietal bone",
+    "Occipital bone",
+    "Zygomatic bone",
+    "Nasal bone",
+    "Atlas (C1)",
+    "Axis (C2)"
+   ]
+  }
+ },
+ {
+  "title": "Lumbar anatomy: AP radiograph",
+  "plane": "Projection",
+  "region": "Spine",
+  "finding": "Lumbar anatomy",
+  "summary": "Lumbar vertebral bodies and sacrum in AP projection.",
+  "text": "<p>The AP lumbar projection shows the vertebral bodies and sacrum. Locate the sacrum below the lumbar vertebral column. This anatomy reference does not establish clinical normality or exclude subtle pathology.</p>",
+  "reading": [
+   "Identify a lumbar vertebral body.",
+   "Locate the sacrum beneath the lumbar column."
+  ],
+  "tags": [
+   "anatomy reference",
+   "lumbar spine",
+   "sacrum",
+   "AP",
+   "X-ray"
+  ],
+  "questions": [
+   {
+    "prompt": "Which bone lies below the lumbar vertebral column?",
+    "options": [
+     "Sacrum",
+     "Clavicle",
+     "Mandible"
+    ],
+    "answer": 0,
+    "explanation": "The sacrum continues the spinal column inferior to the lumbar vertebrae."
+   }
+  ],
+  "id": "xr_lumbar_ap_anatomy_only",
+  "modality": "X-ray",
+  "labels": [
+   {
+    "x": 0.488,
+    "y": 0.464,
+    "text": "Lumbar vertebral body",
+    "structures": [
+     "Vertebra L1",
+     "Vertebra L2",
+     "Vertebra L3",
+     "Vertebra L4",
+     "Vertebra L5"
+    ],
+    "note": "Lumbar vertebral body with visible endplate boundaries."
+   },
+   {
+    "x": 0.51,
+    "y": 0.779,
+    "text": "Sacrum",
+    "structures": [
+     "Sacrum"
+    ],
+    "note": "Sacral bone below the lumbar vertebral column."
+   },
+   {
+    "x": 0.74,
+    "y": 0.85,
+    "text": "Left iliac wing",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Left",
+    "note": "Left ilium forming the iliac wing at the lateral pelvic brim."
+   },
+   {
+    "x": 0.24,
+    "y": 0.84,
+    "text": "Right iliac wing",
+    "structures": [
+     "Hip bone"
+    ],
+    "side": "Right",
+    "note": "Right ilium forming the iliac wing; the patient's right is on the image left."
+   }
+  ],
+  "references": [
+   {
+    "title": "AP lumbar xray.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:AP_lumbar_xray.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints"
+   ],
+   "regions": [
+    "abdomen",
+    "back",
+    "lower_limb_l",
+    "lower_limb_r"
+   ],
+   "focus": [
+    "Vertebra L1",
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Sacrum",
+    "Hip bone"
+   ],
+   "ghost_focus": [
+    "Vertebra L1",
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Sacrum",
+    "Hip bone"
+   ],
+   "xray": true,
+   "isolate": false,
+   "view": "anterior"
+  }
+ },
+ {
+  "title": "Lumbar anatomy: lateral radiograph",
+  "plane": "Projection",
+  "region": "Spine",
+  "finding": "Lumbar anatomy",
+  "summary": "Vertebral-body profiles, disc spaces and sacrum in lateral projection.",
+  "text": "<p>The lateral lumbar radiograph displays vertebral-body profiles and intervening disc spaces. Identify the sacrum below the lumbar column. This anatomy reference does not establish clinical normality or exclude subtle pathology.</p>",
+  "reading": [
+   "Find the lumbar vertebral-body profiles.",
+   "Identify an intervertebral disc space.",
+   "Follow the column inferiorly to the sacrum."
+  ],
+  "tags": [
+   "anatomy reference",
+   "lumbar spine",
+   "intervertebral disc space",
+   "sacrum",
+   "lateral",
+   "X-ray"
+  ],
+  "questions": [
+   {
+    "prompt": "What separates adjacent vertebral-body endplates?",
+    "options": [
+     "An intervertebral disc space",
+     "A gallbladder lumen",
+     "A carotid artery"
+    ],
+    "answer": 0,
+    "explanation": "The radiolucent interval corresponds to an intervertebral disc space."
+   }
+  ],
+  "id": "xr_lumbar_lateral_anatomy_only",
+  "modality": "X-ray",
+  "labels": [
+   {
+    "x": 0.49,
+    "y": 0.39,
+    "text": "Lumbar vertebral body",
+    "structures": [
+     "Vertebra L1",
+     "Vertebra L2",
+     "Vertebra L3",
+     "Vertebra L4",
+     "Vertebra L5"
+    ],
+    "note": "Lumbar vertebral body with visible endplate boundaries."
+   },
+   {
+    "x": 0.508,
+    "y": 0.449,
+    "text": "Intervertebral disc space",
+    "structures": [
+     "Intervertebral disc L1-L2",
+     "Intervertebral disc L2-L3",
+     "Intervertebral disc L3-L4",
+     "Intervertebral disc L4-L5",
+     "Intervertebral disc L5-S1"
+    ],
+    "note": "Radiolucent interval between adjacent vertebral-body endplates."
+   },
+   {
+    "x": 0.444,
+    "y": 0.671,
+    "text": "Sacrum",
+    "structures": [
+     "Sacrum"
+    ],
+    "note": "Sacral bone below the lumbar vertebral column."
+   },
+   {
+    "x": 0.52,
+    "y": 0.84,
+    "text": "Femoral head",
+    "structures": [
+     "Femur",
+     "Hip bone"
+    ],
+    "note": "Rounded femoral head in the hip joint at the inferior edge of the film."
+   }
+  ],
+  "references": [
+   {
+    "title": "Lateral lumbar x ray.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:Lateral_lumbar_x_ray.jpg"
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this radiograph.",
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints"
+   ],
+   "regions": [
+    "abdomen",
+    "back",
+    "lower_limb_r",
+    "lower_limb_l"
+   ],
+   "show": [
+    "Vertebra L1",
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Intervertebral disc L1-L2",
+    "Intervertebral disc L2-L3",
+    "Intervertebral disc L3-L4",
+    "Intervertebral disc L4-L5",
+    "Intervertebral disc L5-S1",
+    "Sacrum",
+    "Hip bone",
+    "Femur"
+   ],
+   "ghost_focus": [
+    "Vertebra L1",
+    "Vertebra L2",
+    "Vertebra L3",
+    "Vertebra L4",
+    "Vertebra L5",
+    "Intervertebral disc L1-L2",
+    "Intervertebral disc L2-L3",
+    "Intervertebral disc L3-L4",
+    "Intervertebral disc L4-L5",
+    "Intervertebral disc L5-S1",
+    "Sacrum"
+   ],
+   "view": "left"
+  }
+ }
 ]

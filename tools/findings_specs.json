@@ -1,0 +1,1602 @@
+[
+ {
+  "name": "Left acetabular posterior column fragment",
+  "latin": "Fragmentum acetabuli posterius sinistrum",
+  "material": "Fracture",
+  "subsystem": "Acetabular fracture",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "A displaced fragment of the posterior column of the left acetabulum, part of a comminuted fracture.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Hip bone",
+    "side": "Left",
+    "x": 0.417,
+    "y": 0.34,
+    "z": 0.361
+   },
+   "radii_mm": [
+    9,
+    7,
+    7
+   ],
+   "irregular": 0.3
+  }
+ },
+ {
+  "name": "Left acetabular anterior column fragment",
+  "latin": "Fragmentum acetabuli anterius sinistrum",
+  "material": "Fracture",
+  "subsystem": "Acetabular fracture",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "A fragment of the anterior column of the left acetabulum, displaced from the socket rim.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Hip bone",
+    "side": "Left",
+    "x": 0.567,
+    "y": 0.293,
+    "z": 0.758
+   },
+   "radii_mm": [
+    8,
+    6,
+    6
+   ],
+   "irregular": 0.25
+  }
+ },
+ {
+  "name": "Left acetabular comminuted fragments",
+  "latin": "Fragmenta acetabuli sinistri",
+  "material": "Fracture",
+  "subsystem": "Acetabular fracture",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Several small loose bone fragments in the left acetabulum, the comminution the source describes.",
+  "shape": {
+   "type": "cluster",
+   "at": {
+    "structure": "Hip bone",
+    "side": "Left",
+    "x": 0.492,
+    "y": 0.34,
+    "z": 0.567
+   },
+   "spread_mm": [
+    9,
+    5,
+    9
+   ],
+   "count": 6,
+   "size_mm": 3
+  }
+ },
+ {
+  "name": "Left acetabular fracture line",
+  "latin": "Linea fracturae acetabuli sinistri",
+  "material": "Fracture",
+  "subsystem": "Acetabular fracture",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "The fracture line crossing the left acetabulum from the posterior column to the anterior column.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Hip bone",
+    "side": "Left",
+    "x": 0.447,
+    "y": 0.409,
+    "z": 0.41
+   },
+   "to": {
+    "structure": "Hip bone",
+    "side": "Left",
+    "x": 0.583,
+    "y": 0.293,
+    "z": 0.758
+   },
+   "radius_mm": 1.5
+  }
+ },
+ {
+  "name": "Right renal calculus",
+  "material": "Stone",
+  "subsystem": "Renal calculi",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "A small dense calculus in the lower, medial part of the right kidney; it is bright on non-contrast CT.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Kidney",
+    "side": "Right",
+    "x": 0.62,
+    "y": 0.22,
+    "z": 0.43
+   },
+   "radii_mm": [
+    3,
+    3,
+    3
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Left renal calculus",
+  "material": "Stone",
+  "subsystem": "Renal calculi",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "A small dense calculus in the left kidney, near the renal pelvis; it is bright on non-contrast CT.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Kidney",
+    "side": "Left",
+    "x": 0.45,
+    "y": 0.28,
+    "z": 0.63
+   },
+   "radii_mm": [
+    3,
+    3,
+    3
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Left subdural haematoma (convexity)",
+  "latin": "Haematoma subdurale",
+  "subsystem": "Subdural haematoma",
+  "note": "Acute blood lying as a crescent between the left cerebral convexity and the inner table of the skull, the thicker collection on this scan.",
+  "material": "Haemorrhage",
+  "regions": [
+   "head"
+  ],
+  "shape": {
+   "type": "layer",
+   "structures": [
+    "@Brain"
+   ],
+   "side": "Left",
+   "thickness_mm": 12,
+   "window": {
+    "x": [
+     0.35,
+     1.0
+    ],
+    "y": [
+     0.6,
+     1.0
+    ],
+    "z": [
+     0.45,
+     1.0
+    ]
+   }
+  }
+ },
+ {
+  "name": "Right subdural haematoma (convexity)",
+  "latin": "Haematoma subdurale",
+  "subsystem": "Subdural haematoma",
+  "note": "A thinner crescent of acute blood between the right frontoparietal convexity and the skull, the second collection on this scan.",
+  "material": "Haemorrhage",
+  "regions": [
+   "head"
+  ],
+  "shape": {
+   "type": "layer",
+   "structures": [
+    "@Brain"
+   ],
+   "side": "Right",
+   "thickness_mm": 7,
+   "window": {
+    "x": [
+     0.0,
+     0.6
+    ],
+    "y": [
+     0.6,
+     1.0
+    ],
+    "z": [
+     0.62,
+     1.0
+    ]
+   }
+  }
+ },
+ {
+  "name": "Right proximal ureteric stone",
+  "material": "Stone",
+  "subsystem": "Urinary tract",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "A calculus lodged in the right proximal ureter just below the renal pelvis, the obstructing stone described in the source.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Ureter",
+    "side": "Right",
+    "x": 0.5,
+    "y": 0.95,
+    "z": 0.5,
+    "surface": true,
+    "offset_mm": 0
+   },
+   "radii_mm": [
+    3.5,
+    3,
+    3
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
+  "name": "Saddle pulmonary embolus",
+  "material": "Blood clot",
+  "subsystem": "Pulmonary embolism",
+  "regions": [
+   "thorax"
+  ],
+  "note": "A saddle clot sits across the pulmonary arterial bifurcation and extends into both pulmonary arteries.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Bifurcation of pulmonary trunk",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "radii_mm": [
+    8,
+    6,
+    6
+   ],
+   "irregular": 0.2
+  }
+ },
+ {
+  "name": "Left lobar pulmonary embolus",
+  "material": "Blood clot",
+  "subsystem": "Pulmonary embolism",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Clot extending from the bifurcation into the left pulmonary artery.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Bifurcation of pulmonary trunk",
+    "x": 0.7,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "to": {
+    "structure": "Left pulmonary artery",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "radius_mm": 4.5
+  }
+ },
+ {
+  "name": "Right lobar pulmonary embolus",
+  "material": "Blood clot",
+  "subsystem": "Pulmonary embolism",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Clot extending from the bifurcation into the right pulmonary artery.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Bifurcation of pulmonary trunk",
+    "x": 0.3,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "to": {
+    "structure": "Right pulmonary artery",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "radius_mm": 4
+  }
+ },
+ {
+  "name": "T10 Chance fracture",
+  "material": "Fracture",
+  "subsystem": "Thoracic spine fracture",
+  "regions": [
+   "thorax",
+   "back"
+  ],
+  "note": "A horizontal (Chance) fracture runs through the T10 vertebral body and posterior elements after a seatbelt injury in a motor vehicle collision.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Vertebra T10",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.92
+   },
+   "to": {
+    "structure": "Vertebra T10",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.06
+   },
+   "radius_mm": 2.5
+  }
+ },
+ {
+  "name": "T9 vertebral body fracture",
+  "material": "Fracture",
+  "subsystem": "Thoracic spine fracture",
+  "regions": [
+   "thorax",
+   "back"
+  ],
+  "note": "An associated fracture through the T9 vertebral body from the same seatbelt injury.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Vertebra T9",
+    "x": 0.5,
+    "y": 0.7,
+    "z": 0.92
+   },
+   "to": {
+    "structure": "Vertebra T9",
+    "x": 0.5,
+    "y": 0.7,
+    "z": 0.5
+   },
+   "radius_mm": 2
+  }
+ },
+ {
+  "name": "Aortic dissection flap",
+  "latin": "",
+  "material": "Abnormal vessel",
+  "subsystem": "Aortic dissection",
+  "regions": [
+   "thorax"
+  ],
+  "note": "The intimal flap splitting the descending thoracic aorta into a true and a false lumen, as in a Stanford type B dissection.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Thoracic aorta",
+    "x": 0.4828,
+    "y": 0.5074,
+    "z": 0.6168
+   },
+   "to": {
+    "structure": "Thoracic aorta",
+    "x": 0.4828,
+    "y": 0.5074,
+    "z": 0.2241
+   },
+   "radius_mm": 1.2
+  }
+ },
+ {
+  "name": "Transverse myelitis central cord hyperintensity",
+  "material": "Inflamed tissue",
+  "subsystem": "Transverse myelitis",
+  "regions": [
+   "neck"
+  ],
+  "note": "Increased central T2 signal in a segment of the cervical cord, the MRI sign of transverse myelitis (inflammation across the cord).",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "White matter of spinal cord",
+    "x": 0.5,
+    "y": 0.9,
+    "z": 0.4
+   },
+   "radii_mm": [
+    4,
+    2,
+    3
+   ],
+   "irregular": 0.2
+  }
+ },
+ {
+  "name": "Gallbladder stones",
+  "material": "Stone",
+  "subsystem": "Gallstone disease",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Multiple gallstones in the gallbladder, seen as filling defects in the fluid-filled gallbladder on MRCP.",
+  "shape": {
+   "type": "cluster",
+   "at": {
+    "structure": "Gallbladder",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "spread_mm": [
+    12,
+    8,
+    8
+   ],
+   "count": 4,
+   "size_mm": 4
+  }
+ },
+ {
+  "name": "Common bile duct stone",
+  "material": "Stone",
+  "subsystem": "Choledocholithiasis",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "A stone lodged in the common bile duct, causing a filling defect in the otherwise fluid-filled duct on MRCP.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Bile duct",
+    "x": 0.5,
+    "y": 0.3,
+    "z": 0.5,
+    "surface": true
+   },
+   "radii_mm": [
+    4,
+    3,
+    3
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Dilated left ventricle",
+  "material": "Enlarged heart",
+  "subsystem": "Dilated cardiomyopathy",
+  "regions": [
+   "thorax"
+  ],
+  "note": "The left ventricular cavity is enlarged and rounded, as in the left image. This shows chamber size only; contractility and ejection fraction are not reported.",
+  "shape": {
+   "type": "scaled",
+   "structures": [
+    "Left ventricle"
+   ],
+   "factors": [
+    1.25,
+    1.2,
+    1.25
+   ]
+  }
+ },
+ {
+  "name": "Left basal ganglia infarct",
+  "material": "Infarct",
+  "subsystem": "Cerebral infarction",
+  "regions": [
+   "head"
+  ],
+  "note": "Hyperacute left basal ganglia infarction: restricted diffusion, bright on DWI and low on ADC four hours after onset. Conventional T2 did not show it clearly.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Putamen",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5,
+    "shift_mm": [
+     -5,
+     0,
+     0
+    ]
+   },
+   "radii_mm": [
+    10,
+    8,
+    9
+   ],
+   "irregular": 0.2
+  }
+ },
+ {
+  "name": "L4-L5 left paramedian disc herniation",
+  "material": "Mass",
+  "subsystem": "Disc herniation",
+  "regions": [
+   "abdomen",
+   "back"
+  ],
+  "note": "Posterior herniation of the L4–L5 disc, left paramedian, indenting the thecal sac and the emerging left L5 root sheath.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Intervertebral disc L4-L5",
+    "x": 0.7,
+    "y": 0.5,
+    "z": 0.1,
+    "surface": true,
+    "offset_mm": 3
+   },
+   "radii_mm": [
+    6,
+    5,
+    4
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
+  "name": "Uterine fibroid (illustrative)",
+  "material": "Mass",
+  "subsystem": "Uterine fibroids",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Well-circumscribed uterine fibroid (leiomyoma) in the central pelvis, shown illustratively. The atlas has no uterus, so its position is approximate.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Sacrum",
+    "x": 0.55,
+    "y": 0.5,
+    "z": 1.0,
+    "surface": true,
+    "offset_mm": 45
+   },
+   "radii_mm": [
+    24,
+    20,
+    22
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Second uterine fibroid (illustrative)",
+  "material": "Mass",
+  "subsystem": "Uterine fibroids",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Second uterine fibroid in the central pelvis, shown illustratively next to the first.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Sacrum",
+    "x": 0.4,
+    "y": 0.5,
+    "z": 1.0,
+    "surface": true,
+    "offset_mm": 60
+   },
+   "radii_mm": [
+    14,
+    12,
+    12
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
+  "name": "Right frontal cortical infarct",
+  "material": "Infarct",
+  "subsystem": "Cerebral infarction",
+  "regions": [
+   "head"
+  ],
+  "note": "Subacute cortical infarct of the right frontal lobe: restricted diffusion on DWI with gadolinium enhancement of the cortex on enhanced T1 from blood-brain-barrier disruption.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Middle frontal gyrus",
+    "side": "Right",
+    "x": 0.15,
+    "y": 0.6,
+    "z": 0.5,
+    "surface": true,
+    "offset_mm": 2
+   },
+   "radii_mm": [
+    12,
+    9,
+    6
+   ],
+   "irregular": 0.2
+  }
+ },
+ {
+  "name": "Supraspinatus tendon tear",
+  "material": "Fluid",
+  "subsystem": "Rotator cuff tear",
+  "regions": [
+   "upper_limb_r"
+  ],
+  "note": "Complete full-thickness tear of the supraspinatus tendon, about 2.4 cm wide, with the gap filled by fluid.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Humerus",
+    "side": "Right",
+    "x": 0.5,
+    "y": 0.92,
+    "z": 0.5,
+    "surface": true,
+    "offset_mm": 4
+   },
+   "radii_mm": [
+    4,
+    6,
+    12
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
+  "name": "Left basal ganglia infarct (mri_hyperacute_basal_ganglia_infarct_adc)",
+  "material": "Infarct",
+  "subsystem": "Cerebral infarction",
+  "regions": [
+   "head"
+  ],
+  "note": "Hyperacute infarction of the left basal ganglia: restricted diffusion with low ADC, bright on the paired DWI.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Putamen",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "radii_mm": [
+    12,
+    10,
+    10
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Right medial thalamic FLAIR signal abnormality",
+  "material": "Inflamed tissue",
+  "subsystem": "Wernicke encephalopathy",
+  "regions": [
+   "head"
+  ],
+  "note": "Hyperintense FLAIR signal in the right mesial dorsal thalamus, the abnormality described in Wernicke encephalopathy (oedema or gliosis; illustrative marker, not registered to this scan).",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Thalamus",
+    "side": "Right",
+    "x": 0.78,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "radii_mm": [
+    4,
+    3,
+    5
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
+  "name": "Left medial thalamic FLAIR signal abnormality",
+  "material": "Inflamed tissue",
+  "subsystem": "Wernicke encephalopathy",
+  "regions": [
+   "head"
+  ],
+  "note": "Hyperintense FLAIR signal in the left mesial dorsal thalamus, the abnormality described in Wernicke encephalopathy (oedema or gliosis; illustrative marker, not registered to this scan).",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Thalamus",
+    "side": "Left",
+    "x": 0.22,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "radii_mm": [
+    4,
+    3,
+    5
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
+  "name": "Dilated oesophagus in achalasia",
+  "material": "Fluid",
+  "subsystem": "Oesophageal motility",
+  "regions": [
+   "thorax"
+  ],
+  "note": "The lower oesophageal sphincter fails to relax, so the oesophagus dilates above it and fills with retained barium and food.",
+  "shape": {
+   "type": "scaled",
+   "structures": [
+    "Oesophagus"
+   ],
+   "factors": [
+    2.0,
+    1.0,
+    2.0
+   ]
+  }
+ },
+ {
+  "name": "Killian-Jamieson diverticulum",
+  "material": "Fluid",
+  "subsystem": "Oesophageal diverticulum",
+  "regions": [
+   "neck"
+  ],
+  "note": "A small lateral outpouching of the cervical oesophagus just below the cricopharyngeus, retaining contrast on the barium swallow.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Oesophagus",
+    "x": 0.3,
+    "y": 0.8,
+    "z": 0.4,
+    "surface": true,
+    "offset_mm": 5
+   },
+   "radii_mm": [
+    9,
+    7,
+    7
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Cerebral arterial aneurysm",
+  "latin": "Aneurysma arteriae cerebri",
+  "subsystem": "Cerebral aneurysm",
+  "note": "A rounded saccular outpouching of an intracranial artery on catheter angiography, with the sac filled by contrast.",
+  "material": "Abnormal vessel",
+  "regions": [
+   "head"
+  ],
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Middle cerebral artery (M1-segment)",
+    "side": "Right",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5,
+    "surface": true,
+    "offset_mm": 4
+   },
+   "radii_mm": [
+    6,
+    5,
+    5
+   ],
+   "irregular": 0.05
+  }
+ },
+ {
+  "name": "Left renal artery bead 1",
+  "subsystem": "Renal artery fibromuscular dysplasia",
+  "note": "Fibromuscular dysplasia of the lower accessory left renal artery: one bead of the string-of-beads wall contour.",
+  "material": "Abnormal vessel",
+  "regions": [
+   "abdomen"
+  ],
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Left renal artery",
+    "x": 0.4,
+    "y": 0.5,
+    "z": 0.5,
+    "surface": true
+   },
+   "radii_mm": [
+    3,
+    2.5,
+    3
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Left renal artery bead 2",
+  "subsystem": "Renal artery fibromuscular dysplasia",
+  "note": "Fibromuscular dysplasia of the lower accessory left renal artery: a second bead of the string-of-beads wall contour.",
+  "material": "Abnormal vessel",
+  "regions": [
+   "abdomen"
+  ],
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Left renal artery",
+    "x": 0.6,
+    "y": 0.5,
+    "z": 0.5,
+    "surface": true
+   },
+   "radii_mm": [
+    3,
+    2.5,
+    3
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Left renal artery bead 3",
+  "subsystem": "Renal artery fibromuscular dysplasia",
+  "note": "Fibromuscular dysplasia of the lower accessory left renal artery: a third bead of the string-of-beads wall contour.",
+  "material": "Abnormal vessel",
+  "regions": [
+   "abdomen"
+  ],
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Left renal artery",
+    "x": 0.8,
+    "y": 0.5,
+    "z": 0.5,
+    "surface": true
+   },
+   "radii_mm": [
+    3,
+    2.5,
+    3
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Right renal artery distal aneurysm",
+  "subsystem": "Renal artery aneurysm",
+  "note": "A small saccular aneurysm of the distal right renal artery, as described in the source image.",
+  "material": "Abnormal vessel",
+  "regions": [
+   "abdomen"
+  ],
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Right renal artery",
+    "x": 0.1,
+    "y": 0.5,
+    "z": 0.5,
+    "surface": true,
+    "offset_mm": 2
+   },
+   "radii_mm": [
+    4,
+    4,
+    4
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Posterior tibial artery occlusion",
+  "subsystem": "Arterial occlusion",
+  "regions": [
+   "lower_limb_r"
+  ],
+  "note": "A clot fills the posterior tibial artery from its origin to the ankle, so it is not opacified on the angiogram.",
+  "material": "Blood clot",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Posterior tibial artery",
+    "side": "Right",
+    "x": 0.5,
+    "y": 0.92,
+    "z": 0.5
+   },
+   "to": {
+    "structure": "Posterior tibial artery",
+    "side": "Right",
+    "x": 0.5,
+    "y": 0.05,
+    "z": 0.5
+   },
+   "radius_mm": 2.2
+  }
+ },
+ {
+  "name": "Collateral vessels around the occlusion",
+  "subsystem": "Arterial collaterals",
+  "regions": [
+   "lower_limb_r"
+  ],
+  "note": "Small collateral channels bridge from the posterior tibial artery to the fibular artery and carry blood around the occlusion.",
+  "material": "Abnormal vessel",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Posterior tibial artery",
+    "side": "Right",
+    "x": 0.5,
+    "y": 0.8,
+    "z": 0.5
+   },
+   "to": {
+    "structure": "Fibular artery",
+    "side": "Right",
+    "x": 0.5,
+    "y": 0.8,
+    "z": 0.5
+   },
+   "radius_mm": 1.0
+  }
+ },
+ {
+  "name": "Proximal femoral occlusion",
+  "material": "Blood clot",
+  "subsystem": "Arterial occlusion",
+  "regions": [
+   "lower_limb_l"
+  ],
+  "note": "A thrombus fills the upper femoral artery, so contrast does not pass beyond it.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Femoral artery",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.95,
+    "z": 0.5
+   },
+   "to": {
+    "structure": "Femoral artery",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.7,
+    "z": 0.5
+   },
+   "radius_mm": 4
+  }
+ },
+ {
+  "name": "Distal popliteal occlusion",
+  "material": "Blood clot",
+  "subsystem": "Arterial occlusion",
+  "regions": [
+   "lower_limb_l"
+  ],
+  "note": "A thrombus at the popliteal artery blocks flow to the leg below the knee.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Popliteal artery",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5
+   },
+   "radii_mm": [
+    5,
+    4,
+    4
+   ],
+   "irregular": 0.25
+  }
+ },
+ {
+  "name": "Left subcapital insufficiency fracture",
+  "material": "Fracture",
+  "subsystem": "Insufficiency fracture",
+  "regions": [
+   "lower_limb_l"
+  ],
+  "note": "Focal tracer uptake at the left subcapital femoral neck, the insufficiency fracture the bone scan shows.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Femur",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.9,
+    "z": 0.5,
+    "surface": true,
+    "offset_mm": 1
+   },
+   "radii_mm": [
+    9,
+    7,
+    7
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
+  "name": "Hodgkin paratracheal nodal mass",
+  "material": "Mass",
+  "subsystem": "Hodgkin lymphoma",
+  "regions": [
+   "thorax"
+  ],
+  "note": "FDG-avid enlarged mediastinal lymph node mass to the right of the trachea, typical of Hodgkin lymphoma. Shown as an illustrative mass; the 3D atlas is not registered to this scan.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Paratracheal thoracic nodes",
+    "x": 0.42,
+    "y": 0.5,
+    "z": 0.7
+   },
+   "radii_mm": [
+    12,
+    9,
+    10
+   ],
+   "irregular": 0.2
+  }
+ },
+ {
+  "name": "Left ICA complete occlusion",
+  "material": "Blood clot",
+  "subsystem": "Carotid occlusion",
+  "regions": [
+   "neck"
+  ],
+  "note": "Thrombus filling the left internal carotid artery, giving the complete occlusion described by the source; the clot is illustrative and is not seen directly on the B-mode image.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Internal carotid artery",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.3,
+    "z": 0.5
+   },
+   "to": {
+    "structure": "Internal carotid artery",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.75,
+    "z": 0.5
+   },
+   "radius_mm": 2.2
+  }
+ },
+ {
+  "name": "Common carotid intimal flap (dissection)",
+  "material": "Abnormal vessel",
+  "subsystem": "Carotid artery dissection",
+  "regions": [
+   "neck"
+  ],
+  "note": "A thin intimal flap lies within the common carotid artery and separates two lumen channels. The source does not state the side or which channel is the true lumen; the left side is shown for illustration only.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Left common carotid artery",
+    "x": 0.5,
+    "y": 0.2,
+    "z": 0.5
+   },
+   "to": {
+    "structure": "Left common carotid artery",
+    "x": 0.5,
+    "y": 0.8,
+    "z": 0.5
+   },
+   "radius_mm": 1.0
+  }
+ },
+ {
+  "name": "Left ICA near-occlusion plaque",
+  "material": "Mass",
+  "subsystem": "Carotid stenosis",
+  "regions": [
+   "neck"
+  ],
+  "note": "Atheromatous plaque narrowing the left internal carotid artery lumen to near occlusion, with only residual flow.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Internal carotid artery",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5,
+    "surface": true,
+    "offset_mm": 0
+   },
+   "radii_mm": [
+    5,
+    4,
+    4
+   ],
+   "irregular": 0.3
+  }
+ },
+ {
+  "name": "Hydronephrosis (dilated renal pelvis)",
+  "material": "Fluid",
+  "subsystem": "Hydronephrosis",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Obstructed urine backs up and dilates the renal pelvis and calyces, shown here as an anechoic collecting system on ultrasound.",
+  "shape": {
+   "type": "scaled",
+   "structures": [
+    "Renal pelvis"
+   ],
+   "side": "Right",
+   "factors": [
+    1.8,
+    1.5,
+    1.8
+   ]
+  }
+ },
+ {
+  "name": "Gallstones (dependent, shadowing)",
+  "material": "Stone",
+  "subsystem": "Cholelithiasis",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Echogenic gallstones lying in the dependent part of the gallbladder, producing posterior acoustic shadowing.",
+  "shape": {
+   "type": "cluster",
+   "at": {
+    "structure": "Gallbladder",
+    "x": 0.5,
+    "y": 0.1,
+    "z": 0.4
+   },
+   "spread_mm": [
+    10,
+    4,
+    7
+   ],
+   "count": 6,
+   "size_mm": 3
+  }
+ },
+ {
+  "name": "Biliary sludge (dependent layer)",
+  "material": "Fluid",
+  "subsystem": "Biliary sludge",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Mixed echoes of biliary sludge layering in the dependent gallbladder lumen beneath the stones.",
+  "shape": {
+   "type": "layer",
+   "structures": [
+    "Gallbladder"
+   ],
+   "thickness_mm": 4,
+   "window": {
+    "x": [
+     0.2,
+     0.8
+    ],
+    "y": [
+     0.0,
+     0.2
+    ],
+    "z": [
+     0.2,
+     0.8
+    ]
+   }
+  }
+ },
+ {
+  "name": "Impacted gallstone",
+  "material": "Stone",
+  "subsystem": "Gallstone disease",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "A stone of about 1.9 cm impacted at the gallbladder neck, the cause of the acoustic shadow behind it on ultrasound.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Gallbladder",
+    "x": 0.5,
+    "y": 0.8,
+    "z": 0.5
+   },
+   "radii_mm": [
+    9,
+    8,
+    8
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Gallbladder wall thickening",
+  "material": "Inflamed tissue",
+  "subsystem": "Acute cholecystitis",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Thickened gallbladder wall (about 4 mm) from acute inflammation, as reported with the cholecystitis.",
+  "shape": {
+   "type": "swollen",
+   "structures": [
+    "Gallbladder"
+   ],
+   "mm": 2
+  }
+ },
+ {
+  "name": "Hashimoto thyroiditis enlarged right lobe",
+  "material": "Inflamed tissue",
+  "subsystem": "Hashimoto thyroiditis",
+  "regions": [
+   "neck"
+  ],
+  "note": "Diffuse lymphocytic inflammation enlarges and darkens the right thyroid lobe on ultrasound; the lobe is hypoechoic and heterogeneous.",
+  "shape": {
+   "type": "scaled",
+   "structures": [
+    "Thyroid gland"
+   ],
+   "side": "Right",
+   "factors": [
+    1.3,
+    1.15,
+    1.25
+   ]
+  }
+ },
+ {
+  "name": "Femoral vein thrombus",
+  "material": "Blood clot",
+  "subsystem": "Deep vein thrombosis",
+  "regions": [
+   "lower_limb_l"
+  ],
+  "note": "Thrombus filling the femoral vein; the vein lacks colour flow on Doppler, while the femoral artery and deep femoral vein fill with colour.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Femoral vein",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.85,
+    "z": 0.5
+   },
+   "to": {
+    "structure": "Femoral vein",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.2,
+    "z": 0.5
+   },
+   "radius_mm": 4
+  }
+ },
+ {
+  "name": "Abdominal aortic aneurysm",
+  "material": "Abnormal vessel",
+  "subsystem": "Aortic aneurysm",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Focal dilatation of the infrarenal-to-suprarenal abdominal aorta seen in transverse section; the image shows enlargement without a calibrated diameter.",
+  "shape": {
+   "type": "scaled",
+   "structures": [
+    "Abdominal aorta"
+   ],
+   "factors": [
+    2.4,
+    1.0,
+    2.4
+   ]
+  }
+ },
+ {
+  "name": "Baker's cyst fluid",
+  "material": "Fluid",
+  "subsystem": "Baker's cyst",
+  "regions": [
+   "lower_limb_l"
+  ],
+  "note": "A fluid collection in the popliteal fossa between the semimembranosus tendon and the medial head of gastrocnemius, seen as an elongated anechoic cyst on longitudinal ultrasound.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Popliteal fossa",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.35
+   },
+   "radii_mm": [
+    14,
+    26,
+    9
+   ],
+   "irregular": 0.1
+  }
+ },
+ {
+  "name": "Dilated small bowel with air-fluid levels",
+  "material": "Fluid",
+  "subsystem": "Small bowel obstruction",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Distended small bowel loops hold fluid with gas above, giving horizontal air-fluid levels on the upright film. A single projection does not show the transition point.",
+  "shape": {
+   "type": "scaled",
+   "structures": [
+    "Jejunum"
+   ],
+   "factors": [
+    1.2,
+    1.4,
+    1.2
+   ]
+  }
+ },
+ {
+  "name": "L3 compression fracture",
+  "material": "Fracture",
+  "subsystem": "Vertebral compression fracture",
+  "regions": [
+   "back",
+   "abdomen"
+  ],
+  "note": "Anterior-superior wedge collapse of the L3 vertebral body with reduced height and depression of the upper endplate.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Vertebra L3",
+    "x": 0.5,
+    "y": 0.9,
+    "z": 0.75
+   },
+   "radii_mm": [
+    8,
+    5,
+    6
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
+  "name": "Distal radius fracture",
+  "material": "Fracture",
+  "subsystem": "Distal radius fracture",
+  "regions": [
+   "upper_limb_l"
+  ],
+  "note": "Transverse fracture through the distal radial metaphysis with the distal fragment displaced dorsally (Colles pattern).",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Radius",
+    "side": "Left",
+    "x": 0.15,
+    "y": 0.12,
+    "z": 0.3
+   },
+   "to": {
+    "structure": "Radius",
+    "side": "Left",
+    "x": 0.85,
+    "y": 0.12,
+    "z": 0.5
+   },
+   "radius_mm": 1.5
+  }
+ },
+ {
+  "name": "Dorsally displaced radial fragment",
+  "material": "Fracture",
+  "subsystem": "Distal radius fracture",
+  "regions": [
+   "upper_limb_l"
+  ],
+  "note": "Distal radial fragment displaced dorsally at the Colles fracture site.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Radius",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.05,
+    "z": 0.1
+   },
+   "radii_mm": [
+    7,
+    5,
+    5
+   ],
+   "irregular": 0.2
+  }
+ },
+ {
+  "name": "Ulnar styloid fracture",
+  "material": "Fracture",
+  "subsystem": "Ulnar styloid fracture",
+  "regions": [
+   "upper_limb_l"
+  ],
+  "note": "Fracture of the ulnar styloid process at the distal ulna, with a small separated tip fragment.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Ulna",
+    "side": "Left",
+    "x": 0.1,
+    "y": 0.04,
+    "z": 0.5,
+    "surface": true
+   },
+   "radii_mm": [
+    3,
+    2.5,
+    3
+   ],
+   "irregular": 0.2
+  }
+ },
+ {
+  "name": "Clavicular fracture",
+  "material": "Fracture",
+  "subsystem": "Clavicle fracture",
+  "regions": [
+   "upper_limb_l"
+  ],
+  "note": "Transverse fracture of the mid-shaft of the left clavicle with separated fragments.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Clavicle",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.5,
+    "z": 0.5,
+    "surface": true
+   },
+   "radii_mm": [
+    5,
+    4,
+    4
+   ],
+   "irregular": 0.3
+  }
+ },
+ {
+  "name": "Calcaneal fracture line",
+  "material": "Fracture",
+  "subsystem": "Calcaneal fracture",
+  "regions": [
+   "lower_limb_r"
+  ],
+  "note": "Fracture line through the body of the calcaneus, seen as a disrupted heel-bone contour on the lateral radiograph.",
+  "shape": {
+   "type": "tube",
+   "from": {
+    "structure": "Calcaneus",
+    "side": "Right",
+    "x": 0.3,
+    "y": 0.55,
+    "z": 0.15
+   },
+   "to": {
+    "structure": "Calcaneus",
+    "side": "Right",
+    "x": 0.75,
+    "y": 0.45,
+    "z": 0.6
+   },
+   "radius_mm": 1.5
+  }
+ },
+ {
+  "name": "Right renal calculus (xr_bilateral_renal_stones)",
+  "material": "Stone",
+  "subsystem": "Renal calculi",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Radiopaque renal calculus in the right kidney, visible on the frontal abdominal radiograph.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Kidney",
+    "side": "Right",
+    "x": 0.6,
+    "y": 0.4,
+    "z": 0.5
+   },
+   "radii_mm": [
+    4,
+    4,
+    4
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
+  "name": "Left renal calculus (xr_bilateral_renal_stones)",
+  "material": "Stone",
+  "subsystem": "Renal calculi",
+  "regions": [
+   "abdomen"
+  ],
+  "note": "Radiopaque renal calculus in the left kidney, visible on the frontal abdominal radiograph.",
+  "shape": {
+   "type": "blob",
+   "at": {
+    "structure": "Kidney",
+    "side": "Left",
+    "x": 0.5,
+    "y": 0.4,
+    "z": 0.5
+   },
+   "radii_mm": [
+    4,
+    4,
+    4
+   ],
+   "irregular": 0.15
+  }
+ },
+ {
+  "name": "Dilated upper lobe vessels",
+  "material": "Abnormal vessel",
+  "subsystem": "Pulmonary circulation",
+  "regions": [
+   "thorax"
+  ],
+  "note": "Upper-lobe arteries and veins are equal to or wider than the lower-lobe ones: blood diverted to the upper zones as pulmonary venous pressure rises.",
+  "shape": {
+   "type": "scaled",
+   "structures": [
+    "Apical segmental artery of right lung",
+    "Anterior segmental artery of right lung",
+    "Apical vein of right lung"
+   ],
+   "factors": [
+    1.7,
+    1.7,
+    1.7
+   ]
+  }
+ }
+]
