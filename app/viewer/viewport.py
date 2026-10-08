@@ -51,6 +51,14 @@ def _hex_rgb(h, default=(0.3, 0.78, 1.0)):
     return (c.redF(), c.greenF(), c.blueF()) if c.isValid() else default
 
 
+def msaa_samples(enabled, pixel_ratio):
+    """MSAA samples for the model viewer: 8 on a standard screen, 4 on a high-DPI (Retina) one, whose extra
+    pixels already smooth edges, 1 when anti-aliasing is off."""
+    if not enabled:
+        return 1
+    return 4 if pixel_ratio >= 1.5 else 8
+
+
 def distinct_colours(n):
     """n well-separated colours (golden-angle hues, alternating lightness), linear RGB."""
     out = np.zeros((max(n, 1), 3), dtype=np.float32)
@@ -215,7 +223,7 @@ class ModelViewport(QOpenGLWidget):
         st = self.settings
         s.ao = bool(st.get("ssao", True))
         s.ao_strength = float(st.get("ssao_strength", 1.0))
-        s.msaa = 8 if st.get("fxaa", True) else 1
+        s.msaa = msaa_samples(st.get("fxaa", True), self.devicePixelRatioF() * self._render_scale())
         s.ghost_alpha = float(st.get("ghost_alpha", 0.10))
         sel = _hex_rgb(st.get("selection_color", "#4dc7ff"))
         hov = _hex_rgb(st.get("hover_color", "#ffd966"), (1.0, 0.85, 0.4))
