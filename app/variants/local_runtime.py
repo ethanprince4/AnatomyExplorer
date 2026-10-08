@@ -428,7 +428,8 @@ def prepare_local_model(entry, token=None):
             if display.get("atlas"):
                 item.atlas = list(display["atlas"])
             if guide.names.get(item.key):
-                # A readable name in place of a build label; the key still finds the part.
+                # A readable name in place of a build label; the key and the old name still find the part.
+                item.former_names = [item.name]
                 item.name = guide.names[item.key]
         _retire_native_backing(model, [row for row, *_ in decoded])
     elif path.suffix.lower() == ".glb":

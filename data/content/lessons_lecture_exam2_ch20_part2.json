@@ -1869,7 +1869,7 @@
       },
       {
         "title": "Hormonal control: the adrenal medulla",
-        "text": "<p>The same two chemicals can arrive in the blood. <b>Epinephrine and norepinephrine from the adrenal medulla</b> are released in response to <b>increased physical activity, emotional excitement, or stress</b>.</p><p>The <b>adrenal medulla</b> is the core of the suprarenal (adrenal) gland that sits on the kidney. On the kidney model, find the adrenal gland capping the kidney and the medulla at its core. This is <b>hormonal</b> extrinsic control: it <b>takes longer than sympathetic nerve stimulation but persists longer</b>. Nerves are fast on/fast off; adrenal catecholamines hang around in the plasma and keep HR and SV up after the nerves have quietened.</p>",
+        "text": "<p>The same two chemicals can arrive in the blood. <b>Epinephrine and norepinephrine from the adrenal medulla</b> are released in response to <b>increased physical activity, emotional excitement, or stress</b>.</p><p>The <b>adrenal medulla</b> is the core of the suprarenal (adrenal) gland that sits on the kidney. In the atlas, find the suprarenal gland capping the kidney; the medulla is its core. This is <b>hormonal</b> extrinsic control: it <b>takes longer than sympathetic nerve stimulation but persists longer</b>. Nerves are fast on/fast off; adrenal catecholamines hang around in the plasma and keep HR and SV up after the nerves have quietened.</p>",
         "systems": [
           "cardiovascular",
           "visceral"
@@ -1887,15 +1887,10 @@
         ],
         "view": "anterior",
         "xray": true,
-        "micro": "kidney_nephron",
-        "micro_focus": [
-          "Adrenal medulla"
-        ],
         "check": {
           "q": "Where do hormonal epinephrine and norepinephrine come from, what triggers them, and how does their time course compare with sympathetic nerves?",
           "a": "From the adrenal medulla, in response to increased activity, emotional excitement or stress. They take longer to act than sympathetic nerves but persist longer."
-        },
-        "micro_view": "Kidney"
+        }
       },
       {
        "title": "Putting the controls together",
@@ -2043,10 +2038,8 @@
         "structure": "Medulla oblongata"
       },
       {
-        "type": "find_micro",
-        "model": "kidney_nephron",
-        "part": "Adrenal medulla",
-        "micro_view": "Kidney"
+        "type": "find",
+        "structure": "Suprarenal gland"
       }
     ]
   },
