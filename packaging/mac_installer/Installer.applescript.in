@@ -1,0 +1,53 @@
+-- "@NAME@" installer for release @VERSION@. The work is done by install.sh in this app's Resources folder.
+property appName : "@NAME@"
+property versionName : "@VERSION@"
+
+on run
+	set scriptPath to POSIX path of (path to resource "install.sh")
+	set workDir to do shell script "mkdir -p \"$HOME/Library/Caches\" && mktemp -d \"$HOME/Library/Caches/Anatomy-Explorer-Installer.XXXXXX\""
+	set planLines to paragraphs of (do shell script "/bin/bash " & quoted form of scriptPath & " plan")
+	set destDir to item 1 of planLines
+	set replaceFlag to "no"
+	if item 2 of planLines is "yes" then
+		try
+			display dialog (appName & " is already installed in " & destDir & ". Replace it with " & versionName & "?") buttons {"Cancel", "Replace"} default button "Cancel" cancel button "Cancel" with icon caution
+		on error number -128
+			do shell script "rm -rf " & quoted form of workDir
+			return
+		end try
+		set replaceFlag to "yes"
+	end if
+	do shell script "/bin/bash " & quoted form of scriptPath & " install " & quoted form of workDir & " " & quoted form of destDir & " " & replaceFlag & " >/dev/null 2>&1 &"
+	set progress total steps to 100
+	set progress completed steps to 0
+	set progress description to "Installing " & appName & " " & versionName
+	repeat
+		delay 2
+		set isRunning to do shell script "kill -0 \"$(cat " & quoted form of (workDir & "/pid") & " 2>/dev/null)\" 2>/dev/null && echo yes || echo no"
+		set fields to my splitBar(do shell script "cat " & quoted form of (workDir & "/status") & " 2>/dev/null || true")
+		set kind to ""
+		if (count of fields) is 3 then set kind to item 1 of fields
+		if kind is "done" then exit repeat
+		if kind is "failed" then
+			display dialog (item 3 of fields) buttons {"OK"} default button "OK" with icon stop
+			return
+		end if
+		if kind is "progress" then
+			set progress completed steps to (item 2 of fields) as integer
+			set progress additional description to item 3 of fields
+		end if
+		if isRunning is "no" then
+			display dialog ("The installer stopped before it finished. The details are in " & workDir & "/log.txt") buttons {"OK"} default button "OK" with icon stop
+			return
+		end if
+	end repeat
+	do shell script "rm -rf " & quoted form of workDir
+	do shell script "open " & quoted form of (destDir & "/" & appName & ".app")
+end run
+
+on splitBar(theText)
+	set AppleScript's text item delimiters to "|"
+	set theItems to text items of theText
+	set AppleScript's text item delimiters to ""
+	return theItems
+end splitBar

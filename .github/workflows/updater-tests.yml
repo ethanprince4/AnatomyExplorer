@@ -32,6 +32,7 @@ jobs:
         timeout-minutes: 5
         run: |
           python packaging/test_local_library_release.py
+          python packaging/test_prepare_release_assets.py
           python -m unittest discover -s tests -p 'test_updater.py' -v
           python -m unittest discover -s tests -p 'test_updater_channels.py' -v
           python -m unittest discover -s tests -p 'test_update_packaging.py' -v

@@ -1,0 +1,104 @@
+#!/bin/bash
+# Installs the Anatomy Explorer disk image from its GitHub release parts. packaging/prepare_release_assets.py
+# fills in the @...@ values and copies the result into Contents/Resources of "Install Anatomy Explorer.app".
+#   install.sh plan                        prints the folder to install into, then yes or no (a copy is already there)
+#   install.sh install WORK DEST yes|no    downloads, checks, joins, mounts and copies; WORK/status tells the applet how far it is
+# Written for bash 3.2, the /bin/bash that ships with macOS.
+set -euo pipefail
+
+BASE='@BASE@'
+DMG='@DMG@'
+BUNDLE='@BUNDLE@'
+TOTAL=@TOTAL@
+PARTS=(
+@PARTS@
+)
+
+WORK=''
+STAGING=''
+MOUNTED=0
+
+plan() {
+  local folder=/Applications
+  if [ ! -w /Applications ]; then folder="$HOME/Applications"; fi
+  echo "$folder"
+  if [ -e "$folder/$BUNDLE" ]; then echo yes; else echo no; fi
+}
+
+# One line per update, read by the applet: state|percent|message
+status() {
+  printf '%s|%s|%s\n' "$1" "$2" "$3" > "$WORK/status.tmp"
+  mv -f "$WORK/status.tmp" "$WORK/status"
+}
+
+fail() {
+  status failed 0 "$1"
+  exit 1
+}
+
+cleanup() {
+  if [ "$MOUNTED" = 1 ]; then hdiutil detach "$WORK/mount" -force -quiet >/dev/null 2>&1 || true; fi
+  if [ -n "$STAGING" ]; then rm -rf "$STAGING"; fi
+  if [ -n "$WORK" ]; then rm -f "$WORK/$DMG" "$WORK"/*.part[0-9][0-9][0-9]; fi
+}
+
+run_install() {
+  WORK="$1"
+  local dest="$2" replace="$3"
+  exec >> "$WORK/log.txt" 2>&1
+  echo "$$" > "$WORK/pid"
+  set -E
+  trap 'fail "The installer stopped unexpectedly. The details are in $WORK/log.txt"' ERR
+  trap cleanup EXIT
+
+  local free_kb
+  free_kb=$(df -Pk "$WORK" | awk 'NR == 2 {print $4}')
+  if [ "$free_kb" -lt $(( TOTAL * 2 / 1024 + 1048576 )) ]; then
+    fail "Not enough free disk space. Free about $(( (TOTAL * 2 + 1073741824) / 1000000000 + 1 )) GB and run the installer again."
+  fi
+
+  local count=${#PARTS[@]} n=0 entry name sum got
+  files=()
+  for entry in "${PARTS[@]}"; do
+    n=$((n + 1))
+    name=${entry%% *}
+    sum=${entry#* }
+    status progress $(( (n - 1) * 80 / count )) "Downloading part $n of $count"
+    curl --silent --show-error --fail --location --retry 3 --output "$WORK/$name" "$BASE/$name" \
+      || fail "Part $n of $count could not be downloaded. Check the internet connection and run the installer again."
+    got=$(shasum -a 256 "$WORK/$name" | cut -d ' ' -f 1)
+    if [ "$got" != "$sum" ]; then fail "Part $n of $count did not pass its checksum. Run the installer again."; fi
+    files+=("$WORK/$name")
+  done
+
+  status progress 80 "Joining the parts"
+  cat "${files[@]}" > "$WORK/$DMG" \
+    || fail "The parts could not be joined. Check that the disk is not full and run the installer again."
+
+  status progress 85 "Opening the disk image"
+  mkdir -p "$WORK/mount"
+  hdiutil attach -nobrowse -readonly -noautoopen -mountpoint "$WORK/mount" "$WORK/$DMG" \
+    || fail "The disk image could not be opened. Run the installer again."
+  MOUNTED=1
+  if [ ! -d "$WORK/mount/$BUNDLE" ]; then fail "The disk image does not contain $BUNDLE. Download the release again."; fi
+
+  status progress 90 "Copying $BUNDLE to $dest"
+  mkdir -p "$dest" || fail "The folder $dest could not be created."
+  if [ -e "$dest/$BUNDLE" ] && [ "$replace" != yes ]; then fail "$BUNDLE is already in $dest."; fi
+  STAGING="$dest/.$BUNDLE.installing"
+  rm -rf "$STAGING"
+  ditto "$WORK/mount/$BUNDLE" "$STAGING" || fail "$BUNDLE could not be copied to $dest."
+  rm -rf "$dest/$BUNDLE"
+  mv "$STAGING" "$dest/$BUNDLE"
+  STAGING=''
+
+  if hdiutil detach "$WORK/mount" -quiet || hdiutil detach "$WORK/mount" -force -quiet; then MOUNTED=0; fi
+  rm -f "$WORK/$DMG" "${files[@]}"
+  status done 100 "$BUNDLE is installed in $dest"
+}
+
+case "${1:-}" in
+  plan) plan ;;
+  install) run_install "${2:?}" "${3:?}" "${4:?}" ;;
+  *) echo "usage: install.sh plan | install WORK DEST yes|no" >&2; exit 2 ;;
+esac
