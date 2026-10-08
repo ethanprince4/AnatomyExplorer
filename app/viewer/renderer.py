@@ -24,7 +24,7 @@ from dataclasses import dataclass, field
 import moderngl
 import numpy as np
 
-from . import shaders
+from . import lod, shaders
 from .environment import Environment
 from .model import NO_FIBRE, Part, ViewerModel
 
@@ -249,6 +249,9 @@ class Renderer:
         self.vbo = self.ibo = self.abo = None
         self.item_vbo = self.items_tex = None
         self._range = {}                   # part id -> (first, count) in this renderer's index buffer
+        self._lod_range = {}               # part id -> [(first, count)] of its coarser levels (app.viewer.lod)
+        self._lod = None                   # (part positions, part ids, cells) of the parts with coarser levels
+        self._level = {}                   # part id -> the coarser level it draws at this frame
         self._look_keys = {}
         self._item_state = None
         self._xf = {}
@@ -345,19 +348,59 @@ class Renderer:
         self._look_keys = {p.id: _look_key(p.look) for p in parts}
         # the shaded passes have always drawn by material, then part: equal-depth ties resolve as before
         by_look = sorted(parts, key=lambda p: (p.material_name, self._look_keys[p.id] or "", p.id))
-        if [p.id for p in by_look] == [p.id for p in sorted(parts, key=lambda p: p.first)]:
+        levels = getattr(model, "lod", None) or {}
+        coarse = [p for p in by_look if p.id in levels]
+        in_order = [p.id for p in by_look] == [p.id for p in sorted(parts, key=lambda p: p.first)]
+        if in_order and not coarse:
             self._range = {p.id: (p.first, p.count) for p in parts}
             return self.ctx.buffer(np.ascontiguousarray(model.indices, dtype=np.uint32))
-        total = sum(p.count for p in parts)
+        total = sum(p.count for p in parts) + sum(len(i) for p in coarse for i in levels[p.id].indices)
         ibo = self.ctx.buffer(reserve=max(total, 1) * 4)
         self._range, offset = {}, 0
-        for p in by_look:                  # written part by part: no second full-size copy on the GUI thread
-            if p.count:
-                ibo.write(np.ascontiguousarray(model.indices[p.first:p.first + p.count], dtype=np.uint32),
-                          offset=offset * 4)
-            self._range[p.id] = (offset, p.count)
-            offset += p.count
+        if in_order:
+            ibo.write(np.ascontiguousarray(model.indices, dtype=np.uint32))
+            self._range = {p.id: (p.first, p.count) for p in parts}
+            offset = len(model.indices)
+        else:
+            for p in by_look:              # written part by part: no second full-size copy on the GUI thread
+                if p.count:
+                    ibo.write(np.ascontiguousarray(model.indices[p.first:p.first + p.count], dtype=np.uint32),
+                              offset=offset * 4)
+                self._range[p.id] = (offset, p.count)
+                offset += p.count
+        # then each coarser level of every part that has them, in the same order, so alike parts at one level still
+        # draw as one run
+        for k in range(lod.LEVELS):
+            for p in coarse:
+                idx = levels[p.id].indices[k]
+                ibo.write(np.ascontiguousarray(idx, dtype=np.uint32), offset=offset * 4)
+                self._lod_range.setdefault(p.id, []).append((offset, len(idx)))
+                offset += len(idx)
+        if coarse:
+            where = {p.id: i for i, p in enumerate(parts)}
+            self._lod = (np.array([where[p.id] for p in coarse]), [p.id for p in coarse],
+                         np.array([levels[p.id].cells for p in coarse], dtype=np.float64))
         return ibo
+
+    def _lod_levels(self, V, halves, ortho, h):
+        """The coarser level each part draws at this frame: the coarsest whose cell is at most a pixel at the part's
+        nearest point (0, the full mesh, when none is)."""
+        if self._lod is None:
+            return {}
+        where, ids, cells = self._lod
+        centres, radii = self._spheres
+        if ortho:
+            pixel = np.full(len(ids), 2.0 * halves[1] / h)
+        else:
+            depth = -(centres[where] @ V[2, :3] + V[2, 3]) - radii[where]
+            pixel = np.maximum(depth, 0.0) * (2.0 * halves[1] / h)
+        level = np.sum(cells * self._scales[where][:, None] <= pixel[:, None], axis=1)
+        return {pid: int(k) for pid, k in zip(ids, level) if k}
+
+    def _span(self, p):
+        """(first, count) of the part's mesh at the level it draws at this frame."""
+        k = self._level.get(p.id)
+        return self._lod_range[p.id][k - 1] if k else self._range[p.id]
 
     @staticmethod
     def _vertex_items(model):
@@ -413,6 +456,10 @@ class Renderer:
         spheres = [m.part_sphere(p) for p in m.parts]
         self._spheres = (np.array([c for c, _r in spheres], dtype=np.float64).reshape(-1, 3),
                          np.array([r for _c, r in spheres], dtype=np.float64))
+        self._scales = np.zeros(len(m.parts))
+        if self._lod is not None:
+            for i in self._lod[0]:
+                self._scales[i] = float(np.max(np.linalg.norm(m.part_matrix(m.parts[i])[:3, :3], axis=0)))
 
     def _transform(self, p):
         """(model matrix, normal matrix, mirrored, morph weight, never cut, key) of a part, once per frame."""
@@ -435,10 +482,10 @@ class Renderer:
         id, selection, highlight, x-ray, opacity and flat colour from the item texture. Textured looks, animated
         items and models without the texture draw part by part."""
         animated = self.abo is not None and self._fs.anim_frame is not None
-        rng = self._range
+        span = {p.id: self._span(p) for p in parts}
         run = None
-        for p in sorted(parts, key=lambda p: rng[p.id][0]):
-            first, count = rng[p.id]
+        for p in sorted(parts, key=lambda p: span[p.id][0]):
+            first, count = span[p.id]
             look = self._look_keys.get(p.id)
             batched = self.items_tex is not None and not (kind == "shaded" and look is None)
             alone = (self.items_tex is None or animated or (kind == "shaded" and look is None) or
@@ -467,6 +514,7 @@ class Renderer:
         self.vaos = {}
         self.vbo = self.ibo = self.abo = self.item_vbo = self.items_tex = None
         self._range, self._look_keys, self._item_state, self._xf = {}, {}, None, {}
+        self._lod_range, self._lod, self._level = {}, None, {}
         self._xf_key = None
         self.textures = {}
         self.model = None
@@ -633,6 +681,7 @@ class Renderer:
         if m is not None:
             self._refresh_transforms(m)
             self._upload_item_state(fs, s, ghost, alpha)
+            self._level = self._lod_levels(V, self.last_camera[4], camera.ortho, h)
         clip = (np.array(fs.clip_planes, dtype=np.float32), tuple(int(bool(x)) for x in fs.clip_on), int(fs.clip_mode))
         any_clip = any(clip[1])
 
