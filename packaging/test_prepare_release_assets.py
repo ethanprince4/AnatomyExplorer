@@ -61,6 +61,25 @@ class SplitTests(unittest.TestCase):
         self.assertIn('Download-Windows-Installer.ps1', notes)
         self.assertNotIn('.command', notes)
 
+    def test_each_build_writes_its_own_notes_and_publishing_joins_them(self):
+        folder = self.tmp / 'assets'
+        folder.mkdir()
+        (folder / 'AnatomyExplorer-Setup-Windows.exe').write_bytes(b'abcdefghijkl')
+        prep.prepare(folder, TAG, 'INSTALL-DOWNLOADS-Windows.md')
+        (folder / 'INSTALL-DOWNLOADS-macOS.md').write_text(
+            '\n'.join(prep.NOTES_HEADER + [f'- {prep.MAC_INSTALLER} (Mac, Apple silicon): reconstructs it.']) + '\n',
+            encoding='utf-8')
+        prep.combine_notes(folder)
+        names = sorted(p.name for p in folder.iterdir())
+        self.assertIn('INSTALL-DOWNLOADS.md', names)
+        self.assertFalse([n for n in names if n.startswith('INSTALL-DOWNLOADS-')])
+        notes = (folder / 'INSTALL-DOWNLOADS.md').read_text(encoding='utf-8')
+        self.assertEqual(notes.count('# Installer downloads'), 1)
+        self.assertIn('- Download-Windows-Installer.ps1 (Windows)', notes)
+        self.assertIn(f'- {prep.MAC_INSTALLER} (Mac', notes)
+        prep.combine_notes(folder)          # nothing left to join: the notes stay as they are
+        self.assertEqual((folder / 'INSTALL-DOWNLOADS.md').read_text(encoding='utf-8'), notes)
+
     def test_mac_split_builds_the_installer_app_on_macos_only(self):
         folder = self.tmp / 'assets'
         folder.mkdir()

@@ -1,4 +1,7 @@
-"""Split oversized installers for GitHub; updater packs remain unchanged."""
+"""Split oversized installers for GitHub; updater packs remain unchanged.
+
+Each release build job runs this on its own installer (the Mac installer app needs macOS), writing its part of the
+install notes to INSTALL-DOWNLOADS-<platform>.md; the publishing job joins those with --combine-notes."""
 import argparse
 import hashlib
 import re
@@ -101,13 +104,18 @@ def build_mac_installer(folder, tag, dmg_name, total, parts):
         shutil.rmtree(work, ignore_errors=True)
 
 
-def prepare(folder, tag):
+NOTES = 'INSTALL-DOWNLOADS.md'
+NOTES_HEADER = ['# Installer downloads', '', 'Existing users: use the in-app updater normally.', '',
+                'New installations: installers larger than GitHub\'s file limit are split into parts. Use the helper '
+                'below. It downloads and checks the parts in its own folder, joins them and then starts the installer.',
+                '']
+
+
+def prepare(folder, tag, notes_name=NOTES):
     if not re.fullmatch(r'v[0-9A-Za-z.+-]+', tag):
         raise ValueError('Invalid release tag')
     base = f'{REPO}/{tag}'
-    notes = ['# Installer downloads', '', 'Existing users: use the in-app updater normally.', '',
-             'New installations: installers larger than GitHub\'s file limit are split into parts. Use the helper '
-             'below. It downloads and checks the parts in its own folder, joins them and then starts the installer.', '']
+    notes = list(NOTES_HEADER)
     for path in sorted(folder.iterdir()):
         if path.suffix.lower() not in ('.exe', '.dmg') or path.stat().st_size < LIMIT:
             continue
@@ -135,12 +143,32 @@ def prepare(folder, tag):
                          'Apple developer certificate: open System Settings > Privacy & Security, scroll down and click '
                          'Open Anyway (on macOS 14 and earlier, right-click it and choose Open also works).')
         path.unlink()  # Only the disposable publish staging copy; build artifacts are retained.
-    (folder / 'INSTALL-DOWNLOADS.md').write_text('\n'.join(notes) + '\n', encoding='utf-8')
+    (folder / notes_name).write_text('\n'.join(notes) + '\n', encoding='utf-8')
+
+
+def combine_notes(folder):
+    """Join the platforms' INSTALL-DOWNLOADS-*.md into one INSTALL-DOWNLOADS.md (their helper lines under one header)."""
+    pieces = sorted(folder.glob('INSTALL-DOWNLOADS-*.md'))
+    if not pieces:
+        return
+    lines = [line for piece in pieces for line in piece.read_text(encoding='utf-8').splitlines() if line.startswith('- ')]
+    (folder / NOTES).write_text('\n'.join(NOTES_HEADER + lines) + '\n', encoding='utf-8')
+    for piece in pieces:
+        piece.unlink()
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('folder', type=Path)
-    parser.add_argument('tag')
+    parser.add_argument('tag', nargs='?')
+    parser.add_argument('--notes', default=NOTES, help='file name for the install notes (one per platform when the '
+                                                       'build jobs prepare their own installers)')
+    parser.add_argument('--combine-notes', action='store_true',
+                        help='only join INSTALL-DOWNLOADS-*.md in the folder into INSTALL-DOWNLOADS.md')
     args = parser.parse_args()
-    prepare(args.folder, args.tag)
+    if args.combine_notes:
+        combine_notes(args.folder)
+    elif not args.tag:
+        parser.error('a release tag is required')
+    else:
+        prepare(args.folder, args.tag, args.notes)
