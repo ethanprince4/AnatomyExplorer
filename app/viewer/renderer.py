@@ -16,6 +16,7 @@ is never modified for it.
 """
 from __future__ import annotations
 
+import dataclasses
 import io
 import math
 from dataclasses import dataclass, field
@@ -156,6 +157,16 @@ class FrameState:
     anim_frame: np.ndarray | None = None          # (2, n, 4): morph weights, (mode, glow, decay, rate)
 
 
+ITEM_UNIT = 11                         # texture unit of the per-item state of batched draws
+
+
+def _look_key(look):
+    """Parts with equal keys shade identically, so one draw call can cover them. Textured parts are never merged."""
+    if look.texture is not None:
+        return None
+    return repr(dataclasses.astuple(look))
+
+
 def _transparent_pass(part, ghost, alpha, frame):
     return ghost or alpha < 0.999 or (not frame.opaque_materials and
         (part.role == "covering" or part.look.translucent))
@@ -236,6 +247,11 @@ class Renderer:
         self.white = ctx.texture((1, 1), 4, bytes([255, 255, 255, 255]))
         self.model: ViewerModel | None = None
         self.vbo = self.ibo = self.abo = None
+        self.item_vbo = self.items_tex = None
+        self._range = {}                   # part id -> (first, count) in this renderer's index buffer
+        self._look_keys = {}
+        self._item_state = None
+        self._xf = {}
         self.vaos = {}
         self.textures = {}
         self.size = None
@@ -296,11 +312,17 @@ class Renderer:
             # ModernGL accepts contiguous buffer objects directly. Avoid a
             # second full-model bytes allocation on the GUI thread at upload.
             self.vbo = ctx.buffer(np.ascontiguousarray(vertices, dtype=np.float32))
-            self.ibo = ctx.buffer(np.ascontiguousarray(model.indices, dtype=np.uint32))
+            self.ibo = self._batched_indices(model)
+            self.item_vbo = ctx.buffer(self._vertex_items(model))
+            n_items = max(len(model.items), 1)
+            if n_items <= ctx.info.get("GL_MAX_TEXTURE_SIZE", 4096):
+                self.items_tex = ctx.texture((n_items, 3), 4, dtype="f4")
+                self.items_tex.filter = (moderngl.NEAREST, moderngl.NEAREST)
+            self._item_state = None
             if model.anim_vertices is not None:
                 self.abo = ctx.buffer(np.ascontiguousarray(model.anim_vertices).view(np.uint8))
             for name, p in self.geom.items():
-                buffers = [(self.vbo, fmt, *attrs)]
+                buffers = [(self.vbo, fmt, *attrs), (self.item_vbo, "1f", "in_item")]
                 if self.abo is not None:
                     buffers.append((self.abo, ANIM_FMT, *ANIM_ATTRS))
                 self.vaos[name] = ctx.vertex_array(p, buffers, self.ibo, 4, skip_errors=True)
@@ -317,13 +339,135 @@ class Renderer:
             self.release_model()
             raise
 
+    def _batched_indices(self, model):
+        """The index buffer with parts that shade alike next to each other, so a run of them is one draw call."""
+        parts = model.parts
+        self._look_keys = {p.id: _look_key(p.look) for p in parts}
+        # the shaded passes have always drawn by material, then part: equal-depth ties resolve as before
+        by_look = sorted(parts, key=lambda p: (p.material_name, self._look_keys[p.id] or "", p.id))
+        if [p.id for p in by_look] == [p.id for p in sorted(parts, key=lambda p: p.first)]:
+            self._range = {p.id: (p.first, p.count) for p in parts}
+            return self.ctx.buffer(np.ascontiguousarray(model.indices, dtype=np.uint32))
+        total = sum(p.count for p in parts)
+        ibo = self.ctx.buffer(reserve=max(total, 1) * 4)
+        self._range, offset = {}, 0
+        for p in by_look:                  # written part by part: no second full-size copy on the GUI thread
+            if p.count:
+                ibo.write(np.ascontiguousarray(model.indices[p.first:p.first + p.count], dtype=np.uint32),
+                          offset=offset * 4)
+            self._range[p.id] = (offset, p.count)
+            offset += p.count
+        return ibo
+
+    @staticmethod
+    def _vertex_items(model):
+        """The item index of every vertex (each part owns its vertex range)."""
+        items = np.zeros(max(len(model.vertices), 1), dtype=np.float32)
+        for p in model.parts:
+            if p.vertex_count:
+                items[p.vertex_base:p.vertex_base + p.vertex_count] = p.item
+            elif p.count:
+                items[model.indices[p.first:p.first + p.count]] = p.item
+        return items
+
+    def _upload_item_state(self, fs, s, ghost, alpha):
+        """Per item: (id + 1, selected, highlight, x-ray), (flat colour, on), (highlight colour, opacity)."""
+        if self.items_tex is None:
+            return
+        n = len(self.model.items)
+        st = np.zeros((3, max(n, 1), 4), dtype=np.float32)
+        st[0, :n, 0] = np.arange(1, n + 1)
+        st[0, :n, 3] = ghost
+        st[2, :n, 3] = alpha
+        for hovered in {fs.hovered, s.hovered - 1 if s.hovered else -1}:
+            if 0 <= hovered < n and hovered not in fs.selected:
+                st[0, hovered, 2] = 0.18
+                st[2, hovered, :3] = s.hover_highlight
+        for it in fs.selected:
+            if 0 <= it < n:
+                st[0, it, 1] = 1.0
+                st[0, it, 2] = 0.45
+                st[2, it, :3] = s.highlight
+        if fs.colours is not None:
+            st[1, :n, :3] = np.asarray(fs.colours, dtype=np.float32)[:n]
+            st[1, :n, 3] = 1.0
+        for it, colour in fs.override.items():
+            if 0 <= it < n:
+                st[1, it] = (*colour, 1.0)
+        data = st.tobytes()
+        if data != self._item_state:
+            self.items_tex.write(data)
+            self._item_state = data
+
+    def _refresh_transforms(self, m):
+        """Per-part transforms and bounding spheres are kept until the model's transforms change (morph weights,
+        reveal offsets, separated parts, which parts are cut): a still or rotating model reuses them."""
+        key = (id(m.node_world), len(m.node_world), m.root.tobytes(),
+               tuple(sorted((n, np.asarray(o).tobytes()) for n, o in m.node_offsets.items())),
+               None if m.item_offsets is None else m.item_offsets.tobytes(),
+               tuple(sorted(m.node_weights.items())), bytes(bool(it.clip) for it in m.items))
+        if key == getattr(self, "_xf_key", None):
+            return
+        self._xf_key = key
+        self._xf = {}
+        spheres = [m.part_sphere(p) for p in m.parts]
+        self._spheres = (np.array([c for c, _r in spheres], dtype=np.float64).reshape(-1, 3),
+                         np.array([r for _c, r in spheres], dtype=np.float64))
+
+    def _transform(self, p):
+        """(model matrix, normal matrix, mirrored, morph weight, never cut, key) of a part, once per frame."""
+        xf = self._xf.get(p.id)
+        if xf is None:
+            m = self.model
+            M = m.part_matrix(p)
+            weight = float(m.node_weights.get(p.node, 0.0))
+            flip = 1 if np.linalg.det(M[:3, :3]) < 0 else 0
+            noclip = 0 if m.items[p.item].clip else 1
+            xf = (M, np.linalg.inv(M[:3, :3]).T, flip, weight, noclip, (M.tobytes(), flip, weight, noclip))
+            self._xf[p.id] = xf
+        return xf
+
+    def _runs(self, parts, kind):
+        """Merge parts that are next to each other in the index buffer and draw alike into single draws.
+
+        kind: "shadow" (depth only), "pre" (ids; alpha-tested textures cut holes) or "shaded" (the full look).
+        Yields (part, first, count, batched): the part gives the shared state, and a batched draw takes each item's
+        id, selection, highlight, x-ray, opacity and flat colour from the item texture. Textured looks, animated
+        items and models without the texture draw part by part."""
+        animated = self.abo is not None and self._fs.anim_frame is not None
+        rng = self._range
+        run = None
+        for p in sorted(parts, key=lambda p: rng[p.id][0]):
+            first, count = rng[p.id]
+            look = self._look_keys.get(p.id)
+            batched = self.items_tex is not None and not (kind == "shaded" and look is None)
+            alone = (self.items_tex is None or animated or (kind == "shaded" and look is None) or
+                     (kind == "pre" and p.look.texture is not None and p.look.alpha_cut > 0.0))
+            if alone:
+                if run is not None:
+                    yield run[:4]
+                    run = None
+                yield p, first, count, batched
+                continue
+            key = (self._transform(p)[5], look if kind == "shaded" else None)
+            if run is not None and run[4] == key and run[1] + run[2] == first:
+                run[2] += count
+                continue
+            if run is not None:
+                yield run[:4]
+            run = [p, first, count, True, key]
+        if run is not None:
+            yield run[:4]
+
     def release_model(self):
         # Retire ownership before releasing. A context-lost object must not leave
         # the renderer partly live or prevent the remaining objects being freed.
-        objects = list(self.vaos.values()) + [self.vbo, self.ibo, self.abo]
+        objects = list(self.vaos.values()) + [self.vbo, self.ibo, self.abo, self.item_vbo, self.items_tex]
         objects += [texture for texture in self.textures.values() if texture is not self.white]
         self.vaos = {}
-        self.vbo = self.ibo = self.abo = None
+        self.vbo = self.ibo = self.abo = self.item_vbo = self.items_tex = None
+        self._range, self._look_keys, self._item_state, self._xf = {}, {}, None, {}
+        self._xf_key = None
         self.textures = {}
         self.model = None
         self.frame_ok = False
@@ -486,6 +630,9 @@ class Renderer:
         m = self.model
         fs, vis, ghost, alpha = self._state(fs) if m is not None else (fs or FrameState(), None, None, None)
         self._fs = fs
+        if m is not None:
+            self._refresh_transforms(m)
+            self._upload_item_state(fs, s, ghost, alpha)
         clip = (np.array(fs.clip_planes, dtype=np.float32), tuple(int(bool(x)) for x in fs.clip_on), int(fs.clip_mode))
         any_clip = any(clip[1])
 
@@ -496,12 +643,11 @@ class Renderer:
         draws, oit = [], []
         if m is not None:
             planes = _frustum_planes(VP)
-            for p in m.parts:
+            centres, radii = self._spheres
+            inside = np.all(planes[:, :3] @ centres.T + planes[:, 3:4] >= -radii, axis=0) if len(radii) else []
+            for p, keep in zip(m.parts, inside):
                 it = p.item
-                if not vis[it]:
-                    continue
-                c, r = m.part_sphere(p)
-                if np.any(planes[:, :3] @ c + planes[:, 3] < -r):
+                if not vis[it] or not keep:
                     continue
                 if _transparent_pass(p, bool(ghost[it]), float(alpha[it]), fs):
                     oit.append(p)
@@ -536,15 +682,18 @@ class Renderer:
             u("u_view", V)
             self._clip_uniforms(u, clip)
             vao = self.vaos["pre"]
-            for p in draws:
-                M = m.part_matrix(p)
+            self._use_items(u)
+            for p, first, count, batched in self._runs(draws, "pre"):
+                M, nmat, flip, weight, noclip, _key = self._transform(p)
                 u("u_model", M)
-                u("u_nmat", np.linalg.inv(M[:3, :3]).T)
-                u("u_flip", 1 if np.linalg.det(M[:3, :3]) < 0 else 0)
-                u("u_weight", float(m.node_weights.get(p.node, 0.0)))
-                u("u_id", float(p.item + 1))
-                u("u_flags", 1.0 if p.item in fs.selected else 0.0)
-                u("u_noclip", 0 if m.items[p.item].clip else 1)
+                u("u_nmat", nmat)
+                u("u_flip", flip)
+                u("u_weight", weight)
+                u("u_batched", 1 if batched else 0)
+                if not batched:
+                    u("u_id", float(p.item + 1))
+                    u("u_flags", 1.0 if p.item in fs.selected else 0.0)
+                u("u_noclip", noclip)
                 self._anim_uniforms(u, p)
                 lk = p.look
                 if lk.texture is not None and lk.alpha_cut > 0.0:
@@ -555,7 +704,7 @@ class Renderer:
                 else:
                     u("u_has_tex", 0)
                     u("u_alpha_cut", 0.0)
-                vao.render(moderngl.TRIANGLES, vertices=p.count, first=p.first)
+                vao.render(moderngl.TRIANGLES, vertices=count, first=first)
 
         # 2b. cut faces: gathered per item, then laid into the pre-pass
         caps = False
@@ -748,12 +897,13 @@ class Renderer:
                 if not np.any(E > 0):
                     continue
                 u("u_viewproj", VPl)
-                for p in casters:
-                    u("u_model", m.part_matrix(p))
-                    u("u_weight", float(m.node_weights.get(p.node, 0.0)))
-                    u("u_noclip", 0 if m.items[p.item].clip else 1)
+                for p, first, count, _batched in self._runs(casters, "shadow"):
+                    M, _nmat, _flip, weight, noclip, _key = self._transform(p)
+                    u("u_model", M)
+                    u("u_weight", weight)
+                    u("u_noclip", noclip)
                     self._anim_uniforms(u, p)
-                    vao.render(moderngl.TRIANGLES, vertices=p.count, first=p.first)
+                    vao.render(moderngl.TRIANGLES, vertices=count, first=first)
         finally:
             ctx.polygon_offset = (0.0, 0.0)
         self._shadow_key = key             # a failed pass must be rendered again
@@ -803,6 +953,7 @@ class Renderer:
         uc("u_inv_viewproj", inv)
         uc("u_viewport", np.array([w, h], dtype=np.float32))
         uc("u_key_scale", float(self.model_diag * 0.02))
+        uc("u_batched", 0)
         self._clip_uniforms(uc, clip)
         t["parity"].use(7)
         uc("u_parity", 7)
@@ -829,7 +980,8 @@ class Renderer:
                 up("u_weight", float(m.node_weights.get(p.node, 0.0)))
                 up("u_noclip", 0)
                 self._anim_uniforms(up, p)
-                vp_par.render(moderngl.TRIANGLES, vertices=p.count, first=p.first)
+                first, count = self._range[p.id]
+                vp_par.render(moderngl.TRIANGLES, vertices=count, first=first)
             ctx.blend_equation = moderngl.FUNC_ADD
             ctx.disable(moderngl.BLEND)
             # its back faces seen through the cut
@@ -849,7 +1001,8 @@ class Renderer:
                 self._anim_uniforms(uc, p)
                 self._set_look(uc, p, None, fs)
                 uc("u_cap_dark", 0.80 if p.look.detail is not None else 0.62)
-                vp_cap.render(moderngl.TRIANGLES, vertices=p.count, first=p.first)
+                first, count = self._range[p.id]
+                vp_cap.render(moderngl.TRIANGLES, vertices=count, first=first)
                 any_drawn = True
             del item
         ctx.scissor = None
@@ -949,18 +1102,21 @@ class Renderer:
         self._light_uniforms(u, V, campos, lights, s, size, camera)
         self._clip_uniforms(u, clip)
         u("u_ghost_alpha", float(s.ghost_alpha))
-        order = sorted(parts, key=lambda p: (p.material_name, p.id))
-        for p in order:
+        self._use_items(u)
+        for p, first, count, batched in self._runs(parts, "shaded"):
             it = p.item
-            M = m.part_matrix(p)
-            wgt = float(m.node_weights.get(p.node, 0.0))
+            M, nmat, flip, wgt, noclip, _key = self._transform(p)
             u("u_model", M)
-            u("u_nmat", np.linalg.inv(M[:3, :3]).T)
-            u("u_flip", 1 if np.linalg.det(M[:3, :3]) < 0 else 0)
+            u("u_nmat", nmat)
+            u("u_flip", flip)
             u("u_weight", wgt)
-            u("u_noclip", 0 if m.items[it].clip else 1)
+            u("u_noclip", noclip)
             self._anim_uniforms(u, p)
-            self._set_look(u, p, s, fs)
+            u("u_batched", 1 if batched else 0)
+            self._set_look(u, p, s, fs, batched)
+            if batched:
+                vao.render(moderngl.TRIANGLES, vertices=count, first=first)
+                continue
             if ghost is not None:
                 u("u_ghost", 1 if ghost[it] else 0)
                 u("u_alpha_mul", float(alpha[it]))
@@ -972,13 +1128,18 @@ class Renderer:
                 u("u_highlight_col", np.array(s.hover_highlight))
             else:
                 u("u_highlight", 0.0)
-            vao.render(moderngl.TRIANGLES, vertices=p.count, first=p.first)
+            vao.render(moderngl.TRIANGLES, vertices=count, first=first)
 
-    def _set_look(self, u, p: Part, s: Settings | None, fs: FrameState):
+    def _use_items(self, u):
+        if self.items_tex is not None:
+            self.items_tex.use(ITEM_UNIT)
+            u("u_items", ITEM_UNIT)
+
+    def _set_look(self, u, p: Part, s: Settings | None, fs: FrameState, batched=False):
         lk = p.look
         it = p.item
-        flat = fs.override.get(it)
-        if flat is None and fs.colours is not None:
+        flat = None if batched else fs.override.get(it)     # a batched draw takes flat colours per item
+        if flat is None and fs.colours is not None and not batched:
             flat = fs.colours[it]
         u("u_base", np.array(flat if flat is not None else lk.base))
         u("u_alpha", 1.0 if fs.opaque_materials else float(lk.alpha))

@@ -32,6 +32,7 @@ in vec4 in_m1;
 in vec4 in_m2;
 in vec4 in_m3;
 in float in_phase;
+in float in_item;            // the item this vertex belongs to (batched draws read its state from u_items)
 
 uniform mat4 u_model;
 uniform mat3 u_nmat;
@@ -49,8 +50,10 @@ out float v_fib;
 out vec4 v_col;
 out vec2 v_uv;
 out float v_glow;
+flat out float v_item;
 
 void main() {
+    v_item = in_item;
     vec3 p = in_pos + u_weight * in_dpos;
     vec3 n = in_nrm + u_weight * in_dnrm;
     v_glow = 0.0;
@@ -78,6 +81,15 @@ void main() {
     v_uv = in_uv;
     gl_Position = u_viewproj * w;
 }
+"""
+
+# ---- per-item state of a batched draw: one draw call spans the parts of several items that shade alike, so what
+# differs between items (id, selection, highlight, x-ray, opacity, a flat colour) comes from a texture by item index
+ITEM_COMMON = """
+uniform int u_batched;       // 1: this draw takes its per-item state from u_items
+uniform sampler2D u_items;   // column = item: row 0 (id + 1, selected, highlight, x-ray), row 1 (flat colour, on),
+                             // row 2 (highlight colour, opacity)
+vec4 item_row(int row) { return texelFetch(u_items, ivec2(int(v_item + 0.5), row), 0); }
 """
 
 # ---- cutting planes: the cut-away of a micro model and the cross-sections, shared by every pass
@@ -114,6 +126,8 @@ PREPASS_FS = VERSION + CLIP_COMMON + """
 centroid in vec3 v_wpos;
 in vec3 v_wnrm;
 in vec2 v_uv;
+flat in float v_item;
+""" + ITEM_COMMON + """
 uniform mat4 u_view;
 uniform float u_id;
 uniform float u_flags;       // 1: selected
@@ -131,7 +145,7 @@ void main() {
     if (!front) n = -n;
     float d = -(u_view * vec4(v_wpos, 1.0)).z;
     o_nd = vec4(n, d);
-    o_id = vec2(u_id, u_flags);
+    o_id = u_batched == 1 ? item_row(0).xy : vec2(u_id, u_flags);
 }
 """
 
@@ -355,9 +369,10 @@ in float v_fib;
 in vec4 v_col;
 in vec2 v_uv;
 in float v_glow;
+flat in float v_item;
 """
 
-SHADING_COMMON = """
+SHADING_COMMON = ITEM_COMMON + """
 const float PI = 3.14159265;
 
 uniform vec3 u_campos;
@@ -621,7 +636,13 @@ vec3 view_vector(vec3 P) {
 Surface surface() {
     Surface s;
     vec3 base = u_base;
-    if (u_stripe == 1) {
+    bool flat_on = false;            // a colour mode or a custom colour replaces the look's own colouring
+    if (u_batched == 1) {
+        vec4 f = item_row(1);
+        if (f.w > 0.5) { base = f.rgb; flat_on = true; }
+    }
+    if (flat_on) {
+    } else if (u_stripe == 1) {
         float x = v_fib / u_stripe_p.x;
         float fw = fwidth(x);
         float thr = u_stripe_p.y / max(1.0 - u_shorten * u_weight, 0.2);
@@ -636,7 +657,7 @@ Surface surface() {
     } else if (u_use_vcol == 1) {
         base *= v_col.rgb;
     }
-    if (u_mottle == 1) {
+    if (u_mottle == 1 && !flat_on) {
         float n = fbm(v_opos * u_mottle_p.x, int(u_mottle_p.w));
         float f = smoothstep(u_mottle_p.y, u_mottle_p.z, n);
         base = mix(u_mottle_a, u_mottle_b, f);
@@ -708,6 +729,11 @@ vec3 highlight(vec3 col, float NoV, float amount, vec3 hcol) {
     float fr = pow(1.0 - NoV, 2.0);
     return mix(col, col * 0.7 + hcol * (0.10 + 0.55 * fr), amount);
 }
+
+vec3 item_highlight(vec3 col, float NoV) {
+    if (u_batched == 1) return highlight(col, NoV, item_row(0).z, item_row(2).rgb);
+    return highlight(col, NoV, u_highlight, u_highlight_col);
+}
 """
 
 MAIN_FS = VERSION + CLIP_COMMON + GEOM_INPUTS + SHADING_COMMON + """
@@ -724,7 +750,7 @@ void main() {
     vec3 col = shade_opaque(s, N, V);
     col += u_emis;
     col += v_glow * (s.albedo * 1.6 + vec3(0.30, 0.30, 0.26));     // a conduction impulse, a secretion
-    col = highlight(col, max(dot(N, V), 1e-4), u_highlight, u_highlight_col);
+    col = item_highlight(col, max(dot(N, V), 1e-4));
     o_col = vec4(col, 1.0);
 }
 """
@@ -753,7 +779,7 @@ void main() {
         float facing = 1.0 - pow(NoV, u_facing.z);
         a = mix(u_facing.x, u_facing.y, facing);
     }
-    a *= u_alpha_mul;
+    a *= u_batched == 1 ? item_row(2).w : u_alpha_mul;
     vec3 col = vec3(0.0);
     col += light_contrib(0, u_ldir0, u_lrad0, u_lsize0, s, N, V, NoV, 1.0);
     col += light_contrib(1, u_ldir1, u_lrad1, u_lsize1, s, N, V, NoV, 1.0);
@@ -764,14 +790,14 @@ void main() {
     col += s.albedo * sh_irradiance(Nc) / PI * u_env_diffuse;
     col += v_glow * (s.albedo * 1.6 + vec3(0.30, 0.30, 0.26));
     vec3 spec = env_spec(reflect(-Vc, Nc), s.rough) * (s.f0 * ab.x + ab.y) * u_env_spec;
-    if (u_ghost == 1) {
+    if ((u_batched == 1 ? item_row(0).w > 0.5 : u_ghost == 1)) {
         float l = dot(col, vec3(0.3, 0.59, 0.11));
         col = mix(col, vec3(l) * vec3(0.85, 0.92, 1.0), 0.55);
         spec *= 0.5;
         a = u_ghost_alpha * (0.25 + 1.6 * pow(1.0 - NoV, 2.5));
         a = min(a, 0.85);
     }
-    col = highlight(col, NoV, u_highlight, u_highlight_col);
+    col = item_highlight(col, NoV);
     a = clamp(a, 0.0, 0.98);
     // Cycles mixes the whole BSDF with a transparent BSDF by alpha, so the sheen is scaled by coverage too
     vec3 premul = (col + spec) * a;
@@ -921,6 +947,7 @@ float v_fib;
 vec4 v_col;
 vec2 v_uv;
 float v_glow;
+float v_item;
 """ + SHADING_COMMON + """
 uniform sampler2D u_cap_albedo;
 uniform sampler2D u_cap_normal;

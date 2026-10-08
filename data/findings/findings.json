@@ -45,6 +45,114 @@
     0.82
    ],
    "alpha": 0.35
+  },
+  {
+   "name": "Mass",
+   "color": [
+    0.86,
+    0.8,
+    0.7
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Calcification",
+   "color": [
+    0.98,
+    0.97,
+    0.9
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Blood clot",
+   "color": [
+    0.42,
+    0.07,
+    0.09
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Haemorrhage",
+   "color": [
+    0.66,
+    0.13,
+    0.12
+   ],
+   "alpha": 0.92
+  },
+  {
+   "name": "Stone",
+   "color": [
+    0.93,
+    0.83,
+    0.48
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Inflamed tissue",
+   "color": [
+    0.88,
+    0.42,
+    0.3
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Fluid",
+   "color": [
+    0.83,
+    0.66,
+    0.24
+   ],
+   "alpha": 0.75
+  },
+  {
+   "name": "Fracture",
+   "color": [
+    0.95,
+    0.36,
+    0.14
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Abnormal vessel",
+   "color": [
+    0.86,
+    0.16,
+    0.18
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Infarct",
+   "color": [
+    0.55,
+    0.62,
+    0.72
+   ],
+   "alpha": 0.95
+  },
+  {
+   "name": "Breast tissue",
+   "color": [
+    0.94,
+    0.8,
+    0.7
+   ],
+   "alpha": 0.55
+  },
+  {
+   "name": "Body soft tissue",
+   "color": [
+    0.74,
+    0.66,
+    0.55
+   ],
+   "alpha": 1.0
   }
  ],
  "findings": [
@@ -54,6 +162,9 @@
    "subsystem": "Pleural space",
    "note": "A massive effusion filling almost the whole right pleural cavity.",
    "material": "Pleural fluid",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 0,
    "v_count": 116765,
    "i_start": 0,
@@ -82,6 +193,9 @@
    "subsystem": "Pleural space",
    "note": "All that is left aerated of the right lung, squashed up against the apex.",
    "material": "Collapsed lung",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 116765,
    "v_count": 12401,
    "i_start": 700164,
@@ -110,6 +224,9 @@
    "subsystem": "Cardiac",
    "note": "Fluid under pressure pushes the heart and trachea away from the side it is on.",
    "material": "Enlarged heart",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 129166,
    "v_count": 39099,
    "i_start": 770952,
@@ -138,6 +255,9 @@
    "subsystem": "Pleural space",
    "note": "Small effusions blunting both costophrenic angles, as in heart failure.",
    "material": "Pleural fluid",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 168265,
    "v_count": 22507,
    "i_start": 1002303,
@@ -166,6 +286,9 @@
    "subsystem": "Pleural space",
    "note": "Air in the pleural space has let the left lung fall away from the chest wall.",
    "material": "Collapsed lung",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 190772,
    "v_count": 9805,
    "i_start": 1137303,
@@ -194,6 +317,9 @@
    "subsystem": "Pleural space",
    "note": "The pleural cavity the lung has retreated from - no lung markings out here.",
    "material": "Air in pleural space",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 200577,
    "v_count": 9805,
    "i_start": 1192947,
@@ -222,6 +348,9 @@
    "subsystem": "Airspace disease",
    "note": "The right middle lobe filled with inflammatory exudate instead of air.",
    "material": "Consolidation",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 210382,
    "v_count": 3838,
    "i_start": 1248591,
@@ -250,6 +379,9 @@
    "subsystem": "Cardiac",
    "note": "The cardiac silhouette of a dilated heart, over half the width of the chest.",
    "material": "Enlarged heart",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 214220,
    "v_count": 36699,
    "i_start": 1270779,
@@ -270,6 +402,2803 @@
     0.01835441030561924,
     1.2862658500671387,
     0.03111497312784195
+   ]
+  },
+  {
+   "name": "Soft tissue of head and neck (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "head",
+    "neck"
+   ],
+   "v_start": 250919,
+   "v_count": 10352,
+   "i_start": 1487862,
+   "i_count": 62100,
+   "bbox": [
+    [
+     -0.09783473610877991,
+     1.4278758764266968,
+     -0.127154141664505
+    ],
+    [
+     0.0883963406085968,
+     1.7354638576507568,
+     0.11191245913505554
+    ]
+   ],
+   "centroid": [
+    -0.0005874953349120915,
+    1.5922170877456665,
+    -0.01161913201212883
+   ]
+  },
+  {
+   "name": "Soft tissue of trunk (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "thorax",
+    "abdomen",
+    "back"
+   ],
+   "v_start": 261271,
+   "v_count": 39830,
+   "i_start": 1549962,
+   "i_count": 238968,
+   "bbox": [
+    [
+     -0.17314322292804718,
+     0.7103977799415588,
+     -0.14583687484264374
+    ],
+    [
+     0.17313620448112488,
+     1.4753265380859375,
+     0.1291559338569641
+    ]
+   ],
+   "centroid": [
+    -2.8185382689116523e-05,
+    1.0945595502853394,
+    -0.010402187705039978
+   ]
+  },
+  {
+   "name": "Soft tissue of right upper limb (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "upper_limb_r"
+   ],
+   "v_start": 301101,
+   "v_count": 17042,
+   "i_start": 1788930,
+   "i_count": 102228,
+   "bbox": [
+    [
+     -0.3310360610485077,
+     0.7079187035560608,
+     -0.1313313990831375
+    ],
+    [
+     0.3309175670146942,
+     1.4534270763397217,
+     0.08755874633789062
+    ]
+   ],
+   "centroid": [
+    -0.128204807639122,
+    1.1365443468093872,
+    -0.021915121003985405
+   ]
+  },
+  {
+   "name": "Soft tissue of left upper limb (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "upper_limb_l"
+   ],
+   "v_start": 318143,
+   "v_count": 13192,
+   "i_start": 1891158,
+   "i_count": 79140,
+   "bbox": [
+    [
+     0.0026943099219352007,
+     0.8542741537094116,
+     -0.1313313990831375
+    ],
+    [
+     0.2909468710422516,
+     1.4534271955490112,
+     0.05802440643310547
+    ]
+   ],
+   "centroid": [
+    0.16822676360607147,
+    1.2366973161697388,
+    -0.04083114489912987
+   ]
+  },
+  {
+   "name": "Soft tissue of right lower limb (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "lower_limb_r"
+   ],
+   "v_start": 331335,
+   "v_count": 24660,
+   "i_start": 1970298,
+   "i_count": 147936,
+   "bbox": [
+    [
+     -0.17755922675132751,
+     0.0021855474915355444,
+     -0.11583489179611206
+    ],
+    [
+     0.14440640807151794,
+     0.9096479415893555,
+     0.14052510261535645
+    ]
+   ],
+   "centroid": [
+    -0.07100310176610947,
+    0.4256858825683594,
+    -0.01901646889746189
+   ]
+  },
+  {
+   "name": "Soft tissue of left lower limb (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "lower_limb_l"
+   ],
+   "v_start": 355995,
+   "v_count": 19092,
+   "i_start": 2118234,
+   "i_count": 114540,
+   "bbox": [
+    [
+     0.002440841170027852,
+     0.05024072155356407,
+     -0.11583489179611206
+    ],
+    [
+     0.1774407923221588,
+     0.9097003936767578,
+     0.07083773612976074
+    ]
+   ],
+   "centroid": [
+    0.09402237832546234,
+    0.5386140942573547,
+    -0.027612432837486267
+   ]
+  },
+  {
+   "name": "Left acetabular posterior column fragment",
+   "latin": "Fragmentum acetabuli posterius sinistrum",
+   "subsystem": "Acetabular fracture",
+   "note": "A displaced fragment of the posterior column of the left acetabulum, part of a comminuted fracture.",
+   "material": "Fracture",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 375087,
+   "v_count": 642,
+   "i_start": 2232774,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.048038300126791,
+     0.8615232706069946,
+     -0.04223708435893059
+    ],
+    [
+     0.06680407375097275,
+     0.8764199614524841,
+     -0.027191009372472763
+    ]
+   ],
+   "centroid": [
+    0.05779086425900459,
+    0.8699153661727905,
+    -0.034917719662189484
+   ]
+  },
+  {
+   "name": "Left acetabular anterior column fragment",
+   "latin": "Fragmentum acetabuli anterius sinistrum",
+   "subsystem": "Acetabular fracture",
+   "note": "A fragment of the anterior column of the left acetabulum, displaced from the socket rim.",
+   "material": "Fracture",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 375729,
+   "v_count": 642,
+   "i_start": 2236614,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.06908812373876572,
+     0.8529458045959473,
+     0.015557583421468735
+    ],
+    [
+     0.0855654776096344,
+     0.8655105829238892,
+     0.02819547802209854
+    ]
+   ],
+   "centroid": [
+    0.07762915641069412,
+    0.8599409461021423,
+    0.021710002794861794
+   ]
+  },
+  {
+   "name": "Left acetabular comminuted fragments",
+   "latin": "Fragmenta acetabuli sinistri",
+   "subsystem": "Acetabular fracture",
+   "note": "Several small loose bone fragments in the left acetabulum, the comminution the source describes.",
+   "material": "Fracture",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 376371,
+   "v_count": 252,
+   "i_start": 2240454,
+   "i_count": 1440,
+   "bbox": [
+    [
+     0.062410082668066025,
+     0.8648450374603271,
+     -0.014068924821913242
+    ],
+    [
+     0.07282975316047668,
+     0.8765324354171753,
+     0.0011359731433913112
+    ]
+   ],
+   "centroid": [
+    0.06757637113332748,
+    0.870631992816925,
+    -0.006791554857045412
+   ]
+  },
+  {
+   "name": "Left acetabular fracture line",
+   "latin": "Linea fracturae acetabuli sinistri",
+   "subsystem": "Acetabular fracture",
+   "note": "The fracture line crossing the left acetabulum from the posterior column to the anterior column.",
+   "material": "Fracture",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 376623,
+   "v_count": 786,
+   "i_start": 2241894,
+   "i_count": 4704,
+   "bbox": [
+    [
+     0.0605122409760952,
+     0.8588653206825256,
+     -0.029002100229263306
+    ],
+    [
+     0.08127801865339279,
+     0.8864637613296509,
+     0.022286351770162582
+    ]
+   ],
+   "centroid": [
+    0.0708952322602272,
+    0.872664749622345,
+    -0.003357871435582638
+   ]
+  },
+  {
+   "name": "Right renal calculus",
+   "latin": "",
+   "subsystem": "Renal calculi",
+   "note": "A small dense calculus in the lower, medial part of the right kidney; it is bright on non-contrast CT.",
+   "material": "Stone",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 377409,
+   "v_count": 642,
+   "i_start": 2246598,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.05823522433638573,
+     1.0533167123794556,
+     -0.016107527539134026
+    ],
+    [
+     -0.05221842601895332,
+     1.0593583583831787,
+     -0.01005468424409628
+    ]
+   ],
+   "centroid": [
+    -0.05516296625137329,
+    1.0565154552459717,
+    -0.013128290884196758
+   ]
+  },
+  {
+   "name": "Left renal calculus",
+   "latin": "",
+   "subsystem": "Renal calculi",
+   "note": "A small dense calculus in the left kidney, near the renal pelvis; it is bright on non-contrast CT.",
+   "material": "Stone",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 378051,
+   "v_count": 642,
+   "i_start": 2250438,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.0556429959833622,
+     1.0856809616088867,
+     -0.015918804332613945
+    ],
+    [
+     0.0616597943007946,
+     1.0917226076126099,
+     -0.009865961037576199
+    ]
+   ],
+   "centroid": [
+    0.058715201914310455,
+    1.0888795852661133,
+    -0.012939580716192722
+   ]
+  },
+  {
+   "name": "Left subdural haematoma (convexity)",
+   "latin": "Haematoma subdurale",
+   "subsystem": "Subdural haematoma",
+   "note": "Acute blood lying as a crescent between the left cerebral convexity and the inner table of the skull, the thicker collection on this scan.",
+   "material": "Haemorrhage",
+   "regions": [
+    "head"
+   ],
+   "v_start": 378693,
+   "v_count": 30714,
+   "i_start": 2254278,
+   "i_count": 184200,
+   "bbox": [
+    [
+     0.014760274440050125,
+     1.4527881145477295,
+     -0.017381977289915085
+    ],
+    [
+     0.08075893670320511,
+     1.7010771036148071,
+     0.08161800354719162
+    ]
+   ],
+   "centroid": [
+    0.04231846705079079,
+    1.6265398263931274,
+    0.023601925000548363
+   ]
+  },
+  {
+   "name": "Right subdural haematoma (convexity)",
+   "latin": "Haematoma subdurale",
+   "subsystem": "Subdural haematoma",
+   "note": "A thinner crescent of acute blood between the right frontoparietal convexity and the skull, the second collection on this scan.",
+   "material": "Haemorrhage",
+   "regions": [
+    "head"
+   ],
+   "v_start": 409407,
+   "v_count": 15756,
+   "i_start": 2438478,
+   "i_count": 94512,
+   "bbox": [
+    [
+     -0.06779387593269348,
+     1.5767320394515991,
+     0.012618685141205788
+    ],
+    [
+     -0.021325288340449333,
+     1.6996058225631714,
+     0.08160460740327835
+    ]
+   ],
+   "centroid": [
+    -0.04248629882931709,
+    1.634458303451538,
+    0.0400572344660759
+   ]
+  },
+  {
+   "name": "Right proximal ureteric stone",
+   "latin": "",
+   "subsystem": "Urinary tract",
+   "note": "A calculus lodged in the right proximal ureter just below the renal pelvis, the obstructing stone described in the source.",
+   "material": "Stone",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 425163,
+   "v_count": 642,
+   "i_start": 2532990,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.030520031228661537,
+     1.0779324769973755,
+     -0.007984735071659088
+    ],
+    [
+     -0.023457404226064682,
+     1.0840520858764648,
+     -0.0018713675672188401
+    ]
+   ],
+   "centroid": [
+    -0.02689364179968834,
+    1.081230878829956,
+    -0.004996126517653465
+   ]
+  },
+  {
+   "name": "Saddle pulmonary embolus",
+   "latin": "",
+   "subsystem": "Pulmonary embolism",
+   "note": "A saddle clot sits across the pulmonary arterial bifurcation and extends into both pulmonary arteries.",
+   "material": "Blood clot",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 425805,
+   "v_count": 642,
+   "i_start": 2536830,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.016858726739883423,
+     1.3381792306900024,
+     0.007719817105680704
+    ],
+    [
+     0.03316713869571686,
+     1.350574254989624,
+     0.02011352963745594
+    ]
+   ],
+   "centroid": [
+    0.02527187019586563,
+    1.3449751138687134,
+    0.013761717826128006
+   ]
+  },
+  {
+   "name": "Left lobar pulmonary embolus",
+   "latin": "",
+   "subsystem": "Pulmonary embolism",
+   "note": "Clot extending from the bifurcation into the left pulmonary artery.",
+   "material": "Blood clot",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 426447,
+   "v_count": 242,
+   "i_start": 2540670,
+   "i_count": 1440,
+   "bbox": [
+    [
+     0.0293379295617342,
+     1.3093699216842651,
+     -0.023330029100179672
+    ],
+    [
+     0.060198333114385605,
+     1.3487111330032349,
+     0.017026187852025032
+    ]
+   ],
+   "centroid": [
+    0.04476812854409218,
+    1.32904052734375,
+    -0.003151920158416033
+   ]
+  },
+  {
+   "name": "Right lobar pulmonary embolus",
+   "latin": "",
+   "subsystem": "Pulmonary embolism",
+   "note": "Clot extending from the bifurcation into the right pulmonary artery.",
+   "material": "Blood clot",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 426689,
+   "v_count": 178,
+   "i_start": 2542110,
+   "i_count": 1056,
+   "bbox": [
+    [
+     -0.01388949528336525,
+     1.3339616060256958,
+     -0.005002056248486042
+    ],
+    [
+     0.01933920383453369,
+     1.349076271057129,
+     0.017174333333969116
+    ]
+   ],
+   "centroid": [
+    0.002724854741245508,
+    1.3415189981460571,
+    0.006086135283112526
+   ]
+  },
+  {
+   "name": "T10 Chance fracture",
+   "latin": "",
+   "subsystem": "Thoracic spine fracture",
+   "note": "A horizontal (Chance) fracture runs through the T10 vertebral body and posterior elements after a seatbelt injury in a motor vehicle collision.",
+   "material": "Fracture",
+   "regions": [
+    "thorax",
+    "back"
+   ],
+   "v_start": 426867,
+   "v_count": 546,
+   "i_start": 2543166,
+   "i_count": 3264,
+   "bbox": [
+    [
+     -0.0024406746961176395,
+     1.1950087547302246,
+     -0.08736509084701538
+    ],
+    [
+     0.0025593251921236515,
+     1.200008749961853,
+     -0.020536119118332863
+    ]
+   ],
+   "centroid": [
+    5.932524800300598e-05,
+    1.197509527206421,
+    -0.053950581699609756
+   ]
+  },
+  {
+   "name": "T9 vertebral body fracture",
+   "latin": "",
+   "subsystem": "Thoracic spine fracture",
+   "note": "An associated fracture through the T9 vertebral body from the same seatbelt injury.",
+   "material": "Fracture",
+   "regions": [
+    "thorax",
+    "back"
+   ],
+   "v_start": 427413,
+   "v_count": 322,
+   "i_start": 2546430,
+   "i_count": 1920,
+   "bbox": [
+    [
+     -0.001999996369704604,
+     1.2378085851669312,
+     -0.05859734117984772
+    ],
+    [
+     0.002000003820285201,
+     1.241808533668518,
+     -0.02681320533156395
+    ]
+   ],
+   "centroid": [
+    3.725109554153505e-09,
+    1.2398090362548828,
+    -0.042705267667770386
+   ]
+  },
+  {
+   "name": "Aortic dissection flap",
+   "latin": "",
+   "subsystem": "Aortic dissection",
+   "note": "The intimal flap splitting the descending thoracic aorta into a true and a false lumen, as in a Stanford type B dissection.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 427735,
+   "v_count": 322,
+   "i_start": 2548350,
+   "i_count": 1920,
+   "bbox": [
+    [
+     0.013501372188329697,
+     1.2852801084518433,
+     -0.038599882274866104
+    ],
+    [
+     0.015901371836662292,
+     1.2876801490783691,
+     -0.01960221491754055
+    ]
+   ],
+   "centroid": [
+    0.014701376669108868,
+    1.2864789962768555,
+    -0.029101025313138962
+   ]
+  },
+  {
+   "name": "Transverse myelitis central cord hyperintensity",
+   "latin": "",
+   "subsystem": "Transverse myelitis",
+   "note": "Increased central T2 signal in a segment of the cervical cord, the MRI sign of transverse myelitis (inflammation across the cord).",
+   "material": "Inflamed tissue",
+   "regions": [
+    "neck"
+   ],
+   "v_start": 428057,
+   "v_count": 642,
+   "i_start": 2550270,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.004368255380541086,
+     1.4938455820083618,
+     -0.0251646526157856
+    ],
+    [
+     0.003785950830206275,
+     1.4979772567749023,
+     -0.018967794254422188
+    ]
+   ],
+   "centroid": [
+    -0.0001616877707419917,
+    1.496109962463379,
+    -0.02214370109140873
+   ]
+  },
+  {
+   "name": "Gallbladder stones",
+   "latin": "",
+   "subsystem": "Gallstone disease",
+   "note": "Multiple gallstones in the gallbladder, seen as filling defects in the fluid-filled gallbladder on MRCP.",
+   "material": "Stone",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 428699,
+   "v_count": 168,
+   "i_start": 2554110,
+   "i_count": 960,
+   "bbox": [
+    [
+     -0.05243590101599693,
+     1.1317263841629028,
+     0.05043218284845352
+    ],
+    [
+     -0.038543008267879486,
+     1.1460189819335938,
+     0.0640806034207344
+    ]
+   ],
+   "centroid": [
+    -0.04573375731706619,
+    1.1375863552093506,
+    0.05666213482618332
+   ]
+  },
+  {
+   "name": "Common bile duct stone",
+   "latin": "",
+   "subsystem": "Choledocholithiasis",
+   "note": "A stone lodged in the common bile duct, causing a filling defect in the otherwise fluid-filled duct on MRCP.",
+   "material": "Stone",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 428867,
+   "v_count": 642,
+   "i_start": 2555070,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.04058409109711647,
+     1.1104841232299805,
+     0.035407792776823044
+    ],
+    [
+     -0.03256169334053993,
+     1.1165257692337036,
+     0.041460637003183365
+    ]
+   ],
+   "centroid": [
+    -0.03648776561021805,
+    1.113682508468628,
+    0.03838702663779259
+   ]
+  },
+  {
+   "name": "Dilated left ventricle",
+   "latin": "",
+   "subsystem": "Dilated cardiomyopathy",
+   "note": "The left ventricular cavity is enlarged and rounded, as in the left image. This shows chamber size only; contractility and ejection fraction are not reported.",
+   "material": "Enlarged heart",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 429509,
+   "v_count": 11306,
+   "i_start": 2558910,
+   "i_count": 66756,
+   "bbox": [
+    [
+     -0.009571309201419353,
+     1.2289881706237793,
+     -0.025640903040766716
+    ],
+    [
+     0.09025242179632187,
+     1.336523175239563,
+     0.08360815793275833
+    ]
+   ],
+   "centroid": [
+    0.05064520984888077,
+    1.2754569053649902,
+    0.02471596747636795
+   ]
+  },
+  {
+   "name": "Left basal ganglia infarct",
+   "latin": "",
+   "subsystem": "Cerebral infarction",
+   "note": "Hyperacute left basal ganglia infarction: restricted diffusion, bright on DWI and low on ADC four hours after onset. Conventional T2 did not show it clearly.",
+   "material": "Infarct",
+   "regions": [
+    "head"
+   ],
+   "v_start": 440815,
+   "v_count": 642,
+   "i_start": 2625666,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.009621286764740944,
+     1.620718002319336,
+     -0.0005966358003206551
+    ],
+    [
+     0.030006803572177887,
+     1.637244701385498,
+     0.017993934452533722
+    ]
+   ],
+   "centroid": [
+    0.020137717947363853,
+    1.6297788619995117,
+    0.008466197177767754
+   ]
+  },
+  {
+   "name": "L4-L5 left paramedian disc herniation",
+   "latin": "",
+   "subsystem": "Disc herniation",
+   "note": "Posterior herniation of the L4\u2013L5 disc, left paramedian, indenting the thecal sac and the emerging left L5 root sheath.",
+   "material": "Mass",
+   "regions": [
+    "abdomen",
+    "back"
+   ],
+   "v_start": 441457,
+   "v_count": 642,
+   "i_start": 2629506,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.0021213768050074577,
+     0.9885268211364746,
+     -0.025269852951169014
+    ],
+    [
+     0.009985984303057194,
+     0.9987261295318604,
+     -0.017118696123361588
+    ]
+   ],
+   "centroid": [
+    0.004095302429050207,
+    0.9940242767333984,
+    -0.021285053342580795
+   ]
+  },
+  {
+   "name": "Uterine fibroid (illustrative)",
+   "latin": "",
+   "subsystem": "Uterine fibroids",
+   "note": "Well-circumscribed uterine fibroid (leiomyoma) in the central pelvis, shown illustratively. The atlas has no uterus, so its position is approximate.",
+   "material": "Mass",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 442099,
+   "v_count": 642,
+   "i_start": 2633346,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.010216735303401947,
+     0.8811801075935364,
+     -0.014729714952409267
+    ],
+    [
+     0.03791763633489609,
+     0.9214578866958618,
+     0.029657801613211632
+    ]
+   ],
+   "centroid": [
+    0.01436107512563467,
+    0.9025062322616577,
+    0.0071179731748998165
+   ]
+  },
+  {
+   "name": "Second uterine fibroid (illustrative)",
+   "latin": "",
+   "subsystem": "Uterine fibroids",
+   "note": "Second uterine fibroid in the central pelvis, shown illustratively next to the first.",
+   "material": "Mass",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 442741,
+   "v_count": 642,
+   "i_start": 2637186,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.031504254788160324,
+     0.8760551810264587,
+     0.0016717435792088509
+    ],
+    [
+     -0.0032537467777729034,
+     0.9005335569381714,
+     0.026125214993953705
+    ]
+   ],
+   "centroid": [
+    -0.016998689621686935,
+    0.889248788356781,
+    0.013626168482005596
+   ]
+  },
+  {
+   "name": "Right frontal cortical infarct",
+   "latin": "",
+   "subsystem": "Cerebral infarction",
+   "note": "Subacute cortical infarct of the right frontal lobe: restricted diffusion on DWI with gadolinium enhancement of the cortex on enhanced T1 from blood-brain-barrier disruption.",
+   "material": "Infarct",
+   "regions": [
+    "head"
+   ],
+   "v_start": 443383,
+   "v_count": 642,
+   "i_start": 2641026,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.05801987648010254,
+     1.654763102531433,
+     0.02558731846511364
+    ],
+    [
+     -0.03355725482106209,
+     1.6733556985855103,
+     0.03798103332519531
+    ]
+   ],
+   "centroid": [
+    -0.04540017247200012,
+    1.664955973625183,
+    0.031629204750061035
+   ]
+  },
+  {
+   "name": "Supraspinatus tendon tear",
+   "latin": "",
+   "subsystem": "Rotator cuff tear",
+   "note": "Complete full-thickness tear of the supraspinatus tendon, about 2.4 cm wide, with the gap filled by fluid.",
+   "material": "Fluid",
+   "regions": [
+    "upper_limb_r"
+   ],
+   "v_start": 444025,
+   "v_count": 642,
+   "i_start": 2644866,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.20115387439727783,
+     1.3768107891082764,
+     -0.038024261593818665
+    ],
+    [
+     -0.1930823028087616,
+     1.3890498876571655,
+     -0.01357079204171896
+    ]
+   ],
+   "centroid": [
+    -0.1970093697309494,
+    1.3834073543548584,
+    -0.02606981433928013
+   ]
+  },
+  {
+   "name": "Left basal ganglia infarct (mri_hyperacute_basal_ganglia_infarct_adc)",
+   "latin": "",
+   "subsystem": "Cerebral infarction",
+   "note": "Hyperacute infarction of the left basal ganglia: restricted diffusion with low ADC, bright on the paired DWI.",
+   "material": "Infarct",
+   "regions": [
+    "head"
+   ],
+   "v_start": 444667,
+   "v_count": 642,
+   "i_start": 2648706,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.012899898923933506,
+     1.6192268133163452,
+     -0.001577401882968843
+    ],
+    [
+     0.03696708381175995,
+     1.6393656730651855,
+     0.01859874278306961
+    ]
+   ],
+   "centroid": [
+    0.02518879994750023,
+    1.6298891305923462,
+    0.008353360928595066
+   ]
+  },
+  {
+   "name": "Right medial thalamic FLAIR signal abnormality",
+   "latin": "",
+   "subsystem": "Wernicke encephalopathy",
+   "note": "Hyperintense FLAIR signal in the right mesial dorsal thalamus, the abnormality described in Wernicke encephalopathy (oedema or gliosis; illustrative marker, not registered to this scan).",
+   "material": "Inflamed tissue",
+   "regions": [
+    "head"
+   ],
+   "v_start": 445309,
+   "v_count": 642,
+   "i_start": 2652546,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.009782516397535801,
+     1.6222209930419922,
+     -0.01296711340546608
+    ],
+    [
+     -0.0017109421314671636,
+     1.6283406019210815,
+     -0.0027781676035374403
+    ]
+   ],
+   "centroid": [
+    -0.005638062953948975,
+    1.6255195140838623,
+    -0.007986103184521198
+   ]
+  },
+  {
+   "name": "Left medial thalamic FLAIR signal abnormality",
+   "latin": "",
+   "subsystem": "Wernicke encephalopathy",
+   "note": "Hyperintense FLAIR signal in the left mesial dorsal thalamus, the abnormality described in Wernicke encephalopathy (oedema or gliosis; illustrative marker, not registered to this scan).",
+   "material": "Inflamed tissue",
+   "regions": [
+    "head"
+   ],
+   "v_start": 445951,
+   "v_count": 642,
+   "i_start": 2656386,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.0014170851791277528,
+     1.6222209930419922,
+     -0.012967114336788654
+    ],
+    [
+     0.009488658979535103,
+     1.6283406019210815,
+     -0.0027781680691987276
+    ]
+   ],
+   "centroid": [
+    0.00556153804063797,
+    1.6255195140838623,
+    -0.007986104115843773
+   ]
+  },
+  {
+   "name": "Left breast (illustrative)",
+   "latin": "",
+   "subsystem": "Mammary gland",
+   "note": "Illustrative breast on the chest wall, shown for the mammogram. The atlas has no breast, so its shape and size are schematic. The source image does not state laterality.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 446593,
+   "v_count": 2562,
+   "i_start": 2660226,
+   "i_count": 15360,
+   "bbox": [
+    [
+     0.07618144899606705,
+     1.2450313568115234,
+     0.0796903744339943
+    ],
+    [
+     0.15043491125106812,
+     1.317563772201538,
+     0.15194463729858398
+    ]
+   ],
+   "centroid": [
+    0.11457812786102295,
+    1.2837685346603394,
+    0.11641217023134232
+   ]
+  },
+  {
+   "name": "Small breast cancer (illustrative)",
+   "latin": "",
+   "subsystem": "Breast cancer",
+   "note": "Small irregular mass in the breast near the chest wall at the arrowed site, about 9 mm across, shown illustratively. The source identifies it as cancerous; histological type and BI-RADS are not supplied.",
+   "material": "Mass",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 449155,
+   "v_count": 642,
+   "i_start": 2675586,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.12699535489082336,
+     1.2764496803283691,
+     0.09329830855131149
+    ],
+    [
+     0.1362638771533966,
+     1.2848261594772339,
+     0.10277672857046127
+    ]
+   ],
+   "centroid": [
+    0.13179966807365417,
+    1.281114101409912,
+    0.09791260957717896
+   ]
+  },
+  {
+   "name": "Vascular calcification (illustrative) 1",
+   "latin": "",
+   "subsystem": "Vascular calcification",
+   "note": "Thin curving calcified vessel segment in the upper breast, shown illustratively next to the cancer.",
+   "material": "Calcification",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 449797,
+   "v_count": 418,
+   "i_start": 2679426,
+   "i_count": 2496,
+   "bbox": [
+    [
+     0.12003719806671143,
+     1.2805975675582886,
+     0.08684424310922623
+    ],
+    [
+     0.12291493266820908,
+     1.281997561454773,
+     0.10143821686506271
+    ]
+   ],
+   "centroid": [
+    0.12147607654333115,
+    1.2812978029251099,
+    0.0941411554813385
+   ]
+  },
+  {
+   "name": "Vascular calcification (illustrative) 2",
+   "latin": "",
+   "subsystem": "Vascular calcification",
+   "note": "Second segment of the curving calcified vessel, continuing forward from the first.",
+   "material": "Calcification",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 450215,
+   "v_count": 338,
+   "i_start": 2681922,
+   "i_count": 2016,
+   "bbox": [
+    [
+     0.11635863035917282,
+     1.2805975675582886,
+     0.10113980621099472
+    ],
+    [
+     0.12139575183391571,
+     1.281997561454773,
+     0.11243164539337158
+    ]
+   ],
+   "centroid": [
+    0.11887718737125397,
+    1.2812981605529785,
+    0.10678578168153763
+   ]
+  },
+  {
+   "name": "Nipple (illustrative)",
+   "latin": "",
+   "subsystem": "Mammary gland",
+   "note": "Illustrative nipple at the anterior tip of the breast.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 450553,
+   "v_count": 642,
+   "i_start": 2683938,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.10930818319320679,
+     1.2772976160049438,
+     0.14694464206695557
+    ],
+    [
+     0.11730818450450897,
+     1.2852975130081177,
+     0.1569446474313736
+    ]
+   ],
+   "centroid": [
+    0.11330821365118027,
+    1.281294822692871,
+    0.15194454789161682
+   ]
+  },
+  {
+   "name": "Right breast (illustrative)",
+   "latin": "",
+   "subsystem": "Breast",
+   "note": "Illustrative breast with fatty outer tissue. It is not a registration of this scan.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 451195,
+   "v_count": 2562,
+   "i_start": 2687778,
+   "i_count": 15360,
+   "bbox": [
+    [
+     -0.15043491125106812,
+     1.2450313568115234,
+     0.0796903744339943
+    ],
+    [
+     -0.07618144899606705,
+     1.317563772201538,
+     0.15194463729858398
+    ]
+   ],
+   "centroid": [
+    -0.11457820236682892,
+    1.2837685346603394,
+    0.11641211062669754
+   ]
+  },
+  {
+   "name": "Fibroglandular core (illustrative)",
+   "latin": "",
+   "subsystem": "Breast",
+   "note": "Dense fibroglandular tissue inside the illustrative breast.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 453757,
+   "v_count": 642,
+   "i_start": 2703138,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.13246767222881317,
+     1.2649234533309937,
+     0.10407224297523499
+    ],
+    [
+     -0.09577374160289764,
+     1.2938450574874878,
+     0.12885966897010803
+    ]
+   ],
+   "centroid": [
+    -0.11353809386491776,
+    1.28078031539917,
+    0.11615607142448425
+   ]
+  },
+  {
+   "name": "Grouped calcifications (illustrative)",
+   "latin": "",
+   "subsystem": "Breast calcifications",
+   "note": "Grouped microcalcifications in the glandular tissue, as marked by the source annotations. Malignancy is not established.",
+   "material": "Calcification",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 454399,
+   "v_count": 1260,
+   "i_start": 2706978,
+   "i_count": 7200,
+   "bbox": [
+    [
+     -0.12208773195743561,
+     1.272337555885315,
+     0.11232098191976547
+    ],
+    [
+     -0.10916956514120102,
+     1.2873514890670776,
+     0.12179940193891525
+    ]
+   ],
+   "centroid": [
+    -0.11454594880342484,
+    1.2804195880889893,
+    0.11666771024465561
+   ]
+  },
+  {
+   "name": "Left breast (illustrative) (mammo_vascular_calcification)",
+   "latin": "",
+   "subsystem": "Breast",
+   "note": "Illustrative breast outline for the mammogram; the calcifications lie within it.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 455659,
+   "v_count": 2562,
+   "i_start": 2714178,
+   "i_count": 15360,
+   "bbox": [
+    [
+     0.07501855492591858,
+     1.2442834377288818,
+     0.07814054936170578
+    ],
+    [
+     0.18031804263591766,
+     1.3419277667999268,
+     0.18737955391407013
+    ]
+   ],
+   "centroid": [
+    0.12260624021291733,
+    1.290510892868042,
+    0.12539082765579224
+   ]
+  },
+  {
+   "name": "Nipple (illustrative) (mammo_vascular_calcification)",
+   "latin": "",
+   "subsystem": "Breast",
+   "note": "Illustrative nipple at the anterior tip of the breast; on the scan it is an imaging marker, not a lesion.",
+   "material": "Breast tissue",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 458221,
+   "v_count": 642,
+   "i_start": 2729538,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.10930818319320679,
+     1.2627910375595093,
+     0.1479446440935135
+    ],
+    [
+     0.11730818450450897,
+     1.2707910537719727,
+     0.15594464540481567
+    ]
+   ],
+   "centroid": [
+    0.11330821365118027,
+    1.2667908668518066,
+    0.1519446074962616
+   ]
+  },
+  {
+   "name": "Vascular breast calcification",
+   "latin": "",
+   "subsystem": "Breast calcification",
+   "note": "Curvilinear calcification in the wall of a breast artery, seen as a thin curved line within the breast tissue.",
+   "material": "Calcification",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 458863,
+   "v_count": 786,
+   "i_start": 2733378,
+   "i_count": 4704,
+   "bbox": [
+    [
+     0.112708181142807,
+     1.2930649518966675,
+     0.09393397718667984
+    ],
+    [
+     0.11390817910432816,
+     1.302169680595398,
+     0.11602476239204407
+    ]
+   ],
+   "centroid": [
+    0.11330821365118027,
+    1.2976173162460327,
+    0.10497934371232986
+   ]
+  },
+  {
+   "name": "Separate breast calcification",
+   "latin": "",
+   "subsystem": "Breast calcification",
+   "note": "A separate punctate calcification within the breast tissue.",
+   "material": "Calcification",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 459649,
+   "v_count": 168,
+   "i_start": 2738082,
+   "i_count": 960,
+   "bbox": [
+    [
+     0.11118457466363907,
+     1.2722358703613281,
+     0.09595344960689545
+    ],
+    [
+     0.1150987297296524,
+     1.2772318124771118,
+     0.10041235387325287
+    ]
+   ],
+   "centroid": [
+    0.11311997473239899,
+    1.2742700576782227,
+    0.09795759618282318
+   ]
+  },
+  {
+   "name": "Dilated oesophagus in achalasia",
+   "latin": "",
+   "subsystem": "Oesophageal motility",
+   "note": "The lower oesophageal sphincter fails to relax, so the oesophagus dilates above it and fills with retained barium and food.",
+   "material": "Fluid",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 459817,
+   "v_count": 8160,
+   "i_start": 2739042,
+   "i_count": 48960,
+   "bbox": [
+    [
+     -0.019952554255723953,
+     1.1940613985061646,
+     -0.05578675493597984
+    ],
+    [
+     0.034700993448495865,
+     1.4755380153656006,
+     0.04833977296948433
+    ]
+   ],
+   "centroid": [
+    0.001951431157067418,
+    1.327680230140686,
+    -0.01165829412639141
+   ]
+  },
+  {
+   "name": "Barium in left lower-lobe bronchus",
+   "latin": "",
+   "subsystem": "Pulmonary aspiration",
+   "note": "Barium drawn into the left lower-lobe bronchus during a swallow. It is shown as a fluid-filled tube in the lumen, so the contrast of the airway can be matched to the scan.",
+   "material": "Fluid",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 467977,
+   "v_count": 402,
+   "i_start": 2788002,
+   "i_count": 2400,
+   "bbox": [
+    [
+     0.037024714052677155,
+     1.2809430360794067,
+     -0.023230861872434616
+    ],
+    [
+     0.08194655179977417,
+     1.328643560409546,
+     -0.017230862751603127
+    ]
+   ],
+   "centroid": [
+    0.059485625475645065,
+    1.304793357849121,
+    -0.020230883732438087
+   ]
+  },
+  {
+   "name": "Barium in left basal segmental bronchi",
+   "latin": "",
+   "subsystem": "Pulmonary aspiration",
+   "note": "Barium carried on from the lower-lobe bronchus into a basal segmental branch, the branching contrast seen on the scan.",
+   "material": "Fluid",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 468379,
+   "v_count": 866,
+   "i_start": 2790402,
+   "i_count": 5184,
+   "bbox": [
+    [
+     0.07825914770364761,
+     1.2242273092269897,
+     -0.0477072112262249
+    ],
+    [
+     0.0880976989865303,
+     1.2836129665374756,
+     -0.018860941752791405
+    ]
+   ],
+   "centroid": [
+    0.08317842334508896,
+    1.2539204359054565,
+    -0.03328406810760498
+   ]
+  },
+  {
+   "name": "Killian-Jamieson diverticulum",
+   "latin": "",
+   "subsystem": "Oesophageal diverticulum",
+   "note": "A small lateral outpouching of the cervical oesophagus just below the cricopharyngeus, retaining contrast on the barium swallow.",
+   "material": "Fluid",
+   "regions": [
+    "neck"
+   ],
+   "v_start": 469245,
+   "v_count": 642,
+   "i_start": 2795586,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.01311333104968071,
+     1.4267770051956177,
+     -0.010587741620838642
+    ],
+    [
+     0.0049370587803423405,
+     1.4408742189407349,
+     0.0035355594009160995
+    ]
+   ],
+   "centroid": [
+    -0.0038966534193605185,
+    1.4342402219772339,
+    -0.003636202309280634
+   ]
+  },
+  {
+   "name": "Left main coronary stenosis",
+   "latin": "",
+   "subsystem": "Coronary stenosis",
+   "note": "Critical atheromatous narrowing of the proximal left main coronary artery, the lesion marked by the source's red arrow. The plaque is illustrative.",
+   "material": "Mass",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 469887,
+   "v_count": 642,
+   "i_start": 2799426,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.021688193082809448,
+     1.3259223699569702,
+     0.01978556253015995
+    ],
+    [
+     0.027803847566246986,
+     1.3310869932174683,
+     0.024949610233306885
+    ]
+   ],
+   "centroid": [
+    0.02484309673309326,
+    1.3287549018859863,
+    0.022303001955151558
+   ]
+  },
+  {
+   "name": "Circumflex coronary stenosis",
+   "latin": "",
+   "subsystem": "Coronary stenosis",
+   "note": "Critical narrowing of the proximal circumflex artery, the lesion marked by the source's red arrow. The plaque is illustrative.",
+   "material": "Mass",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 470529,
+   "v_count": 642,
+   "i_start": 2803266,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.04507044702768326,
+     1.31005859375,
+     0.008100470528006554
+    ],
+    [
+     0.05220538005232811,
+     1.315223217010498,
+     0.013264518231153488
+    ]
+   ],
+   "centroid": [
+    0.04875119403004646,
+    1.3128904104232788,
+    0.010617936961352825
+   ]
+  },
+  {
+   "name": "Cerebral arterial aneurysm",
+   "latin": "Aneurysma arteriae cerebri",
+   "subsystem": "Cerebral aneurysm",
+   "note": "A rounded saccular outpouching of an intracranial artery on catheter angiography, with the sac filled by contrast.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "head"
+   ],
+   "v_start": 471171,
+   "v_count": 642,
+   "i_start": 2807106,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.028896961361169815,
+     1.6054296493530273,
+     0.014385988935828209
+    ],
+    [
+     -0.016896961256861687,
+     1.6154309511184692,
+     0.02438598871231079
+    ]
+   ],
+   "centroid": [
+    -0.022824734449386597,
+    1.6105951070785522,
+    0.019344370812177658
+   ]
+  },
+  {
+   "name": "Left renal artery bead 1",
+   "latin": "",
+   "subsystem": "Renal artery fibromuscular dysplasia",
+   "note": "Fibromuscular dysplasia of the lower accessory left renal artery: one bead of the string-of-beads wall contour. The atlas has no accessory renal artery, so the beads are shown on the left renal artery.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 471813,
+   "v_count": 642,
+   "i_start": 2810946,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.011276399716734886,
+     1.1157090663909912,
+     0.008593746460974216
+    ],
+    [
+     0.01729319617152214,
+     1.1207438707351685,
+     0.014646589756011963
+    ]
+   ],
+   "centroid": [
+    0.014348633587360382,
+    1.1183750629425049,
+    0.011572987772524357
+   ]
+  },
+  {
+   "name": "Left renal artery bead 2",
+   "latin": "",
+   "subsystem": "Renal artery fibromuscular dysplasia",
+   "note": "Fibromuscular dysplasia of the lower accessory left renal artery: a second bead of the string-of-beads wall contour. The atlas has no accessory renal artery, so the beads are shown on the left renal artery.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 472455,
+   "v_count": 642,
+   "i_start": 2814786,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.01906626485288143,
+     1.1154134273529053,
+     0.012872224673628807
+    ],
+    [
+     0.025083061307668686,
+     1.1204482316970825,
+     0.01892506703734398
+    ]
+   ],
+   "centroid": [
+    0.022138487547636032,
+    1.1180789470672607,
+    0.015851451084017754
+   ]
+  },
+  {
+   "name": "Left renal artery bead 3",
+   "latin": "",
+   "subsystem": "Renal artery fibromuscular dysplasia",
+   "note": "Fibromuscular dysplasia of the lower accessory left renal artery: a third bead of the string-of-beads wall contour. The atlas has no accessory renal artery, so the beads are shown on the left renal artery.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 473097,
+   "v_count": 642,
+   "i_start": 2818626,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.022963624447584152,
+     1.1131209135055542,
+     0.010967711918056011
+    ],
+    [
+     0.028980420902371407,
+     1.1181557178497314,
+     0.017020555213093758
+    ]
+   ],
+   "centroid": [
+    0.026035869494080544,
+    1.115787386894226,
+    0.013946942053735256
+   ]
+  },
+  {
+   "name": "Right renal artery distal aneurysm",
+   "latin": "",
+   "subsystem": "Renal artery aneurysm",
+   "note": "A small saccular aneurysm of the distal right renal artery, as described in the source image.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 473739,
+   "v_count": 642,
+   "i_start": 2822466,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.030558208003640175,
+     1.1064554452896118,
+     0.006504086311906576
+    ],
+    [
+     -0.022535812109708786,
+     1.1145110130310059,
+     0.014574543572962284
+    ]
+   ],
+   "centroid": [
+    -0.026461925357580185,
+    1.1107213497161865,
+    0.010476391762495041
+   ]
+  },
+  {
+   "name": "Posterior tibial artery occlusion",
+   "latin": "",
+   "subsystem": "Arterial occlusion",
+   "note": "A clot fills the posterior tibial artery from its origin to the ankle, so it is not opacified on the angiogram.",
+   "material": "Blood clot",
+   "regions": [
+    "lower_limb_r"
+   ],
+   "v_start": 474381,
+   "v_count": 2674,
+   "i_start": 2826306,
+   "i_count": 16032,
+   "bbox": [
+    [
+     -0.07676531374454498,
+     0.055418625473976135,
+     -0.04823940247297287
+    ],
+    [
+     -0.07236530631780624,
+     0.34816494584083557,
+     -0.04383939877152443
+    ]
+   ],
+   "centroid": [
+    -0.07456699013710022,
+    0.2017918974161148,
+    -0.04603932052850723
+   ]
+  },
+  {
+   "name": "Collateral vessels around the occlusion",
+   "latin": "",
+   "subsystem": "Arterial collaterals",
+   "note": "Small collateral channels bridge from the posterior tibial artery to the fibular artery and carry blood around the occlusion.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "lower_limb_r"
+   ],
+   "v_start": 477055,
+   "v_count": 642,
+   "i_start": 2842338,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.10197959840297699,
+     0.3067932724952698,
+     -0.06308093667030334
+    ],
+    [
+     -0.07404925674200058,
+     0.31201136112213135,
+     -0.045180901885032654
+    ]
+   ],
+   "centroid": [
+    -0.08801446110010147,
+    0.30940234661102295,
+    -0.0541309155523777
+   ]
+  },
+  {
+   "name": "Proximal femoral occlusion",
+   "latin": "",
+   "subsystem": "Arterial occlusion",
+   "note": "A thrombus fills the upper femoral artery, so contrast does not pass beyond it.",
+   "material": "Blood clot",
+   "regions": [
+    "lower_limb_l"
+   ],
+   "v_start": 477697,
+   "v_count": 514,
+   "i_start": 2846178,
+   "i_count": 3072,
+   "bbox": [
+    [
+     0.0503961406648159,
+     0.7484660148620605,
+     0.03765634819865227
+    ],
+    [
+     0.0701172798871994,
+     0.8635885715484619,
+     0.052648767828941345
+    ]
+   ],
+   "centroid": [
+    0.06025667116045952,
+    0.8060271739959717,
+    0.045152559876441956
+   ]
+  },
+  {
+   "name": "Distal popliteal occlusion",
+   "latin": "",
+   "subsystem": "Arterial occlusion",
+   "note": "A thrombus at the popliteal artery blocks flow to the leg below the knee.",
+   "material": "Blood clot",
+   "regions": [
+    "lower_limb_l"
+   ],
+   "v_start": 478211,
+   "v_count": 642,
+   "i_start": 2849250,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.06682277470827103,
+     0.47921013832092285,
+     -0.04707318916916847
+    ],
+    [
+     0.07918078452348709,
+     0.48968082666397095,
+     -0.03654161095619202
+    ]
+   ],
+   "centroid": [
+    0.07322856783866882,
+    0.48503896594047546,
+    -0.0419461727142334
+   ]
+  },
+  {
+   "name": "Left subcapital insufficiency fracture",
+   "latin": "",
+   "subsystem": "Insufficiency fracture",
+   "note": "Focal tracer uptake at the left subcapital femoral neck, the insufficiency fracture the bone scan shows.",
+   "material": "Fracture",
+   "regions": [
+    "lower_limb_l"
+   ],
+   "v_start": 478853,
+   "v_count": 642,
+   "i_start": 2853090,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.06702500581741333,
+     0.8303307890892029,
+     -0.015542678534984589
+    ],
+    [
+     0.08518604934215546,
+     0.844609797000885,
+     -0.0012781537370756269
+    ]
+   ],
+   "centroid": [
+    0.07634998857975006,
+    0.8380265831947327,
+    -0.008569258265197277
+   ]
+  },
+  {
+   "name": "Toxic adenoma",
+   "latin": "",
+   "subsystem": "Thyroid nodule",
+   "note": "A dominant hot nodule in the thyroid; the rest of the gland is suppressed on the scan. The model shows the nodule's position and size, not its uptake.",
+   "material": "Mass",
+   "regions": [
+    "neck"
+   ],
+   "v_start": 479495,
+   "v_count": 642,
+   "i_start": 2856930,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.011335021816194057,
+     1.455007553100586,
+     0.02161150425672531
+    ],
+    [
+     0.010726566426455975,
+     1.4751464128494263,
+     0.04178764671087265
+    ]
+   ],
+   "centroid": [
+    -7.019209442660213e-05,
+    1.4656707048416138,
+    0.031542278826236725
+   ]
+  },
+  {
+   "name": "Multinodular goitre nodules",
+   "latin": "",
+   "subsystem": "Multinodular goitre",
+   "note": "Several nodules of different sizes across both lobes of the thyroid. The model shows where the nodules sit, not the hot and cold uptake.",
+   "material": "Mass",
+   "regions": [
+    "neck"
+   ],
+   "v_start": 480137,
+   "v_count": 252,
+   "i_start": 2860770,
+   "i_count": 1440,
+   "bbox": [
+    [
+     -0.011513923294842243,
+     1.4623863697052002,
+     0.021800877526402473
+    ],
+    [
+     0.010207275860011578,
+     1.4901045560836792,
+     0.040257491171360016
+    ]
+   ],
+   "centroid": [
+    -0.0006306549184955657,
+    1.4760574102401733,
+    0.03041689097881317
+   ]
+  },
+  {
+   "name": "Left lower lobe pulmonary embolus",
+   "latin": "",
+   "subsystem": "Pulmonary embolism",
+   "note": "A clot lodged in a left pulmonary artery branch to the lower lobe, explaining the medial lower-zone perfusion defect with preserved ventilation.",
+   "material": "Blood clot",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 480389,
+   "v_count": 642,
+   "i_start": 2862210,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.05357271060347557,
+     1.3122090101242065,
+     -0.03158184140920639
+    ],
+    [
+     0.06784257292747498,
+     1.3204723596572876,
+     -0.02125374600291252
+    ]
+   ],
+   "centroid": [
+    0.060934167355298996,
+    1.3167396783828735,
+    -0.026546912267804146
+   ]
+  },
+  {
+   "name": "Severe coronary stenosis",
+   "latin": "",
+   "subsystem": "Coronary artery disease",
+   "note": "Severe narrowing of a coronary artery on the angiogram (panel C). The source does not name the branch, so the mid anterior interventricular (LAD) artery is shown as an illustrative site.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 481031,
+   "v_count": 642,
+   "i_start": 2866050,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.05092514678835869,
+     1.2905893325805664,
+     0.06008543446660042
+    ],
+    [
+     0.059079352766275406,
+     1.294721007347107,
+     0.06421667337417603
+    ]
+   ],
+   "centroid": [
+    0.0551317036151886,
+    1.2928539514541626,
+    0.06209937855601311
+   ]
+  },
+  {
+   "name": "Hodgkin paratracheal nodal mass",
+   "latin": "",
+   "subsystem": "Hodgkin lymphoma",
+   "note": "FDG-avid enlarged mediastinal lymph node mass to the right of the trachea, typical of Hodgkin lymphoma. Shown as an illustrative mass; the 3D atlas is not registered to this scan.",
+   "material": "Mass",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 481673,
+   "v_count": 642,
+   "i_start": 2869890,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.014840135350823402,
+     1.384960412979126,
+     -0.011115026660263538
+    ],
+    [
+     0.0096224844455719,
+     1.4035530090332031,
+     0.00954116228967905
+    ]
+   ],
+   "centroid": [
+    -0.0022204320412129164,
+    1.3951555490493774,
+    -0.0010452033020555973
+   ]
+  },
+  {
+   "name": "Left ICA complete occlusion",
+   "latin": "",
+   "subsystem": "Carotid occlusion",
+   "note": "Thrombus filling the left internal carotid artery, giving the complete occlusion described by the source; the clot is illustrative and is not seen directly on the B-mode image.",
+   "material": "Blood clot",
+   "regions": [
+    "neck"
+   ],
+   "v_start": 482315,
+   "v_count": 626,
+   "i_start": 2873730,
+   "i_count": 3744,
+   "bbox": [
+    [
+     0.021281559020280838,
+     1.523154616355896,
+     0.00950707495212555
+    ],
+    [
+     0.03515239432454109,
+     1.5747084617614746,
+     0.012907074764370918
+    ]
+   ],
+   "centroid": [
+    0.028216976672410965,
+    1.5489314794540405,
+    0.011207087896764278
+   ]
+  },
+  {
+   "name": "Common carotid intimal flap (dissection)",
+   "latin": "",
+   "subsystem": "Carotid artery dissection",
+   "note": "A thin intimal flap lies within the common carotid artery and separates two lumen channels. The source does not state the side or which channel is the true lumen; the left side is shown for illustration only.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "neck"
+   ],
+   "v_start": 482941,
+   "v_count": 1106,
+   "i_start": 2877474,
+   "i_count": 6624,
+   "bbox": [
+    [
+     0.02277432009577751,
+     1.4134800434112549,
+     0.0018475943943485618
+    ],
+    [
+     0.024774320423603058,
+     1.468292236328125,
+     0.0038475943729281425
+    ]
+   ],
+   "centroid": [
+    0.023774301633238792,
+    1.440885066986084,
+    0.002847604686394334
+   ]
+  },
+  {
+   "name": "Left ICA near-occlusion plaque",
+   "latin": "",
+   "subsystem": "Carotid stenosis",
+   "note": "Atheromatous plaque narrowing the left internal carotid artery lumen to near occlusion, with only residual flow.",
+   "material": "Mass",
+   "regions": [
+    "neck"
+   ],
+   "v_start": 484047,
+   "v_count": 642,
+   "i_start": 2884098,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.02690412849187851,
+     1.5397168397903442,
+     0.0016917817993089557
+    ],
+    [
+     0.03315938636660576,
+     1.5450371503829956,
+     0.007065380457788706
+    ]
+   ],
+   "centroid": [
+    0.030154986307024956,
+    1.5427151918411255,
+    0.004305838141590357
+   ]
+  },
+  {
+   "name": "Paraovarian cyst (right adnexa)",
+   "latin": "",
+   "subsystem": "Paraovarian cyst",
+   "note": "Fluid-filled paraovarian cyst in the right broad ligament beside the ovary, about 5 cm across, with a papillary projection on its wall; the adjacent right fallopian tube was torsed, confirmed at laparoscopy.",
+   "material": "Fluid",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 484689,
+   "v_count": 642,
+   "i_start": 2887938,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.03502047806978226,
+     0.8260210752487183,
+     -0.04075418412685394
+    ],
+    [
+     0.015119493007659912,
+     0.870326578617096,
+     0.0036333336029201746
+    ]
+   ],
+   "centroid": [
+    -0.009418592788279057,
+    0.8494802713394165,
+    -0.018906492739915848
+   ]
+  },
+  {
+   "name": "Hydronephrosis (dilated renal pelvis)",
+   "latin": "",
+   "subsystem": "Hydronephrosis",
+   "note": "Obstructed urine backs up and dilates the renal pelvis and calyces, shown here as an anechoic collecting system on ultrasound.",
+   "material": "Fluid",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 485331,
+   "v_count": 638,
+   "i_start": 2891778,
+   "i_count": 3786,
+   "bbox": [
+    [
+     -0.08604276180267334,
+     1.038455605506897,
+     -0.026617327705025673
+    ],
+    [
+     -0.00819424632936716,
+     1.1502189636230469,
+     0.011827118694782257
+    ]
+   ],
+   "centroid": [
+    -0.05623212456703186,
+    1.0948997735977173,
+    -0.009225188754498959
+   ]
+  },
+  {
+   "name": "Gallstones (dependent, shadowing)",
+   "latin": "",
+   "subsystem": "Cholelithiasis",
+   "note": "Echogenic gallstones lying in the dependent part of the gallbladder, producing posterior acoustic shadowing.",
+   "material": "Stone",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 485969,
+   "v_count": 252,
+   "i_start": 2895564,
+   "i_count": 1440,
+   "bbox": [
+    [
+     -0.05092615634202957,
+     1.1147466897964478,
+     0.04428340494632721
+    ],
+    [
+     -0.04006555676460266,
+     1.1254435777664185,
+     0.05764935165643692
+    ]
+   ],
+   "centroid": [
+    -0.04548449441790581,
+    1.1200103759765625,
+    0.05064710974693298
+   ]
+  },
+  {
+   "name": "Biliary sludge (dependent layer)",
+   "latin": "",
+   "subsystem": "Biliary sludge",
+   "note": "Mixed echoes of biliary sludge layering in the dependent gallbladder lumen beneath the stones.",
+   "material": "Fluid",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 486221,
+   "v_count": 564,
+   "i_start": 2897004,
+   "i_count": 3372,
+   "bbox": [
+    [
+     -0.05594730004668236,
+     1.1147867441177368,
+     0.04323732107877731
+    ],
+    [
+     -0.036769453436136246,
+     1.1232116222381592,
+     0.06990708410739899
+    ]
+   ],
+   "centroid": [
+    -0.04734637215733528,
+    1.1190359592437744,
+    0.0577055960893631
+   ]
+  },
+  {
+   "name": "Impacted gallstone",
+   "latin": "",
+   "subsystem": "Gallstone disease",
+   "note": "A stone of about 1.9 cm impacted at the gallbladder neck, the cause of the acoustic shadow behind it on ultrasound.",
+   "material": "Stone",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 486785,
+   "v_count": 642,
+   "i_start": 2900376,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.05343098193407059,
+     1.133521318435669,
+     0.059234850108623505
+    ],
+    [
+     -0.03337499126791954,
+     1.1516462564468384,
+     0.07739338278770447
+    ]
+   ],
+   "centroid": [
+    -0.043190229684114456,
+    1.1431188583374023,
+    0.06817254424095154
+   ]
+  },
+  {
+   "name": "Gallbladder wall thickening",
+   "latin": "",
+   "subsystem": "Acute cholecystitis",
+   "note": "Thickened gallbladder wall (about 4 mm) from acute inflammation, as reported with the cholecystitis.",
+   "material": "Inflamed tissue",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 487427,
+   "v_count": 363,
+   "i_start": 2904216,
+   "i_count": 2166,
+   "bbox": [
+    [
+     -0.06529287993907928,
+     1.1134520769119263,
+     0.030180035158991814
+    ],
+    [
+     -0.025541231036186218,
+     1.1608541011810303,
+     0.08237713575363159
+    ]
+   ],
+   "centroid": [
+    -0.048397015780210495,
+    1.1342098712921143,
+    0.056026045233011246
+   ]
+  },
+  {
+   "name": "Hashimoto thyroiditis enlarged right lobe",
+   "latin": "",
+   "subsystem": "Hashimoto thyroiditis",
+   "note": "Diffuse lymphocytic inflammation enlarges and darkens the right thyroid lobe on ultrasound; the lobe is hypoechoic and heterogeneous.",
+   "material": "Inflamed tissue",
+   "regions": [
+    "neck"
+   ],
+   "v_start": 487790,
+   "v_count": 642,
+   "i_start": 2906382,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.027963483706116676,
+     1.4472332000732422,
+     0.003704062197357416
+    ],
+    [
+     -0.011820335872471333,
+     1.4880304336547852,
+     0.026119744405150414
+    ]
+   ],
+   "centroid": [
+    -0.019674576818943024,
+    1.4692223072052002,
+    0.014662278816103935
+   ]
+  },
+  {
+   "name": "Femoral vein thrombus",
+   "latin": "",
+   "subsystem": "Deep vein thrombosis",
+   "note": "Thrombus filling the femoral vein; the vein lacks colour flow on Doppler, while the femoral artery and deep femoral vein fill with colour.",
+   "material": "Blood clot",
+   "regions": [
+    "lower_limb_l"
+   ],
+   "v_start": 488432,
+   "v_count": 1058,
+   "i_start": 2910222,
+   "i_count": 6336,
+   "bbox": [
+    [
+     0.05131612718105316,
+     0.6291495561599731,
+     0.012119229882955551
+    ],
+    [
+     0.05931612849235535,
+     0.8372844457626343,
+     0.020119229331612587
+    ]
+   ],
+   "centroid": [
+    0.05531613528728485,
+    0.7332172989845276,
+    0.01611916348338127
+   ]
+  },
+  {
+   "name": "Abdominal aortic aneurysm",
+   "latin": "",
+   "subsystem": "Aortic aneurysm",
+   "note": "Focal dilatation of the infrarenal-to-suprarenal abdominal aorta seen in transverse section; the image shows enlargement without a calibrated diameter.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 489490,
+   "v_count": 1020,
+   "i_start": 2916558,
+   "i_count": 6048,
+   "bbox": [
+    [
+     -0.020158037543296814,
+     1.028639554977417,
+     -0.07129991054534912
+    ],
+    [
+     0.034804973751306534,
+     1.210571050643921,
+     0.0718001276254654
+    ]
+   ],
+   "centroid": [
+    0.007935550063848495,
+    1.1143853664398193,
+    0.01803995668888092
+   ]
+  },
+  {
+   "name": "Baker's cyst fluid",
+   "latin": "",
+   "subsystem": "Baker's cyst",
+   "note": "A fluid collection in the popliteal fossa between the semimembranosus tendon and the medial head of gastrocnemius, seen as an elongated anechoic cyst on longitudinal ultrasound.",
+   "material": "Fluid",
+   "regions": [
+    "lower_limb_l"
+   ],
+   "v_start": 490510,
+   "v_count": 642,
+   "i_start": 2922606,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.0666150376200676,
+     0.4563671946525574,
+     -0.08002039790153503
+    ],
+    [
+     0.09469342231750488,
+     0.5087282657623291,
+     -0.06186186894774437
+    ]
+   ],
+   "centroid": [
+    0.08095205575227737,
+    0.48409101366996765,
+    -0.0710826888680458
+   ]
+  },
+  {
+   "name": "Dilated small bowel with air-fluid levels",
+   "latin": "",
+   "subsystem": "Small bowel obstruction",
+   "note": "Distended small bowel loops hold fluid with gas above, giving horizontal air-fluid levels on the upright film. A single projection does not show the transition point.",
+   "material": "Fluid",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 491152,
+   "v_count": 13836,
+   "i_start": 2926446,
+   "i_count": 82944,
+   "bbox": [
+    [
+     -0.1007118970155716,
+     0.8370847105979919,
+     0.012222022749483585
+    ],
+    [
+     0.11885572224855423,
+     1.1292791366577148,
+     0.08672284334897995
+    ]
+   ],
+   "centroid": [
+    0.007912132889032364,
+    0.991012692451477,
+    0.052238475531339645
+   ]
+  },
+  {
+   "name": "L3 compression fracture",
+   "latin": "",
+   "subsystem": "Vertebral compression fracture",
+   "note": "Anterior-superior wedge collapse of the L3 vertebral body with reduced height and depression of the upper endplate.",
+   "material": "Fracture",
+   "regions": [
+    "back",
+    "abdomen"
+   ],
+   "v_start": 504988,
+   "v_count": 642,
+   "i_start": 3009390,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.008355239406228065,
+     1.0535119771957397,
+     0.014984377659857273
+    ],
+    [
+     0.007787908893078566,
+     1.065751075744629,
+     0.027211112901568413
+    ]
+   ],
+   "centroid": [
+    -6.633430166402832e-05,
+    1.0601089000701904,
+    0.020961591973900795
+   ]
+  },
+  {
+   "name": "Distal radius fracture",
+   "latin": "",
+   "subsystem": "Distal radius fracture",
+   "note": "Transverse fracture through the distal radial metaphysis with the distal fragment displaced dorsally (Colles pattern).",
+   "material": "Fracture",
+   "regions": [
+    "upper_limb_l"
+   ],
+   "v_start": 505630,
+   "v_count": 610,
+   "i_start": 3013230,
+   "i_count": 3648,
+   "bbox": [
+    [
+     0.23569147288799286,
+     0.8832646012306213,
+     -0.022769100964069366
+    ],
+    [
+     0.27985239028930664,
+     0.8862645626068115,
+     -0.006175569724291563
+    ]
+   ],
+   "centroid": [
+    0.2577720880508423,
+    0.8847650289535522,
+    -0.01447234395891428
+   ]
+  },
+  {
+   "name": "Dorsally displaced radial fragment",
+   "latin": "",
+   "subsystem": "Distal radius fracture",
+   "note": "Distal radial fragment displaced dorsally at the Colles fracture site.",
+   "material": "Fracture",
+   "regions": [
+    "upper_limb_l"
+   ],
+   "v_start": 506240,
+   "v_count": 642,
+   "i_start": 3016878,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.25032103061676025,
+     0.8623261451721191,
+     -0.03996752202510834
+    ],
+    [
+     0.26459088921546936,
+     0.8726553320884705,
+     -0.029639428481459618
+    ]
+   ],
+   "centroid": [
+    0.2576826214790344,
+    0.8679887652397156,
+    -0.03493262827396393
+   ]
+  },
+  {
+   "name": "Ulnar styloid fracture",
+   "latin": "",
+   "subsystem": "Ulnar styloid fracture",
+   "note": "Fracture of the ulnar styloid process at the distal ulna, with a small separated tip fragment.",
+   "material": "Fracture",
+   "regions": [
+    "upper_limb_l"
+   ],
+   "v_start": 506882,
+   "v_count": 642,
+   "i_start": 3020718,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.23502662777900696,
+     0.8773934245109558,
+     0.0018838787218555808
+    ],
+    [
+     0.24114227294921875,
+     0.8825580477714539,
+     0.008080735802650452
+    ]
+   ],
+   "centroid": [
+    0.23818154633045197,
+    0.8802241086959839,
+    0.004904825706034899
+   ]
+  },
+  {
+   "name": "Clavicular fracture",
+   "latin": "",
+   "subsystem": "Clavicle fracture",
+   "note": "Transverse fracture of the mid-shaft of the left clavicle with separated fragments.",
+   "material": "Fracture",
+   "regions": [
+    "upper_limb_l"
+   ],
+   "v_start": 507524,
+   "v_count": 242,
+   "i_start": 3024558,
+   "i_count": 1440,
+   "bbox": [
+    [
+     0.08503991365432739,
+     1.4046058654785156,
+     -0.0032367894891649485
+    ],
+    [
+     0.09139034152030945,
+     1.4195970296859741,
+     0.009168129414319992
+    ]
+   ],
+   "centroid": [
+    0.08821512013673782,
+    1.412101149559021,
+    0.002965670544654131
+   ]
+  },
+  {
+   "name": "Calcaneal fracture line",
+   "latin": "",
+   "subsystem": "Calcaneal fracture",
+   "note": "Fracture line through the body of the calcaneus, seen as a disrupted heel-bone contour on the lateral radiograph.",
+   "material": "Fracture",
+   "regions": [
+    "lower_limb_r"
+   ],
+   "v_start": 507766,
+   "v_count": 546,
+   "i_start": 3025998,
+   "i_count": 3264,
+   "bbox": [
+    [
+     -0.08923046290874481,
+     0.032987769693136215,
+     -0.08101677894592285
+    ],
+    [
+     -0.06530517339706421,
+     0.041018370538949966,
+     -0.045329783111810684
+    ]
+   ],
+   "centroid": [
+    -0.0772678330540657,
+    0.03700307384133339,
+    -0.06317326426506042
+   ]
+  },
+  {
+   "name": "Right renal calculus (xr_bilateral_renal_stones)",
+   "latin": "",
+   "subsystem": "Renal calculi",
+   "note": "Radiopaque renal calculus in the right kidney, visible on the frontal abdominal radiograph.",
+   "material": "Stone",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 508312,
+   "v_count": 642,
+   "i_start": 3029262,
+   "i_count": 3840,
+   "bbox": [
+    [
+     -0.05746956542134285,
+     1.0788593292236328,
+     -0.013769951649010181
+    ],
+    [
+     -0.049397990107536316,
+     1.0870187282562256,
+     -0.005618794821202755
+    ]
+   ],
+   "centroid": [
+    -0.053325105458498,
+    1.0832574367523193,
+    -0.009785144589841366
+   ]
+  },
+  {
+   "name": "Left renal calculus (xr_bilateral_renal_stones)",
+   "latin": "",
+   "subsystem": "Renal calculi",
+   "note": "Radiopaque renal calculus in the left kidney, visible on the frontal abdominal radiograph.",
+   "material": "Stone",
+   "regions": [
+    "abdomen"
+   ],
+   "v_start": 508954,
+   "v_count": 642,
+   "i_start": 3033102,
+   "i_count": 3840,
+   "bbox": [
+    [
+     0.057428762316703796,
+     1.0971400737762451,
+     -0.02215922623872757
+    ],
+    [
+     0.06550033390522003,
+     1.1052995920181274,
+     -0.014008069410920143
+    ]
+   ],
+   "centroid": [
+    0.06157318875193596,
+    1.101538062095642,
+    -0.018174422904849052
+   ]
+  },
+  {
+   "name": "Dilated upper lobe vessels",
+   "latin": "",
+   "subsystem": "Pulmonary circulation",
+   "note": "Upper-lobe arteries and veins are equal to or wider than the lower-lobe ones: blood diverted to the upper zones as pulmonary venous pressure rises.",
+   "material": "Abnormal vessel",
+   "regions": [
+    "thorax"
+   ],
+   "v_start": 509596,
+   "v_count": 10656,
+   "i_start": 3036942,
+   "i_count": 62208,
+   "bbox": [
+    [
+     -0.11216365545988083,
+     1.2815495729446411,
+     -0.10473888367414474
+    ],
+    [
+     0.00027751459856517613,
+     1.455335259437561,
+     0.10369475930929184
+    ]
+   ],
+   "centroid": [
+    -0.03871928155422211,
+    1.377455234527588,
+    -0.0018267735140398145
    ]
   }
  ]

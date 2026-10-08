@@ -283,6 +283,7 @@ class RadiologyPanel(QWidget):
     sceneRequested = Signal(object)             # the case, to set the 3D view up again
     closeRequested = Signal()
     browserRequested = Signal()
+    labelsToggled = Signal(bool)                # the scan's Labels box also names the anatomy in the 3D view
     detailsRequested = Signal()
     caseStepped = Signal(int)
 
@@ -663,6 +664,7 @@ class RadiologyPanel(QWidget):
         self.view._rects = []
         self.view.set_hot(-1)
         self.view.update()
+        self.labelsToggled.emit(bool(on))
 
     def _hover(self, index):
         if 0 <= index < self.legend.count():

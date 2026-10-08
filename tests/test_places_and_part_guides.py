@@ -88,6 +88,16 @@ class PartGuideTests(unittest.TestCase):
         self.assertEqual(g.description(part("Other", "Plain")), "Group text.")
         self.assertEqual(g.description(part("Other", "Missing")), "")
 
+    def test_display_names_by_part_key(self):
+        g = self.guide({"names": {"cardiomyocyte__003": "Cardiomyocyte 3", "bad": " ", "long": "x" * 81, "n": 4}})
+        self.assertEqual(g.names, {"cardiomyocyte__003": "Cardiomyocyte 3"})
+
+    def test_shipped_names_are_readable(self):
+        for path in sorted(part_guide.GUIDE_DIR.glob("*.json")):
+            for key, name in json.loads(path.read_text(encoding="utf-8")).get("names", {}).items():
+                with self.subTest(path.name, key=key):
+                    self.assertNotRegex(name, r"__|cover|restoration|continuity|representative|teaching", name)
+
     def test_kidney_no_longer_carries_the_adrenal_gland(self):
         g = part_guide.load_part_guide("kidney_nephron")
         self.assertIn("Gross / adrenal capsule", g.excluded_groups)

@@ -13,6 +13,7 @@ from ..updater import GitHubSource, UpdateError, installed_metadata, manifest_ch
 class UpdateController(QObject):
     completed = Signal(object)
     message = Signal(str)
+    replaced = Signal(object)
 
     def __init__(self, window):
         super().__init__(window)
@@ -30,10 +31,17 @@ class UpdateController(QObject):
         window.destroyed.connect(self.closed.set)
         self.completed.connect(self.finish)
         self.message.connect(self.show_message)
+        self.replaced.connect(self.finish_replace)
+        self.replacing = False
+        self.replace_notice = None
         self.automatic_timer = QTimer(self)
         self.automatic_timer.setSingleShot(True)
         self.automatic_timer.timeout.connect(self.automatic)
         self.automatic_timer.start(3000)
+        self.replace_timer = QTimer(self)      # a child timer dies with the controller
+        self.replace_timer.setSingleShot(True)
+        self.replace_timer.timeout.connect(self.offer_replace)
+        self.replace_timer.start(8000)
 
     def eventFilter(self, watched, event):
         # Cocoa can deliver a final event while the Python wrapper's fields
@@ -45,9 +53,9 @@ class UpdateController(QObject):
             return False
         if watched is window and event.type() == QEvent.Close:
             closed.set()
-            timer = getattr(self, "automatic_timer", None)
-            if timer is not None and isValid(timer):
-                timer.stop()
+            for timer in (getattr(self, "automatic_timer", None), getattr(self, "replace_timer", None)):
+                if timer is not None and isValid(timer):
+                    timer.stop()
             if isValid(watched) and isValid(self):
                 watched.removeEventFilter(self)
             self.dialog = None
@@ -256,6 +264,83 @@ class UpdateController(QObject):
                                 "Open Anatomy Explorer normally to finish applying the update. "
                                 "Your study data is retained.\n\n" + str(exc))
 
+    def offer_replace(self):
+        """Mac: offer once per version to copy the running update over the app in Applications, whose Finder
+        version and icon otherwise stay those of the release first installed."""
+        if self.closed.is_set() or self.replacing or not isValid(self.window):
+            return
+        settings = self.window.qsettings
+        if not settings.value("updates/offer_replace", True, type=bool):
+            return
+        try:
+            version = store_for().replaceable_base()
+        except (OSError, ValueError, UpdateError):
+            return
+        if version is None or settings.value("updates/replace_declined", "", type=str) == version:
+            return
+        notice = QMessageBox(self.window)
+        notice.setWindowTitle("Update the app in Applications?")
+        notice.setText(f"You are running version {version}, but the app in your Applications folder is still "
+                       "the version you first installed, so Finder shows its old version and icon.")
+        notice.setInformativeText("Replace it with this version? Your notes and progress are kept, and you can "
+                                  "keep studying while it copies.")
+        replace = notice.addButton("Replace", QMessageBox.AcceptRole)
+        later = notice.addButton("Not now", QMessageBox.RejectRole)
+        never = notice.addButton("Don't ask again", QMessageBox.DestructiveRole)
+        notice.setDefaultButton(replace)
+        notice.setEscapeButton(later)
+        notice.setWindowModality(Qt.NonModal)
+        notice.setAttribute(Qt.WA_DeleteOnClose)
+        self.replace_notice = notice
+
+        def chosen(button):
+            if button is replace:
+                self.replace_base()
+            elif button is never:
+                settings.setValue("updates/offer_replace", False)
+            else:
+                settings.setValue("updates/replace_declined", version)
+
+        def finished(unused):
+            if self.replace_notice is notice:
+                self.replace_notice = None
+
+        notice.buttonClicked.connect(chosen)
+        notice.finished.connect(finished)
+        notice.show()
+
+    def replace_base(self):
+        if self.closed.is_set() or self.replacing:
+            return
+        self.replacing = True
+        self.window.statusBar().showMessage("Replacing the app in Applications… You can keep studying.")
+        if self.dialog and isValid(self.dialog) and hasattr(self.dialog, "replace_button"):
+            self.dialog.replace_button.setEnabled(False)
+
+        def work():
+            try:
+                result = {"version": store_for().replace_base(lambda text: self.deliver(self.message, text))}
+            except Exception as exc:
+                result = {"error": str(exc)}
+            self.deliver(self.replaced, result)
+
+        threading.Thread(target=work, name="AnatomyExplorer-replace", daemon=True).start()
+
+    def finish_replace(self, result):
+        self.replacing = False
+        if self.closed.is_set() or not isValid(self.window):
+            return
+        if "error" in result:
+            text = ("Could not replace the app in Applications: " + result["error"] +
+                    "\nThe app you are running and your study data are unchanged.")
+        else:
+            text = (f"The app in Applications is now version {result['version']}. "
+                    "It opens as this version from now on.")
+        self.window.statusBar().showMessage(text.splitlines()[0], 20000)
+        self.show_message(text)
+        if self.dialog and isValid(self.dialog) and hasattr(self.dialog, "replace_button"):
+            self.dialog.replace_button.setEnabled("error" in result)
+
     def open_dialog(self):
         if self.closed.is_set():
             return
@@ -343,6 +428,16 @@ class UpdateController(QObject):
 
         revert.clicked.connect(rollback)
         lay.addWidget(revert)
+        try:
+            replaceable = store.replaceable_base()
+        except (OSError, ValueError, UpdateError):
+            replaceable = None
+        if replaceable is not None:
+            dlg.replace_button = QPushButton(f"Replace the app in Applications with version {replaceable}")
+            dlg.replace_button.setToolTip("Finder then shows the current version and icon. Your study data is kept.")
+            dlg.replace_button.setEnabled(not self.replacing)
+            dlg.replace_button.clicked.connect(self.replace_base)
+            lay.addWidget(dlg.replace_button)
         buttons = QDialogButtonBox(QDialogButtonBox.Close)
         buttons.rejected.connect(dlg.reject)
         lay.addWidget(buttons)

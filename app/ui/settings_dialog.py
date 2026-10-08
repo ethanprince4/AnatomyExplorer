@@ -252,7 +252,7 @@ class SettingsDialog(QDialog):
         self._header(f, "RENDERING")
         self._slider(page, f, "render_scale", "Render resolution", 0.5, 2.0, 0.05,
                      tip="Above 1.0 supersamples for sharper edges; below 1.0 is faster.")
-        self._check(page, f, "fxaa", "Anti-aliasing (FXAA)")
+        self._check(page, f, "fxaa", "Anti-aliasing")
         self._check(page, f, "ssao", "Ambient occlusion")
         self._slider(page, f, "ssao_strength", "Ambient occlusion strength", 0.0, 1.5, 0.05)
         self._slider(page, f, "ghost_alpha", "X-ray opacity", 0.02, 0.5, 0.01)

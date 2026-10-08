@@ -77,6 +77,10 @@ def _validated_settings(saved):
     return valid
 
 
+# Systems a scan section always includes: everything with tissue, not lines, attachment patches or skin regions.
+SECTION_SYSTEMS = {"skeletal", "joints", "muscular", "cardiovascular", "lymphatic", "nervous", "visceral"}
+
+
 class MainWindow(QMainWindow):
     def __init__(self, ds, script=None, restore=True):
         super().__init__()
@@ -344,6 +348,7 @@ class MainWindow(QMainWindow):
         if self.radiology_panel is not None:
             self.radiology_panel.structuresPicked.connect(self.on_radiology_pick)
             self.radiology_panel.sceneRequested.connect(self.apply_radiology_scene)
+            self.radiology_panel.labelsToggled.connect(self._show_radiology_labels)
             self.radiology_panel.closeRequested.connect(self.close_radiology)
             self.radiology_panel.caseStepped.connect(self.step_radiology)
             self.radiology_panel.browserRequested.connect(
@@ -389,7 +394,7 @@ class MainWindow(QMainWindow):
         self._update_workspace_header()
         QTimer.singleShot(0, self._adapt_workspace)
         if not script:
-            QTimer.singleShot(0, self._studio_explore)
+            QTimer.singleShot(0, self._startup_explore)
         if self._startup_notices:
             if self.content.model_catalog_error:
                 self.notice.show_message(" · ".join(self._startup_notices), "Browse models", self._show_catalog)
@@ -725,6 +730,13 @@ class MainWindow(QMainWindow):
     def _studio_search(self, text):
         self._focus_search()
         self.search.edit.setText(text)
+
+    def _startup_explore(self):
+        """The opening Explore view, unless a page was already opened before the event loop started."""
+        if self._closing:
+            return
+        if self.center.currentIndex() == 0:
+            self._studio_explore()
 
     def _studio_explore(self):
         if self._closing:
@@ -2245,6 +2257,9 @@ class MainWindow(QMainWindow):
         # Case entry always replaces the former cut. An authored new cut still
         # applies below; reset_clips=False cannot inherit a previous case's cut.
         scene["reset_clips"] = True
+        if scene.get("slice_only") is True and scene.get("clip"):
+            # A scan section shows everything the plane passes through, not a hand-picked few systems.
+            scene["systems"] = sorted(set(scene.get("systems", [])) | SECTION_SYSTEMS)
         side = (scene.get("side") or "").lower()
         if side:
             for key in ("show", "focus", "ghost_focus", "frame_on"):
@@ -2264,6 +2279,10 @@ class MainWindow(QMainWindow):
                 for label in case.labels:
                     required.update(resolve_reference(self.ds, self.lesson_resolver,
                                                        label.structures, label.side or side))
+                # The soft tissue between the organs, so the cut reads as a body rather than empty space.
+                regions = set(scene.get("regions") or [r["key"] for r in self.ds.regions])
+                required.update(sid for sid, st_ in enumerate(self.ds.structures)
+                                if st_["subsystem"] == "Section fill" and regions & set(st_["regions"]))
                 if required:
                     st.set_hidden(sorted(required), False, undo=False)
                     st.force_show(sorted(required))
@@ -2290,20 +2309,42 @@ class MainWindow(QMainWindow):
                                     and viewport.radiology_slice):
                                 viewport.frame_section(view=scene.get("view"))
                         QTimer.singleShot(0, self, settled_section_frame)
-            authored_labels = scene.get("reference_labels")
-            groups = None
-            if authored_labels is not None:
-                from .radiology_reference import resolve_reference
-                groups = [(entry["text"], resolve_reference(
-                    self.ds, self.lesson_resolver, entry.get("structures", []),
-                    entry.get("side") or side), bool(entry.get("surface_anchor"))) for entry in authored_labels]
-            vp.set_radiology_section_labels(groups)
+            self._radiology_groups = self._radiology_label_groups(case, scene, side)
+            self._show_radiology_labels(self.radiology_panel.labels_on.isChecked())
             if model_id and scene.get("micro_focus"):
                 self._open_radiology_model(model_id, case, scene, frame_token)
         finally:
             # Existing apply_scene/state helpers create several snapshots; one
             # case entry is one visibility undo action with its pre-entry state.
             st._undo[:] = (previous_undo + [before])[-100:]
+
+    def _radiology_label_groups(self, case, scene, side):
+        """The 3D names for a case: its authored reference labels, else its image labels, numbered as on the scan.
+        None when the case has none, which keeps the atlas's own section labels."""
+        from .radiology_reference import resolve_reference
+        if scene.get("micro_focus"):
+            return None                                 # the case's model reference names its own parts
+        authored = scene.get("reference_labels")
+        if authored is not None:
+            return [(entry["text"], resolve_reference(self.ds, self.lesson_resolver, entry.get("structures", []),
+                                                      entry.get("side") or side), bool(entry.get("surface_anchor")))
+                    for entry in authored]
+        groups = []
+        for number, label in enumerate(case.labels, 1):
+            ids = resolve_reference(self.ds, self.lesson_resolver, label.structures, label.side or side)
+            if ids:
+                groups.append((f"{number}  {label.text}", ids, False))
+        return groups or None
+
+    def _show_radiology_labels(self, on):
+        """The scan's Labels box names the same anatomy in the 3D reference, atlas or model."""
+        groups = getattr(self, "_radiology_groups", None)
+        self.viewport.set_radiology_section_labels(groups if on or groups is None else [])
+        view = getattr(self, "_radiology_model_view", None)
+        if view is not None and getattr(view, "_radiology_labels", None) is not None:
+            view.gl_widget.reference_labels = view._radiology_labels if on else {}
+            view.gl_widget.invalidate_labels()
+            view.gl_widget.update()
 
     def _cancel_reference_loads(self):
         for key in self._reference_loads:
@@ -2349,6 +2390,17 @@ class MainWindow(QMainWindow):
                         bar.hide()
                     view.section_bar.hide()
                     mg.frame_structures(focus, duration=0.0, view=scene.get("model_view", "anterior"))
+                # The case's image labels, numbered as on the scan, name the same parts of the model.
+                visible = ms.visible_mask()
+                names = {}
+                for number, label in enumerate(case.labels, 1):
+                    ids, _ = view.part_ids(label.structures)
+                    shown = [i for i in ids if visible[i] and i not in names]
+                    if shown:
+                        names[max(shown, key=lambda i: len(view.vmodel.items[i].parts))] = f"{number}  {label.text}"
+                view._radiology_labels = names
+                mg.reference_labels = names if self.radiology_panel.labels_on.isChecked() else {}
+                mg.invalidate_labels()
                 view._radiology_ready = True
                 self._center_changed(self.center.currentIndex())
             QTimer.singleShot(0, view, configure)

@@ -340,6 +340,56 @@ class ChannelUiTests(unittest.TestCase):
                 controller.check()
                 self.assertEqual(len(targets), 1)
 
+    def test_replace_offer_is_per_version_and_can_be_declined_or_disabled(self):
+        from unittest.mock import Mock
+        from PySide6.QtCore import QSettings
+        from PySide6.QtWidgets import QMainWindow
+        from app.ui.updates import UpdateController
+        with tempfile.TemporaryDirectory() as d:
+            root = fixture_root(d)
+            store = Mock()
+            window = QMainWindow()
+            window.qsettings = QSettings(str(root / "qt.ini"), QSettings.IniFormat)
+            controller = UpdateController(window)
+
+            def press(label):
+                notice = controller.replace_notice
+                self.assertIsNotNone(notice)
+                next(button for button in notice.buttons() if button.text() == label).click()
+                self.app.processEvents()
+
+            try:
+                with patch("app.ui.updates.store_for", return_value=store):
+                    store.replaceable_base.return_value = None
+                    controller.offer_replace()
+                    self.app.processEvents()
+                    self.assertIsNone(controller.replace_notice, "no replaceable base means no notice")
+
+                    store.replaceable_base.return_value = "3.1.1"
+                    controller.offer_replace()
+                    notice = controller.replace_notice
+                    self.assertIsNotNone(notice)
+                    self.assertIn("3.1.1", notice.text())
+                    press("Not now")
+                    self.assertEqual(window.qsettings.value("updates/replace_declined", type=str), "3.1.1")
+                    self.assertIsNone(controller.replace_notice)
+                    controller.offer_replace()
+                    self.app.processEvents()
+                    self.assertIsNone(controller.replace_notice, "the declined version is not offered again")
+
+                    store.replaceable_base.return_value = "3.1.2"
+                    controller.offer_replace()
+                    self.assertIn("3.1.2", controller.replace_notice.text())
+                    press("Don't ask again")
+                    self.assertIsNone(controller.replace_notice)
+                    self.assertFalse(window.qsettings.value("updates/offer_replace", True, type=bool))
+                    store.replaceable_base.return_value = "3.1.3"  # never declined, so only the flag can suppress it
+                    controller.offer_replace()
+                    self.app.processEvents()
+                    self.assertIsNone(controller.replace_notice, "Don't ask again suppresses later offers")
+            finally:
+                window.close()
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,683 +1,837 @@
 [
-  {
-    "id": "ct_abdo_upper",
-    "title": "CT thorax — axial through the heart",
-    "modality": "CT",
-    "region": "Thorax",
-    "summary": "The chest radiograph's silhouettes, pulled apart into one slice.",
-    "crop": [
-      0.0,
-      0.0,
-      0.645,
-      1.0
-    ],
-    "text": "<p>A contrast-enhanced CT slice through the lower chest, just above the diaphragm. Everything the radiograph could only show as an overlapping outline is now separate: the heart sits in the middle, lung is black on both sides, and the descending aorta and oesophagus lie in front of the vertebral body.</p><p>Compare the techniques: on a PA chest film the left heart border is one continuous line, and here you can see it is the left ventricle with lung packed against it. Lose the air in that lung and the line goes – which is the whole basis of the silhouette sign.</p><p>Patient's <b>right</b> on your left, anterior at the top. The 3D atlas illustrates related transverse anatomy. It is not registered to this patient's image, so its cut level and the structures intersected may differ.</p>",
-    "reading": [
-      "Orientation first: patient's right on your left, anterior up.",
-      "Then compartments, not eye-catching abnormalities: lungs, pleura, mediastinum (heart, great vessels, oesophagus), body wall, bones.",
-      "Aerated lung is dark on a soft-tissue window. Review vessels, bronchi and other lung markings on lung windows rather than treating everything apart from vessels as abnormal.",
-      "Follow the descending aorta through consecutive slices: its calibre, its wall and whether there is any fluid or blood beside it.",
-      "Finally the bones on a bone window, and the body wall – rib fractures and surgical emphysema hide in plain sight on a soft-tissue window."
-    ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "regions": [
-        "thorax"
-      ],
-      "clip": [
-        2,
-        0.732
-      ],
-      "view": "inferior"
-    },
-    "labels": [
-      {
-        "x": 0.434,
-        "y": 0.255,
-        "text": "Heart",
-        "structure": "Heart",
-        "note": "between the lungs in the mediastinum, chambers bright with contrast"
-      },
-      {
-        "x": 0.535,
-        "y": 0.235,
-        "text": "Anterior mediastinal fat",
-        "note": "about −80 HU – fat is the darkest thing in the mediastinum"
-      },
-      {
-        "x": 0.535,
-        "y": 0.425,
-        "text": "Oesophagus",
-        "structure": "Oesophagus",
-        "note": "a small ring, often with a little air in it"
-      },
-      {
-        "x": 0.535,
-        "y": 0.505,
-        "text": "Descending thoracic aorta",
-        "structure": "Thoracic aorta",
-        "note": "to the left of, and just in front of, the vertebral body"
-      },
-      {
-        "x": 0.504,
-        "y": 0.6,
-        "text": "Vertebral body",
-        "structure": "Vertebra T8"
-      },
-      {
-        "x": 0.504,
-        "y": 0.685,
-        "text": "Spinal canal",
-        "structure": "Spinal cord"
-      },
-      {
-        "x": 0.202,
-        "y": 0.55,
-        "text": "Right lung",
-        "structure": "Right lung",
-        "note": "black on a soft-tissue window – air is about −1000 HU"
-      },
-      {
-        "x": 0.775,
-        "y": 0.55,
-        "text": "Left lung",
-        "structure": "Left lung"
-      },
-      {
-        "x": 0.682,
-        "y": 0.6,
-        "text": "Pulmonary vessels",
-        "structure": "Left pulmonary artery",
-        "note": "branching vessels within the lung; bronchi and other normal lung structures also need assessment"
-      },
-      {
-        "x": 0.116,
-        "y": 0.32,
-        "text": "Rib",
-        "structure": "Sixth rib",
-        "note": "cortex bright, marrow dark"
-      },
-      {
-        "x": 0.426,
-        "y": 0.75,
-        "text": "Erector spinae",
-        "structure": "Erector spinae"
-      },
-      {
-        "x": 0.888,
-        "y": 0.488,
-        "text": "Subcutaneous fat",
-        "note": "darker than muscle, brighter than lung"
-      }
-    ],
-    "questions": [
-      {
-        "prompt": "Which labelled vessel descends beside the vertebral bodies behind the heart?",
-        "answer": "Descending thoracic aorta.",
-        "explanation": "It continues from the aortic arch and passes through the diaphragm into the abdomen.",
-        "structures": [
-          "Thoracic aorta"
-        ]
-      },
-      {
-        "prompt": "Why can CT separate structures that overlap on a chest radiograph?",
-        "answer": "It provides cross-sectional images.",
-        "explanation": "A radiograph projects depth into one image; CT shows the internal anatomy in slices.",
-        "structures": [
-          "Heart",
-          "Right lung",
-          "Left lung"
-        ]
-      }
-    ],
-    "references": [
-      {
-        "title": "Original image provenance: File:CT of a normal abdomen and pelvis, axial plane 26.png",
-        "url": "https://commons.wikimedia.org/wiki/File:CT_of_a_normal_abdomen_and_pelvis,_axial_plane_26.png"
-      },
-      {
-        "title": "OpenStax Anatomy and Physiology 2e: 20.5 Circulatory Pathways",
-        "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/20-5-circulatory-pathways"
-      },
-      {
-        "title": "ACR/RSNA RadiologyInfo: Abdominal and Pelvic CT",
-        "url": "https://www.radiologyinfo.org/en/info/abdominct"
-      },
-      {
-        "title": "OpenStax Anatomy and Physiology 2e: 22.1 Organs and Structures of the Respiratory System",
-        "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/22-1-organs-and-structures-of-the-respiratory-system"
-      },
-      {
-        "title": "Radiology Masterclass: Chest X-ray Anatomy - Trachea and major bronchi",
-        "url": "https://www.radiologymasterclass.co.uk/tutorials/chest/chest_home_anatomy/chest_anatomy_page1"
-      },
-      {
-        "title": "The Radiology Assistant: Mediastinum - Masses - differential diagnosis",
-        "url": "https://radiologyassistant.nl/chest/mediastinum/masses-differential-diagnosis"
-      }
-    ],
-    "finding": "Normal anatomy",
-    "plane": "Axial"
+ {
+  "id": "ct_abdo_upper",
+  "title": "CT thorax — axial through the heart",
+  "modality": "CT",
+  "region": "Thorax",
+  "summary": "The chest radiograph's silhouettes, pulled apart into one slice.",
+  "crop": [
+   0.0,
+   0.0,
+   0.645,
+   1.0
+  ],
+  "text": "<p>A contrast-enhanced CT slice through the lower chest, just above the diaphragm. Everything the radiograph could only show as an overlapping outline is now separate: the heart sits in the middle, lung is black on both sides, and the descending aorta and oesophagus lie in front of the vertebral body.</p><p>Compare the techniques: on a PA chest film the left heart border is one continuous line, and here you can see it is the left ventricle with lung packed against it. Lose the air in that lung and the line goes – which is the whole basis of the silhouette sign.</p><p>Patient's <b>right</b> on your left, anterior at the top. The 3D atlas illustrates related transverse anatomy. It is not registered to this patient's image, so its cut level and the structures intersected may differ.</p>",
+  "reading": [
+   "Orientation first: patient's right on your left, anterior up.",
+   "Then compartments, not eye-catching abnormalities: lungs, pleura, mediastinum (heart, great vessels, oesophagus), body wall, bones.",
+   "Aerated lung is dark on a soft-tissue window. Review vessels, bronchi and other lung markings on lung windows rather than treating everything apart from vessels as abnormal.",
+   "Follow the descending aorta through consecutive slices: its calibre, its wall and whether there is any fluid or blood beside it.",
+   "Finally the bones on a bone window, and the body wall – rib fractures and surgical emphysema hide in plain sight on a soft-tissue window."
+  ],
+  "scene": {
+   "systems": [
+    "skeletal",
+    "joints",
+    "muscular",
+    "cardiovascular",
+    "lymphatic",
+    "nervous",
+    "visceral",
+    "fascia",
+    "regions"
+   ],
+   "regions": [
+    "thorax",
+    "back"
+   ],
+   "clip": [
+    2,
+    0.732
+   ],
+   "view": "inferior"
   },
-  {
-    "id": "ct_brain",
-    "title": "CT head — axial, non-contrast",
-    "modality": "CT",
-    "region": "Head and neck",
-    "summary": "The first scan in a head injury, and the four densities you are looking for.",
-    "crop": [
-      0.0,
-      0.0,
-      0.53,
-      1.0
+  "labels": [
+   {
+    "x": 0.434,
+    "y": 0.255,
+    "text": "Heart",
+    "structures": [
+     "Left ventricle",
+     "Right ventricle",
+     "Left atrium",
+     "Right atrium"
     ],
-    "text": "<p>A plain CT head: no contrast, because the question is blood, and fresh blood is already bright (50–80 HU) against grey matter (about 40) and white matter (about 30).</p><p>The slice is angled, so it passes through the <b>frontal sinuses</b> at the front and the <b>atria of the lateral ventricles</b> at the back – you can see the little calcified lumps of choroid plexus in them, a normal finding after about the age of twenty.</p><p>Bone is white and swamps the window, so the same slice is always reviewed twice: once on brain settings and once on bone settings.</p>",
-    "reading": [
-      "Blood: look at the places it collects – extradural (lens-shaped, does not cross sutures), subdural (crescent, crosses sutures), subarachnoid (in the sulci and cisterns), intraparenchymal, intraventricular.",
-      "Then symmetry: the midline structures central, the ventricles equal, the sulci the same on both sides.",
-      "Then the cisterns – especially the basal cisterns; effaced cisterns mean raised intracranial pressure.",
-      "Grey–white differentiation: loss of it is an early infarct.",
-      "Finally the bones and the sinuses on a bone window – a skull fracture, or blood in a sinus as the only clue to a base-of-skull injury."
+    "note": "between the lungs in the mediastinum, chambers bright with contrast"
+   },
+   {
+    "x": 0.535,
+    "y": 0.425,
+    "text": "Oesophagus",
+    "structures": [
+     "Oesophagus"
     ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "nervous",
-        "cardiovascular",
-        "joints"
-      ],
-      "regions": [
-        "head"
-      ],
-      "clip": [
-        2,
-        0.93
-      ],
-      "view": "inferior"
-    },
-    "labels": [
-      {
-        "x": 0.519,
-        "y": 0.105,
-        "text": "Frontal bone",
-        "structure": "Frontal bone"
-      },
-      {
-        "x": 0.594,
-        "y": 0.165,
-        "text": "Frontal sinus",
-        "structure": "Sinus of frontal bone",
-        "note": "air; blood in it after trauma means a fracture"
-      },
-      {
-        "x": 0.406,
-        "y": 0.32,
-        "text": "Frontal lobe",
-        "structure": "Frontal lobe"
-      },
-      {
-        "x": 0.726,
-        "y": 0.285,
-        "text": "Sphenoid ridge",
-        "structure": "Sphenoid bone",
-        "note": "the lesser wing, dividing the anterior and middle cranial fossae"
-      },
-      {
-        "x": 0.708,
-        "y": 0.4,
-        "text": "Insula",
-        "structure": "Insula",
-        "note": "the insular ribbon – it disappears early in an MCA infarct"
-      },
-      {
-        "x": 0.274,
-        "y": 0.5,
-        "text": "Temporal lobe",
-        "structure": "Temporal lobe"
-      },
-      {
-        "x": 0.396,
-        "y": 0.56,
-        "text": "White matter",
-        "structure": "White matter of telencephalon",
-        "note": "slightly darker than cortex – about 30 HU against 40"
-      },
-      {
-        "x": 0.513,
-        "y": 0.478,
-        "text": "Anterior interhemispheric fissure",
-        "structure": "Falx cerebri",
-        "note": "the midline should be dead straight"
-      },
-      {
-        "x": 0.513,
-        "y": 0.625,
-        "text": "Third ventricle",
-        "structure": "Third ventricle",
-        "note": "a thin midline slit between the thalami"
-      },
-      {
-        "x": 0.349,
-        "y": 0.663,
-        "text": "Atrium of the lateral ventricle",
-        "structure": "Lateral ventricle"
-      },
-      {
-        "x": 0.594,
-        "y": 0.672,
-        "text": "Calcified choroid plexus",
-        "structure": "Choroid plexus",
-        "note": "normal after about twenty – not a bleed"
-      },
-      {
-        "x": 0.513,
-        "y": 0.755,
-        "text": "Posterior interhemispheric fissure",
-        "structure": "Falx cerebri",
-        "note": "should be a thin midline line; a dense one may be subarachnoid blood"
-      },
-      {
-        "x": 0.509,
-        "y": 0.83,
-        "text": "Occipital lobe",
-        "structure": "Occipital lobe"
-      },
-      {
-        "x": 0.198,
-        "y": 0.55,
-        "text": "Skull vault",
-        "structure": "Parietal bone",
-        "note": "a dense outer and inner table with marrow between"
-      }
+    "note": "a small ring, often with a little air in it"
+   },
+   {
+    "x": 0.535,
+    "y": 0.505,
+    "text": "Descending thoracic aorta",
+    "structures": [
+     "Thoracic aorta"
     ],
-    "questions": [
-      {
-        "prompt": "Which labelled CSF space lies in the midline between the thalami?",
-        "answer": "Third ventricle.",
-        "explanation": "The third ventricle occupies the space between the two sides of the diencephalon.",
-        "structures": [
-          "Third ventricle"
-        ]
-      },
-      {
-        "prompt": "What does the labelled choroid plexus normally produce?",
-        "answer": "Cerebrospinal fluid (CSF).",
-        "explanation": "Choroid plexus in the ventricles produces CSF, which circulates through the ventricular system.",
-        "structures": [
-          "Choroid plexus",
-          "Lateral ventricle"
-        ]
-      }
+    "note": "to the left of, and just in front of, the vertebral body"
+   },
+   {
+    "x": 0.504,
+    "y": 0.6,
+    "text": "Vertebral body",
+    "structures": [
+     "Vertebra T8"
+    ]
+   },
+   {
+    "x": 0.504,
+    "y": 0.685,
+    "text": "Spinal canal",
+    "structures": [
+     "Spinal dura",
+     "White matter of spinal cord"
+    ]
+   },
+   {
+    "x": 0.202,
+    "y": 0.55,
+    "text": "Right lung",
+    "structures": [
+     "Middle lobe of right lung",
+     "Inferior lobe of right lung"
     ],
-    "references": [
-      {
-        "title": "Original image provenance: File:CT of a normal brain, axial 21.png",
-        "url": "https://commons.wikimedia.org/wiki/File:CT_of_a_normal_brain,_axial_21.png"
-      },
-      {
-        "title": "OpenStax Anatomy and Physiology 2e: 13.3 Circulation and the Central Nervous System",
-        "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/13-3-circulation-and-the-central-nervous-system"
-      }
+    "side": "Right",
+    "note": "black on a soft-tissue window – air is about −1000 HU"
+   },
+   {
+    "x": 0.775,
+    "y": 0.55,
+    "text": "Left lung",
+    "structures": [
+     "Superior lobe of left lung",
+     "Inferior lobe of left lung"
     ],
-    "finding": "Normal anatomy",
-    "plane": "Axial"
+    "side": "Left"
+   },
+   {
+    "x": 0.682,
+    "y": 0.6,
+    "text": "Pulmonary vessels",
+    "structures": [
+     "Lateral basal segmental artery of left lung",
+     "Posterior basal segmental artery of left lung"
+    ],
+    "side": "Left",
+    "note": "branching vessels within the lung; bronchi and other normal lung structures also need assessment"
+   },
+   {
+    "x": 0.116,
+    "y": 0.32,
+    "text": "Rib",
+    "structures": [
+     "Sixth rib"
+    ],
+    "side": "Right",
+    "note": "cortex bright, marrow dark"
+   },
+   {
+    "x": 0.426,
+    "y": 0.78,
+    "text": "Erector spinae",
+    "structures": [
+     "Iliocostalis thoracis muscle",
+     "Longissimus thoracis muscle"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.535,
+    "y": 0.235,
+    "text": "Anterior mediastinal fat",
+    "structures": [],
+    "note": "about −80 HU – fat is the darkest thing in the mediastinum"
+   },
+   {
+    "x": 0.888,
+    "y": 0.488,
+    "text": "Subcutaneous fat",
+    "structures": [],
+    "note": "darker than muscle, brighter than lung"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which labelled vessel descends beside the vertebral bodies behind the heart?",
+    "answer": "Descending thoracic aorta.",
+    "explanation": "It continues from the aortic arch and passes through the diaphragm into the abdomen.",
+    "structures": [
+     "Thoracic aorta"
+    ]
+   },
+   {
+    "prompt": "Why can CT separate structures that overlap on a chest radiograph?",
+    "answer": "It provides cross-sectional images.",
+    "explanation": "A radiograph projects depth into one image; CT shows the internal anatomy in slices.",
+    "structures": [
+     "Heart",
+     "Right lung",
+     "Left lung"
+    ]
+   }
+  ],
+  "references": [
+   {
+    "title": "Original image provenance: File:CT of a normal abdomen and pelvis, axial plane 26.png",
+    "url": "https://commons.wikimedia.org/wiki/File:CT_of_a_normal_abdomen_and_pelvis,_axial_plane_26.png"
+   },
+   {
+    "title": "OpenStax Anatomy and Physiology 2e: 20.5 Circulatory Pathways",
+    "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/20-5-circulatory-pathways"
+   },
+   {
+    "title": "ACR/RSNA RadiologyInfo: Abdominal and Pelvic CT",
+    "url": "https://www.radiologyinfo.org/en/info/abdominct"
+   },
+   {
+    "title": "OpenStax Anatomy and Physiology 2e: 22.1 Organs and Structures of the Respiratory System",
+    "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/22-1-organs-and-structures-of-the-respiratory-system"
+   },
+   {
+    "title": "Radiology Masterclass: Chest X-ray Anatomy - Trachea and major bronchi",
+    "url": "https://www.radiologymasterclass.co.uk/tutorials/chest/chest_home_anatomy/chest_anatomy_page1"
+   },
+   {
+    "title": "The Radiology Assistant: Mediastinum - Masses - differential diagnosis",
+    "url": "https://radiologyassistant.nl/chest/mediastinum/masses-differential-diagnosis"
+   }
+  ],
+  "finding": "Normal anatomy",
+  "plane": "Axial"
+ },
+ {
+  "id": "ct_brain",
+  "title": "CT head — axial, non-contrast",
+  "modality": "CT",
+  "region": "Head and neck",
+  "summary": "The first scan in a head injury, and the four densities you are looking for.",
+  "crop": [
+   0.0,
+   0.0,
+   0.53,
+   1.0
+  ],
+  "text": "<p>A plain CT head: no contrast, because the question is blood, and fresh blood is already bright (50–80 HU) against grey matter (about 40) and white matter (about 30).</p><p>The slice is angled, so it passes through the <b>frontal sinuses</b> at the front and the <b>atria of the lateral ventricles</b> at the back – you can see the little calcified lumps of choroid plexus in them, a normal finding after about the age of twenty.</p><p>Bone is white and swamps the window, so the same slice is always reviewed twice: once on brain settings and once on bone settings.</p>",
+  "reading": [
+   "Blood: look at the places it collects – extradural (lens-shaped, does not cross sutures), subdural (crescent, crosses sutures), subarachnoid (in the sulci and cisterns), intraparenchymal, intraventricular.",
+   "Then symmetry: the midline structures central, the ventricles equal, the sulci the same on both sides.",
+   "Then the cisterns – especially the basal cisterns; effaced cisterns mean raised intracranial pressure.",
+   "Grey–white differentiation: loss of it is an early infarct.",
+   "Finally the bones and the sinuses on a bone window – a skull fracture, or blood in a sinus as the only clue to a base-of-skull injury."
+  ],
+  "scene": {
+   "regions": [
+    "head"
+   ],
+   "clip": [
+    2,
+    0.935
+   ],
+   "view": "inferior"
   },
-  {
-    "id": "mri_brain_t2",
-    "title": "MRI brain — axial T2",
-    "modality": "MRI",
-    "region": "Head and neck",
-    "summary": "Bright CSF outlines the ventricles and sulci on this conventional T2 image.",
-    "text": "<p>On this conventional <b>T2</b>-weighted image, <b>CSF is bright</b> in the ventricles and sulci. Tissue brightness depends on the sequence, so it is not a diagnosis by itself. Conventional T1-weighted images usually show darker CSF, but T2-FLAIR also suppresses CSF: check the sequence label and the wider contrast pattern. Flowing blood can appear dark on this type of sequence, but vascular signal depends on sequence and flow. Compare the other sequences when assessing a finding.</p><p>This slice cuts through the <b>basal ganglia and thalami</b>, the most useful axial level in the brain: you can see the frontal horns, the caudate heads, the lentiform nuclei, the internal capsules between them and the thalami behind.</p><p>Patient's right on your left, anterior at the top.</p>",
-    "reading": [
-      "Establish the sequence from its label and the pattern of tissue contrast. Dark CSF can occur on conventional T1 or T2-FLAIR, so CSF brightness alone is insufficient. Then compare any finding with normal brain and the other sequences.",
-      "Work through the deep grey matter in order: caudate, lentiform, internal capsule, thalamus – strokes and metabolic diseases pick these out with characteristic patterns.",
-      "The ventricles and cisterns: size, symmetry, and whether the quadrigeminal cistern still smiles.",
-      "The cortex and subcortical white matter, comparing left with right region by region.",
-      "Vascular signal depends on sequence and flow. A bright vessel or sinus alone does not establish absent flow or thrombosis; compare the appropriate sequences and clinical findings."
+  "labels": [
+   {
+    "x": 0.519,
+    "y": 0.105,
+    "text": "Frontal bone",
+    "structures": [
+     "Frontal bone"
     ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "nervous",
-        "cardiovascular",
-        "joints"
-      ],
-      "regions": [
-        "head"
-      ],
-      "clip": [
-        2,
-        0.934
-      ],
-      "view": "inferior"
-    },
-    "labels": [
-      {
-        "x": 0.36,
-        "y": 0.18,
-        "text": "Frontal lobe",
-        "structure": "Frontal lobe"
-      },
-      {
-        "x": 0.49,
-        "y": 0.295,
-        "text": "Genu of the corpus callosum",
-        "structure": "Corpus callosum",
-        "note": "the fibres that cross between the frontal lobes"
-      },
-      {
-        "x": 0.445,
-        "y": 0.375,
-        "text": "Anterior horn of the lateral ventricle",
-        "structure": "Lateral ventricle",
-        "note": "CSF – bright on T2"
-      },
-      {
-        "x": 0.412,
-        "y": 0.355,
-        "text": "Head of the caudate nucleus",
-        "structure": "Caudate nucleus",
-        "note": "bulges into the ventricle; it atrophies in Huntington's"
-      },
-      {
-        "x": 0.49,
-        "y": 0.405,
-        "text": "Septum pellucidum",
-        "structure": "Septum pellucidum"
-      },
-      {
-        "x": 0.395,
-        "y": 0.425,
-        "text": "Lentiform nucleus",
-        "structures": [
-          "Putamen",
-          "Globus pallidus"
-        ],
-        "note": "putamen outside, globus pallidus inside"
-      },
-      {
-        "x": 0.43,
-        "y": 0.455,
-        "text": "Internal capsule",
-        "structure": "Internal capsule",
-        "note": "the whole motor output of the hemisphere, in a few millimetres"
-      },
-      {
-        "x": 0.53,
-        "y": 0.49,
-        "text": "Thalamus",
-        "structure": "Thalamus",
-        "note": "the relay for everything on its way to the cortex"
-      },
-      {
-        "x": 0.49,
-        "y": 0.5,
-        "text": "Third ventricle",
-        "structure": "Third ventricle"
-      },
-      {
-        "x": 0.335,
-        "y": 0.44,
-        "text": "Insula",
-        "structure": "Insula"
-      },
-      {
-        "x": 0.275,
-        "y": 0.515,
-        "text": "Sylvian fissure",
-        "structure": "Insular branches of middle cerebral artery (M2)",
-        "note": "bright CSF with MCA branches running in it"
-      },
-      {
-        "x": 0.49,
-        "y": 0.575,
-        "text": "Quadrigeminal cistern",
-        "note": "the 'smile' behind the midbrain – effaced early in raised pressure"
-      },
-      {
-        "x": 0.615,
-        "y": 0.6,
-        "text": "Atrium of the lateral ventricle",
-        "structure": "Lateral ventricle"
-      },
-      {
-        "x": 0.49,
-        "y": 0.655,
-        "text": "Straight sinus",
-        "structure": "Straight sinus",
-        "note": "low signal on this image; vascular signal depends on the sequence and flow"
-      },
-      {
-        "x": 0.735,
-        "y": 0.5,
-        "text": "Temporal lobe",
-        "structure": "Temporal lobe"
-      },
-      {
-        "x": 0.42,
-        "y": 0.79,
-        "text": "Occipital lobe",
-        "structure": "Occipital lobe"
-      },
-      {
-        "x": 0.487,
-        "y": 0.895,
-        "text": "Superior sagittal sinus",
-        "structure": "Superior sagittal sinus"
-      },
-      {
-        "x": 0.115,
-        "y": 0.48,
-        "text": "Skull and scalp",
-        "structure": "Parietal bone"
-      }
+    "note": "the orbital plates form the floor of the anterior fossa at the sides of this slice; the lesser wing of the sphenoid, dividing the anterior and middle fossae, lies just below it"
+   },
+   {
+    "x": 0.594,
+    "y": 0.165,
+    "text": "Frontal sinus",
+    "structures": [
+     "Sinus of frontal bone"
     ],
-    "questions": [
-      {
-        "prompt": "Does dark ventricular CSF by itself identify a T1-weighted image?",
-        "answer": "No; T2-FLAIR also suppresses CSF.",
-        "explanation": "Check the sequence label and the overall tissue contrast.",
-        "structures": [
-          "Lateral ventricle",
-          "Third ventricle"
-        ]
-      },
-      {
-        "prompt": "Does a bright dural sinus by itself prove that blood flow has stopped?",
-        "answer": "No.",
-        "explanation": "Sequence and flow effects can alter vascular signal; evaluate the appropriate sequences together.",
-        "structures": [
-          "Straight sinus",
-          "Superior sagittal sinus"
-        ]
-      }
+    "note": "air; blood in it after trauma means a fracture"
+   },
+   {
+    "x": 0.406,
+    "y": 0.32,
+    "text": "Frontal lobe",
+    "structures": [
+     "Orbital gyri"
     ],
-    "references": [
-      {
-        "title": "Original image provenance: File:Brain-T2-axial.png",
-        "url": "https://commons.wikimedia.org/wiki/File:Brain-T2-axial.png"
-      },
-      {
-        "title": "MRI Questions (A. D. Elster): What is meant by a T1- or T2-weighted image?",
-        "url": "https://mriquestions.com/meaning-of-weighting.html"
-      },
-      {
-        "title": "IMAIOS e-MRI: MRA and flow MRI",
-        "url": "https://www.imaios.com/en/e-mri/mra-and-flow-mri"
-      },
-      {
-        "title": "ACR/RSNA RadiologyInfo: Brain MRI",
-        "url": "https://www.radiologyinfo.org/en/info/mri-brain"
-      }
+    "side": "Right"
+   },
+   {
+    "x": 0.708,
+    "y": 0.4,
+    "text": "Insula",
+    "structures": [
+     "Insula (Subcentral gyrus and ant. and post. sulci*)"
     ],
-    "finding": "Normal anatomy",
-    "plane": "Axial"
+    "side": "Left",
+    "note": "the insular ribbon – it disappears early in an MCA infarct"
+   },
+   {
+    "x": 0.274,
+    "y": 0.5,
+    "text": "Temporal lobe",
+    "structures": [
+     "Superior temporal gyrus (Lateral part)",
+     "Middle temporal gyrus"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.396,
+    "y": 0.56,
+    "text": "White matter",
+    "structures": [
+     "White matter of telencephalon"
+    ],
+    "side": "Right",
+    "note": "slightly darker than cortex – about 30 HU against 40"
+   },
+   {
+    "x": 0.513,
+    "y": 0.478,
+    "text": "Anterior interhemispheric fissure",
+    "structures": [
+     "Falx cerebri"
+    ],
+    "note": "the midline should be dead straight; the posterior interhemispheric fissure at the back of the slice should be a thin line, and a dense one may be subarachnoid blood"
+   },
+   {
+    "x": 0.513,
+    "y": 0.625,
+    "text": "Third ventricle",
+    "structures": [
+     "Third ventricle"
+    ],
+    "note": "a thin midline slit between the thalami"
+   },
+   {
+    "x": 0.349,
+    "y": 0.663,
+    "text": "Atrium of the lateral ventricle",
+    "structures": [
+     "Lateral ventricle"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.64,
+    "y": 0.69,
+    "text": "Calcified choroid plexus",
+    "structures": [
+     "Choroid plexus"
+    ],
+    "side": "Left",
+    "note": "normal after about twenty – not a bleed"
+   },
+   {
+    "x": 0.509,
+    "y": 0.83,
+    "text": "Occipital lobe",
+    "structures": [
+     "Cuneus",
+     "Calcarine sulcus"
+    ]
+   },
+   {
+    "x": 0.137,
+    "y": 0.55,
+    "text": "Skull vault",
+    "structures": [
+     "Parietal bone"
+    ],
+    "side": "Right",
+    "note": "a dense outer and inner table with marrow between"
+   },
+   {
+    "x": 0.513,
+    "y": 0.755,
+    "text": "Posterior interhemispheric fissure",
+    "structures": [
+     "Falx cerebri"
+    ],
+    "note": "should be a thin midline line; a dense one may be subarachnoid blood"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which labelled CSF space lies in the midline between the thalami?",
+    "answer": "Third ventricle.",
+    "explanation": "The third ventricle occupies the space between the two sides of the diencephalon.",
+    "structures": [
+     "Third ventricle"
+    ]
+   },
+   {
+    "prompt": "What does the labelled choroid plexus normally produce?",
+    "answer": "Cerebrospinal fluid (CSF).",
+    "explanation": "Choroid plexus in the ventricles produces CSF, which circulates through the ventricular system.",
+    "structures": [
+     "Choroid plexus",
+     "Lateral ventricle"
+    ]
+   }
+  ],
+  "references": [
+   {
+    "title": "Original image provenance: File:CT of a normal brain, axial 21.png",
+    "url": "https://commons.wikimedia.org/wiki/File:CT_of_a_normal_brain,_axial_21.png"
+   },
+   {
+    "title": "OpenStax Anatomy and Physiology 2e: 13.3 Circulation and the Central Nervous System",
+    "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/13-3-circulation-and-the-central-nervous-system"
+   }
+  ],
+  "finding": "Normal anatomy",
+  "plane": "Axial"
+ },
+ {
+  "id": "mri_brain_t2",
+  "title": "MRI brain — axial T2",
+  "modality": "MRI",
+  "region": "Head and neck",
+  "summary": "Bright CSF outlines the ventricles and sulci on this conventional T2 image.",
+  "text": "<p>On this conventional <b>T2</b>-weighted image, <b>CSF is bright</b> in the ventricles and sulci. Tissue brightness depends on the sequence, so it is not a diagnosis by itself. Conventional T1-weighted images usually show darker CSF, but T2-FLAIR also suppresses CSF: check the sequence label and the wider contrast pattern. Flowing blood can appear dark on this type of sequence, but vascular signal depends on sequence and flow. Compare the other sequences when assessing a finding.</p><p>This slice cuts through the <b>basal ganglia and thalami</b>, the most useful axial level in the brain: you can see the frontal horns, the caudate heads, the lentiform nuclei, the internal capsules between them and the thalami behind.</p><p>Patient's right on your left, anterior at the top.</p>",
+  "reading": [
+   "Establish the sequence from its label and the pattern of tissue contrast. Dark CSF can occur on conventional T1 or T2-FLAIR, so CSF brightness alone is insufficient. Then compare any finding with normal brain and the other sequences.",
+   "Work through the deep grey matter in order: caudate, lentiform, internal capsule, thalamus – strokes and metabolic diseases pick these out with characteristic patterns.",
+   "The ventricles and cisterns: size, symmetry, and whether the quadrigeminal cistern still smiles.",
+   "The cortex and subcortical white matter, comparing left with right region by region.",
+   "Vascular signal depends on sequence and flow. A bright vessel or sinus alone does not establish absent flow or thrombosis; compare the appropriate sequences and clinical findings."
+  ],
+  "scene": {
+   "regions": [
+    "head"
+   ],
+   "clip": [
+    2,
+    0.934
+   ],
+   "view": "inferior"
   },
-  {
-    "id": "mri_knee",
-    "title": "MRI knee — sagittal",
-    "modality": "MRI",
-    "region": "Lower limb",
-    "summary": "Ligaments, cartilage, tendons and fat-pad relationships in greater detail.",
-    "text": "<p>A sagittal slice through the intercondylar region, anterior to the left. The two arrows on the original image mark the <b>cruciate ligaments</b> – the reason MRI replaced arthrography for the knee.</p><p>The <b>anterior cruciate</b> runs from the back of the lateral femoral condyle downwards and forwards to the front of the tibia; it stops the tibia sliding forwards, and it should be a straight dark band parallel to Blumensaat's line. The <b>posterior cruciate</b> is thicker and arcs backwards to the posterior tibia; it stops the tibia sliding backwards.</p><p>Compared with a plain lateral knee radiograph, MRI shows the ligaments, cartilage and surrounding soft-tissue relationships in greater detail, including the infrapatellar fat pad and popliteal vessels behind the joint.</p>",
-    "reading": [
-      "Find the sequence, then follow the ACL on sagittal images through the notch. A wavy, discontinuous or absent band, or fluid in its expected course, raises suspicion for injury; assess continuity and signal across the complete examination rather than diagnosing a tear from this single slice.",
-      "The PCL is normally a thick dark arc. PCL injuries often follow substantial force, including a direct blow, a fall onto a bent knee or a sports twisting injury; assess for associated damage.",
-      "Menisci on peripheral sagittal images normally have a dark bow-tie appearance. A bright line reaching an articular surface on one image can be equivocal; confirm the finding on other images and assess meniscal shape before diagnosing a tear.",
-      "Articular cartilage on both femoral condyles and the patella, then the subchondral bone for marrow oedema – the bone bruise that tells you where the impact was.",
-      "Finally the extensor mechanism, collateral ligaments on the coronals, and the popliteal fossa."
+  "labels": [
+   {
+    "x": 0.36,
+    "y": 0.18,
+    "text": "Frontal lobe",
+    "structures": [
+     "Superior frontal gyrus",
+     "Middle frontal gyrus"
     ],
-    "scene": {
-      "systems": [
-        "skeletal",
-        "joints",
-        "muscular",
-        "cardiovascular"
-      ],
-      "regions": [
-        "lower_limb_l"
-      ],
-      "side": "Left",
-      "clip": [
-        0,
-        0.614,
-        true
-      ],
-      "view": "left",
-      "frame_on": [
-        "Knee joint"
-      ]
-    },
-    "labels": [
-      {
-        "x": 0.185,
-        "y": 0.095,
-        "text": "Quadriceps tendon",
-        "structure": "Quadriceps femoris muscle"
-      },
-      {
-        "x": 0.165,
-        "y": 0.3,
-        "text": "Patella",
-        "structure": "Patella"
-      },
-      {
-        "x": 0.42,
-        "y": 0.15,
-        "text": "Femur",
-        "structure": "Femur",
-        "note": "bright marrow fat inside a dark cortex"
-      },
-      {
-        "x": 0.42,
-        "y": 0.42,
-        "text": "Femoral condyle",
-        "structure": "Femur"
-      },
-      {
-        "x": 0.572,
-        "y": 0.535,
-        "text": "Anterior cruciate ligament",
-        "structure": "Anterior cruciate ligament",
-        "note": "a straight dark band running up and back to the lateral condyle"
-      },
-      {
-        "x": 0.66,
-        "y": 0.605,
-        "text": "Posterior cruciate ligament",
-        "structure": "Posterior cruciate ligament",
-        "note": "thicker, and arcs backwards to the posterior tibia"
-      },
-      {
-        "x": 0.23,
-        "y": 0.525,
-        "text": "Infrapatellar fat pad",
-        "structure": "Infrapatellar fat pad",
-        "note": "bright: fat, not fluid"
-      },
-      {
-        "x": 0.235,
-        "y": 0.69,
-        "text": "Patellar ligament",
-        "structure": "Patellar ligament"
-      },
-      {
-        "x": 0.42,
-        "y": 0.625,
-        "text": "Tibial plateau",
-        "structure": "Tibia"
-      },
-      {
-        "x": 0.45,
-        "y": 0.755,
-        "text": "Tibia",
-        "structure": "Tibia"
-      },
-      {
-        "x": 0.775,
-        "y": 0.45,
-        "text": "Popliteal artery",
-        "structure": "Popliteal artery",
-        "note": "tethered in the fossa – at risk in a knee dislocation"
-      },
-      {
-        "x": 0.86,
-        "y": 0.75,
-        "text": "Medial head of gastrocnemius",
-        "structure": "Medial head of gastrocnemius"
-      }
+    "side": "Right"
+   },
+   {
+    "x": 0.49,
+    "y": 0.295,
+    "text": "Genu of the corpus callosum",
+    "structures": [
+     "Corpus callosum"
     ],
-    "questions": [
-      {
-        "prompt": "Which cruciate checks forward tibial translation, and which checks backward translation?",
-        "answer": "ACL forwards; PCL backwards.",
-        "explanation": "The two labelled cruciates stabilize front-to-back movement of the tibia relative to the femur.",
-        "structures": [
-          "Anterior cruciate ligament",
-          "Posterior cruciate ligament"
-        ]
-      },
-      {
-        "prompt": "What can MRI evaluate here that a plain knee radiograph shows poorly?",
-        "answer": "Ligaments, menisci, tendons and articular cartilage.",
-        "explanation": "MRI provides detailed joint soft-tissue images and complements conventional radiographs.",
-        "structures": [
-          "Anterior cruciate ligament",
-          "Posterior cruciate ligament",
-          "Patellar ligament"
-        ]
-      }
+    "note": "the fibres that cross between the frontal lobes"
+   },
+   {
+    "x": 0.445,
+    "y": 0.375,
+    "text": "Anterior horn of the lateral ventricle",
+    "structures": [
+     "Lateral ventricle"
     ],
-    "references": [
-      {
-        "title": "Original image provenance: File:MRT ACL PCL 01.jpg",
-        "url": "https://commons.wikimedia.org/wiki/File:MRT_ACL_PCL_01.jpg"
-      },
-      {
-        "title": "AAOS OrthoInfo: Anterior Cruciate Ligament (ACL) Injuries",
-        "url": "https://www.orthoinfo.org/diseases--conditions/anterior-cruciate-ligament-acl-injuries/"
-      },
-      {
-        "title": "AAOS OrthoInfo: Posterior Cruciate Ligament (PCL) Injuries",
-        "url": "https://www.orthoinfo.org/diseases--conditions/posterior-cruciate-ligament-injuries/"
-      },
-      {
-        "title": "ACR/RSNA RadiologyInfo: Knee MRI",
-        "url": "https://www.radiologyinfo.org/en/info/kneemr"
-      },
-      {
-        "title": "De Smet and Tuite (AJR, 2006): MRI diagnosis of meniscal tears using the two-slice-touch rule",
-        "url": "https://pubmed.ncbi.nlm.nih.gov/16985134/"
-      }
+    "side": "Right",
+    "note": "CSF – bright on T2"
+   },
+   {
+    "x": 0.412,
+    "y": 0.355,
+    "text": "Head of the caudate nucleus",
+    "structures": [
+     "Caudate nucleus"
     ],
-    "finding": "Normal cruciate ligaments",
-    "plane": "Sagittal"
-  }
+    "side": "Right",
+    "note": "bulges into the ventricle; it atrophies in Huntington's"
+   },
+   {
+    "x": 0.49,
+    "y": 0.405,
+    "text": "Septum pellucidum",
+    "structures": [
+     "Septum pellucidum"
+    ]
+   },
+   {
+    "x": 0.395,
+    "y": 0.425,
+    "text": "Lentiform nucleus",
+    "structures": [
+     "Putamen",
+     "Globus pallidus"
+    ],
+    "side": "Right",
+    "note": "putamen outside, globus pallidus inside"
+   },
+   {
+    "x": 0.43,
+    "y": 0.455,
+    "text": "Internal capsule",
+    "structures": [
+     "White matter of telencephalon"
+    ],
+    "side": "Right",
+    "note": "the whole motor output of the hemisphere, in a few millimetres"
+   },
+   {
+    "x": 0.53,
+    "y": 0.49,
+    "text": "Thalamus",
+    "structures": [
+     "Thalamus"
+    ],
+    "side": "Left",
+    "note": "the relay for everything on its way to the cortex"
+   },
+   {
+    "x": 0.49,
+    "y": 0.5,
+    "text": "Third ventricle",
+    "structures": [
+     "Third ventricle"
+    ]
+   },
+   {
+    "x": 0.335,
+    "y": 0.44,
+    "text": "Insula",
+    "structures": [
+     "Insula (Subcentral gyrus and ant. and post. sulci*)"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.275,
+    "y": 0.515,
+    "text": "Sylvian fissure",
+    "structures": [
+     "Insular branches of middle cerebral artery (M2)"
+    ],
+    "side": "Right",
+    "note": "bright CSF lateral to the insula, with the M2 branches running in it"
+   },
+   {
+    "x": 0.49,
+    "y": 0.575,
+    "text": "Pineal gland (posterior midline)",
+    "structures": [
+     "Pineal gland"
+    ],
+    "note": "lies just behind the third ventricle; the quadrigeminal cistern (the 'smile' behind the midbrain, effaced early in raised pressure) lies lower, below this section, and is not in the atlas"
+   },
+   {
+    "x": 0.615,
+    "y": 0.6,
+    "text": "Atrium of the lateral ventricle",
+    "structures": [
+     "Lateral ventricle"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.49,
+    "y": 0.655,
+    "text": "Inferior sagittal sinus",
+    "structures": [
+     "Inferior sagittal sinus"
+    ],
+    "note": "the straight sinus lies at a lower level; vascular signal depends on the sequence and flow"
+   },
+   {
+    "x": 0.735,
+    "y": 0.5,
+    "text": "Temporal lobe",
+    "structures": [
+     "Superior temporal gyrus (Lateral part)",
+     "Middle temporal gyrus"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.42,
+    "y": 0.79,
+    "text": "Occipital lobe",
+    "structures": [
+     "Lateral occipital gyrus (Middle occipital gyrus*)",
+     "Superior occipital gyri"
+    ],
+    "side": "Right"
+   },
+   {
+    "x": 0.487,
+    "y": 0.895,
+    "text": "Superior sagittal sinus",
+    "structures": [
+     "Superior sagittal sinus"
+    ]
+   },
+   {
+    "x": 0.115,
+    "y": 0.48,
+    "text": "Skull and scalp",
+    "structures": [
+     "Parietal bone"
+    ],
+    "side": "Right"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Does dark ventricular CSF by itself identify a T1-weighted image?",
+    "answer": "No; T2-FLAIR also suppresses CSF.",
+    "explanation": "Check the sequence label and the overall tissue contrast.",
+    "structures": [
+     "Lateral ventricle",
+     "Third ventricle"
+    ]
+   },
+   {
+    "prompt": "Does a bright dural sinus by itself prove that blood flow has stopped?",
+    "answer": "No.",
+    "explanation": "Sequence and flow effects can alter vascular signal; evaluate the appropriate sequences together.",
+    "structures": [
+     "Straight sinus",
+     "Superior sagittal sinus"
+    ]
+   }
+  ],
+  "references": [
+   {
+    "title": "Original image provenance: File:Brain-T2-axial.png",
+    "url": "https://commons.wikimedia.org/wiki/File:Brain-T2-axial.png"
+   },
+   {
+    "title": "MRI Questions (A. D. Elster): What is meant by a T1- or T2-weighted image?",
+    "url": "https://mriquestions.com/meaning-of-weighting.html"
+   },
+   {
+    "title": "IMAIOS e-MRI: MRA and flow MRI",
+    "url": "https://www.imaios.com/en/e-mri/mra-and-flow-mri"
+   },
+   {
+    "title": "ACR/RSNA RadiologyInfo: Brain MRI",
+    "url": "https://www.radiologyinfo.org/en/info/mri-brain"
+   }
+  ],
+  "finding": "Normal anatomy",
+  "plane": "Axial"
+ },
+ {
+  "id": "mri_knee",
+  "title": "MRI knee — sagittal",
+  "modality": "MRI",
+  "region": "Lower limb",
+  "summary": "Ligaments, cartilage, tendons and fat-pad relationships in greater detail.",
+  "text": "<p>A sagittal slice through the intercondylar region, anterior to the left. The two arrows on the original image mark the <b>cruciate ligaments</b> – the reason MRI replaced arthrography for the knee.</p><p>The <b>anterior cruciate</b> runs from the back of the lateral femoral condyle downwards and forwards to the front of the tibia; it stops the tibia sliding forwards, and it should be a straight dark band parallel to Blumensaat's line. The <b>posterior cruciate</b> is thicker and arcs backwards to the posterior tibia; it stops the tibia sliding backwards.</p><p>Compared with a plain lateral knee radiograph, MRI shows the ligaments, cartilage and surrounding soft-tissue relationships in greater detail, including the infrapatellar fat pad and popliteal vessels behind the joint.</p>",
+  "reading": [
+   "Find the sequence, then follow the ACL on sagittal images through the notch. A wavy, discontinuous or absent band, or fluid in its expected course, raises suspicion for injury; assess continuity and signal across the complete examination rather than diagnosing a tear from this single slice.",
+   "The PCL is normally a thick dark arc. PCL injuries often follow substantial force, including a direct blow, a fall onto a bent knee or a sports twisting injury; assess for associated damage.",
+   "Menisci on peripheral sagittal images normally have a dark bow-tie appearance. A bright line reaching an articular surface on one image can be equivocal; confirm the finding on other images and assess meniscal shape before diagnosing a tear.",
+   "Articular cartilage on both femoral condyles and the patella, then the subchondral bone for marrow oedema – the bone bruise that tells you where the impact was.",
+   "Finally the extensor mechanism, collateral ligaments on the coronals, and the popliteal fossa."
+  ],
+  "scene": {
+   "regions": [
+    "lower_limb_l"
+   ],
+   "side": "Left",
+   "clip": [
+    0,
+    0.614
+   ],
+   "view": "left",
+   "show": [
+    "Femur",
+    "Tibia",
+    "Patella",
+    "Anterior cruciate ligament",
+    "Posterior cruciate ligament",
+    "Infrapatellar fat pad",
+    "Popliteal artery",
+    "Rectus femoris muscle",
+    "Vastus intermedius muscle",
+    "Medial head of gastrocnemius"
+   ],
+   "frame_on": [
+    "Femur",
+    "Tibia",
+    "Patella"
+   ]
+  },
+  "labels": [
+   {
+    "x": 0.185,
+    "y": 0.095,
+    "text": "Quadriceps tendon",
+    "structures": [
+     "Rectus femoris muscle",
+     "Vastus intermedius muscle"
+    ],
+    "side": "Left",
+    "note": "Quadriceps mass above the patella; the atlas has no separate tendon, so this points to the muscle belly it inserts from."
+   },
+   {
+    "x": 0.165,
+    "y": 0.3,
+    "text": "Patella",
+    "structures": [
+     "Patella"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.42,
+    "y": 0.15,
+    "text": "Femur",
+    "structures": [
+     "Femur"
+    ],
+    "side": "Left",
+    "note": "bright marrow fat inside a dark cortex"
+   },
+   {
+    "x": 0.42,
+    "y": 0.42,
+    "text": "Femoral condyle",
+    "structures": [
+     "Femur"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.572,
+    "y": 0.535,
+    "text": "Anterior cruciate ligament",
+    "structures": [
+     "Anterior cruciate ligament"
+    ],
+    "side": "Left",
+    "note": "a straight dark band running up and back to the lateral condyle"
+   },
+   {
+    "x": 0.66,
+    "y": 0.605,
+    "text": "Posterior cruciate ligament",
+    "structures": [
+     "Posterior cruciate ligament"
+    ],
+    "side": "Left",
+    "note": "thicker, and arcs backwards to the posterior tibia"
+   },
+   {
+    "x": 0.23,
+    "y": 0.525,
+    "text": "Infrapatellar fat pad",
+    "structures": [
+     "Infrapatellar fat pad"
+    ],
+    "side": "Left",
+    "note": "bright: fat, not fluid"
+   },
+   {
+    "x": 0.235,
+    "y": 0.69,
+    "text": "Patellar ligament",
+    "structures": [
+     "Patella",
+     "Tibia"
+    ],
+    "side": "Left",
+    "note": "The atlas has no separate patellar ligament; this points to the patella-to-tibia span it occupies."
+   },
+   {
+    "x": 0.42,
+    "y": 0.625,
+    "text": "Tibial plateau",
+    "structures": [
+     "Tibia"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.45,
+    "y": 0.755,
+    "text": "Tibia",
+    "structures": [
+     "Tibia"
+    ],
+    "side": "Left"
+   },
+   {
+    "x": 0.775,
+    "y": 0.45,
+    "text": "Popliteal artery",
+    "structures": [
+     "Popliteal artery"
+    ],
+    "side": "Left",
+    "note": "tethered in the fossa – at risk in a knee dislocation"
+   },
+   {
+    "x": 0.86,
+    "y": 0.75,
+    "text": "Medial head of gastrocnemius",
+    "structures": [
+     "Medial head of gastrocnemius"
+    ],
+    "side": "Left"
+   }
+  ],
+  "questions": [
+   {
+    "prompt": "Which cruciate checks forward tibial translation, and which checks backward translation?",
+    "answer": "ACL forwards; PCL backwards.",
+    "explanation": "The two labelled cruciates stabilize front-to-back movement of the tibia relative to the femur.",
+    "structures": [
+     "Anterior cruciate ligament",
+     "Posterior cruciate ligament"
+    ]
+   },
+   {
+    "prompt": "What can MRI evaluate here that a plain knee radiograph shows poorly?",
+    "answer": "Ligaments, menisci, tendons and articular cartilage.",
+    "explanation": "MRI provides detailed joint soft-tissue images and complements conventional radiographs.",
+    "structures": [
+     "Anterior cruciate ligament",
+     "Posterior cruciate ligament",
+     "Patellar ligament"
+    ]
+   }
+  ],
+  "references": [
+   {
+    "title": "Original image provenance: File:MRT ACL PCL 01.jpg",
+    "url": "https://commons.wikimedia.org/wiki/File:MRT_ACL_PCL_01.jpg"
+   },
+   {
+    "title": "AAOS OrthoInfo: Anterior Cruciate Ligament (ACL) Injuries",
+    "url": "https://www.orthoinfo.org/diseases--conditions/anterior-cruciate-ligament-acl-injuries/"
+   },
+   {
+    "title": "AAOS OrthoInfo: Posterior Cruciate Ligament (PCL) Injuries",
+    "url": "https://www.orthoinfo.org/diseases--conditions/posterior-cruciate-ligament-injuries/"
+   },
+   {
+    "title": "ACR/RSNA RadiologyInfo: Knee MRI",
+    "url": "https://www.radiologyinfo.org/en/info/kneemr"
+   },
+   {
+    "title": "De Smet and Tuite (AJR, 2006): MRI diagnosis of meniscal tears using the two-slice-touch rule",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/16985134/"
+   }
+  ],
+  "finding": "Normal cruciate ligaments",
+  "plane": "Sagittal"
+ }
 ]

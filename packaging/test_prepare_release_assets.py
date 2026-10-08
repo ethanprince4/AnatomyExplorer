@@ -104,6 +104,8 @@ class SplitTests(unittest.TestCase):
         self.assertIn('property appName : "Anatomy Explorer"', source)
         self.assertIn('path to resource "install.sh"', source)
         self.assertNotIn('@', source)
+        # A variable named after an AppleScript property compiles but fails when it runs (set kind: -10006).
+        self.assertNotRegex(source, r'(?m)^\s*(set|copy) (kind|name|class|id|contents|version|properties|text) to\b')
 
     def test_unsafe_part_names_are_refused(self):
         with self.assertRaises(ValueError):

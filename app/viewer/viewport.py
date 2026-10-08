@@ -51,6 +51,14 @@ def _hex_rgb(h, default=(0.3, 0.78, 1.0)):
     return (c.redF(), c.greenF(), c.blueF()) if c.isValid() else default
 
 
+def msaa_samples(enabled, pixel_ratio):
+    """MSAA samples for the model viewer: 8 on a standard screen, 4 on a high-DPI (Retina) one, whose extra
+    pixels already smooth edges, 1 when anti-aliasing is off."""
+    if not enabled:
+        return 1
+    return 4 if pixel_ratio >= 1.5 else 8
+
+
 def distinct_colours(n):
     """n well-separated colours (golden-angle hues, alternating lightness), linear RGB."""
     out = np.zeros((max(n, 1), 3), dtype=np.float32)
@@ -128,6 +136,7 @@ class ModelViewport(QOpenGLWidget):
         self.click_hook = None
         # labels
         self.labels_on = False
+        self.reference_labels = {}       # item index -> name, set by a radiology case: label only these parts
         self.names_hidden = lambda: False    # practice: nothing on screen may name a structure
         self.label_items = []                # [(item, anchor world, area px, text, priority)]
         self.section_items = []              # [(item, anchor world)]
@@ -214,7 +223,7 @@ class ModelViewport(QOpenGLWidget):
         st = self.settings
         s.ao = bool(st.get("ssao", True))
         s.ao_strength = float(st.get("ssao_strength", 1.0))
-        s.msaa = 8 if st.get("fxaa", True) else 1
+        s.msaa = msaa_samples(st.get("fxaa", True), self.devicePixelRatioF() * self._render_scale())
         s.ghost_alpha = float(st.get("ghost_alpha", 0.10))
         sel = _hex_rgb(st.get("selection_color", "#4dc7ff"))
         hov = _hex_rgb(st.get("hover_color", "#ffd966"), (1.0, 0.85, 0.4))
@@ -720,6 +729,9 @@ class ModelViewport(QOpenGLWidget):
         if self.names_hidden() or not self.settings.get("show_landmarks", True):
             return [], False
         sel = [int(s) for s in self.state.selected]
+        if self.reference_labels:
+            vis = self.state.visible_mask()
+            return sel + [i for i in self.reference_labels if vis[i] and i not in sel], False
         if self.labels_on:
             vis = self.state.visible_mask()
             ghost = self.state.ghost_focus
@@ -786,7 +798,7 @@ class ModelViewport(QOpenGLWidget):
                 seen_groups[it.group] = i
                 chosen.append((i, it.group))
             else:
-                chosen.append((i, it.name))
+                chosen.append((i, self.reference_labels.get(i, it.name)))
             if len(chosen) >= limit:
                 break
         from scipy.ndimage import distance_transform_edt
@@ -819,6 +831,7 @@ class ModelViewport(QOpenGLWidget):
                 state.visible_mask().tobytes(), tuple(state.selected), arrays, bool(getattr(state,"opaque_materials",False)),
                 repr(self.clip_config()), self.explode, self.anim_t, self.reveal_state,
                 self.reveal_amount, bool(self.labels_on), bool(self.names_hidden()),
+                tuple(sorted(self.reference_labels.items())),
                 tuple(self.settings.get(name) for name in ("max_landmarks", "max_section_labels",
                                                            "section_labels", "show_landmarks")))
 

@@ -80,6 +80,8 @@ class ModelEntry:
         for it in model.items:
             by_name.setdefault(_norm(it.name), []).append(it.index)
             by_name.setdefault(_norm(it.key), []).append(it.index)
+            for former in getattr(it, "former_names", ()):     # lessons written before a part was renamed
+                by_name.setdefault(_norm(former), []).append(it.index)
         for g in model.groups:
             by_group[_norm(g.title)] = list(g.items)
             by_group[_norm(g.key)] = list(g.items)

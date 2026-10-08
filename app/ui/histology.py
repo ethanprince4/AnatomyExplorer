@@ -1,8 +1,8 @@
 import html
 
-from PySide6.QtCore import QRectF, QSize, Qt, QUrl, Signal
-from PySide6.QtGui import QDesktopServices, QIcon, QPainter, QPixmap
-from PySide6.QtWidgets import (QBoxLayout, QComboBox, QFrame, QGraphicsPixmapItem, QGraphicsScene, QGraphicsView, QHBoxLayout, QLabel,
+from PySide6.QtCore import QPointF, QRectF, QSize, Qt, QUrl, Signal
+from PySide6.QtGui import QColor, QDesktopServices, QFontMetricsF, QIcon, QPainter, QPen, QPixmap
+from PySide6.QtWidgets import (QBoxLayout, QCheckBox, QComboBox, QFrame, QGraphicsPixmapItem, QGraphicsScene, QGraphicsView, QHBoxLayout, QLabel,
                                QLineEdit, QListWidget, QMenu, QPushButton, QSplitter, QTextBrowser,
                                QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
@@ -201,6 +201,8 @@ class ImageView(QGraphicsView):
         self.setBackgroundBrush(theme.qc(theme.CANVAS))
         self.setFrameShape(QFrame.NoFrame)
         self._fit = True
+        self.labels = []              # [{"x", "y", "text"}] as fractions of the image: numbered marks on the slide
+        self.show_labels = True
         self._message = "Choose a tissue image from the library."
         self.setMinimumSize(180, 150)
         self.setFocusPolicy(Qt.StrongFocus)
@@ -218,8 +220,42 @@ class ImageView(QGraphicsView):
         self.setAccessibleDescription(message)
         self.viewport().update()
 
+    def set_labels(self, labels):
+        self.labels = [lab for lab in labels or [] if isinstance(lab, dict) and lab.get("text")
+                       and 0 <= float(lab.get("x", -1)) <= 1 and 0 <= float(lab.get("y", -1)) <= 1]
+        self.viewport().update()
+
+    def _paint_labels(self, painter):
+        """Numbered marks with their names, kept a constant size on screen whatever the zoom."""
+        pix = self.item.pixmap()
+        fm = QFontMetricsF(painter.font())
+        for number, lab in enumerate(self.labels, 1):
+            at = self.mapFromScene(QPointF(float(lab["x"]) * pix.width(), float(lab["y"]) * pix.height()))
+            centre = QPointF(at)
+            painter.setPen(QPen(QColor(255, 255, 255), 2))
+            painter.setBrush(QColor(37, 70, 160, 235))
+            painter.drawEllipse(centre, 10, 10)
+            painter.setPen(QColor(255, 255, 255))
+            painter.drawText(QRectF(centre.x() - 10, centre.y() - 10, 20, 20), Qt.AlignCenter, str(number))
+            text = str(lab["text"])
+            width = fm.horizontalAdvance(text) + 12
+            box = QRectF(centre.x() + 14, centre.y() - fm.height() / 2 - 3, width, fm.height() + 6)
+            if box.right() > self.viewport().width() - 4:
+                box.moveRight(centre.x() - 14)
+            painter.setPen(QPen(QColor("#8096a5"), 1))
+            painter.setBrush(QColor(242, 246, 248, 230))
+            painter.drawRoundedRect(box, 7, 7)
+            painter.setPen(QColor("#263b47"))
+            painter.drawText(box, Qt.AlignCenter, text)
+
     def drawForeground(self, painter, rect):
         super().drawForeground(painter, rect)
+        if self.labels and self.show_labels and not self.item.pixmap().isNull():
+            painter.save()
+            painter.resetTransform()
+            painter.setRenderHint(QPainter.Antialiasing)
+            self._paint_labels(painter)
+            painter.restore()
         if self.item.pixmap().isNull():
             painter.save()
             painter.resetTransform()
@@ -347,7 +383,11 @@ class HistologyViewer(QWidget):
         self.zoom_label = QLabel("Fit")
         self.zoom_label.setMinimumWidth(44)
         self.zoom_label.setAlignment(Qt.AlignCenter)
-        for widget in (self.fit_image, self.actual_image, self.zoom_out, self.zoom_label, self.zoom_in):
+        self.labels_box = QCheckBox("Labels")
+        self.labels_box.setChecked(True)
+        self.labels_box.setToolTip("Show the numbered labels on this slide")
+        self.labels_box.toggled.connect(self._toggle_labels)
+        for widget in (self.fit_image, self.actual_image, self.zoom_out, self.zoom_label, self.zoom_in, self.labels_box):
             image_tools.addWidget(widget)
         self._tools_layout.addLayout(image_tools)
         self._tools_layout.addStretch(1)
@@ -495,6 +535,12 @@ class HistologyViewer(QWidget):
         self.strip.setCurrentRow(index)
         self.strip.blockSignals(False)
         desc = esc(img.get("description") or "No description provided.").replace("\n", "<br>")
+        labels = img.get("labels") or []
+        self.view.set_labels([])
+        self.labels_box.setVisible(bool(labels))
+        if labels:
+            desc += "<p class='overline'>LABELS</p><p>" + " · ".join(
+                f"<b>{n}</b> {esc(lab.get('text'))}" for n, lab in enumerate(labels, 1)) + "</p>"
         kind = "Diagram" if img.get("diagram") else "Micrograph"
         credit = " · ".join(x for x in (esc(img.get("author")), esc(img.get("license"))) if x)
         self.caption.setHtml(
@@ -522,11 +568,16 @@ class HistologyViewer(QWidget):
             self._set_controls(False)
         else:
             self.view.set_pixmap(QPixmap.fromImage(image))
+            self.view.set_labels(self.tissue["images"][self.index].get("labels"))
             title = self.tissue["images"][self.index]["title"]
             self.view.setAccessibleDescription(f"{title}. Use plus and minus to zoom, Home to fit, Page Up and Page Down to change images.")
             self.image_status.setText("Original image colours and labels · + / − to zoom · Drag to pan · Home to fit")
             self.retry_image.hide()
             self._set_controls(True)
+
+    def _toggle_labels(self, on):
+        self.view.show_labels = bool(on)
+        self.view.viewport().update()
 
     def _zoom_changed(self, scale):
         self.zoom_label.setText("Fit" if self.view._fit else f"{round(scale * 100)}%")

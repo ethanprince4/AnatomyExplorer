@@ -1,445 +1,552 @@
 [
-  {
-    "id": "us_normal_right_testis",
-    "title": "Normal right testis: transverse ultrasound",
-    "modality": "Ultrasound",
-    "region": "Pelvis",
-    "plane": "Transverse",
-    "finding": "Normal right testis",
-    "tags": [
-      "normal",
-      "ultrasound",
-      "pelvis"
+ {
+  "id": "us_normal_right_testis",
+  "title": "Normal right testis: transverse ultrasound",
+  "modality": "Ultrasound",
+  "region": "Pelvis",
+  "plane": "Transverse",
+  "finding": "Normal right testis",
+  "tags": [
+   "normal",
+   "ultrasound",
+   "pelvis"
+  ],
+  "summary": "Source-identified normal right testis on axial ultrasound. Identify testicular parenchyma and scan orientation.",
+  "text": "<p>Source-identified normal right testis on axial ultrasound. Identify testicular parenchyma and scan orientation.</p><p>The source labels normal echogenicity and vascularity of the right testis in an axial/transverse view. The left testis and scrotal septum are also annotated. This single still illustrates scrotal anatomy.</p>",
+  "reading": [
+   "The source labels normal echogenicity and vascularity of the right testis in an axial/transverse view. The left testis and scrotal septum are also annotated. This single still illustrates scrotal anatomy."
+  ],
+  "questions": [
+   {
+    "prompt": "Which testis is the source's normal axial view centered on?",
+    "answer": "The right testis",
+    "explanation": "The source title and baked annotation identify the right testis. The contralateral testis appears at the edge for anatomical comparison."
+   }
+  ],
+  "references": [
+   {
+    "title": "Wikimedia Commons source image and file-level licence",
+    "url": "https://commons.wikimedia.org/wiki/File:Normal_right_testis_as_seen_on_ultrasound_axial_view.jpg"
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.48,
+    "y": 0.405,
+    "text": "Right testicular parenchyma",
+    "structures": [
+     "Testis"
     ],
-    "summary": "Source-identified normal right testis on axial ultrasound. Identify testicular parenchyma and scan orientation.",
-    "text": "<p>Source-identified normal right testis on axial ultrasound. Identify testicular parenchyma and scan orientation.</p><p>The source labels normal echogenicity and vascularity of the right testis in an axial/transverse view. The left testis and scrotal septum are also annotated. This single still illustrates scrotal anatomy.</p>",
-    "reading": [
-      "The source labels normal echogenicity and vascularity of the right testis in an axial/transverse view. The left testis and scrotal septum are also annotated. This single still illustrates scrotal anatomy."
+    "side": "Right",
+    "note": "The source's normal right testicular tissue."
+   },
+   {
+    "x": 0.742,
+    "y": 0.392,
+    "text": "Contralateral testis",
+    "structures": [
+     "Testis"
     ],
-    "questions": [
-      {
-        "prompt": "Which testis is the source's normal axial view centered on?",
-        "answer": "The right testis",
-        "explanation": "The source title and baked annotation identify the right testis. The contralateral testis appears at the edge for anatomical comparison."
-      }
+    "side": "Left",
+    "note": "The source annotation identifies the left testis at the edge of the view."
+   },
+   {
+    "x": 0.35,
+    "y": 0.362,
+    "text": "Color Doppler signal in right testis",
+    "structures": [
+     "Right testicular artery"
     ],
-    "references": [
-      {
-        "title": "Wikimedia Commons source image and file-level licence",
-        "url": "https://commons.wikimedia.org/wiki/File:Normal_right_testis_as_seen_on_ultrasound_axial_view.jpg"
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.48,
-        "y": 0.40513,
-        "text": "Right testicular parenchyma",
-        "note": "The source's normal right testicular tissue.",
-        "structures": [
-          "Testis"
-        ],
-        "side": "Right"
-      },
-      {
-        "x": 0.742,
-        "y": 0.39179,
-        "text": "Contralateral testis",
-        "note": "The source annotation identifies the left testis at the edge of the view.",
-        "structures": [
-          "Testis"
-        ],
-        "side": "Left"
-      },
-      {
-        "x": 0.35,
-        "y": 0.36205,
-        "text": "Color Doppler signal in right testis",
-        "note": "Small color signals are source-annotated normal vascularity.",
-        "structures": [
-          "Testis"
-        ],
-        "side": "Right"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ],
-      "focus": [
-        "Testis"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "id": "us_normal_carotid_spectral",
-    "title": "Normal right common carotid: spectral Doppler",
-    "modality": "Ultrasound",
-    "region": "Head and neck",
-    "plane": "Longitudinal",
-    "finding": "Normal carotid Doppler",
-    "tags": [
-      "normal",
-      "ultrasound",
-      "head and neck"
-    ],
-    "summary": "Source-identified normal right common carotid spectral Doppler with anatomical sample and flow waveform.",
-    "text": "<p>Source-identified normal right common carotid spectral Doppler with anatomical sample and flow waveform.</p><p>The longitudinal color image shows the right common carotid artery and sample region. The spectral waveform has source annotations for PSV, EDV and transient flow reversal. Color indicates the display&#39;s flow encoding; it does not by itself state arterial versus venous identity.</p>",
-    "reading": [
-      "The longitudinal color image shows the right common carotid artery and sample region. The spectral waveform has source annotations for PSV, EDV and transient flow reversal. Color indicates the display's flow encoding; it does not by itself state arterial versus venous identity."
-    ],
-    "questions": [
-      {
-        "prompt": "Which vessel is being sampled in the source Doppler image?",
-        "answer": "The right common carotid artery",
-        "explanation": "RT CCA and the source caption identify the sampled vessel. The source labels peak systolic and end-diastolic waveform points."
-      }
-    ],
-    "references": [
-      {
-        "title": "Wikimedia Commons source image and file-level licence",
-        "url": "https://commons.wikimedia.org/wiki/File:Right_common_carotid_artery_normal_spectral_doppler.jpg"
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.501,
-        "y": 0.351,
-        "text": "Right common carotid artery",
-        "note": "The source identifies the sampled right common carotid artery.",
-        "structures": [
-          "Right common carotid artery"
-        ],
-        "side": "Right"
-      },
-      {
-        "x": 0.415,
-        "y": 0.748,
-        "text": "Spectral Doppler waveform",
-        "note": "The source labels systolic and end-diastolic waveform points.",
-        "structures": [
-          "Right common carotid artery"
-        ],
-        "side": "Right"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "focus": [
-        "Right common carotid artery"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "id": "us_carotid_complete_occlusion",
-    "title": "Complete left internal carotid occlusion: Doppler",
-    "modality": "Ultrasound",
-    "region": "Head and neck",
-    "plane": "Functional",
-    "finding": "Complete ICA occlusion",
-    "tags": [
-      "pathology",
-      "ultrasound",
-      "head and neck"
-    ],
-    "summary": "Source-identified complete internal carotid artery occlusion on Doppler ultrasonography.",
-    "text": "<p>Source-identified complete internal carotid artery occlusion on Doppler ultrasonography.</p><p>The source describes complete internal carotid artery occlusion. The retained display identifies the left carotid and lists proximal ICA PSV and EDV of 0.00 m/s, alongside a flat spectral trace. The anatomical section direction is not specified.</p>",
-    "reading": [
-      "The source describes complete internal carotid artery occlusion. The retained display identifies the left carotid and lists proximal ICA PSV and EDV of 0.00 m/s, alongside a flat spectral trace. The anatomical section direction is not specified."
-    ],
-    "questions": [
-      {
-        "prompt": "What does the recorded spectral display show in this source occlusion case?",
-        "answer": "A flat trace with recorded ICA PSV and EDV of 0.00 m/s",
-        "explanation": "The source identifies complete internal carotid occlusion. The retained box says Carotid (Left) and lists zero recorded proximal ICA velocities."
-      }
-    ],
-    "references": [
-      {
-        "title": "Wikimedia Commons source image and file-level licence",
-        "url": "https://commons.wikimedia.org/wiki/File:Doppler_ultrasonography_of_complete_internal_carotid_artery_occlusion.png"
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.81,
-        "y": 0.53419,
-        "text": "Recorded left ICA velocities",
-        "note": "The display lists zero recorded proximal ICA PSV and EDV.",
-        "structures": [
-          "Internal carotid artery"
-        ],
-        "side": "Left"
-      },
-      {
-        "x": 0.41,
-        "y": 0.94501,
-        "text": "Flat recorded spectral trace",
-        "note": "The retained spectral display shows a flat trace.",
-        "structures": [
-          "Internal carotid artery"
-        ],
-        "side": "Left"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "focus": [
-        "Internal carotid artery"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "id": "us_carotid_dissection",
-    "title": "Common carotid dissection: ultrasound flap",
-    "modality": "Ultrasound",
-    "region": "Head and neck",
-    "plane": "Longitudinal",
-    "finding": "Carotid dissection",
-    "tags": [
-      "pathology",
-      "ultrasound",
-      "head and neck"
-    ],
-    "summary": "Source-identified common carotid artery dissection on ultrasound.",
-    "text": "<p>Source-identified common carotid artery dissection on ultrasound.</p><p>A long echogenic flap separates the visible channels in this source-identified common carotid artery dissection. The source does not state side or identify which channel is the true lumen.</p>",
-    "reading": [
-      "A long echogenic flap separates the visible channels in this source-identified common carotid artery dissection. The source does not state side or identify which channel is the true lumen."
-    ],
-    "questions": [
-      {
-        "prompt": "Which visible feature separates the channels in this source dissection image?",
-        "answer": "An intimal flap",
-        "explanation": "The source identifies common carotid dissection. A long echogenic flap separates visible channels; side and true-versus-false lumen mapping are not supplied."
-      }
-    ],
-    "references": [
-      {
-        "title": "Wikimedia Commons source image and file-level licence",
-        "url": "https://commons.wikimedia.org/wiki/File:US_CAROTID_DOPPLER_0001.jpg"
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.51,
-        "y": 0.69,
-        "text": "Intimal flap",
-        "note": "The long echogenic flap separates the visible channels.",
-        "structures": [
-          "Left common carotid artery",
-          "Right common carotid artery"
-        ],
-        "side": ""
-      },
-      {
-        "x": 0.5,
-        "y": 0.753,
-        "text": "Separated luminal channels",
-        "note": "The source does not map these channels to true versus false lumen.",
-        "structures": [
-          "Left common carotid artery",
-          "Right common carotid artery"
-        ],
-        "side": ""
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "focus": [
-        "Left common carotid artery",
-        "Right common carotid artery"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "id": "us_carotid_near_occlusion",
-    "title": "Left internal carotid near occlusion: Doppler",
-    "modality": "Ultrasound",
-    "region": "Head and neck",
-    "plane": "Longitudinal",
-    "finding": "ICA near occlusion",
-    "tags": [
-      "pathology",
-      "ultrasound",
-      "head and neck"
-    ],
-    "summary": "Source-identified internal carotid artery stenosis with near occlusion.",
-    "text": "<p>Source-identified internal carotid artery stenosis with near occlusion.</p><p>The source describes internal carotid stenosis with near occlusion. LT ICA MID identifies the left internal carotid artery measurement. Residual color Doppler signal and a spectral waveform remain visible. No stenosis percentage is supplied by the source.</p>",
-    "reading": [
-      "The source describes internal carotid stenosis with near occlusion. LT ICA MID identifies the left internal carotid artery measurement. Residual color Doppler signal and a spectral waveform remain visible. No stenosis percentage is supplied by the source."
-    ],
-    "questions": [
-      {
-        "prompt": "What remaining Doppler signal is visible in this source near-occlusion case?",
-        "answer": "Residual color signal and a spectral waveform",
-        "explanation": "The source describes near occlusion rather than complete occlusion. LT ICA MID identifies the left internal carotid measurement region."
-      }
-    ],
-    "references": [
-      {
-        "title": "Wikimedia Commons source image and file-level licence",
-        "url": "https://commons.wikimedia.org/wiki/File:Internal_carotid_artery_stenosis_in_ultrasound_near_occlusion.jpg"
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.415,
-        "y": 0.208,
-        "text": "Residual color Doppler signal",
-        "note": "Residual color Doppler signal remains in the source near-occlusion case.",
-        "structures": [
-          "Internal carotid artery"
-        ],
-        "side": "Left"
-      },
-      {
-        "x": 0.586,
-        "y": 0.73,
-        "text": "Recorded spectral velocity trace",
-        "note": "The source's left ICA measurement retains a spectral waveform.",
-        "structures": [
-          "Internal carotid artery"
-        ],
-        "side": "Left"
-      }
-    ],
-    "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "focus": [
-        "Internal carotid artery"
-      ],
-      "isolate": true
-    }
-  },
-  {
-    "id": "us_paraovarian_cyst_tubal_torsion",
-    "title": "Paraovarian cyst and tubal torsion: ultrasound",
-    "modality": "Ultrasound",
-    "region": "Pelvis",
-    "plane": "Unspecified",
-    "finding": "Paraovarian cyst with tubal torsion",
-    "tags": [
-      "pathology",
-      "ultrasound",
-      "pelvis"
-    ],
-    "summary": "Figure 1 shows normal ovary adjacent to paraovarian cyst, thickened tube and a cyst-wall papillary projection in a surgically confirmed isolated tubal torsion case.",
-    "text": "<p>Figure 1 shows normal ovary adjacent to paraovarian cyst, thickened tube and a cyst-wall papillary projection in a surgically confirmed isolated tubal torsion case.</p><p>Panel A shows a normal ovary adjacent to the paraovarian cyst; panel B shows the thickened tube; panel C shows a papillary projection in the cyst wall. The primary case confirms isolated right fallopian-tube torsion at laparoscopy. The panels come from transabdominal and transrectal examination, without individual section axes supplied.</p>",
-    "reading": [
-      "Panel A shows a normal ovary adjacent to the paraovarian cyst; panel B shows the thickened tube; panel C shows a papillary projection in the cyst wall. The primary case confirms isolated right fallopian-tube torsion at laparoscopy. The panels come from transabdominal and transrectal examination, without individual section axes supplied."
-    ],
-    "questions": [
-      {
-        "prompt": "What anatomical relationship does panel A show?",
-        "answer": "A normal ovary adjacent to a cystic mass",
-        "explanation": "The primary figure caption identifies a normal ovary with a cyst beneath it. The case's isolated right fallopian-tube torsion was subsequently confirmed at laparoscopy."
-      }
-    ],
-    "references": [
-      {
-        "title": "Wikimedia Commons source image and file-level licence",
-        "url": "https://commons.wikimedia.org/wiki/File:Ultrasonographic_identification_of_a_cystic_mass_in_the_right_lower_abdomen.jpg"
-      },
-      {
-        "title": "Underlying source and caption",
-        "url": "https://link.springer.com/article/10.1186/s12905-021-01483-2"
-      }
-    ],
-    "labels": [
-      {
-        "x": 0.116,
-        "y": 0.20696,
-        "text": "Normal ovary in panel A",
-        "note": "The primary figure caption identifies a normal ovary next to the cyst.",
-        "structures": [],
-        "side": "Right"
-      },
-      {
-        "x": 0.459,
-        "y": 0.26105,
-        "text": "Thickened tube in panel B",
-        "note": "The source red arrows identify a thickened tube.",
-        "structures": [],
-        "side": "Right"
-      },
-      {
-        "x": 0.775,
-        "y": 0.366,
-        "text": "Cyst-wall papillary projection",
-        "note": "The source arrow identifies a papillary projection on the cyst wall.",
-        "structures": [],
-        "side": "Right"
-      }
-    ],
-    "atlas_note": "The current atlas has no matching ovary or uterine-tube structures, so these labels remain on the image.",
-    "scene": {
-      "systems": [
-        "skeletal",
-        "muscular",
-        "nervous",
-        "cardiovascular",
-        "visceral",
-        "joints"
-      ],
-      "view": "anterior",
-      "xray": false,
-      "regions": [
-        "abdomen"
-      ]
-    }
+    "side": "Right",
+    "note": "Small color signals are source-annotated normal vascularity."
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+  "scene": {
+   "systems": [
+    "visceral",
+    "cardiovascular"
+   ],
+   "regions": [
+    "abdomen",
+    "lower_limb_r",
+    "lower_limb_l"
+   ],
+   "focus": [
+    "Testis",
+    "Right testicular artery",
+    "Left testicular artery"
+   ],
+   "isolate": true,
+   "xray": false,
+   "view": "anterior"
   }
+ },
+ {
+  "id": "us_normal_carotid_spectral",
+  "title": "Normal right common carotid: spectral Doppler",
+  "modality": "Ultrasound",
+  "region": "Head and neck",
+  "plane": "Longitudinal",
+  "finding": "Normal carotid Doppler",
+  "tags": [
+   "normal",
+   "ultrasound",
+   "head and neck"
+  ],
+  "summary": "Source-identified normal right common carotid spectral Doppler with anatomical sample and flow waveform.",
+  "text": "<p>Source-identified normal right common carotid spectral Doppler with anatomical sample and flow waveform.</p><p>The longitudinal color image shows the right common carotid artery and sample region. The spectral waveform has source annotations for PSV, EDV and transient flow reversal. Color indicates the display&#39;s flow encoding; it does not by itself state arterial versus venous identity.</p>",
+  "reading": [
+   "The longitudinal color image shows the right common carotid artery and sample region. The spectral waveform has source annotations for PSV, EDV and transient flow reversal. Color indicates the display's flow encoding; it does not by itself state arterial versus venous identity."
+  ],
+  "questions": [
+   {
+    "prompt": "Which vessel is being sampled in the source Doppler image?",
+    "answer": "The right common carotid artery",
+    "explanation": "RT CCA and the source caption identify the sampled vessel. The source labels peak systolic and end-diastolic waveform points."
+   }
+  ],
+  "references": [
+   {
+    "title": "Wikimedia Commons source image and file-level licence",
+    "url": "https://commons.wikimedia.org/wiki/File:Right_common_carotid_artery_normal_spectral_doppler.jpg"
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.501,
+    "y": 0.351,
+    "text": "Right common carotid artery",
+    "structures": [
+     "Right common carotid artery"
+    ],
+    "side": "Right",
+    "note": "The source identifies the sampled right common carotid artery."
+   },
+   {
+    "x": 0.415,
+    "y": 0.748,
+    "text": "Spectral Doppler waveform",
+    "structures": [
+     "Right common carotid artery"
+    ],
+    "side": "Right",
+    "note": "The source labels systolic and end-diastolic waveform points."
+   },
+   {
+    "x": 0.27,
+    "y": 0.66,
+    "text": "Peak systolic velocity (PSV)",
+    "structures": [
+     "Right common carotid artery"
+    ],
+    "side": "Right",
+    "note": "Systolic peak of the normal spectral waveform, recorded from the right common carotid artery."
+   },
+   {
+    "x": 0.51,
+    "y": 0.8,
+    "text": "Normal transient flow reversal",
+    "structures": [
+     "Right common carotid artery"
+    ],
+    "side": "Right",
+    "note": "Brief reversed flow after systole, seen on the spectral waveform of the normal right common carotid artery."
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+  "scene": {
+   "systems": [
+    "cardiovascular"
+   ],
+   "regions": [
+    "neck"
+   ],
+   "focus": [
+    "Right common carotid artery"
+   ],
+   "isolate": true,
+   "xray": false,
+   "view": "anterior",
+   "side": "Right"
+  }
+ },
+ {
+  "id": "us_carotid_complete_occlusion",
+  "title": "Complete left internal carotid occlusion: Doppler",
+  "modality": "Ultrasound",
+  "region": "Head and neck",
+  "plane": "Functional",
+  "finding": "Complete ICA occlusion",
+  "tags": [
+   "pathology",
+   "ultrasound",
+   "head and neck"
+  ],
+  "summary": "Source-identified complete internal carotid artery occlusion on Doppler ultrasonography.",
+  "text": "<p>Source-identified complete internal carotid artery occlusion on Doppler ultrasonography.</p><p>The source describes complete internal carotid artery occlusion. The retained display identifies the left carotid and lists proximal ICA PSV and EDV of 0.00 m/s, alongside a flat spectral trace. The anatomical section direction is not specified.</p>",
+  "reading": [
+   "The source describes complete internal carotid artery occlusion. The retained display identifies the left carotid and lists proximal ICA PSV and EDV of 0.00 m/s, alongside a flat spectral trace. The anatomical section direction is not specified."
+  ],
+  "questions": [
+   {
+    "prompt": "What does the recorded spectral display show in this source occlusion case?",
+    "answer": "A flat trace with recorded ICA PSV and EDV of 0.00 m/s",
+    "explanation": "The source identifies complete internal carotid occlusion. The retained box says Carotid (Left) and lists zero recorded proximal ICA velocities."
+   }
+  ],
+  "references": [
+   {
+    "title": "Wikimedia Commons source image and file-level licence",
+    "url": "https://commons.wikimedia.org/wiki/File:Doppler_ultrasonography_of_complete_internal_carotid_artery_occlusion.png"
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.81,
+    "y": 0.534,
+    "text": "Recorded left ICA velocities",
+    "structures": [
+     "Internal carotid artery"
+    ],
+    "side": "Left",
+    "note": "The display lists zero recorded proximal ICA PSV and EDV."
+   },
+   {
+    "x": 0.41,
+    "y": 0.945,
+    "text": "Flat recorded spectral trace",
+    "structures": [
+     "Internal carotid artery",
+     "Left ICA complete occlusion"
+    ],
+    "side": "Left",
+    "note": "The retained spectral display shows a flat trace, consistent with no flow in the occluded internal carotid artery."
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+  "scene": {
+   "systems": [
+    "cardiovascular",
+    "visceral",
+    "muscular",
+    "regions"
+   ],
+   "regions": [
+    "neck"
+   ],
+   "side": "Left",
+   "show": [
+    "Left ICA complete occlusion"
+   ],
+   "focus": [
+    "Internal carotid artery",
+    "Left common carotid artery",
+    "External carotid artery",
+    "Left ICA complete occlusion"
+   ],
+   "isolate": true,
+   "xray": false,
+   "view": "anterior"
+  }
+ },
+ {
+  "id": "us_carotid_dissection",
+  "title": "Common carotid dissection: ultrasound flap",
+  "modality": "Ultrasound",
+  "region": "Head and neck",
+  "plane": "Longitudinal",
+  "finding": "Carotid dissection",
+  "tags": [
+   "pathology",
+   "ultrasound",
+   "head and neck"
+  ],
+  "summary": "Source-identified common carotid artery dissection on ultrasound.",
+  "text": "<p>Source-identified common carotid artery dissection on ultrasound.</p><p>A long echogenic flap separates the visible channels in this source-identified common carotid artery dissection. The source does not state side or identify which channel is the true lumen.</p>",
+  "reading": [
+   "A long echogenic flap separates the visible channels in this source-identified common carotid artery dissection. The source does not state side or identify which channel is the true lumen."
+  ],
+  "questions": [
+   {
+    "prompt": "Which visible feature separates the channels in this source dissection image?",
+    "answer": "An intimal flap",
+    "explanation": "The source identifies common carotid dissection. A long echogenic flap separates visible channels; side and true-versus-false lumen mapping are not supplied."
+   }
+  ],
+  "references": [
+   {
+    "title": "Wikimedia Commons source image and file-level licence",
+    "url": "https://commons.wikimedia.org/wiki/File:US_CAROTID_DOPPLER_0001.jpg"
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.51,
+    "y": 0.69,
+    "text": "Intimal flap",
+    "structures": [
+     "Common carotid intimal flap (dissection)"
+    ],
+    "note": "The long echogenic flap separates the visible channels."
+   },
+   {
+    "x": 0.5,
+    "y": 0.753,
+    "text": "Separated luminal channels",
+    "structures": [
+     "Left common carotid artery",
+     "Right common carotid artery"
+    ],
+    "note": "The source does not map these channels to true versus false lumen."
+   },
+   {
+    "x": 0.5,
+    "y": 0.5,
+    "text": "Upper luminal channel",
+    "structures": [
+     "Left common carotid artery",
+     "Right common carotid artery"
+    ],
+    "note": "Anechoic lumen lying above the flap, on the other side of it from the lower channel."
+   },
+   {
+    "x": 0.5,
+    "y": 0.79,
+    "text": "Posterior vessel wall",
+    "structures": [
+     "Left common carotid artery",
+     "Right common carotid artery"
+    ],
+    "note": "Echogenic deep wall of the common carotid artery, below the lower channel."
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+  "scene": {
+   "systems": [
+    "cardiovascular"
+   ],
+   "regions": [
+    "neck"
+   ],
+   "view": "anterior",
+   "focus": [
+    "Left common carotid artery",
+    "Right common carotid artery"
+   ],
+   "show": [
+    "Common carotid intimal flap (dissection)"
+   ],
+   "ghost_focus": [
+    "Common carotid intimal flap (dissection)"
+   ],
+   "isolate": true
+  }
+ },
+ {
+  "id": "us_carotid_near_occlusion",
+  "title": "Left internal carotid near occlusion: Doppler",
+  "modality": "Ultrasound",
+  "region": "Head and neck",
+  "plane": "Longitudinal",
+  "finding": "ICA near occlusion",
+  "tags": [
+   "pathology",
+   "ultrasound",
+   "head and neck"
+  ],
+  "summary": "Source-identified internal carotid artery stenosis with near occlusion.",
+  "text": "<p>Source-identified internal carotid artery stenosis with near occlusion.</p><p>The source describes internal carotid stenosis with near occlusion. LT ICA MID identifies the left internal carotid artery measurement. Residual color Doppler signal and a spectral waveform remain visible. No stenosis percentage is supplied by the source.</p>",
+  "reading": [
+   "The source describes internal carotid stenosis with near occlusion. LT ICA MID identifies the left internal carotid artery measurement. Residual color Doppler signal and a spectral waveform remain visible. No stenosis percentage is supplied by the source."
+  ],
+  "questions": [
+   {
+    "prompt": "What remaining Doppler signal is visible in this source near-occlusion case?",
+    "answer": "Residual color signal and a spectral waveform",
+    "explanation": "The source describes near occlusion rather than complete occlusion. LT ICA MID identifies the left internal carotid measurement region."
+   }
+  ],
+  "references": [
+   {
+    "title": "Wikimedia Commons source image and file-level licence",
+    "url": "https://commons.wikimedia.org/wiki/File:Internal_carotid_artery_stenosis_in_ultrasound_near_occlusion.jpg"
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.415,
+    "y": 0.208,
+    "text": "Residual color Doppler signal",
+    "structures": [
+     "Internal carotid artery"
+    ],
+    "side": "Left",
+    "note": "Residual color Doppler signal remains in the source near-occlusion case."
+   },
+   {
+    "x": 0.586,
+    "y": 0.73,
+    "text": "Recorded spectral velocity trace",
+    "structures": [
+     "Internal carotid artery"
+    ],
+    "side": "Left",
+    "note": "The source's left ICA measurement retains a spectral waveform."
+   },
+   {
+    "x": 0.583,
+    "y": 0.517,
+    "text": "Peak systolic velocity",
+    "structures": [
+     "Left ICA near-occlusion plaque"
+    ],
+    "side": "Left",
+    "note": "Peak systolic velocity 479.6 cm/s on the left ICA MID spectral trace, high-grade stenosis range."
+   },
+   {
+    "x": 0.73,
+    "y": 0.699,
+    "text": "End-diastolic velocity",
+    "structures": [
+     "Internal carotid artery"
+    ],
+    "side": "Left",
+    "note": "End-diastolic velocity 151.7 cm/s on the left ICA MID spectral trace."
+   }
+  ],
+  "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
+  "scene": {
+   "systems": [
+    "cardiovascular",
+    "skeletal",
+    "muscular"
+   ],
+   "regions": [
+    "neck",
+    "head"
+   ],
+   "focus": [
+    "Internal carotid artery",
+    "External carotid artery",
+    "Left common carotid artery",
+    "Internal jugular vein"
+   ],
+   "show": [
+    "Left ICA near-occlusion plaque"
+   ],
+   "side": "Left",
+   "isolate": true,
+   "view": "left",
+   "frame_on": [
+    "Internal carotid artery",
+    "Left common carotid artery"
+   ]
+  }
+ },
+ {
+  "id": "us_paraovarian_cyst_tubal_torsion",
+  "title": "Paraovarian cyst and tubal torsion: ultrasound",
+  "modality": "Ultrasound",
+  "region": "Pelvis",
+  "plane": "Unspecified",
+  "finding": "Paraovarian cyst with tubal torsion",
+  "tags": [
+   "pathology",
+   "ultrasound",
+   "pelvis"
+  ],
+  "summary": "Figure 1 shows normal ovary adjacent to paraovarian cyst, thickened tube and a cyst-wall papillary projection in a surgically confirmed isolated tubal torsion case.",
+  "text": "<p>Figure 1 shows normal ovary adjacent to paraovarian cyst, thickened tube and a cyst-wall papillary projection in a surgically confirmed isolated tubal torsion case.</p><p>Panel A shows a normal ovary adjacent to the paraovarian cyst; panel B shows the thickened tube; panel C shows a papillary projection in the cyst wall. The primary case confirms isolated right fallopian-tube torsion at laparoscopy. The panels come from transabdominal and transrectal examination, without individual section axes supplied.</p>",
+  "reading": [
+   "Panel A shows a normal ovary adjacent to the paraovarian cyst; panel B shows the thickened tube; panel C shows a papillary projection in the cyst wall. The primary case confirms isolated right fallopian-tube torsion at laparoscopy. The panels come from transabdominal and transrectal examination, without individual section axes supplied."
+  ],
+  "questions": [
+   {
+    "prompt": "What anatomical relationship does panel A show?",
+    "answer": "A normal ovary adjacent to a cystic mass",
+    "explanation": "The primary figure caption identifies a normal ovary with a cyst beneath it. The case's isolated right fallopian-tube torsion was subsequently confirmed at laparoscopy."
+   }
+  ],
+  "references": [
+   {
+    "title": "Wikimedia Commons source image and file-level licence",
+    "url": "https://commons.wikimedia.org/wiki/File:Ultrasonographic_identification_of_a_cystic_mass_in_the_right_lower_abdomen.jpg"
+   },
+   {
+    "title": "Underlying source and caption",
+    "url": "https://link.springer.com/article/10.1186/s12905-021-01483-2"
+   }
+  ],
+  "labels": [
+   {
+    "x": 0.116,
+    "y": 0.207,
+    "text": "Normal ovary in panel A",
+    "structures": [
+     "Ovary"
+    ],
+    "side": "Right",
+    "note": "The primary figure caption identifies a normal ovary next to the cyst."
+   },
+   {
+    "x": 0.459,
+    "y": 0.261,
+    "text": "Thickened tube in panel B",
+    "structures": [
+     "Ampulla of uterine tube",
+     "Isthmus of uterine tube"
+    ],
+    "side": "Right",
+    "note": "The source red arrows identify a thickened tube."
+   },
+   {
+    "x": 0.775,
+    "y": 0.366,
+    "text": "Cyst-wall papillary projection",
+    "structures": [
+     "Paraovarian cyst (right adnexa)"
+    ],
+    "side": "Right",
+    "note": "The source arrow identifies a papillary projection on the cyst wall. The cyst lies in the right broad ligament beside the ovary and is modelled as a fluid-filled finding; the papillary projection itself is not modelled separately."
+   },
+   {
+    "x": 0.16,
+    "y": 0.3,
+    "text": "Bladder in panel A",
+    "structures": [
+     "Urinary bladder"
+    ],
+    "note": "The figure annotation labels the anechoic bladder lying beside the cyst in panel A."
+   }
+  ],
+  "atlas_note": "The current atlas has no matching ovary or uterine-tube structures, so these labels remain on the image.",
+  "scene": {
+   "regions": [
+    "abdomen"
+   ],
+   "micro": "female_reproductive",
+   "micro_focus": [
+    "Ovary",
+    "Ampulla of uterine tube",
+    "Isthmus of uterine tube",
+    "Infundibulum of uterine tube",
+    "Fimbriae",
+    "Broad ligament - mesosalpinx",
+    "Urinary bladder"
+   ],
+   "micro_context": [
+    "Body of uterus (myometrium)",
+    "Fundus of uterus (myometrium)",
+    "Ovarian ligament",
+    "Rectum"
+   ],
+   "model_view": "anterior",
+   "xray": true,
+   "isolate": false,
+   "show": [
+    "Paraovarian cyst (right adnexa)"
+   ]
+  }
+ }
 ]
