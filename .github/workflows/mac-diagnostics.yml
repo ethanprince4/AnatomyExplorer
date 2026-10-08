@@ -125,6 +125,9 @@ jobs:
           cd packaging/build/diagnostic-artifact
           shasum -a 256 AnatomyExplorer-Mac-Diagnostic.zip > SHA256SUMS.txt
       - name: Exercise actual frozen diagnostic HTTPS and GPU controls
+        env:
+          # Shared macOS runners exhaust GitHub's anonymous API quota; the check uses this only for its API read.
+          AE_HTTPS_CHECK_TOKEN: ${{ github.token }}
         run: |
           "packaging/build/diagnostic-dist/Anatomy Explorer Diagnostic.app/Contents/MacOS/AnatomyExplorerDiagnostic" --no-dialog --report packaging/build/diagnostic-artifact/ci-report.json
           python -c 'import json; r=json.load(open("packaging/build/diagnostic-artifact/ci-report.json")); assert r["completed"] and r["runtime"]["frozen"]; assert r["tls"]["packaged_roots"]["success"] and r["tls"]["packaged_roots"]["tls"]["bundled_ca"]; assert len(r["gpu"]["checks"]) == 9 and len(r["gpu"]["production_controls"]["rows"]) == 3; print("Frozen report capture verified; renderer correctness remains in the separate GPU job.")'
