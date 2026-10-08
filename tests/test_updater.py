@@ -291,21 +291,31 @@ class UpdaterTests(unittest.TestCase):
 class ReplaceOriginalMacAppTests(unittest.TestCase):
     """An update that ran healthily can be copied over the original app, so Finder shows its version and icon."""
 
+    @staticmethod
+    def bundle(path, version, icon, data):
+        (path / "Contents/MacOS").mkdir(parents=True)
+        (path / "Contents/Resources/data").mkdir(parents=True)
+        launcher = path / "Contents/MacOS/AnatomyExplorer"
+        if sys.platform == "darwin":
+            shutil.copyfile("/bin/echo", launcher)       # codesign needs a real executable
+        else:
+            launcher.write_bytes(b"launcher")
+        os.chmod(launcher, 0o755)
+        (path / "Contents/Info.plist").write_text('<?xml version="1.0"?><plist version="1.0"><dict><key>CFBundleExecutable</key><string>AnatomyExplorer</string><key>CFBundleIdentifier</key><string>io.github.ethanprince4.updatertest</string><key>CFBundlePackageType</key><string>APPL</string></dict></plist>')
+        (path / "Contents/Resources/VERSION").write_text(version)
+        (path / "Contents/Resources/icon.icns").write_bytes(icon)
+        (path / "Contents/Resources/data/atlas.bin").write_bytes(data)
+        if sys.platform == "darwin":                     # verify() checks the signature on macOS
+            subprocess.run(["/usr/bin/codesign", "--force", "--deep", "--sign", "-", str(path)], check=True, capture_output=True)
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         root = fixture_root(self.temp.name)
         self.base = root / "Applications/Anatomy Explorer.app"
-        (self.base / "Contents/MacOS").mkdir(parents=True)
-        (self.base / "Contents/Resources/data").mkdir(parents=True)
-        (self.base / "Contents/MacOS/AnatomyExplorer").write_bytes(b"old launcher")
-        os.chmod(self.base / "Contents/MacOS/AnatomyExplorer", 0o755)
-        (self.base / "Contents/Resources/VERSION").write_text("3.1.0")
-        (self.base / "Contents/Resources/icon.icns").write_bytes(b"old icon")
-        (self.base / "Contents/Resources/data/atlas.bin").write_bytes(os.urandom(300_000))
+        data = os.urandom(300_000)
+        self.bundle(self.base, "3.1.0", b"old icon", data)
         candidate = root / "next/Anatomy Explorer.app"
-        shutil.copytree(self.base, candidate, symlinks=True)
-        (candidate / "Contents/Resources/VERSION").write_text("3.1.1")
-        (candidate / "Contents/Resources/icon.icns").write_bytes(b"new icon")
+        self.bundle(candidate, "3.1.1", b"new icon", data)
         manifest = create_payload(candidate, root / "packs", "3.1.1", "macos-arm64")
         self.store = u.UpdateStore(self.base, root / "updates")
         self.store.prepare(manifest, LocalSource(root / "packs"))
