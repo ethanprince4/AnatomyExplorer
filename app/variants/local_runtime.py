@@ -367,7 +367,8 @@ def prepare_local_model(entry, token=None):
     backend = NativeBackend()
     if path.suffix.lower() == ".npz":
         metadata, decoded = decode_local_npz(path, token, warnings)
-        retired = load_part_guide(entry.id).excluded_groups
+        guide = load_part_guide(entry.id)
+        retired = guide.excluded_groups
         if retired:
             # Parts a model's guide retires (the adrenal gland that came with the kidney); references to them in
             # views and recipes are pruned like any removed part.
@@ -426,6 +427,9 @@ def prepare_local_model(entry, token=None):
                 item.description = display["description"]
             if display.get("atlas"):
                 item.atlas = list(display["atlas"])
+            if guide.names.get(item.key):
+                # A readable name in place of a build label; the key still finds the part.
+                item.name = guide.names[item.key]
         _retire_native_backing(model, [row for row, *_ in decoded])
     elif path.suffix.lower() == ".glb":
         from app.viewer.model import Model

@@ -73,7 +73,7 @@ def attach(meta, data_dir):
         meta["structures"].append({
             "id": sid, "raw": r["name"], "name": r["name"], "base": r["name"], "side": "", "role": "None",
             "system": "findings", "subsystem": r["subsystem"], "type": "MESH", "def": r["note"],
-            "latin": r.get("latin", ""), "ta2": "", "regions": ["thorax"],
+            "latin": r.get("latin", ""), "ta2": "", "regions": r.get("regions") or ["thorax"],
             "collections": ["Findings", r["subsystem"]],
             "i_start": i_base + r["i_start"], "i_count": r["i_count"],
             "bbox": r["bbox"], "centroid": r["centroid"], "material": mat_id[r["material"]],

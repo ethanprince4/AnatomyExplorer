@@ -45,6 +45,114 @@
     0.82
    ],
    "alpha": 0.35
+  },
+  {
+   "name": "Mass",
+   "color": [
+    0.86,
+    0.8,
+    0.7
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Calcification",
+   "color": [
+    0.98,
+    0.97,
+    0.9
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Blood clot",
+   "color": [
+    0.42,
+    0.07,
+    0.09
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Haemorrhage",
+   "color": [
+    0.66,
+    0.13,
+    0.12
+   ],
+   "alpha": 0.92
+  },
+  {
+   "name": "Stone",
+   "color": [
+    0.93,
+    0.83,
+    0.48
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Inflamed tissue",
+   "color": [
+    0.88,
+    0.42,
+    0.3
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Fluid",
+   "color": [
+    0.83,
+    0.66,
+    0.24
+   ],
+   "alpha": 0.75
+  },
+  {
+   "name": "Fracture",
+   "color": [
+    0.95,
+    0.36,
+    0.14
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Abnormal vessel",
+   "color": [
+    0.86,
+    0.16,
+    0.18
+   ],
+   "alpha": 1.0
+  },
+  {
+   "name": "Infarct",
+   "color": [
+    0.55,
+    0.62,
+    0.72
+   ],
+   "alpha": 0.95
+  },
+  {
+   "name": "Breast tissue",
+   "color": [
+    0.94,
+    0.8,
+    0.7
+   ],
+   "alpha": 0.55
+  },
+  {
+   "name": "Body soft tissue",
+   "color": [
+    0.74,
+    0.66,
+    0.55
+   ],
+   "alpha": 1.0
   }
  ],
  "findings": [
@@ -54,6 +162,9 @@
    "subsystem": "Pleural space",
    "note": "A massive effusion filling almost the whole right pleural cavity.",
    "material": "Pleural fluid",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 0,
    "v_count": 116765,
    "i_start": 0,
@@ -82,6 +193,9 @@
    "subsystem": "Pleural space",
    "note": "All that is left aerated of the right lung, squashed up against the apex.",
    "material": "Collapsed lung",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 116765,
    "v_count": 12401,
    "i_start": 700164,
@@ -110,6 +224,9 @@
    "subsystem": "Cardiac",
    "note": "Fluid under pressure pushes the heart and trachea away from the side it is on.",
    "material": "Enlarged heart",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 129166,
    "v_count": 39099,
    "i_start": 770952,
@@ -138,6 +255,9 @@
    "subsystem": "Pleural space",
    "note": "Small effusions blunting both costophrenic angles, as in heart failure.",
    "material": "Pleural fluid",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 168265,
    "v_count": 22507,
    "i_start": 1002303,
@@ -166,6 +286,9 @@
    "subsystem": "Pleural space",
    "note": "Air in the pleural space has let the left lung fall away from the chest wall.",
    "material": "Collapsed lung",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 190772,
    "v_count": 9805,
    "i_start": 1137303,
@@ -194,6 +317,9 @@
    "subsystem": "Pleural space",
    "note": "The pleural cavity the lung has retreated from - no lung markings out here.",
    "material": "Air in pleural space",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 200577,
    "v_count": 9805,
    "i_start": 1192947,
@@ -222,6 +348,9 @@
    "subsystem": "Airspace disease",
    "note": "The right middle lobe filled with inflammatory exudate instead of air.",
    "material": "Consolidation",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 210382,
    "v_count": 3838,
    "i_start": 1248591,
@@ -250,6 +379,9 @@
    "subsystem": "Cardiac",
    "note": "The cardiac silhouette of a dilated heart, over half the width of the chest.",
    "material": "Enlarged heart",
+   "regions": [
+    "thorax"
+   ],
    "v_start": 214220,
    "v_count": 36699,
    "i_start": 1270779,
@@ -270,6 +402,195 @@
     0.01835441030561924,
     1.2862658500671387,
     0.03111497312784195
+   ]
+  },
+  {
+   "name": "Soft tissue of head and neck (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "head",
+    "neck"
+   ],
+   "v_start": 250919,
+   "v_count": 10352,
+   "i_start": 1487862,
+   "i_count": 62100,
+   "bbox": [
+    [
+     -0.09783473610877991,
+     1.4278758764266968,
+     -0.127154141664505
+    ],
+    [
+     0.0883963406085968,
+     1.7354638576507568,
+     0.11191245913505554
+    ]
+   ],
+   "centroid": [
+    -0.0005874953349120915,
+    1.5922170877456665,
+    -0.01161913201212883
+   ]
+  },
+  {
+   "name": "Soft tissue of trunk (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "thorax",
+    "abdomen",
+    "back"
+   ],
+   "v_start": 261271,
+   "v_count": 39830,
+   "i_start": 1549962,
+   "i_count": 238968,
+   "bbox": [
+    [
+     -0.17314322292804718,
+     0.7103977799415588,
+     -0.14583687484264374
+    ],
+    [
+     0.17313620448112488,
+     1.4753265380859375,
+     0.1291559338569641
+    ]
+   ],
+   "centroid": [
+    -2.8185382689116523e-05,
+    1.0945595502853394,
+    -0.010402187705039978
+   ]
+  },
+  {
+   "name": "Soft tissue of right upper limb (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "upper_limb_r"
+   ],
+   "v_start": 301101,
+   "v_count": 17042,
+   "i_start": 1788930,
+   "i_count": 102228,
+   "bbox": [
+    [
+     -0.3310360610485077,
+     0.7079187035560608,
+     -0.1313313990831375
+    ],
+    [
+     0.3309175670146942,
+     1.4534270763397217,
+     0.08755874633789062
+    ]
+   ],
+   "centroid": [
+    -0.128204807639122,
+    1.1365443468093872,
+    -0.021915121003985405
+   ]
+  },
+  {
+   "name": "Soft tissue of left upper limb (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "upper_limb_l"
+   ],
+   "v_start": 318143,
+   "v_count": 13192,
+   "i_start": 1891158,
+   "i_count": 79140,
+   "bbox": [
+    [
+     0.0026943099219352007,
+     0.8542741537094116,
+     -0.1313313990831375
+    ],
+    [
+     0.2909468710422516,
+     1.4534271955490112,
+     0.05802440643310547
+    ]
+   ],
+   "centroid": [
+    0.16822676360607147,
+    1.2366973161697388,
+    -0.04083114489912987
+   ]
+  },
+  {
+   "name": "Soft tissue of right lower limb (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "lower_limb_r"
+   ],
+   "v_start": 331335,
+   "v_count": 24660,
+   "i_start": 1970298,
+   "i_count": 147936,
+   "bbox": [
+    [
+     -0.17755922675132751,
+     0.0021855474915355444,
+     -0.11583489179611206
+    ],
+    [
+     0.14440640807151794,
+     0.9096479415893555,
+     0.14052510261535645
+    ]
+   ],
+   "centroid": [
+    -0.07100310176610947,
+    0.4256858825683594,
+    -0.01901646889746189
+   ]
+  },
+  {
+   "name": "Soft tissue of left lower limb (section fill)",
+   "latin": "",
+   "subsystem": "Section fill",
+   "note": "Fat, connective tissue and everything else under the skin that the atlas does not model as a named structure, shown only in scan sections so the cut reads as tissue.",
+   "material": "Body soft tissue",
+   "regions": [
+    "lower_limb_l"
+   ],
+   "v_start": 355995,
+   "v_count": 19092,
+   "i_start": 2118234,
+   "i_count": 114540,
+   "bbox": [
+    [
+     0.002440841170027852,
+     0.05024072155356407,
+     -0.11583489179611206
+    ],
+    [
+     0.1774407923221588,
+     0.9097003936767578,
+     0.07083773612976074
+    ]
+   ],
+   "centroid": [
+    0.09402237832546234,
+    0.5386140942573547,
+    -0.027612432837486267
    ]
   }
  ]

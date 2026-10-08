@@ -4,7 +4,7 @@ import time
 
 import moderngl
 import numpy as np
-from PySide6.QtCore import QEvent, QPoint, QPointF, QRectF, Qt, Signal
+from PySide6.QtCore import QEvent, QPoint, QPointF, QRectF, Qt, QTimer, Signal
 from PySide6.QtGui import QColor, QFont, QFontMetricsF, QInputDevice, QPainter, QPainterPath, QPen
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
 from PySide6.QtWidgets import QWidget
@@ -249,6 +249,8 @@ class Viewport(QOpenGLWidget):
         self._structure_labels = []
         self.section = None            # SectionIndex, attached by the main window
         self.section_anchors = []      # [(sid, anchor_xyz, weight)] on the current cut face
+        self._reference_anchors = []   # the same for a radiology case's labels on an uncut (projection) view
+        self._reference_key = None
         self._section_geometry = None
         self.last_section_frame = None
         self._section_rects = []       # screen rectangles of the drawn labels, for clicking
@@ -315,6 +317,7 @@ class Viewport(QOpenGLWidget):
         self._pick_frame_key = self._frame_key()
         self._update_landmarks()
         self._update_structure_labels()
+        self._update_reference_anchors()
         self.frameTimed.emit((time.perf_counter() - t0) * 1000.0)
         self.overlay.update()
         if animating:
@@ -826,9 +829,62 @@ class Viewport(QOpenGLWidget):
         if self.sectionChanged:
             self.sectionChanged(self.section_anchors)
 
+    def _update_reference_anchors(self):
+        """A radiology case's labels on an uncut view: each name points at the pixel deepest inside the largest
+        visible patch of its structures, so a label never points at anatomy that is hidden or behind another."""
+        groups = self._radiology_label_groups
+        if not groups or self.active_section() is not None:
+            if self._reference_anchors:
+                self._reference_anchors = []
+            self._reference_key = None
+            return
+        key = (self.renderer.last_vp.tobytes(), tuple(self.renderer.size), self.state.visible_mask().tobytes(),
+               id(groups), tuple(self.state.selected))
+        if key == self._reference_key:
+            return
+        # Reading the id buffer every frame would stall an orbit: wait until the view has held still briefly.
+        now = time.perf_counter()
+        if key != getattr(self, "_reference_pending", None):
+            self._reference_pending, self._reference_pending_at = key, now
+            QTimer.singleShot(170, self, self.update)
+            return
+        if now - self._reference_pending_at < 0.15:
+            QTimer.singleShot(170, self, self.update)
+            return
+        self._reference_key = key
+        rw, rh = self.renderer.size
+        step = max(1, int(round(min(rw, rh) / 480)))
+        ids = self.renderer.read_id_image(step)
+        anchors, names = [], {}
+        if ids is not None:
+            from scipy.ndimage import distance_transform_edt, label
+            for text, sids, _surface in groups:
+                members = np.asarray([s + 1 for s in sids if s not in names], dtype=np.int32)
+                if not len(members):
+                    continue
+                mask = np.isin(ids, members)
+                if not mask.any():
+                    continue
+                parts, count = label(mask)
+                if count > 1:
+                    mask = parts == (np.argmax(np.bincount(parts.ravel())[1:]) + 1)
+                depth = distance_transform_edt(mask)
+                y, x = np.unravel_index(int(np.argmax(depth)), depth.shape)
+                sid = int(ids[y, x]) - 1
+                point = self.renderer.world_at(x * step + step // 2, y * step + step // 2)
+                if point is None or sid in names:
+                    continue
+                anchors.append((sid, np.asarray(point, dtype=float), float(mask.sum())))
+                names[sid] = text
+        self._reference_anchors = anchors
+        self._reference_names = names
+
     def _paint_section_labels(self, p, dark):
         """Lay the names out in two columns with leader lines, the way an atlas plate is labelled."""
-        if not self.section_anchors:
+        anchors, label_names = self.section_anchors, self._section_label_names
+        if not anchors and self._reference_anchors and self.active_section() is None:
+            anchors, label_names = self._reference_anchors, getattr(self, "_reference_names", {})
+        if not anchors:
             return
         font = QFont(self.font())
         font.setPointSizeF(float(self.settings.get("label_size", 8.6)))
@@ -839,7 +895,7 @@ class Viewport(QOpenGLWidget):
         margin = 12.0
         self._section_rects = []
         columns = {-1: [], 1: []}
-        for sid, anchor, _weight in self.section_anchors:
+        for sid, anchor, _weight in anchors:
             pr = self.project(anchor)
             if pr is None or not (0 <= pr[0] <= w and 0 <= pr[1] <= h):
                 continue
@@ -863,7 +919,7 @@ class Viewport(QOpenGLWidget):
                     ys[k] = min(ys[k], ys[k + 1] - line_h)
             for (sid, pr), ly in zip(items, ys):
                 ly = max(line_h * 0.6, min(bottom - line_h * 0.6, ly))
-                text = self._section_label_names.get(sid, self.ds.structures[sid]["name"])
+                text = label_names.get(sid, self.ds.structures[sid]["name"])
                 tw = min(fm.horizontalAdvance(text) + 12, w * 0.28)
                 x0 = max(margin,model_left-32-tw) if side < 0 else min(w-margin-tw,model_right+32)
                 rect = QRectF(x0, ly - line_h / 2 + 2, tw, fm.height() + 4)

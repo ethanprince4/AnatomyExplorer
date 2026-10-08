@@ -619,6 +619,31 @@ class Renderer:
         value = float(pixel[0])
         return value if np.isfinite(value) else None
 
+    def read_id_image(self, step=1):
+        """Structure id + 1 at every step-th pixel of the last frame (rows bottom-up, 0 = nothing), or None."""
+        if not self.frame_ok:
+            return None
+        w, h = self.size
+        previous_fbo = self.ctx.fbo
+        previous_viewport = self.ctx.viewport
+        if previous_fbo is None:
+            return None
+        try:
+            self.gbuffer.use()
+            data = self.gbuffer.read(components=1, attachment=2, dtype="f4")
+        except moderngl.Error:
+            return None
+        finally:
+            previous_fbo.use()
+            self.ctx.viewport = previous_viewport
+        ids = np.frombuffer(data, dtype=np.float32)
+        if ids.size != w * h:
+            return None
+        ids = np.nan_to_num(ids.reshape(h, w)[::step, ::step], nan=0.0)
+        ids = np.rint(ids).astype(np.int32)
+        ids[(ids < 1) | (ids > self.ds.n)] = 0
+        return ids
+
     def pick(self, x, y):
         w, h = self.size
         if not self.frame_ok or not (0 <= x < w and 0 <= y < h):

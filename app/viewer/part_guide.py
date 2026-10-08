@@ -5,7 +5,8 @@ under plain categories for the parts tree, gives each a readable title, and hold
 teaching description (in place of build notes, when replace_part_descriptions is set), clinical notes about that
 structure, and the histology tissues that show it. "parts" gives individual parts their own description, by part key,
 where the group's text would describe a neighbour (a taste-bud paragraph for the basal taste cells); one entry covers
-every copy of a structure. Everything is optional, and anything malformed is ignored, so a model without a guide keeps
+every copy of a structure. "names" gives parts a readable display name by part key, in place of a build label
+("cardiomyocyte__003"); lessons and cases still find a part by its key. Everything is optional, and anything malformed is ignored, so a model without a guide keeps
 working; its groups are then nested by the segments of their own keys.
 
     {"schema": 1,
@@ -14,6 +15,7 @@ working; its groups are then nested by the segments of their own keys.
      "groups": {"Gross / renal artery": {"description": "...", "replace_part_descriptions": false,
                                          "clinical": [["Title", "Text"], ...], "histology": ["muscular_artery"]}},
      "parts": [{"keys": ["Basal taste cells"], "description": "..."}, ...],
+     "names": {"cardiomyocyte__003": "Cardiomyocyte 3", ...},
      "exclude": {"groups": [...], "targets": [...], "aliases": [...], "histology": [...]}}
 
 "exclude" retires what does not belong to the model (the adrenal gland that came with the kidney): those groups' parts
@@ -42,6 +44,7 @@ class PartGuide:
     titles: dict = field(default_factory=dict)        # group key -> display title
     groups: dict = field(default_factory=dict)        # group key -> GroupGuide
     descriptions: dict = field(default_factory=dict)  # part key -> its own teaching description
+    names: dict = field(default_factory=dict)         # part key -> display name
     excluded_groups: frozenset = frozenset()
     excluded_targets: frozenset = frozenset()
     excluded_aliases: frozenset = frozenset()
@@ -128,4 +131,8 @@ def load_part_guide(model_id, tissue_ids=None):
         text = raw.get("description") if isinstance(raw, dict) and isinstance(raw.get("description"), str) else ""
         for key in _strings(raw.get("keys")) if text.strip() else ():
             guide.descriptions.setdefault(key, text.strip())
+    names = data.get("names")
+    if isinstance(names, dict):
+        guide.names = {k: v.strip() for k, v in names.items()
+                       if isinstance(k, str) and isinstance(v, str) and 0 < len(v.strip()) <= 80}
     return guide

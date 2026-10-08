@@ -128,6 +128,7 @@ class ModelViewport(QOpenGLWidget):
         self.click_hook = None
         # labels
         self.labels_on = False
+        self.reference_labels = {}       # item index -> name, set by a radiology case: label only these parts
         self.names_hidden = lambda: False    # practice: nothing on screen may name a structure
         self.label_items = []                # [(item, anchor world, area px, text, priority)]
         self.section_items = []              # [(item, anchor world)]
@@ -720,6 +721,9 @@ class ModelViewport(QOpenGLWidget):
         if self.names_hidden() or not self.settings.get("show_landmarks", True):
             return [], False
         sel = [int(s) for s in self.state.selected]
+        if self.reference_labels:
+            vis = self.state.visible_mask()
+            return sel + [i for i in self.reference_labels if vis[i] and i not in sel], False
         if self.labels_on:
             vis = self.state.visible_mask()
             ghost = self.state.ghost_focus
@@ -786,7 +790,7 @@ class ModelViewport(QOpenGLWidget):
                 seen_groups[it.group] = i
                 chosen.append((i, it.group))
             else:
-                chosen.append((i, it.name))
+                chosen.append((i, self.reference_labels.get(i, it.name)))
             if len(chosen) >= limit:
                 break
         from scipy.ndimage import distance_transform_edt
@@ -819,6 +823,7 @@ class ModelViewport(QOpenGLWidget):
                 state.visible_mask().tobytes(), tuple(state.selected), arrays, bool(getattr(state,"opaque_materials",False)),
                 repr(self.clip_config()), self.explode, self.anim_t, self.reveal_state,
                 self.reveal_amount, bool(self.labels_on), bool(self.names_hidden()),
+                tuple(sorted(self.reference_labels.items())),
                 tuple(self.settings.get(name) for name in ("max_landmarks", "max_section_labels",
                                                            "section_labels", "show_landmarks")))
 

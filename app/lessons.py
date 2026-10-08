@@ -408,7 +408,7 @@ class Resolver:
                 entry = hits[0]
                 if entry.sids:
                     return list(entry.sids)
-                if entry.node:
+                if entry.node and entry.node in self.ds.nodes:     # search also finds lessons and scan cases
                     return self.ds.node_structures(entry.node)
         return []
 
