@@ -103,6 +103,12 @@ class PartGuideTests(unittest.TestCase):
                 self.assertIsInstance(data.get("tree"), list)
                 placed = [key for node in data["tree"] for key in node["groups"]]
                 self.assertEqual(len(placed), len(set(placed)), "a group is placed twice")
+                described = [key for entry in data.get("parts", []) for key in entry["keys"]]
+                self.assertEqual(len(described), len(set(described)), "a part is described twice")
+                for entry in data.get("parts", []):
+                    text = entry["description"]
+                    self.assertTrue(entry["keys"] and 25 <= len(text.split()) <= 130, text)
+                    self.assertNotRegex(text, r"&[a-z]+;|<[a-z/]|preserved source|per unit|cover:|__", text)
 
 
 if __name__ == "__main__":
