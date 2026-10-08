@@ -70,20 +70,26 @@ class SplitTests(unittest.TestCase):
                 prep.prepare(folder, TAG)
             self.assertTrue((folder / f'{DMG}.part001').exists())
             return
-        # The real osacompile, codesign and ditto, as the publishing job runs them.
+        # The real osacompile, codesign and hdiutil, as the publishing job runs them.
         prep.prepare(folder, TAG)
         self.assertFalse((folder / DMG).exists())
-        archive = folder / prep.MAC_INSTALLER
-        self.assertTrue(archive.is_file())
-        unpacked = self.tmp / 'unpacked'
-        subprocess.run(['ditto', '-x', '-k', str(archive), str(unpacked)], check=True)
-        applet = unpacked / prep.MAC_APP
-        script = applet / 'Contents/Resources/install.sh'
-        self.assertTrue(os.access(script, os.X_OK))
-        self.assertTrue((applet / 'Contents/Resources/Scripts/main.scpt').is_file())
-        subprocess.run(['codesign', '--verify', '--deep', '--strict', str(applet)], check=True)
-        subprocess.run(['/bin/bash', '-n', str(script)], check=True)
-        self.assertIn(f'{DMG}.part004', script.read_text(encoding='utf-8'))
+        image = folder / prep.MAC_INSTALLER
+        self.assertTrue(image.is_file())
+        mount = self.tmp / 'mounted'
+        mount.mkdir()
+        subprocess.run(['hdiutil', 'attach', '-nobrowse', '-readonly', '-mountpoint', str(mount), str(image)], check=True)
+        try:
+            # Opening the image shows exactly one thing: the installer.
+            self.assertEqual(sorted(p.name for p in mount.iterdir() if not p.name.startswith('.')), [prep.MAC_APP])
+            applet = mount / prep.MAC_APP
+            script = applet / 'Contents/Resources/install.sh'
+            self.assertTrue(os.access(script, os.X_OK))
+            self.assertTrue((applet / 'Contents/Resources/Scripts/main.scpt').is_file())
+            subprocess.run(['codesign', '--verify', '--deep', '--strict', str(applet)], check=True)
+            subprocess.run(['/bin/bash', '-n', str(script)], check=True)
+            self.assertIn(f'{DMG}.part004', script.read_text(encoding='utf-8'))
+        finally:
+            subprocess.run(['hdiutil', 'detach', str(mount)], check=False)
         self.assertIn(prep.MAC_INSTALLER, (folder / 'INSTALL-DOWNLOADS.md').read_text(encoding='utf-8'))
 
     def test_installer_app_names_follow_the_channel(self):

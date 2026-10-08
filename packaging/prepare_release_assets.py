@@ -13,7 +13,7 @@ PART = 1_000_000_000
 REPO = 'https://github.com/ethanprince4/AnatomyExplorer/releases/download'
 HERE = Path(__file__).resolve().parent
 MAC_APP = 'Install Anatomy Explorer.app'
-MAC_INSTALLER = 'Install-Anatomy-Explorer-Mac.zip'
+MAC_INSTALLER = 'Install-Anatomy-Explorer-Mac.dmg'
 
 
 def run(*cmd):
@@ -71,9 +71,11 @@ def mac_installer_script(base, dmg_name, bundle, total, parts):
 
 
 def build_mac_installer(folder, tag, dmg_name, total, parts):
-    """Create folder/Install-Anatomy-Explorer-Mac.zip: an ad-hoc signed AppleScript applet that runs install.sh."""
+    """Create folder/Install-Anatomy-Explorer-Mac.dmg: a disk image holding an ad-hoc signed AppleScript applet that
+    runs install.sh. Opening the image shows the installer in its own Finder window (a zip unpacked silently into
+    Downloads, where people had to go and find it)."""
     if sys.platform != 'darwin':
-        raise SystemExit('An oversized Mac installer needs macOS to build the installer app (osacompile, codesign, ditto)')
+        raise SystemExit('An oversized Mac installer needs macOS to build the installer app (osacompile, codesign, hdiutil)')
     name = mac_app_name(tag)
     work = Path(tempfile.mkdtemp(prefix='ae-installer-'))
     try:
@@ -89,9 +91,12 @@ def build_mac_installer(folder, tag, dmg_name, total, parts):
         # Written after osacompile, so the signature covers the embedded script.
         run('codesign', '--force', '--deep', '--sign', '-', applet)
         run('codesign', '--verify', '--deep', '--strict', applet)
+        stage = work / 'image'
+        stage.mkdir()
+        run('ditto', applet, stage / MAC_APP)
         out = folder / MAC_INSTALLER
         out.unlink(missing_ok=True)
-        run('ditto', '-c', '-k', '--keepParent', applet, out)
+        run('hdiutil', 'create', '-volname', MAC_APP[:-4], '-srcfolder', stage, '-format', 'UDZO', '-ov', out)
     finally:
         shutil.rmtree(work, ignore_errors=True)
 
@@ -123,7 +128,7 @@ def prepare(folder, tag):
         else:
             build_mac_installer(folder, tag, path.name, total, [(name, sha256(folder / name)) for name in parts])
             notes.append(f'- {MAC_INSTALLER} (Mac, Apple silicon): reconstructs {path.name} from {len(parts)} parts. '
-                         f'Unzip it and double-click "{MAC_APP[:-4]}". It downloads about {total / 1e9:.1f} GB, checks '
+                         f'Open it and double-click "{MAC_APP[:-4]}" in the window that appears. It downloads about {total / 1e9:.1f} GB, checks '
                          f'each part, copies the app into Applications and opens it. It needs about '
                          f'{(2 * total + 2 ** 30) / 1e9:.0f} GB of free disk space while it runs; if it stops, run it '
                          'again. The first time, macOS may say it cannot be opened, because the project has no paid '
