@@ -95,3 +95,86 @@ class CapParityTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# ---------------------------------------------------------------------------------------------- inside the wgpu frame
+def _frame_setup():
+    try:
+        from app.gpu.device import get_gpu
+        gpu = get_gpu()
+        sys.path.insert(0, str(ROOT / "tests"))
+        from general_fixtures import write_fixture_model
+        import tempfile
+        from app.viewer.model import Model
+        d = Path(tempfile.mkdtemp())
+        write_fixture_model(d / "m.glb")
+        m = Model(d / "m.glb")
+        m.evaluate(m.clip_range[0], None, 0.0)
+        return gpu, m
+    except Exception as exc:
+        return exc
+
+
+FRAME = _frame_setup()
+needs_frame = unittest.skipIf(isinstance(FRAME, Exception), f"no wgpu adapter or fixture model: {FRAME!r}")
+
+
+@needs_frame
+class RendererCapsTests(unittest.TestCase):
+    """WgpuRenderer draws the cut faces: ids flag 2, picks on them, the colour of the section, nothing when clipping is off."""
+
+    @classmethod
+    def setUpClass(cls):
+        import wgpu
+        from app.gpu.renderer import WgpuRenderer
+        from app.viewer.camera import OrbitCamera
+        from app.viewer.renderer import FrameState, Settings
+        cls.gpu, cls.model = FRAME
+        cls.r = WgpuRenderer(cls.gpu)
+        cls.r.set_model(cls.model)
+        cls.size = (320, 240)
+        cls.cam = OrbitCamera()
+        cls.cam.frame_bounds(cls.model.bounds_min, cls.model.bounds_max, 320 / 240, yaw=0.6, pitch=0.3, duration=0.0)
+        cls.cam.snap()
+        cls.settings = Settings()
+        cls.tex = cls.gpu.device.create_texture(
+            size=(*cls.size, 1), format="rgba8unorm",
+            usage=wgpu.TextureUsage.RENDER_ATTACHMENT | wgpu.TextureUsage.COPY_SRC | wgpu.TextureUsage.TEXTURE_BINDING)
+        n = len(cls.model.items)
+        cls.FrameState = FrameState
+        cls.n = n
+        lo, hi = np.asarray(cls.model.bounds_min, float), np.asarray(cls.model.bounds_max, float)
+        cls.cx = float((lo[0] + hi[0]) / 2)
+
+    def frame(self, clip):
+        fs = self.FrameState(visible=np.ones(self.n, bool), ghost=np.zeros(self.n, bool), alpha=np.ones(self.n, np.float32),
+                             clip_planes=((-1.0, 0.0, 0.0, self.cx),) + ((0.0, 1.0, 0.0, 0.0),) * 2,
+                             clip_on=(clip, False, False))
+        for _ in range(2):
+            self.r.render(self.tex, self.size, self.cam, self.settings, fs, out_size=self.size)
+        self.assertTrue(self.r.frame_ok)
+        return self.r.read_final(self.tex, self.size)
+
+    def test_cut_faces_are_laid_into_ids_and_picked(self):
+        off = self.frame(False)
+        ids0, flags0 = self.r.read_ids()
+        self.assertEqual(int(((flags0 & 2) != 0).sum()), 0)
+        on = self.frame(True)
+        ids, flags = self.r.read_ids()
+        cap = (flags & 2) != 0
+        self.assertGreater(int(cap.sum()), 100, "cut faces reach the id buffer (flag 2)")
+        self.assertTrue(bool((ids[cap] >= 0).all()))
+        changed = np.abs(on.astype(int) - off.astype(int)).max(2) > 8
+        self.assertGreater(float(changed[cap].mean()), 0.9, "the cut faces are shaded into the picture")
+        ys, xs = np.nonzero(cap)
+        for i in np.linspace(0, len(xs) - 1, 8).astype(int):
+            item, point, on_cut = self.r.pick(int(xs[i]), int(ys[i]))
+            self.assertEqual(item, int(ids[ys[i], xs[i]]))
+            self.assertTrue(on_cut)
+            self.assertAlmostEqual(float(point[0]), self.cx, delta=1e-3 * max(1.0, abs(self.cx)) + 1e-3)
+
+    def test_clipping_off_is_the_uncut_picture(self):
+        a = self.frame(False)
+        self.frame(True)
+        b = self.frame(False)
+        self.assertEqual(int(np.abs(a.astype(int) - b.astype(int)).max()), 0)

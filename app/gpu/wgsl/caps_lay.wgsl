@@ -60,6 +60,16 @@ struct DepthOut {
     @builtin(frag_depth) depth: f32,
 };
 
+// Same, into a depth attachment in GL row order (row 0 = bottom: the renderer's vis_depth).
+@fragment
+fn fs_depth_gl(@builtin(position) pos: vec4<f32>) -> DepthOut {
+    let zp = textureLoad(cap_zp, vec2<i32>(i32(pos.x), i32(cf.screen.y) - 1 - i32(pos.y)), 0).x;
+    if (zp <= 0.0) { discard; }
+    var o: DepthOut;
+    o.depth = zp;
+    return o;
+}
+
 @fragment
 fn fs_depth(@builtin(position) pos: vec4<f32>) -> DepthOut {
     let zp = textureLoad(cap_zp, vec2<i32>(i32(pos.x), i32(pos.y)), 0).x;

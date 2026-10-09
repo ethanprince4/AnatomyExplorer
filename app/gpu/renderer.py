@@ -19,7 +19,7 @@ The pass order, targets, formats and uniform values are those of the GL renderer
 
 All intermediate textures keep GL's row order (row 0 = bottom); the target and every readback array are top row first.
 
-Not drawn yet (each state logs a warning once): cut caps. Refused by set_model (NotImplementedError, the Qt view then builds the
+Cut faces (caps.py): see the cap steps in render(). Refused by set_model (NotImplementedError, the Qt view then builds the
 OpenGL viewport): alpha-cut textures. Not supported: the vertex-pulling raster path for adapters without
 "primitive-index".
 """
@@ -40,6 +40,7 @@ from app.viewer.environment import make_env, sh9_irradiance
 from app.viewer.renderer import (DEFAULT_RIG, DEFAULT_WORLD, FrameState, Renderer as _GL, Settings,  # noqa: F401
                                  _frustum_planes, _look_key, _transparent_pass, backdrop_linear)
 from . import geometry as geo
+from .caps import CapPasses
 from .oit import OitDraw, OitPass
 from .post import PostPasses
 from .shading_uniforms import FIELD_BY_NAME, SIZE as SHADE_SIZE, pack_shading_uniforms
@@ -121,7 +122,13 @@ def _prelude_resolve(id_fmt, samples, n_pages, page0):
     ty_id = "texture_multisampled_2d<u32>" if ms else "texture_2d<u32>"
     out.append(f"@group(2) @binding(0) var vis_id: {ty_id};")
     out.append("@group(2) @binding(2) var bg_tex: texture_2d<f32>;")
+    out.append(("@group(2) @binding(6) var vis_depth: texture_depth_multisampled_2d;" if ms else
+                "@group(2) @binding(6) var vis_depth: texture_depth_2d;") + "\n@group(2) @binding(7) var cap_col: texture_2d<f32>;")
+    out.append(f"fn load_depth(p: vec2<i32>, s: i32) -> f32 {{ return textureLoad(vis_depth, p, {'s' if ms else '0'}); }}")
     out.append("@group(1) @binding(0) var<uniform> pass_info: vec4<u32>;")
+    out.append("const CAP_SAMPLE: u32 = 0xffffffffu;\n"
+               "fn q24(x: f32) -> f32 { return round(clamp(x, 0.0, 1.0) * 16777215.0) / 16777215.0; }\n"
+               "fn cap_covers(zp: f32, sample_depth: f32) -> bool { return zp > 0.0 && q24(zp) < q24(sample_depth); }")
     s = "s" if ms else "0"
     if id_fmt == "r32uint":
         out.append(f"fn load_id(p: vec2<i32>, s: i32) -> u32 {{ return textureLoad(vis_id, p, {s}).x; }}")
@@ -202,6 +209,8 @@ def _entry(binding, kind, vis, **kw):
         e["texture"] = {"sample_type": "unfilterable-float", "view_dimension": "2d"}
     elif kind == "tl":
         e["texture"] = {"sample_type": "float", "view_dimension": "2d"}
+    elif kind == "td":
+        e["texture"] = {"sample_type": "depth", "view_dimension": "2d", "multisampled": kw.get("ms", False)}
     elif kind == "ta":
         e["texture"] = {"sample_type": "float", "view_dimension": "2d-array"}
     elif kind == "s":
@@ -330,6 +339,13 @@ class WgpuRenderer:
         ao, gi = ao_gi_scales()
         self.post = PostPasses(self.device, ao_scale=ao, gi_scale=gi)
         self.oit = OitPass(self.device, flip_y=True, depth_format="depth32float", aniso=8)
+        self.caps = CapPasses(self.device)
+        self._cap_none = self.device.create_texture(size=(1, 1, 1), format="rgba32float", usage=TU.TEXTURE_BINDING,
+                                                    label="cap_none").create_view()
+        self._capon = 0
+        self._bg_vis_cap = None
+        self._bg_vis_size = None
+        self._cap_col_v = None
         self.oit_t = None
         self._oit_rec = _Rec()
         self._items_v = self._spec_v = None
@@ -377,7 +393,8 @@ class WgpuRenderer:
         key = ("vis", samples > 1)
         if key not in self._bgl_cache:
             self._bgl_cache[key] = self.device.create_bind_group_layout(
-                entries=[_entry(0, "tu", SS.FRAGMENT, ms=samples > 1), _entry(2, "tl", SS.FRAGMENT)])
+                entries=[_entry(0, "tu", SS.FRAGMENT, ms=samples > 1), _entry(2, "tl", SS.FRAGMENT),
+                         _entry(6, "td", SS.FRAGMENT, ms=samples > 1), _entry(7, "tf", SS.FRAGMENT)])
         return self._bgl_cache[key]
 
     def _bgl_pages(self, n):
@@ -562,6 +579,9 @@ class WgpuRenderer:
 
     def release_model(self):
         self.oit.set_geometry(None)
+        self.caps.release()
+        self._bg_vis_cap = self._cap_col_v = None
+        self._capon = 0
         if self.geom is not None:
             self.geom.release()
         self.geom = None
@@ -682,8 +702,6 @@ class WgpuRenderer:
     def _check_supported(self, m, fs, draws, oit, any_clip):
         if oit:
             pass
-        if any_clip and draws:
-            self._warn_once("caps", "cut faces (caps) are not drawn yet: the sections show the inside of the shells")
 
     # ------------------------------------------------------------------ targets
     def _pick_samples(self, msaa):
@@ -692,6 +710,12 @@ class WgpuRenderer:
             if n <= want and n <= self.max_samples:
                 return n
         return 1
+
+    def _make_bg_vis(self, cap_col_view):
+        return self.device.create_bind_group(layout=self._bgl_vis(self.samples), entries=[
+            {"binding": 0, "resource": self.v["vis_id"]}, {"binding": 2, "resource": self.v["bg"]},
+            {"binding": 6, "resource": self.v["vis_depth"]},
+            {"binding": 7, "resource": cap_col_view}])
 
     def _ensure_targets(self, w, h, samples):
         if self.size == (w, h) and self.samples == samples and self.t:
@@ -705,7 +729,7 @@ class WgpuRenderer:
         t = {}
         t["vis_id"] = d.create_texture(size=(w, h, 1), format=self.id_format, sample_count=samples, usage=RA | TB,
                                        label="vis_id")
-        t["vis_depth"] = d.create_texture(size=(w, h, 1), format="depth32float", sample_count=samples, usage=RA,
+        t["vis_depth"] = d.create_texture(size=(w, h, 1), format="depth32float", sample_count=samples, usage=RA | TB,
                                           label="vis_depth")
         t["res_order"] = d.create_texture(size=(w, h, 1), format="depth32float", usage=RA, label="res_order")
         t["tri"] = d.create_texture(size=(w, h, 1), format="r32uint", usage=RA | TB | CS, label="tri")
@@ -722,8 +746,9 @@ class WgpuRenderer:
         self.v = {k: v.create_view() for k, v in t.items()}
         self.oit_t = self.oit.make_targets(w, h, samples)
         self.size, self.samples = (w, h), samples
-        self._bg_vis = d.create_bind_group(layout=self._bgl_vis(samples), entries=[
-            {"binding": 0, "resource": self.v["vis_id"]}, {"binding": 2, "resource": self.v["bg"]}])
+        self._bg_vis_none = self._make_bg_vis(self._cap_none)
+        self._bg_vis_cap = None
+        self._bg_vis = self._bg_vis_none
         self._bg_res = d.create_bind_group(layout=self.bgl_res, entries=[
             {"binding": 3, "resource": self.v["tri"]}, {"binding": 4, "resource": self.v["id"]},
             {"binding": 5, "resource": self.v["nd"]}])
@@ -1000,11 +1025,11 @@ class WgpuRenderer:
             self._items_v = self.items_tex.create_view()
             self._spec_v = self.env_spec.create_view(dimension="2d-array")
             self._bg_shade = {}
-        key = (slot, first)
+        key = (slot, first, self._capon)
         if key not in self._bg_shade:
             ub = self._pass_ub.get(key)
             if ub is None:
-                ub = self.device.create_buffer_with_data(data=np.array([slot, first, 0, 0], np.uint32), usage=BU.UNIFORM,
+                ub = self.device.create_buffer_with_data(data=np.array([slot, first, self._capon, 0], np.uint32), usage=BU.UNIFORM,
                                                          label=f"pass{key}")
                 self._pass_ub[key] = ub
             albedo = self._white.create_view() if slot == 0 else self._texture_view(self._tex_slots[slot - 1])
@@ -1123,6 +1148,21 @@ class WgpuRenderer:
             self._upload_anim(fs)
         lights = self._lights(V, s)
         clip = (clip_planes, clip_on, int(fs.clip_mode))
+        # ---- cut faces: which items are cut and the per-part uniforms (None when nothing is cut)
+        cplan = None
+        if any_clip and have and draws:
+            cplan = self.caps.plan(m, self.geom, draws, VP, V, (w, h), fs, s, clip, camera)
+        elif not any_clip and self.caps.t:
+            self.caps.release()
+        self._capon = 0 if cplan is None else 1
+        if cplan is None:
+            self._bg_vis = self._bg_vis_none
+        else:
+            if self._bg_vis_cap is None or self._cap_col_v is not self.caps.v["col"] or self._bg_vis_size != (w, h, samples):
+                self._cap_col_v = self.caps.v["col"]
+                self._bg_vis_cap = self._make_bg_vis(self._cap_col_v)
+                self._bg_vis_size = (w, h, samples)
+            self._bg_vis = self._bg_vis_cap
         sg = self._global_uniforms(V, campos, lights, s, (w, h), camera, clip)
         table, entries, bits = (self._build_table(draws, s, fs) if have else
                                 (np.zeros((1, DRAW_FLOATS), np.float32), [], self.prim_bits_max))
@@ -1202,14 +1242,15 @@ class WgpuRenderer:
                 rp.set_bind_group(3, bg)
                 rp.draw(3)
             rp.end()
-        # ---- 2b. translucent and x-rayed parts: weighted blended OIT into the visibility pass's depth (GL pass 5)
+        # ---- 2a. cut faces (GL's CAPMIX_PRE_FS): gather the innermost cut face per pixel, lay it into id / nd
+        if cplan is not None:
+            self.caps.encode_gather(enc, cplan)
+            self.caps.encode_lay_in(enc, T["id"], T["nd"])
+        # ---- 2b. translucent and x-rayed parts: weighted blended OIT into the visibility pass's depth (GL pass 5);
+        # encoded after the shaded resolve (below), which still needs the visibility depth without the cut faces
         oit_draws = []
         if oit and have:
             oit_draws = self._oit_draws(oit, VP, V, campos, lights, s, (w, h), camera, clip, fs, alpha, ghost)
-        if oit_draws:
-            self._shade_bind_group()
-            self.oit.encode(enc, oit_draws, size=(w, h), samples=samples, depth_view=V_["vis_depth"], targets=self.oit_t,
-                            items=self._items_v, spec=self._spec_v, vp_wgpu=GL_TO_WGPU_Z @ VP, anim_tab=self.anim_section())
         # ---- 3. SSAO (reads the previous frame's resolved colour, `opaque`) and the two blur passes
         if s.ao and m is not None:
             radius = s.ao_radius or self._auto_ao_radius()
@@ -1220,6 +1261,12 @@ class WgpuRenderer:
             post.run_blur(T["ao"], T["nd"], T["ao_tmp"], (1.0 / w, 0.0), encoder=enc)
             post.pending_ts = self._ts(qs, None, 5)
             post.run_blur(T["ao_tmp"], T["nd"], T["ao"], (0.0, 1.0 / h), encoder=enc)
+        # ---- 3b. shade the cut faces (after the AO, which they read)
+        if cplan is not None:
+            self._shade_bind_group()
+            cg = self.caps.shade_bind_group(self._sg, self._items_v, self.v["ao"], self._spec_v, self._white.create_view(),
+                                            self._s_ao, self.post.s_env, self._s_tex)
+            self.caps.encode_colour(enc, cg)
         # ---- 4. shaded resolve into `opaque`
         if groups:
             slots = sorted({0, *(int(table[e[0], 38].view(np.uint32)) for e in entries)})
@@ -1243,6 +1290,13 @@ class WgpuRenderer:
         else:
             enc.copy_texture_to_texture({"texture": T["bg"], "mip_level": 0, "origin": (0, 0, 0)},
                                         {"texture": T["opaque"], "mip_level": 0, "origin": (0, 0, 0)}, (w, h, 1))
+        # ---- 4b. cut faces into the visibility depth (GL: depth_ms after CAPMIX_FS), then the translucent pass tests against it
+        if cplan is not None:
+            self.caps.encode_depth(enc, V_["vis_depth"], samples, gl_order=True)
+        if oit_draws:
+            self._shade_bind_group()
+            self.oit.encode(enc, oit_draws, size=(w, h), samples=samples, depth_view=V_["vis_depth"], targets=self.oit_t,
+                            items=self._items_v, spec=self._spec_v, vp_wgpu=GL_TO_WGPU_Z @ VP, anim_tab=self.anim_section())
         # ---- 5. composite (no translucent items yet: accum / weight stay zero)
         hov = fs.hovered + 1 if fs.hovered >= 0 else s.hovered
         post.pending_ts = self._ts(qs, 8, 9)

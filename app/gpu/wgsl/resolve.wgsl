@@ -305,10 +305,25 @@ fn fs_shade(@builtin(position) frag: vec4<f32>) -> @location(0) vec4<f32> {
     let bgc = textureLoad(bg_tex, px, 0).rgb;
     var ids: array<u32, 8>;
     for (var s = 0; s < i32(SAMPLES); s++) { ids[s] = load_id(px, s); }
+    // Cut faces (caps.py): rgb = shaded face, a = its window depth (0 = none). A sample it passes the depth test on is the face,
+    // not the surface (GL: CAPMIX_FS draws into the MSAA buffer); marked CAP_SAMPLE so that it joins no triangle's count.
+    let cc = textureLoad(cap_col, px, 0);
+    if (pass_info.z != 0u && cc.a > 0.0) {
+        for (var s = 0; s < i32(SAMPLES); s++) {
+            if (cap_covers(cc.a, load_depth(px, s))) { ids[s] = CAP_SAMPLE; }
+        }
+    }
     var acc = vec3<f32>(0.0);
     var counted = 0u;
     for (var s = 0; s < i32(SAMPLES); s++) {
         let id = ids[s];
+        if (id == CAP_SAMPLE) {
+            if (pass_info.y == 1u) {
+                acc += q16(cc.rgb);
+                counted++;
+            }
+            continue;
+        }
         if (id == 0u) {
             if (pass_info.y == 1u) {
                 acc += bgc;

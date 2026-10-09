@@ -184,11 +184,11 @@ class CapPasses:
                                           "targets": [{"format": "rg32float"}, {"format": "rgba32float"}]},
                 label="cap_lay")
         elif kind == "depth":
-            _k, dfmt, samples = key
+            _k, dfmt, samples, gl = key
             m = self._module("lay")
             p = d.create_render_pipeline(
                 layout=self._layout(self.bgl0, self.bgl_lay), vertex={"module": m, "entry_point": "vs_fsq"},
-                primitive=prim, fragment={"module": m, "entry_point": "fs_depth", "targets": []},
+                primitive=prim, fragment={"module": m, "entry_point": "fs_depth_gl" if gl else "fs_depth", "targets": []},
                 depth_stencil={"format": dfmt, "depth_write_enabled": True, "depth_compare": "less"},
                 multisample={"count": samples}, label="cap_depth")
         elif kind == "col":
@@ -431,12 +431,13 @@ class CapPasses:
         rp.draw(3)
         rp.end()
 
-    def encode_depth(self, enc, depth_view, samples=1, depth_format="depth32float"):
+    def encode_depth(self, enc, depth_view, samples=1, depth_format="depth32float", gl_order=False):
         """Write the cut faces' window depth into the frame's depth attachment (test less, top row first): GL's depth_ms
-        after CAPMIX_FS.  Needed only by passes that test against that depth afterwards (the translucent pass)."""
+        after CAPMIX_FS.  Needed only by passes that test against that depth afterwards (the translucent pass).
+        gl_order: the depth attachment has GL row order (row 0 = bottom, the renderer's vis_depth) instead of top first."""
         rp = enc.begin_render_pass(color_attachments=[], depth_stencil_attachment={
             "view": depth_view, "depth_load_op": "load", "depth_store_op": "store"})
-        rp.set_pipeline(self._pipe(("depth", depth_format, int(samples))))
+        rp.set_pipeline(self._pipe(("depth", depth_format, int(samples), bool(gl_order))))
         rp.set_bind_group(0, self._bg0)
         rp.set_bind_group(1, self._bg_lay)
         rp.draw(3)
