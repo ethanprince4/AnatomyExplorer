@@ -399,7 +399,7 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(0, self._adapt_workspace)
         if not script:
             QTimer.singleShot(0, self._startup_explore)
-        QTimer.singleShot(0, self._note_place)       # the opening view is the first place Back can return to
+        QTimer.singleShot(0, self, self._note_place)  # the opening view is the first place Back can return to
         if self._startup_notices:
             if self.content.model_catalog_error:
                 self.notice.show_message(" · ".join(self._startup_notices), "Browse models", self._show_catalog)
@@ -947,7 +947,8 @@ class MainWindow(QMainWindow):
                 workspace = 'histology'      # an open slide belongs to Histology, not Explore
             elif current is self.anatomy_tab and radiology_visible:
                 workspace = 'radiology'      # an open case belongs to Radiology
-            elif current is not self.anatomy_tab and current in self.micro_tabs.values() or                     current in self._loading_models.values():
+            elif (current is not self.anatomy_tab and current in self.micro_tabs.values()
+                  or current in self._loading_models.values()):
                 workspace = '3d models'      # an open (or loading) model belongs to 3D Models
             else:
                 workspace = 'explore'
@@ -1335,7 +1336,8 @@ class MainWindow(QMainWindow):
 
     # ------------------------------------------------------------------ places (Back / Forward)
     def _note_place(self, *_):
-        if not self._restoring_place:
+        # closing also removes the center tabs, which emits currentChanged after the place timer may be gone
+        if not self._restoring_place and not self._closing:
             self._place_timer.start()
 
     def _capture_place(self):
@@ -3052,7 +3054,7 @@ class MainWindow(QMainWindow):
             vp.clear_measure()
             return
         if vp.measure_mode:        # nothing measured: Esc leaves measure mode, like any other tool
-            self.toggle_measure()
+            vp.set_measure(False)  # this view's own mode, even when the page in front is not a 3D view
             self.measure_action.setChecked(False)
             return
         mv = self.active_model_view()
