@@ -1,7 +1,18 @@
 import numpy as np
 from PySide6.QtCore import QObject, Signal
 
-STATE_TEX_WIDTH = 4096
+STATE_TEX_WIDTH = 4096          # texels per row of the state texture
+MAX_STRUCTURES = 65536          # the vertex format stores the structure id in 16 bits
+
+
+def state_rows(n):
+    """Blocks of STATE_TEX_WIDTH structures needed for n structures (at least one)."""
+    return max(1, -(-int(n) // STATE_TEX_WIDTH))
+
+
+def state_texel(sid):
+    """(x, y) of a structure's first state row; its second row is y + 1."""
+    return sid % STATE_TEX_WIDTH, (sid // STATE_TEX_WIDTH) * 2
 
 F_VISIBLE = 1
 F_GHOST = 2
@@ -28,7 +39,7 @@ class SceneState(QObject):
         self.ds = ds
         self.settings = settings
         n = ds.n
-        assert n <= STATE_TEX_WIDTH
+        assert n <= MAX_STRUCTURES
         self.hidden = np.zeros(n, dtype=bool)
         self.forced = np.zeros(n, dtype=bool)
         self.isolated = None
@@ -356,7 +367,7 @@ class SceneState(QObject):
     def build_texture(self):
         ds = self.ds
         n = ds.n
-        tex = np.zeros((2, STATE_TEX_WIDTH, 4), dtype=np.float32)
+        tex = np.zeros((2, state_rows(n) * STATE_TEX_WIDTH, 4), dtype=np.float32)
         vis = self.visible_mask()
         flags = np.where(vis, F_VISIBLE, 0).astype(np.int32)
         if self.ghost_focus is not None:

@@ -19,7 +19,7 @@ APP_NAME = "Anatomy Explorer Experimental" if CHANNEL == "experimental" else "An
 # never shipped; data/anatomy's surface-sample and depth caches come from the stage (see prebuild.py).
 # Legacy models/ assets are collected only for builds without a post-only release library.
 DATA_DIRS = ["data/anatomy", "data/content", "data/findings", "data/histology", "data/radiology",
-             "data/micro_cache", "data/models", "models", "app/resources", "app/ui/resources",
+             "data/micro_cache", "data/models", "models", "app/resources", "app/ui/resources", "app/gpu/wgsl",
              "app/variants/anatomy_runtime_adapters", "app/variants/anatomy_variants"]
 SKIP_DIRS = {"__pycache__", ".git", "model-library"}
 SKIP_SUFFIXES = {".pyc", ".tmp", ".part", ".stackdump"}

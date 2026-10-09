@@ -1,0 +1,214 @@
+Port inventory: app/viewer/renderer.py lines 460-900 (I2)
+Repo-relative paths. Scope: frame targets (_ensure_targets), per-frame helpers in range, render() passes 1-6.
+Lines 460-463 are the tail of _refresh_transforms (445-463). Bodies of functions called from render() but defined
+outside the range are NOT inventoried here (see UNRESOLVED).
+
+=== 1. Functions in range ===
+_refresh_transforms tail (L460-463): per part with lod, _scales[i] = max column norm of part_matrix(part)[:3,:3].
+_transform(p) (L464-475): cached per frame in self._xf[p.id]. Reads self.model (part_matrix, node_weights[p.node],
+  items[p.item].clip). Returns (M, nmat = inv(M[:3,:3]).T, flip = 1 if det<0 else 0, weight default 0.0,
+  noclip = 0 if item.clip else 1, key = (M bytes, flip, weight, noclip)). Called per frame and per draw.
+_runs(parts, kind) (L477-507): generator; kind in {"shadow","pre","shaded"}. Sorts parts by span start.
+  batched = items_tex exists and not (kind=="shaded" and look is None).
+  alone (one part per draw) if items_tex None, or animated (abo and fs.anim_frame), or (shaded and look None),
+  or (pre and look.texture not None and alpha_cut > 0).
+  Otherwise merges consecutive spans (run[1]+run[2]==first) with equal key = (_transform(p)[5], look if shaded else None).
+  Yields (part, first, count, batched).
+release_model (L509-528): retires vaos, vbo, ibo, abo, item_vbo, items_tex, all textures except self.white; resets
+  _range, _look_keys, _item_state, _xf, _lod_range, _lod, _level, _xf_key, textures, model; frame_ok=False;
+  _compact_vertices=False; releases each GL object, swallowing exceptions. Called from release() and on model change.
+release (L530-548): once (guard _released). Calls release_model; releases t, fsq, programs, white, _label_gpu,
+  shadow_maps (fbo, tex pairs), env.spec/_vao/_prog. Sets self.t = {}.
+_texture(image_index) (L550-574): cached in self.textures. PIL decode of model.doc.images[i], RGBA; if max side > 4096
+  downscale by k = 4096/max with LANCZOS. Upload ctx.texture(size, 4, bytes, internal_format=0x8C43 GL_SRGB8_ALPHA8);
+  build_mipmaps(); filter (LINEAR_MIPMAP_LINEAR, LINEAR); anisotropy 8.0. On exception -> self.white (untextured).
+  L557 comment: glTF UV(0,0) = upper-left of source image (no flip in code).
+_ensure_targets(w, h, samples) (L577-636): no-op if size and samples unchanged. Else releases old set (reversed),
+  builds the set in section 2, releases partial set and re-raises on failure. Sets self.t, size, samples.
+_state(fs) (L639-651): no GL. fs None -> FrameState(). vis = fs.visible or per-item OR of part.visible.
+  ghost = fs.ghost or zeros(n, bool). alpha = fs.alpha or ones(n, float32). Returns (fs, vis, ghost, alpha).
+render(target, size, camera, s, fs=None, out_size=None) (L654-877): see section 3.
+_ambient() (L879-881): round(mean(world.ambient_colour, default [0.5]*3) * world.ambient_strength, default 0.3, 4).
+_auto_ao_radius() (L883-887): um = model.um_per_bu(); if um and um <= 50 -> 4.5/um; else model_diag * 0.017.
+_clip_uniforms(u, clip) (L889-895, staticmethod): u_clip0..2 = planes[i]; u_clip_on = tuple(on); u_clip_mode = mode.
+_anim_uniforms(u, p) (L897-905): if abo None or fs.anim_frame None -> u_anim = 0. Else u_anim = 1, u_anim_t = fs.anim_t,
+  u_aw = anim_frame[0, p.item], u_ag = anim_frame[1, p.item]. Reads self._fs (set at L680).
+
+=== 2. GL targets created in _ensure_targets (L577-636) ===
+Size: (w,h) = render size, both >= 2. Samples: max(1, min(int(s.msaa), ctx.max_samples)) (L663).
+Where not stated, moderngl defaults apply (filter/wrap not set in code).
+Name            Type                 Fmt  Size  Samp  Writer                        Reader
+nd              texture 4ch          f4   w x h  1    pass 2 (fbo_pre)              SSAO u_nd, blur u_nd
+                filter NEAREST, repeat off (L591, 595-596)
+id              texture 2ch          f4   w x h  1    pass 2                        composite u_id (unit 3)
+                NEAREST, repeat off
+pre_depth       depth renderbuffer   D    w x h  1    pass 2 depth                  pass 2 depth test
+fbo_pre         framebuffer [nd, id] + pre_depth (L597)
+ao              texture 4ch          f2   w x h  1    SSAO pass 3 -> fbo_ao; blur pass 2 -> fbo_ao    blur pass 1 (src ao)
+                repeat off (L599-600)
+ao_tmp          texture 4ch          f2   w x h  1    blur pass 1                   blur pass 2
+fbo_ao, fbo_ao_tmp  framebuffers [ao], [ao_tmp] (L601)
+col_ms          renderbuffer 4ch     f2   w x h  S    pass 4 (fbo_main)             resolve L840 -> opaque
+depth_ms        depth renderbuffer   D    w x h  S    pass 4 depth, pass 5 depth    pass 4, pass 5 depth test
+acc_ms          renderbuffer 4ch     f2   w x h  S    pass 5 (fbo_oit)              resolve L842 -> accum
+wgt_ms          renderbuffer 1ch     f2   w x h  S    pass 5 (fbo_oit)              resolve L843 -> weight
+fbo_main        framebuffer [col_ms] + depth_ms (L606)
+fbo_oit         framebuffer [acc_ms, wgt_ms] + depth_ms (L607)
+fbo_col_src, fbo_acc_src, fbo_wgt_src  single-attachment framebuffers for the resolve copies (L608-610)
+opaque          texture 4ch          f2   w x h  1    resolve L840                  SSAO u_prev (unit 1), composite (unit 0)
+accum           texture 4ch          f2   w x h  1    resolve L842                  composite (unit 1)
+weight          texture 1ch          f2   w x h  1    resolve L843                  composite (unit 2)
+fbo_opaque, fbo_accum, fbo_weight  framebuffers over the same textures (L611-614)
+parity          texture 1ch          f4   w x h  1    not written in range          not read in range; NEAREST (L616, 621-622)
+cap_albedo      texture 4ch          f2   w x h  1    cap pass (_render_caps)       capmix; NEAREST
+cap_normal      texture 4ch          f2   w x h  1    cap pass                      capmix; NEAREST
+cap_id          texture 2ch          f4   w x h  1    cap pass                      capmix; NEAREST
+cap_zp          texture 1ch          f4   w x h  1    cap pass                      capmix; NEAREST
+cap_key         depth_texture        D    w x h  1    cap pass                      capmix; filter not set (L623)
+fbo_parity      framebuffer [parity] (L624)
+fbo_cap         framebuffer [cap_albedo, cap_normal, cap_id, cap_zp] + cap_key (L625)
+final           texture 4ch          u1   w x h  1    pass 6 composite (scaled case) blit; LINEAR (L627-628)
+fbo_final       framebuffer [final] (L629)
+Note: only col_ms, depth_ms, acc_ms, wgt_ms are multisampled (S). Note the writer of ao/ao_tmp/fbo_ao is the SSAO and
+blur passes in section 3.
+
+=== 3. render() passes in order (L654-877) ===
+Entry (L659-687):
+ - frame_ok = False (L659); _ids_cache = None (L662); w,h clamped >= 2 (L661).
+ - _ensure_targets(w, h, samples) (L664). env rebuilt when key (round(s.studio,3), _ambient()) changes (L665-667).
+ - camera.aspect = w/h; V = view_matrix(); Pm = proj_matrix(aspect); VP = Pm @ V; last_vp = VP; campos = position() (L669-675).
+ - last_camera = (V, Pm, aspect, ortho, ortho_halves if ortho else half_tans, (w,h)) (L676-677).
+ - fs, vis, ghost, alpha = _state(fs) when model present (L679); self._fs = fs (L680).
+ - if model: _refresh_transforms(m); _upload_item_state(fs, s, ghost, alpha); _level = _lod_levels(V, last_camera[4], ortho, h) (L681-684).
+ - clip = (np.array(fs.clip_planes, float32), tuple(bool(x) for x in fs.clip_on), int(fs.clip_mode)); any_clip = any(clip[1]) (L685-686).
+ - Global GL state (L688-690): BLEND and CULL_FACE disabled; DEPTH_TEST enabled; depth_func = "<".
+   Cull is off for the whole frame here. Depth write, colour masks, stencil are never set in render() (context defaults).
+ - Culling (L692-704): planes = _frustum_planes(VP); centres, radii = self._spheres; inside = all over the 6 planes of
+   (plane normal . centre + d >= -radius), per part (L694-696). Skip part if not vis[item] or not keep (L699).
+   If _transparent_pass(p, ghost[item], alpha[item], fs) the part goes to oit, else to draws (L701-704).
+   Note: assumes len(radii) == len(model.parts); not checked here.
+ - Lights (L707-717): Rinv = V[:3,:3].T. For first 3 of (self.rig or DEFAULT_RIG):
+     az, el in radians; dv = (cos(el) sin(az), sin(el), cos(el) cos(az)); L = Rinv @ dv, normalised;
+     E = colour (default [1,1,1]) * energy / pi * s.light_scale; size_eq = size_factor (default 0.35) * 0.5642;
+     tuple (L, E, size_eq, size_factor). Padded to 3 with ([0,1,0], zeros(3), 0.1, 0.1) (L716-717).
+
+Pass 1 - shadow maps (L719-721): if s.shadows and model: _render_shadows(lights, s, draws, clip). Body out of range.
+  Uses draws (opaque) only.
+
+Pass 2 - pre-pass (L723-756): normals, linear depth, ids; opaque only.
+  Target fbo_pre (nd, id, pre_depth). viewport (0,0,w,h) (L726).
+  Clear: colour (0,0,0,0), depth 1.0 (L727).
+  Depth test ON, func "<" (L689-690). Depth write not set (default). Blend OFF, cull OFF (L688).
+  Program p_pre = P(GEOM_VS, PREPASS_FS) (L223).
+  Set once: u_viewproj = VP; u_view = V; clip uniforms (L730-732); _use_items(u) (L734, body out of range).
+  Per run from _runs(draws, "pre") (L735): M, nmat, flip, weight, noclip from _transform; vao = vaos["pre"] (L733).
+    u_model = M; u_nmat = nmat; u_flip; u_weight; u_batched = 1 or 0 (L736-741).
+    If not batched: u_id = float(item+1); u_flags = 1.0 if item in fs.selected else 0.0 (L742-744).
+    u_noclip; _anim_uniforms(u, p) (L745-746).
+    If look.texture not None and alpha_cut > 0: _texture(look.texture).use(6); u_tex = 6; u_has_tex = 1; u_alpha_cut = alpha_cut.
+    Else u_has_tex = 0; u_alpha_cut = 0.0 (L747-755).
+    vao.render(TRIANGLES, vertices=count, first=first) (L756).
+  Skipped when model is None (targets are cleared only).
+
+Pass 2b - cut faces (L758-761): caps = False; if any_clip and model and draws: caps = _render_caps(draws, VP, V, campos,
+  camera, clip, fs, (w,h)). Body out of range. Writes the cap_* and parity targets. Result gates the pass 4 capmix.
+
+Pass 3 - SSAO and blur (L763-799), only if s.ao and model:
+  DEPTH_TEST OFF for the pass (L765), ON again at L799.
+  radius = s.ao_radius or _auto_ao_radius() (L767).
+  Target fbo_ao, viewport (0,0,w,h) (L768-769). No clear in range; the fullscreen triangle overwrites.
+  Bound: nd on unit 0 (u_nd = 0) (L770-771); opaque on unit 1 (u_prev = 1) (L786-787).
+  NOTE (possible stale read): opaque is written only at L840, after this pass. u_prev therefore holds the previous
+  frame's resolved colour, or initial content on the first frame. Verify before porting.
+  Uniforms: ortho -> u_tan = (hx, hy), u_ortho = 1 (from ortho_halves); else u_tan = (tx, ty), u_ortho = 0 (half_tans) (L772-779).
+    u_radius = radius; u_bias = radius * 0.03; u_power = 1.6 * s.ao_strength; u_samples = 16;
+    u_large = s.ao_large; u_large_mix = s.ao_large_mix; u_gi_on = 1.0 if s.bounce > 0 else 0.0 (L780-788).
+  Program p_ssao = P(FSQ_VS, SSAO_FS) (L228). Fullscreen triangle: render(TRIANGLES, vertices=3) (L789).
+  Blur: program p_blur = P(FSQ_VS, BLUR_FS) (L229), two fullscreen triangles (L790-798):
+    (1) src ao -> dst fbo_ao_tmp, dir (1/w, 0)
+    (2) src ao_tmp -> dst fbo_ao, dir (0, 1/h)
+    Each binds src on unit 0 (u_src = 0) and nd on unit 1 (u_nd = 1). Separable blur guided by nd.
+  Result: AO in fbo_ao. No code in range binds ao to the composite (composite samplers L850-853 do not include ao).
+
+Pass 4 - forward MSAA (L801-821):
+  Target fbo_main (col_ms + depth_ms). viewport (0,0,w,h). Clear colour (0,0,0,1), depth 1.0 (L802-805).
+  Backdrop: depth test OFF (L806). Program p_back = P(FSQ_VS, BACKDROP_FS) (L227). Fullscreen triangle (L816).
+    u_bottom = backdrop_linear(bottom, tonemap) * k; u_top = backdrop_linear(top, tonemap) * k;
+    k = 2 ** -exposure (L813). top/bottom = s.background if not None, else world top_hex (default "#20242b") and
+    bottom_hex (default "#12141a") (L809-812).
+  Depth test ON (L817). Blend OFF.
+  If model: _draw_shaded(p_main, "main", draws, VP, V, campos, lights, s, (w,h), camera, clip, fs, alpha) (L819).
+    Program p_main = P(GEOM_VS, MAIN_FS) (L221). Body out of range.
+  If caps: _capmix(VP, V, campos, lights, s, (w,h), camera, fs) (L820-821). Body out of range.
+    Programs p_capmix_pre and p_capmix (L231-232, FSQ_VS).
+
+Pass 5 - OIT (L823-837), only if the oit list is non-empty and model is set:
+  Target fbo_oit (acc_ms, wgt_ms, depth_ms). viewport (0,0,w,h) (L826-829).
+  fo.depth_mask = False (L827): depth writes off. Clear colour (0,0,0,1) (L830). Depth not cleared here.
+  Blend ON (L831). blend_equation = FUNC_ADD (L832).
+  blend_func = (ONE, ONE, ZERO, ONE_MINUS_SRC_ALPHA) (L833). Per moderngl this is (src_rgb, dst_rgb, src_alpha, dst_alpha).
+    Colour: additive accumulation (src ONE, dst ONE). Alpha: src_alpha ZERO, dst_alpha ONE_MINUS_SRC_ALPHA.
+    Confirm the 4-tuple order against moderngl docs before porting.
+  Depth test still ON, func "<", reading depth_ms from pass 4.
+  Draw: _draw_shaded(p_oit, "oit", oit, VP, V, campos, lights, s, (w,h), camera, clip, fs, alpha, ghost=ghost) (L834-835).
+    Program p_oit = P(GEOM_VS, OIT_FS) (L222).
+  Blend OFF (L836); fo.depth_mask = True (L837).
+
+Pass 6 - resolve, composite, blit (L839-876):
+  Resolve MS to single sample: copy_framebuffer(fbo_opaque <- fbo_col_src) (L840). If oit_on: accum (L842), weight (L843).
+    Depth is not resolved.
+  scaled = out_size given and != (w,h) (L844). dest = fbo_final if scaled else target (L845). dest.use().
+  Viewport (0,0,w,h) (L847). DEPTH_TEST and BLEND OFF (L848).
+  Program p_comp = P(FSQ_VS, COMPOSITE_FS) (L230). Samplers: opaque unit 0, accum unit 1, weight unit 2, id unit 3 (L850-857).
+  Uniforms: u_oit_on = 1 if oit_on else 0 (L858); u_has_sel = 1 if (fs.selected or s.selected) else 0 (L859);
+    hov = fs.hovered + 1 if fs.hovered >= 0 else s.hovered (L860);
+    u_hover = float(hov if s.hover_outline_on and hov not in {i+1 for i in fs.selected} else 0) (L861);
+    u_outline = s.outline; u_hover_outline = s.hover_outline; u_exposure = s.exposure; u_tonemap = 1 or 0 from s.tonemap;
+    u_texel = (1/w, 1/h); u_outline_px = max(1.5, h/540.0) (L862-867).
+  Fullscreen triangle (L868).
+  If scaled (L869-875): target.use(); viewport (0,0,ow,oh) from out_size; t["final"] on unit 0; u_src = 0;
+    program p_blit = P(FSQ_VS, BLIT_FS) (L233); fullscreen triangle.
+  Not scaled: composite writes straight into target with viewport (0,0,w,h), so target must be w x h.
+Exit (L876-877): DEPTH_TEST enabled; frame_ok = True.
+
+=== 4. Constants that affect the picture (in range) ===
+L471, L473: flip = det<0. L568: anisotropy 8.0. L559: texture limit 4096. L563-565: sRGB internal format 0x8C43.
+L681-687: 3 clip planes (indices 0..2). L694-696: 6 frustum planes.
+L706-717: 3 lights max (pad to 3); size_eq = size_factor * 0.5642; default size_factor 0.35; padding dir (0,1,0), radius 0.1.
+L713: E = colour * energy / pi * light_scale.
+L781: u_bias = radius * 0.03. L782: u_power = 1.6 * ao_strength. L783: u_samples = 16.
+L813: exposure factor 2 ** -exposure. L881: ambient = mean(ambient_colour default 0.5) * ambient_strength default 0.3, rounded 4 dp.
+L886: 4.5 um packed-cell gap for um <= 50. L887: model_diag * 0.017.
+L867: outline px = max(1.5, h/540.0). L714: 0.5642 (area-equal disc factor).
+L809-812: backdrop defaults "#20242b" (top), "#12141a" (bottom).
+L661, L663: size clamp >= 2; samples clamp max(1, min(msaa, max_samples)).
+L596, L613, L622: NEAREST on nd, id, cap_*, parity. L628: LINEAR on final. Repeat off on nd, id, ao, ao_tmp, opaque, accum, weight.
+L833: OIT blend (ONE, ONE, ZERO, ONE_MINUS_SRC_ALPHA). L727: pre clear depth 1.0. L805, L830: clear colour (0,0,0,1).
+
+=== 5. Feature switches read in range (defaults live in Settings, outside range) ===
+s.msaa (L663), s.studio (L665), s.light_scale (L713), s.shadows (L720), s.ao (L764), s.ao_radius (L767, 0 -> auto),
+s.ao_strength (L782), s.ao_large (L784), s.ao_large_mix (L785), s.bounce (L788), s.background (L809),
+s.exposure (L813, L864), s.tonemap (L814, L865), s.hover_outline_on (L861), s.hovered (L860), s.outline (L862),
+s.hover_outline (L863), s.selected (L859).
+fs.clip_planes / clip_on / clip_mode (L685), fs.selected (L744, L859, L861), fs.hovered (L860),
+fs.anim_frame / anim_t (L899-905 via _anim_uniforms; L484 in _runs), fs.visible / ghost / alpha (L644-650).
+
+=== UNRESOLVED / out of range ===
+- Bodies of: _span (L400), _upload_item_state (L416), _lod_levels (L385), _use_items (L1182), _render_shadows (L908),
+  _render_caps (L970), _capmix (L1091), _draw_shaded (L1145), _transparent_pass (L170), _frustum_planes (L208),
+  backdrop_linear (L99), and the uniform setter __call__ (L181-240, which decides what happens with unknown names).
+- Shader sources (shaders.* constants GEOM_VS, MAIN_FS, OIT_FS, PREPASS_FS, SHADOW_FS, PARITY_FS, CAP_FS, BACKDROP_FS,
+  SSAO_FS, BLUR_FS, COMPOSITE_FS, CAPMIX_PRE_FS, CAPMIX_FS, BLIT_FS) not read.
+- Whether fbo_ao is consumed by any pass; whether u_prev is meant to be the previous frame.
+- moderngl order of the blend_func 4-tuple; whether Framebuffer.depth_mask is global GL state (L827, L837).
+- Whether self._spheres length matches parts (L695-697); DEFAULT_RIG / DEFAULT_WORLD definitions.
+- Depth-write and colour-mask states are never set explicitly in range.
+
+=== 6. Counts ===
+Functions in range: 13 (_refresh_transforms tail, _transform, _runs, release_model, release, _texture, _ensure_targets,
+  _state, render, _ambient, _auto_ao_radius, _clip_uniforms, _anim_uniforms).
+GL names created in _ensure_targets: 33 (section 2), of which 4 are multisampled.
+Programs used in range: 8 (p_pre, p_ssao, p_blur, p_back, p_main, p_oit, p_comp, p_blit), plus p_shadow, p_cap,
+  p_capmix_pre, p_capmix used via out-of-range helpers.
+Render passes: 6 (1 shadows delegated; 2 pre; 2b caps delegated; 3 SSAO + blur; 4 backdrop + main + capmix delegated;
+  5 OIT; 6 resolve + composite + blit).

@@ -252,6 +252,9 @@ class SettingsDialog(QDialog):
         self._header(f, "RENDERING")
         self._slider(page, f, "render_scale", "Render resolution", 0.5, 2.0, 0.05,
                      tip="Above 1.0 supersamples for sharper edges; below 1.0 is faster.")
+        self._check(page, f, "fast_renderer", "Fast renderer for models (new)",
+                    tip="A faster 3D renderer for the model library (Metal on a Mac). Applies to models opened after "
+                        "the change. If it cannot start, the standard renderer is used.")
         self._check(page, f, "fxaa", "Anti-aliasing")
         self._check(page, f, "ssao", "Ambient occlusion")
         self._slider(page, f, "ssao_strength", "Ambient occlusion strength", 0.0, 1.5, 0.05)

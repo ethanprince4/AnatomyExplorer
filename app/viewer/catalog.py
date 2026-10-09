@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import re
+import weakref
 from collections import OrderedDict
 
 from ..config import ROOT
@@ -73,9 +74,13 @@ class ModelEntry:
     def load(self):
         raise NotImplementedError
 
-    def resolve(self, model, names):
-        """Item indices for names from a lesson or practice item - exact item name, item key, group name, then the
-        catalogue's aliases - and the names that matched nothing."""
+    def _lookups(self, model):
+        """Name, group and key tables over a model's items, built once and rebuilt only when the model (or its item
+        and group counts) changes."""
+        sig = (len(model.items), len(model.groups))
+        cached = getattr(self, "_lookup_cache", None)
+        if cached is not None and cached[0]() is model and cached[1] == sig:
+            return cached[2]
         by_name, by_group = {}, {}
         for it in model.items:
             by_name.setdefault(_norm(it.name), []).append(it.index)
@@ -91,7 +96,7 @@ class ModelEntry:
             for sid in {model.items[i].parts[0].structure_id for i in g.items if model.items[i].parts}:
                 if sid:
                     group_items.setdefault(sid, []).extend(g.items)
-        aliases = {_norm(k): v for k, v in self.aliases.items()}
+        extra = {}
         if self.id == "kidney_nephron":
             # This model names each arterial branch separately; case labels refer
             # to the complete anatomical family rather than one arbitrary branch.
@@ -105,10 +110,24 @@ class ModelEntry:
                 "Renal cortex": ("Renal cortex,",),
             }
             for alias, prefixes in families.items():
-                aliases[_norm(alias)] = [item.name for item in model.items
-                                        if item.name.startswith(prefixes)]
-            aliases[_norm("Renal capsule (fibrous capsule)")] = ["Renal capsule"]
-        out, missing = [], []
+                extra[_norm(alias)] = [item.name for item in model.items if item.name.startswith(prefixes)]
+            extra[_norm("Renal capsule (fibrous capsule)")] = ["Renal capsule"]
+        tables = (by_name, by_group, key_of, group_items, extra)
+        try:
+            ref = weakref.ref(model)
+        except TypeError:                  # not weak-referenceable: do not cache
+            return tables
+        self._lookup_cache = (ref, sig, tables)
+        return tables
+
+    def resolve(self, model, names):
+        """Item indices for names from a lesson or practice item - exact item name, item key, group name, then the
+        catalogue's aliases - and the names that matched nothing."""
+        by_name, by_group, key_of, group_items, _ = self._lookups(model)
+        aliases = {_norm(k): v for k, v in self.aliases.items()}
+        if self.id == "kidney_nephron":
+            aliases.update(self._lookups(model)[4])
+        out, missing, seen = [], [], set()
         for n in names or ():
             k = _norm(n)
             hit = by_name.get(k) or by_group.get(k)
@@ -123,7 +142,10 @@ class ModelEntry:
                     else:
                         hit.extend(by_name.get(_norm(target), []))
             if hit:
-                out.extend(i for i in hit if i not in out)
+                for i in hit:
+                    if i not in seen:
+                        seen.add(i)
+                        out.append(i)
             else:
                 missing.append(n)
         return out, missing

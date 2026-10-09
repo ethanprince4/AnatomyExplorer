@@ -6,8 +6,12 @@ over its own vertices, made by vertex clustering: every vertex is replaced by th
 triangles that collapse are dropped. The cell doubles from level to level. The renderer draws the coarsest level whose
 cell is no bigger than a pixel at the part's nearest point, so the picture changes by under a pixel.
 """
+from collections import deque
+from concurrent.futures import ThreadPoolExecutor
+
 import numpy as np
 
+WORKERS = 3                 # threads building parts' levels at once (results do not depend on it)
 LEVELS = 4
 MIN_TRIANGLES = 2000        # smaller parts cost little at any distance
 MIN_KEEP = 50               # a level never takes a part below this many triangles
@@ -82,15 +86,47 @@ def build(model, check=None):
         return {}
     pos = model.vertices[:, :3]
     pixel = float(np.linalg.norm(np.asarray(model.bounds_max) - np.asarray(model.bounds_min))) / REFERENCE_PIXELS
-    out = {}
+
+    def one(p):
+        tris = model.indices[p.first:p.first + p.count].reshape(-1, 3).astype(np.int64)
+        scale = float(np.max(np.linalg.norm(model.part_matrix(p)[:3, :3], axis=0)))
+        return part_levels(pos, tris, p.vertex_base, p.vertex_count, pixel / max(scale, 1e-12))
+
+    todo = []
     for p in model.parts:
         if check is not None:
             check()
         if p.count < 3 * MIN_TRIANGLES or p.look.texture is not None:
             continue
-        tris = model.indices[p.first:p.first + p.count].reshape(-1, 3).astype(np.int64)
-        scale = float(np.max(np.linalg.norm(model.part_matrix(p)[:3, :3], axis=0)))
-        lod = part_levels(pos, tris, p.vertex_base, p.vertex_count, pixel / max(scale, 1e-12))
+        todo.append(p)
+    out = {}
+    # Each part is independent and numpy's sorts release the GIL: a few workers cut the wait on big models.
+    # Results are collected in part order, so the dict is the same as a serial build.
+    workers = min(WORKERS, len(todo))
+    if workers > 1:
+        with ThreadPoolExecutor(workers) as pool:
+            pending = deque()
+            for p in todo:
+                if check is not None:
+                    check()
+                pending.append((p, pool.submit(one, p)))
+                while len(pending) > workers:       # bounded: parts in flight hold int64 copies of their triangles
+                    q, future = pending.popleft()
+                    lod = future.result()
+                    if lod is not None:
+                        out[q.id] = lod
+            while pending:
+                if check is not None:
+                    check()
+                q, future = pending.popleft()
+                lod = future.result()
+                if lod is not None:
+                    out[q.id] = lod
+        return out
+    for p in todo:
+        if check is not None:
+            check()
+        lod = one(p)
         if lod is not None:
             out[p.id] = lod
     return out

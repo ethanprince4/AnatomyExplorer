@@ -1,0 +1,205 @@
+Port inventory: app/viewer/renderer.py lines 900-1404
+Repo R = C:/Users/Ethan/Desktop/AnatomyExplorer/Worktrees/keen-ride-vm1yxr
+Paths are R-relative. Code here is Python/moderngl; the only GLSL in range is the inline label shader (1308-1325).
+Symbols defined outside the range (u(), self.u, _clip_uniforms, _runs, _transform, _texture, vaos, fsq, camera.look_at/orthographic, model._box, part_matrix, world_bounds, ITEM_UNIT, shaders.FSQ_VS) are referenced but not inventoried.
+
+=== 1. Functions in range ===
+
+900-905  (tail of _anim_uniforms, head is above 900)
+  Sets u_anim (0/1), u_anim_t = fs.anim_t, u_aw = fs.anim_frame[0,p.item], u_ag = fs.anim_frame[1,p.item]. Per draw.
+
+908  _render_shadows(self, lights, s, draws, clip)  [per frame, skipped via cache]
+  Reads: model (node_weights, node_offsets, item_offsets, world_bounds, model_diag), s.shadow_soft, s.shadows (caller),
+         fs.anim_t/anim_frame, clip, draws (casters), self._visible_items().
+  Cache key (912-918): rounded light L vectors, node weights/offsets, caster part ids, shadow_soft, clip planes, item_offsets, anim_t+anim_frame bytes.
+  If key == self._shadow_key: return. Key stored at 958 only after success.
+  Math per light i (L, E, size_eq, size_f):
+    c = (lo+hi)/2 over world_bounds(visible_only=False, visible=_visible_items()); r = max(|hi-lo|/2, 1e-3) * 1.02
+    up = (0,1,0) if |L.y|<0.95 else (1,0,0)
+    Vl = look_at(c + L*r*2.0, c, up); Pl = orthographic(r, r, r*0.5, r*3.5); VPl = Pl@Vl; stored _shadow_mats[i]
+    _shadow_texel[i] = 2r/n
+    soft_world = 0.0045 * model_diag * (size_f/0.35) * s.shadow_soft
+    _shadow_soft[i] = max(soft_world/(2r), 0.5/n)     (n = shadow_sizes[i])
+  GL: depth test ON; polygon_offset (1.5, 2.0) (reset to (0,0) in finally); clip uniforms via _clip_uniforms.
+  Per light: fbo = shadow_maps[i][1]; fbo.use(); viewport (0,0,n,n); fbo.clear(depth=1.0).
+    If not any(E>0): skip draws (map stays cleared to 1.0).
+    u_viewproj = VPl; for each run from _runs(casters,"shadow"): u_model, u_weight, u_noclip, _anim_uniforms; vao "shadow" render TRIANGLES first/count.
+  No colour target named here; no cull/blend/colour mask set here.
+
+960  _visible_items(self) -> bool array per item
+  Reads fs.visible if not None, else builds from model.parts[p.item] |= p.visible.
+
+970  _render_caps(self, draws, VP, V, campos, camera, clip, fs, size) -> bool  [per frame, only if a clip plane cuts an item]
+  Reads: model.items[*].clip, p.look.translucent, _box(p) corners, clip=(planes, on, mode), VP, V, fs.selected, model_diag, p.look.detail, self._range[p.id] (first,count).
+  Cut test (983-990): per item with clip flag and not translucent, box = corners of its parts; for each enabled plane i: d = box@plane[:3]+plane[3]; cut if d.min()<0<d.max().
+  Returns False if no cut item (no GL work).
+  Global setup (993-1008): fbo_cap use, viewport (0,0,w,h), clear RGBA 0 + depth 1.0. Parity texture bound to unit 7.
+    u_viewproj, clip uniforms on p_parity and p_cap; u_inv_viewproj, u_viewport=(w,h) float, u_key_scale = model_diag*0.02, u_batched=0, u_parity=7 on p_cap.
+  Pass A per cut item (scissored):
+    scissor = rect from _screen_rect (1077). fbo_parity clear (1,1,1,1) happens WHILE scissor is set (1016 before 1020).
+    A1 nearest kept front face: fbo_parity; depth test OFF; blend ON, ONE/ONE, equation MIN; draws parts with p_parity / vao "parity":
+      u_viewproj, u_model=part_matrix(p), u_flip=det(M3)<0, u_weight=node_weights.get(p.node,0), u_noclip=0, anim uniforms.
+      Then blend off, equation FUNC_ADD.
+    A2 back faces seen through the cut: fbo_cap (cleared once at 995, accumulates across items); depth test ON; draws with p_cap / vao "cap":
+      u_model, u_nmat=inv(M3).T, u_flip, u_weight, u_noclip=0, u_id=it+1, u_flags=1.0 if it in fs.selected else 0.0, anim uniforms, _set_look(uc,p,None,fs), u_cap_dark = 0.80 if p.look.detail is not None else 0.62.
+  Pass B (after loop, scissor cleared at 1057): fbo_pre; viewport full; depth test ON; fullscreen triangle with p_capmix_pre (vertices=3), inputs cap_normal (unit 0), cap_id (1), cap_zp (2); uniforms u_cap_normal, u_cap_id, u_cap_zp, u_inv_viewproj=inv(VP), u_view=V. Writes winners into fbo_pre at their depth on the plane.
+  Scissor pad: 2 px each side (1082-1085), rect clipped to [0,w]x[0,h].
+
+1077  _screen_rect(box, VP, w, h) -> (x0,y0,x1,y1) or None  (staticmethod)
+  Projects box corners (homogeneous w=1) by VP. If any clip-space w <= 1e-6, returns full screen (0,0,w,h).
+  ndc min/max -> pixel bounds: x0 = floor((ndc.x_min*0.5+0.5)*w)-2, x1 = ceil((ndc.x_max*0.5+0.5)*w)+2, same for y with h. Clamp to [0,w]x[0,h]. Empty -> None.
+
+1091  _capmix(self, VP, V, campos, lights, s, size, camera, fs)  [per frame, when shading capped surfaces]
+  Program self.u[p_capmix], fullscreen triangle (vertices=3) on fsq[p_capmix]. Depth test ON. Target not set here (caller).
+  Calls _light_uniforms. Textures: cap_albedo unit 7, cap_normal 8, cap_id 9, cap_zp 10.
+  Uniforms: u_cap_albedo 7, u_cap_normal 8, u_cap_id 9, u_cap_zp 10, u_inv_viewproj=inv(VP),
+    u_hover_id = fs.hovered+1 if fs.hovered>=0 else -1.0, u_sel_col = s.highlight, u_hover_col = s.hover_highlight.
+
+1112  _light_uniforms(self, u, V, campos, lights, s, size, camera)  [per frame, per shaded or capmix draw]
+  Sets: u_view=V; u_campos; u_ortho = 1 if camera.ortho; u_viewdir = camera.basis()[2]; u_screen = size (float32).
+  AO: texture ao on unit 0 (u_ao=0); u_ao_on = 1.0 if s.ao; u_ao_direct = s.ao_direct.
+  Per light i in lights (L, E, size_eq, _sf): u_ldir{i}=L; u_lrad{i}=E; u_lsize{i}=size_eq; u_lmat{i}=_shadow_mats[i]; u_ltexel{i}=_shadow_texel[i]; u_lsoft{i}=_shadow_soft[i]; shadow map texture on unit 1+i; u_shadow{i}=1+i.
+  u_shadow_on = 1.0 if s.shadows.
+  SH: if program has member u_sh, writes env.sh (float32, contiguous) as bytes to it (1133-1135). A member write, not uniform().
+  Env spec on unit 4 (u_spec=4); u_spec_layers = env.spec.layers; u_env_diffuse=s.env_diffuse; u_env_spec=s.env_spec.
+  u_bounce = s.bounce * s.light_scale.
+  white texture on unit 5 (u_tex=5).
+  Unit map: 0 ao, 1..N shadow maps, 4 env spec, 5 white/default, 6 material texture (set in _set_look), ITEM_UNIT items texture (_use_items).
+
+1145  _draw_shaded(self, prog, vao_name, parts, VP, V, campos, lights, s, size, camera, clip, fs, alpha, ghost=None)  [per frame, main shaded pass; caller binds target and depth state]
+  u_viewproj=VP; _light_uniforms; _clip_uniforms; u_ghost_alpha = s.ghost_alpha; _use_items.
+  For each run from _runs(parts,"shaded") -> (p, first, count, batched):
+    u_model=M, u_nmat, u_flip, u_weight, u_noclip from _transform(p); anim uniforms; u_batched = 1/0; _set_look(u,p,s,fs,batched).
+    If batched: vao draw and continue (1166-1168). NOTE: u_ghost, u_alpha_mul, u_highlight, u_highlight_col are NOT set for batched runs. They keep the value from the previous non-batched draw. Verify in the shader whether the batched path reads them.
+    Non-batched only: if ghost is not None: u_ghost = 1 if ghost[it] else 0; u_alpha_mul = float(alpha[it]).
+      If it in fs.selected: u_highlight=0.45, u_highlight_col=s.highlight.
+      elif it == fs.hovered or (s.hovered and s.hovered == it+1): u_highlight=0.18, u_highlight_col=s.hover_highlight.
+      else: u_highlight=0.0 (u_highlight_col not reset).
+    vao draw TRIANGLES first/count.
+  If ghost is None, u_ghost and u_alpha_mul are not set at all.
+
+1182  _use_items(self, u)  [per frame]
+  If items_tex not None: items_tex.use(ITEM_UNIT); u_items = ITEM_UNIT.
+
+1187  _set_look(self, u, p, s, fs, batched=False)  [per draw]
+  flat = None if batched else fs.override.get(item); if None and fs.colours is not None and not batched: flat = fs.colours[item].
+  u_base = flat if set else lk.base (1193; also set to flat at 1209 for alpha-tested textures)
+  u_alpha = 1.0 if fs.opaque_materials else lk.alpha; u_rough = lk.rough; u_metal = lk.metal; u_f0 = lk.f0; u_emis = lk.emissive
+  u_wrap = min(0.5, (0.02 + 1.5*lk.sss) * (s.tissue if s else 1.0))
+  u_use_vcol = 1 if lk.use_vcol and flat is None else 0; u_alpha_cut = lk.alpha_cut
+  Texture (1202-1212): if lk.texture and (flat is None or alpha_cut>0): tex = _texture(lk.texture) on unit 6; u_tex=6; u_has_tex = 1 if flat None else 0; if flat set: u_has_tex=1 and u_base=flat.
+    else: u_tex=5, u_has_tex=0.
+  Stripes (1213-1221): if lk.stripe and flat None: u_stripe = 1 if (s None or s.stripes) else 2; u_stripe_p = [period, threshold, edge (default 0.025), i_mix (default 1.0)]; u_shorten = shorten (default 0.0); u_stripe_a = a_band_colour; u_stripe_b = i_band_colour. else u_stripe=0.
+  Mottle (1222-1229): if lk.mottle and flat None: u_mottle=1; u_mottle_p = [scale, from_min, from_max, min(6.0, detail (default 2.0) + 1.0)]; u_mottle_a = colour_a; u_mottle_b = colour_b. else u_mottle=0.
+  Detail (1230-1234): if lk.detail not None: u_detail_on=1, u_detail = lk.detail (float32); else 0. Not gated by flat.
+  Facing (1235-1239): if lk.facing and not fs.opaque_materials: u_facing_on=1, u_facing=lk.facing; else 0.
+  Mottle (1222-1229): if lk.mottle and flat None: u_mottle=1; u_mottle_p = [scale, from_min, from_max, min(6.0, detail (default 2.0) + 1.0)]; u_mottle_a = colour_a; u_mottle_b = colour_b. else u_mottle=0.
+
+1242  _read_prepass(self, components, attachment, viewport=None)  [per query]
+  Saves ctx.fbo and viewport; returns None if no current fbo. Size = self.size, or viewport[2:].
+  fbo_pre.read_into(values f4, components, attachment, optional viewport); moderngl.Error -> None. Restores previous fbo and viewport in finally.
+  Returns None if any value is non-finite (fill is NaN, line 1248).
+  Attachments: 0 = linear depth buffer (4 comps, .w = linear depth); 1 = ID buffer (2 comps: .x = item+1, .y = flags; bit value 2 = cut face).
+
+1263  pick(self, x, y) -> (item or -1, world point or None, on_cut bool)  [per click]
+  Requires last_camera, t, frame_ok. last_camera = (V, Pm, aspect, ortho, halves, (w,h)). Out of bounds -> (-1, None, False).
+  gy = h-1-int(y). Reads 1x1 at (x, gy): depth (4 comps, att 0) and ID (2 comps, att 1).
+  d = nd[3]; d<=0 -> background (-1). item = round(idf[0]) - 1; world = _unproject(x+0.5, gy+0.5, d); on_cut = (round(idf[1]) & 2) != 0.
+
+1281  _unproject(self, gx, gy, d) -> world (3,)  [per call]
+  ndc = (gx/w*2-1, gy/h*2-1), w,h from last_camera[5].
+  Ortho: view point (ndc.x*halves[0], ndc.y*halves[1], -d, 1). Perspective: (ndc.x*halves[0]*d, ndc.y*halves[1]*d, -d, 1).
+  Returns (inv(V) @ pv)[:3].
+
+1291  read_label_samples(self, step) -> (ids, flags, depth, centre_id) grids or None  [per frame, label placement]
+  Requires frame_ok, t. grid = (ceil(w/step), ceil(h/step)).
+  GPU resources cached on self._label_gpu: program (inline GLSL below), vao with no buffers (vertices=3), RGBA f32 texture + framebuffer sized to grid (recreated when grid changes, tracked in _label_grid_size).
+  Inputs: t["id"] on unit 0 (ids), t["nd"] on unit 1 (depth_normal). Uniforms full_size, grid_size, step.
+  Draws with BLEND, DEPTH_TEST, CULL_FACE disabled; viewport = grid.
+  Readback: RGBA f32, reshape (gh, gw, 4), rows flipped. Returns: ids = rint(c0)-1 (int32), flags = rint(c1) (int32, no -1), depth = c2 (float), centre_id = rint(c3)-1.
+  moderngl.Error or KeyError -> None (caller falls back). Restores previous fbo and viewport in finally.
+
+Inline GLSL (1308-1325), label sampler, #version 410 core:
+  inputs: sampler2D ids; sampler2D depth_normal; ivec2 full_size; ivec2 grid_size; int step. out vec4 result.
+  cell = ivec2(gl_FragCoord.xy); cell.y = grid_size.y-1-cell.y
+  origin = cell*step; center = min(origin + ivec2(step/2), full_size-1)   (step/2 is integer division)
+  origin.y = full_size.y-1-origin.y; center.y = full_size.y-1-center.y
+  sample_ids = texelFetch(ids, origin, 0).xy
+  result = (sample_ids.x, sample_ids.y, texelFetch(depth_normal, center, 0).w, texelFetch(ids, center, 0).x)
+  Vertex shader: shaders.FSQ_VS (not in range).
+
+1351  read_ids(self) -> (ids (h,w) int32, -1 background; flags (h,w) int32), top row first  [on demand]
+  (None, None) if not frame_ok. Cached in self._ids_cache (lines 1355-1356). Cache invalidation not in range.
+  raw = _read_prepass(2, 1) full frame; reshape (h,w,2), rows flipped; ids = rint(c0)-1; flags = rint(c1).
+
+1366  read_depth(self) -> (h,w) float32 linear view depth, 0 for background, top row first  [on demand]
+  _read_prepass(4, 0); reshape (h,w,4), channel 3, rows flipped, copied.
+
+1376  ids_at(self, points) -> list[int]  [on demand]
+  Out-of-bounds -> -1. If cache present: cached[0][int(y), int(x)]. Else 1x1 read at (x, h-1-y) with _read_prepass(2,1); -1 if None.
+
+1394  world_from_pixel(self, x, y, d) -> world or None  [on demand]
+  Needs last_camera and frame_ok. _unproject(x+0.5, h-1-y+0.5, d), h = last_camera[5][1].
+
+1401  read_final(self, fbo, size) -> (h,w,3) uint8, top row first  [screenshot]
+  fbo.read(viewport=(0,0,w,h), components=3); frombuffer, reshape, rows flipped (view, not a copy).
+
+=== 2. Passes in order (as encoded in this range) ===
+
+P1 Shadow maps, one per light i (_render_shadows, cached):
+  target: shadow_maps[i] fbo, n x n; clear depth 1.0. program self.u[p_shadow]; vao "shadow"; depth test ON; polygon offset (1.5, 2.0). Cull, blend and colour mask not set here.
+  geometry: _runs(casters, "shadow"). Skipped (clear only) when E for light i is all zero.
+
+P2 Cut-face parity, per cut item (_render_caps):
+  target fbo_parity, clear white (1,1,1,1), scissored to item rect (+2 px pad). program p_parity; vao "parity"; depth test OFF; blend ON, ONE/ONE, equation MIN.
+
+P3 Cut-face back faces, per cut item (_render_caps):
+  target fbo_cap (cleared once per frame to RGBA 0, depth 1), same scissor; depth test ON; blend OFF; program p_cap; vao "cap". Uses _set_look with s=None (defaults: stripes on, tissue 1.0).
+
+P4 Cap composite into pre-pass (_render_caps, after loop):
+  target fbo_pre; viewport full; depth test ON; scissor OFF; program p_capmix_pre; fullscreen triangle; inputs units 0,1,2 = cap_normal, cap_id, cap_zp.
+
+P5 Capped surface shading (_capmix):
+  target caller-bound; depth test ON; program p_capmix; fullscreen triangle; inputs units 7..10 = cap_albedo, cap_normal, cap_id, cap_zp; plus light uniforms (units 0..5 as in _light_uniforms).
+
+P6 Main shaded pass (_draw_shaded): target and depth/blend state set by caller (not in range). Program prog param, vao vao_name, runs from _runs(parts,"shaded").
+
+P7 Label sampling (read_label_samples): GPU pass into grid-size RGBA f32 FBO; inline program; no depth/blend/cull; reads t["id"] and t["nd"] (pre-pass outputs).
+
+=== 3. Render targets / GL resources touched in range ===
+  shadow_maps[i] = (texture, fbo), n x n, depth. Written P1, read by _light_uniforms (unit 1+i).
+  fbo_cap (t["fbo_cap"]): w x h, cleared RGBA 0, depth. Written P3; read as cap_albedo/cap_normal/cap_id/cap_zp in P4/P5.
+  fbo_parity (t["fbo_parity"]) and texture t["parity"]: w x h, clear white. Written P2; read on unit 7 in P3 (u_parity).
+  fbo_pre (t["fbo_pre"]): w x h, attachment 0 = 4-comp float (linear depth in .w), attachment 1 = 2-comp (ID, flags). Written by P4 and the main pass; read by _read_prepass, pick, read_ids, read_depth, ids_at. Read as f4.
+  Units: t["ao"] 0, env.spec 4, white 5, _texture(lk.texture) 6, items_tex ITEM_UNIT.
+  _label_gpu: program, vao, texture RGBA f32 (grid), fbo (grid). Written P7; read back to numpy.
+  Shadow sizes: shadow_sizes[i].
+
+=== 4. Constants that affect the picture ===
+  Shadow: polygon offset 1.5 / 2.0; r pad 1.02; min r 1e-3; light eye distance 2.0*r; ortho (r, r, 0.5r, 3.5r); up switch |L.y| < 0.95; soft = 0.0045 * model_diag * (size_f/0.35) * shadow_soft; min softness 0.5/n texels; clear depth 1.0.
+  Caps: scissor pad 2 px; u_key_scale = 0.02 * model_diag; u_cap_dark 0.80 (detailed look) / 0.62; parity clear (1,1,1,1); parity blend MIN.
+  Highlights: selected 0.45 with s.highlight; hover 0.18 with s.hover_highlight; u_highlight 0.0 otherwise.
+  Wrap: u_wrap = min(0.5, (0.02 + 1.5*sss) * tissue).
+  Stripes: default edge 0.025; default i_mix 1.0; u_stripe 1 (on) or 2 when s.stripes false; shorten default 0.0.
+  Mottle: detail default 2.0, +1.0, clamped to max 6.0.
+  Bounce: bounce * light_scale.
+  Pick: flag bit 2 = cut face; ID stored as item+1; depth<=0 = background.
+  Label step: centre = origin + step/2 (integer), clamped to full_size-1.
+  Batched draws: u_base from lk.base only (no per-item override or colours).
+
+=== 5. Uniform names set in range (by reading, approximate) ===
+  Global/frame: u_view, u_campos, u_ortho, u_viewdir, u_screen, u_viewproj, u_inv_viewproj, u_viewport, u_key_scale, u_batched, u_parity, u_anim, u_anim_t, u_aw, u_ag, u_sh (member write), u_ldir{i}, u_lrad{i}, u_lsize{i}, u_lmat{i}, u_ltexel{i}, u_lsoft{i}, u_shadow{i}, u_shadow_on, u_ao, u_ao_on, u_ao_direct, u_spec, u_spec_layers, u_env_diffuse, u_env_spec, u_bounce, u_tex, u_items, u_ghost_alpha, u_hover_id, u_sel_col, u_hover_col.
+  Caps: u_cap_normal, u_cap_id, u_cap_zp, u_cap_albedo, u_cap_dark, u_id, u_flags.
+  Per draw: u_model, u_nmat, u_flip, u_weight, u_noclip, u_ghost, u_alpha_mul, u_highlight, u_highlight_col.
+  Material (_set_look): u_base, u_alpha, u_rough, u_metal, u_f0, u_wrap, u_emis, u_use_vcol, u_alpha_cut, u_has_tex, u_stripe, u_stripe_p, u_shorten, u_stripe_a, u_stripe_b, u_mottle, u_mottle_p, u_mottle_a, u_mottle_b, u_detail_on, u_detail, u_facing_on, u_facing.
+  Approximate total of distinct names: about 75 (indexed families counted once). Not machine-counted.
+
+=== 6. Unresolved / for the next inventory ===
+  - P1 cull mode, colour mask, and whether the shadow fbo has a colour attachment: not set in this range, inherited from context.
+  - Batched draw path (1166-1168): u_ghost, u_alpha_mul, u_highlight, u_highlight_col are not written. Check the batched shader path in shaders.py.
+  - Shadow cache key (912-918) omits the camera and per-part transforms other than node/item offsets; confirm caster set and transforms are fully covered.
+  - _render_caps clears fbo_parity under scissor (1016-1020): pixels outside the rect keep stale values; safe only if reads stay inside the rect.
+  - _read_prepass returns None if any pixel is non-finite (line 1261): confirm pre-pass clear values are finite everywhere.
+  - read_ids cache (_ids_cache) invalidation is not in range.
+  - Out of range: _clip_uniforms, _runs, _transform, _texture, _anim_uniforms head, vaos/fsq/t creation, shadow_maps creation, fs/Settings fields, camera.look_at/orthographic, model.world_bounds, Part.look fields, ITEM_UNIT value, shaders.FSQ_VS and all other shaders in shaders.py.
+  - P4 and P5 target and depth write settings are assumed from call sites, not confirmed.

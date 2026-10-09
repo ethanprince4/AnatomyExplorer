@@ -24,6 +24,7 @@ import numpy as np
 
 from ..load_control import checkpoint
 from . import gltf_loader as gl
+from . import prepared_cache
 
 # vertex layout: pos3 nrm3 dpos3 dnrm3 fib1 col4 uv2 = 19 floats
 VERTEX_FLOATS = 19
@@ -145,6 +146,19 @@ def srgb_to_linear(c):
     return tuple(float(x) for x in np.where(c <= 0.04045, c / 12.92, ((c + 0.055) / 1.055) ** 2.4))
 
 
+def _join(chunks, shape, dtype):
+    """np.concatenate(chunks) without holding a second full copy: each chunk is released once it is copied in."""
+    out = np.empty(shape, dtype=dtype)
+    at = 0
+    for i, chunk in enumerate(chunks):
+        n = len(chunk)
+        out[at:at + n] = chunk
+        at += n
+        chunks[i] = None
+    chunks.clear()
+    return out
+
+
 class ViewerModel:
     """What every model offers the renderer and the viewer. Subclasses fill the arrays in their constructor."""
 
@@ -181,31 +195,63 @@ class ViewerModel:
         self.look_defaults = {}        # renderer Settings this kind of model starts with (exposure, studio light)
         self._n_verts = 0
         self._n_inds = 0
+        self._geom_log = []            # per added part: draw range and bounds, as the prepared-model cache records them
+        self._finish_bounds = None
+        self._group_first = None       # group title -> its first item that has parts (sort key lookups)
 
     # ------------------------------------------------------------------ building helpers
     def _finish(self, verts, inds):
         checkpoint()
         if not self.parts:
             raise gl.GltfError("the file has no triangle meshes to show")
-        self.vertices = np.concatenate(verts, 0)
-        checkpoint()
-        self.indices = np.concatenate(inds, 0)
+        prepared = prepared_cache.active()
+        if prepared is not None:
+            # the arrays come ready-made (memory-mapped) from the prepared-model cache
+            self.vertices, self.indices = prepared.vertices, prepared.indices
+            if self._n_verts != len(self.vertices) or self._n_inds != len(self.indices):
+                raise prepared_cache.PreparedMismatch("array sizes differ from the parts")
+        else:
+            self.vertices = _join(verts, (self._n_verts, VERTEX_FLOATS), np.float32)
+            checkpoint()
+            self.indices = _join(inds, (self._n_inds,), np.uint32)
         checkpoint()
         for p in self.parts:
             self.node_weights.setdefault(p.node, 0.0)
-        pts = []
-        for p in self.parts:
-            M = self.node_matrix(p.node)
-            for corner in np.array(np.meshgrid(*zip(p.local_min, p.local_max))).T.reshape(-1, 3):
-                pts.append((M @ np.append(corner, 1.0))[:3])
-        pts = np.array(pts)
-        self.bounds_min, self.bounds_max = pts.min(0), pts.max(0)
+        if prepared is not None:
+            self.bounds_min, self.bounds_max = prepared.bounds[0].copy(), prepared.bounds[1].copy()
+        else:
+            pts = []
+            for p in self.parts:
+                M = self.node_matrix(p.node)
+                for corner in np.array(np.meshgrid(*zip(p.local_min, p.local_max))).T.reshape(-1, 3):
+                    pts.append((M @ np.append(corner, 1.0))[:3])
+            pts = np.array(pts)
+            self.bounds_min, self.bounds_max = pts.min(0), pts.max(0)
+        self._finish_bounds = (np.array(self.bounds_min), np.array(self.bounds_max))
         self._item_boxes = None
 
     def _add_part(self, part, pos, nrm, idx, verts, inds, extra=None):
         """Append one primitive's vertices: pos (n, 3), nrm (n, 3) or None; extra fills more columns."""
         checkpoint()
         n = len(pos)
+        prepared = prepared_cache.active()
+        if prepared is not None:
+            # ready-made arrays: only the part's recorded range and bounds are applied
+            count = int(np.asarray(idx).size)
+            m = prepared.part_geometry(len(self.parts), part.name, n, count)
+            if m["first"] != self._n_inds or m["base"] != self._n_verts:
+                raise prepared_cache.PreparedMismatch("part offsets differ")
+            part.first, part.count, part.vertex_base, part.vertex_count = m["first"], count, m["base"], n
+            part.local_min = np.array(m["min"], dtype=np.float32)
+            part.local_max = np.array(m["max"], dtype=np.float32)
+            part.local_centre = np.array(m["centre"], dtype=np.float32)
+            part.local_radius = float(m["radius"])
+            self._geom_log.append((part.first, count, part.vertex_base, n, part.local_min, part.local_max,
+                                   part.local_centre, part.local_radius))
+            self.parts.append(part)
+            self._n_verts += n
+            self._n_inds += count
+            return
         v = np.zeros((n, VERTEX_FLOATS), dtype=np.float32)
         v[:, 0:3] = pos
         v[:, 3:6] = nrm if nrm is not None else smooth_normals(pos, idx)
@@ -223,19 +269,25 @@ class ViewerModel:
         part.local_min, part.local_max, part.local_centre = lo, hi, c
         part.local_radius = float(np.linalg.norm(pos - c, axis=1).max()) if n else 0.0
         verts.append(v)
-        inds.append(np.asarray(idx).astype(np.uint32).ravel() + np.uint32(base))
+        shifted = np.asarray(idx).astype(np.uint32).ravel()      # a fresh array: offset it in place
+        shifted += np.uint32(base)
+        inds.append(shifted)
+        self._geom_log.append((part.first, part.count, base, n, lo, hi, c, part.local_radius))
         self.parts.append(part)
         self._n_verts += n
         self._n_inds += part.count
 
     def _drop_last_part(self, verts, inds):
         p = self.parts.pop()
+        if self._geom_log:
+            self._geom_log.pop()
         verts.pop()
         inds.pop()
         self._n_verts -= p.vertex_count
         self._n_inds -= p.count
 
     def _build_groups(self, order=None, colours=None):
+        self._group_first = None
         seen = {}
         for it in self.items:
             seen.setdefault(it.group, []).append(it.index)
@@ -650,13 +702,18 @@ class Model(ViewerModel):
 
     def _group_sid(self, group_title):
         """Sort key of a group: its sidecar structure id (S01 < S02 ...), else its title."""
-        for it in self.items:
-            if it.group == group_title and it.parts:
-                sid = it.parts[0].structure_id
-                m = re.match(r"S(\d+)$", sid or "")
-                if m:
-                    return (0, int(m.group(1)), group_title)
-                break
+        first = self._group_first
+        if first is None:
+            first = self._group_first = {}
+            for it in self.items:
+                if it.parts and it.group not in first:
+                    first[it.group] = it
+        it = first.get(group_title)
+        if it is not None:
+            sid = it.parts[0].structure_id
+            m = re.match(r"S(\d+)$", sid or "")
+            if m:
+                return (0, int(m.group(1)), group_title)
         return (1, 0, group_title)
 
     def _uv_set(self, prim):

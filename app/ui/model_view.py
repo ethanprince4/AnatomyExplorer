@@ -7,6 +7,8 @@ opacity, separated parts, the animation controls and the Details panel, and give
 hooks the old microanatomy view did (``part_ids``, ``focus_parts``, ``set_practice``).
 """
 import html
+import logging
+import os
 import re
 import time
 
@@ -17,6 +19,7 @@ from PySide6.QtWidgets import (QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineE
                                QScrollArea, QSplitter, QGridLayout, QToolButton, QVBoxLayout, QWidget)
 
 from ..actions import key_text
+from ..config import DEFAULT_SETTINGS
 from ..state import SceneState
 from ..viewer.dataset import ModelDataset
 from ..viewer.part_guide import load_part_guide
@@ -27,6 +30,42 @@ from .outline import Outline, OutlineItem
 from .search_panel import normalized
 
 ROLE = Qt.UserRole + 1
+_LOG = logging.getLogger(__name__)
+_wgpu_fallback_logged = False
+
+
+def renderer_backend(settings):
+    """"opengl" or "wgpu". The ANATOMY_RENDERER environment variable wins, then an explicit renderer_backend entry,
+    then the fast_renderer setting (Settings > Display; on by default on macOS only, see config.DEFAULT_SETTINGS)."""
+    for value in (os.environ.get("ANATOMY_RENDERER"), settings.get("renderer_backend")):
+        value = str(value or "").strip().lower()
+        if value in ("opengl", "wgpu"):
+            return value
+    fast = settings.get("fast_renderer")
+    if fast is None:
+        fast = DEFAULT_SETTINGS["fast_renderer"]
+    return "wgpu" if fast else "opengl"
+
+
+def make_viewport(model, state, settings, entry, parent):
+    """The 3D view for a model. With the wgpu backend chosen, the device, renderer and a first small frame are tried
+    here, before the caller wires the widget up; on any failure the OpenGL viewport is built instead and the reason is
+    logged once. With the default setting this is exactly ModelViewport(...)."""
+    global _wgpu_fallback_logged
+    if renderer_backend(settings) == "wgpu":
+        view = None
+        try:
+            from ..gpu.viewport import WgpuModelViewport
+            view = WgpuModelViewport(model, state, settings, entry, parent=parent)
+            view.probe()
+            return view
+        except Exception as exc:                       # noqa: BLE001 - any wgpu problem means "use OpenGL"
+            if view is not None:
+                view.dispose()
+            if not _wgpu_fallback_logged:
+                _wgpu_fallback_logged = True
+                _LOG.warning("wgpu renderer unavailable, using OpenGL: %s", exc)
+    return ModelViewport(model, state, settings, entry, parent=parent)
 FAMILY_MIN = 6        # copies of one structure that share a parts row; fewer stay as their own rows ("zone 1-3")
 
 
@@ -128,7 +167,7 @@ class ModelView(QWidget):
         self.load_seconds = time.perf_counter() - t0 if prepared is None else prepared.seconds
         self.mds = ModelDataset(self.vmodel)
         self.state = SceneState(self.mds, settings)
-        self.gl_widget = ModelViewport(self.vmodel, self.state, settings, entry, parent=self)
+        self.gl_widget = make_viewport(self.vmodel, self.state, settings, entry, self)
         self.gl_widget.home_view = self.reset_view
         self.click_hook = None        # Practice mode: callable(item) -> True when it took the click
         self.rclick_hook = None       # Practice mode: callable(item), a right click in the 3D view
@@ -439,6 +478,9 @@ class ModelView(QWidget):
         number ("Lining cell 12", "Lining cell 12 nucleus") share one row per kind, so a group of 176 cells and nuclei
         lists as three rows; a group that is all one kind is that row. Top-level categories start open."""
         self._sync = True
+        self._search_text = {}             # id(row) -> normalised search text, filled lazily by _filter_tree
+        self._sids_memo = {}               # id(row) -> its part ids (the tree is fixed once built)
+        self._sync_plan = None             # flat part ids + offsets per group row, built on first _sync_tree
         self.part_items = {}
         self.group_items = {}
         self.category_items = []
@@ -565,14 +607,20 @@ class ModelView(QWidget):
             many parts stay listed."""
             kind, val = row.data(0, ROLE)
             if kind == "part":
-                part = self.vmodel.items[val]
-                show = all(term in normalized(f"{part.name} {part.key} {context}") for term in terms)
+                text = self._search_text.get(id(row))
+                if text is None:
+                    part = self.vmodel.items[val]
+                    text = self._search_text[id(row)] = normalized(f"{part.name} {part.key} {context}")
+                show = all(term in text for term in terms)
                 row.setHidden(not show)
                 return int(show)
             label = f"{context} {val if kind == 'group' else ''} {row.text(0)}"
             if kind == "family" or (kind == "group" and val in self.family_rows):
-                sids = self._sids_of(row)
-                searchable = normalized(label + " " + " ".join(self.vmodel.items[i].name for i in sids))
+                sids = self._sids_cached(row)
+                searchable = self._search_text.get(id(row))
+                if searchable is None:
+                    searchable = self._search_text[id(row)] = normalized(
+                        label + " " + " ".join(self.vmodel.items[i].name for i in sids))
                 show = all(term in searchable for term in terms)
                 row.setHidden(not show)
                 return len(sids) if show else 0
@@ -591,6 +639,13 @@ class ModelView(QWidget):
         self.parts_status.setText("Check to show or hide" if matches else
                                   "No matching parts. Clear the filter to see the full model.")
         self._parts_layout_changed()
+
+    def _sids_cached(self, item):
+        """_sids_of, remembered per row (rows and their parts do not change after _build_tree)."""
+        sids = self._sids_memo.get(id(item))
+        if sids is None:
+            sids = self._sids_memo[id(item)] = self._sids_of(item)
+        return sids
 
     def _sids_of(self, item):
         kind, val = item.data(0, ROLE)
@@ -625,16 +680,30 @@ class ModelView(QWidget):
             self.state.select(self._sids_of(item))
             self._item_double_clicked(item, col)
 
+    def _build_sync_plan(self):
+        """Group rows with their part ids as one flat index array plus start/end offsets, so a visibility change
+        counts the visible parts of every row in one vectorised pass."""
+        rows = [*self.family_items.values(), *self.group_items.values(), *self.category_items]
+        lists = [self._sids_cached(gi) for gi in rows]
+        lens = np.array([len(x) for x in lists], dtype=np.int64)
+        ends = np.cumsum(lens)
+        flat = np.fromiter((sid for x in lists for sid in x), dtype=np.int64, count=int(ends[-1]) if len(ends) else 0)
+        parts = [(sid, it) for sid, it in self.part_items.items() if it.data(0, ROLE)[0] == "part"]
+        self._sync_plan = (rows, flat, ends - lens, ends, lens,
+                           np.array([sid for sid, _ in parts], dtype=np.int64), [it for _, it in parts])
+
     def _sync_tree(self):
-        vis = self.state.visible_mask()
+        vis = np.asarray(self.state.visible_mask())
+        if self._sync_plan is None:
+            self._build_sync_plan()
+        rows, flat, starts, ends, lens, part_ids, part_rows = self._sync_plan
         self._sync = True
-        for sid, it in self.part_items.items():
-            if it.data(0, ROLE)[0] == "part":      # not a structure family's shared row
-                it.setCheckState(0, Qt.Checked if vis[sid] else Qt.Unchecked)
-        for gi in [*self.family_items.values(), *self.group_items.values(), *self.category_items]:
-            sids = self._sids_of(gi)
-            n = int(vis[sids].sum()) if sids else 0
-            gi.setCheckState(0, Qt.Checked if n == len(sids) else Qt.Unchecked if n == 0 else Qt.PartiallyChecked)
+        for it, on in zip(part_rows, vis[part_ids].tolist()):      # not a structure family's shared row
+            it.setCheckState(0, Qt.Checked if on else Qt.Unchecked)
+        csum = np.concatenate(([0], np.cumsum(vis[flat], dtype=np.int64)))
+        counts = (csum[ends] - csum[starts]).tolist()
+        for gi, n, total in zip(rows, counts, lens.tolist()):
+            gi.setCheckState(0, Qt.Checked if n == total else Qt.Unchecked if n == 0 else Qt.PartiallyChecked)
         self._sync = False
         self._update_selection_controls()
 

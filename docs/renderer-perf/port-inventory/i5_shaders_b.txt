@@ -1,0 +1,280 @@
+Port inventory: app/viewer/shaders.py lines 540-1081 (shader half)
+Repo R = C:/Users/Ethan/Desktop/AnatomyExplorer/Worktrees/keen-ride-vm1yxr. All paths R-relative (app/viewer/shaders.py).
+GLSL #version 410 core (VERSION, line 16).
+
+Covered: 7 programs (MAIN_FS, OIT_FS, PARITY_FS, CAP_FS, CAPMIX_PRE_FS, CAPMIX_FS, COMPOSITE_FS); 25 helper functions plus the 7 main() functions in range; 0 pass definitions (pass and state code is Python, not in this range); 45 uniforms declared in range (listed below) plus the shared SHADING_COMMON uniforms (lines 378-431) that the range uses.
+Read outside the range because the math needs them: ign 433, hash3 435, gnoise 439-451, fbm 454-463, hash13 468, hash33 473, vnoise 478, fbm3 488, worley 497, tissue_color 512-538 (tissue_color is called from surface() 671 and CAP_FS 910).
+Not read (not needed for the math here): GEOM_INPUTS 364-374, ITEM_COMMON 88-95 (item_row at 92), CLIP_COMMON 96-117.
+
+== Shared scope used by the range (SHADING_COMMON 375-431) ==
+const float PI = 3.14159265  [376]
+u_campos vec3 378; u_ortho int 379; u_viewdir vec3 380 (toward camera, ortho); u_view mat4 381; u_screen vec2 382
+u_ao sampler2D 384; u_ao_on float 385 (on if >0.5); u_ao_direct float 386
+u_ldir0..2 vec3 388; u_lrad0..2 vec3 389 (radiance); u_lsize0..2 float 390 (area size)
+u_lmat0..2 mat4 391 (light space); u_shadow0..2 sampler2DShadow 392; u_ltexel0..2 float 393 (texel world size)
+u_lsoft0..2 float 394 (PCF/Poisson radius); u_shadow_on float 395
+u_sh[9] vec3 397; u_spec sampler2DArray 398; u_spec_layers float 399; u_env_diffuse 400; u_env_spec 401; u_bounce 402
+u_base vec3 404; u_alpha 405; u_rough 406; u_metal 407; u_f0 408; u_wrap 409; u_emis vec3 410; u_use_vcol int 411
+u_has_tex int 412; u_tex sampler2D 413
+u_stripe int 415; u_stripe_p vec4 416 (period, rest threshold, edge, mix); u_shorten 417; u_weight 418; u_stripe_a/b vec3 419-420
+u_mottle int 422; u_mottle_p vec4 423 (scale, from_min, from_max, octaves); u_mottle_a/b vec3 424-425
+u_detail_on int 427; u_detail vec4 428 (mottle, cells per unit, nucleus fraction, fibre axis)
+u_highlight float 430; u_highlight_col vec3 431
+ITEM_COMMON 88-94: u_batched int; u_items sampler2D (row 0: id+1, selected, highlight, x-ray; row 1: flat colour and on flag; row 2: colour and alpha as used at 734 and 782). item_row(int row) at 92 = texelFetch(u_items, ivec2(int(v_item+0.5), row), 0).
+v_item, v_wpos, v_wnrm, v_opos, v_fib, v_col, v_uv, v_glow come from GEOM_INPUTS (not read).
+
+== Constants and magic numbers (range) ==
+POISSON[16] at 578-584 (values under shadow()).
+multibounce coefficients 567-569; env_brdf constants 560-561; pbr_neutral 1013-1014 (startCompression 0.76, desaturation 0.15).
+srgb threshold 0.0031308 at 1028; ign hash 52.9829189, (0.06711056, 0.00583715) at 433, 207, 1030 (identical copies).
+dither (ign(fragcoord.xy)-0.5)/255.0 at 1078; edge kernel 12 taps, angle step 0.5235988 (pi/6) at 1044 and 1055.
+shadow(): angle factor 6.2831853 at 603; normal-offset factor 1.5 at 592; slope clamp 4.0 at 602; zbias 0.5/n at 607.
+
+== GL resources read by the range ==
+Samplers only; no FBO formats, sizes or sample counts are in this file (Python owns them).
+u_shadow0..2 sampler2DShadow: compare sample at 610, textureSize at 606. Writers: Python shadow passes (not read).
+u_spec sampler2DArray: prefiltered env, layer = roughness level (555-556). Written by PREFILTER_FS (303-), not in range.
+u_ao sampler2D: screen AO, rgb = bounce GI, a = AO (708-710). Written by SSAO_FS (183-), not in range.
+u_tex sampler2D: material texture (667; alpha test 746, 772).
+u_items sampler2D: per-item state, texelFetch (92).
+u_parity sampler2D: PARITY depth, texelFetch (892).
+u_cap_albedo, u_cap_normal, u_cap_id, u_cap_zp: texelFetch at 920-976. Written by CAP_FS outputs.
+u_opaque, u_accum, u_weight, u_id: sampler2D read in COMPOSITE_FS (997-1000).
+Render outputs: MAIN_FS -> o_col. OIT_FS -> o_accum (loc 0), o_weight (loc 1). PARITY_FS -> o_depth.
+CAP_FS -> o_albedo (loc 0), o_normal (loc 1), o_id (loc 2), o_zp (loc 3) and gl_FragDepth.
+CAPMIX_PRE_FS -> o_nd (loc 0), o_id (loc 1) and gl_FragDepth. CAPMIX_FS -> o_col and gl_FragDepth. COMPOSITE_FS -> o_col.
+
+== Functions (exact math) ==
+
+[tissue_color] 512-538. Called from surface() (671, cap=false) and CAP_FS (910, cap=true).
+  if u_detail_on==0 return base.
+  mottle=u_detail.x; scale=u_detail.y; density=u_detail.z; fiber=int(u_detail.w+0.5)
+  axis: fiber 1 -> (1,0,0); fiber 2 -> (0,1,0); fiber 3 -> (0,0,1); else normalize((0,-p.z,p.y)+1e-5)   [519-520]
+  n = fbm3(p*max(scale*0.22,3.0))   [521]
+  broad = fbm3(p*7.0+3.1)   [522]
+  c = base*(1 + mottle*(n-0.5)*1.9 + mottle*(broad-0.5)*1.5)   [523]
+  if fiber>0: along = (fiber==4) ? atan(p.z,p.y)*length(p.yz) : dot(p,axis)
+    stripes = sin(along*scale*5.0 + n*4.0); c *= 1 - 0.07*smoothstep(0.2,1.0,stripes)   [525-527]
+  if cap && scale>0: q = p*scale; if fiber>0: q -= axis*dot(q,axis)*0.72
+    d = worley(q, cell)
+    nucleus = (1-smoothstep(0.17,0.26,d)) * step(hash13(cell*1.37+4.1), density)
+    c *= 1 - 0.10*smoothstep(0.50,0.72,d)
+    c = mix(c, (0.085,0.045,0.19), nucleus*0.82)   [529-536]
+  return max(c, 0)
+
+[fbm 454-463] (out of range, reference) sum over o<6 (break at o>=octaves) of amp*gnoise(p); amp*=0.5; p*=2;
+  return 0.5 + 0.75*sum/norm.
+[fbm3 488-496] 4 octaves: s += a*vnoise(p); p = p*2.03 + (11.7,3.1,7.9); a*=0.5 (a starts 0.5); return s/0.9375.
+[worley 497-511] 3x3x3 cells around floor(p): r = g + hash33(i+g)*0.8 + 0.1 - f; best = min dot(r,r) (init 9.0);
+  cell = argmin cell; return sqrt(best).
+[vnoise 478-487] trilinear value noise over hash13 corners, with f = f*f*(3-2f) per axis.
+[hash13 468-472] p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z).
+[hash33 473-477] p = fract(p*(0.1031,0.1030,0.0973)); p += dot(p, p.yxz+33.33); return fract((p.xxy+p.yxx)*p.zyx).
+[gnoise 439-452] gradient noise: hash3 (sin-based, 43758.5453) gradients; quintic u = f^3*(f*(6f-15)+10); trilinear mix.
+
+[sh_irradiance 541-546] n -> max(u_sh[0] + u_sh[1]*n.y + u_sh[2]*n.z + u_sh[3]*n.x
+  + u_sh[4]*(n.x*n.y) + u_sh[5]*(n.y*n.z) + u_sh[6]*(3*n.z*n.z - 1) + u_sh[7]*(n.x*n.z) + u_sh[8]*(n.x*n.x - n.y*n.y), 0).
+  Called at 721 (Nc, MAIN and CAPMIX) and 790 (Nc, OIT). Per fragment.
+[dir_uv 548-550] d -> (0.5 + atan(d.x,-d.z)/(2PI), acos(clamp(d.y,-1,1))/PI). A copy is at PREFILTER 315 (not in range).
+[env_spec 551-558] l = clamp(rough,0,1)*(u_spec_layers-1); l0 = floor(l); uv = dir_uv(r);
+  a = tex(u_spec,(uv,l0)).rgb; b = tex(u_spec,(uv,min(l0+1,layers-1))).rgb; return mix(a,b,l-l0).
+  Called at 722 (Rc) and 792.
+[env_brdf 559-565] c0 = (-1,-0.0275,-0.572,0.022); c1 = (1,0.0425,1.04,-0.04); rr = r*c0+c1;
+  a004 = min(rr.x*rr.x, exp2(-9.28*NoV))*rr.x + rr.y; return (-1.04,1.04)*a004 + rr.zw.
+[multibounce 566-571] a = 2.0404*A-0.3324; b = -4.7951*A+0.6417; c = 2.7552*A+0.6903; return max(ao, ((ao*a+b)*ao+c)*ao).
+[shadow_tap 573-577] i==0 -> tex(u_shadow0,c); i==1 -> u_shadow1; else u_shadow2.
+
+[shadow 586-613] inputs i, P=v_wpos, N, L; returns visibility 0..1.
+  if u_shadow_on<0.5 return 1.
+  M = lmat_i; texel = ltexel_i; soft = lsoft_i.
+  NoL = clamp(dot(N,L),0,1)
+  p = P + N*texel*(1 + 1.5*(1-NoL))   [592]
+  lp = M*(p,1); s = lp.xyz*0.5+0.5
+  if s.x<0 || s.y<0 || s.x>1 || s.y>1 || s.z>1 return 1   [595]
+  ns = transpose(inverse(mat3(M)))*N   [600]
+  dz = (abs(ns.z)>1e-8) ? clamp(-ns.xy/ns.z, -4, 4) : (0,0)   [601-602]
+  a = ign(fragcoord.xy + i*7.0)*6.2831853; R = mat2(cos a, sin a, -sin a, cos a)   [603-604]
+  n = float(textureSize of shadow_i, lod 0, .x)   [606]
+  zbias = 0.5/n   [607]
+  for k in 0..15: o = R*POISSON[k]*soft; sum += shadow_tap(i, (s.xy+o, s.z + dot(dz,o) - zbias))   [608-611]
+  return sum/16.
+  Per fragment, once per light that reaches shadow() in light_contrib (wr>0).
+POISSON[16] (578-584): (-0.94201624,-0.39906216) (0.94558609,-0.76890725) (-0.09418410,-0.92938870) (0.34495938,0.29387760)
+  (-0.91588581,0.45771432) (-0.81544232,-0.87912464) (-0.38277543,0.27676845) (0.97484398,0.75648379)
+  (0.44323325,-0.97511554) (0.53742981,-0.47373420) (-0.26496911,-0.41893023) (0.79197514,0.19090188)
+  (-0.24188840,0.99706507) (-0.81409955,0.91437590) (0.19984126,0.78641367) (0.14383161,-0.14100790)
+
+[D_ggx 615-619] a2 = a*a; d = NoH*NoH*(a2-1)+1; return a2/(PI*d*d).
+[V_smith 620-625] a2 = a*a; gv = NoL*sqrt(NoV*NoV*(1-a2)+a2); gl = NoV*sqrt(NoL*NoL*(1-a2)+a2); return 0.5/max(gv+gl,1e-5).
+[F_schlick 626-628] f0 + (1-f0)*pow(1-VoH,5).
+[view_vector 632-634] u_ortho==1 ? u_viewdir : normalize(u_campos - P).
+[Surface 630] struct: albedo vec3, alpha, rough, metal float, f0 vec3.
+[surface() 636-678] per fragment; called from MAIN_FS 745 and OIT_FS 771.
+  base = u_base; flat_on = false
+  if u_batched==1: f = item_row(1); if f.w>0.5 { base = f.rgb; flat_on = true }   [640-643]
+  if flat_on: (nothing)
+  else if u_stripe==1:
+    x = v_fib/u_stripe_p.x; fw = fwidth(x); thr = u_stripe_p.y / max(1 - u_shorten*u_weight, 0.2)
+    ab = abs(fract(x)-0.5); e = max(u_stripe_p.z, fw*0.75); f = smoothstep(thr-e, thr+e, ab)
+    avg = clamp(1-2*thr,0,1); f = mix(f, avg, smoothstep(0.22,0.55,fw))
+    base = mix(u_stripe_a, u_stripe_b, f*u_stripe_p.w)   [646-654]
+  else if u_stripe==2: base = u_stripe_a   [656]
+  else if u_use_vcol==1: base *= v_col.rgb   [658]
+  if u_mottle==1 && !flat_on: n = fbm(v_opos*u_mottle_p.x, int(u_mottle_p.w));
+    f = smoothstep(u_mottle_p.y, u_mottle_p.z, n); base = mix(u_mottle_a, u_mottle_b, f)   [660-663]
+  alpha = u_alpha; if u_has_tex==1: t = tex(u_tex,v_uv); base *= t.rgb; alpha *= t.a   [665-670]
+  base = tissue_color(base, v_opos, false)   [671]
+  albedo = base*(1-u_metal); f0 = mix(vec3(u_f0), base, u_metal); alpha; rough = clamp(u_rough,0.04,1); metal = u_metal
+
+[light_contrib 680-701] (i, L, E, size, s, N, V, NoV, occl) -> vec3. Called 714-716 (occl) and 784-786 (occl=1).
+  NoL = dot(N,L); lam = max(NoL,0); w = u_wrap; wr = max((NoL+w)/(1+w), 0); if wr<=0 return 0
+  sh = shadow(i, v_wpos, N, L)
+  tint = sqrt(clamp(albedo / max(max(r,max(g,b)),1e-3), 0, 1))   [688]
+  diff = albedo/PI * (lam*sh + (wr-lam)*tint*mix(sh,1,0.5))   [689]
+  spec = 0; if lam>0: H = normalize(L+V); NoH = max(dot(N,H),0); VoH = max(dot(V,H),0)
+    a = rough*rough; a2 = clamp(a + size*0.5, 0, 1); norm = (a/a2)^2
+    spec = D_ggx(NoH,a2)*norm*V_smith(NoV,lam,a)*F_schlick(f0,VoH)*lam*sh   [692-698]
+  return (diff+spec)*E*occl
+
+[shade_opaque 703-726] (s, N, V). Called from MAIN_FS 750 and CAPMIX_FS 986.
+  NoV = max(dot(N,V),1e-4); ao = 1; gi = 0
+  if u_ao_on>0.5: aog = tex(u_ao, fragcoord.xy/u_screen); ao = aog.a; gi = aog.rgb   [707-711]
+  occl = mix(1, ao, u_ao_direct)
+  col = sum light_contrib(0..2) with occl   [714-716]
+  Nc = mat3(u_view)*N; Vc = mat3(u_view)*V; Rc = reflect(-Vc,Nc); ab = env_brdf(rough, NoV)
+  amb_d = albedo*sh_irradiance(Nc)/PI*u_env_diffuse
+  amb_s = env_spec(Rc,rough)*(f0*ab.x + ab.y)*u_env_spec
+  col += amb_d*multibounce(ao, albedo) + amb_s*ao; col += albedo*gi*u_bounce   [721-724]
+  return col
+
+[highlight 728-731] fr = (1-NoV)^2; return mix(col, col*0.7 + hcol*(0.10+0.55*fr), amount).
+[item_highlight 733-736] if u_batched==1: highlight(col, NoV, item_row(0).z, item_row(2).rgb); else highlight(col, NoV, u_highlight, u_highlight_col).
+
+[cap_plane 844-855] (P plane, on, o, d, tf, inout best, bn, found). Skip if on==0 or dot(P.xyz,d)<=1e-7.
+  t = -(dot(P.xyz,o)+P.w)/den; reject t<=0 or t>=tf;
+  accept if (clip_mode==1 && t<best) || (clip_mode!=1 && t>best): best=t, bn=P.xyz, found=true.
+[span 858-866] corner-mode helper. den = dot(P.xyz,d); s = dot(P.xyz,o)+P.w;
+  if |den|<1e-9 { if s>=0 t1=-1; return }; t = -s/den;
+  if den>0 { if t<t1 {t1=t; n1=P.xyz} } else t0 = max(t0,t); any=true.
+[cut_exit 868-887] (o, d, tf, out t, out n). n default (0,1,0); t=0.
+  clip_mode==1: t0=0, t1=1e30; span over clip0/1/2 (gated by u_clip_on.x/y/z); t=t1;
+    return any && t0<t1 && t1>0 && t1<tf.
+  else: best=-1e30; cap_plane over clip0/1/2; t=best; return found.
+  u_clip0..2 and u_clip_on are declared in CLIP_COMMON (not read).
+
+[CAP main 889-915] program CAP_FS, per fragment, back faces only.
+  if clipped(v_wpos) discard; if gl_FrontFacing != (u_flip==1) discard.
+  if texelFetch(u_parity, ivec2(fragcoord.xy),0).r < fragcoord.z discard (entered after the cut)   [892]
+  ndc = fragcoord.xy/u_viewport*2-1; a = inv_viewproj*(ndc,-1,1); b = inv_viewproj*(ndc,1,1)
+  o = a.xyz/a.w; d = normalize(b.xyz/b.w - o); tf = dot(v_wpos-o, d)
+  if !cut_exit(o,d,tf,best,bn) discard
+  C = o + d*best; c = viewproj*(C,1); behind = max(tf-best,0)
+  gl_FragDepth = behind/(behind+u_key_scale)   [905]
+  base = u_base; if stripe 1 or 2: base = mix(u_stripe_a,u_stripe_b,0.35); else if use_vcol: base *= v_col.rgb   [906-908]
+  if u_mottle==1: base = mix(u_mottle_a, u_mottle_b, 0.5)   [909] (no mottle fbm on the cap path)
+  base = tissue_color(base, C, true)*u_cap_dark   [910]
+  o_albedo = (base*(1-u_metal), clamp(u_rough,0.04,1))
+  o_normal = (-normalize(bn), u_f0)
+  o_id = (u_id, u_flags+2)   (bit value 2 marks a cut face)
+  o_zp = clamp(c.z/c.w*0.5+0.5, 1e-7, 1)
+
+[PARITY main 820-824] discard if clipped or front-facing (flip-adjusted); o_depth = gl_FragCoord.z.
+  Min-blended per item (blend set in Python, not read).
+
+[CAPMIX_PRE main 928-938] px = ivec2(fragcoord); zp = texelFetch(u_cap_zp,px).r; discard if zp<=0; gl_FragDepth = zp
+  w = u_inv_viewproj*(v_uv*2-1, zp*2-1, 1); C = w.xyz/w.w; n = texelFetch(u_cap_normal,px).xyz
+  o_nd = (normalize(mat3(u_view)*n), -(u_view*(C,1)).z)   [view-space normal, positive view depth]
+  o_id = texelFetch(u_cap_id,px).rg
+
+[CAPMIX_FS main 961-992] px; zp = texelFetch(u_cap_zp).r; discard if zp<=0; gl_FragDepth = zp
+  ndc = fragcoord.xy/u_screen*2-1; w = u_inv_viewproj*(ndc, zp*2-1, 1); v_wpos = w.xyz/w.w; v_opos = v_wpos
+  v_fib = 0; v_col = 1; v_uv = 0; v_glow = 0
+  alb = texelFetch(u_cap_albedo); nrm = texelFetch(u_cap_normal); idf = texelFetch(u_cap_id).rg
+  Surface: albedo = alb.rgb; rough = alb.a; metal = 0; f0 = vec3(nrm.w); alpha = 1
+  N = normalize(nrm.xyz); V = view_vector(v_wpos); if dot(N,V)<0 N = -N
+  col = shade_opaque(s,N,V); NoV = max(dot(N,V),1e-4); flags = int(idf.y+0.5)
+  if (flags&1) != 0: col = highlight(col, NoV, 0.45, u_sel_col)
+  else if abs(idf.x - u_hover_id) < 0.5: col = highlight(col, NoV, 0.18, u_hover_col)
+  o_col = (col,1)
+  Note: cap pixels get no u_emis, no v_glow and no item_highlight; only their own selection or hover highlight.
+
+[MAIN main 743-755] program MAIN_FS. Output o_col (implicit location 0), alpha = 1.
+  if clipped(v_wpos) discard; s = surface()
+  if u_has_tex==1 && u_alpha_cut>0 && s.alpha<u_alpha_cut discard   [746]
+  N = normalize(v_wnrm); V = view_vector(v_wpos); if gl_FrontFacing == (u_flip==1) N = -N   [747-749]
+  col = shade_opaque(s,N,V); col += u_emis; col += v_glow*(albedo*1.6 + (0.30,0.30,0.26))   [750-752]
+  col = item_highlight(col, max(dot(N,V),1e-4)); o_col = (col,1)
+
+[OIT main 769-809] program OIT_FS. Weighted blended OIT (McGuire and Bavoil 2013; comment at 758).
+  if clipped discard; s = surface(); alpha cut as in MAIN (772). N, V and flip as in MAIN.
+  NoV = max(dot(N,V),1e-4); a = s.alpha
+  if u_facing_on==1: facing = 1 - pow(NoV, u_facing.z); a = mix(u_facing.x, u_facing.y, facing)   [778-781]
+  a *= (u_batched==1 ? item_row(2).w : u_alpha_mul)   [782]
+  col = sum light_contrib(i, ..., occl=1) for i = 0..2   [784-786]
+  Nc = mat3(u_view)*N; Vc = mat3(u_view)*V; ab = env_brdf(rough, NoV)
+  col += albedo*sh_irradiance(Nc)/PI*u_env_diffuse   [790] (no AO, no multibounce)
+  col += v_glow*(albedo*1.6 + (0.30,0.30,0.26))   [791]
+  spec = env_spec(reflect(-Vc,Nc), rough)*(f0*ab.x + ab.y)*u_env_spec   [792]
+  if (u_batched==1 ? item_row(0).w>0.5 : u_ghost==1):   [793] (x-ray or ghost)
+    l = dot(col, (0.3,0.59,0.11)); col = mix(col, l*(0.85,0.92,1.0), 0.55); spec *= 0.5
+    a = u_ghost_alpha*(0.25 + 1.6*pow(1-NoV, 2.5)); a = min(a, 0.85)   [794-798]
+  col = item_highlight(col, NoV)
+  a = clamp(a, 0, 0.98)
+  premul = (col+spec)*a; lum = a; z = gl_FragCoord.z
+  w = clamp(pow(min(1, lum*10)+0.01, 3) * 1e8 * pow(1 - z*0.9, 3), 1e-2, 300)   [806]
+  o_accum = (premul*w, lum); o_weight = (lum*w, 0, 0, 0)   [807-808]
+
+[pbr_neutral 1012-1025] (Khronos PBR Neutral) startCompression = 0.76; desaturation = 0.15; d = 1-startCompression.
+  x = min(r, min(g,b)); offset = x<0.08 ? x - 6.25*x*x : 0.04; color -= offset; peak = max(rgb)
+  if peak < startCompression return color; newPeak = 1 - d*d/(peak+d-startCompression)
+  color *= newPeak/peak; g = 1 - 1/(desaturation*(peak-newPeak)+1); return mix(color, newPeak*(1,1,1), g)
+[srgb 1026-1029] c = clamp(c,0,1); mix(c*12.92, 1.055*pow(c,1/2.4) - 0.055, step(0.0031308, c)).
+[is_sel 1032-1035] f = tex(u_id,uv).g; return mod(floor(f+0.5), 2).
+[is_id 1036-1038] abs(tex(u_id,uv).r - target) < 0.5 ? 1 : 0.
+[edge_sel 1040-1049] c = is_sel(v_uv); e = sum over 12 taps at angle i*pi/6, offset (cos,sin)*u_outline_px*u_texel,
+  of abs(is_sel(uv+o) - c); return clamp(e/4,0,1) * (c>0.5 ? 0.6 : 1).
+[edge_id 1051-1061] target<0.5 -> 0; otherwise the same as edge_sel using is_id.
+[COMPOSITE main 1063-1079] program COMPOSITE_FS, full screen.
+  col = tex(u_opaque, v_uv).rgb
+  if u_oit_on==1: acc = tex(u_accum); wsum = tex(u_weight).r; reveal = clamp(acc.a,0,1);
+    if wsum>1e-6: col = (acc.rgb/wsum)*(1-reveal) + col*reveal   [1065-1070]
+  col *= exp2(u_exposure); col = (u_tonemap==1) ? pbr_neutral(col) : col; col = srgb(col)   [1071-1073]
+  eh = edge_id(u_hover); es = (u_has_sel==1) ? edge_sel() : 0
+  col = mix(col, u_hover_outline, eh*0.55); col = mix(col, u_outline, es)   [1074-1077]
+  col += (ign(fragcoord.xy) - 0.5)/255   [1078]
+  o_col = (col,1)
+
+== Uniforms declared in range (line, type, meaning) ==
+MAIN_FS: u_flip int 740 (mirrored model: front faces are the clockwise ones); u_alpha_cut float 741
+OIT_FS: u_facing vec3 760 (alpha min, alpha max, exponent); u_facing_on int 761; u_flip int 762;
+  u_ghost int 763 (x-ray); u_ghost_alpha float 764; u_alpha_mul float 765 (tissue opacity slider); u_alpha_cut float 766
+PARITY_FS: u_flip int 818
+CAP_FS: u_flip int 830; u_parity sampler2D 831; u_inv_viewproj mat4 832; u_viewproj mat4 833; u_viewport vec2 834;
+  u_key_scale float 835 (depth key scale); u_id float 836; u_flags float 837; u_cap_dark float 838 (darkening)
+CAPMIX_PRE_FS: u_cap_normal sampler2D 921; u_cap_id 922; u_cap_zp 923; u_inv_viewproj mat4 924; u_view mat4 925
+CAPMIX_FS: u_cap_albedo sampler2D 952; u_cap_normal 953; u_cap_id 954; u_cap_zp 955; u_inv_viewproj mat4 956;
+  u_hover_id float 957; u_sel_col vec3 958; u_hover_col vec3 959
+COMPOSITE_FS: u_opaque 997; u_accum 998; u_weight 999; u_id 1000 (sampler2D); u_oit_on int 1001; u_has_sel int 1002;
+  u_hover float 1003; u_outline vec3 1004; u_hover_outline vec3 1005; u_exposure float 1006; u_tonemap int 1007
+  (1 = PBR Neutral, 0 = clamp); u_texel vec2 1008; u_outline_px float 1009
+Used but declared in CLIP_COMMON (not read): u_clip0..2, u_clip_on, u_clip_mode (101), u_noclip (102).
+
+== Programs (stage, inputs, outputs, feature switches) ==
+MAIN_FS (frag): VERSION+CLIP_COMMON+GEOM_INPUTS+SHADING_COMMON. out o_col. Switches: u_has_tex, u_alpha_cut, u_flip, u_batched,
+  u_stripe, u_mottle, u_use_vcol, u_ao_on, u_shadow_on, u_detail_on, u_highlight.
+OIT_FS (frag): same prefix. out o_accum (loc 0), o_weight (loc 1). Switches: u_facing_on, u_ghost, u_batched, u_has_tex, u_alpha_cut.
+PARITY_FS (frag): VERSION+CLIP_COMMON only; in centroid vec3 v_wpos; out o_depth vec4. Switch: u_flip.
+CAP_FS (frag): VERSION+CLIP_COMMON+GEOM_INPUTS+SHADING_COMMON. out o_albedo (loc 0), o_normal (loc 1), o_id (loc 2, vec2),
+  o_zp (loc 3, float); writes gl_FragDepth. Switches: u_clip_mode, u_stripe, u_use_vcol, u_mottle, u_detail_on (cap path, scale>0).
+CAPMIX_PRE_FS (frag): VERSION only; in v_uv; out o_nd (loc 0, vec4), o_id (loc 1, vec2); writes gl_FragDepth.
+CAPMIX_FS (frag): VERSION + plain global v_* declarations + SHADING_COMMON; out o_col; writes gl_FragDepth.
+COMPOSITE_FS (frag): VERSION only; in v_uv; out o_col. Switches: u_oit_on, u_has_sel, u_tonemap.
+
+== Feature-switch defaults ==
+Not set in this file. Defaults live in the Python side (not in range).
+
+== Unresolved / not in range ==
+1. Pass order, targets, clears, depth/blend/cull/colour-mask/stencil state and draw ranges: Python side, not in lines 540-1081.
+2. Feature-switch default values: Python side.
+3. ITEM_COMMON, GEOM_INPUTS, CLIP_COMMON were read only as far as the range needs; the v_* in/out qualifiers were not read.
+4. fbm, gnoise and tissue_color sit at 439-538, just before the range; they are inventoried above for the math.

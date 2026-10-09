@@ -1,0 +1,231 @@
+Port inventory: app/viewer/renderer.py lines 1-460 (module constants, helpers, Renderer.__init__, set_model,
+buffers/VAOs, items texture, LOD level selection, draw-run building)
+
+Repo R = C:/Users/Ethan/Desktop/AnatomyExplorer/Worktrees/keen-ride-vm1yxr. All paths R-relative. Read-only job.
+_refresh_transforms starts at L445 and its body runs to L462 (the range ends at 460; 461-462 included for completeness).
+No render() pass code is in this range; frame passes are outside it and are NOT inventoried here.
+GLSL sources live in app/viewer/shaders.py (not in range; not read). Shader-side facts come only from the vertex-format
+strings and constants in this range.
+
+=== 1. Module-level constants and data ===
+L17-29   imports: dataclasses, io, math, moderngl, numpy; from . import lod, shaders; Environment; NO_FIBRE, Part, ViewerModel.
+L31      FMT = "3f 3f 3f 3f 1f 4f 2f": full per-vertex layout: in_pos(3f) in_nrm(3f) in_dpos(3f) in_dnrm(3f) in_fib(1f)
+         in_col(4f) in_uv(2f). 19 float32 = 76 bytes/vertex (matches the vertices.shape[1] == 19 check).
+L32      ATTRS = ("in_pos","in_nrm","in_dpos","in_dnrm","in_fib","in_col","in_uv")
+L33      ANIM_FMT = "4f2 4f2 4f2 4f2 1f": four vec4 of 2-byte floats (in_m0..in_m3, 8 bytes each, 32 bytes)
+         + in_phase float32 (4 bytes). 36 bytes/vertex. "f2" = 2-byte float in moderngl format.
+L34      ANIM_ATTRS = ("in_m0","in_m1","in_m2","in_m3","in_phase")
+L37      STATIC_FMT = "3f 3f": compact static path, in_pos and in_nrm only. 24 bytes/vertex.
+L38      STATIC_ATTRS = ("in_pos","in_nrm")
+L39      _STATIC_TAIL = float32[0,0,0,0,0,0, NO_FIBRE, 1,1,1,1, 0,0] (13 values = columns 6..18 of the full vertex:
+         dpos=0, dnrm=0, fib=NO_FIBRE, col=(1,1,1,1), uv=(0,0)). NO_FIBRE is defined in app/viewer/model.py.
+L40      _STATIC_TAIL_BITS = _STATIC_TAIL.view(uint32)  (bit-exact compare)
+L83-87   DEFAULT_RIG = harness light rig, 3 lights (same as trial/harness/config.json stage.lights):
+           key:  azimuth 40.0,  elevation 35.0, size_factor 0.35, energy 15.0, colour [1,1,1]
+           fill: azimuth -55.0, elevation 10.0, size_factor 0.6,  energy 5.0,  colour [1,1,1]
+           rim:  azimuth 165.0, elevation 40.0, size_factor 0.3,  energy 10.0, colour [1,1,1]
+L88      DEFAULT_WORLD = {top_hex "#20242b", bottom_hex "#12141a", ambient_colour [0.5,0.5,0.5], ambient_strength 0.3}
+L160     ITEM_UNIT = 11: texture unit of the per-item state texture for batched draws.
+L216     Renderer.GEOM_PROGRAMS = ("main","oit","pre","shadow","parity","cap")
+L246     _env_key = (Settings.studio, 0.15)
+L264     shadow_sizes = (4096, 2048, 2048) (key, fill, rim)
+L321     items_tex is created only if n_items <= GL_MAX_TEXTURE_SIZE (default 4096); n_items = max(len(model.items), 1).
+L336-337 model_diag = max(norm(bounds_max - bounds_min), 1e-3)
+
+=== 2. Dataclasses ===
+L110-139 Settings (defaults, all of which affect the picture):
+   ao True; shadows True; stripes True; tonemap True (Khronos PBR Neutral; off = Standard)
+   exposure 0.0; studio 0.30 (0 = uniform ambient only, 1 = full studio env)
+   env_diffuse 1.0; env_spec 1.0; light_scale 1.0; tissue 1.0 (wrapped diffuse strength)
+   ao_radius 0.0 (0 = automatic); ao_strength 1.0; ao_direct 0.35; ao_large 3.5 (x contact radius); ao_large_mix 0.8
+   bounce 0.6 (one-bounce SSGI from the previous frame)
+   msaa 8; shadow_soft 2.0
+   outline (1.0, 0.86, 0.35) sRGB; hover_outline (0.75, 0.85, 1.0)
+   highlight (1.0, 0.85, 0.45) linear; hover_highlight (0.75, 0.85, 1.0)
+   hover_outline_on True; ghost_alpha 0.10
+   background None (None = the model's own backdrop; else ((top sRGB),(bottom sRGB)))
+   selected 0 (item id + 1); hovered 0 (item id + 1); extra {}
+L142-157 FrameState (per frame, per item; arrays indexed by item):
+   visible ndarray|None; ghost ndarray|None; alpha ndarray|None (tissue opacity multiplier)
+   selected frozenset() (item ids); hovered -1 (item id); override {} (item -> linear RGB)
+   colours ndarray|None (n,3 linear flat colours of a colour mode)
+   clip_planes ((0,1,0,0),)*3; clip_on (False,False,False); clip_mode 0
+   opaque_materials False (display override); anim_t 0.0; anim_frame ndarray|None (2,n,4): morph weights; (mode, glow, decay, rate)
+
+=== 3. Module functions ===
+F1 _can_compact_vertices(model) -> bool   L43-63   [per load, in set_model]
+   True only if: model.kind == "procedural"; source.id not in {heart, whole_heart, cardiac_muscle};
+   no anim_vertices, no model.animation, no source.animation, no model.clip; no part has_morph;
+   vertices is a float32 2-D array with shape[1] == 19 and len > 0; columns 6: are bit-identical to _STATIC_TAIL_BITS
+   (checked in chunks of 131072 rows).
+   Reads: model.kind, model.source, model.anim_vertices, model.animation, model.clip, model.parts, model.vertices. GL: none.
+
+F2 _static_geometry_shader() -> str   L66-80   [per load, only when compact is attempted]
+   Copies shaders.GEOM_VS and replaces 5 input declarations with constants (each must match exactly once, else ValueError):
+     "in vec3 in_dpos;"  -> "const vec3 in_dpos = vec3(0.0);"
+     "in vec3 in_dnrm;"  -> "const vec3 in_dnrm = vec3(0.0);"
+     "in float in_fib;"  -> "const float in_fib = <repr(float(_STATIC_TAIL[6]))>;"   (NO_FIBRE)
+     "in vec4 in_col;"   -> "const vec4 in_col = vec4(1.0);"
+     "in vec2 in_uv;"    -> "const vec2 in_uv = vec2(0.0);"
+   GL: none (returns source text; caller compiles it).
+
+F3 srgb_hex_to_linear(h) -> [r,g,b]   L91-92   parses the "#rrggbb" channels, applies srgb_to_linear_1.
+F4 srgb_to_linear_1(c) -> float   L95-96   c/12.92 if c <= 0.04045 else ((c+0.055)/1.055)^2.4
+F5 backdrop_linear(colour, neutral=True)   L99-107   colour = hex string or sRGB float triple; converts to linear.
+   If neutral: lo = min(t); off = sqrt(lo/6.25) - lo if lo < 0.04 else 0.04; returns t + off per channel.
+   Harness toe compensation for Khronos PBR Neutral.
+F6 _look_key(look) -> str or None   L163-167   None if look.texture is not None (textured parts never merged);
+   else repr(dataclasses.astuple(look)). Equal keys = one draw call may cover them.
+F7 _transparent_pass(part, ghost, alpha, frame) -> bool   L170-172
+   True if ghost or alpha < 0.999 or (not frame.opaque_materials and (part.role == "covering" or part.look.translucent)).
+   Routes a part to OIT (weighted blended) vs opaque. Called per frame (callers outside range).
+F8 _frustum_planes(vp) -> (6,4) array   L208-212   planes = rows m3+m0, m3-m0, m3+m1, m3-m1, m3+m2, m3-m2 of vp,
+   each normalized by the norm of its xyz part (min 1e-12). Per frame if used.
+
+=== 4. Class _U (uniform setter)   L175-205 ===
+  __init__(prog): self.prog = prog; self.cache = {}.
+  __call__(name, value)   L182-202, per call:
+     unknown name -> return silently.
+     2-D ndarray: data = contiguous float32 of value.T bytes (column-major upload).
+     other ndarray: data = contiguous float32 bytes.
+     bool: value = int(value); data None.   other: data None.
+     key = data if data is not None else value; if cache[name] == key: return (unchanged values skipped).
+     upload: data -> prog[name].write(data); else prog[name].value = value. cache[name] = key only after upload.
+  reset()   L204-205: clears cache. Called for all programs in set_model (L339-340).
+  GL: writes uniforms on its program. Per frame when render() uses it (outside range).
+
+=== 5. Renderer.__init__   L218-281 [once per Renderer] ===
+Creates 13 programs via ctx.program(vertex_shader, fragment_shader):
+  p_main   = GEOM_VS + MAIN_FS      (geom)
+  p_oit    = GEOM_VS + OIT_FS       (geom)
+  p_pre    = GEOM_VS + PREPASS_FS   (geom)
+  p_shadow = GEOM_VS + SHADOW_FS    (geom)
+  p_parity = GEOM_VS + PARITY_FS    (geom)
+  p_cap    = GEOM_VS + CAP_FS       (geom)
+  p_back   = FSQ_VS + BACKDROP_FS
+  p_ssao   = FSQ_VS + SSAO_FS
+  p_blur   = FSQ_VS + BLUR_FS
+  p_comp   = FSQ_VS + COMPOSITE_FS
+  p_capmix_pre = FSQ_VS + CAPMIX_PRE_FS
+  p_capmix = FSQ_VS + CAPMIX_FS
+  p_blit   = FSQ_VS + BLIT_FS
+  geom = dict of the 6 geom programs; _full_geom = copy; _compact_geom None; _compact_unavailable False;
+  _compact_vertices False. programs = 6 geom + 7 screen-space.
+  u = {prog: _U(prog)} for all programs.
+  fsq = vertex_array(p, []) (no buffers) for the 7 screen-space programs; the fullscreen triangle is made in the shader.
+  env = Environment(ctx, studio=Settings.studio) (default 0.30). Internals in app/viewer/environment.py (not read).
+  white = ctx.texture((1,1), 4, bytes(255,255,255,255))   1x1 RGBA8 white.
+  Set to empty/None: model, vbo, ibo, abo, item_vbo, items_tex, _range {}, _lod_range {}, _lod None, _level {},
+     _look_keys {}, _item_state None, _xf {}, vaos {}, textures {}, size None, samples None, t {}, shadow_maps [],
+     _shadow_key None, _shadow_mats [eye4]*3, _shadow_texel [0.01]*3, _shadow_soft [0.001]*3,
+     rig DEFAULT_RIG, world DEFAULT_WORLD, last_camera None, last_vp eye(4), frame_ok False, _released False.
+  gl_info = "<GL_RENDERER or ?> / OpenGL <ctx.version_code>".
+  Shadow maps: for s in (4096, 2048, 2048): tex = ctx.depth_texture((s,s)); compare_func "<="; filter LINEAR/LINEAR;
+     repeat_x = repeat_y = False; fb = ctx.framebuffer(depth_attachment=tex); appended as (tex, fb). 3 depth textures + 3 FBOs.
+  NOT initialised here (set later): model_diag (L337), _spheres and _scales (L457-459, in _refresh_transforms),
+     _xf_key (read via getattr at L452).
+
+=== 6. Renderer._use_geometry_layout(compact) -> bool   L284-305 [per model load] ===
+  If compact, no compact set yet, and not previously unavailable: build 6 programs from _static_geometry_shader() with the
+  same 6 fragment shaders (main, oit, pre, shadow, parity, cap). On any Exception: release partial programs, set
+  _compact_unavailable = True (full path for the rest of this Renderer's life). On success: _compact_geom = dict;
+  programs extended; u gets _U for each.
+  _compact_vertices = bool(compact and _compact_geom is not None); geom = compact or full dict; each entry also set as
+  attribute p_<name>. Returns _compact_vertices.
+
+=== 7. Renderer.set_model(model)   L307-343 [per model load; calls release_model first] ===
+  release_model() (outside range, not read). Then:
+  1. model stored; compact = _use_geometry_layout(_can_compact_vertices(model)).
+  2. vertices = model.vertices[:, :6] if compact else model.vertices; fmt/attrs = STATIC or FULL.
+  3. vbo = ctx.buffer(contiguous float32 vertices).
+  4. ibo = _batched_indices(model) (uint32 index buffer; section 8).
+  5. item_vbo = ctx.buffer(_vertex_items(model)) (1 float per vertex, attribute in_item, format "1f").
+  6. items_tex = ctx.texture((n_items, 3), 4, dtype "f4"), NEAREST, only if n_items <= GL_MAX_TEXTURE_SIZE (default 4096);
+     otherwise items_tex stays None and _upload_item_state silently does nothing (U4).
+  7. _item_state = None.
+  8. if model.anim_vertices is not None: abo = ctx.buffer(anim_vertices as uint8 view).
+  9. For each geom program: buffers = [(vbo, fmt, *attrs), (item_vbo, "1f", "in_item")] + [(abo, ANIM_FMT, *ANIM_ATTRS)] if abo;
+     vaos[name] = ctx.vertex_array(p, buffers, ibo, 4, skip_errors=True). The 4 is the index element size argument (U5).
+  10. side = model.sidecar.get("lights") or {}; rig = side.get("rig") or DEFAULT_RIG; world = side.get("world") or DEFAULT_WORLD.
+  11. _shadow_key = None (forces shadow recompute); diag = norm(bounds_max - bounds_min); model_diag = max(diag, 1e-3).
+  12. frame_ok = False; every _U.reset().
+  On exception: release_model() and re-raise.
+  Reads model.vertices, model.indices (via _batched_indices), model.items, model.anim_vertices, model.sidecar,
+  model.bounds_min/max, model.parts.
+
+=== 8. Renderer._batched_indices(model) -> ctx.buffer   L345-383 [per model load] ===
+  parts = model.parts. _look_keys = {p.id: _look_key(p.look)}.
+  by_look = sorted(parts, key=(p.material_name, look_key or "", p.id)). Equal-depth ties follow this order.
+  levels = model.lod or {}; coarse = parts whose id is in levels.
+  in_order = (ids in by_look order) == (ids sorted by p.first).
+  Case A (in_order and no coarse): _range = {p.id: (p.first, p.count)}; returns buffer of model.indices (uint32).
+  Case B otherwise: total = sum(p.count) + sum(len(i) for coarse for i in levels[p.id].indices).
+     ibo = ctx.buffer(reserve = max(total,1)*4 bytes).
+     If in_order: write all model.indices; _range = {p.id: (p.first, p.count)}; offset = len(model.indices).
+     Else: for p in by_look: write indices[p.first : p.first+p.count] at offset*4 (if count); _range[p.id] = (offset, count); offset += count.
+     Then for k in range(lod.LEVELS): for p in coarse: write levels[p.id].indices[k] at offset*4;
+        _lod_range[p.id].append((offset, len)); offset += len.
+     If coarse: _lod = (np.array(index of coarse parts within parts list), [coarse ids], np.array(levels[p.id].cells, float64)).
+  lod.LEVELS and levels[...].indices/cells are defined in app/viewer/lod.py (not read).
+  _lod is only written when coarse is non-empty; it is never reset here (U2).
+
+=== 9. Renderer._lod_levels(V, halves, ortho, h) -> {part id: level k}   L385-398 [per frame, when _lod is set] ===
+  Inputs: V view matrix (4x4), halves (half-extents tuple; halves[1] used), ortho bool, h viewport height in px.
+  Returns {} if _lod is None. where, ids, cells = _lod; centres, radii = _spheres; scales = _scales.
+  pixel: ortho -> 2*halves[1]/h for all; perspective -> depth = -(centres[where] @ V[2,:3] + V[2,3]) - radii[where];
+     pixel = max(depth,0) * (2*halves[1]/h).
+  level = count of levels k where cells[part,k] * scale[where] <= pixel.
+  Returns {id: int(k)} for nonzero k only. 0 = full mesh.
+  Uses _spheres and _scales, which exist only after _refresh_transforms has run (U3).
+
+=== 10. Renderer._span(p) -> (first, count)   L400-403 [per draw-building call] ===
+  k = _level.get(p.id); if k: return _lod_range[p.id][k-1]; else return _range[p.id].
+
+=== 11. Renderer._vertex_items(model)   L405-414 [static method, per load] -> float32 array ===
+  items = zeros(max(len(vertices),1), float32). For each part: if vertex_count > 0: items[vertex_base : vertex_base+vertex_count] = p.item.
+  elif count > 0: items[model.indices[first:first+count]] = p.item.
+
+=== 12. Renderer._upload_item_state(fs, s, ghost, alpha)   L416-443 [per frame] ===
+  Returns if items_tex is None. n = len(model.items). st = zeros((3, max(n,1), 4), float32).
+  Row 0: st[0,i,0] = i+1 for all n; st[0,:,3] = ghost.
+     hover: for hovered in {fs.hovered, s.hovered - 1 if s.hovered else -1}: if 0 <= h < n and h not in fs.selected:
+        st[0,h,2] = 0.18; st[2,h,:3] = s.hover_highlight.
+     selected: for it in fs.selected (0 <= it < n): st[0,it,1] = 1.0; st[0,it,2] = 0.45; st[2,it,:3] = s.highlight.
+  Row 1: if fs.colours is not None: st[1,:n,:3] = colours[:n]; st[1,:n,3] = 1.0.
+     overrides: for it, colour in fs.override: st[1,it] = (*colour, 1.0).
+  Row 2: st[2,:,3] = alpha.
+  Upload: data = st.tobytes(); if data != _item_state: items_tex.write(data); _item_state = data.
+  Texture: width n_items x height 3, RGBA32F, NEAREST. Bound at texture unit ITEM_UNIT = 11 (bind site outside range).
+  fs.hovered is an item index; s.hovered is item id + 1.
+
+=== 13. Renderer._refresh_transforms(m)   L445-462 [per frame; early-out when key unchanged] ===
+  Key = (id(node_world), len(node_world), root bytes, sorted node_offsets items as bytes, item_offsets bytes or None,
+     sorted node_weights items, bytes(bool(it.clip) for it in items)).
+  If key == _xf_key: return. Else: _xf_key = key; _xf = {}.
+  _spheres = (centres float64 (n,3), radii float64 (n,)) from m.part_sphere(p) for each part.
+  _scales = zeros(len(parts)); if _lod is not None: for each coarse index i: _scales[i] = max over columns of
+     norm(m.part_matrix(parts[i])[:3,:3]).
+
+=== 14. Not inventoried here ===
+  _transform(self, p) starts at L464 (outside range). Frame passes, shadow rendering, cut faces, SSAO, OIT, composite
+  are in render() and later (outside range). Uniform names set by render(): none in range.
+
+=== Counts (range 1-460) ===
+  Programs created in range: 13 (6 geom + 7 screen-space), plus up to 6 compact geom variants built on demand (19 max).
+  Functions/methods covered: 20 (F1-F8; _U.__init__, __call__, reset; Renderer.__init__, _use_geometry_layout, set_model,
+     _batched_indices, _lod_levels, _span, _vertex_items, _upload_item_state, _refresh_transforms) + 2 dataclasses.
+  Uniforms set in range: 0 (the _U setter is defined here; render() sets the values).
+  GL resources created in range: 13 programs; 7 empty VAOs at init and 6 geom VAOs per load; 1 vbo; 1 ibo; 1 abo (if anim);
+     1 item_vbo; 1 items_tex (conditional); 1 white texture; 3 depth textures + 3 framebuffers (shadow maps, in __init__).
+
+=== Unresolved / risks ===
+  U1  _lod_range is never cleared in set_model or _batched_indices; it uses setdefault(...).append. If release_model()
+      (outside range, not read) does not clear it, coarse ranges from a previous model accumulate. UNSURE until release_model is read.
+  U2  _lod is only assigned when coarse is non-empty (L379-382); a load with no coarse parts keeps the previous model's _lod
+      unless release_model clears it. UNSURE, same cause as U1.
+  U3  _spheres, _scales, model_diag, _xf_key are first set outside __init__; _lod_levels (L385) reads _spheres/_scales,
+      so it is only safe after _refresh_transforms has run. Caller order not verified (outside range).
+  U4  items_tex is None for models with more items than GL_MAX_TEXTURE_SIZE; _upload_item_state then does nothing silently
+      (L418-419). Port should decide whether to keep this silent fallback.
+  U5  vertex_array(..., 4, ...) at L331: the 4 is the index element size in moderngl; wgpu port needs only the index format (uint32). Not verified against moderngl docs here.
+  U6  Not read: model.py (NO_FIBRE value, Part and ViewerModel fields, part_sphere, part_matrix), lod.py (LEVELS, cells, indices), environment.py (Environment internals), shaders.py (all GLSL).

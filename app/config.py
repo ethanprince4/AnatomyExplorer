@@ -92,6 +92,7 @@ DEFAULT_SETTINGS = {
     "ssao_strength": 1.0,
     "fxaa": True,
     "render_scale": 1.0,
+    "fast_renderer": sys.platform == "darwin",  # wgpu model viewer (app/gpu); OpenGL elsewhere until checked there
     "dark_background": True,
     "custom_background": False,
     "bg_top": "#1d2127",

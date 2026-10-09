@@ -52,8 +52,11 @@ def _normals(vertices, faces):
     normals = np.zeros_like(vertices, dtype=np.float64)
     tri = vertices[faces].astype(np.float64)
     cross = np.cross(tri[:, 1] - tri[:, 0], tri[:, 2] - tri[:, 0])
-    for i in range(3):
-        np.add.at(normals, faces[:, i], cross)
+    # One weighted bincount per axis over the three corner lists in order: the same additions, in the same order,
+    # as three np.add.at passes, so the result is bit-identical and several times faster.
+    corners = np.concatenate([faces[:, 0], faces[:, 1], faces[:, 2]])
+    for axis in range(3):
+        normals[:, axis] = np.bincount(corners, weights=np.tile(cross[:, axis], 3), minlength=len(normals))
     lengths = np.linalg.norm(normals, axis=1)
     good = lengths > 0
     normals[good] /= lengths[good, None]
@@ -343,6 +346,21 @@ def _component_controls(entry, descriptor, metadata, decoded, warnings):
 
 
 def prepare_local_model(entry, token=None):
+    """Open a library model. The prepared-model cache is used when it holds this exact file; any trouble with it
+    (stale, damaged, mismatched) falls back to the ordinary decode-and-build path without a message."""
+    from ..load_control import LoadCancelled
+    try:
+        return _prepare_local_model(entry, token, True)
+    except LoadCancelled:
+        raise
+    except Exception:
+        if not getattr(entry, "_prepared_used", False):
+            raise
+    entry._prepared_used = False
+    return _prepare_local_model(entry, token, False)
+
+
+def _prepare_local_model(entry, token, use_cache):
     from .anatomy_runtime_adapters.runtime import NativeBackend, _prepare_hooks, _hook, _resolve_fit_cameras, _retire_native_backing
     _check(token)
     descriptor = getattr(entry, "descriptor", None) or entry.store.resolve(entry.id, entry.variant)
@@ -366,15 +384,36 @@ def prepare_local_model(entry, token=None):
                             generation_id="local", descriptor_sha256=None)
     backend = NativeBackend()
     if path.suffix.lower() == ".npz":
-        metadata, decoded = decode_local_npz(path, token, warnings)
+        from ..viewer import prepared_cache
         guide = load_part_guide(entry.id)
         retired = guide.excluded_groups
+        key = prepared_cache.make_key(path, [(role, a.path) for role, a in sorted(assets.items())], retired)             if use_cache and not component else None
+        cached = prepared_cache.lookup(key) if key else None
+        entry._prepared_used = cached is not None
+        if cached is not None:
+            # stand-in arrays of the recorded sizes: the real ones come memory-mapped from the cache
+            with np.load(path, allow_pickle=False) as archive:
+                metadata = json.loads(archive["meta"].tobytes().decode("utf-8"))
+            decoded = prepared_cache.stub_rows(metadata, cached.manifest)
+            warnings.extend(cached.decode_warnings)
+        else:
+            metadata, decoded = decode_local_npz(path, token, warnings)
+        sizes = [(len(v), len(f), c is not None) for _, v, _, f, c in decoded]
+        kept = list(range(len(decoded)))
         if retired:
             # Parts a model's guide retires (the adrenal gland that came with the kidney); references to them in
             # views and recipes are pruned like any removed part.
-            decoded = [row for row in decoded if row[0].get("group", "Model") not in retired]
+            kept = [i for i, row in enumerate(decoded) if row[0].get("group", "Model") not in retired]
+            decoded = [decoded[i] for i in kept]
             metadata = {**metadata, "parts": [p for p in metadata.get("parts", []) if p.get("group", "Model") not in retired]}
-        _load_color_companion(descriptor, decoded, warnings)
+        if cached is None:
+            _load_color_companion(descriptor, decoded, warnings)
+        if key and cached is None:
+            for slot, row in zip(kept, decoded):
+                sizes[slot] = (sizes[slot][0], sizes[slot][1], row[4] is not None)
+            plan = dict(key=key, source=dict(path=str(path)), decode=sizes, warnings=list(warnings))
+        else:
+            plan = None
         controls = (_component_controls(entry, descriptor, metadata, decoded, warnings) if component else
                     _controls(entry, descriptor, metadata, decoded, warnings))
         from app.micro.base import Part
@@ -409,7 +448,17 @@ def prepare_local_model(entry, token=None):
         except Exception as exc:
             hooks_available = False
             warnings.append(f"Some model-specific controls are unavailable for these parts: {exc}")
-        model = backend.procedural(micro, parts)
+        if cached is not None:
+            # parts carry stand-in meshes: the builder only takes sizes from them, the arrays come from the cache
+            for part, (row, vertices, _n, faces, _c) in zip(parts, decoded):
+                part.mesh = prepared_cache.StubMesh(len(vertices), len(faces))
+            from app.viewer.procedural import ProceduralModel
+            with prepared_cache.using(cached):
+                model = ProceduralModel(micro, parts=parts)
+            model.lod = cached.lod
+        else:
+            model = backend.procedural(micro, parts)
+            model._prepared_plan = plan
         try:
             if not standalone and entry.id == "tooth" and controls["documents"]:
                 _hook(entry.id, "teaching").apply_to_viewer_model(model, controls["documents"][0], model_id=entry.id)

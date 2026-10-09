@@ -46,8 +46,10 @@ out float v_glow;
 void main() {
     int obj = u_cap_owner_plus_one > 0 ? u_cap_owner_plus_one - 1 : int(in_obj);
     int mat = u_cap_material_plus_one > 0 ? u_cap_material_plus_one - 1 : int(in_mat);
-    vec4 st = texelFetch(u_state, ivec2(obj, 0), 0);
-    vec4 st2 = texelFetch(u_state, ivec2(obj, 1), 0);
+    // state texture: 4096 structures per block of two rows (state_texel in app/state.py)
+    ivec2 st_xy = ivec2(obj & 4095, (obj >> 12) * 2);
+    vec4 st = texelFetch(u_state, st_xy, 0);
+    vec4 st2 = texelFetch(u_state, st_xy + ivec2(0, 1), 0);
     int flags = int(st.a + 0.5);
     bool visible = (flags & 1) != 0;
     bool ghost = (flags & 2) != 0;
@@ -730,5 +732,20 @@ void main() {
     vec3 b = a * 0.5 + 0.25 * (texture(u_src, v_uv + dir * -0.5).rgb + texture(u_src, v_uv + dir * 0.5).rgb);
     float lB = dot(b, vec3(0.299, 0.587, 0.114));
     o_color = vec4((lB < lMin || lB > lMax) ? a : b, 1.0);
+}
+"""
+
+
+# One tiny pass that copies the id and depth at up to 256 chosen pixels into a 256x1 float texture,
+# so a whole batch of picks costs a single readback instead of one per point.
+GATHER_FS = """
+#version 410 core
+uniform sampler2D u_id;
+uniform sampler2D u_depth;
+uniform ivec2 u_pts[256];
+out vec4 o_val;
+void main() {
+    ivec2 p = u_pts[int(gl_FragCoord.x)];
+    o_val = vec4(texelFetch(u_id, p, 0).r, texelFetch(u_depth, p, 0).r, 0.0, 1.0);
 }
 """
