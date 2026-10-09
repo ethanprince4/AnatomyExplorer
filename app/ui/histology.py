@@ -4,9 +4,10 @@ from PySide6.QtCore import QPointF, QRectF, QSize, Qt, QUrl, Signal
 from PySide6.QtGui import QColor, QDesktopServices, QFont, QFontMetricsF, QIcon, QPainter, QPen, QPixmap
 from PySide6.QtWidgets import (QBoxLayout, QCheckBox, QComboBox, QFrame, QGraphicsPixmapItem, QGraphicsScene, QGraphicsView, QHBoxLayout, QLabel,
                                QLineEdit, QListWidget, QMenu, QPushButton, QSplitter, QTextBrowser,
-                               QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+                               QVBoxLayout, QWidget)
 
 from . import theme
+from .outline import Outline, OutlineItem
 from .stable_rows import fill_combo, fill_list
 from .image_workspace import (LocalImageLoader, control, matches_words, searchable_text, image_control_card, CARD_TEXT,
                               CARD_MUTED, pinch_steps, trackpad_scroll)
@@ -69,10 +70,8 @@ class HistologyBrowser(QWidget):
         self.count_label = QLabel()
         self.count_label.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_CAPTION))
         lay.addWidget(self.count_label)
-        self.tree = QTreeWidget()
+        self.tree = Outline()
         self.tree.setAccessibleName("Histology tissues and images")
-        self.tree.setHeaderHidden(True)
-        self.tree.setColumnCount(2)
         self.tree.setIndentation(14)
         self.tree.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tree.customContextMenuRequested.connect(self._menu)
@@ -85,37 +84,30 @@ class HistologyBrowser(QWidget):
         lay.addWidget(self.empty_state)
         self._build()
         self._filter("")
-        self.tree.header().setStretchLastSection(False)
-        self.tree.header().setSectionResizeMode(0, self.tree.header().ResizeMode.Stretch)
-        self.tree.header().setSectionResizeMode(1, self.tree.header().ResizeMode.ResizeToContents)
 
     def _build(self):
         folders = {}
-        muted = theme.qc(theme.MUTED)
         def folder(path):
             key = tuple(path)
             if key in folders:
                 return folders[key]
             parent = folder(path[:-1]) if len(path) > 1 else self.tree.invisibleRootItem()
-            it = QTreeWidgetItem(parent)
+            it = OutlineItem(parent)
             it.setText(0, path[-1])
-            f = it.font(0)
-            f.setBold(len(path) == 1)
-            it.setFont(0, f)
+            it.setBold(len(path) == 1)
             folders[key] = it
             return it
 
         for t in self.content.histology["tissues"]:
             parent = folder(t["path"])
-            it = QTreeWidgetItem(parent)
+            it = OutlineItem(parent)
             it.setText(0, t["name"])
             it.setText(1, str(len(t.get("images", []))) if t.get("images") else "No images")
-            it.setForeground(1, muted)
             it.setData(0, ROLE, ("tissue", t["id"], 0))
             it.setToolTip(0, t.get("summary", ""))
             it.setData(0, SEARCH_ROLE, searchable_text(t.get("summary", ""), *t.get("features", []), *t.get("path", [])))
             for i, img in enumerate(t.get("images", [])):
-                child = QTreeWidgetItem(it)
+                child = OutlineItem(it)
                 child.setText(0, img["title"])
                 child.setData(0, ROLE, ("image", t["id"], i))
                 child.setToolTip(0, img.get("description", "")[:300])
@@ -132,7 +124,6 @@ class HistologyBrowser(QWidget):
                     elif not d:
                         stack.append(c)
             it.setText(1, str(count))
-            it.setForeground(1, muted)
             it.setExpanded(False)
 
     def _clicked(self, item, _col=0):

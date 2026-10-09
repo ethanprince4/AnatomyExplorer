@@ -132,7 +132,15 @@ static void convertLineOffset(QAccessibleTextInterface *text, int *line, int *of
                     m_columnIndex = cell->columnIndex();
                     QAccessibleInterface *table = cell->table();
                     Q_ASSERT(table);
-                    QAccessibleTableInterface *tableInterface = table->tableInterface();
+                    QAccessibleTableInterface *tableInterface = table ? table->tableInterface() : nullptr;
+                    // A cell that is going away (a branch expanded or collapsed above it, rows inserted or
+                    // removed) reports row or column -1. It has no place in the table model; indexing the
+                    // rows with it throws NSRangeException and aborts the application.
+                    if (m_rowIndex < 0 || m_columnIndex < 0) {
+                        m_rowIndex = -1;
+                        m_columnIndex = -1;
+                        tableInterface = nullptr;
+                    }
                     if (tableInterface) {
                         auto *tableElement = [QMacAccessibilityElement elementWithInterface:table];
                         Q_ASSERT(tableElement);
@@ -149,6 +157,9 @@ static void convertLineOffset(QAccessibleTextInterface *text, int *line, int *of
 
                         Q_ASSERT(tableElement->rows);
                         Q_ASSERT(int(tableElement->rows.count) > m_rowIndex);
+                        // Release builds drop the asserts: never index past the model.
+                        if (!tableElement->rows || int(tableElement->rows.count) <= m_rowIndex)
+                            return self;
 
                         auto *rowElement = tableElement->rows[m_rowIndex];
                         if (!rowElement->columns || int(rowElement->columns.count) != tableInterface->columnCount()) {
@@ -169,7 +180,8 @@ static void convertLineOffset(QAccessibleTextInterface *text, int *line, int *of
                                                       << tableElement->rows.count << "rows and"
                                                       << rowElement->columns.count << "columns";
 
-                        rowElement->columns[m_columnIndex] = self;
+                        if (m_columnIndex < int(rowElement->columns.count))
+                            rowElement->columns[m_columnIndex] = self;
                     }
                 }
             }
@@ -615,6 +627,8 @@ static void convertLineOffset(QAccessibleTextInterface *text, int *line, int *of
                     [QMacAccessibilityElement elementWithId:axid];
         Q_ASSERT(tableElement && tableElement->rows);
         Q_ASSERT(int(tableElement->rows.count) > m_rowIndex);
+        if (!tableElement || !tableElement->rows || m_rowIndex < 0 || m_rowIndex >= int(tableElement->rows.count))
+            return nil;
         QMacAccessibilityElement *rowElement = tableElement->rows[m_rowIndex];
         return rowElement;
     }
@@ -640,7 +654,7 @@ static void convertLineOffset(QAccessibleTextInterface *text, int *line, int *of
             else if (QAccessibleTableCellInterface *cell = iface->tableCellInterface())
                 rowIndex = cell->rowIndex();
             Q_ASSERT(tableElement->rows);
-            if (rowIndex > int([tableElement->rows count]) || rowIndex == -1)
+            if (!tableElement->rows || rowIndex < 0 || rowIndex >= int([tableElement->rows count]))
                 return nil;
             QMacAccessibilityElement *rowElement = tableElement->rows[rowIndex];
             return NSAccessibilityUnignoredAncestor(rowElement);

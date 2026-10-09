@@ -7,7 +7,7 @@ import shutil
 import sys
 
 ROOT = Path(__file__).resolve().parent / "qt-cocoa"
-EXPECTED = "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b"
+EXPECTED = "d836df28d891cec26ad5899c9bade9d8b292bea298b13760c5019ce25f6e3590"
 
 
 def digest(path):

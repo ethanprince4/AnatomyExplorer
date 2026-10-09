@@ -1,0 +1,249 @@
+<meta charset="utf-8">
+<title>Model Slimming Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column of model reviews; each pairs the app's before/after renders side by side, the decision on its header. */
+:root {
+  --canvas: #e9ecee; --surface: #f8fafb; --sunken: #ffffff; --raised: #dfe5e8; --line: #c2cfd5; --line-strong: #8798a3;
+  --text: #24343d; --text-strong: #1f303a; --muted: #526570;
+  --accent: #364f99; --accent-soft: #dce6f7; --on-accent: #ffffff;
+  --good: #307568; --good-soft: #e4f0e9; --warn: #b55752; --warn-soft: #f3e4e1;
+  --sans: "Noto Sans", "Segoe UI", system-ui, sans-serif; --mono: "Noto Sans Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --canvas: #0b1016; --surface: #121922; --sunken: #0e141b; --raised: #18212c; --line: #2a3746; --line-strong: #3b4c60;
+  --text: #dfe6ee; --text-strong: #f3f6f9; --muted: #8494a7;
+  --accent: #91b4ff; --accent-soft: #1c2b49; --on-accent: #101f3e;
+  --good: #5bd49a; --good-soft: #11301f; --warn: #edaa9c; --warn-soft: #392722; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --canvas: #0b1016; --surface: #121922; --sunken: #0e141b; --raised: #18212c; --line: #2a3746; --line-strong: #3b4c60;
+  --text: #dfe6ee; --text-strong: #f3f6f9; --muted: #8494a7;
+  --accent: #91b4ff; --accent-soft: #1c2b49; --on-accent: #101f3e;
+  --good: #5bd49a; --good-soft: #11301f; --warn: #edaa9c; --warn-soft: #392722; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--canvas); color: var(--text); font: 15px/1.5 var(--sans); margin: 0 }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; display: grid; gap: 22px }
+h1 { font-size: 26px; line-height: 1.2; margin: 0; color: var(--text-strong); text-wrap: balance; font-weight: 700 }
+h2 { font-size: 19px; margin: 0; color: var(--text-strong); font-weight: 650 }
+.lede { max-width: 72ch; margin: 6px 0 0; color: var(--muted) }
+.num { font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 13.5px }
+.totals { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 14px }
+.totals div { display: grid } .totals b { font-size: 22px; color: var(--text-strong); font-variant-numeric: tabular-nums }
+.totals span { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted) }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; position: sticky; top: env(safe-area-inset-top, 0px);
+  background: var(--canvas); padding-block: 10px; z-index: 2; border-bottom: 1px solid var(--line) }
+.chip, .btn { font: 600 13px var(--sans); border-radius: 999px; padding: 6px 13px; border: 1px solid var(--line-strong);
+  background: var(--surface); color: var(--text); cursor: pointer }
+.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--text-strong) }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent) }
+.btn:disabled { opacity: .45; cursor: default }
+.chip:focus-visible, .btn:focus-visible, .seg button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.status { color: var(--muted); font-size: 13px; margin-left: auto }
+.model { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 14px }
+.model[data-verdict="copy"] { border-color: var(--good) } .model[data-verdict="original"] { border-color: var(--warn) }
+.head { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center }
+.head .facts { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--muted); font-size: 13.5px; min-width: 0 }
+.head .facts b { color: var(--text-strong); font-weight: 600 }
+.seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; margin-left: auto }
+.seg button { font: 600 13px var(--sans); border: 0; padding: 7px 12px; background: var(--sunken); color: var(--text); cursor: pointer }
+.seg button + button { border-left: 1px solid var(--line-strong) }
+.seg button[aria-pressed="true"][data-v="copy"] { background: var(--good-soft); color: var(--good) }
+.seg button[aria-pressed="true"][data-v="original"] { background: var(--warn-soft); color: var(--warn) }
+.seg button:disabled { cursor: default; opacity: .6 }
+.view { display: grid; gap: 6px }
+.view .cap { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted) }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px }
+.pair figure { margin: 0; position: relative; min-width: 0 }
+.pair img { display: block; width: 100%; height: auto; border-radius: 6px; background: var(--sunken); aspect-ratio: 960 / 680 }
+.pair figcaption { position: absolute; left: 8px; top: 8px; font: 600 12px var(--sans); padding: 2px 8px; border-radius: 999px;
+  background: var(--surface); color: var(--text-strong); border: 1px solid var(--line) }
+details { border-top: 1px solid var(--line); padding-top: 10px }
+summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 14px }
+.parts { display: grid; gap: 12px; margin-top: 10px }
+.part { display: grid; gap: 6px; min-width: 0 }
+.part .row { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline }
+.part .row b { color: var(--text-strong); font-weight: 600 }
+.part img { width: 100%; max-width: 820px; height: auto; border-radius: 6px; border: 1px solid var(--line) }
+.failed { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px }
+.table { overflow-x: auto } table { border-collapse: collapse; width: 100%; font-size: 14px }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line) } th { color: var(--muted); font-weight: 600; font-size: 12.5px }
+td.n { text-align: right } th.n { text-align: right }
+@media (max-width: 640px) { .pair { grid-template-columns: 1fr } .seg { margin-left: 0 } .status { margin-left: 0; width: 100% } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Model Slimming Review</h1>
+    <p class="lede">Simplified copies of the heaviest parts of each 3D model, drawn by the app's own renderer from the same camera as the original. A copy was only made where its surface stays within a quarter of an edge length of the original and its normals stay within 0.8° of the original surface's own noise. Nothing is replaced until you choose <b>Use copy</b>; the originals are untouched.</p>
+    <div class="totals" id="totals"></div>
+  </header>
+  <div class="bar" role="toolbar" aria-label="Filter and decide">
+    <button class="chip" data-f="all" aria-pressed="true">All</button>
+    <button class="chip" data-f="undecided" aria-pressed="false">Undecided</button>
+    <button class="chip" data-f="copy" aria-pressed="false">Use copy</button>
+    <button class="chip" data-f="original" aria-pressed="false">Keep original</button>
+    <button class="btn primary" id="all-copy">Use copy for all undecided</button>
+    <button class="btn" id="copy-choices">Copy my choices</button>
+    <span class="status" id="status">Choices are not saved in this view.</span>
+  </div>
+  <main id="models" style="display:grid;gap:22px"></main>
+  <section class="failed">
+    <h2>Not simplified</h2>
+    <p class="lede">These parts did not pass the checks even at half their triangles, so they keep their full mesh. Most are rough or folded surfaces where the original's own normals vary a lot from point to point.</p>
+    <div class="table"><table><thead><tr><th>Model</th><th>Part</th><th class="n">Triangles</th></tr></thead><tbody id="failed"></tbody></table></div>
+  </section>
+</div>
+
+<script>
+const DATA = /*DATA*/null;
+const fmt = n => n == null ? "–" : n.toLocaleString("en-US");
+const pct = (a, b) => b ? Math.round(100 * a / b) + "%" : "–";
+const verdicts = {};
+let filter = "all", db = null, canWrite = true;
+// Without the Artifact database (the page opened as a plain file) choices live in this browser.
+const STORE = "model-slimming-review-v1";
+function loadLocal() {
+  try { Object.assign(verdicts, JSON.parse(localStorage.getItem(STORE) || "{}")); } catch (e) {}
+}
+function saveLocal() {
+  try { localStorage.setItem(STORE, JSON.stringify(verdicts)); } catch (e) {}
+}
+function choicesText() {
+  const pick = v => DATA.models.filter(m => verdicts[m.id] === v).map(m => m.name + " (" + m.id + ")");
+  const undecided = DATA.models.filter(m => !verdicts[m.id]).map(m => m.name + " (" + m.id + ")");
+  return ["Use copy: " + (pick("copy").join(", ") || "none"),
+          "Keep original: " + (pick("original").join(", ") || "none"),
+          "Undecided: " + (undecided.join(", ") || "none")].join("\n");
+}
+
+function el(tag, attrs = {}, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "text") e.textContent = v; else if (k === "html") e.innerHTML = v; else e.setAttribute(k, v);
+  }
+  for (const k of kids) if (k) e.append(k);
+  return e;
+}
+
+function totals() {
+  const pb = DATA.models.reduce((s, m) => s + m.part_before, 0), pa = DATA.models.reduce((s, m) => s + m.part_after, 0);
+  const mb = DATA.models.reduce((s, m) => s + (m.model_before || 0), 0), ma = DATA.models.reduce((s, m) => s + (m.model_after || 0), 0);
+  const nParts = DATA.models.reduce((s, m) => s + m.parts.length, 0);
+  const t = document.getElementById("totals");
+  t.replaceChildren(
+    ...[[DATA.models.length + " models", nParts + " parts simplified"],
+        [fmt(pb - pa), "triangles removed"],
+        [fmt(mb) + " → " + fmt(ma), "triangles in these models (" + pct(ma, mb) + ")"],
+        [DATA.failed.length, "parts left as they are"]]
+      .map(([b, s]) => el("div", {}, el("b", {text: String(b)}), el("span", {text: s}))));
+}
+
+function card(m) {
+  const sec = el("section", {class: "model", id: "m-" + m.id, "data-id": m.id});
+  const seg = el("div", {class: "seg", role: "group", "aria-label": "Decision for " + m.name});
+  for (const [v, label] of [["copy", "Use copy"], ["original", "Keep original"]]) {
+    const b = el("button", {"data-v": v, "aria-pressed": "false", text: label});
+    b.addEventListener("click", () => decide(m.id, verdicts[m.id] === v ? null : v));
+    seg.append(b);
+  }
+  const facts = el("div", {class: "facts"},
+    el("span", {html: `Model <b class="num">${fmt(m.model_before)}</b> → <b class="num">${fmt(m.model_after)}</b> triangles (${pct(m.model_after, m.model_before)})`}),
+    el("span", {html: `File <b class="num">${m.mb_before}</b> → <b class="num">${m.mb_after}</b> MB`}));
+  sec.append(el("div", {class: "head"}, el("h2", {text: m.name}), facts, seg));
+  const captions = {open: "Opening view", close: "Close-up on " + (m.parts[0] ? m.parts[0].name : "the largest part")};
+  for (const view of ["open", "close"]) {
+    const v = m.views[view];
+    if (!v) continue;
+    sec.append(el("div", {class: "view"}, el("div", {class: "cap", text: captions[view]}),
+      el("div", {class: "pair"},
+        el("figure", {}, el("img", {src: v.before, alt: m.name + ", " + captions[view] + ", original", loading: "lazy", width: "960", height: "680"}), el("figcaption", {text: "Original"})),
+        el("figure", {}, el("img", {src: v.after, alt: m.name + ", " + captions[view] + ", simplified copy", loading: "lazy", width: "960", height: "680"}), el("figcaption", {text: "Copy"})))));
+  }
+  const list = el("div", {class: "parts"});
+  for (const p of m.parts) {
+    list.append(el("div", {class: "part"},
+      el("div", {class: "row"}, el("b", {text: p.name}),
+        el("span", {class: "num", text: `${fmt(p.before)} → ${fmt(p.after)} (${pct(p.after, p.before)})`})),
+      p.sheet ? el("img", {src: p.sheet, alt: p.name + ": original and copy, whole part and two close-ups", loading: "lazy"}) : null));
+  }
+  sec.append(el("details", {}, el("summary", {text: `${m.parts.length} simplified ${m.parts.length === 1 ? "part" : "parts"}: shape comparisons`}), list));
+  return sec;
+}
+
+function paint() {
+  for (const sec of document.querySelectorAll(".model")) {
+    const v = verdicts[sec.dataset.id] || null;
+    if (v) sec.dataset.verdict = v; else delete sec.dataset.verdict;
+    for (const b of sec.querySelectorAll(".seg button")) { b.setAttribute("aria-pressed", String(b.dataset.v === v)); b.disabled = !canWrite; }
+    sec.hidden = !(filter === "all" || (filter === "undecided" ? !v : v === filter));
+  }
+  const undecided = DATA.models.filter(m => !verdicts[m.id]).length;
+  const btn = document.getElementById("all-copy");
+  btn.disabled = !canWrite || undecided === 0;
+  btn.textContent = undecided ? `Use copy for all ${undecided} undecided` : "All decided";
+  const done = DATA.models.length - undecided;
+  document.getElementById("status").textContent = !db ? `${done} of ${DATA.models.length} decided. Saved in this browser; press "Copy my choices" and paste them to Claude.` :
+    !canWrite ? `${done} of ${DATA.models.length} decided. Only the owner can change these.` :
+    `${done} of ${DATA.models.length} decided. Claude reads these choices.`;
+}
+
+async function decide(id, v) {
+  if (!canWrite) return;
+  if (!db) { if (v) verdicts[id] = v; else delete verdicts[id]; saveLocal(); paint(); return; }
+  const prev = verdicts[id];
+  verdicts[id] = v; paint();
+  try {
+    if (v) await db.collection("decisions").doc(id).set({verdict: v, at: new Date().toISOString()});
+    else await db.collection("decisions").doc(id).delete();
+  } catch (e) {
+    verdicts[id] = prev; paint();
+    document.getElementById("status").textContent = e && e.code === "invalid_argument" ?
+      "This view cannot save choices." : "Could not save that choice. Try again.";
+  }
+}
+
+document.getElementById("copy-choices").addEventListener("click", async () => {
+  const text = choicesText(), status = document.getElementById("status");
+  try { await navigator.clipboard.writeText(text); status.textContent = "Copied. Paste it into the chat."; }
+  catch (e) {
+    let box = document.getElementById("choices-box");
+    if (!box) { box = document.createElement("textarea"); box.id = "choices-box"; box.readOnly = true; box.rows = 4;
+      box.style.cssText = "display:block;width:100%;margin:10px 0;font:inherit;padding:8px"; document.querySelector(".bar").after(box); }
+    box.value = text; box.focus(); box.select();
+    status.textContent = "Select the text below, copy it (Ctrl+C or Cmd+C) and paste it into the chat.";
+  }
+});
+document.getElementById("all-copy").addEventListener("click", async () => {
+  for (const m of DATA.models) if (!verdicts[m.id]) await decide(m.id, "copy");
+});
+for (const c of document.querySelectorAll(".chip")) c.addEventListener("click", () => {
+  filter = c.dataset.f;
+  for (const x of document.querySelectorAll(".chip")) x.setAttribute("aria-pressed", String(x === c));
+  paint();
+});
+
+loadLocal();
+totals();
+document.getElementById("models").replaceChildren(...DATA.models.map(card));
+document.getElementById("failed").replaceChildren(...DATA.failed.map(f =>
+  el("tr", {}, el("td", {text: f.model}), el("td", {text: f.part}), el("td", {class: "n num", text: fmt(f.triangles)}))));
+paint();
+
+(async () => {
+  try {
+    db = await window.claude?.use?.("db");
+    const user = await window.claude?.use?.("user");
+    if (!db) { paint(); return; }
+    const can = user ? await user.can("data.write") : null;
+    canWrite = can !== false;
+    db.collection("decisions").onSnapshot(snap => {
+      for (const k of Object.keys(verdicts)) delete verdicts[k];
+      for (const d of snap.docs) { const v = d.data()?.verdict; if (v === "copy" || v === "original") verdicts[d.id] = v; }
+      paint();
+    }, () => { db = null; paint(); });
+    paint();
+  } catch (e) { db = null; paint(); }
+})();
+</script>

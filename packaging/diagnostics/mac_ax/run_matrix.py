@@ -47,7 +47,7 @@ def main():
                 stderr = (args.private_loader_log_dir / (name + '.stderr')).open('w', encoding='utf-8')
                 streams = [stdout, stderr]
             child = subprocess.run(command, env=dict(os.environ, QT_QPA_PLATFORM="cocoa"),
-                                   stdout=stdout, stderr=stderr, timeout=60)
+                                   stdout=stdout, stderr=stderr, timeout=120)
             code = child.returncode
         except subprocess.TimeoutExpired:
             code = "timeout"

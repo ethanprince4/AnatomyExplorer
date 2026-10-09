@@ -11,7 +11,7 @@
   "sdk_sha1": "898a61de33218d55538721ce35c61f973768cb07",
   "sdk_sha256": "9592f84f7e26d532c5c56824d1da7c9214a766cb0a17beb5af71022bcfbcd271",
   "original_wheel_plugin_sha256": "8fc1ec4ccc2bdc283c42e856608dfaa03445ee3d25c6bd6c9b6ebcecb7ec288f",
-  "candidate_plugin_sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+  "candidate_plugin_sha256": "d836df28d891cec26ad5899c9bade9d8b292bea298b13760c5019ce25f6e3590",
   "architectures": "arm64",
   "minimum_os": "13.0",
   "qt_dependencies": [
@@ -170,13 +170,46 @@
   },
   "physical_mac_validated": false,
   "passed": true,
+  "additional_patches": [
+    "ae-accessibility-bounds.patch"
+  ],
+  "control_previous_plugin": {
+    "plugin_sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+    "summary": {
+      "schema": 1,
+      "cases": [
+        {
+          "case": "columns2-plain-selected-first",
+          "exit_code": 0,
+          "passed": true,
+          "runtime_identity_required": false,
+          "runtime_identity_valid": true,
+          "semantic_valid": true,
+          "invalid_probe_count": 0,
+          "native_getter_completed": 54,
+          "last_event": {
+            "seq": 1421,
+            "elapsed_ms": 7774,
+            "event": "diagnostic_complete",
+            "phases": 27,
+            "native_probe_exercised": true,
+            "physical_click_validated": false,
+            "external_ax_path_validated": false
+          }
+        }
+      ],
+      "physical_mac_validated": false,
+      "external_ax_client_validated": false,
+      "passed": true
+    }
+  },
   "framework_hashes_unchanged": true,
   "exit_code": 0,
   "isolated_runtime_verified": true,
   "runtime_evidence": [
     {
       "seq": 3,
-      "elapsed_ms": 443,
+      "elapsed_ms": 244,
       "event": "ownership_runtime",
       "candidate_plugin_loaded": true,
       "all_qt_frameworks_from_wheel": true,
@@ -204,14 +237,15 @@
       ],
       "plugins": [
         {
-          "sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+          "sha256": "d836df28d891cec26ad5899c9bade9d8b292bea298b13760c5019ce25f6e3590",
           "from_isolated_wheel": true
         }
-      ]
+      ],
+      "frozen": false
     },
     {
       "seq": 3,
-      "elapsed_ms": 210,
+      "elapsed_ms": 234,
       "event": "ownership_runtime",
       "candidate_plugin_loaded": true,
       "all_qt_frameworks_from_wheel": true,
@@ -239,14 +273,15 @@
       ],
       "plugins": [
         {
-          "sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+          "sha256": "d836df28d891cec26ad5899c9bade9d8b292bea298b13760c5019ce25f6e3590",
           "from_isolated_wheel": true
         }
-      ]
+      ],
+      "frozen": false
     },
     {
       "seq": 3,
-      "elapsed_ms": 188,
+      "elapsed_ms": 294,
       "event": "ownership_runtime",
       "candidate_plugin_loaded": true,
       "all_qt_frameworks_from_wheel": true,
@@ -274,14 +309,15 @@
       ],
       "plugins": [
         {
-          "sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+          "sha256": "d836df28d891cec26ad5899c9bade9d8b292bea298b13760c5019ce25f6e3590",
           "from_isolated_wheel": true
         }
-      ]
+      ],
+      "frozen": false
     },
     {
       "seq": 3,
-      "elapsed_ms": 226,
+      "elapsed_ms": 250,
       "event": "ownership_runtime",
       "candidate_plugin_loaded": true,
       "all_qt_frameworks_from_wheel": true,
@@ -309,14 +345,15 @@
       ],
       "plugins": [
         {
-          "sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+          "sha256": "d836df28d891cec26ad5899c9bade9d8b292bea298b13760c5019ce25f6e3590",
           "from_isolated_wheel": true
         }
-      ]
+      ],
+      "frozen": false
     },
     {
       "seq": 3,
-      "elapsed_ms": 227,
+      "elapsed_ms": 201,
       "event": "ownership_runtime",
       "candidate_plugin_loaded": true,
       "all_qt_frameworks_from_wheel": true,
@@ -344,10 +381,11 @@
       ],
       "plugins": [
         {
-          "sha256": "2fdc6527c7fe3a244e89d16ec725c0d791d9d186ea9b69f7f2b3e684927dc56b",
+          "sha256": "d836df28d891cec26ad5899c9bade9d8b292bea298b13760c5019ce25f6e3590",
           "from_isolated_wheel": true
         }
-      ]
+      ],
+      "frozen": false
     }
   ],
   "matrix_passed": true
