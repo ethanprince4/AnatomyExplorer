@@ -1,0 +1,187 @@
+Viewport <-> renderer interface inventory (read-only). R = C:/Users/Ethan/Desktop/AnatomyExplorer/Worktrees/keen-ride-vm1yxr
+Files: app/viewer/viewport.py (1244 lines, class ModelViewport(QOpenGLWidget) at :72), app/viewer/renderer.py (1404 lines),
+app/ui/model_view.py (grep only). Overlay QWidget lives in app/viewport.py:191 (imported at viewer/viewport.py:35).
+"GL" = touches a moderngl/GL object or the QOpenGLWidget GL context. "PURE" = no GL call (grep-verified: no ctx. / renderer.
+and makeCurrent/QOpenGL names in the file; numpy, Qt painter and camera logic only).
+
+=====================================================================
+1. RENDERER (app/viewer/renderer.py Renderer, :215) - members used by viewport.py / model_view.py
+=====================================================================
+Constructor / lifecycle
+- Renderer(ctx: moderngl.Context)  [renderer.py:218]  viewport.py:172. GL. Compiles all programs, env, white texture.
+- set_model(model: ViewerModel)  [:307]  viewport.py:173 (initializeGL), once per load / model change. GL. Uploads VBO, IBO, item VBO, anim buffer.
+- release_model()  [:509]  not called from viewport (grep). GL.
+- release()  [:530]  viewport.py:186 (release_gl). GL. Frees all targets, sets _released.
+- Attributes read by viewport: frame_ok (bool; false after set_model, true after a completed render) viewport.py:284.
+  size (w,h) of last render target, None before first render  viewport.py:760, 856, 857.
+  last_vp (4x4 numpy view-projection of last render)  viewport.py:830, 852, 883 (project()).
+  ctx (moderngl.Context) is created in viewport.py:171 and passed in; viewport also calls ctx.info, ctx.finish, ctx.detect_framebuffer,
+  ctx.framebuffer, ctx.renderbuffer (sections 2 and 8).
+  Renderer also exposes (not read by viewport): samples, gl_info, model, model_diag, rig, world, last_camera, t, textures.
+
+Per-frame render
+- render(target, size, camera, s: Settings, fs: FrameState|None=None, out_size=None)  [:654]
+    target: moderngl Framebuffer (viewport passes self._fbo = ctx.detect_framebuffer(fid), or an offscreen fbo in grab_image).
+    size: (rw,rh) internal render size (render_scale applied). out_size: (w,h) physical target size (final blit).
+    camera: OrbitCamera (viewer/camera.py). s: self.rsettings (Settings). fs: frame_state().
+    Returns None; sets frame_ok=True at :877 and updates last_vp, last_camera, size, samples.
+    Called: viewport.py:276 (per paint frame), viewport.py:1237 (grab_image, 3x per call).
+
+Picking / readback (all GL)
+- pick(x, y) -> (item:int, point: np.ndarray(3)|None, cap: bool)  [:1263]  viewport.py:580 in pick_full(). Item -1 = nothing.
+    cap = the pixel is a section cap. x,y are render-target pixels (top-left origin, after dpr*render_scale). Uses _read_prepass + _unproject.
+- read_ids() -> (ids (H,W) int, flags (H,W)) or (None,None)  [:1351]  viewport.py:769 (fallback path). Cached per frame (_ids_cache).
+- read_depth() -> (H,W) float depth, or None  [:1366]  viewport.py:770. Row order flipped to top-left.
+- read_label_samples(step) -> (ids_s, flags_s, depth, center_ids) or None  [:1291]  viewport.py:765 (preferred compact path; None means fall back to read_ids/read_depth).
+- ids_at(points) -> list[int] per (x,y) point  [:1376]  viewport.py:877 (_check_occlusion).
+- world_from_pixel(x, y, d) -> world xyz (3,) or None  [:1394]  viewport.py:862 (_anchor). Uses last camera/VP.
+- read_final(fbo, size) -> (h,w,3) uint8 array (flipped, RGB)  [:1401]  viewport.py:1238 (grab_image only).
+- _unproject(gx, gy, d) [:1281] internal; _read_prepass [:1242] internal.
+
+Settings object (renderer.py:111-139). viewport.py:103 creates rsettings = Settings(); look_defaults from the model are
+  setattr'd (viewport.py:104-105); shadows forced False (:106); _sync_settings writes the fields below every paint (viewport.py:221-237).
+
+FrameState (renderer.py:143-157), built only by viewport.frame_state() (viewport.py:331-351):
+  visible      bool[n]   item visible this frame (st.visible_mask()).
+  ghost        bool[n]   items drawn as ghosts = vis & ~ghost_focus; selected items forced False.
+  alpha        float[n] or None  per-item opacity multiplier (state.part_alpha; tissue opacity slider).
+  selected     frozenset[int] item ids currently selected.
+  hovered      int, hovered item id or -1 (state.hovered).
+  override     dict item -> linear RGB (state.custom_colors, converted sRGB to linear via srgb_to_linear).
+  colours      (n,3) or None  flat colour mode: color_mode 1 -> self._distinct, 2 -> self._group_colours, else None.
+  clip_planes  tuple of 3 (a,b,c,d) plane equations (from clip_config()).
+  clip_on      tuple of 3 bool.
+  clip_mode    int.
+  opaque_materials bool  display override; authored looks unchanged (state.opaque_materials).
+  anim_t       float (procedural: phase 0..1; set only when anim_kind is procedural).
+  anim_frame   (2,n,4) or None  morph weights (mode, glow, decay, rate) from model.anim_frame(anim_t); procedural only.
+
+=====================================================================
+2. QOpenGLWidget-SPECIFIC THINGS THE VIEWPORT RELIES ON
+=====================================================================
+- Base QOpenGLWidget (viewport.py:26 import, :72). Overrides initializeGL [:162], paintGL [:239], resizeEvent [:309]
+  (no GL call; Overlay geometry + invalidate_labels).
+- initializeGL: moderngl.create_context [:171], Renderer(ctx) [:172], set_model [:173], ctx.info GL_RENDERER and GL_VERSION
+  -> gl_info [:174]; emits glReady; on exception sets graphics_error and emits graphicsFailed.
+- paintGL [:239]: returns if graphics_error; else _paint_frame; any exception -> graphics_error + graphicsFailed.
+- _paint_frame [:249]: if renderer is None and ctx exists, calls initializeGL (context restored after release_gl).
+  defaultFramebufferObject() [:266] -> fid; ctx.detect_framebuffer(fid) [:268], cached in _fbo/_fbo_id.
+  Sizes: devicePixelRatioF() via _physical_size [:209-211] (w,h physical, min 2) and _render_size [:216-219] (x render_scale).
+  renderer.render(self._fbo, (rw,rh), camera, rsettings, frame_state(), out_size=(w,h)) [:276].
+  First interactive frame: ctx.finish() [:299] once per load; emits interactiveReady.
+  Emits frameTimed(ms) [:304], overlay.update() [:305], self.update() while moving or animating [:306-307].
+- makeCurrent() and doneCurrent(): release_gl [:184, :192], pick_full [:577, :582], grab_image [:1232, :1242].
+- release_gl [:181-192]: makeCurrent, renderer.release(), renderer=None, _fbo=None, doneCurrent. Called from hideEvent [:194-198]
+  (hidden tabs free GPU memory). showEvent [:200-207] only re-sets studio loading and update().
+- grabFramebuffer: NOT used. Screenshots go through grab_image (own offscreen renderbuffer and framebuffer), not QWidget.grabFramebuffer.
+- devicePixelRatio: devicePixelRatioF() at :210, :226, :571 (_render_xy), :669 (mouseMove), :870 (_check_occlusion).
+- QPainter overlay: Overlay(QWidget) at app/viewport.py:191 is a separate transparent child widget
+  (WA_TransparentForMouseEvents, WA_TranslucentBackground), geometry = viewport rect (viewer/viewport.py:311).
+  Its paintEvent makes QPainter(self) and calls vp.paint_overlay(p) [app/viewport.py:204].
+  paint_overlay(p) [viewer/viewport.py:942] calls, in order: _paint_section_labels [:945], _paint_labels [:946],
+  _paint_measure [:947], _paint_gizmo [:949, only if orientation_axes_on], _paint_scale_bar [:950], _paint_hover [:951].
+  All use QPainter, QPainterPath, QFont, QFontMetricsF only, no GL. Font helper _font [:953].
+  - _paint_labels [:959]: label boxes and leaders at label_items anchors projected via project(); left/right columns; fills _label_rects (hit-test for label_at).
+  - _paint_section_labels [:1033]: section_items (cap labels), same layout.
+  - _paint_measure [:1091]: measure_points polyline and distance text (measure_text [:922]).
+  - _paint_gizmo [:1122]: orientation axes (camera/VP only).
+  - _paint_scale_bar [:1154]: scale bar.
+  - _paint_hover [:1181]: hover tooltip (show_hover_tooltip setting).
+  Overlay is repainted each frame via overlay.update() [:305] and on label changes.
+
+=====================================================================
+3. GL-TOUCHING CODE IN viewport.py (everything else is PURE)
+=====================================================================
+GL: initializeGL [:162], release_gl [:181], hideEvent [:194] (via release_gl), _paint_frame [:249], paintGL [:239],
+    pick_full [:574], _compute_labels [:743] (renderer.size, read_label_samples/read_ids/read_depth), _check_occlusion [:864]
+    (ids_at), _anchor [:838] (world_from_pixel: numpy on renderer state, GL-free itself but depends on renderer readback),
+    grab_image [:1226].
+PURE (no GL call; reusable unchanged on a new backend if the renderer keeps size and last_vp):
+    _physical_size [:209], _render_scale [:213], _render_size [:216], _sync_settings [:221] (writes Settings only),
+    frame_state [:331], clip_config [:353], any_cut [:375], set_explode [:378], anim_kind [:386], anim_period [:393],
+    anim_fraction [:402], set_anim_fraction [:408], set_playing [:417], _advance [:422], show_state [:449], aspect [:462],
+    duration [:465], scene_bounds [:468], reset_view [:471], set_view [:488], set_named_view [:495], frame_structures [:525],
+    frame_visible [:534], frame_point [:539], key_orbit [:544], key_zoom [:552], toggle_auto_rotate [:558], toggle_projection [:564],
+    _render_xy [:570], label_at [:604], _repivot [:638], label_hosts [:727], _label_cache_key [:825], project [:880] (last_vp, numpy),
+    set_measure [:890], clear_measure [:898], _length_text [:903], _format_length [:913], measure_text [:922],
+    _font [:953], all _paint_* [:959-1204] (QPainter only), _on_state [:314], invalidate_labels [:326].
+    WRAPPERS, not pure in effect: pick_at [:585], world_at [:588], gesture_zoom_point [:591], gesture_home [:594] all reach GL via pick_full.
+    NOTE: _compute_labels, _anchor, _check_occlusion are pure logic on top of GL readbacks. The algorithm
+    (k subsampling :761, min_px :780, EDT anchor :847, chosen/limit logic :786-803) is backend-independent; only the sampling calls are GL.
+
+=====================================================================
+4. INPUT -> PICKING (all call pick_full via pick_at, world_at or label_at)
+=====================================================================
+- mousePressEvent [:610]: back/forward buttons -> historyRequested; left button: label_at first (click emits structureClicked),
+  measure_mode -> world_at (point add/drop) [:620]; else press state.
+- _repivot(pos) [:638]: world_at(pos) for orbit-around-cursor pivot [:639].
+- mouseMoveEvent [:654]: hover: if now - _last_hover_pick > 0.03 s -> pick_at(pos) [:688] -> hoverChanged; dpr at :669 for drag.
+- mouseReleaseEvent [:696]: pick_at(e.position()) [:698] for click selection -> structureClicked / contextMenuRequested(sid, global pos) [:702].
+- mouseDoubleClickEvent [:707]: pick_at [:709] -> structureDoubleClicked.
+- wheelEvent [:711], event [:714], leaveEvent [:720]: no pick.
+- gesture_home / gesture_zoom_point (touch input, app/viewport.py:181-240 via TrackpadInput) call world_at, reset_view, frame_structures.
+
+=====================================================================
+5. model_view.py -> viewport CALLS (grep, app/ui/model_view.py)
+=====================================================================
+Methods: frame_structures (x7: :621 :1084 :1106 :1147 :1160 :1175 :1269), reset_view (:1027; home_view set at :132),
+set_named_view (:1031 :1235), set_playing (:998), set_anim_fraction (:1007), show_state (:741), set_explode (:786),
+toggle_projection (:871), frame_visible (x1), set_measure (:171-172), invalidate_labels (x5), _format_length (x1), update (x2).
+Attributes: camera, cut_on, cut_planes, sections, labels_on, names_hidden, measure_mode, measureChanged signal, home_view.
+model_view never calls renderer methods directly (grep: no match).
+
+=====================================================================
+6. SETTINGS KEYS (settings.get in viewport.py)
+=====================================================================
+Read in _sync_settings [:221-237]: ssao (True), ssao_strength (1.0), fxaa (True, feeds msaa via msaa_samples [:54]), ghost_alpha (0.10),
+  selection_color (default 4dc7ff), hover_color (default ffd966), hover_outline (True), custom_background (bool), bg_top (1d2127),
+  bg_bottom (090a0d), dark_background (True, selects BACKGROUND_DARK / BACKGROUND_LIGHT from app/config).
+Read elsewhere: render_scale (1.0, clamped 0.25..2.0 at :214), color_mode (0; 1 distinct, 2 group colours) [:343],
+  auto_rotate_speed (20.0) [:260], camera_duration, show_gizmo, invert_orbit_x and invert_orbit_y, key_orbit_step,
+  orbit_around_cursor, orbit_button, pan_button, orbit_sensitivity, pan_sensitivity, label_size, show_hover_tooltip,
+  show_landmarks (True; label_hosts [:729, :735] and _compute_labels [:751]), section_labels (True) [:750],
+  max_landmarks (60) [:781], max_section_labels (22) [:814].
+Label cache key [:835-836] includes max_landmarks, max_section_labels, section_labels, show_landmarks.
+
+=====================================================================
+7. LABEL PIPELINE
+=====================================================================
+- label_hosts() [:727-741] -> (items, grouping). Empty if names_hidden() or not show_landmarks. Selection always included.
+    reference_labels present -> those visible items; labels_on -> all visible labelled items (ghost-aware, grouping=True); else selection only.
+- _compute_labels() [:743-823]:
+    1. _labels_dirty = False; clears label_items, section_items, _occluded.
+    2. hosts, grouping = label_hosts(); want_sections = any_cut() and section_labels and not names_hidden and show_landmarks.
+    3. Cache check: key = _label_cache_key(); reuse _warm_label_cache when key equal [:755-759].
+    4. k = max(1, round(min(rw,rh)/420)) stride. sampler = renderer.read_label_samples(k) if present, else read_ids/read_depth [:764-773].
+    5. counts per item (bincount), cap_counts (flags & 2 = section cap pixels). min_px = max(6, int(40/(k*k))) [:780].
+    6. Choose: cands = hosts with counts >= min_px or selected; crowded groups (> 0.6*limit) named once per group (group size >= 4);
+       sorted selected-first then by count descending; capped at max_landmarks [:786-803].
+    7. Anchor each chosen item via _anchor (EDT-deepest pixel) -> tuples (item, world anchor, px count, text, priority 0 selected / 1 other) [:806-810].
+    8. Section anchors for cap items (flags & 2), up to max_section_labels [:811-820].
+    9. _check_occlusion() when centre_ids is None [:821-822]. Store _warm_label_cache = (key, items, sections, occluded) [:823].
+- _label_cache_key() [:825-836]: (last_vp bytes, renderer.size, visible mask bytes, selected tuple, ghost_focus/part_alpha/system_alpha bytes,
+    opaque_materials, repr(clip_config()), explode, anim_t, reveal_state, reveal_amount, labels_on, names_hidden(),
+    sorted reference_labels, the 4 settings above).
+- _anchor(ids_s, item, flags_s, k, depth, edt, center_ids) [:838-862]: item pixel mask -> bbox -> EDT -> argmax -> pixel -> depth
+    -> renderer.world_from_pixel(px, py, d). Depth <= 0 -> None. _occluded[item] set when center_ids differs [:859].
+- _check_occlusion() [:864-878]: projects anchors (project()), times dpr*render_scale, renderer.ids_at(points) -> keys.
+- Triggers: _paint_frame calls _compute_labels when not busy and (_labels_dirty or _moving_prev) [:280-281]; warm-up on the first ready
+  frame with labels temporarily forced on [:283-297]. invalidate_labels() [:326] sets dirty; resizeEvent [:312] and grab_image [:1243] invalidate.
+
+=====================================================================
+8. SCREENSHOT PATH - grab_image(scale=1.0) [:1226-1244]
+=====================================================================
+- Returns None if no renderer. w,h = _physical_size() times scale (int). makeCurrent. rb = ctx.renderbuffer((w,h), 4) (components=4);
+  fbo = ctx.framebuffer([rb]).
+- Renders 3 times with renderer.render(fbo, (w,h), camera, rsettings, frame_state()): NO out_size, and render_scale NOT applied
+  (size = physical times scale).
+- img = renderer.read_final(fbo, (w,h)).copy(); releases fbo and rb; doneCurrent; invalidate_labels(); returns (h,w,3) uint8.
+- Callers of grab_image are outside this range and were not searched.
+
+=====================================================================
+UNRESOLVED / NOTES
+=====================================================================
+- Renderer internals (render passes, shaders) are outside this inventory by design.
+- Not read line by line: bodies of clip_config, anim_*, _advance, frame_structures and camera helpers. Classified PURE by grep
+  (no ctx., renderer., makeCurrent or QOpenGL call inside them).
+- read_label_samples returns None on unsupported contexts (renderer.py:1347): the viewport must keep the read_ids path.

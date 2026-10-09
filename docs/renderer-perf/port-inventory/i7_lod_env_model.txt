@@ -1,0 +1,239 @@
+Port inventory i7: app/viewer/lod.py, app/viewer/environment.py, app/viewer/model.py (Part/Item and evaluate/transform/bounds/sphere only)
+R = C:/Users/Ethan/Desktop/AnatomyExplorer/Worktrees/keen-ride-vm1yxr. Paths are R-relative. Nothing in R was edited.
+
+=====================================================================
+1. app/viewer/lod.py (96 lines, whole file)
+=====================================================================
+Purpose (lines 1-8): vertex-clustering coarser index lists for large parts. The renderer draws the coarsest level whose cell is <= 1 px at the part nearest point.
+
+Constants (magic numbers that change the output):
+  LEVELS = 4                  lod.py:11   coarser levels per part
+  MIN_TRIANGLES = 2000        lod.py:12   parts with fewer triangles get no levels
+  MIN_KEEP = 50               lod.py:13   a level must keep >= 50 triangles
+  MIN_GAIN = 0.8              lod.py:14   a level is kept only if len(t) < 0.8 * len(previous)
+  _BITS = 21                  lod.py:15   grid coords per axis packed into int64 key
+  REFERENCE_PIXELS = 1000     lod.py:16   model diagonal spans 1000 px at the reference view
+  build() gate: p.count < 3*MIN_TRIANGLES (lod.py:89) also skips textured parts (p.look.texture is not None).
+
+Classes:
+  PartLod  lod.py:20-27  __slots__ = (cells, indices). cells: (LEVELS,) float64 non-decreasing, in part units.
+           indices: LEVELS uint32 arrays (global vertex indices). A level that gained nothing repeats the one before.
+
+Functions:
+  _triangle_keys(t, n)  lod.py:30-35  one int64 per triangle, same for every rotation (winding kept).
+      i = argmin of the 3 vertex ids; (a,b,c) = (t[i], t[i+1 mod 3], t[i+2 mod 3]); key = (a*n + b)*n + c. Build only.
+
+  part_levels(pos, tris, vertex_base, vertex_count, max_cell=inf)  lod.py:38-75    build time only
+      Inputs: pos (global vertex positions), tris (n,3) global vertex ids, vertex_base, vertex_count, max_cell.
+      a. return None if len(tris) < 2000 or vertex_count <= 0                         (41-42)
+      b. return None if any tri vertex is outside [vertex_base, vertex_base+vertex_count)   (43-44)
+      c. local = pos[vertex_base : vertex_base+vertex_count]                           (45)
+      d. sample = tris[::max(1, len(tris)//20000)]                                     (46)
+      e. CELL = 2.0 * median over sample of norm(pos[v0] - pos[v1])                    (47)   BASE CELL, part units
+      f. return None if CELL not finite, <= 0, or > max_cell                           (48-49)
+      g. q = floor((local - local.min(0)) / CELL) as int64                             (50)
+      h. return None if q.size == 0 or max(q) >= 2^21                                  (51-52)
+      i. t_local = tris - vertex_base                                                  (53)
+      j. for k in 0..3:                                                                (55-74)
+           qk = q >> k                                                                 (56)  grid doubles per level
+           key = (qk.x << 42) | (qk.y << 21) | qk.z                                    (57)
+           unique(key) gives first, inverse                                            (58)
+           t = inverse[t_local]; drop degenerate tris (two equal vertices)             (59-60)
+           n = len(first); if n < 2^21 and len(t): dedupe tris by _triangle_keys, keep first, sort   (61-64)
+           if len(t) >= 50 and len(t) < 0.8*len(cur):                                  (65)
+               cur = (first + vertex_base)[t] as uint32, flattened; cur_cell = CELL*2^k  (66-67)
+           elif out is empty: return None                                              (68-69)
+           else: cur_cell = cells[-1]                                                  (70-71)  repeat previous
+           cells.append(cur_cell); out.append(cur); cur = cur.reshape(-1,3)            (72-74)
+         NOTE: every level is clustered from the ORIGINAL tris (t_local), not from the previous level.
+         NOTE: a rejected level leaves cur unchanged; the next k is still tested against 0.8*len(cur).
+      Return PartLod(np.array(cells), [flattened out arrays])                          (75)
+      Level cell sizes in part units: CELL, 2*CELL, 4*CELL, 8*CELL (only where kept; repeats share the earlier value).
+
+  build(model, check=None)  lod.py:78-96   load time only
+      Returns {} if model.anim_vertices is not None or model.vertices is None         (81-82)  animated: no LOD
+      pos = model.vertices[:, :3]                                                      (83)
+      pixel = norm(bounds_max - bounds_min) / 1000                                     (84)  model units per pixel, reference view
+      for each part p in model.parts (86):
+        skip if p.count < 6000 or p.look.texture is not None                           (89-90)
+        tris = model.indices[p.first : p.first+p.count] reshaped (-1,3) as int64       (91)
+        scale = max over columns of norm(part_matrix(p)[:3,:3]) (rest pose at load)    (92)
+        lod = part_levels(pos, tris, p.vertex_base, p.vertex_count, pixel / max(scale, 1e-12))   (93)
+        out[p.id] = lod if not None                                                    (94-95)
+      check() is called per part when given                                            (87-88)
+
+Per-part error metric (used by renderer._lod_levels at renderer.py:385-398; the renderer side is out of range, cited for the metric):
+  Level k is eligible at a frame when cells[k] * _scales[part] <= pixel_world, where
+    pixel_world (perspective) = depth * (2*halves[1]/h)            renderer.py:396
+    pixel_world (orthographic) = 2*halves[1]/h                     renderer.py:393
+    depth = -(centre . V[2,:3] + V[2,3]) - radius   (nearest point, view space)   renderer.py:395
+  Chosen level = count of levels with cell*scale <= pixel (cells non-decreasing); 0 means the full mesh (renderer.py:397-398).
+  Build-time gate (lod.py:48): CELL > pixel/scale returns None, with pixel = diagonal/1000 (lod.py:84) and scale = rest-pose max column norm (lod.py:92).
+
+GL objects: none in lod.py. Pure numpy; output is CPU uint32 index arrays that the renderer uploads (upload path not traced).
+
+=====================================================================
+2. app/viewer/environment.py (124 lines, whole file)
+=====================================================================
+Imports: moderngl (line 13), numpy, shaders (line 16; uses shaders.FSQ_VS and shaders.PREFILTER_FS, bodies not read).
+
+Constants:
+  SPEC_W, SPEC_H = 256, 128       environment.py:18   prefiltered specular size per layer
+  ROUGH_LAYERS = 6                environment.py:19   roughness r = i/5 for i in 0..5 (line 109)
+  SOFTBOXES  environment.py:37-41  (camera-space dir normalized, angular radius deg, radiance L, softness)
+      (0.35, 0.80, 0.50)   28.0 deg  L=0.9   soft=0.35   overhead, behind camera
+      (-0.85, 0.15, 0.50)  16.0 deg  L=0.45  soft=0.40   left fill strip
+      (0.25, 0.45, -0.85)  20.0 deg  L=0.6   soft=0.40   rim strip behind subject
+  make_env defaults: w=512, h=256, studio=0.35, ambient=0.15   environment.py:44
+  Environment.__init__ defaults: studio=0.35, ambient=0.15     environment.py:85
+  Renderer Settings default: studio = 0.30                     renderer.py:117 (passed at renderer.py:245)
+  Gradient: t = smoothstep(clip((y+0.6)/1.4, 0, 1)); grad = 0.07 + 0.16*t                     (lines 48-50)
+  Tint: (1+0.03y, 1, 1-0.03y)                                                                  (line 60)
+  Final radiance: L = (1-studio)*ambient + studio*(grad + boxes)                              (line 58)
+  Softbox edge: e0 = rad*(1-soft), e1 = rad; f = clip((e1-ang)/max(e1-e0, 1e-3), 0, 1); box += L*f*f*(3-2f)   (lines 54-56)
+  SH constants: const = [0.282095, 0.488603 x3, 1.092548, 1.092548, 0.315392, 1.092548, 0.546274]  (line 73)
+  SH band factors: [pi, 2pi/3 x3, pi/4 x5]                                                      (line 74)
+
+Functions:
+  _dirs(w, h)  environment.py:22-29   equirect grid. u=(x+.5)/w, v=(y+.5)/h, phi=(u-.5)*2pi, th=v*pi;
+      d = (sin th sin phi, cos th, -sin th cos phi). Returns (d, T). CPU.
+  _norm(v)  environment.py:32-34   float64 normalize.
+  make_env(w, h, studio, ambient)  environment.py:44-61   CPU. Returns (h,w,3) float32 camera-space radiance.
+      Inputs: studio, ambient only (size is a default).
+  sh9_irradiance(env)  environment.py:64-79   CPU. Input (h,w,3). Output (9,3) float32, pre-scaled.
+      dw = (2pi/w)*(pi/h)*sin(T) (line 68). Projects onto 9 real SH basis functions (lines 70-72), times band[k]*const[k] (line 78).
+      Basis: Y0=0.282095; Y1..Y3 = 0.488603*(y, z, x); Y4=1.092548*xy; Y5=1.092548*yz; Y6=0.315392*(3z^2-1);
+      Y7=1.092548*xz; Y8=0.546274*(x^2-y^2).
+
+  class Environment  environment.py:82-124
+    __init__(ctx, studio=0.35, ambient=0.15)  environment.py:85-91
+      Sets spec=None, sh=None. Builds program from shaders.FSQ_VS + shaders.PREFILTER_FS (line 89).
+      Vertex array with no buffers (fullscreen triangle, vertices=3, line 90). Then calls rebuild once (line 91).
+    rebuild(studio, ambient)  environment.py:93-123   CPU + GPU
+      1. env = make_env(studio, ambient)                                                          (95)
+      2. self.sh = sh9_irradiance(env)  (CPU, (9,3) float32)                                       (96)
+      3. src = texture (w,h) RGB f4 from env; repeat_x=True, repeat_y=False; build_mipmaps();
+         filter = (LINEAR_MIPMAP_LINEAR, LINEAR)                                                  (98-101)
+      4. dst = texture (256,128) RGBA f4; fbo = framebuffer(color_attachments=[dst])              (102-103)
+      5. src.use(0); prog u_src = 0; prog u_src_w = w                                             (105-107)
+      6. for i in 0..5: r = i/5; fbo.use(); viewport (0,0,256,128); prog u_rough = r;
+         vao.render(TRIANGLES, vertices=3); read fbo as f4 RGBA -> (128,256,4) float32            (108-115)
+      7. arr = stack(layers).astype(float16); release old self.spec if any                       (116-118)
+      8. self.spec = texture_array (256,128,6) RGBA f2 from arr; repeat_x=True, repeat_y=False    (119-120)
+      9. release fbo, dst, src                                                                    (121-123)
+
+    GL resources:
+      src        RGB f4 2D texture, 512x256 (default make_env size), mipmapped, LINEAR_MIPMAP_LINEAR min, repeat in x.
+                 Written in step 3. Read by the prefilter pass. Released at end of rebuild. Transient.
+      dst        RGBA f4 2D, 256x128, render target of each prefilter draw. Read back by fbo.read. Released. Transient.
+      fbo        framebuffer over dst. Released. Transient.
+      self._prog program FSQ_VS + PREFILTER_FS. Uniforms: u_src (sampler, unit 0), u_src_w (float), u_rough (float).
+                 Lives for the Environment lifetime.
+      self._vao  empty vertex array, 3 vertices. Lives for the Environment lifetime.
+      self.spec  RGBA f2 (half float) texture_array 256x128x6 (layer i = roughness i/5). repeat_x, not repeat_y.
+                 Released and replaced on each rebuild. Output consumed by the main shader (consumer not traced).
+      Pass: one full-screen triangle per roughness layer, target dst, viewport 256x128. Depth, blend and
+            colour masks are not set in this code (moderngl defaults). Prefilter shader body (GGX math) is in
+            shaders.PREFILTER_FS, NOT READ.
+    Output read elsewhere: self.spec (texture array) and self.sh (9x3 float32). Consumers not traced.
+
+  When rebuilt:
+    - Once in Environment.__init__ (renderer.py:245 constructs it with Settings.studio).
+    - Frame path renderer.py:665-667: if (round(s.studio,3), self._ambient()) != self._env_key, then
+      env.rebuild(s.studio, self._ambient()) and the key is stored. So on a change of the studio value
+      (rounded to 3 dp) or of what _ambient() returns. Never per frame otherwise.
+    - No other callers in app/viewer (grep: renderer.py:245 and renderer.py:666 only).
+
+=====================================================================
+3. app/viewer/model.py (scope: Part/Item classes, evaluate, transforms, bounds, sphere)
+=====================================================================
+Module constants: VERTEX_FLOATS = 19 (model.py:29), NO_FIBRE = -1.0e6 (model.py:30).
+
+Look  model.py:33-51  dataclass, resolved shading of a part
+  base (0.8,0.8,0.8) linear RGB; alpha 1.0; rough 0.5; metal 0.0; f0 0.04; sss 0.0; emissive (0,0,0);
+  use_vcol False; texture None (int); alpha_cut 0.0 (>0 = MASK alpha test); stripe None (dict, line 46);
+  mottle None (dict); facing None (alpha min, alpha max, exponent); translucent False; double_sided True;
+  detail None (mottle, cells per unit, nucleus fraction, fibre axis).
+
+Part  model.py:54-79  dataclass, one draw call
+  id (1-based draw id), node, name, mesh_name, material_name, structure, structure_id, label, extras (dict), look (Look)
+  first=0 (offset into shared index buffer, elements); count=0 (index count); vertex_base=0; vertex_count=0;
+  has_morph=False; has_fibre=False;
+  local_centre (zeros 3); local_radius=0.0 (node-local sphere radius); local_min, local_max (zeros 3, local AABB);
+  visible=True; role="" ("annotation" | "covering" | ""); item=0 (owning Item index).
+
+Item  model.py:82-98  dataclass
+  index, key, name, group (title), parts (list), description "", atlas [], category "other",
+  colour (0.7,0.7,0.7) sRGB, label True, clip True, bulk False, rank 0.0 (procedural layer lift), role "".
+
+Group  model.py:101-106  key, title, items (indices), colour (0.7,0.7,0.7) sRGB.
+Structure  model.py:109-113  key, title, parts. Sidecar grouping, export checks only.
+pretty(slug)  model.py:116-119  underscores to spaces, strip, split trailing number, capitalise first letter.
+
+ViewerModel methods (per-frame reads are noted; renderer call sites not traced):
+  triangle_count (property) model.py:252-254  len(indices)//3.
+  has_teased (property) model.py:256-258      any state has offsets.
+  reveal_nodes()  model.py:260-264            union of state offset keys.
+  stripe_params()  model.py:266-270           first part whose look.stripe is set; returns that dict or None.
+  um_per_bu()  model.py:272-273               sidecar um_per_bu as float, 0 if missing.
+  group_of(item_index)  model.py:275-277      group whose key == item.group, or None.
+
+  evaluate(t, reveal_state=None, reveal_amount=0.0)  model.py:280-295   runs when the clip time or reveal changes
+      1. node_weights = dict(_default_weights)                                                  (282)
+      2. if self.clip: for channels with path == "weights": val = gl.sample_channel(ch, t);
+         if val non-empty: node_weights[ch.node] = float(val[0]); clip_weight = max(clip_weight, float(val[0]))   (284-290)
+      3. node_offsets = {}; if reveal_state in states and reveal_amount > 0:
+         node_offsets[n] = o * reveal_amount for (n, o) in states[reveal_state]["offsets"]         (291-294)
+      Returns clip_weight (0.0 if none). Writes node_weights and node_offsets.
+      node_weights is not read inside this range.
+
+  node_matrix(node)  model.py:297-298       per frame. root @ node_world[node] if node < len(node_world) else root.
+
+  part_matrix(p)  model.py:300-310          per frame, per part. The transform used by box, sphere and LOD scale.
+      M = node_matrix(p.node) (4x4)
+      off = node_offsets.get(p.node)        reveal translation of the node
+      ex  = item_offsets[p.item] if item_offsets is not None else None    explode translation of the item (3-vector)
+      if off is set or ex is non-zero: M = copy; M[:3,3] += off; M[:3,3] += ex.   Translation only, no rotation or scale.
+
+  world_bounds(visible_only=True, visible=None)  model.py:312-326
+      For each part: if visible mask given, skip if not visible[p.item]; elif visible_only and not p.visible, skip.
+      Collects _box(p) corners. Empty gives (bounds_min, bounds_max). Returns per-axis min and max of all corners.
+
+  _box(p)  model.py:328-332   8 corners of local_min/local_max, transformed by part_matrix(p), xyz only (8x3).
+
+  item_bounds(indices)  model.py:334-340     world AABB of those items' part boxes; None if no parts.
+
+  rest_item_boxes()  model.py:342-357        CACHED in self._item_boxes. (n,2,3) rest-pose world boxes per item.
+      Temporarily sets node_offsets = {} and item_offsets = None, computes item_bounds per item, restores both.
+      Built on first call and reused after. No invalidation inside this range.
+
+  set_explode(amount)  model.py:359-366     runs on explode change
+      amount <= 0: item_offsets = None.
+      Else: boxes = rest_item_boxes(); item_offsets = (boxes.mean(axis=1) - (bounds_min + bounds_max)/2) * amount * 1.6
+      Each item moves from the model centre along its rest-box centre offset, scaled by amount*1.6. Procedural
+      models override this (ProceduralModel, not in range; see docstring line 361).
+
+  part_sphere(p)  model.py:368-371          per frame, per part (read by the renderer for LOD choice)
+      M = part_matrix(p)
+      c = (M @ [local_centre, 1])[:3]                                 world centre
+      r = local_radius * max over columns of norm(M[:3,:3])            world radius (uniform scale bound, not exact)
+
+What the renderer reads per frame from this range: part_matrix (per part), part_sphere (centre, radius),
+world_bounds (when called), stripe_params (not traced). evaluate runs on clip-time change; set_explode on explode change.
+
+=====================================================================
+Counts
+=====================================================================
+lod.py: 1 class, 3 functions (_triangle_keys, part_levels, build), 6 constants.
+environment.py: 1 class (Environment: __init__, rebuild), 4 module functions (_dirs, _norm, make_env, sh9_irradiance), constants SPEC_W, SPEC_H, ROUGH_LAYERS, SOFTBOXES.
+  GPU: 1 program, 1 VAO, 1 persistent texture array (spec), 3 transient objects per rebuild (src, dst, fbo); 6 draws per rebuild.
+model.py range: 5 dataclasses (Look, Part, Item, Group, Structure), 1 function (pretty), 2 module constants, 11 methods/properties listed above.
+
+=====================================================================
+Unresolved / not read (outside this range)
+=====================================================================
+- shaders.PREFILTER_FS and shaders.FSQ_VS bodies and uniforms (app/viewer/shaders.py): GGX math not inventoried.
+- renderer._scales, renderer._spheres, renderer._lod, renderer._lod_range, renderer._ambient(): defined outside this range.
+- Per-frame call sites of world_bounds, part_sphere, stripe_params in renderer.py: not traced.
+- Studio default mismatch: renderer Settings 0.30 (renderer.py:117) vs Environment default 0.35 (environment.py:85).
+- model.py _default_weights, states, clip, root, node_world, item_offsets, bounds_min/max, anim_vertices: set in ViewerModel.__init__/_finish (model.py:153-230), not read.

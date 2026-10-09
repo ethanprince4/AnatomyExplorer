@@ -96,8 +96,9 @@ Parts are never dropped for being small. Ethan is happy with how it looks, so it
 - M1: 68 GB/s memory bandwidth shared by CPU and GPU, 8 GB total. 250M triangles at 60 fps is 15 billion
   triangles per second, which no laptop GPU can draw, so culling is required; memory requires compact vertices.
 - Budget at 250M triangles: positions quantised to 16 bits per component within each part's box plus
-  octahedral normals is about 10-12 B per vertex; cluster-local 8-bit indices are 3 B per triangle. About
-  2.3 GB in total, against more than 12 GB in today's format.
+  octahedral normals is about 10-12 B per vertex; cluster-local 8-bit indices are 3 B per triangle. Measured in
+  the cull spike: 12.18 B per triangle including cluster records, about 3.05 GB at 252M, against more than
+  12 GB in today's format. Existing LOD levels, per-frame index lists and frame targets come on top.
 - Qt embedding: `rendercanvas.qt.QRenderWidget`. The `screen` present method uses a native child surface;
   `bitmap` copies through Qt. Today both viewers paint overlays on the GL widget itself, so a native surface
   needs a separate overlay widget.
@@ -112,6 +113,51 @@ Parts are never dropped for being small. Ethan is happy with how it looks, so it
 - Part and cluster bounds include morph and explode displacement.
 - The reference views for every check cover: default view, outer layers hidden then zoomed out, a cut plane,
   ghosted parts, mid-explode and mid-animation, each with click-result samples.
+
+## Spike results (2026-10-09)
+
+Details: `spike-embed-handoff.md`, `spike-cull-handoff.md`, baseline numbers in `baseline-summary.md`.
+
+Baseline (RTX 3080, 2560x1600, pixel ratio 2, 4x MSAA): the model viewer is limited by per-pixel shading of
+dense meshes, not by triangle count. Pancreas (25M triangles) orbits at 25-29 ms, of which the shaded main pass
+is 16.5 ms and the depth prepass 5.5 ms; tongue_papillae (1.7M triangles) takes 21 ms and its cost moves with
+the view angle. The atlas orbits at 4.9 ms with labels off. The current renderer fails at the 250M stress level
+("out of range offset") at 16 GB of process memory; 150M is the last level that loads (51 ms per frame).
+
+Qt embedding: present through `bitmap`. The `screen` method mis-blends translucent widgets over the 3D view.
+Bitmap costs about 7 ms per frame at 2560x1600 on Windows for readback and blit, so the presenter must read back
+asynchronously (double-buffered) instead of stalling the GUI thread. The overlay is already a separate QWidget.
+`wgpu`, `rendercanvas`, `cffi` and (macOS) `rubicon-objc` are not yet in `requirements.txt`.
+
+GPU culling (compute, wgpu, 9 real models tiled to 25M/100M/252M triangles):
+- Two-phase hi-Z culling never removed a visible pixel: 0 false-cull pixels over 3 views x (cold, moved, 20% and
+  50% hidden with no warm-up, re-shown) x 3 sizes x 2 GPUs. Shading from quantised data matched within 0.6/255.
+- Quantisation error: positions 7.6e-6 of the part diagonal, normals 0.024 degrees.
+- 252M, whole model in view: 25.6 ms (3080) / 646 ms (UHD 770); close view 14.7 / 375 ms; inside 1.6 / 40 ms.
+  This run had no LOD. The UHD is limited by vertex setup (same time at 1280x800).
+- Phase 2 draws 4-9x the clusters that end up visible (layered anatomy leaks through the depth pyramid).
+- 64-triangle clusters are 22-33% faster than larger ones.
+- Back-face (cone) culling is not allowed: the viewer draws both faces and open sheets change 1.4-2.4% of
+  pixels without it. It may only become a per-part opt-in for proven closed meshes.
+- Shadows are off by default and the lights follow the camera, so lighting needs no shadow passes by default.
+
+## Port design (decided 2026-10-09)
+
+1. New package `app/gpu/` on wgpu. The model viewer gets a wgpu backend behind a switch; OpenGL stays the
+   default until the wgpu picture matches the references, and the app falls back to OpenGL automatically if wgpu
+   fails to start.
+2. First milestone, because it removes today's lag: a visibility buffer (MSAA, R32Uint ids + depth) and one
+   per-pixel shading pass that reproduces today's look, with today's CPU part culling and the existing LOD.
+   Cluster culling (part, then cluster frustum, then two-phase hi-Z) comes on top for the 250M atlas.
+3. Two raster paths chosen at run time: indexed draws reading `primitive_index` where the adapter has it, and the
+   spike's vertex-pulling path otherwise.
+4. Geometry is paged across buffers sized from `adapter.limits`; on unified-memory Macs no CPU copy of uploaded
+   geometry is kept (the prepared cache is memory-mapped).
+5. Every existing pass is ported: OIT, cut caps, SSAO with its previous-frame GI read, edges/composite, picking
+   with asynchronous readback, labels. Today's output is matched, including oddities; any intended change is
+   written down.
+6. Reference images use a fixed warm-up frame count in both renderers, because SSAO reads the previous frame.
+7. Results at 250M are reported twice: culling only, and culling plus the existing LOD.
 
 ## Plan
 
