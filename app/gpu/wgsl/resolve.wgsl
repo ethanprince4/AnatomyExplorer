@@ -3,8 +3,10 @@
 //
 // Concatenated by app/gpu/renderer.py, in this order:  the generated prelude (SAMPLES, vis_id, load_id, bg_tex, the pages of
 // this pass: fetch_*), clip.wgsl (its `clipped` renamed `clipped_draw`: shading.wgsl has its own), shading.wgsl (its
-// `su` uniform replaced by `var<private> su`, filled per shaded triangle), tables.wgsl (the table buffer), geom.wgsl (page fetches), morph.wgsl (morph / animation), then this file with the generated
-// `apply_look(rec)` (copies the per-part fields of a look record into `su`).
+// `su` uniform gone: every use of the su fields becomes lk_u_x() (a per-part field, read from the look record apply_look selected) or sg.u_x,
+// and the copy statement of shade_tri is removed, see _su_reads), tables.wgsl (the table buffer), geom.wgsl (page fetches),
+// morph.wgsl (morph / animation), then this file with the generated `apply_look(rec)` (sets the word offset of a look record) and
+// the lk_<field>() readers. The FEAT_* switches of shading.wgsl are pipeline constants set from the looks of the drawn parts.
 //
 // ROW ORDER. Everything here is in GL's row order (row 0 = bottom of the picture): the visibility pass is rendered with the
 // clip y negated (so that its 4x / 8x sample pattern, defined y-down in Vulkan and y-up in GL, lands on GL's), and every
@@ -277,11 +279,11 @@ fn shade_tri(d: Draw, prim: u32, px: vec2<i32>, c: vec2<f32>, frag: vec2<f32>, f
     si.fib_dx = 0.0;
     si.fib_dy = 0.0;
     let q = vec2<i32>(px.x & ~1, px.y & ~1);
-    if (su.u_stripe == 1) {
+    if (FEAT_STRIPE && su.u_stripe == 1) {
         si.fib_dx = fib_at(t, vec2<i32>(q.x + 1, px.y)) - fib_at(t, vec2<i32>(q.x, px.y));
         si.fib_dy = fib_at(t, vec2<i32>(px.x, q.y + 1)) - fib_at(t, vec2<i32>(px.x, q.y));
     }
-    if (su.u_has_tex == 1) {
+    if (FEAT_TEX && su.u_has_tex == 1) {
         let u00 = uv_at(t, q);
         si.uv_dx = uv_at(t, vec2<i32>(q.x + 1, q.y)) - u00;
         si.uv_dy = uv_at(t, vec2<i32>(q.x, q.y + 1)) - u00;

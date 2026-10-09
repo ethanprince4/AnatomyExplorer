@@ -27,6 +27,8 @@ from __future__ import annotations
 
 import logging
 import math
+import os
+import re
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -131,22 +133,55 @@ def _prelude_resolve(id_fmt, samples, n_pages, page0):
     return "\n".join(out)
 
 
+# Surface features of a look that shading.wgsl can switch off per pipeline (its `override FEAT_*` constants).
+FEAT_STRIPE, FEAT_MOTTLE, FEAT_TEX, FEAT_DETAIL = 1, 2, 4, 8
+FEAT_ALL = 15
+_FEAT_NAMES = (("FEAT_STRIPE", FEAT_STRIPE), ("FEAT_MOTTLE", FEAT_MOTTLE), ("FEAT_TEX", FEAT_TEX), ("FEAT_DETAIL", FEAT_DETAIL))
+
+
+AO_SCALES = {"full": (1, 1), "gi": (1, 2), "half": (2, 2)}      # ANATOMY_AO_SCALE -> (ao_scale, gi_scale) of PostPasses
+
+
+def ao_gi_scales():
+    """(ao_scale, gi_scale) for PostPasses: ANATOMY_AO_SCALE = full (AO and GI at full resolution, the GL picture), gi
+    (default: AO full, the GI term at half resolution) or half (both at half). See docs/renderer-perf/port-changes.md."""
+    v = os.environ.get("ANATOMY_AO_SCALE", "gi").strip().lower() or "gi"
+    if v not in AO_SCALES:
+        log.warning("ANATOMY_AO_SCALE=%r is not one of %s; using 'gi'", v, "/".join(AO_SCALES))
+        v = "gi"
+    return AO_SCALES[v]
+
+
+def _look_features(rec):
+    """FEAT_* bits of a look record: the features whose per-look uniform switch is on."""
+    return ((FEAT_STRIPE if int(rec.get("u_stripe", 0)) == 1 else 0) | (FEAT_MOTTLE if int(rec.get("u_mottle", 0)) == 1 else 0)
+            | (FEAT_TEX if int(rec.get("u_has_tex", 0)) == 1 else 0) | (FEAT_DETAIL if int(rec.get("u_detail_on", 0)) == 1 else 0))
+
+
 def _apply_look_wgsl():
-    """apply_look(rec): copies the per-part fields of look record `rec` (a ShadeU in the `looks` section of the table buffer)
-    into `su`, word by word (bit-exact: floats and ints are bitcast)."""
-    lines = ["fn apply_look(rec: u32) {", f"    let lb = tinfo.z + rec * {SHADE_WORDS}u;"]
+    """apply_look(rec) selects the look record `rec` (a ShadeU in the `looks` section of the table buffer): it only sets the
+    private word offset `cur_lb`. Each per-part field has a reader lk_<name>() that loads it from the table where it is used,
+    bit-exact (floats and ints are bitcast); see _su_reads. No copy of the 624-byte ShadeU is made."""
+    lines = ["fn apply_look(rec: u32) {", f"    cur_lb = tinfo.z + rec * {SHADE_WORDS}u;", "}"]
     for n in PER_PART:
         f = FIELD_BY_NAME[n]
         w = f.offset // 4
         ty = {"f32": "f32", "i32": "i32", "u32": "u32"}[f.base]
         if f.shape == ():
-            lines.append(f"    su.{n} = bitcast<{ty}>(tab_w(lb + {w}u));")
+            lines.append(f"fn lk_{n}() -> {ty} {{ return bitcast<{ty}>(tab_w(cur_lb + {w}u)); }}")
         else:
             k = f.shape[0]
-            parts = ", ".join(f"bitcast<{ty}>(tab_w(lb + {w + j}u))" for j in range(k))
-            lines.append(f"    su.{n} = vec{k}<{ty}>({parts});")
-    lines.append("}")
+            parts = ", ".join(f"bitcast<{ty}>(tab_w(cur_lb + {w + j}u))" for j in range(k))
+            lines.append(f"fn lk_{n}() -> vec{k}<{ty}> {{ return vec{k}<{ty}>({parts}); }}")
     return "\n".join(lines)
+
+
+def _su_reads(src):
+    """Rewrite every `su.u_x` of the resolve module: per-part fields (PER_PART) -> lk_u_x() (read from the look record of the
+    shaded part), the rest -> sg.u_x (the frame-wide uniform). The values are those of the former private copy
+    (`su = sg; apply_look(rec)` overwrote exactly the PER_PART fields), but the compiler loads them where they are used
+    instead of holding or spilling a 624-byte copy per shaded triangle (docs/renderer-perf/port-changes.md)."""
+    return re.sub(r"\bsu\.(u_\w+)", lambda m: (f"lk_{m.group(1)}()" if m.group(1) in PER_PART else f"sg.{m.group(1)}"), src)
 
 
 def _read_text(name):
@@ -277,6 +312,7 @@ class WgpuRenderer:
         self._bg0_vis = self._bg0_res = self._bg0_cmp = None
         self._dummy = self.device.create_buffer(size=16, usage=BU.STORAGE, label="dummy")
         self._look_idx, self._look_bytes, self._looks_written = {}, [], 0
+        self._look_feat, self._frame_feat = [], FEAT_ALL      # per look: FEAT_* bits it uses; OR over the frame's draws
         self._item_state = None
         self.items_tex = None
         self._anim_key = None
@@ -291,7 +327,8 @@ class WgpuRenderer:
         self.rig, self.world = DEFAULT_RIG, DEFAULT_WORLD
         self.model_diag = 1.0
         self._fake = SimpleNamespace(_texture=lambda i: _Null())
-        self.post = PostPasses(self.device)
+        ao, gi = ao_gi_scales()
+        self.post = PostPasses(self.device, ao_scale=ao, gi_scale=gi)
         self.oit = OitPass(self.device, flip_y=True, depth_format="depth32float", aniso=8)
         self.oit_t = None
         self._oit_rec = _Rec()
@@ -371,10 +408,14 @@ class WgpuRenderer:
             shading = _read_text("shading.wgsl")
             decl = "@group(1) @binding(0) var<uniform> su: ShadeU;"
             assert decl in shading
-            shading = shading.replace(decl, "var<private> su: ShadeU;")      # filled per shaded triangle
+            shading = _su_reads(shading.replace(decl, "var<private> cur_lb: u32;"))   # word offset of the shaded part's look
+            resolve = _read_text("resolve.wgsl")
+            assert resolve.count("su = sg;") == 1
+            resolve = _su_reads(resolve.replace("su = sg;", ""))          # apply_look(rec) now only sets cur_lb
             code = "\n".join([_prelude_resolve(self.id_format, samples, n_pages, page0), clip, shading,
                               _read_text("tables.wgsl"), _read_text("geom.wgsl"), _read_text("morph.wgsl"),
-                              _read_text("resolve.wgsl"), _apply_look_wgsl()])
+                              resolve, _apply_look_wgsl()])
+            assert not re.search(r"\bsu\b", re.sub(r"//.*", "", code)), "a use of `su` outside su.u_* is left in the resolve module"
             self._modules[key] = self.device.create_shader_module(code=code, label=f"resolve{n_pages}@{page0}")
         return self._modules[key]
 
@@ -405,14 +446,15 @@ class WgpuRenderer:
                 label=f"geom{n_pages}@{page0}")
         return self._pipes[key]
 
-    def _shade_pipe(self, samples, n_pages, page0):
-        key = ("shade", samples, n_pages, page0)
+    def _shade_pipe(self, samples, n_pages, page0, feat=FEAT_ALL):
+        key = ("shade", samples, n_pages, page0, feat)
         if key not in self._pipes:
             m = self._resolve_module(samples, n_pages, page0)
             self._pipes[key] = self.device.create_render_pipeline(
                 layout=self._layout(self.bgl0_res, self.bgl_shade, self._bgl_vis(samples), self._bgl_pages(n_pages)),
                 vertex={"module": m, "entry_point": "vs_fsq"},
                 fragment={"module": m, "entry_point": "fs_shade",
+                          "constants": {n: float(bool(feat & b)) for n, b in _FEAT_NAMES},
                           "targets": [{"format": "rgba16float", "blend": {"color": ADD, "alpha": ADD}}]},
                 primitive={"topology": "triangle-list", "cull_mode": "none"},
                 label=f"shade{n_pages}@{page0}")
@@ -472,6 +514,7 @@ class WgpuRenderer:
                                                         usage=TU.TEXTURE_BINDING | TU.COPY_DST, label="items")
             self._item_state = None
             self._look_idx, self._look_bytes, self._looks_written = {}, [], 0
+            self._look_feat, self._frame_feat = [], FEAT_ALL
             self._bg_shade = None
             self._xf_key = None
             self._anim_key = None
@@ -869,6 +912,7 @@ class WgpuRenderer:
                 rec("u_highlight", 0.0)
         idx = len(self._look_bytes)
         self._look_bytes.append(pack_shading_uniforms(rec))
+        self._look_feat.append(_look_features(rec))
         self._look_idx[sig] = idx
         return idx
 
@@ -1004,11 +1048,13 @@ class WgpuRenderer:
         tu = table.view(np.uint32)
         entries = []
         slot = 1
+        feat = 0
         for key, pi, p, k, first, count in items:
             M, nmat, flip, weight, noclip, _key = self._transform(p)
             sel = p.item in self._fs.selected
             flags = (DRAW_NOCLIP if noclip else 0) | (DRAW_MIRRORED if flip else 0) | (DRAW_SELECTED if sel else 0)
             rec = self._look_index(p, s, fs, flip, noclip, weight)
+            feat |= self._look_feat[rec]
             tris = count // 3
             page = int(geom.page_of[pi])
             for a in range(0, tris, cap):
@@ -1024,6 +1070,7 @@ class WgpuRenderer:
                 tu[slot, 38] = self._slot_of(self._look_tex.get(rec))
                 entries.append((slot, pi, k, first + 3 * a, 3 * n))
                 slot += 1
+        self._frame_feat = feat
         return table, entries, bits
 
     # ------------------------------------------------------------------ frame
@@ -1186,7 +1233,7 @@ class WgpuRenderer:
                 rp = enc.begin_render_pass(
                     color_attachments=[{"view": V_["opaque"], "load_op": "clear" if gi == 0 else "load", "store_op": "store",
                                         "clear_value": (0, 0, 0, 0)}], **({"timestamp_writes": tw} if tw else {}))
-                rp.set_pipeline(self._shade_pipe(samples, n, p0))
+                rp.set_pipeline(self._shade_pipe(samples, n, p0, self._frame_feat))
                 rp.set_bind_group(0, self._bg0_res)
                 rp.set_bind_group(1, self._shade_bind_group(sl, 1 if gi == 0 else 0))
                 rp.set_bind_group(2, self._bg_vis)

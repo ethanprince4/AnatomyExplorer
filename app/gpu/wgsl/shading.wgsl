@@ -55,6 +55,15 @@
 
 const PI: f32 = 3.14159265;
 
+// Pipeline-overridable feature switches.  The default (true) is the full shader; the shaded resolve (renderer.py) sets a
+// switch to false when no look drawn in the frame uses the feature.  Every guarded block is a branch on a per-look uniform
+// that is never taken in that case, so the picture is identical, but the compiler no longer sizes the registers of every
+// fragment for the heaviest unused path (UHD 770: 3-5 ms of 33-38 ms).
+override FEAT_STRIPE: bool = true;    // some look has u_stripe == 1 (the stripe pattern and its fib derivatives)
+override FEAT_MOTTLE: bool = true;    // some look has u_mottle == 1
+override FEAT_TEX: bool = true;       // some look has u_has_tex == 1
+override FEAT_DETAIL: bool = true;    // some look has u_detail_on == 1
+
 struct ShadeU {
     // per-draw state shared with the pre-pass: cutting planes
     u_clip0: vec4<f32>,
@@ -270,7 +279,7 @@ fn worley(p: vec3<f32>, cell: ptr<function, vec3<f32>>) -> f32 {
     return sqrt(best);
 }
 fn tissue_color(base: vec3<f32>, p: vec3<f32>, is_cap: bool) -> vec3<f32> {
-    if (su.u_detail_on == 0) { return base; }
+    if (!FEAT_DETAIL || su.u_detail_on == 0) { return base; }
     let mottle = su.u_detail.x;
     let scale = su.u_detail.y;
     let density = su.u_detail.z;
@@ -372,7 +381,7 @@ fn surface(s_in: SurfaceIn) -> Surface {
         if (f.w > 0.5) { base = f.rgb; flat_on = true; }
     }
     if (flat_on) {
-    } else if (su.u_stripe == 1) {
+    } else if (FEAT_STRIPE && su.u_stripe == 1) {
         let x = s_in.fib / su.u_stripe_p.x;
         let fw = (abs(s_in.fib_dx) + abs(s_in.fib_dy)) / su.u_stripe_p.x;      // fwidth(x)
         let thr = su.u_stripe_p.y / max(1.0 - su.u_shorten * su.u_weight, 0.2);
@@ -387,13 +396,13 @@ fn surface(s_in: SurfaceIn) -> Surface {
     } else if (su.u_use_vcol == 1) {
         base *= s_in.col.rgb;
     }
-    if (su.u_mottle == 1 && !flat_on) {
+    if (FEAT_MOTTLE && su.u_mottle == 1 && !flat_on) {
         let n = fbm(s_in.opos * su.u_mottle_p.x, i32(su.u_mottle_p.w));
         let f = smoothstep(su.u_mottle_p.y, su.u_mottle_p.z, n);
         base = mix(su.u_mottle_a, su.u_mottle_b, f);
     }
     var alpha = su.u_alpha;
-    if (su.u_has_tex == 1) {
+    if (FEAT_TEX && su.u_has_tex == 1) {
         let t = textureSampleGrad(t_tex, samp_tex, s_in.uv, s_in.uv_dx, s_in.uv_dy);
         base *= t.rgb;
         alpha *= t.a;
@@ -478,7 +487,7 @@ fn shade_main_ex(s_in: SurfaceIn) -> ShadeOut {
     if (clipped(s_in.wpos)) { return o; }
     let s = surface(s_in);
     o.alpha = s.alpha;
-    if (su.u_has_tex == 1 && su.u_alpha_cut > 0.0 && s.alpha < su.u_alpha_cut) { return o; }
+    if (FEAT_TEX && su.u_has_tex == 1 && su.u_alpha_cut > 0.0 && s.alpha < su.u_alpha_cut) { return o; }
     var N = normalize(s_in.wnrm);
     let V = view_vector(s_in.wpos);
     if (s_in.front_facing == (su.u_flip == 1)) { N = -N; }
