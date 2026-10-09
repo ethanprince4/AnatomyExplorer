@@ -85,6 +85,7 @@ td.n { text-align: right } th.n { text-align: right }
     <button class="chip" data-f="copy" aria-pressed="false">Use copy</button>
     <button class="chip" data-f="original" aria-pressed="false">Keep original</button>
     <button class="btn primary" id="all-copy">Use copy for all undecided</button>
+    <button class="btn" id="copy-choices">Copy my choices</button>
     <span class="status" id="status">Choices are not saved in this view.</span>
   </div>
   <main id="models" style="display:grid;gap:22px"></main>
@@ -100,7 +101,22 @@ const DATA = /*DATA*/null;
 const fmt = n => n == null ? "–" : n.toLocaleString("en-US");
 const pct = (a, b) => b ? Math.round(100 * a / b) + "%" : "–";
 const verdicts = {};
-let filter = "all", db = null, canWrite = false;
+let filter = "all", db = null, canWrite = true;
+// Without the Artifact database (the page opened as a plain file) choices live in this browser.
+const STORE = "model-slimming-review-v1";
+function loadLocal() {
+  try { Object.assign(verdicts, JSON.parse(localStorage.getItem(STORE) || "{}")); } catch (e) {}
+}
+function saveLocal() {
+  try { localStorage.setItem(STORE, JSON.stringify(verdicts)); } catch (e) {}
+}
+function choicesText() {
+  const pick = v => DATA.models.filter(m => verdicts[m.id] === v).map(m => m.name + " (" + m.id + ")");
+  const undecided = DATA.models.filter(m => !verdicts[m.id]).map(m => m.name + " (" + m.id + ")");
+  return ["Use copy: " + (pick("copy").join(", ") || "none"),
+          "Keep original: " + (pick("original").join(", ") || "none"),
+          "Undecided: " + (undecided.join(", ") || "none")].join("\n");
+}
 
 function el(tag, attrs = {}, ...kids) {
   const e = document.createElement(tag);
@@ -168,13 +184,14 @@ function paint() {
   btn.disabled = !canWrite || undecided === 0;
   btn.textContent = undecided ? `Use copy for all ${undecided} undecided` : "All decided";
   const done = DATA.models.length - undecided;
-  document.getElementById("status").textContent = !db ? "Choices are not saved in this view." :
+  document.getElementById("status").textContent = !db ? `${done} of ${DATA.models.length} decided. Saved in this browser; press "Copy my choices" and paste them to Claude.` :
     !canWrite ? `${done} of ${DATA.models.length} decided. Only the owner can change these.` :
     `${done} of ${DATA.models.length} decided. Claude reads these choices.`;
 }
 
 async function decide(id, v) {
-  if (!db || !canWrite) return;
+  if (!canWrite) return;
+  if (!db) { if (v) verdicts[id] = v; else delete verdicts[id]; saveLocal(); paint(); return; }
   const prev = verdicts[id];
   verdicts[id] = v; paint();
   try {
@@ -187,6 +204,17 @@ async function decide(id, v) {
   }
 }
 
+document.getElementById("copy-choices").addEventListener("click", async () => {
+  const text = choicesText(), status = document.getElementById("status");
+  try { await navigator.clipboard.writeText(text); status.textContent = "Copied. Paste it into the chat."; }
+  catch (e) {
+    let box = document.getElementById("choices-box");
+    if (!box) { box = document.createElement("textarea"); box.id = "choices-box"; box.readOnly = true; box.rows = 4;
+      box.style.cssText = "display:block;width:100%;margin:10px 0;font:inherit;padding:8px"; document.querySelector(".bar").after(box); }
+    box.value = text; box.focus(); box.select();
+    status.textContent = "Select the text below, copy it (Ctrl+C or Cmd+C) and paste it into the chat.";
+  }
+});
 document.getElementById("all-copy").addEventListener("click", async () => {
   for (const m of DATA.models) if (!verdicts[m.id]) await decide(m.id, "copy");
 });
@@ -196,6 +224,7 @@ for (const c of document.querySelectorAll(".chip")) c.addEventListener("click", 
   paint();
 });
 
+loadLocal();
 totals();
 document.getElementById("models").replaceChildren(...DATA.models.map(card));
 document.getElementById("failed").replaceChildren(...DATA.failed.map(f =>
