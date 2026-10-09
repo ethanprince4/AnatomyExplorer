@@ -57,6 +57,24 @@ class TextTests(unittest.TestCase):
         for name, _ in R._FEAT_NAMES:
             self.assertRegex(src, rf"override {name}: bool = true;")
 
+    def test_morph_anim_overrides_exist_and_variant_follows_the_frame_feat(self):
+        src = R._read_text("morph.wgsl")
+        for name, _ in R._MORPH_NAMES:
+            self.assertRegex(src, rf"override {name}: bool = true;")
+        for frame_feat, want in ((0, (0.0, 0.0)), (R.FEAT_MORPH, (1.0, 0.0)), (R.FEAT_ANIM, (0.0, 1.0)),
+                                 (R.FEAT_FRAME_ALL, (1.0, 1.0)), (R.FEAT_ALL, (0.0, 0.0))):
+            dev = mock.MagicMock()
+            fake = SimpleNamespace(_frame_feat=frame_feat, id_format="r32uint", _pipes={}, device=dev, bgl0_vis=0, bgl_vispage=0, bgl0_res=0,
+                                   bgl_shade=0, _layout=lambda *a: 0, _bgl_vis=lambda s: 0, _bgl_pages=lambda n: 0,
+                                   _vis_module=lambda: "m", _resolve_module=lambda *a: "m")
+            R.WgpuRenderer._vis_pipe(fake, 4, False)
+            R.WgpuRenderer._geom_pipe(fake, 4, 1, 0)
+            R.WgpuRenderer._shade_pipe(fake, 4, 1, 0, frame_feat)
+            for call, stage in zip(dev.create_render_pipeline.call_args_list, ("vertex", "fragment", "fragment")):
+                c = call.kwargs[stage]["constants"]
+                self.assertEqual((c["FEAT_MORPH"], c["FEAT_ANIM"]), want, (frame_feat, stage))
+            self.assertEqual(len(fake._pipes), 3)
+
     def test_ao_scale_env(self):
         for v, want in (("", (1, 2)), ("gi", (1, 2)), ("full", (1, 1)), ("half", (2, 2)), ("FULL", (1, 1)), ("bogus", (1, 2))):
             with mock.patch.dict(os.environ, {"ANATOMY_AO_SCALE": v}):

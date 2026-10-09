@@ -6,6 +6,12 @@
 //
 // ptab / anim_tab: wgsl/tables.wgsl (ptab_w, anim_at). The streams: wgsl/geom.wgsl (g_dpos, g_dnrm, g_anim).
 
+// Pipeline constants set by the renderer from the frame's drawn items (renderer.FEAT_MORPH / FEAT_ANIM): false compiles the
+// morph-target / procedural-animation code out; it is only set when no drawn item has a non-zero weight / an animation, so the
+// branches below would not have run.
+override FEAT_MORPH: bool = true;
+override FEAT_ANIM: bool = true;
+
 fn ptab_f(i: u32) -> f32 {
     return bitcast<f32>(ptab_w(i));
 }
@@ -26,7 +32,7 @@ fn part_delta(d: Draw, lp: u32, v: u32, stream: u32) -> vec3<f32> {
 }
 
 fn anim_on(d: Draw) -> bool {
-    return anim_at(3u * d.b.y + 2u).y > 0.5;
+    return FEAT_ANIM && anim_at(3u * d.b.y + 2u).y > 0.5;
 }
 
 // First word of the vertex in the page's anim stream, or 0xffffffff when the part carries no animation data.
@@ -56,7 +62,7 @@ fn anim_phase(d: Draw, lp: u32, v: u32) -> f32 {
 // Object-space position with the morph target and the animation applied (GEOM_VS: p = in_pos + u_weight * in_dpos; p += ...).
 fn morph_pos(d: Draw, lp: u32, v: u32, pos: vec3<f32>) -> vec3<f32> {
     var p = pos;
-    if (d.c.x != 0.0) {
+    if (FEAT_MORPH && d.c.x != 0.0) {
         p = pos + d.c.x * part_delta(d, lp, v, 0u);
     }
     if (anim_on(d)) {
@@ -78,7 +84,7 @@ fn morph_pos(d: Draw, lp: u32, v: u32, pos: vec3<f32>) -> vec3<f32> {
 }
 
 fn morph_nrm(d: Draw, lp: u32, v: u32, nrm: vec3<f32>) -> vec3<f32> {
-    if (d.c.x != 0.0) {
+    if (FEAT_MORPH && d.c.x != 0.0) {
         return nrm + d.c.x * part_delta(d, lp, v, 1u);
     }
     return nrm;

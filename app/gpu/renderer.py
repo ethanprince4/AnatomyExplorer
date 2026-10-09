@@ -185,8 +185,11 @@ def _prelude_resolve(id_fmt, samples, n_pages, page0):
 
 # Surface features of a look that shading.wgsl can switch off per pipeline (its `override FEAT_*` constants).
 FEAT_STRIPE, FEAT_MOTTLE, FEAT_TEX, FEAT_DETAIL = 1, 2, 4, 8
+FEAT_MORPH, FEAT_ANIM = 16, 32        # morph.wgsl: some drawn item has a morph weight / procedural animation (frame level, not per look)
 FEAT_ALL = 15
+FEAT_FRAME_ALL = FEAT_ALL | FEAT_MORPH | FEAT_ANIM      # every switch on (nothing compiled out)
 _FEAT_NAMES = (("FEAT_STRIPE", FEAT_STRIPE), ("FEAT_MOTTLE", FEAT_MOTTLE), ("FEAT_TEX", FEAT_TEX), ("FEAT_DETAIL", FEAT_DETAIL))
+_MORPH_NAMES = (("FEAT_MORPH", FEAT_MORPH), ("FEAT_ANIM", FEAT_ANIM))
 
 
 AO_SCALES = {"full": (1, 1), "gi": (1, 2), "half": (2, 2)}      # ANATOMY_AO_SCALE -> (ao_scale, gi_scale) of PostPasses
@@ -375,7 +378,7 @@ class WgpuRenderer:
         self._bg0_vis = self._bg0_res = self._bg0_cmp = None
         self._dummy = self.device.create_buffer(size=16, usage=BU.STORAGE, label="dummy")
         self._look_idx, self._look_bytes, self._looks_written = {}, [], 0
-        self._look_feat, self._frame_feat = [], FEAT_ALL      # per look: FEAT_* bits it uses; OR over the frame's draws
+        self._look_feat, self._frame_feat = [], FEAT_FRAME_ALL      # per look: FEAT_* bits it uses; OR over the frame's draws
         self._item_state = None
         self.items_tex = None
         self._anim_key = None
@@ -494,12 +497,14 @@ class WgpuRenderer:
         return self._modules[key]
 
     def _vis_pipe(self, samples, clip):
-        key = ("vis", samples, clip)
+        feat = self._frame_feat & (FEAT_MORPH | FEAT_ANIM)
+        key = ("vis", samples, clip, feat)
         if key not in self._pipes:
             m = self._vis_module()
+            consts = {n: float(bool(feat & b)) for n, b in _MORPH_NAMES}
             self._pipes[key] = self.device.create_render_pipeline(
                 layout=self._layout(self.bgl0_vis, self.bgl_vispage),
-                vertex={"module": m, "entry_point": "vs"},
+                vertex={"module": m, "entry_point": "vs", "constants": consts},
                 fragment={"module": m, "entry_point": "fs_clip" if clip else "fs", "targets": [{"format": self.id_format}]},
                 primitive={"topology": "triangle-list", "cull_mode": "none", "front_face": "ccw"},
                 depth_stencil={"format": "depth32float", "depth_write_enabled": True, "depth_compare": "less"},
@@ -507,20 +512,22 @@ class WgpuRenderer:
         return self._pipes[key]
 
     def _geom_pipe(self, samples, n_pages, page0):
-        key = ("geom", samples, n_pages, page0)
+        feat = self._frame_feat & (FEAT_MORPH | FEAT_ANIM)
+        key = ("geom", samples, n_pages, page0, feat)
         if key not in self._pipes:
             m = self._resolve_module(samples, n_pages, page0)
             self._pipes[key] = self.device.create_render_pipeline(
                 layout=self._layout(self.bgl0_res, self.bgl_shade, self._bgl_vis(samples), self._bgl_pages(n_pages)),
                 vertex={"module": m, "entry_point": "vs_fsq"},
                 fragment={"module": m, "entry_point": "fs_geom",
+                          "constants": {n: float(bool(feat & b)) for n, b in _MORPH_NAMES},
                           "targets": [{"format": "r32uint"}, {"format": "rg32float"}, {"format": "rgba32float"}]},
                 primitive={"topology": "triangle-list", "cull_mode": "none"},
                 depth_stencil={"format": "depth32float", "depth_write_enabled": True, "depth_compare": "less"},
                 label=f"geom{n_pages}@{page0}")
         return self._pipes[key]
 
-    def _shade_pipe(self, samples, n_pages, page0, feat=FEAT_ALL):
+    def _shade_pipe(self, samples, n_pages, page0, feat=FEAT_FRAME_ALL):
         key = ("shade", samples, n_pages, page0, feat)
         if key not in self._pipes:
             m = self._resolve_module(samples, n_pages, page0)
@@ -528,7 +535,7 @@ class WgpuRenderer:
                 layout=self._layout(self.bgl0_res, self.bgl_shade, self._bgl_vis(samples), self._bgl_pages(n_pages)),
                 vertex={"module": m, "entry_point": "vs_fsq"},
                 fragment={"module": m, "entry_point": "fs_shade",
-                          "constants": {n: float(bool(feat & b)) for n, b in _FEAT_NAMES},
+                          "constants": {n: float(bool(feat & b)) for n, b in _FEAT_NAMES + _MORPH_NAMES},
                           "targets": [{"format": "rgba16float", "blend": {"color": ADD, "alpha": ADD}}]},
                 primitive={"topology": "triangle-list", "cull_mode": "none"},
                 label=f"shade{n_pages}@{page0}")
@@ -590,7 +597,7 @@ class WgpuRenderer:
                                                         usage=TU.TEXTURE_BINDING | TU.COPY_DST, label="items")
             self._item_state = None
             self._look_idx, self._look_bytes, self._looks_written = {}, [], 0
-            self._look_feat, self._frame_feat = [], FEAT_ALL
+            self._look_feat, self._frame_feat = [], FEAT_FRAME_ALL
             self._bg_shade = None
             self._xf_key = None
             self._anim_key = None
@@ -1180,12 +1187,17 @@ class WgpuRenderer:
         entries = []
         slot = 1
         feat = 0
+        anim_on = self.model.anim_vertices is not None and fs.anim_frame is not None
         for key, pi, p, k, first, count in items:
             M, nmat, flip, weight, noclip, _key = self._transform(p)
             sel = p.item in self._fs.selected
             flags = (DRAW_NOCLIP if noclip else 0) | (DRAW_MIRRORED if flip else 0) | (DRAW_SELECTED if sel else 0)
             rec = self._look_index(p, s, fs, flip, noclip, weight)
             feat |= self._look_feat[rec]
+            if weight != 0.0:
+                feat |= FEAT_MORPH
+            if anim_on and geom.anim_base[pi] >= 0:
+                feat |= FEAT_ANIM
             tris = count // 3
             page = int(geom.page_of[pi])
             for a in range(0, tris, cap):
