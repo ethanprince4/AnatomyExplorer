@@ -8,9 +8,9 @@ compare: the same model, camera and state are rendered by the widget's GL render
 the item ids and the linear view depths are compared. A disagreeing pixel is explained as
   cap    GL drew a cut face there (flag bit 2; the wgpu port has no caps yet),
   tie    both depths are within a few quanta of GL's 24-bit window depth (an equal-depth tie, order dependent),
-  fall   GL has background, the wgpu resolve took the nearest MSAA sample (no sampled triangle contains the centre; this is
-         the specified fallback that keeps thin features, GL's single sample at the centre cannot see them),
-  miss   both are items and GL's is the nearer one: its triangle contains the centre but none of the MSAA samples,
+  fall   GL has background, wgpu an item (a sampled triangle contains the centre by the 1e-5 edge tolerance, GL's does not),
+  miss   GL has an item that no MSAA sample sees (wgpu: background), or both are items and GL's is the nearer one: its
+         triangle contains the centre but none of the MSAA samples,
   edge   the pixel lies on an id boundary of the GL picture (a triangle edge or silhouette through the centre),
   other  none of the above (reported with coordinates).
 timing: GPU timestamps around the visibility render pass only (no CPU readback inside the pass). Run it under
@@ -139,7 +139,7 @@ def classify(gid, gfl, gd, wid, wd, near, far, ortho):
         for dx in (-1, 0, 1):
             if dx or dy:
                 bnd |= p[1 + dy:1 + dy + h, 1 + dx:1 + dx + w] != gid
-    miss = both & ~cap & ~tie & (gd < wd - tol)              # GL's nearer surface holds the centre, no MSAA sample does
+    miss = diff & ~cap & ~tie & (gid >= 0) & ((wid < 0) | (gd < wd - tol))   # GL's surface holds the centre, no MSAA sample does
     edge = diff & ~cap & ~fall & ~tie & ~miss & bnd
     other = diff & ~cap & ~fall & ~tie & ~miss & ~edge
     ys, xs = np.nonzero(other)

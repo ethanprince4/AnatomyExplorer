@@ -1,7 +1,7 @@
 """Reference views: fixed states of a model (or the atlas) rendered through the app's own viewport, with a pick sample
 and the exact camera and state used, so any other renderer can reproduce the same view.
 
-    python make_reference.py model <model_id> <out_dir>
+    python make_reference.py model <model_id> <out_dir> [--backend opengl|wgpu]
     python make_reference.py atlas <out_dir>
 
 Writes <out_dir>/<name>/<state>.png (2560x1600), <state>.json (camera, state, settings, 16x10 pick grid) and
@@ -151,11 +151,11 @@ def model_states(sess):
     reset()
 
 
-def run_model(model_id, out_dir):
+def run_model(model_id, out_dir, backend="opengl"):
     pk.env_setup()
     from tools.perf.viewer_session import ViewerSession, timed_prepare
     entry, model, load = timed_prepare(model_id)
-    sess = ViewerSession(entry, model)
+    sess = ViewerSession(entry, model, backend=backend)
     if sess.error:
         raise RuntimeError(sess.error)
     root = Path(out_dir) / model_id
@@ -178,7 +178,8 @@ def run_model(model_id, out_dir):
             "opaque_materials": bool(sess.state.opaque_materials),
             "items": [{"index": it.index, "key": it.key, "name": it.name, "group": it.group} for it in model.items],
             "explode": w.explode, "anim_t": w.anim_t, "reveal_amount": w.reveal_amount,
-            "gl_renderer": sess.ctx.info.get("GL_RENDERER"),
+            "gl_renderer": (sess.gl_renderer if backend == "wgpu" else sess.ctx.info.get("GL_RENDERER")),
+            "backend": backend,
             "image": {"file": f"{name}.png", "size": [int(arr.shape[1]), int(arr.shape[0])],
                       "mean_rgb": [round(float(x), 3) for x in arr.reshape(-1, 3).mean(0)]},
             "picks": picks,
@@ -251,7 +252,8 @@ def run_atlas(out_dir):
             "camera": camera_dict(w.camera),
             "visible_structure_count": int(st.visible_mask().sum()),
             "user_settings": sess.settings,
-            "gl_renderer": sess.ctx.info.get("GL_RENDERER"),
+            "gl_renderer": (sess.gl_renderer if backend == "wgpu" else sess.ctx.info.get("GL_RENDERER")),
+            "backend": backend,
             "image": {"file": f"{name}.png", "size": [int(arr.shape[1]), int(arr.shape[0])],
                       "mean_rgb": [round(float(x), 3) for x in arr.reshape(-1, 3).mean(0)]},
             "picks": picks,
@@ -266,13 +268,20 @@ def run_atlas(out_dir):
 
 
 def main():
+    backend = "opengl"
+    if "--backend" in sys.argv:                      # python make_reference.py model <id> <out> --backend wgpu
+        i = sys.argv.index("--backend")
+        backend = sys.argv[i + 1]
+        del sys.argv[i:i + 2]
     kind = sys.argv[1]
     t0 = time.perf_counter()
     try:
         if kind == "model":
-            idx = run_model(sys.argv[2], sys.argv[3])
+            idx = run_model(sys.argv[2], sys.argv[3], backend)
             name = sys.argv[2]
         else:
+            if backend != "opengl":
+                raise SystemExit("the atlas has no wgpu backend yet")
             idx = run_atlas(sys.argv[2])
             name = "atlas"
         print(f"reference {name}: {len(idx['states'])} states, missing {idx['states_missing']} "

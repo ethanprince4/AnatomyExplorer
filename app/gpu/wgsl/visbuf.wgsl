@@ -1,6 +1,6 @@
 // Visibility pass: one indexed draw per draw slot, instance_index = slot. Writes (slot << prim_bits) | primitive_index
 // into an MSAA id target (slot 0 = background) and depth (z in [0, 1], "less", cleared to 1, no face culling: the
-// viewer draws both faces, as the GL pre-pass does).
+// viewer draws both faces, as the GL pre-pass does). Row 0 of the target = bottom of the picture (GL's row order).
 //
 // Concatenated by app/gpu/renderer.py after: `enable primitive_index;`, the generated prelude (alias IdOut,
 // fn pack_id) and clip.wgsl (Frame, Draw, clipped).
@@ -27,7 +27,11 @@ fn vs(@builtin(vertex_index) vi: u32, @builtin(instance_index) slot: u32) -> VOu
     let d = draws[slot];
     let w = vertex_world(d, vi);
     var o: VOut;
-    o.clip = frame.vp * vec4<f32>(w, 1.0);
+    let cl = frame.vp * vec4<f32>(w, 1.0);
+    // Rendered bottom-up, like GL: wgpu's framebuffer is y-down, so the clip y is negated and row 0 of the target is the
+    // bottom of the picture. This also puts the MSAA sample pattern (defined y-down in Vulkan, y-up in GL; the same numbers)
+    // where GL has it.
+    o.clip = vec4<f32>(cl.x, -cl.y, cl.z, cl.w);
     o.wpos = w;
     o.slot = slot;
     return o;

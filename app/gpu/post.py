@@ -105,6 +105,7 @@ class PostPasses:
         self._pipes = {}
         self._layouts = {}
         self._mods = {}
+        self.pending_ts = None          # {"query_set", "beginning_of_pass_write_index" / "end_of_pass_write_index"} for the next pass
         self.s_lin = device.create_sampler(mag_filter="linear", min_filter="linear", mipmap_filter="nearest",
                                            address_mode_u="clamp-to-edge", address_mode_v="clamp-to-edge")
         self.s_near = device.create_sampler(mag_filter="nearest", min_filter="nearest", mipmap_filter="nearest",
@@ -151,8 +152,10 @@ class PostPasses:
             entries.append({"binding": i, "resource": r})
         bg = dev.create_bind_group(layout=bgl, entries=entries)
         enc = dev.create_command_encoder() if encoder is None else encoder
+        tw, self.pending_ts = self.pending_ts, None          # the renderer's GPU timing of the next pass (or None)
         rp = enc.begin_render_pass(color_attachments=[{
-            "view": target_view, "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 1)}])
+            "view": target_view, "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 1)}],
+            **({"timestamp_writes": tw} if tw else {}))
         rp.set_pipeline(pipe)
         rp.set_bind_group(0, bg)
         rp.set_viewport(0, 0, size[0], size[1], 0.0, 1.0)

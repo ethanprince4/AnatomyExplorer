@@ -77,7 +77,12 @@ def main():
     ap.add_argument("--rss-limit-gb", type=float, default=16.0)
     ap.add_argument("--baseline", default=None, help="another run (name or folder) to compare repeat numbers against")
     ap.add_argument("--model-timeout", type=int, default=1500)
+    ap.add_argument("--backend", choices=("opengl", "wgpu"), default="opengl",
+                    help="wgpu: the model viewer on WgpuModelViewport (orbit timing via tools/perf/gpu/frame_bench.py, "
+                         "reference views with --backend wgpu); atlas and stress sections are OpenGL only and are skipped")
     a = ap.parse_args()
+    if a.backend == "wgpu":
+        a.skip_atlas = a.skip_stress = True
 
     out = Path(a.out_root) / a.run
     (out / "logs").mkdir(parents=True, exist_ok=True)
@@ -94,9 +99,14 @@ def main():
 
     if not a.skip_models:
         for i, mid in enumerate(models, 1):
-            rc, sec = child([HERE / "bench_models.py", mid, out] + (["--quick"] if a.quick else []),
-                            out / "logs" / f"model_{mid}.log", a.model_timeout)
-            ok = (out / "models" / f"{mid}.json").exists()
+            if a.backend == "wgpu":
+                rc, sec = child([HERE / "gpu" / "frame_bench.py", out / "wgpu_models", mid],
+                                out / "logs" / f"model_{mid}.log", a.model_timeout)
+                ok = any((out / "wgpu_models").glob(f"*/{mid}.json"))
+            else:
+                rc, sec = child([HERE / "bench_models.py", mid, out] + (["--quick"] if a.quick else []),
+                                out / "logs" / f"model_{mid}.log", a.model_timeout)
+                ok = (out / "models" / f"{mid}.json").exists()
             print(f"  model {i}/{len(models)} {mid}: rc={rc} json={'yes' if ok else 'NO'} {sec:.0f}s", flush=True)
 
     if not a.skip_atlas:
@@ -126,10 +136,12 @@ def main():
         ref_models = [m for m in REF_MODELS if m in set(library_ids())]
         for tag in ("reference", "reference_repeat"):
             for mid in ref_models:
-                rc, sec = child([HERE / "make_reference.py", "model", mid, out / tag], out / "logs" / f"{tag}_{mid}.log", 1800)
+                rc, sec = child([HERE / "make_reference.py", "model", mid, out / tag, "--backend", a.backend],
+                                out / "logs" / f"{tag}_{mid}.log", 1800)
                 print(f"  {tag} {mid}: rc={rc} {sec:.0f}s", flush=True)
-            rc, sec = child([HERE / "make_reference.py", "atlas", out / tag], out / "logs" / f"{tag}_atlas.log", 1800)
-            print(f"  {tag} atlas: rc={rc} {sec:.0f}s", flush=True)
+            if a.backend == "opengl":
+                rc, sec = child([HERE / "make_reference.py", "atlas", out / tag], out / "logs" / f"{tag}_atlas.log", 1800)
+                print(f"  {tag} atlas: rc={rc} {sec:.0f}s", flush=True)
             if a.quick:
                 break
         if (out / "reference_repeat").exists():
@@ -138,6 +150,10 @@ def main():
             (out / "reference_selfcheck.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
             (out / "reference_selfcheck.md").write_text(compare_refs.markdown(res), encoding="utf-8")
 
+    if a.backend == "wgpu":
+        print(f"[run {a.run}] done in {time.perf_counter() - t_all:.0f}s -> {out} (wgpu: per-model JSON under wgpu_models/, "
+              f"no summary.md)", flush=True)
+        return
     from tools.perf import summary
     base_dir = None
     if a.baseline:

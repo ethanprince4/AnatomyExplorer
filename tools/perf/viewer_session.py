@@ -79,7 +79,12 @@ def model_stats(model):
 class ViewerSession:
     """Open `model` in a real ModelViewport and expose paint / probe helpers."""
 
-    def __init__(self, entry, model, settings=None):
+    def __init__(self, entry, model, settings=None, backend="opengl", renderer_factory=None):
+        self.backend = backend
+        if backend == "wgpu":
+            return self._init_wgpu(entry, model, settings, renderer_factory)
+        if backend != "opengl":
+            raise ValueError(f"backend must be opengl or wgpu, not {backend!r}")
         from app.config import DEFAULT_SETTINGS
         from app.state import SceneState
         from app.viewer.dataset import ModelDataset
@@ -127,6 +132,44 @@ class ViewerSession:
         self.render_size = w._render_size()
         self.probe = None
         self.lights_log = []
+
+    def _init_wgpu(self, entry, model, settings, renderer_factory=None):
+        """The same widget logic on the wgpu backend: WgpuModelViewport, painted into a physical-size texture."""
+        from app.config import DEFAULT_SETTINGS
+        from app.state import SceneState
+        from app.viewer.dataset import ModelDataset
+        from app.gpu.viewport import WgpuModelViewport
+        from app.gpu.device import get_gpu
+        self.entry, self.model = entry, model
+        self.settings = dict(DEFAULT_SETTINGS if settings is None else settings)
+        self.upload = {}
+        self.gpu = get_gpu()
+        self.state = SceneState(ModelDataset(model), self.settings)
+        self.w = WgpuModelViewport(model, self.state, self.settings, entry, gpu=self.gpu,
+                                  renderer_factory=renderer_factory)
+        cut = getattr(model, "cutaway", None)
+        if cut is not None:
+            from app.viewer.procedural import cutaway_planes
+            self.w.cut_planes = cutaway_planes(cut)
+            self.w.cut_on = False
+        self.state.opaque_materials = model.kind == "procedural"
+        self.state.part_alpha = np.ones(len(model.items), dtype=np.float32)
+        self.w.resize(LOGICAL_W, LOGICAL_H)
+        self.w.reset_view(animate=False)
+        t0 = time.perf_counter()
+        self.w._init_backend()                       # creates the device objects and uploads the model
+        self.first_grab_s = self.upload["upload_s"] = time.perf_counter() - t0
+        w = self.w
+        self.error = w.graphics_error
+        self.ctx = w.ctx
+        self.r = w.renderer
+        self.dpr = w.devicePixelRatioF()
+        self.physical = w._physical_size()
+        self.render_size = w._render_size()
+        self.probe = None
+        self.lights_log = []
+        self.gl_renderer = str(self.gpu.info)
+        self._target = None if self.error else w._offscreen_begin(*self.physical)
 
     # ------------------------------------------------------------------ facts about the buffers
     def buffer_facts(self):
@@ -186,6 +229,8 @@ class ViewerSession:
     def paint(self, probe=False):
         """One frame through the widget's own _paint_frame, then ctx.finish(). Returns a dict (ms, and the probe's
         counters when probe=True and a probe is attached)."""
+        if self.backend == "wgpu":
+            return self._paint_wgpu()
         w, ctx = self.w, self.ctx
         use_probe = probe and self.probe is not None
         w.makeCurrent()                          # Qt does this before paintGL; pick_at leaves the context released
@@ -204,6 +249,21 @@ class ViewerSession:
         if ctx.error != "GL_NO_ERROR":
             out["gl_error"] = ctx.error
         return out
+
+    def _paint_wgpu(self):
+        """One frame through the widget's own _paint_frame into the physical-size texture, then wait for the GPU."""
+        from app.gpu.device import wait_idle
+        w = self.w
+        t0 = time.perf_counter()
+        w._target = self._target
+        try:
+            w._paint_frame()
+        finally:
+            w._target = None
+        t1 = time.perf_counter()
+        wait_idle(self.gpu)
+        t2 = time.perf_counter()
+        return {"submit_ms": (t1 - t0) * 1000.0, "wall_ms": (t2 - t0) * 1000.0}
 
     def make_current(self):
         self.w.makeCurrent()
@@ -274,7 +334,11 @@ class ViewerSession:
                 "lights_follow_camera": bool(d0 > 1.0)}
 
     def grab_array(self):
-        """The widget's GL framebuffer as an RGB uint8 array (rows top to bottom) - the picture shown."""
+        """The widget's GL framebuffer as an RGB uint8 array (rows top to bottom) - the picture shown. On wgpu: one
+        more frame into the physical-size texture, read back top row first."""
+        if self.backend == "wgpu":
+            self._paint_wgpu()
+            return self.r.read_final(self._target, self.physical)
         img = self.w.grabFramebuffer()
         img = img.convertToFormat(img.Format.Format_RGBA8888)
         ptr = img.constBits()
@@ -282,6 +346,14 @@ class ViewerSession:
         return arr[:, :img.width(), :3].copy()
 
     def close(self):
+        if self.backend == "wgpu":
+            try:
+                self.w.release_gl()
+                if self._target is not None:
+                    self._target.destroy()
+            except Exception:
+                pass
+            return
         self.detach_probe()
         try:
             self.w.release_gl()
