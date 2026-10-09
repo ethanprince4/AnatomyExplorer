@@ -15,6 +15,8 @@ struct U {
     _p0: i32,
     mode: i32,       // 0 AO + GI, 1 AO only (GI off), 2 GI only: the full-res AO / half-res GI split of PostPasses
 };
+// Pipeline constant: AO samples per scale (post.py run_ssao passes the same value it packs into u.samples).
+override SAMPLES: i32 = 16;
 @group(0) @binding(0) var<uniform> u: U;
 @group(0) @binding(1) var t_nd: texture_2d<f32>;
 @group(0) @binding(2) var t_prev: texture_2d<f32>;
@@ -29,15 +31,30 @@ fn view_pos(uv: vec2<f32>, d: f32) -> vec3<f32> {
     if (u.ortho == 1) { return vec3<f32>(ndc * u.tan_, -d); }
     return vec3<f32>(ndc * u.tan_ * d, -d);
 }
+var<private> itan: vec2<f32>;
 fn project(p: vec3<f32>) -> vec2<f32> {
     var ndc: vec2<f32>;
-    if (u.ortho == 1) { ndc = p.xy / u.tan_; } else { ndc = p.xy / (-p.z * u.tan_); }
+    if (u.ortho == 1) { ndc = p.xy * itan; } else { ndc = p.xy * itan * (1.0 / (-p.z)); }
     return ndc * 0.5 + 0.5;
+}
+
+// One AO tap at view-space point S (sample of the hemisphere around P): range-weighted occlusion, 0 when the tap
+// is off screen, sees background or is not behind the surface (hit = 0 adds hit * range = 0 exactly).
+fn ao_tap(P: vec3<f32>, S: vec3<f32>, rad: f32, bias_s: f32) -> f32 {
+    let uv = project(S);
+    let inb = !(uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0);
+    let sd = textureSampleLevel(t_depth, s_near, uv, 0.0).x;
+    let sceneZ = -sd;
+    if (inb && !(sd <= 0.0) && sceneZ >= S.z + bias_s) {
+        return smoothstep(0.0, 1.0, rad / max(abs(P.z - sceneZ), 1e-4));
+    }
+    return 0.0;
 }
 
 // pix: fragment centre of the (full-res) pixel evaluated, uvc its texture coordinate, nd its normal and depth.
 fn ssao_eval(pix: vec2<f32>, uvc: vec2<f32>, nd: vec4<f32>) -> vec4<f32> {
     if (nd.w <= 0.0) { return vec4<f32>(0.0, 0.0, 0.0, 1.0); }
+    itan = 1.0 / u.tan_;
     let P = view_pos(uvc, nd.w);
     let N = normalize(nd.xyz);
     let a0 = ign(pix) * 6.2831853;
@@ -50,32 +67,33 @@ fn ssao_eval(pix: vec2<f32>, uvc: vec2<f32>, nd: vec4<f32>) -> vec4<f32> {
     let B = cross(N, T);
     var ao = 1.0;
     var gi = vec3<f32>(0.0);
-    for (var scale: i32 = 0; scale < 2 && ao_on; scale++) {
-        var rad = u.radius;
-        if (scale != 0) { rad = u.radius * u.large; }
-        var occ = 0.0;
-        var wsum = 0.0;
-        for (var i: i32 = 0; i < u.samples; i++) {
-            let fi = (f32(i) + r0) / f32(u.samples);
-            let phi = a0 + f32(i) * 2.39996323 + f32(scale) * 1.3;
-            let ct = sqrt(1.0 - fi);
-            let st = sqrt(fi);
-            let h = vec3<f32>(cos(phi) * st, sin(phi) * st, ct);
-            let sc = mix(0.15, 1.0, fract(f32(i) * 0.618034 + r0));
-            let S = P + (T * h.x + B * h.y + N * h.z) * rad * sc * sc;
-            let uv = project(S);
-            wsum += 1.0;
-            if (uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0) { continue; }
-            let sd = textureSampleLevel(t_depth, s_near, uv, 0.0).x;
-            if (sd <= 0.0) { continue; }
-            let sceneZ = -sd;
-            let range = smoothstep(0.0, 1.0, rad / max(abs(P.z - sceneZ), 1e-4));
-            var hit = 0.0;
-            if (sceneZ >= S.z + u.bias * (1.0 + 3.0 * f32(scale))) { hit = 1.0; }
-            occ += hit * range;
+    if (ao_on) {
+        // Both scales share the per-sample terms (loop interchange: i outside, scale inside). Each scale still adds its
+        // taps in the same order, so occ0 / occ1 are the sums of the original per-scale loops.
+        let rad0 = u.radius;
+        let rad1 = u.radius * u.large;
+        let bias0 = u.bias;                    // u.bias * (1.0 + 3.0 * f32(scale))
+        let bias1 = u.bias * 4.0;
+        let inv_n = 1.0 / f32(SAMPLES);
+        var occ0 = 0.0;
+        var occ1 = 0.0;
+        for (var i: i32 = 0; i < SAMPLES; i++) {
+            let fi_ = f32(i);
+            let fr = (fi_ + r0) * inv_n;
+            let ct = sqrt(1.0 - fr);
+            let st = sqrt(fr);
+            let sc = mix(0.15, 1.0, fract(fi_ * 0.618034 + r0));
+            let ss = sc * sc;
+            let phi0 = a0 + fi_ * 2.39996323;
+            let phi1 = phi0 + 1.3;
+            let v0 = T * (cos(phi0) * st) + B * (sin(phi0) * st) + N * ct;
+            let v1 = T * (cos(phi1) * st) + B * (sin(phi1) * st) + N * ct;
+            occ0 += ao_tap(P, P + v0 * (rad0 * ss), rad0, bias0);
+            occ1 += ao_tap(P, P + v1 * (rad1 * ss), rad1, bias1);
         }
-        let a = 1.0 - occ / max(wsum, 1.0);
-        if (scale == 0) { ao *= a; } else { ao *= mix(1.0, a, u.large_mix); }
+        let wn = max(f32(SAMPLES), 1.0);     // wsum: one per sample, taps skipped by `continue` included
+        ao *= 1.0 - occ0 / wn;
+        ao *= mix(1.0, 1.0 - occ1 / wn, u.large_mix);
     }
     if (gi_run) {
         let grad = u.radius * u.large;

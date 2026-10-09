@@ -182,8 +182,14 @@ fn lin_depth(world: vec3<f32>) -> f32 {
 // For the pixel: the front-most triangle among those of its samples that contains the pixel CENTRE (GL's pre-pass is one
 // sample at the centre). Equal depth: the smaller packed id (the earlier draw: GL's "<" keeps the first). None contains it:
 // background, like GL when no triangle covers the centre.
-@fragment
-fn fs_geom(@builtin(position) frag: vec4<f32>) -> GeomOut {
+struct GeomRes {
+    tri: u32,
+    id: vec2<f32>,
+    nd: vec4<f32>,
+    order: f32,
+};
+
+fn geom_body(frag: vec4<f32>) -> GeomRes {
     let px = vec2<i32>(frag.xy);
     let c = ndc_of(px);
     let bits = frame.info.x;
@@ -228,11 +234,44 @@ fn fs_geom(@builtin(position) frag: vec4<f32>) -> GeomOut {
     var n = normalize(vm * wn);
     let front = (t.det > 0.0) != ((d.b.z & DRAW_MIRRORED) != 0u);
     if (!front) { n = -n; }
-    var o: GeomOut;
+    var o: GeomRes;
     o.tri = best_id;
     o.id = vec2<f32>(f32(d.b.y + 1u), select(0.0, 1.0, (d.b.z & DRAW_SELECTED) != 0u));
     o.nd = vec4<f32>(n, best_depth);
     o.order = 0.5 * clamp(best_depth / max(frame.halves.w, 1e-6), 0.0, 1.0);
+    return o;
+}
+
+@fragment
+fn fs_geom(@builtin(position) frag: vec4<f32>) -> GeomOut {
+    let r = geom_body(frag);
+    var o: GeomOut;
+    o.tri = r.tri;
+    o.id = r.id;
+    o.nd = r.nd;
+    o.order = r.order;
+    return o;
+}
+
+// Same, plus the linear view depth (nd.w) as a fourth r32float target: the SSAO taps read only that channel, so writing it
+// here replaces the separate post_pack pass (used when nothing changes nd between this pass and the SSAO: no cut faces).
+struct GeomOutD {
+    @location(0) tri: u32,
+    @location(1) id: vec2<f32>,
+    @location(2) nd: vec4<f32>,
+    @location(3) depth: f32,
+    @builtin(frag_depth) order: f32,
+};
+
+@fragment
+fn fs_geom_d(@builtin(position) frag: vec4<f32>) -> GeomOutD {
+    let r = geom_body(frag);
+    var o: GeomOutD;
+    o.tri = r.tri;
+    o.id = r.id;
+    o.nd = r.nd;
+    o.depth = r.nd.w;
+    o.order = r.order;
     return o;
 }
 

@@ -515,17 +515,18 @@ class WgpuRenderer:
                 multisample={"count": samples}, label=f"vis{'_clip' if clip else ''}x{samples}")
         return self._pipes[key]
 
-    def _geom_pipe(self, samples, n_pages, page0):
+    def _geom_pipe(self, samples, n_pages, page0, fuse=False):
         feat = self._frame_feat & (FEAT_MORPH | FEAT_ANIM)
-        key = ("geom", samples, n_pages, page0, feat)
+        key = ("geom", samples, n_pages, page0, feat, fuse)
         if key not in self._pipes:
             m = self._resolve_module(samples, n_pages, page0)
             self._pipes[key] = self.device.create_render_pipeline(
                 layout=self._layout(self.bgl0_res, self.bgl_shade, self._bgl_vis(samples), self._bgl_pages(n_pages)),
                 vertex={"module": m, "entry_point": "vs_fsq"},
-                fragment={"module": m, "entry_point": "fs_geom",
+                fragment={"module": m, "entry_point": "fs_geom_d" if fuse else "fs_geom",
                           "constants": {n: float(bool(feat & b)) for n, b in _MORPH_NAMES},
-                          "targets": [{"format": "r32uint"}, {"format": "rg32float"}, {"format": "rgba32float"}]},
+                          "targets": [{"format": "r32uint"}, {"format": "rg32float"}, {"format": "rgba32float"}]
+                          + ([{"format": "r32float"}] if fuse else [])},
                 primitive={"topology": "triangle-list", "cull_mode": "none"},
                 depth_stencil={"format": "depth32float", "depth_write_enabled": True, "depth_compare": "less"},
                 label=f"geom{n_pages}@{page0}")
@@ -864,6 +865,7 @@ class WgpuRenderer:
         t["tri"] = d.create_texture(size=(w, h, 1), format="r32uint", usage=RA | TB | CS, label="tri")
         t["id"] = d.create_texture(size=(w, h, 1), format="rg32float", usage=RA | TB | CS, label="id")
         t["nd"] = d.create_texture(size=(w, h, 1), format="rgba32float", usage=RA | TB | CS, label="nd")
+        t["ssao_depth"] = d.create_texture(size=(w, h, 1), format="r32float", usage=RA | TB | CS, label="ssao_depth")
         t["bg"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB | CS | CD, label="backdrop")
         t["opaque"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB | CS | CD, label="opaque")
         t["ao"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB, label="ao")
@@ -1412,6 +1414,8 @@ class WgpuRenderer:
             rp.end()
         groups = self._groups if have else []
         # ---- 2. geometry resolve (GL's pre-pass: ids, normals, depth), one pass per group of pages
+        # nd.w is written as a fourth target (no post_pack pass) when the SSAO runs and nothing edits nd afterwards (cut faces do)
+        fuse_depth = bool(s.ao and m is not None and cplan is None)
         for gi, grp in enumerate(groups or [None]):
             op = "clear" if gi == 0 else "load"
             tw = {}
@@ -1421,12 +1425,12 @@ class WgpuRenderer:
                 tw.update({"query_set": qs, "end_of_pass_write_index": 3})
             rp = enc.begin_render_pass(
                 color_attachments=[{"view": V_[n], "load_op": op, "store_op": "store", "clear_value": (0, 0, 0, 0)}
-                                   for n in ("tri", "id", "nd")],
+                                   for n in ("tri", "id", "nd") + (("ssao_depth",) if fuse_depth else ())],
                 depth_stencil_attachment={"view": V_["res_order"], "depth_load_op": op, "depth_store_op": "store",
                                           "depth_clear_value": 1.0}, **({"timestamp_writes": tw} if tw else {}))
             if grp is not None:
                 p0, n, bg = grp
-                rp.set_pipeline(self._geom_pipe(samples, n, p0))
+                rp.set_pipeline(self._geom_pipe(samples, n, p0, fuse_depth))
                 rp.set_bind_group(0, self._bg0_res)
                 rp.set_bind_group(1, self._shade_bind_group())
                 rp.set_bind_group(2, self._bg_vis)
@@ -1448,7 +1452,8 @@ class WgpuRenderer:
             post.pending_ts = self._ts(qs, 4, None)
             post.run_ssao(T["nd"], T["opaque"], T["ao"], tan=(halves[0], halves[1]), ortho=1 if camera.ortho else 0,
                           radius=float(radius), power=float(1.6 * s.ao_strength), large=float(s.ao_large),
-                          large_mix=float(s.ao_large_mix), gi_on=1.0 if s.bounce > 0 else 0.0, samples=16, encoder=enc)
+                          large_mix=float(s.ao_large_mix), gi_on=1.0 if s.bounce > 0 else 0.0, samples=16, encoder=enc,
+                          depth=T["ssao_depth"], depth_ready=fuse_depth)
             post.run_blur(T["ao"], T["nd"], T["ao_tmp"], (1.0 / w, 0.0), encoder=enc)
             post.pending_ts = self._ts(qs, None, 5)
             post.run_blur(T["ao_tmp"], T["nd"], T["ao"], (0.0, 1.0 / h), encoder=enc)
