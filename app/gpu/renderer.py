@@ -48,6 +48,10 @@ BU, TU, SS = wgpu.BufferUsage, wgpu.TextureUsage, wgpu.ShaderStage
 FRAME_BYTES = 240
 DRAW_FLOATS = 40
 PTAB_STRIDE = 20
+STORAGE_PER_STAGE = 5                     # layout v2: at most this many storage buffers bound by any stage of any pipeline
+MAX_PAGES = STORAGE_PER_STAGE - 1        # the resolve binds the table buffer and up to MAX_PAGES page buffers
+SHADE_WORDS = SHADE_SIZE // 4
+TAB_ALIGN = 64                           # words (256 bytes: the storage offset alignment limit's upper bound)
 GL_TO_WGPU_Z = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0.5, 0.5], [0, 0, 0, 1]], dtype=np.float64)
 DRAW_NOCLIP, DRAW_MIRRORED, DRAW_SELECTED = 1, 2, 4
 ID_FORMATS = ("r32uint", "rgba8uint")
@@ -109,7 +113,7 @@ def _prelude_ids(id_fmt):
 
 
 def _prelude_resolve(id_fmt, samples, n_pages, page0):
-    """Generated WGSL for the resolve module: sample access (group 2) and the pages of one pass (group 3)."""
+    """Generated WGSL for the resolve module: sample access (group 2) and the pages of one pass (group 3, geometry.geom_prelude)."""
     out = [f"const SAMPLES: u32 = {samples}u;"]
     ms = samples > 1
     ty_id = "texture_multisampled_2d<u32>" if ms else "texture_2d<u32>"
@@ -123,41 +127,24 @@ def _prelude_resolve(id_fmt, samples, n_pages, page0):
         out.append(f"fn load_id(p: vec2<i32>, s: i32) -> u32 {{ let v = textureLoad(vis_id, p, {s}); "
                    f"return v.x | (v.y << 8u) | (v.z << 16u) | (v.w << 24u); }}")
     out.append(f"const GROUP_PAGE0: u32 = {page0}u;\nconst GROUP_PAGES: u32 = {n_pages}u;")
-    for i in range(n_pages):
-        b = 9 * i
-        out.append(f"@group(3) @binding({b}) var<storage, read> pos_{i}: array<f32>;")
-        out.append(f"@group(3) @binding({b + 1}) var<storage, read> nrm_{i}: array<u32>;")
-        out.append(f"@group(3) @binding({b + 2}) var<storage, read> fib_{i}: array<f32>;")
-        out.append(f"@group(3) @binding({b + 3}) var<storage, read> col_{i}: array<f32>;")
-        out.append(f"@group(3) @binding({b + 4}) var<storage, read> uv_{i}: array<f32>;")
-        out.append(f"@group(3) @binding({b + 5}) var<storage, read> idx_{i}: array<u32>;")
-        out.append(f"@group(3) @binding({b + 6}) var<storage, read> dpos_{i}: array<f32>;")
-        out.append(f"@group(3) @binding({b + 7}) var<storage, read> dnrm_{i}: array<f32>;")
-        out.append(f"@group(3) @binding({b + 8}) var<storage, read> anim_{i}: array<u32>;")
-
-    def fetch(name, ret, body, default):
-        out.append(f"fn {name}(lp: u32, v: u32) -> {ret} {{\n  switch lp {{")
-        for i in range(n_pages):
-            out.append(f"    case {i}u: {{ return {body.format(i=i)}; }}")
-        out.append(f"    default: {{ return {default}; }}\n  }}\n}}")
-
-    fetch("fetch_index", "u32", "idx_{i}[v]", "0u")
-    fetch("fetch_pos", "vec3<f32>", "vec3<f32>(pos_{i}[3u * v], pos_{i}[3u * v + 1u], pos_{i}[3u * v + 2u])",
-          "vec3<f32>(0.0)")
-    fetch("fetch_nrm", "u32", "nrm_{i}[v]", "0u")
-    fetch("fetch_fib", "f32", "fib_{i}[v]", "0.0")
-    fetch("fetch_col", "vec4<f32>", "vec4<f32>(col_{i}[4u * v], col_{i}[4u * v + 1u], col_{i}[4u * v + 2u], col_{i}[4u * v + 3u])",
-          "vec4<f32>(1.0)")
-    fetch("fetch_uv", "vec2<f32>", "vec2<f32>(uv_{i}[2u * v], uv_{i}[2u * v + 1u])", "vec2<f32>(0.0)")
-    fetch("fetch_dpos", "f32", "dpos_{i}[v]", "0.0")
-    fetch("fetch_dnrm", "f32", "dnrm_{i}[v]", "0.0")
-    fetch("fetch_anim", "u32", "anim_{i}[v]", "0u")
+    out.append(geo.geom_prelude(n_pages, 3, 0))
     return "\n".join(out)
 
 
 def _apply_look_wgsl():
-    lines = ["fn apply_look(rec: u32) {"]
-    lines += [f"    su.{n} = looks[rec].{n};" for n in PER_PART]
+    """apply_look(rec): copies the per-part fields of look record `rec` (a ShadeU in the `looks` section of the table buffer)
+    into `su`, word by word (bit-exact: floats and ints are bitcast)."""
+    lines = ["fn apply_look(rec: u32) {", f"    let lb = tinfo.z + rec * {SHADE_WORDS}u;"]
+    for n in PER_PART:
+        f = FIELD_BY_NAME[n]
+        w = f.offset // 4
+        ty = {"f32": "f32", "i32": "i32", "u32": "u32"}[f.base]
+        if f.shape == ():
+            lines.append(f"    su.{n} = bitcast<{ty}>(tab_w(lb + {w}u));")
+        else:
+            k = f.shape[0]
+            parts = ", ".join(f"bitcast<{ty}>(tab_w(lb + {w + j}u))" for j in range(k))
+            lines.append(f"    su.{n} = vec{k}<{ty}>({parts});")
     lines.append("}")
     return "\n".join(lines)
 
@@ -233,7 +220,7 @@ class WgpuRenderer:
     """GL Renderer's public API on wgpu. ``gpu`` is app.gpu.device.Gpu (or anything with device, queue, features,
     limits, info, prim_index)."""
 
-    def __init__(self, gpu, page_bytes=None, resolve_group_pages=None, prim_bits=20, profile=False):
+    def __init__(self, gpu, page_bytes=None, resolve_group_pages=None, prim_bits=20, profile=False, max_pages=None):
         self.gpu = gpu
         self.device, self.queue = gpu.device, gpu.queue
         feats = set(getattr(gpu, "features", None) or self.device.features)
@@ -245,8 +232,10 @@ class WgpuRenderer:
         self.page_bytes = int(page_bytes) if page_bytes else geo.page_limit(self.device)
         n_stor = int(self.limits.get("max_storage_buffers_per_shader_stage",
                                      self.limits.get("max-storage-buffers-per-shader-stage", 8)))
-        # the fragment stage binds draws, ptab, looks and 6 buffers per page (pos, nrm, fib, col, uv, index)
-        self.group_pages = int(resolve_group_pages) if resolve_group_pages else max(1, min(8, (n_stor - 5) // 9))
+        # Layout v2: the fragment stage of the resolve binds the table buffer and up to max_pages page buffers; every other
+        # stage binds fewer. K x page_bytes is the geometry capacity (a model needing more pages raises GeometryError).
+        k = max_pages if max_pages is not None else resolve_group_pages
+        self.max_pages = max(1, min(int(k) if k else MAX_PAGES, MAX_PAGES, n_stor - 1))
         self.prim_bits_max = int(prim_bits)
         self.profile = bool(profile) and "timestamp-query" in feats
         self.ts_period_ns = 1.0
@@ -280,15 +269,18 @@ class WgpuRenderer:
         self._warned = set()
         self._frame_ub = self.device.create_buffer(size=FRAME_BYTES, usage=BU.UNIFORM | BU.COPY_DST, label="frame")
         self._sg = self.device.create_buffer(size=SHADE_SIZE, usage=BU.UNIFORM | BU.COPY_DST, label="shade_global")
-        self._table = self._looks = self._ptab = None
-        self._table_cap = self._looks_cap = 0
-        self._bg0 = None
+        self._tab = None                     # the one table buffer (tables.wgsl)
+        self._tinfo = self.device.create_buffer(size=16, usage=BU.UNIFORM | BU.COPY_DST, label="tinfo")
+        self._tab_caps = (0, 0)              # (draw rows, look records) the buffer has room for
+        self._tab_off = {}                   # section -> first word
+        self._ptab_words = None
+        self._bg0_vis = self._bg0_res = self._bg0_cmp = None
         self._dummy = self.device.create_buffer(size=16, usage=BU.STORAGE, label="dummy")
         self._look_idx, self._look_bytes, self._looks_written = {}, [], 0
         self._item_state = None
         self.items_tex = None
-        self._anim_tab = None
         self._anim_key = None
+        self._anim_data = None
         self._tex = {}                       # image index -> (texture, view)
         self._tex_slots = []                 # image indices that get a shade-pass slot (1 + position)
         self._look_tex = {}                  # looks-table record -> image index (u_has_tex == 1)
@@ -327,10 +319,12 @@ class WgpuRenderer:
     def _layouts(self):
         d = self.device
         V, F, C = SS.VERTEX, SS.FRAGMENT, SS.COMPUTE
-        self.bgl0 = d.create_bind_group_layout(entries=[
-            _entry(0, "u", V | F | C), _entry(1, "r", V | F | C), _entry(2, "r", V | F), _entry(3, "r", F), _entry(4, "u", F),
-            _entry(5, "r", V | F | C)])
-        self.bgl_vispage = d.create_bind_group_layout(entries=[_entry(k, "r", V) for k in range(4)])
+        # group 0, one layout per kind of stage (a V | F entry counts against both stages): frame, table buffer, table offsets, sg
+        self.bgl0_vis = d.create_bind_group_layout(entries=[_entry(0, "u", V | F), _entry(1, "r", V | F), _entry(2, "u", V | F)])
+        self.bgl0_res = d.create_bind_group_layout(entries=[_entry(0, "u", F), _entry(1, "r", F), _entry(2, "u", F),
+                                                            _entry(4, "u", F)])
+        self.bgl0_cmp = d.create_bind_group_layout(entries=[_entry(0, "u", C)])
+        self.bgl_vispage = d.create_bind_group_layout(entries=[_entry(0, "r", V), _entry(1, "u", V)])
         self.bgl_empty = d.create_bind_group_layout(entries=[])
         self.bg_empty = d.create_bind_group(layout=self.bgl_empty, entries=[])
         self.bgl_shade = d.create_bind_group_layout(entries=[
@@ -352,7 +346,7 @@ class WgpuRenderer:
     def _bgl_pages(self, n):
         key = ("pages", n)
         if key not in self._bgl_cache:
-            ents = [_entry(9 * i + k, "r", SS.FRAGMENT) for i in range(n) for k in range(9)]
+            ents = [_entry(i, "r", SS.FRAGMENT) for i in range(n)] + [_entry(n, "u", SS.FRAGMENT)]
             self._bgl_cache[key] = self.device.create_bind_group_layout(entries=ents)
         return self._bgl_cache[key]
 
@@ -363,7 +357,8 @@ class WgpuRenderer:
         key = ("vis", self.id_format)
         if key not in self._modules:
             code = ("enable primitive_index;\n" + _prelude_ids(self.id_format) + "\n" + _read_text("clip.wgsl") + "\n"
-                    + _read_text("morph.wgsl") + "\n" + _read_text("visbuf.wgsl"))
+                    + _read_text("tables.wgsl") + "\n" + geo.geom_prelude(1, 1, 0, uniform_binding=1) + "\n"
+                    + _read_text("geom.wgsl") + "\n" + _read_text("morph.wgsl") + "\n" + _read_text("visbuf.wgsl"))
             self._modules[key] = self.device.create_shader_module(code=code, label="visbuf")
         return self._modules[key]
 
@@ -378,7 +373,8 @@ class WgpuRenderer:
             assert decl in shading
             shading = shading.replace(decl, "var<private> su: ShadeU;")      # filled per shaded triangle
             code = "\n".join([_prelude_resolve(self.id_format, samples, n_pages, page0), clip, shading,
-                              _read_text("morph.wgsl"), _read_text("resolve.wgsl"), _apply_look_wgsl()])
+                              _read_text("tables.wgsl"), _read_text("geom.wgsl"), _read_text("morph.wgsl"),
+                              _read_text("resolve.wgsl"), _apply_look_wgsl()])
             self._modules[key] = self.device.create_shader_module(code=code, label=f"resolve{n_pages}@{page0}")
         return self._modules[key]
 
@@ -387,7 +383,7 @@ class WgpuRenderer:
         if key not in self._pipes:
             m = self._vis_module()
             self._pipes[key] = self.device.create_render_pipeline(
-                layout=self._layout(self.bgl0, self.bgl_vispage),
+                layout=self._layout(self.bgl0_vis, self.bgl_vispage),
                 vertex={"module": m, "entry_point": "vs"},
                 fragment={"module": m, "entry_point": "fs_clip" if clip else "fs", "targets": [{"format": self.id_format}]},
                 primitive={"topology": "triangle-list", "cull_mode": "none", "front_face": "ccw"},
@@ -400,7 +396,7 @@ class WgpuRenderer:
         if key not in self._pipes:
             m = self._resolve_module(samples, n_pages, page0)
             self._pipes[key] = self.device.create_render_pipeline(
-                layout=self._layout(self.bgl0, self.bgl_shade, self._bgl_vis(samples), self._bgl_pages(n_pages)),
+                layout=self._layout(self.bgl0_res, self.bgl_shade, self._bgl_vis(samples), self._bgl_pages(n_pages)),
                 vertex={"module": m, "entry_point": "vs_fsq"},
                 fragment={"module": m, "entry_point": "fs_geom",
                           "targets": [{"format": "r32uint"}, {"format": "rg32float"}, {"format": "rgba32float"}]},
@@ -414,7 +410,7 @@ class WgpuRenderer:
         if key not in self._pipes:
             m = self._resolve_module(samples, n_pages, page0)
             self._pipes[key] = self.device.create_render_pipeline(
-                layout=self._layout(self.bgl0, self.bgl_shade, self._bgl_vis(samples), self._bgl_pages(n_pages)),
+                layout=self._layout(self.bgl0_res, self.bgl_shade, self._bgl_vis(samples), self._bgl_pages(n_pages)),
                 vertex={"module": m, "entry_point": "vs_fsq"},
                 fragment={"module": m, "entry_point": "fs_shade",
                           "targets": [{"format": "rgba16float", "blend": {"color": ADD, "alpha": ADD}}]},
@@ -436,7 +432,7 @@ class WgpuRenderer:
         if key not in self._pipes:
             m = self._resolve_module(1, 1, 0)
             self._pipes[key] = self.device.create_compute_pipeline(
-                layout=self._layout(self.bgl0, self.bgl_empty, self.bgl_res, self.bgl_gather),
+                layout=self._layout(self.bgl0_cmp, self.bgl_empty, self.bgl_res, self.bgl_gather),
                 compute={"module": m, "entry_point": name}, label=name)
         return self._pipes[key]
 
@@ -450,7 +446,11 @@ class WgpuRenderer:
         try:
             self.model = model
             sink = geo.GpuSink(self.device)
-            self.geom = geo.build_geometry(model, sink, self.page_bytes)
+            try:
+                self.geom = geo.build_geometry(model, sink, self.page_bytes, max_pages=self.max_pages)
+            except geo.GeometryError as exc:
+                log.warning("wgpu renderer: model does not fit the geometry layout, the OpenGL viewport is used: %s", exc)
+                raise
             levels = getattr(model, "lod", None) or {}
             parts = model.parts
             where = {p.id: i for i, p in enumerate(parts)}
@@ -474,9 +474,9 @@ class WgpuRenderer:
             self._look_idx, self._look_bytes, self._looks_written = {}, [], 0
             self._bg_shade = None
             self._xf_key = None
-            self._anim_tab = self.device.create_buffer(size=n_items * 48, usage=BU.STORAGE | BU.COPY_DST, label="anim_tab")
             self._anim_key = None
-            self._bg0 = None
+            self._anim_data = None
+            self._tab_caps = (0, 0)
             self._look_tex = {}
             self._tex_slots = sorted({p.look.texture for p in parts if p.look.texture is not None})
             self.frame_ok = False
@@ -495,26 +495,27 @@ class WgpuRenderer:
             words[i, 5] = np.uint32(g.vbase[i])
             words[i, 6:19] = np.asarray(g.const_tail[i], dtype=np.float32).view(np.uint32)
             words[i, 19] = np.int32(g.anim_base[i]).view(np.uint32)
-        self._ptab = self.device.create_buffer_with_data(data=words, usage=BU.STORAGE, label="ptab")
+        self._ptab_words = words
 
     def _make_page_groups(self):
         d = self.device
         g = self.geom
+        self._page_ub = []
         self._vis_page_bg = []
         for page in g.pages:
-            bufs = [page.buffers["pos"]] + [page.buffers.get(n, self._dummy) for n in ("dpos", "dnrm", "anim")]
+            ub = d.create_buffer_with_data(data=page.offsets_words(), usage=BU.UNIFORM, label=f"page{page.index}.offs")
+            self._page_ub.append(ub)
             self._vis_page_bg.append(d.create_bind_group(layout=self.bgl_vispage, entries=[
-                {"binding": k, "resource": {"buffer": b, "offset": 0, "size": b.size}} for k, b in enumerate(bufs)]))
-        self._groups = []                      # (first page, n pages, bind group)
-        for p0 in range(0, len(g.pages), self.group_pages):
-            n = min(self.group_pages, len(g.pages) - p0)
-            ents = []
-            for i in range(n):
-                page = g.pages[p0 + i]
-                for k, name in enumerate(("pos", "nrm", "fib", "col", "uv", "index", "dpos", "dnrm", "anim")):
-                    b = page.buffers.get(name, self._dummy)
-                    ents.append({"binding": 9 * i + k, "resource": {"buffer": b, "offset": 0, "size": b.size}})
-            self._groups.append((p0, n, d.create_bind_group(layout=self._bgl_pages(n), entries=ents)))
+                {"binding": 0, "resource": {"buffer": page.buffer, "offset": 0, "size": page.buffer.size}},
+                {"binding": 1, "resource": {"buffer": ub, "offset": 0, "size": ub.size}}]))
+        n = len(g.pages)
+        offs = g.page_offsets()
+        ub = d.create_buffer_with_data(data=offs, usage=BU.UNIFORM, label="pages.offs")
+        self._page_ub.append(ub)
+        ents = [{"binding": i, "resource": {"buffer": pg.buffer, "offset": 0, "size": pg.buffer.size}} for i, pg in enumerate(g.pages)]
+        ents.append({"binding": n, "resource": {"buffer": ub, "offset": 0, "size": ub.size}})
+        # every page in one bind group (a model with more pages than max_pages never gets here: GeometryError)
+        self._groups = [(0, n, d.create_bind_group(layout=self._bgl_pages(n), entries=ents))] if n else []
 
     def release_model(self):
         self.oit.set_geometry(None)
@@ -527,19 +528,22 @@ class WgpuRenderer:
         self._xf = {}
         self._xf_key = None
         self._vis_page_bg, self._groups = [], []
-        if self._ptab is not None:
-            self._ptab.destroy()
-            self._ptab = None
+        for ub in getattr(self, "_page_ub", []):
+            ub.destroy()
+        self._page_ub = []
+        if self._tab is not None:
+            self._tab.destroy()
+            self._tab = None
+        self._tab_caps, self._tab_off, self._ptab_words = (0, 0), {}, None
+        self._looks_written = 0
+        self._anim_data = None
         if self.items_tex is not None:
             self.items_tex.destroy()
             self.items_tex = None
-        if self._anim_tab is not None:
-            self._anim_tab.destroy()
-            self._anim_tab = None
         for tex, _view in self._tex.values():
             tex.destroy()
         self._tex, self._tex_slots, self._look_tex = {}, [], {}
-        self._bg0 = None
+        self._bg0_vis = self._bg0_res = self._bg0_cmp = None
         self._bg_shade = None
         self.frame_ok = False
 
@@ -682,32 +686,53 @@ class WgpuRenderer:
             {"binding": 5, "resource": self.v["nd"]}])
         self._bg_shade = None
 
+    def _tab_layout(self, rows_cap, looks_cap):
+        """Word offsets of the sections of the table buffer (tables.wgsl) and its size in words."""
+        n_parts = max(len(self.model.parts), 1)
+        n_items = max(len(self.model.items), 1)
+        sizes = (("ptab", n_parts * PTAB_STRIDE), ("anim", n_items * 12), ("looks", looks_cap * SHADE_WORDS),
+                 ("draws", rows_cap * DRAW_FLOATS))
+        off, at = {}, 0
+        for name, n in sizes:
+            off[name] = at
+            at += -(-n // TAB_ALIGN) * TAB_ALIGN
+        return off, at
+
     def _ensure_table(self, rows, looks):
-        changed = False
-        if self._table is None or self._table_cap < rows:
-            cap = max(64, 1 << (rows - 1).bit_length())
-            if self._table is not None:
-                self._table.destroy()
-            self._table = self.device.create_buffer(size=cap * DRAW_FLOATS * 4, usage=BU.STORAGE | BU.COPY_DST,
-                                                    label="draw_table")
-            self._table_cap = cap
-            changed = True
-        if self._looks is None or self._looks_cap < looks:
-            cap = max(16, 1 << (max(looks, 1) - 1).bit_length())
-            if self._looks is not None:
-                self._looks.destroy()
-            self._looks = self.device.create_buffer(size=cap * SHADE_SIZE, usage=BU.STORAGE | BU.COPY_DST, label="looks")
-            self._looks_cap = cap
-            self._looks_written = 0
-            changed = True
-        if changed or self._bg0 is None:
-            self._bg0 = self.device.create_bind_group(layout=self.bgl0, entries=[
-                {"binding": 0, "resource": {"buffer": self._frame_ub, "offset": 0, "size": FRAME_BYTES}},
-                {"binding": 1, "resource": {"buffer": self._table, "offset": 0, "size": self._table.size}},
-                {"binding": 2, "resource": {"buffer": self._ptab, "offset": 0, "size": self._ptab.size}},
-                {"binding": 3, "resource": {"buffer": self._looks, "offset": 0, "size": self._looks.size}},
-                {"binding": 4, "resource": {"buffer": self._sg, "offset": 0, "size": SHADE_SIZE}},
-                {"binding": 5, "resource": {"buffer": self._anim_tab, "offset": 0, "size": self._anim_tab.size}}])
+        rows_cap, looks_cap = self._tab_caps
+        if self._tab is not None and rows_cap >= rows and looks_cap >= looks:
+            return
+        rows_cap = max(rows_cap, 64, 1 << (max(rows, 1) - 1).bit_length())
+        looks_cap = max(looks_cap, 16, 1 << (max(looks, 1) - 1).bit_length())
+        if self._tab is not None:
+            self._tab.destroy()
+        off, words = self._tab_layout(rows_cap, looks_cap)
+        self._tab = self.device.create_buffer(size=words * 4, usage=BU.STORAGE | BU.COPY_DST, label="tab")
+        self._tab_caps, self._tab_off = (rows_cap, looks_cap), off
+        # the sections that persist between frames are written again (draws are written every frame, the anim section by
+        # _upload_anim when its key changes: forget the key)
+        self.queue.write_buffer(self._tab, off["ptab"] * 4, np.ascontiguousarray(self._ptab_words))
+        if self._look_bytes:
+            self.queue.write_buffer(self._tab, off["looks"] * 4, np.frombuffer(b"".join(self._look_bytes), dtype=np.uint8))
+        self._looks_written = len(self._look_bytes)
+        if self._anim_data is not None:
+            self.queue.write_buffer(self._tab, off["anim"] * 4, self._anim_data)
+        self.queue.write_buffer(self._tinfo, 0, np.array([off["ptab"], off["anim"], off["looks"], off["draws"]], dtype=np.uint32))
+        d = self.device
+        res = lambda b, o=0, n=None: {"buffer": b, "offset": o, "size": b.size - o if n is None else n}
+        frame = res(self._frame_ub, 0, FRAME_BYTES)
+        self._bg0_vis = d.create_bind_group(layout=self.bgl0_vis, entries=[
+            {"binding": 0, "resource": frame}, {"binding": 1, "resource": res(self._tab)},
+            {"binding": 2, "resource": res(self._tinfo)}])
+        self._bg0_res = d.create_bind_group(layout=self.bgl0_res, entries=[
+            {"binding": 0, "resource": frame}, {"binding": 1, "resource": res(self._tab)},
+            {"binding": 2, "resource": res(self._tinfo)}, {"binding": 4, "resource": res(self._sg, 0, SHADE_SIZE)}])
+        self._bg0_cmp = d.create_bind_group(layout=self.bgl0_cmp, entries=[{"binding": 0, "resource": frame}])
+
+    def anim_section(self):
+        """(buffer, byte offset, byte size) of the per-item animation table inside the table buffer."""
+        n_items = max(len(self.model.items), 1)
+        return self._tab, self._tab_off["anim"] * 4, n_items * 48
 
     # ------------------------------------------------------------------ shading data
     def _ambient(self):
@@ -891,7 +916,9 @@ class WgpuRenderer:
             tab[:, 1] = np.asarray(fs.anim_frame)[1, :n]
             tab[:, 2, 0] = np.float32(fs.anim_t)
             tab[:, 2, 1] = 1.0
-        self.queue.write_buffer(self._anim_tab, 0, tab)
+        self._anim_data = tab
+        if self._tab is not None:
+            self.queue.write_buffer(self._tab, self._tab_off["anim"] * 4, tab)
 
     def _slot_of(self, image_index):
         return 0 if image_index is None else 1 + self._tex_slots.index(image_index)
@@ -1056,7 +1083,7 @@ class WgpuRenderer:
         self._ensure_table(len(table), len(self._look_bytes))
         if self._looks_written < len(self._look_bytes):
             blob = np.frombuffer(b"".join(self._look_bytes[self._looks_written:]), dtype=np.uint8)
-            self.queue.write_buffer(self._looks, self._looks_written * SHADE_SIZE, blob)
+            self.queue.write_buffer(self._tab, self._tab_off["looks"] * 4 + self._looks_written * SHADE_SIZE, blob)
             self._looks_written = len(self._look_bytes)
 
         f = np.zeros(60, dtype=np.float32)
@@ -1070,7 +1097,7 @@ class WgpuRenderer:
         f[52:56] = (halves[0], halves[1], near, far)
         u[56:60] = (bits, samples, len(entries), 1 if camera.ortho else 0)
         self.queue.write_buffer(self._frame_ub, 0, f)
-        self.queue.write_buffer(self._table, 0, np.ascontiguousarray(table))
+        self.queue.write_buffer(self._tab, self._tab_off["draws"] * 4, np.ascontiguousarray(table))
         self.queue.write_buffer(self._sg, 0, np.frombuffer(sg, dtype=np.uint8))
         self.queue.write_buffer(self._final_ub, 0, np.array([w, h, ow, oh], dtype=np.float32))
 
@@ -1094,13 +1121,14 @@ class WgpuRenderer:
             **({"timestamp_writes": self._ts(qs, 0, 1)} if qs else {}))
         if entries:
             rp.set_pipeline(self._vis_pipe(samples, any_clip))
-            rp.set_bind_group(0, self._bg0)
+            rp.set_bind_group(0, self._bg0_vis)
             current = -1
             for slot, pi, k_, first, count in entries:
                 page = int(self.geom.page_of[pi])
                 if page != current:
                     rp.set_bind_group(1, self._vis_page_bg[page])
-                    rp.set_index_buffer(self.geom.pages[page].buffers["index"], "uint32")
+                    rp.set_index_buffer(self.geom.pages[page].buffer, "uint32", self.geom.pages[page].index_byte_offset,
+                                    self.geom.pages[page].index_bytes)
                     current = page
                 rp.draw_indexed(count, 1, first, 0, slot)
         rp.end()
@@ -1121,7 +1149,7 @@ class WgpuRenderer:
             if grp is not None:
                 p0, n, bg = grp
                 rp.set_pipeline(self._geom_pipe(samples, n, p0))
-                rp.set_bind_group(0, self._bg0)
+                rp.set_bind_group(0, self._bg0_res)
                 rp.set_bind_group(1, self._shade_bind_group())
                 rp.set_bind_group(2, self._bg_vis)
                 rp.set_bind_group(3, bg)
@@ -1134,7 +1162,7 @@ class WgpuRenderer:
         if oit_draws:
             self._shade_bind_group()
             self.oit.encode(enc, oit_draws, size=(w, h), samples=samples, depth_view=V_["vis_depth"], targets=self.oit_t,
-                            items=self._items_v, spec=self._spec_v, vp_wgpu=GL_TO_WGPU_Z @ VP, anim_tab=self._anim_tab)
+                            items=self._items_v, spec=self._spec_v, vp_wgpu=GL_TO_WGPU_Z @ VP, anim_tab=self.anim_section())
         # ---- 3. SSAO (reads the previous frame's resolved colour, `opaque`) and the two blur passes
         if s.ao and m is not None:
             radius = s.ao_radius or self._auto_ao_radius()
@@ -1159,7 +1187,7 @@ class WgpuRenderer:
                     color_attachments=[{"view": V_["opaque"], "load_op": "clear" if gi == 0 else "load", "store_op": "store",
                                         "clear_value": (0, 0, 0, 0)}], **({"timestamp_writes": tw} if tw else {}))
                 rp.set_pipeline(self._shade_pipe(samples, n, p0))
-                rp.set_bind_group(0, self._bg0)
+                rp.set_bind_group(0, self._bg0_res)
                 rp.set_bind_group(1, self._shade_bind_group(sl, 1 if gi == 0 else 0))
                 rp.set_bind_group(2, self._bg_vis)
                 rp.set_bind_group(3, bg)
@@ -1239,7 +1267,7 @@ class WgpuRenderer:
         enc = self.device.create_command_encoder()
         cp = enc.begin_compute_pass()
         cp.set_pipeline(self._gather_pipe(entry))
-        cp.set_bind_group(0, self._bg0)
+        cp.set_bind_group(0, self._bg0_cmp)
         cp.set_bind_group(1, self.bg_empty)
         cp.set_bind_group(2, self._bg_res)
         cp.set_bind_group(3, g["bg"])
@@ -1297,14 +1325,15 @@ class WgpuRenderer:
             depth_stencil_attachment={"view": pt["depth"].create_view(), "depth_load_op": "clear",
                                       "depth_store_op": "store", "depth_clear_value": 1.0})
         rp.set_pipeline(self._vis_pipe(1, any(self._fs.clip_on)))
-        rp.set_bind_group(0, self._bg0)
+        rp.set_bind_group(0, self._bg0_vis)
         rp.set_viewport(-x, -gy, w, h, 0.0, 1.0)      # the full-size picture translated so pixel (x, gy) is the 1x1 target
         current = -1
         for slot, pi, k_, first, count in self.last_draws:
             page = int(self.geom.page_of[pi])
             if page != current:
                 rp.set_bind_group(1, self._vis_page_bg[page])
-                rp.set_index_buffer(self.geom.pages[page].buffers["index"], "uint32")
+                rp.set_index_buffer(self.geom.pages[page].buffer, "uint32", self.geom.pages[page].index_byte_offset,
+                                    self.geom.pages[page].index_bytes)
                 current = page
             rp.draw_indexed(count, 1, first, 0, slot)
         rp.end()

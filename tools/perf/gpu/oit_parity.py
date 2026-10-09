@@ -331,7 +331,8 @@ class OW:
             pg = int(self.geom.page_of[dr.part])
             if pg != page:
                 rp.set_bind_group(2, self.pas._page_bg[pg])
-                rp.set_index_buffer(self.geom.pages[pg].buffers["index"], "uint32")
+                pgo_ = self.geom.pages[pg]
+                rp.set_index_buffer(pgo_.buffer, "uint32", pgo_.index_byte_offset, pgo_.index_bytes)
                 page = pg
             rp.draw_indexed(dr.count, 1, dr.first, 0, k)
         rp.end()

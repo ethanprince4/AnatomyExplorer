@@ -4,7 +4,7 @@
 //
 //   group 0: 0 CapFrame (uniform)   1 CapDraw table (read-only storage)
 //   group 1: 0 ShadeU (shading.wgsl; only the clip planes and the look fields are read)
-//   group 2: 0 page positions (f32 x3 per vertex)   1 page vertex colour stream (f32 x4; a dummy when the page has none)
+//   group 2: the page (geometry.py geom_prelude: geo_0 at binding 0, the page offsets at binding 1), read through geom.wgsl
 //   group 3: 0 parity depth (cap pass only)
 //
 // GLSL -> WGSL: the parity pass is a depth32float depth-only pass instead of a MIN-blended r32float target (the same
@@ -20,8 +20,6 @@ struct CapDraw {
 
 @group(0) @binding(0) var<uniform> cf: CapFrame;
 @group(0) @binding(1) var<storage, read> cdraws: array<CapDraw>;
-@group(2) @binding(0) var<storage, read> cpos: array<f32>;
-@group(2) @binding(1) var<storage, read> ccol: array<f32>;
 @group(3) @binding(0) var parity_tex: texture_depth_2d;
 
 struct CapVOut {
@@ -34,7 +32,7 @@ struct CapVOut {
 // World position of vertex `v` (page local) of the cap draw.  HOOK: must stay identical to visbuf.wgsl vertex_world
 // (the visibility pass); morph / explode / animation displacement go into both.
 fn cap_vertex_world(d: CapDraw, v: u32) -> vec3<f32> {
-    let p = vec3<f32>(cpos[3u * v], cpos[3u * v + 1u], cpos[3u * v + 2u]);
+    let p = g_pos(0u, v);
     return (d.model * vec4<f32>(p, 1.0)).xyz;
 }
 
@@ -48,8 +46,7 @@ fn vs_cap(@builtin(vertex_index) vi: u32, @builtin(instance_index) di: u32) -> C
     o.di = di;
     o.col = d.col;
     if (d.a.y == 1u) {
-        let k = 4u * (vi + d.a.x);
-        o.col = vec4<f32>(ccol[k], ccol[k + 1u], ccol[k + 2u], ccol[k + 3u]);
+        o.col = g_col(0u, vi + d.a.x);
     }
     return o;
 }

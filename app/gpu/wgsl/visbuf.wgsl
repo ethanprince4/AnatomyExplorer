@@ -3,17 +3,10 @@
 // viewer draws both faces, as the GL pre-pass does). Row 0 of the target = bottom of the picture (GL's row order).
 //
 // Concatenated by app/gpu/renderer.py after: `enable primitive_index;`, the generated prelude (alias IdOut,
-// fn pack_id) and clip.wgsl (Frame, Draw, clipped).
+// fn pack_id), clip.wgsl (Frame, Draw, clipped), tables.wgsl (draws, ptab, anim_tab: one buffer), the page binding (geometry.py
+// geom_prelude, group 1) and geom.wgsl, morph.wgsl.
 
 @group(0) @binding(0) var<uniform> frame: Frame;
-@group(0) @binding(1) var<storage, read> draws: array<Draw>;
-@group(1) @binding(0) var<storage, read> pos: array<f32>;       // page positions, float32 x3
-@group(1) @binding(1) var<storage, read> g_dpos: array<f32>;   // morph / animation streams of the page (morph.wgsl)
-@group(1) @binding(2) var<storage, read> g_dnrm: array<f32>;
-@group(1) @binding(3) var<storage, read> g_anim: array<u32>;
-fn fetch_dpos(lp: u32, i: u32) -> f32 { return g_dpos[i]; }
-fn fetch_dnrm(lp: u32, i: u32) -> f32 { return g_dnrm[i]; }
-fn fetch_anim(lp: u32, i: u32) -> u32 { return g_anim[i]; }
 
 struct VOut {
     @builtin(position) clip: vec4<f32>,
@@ -23,13 +16,13 @@ struct VOut {
 
 // World position of vertex `v` (page local) of the draw: part matrix * (position + morph + animation), morph.wgsl.
 fn vertex_world(d: Draw, v: u32) -> vec3<f32> {
-    let p = vec3<f32>(pos[3u * v], pos[3u * v + 1u], pos[3u * v + 2u]);
+    let p = g_pos(0u, v);
     return (d.model * vec4<f32>(morph_pos(d, 0u, v, p), 1.0)).xyz;
 }
 
 @vertex
 fn vs(@builtin(vertex_index) vi: u32, @builtin(instance_index) slot: u32) -> VOut {
-    let d = draws[slot];
+    let d = load_draw(slot);
     let w = vertex_world(d, vi);
     var o: VOut;
     let cl = frame.vp * vec4<f32>(w, 1.0);
@@ -51,7 +44,7 @@ fn fs(in: VOut, @builtin(primitive_index) prim: u32) -> @location(0) IdOut {
 // so the common case keeps early depth rejection. TODO (later step): alpha-cut textures discard here too.
 @fragment
 fn fs_clip(in: VOut, @builtin(primitive_index) prim: u32) -> @location(0) IdOut {
-    if (clipped(frame.clip, in.wpos, (draws[in.slot].b.z & DRAW_NOCLIP) != 0u)) {
+    if (clipped(frame.clip, in.wpos, (load_draw(in.slot).b.z & DRAW_NOCLIP) != 0u)) {
         discard;
     }
     return pack_id((in.slot << frame.info.x) | prim);

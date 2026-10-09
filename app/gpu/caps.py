@@ -28,6 +28,7 @@ from pathlib import Path
 import numpy as np
 import wgpu
 
+from app.gpu.geometry import geom_prelude
 from app.gpu.shading_uniforms import SIZE as SHADE_SIZE, pack_shading_uniforms
 
 WGSL = Path(__file__).with_name("wgsl")
@@ -123,7 +124,7 @@ class CapPasses:
                                                        "min_binding_size": SHADE_SIZE}}])
         self.bgl_page = d.create_bind_group_layout(entries=[
             {"binding": 0, "visibility": V, "buffer": {"type": "read-only-storage"}},
-            {"binding": 1, "visibility": V, "buffer": {"type": "read-only-storage"}}])
+            {"binding": 1, "visibility": V, "buffer": {"type": "uniform"}}])
         self.bgl_parity = d.create_bind_group_layout(entries=[tex(0, "depth")])
         self.bgl_lay = d.create_bind_group_layout(entries=[tex(0), tex(1), tex(2), tex(3)])
         self.bgl_mix = d.create_bind_group_layout(entries=[tex(0), tex(1), tex(2), tex(3)])
@@ -133,7 +134,8 @@ class CapPasses:
         if name not in self._modules:
             head = _text("caps_common.wgsl")
             if name == "gather":
-                code = _text("shading.wgsl") + "\n" + head + "\n" + _text("caps_gather.wgsl")
+                code = (_text("shading.wgsl") + "\n" + head + "\n" + geom_prelude(1, 2, 0, uniform_binding=1) + "\n"
+                        + _text("geom.wgsl") + "\n" + _text("caps_gather.wgsl"))
             elif name == "lay":
                 code = head + "\n" + _text("caps_lay.wgsl")
             elif name == "mix":
@@ -243,16 +245,15 @@ class CapPasses:
     # ------------------------------------------------------------------ CPU planning
     def _page_group(self, geom, page):
         key = (id(geom), page)
-        buf = geom.pages[page].buffers
+        pg = geom.pages[page]
         hit = self._pages.get(key)
-        if hit is not None and hit[0] is buf["pos"] and hit[1] is buf.get("col"):
-            return hit[2]
-        col = buf.get("col")
-        ents = [{"binding": 0, "resource": {"buffer": buf["pos"], "offset": 0, "size": buf["pos"].size}},
-                {"binding": 1, "resource": {"buffer": col if col is not None else self._dummy, "offset": 0,
-                                            "size": col.size if col is not None else self._dummy.size}}]
+        if hit is not None and hit[0] is pg.buffer:
+            return hit[1]
+        ub = self.device.create_buffer_with_data(data=pg.offsets_words(), usage=BU.UNIFORM, label=f"cap.page{page}")
+        ents = [{"binding": 0, "resource": {"buffer": pg.buffer, "offset": 0, "size": pg.buffer.size}},
+                {"binding": 1, "resource": {"buffer": ub, "offset": 0, "size": ub.size}}]
         bg = self.device.create_bind_group(layout=self.bgl_page, entries=ents)
-        self._pages[key] = (buf["pos"], col, bg)
+        self._pages[key] = (pg.buffer, bg, ub)
         return bg
 
     def _grow(self, n):
@@ -327,7 +328,7 @@ class CapPasses:
                 u.update({"u_noclip": 0, "u_batched": 0, "u_flip": flip, "u_weight": 0.0})
                 shade.append(pack_shading_uniforms(u))
                 sb = int(geom.stream_base[pi, COL_STREAM])
-                has = sb >= 0 and "col" in geom.pages[page].buffers
+                has = sb >= 0 and "col" in geom.pages[page].counts
                 rec = np.zeros(28, np.float32)
                 ru = rec.view(np.uint32)
                 rec[0:16] = np.ascontiguousarray(M.T, dtype=np.float32).reshape(-1)
@@ -369,7 +370,7 @@ class CapPasses:
         for ci in items:
             for _di, page, _f, _c in ci.draws:
                 if page not in pages:
-                    pages[page] = (self._page_group(geom, page), geom.pages[page].buffers["index"])
+                    pages[page] = (self._page_group(geom, page), geom.pages[page])
         return CapPlan(items, n, (w, h), pages, shade)
 
     # ------------------------------------------------------------------ encoding
@@ -406,7 +407,8 @@ class CapPasses:
                     rp.set_bind_group(1, self._bg_su, [di * self.shade_stride])
                     if current != page:
                         rp.set_bind_group(2, plan.pages[page][0])
-                        rp.set_index_buffer(plan.pages[page][1], "uint32")
+                        rp.set_index_buffer(plan.pages[page][1].buffer, "uint32", plan.pages[page][1].index_byte_offset,
+                                            plan.pages[page][1].index_bytes)
                         current = page
                     rp.draw_indexed(count, 1, first_index, 0, di)
                 rp.end()

@@ -3,7 +3,7 @@
 //
 // Concatenated by app/gpu/renderer.py, in this order:  the generated prelude (SAMPLES, vis_id, load_id, bg_tex, the pages of
 // this pass: fetch_*), clip.wgsl (its `clipped` renamed `clipped_draw`: shading.wgsl has its own), shading.wgsl (its
-// `su` uniform replaced by `var<private> su`, filled per shaded triangle), morph.wgsl (ptab, anim_tab, morph / animation), then this file with the generated
+// `su` uniform replaced by `var<private> su`, filled per shaded triangle), tables.wgsl (the table buffer), geom.wgsl (page fetches), morph.wgsl (morph / animation), then this file with the generated
 // `apply_look(rec)` (copies the per-part fields of a look record into `su`).
 //
 // ROW ORDER. Everything here is in GL's row order (row 0 = bottom of the picture): the visibility pass is rendered with the
@@ -15,15 +15,13 @@
 // (draw.c.z), pass_info.y = 1 adds the backdrop of empty samples (the first pass only).
 //
 // Bindings (unique per module, the entry points use different subsets):
-//   group 0: 0 frame  1 draws  2 ptab (per part: stream bases, vertex base, constant tail)  3 looks  4 sg (frame-wide ShadeU)
+//   group 0: 0 frame  1 tab (draws, ptab, anim_tab, looks: tables.wgsl)  2 tinfo (its section offsets)  4 sg (frame-wide ShadeU)
 //   group 1: shading.wgsl (1 t_items, 2 t_ao, 3 t_spec, 4 t_tex, 5..7 samplers; 0 is gone)
 //   group 2: 0 vis_id (MSAA)  2 bg_tex (backdrop, rgba16float)         resolve passes
 //            3 r_tri  4 r_id  5 r_nd                                    gathers
-//   group 3: pages (resolve passes) / 60 params  61 points  62 out (gathers)
+//   group 3: the pages (geometry.py geom_prelude: geo_i at binding i, the page offsets after them) / 60 params  61 points  62 out (gathers)
 
 @group(0) @binding(0) var<uniform> frame: Frame;
-@group(0) @binding(1) var<storage, read> draws: array<Draw>;
-@group(0) @binding(3) var<storage, read> looks: array<ShadeU>;
 @group(0) @binding(4) var<uniform> sg: ShadeU;
 
 @group(2) @binding(3) var r_tri: texture_2d<u32>;
@@ -80,7 +78,7 @@ struct Tri {
 
 fn vtx_geom(d: Draw, lp: u32, v: u32) -> Vtx {
     var o: Vtx;
-    let p = fetch_pos(lp, v);
+    let p = g_pos(lp, v);
     o.opos = p;
     o.w = (d.model * vec4<f32>(morph_pos(d, lp, v, p), 1.0)).xyz;
     o.cl = frame.vp * vec4<f32>(o.w, 1.0);
@@ -99,31 +97,31 @@ fn vtx_attr(d: Draw, lp: u32, v: u32) -> VAttr {
     var o: VAttr;
     let part = d.b.x;
     let base = part * PTAB_STRIDE;
-    let rel = v - ptab[base + 5u];
+    let rel = v - ptab_w(base + 5u);
     let nmat = mat3x3<f32>(d.nmat0.xyz, d.nmat1.xyz, d.nmat2.xyz);
-    o.n = nmat * morph_nrm(d, lp, v, oct_decode(unpack2x16snorm(fetch_nrm(lp, v))));
+    o.n = nmat * morph_nrm(d, lp, v, oct_decode(unpack2x16snorm(g_nrm(lp, v))));
     o.glow = anim_glow(d, lp, v);
-    let s_fib = bitcast<i32>(ptab[base + 2u]);
-    let s_col = bitcast<i32>(ptab[base + 3u]);
-    let s_uv = bitcast<i32>(ptab[base + 4u]);
-    if (s_fib < 0) { o.fib = bitcast<f32>(ptab[base + 12u]); } else { o.fib = fetch_fib(lp, u32(s_fib) + rel); }
+    let s_fib = bitcast<i32>(ptab_w(base + 2u));
+    let s_col = bitcast<i32>(ptab_w(base + 3u));
+    let s_uv = bitcast<i32>(ptab_w(base + 4u));
+    if (s_fib < 0) { o.fib = bitcast<f32>(ptab_w(base + 12u)); } else { o.fib = g_fib(lp, u32(s_fib) + rel); }
     if (s_col < 0) {
-        o.col = vec4<f32>(bitcast<f32>(ptab[base + 13u]), bitcast<f32>(ptab[base + 14u]),
-                          bitcast<f32>(ptab[base + 15u]), bitcast<f32>(ptab[base + 16u]));
+        o.col = vec4<f32>(bitcast<f32>(ptab_w(base + 13u)), bitcast<f32>(ptab_w(base + 14u)),
+                          bitcast<f32>(ptab_w(base + 15u)), bitcast<f32>(ptab_w(base + 16u)));
     } else {
-        o.col = fetch_col(lp, u32(s_col) + rel);
+        o.col = g_col(lp, u32(s_col) + rel);
     }
-    if (s_uv < 0) { o.uv = vec2<f32>(bitcast<f32>(ptab[base + 17u]), bitcast<f32>(ptab[base + 18u])); }
-    else { o.uv = fetch_uv(lp, u32(s_uv) + rel); }
+    if (s_uv < 0) { o.uv = vec2<f32>(bitcast<f32>(ptab_w(base + 17u)), bitcast<f32>(ptab_w(base + 18u))); }
+    else { o.uv = g_uv(lp, u32(s_uv) + rel); }
     return o;
 }
 
 fn tri_setup(d: Draw, prim: u32, lp: u32) -> Tri {
     var t: Tri;
     let at = d.a.x + 3u * prim;
-    t.i0 = fetch_index(lp, at);
-    t.i1 = fetch_index(lp, at + 1u);
-    t.i2 = fetch_index(lp, at + 2u);
+    t.i0 = g_index(lp, at);
+    t.i1 = g_index(lp, at + 1u);
+    t.i2 = g_index(lp, at + 2u);
     t.v0 = vtx_geom(d, lp, t.i0);
     t.v1 = vtx_geom(d, lp, t.i1);
     t.v2 = vtx_geom(d, lp, t.i2);
@@ -191,7 +189,7 @@ fn fs_geom(@builtin(position) frag: vec4<f32>) -> GeomOut {
     for (var s = 0; s < i32(SAMPLES); s++) {
         let id = load_id(px, s);
         if (id == 0u) { continue; }
-        let d = draws[id >> bits];
+        let d = load_draw(id >> bits);
         if (d.a.w < GROUP_PAGE0 || d.a.w >= GROUP_PAGE0 + GROUP_PAGES) { continue; }
         var seen = false;
         for (var q = 0; q < s; q++) {
@@ -217,7 +215,7 @@ fn fs_geom(@builtin(position) frag: vec4<f32>) -> GeomOut {
         }
     }
     if (best_id == 0u) { discard; }
-    let d = draws[best_id >> bits];
+    let d = load_draw(best_id >> bits);
     let t = tri_attrs(d, d.a.w - GROUP_PAGE0, tri_setup(d, best_id & mask, d.a.w - GROUP_PAGE0));
     let b = tri_b(t, c);
     let wn = b.x * t.v0.n + b.y * t.v1.n + b.z * t.v2.n;
@@ -316,7 +314,7 @@ fn fs_shade(@builtin(position) frag: vec4<f32>) -> @location(0) vec4<f32> {
             }
             continue;
         }
-        let d = draws[id >> bits];
+        let d = load_draw(id >> bits);
         if (d.a.w < GROUP_PAGE0 || d.a.w >= GROUP_PAGE0 + GROUP_PAGES) { continue; }
         if (bitcast<u32>(d.c.z) != pass_info.x) { continue; }
         var first = true;

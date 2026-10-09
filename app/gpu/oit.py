@@ -20,6 +20,7 @@ from pathlib import Path
 import numpy as np
 import wgpu
 
+from app.gpu.geometry import geom_prelude
 from app.gpu.shading_uniforms import SIZE as SHADE_SIZE, pack_shading_uniforms
 
 WGSL = Path(__file__).with_name("wgsl")
@@ -28,7 +29,6 @@ ACCUM_FORMAT, WEIGHT_FORMAT = "rgba16float", "r16float"
 RESOLVE_MARK = "// ---- resolve:"
 DRAW_FLOATS = 60                                  # OitDraw record, 240 bytes (oit.wgsl)
 FRAME_BYTES = 80
-STREAMS = ("pos", "nrm", "dpos", "dnrm", "fib", "col", "uv", "anim")
 
 
 @dataclass
@@ -130,9 +130,10 @@ class OitPass:
             tex(1, "unfilterable-float"), tex(2, "float"), tex(3, "float", "2d-array"), tex(4, "float"),
             smp(5), smp(6), smp(7)])
         self.bgl2 = d.create_bind_group_layout(entries=[
-            ent(i, V, buffer={"type": "read-only-storage"}) for i in range(len(STREAMS))])
+            ent(0, V, buffer={"type": "read-only-storage"}), ent(1, V, buffer={"type": "uniform"})])
         self.layout = d.create_pipeline_layout(bind_group_layouts=[self.bgl0, self.bgl1, self.bgl2])
-        code = _read("vertex.wgsl") + _read("shading.wgsl") + _read("oit.wgsl")
+        code = (_read("vertex.wgsl") + _read("shading.wgsl") + geom_prelude(1, 2, 0, uniform_binding=1) + "\n"
+                + _read("geom.wgsl") + _read("oit.wgsl"))
         head, tail = code.split(RESOLVE_MARK)
         self._resolve_src = RESOLVE_MARK + tail
         self.module = d.create_shader_module(code=head, label="oit")
@@ -164,13 +165,18 @@ class OitPass:
     def set_geometry(self, geom):
         """Bind groups of the geometry pages (group 2). Call again when the model changes; None releases them."""
         self.geom = geom
+        for ub in getattr(self, "_page_ub", []):
+            ub.destroy()
+        self._page_ub = []
         self._page_bg = []
         if geom is None:
             return
+        self._page_ub = []
         for page in geom.pages:
-            ents = [{"binding": i, "resource": {"buffer": page.buffers.get(n, self._dummy), "offset": 0,
-                                                "size": page.buffers.get(n, self._dummy).size}}
-                    for i, n in enumerate(STREAMS)]
+            ub = self.device.create_buffer_with_data(data=page.offsets_words(), usage=BU.UNIFORM, label=f"oit.page{page.index}")
+            self._page_ub.append(ub)
+            ents = [{"binding": 0, "resource": {"buffer": page.buffer, "offset": 0, "size": page.buffer.size}},
+                    {"binding": 1, "resource": {"buffer": ub, "offset": 0, "size": ub.size}}]
             self._page_bg.append(self.device.create_bind_group(layout=self.bgl2, entries=ents))
 
     def make_targets(self, w, h, samples):
@@ -289,11 +295,13 @@ class OitPass:
         q.write_buffer(self._su_buf, 0, su)
         q.write_buffer(self._draw_buf, 0, rec)
         q.write_buffer(self._frame_ub, 0, pack_frame(draws[0].uniforms["u_viewproj"], size, self.flip_y, vp_wgpu))
+        # anim_tab: a buffer, or (buffer, byte offset, byte size) of a section of the renderer's table buffer
         anim = anim_tab if anim_tab is not None else self._dummy
-        if self._bg0 is None or self._bg0_anim is not anim:
-            self._bg0_anim = anim
+        a_buf, a_off, a_size = anim if isinstance(anim, tuple) else (anim, 0, anim.size)
+        if (self._bg0 is None or self._bg0_anim is None or self._bg0_anim[0] is not a_buf or self._bg0_anim[1:] != (a_off, a_size)):
+            self._bg0_anim = (a_buf, a_off, a_size)
             self._bg0 = d.create_bind_group(layout=self.bgl0, entries=[
-                {"binding": 2, "resource": {"buffer": anim, "offset": 0, "size": anim.size}},
+                {"binding": 2, "resource": {"buffer": a_buf, "offset": a_off, "size": a_size}},
                 {"binding": 0, "resource": {"buffer": self._frame_ub, "offset": 0, "size": FRAME_BYTES}},
                 {"binding": 1, "resource": {"buffer": self._draw_buf, "offset": 0, "size": self._draw_cap}}])
         if targets["samples"] != samples:
@@ -311,7 +319,8 @@ class OitPass:
             pg = int(self.geom.page_of[dr.part])
             if pg != page:
                 rp.set_bind_group(2, self._page_bg[pg])
-                rp.set_index_buffer(self.geom.pages[pg].buffers["index"], "uint32")
+                rp.set_index_buffer(self.geom.pages[pg].buffer, "uint32", self.geom.pages[pg].index_byte_offset,
+                                    self.geom.pages[pg].index_bytes)
                 page = pg
             rp.set_bind_group(1, self._group1(items, spec, dr.texture), [k * self.su_stride])
             rp.draw_indexed(dr.count, 1, dr.first, 0, k)

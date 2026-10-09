@@ -116,13 +116,24 @@ class HostRoundTrip(unittest.TestCase):
     def test_a_small_page_limit_splits_pages_without_crossing_a_part(self):
         model = synthetic_model()
         nv = model.parts[0].vertex_count
-        page_bytes = max(nv * G.MAX_STREAM_BYTES + 64, (model.parts[0].count + 8) * 4)
-        geom = self.check(model, page_bytes)
+        # the biggest single part (the one with a varying morph delta) fills a page, two parts never fit one
+        need = G.section_layout({"pos": nv, "nrm": nv, "dpos": nv, "index": model.parts[0].count})[1] * 4
+        geom = self.check(model, need)
         self.assertEqual(len(geom.pages), len(model.parts))
         for page in geom.pages:
             self.assertEqual(len(page.parts), 1)
-            for h in page.buffers.values():
-                self.assertLessEqual(h.size, page_bytes + 4096)
+            self.assertLessEqual(page.words * 4, need)
+            self.assertEqual(page.index_byte_offset % 256, 0)
+            self.assertTrue(all(o % 64 == 0 for o in page.offs.values()))
+
+    def test_more_pages_than_the_pipelines_bind_are_refused(self):
+        model = synthetic_model()
+        nv = model.parts[0].vertex_count
+        need = G.section_layout({"pos": nv, "nrm": nv, "dpos": nv, "index": model.parts[0].count})[1] * 4
+        with self.assertRaises(G.GeometryError) as cm:
+            G.build_geometry(model, G.HostSink(), need, max_pages=2)
+        self.assertIn("at most 2 pages", str(cm.exception))
+        self.assertEqual(len(G.build_geometry(model, G.HostSink(), need, max_pages=3).pages), 3)
 
     def test_a_part_larger_than_a_page_is_refused(self):
         with self.assertRaises(G.GeometryError):

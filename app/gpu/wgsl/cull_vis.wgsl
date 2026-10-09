@@ -1,6 +1,7 @@
 // Visibility pass of the culled clusters: indexed draws of the compacted index buffer, one per page and phase.
 //
-// Concatenated by app/gpu/cull.py after: `enable primitive_index;`, the id prelude (alias IdOut, fn pack_id) and clip.wgsl.
+// Concatenated by app/gpu/cull.py after: `enable primitive_index;`, the id prelude (alias IdOut, fn pack_id), clip.wgsl,
+// cull_tables.wgsl, the page prelude (geometry.py geom_prelude) and geom.wgsl.
 //
 // The compacted index buffer holds page-local vertex ids, so the vertex shader finds the part of a vertex through the
 // page's lookup table: chunk table (first part of every 32 vertices), part end vertices, part indices. Position is then
@@ -11,25 +12,27 @@
 // draw; slot = id >> 6 (bit 31 removed) indexes slot_cluster, id & 63 is the triangle inside the block.
 
 @group(0) @binding(0) var<uniform> frame: Frame;
-@group(0) @binding(1) var<storage, read> part_xf: array<vec4<f32>>;      // 5 per part: matrix columns 0..3, (|weight|, flags, slot base, 0)
-@group(0) @binding(2) var<storage, read> dinfo: array<u32>;              // per (page, phase): id slot of the draw's first block
-@group(1) @binding(0) var<storage, read> pos: array<f32>;                // page positions, float32 x3
+@group(0) @binding(1) var<storage, read> cro: array<vec4<u32>>;           // cull_tables.wgsl: part_xf (vertex stage only)
+@group(0) @binding(2) var<storage, read> crw: array<u32>;                 // read only, indirect draw source: dinfo (fragment stage only)
+@group(0) @binding(3) var<uniform> lay: CullLay;
+// group 1 binding 0: the geometry page, binding 2 its offsets (geom_prelude(1, 1, 0, uniform_binding=2), read through geom.wgsl)
 @group(1) @binding(1) var<storage, read> vlook: array<u32>;              // [chunk -> part slot] [part end vertex] [part index]
 @group(2) @binding(0) var<uniform> dsel: vec4<u32>;                      // x: page * 2 + phase, y: chunk count, z: parts in the page
+fn crw_w(i: u32) -> u32 { return crw[i]; }
 
 const CULL_TAG: u32 = 0x80000000u;
 
 fn part_matrix(part: u32) -> mat4x4<f32> {
     let b = part * 5u;
-    return mat4x4<f32>(part_xf[b], part_xf[b + 1u], part_xf[b + 2u], part_xf[b + 3u]);
+    return mat4x4<f32>(part_xf_at(b), part_xf_at(b + 1u), part_xf_at(b + 2u), part_xf_at(b + 3u));
 }
 
 fn part_flags(part: u32) -> u32 {
-    return bitcast<u32>(part_xf[part * 5u + 4u].y);
+    return part_meta_at(part).y;
 }
 
 fn world_of(m: mat4x4<f32>, v: u32) -> vec3<f32> {
-    let p = vec3<f32>(pos[3u * v], pos[3u * v + 1u], pos[3u * v + 2u]);
+    let p = g_pos(0u, v);
     return (m * vec4<f32>(p, 1.0)).xyz;
 }
 
@@ -64,7 +67,7 @@ fn vs(@builtin(vertex_index) vi: u32) -> VOut {
 }
 
 fn block_id(prim: u32) -> u32 {
-    return CULL_TAG | (dinfo[dsel.x] * 64u + prim);
+    return CULL_TAG | (crw[lay.d.z + dsel.x] * 64u + prim);
 }
 
 @fragment

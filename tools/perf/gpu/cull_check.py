@@ -267,7 +267,8 @@ class Harness:
         for page, first, count, slot in draws:
             if page != cur:
                 rp.set_bind_group(1, cu.bg_vis1[page])
-                rp.set_index_buffer(self.geom.pages[page].buffers["index"], "uint32")
+                pg_ = self.geom.pages[page]
+                rp.set_index_buffer(pg_.buffer, "uint32", pg_.index_byte_offset, pg_.index_bytes)
                 cur = page
             rp.draw_indexed(count, 1, first, 0, slot)
         rp.end()
@@ -522,13 +523,14 @@ def run_numbers(args):
 
 # ------------------------------------------------------------------------------------------------ stress scene
 def tile_geometry(geom, K):
-    """K logical copies of the geometry that share the same GPU buffers (only 'pos' and 'index' are read by the culler)."""
+    """K logical copies of the geometry that share the same GPU buffers (the culler reads the position and index sections)."""
     from types import SimpleNamespace
     P0, G0 = len(geom.vbase), len(geom.pages)
     pages = []
     for k in range(K):
         for pg in geom.pages:
-            pages.append(SimpleNamespace(index=len(pages), buffers=pg.buffers, parts=[p + k * P0 for p in pg.parts],
+            pages.append(SimpleNamespace(index=len(pages), buffer=pg.buffer, offsets_words=pg.offsets_words,
+                                         index_byte_offset=pg.index_byte_offset, index_bytes=pg.index_bytes, parts=[p + k * P0 for p in pg.parts],
                                          v0=pg.v0, v1=pg.v1, nverts=pg.nverts, nindices=pg.nindices))
     page_of = np.concatenate([np.where(geom.page_of >= 0, geom.page_of + k * G0, -1) for k in range(K)]).astype(np.int32)
     return SimpleNamespace(pages=pages, page_of=page_of, vbase=np.tile(geom.vbase, K), vcount=np.tile(geom.vcount, K),
@@ -593,8 +595,7 @@ class Stress:
         self.base_tris, self.base_clusters = cd0.n_tris, cd0.n_clusters
         self.geom_bytes = 0
         for pg in H.geom.pages:
-            for b in pg.buffers.values():
-                self.geom_bytes += int(b.size)
+            self.geom_bytes += int(pg.buffer.size)
         pos = H.model.vertices[:, 0:3]
         lo, hi = pos.min(0).astype(np.float64), pos.max(0).astype(np.float64)
         s = 1.0 / float((hi - lo).max())

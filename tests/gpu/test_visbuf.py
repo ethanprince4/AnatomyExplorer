@@ -216,15 +216,25 @@ class TinyScene(unittest.TestCase):
     def test_several_pages_and_page_groups(self):
         from app.gpu.renderer import WgpuRenderer
         ref_ids = self.render().read_ids()[0]
-        r = WgpuRenderer(GPU, page_bytes=160, resolve_group_pages=1)
+        r = WgpuRenderer(GPU, page_bytes=768)               # sections are 256-byte aligned: 768 B holds one fixture part
         try:
             r.set_model(self.model)
             self.assertEqual(len(r.geom.pages), 2)
-            self.assertEqual(len(r._groups), 2)
+            self.assertEqual(len(r._groups), 1)             # layout v2: all pages (<= max_pages) are one resolve group
             r.render(self.tgt, (W, H), self.cam, self.s, None)
             self.assertTrue(np.array_equal(r.read_ids()[0], ref_ids))
             (x0, y0), (x1, y1) = self.centres(r)
             self.assertEqual((r.pick(x0, y0)[0], r.pick(x1, y1)[0]), (0, 1))
+        finally:
+            r.release()
+
+    def test_a_model_needing_more_pages_than_the_pipelines_bind_is_refused(self):
+        from app.gpu.geometry import GeometryError
+        from app.gpu.renderer import WgpuRenderer
+        r = WgpuRenderer(GPU, page_bytes=768, max_pages=1)
+        try:
+            with self.assertRaises(GeometryError):
+                r.set_model(self.model)
         finally:
             r.release()
 

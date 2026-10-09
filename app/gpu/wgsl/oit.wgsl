@@ -54,14 +54,7 @@ struct OitDraw {
 @group(0) @binding(1) var<storage, read> odraws: array<OitDraw>;
 @group(0) @binding(2) var<storage, read> oanim: array<vec4<f32>>;     // per item: u_aw, u_ag, (anim_t, on, 0, 0) (renderer anim_tab)
 
-@group(2) @binding(0) var<storage, read> g_pos: array<f32>;
-@group(2) @binding(1) var<storage, read> g_nrm: array<u32>;
-@group(2) @binding(2) var<storage, read> g_dpos: array<f32>;
-@group(2) @binding(3) var<storage, read> g_dnrm: array<f32>;
-@group(2) @binding(4) var<storage, read> g_fib: array<f32>;
-@group(2) @binding(5) var<storage, read> g_col: array<f32>;
-@group(2) @binding(6) var<storage, read> g_uv: array<f32>;
-@group(2) @binding(7) var<storage, read> g_anim: array<u32>;    // 9 words per vertex: float16 x16 (four morph targets xyzw), float32 phase
+// group 2: the page (geometry.py geom_prelude: geo_0 at binding 0, the page offsets at binding 1) read through geom.wgsl
 
 fn sign_nz(v: vec2<f32>) -> vec2<f32> {
     return select(vec2<f32>(-1.0), vec2<f32>(1.0), v >= vec2<f32>(0.0));
@@ -89,35 +82,33 @@ fn tail_at(d: OitDraw, k: i32) -> f32 {
 
 fn pull(d: OitDraw, v: i32) -> VtxAttr {
     var a: VtxAttr;
-    a.pos = vec3<f32>(g_pos[3 * v], g_pos[3 * v + 1], g_pos[3 * v + 2]);
-    a.nrm = oct_normal(g_nrm[v]);
+    a.pos = g_pos(0u, u32(v));
+    a.nrm = oct_normal(g_nrm(0u, u32(v)));
     let l = v - d.sb1.y;                                   // vertex index inside the part
     if (d.sb0.x >= 0) {
         let i = 3 * (d.sb0.x + l);
-        a.dpos = vec3<f32>(g_dpos[i], g_dpos[i + 1], g_dpos[i + 2]);
+        a.dpos = vec3<f32>(g_dpos(0u, u32(i)), g_dpos(0u, u32(i + 1)), g_dpos(0u, u32(i + 2)));
     } else {
         a.dpos = vec3<f32>(tail_at(d, 0), tail_at(d, 1), tail_at(d, 2));
     }
     if (d.sb0.y >= 0) {
         let i = 3 * (d.sb0.y + l);
-        a.dnrm = vec3<f32>(g_dnrm[i], g_dnrm[i + 1], g_dnrm[i + 2]);
+        a.dnrm = vec3<f32>(g_dnrm(0u, u32(i)), g_dnrm(0u, u32(i + 1)), g_dnrm(0u, u32(i + 2)));
     } else {
         a.dnrm = vec3<f32>(tail_at(d, 3), tail_at(d, 4), tail_at(d, 5));
     }
     if (d.sb0.z >= 0) {
-        a.fib = g_fib[d.sb0.z + l];
+        a.fib = g_fib(0u, u32(d.sb0.z + l));
     } else {
         a.fib = tail_at(d, 6);
     }
     if (d.sb0.w >= 0) {
-        let i = 4 * (d.sb0.w + l);
-        a.col = vec4<f32>(g_col[i], g_col[i + 1], g_col[i + 2], g_col[i + 3]);
+        a.col = g_col(0u, u32(d.sb0.w + l));
     } else {
         a.col = vec4<f32>(tail_at(d, 7), tail_at(d, 8), tail_at(d, 9), tail_at(d, 10));
     }
     if (d.sb1.x >= 0) {
-        let i = 2 * (d.sb1.x + l);
-        a.uv = vec2<f32>(g_uv[i], g_uv[i + 1]);
+        a.uv = g_uv(0u, u32(d.sb1.x + l));
     } else {
         a.uv = vec2<f32>(tail_at(d, 11), tail_at(d, 12));
     }
@@ -128,11 +119,11 @@ fn pull(d: OitDraw, v: i32) -> VtxAttr {
     a.phase = 0.0;
     if (d.sb1.w >= 0) {
         let w = 9u * u32(d.sb1.w + l);
-        a.m0 = vec4<f32>(unpack2x16float(g_anim[w]), unpack2x16float(g_anim[w + 1u]));
-        a.m1 = vec4<f32>(unpack2x16float(g_anim[w + 2u]), unpack2x16float(g_anim[w + 3u]));
-        a.m2 = vec4<f32>(unpack2x16float(g_anim[w + 4u]), unpack2x16float(g_anim[w + 5u]));
-        a.m3 = vec4<f32>(unpack2x16float(g_anim[w + 6u]), unpack2x16float(g_anim[w + 7u]));
-        a.phase = bitcast<f32>(g_anim[w + 8u]);
+        a.m0 = vec4<f32>(unpack2x16float(g_anim(0u, w)), unpack2x16float(g_anim(0u, w + 1u)));
+        a.m1 = vec4<f32>(unpack2x16float(g_anim(0u, w + 2u)), unpack2x16float(g_anim(0u, w + 3u)));
+        a.m2 = vec4<f32>(unpack2x16float(g_anim(0u, w + 4u)), unpack2x16float(g_anim(0u, w + 5u)));
+        a.m3 = vec4<f32>(unpack2x16float(g_anim(0u, w + 6u)), unpack2x16float(g_anim(0u, w + 7u)));
+        a.phase = bitcast<f32>(g_anim(0u, w + 8u));
     }
     a.item = f32(d.sb1.z);
     return a;

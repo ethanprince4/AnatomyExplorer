@@ -1,4 +1,5 @@
-// Cluster culling kernels. Concatenated by app/gpu/cull.py after clip.wgsl (Frame, ClipParams).
+// Cluster culling kernels. Concatenated by app/gpu/cull.py after clip.wgsl (Frame, ClipParams) and cull_tables.wgsl
+// (the table layout: cl_geom, cl_range, rng, part_xf, range_active, ptab, pstate, stats, args, disp, dinfo, slot_cluster, vis flags).
 //
 //   cull_p1   phase 1: clusters of the frame's parts that passed the frustum test AND were visible last frame
 //   cull_p2   phase 2: clusters that passed the frustum test and were NOT drawn in phase 1, kept unless the depth
@@ -19,20 +20,11 @@ struct Cfg {
 
 @group(0) @binding(0) var<uniform> frame: Frame;
 @group(0) @binding(1) var<uniform> cfg: Cfg;
-@group(0) @binding(2) var<storage, read> cl_geom: array<vec4<f32>>;      // 2 per cluster: (cx cy cz dmax), (hx hy hz 0)
-@group(0) @binding(3) var<storage, read> cl_range: array<u32>;
-@group(0) @binding(4) var<storage, read> rng: array<vec4<u32>>;          // 2 per range: (part page first ntri), (cfirst tfirst ccount 0)
-@group(0) @binding(5) var<storage, read> part_xf: array<vec4<f32>>;      // 5 per part: matrix columns 0..3, (|weight|, flags, slot base, 0)
-@group(0) @binding(6) var<storage, read> range_active: array<u32>;
-@group(0) @binding(7) var<storage, read> vis_prev: array<u32>;
-@group(0) @binding(8) var<storage, read> ptab: array<vec4<u32>>;         // per page: (cluster first, cluster end, slot base, capacity)
-@group(0) @binding(9) var<storage, read_write> pstate: array<atomic<u32>>;   // 8 per page: blocks used, blocks at the end of phase 1
-@group(0) @binding(10) var<storage, read_write> slot_cluster: array<u32>;
-@group(0) @binding(11) var<storage, read_write> stats: array<atomic<u32>>;
-@group(0) @binding(12) var<storage, read_write> args: array<u32>;        // 8 per (page, phase): indexed draw arguments
-@group(0) @binding(13) var<storage, read_write> disp: array<u32>;        // 4 per (page, phase): gather dispatch size
-@group(0) @binding(14) var<storage, read_write> dinfo: array<u32>;       // per (page, phase): id slot of the draw's first block
-@group(0) @binding(15) var<storage, read_write> vis_next: array<u32>;   // visible-next-frame flags: drawn in phase 1 and not occluded, or kept by phase 2
+@group(0) @binding(2) var<storage, read> cro: array<vec4<u32>>;           // cull_tables.wgsl
+@group(0) @binding(3) var<storage, read_write> cra: array<atomic<u32>>;
+@group(0) @binding(4) var<storage, read_write> crw: array<u32>;
+@group(0) @binding(5) var<uniform> lay: CullLay;
+fn crw_w(i: u32) -> u32 { return crw[i]; }
 @group(1) @binding(0) var<uniform> sel: vec4<u32>;                        // x: page
 @group(2) @binding(0) var hzb: texture_2d<f32>;
 
@@ -53,13 +45,13 @@ struct Box {
 
 fn part_matrix(part: u32) -> mat4x4<f32> {
     let b = part * 5u;
-    return mat4x4<f32>(part_xf[b], part_xf[b + 1u], part_xf[b + 2u], part_xf[b + 3u]);
+    return mat4x4<f32>(part_xf_at(b), part_xf_at(b + 1u), part_xf_at(b + 2u), part_xf_at(b + 3u));
 }
 
 fn cluster_box(c: u32, part: u32) -> Box {
-    let g0 = cl_geom[2u * c];
-    let g1 = cl_geom[2u * c + 1u];
-    let wabs = part_xf[part * 5u + 4u].x;
+    let g0 = cl_geom_at(2u * c);
+    let g1 = cl_geom_at(2u * c + 1u);
+    let wabs = bitcast<f32>(part_meta_at(part).x);
     var b: Box;
     b.c = g0.xyz;
     b.h = g1.xyz + vec3<f32>(wabs * g0.w) + 2e-6 * (abs(g0.xyz) + g1.xyz);
@@ -167,47 +159,47 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
     }
     workgroupBarrier();
     let g = sel.x;
-    let row = ptab[g];
+    let row = ptab_at(g);
     let c = row.x + (wid.y * 32768u + wid.x) * 64u + li;
     var keep = false;
     var ntri = 0u;
     let stat = cfg.hz.y != 0u;
     if (c < row.y) {
-        let r = cl_range[c];
-        if (range_active[r] != 0u) {
-            let rr0 = rng[2u * r];
-            let rr1 = rng[2u * r + 1u];
+        let r = cl_range_at(c);
+        if (range_active_at(r) != 0u) {
+            let rr0 = rng_at(2u * r);
+            let rr1 = rng_at(2u * r + 1u);
             let part = rr0.x;
             let bx = cluster_box(c, part);
             let mvp = frame.vp * part_matrix(part);
             let nt = cluster_ntri(rr0, rr1, c);
             if (!phase2 && stat) {
-                atomicAdd(&stats[ST_ACTIVE], 1u);
+                atomicAdd(&cra[lay.c.y + ST_ACTIVE], 1u);
             }
             if (frustum_pass(mvp, bx)) {
                 if (!phase2 && stat) {
-                    atomicAdd(&stats[ST_FRUSTUM], 1u);
-                    atomicAdd(&stats[ST_FRUSTUM_TRIS], nt);
+                    atomicAdd(&cra[lay.c.y + ST_FRUSTUM], 1u);
+                    atomicAdd(&cra[lay.c.y + ST_FRUSTUM_TRIS], nt);
                 }
                 if (!phase2) {
-                    keep = vis_prev[c] != 0u;
+                    keep = crw[lay.e.x + c] != 0u;
                 } else {
                     // phase 2 tests every cluster that passed the frustum, drawn in phase 1 or not: the ones that
                     // survive are next frame's phase 1; only the ones phase 1 did not draw are drawn now
-                    let was = vis_prev[c] != 0u;
+                    let was = crw[lay.e.x + c] != 0u;
                     if (!was && stat) {
-                        atomicAdd(&stats[ST_P2_TESTED], 1u);
+                        atomicAdd(&cra[lay.c.y + ST_P2_TESTED], 1u);
                     }
                     if (!occluded(mvp, bx)) {
-                        vis_next[c] = 1u;
+                        crw[lay.e.y + c] = 1u;
                         keep = !was;
                     }
                 }
                 if (keep) {
                     ntri = nt;
                     if (stat) {
-                        atomicAdd(&stats[select(ST_P1, ST_P2, phase2)], 1u);
-                        atomicAdd(&stats[select(ST_P1_TRIS, ST_P2_TRIS, phase2)], nt);
+                        atomicAdd(&cra[lay.c.y + select(ST_P1, ST_P2, phase2)], 1u);
+                        atomicAdd(&cra[lay.c.y + select(ST_P1_TRIS, ST_P2_TRIS, phase2)], nt);
                     }
                 }
             }
@@ -221,14 +213,14 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
     if (li == 0u) {
         let n = atomicLoad(&wg_n);
         if (n > 0u) {
-            wg_base = atomicAdd(&pstate[g * 8u], n);
+            wg_base = atomicAdd(&cra[lay.c.x + g * 8u], n);
         }
     }
     workgroupBarrier();
     if (keep) {
         let b = wg_base + rank;
         if (b < row.w) {
-            slot_cluster[row.z + b] = c;
+            crw[lay.d.w + row.z + b] = c;
         }
     }
 }
@@ -244,25 +236,25 @@ fn cull_p2(@builtin(workgroup_id) wid: vec3<u32>, @builtin(local_invocation_inde
 }
 
 fn fin(g: u32, ph: u32) {
-    let row = ptab[g];
-    let cnt = atomicLoad(&pstate[g * 8u]);
+    let row = ptab_at(g);
+    let cnt = atomicLoad(&cra[lay.c.x + g * 8u]);
     if (cnt > row.w) {
-        atomicAdd(&stats[ST_OVERFLOW], cnt - row.w);
+        atomicAdd(&cra[lay.c.y + ST_OVERFLOW], cnt - row.w);
     }
     let n = min(cnt, row.w);
-    let begin = atomicLoad(&pstate[g * 8u + 1u]);
+    let begin = atomicLoad(&cra[lay.c.x + g * 8u + 1u]);
     let m = n - begin;
     let ai = g * 2u + ph;
-    args[ai * 8u] = m * 192u;
-    args[ai * 8u + 1u] = 1u;
-    args[ai * 8u + 2u] = begin * 192u;
-    args[ai * 8u + 3u] = 0u;
-    args[ai * 8u + 4u] = 0u;
-    disp[ai * 4u] = min(m, 32768u);
-    disp[ai * 4u + 1u] = (m + 32767u) / 32768u;
-    disp[ai * 4u + 2u] = 1u;
-    dinfo[ai] = row.z + begin;
-    atomicStore(&pstate[g * 8u + 1u], n);
+    crw[lay.d.x + ai * 8u] = m * 192u;
+    crw[lay.d.x + ai * 8u + 1u] = 1u;
+    crw[lay.d.x + ai * 8u + 2u] = begin * 192u;
+    crw[lay.d.x + ai * 8u + 3u] = 0u;
+    crw[lay.d.x + ai * 8u + 4u] = 0u;
+    crw[lay.d.y + ai * 4u] = min(m, 32768u);
+    crw[lay.d.y + ai * 4u + 1u] = (m + 32767u) / 32768u;
+    crw[lay.d.y + ai * 4u + 2u] = 1u;
+    crw[lay.d.z + ai] = row.z + begin;
+    atomicStore(&cra[lay.c.x + g * 8u + 1u], n);
 }
 
 @compute @workgroup_size(1)
