@@ -404,6 +404,7 @@ class RadiologyPanel(QWidget):
         ll.addWidget(self.study_tabs, 1)
 
         self.legend = CardList(compact=True)
+        self.legend.reserve(64)      # numbered labels of one case (the largest has 19)
         self.legend.itemEntered.connect(lambda it: self.view.set_hot(self.legend.row(it)))
         self.legend.itemClicked.connect(self._legend_clicked)
         self.legend.setMinimumHeight(80)
@@ -627,7 +628,8 @@ class RadiologyPanel(QWidget):
     def _show_answer(self):
         self._render_notes(True)
         self.study_tabs.setCurrentWidget(self.question_page)
-        self.check_notes.scrollToAnchor("self-check")
+        # The box is short: bring the revealed answer into view rather than leaving it cut off below the question.
+        self.check_notes.scrollToAnchor("answer")
 
     def _render_notes(self, show_answer):
         case = self.case
@@ -647,7 +649,7 @@ class RadiologyPanel(QWidget):
             if show_answer:
                 answer = question["answer"]
                 answer = options[answer] if isinstance(answer, int) else answer
-                question_html += f"<p><b>Answer: {escape(str(answer))}</b><br>{escape(question['explanation'])}</p>"
+                question_html += f"<p><a name='answer'></a><b>Answer: {escape(str(answer))}</b><br>{escape(question['explanation'])}</p>"
         if case.references:
             html += "<p><b>Teaching sources</b></p><ul>"
             for reference in case.references:
@@ -759,6 +761,7 @@ class RadiologyBrowser(QWidget):
         summary.addWidget(self.clear_filters)
         lay.addLayout(summary)
         self.list = CardList(collapsible=True)
+        self.list.reserve(2 * len(self.cases) + 16)     # every case plus a group header each, at most
         self.list.setAccessibleName("Radiology cases")
         self.list.itemActivated.connect(self._chosen)
         lay.addWidget(self.list, 1)

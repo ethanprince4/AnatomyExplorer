@@ -173,6 +173,7 @@ class CardList(QListWidget):
     def __init__(self, parent=None, compact=False, collapsible=False):
         super().__init__(parent)
         self.collapsible = collapsible
+        self.expand_all = False      # while set, every group added opens expanded (short, scoped lists)
         self._expanded_groups = set()
         self._group_header = None
         self._group_path = []
@@ -216,6 +217,16 @@ class CardList(QListWidget):
 
     def count(self):
         return self._used
+
+    def reserve(self, rows):
+        """Create spare hidden rows now, while the list is being built, so a later rebuild never has to add one.
+        Adding rows to an on-screen list can crash the Cocoa accessibility bridge too (null element in
+        QAccessible::updateAccessibility from endInsertRows), e.g. switching the lesson grouping chips quickly."""
+        for _ in range(super().count(), rows):
+            item = QListWidgetItem()
+            self.addItem(item)
+            self._rewrite(item, {}, Qt.NoItemFlags)
+            item.setHidden(True)
 
     def _row(self, values, flags=DEFAULT_FLAGS):
         """The next row of the rebuild, reused when one is spare, holding exactly these role values."""
@@ -267,6 +278,8 @@ class CardList(QListWidget):
         flags = Qt.NoItemFlags
         if self.collapsible:
             key = key or text
+            if self.expand_all:
+                self._expanded_groups.add(key)
             flags = Qt.ItemIsEnabled | Qt.ItemIsSelectable
             values.update({Qt.DisplayRole: "    " * level + ("▾ " if key in self._expanded_groups else "▸ ") + text,
                            ROLE_TITLE: text, ROLE_GROUP_KEY: key, Qt.ToolTipRole: "Expand or collapse this group"})

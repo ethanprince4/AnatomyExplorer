@@ -1,0 +1,527 @@
+diff -ru -x __pycache__ -x *.pyc a/main_window.py b/main_window.py
+--- a/app/main_window.py	2026-10-09 07:32:53
++++ b/app/main_window.py	2026-10-09 07:32:53
+@@ -122,6 +122,7 @@
+         # Back/Forward across the whole app (ui/places.py): a place is recorded once a click has settled.
+         self.places = PlaceHistory()
+         self._restoring_place = False
++        self._place_info = {}           # place key -> the Details page it showed (group / landmark pages)
+         self._place_timer = QTimer(self)
+         self._place_timer.setSingleShot(True)
+         self._place_timer.setInterval(350)
+@@ -172,6 +173,9 @@
+         self.center.tabBar().setTabButton(0, self.center.tabBar().ButtonPosition.RightSide, None)
+         self.center.tabCloseRequested.connect(self._close_center_tab)
+         self.center.currentChanged.connect(self._center_changed)
++        # Moving between the atlas, a library and an open model is a place for Back too, even when the
++        # library's own page did not change (e.g. Explore -> 3D Models -> open a model -> Back).
++        self.center.currentChanged.connect(self._note_place)
+         self.workspace = QWidget()
+         self.workspace_layout = QVBoxLayout(self.workspace)
+         self.workspace_layout.setContentsMargins(0, 0, 0, 0)
+@@ -395,6 +399,7 @@
+         QTimer.singleShot(0, self._adapt_workspace)
+         if not script:
+             QTimer.singleShot(0, self._startup_explore)
++        QTimer.singleShot(0, self._note_place)       # the opening view is the first place Back can return to
+         if self._startup_notices:
+             if self.content.model_catalog_error:
+                 self.notice.show_message(" · ".join(self._startup_notices), "Browse models", self._show_catalog)
+@@ -777,6 +782,10 @@
+         self.studio_tools.raise_()
+ 
+     def _studio_radiology(self):
++        on_library = (self.center.currentWidget() is self.collection_workspace
++                      and self.collection_workspace.pages.currentWidget() is self.radiology_browser)
++        if on_library:
++            return
+         if self.radiology_panel is not None and self.radiology_panel.case is not None:
+             self.open_radiology(self.radiology_panel.case.id)
+         else:
+@@ -929,8 +938,20 @@
+                 studio = getattr(view, "studio", None)
+                 if studio is not None:
+                     studio.set_lesson_mode(reading and current is view)
+-            self.studio_header.set_workspace(self.collection_workspace.navigation_mode if collection else 'lessons' if reading else 'explore')
+             radiology_visible=self.radiology_panel is not None and not self.radiology_panel.isHidden()
++            if collection:
++                workspace = self.collection_workspace.navigation_mode
++            elif reading:
++                workspace = 'lessons'
++            elif current is self.micro_tabs.get("__histology__"):
++                workspace = 'histology'      # an open slide belongs to Histology, not Explore
++            elif current is self.anatomy_tab and radiology_visible:
++                workspace = 'radiology'      # an open case belongs to Radiology
++            elif current is not self.anatomy_tab and current in self.micro_tabs.values() or                     current in self._loading_models.values():
++                workspace = '3d models'      # an open (or loading) model belongs to 3D Models
++            else:
++                workspace = 'explore'
++            self.studio_header.set_workspace(workspace)
+             self.studio_header.subject.setVisible(current is self.anatomy_tab and not radiology_visible)
+             self.studio_tools.setVisible(current is self.anatomy_tab)
+             self._layout_studio_chrome()
+@@ -1203,7 +1224,8 @@
+         self.activateWindow()
+ 
+     def toggle_panels(self):
+-        visible = self.left_dock.isVisible() or self.right_dock.isVisible()
++        # Hide both only when both are showing; otherwise bring back whichever was closed.
++        visible = self.left_dock.isVisible() and self.right_dock.isVisible()
+         self.left_dock.setVisible(not visible)
+         self.right_dock.setVisible(not visible)
+ 
+@@ -1319,9 +1341,21 @@
+     def _capture_place(self):
+         if self._restoring_place or self._closing or not hasattr(self, "studio_header"):
+             return
++        if self.center.currentWidget() in self._loading_models.values():
++            # A model's loading placeholder is not a place (it read as "3D anatomy" and made Back stop there);
++            # the model view that replaces it is recorded when it arrives.
++            self._place_timer.start()
++            return
+         place = self._current_place()
+         if place is not None:
+             self.places.push(*place)
++            # A group or landmark page in Details is not recoverable from the selection alone (Biceps brachii is
++            # four meshes), so remember which page this place showed.
++            view = getattr(self.info, "_view", None)
++            if view and getattr(view[0], "__name__", "") in ("show_node", "show_landmark"):
++                self._place_info[place[0]] = view
++            else:
++                self._place_info.pop(place[0], None)
+         self._update_place_buttons()
+ 
+     def _current_place(self):
+@@ -1407,6 +1441,9 @@
+                     self.select_and_focus(list(scene[1]))
+                 elif self.state.selected:
+                     self.state.select([])
++                view = self._place_info.get(key)
++                if view is not None:
++                    view[0](*view[1])
+         finally:
+             # what the restore itself changes (a lesson step applying its scene, a model finishing loading) is
+             # part of going back, not a new place
+@@ -2726,6 +2763,11 @@
+             "custom_colors": {str(k): list(v) for k, v in st.custom_colors.items()},
+         }
+ 
++    def open_saved_view(self, data):
++        """A saved view is an atlas view: show Explore first, or it is restored behind another workspace."""
++        self._studio_explore()
++        self.apply_view(data)
++
+     def apply_view(self, data, animate=True):
+         st = self.state
+         n = self.ds.n
+@@ -2850,13 +2892,28 @@
+         default = ""
+         if self.state.selected:
+             default = self.ds.structures[self.state.selected[0]]["base"]
+-        name, ok = QInputDialog.getText(self, "Save view", "Name:", text=default)
+-        if ok and name.strip():
+-            views = [v for v in self._saved_views() if v["name"] != name.strip()]
+-            views.append({"name": name.strip(), "created": datetime.now().isoformat(timespec="minutes"),
+-                          "data": self.capture_view()})
+-            self._store_views(views)
+-            self.statusBar().showMessage(f"Saved view “{name.strip()}”", 3000)
++        label = "Name:"
++        while True:
++            name, ok = QInputDialog.getText(self, "Save view", label, text=default)
++            if not ok:
++                return
++            name = name.strip()
++            if not name:
++                label = "Name (a saved view needs a name):"
++                continue
++            existing = self._saved_views()
++            if any(v["name"] == name for v in existing):
++                answer = QMessageBox.question(self, "Save view", f"A saved view named “{name}” already exists. Replace it?",
++                                              QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
++                if answer != QMessageBox.Yes:
++                    default, label = name, "Name:"
++                    continue
++            break
++        views = [v for v in existing if v["name"] != name]
++        views.append({"name": name, "created": datetime.now().isoformat(timespec="minutes"),
++                      "data": self.capture_view()})
++        self._store_views(views)
++        self.statusBar().showMessage(f"Saved view “{name}”", 3000)
+ 
+     def _fill_views_menu(self):
+         m = self.views_menu
+@@ -2866,7 +2923,7 @@
+         if views:
+             m.addSeparator()
+             for v in sorted(views, key=lambda v: v["name"].lower()):
+-                m.addAction(v["name"], lambda data=v["data"]: self.apply_view(data))
++                m.addAction(v["name"], lambda data=v["data"]: self.open_saved_view(data))
+             m.addSeparator()
+         m.addAction("Manage saved views…", self.manage_views)
+ 
+@@ -2993,6 +3050,10 @@
+         vp = self.active_viewport()
+         if vp.measure_points:
+             vp.clear_measure()
++            return
++        if vp.measure_mode:        # nothing measured: Esc leaves measure mode, like any other tool
++            self.toggle_measure()
++            self.measure_action.setChecked(False)
+             return
+         mv = self.active_model_view()
+         if mv is not None and not (self.quiz is not None and self.quiz.active):
+diff -ru -x __pycache__ -x *.pyc a/ui/card_list.py b/ui/card_list.py
+--- a/app/ui/card_list.py	2026-10-09 07:32:53
++++ b/app/ui/card_list.py	2026-10-09 07:32:53
+@@ -173,6 +173,7 @@
+     def __init__(self, parent=None, compact=False, collapsible=False):
+         super().__init__(parent)
+         self.collapsible = collapsible
++        self.expand_all = False      # while set, every group added opens expanded (short, scoped lists)
+         self._expanded_groups = set()
+         self._group_header = None
+         self._group_path = []
+@@ -217,6 +218,16 @@
+     def count(self):
+         return self._used
+ 
++    def reserve(self, rows):
++        """Create spare hidden rows now, while the list is being built, so a later rebuild never has to add one.
++        Adding rows to an on-screen list can crash the Cocoa accessibility bridge too (null element in
++        QAccessible::updateAccessibility from endInsertRows), e.g. switching the lesson grouping chips quickly."""
++        for _ in range(super().count(), rows):
++            item = QListWidgetItem()
++            self.addItem(item)
++            self._rewrite(item, {}, Qt.NoItemFlags)
++            item.setHidden(True)
++
+     def _row(self, values, flags=DEFAULT_FLAGS):
+         """The next row of the rebuild, reused when one is spare, holding exactly these role values."""
+         if self._used < super().count():
+@@ -267,6 +278,8 @@
+         flags = Qt.NoItemFlags
+         if self.collapsible:
+             key = key or text
++            if self.expand_all:
++                self._expanded_groups.add(key)
+             flags = Qt.ItemIsEnabled | Qt.ItemIsSelectable
+             values.update({Qt.DisplayRole: "    " * level + ("▾ " if key in self._expanded_groups else "▸ ") + text,
+                            ROLE_TITLE: text, ROLE_GROUP_KEY: key, Qt.ToolTipRole: "Expand or collapse this group"})
+diff -ru -x __pycache__ -x *.pyc a/ui/histology.py b/ui/histology.py
+--- a/app/ui/histology.py	2026-10-09 07:32:53
++++ b/app/ui/histology.py	2026-10-09 07:32:53
+@@ -120,10 +120,11 @@
+                     c = x.child(i)
+                     d = c.data(0, ROLE)
+                     if d and d[0] == "tissue":
+-                        count += 1
++                        count += c.childCount()      # images, the same unit the tissue rows show
+                     elif not d:
+                         stack.append(c)
+             it.setText(1, str(count))
++            it.setToolTip(1, f"{count} images in this topic")
+             it.setExpanded(False)
+ 
+     def _clicked(self, item, _col=0):
+diff -ru -x __pycache__ -x *.pyc a/ui/info_panel.py b/ui/info_panel.py
+--- a/app/ui/info_panel.py	2026-10-09 07:32:53
++++ b/app/ui/info_panel.py	2026-10-09 07:32:53
+@@ -44,6 +44,12 @@
+ SUMMARY_CHARS = 420
+ 
+ 
++def same_name(latin, name):
++    """True when the Latin term only repeats the heading (e.g. "Aorta" / "Aorta"), so it is not shown twice."""
++    norm = lambda t: " ".join(str(t).lower().replace(",", " ").split())
++    return norm(latin) == norm(name)
++
++
+ def esc(s):
+     return html.escape(str(s), quote=True)
+ 
+@@ -468,7 +474,7 @@
+         nid = ds.node_of_structure.get(sids[0])
+ 
+         parts = [f"<h1>{esc(s['name'])}</h1>"]
+-        if s.get("latin"):
++        if s.get("latin") and not same_name(s["latin"], s["name"]):
+             parts.append(f'<div class="latin">{esc(s["latin"])}</div>')
+         if nid:
+             parts.append(self._breadcrumb(nid))
+@@ -576,7 +582,7 @@
+         self._view = (self.show_node, (nid,))
+         sysname = ds.systems[ds.system_index[node["system"]]]["name"]
+         parts = [f"<h1>{esc(node['name'])}</h1>"]
+-        if node.get("latin"):
++        if node.get("latin") and not same_name(node["latin"], node["name"]):
+             parts.append(f'<div class="latin">{esc(node["latin"])}</div>')
+         parts.append(self._breadcrumb(nid))
+         parts.append(self._actions([("Focus", "frame"), ("X-ray others", "xray"), ("Isolate", "isolate"),
+@@ -603,7 +609,7 @@
+         lm = ds.landmarks[idx]
+         host = ds.structures[lm["sid"]]
+         parts = [f"<h1>{esc(lm['name'])}</h1>"]
+-        if lm.get("latin"):
++        if lm.get("latin") and not same_name(lm["latin"], lm["name"]):
+             parts.append(f'<div class="latin">{esc(lm["latin"])}</div>')
+         parts.append(f'<div class="crumb">Landmark on {link("sid", lm["sid"], host["name"])}'
+                      f'{" (" + host["side"].lower() + ")" if host["side"] else ""}</div>')
+diff -ru -x __pycache__ -x *.pyc a/ui/lessons.py b/ui/lessons.py
+--- a/app/ui/lessons.py	2026-10-09 07:32:53
++++ b/app/ui/lessons.py	2026-10-09 07:32:53
+@@ -280,6 +280,7 @@
+         self.stats.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+         lay.addWidget(self.stats)
+         self.list = CardList(collapsible=True)
++        self.list.reserve(2 * len(self.lessons) + 16)   # every lesson plus a header each, at most, plus notes
+         self.list.setAccessibleName("Lesson library")
+         self.list.itemActivated.connect(self._open_item)
+         self.list.itemClicked.connect(self._open_item)
+@@ -324,7 +325,16 @@
+         self.status_filter.setCurrentIndex(0)
+         self.scope_label.setText("Lessons linked by the existing content to " + self._label("micro", model_id))
+         self.scope_notice.show()
+-        self._fill()
++        # The Lab and Lecture groupings only list course lessons; a model's linked lessons may be outside both.
++        linked = self.lessons_for_model(model_id)
++        in_course = lambda x: x.unit_key and (x.unit_key[0] == "lab" and 1 <= x.unit_key[1] <= 9
++                                              or x.unit_key[0] == "exam" and x.unit_key[1] in (1, 2))
++        hidden = (self.group_by == "course" and any(not in_course(x) for x in linked)
++                  or self.group_by == "lecture" and any(not x.lecture_key for x in linked))
++        if hidden:
++            self._set_group("system")
++        else:
++            self._fill()
+         self.filter.setFocus(Qt.OtherFocusReason)
+ 
+     def clear_model_filter(self):
+@@ -388,6 +398,7 @@
+         selected = self.list.currentItem()
+         selected_id = selected.data(Qt.UserRole) if selected is not None else None
+         self.list.clear()
++        self.list.expand_all = bool(self._model_filter)
+         done, started, total = self.progress.totals(self.lessons)
+         self.stats.setText(f"{len(shown)} of {total} lessons · {done} finished · {started} in progress")
+         resume = next(iter(self.progress.in_progress(self.lessons)), None)
+@@ -415,25 +426,32 @@
+         """Only labs and practicals, in teaching order."""
+         course = [x for x in shown if x.unit_key and (x.unit_key[0] == "lab" and 1 <= x.unit_key[1] <= 9
+                                                       or x.unit_key[0] == "exam" and x.unit_key[1] in (1, 2))]
++        # Header counts describe the whole unit, not just the lessons the current filters let through.
++        everything = [x for x in self.lessons if x.unit_key and (x.unit_key[0] == "lab" and 1 <= x.unit_key[1] <= 9
++                                                                or x.unit_key[0] == "exam" and x.unit_key[1] in (1, 2))]
++        totals = {key: (sum(1 for x in members if self._finished(x)), len(members))
++                  for _heading, key, members in course_units(everything)}
+         for heading, unit_key, group in course_units(course):
+-            done = sum(1 for x in group if self._finished(x))
++            done, size = totals.get(unit_key, (sum(1 for x in group if self._finished(x)), len(group)))
+             _short, _sep, topic = heading.partition(" · ")
+             short = f"Lab {unit_key[1]}" if unit_key[0] == "lab" else f"Practical {unit_key[1]}"
+-            self.list.add_header(f"{short} · {done}/{len(group)} finished" + (f"  ·  {topic}" if topic else ""),
++            self.list.add_header(f"{short} · {done}/{size} finished" + (f"  ·  {topic}" if topic else ""),
+                                  key=f"lab-{unit_key[0]}-{unit_key[1]}")
+             for lesson in group:
+                 self._add_card(lesson)
+     def _fill_lecture(self, shown):
+         """Exam > chapter > lessons, with reviews after chapters."""
+         current_exam = None
++        totals = {key: (sum(1 for x in members if self._finished(x)), len(members))
++                  for _heading, key, members in lecture_units([x for x in self.lessons if x.lecture_key])}
+         for heading, key, group in lecture_units([x for x in shown if x.lecture_key]):
+             exam_number, chapter = key
+             if exam_number != current_exam:
+                 self.list.add_header(f"Exam {exam_number}", key=f"lecture-exam-{exam_number}")
+                 current_exam = exam_number
+-            done = sum(1 for x in group if self._finished(x))
++            done, size = totals.get(key, (sum(1 for x in group if self._finished(x)), len(group)))
+             label = heading.partition(" · ")[2] or heading
+-            self.list.add_header(f"{label} · {done}/{len(group)} finished", level=1,
++            self.list.add_header(f"{label} · {done}/{size} finished", level=1,
+                                  key=f"lecture-{exam_number}-{chapter}")
+             for lesson in group:
+                 self._add_card(lesson)
+diff -ru -x __pycache__ -x *.pyc a/ui/model_view.py b/ui/model_view.py
+--- a/app/ui/model_view.py	2026-10-09 07:32:53
++++ b/app/ui/model_view.py	2026-10-09 07:32:53
+@@ -249,7 +249,8 @@
+         sliders = QGridLayout()
+         sliders.setContentsMargins(0, 4, 0, 4)
+         sliders.setVerticalSpacing(8)
+-        for column, (title, original) in enumerate((("Tissue opacity", self.opacity), ("Separate layers", self.explode))):
++        explode_title = self.explode.accessibleName() or "Separate layers"   # "Separate parts" for authored models
++        for column, (title, original) in enumerate((("Tissue opacity", self.opacity), (explode_title, self.explode))):
+             label = QLabel(title)
+             sliders.addWidget(label, 0, column)
+             slider = QSlider(Qt.Horizontal)
+@@ -288,6 +289,12 @@
+             if self.cut is not None:self.cut.setChecked(False)
+         reset.clicked.connect(reset_reveal)
+         row.addWidget(reset)
++        # The compact row mirrors these, so "More controls" must not show them a second time.
++        for original in (self.opacity, self.explode):
++            if original is not None and original.parentWidget() is not None:
++                original.parentWidget().hide()
++        if self.cut is not None:
++            self.cut.hide()
+         more = QPushButton("More controls")
+         more.setCheckable(True)
+         row.addWidget(more)
+diff -ru -x __pycache__ -x *.pyc a/ui/radiology.py b/ui/radiology.py
+--- a/app/ui/radiology.py	2026-10-09 07:32:53
++++ b/app/ui/radiology.py	2026-10-09 07:32:53
+@@ -404,6 +404,7 @@
+         ll.addWidget(self.study_tabs, 1)
+ 
+         self.legend = CardList(compact=True)
++        self.legend.reserve(64)      # numbered labels of one case (the largest has 19)
+         self.legend.itemEntered.connect(lambda it: self.view.set_hot(self.legend.row(it)))
+         self.legend.itemClicked.connect(self._legend_clicked)
+         self.legend.setMinimumHeight(80)
+@@ -627,7 +628,8 @@
+     def _show_answer(self):
+         self._render_notes(True)
+         self.study_tabs.setCurrentWidget(self.question_page)
+-        self.check_notes.scrollToAnchor("self-check")
++        # The box is short: bring the revealed answer into view rather than leaving it cut off below the question.
++        self.check_notes.scrollToAnchor("answer")
+ 
+     def _render_notes(self, show_answer):
+         case = self.case
+@@ -647,7 +649,7 @@
+             if show_answer:
+                 answer = question["answer"]
+                 answer = options[answer] if isinstance(answer, int) else answer
+-                question_html += f"<p><b>Answer: {escape(str(answer))}</b><br>{escape(question['explanation'])}</p>"
++                question_html += f"<p><a name='answer'></a><b>Answer: {escape(str(answer))}</b><br>{escape(question['explanation'])}</p>"
+         if case.references:
+             html += "<p><b>Teaching sources</b></p><ul>"
+             for reference in case.references:
+@@ -759,6 +761,7 @@
+         summary.addWidget(self.clear_filters)
+         lay.addLayout(summary)
+         self.list = CardList(collapsible=True)
++        self.list.reserve(2 * len(self.cases) + 16)     # every case plus a group header each, at most
+         self.list.setAccessibleName("Radiology cases")
+         self.list.itemActivated.connect(self._chosen)
+         lay.addWidget(self.list, 1)
+diff -ru -x __pycache__ -x *.pyc a/ui/saved_views.py b/ui/saved_views.py
+--- a/app/ui/saved_views.py	2026-10-09 07:32:53
++++ b/app/ui/saved_views.py	2026-10-09 07:32:53
+@@ -286,7 +286,8 @@
+     def _open_selected(self, *_args):
+         views, index = self._selected()
+         if index is not None:
+-            self.host.apply_view(views[index]["data"])
++            opener = getattr(self.host, "open_saved_view", self.host.apply_view)
++            opener(views[index]["data"])
+             self.accept()
+ 
+     def _rename_selected(self):
+diff -ru -x __pycache__ -x *.pyc a/ui/search_panel.py b/ui/search_panel.py
+--- a/app/ui/search_panel.py	2026-10-09 07:32:53
++++ b/app/ui/search_panel.py	2026-10-09 07:32:53
+@@ -9,8 +9,10 @@
+                                QStyleOptionFocusRect, QTextBrowser, QVBoxLayout, QWidget)
+ 
+ from . import theme
+-from .stable_rows import fill_list
++from .stable_rows import fill_list, reserve_rows
+ 
++RESULT_LIMIT = 150      # rows shown for one query; the list reserves this many rows up front
++
+ ROLE_ENTRY = Qt.UserRole + 1
+ KIND_BADGE = {"structure": "Structure", "group": "Group", "landmark": "Landmark", "clinical": "Clinical",
+               "tissue": "Histology", "micro": "3D model", "lesson": "Lesson", "radiology": "Radiology"}
+@@ -142,7 +144,9 @@
+         self.list.setMouseTracking(True)
+         self.list.setUniformItemSizes(True)
+         self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
++        reserve_rows(self.list, RESULT_LIMIT)
+         lay.addWidget(self.list, 1)
++        lay.addStretch(0)      # takes the space while the list is hidden, so a no-match query keeps its layout
+         self.list.hide()
+         self.shown = 0
+         self._timer = QTimer(self)
+@@ -195,7 +199,7 @@
+             return
+         try:
+             # Filter before the display cap so a popular anatomy term cannot hide model/lesson matches.
+-            results = (self.index.search(q, limit=max(150, len(self.index.entries))) if q
++            results = (self.index.search(q, limit=max(RESULT_LIMIT, len(self.index.entries))) if q
+                        else list(self.index.entries))
+             if kind:
+                 results = [entry for entry in results if entry.kind == kind]
+@@ -206,11 +210,11 @@
+             self.queryActive.emit(False)
+             return
+         count = len(results)
+-        self._show_results(results[:150])
++        self._show_results(results[:RESULT_LIMIT])
+         if not count:
+             self.info.setText("No matches. Try a shorter name, a Latin term, or All content.")
+-        elif count > 150:
+-            self.info.setText(f"Showing 150 of {count:,} matches. Refine your search.")
++        elif count > RESULT_LIMIT:
++            self.info.setText(f"Showing {RESULT_LIMIT} of {count:,} matches. Refine your search.")
+         else:
+             self.info.setText(f"{count:,} result{'s' if count != 1 else ''} · Enter to open")
+         self.list.setVisible(bool(count))
+diff -ru -x __pycache__ -x *.pyc a/ui/settings_dialog.py b/ui/settings_dialog.py
+--- a/app/ui/settings_dialog.py	2026-10-09 07:32:53
++++ b/app/ui/settings_dialog.py	2026-10-09 07:32:53
+@@ -111,6 +111,11 @@
+         box.rejected.connect(self.close)
+         bottom.addWidget(box)
+         lay.addLayout(bottom)
++        # Settings apply as they change, so Return in a value box must not press the first button on the page
++        # (it opened the colour picker).
++        for button in self.findChildren(QPushButton):
++            button.setAutoDefault(False)
++            button.setDefault(False)
+ 
+     # ------------------------------------------------------------------ helpers
+     def _page(self):
+diff -ru -x __pycache__ -x *.pyc a/ui/stable_rows.py b/ui/stable_rows.py
+--- a/app/ui/stable_rows.py	2026-10-09 07:32:53
++++ b/app/ui/stable_rows.py	2026-10-09 07:32:53
+@@ -29,6 +29,18 @@
+     return shown
+ 
+ 
++def reserve_rows(widget, count):
++    """Create a QListWidget's rows up front, hidden, so fill_list never has to add one while the list is on screen.
++
++    Adding rows to a visible list with hidden rows in it can also crash the Cocoa accessibility bridge (a null
++    element in QAccessible::updateAccessibility from endInsertRows, seen when successive searches grew the Explore
++    results list). Call this while the widget is being built, before it is shown."""
++    for _ in range(widget.count(), count):
++        item = QListWidgetItem()
++        widget.addItem(item)
++        item.setHidden(True)
++
++
+ def fill_combo(combo, entries):
+     """Show one QComboBox row per (text, data) entry; return how many rows are shown.
+ 
+diff -ru -x __pycache__ -x *.pyc a/ui/studio_shell.py b/ui/studio_shell.py
+--- a/app/ui/studio_shell.py	2026-10-09 07:32:53
++++ b/app/ui/studio_shell.py	2026-10-09 07:32:53
+@@ -190,6 +190,9 @@
+     for label,key in (('Measure','measure'),('Show all','show_all'),('Reset','reset_view')):
+         action=window.cmds.actions.get(key)
+         if action is not None:
++            # A tool button re-reads its action's iconText whenever the action changes (checked, enabled), so a
++            # short label set only with setText reverted to the long one ("Measure distances") and shifted the bar.
++            action.setIconText(label)
+             button=QToolButton();button.setDefaultAction(action);button.setText(label)
+             if key=='structure_labels':button.setToolTip('Show names of visible structures')
+             elif key=='show_all':button.setToolTip('Show every structure again and leave isolation')
+@@ -198,6 +201,8 @@
+     menu=QMenu(window)
+     menu.addAction('Parts',lambda:window._show_nav_page(window.tree))
+     menu.addAction('Reveal controls',lambda:window._show_nav_page(window.view_panel))
++    # Details has its own Close button; this is the way back to it without knowing the panels shortcut.
++    menu.addAction('Details',lambda:(window.right_dock.show(),window.right_dock.raise_()))
+     menu.addMenu(window.section_menu)
+     menu.addSeparator()
+     menu.addActions(window.tools_menu.actions())

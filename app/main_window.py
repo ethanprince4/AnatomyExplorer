@@ -122,6 +122,7 @@ class MainWindow(QMainWindow):
         # Back/Forward across the whole app (ui/places.py): a place is recorded once a click has settled.
         self.places = PlaceHistory()
         self._restoring_place = False
+        self._place_info = {}           # place key -> the Details page it showed (group / landmark pages)
         self._place_timer = QTimer(self)
         self._place_timer.setSingleShot(True)
         self._place_timer.setInterval(350)
@@ -172,6 +173,9 @@ class MainWindow(QMainWindow):
         self.center.tabBar().setTabButton(0, self.center.tabBar().ButtonPosition.RightSide, None)
         self.center.tabCloseRequested.connect(self._close_center_tab)
         self.center.currentChanged.connect(self._center_changed)
+        # Moving between the atlas, a library and an open model is a place for Back too, even when the
+        # library's own page did not change (e.g. Explore -> 3D Models -> open a model -> Back).
+        self.center.currentChanged.connect(self._note_place)
         self.workspace = QWidget()
         self.workspace_layout = QVBoxLayout(self.workspace)
         self.workspace_layout.setContentsMargins(0, 0, 0, 0)
@@ -395,6 +399,7 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(0, self._adapt_workspace)
         if not script:
             QTimer.singleShot(0, self._startup_explore)
+        QTimer.singleShot(0, self._note_place)       # the opening view is the first place Back can return to
         if self._startup_notices:
             if self.content.model_catalog_error:
                 self.notice.show_message(" · ".join(self._startup_notices), "Browse models", self._show_catalog)
@@ -777,6 +782,10 @@ class MainWindow(QMainWindow):
         self.studio_tools.raise_()
 
     def _studio_radiology(self):
+        on_library = (self.center.currentWidget() is self.collection_workspace
+                      and self.collection_workspace.pages.currentWidget() is self.radiology_browser)
+        if on_library:
+            return
         if self.radiology_panel is not None and self.radiology_panel.case is not None:
             self.open_radiology(self.radiology_panel.case.id)
         else:
@@ -929,8 +938,20 @@ class MainWindow(QMainWindow):
                 studio = getattr(view, "studio", None)
                 if studio is not None:
                     studio.set_lesson_mode(reading and current is view)
-            self.studio_header.set_workspace(self.collection_workspace.navigation_mode if collection else 'lessons' if reading else 'explore')
             radiology_visible=self.radiology_panel is not None and not self.radiology_panel.isHidden()
+            if collection:
+                workspace = self.collection_workspace.navigation_mode
+            elif reading:
+                workspace = 'lessons'
+            elif current is self.micro_tabs.get("__histology__"):
+                workspace = 'histology'      # an open slide belongs to Histology, not Explore
+            elif current is self.anatomy_tab and radiology_visible:
+                workspace = 'radiology'      # an open case belongs to Radiology
+            elif current is not self.anatomy_tab and current in self.micro_tabs.values() or                     current in self._loading_models.values():
+                workspace = '3d models'      # an open (or loading) model belongs to 3D Models
+            else:
+                workspace = 'explore'
+            self.studio_header.set_workspace(workspace)
             self.studio_header.subject.setVisible(current is self.anatomy_tab and not radiology_visible)
             self.studio_tools.setVisible(current is self.anatomy_tab)
             self._layout_studio_chrome()
@@ -1203,7 +1224,8 @@ class MainWindow(QMainWindow):
         self.activateWindow()
 
     def toggle_panels(self):
-        visible = self.left_dock.isVisible() or self.right_dock.isVisible()
+        # Hide both only when both are showing; otherwise bring back whichever was closed.
+        visible = self.left_dock.isVisible() and self.right_dock.isVisible()
         self.left_dock.setVisible(not visible)
         self.right_dock.setVisible(not visible)
 
@@ -1319,9 +1341,21 @@ class MainWindow(QMainWindow):
     def _capture_place(self):
         if self._restoring_place or self._closing or not hasattr(self, "studio_header"):
             return
+        if self.center.currentWidget() in self._loading_models.values():
+            # A model's loading placeholder is not a place (it read as "3D anatomy" and made Back stop there);
+            # the model view that replaces it is recorded when it arrives.
+            self._place_timer.start()
+            return
         place = self._current_place()
         if place is not None:
             self.places.push(*place)
+            # A group or landmark page in Details is not recoverable from the selection alone (Biceps brachii is
+            # four meshes), so remember which page this place showed.
+            view = getattr(self.info, "_view", None)
+            if view and getattr(view[0], "__name__", "") in ("show_node", "show_landmark"):
+                self._place_info[place[0]] = view
+            else:
+                self._place_info.pop(place[0], None)
         self._update_place_buttons()
 
     def _current_place(self):
@@ -1407,6 +1441,9 @@ class MainWindow(QMainWindow):
                     self.select_and_focus(list(scene[1]))
                 elif self.state.selected:
                     self.state.select([])
+                view = self._place_info.get(key)
+                if view is not None:
+                    view[0](*view[1])
         finally:
             # what the restore itself changes (a lesson step applying its scene, a model finishing loading) is
             # part of going back, not a new place
@@ -2726,6 +2763,11 @@ class MainWindow(QMainWindow):
             "custom_colors": {str(k): list(v) for k, v in st.custom_colors.items()},
         }
 
+    def open_saved_view(self, data):
+        """A saved view is an atlas view: show Explore first, or it is restored behind another workspace."""
+        self._studio_explore()
+        self.apply_view(data)
+
     def apply_view(self, data, animate=True):
         st = self.state
         n = self.ds.n
@@ -2850,13 +2892,28 @@ class MainWindow(QMainWindow):
         default = ""
         if self.state.selected:
             default = self.ds.structures[self.state.selected[0]]["base"]
-        name, ok = QInputDialog.getText(self, "Save view", "Name:", text=default)
-        if ok and name.strip():
-            views = [v for v in self._saved_views() if v["name"] != name.strip()]
-            views.append({"name": name.strip(), "created": datetime.now().isoformat(timespec="minutes"),
-                          "data": self.capture_view()})
-            self._store_views(views)
-            self.statusBar().showMessage(f"Saved view “{name.strip()}”", 3000)
+        label = "Name:"
+        while True:
+            name, ok = QInputDialog.getText(self, "Save view", label, text=default)
+            if not ok:
+                return
+            name = name.strip()
+            if not name:
+                label = "Name (a saved view needs a name):"
+                continue
+            existing = self._saved_views()
+            if any(v["name"] == name for v in existing):
+                answer = QMessageBox.question(self, "Save view", f"A saved view named “{name}” already exists. Replace it?",
+                                              QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                if answer != QMessageBox.Yes:
+                    default, label = name, "Name:"
+                    continue
+            break
+        views = [v for v in existing if v["name"] != name]
+        views.append({"name": name, "created": datetime.now().isoformat(timespec="minutes"),
+                      "data": self.capture_view()})
+        self._store_views(views)
+        self.statusBar().showMessage(f"Saved view “{name}”", 3000)
 
     def _fill_views_menu(self):
         m = self.views_menu
@@ -2866,7 +2923,7 @@ class MainWindow(QMainWindow):
         if views:
             m.addSeparator()
             for v in sorted(views, key=lambda v: v["name"].lower()):
-                m.addAction(v["name"], lambda data=v["data"]: self.apply_view(data))
+                m.addAction(v["name"], lambda data=v["data"]: self.open_saved_view(data))
             m.addSeparator()
         m.addAction("Manage saved views…", self.manage_views)
 
@@ -2993,6 +3050,10 @@ class MainWindow(QMainWindow):
         vp = self.active_viewport()
         if vp.measure_points:
             vp.clear_measure()
+            return
+        if vp.measure_mode:        # nothing measured: Esc leaves measure mode, like any other tool
+            self.toggle_measure()
+            self.measure_action.setChecked(False)
             return
         mv = self.active_model_view()
         if mv is not None and not (self.quiz is not None and self.quiz.active):

@@ -280,6 +280,7 @@ class LessonsPanel(QWidget):
         self.stats.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         lay.addWidget(self.stats)
         self.list = CardList(collapsible=True)
+        self.list.reserve(2 * len(self.lessons) + 16)   # every lesson plus a header each, at most, plus notes
         self.list.setAccessibleName("Lesson library")
         self.list.itemActivated.connect(self._open_item)
         self.list.itemClicked.connect(self._open_item)
@@ -324,7 +325,16 @@ class LessonsPanel(QWidget):
         self.status_filter.setCurrentIndex(0)
         self.scope_label.setText("Lessons linked by the existing content to " + self._label("micro", model_id))
         self.scope_notice.show()
-        self._fill()
+        # The Lab and Lecture groupings only list course lessons; a model's linked lessons may be outside both.
+        linked = self.lessons_for_model(model_id)
+        in_course = lambda x: x.unit_key and (x.unit_key[0] == "lab" and 1 <= x.unit_key[1] <= 9
+                                              or x.unit_key[0] == "exam" and x.unit_key[1] in (1, 2))
+        hidden = (self.group_by == "course" and any(not in_course(x) for x in linked)
+                  or self.group_by == "lecture" and any(not x.lecture_key for x in linked))
+        if hidden:
+            self._set_group("system")
+        else:
+            self._fill()
         self.filter.setFocus(Qt.OtherFocusReason)
 
     def clear_model_filter(self):
@@ -388,6 +398,7 @@ class LessonsPanel(QWidget):
         selected = self.list.currentItem()
         selected_id = selected.data(Qt.UserRole) if selected is not None else None
         self.list.clear()
+        self.list.expand_all = bool(self._model_filter)
         done, started, total = self.progress.totals(self.lessons)
         self.stats.setText(f"{len(shown)} of {total} lessons · {done} finished · {started} in progress")
         resume = next(iter(self.progress.in_progress(self.lessons)), None)
@@ -415,25 +426,32 @@ class LessonsPanel(QWidget):
         """Only labs and practicals, in teaching order."""
         course = [x for x in shown if x.unit_key and (x.unit_key[0] == "lab" and 1 <= x.unit_key[1] <= 9
                                                       or x.unit_key[0] == "exam" and x.unit_key[1] in (1, 2))]
+        # Header counts describe the whole unit, not just the lessons the current filters let through.
+        everything = [x for x in self.lessons if x.unit_key and (x.unit_key[0] == "lab" and 1 <= x.unit_key[1] <= 9
+                                                                or x.unit_key[0] == "exam" and x.unit_key[1] in (1, 2))]
+        totals = {key: (sum(1 for x in members if self._finished(x)), len(members))
+                  for _heading, key, members in course_units(everything)}
         for heading, unit_key, group in course_units(course):
-            done = sum(1 for x in group if self._finished(x))
+            done, size = totals.get(unit_key, (sum(1 for x in group if self._finished(x)), len(group)))
             _short, _sep, topic = heading.partition(" · ")
             short = f"Lab {unit_key[1]}" if unit_key[0] == "lab" else f"Practical {unit_key[1]}"
-            self.list.add_header(f"{short} · {done}/{len(group)} finished" + (f"  ·  {topic}" if topic else ""),
+            self.list.add_header(f"{short} · {done}/{size} finished" + (f"  ·  {topic}" if topic else ""),
                                  key=f"lab-{unit_key[0]}-{unit_key[1]}")
             for lesson in group:
                 self._add_card(lesson)
     def _fill_lecture(self, shown):
         """Exam > chapter > lessons, with reviews after chapters."""
         current_exam = None
+        totals = {key: (sum(1 for x in members if self._finished(x)), len(members))
+                  for _heading, key, members in lecture_units([x for x in self.lessons if x.lecture_key])}
         for heading, key, group in lecture_units([x for x in shown if x.lecture_key]):
             exam_number, chapter = key
             if exam_number != current_exam:
                 self.list.add_header(f"Exam {exam_number}", key=f"lecture-exam-{exam_number}")
                 current_exam = exam_number
-            done = sum(1 for x in group if self._finished(x))
+            done, size = totals.get(key, (sum(1 for x in group if self._finished(x)), len(group)))
             label = heading.partition(" · ")[2] or heading
-            self.list.add_header(f"{label} · {done}/{len(group)} finished", level=1,
+            self.list.add_header(f"{label} · {done}/{size} finished", level=1,
                                  key=f"lecture-{exam_number}-{chapter}")
             for lesson in group:
                 self._add_card(lesson)

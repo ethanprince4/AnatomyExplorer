@@ -286,7 +286,8 @@ class SavedViewsDialog(QDialog):
     def _open_selected(self, *_args):
         views, index = self._selected()
         if index is not None:
-            self.host.apply_view(views[index]["data"])
+            opener = getattr(self.host, "open_saved_view", self.host.apply_view)
+            opener(views[index]["data"])
             self.accept()
 
     def _rename_selected(self):

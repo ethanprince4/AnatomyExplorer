@@ -9,7 +9,9 @@ from PySide6.QtWidgets import (QComboBox, QHBoxLayout, QLabel, QLineEdit, QListW
                                QStyleOptionFocusRect, QTextBrowser, QVBoxLayout, QWidget)
 
 from . import theme
-from .stable_rows import fill_list
+from .stable_rows import fill_list, reserve_rows
+
+RESULT_LIMIT = 150      # rows shown for one query; the list reserves this many rows up front
 
 ROLE_ENTRY = Qt.UserRole + 1
 KIND_BADGE = {"structure": "Structure", "group": "Group", "landmark": "Landmark", "clinical": "Clinical",
@@ -142,7 +144,9 @@ class SearchPanel(QWidget):
         self.list.setMouseTracking(True)
         self.list.setUniformItemSizes(True)
         self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        reserve_rows(self.list, RESULT_LIMIT)
         lay.addWidget(self.list, 1)
+        lay.addStretch(0)      # takes the space while the list is hidden, so a no-match query keeps its layout
         self.list.hide()
         self.shown = 0
         self._timer = QTimer(self)
@@ -195,7 +199,7 @@ class SearchPanel(QWidget):
             return
         try:
             # Filter before the display cap so a popular anatomy term cannot hide model/lesson matches.
-            results = (self.index.search(q, limit=max(150, len(self.index.entries))) if q
+            results = (self.index.search(q, limit=max(RESULT_LIMIT, len(self.index.entries))) if q
                        else list(self.index.entries))
             if kind:
                 results = [entry for entry in results if entry.kind == kind]
@@ -206,11 +210,11 @@ class SearchPanel(QWidget):
             self.queryActive.emit(False)
             return
         count = len(results)
-        self._show_results(results[:150])
+        self._show_results(results[:RESULT_LIMIT])
         if not count:
             self.info.setText("No matches. Try a shorter name, a Latin term, or All content.")
-        elif count > 150:
-            self.info.setText(f"Showing 150 of {count:,} matches. Refine your search.")
+        elif count > RESULT_LIMIT:
+            self.info.setText(f"Showing {RESULT_LIMIT} of {count:,} matches. Refine your search.")
         else:
             self.info.setText(f"{count:,} result{'s' if count != 1 else ''} · Enter to open")
         self.list.setVisible(bool(count))

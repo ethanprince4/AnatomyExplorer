@@ -44,6 +44,12 @@ DROP_SECTIONS = {"references", "external links", "see also", "further reading", 
 SUMMARY_CHARS = 420
 
 
+def same_name(latin, name):
+    """True when the Latin term only repeats the heading (e.g. "Aorta" / "Aorta"), so it is not shown twice."""
+    norm = lambda t: " ".join(str(t).lower().replace(",", " ").split())
+    return norm(latin) == norm(name)
+
+
 def esc(s):
     return html.escape(str(s), quote=True)
 
@@ -468,7 +474,7 @@ license shown with each image)</li></ul>
         nid = ds.node_of_structure.get(sids[0])
 
         parts = [f"<h1>{esc(s['name'])}</h1>"]
-        if s.get("latin"):
+        if s.get("latin") and not same_name(s["latin"], s["name"]):
             parts.append(f'<div class="latin">{esc(s["latin"])}</div>')
         if nid:
             parts.append(self._breadcrumb(nid))
@@ -576,7 +582,7 @@ license shown with each image)</li></ul>
         self._view = (self.show_node, (nid,))
         sysname = ds.systems[ds.system_index[node["system"]]]["name"]
         parts = [f"<h1>{esc(node['name'])}</h1>"]
-        if node.get("latin"):
+        if node.get("latin") and not same_name(node["latin"], node["name"]):
             parts.append(f'<div class="latin">{esc(node["latin"])}</div>')
         parts.append(self._breadcrumb(nid))
         parts.append(self._actions([("Focus", "frame"), ("X-ray others", "xray"), ("Isolate", "isolate"),
@@ -603,7 +609,7 @@ license shown with each image)</li></ul>
         lm = ds.landmarks[idx]
         host = ds.structures[lm["sid"]]
         parts = [f"<h1>{esc(lm['name'])}</h1>"]
-        if lm.get("latin"):
+        if lm.get("latin") and not same_name(lm["latin"], lm["name"]):
             parts.append(f'<div class="latin">{esc(lm["latin"])}</div>')
         parts.append(f'<div class="crumb">Landmark on {link("sid", lm["sid"], host["name"])}'
                      f'{" (" + host["side"].lower() + ")" if host["side"] else ""}</div>')

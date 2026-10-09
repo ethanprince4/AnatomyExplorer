@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+# ctxstat FILE... -> peak context (input+cache) per agent transcript, turns, tool calls
+import json, sys
+for p in sys.argv[1:]:
+    peak = turns = 0
+    try:
+        for line in open(p):
+            try: d = json.loads(line)
+            except Exception: continue
+            u = (d.get("message") or {}).get("usage") if isinstance(d.get("message"), dict) else None
+            if u:
+                turns += 1
+                c = u.get("input_tokens", 0) + u.get("cache_read_input_tokens", 0) + u.get("cache_creation_input_tokens", 0)
+                peak = max(peak, c)
+    except FileNotFoundError:
+        print(p, "missing"); continue
+    print("%s peak_ctx=%d turns=%d" % (p.split("/")[-1][:20], peak, turns))

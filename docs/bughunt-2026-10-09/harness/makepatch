@@ -1,0 +1,8 @@
+#!/bin/sh
+# Regenerate fixes.patch: unified diff of the patched app sources against the shipped 4.0.5 sources (paths app/...).
+cd "$(dirname "$0")/patched"
+cp -R "Anatomy Explorer.app/Contents/Resources/app" /tmp/ae_patched_app_$$ 2>/dev/null
+mkdir -p /tmp/ae_diff_$$ && cp -R app_orig /tmp/ae_diff_$$/a && cp -R /tmp/ae_patched_app_$$ /tmp/ae_diff_$$/b
+cd /tmp/ae_diff_$$ && diff -ru -x '__pycache__' -x '*.pyc' a b | sed -e 's#^--- a/#--- a/app/#' -e 's#^+++ b/#+++ b/app/#' > "$OLDPWD/../fixes.patch"
+rm -rf /tmp/ae_diff_$$ /tmp/ae_patched_app_$$
+grep -c '^+++ ' "$OLDPWD/../fixes.patch"
