@@ -294,7 +294,7 @@ class MainWindow(QMainWindow):
         self.left_dock.setWidget(left)
         self.left_dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable |
                                    QDockWidget.DockWidgetClosable)
-        left.setMinimumWidth(300)
+        left.setMinimumWidth(theme.text_px(27))
         left.setAccessibleName("Anatomy and study navigation")
         self.addDockWidget(Qt.LeftDockWidgetArea, self.left_dock)
 
@@ -317,9 +317,14 @@ class MainWindow(QMainWindow):
         self.right_dock.setWidget(self.info)
         self.right_dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable |
                                     QDockWidget.DockWidgetClosable)
-        self.info.setMinimumWidth(300)
+        self.info.setMinimumWidth(theme.text_px(27))
         self.addDockWidget(Qt.RightDockWidgetArea, self.right_dock)
-        self.resizeDocks([self.left_dock, self.right_dock], [360, 420], Qt.Horizontal)
+        # Shown as cards by FloatingPanels (studio_shell.py), which sizes them from the window; this is only the
+        # starting size if the docks are ever docked: the same share of the window as 360/420 of a 2252 px one.
+        wide = max(self.width(), 800)
+        self.resizeDocks([self.left_dock, self.right_dock],
+                         [theme.scaled_to_window(360, wide, theme.REF_WINDOW_W, theme.text_px(27)),
+                          theme.scaled_to_window(420, wide, theme.REF_WINDOW_W, theme.text_px(27))], Qt.Horizontal)
 
         self.cmds = ActionRegistry(self, self.viewport, self.qsettings)
         self._register_actions()
@@ -807,10 +812,23 @@ class MainWindow(QMainWindow):
         panel.show()
         self.lesson_reader.show()
         if attach:
-            self.lesson_splitter.setSizes([440, max(480, self.width()-440)])
+            self._fit_lesson_reader(force=True)
         self.left_dock.hide()
         self.right_dock.hide()
         self._update_workspace_header()
+
+    def _fit_lesson_reader(self, force=False):
+        """The lesson reader takes the share of the window it had at 2252 px wide (440 px), never more than that.
+
+        Called when it is attached and when the window first shows or changes screen, so a window opened or moved on
+        a smaller screen does not keep a reader sized for a bigger one. A width the reader already fits is kept."""
+        if not force and not self.lesson_reader.isVisible():
+            return
+        wide = self.lesson_splitter.width() or self.width()
+        cap = max(theme.scaled_to_window(440, wide, theme.REF_WINDOW_W, theme.text_px(36)),
+                  self.lesson_reader.minimumSizeHint().width())
+        if force or self.lesson_reader.width() > cap:
+            self.lesson_splitter.setSizes([cap, max(480, wide - cap)])
 
     def _show_lesson_library(self):
         panel = self.lessons_panel
@@ -993,6 +1011,21 @@ class MainWindow(QMainWindow):
         if getattr(self, "_ui_ready", False) and not self._layout_pending:
             self._layout_pending = True
             QTimer.singleShot(0, self._adapt_workspace)
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        handle = self.windowHandle()
+        if handle is not None and not getattr(self, "_screen_hooked", False):
+            # A window dragged to a screen of another size or density gets its panels re-fitted.
+            self._screen_hooked = True
+            handle.screenChanged.connect(lambda *_: QTimer.singleShot(0, self._screen_refit))
+        if getattr(self, "_ui_ready", False):
+            QTimer.singleShot(0, self._screen_refit)
+
+    def _screen_refit(self):
+        if getattr(self, "_ui_ready", False) and not self._closing:
+            self._adapt_workspace()
+            self._fit_lesson_reader()
 
     def _adapt_workspace(self):
         self._layout_pending = False

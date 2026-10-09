@@ -19,7 +19,7 @@ class TreePanel(QWidget):
         self.state = state
         self._sync = False
         self._filter_expanded = None
-        self.setMinimumWidth(240)
+        self.setMinimumWidth(theme.text_px(27))
         self.setAccessibleName("Anatomy hierarchy")
         lay = QVBoxLayout(self)
         lay.setContentsMargins(12, 12, 12, 12)

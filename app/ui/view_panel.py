@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (QCheckBox, QComboBox, QGridLayout, QGroupBox, QHB
 from ..actions import SELECT_MODIFIER
 from .stable_rows import fill_list
 from . import theme
+from .shell import ElidingCheckBox
 
 CLIP_NAMES = ["Sagittal (left / right)", "Coronal (front / back)", "Transverse (top / bottom)"]
 
@@ -43,7 +44,7 @@ class ViewPanel(QWidget):
         self.settings = settings
         self.vp = viewport
         self._sync = False
-        self.setMinimumWidth(240)
+        self.setMinimumWidth(theme.text_px(27))
         self.setAccessibleName("Atlas view controls")
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -63,7 +64,7 @@ class ViewPanel(QWidget):
         self.color_mode = QComboBox()
         self.color_mode.setAccessibleName("Atlas color mode")
         self.color_mode.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
-        self.color_mode.setMinimumContentsLength(10)
+        self.color_mode.setMinimumContentsLength(5)
         self.color_mode.addItems(["Realistic", "Distinct segments", "By body system"])
         self.color_mode.currentIndexChanged.connect(lambda i: self._set("color_mode", i))
         gl.addWidget(self.color_mode, 0, 1)
@@ -78,20 +79,22 @@ class ViewPanel(QWidget):
         self.ghost.valueChanged.connect(lambda value: self.ghost_value.setText(f"{value}%"))
         opacity_row.addWidget(self.ghost_value)
         gl.addLayout(opacity_row, 1, 1)
-        self.xray = QCheckBox("X-ray everything else when searching")
+        self.xray = ElidingCheckBox("X-ray everything else when searching")
         self.xray.toggled.connect(lambda v: self._set("xray_on_search", v))
         gl.addWidget(self.xray, 2, 0, 1, 2)
-        self.lm = QCheckBox("Landmark labels on selection")
+        self.lm = ElidingCheckBox("Landmark labels on selection")
         self.lm.toggled.connect(lambda v: self._set("show_landmarks", v))
         gl.addWidget(self.lm, 3, 0, 1, 2)
-        self.dark = QCheckBox("Dark 3D background")
+        self.dark = ElidingCheckBox("Dark 3D background")
         self.dark.setToolTip("Changes the atlas background, independently of the app theme")
         self.dark.toggled.connect(lambda v: self._set("dark_background", v))
         gl.addWidget(self.dark, 4, 0, 1, 2)
-        self.ssao = QCheckBox("Ambient occlusion")
+        self.ssao = ElidingCheckBox("Ambient occlusion")
         self.ssao.toggled.connect(lambda v: self._set("ssao", v))
         gl.addWidget(self.ssao, 5, 0, 1, 2)
-        more = QPushButton("All settings, mouse && key bindings…")
+        more = QPushButton("All settings and keys…")
+        more.setToolTip("All settings, mouse and key bindings")
+        more.setAccessibleName("All settings, mouse and key bindings")
         more.clicked.connect(self.settingsRequested.emit)
         gl.addWidget(more, 6, 0, 1, 2)
         lay.addWidget(g)
@@ -117,7 +120,7 @@ class ViewPanel(QWidget):
         row.addWidget(self.depth_out)
         row.addWidget(self.depth_in)
         dl.addLayout(row)
-        self.depth_band = QCheckBox("Show only this layer")
+        self.depth_band = ElidingCheckBox("Show only this layer")
         self.depth_band.toggled.connect(lambda _=False: self._depth())
         dl.addWidget(self.depth_band)
         self.depth_label = QLabel("Preparing dissection depth…")
@@ -136,7 +139,7 @@ class ViewPanel(QWidget):
         self.clip_widgets = []
         for i, name in enumerate(CLIP_NAMES):
             row = QHBoxLayout()
-            cb = QCheckBox(name)
+            cb = ElidingCheckBox(name)
             flip = QPushButton("Flip")
             flip.setCheckable(True)
             flip.setMinimumWidth(52)
@@ -155,7 +158,7 @@ class ViewPanel(QWidget):
             cb.toggled.connect(lambda _=False, idx=i: self._clip(idx))
             sl.valueChanged.connect(lambda _=0, idx=i: self._clip(idx))
             flip.toggled.connect(lambda _=False, idx=i: self._clip(idx))
-        self.section_labels = QCheckBox("Label the cut face")
+        self.section_labels = ElidingCheckBox("Label the cut face")
         self.section_labels.toggled.connect(lambda v: self._set("section_labels", v))
         cl.addWidget(self.section_labels)
         self.section_list = QListWidget()

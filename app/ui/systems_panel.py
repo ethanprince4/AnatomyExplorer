@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (QCheckBox, QFrame, QHBoxLayout, QLabel, QMenu, QP
                                QSlider, QToolButton, QVBoxLayout, QWidget)
 
 from . import theme
+from .shell import ElidingCheckBox
 from .flow import FlowLayout
 
 PRESETS = [
@@ -45,7 +46,7 @@ class SystemsPanel(QWidget):
         self.ds = ds
         self.state = state
         self._sync = False
-        self.setMinimumWidth(240)
+        self.setMinimumWidth(theme.text_px(27))
         self.setAccessibleName("Body systems and opacity")
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -108,7 +109,7 @@ class SystemsPanel(QWidget):
             exp.setMinimumSize(28, 28)
             head.addWidget(exp)
             head.addWidget(swatch(s["color"]))
-            cb = QCheckBox(s["name"].replace("&", "&&"))
+            cb = ElidingCheckBox(s["name"].replace("&", "&&"))
             cb.setAccessibleName(f"Show {s['name']}")
             cb.setToolTip(s["name"])
             cb.setStyleSheet(f"font-weight:600; color:{theme.TEXT_STRONG};")
@@ -148,7 +149,7 @@ class SystemsPanel(QWidget):
                 if key not in ds.subsystem_index:
                     continue
                 sidx = ds.subsystem_index[key]
-                scb = QCheckBox(f"{sub['name'].replace('&', '&&')}  ({sub_counts[sidx]})")
+                scb = ElidingCheckBox(f"{sub['name'].replace('&', '&&')}  ({sub_counts[sidx]})")
                 scb.setAccessibleName(f"Show {sub['name']} in {s['name']}")
                 scb.toggled.connect(lambda on, idx=sidx: self._sub_toggled(idx, on))
                 dl.addWidget(scb)
@@ -209,7 +210,7 @@ class RegionsPanel(QWidget):
         self.ds = ds
         self.state = state
         self._sync = False
-        self.setMinimumWidth(240)
+        self.setMinimumWidth(theme.text_px(27))
         self.setAccessibleName("Body region filters")
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -240,7 +241,7 @@ class RegionsPanel(QWidget):
         lay.addWidget(self.summary)
         self.checks = []
         for i, r in enumerate(ds.regions):
-            cb = QCheckBox(r["name"].replace("&", "&&"))
+            cb = ElidingCheckBox(r["name"].replace("&", "&&"))
             cb.setAccessibleName(f"Show {r['name']}")
             cb.toggled.connect(lambda on, idx=i: (not self._sync) and self.state.set_region(idx, on))
             lay.addWidget(cb)

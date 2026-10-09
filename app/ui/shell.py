@@ -1,8 +1,44 @@
 """Small native shell components. No models, image decoding or data writes."""
 from PySide6.QtCore import QEvent, Qt
-from PySide6.QtWidgets import (QDialog, QHBoxLayout, QLabel, QLineEdit, QListWidget,
+from PySide6.QtWidgets import (QCheckBox, QStyle, QStyleOptionButton, QSizePolicy, QStylePainter, QToolTip, QDialog, QHBoxLayout, QLabel, QLineEdit, QListWidget,
                                QListWidgetItem, QPushButton, QVBoxLayout, QWidget)
 from . import theme
+
+
+class ElidingCheckBox(QCheckBox):
+    """A check box whose label shortens with "..." when the panel is narrower than the whole text (hover shows it all)
+    instead of forcing the panel to stay wide. Looks and behaves like a QCheckBox whenever the text fits."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # A check box is "Minimum" wide by default, which makes its full text its smallest width.
+        self.setSizePolicy(QSizePolicy.Preferred, self.sizePolicy().verticalPolicy())
+
+    def minimumSizeHint(self):
+        base = super().sizeHint()
+        opt = QStyleOptionButton()
+        self.initStyleOption(opt)
+        st = self.style()
+        indicator = st.pixelMetric(QStyle.PM_IndicatorWidth, opt, self) + st.pixelMetric(QStyle.PM_CheckBoxLabelSpacing, opt, self)
+        return base.boundedTo(base.__class__(indicator + self.fontMetrics().horizontalAdvance("mmmmm") + 4, base.height()))
+
+    def _contents_width(self, opt):
+        return self.style().subElementRect(QStyle.SE_CheckBoxContents, opt, self).width()
+
+    def paintEvent(self, event):
+        opt = QStyleOptionButton()
+        self.initStyleOption(opt)
+        opt.text = self.fontMetrics().elidedText(self.text(), Qt.ElideRight, self._contents_width(opt))
+        QStylePainter(self).drawControl(QStyle.CE_CheckBox, opt)
+
+    def event(self, ev):
+        if ev.type() == QEvent.ToolTip and not self.toolTip():
+            opt = QStyleOptionButton()
+            self.initStyleOption(opt)
+            if self.fontMetrics().horizontalAdvance(self.text()) > self._contents_width(opt):
+                QToolTip.showText(ev.globalPos(), self.text().replace("&&", "&"), self)
+                return True
+        return super().event(ev)
 
 
 class ElidingLabel(QLabel):

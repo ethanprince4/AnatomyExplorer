@@ -449,6 +449,23 @@ QSplitter::handle:hover {{ background: {ACCENT_BORDER}; }}
 """
 
 
+def text_px(chars):
+    """Pixels for `chars` average characters of the application font, so a minimum width follows the font size
+    (and the Mac point scale above) instead of being a fixed pixel count."""
+    from PySide6.QtGui import QFontMetrics
+    return QFontMetrics(QApplication.font()).averageCharWidth() * int(chars)
+
+
+# Panel sizes were set by eye in a window about this size (a 2560x1440 logical screen at 88%). Smaller windows
+# get the same share of the window; larger ones keep the same pixel size.
+REF_WINDOW_W = 2252
+
+
+def scaled_to_window(px, window_extent, ref_extent, floor):
+    """`px` (the size at the reference window) scaled to this window's extent, never above `px`, never below `floor`."""
+    return int(min(px, max(floor, round(px * window_extent / ref_extent))))
+
+
 def apply_theme(app: QApplication, scale=1.0, mode=None):
     if mode is not None:
         set_theme(mode)

@@ -4,7 +4,8 @@ from collections import OrderedDict
 from urllib.parse import quote, unquote
 
 from PySide6.QtCore import Signal, QUrl, Qt
-from PySide6.QtGui import QColor
+from PySide6.QtCore import QTimer
+from PySide6.QtGui import QColor, QTextDocument
 from PySide6.QtWidgets import QPushButton, QTextBrowser, QVBoxLayout, QWidget
 
 from ..actions import default_key_text
@@ -128,10 +129,13 @@ class InfoPanel(QWidget):
         self._open = {"clinical": True, "attachments": True, "innervation": True, "supplied": True,
                       "boneattach": True, "histology": True, "micro": True}
         self._view = None
+        self._font_scale = 1.0
+        self._welcome_fit = None
+        self._fit_width = 0
         self._body = ""
         self._pending_actions = []
         self._action_buttons = {}
-        self.setMinimumWidth(260)
+        self.setMinimumWidth(theme.text_px(27))
         self.setAccessibleName("Selection details and related study content")
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
@@ -198,8 +202,58 @@ class InfoPanel(QWidget):
         self.browser.setHtml(f"<html><body>{body}</body></html>")
         self.browser.verticalScrollBar().setValue(pos if keep_scroll else 0)
 
+    def _heading_html(self, size=None):
+        """The welcome heading. `size` (pt) is only set when it has to be smaller than the h1 style makes it
+        (a plain h1 ignores an inline font size in Qt's rich text, so the smaller form is a bold paragraph)."""
+        if size is None:
+            return "<h1>Anatomy Explorer</h1>"
+        return (f'<p style="font-size:{size:.2f}pt; font-weight:700; color:{theme.TEXT_STRONG}; '
+                f'margin:0 0 3px 0">Anatomy Explorer</p>')
+
+    def _heading_width(self, size=None):
+        """Width of the welcome heading on one line, measured on a small copy of the page."""
+        doc = QTextDocument()
+        doc.setDefaultFont(self.browser.document().defaultFont())
+        doc.setDefaultStyleSheet(self.browser.document().defaultStyleSheet())
+        doc.setDocumentMargin(0)
+        doc.setTextWidth(-1)
+        doc.setHtml(f"<html><body>{self._heading_html(size)}</body></html>")
+        doc.size()                      # lay it out before asking how wide it came out
+        return doc.idealWidth()
+
+    def _fit_heading(self):
+        """The welcome heading stays on one line: shrink it, only as far as needed, when the card is too narrow.
+
+        At widths where it already fits nothing changes."""
+        self._fit_width = self.browser.viewport().width()
+        avail = self._fit_width - 2 * self.browser.document().documentMargin() - 2
+        natural = self._heading_width()
+        size = None
+        if natural > avail > 0:
+            per_pt = self._heading_width(20.0) / 20.0
+            natural_pt = natural / per_pt
+            size = max(natural_pt * 0.6, min(natural_pt, avail / per_pt * 0.98))
+            while self._heading_width(size) > avail and size > natural_pt * 0.6:
+                size = max(natural_pt * 0.6, size * 0.97)
+        if size != self._welcome_fit:
+            self._welcome_fit = size
+            self._set(self._welcome_body(), keep_scroll=True)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if self._view and self._view[0] == self.show_welcome and not getattr(self, "_refit_pending", False):
+            self._refit_pending = True
+            QTimer.singleShot(0, self._refit_heading)
+
+    def _refit_heading(self):
+        self._refit_pending = False
+        if (self._view and self._view[0] == self.show_welcome
+                and self.browser.viewport().width() != self._fit_width):
+            self._rerender()
+
     def set_font_scale(self, scale):
         scale = max(0.75, min(2.0, float(scale)))
+        self._font_scale = scale
         f = self.browser.font()
         f.setPointSizeF(theme.FS_BODY * scale)
         self.browser.setFont(f)
@@ -404,8 +458,8 @@ class InfoPanel(QWidget):
             extras.append(f"{self.n_radiology} radiology cases")
         if self.n_lessons:
             extras.append(f"{self.n_lessons} guided lessons")
-        self._set(f"""
-<h1>Anatomy Explorer</h1>
+        self._welcome_body = lambda: f"""
+{self._heading_html(self._welcome_fit)}
 <div class="muted">{ds.n:,} structures · {len(ds.landmarks):,} landmarks · {tris:.1f} M triangles</div>
 <div class="muted">{" · ".join(extras)}</div>
 <h3>Explore and study</h3>
@@ -440,7 +494,10 @@ Sections are collapsible, and remember whether you left them open.</p>
 <p><b>Settings</b> ({default_key_text("settings")}) has mouse sensitivity, key bindings and display options.</p>
 <h3>Data sources</h3><ul>{attr}<li>Histology micrographs: Wikimedia Commons contributors (author and
 license shown with each image)</li></ul>
-""", keep_scroll)
+"""
+        self._welcome_fit = None
+        self._set(self._welcome_body(), keep_scroll)
+        self._fit_heading()
 
     def show_structures(self, sids, keep_scroll=False):
         ds = self.ds
