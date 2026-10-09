@@ -28,6 +28,55 @@ _BACKEND_RANK = {"Metal": 0, "Vulkan": 1, "D3D12": 2, "D3D11": 3, "OpenGL": 4}
 _TYPE_RANK = {"DiscreteGPU": 0, "IntegratedGPU": 1, "Unknown": 2, "VirtualGPU": 3, "CPU": 9}
 
 
+# ANATOMY_WGPU_LIMITS=apple7 emulates an Apple M1 (Apple7 family) on Metal: the limits wgpu-hal v29 sets for it
+# (wgpu-hal/src/metal/adapter.rs, PrivateCapabilities + capabilities()) are applied as min(adapter limit, Metal value),
+# and features Metal does not expose on Apple GPUs are not requested. maxBufferLength (= max_buffer_size =
+# max_storage_buffer_binding_size) is a runtime, RAM dependent value: ANATOMY_WGPU_APPLE7_BUFFER_MB sets it (default 1024,
+# wgpu-hal's own fallback). The device is then NOT the real Metal one (alignments, shader translation, tiling differ).
+APPLE7_LIMITS = {
+    "max-storage-buffers-per-shader-stage": 8,
+    "max-storage-textures-per-shader-stage": 32,
+    "max-sampled-textures-per-shader-stage": 96,
+    "max-samplers-per-shader-stage": 16,
+    "max-uniform-buffers-per-shader-stage": 12,
+    "max-vertex-buffers": 8,
+    "max-vertex-attributes": 31,
+    "max-vertex-buffer-array-stride": 2048,
+    "max-bind-groups": 8,
+    "max-dynamic-storage-buffers-per-pipeline-layout": 8,
+    "max-dynamic-uniform-buffers-per-pipeline-layout": 12,
+    "max-texture-dimension-1d": 16384,
+    "max-texture-dimension-2d": 16384,
+    "max-texture-dimension-3d": 2048,
+    "max-texture-array-layers": 2048,
+    "max-color-attachments": 8,
+    "max-color-attachment-bytes-per-sample": 64,
+    "max-inter-stage-shader-variables": 31,
+    "max-compute-workgroup-storage-size": 32768,
+    "max-compute-invocations-per-workgroup": 1024,
+    "max-compute-workgroup-size-x": 1024,
+    "max-compute-workgroup-size-y": 1024,
+    "max-compute-workgroup-size-z": 1024,
+    "max-compute-workgroups-per-dimension": 0xFFFF,
+}
+# Features Metal on Apple7 does not expose (inside-pass timestamps need AtDraw/AtDispatch sampling, AMD/Intel Macs only).
+APPLE7_NO_FEATURES = ("timestamp-query-inside-passes",)
+
+
+def apple7_limits(adapter_limits: dict, buffer_mb: int | None = None) -> dict:
+    """min(adapter limit, Apple7 Metal value) for every limit in APPLE7_LIMITS plus the buffer size limits."""
+    if buffer_mb is None:
+        buffer_mb = int(os.environ.get("ANATOMY_WGPU_APPLE7_BUFFER_MB") or 1024)
+    want = dict(APPLE7_LIMITS)
+    for k in ("max-buffer-size", "max-storage-buffer-binding-size", "max-uniform-buffer-binding-size"):
+        want[k] = buffer_mb << 20
+    out = dict(adapter_limits)
+    for k, v in want.items():
+        if k in out:
+            out[k] = min(int(out[k]), int(v))
+    return out
+
+
 class GpuUnavailable(RuntimeError):
     """No usable wgpu adapter or device."""
 
@@ -44,6 +93,7 @@ class Gpu:
     name: str = ""
     backend: str = ""
     adapter_type: str = ""
+    emulated: str = ""          # "" or "apple7" (ANATOMY_WGPU_LIMITS)
 
 
 _lock = threading.Lock()
@@ -96,14 +146,21 @@ def _create(wanted: str | None) -> Gpu:
     adapter = _choose_adapter(wanted)
     name, backend, kind = _describe(adapter)
     features = [f for f in WANTED_FEATURES if f in adapter.features]
+    limits = dict(adapter.limits)
+    emulated = (os.environ.get("ANATOMY_WGPU_LIMITS") or "").strip().lower()
+    if emulated and emulated != "apple7":
+        raise GpuUnavailable(f"ANATOMY_WGPU_LIMITS={emulated!r} is not known (use apple7)")
+    if emulated:
+        features = [f for f in features if f not in APPLE7_NO_FEATURES]
+        limits = apple7_limits(limits)
     try:
         # The renderer pages its geometry from the limits, so ask for everything the adapter allows.
-        device = adapter.request_device_sync(required_features=features, required_limits=dict(adapter.limits))
+        device = adapter.request_device_sync(required_features=features, required_limits=limits)
     except Exception as exc:
         raise GpuUnavailable(f"could not create a wgpu device on {name}: {exc}") from exc
     return Gpu(adapter=adapter, device=device, queue=device.queue, features=set(device.features),
-               limits=dict(device.limits), info=f"{name} - wgpu {backend} ({kind})",
-               prim_index="primitive-index" in device.features, name=name, backend=backend, adapter_type=kind)
+               limits=dict(device.limits), info=f"{name} - wgpu {backend} ({kind})" + (" [EMULATED apple7 limits]" if emulated else ""),
+               prim_index="primitive-index" in device.features, name=name, backend=backend, adapter_type=kind, emulated=emulated)
 
 
 def get_gpu() -> Gpu:
