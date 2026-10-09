@@ -48,21 +48,28 @@ def family_title(pattern):
 
 
 def structure_families(names):
-    """The rows for one group's parts, in first-seen order: (title, [positions]) for a kind of structure whose names
-    differ only by numbers ("Lining cell 12", "Lining cell 13", ...) once it has FAMILY_MIN copies, else
-    (None, [position]) for a part of its own."""
-    keys = [re.sub(r"\d+", "#", name) for name in names]
-    members = {}
-    for n, key in enumerate(keys):
-        members.setdefault(key, []).append(n)
+    """The rows for one group's parts, in first-seen order, as (title, [positions], counted):
+    - a kind of structure whose names differ only by numbers ("Lining cell 12", "Lining cell 13", ...) once it has
+      FAMILY_MIN copies, titled without the numbers and shown with its count;
+    - parts sharing one name (a structure and the cover that closes its cut face), titled by that name, uncounted;
+    - else (None, [position], False) for a part of its own."""
+    numbered = [re.sub(r"\d+", "#", name) for name in names]
+    by_pattern, by_name = {}, {}
+    for n, (name, key) in enumerate(zip(names, numbered)):
+        by_pattern.setdefault(key, []).append(n)
+        by_name.setdefault(name, []).append(n)
     rows, seen = [], set()
-    for n, key in enumerate(keys):
-        if "#" in key and len(members[key]) >= FAMILY_MIN:
-            if key not in seen:
-                seen.add(key)
-                rows.append((family_title(key), members[key]))
+    for n, (name, key) in enumerate(zip(names, numbered)):
+        if "#" in key and len(by_pattern[key]) >= FAMILY_MIN:
+            if ("#", key) not in seen:
+                seen.add(("#", key))
+                rows.append((family_title(key), by_pattern[key], True))
+        elif len(by_name[name]) > 1:
+            if ("=", name) not in seen:
+                seen.add(("=", name))
+                rows.append((name, by_name[name], False))
         else:
-            rows.append((None, [n]))
+            rows.append((None, [n], False))
     return rows
 
 
@@ -439,6 +446,7 @@ class ModelView(QWidget):
         self.family_items = {}             # family id -> its row
         self.family_sids = {}              # family id -> part ids
         self.family_titles = {}            # frozenset of part ids -> title, for the selection label
+        self.same_structure = {}           # part id -> every part id of its structure (meshes sharing a name)
         self.guide = load_part_guide(self.entry.id, set(getattr(self.content, "tissues", {}) or {}))
         self.flat_parts = (len(self.vmodel.groups) == 1 and
                            self.vmodel.groups[0].title.casefold() == "parts")
@@ -479,11 +487,15 @@ class ModelView(QWidget):
             row.setData(0, ROLE, ("part", i))
             self.part_items[i] = row
 
-        def family_row(parent, title, sids):
+        def family_row(parent, title, sids, counted):
             fid = len(self.family_sids)
             row = checkable(OutlineItem(parent), title, self._part_description(self.vmodel.items[sids[0]]))
-            row.setText(1, str(len(sids)))
-            row.setData(0, Qt.AccessibleTextRole, f"{title}, {len(sids)} parts")
+            if counted:
+                row.setText(1, str(len(sids)))
+                row.setData(0, Qt.AccessibleTextRole, f"{title}, {len(sids)} parts")
+            else:                          # one structure in several meshes: picking any picks all
+                for i in sids:
+                    self.same_structure[i] = list(sids)
             row.setData(0, ROLE, ("family", fid))
             self.family_items[fid] = row
             self.family_sids[fid] = list(sids)
@@ -500,8 +512,10 @@ class ModelView(QWidget):
             path, title = self.guide.path(g.key, g.title)
             parent = category(path)
             kinds = structure_families([self.vmodel.items[i].name for i in g.items])
-            if self.entry.id == "cardiac_muscle" or (len(g.items) > 1 and len(kinds) == 1 and
-                                                     kinds[0][0] is not None):
+            if len(g.items) > 1 and len(kinds) == 1 and kinds[0][0] is not None and not kinds[0][2]:
+                family_row(parent, kinds[0][0], list(g.items), False)      # one structure, several meshes
+            elif self.entry.id == "cardiac_muscle" or (len(g.items) > 1 and len(kinds) == 1 and
+                                                       kinds[0][0] is not None):
                 # Repeated fibres, nuclei and connective tissue are one named
                 # structure family in the UI, while retaining every mesh.
                 gi = heading(OutlineItem(parent), title, ("group", g.key))
@@ -516,12 +530,12 @@ class ModelView(QWidget):
             else:
                 gi = heading(OutlineItem(parent), title, ("group", g.key))
                 self.group_items[g.key] = gi
-                for kind_title, members in kinds:
+                for kind_title, members, counted in kinds:
                     sids = [g.items[n] for n in members]
                     if kind_title is None:
                         part_row(gi, sids[0], path)
                     else:
-                        family_row(gi, kind_title, sids)
+                        family_row(gi, kind_title, sids, counted)
         self._sync = False
 
     def _part_description(self, part):
@@ -658,7 +672,7 @@ class ModelView(QWidget):
         group = self.vmodel.group_of(sid)
         if self.entry.id == "cardiac_muscle" and group is not None:
             return list(group.items)
-        return [sid]
+        return list(getattr(self, "same_structure", {}).get(sid, [sid]))
 
     def _isolate_current(self):
         sids = self._current_or_selected()

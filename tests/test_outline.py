@@ -160,16 +160,20 @@ class OutlineTests(Widgets):
 class FamilyTests(Widgets):
     def test_numbered_copies_share_a_row_and_few_stay_separate(self):
         names = ([f"Lining cell {n}" for n in range(8)] + [f"Lining cell {n} nucleus" for n in range(8)] +
-                 ["Liver acinus – zone 1", "Liver acinus – zone 2", "Liver acinus – zone 3", "Serosa"])
+                 ["Liver acinus – zone 1", "Liver acinus – zone 2", "Liver acinus – zone 3", "Serosa", "Capsule",
+                  "Capsule"])
         rows = structure_families(names)
-        self.assertEqual(rows[0], ("Lining cells", list(range(8))))
-        self.assertEqual(rows[1], ("Lining cell nuclei", list(range(8, 16))))
-        self.assertEqual([title for title, _ in rows[2:]], [None, None, None, None])
+        self.assertEqual(rows[0], ("Lining cells", list(range(8)), True))
+        self.assertEqual(rows[1], ("Lining cell nuclei", list(range(8, 16)), True))
+        self.assertEqual([title for title, _, _ in rows[2:6]], [None, None, None, None])
+        self.assertEqual(rows[6], ("Capsule", [20, 21], False))
+        self.assertEqual(len(rows), 7)
         self.assertEqual(family_title("mitral_anterolateral_chorda_#"), "Mitral anterolateral chordae")
         self.assertEqual(family_title("Umbrella cell # (surface)"), "Umbrella cell (surface)")
 
     def view(self):
-        names = [f"Lining cell {n}" for n in range(7)] + [f"Lining cell {n} nucleus" for n in range(7)] + ["Basement membrane"]
+        names = ([f"Lining cell {n}" for n in range(7)] + [f"Lining cell {n} nucleus" for n in range(7)] +
+                 ["Basement membrane", "Basement membrane"])          # the second is its cut-face cover
         items = [SimpleNamespace(index=i, key=f"Cell{i}", name=name, description="", group="Cells", bulk=False,
                                  atlas=[], parts=[]) for i, name in enumerate(names)]
         items.append(SimpleNamespace(index=len(names), key="radius", name="Radius", description="", group="Bones",
@@ -210,6 +214,13 @@ class FamilyTests(Widgets):
         view.filter.setText("nucleus 3")
         self.assertFalse(nuclei.isHidden())
         self.assertTrue(group.child(0).isHidden())
+        view.filter.clear()
+        membrane = group.child(2)
+        self.assertEqual(membrane.text(1), "")                # one structure: no count
+        view._clicked(15, Qt.NoModifier)                      # the cover picked in 3D picks the structure
+        self.assertEqual(sorted(view.state.selected), [14, 15])
+        self.assertIs(view.tree.currentItem(), membrane)
+        self.assertEqual(view.selection_status.text(), "Basement membrane")
 
 
 if __name__ == "__main__":
