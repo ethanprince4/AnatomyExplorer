@@ -2,7 +2,8 @@
 from math import ceil
 from PySide6.QtGui import QTextDocument
 from PySide6.QtCore import Qt, Signal, QEvent
-from PySide6.QtWidgets import QWidget,QFrame,QVBoxLayout,QHBoxLayout,QGridLayout,QComboBox,QLabel,QPushButton,QScrollArea,QSizePolicy,QTreeWidget,QMenu,QLayout
+from PySide6.QtWidgets import QWidget,QFrame,QVBoxLayout,QHBoxLayout,QGridLayout,QComboBox,QLabel,QPushButton,QScrollArea,QSizePolicy,QMenu,QLayout
+from .outline import Outline
 
 class StudioScene(QWidget):
     partsChanged=Signal(bool)
@@ -261,7 +262,7 @@ class StudioScene(QWidget):
             parts_top=self.subject.geometry().bottom()+12
             parts_available=max(100,parts_bottom-parts_top)
             if self.instrument_side=="left" and not self.cards["reveal"].isHidden():parts_available=max(100,parts_available-190)
-            tree=self.parts.findChild(QTreeWidget)
+            tree=self.parts.findChild(Outline)
             description=self.parts.findChild(QScrollArea)
             if description is not None:
                 content=description.widget()
@@ -291,7 +292,7 @@ class StudioScene(QWidget):
                     if item.isHidden():return 0
                     return 1+(sum(visible_rows(item.child(i)) for i in range(item.childCount())) if item.isExpanded() else 0)
                 rows=sum(visible_rows(tree.topLevelItem(i)) for i in range(tree.topLevelItemCount()))
-                row_h=max(tree.fontMetrics().height()+10,tree.sizeHintForRow(0))
+                row_h=tree.rowHeight()
                 tree_h=rows*row_h+2*tree.frameWidth()+4
                 # Size each visible control independently of the tree's previous height.
                 layout=self.parts.layout()

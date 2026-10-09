@@ -311,17 +311,10 @@ QPushButton#navSeg:checked {{ color: {TEXT_STRONG}; background: {PRESSED}; borde
 QPushButton#navSeg:focus {{ border-color: {ACCENT}; }}
 
 /* ---- lists and trees */
-QListWidget, QTreeWidget, QTreeView, QListView, QTextBrowser {{ background: {SURFACE}; border: none; outline: none;
-                      selection-background-color: {ACCENT_SOFT}; selection-color: {TEXT_STRONG}; }}
-QTreeWidget::item, QTreeView::item {{ padding: 3px 0; }}
-QTreeWidget::item:hover, QTreeView::item:hover, QListWidget::item:hover {{ background: {RAISED}; }}
-QTreeWidget::item:selected, QTreeView::item:selected, QListWidget::item:selected {{ background: {ACCENT_SOFT};
-                      color: {TEXT_STRONG}; }}
-QTreeView::branch {{ background: transparent; }}
-QTreeView::branch:has-children:!has-siblings:closed, QTreeView::branch:closed:has-children:has-siblings {{
-                      border-image: none; {_img("chev_right")} }}
-QTreeView::branch:open:has-children:!has-siblings, QTreeView::branch:open:has-children:has-siblings {{
-                      border-image: none; {_img("chev_down")} }}
+QListWidget, QListView, QTextBrowser, QAbstractScrollArea[outline="true"] {{ background: {SURFACE}; border: none;
+                      outline: none; selection-background-color: {ACCENT_SOFT}; selection-color: {TEXT_STRONG}; }}
+QListWidget::item:hover {{ background: {RAISED}; }}
+QListWidget::item:selected {{ background: {ACCENT_SOFT}; color: {TEXT_STRONG}; }}
 QHeaderView::section {{ background: {CANVAS}; color: {MUTED}; border: none; border-bottom: 1px solid {BORDER_SUBTLE};
                       padding: 5px 6px; font-weight: 600; }}
 QTextEdit, QPlainTextEdit {{ background: {SUNKEN}; border: 1px solid {BORDER}; border-radius: {R_LG}px; padding: 4px;
@@ -416,10 +409,6 @@ QCheckBox::indicator:disabled {{ background: {SURFACE}; border-color: {BORDER_SU
 QRadioButton::indicator {{ width: 14px; height: 14px; border-radius: 8px; border: 1px solid {BORDER_STRONG};
              background: {SUNKEN}; }}
 QRadioButton::indicator:checked {{ background: {ACCENT}; border: 4px solid {SUNKEN}; }}
-QTreeView::indicator {{ width: 13px; height: 13px; border-radius: 3px; border: 1px solid {BORDER_STRONG};
-             background: {SUNKEN}; }}
-QTreeView::indicator:checked {{ background: {ACCENT}; border-color: {ACCENT}; {_img("check")} }}
-QTreeView::indicator:indeterminate {{ background: {ACCENT_BORDER}; border-color: {ACCENT_BORDER}; {_img("dash")} }}
 
 QSlider {{ background: transparent; min-height: 24px; padding: 2px 0; }}
 QSlider::groove:horizontal {{ height: 4px; background: {BORDER}; border-radius: 2px; }}
@@ -443,7 +432,7 @@ QMenu::separator {{ height: 1px; background: {BORDER}; margin: 5px 8px; }}
 QToolTip {{ background: {OVERLAY}; color: {TEXT}; border: 1px solid {BORDER_STRONG}; padding: 6px 8px; }}
 QDialog {{ background: {SURFACE}; }}
 QPushButton:focus, QToolButton:focus, QLineEdit:focus, QComboBox:focus,
-QListView:focus, QTreeView:focus, QTableView:focus {{ border: 2px solid {ACCENT}; }}
+QListView:focus, QTableView:focus, QAbstractScrollArea[outline="true"]:focus {{ border: 2px solid {ACCENT}; }}
 QPushButton[variant="primary"]:focus {{ border: 2px solid {ON_ACCENT}; }}
 QCheckBox:focus, QRadioButton:focus {{ outline: 1px solid {ACCENT}; }}
 QProgressBar {{ border: 1px solid {BORDER}; border-radius: 3px; background: {SUNKEN}; min-height: 5px; }}

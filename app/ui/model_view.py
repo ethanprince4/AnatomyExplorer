@@ -7,13 +7,14 @@ opacity, separated parts, the animation controls and the Details panel, and give
 hooks the old microanatomy view did (``part_ids``, ``focus_parts``, ``set_practice``).
 """
 import html
+import re
 import time
 
 import numpy as np
 from PySide6.QtCore import QTimer, Qt, QUrl, Signal
 from PySide6.QtGui import QActionGroup
 from PySide6.QtWidgets import (QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineEdit, QMenu, QPushButton, QSlider,
-                               QScrollArea, QSplitter, QGridLayout, QToolButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+                               QScrollArea, QSplitter, QGridLayout, QToolButton, QVBoxLayout, QWidget)
 
 from ..actions import key_text
 from ..state import SceneState
@@ -22,9 +23,47 @@ from ..viewer.part_guide import load_part_guide
 from ..viewer.viewport import SECTION_NAMES, ModelViewport
 from . import theme
 from .flow import FlowLayout
+from .outline import Outline, OutlineItem
 from .search_panel import normalized
 
 ROLE = Qt.UserRole + 1
+FAMILY_MIN = 6        # copies of one structure that share a parts row; fewer stay as their own rows ("zone 1-3")
+
+
+PLURALS = {"cell": "cells", "nucleus": "nuclei", "granule": "granules", "border": "borders", "chorda": "chordae",
+           "disc": "discs", "capillary": "capillaries", "zone": "zones", "cardiomyocyte": "cardiomyocytes",
+           "vesicle": "vesicles", "fibre": "fibres", "tributary": "tributaries"}
+
+
+def family_title(pattern):
+    """A family's row title: its name pattern without the numbers, its last word plural where that is a known noun
+    ("Lining cell # nucleus" -> "Lining cell nuclei"), so the count beside it never reads as a cell number."""
+    text = re.sub(r"\s*#\s*", " ", pattern.replace("_", " "))
+    text = re.sub(r"\s+", " ", re.sub(r"\(\s*\)", "", text)).strip(" -–,")
+    head, _, last = text.rpartition(" ")
+    plural = PLURALS.get(last.casefold())
+    if plural:
+        text = f"{head} {plural}".strip() if head else plural
+    return text[:1].upper() + text[1:]
+
+
+def structure_families(names):
+    """The rows for one group's parts, in first-seen order: (title, [positions]) for a kind of structure whose names
+    differ only by numbers ("Lining cell 12", "Lining cell 13", ...) once it has FAMILY_MIN copies, else
+    (None, [position]) for a part of its own."""
+    keys = [re.sub(r"\d+", "#", name) for name in names]
+    members = {}
+    for n, key in enumerate(keys):
+        members.setdefault(key, []).append(n)
+    rows, seen = [], set()
+    for n, key in enumerate(keys):
+        if "#" in key and len(members[key]) >= FAMILY_MIN:
+            if key not in seen:
+                seen.add(key)
+                rows.append((family_title(key), members[key]))
+        else:
+            rows.append((None, [n]))
+    return rows
 
 
 def esc(s):
@@ -346,12 +385,9 @@ class ModelView(QWidget):
         self.parts_status.setWordWrap(True)
         self.parts_status.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         sl.addWidget(self.parts_status)
-        self.tree = QTreeWidget()
-        self.tree.setHeaderHidden(True)
+        self.tree = Outline()
         self.tree.setAccessibleName("Model parts and visibility")
         self.tree.setMinimumHeight(0)
-        self.tree.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.tree.setUniformRowHeights(True)
         self.tree.setIndentation(14)
         self.tree.itemChanged.connect(self._item_changed)
         self.tree.itemClicked.connect(self._item_clicked)
@@ -392,12 +428,17 @@ class ModelView(QWidget):
 
     def _build_tree(self):
         """Parts under plain categories (the model's guide, else its group keys' own "A / B" paths). A group of one
-        part is that part's row; a larger group is a row of its parts. Top-level categories start open."""
+        part is that part's row; a larger group is a row of its parts. Copies of one structure that differ only by a
+        number ("Lining cell 12", "Lining cell 12 nucleus") share one row per kind, so a group of 176 cells and nuclei
+        lists as three rows; a group that is all one kind is that row. Top-level categories start open."""
         self._sync = True
         self.part_items = {}
         self.group_items = {}
         self.category_items = []
         self.family_rows = set()
+        self.family_items = {}             # family id -> its row
+        self.family_sids = {}              # family id -> part ids
+        self.family_titles = {}            # frozenset of part ids -> title, for the selection label
         self.guide = load_part_guide(self.entry.id, set(getattr(self.content, "tissues", {}) or {}))
         self.flat_parts = (len(self.vmodel.groups) == 1 and
                            self.vmodel.groups[0].title.casefold() == "parts")
@@ -408,16 +449,12 @@ class ModelView(QWidget):
             row.setData(0, Qt.AccessibleTextRole, title)
             if tip:
                 row.setToolTip(0, tip[:300])
-            row.setFlags(row.flags() | Qt.ItemIsUserCheckable)
-            row.setCheckState(0, Qt.Checked)
+            row.setCheckable(True)
             return row
 
         def heading(row, title, role):
             checkable(row, title, title)
-            f = row.font(0)
-            f.setBold(True)
-            row.setFont(0, f)
-            row.setFlags(row.flags() | Qt.ItemIsAutoTristate)
+            row.setBold(True)
             row.setData(0, ROLE, role)
             row.setExpanded(False)
             return row
@@ -426,7 +463,7 @@ class ModelView(QWidget):
             if not path:
                 return self.tree.invisibleRootItem()
             if path not in categories:
-                row = heading(QTreeWidgetItem(category(path[:-1])), path[-1], ("category", path))
+                row = heading(OutlineItem(category(path[:-1])), path[-1], ("category", path))
                 row.setExpanded(len(path) == 1)
                 categories[path] = row
                 self.category_items.append(row)
@@ -438,9 +475,21 @@ class ModelView(QWidget):
             # "Source section / Renal fascia" under the Source section category reads as "Renal fascia"
             while " / " in name and name.split(" / ", 1)[0].casefold() in {p.casefold() for p in path}:
                 name = name.split(" / ", 1)[1]
-            row = checkable(QTreeWidgetItem(parent), name, self._part_description(part))
+            row = checkable(OutlineItem(parent), name, self._part_description(part))
             row.setData(0, ROLE, ("part", i))
             self.part_items[i] = row
+
+        def family_row(parent, title, sids):
+            fid = len(self.family_sids)
+            row = checkable(OutlineItem(parent), title, self._part_description(self.vmodel.items[sids[0]]))
+            row.setText(1, str(len(sids)))
+            row.setData(0, Qt.AccessibleTextRole, f"{title}, {len(sids)} parts")
+            row.setData(0, ROLE, ("family", fid))
+            self.family_items[fid] = row
+            self.family_sids[fid] = list(sids)
+            self.family_titles[frozenset(sids)] = title
+            for i in sids:
+                self.part_items[i] = row
 
         rank = {key: n for n, key in enumerate(self.guide.order)}
         for g in sorted(self.vmodel.groups, key=lambda g: rank.get(g.key, len(rank))):
@@ -450,11 +499,14 @@ class ModelView(QWidget):
                 continue
             path, title = self.guide.path(g.key, g.title)
             parent = category(path)
-            if self.entry.id == "cardiac_muscle":
+            kinds = structure_families([self.vmodel.items[i].name for i in g.items])
+            if self.entry.id == "cardiac_muscle" or (len(g.items) > 1 and len(kinds) == 1 and
+                                                     kinds[0][0] is not None):
                 # Repeated fibres, nuclei and connective tissue are one named
                 # structure family in the UI, while retaining every mesh.
-                gi = heading(QTreeWidgetItem(parent), title, ("group", g.key))
-                gi.setFlags(gi.flags() & ~Qt.ItemIsAutoTristate)
+                gi = heading(OutlineItem(parent), title, ("group", g.key))
+                gi.setText(1, str(len(g.items)))
+                self.family_titles[frozenset(g.items)] = title
                 self.family_rows.add(g.key)
                 self.group_items[g.key] = gi
                 for i in g.items:
@@ -462,10 +514,14 @@ class ModelView(QWidget):
             elif len(g.items) == 1:
                 part_row(parent, g.items[0], path)
             else:
-                gi = heading(QTreeWidgetItem(parent), title, ("group", g.key))
+                gi = heading(OutlineItem(parent), title, ("group", g.key))
                 self.group_items[g.key] = gi
-                for i in g.items:
-                    part_row(gi, i, path)
+                for kind_title, members in kinds:
+                    sids = [g.items[n] for n in members]
+                    if kind_title is None:
+                        part_row(gi, sids[0], path)
+                    else:
+                        family_row(gi, kind_title, sids)
         self._sync = False
 
     def _part_description(self, part):
@@ -497,7 +553,7 @@ class ModelView(QWidget):
                 row.setHidden(not show)
                 return int(show)
             label = f"{context} {val if kind == 'group' else ''} {row.text(0)}"
-            if val in self.family_rows:
+            if kind == "family" or (kind == "group" and val in self.family_rows):
                 sids = self._sids_of(row)
                 searchable = normalized(label + " " + " ".join(self.vmodel.items[i].name for i in sids))
                 show = all(term in searchable for term in terms)
@@ -523,6 +579,8 @@ class ModelView(QWidget):
         kind, val = item.data(0, ROLE)
         if kind == "part":
             return [val]
+        if kind == "family":
+            return list(self.family_sids.get(val, ()))
         if kind == "group":
             g = next((g for g in self.vmodel.groups if g.key == val), None)
             return list(g.items) if g else []
@@ -556,7 +614,7 @@ class ModelView(QWidget):
         for sid, it in self.part_items.items():
             if it.data(0, ROLE)[0] == "part":      # not a structure family's shared row
                 it.setCheckState(0, Qt.Checked if vis[sid] else Qt.Unchecked)
-        for gi in [*self.group_items.values(), *self.category_items]:
+        for gi in [*self.family_items.values(), *self.group_items.values(), *self.category_items]:
             sids = self._sids_of(gi)
             n = int(vis[sids].sum()) if sids else 0
             gi.setCheckState(0, Qt.Checked if n == len(sids) else Qt.Unchecked if n == 0 else Qt.PartiallyChecked)
@@ -588,8 +646,11 @@ class ModelView(QWidget):
         return []
 
     def _selected_family(self, selected):
-        if self.entry.id != "cardiac_muscle" or not selected:
+        """The title of a structure family when the selection is exactly that family's parts."""
+        if not selected:
             return None
+        if self.entry.id != "cardiac_muscle":
+            return getattr(self, "family_titles", {}).get(frozenset(selected))
         groups = {self.vmodel.items[i].group for i in selected}
         return next(iter(groups)) if len(groups) == 1 else None
 

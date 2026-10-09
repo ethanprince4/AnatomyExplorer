@@ -1,7 +1,7 @@
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QBrush, QCursor
-from PySide6.QtWidgets import QLabel, QLineEdit, QMenu, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QLabel, QLineEdit, QMenu, QVBoxLayout, QWidget
 
+from .outline import Outline, OutlineItem
 from .search_panel import normalized
 
 from . import theme
@@ -34,21 +34,14 @@ class TreePanel(QWidget):
         self.info.setWordWrap(True)
         self.info.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         lay.addWidget(self.info)
-        self.tree = QTreeWidget()
+        self.tree = Outline()
         self.tree.setAccessibleName("Anatomy structure tree")
-        self.tree.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.tree.setHeaderHidden(True)
-        self.tree.setColumnCount(2)
-        self.tree.setUniformRowHeights(True)
         self.tree.setIndentation(14)
         self.tree.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tree.customContextMenuRequested.connect(self._menu)
         lay.addWidget(self.tree)
         self.items = {}
         self._build()
-        self.tree.header().setStretchLastSection(False)
-        self.tree.header().setSectionResizeMode(0, self.tree.header().ResizeMode.Stretch)
-        self.tree.header().setSectionResizeMode(1, self.tree.header().ResizeMode.ResizeToContents)
         self.tree.itemChanged.connect(self._changed)
         self.tree.itemClicked.connect(self._clicked)
         self.tree.itemActivated.connect(lambda item, _column: self.nodeActivated.emit(item.data(0, ROLE_NODE)))
@@ -56,27 +49,21 @@ class TreePanel(QWidget):
         self.sync()
 
     def _build(self):
-        muted = QBrush(theme.qc(theme.MUTED))
-
         def add(nid, parent_item):
             node = self.ds.nodes[nid]
-            it = QTreeWidgetItem(parent_item)
+            it = OutlineItem(parent_item)
             it.setText(0, node["name"])
             if node["children"]:
                 it.setText(1, str(node["count"]))
-                it.setForeground(1, muted)
             it.setData(0, ROLE_NODE, nid)
-            it.setFlags(it.flags() | Qt.ItemIsUserCheckable)
-            it.setCheckState(0, Qt.Checked)
+            it.setCheckable(True)
             tip = node["name"]
             if node.get("latin"):
                 tip += f"\n{node['latin']}"
             it.setToolTip(0, tip)
             it.setData(0, Qt.AccessibleTextRole, tip.replace("\n", ". "))
             if node["kind"] == "system":
-                f = it.font(0)
-                f.setBold(True)
-                it.setFont(0, f)
+                it.setBold(True)
             self.items[nid] = it
             for c in node["children"]:
                 add(c, it)
@@ -120,11 +107,7 @@ class TreePanel(QWidget):
         self.state.tree_toggle(nid, item.checkState(0) != Qt.Unchecked)
 
     def _clicked(self, item, column):
-        pos = self.tree.viewport().mapFromGlobal(QCursor.pos())
-        rect = self.tree.visualItemRect(item)
-        if column == 0 and rect.left() <= pos.x() <= rect.left() + 22:
-            return  # checkbox toggle, not a selection
-        self.nodeActivated.emit(item.data(0, ROLE_NODE))
+        self.nodeActivated.emit(item.data(0, ROLE_NODE))      # a check box click is not a row click
 
     def reveal(self, sid):
         nid = self.ds.node_of_structure.get(sid)
