@@ -542,26 +542,30 @@ class ClusterCuller:
         cp = enc.begin_compute_pass(timestamp_writes=tw(2))
         cp.set_pipeline(self.pipe_hzb0)
         cp.set_bind_group(0, self.bg_hzb0)
-        cp.dispatch_workgroups(-(-self.hz_dims[0] // 8), -(-self.hz_dims[1] // 8), 1)
+        cp.dispatch_workgroups(-(-self.hz_dims[0] // 8), -(-self.hz_dims[1] // 8), 1)   # 8x8 texels (16x16 pixels) per group
+        cp.end()
+        cp = enc.begin_compute_pass(timestamp_writes=tw(3))
         pn = self._compute(("hzbn",), _read("cull_hzbn.wgsl"), "hzbn", self._pl(self.bgl_hzbn))
         for l in range(1, self.hz_levels):
             dw, dh = max(1, -(-self.hz_dims[0] >> l)), max(1, -(-self.hz_dims[1] >> l))
             cp.set_pipeline(pn)
             cp.set_bind_group(0, self.bg_hzbn[l - 1])
             cp.dispatch_workgroups(-(-dw // 8), -(-dh // 8), 1)
+        cp.end()
+        cp = enc.begin_compute_pass(timestamp_writes=tw(4))
         phase_compute(cp, "cull_p2", "finalize_p2", 1)
         cp.end()
         rp = enc.begin_render_pass(
             color_attachments=[{"view": id_view, "load_op": "load", "store_op": "store"}],
             depth_stencil_attachment={"view": depth_view, "depth_load_op": "load", "depth_store_op": "store"},
-            timestamp_writes=tw(3))
+            timestamp_writes=tw(5))
         self._draws(rp, samples, clip_on, 1)
         rp.end()
         # ---- phase 2 already wrote next frame's phase-1 set (vis_next). The id image is only read to count the
         # clusters that really own a sample (statistics: the "truly visible" column); the renderer needs no such pass.
         self._marked = self.collect_stats
         if self.collect_stats:
-            cp = enc.begin_compute_pass(timestamp_writes=tw(4))
+            cp = enc.begin_compute_pass(timestamp_writes=tw(6))
             cp.set_pipeline(self.pipe_mark)
             cp.set_bind_group(0, self._mark_group(id_view))
             cp.dispatch_workgroups(-(-w // 8), -(-h // 8), 1)
@@ -570,7 +574,7 @@ class ClusterCuller:
             cp.end()
         if qs is not None:
             # every resolved query must have been written: the mark pass owns slots 8/9 and is skipped without statistics
-            enc.resolve_query_set(qs, 0, 10 if self.collect_stats else 8, b["ts_buf"], 0)
+            enc.resolve_query_set(qs, 0, 14 if self.collect_stats else 12, b["ts_buf"], 0)
         self._flip = 1 - self._flip
         self._last_clip = clip_on
         return CullResult(unculled=unculled, clip=clip_on, n_parts=n_cull)
@@ -588,8 +592,8 @@ class ClusterCuller:
 
     def _qs(self):
         if "ts_buf" not in self.buf:
-            self._new("ts_buf", 80, BU.QUERY_RESOLVE | BU.COPY_SRC)
-            self._qset = self.device.create_query_set(type="timestamp", count=10)
+            self._new("ts_buf", 112, BU.QUERY_RESOLVE | BU.COPY_SRC)
+            self._qset = self.device.create_query_set(type="timestamp", count=14)
         return self._qset
 
     # ------------------------------------------------------------------ results (call after the encoder was submitted)
@@ -600,14 +604,16 @@ class ClusterCuller:
         return self.stats
 
     def read_timings(self, period_ns):
-        """GPU milliseconds of the last encode per stage (needs profile=True and a timestamp period)."""
-        ts = np.frombuffer(bytes(self.queue.read_buffer(self.buf["ts_buf"], 0, 80)), dtype=np.uint64).astype(np.float64)
+        """GPU milliseconds of the last encode per stage (needs profile=True and a timestamp period).
+        hzb0 / hzbn / cull2 are the hi-Z mip 0, the remaining hi-Z mips and the phase-2 test; hzb_cull2 is their sum."""
+        ts = np.frombuffer(bytes(self.queue.read_buffer(self.buf["ts_buf"], 0, 112)), dtype=np.uint64).astype(np.float64)
         ms = (ts[1::2] - ts[0::2]) * period_ns * 1e-6
-        names = ("cull1", "pass1", "hzb_cull2", "pass2", "mark")
+        names = ("cull1", "pass1", "hzb0", "hzbn", "cull2", "pass2", "mark")
         self.timings = {n: float(v) for n, v in zip(names, ms)}
+        self.timings["hzb_cull2"] = float(ms[2:5].sum())
         if not getattr(self, "_marked", False):
             self.timings["mark"] = 0.0
-            ms = ms[:4]
+            ms = ms[:6]
         self.timings["total_ms"] = float(ms.sum())
         return self.timings
 
