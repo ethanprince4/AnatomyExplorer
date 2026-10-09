@@ -439,6 +439,9 @@ class ModelView(QWidget):
         number ("Lining cell 12", "Lining cell 12 nucleus") share one row per kind, so a group of 176 cells and nuclei
         lists as three rows; a group that is all one kind is that row. Top-level categories start open."""
         self._sync = True
+        self._search_text = {}             # id(row) -> normalised search text, filled lazily by _filter_tree
+        self._sids_memo = {}               # id(row) -> its part ids (the tree is fixed once built)
+        self._sync_plan = None             # flat part ids + offsets per group row, built on first _sync_tree
         self.part_items = {}
         self.group_items = {}
         self.category_items = []
@@ -565,14 +568,20 @@ class ModelView(QWidget):
             many parts stay listed."""
             kind, val = row.data(0, ROLE)
             if kind == "part":
-                part = self.vmodel.items[val]
-                show = all(term in normalized(f"{part.name} {part.key} {context}") for term in terms)
+                text = self._search_text.get(id(row))
+                if text is None:
+                    part = self.vmodel.items[val]
+                    text = self._search_text[id(row)] = normalized(f"{part.name} {part.key} {context}")
+                show = all(term in text for term in terms)
                 row.setHidden(not show)
                 return int(show)
             label = f"{context} {val if kind == 'group' else ''} {row.text(0)}"
             if kind == "family" or (kind == "group" and val in self.family_rows):
-                sids = self._sids_of(row)
-                searchable = normalized(label + " " + " ".join(self.vmodel.items[i].name for i in sids))
+                sids = self._sids_cached(row)
+                searchable = self._search_text.get(id(row))
+                if searchable is None:
+                    searchable = self._search_text[id(row)] = normalized(
+                        label + " " + " ".join(self.vmodel.items[i].name for i in sids))
                 show = all(term in searchable for term in terms)
                 row.setHidden(not show)
                 return len(sids) if show else 0
@@ -591,6 +600,13 @@ class ModelView(QWidget):
         self.parts_status.setText("Check to show or hide" if matches else
                                   "No matching parts. Clear the filter to see the full model.")
         self._parts_layout_changed()
+
+    def _sids_cached(self, item):
+        """_sids_of, remembered per row (rows and their parts do not change after _build_tree)."""
+        sids = self._sids_memo.get(id(item))
+        if sids is None:
+            sids = self._sids_memo[id(item)] = self._sids_of(item)
+        return sids
 
     def _sids_of(self, item):
         kind, val = item.data(0, ROLE)
@@ -625,16 +641,30 @@ class ModelView(QWidget):
             self.state.select(self._sids_of(item))
             self._item_double_clicked(item, col)
 
+    def _build_sync_plan(self):
+        """Group rows with their part ids as one flat index array plus start/end offsets, so a visibility change
+        counts the visible parts of every row in one vectorised pass."""
+        rows = [*self.family_items.values(), *self.group_items.values(), *self.category_items]
+        lists = [self._sids_cached(gi) for gi in rows]
+        lens = np.array([len(x) for x in lists], dtype=np.int64)
+        ends = np.cumsum(lens)
+        flat = np.fromiter((sid for x in lists for sid in x), dtype=np.int64, count=int(ends[-1]) if len(ends) else 0)
+        parts = [(sid, it) for sid, it in self.part_items.items() if it.data(0, ROLE)[0] == "part"]
+        self._sync_plan = (rows, flat, ends - lens, ends, lens,
+                           np.array([sid for sid, _ in parts], dtype=np.int64), [it for _, it in parts])
+
     def _sync_tree(self):
-        vis = self.state.visible_mask()
+        vis = np.asarray(self.state.visible_mask())
+        if self._sync_plan is None:
+            self._build_sync_plan()
+        rows, flat, starts, ends, lens, part_ids, part_rows = self._sync_plan
         self._sync = True
-        for sid, it in self.part_items.items():
-            if it.data(0, ROLE)[0] == "part":      # not a structure family's shared row
-                it.setCheckState(0, Qt.Checked if vis[sid] else Qt.Unchecked)
-        for gi in [*self.family_items.values(), *self.group_items.values(), *self.category_items]:
-            sids = self._sids_of(gi)
-            n = int(vis[sids].sum()) if sids else 0
-            gi.setCheckState(0, Qt.Checked if n == len(sids) else Qt.Unchecked if n == 0 else Qt.PartiallyChecked)
+        for it, on in zip(part_rows, vis[part_ids].tolist()):      # not a structure family's shared row
+            it.setCheckState(0, Qt.Checked if on else Qt.Unchecked)
+        csum = np.concatenate(([0], np.cumsum(vis[flat], dtype=np.int64)))
+        counts = (csum[ends] - csum[starts]).tolist()
+        for gi, n, total in zip(rows, counts, lens.tolist()):
+            gi.setCheckState(0, Qt.Checked if n == total else Qt.Unchecked if n == 0 else Qt.PartiallyChecked)
         self._sync = False
         self._update_selection_controls()
 
