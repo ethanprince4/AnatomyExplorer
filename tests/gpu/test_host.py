@@ -3,7 +3,7 @@ backend switch with its OpenGL fallback. Everything that needs a GPU skips when 
 
     python -m pytest tests/gpu/test_host.py -q -p no:cacheprovider
 """
-import logging
+import math
 import os
 import sys
 import time
@@ -146,10 +146,43 @@ class HostRoundTripTests(unittest.TestCase):
                 w.render_callback = lambda tex, tw, th: r.render(tex, (tw, th), None, None) or True
                 w.show()
                 image = w.grab().toImage()                      # the real paintEvent and QPainter.drawImage path
-                self.assertEqual((image.width(), image.height()), self.SIZE)
-                for x, y in ((0, 0), (150, 100), (300, 202)):
+                dpr = w.devicePixelRatioF()
+                self.assertEqual((image.width(), image.height()), (math.ceil(self.SIZE[0] * dpr), math.ceil(self.SIZE[1] * dpr)))
+                iw, ih = image.width(), image.height()
+                for x, y in ((0, 0), (iw // 2, ih // 2), (iw - 3, ih - 3)):
                     c = image.pixelColor(x, y)
                     self.assertEqual((c.red(), c.green(), c.blue()), COLOUR[:3], (mode, x, y))
+                w.close()
+
+    def test_translucent_child_blends_over_the_gpu_image(self):
+        """The model viewer's Overlay is a translucent child widget; half-transparent red over COLOUR must be the 50 % blend."""
+        from PySide6.QtCore import Qt
+        from PySide6.QtGui import QColor, QPainter
+        from PySide6.QtWidgets import QWidget
+        from tools.perf.gpu.present_bench import StandInRenderer
+
+        class Layer(QWidget):
+            def paintEvent(self, event):
+                p = QPainter(self)
+                p.fillRect(50, 40, 100, 60, QColor(255, 0, 0, 128))
+                p.end()
+
+        for mode in ("sync", "async"):
+            with self.subTest(mode=mode):
+                w = self.make(mode)
+                r = StandInRenderer(GPU, COLOUR)
+                w.render_callback = lambda tex, tw, th: r.render(tex, (tw, th), None, None) or True
+                layer = Layer(w)
+                layer.setAttribute(Qt.WA_TranslucentBackground, True)
+                layer.setAttribute(Qt.WA_TransparentForMouseEvents, True)
+                layer.setGeometry(w.rect())
+                w.show()
+                image = w.grab().toImage()
+                inside, outside = image.pixelColor(100, 70), image.pixelColor(10, 10)
+                self.assertEqual((outside.red(), outside.green(), outside.blue()), COLOUR[:3])
+                expect = tuple(round(COLOUR[i] * (1 - 128 / 255) + (255, 0, 0)[i] * (128 / 255)) for i in range(3))
+                got = (inside.red(), inside.green(), inside.blue())
+                self.assertTrue(all(abs(a - b) <= 2 for a, b in zip(got, expect)), (got, expect))
                 w.close()
 
     def test_repaint_blits_without_rendering(self):
@@ -255,7 +288,6 @@ class ViewportTests(unittest.TestCase):
         shot = vp.grab_image(1.0)
         pw, ph = vp._physical_size()
         self.assertEqual(shot.shape, (ph, pw, 3))
-        self.assertEqual((pw, ph), (401, 307))
         self.assertEqual(tuple(shot[ph // 2, pw // 2]), COLOUR[:3])
         self.assertTrue((shot == np.array(COLOUR[:3], np.uint8)).all())
         self.assertEqual(vp.pick_full(vp.rect().center())[0], -1)

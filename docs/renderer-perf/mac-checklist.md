@@ -9,8 +9,8 @@ Run from the repo root with the project venv (`python` below). `ANATOMY_RENDERER
    take its vertex-pulling path) and `get_gpu().limits["max-storage-buffer-binding-size"]`.
 2. HiDPI image scaling. `python tools/perf/gpu/present_bench.py --frames 120 --work-ms 0` on a Retina display (no
    `QT_SCREEN_SCALE_FACTORS` override: edit `perfkit.env_setup` or run `tests/gpu/test_host.py`). Confirm
-   `physical == width*devicePixelRatioF`, and that a 1-pixel checker pattern (`StandInRenderer(pattern=True)` in a `GpuWidget`)
-   looks sharp, not blurred or shifted: `QT_QPA_PLATFORM=cocoa python -m pytest tests/gpu/test_host.py -q -k qpainter`.
+   `physical == width*devicePixelRatioF`, and that an x/y colour ramp (`StandInRenderer(pattern=True)` in a `GpuWidget`)
+   is not blurred, shifted or cropped at the right and bottom edge: `QT_QPA_PLATFORM=cocoa python -m pytest tests/gpu/test_host.py -q -k qpainter`.
    Also drag the window between a Retina and a non-Retina screen and check the texture is recreated (no stretched frame).
 3. Translucency over the 3D view. `ANATOMY_RENDERER=wgpu python -m app` (or `main.py`), open a model, turn labels on and
    hover: label cards and the measure overlay must blend with the model underneath (the Overlay child widget is translucent).
@@ -31,6 +31,6 @@ Run from the repo root with the project venv (`python` below). `ANATOMY_RENDERER
    dylib makes dlopen fail under the hardened runtime: look for "code signature invalid" in `log show --last 2m --predicate 'process == "<app>"'`.
 7. Frame pacing at 60 Hz / 120 Hz. The host caps repeat renders to the screen refresh rate (`GpuWidget.frame_cap_hz`, `None` =
    `QScreen.refreshRate()`). On a 60 Hz and a 120 Hz (ProMotion) display run auto-rotate for 30 s and read the interval
-   statistics: `python tools/perf/gpu/present_bench.py --frames 600 --work-ms 4` after setting `vp.frame_cap_hz = None` in
-   `run_case` (default there is uncapped). Expect mean about 16.7 / 8.3 ms with p95 under 1.2x the mean and no 2x spikes;
+   statistics: `python tools/perf/gpu/present_bench.py --frames 600 --work-ms 4 --cap-hz -1` (-1 = the screen's refresh rate;
+   `--cap-hz 60` / `--cap-hz 120` force a rate). Expect mean about 16.7 / 8.3 ms with p95 under 1.2x the mean and no 2x spikes;
    compare `--modes sync` and `--modes async`. Also check that an idle window uses about 0 % CPU (no render loop).

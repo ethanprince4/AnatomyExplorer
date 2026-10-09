@@ -52,12 +52,13 @@ class StandInRenderer:
     """Stands in for app.gpu.renderer.WgpuRenderer: same public API, draws one flat colour (optionally after busy work)."""
     FORMAT = "rgba8unorm"
 
-    def __init__(self, gpu, colour=(64, 128, 192, 255), iters=0, pattern=False):
+    def __init__(self, gpu, colour=(64, 128, 192, 255), iters=0, pattern=False, cpu_ms=0.0):
         self.gpu = gpu
         self.device = gpu.device
         self.colour = tuple(colour)
         self.iters = int(iters)
         self.pattern = bool(pattern)
+        self.cpu_ms = float(cpu_ms)           # busy CPU work at the start of every render (stands in for per-frame scene preparation)
         self.frames = 0
         self.frame_ok = False
         self.size = None
@@ -89,6 +90,10 @@ class StandInRenderer:
 
     # frame
     def render(self, target, size, camera, s, fs=None, out_size=None):
+        if self.cpu_ms:
+            end = time.perf_counter() + self.cpu_ms / 1000.0
+            while time.perf_counter() < end:
+                pass
         w, h = target.size[0], target.size[1]
         data = np.zeros(8, np.float32)
         data[:4] = [c / 255.0 for c in self.colour]
@@ -180,7 +185,7 @@ def prepare_model():
     return entry, model
 
 
-def run_case(app, entry, model, gpu, mode, iters, frames, warm=60, cap_hz=0):
+def run_case(app, entry, model, gpu, mode, iters, frames, warm=60, cap_hz=0, cpu_ms=0.0):
     from PySide6.QtCore import QEventLoop
     from app.config import DEFAULT_SETTINGS
     from app.gpu.viewport import WgpuModelViewport
@@ -193,7 +198,7 @@ def run_case(app, entry, model, gpu, mode, iters, frames, warm=60, cap_hz=0):
     created = []
 
     def factory(g):
-        r = StandInRenderer(g, iters=iters)
+        r = StandInRenderer(g, iters=iters, cpu_ms=cpu_ms)
         created.append(r)
         return r
 
@@ -261,7 +266,8 @@ def main():
     ap.add_argument("--modes", default="sync,async")
     ap.add_argument("--work-ms", default="0,8", help="GPU time of the stand-in pass, comma separated")
     ap.add_argument("--frames", type=int, default=400)
-    ap.add_argument("--cap-hz", type=float, default=0, help="frame cap (0 = uncapped, the default for measuring)")
+    ap.add_argument("--cpu-ms", type=float, default=0.0, help="busy CPU time per frame inside the stand-in renderer")
+    ap.add_argument("--cap-hz", type=float, default=0, help="frame cap in Hz (0 = uncapped, the default for measuring; -1 = the screen refresh rate, as the app runs)")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
     if a.adapter:
@@ -278,7 +284,7 @@ def main():
         cal = calibrate(gpu, want)
         print(f"calibrated {want} ms -> {cal}", flush=True)
         for mode in a.modes.split(","):
-            r = run_case(app, entry, model, gpu, mode, cal["iters"], a.frames, cap_hz=a.cap_hz)
+            r = run_case(app, entry, model, gpu, mode, cal["iters"], a.frames, cap_hz=(None if a.cap_hz < 0 else a.cap_hz), cpu_ms=a.cpu_ms)
             r["gpu_ms_wanted"], r["gpu_ms_measured"] = want, cal["got_ms"]
             results["cases"].append(r)
             print(json.dumps(r), flush=True)
