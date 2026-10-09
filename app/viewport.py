@@ -273,6 +273,7 @@ class Viewport(QOpenGLWidget):
     def initializeGL(self):
         self.ctx = moderngl.create_context()
         vertices, indices = self.ds.load_geometry()
+        self._section_geometry = (vertices, indices)      # kept: sections and label anchors reuse it
         self.renderer = Renderer(self.ctx, self.ds, vertices, indices, cap_depth=getattr(self.ds, "cap_depth", False))
         self.gl_info = f"{self.ctx.info['GL_RENDERER']} · OpenGL {self.ctx.info['GL_VERSION'].split(' ')[0]}"
         self.glReady.emit()
@@ -720,18 +721,24 @@ class Viewport(QOpenGLWidget):
         front = clip[:,3] > 1e-6
         ndc = clip[:,:3] / np.maximum(clip[:,3:4],1e-6)
         sizes = np.linalg.norm(self.ds.bbox_max[visible]-self.ds.bbox_min[visible],axis=1)
-        order = sorted(range(len(visible)),key=lambda i:(int(visible[i]) not in self.state.selected,-sizes[i]))
+        # selected first, then largest first; ties keep structure order (stable sort)
+        picked = np.isin(visible, np.asarray(self.state.selected, dtype=np.int64))
+        order = np.lexsort((-sizes, ~picked))
+        on_screen = front & np.all(np.abs(ndc) <= 1, axis=1)
         limit = int(self.settings.get("max_landmarks",60))
-        candidates = 0
-        for i in order:
-            if not front[i] or np.any(np.abs(ndc[i]) > 1):continue
-            sid=int(visible[i])
-            x=(ndc[i,0]*.5+.5)*self.width()
-            y=(1-(ndc[i,1]*.5+.5))*self.height()
-            candidates += 1
-            if self.renderer.pick(*self._gl_xy(QPointF(x,y))) == sid:
+        # The first limit*3 on-screen anchors are the only ones that can ever be probed, so read
+        # their ids back together in one batch, then apply the same stop rules in the same order.
+        candidates = []
+        w, h = self.width(), self.height()
+        for i in order[on_screen[order]][:limit*3]:
+            x=(ndc[i,0]*.5+.5)*w
+            y=(1-(ndc[i,1]*.5+.5))*h
+            candidates.append((int(visible[i]),x,y))
+        found = self.renderer.pick_many([self._gl_xy(QPointF(x,y)) for _,x,y in candidates])
+        for (sid,x,y),hit in zip(candidates,found):
+            if hit == sid:
                 self._structure_labels.append((sid,x,y))
-            if len(self._structure_labels)>=limit or candidates>=limit*3:break
+            if len(self._structure_labels)>=limit:break
 
     def _paint_structure_labels(self,p):
         if not self.settings.get("show_structure_labels",False):return

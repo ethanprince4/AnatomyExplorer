@@ -5,7 +5,7 @@ from . import shaders
 from PySide6.QtGui import QColor
 
 from .config import BACKGROUND_DARK, BACKGROUND_LIGHT, SHADING
-from .state import STATE_TEX_WIDTH, srgb_to_linear
+from .state import STATE_TEX_WIDTH, srgb_to_linear, state_rows, state_texel
 
 VERTEX_FORMAT = "3f 3f u2 u2"
 VERTEX_ATTRS = ("in_pos", "in_nrm", "in_obj", "in_mat")
@@ -27,6 +27,8 @@ def _mat4_bytes(m):
 
 
 class Renderer:
+    GATHER_MAX = 256       # points per batched id/depth readback (matches u_pts in shaders.GATHER_FS)
+
     def __init__(self, ctx: moderngl.Context, ds, vertices, indices, cap_depth=False):
         self.ctx = ctx
         self.ds = ds
@@ -57,6 +59,11 @@ class Renderer:
         self.p_composite = ctx.program(vertex_shader=shaders.FULLSCREEN_VS, fragment_shader=shaders.COMPOSITE_FS)
         self.p_final = ctx.program(vertex_shader=shaders.FULLSCREEN_VS, fragment_shader=shaders.FINAL_FS)
         self.p_fxaa = ctx.program(vertex_shader=shaders.FULLSCREEN_VS, fragment_shader=shaders.FXAA_FS)
+        self.p_gather = ctx.program(vertex_shader=shaders.FULLSCREEN_VS, fragment_shader=shaders.GATHER_FS)
+        self.gather_vao = ctx.vertex_array(self.p_gather, [])
+        self.gather_tex = ctx.texture((self.GATHER_MAX, 1), 4, dtype="f4")
+        self.gather_tex.filter = (moderngl.NEAREST, moderngl.NEAREST)
+        self.gather_fbo = ctx.framebuffer([self.gather_tex])
 
         self.vbo = ctx.buffer(vertices)
         self.ibo = ctx.buffer(indices)
@@ -93,7 +100,9 @@ class Renderer:
             ("ssao", self.p_ssao), ("blur", self.p_blur), ("composite", self.p_composite),
             ("final", self.p_final), ("fxaa", self.p_fxaa))}
 
-        self.state_tex = ctx.texture((STATE_TEX_WIDTH, 2), 4, dtype="f4")
+        # two rows per block of STATE_TEX_WIDTH structures, one block under the other
+        self.state_blocks = state_rows(len(ds.structures))
+        self.state_tex = ctx.texture((STATE_TEX_WIDTH, 2 * self.state_blocks), 4, dtype="f4")
         self.state_tex.filter = (moderngl.NEAREST, moderngl.NEAREST)
         self.mats_tex = ctx.texture((1024, 4), 4, dtype="f4")
         self.detail = 1 if getattr(ds, "detail_shading", False) else 0
@@ -161,7 +170,7 @@ class Renderer:
         objs = [self.vao_opaque, self.vao_transparent, self.vao_mask, self.vao_cap, self.vao_parity, self.p_cap,
                 self.p_parity, self.p_capmix, getattr(self, "capmix_vao", None), *self.fs.values(),
                 self.p_opaque, self.p_transparent, self.p_mask, self.p_ssao, self.p_blur, self.p_composite,
-                self.p_final, self.p_fxaa, self.vbo, self.ibo, self.aux, self.anim, self.state_tex, self.mats_tex,
+                self.p_final, self.p_fxaa, self.p_gather, self.gather_vao, self.gather_fbo, self.gather_tex, self.vbo, self.ibo, self.aux, self.anim, self.state_tex, self.mats_tex,
                 self.anim_tex, self.noise_tex, self.albedo]
         objs += [getattr(self, n, None) for n in ("gbuffer", "mask_fbo", "ao_fbo", "blur_fbo", "hdr_fbo", "ldr_fbo",
                                                   "color_tex", "normal_tex", "id_tex", "depth_tex", "mask_tex",
@@ -178,7 +187,13 @@ class Renderer:
     def update_state(self, tex):
         self._state_texture = np.asarray(tex, dtype=np.float32).copy()
         self._state_flags = np.asarray(tex[0, :len(self.ds.structures), 3], dtype=np.int32).copy()
-        self.state_tex.write(np.ascontiguousarray(tex, dtype=np.float32).tobytes())
+        # (2, blocks * WIDTH, 4) -> (blocks * 2, WIDTH, 4): row 2*b + k holds row k of block b
+        blocks = self.state_blocks
+        full = np.zeros((2, blocks * STATE_TEX_WIDTH, 4), dtype=np.float32)
+        m = min(full.shape[1], tex.shape[1])
+        full[:, :m] = tex[:, :m]
+        packed = full.reshape(2, blocks, STATE_TEX_WIDTH, 4).transpose(1, 0, 2, 3).reshape(blocks * 2, STATE_TEX_WIDTH, 4)
+        self.state_tex.write(np.ascontiguousarray(packed).tobytes())
 
     _CAP_OBJECTS = ("vao_cap", "vao_parity", "capmix_vao", "p_cap", "p_parity", "p_capmix")
     _CAP_TARGETS = ("parity_fbo", "cap_fbo", "parity_tex", "cap_color", "cap_normal", "cap_id", "cap_zp", "cap_key")
@@ -404,14 +419,14 @@ class Renderer:
                         original = self._state_texture[0, sid].copy()
                         temporary = original.copy()
                         temporary[3] = int(temporary[3]) | 1
-                        self.state_tex.write(temporary.tobytes(), viewport=(sid, 0, 1, 1))
+                        self.state_tex.write(temporary.tobytes(), viewport=(*state_texel(sid), 1, 1))
                         restored.append((sid, original))
                 for first, count in boundaries:
                     self.vao_parity.render(moderngl.TRIANGLES, vertices=count, first=first)
             finally:
                 # Restore exact flags/colours before coloured caps and all later passes.
                 for sid, original in restored:
-                    self.state_tex.write(original.tobytes(), viewport=(sid, 0, 1, 1))
+                    self.state_tex.write(original.tobytes(), viewport=(*state_texel(sid), 1, 1))
             ctx.blend_equation = moderngl.FUNC_ADD
             ctx.disable(moderngl.BLEND)
             ctx.enable(moderngl.DEPTH_TEST)
@@ -644,6 +659,57 @@ class Renderer:
         ids[(ids < 1) | (ids > self.ds.n)] = 0
         return ids
 
+    def _gather(self, points):
+        """(id + 1, depth) at each GL pixel in points with one readback per GATHER_MAX points.
+
+        Returns an (N, 2) float32 array (NaN where the point is outside the frame or a read failed).
+        Sampling the same gbuffer textures the single-pixel reads use gives the same values.
+        """
+        out = np.full((len(points), 2), np.nan, dtype=np.float32)
+        w, h = self.size
+        if not self.frame_ok or not len(points):
+            return out
+        previous_fbo = self.ctx.fbo
+        previous_viewport = self.ctx.viewport
+        previous_scissor = self.ctx.scissor
+        if previous_fbo is None:
+            return out
+        pts = np.asarray(points, dtype=np.int64).reshape(-1, 2)
+        inside = (pts[:, 0] >= 0) & (pts[:, 0] < w) & (pts[:, 1] >= 0) & (pts[:, 1] < h)
+        idx = np.flatnonzero(inside)
+        try:
+            self.ctx.scissor = None
+            self.id_tex.use(0)
+            self.depth_tex.use(1)
+            self._set(self.p_gather, "u_id", 0)
+            self._set(self.p_gather, "u_depth", 1)
+            for start in range(0, len(idx), self.GATHER_MAX):
+                chunk = idx[start:start + self.GATHER_MAX]
+                buf = np.zeros((self.GATHER_MAX, 2), dtype=np.int32)
+                buf[:len(chunk)] = pts[chunk]
+                self.p_gather["u_pts"].write(buf.tobytes())
+                self.gather_fbo.use()
+                self.gather_fbo.viewport = (0, 0, self.GATHER_MAX, 1)
+                self.gather_vao.render(vertices=3)
+                data = np.frombuffer(self.gather_fbo.read(components=4, dtype="f4"), dtype=np.float32)
+                out[chunk] = data.reshape(self.GATHER_MAX, 4)[:len(chunk), :2]
+        except moderngl.Error:
+            out[:] = np.nan
+        finally:
+            previous_fbo.use()
+            self.ctx.viewport = previous_viewport
+            self.ctx.scissor = previous_scissor
+        return out
+
+    def pick_many(self, points):
+        """Structure ids (-1 for none) at several GL pixels, read back together. Same rules as pick()."""
+        values = self._gather(points)[:, 0] if len(points) else np.zeros(0, dtype=np.float32)
+        ids = []
+        for value in values:
+            ok = np.isfinite(value) and 1 <= value <= self.ds.n and abs(value - round(float(value))) <= 0.001
+            ids.append(int(round(float(value))) - 1 if ok else -1)
+        return ids
+
     def pick(self, x, y):
         w, h = self.size
         if not self.frame_ok or not (0 <= x < w and 0 <= y < h):
@@ -676,13 +742,6 @@ class Renderer:
         return point
 
     def depths_at(self, points):
-        """Depth buffer values at pixel positions [(x, y), ...] (GL coordinates)."""
-        out = []
-        w, h = self.size
-        for x, y in points:
-            if not self.frame_ok or not (0 <= x < w and 0 <= y < h):
-                out.append(None)
-                continue
-            d = self._read_float(x, y, -1)
-            out.append(d if d is not None and 0 <= d <= 1 else None)
-        return out
+        """Depth buffer values at pixel positions [(x, y), ...] (GL coordinates), read back together."""
+        values = self._gather(points)[:, 1] if len(points) else []
+        return [float(d) if np.isfinite(d) and 0 <= d <= 1 else None for d in values]
