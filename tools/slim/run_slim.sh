@@ -26,7 +26,7 @@ for m, ps in by.items():
 PY
 while IFS=$'\t' read -r -a row; do
   QT_QPA_PLATFORM=offscreen "$PY" "$HERE/slim_export.py" "$OUT" "${row[@]}" >> "$OUT/export.log" 2>&1
-done < "$OUT/bymodel.txt"
+done < <(tr -d '\r' < "$OUT/bymodel.txt")   # Python on Windows ends lines with \r\n
 git checkout -- data/anatomy/depth.npz data/anatomy/samples.npz 2>/dev/null || true   # app caches the export rewrites
 
 # 2. decimate and score, the manifest split across JOBS processes (each can take several GB on the largest parts)

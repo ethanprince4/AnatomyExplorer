@@ -11,7 +11,7 @@ REPO = Path(__file__).resolve().parents[2]
 LIB = REPO / "data" / "local_model_library"
 out = Path(sys.argv[1])
 res = [json.loads(l) for l in open(out / "results.jsonl")]
-models = json.loads((LIB / "library.json").read_text())["models"]
+models = json.loads((LIB / "library.json").read_text(encoding="utf-8"))["models"]
 wanted = set(sys.argv[2:])
 
 

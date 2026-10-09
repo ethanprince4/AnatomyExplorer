@@ -16,7 +16,7 @@ for l in open(renders / "counts.jsonl"):
     c = json.loads(l)
     counts[(c["model"], c["tag"])] = c["triangles"]
 names = {}
-lib = json.loads((Path(__file__).resolve().parents[2] / "data/local_model_library/library.json").read_text())["models"]
+lib = json.loads((Path(__file__).resolve().parents[2] / "data/local_model_library/library.json").read_text(encoding="utf-8"))["models"]
 for mid in staged:
     names[mid] = lib.get(mid, {}).get("name") or mid.replace("_", " ").title()
 
@@ -57,7 +57,7 @@ failed = [{"model": names.get(r["model"]) or lib.get(r["model"], {}).get("name")
            "triangles": r["triangles"]}
           for r in sorted(res, key=lambda r: -r["triangles"]) if not r.get("accepted")]
 data = {"models": models, "failed": failed}
-template = (Path(__file__).parent / "review_template.html").read_text()
+template = (Path(__file__).parent / "review_template.html").read_text(encoding="utf-8")
 (dst / "index.html").write_text(template.replace("/*DATA*/null", json.dumps(data, separators=(",", ":"))))
 total = sum(p.stat().st_size for p in img.iterdir())
 print(f"{len(models)} models, {sum(len(m['parts']) for m in models)} parts, {len(failed)} not simplified, "
