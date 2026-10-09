@@ -7,6 +7,8 @@ opacity, separated parts, the animation controls and the Details panel, and give
 hooks the old microanatomy view did (``part_ids``, ``focus_parts``, ``set_practice``).
 """
 import html
+import logging
+import os
 import re
 import time
 
@@ -27,6 +29,38 @@ from .outline import Outline, OutlineItem
 from .search_panel import normalized
 
 ROLE = Qt.UserRole + 1
+_LOG = logging.getLogger(__name__)
+_wgpu_fallback_logged = False
+
+
+def renderer_backend(settings):
+    """"opengl" (default) or "wgpu": the ANATOMY_RENDERER environment variable overrides the renderer_backend setting."""
+    for value in (os.environ.get("ANATOMY_RENDERER"), settings.get("renderer_backend", "opengl")):
+        value = str(value or "").strip().lower()
+        if value in ("opengl", "wgpu"):
+            return value
+    return "opengl"
+
+
+def make_viewport(model, state, settings, entry, parent):
+    """The 3D view for a model. With the wgpu backend chosen, the device, renderer and a first small frame are tried
+    here, before the caller wires the widget up; on any failure the OpenGL viewport is built instead and the reason is
+    logged once. With the default setting this is exactly ModelViewport(...)."""
+    global _wgpu_fallback_logged
+    if renderer_backend(settings) == "wgpu":
+        view = None
+        try:
+            from ..gpu.viewport import WgpuModelViewport
+            view = WgpuModelViewport(model, state, settings, entry, parent=parent)
+            view.probe()
+            return view
+        except Exception as exc:                       # noqa: BLE001 - any wgpu problem means "use OpenGL"
+            if view is not None:
+                view.dispose()
+            if not _wgpu_fallback_logged:
+                _wgpu_fallback_logged = True
+                _LOG.warning("wgpu renderer unavailable, using OpenGL: %s", exc)
+    return ModelViewport(model, state, settings, entry, parent=parent)
 FAMILY_MIN = 6        # copies of one structure that share a parts row; fewer stay as their own rows ("zone 1-3")
 
 
@@ -128,7 +162,7 @@ class ModelView(QWidget):
         self.load_seconds = time.perf_counter() - t0 if prepared is None else prepared.seconds
         self.mds = ModelDataset(self.vmodel)
         self.state = SceneState(self.mds, settings)
-        self.gl_widget = ModelViewport(self.vmodel, self.state, settings, entry, parent=self)
+        self.gl_widget = make_viewport(self.vmodel, self.state, settings, entry, self)
         self.gl_widget.home_view = self.reset_view
         self.click_hook = None        # Practice mode: callable(item) -> True when it took the click
         self.rclick_hook = None       # Practice mode: callable(item), a right click in the 3D view
