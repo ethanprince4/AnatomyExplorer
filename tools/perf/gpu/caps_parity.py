@@ -334,7 +334,12 @@ class WGSide:
         self.TU, self.BU = wgpu.TextureUsage, wgpu.BufferUsage
         self.size = size
         self.model = model
-        self.geom = geo.build_geometry(model, geo.GpuSink(self.dev), page_bytes or geo.page_limit(self.dev))
+        import os
+        cmp = os.environ.get("ANATOMY_CAPSP_COMPRESS", "0") == "1"      # compressed + cluster-ordered pages: caps draws pull (non-indexed)
+        self.geom = geo.build_geometry(model, geo.GpuSink(self.dev), page_bytes or geo.page_limit(self.dev),
+                                       cluster_order=cmp, compress=cmp)
+        if cmp:
+            assert self.geom.compressed, "compression refused for the synthetic model"
         self.caps = CapPasses(self.dev, getattr(gpu, "limits", None))
         self._fill = None
         self._shade_res = None

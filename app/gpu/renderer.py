@@ -157,7 +157,7 @@ def _decode_wgsl():
     return _read_text("cull_tables.wgsl") + "\n" + dec
 
 
-def _prelude_resolve(id_fmt, samples, n_pages, page0):
+def _prelude_resolve(id_fmt, samples, n_pages, page0, compressed=False):
     """Generated WGSL for the resolve module: sample access (group 2) and the pages of one pass (group 3, geometry.geom_prelude)."""
     out = [f"const SAMPLES: u32 = {samples}u;"]
     ms = samples > 1
@@ -179,7 +179,7 @@ def _prelude_resolve(id_fmt, samples, n_pages, page0):
                    f"return v.x | (v.y << 8u) | (v.z << 16u) | (v.w << 24u); }}")
     out.append(_DECODE_IDS)
     out.append(f"const GROUP_PAGE0: u32 = {page0}u;\nconst GROUP_PAGES: u32 = {n_pages}u;")
-    out.append(geo.geom_prelude(n_pages, 3, 0))
+    out.append(geo.geom_prelude(n_pages, 3, 0, compressed=compressed))
     return "\n".join(out)
 
 
@@ -344,6 +344,10 @@ class WgpuRenderer:
                                  float(os.environ.get("ANATOMY_CULL_MIN_TRIS") or CULL_MIN_TRIS))
         self.culler = None
         self.culled_frame = False            # did the last frame go through the culler
+        self.cull_accept_all = False         # ... with every cluster accepted (compressed geometry below cull_min_tris)
+        gc_mode = os.environ.get("ANATOMY_GEOM_COMPRESS", "auto").strip().lower()
+        self.geom_compress = gc_mode if gc_mode in ("on", "off", "auto") else "auto"      # compressed geometry (cluster-ordered models)
+        self._cmp = False                    # the current geometry is compressed (keys of every module / pipeline)
         self.cull_stats = None
         self.model = None
         self.geom = None
@@ -471,7 +475,7 @@ class WgpuRenderer:
         key = ("vis", self.id_format)
         if key not in self._modules:
             code = ("enable primitive_index;\n" + _prelude_ids(self.id_format) + "\n" + _read_text("clip.wgsl") + "\n"
-                    + _read_text("tables.wgsl") + "\n" + geo.geom_prelude(1, 1, 0, uniform_binding=1) + "\n"
+                    + _read_text("tables.wgsl") + "\n" + geo.geom_prelude(1, 1, 0, uniform_binding=1, compressed=self._cmp) + "\n"
                     + _read_text("geom.wgsl") + "\n" + _read_text("morph.wgsl") + "\n" + _read_text("visbuf.wgsl"))
             self._modules[key] = self.device.create_shader_module(code=code, label="visbuf")
         return self._modules[key]
@@ -489,7 +493,7 @@ class WgpuRenderer:
             resolve = _read_text("resolve.wgsl")
             assert resolve.count("su = sg;") == 1
             resolve = _su_reads(resolve.replace("su = sg;", ""))          # apply_look(rec) now only sets cur_lb
-            code = "\n".join([_prelude_resolve(self.id_format, samples, n_pages, page0), clip, shading,
+            code = "\n".join([_prelude_resolve(self.id_format, samples, n_pages, page0, self._cmp), clip, shading,
                               _read_text("tables.wgsl"), _read_text("geom.wgsl"), _read_text("morph.wgsl"),
                               _decode_wgsl(), resolve, _apply_look_wgsl()])
             assert not re.search(r"\bsu\b", re.sub(r"//.*", "", code)), "a use of `su` outside su.u_* is left in the resolve module"
@@ -571,7 +575,12 @@ class WgpuRenderer:
             sink = geo.GpuSink(self.device)
             order = self._wants_cluster_order(model)
             try:
-                self.geom = geo.build_geometry(model, sink, self.page_bytes, max_pages=self.max_pages, cluster_order=order)
+                self.geom = geo.build_geometry(model, sink, self.page_bytes, max_pages=self.max_pages, cluster_order=order,
+                                               compress=order and self._wants_compress(model))
+                if bool(self.geom.compressed) != self._cmp:        # modules and pipelines are built for one of the two layouts
+                    self._cmp = bool(self.geom.compressed)
+                    self._pipes.clear()
+                    self._modules.clear()
             except geo.GeometryError as exc:
                 log.warning("wgpu renderer: model does not fit the geometry layout, the OpenGL viewport is used: %s", exc)
                 raise
@@ -622,6 +631,13 @@ class WgpuRenderer:
         if self.cull_mode == "on":
             return True
         return sum(int(p.count) for p in model.parts) // 3 >= self.cull_min_tris
+
+    def _wants_compress(self, model):
+        """Compressed geometry (vertex renumbering + u16 cluster-relative indices, geometry.py) for a cluster-ordered model:
+        ANATOMY_GEOM_COMPRESS = on (every cluster-ordered model) / off / auto (default: only when the uncompressed pages would exceed the adapter's
+        page capacity max_pages x page_bytes and the compressed ones fit; build_geometry decides). Every other model keeps
+        the plain u32-index layout and draw path."""
+        return {"on": True, "off": False}.get(self.geom_compress, "auto")
 
     def _make_culler(self, model):
         """The cluster culler of an ordered geometry (None for the rest); makes the resolve's group 2 point at its decode tables."""
@@ -1230,7 +1246,11 @@ class WgpuRenderer:
 
     def _use_cull(self, drawn_tris, any_drawn):
         """Does this frame go through the cluster culler? (the geometry must be cluster ordered, i.e. a culler exists)"""
-        if self.culler is None or not any_drawn or self.cull_mode == "off":
+        if self.culler is None or not any_drawn:
+            return False
+        if self._cmp:                       # compressed geometry has no hardware index buffer: opaque parts always go through the culler
+            return True
+        if self.cull_mode == "off":
             return False
         return self.cull_mode == "on" or drawn_tris >= self.cull_min_tris
 
@@ -1253,14 +1273,19 @@ class WgpuRenderer:
     def _draw_slots(self, rp, entries):
         """One indexed draw per entry (slot, part, level, first index, index count) with the plain visibility pipeline set."""
         current = -1
+        cmp = self._cmp
         for slot, pi, k_, first, count in entries:
             page = int(self.geom.page_of[pi])
             if page != current:
                 rp.set_bind_group(1, self._vis_page_bg[page])
-                rp.set_index_buffer(self.geom.pages[page].buffer, "uint32", self.geom.pages[page].index_byte_offset,
-                                    self.geom.pages[page].index_bytes)
+                if not cmp:
+                    rp.set_index_buffer(self.geom.pages[page].buffer, "uint32", self.geom.pages[page].index_byte_offset,
+                                        self.geom.pages[page].index_bytes)
                 current = page
-            rp.draw_indexed(count, 1, first, 0, slot)
+            if cmp:                      # compressed pages: vertex_index = logical index position (geom.wgsl g_vertex)
+                rp.draw(count, 1, first, slot)
+            else:
+                rp.draw_indexed(count, 1, first, 0, slot)
 
     def render(self, target, size, camera, s, fs=None, out_size=None):
         """Render one frame into ``target`` (a wgpu texture, rgba8unorm, RENDER_ATTACHMENT). ``size`` is the render
@@ -1357,6 +1382,7 @@ class WgpuRenderer:
         # ---- 1. visibility pass
         drawn_tris = sum(e[4] for e in entries) // 3
         self.culled_frame = use_cull = self._use_cull(drawn_tris, bool(entries))
+        self.cull_accept_all = bool(use_cull and self._cmp and (self.cull_mode == "off" or (self.cull_mode == "auto" and drawn_tris < self.cull_min_tris)))
         if use_cull:
             # cluster culling: the culler records both visibility passes itself (compute runs between them). Parts it cannot
             # bound come back as `unculled` and are drawn here with the plain pipeline, ids stay (slot << bits) | primitive.
@@ -1372,7 +1398,7 @@ class WgpuRenderer:
 
             self.culler.encode(enc, V, Pm, (w, h), V_["vis_id"], V_["vis_depth"], samples, fp,
                                clip=ClipState(planes=clip_planes, on=clip_on, mode=int(fs.clip_mode)), ortho=bool(camera.ortho),
-                               draw_unculled=draw_plain, out_size=(ow, oh), bits=bits)
+                               draw_unculled=draw_plain, out_size=(ow, oh), bits=bits, accept_all=self.cull_accept_all)
         else:
             rp = enc.begin_render_pass(
                 color_attachments=[{"view": V_["vis_id"], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 0)}],

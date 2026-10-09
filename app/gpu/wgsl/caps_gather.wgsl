@@ -39,14 +39,15 @@ fn cap_vertex_world(d: CapDraw, v: u32) -> vec3<f32> {
 @vertex
 fn vs_cap(@builtin(vertex_index) vi: u32, @builtin(instance_index) di: u32) -> CapVOut {
     let d = cdraws[di];
-    let w = cap_vertex_world(d, vi);
+    let v = g_vertex(0u, vi);
+    let w = cap_vertex_world(d, v);
     var o: CapVOut;
     o.clip = cf.vp * vec4<f32>(w, 1.0);
     o.wpos = w;
     o.di = di;
     o.col = d.col;
     if (d.a.y == 1u) {
-        o.col = g_col(0u, vi + d.a.x);
+        o.col = g_col(0u, v + d.a.x);
     }
     return o;
 }

@@ -99,6 +99,7 @@ class CapPasses:
         self.v = {}
         self.size = None
         self._modules = {}
+        self._cmp = False              # compressed geometry: non-indexed draws, vertex_index = logical index position
         self._pipes = {}
         self._frame_ub = device.create_buffer(size=CAPFRAME_BYTES, usage=BU.UNIFORM | BU.COPY_DST, label="cap_frame")
         self._draw_buf = self._shade_buf = None
@@ -134,7 +135,7 @@ class CapPasses:
         if name not in self._modules:
             head = _text("caps_common.wgsl")
             if name == "gather":
-                code = (_text("shading.wgsl") + "\n" + head + "\n" + geom_prelude(1, 2, 0, uniform_binding=1) + "\n"
+                code = (_text("shading.wgsl") + "\n" + head + "\n" + geom_prelude(1, 2, 0, uniform_binding=1, compressed=self._cmp) + "\n"
                         + _text("geom.wgsl") + "\n" + _text("caps_gather.wgsl"))
             elif name == "lay":
                 code = head + "\n" + _text("caps_lay.wgsl")
@@ -286,6 +287,10 @@ class CapPasses:
         look          optional callable part -> {GLSL uniform name: value}; default look_uniforms(part, fs)
         """
         from app.viewer.renderer import Renderer as GLRenderer
+        if bool(geom.compressed) != self._cmp:          # the gather module is built for one of the two page layouts
+            self._cmp = bool(geom.compressed)
+            self._modules.pop("gather", None)
+            self._pipes.clear()
         w, h = int(size[0]), int(size[1])
         planes, on, _mode = clip
         by_item = {}
@@ -407,10 +412,14 @@ class CapPasses:
                     rp.set_bind_group(1, self._bg_su, [di * self.shade_stride])
                     if current != page:
                         rp.set_bind_group(2, plan.pages[page][0])
-                        rp.set_index_buffer(plan.pages[page][1].buffer, "uint32", plan.pages[page][1].index_byte_offset,
-                                            plan.pages[page][1].index_bytes)
+                        if not self._cmp:
+                            rp.set_index_buffer(plan.pages[page][1].buffer, "uint32", plan.pages[page][1].index_byte_offset,
+                                                plan.pages[page][1].index_bytes)
                         current = page
-                    rp.draw_indexed(count, 1, first_index, 0, di)
+                    if self._cmp:
+                        rp.draw(count, 1, first_index, di)
+                    else:
+                        rp.draw_indexed(count, 1, first_index, 0, di)
                 rp.end()
 
     def encode_lay_in(self, enc, id_tex, nd_tex):

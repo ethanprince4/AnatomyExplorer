@@ -269,7 +269,15 @@ class OW:
             ib += len(tri)
         model = types.SimpleNamespace(vertices=np.concatenate(verts), indices=np.concatenate(idx), parts=plist, lod=None)
         self.model = model
-        self.geom = G.build_geometry(model, G.GpuSink(self.dev), G.page_limit(self.dev))
+        import os
+        mode = os.environ.get("ANATOMY_OITP_COMPRESS", "0")      # 1: compressed + cluster-ordered pages (OIT draws pull, non-indexed); 2: cluster-ordered only
+        cmp = mode == "1"
+        self.geom = G.build_geometry(model, G.GpuSink(self.dev), G.page_limit(self.dev), cluster_order=mode in ("1", "2"), compress=cmp)
+        if cmp:
+            assert self.geom.compressed, "compression refused for the synthetic model"
+        if mode in ("1", "2"):
+            for k, p in enumerate(plist):
+                p.first, p.count = self.geom.ranges[k][0]
         self.pas.set_geometry(self.geom)
 
     def _depth_pipe(self):
@@ -332,9 +340,13 @@ class OW:
             if pg != page:
                 rp.set_bind_group(2, self.pas._page_bg[pg])
                 pgo_ = self.geom.pages[pg]
-                rp.set_index_buffer(pgo_.buffer, "uint32", pgo_.index_byte_offset, pgo_.index_bytes)
+                if not self.geom.compressed:
+                    rp.set_index_buffer(pgo_.buffer, "uint32", pgo_.index_byte_offset, pgo_.index_bytes)
                 page = pg
-            rp.draw_indexed(dr.count, 1, dr.first, 0, k)
+            if self.geom.compressed:
+                rp.draw(dr.count, 1, dr.first, k)
+            else:
+                rp.draw_indexed(dr.count, 1, dr.first, 0, k)
         rp.end()
         # ---- the module under test
         gdraws = [O.OitDraw(part=pi, first=self.model.parts[pi].first, count=self.model.parts[pi].count,

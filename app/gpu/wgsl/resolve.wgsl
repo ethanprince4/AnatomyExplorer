@@ -122,9 +122,10 @@ fn vtx_attr(d: Draw, lp: u32, v: u32) -> VAttr {
 fn tri_setup(d: Draw, prim: u32, lp: u32) -> Tri {
     var t: Tri;
     let at = d.a.x + 3u * prim;
-    t.i0 = g_index(lp, at);
-    t.i1 = g_index(lp, at + 1u);
-    t.i2 = g_index(lp, at + 2u);
+    let ix = g_tri(lp, at);
+    t.i0 = ix.x;
+    t.i1 = ix.y;
+    t.i2 = ix.z;
     t.v0 = vtx_geom(d, lp, t.i0);
     t.v1 = vtx_geom(d, lp, t.i1);
     t.v2 = vtx_geom(d, lp, t.i2);

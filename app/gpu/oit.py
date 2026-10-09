@@ -132,9 +132,8 @@ class OitPass:
         self.bgl2 = d.create_bind_group_layout(entries=[
             ent(0, V, buffer={"type": "read-only-storage"}), ent(1, V, buffer={"type": "uniform"})])
         self.layout = d.create_pipeline_layout(bind_group_layouts=[self.bgl0, self.bgl1, self.bgl2])
-        code = (_read("vertex.wgsl") + _read("shading.wgsl") + geom_prelude(1, 2, 0, uniform_binding=1) + "\n"
-                + _read("geom.wgsl") + _read("oit.wgsl"))
-        head, tail = code.split(RESOLVE_MARK)
+        self._cmp = False                 # compressed geometry: vertex_index = logical index position (geom.wgsl g_vertex), draws are non-indexed
+        head, tail = self._code(False)
         self._resolve_src = RESOLVE_MARK + tail
         self.module = d.create_shader_module(code=head, label="oit")
         self._pipes, self._res_pipes, self._res_bgl = {}, {}, {}
@@ -162,9 +161,19 @@ class OitPass:
         self.last_draws = 0
 
     # ------------------------------------------------------------------ resources
+    @staticmethod
+    def _code(cmp):
+        code = (_read("vertex.wgsl") + _read("shading.wgsl") + geom_prelude(1, 2, 0, uniform_binding=1, compressed=cmp) + "\n"
+                + _read("geom.wgsl") + _read("oit.wgsl"))
+        return code.split(RESOLVE_MARK)
+
     def set_geometry(self, geom):
         """Bind groups of the geometry pages (group 2). Call again when the model changes; None releases them."""
         self.geom = geom
+        if geom is not None and bool(geom.compressed) != self._cmp:      # the vertex module is built for one of the two layouts
+            self._cmp = bool(geom.compressed)
+            self.module = self.device.create_shader_module(code=self._code(self._cmp)[0], label="oit")
+            self._pipes.clear()
         for ub in getattr(self, "_page_ub", []):
             ub.destroy()
         self._page_ub = []
@@ -319,11 +328,15 @@ class OitPass:
             pg = int(self.geom.page_of[dr.part])
             if pg != page:
                 rp.set_bind_group(2, self._page_bg[pg])
-                rp.set_index_buffer(self.geom.pages[pg].buffer, "uint32", self.geom.pages[pg].index_byte_offset,
-                                    self.geom.pages[pg].index_bytes)
+                if not self._cmp:
+                    rp.set_index_buffer(self.geom.pages[pg].buffer, "uint32", self.geom.pages[pg].index_byte_offset,
+                                        self.geom.pages[pg].index_bytes)
                 page = pg
             rp.set_bind_group(1, self._group1(items, spec, dr.texture), [k * self.su_stride])
-            rp.draw_indexed(dr.count, 1, dr.first, 0, k)
+            if self._cmp:
+                rp.draw(dr.count, 1, dr.first, k)
+            else:
+                rp.draw_indexed(dr.count, 1, dr.first, 0, k)
         rp.end()
         self.last_draws = n
         if resolve:

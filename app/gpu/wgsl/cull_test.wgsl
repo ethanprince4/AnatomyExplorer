@@ -18,7 +18,7 @@
 
 struct Cfg {
     hz: vec4<u32>,          // x: hzb levels, y: 1 = count statistics, z: hzb width, w: hzb height (level 0)
-    eps: vec4<f32>,         // x: depth margin, y: screen padding in pixels
+    eps: vec4<f32>,         // x: depth margin, y: screen padding in pixels, z: 1 = accept every cluster of an active range (no tests)
 };
 
 @group(0) @binding(0) var<uniform> frame: Frame;
@@ -184,7 +184,18 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
             if (!phase2 && stat) {
                 atomicAdd(&cra[lay.c.y + ST_ACTIVE], 1u);
             }
-            if (frustum_pass(mvp, bx)) {
+            if (cfg.eps.z > 0.5) {
+                // accept all: phase 1 draws the whole range, phase 2 nothing; the flags make the next phase-1 frame draw them too
+                keep = !phase2;
+                if (keep) {
+                    crw[lay.e.y + c] = 1u;
+                    ntri = nt;
+                    if (stat) {
+                        atomicAdd(&cra[lay.c.y + ST_P1], 1u);
+                        atomicAdd(&cra[lay.c.y + ST_P1_TRIS], nt);
+                    }
+                }
+            } else if (frustum_pass(mvp, bx)) {
                 if (!phase2 && stat) {
                     atomicAdd(&cra[lay.c.y + ST_FRUSTUM], 1u);
                     atomicAdd(&cra[lay.c.y + ST_FRUSTUM_TRIS], nt);

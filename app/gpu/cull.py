@@ -209,7 +209,7 @@ class ClusterCuller:
 
     def vis_wgsl(self):
         return (self._ids_prelude() + "\n" + _read("clip.wgsl") + "\n" + _read("cull_tables.wgsl")
-                + "\n" + geom_prelude(1, 1, 0, uniform_binding=1) + "\n" + _read("geom.wgsl") + "\n" + _read("cull_vis.wgsl"))
+                + "\n" + geom_prelude(1, 1, 0, uniform_binding=1, compressed=self.geom.compressed) + "\n" + _read("geom.wgsl") + "\n" + _read("cull_vis.wgsl"))
 
     def _vis_pipe(self, samples, clip):
         key = ("vis", samples, clip)
@@ -227,11 +227,11 @@ class ClusterCuller:
     def idx_wgsl(self):
         nl = "\n"
         return ("enable primitive_index;" + nl + self._ids_prelude() + nl + _read("clip.wgsl") + nl + _read("cull_tables.wgsl") + nl
-                + geom_prelude(1, 1, 0, uniform_binding=1) + nl + _read("geom.wgsl") + nl + _read("cull_idx.wgsl"))
+                + geom_prelude(1, 1, 0, uniform_binding=1, compressed=self.geom.compressed) + nl + _read("geom.wgsl") + nl + _read("cull_idx.wgsl"))
 
     def gather_wgsl(self):
         nl = "\n"
-        return geom_prelude(1, 1, 0, uniform_binding=1) + nl + _read("geom.wgsl") + nl + _read("cull_gather.wgsl")
+        return geom_prelude(1, 1, 0, uniform_binding=1, compressed=self.geom.compressed) + nl + _read("geom.wgsl") + nl + _read("cull_gather.wgsl")
 
     def _idx_pipe(self, samples, clip):
         key = ("idx", samples, clip)
@@ -618,8 +618,9 @@ class ClusterCuller:
         return xf, active, unculled, int(cullable.sum())
 
     def encode(self, enc, view, proj, size, id_view, depth_view, samples, parts, clip=None, ortho=False,
-               draw_unculled=None, out_size=None, bits=20):
-        """Record the visibility pass (both phases) into ``enc``. Returns a CullResult."""
+               draw_unculled=None, out_size=None, bits=20, accept_all=False):
+        """Record the visibility pass (both phases) into ``enc``. Returns a CullResult. accept_all: every cluster of an active
+        range is drawn (no frustum or occlusion test): compressed geometry draws through the culler even where culling is off."""
         assert self.cd is not None, "prepare() first"
         w, h = int(size[0]), int(size[1])
         self._ensure_size(w, h, samples, id_view, depth_view)
@@ -635,6 +636,7 @@ class ClusterCuller:
         cu = cfg.view(np.uint32)
         cu[0:4] = (self.hz_levels, 1 if self.collect_stats else 0, self.hz_dims[0], self.hz_dims[1])
         cfg[4], cfg[5] = self.depth_eps, self.pad_px
+        cfg[6] = 1.0 if accept_all else 0.0
         q.write_buffer(b["cfg_ub"], 0, cfg)
         if self._reset_vis:
             self._clear(enc, "vis0")
