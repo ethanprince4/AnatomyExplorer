@@ -18,6 +18,7 @@ for mid in sys.argv[2:]:
         o = np.load(r["file"]); s = np.load(r["slim_file"])
         safe = re.sub(r"[^A-Za-z0-9]+", "_", r["part"])[:60]
         dst = out / "sheets" / f"{mid}__{safe}.jpg"
+        dst.parent.mkdir(exist_ok=True)
         a = r["accepted"]
         sheet.render(o["vertices"], o["triangles"], s["vertices"], s["triangles"],
                      f"{mid} / {r['part']}:  original {r['triangles']:,}  ->  copy {a['triangles']:,} triangles "

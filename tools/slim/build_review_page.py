@@ -58,7 +58,7 @@ failed = [{"model": names.get(r["model"]) or lib.get(r["model"], {}).get("name")
           for r in sorted(res, key=lambda r: -r["triangles"]) if not r.get("accepted")]
 data = {"models": models, "failed": failed}
 template = (Path(__file__).parent / "review_template.html").read_text(encoding="utf-8")
-(dst / "index.html").write_text(template.replace("/*DATA*/null", json.dumps(data, separators=(",", ":"))))
+(dst / "index.html").write_text(template.replace("/*DATA*/null", json.dumps(data, separators=(",", ":"))), encoding="utf-8")
 total = sum(p.stat().st_size for p in img.iterdir())
 print(f"{len(models)} models, {sum(len(m['parts']) for m in models)} parts, {len(failed)} not simplified, "
       f"{len(list(img.iterdir()))} images, {total / 1e6:.1f} MB")
