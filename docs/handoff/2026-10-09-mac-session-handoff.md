@@ -69,20 +69,23 @@ release workflow.
 3. Merge, then run the release workflow (`.github/workflows/release.yml`; it uses `docs/releases/<tag>.md` as the body).
    Only a release builds installers.
 
-## Model slimming (item 3): not done, and not for the Mac
+## Model slimming (item 3): applied, needs a look on the Mac
 
-`tools/slim` was run on the user's **Windows PC** and its output is there, not in the repo
-(`C:\Users\Ethan\Desktop\AnatomyExplorer\Workspace\slim-2026-10-09`, review page `review\index.html`, venv
-`Workspace\slim-venv`). 43 parts in 19 models passed (cloud run: 42): 46.8 M to 11.0 M triangles, model files 2250 to
-1831 MB. The user is reviewing the close-ups on the PC and will say which models to apply. **Nothing in
-`data/local_model_library` has been replaced.** Recommendation: keep the original pancreas (its copy changes the cut
-face between cells; see `tools/slim/README.md`, "Known blind spot").
+`tools/slim` was run on the user's Windows PC (output outside the repo). 43 parts in 19 models passed: 46.8 M to
+11.0 M triangles, model files 2250 to 1831 MB. After comparing close-ups the user chose the **copy for all 19 models**,
+pancreas included, and the copies are now the files in `data/local_model_library` (a separate commit on this branch;
+files over 100 MB are Git LFS, so `git lfs pull` is needed). The earlier recommendation to keep the original pancreas
+was overruled: its copy changes the cut face between cells (`tools/slim/README.md`, "Known blind spot").
 
-- Applying copies has to happen on the Windows PC, where the staged files are. If the user wants them in 4.0.5, they
-  will be a separate commit on this branch (files over 100 MB must stay under Git LFS), after which pull again here and
-  open each changed model once on the Mac.
-- 4.0.5 does not need the slimming. If the user would rather not wait, release the Mac fix and ship the slimmed models
-  in 4.0.6.
+- On the Mac, open each changed model once and look at the cut face: bladder_wall, colon_wall, compact_bone, cornea,
+  duodenum, ear, elastic_artery, hepatobiliary, ileocecal_rectum, ileum, jejunum, kidney_nephron, muscular_artery,
+  neuron, pancreas, thyroid_parathyroid_review_v2, tongue_papillae, tooth, whole_heart. Pancreas first.
+- Bladder, ileocecal rectum, kidney, neuron and tooth log one or two "zero normals repaired" notes on load (the loader
+  repairs them; the originals had none). Harmless to the picture unless a patch looks dark or flat.
+- If a copy looks wrong, restore that one file from `c3a1afb`/`07f3302` (`git show 07f3302:<path> | git lfs smudge >
+  <path>`, or `git checkout 07f3302 -- <path>`) and commit.
+- 4.0.5 can ship with the slimmed models; `docs/releases/v4.0.5.md` already describes them. If a model fails the look,
+  revert only that file and adjust the notes' numbers.
 - Windows fixes already on the branch (`f9d295e`, `d50a1cc`): `run_slim.sh` did not strip `\r`, so on Windows it skipped
   the last part of every model; UTF-8 for the library file and the page; `sheets/` is created.
 
