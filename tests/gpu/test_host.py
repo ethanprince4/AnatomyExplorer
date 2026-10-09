@@ -20,6 +20,7 @@ import numpy as np                                              # noqa: E402
 from PySide6.QtCore import QEventLoop                           # noqa: E402
 from PySide6.QtWidgets import QApplication                      # noqa: E402
 
+from app.config import DEFAULT_SETTINGS                         # noqa: E402
 from app.gpu import device as dev                               # noqa: E402
 
 COLOUR = (64, 128, 192, 255)
@@ -343,20 +344,27 @@ class SwitchTests(unittest.TestCase):
 
     def test_backend_setting_and_environment(self):
         rb = self.mv.renderer_backend
-        self.assertEqual(rb({}), "opengl")
-        self.assertEqual(rb({"renderer_backend": "wgpu"}), "wgpu")
-        self.assertEqual(rb({"renderer_backend": "nonsense"}), "opengl")
+        platform_default = "wgpu" if sys.platform == "darwin" else "opengl"
+        self.assertEqual(rb({}), platform_default)
+        self.assertEqual(rb({"fast_renderer": True}), "wgpu")
+        self.assertEqual(rb({"fast_renderer": False}), "opengl")
+        self.assertEqual(rb({"renderer_backend": "wgpu", "fast_renderer": False}), "wgpu")
+        self.assertEqual(rb({"renderer_backend": "nonsense"}), platform_default)
         os.environ["ANATOMY_RENDERER"] = "opengl"
-        self.assertEqual(rb({"renderer_backend": "wgpu"}), "opengl")
+        self.assertEqual(rb({"renderer_backend": "wgpu", "fast_renderer": True}), "opengl")
         os.environ["ANATOMY_RENDERER"] = "WGPU"
-        self.assertEqual(rb({"renderer_backend": "opengl"}), "wgpu")
+        self.assertEqual(rb({"renderer_backend": "opengl", "fast_renderer": False}), "wgpu")
+
+    def test_fast_renderer_defaults_on_only_on_macos(self):
+        self.assertEqual(DEFAULT_SETTINGS["fast_renderer"], sys.platform == "darwin")
 
     def test_default_builds_the_opengl_viewport_with_the_same_arguments(self):
         fake = mock.Mock(return_value="gl-viewport")
+        settings = {"fast_renderer": False}
         with mock.patch.object(self.mv, "ModelViewport", fake):
-            out = self.mv.make_viewport("m", "s", {}, "e", "parent")
+            out = self.mv.make_viewport("m", "s", settings, "e", "parent")
         self.assertEqual(out, "gl-viewport")
-        fake.assert_called_once_with("m", "s", {}, "e", parent="parent")
+        fake.assert_called_once_with("m", "s", settings, "e", parent="parent")
 
     def test_wgpu_failure_falls_back_to_opengl_and_logs_once(self):
         class Broken:

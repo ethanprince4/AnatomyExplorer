@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (QCheckBox, QComboBox, QHBoxLayout, QLabel, QLineE
                                QScrollArea, QSplitter, QGridLayout, QToolButton, QVBoxLayout, QWidget)
 
 from ..actions import key_text
+from ..config import DEFAULT_SETTINGS
 from ..state import SceneState
 from ..viewer.dataset import ModelDataset
 from ..viewer.part_guide import load_part_guide
@@ -34,12 +35,16 @@ _wgpu_fallback_logged = False
 
 
 def renderer_backend(settings):
-    """"opengl" (default) or "wgpu": the ANATOMY_RENDERER environment variable overrides the renderer_backend setting."""
-    for value in (os.environ.get("ANATOMY_RENDERER"), settings.get("renderer_backend", "opengl")):
+    """"opengl" or "wgpu". The ANATOMY_RENDERER environment variable wins, then an explicit renderer_backend entry,
+    then the fast_renderer setting (Settings > Display; on by default on macOS only, see config.DEFAULT_SETTINGS)."""
+    for value in (os.environ.get("ANATOMY_RENDERER"), settings.get("renderer_backend")):
         value = str(value or "").strip().lower()
         if value in ("opengl", "wgpu"):
             return value
-    return "opengl"
+    fast = settings.get("fast_renderer")
+    if fast is None:
+        fast = DEFAULT_SETTINGS["fast_renderer"]
+    return "wgpu" if fast else "opengl"
 
 
 def make_viewport(model, state, settings, entry, parent):
