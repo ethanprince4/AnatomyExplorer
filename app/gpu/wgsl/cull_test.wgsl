@@ -19,6 +19,8 @@
 struct Cfg {
     hz: vec4<u32>,          // x: hzb levels, y: 1 = count statistics, z: hzb width, w: hzb height (level 0)
     eps: vec4<f32>,         // x: depth margin, y: screen padding in pixels, z: 1 = accept every cluster of an active range (no tests)
+    cl: vec4<u32>,          // x: 1 = classify the clusters against the cut planes (a plane is on): removed ones are dropped, the ones
+                            // wholly on the kept side go to the list of class 0 (drawn without the clip discard), the rest to class 1
 };
 
 @group(0) @binding(0) var<uniform> frame: Frame;
@@ -62,6 +64,78 @@ fn cluster_box(c: u32, part: u32) -> Box {
     b.c = g0.xyz;
     b.h = g1.xyz + vec3<f32>(wabs * g0.w) + 2e-6 * (abs(g0.xyz) + g1.xyz);
     return b;
+}
+
+// Cut planes (clip.wgsl clipped(): a point is removed where dot(vec4(world, 1), plane) < 0). The box of a cluster (part space, grown
+// by |weight| * dmax and the rounding allowance in cluster_box) goes through the part matrix; the signed distance of the world
+// box to a plane lies within s -/+ r (r: the extent of the oriented box along the plane normal), widened by a relative margin far
+// above the float32 error of the vertex shader's world position and by `mg` world units: the visibility pass interpolates the
+// world position at the pixel CENTRE, so a partly covered pixel is clipped by a position extrapolated past the triangle. 128 pixels
+// of world size at the far end of the box cover it except for screen-space slivers (cutclass.py pixel_margin, the twin, says more).
+//   0: every fragment is on the kept side (the cluster needs no discard), 1: may straddle, 2: every fragment is removed.
+fn pixel_margin(wc: vec3<f32>, m: mat4x4<f32>, b: Box) -> f32 {
+    let ty = frame.halves.y;
+    if (frame.info.w == 1u) {
+        return 256.0 * ty / frame.screen.y;
+    }
+    let R = length(m[0].xyz) * b.h.x + length(m[1].xyz) * b.h.y + length(m[2].xyz) * b.h.z;
+    let depth = -(frame.view * vec4<f32>(wc, 1.0)).z;
+    if (depth - R <= 1e-4) {
+        return 1e30;
+    }
+    return 256.0 * ty * (depth + R) / frame.screen.y;
+}
+
+fn plane_range(P: vec4<f32>, wc: vec3<f32>, m: mat4x4<f32>, b: Box, mg: f32) -> vec2<f32> {
+    let s = dot(P.xyz, wc) + P.w;
+    let r = abs(dot(P.xyz, m[0].xyz)) * b.h.x + abs(dot(P.xyz, m[1].xyz)) * b.h.y + abs(dot(P.xyz, m[2].xyz)) * b.h.z;
+    let e = 3e-5 * (abs(P.x * wc.x) + abs(P.y * wc.y) + abs(P.z * wc.z) + abs(P.w) + r) + mg * length(P.xyz);
+    return vec2<f32>(s - r - e, s + r + e);
+}
+
+fn cluster_clip_class(m: mat4x4<f32>, b: Box, part: u32) -> u32 {
+    let pm = part_meta_at(part);
+    if ((pm.y & 1u) != 0u) {
+        return 0u;                                  // never cut
+    }
+    if (bitcast<f32>(pm.x) != 0.0) {
+        return 1u;                                  // morphed: not proved
+    }
+    let k = frame.clip.on;
+    let wc = (m * vec4<f32>(b.c, 1.0)).xyz;
+    let mg = pixel_margin(wc, m, b);
+    var n = 0u;
+    var any_kept = false;          // some enabled plane has the whole box on its kept side
+    var all_kept = true;           // every enabled plane has
+    var any_gone = false;          // some enabled plane has the whole box on its removed side
+    var all_gone = true;           // every enabled plane has
+    for (var i = 0u; i < 3u; i = i + 1u) {
+        if (k[i] != 1u) {
+            continue;
+        }
+        var P = frame.clip.p0;
+        if (i == 1u) { P = frame.clip.p1; }
+        if (i == 2u) { P = frame.clip.p2; }
+        let v = plane_range(P, wc, m, b, mg);
+        n = n + 1u;
+        let kept = v.x >= 0.0;
+        let gone = v.y < 0.0;
+        any_kept = any_kept || kept;
+        all_kept = all_kept && kept;
+        any_gone = any_gone || gone;
+        all_gone = all_gone && gone;
+    }
+    if (n == 0u) {
+        return 0u;
+    }
+    if (k.w == 1u) {                                // corner: removed where every enabled plane is negative
+        if (any_kept) { return 0u; }
+        if (all_gone) { return 2u; }
+        return 1u;
+    }
+    if (any_gone) { return 2u; }                    // any plane removes its side
+    if (all_kept) { return 0u; }
+    return 1u;
 }
 
 fn corner(mvp: mat4x4<f32>, b: Box, k: u32) -> vec4<f32> {
@@ -156,12 +230,13 @@ fn cluster_ntri(rr0: vec4<u32>, rr1: vec4<u32>, c: u32) -> u32 {
     return min(64u, rr0.w - 64u * j);
 }
 
-var<workgroup> wg_n: atomic<u32>;
-var<workgroup> wg_base: u32;
+var<workgroup> wg_n: array<atomic<u32>, 2>;       // survivors of the workgroup per class (0: kept side / no cut, 1: straddling)
+var<workgroup> wg_base: array<u32, 2>;
 
 fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
     if (li == 0u) {
-        atomicStore(&wg_n, 0u);
+        atomicStore(&wg_n[0], 0u);
+        atomicStore(&wg_n[1], 0u);
     }
     workgroupBarrier();
     let g = sel.x;
@@ -170,6 +245,7 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
     var keep = false;
     var ntri = 0u;
     var ent = vec4<u32>(0u);
+    var cls = 0u;                   // 0: wholly kept side (or no cut), 1: straddles, 2: wholly removed
     let stat = cfg.hz.y != 0u;
     if (c < row.y) {
         let r = cl_range_at(c);
@@ -180,15 +256,21 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
             let bx = cluster_box(c, part);
             let mvp = frame.vp * part_matrix(part);
             let nt = cluster_ntri(rr0, rr1, c);
+            if (cfg.cl.x != 0u) {
+                cls = cluster_clip_class(part_matrix(part), bx, part);
+            }
             ent = vec4<u32>(c, rr0.z + 192u * (c - rr1.x), part, nt | (part_meta_at(part).w << 8u));
             if (!phase2 && stat) {
                 atomicAdd(&cra[lay.c.y + ST_ACTIVE], 1u);
             }
             if (cfg.eps.z > 0.5) {
-                // accept all: phase 1 draws the whole range, phase 2 nothing; the flags make the next phase-1 frame draw them too
-                keep = !phase2;
-                if (keep) {
+                // accept all: phase 1 draws the whole range, phase 2 nothing; the flags make the next phase-1 frame draw them too.
+                // A cluster wholly on the removed side of the cut planes is still not drawn.
+                keep = !phase2 && cls != 2u;
+                if (!phase2) {
                     crw[lay.e.y + c] = 1u;
+                }
+                if (keep) {
                     ntri = nt;
                     if (stat) {
                         atomicAdd(&cra[lay.c.y + ST_P1], 1u);
@@ -201,7 +283,7 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
                     atomicAdd(&cra[lay.c.y + ST_FRUSTUM_TRIS], nt);
                 }
                 if (!phase2) {
-                    keep = crw[lay.e.x + c] != 0u;
+                    keep = crw[lay.e.x + c] != 0u && cls != 2u;
                 } else {
                     // phase 2 tests every cluster that passed the frustum, drawn in phase 1 or not: the ones that
                     // survive are next frame's phase 1; only the ones phase 1 did not draw are drawn now
@@ -211,7 +293,7 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
                     }
                     if (!occluded(mvp, bx)) {
                         crw[lay.e.y + c] = 1u;
-                        keep = !was;
+                        keep = !was && cls != 2u;
                     }
                 }
                 if (keep) {
@@ -224,22 +306,27 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
             }
         }
     }
+    // The lists are per (page, class): list v = page + G * class, with G = lay.e.w pages. Class 1 only exists while cfg.cl.x is set.
+    let kc = min(cls, 1u);
     var rank = 0u;
     if (keep) {
-        rank = atomicAdd(&wg_n, 1u);
+        rank = atomicAdd(&wg_n[kc], 1u);
     }
     workgroupBarrier();
     if (li == 0u) {
-        let n = atomicLoad(&wg_n);
-        if (n > 0u) {
-            wg_base = atomicAdd(&cra[lay.c.x + g * 8u], n);
+        for (var q = 0u; q < 2u; q = q + 1u) {
+            let n = atomicLoad(&wg_n[q]);
+            if (n > 0u) {
+                wg_base[q] = atomicAdd(&cra[lay.c.x + (g + q * lay.e.w) * 8u], n);
+            }
         }
     }
     workgroupBarrier();
     if (keep) {
-        let b = wg_base + rank;
-        if (b < row.w) {
-            crl[row.z + b] = ent;
+        let rowc = ptab_at(g + kc * lay.e.w);
+        let b = wg_base[kc] + rank;
+        if (b < rowc.w) {
+            crl[rowc.z + b] = ent;
         }
     }
 }
@@ -256,16 +343,16 @@ fn cull_p2(@builtin(workgroup_id) wid: vec3<u32>, @builtin(local_invocation_inde
 
 // Finalize of a phase, ONE thread for all pages. The compact index buffer (lay.e.z slots of 64 triangles, shared by both phases: the
 // gather of phase 2 only runs after pass 1 has finished reading it) is split between the pages in proportion to their visible slots
-// when the phase does not fit; a page that cannot use an indexed draw (pinfo.y == 0) takes none. The first `fit` slots of a page's
+// when the phase does not fit (the lists of both classes of a page share its pinfo); a page that cannot use an indexed draw (pinfo.y == 0) takes none. The first `fit` slots of a page's
 // list are gathered into the compact buffer and drawn indexed; the others are drawn by the pulled non-indexed draw.
 fn fin_all(ph: u32) {
-    let G = lay.e.w;
+    let G = lay.e.w * select(1u, 2u, cfg.cl.x != 0u);       // lists: page + pages * class
     let budget = lay.e.z;
     var total = 0u;
     for (var g = 0u; g < G; g = g + 1u) {
         let row = ptab_at(g);
         let n = min(atomicLoad(&cra[lay.c.x + g * 8u]), row.w);
-        if (pinfo_at(g).y != 0u) {
+        if (pinfo_at(g % lay.e.w).y != 0u) {
             total += n - atomicLoad(&cra[lay.c.x + g * 8u + 1u]);
         }
     }
@@ -280,7 +367,7 @@ fn fin_all(ph: u32) {
         let begin = atomicLoad(&cra[lay.c.x + g * 8u + 1u]);
         let m = n - begin;
         var fit = 0u;
-        if (pinfo_at(g).y != 0u) {
+        if (pinfo_at(g % lay.e.w).y != 0u) {
             fit = m;
             if (total > budget) {
                 fit = min(m, u32(f32(m) * (f32(budget) / f32(total))));

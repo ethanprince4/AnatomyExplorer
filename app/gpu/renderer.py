@@ -39,6 +39,7 @@ from app.viewer import lod as _lod
 from app.viewer.environment import make_env, sh9_irradiance
 from app.viewer.renderer import (DEFAULT_RIG, DEFAULT_WORLD, FrameState, Renderer as _GL, Settings,  # noqa: F401
                                  _frustum_planes, _look_key, _transparent_pass, backdrop_linear)
+from . import cutclass
 from . import geometry as geo
 from .caps import CapPasses
 from .clusters import ClusterError
@@ -342,6 +343,9 @@ class WgpuRenderer:
         self.cull_mode = mode if mode in ("on", "off", "auto") else "auto"
         self.cull_min_tris = int(cull_min_tris if cull_min_tris is not None else
                                  float(os.environ.get("ANATOMY_CULL_MIN_TRIS") or CULL_MIN_TRIS))
+        # cut views: classify draws against the cut planes (cutclass.py); ANATOMY_CUT_CLASSIFY=0 sends every draw through the discard
+        self.classify_cut = os.environ.get("ANATOMY_CUT_CLASSIFY", "1") != "0"
+        self._cut_cache = (None, None, None)
         self.culler = None
         self.culled_frame = False            # did the last frame go through the culler
         self.cull_accept_all = False         # ... with every cluster accepted (compressed geometry below cull_min_tris)
@@ -1289,6 +1293,49 @@ class WgpuRenderer:
             else:
                 rp.draw_indexed(count, 1, first, 0, slot)
 
+    def _cut_classes(self, entries, planes, on, mode, V, Pm, height, ortho):
+        """{part index: cutclass class} of the parts the frame draws (plain path of a cut view). The signed distances of the part's
+        world box to the planes depend on the box, its matrix of this frame (explode and node offsets included) and the planes,
+        not on the camera: they are kept until one of those changes; only the pixel margin (cutclass.pixel_margin) is per frame.
+        Morphed and animated parts are never proved: STRADDLE."""
+        anim_on = self.model.anim_vertices is not None and self._fs.anim_frame is not None
+        pis = tuple(sorted({e[1] for e in entries}))
+        key = (planes.tobytes(), tuple(on), int(mode), bool(anim_on), pis)
+        xf_id, ckey, st = self._cut_cache
+        if xf_id is not self._xf or ckey != key:
+            parts, geom = self.model.parts, self.geom
+            ps = [parts[pi] for pi in pis]
+            xf = [self._transform(p) for p in ps]
+            wc, A, h = cutclass.box_world(np.array([p.local_min for p in ps]), np.array([p.local_max for p in ps]),
+                                          np.stack([x[0] for x in xf]))
+            dlo, dhi = cutclass.plane_bounds(wc, A, h, planes, on)
+            plen = [float(np.linalg.norm(planes[i][:3].astype(np.float64))) for i in range(3) if on[i]]
+            straddle = np.array([x[3] != 0.0 or (anim_on and geom.anim_base[pi] >= 0) for x, pi in zip(xf, pis)])
+            st = (wc, A, h, dlo, dhi, plen, straddle, np.array([bool(x[4]) for x in xf]))
+            self._cut_cache = (self._xf, key, st)
+        wc, A, h, dlo, dhi, plen, straddle, never = st
+        tan_y = abs(1.0 / Pm[1, 1])
+        res = cutclass.classes_from_bounds(dlo, dhi, plen, cutclass.pixel_margin(wc, A, h, V, tan_y, ortho, height), mode, straddle, never)
+        return dict(zip(pis, (int(c) for c in res)))
+
+    def _draw_cut(self, rp, entries, cls, samples):
+        """_draw_slots of a cut view: parts wholly on the removed side are skipped, the ones wholly on the kept side take the plain
+        fragment stage (early depth rejection), the rest the discard. Draw order is kept (runs of one class between pipeline sets)."""
+        run, last = [], None
+        for e in entries:
+            c = cls[e[1]]
+            if c == cutclass.REMOVED:
+                continue
+            if c != last and run:
+                rp.set_pipeline(self._vis_pipe(samples, last == cutclass.STRADDLE))
+                self._draw_slots(rp, run)
+                run = []
+            last = c
+            run.append(e)
+        if run:
+            rp.set_pipeline(self._vis_pipe(samples, last == cutclass.STRADDLE))
+            self._draw_slots(rp, run)
+
     def render(self, target, size, camera, s, fs=None, out_size=None):
         """Render one frame into ``target`` (a wgpu texture, rgba8unorm, RENDER_ATTACHMENT). ``size`` is the render
         resolution, ``out_size`` the target's when the picture is scaled on the way."""
@@ -1382,6 +1429,7 @@ class WgpuRenderer:
         post.run_backdrop(T["bg"], np.array(backdrop_linear(bottom, s.tonemap)) * k, np.array(backdrop_linear(top, s.tonemap)) * k,
                           encoder=enc)
         # ---- 1. visibility pass
+        cut_cls = self._cut_classes(entries, clip_planes, clip_on, fs.clip_mode, V, Pm, h, bool(camera.ortho)) if (any_clip and entries and self.classify_cut) else None
         drawn_tris = sum(e[4] for e in entries) // 3
         self.culled_frame = use_cull = self._use_cull(drawn_tris, bool(entries))
         self.cull_accept_all = bool(use_cull and self._cmp and (self.cull_mode == "off" or (self.cull_mode == "auto" and drawn_tris < self.cull_min_tris)))
@@ -1392,10 +1440,12 @@ class WgpuRenderer:
                 enc.begin_compute_pass(timestamp_writes=self._ts(qs, 0, 1)).end()      # slots 0, 1 are replaced by the culler's
             fp, pis = self._frame_parts(entries)
 
-            def draw_plain(rp_, positions, entries=entries, pis=pis):
+            def draw_plain(rp_, positions, entries=entries, pis=pis, cut_cls=cut_cls):
                 want = {pis[i] for i in positions}
-                rp_.set_pipeline(self._vis_pipe(samples, any_clip))
                 rp_.set_bind_group(0, self._bg0_vis)
+                if cut_cls is not None:
+                    return self._draw_cut(rp_, [e for e in entries if e[1] in want], cut_cls, samples)
+                rp_.set_pipeline(self._vis_pipe(samples, any_clip))
                 self._draw_slots(rp_, [e for e in entries if e[1] in want])
 
             self.culler.encode(enc, V, Pm, (w, h), V_["vis_id"], V_["vis_depth"], samples, fp,
@@ -1408,9 +1458,12 @@ class WgpuRenderer:
                                           "depth_clear_value": 1.0},
                 **({"timestamp_writes": self._ts(qs, 0, 1)} if qs else {}))
             if entries:
-                rp.set_pipeline(self._vis_pipe(samples, any_clip))
                 rp.set_bind_group(0, self._bg0_vis)
-                self._draw_slots(rp, entries)
+                if cut_cls is not None:
+                    self._draw_cut(rp, entries, cut_cls, samples)
+                else:
+                    rp.set_pipeline(self._vis_pipe(samples, any_clip))
+                    self._draw_slots(rp, entries)
             rp.end()
         groups = self._groups if have else []
         # ---- 2. geometry resolve (GL's pre-pass: ids, normals, depth), one pass per group of pages
