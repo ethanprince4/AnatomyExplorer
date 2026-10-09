@@ -1,4 +1,5 @@
-// SSAO_FS. Bindings: 0 uniform, 1 nd (unfilterable rgba32float), 2 prev (filterable rgba16float), 3 linear, 4 nearest.
+// SSAO_FS. Bindings: 0 uniform, 1 nd (unfilterable rgba32float), 2 prev (filterable rgba16float), 3 linear, 4 nearest,
+// 5 depth (unfilterable r32float, exact copy of nd.w). The centre pixel and the GI hit normal still read nd (same texel).
 // abs() uses ported literally: abs(N.z) < 0.9 (tangent choice), abs(P.z - sceneZ) (range check). u_ortho is an
 // i32, u_gi_on stays an f32 compared with > 0.5, exactly as in GLSL.
 struct U {
@@ -19,6 +20,7 @@ struct U {
 @group(0) @binding(2) var t_prev: texture_2d<f32>;
 @group(0) @binding(3) var s_lin: sampler;
 @group(0) @binding(4) var s_near: sampler;
+@group(0) @binding(5) var t_depth: texture_2d<f32>;   // r32float copy of nd.w (post_pack.wgsl): the taps read only depth
 
 fn view_pos(uv: vec2<f32>, d: f32) -> vec3<f32> {
     let ndc = uv * 2.0 - 1.0;
@@ -61,7 +63,7 @@ fn fs_ssao(@builtin(position) frag: vec4<f32>, @location(0) v_uv: vec2<f32>) -> 
             let uv = project(S);
             wsum += 1.0;
             if (uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0) { continue; }
-            let sd = textureSampleLevel(t_nd, s_near, uv, 0.0).w;
+            let sd = textureSampleLevel(t_depth, s_near, uv, 0.0).x;
             if (sd <= 0.0) { continue; }
             let sceneZ = -sd;
             let range = smoothstep(0.0, 1.0, rad / max(abs(P.z - sceneZ), 1e-4));
@@ -87,7 +89,7 @@ fn fs_ssao(@builtin(position) frag: vec4<f32>, @location(0) v_uv: vec2<f32>) -> 
                 let S = P + dir * grad * f * f + N * u.bias;
                 let uv = project(S);
                 if (uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0) { break; }
-                let sd = textureSampleLevel(t_nd, s_near, uv, 0.0).w;
+                let sd = textureSampleLevel(t_depth, s_near, uv, 0.0).x;
                 if (sd <= 0.0) { continue; }
                 let dz = -sd - S.z;
                 if (dz > u.bias && dz < grad * 0.6) {

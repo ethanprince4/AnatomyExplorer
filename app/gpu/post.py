@@ -36,15 +36,16 @@ _LAYOUTS = {
     "backdrop": [_U],
     "blit": [_TF, _SL],
     "blur": [_U, _TF, _TU, _SL, _SN],
-    "ssao": [_U, _TU, _TF, _SL, _SN],
+    "ssao": [_U, _TU, _TF, _SL, _SN, _TU],
+    "pack": [_TU],
     "prefilter": [_U, _TF, _SR],
     "composite": [_U, _TF, _TF, _TF, _TU, _SL, _SN],
 }
 _ENTRY = {"backdrop": "fs_backdrop", "blit": "fs_blit", "blur": "fs_blur", "ssao": "fs_ssao",
-          "prefilter": "fs_prefilter", "composite": "fs_composite"}
+          "prefilter": "fs_prefilter", "composite": "fs_composite", "pack": "fs_pack"}
 
 # sizes of the packed structs (asserted in tests/gpu/test_post_parity.py against the WGSL struct layout)
-UNIFORM_SIZES = {"backdrop": 32, "ssao": 48, "blur": 16, "prefilter": 16, "composite": 64, "blit": 0}
+UNIFORM_SIZES = {"backdrop": 32, "ssao": 48, "blur": 16, "prefilter": 16, "composite": 64, "blit": 0, "pack": 0}
 
 
 def _f(*v):
@@ -113,6 +114,7 @@ class PostPasses:
         self.s_env = device.create_sampler(mag_filter="linear", min_filter="linear", mipmap_filter="linear",
                                            address_mode_u="repeat", address_mode_v="clamp-to-edge")
         self.float32_filterable = "float32-filterable" in device.features
+        self._depth = {}                # (w, h) -> r32float copy of nd.w, the only channel the hot SSAO taps need
 
     # ------------------------------------------------------------------ plumbing
     def _pipeline(self, name, fmt):
@@ -178,7 +180,24 @@ class PostPasses:
         1.6 * ao_strength, ``gi_on`` is 1.0 if bounce > 0 else 0.0 (renderer.py L766-788)."""
         bias = radius * 0.03 if bias is None else bias
         u = pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on)
-        self._run("ssao", _view(out), "rgba16float", out.size[:2], u, [nd, prev, self.s_lin, self.s_near], encoder)
+        depth = self.pack_depth(nd, encoder)
+        self._run("ssao", _view(out), "rgba16float", out.size[:2], u, [nd, prev, self.s_lin, self.s_near, depth],
+                  encoder)
+
+    def pack_depth(self, nd, encoder=None):
+        """Exact copy of nd.w into an r32float texture (4 B per texel instead of 16). The SSAO taps (up to 128 per pixel)
+        read only this channel; the pass costs one 16 B read and one 4 B write per pixel. The texture is owned by this
+        object (one per size) and rewritten by every call. The renderer may write it directly instead (follow-up)."""
+        key = tuple(nd.size[:2])
+        t = self._depth.get(key)
+        if t is None:
+            t = self._depth[key] = self.device.create_texture(
+                size=(key[0], key[1], 1), format="r32float",
+                usage=wgpu.TextureUsage.TEXTURE_BINDING | wgpu.TextureUsage.RENDER_ATTACHMENT
+                | wgpu.TextureUsage.COPY_SRC, label="ssao_depth")
+        # a pending timestamp (the renderer's begin index of ssao_ms) lands on this first pass of the chain
+        self._run("pack", t.create_view(), "r32float", key, b"", [nd], encoder)
+        return t
 
     def run_blur(self, src, nd, out, direction, encoder=None):
         """direction = (1/w, 0) for the horizontal pass, (0, 1/h) for the vertical one."""

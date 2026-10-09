@@ -81,3 +81,22 @@ def test_prefilter_levels(env):
             assert r["max"] < 20.0, r        # units of 1e-3 radiance
         if r["pass_"].startswith("Environment.spec"):
             assert r["max"] < 20.0, r
+
+def test_pack_depth_is_an_exact_copy_of_nd_w():
+    """The SSAO taps read the r32float copy of nd.w: it must equal the rgba32float channel bit for bit (any size)."""
+    import numpy as np
+    import post_parity as pp
+    ad = pp.pick_adapter(None)
+    if ad is None:
+        pytest.skip("no wgpu adapter")
+    dev = pp.make_device(ad)
+    pas = P.PostPasses(dev)
+    rng = np.random.default_rng(3)
+    for w, h in ((97, 61), (256, 128), (97, 61)):             # the repeat checks that the cached texture is rewritten
+        nd = rng.standard_normal((h, w, 4)).astype(np.float32)
+        nd[..., 3] = np.where(rng.random((h, w)) < 0.3, 0.0, np.abs(nd[..., 3]) * 5.0)
+        t = P.make_texture(dev, w, h, "rgba32float", nd)
+        d = pas.pack_depth(t)
+        got = P.read_texture(dev, d, np.float32, 1)[..., 0]
+        assert got.shape == (h, w) and np.array_equal(got.view(np.uint32), nd[..., 3].view(np.uint32))
+
