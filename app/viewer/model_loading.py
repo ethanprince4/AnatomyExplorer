@@ -93,6 +93,9 @@ def prepare_model(entry, token):
         if isinstance(model, ViewerModel) and model.lod is None:
             from .lod import build
             model.lod = build(model, checkpoint)
+        # the first open of a library file leaves its prepared arrays behind for the next one (background, silent)
+        from .prepared_cache import save_async
+        save_async(model)
         return model
 
 
