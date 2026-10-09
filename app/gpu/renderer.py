@@ -41,6 +41,8 @@ from app.viewer.renderer import (DEFAULT_RIG, DEFAULT_WORLD, FrameState, Rendere
                                  _frustum_planes, _look_key, _transparent_pass, backdrop_linear)
 from . import geometry as geo
 from .caps import CapPasses
+from .clusters import ClusterError
+from .cull import ClipState, ClusterCuller, FrameParts
 from .oit import OitDraw, OitPass
 from .post import PostPasses
 from .shading_uniforms import FIELD_BY_NAME, SIZE as SHADE_SIZE, pack_shading_uniforms
@@ -51,8 +53,11 @@ BU, TU, SS = wgpu.BufferUsage, wgpu.TextureUsage, wgpu.ShaderStage
 FRAME_BYTES = 240
 DRAW_FLOATS = 40
 PTAB_STRIDE = 20
-STORAGE_PER_STAGE = 5                     # layout v2: at most this many storage buffers bound by any stage of any pipeline
-MAX_PAGES = STORAGE_PER_STAGE - 1        # the resolve binds the table buffer and up to MAX_PAGES page buffers
+STORAGE_PER_STAGE = 6                     # at most this many storage buffers bound by any stage of any pipeline (the Metal floor is 8)
+MAX_PAGES = STORAGE_PER_STAGE - 2        # the resolve binds the table buffer, the culler's decode table and up to MAX_PAGES page buffers
+CULL_MIN_TRIS = 4_000_000                # drawn triangles from which the cluster culler runs (ANATOMY_CULL=auto); see docs/renderer-perf
+CULL_LAY_BYTES = 80                      # CullLay (wgsl/cull_tables.wgsl): five vec4<u32>
+DEC_CRO, DEC_LAY = 8, 9                  # bindings of the decode tables in the resolve's group 2
 SHADE_WORDS = SHADE_SIZE // 4
 TAB_ALIGN = 64                           # words (256 bytes: the storage offset alignment limit's upper bound)
 GL_TO_WGPU_Z = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0.5, 0.5], [0, 0, 0, 1]], dtype=np.float64)
@@ -115,6 +120,43 @@ def _prelude_ids(id_fmt):
             "fn pack_id(id: u32) -> IdOut { return vec4<u32>(id & 255u, (id >> 8u) & 255u, (id >> 16u) & 255u, id >> 24u); }")
 
 
+# The resolve reads ids through these: an id written by the culler (bit 31 set, cull_decode.wgsl) becomes the renderer's own
+# (draw slot << bits) | primitive, so everything after the load is the same code as for plain ids.
+_DECODE_IDS = """fn decode_id(raw: u32) -> u32 {
+    if (cull_is_culled(raw)) {
+        let d = cull_decode(raw, frame.info.x);
+        return (d.x << frame.info.x) | d.y;
+    }
+    return raw;
+}
+fn load_id(p: vec2<i32>, s: i32) -> u32 { return decode_id(load_id_raw(p, s)); }
+fn load_ids(p: vec2<i32>) -> array<u32, 8> {
+    var ids: array<u32, 8>;
+    var last_raw = 0u;
+    var last = 0u;
+    for (var s = 0; s < i32(SAMPLES); s++) {
+        let raw = load_id_raw(p, s);
+        if (raw != last_raw) {
+            last_raw = raw;
+            last = decode_id(raw);
+        }
+        ids[s] = last;
+    }
+    return ids;
+}"""
+
+
+def _decode_wgsl():
+    """cull_tables.wgsl + cull_decode.wgsl with the decode group moved into group 2 of the resolve (bindings DEC_CRO, DEC_LAY)."""
+    dec = _read_text("cull_decode.wgsl")
+    for b, to in ((0, DEC_CRO), (1, DEC_LAY)):
+        old = f"@group(__GROUP__) @binding({b})"
+        assert dec.count(old) == 1
+        dec = dec.replace(old, f"@group(2) @binding({to})")
+    assert "__GROUP__" not in re.sub(r"//.*", "", dec)
+    return _read_text("cull_tables.wgsl") + "\n" + dec
+
+
 def _prelude_resolve(id_fmt, samples, n_pages, page0):
     """Generated WGSL for the resolve module: sample access (group 2) and the pages of one pass (group 3, geometry.geom_prelude)."""
     out = [f"const SAMPLES: u32 = {samples}u;"]
@@ -131,10 +173,11 @@ def _prelude_resolve(id_fmt, samples, n_pages, page0):
                "fn cap_covers(zp: f32, sample_depth: f32) -> bool { return zp > 0.0 && q24(zp) < q24(sample_depth); }")
     s = "s" if ms else "0"
     if id_fmt == "r32uint":
-        out.append(f"fn load_id(p: vec2<i32>, s: i32) -> u32 {{ return textureLoad(vis_id, p, {s}).x; }}")
+        out.append(f"fn load_id_raw(p: vec2<i32>, s: i32) -> u32 {{ return textureLoad(vis_id, p, {s}).x; }}")
     else:
-        out.append(f"fn load_id(p: vec2<i32>, s: i32) -> u32 {{ let v = textureLoad(vis_id, p, {s}); "
+        out.append(f"fn load_id_raw(p: vec2<i32>, s: i32) -> u32 {{ let v = textureLoad(vis_id, p, {s}); "
                    f"return v.x | (v.y << 8u) | (v.z << 16u) | (v.w << 24u); }}")
+    out.append(_DECODE_IDS)
     out.append(f"const GROUP_PAGE0: u32 = {page0}u;\nconst GROUP_PAGES: u32 = {n_pages}u;")
     out.append(geo.geom_prelude(n_pages, 3, 0))
     return "\n".join(out)
@@ -264,7 +307,8 @@ class WgpuRenderer:
     """GL Renderer's public API on wgpu. ``gpu`` is app.gpu.device.Gpu (or anything with device, queue, features,
     limits, info, prim_index)."""
 
-    def __init__(self, gpu, page_bytes=None, resolve_group_pages=None, prim_bits=20, profile=False, max_pages=None):
+    def __init__(self, gpu, page_bytes=None, resolve_group_pages=None, prim_bits=20, profile=False, max_pages=None,
+                 cull=None, cull_min_tris=None):
         self.gpu = gpu
         self.device, self.queue = gpu.device, gpu.queue
         feats = set(getattr(gpu, "features", None) or self.device.features)
@@ -276,10 +320,10 @@ class WgpuRenderer:
         self.page_bytes = int(page_bytes) if page_bytes else geo.page_limit(self.device)
         n_stor = int(self.limits.get("max_storage_buffers_per_shader_stage",
                                      self.limits.get("max-storage-buffers-per-shader-stage", 8)))
-        # Layout v2: the fragment stage of the resolve binds the table buffer and up to max_pages page buffers; every other
-        # stage binds fewer. K x page_bytes is the geometry capacity (a model needing more pages raises GeometryError).
+        # Layout v2: the fragment stage of the resolve binds the table buffer, the culler's decode table and up to max_pages page
+        # buffers; every other stage binds fewer. K x page_bytes is the geometry capacity (a model needing more pages raises GeometryError).
         k = max_pages if max_pages is not None else resolve_group_pages
-        self.max_pages = max(1, min(int(k) if k else MAX_PAGES, MAX_PAGES, n_stor - 1))
+        self.max_pages = max(1, min(int(k) if k else MAX_PAGES, MAX_PAGES, n_stor - 2))
         self.prim_bits_max = int(prim_bits)
         self.profile = bool(profile) and "timestamp-query" in feats
         self.ts_period_ns = 1.0
@@ -288,6 +332,16 @@ class WgpuRenderer:
         self.id_format = "r32uint" if self.sample_support["r32uint"] >= self.sample_support["rgba8uint"] else "rgba8uint"
         self.max_samples = self.sample_support[self.id_format]
         # ---- state like the GL renderer's
+        # ---- cluster culling (cull.py). cull_mode: "on" / "off" / "auto" (ANATOMY_CULL); "auto" culls the frames that draw
+        # at least cull_min_tris triangles. The mode also decides, at set_model, whether the geometry is stored in cluster order
+        # (static models only; "auto" only when the model's level-0 triangle total reaches cull_min_tris), so set it before.
+        mode = (cull if cull is not None else os.environ.get("ANATOMY_CULL", "auto")).strip().lower()
+        self.cull_mode = mode if mode in ("on", "off", "auto") else "auto"
+        self.cull_min_tris = int(cull_min_tris if cull_min_tris is not None else
+                                 float(os.environ.get("ANATOMY_CULL_MIN_TRIS") or CULL_MIN_TRIS))
+        self.culler = None
+        self.culled_frame = False            # did the last frame go through the culler
+        self.cull_stats = None
         self.model = None
         self.geom = None
         self.size = None
@@ -340,6 +394,8 @@ class WgpuRenderer:
         self.post = PostPasses(self.device, ao_scale=ao, gi_scale=gi)
         self.oit = OitPass(self.device, flip_y=True, depth_format="depth32float", aniso=8)
         self.caps = CapPasses(self.device)
+        self._dec_dummy = None
+        self._bg_vis_none = None
         self._cap_none = self.device.create_texture(size=(1, 1, 1), format="rgba32float", usage=TU.TEXTURE_BINDING,
                                                     label="cap_none").create_view()
         self._capon = 0
@@ -394,7 +450,8 @@ class WgpuRenderer:
         if key not in self._bgl_cache:
             self._bgl_cache[key] = self.device.create_bind_group_layout(
                 entries=[_entry(0, "tu", SS.FRAGMENT, ms=samples > 1), _entry(2, "tl", SS.FRAGMENT),
-                         _entry(6, "td", SS.FRAGMENT, ms=samples > 1), _entry(7, "tf", SS.FRAGMENT)])
+                         _entry(6, "td", SS.FRAGMENT, ms=samples > 1), _entry(7, "tf", SS.FRAGMENT),
+                         _entry(DEC_CRO, "r", SS.FRAGMENT), _entry(DEC_LAY, "u", SS.FRAGMENT)])
         return self._bgl_cache[key]
 
     def _bgl_pages(self, n):
@@ -431,7 +488,7 @@ class WgpuRenderer:
             resolve = _su_reads(resolve.replace("su = sg;", ""))          # apply_look(rec) now only sets cur_lb
             code = "\n".join([_prelude_resolve(self.id_format, samples, n_pages, page0), clip, shading,
                               _read_text("tables.wgsl"), _read_text("geom.wgsl"), _read_text("morph.wgsl"),
-                              resolve, _apply_look_wgsl()])
+                              _decode_wgsl(), resolve, _apply_look_wgsl()])
             assert not re.search(r"\bsu\b", re.sub(r"//.*", "", code)), "a use of `su` outside su.u_* is left in the resolve module"
             self._modules[key] = self.device.create_shader_module(code=code, label=f"resolve{n_pages}@{page0}")
         return self._modules[key]
@@ -505,8 +562,9 @@ class WgpuRenderer:
         try:
             self.model = model
             sink = geo.GpuSink(self.device)
+            order = self._wants_cluster_order(model)
             try:
-                self.geom = geo.build_geometry(model, sink, self.page_bytes, max_pages=self.max_pages)
+                self.geom = geo.build_geometry(model, sink, self.page_bytes, max_pages=self.max_pages, cluster_order=order)
             except geo.GeometryError as exc:
                 log.warning("wgpu renderer: model does not fit the geometry layout, the OpenGL viewport is used: %s", exc)
                 raise
@@ -519,6 +577,7 @@ class WgpuRenderer:
             self._look_keys = {p.id: _look_key(p.look) for p in parts}
             self._make_page_groups()
             self._make_ptab()
+            self._make_culler(model)
             self.oit.set_geometry(self.geom)
             self._oit_rec = _Rec()
             side = model.sidecar.get("lights") or {}
@@ -543,6 +602,36 @@ class WgpuRenderer:
         except Exception:
             self.release_model()
             raise
+
+    def _wants_cluster_order(self, model):
+        """Cluster-ordered geometry (and so the culler) only for static models: no procedural animation, no morph targets (the
+        culler's vertex stage moves nothing but the part matrix) and, in "auto", enough triangles for the culler to ever run.
+        Below cull_min_tris the source order is kept and the cluster build is skipped (plain draws of ordered geometry were
+        measured ~27 % slower on an integrated GPU for 25M-triangle parts)."""
+        if self.cull_mode == "off":
+            return False
+        if getattr(model, "anim_vertices", None) is not None or any(p.has_morph for p in model.parts):
+            return False
+        if self.cull_mode == "on":
+            return True
+        return sum(int(p.count) for p in model.parts) // 3 >= self.cull_min_tris
+
+    def _make_culler(self, model):
+        """The cluster culler of an ordered geometry (None for the rest); makes the resolve's group 2 point at its decode tables."""
+        self.culler = None
+        if self.geom is not None and self.geom.cluster_ordered:
+            culler = ClusterCuller(self.gpu, self.geom, id_format=self.id_format, profile=self.profile)
+            try:
+                self.cull_stats = culler.prepare(model)
+            except ClusterError as exc:
+                log.warning("wgpu renderer: the cluster culler is off for this model: %s", exc)
+                culler.release()
+            else:
+                self.culler = culler
+        self._bg_vis_none = self._bg_vis_cap = None
+        if self.t:
+            self._bg_vis_none = self._make_bg_vis(self._cap_none)
+            self._bg_vis = self._bg_vis_none
 
     def _make_ptab(self):
         g = self.geom
@@ -581,7 +670,12 @@ class WgpuRenderer:
         self.oit.set_geometry(None)
         self.caps.release()
         self._bg_vis_cap = self._cap_col_v = None
+        self._bg_vis_none = None
         self._capon = 0
+        if self.culler is not None:
+            self.culler.release()
+        self.culler = None
+        self.culled_frame = False
         if self.geom is not None:
             self.geom.release()
         self.geom = None
@@ -711,11 +805,23 @@ class WgpuRenderer:
                 return n
         return 1
 
+    def _decode_resources(self):
+        """The resolve's decode tables: the culler's (cro, lay) or one-word dummies (a culled id never reaches them)."""
+        if self.culler is not None and self.culler.buf:
+            cro, lay = self.culler.decode_bind_group_entries()
+        else:
+            if self._dec_dummy is None:
+                self._dec_dummy = (self.device.create_buffer(size=16, usage=BU.STORAGE, label="dec_cro"),
+                                   self.device.create_buffer(size=CULL_LAY_BYTES, usage=BU.UNIFORM, label="dec_lay"))
+            cro, lay = self._dec_dummy
+        return ({"buffer": cro, "offset": 0, "size": cro.size}, {"buffer": lay, "offset": 0, "size": CULL_LAY_BYTES})
+
     def _make_bg_vis(self, cap_col_view):
+        cro, lay = self._decode_resources()
         return self.device.create_bind_group(layout=self._bgl_vis(self.samples), entries=[
             {"binding": 0, "resource": self.v["vis_id"]}, {"binding": 2, "resource": self.v["bg"]},
             {"binding": 6, "resource": self.v["vis_depth"]},
-            {"binding": 7, "resource": cap_col_view}])
+            {"binding": 7, "resource": cap_col_view}, {"binding": DEC_CRO, "resource": cro}, {"binding": DEC_LAY, "resource": lay}])
 
     def _ensure_targets(self, w, h, samples):
         if self.size == (w, h) and self.samples == samples and self.t:
@@ -1064,7 +1170,7 @@ class WgpuRenderer:
         while True:
             cap = 1 << bits
             n_slots = sum(-(-(e[5] // 3) // cap) for e in items)
-            if n_slots + 1 <= (1 << (32 - bits)):
+            if n_slots + 1 <= (1 << (31 - bits)):          # plain ids keep bit 31 clear: the culler's ids own it
                 break
             bits -= 1
             if bits < 8:
@@ -1109,6 +1215,40 @@ class WgpuRenderer:
         if b is not None:
             tw["end_of_pass_write_index"] = b
         return tw
+
+    def _use_cull(self, drawn_tris, any_drawn):
+        """Does this frame go through the cluster culler? (the geometry must be cluster ordered, i.e. a culler exists)"""
+        if self.culler is None or not any_drawn or self.cull_mode == "off":
+            return False
+        return self.cull_mode == "on" or drawn_tris >= self.cull_min_tris
+
+    def _frame_parts(self, entries):
+        """(FrameParts for the culler, model part index per row) of the frame's draw entries: one row per part, in table order,
+        slot0 = the part's first draw slot (its slots are consecutive)."""
+        first = {}
+        for slot, pi, k, _first, _count in entries:
+            if pi not in first:
+                first[pi] = (slot, k)
+        pis = list(first)
+        parts = self.model.parts
+        xf = [self._transform(parts[pi]) for pi in pis]
+        fp = FrameParts(part=np.array(pis, dtype=np.int64), level=np.array([first[pi][1] for pi in pis], dtype=np.int64),
+                        matrix=np.stack([x[0] for x in xf]).astype(np.float64), noclip=np.array([x[4] for x in xf], dtype=np.uint32),
+                        weight=np.array([x[3] for x in xf], dtype=np.float32),
+                        slot0=np.array([first[pi][0] for pi in pis], dtype=np.uint32))
+        return fp, pis
+
+    def _draw_slots(self, rp, entries):
+        """One indexed draw per entry (slot, part, level, first index, index count) with the plain visibility pipeline set."""
+        current = -1
+        for slot, pi, k_, first, count in entries:
+            page = int(self.geom.page_of[pi])
+            if page != current:
+                rp.set_bind_group(1, self._vis_page_bg[page])
+                rp.set_index_buffer(self.geom.pages[page].buffer, "uint32", self.geom.pages[page].index_byte_offset,
+                                    self.geom.pages[page].index_bytes)
+                current = page
+            rp.draw_indexed(count, 1, first, 0, slot)
 
     def render(self, target, size, camera, s, fs=None, out_size=None):
         """Render one frame into ``target`` (a wgpu texture, rgba8unorm, RENDER_ATTACHMENT). ``size`` is the render
@@ -1155,6 +1295,8 @@ class WgpuRenderer:
         elif not any_clip and self.caps.t:
             self.caps.release()
         self._capon = 0 if cplan is None else 1
+        if self._bg_vis_none is None:
+            self._bg_vis_none = self._make_bg_vis(self._cap_none)
         if cplan is None:
             self._bg_vis = self._bg_vis_none
         else:
@@ -1201,24 +1343,35 @@ class WgpuRenderer:
         post.run_backdrop(T["bg"], np.array(backdrop_linear(bottom, s.tonemap)) * k, np.array(backdrop_linear(top, s.tonemap)) * k,
                           encoder=enc)
         # ---- 1. visibility pass
-        rp = enc.begin_render_pass(
-            color_attachments=[{"view": V_["vis_id"], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 0)}],
-            depth_stencil_attachment={"view": V_["vis_depth"], "depth_load_op": "clear", "depth_store_op": "store",
-                                      "depth_clear_value": 1.0},
-            **({"timestamp_writes": self._ts(qs, 0, 1)} if qs else {}))
-        if entries:
-            rp.set_pipeline(self._vis_pipe(samples, any_clip))
-            rp.set_bind_group(0, self._bg0_vis)
-            current = -1
-            for slot, pi, k_, first, count in entries:
-                page = int(self.geom.page_of[pi])
-                if page != current:
-                    rp.set_bind_group(1, self._vis_page_bg[page])
-                    rp.set_index_buffer(self.geom.pages[page].buffer, "uint32", self.geom.pages[page].index_byte_offset,
-                                    self.geom.pages[page].index_bytes)
-                    current = page
-                rp.draw_indexed(count, 1, first, 0, slot)
-        rp.end()
+        drawn_tris = sum(e[4] for e in entries) // 3
+        self.culled_frame = use_cull = self._use_cull(drawn_tris, bool(entries))
+        if use_cull:
+            # cluster culling: the culler records both visibility passes itself (compute runs between them). Parts it cannot
+            # bound come back as `unculled` and are drawn here with the plain pipeline, ids stay (slot << bits) | primitive.
+            if qs:
+                enc.begin_compute_pass(timestamp_writes=self._ts(qs, 0, 1)).end()      # slots 0, 1 are replaced by the culler's
+            fp, pis = self._frame_parts(entries)
+
+            def draw_plain(rp_, positions, entries=entries, pis=pis):
+                want = {pis[i] for i in positions}
+                rp_.set_pipeline(self._vis_pipe(samples, any_clip))
+                rp_.set_bind_group(0, self._bg0_vis)
+                self._draw_slots(rp_, [e for e in entries if e[1] in want])
+
+            self.culler.encode(enc, V, Pm, (w, h), V_["vis_id"], V_["vis_depth"], samples, fp,
+                               clip=ClipState(planes=clip_planes, on=clip_on, mode=int(fs.clip_mode)), ortho=bool(camera.ortho),
+                               draw_unculled=draw_plain, out_size=(ow, oh), bits=bits)
+        else:
+            rp = enc.begin_render_pass(
+                color_attachments=[{"view": V_["vis_id"], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 0)}],
+                depth_stencil_attachment={"view": V_["vis_depth"], "depth_load_op": "clear", "depth_store_op": "store",
+                                          "depth_clear_value": 1.0},
+                **({"timestamp_writes": self._ts(qs, 0, 1)} if qs else {}))
+            if entries:
+                rp.set_pipeline(self._vis_pipe(samples, any_clip))
+                rp.set_bind_group(0, self._bg0_vis)
+                self._draw_slots(rp, entries)
+            rp.end()
         groups = self._groups if have else []
         # ---- 2. geometry resolve (GL's pre-pass: ids, normals, depth), one pass per group of pages
         for gi, grp in enumerate(groups or [None]):
@@ -1324,8 +1477,10 @@ class WgpuRenderer:
             ts = np.frombuffer(bytes(self.queue.read_buffer(self._qbuf, 0, 14 * 8)), dtype=np.uint64).astype(np.float64)
             kk = self.ts_period_ns * 1e-6
             d = lambda a, b: (ts[b] - ts[a]) * kk
-            self.timings = {"backdrop_ms": d(12, 13), "vis_ms": d(0, 1), "geom_ms": d(2, 3), "ssao_ms": d(4, 5) if s.ao else 0.0,
+            cull_t = self.culler.read_timings(self.ts_period_ns) if use_cull else None
+            self.timings = {"backdrop_ms": d(12, 13), "vis_ms": cull_t["total_ms"] if use_cull else d(0, 1), "geom_ms": d(2, 3), "ssao_ms": d(4, 5) if s.ao else 0.0,
                             "shade_ms": d(6, 7), "composite_ms": d(8, 9), "final_ms": d(10, 11)}
+            self.timings["cull"] = cull_t                     # per stage ms of the culler (None: not culled)
             self.timings["resolve_ms"] = self.timings["geom_ms"] + self.timings["shade_ms"]
             self.timings["total_ms"] = sum(v for kx, v in self.timings.items() if kx.endswith("_ms") and kx != "resolve_ms")
         self.frame_ok = True
@@ -1428,15 +1583,7 @@ class WgpuRenderer:
         rp.set_pipeline(self._vis_pipe(1, any(self._fs.clip_on)))
         rp.set_bind_group(0, self._bg0_vis)
         rp.set_viewport(-x, -gy, w, h, 0.0, 1.0)      # the full-size picture translated so pixel (x, gy) is the 1x1 target
-        current = -1
-        for slot, pi, k_, first, count in self.last_draws:
-            page = int(self.geom.page_of[pi])
-            if page != current:
-                rp.set_bind_group(1, self._vis_page_bg[page])
-                rp.set_index_buffer(self.geom.pages[page].buffer, "uint32", self.geom.pages[page].index_byte_offset,
-                                    self.geom.pages[page].index_bytes)
-                current = page
-            rp.draw_indexed(count, 1, first, 0, slot)
+        self._draw_slots(rp, self.last_draws)          # unculled: the plain draw of the (cluster ordered) geometry, ids = slot only
         rp.end()
         bi = self.device.create_buffer(size=256, usage=BU.COPY_DST | BU.MAP_READ)
         bd = self.device.create_buffer(size=256, usage=BU.COPY_DST | BU.MAP_READ)
@@ -1512,10 +1659,68 @@ class WgpuRenderer:
         return self._read_texture(self.t["nd"], 16, np.float32, 4)[..., :3].copy()
 
     def read_triangles(self):
-        """(h, w) uint32 packed triangle id ((slot << prim_bits) | primitive), 0 background (extra, for checks)."""
+        """(h, w) uint32 packed triangle id ((slot << prim_bits) | primitive), 0 background (extra, for checks). The resolve has
+        decoded culled ids already, so this is the plain id either way; for cluster-ordered geometry its primitive is the STORED
+        triangle number: use triangle_info / read_model_triangles for the model's own triangle numbers."""
         if not self.frame_ok or not self.t:
             return None
         return self._read_texture(self.t["tri"], 4, np.uint32, 1)[..., 0].copy()
+
+    def triangle_info(self, ids):
+        """(part index, LOD level, ORIGINAL triangle) int64 arrays of packed triangle ids of the last frame (-1 where the id is
+        the background or outside the table). The original triangle is the index in model.indices[part.first:...] (level 0) or
+        model.lod[part.id].indices[level - 1] counted in triangles. Plain ids ((slot << bits) | primitive) of cluster-ordered
+        parts go through geom.order (stored -> original); ids with bit 31 set are raw culled ids (culler.decode_ids)."""
+        ids = np.asarray(ids, dtype=np.uint32)
+        part = np.full(ids.shape, -1, dtype=np.int64)
+        level = np.full(ids.shape, -1, dtype=np.int64)
+        tri = np.full(ids.shape, -1, dtype=np.int64)
+        if self.last_table is None or self.geom is None:
+            return part, level, tri
+        culled = (ids & np.uint32(0x80000000)) != 0
+        if culled.any() and self.culler is not None:
+            _c, cp, ct, rr = self.culler.decode_ids(ids)
+            cd = self.culler.cd
+            part[culled], tri[culled] = cp[culled], ct[culled]
+            level[culled] = [int(np.nonzero(cd.level_range[p] == r)[0][0]) if r >= 0 else -1 for p, r in zip(cp[culled], rr[culled])]
+        plain = ~culled
+        slot = (ids >> np.uint32(self.last_prim_bits)).astype(np.int64)
+        ok = plain & (slot > 0) & (slot < len(self.last_table))
+        if ok.any():
+            tu = self.last_table.view(np.uint32)
+            rec = tu[slot[ok]]
+            pi, k = rec[:, 32].astype(np.int64), rec[:, 35].astype(np.int64)
+            stored = (rec[:, 28].astype(np.int64) - np.array([self._range_first(a, b) for a, b in zip(pi, k)], dtype=np.int64)) // 3                 + (ids[ok].astype(np.int64) & ((1 << self.last_prim_bits) - 1))
+            part[ok], level[ok] = pi, k
+            tri[ok] = self.geom.order.original(pi, k, stored) if self.geom.order is not None else stored
+        return part, level, tri
+
+    def _range_first(self, part, level):
+        rng = self.geom.ranges[int(part)]
+        return rng[int(level)][0] if level < len(rng) else rng[0][0]
+
+    def read_model_triangles(self):
+        """((h, w) part index, (h, w) original triangle number) of the last frame, -1 on the background; top row first."""
+        t = self.read_triangles()
+        if t is None:
+            return None, None
+        part, _level, tri = self.triangle_info(t)
+        return part, tri
+
+    def triangles_at(self, points):
+        """[(part index, original triangle) or None, ...] at render pixels [(x, y from the top-left), ...] of the last frame."""
+        if not self.frame_ok or not self.t:
+            return [None] * len(points)
+        w, h = self.size
+        ok = [i for i, (x, y) in enumerate(points) if 0 <= x < w and 0 <= y < h]
+        out = [None] * len(points)
+        if ok:
+            r = self._points([(int(points[i][0]), int(points[i][1])) for i in ok])
+            part, _level, tri = self.triangle_info(np.ascontiguousarray(r[:, 3]).view(np.uint32))
+            for j, i in enumerate(ok):
+                if part[j] >= 0:
+                    out[i] = (int(part[j]), int(tri[j]))
+        return out
 
     def ids_at(self, points):
         """Item index at render pixels [(x, y from the top-left), ...] of the last frame (-1: background / outside)."""

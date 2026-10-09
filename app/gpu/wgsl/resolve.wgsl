@@ -1,7 +1,7 @@
 // Resolve of the visibility buffer: the geometry resolve (ids, normals, depth: GL's single-sample pre-pass), the shaded
 // resolve (GL's MSAA colour buffer, resolved), and the readback gathers.
 //
-// Concatenated by app/gpu/renderer.py, in this order:  the generated prelude (SAMPLES, vis_id, load_id, bg_tex, the pages of
+// Concatenated by app/gpu/renderer.py, in this order:  the generated prelude (SAMPLES, vis_id, load_id / load_ids (culled ids already decoded to (slot << bits) | primitive), bg_tex, the pages of
 // this pass: fetch_*), clip.wgsl (its `clipped` renamed `clipped_draw`: shading.wgsl has its own), shading.wgsl (its
 // `su` uniform gone: every use of the su fields becomes lk_u_x() (a per-part field, read from the look record apply_look selected) or sg.u_x,
 // and the copy statement of shade_tri is removed, see _su_reads), tables.wgsl (the table buffer), geom.wgsl (page fetches),
@@ -20,6 +20,7 @@
 //   group 0: 0 frame  1 tab (draws, ptab, anim_tab, looks: tables.wgsl)  2 tinfo (its section offsets)  4 sg (frame-wide ShadeU)
 //   group 1: shading.wgsl (1 t_items, 2 t_ao, 3 t_spec, 4 t_tex, 5..7 samplers; 0 is gone)
 //   group 2: 0 vis_id (MSAA)  2 bg_tex (backdrop, rgba16float)         resolve passes
+//            8 cro  9 lay: the culler's decode tables (cull_decode.wgsl, ids with bit 31 set; dummies when the model is not culled)
 //            3 r_tri  4 r_id  5 r_nd                                    gathers
 //   group 3: the pages (geometry.py geom_prelude: geo_i at binding i, the page offsets after them) / 60 params  61 points  62 out (gathers)
 
@@ -188,14 +189,15 @@ fn fs_geom(@builtin(position) frag: vec4<f32>) -> GeomOut {
     let mask = (1u << bits) - 1u;
     var best_id = 0u;
     var best_depth = 3.0e38;
+    var ids = load_ids(px);
     for (var s = 0; s < i32(SAMPLES); s++) {
-        let id = load_id(px, s);
+        let id = ids[s];
         if (id == 0u) { continue; }
         let d = load_draw(id >> bits);
         if (d.a.w < GROUP_PAGE0 || d.a.w >= GROUP_PAGE0 + GROUP_PAGES) { continue; }
         var seen = false;
         for (var q = 0; q < s; q++) {
-            if (load_id(px, q) == id) { seen = true; }
+            if (ids[q] == id) { seen = true; }
         }
         if (seen) { continue; }
         let t = tri_setup(d, id & mask, d.a.w - GROUP_PAGE0);
@@ -303,8 +305,7 @@ fn fs_shade(@builtin(position) frag: vec4<f32>) -> @location(0) vec4<f32> {
     let bits = frame.info.x;
     let mask = (1u << bits) - 1u;
     let bgc = textureLoad(bg_tex, px, 0).rgb;
-    var ids: array<u32, 8>;
-    for (var s = 0; s < i32(SAMPLES); s++) { ids[s] = load_id(px, s); }
+    var ids = load_ids(px);
     // Cut faces (caps.py): rgb = shaded face, a = its window depth (0 = none). A sample it passes the depth test on is the face,
     // not the surface (GL: CAPMIX_FS draws into the MSAA buffer); marked CAP_SAMPLE so that it joins no triangle's count.
     let cc = textureLoad(cap_col, px, 0);
