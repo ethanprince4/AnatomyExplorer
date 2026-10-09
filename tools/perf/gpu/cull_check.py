@@ -101,7 +101,7 @@ fn dump(@builtin(global_invocation_id) gid: vec3<u32>) {{
 # ------------------------------------------------------------------------------------------------ harness
 class Harness:
     def __init__(self, model_id, adapter=None, size=(1280, 800), samples=4, page_mib=None, profile=False, stats=True,
-                 session=True):
+                 session=True, budget=None):
         import wgpu
         from tools.perf.gpu import visbuf_check as vc
         from app.gpu.renderer import WgpuRenderer
@@ -123,7 +123,9 @@ class Harness:
         self.geom = G.build_geometry(self.model, G.GpuSink(self.gpu.device), page_bytes, cluster_order=True)
         self.order = self.geom.order
         self.id_format = self.R.id_format
-        self.cu = ClusterCuller(self.gpu, self.geom, id_format=self.id_format, collect_stats=stats, profile=profile)
+        self.budget = budget                       # compact index budget in triangles (None: ANATOMY_CULL_BUDGET / the default)
+        kw = {} if budget is None else {"budget_tris": int(budget)}
+        self.cu = ClusterCuller(self.gpu, self.geom, id_format=self.id_format, collect_stats=stats, profile=profile, **kw)
         self.prep = self.cu.prepare(self.model)
         self.d, self.q = self.gpu.device, self.gpu.queue
         self.period_ns = None
@@ -373,7 +375,8 @@ def fmt(r):
     s = " ".join(f"{k}={r[k]}" for k in keys if k in r)
     st = r.get("stats")
     if st:
-        s += f" | active={st['active']} frustum={st['frustum']} p1={st['p1']} p2={st['p2']} vis={st['visible']} ovf={st['overflow']}"
+        s += (f" | active={st['active']} frustum={st['frustum']} p1={st['p1']} p2={st['p2']} vis={st['visible']} ovf={st['overflow']}"
+              f" idx={st.get('idx_slots', 'n/a')} pull={st.get('pull_slots', 'n/a')}")
     return s
 
 
@@ -381,8 +384,8 @@ def run_correct(args):
     results = []
     bad = 0
     for model_id in args.models:
-        H = Harness(model_id, args.adapter, size=args.size, page_mib=args.page_mib)
-        print(f"== {model_id} on {H.gpu.info}: clusters={H.prep['clusters']} tris={H.prep['triangles']} "
+        H = Harness(model_id, args.adapter, size=args.size, page_mib=args.page_mib, budget=args.budget)
+        print(f"== {model_id} budget={getattr(H.cu, 'budget_tris', 'n/a')} on {H.gpu.info}: clusters={H.prep['clusters']} tris={H.prep['triangles']} "
               f"cap={sum(H.prep['capacity_blocks'])} pages={len(H.geom.pages)} build={H.prep['clusters_s']:.2f}s "
               f"cached={H.prep.get('cached')}", flush=True)
         if args.mutate is not None:
@@ -496,7 +499,7 @@ def run_numbers(args):
     from tools.perf.gpu import visbuf_check as vc
     rows = []
     for model_id in args.models:
-        H = Harness(model_id, args.adapter, size=args.size if args.size else None, profile=True, stats=False)
+        H = Harness(model_id, args.adapter, size=args.size if args.size else None, profile=True, stats=False, budget=args.budget)
         period, wall = vc.calibrate_period_ns(H.gpu)
         H.period_ns = period
         print(f"== {model_id} on {H.gpu.info}, {H.size}, timestamp period {period:.3f} ns", flush=True)
@@ -524,6 +527,7 @@ def run_numbers(args):
                    "p1_clusters": st["p1"], "p1_tris": st["p1_tris"], "p2_clusters": st["p2"], "p2_tris": st["p2_tris"],
                    "visible_clusters": st["visible"], "visible_tris": st["visible_tris"], "active_clusters": st["active"],
                    "cull_total_ms": tot["total_ms"], "stage_ms": {k: v for k, v in tot.items() if k != "total_ms"},
+                   "idx_slots": st.get("idx_slots"), "pull_slots": st.get("pull_slots"), "budget_tris": getattr(H.cu, "budget_tris", None),
                    "unculled_pass_ms": float(np.median(ref_ms)), "memory": H.prep["memory"]}
             rows.append(row)
             print(json.dumps(row), flush=True)
@@ -629,7 +633,8 @@ class Stress:
         cd_t = tile_clusters(cd0, K, P0, G0)
         from app.gpu.geometry import TriangleOrder
         H.order = TriangleOrder(cd_t)
-        self.cu = ClusterCuller(H.gpu, H.geom, id_format=H.id_format, collect_stats=False, profile=True)
+        kw = {} if H.budget is None else {"budget_tris": int(H.budget)}
+        self.cu = ClusterCuller(H.gpu, H.geom, id_format=H.id_format, collect_stats=False, profile=True, **kw)
         self.prep = self.cu.prepare(H.model, clusters=cd_t, n_parts=K * P0)
         H.cu = self.cu
         H._ref_pipes()
@@ -637,12 +642,37 @@ class Stress:
         self.half, self.radius = half, float(np.linalg.norm(half))
         self.total_tris = K * self.base_tris
 
-    def frame(self):
+    def lod_levels(self, V, aspect, h):
+        """LOD level of every part of every copy, chosen by the renderer's own code (WgpuRenderer._lod_levels, the `numbers` path).
+        Copy k is the model scaled by s and moved by M_k, so its view is V @ M_k with the depth row divided by s: the renderer then
+        compares model-unit pixel sizes with the model-unit cells and sphere radii, as for the model at scale 1."""
+        R = self.H.R
+        if R._spheres is None:
+            R._refresh_transforms(self.H.model)
+        t = np.tan(np.radians(55.0) / 2.0)
+        halves = (t * aspect, t)
+        index_of = {p.id: i for i, p in enumerate(self.H.model.parts)}
+        lev = np.zeros(self.K * self.P0, dtype=np.int64)
+        for k, M in enumerate(self.cell_mats):
+            Vc = np.asarray(V, dtype=np.float64) @ M
+            Vc[2] /= float(np.linalg.norm(M[:3, 0]))
+            for pid, l in R._lod_levels(Vc, halves, False, h).items():
+                lev[k * self.P0 + index_of[pid]] = l
+        return lev
+
+    def submitted_tris(self, fp):
+        """Triangles of the frame's parts at their LOD levels (before any culling)."""
+        cd = self.cu.cd
+        lr = cd.level_range[np.asarray(fp.part), np.minimum(np.asarray(fp.level), cd.level_range.shape[1] - 1)]
+        return int(cd.r_ntri[lr[lr >= 0]].sum())
+
+    def frame(self, V=None, lod=False):
         from app.gpu.cull import FrameParts
         K, P0 = self.K, self.P0
         n = K * P0
         mats = np.repeat(np.array(self.cell_mats), P0, axis=0)
-        return FrameParts(part=np.arange(n, dtype=np.int64), level=np.zeros(n, dtype=np.int64), matrix=mats,
+        level = self.lod_levels(V, self.H.size[0] / self.H.size[1], self.H.size[1]) if lod else np.zeros(n, dtype=np.int64)
+        return FrameParts(part=np.arange(n, dtype=np.int64), level=level, matrix=mats,
                           noclip=np.zeros(n, dtype=bool), weight=np.zeros(n, dtype=np.float64),
                           slot0=np.zeros(n, dtype=np.uint32))
 
@@ -674,53 +704,61 @@ class Stress:
 
 
 def run_stress(args):
+    """Lattice of copies, one view at a time. --lod off: every copy at level 0 (culling alone); on: every copy at the level the renderer's
+    LOD picks for it in that view (WgpuRenderer._lod_levels); both: both, rows carry a "lod" field."""
     from app.gpu.cull import ClipState
-    H = Harness(args.models[0], args.adapter, size=args.size if args.size else (2560, 1600), profile=True, stats=False)
+    H = Harness(args.models[0], args.adapter, size=args.size if args.size else (2560, 1600), profile=True, stats=False,
+                budget=args.budget)
     period, _wall = H.vc.calibrate_period_ns(H.gpu)
     H.period_ns = period
     t0 = time.time()
     S = Stress(H, args.dims)
     w, h = H.size
     print(f"== stress {args.models[0]} x{S.K} dims={S.dims} tris={S.total_tris/1e6:.1f}M clusters={S.prep['clusters']} on {H.gpu.info} "
-          f"{H.size} build={time.time()-t0:.1f}s", flush=True)
+          f"{H.size} budget={getattr(S.cu, 'budget_tris', 'n/a')} build={time.time()-t0:.1f}s", flush=True)
     mem = S.prep["memory"]
-    fp = S.frame()
     proj = proj_gl(55.0, w / h, 0.01, 50.0)
     clip = ClipState()
     rows = []
-    for vname in args.views:
-        cu = S.cu
-        cu.reset()
-        cu.collect_stats = False
-        recs = []
-        for k in range(args.frames):
-            V = S.pose(vname, k)
-            do_cmp = bool(args.compare) and k in (0, 1, args.frames - 1)
-            r = H.run_frame(None, None, compare=do_cmp, timing=True, frame=(fp, V, proj, False, clip))
-            t = cu.read_timings(period)
-            rec = {"k": k, "cull_ms": t["total_ms"], "stages": {a: round(b, 3) for a, b in t.items() if a != "total_ms"},
-                   "ref_ms": r.get("ref_ms")}
-            if do_cmp:
-                rec.update({a: r[a] for a in ("false_cull_samples", "false_cull_pixels", "nearer_samples", "tie_samples",
-                                              "stray_ids", "ref_fg_samples")})
-            recs.append(rec)
-        V = S.pose(vname, args.frames)
-        st_ms = []
-        for i in range(4):
-            cu.collect_stats = (i == 3)
-            r = H.run_frame(None, None, compare=False, timing=True, frame=(fp, V, proj, False, clip))
-            if i < 3:
-                st_ms.append(cu.read_timings(period)["total_ms"])
-        stats = dict(r["stats"])
-        cu.collect_stats = False
-        row = {"view": vname, "cold_ms": recs[0]["cull_ms"], "cold_ref_ms": recs[0]["ref_ms"],
-               "moving_ms": float(np.median([x["cull_ms"] for x in recs[3:]])),
-               "static_ms": float(np.median(st_ms)), "ref_ms": float(np.median([x["ref_ms"] for x in recs[1:]])),
-               "stages_last": recs[-1]["stages"], "stats": stats, "checks": [x for x in recs if "false_cull_samples" in x]}
-        rows.append(row)
-        print(json.dumps(row), flush=True)
+    lods = {"off": (False,), "on": (True,), "both": (False, True)}[args.lod]
+    for lod in lods:
+        for vname in args.views:
+            cu = S.cu
+            cu.reset()
+            cu.collect_stats = False
+            recs = []
+            for k in range(args.frames):
+                V = S.pose(vname, k)
+                fp = S.frame(V, lod)
+                do_cmp = bool(args.compare) and k in (0, 1, args.frames - 1)
+                r = H.run_frame(None, None, compare=do_cmp, timing=True, frame=(fp, V, proj, False, clip))
+                t = cu.read_timings(period)
+                rec = {"k": k, "cull_ms": t["total_ms"], "stages": {a: round(b, 3) for a, b in t.items() if a != "total_ms"},
+                       "ref_ms": r.get("ref_ms")}
+                if do_cmp:
+                    rec.update({a: r[a] for a in ("false_cull_samples", "false_cull_pixels", "nearer_samples", "tie_samples",
+                                                  "stray_ids", "ref_fg_samples")})
+                recs.append(rec)
+            V = S.pose(vname, args.frames)
+            fp = S.frame(V, lod)
+            st_ms = []
+            for i in range(4):
+                cu.collect_stats = (i == 3)
+                r = H.run_frame(None, None, compare=False, timing=True, frame=(fp, V, proj, False, clip))
+                if i < 3:
+                    st_ms.append(cu.read_timings(period)["total_ms"])
+            stats = dict(r["stats"])
+            cu.collect_stats = False
+            row = {"view": vname, "lod": lod, "submitted_tris": S.submitted_tris(fp),
+                   "cold_ms": recs[0]["cull_ms"], "cold_ref_ms": recs[0]["ref_ms"],
+                   "moving_ms": float(np.median([x["cull_ms"] for x in recs[3:]])),
+                   "static_ms": float(np.median(st_ms)), "ref_ms": float(np.median([x["ref_ms"] for x in recs[1:]])),
+                   "stages_last": recs[-1]["stages"], "stats": stats, "checks": [x for x in recs if "false_cull_samples" in x]}
+            rows.append(row)
+            print(json.dumps(row), flush=True)
     out = {"adapter": H.gpu.info, "size": list(H.size), "dims": list(S.dims), "copies": S.K, "triangles": S.total_tris,
            "clusters": S.prep["clusters"], "memory": mem, "hzb_bytes": getattr(S.cu, "hzb_bytes", 0),
+           "budget_tris": getattr(S.cu, "budget_tris", None),
            "geometry_bytes_all_streams_one_copy": S.geom_bytes, "geometry_bytes_per_tri": S.geom_bytes / S.base_tris,
            "capacity_blocks": sum(S.prep["capacity_blocks"]), "rows": rows}
     Path(args.out).write_text(json.dumps(out, indent=1))
@@ -741,6 +779,7 @@ def main():
     ap.add_argument("--mutate", type=float, default=None, help="depth margin override (negative = deliberately wrong, must show false culls)")
     ap.add_argument("--dims", nargs=3, type=int, default=[2, 2, 2], help="stress: lattice of model copies")
     ap.add_argument("--views", nargs="+", default=["outside", "near", "inside"])
+    ap.add_argument("--budget", type=int, default=None, help="compact index budget in triangles (default: ANATOMY_CULL_BUDGET / the culler's default; 0 = pulled draws only)")
     ap.add_argument("--compare", action="store_true", help="stress: compare culled and unculled ids on 3 frames per view")
     ap.add_argument("--out", default="cull_check.json")
     args = ap.parse_args()

@@ -4,11 +4,13 @@
 //   cull_p1   phase 1: clusters of the frame's parts that passed the frustum test AND were visible last frame
 //   cull_p2   phase 2: clusters that passed the frustum test and were NOT drawn in phase 1, kept unless the depth
 //             pyramid built from phase 1's real depth hides their bounding box
-//   finalize_p1 / finalize_p2   one thread per page: draw and dispatch arguments of the phase
+//   finalize_p1 / finalize_p2   one thread: draw and dispatch arguments of the phase for every page (budget split, see fin_all)
 //
 // A surviving cluster takes the next free slot of its page (atomic, one global add per workgroup) and writes its id into
-// crl[slot_base + slot] = (cluster, page-local index word of its first triangle, part, triangles): the page's list of visible clusters, which cull_vis.wgsl draws directly (non-indexed, 192
-// vertices per cluster, vertex shader pull; the triangles are stored in cluster order, see geometry.py cluster_order).
+// crl[slot_base + slot] = (cluster, page-local index word of its first triangle, part, triangles | ordinal of the part in its page << 8): the
+// page's list of visible clusters. The first slots (budget) are gathered into the compact index buffer (cull_gather.wgsl) and drawn
+// indexed (cull_idx.wgsl); the rest is drawn by cull_vis.wgsl directly (non-indexed, 192 vertices per cluster, vertex shader pull;
+// the triangles are stored in cluster order, see geometry.py cluster_order).
 //
 // Boxes. cl_geom holds the part-space box (centre, half extents) and dmax, the largest morph displacement |dpos| of the
 // cluster. Half extents grow by |weight| * dmax (the part's current morph weight) and by 2e-6 of the coordinate size
@@ -38,6 +40,9 @@ const ST_P2: u32 = 5u;
 const ST_P2_TRIS: u32 = 6u;
 const ST_OVERFLOW: u32 = 7u;
 const ST_P2_TESTED: u32 = 8u;
+// 9, 10: visible / visible_tris (cull_mark.wgsl)
+const ST_IDX: u32 = 11u;            // slots drawn by the indexed (compact buffer) draws
+const ST_PULL: u32 = 12u;           // slots drawn by the pulled draws (over the budget)
 
 struct Box {
     c: vec3<f32>,
@@ -175,7 +180,7 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
             let bx = cluster_box(c, part);
             let mvp = frame.vp * part_matrix(part);
             let nt = cluster_ntri(rr0, rr1, c);
-            ent = vec4<u32>(c, rr0.z + 192u * (c - rr1.x), part, nt);
+            ent = vec4<u32>(c, rr0.z + 192u * (c - rr1.x), part, nt | (part_meta_at(part).w << 8u));
             if (!phase2 && stat) {
                 atomicAdd(&cra[lay.c.y + ST_ACTIVE], 1u);
             }
@@ -238,32 +243,75 @@ fn cull_p2(@builtin(workgroup_id) wid: vec3<u32>, @builtin(local_invocation_inde
     run_phase(wid, li, true);
 }
 
-fn fin(g: u32, ph: u32) {
-    let row = ptab_at(g);
-    let cnt = atomicLoad(&cra[lay.c.x + g * 8u]);
-    if (cnt > row.w) {
-        atomicAdd(&cra[lay.c.y + ST_OVERFLOW], cnt - row.w);
+// Finalize of a phase, ONE thread for all pages. The compact index buffer (lay.e.z slots of 64 triangles, shared by both phases: the
+// gather of phase 2 only runs after pass 1 has finished reading it) is split between the pages in proportion to their visible slots
+// when the phase does not fit; a page that cannot use an indexed draw (pinfo.y == 0) takes none. The first `fit` slots of a page's
+// list are gathered into the compact buffer and drawn indexed; the others are drawn by the pulled non-indexed draw.
+fn fin_all(ph: u32) {
+    let G = lay.e.w;
+    let budget = lay.e.z;
+    var total = 0u;
+    for (var g = 0u; g < G; g = g + 1u) {
+        let row = ptab_at(g);
+        let n = min(atomicLoad(&cra[lay.c.x + g * 8u]), row.w);
+        if (pinfo_at(g).y != 0u) {
+            total += n - atomicLoad(&cra[lay.c.x + g * 8u + 1u]);
+        }
     }
-    let n = min(cnt, row.w);
-    let begin = atomicLoad(&cra[lay.c.x + g * 8u + 1u]);
-    let m = n - begin;
-    let ai = g * 2u + ph;
-    // drawIndirect arguments: vertex count, instance count, first vertex, first instance. first_vertex stays 0 (not every
-    // backend adds it to vertex_index in an indirect draw); the shader adds dinfo (the slot of the draw's first cluster).
-    crw[lay.d.x + ai * 8u] = m * 192u;
-    crw[lay.d.x + ai * 8u + 1u] = 1u;
-    crw[lay.d.x + ai * 8u + 2u] = 0u;
-    crw[lay.d.x + ai * 8u + 3u] = 0u;
-    crw[lay.d.z + ai] = row.z + begin;
-    atomicStore(&cra[lay.c.x + g * 8u + 1u], n);
+    var used = 0u;
+    for (var g = 0u; g < G; g = g + 1u) {
+        let row = ptab_at(g);
+        let cnt = atomicLoad(&cra[lay.c.x + g * 8u]);
+        if (cnt > row.w) {
+            atomicAdd(&cra[lay.c.y + ST_OVERFLOW], cnt - row.w);
+        }
+        let n = min(cnt, row.w);
+        let begin = atomicLoad(&cra[lay.c.x + g * 8u + 1u]);
+        let m = n - begin;
+        var fit = 0u;
+        if (pinfo_at(g).y != 0u) {
+            fit = m;
+            if (total > budget) {
+                fit = min(m, u32(f32(m) * (f32(budget) / f32(total))));
+            }
+            fit = min(fit, budget - used);
+        }
+        let cs = used;
+        used += fit;
+        let ai = g * 2u + ph;
+        let a = lay.d.x + ai * 16u;
+        // drawIndexedIndirect: index count, instance count, first index, base vertex, first instance (the last two stay 0)
+        crw[a] = fit * 192u;
+        crw[a + 1u] = 1u;
+        crw[a + 2u] = cs * 192u;
+        crw[a + 3u] = 0u;
+        crw[a + 4u] = 0u;
+        // drawIndirect: vertex count, instance count, first vertex, first instance. first_vertex stays 0 (not every backend adds it to
+        // vertex_index in an indirect draw); the shader adds dinfo (the list slot of the draw's first cluster).
+        crw[a + 8u] = (m - fit) * 192u;
+        crw[a + 9u] = 1u;
+        crw[a + 10u] = 0u;
+        crw[a + 11u] = 0u;
+        // gather dispatch: one workgroup per slot, 2D (the shaders index y * 32768 + x)
+        crw[a + 12u] = min(fit, 32768u);
+        crw[a + 13u] = (fit + 32767u) / 32768u;
+        crw[a + 14u] = 1u;
+        crw[lay.d.z + ai * 2u] = row.z + begin;
+        crw[lay.d.z + ai * 2u + 1u] = row.z + begin + fit;
+        atomicStore(&cra[lay.c.x + g * 8u + 1u], n);
+        if (cfg.hz.y != 0u) {
+            atomicAdd(&cra[lay.c.y + ST_IDX], fit);
+            atomicAdd(&cra[lay.c.y + ST_PULL], m - fit);
+        }
+    }
 }
 
 @compute @workgroup_size(1)
-fn finalize_p1(@builtin(global_invocation_id) gid: vec3<u32>) {
-    fin(gid.x, 0u);
+fn finalize_p1() {
+    fin_all(0u);
 }
 
 @compute @workgroup_size(1)
-fn finalize_p2(@builtin(global_invocation_id) gid: vec3<u32>) {
-    fin(gid.x, 1u);
+fn finalize_p2() {
+    fin_all(1u);
 }

@@ -1,4 +1,5 @@
-// Visibility pass of the culled clusters: ONE non-indexed draw per page and phase, vertex shader pull (no index buffer).
+// Visibility pass of the culled clusters that did not fit the compact index budget (cull_idx.wgsl draws the others): ONE non-indexed
+// draw per page and phase, vertex shader pull (no index buffer). With budget 0 (ANATOMY_CULL_BUDGET=0) it draws everything.
 //
 // Concatenated by app/gpu/cull.py after: the id prelude (alias IdOut, fn pack_id), clip.wgsl, cull_tables.wgsl, the page prelude
 // (geometry.py geom_prelude) and geom.wgsl.
@@ -21,7 +22,7 @@
 
 @group(0) @binding(0) var<uniform> frame: Frame;
 @group(0) @binding(1) var<storage, read> cro: array<vec4<u32>>;           // cull_tables.wgsl
-@group(0) @binding(2) var<storage, read> crw: array<u32>;                 // read only, indirect draw source: dinfo
+@group(0) @binding(2) var<storage, read> crw: array<u32>;                 // read only, indirect draw source: dinfo (the pulled draw's: 2 * (page * 2 + phase) + 1)
 @group(0) @binding(3) var<uniform> lay: CullLay;
 @group(0) @binding(4) var<storage, read> crl: array<vec4<u32>>;           // visible-cluster entries (cull_tables.wgsl)
 // group 1 binding 0: the geometry page, binding 1 its offsets (geom_prelude(1, 1, 0, uniform_binding=1), read through geom.wgsl)
@@ -56,10 +57,10 @@ fn vs(@builtin(vertex_index) vi: u32) -> VOut {
     let local = vi - k * 192u;
     let tri = local / 3u;
     let corner = local - tri * 3u;
-    let e = crl[crw[lay.d.z + dsel.x] + k];      // cluster, first index word, part, triangles
+    let e = crl[crw[lay.d.z + 2u * dsel.x + 1u] + k];      // cluster, first index word, part, triangles | ordinal << 8
     let c = e.x;
     var o: VOut;
-    if (tri >= e.w) {
+    if (tri >= (e.w & 255u)) {
         o.clip = vec4<f32>(2.0, 2.0, 2.0, 1.0);
         o.wpos = vec3<f32>(0.0);
         o.noclip = 1u;
