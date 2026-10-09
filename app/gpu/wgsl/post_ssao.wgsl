@@ -1,4 +1,4 @@
-// SSAO_FS. Bindings: 0 uniform, 1 nd (unfilterable rgba32float), 2 prev (filterable rgba16float), 3 linear, 4 nearest,
+// SSAO_FS (fs_ssao) and its half-resolution twin (fs_ssao_half). Bindings: 0 uniform, 1 nd (unfilterable rgba32float), 2 prev (filterable rgba16float), 3 linear, 4 nearest,
 // 5 depth (unfilterable r32float, exact copy of nd.w). The centre pixel and the GI hit normal still read nd (same texel).
 // abs() uses ported literally: abs(N.z) < 0.9 (tangent choice), abs(P.z - sceneZ) (range check). u_ortho is an
 // i32, u_gi_on stays an f32 compared with > 0.5, exactly as in GLSL.
@@ -12,8 +12,8 @@ struct U {
     large: f32,
     large_mix: f32,
     gi_on: f32,
-    _p0: f32,
-    _p1: f32,
+    _p0: i32,
+    mode: i32,       // 0 AO + GI, 1 AO only (GI off), 2 GI only: the full-res AO / half-res GI split of PostPasses
 };
 @group(0) @binding(0) var<uniform> u: U;
 @group(0) @binding(1) var t_nd: texture_2d<f32>;
@@ -21,6 +21,8 @@ struct U {
 @group(0) @binding(3) var s_lin: sampler;
 @group(0) @binding(4) var s_near: sampler;
 @group(0) @binding(5) var t_depth: texture_2d<f32>;   // r32float copy of nd.w (post_pack.wgsl): the taps read only depth
+@group(0) @binding(6) var t_lo_nd: texture_2d<f32>;    // fs_ssao_half only: nd of the representative pixel of each 2x2 block
+@group(0) @binding(7) var t_lo_off: texture_2d<u32>;   // its offset inside the block, dx + 2 * dy (post_down.wgsl)
 
 fn view_pos(uv: vec2<f32>, d: f32) -> vec3<f32> {
     let ndc = uv * 2.0 - 1.0;
@@ -33,21 +35,22 @@ fn project(p: vec3<f32>) -> vec2<f32> {
     return ndc * 0.5 + 0.5;
 }
 
-@fragment
-fn fs_ssao(@builtin(position) frag: vec4<f32>, @location(0) v_uv: vec2<f32>) -> @location(0) vec4<f32> {
-    let nd = textureSampleLevel(t_nd, s_near, v_uv, 0.0);
+// pix: fragment centre of the (full-res) pixel evaluated, uvc its texture coordinate, nd its normal and depth.
+fn ssao_eval(pix: vec2<f32>, uvc: vec2<f32>, nd: vec4<f32>) -> vec4<f32> {
     if (nd.w <= 0.0) { return vec4<f32>(0.0, 0.0, 0.0, 1.0); }
-    let P = view_pos(v_uv, nd.w);
+    let P = view_pos(uvc, nd.w);
     let N = normalize(nd.xyz);
-    let a0 = ign(frag.xy) * 6.2831853;
-    let r0 = ign(frag.yx + 17.0);
+    let a0 = ign(pix) * 6.2831853;
+    let r0 = ign(pix.yx + 17.0);
+    let ao_on = (u.mode & 3) != 2;
+    let gi_run = u.gi_on > 0.5 && (u.mode & 3) != 1;
     var Tv: vec3<f32>;
     if (abs(N.z) < 0.9) { Tv = cross(N, vec3<f32>(0.0, 0.0, 1.0)); } else { Tv = cross(N, vec3<f32>(1.0, 0.0, 0.0)); }
     let T = normalize(Tv);
     let B = cross(N, T);
     var ao = 1.0;
     var gi = vec3<f32>(0.0);
-    for (var scale: i32 = 0; scale < 2; scale++) {
+    for (var scale: i32 = 0; scale < 2 && ao_on; scale++) {
         var rad = u.radius;
         if (scale != 0) { rad = u.radius * u.large; }
         var occ = 0.0;
@@ -74,7 +77,7 @@ fn fs_ssao(@builtin(position) frag: vec4<f32>, @location(0) v_uv: vec2<f32>) -> 
         let a = 1.0 - occ / max(wsum, 1.0);
         if (scale == 0) { ao *= a; } else { ao *= mix(1.0, a, u.large_mix); }
     }
-    if (u.gi_on > 0.5) {
+    if (gi_run) {
         let grad = u.radius * u.large;
         const DIRS: i32 = 12;
         const STEPS: i32 = 8;
@@ -103,4 +106,21 @@ fn fs_ssao(@builtin(position) frag: vec4<f32>, @location(0) v_uv: vec2<f32>) -> 
         gi /= f32(DIRS);
     }
     return vec4<f32>(gi, pow(clamp(ao, 0.0, 1.0), u.power));
+}
+
+@fragment
+fn fs_ssao(@builtin(position) frag: vec4<f32>, @location(0) v_uv: vec2<f32>) -> @location(0) vec4<f32> {
+    return ssao_eval(frag.xy, v_uv, textureSampleLevel(t_nd, s_near, v_uv, 0.0));
+}
+
+// Half-resolution target: texel b stands for the representative pixel of the 2x2 block b (post_down.wgsl). The result
+// there is what fs_ssao computes at that pixel (same dither value, same taps), up to the ulp noise of the uv.
+@fragment
+fn fs_ssao_half(@builtin(position) frag: vec4<f32>) -> @location(0) vec4<f32> {
+    let b = vec2<i32>(frag.xy);
+    let o = textureLoad(t_lo_off, b, 0).x;
+    let dims = textureDimensions(t_nd);
+    let rep = min(b * 2 + vec2<i32>(i32(o & 1u), i32(o >> 1u)), vec2<i32>(dims) - 1);
+    let pix = vec2<f32>(rep) + 0.5;
+    return ssao_eval(pix, pix / vec2<f32>(dims), textureLoad(t_lo_nd, b, 0));
 }

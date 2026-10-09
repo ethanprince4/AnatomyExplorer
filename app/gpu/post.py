@@ -10,6 +10,8 @@ are cached per (pass, target format).
 Texture formats (same precision as GL):
   nd rgba32float, id rg32float, ao / ao_tmp rgba16float, opaque / accum / prev rgba16float, weight r16float,
   composite and blit targets rgba8unorm, backdrop target rgba16float, prefiltered env array rgba16float.
+Half-resolution AO/GI (``ao_scale`` / ``gi_scale`` = 2, see PostPasses): the SSAO taps are evaluated for one representative
+pixel per 2x2 block and the result is upsampled with a depth- and normal-aware weight before the unchanged blur.
 Binding nd / id (32-bit float) needs no feature (unfilterable-float + nearest sampler). The environment source
 texture is rgba32float and needs the ``float32-filterable`` device feature for trilinear filtering; without it
 ``make_env_source`` falls back to rgba16float (a rounding of the source by about 5e-4 relative).
@@ -30,7 +32,7 @@ TEX_USAGE = (wgpu.TextureUsage.TEXTURE_BINDING | wgpu.TextureUsage.RENDER_ATTACH
              | wgpu.TextureUsage.COPY_SRC | wgpu.TextureUsage.COPY_DST)
 
 # bind layout kinds
-_U, _TF, _TU, _SL, _SN, _SR = "uniform", "tex_f", "tex_u", "samp_lin", "samp_near", "samp_env"
+_U, _TF, _TU, _SL, _SN, _SR, _TI = "uniform", "tex_f", "tex_u", "samp_lin", "samp_near", "samp_env", "tex_i"
 
 _LAYOUTS = {
     "backdrop": [_U],
@@ -38,14 +40,20 @@ _LAYOUTS = {
     "blur": [_U, _TF, _TU, _SL, _SN],
     "ssao": [_U, _TU, _TF, _SL, _SN, _TU],
     "pack": [_TU],
+    "ssao_half": [_U, _TU, _TF, _SL, _SN, _TU, _TU, _TI],
+    "down": [_TU],
+    "upsample": [_U, _TU, _TF, _TF, _TU],
     "prefilter": [_U, _TF, _SR],
     "composite": [_U, _TF, _TF, _TF, _TU, _SL, _SN],
 }
 _ENTRY = {"backdrop": "fs_backdrop", "blit": "fs_blit", "blur": "fs_blur", "ssao": "fs_ssao",
-          "prefilter": "fs_prefilter", "composite": "fs_composite", "pack": "fs_pack"}
+          "prefilter": "fs_prefilter", "composite": "fs_composite", "pack": "fs_pack",
+          "ssao_half": "fs_ssao_half", "down": "fs_down", "upsample": "fs_upsample"}
+_FILE = {"ssao_half": "ssao"}      # pass name -> post_<file>.wgsl where they differ
 
 # sizes of the packed structs (asserted in tests/gpu/test_post_parity.py against the WGSL struct layout)
-UNIFORM_SIZES = {"backdrop": 32, "ssao": 48, "blur": 16, "prefilter": 16, "composite": 64, "blit": 0, "pack": 0}
+UNIFORM_SIZES = {"backdrop": 32, "ssao": 48, "blur": 16, "prefilter": 16, "composite": 64, "blit": 0, "pack": 0,
+                 "ssao_half": 48, "down": 0, "upsample": 16}
 
 
 def _f(*v):
@@ -57,10 +65,16 @@ def pack_backdrop(bottom, top):
     return struct.pack("<4f4f", *_f(*bottom), 0.0, *_f(*top), 0.0)
 
 
-def pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on):
-    # tan 0, ortho 8 (i32), samples 12 (i32), radius 16, bias 20, power 24, large 28, large_mix 32, gi_on 36
-    return struct.pack("<2f2i6f2f", *_f(*tan), int(ortho), int(samples),
-                       *_f(radius, bias, power, large, large_mix, gi_on), 0.0, 0.0)
+def pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on, mode=0):
+    # tan 0, ortho 8 (i32), samples 12 (i32), radius 16, bias 20, power 24, large 28, large_mix 32, gi_on 36,
+    # mode 44 (i32): 0 AO + GI, 1 AO only, 2 GI only
+    return struct.pack("<2f2i6f2i", *_f(*tan), int(ortho), int(samples),
+                       *_f(radius, bias, power, large, large_mix, gi_on), 0, int(mode))
+
+
+def pack_upsample(mode):
+    # mode 0 (i32): 0 = all four channels from the half-res texture, 1 = rgb from it and alpha from the full-res one
+    return struct.pack("<4i", int(mode), 0, 0, 0)
 
 
 def pack_blur(dir_):
@@ -79,13 +93,15 @@ def pack_composite(outline, hover, hover_outline, exposure, texel, outline_px, o
 
 
 def _wgsl(name: str) -> str:
-    return (WGSL_DIR / "post_common.wgsl").read_text() + "\n" + (WGSL_DIR / f"post_{name}.wgsl").read_text()
+    return (WGSL_DIR / "post_common.wgsl").read_text() + "\n" + (WGSL_DIR / f"post_{_FILE.get(name, name)}.wgsl").read_text()
 
 
 def _layout_entry(i, kind):
     vis = wgpu.ShaderStage.FRAGMENT
     if kind == _U:
         return {"binding": i, "visibility": vis, "buffer": {"type": "uniform"}}
+    if kind == _TI:
+        return {"binding": i, "visibility": vis, "texture": {"sample_type": "uint", "view_dimension": "2d"}}
     if kind == _TF:
         return {"binding": i, "visibility": vis, "texture": {"sample_type": "float", "view_dimension": "2d"}}
     if kind == _TU:
@@ -101,8 +117,19 @@ def _view(t):
 
 
 class PostPasses:
-    def __init__(self, device):
+    """``ao_scale`` / ``gi_scale`` (1 or 2; gi_scale defaults to ao_scale) set the resolution of the SSAO pass:
+    2 evaluates the taps once per 2x2 block (at the pixel of the block whose depth is closest to the mean depth of the
+    block's surface pixels, see wgsl/post_down.wgsl) and upsamples with a joint-bilateral filter (wgsl/post_upsample.wgsl).
+    ao_scale = 2 does AO and GI at half resolution; ao_scale = 1, gi_scale = 2 keeps AO at full resolution and does
+    only the (much more expensive) GI half-way. The blur passes are unchanged. Both can be changed at any time."""
+
+    def __init__(self, device, ao_scale=1, gi_scale=None):
         self.device = device
+        self.ao_scale = int(ao_scale)
+        self.gi_scale = int(self.ao_scale if gi_scale is None else gi_scale)
+        assert self.ao_scale in (1, 2) and self.gi_scale in (1, 2) and self.gi_scale >= self.ao_scale, (ao_scale, gi_scale)
+        self._lo = {}                   # (w, h) -> half-res scratch textures of the half-res path
+        self._hi = {}                   # (w, h) -> full-res AO scratch (ao_scale 1, gi_scale 2)
         self._pipes = {}
         self._layouts = {}
         self._mods = {}
@@ -132,7 +159,8 @@ class PostPasses:
             layout=pl,
             vertex={"module": mod, "entry_point": "vs_fsq"},
             primitive={"topology": "triangle-list", "cull_mode": "none"},
-            fragment={"module": mod, "entry_point": _ENTRY[name], "targets": [{"format": fmt}]},
+            fragment={"module": mod, "entry_point": _ENTRY[name],
+                      "targets": [{"format": f} for f in (fmt if isinstance(fmt, tuple) else (fmt,))]},
         )
         self._pipes[key] = (pipe, bgl)
         return self._pipes[key]
@@ -149,14 +177,15 @@ class PostPasses:
                 entries.append({"binding": i, "resource": {"buffer": ub, "offset": 0, "size": len(uniform)}})
                 continue
             r = res.pop(0)
-            if kind in (_TF, _TU):
+            if kind in (_TF, _TU, _TI):
                 r = _view(r)
             entries.append({"binding": i, "resource": r})
         bg = dev.create_bind_group(layout=bgl, entries=entries)
         enc = dev.create_command_encoder() if encoder is None else encoder
         tw, self.pending_ts = self.pending_ts, None          # the renderer's GPU timing of the next pass (or None)
+        views = target_view if isinstance(target_view, tuple) else (target_view,)
         rp = enc.begin_render_pass(color_attachments=[{
-            "view": target_view, "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 1)}],
+            "view": v, "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 1)} for v in views],
             **({"timestamp_writes": tw} if tw else {}))
         rp.set_pipeline(pipe)
         rp.set_bind_group(0, bg)
@@ -181,8 +210,48 @@ class PostPasses:
         bias = radius * 0.03 if bias is None else bias
         u = pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on)
         depth = self.pack_depth(nd, encoder)
-        self._run("ssao", _view(out), "rgba16float", out.size[:2], u, [nd, prev, self.s_lin, self.s_near, depth],
-                  encoder)
+        if self.gi_scale == 1:
+            self._run("ssao", _view(out), "rgba16float", out.size[:2], u, [nd, prev, self.s_lin, self.s_near, depth],
+                      encoder)
+            return
+        if self.ao_scale == 1:                      # AO at full resolution (alpha only), GI at half resolution
+            hi = self._hi_tex(nd)
+            self._run("ssao", _view(hi), "rgba16float", hi.size[:2],
+                      pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on, 1),
+                      [nd, prev, self.s_lin, self.s_near, depth], encoder)
+        else:
+            hi = None
+        lo = self._lo_set(nd, encoder)
+        u = pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on, 0 if self.ao_scale == 2 else 2)
+        self._run("ssao_half", _view(lo["a"]), "rgba16float", lo["a"].size[:2], u,
+                  [nd, prev, self.s_lin, self.s_near, depth, lo["nd"], lo["off"]], encoder)
+        self._run("upsample", _view(out), "rgba16float", out.size[:2], pack_upsample(1 if hi is not None else 0),
+                  [nd, lo["a"], lo["a"] if hi is None else hi, lo["nd"]], encoder)
+
+    def _lo_set(self, nd, encoder):
+        """Half-res scratch textures (a: SSAO result; nd: normal/depth of each 2x2 block's representative pixel;
+        off: which pixel of the block, dx + 2 dy), owned by this object (one set per size); fills nd / off."""
+        key = tuple(nd.size[:2])
+        if key not in self._lo:
+            hw, hh = (key[0] + 1) // 2, (key[1] + 1) // 2
+            usage = wgpu.TextureUsage.TEXTURE_BINDING | wgpu.TextureUsage.RENDER_ATTACHMENT | wgpu.TextureUsage.COPY_SRC
+
+            def mk(fmt, label):
+                return self.device.create_texture(size=(hw, hh, 1), format=fmt, usage=usage, label=label)
+            self._lo[key] = {"a": mk("rgba16float", "ao_lo"), "nd": mk("rgba32float", "ao_lo_nd"),
+                             "off": mk("r8uint", "ao_lo_off")}
+        lo = self._lo[key]
+        self._run("down", (lo["nd"].create_view(), lo["off"].create_view()), ("rgba32float", "r8uint"),
+                  lo["nd"].size[:2], b"", [nd], encoder)
+        return lo
+
+    def _hi_tex(self, nd):
+        key = tuple(nd.size[:2])
+        if key not in self._hi:
+            self._hi[key] = self.device.create_texture(
+                size=(key[0], key[1], 1), format="rgba16float", label="ao_hi",
+                usage=wgpu.TextureUsage.TEXTURE_BINDING | wgpu.TextureUsage.RENDER_ATTACHMENT | wgpu.TextureUsage.COPY_SRC)
+        return self._hi[key]
 
     def pack_depth(self, nd, encoder=None):
         """Exact copy of nd.w into an r32float texture (4 B per texel instead of 16). The SSAO taps (up to 128 per pixel)
