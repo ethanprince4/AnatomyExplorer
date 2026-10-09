@@ -36,6 +36,23 @@ def main():
     target = wheel / 'plugins/platforms/libqcocoa.dylib'
     shutil.copy2(target, root / 'original-wheel-libqcocoa.dylib')
     original_hash = digest(target)
+    # Control: the plugin we ship now, through the same harness. It shows whether the harness reproduces the
+    # crash this candidate fixes; it does not decide acceptance.
+    previous = Path('packaging/qt-cocoa/libqcocoa.dylib')
+    control = None
+    if previous.exists():
+        shutil.copy2(previous, target)
+        control_env = {k: v for k, v in os.environ.items() if k != 'QT_OWNERSHIP_PLUGIN_SHA256'}
+        control_env['QT_QPA_PLATFORM'] = 'cocoa'
+        try:
+            subprocess.run([sys.executable, 'packaging/diagnostics/mac_ax/run_matrix.py', '--single-plain',
+                            '--output', str(evidence / 'control-previous-plugin')], env=control_env,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=300)
+        except subprocess.TimeoutExpired:
+            pass
+        summary_path = evidence / 'control-previous-plugin' / 'summary.json'
+        control = {'plugin_sha256': digest(previous),
+                   'summary': json.loads(summary_path.read_text()) if summary_path.exists() else None}
     shutil.copy2(plugin, target)
     candidate_hash = digest(plugin)
     env = dict(os.environ, QT_QPA_PLATFORM='cocoa', QT_DEBUG_PLUGINS='1', DYLD_PRINT_LIBRARIES='1',
@@ -51,7 +68,8 @@ def main():
               'sdk_sha256': digest(root / 'sdk.7z'), 'original_wheel_plugin_sha256': original_hash,
               'candidate_plugin_sha256': candidate_hash, 'architectures': arch,
               'minimum_os': min_os.group(1), 'qt_dependencies': qt_deps, 'rpaths': rpaths,
-              'framework_hashes_before': before, 'physical_mac_validated': False, 'passed': False}
+              'framework_hashes_before': before, 'physical_mac_validated': False, 'passed': False,
+              'additional_patches': ['ae-accessibility-bounds.patch'], 'control_previous_plugin': control}
     try:
         # run_matrix collects every case even when an early case crashes.
         raw_log = root / 'private-native-loader.log'
@@ -59,7 +77,7 @@ def main():
             result = subprocess.run([sys.executable, 'packaging/diagnostics/mac_ax/run_matrix.py',
                                      '--output', str(evidence / 'matrix'),
                                      '--private-loader-log-dir', str(root / 'private-native-loader')], env=env,
-                                    stdout=stream, stderr=stream, timeout=360)
+                                    stdout=stream, stderr=stream, timeout=720)
         after = {p.name: digest(p / 'Versions/A' / p.stem) for p in (wheel / 'lib').glob('Qt*.framework')}
         report['framework_hashes_unchanged'] = before == after
         report['exit_code'] = result.returncode

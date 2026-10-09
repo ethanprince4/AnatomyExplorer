@@ -147,6 +147,20 @@ class Repro(QWidget):
             self.tree.setUpdatesEnabled(True)
         self.emit('phase', name='filter' if term else 'clear-filter')
 
+    def single_branches(self):
+        # v4.0.4 aborted here on macOS: with cell interfaces cached by an accessibility client, opening ONE branch
+        # (QTreeViewPrivate::expand, the path of a click on a branch arrow; expandAll takes a different one) made
+        # Qt describe a cell it was deleting, whose row is -1, and the Cocoa element indexed its rows with it.
+        self.tree.collapseAll()
+        self.probe('before-single-branches')
+        for i in range(self.tree.topLevelItemCount()):
+            self.tree.topLevelItem(i).setExpanded(True)
+            self.probe(f'after-opening-group-{i}')
+        for i in range(self.tree.topLevelItemCount()):
+            self.tree.topLevelItem(i).setExpanded(False)
+            self.probe(f'after-closing-group-{i}')
+        self.emit('phase', name='single-branches')
+
     def reset_items(self):
         self.emit('reset_begin', note='deliberate structural-control; absent from ordinary click')
         self.items.clear()
@@ -164,7 +178,7 @@ class Repro(QWidget):
     def auto_phase(self, number):
         from PySide6.QtTest import QTest
         stages = [self.clear_selection, self.select_leaf, self.tree.collapseAll,
-                  self.tree.expandAll, lambda:self.filter.setText('Leaf 1'),
+                  self.tree.expandAll, self.single_branches, lambda:self.filter.setText('Leaf 1'),
                   lambda:self.filter.setText(''), self.reset_items, self.select_leaf]
         if number >= len(stages)*self.args.cycles:
             self.emit('diagnostic_complete', phases=number, native_probe_exercised=bool(self.native),
@@ -174,7 +188,7 @@ class Repro(QWidget):
         phase = number % len(stages)
         self.emit('auto_phase_begin', number=number, phase=phase)
         stages[phase]()
-        if phase in (1, 7):
+        if stages[phase] == self.select_leaf:
             rect = self.tree.visualItemRect(self.items[1])
             # Qt event simulation is a harness control, not a physical Mac click.
             point = rect.center()

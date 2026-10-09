@@ -73,7 +73,8 @@ jobs:
     if: inputs.ownership_candidate
     needs: [gpu]
     runs-on: macos-14
-    timeout-minutes: 25
+    # downloads the matching Qt SDK, builds the plugin, then runs a control and the full native matrix
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v7
         with:

@@ -40,6 +40,13 @@ Path(sys.argv[2]).write_bytes(raw)
 PY
 git -C "$source_dir" apply --check "$artifact_dir/qt-765434-patchset1.patch"
 git -C "$source_dir" apply "$artifact_dir/qt-765434-patchset1.patch"
+# Our follow-up on top of 765434: range checks for rows and columns of cells that are going away (a tree branch
+# expanded under an accessibility client aborted v4.0.4 with NSRangeException)
+bounds_patch="$task_root/packaging/diagnostics/mac_ax/ownership_candidate/ae-accessibility-bounds.patch"
+test "$(shasum -a 256 "$bounds_patch" | cut -d' ' -f1)" = '766c2d6fb62e8bd615ec3392de29ecaeddb7b8d98b1cb0500809e35266824c96'
+git -C "$source_dir" apply --check "$bounds_patch"
+git -C "$source_dir" apply "$bounds_patch"
+cp "$bounds_patch" "$artifact_dir/ae-accessibility-bounds.patch"
 cp -R "$source_dir/LICENSES" "$artifact_dir/LICENSES"
 cp -R "$source_dir/src/plugins/platforms/cocoa" "$artifact_dir/modified-cocoa-source"
 cp "$task_root/packaging/diagnostics/mac_ax/ownership_candidate/CMakeLists.txt" "$artifact_dir/BUILD_WRAPPER.cmake"
