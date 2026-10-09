@@ -120,10 +120,11 @@ class HistologyBrowser(QWidget):
                     c = x.child(i)
                     d = c.data(0, ROLE)
                     if d and d[0] == "tissue":
-                        count += 1
+                        count += c.childCount()      # images, the same unit the tissue rows show
                     elif not d:
                         stack.append(c)
             it.setText(1, str(count))
+            it.setToolTip(1, f"{count} images in this topic")
             it.setExpanded(False)
 
     def _clicked(self, item, _col=0):

@@ -29,6 +29,18 @@ def fill_list(widget, values, fill):
     return shown
 
 
+def reserve_rows(widget, count):
+    """Create a QListWidget's rows up front, hidden, so fill_list never has to add one while the list is on screen.
+
+    Adding rows to a visible list with hidden rows in it can also crash the Cocoa accessibility bridge (a null
+    element in QAccessible::updateAccessibility from endInsertRows, seen when successive searches grew the Explore
+    results list). Call this while the widget is being built, before it is shown."""
+    for _ in range(widget.count(), count):
+        item = QListWidgetItem()
+        widget.addItem(item)
+        item.setHidden(True)
+
+
 def fill_combo(combo, entries):
     """Show one QComboBox row per (text, data) entry; return how many rows are shown.
 

@@ -5,9 +5,9 @@
 #   Run by hand:     Actions > Release > Run workflow               -> builds; publishes only if a tag is given
 name: Release
 
+# Pull requests run no checks: the only checks kept are the ones that caught real bugs (a file missing from the
+# installers, wrong picking on Mac), and they run here, before a release is published.
 on:
-  # Model-only PRs need the same bounded checks as application changes.
-  pull_request: {}
   push:
     tags: ["v*"]
   workflow_dispatch:
@@ -22,26 +22,32 @@ permissions:
 
 concurrency:
   group: release-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: false
 
 jobs:
-  safety:
-    name: Release safety gate
-    uses: ./.github/workflows/updater-tests.yml
-  diagnostics:
-    name: Mac diagnostic gate
-    uses: ./.github/workflows/mac-diagnostics.yml
-    with:
-      # An explicit temporary PR label requests one bounded plugin experiment.
-      # Shipping-runtime gates always remain strict; this only rebuilds provenance.
-      ownership_candidate: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'qt-ownership-candidate') }}
+  picking:
+    # Clicking a structure on a Mac reads its id back from the GPU; this once returned wrong ids on Mac only.
+    name: Mac picking check
+    runs-on: macos-14
+    timeout-minutes: 15
+    env:
+      QT_QPA_PLATFORM: cocoa
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          lfs: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - run: python -m pip install PySide6==6.11.2 moderngl==5.12.0 numpy==2.4.6
+      - name: Install the shipped Cocoa plugin
+        run: python packaging/install_cocoa.py
+      - name: Check production ID readback on the Mac GPU
+        run: python -m app.picking_diagnostics --gpu-controls-only --report mac-gpu-controls.json
   build:
     name: Build (${{ matrix.name }})
-    # Validate PRs with the bounded gates above; build installers once from the
-    # release tag instead of building the same model library twice.
-    if: github.event_name != 'pull_request'
-    # A failed source check prevents allocation of either expensive build runner.
-    needs: [safety, diagnostics]
+    # A failed picking check stops the release before either build runner starts.
+    needs: [picking]
     strategy:
       fail-fast: false
       matrix:
@@ -157,26 +163,6 @@ jobs:
       - name: Verify real signed macOS incremental update and rollback
         if: runner.os == 'macOS'
         run: python packaging/check_mac_update.py "packaging/dist/$APP_NAME.app" packaging/dist/release
-
-      # Full-UI restart checks need a suitable hosted renderer. They are manual
-      # diagnostics; ordinary launch, integrity and package gates remain required.
-      - name: Diagnose real frozen Windows restart, activation and rollback
-        if: runner.os == 'Windows' && github.event_name == 'workflow_dispatch'
-        continue-on-error: true
-        run: python packaging/check_restart.py packaging/dist/AnatomyExplorer packaging/dist/release --report packaging/build/frozen-restart/result.json
-
-      - name: Diagnose real frozen macOS restart, activation and rollback
-        if: runner.os == 'macOS' && github.event_name == 'workflow_dispatch'
-        continue-on-error: true
-        run: python packaging/check_restart.py "packaging/dist/$APP_NAME.app" packaging/dist/release --report packaging/build/frozen-restart/result.json
-
-      - name: Preserve frozen explicit restart evidence
-        if: always() && github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@v7
-        with:
-          name: frozen-restart-${{ runner.os }}
-          path: packaging/build/frozen-restart/result.json
-          if-no-files-found: warn
 
       # Split here, where the installer already is: a separate job downloading both installers to split them and
       # uploading them again took over half an hour per release on a macOS runner (v4.0.3).

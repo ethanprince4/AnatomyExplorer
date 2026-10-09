@@ -190,6 +190,9 @@ def atlas_dock(window):
     for label,key in (('Measure','measure'),('Show all','show_all'),('Reset','reset_view')):
         action=window.cmds.actions.get(key)
         if action is not None:
+            # A tool button re-reads its action's iconText whenever the action changes (checked, enabled), so a
+            # short label set only with setText reverted to the long one ("Measure distances") and shifted the bar.
+            action.setIconText(label)
             button=QToolButton();button.setDefaultAction(action);button.setText(label)
             if key=='structure_labels':button.setToolTip('Show names of visible structures')
             elif key=='show_all':button.setToolTip('Show every structure again and leave isolation')
@@ -198,6 +201,8 @@ def atlas_dock(window):
     menu=QMenu(window)
     menu.addAction('Parts',lambda:window._show_nav_page(window.tree))
     menu.addAction('Reveal controls',lambda:window._show_nav_page(window.view_panel))
+    # Details has its own Close button; this is the way back to it without knowing the panels shortcut.
+    menu.addAction('Details',lambda:(window.right_dock.show(),window.right_dock.raise_()))
     menu.addMenu(window.section_menu)
     menu.addSeparator()
     menu.addActions(window.tools_menu.actions())

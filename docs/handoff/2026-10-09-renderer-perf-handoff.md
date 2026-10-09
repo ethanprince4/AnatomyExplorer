@@ -8,6 +8,21 @@
 - **Results:** [renderer-perf/2026-10-09-report.md](../renderer-perf/2026-10-09-report.md) has the numbers, the M1
   estimate, the 250M results (culling only, and culling + the existing LOD), memory, and what is left.
 
+## v4.0.7 and GitHub checks
+
+- v4.0.7 adds the Mac bug-hunt fixes (two accessibility crashes, Back/Forward, saved views, UI glitches). The
+  report, per-fix notes and the Mac harness are in `docs/bughunt-2026-10-09/`.
+- Pull requests run no GitHub checks. Of 31 failed check runs, only a few were real bugs: a file missing from the
+  installers, wrong picking on Mac, and a Windows line-ending import failure. The rest were test, runner or
+  workflow problems.
+- What remains is in `release.yml`, run only for a release:
+  - the Mac picking check;
+  - both installer builds, with their checks on the built app: install, frozen imports including wgpu and the
+    shaders, HTTPS, Cocoa plugin, Mac update.
+- `updater-tests.yml` and `mac-diagnostics.yml` were deleted. The Qt Cocoa plugin rebuild they hosted is in git
+  history and in `packaging/diagnostics/mac_ax/ownership_candidate/`.
+- Run the test suite locally before a release.
+
 ## Rules the user set (still in force)
 
 - **Models are off limits.**

@@ -288,7 +288,8 @@ class ModelView(QWidget):
         sliders = QGridLayout()
         sliders.setContentsMargins(0, 4, 0, 4)
         sliders.setVerticalSpacing(8)
-        for column, (title, original) in enumerate((("Tissue opacity", self.opacity), ("Separate layers", self.explode))):
+        explode_title = self.explode.accessibleName() or "Separate layers"   # "Separate parts" for authored models
+        for column, (title, original) in enumerate((("Tissue opacity", self.opacity), (explode_title, self.explode))):
             label = QLabel(title)
             sliders.addWidget(label, 0, column)
             slider = QSlider(Qt.Horizontal)
@@ -327,6 +328,12 @@ class ModelView(QWidget):
             if self.cut is not None:self.cut.setChecked(False)
         reset.clicked.connect(reset_reveal)
         row.addWidget(reset)
+        # The compact row mirrors these, so "More controls" must not show them a second time.
+        for original in (self.opacity, self.explode):
+            if original is not None and original.parentWidget() is not None:
+                original.parentWidget().hide()
+        if self.cut is not None:
+            self.cut.hide()
         more = QPushButton("More controls")
         more.setCheckable(True)
         row.addWidget(more)

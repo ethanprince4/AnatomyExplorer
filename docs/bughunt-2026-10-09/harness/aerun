@@ -1,0 +1,172 @@
+#!/usr/bin/env python3
+"""aerun RUN_ID "cmd;cmd;..."  — run one scripted Anatomy Explorer session and report what happened.
+
+Commands (separate with ';'):
+  (menus: press the menu button, then dump:/shottop: list it; press:ITEM triggers a menu item)
+  press:TEXT            click the visible button/field/list row whose text, tooltip or name matches TEXT
+                        (rpress: right-click, dpress: double-click)
+  wclick:FX,FY          left-click at a fraction of the window (0-1, 0-1); also wrclick:, wdclick:
+  type:TEXT             type into the focused widget        key:NAME   e.g. key:return, key:escape, key:ctrl+z
+  combo:LABEL=ITEM      choose ITEM in the dropdown matching LABEL
+  dump:NAME             write NAME.txt listing visible clickable widgets with @fx,fy centres
+  shot:NAME             screenshot main window -> NAME.jpg     shottop:NAME  screenshot the open dialog
+  state:NAME            write NAME.json (current workspace, open dialogs)
+  wait:MS   action:ID   tab:N   center:N   search:TEXT   activate   view:NAME   orbit:DX,DY   zoom:F
+  click:FX,FY (3D viewport only)   settings:N   esc   link:SCHEME=PAYLOAD   quit
+Results: runs/RUN_ID/ (report.txt, images, dumps). Exit status: 0 ok, 2 crash, 3 hang, 4 python errors.
+"""
+import fcntl, glob, os, re, signal, subprocess, sys, time
+from pathlib import Path
+
+B = Path(__file__).resolve().parent
+BIN = os.environ.get("AE_BIN", str(B / "patched/Anatomy Explorer.app/Contents/MacOS/AnatomyExplorer"))
+LOGS = Path.home() / "Library/Application Support/AnatomyExplorer/logs"
+DIAG = Path.home() / "Library/Logs/DiagnosticReports"
+SLOTS = int(os.environ.get("AE_SLOTS", "4"))
+
+
+def acquire_slot():
+    (B / ".slots").mkdir(exist_ok=True)
+    while True:
+        for i in range(SLOTS):
+            f = open(B / ".slots" / str(i), "w")
+            try:
+                fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                return f
+            except OSError:
+                f.close()
+        time.sleep(2)
+
+
+def main():
+    if len(sys.argv) < 3:
+        print(__doc__)
+        return 1
+    rid, raw = sys.argv[1], sys.argv[2]
+    out = B / "runs" / rid
+    out.mkdir(parents=True, exist_ok=True)
+    for old in out.iterdir():
+        old.unlink()
+    total_wait = 0
+    cmds = ["wait:2500", "eval:exec(open('%s/aeh.py').read()) or install(w,'%s')" % (B, out)]
+    for c in [c.strip() for c in raw.split(";") if c.strip()]:
+        name, _, arg = c.partition(":")
+        esc = arg.replace("\\", "\\\\").replace("'", "\\'")
+        if name in ("press", "rpress", "dpress"):
+            kind = {"press": "click", "rpress": "rclick", "dpress": "dclick"}[name]
+            cmds += ["eval:H.press('%s','%s')" % (esc, kind), "wait:500"]
+        elif name in ("wclick", "wrclick", "wdclick"):
+            fx, fy = arg.split(",")
+            cmds += ["eval:H.wclick(%f,%f,'%s')" % (float(fx), float(fy), name[1:]), "wait:500"]
+        elif name == "type":
+            cmds += ["eval:H.type('%s')" % esc, "wait:300"]
+        elif name == "key":
+            cmds += ["eval:H.key('%s')" % esc, "wait:300"]
+        elif name == "combo":
+            l, _, it = arg.partition("=")
+            cmds += ["eval:H.combo('%s','%s')" % (l.replace("'", "\\'"), it.replace("'", "\\'")), "wait:500"]
+        elif name == "dump":
+            cmds.append("eval:H.dump('%s')" % esc)
+        elif name == "state":
+            cmds.append("eval:H.state('%s')" % esc)
+        elif name == "shot":
+            cmds.append("shot:%s/%s.png" % (out, arg))
+        elif name == "shottop":
+            cmds.append("eval:H.shottop('%s/%s.png')" % (out, esc))
+        elif name == "action":
+            cmds += ["eval:H.act('%s')" % esc, "wait:200"]
+        elif name == "eval":
+            cmds.append("eval:H.ev(%r)" % arg)
+        else:
+            if name == "wait":
+                total_wait += int(arg)
+            cmds.append(c)
+    done = out / ".done"
+    cmds.append("eval:open('%s','w').write('1')" % done)
+    script = ";".join(cmds)
+    if script.count(";") != len(cmds) - 1:
+        print("ERROR: a command argument contains ';' which is not allowed")
+        return 1
+    timeout = 60 + total_wait / 1000 + 1.2 * len(cmds)
+
+    slot = acquire_slot()
+    err_before = (LOGS / "errors.log").stat().st_size if (LOGS / "errors.log").exists() else 0
+    ips_before = set(glob.glob(str(LOGS / "*.ips")) + glob.glob(str(DIAG / "*AnatomyExplorer*")))
+    t0 = time.time()
+    with open(out / "stderr.txt", "w") as se:
+        # force-killed runs make macOS offer "reopen windows?" at the next launch, which blocks startup
+        for d in glob.glob(str(Path.home() / "Library/Saved Application State/*natomy*")):
+            subprocess.run(["rm", "-rf", d])
+        p = subprocess.Popen([BIN, "--ae-managed", "--no-restore", "--script", script],
+                             stdout=se, stderr=se)
+        status = "ok"
+        while True:
+            if done.exists():
+                time.sleep(0.3)
+                break
+            if p.poll() is not None:
+                status = "quit" if "quit" in [c.split(":")[0] for c in cmds] else "CRASH"
+                break
+            if time.time() - t0 > timeout:
+                status = "HANG"
+                subprocess.run(["sample", str(p.pid), "2", "-file", str(out / "hang_sample.txt")], capture_output=True)
+                break
+            time.sleep(0.5)
+        if p.poll() is None:
+            p.send_signal(signal.SIGKILL)
+            p.wait()
+    rc = p.returncode
+    slot.close()
+    time.sleep(1.5)
+
+    rep = ["run=%s status=%s exit=%s seconds=%.0f" % (rid, status, rc, time.time() - t0)]
+    err = ""   # errors.log is shared by concurrent runs; this process's errors are already in its own stderr
+    stderr = (out / "stderr.txt").read_text(errors="replace")
+    tracebacks = re.findall(r"Traceback \(most recent call last\):.*?(?=\n\S|\Z)(?:\n\S[^\n]*)?", stderr, re.S)
+    if err.strip():
+        (out / "errors_new.txt").write_text(err)
+    new_ips = set(glob.glob(str(LOGS / "*.ips")) + glob.glob(str(DIAG / "*AnatomyExplorer*"))) - ips_before
+    new_ips = {x for x in new_ips if re.search(r'"pid"\s*:\s*%d\b' % p.pid, Path(x).read_text(errors="replace"))}
+    for ips in new_ips:
+        txt = Path(ips).read_text(errors="replace")
+        (out / ("crash_" + Path(ips).name + ".txt")).write_text(txt)
+    if status == "CRASH" or new_ips:
+        rep.append("CRASH: process died unexpectedly. crash reports: %s" % (", ".join(Path(x).name for x in new_ips) or "none yet"))
+        # first readable lines of the newest crash report
+        for ips in new_ips:
+            txt = Path(ips).read_text(errors="replace")
+            m = re.search(r'"exception" : \{[^}]*\}', txt)
+            rep.append("  " + (m.group(0) if m else txt[:300]))
+    if status == "HANG":
+        rep.append("HANG: script did not finish within %.0fs (sample saved to hang_sample.txt)" % timeout)
+    if tracebacks or err.strip():
+        rep.append("PYTHON ERRORS:")
+        seen = set()
+        for tb in tracebacks + ([err] if err.strip() and not tracebacks else []):
+            key = tb.strip().splitlines()[-1] if tb.strip() else tb
+            if key in seen:
+                continue
+            seen.add(key)
+            lines = tb.strip().splitlines()
+            rep.append("\n".join(lines[-14:]))
+    noise = re.compile(r"qt\.qpa\.fonts|propagateSizeHints|^\s*$|Traceback|^  |^\S*Error|^\S*Exception")
+    other = [l for l in stderr.splitlines() if not noise.search(l)]
+    if other:
+        rep.append("OTHER STDERR (%d lines, first 15):\n" % len(other) + "\n".join(other[:15]))
+    hl = out / "helper.log"
+    if hl.exists():
+        rep.append("HELPER LOG:\n" + hl.read_text().strip())
+    for png in sorted(out.glob("*.png")):
+        jpg = png.with_suffix(".jpg")
+        subprocess.run(["sips", "-Z", "1100", "-s", "format", "jpeg", "-s", "formatOptions", "70", str(png), "--out", str(jpg)], capture_output=True)
+        png.unlink()
+    files = sorted(p.name for p in out.iterdir() if p.suffix in (".jpg", ".txt", ".json") and p.name not in ("report.txt", "stderr.txt", "helper.log"))
+    rep.append("FILES: " + " ".join(files))
+    text = "\n".join(rep)
+    (out / "report.txt").write_text(text + "\n")
+    print(text)
+    return {"ok": 0, "quit": 0, "CRASH": 2, "HANG": 3}[status] or (4 if (tracebacks or err.strip()) else 0)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

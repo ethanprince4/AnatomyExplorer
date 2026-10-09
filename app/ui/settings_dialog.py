@@ -111,6 +111,11 @@ class SettingsDialog(QDialog):
         box.rejected.connect(self.close)
         bottom.addWidget(box)
         lay.addLayout(bottom)
+        # Settings apply as they change, so Return in a value box must not press the first button on the page
+        # (it opened the colour picker).
+        for button in self.findChildren(QPushButton):
+            button.setAutoDefault(False)
+            button.setDefault(False)
 
     # ------------------------------------------------------------------ helpers
     def _page(self):
