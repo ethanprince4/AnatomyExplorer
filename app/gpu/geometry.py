@@ -254,6 +254,12 @@ class GpuGeometry:
     stats: dict
     page_bytes: int
     anim_base: np.ndarray = None         # (P,) int64: first vertex of the part in the page's 'anim' stream (9 uint32 per vertex), -1 none
+    clusters: object = None              # clusters.ClusterData when built with cluster_order=True (triangles stored in cluster order), else None
+    order: object = None                 # TriangleOrder (stored -> original triangle) when cluster ordered
+
+    @property
+    def cluster_ordered(self):
+        return self.clusters is not None
 
     def page_offsets(self, first=0, n=None):
         """(n, OFFS_VEC4 * 4) uint32: the section offsets of pages first .. first + n - 1 (the page-offset uniform's content)."""
@@ -266,6 +272,48 @@ class GpuGeometry:
                 self.sink.destroy(page.buffer)
             page.buffer = None
         self.pages = []
+
+
+class TriangleOrder:
+    """Stored triangle -> original triangle, for geometry built with cluster_order=True.
+
+    Within one (part, level) index range the stored triangles are in cluster order: stored triangle k is the original
+    triangle ``perm[tfirst + k]`` (range-local numbers). "Original" means the position of the triangle in the part's
+    index array as the model has it: level 0 -> model.indices[part.first + 3 * t : +3], level L >= 1 ->
+    model.lod[part.id].indices[L - 1][3 * t : +3]. Parts and levels without a cluster range (uncullable parts, fewer than 3
+    indices) were not reordered: their stored order is the original order (identity). ``cd.perm`` is memory mapped when the
+    cluster set comes from the cluster cache (it is saved and re-opened after a build), so this map costs no RAM."""
+
+    def __init__(self, cd):
+        self.cd = cd
+
+    def range_of(self, part, level):
+        lr = self.cd.level_range
+        part = np.asarray(part, dtype=np.int64)
+        level = np.minimum(np.asarray(level, dtype=np.int64), lr.shape[1] - 1)
+        return lr[part, level].astype(np.int64)
+
+    def original(self, part, level, stored):
+        """Original range-local triangle numbers of the stored triangles (arrays broadcast against each other)."""
+        cd = self.cd
+        part, level, stored = np.broadcast_arrays(np.asarray(part, dtype=np.int64), np.asarray(level, dtype=np.int64),
+                                                  np.asarray(stored, dtype=np.int64))
+        if cd.n_ranges == 0:
+            return stored.copy()
+        r = self.range_of(part, level)
+        ok = (r >= 0) & (stored >= 0)
+        rr = np.where(ok, r, 0)
+        ok &= stored < cd.r_ntri[rr]
+        pos = np.where(ok, cd.r_tfirst[rr] + stored, 0)
+        got = np.asarray(cd.perm[pos]).astype(np.int64) if cd.n_tris else np.zeros(part.shape, np.int64)
+        return np.where(ok, got, stored)
+
+
+class _Layout:
+    """What clusters.build_clusters / cluster_cache.make_key read of a geometry: page_of, ranges, page_bytes."""
+
+    def __init__(self, page_of, ranges, page_bytes):
+        self.page_of, self.ranges, self.page_bytes = page_of, ranges, page_bytes
 
 
 def geom_prelude(n_pages, group, binding0, uniform_binding=None):
@@ -400,6 +448,29 @@ def plan_pages(model, page_bytes, flags, has_anim, max_pages=None):
 
 
 # ------------------------------------------------------------------------------------------------ build
+_ORDER_RAM = 512 << 20                    # a range up to this size is read into RAM once and gathered there
+
+
+def _upload_ordered(sink, page, src, first, count, dest, part, cd, ri):
+    """Write the indices of one cluster-ordered range: stored triangle k = source triangle perm[tfirst + k]."""
+    ntri = count // 3
+    t0 = int(cd.r_tfirst[ri])
+    if int(cd.r_ntri[ri]) != ntri:
+        raise GeometryError(f"part {part.name!r}: the cluster range holds {int(cd.r_ntri[ri])} triangles, the index range {ntri}")
+    tris = np.asarray(src[first:first + count], dtype=np.uint32)
+    if count * 4 <= _ORDER_RAM:
+        tris = np.ascontiguousarray(tris)               # one sequential read of the range, then gather in RAM
+    tris = tris.reshape(-1, 3)
+    step = INDEX_CHUNK // 3
+    for a in range(0, ntri, step):
+        b = min(a + step, ntri)
+        blk = np.ascontiguousarray(tris[np.asarray(cd.perm[t0 + a:t0 + b], dtype=np.int64)])
+        lo, hi = int(blk.min()), int(blk.max())
+        if lo < page.v0 or hi >= page.v1:
+            raise GeometryError(f"part {part.name!r} indexes vertices outside its page ({lo}..{hi} not in {page.v0}..{page.v1 - 1})")
+        sink.write(page.buffer, (page.offs["index"] + dest + 3 * a) * 4, blk.reshape(-1) - np.uint32(page.v0))
+
+
 def _scan_constants(vertices, parts, part_ids):
     """Per part: which VARIABLE streams differ between vertices, and the 13-float value of the first vertex."""
     cols = {g: (STREAMS[g][0] - 6, STREAMS[g][1] - 6) for g in VARIABLE}
@@ -434,10 +505,16 @@ def _anim_nonzero(src, p):
     return False
 
 
-def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pages=None):
+def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pages=None, cluster_order=False,
+                   cluster_progress=None, cluster_cache_use=True):
     """Upload model.vertices / model.indices (+ LOD levels) through ``sink``; returns a GpuGeometry.
 
     max_pages: raise GeometryError (before any upload) when the model needs more pages than the renderer can bind.
+    cluster_order=True: store the triangles of every cullable (part, level) index range in the order of the culler's
+    clusters (app/gpu/clusters.py: Morton order, 64 per cluster; built or loaded from the cluster cache before the upload).
+    Vertex data, layout, offsets and every range's (first, count) are unchanged, only the order of the triangles inside a
+    range differs. The result carries ``clusters`` (ClusterData) and ``order`` (TriangleOrder, stored -> original triangle).
+    Default False: byte-identical to the unordered layout.
     measure=True also records the normal error (max/mean angle), the spread of source normal lengths and the
     number of zero-length normals in ``stats`` (costs one decode of every normal)."""
     parts = model.parts
@@ -464,6 +541,7 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
     anim_base = np.full(n, -1, dtype=np.int64)
     ranges = [[(0, 0)] for _ in range(n)]
     pages = []
+    layouts = []
     nrm_stats = {"max_deg": 0.0, "sum_deg": 0.0, "count": 0, "len_min": math.inf, "len_max": 0.0, "zero": 0}
 
     for pi, pl in enumerate(plans):
@@ -501,6 +579,19 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
             page.counts["anim"] = n_anim
         assert page.counts == pl["counts"], (page.counts, pl["counts"])
         page.offs, page.words = section_layout(page.counts)
+        layouts.append((page, index_layout))
+
+    clusters = order = None
+    index_range = {}
+    if cluster_order:
+        from . import cluster_cache
+        clusters = cluster_cache.get_clusters(model, _Layout(page_of, ranges, page_bytes), progress=cluster_progress,
+                                              use_cache=cluster_cache_use)
+        order = TriangleOrder(clusters)
+        index_range = {(int(g), int(f), 3 * int(t)): ri for ri, (g, f, t) in
+                       enumerate(zip(clusters.r_page, clusters.r_first, clusters.r_ntri))}
+
+    for pi, (page, index_layout) in enumerate(layouts):
         # ---- one buffer for the whole page
         page.buffer = sink.create(page.words * 4, f"page{pi}")
         o = page.offs
@@ -524,7 +615,7 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
                     nrm_stats["len_min"] = min(nrm_stats["len_min"], float(ln[nz].min()))
                     nrm_stats["len_max"] = max(nrm_stats["len_max"], float(ln[nz].max()))
         # ---- variable streams, part by part
-        for i in pl["parts"]:
+        for i in page.parts:
             p = parts[i]
             for k, g in enumerate(VARIABLE):
                 if not flags[i, k]:
@@ -534,7 +625,7 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
                     b = min(a + SCAN_ROWS, p.vertex_count)
                     blk = np.ascontiguousarray(vertices[p.vertex_base + a:p.vertex_base + b, c0:c1])
                     sink.write(page.buffer, (o[g] + (stream_base[i, k] + a) * (bpv // 4)) * 4, blk)
-        for i in pl["parts"]:
+        for i in page.parts:
             if anim_base[i] >= 0:
                 p = parts[i]
                 for a in range(0, p.vertex_count, SCAN_ROWS):
@@ -543,6 +634,10 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
                     sink.write(page.buffer, (o["anim"] + (anim_base[i] + a) * (ANIM_BYTES // 4)) * 4, raw)
         # ---- indices, rewritten page-local and range-checked
         for src, first, count, dest, i in index_layout:
+            ri = index_range.get((pi, dest, count))
+            if ri is not None:
+                _upload_ordered(sink, page, src, first, count, dest, parts[i], clusters, ri)
+                continue
             for a in range(0, count, INDEX_CHUNK):
                 b = min(a + INDEX_CHUNK, count)
                 blk = np.asarray(src[first + a:first + b], dtype=np.uint32)
@@ -553,7 +648,7 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
                 sink.write(page.buffer, (o["index"] + dest + a) * 4, blk - np.uint32(page.v0))
         pages.append(page)
         if progress:
-            progress(pi + 1, len(plans))
+            progress(pi + 1, len(layouts))
     sink.finish()
 
     # ---- statistics
@@ -570,6 +665,7 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
         "padding_bytes": gpu_bytes - stream_bytes - index_bytes,
         "page_buffer_bytes": [pg.words * 4 for pg in pages],
         "variable_parts": {g: int(flags[:, k].sum()) for k, g in enumerate(VARIABLE)},
+        "cluster_ordered": bool(cluster_order),
     }
     if measure:
         c = max(nrm_stats["count"], 1)
@@ -582,7 +678,7 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
         gl_keys.append([base[p.id]] + list(lods.get(p.id, [])))
     return GpuGeometry(sink=sink, pages=pages, page_of=page_of, vbase=vbase, vcount=vcount, ranges=ranges,
                        stream_base=stream_base, const_tail=tail, gl_keys=gl_keys, stats=stats,
-                       page_bytes=page_bytes, anim_base=anim_base)
+                       page_bytes=page_bytes, anim_base=anim_base, clusters=clusters, order=order)
 
 
 # ------------------------------------------------------------------------------------------------ decode (tests, checks)

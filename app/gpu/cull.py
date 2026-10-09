@@ -11,15 +11,22 @@ the phases): cull phase 1 -> pass 1 (clears id + depth) -> depth pyramid from th
 clusters.py) come back in ``res.unculled`` (positions in ``frame``); ``draw_unculled(render_pass, positions)`` is called
 inside pass 1 so the renderer can draw them with its own path. See S/gpu_port/cull/INTEGRATION.md for the contract.
 
-Storage buffers (layout v2, at most 5 per shader stage): the tables live in three buffers addressed through the ``lay``
-uniform (wgsl/cull_tables.wgsl): ``cro`` (read only tables, per-frame part matrices), ``cra`` (atomic counters, flags) and
-``crw`` (draw / dispatch arguments, slot -> cluster, visibility flags; bound read only wherever it is an indirect source),
-plus ``perm``, the page's geometry buffer (cull_gather, cull_vis) and the compacted index buffer (cull_gather).
-cull_test 3, cull_mark 3, cull_gather 5, cull_vis vertex 3 / fragment 1.
+Cluster-ordered geometry (M2). The geometry must be built with ``build_geometry(..., cluster_order=True)``: every cullable
+(part, level) index range is stored in cluster order, so cluster c (the j-th of its range) owns the 192 index words at
+(range first index + 192 * j) of the page's index section and nothing has to be copied: the survivors of a phase are written
+as a list of entries (``crl``: cluster, first index word, part, triangle count; 16 B per cluster slot) and drawn by ONE non-indexed draw per page and phase
+(vertex_count = clusters * 192, the vertex shader reads index and position from the page: wgsl/cull_vis.wgsl). There is no
+compacted index buffer and no GPU copy of the triangle order (the order table ``perm`` stays on the CPU, memory mapped, for
+picks: geometry.TriangleOrder, ClusterCuller.decode_ids).
 
-Capacity. Page g has ``cap[g]`` blocks of 64 triangles (768 B each) in its compacted index buffer, the sum over the
-page's cullable parts of their largest per-level cluster count. A cluster is drawn at most once per frame and only one
-level of a part is live, so the capacity can never be exceeded; ``ST_OVERFLOW`` counts any breach (always 0).
+Storage buffers: the tables live in three buffers addressed through the ``lay`` uniform (wgsl/cull_tables.wgsl): ``cro`` (read only
+tables, per-frame part matrices), ``cra`` (atomic counters, flags) and ``crw`` (draw arguments, visibility flags; bound read only
+wherever it is an indirect source), plus ``crl`` (the visible-cluster lists). cull_test 4, cull_mark 3, cull_vis vertex 4 (cro, crw, crl, the page) /
+fragment 0; the resolve's decode group (cull_decode.wgsl) 1.
+
+Capacity. Page g has ``cap[g]`` list slots, the sum over the page's cullable parts of their largest per-level cluster count. A
+cluster is drawn at most once per frame and only one level of a part is live, so the capacity can never be exceeded;
+``ST_OVERFLOW`` counts any breach (always 0).
 """
 from __future__ import annotations
 
@@ -39,7 +46,7 @@ Y_FLIP = np.diag([1.0, -1.0, 1.0, 1.0])
 GL_TO_WGPU_Z = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0.5, 0.5], [0, 0, 0, 1]], dtype=np.float64)
 FRAME_BYTES = 240
 XF_FLOATS = 20
-BLOCK_BYTES = 64 * 3 * 4
+CLUSTER_VERTS = 192                    # vertices drawn per visible cluster (64 triangles x 3)
 STAT_NAMES = ("active", "frustum", "frustum_tris", "p1", "p1_tris", "p2", "p2_tris", "overflow", "p2_tested",
               "visible", "visible_tris")
 CULL_TAG = 0x80000000
@@ -149,18 +156,15 @@ class ClusterCuller:
         d = self.device
         C, V, F = SS.COMPUTE, SS.VERTEX, SS.FRAGMENT
         self.bgl_cull0 = d.create_bind_group_layout(entries=[
-            _entry(0, "u", C), _entry(1, "u", C), _entry(2, "r", C), _entry(3, "w", C), _entry(4, "w", C), _entry(5, "u", C)])
+            _entry(0, "u", C), _entry(1, "u", C), _entry(2, "r", C), _entry(3, "w", C), _entry(4, "w", C), _entry(5, "u", C),
+            _entry(6, "w", C)])
         self.bgl_sel_c = d.create_bind_group_layout(entries=[_entry(0, "u", C)])
         self.bgl_hzb_read = d.create_bind_group_layout(entries=[_entry(0, "tf", C)])
-        self.bgl_gather0 = d.create_bind_group_layout(entries=[_entry(0, "r", C), _entry(1, "r", C), _entry(2, "r", C),
-                                                               _entry(3, "u", C)])
-        self.bgl_gather1 = d.create_bind_group_layout(entries=[_entry(0, "u", C), _entry(1, "r", C), _entry(2, "w", C),
-                                                               _entry(3, "u", C)])
         self.bgl_hzbn = d.create_bind_group_layout(entries=[_entry(0, "tf", C), _entry(1, "sw", C)])
-        self.bgl_vis0 = d.create_bind_group_layout(entries=[_entry(0, "u", V | F), _entry(1, "r", V), _entry(2, "r", F),
-                                                            _entry(3, "u", V | F)])
-        self.bgl_vis1 = d.create_bind_group_layout(entries=[_entry(0, "r", V), _entry(1, "r", V), _entry(2, "u", V)])
-        self.bgl_vis2 = d.create_bind_group_layout(entries=[_entry(0, "u", V | F)])
+        self.bgl_vis0 = d.create_bind_group_layout(entries=[_entry(0, "u", V | F), _entry(1, "r", V), _entry(2, "r", V),
+                                                            _entry(3, "u", V), _entry(4, "r", V)])
+        self.bgl_vis1 = d.create_bind_group_layout(entries=[_entry(0, "r", V), _entry(1, "u", V)])
+        self.bgl_vis2 = d.create_bind_group_layout(entries=[_entry(0, "u", V)])
 
     def _pl(self, *bgls):
         return self.device.create_pipeline_layout(bind_group_layouts=list(bgls))
@@ -185,8 +189,8 @@ class ClusterCuller:
                 "(id >> 16u) & 255u, id >> 24u); }")
 
     def vis_wgsl(self):
-        return ("enable primitive_index;\n" + self._ids_prelude() + "\n" + _read("clip.wgsl") + "\n" + _read("cull_tables.wgsl")
-                + "\n" + geom_prelude(1, 1, 0, uniform_binding=2) + "\n" + _read("geom.wgsl") + "\n" + _read("cull_vis.wgsl"))
+        return (self._ids_prelude() + "\n" + _read("clip.wgsl") + "\n" + _read("cull_tables.wgsl")
+                + "\n" + geom_prelude(1, 1, 0, uniform_binding=1) + "\n" + _read("geom.wgsl") + "\n" + _read("cull_vis.wgsl"))
 
     def _vis_pipe(self, samples, clip):
         key = ("vis", samples, clip)
@@ -255,7 +259,9 @@ class ClusterCuller:
         self.release()
         geom = self.geom
         self._layouts()
-        cd = clusters if clusters is not None else cluster_cache.get_clusters(model, geom, progress=progress, use_cache=use_cache)
+        if not getattr(geom, "cluster_ordered", False):
+            raise cl.ClusterError("the culler draws cluster-ordered geometry: build it with build_geometry(..., cluster_order=True)")
+        cd = clusters if clusters is not None else geom.clusters
         self.cd = cd
         t_clusters = time.perf_counter() - t0
         G = len(geom.pages)
@@ -265,13 +271,14 @@ class ClusterCuller:
         self.cap = cl.page_capacity(cd, G)
         self.slot_base = 1 + np.concatenate([[0], np.cumsum(self.cap)[:-1]]).astype(np.int64)
         self.n_slots = int(1 + self.cap.sum())
-        if self.n_slots >= (1 << 25):
-            raise cl.ClusterError(f"{self.n_slots} block slots do not fit the 31-bit culled id")
+        if C >= (1 << 25):
+            raise cl.ClusterError(f"{C} clusters do not fit the 31-bit culled id (cluster << 6 | triangle)")
+        if int(self.cap.max(initial=0)) * CLUSTER_VERTS >= (1 << 32):
+            raise cl.ClusterError("a page draws more than 2^32 vertices")
         lim = self.gpu.limits
         max_bind = int(lim.get("max_storage_buffer_binding_size", lim.get("max-storage-buffer-binding-size", 1 << 30)))
         sec = self._sections(cd)
-        for name, nbytes in (("cro", sec["cro_words"] * 4), ("cra", sec["cra_words"] * 4), ("crw", sec["crw_words"] * 4),
-                             ("perm", cd.n_tris * 4)):
+        for name, nbytes in (("cro", sec["cro_words"] * 4), ("cra", sec["cra_words"] * 4), ("crw", sec["crw_words"] * 4)):
             if nbytes > max_bind:
                 raise cl.ClusterError(f"{name} needs {nbytes} bytes, binding limit {max_bind}")
         ST, UN = BU.STORAGE | BU.COPY_DST, BU.UNIFORM | BU.COPY_DST
@@ -290,9 +297,9 @@ class ClusterCuller:
             pt[g] = (cd.page_cfirst[g], cd.page_cfirst[g + 1], self.slot_base[g], self.cap[g])
         put(lay[3], pt)
         self._upload(self._new("cro", sec["cro_words"] * 4, ST), cro)
-        self._upload(self._new("perm", cd.n_tris * 4, ST), cd.perm)
         self._new("cra", sec["cra_words"] * 4, BU.STORAGE | BU.COPY_SRC | BU.COPY_DST)
         self._new("crw", sec["crw_words"] * 4, BU.STORAGE | BU.INDIRECT | BU.COPY_SRC | BU.COPY_DST)
+        self._new("crl", self.n_slots * 16, BU.STORAGE | BU.COPY_SRC)
         self.lay_ub = []
         for f in range(2):
             lw = np.zeros(20, dtype=np.uint32)
@@ -304,30 +311,19 @@ class ClusterCuller:
         self._new("frame_ub", FRAME_BYTES, UN)
         self._new("cfg_ub", 32, UN)
         self._new("nslots_ub", 16, UN)
-        self.queue.write_buffer(self.buf["nslots_ub"], 0, np.array([self.n_slots, 0, 0, 0], dtype=np.uint32))
-        self.compact = []
-        for g in range(G):
-            self.compact.append(self._new(f"compact{g}", max(int(self.cap[g]), 1) * BLOCK_BYTES,
-                                          BU.STORAGE | BU.INDEX | BU.COPY_SRC))
-        # per page: lookup table and small uniforms
+        self.queue.write_buffer(self.buf["nslots_ub"], 0, np.array([self.C, 0, 0, 0], dtype=np.uint32))
+        # per page: small uniforms
         self.sel_ub, self.dsel_ub, self.pgo_ub = [], [], []
         for g in range(G):
             page = geom.pages[g]
             self.pgo_ub.append(self.device.create_buffer_with_data(data=page.offsets_words(), usage=UN, label=f"cullpgo{g}"))
-            plist = np.array(page.parts, dtype=np.uint32)
-            pend = (geom.vbase[page.parts] + geom.vcount[page.parts]).astype(np.uint32)
-            n_chunk = -(-page.nverts // 32)
-            chunk = np.searchsorted(pend, np.arange(n_chunk, dtype=np.int64) * 32, side="right").astype(np.uint32)
-            chunk = np.minimum(chunk, max(len(plist) - 1, 0))
-            self._upload(self._new(f"vlook{g}", (n_chunk + 2 * len(plist)) * 4, ST),
-                         np.concatenate([chunk, pend, plist]).astype(np.uint32))
             sels, dsels = [], []
             for ph in range(2):
                 b = self.device.create_buffer(size=16, usage=UN, label=f"sel{g}.{ph}")
                 self.queue.write_buffer(b, 0, np.array([g, ph, 0, 0], dtype=np.uint32))
                 sels.append(b)
                 b2 = self.device.create_buffer(size=16, usage=UN, label=f"dsel{g}.{ph}")
-                self.queue.write_buffer(b2, 0, np.array([g * 2 + ph, n_chunk, len(plist), 0], dtype=np.uint32))
+                self.queue.write_buffer(b2, 0, np.array([g * 2 + ph, 0, 0, 0], dtype=np.uint32))
                 dsels.append(b2)
             self.sel_ub.append(sels)
             self.dsel_ub.append(dsels)
@@ -358,22 +354,23 @@ class ClusterCuller:
         cro_end = b_y + q4(R)
         c_x, c_y = 0, 8 * G
         c_z = c_y + 16
-        cra_end = c_z + n
+        cra_end = c_z + C
         d_x = 0
         d_y = d_x + 16 * G
-        d_z = d_y + 8 * G
+        d_z = d_y
         d_w = d_z + 2 * G
-        e_x = d_w + n
+        e_x = d_w
         e_y = e_x + C
         crw_end = e_y + C
         w = self._where = {}
         for name, buf, at, words in (("cl_geom", "cro", a_x * 4, 8 * C), ("cl_range", "cro", a_y * 4, C), ("rng", "cro", a_z * 4, 8 * R),
                                      ("ptab", "cro", a_w * 4, 4 * G), ("part_xf", "cro", b_x * 4, 20 * P),
                                      ("range_active", "cro", b_y * 4, R), ("pstate", "cra", c_x, 8 * G), ("stats", "cra", c_y, 16),
-                                     ("seen", "cra", c_z, n), ("args", "crw", d_x, 16 * G), ("disp", "crw", d_y, 8 * G),
-                                     ("dinfo", "crw", d_z, 2 * G), ("slot_cluster", "crw", d_w, n), ("vis0", "crw", e_x, C),
+                                     ("seen", "cra", c_z, C), ("args", "crw", d_x, 16 * G),
+                                     ("dinfo", "crw", d_z, 2 * G), ("vis0", "crw", e_x, C),
                                      ("vis1", "crw", e_y, C)):
             w[name] = (buf, at * 4, words * 4)
+        w["slot_cluster"] = ("crl", 0, 16 * n)
         return {"cro_words": cro_end * 4, "cra_words": cra_end, "crw_words": crw_end,
                 "lay": (a_x, a_y, a_z, a_w), "lay_b": (b_x, b_y, 0, 0), "lay_c": (c_x, c_y, c_z, 0), "lay_d": (d_x, d_y, d_z, d_w),
                 "vis": (e_x, e_y)}
@@ -393,28 +390,24 @@ class ClusterCuller:
 
     def _make_static_groups(self):
         b = self.buf
-        self.bg_gather0 = self._bg(self.bgl_gather0, [b["cro"], b["crw"], b["perm"], b["lay0"]])
-        self.bg_gather1 = [[self._bg(self.bgl_gather1, [self.sel_ub[g][ph], self.geom.pages[g].buffer, self.compact[g],
-                                                         self.pgo_ub[g]]) for ph in range(2)] for g in range(self.G)]
         self.bg_sel_c = [self._bg(self.bgl_sel_c, [self.sel_ub[g][0]]) for g in range(self.G)]
-        self.bg_vis1 = [self._bg(self.bgl_vis1, [self.geom.pages[g].buffer, b[f"vlook{g}"], self.pgo_ub[g]]) for g in range(self.G)]
+        self.bg_vis1 = [self._bg(self.bgl_vis1, [self.geom.pages[g].buffer, self.pgo_ub[g]]) for g in range(self.G)]
         self.bg_vis2 = [[self._bg(self.bgl_vis2, [self.dsel_ub[g][ph]]) for ph in range(2)] for g in range(self.G)]
-        self.bg_vis0 = self._bg(self.bgl_vis0, [b["frame_ub"], b["cro"], b["crw"], b["lay0"]])
+        self.bg_vis0 = self._bg(self.bgl_vis0, [b["frame_ub"], b["cro"], b["crw"], b["lay0"], b["crl"]])
 
     def memory_report(self):
         cd, b = self.cd, self.buf
         tri = max(cd.n_tris, 1)
         wh = self._where
         parts = {"cl_geom": wh["cl_geom"][2], "cl_range": wh["cl_range"][2], "rng": wh["rng"][2],
-                 "perm": b["perm"].size, "vlook": sum(b[f"vlook{g}"].size for g in range(self.G)),
-                 "vis_flags": wh["vis0"][2] + wh["vis1"][2], "slot_cluster+seen": wh["slot_cluster"][2] + wh["seen"][2],
-                 "part_xf+range_active": wh["part_xf"][2] + wh["range_active"][2],
-                 "compacted": sum(c.size for c in self.compact)}
+                 "vis_flags": wh["vis0"][2] + wh["vis1"][2], "visible_lists": wh["slot_cluster"][2],
+                 "seen(stats)": wh["seen"][2], "part_xf+range_active": wh["part_xf"][2] + wh["range_active"][2],
+                 "perm": 0, "vlook": 0, "compacted": 0}          # the old index-copy design's tables: gone (kept as 0 for the tools)
         total = sum(parts.values())
         hz = getattr(self, "hzb_bytes", 0)
         return {"bytes": parts, "total_bytes": total, "per_triangle": total / tri,
-                "static_per_triangle": (total - parts["compacted"]) / tri, "compacted_per_triangle": parts["compacted"] / tri,
-                "hzb_bytes": hz}
+                "static_per_triangle": total / tri, "compacted_per_triangle": 0.0, "hzb_bytes": hz,
+                "cpu_perm_bytes": int(cd.perm.nbytes), "cpu_perm_mapped": isinstance(cd.perm, np.memmap)}
 
     # ------------------------------------------------------------------ size dependent resources
     def _ensure_size(self, w, h, samples, id_view, depth_view):
@@ -480,7 +473,7 @@ class ClusterCuller:
         cache = self.__dict__.setdefault("_cull0_bgs", {})
         if self._flip not in cache:
             cache[self._flip] = self._bg(self.bgl_cull0, [b["frame_ub"], b["cfg_ub"], b["cro"], b["cra"], b["crw"],
-                                                          b[f"lay{self._flip}"]])
+                                                          b[f"lay{self._flip}"], b["crl"]])
         return cache[self._flip]
 
     def _cull_pipes(self):
@@ -488,21 +481,16 @@ class ClusterCuller:
         lay = self._pl(self.bgl_cull0, self.bgl_sel_c, self.bgl_hzb_read)
         return {n: self._compute("cull_test", code, n, lay) for n in ("cull_p1", "cull_p2", "finalize_p1", "finalize_p2")}
 
-    def _gather_pipe(self):
-        code = (_read("cull_tables.wgsl") + "\n" + geom_prelude(1, 1, 1, uniform_binding=3) + "\n" + _read("geom.wgsl") + "\n"
-                + _read("cull_gather.wgsl"))
-        return self._compute("cull_gather", code, "gather", self._pl(self.bgl_gather0, self.bgl_gather1))
-
     # ------------------------------------------------------------------ per frame
     def reset(self):
         """Forget what was visible last frame (the next frame is a cold frame: everything is tested by phase 2)."""
         self._reset_vis = True
 
     def decode_bind_group_entries(self):
-        """Buffers the resolve's decode group (cull_decode.wgsl) binds, in binding order: cro, crw (read only), perm, lay.
-        Three storage buffers: the resolve adds them to its table buffer and its geometry pages."""
+        """Buffers the resolve's decode group (cull_decode.wgsl) binds, in binding order: cro (read only storage), lay (uniform).
+        ONE storage buffer: the resolve adds it to its table buffer and its geometry pages."""
         b = self.buf
-        return [b["cro"], b["crw"], b["perm"], b["lay0"]]
+        return [b["cro"], b["lay0"]]
 
     def _frame_inputs(self, fp):
         P, R = self.P, self.R
@@ -553,7 +541,6 @@ class ClusterCuller:
         self._clear(enc, "pstate")
         self._clear(enc, "stats")
         pipes = self._cull_pipes()
-        gather = self._gather_pipe()
         cd = self.cd
         G = self.G
         bg0 = self._cull0_group()
@@ -578,13 +565,6 @@ class ClusterCuller:
             cp.set_pipeline(pipes[fin])
             cp.set_bind_group(1, self.bg_sel_c[0])
             cp.dispatch_workgroups(G, 1, 1)
-            cp.set_pipeline(gather)
-            cp.set_bind_group(0, self.bg_gather0)
-            for g in range(G):
-                if self.cap[g] == 0:
-                    continue
-                cp.set_bind_group(1, self.bg_gather1[g][ph])
-                cp.dispatch_workgroups_indirect(b["crw"], self._where["disp"][1] + (g * 2 + ph) * 16)
 
         # ---- phase 1: visible last frame
         cp = enc.begin_compute_pass(timestamp_writes=tw(0))
@@ -631,7 +611,7 @@ class ClusterCuller:
             cp.set_bind_group(0, self._mark_group(id_view))
             cp.dispatch_workgroups(-(-w // 8), -(-h // 8), 1)
             cp.set_pipeline(self.pipe_apply)
-            cp.dispatch_workgroups(*_grid(-(-self.n_slots // 64)))
+            cp.dispatch_workgroups(*_grid(-(-self.C // 64)))
             cp.end()
         if qs is not None:
             # every resolved query must have been written: the mark pass owns slots 8/9 and is skipped without statistics
@@ -652,8 +632,7 @@ class ClusterCuller:
                 continue
             rp.set_bind_group(1, self.bg_vis1[g])
             rp.set_bind_group(2, self.bg_vis2[g][ph])
-            rp.set_index_buffer(self.compact[g], "uint32")
-            rp.draw_indexed_indirect(self.buf["crw"], self._where["args"][1] + (g * 2 + ph) * 32)
+            rp.draw_indirect(self.buf["crw"], self._where["args"][1] + (g * 2 + ph) * 32)
 
     def _qs(self):
         if "ts_buf" not in self.buf:
@@ -692,15 +671,15 @@ class ClusterCuller:
         return np.frombuffer(bytes(self.queue.read_buffer(b, 0, size or b.size)), dtype=np.uint8)
 
     def decode_ids(self, ids, slot_cluster=None):
-        """CPU decode of culled ids -> (cluster, part, triangle in the range, range) arrays (-1 where not culled)."""
+        """CPU decode of culled ids -> (cluster, part, ORIGINAL triangle in the (part, level) range, range) arrays (-1 where not
+        culled). id = 0x80000000 | cluster << 6 | triangle-in-cluster; the stored triangle (64 * j + triangle, j = the cluster's
+        number inside its range) maps to the original one through perm. ``slot_cluster`` is accepted for old callers and unused."""
         cd = self.cd
         ids = np.asarray(ids, dtype=np.uint32)
         tagged = (ids & np.uint32(CULL_TAG)) != 0
-        sc = slot_cluster if slot_cluster is not None else self.read_buffer("slot_cluster").view(np.uint32)
-        slot = ((ids & np.uint32(0x7FFFFFFF)) >> np.uint32(6)).astype(np.int64)
+        c = np.where(tagged, (ids & np.uint32(0x7FFFFFFF)) >> np.uint32(6), 0).astype(np.int64)
         local = (ids & np.uint32(63)).astype(np.int64)
-        c = np.where(tagged, sc[np.minimum(slot, len(sc) - 1)], 0).astype(np.int64)
         r = cd.cl_range[c].astype(np.int64)
-        tri = cd.perm[cd.r_tfirst[r] + 64 * (c - cd.r_cfirst[r]) + local].astype(np.int64)
+        tri = np.asarray(cd.perm[cd.r_tfirst[r] + 64 * (c - cd.r_cfirst[r]) + local]).astype(np.int64)
         part = cd.r_part[r].astype(np.int64)
         return (np.where(tagged, c, -1), np.where(tagged, part, -1), np.where(tagged, tri, -1), np.where(tagged, r, -1))

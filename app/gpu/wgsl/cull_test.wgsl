@@ -1,13 +1,14 @@
 // Cluster culling kernels. Concatenated by app/gpu/cull.py after clip.wgsl (Frame, ClipParams) and cull_tables.wgsl
-// (the table layout: cl_geom, cl_range, rng, part_xf, range_active, ptab, pstate, stats, args, disp, dinfo, slot_cluster, vis flags).
+// (the table layout: cl_geom, cl_range, rng, part_xf, range_active, ptab, pstate, stats, args, dinfo, vis flags; crl: the visible-cluster lists).
 //
 //   cull_p1   phase 1: clusters of the frame's parts that passed the frustum test AND were visible last frame
 //   cull_p2   phase 2: clusters that passed the frustum test and were NOT drawn in phase 1, kept unless the depth
 //             pyramid built from phase 1's real depth hides their bounding box
 //   finalize_p1 / finalize_p2   one thread per page: draw and dispatch arguments of the phase
 //
-// A surviving cluster takes the next free block of its page (atomic, one global add per workgroup) and writes its id into
-// slot_cluster[slot_base + block]; cull_gather.wgsl then copies the triangles into the page's compacted index buffer.
+// A surviving cluster takes the next free slot of its page (atomic, one global add per workgroup) and writes its id into
+// crl[slot_base + slot] = (cluster, page-local index word of its first triangle, part, triangles): the page's list of visible clusters, which cull_vis.wgsl draws directly (non-indexed, 192
+// vertices per cluster, vertex shader pull; the triangles are stored in cluster order, see geometry.py cluster_order).
 //
 // Boxes. cl_geom holds the part-space box (centre, half extents) and dmax, the largest morph displacement |dpos| of the
 // cluster. Half extents grow by |weight| * dmax (the part's current morph weight) and by 2e-6 of the coordinate size
@@ -24,7 +25,7 @@ struct Cfg {
 @group(0) @binding(3) var<storage, read_write> cra: array<atomic<u32>>;
 @group(0) @binding(4) var<storage, read_write> crw: array<u32>;
 @group(0) @binding(5) var<uniform> lay: CullLay;
-fn crw_w(i: u32) -> u32 { return crw[i]; }
+@group(0) @binding(6) var<storage, read_write> crl: array<vec4<u32>>;       // visible-cluster entries, see run_phase
 @group(1) @binding(0) var<uniform> sel: vec4<u32>;                        // x: page
 @group(2) @binding(0) var hzb: texture_2d<f32>;
 
@@ -163,6 +164,7 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
     let c = row.x + (wid.y * 32768u + wid.x) * 64u + li;
     var keep = false;
     var ntri = 0u;
+    var ent = vec4<u32>(0u);
     let stat = cfg.hz.y != 0u;
     if (c < row.y) {
         let r = cl_range_at(c);
@@ -173,6 +175,7 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
             let bx = cluster_box(c, part);
             let mvp = frame.vp * part_matrix(part);
             let nt = cluster_ntri(rr0, rr1, c);
+            ent = vec4<u32>(c, rr0.z + 192u * (c - rr1.x), part, nt);
             if (!phase2 && stat) {
                 atomicAdd(&cra[lay.c.y + ST_ACTIVE], 1u);
             }
@@ -220,7 +223,7 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
     if (keep) {
         let b = wg_base + rank;
         if (b < row.w) {
-            crw[lay.d.w + row.z + b] = c;
+            crl[row.z + b] = ent;
         }
     }
 }
@@ -245,14 +248,12 @@ fn fin(g: u32, ph: u32) {
     let begin = atomicLoad(&cra[lay.c.x + g * 8u + 1u]);
     let m = n - begin;
     let ai = g * 2u + ph;
+    // drawIndirect arguments: vertex count, instance count, first vertex, first instance. first_vertex stays 0 (not every
+    // backend adds it to vertex_index in an indirect draw); the shader adds dinfo (the slot of the draw's first cluster).
     crw[lay.d.x + ai * 8u] = m * 192u;
     crw[lay.d.x + ai * 8u + 1u] = 1u;
-    crw[lay.d.x + ai * 8u + 2u] = begin * 192u;
+    crw[lay.d.x + ai * 8u + 2u] = 0u;
     crw[lay.d.x + ai * 8u + 3u] = 0u;
-    crw[lay.d.x + ai * 8u + 4u] = 0u;
-    crw[lay.d.y + ai * 4u] = min(m, 32768u);
-    crw[lay.d.y + ai * 4u + 1u] = (m + 32767u) / 32768u;
-    crw[lay.d.y + ai * 4u + 2u] = 1u;
     crw[lay.d.z + ai] = row.z + begin;
     atomicStore(&cra[lay.c.x + g * 8u + 1u], n);
 }

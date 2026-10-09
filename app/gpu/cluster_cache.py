@@ -150,7 +150,9 @@ def prune(root, keep=None, cap=None):
 
 
 def get_clusters(model, geom, progress=None, use_cache=True):
-    """ClusterData for the model: from the cache when present, else built (and saved when the model has an identity)."""
+    """ClusterData for the model: from the cache when present, else built (and saved when the model has an identity; the
+    returned arrays are then the memory-mapped files, not the builder's RAM copies). ``geom`` needs page_of, ranges and
+    page_bytes only (geometry._Layout is enough)."""
     key = make_key(model, geom) if use_cache else None
     cd = load(key)
     if cd is not None:
@@ -159,4 +161,10 @@ def get_clusters(model, geom, progress=None, use_cache=True):
     cd.stats["cached"] = False
     if key is not None:
         cd.stats["saved"] = save(key, cd)
+        if cd.stats["saved"]:
+            # re-open the saved arrays memory mapped: the builder's RAM copies (perm is 4 B per triangle) are dropped
+            mapped = load(key)
+            if mapped is not None:
+                mapped.stats = dict(cd.stats)
+                return mapped
     return cd

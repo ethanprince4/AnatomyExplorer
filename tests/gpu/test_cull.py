@@ -14,6 +14,8 @@ if str(ROOT) not in sys.path:
 
 from app.gpu import clusters as cl            # noqa: E402
 from app.gpu import geometry as geo           # noqa: E402
+from app.viewer.model import Look             # noqa: E402
+from app.viewer import lod                    # noqa: E402
 
 
 def fake_model(seed=3, parts=((4000, 30), (130, 0), (7, 0)), morph=True):
@@ -33,7 +35,7 @@ def fake_model(seed=3, parts=((4000, 30), (130, 0), (7, 0)), morph=True):
         verts.append(v)
         inds.append(t.reshape(-1))
         plist.append(SimpleNamespace(id=k + 1, name=f"p{k}", first=ibase, count=3 * ntri, vertex_base=vbase,
-                                     vertex_count=nv, item=k, material_name="m", look=None))
+                                     vertex_count=nv, item=k, material_name="m", look=Look()))
         vbase += nv
         ibase += 3 * ntri
     return SimpleNamespace(parts=plist, vertices=np.concatenate(verts), indices=np.concatenate(inds), lod={},
@@ -99,6 +101,80 @@ class ClusterBuildTests(unittest.TestCase):
             cl.build_clusters(m, geom, threads=1)
 
 
+class ClusterOrderedGeometryTests(unittest.TestCase):
+    """geometry.build_geometry(cluster_order=True): same vertex data, triangles of every cullable range in cluster order."""
+
+    def setUp(self):
+        m = fake_model(parts=((900, 0), (300, 0), (40, 0)))
+        # LOD levels for part 2 (every 2nd / 4th / ... triangle of its range), shared by nothing else
+        p = m.parts[1]
+        tris = m.indices[p.first:p.first + p.count].reshape(-1, 3)
+        m.lod = {p.id: SimpleNamespace(indices=[np.ascontiguousarray(tris[::2 ** (k + 1)]).reshape(-1) for k in range(lod.LEVELS)])}
+        self.model = m
+
+    def test_ordered_equals_default_under_perm(self):
+        m = self.model
+        plain = geo.build_geometry(m, geo.HostSink(), 1 << 20)
+        order = geo.build_geometry(m, geo.HostSink(), 1 << 20, cluster_order=True)
+        self.assertFalse(plain.cluster_ordered)
+        self.assertTrue(order.cluster_ordered)
+        self.assertEqual(plain.ranges, order.ranges)
+        cd = order.clusters
+        for a, b in zip(plain.pages, order.pages):
+            wa, wb = a.buffer.view(np.uint32), b.buffer.view(np.uint32)
+            i0 = a.offs["index"]
+            self.assertTrue(np.array_equal(wa[:i0], wb[:i0]))                        # vertex data untouched
+            ia, ib = wa[i0:i0 + a.nindices], wb[i0:i0 + b.nindices]
+            for r in range(cd.n_ranges):
+                f, n = int(cd.r_first[r]), int(cd.r_ntri[r])
+                perm = cd.perm[int(cd.r_tfirst[r]):int(cd.r_tfirst[r]) + n].astype(np.int64)
+                self.assertTrue(np.array_equal(ib[f:f + 3 * n].reshape(-1, 3), ia[f:f + 3 * n].reshape(-1, 3)[perm]))
+
+    def test_original_triangle_matches_model_arrays(self):
+        m = self.model
+        g = geo.build_geometry(m, geo.HostSink(), 1 << 20, cluster_order=True)
+        words = g.pages[0].buffer.view(np.uint32)
+        i0 = g.pages[0].offs["index"]
+        for pi, p in enumerate(m.parts):
+            for lv, (first, count) in enumerate(g.ranges[pi]):
+                src = m.indices[p.first:p.first + p.count] if lv == 0 else m.lod[p.id].indices[lv - 1]
+                stored = np.arange(count // 3)
+                orig = g.order.original(pi, lv, stored)
+                got = words[i0 + first:i0 + first + count].reshape(-1, 3) + g.pages[0].v0
+                self.assertTrue(np.array_equal(got, np.asarray(src).reshape(-1, 3)[orig]))
+                self.assertEqual(sorted(orig.tolist()), list(range(count // 3)))
+
+    def test_animated_model_is_not_reordered(self):
+        m = fake_model(parts=((300, 0), (50, 0)))
+        m.anim_vertices = np.zeros(len(m.vertices), dtype=[("m", np.float16, (16,)), ("phase", np.float32)])
+        m.anim_vertices["phase"] = 1.0
+        plain = geo.build_geometry(m, geo.HostSink(), 1 << 20)
+        order = geo.build_geometry(m, geo.HostSink(), 1 << 20, cluster_order=True)
+        self.assertEqual(order.clusters.n_ranges, 0)
+        for a, b in zip(plain.pages, order.pages):
+            self.assertTrue(np.array_equal(a.buffer, b.buffer))                 # every part is uncullable: byte-identical pages
+        self.assertEqual(order.order.original(0, 0, 7).tolist(), 7)
+
+    def test_cpu_id_decode(self):
+        from app.gpu.cull import ClusterCuller, CULL_TAG
+        m = self.model
+        g = geo.build_geometry(m, geo.HostSink(), 1 << 20, cluster_order=True)
+        cu = object.__new__(ClusterCuller)
+        cu.cd = cd = g.clusters
+        rng = np.random.default_rng(2)
+        c = rng.integers(0, cd.n_clusters, 500)
+        t = np.array([rng.integers(0, cd.cluster_tris(int(x))) for x in c])
+        ids = (np.uint32(CULL_TAG) | (c.astype(np.uint32) << np.uint32(6)) | t.astype(np.uint32)).astype(np.uint32)
+        cl_, part, tri, rg = cu.decode_ids(np.concatenate([ids, [0x12345]]))
+        self.assertTrue(np.array_equal(cl_[:-1], c))
+        self.assertEqual(int(cl_[-1]), -1)                                              # a plain id is not decoded
+        for k in range(len(c)):
+            r = int(cd.cl_range[c[k]])
+            stored = 64 * (int(c[k]) - int(cd.r_cfirst[r])) + int(t[k])
+            self.assertEqual(int(tri[k]), int(cd.perm[int(cd.r_tfirst[r]) + stored]))
+            self.assertEqual(int(part[k]), int(cd.r_part[r]))
+
+
 def _gpu():
     try:
         from app.gpu.device import GpuUnavailable, get_gpu
@@ -109,6 +185,13 @@ def _gpu():
 
 @unittest.skipIf(_gpu() is None, "no wgpu adapter")
 class CullerSmokeTest(unittest.TestCase):
+    def test_plain_geometry_is_refused(self):
+        from app.gpu.cull import ClusterCuller
+        m = fake_model(parts=((300, 0),))
+        plain = geo.build_geometry(m, geo.HostSink(), 1 << 20)
+        with self.assertRaises(cl.ClusterError):
+            ClusterCuller(_gpu(), plain).prepare(m)
+
     def test_two_phase_matches_unculled_on_a_small_model(self):
         gpu = _gpu()
         from tools.perf.gpu import cull_check as cc

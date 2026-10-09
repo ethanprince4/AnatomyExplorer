@@ -116,7 +116,12 @@ class Harness:
         page = None if not page_mib else int(page_mib) << 20
         self.R = WgpuRenderer(self.gpu, page_bytes=page)
         self.R.set_model(self.model)
-        self.geom = self.R.geom
+        # the culler draws cluster-ordered geometry: replace the renderer's pages by our own cluster-ordered ones
+        from app.gpu import geometry as G
+        page_bytes = self.R.geom.page_bytes
+        self.R.geom.release()
+        self.geom = G.build_geometry(self.model, G.GpuSink(self.gpu.device), page_bytes, cluster_order=True)
+        self.order = self.geom.order
         self.id_format = self.R.id_format
         self.cu = ClusterCuller(self.gpu, self.geom, id_format=self.id_format, collect_stats=stats, profile=profile)
         self.prep = self.cu.prepare(self.model)
@@ -166,7 +171,7 @@ class Harness:
         SS = wgpu.ShaderStage
         self.bgl_ref2 = d.create_bind_group_layout(entries=[
             {"binding": 1, "visibility": SS.VERTEX, "buffer": {"type": "read-only-storage"}}])
-        mod = d.create_shader_module(code=cu.vis_wgsl() + REF_WGSL)
+        mod = d.create_shader_module(code="enable primitive_index;\n" + cu.vis_wgsl() + REF_WGSL)
         self.ref_pipe = {}
         for clip in (False, True):
             self.ref_pipe[clip] = d.create_render_pipeline(
@@ -181,7 +186,7 @@ class Harness:
     def _ref_draws(self, fp):
         """[(page, first_index, count, slot)], ref_part table, per slot first-triangle offset."""
         geom = self.geom
-        out, part_of, off = [], [], []
+        out, part_of, off, lev = [], [], [], []
         for pi, k in zip(fp.part, fp.level):
             rr = geom.ranges[int(pi)]
             first, count = rr[int(k)] if k < len(rr) else rr[0]
@@ -194,6 +199,8 @@ class Harness:
                 out.append((int(geom.page_of[int(pi)]), first + 3 * a, 3 * n, len(part_of)))
                 part_of.append(int(pi))
                 off.append(a)
+                lev.append(int(k))
+        self._ref_level = np.array(lev, dtype=np.int64)
         return out, np.array(part_of, dtype=np.uint32), np.array(off, dtype=np.int64)
 
     # ---- CPU side of one frame (what WgpuRenderer.render does before its passes)
@@ -303,15 +310,19 @@ class Harness:
         ic, dc = self._read(self.dump_buf)
         ir, dr = self._read(self.dump_buf2)
         n = len(ic)
-        sc = cu.read_buffer("slot_cluster").view(np.uint32)
-        cl, part_c, tri_c, _r = cu.decode_ids(ic, sc)
+        cl, part_c, tri_c, _r = cu.decode_ids(ic)
         bg_c, bg_r = ic == 0, ir == 0
         slot = (ir >> np.uint32(REF_BITS)).astype(np.int64)
         prim = (ir & np.uint32((1 << REF_BITS) - 1)).astype(np.int64)
         okr = slot > 0
         sl = np.where(okr, slot - 1, 0)
         part_r = np.where(okr, self._ref_part_of[np.minimum(sl, max(len(self._ref_part_of) - 1, 0))].astype(np.int64), -1) if len(self._ref_part_of) else np.full(n, -1)
-        tri_r = np.where(okr, self._ref_off[np.minimum(sl, max(len(self._ref_off) - 1, 0))] + prim, -1) if len(self._ref_off) else np.full(n, -1)
+        if len(self._ref_off):
+            k_ = np.minimum(sl, len(self._ref_off) - 1)
+            # the reference draws the stored (cluster-ordered) index range: map its triangle back to the original one
+            tri_r = np.where(okr, self.order.original(part_r, self._ref_level[k_], self._ref_off[k_] + prim), -1)
+        else:
+            tri_r = np.full(n, -1)
         diff = dc.astype(np.float64) - dr
         false_cull = diff > TOL
         nearer = diff < -TOL
@@ -534,7 +545,7 @@ def tile_geometry(geom, K):
                                          v0=pg.v0, v1=pg.v1, nverts=pg.nverts, nindices=pg.nindices))
     page_of = np.concatenate([np.where(geom.page_of >= 0, geom.page_of + k * G0, -1) for k in range(K)]).astype(np.int32)
     return SimpleNamespace(pages=pages, page_of=page_of, vbase=np.tile(geom.vbase, K), vcount=np.tile(geom.vcount, K),
-                           ranges=list(geom.ranges) * K, page_bytes=geom.page_bytes, sink=geom.sink)
+                           ranges=list(geom.ranges) * K, page_bytes=geom.page_bytes, sink=geom.sink, cluster_ordered=True)
 
 
 def tile_clusters(cd, K, P0, G0):
@@ -616,6 +627,8 @@ class Stress:
         H.cu.release()
         H.geom = tile_geometry(H.geom, K)
         cd_t = tile_clusters(cd0, K, P0, G0)
+        from app.gpu.geometry import TriangleOrder
+        H.order = TriangleOrder(cd_t)
         self.cu = ClusterCuller(H.gpu, H.geom, id_format=H.id_format, collect_stats=False, profile=True)
         self.prep = self.cu.prepare(H.model, clusters=cd_t, n_parts=K * P0)
         H.cu = self.cu

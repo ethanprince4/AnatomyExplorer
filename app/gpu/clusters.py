@@ -186,7 +186,8 @@ def plan_ranges(model, geom):
     new_id = np.empty(len(keys), dtype=np.int64)
     for rank, i in enumerate(order):
         new_id[i] = rank
-    level_range[:] = np.where(pending >= 0, new_id[np.maximum(pending, 0)], -1)
+    if keys:                                                       # (a model whose parts are all uncullable has no range)
+        level_range[:] = np.where(pending >= 0, new_id[np.maximum(pending, 0)], -1)
     return [keys[i] for i in order], level_range, uncullable, [source[i] for i in order]
 
 
