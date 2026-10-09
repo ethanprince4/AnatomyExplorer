@@ -45,6 +45,7 @@ STREAMS = {
     "dpos": (6, 9, 12), "dnrm": (9, 12, 12), "fib": (12, 13, 4), "col": (13, 17, 16), "uv": (17, 19, 8),
 }
 VARIABLE = ("dpos", "dnrm", "fib", "col", "uv")      # streams that exist only where the part's values differ
+ANIM_BYTES = 36                                      # procedural animation stream: float16 x16 (four morph targets xyzw) + float32 phase
 MAX_STREAM_BYTES = 16                                # the widest per-vertex stream (col)
 
 
@@ -208,6 +209,7 @@ class GpuGeometry:
     gl_keys: list                        # per part: [GL ibo span start of level 0, 1, ...] (draw order, see gl_order_keys)
     stats: dict
     page_bytes: int
+    anim_base: np.ndarray = None         # (P,) int64: first vertex of the part in the page's 'anim' stream (9 uint32 per vertex), -1 none
 
     def release(self):
         for page in self.pages:
@@ -335,6 +337,15 @@ def _scan_constants(vertices, parts, part_ids):
     return flags, tail
 
 
+def _anim_nonzero(src, p):
+    """Does the part carry any non-zero procedural-animation data (morph targets or phase)?"""
+    for a in range(0, p.vertex_count, SCAN_ROWS):
+        blk = src[p.vertex_base + a:p.vertex_base + min(a + SCAN_ROWS, p.vertex_count)]
+        if np.any(blk["m"]) or np.any(blk["phase"]):
+            return True
+    return False
+
+
 def build_geometry(model, sink, page_bytes, measure=False, progress=None):
     """Upload model.vertices / model.indices (+ LOD levels) through ``sink``; returns a GpuGeometry.
 
@@ -353,6 +364,8 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None):
     vbase = np.zeros(n, dtype=np.int64)
     vcount = np.zeros(n, dtype=np.int64)
     stream_base = np.full((n, len(VARIABLE)), -1, dtype=np.int64)
+    anim_src = getattr(model, "anim_vertices", None)
+    anim_base = np.full(n, -1, dtype=np.int64)
     ranges = [[(0, 0)] for _ in range(n)]
     pages = []
     nrm_stats = {"max_deg": 0.0, "sum_deg": 0.0, "count": 0, "len_min": math.inf, "len_max": 0.0, "zero": 0}
@@ -363,6 +376,7 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None):
         index_layout = []                        # (source array, dest first index, part index)
         at = 0
         counts = {g: 0 for g in VARIABLE}
+        n_anim = 0
         for i in pl["parts"]:
             p = parts[i]
             page_of[i] = pi
@@ -371,6 +385,9 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None):
                 if flags[i, k]:
                     stream_base[i, k] = counts[g]
                     counts[g] += p.vertex_count
+            if anim_src is not None and _anim_nonzero(anim_src, p):
+                anim_base[i] = n_anim
+                n_anim += p.vertex_count
             lv = [(0, p.count)] if p.count else [(0, 0)]
             if p.count:
                 index_layout.append((indices, p.first, p.count, at, i))
@@ -385,11 +402,13 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None):
             ranges[i] = lv + [placed[o] for o in order]
         page.nindices = at
         page.stream_verts = {g: c for g, c in counts.items() if c}
+        if n_anim:
+            page.stream_verts["anim"] = n_anim
         # ---- buffers
         page.buffers["pos"] = sink.create(page.nverts * 12, f"page{pi}.pos")
         page.buffers["nrm"] = sink.create(page.nverts * 4, f"page{pi}.nrm")
         for g, c in page.stream_verts.items():
-            page.buffers[g] = sink.create(c * STREAMS[g][2], f"page{pi}.{g}")
+            page.buffers[g] = sink.create(c * (ANIM_BYTES if g == "anim" else STREAMS[g][2]), f"page{pi}.{g}")
         page.buffers["index"] = sink.create(max(at, 1) * 4, f"page{pi}.index")
         # ---- pos / nrm: one contiguous run of the model's vertices
         for a in range(page.v0, page.v1, SCAN_ROWS):
@@ -421,6 +440,13 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None):
                     b = min(a + SCAN_ROWS, p.vertex_count)
                     blk = np.ascontiguousarray(vertices[p.vertex_base + a:p.vertex_base + b, c0:c1])
                     sink.write(page.buffers[g], (stream_base[i, k] + a) * bpv, blk)
+        for i in pl["parts"]:
+            if anim_base[i] >= 0:
+                p = parts[i]
+                for a in range(0, p.vertex_count, SCAN_ROWS):
+                    b = min(a + SCAN_ROWS, p.vertex_count)
+                    raw = np.ascontiguousarray(anim_src[p.vertex_base + a:p.vertex_base + b]).view(np.uint8)
+                    sink.write(page.buffers["anim"], (anim_base[i] + a) * ANIM_BYTES, raw)
         # ---- indices, rewritten page-local and range-checked
         for src, first, count, dest, i in index_layout:
             for a in range(0, count, INDEX_CHUNK):
@@ -438,8 +464,8 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None):
 
     # ---- statistics
     nv = sum(pg.nverts for pg in pages)
-    stream_bytes = sum(pg.nverts * 16 for pg in pages) + sum(c * STREAMS[g][2] for pg in pages
-                                                              for g, c in pg.stream_verts.items())
+    stream_bytes = sum(pg.nverts * 16 for pg in pages) + sum(c * (ANIM_BYTES if g == "anim" else STREAMS[g][2])
+                                                              for pg in pages for g, c in pg.stream_verts.items())
     index_bytes = sum(pg.nindices * 4 for pg in pages)
     stats = {
         "pages": len(pages), "vertices": nv, "indices": sum(pg.nindices for pg in pages),
@@ -459,7 +485,7 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None):
         gl_keys.append([base[p.id]] + list(lods.get(p.id, [])))
     return GpuGeometry(sink=sink, pages=pages, page_of=page_of, vbase=vbase, vcount=vcount, ranges=ranges,
                        stream_base=stream_base, const_tail=tail, gl_keys=gl_keys, stats=stats,
-                       page_bytes=page_bytes)
+                       page_bytes=page_bytes, anim_base=anim_base)
 
 
 # ------------------------------------------------------------------------------------------------ decode (tests, checks)

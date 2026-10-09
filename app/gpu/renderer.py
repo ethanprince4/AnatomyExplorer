@@ -19,8 +19,8 @@ The pass order, targets, formats and uniform values are those of the GL renderer
 
 All intermediate textures keep GL's row order (row 0 = bottom); the target and every readback array are top row first.
 
-Not in this step (the hooks are marked, and each state logs a warning once): ghosted / translucent items (OIT), cut caps,
-morph / explode / animation, textured parts and alpha-cut textures, the vertex-pulling raster path for adapters without
+Not drawn yet (each state logs a warning once): cut caps. Refused by set_model (NotImplementedError, the Qt view then builds the
+OpenGL viewport): alpha-cut textures. Not supported: the vertex-pulling raster path for adapters without
 "primitive-index".
 """
 from __future__ import annotations
@@ -38,6 +38,7 @@ from app.viewer.environment import make_env, sh9_irradiance
 from app.viewer.renderer import (DEFAULT_RIG, DEFAULT_WORLD, FrameState, Renderer as _GL, Settings,  # noqa: F401
                                  _frustum_planes, _look_key, _transparent_pass, backdrop_linear)
 from . import geometry as geo
+from .oit import OitDraw, OitPass
 from .post import PostPasses
 from .shading_uniforms import FIELD_BY_NAME, SIZE as SHADE_SIZE, pack_shading_uniforms
 
@@ -114,6 +115,7 @@ def _prelude_resolve(id_fmt, samples, n_pages, page0):
     ty_id = "texture_multisampled_2d<u32>" if ms else "texture_2d<u32>"
     out.append(f"@group(2) @binding(0) var vis_id: {ty_id};")
     out.append("@group(2) @binding(2) var bg_tex: texture_2d<f32>;")
+    out.append("@group(1) @binding(0) var<uniform> pass_info: vec4<u32>;")
     s = "s" if ms else "0"
     if id_fmt == "r32uint":
         out.append(f"fn load_id(p: vec2<i32>, s: i32) -> u32 {{ return textureLoad(vis_id, p, {s}).x; }}")
@@ -122,13 +124,16 @@ def _prelude_resolve(id_fmt, samples, n_pages, page0):
                    f"return v.x | (v.y << 8u) | (v.z << 16u) | (v.w << 24u); }}")
     out.append(f"const GROUP_PAGE0: u32 = {page0}u;\nconst GROUP_PAGES: u32 = {n_pages}u;")
     for i in range(n_pages):
-        b = 6 * i
+        b = 9 * i
         out.append(f"@group(3) @binding({b}) var<storage, read> pos_{i}: array<f32>;")
         out.append(f"@group(3) @binding({b + 1}) var<storage, read> nrm_{i}: array<u32>;")
         out.append(f"@group(3) @binding({b + 2}) var<storage, read> fib_{i}: array<f32>;")
         out.append(f"@group(3) @binding({b + 3}) var<storage, read> col_{i}: array<f32>;")
         out.append(f"@group(3) @binding({b + 4}) var<storage, read> uv_{i}: array<f32>;")
         out.append(f"@group(3) @binding({b + 5}) var<storage, read> idx_{i}: array<u32>;")
+        out.append(f"@group(3) @binding({b + 6}) var<storage, read> dpos_{i}: array<f32>;")
+        out.append(f"@group(3) @binding({b + 7}) var<storage, read> dnrm_{i}: array<f32>;")
+        out.append(f"@group(3) @binding({b + 8}) var<storage, read> anim_{i}: array<u32>;")
 
     def fetch(name, ret, body, default):
         out.append(f"fn {name}(lp: u32, v: u32) -> {ret} {{\n  switch lp {{")
@@ -144,6 +149,9 @@ def _prelude_resolve(id_fmt, samples, n_pages, page0):
     fetch("fetch_col", "vec4<f32>", "vec4<f32>(col_{i}[4u * v], col_{i}[4u * v + 1u], col_{i}[4u * v + 2u], col_{i}[4u * v + 3u])",
           "vec4<f32>(1.0)")
     fetch("fetch_uv", "vec2<f32>", "vec2<f32>(uv_{i}[2u * v], uv_{i}[2u * v + 1u])", "vec2<f32>(0.0)")
+    fetch("fetch_dpos", "f32", "dpos_{i}[v]", "0.0")
+    fetch("fetch_dnrm", "f32", "dnrm_{i}[v]", "0.0")
+    fetch("fetch_anim", "u32", "anim_{i}[v]", "0u")
     return "\n".join(out)
 
 
@@ -179,6 +187,44 @@ def _entry(binding, kind, vis, **kw):
     return e
 
 
+def _srgb_to_linear(c):
+    c = c.astype(np.float32) / 255.0
+    return np.where(c <= 0.04045, c / 12.92, ((c + 0.055) / 1.055) ** 2.4)
+
+
+def _linear_to_srgb8(c):
+    c = np.clip(c, 0.0, 1.0)
+    return np.rint(np.where(c <= 0.0031308, c * 12.92, 1.055 * c ** (1 / 2.4) - 0.055) * 255.0).astype(np.uint8)
+
+
+def mip_chain(rgba):
+    """(h, w, 4) uint8 sRGB+alpha -> all mip levels down to 1x1, 2x2 box filtered in linear light (alpha linear), the size
+    halving (rounded down) per level as GL's glGenerateMipmap."""
+    levels = [rgba]
+    cur = rgba
+    while cur.shape[0] > 1 or cur.shape[1] > 1:
+        h, w = cur.shape[:2]
+        h2, w2 = max(h // 2, 1), max(w // 2, 1)
+        lin = np.empty((h, w, 4), np.float32)
+        lin[..., :3] = _srgb_to_linear(cur[..., :3])
+        lin[..., 3] = cur[..., 3] / 255.0
+        if h % 2 == 0 and w % 2 == 0:
+            small = lin.reshape(h2, 2, w2, 2, 4).mean(axis=(1, 3))
+        else:                                   # odd sizes: area average of each destination texel's source span
+            ys = np.linspace(0, h, h2 + 1).astype(int)
+            xs = np.linspace(0, w, w2 + 1).astype(int)
+            small = np.empty((h2, w2, 4), np.float32)
+            for j in range(h2):
+                for i in range(w2):
+                    small[j, i] = lin[ys[j]:max(ys[j + 1], ys[j] + 1), xs[i]:max(xs[i + 1], xs[i] + 1)].mean(axis=(0, 1))
+        nxt = np.empty((h2, w2, 4), np.uint8)
+        nxt[..., :3] = _linear_to_srgb8(small[..., :3])
+        nxt[..., 3] = np.rint(np.clip(small[..., 3], 0, 1) * 255.0).astype(np.uint8)
+        levels.append(nxt)
+        cur = nxt
+    return levels
+
+
 def _align(n, a=256):
     return (n + a - 1) // a * a
 
@@ -200,7 +246,7 @@ class WgpuRenderer:
         n_stor = int(self.limits.get("max_storage_buffers_per_shader_stage",
                                      self.limits.get("max-storage-buffers-per-shader-stage", 8)))
         # the fragment stage binds draws, ptab, looks and 6 buffers per page (pos, nrm, fib, col, uv, index)
-        self.group_pages = int(resolve_group_pages) if resolve_group_pages else max(1, min(8, (n_stor - 4) // 6))
+        self.group_pages = int(resolve_group_pages) if resolve_group_pages else max(1, min(8, (n_stor - 5) // 9))
         self.prim_bits_max = int(prim_bits)
         self.profile = bool(profile) and "timestamp-query" in feats
         self.ts_period_ns = 1.0
@@ -241,6 +287,12 @@ class WgpuRenderer:
         self._look_idx, self._look_bytes, self._looks_written = {}, [], 0
         self._item_state = None
         self.items_tex = None
+        self._anim_tab = None
+        self._anim_key = None
+        self._tex = {}                       # image index -> (texture, view)
+        self._tex_slots = []                 # image indices that get a shade-pass slot (1 + position)
+        self._look_tex = {}                  # looks-table record -> image index (u_has_tex == 1)
+        self._pass_ub = {}
         self._env_key = None
         self.env_spec = self.env_src = None
         self.env_sh = None
@@ -248,6 +300,10 @@ class WgpuRenderer:
         self.model_diag = 1.0
         self._fake = SimpleNamespace(_texture=lambda i: _Null())
         self.post = PostPasses(self.device)
+        self.oit = OitPass(self.device, flip_y=True, depth_format="depth32float", aniso=8)
+        self.oit_t = None
+        self._oit_rec = _Rec()
+        self._items_v = self._spec_v = None
         self._layouts()
         self._gather = {}
         self._qs = None
@@ -258,7 +314,7 @@ class WgpuRenderer:
         self._s_ao = d.create_sampler(mag_filter="linear", min_filter="linear", address_mode_u="clamp-to-edge",
                                       address_mode_v="clamp-to-edge")
         self._s_tex = d.create_sampler(mag_filter="linear", min_filter="linear", mipmap_filter="linear",
-                                       address_mode_u="repeat", address_mode_v="repeat")
+                                       address_mode_u="repeat", address_mode_v="repeat", max_anisotropy=8)
         self._s_final = d.create_sampler(mag_filter="linear", min_filter="linear", address_mode_u="clamp-to-edge",
                                          address_mode_v="clamp-to-edge")
         white = d.create_texture(size=(1, 1, 1), format="rgba8unorm", usage=TU.TEXTURE_BINDING | TU.COPY_DST)
@@ -272,12 +328,13 @@ class WgpuRenderer:
         d = self.device
         V, F, C = SS.VERTEX, SS.FRAGMENT, SS.COMPUTE
         self.bgl0 = d.create_bind_group_layout(entries=[
-            _entry(0, "u", V | F | C), _entry(1, "r", V | F | C), _entry(2, "r", F), _entry(3, "r", F), _entry(4, "u", F)])
-        self.bgl_vispage = d.create_bind_group_layout(entries=[_entry(0, "r", V)])
+            _entry(0, "u", V | F | C), _entry(1, "r", V | F | C), _entry(2, "r", V | F), _entry(3, "r", F), _entry(4, "u", F),
+            _entry(5, "r", V | F | C)])
+        self.bgl_vispage = d.create_bind_group_layout(entries=[_entry(k, "r", V) for k in range(4)])
         self.bgl_empty = d.create_bind_group_layout(entries=[])
         self.bg_empty = d.create_bind_group(layout=self.bgl_empty, entries=[])
         self.bgl_shade = d.create_bind_group_layout(entries=[
-            _entry(1, "tf", F), _entry(2, "tl", F), _entry(3, "ta", F), _entry(4, "tl", F),
+            _entry(0, "u", F), _entry(1, "tf", F), _entry(2, "tl", F), _entry(3, "ta", F), _entry(4, "tl", F),
             _entry(5, "s", F), _entry(6, "s", F), _entry(7, "s", F)])
         self.bgl_res = d.create_bind_group_layout(entries=[_entry(3, "tu", C), _entry(4, "tf", C), _entry(5, "tf", C)])
         self.bgl_gather = d.create_bind_group_layout(
@@ -295,7 +352,7 @@ class WgpuRenderer:
     def _bgl_pages(self, n):
         key = ("pages", n)
         if key not in self._bgl_cache:
-            ents = [_entry(6 * i + k, "r", SS.FRAGMENT) for i in range(n) for k in range(6)]
+            ents = [_entry(9 * i + k, "r", SS.FRAGMENT) for i in range(n) for k in range(9)]
             self._bgl_cache[key] = self.device.create_bind_group_layout(entries=ents)
         return self._bgl_cache[key]
 
@@ -305,7 +362,8 @@ class WgpuRenderer:
     def _vis_module(self):
         key = ("vis", self.id_format)
         if key not in self._modules:
-            code = "enable primitive_index;\n" + _prelude_ids(self.id_format) + "\n" + _read_text("clip.wgsl") + "\n" + _read_text("visbuf.wgsl")
+            code = ("enable primitive_index;\n" + _prelude_ids(self.id_format) + "\n" + _read_text("clip.wgsl") + "\n"
+                    + _read_text("morph.wgsl") + "\n" + _read_text("visbuf.wgsl"))
             self._modules[key] = self.device.create_shader_module(code=code, label="visbuf")
         return self._modules[key]
 
@@ -320,7 +378,7 @@ class WgpuRenderer:
             assert decl in shading
             shading = shading.replace(decl, "var<private> su: ShadeU;")      # filled per shaded triangle
             code = "\n".join([_prelude_resolve(self.id_format, samples, n_pages, page0), clip, shading,
-                              _read_text("resolve.wgsl"), _apply_look_wgsl()])
+                              _read_text("morph.wgsl"), _read_text("resolve.wgsl"), _apply_look_wgsl()])
             self._modules[key] = self.device.create_shader_module(code=code, label=f"resolve{n_pages}@{page0}")
         return self._modules[key]
 
@@ -385,6 +443,10 @@ class WgpuRenderer:
     # ------------------------------------------------------------------ model
     def set_model(self, model):
         self.release_model()
+        cut = [p.id for p in model.parts if p.look.texture is not None and p.look.alpha_cut > 0.0]
+        if cut:                          # the visibility pass cannot discard by texture alpha yet: OpenGL draws such models
+            raise NotImplementedError(f"alpha-cut textures are not supported by the wgpu renderer yet ({len(cut)} part(s), "
+                                      f"e.g. {cut[0]})")
         try:
             self.model = model
             sink = geo.GpuSink(self.device)
@@ -398,6 +460,8 @@ class WgpuRenderer:
             self._look_keys = {p.id: _look_key(p.look) for p in parts}
             self._make_page_groups()
             self._make_ptab()
+            self.oit.set_geometry(self.geom)
+            self._oit_rec = _Rec()
             side = model.sidecar.get("lights") or {}
             self.rig = side.get("rig") or DEFAULT_RIG
             self.world = side.get("world") or DEFAULT_WORLD
@@ -410,6 +474,11 @@ class WgpuRenderer:
             self._look_idx, self._look_bytes, self._looks_written = {}, [], 0
             self._bg_shade = None
             self._xf_key = None
+            self._anim_tab = self.device.create_buffer(size=n_items * 48, usage=BU.STORAGE | BU.COPY_DST, label="anim_tab")
+            self._anim_key = None
+            self._bg0 = None
+            self._look_tex = {}
+            self._tex_slots = sorted({p.look.texture for p in parts if p.look.texture is not None})
             self.frame_ok = False
         except Exception:
             self.release_model()
@@ -425,6 +494,7 @@ class WgpuRenderer:
             words[i, 0:5] = g.stream_base[i].astype(np.int32).view(np.uint32)
             words[i, 5] = np.uint32(g.vbase[i])
             words[i, 6:19] = np.asarray(g.const_tail[i], dtype=np.float32).view(np.uint32)
+            words[i, 19] = np.int32(g.anim_base[i]).view(np.uint32)
         self._ptab = self.device.create_buffer_with_data(data=words, usage=BU.STORAGE, label="ptab")
 
     def _make_page_groups(self):
@@ -432,21 +502,22 @@ class WgpuRenderer:
         g = self.geom
         self._vis_page_bg = []
         for page in g.pages:
-            self._vis_page_bg.append(d.create_bind_group(
-                layout=self.bgl_vispage, entries=[{"binding": 0, "resource": {"buffer": page.buffers["pos"], "offset": 0,
-                                                                              "size": page.buffers["pos"].size}}]))
+            bufs = [page.buffers["pos"]] + [page.buffers.get(n, self._dummy) for n in ("dpos", "dnrm", "anim")]
+            self._vis_page_bg.append(d.create_bind_group(layout=self.bgl_vispage, entries=[
+                {"binding": k, "resource": {"buffer": b, "offset": 0, "size": b.size}} for k, b in enumerate(bufs)]))
         self._groups = []                      # (first page, n pages, bind group)
         for p0 in range(0, len(g.pages), self.group_pages):
             n = min(self.group_pages, len(g.pages) - p0)
             ents = []
             for i in range(n):
                 page = g.pages[p0 + i]
-                for k, name in enumerate(("pos", "nrm", "fib", "col", "uv", "index")):
+                for k, name in enumerate(("pos", "nrm", "fib", "col", "uv", "index", "dpos", "dnrm", "anim")):
                     b = page.buffers.get(name, self._dummy)
-                    ents.append({"binding": 6 * i + k, "resource": {"buffer": b, "offset": 0, "size": b.size}})
+                    ents.append({"binding": 9 * i + k, "resource": {"buffer": b, "offset": 0, "size": b.size}})
             self._groups.append((p0, n, d.create_bind_group(layout=self._bgl_pages(n), entries=ents)))
 
     def release_model(self):
+        self.oit.set_geometry(None)
         if self.geom is not None:
             self.geom.release()
         self.geom = None
@@ -462,6 +533,13 @@ class WgpuRenderer:
         if self.items_tex is not None:
             self.items_tex.destroy()
             self.items_tex = None
+        if self._anim_tab is not None:
+            self._anim_tab.destroy()
+            self._anim_tab = None
+        for tex, _view in self._tex.values():
+            tex.destroy()
+        self._tex, self._tex_slots, self._look_tex = {}, [], {}
+        self._bg0 = None
         self._bg_shade = None
         self.frame_ok = False
 
@@ -556,15 +634,9 @@ class WgpuRenderer:
 
     def _check_supported(self, m, fs, draws, oit, any_clip):
         if oit:
-            self._warn_once("oit", f"{len(oit)} translucent / ghosted parts are not drawn yet (weighted blended OIT is the next step)")
+            pass
         if any_clip and draws:
             self._warn_once("caps", "cut faces (caps) are not drawn yet: the sections show the inside of the shells")
-        if any(p.look.texture is not None for p in draws):
-            self._warn_once("tex", "textured parts draw untextured (no texture binding yet)")
-        if m.anim_vertices is not None and fs.anim_frame is not None:
-            self._warn_once("anim", "procedural animation is not applied yet")
-        if any(self._transform(p)[3] != 0.0 for p in draws):
-            self._warn_once("morph", "morph weights are not applied yet")
 
     # ------------------------------------------------------------------ targets
     def _pick_samples(self, msaa):
@@ -579,6 +651,8 @@ class WgpuRenderer:
             return
         for tex in self.t.values():
             tex.destroy()
+        if self.oit_t is not None:
+            OitPass.destroy_targets(self.oit_t)
         d = self.device
         RA, TB, CS, CD = TU.RENDER_ATTACHMENT, TU.TEXTURE_BINDING, TU.COPY_SRC, TU.COPY_DST
         t = {}
@@ -599,6 +673,7 @@ class WgpuRenderer:
         t["comp"] = d.create_texture(size=(w, h, 1), format="rgba8unorm", usage=RA | TB, label="composite")
         self.t = t
         self.v = {k: v.create_view() for k, v in t.items()}
+        self.oit_t = self.oit.make_targets(w, h, samples)
         self.size, self.samples = (w, h), samples
         self._bg_vis = d.create_bind_group(layout=self._bgl_vis(samples), entries=[
             {"binding": 0, "resource": self.v["vis_id"]}, {"binding": 2, "resource": self.v["bg"]}])
@@ -631,7 +706,8 @@ class WgpuRenderer:
                 {"binding": 1, "resource": {"buffer": self._table, "offset": 0, "size": self._table.size}},
                 {"binding": 2, "resource": {"buffer": self._ptab, "offset": 0, "size": self._ptab.size}},
                 {"binding": 3, "resource": {"buffer": self._looks, "offset": 0, "size": self._looks.size}},
-                {"binding": 4, "resource": {"buffer": self._sg, "offset": 0, "size": SHADE_SIZE}}])
+                {"binding": 4, "resource": {"buffer": self._sg, "offset": 0, "size": SHADE_SIZE}},
+                {"binding": 5, "resource": {"buffer": self._anim_tab, "offset": 0, "size": self._anim_tab.size}}])
 
     # ------------------------------------------------------------------ shading data
     def _ambient(self):
@@ -673,12 +749,63 @@ class WgpuRenderer:
             lights.append((np.array([0.0, 1.0, 0.0]), np.zeros(3), 0.1, 0.1))
         return lights
 
+    def _gl_fake(self):
+        return SimpleNamespace(
+            t={"ao": _Null()}, shadow_maps=[(_Null(),)] * 3, _shadow_mats=[np.eye(4)] * 3, _shadow_texel=[0.01] * 3,
+            _shadow_soft=[1.0] * 3, env=SimpleNamespace(spec=_Null(), sh=self.env_sh), white=_Null())
+
+    def _oit_draws(self, parts, VP, V, campos, lights, s, size, camera, clip, fs, alpha, ghost):
+        """The OitDraw list of GL's pass 5: `_draw_shaded(p_oit, ...)` replayed on a recorder that lives as long as the model
+        (GL's uniform cache keeps stale values between draws too), in the draw order of the main pass."""
+        geom = self.geom
+        index_of = {p.id: i for i, p in enumerate(self.model.parts)}
+        items = []
+        for p in parts:
+            pi = index_of[p.id]
+            k = self._level.get(p.id, 0)
+            rng = geom.ranges[pi]
+            first, count = rng[k] if k < len(rng) else rng[0]
+            if count < 3 or geom.page_of[pi] < 0:
+                continue
+            key = geom.gl_keys[pi][k] if k < len(geom.gl_keys[pi]) else geom.gl_keys[pi][0]
+            items.append((key, pi, p, first, count))
+        items.sort(key=lambda e: (e[0], e[1]))
+        u = self._oit_rec
+        u("u_viewproj", VP)
+        _GL._light_uniforms(self._gl_fake(), u, V, campos, lights, s, size, camera)
+        _GL._clip_uniforms(u, clip)
+        u("u_ghost_alpha", float(s.ghost_alpha))
+        out = []
+        for key, pi, p, first, count in items:
+            it = p.item
+            M, nmat, flip, wgt, noclip, _key = self._transform(p)
+            u("u_model", M)
+            u("u_nmat", nmat)
+            u("u_flip", flip)
+            u("u_weight", wgt)
+            u("u_noclip", noclip)
+            batched = self._look_keys[p.id] is not None
+            u("u_batched", 1 if batched else 0)
+            _GL._set_look(self._fake, u, p, s, fs, batched)
+            if not batched:
+                u("u_ghost", 1 if ghost[it] else 0)
+                u("u_alpha_mul", float(alpha[it]))
+                if it in fs.selected:
+                    u("u_highlight", 0.45)
+                    u("u_highlight_col", np.array(s.highlight))
+                elif it == fs.hovered or (s.hovered and s.hovered == it + 1):
+                    u("u_highlight", 0.18)
+                    u("u_highlight_col", np.array(s.hover_highlight))
+                else:
+                    u("u_highlight", 0.0)
+            tex = self._texture_view(p.look.texture) if int(u.get("u_has_tex", 0)) == 1 else None
+            out.append(OitDraw(part=pi, first=int(first), count=int(count), item=int(it), uniforms=dict(u), texture=tex))
+        return out
+
     def _global_uniforms(self, V, campos, lights, s, size, camera, clip):
         """The frame-wide ShadeU bytes: what GL's _draw_shaded sets once per pass (the same functions, on a recorder)."""
         rec = _Rec()
-        fake = SimpleNamespace(
-            t={"ao": _Null()}, shadow_maps=[(_Null(),)] * 3, _shadow_mats=[np.eye(4)] * 3, _shadow_texel=[0.01] * 3,
-            _shadow_soft=[1.0] * 3, env=SimpleNamespace(spec=_Null(), sh=self.env_sh), white=_Null())
+        fake = self._gl_fake()
         _GL._light_uniforms(fake, rec, V, campos, lights, s, size, camera)
         _GL._clip_uniforms(rec, clip)
         return pack_shading_uniforms(rec)
@@ -705,6 +832,7 @@ class WgpuRenderer:
         rec("u_weight", weight)
         rec("u_noclip", noclip)
         rec("u_batched", 1 if batched else 0)
+        self._look_tex[len(self._look_bytes)] = p.look.texture if int(rec.get("u_has_tex", 0)) == 1 else None
         if not batched:
             if it in fs.selected:
                 rec("u_highlight", 0.45)
@@ -747,16 +875,77 @@ class WgpuRenderer:
                                      {"bytes_per_row": st.shape[1] * 16, "rows_per_image": 3}, (st.shape[1], 3, 1))
             self._item_state = data
 
-    def _shade_bind_group(self):
-        if self._bg_shade is None:
-            self._bg_shade = self.device.create_bind_group(layout=self.bgl_shade, entries=[
-                {"binding": 1, "resource": self.items_tex.create_view()},
+    def _upload_anim(self, fs):
+        """Per item (u_aw, u_ag) and the cycle phase, for morph.wgsl; all zero (animation off) unless the model has animation
+        vertices and the frame carries an animation frame, exactly GL's `_anim_uniforms` condition."""
+        m = self.model
+        n = len(m.items)
+        on = m.anim_vertices is not None and fs.anim_frame is not None
+        key = (round(float(fs.anim_t), 6), np.asarray(fs.anim_frame).tobytes()) if on else None
+        if key == self._anim_key:
+            return
+        self._anim_key = key
+        tab = np.zeros((n, 3, 4), np.float32)
+        if on:
+            tab[:, 0] = np.asarray(fs.anim_frame)[0, :n]
+            tab[:, 1] = np.asarray(fs.anim_frame)[1, :n]
+            tab[:, 2, 0] = np.float32(fs.anim_t)
+            tab[:, 2, 1] = 1.0
+        self.queue.write_buffer(self._anim_tab, 0, tab)
+
+    def _slot_of(self, image_index):
+        return 0 if image_index is None else 1 + self._tex_slots.index(image_index)
+
+    def _texture_view(self, image_index):
+        """The albedo of glTF image `image_index`: rgba8unorm-srgb with a full mip chain (GL: GL_SRGB8_ALPHA8, build_mipmaps,
+        trilinear, anisotropy 8, longest side capped at 4096); a white texel when the image cannot be read."""
+        hit = self._tex.get(image_index)
+        if hit is not None:
+            return hit[1]
+        try:
+            import io
+            from PIL import Image
+            im = Image.open(io.BytesIO(self.model.doc.images[image_index])).convert("RGBA")
+            if max(im.size) > 4096:
+                k = 4096 / max(im.size)
+                im = im.resize((max(1, int(im.size[0] * k)), max(1, int(im.size[1] * k))), Image.LANCZOS)
+            levels = mip_chain(np.asarray(im, dtype=np.uint8))
+            tex = self.device.create_texture(size=(im.size[0], im.size[1], 1), format="rgba8unorm-srgb", mip_level_count=len(levels),
+                                             usage=TU.TEXTURE_BINDING | TU.COPY_DST, label=f"albedo{image_index}")
+            for k, lv in enumerate(levels):
+                self.queue.write_texture({"texture": tex, "mip_level": k, "origin": (0, 0, 0)}, np.ascontiguousarray(lv),
+                                         {"bytes_per_row": lv.shape[1] * 4, "rows_per_image": lv.shape[0]}, (lv.shape[1], lv.shape[0], 1))
+            view = tex.create_view()
+        except Exception:                       # a bad image draws white, as GL falls back to its white texture
+            tex, view = self._white, self._white.create_view()
+        self._tex[image_index] = (tex if tex is not self._white else self.device.create_texture(
+            size=(1, 1, 1), format="rgba8unorm", usage=TU.TEXTURE_BINDING), view)
+        return view
+
+    def _shade_bind_group(self, slot=0, first=0):
+        """Group 1 of the resolve passes: items, AO, specular environment, the albedo of texture `slot` (0: white) and the pass
+        info (slot, 1 = add the backdrop)."""
+        if not self._bg_shade:
+            self._items_v = self.items_tex.create_view()
+            self._spec_v = self.env_spec.create_view(dimension="2d-array")
+            self._bg_shade = {}
+        key = (slot, first)
+        if key not in self._bg_shade:
+            ub = self._pass_ub.get(key)
+            if ub is None:
+                ub = self.device.create_buffer_with_data(data=np.array([slot, first, 0, 0], np.uint32), usage=BU.UNIFORM,
+                                                         label=f"pass{key}")
+                self._pass_ub[key] = ub
+            albedo = self._white.create_view() if slot == 0 else self._texture_view(self._tex_slots[slot - 1])
+            self._bg_shade[key] = self.device.create_bind_group(layout=self.bgl_shade, entries=[
+                {"binding": 0, "resource": {"buffer": ub, "offset": 0, "size": 16}},
+                {"binding": 1, "resource": self._items_v},
                 {"binding": 2, "resource": self.v["ao"]},
-                {"binding": 3, "resource": self.env_spec.create_view(dimension="2d-array")},
-                {"binding": 4, "resource": self._white.create_view()},
+                {"binding": 3, "resource": self._spec_v},
+                {"binding": 4, "resource": albedo},
                 {"binding": 5, "resource": self._s_ao}, {"binding": 6, "resource": self.post.s_env},
                 {"binding": 7, "resource": self._s_tex}])
-        return self._bg_shade
+        return self._bg_shade[key]
 
     # ------------------------------------------------------------------ the draw table
     def _build_table(self, draws, s, fs):
@@ -805,6 +994,7 @@ class WgpuRenderer:
                 tu[slot, 32:36] = (pi, p.item, flags, k)
                 table[slot, 36] = weight
                 tu[slot, 37] = rec
+                tu[slot, 38] = self._slot_of(self._look_tex.get(rec))
                 entries.append((slot, pi, k, first + 3 * a, 3 * n))
                 slot += 1
         return table, entries, bits
@@ -856,6 +1046,7 @@ class WgpuRenderer:
             draws, oit = self.visible_parts(VP, vis, ghost, alpha, fs)
             self._check_supported(m, fs, draws, oit, any_clip)
             self._upload_item_state(fs, s, ghost, alpha)
+            self._upload_anim(fs)
         lights = self._lights(V, s)
         clip = (clip_planes, clip_on, int(fs.clip_mode))
         sg = self._global_uniforms(V, campos, lights, s, (w, h), camera, clip)
@@ -936,6 +1127,14 @@ class WgpuRenderer:
                 rp.set_bind_group(3, bg)
                 rp.draw(3)
             rp.end()
+        # ---- 2b. translucent and x-rayed parts: weighted blended OIT into the visibility pass's depth (GL pass 5)
+        oit_draws = []
+        if oit and have:
+            oit_draws = self._oit_draws(oit, VP, V, campos, lights, s, (w, h), camera, clip, fs, alpha, ghost)
+        if oit_draws:
+            self._shade_bind_group()
+            self.oit.encode(enc, oit_draws, size=(w, h), samples=samples, depth_view=V_["vis_depth"], targets=self.oit_t,
+                            items=self._items_v, spec=self._spec_v, vp_wgpu=GL_TO_WGPU_Z @ VP, anim_tab=self._anim_tab)
         # ---- 3. SSAO (reads the previous frame's resolved colour, `opaque`) and the two blur passes
         if s.ao and m is not None:
             radius = s.ao_radius or self._auto_ao_radius()
@@ -948,18 +1147,20 @@ class WgpuRenderer:
             post.run_blur(T["ao_tmp"], T["nd"], T["ao"], (0.0, 1.0 / h), encoder=enc)
         # ---- 4. shaded resolve into `opaque`
         if groups:
-            for gi, (p0, n, bg) in enumerate(groups):
+            slots = sorted({0, *(int(table[e[0], 38].view(np.uint32)) for e in entries)})
+            plan = [(p0, n, bg, sl) for (p0, n, bg) in groups for sl in slots]
+            for gi, (p0, n, bg, sl) in enumerate(plan):
                 tw = {}
                 if qs and gi == 0:
                     tw.update({"query_set": qs, "beginning_of_pass_write_index": 6})
-                if qs and gi == len(groups) - 1:
+                if qs and gi == len(plan) - 1:
                     tw.update({"query_set": qs, "end_of_pass_write_index": 7})
                 rp = enc.begin_render_pass(
                     color_attachments=[{"view": V_["opaque"], "load_op": "clear" if gi == 0 else "load", "store_op": "store",
                                         "clear_value": (0, 0, 0, 0)}], **({"timestamp_writes": tw} if tw else {}))
                 rp.set_pipeline(self._shade_pipe(samples, n, p0))
                 rp.set_bind_group(0, self._bg0)
-                rp.set_bind_group(1, self._shade_bind_group())
+                rp.set_bind_group(1, self._shade_bind_group(sl, 1 if gi == 0 else 0))
                 rp.set_bind_group(2, self._bg_vis)
                 rp.set_bind_group(3, bg)
                 rp.draw(3)
@@ -970,7 +1171,8 @@ class WgpuRenderer:
         # ---- 5. composite (no translucent items yet: accum / weight stay zero)
         hov = fs.hovered + 1 if fs.hovered >= 0 else s.hovered
         post.pending_ts = self._ts(qs, 8, 9)
-        post.run_composite(T["opaque"], T["accum"], T["weight"], T["id"], T["comp"], oit_on=False,
+        post.run_composite(T["opaque"], self.oit_t["accum"] if oit_draws else T["accum"],
+                           self.oit_t["weight"] if oit_draws else T["weight"], T["id"], T["comp"], oit_on=bool(oit_draws),
                            has_sel=bool(fs.selected or s.selected),
                            hover=float(hov if s.hover_outline_on and hov not in {i + 1 for i in fs.selected} else 0),
                            outline=s.outline, hover_outline=s.hover_outline, exposure=float(s.exposure),

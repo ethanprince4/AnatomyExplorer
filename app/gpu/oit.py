@@ -28,7 +28,7 @@ ACCUM_FORMAT, WEIGHT_FORMAT = "rgba16float", "r16float"
 RESOLVE_MARK = "// ---- resolve:"
 DRAW_FLOATS = 60                                  # OitDraw record, 240 bytes (oit.wgsl)
 FRAME_BYTES = 80
-STREAMS = ("pos", "nrm", "dpos", "dnrm", "fib", "col", "uv")
+STREAMS = ("pos", "nrm", "dpos", "dnrm", "fib", "col", "uv", "anim")
 
 
 @dataclass
@@ -91,6 +91,8 @@ def pack_draws(draws, geom):
         iv[k, 48] = sb[4]
         iv[k, 49] = int(geom.vbase[d.part])
         iv[k, 50] = int(d.item)
+        ab = getattr(geom, "anim_base", None)
+        iv[k, 51] = -1 if ab is None else int(ab[d.part])
         r[52] = float(u.get("u_weight", 0.0))
         r[53] = 1.0 if int(u.get("u_ghost", 0)) else 0.0
         r[54] = float(u.get("u_ghost_alpha", 0.0))
@@ -119,7 +121,8 @@ class OitPass:
         V, F = SS.VERTEX, SS.FRAGMENT
         ent = lambda b, vis, **k: {"binding": b, "visibility": vis, **k}
         self.bgl0 = d.create_bind_group_layout(entries=[
-            ent(0, V | F, buffer={"type": "uniform"}), ent(1, V | F, buffer={"type": "read-only-storage"})])
+            ent(0, V | F, buffer={"type": "uniform"}), ent(1, V | F, buffer={"type": "read-only-storage"}),
+            ent(2, V, buffer={"type": "read-only-storage"})])
         tex = lambda b, st, vd="2d": ent(b, F, texture={"sample_type": st, "view_dimension": vd})
         smp = lambda b: ent(b, F, sampler={"type": "filtering"})
         self.bgl1 = d.create_bind_group_layout(entries=[
@@ -152,6 +155,7 @@ class OitPass:
         self._draw_cap = self._su_cap = 0
         self._page_bg = []
         self._bg0 = None
+        self._bg0_anim = None
         self._bg1 = {}
         self.geom = None
         self.last_draws = 0
@@ -264,7 +268,7 @@ class OitPass:
         self._bg1[key] = (items, spec, tex, bg)
         return bg
 
-    def encode(self, enc, draws, *, size, samples, depth_view, targets, items, spec, resolve=True, vp_wgpu=None):
+    def encode(self, enc, draws, *, size, samples, depth_view, targets, items, spec, resolve=True, vp_wgpu=None, anim_tab=None):
         """Record the OIT pass (and the resolve) into the command encoder ``enc``. ``draws`` must not be empty (GL skips
         the pass, and the composite's oit_on is then 0). ``depth_view``: the multisampled depth of the opaque pass
         (same size and sample count as the colour targets), read only.  Rows of the multisampled targets are top-first
@@ -285,8 +289,11 @@ class OitPass:
         q.write_buffer(self._su_buf, 0, su)
         q.write_buffer(self._draw_buf, 0, rec)
         q.write_buffer(self._frame_ub, 0, pack_frame(draws[0].uniforms["u_viewproj"], size, self.flip_y, vp_wgpu))
-        if self._bg0 is None:
+        anim = anim_tab if anim_tab is not None else self._dummy
+        if self._bg0 is None or self._bg0_anim is not anim:
+            self._bg0_anim = anim
             self._bg0 = d.create_bind_group(layout=self.bgl0, entries=[
+                {"binding": 2, "resource": {"buffer": anim, "offset": 0, "size": anim.size}},
                 {"binding": 0, "resource": {"buffer": self._frame_ub, "offset": 0, "size": FRAME_BYTES}},
                 {"binding": 1, "resource": {"buffer": self._draw_buf, "offset": 0, "size": self._draw_cap}}])
         if targets["samples"] != samples:

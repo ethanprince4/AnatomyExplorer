@@ -3,13 +3,16 @@
 //
 // Concatenated by app/gpu/renderer.py, in this order:  the generated prelude (SAMPLES, vis_id, load_id, bg_tex, the pages of
 // this pass: fetch_*), clip.wgsl (its `clipped` renamed `clipped_draw`: shading.wgsl has its own), shading.wgsl (its
-// `su` uniform replaced by `var<private> su`, filled per shaded triangle), then this file with the generated
+// `su` uniform replaced by `var<private> su`, filled per shaded triangle), morph.wgsl (ptab, anim_tab, morph / animation), then this file with the generated
 // `apply_look(rec)` (copies the per-part fields of a look record into `su`).
 //
 // ROW ORDER. Everything here is in GL's row order (row 0 = bottom of the picture): the visibility pass is rendered with the
 // clip y negated (so that its 4x / 8x sample pattern, defined y-down in Vulkan and y-up in GL, lands on GL's), and every
 // output texture is addressed with @builtin(position).xy == gl_FragCoord.xy. Only the gather inputs (pixels counted from
 // the top) and the final blit convert.
+//
+// Texture passes: the shaded resolve runs once per texture slot (pass_info.x; 0 = none); a pass shades only the draws of its slot
+// (draw.c.z), pass_info.y = 1 adds the backdrop of empty samples (the first pass only).
 //
 // Bindings (unique per module, the entry points use different subsets):
 //   group 0: 0 frame  1 draws  2 ptab (per part: stream bases, vertex base, constant tail)  3 looks  4 sg (frame-wide ShadeU)
@@ -20,7 +23,6 @@
 
 @group(0) @binding(0) var<uniform> frame: Frame;
 @group(0) @binding(1) var<storage, read> draws: array<Draw>;
-@group(0) @binding(2) var<storage, read> ptab: array<u32>;
 @group(0) @binding(3) var<storage, read> looks: array<ShadeU>;
 @group(0) @binding(4) var<uniform> sg: ShadeU;
 
@@ -28,7 +30,6 @@
 @group(2) @binding(4) var r_id: texture_2d<f32>;
 @group(2) @binding(5) var r_nd: texture_2d<f32>;
 
-const PTAB_STRIDE: u32 = 20u;           // words per part: 0..4 stream bases (i32; -1 constant), 5 vertex base, 6..18 tail
 
 @vertex
 fn vs_fsq(@builtin(vertex_index) vi: u32) -> @builtin(position) vec4<f32> {
@@ -60,6 +61,7 @@ struct Vtx {
     fib: f32,
     col: vec4<f32>,
     uv: vec2<f32>,
+    glow: f32,
 };
 
 struct Tri {
@@ -80,7 +82,7 @@ fn vtx_geom(d: Draw, lp: u32, v: u32) -> Vtx {
     var o: Vtx;
     let p = fetch_pos(lp, v);
     o.opos = p;
-    o.w = (d.model * vec4<f32>(p, 1.0)).xyz;
+    o.w = (d.model * vec4<f32>(morph_pos(d, lp, v, p), 1.0)).xyz;
     o.cl = frame.vp * vec4<f32>(o.w, 1.0);
     return o;
 }
@@ -90,6 +92,7 @@ struct VAttr {
     fib: f32,
     col: vec4<f32>,
     uv: vec2<f32>,
+    glow: f32,
 };
 
 fn vtx_attr(d: Draw, lp: u32, v: u32) -> VAttr {
@@ -98,7 +101,8 @@ fn vtx_attr(d: Draw, lp: u32, v: u32) -> VAttr {
     let base = part * PTAB_STRIDE;
     let rel = v - ptab[base + 5u];
     let nmat = mat3x3<f32>(d.nmat0.xyz, d.nmat1.xyz, d.nmat2.xyz);
-    o.n = nmat * oct_decode(unpack2x16snorm(fetch_nrm(lp, v)));
+    o.n = nmat * morph_nrm(d, lp, v, oct_decode(unpack2x16snorm(fetch_nrm(lp, v))));
+    o.glow = anim_glow(d, lp, v);
     let s_fib = bitcast<i32>(ptab[base + 2u]);
     let s_col = bitcast<i32>(ptab[base + 3u]);
     let s_uv = bitcast<i32>(ptab[base + 4u]);
@@ -139,9 +143,9 @@ fn tri_attrs(d: Draw, lp: u32, tin: Tri) -> Tri {
     let a0 = vtx_attr(d, lp, t.i0);
     let a1 = vtx_attr(d, lp, t.i1);
     let a2 = vtx_attr(d, lp, t.i2);
-    t.v0.n = a0.n; t.v0.fib = a0.fib; t.v0.col = a0.col; t.v0.uv = a0.uv;
-    t.v1.n = a1.n; t.v1.fib = a1.fib; t.v1.col = a1.col; t.v1.uv = a1.uv;
-    t.v2.n = a2.n; t.v2.fib = a2.fib; t.v2.col = a2.col; t.v2.uv = a2.uv;
+    t.v0.n = a0.n; t.v0.fib = a0.fib; t.v0.col = a0.col; t.v0.uv = a0.uv; t.v0.glow = a0.glow;
+    t.v1.n = a1.n; t.v1.fib = a1.fib; t.v1.col = a1.col; t.v1.uv = a1.uv; t.v1.glow = a1.glow;
+    t.v2.n = a2.n; t.v2.fib = a2.fib; t.v2.col = a2.col; t.v2.uv = a2.uv; t.v2.glow = a2.glow;
     return t;
 }
 
@@ -266,7 +270,7 @@ fn shade_tri(d: Draw, prim: u32, px: vec2<i32>, c: vec2<f32>, frag: vec2<f32>, f
     si.fib = b.x * t.v0.fib + b.y * t.v1.fib + b.z * t.v2.fib;
     si.col = b.x * t.v0.col + b.y * t.v1.col + b.z * t.v2.col;
     si.uv = b.x * t.v0.uv + b.y * t.v1.uv + b.z * t.v2.uv;
-    si.glow = 0.0;
+    si.glow = b.x * t.v0.glow + b.y * t.v1.glow + b.z * t.v2.glow;
     si.item = i32(d.b.y);
     si.front_facing = t.det > 0.0;
     si.pixel = frag;
@@ -306,7 +310,7 @@ fn fs_shade(@builtin(position) frag: vec4<f32>) -> @location(0) vec4<f32> {
     for (var s = 0; s < i32(SAMPLES); s++) {
         let id = ids[s];
         if (id == 0u) {
-            if (GROUP_PAGE0 == 0u) {
+            if (pass_info.y == 1u) {
                 acc += bgc;
                 counted++;
             }
@@ -314,6 +318,7 @@ fn fs_shade(@builtin(position) frag: vec4<f32>) -> @location(0) vec4<f32> {
         }
         let d = draws[id >> bits];
         if (d.a.w < GROUP_PAGE0 || d.a.w >= GROUP_PAGE0 + GROUP_PAGES) { continue; }
+        if (bitcast<u32>(d.c.z) != pass_info.x) { continue; }
         var first = true;
         var count = 1u;
         for (var q = 0; q < i32(SAMPLES); q++) {

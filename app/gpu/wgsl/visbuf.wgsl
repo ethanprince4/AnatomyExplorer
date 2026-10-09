@@ -8,6 +8,12 @@
 @group(0) @binding(0) var<uniform> frame: Frame;
 @group(0) @binding(1) var<storage, read> draws: array<Draw>;
 @group(1) @binding(0) var<storage, read> pos: array<f32>;       // page positions, float32 x3
+@group(1) @binding(1) var<storage, read> g_dpos: array<f32>;   // morph / animation streams of the page (morph.wgsl)
+@group(1) @binding(2) var<storage, read> g_dnrm: array<f32>;
+@group(1) @binding(3) var<storage, read> g_anim: array<u32>;
+fn fetch_dpos(lp: u32, i: u32) -> f32 { return g_dpos[i]; }
+fn fetch_dnrm(lp: u32, i: u32) -> f32 { return g_dnrm[i]; }
+fn fetch_anim(lp: u32, i: u32) -> u32 { return g_anim[i]; }
 
 struct VOut {
     @builtin(position) clip: vec4<f32>,
@@ -15,11 +21,10 @@ struct VOut {
     @location(1) @interpolate(flat) slot: u32,
 };
 
-// World position of vertex `v` (page local) of the draw. HOOK: morph (d.c.x * dpos), explode and animation
-// displacement go here in a later step; the geometry is static now: world = part matrix * position.
+// World position of vertex `v` (page local) of the draw: part matrix * (position + morph + animation), morph.wgsl.
 fn vertex_world(d: Draw, v: u32) -> vec3<f32> {
     let p = vec3<f32>(pos[3u * v], pos[3u * v + 1u], pos[3u * v + 2u]);
-    return (d.model * vec4<f32>(p, 1.0)).xyz;
+    return (d.model * vec4<f32>(morph_pos(d, 0u, v, p), 1.0)).xyz;
 }
 
 @vertex

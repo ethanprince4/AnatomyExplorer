@@ -14,7 +14,7 @@
 //  1. Vertex pulling.  Attributes are read from geometry.py's compact page: position f32x3, octahedral normal
 //     (unpack2x16snorm, geometry.oct_decode), and the five variable streams (dpos, dnrm, fib, col, uv) through the
 //     part's stream base, or the part's constant tail where the stream is constant.  in_item is the draw's item.
-//     The procedural animation morph targets are not in the compact geometry: PartXf.anim is always 0 (glow 0).
+//     The procedural animation streams come from the page's 'anim' stream and the renderer's per-item table (oanim).
 //  2. Derivatives.  GLSL takes the texture LOD and fwidth(v_fib) implicitly; here uv uses the COARSE quad difference and
 //     the fibre coordinate the FINE one (what GL does on NVIDIA, measured in shade_parity.py), all computed at the top of
 //     the entry point in uniform control flow.  OIT_FS discards clipped fragments before surface() (undefined
@@ -52,6 +52,7 @@ struct OitDraw {
 
 @group(0) @binding(0) var<uniform> ofr: OitFrame;
 @group(0) @binding(1) var<storage, read> odraws: array<OitDraw>;
+@group(0) @binding(2) var<storage, read> oanim: array<vec4<f32>>;     // per item: u_aw, u_ag, (anim_t, on, 0, 0) (renderer anim_tab)
 
 @group(2) @binding(0) var<storage, read> g_pos: array<f32>;
 @group(2) @binding(1) var<storage, read> g_nrm: array<u32>;
@@ -60,6 +61,7 @@ struct OitDraw {
 @group(2) @binding(4) var<storage, read> g_fib: array<f32>;
 @group(2) @binding(5) var<storage, read> g_col: array<f32>;
 @group(2) @binding(6) var<storage, read> g_uv: array<f32>;
+@group(2) @binding(7) var<storage, read> g_anim: array<u32>;    // 9 words per vertex: float16 x16 (four morph targets xyzw), float32 phase
 
 fn sign_nz(v: vec2<f32>) -> vec2<f32> {
     return select(vec2<f32>(-1.0), vec2<f32>(1.0), v >= vec2<f32>(0.0));
@@ -124,6 +126,14 @@ fn pull(d: OitDraw, v: i32) -> VtxAttr {
     a.m2 = vec4<f32>(0.0);
     a.m3 = vec4<f32>(0.0);
     a.phase = 0.0;
+    if (d.sb1.w >= 0) {
+        let w = 9u * u32(d.sb1.w + l);
+        a.m0 = vec4<f32>(unpack2x16float(g_anim[w]), unpack2x16float(g_anim[w + 1u]));
+        a.m1 = vec4<f32>(unpack2x16float(g_anim[w + 2u]), unpack2x16float(g_anim[w + 3u]));
+        a.m2 = vec4<f32>(unpack2x16float(g_anim[w + 4u]), unpack2x16float(g_anim[w + 5u]));
+        a.m3 = vec4<f32>(unpack2x16float(g_anim[w + 6u]), unpack2x16float(g_anim[w + 7u]));
+        a.phase = bitcast<f32>(g_anim[w + 8u]);
+    }
     a.item = f32(d.sb1.z);
     return a;
 }
@@ -134,10 +144,12 @@ fn draw_xf(d: OitDraw) -> PartXf {
     x.nmat = mat3x3<f32>(d.nmat0.xyz, d.nmat1.xyz, d.nmat2.xyz);
     x.viewproj = ofr.vp;
     x.weight = d.misc.x;
-    x.anim = 0;
-    x.anim_t = 0.0;
-    x.aw = vec4<f32>(0.0);
-    x.ag = vec4<f32>(0.0);
+    let at = 3 * d.sb1.z;
+    let ex = oanim[at + 2];
+    x.anim = select(0, 1, ex.y > 0.5);
+    x.anim_t = ex.x;
+    x.aw = oanim[at];
+    x.ag = oanim[at + 1];
     return x;
 }
 

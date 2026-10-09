@@ -319,7 +319,8 @@ class OW:
         b_fr = d.create_buffer_with_data(data=O.pack_frame(opaque[0][1]["u_viewproj"], (s, s), self.flip_y), usage=BU.UNIFORM)
         bg0 = d.create_bind_group(layout=self.pas.bgl0, entries=[
             {"binding": 0, "resource": {"buffer": b_fr, "offset": 0, "size": O.FRAME_BYTES}},
-            {"binding": 1, "resource": {"buffer": b_draw, "offset": 0, "size": rec.nbytes}}])
+            {"binding": 1, "resource": {"buffer": b_draw, "offset": 0, "size": rec.nbytes}},
+            {"binding": 2, "resource": {"buffer": self.pas._dummy, "offset": 0, "size": self.pas._dummy.size}}])
         rp = enc.begin_render_pass(color_attachments=[], depth_stencil_attachment={
             "view": depth.create_view(), "depth_clear_value": 1.0, "depth_load_op": "clear", "depth_store_op": "store"})
         rp.set_pipeline(self._depth_pipe())
