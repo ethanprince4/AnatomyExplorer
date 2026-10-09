@@ -528,8 +528,11 @@ class ModelView(QWidget):
             elif len(g.items) == 1:
                 part_row(parent, g.items[0], path)
             else:
-                gi = heading(OutlineItem(parent), title, ("group", g.key))
-                self.group_items[g.key] = gi
+                if path and title.casefold() == path[-1].casefold():
+                    gi = parent                    # "Villi" under a "Villi" category: no second heading
+                else:
+                    gi = heading(OutlineItem(parent), title, ("group", g.key))
+                    self.group_items[g.key] = gi
                 for kind_title, members, counted in kinds:
                     sids = [g.items[n] for n in members]
                     if kind_title is None:
