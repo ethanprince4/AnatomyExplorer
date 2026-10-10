@@ -12,7 +12,9 @@ rounds the lead runs this tool once:
 
 Patch format (one JSON object per file; every key but "id" optional):
   {"id": "...", "scene": {complete replacement scene}, "label_structures": {"3": ["Renal artery"], "5": []},
-   "findings_add": [spec], "findings_replace": [spec], "findings_remove": ["name"], "note": "why"}
+   "label_at": {"3": [x, y, z], "5": null}, "findings_add": [spec], "findings_replace": [spec],
+   "findings_remove": ["name"], "note": "why"}
+"label_at" pins a numbered label's 3D number to a world point (metres) on its structure, or unpins it (null).
 
 --root R makes apply/brief/names/guide read and write R/data/content, R/tools/findings_specs.json,
 R/data/findings and R/data/anatomy/anatomy.json instead of the repository's own (the geometry in the real
@@ -32,7 +34,8 @@ from pathlib import Path
 REAL = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REAL))
 
-PATCH_KEYS = {"id", "scene", "label_structures", "findings_add", "findings_replace", "findings_remove", "note"}
+PATCH_KEYS = {"id", "scene", "label_structures", "label_at", "findings_add", "findings_replace", "findings_remove",
+              "note"}
 SCENE_BOOL = {"isolate", "layer_only", "frame", "xray", "reset_clips", "slice_only"}
 SCENE_NAMES = ("show", "focus", "ghost_focus", "frame_on")
 SCENE_LISTS = ("systems", "regions") + SCENE_NAMES + ("micro_focus", "micro_context")
@@ -58,7 +61,7 @@ SCENE_DOC = """\
 | slice_only | true | CT/MRI with a clip get this automatically; hides everything but the cut face |
 | landmark | "name" | a bony landmark to point at |
 | micro, micro_focus, micro_context, model_view | model id, [part names], [part names], view name | show a reference model |
-| reference_labels | [{"text","structures","side","at"}] | author the 3D reference labels by hand (rare) |
+| reference_labels | [{"text","structures","side","at"}] | author the 3D reference labels by hand (rare); "at" is optional and must be a world point [x, y, z] in metres |
 """
 
 
@@ -569,6 +572,12 @@ def validate_scene(w, view, scene, case_id):
         for n in e.get("structures", []):
             if not view.ok(n):
                 errs.append(f"reference_labels {n!r} does not resolve")
+        at = e.get("at")
+        if at is not None and not (isinstance(at, list) and len(at) == 3
+                                   and all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in at)):
+            errs.append(f"reference_labels {e.get('text')!r}: 'at' must be a world point [x, y, z] in metres "
+                        "(the app draws the label there), not a finding-style placement object; leave it out to "
+                        "anchor on the structures")
     if scene.get("clip") and scene.get("frame_on") is None and scene.get("frame") is not False:
         warns.append("clip without frame_on: the camera frames everything the plane cuts (a long tendon can zoom it out)")
     return errs, warns
@@ -663,6 +672,14 @@ def apply_ops(w, ops):
             labs = files[p][i]["labels"]
             for idx, names in op[2].items():
                 labs[idx] = relink(labs[idx], names)
+        elif kind == "label_at":
+            p, i = loc[op[1]]
+            labs = files[p][i]["labels"]
+            for idx, at in op[2].items():
+                if at is None:
+                    labs[idx].pop("at", None)
+                else:
+                    labs[idx]["at"] = [float(x) for x in at]
         elif kind == "spec_replace":
             specs[[s["name"] for s in specs].index(op[1]["name"])] = copy.deepcopy(op[1])
         elif kind == "spec_remove":
@@ -902,6 +919,28 @@ def check_patch(w, st, pid, patch):
                                  "micro change; fix it with label_structures")
     if changes:
         v.ops.append(("labels", pid, changes))
+    pins = {}
+    if "label_at" in patch:
+        la = patch["label_at"]
+        if not isinstance(la, dict):
+            v.reasons.append("label_at must be an object {\"1\": [x, y, z] or null, ...}")
+        else:
+            for key, at in la.items():
+                try:
+                    idx = int(key)
+                except (TypeError, ValueError):
+                    v.reasons.append(f"label_at key {key!r} is not a label number")
+                    continue
+                if not 1 <= idx <= len(labels):
+                    v.reasons.append(f"label {idx} does not exist (the case has {len(labels)} labels)")
+                    continue
+                if at is not None and not (isinstance(at, list) and len(at) == 3 and all(
+                        isinstance(x, (int, float)) and not isinstance(x, bool) for x in at)):
+                    v.reasons.append(f"label_at {idx}: must be a world point [x, y, z] in metres, or null to unpin")
+                    continue
+                pins[idx - 1] = at
+    if pins:
+        v.ops.append(("label_at", pid, pins))
     # ---- the case should show what it adds
     final = {"scene": new_scene, "labels": [relink(l, changes[i]) if i in changes else l for i, l in enumerate(labels)]}
     used = finding_refs(cview, final)
@@ -1257,10 +1296,12 @@ def cmd_brief(args):
           + f". How to write a finding spec: `{args.names}/FINDINGS_GUIDE.md`.", "",
           "## Patch to write", "",
           f"One file `{cid}.json` in the round's patch folder. `scene` REPLACES the whole scene (copy the current one and "
-          "edit it). `label_structures` changes only which structure(s) a numbered label links to. Every other key is "
-          "optional. A patch with any error is rejected whole.", "", "```json",
+          "edit it). `label_structures` changes only which structure(s) a numbered label links to. `label_at` pins a "
+          "numbered label's 3D number to a world point [x, y, z] in metres on its structure (null unpins it). Every "
+          "other key is optional. A patch with any error is rejected whole.", "", "```json",
           pretty({"id": cid, "scene": {"...": "complete replacement"}, "label_structures": {"1": ["Name"]},
-                  "findings_add": [], "findings_replace": [], "findings_remove": [], "note": "what and why"}), "```", ""]
+                  "label_at": {"2": [0.0, 1.0, 0.0]}, "findings_add": [], "findings_replace": [],
+                  "findings_remove": [], "note": "what and why"}), "```", ""]
     write_text(out / f"{cid}.md", "\n".join(L))
     print(f"-> {out / (cid + '.md')}  ({len(mine)} findings, {len(case.get('labels', []))} labels)")
     return 0

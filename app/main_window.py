@@ -2310,6 +2310,10 @@ class MainWindow(QMainWindow):
             old_reference.hide()
         self._radiology_model_view = None
         self.viewport.show()
+        if old_reference is not None:
+            # The splitter lays the re-shown viewport out later; until then it keeps the size it had while hidden,
+            # and this case would be framed for that shape. Lay it out now.
+            self.anatomy_tab.refresh()
         self.anatomy_tab.gl_widget = self.viewport
         before = st._snapshot()
         previous_undo = list(st._undo)
@@ -2382,6 +2386,8 @@ class MainWindow(QMainWindow):
                                 viewport.frame_section(view=scene.get("view"))
                         QTimer.singleShot(0, self, settled_section_frame)
             self._radiology_groups = self._radiology_label_groups(case, scene, side)
+            if self._radiology_groups:  # the case names its own anatomy: no landmark names over its labels
+                vp.landmark_hosts, vp.focus_landmark = [], None
             self._show_radiology_labels(self.radiology_panel.labels_on.isChecked())
             if model_id and scene.get("micro_focus"):
                 self._open_radiology_model(model_id, case, scene, frame_token)
@@ -2740,16 +2746,17 @@ class MainWindow(QMainWindow):
                 if framing:
                     vp.frame_structures(framing, view=want_view)
                     want_view = None
+        frame_on = pick(step.get("frame_on", []))
         if focus:
             st.select(focus)
             vp.landmark_hosts = focus if len(focus) <= 2 else []
             self.info.show_structures(focus)
             if step.get("xray", True):
-                st.set_ghost_focus(focus)
-            if step.get("frame", True) and not clip:
+                st.set_ghost_focus(sorted(set(focus) | set(ghost)))   # the step's own ghost_focus stays solid too
+            # frame_on overrides the focus framing; framing twice would swing back to the previous step's angle
+            if step.get("frame", True) and not clip and not frame_on:
                 vp.frame_structures(focus, view=want_view)   # one move: swing round and zoom in together
                 want_view = None
-        frame_on = pick(step.get("frame_on", []))
         if frame_on:
             vp.frame_structures(frame_on, view=want_view)
             want_view = None

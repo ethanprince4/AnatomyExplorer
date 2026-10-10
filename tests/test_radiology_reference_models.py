@@ -14,7 +14,8 @@ from app.viewer.catalog import load_catalog
 class ReferenceModelLookupTests(unittest.TestCase):
     def test_every_case_part_name_resolves_in_its_model(self):
         cases = [c for c in load_cases(include_missing=True) if c.scene.get("micro") and c.scene.get("micro_focus")]
-        self.assertGreaterEqual(len(cases), 12)
+        # A case whose disease needs a finding uses the atlas instead: findings are not drawn in reference models.
+        self.assertGreaterEqual(len(cases), 9)
         catalog = load_catalog()
         models = {}
         for model_id in sorted({c.scene["micro"] for c in cases}):

@@ -22,6 +22,16 @@
    ],
    "side": "Left",
    "view": "anterior",
+   "camera": [
+    [
+     0.217,
+     1.1,
+     -0.035
+    ],
+    0.3,
+    0,
+    0
+   ],
    "focus": [
     "Humerus",
     "Radius",
@@ -35,6 +45,164 @@
    "xray": true,
    "frame_on": [
     "Elbow joint"
+   ],
+   "reference_labels": [
+    {
+     "text": "1  Humerus",
+     "structures": [
+      "Humerus"
+     ],
+     "side": "Left",
+     "at": [
+      0.1986,
+      1.1347,
+      -0.0411
+     ]
+    },
+    {
+     "text": "2  Olecranon fossa",
+     "structures": [
+      "Humerus"
+     ],
+     "side": "Left",
+     "at": [
+      0.2137,
+      1.1176,
+      -0.034
+     ]
+    },
+    {
+     "text": "3  Medial epicondyle",
+     "structures": [
+      "Humerus"
+     ],
+     "side": "Left",
+     "at": [
+      0.1876,
+      1.1062,
+      -0.0309
+     ]
+    },
+    {
+     "text": "4  Lateral epicondyle",
+     "structures": [
+      "Humerus"
+     ],
+     "side": "Left",
+     "at": [
+      0.2467,
+      1.1142,
+      -0.0384
+     ]
+    },
+    {
+     "text": "5  Trochlea",
+     "structures": [
+      "Humerus"
+     ],
+     "side": "Left",
+     "at": [
+      0.215,
+      1.1025,
+      -0.037
+     ]
+    },
+    {
+     "text": "6  Capitulum",
+     "structures": [
+      "Humerus"
+     ],
+     "side": "Left",
+     "at": [
+      0.2383,
+      1.1092,
+      -0.0272
+     ]
+    },
+    {
+     "text": "7  Olecranon",
+     "structures": [
+      "Ulna"
+     ],
+     "side": "Left",
+     "at": [
+      0.2084,
+      1.0811,
+      -0.042
+     ]
+    },
+    {
+     "text": "8  Trochlear notch",
+     "structures": [
+      "Ulna"
+     ],
+     "side": "Left",
+     "at": [
+      0.2078,
+      1.0876,
+      -0.04
+     ]
+    },
+    {
+     "text": "9  Coronoid process",
+     "structures": [
+      "Ulna"
+     ],
+     "side": "Left",
+     "at": [
+      0.2127,
+      1.0885,
+      -0.0415
+     ]
+    },
+    {
+     "text": "10  Head of radius",
+     "structures": [
+      "Radius"
+     ],
+     "side": "Left",
+     "at": [
+      0.2356,
+      1.0823,
+      -0.0219
+     ]
+    },
+    {
+     "text": "11  Neck of radius",
+     "structures": [
+      "Radius"
+     ],
+     "side": "Left",
+     "at": [
+      0.2321,
+      1.0734,
+      -0.0251
+     ]
+    },
+    {
+     "text": "12  Radius",
+     "structures": [
+      "Radius"
+     ],
+     "side": "Left",
+     "at": [
+      0.2317,
+      1.0608,
+      -0.0211
+     ]
+    },
+    {
+     "text": "13  Ulna",
+     "structures": [
+      "Ulna"
+     ],
+     "side": "Left",
+     "at": [
+      0.2142,
+      1.0696,
+      -0.0437
+     ]
+    }
    ]
   },
   "labels": [
@@ -270,6 +438,18 @@
    ],
    "side": "Left",
    "view": "left",
+   "show": [
+    "Scaphoid bone",
+    "Lunate bone",
+    "Triquetrum bone",
+    "Pisiform bone",
+    "Trapezium bone",
+    "Trapezoid bone",
+    "Capitate bone",
+    "Hamate bone",
+    "First metacarpal bone",
+    "Articular capsule of radiocarpal joint"
+   ],
    "ghost_focus": [
     "Radius",
     "Ulna",
@@ -281,18 +461,30 @@
     "Trapezoid bone",
     "Capitate bone",
     "Hamate bone",
-    "First metacarpal bone",
     "Second metacarpal bone",
     "Third metacarpal bone",
     "Fourth metacarpal bone",
-    "Fifth metacarpal bone",
-    "Articular capsule of radiocarpal joint"
+    "Fifth metacarpal bone"
    ],
    "frame_on": [
-    "Radius",
+    "Scaphoid bone",
     "Lunate bone",
+    "Triquetrum bone",
+    "Pisiform bone",
+    "Trapezium bone",
+    "Trapezoid bone",
     "Capitate bone",
-    "Third metacarpal bone"
+    "Hamate bone"
+   ],
+   "camera": [
+    [
+     0.265,
+     0.85,
+     0.008
+    ],
+    0.22,
+    90,
+    0
    ]
   },
   "labels": [
@@ -476,18 +668,14 @@
     "Infrapatellar fat pad"
    ],
    "frame_on": [
-    "Patella",
-    "Femur",
-    "Tibia",
-    "Fibula",
-    "Rectus femoris muscle",
-    "Vastus intermedius muscle",
+    "Popliteus muscle",
     "Suprapatellar bursa",
-    "Infrapatellar fat pad"
+    "Patella"
    ],
    "show": [
     "Suprapatellar bursa",
-    "Infrapatellar fat pad"
+    "Infrapatellar fat pad",
+    "Articular capsule of knee joint"
    ]
   },
   "labels": [
@@ -507,10 +695,15 @@
     "y": 0.225,
     "text": "Suprapatellar pouch",
     "structures": [
-     "Suprapatellar bursa"
+     "Articular capsule of knee joint"
     ],
     "side": "Right",
-    "note": "a fat–fluid level here means an intra-articular fracture"
+    "note": "a fat–fluid level here means an intra-articular fracture",
+    "at": [
+     -0.0728,
+     0.4897,
+     0.0049
+    ]
    },
    {
     "x": 0.14,
@@ -531,9 +724,9 @@
     ],
     "side": "Right",
     "at": [
-     -0.0913,
-     0.6779,
-     -0.0123
+     -0.0823,
+     0.5687,
+     -0.0174
     ]
    },
    {
@@ -559,7 +752,12 @@
      "Femur"
     ],
     "side": "Right",
-    "note": "the intercondylar roof – the ACL runs parallel to it"
+    "note": "the intercondylar roof – the ACL runs parallel to it",
+    "at": [
+     -0.0349,
+     0.4737,
+     -0.0322
+    ]
    },
    {
     "x": 0.245,
@@ -623,7 +821,12 @@
     "structures": [
      "Fibula"
     ],
-    "side": "Right"
+    "side": "Right",
+    "at": [
+     -0.1045,
+     0.383,
+     -0.0512
+    ]
    },
    {
     "x": 0.5,
@@ -634,9 +837,9 @@
     ],
     "side": "Right",
     "at": [
-     -0.0707,
-     0.239,
-     -0.0231
+     -0.0627,
+     0.3599,
+     -0.0225
     ]
    }
   ],
@@ -963,12 +1166,209 @@
     "Sacrum",
     "Vertebra L5",
     "Pubic symphysis",
-    "Obturator membrane",
-    "Articular capsule of hip joint"
+    "Obturator membrane"
    ],
    "frame_on": [
     "Hip bone",
     "Sacrum"
+   ],
+   "reference_labels": [
+    {
+     "text": "1  L5 vertebral body",
+     "structures": [
+      "Vertebra L5"
+     ]
+    },
+    {
+     "text": "2  Iliac crest",
+     "structures": [
+      "Hip bone"
+     ],
+     "side": "Right",
+     "at": [
+      -0.1095,
+      1.0053,
+      -0.008
+     ]
+    },
+    {
+     "text": "3  Ala of the ilium",
+     "structures": [
+      "Hip bone"
+     ],
+     "side": "Right",
+     "at": [
+      -0.096,
+      0.962,
+      -0.0116
+     ]
+    },
+    {
+     "text": "4  Sacroiliac joint",
+     "structures": [
+      "Sacrum",
+      "Hip bone"
+     ],
+     "side": "Right"
+    },
+    {
+     "text": "5  Sacrum",
+     "structures": [
+      "Sacrum"
+     ],
+     "at": [
+      0.0,
+      0.9373,
+      -0.0221
+     ]
+    },
+    {
+     "text": "6  Sacral foramen",
+     "structures": [
+      "Sacrum"
+     ],
+     "at": [
+      -0.0171,
+      0.9132,
+      -0.0694
+     ]
+    },
+    {
+     "text": "7  Head of femur",
+     "structures": [
+      "Femur"
+     ],
+     "side": "Right",
+     "at": [
+      -0.119,
+      0.8575,
+      -0.0262
+     ]
+    },
+    {
+     "text": "8  Acetabular roof",
+     "structures": [
+      "Hip bone"
+     ],
+     "side": "Right",
+     "at": [
+      -0.0953,
+      0.8927,
+      0.0268
+     ]
+    },
+    {
+     "text": "9  Neck of femur",
+     "structures": [
+      "Femur"
+     ],
+     "side": "Right",
+     "at": [
+      -0.108,
+      0.8209,
+      0.0017
+     ]
+    },
+    {
+     "text": "10  Greater trochanter",
+     "structures": [
+      "Femur"
+     ],
+     "side": "Right",
+     "at": [
+      -0.1399,
+      0.8361,
+      -0.0024
+     ]
+    },
+    {
+     "text": "11  Lesser trochanter",
+     "structures": [
+      "Femur"
+     ],
+     "side": "Right",
+     "at": [
+      -0.0905,
+      0.8014,
+      -0.0193
+     ]
+    },
+    {
+     "text": "12  Shenton's line",
+     "structures": [
+      "Hip bone",
+      "Femur"
+     ],
+     "side": "Right",
+     "at": [
+      -0.0513,
+      0.8472,
+      0.0417
+     ]
+    },
+    {
+     "text": "13  Superior pubic ramus",
+     "structures": [
+      "Hip bone"
+     ],
+     "side": "Right",
+     "at": [
+      -0.0336,
+      0.8481,
+      0.0417
+     ]
+    },
+    {
+     "text": "14  Obturator foramen",
+     "structures": [
+      "Obturator membrane"
+     ],
+     "side": "Right"
+    },
+    {
+     "text": "15  Inferior pubic ramus",
+     "structures": [
+      "Hip bone"
+     ],
+     "side": "Right",
+     "at": [
+      -0.0223,
+      0.8266,
+      0.0195
+     ]
+    },
+    {
+     "text": "16  Pubic symphysis",
+     "structures": [
+      "Pubic symphysis"
+     ]
+    },
+    {
+     "text": "17  Ischium",
+     "structures": [
+      "Hip bone"
+     ],
+     "side": "Right",
+     "at": [
+      -0.0618,
+      0.8075,
+      -0.0371
+     ]
+    },
+    {
+     "text": "18  Left hip joint",
+     "structures": [
+      "Articular capsule of hip joint",
+      "Femur",
+      "Hip bone"
+     ],
+     "side": "Left",
+     "at": [
+      0.119,
+      0.8575,
+      -0.0262
+     ]
+    }
    ]
   },
   "labels": [
