@@ -500,6 +500,22 @@ def _prepare_local_model(entry, token, use_cache):
         names = {item.key for item in model.items}
         controls = _prune_selectors(controls, names, warnings)
         model.cameras = _prune_selectors(model.cameras, names, warnings, "GLB cameras")
+        if 'lod' in assets:
+            from ..viewer import precomputed_lod
+            from ..load_control import LoadCancelled
+            binding = {role: asset.path for role, asset in assets.items() if role in ('viewer', 'catalog')}
+            runtime_controls = _get(descriptor, 'runtime_controls')
+            if runtime_controls is not None:
+                binding['runtime_controls'] = _path(runtime_controls, root)
+            try:
+                model.lod = precomputed_lod.load(model, assets['lod'].path, path, binding,
+                                                check=lambda: _check(token))
+                model.precomputed_lod_used = True
+            except LoadCancelled:
+                raise
+            except Exception as exc:
+                warnings.append(f"Optional precomputed LOD ignored; ordinary geometry preparation retained: {exc}")
+                model.precomputed_lod_used = False
         hooks_available = True
     else:
         raise ValueError("Local model must be NPZ or GLB")
