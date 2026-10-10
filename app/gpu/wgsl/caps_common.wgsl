@@ -20,6 +20,13 @@ struct CapFrame {
     hover_col: vec4<f32>,   // u_hover_col (rgb)
 };
 
+struct CapDraw {
+    model: mat4x4<f32>,
+    col: vec4<f32>,         // the part's constant vertex colour (const_tail)
+    a: vec4<u32>,           // x: colour stream offset (stream first vertex - part first vertex, wrapping), y: 1 = has a stream, z: mirrored
+    b: vec4<f32>,           // item + 1, selected flag, cap darkening (0.80 tissue / 0.62 plain), 0
+};
+
 // 24-bit unorm round trip: GL keeps the cap key and the pre-pass depth in 24-bit depth buffers, so two values closer
 // than 1 / (2^24 - 1) are equal there (ties keep the first draw).  The same quantisation is applied here.
 fn q24(x: f32) -> f32 {

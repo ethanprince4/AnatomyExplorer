@@ -144,8 +144,8 @@ class PostPasses:
         self._depth = {}                # (w, h) -> r32float copy of nd.w, the only channel the hot SSAO taps need
 
     # ------------------------------------------------------------------ plumbing
-    def _pipeline(self, name, fmt):
-        key = (name, fmt)
+    def _pipeline(self, name, fmt, consts=None):
+        key = (name, fmt, tuple(sorted((consts or {}).items())))
         if key in self._pipes:
             return self._pipes[key]
         dev = self.device
@@ -160,14 +160,15 @@ class PostPasses:
             vertex={"module": mod, "entry_point": "vs_fsq"},
             primitive={"topology": "triangle-list", "cull_mode": "none"},
             fragment={"module": mod, "entry_point": _ENTRY[name],
+                      **({"constants": dict(consts)} if consts else {}),
                       "targets": [{"format": f} for f in (fmt if isinstance(fmt, tuple) else (fmt,))]},
         )
         self._pipes[key] = (pipe, bgl)
         return self._pipes[key]
 
-    def _run(self, name, target_view, fmt, size, uniform, resources, encoder=None):
+    def _run(self, name, target_view, fmt, size, uniform, resources, encoder=None, consts=None):
         dev = self.device
-        pipe, bgl = self._pipeline(name, fmt)
+        pipe, bgl = self._pipeline(name, fmt, consts)
         entries = []
         res = list(resources)
         for i, kind in enumerate(_LAYOUTS[name]):
@@ -204,27 +205,29 @@ class PostPasses:
         self._run("blit", _view(target), fmt, target.size[:2], b"", [src, self.s_lin], encoder)
 
     def run_ssao(self, nd, prev, out, *, tan, ortho, radius, power, large, large_mix, gi_on, samples=16,
-                 bias=None, encoder=None):
+                 bias=None, encoder=None, depth=None, depth_ready=False):
         """Writes AO in .a and one-bounce GI colour in .rgb. ``bias`` defaults to radius * 0.03, ``power`` is
         1.6 * ao_strength, ``gi_on`` is 1.0 if bounce > 0 else 0.0 (renderer.py L766-788)."""
         bias = radius * 0.03 if bias is None else bias
         u = pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on)
-        depth = self.pack_depth(nd, encoder)
+        if depth is None or not depth_ready:
+            depth = self.pack_depth(nd, encoder, depth)
+        sc = {"SAMPLES": float(int(samples))}           # pipeline constant: the tap loops unroll and fold /samples
         if self.gi_scale == 1:
             self._run("ssao", _view(out), "rgba16float", out.size[:2], u, [nd, prev, self.s_lin, self.s_near, depth],
-                      encoder)
+                      encoder, sc)
             return
         if self.ao_scale == 1:                      # AO at full resolution (alpha only), GI at half resolution
             hi = self._hi_tex(nd)
             self._run("ssao", _view(hi), "rgba16float", hi.size[:2],
                       pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on, 1),
-                      [nd, prev, self.s_lin, self.s_near, depth], encoder)
+                      [nd, prev, self.s_lin, self.s_near, depth], encoder, sc)
         else:
             hi = None
         lo = self._lo_set(nd, encoder)
         u = pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on, 0 if self.ao_scale == 2 else 2)
         self._run("ssao_half", _view(lo["a"]), "rgba16float", lo["a"].size[:2], u,
-                  [nd, prev, self.s_lin, self.s_near, depth, lo["nd"], lo["off"]], encoder)
+                  [nd, prev, self.s_lin, self.s_near, depth, lo["nd"], lo["off"]], encoder, sc)
         self._run("upsample", _view(out), "rgba16float", out.size[:2], pack_upsample(1 if hi is not None else 0),
                   [nd, lo["a"], lo["a"] if hi is None else hi, lo["nd"]], encoder)
 
@@ -253,12 +256,12 @@ class PostPasses:
                 usage=wgpu.TextureUsage.TEXTURE_BINDING | wgpu.TextureUsage.RENDER_ATTACHMENT | wgpu.TextureUsage.COPY_SRC)
         return self._hi[key]
 
-    def pack_depth(self, nd, encoder=None):
+    def pack_depth(self, nd, encoder=None, out=None):
         """Exact copy of nd.w into an r32float texture (4 B per texel instead of 16). The SSAO taps (up to 128 per pixel)
         read only this channel; the pass costs one 16 B read and one 4 B write per pixel. The texture is owned by this
         object (one per size) and rewritten by every call. The renderer may write it directly instead (follow-up)."""
         key = tuple(nd.size[:2])
-        t = self._depth.get(key)
+        t = out if out is not None else self._depth.get(key)
         if t is None:
             t = self._depth[key] = self.device.create_texture(
                 size=(key[0], key[1], 1), format="r32float",

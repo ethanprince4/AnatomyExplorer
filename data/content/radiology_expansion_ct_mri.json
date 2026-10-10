@@ -193,7 +193,7 @@
     "y": 0.58,
     "text": "Lumbar vertebral body",
     "structures": [
-     "Vertebra L4"
+     "Intervertebral disc L5-S1"
     ],
     "note": "Vertebral body at the level of the iliac wings. The spinal canal lies directly behind it."
    },
@@ -229,18 +229,39 @@
    }
   ],
   "scene": {
+   "systems": [
+    "skeletal",
+    "muscular",
+    "visceral",
+    "joints"
+   ],
    "regions": [
     "abdomen",
     "back"
    ],
+   "view": "inferior",
    "clip": [
     2,
-    0.578
+    0.546
    ],
-   "view": "inferior",
-   "frame_on": [
+   "show": [
+    "Vermiform appendix",
+    "Ascending colon",
+    "Inflamed appendix wall (illustrative) (ct_appendicitis)",
+    "Psoas major",
+    "Hip bone",
+    "Intervertebral disc L5-S1"
+   ],
+   "ghost_focus": [
+    "Vermiform appendix",
+    "Ascending colon",
+    "Inflamed appendix wall (illustrative) (ct_appendicitis)",
     "Psoas major",
     "Hip bone"
+   ],
+   "frame_on": [
+    "Hip bone",
+    "Vermiform appendix"
    ],
    "xray": false
   },
@@ -446,7 +467,8 @@
     "y": 0.19,
     "text": "Subdural collection",
     "structures": [
-     "Left subdural haematoma (convexity)"
+     "Left subdural haematoma (convexity)",
+     "Left subdural haematoma (frontal convexity)"
     ],
     "side": "Left",
     "note": "Peripheral collection identified as blood by the source. In the 3D reference it is an illustrative subdural haematoma layer over the left convexity, not a measured match to this patient."
@@ -465,7 +487,8 @@
     "y": 0.2,
     "text": "Right subdural collection",
     "structures": [
-     "Right subdural haematoma (convexity)"
+     "Right subdural haematoma (convexity)",
+     "Right subdural haematoma (frontal convexity)"
     ],
     "side": "Right",
     "note": "Thinner, lighter crescent along the right frontoparietal convexity (image left), also a subdural collection."
@@ -512,7 +535,9 @@
    "slice_only": true,
    "show": [
     "Left subdural haematoma (convexity)",
+    "Left subdural haematoma (frontal convexity)",
     "Right subdural haematoma (convexity)",
+    "Right subdural haematoma (frontal convexity)",
     "Falx cerebri",
     "Lateral ventricle",
     "Third ventricle",
@@ -521,6 +546,60 @@
     "Thalamus",
     "Caudate nucleus",
     "Putamen"
+   ],
+   "reference_labels": [
+    {
+     "text": "1  Subdural collection",
+     "structures": [
+      "Left subdural haematoma (convexity)",
+      "Left subdural haematoma (frontal convexity)"
+     ],
+     "side": "Left",
+     "at": [
+      0.0665,
+      1.6195,
+      0.0104
+     ]
+    },
+    {
+     "text": "2  Falx cerebri",
+     "structures": [
+      "Falx cerebri"
+     ]
+    },
+    {
+     "text": "3  Right subdural collection",
+     "structures": [
+      "Right subdural haematoma (convexity)",
+      "Right subdural haematoma (frontal convexity)"
+     ],
+     "side": "Right",
+     "at": [
+      -0.0611,
+      1.6195,
+      0.0209
+     ]
+    },
+    {
+     "text": "4  Right lateral ventricle (atrium)",
+     "structures": [
+      "Lateral ventricle"
+     ],
+     "side": "Right"
+    },
+    {
+     "text": "5  Left lateral ventricle (atrium)",
+     "structures": [
+      "Lateral ventricle"
+     ],
+     "side": "Left"
+    },
+    {
+     "text": "6  Pineal gland",
+     "structures": [
+      "Pineal gland"
+     ]
+    }
    ]
   },
   "id": "ct_bilateral_subdural",
@@ -827,10 +906,7 @@
     "y": 0.436,
     "text": "T9–T10 fracture region",
     "structures": [
-     "Vertebra T9",
-     "Vertebra T10",
-     "T9 vertebral body fracture",
-     "T10 Chance fracture"
+     "T9 vertebral body fracture"
     ],
     "note": "Creator describes T10 Chance fracture and an associated T9 fracture."
    },
@@ -857,8 +933,7 @@
     "y": 0.4,
     "text": "Spinal cord in the canal",
     "structures": [
-     "White matter of spinal cord",
-     "Spinal dura"
+     "White matter of spinal cord"
     ],
     "note": "The canal lies behind the vertebral bodies; the cord and its dural sac fill it. The atlas shows related cord, not a registered patient canal boundary."
    }
@@ -887,6 +962,37 @@
     "Vertebra T9",
     "Vertebra T10",
     "Vertebra T11"
+   ],
+   "reference_labels": [
+    {
+     "text": "1  T9 body fracture (T9-T10 region)",
+     "structures": [
+      "T9 vertebral body fracture"
+     ]
+    },
+    {
+     "text": "2  T10 fracture line",
+     "structures": [
+      "T10 Chance fracture"
+     ]
+    },
+    {
+     "text": "3  Intervertebral disc",
+     "structures": [
+      "Intervertebral disc T9-T10"
+     ]
+    },
+    {
+     "text": "4  Spinal cord in the canal",
+     "structures": [
+      "White matter of spinal cord"
+     ],
+     "at": [
+      0.0,
+      1.225,
+      -0.064
+     ]
+    }
    ]
   },
   "id": "ct_thoracic_chance_fracture",
@@ -1052,8 +1158,7 @@
     "y": 0.72,
     "text": "Increased central cord T2 signal",
     "structures": [
-     "Transverse myelitis central cord hyperintensity",
-     "White matter of spinal cord"
+     "Transverse myelitis central cord hyperintensity"
     ],
     "note": "Abnormal signal in the source-described transverse myelitis example."
    }
@@ -1064,7 +1169,11 @@
     "back"
    ],
    "show": [
-    "Transverse myelitis central cord hyperintensity"
+    "Transverse myelitis central cord hyperintensity",
+    "White matter of spinal cord"
+   ],
+   "frame_on": [
+    "Vertebra C4"
    ],
    "clip": [
     2,
@@ -1176,6 +1285,7 @@
    ],
    "isolate": true,
    "ghost_focus": [
+    "Gallbladder",
     "Bile duct",
     "Pancreatic duct",
     "Duodenum",
@@ -1243,7 +1353,7 @@
     "y": 0.385,
     "text": "Normal cardiac comparison",
     "structures": [
-     "Left ventricle"
+     "Right ventricle"
     ],
     "note": "the normal panel: the chamber here is of normal size; the 3D finding shows the dilated left ventricle from the left image"
    },
@@ -1263,12 +1373,17 @@
     "thorax"
    ],
    "clip": [
-    1,
-    0.6
+    2,
+    0.72
    ],
-   "view": "anterior",
+   "view": "inferior",
    "show": [
     "Dilated left ventricle"
+   ],
+   "ghost_focus": [
+    "Dilated left ventricle",
+    "Right ventricle",
+    "Right atrium"
    ],
    "frame_on": [
     "Left ventricle",
@@ -1389,7 +1504,50 @@
     "Lateral ventricle",
     "Left basal ganglia infarct"
    ],
-   "xray": false
+   "ghost_focus": [
+    "Left basal ganglia infarct"
+   ],
+   "xray": false,
+   "reference_labels": [
+    {
+     "text": "1  Bright DWI abnormality",
+     "structures": [
+      "Left basal ganglia infarct"
+     ],
+     "side": "Left"
+    },
+    {
+     "text": "2  Right putamen (normal)",
+     "structures": [
+      "Putamen"
+     ],
+     "side": "Right"
+    },
+    {
+     "text": "3  Left lateral ventricle",
+     "structures": [
+      "Lateral ventricle"
+     ],
+     "side": "Left",
+     "at": [
+      0.02,
+      1.627,
+      -0.033
+     ]
+    },
+    {
+     "text": "4  Right lateral ventricle",
+     "structures": [
+      "Lateral ventricle"
+     ],
+     "side": "Right",
+     "at": [
+      -0.02,
+      1.627,
+      -0.033
+     ]
+    }
+   ]
   },
   "id": "mri_hyperacute_basal_ganglia_infarct",
   "atlas_note": "The focused normal deep-gray/ventricular reference supplies anatomical context only. The pathological signal correspondence is shown by the paired same-patient DWI and ADC source images, not by a normal Putamen or Globus pallidus mesh.",
@@ -1496,8 +1654,8 @@
     "y": 0.4,
     "text": "Thecal sac (CSF)",
     "structures": [
-     "Spinal dura",
-     "Cauda equina"
+     "Lumbar thecal sac CSF (upper)",
+     "Lumbar thecal sac CSF (lower)"
     ],
     "note": "Bright cerebrospinal fluid in the dural sac; the herniation indents its posterior margin at L4–L5."
    }
@@ -1509,11 +1667,17 @@
    ],
    "show": [
     "L4-L5 left paramedian disc herniation",
+    "L5-S1 posterior disc overhang",
+    "Lumbar thecal sac CSF (upper)",
+    "Lumbar thecal sac CSF (lower)",
     "Spinal dura",
     "Cauda equina"
    ],
    "ghost_focus": [
     "L4-L5 left paramedian disc herniation",
+    "L5-S1 posterior disc overhang",
+    "Lumbar thecal sac CSF (upper)",
+    "Lumbar thecal sac CSF (lower)",
     "Spinal dura",
     "Cauda equina",
     "Vertebra L4",
@@ -1527,15 +1691,66 @@
     "Vertebra L5",
     "Intervertebral disc L4-L5",
     "Intervertebral disc L5-S1",
-    "L4-L5 left paramedian disc herniation",
-    "Spinal dura",
-    "Cauda equina"
+    "L4-L5 left paramedian disc herniation"
    ],
    "clip": [
     0,
     0.5
    ],
-   "view": "left"
+   "view": "left",
+   "reference_labels": [
+    {
+     "text": "1  Posterior L4–L5 disc",
+     "structures": [
+      "Intervertebral disc L4-L5"
+     ]
+    },
+    {
+     "text": "2  L5–S1 disc",
+     "structures": [
+      "Intervertebral disc L5-S1"
+     ]
+    },
+    {
+     "text": "3  L4–L5 herniation",
+     "structures": [
+      "L4-L5 left paramedian disc herniation"
+     ]
+    },
+    {
+     "text": "4  Vertebral body L4",
+     "structures": [
+      "Vertebra L4"
+     ],
+     "at": [
+      0.0,
+      1.016,
+      -0.002
+     ]
+    },
+    {
+     "text": "5  Vertebral body L5",
+     "structures": [
+      "Vertebra L5"
+     ],
+     "at": [
+      0.0,
+      0.977,
+      -0.005
+     ]
+    },
+    {
+     "text": "6  Thecal sac (CSF)",
+     "structures": [
+      "Lumbar thecal sac CSF (upper)"
+     ],
+     "at": [
+      0.0,
+      1.035,
+      -0.0279
+     ]
+    }
+   ]
   },
   "id": "mri_l4_l5_disc_herniation",
   "atlas_note": "The atlas illustrates related normal anatomy. It is not registered to this image; shape, scan level and pathology may differ. The section is an approximate anatomical reference.",
@@ -1916,7 +2131,12 @@
      "Middle frontal gyrus"
     ],
     "side": "Right",
-    "note": "Source describes blood-brain-barrier disruption on gadolinium-enhanced T1."
+    "note": "Source describes blood-brain-barrier disruption on gadolinium-enhanced T1.",
+    "at": [
+     -0.0325,
+     1.6701,
+     0.0486
+    ]
    },
    {
     "x": 0.232,
@@ -1933,7 +2153,12 @@
     "structures": [
      "Middle frontal gyrus"
     ],
-    "side": "Left"
+    "side": "Left",
+    "at": [
+     0.0333,
+     1.6701,
+     0.0458
+    ]
    }
   ],
   "scene": {
@@ -2021,7 +2246,12 @@
      "Supraspinatus tendon tear"
     ],
     "side": "Right",
-    "note": "Complete transmural supraspinatus tear: the tendon is absent over about 2.4 cm and the gap is filled with fluid."
+    "note": "Complete transmural supraspinatus tear: the tendon is absent over about 2.4 cm and the gap is filled with fluid.",
+    "at": [
+     -0.1966,
+     1.3792,
+     -0.016
+    ]
    },
    {
     "x": 0.3,
@@ -2042,22 +2272,23 @@
    ],
    "clip": [
     0,
-    0.22
+    0.211
    ],
    "view": "right",
    "side": "Right",
    "frame_on": [
-    "Supraspinatus muscle",
-    "Humerus",
+    "Supraspinatus tendon tear",
     "Subdeltoid bursa",
-    "Supraspinatus tendon tear"
+    "Articular capsule of glenohumeral joint"
    ],
    "show": [
     "Supraspinatus tendon tear",
-    "Subdeltoid bursa"
+    "Subdeltoid bursa",
+    "Humerus"
    ],
    "ghost_focus": [
-    "Supraspinatus tendon tear"
+    "Supraspinatus tendon tear",
+    "Humerus"
    ],
    "xray": true
   },
@@ -2175,6 +2406,60 @@
    "view": "inferior",
    "show": [
     "Left basal ganglia infarct (mri_hyperacute_basal_ganglia_infarct_adc)"
+   ],
+   "reference_labels": [
+    {
+     "text": "1  Lower-ADC infarct region",
+     "structures": [
+      "Left basal ganglia infarct (mri_hyperacute_basal_ganglia_infarct_adc)",
+      "Putamen",
+      "Globus pallidus"
+     ],
+     "side": "Left",
+     "at": [
+      0.026,
+      1.628,
+      0.0082
+     ]
+    },
+    {
+     "text": "2  Left lateral ventricle",
+     "structures": [
+      "Lateral ventricle"
+     ],
+     "side": "Left",
+     "at": [
+      0.0205,
+      1.628,
+      -0.0345
+     ]
+    },
+    {
+     "text": "3  Right lateral ventricle",
+     "structures": [
+      "Lateral ventricle"
+     ],
+     "side": "Right",
+     "at": [
+      -0.0205,
+      1.628,
+      -0.0345
+     ]
+    },
+    {
+     "text": "4  Right basal ganglia (normal comparison)",
+     "structures": [
+      "Putamen",
+      "Globus pallidus"
+     ],
+     "side": "Right"
+    },
+    {
+     "text": "5  Third ventricle",
+     "structures": [
+      "Third ventricle"
+     ]
+    }
    ]
   },
   "id": "mri_hyperacute_basal_ganglia_infarct_adc",

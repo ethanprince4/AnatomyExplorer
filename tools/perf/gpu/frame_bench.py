@@ -16,7 +16,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 import numpy as np                                                    # noqa: E402
 
-PASSES = ("backdrop_ms", "vis_ms", "geom_ms", "ssao_ms", "shade_ms", "composite_ms", "final_ms", "total_ms")
+PASSES = ("backdrop_ms", "vis_ms", "geom_ms", "ssao_ms", "shade_ms", "composite_ms", "final_ms", "caps_ms", "total_ms")
 
 
 def stats(v):

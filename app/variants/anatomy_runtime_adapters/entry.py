@@ -56,6 +56,9 @@ class VariantEntry:
     def prepare_cpu(self,token=None):return load_variant(self.descriptor,token,store=self.store,component=None if self.component=='main' else self.component)
     def load(self):return self.prepare_cpu()
     def commit_selection(self):return self.store.select(self.id,self.variant,expected_token=self.descriptor.token)
+    def _lookups(self,model):
+        from app.viewer.catalog import ModelEntry
+        return ModelEntry._lookups(self,model)
     def resolve(self,model,names):
         # Delegate only this stateless lookup to the existing native contract;
         # this is a live UI method, never invoked during package/source import.

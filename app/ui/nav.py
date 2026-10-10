@@ -18,6 +18,7 @@ GROUPS gets a group of its own. An entry in ALIASES stands in for a page that do
 opens the Lessons page until a real page with that title is added, at which point the alias steps aside.
 """
 from PySide6.QtCore import QEvent, Qt, Signal
+from .theme import text_px
 from PySide6.QtWidgets import QButtonGroup, QGridLayout, QHBoxLayout, QPushButton, QSizePolicy, QTabWidget, QVBoxLayout, QWidget
 
 GROUPS = [
@@ -43,7 +44,7 @@ class NavTabWidget(QTabWidget):
         self.tabBar().hide()
         self.nav = QWidget()
         self.nav.setObjectName("exploreNav")
-        self.nav.setMinimumWidth(280)
+        self.nav.setMinimumWidth(text_px(27))
         lay = QVBoxLayout(self.nav)
         lay.setContentsMargins(12, 2, 12, 8)
         lay.setSpacing(8)

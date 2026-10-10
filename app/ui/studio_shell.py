@@ -5,6 +5,7 @@ Every command routes to the existing application owner; no demo scenes or data.
 from PySide6.QtCore import Qt, Signal, QSize
 from PySide6.QtWidgets import (QWidget,QVBoxLayout,QHBoxLayout,QPushButton,
                                QLineEdit,QToolButton,QLabel,QMenu,QDockWidget,QScrollArea,QFrame,QSplitter,QStackedWidget)
+from . import theme
 from .shell import ElidingLabel
 from .studio_style import icon
 
@@ -300,7 +301,9 @@ class FloatingPanels:
         for index,panel in enumerate(self.panels):
             content=panel._studio_content
             minimum=content.minimumSizeHint().width() + 26
-            preferred=panel._studio_width or max(400 if index else 450, minimum)
+            # Same share of the window as on the 2560x1440 screen the sizes were set on; never larger than that.
+            today=panel._studio_width or (400 if index else 450)
+            preferred=max(theme.scaled_to_window(today,w,theme.REF_WINDOW_W,minimum),minimum)
             width=min(preferred,max(240,w-40))
             x=max(20,w-width-20) if index else 20
             height=min(760,available)

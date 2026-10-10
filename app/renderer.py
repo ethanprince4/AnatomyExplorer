@@ -598,6 +598,7 @@ class Renderer:
 
         # 7. FXAA to the window
         target.use()
+        target.scissor = None       # the pass must cover the whole window whatever an earlier pass left behind
         sw, sh = self.screen_size or (w, h)
         target.viewport = (0, 0, sw, sh)
         self.ldr_tex.use(0)
@@ -671,14 +672,15 @@ class Renderer:
             return out
         previous_fbo = self.ctx.fbo
         previous_viewport = self.ctx.viewport
-        previous_scissor = self.ctx.scissor
         if previous_fbo is None:
             return out
         pts = np.asarray(points, dtype=np.int64).reshape(-1, 2)
         inside = (pts[:, 0] >= 0) & (pts[:, 0] < w) & (pts[:, 1] >= 0) & (pts[:, 1] < h)
         idx = np.flatnonzero(inside)
         try:
-            self.ctx.scissor = None
+            # No scissor save/restore: Framebuffer.use() applies each framebuffer's own scissor state, and the
+            # scissor getter reports the box even when the test is off, so writing it back would switch the
+            # test ON for the caller's framebuffer (the window) with whatever size that box had.
             self.id_tex.use(0)
             self.depth_tex.use(1)
             self._set(self.p_gather, "u_id", 0)
@@ -698,7 +700,6 @@ class Renderer:
         finally:
             previous_fbo.use()
             self.ctx.viewport = previous_viewport
-            self.ctx.scissor = previous_scissor
         return out
 
     def pick_many(self, points):

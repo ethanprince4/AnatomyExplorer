@@ -3,7 +3,7 @@ import os
 os.environ.setdefault('QT_QPA_PLATFORM','offscreen')
 import unittest
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton
-from PySide6.QtGui import QPalette, QFontDatabase
+from PySide6.QtGui import QPalette
 from app.ui import theme, studio_style
 APP=QApplication.instance() or QApplication([])
 
@@ -24,9 +24,8 @@ class StudioThemeTests(unittest.TestCase):
             for name in ['search','down','check']:
                 self.assertFalse(studio_style.icon(name,mode).isNull())
         self.assertTrue(theme.font_family())
-        from unittest.mock import patch
-        with patch.object(QFontDatabase, "families", return_value=["Noto Serif", "Georgia"]):
-            self.assertEqual(studio_style.display_font_family(), "Georgia")
+        # The serif display face was dropped in v4; headings use the bundled UI font.
+        self.assertEqual(studio_style.display_font_family(), theme.font_family())
         self.assertTrue(studio_style.display_font_family())
     def test_legacy_and_invalid_preferences_use_only_porcelain(self):
         theme.apply_theme(APP,mode='slate')

@@ -325,7 +325,7 @@ struct O { @builtin(frag_depth) d: f32 };
 
 
 class WGSide:
-    def __init__(self, gpu, model, size, page_bytes=None):
+    def __init__(self, gpu, model, size, page_bytes=None, order=None, compress=None):
         import wgpu
         from app.gpu import geometry as geo
         from app.gpu.caps import CapPasses
@@ -334,7 +334,13 @@ class WGSide:
         self.TU, self.BU = wgpu.TextureUsage, wgpu.BufferUsage
         self.size = size
         self.model = model
-        self.geom = geo.build_geometry(model, geo.GpuSink(self.dev), page_bytes or geo.page_limit(self.dev))
+        import os
+        cmp = {"1": 1, "2": 2}.get(os.environ.get("ANATOMY_CAPSP_COMPRESS", "0"), 0) if compress is None else int(compress)   # compressed (1) / quantised (2) + cluster-ordered pages: caps draws pull (non-indexed)
+        order = bool(cmp) or (os.environ.get("ANATOMY_CAPSP_ORDER", "0") == "1" if order is None else bool(order))   # cluster-ordered pages: cut parts get cluster masks
+        self.geom = geo.build_geometry(model, geo.GpuSink(self.dev), page_bytes or geo.page_limit(self.dev),
+                                       cluster_order=order, compress=cmp)
+        if cmp:
+            assert self.geom.compressed, "compression refused for the synthetic model"
         self.caps = CapPasses(self.dev, getattr(gpu, "limits", None))
         self._fill = None
         self._shade_res = None
@@ -502,8 +508,9 @@ def compare(gl, wg, size, msaa=1):
     mism = 0
     gl_parts = gl["tee_cap"].parts
     out["cap_draws_gl"], out["cap_draws_wgpu"] = len(gl_parts), plan.n_draws
-    for i, rec in enumerate(plan.records[:len(gl_parts)]):
-        if rec != pack_shading_uniforms(known_uniforms(gl_parts[i])):
+    for i, rec in enumerate(plan.records):
+        o = plan.ordinals[i]                       # parts the plan skips as wholly removed are drawn (and discarded) by GL
+        if o >= len(gl_parts) or rec != pack_shading_uniforms(known_uniforms(gl_parts[o])):
             mism += 1
     out["uniform_records_differ"] = mism
     # --- cap targets

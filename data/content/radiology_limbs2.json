@@ -24,29 +24,36 @@
    ],
    "side": "Right",
    "view": "anterior",
+   "camera": [
+    [
+     -0.144,
+     1.309,
+     -0.02
+    ],
+    0.45,
+    0,
+    0
+   ],
    "show": [
     "Humerus",
     "Scapula",
     "Clavicle",
     "Glenohumeral joint",
-    "Acromioclavicular joint",
-    "Subacromial bursa"
+    "Acromioclavicular joint"
    ],
    "ghost_focus": [
     "Humerus",
     "Scapula",
     "Clavicle",
     "Glenohumeral joint",
-    "Acromioclavicular joint",
-    "Subacromial bursa"
+    "Acromioclavicular joint"
    ],
    "frame_on": [
     "Glenohumeral joint",
     "Scapula",
     "Clavicle",
     "Humerus",
-    "Acromioclavicular joint",
-    "Subacromial bursa"
+    "Acromioclavicular joint"
    ]
   },
   "labels": [
@@ -121,7 +128,7 @@
     "y": 0.175,
     "text": "Subacromial space",
     "structures": [
-     "Subacromial bursa"
+     "Superior glenohumeral ligament"
     ],
     "side": "Right",
     "note": "7–14 mm; narrow means a chronic cuff tear"
@@ -131,7 +138,7 @@
     "y": 0.075,
     "text": "Acromioclavicular joint",
     "structures": [
-     "Acromioclavicular joint"
+     "Articular capsule of acromioclavicular joint"
     ]
    },
    {
@@ -262,9 +269,18 @@
    ],
    "side": "Left",
    "view": "anterior",
+   "isolate": true,
+   "focus": [
+    "Tibia",
+    "Fibula",
+    "Talus",
+    "Calcaneus",
+    "Anterior tibiofibular ligament",
+    "Posterior tibiofibular ligament",
+    "Posterior tibiotalar ligament",
+    "Tibionavicular ligament"
+   ],
    "ghost_focus": [
-    "Medial malleolus",
-    "Lateral malleolus",
     "Talus",
     "Calcaneus",
     "Anterior tibiofibular ligament",
@@ -273,12 +289,111 @@
     "Tibionavicular ligament"
    ],
    "frame_on": [
-    "Tibia",
-    "Fibula",
+    "Talus",
+    "Calcaneus",
     "Medial malleolus",
     "Lateral malleolus",
-    "Talus",
-    "Calcaneus"
+    "Anterior tibiofibular ligament",
+    "Posterior tibiofibular ligament"
+   ],
+   "reference_labels": [
+    {
+     "text": "1  Tibia",
+     "structures": [
+      "Tibia"
+     ],
+     "side": "Left"
+    },
+    {
+     "text": "2  Fibula",
+     "structures": [
+      "Fibula"
+     ],
+     "side": "Left"
+    },
+    {
+     "text": "3  Tibiofibular syndesmosis",
+     "structures": [
+      "Anterior tibiofibular ligament",
+      "Posterior tibiofibular ligament"
+     ],
+     "side": "Left"
+    },
+    {
+     "text": "4  Tibial plafond",
+     "structures": [
+      "Tibia"
+     ],
+     "side": "Left",
+     "at": [
+      0.0843,
+      0.0844,
+      -0.0231
+     ]
+    },
+    {
+     "text": "5  Medial malleolus",
+     "structures": [
+      "Tibia"
+     ],
+     "side": "Left",
+     "at": [
+      0.0493,
+      0.0873,
+      -0.0269
+     ]
+    },
+    {
+     "text": "6  Lateral malleolus",
+     "structures": [
+      "Fibula"
+     ],
+     "side": "Left",
+     "at": [
+      0.1085,
+      0.074,
+      -0.0469
+     ]
+    },
+    {
+     "text": "7  Medial clear space",
+     "structures": [
+      "Posterior tibiotalar ligament",
+      "Tibionavicular ligament"
+     ],
+     "side": "Left"
+    },
+    {
+     "text": "8  Talar dome",
+     "structures": [
+      "Talus"
+     ],
+     "side": "Left",
+     "at": [
+      0.0702,
+      0.0841,
+      -0.0331
+     ]
+    },
+    {
+     "text": "9  Body of talus",
+     "structures": [
+      "Talus"
+     ],
+     "side": "Left",
+     "at": [
+      0.0758,
+      0.0703,
+      -0.0081
+     ]
+    },
+    {
+     "text": "10  Calcaneus",
+     "structures": [
+      "Calcaneus"
+     ],
+     "side": "Left"
+    }
    ]
   },
   "labels": [
@@ -326,7 +441,7 @@
     "y": 0.63,
     "text": "Medial malleolus",
     "structures": [
-     "Medial malleolus"
+     "Tibia"
     ],
     "side": "Left"
    },
@@ -335,7 +450,7 @@
     "y": 0.68,
     "text": "Lateral malleolus",
     "structures": [
-     "Lateral malleolus"
+     "Fibula"
     ],
     "side": "Left",
     "note": "reaches further down than the medial"

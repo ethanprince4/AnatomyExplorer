@@ -294,7 +294,7 @@ class MainWindow(QMainWindow):
         self.left_dock.setWidget(left)
         self.left_dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable |
                                    QDockWidget.DockWidgetClosable)
-        left.setMinimumWidth(300)
+        left.setMinimumWidth(theme.text_px(27))
         left.setAccessibleName("Anatomy and study navigation")
         self.addDockWidget(Qt.LeftDockWidgetArea, self.left_dock)
 
@@ -317,9 +317,14 @@ class MainWindow(QMainWindow):
         self.right_dock.setWidget(self.info)
         self.right_dock.setFeatures(QDockWidget.DockWidgetMovable | QDockWidget.DockWidgetFloatable |
                                     QDockWidget.DockWidgetClosable)
-        self.info.setMinimumWidth(300)
+        self.info.setMinimumWidth(theme.text_px(27))
         self.addDockWidget(Qt.RightDockWidgetArea, self.right_dock)
-        self.resizeDocks([self.left_dock, self.right_dock], [360, 420], Qt.Horizontal)
+        # Shown as cards by FloatingPanels (studio_shell.py), which sizes them from the window; this is only the
+        # starting size if the docks are ever docked: the same share of the window as 360/420 of a 2252 px one.
+        wide = max(self.width(), 800)
+        self.resizeDocks([self.left_dock, self.right_dock],
+                         [theme.scaled_to_window(360, wide, theme.REF_WINDOW_W, theme.text_px(27)),
+                          theme.scaled_to_window(420, wide, theme.REF_WINDOW_W, theme.text_px(27))], Qt.Horizontal)
 
         self.cmds = ActionRegistry(self, self.viewport, self.qsettings)
         self._register_actions()
@@ -807,10 +812,23 @@ class MainWindow(QMainWindow):
         panel.show()
         self.lesson_reader.show()
         if attach:
-            self.lesson_splitter.setSizes([440, max(480, self.width()-440)])
+            self._fit_lesson_reader(force=True)
         self.left_dock.hide()
         self.right_dock.hide()
         self._update_workspace_header()
+
+    def _fit_lesson_reader(self, force=False):
+        """The lesson reader takes the share of the window it had at 2252 px wide (440 px), never more than that.
+
+        Called when it is attached and when the window first shows or changes screen, so a window opened or moved on
+        a smaller screen does not keep a reader sized for a bigger one. A width the reader already fits is kept."""
+        if not force and not self.lesson_reader.isVisible():
+            return
+        wide = self.lesson_splitter.width() or self.width()
+        cap = max(theme.scaled_to_window(440, wide, theme.REF_WINDOW_W, theme.text_px(36)),
+                  self.lesson_reader.minimumSizeHint().width())
+        if force or self.lesson_reader.width() > cap:
+            self.lesson_splitter.setSizes([cap, max(480, wide - cap)])
 
     def _show_lesson_library(self):
         panel = self.lessons_panel
@@ -993,6 +1011,21 @@ class MainWindow(QMainWindow):
         if getattr(self, "_ui_ready", False) and not self._layout_pending:
             self._layout_pending = True
             QTimer.singleShot(0, self._adapt_workspace)
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        handle = self.windowHandle()
+        if handle is not None and not getattr(self, "_screen_hooked", False):
+            # A window dragged to a screen of another size or density gets its panels re-fitted.
+            self._screen_hooked = True
+            handle.screenChanged.connect(lambda *_: QTimer.singleShot(0, self._screen_refit))
+        if getattr(self, "_ui_ready", False):
+            QTimer.singleShot(0, self._screen_refit)
+
+    def _screen_refit(self):
+        if getattr(self, "_ui_ready", False) and not self._closing:
+            self._adapt_workspace()
+            self._fit_lesson_reader()
 
     def _adapt_workspace(self):
         self._layout_pending = False
@@ -2277,6 +2310,10 @@ class MainWindow(QMainWindow):
             old_reference.hide()
         self._radiology_model_view = None
         self.viewport.show()
+        if old_reference is not None:
+            # The splitter lays the re-shown viewport out later; until then it keeps the size it had while hidden,
+            # and this case would be framed for that shape. Lay it out now.
+            self.anatomy_tab.refresh()
         self.anatomy_tab.gl_widget = self.viewport
         before = st._snapshot()
         previous_undo = list(st._undo)
@@ -2349,6 +2386,8 @@ class MainWindow(QMainWindow):
                                 viewport.frame_section(view=scene.get("view"))
                         QTimer.singleShot(0, self, settled_section_frame)
             self._radiology_groups = self._radiology_label_groups(case, scene, side)
+            if self._radiology_groups:  # the case names its own anatomy: no landmark names over its labels
+                vp.landmark_hosts, vp.focus_landmark = [], None
             self._show_radiology_labels(self.radiology_panel.labels_on.isChecked())
             if model_id and scene.get("micro_focus"):
                 self._open_radiology_model(model_id, case, scene, frame_token)
@@ -2431,7 +2470,11 @@ class MainWindow(QMainWindow):
                     if bar is not None:
                         bar.hide()
                     view.section_bar.hide()
-                    mg.frame_structures(focus, duration=0.0, view=scene.get("model_view", "anterior"))
+                    from .radiology_reference import framing_core
+                    boxes = {i: view.vmodel.item_bounds([i]) for i in focus}
+                    framed = framing_core([i for i in focus if boxes[i] is not None],
+                                          [(boxes[i][0] + boxes[i][1]) / 2 for i in focus if boxes[i] is not None])
+                    mg.frame_structures(framed or focus, duration=0.0, view=scene.get("model_view", "anterior"))
                 # The case's image labels, numbered as on the scan, name the same parts of the model.
                 visible = ms.visible_mask()
                 names = {}
@@ -2703,16 +2746,17 @@ class MainWindow(QMainWindow):
                 if framing:
                     vp.frame_structures(framing, view=want_view)
                     want_view = None
+        frame_on = pick(step.get("frame_on", []))
         if focus:
             st.select(focus)
             vp.landmark_hosts = focus if len(focus) <= 2 else []
             self.info.show_structures(focus)
             if step.get("xray", True):
-                st.set_ghost_focus(focus)
-            if step.get("frame", True) and not clip:
+                st.set_ghost_focus(sorted(set(focus) | set(ghost)))   # the step's own ghost_focus stays solid too
+            # frame_on overrides the focus framing; framing twice would swing back to the previous step's angle
+            if step.get("frame", True) and not clip and not frame_on:
                 vp.frame_structures(focus, view=want_view)   # one move: swing round and zoom in together
                 want_view = None
-        frame_on = pick(step.get("frame_on", []))
         if frame_on:
             vp.frame_structures(frame_on, view=want_view)
             want_view = None

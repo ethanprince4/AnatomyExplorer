@@ -25,6 +25,7 @@ relies on it), as are parts without geometry.
 """
 from __future__ import annotations
 
+import dataclasses
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
@@ -34,7 +35,8 @@ import numpy as np
 from app.viewer import lod as _lod
 
 CLUSTER_TRIS = 64
-BUILD_VERSION = 1
+BUILD_VERSION = 2                      # 2: page independent build, + vorder, cl_base (vertex renumbering, u16 index bases)
+WIDE = 0x80000000                      # cl_base flag: the cluster's vertex span does not fit 16 bits
 _CHUNK = 1 << 21                       # triangles per vectorised step (a multiple of CLUSTER_TRIS)
 LEVEL_COUNT = _lod.LEVELS + 1
 
@@ -47,19 +49,24 @@ class ClusterError(Exception):
 class ClusterData:
     # ranges (R)
     r_part: np.ndarray                 # int32 part index
-    r_page: np.ndarray                 # int32
-    r_first: np.ndarray                # int64 first index, page local
+    r_page: np.ndarray                 # int32          (layout: bind_layout)
+    r_first: np.ndarray                # int64 first index, page local   (layout: bind_layout)
     r_ntri: np.ndarray                 # int64 triangles
     r_cfirst: np.ndarray               # int64 first cluster
     r_tfirst: np.ndarray               # int64 first entry in perm
     r_ccount: np.ndarray               # int64 clusters
     level_range: np.ndarray            # (P, LEVEL_COUNT) int32, -1 = not drawn
     uncullable: np.ndarray             # (P,) bool
-    page_cfirst: np.ndarray            # (G + 1,) int64
+    page_cfirst: np.ndarray            # (G + 1,) int64   (layout: bind_layout)
     # clusters (C) and triangles (T)
     cl_geom: np.ndarray                # (C, 8) float32: cx cy cz dmax | hx hy hz 0
     cl_range: np.ndarray               # (C,) uint32
     perm: np.ndarray                   # (T,) uint32: range-local triangle index, cluster order
+    # vertex renumbering for compressed geometry (geometry.py compress=True): first-use order of the cluster-ordered streams
+    vorder: np.ndarray = None          # (V,) uint32: new part-local vertex j of part p (model vertex base b) holds model vertex vorder[b + j]
+    cl_base: np.ndarray = None         # (C,) uint32: smallest part-local NEW vertex number of the cluster | WIDE if (max - min) > 65535
+    r_level: np.ndarray = None         # (R,) int32: lowest LOD level that uses the range
+    r_slot: np.ndarray = None          # (R,) int32: 0 = the part's level 0, 1 + u = its u-th distinct LOD array
     stats: dict = field(default_factory=dict)
 
     @property
@@ -148,65 +155,111 @@ def _build_range(pos, dn, tris, lo, span):
     return order.astype(np.uint32), geom
 
 
-def _source_indices(model, part, level):
-    if level == 0:
+def part_levels(model, part):
+    """([unique LOD index arrays in level order], level -> unique slot) of one part (geometry.py lays the arrays out in this order)."""
+    lod = (getattr(model, "lod", None) or {}).get(part.id)
+    if lod is None:
+        return [], []
+    uniq, order = [], []
+    seen = {}
+    for arr in lod.indices:
+        key = id(arr)
+        if key not in seen:
+            seen[key] = len(uniq)
+            uniq.append(arr)
+        order.append(seen[key])
+    return uniq, order
+
+
+def _source_indices(model, part, slot):
+    """Index array of range slot ``slot`` of the part: 0 = level 0, 1 + u = unique LOD array u."""
+    if slot == 0:
         return model.indices[part.first:part.first + part.count]
-    return model.lod[part.id].indices[level - 1]
+    return part_levels(model, part)[0][slot - 1]
+
+
+def part_rank(model):
+    """Part indices that own geometry, in the order geometry.plan_pages lays them out: (vertex_base, index)."""
+    parts = model.parts
+    return sorted((i for i, p in enumerate(parts) if p.vertex_count > 0 or p.count > 0), key=lambda i: (parts[i].vertex_base, i))
 
 
 # ------------------------------------------------------------------------------------------------ build
-def plan_ranges(model, geom):
-    """Ranges, level -> range map and the uncullable parts. Returns (range keys sorted, level_range, uncullable,
-    range_source) where range_source[i] = (part index, level) of the first level that uses range i."""
+def plan_ranges(model):
+    """Ranges (independent of the page layout), level -> range map and the uncullable parts.
+    Returns (keys, level_range, uncullable, r_level) where keys[i] = (part index, slot) with slot 0 = the part's level 0 and
+    1 + u = its u-th distinct LOD array; the ranges are ordered by (part rank, slot) = the order in which geometry.py places
+    them in the pages, so the clusters of a page are contiguous whatever the page split is. A *range* is one distinct index
+    array; levels that share an array share the range."""
     parts = model.parts
     P = len(parts)
     animated = getattr(model, "anim_vertices", None) is not None
-    uncullable = np.zeros(P, dtype=bool)
+    uncullable = np.ones(P, dtype=bool)
     level_range = np.full((P, LEVEL_COUNT), -1, dtype=np.int32)
-    key_of, source = {}, []
-    pending = np.full((P, LEVEL_COUNT), -1, dtype=np.int64)       # key index per level
     keys = []
-    for pi, p in enumerate(parts):
-        if geom.page_of[pi] < 0 or animated:
-            uncullable[pi] = True
+    for pi in part_rank(model):
+        p = parts[pi]
+        if animated:
             continue
-        rr = geom.ranges[pi]
+        uncullable[pi] = False
+        uniq, order = part_levels(model, p)
+        slot_range = {}
         for k in range(LEVEL_COUNT):
-            first, count = rr[k] if k < len(rr) else rr[0]
+            if k == 0 or k > len(order):                  # (k beyond the part's LOD list falls back to level 0, as the renderer does)
+                slot, count = 0, int(p.count)
+            else:
+                slot = 1 + order[k - 1]
+                count = len(uniq[order[k - 1]])
             if count < 3:
                 continue
-            key = (int(geom.page_of[pi]), int(first), int(count))
-            ki = key_of.get(key)
-            if ki is None:
-                ki = key_of[key] = len(keys)
-                keys.append(key)
-                source.append((pi, k if k < len(rr) else 0))
-            pending[pi, k] = ki
-    order = sorted(range(len(keys)), key=lambda i: keys[i])
-    new_id = np.empty(len(keys), dtype=np.int64)
-    for rank, i in enumerate(order):
-        new_id[i] = rank
-    if keys:                                                       # (a model whose parts are all uncullable has no range)
-        level_range[:] = np.where(pending >= 0, new_id[np.maximum(pending, 0)], -1)
-    return [keys[i] for i in order], level_range, uncullable, [source[i] for i in order]
+            if slot not in slot_range:
+                slot_range[slot] = len(keys)
+                keys.append((pi, slot))
+            level_range[pi, k] = slot_range[slot]
+    r_level = np.zeros(len(keys), dtype=np.int32)
+    for ri in range(len(keys)):
+        r_level[ri] = int(np.nonzero(level_range[keys[ri][0]] == ri)[0][0])
+    return keys, level_range, uncullable, r_level
 
 
-def build_clusters(model, geom, threads=None, progress=None):
+def _first_use(st, vc, first, seen):
+    """first[v] = min(first[v], seen + position of the first use of v in the flat stream st)."""
+    f = np.full(vc, np.iinfo(np.int64).max, dtype=np.int64)
+    f[st[::-1]] = np.arange(len(st) - 1, -1, -1, dtype=np.int64) + seen        # a repeated index keeps the last write = earliest use
+    np.minimum(first, f, out=first)
+
+
+def _cluster_bases(nv):
+    """nv (n, 3) renumbered corner vertices of a range in cluster order -> (nc,) uint32 base | WIDE."""
+    n = len(nv)
+    nc = -(-n // CLUSTER_TRIS)
+    flat = np.empty(nc * CLUSTER_TRIS * 3, dtype=np.int64)
+    flat[:n * 3] = nv.reshape(-1)
+    flat[n * 3:] = nv[-1, 0]                                   # padding repeats a real vertex of the last cluster
+    blk = flat.reshape(nc, CLUSTER_TRIS * 3)
+    lo = blk.min(axis=1)
+    span = blk.max(axis=1) - lo
+    return (lo.astype(np.uint32) | np.where(span > 65535, np.uint32(WIDE), np.uint32(0))).astype(np.uint32)
+
+
+def build_clusters(model, geom=None, threads=None, progress=None):
+    """Cluster set of a model: independent of the page layout (``geom`` is accepted and, when given, bound with bind_layout)."""
     t_start = time.perf_counter()
     parts = model.parts
-    keys, level_range, uncullable, source = plan_ranges(model, geom)
+    keys, level_range, uncullable, r_level = plan_ranges(model)
     R = len(keys)
-    r_part = np.array([s[0] for s in source], dtype=np.int32) if R else np.zeros(0, np.int32)
-    r_page = np.array([k[0] for k in keys], dtype=np.int32)
-    r_first = np.array([k[1] for k in keys], dtype=np.int64)
-    r_ntri = np.array([k[2] // 3 for k in keys], dtype=np.int64)
+    r_part = np.array([k[0] for k in keys], dtype=np.int32) if R else np.zeros(0, np.int32)
+    r_ntri = (np.array([len(_source_indices(model, parts[k[0]], k[1])) // 3 for k in keys], dtype=np.int64)
+              if R else np.zeros(0, np.int64))
     r_ccount = -(-r_ntri // CLUSTER_TRIS)
     r_cfirst = np.concatenate([[0], np.cumsum(r_ccount)[:-1]]).astype(np.int64) if R else np.zeros(0, np.int64)
     r_tfirst = np.concatenate([[0], np.cumsum(r_ntri)[:-1]]).astype(np.int64) if R else np.zeros(0, np.int64)
     C, T = int(r_ccount.sum()), int(r_ntri.sum())
     perm = np.empty(T, dtype=np.uint32)
     cgeom = np.empty((C, 8), dtype=np.float32)
+    cbase = np.empty(C, dtype=np.uint32)
     cl_range = np.repeat(np.arange(R, dtype=np.uint32), r_ccount)
+    vorder = np.arange(len(model.vertices), dtype=np.uint32)
 
     by_part = {}
     for ri in range(R):
@@ -221,13 +274,13 @@ def build_clusters(model, geom, threads=None, progress=None):
         dn = np.sqrt((blk[:, 6:9].astype(np.float64) ** 2).sum(axis=1)).astype(np.float32)
         lo = pos.min(axis=0).astype(np.float64)
         span = np.maximum(pos.max(axis=0).astype(np.float64) - lo, 1e-12)
+        first = np.full(vc, np.iinfo(np.int64).max, dtype=np.int64)
+        seen = 0
         for ri in by_part[pi]:
-            # any level that uses this range carries the same array: take the lowest one
-            lv = int(np.nonzero(level_range[pi] == ri)[0][0])
-            src = _source_indices(model, p, lv)
+            src = _source_indices(model, p, keys[ri][1])
             tris = np.asarray(src, dtype=np.int64).reshape(-1, 3) - vb
             if len(tris) != r_ntri[ri]:
-                raise ClusterError(f"part {p.name!r} level {lv}: index count differs from the geometry range")
+                raise ClusterError(f"part {p.name!r} range {ri}: index count differs from the range table")
             if len(tris) and (tris.min() < 0 or tris.max() >= vc):
                 bad.append(pi)
                 return
@@ -235,6 +288,20 @@ def build_clusters(model, geom, threads=None, progress=None):
             t0, c0 = int(r_tfirst[ri]), int(r_cfirst[ri])
             perm[t0:t0 + len(pm)] = pm
             cgeom[c0:c0 + len(g)] = g
+            st = tris[pm].reshape(-1)
+            _first_use(st, vc, first, seen)
+            seen += len(st)
+            del tris, st
+        order = np.argsort(first, kind="stable")             # first-use order; vertices no range uses keep their order at the end
+        newof = np.empty(vc, dtype=np.int64)
+        newof[order] = np.arange(vc, dtype=np.int64)
+        vorder[vb:vb + vc] = (order + vb).astype(np.uint32)
+        for ri in by_part[pi]:
+            src = _source_indices(model, p, keys[ri][1])
+            tris = np.asarray(src, dtype=np.int64).reshape(-1, 3) - vb
+            t0, c0 = int(r_tfirst[ri]), int(r_cfirst[ri])
+            pm = perm[t0:t0 + int(r_ntri[ri])]
+            cbase[c0:c0 + int(r_ccount[ri])] = _cluster_bases(newof[tris[pm]])
 
     todo = sorted(by_part, key=lambda pi: -sum(int(r_ntri[r]) for r in by_part[pi]))
     n_threads = threads or min(8, max(1, (__import__("os").cpu_count() or 2)))
@@ -246,17 +313,39 @@ def build_clusters(model, geom, threads=None, progress=None):
                 progress(done, len(todo))
     if bad:
         raise ClusterError("parts index vertices outside their own range: " + ", ".join(parts[i].name for i in set(bad)))
+    nwide = int(((cbase & np.uint32(WIDE)) != 0).sum())
+    nbytes = int(perm.nbytes + cgeom.nbytes + cl_range.nbytes + cbase.nbytes + vorder.nbytes)
+    stats = {"ranges": R, "clusters": C, "triangles": T, "uncullable_parts": int(uncullable.sum()), "wide_clusters": nwide,
+             "build_s": time.perf_counter() - t_start, "bytes": nbytes, "bytes_per_triangle": nbytes / max(T, 1),
+             "avg_tris_per_cluster": T / max(C, 1)}
+    cd = ClusterData(r_part=r_part, r_page=np.zeros(R, np.int32), r_first=np.zeros(R, np.int64), r_ntri=r_ntri,
+                     r_cfirst=r_cfirst, r_tfirst=r_tfirst, r_ccount=r_ccount, level_range=level_range, uncullable=uncullable,
+                     page_cfirst=np.zeros(1, np.int64), cl_geom=cgeom, cl_range=cl_range, perm=perm, vorder=vorder,
+                     cl_base=cbase, r_level=r_level, r_slot=np.array([k[1] for k in keys], dtype=np.int32), stats=stats)
+    return bind_layout(cd, geom.page_of, geom.ranges) if geom is not None else cd
+
+
+def bind_layout(cd, page_of, ranges):
+    """The cluster set with the layout dependent tables filled: page, page-local first index and first cluster of every page
+    for a geometry whose parts sit on ``page_of`` and whose index ranges are ``ranges`` (per part (first, count) of level 0 and
+    the LOD levels). The ranges must be laid out in the cluster set's order (they are: geometry.py)."""
+    R = cd.n_ranges
+    r_page = np.zeros(R, dtype=np.int32)
+    r_first = np.zeros(R, dtype=np.int64)
+    for ri in range(R):
+        pi, lv = int(cd.r_part[ri]), int(cd.r_level[ri])
+        rr = ranges[pi]
+        first, count = rr[lv] if lv < len(rr) else rr[0]
+        if count != 3 * int(cd.r_ntri[ri]):
+            raise ClusterError(f"range {ri} (part {pi}, level {lv}): the geometry holds {count} indices, the clusters {3 * int(cd.r_ntri[ri])}")
+        r_page[ri], r_first[ri] = int(page_of[pi]), int(first)
+    if R > 1 and not np.all((np.diff(r_page) > 0) | ((np.diff(r_page) == 0) & (np.diff(r_first) > 0))):
+        raise ClusterError("the geometry does not lay the index ranges out in the cluster set's order")
     G = int(r_page.max()) + 1 if R else 0
     page_cfirst = np.zeros(G + 1, dtype=np.int64)
     for g in range(G):
-        page_cfirst[g + 1] = page_cfirst[g] + int(r_ccount[r_page == g].sum())
-    stats = {"ranges": R, "clusters": C, "triangles": T, "uncullable_parts": int(uncullable.sum()),
-             "build_s": time.perf_counter() - t_start, "bytes": int(perm.nbytes + cgeom.nbytes + cl_range.nbytes),
-             "bytes_per_triangle": (perm.nbytes + cgeom.nbytes + cl_range.nbytes) / max(T, 1),
-             "avg_tris_per_cluster": T / max(C, 1)}
-    return ClusterData(r_part=r_part, r_page=r_page, r_first=r_first, r_ntri=r_ntri, r_cfirst=r_cfirst,
-                       r_tfirst=r_tfirst, r_ccount=r_ccount, level_range=level_range, uncullable=uncullable,
-                       page_cfirst=page_cfirst, cl_geom=cgeom, cl_range=cl_range, perm=perm, stats=stats)
+        page_cfirst[g + 1] = page_cfirst[g] + int(cd.r_ccount[r_page == g].sum())
+    return dataclasses.replace(cd, r_page=r_page, r_first=r_first, page_cfirst=page_cfirst)
 
 
 # ------------------------------------------------------------------------------------------------ page capacity

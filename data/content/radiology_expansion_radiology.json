@@ -86,14 +86,12 @@
     "Lactiferous ducts",
     "Lactiferous sinuses",
     "Adipose tissue of breast",
-    "Suspensory ligaments (of Cooper)",
-    "Skin of breast"
+    "Suspensory ligaments (of Cooper)"
    ],
    "micro_context": [
-    "Pectoralis major",
-    "Ribs"
+    "Skin of breast"
    ],
-   "model_view": "superior",
+   "model_view": "left",
    "regions": [
     "thorax"
    ]
@@ -135,8 +133,7 @@
     "y": 0.52,
     "text": "Breast tissue",
     "structures": [
-     "Adipose tissue of breast",
-     "Lobules (alveolar glands)"
+     "Left breast (illustrative)"
     ],
     "note": "Breast tissue on the projection; the source does not establish a focal cancer diagnosis."
    },
@@ -145,8 +142,8 @@
     "y": 0.45,
     "text": "Dense glandular tissue",
     "structures": [
-     "Lobules (alveolar glands)",
-     "Lactiferous ducts"
+     "Dense glandular tissue (mammo nonspecific abnormal)",
+     "Fibroglandular tissue (illustrative)"
     ],
     "note": "Densest fibroglandular tissue on the film, in the central breast. Ductal calcification is described in the source; its exact position is not confirmed on this image."
    },
@@ -155,7 +152,7 @@
     "y": 0.47,
     "text": "Nipple",
     "structures": [
-     "Nipple"
+     "Nipple (illustrative)"
     ],
     "note": "Nipple at the anterior skin edge of the breast on this projection."
    },
@@ -164,32 +161,45 @@
     "y": 0.2,
     "text": "Skin of breast",
     "structures": [
-     "Skin of breast"
+     "Left breast (illustrative)"
     ],
-    "note": "Skin line along the upper edge of the breast, where the tissue meets the dark background on the film."
+    "note": "Skin line along the upper edge of the breast, where the tissue meets the dark background on the film.",
+    "at": [
+     0.1392,
+     1.2582,
+     0.1253
+    ]
    }
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
   "scene": {
-   "micro": "female_reproductive",
-   "micro_focus": [
-    "Skin of breast",
-    "Nipple",
-    "Lobules (alveolar glands)",
-    "Lactiferous ducts",
-    "Adipose tissue of breast",
-    "Lobes of mammary gland",
-    "Lactiferous sinuses",
-    "Suspensory ligaments (of Cooper)"
+   "systems": [
+    "regions",
+    "muscular",
+    "skeletal"
    ],
-   "micro_context": [
-    "Pectoralis major",
-    "Ribs"
-   ],
-   "model_view": "anterior",
    "regions": [
     "thorax"
-   ]
+   ],
+   "side": "Left",
+   "show": [
+    "Left breast (illustrative)",
+    "Nonspecific ductal calcification (illustrative) (mammo_nonspecific_abnormal)",
+    "Nipple (illustrative)",
+    "Fibroglandular tissue (illustrative)",
+    "Dense glandular tissue (mammo nonspecific abnormal)"
+   ],
+   "isolate": true,
+   "ghost_focus": [
+    "Nonspecific ductal calcification (illustrative) (mammo_nonspecific_abnormal)",
+    "Nipple (illustrative)",
+    "Fibroglandular tissue (illustrative)",
+    "Dense glandular tissue (mammo nonspecific abnormal)"
+   ],
+   "frame_on": [
+    "Left breast (illustrative)"
+   ],
+   "view": "left"
   }
  },
  {
@@ -249,7 +259,7 @@
     "y": 0.41,
     "text": "Nipple",
     "structures": [
-     "Nipple (illustrative)"
+     "Nipple (mammo small cancer)"
     ],
     "note": "The projecting nipple at the anterior edge of the breast on the mammogram, shown as an illustrative nipple at the front of the breast."
    },
@@ -258,16 +268,21 @@
     "y": 0.62,
     "text": "Skin of breast",
     "structures": [
-     "Breast skin (illustrative)"
+     "Left breast (illustrative)"
     ],
-    "note": "Outer skin line of the breast on the lateral edge of the image. The atlas has no skin structure, so a small illustrative solid patch on the breast surface stands for the skin."
+    "note": "Outer skin line of the breast on the lateral edge of the image. The atlas has no skin structure, so a small illustrative solid patch on the breast surface stands for the skin.",
+    "at": [
+     0.1207,
+     1.2668,
+     0.1375
+    ]
    },
    {
     "x": 0.4,
     "y": 0.5,
     "text": "Fibroglandular tissue",
     "structures": [
-     "Fibroglandular tissue (illustrative)"
+     "Fibroglandular tissue (mammo small cancer)"
     ],
     "note": "Dense glandular breast tissue (lobules and ducts) seen as the bright streaky tissue of the breast. The atlas has no glandular tissue, so an illustrative cluster of glandular nodules inside the breast stands for it."
    }
@@ -287,32 +302,22 @@
     "Small breast cancer (illustrative)",
     "Vascular calcification (illustrative) 1",
     "Vascular calcification (illustrative) 2",
-    "Nipple (illustrative)",
-    "Breast skin (illustrative)",
-    "Fibroglandular tissue (illustrative)",
-    "Clavicular head of pectoralis major muscle",
-    "Sternocostal head of pectoralis major muscle",
-    "Fourth rib",
-    "Fifth rib",
-    "Sixth rib",
-    "Body of sternum"
+    "Nipple (mammo small cancer)",
+    "Fibroglandular tissue (mammo small cancer)"
    ],
    "isolate": true,
    "ghost_focus": [
     "Small breast cancer (illustrative)",
     "Vascular calcification (illustrative) 1",
     "Vascular calcification (illustrative) 2",
-    "Nipple (illustrative)",
-    "Breast skin (illustrative)",
-    "Fibroglandular tissue (illustrative)"
+    "Nipple (mammo small cancer)",
+    "Fibroglandular tissue (mammo small cancer)"
    ],
    "frame_on": [
     "Left breast (illustrative)",
-    "Nipple (illustrative)",
-    "Breast skin (illustrative)",
-    "Fibroglandular tissue (illustrative)"
+    "Small breast cancer (illustrative)"
    ],
-   "view": "superior",
+   "view": "right",
    "side": "Left"
   },
   "illustration": {
@@ -408,7 +413,8 @@
     "y": 0.62,
     "text": "Adipose tissue of breast",
     "structures": [
-     "Adipose tissue of breast (illustrative)"
+     "Adipose tissue of breast (illustrative)",
+     "Right breast (illustrative)"
     ],
     "note": "Radiolucent fatty breast tissue surrounding the glandular tissue on the MLO view."
    }
@@ -433,6 +439,7 @@
     "Grouped calcifications (illustrative)"
    ],
    "ghost_focus": [
+    "Right breast (illustrative)",
     "Fibroglandular core (illustrative)",
     "Grouped calcifications (illustrative)",
     "Adipose tissue of breast (illustrative)"
@@ -440,12 +447,70 @@
    "frame_on": [
     "Right breast (illustrative)",
     "Fibroglandular core (illustrative)",
-    "Grouped calcifications (illustrative)",
-    "Adipose tissue of breast (illustrative)"
+    "Grouped calcifications (illustrative)"
    ],
+   "isolate": true,
    "xray": true,
    "side": "Right",
-   "view": "superior"
+   "view": "superior",
+   "reference_labels": [
+    {
+     "text": "Grouped calcifications in CC view",
+     "structures": [
+      "Grouped calcifications (illustrative)"
+     ],
+     "at": [
+      -0.1191,
+      1.2805,
+      0.1204
+     ]
+    },
+    {
+     "text": "Grouped calcifications in MLO view",
+     "structures": [
+      "Grouped calcifications (illustrative)"
+     ],
+     "at": [
+      -0.1116,
+      1.2849,
+      0.1137
+     ]
+    },
+    {
+     "text": "Fibroglandular tissue",
+     "structures": [
+      "Fibroglandular core (illustrative)"
+     ],
+     "at": [
+      -0.125,
+      1.281,
+      0.11
+     ]
+    },
+    {
+     "text": "Fibroglandular tissue in MLO view",
+     "structures": [
+      "Fibroglandular core (illustrative)"
+     ],
+     "at": [
+      -0.1,
+      1.281,
+      0.123
+     ]
+    },
+    {
+     "text": "Adipose tissue of breast",
+     "structures": [
+      "Adipose tissue of breast (illustrative)",
+      "Right breast (illustrative)"
+     ],
+     "at": [
+      -0.085,
+      1.277,
+      0.1
+     ]
+    }
+   ]
   }
  },
  {
@@ -484,7 +549,15 @@
     "y": 0.31,
     "text": "Vascular calcification",
     "structures": [
-     "Vascular breast calcification"
+     "Vascular breast calcification",
+     "Vascular breast calcification segment 2 (mammo_vascular_calcification)",
+     "Vascular breast calcification segment 3 (mammo_vascular_calcification)",
+     "Vascular breast calcification segment 4 (mammo_vascular_calcification)",
+     "Vascular breast calcification segment 5 (mammo_vascular_calcification)",
+     "Vascular breast calcification segment 6 (mammo_vascular_calcification)",
+     "Vascular breast calcification segment 7 (mammo_vascular_calcification)",
+     "Vascular breast calcification segment 8 (mammo_vascular_calcification)",
+     "Vascular breast calcification lower segment (mammo_vascular_calcification)"
     ],
     "note": "The calcification follows a vascular outline."
    },
@@ -531,12 +604,28 @@
     "Left breast (illustrative) (mammo_vascular_calcification)",
     "Nipple (illustrative) (mammo_vascular_calcification)",
     "Vascular breast calcification",
-    "Separate breast calcification"
+    "Vascular breast calcification segment 2 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 3 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 4 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 5 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 6 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 7 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 8 (mammo_vascular_calcification)",
+    "Vascular breast calcification lower segment (mammo_vascular_calcification)",
+    "Separate breast calcification",
+    "Sternocostal head of pectoralis major muscle"
    ],
    "ghost_focus": [
-    "Sternocostal head of pectoralis major muscle",
     "Nipple (illustrative) (mammo_vascular_calcification)",
     "Vascular breast calcification",
+    "Vascular breast calcification segment 2 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 3 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 4 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 5 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 6 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 7 (mammo_vascular_calcification)",
+    "Vascular breast calcification segment 8 (mammo_vascular_calcification)",
+    "Vascular breast calcification lower segment (mammo_vascular_calcification)",
     "Separate breast calcification"
    ],
    "frame_on": [
@@ -628,27 +717,41 @@
     "Oesophagus",
     "Cervical vertebrae",
     "Laryngopharynx",
+    "Oropharynx",
     "Vertebra C5",
     "Vertebra C6"
    ],
    "focus": [
     "Oesophagus",
     "Cervical vertebrae",
-    "Laryngopharynx"
+    "Laryngopharynx",
+    "Oropharynx"
    ],
    "ghost_focus": [
     "Oesophagus",
     "Cervical vertebrae",
-    "Laryngopharynx"
+    "Laryngopharynx",
+    "Oropharynx"
    ],
    "frame_on": [
     "Oesophagus",
+    "Cervical vertebrae",
     "Vertebra C3",
     "Vertebra C7"
    ],
    "isolate": false,
    "xray": true,
-   "view": "left"
+   "view": "right",
+   "camera": [
+    [
+     0.0,
+     1.485,
+     0.0
+    ],
+    0.42,
+    90,
+    0
+   ]
   }
  },
  {
@@ -691,7 +794,6 @@
     "y": 0.46,
     "text": "Dilated esophagus containing retained barium",
     "structures": [
-     "Oesophagus",
      "Dilated oesophagus in achalasia"
     ],
     "note": "Retained barium fills the dilated esophagus."
@@ -710,8 +812,7 @@
     "y": 0.42,
     "text": "Wall of the dilated oesophagus",
     "structures": [
-     "Oesophagus",
-     "Dilated oesophagus in achalasia"
+     "Achalasia distal funnel of dilated oesophagus"
     ],
     "note": "The column is far wider than a normal oesophagus, which measures about 2 cm across."
    }
@@ -729,10 +830,13 @@
    "show": [
     "Oesophagus",
     "Thoracic vertebrae",
-    "Dilated oesophagus in achalasia"
+    "Dilated oesophagus in achalasia",
+    "Achalasia distal funnel of dilated oesophagus"
    ],
    "ghost_focus": [
-    "Dilated oesophagus in achalasia"
+    "Dilated oesophagus in achalasia",
+    "Achalasia distal funnel of dilated oesophagus",
+    "Oesophagus"
    ],
    "xray": true,
    "frame_on": [
@@ -781,7 +885,14 @@
     "y": 0.445,
     "text": "Opacified esophageal column",
     "structures": [
-     "Oesophagus"
+     "Oesophagus",
+     "Barium in oesophagus (fluoro_aspiration)",
+     "Barium in oesophagus segment 2 (fluoro_aspiration)",
+     "Barium in oesophagus segment 3 (fluoro_aspiration)",
+     "Barium in oesophagus segment 4 (fluoro_aspiration)",
+     "Barium in oesophagus segment 5 (fluoro_aspiration)",
+     "Barium in oesophagus segment 6 (fluoro_aspiration)",
+     "Barium in oesophagus segment 7 (fluoro_aspiration)"
     ],
     "note": "The continuous contrast column outlines the esophagus. It continues up into the cervicothoracic oesophagus, the source of the aspirated material."
    },
@@ -790,8 +901,11 @@
     "y": 0.477,
     "text": "Aspirated contrast in branching airways",
     "structures": [
-     "Barium in left lower-lobe bronchus",
      "Barium in left basal segmental bronchi",
+     "Barium in left anterior basal bronchus (fluoro_aspiration)",
+     "Barium in left lateral basal bronchus (fluoro_aspiration)",
+     "Barium in left medial basal bronchus (fluoro_aspiration)",
+     "Barium in left lower-lobe bronchus",
      "Left inferior lobar bronchus"
     ],
     "side": "Left",
@@ -809,28 +923,52 @@
    "regions": [
     "thorax"
    ],
-   "view": "anterior",
+   "view": "left",
    "show": [
-    "Barium in left lower-lobe bronchus",
-    "Barium in left basal segmental bronchi"
+    "Barium in oesophagus (fluoro_aspiration)",
+    "Barium in oesophagus segment 2 (fluoro_aspiration)",
+    "Barium in oesophagus segment 3 (fluoro_aspiration)",
+    "Barium in oesophagus segment 4 (fluoro_aspiration)",
+    "Barium in oesophagus segment 5 (fluoro_aspiration)",
+    "Barium in oesophagus segment 6 (fluoro_aspiration)",
+    "Barium in oesophagus segment 7 (fluoro_aspiration)",
+    "Barium in left basal segmental bronchi",
+    "Barium in left anterior basal bronchus (fluoro_aspiration)",
+    "Barium in left lateral basal bronchus (fluoro_aspiration)",
+    "Barium in left medial basal bronchus (fluoro_aspiration)",
+    "Barium in left lower-lobe bronchus"
    ],
    "focus": [
-    "Barium in left lower-lobe bronchus",
-    "Barium in left basal segmental bronchi"
+    "Barium in oesophagus (fluoro_aspiration)",
+    "Barium in oesophagus segment 2 (fluoro_aspiration)",
+    "Barium in oesophagus segment 3 (fluoro_aspiration)",
+    "Barium in oesophagus segment 4 (fluoro_aspiration)",
+    "Barium in oesophagus segment 5 (fluoro_aspiration)",
+    "Barium in oesophagus segment 6 (fluoro_aspiration)",
+    "Barium in oesophagus segment 7 (fluoro_aspiration)",
+    "Barium in left basal segmental bronchi",
+    "Barium in left anterior basal bronchus (fluoro_aspiration)",
+    "Barium in left lateral basal bronchus (fluoro_aspiration)",
+    "Barium in left medial basal bronchus (fluoro_aspiration)",
+    "Barium in left lower-lobe bronchus"
    ],
    "ghost_focus": [
     "Oesophagus",
     "Trachea",
     "Left main bronchus",
     "Right main bronchus",
-    "Barium in left lower-lobe bronchus",
-    "Barium in left basal segmental bronchi"
-   ],
-   "frame_on": [
-    "Oesophagus",
-    "Left inferior lobar bronchus",
-    "Barium in left lower-lobe bronchus",
-    "Barium in left basal segmental bronchi"
+    "Barium in oesophagus (fluoro_aspiration)",
+    "Barium in oesophagus segment 2 (fluoro_aspiration)",
+    "Barium in oesophagus segment 3 (fluoro_aspiration)",
+    "Barium in oesophagus segment 4 (fluoro_aspiration)",
+    "Barium in oesophagus segment 5 (fluoro_aspiration)",
+    "Barium in oesophagus segment 6 (fluoro_aspiration)",
+    "Barium in oesophagus segment 7 (fluoro_aspiration)",
+    "Barium in left basal segmental bronchi",
+    "Barium in left anterior basal bronchus (fluoro_aspiration)",
+    "Barium in left lateral basal bronchus (fluoro_aspiration)",
+    "Barium in left medial basal bronchus (fluoro_aspiration)",
+    "Barium in left lower-lobe bronchus"
    ],
    "xray": true
   }
@@ -908,8 +1046,7 @@
   "scene": {
    "systems": [
     "skeletal",
-    "visceral",
-    "muscular"
+    "visceral"
    ],
    "regions": [
     "neck"
@@ -928,6 +1065,7 @@
     "Vertebra C6"
    ],
    "ghost_focus": [
+    "Oesophagus",
     "Killian-Jamieson diverticulum",
     "Laryngopharynx",
     "Cricoid cartilage",
@@ -938,8 +1076,6 @@
    ],
    "frame_on": [
     "Hyoid bone",
-    "Vertebra C3",
-    "Oesophagus",
     "Cricoid cartilage",
     "Killian-Jamieson diverticulum",
     "Vertebra C5",
@@ -993,8 +1129,7 @@
     "y": 0.369,
     "text": "Tubal contrast and peritoneal spill",
     "structures": [
-     "Ampulla of uterine tube",
-     "Infundibulum of uterine tube"
+     "Ampulla of uterine tube"
     ],
     "side": "Right",
     "note": "Contrast passes through the tube and spills beyond its distal end."
@@ -1004,7 +1139,6 @@
     "y": 0.603,
     "text": "Contralateral tubal contrast and spill",
     "structures": [
-     "Ampulla of uterine tube",
      "Fimbriae"
     ],
     "side": "Left",
@@ -1015,17 +1149,20 @@
     "y": 0.49,
     "text": "Cervix",
     "structures": [
-     "Cervix of uterus"
+     "Cervical canal"
     ],
     "note": "The cervical canal below the uterine cavity is opacified by the contrast column."
    }
   ],
   "atlas_note": "The current atlas has no matching uterus or uterine-tube structures, so these labels remain on the image.",
   "scene": {
+   "regions": [
+    "abdomen"
+   ],
    "micro": "female_reproductive",
    "micro_focus": [
     "Uterine cavity",
-    "Cervix of uterus",
+    "Cervical canal",
     "Uterine (intramural) part of uterine tube",
     "Isthmus of uterine tube",
     "Ampulla of uterine tube",
@@ -1034,6 +1171,7 @@
     "Abdominal ostium of uterine tube"
    ],
    "micro_context": [
+    "Cervix of uterus",
     "Body of uterus (myometrium)",
     "Fundus of uterus (myometrium)",
     "Isthmus of uterus (myometrium)",
@@ -1042,7 +1180,7 @@
     "Pubic symphysis",
     "Coccyx"
    ],
-   "model_view": "anterior"
+   "model_view": "inferior"
   }
  },
  {
@@ -1108,7 +1246,7 @@
     "y": 0.505,
     "text": "Right uterine tube",
     "structures": [
-     "Uterine tubes"
+     "Infundibulum of uterine tube"
     ],
     "side": "Right",
     "note": "The source labels this opacified tube trompe droite (right tube)."
@@ -1118,7 +1256,7 @@
     "y": 0.57,
     "text": "Left uterine tube",
     "structures": [
-     "Uterine tubes"
+     "Fimbriae"
     ],
     "side": "Left",
     "note": "The source labels this opacified tube trompe gauche (left tube)."
@@ -1129,18 +1267,29 @@
    "micro": "female_reproductive",
    "micro_focus": [
     "Uterine cavity",
-    "Endometrium - functional layer",
     "Cervical canal",
-    "Uterine tubes"
+    "Uterine tubes",
+    "Infundibulum of uterine tube",
+    "Fimbriae"
    ],
    "micro_context": [
     "Uterus",
-    "Cervix",
-    "Bony pelvis",
-    "Ovaries"
+    "Cervix"
    ],
-   "model_view": "anterior",
-   "view": "anterior"
+   "model_view": "inferior",
+   "view": "anterior",
+   "regions": [
+    "abdomen"
+   ],
+   "show": [
+    "Intrauterine adhesions (illustrative) (fluoro_hsg_adhesions)"
+   ],
+   "ghost_focus": [
+    "Intrauterine adhesions (illustrative) (fluoro_hsg_adhesions)"
+   ],
+   "frame_on": [
+    "Intrauterine adhesions (illustrative) (fluoro_hsg_adhesions)"
+   ]
   }
  },
  {
@@ -1179,9 +1328,36 @@
     "y": 0.786,
     "text": "Gas-filled bowel loops",
     "structures": [
-     "Sigmoid colon"
+     "Redundant colonic loop 01 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 01-02 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 02 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 02-03 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 03 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 03-04 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 04 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 04-05 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 05 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 05-06 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 06 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 06-07 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 07 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 07-08 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 08 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 08-09 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 09 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 09-10 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 10 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 10-11 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 11 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 11-12 (illustrative) (fluoro_dolichocolon)",
+     "Redundant colonic loop 12 (illustrative) (fluoro_dolichocolon)"
     ],
-    "note": "Gas outlines bowel loops on the plain scout appearance."
+    "note": "Gas outlines bowel loops on the plain scout appearance.",
+    "at": [
+     -0.037,
+     0.98,
+     0.067
+    ]
    },
    {
     "x": 0.501,
@@ -1247,7 +1423,30 @@
     "Ascending colon",
     "Transverse colon",
     "Descending colon",
-    "Sigmoid colon"
+    "Sigmoid colon",
+    "Redundant colonic loop 01 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 01-02 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 02 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 02-03 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 03 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 03-04 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 04 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 04-05 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 05 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 05-06 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 06 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 06-07 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 07 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 07-08 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 08 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 08-09 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 09 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 09-10 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 10 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 10-11 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 11 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 11-12 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 12 (illustrative) (fluoro_dolichocolon)"
    ],
    "focus": [
     "Vertebra L1",
@@ -1260,10 +1459,36 @@
     "Ascending colon",
     "Transverse colon",
     "Descending colon",
-    "Sigmoid colon"
+    "Sigmoid colon",
+    "Redundant colonic loop 01 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 01-02 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 02 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 02-03 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 03 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 03-04 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 04 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 04-05 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 05 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 05-06 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 06 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 06-07 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 07 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 07-08 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 08 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 08-09 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 09 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 09-10 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 10 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 10-11 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 11 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 11-12 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 12 (illustrative) (fluoro_dolichocolon)"
    ],
    "frame_on": [
-    "Vertebra L1",
+    "Ascending colon",
+    "Transverse colon",
+    "Descending colon",
+    "Sacrum",
     "Hip bone"
    ],
    "ghost_focus": [
@@ -1277,10 +1502,44 @@
     "Ascending colon",
     "Transverse colon",
     "Descending colon",
-    "Sigmoid colon"
+    "Sigmoid colon",
+    "Redundant colonic loop 01 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 01-02 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 02 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 02-03 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 03 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 03-04 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 04 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 04-05 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 05 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 05-06 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 06 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 06-07 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 07 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 07-08 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 08 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 08-09 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 09 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 09-10 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 10 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 10-11 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 11 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 11-12 (illustrative) (fluoro_dolichocolon)",
+    "Redundant colonic loop 12 (illustrative) (fluoro_dolichocolon)"
    ],
+   "isolate": true,
    "xray": true,
-   "view": "anterior"
+   "view": "anterior",
+   "camera": [
+    [
+     0.0,
+     0.97,
+     0.0
+    ],
+    0.7,
+    0,
+    0
+   ]
   }
  },
  {
@@ -1415,7 +1674,7 @@
     "y": 0.16,
     "text": "Left main coronary narrowing",
     "structures": [
-     "Left coronary artery"
+     "Left main coronary stenosis"
     ],
     "note": "The source red arrow identifies critical left main narrowing."
    },
@@ -1424,7 +1683,7 @@
     "y": 0.44,
     "text": "Circumflex narrowing",
     "structures": [
-     "Circumflex artery of heart"
+     "Circumflex coronary stenosis"
     ],
     "note": "The source red arrow identifies critical circumflex narrowing."
    },
@@ -1725,7 +1984,7 @@
     ],
     "note": "Another digit shows its arterial branching network.",
     "at": [
-     0.2271,
+     -0.2271,
      0.731,
      0.0765
     ]
@@ -1748,7 +2007,7 @@
     ],
     "note": "A thick palmar vessel gives off branches toward the fingers.",
     "at": [
-     0.2484,
+     -0.2484,
      0.8123,
      0.0316
     ]
@@ -1760,9 +2019,9 @@
     "cardiovascular"
    ],
    "regions": [
-    "upper_limb_l",
     "upper_limb_r"
    ],
+   "side": "Right",
    "view": "anterior",
    "focus": [
     "Proper palmar digital arteries",
@@ -1850,7 +2109,7 @@
     "y": 0.667,
     "text": "Interlobar artery (lower pole)",
     "structures": [
-     "Interlobar arteries (section diagram)"
+     "Interlobar artery (lower posterior / lower polar)"
     ],
     "note": "This branch runs from the hilum down towards the lower pole, where it divides into arcuate branches."
    },
@@ -1883,7 +2142,10 @@
     "Gross / renal pyramid"
    ],
    "model_view": "posterior",
-   "isolate": true
+   "isolate": true,
+   "regions": [
+    "abdomen"
+   ]
   }
  },
  {
@@ -1926,9 +2188,11 @@
     "y": 0.526,
     "text": "Accessory left renal artery: string-of-beads",
     "structures": [
+     "Lower accessory left renal artery (FMD)",
      "Left renal artery bead 1",
      "Left renal artery bead 2",
-     "Left renal artery bead 3"
+     "Left renal artery bead 3",
+     "Left renal artery bead 4"
     ],
     "side": "Left",
     "note": "The two arrows mark the accessory left renal artery's string-of-beads contour."
@@ -1989,35 +2253,46 @@
     "Right renal artery",
     "Anterior branch of renal artery",
     "Posterior branch of renal artery",
+    "Lower accessory left renal artery (FMD)",
     "Left renal artery bead 1",
     "Left renal artery bead 2",
     "Left renal artery bead 3",
+    "Left renal artery bead 4",
     "Right renal artery distal aneurysm"
    ],
    "ghost_focus": [
+    "Abdominal aorta",
     "Left renal artery",
     "Right renal artery",
     "Anterior branch of renal artery",
     "Posterior branch of renal artery",
+    "Lower accessory left renal artery (FMD)",
     "Left renal artery bead 1",
     "Left renal artery bead 2",
     "Left renal artery bead 3",
+    "Left renal artery bead 4",
     "Right renal artery distal aneurysm"
    ],
    "show": [
+    "Abdominal aorta",
+    "Lower accessory left renal artery (FMD)",
     "Left renal artery bead 1",
     "Left renal artery bead 2",
     "Left renal artery bead 3",
+    "Left renal artery bead 4",
     "Right renal artery distal aneurysm"
    ],
    "isolate": true,
    "frame_on": [
-    "Abdominal aorta",
     "Left renal artery",
     "Right renal artery",
+    "Anterior branch of renal artery",
+    "Posterior branch of renal artery",
+    "Lower accessory left renal artery (FMD)",
     "Left renal artery bead 1",
     "Left renal artery bead 2",
     "Left renal artery bead 3",
+    "Left renal artery bead 4",
     "Right renal artery distal aneurysm"
    ]
   }
@@ -2062,7 +2337,7 @@
     "y": 0.387,
     "text": "Accessory artery after dilatation",
     "structures": [
-     "Renal artery"
+     "Anterior division of the renal artery"
     ],
     "side": "Left",
     "note": "The source identifies the accessory left renal artery after balloon dilatation."
@@ -2073,8 +2348,7 @@
     "text": "Intrarenal arterial branches",
     "structures": [
      "Interlobar artery (upper polar / upper anterior)",
-     "Arcuate artery (upper anterior, upper side)",
-     "Interlobular arteries (upper anterior, upper side)"
+     "Interlobar artery (upper anterior / upper middle anterior)"
     ],
     "side": "Left",
     "note": "Contrast outlines the smaller intrarenal branches."
@@ -2106,18 +2380,18 @@
     "Renal artery",
     "Anterior division of the renal artery",
     "Posterior division of the renal artery",
-    "Segmental artery (lower)",
-    "Segmental artery (upper)",
-    "Interlobar artery (upper polar / upper anterior)",
-    "Interlobar artery (lower anterior / lower polar)",
-    "Interlobar artery (lower posterior / lower polar)",
-    "Arcuate artery (upper anterior, upper side)",
-    "Interlobular arteries (upper anterior, upper side)"
+    "Gross / segmental artery",
+    "Gross / interlobar artery",
+    "Gross / arcuate artery",
+    "Gross / interlobular artery"
    ],
    "micro_context": [
     "Renal capsule"
    ],
-   "model_view": "anterior"
+   "model_view": "anterior",
+   "regions": [
+    "abdomen"
+   ]
   }
  },
  {
@@ -2176,7 +2450,10 @@
     "y": 0.149,
     "text": "Collateral vessels",
     "structures": [
-     "Collateral vessels around the occlusion"
+     "Collateral vessels around the occlusion",
+     "Collateral vessels around the occlusion, bridge 2 (angio_foot_occlusion)",
+     "Collateral vessels around the occlusion, bridge 3 (angio_foot_occlusion)",
+     "Collateral vessels around the occlusion, bridge 4 (angio_foot_occlusion)"
     ],
     "side": "Right",
     "note": "The source marks collateral vascular pathways."
@@ -2211,7 +2488,8 @@
     "y": 0.844,
     "text": "Calcaneal anastomosis",
     "structures": [
-     "Calcaneal branches of fibular artery"
+     "Calcaneal branches of fibular artery",
+     "Calcaneal anastomosis collateral (angio_foot_occlusion)"
     ],
     "side": "Right",
     "note": "Calcaneal branches of the fibular artery reach the heel, carrying blood round the occluded posterior tibial territory."
@@ -2220,15 +2498,58 @@
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
   "scene": {
    "systems": [
-    "cardiovascular",
-    "findings"
+    "cardiovascular"
    ],
    "regions": [
     "lower_limb_r"
    ],
    "side": "Right",
    "view": "anterior",
+   "camera": [
+    [
+     -0.08,
+     0.2,
+     0.0
+    ],
+    0.72,
+    0,
+    0
+   ],
+   "show": [
+    "Posterior tibial artery occlusion",
+    "Posterior tibial artery occlusion, segment 2 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 3 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 4 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 5 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 6 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion",
+    "Collateral vessels around the occlusion, bridge 2 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion, bridge 3 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion, bridge 4 (angio_foot_occlusion)",
+    "Calcaneal anastomosis collateral (angio_foot_occlusion)",
+    "Anterior tibial artery",
+    "Fibular artery",
+    "Dorsalis pedis artery",
+    "Lateral tarsal artery",
+    "Dorsal metatarsal arteries",
+    "Calcaneal branches of fibular artery"
+   ],
    "focus": [
+    "Posterior tibial artery occlusion",
+    "Posterior tibial artery occlusion, segment 2 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 3 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 4 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 5 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 6 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion",
+    "Collateral vessels around the occlusion, bridge 2 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion, bridge 3 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion, bridge 4 (angio_foot_occlusion)",
+    "Calcaneal anastomosis collateral (angio_foot_occlusion)"
+   ],
+   "isolate": true,
+   "xray": false,
+   "ghost_focus": [
     "Anterior tibial artery",
     "Fibular artery",
     "Dorsalis pedis artery",
@@ -2236,24 +2557,34 @@
     "Dorsal metatarsal arteries",
     "Calcaneal branches of fibular artery",
     "Posterior tibial artery occlusion",
-    "Collateral vessels around the occlusion"
-   ],
-   "isolate": true,
-   "xray": false,
-   "ghost_focus": [
-    "Dorsalis pedis artery",
-    "Calcaneal branches of fibular artery",
-    "Posterior tibial artery occlusion",
-    "Collateral vessels around the occlusion"
+    "Posterior tibial artery occlusion, segment 2 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 3 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 4 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 5 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 6 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion",
+    "Collateral vessels around the occlusion, bridge 2 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion, bridge 3 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion, bridge 4 (angio_foot_occlusion)",
+    "Calcaneal anastomosis collateral (angio_foot_occlusion)"
    ],
    "frame_on": [
     "Anterior tibial artery",
     "Fibular artery",
-    "Collateral vessels around the occlusion",
     "Dorsalis pedis artery",
     "Lateral tarsal artery",
     "Calcaneal branches of fibular artery",
-    "Posterior tibial artery occlusion"
+    "Posterior tibial artery occlusion",
+    "Posterior tibial artery occlusion, segment 2 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 3 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 4 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 5 (angio_foot_occlusion)",
+    "Posterior tibial artery occlusion, segment 6 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion",
+    "Collateral vessels around the occlusion, bridge 2 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion, bridge 3 (angio_foot_occlusion)",
+    "Collateral vessels around the occlusion, bridge 4 (angio_foot_occlusion)",
+    "Calcaneal anastomosis collateral (angio_foot_occlusion)"
    ]
   }
  },
@@ -2337,7 +2668,7 @@
     "y": 0.49,
     "text": "Distal occlusion",
     "structures": [
-     "Distal popliteal occlusion"
+     "Distal femoral occlusion"
     ],
     "side": "Left",
     "note": "The contrast column ends near the knee; the distal arteries below do not fill (distal occlusion)."
@@ -2363,31 +2694,35 @@
     "lower_limb_l"
    ],
    "focus": [
+    "Femur",
     "Femoral artery",
     "Deep femoral artery",
-    "Popliteal artery"
+    "Popliteal artery",
+    "Proximal femoral occlusion",
+    "Distal femoral occlusion",
+    "Tibia",
+    "Fibula"
    ],
    "show": [
     "Femur",
     "Tibia",
     "Fibula",
+    "Femoral artery",
+    "Deep femoral artery",
+    "Popliteal artery",
     "Proximal femoral occlusion",
-    "Distal popliteal occlusion"
+    "Distal femoral occlusion"
    ],
-   "ghost_focus": [
-    "Tibia",
-    "Fibula",
-    "Proximal femoral occlusion",
-    "Distal popliteal occlusion"
-   ],
+   "ghost_focus": [],
    "frame_on": [
     "Femoral artery",
     "Deep femoral artery",
     "Popliteal artery",
+    "Femur",
     "Tibia",
     "Fibula",
     "Proximal femoral occlusion",
-    "Distal popliteal occlusion"
+    "Distal femoral occlusion"
    ],
    "isolate": false,
    "xray": true,
@@ -2562,8 +2897,7 @@
     "y": 0.499,
     "text": "Source-arrowed subcapital uptake focus",
     "structures": [
-     "Left subcapital insufficiency fracture",
-     "Femur"
+     "Left subcapital insufficiency fracture"
     ],
     "side": "Left",
     "note": "The source white arrow identifies a focal subcapital insufficiency fracture (left femoral neck, inferred from the anterior projection)."
@@ -2582,8 +2916,7 @@
     "y": 0.14,
     "text": "Right shoulder tracer uptake",
     "structures": [
-     "Clavicle",
-     "Humerus"
+     "Clavicle"
     ],
     "side": "Right",
     "note": "Tracer outlines the right clavicle and humeral head."
@@ -2593,8 +2926,7 @@
     "y": 0.14,
     "text": "Left shoulder tracer uptake",
     "structures": [
-     "Clavicle",
-     "Humerus"
+     "Clavicle"
     ],
     "side": "Left",
     "note": "Tracer outlines the left clavicle and humeral head."
@@ -2620,10 +2952,13 @@
     "Left subcapital insufficiency fracture"
    ],
    "frame_on": [
+    "Frontal bone",
     "Vertebra T4",
     "Clavicle",
     "Femur",
-    "Tibia"
+    "Tibia",
+    "Distal phalanx of first finger of foot",
+    "Distal phalanx of fifth finger of foot"
    ],
    "view": "anterior",
    "xray": false
@@ -2690,7 +3025,8 @@
     "y": 0.5,
     "text": "C: Toxic multinodular goitre",
     "structures": [
-     "Multinodular goitre nodules"
+     "Multinodular goitre nodules",
+     "Left lobe goitre nodules (nuclear_thyroid_patterns)"
     ],
     "note": "Panel C is the source's toxic multinodular goitre pattern: uneven hot and cold areas across both lobes. The model shows the nodules across both lobes; the hot and cold uptake is not drawn."
    },
@@ -2719,24 +3055,72 @@
    "systems": [
     "visceral"
    ],
+   "regions": [
+    "neck"
+   ],
    "show": [
     "Thyroid gland",
     "Toxic adenoma",
-    "Multinodular goitre nodules"
+    "Multinodular goitre nodules",
+    "Left lobe goitre nodules (nuclear_thyroid_patterns)"
    ],
    "focus": [
     "Thyroid gland",
     "Toxic adenoma",
-    "Multinodular goitre nodules"
+    "Multinodular goitre nodules",
+    "Left lobe goitre nodules (nuclear_thyroid_patterns)"
    ],
    "isolate": true,
    "view": "anterior",
    "frame_on": [
-    "Thyroid gland",
-    "Toxic adenoma",
-    "Multinodular goitre nodules"
+    "Thyroid gland"
    ],
-   "xray": false
+   "xray": false,
+   "reference_labels": [
+    {
+     "text": "A: Normal thyroid",
+     "structures": [
+      "Thyroid gland"
+     ]
+    },
+    {
+     "text": "B: Graves disease",
+     "structures": [
+      "Thyroid gland"
+     ],
+     "side": "Right",
+     "at": [
+      -0.0121,
+      1.4602,
+      0.026
+     ]
+    },
+    {
+     "text": "C: Toxic multinodular goitre",
+     "structures": [
+      "Multinodular goitre nodules",
+      "Left lobe goitre nodules (nuclear_thyroid_patterns)"
+     ]
+    },
+    {
+     "text": "D: Toxic adenoma",
+     "structures": [
+      "Toxic adenoma"
+     ]
+    },
+    {
+     "text": "E: Thyroiditis",
+     "structures": [
+      "Thyroid gland"
+     ],
+     "side": "Left",
+     "at": [
+      0.01,
+      1.458,
+      0.028
+     ]
+    }
+   ]
   }
  },
  {
@@ -2838,7 +3222,7 @@
     "y": 0.45,
     "text": "B: Left lung, perfusion",
     "structures": [
-     "Left lower lobe pulmonary embolus"
+     "Left lower lobe perfusion defect (illustrative)"
     ],
     "side": "Left",
     "note": "Left lung field on the perfusion (MAA) image, where regional perfusion defects are seen. The clot shown in 3D lies in the left pulmonary artery branch to the lower lobe."
@@ -2859,32 +3243,20 @@
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
   "scene": {
    "systems": [
-    "skeletal",
-    "muscular",
-    "nervous",
-    "cardiovascular",
-    "visceral",
-    "joints"
+    "visceral"
    ],
    "regions": [
     "thorax"
    ],
-   "focus": [
-    "Superior lobe of left lung",
-    "Inferior lobe of left lung",
-    "Superior lobe of right lung",
-    "Middle lobe of right lung",
-    "Inferior lobe of right lung",
-    "Left pulmonary artery",
-    "Left lower lobe pulmonary embolus"
-   ],
    "show": [
     "Left pulmonary artery",
-    "Left lower lobe pulmonary embolus"
+    "Left lower lobe pulmonary embolus",
+    "Left lower lobe perfusion defect (illustrative)"
    ],
    "ghost_focus": [
     "Left pulmonary artery",
-    "Left lower lobe pulmonary embolus"
+    "Left lower lobe pulmonary embolus",
+    "Left lower lobe perfusion defect (illustrative)"
    ],
    "frame_on": [
     "Superior lobe of left lung",
@@ -2894,7 +3266,7 @@
     "Inferior lobe of right lung",
     "Left lower lobe pulmonary embolus"
    ],
-   "isolate": true,
+   "isolate": false,
    "xray": true,
    "view": "posterior"
   }
@@ -2977,6 +3349,7 @@
     "y": 0.91,
     "text": "Kidney with poor tracer uptake",
     "structures": [
+     "Left kidney impaired function marker (illustrative) (nuclear_renal_function)",
      "Renal pelvis"
     ],
     "side": "Left",
@@ -2995,12 +3368,18 @@
     "abdomen",
     "back"
    ],
+   "show": [
+    "Left kidney impaired function marker (illustrative) (nuclear_renal_function)"
+   ],
    "focus": [
     "Kidney",
-    "Renal pelvis"
+    "Renal pelvis",
+    "Left kidney impaired function marker (illustrative) (nuclear_renal_function)"
    ],
    "ghost_focus": [
-    "Renal pelvis"
+    "Kidney",
+    "Renal pelvis",
+    "Left kidney impaired function marker (illustrative) (nuclear_renal_function)"
    ],
    "isolate": true,
    "xray": true,
@@ -3043,10 +3422,7 @@
     "y": 0.074,
     "text": "Stress short-axis slices",
     "structures": [
-     "Left ventricle, anterior wall",
-     "Interventricular septum",
-     "Left ventricle, lateral wall",
-     "Left ventricle, inferior wall"
+     "Interventricular septum"
     ],
     "note": "STR identifies the stress short-axis row."
    },
@@ -3055,9 +3431,6 @@
     "y": 0.198,
     "text": "Rest short-axis slices",
     "structures": [
-     "Left ventricle, anterior wall",
-     "Interventricular septum",
-     "Left ventricle, lateral wall",
      "Left ventricle, inferior wall"
     ],
     "note": "RST identifies the rest short-axis row."
@@ -3067,9 +3440,7 @@
     "y": 0.44,
     "text": "Stress vertical long-axis slices",
     "structures": [
-     "Interventricular septum",
-     "Left ventricle, anterior wall",
-     "Left ventricle, inferior wall"
+     "Left ventricle, anterior wall"
     ],
     "note": "STR in the vertical long-axis (vax) row: the left ventricular walls and septum in the stress study."
    },
@@ -3078,9 +3449,7 @@
     "y": 0.77,
     "text": "Stress horizontal long-axis slices",
     "structures": [
-     "Apex of left ventricle",
-     "Left ventricle, lateral wall",
-     "Interventricular septum"
+     "Apex of left ventricle"
     ],
     "note": "STR in the horizontal long-axis (hax) row: the apex and walls of the left ventricle in the stress study."
    },
@@ -3089,8 +3458,7 @@
     "y": 0.895,
     "text": "Rest horizontal long-axis slices",
     "structures": [
-     "Left ventricle, lateral wall",
-     "Apex of left ventricle"
+     "Left ventricle, lateral wall"
     ],
     "note": "RST in the horizontal long-axis (hax) row: the apex and walls of the left ventricle at rest."
    }
@@ -3112,7 +3480,10 @@
     "Left atrium, anterior wall",
     "Left atrium, posterior wall"
    ],
-   "model_view": "anterior"
+   "model_view": "anterior",
+   "regions": [
+    "thorax"
+   ]
   }
  },
  {
@@ -3155,11 +3526,7 @@
     "y": 0.15,
     "text": "A1: Stress tetrofosmin SPECT",
     "structures": [
-     "Left ventricle, anterior wall",
-     "Left ventricle, lateral wall",
-     "Left ventricle, inferior wall",
-     "Interventricular septum",
-     "Apex of left ventricle"
+     "Left ventricle"
     ],
     "note": "Source panel A1 shows stress tetrofosmin SPECT."
    },
@@ -3168,7 +3535,7 @@
     "y": 0.15,
     "text": "B1: Stress H2-15O PET",
     "structures": [
-     "Papillary muscles"
+     "Inferior papillary muscle of left ventricle"
     ],
     "note": "Source panel B1 shows stress H2-15O PET; its short-axis slice cuts the mid left ventricle, where the papillary muscles lie."
    },
@@ -3177,11 +3544,8 @@
     "y": 0.39,
     "text": "C1: Source-marked coronary stenosis",
     "structures": [
-     "Left coronary artery",
-     "Anterior interventricular artery",
-     "Circumflex artery of heart",
-     "First diagonal artery",
-     "First obtuse marginal artery"
+     "Severe coronary stenosis",
+     "Circumflex coronary stenosis"
     ],
     "note": "The source angiogram arrows identify a coronary stenosis. The branch is not named in the composite image, so the left coronary tree is shown; the stenosis is drawn on the anterior interventricular artery as an illustrative site."
    },
@@ -3190,38 +3554,64 @@
     "y": 0.79,
     "text": "A3: Stress polar map, apex and septum",
     "structures": [
-     "Apex of left ventricle",
-     "Interventricular septum"
+     "Left ventricle"
     ],
     "note": "The centre of the stress polar map corresponds to the left ventricular apex; the surrounding ring is the septum and walls."
    }
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
   "scene": {
-   "micro": "whole_heart",
-   "micro_focus": [
-    "Left ventricle, anterior wall",
-    "Left ventricle, lateral wall",
-    "Left ventricle, inferior wall",
-    "Interventricular septum",
-    "Apex of left ventricle",
-    "Papillary muscles",
-    "Coronary arteries",
-    "First diagonal artery",
-    "First obtuse marginal artery",
-    "Posterior interventricular artery",
-    "Right coronary artery"
+   "systems": [
+    "cardiovascular"
    ],
-   "micro_context": [
-    "Right ventricle, anterior wall",
-    "Right ventricle, inferior wall",
-    "Left atrium, anterior wall",
-    "Ascending aorta"
+   "regions": [
+    "thorax"
+   ],
+   "view": "anterior",
+   "isolate": true,
+   "focus": [
+    "Left ventricle",
+    "Right ventricle",
+    "Inferior papillary muscle of left ventricle",
+    "Left coronary artery",
+    "Anterior interventricular artery",
+    "Circumflex artery of heart",
+    "Right coronary artery",
+    "Ascending aorta",
+    "Severe coronary stenosis",
+    "Circumflex coronary stenosis"
+   ],
+   "ghost_focus": [
+    "Left ventricle",
+    "Inferior papillary muscle of left ventricle",
+    "Left coronary artery",
+    "Anterior interventricular artery",
+    "Circumflex artery of heart",
+    "Right coronary artery",
+    "Severe coronary stenosis",
+    "Circumflex coronary stenosis"
    ],
    "show": [
-    "Severe coronary stenosis"
+    "Severe coronary stenosis",
+    "Circumflex coronary stenosis"
    ],
-   "model_view": "anterior"
+   "frame_on": [
+    "Left ventricle",
+    "Right ventricle",
+    "Left coronary artery",
+    "Right coronary artery",
+    "Ascending aorta"
+   ],
+   "camera": [
+    [
+     0.03,
+     1.298,
+     0.03
+    ],
+    0.27,
+    0,
+    0
+   ]
   }
  },
  {
@@ -3312,17 +3702,29 @@
   ],
   "atlas_note": "The atlas illustrates related anatomy. It is not registered to this image; shape, scan level and pathology may differ.",
   "scene": {
+   "systems": [
+    "skeletal",
+    "cardiovascular",
+    "visceral",
+    "lymphatic"
+   ],
    "regions": [
     "thorax",
     "back"
    ],
-   "clip": [
-    2,
-    0.79
-   ],
    "view": "inferior",
+   "isolate": true,
    "show": [
-    "Hodgkin paratracheal nodal mass"
+    "Hodgkin paratracheal nodal mass",
+    "Paratracheal thoracic nodes",
+    "Trachea"
+   ],
+   "ghost_focus": [
+    "Paratracheal thoracic nodes",
+    "Hodgkin paratracheal nodal mass",
+    "Aortic arch",
+    "Vertebra T4",
+    "Manubrium of sternum"
    ],
    "frame_on": [
     "Manubrium of sternum",
@@ -3331,6 +3733,16 @@
     "Aortic arch",
     "Paratracheal thoracic nodes",
     "Hodgkin paratracheal nodal mass"
+   ],
+   "camera": [
+    [
+     0.0,
+     1.4,
+     -0.008
+    ],
+    0.36,
+    0,
+    -89
    ]
   }
  }

@@ -39,12 +39,15 @@ from app.viewer import lod as _lod
 from app.viewer.environment import make_env, sh9_irradiance
 from app.viewer.renderer import (DEFAULT_RIG, DEFAULT_WORLD, FrameState, Renderer as _GL, Settings,  # noqa: F401
                                  _frustum_planes, _look_key, _transparent_pass, backdrop_linear)
+from . import cutclass
 from . import geometry as geo
 from .caps import CapPasses
 from .clusters import ClusterError
 from .cull import ClipState, ClusterCuller, FrameParts
+from .cull_policy import CullGovernor
 from .oit import OitDraw, OitPass
 from .post import PostPasses
+from .shade_split import ShadeSplit
 from .shading_uniforms import FIELD_BY_NAME, SIZE as SHADE_SIZE, pack_shading_uniforms
 
 log = logging.getLogger("anatomy.gpu")
@@ -55,7 +58,7 @@ DRAW_FLOATS = 40
 PTAB_STRIDE = 20
 STORAGE_PER_STAGE = 6                     # at most this many storage buffers bound by any stage of any pipeline (the Metal floor is 8)
 MAX_PAGES = STORAGE_PER_STAGE - 2        # the resolve binds the table buffer, the culler's decode table and up to MAX_PAGES page buffers
-CULL_MIN_TRIS = 4_000_000                # drawn triangles from which the cluster culler runs (ANATOMY_CULL=auto); see docs/renderer-perf
+CULL_MIN_TRIS = 1_000_000                # drawn triangles from which the cluster culler runs (ANATOMY_CULL=auto); see docs/renderer-perf
 CULL_LAY_BYTES = 80                      # CullLay (wgsl/cull_tables.wgsl): five vec4<u32>
 DEC_CRO, DEC_LAY = 8, 9                  # bindings of the decode tables in the resolve's group 2
 SHADE_WORDS = SHADE_SIZE // 4
@@ -157,7 +160,7 @@ def _decode_wgsl():
     return _read_text("cull_tables.wgsl") + "\n" + dec
 
 
-def _prelude_resolve(id_fmt, samples, n_pages, page0):
+def _prelude_resolve(id_fmt, samples, n_pages, page0, compressed=False):
     """Generated WGSL for the resolve module: sample access (group 2) and the pages of one pass (group 3, geometry.geom_prelude)."""
     out = [f"const SAMPLES: u32 = {samples}u;"]
     ms = samples > 1
@@ -179,7 +182,7 @@ def _prelude_resolve(id_fmt, samples, n_pages, page0):
                    f"return v.x | (v.y << 8u) | (v.z << 16u) | (v.w << 24u); }}")
     out.append(_DECODE_IDS)
     out.append(f"const GROUP_PAGE0: u32 = {page0}u;\nconst GROUP_PAGES: u32 = {n_pages}u;")
-    out.append(geo.geom_prelude(n_pages, 3, 0))
+    out.append(geo.geom_prelude(n_pages, 3, 0, compressed=compressed))
     return "\n".join(out)
 
 
@@ -339,11 +342,20 @@ class WgpuRenderer:
         # at least cull_min_tris triangles. The mode also decides, at set_model, whether the geometry is stored in cluster order
         # (static models only; "auto" only when the model's level-0 triangle total reaches cull_min_tris), so set it before.
         mode = (cull if cull is not None else os.environ.get("ANATOMY_CULL", "auto")).strip().lower()
-        self.cull_mode = mode if mode in ("on", "off", "auto") else "auto"
+        self.cull_mode = mode if mode in ("on", "off", "auto", "plain") else "auto"   # "plain": cluster-ordered geometry, never culled (diagnostic)
         self.cull_min_tris = int(cull_min_tris if cull_min_tris is not None else
                                  float(os.environ.get("ANATOMY_CULL_MIN_TRIS") or CULL_MIN_TRIS))
+        # cut views: classify draws against the cut planes (cutclass.py); ANATOMY_CUT_CLASSIFY=0 sends every draw through the discard
+        self.classify_cut = os.environ.get("ANATOMY_CUT_CLASSIFY", "1") != "0"
+        self.split = ShadeSplit(self)                    # shaded resolve with the extra triangles of edge pixels in a compute pass (ANATOMY_SHADE_SPLIT)
+        self._cut_cache = (None, None, None)
         self.culler = None
+        self.gov = None                      # auto: per-frame choice between the culler and the plain draw (cull_policy.py)
         self.culled_frame = False            # did the last frame go through the culler
+        self.cull_accept_all = False         # ... with every cluster accepted (compressed geometry below cull_min_tris)
+        gc_mode = os.environ.get("ANATOMY_GEOM_COMPRESS", "auto").strip().lower()
+        self.geom_compress = gc_mode if gc_mode in ("on", "off", "auto", "stage1") else "auto"      # compressed geometry (cluster-ordered models)
+        self._cmp = 0                        # the current geometry's stage: 0 plain, 1 compressed indices, 2 + quantised positions (keys of every module / pipeline)
         self.cull_stats = None
         self.model = None
         self.geom = None
@@ -431,17 +443,18 @@ class WgpuRenderer:
     def _layouts(self):
         d = self.device
         V, F, C = SS.VERTEX, SS.FRAGMENT, SS.COMPUTE
+        FC = F | C                      # groups of the shaded resolve that its compute twin (shade_split.py) binds as well
         # group 0, one layout per kind of stage (a V | F entry counts against both stages): frame, table buffer, table offsets, sg
         self.bgl0_vis = d.create_bind_group_layout(entries=[_entry(0, "u", V | F), _entry(1, "r", V | F), _entry(2, "u", V | F)])
-        self.bgl0_res = d.create_bind_group_layout(entries=[_entry(0, "u", F), _entry(1, "r", F), _entry(2, "u", F),
-                                                            _entry(4, "u", F)])
+        self.bgl0_res = d.create_bind_group_layout(entries=[_entry(0, "u", FC), _entry(1, "r", FC), _entry(2, "u", FC),
+                                                            _entry(4, "u", FC)])
         self.bgl0_cmp = d.create_bind_group_layout(entries=[_entry(0, "u", C)])
         self.bgl_vispage = d.create_bind_group_layout(entries=[_entry(0, "r", V), _entry(1, "u", V)])
         self.bgl_empty = d.create_bind_group_layout(entries=[])
         self.bg_empty = d.create_bind_group(layout=self.bgl_empty, entries=[])
         self.bgl_shade = d.create_bind_group_layout(entries=[
-            _entry(0, "u", F), _entry(1, "tf", F), _entry(2, "tl", F), _entry(3, "ta", F), _entry(4, "tl", F),
-            _entry(5, "s", F), _entry(6, "s", F), _entry(7, "s", F)])
+            _entry(0, "u", FC), _entry(1, "tf", FC), _entry(2, "tl", FC), _entry(3, "ta", FC), _entry(4, "tl", FC),
+            _entry(5, "s", FC), _entry(6, "s", FC), _entry(7, "s", FC)])
         self.bgl_res = d.create_bind_group_layout(entries=[_entry(3, "tu", C), _entry(4, "tf", C), _entry(5, "tf", C)])
         self.bgl_gather = d.create_bind_group_layout(
             entries=[_entry(60, "u", C), _entry(61, "r", C), _entry(62, "w", C)])
@@ -460,7 +473,7 @@ class WgpuRenderer:
     def _bgl_pages(self, n):
         key = ("pages", n)
         if key not in self._bgl_cache:
-            ents = [_entry(i, "r", SS.FRAGMENT) for i in range(n)] + [_entry(n, "u", SS.FRAGMENT)]
+            ents = [_entry(i, "r", SS.FRAGMENT | SS.COMPUTE) for i in range(n)] + [_entry(n, "u", SS.FRAGMENT | SS.COMPUTE)]
             self._bgl_cache[key] = self.device.create_bind_group_layout(entries=ents)
         return self._bgl_cache[key]
 
@@ -471,7 +484,7 @@ class WgpuRenderer:
         key = ("vis", self.id_format)
         if key not in self._modules:
             code = ("enable primitive_index;\n" + _prelude_ids(self.id_format) + "\n" + _read_text("clip.wgsl") + "\n"
-                    + _read_text("tables.wgsl") + "\n" + geo.geom_prelude(1, 1, 0, uniform_binding=1) + "\n"
+                    + _read_text("tables.wgsl") + "\n" + geo.geom_prelude(1, 1, 0, uniform_binding=1, compressed=self._cmp) + "\n"
                     + _read_text("geom.wgsl") + "\n" + _read_text("morph.wgsl") + "\n" + _read_text("visbuf.wgsl"))
             self._modules[key] = self.device.create_shader_module(code=code, label="visbuf")
         return self._modules[key]
@@ -489,7 +502,7 @@ class WgpuRenderer:
             resolve = _read_text("resolve.wgsl")
             assert resolve.count("su = sg;") == 1
             resolve = _su_reads(resolve.replace("su = sg;", ""))          # apply_look(rec) now only sets cur_lb
-            code = "\n".join([_prelude_resolve(self.id_format, samples, n_pages, page0), clip, shading,
+            code = "\n".join([_prelude_resolve(self.id_format, samples, n_pages, page0, self._cmp), clip, shading,
                               _read_text("tables.wgsl"), _read_text("geom.wgsl"), _read_text("morph.wgsl"),
                               _decode_wgsl(), resolve, _apply_look_wgsl()])
             assert not re.search(r"\bsu\b", re.sub(r"//.*", "", code)), "a use of `su` outside su.u_* is left in the resolve module"
@@ -511,17 +524,18 @@ class WgpuRenderer:
                 multisample={"count": samples}, label=f"vis{'_clip' if clip else ''}x{samples}")
         return self._pipes[key]
 
-    def _geom_pipe(self, samples, n_pages, page0):
+    def _geom_pipe(self, samples, n_pages, page0, fuse=False):
         feat = self._frame_feat & (FEAT_MORPH | FEAT_ANIM)
-        key = ("geom", samples, n_pages, page0, feat)
+        key = ("geom", samples, n_pages, page0, feat, fuse)
         if key not in self._pipes:
             m = self._resolve_module(samples, n_pages, page0)
             self._pipes[key] = self.device.create_render_pipeline(
                 layout=self._layout(self.bgl0_res, self.bgl_shade, self._bgl_vis(samples), self._bgl_pages(n_pages)),
                 vertex={"module": m, "entry_point": "vs_fsq"},
-                fragment={"module": m, "entry_point": "fs_geom",
+                fragment={"module": m, "entry_point": "fs_geom_d" if fuse else "fs_geom",
                           "constants": {n: float(bool(feat & b)) for n, b in _MORPH_NAMES},
-                          "targets": [{"format": "r32uint"}, {"format": "rg32float"}, {"format": "rgba32float"}]},
+                          "targets": [{"format": "r32uint"}, {"format": "rg32float"}, {"format": "rgba32float"}]
+                          + ([{"format": "r32float"}] if fuse else [])},
                 primitive={"topology": "triangle-list", "cull_mode": "none"},
                 depth_stencil={"format": "depth32float", "depth_write_enabled": True, "depth_compare": "less"},
                 label=f"geom{n_pages}@{page0}")
@@ -571,7 +585,12 @@ class WgpuRenderer:
             sink = geo.GpuSink(self.device)
             order = self._wants_cluster_order(model)
             try:
-                self.geom = geo.build_geometry(model, sink, self.page_bytes, max_pages=self.max_pages, cluster_order=order)
+                self.geom = geo.build_geometry(model, sink, self.page_bytes, max_pages=self.max_pages, cluster_order=order,
+                                               compress=order and self._wants_compress(model))
+                if int(self.geom.stage) != self._cmp:              # modules and pipelines are built for one of the stages
+                    self._cmp = int(self.geom.stage)
+                    self._pipes.clear()
+                    self._modules.clear()
             except geo.GeometryError as exc:
                 log.warning("wgpu renderer: model does not fit the geometry layout, the OpenGL viewport is used: %s", exc)
                 raise
@@ -619,9 +638,16 @@ class WgpuRenderer:
             return False
         if getattr(model, "anim_vertices", None) is not None or any(p.has_morph for p in model.parts):
             return False
-        if self.cull_mode == "on":
+        if self.cull_mode in ("on", "plain"):
             return True
         return sum(int(p.count) for p in model.parts) // 3 >= self.cull_min_tris
+
+    def _wants_compress(self, model):
+        """Compressed geometry for a cluster-ordered model: stage 1 = vertex renumbering + u16 cluster-relative indices, stage 2 =
+        and quantised positions (geometry.py, quant.py). ANATOMY_GEOM_COMPRESS = on (stage 2 for every cluster-ordered model) /
+        stage1 / off / auto (default: the smallest stage whose pages fit the adapter's capacity max_pages x page_bytes, plain
+        pages if they do; build_geometry decides). Every other model keeps the plain u32-index layout and draw path."""
+        return {"on": 2, "stage1": 1, "off": False}.get(self.geom_compress, "auto")
 
     def _make_culler(self, model):
         """The cluster culler of an ordered geometry (None for the rest); makes the resolve's group 2 point at its decode tables."""
@@ -635,6 +661,9 @@ class WgpuRenderer:
                 culler.release()
             else:
                 self.culler = culler
+                self.gov = CullGovernor.for_adapter(getattr(self.gpu, "adapter_type", ""),
+                                                    save_tris=int(float(os.environ["ANATOMY_CULL_SAVE_TRIS"])) if os.environ.get("ANATOMY_CULL_SAVE_TRIS") else None,
+                                                    blind_min_tris=self.cull_min_tris)
         self._bg_vis_none = self._bg_vis_cap = None
         if self.t:
             self._bg_vis_none = self._make_bg_vis(self._cap_none)
@@ -848,6 +877,7 @@ class WgpuRenderer:
         t["tri"] = d.create_texture(size=(w, h, 1), format="r32uint", usage=RA | TB | CS, label="tri")
         t["id"] = d.create_texture(size=(w, h, 1), format="rg32float", usage=RA | TB | CS, label="id")
         t["nd"] = d.create_texture(size=(w, h, 1), format="rgba32float", usage=RA | TB | CS, label="nd")
+        t["ssao_depth"] = d.create_texture(size=(w, h, 1), format="r32float", usage=RA | TB | CS, label="ssao_depth")
         t["bg"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB | CS | CD, label="backdrop")
         t["opaque"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB | CS | CD, label="opaque")
         t["ao"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB, label="ao")
@@ -1228,11 +1258,27 @@ class WgpuRenderer:
             tw["end_of_pass_write_index"] = b
         return tw
 
-    def _use_cull(self, drawn_tris, any_drawn):
-        """Does this frame go through the cluster culler? (the geometry must be cluster ordered, i.e. a culler exists)"""
-        if self.culler is None or not any_drawn or self.cull_mode == "off":
+    def _want_cull(self, drawn_tris, any_drawn, key=None):
+        """Does this frame cull for real? "on" always, "off" / "plain" never; "auto" asks the governor (cull_policy.py), which reads the
+        culler's counters of recent frames and compares what culling saves with what it costs. Compressed geometry that is not culled
+        still goes through the culler, accepting every cluster (see _use_cull)."""
+        if self.culler is None or not any_drawn:
             return False
-        return self.cull_mode == "on" or drawn_tris >= self.cull_min_tris
+        if self.cull_mode in ("off", "plain"):
+            return False
+        if self.cull_mode == "on":
+            return True
+        if self.gov is None:
+            return drawn_tris >= self.cull_min_tris
+        return self.gov.decide(drawn_tris, key)
+
+    def _use_cull(self, drawn_tris, any_drawn, want=None):
+        """Does this frame go through the cluster culler? (the geometry must be cluster ordered, i.e. a culler exists)"""
+        if self.culler is None or not any_drawn:
+            return False
+        if self._cmp:                       # compressed geometry has no hardware index buffer: opaque parts always go through the culler
+            return True
+        return self._want_cull(drawn_tris, any_drawn) if want is None else want
 
     def _frame_parts(self, entries):
         """(FrameParts for the culler, model part index per row) of the frame's draw entries: one row per part, in table order,
@@ -1253,14 +1299,62 @@ class WgpuRenderer:
     def _draw_slots(self, rp, entries):
         """One indexed draw per entry (slot, part, level, first index, index count) with the plain visibility pipeline set."""
         current = -1
+        cmp = self._cmp
         for slot, pi, k_, first, count in entries:
             page = int(self.geom.page_of[pi])
             if page != current:
                 rp.set_bind_group(1, self._vis_page_bg[page])
-                rp.set_index_buffer(self.geom.pages[page].buffer, "uint32", self.geom.pages[page].index_byte_offset,
-                                    self.geom.pages[page].index_bytes)
+                if not cmp:
+                    rp.set_index_buffer(self.geom.pages[page].buffer, "uint32", self.geom.pages[page].index_byte_offset,
+                                        self.geom.pages[page].index_bytes)
                 current = page
-            rp.draw_indexed(count, 1, first, 0, slot)
+            if cmp:                      # compressed pages: vertex_index = logical index position (geom.wgsl g_vertex)
+                rp.draw(count, 1, first, slot)
+            else:
+                rp.draw_indexed(count, 1, first, 0, slot)
+
+    def _cut_classes(self, entries, planes, on, mode, V, Pm, height, ortho):
+        """{part index: cutclass class} of the parts the frame draws (plain path of a cut view). The signed distances of the part's
+        world box to the planes depend on the box, its matrix of this frame (explode and node offsets included) and the planes,
+        not on the camera: they are kept until one of those changes; only the pixel margin (cutclass.pixel_margin) is per frame.
+        Morphed and animated parts are never proved: STRADDLE."""
+        anim_on = self.model.anim_vertices is not None and self._fs.anim_frame is not None
+        pis = tuple(sorted({e[1] for e in entries}))
+        key = (planes.tobytes(), tuple(on), int(mode), bool(anim_on), pis)
+        xf_id, ckey, st = self._cut_cache
+        if xf_id is not self._xf or ckey != key:
+            parts, geom = self.model.parts, self.geom
+            ps = [parts[pi] for pi in pis]
+            xf = [self._transform(p) for p in ps]
+            wc, A, h = cutclass.box_world(np.array([p.local_min for p in ps]), np.array([p.local_max for p in ps]),
+                                          np.stack([x[0] for x in xf]))
+            dlo, dhi = cutclass.plane_bounds(wc, A, h, planes, on)
+            plen = [float(np.linalg.norm(planes[i][:3].astype(np.float64))) for i in range(3) if on[i]]
+            straddle = np.array([x[3] != 0.0 or (anim_on and geom.anim_base[pi] >= 0) for x, pi in zip(xf, pis)])
+            st = (wc, A, h, dlo, dhi, plen, straddle, np.array([bool(x[4]) for x in xf]))
+            self._cut_cache = (self._xf, key, st)
+        wc, A, h, dlo, dhi, plen, straddle, never = st
+        tan_y = abs(1.0 / Pm[1, 1])
+        res = cutclass.classes_from_bounds(dlo, dhi, plen, cutclass.pixel_margin(wc, A, h, V, tan_y, ortho, height), mode, straddle, never)
+        return dict(zip(pis, (int(c) for c in res)))
+
+    def _draw_cut(self, rp, entries, cls, samples):
+        """_draw_slots of a cut view: parts wholly on the removed side are skipped, the ones wholly on the kept side take the plain
+        fragment stage (early depth rejection), the rest the discard. Draw order is kept (runs of one class between pipeline sets)."""
+        run, last = [], None
+        for e in entries:
+            c = cls[e[1]]
+            if c == cutclass.REMOVED:
+                continue
+            if c != last and run:
+                rp.set_pipeline(self._vis_pipe(samples, last == cutclass.STRADDLE))
+                self._draw_slots(rp, run)
+                run = []
+            last = c
+            run.append(e)
+        if run:
+            rp.set_pipeline(self._vis_pipe(samples, last == cutclass.STRADDLE))
+            self._draw_slots(rp, run)
 
     def render(self, target, size, camera, s, fs=None, out_size=None):
         """Render one frame into ``target`` (a wgpu texture, rgba8unorm, RENDER_ATTACHMENT). ``size`` is the render
@@ -1355,8 +1449,16 @@ class WgpuRenderer:
         post.run_backdrop(T["bg"], np.array(backdrop_linear(bottom, s.tonemap)) * k, np.array(backdrop_linear(top, s.tonemap)) * k,
                           encoder=enc)
         # ---- 1. visibility pass
+        cut_cls = self._cut_classes(entries, clip_planes, clip_on, fs.clip_mode, V, Pm, h, bool(camera.ortho)) if (any_clip and entries and self.classify_cut) else None
         drawn_tris = sum(e[4] for e in entries) // 3
-        self.culled_frame = use_cull = self._use_cull(drawn_tris, bool(entries))
+        if self.culler is not None and self.gov is not None and self.cull_mode == "auto":
+            for tag, kept, pulled in self.culler.stats_poll():       # counters of earlier culled frames, never waited for
+                self.gov.observe(tag, kept, pulled)
+        real = self._want_cull(drawn_tris, bool(entries), bool(any_clip))
+        self.culled_frame = use_cull = self._use_cull(drawn_tris, bool(entries), real)
+        self.cull_accept_all = bool(use_cull and self._cmp and not real)
+        if self.culler is not None:
+            self.culler.stats_wanted = bool(real and self.gov is not None and self.cull_mode == "auto" and self.gov.want_counters())
         if use_cull:
             # cluster culling: the culler records both visibility passes itself (compute runs between them). Parts it cannot
             # bound come back as `unculled` and are drawn here with the plain pipeline, ids stay (slot << bits) | primitive.
@@ -1364,15 +1466,17 @@ class WgpuRenderer:
                 enc.begin_compute_pass(timestamp_writes=self._ts(qs, 0, 1)).end()      # slots 0, 1 are replaced by the culler's
             fp, pis = self._frame_parts(entries)
 
-            def draw_plain(rp_, positions, entries=entries, pis=pis):
+            def draw_plain(rp_, positions, entries=entries, pis=pis, cut_cls=cut_cls):
                 want = {pis[i] for i in positions}
-                rp_.set_pipeline(self._vis_pipe(samples, any_clip))
                 rp_.set_bind_group(0, self._bg0_vis)
+                if cut_cls is not None:
+                    return self._draw_cut(rp_, [e for e in entries if e[1] in want], cut_cls, samples)
+                rp_.set_pipeline(self._vis_pipe(samples, any_clip))
                 self._draw_slots(rp_, [e for e in entries if e[1] in want])
 
             self.culler.encode(enc, V, Pm, (w, h), V_["vis_id"], V_["vis_depth"], samples, fp,
                                clip=ClipState(planes=clip_planes, on=clip_on, mode=int(fs.clip_mode)), ortho=bool(camera.ortho),
-                               draw_unculled=draw_plain, out_size=(ow, oh), bits=bits)
+                               draw_unculled=draw_plain, out_size=(ow, oh), bits=bits, accept_all=self.cull_accept_all)
         else:
             rp = enc.begin_render_pass(
                 color_attachments=[{"view": V_["vis_id"], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 0)}],
@@ -1380,12 +1484,17 @@ class WgpuRenderer:
                                           "depth_clear_value": 1.0},
                 **({"timestamp_writes": self._ts(qs, 0, 1)} if qs else {}))
             if entries:
-                rp.set_pipeline(self._vis_pipe(samples, any_clip))
                 rp.set_bind_group(0, self._bg0_vis)
-                self._draw_slots(rp, entries)
+                if cut_cls is not None:
+                    self._draw_cut(rp, entries, cut_cls, samples)
+                else:
+                    rp.set_pipeline(self._vis_pipe(samples, any_clip))
+                    self._draw_slots(rp, entries)
             rp.end()
         groups = self._groups if have else []
         # ---- 2. geometry resolve (GL's pre-pass: ids, normals, depth), one pass per group of pages
+        # nd.w is written as a fourth target (no post_pack pass) when the SSAO runs and nothing edits nd afterwards (cut faces do)
+        fuse_depth = bool(s.ao and m is not None and cplan is None)
         for gi, grp in enumerate(groups or [None]):
             op = "clear" if gi == 0 else "load"
             tw = {}
@@ -1395,12 +1504,12 @@ class WgpuRenderer:
                 tw.update({"query_set": qs, "end_of_pass_write_index": 3})
             rp = enc.begin_render_pass(
                 color_attachments=[{"view": V_[n], "load_op": op, "store_op": "store", "clear_value": (0, 0, 0, 0)}
-                                   for n in ("tri", "id", "nd")],
+                                   for n in ("tri", "id", "nd") + (("ssao_depth",) if fuse_depth else ())],
                 depth_stencil_attachment={"view": V_["res_order"], "depth_load_op": op, "depth_store_op": "store",
                                           "depth_clear_value": 1.0}, **({"timestamp_writes": tw} if tw else {}))
             if grp is not None:
                 p0, n, bg = grp
-                rp.set_pipeline(self._geom_pipe(samples, n, p0))
+                rp.set_pipeline(self._geom_pipe(samples, n, p0, fuse_depth))
                 rp.set_bind_group(0, self._bg0_res)
                 rp.set_bind_group(1, self._shade_bind_group())
                 rp.set_bind_group(2, self._bg_vis)
@@ -1409,7 +1518,7 @@ class WgpuRenderer:
             rp.end()
         # ---- 2a. cut faces (GL's CAPMIX_PRE_FS): gather the innermost cut face per pixel, lay it into id / nd
         if cplan is not None:
-            self.caps.encode_gather(enc, cplan)
+            self.caps.encode_gather(enc, cplan, (qs, 14, 15) if qs else None)
             self.caps.encode_lay_in(enc, T["id"], T["nd"])
         # ---- 2b. translucent and x-rayed parts: weighted blended OIT into the visibility pass's depth (GL pass 5);
         # encoded after the shaded resolve (below), which still needs the visibility depth without the cut faces
@@ -1422,7 +1531,8 @@ class WgpuRenderer:
             post.pending_ts = self._ts(qs, 4, None)
             post.run_ssao(T["nd"], T["opaque"], T["ao"], tan=(halves[0], halves[1]), ortho=1 if camera.ortho else 0,
                           radius=float(radius), power=float(1.6 * s.ao_strength), large=float(s.ao_large),
-                          large_mix=float(s.ao_large_mix), gi_on=1.0 if s.bounce > 0 else 0.0, samples=16, encoder=enc)
+                          large_mix=float(s.ao_large_mix), gi_on=1.0 if s.bounce > 0 else 0.0, samples=16, encoder=enc,
+                          depth=T["ssao_depth"], depth_ready=fuse_depth)
             post.run_blur(T["ao"], T["nd"], T["ao_tmp"], (1.0 / w, 0.0), encoder=enc)
             post.pending_ts = self._ts(qs, None, 5)
             post.run_blur(T["ao_tmp"], T["nd"], T["ao"], (0.0, 1.0 / h), encoder=enc)
@@ -1438,17 +1548,21 @@ class WgpuRenderer:
             plan = [(p0, n, bg, sl) for (p0, n, bg) in groups for sl in slots]
             for gi, (p0, n, bg, sl) in enumerate(plan):
                 tw = {}
-                if qs and gi == 0:
+                sx = None
+                if self.split.enabled(samples, n):          # the extra triangles of edge pixels in a compute pass first
+                    sx = self.split.prepare(enc, samples, n, p0, self._frame_feat, self._shade_bind_group(sl, 1 if gi == 0 else 0),
+                                            bg, (w, h), (qs, 6) if qs and gi == 0 else None)
+                if qs and gi == 0 and sx is None:
                     tw.update({"query_set": qs, "beginning_of_pass_write_index": 6})
                 if qs and gi == len(plan) - 1:
                     tw.update({"query_set": qs, "end_of_pass_write_index": 7})
                 rp = enc.begin_render_pass(
                     color_attachments=[{"view": V_["opaque"], "load_op": "clear" if gi == 0 else "load", "store_op": "store",
                                         "clear_value": (0, 0, 0, 0)}], **({"timestamp_writes": tw} if tw else {}))
-                rp.set_pipeline(self._shade_pipe(samples, n, p0, self._frame_feat))
+                rp.set_pipeline(self._shade_pipe(samples, n, p0, self._frame_feat) if sx is None else sx[0])
                 rp.set_bind_group(0, self._bg0_res)
                 rp.set_bind_group(1, self._shade_bind_group(sl, 1 if gi == 0 else 0))
-                rp.set_bind_group(2, self._bg_vis)
+                rp.set_bind_group(2, self._bg_vis if sx is None else sx[1])
                 rp.set_bind_group(3, bg)
                 rp.draw(3)
                 rp.end()
@@ -1483,15 +1597,20 @@ class WgpuRenderer:
         rp.draw(3)
         rp.end()
         if qs:
-            enc.resolve_query_set(qs, 0, 14, self._qbuf, 0)
+            if cplan is None:                                  # slots 14, 15 (the cap gather) must be written before they are resolved
+                enc.begin_compute_pass(timestamp_writes=self._ts(qs, 14, 15)).end()
+            enc.resolve_query_set(qs, 0, 16, self._qbuf, 0)
         self.queue.submit([enc.finish()])
+        if use_cull and self.culler.stats_wanted:
+            self.culler.stats_arm(self.gov.tag)
         if qs:
-            ts = np.frombuffer(bytes(self.queue.read_buffer(self._qbuf, 0, 14 * 8)), dtype=np.uint64).astype(np.float64)
+            ts = np.frombuffer(bytes(self.queue.read_buffer(self._qbuf, 0, 16 * 8)), dtype=np.uint64).astype(np.float64)
             kk = self.ts_period_ns * 1e-6
             d = lambda a, b: (ts[b] - ts[a]) * kk
             cull_t = self.culler.read_timings(self.ts_period_ns) if use_cull else None
             self.timings = {"backdrop_ms": d(12, 13), "vis_ms": cull_t["total_ms"] if use_cull else d(0, 1), "geom_ms": d(2, 3), "ssao_ms": d(4, 5) if s.ao else 0.0,
-                            "shade_ms": d(6, 7), "composite_ms": d(8, 9), "final_ms": d(10, 11)}
+                            "shade_ms": d(6, 7), "composite_ms": d(8, 9), "final_ms": d(10, 11),
+                            "caps_ms": d(14, 15) if cplan is not None else 0.0}
             self.timings["cull"] = cull_t                     # per stage ms of the culler (None: not culled)
             self.timings["resolve_ms"] = self.timings["geom_ms"] + self.timings["shade_ms"]
             self.timings["total_ms"] = sum(v for kx, v in self.timings.items() if kx.endswith("_ms") and kx != "resolve_ms")

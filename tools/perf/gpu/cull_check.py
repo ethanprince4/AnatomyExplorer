@@ -48,7 +48,7 @@ struct VOutR {
 @vertex
 fn vs_ref(@builtin(vertex_index) vi: u32, @builtin(instance_index) slot: u32) -> VOutR {
     let part = ref_part[slot];
-    let w = world_of(part_matrix(part), vi);
+    let w = world_of(part_matrix(part), g_vertex(0u, vi));
     var o: VOutR;
     o.clip = frame.vp * vec4<f32>(w, 1.0);
     o.wpos = w;
@@ -119,8 +119,9 @@ class Harness:
         # the culler draws cluster-ordered geometry: replace the renderer's pages by our own cluster-ordered ones
         from app.gpu import geometry as G
         page_bytes = self.R.geom.page_bytes
+        compressed = int(self.R.geom.stage)                   # what the renderer decided for this model (ANATOMY_GEOM_COMPRESS)
         self.R.geom.release()
-        self.geom = G.build_geometry(self.model, G.GpuSink(self.gpu.device), page_bytes, cluster_order=True)
+        self.geom = G.build_geometry(self.model, G.GpuSink(self.gpu.device), page_bytes, cluster_order=True, compress=compressed)
         self.order = self.geom.order
         self.id_format = self.R.id_format
         self.budget = budget                       # compact index budget in triangles (None: ANATOMY_CULL_BUDGET / the default)
@@ -277,9 +278,13 @@ class Harness:
             if page != cur:
                 rp.set_bind_group(1, cu.bg_vis1[page])
                 pg_ = self.geom.pages[page]
-                rp.set_index_buffer(pg_.buffer, "uint32", pg_.index_byte_offset, pg_.index_bytes)
+                if not self.geom.compressed:
+                    rp.set_index_buffer(pg_.buffer, "uint32", pg_.index_byte_offset, pg_.index_bytes)
                 cur = page
-            rp.draw_indexed(count, 1, first, 0, slot)
+            if self.geom.compressed:       # no hardware index buffer: vertex_index = logical index position (g_vertex)
+                rp.draw(count, 1, first, slot)
+            else:
+                rp.draw_indexed(count, 1, first, 0, slot)
         rp.end()
         if tw:
             enc.resolve_query_set(self._qs, 0, 2, self._qbuf, 0)
@@ -545,11 +550,13 @@ def tile_geometry(geom, K):
     for k in range(K):
         for pg in geom.pages:
             pages.append(SimpleNamespace(index=len(pages), buffer=pg.buffer, offsets_words=pg.offsets_words,
-                                         index_byte_offset=pg.index_byte_offset, index_bytes=pg.index_bytes, parts=[p + k * P0 for p in pg.parts],
-                                         v0=pg.v0, v1=pg.v1, nverts=pg.nverts, nindices=pg.nindices))
+                                         index_byte_offset=None if pg.compressed else pg.index_byte_offset, index_bytes=None if pg.compressed else pg.index_bytes, parts=[p + k * P0 for p in pg.parts],
+                                         v0=pg.v0, v1=pg.v1, nverts=pg.nverts, nindices=pg.nindices,
+                                         nlogical=pg.nlogical, compressed=pg.compressed, offs=pg.offs, counts=pg.counts))
     page_of = np.concatenate([np.where(geom.page_of >= 0, geom.page_of + k * G0, -1) for k in range(K)]).astype(np.int32)
     return SimpleNamespace(pages=pages, page_of=page_of, vbase=np.tile(geom.vbase, K), vcount=np.tile(geom.vcount, K),
-                           ranges=list(geom.ranges) * K, page_bytes=geom.page_bytes, sink=geom.sink, cluster_ordered=True)
+                           ranges=list(geom.ranges) * K, page_bytes=geom.page_bytes, sink=geom.sink, cluster_ordered=True,
+                           compressed=geom.compressed, stage=geom.stage)
 
 
 def tile_clusters(cd, K, P0, G0):
@@ -570,7 +577,10 @@ def tile_clusters(cd, K, P0, G0):
         page_cfirst=cat([cat([cd.page_cfirst[:-1] + k * C0 for k in ks]), [K * C0]]).astype(cd.page_cfirst.dtype),
         cl_geom=np.tile(cd.cl_geom, (K, 1)),
         cl_range=cat([cd.cl_range + np.uint32(k * R0) for k in ks]).astype(cd.cl_range.dtype),
-        perm=np.tile(cd.perm, K))
+        perm=np.tile(cd.perm, K),
+        cl_base=None if cd.cl_base is None else np.tile(cd.cl_base, K),
+        r_level=None if cd.r_level is None else np.tile(cd.r_level, K),
+        r_slot=None if cd.r_slot is None else np.tile(cd.r_slot, K))
 
 
 def look_at(eye, target, up=(0.0, 1.0, 0.0)):

@@ -368,12 +368,17 @@
    "view": "anterior",
    "show": [
     "Collapsed left lung (pneumothorax)",
-    "Left pleural air (pneumothorax)"
+    "Left pleural air (pneumothorax)",
+    "Air in the left pleural space",
+    "Chemotherapy port reservoir (illustrative) (cxr_pneumothorax)",
+    "Port catheter (illustrative) (cxr_pneumothorax)"
    ],
    "ghost_focus": [
     "Collapsed left lung (pneumothorax)",
     "Left pleural air (pneumothorax)",
-    "Inferior lobe of left lung",
+    "Air in the left pleural space",
+    "Chemotherapy port reservoir (illustrative) (cxr_pneumothorax)",
+    "Port catheter (illustrative) (cxr_pneumothorax)",
     "Superior lobe of right lung",
     "Middle lobe of right lung",
     "Inferior lobe of right lung",
@@ -386,9 +391,80 @@
    "frame_on": [
     "Collapsed left lung (pneumothorax)",
     "Left pleural air (pneumothorax)",
+    "Air in the left pleural space",
     "Inferior lobe of left lung",
     "Superior lobe of right lung",
     "Inferior lobe of right lung"
+   ],
+   "reference_labels": [
+    {
+     "text": "1  Visceral pleural line",
+     "structures": [
+      "Collapsed left lung (pneumothorax)"
+     ],
+     "side": "Left",
+     "at": [
+      0.078,
+      1.3455,
+      0.05
+     ]
+    },
+    {
+     "text": "2  Pleural air, no lung markings",
+     "structures": [
+      "Air in the left pleural space",
+      "Left pleural air (pneumothorax)"
+     ],
+     "side": "Left"
+    },
+    {
+     "text": "3  Collapsed left lung",
+     "structures": [
+      "Collapsed left lung (pneumothorax)"
+     ],
+     "side": "Left",
+     "at": [
+      0.043,
+      1.3,
+      0.05
+     ]
+    },
+    {
+     "text": "4  Normal right lung",
+     "structures": [
+      "Superior lobe of right lung",
+      "Middle lobe of right lung",
+      "Inferior lobe of right lung"
+     ],
+     "side": "Right"
+    },
+    {
+     "text": "5  Chemotherapy port",
+     "structures": [
+      "Chemotherapy port reservoir (illustrative) (cxr_pneumothorax)"
+     ],
+     "side": "Left"
+    },
+    {
+     "text": "6  Port catheter",
+     "structures": [
+      "Left brachiocephalic vein",
+      "Port catheter (illustrative) (cxr_pneumothorax)"
+     ]
+    },
+    {
+     "text": "7  Trachea",
+     "structures": [
+      "Trachea"
+     ]
+    },
+    {
+     "text": "8  Absent breast shadow",
+     "structures": [
+      "Diaphragm"
+     ],
+     "side": "Right"
+    }
    ]
   },
   "labels": [
@@ -397,7 +473,8 @@
     "y": 0.265,
     "text": "Visceral pleural line",
     "structures": [
-     "Collapsed left lung (pneumothorax)"
+     "Collapsed left lung (pneumothorax)",
+     "Air in the left pleural space"
     ],
     "side": "Left",
     "note": "the visible lung edge - check for absent lung markings beyond it"
@@ -407,7 +484,7 @@
     "y": 0.16,
     "text": "Pleural air, no lung markings",
     "structures": [
-     "Left pleural air (pneumothorax)"
+     "Air in the left pleural space"
     ],
     "side": "Left",
     "note": "black, and empty: vessels stop at the line"
@@ -417,7 +494,7 @@
     "y": 0.47,
     "text": "Collapsed left lung",
     "structures": [
-     "Inferior lobe of left lung"
+     "Collapsed left lung (pneumothorax)"
     ],
     "side": "Left",
     "note": "denser than normal, because the same tissue is packed into less space"
@@ -439,7 +516,7 @@
     "y": 0.42,
     "text": "Chemotherapy port",
     "structures": [
-     "Left subclavian vein"
+     "Chemotherapy port reservoir (illustrative) (cxr_pneumothorax)"
     ],
     "side": "Left",
     "note": "the reservoir, with its catheter running to the SVC"
@@ -449,7 +526,8 @@
     "y": 0.2,
     "text": "Port catheter",
     "structures": [
-     "Left brachiocephalic vein"
+     "Left brachiocephalic vein",
+     "Port catheter (illustrative) (cxr_pneumothorax)"
     ],
     "note": "the catheter arches over the top of the mediastinum through the left brachiocephalic vein to the SVC"
    },
@@ -555,7 +633,11 @@
     "Ribs",
     "Thoracic vertebrae",
     "Manubrium of sternum",
-    "Diaphragm"
+    "Kerley B line right base upper (cxr_chf)",
+    "Kerley B line right base lower (cxr_chf)",
+    "Kerley B line left base upper (cxr_chf)",
+    "Kerley B line left base lower (cxr_chf)",
+    "Fluid in right horizontal fissure (cxr_chf)"
    ],
    "ghost_focus": [
     "Enlarged heart",
@@ -564,7 +646,11 @@
     "Pulmonary arteries",
     "Pulmonary veins",
     "Manubrium of sternum",
-    "Diaphragm"
+    "Kerley B line right base upper (cxr_chf)",
+    "Kerley B line right base lower (cxr_chf)",
+    "Kerley B line left base upper (cxr_chf)",
+    "Kerley B line left base lower (cxr_chf)",
+    "Fluid in right horizontal fissure (cxr_chf)"
    ],
    "frame_on": [
     "Lungs",
@@ -596,7 +682,8 @@
     "y": 0.68,
     "text": "Kerley B lines",
     "structures": [
-     "Inferior lobe of left lung"
+     "Kerley B line left base upper (cxr_chf)",
+     "Kerley B line left base lower (cxr_chf)"
     ]
    },
    {
@@ -604,7 +691,8 @@
     "y": 0.68,
     "text": "Kerley B lines",
     "structures": [
-     "Inferior lobe of left lung"
+     "Kerley B line right base upper (cxr_chf)",
+     "Kerley B line right base lower (cxr_chf)"
     ]
    },
    {
@@ -612,9 +700,7 @@
     "y": 0.52,
     "text": "Fluid in the horizontal fissure",
     "structures": [
-     "Small bilateral pleural effusions",
-     "Superior lobe of right lung",
-     "Middle lobe of right lung"
+     "Fluid in right horizontal fissure (cxr_chf)"
     ],
     "note": "often the first effusion you can actually see"
    },
@@ -623,8 +709,7 @@
     "y": 0.82,
     "text": "Blunted costophrenic angle",
     "structures": [
-     "Small bilateral pleural effusions",
-     "Diaphragm"
+     "Small bilateral pleural effusions"
     ]
    },
    {
@@ -715,7 +800,11 @@
     "back"
    ],
    "show": [
-    "Consolidated right middle lobe"
+    "Consolidated right middle lobe",
+    "Right middle lobe consolidation (illustrative) (ct_pneumonia)"
+   ],
+   "ghost_focus": [
+    "Right middle lobe consolidation (illustrative) (ct_pneumonia)"
    ],
    "clip": [
     2,
@@ -724,7 +813,8 @@
    "view": "inferior",
    "frame_on": [
     "Lungs",
-    "Heart"
+    "Heart",
+    "Right middle lobe consolidation (illustrative) (ct_pneumonia)"
    ]
   },
   "labels": [
@@ -733,7 +823,8 @@
     "y": 0.396,
     "text": "Consolidated right middle lobe",
     "structures": [
-     "Consolidated right middle lobe"
+     "Consolidated right middle lobe",
+     "Right middle lobe consolidation (illustrative) (ct_pneumonia)"
     ],
     "side": "Right",
     "note": "anterior and to the patient's right, up against the heart"

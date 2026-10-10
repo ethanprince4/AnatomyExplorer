@@ -157,11 +157,12 @@ struct OVOut {
     @location(8) @interpolate(flat) slot: u32,
 }
 
-// Vertex index = the (page-local) index value; instance index = the draw record (draw_indexed first_instance).
+// Vertex index = the (page-local) index value (compressed pages: the logical index position, g_vertex decodes it); instance index = the
+// draw record (first_instance).
 @vertex
 fn vs_oit(@builtin(vertex_index) vi: u32, @builtin(instance_index) slot: u32) -> OVOut {
     let d = odraws[slot];
-    let r = vs_math(pull(d, i32(vi)), draw_xf(d));
+    let r = vs_math(pull(d, i32(g_vertex(0u, vi))), draw_xf(d));
     var o: OVOut;
     o.pos = ofr.vp * vec4<f32>(r.wpos, 1.0);          // the visibility pass's expression: bit-equal depth for coplanar parts
     if (ofr.size.z > 0.5) { o.pos.y = -o.pos.y; }      // bottom-up rasterisation (OitPass(flip_y=True))

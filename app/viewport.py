@@ -309,9 +309,11 @@ class Viewport(QOpenGLWidget):
             self.renderer.update_state(self.state.build_texture())
             self._state_dirty = False
         fbo_id = self.defaultFramebufferObject()
-        if self._fbo is None or fbo_id != self._fbo_id:
+        # detect_framebuffer records the widget size at that moment (it is a small one on the first paint), so it is
+        # detected again when the size changes.
+        if self._fbo is None or (fbo_id, w, h) != self._fbo_id:
             self._fbo = self.ctx.detect_framebuffer(fbo_id)
-            self._fbo_id = fbo_id
+            self._fbo_id = (fbo_id, w, h)
         self.renderer.render(self._fbo, self.camera, self.settings, self.clip_uniforms(),
                              hover_id=self.state.hovered, has_selection=bool(self.state.selected),
                              radiology_slice=self.radiology_slice)
@@ -882,6 +884,10 @@ class Viewport(QOpenGLWidget):
                     # pinned: drawn at its point when one of its structures is what shows there; a covered point
                     # falls back to the structure's largest visible patch below, like an unpinned label
                     sid = self._visible_pin(group[3], sids, ids, step)
+                    if sid is None:
+                        # see-through structures never reach the id image; a pin on one names it even when an
+                        # earlier label already claimed that structure
+                        sid = self._see_through_member(sids, group[3], ids, step)
                     if sid is not None:
                         anchors.append((sid, np.asarray(group[3], dtype=float), 1.0, text))
                         names.setdefault(sid, text)
@@ -891,6 +897,13 @@ class Viewport(QOpenGLWidget):
                     continue
                 mask = np.isin(ids, members)
                 if not mask.any():
+                    # see-through anatomy (a translucent finding, or a structure x-ray mode ghosts) never reaches
+                    # the opaque id pass: name it at its pin or its centre when that is on screen and uncovered
+                    sid = self._see_through_member(members - 1, group[3] if len(group) > 3 else None, ids, step)
+                    if sid is not None:
+                        point = group[3] if len(group) > 3 else self.ds.centroid[sid]
+                        anchors.append((sid, np.asarray(point, dtype=float).copy(), 1.0, text))
+                        names[sid] = text
                     continue
                 parts, count = label(mask)
                 if count > 1:
@@ -905,6 +918,45 @@ class Viewport(QOpenGLWidget):
                 names[sid] = text
         self._reference_anchors = anchors
         self._reference_names = names
+
+    def _see_through_member(self, sids, at, ids, step):
+        """The first of ``sids`` that is visible, drawn see-through and in view, or None. See-through is a finding
+        whose material is translucent, or a structure x-ray mode ghosts (it never reaches the opaque id image). A
+        ghosted structure whose point sits behind a nearer solid surface is skipped; a translucent finding is not."""
+        visible = self.state.visible_mask()
+        ghost = self.state.ghost_focus
+        for sid in (int(s) for s in sids):
+            if not visible[sid]:
+                continue
+            s = self.ds.structures[sid]
+            finding = s.get("system") == "findings"
+            if finding and float(self.ds.materials[s["material"]].get("alpha", 1.0)) < 1.0:
+                glass = True
+            elif ghost is not None and not ghost[sid]:
+                glass = False
+            else:
+                continue
+            point = self.ds.centroid[sid] if at is None else np.asarray(at, dtype=float)
+            clip = self.renderer.last_vp @ np.append(point, 1.0)
+            if not (clip[3] > 1e-6 and np.all(np.abs(clip[:3] / clip[3]) <= 1.0)):
+                continue
+            if glass or not self._covered_by_solid(clip, ids, step):
+                return sid
+        return None
+
+    def _covered_by_solid(self, clip, ids, step):
+        """True when a solid surface lies nearer than the clip-space point ``clip`` at its pixel of the id image
+        (rows run bottom-up)."""
+        rw, rh = self.renderer.size
+        col = int((clip[0] / clip[3] * 0.5 + 0.5) * rw) // step
+        row = int((clip[1] / clip[3] * 0.5 + 0.5) * rh) // step
+        if not (0 <= row < ids.shape[0] and 0 <= col < ids.shape[1]) or int(ids[row, col]) == 0:
+            return False
+        solid = self.renderer.world_at(col * step + step // 2, row * step + step // 2)
+        if solid is None:
+            return False
+        sc = self.renderer.last_vp @ np.append(np.asarray(solid, dtype=float), 1.0)
+        return bool(sc[3] > 1e-6 and sc[2] / sc[3] < clip[2] / clip[3] - 0.002)
 
     def _visible_pin(self, at, sids, ids, step):
         """The structure of ``sids`` seen at the pixel of point ``at`` (or right beside it) in the id image whose

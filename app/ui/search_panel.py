@@ -110,7 +110,7 @@ class SearchPanel(QWidget):
         super().__init__(parent)
         self.ds, self.index = ds, index
         self.setObjectName("studySearch")
-        self.setMinimumWidth(240)
+        self.setMinimumWidth(theme.text_px(27))
         lay = QVBoxLayout(self)
         lay.setContentsMargins(12, 12, 12, 8)
         lay.setSpacing(8)
@@ -265,7 +265,7 @@ class ModelCatalogPanel(QWidget):
         super().__init__(parent)
         self.content = content
         self.setObjectName("modelCatalog")
-        self.setMinimumWidth(240)
+        self.setMinimumWidth(theme.text_px(27))
         lay = QVBoxLayout(self)
         lay.setContentsMargins(12, 12, 12, 12)
         lay.setSpacing(8)

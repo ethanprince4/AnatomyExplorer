@@ -23,7 +23,7 @@ fn vertex_world(d: Draw, v: u32) -> vec3<f32> {
 @vertex
 fn vs(@builtin(vertex_index) vi: u32, @builtin(instance_index) slot: u32) -> VOut {
     let d = load_draw(slot);
-    let w = vertex_world(d, vi);
+    let w = vertex_world(d, g_vertex(0u, vi));
     var o: VOut;
     let cl = frame.vp * vec4<f32>(w, 1.0);
     // Rendered bottom-up, like GL: wgpu's framebuffer is y-down, so the clip y is negated and row 0 of the target is the

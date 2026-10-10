@@ -19,12 +19,12 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import numpy as np
 from PySide6.QtCore import QByteArray, QCoreApplication, QEvent, QSettings, Qt, QTimer
-from PySide6.QtWidgets import QApplication, QDialogButtonBox, QLabel
+from PySide6.QtWidgets import QApplication, QDialogButtonBox, QLabel, QMessageBox
 
 from app import config
 from app.__main__ import configure_qt
 from app.data import Dataset
-from app.state import SceneState
+from app.state import STATE_TEX_WIDTH, SceneState, state_rows
 from tests.fixture_paths import fixture_root
 
 FIXTURES = tempfile.TemporaryDirectory(prefix="anatomy-regression-")
@@ -165,7 +165,7 @@ class VisibilityTests(unittest.TestCase):
         center = QTabWidget()
         loader = SimpleNamespace(request=Mock(return_value=1), cancel=Mock())
         win = SimpleNamespace(
-            _closing=False, micro_tabs={}, _loading_models={}, _preference_commits={}, _reference_loads={},
+            _closing=False, left_dock=Mock(), right_dock=Mock(), micro_tabs={}, _loading_models={}, _preference_commits={}, _reference_loads={},
             content=SimpleNamespace(micro_models={"bad": entry}), settings={}, center=center,
             _model_loader=loader, _update_activity=Mock(), _connect_model_view=Mock(),
             _close_center_tab=Mock(), _retry_model_load=Mock(), statusBar=lambda: SimpleNamespace(showMessage=Mock()))
@@ -502,7 +502,19 @@ class RecoveryTests(unittest.TestCase):
                     QCoreApplication.sendPostedEvents(None, QEvent.DeferredDelete)
 
     def test_status_follows_active_model_selection_visibility_and_xray(self):
-        from general_fixtures import write_fixture_model, open_fixture_model
+        import time
+        from general_fixtures import write_fixture_model
+        from app.viewer.catalog import FileEntry
+
+        def open_fixture_model(win, path):
+            # The first-GPU-frame callback never fires off-screen; the installed tab is enough.
+            model_id = FileEntry(path).id
+            win.open_model_file(str(path))
+            deadline = time.monotonic() + 30
+            while model_id not in win.micro_tabs and time.monotonic() < deadline:
+                QAPP.processEvents()
+                time.sleep(0.01)
+            self.assertIn(model_id, win.micro_tabs)
         with tempfile.TemporaryDirectory() as folder:
             QSettings(QSettings.defaultFormat(), QSettings.UserScope, config.ORG_NAME, config.APP_NAME).clear()
             win = MainWindow(self.dataset, restore=False)
@@ -563,7 +575,7 @@ class RecoveryTests(unittest.TestCase):
 
                     def inspect_and_finish():
                         observed.append((dialog.isVisible(), dialog.text(),
-                                         any("Could not save note" in label.text()
+                                         any("could not be saved" in label.text()
                                              for label in dialog.findChildren(QLabel))))
                         if dialog.isVisible() and finish == "retry":
                             dialog.findChild(QDialogButtonBox).button(QDialogButtonBox.Save).click()
@@ -579,10 +591,14 @@ class RecoveryTests(unittest.TestCase):
                     return dialog
 
                 try:
+                    # Cancelling an edited note now asks "Discard unsaved note?" in a modal box (it would block
+                    # the test forever); answer Discard so the cancel path still runs.
                     with patch.object(win.content, "set_note", side_effect=save_note), \
-                            patch("app.ui.notes.NoteDialog", side_effect=make_dialog):
+                            patch("app.ui.notes.NoteDialog", side_effect=make_dialog), \
+                            patch("app.ui.notes.QMessageBox.question", return_value=QMessageBox.Discard) as ask:
                         win.edit_note("Femur")
                         QAPP.processEvents()
+                    self.assertEqual(ask.call_count, 1 if finish == "cancel" else 0)
                     self.assertEqual(observed, [(True, "Pending draft", True)])
                     if finish == "retry":
                         self.assertEqual(attempts, ["Pending draft", "Pending draft"])
@@ -712,9 +728,15 @@ class RecoveryTests(unittest.TestCase):
         prefs.clear()
         raw = json.dumps(invalid)
         prefs.setValue("view_settings", raw)
+        # Mark the one-time startup migrations as done: they legitimately rewrite stored settings.
+        prefs.setValue("gizmo_default_off_revision", 1)
+        prefs.setValue("studio_startup_revision", 1)
         win = MainWindow(self.dataset, restore=False)
         try:
-            self.assertEqual(win.settings, config.DEFAULT_SETTINGS)
+            # The shell always forces these (labels off, shared dark backdrop); every other value is the default.
+            expected = dict(config.DEFAULT_SETTINGS, show_structure_labels=False, custom_background=True,
+                            bg_top="#141b22", bg_bottom="#141b22")
+            self.assertEqual(win.settings, expected)
             self.assertTrue(np.isfinite(win.viewport.camera.proj(1.0)).all())
             self.assertEqual(prefs.value("view_settings"), raw)
         finally:
@@ -756,6 +778,8 @@ class RecoveryTests(unittest.TestCase):
         }
         for key, value in retained.items():
             settings.setValue(key, value)
+        settings.setValue("gizmo_default_off_revision", 1)   # startup migrations would rewrite view_settings
+        settings.setValue("studio_startup_revision", 1)
         settings.setValue("geometry", QByteArray(b"fixture-geometry"))
         settings.setValue("window_state", QByteArray(b"fixture-state"))
         settings.setValue("last_session", '{"selected":[0]}')
@@ -786,6 +810,7 @@ class RecoveryTests(unittest.TestCase):
         settings = QSettings(QSettings.defaultFormat(), QSettings.UserScope, config.ORG_NAME, config.APP_NAME)
         settings.clear()
         win = MainWindow(self.dataset, restore=False)
+        win.settings["restore_session"] = True   # off by default since the studio startup revision
         try:
             st = win.state
             st.set_depth(0.55)
@@ -903,7 +928,7 @@ class RecoveryTests(unittest.TestCase):
             saved["custom_colors"] = {str(self.dataset.n + 1): [1, 0, 0], "0": [0.1, 0.2, 0.3]}
             win.apply_view(saved, animate=False)
             texture = win.state.build_texture()
-            self.assertEqual(texture.shape, (2, 4096, 4))
+            self.assertEqual(texture.shape, (2, state_rows(self.dataset.n) * STATE_TEX_WIDTH, 4))
             self.assertEqual(win.state.custom_colors, {0: (0.1, 0.2, 0.3)})
         finally:
             win.close()
@@ -933,10 +958,14 @@ class RecoveryTests(unittest.TestCase):
                 prefs.clear()
                 raw = json.dumps(damaged)
                 prefs.setValue("view_settings", raw)
+                prefs.setValue("gizmo_default_off_revision", 1)
+                prefs.setValue("studio_startup_revision", 1)
                 win = None
                 try:
                     win = MainWindow(self.dataset, restore=False)
-                    self.assertEqual(win.settings, config.DEFAULT_SETTINGS)
+                    expected = dict(config.DEFAULT_SETTINGS, show_structure_labels=False, custom_background=True,
+                                    bg_top="#141b22", bg_bottom="#141b22")
+                    self.assertEqual(win.settings, expected)
                     self.assertEqual(prefs.value("view_settings"), raw)
                 finally:
                     if win is not None:

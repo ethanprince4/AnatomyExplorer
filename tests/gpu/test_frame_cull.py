@@ -143,7 +143,9 @@ class CulledFrame(unittest.TestCase):
                 ids_c, depth_c, (part_c, tri_c) = self.frame(self.r, "on", cam)
                 self.assertTrue(self.r.culled_frame)
                 ids_u, depth_u, (part_u, tri_u) = self.frame(self.r, "off", cam)
-                self.assertFalse(self.r.culled_frame)
+                # compressed geometry has no index buffer: with culling off it still goes through the culler, every cluster accepted
+                self.assertEqual(self.r.culled_frame, bool(self.r.geom.compressed))
+                self.assertEqual(self.r.cull_accept_all, bool(self.r.geom.compressed))
                 ids_s, depth_s, (part_s, tri_s) = self.frame(self.plain, "off", cam)
                 self.assertGreater(int((ids_u >= 0).sum()), 500)
                 for a, b, what in ((ids_c, ids_u, "items"), (part_c, part_u, "parts"), (ids_u, ids_s, "items (source order)"),
@@ -185,6 +187,70 @@ class CulledFrame(unittest.TestCase):
         ids_u = self.frame(self.r, "off", cam, fs)
         self.assertTrue(np.array_equal(ids_c[0], ids_u[0]))
         self.assertTrue(np.array_equal(ids_c[2][0], ids_u[2][0]))
+
+
+@needs_gpu
+class CompressedFrame(unittest.TestCase):
+    """Compressed geometry (vertex renumbering + u16 indices) draws the same frame as uncompressed cluster-ordered geometry."""
+
+    @classmethod
+    def setUpClass(cls):
+        from app.gpu.renderer import WgpuRenderer
+        from app.viewer.renderer import Settings
+        cls.model = make_model()
+        cls.s = Settings()
+        cls.s.msaa = 4
+        cls.tgt = target()
+        cls.cmp = WgpuRenderer(GPU, cull="on")
+        cls.cmp.geom_compress = "on"
+        cls.cmp.set_model(cls.model)
+        cls.raw = WgpuRenderer(GPU, cull="on")
+        cls.raw.geom_compress = "off"
+        cls.raw.set_model(cls.model)
+        cls.dflt = WgpuRenderer(GPU, cull="on")                 # default ANATOMY_GEOM_COMPRESS=auto: this model fits, so it stays plain
+        cls.dflt.geom_compress = "auto"
+        cls.dflt.set_model(cls.model)
+        cls.auto = WgpuRenderer(GPU, cull="on")                 # compressed, culling switched off afterwards: accept-all culler
+        cls.auto.geom_compress = "on"
+        cls.auto.set_model(cls.model)
+        cls.auto.cull_mode = "off"
+
+    @classmethod
+    def tearDownClass(cls):
+        for r in (cls.cmp, cls.raw, cls.dflt, cls.auto):
+            r.release()
+
+    def frame(self, r, cam):
+        r.render(self.tgt, (W, H), cam, self.s, None)
+        return r.read_ids()[0], r.read_depth(), r.read_model_triangles()
+
+    def test_the_geometry_is_compressed_only_when_asked_and_smaller(self):
+        self.assertTrue(self.cmp.geom.compressed)
+        self.assertFalse(self.raw.geom.compressed)
+        self.assertEqual(self.dflt.geom_compress, "auto")
+        self.assertFalse(self.dflt.geom.compressed)
+        self.assertTrue(self.raw.geom.cluster_ordered)
+        self.assertLess(self.cmp.geom.stats["index_bytes"], self.raw.geom.stats["index_bytes"])
+
+    def test_same_frame_ids_depth_triangles_and_picks(self):
+        for yaw, pitch in ((0.4, 0.3), (2.0, -0.4)):
+            cam = camera_for(self.model, yaw, pitch)
+            ids_r, depth_r, (part_r, tri_r) = self.frame(self.raw, cam)
+            for r, what in ((self.cmp, "compressed, culled"), (self.auto, "compressed, accept-all")):
+                ids_c, depth_c, (part_c, tri_c) = self.frame(r, cam)
+                self.assertGreater(int((ids_c >= 0).sum()), 500)
+                self.assertTrue(np.array_equal(ids_c, ids_r), what)
+                self.assertTrue(np.array_equal(part_c, part_r), what)
+                n = int((part_r >= 0).sum())
+                self.assertLessEqual(int((tri_c != tri_r).sum()), max(2, n // 1000), what)
+                self.assertTrue(np.allclose(depth_c, depth_r, rtol=1e-5, atol=1e-5), what)
+        self.assertTrue(self.auto.geom.compressed and self.auto.culled_frame and self.auto.cull_accept_all)
+        pts = [(x, y) for y in range(7, H, 9) for x in range(7, W, 11)]
+        self.frame(self.cmp, cam)
+        self.frame(self.raw, cam)
+        a, b = self.cmp.triangles_at(pts), self.raw.triangles_at(pts)
+        self.assertEqual(self.cmp.ids_at(pts), self.raw.ids_at(pts))
+        self.assertGreaterEqual(sum(1 for p, q in zip(a, b) if p == q), len(pts) - 2)
 
 
 if __name__ == "__main__":

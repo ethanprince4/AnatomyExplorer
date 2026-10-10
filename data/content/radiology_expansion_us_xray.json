@@ -48,7 +48,12 @@
     "structures": [
      "Diaphragm"
     ],
-    "note": "Echogenic curved diaphragmatic surface beneath the liver dome; identification by position only."
+    "note": "Echogenic curved diaphragmatic surface beneath the liver dome; identification by position only.",
+    "at": [
+     0.1134,
+     1.2204,
+     0.0286
+    ]
    }
   ],
   "references": [
@@ -68,14 +73,24 @@
     "abdomen"
    ],
    "view": "right",
-   "focus": [
-    "Liver",
-    "Diaphragm"
+   "camera": [
+    [
+     -0.07,
+     1.17,
+     0.02
+    ],
+    0.4,
+    90,
+    0
+   ],
+   "ghost_focus": [
+    "Liver"
    ],
    "frame_on": [
     "Liver"
    ],
    "show": [
+    "Liver",
     "Diaphragm"
    ],
    "isolate": true,
@@ -120,7 +135,7 @@
     "y": 0.41,
     "text": "Focal steatosis",
     "structures": [
-     "Liver"
+     "Focal hepatic steatosis (illustrative) (us_focal_steatosis)"
     ],
     "note": "Echogenic focal hepatic tissue (focal fatty change) beneath the arrow."
    },
@@ -129,7 +144,7 @@
     "y": 0.498,
     "text": "Traversing hepatic vein",
     "structures": [
-     "Hepatic veins"
+     "Traversing hepatic vein (illustrative) (us_focal_steatosis)"
     ],
     "note": "A dark vein courses through the focus without compression."
    }
@@ -150,19 +165,34 @@
     "abdomen"
    ],
    "focus": [
-    "Hepatic veins"
+    "Focal hepatic steatosis (illustrative) (us_focal_steatosis)",
+    "Traversing hepatic vein (illustrative) (us_focal_steatosis)"
    ],
    "ghost_focus": [
-    "Hepatic veins"
+    "Focal hepatic steatosis (illustrative) (us_focal_steatosis)",
+    "Traversing hepatic vein (illustrative) (us_focal_steatosis)"
    ],
    "show": [
-    "Liver"
+    "Anterior lateral segment of liver (VI)",
+    "Anterior medial segment of liver (V)",
+    "Left anterior lateral segment of liver (III)",
+    "Left medial segment of liver (IV)",
+    "Left posterior lateral segment of liver (II)",
+    "Posterior lateral segment of liver (VII)",
+    "Posterior medial segment of liver (VIII)",
+    "Posterior segment of liver (I)",
+    "Focal hepatic steatosis (illustrative) (us_focal_steatosis)",
+    "Traversing hepatic vein (illustrative) (us_focal_steatosis)"
    ],
    "frame_on": [
-    "Liver",
-    "Hepatic veins"
+    "Anterior lateral segment of liver (VI)",
+    "Anterior medial segment of liver (V)",
+    "Left medial segment of liver (IV)",
+    "Posterior lateral segment of liver (VII)",
+    "Posterior medial segment of liver (VIII)",
+    "Focal hepatic steatosis (illustrative) (us_focal_steatosis)",
+    "Traversing hepatic vein (illustrative) (us_focal_steatosis)"
    ],
-   "isolate": false,
    "xray": true,
    "view": "anterior"
   }
@@ -230,8 +260,7 @@
     "y": 0.496,
     "text": "Renal sinus",
     "structures": [
-     "Left renal vein",
-     "Right renal vein"
+     "Renal pelvis"
     ],
     "note": "Bright central renal sinus at the quadruple-asterisk marker. The atlas has no sinus fat, so the hilar renal veins stand in for it."
    },
@@ -268,23 +297,64 @@
    "regions": [
     "abdomen"
    ],
+   "side": "Right",
    "view": "anterior",
    "xray": true,
    "focus": [
     "Kidney",
-    "Renal pelvis",
-    "Left renal vein",
-    "Right renal vein"
+    "Renal pelvis"
    ],
    "show": [
     "Renal pelvis"
    ],
    "ghost_focus": [
-    "Renal pelvis",
-    "Left renal vein",
-    "Right renal vein"
+    "Renal pelvis"
    ],
-   "isolate": true
+   "frame_on": [
+    "Kidney"
+   ],
+   "isolate": true,
+   "reference_labels": [
+    {
+     "text": "1  Renal cortex",
+     "structures": [
+      "Kidney"
+     ],
+     "at": [
+      -0.0805,
+      1.1027,
+      -0.0051
+     ]
+    },
+    {
+     "text": "2  Renal pyramid",
+     "structures": [
+      "Kidney"
+     ],
+     "at": [
+      -0.07,
+      1.12,
+      -0.008
+     ]
+    },
+    {
+     "text": "3  Renal sinus",
+     "structures": [
+      "Renal pelvis"
+     ]
+    },
+    {
+     "text": "4  Renal pelvis",
+     "structures": [
+      "Renal pelvis"
+     ],
+     "at": [
+      -0.0348,
+      1.0835,
+      -0.0115
+     ]
+    }
+   ]
   }
  },
  {
@@ -329,22 +399,30 @@
     "y": 0.399,
     "text": "Dilated calyx",
     "structures": [
-     "Renal pelvis",
-     "Hydronephrosis (dilated renal pelvis)"
+     "Right ballooned calyx, mid lateral (us_hydronephrosis_cortical_atrophy)"
     ],
     "side": "Right",
-    "note": "Anechoic collecting-system space between the calipers, part of the hydronephrosis."
+    "note": "Anechoic collecting-system space between the calipers, part of the hydronephrosis.",
+    "at": [
+     -0.0721,
+     1.0928,
+     -0.009
+    ]
    },
    {
     "x": 0.58,
     "y": 0.36,
     "text": "Dilated renal pelvis",
     "structures": [
-     "Renal pelvis",
      "Hydronephrosis (dilated renal pelvis)"
     ],
     "side": "Right",
-    "note": "Anechoic renal pelvis expanded by urine; the dilatation is the pathology on this image."
+    "note": "Anechoic renal pelvis expanded by urine; the dilatation is the pathology on this image.",
+    "at": [
+     -0.0556,
+     1.0938,
+     -0.009
+    ]
    }
   ],
   "references": [
@@ -360,8 +438,7 @@
   "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
   "scene": {
    "systems": [
-    "visceral",
-    "cardiovascular"
+    "visceral"
    ],
    "regions": [
     "abdomen"
@@ -369,21 +446,24 @@
    "side": "Right",
    "view": "anterior",
    "show": [
-    "Hydronephrosis (dilated renal pelvis)"
-   ],
-   "focus": [
+    "Hydronephrosis (dilated renal pelvis)",
+    "Right ballooned calyx, upper pole (us_hydronephrosis_cortical_atrophy)",
+    "Right ballooned calyx, upper lateral (us_hydronephrosis_cortical_atrophy)",
+    "Right ballooned calyx, mid lateral (us_hydronephrosis_cortical_atrophy)",
+    "Right ballooned calyx, lower lateral (us_hydronephrosis_cortical_atrophy)",
+    "Right ballooned calyx, lower pole (us_hydronephrosis_cortical_atrophy)",
     "Kidney"
-   ],
-   "ghost_focus": [
-    "Renal pelvis",
-    "Hydronephrosis (dilated renal pelvis)"
    ],
    "frame_on": [
     "Kidney",
     "Hydronephrosis (dilated renal pelvis)"
    ],
-   "isolate": false,
-   "xray": true
+   "isolate": true,
+   "clip": [
+    1,
+    0.474,
+    true
+   ]
   }
  },
  {
@@ -464,7 +544,12 @@
     "structures": [
      "Liver"
     ],
-    "note": "Adjacent liver parenchyma beside the gallbladder."
+    "note": "Adjacent liver parenchyma beside the gallbladder.",
+    "at": [
+     -0.0663,
+     1.1339,
+     0.0545
+    ]
    }
   ],
   "references": [
@@ -481,29 +566,24 @@
    "regions": [
     "abdomen"
    ],
-   "view": "anterior",
+   "view": "inferior",
    "focus": [
-    "Gallbladder",
-    "Liver",
     "Gallstones (dependent, shadowing)",
     "Biliary sludge (dependent layer)"
    ],
    "ghost_focus": [
-    "Liver",
     "Gallstones (dependent, shadowing)",
     "Biliary sludge (dependent layer)"
    ],
    "frame_on": [
+    "Gallbladder"
+   ],
+   "show": [
+    "Liver",
     "Gallbladder",
     "Gallstones (dependent, shadowing)",
     "Biliary sludge (dependent layer)"
    ],
-   "show": [
-    "Liver",
-    "Gallstones (dependent, shadowing)",
-    "Biliary sludge (dependent layer)"
-   ],
-   "isolate": true,
    "xray": true
   }
  },
@@ -547,7 +627,6 @@
     "y": 0.481,
     "text": "Gallstone",
     "structures": [
-     "Gallbladder",
      "Impacted gallstone"
     ],
     "note": "Echogenic impacted gallbladder-neck stone (about 1.9 cm), with posterior acoustic shadowing."
@@ -568,7 +647,12 @@
     "structures": [
      "Liver"
     ],
-    "note": "Echogenic liver parenchyma beside the gallbladder on the right of the image."
+    "note": "Echogenic liver parenchyma beside the gallbladder on the right of the image.",
+    "at": [
+     -0.0711,
+     1.1428,
+     0.0843
+    ]
    }
   ],
   "references": [
@@ -586,24 +670,47 @@
     "abdomen"
    ],
    "focus": [
-    "Gallbladder",
-    "Liver",
     "Impacted gallstone",
-    "Gallbladder wall thickening",
+    "Duodenum"
+   ],
+   "ghost_focus": [
+    "Impacted gallstone",
     "Duodenum"
    ],
    "show": [
+    "Gallbladder",
     "Impacted gallstone",
-    "Gallbladder wall thickening"
+    "Gallbladder wall thickening",
+    "Liver",
+    "Duodenum"
    ],
-   "isolate": true,
+   "xray": true,
    "frame_on": [
     "Gallbladder",
     "Impacted gallstone",
-    "Duodenum",
-    "Liver"
+    "Duodenum"
    ],
-   "view": "anterior"
+   "view": "anterior",
+   "reference_labels": [
+    {
+     "text": "Gallstone",
+     "structures": [
+      "Impacted gallstone"
+     ]
+    },
+    {
+     "text": "Duodenum",
+     "structures": [
+      "Duodenum"
+     ]
+    },
+    {
+     "text": "Liver",
+     "structures": [
+      "Liver"
+     ]
+    }
+   ]
   }
  },
  {
@@ -804,7 +911,73 @@
    ],
    "isolate": true,
    "xray": false,
-   "view": "inferior"
+   "view": "inferior",
+   "clip": [
+    2,
+    0.836
+   ],
+   "camera": [
+    [
+     0.0,
+     1.4576,
+     0.0155
+    ],
+    0.153,
+    0.0,
+    -89.0
+   ],
+   "reference_labels": [
+    {
+     "text": "Common carotid artery",
+     "structures": [
+      "Right common carotid artery"
+     ],
+     "at": [
+      -0.0235,
+      1.4576,
+      0.0061
+     ]
+    },
+    {
+     "text": "Thyroid lobe",
+     "structures": [
+      "Thyroid gland"
+     ],
+     "at": [
+      -0.013,
+      1.4576,
+      0.0085
+     ]
+    },
+    {
+     "text": "Trachea",
+     "structures": [
+      "Trachea"
+     ]
+    },
+    {
+     "text": "Thyroid lobe (opposite side)",
+     "structures": [
+      "Thyroid gland"
+     ],
+     "at": [
+      0.013,
+      1.4576,
+      0.0085
+     ]
+    },
+    {
+     "text": "Common carotid artery (opposite side)",
+     "structures": [
+      "Left common carotid artery"
+     ],
+     "at": [
+      0.0215,
+      1.4576,
+      0.0016
+     ]
+    }
+   ]
   }
  },
  {
@@ -1017,13 +1190,55 @@
     "Rectus abdominis muscle",
     "Vertebra L1"
    ],
+   "frame_on": [
+    "Abdominal aortic aneurysm",
+    "Vertebra L1",
+    "Epigastric region"
+   ],
    "isolate": true,
    "xray": false,
    "clip": [
     2,
     0.635
    ],
-   "view": "inferior"
+   "view": "inferior",
+   "reference_labels": [
+    {
+     "text": "1  Aortic aneurysm",
+     "structures": [
+      "Abdominal aortic aneurysm",
+      "Abdominal aorta"
+     ]
+    },
+    {
+     "text": "2  Aneurysm wall",
+     "structures": [
+      "Abdominal aortic aneurysm"
+     ],
+     "at": [
+      0.0075,
+      1.107,
+      0.064
+     ]
+    },
+    {
+     "text": "3  Anterior abdominal wall",
+     "structures": [
+      "Rectus abdominis muscle"
+     ]
+    },
+    {
+     "text": "4  Vertebral body (L1)",
+     "structures": [
+      "Vertebra L1"
+     ],
+     "at": [
+      0.0,
+      1.107,
+      -0.008
+     ]
+    }
+   ]
   }
  },
  {
@@ -1128,7 +1343,78 @@
     "Inferior vena cava (abdominal part)"
    ],
    "isolate": true,
-   "view": "anterior"
+   "view": "inferior",
+   "clip": [
+    2,
+    0.648
+   ],
+   "camera": [
+    [
+     -0.0005,
+     1.13,
+     0.02
+    ],
+    0.105,
+    0,
+    -89.5
+   ],
+   "reference_labels": [
+    {
+     "text": "1  Aortic lumen",
+     "structures": [
+      "Abdominal aorta"
+     ],
+     "at": [
+      0.0096,
+      1.13,
+      0.0173
+     ]
+    },
+    {
+     "text": "2  Anterior aortic wall",
+     "structures": [
+      "Abdominal aorta"
+     ],
+     "at": [
+      0.0096,
+      1.13,
+      0.0258
+     ]
+    },
+    {
+     "text": "3  Posterior aortic wall",
+     "structures": [
+      "Abdominal aorta"
+     ],
+     "at": [
+      0.0096,
+      1.13,
+      0.0087
+     ]
+    },
+    {
+     "text": "4  Caliper end point",
+     "structures": [
+      "Abdominal aorta"
+     ],
+     "at": [
+      0.0166,
+      1.13,
+      0.0173
+     ]
+    },
+    {
+     "text": "Inferior vena cava",
+     "structures": [
+      "Inferior vena cava (abdominal part)"
+     ],
+     "at": [
+      -0.0097,
+      1.13,
+      0.0226
+     ]
+    }
+   ]
   }
  },
  {
@@ -1169,14 +1455,18 @@
     "x": 0.235,
     "y": 0.578,
     "text": "Crown",
-    "structures": [],
+    "structures": [
+     "Fetal head 12 weeks CRL (illustrative)"
+    ],
     "note": "Crown endpoint of the fetal length measurement. The fetus is not modelled in the 3D reference, so this label is not anchored to a structure."
    },
    {
     "x": 0.738,
     "y": 0.712,
     "text": "Rump",
-    "structures": [],
+    "structures": [
+     "Fetal rump 12 weeks CRL (illustrative)"
+    ],
     "note": "Rump endpoint of the fetal length measurement. The fetus is not modelled in the 3D reference, so this label is not anchored to a structure."
    }
   ],
@@ -1188,20 +1478,31 @@
   ],
   "atlas_note": "The atlas illustrates related anatomy. Its geometry is not registered to this ultrasound image.",
   "scene": {
-   "micro": "female_reproductive",
-   "micro_focus": [
-    "Fundus of uterus (myometrium)",
-    "Body of uterus (myometrium)",
-    "Isthmus of uterus (myometrium)",
-    "Cervix of uterus"
+   "systems": [
+    "visceral",
+    "skeletal"
    ],
-   "micro_context": [
+   "regions": [
+    "abdomen"
+   ],
+   "show": [
     "Urinary bladder",
-    "Rectum",
     "Sacrum",
-    "Coccyx"
+    "Coccyx",
+    "Gravid uterus 12 weeks CRL (illustrative)",
+    "Fetal CRL measurement line (illustrative)"
    ],
-   "model_view": "left"
+   "ghost_focus": [
+    "Fetus 12 weeks CRL (illustrative)",
+    "Fetal head 12 weeks CRL (illustrative)",
+    "Fetal rump 12 weeks CRL (illustrative)",
+    "Fetal CRL measurement line (illustrative)"
+   ],
+   "isolate": true,
+   "frame_on": [
+    "Gravid uterus 12 weeks CRL (illustrative)"
+   ],
+   "view": "left"
   }
  },
  {
@@ -1331,7 +1632,7 @@
     "y": 0.597,
     "text": "Air-fluid level",
     "structures": [
-     "Dilated small bowel with air-fluid levels"
+     "Jejunum"
     ],
     "note": "Horizontal interface between bowel gas and fluid."
    },
@@ -1340,7 +1641,7 @@
     "y": 0.65,
     "text": "Air-fluid level",
     "structures": [
-     "Dilated small bowel with air-fluid levels"
+     "Duodenum"
     ],
     "note": "Horizontal interface between bowel gas and fluid."
    },
@@ -1373,8 +1674,7 @@
   "scene": {
    "systems": [
     "skeletal",
-    "visceral",
-    "findings"
+    "visceral"
    ],
    "regions": [
     "abdomen"
@@ -1384,12 +1684,15 @@
    ],
    "focus": [
     "Dilated small bowel with air-fluid levels",
+    "Jejunum",
+    "Duodenum",
     "Stomach",
     "Descending colon"
    ],
    "ghost_focus": [
     "Dilated small bowel with air-fluid levels",
     "Jejunum",
+    "Duodenum",
     "Stomach",
     "Ascending colon",
     "Transverse colon",
@@ -1717,7 +2020,7 @@
     "text": "Clavicular fracture",
     "structures": [
      "Clavicular fracture",
-     "Clavicle"
+     "Left clavicle midshaft fracture zone"
     ],
     "side": "Left",
     "note": "Fracture gap interrupts clavicular continuity."
@@ -1795,17 +2098,20 @@
     "Third rib",
     "Fourth rib",
     "Fifth rib",
-    "Clavicular fracture"
+    "Clavicular fracture",
+    "Left clavicle midshaft fracture zone"
    ],
    "ghost_focus": [
     "Clavicle",
     "Scapula",
     "Humerus",
-    "Clavicular fracture"
+    "Clavicular fracture",
+    "Left clavicle midshaft fracture zone"
    ],
    "frame_on": [
     "Clavicle",
-    "Scapula"
+    "Clavicular fracture",
+    "Left clavicle midshaft fracture zone"
    ],
    "view": "anterior"
   }
@@ -1849,11 +2155,11 @@
     "y": 0.437,
     "text": "Lumbar vertebral column",
     "structures": [
-     "Vertebra L1",
-     "Vertebra L2",
-     "Vertebra L3",
-     "Vertebra L4",
-     "Vertebra L5"
+     "Vertebra L1 displaced (illustrative) (xr_scoliosis)",
+     "Vertebra L2 displaced (illustrative) (xr_scoliosis)",
+     "Vertebra L3 displaced (illustrative) (xr_scoliosis)",
+     "Vertebra L4 displaced (illustrative) (xr_scoliosis)",
+     "Vertebra L5 displaced (illustrative) (xr_scoliosis)"
     ],
     "note": "Lumbar vertebral bodies follow the curved column."
    },
@@ -1903,17 +2209,38 @@
     "back",
     "abdomen"
    ],
-   "focus": [
-    "Vertebra T12",
+   "show": [
     "Vertebra L1",
     "Vertebra L2",
     "Vertebra L3",
     "Vertebra L4",
     "Vertebra L5",
+    "Vertebra L1 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L2 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L3 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L4 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L5 displaced (illustrative) (xr_scoliosis)"
+   ],
+   "focus": [
+    "Vertebra L1 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L2 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L3 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L4 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L5 displaced (illustrative) (xr_scoliosis)",
     "Sacrum",
     "Hip bone"
    ],
    "ghost_focus": [
+    "Vertebra L1 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L2 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L3 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L4 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra L5 displaced (illustrative) (xr_scoliosis)",
+    "Vertebra T12",
+    "Sacrum",
+    "Hip bone"
+   ],
+   "frame_on": [
     "Vertebra T12",
     "Vertebra L1",
     "Vertebra L2",
@@ -2099,6 +2426,7 @@
     "text": "Renal calculi (image left)",
     "structures": [
      "Right renal calculus (xr_bilateral_renal_stones)",
+     "Right lower-pole renal calculus (xr_bilateral_renal_stones)",
      "Kidney"
     ],
     "side": "Right",
@@ -2110,6 +2438,7 @@
     "text": "Renal calculi (image right)",
     "structures": [
      "Left renal calculus (xr_bilateral_renal_stones)",
+     "Left upper-pole renal calculus (xr_bilateral_renal_stones)",
      "Kidney"
     ],
     "side": "Left",
@@ -2120,6 +2449,10 @@
     "y": 0.864,
     "text": "Pelvic phlebolith",
     "structures": [
+     "Right pelvic phlebolith A (xr_bilateral_renal_stones)",
+     "Right pelvic phlebolith B (xr_bilateral_renal_stones)",
+     "Left pelvic phlebolith A (xr_bilateral_renal_stones)",
+     "Left pelvic phlebolith B (xr_bilateral_renal_stones)",
      "Internal iliac vein"
     ],
     "side": "Right",
@@ -2146,8 +2479,7 @@
    "systems": [
     "skeletal",
     "visceral",
-    "cardiovascular",
-    "muscular"
+    "cardiovascular"
    ],
    "regions": [
     "abdomen",
@@ -2165,17 +2497,31 @@
     "Ureter",
     "Renal pelvis",
     "Kidney",
+    "Internal iliac vein",
     "Right renal calculus (xr_bilateral_renal_stones)",
     "Left renal calculus (xr_bilateral_renal_stones)",
-    "Internal iliac vein"
+    "Right lower-pole renal calculus (xr_bilateral_renal_stones)",
+    "Left upper-pole renal calculus (xr_bilateral_renal_stones)",
+    "Right pelvic phlebolith A (xr_bilateral_renal_stones)",
+    "Right pelvic phlebolith B (xr_bilateral_renal_stones)",
+    "Left pelvic phlebolith A (xr_bilateral_renal_stones)",
+    "Left pelvic phlebolith B (xr_bilateral_renal_stones)"
    ],
    "focus": [
+    "Kidney",
     "Vertebra L2",
-    "Internal iliac vein"
-   ],
-   "ghost_focus": [
+    "Internal iliac vein",
     "Right renal calculus (xr_bilateral_renal_stones)",
     "Left renal calculus (xr_bilateral_renal_stones)",
+    "Right lower-pole renal calculus (xr_bilateral_renal_stones)",
+    "Left upper-pole renal calculus (xr_bilateral_renal_stones)",
+    "Right pelvic phlebolith A (xr_bilateral_renal_stones)",
+    "Right pelvic phlebolith B (xr_bilateral_renal_stones)",
+    "Left pelvic phlebolith A (xr_bilateral_renal_stones)",
+    "Left pelvic phlebolith B (xr_bilateral_renal_stones)"
+   ],
+   "ghost_focus": [
+    "Kidney",
     "Vertebra L1",
     "Vertebra L2",
     "Vertebra L3",
@@ -2183,15 +2529,28 @@
     "Vertebra L5",
     "Sacrum",
     "Hip bone",
-    "Internal iliac vein"
+    "Internal iliac vein",
+    "Right renal calculus (xr_bilateral_renal_stones)",
+    "Left renal calculus (xr_bilateral_renal_stones)",
+    "Right lower-pole renal calculus (xr_bilateral_renal_stones)",
+    "Left upper-pole renal calculus (xr_bilateral_renal_stones)",
+    "Right pelvic phlebolith A (xr_bilateral_renal_stones)",
+    "Right pelvic phlebolith B (xr_bilateral_renal_stones)",
+    "Left pelvic phlebolith A (xr_bilateral_renal_stones)",
+    "Left pelvic phlebolith B (xr_bilateral_renal_stones)"
    ],
    "frame_on": [
     "Kidney",
     "Vertebra L2",
-    "Sacrum",
     "Internal iliac vein",
     "Right renal calculus (xr_bilateral_renal_stones)",
-    "Left renal calculus (xr_bilateral_renal_stones)"
+    "Left renal calculus (xr_bilateral_renal_stones)",
+    "Right lower-pole renal calculus (xr_bilateral_renal_stones)",
+    "Left upper-pole renal calculus (xr_bilateral_renal_stones)",
+    "Right pelvic phlebolith A (xr_bilateral_renal_stones)",
+    "Right pelvic phlebolith B (xr_bilateral_renal_stones)",
+    "Left pelvic phlebolith A (xr_bilateral_renal_stones)",
+    "Left pelvic phlebolith B (xr_bilateral_renal_stones)"
    ],
    "xray": true,
    "isolate": false
@@ -2521,7 +2880,7 @@
     "y": 0.84,
     "text": "Hip joint",
     "structures": [
-     "Hip bone"
+     "Acetabular labrum"
     ],
     "note": "Rounded femoral head seated in the acetabulum of the hip bone at the inferior edge of the film."
    }
@@ -2544,6 +2903,7 @@
     "lower_limb_r",
     "lower_limb_l"
    ],
+   "side": "Right",
    "show": [
     "Vertebra L1",
     "Vertebra L2",
@@ -2557,7 +2917,8 @@
     "Intervertebral disc L5-S1",
     "Sacrum",
     "Hip bone",
-    "Femur"
+    "Femur",
+    "Acetabular labrum"
    ],
    "ghost_focus": [
     "Vertebra L1",
@@ -2571,7 +2932,15 @@
     "Intervertebral disc L4-L5",
     "Intervertebral disc L5-S1",
     "Sacrum",
-    "Hip bone"
+    "Femur",
+    "Acetabular labrum"
+   ],
+   "frame_on": [
+    "Vertebra L1",
+    "Vertebra L5",
+    "Intervertebral disc L5-S1",
+    "Sacrum",
+    "Acetabular labrum"
    ],
    "view": "right"
   }
