@@ -45,6 +45,8 @@ const ST_P2_TESTED: u32 = 8u;
 // 9, 10: visible / visible_tris (cull_mark.wgsl)
 const ST_IDX: u32 = 11u;            // slots drawn by the indexed (compact buffer) draws
 const ST_PULL: u32 = 12u;           // slots drawn by the pulled draws (over the budget)
+const ST_KEPT: u32 = 13u;           // clusters kept by both phases (every frame: the renderer's choice between culling and the plain draw)
+const ST_PULLED: u32 = 14u;         // ... of them over the compact index budget (pulled draw)
 
 struct Box {
     c: vec3<f32>,
@@ -397,6 +399,8 @@ fn fin_all(ph: u32) {
         crw[lay.d.z + ai * 2u] = row.z + begin;
         crw[lay.d.z + ai * 2u + 1u] = row.z + begin + fit;
         atomicStore(&cra[lay.c.x + g * 8u + 1u], n);
+        atomicAdd(&cra[lay.c.y + ST_KEPT], m);
+        atomicAdd(&cra[lay.c.y + ST_PULLED], m - fit);
         if (cfg.hz.y != 0u) {
             atomicAdd(&cra[lay.c.y + ST_IDX], fit);
             atomicAdd(&cra[lay.c.y + ST_PULL], m - fit);

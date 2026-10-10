@@ -44,6 +44,7 @@ from . import geometry as geo
 from .caps import CapPasses
 from .clusters import ClusterError
 from .cull import ClipState, ClusterCuller, FrameParts
+from .cull_policy import CullGovernor
 from .oit import OitDraw, OitPass
 from .post import PostPasses
 from .shading_uniforms import FIELD_BY_NAME, SIZE as SHADE_SIZE, pack_shading_uniforms
@@ -56,7 +57,7 @@ DRAW_FLOATS = 40
 PTAB_STRIDE = 20
 STORAGE_PER_STAGE = 6                     # at most this many storage buffers bound by any stage of any pipeline (the Metal floor is 8)
 MAX_PAGES = STORAGE_PER_STAGE - 2        # the resolve binds the table buffer, the culler's decode table and up to MAX_PAGES page buffers
-CULL_MIN_TRIS = 4_000_000                # drawn triangles from which the cluster culler runs (ANATOMY_CULL=auto); see docs/renderer-perf
+CULL_MIN_TRIS = 1_000_000                # drawn triangles from which the cluster culler runs (ANATOMY_CULL=auto); see docs/renderer-perf
 CULL_LAY_BYTES = 80                      # CullLay (wgsl/cull_tables.wgsl): five vec4<u32>
 DEC_CRO, DEC_LAY = 8, 9                  # bindings of the decode tables in the resolve's group 2
 SHADE_WORDS = SHADE_SIZE // 4
@@ -340,13 +341,14 @@ class WgpuRenderer:
         # at least cull_min_tris triangles. The mode also decides, at set_model, whether the geometry is stored in cluster order
         # (static models only; "auto" only when the model's level-0 triangle total reaches cull_min_tris), so set it before.
         mode = (cull if cull is not None else os.environ.get("ANATOMY_CULL", "auto")).strip().lower()
-        self.cull_mode = mode if mode in ("on", "off", "auto") else "auto"
+        self.cull_mode = mode if mode in ("on", "off", "auto", "plain") else "auto"   # "plain": cluster-ordered geometry, never culled (diagnostic)
         self.cull_min_tris = int(cull_min_tris if cull_min_tris is not None else
                                  float(os.environ.get("ANATOMY_CULL_MIN_TRIS") or CULL_MIN_TRIS))
         # cut views: classify draws against the cut planes (cutclass.py); ANATOMY_CUT_CLASSIFY=0 sends every draw through the discard
         self.classify_cut = os.environ.get("ANATOMY_CUT_CLASSIFY", "1") != "0"
         self._cut_cache = (None, None, None)
         self.culler = None
+        self.gov = None                      # auto: per-frame choice between the culler and the plain draw (cull_policy.py)
         self.culled_frame = False            # did the last frame go through the culler
         self.cull_accept_all = False         # ... with every cluster accepted (compressed geometry below cull_min_tris)
         gc_mode = os.environ.get("ANATOMY_GEOM_COMPRESS", "auto").strip().lower()
@@ -633,7 +635,7 @@ class WgpuRenderer:
             return False
         if getattr(model, "anim_vertices", None) is not None or any(p.has_morph for p in model.parts):
             return False
-        if self.cull_mode == "on":
+        if self.cull_mode in ("on", "plain"):
             return True
         return sum(int(p.count) for p in model.parts) // 3 >= self.cull_min_tris
 
@@ -656,6 +658,9 @@ class WgpuRenderer:
                 culler.release()
             else:
                 self.culler = culler
+                self.gov = CullGovernor.for_adapter(getattr(self.gpu, "adapter_type", ""),
+                                                    save_tris=int(float(os.environ["ANATOMY_CULL_SAVE_TRIS"])) if os.environ.get("ANATOMY_CULL_SAVE_TRIS") else None,
+                                                    blind_min_tris=self.cull_min_tris)
         self._bg_vis_none = self._bg_vis_cap = None
         if self.t:
             self._bg_vis_none = self._make_bg_vis(self._cap_none)
@@ -1250,15 +1255,27 @@ class WgpuRenderer:
             tw["end_of_pass_write_index"] = b
         return tw
 
-    def _use_cull(self, drawn_tris, any_drawn):
+    def _want_cull(self, drawn_tris, any_drawn, key=None):
+        """Does this frame cull for real? "on" always, "off" / "plain" never; "auto" asks the governor (cull_policy.py), which reads the
+        culler's counters of recent frames and compares what culling saves with what it costs. Compressed geometry that is not culled
+        still goes through the culler, accepting every cluster (see _use_cull)."""
+        if self.culler is None or not any_drawn:
+            return False
+        if self.cull_mode in ("off", "plain"):
+            return False
+        if self.cull_mode == "on":
+            return True
+        if self.gov is None:
+            return drawn_tris >= self.cull_min_tris
+        return self.gov.decide(drawn_tris, key)
+
+    def _use_cull(self, drawn_tris, any_drawn, want=None):
         """Does this frame go through the cluster culler? (the geometry must be cluster ordered, i.e. a culler exists)"""
         if self.culler is None or not any_drawn:
             return False
         if self._cmp:                       # compressed geometry has no hardware index buffer: opaque parts always go through the culler
             return True
-        if self.cull_mode == "off":
-            return False
-        return self.cull_mode == "on" or drawn_tris >= self.cull_min_tris
+        return self._want_cull(drawn_tris, any_drawn) if want is None else want
 
     def _frame_parts(self, entries):
         """(FrameParts for the culler, model part index per row) of the frame's draw entries: one row per part, in table order,
@@ -1431,8 +1448,14 @@ class WgpuRenderer:
         # ---- 1. visibility pass
         cut_cls = self._cut_classes(entries, clip_planes, clip_on, fs.clip_mode, V, Pm, h, bool(camera.ortho)) if (any_clip and entries and self.classify_cut) else None
         drawn_tris = sum(e[4] for e in entries) // 3
-        self.culled_frame = use_cull = self._use_cull(drawn_tris, bool(entries))
-        self.cull_accept_all = bool(use_cull and self._cmp and (self.cull_mode == "off" or (self.cull_mode == "auto" and drawn_tris < self.cull_min_tris)))
+        if self.culler is not None and self.gov is not None and self.cull_mode == "auto":
+            for tag, kept, pulled in self.culler.stats_poll():       # counters of earlier culled frames, never waited for
+                self.gov.observe(tag, kept, pulled)
+        real = self._want_cull(drawn_tris, bool(entries), bool(any_clip))
+        self.culled_frame = use_cull = self._use_cull(drawn_tris, bool(entries), real)
+        self.cull_accept_all = bool(use_cull and self._cmp and not real)
+        if self.culler is not None:
+            self.culler.stats_wanted = bool(real and self.gov is not None and self.cull_mode == "auto" and self.gov.want_counters())
         if use_cull:
             # cluster culling: the culler records both visibility passes itself (compute runs between them). Parts it cannot
             # bound come back as `unculled` and are drawn here with the plain pipeline, ids stay (slot << bits) | primitive.
@@ -1569,6 +1592,8 @@ class WgpuRenderer:
         if qs:
             enc.resolve_query_set(qs, 0, 14, self._qbuf, 0)
         self.queue.submit([enc.finish()])
+        if use_cull and self.culler.stats_wanted:
+            self.culler.stats_arm(self.gov.tag)
         if qs:
             ts = np.frombuffer(bytes(self.queue.read_buffer(self._qbuf, 0, 14 * 8)), dtype=np.uint64).astype(np.float64)
             kk = self.ts_period_ns * 1e-6

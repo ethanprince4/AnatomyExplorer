@@ -38,6 +38,7 @@ cluster is drawn at most once per frame and only one level of a part is live, so
 """
 from __future__ import annotations
 
+import functools
 import os
 import time
 from dataclasses import dataclass, field
@@ -57,14 +58,16 @@ FRAME_BYTES = 240
 XF_FLOATS = 20
 CLUSTER_VERTS = 192                    # vertices drawn per visible cluster (64 triangles x 3)
 STAT_NAMES = ("active", "frustum", "frustum_tris", "p1", "p1_tris", "p2", "p2_tris", "overflow", "p2_tested",
-              "visible", "visible_tris", "idx_slots", "pull_slots")
+              "visible", "visible_tris", "idx_slots", "pull_slots", "kept", "pulled")
 DEFAULT_BUDGET_TRIS = 8 << 20          # 8,388,608 triangles = 96 MiB of compact indices (12 B per triangle); see the M3 report
 BUDGET_ENV = "ANATOMY_CULL_BUDGET"
 CLASSIFY_ENV = "ANATOMY_CUT_CLASSIFY"       # 0: every cluster of a cut view takes the discard path (as before the classification)
 CULL_TAG = 0x80000000
 
 
+@functools.lru_cache(maxsize=None)
 def _read(name):
+    """A shader source file, read once (the per-frame code paths ask for it on every frame)."""
     return (WGSL / name).read_text(encoding="utf-8")
 
 
@@ -163,6 +166,10 @@ class ClusterCuller:
         self.cd = None
         self.buf = {}
         self._pipes, self._modules, self._bgl = {}, {}, {}
+        self._pl_cache, self._cull_pipes_c = {}, None
+        self._sring = []                    # counter readback ring: [buffer, promise, tag]
+        self.stats_wanted = False           # encode() copies the frame's counters into a free ring slot (the renderer's choice input)
+        self._sslot = None
         self._size = None
         self._flip = 0
         self._xf_last = None
@@ -173,6 +180,9 @@ class ClusterCuller:
     # ------------------------------------------------------------------ layouts
     def _layouts(self):
         d = self.device
+        self._pl_cache.clear()                 # pipeline layouts and the pipelines made with them belong to these layouts
+        self._cull_pipes_c = None
+        self._pipes.clear()
         C, V, F = SS.COMPUTE, SS.VERTEX, SS.FRAGMENT
         self.bgl_cull0 = d.create_bind_group_layout(entries=[
             _entry(0, "u", C), _entry(1, "u", C), _entry(2, "r", C), _entry(3, "w", C), _entry(4, "w", C), _entry(5, "u", C),
@@ -190,7 +200,11 @@ class ClusterCuller:
         self.bgl_gat1 = d.create_bind_group_layout(entries=[_entry(0, "r", C), _entry(1, "u", C)])
 
     def _pl(self, *bgls):
-        return self.device.create_pipeline_layout(bind_group_layouts=list(bgls))
+        key = tuple(id(b) for b in bgls)
+        pl = self._pl_cache.get(key)
+        if pl is None:
+            pl = self._pl_cache[key] = (self.device.create_pipeline_layout(bind_group_layouts=list(bgls)), bgls)
+        return pl[0]
 
     def _module(self, key, code):
         if key not in self._modules:
@@ -296,6 +310,12 @@ class ClusterCuller:
             self.hzb = None
         self.cd = None
         self.budget_slots = self.budget_tris = 0
+        for s in self._sring:
+            try:
+                s[0].destroy()
+            except Exception:
+                pass
+        self._sring, self._sslot = [], None
 
     # ------------------------------------------------------------------ prepare
     def prepare(self, model, progress=None, use_cache=True, clusters=None, n_parts=None):
@@ -584,8 +604,9 @@ class ClusterCuller:
         """Fill the compact index buffer with the first slots of every page's list (indirect dispatch from crw)."""
         if not self.budget_slots:
             return
-        cp.set_pipeline(self._compute("cull_gather", self.gather_wgsl(), "gather",
-                                      self._pl(self.bgl_gat0, self.bgl_gat1, self.bgl_vis2)))
+        if ("cull_gather", "gather") not in self._pipes:
+            self._compute("cull_gather", self.gather_wgsl(), "gather", self._pl(self.bgl_gat0, self.bgl_gat1, self.bgl_vis2))
+        cp.set_pipeline(self._pipes[("cull_gather", "gather")])
         cp.set_bind_group(0, self.bg_gat0)
         for v in range(self.G * classes):
             g = v % self.G
@@ -708,7 +729,7 @@ class ClusterCuller:
         cp.dispatch_workgroups(-(-self.hz_dims[0] // 8), -(-self.hz_dims[1] // 8), 1)   # 8x8 texels (16x16 pixels) per group
         cp.end()
         cp = enc.begin_compute_pass(timestamp_writes=tw(3))
-        pn = self._compute(("hzbn",), _read("cull_hzbn.wgsl"), "hzbn", self._pl(self.bgl_hzbn))
+        pn = self._pipes.get((("hzbn",), "hzbn")) or self._compute(("hzbn",), _read("cull_hzbn.wgsl"), "hzbn", self._pl(self.bgl_hzbn))
         for l in range(1, self.hz_levels):
             dw, dh = max(1, -(-self.hz_dims[0] >> l)), max(1, -(-self.hz_dims[1] >> l))
             cp.set_pipeline(pn)
@@ -738,6 +759,13 @@ class ClusterCuller:
         if qs is not None:
             # every resolved query must have been written: the mark pass owns slots 8/9 and is skipped without statistics
             enc.resolve_query_set(qs, 0, 14 if self.collect_stats else 12, b["ts_buf"], 0)
+        self._sslot = None
+        if self.stats_wanted:
+            slot = self._free_slot()
+            if slot is not None:
+                buf, at, nbytes = self._where["stats"]
+                enc.copy_buffer_to_buffer(self.buf[buf], at, slot[0], 0, 64)
+                self._sslot = slot
         self._flip = 1 - self._flip
         self._last_clip = clip_on
         return CullResult(unculled=unculled, clip=clip_on, n_parts=n_cull)
@@ -786,6 +814,44 @@ class ClusterCuller:
         data = self.read_buffer("stats", 64).view(np.uint32).copy()
         self.stats = {n: int(data[i]) for i, n in enumerate(STAT_NAMES)}
         return self.stats
+
+    # ------------------------------------------------------------------ counters without a stall (the renderer's culler / plain choice)
+    STAT_RING = 4
+
+    def _free_slot(self):
+        for s in self._sring:
+            if s[1] is None and s is not self._sslot:
+                return s
+        if len(self._sring) < self.STAT_RING:
+            s = [self.device.create_buffer(size=64, usage=BU.MAP_READ | BU.COPY_DST, label="cull_stats_rb"), None, None]
+            self._sring.append(s)
+            return s
+        return None
+
+    def stats_arm(self, tag):
+        """After the frame's encoder was submitted: start mapping the counter copy encode() made (no wait). ``tag`` comes back
+        with the counters from stats_poll()."""
+        slot, self._sslot = self._sslot, None
+        if slot is not None:
+            slot[1], slot[2] = slot[0].map_async("READ"), tag
+
+    def stats_poll(self):
+        """[(tag, kept_clusters, pulled_clusters)] of the armed frames whose copy has finished. Never waits: a map whose callback
+        has not fired yet stays for a later call (wgpu-py without the thread event is treated as not finished)."""
+        out = []
+        for s in [s for s in self._sring if s[1] is not None]:
+            event = getattr(s[1], "_thread_event", None)
+            if event is None or not event.is_set():
+                continue
+            promise, tag, s[1], s[2] = s[1], s[2], None, None
+            try:
+                promise.sync_wait()
+                data = np.frombuffer(bytes(s[0].read_mapped(copy=False)), dtype=np.uint32)
+                out.append((tag, int(data[13]), int(data[14])))
+            finally:
+                if s[0].map_state == "mapped":
+                    s[0].unmap()
+        return out
 
     def read_timings(self, period_ns):
         """GPU milliseconds of the last encode per stage (needs profile=True and a timestamp period).
