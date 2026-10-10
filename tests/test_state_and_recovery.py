@@ -24,7 +24,7 @@ from PySide6.QtWidgets import QApplication, QDialogButtonBox, QLabel, QMessageBo
 from app import config
 from app.__main__ import configure_qt
 from app.data import Dataset
-from app.state import SceneState
+from app.state import STATE_TEX_WIDTH, SceneState, state_rows
 from tests.fixture_paths import fixture_root
 
 FIXTURES = tempfile.TemporaryDirectory(prefix="anatomy-regression-")
@@ -928,7 +928,7 @@ class RecoveryTests(unittest.TestCase):
             saved["custom_colors"] = {str(self.dataset.n + 1): [1, 0, 0], "0": [0.1, 0.2, 0.3]}
             win.apply_view(saved, animate=False)
             texture = win.state.build_texture()
-            self.assertEqual(texture.shape, (2, 4096, 4))
+            self.assertEqual(texture.shape, (2, state_rows(self.dataset.n) * STATE_TEX_WIDTH, 4))
             self.assertEqual(win.state.custom_colors, {0: (0.1, 0.2, 0.3)})
         finally:
             win.close()
