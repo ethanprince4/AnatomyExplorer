@@ -125,6 +125,39 @@ class CullResult:
     n_parts: int
 
 
+ORDER_PAGES = 96             # pages whose list direction the camera chooses (cfg.cl.y .. cl.w, 32 bits each); later pages keep the cluster order
+
+
+def order_moments(cd):
+    """Per range: M = sum_i (i - mean_i) * centre_i over the clusters of the range (i the cluster index inside the range, centres in
+    part space). It is the direction in which the centres drift as the cluster index grows (the clusters are Morton-sorted, so this is
+    the coarse axis of the order). Memory only, derived from the cluster data: nothing is stored."""
+    R, C = cd.n_ranges, cd.n_clusters
+    m = np.zeros((R, 3), dtype=np.float64)
+    if C == 0:
+        return m
+    rng = np.asarray(cd.cl_range, dtype=np.int64)
+    n = np.asarray(cd.r_ccount, dtype=np.int64)
+    cen = np.asarray(cd.cl_geom[:, 0:3], dtype=np.float64)
+    loc = np.arange(C, dtype=np.int64) - np.asarray(cd.r_cfirst, dtype=np.int64)[rng]
+    for a in range(3):
+        sic = np.bincount(rng, weights=loc * cen[:, a], minlength=R)
+        sc = np.bincount(rng, weights=cen[:, a], minlength=R)
+        m[:, a] = sic - 0.5 * (n - 1) * sc
+    return m
+
+
+def order_mode(adapter_type=""):
+    """ANATOMY_CULL_ORDER: auto (the camera picks the direction of each page's lists), fwd (always the cluster order), rev.
+    Unset: auto on integrated GPUs (UHD 770 draw pass about -35%), fwd on discrete ones (no gain on the RTX 3080, and a little
+    slower there at some views)."""
+    v = os.environ.get("ANATOMY_CULL_ORDER", "").strip().lower()
+    if v in ("fwd", "rev", "auto"):
+        return v
+    from .cull_policy import adapter_class
+    return "fwd" if adapter_class(adapter_type) == "discrete" else "auto"
+
+
 def pack_frame(view, proj, size, samples, clip=None, out_size=None, ortho=False, bits=20, n_draws=0, flip_y=True):
     """The 240-byte Frame uniform of clip.wgsl, laid out exactly as WgpuRenderer.render does (near / far / tangents are
     not used by the culling shaders and stay 0 unless given by the caller).
@@ -309,6 +342,7 @@ class ClusterCuller:
             self.hzb.destroy()
             self.hzb = None
         self.cd = None
+        self._order_m = None
         self.budget_slots = self.budget_tris = 0
         for s in self._sring:
             try:
@@ -346,6 +380,7 @@ class ClusterCuller:
         max_bind = int(lim.get("max_storage_buffer_binding_size", lim.get("max-storage-buffer-binding-size", 1 << 30)))
         self.cd_page_clusters = np.diff(np.asarray(cd.page_cfirst, dtype=np.int64))
         self._page_info(P)
+        self._order_m = order_moments(cd)
         sec = self._sections(cd)
         for name, nbytes in (("cro", sec["cro_words"] * 4), ("cra", sec["cra_words"] * 4), ("crw", sec["crw_words"] * 4)):
             if nbytes > max_bind:
@@ -654,6 +689,35 @@ class ClusterCuller:
         active[lr[cullable]] = 1
         return xf, active, unculled, int(cullable.sum())
 
+    def order_flags(self, view, parts):
+        """The three cfg words (cl.y .. cl.w): bit g set = the lists of page g are written last cluster first. Drawing in index order is
+        right when the index grows away from the camera (front to back: the early depth test rejects what is behind), so a page is
+        reversed when the camera looks against the drift of its active ranges. Depends only on the camera and the cull inputs."""
+        mode = order_mode(getattr(self.gpu, "adapter_type", ""))
+        G = min(self.G, ORDER_PAGES)
+        bits = [0, 0, 0]
+        if mode == "fwd" or G == 0:
+            return bits
+        rev = np.ones(G, dtype=bool)
+        if mode == "auto":
+            part = np.asarray(parts.part, dtype=np.int64)
+            level = np.asarray(parts.level, dtype=np.int64)
+            cd = self.cd
+            lr = cd.level_range[part, np.minimum(level, cl.LEVEL_COUNT - 1)]
+            ok = (~cd.uncullable[part]) & (lr >= 0)
+            score = np.zeros(self.G, dtype=np.float64)
+            if ok.any():
+                f = -np.asarray(view, dtype=np.float64)[2, :3]                     # the viewing direction in world space
+                m3 = np.asarray(parts.matrix, dtype=np.float64)[ok][:, :3, :3]
+                fp_ = np.einsum("nji,j->ni", m3, f)                                # ... in part space (the transpose of the part's linear map)
+                r = lr[ok]
+                sc = np.einsum("ni,ni->n", fp_, self._order_m[r])                  # > 0: the index grows away from the camera
+                score = np.bincount(np.asarray(cd.r_page, dtype=np.int64)[r], weights=sc, minlength=self.G)
+            rev = score[:G] < 0.0
+        for g in np.nonzero(rev)[0]:
+            bits[int(g) // 32] |= 1 << (int(g) % 32)
+        return bits
+
     def encode(self, enc, view, proj, size, id_view, depth_view, samples, parts, clip=None, ortho=False,
                draw_unculled=None, out_size=None, bits=20, accept_all=False):
         """Record the visibility pass (both phases) into ``enc``. Returns a CullResult. accept_all: every cluster of an active
@@ -675,6 +739,7 @@ class ClusterCuller:
         cfg[4], cfg[5] = self.depth_eps, self.pad_px
         classify = clip.any and self.classify_clip
         cu[8] = 1 if classify else 0
+        cu[9:12] = self.order_flags(view, parts)
         cfg[6] = 1.0 if accept_all else 0.0
         q.write_buffer(b["cfg_ub"], 0, cfg)
         if self._reset_vis:

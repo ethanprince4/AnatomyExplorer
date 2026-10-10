@@ -21,7 +21,13 @@ struct Cfg {
     eps: vec4<f32>,         // x: depth margin, y: screen padding in pixels, z: 1 = accept every cluster of an active range (no tests)
     cl: vec4<u32>,          // x: 1 = classify the clusters against the cut planes (a plane is on): removed ones are dropped, the ones
                             // wholly on the kept side go to the list of class 0 (drawn without the clip discard), the rest to class 1
+                            // y, z, w: bit g of the 96 bits (y bit 0 .. w bit 31) = the lists of page g are written in reverse cluster order
+                            // (the camera sees the page's clusters run back to front: reversed they draw front to back; cull.py order_flags)
 };
+
+fn page_reversed(g: u32) -> bool {
+    return g < 96u && ((cfg.cl[1u + g / 32u] >> (g % 32u)) & 1u) != 0u;
+}
 
 @group(0) @binding(0) var<uniform> frame: Frame;
 @group(0) @binding(1) var<uniform> cfg: Cfg;
@@ -321,7 +327,8 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
         workgroupBarrier();
     }
     if (c < row.y) {
-        let rank = ((s - v) >> (16u * kc)) & 0xffffu;
+        // reversed page: the rank counts from the end of the workgroup (the fields are <= 64, no borrow between them)
+        let rank = (select(s - v, wg_s[63] - s, page_reversed(g))  >> (16u * kc)) & 0xffffu;
         crw[lay.d.y + c] = select(0u, (rank + 1u) | (kc << 30u), keep);
     }
     if (li == 0u) {
@@ -352,12 +359,14 @@ fn cull_scan(@builtin(workgroup_id) wid: vec3<u32>, @builtin(local_invocation_in
     let row = ptab_at(g);
     let nwg = (row.y - row.x + 63u) / 64u;
     let wb = pinfo_at(g).w;
+    let rev = page_reversed(g);
     var carry = atomicLoad(&cra[lay.c.x + wid.x * 8u]);
     for (var t = 0u; t < nwg; t = t + 256u) {
         let i = t + li;
+        let ri = select(i, nwg - 1u - i, rev);      // a reversed page lists its last workgroup first
         var x = 0u;
         if (i < nwg) {
-            x = crw[lay.d.w + 2u * (wb + i) + q];
+            x = crw[lay.d.w + 2u * (wb + ri) + q];
         }
         sc_s[li] = x;
         workgroupBarrier();
@@ -373,7 +382,7 @@ fn cull_scan(@builtin(workgroup_id) wid: vec3<u32>, @builtin(local_invocation_in
             workgroupBarrier();
         }
         if (i < nwg) {
-            crw[lay.d.w + 2u * (wb + i) + q] = carry + (s - x);
+            crw[lay.d.w + 2u * (wb + ri) + q] = carry + (s - x);
         }
         carry = carry + sc_s[255];
         workgroupBarrier();
