@@ -209,7 +209,7 @@ class MainWindow(QMainWindow):
         self.lesson_reader.hide()
         self.workspace_layout.addWidget(self.lesson_splitter, 1)
         self.setCentralWidget(self.workspace)
-        self.setAcceptDrops(True)            # a .glb dropped on the window opens in the model viewer
+        self.setAcceptDrops(True)            # a .glb / .npz dropped on the window opens in the model viewer
 
         # ---------------------------------------------------------------- left dock
         left = QWidget()
@@ -2180,28 +2180,44 @@ class MainWindow(QMainWindow):
         self._update_counts()
 
     def open_model_file(self, path=None):
-        """File -> Open 3D model file: any glTF / GLB file (with a .viewer.json sidecar beside it if it has one)
-        opens in the model viewer."""
+        """File -> Open 3D model file: any glTF / GLB file (with a .viewer.json sidecar beside it if it has one), or a
+        .npz model (with its recipe / catalog / colour files beside it if it has them), opens in the model viewer."""
         if not path:
             start = self.qsettings.value("model_dir", str(Path.home()))
-            path, _ = QFileDialog.getOpenFileName(self, "Open a 3D model", start, "glTF models (*.glb *.gltf)")
+            path, _ = QFileDialog.getOpenFileName(self, "Open a 3D model", start, "3D models (*.glb *.gltf *.npz)")
             if not path:
                 return
+        self.qsettings.setValue("model_dir", str(Path(path).parent))
+        if path.lower().endswith(".npz"):
+            from .variants.catalog import DeferredVariantEntry
+            from .variants.local_library import SingleFileLibrary
+            try:
+                store = SingleFileLibrary(path)
+                entry = DeferredVariantEntry(store.metadata(store.model_id), store)
+            except (OSError, ValueError) as exc:
+                self.statusBar().showMessage(f"Could not open {Path(path).name}: {exc}", 8000)
+                return
+            self.open_micro(entry.id, entry)
+            return
         from .viewer.catalog import FileEntry
         entry = FileEntry(path)
-        self.qsettings.setValue("model_dir", str(Path(path).parent))
         self.open_micro(entry.id, entry)
 
+    MODEL_FILE_TYPES = (".glb", ".gltf", ".npz")
+
     def dragEnterEvent(self, e):
-        if e.mimeData().hasUrls() and any(u.toLocalFile().lower().endswith((".glb", ".gltf"))
+        if e.mimeData().hasUrls() and any(u.toLocalFile().lower().endswith(self.MODEL_FILE_TYPES)
                                           for u in e.mimeData().urls()):
             e.acceptProposedAction()
 
     def dropEvent(self, e):
-        for u in e.mimeData().urls():
-            if u.toLocalFile().lower().endswith((".glb", ".gltf")):
-                self.open_model_file(u.toLocalFile())
-                break
+        """The first .npz in the drop opens; otherwise the first glTF / GLB."""
+        files = [u.toLocalFile() for u in e.mimeData().urls()]
+        for kinds in ((".npz",), (".glb", ".gltf")):
+            for f in files:
+                if f.lower().endswith(kinds):
+                    self.open_model_file(f)
+                    return
 
     def _add_models_menu(self, menu):
         """Study -> 3D models: every model the viewer can open, by kind."""
