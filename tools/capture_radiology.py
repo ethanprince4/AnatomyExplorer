@@ -1,6 +1,6 @@
 """Capture what a user sees in the 3D view after opening each radiology case, through the real app code path.
 
-    python tools/capture_radiology.py [case_id ...] [--out DIR] [--size WxH] [--window]
+    python tools/capture_radiology.py [case_id ...] [--out DIR] [--size WxH] [--window] [--screen NAME]
 
 One process builds one MainWindow (the atlas loads once) and opens each requested case with
 MainWindow.show_radiology(), exactly as the Radiology browser does. Per case it writes, into DIR
@@ -47,6 +47,8 @@ def parse_args(argv):
             size = (int(w), int(h))
         elif a == "--window":
             flags["window"] = True
+        elif a == "--screen" or a.startswith("--screen="):
+            flags["screen"] = a[9:] if a.startswith("--screen=") else next(it)
         elif a in ("-h", "--help"):
             print(__doc__)
             sys.exit(0)
@@ -137,6 +139,13 @@ def main(argv):
         return original_notice(text, *args, **kwargs)
     notice.show_message = noting
 
+    if flags.get("screen"):
+        # Open on the named monitor (its scaling decides the device pixel ratio the 3D view renders at).
+        screen = next((sc for sc in app.screens() if sc.name() == flags["screen"]), None)
+        if screen is None:
+            raise SystemExit("no screen %r; screens: %s" % (flags["screen"], ", ".join(sc.name() for sc in app.screens())))
+        geo = screen.availableGeometry()
+        win.move(geo.x() + 40, geo.y() + 40)
     win.resize(*size)
     win.show()
     pump(app, 1.5)
