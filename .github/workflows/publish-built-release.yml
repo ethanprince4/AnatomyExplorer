@@ -47,8 +47,8 @@ jobs:
           fail_on_unmatched_files: true
           body: >-
             Refreshed UI and post-refined model library. Existing users can use the in-app updater normally.
-            New installations: installers exceed GitHub's file limit. Windows: download Download-Windows-Installer.ps1
-            and run it with PowerShell. Mac: download Install-Anatomy-Explorer-Mac.dmg, open it and double-click
+            New installations: installers exceed GitHub's file limit. Windows: download
+            Install-Anatomy-Explorer-Windows.exe and double-click it. Mac: download Install-Anatomy-Explorer-Mac.dmg, open it and double-click
             Install Anatomy Explorer. See INSTALL-DOWNLOADS.md.
       - name: Publish completed uploads
         env:

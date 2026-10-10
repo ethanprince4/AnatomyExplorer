@@ -1,9 +1,11 @@
 """Split oversized installers for GitHub; updater packs remain unchanged.
 
-Each release build job runs this on its own installer (the Mac installer app needs macOS), writing its part of the
-install notes to INSTALL-DOWNLOADS-<platform>.md; the publishing job joins those with --combine-notes."""
+Each release build job runs this on its own installer (the Mac installer app needs macOS, the Windows installer program
+needs Windows), writing its part of the install notes to INSTALL-DOWNLOADS-<platform>.md; the publishing job joins those
+with --combine-notes."""
 import argparse
 import hashlib
+import os
 import re
 import shutil
 import subprocess
@@ -14,10 +16,13 @@ from pathlib import Path
 LIMIT = 2_147_483_648
 PART = 1_000_000_000
 REPO = 'https://github.com/ethanprince4/AnatomyExplorer/releases/download'
+PAGE = 'https://github.com/ethanprince4/AnatomyExplorer/releases/latest'
 HERE = Path(__file__).resolve().parent
 MAC_APP = 'Install Anatomy Explorer.app'
 MAC_INSTALLER = 'Install-Anatomy-Explorer-Mac.dmg'
-WINDOWS_HELPER = 'Download-Windows-Installer.ps1'
+WINDOWS_HELPER = 'Install-Anatomy-Explorer-Windows.exe'
+# The .NET Framework C# compiler that comes with Windows (and the windows-latest runners): no SDK to install.
+CSC = Path(os.environ.get('WINDIR', r'C:\Windows')) / 'Microsoft.NET' / 'Framework64' / 'v4.0.30319' / 'csc.exe'
 
 
 def run(*cmd):
@@ -54,8 +59,8 @@ def mac_app_name(tag):
     return 'Anatomy Explorer Experimental' if '-preview.' in tag else 'Anatomy Explorer'
 
 
-def fill(template_name, values):
-    text = (HERE / 'mac_installer' / template_name).read_text(encoding='utf-8')
+def fill(template_name, values, folder='mac_installer'):
+    text = (HERE / folder / template_name).read_text(encoding='utf-8')
     for key, value in values.items():
         text = text.replace(key, value)
     leftover = re.search(r'@[A-Z]+@', text)
@@ -105,6 +110,43 @@ def build_mac_installer(folder, tag, dmg_name, total, parts):
         shutil.rmtree(work, ignore_errors=True)
 
 
+def windows_installer_source(base, tag, setup, parts):
+    """Release.cs for the Windows installer program. parts is [(file name, size, sha256)] in join order."""
+    for value in [base, tag, setup] + [name for name, _, _ in parts]:
+        if not re.fullmatch(r'[A-Za-z0-9._:/+-]+', value):
+            raise ValueError(f'Unsafe value for the Windows installer program: {value}')
+    for _, _, digest in parts:
+        if not re.fullmatch(r'[0-9a-f]{64}', digest):
+            raise ValueError(f'Not a SHA-256: {digest}')
+    number = re.match(r'v?(\d+)\.(\d+)\.(\d+)', tag)
+    entries = [f'        new Part("{name}", {size}L, "{digest}"),' for name, size, digest in parts]
+    return fill('Release.cs.in', {'@APP@': mac_app_name(tag), '@VERSION@': tag.removeprefix('v'), '@TAG@': tag,
+                                  '@NUMBER@': '.'.join(number.groups()) + '.0' if number else '0.0.0.0',
+                                  '@BASE@': base, '@PAGE@': PAGE, '@SETUP@': setup, '@PARTS@': '\n'.join(entries)},
+                'windows_installer')
+
+
+def build_windows_installer(folder, tag, setup, parts):
+    """Compile WINDOWS_HELPER into folder: it downloads the parts of `setup`, checks them and opens the installer."""
+    source = windows_installer_source(f'{REPO}/{tag}', tag, setup, parts)
+    if sys.platform != 'win32' or not CSC.is_file():
+        raise SystemExit(f'{WINDOWS_HELPER} is compiled with the C# compiler that comes with Windows ({CSC}); '
+                         'prepare the Windows installer on Windows')
+    work = Path(tempfile.mkdtemp())
+    try:
+        release = work / 'Release.cs'
+        release.write_text(source, encoding='utf-8')
+        out = folder / WINDOWS_HELPER
+        out.unlink(missing_ok=True)
+        run(CSC, '/nologo', '/target:winexe', '/optimize+', f'/out:{out}',
+            f'/win32icon:{HERE.parent / "app" / "resources" / "icon.ico"}',
+            f'/win32manifest:{HERE / "windows_installer" / "app.manifest"}',
+            '/r:System.dll', '/r:System.Drawing.dll', '/r:System.Windows.Forms.dll',
+            HERE / 'windows_installer' / 'Installer.cs', release)
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+
+
 NOTES = 'INSTALL-DOWNLOADS.md'
 NOTES_HEADER = ['# Installer downloads', '', 'Existing users: use the in-app updater normally.', '',
                 'New installations: installers larger than GitHub\'s file limit are split into parts. Use the helper '
@@ -115,7 +157,6 @@ NOTES_HEADER = ['# Installer downloads', '', 'Existing users: use the in-app upd
 def prepare(folder, tag, notes_name=NOTES):
     if not re.fullmatch(r'v[0-9A-Za-z.+-]+', tag):
         raise ValueError('Invalid release tag')
-    base = f'{REPO}/{tag}'
     notes = list(NOTES_HEADER)
     for path in sorted(folder.iterdir()):
         if path.suffix.lower() not in ('.exe', '.dmg') or path.stat().st_size < LIMIT:
@@ -123,17 +164,13 @@ def prepare(folder, tag, notes_name=NOTES):
         total = path.stat().st_size
         parts = split(path, folder)
         if path.suffix.lower() == '.exe':
-            script = ["$ErrorActionPreference='Stop'", 'Set-Location -LiteralPath $PSScriptRoot']
-            for name in parts:
-                script.append(f"Invoke-WebRequest -Uri '{base}/{name}' -OutFile '{name}'")
-            script += [f"$out=[IO.File]::Create((Join-Path $PSScriptRoot '{path.name}'))", 'try {']
-            for name in parts:
-                script.append(f"  $src=[IO.File]::OpenRead((Join-Path $PSScriptRoot '{name}')); try {{$src.CopyTo($out)}} finally {{$src.Dispose()}}")
-            script += ['} finally {$out.Dispose()}', f"Start-Process -FilePath (Join-Path $PSScriptRoot '{path.name}')"]
-            helper = WINDOWS_HELPER
-            (folder / helper).write_text('\n'.join(script) + '\n', encoding='utf-8')
-            notes.append(f'- {helper} (Windows): reconstructs {path.name} from {len(parts)} parts. Right-click it and '
-                         'choose Run with PowerShell.')
+            build_windows_installer(folder, tag, path.name,
+                                    [(name, (folder / name).stat().st_size, sha256(folder / name)) for name in parts])
+            notes.append(f'- {WINDOWS_HELPER} (Windows): downloads {path.name} ({total / 1e9:.1f} GB, in {len(parts)} '
+                         'parts) with one progress bar, checks every part and opens the installer. Double-click it; if '
+                         'the download stops, open it again and it carries on. The first time, Windows may say it '
+                         'protected your PC, because the project has no paid code-signing certificate: click More '
+                         'info, then Run anyway.')
         else:
             build_mac_installer(folder, tag, path.name, total, [(name, sha256(folder / name)) for name in parts])
             notes.append(f'- {MAC_INSTALLER} (Mac, Apple silicon): reconstructs {path.name} from {len(parts)} parts. '
