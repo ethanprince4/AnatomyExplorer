@@ -152,6 +152,24 @@ Do this for every new case. Coordinates read off a grid are easy to get a few pe
 is the difference between a marker on the vertebral body and a marker in the soft tissue in front of it. It also
 accepts an image id and bare `x,y` pairs, to try positions before writing them into the JSON.
 
+## Capturing every case
+
+`tools/capture_radiology.py` opens each case in the real app (a real window, temporary settings, the case's
+3D labels on) and saves what the 3D view shows, so a picture can be compared with the scan:
+
+```bash
+.venv/Scripts/python.exe tools/capture_radiology.py                       # all cases, into logs/radiology_capture/
+.venv/Scripts/python.exe tools/capture_radiology.py angio_renal_normal ct_abdo_kidney --out logs/rc --size 1600x1000
+```
+
+Per case it writes `<id>_3d.png` (the 3D widget including its labels), `<id>_pair.png` (the cropped scan beside
+it, with a header line of id, modality and title), and merges `{ok, errors, status, reference_ready, seconds}` into
+`report.json`. Exceptions inside Qt slots and timers, Qt critical messages, the status bar and the notice bar are
+attributed to the case being captured, so a case whose reference model fails to open shows up as `ok: false`
+with a traceback. Cases with a separate reference model wait up to 60 s for it. `--window` also saves the whole
+app window as `<id>_window.png`, which helps when the 3D framing looks wrong. The run takes a couple of minutes
+and needs a display and GPU.
+
 ## Reading label coordinates off an image
 
 `tools/grid_overlay.py` writes `logs/grid/<id>.png` with a labelled 0.05 grid over the image:
