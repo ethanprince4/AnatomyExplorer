@@ -325,7 +325,7 @@ struct O { @builtin(frag_depth) d: f32 };
 
 
 class WGSide:
-    def __init__(self, gpu, model, size, page_bytes=None):
+    def __init__(self, gpu, model, size, page_bytes=None, order=None, compress=None):
         import wgpu
         from app.gpu import geometry as geo
         from app.gpu.caps import CapPasses
@@ -335,9 +335,10 @@ class WGSide:
         self.size = size
         self.model = model
         import os
-        cmp = {"1": 1, "2": 2}.get(os.environ.get("ANATOMY_CAPSP_COMPRESS", "0"), 0)      # compressed (1) / quantised (2) + cluster-ordered pages: caps draws pull (non-indexed)
+        cmp = {"1": 1, "2": 2}.get(os.environ.get("ANATOMY_CAPSP_COMPRESS", "0"), 0) if compress is None else int(compress)   # compressed (1) / quantised (2) + cluster-ordered pages: caps draws pull (non-indexed)
+        order = bool(cmp) or (os.environ.get("ANATOMY_CAPSP_ORDER", "0") == "1" if order is None else bool(order))   # cluster-ordered pages: cut parts get cluster masks
         self.geom = geo.build_geometry(model, geo.GpuSink(self.dev), page_bytes or geo.page_limit(self.dev),
-                                       cluster_order=bool(cmp), compress=cmp)
+                                       cluster_order=order, compress=cmp)
         if cmp:
             assert self.geom.compressed, "compression refused for the synthetic model"
         self.caps = CapPasses(self.dev, getattr(gpu, "limits", None))

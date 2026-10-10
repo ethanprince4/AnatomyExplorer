@@ -11,15 +11,9 @@
 // minimum of gl_FragCoord.z; float32 blending is an optional feature); gl_FragCoord.y is height - y; gl_FrontFacing is
 // front_facing (frontFace ccw, as shade_parity.py verified); the cap key is quantised to 24 bits like GL's depth buffer.
 
-struct CapDraw {
-    model: mat4x4<f32>,
-    col: vec4<f32>,         // the part's constant vertex colour (const_tail)
-    a: vec4<u32>,           // x: colour stream offset (stream first vertex - part first vertex, wrapping), y: 1 = has a stream, z: mirrored
-    b: vec4<f32>,           // item + 1, selected flag, cap darkening (0.80 tissue / 0.62 plain), 0
-};
-
 @group(0) @binding(0) var<uniform> cf: CapFrame;
 @group(0) @binding(1) var<storage, read> cdraws: array<CapDraw>;
+@group(1) @binding(8) var<uniform> dsel: vec4<u32>;                       // x: this draw's CapDraw index (indirect draws: no first_instance)
 @group(3) @binding(0) var parity_tex: texture_depth_2d;
 
 struct CapVOut {
@@ -36,10 +30,8 @@ fn cap_vertex_world(d: CapDraw, v: u32) -> vec3<f32> {
     return (d.model * vec4<f32>(p, 1.0)).xyz;
 }
 
-@vertex
-fn vs_cap(@builtin(vertex_index) vi: u32, @builtin(instance_index) di: u32) -> CapVOut {
+fn cap_vertex(v: u32, di: u32) -> CapVOut {
     let d = cdraws[di];
-    let v = g_vertex(0u, vi);
     let w = cap_vertex_world(d, v);
     var o: CapVOut;
     o.clip = cf.vp * vec4<f32>(w, 1.0);
@@ -50,6 +42,19 @@ fn vs_cap(@builtin(vertex_index) vi: u32, @builtin(instance_index) di: u32) -> C
         o.col = g_col(0u, v + d.a.x);
     }
     return o;
+}
+
+// Plain draw of a part's index range: vertex_index is the logical index position (compressed pages: non-indexed, g_vertex pulls
+// the index) or the index value (indexed draw of an uncompressed page).
+@vertex
+fn vs_cap(@builtin(vertex_index) vi: u32, @builtin(instance_index) di: u32) -> CapVOut {
+    return cap_vertex(g_vertex(0u, vi), di);
+}
+
+// Indexed indirect draw over the cluster lists of caps_cull.wgsl (compressed or not): vertex_index is the page-local vertex number.
+@vertex
+fn vs_cap_i(@builtin(vertex_index) vi: u32) -> CapVOut {
+    return cap_vertex(vi, dsel.x);
 }
 
 // Resets the parity depth to 1.0 inside the scissor rectangle of the item (instead of clearing the whole target).
