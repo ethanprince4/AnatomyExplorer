@@ -344,6 +344,7 @@ class ClusterCuller:
             raise cl.ClusterError("a page draws more than 2^32 vertices")
         lim = self.gpu.limits
         max_bind = int(lim.get("max_storage_buffer_binding_size", lim.get("max-storage-buffer-binding-size", 1 << 30)))
+        self.cd_page_clusters = np.diff(np.asarray(cd.page_cfirst, dtype=np.int64))
         self._page_info(P)
         sec = self._sections(cd)
         for name, nbytes in (("cro", sec["cro_words"] * 4), ("cra", sec["cra_words"] * 4), ("crw", sec["crw_words"] * 4)):
@@ -425,12 +426,14 @@ class ClusterCuller:
         G = len(geom.pages)
         self.pinfo = np.zeros((G, 4), dtype=np.uint32)
         pgp, self.part_ord = [], np.zeros(P, dtype=np.uint32)
+        self.wg_total = 0
         for g, pg in enumerate(geom.pages):
             parts = [int(x) for x in pg.parts]
             vbits = max(1, (max(int(pg.nverts), 1) - 1).bit_length())
             kbits = max(len(parts) - 1, 0).bit_length()
             ok = (vbits + kbits <= 32) and vbits <= 31 and len(parts) > 0 and bool(self.requested_budget)
-            self.pinfo[g] = (vbits, 1 if ok else 0, len(pgp), 0)
+            self.pinfo[g] = (vbits, 1 if ok else 0, len(pgp), self.wg_total)       # w: first workgroup of the page in wgcnt (cull_test.wgsl)
+            self.wg_total += -(-int(self.cd_page_clusters[g]) // 64)
             for k, q in enumerate(parts):
                 if q < P:
                     self.part_ord[q] = k
@@ -472,18 +475,20 @@ class ClusterCuller:
         d_w = d_z + 8 * G                  # dinfo: 2 words per (list, phase)
         e_x = d_w
         e_y = e_x + C
-        crw_end = e_y + C
+        k_x = e_y + C                      # keep flag per cluster (class and rank in its workgroup, 0: not kept; rewritten every phase)
+        wg_x = k_x + C                     # per workgroup and class: survivors, then (after cull_scan) the offset in the list
+        crw_end = wg_x + 2 * max(self.wg_total, 1)
         w = self._where = {}
         for name, buf, at, words in (("cl_geom", "cro", a_x * 4, 8 * C), ("cl_range", "cro", a_y * 4, C), ("rng", "cro", a_z * 4, 8 * R),
                                      ("ptab", "cro", a_w * 4, 8 * G), ("part_xf", "cro", b_x * 4, 20 * P),
                                      ("range_active", "cro", b_y * 4, R), ("pinfo", "cro", b_z * 4, 4 * G), ("pgp", "cro", b_w * 4, len(self.pgp)), ("pstate", "cra", c_x, 16 * G), ("stats", "cra", c_y, 16),
                                      ("seen", "cra", c_z, C), ("args", "crw", d_x, 64 * G),
                                      ("dinfo", "crw", d_z, 8 * G), ("vis0", "crw", e_x, C),
-                                     ("vis1", "crw", e_y, C)):
+                                     ("vis1", "crw", e_y, C), ("kflag", "crw", k_x, C), ("wgcnt", "crw", wg_x, 2 * max(self.wg_total, 1))):
             w[name] = (buf, at * 4, words * 4)
         w["slot_cluster"] = ("crl", 0, 16 * n)
         return {"cro_words": cro_end * 4, "cra_words": cra_end, "crw_words": crw_end,
-                "lay": (a_x, a_y, a_z, a_w), "lay_b": (b_x, b_y, b_z, b_w), "lay_c": (c_x, c_y, c_z, 0), "lay_d": (d_x, d_y, d_z, d_w),
+                "lay": (a_x, a_y, a_z, a_w), "lay_b": (b_x, b_y, b_z, b_w), "lay_c": (c_x, c_y, c_z, 0), "lay_d": (d_x, k_x, d_z, wg_x),
                 "vis": (e_x, e_y)}
 
     def _bg(self, layout, entries):
@@ -598,7 +603,7 @@ class ClusterCuller:
     def _cull_pipes(self):
         code = _read("clip.wgsl") + "\n" + _read("cull_tables.wgsl") + "\n" + _read("cull_test.wgsl")
         lay = self._pl(self.bgl_cull0, self.bgl_sel_c, self.bgl_hzb_read)
-        return {n: self._compute("cull_test", code, n, lay) for n in ("cull_p1", "cull_p2", "finalize_p1", "finalize_p2")}
+        return {n: self._compute("cull_test", code, n, lay) for n in ("cull_p1", "cull_p2", "cull_scan", "cull_fill", "finalize_p1", "finalize_p2")}
 
     def _gather_pass(self, cp, ph, classes=1):
         """Fill the compact index buffer with the first slots of every page's list (indirect dispatch from crw)."""
@@ -697,6 +702,18 @@ class ClusterCuller:
             cp.set_pipeline(pipes[name])
             cp.set_bind_group(0, bg0)
             cp.set_bind_group(2, self.bg_hzb_read)
+            for g in range(G):
+                n = int(cd.page_cfirst[g + 1] - cd.page_cfirst[g])
+                if n == 0:
+                    continue
+                cp.set_bind_group(1, self.bg_sel_c[g])
+                x, y, _ = _grid(-(-n // 64))
+                cp.dispatch_workgroups(x, y, 1)
+            # the survivors of every list in cluster order: offsets of the workgroups (one scan workgroup per list), then the entries
+            cp.set_pipeline(pipes["cull_scan"])
+            cp.set_bind_group(1, self.bg_sel_c[0])
+            cp.dispatch_workgroups(G * classes, 1, 1)
+            cp.set_pipeline(pipes["cull_fill"])
             for g in range(G):
                 n = int(cd.page_cfirst[g + 1] - cd.page_cfirst[g])
                 if n == 0:

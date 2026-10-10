@@ -6,7 +6,7 @@
 //             pyramid built from phase 1's real depth hides their bounding box
 //   finalize_p1 / finalize_p2   one thread: draw and dispatch arguments of the phase for every page (budget split, see fin_all)
 //
-// A surviving cluster takes the next free slot of its page (atomic, one global add per workgroup) and writes its id into
+// A surviving cluster takes the next free slot of its page's list IN CLUSTER ORDER (scan, see the end of run_phase) and writes its id into
 // crl[slot_base + slot] = (cluster, page-local index word of its first triangle, part, triangles | ordinal of the part in its page << 8): the
 // page's list of visible clusters. The first slots (budget) are gathered into the compact index buffer (cull_gather.wgsl) and drawn
 // indexed (cull_idx.wgsl); the rest is drawn by cull_vis.wgsl directly (non-indexed, 192 vertices per cluster, vertex shader pull;
@@ -232,21 +232,15 @@ fn cluster_ntri(rr0: vec4<u32>, rr1: vec4<u32>, c: u32) -> u32 {
     return min(64u, rr0.w - 64u * j);
 }
 
-var<workgroup> wg_n: array<atomic<u32>, 2>;       // survivors of the workgroup per class (0: kept side / no cut, 1: straddling)
-var<workgroup> wg_base: array<u32, 2>;
+var<workgroup> wg_s: array<u32, 64>;              // scan of the workgroup's survivors: count of class 0 in the low 16 bits, of class 1 in the high 16
+var<workgroup> sc_s: array<u32, 256>;             // cull_scan
 
 fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
-    if (li == 0u) {
-        atomicStore(&wg_n[0], 0u);
-        atomicStore(&wg_n[1], 0u);
-    }
-    workgroupBarrier();
     let g = sel.x;
     let row = ptab_at(g);
     let c = row.x + (wid.y * 32768u + wid.x) * 64u + li;
     var keep = false;
     var ntri = 0u;
-    var ent = vec4<u32>(0u);
     var cls = 0u;                   // 0: wholly kept side (or no cut), 1: straddles, 2: wholly removed
     let stat = cfg.hz.y != 0u;
     if (c < row.y) {
@@ -261,7 +255,6 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
             if (cfg.cl.x != 0u) {
                 cls = cluster_clip_class(part_matrix(part), bx, part);
             }
-            ent = vec4<u32>(c, rr0.z + 192u * (c - rr1.x), part, nt | (part_meta_at(part).w << 8u));
             if (!phase2 && stat) {
                 atomicAdd(&cra[lay.c.y + ST_ACTIVE], 1u);
             }
@@ -309,27 +302,33 @@ fn run_phase(wid: vec3<u32>, li: u32, phase2: bool) {
         }
     }
     // The lists are per (page, class): list v = page + G * class, with G = lay.e.w pages. Class 1 only exists while cfg.cl.x is set.
+    // Deterministic order: the survivors of a list keep the cluster order (the order of the plain draw), whatever the scheduling. The rank
+    // of a survivor inside its workgroup comes from an inclusive scan (no atomics); the workgroup's counts go to wgcnt, cull_scan turns
+    // them into the offsets of the list, and cull_fill writes the entries (the flag word of the cluster carries class and rank).
     let kc = min(cls, 1u);
-    var rank = 0u;
-    if (keep) {
-        rank = atomicAdd(&wg_n[kc], 1u);
-    }
+    let v = select(0u, select(1u, 65536u, kc == 1u), keep);
+    wg_s[li] = v;
     workgroupBarrier();
+    var s = v;
+    for (var d = 1u; d < 64u; d = d << 1u) {
+        var o = 0u;
+        if (li >= d) {
+            o = wg_s[li - d];
+        }
+        workgroupBarrier();
+        s = s + o;
+        wg_s[li] = s;
+        workgroupBarrier();
+    }
+    if (c < row.y) {
+        let rank = ((s - v) >> (16u * kc)) & 0xffffu;
+        crw[lay.d.y + c] = select(0u, (rank + 1u) | (kc << 30u), keep);
+    }
     if (li == 0u) {
-        for (var q = 0u; q < 2u; q = q + 1u) {
-            let n = atomicLoad(&wg_n[q]);
-            if (n > 0u) {
-                wg_base[q] = atomicAdd(&cra[lay.c.x + (g + q * lay.e.w) * 8u], n);
-            }
-        }
-    }
-    workgroupBarrier();
-    if (keep) {
-        let rowc = ptab_at(g + kc * lay.e.w);
-        let b = wg_base[kc] + rank;
-        if (b < rowc.w) {
-            crl[rowc.z + b] = ent;
-        }
+        let tot = wg_s[63];
+        let wi = lay.d.w + 2u * (pinfo_at(g).w + wid.y * 32768u + wid.x);
+        crw[wi] = tot & 0xffffu;
+        crw[wi + 1u] = tot >> 16u;
     }
 }
 
@@ -341,6 +340,73 @@ fn cull_p1(@builtin(workgroup_id) wid: vec3<u32>, @builtin(local_invocation_inde
 @compute @workgroup_size(64)
 fn cull_p2(@builtin(workgroup_id) wid: vec3<u32>, @builtin(local_invocation_index) li: u32) {
     run_phase(wid, li, true);
+}
+
+// Offsets of the lists (one workgroup per list v = page + pages * class): the exclusive scan of the per-workgroup survivor counts in
+// workgroup order, started at the list's counter (phase 2 continues after phase 1); the counter ends at the list's new length.
+@compute @workgroup_size(256)
+fn cull_scan(@builtin(workgroup_id) wid: vec3<u32>, @builtin(local_invocation_index) li: u32) {
+    let pages = lay.e.w;
+    let g = wid.x % pages;
+    let q = wid.x / pages;
+    let row = ptab_at(g);
+    let nwg = (row.y - row.x + 63u) / 64u;
+    let wb = pinfo_at(g).w;
+    var carry = atomicLoad(&cra[lay.c.x + wid.x * 8u]);
+    for (var t = 0u; t < nwg; t = t + 256u) {
+        let i = t + li;
+        var x = 0u;
+        if (i < nwg) {
+            x = crw[lay.d.w + 2u * (wb + i) + q];
+        }
+        sc_s[li] = x;
+        workgroupBarrier();
+        var s = x;
+        for (var d = 1u; d < 256u; d = d << 1u) {
+            var o = 0u;
+            if (li >= d) {
+                o = sc_s[li - d];
+            }
+            workgroupBarrier();
+            s = s + o;
+            sc_s[li] = s;
+            workgroupBarrier();
+        }
+        if (i < nwg) {
+            crw[lay.d.w + 2u * (wb + i) + q] = carry + (s - x);
+        }
+        carry = carry + sc_s[255];
+        workgroupBarrier();
+    }
+    if (li == 0u) {
+        atomicStore(&cra[lay.c.x + wid.x * 8u], carry);
+    }
+}
+
+// Writes the entries of the survivors of a phase at (offset of the workgroup + rank) of their list.
+@compute @workgroup_size(64)
+fn cull_fill(@builtin(workgroup_id) wid: vec3<u32>, @builtin(local_invocation_index) li: u32) {
+    let g = sel.x;
+    let row = ptab_at(g);
+    let c = row.x + (wid.y * 32768u + wid.x) * 64u + li;
+    if (c >= row.y) {
+        return;
+    }
+    let f = crw[lay.d.y + c];
+    if (f == 0u) {
+        return;
+    }
+    let kc = f >> 30u;
+    let rank = (f & 0x3fffffffu) - 1u;
+    let base = crw[lay.d.w + 2u * (pinfo_at(g).w + wid.y * 32768u + wid.x) + kc];
+    let rowc = ptab_at(g + kc * lay.e.w);
+    let b = base + rank;
+    if (b < rowc.w) {
+        let r = cl_range_at(c);
+        let rr0 = rng_at(2u * r);
+        let rr1 = rng_at(2u * r + 1u);
+        crl[rowc.z + b] = vec4<u32>(c, rr0.z + 192u * (c - rr1.x), rr0.x, cluster_ntri(rr0, rr1, c) | (part_meta_at(rr0.x).w << 8u));
+    }
 }
 
 // Finalize of a phase, ONE thread for all pages. The compact index buffer (lay.e.z slots of 64 triangles, shared by both phases: the
