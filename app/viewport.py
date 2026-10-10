@@ -309,9 +309,11 @@ class Viewport(QOpenGLWidget):
             self.renderer.update_state(self.state.build_texture())
             self._state_dirty = False
         fbo_id = self.defaultFramebufferObject()
-        if self._fbo is None or fbo_id != self._fbo_id:
+        # detect_framebuffer records the widget size at that moment (it is a small one on the first paint), so it is
+        # detected again when the size changes.
+        if self._fbo is None or (fbo_id, w, h) != self._fbo_id:
             self._fbo = self.ctx.detect_framebuffer(fbo_id)
-            self._fbo_id = fbo_id
+            self._fbo_id = (fbo_id, w, h)
         self.renderer.render(self._fbo, self.camera, self.settings, self.clip_uniforms(),
                              hover_id=self.state.hovered, has_selection=bool(self.state.selected),
                              radiology_slice=self.radiology_slice)
