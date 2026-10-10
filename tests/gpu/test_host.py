@@ -344,7 +344,7 @@ class SwitchTests(unittest.TestCase):
 
     def test_backend_setting_and_environment(self):
         rb = self.mv.renderer_backend
-        platform_default = "wgpu" if sys.platform == "darwin" else "opengl"
+        platform_default = "wgpu"
         self.assertEqual(rb({}), platform_default)
         self.assertEqual(rb({"fast_renderer": True}), "wgpu")
         self.assertEqual(rb({"fast_renderer": False}), "opengl")
@@ -355,8 +355,8 @@ class SwitchTests(unittest.TestCase):
         os.environ["ANATOMY_RENDERER"] = "WGPU"
         self.assertEqual(rb({"renderer_backend": "opengl", "fast_renderer": False}), "wgpu")
 
-    def test_fast_renderer_defaults_on_only_on_macos(self):
-        self.assertEqual(DEFAULT_SETTINGS["fast_renderer"], sys.platform == "darwin")
+    def test_fast_renderer_defaults_on(self):
+        self.assertIs(DEFAULT_SETTINGS["fast_renderer"], True)
 
     def test_default_builds_the_opengl_viewport_with_the_same_arguments(self):
         fake = mock.Mock(return_value="gl-viewport")

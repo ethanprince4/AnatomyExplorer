@@ -108,6 +108,10 @@ class MainWindow(QMainWindow):
             self.settings['restore_session'] = False
             self.qsettings.setValue('view_settings', json.dumps(self.settings))
             self.qsettings.setValue('studio_startup_revision', 1)
+        if self.qsettings.value('fast_renderer_on_revision', 0, type=int) < 1:
+            self.settings['fast_renderer'] = True
+            self.qsettings.setValue('view_settings', json.dumps(self.settings))
+            self.qsettings.setValue('fast_renderer_on_revision', 1)
         self.settings['show_structure_labels'] = False
         # The shell and live scene share one backdrop; this does not change lights or materials.
         self.settings.update(custom_background=True, bg_top='#141b22', bg_bottom='#141b22')

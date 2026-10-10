@@ -731,6 +731,7 @@ class RecoveryTests(unittest.TestCase):
         # Mark the one-time startup migrations as done: they legitimately rewrite stored settings.
         prefs.setValue("gizmo_default_off_revision", 1)
         prefs.setValue("studio_startup_revision", 1)
+        prefs.setValue("fast_renderer_on_revision", 1)
         win = MainWindow(self.dataset, restore=False)
         try:
             # The shell always forces these (labels off, shared dark backdrop); every other value is the default.
@@ -780,6 +781,7 @@ class RecoveryTests(unittest.TestCase):
             settings.setValue(key, value)
         settings.setValue("gizmo_default_off_revision", 1)   # startup migrations would rewrite view_settings
         settings.setValue("studio_startup_revision", 1)
+        settings.setValue("fast_renderer_on_revision", 1)
         settings.setValue("geometry", QByteArray(b"fixture-geometry"))
         settings.setValue("window_state", QByteArray(b"fixture-state"))
         settings.setValue("last_session", '{"selected":[0]}')
@@ -960,6 +962,7 @@ class RecoveryTests(unittest.TestCase):
                 prefs.setValue("view_settings", raw)
                 prefs.setValue("gizmo_default_off_revision", 1)
                 prefs.setValue("studio_startup_revision", 1)
+                prefs.setValue("fast_renderer_on_revision", 1)
                 win = None
                 try:
                     win = MainWindow(self.dataset, restore=False)

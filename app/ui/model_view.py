@@ -36,7 +36,7 @@ _wgpu_fallback_logged = False
 
 def renderer_backend(settings):
     """"opengl" or "wgpu". The ANATOMY_RENDERER environment variable wins, then an explicit renderer_backend entry,
-    then the fast_renderer setting (Settings > Display; on by default on macOS only, see config.DEFAULT_SETTINGS)."""
+    then the fast_renderer setting (Settings > Display; on by default, see config.DEFAULT_SETTINGS)."""
     for value in (os.environ.get("ANATOMY_RENDERER"), settings.get("renderer_backend")):
         value = str(value or "").strip().lower()
         if value in ("opengl", "wgpu"):
