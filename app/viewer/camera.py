@@ -194,8 +194,26 @@ class OrbitCamera:
         center = (np.asarray(bmin, float) + np.asarray(bmax, float)) / 2
         floor = self.min_distance * 0.5 if min_radius is None else min_radius
         radius = max(float(np.linalg.norm(np.asarray(bmax) - np.asarray(bmin))) / 2, floor)
-        self.animate_to(center, self.fit_distance(radius, aspect), self.yaw if yaw is None else yaw,
-                        self.pitch if pitch is None else pitch, duration, ortho_width=radius * 2.2)
+        yaw = self.yaw if yaw is None else yaw
+        pitch = self.pitch if pitch is None else pitch
+        self.animate_to(center, self.fit_distance(radius, aspect), yaw, pitch, duration,
+                        ortho_width=self.ortho_fit_width(bmin, bmax, aspect, yaw, pitch, radius))
+
+    def ortho_fit_width(self, bmin, bmax, aspect, yaw, pitch, radius):
+        """The orthographic width (on the larger image dimension) that shows the box seen from yaw/pitch with a
+        margin, in the narrow dimension as well as the wide one. A landscape view keeps its bounding-sphere fit
+        unless the box is too tall for it; a portrait view fits the box's own projected width and height."""
+        lo, hi = np.asarray(bmin, float), np.asarray(bmax, float)
+        corners = np.array([[x, y, z] for x in (lo[0], hi[0]) for y in (lo[1], hi[1]) for z in (lo[2], hi[2])])
+        back = np.array([math.cos(pitch) * math.sin(yaw), math.sin(pitch), math.cos(pitch) * math.cos(yaw)])
+        right = np.cross([0.0, 1.0, 0.0], back)
+        norm = np.linalg.norm(right)
+        right = right / norm if norm > 1e-6 else np.array([math.cos(yaw), 0.0, -math.sin(yaw)])
+        up = np.cross(back, right)
+        rel = corners - (lo + hi) / 2
+        half_w, half_h = np.abs(rel @ right).max(), np.abs(rel @ up).max()
+        fit = 2.2 * max(half_w / min(aspect, 1.0), half_h * max(aspect, 1.0))
+        return max(fit, radius * 2.2) if aspect >= 1.0 else max(fit, self.min_distance)
 
     def animate_to(self, target, distance, yaw, pitch, duration=0.55, ortho_width=None):
         dyaw = (yaw - self.yaw + math.pi) % (2 * math.pi) - math.pi          # the short way round

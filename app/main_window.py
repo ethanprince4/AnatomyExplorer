@@ -2464,7 +2464,11 @@ class MainWindow(QMainWindow):
                     if bar is not None:
                         bar.hide()
                     view.section_bar.hide()
-                    mg.frame_structures(focus, duration=0.0, view=scene.get("model_view", "anterior"))
+                    from .radiology_reference import framing_core
+                    boxes = {i: view.vmodel.item_bounds([i]) for i in focus}
+                    framed = framing_core([i for i in focus if boxes[i] is not None],
+                                          [(boxes[i][0] + boxes[i][1]) / 2 for i in focus if boxes[i] is not None])
+                    mg.frame_structures(framed or focus, duration=0.0, view=scene.get("model_view", "anterior"))
                 # The case's image labels, numbered as on the scan, name the same parts of the model.
                 visible = ms.visible_mask()
                 names = {}
