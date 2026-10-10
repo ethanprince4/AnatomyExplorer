@@ -56,6 +56,7 @@ class ReadbackTests(unittest.TestCase):
         renderer.frame_ok = True
         renderer.ds = SimpleNamespace(n=10)
         renderer.last_vp = np.identity(4)
+        renderer.last_slice_plane = None
 
         def read_into(buffer, **kwargs):
             if error:

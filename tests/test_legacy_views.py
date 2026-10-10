@@ -9,6 +9,7 @@ from unittest.mock import patch
 HERE = Path(__file__).resolve().parent
 ROOT = next(p for p in HERE.parents if (p / "app/main_window.py").exists())
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(HERE))
 from test_state_and_recovery import QAPP, MainWindow, Dataset, config
 from PySide6.QtCore import QCoreApplication, QEvent, QSettings, QTimer
 from PySide6.QtWidgets import QDialog, QListWidget, QPushButton, QMessageBox
