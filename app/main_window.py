@@ -420,6 +420,7 @@ class MainWindow(QMainWindow):
         reg("search", self._focus_search)
         reg("settings", lambda: self.open_settings())
         reg("screenshot", lambda: self.screenshot())
+        reg("review_shot", self.save_review_shot)
         reg("export_figure", lambda: self.export_figure())
         reg("fullscreen", self.toggle_fullscreen)
         reg("borderless", self.toggle_borderless)
@@ -3156,6 +3157,40 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage(f"Could not save screenshot: {path}", 6000)
             return
         self.statusBar().showMessage(f"Saved {path}", 4000)
+
+    @staticmethod
+    def default_review_shot_folder():
+        pics = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation) or str(Path.home())
+        return str(Path(pics) / "Anatomy Explorer review shots")
+
+    def save_review_shot(self, folder=None):
+        """One press, one PNG of the 3D view with the camera stored in its PNG text chunk "AnatomyExplorer-camera"."""
+        try:
+            folder = Path(folder or self.settings.get("review_shot_folder") or self.default_review_shot_folder())
+            folder.mkdir(parents=True, exist_ok=True)
+            img = self._capture_widget().grab().toImage()
+            try:
+                from . import live_camera
+                payload = live_camera.build_payload(self)
+            except Exception as exc:
+                payload = {"error": str(exc)}
+            now = datetime.now()
+            payload["time"] = now.timestamp()
+            payload["time_iso"] = now.isoformat(timespec="seconds")
+            img.setText("AnatomyExplorer-camera", json.dumps(payload))
+            stem = f"shot_{now:%Y%m%d_%H%M%S}"
+            path = folder / f"{stem}.png"
+            n = 2
+            while path.exists():
+                path = folder / f"{stem}_{n}.png"
+                n += 1
+            if not img.save(str(path), "PNG"):
+                raise OSError("the image could not be written")
+        except Exception as exc:
+            self.statusBar().showMessage(f"Could not save review shot: {exc}", 6000)
+            return None
+        self.statusBar().showMessage(f"Saved review shot: {path}", 4000)
+        return path
 
     def _figure_caption(self):
         """(title, caption parts, credit line) for export_figure: the model tab in front describes itself."""
