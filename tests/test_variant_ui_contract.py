@@ -17,7 +17,7 @@ QAPP = QApplication.instance() or QApplication([])
 
 
 def extracted(name):
-    tree = ast.parse((ROOT / "app/main_window.py").read_text())
+    tree = ast.parse((ROOT / "app/main_window.py").read_text(encoding="utf-8"))
     cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "MainWindow")
     node = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == name)
     scope = {"__name": "app.main_window", "__package__": "app"}

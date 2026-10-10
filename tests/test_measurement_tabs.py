@@ -1,5 +1,6 @@
 """Measurement routing uses isolated settings and owned GLB fixtures."""
 import tempfile
+import time
 import unittest
 from pathlib import Path
 import numpy as np
@@ -15,6 +16,15 @@ class MeasurementTabTests(unittest.TestCase):
 
     def setUp(self):
         self.folder = tempfile.TemporaryDirectory(dir=FIXTURES.name)
+        # Other modules also redirect QSettings at import; point it at this module's fixtures.
+        # (restored afterwards so other modules keep their own redirect).
+        old_format = QSettings.defaultFormat()
+        old_root = Path(QSettings(old_format, QSettings.UserScope, config.ORG_NAME,
+                                  config.APP_NAME).fileName()).parent.parent
+        QSettings.setDefaultFormat(QSettings.IniFormat)
+        QSettings.setPath(QSettings.IniFormat, QSettings.UserScope, str(fixture_root(FIXTURES.name)))
+        self.addCleanup(QSettings.setDefaultFormat, old_format)
+        self.addCleanup(QSettings.setPath, QSettings.IniFormat, QSettings.UserScope, str(old_root))
         prefs = QSettings(QSettings.defaultFormat(), QSettings.UserScope,
                           config.ORG_NAME, config.APP_NAME)
         self.assertTrue(Path(prefs.fileName()).resolve().is_relative_to(Path(FIXTURES.name).resolve()))
@@ -25,8 +35,20 @@ class MeasurementTabTests(unittest.TestCase):
             path = fixture_root(self.folder.name) / (name + ".glb")
             write_fixture_model(path)
             path.with_suffix(".viewer.json").write_text('{"um_per_bu":2500}', encoding="utf-8")
-            open_fixture_model(self.win, path)
+            self.open_installed(path)
             self.models.append(self.win.active_model_view())
+
+    def open_installed(self, path):
+        # Readiness callbacks wait for a first GPU draw that an off-screen run never
+        # makes; the CPU-complete tab is installed without it.
+        from app.viewer.catalog import FileEntry
+        model_id = FileEntry(path).id
+        self.win.open_model_file(str(path))
+        deadline = time.monotonic() + 30
+        while model_id not in self.win.micro_tabs and time.monotonic() < deadline:
+            QAPP.processEvents()
+            time.sleep(0.01)  # QTest.qWait holds the GIL and starves the load thread
+        self.assertIn(model_id, self.win.micro_tabs)
 
     def tearDown(self):
         self.win.close()

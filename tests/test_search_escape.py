@@ -1,6 +1,7 @@
 """Actual Escape dispatch prioritizes the focused search text over hidden/active 3D state."""
 from pathlib import Path
 import sys
+import time
 import unittest
 from unittest.mock import patch
 
@@ -79,7 +80,16 @@ class SearchEscapeTests(unittest.TestCase):
         path = Path(config.USER_DIR) / "search-escape-owned.glb"
         path.parent.mkdir(parents=True, exist_ok=True)
         write_fixture_model(path)
-        open_fixture_model(self.win, path)
+        # Readiness callbacks wait for a first GPU draw that an off-screen run never
+        # makes; the CPU-complete tab is installed without it.
+        from app.viewer.catalog import FileEntry
+        model_id = FileEntry(path).id
+        self.win.open_model_file(str(path))
+        deadline = time.monotonic() + 30
+        while model_id not in self.win.micro_tabs and time.monotonic() < deadline:
+            QAPP.processEvents()
+            time.sleep(0.01)  # QTest.qWait holds the GIL and starves the load thread
+        self.assertIn(model_id, self.win.micro_tabs)
         model = self.win.active_model_view()
         model.gl_widget.hide()  # Real model UI/selection without an OpenGL context.
         QAPP.processEvents()

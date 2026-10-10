@@ -128,6 +128,9 @@ class StudyLifecycleTests(unittest.TestCase):
         view.labels = QCheckBox(view)
         view.labels.setChecked(True)
         view.view_buttons = {}
+        view.studio = SimpleNamespace(_practice=False, set_practice=lambda on: None)
+        view.vmodel = SimpleNamespace(kind="glb", items=[None] * ds.n, cameras={})
+        view.clear_sections = lambda: None   # section rows belong to the real controls this fixture skips
         camera = OrbitCamera()
         camera.target = np.array([0.2, 0.4, 0.6])
         camera.distance, camera.yaw, camera.pitch = 1.5, 0.7, 0.2

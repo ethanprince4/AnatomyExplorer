@@ -1,6 +1,7 @@
 """Real Qt key dispatch over current 2D histology; no GL renderer/model assets."""
 from pathlib import Path
 import sys
+import time
 import unittest
 from unittest.mock import patch
 
@@ -76,7 +77,16 @@ class HistologyKeyTests(unittest.TestCase):
         path = Path(config.USER_DIR) / "owned-page-routing.glb"
         path.parent.mkdir(parents=True, exist_ok=True)
         write_fixture_model(path)
-        open_fixture_model(self.win, path)
+        # Readiness callbacks wait for a first GPU draw that an off-screen run never
+        # makes; the CPU-complete tab is installed without it.
+        from app.viewer.catalog import FileEntry
+        model_id = FileEntry(path).id
+        self.win.open_model_file(str(path))
+        deadline = time.monotonic() + 30
+        while model_id not in self.win.micro_tabs and time.monotonic() < deadline:
+            QAPP.processEvents()
+            time.sleep(0.01)  # QTest.qWait holds the GIL and starves the load thread
+        self.assertIn(model_id, self.win.micro_tabs)
         # Complete the model's zero-delay initialization while it is alive;
         # rapid-close pending-timer cancellation is a separate lifecycle check.
         QAPP.processEvents()

@@ -35,13 +35,20 @@ class DeferredModelCloseTests(unittest.TestCase):
         self.addCleanup(hook.stop)
         self.win = MainWindow(self.dataset, restore=False)
         self.addCleanup(self._close)
+        self.base_tabs = self.win.center.count()  # permanent tabs: 3D Anatomy and Collection
         path = Path(config.USER_DIR) / "owned-deferred-close.glb"
         path.parent.mkdir(parents=True, exist_ok=True)
         write_fixture_model(path)
         self.path = path
 
     def _open_ready(self):
-        self.view = open_fixture_model(self.win, self.path)
+        # Readiness callbacks now wait for the first real GPU draw, which an
+        # off-screen run never makes; observe the CPU-complete tab instead.
+        from app.viewer.catalog import FileEntry
+        model_id = FileEntry(self.path).id
+        self.win.open_model_file(str(self.path))
+        self._wait_until(lambda: model_id in self.win.micro_tabs, "model tab was not installed")
+        self.view = self.win.micro_tabs[model_id]
         self.assertIsInstance(self.view, ModelView)
         self.assertIsNone(getattr(self.view.gl_widget, "renderer", None))
 
@@ -54,7 +61,7 @@ class DeferredModelCloseTests(unittest.TestCase):
     def _close_tab(self):
         self.win._close_center_tab(self.win.center.indexOf(self.view))
         QCoreApplication.sendPostedEvents(None, QEvent.DeferredDelete)
-        self.assertEqual(self.win.center.count(), 1)
+        self.assertEqual(self.win.center.count(), self.base_tabs)
         self.assertFalse(self.win.micro_tabs)
         self.assertFalse(isValid(self.view), "the real model QObject must be deleted, not merely hidden")
         QAPP.processEvents()
@@ -66,7 +73,7 @@ class DeferredModelCloseTests(unittest.TestCase):
         while not predicate() and time.monotonic() < deadline:
             QAPP.processEvents()
             if not predicate():
-                QTest.qWait(10)
+                time.sleep(0.01)  # QTest.qWait holds the GIL and starves the model-load thread
         self.assertTrue(predicate(), f"{message} (deadline {timeout:.1f}s); errors={self.errors}")
 
     def test_close_before_zero_delay_initial_frame_cancels_deleted_view_callback(self):
@@ -101,7 +108,7 @@ class DeferredModelCloseTests(unittest.TestCase):
             self.win._model_loader.finished.disconnect(close_prepared)
         self.assertEqual(len(observed), 1, "owned CPU model delivery did not arrive before the deadline")
         self.assertIsInstance(observed[0][1], ModelView)
-        self.assertEqual(self.win.center.count(), 1)
+        self.assertEqual(self.win.center.count(), self.base_tabs)
         self.assertFalse(self.win.micro_tabs)
         self.assertFalse(self.win._loading_models)
         self.assertFalse(self.errors, "closing the actual prepared tab must cancel its queued camera reset:\n" + "\n".join(self.errors))
