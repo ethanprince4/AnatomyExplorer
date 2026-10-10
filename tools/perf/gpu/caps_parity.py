@@ -507,8 +507,9 @@ def compare(gl, wg, size, msaa=1):
     mism = 0
     gl_parts = gl["tee_cap"].parts
     out["cap_draws_gl"], out["cap_draws_wgpu"] = len(gl_parts), plan.n_draws
-    for i, rec in enumerate(plan.records[:len(gl_parts)]):
-        if rec != pack_shading_uniforms(known_uniforms(gl_parts[i])):
+    for i, rec in enumerate(plan.records):
+        o = plan.ordinals[i]                       # parts the plan skips as wholly removed are drawn (and discarded) by GL
+        if o >= len(gl_parts) or rec != pack_shading_uniforms(known_uniforms(gl_parts[o])):
             mism += 1
     out["uniform_records_differ"] = mism
     # --- cap targets

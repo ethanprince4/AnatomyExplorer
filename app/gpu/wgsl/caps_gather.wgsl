@@ -60,10 +60,12 @@ fn vs_reset(@builtin(vertex_index) vi: u32) -> @builtin(position) vec4<f32> {
 }
 
 // PARITY_FS: depth of the nearest kept front face of the item (depth test "less" keeps the minimum).
+// The facing test of the GL shader (front faces only, back faces of a mirrored part) is the pipeline's cull mode here
+// (caps.py _pipe): the rasteriser's facing decides in both, so the surviving fragments are the same. A part wholly on the
+// kept side (cutclass KEPT) has no fragment stage at all: depth only, early depth rejection.
 @fragment
-fn fs_parity(in: CapVOut, @builtin(front_facing) ff: bool) {
+fn fs_parity(in: CapVOut) {
     if (clipped(in.wpos)) { discard; }
-    if (ff == (cdraws[in.di].a.z == 1u)) { discard; }
 }
 
 // ---- CAP_FS
@@ -140,11 +142,20 @@ struct CapOut {
     @builtin(frag_depth) key: f32,          // how far the item's far wall lies behind the plane: the innermost item wins
 };
 
+// Back faces only: the pipeline's cull mode (see fs_parity). `kept` = the part lies wholly on the kept side: no clip test.
 @fragment
-fn fs_cap(in: CapVOut, @builtin(front_facing) ff: bool) -> CapOut {
+fn fs_cap(in: CapVOut) -> CapOut {
+    return cap_frag(in, true);
+}
+
+@fragment
+fn fs_cap_kept(in: CapVOut) -> CapOut {
+    return cap_frag(in, false);
+}
+
+fn cap_frag(in: CapVOut, test_clip: bool) -> CapOut {
     let d_ = cdraws[in.di];
-    if (clipped(in.wpos)) { discard; }
-    if (ff != (d_.a.z == 1u)) { discard; }                                   // back faces only
+    if (test_clip && clipped(in.wpos)) { discard; }
     let px = vec2<i32>(i32(in.clip.x), i32(in.clip.y));
     if (textureLoad(parity_tex, px, 0) < in.clip.z) { discard; }             // entered after the cut
     let fc = vec2<f32>(in.clip.x, cf.screen.y - in.clip.y);                  // gl_FragCoord.xy

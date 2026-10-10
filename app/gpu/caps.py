@@ -21,6 +21,7 @@ morph / explode / animation displacement of the vertices (hook `cap_vertex_world
 """
 from __future__ import annotations
 
+import os
 import types
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -28,12 +29,15 @@ from pathlib import Path
 import numpy as np
 import wgpu
 
+from app.gpu import cutclass
 from app.gpu.geometry import geom_prelude
 from app.gpu.shading_uniforms import SIZE as SHADE_SIZE, pack_shading_uniforms
 
 WGSL = Path(__file__).with_name("wgsl")
 TU, BU, SS = wgpu.TextureUsage, wgpu.BufferUsage, wgpu.ShaderStage
 GL_TO_WGPU_Z = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0.5, 0.5], [0, 0, 0, 1]], dtype=np.float64)
+
+CAPS_PIXELS = 4.0                    # cutclass pixel margin of the cap passes: single-sample targets, a covered pixel centre lies in its triangle
 
 CAPFRAME_BYTES = 336
 CAPDRAW_BYTES = 112
@@ -74,7 +78,7 @@ def look_uniforms(part, fs):
 class CapItem:
     item: int
     rect: tuple                                  # GL scissor rectangle (x0, y0, x1, y1), y from the bottom
-    draws: list = field(default_factory=list)    # (cap draw index, page, first index, index count)
+    draws: list = field(default_factory=list)    # (cap draw index, page, first index, index count, clip test needed, mirrored)
 
 
 @dataclass
@@ -84,6 +88,7 @@ class CapPlan:
     size: tuple
     pages: dict = field(default_factory=dict)    # page -> (bind group over positions + colours, index buffer)
     records: list = field(default_factory=list)  # packed ShadeU bytes of every cap draw (diagnostics)
+    ordinals: list = field(default_factory=list)  # per record: its place among the draws GL makes (parts skipped as removed counted)
 
 
 class CapPasses:
@@ -109,6 +114,8 @@ class CapPasses:
         self._dummy = device.create_buffer_with_data(data=np.zeros(4, np.float32).tobytes(), usage=BU.STORAGE,
                                                      label="cap_dummy")
         self._index_of = (None, None)
+        self.classify = os.environ.get("ANATOMY_CAPS_CLASSIFY", "1") != "0"   # off: every part keeps the clip test, none is skipped
+        self.last_classes = None         # (kept, straddle, removed) part counts of the last plan (diagnostics)
         self._layouts()
 
     # ------------------------------------------------------------------ layouts, modules, pipelines
@@ -162,19 +169,24 @@ class CapPasses:
                 depth_stencil={"format": "depth32float", "depth_write_enabled": True, "depth_compare": "always"},
                 label="cap_reset")
         elif kind == "parity":
+            # key = ("parity", clip test needed, mirrored): front faces only (back faces of a mirrored part) by the cull mode
             m = self._module("gather")
+            prim = dict(prim, cull_mode="front" if key[2] else "back")
             p = d.create_render_pipeline(
                 layout=self._layout(self.bgl0, self.bgl_su, self.bgl_page),
                 vertex={"module": m, "entry_point": "vs_cap"}, primitive=prim,
-                fragment={"module": m, "entry_point": "fs_parity", "targets": []},
+                fragment={"module": m, "entry_point": "fs_parity", "targets": []} if key[1] else None,
                 depth_stencil={"format": "depth32float", "depth_write_enabled": True, "depth_compare": "less"},
                 label="cap_parity")
         elif kind == "cap":
+            # key = ("cap", clip test needed, mirrored): back faces only (front faces of a mirrored part)
             m = self._module("gather")
+            prim = dict(prim, cull_mode="back" if key[2] else "front")
             p = d.create_render_pipeline(
                 layout=self._layout(self.bgl0, self.bgl_su, self.bgl_page, self.bgl_parity),
                 vertex={"module": m, "entry_point": "vs_cap"}, primitive=prim,
-                fragment={"module": m, "entry_point": "fs_cap", "targets": [{"format": f} for _n, f in CAP_TARGETS]},
+                fragment={"module": m, "entry_point": "fs_cap" if key[1] else "fs_cap_kept",
+                          "targets": [{"format": f} for _n, f in CAP_TARGETS]},
                 depth_stencil={"format": "depth32float", "depth_write_enabled": True, "depth_compare": "less"},
                 label="cap_gather")
         elif kind == "lay":
@@ -274,6 +286,18 @@ class CapPasses:
             self._bg_su = d.create_bind_group(layout=self.bgl_su, entries=[
                 {"binding": 0, "resource": {"buffer": self._shade_buf, "offset": 0, "size": SHADE_SIZE}}])
 
+    def _classes(self, model, parts, mats, planes, on, mode, V, VP, camera, height):
+        """{part id: cutclass class} of the parts of the cut items, for the matrices the cap passes draw them with."""
+        if not self.classify or not parts:
+            self.last_classes = None
+            return {p.id: cutclass.STRADDLE for p in parts}
+        Pm = np.asarray(VP, np.float64) @ np.linalg.inv(np.asarray(V, np.float64))
+        c = cutclass.classify_boxes(np.array([p.local_min for p in parts]), np.array([p.local_max for p in parts]),
+                                    np.stack([mats[p.id] for p in parts]), planes, on, mode, V, abs(1.0 / Pm[1, 1]),
+                                    bool(camera.ortho), height, pixels=CAPS_PIXELS)
+        self.last_classes = tuple(int((c == k).sum()) for k in (cutclass.KEPT, cutclass.STRADDLE, cutclass.REMOVED))
+        return {p.id: int(k) for p, k in zip(parts, c)}
+
     def plan(self, model, geom, draws, VP, V, size, fs, s, clip, camera, look=None, model_diag=None):
         """Select the cut items, upload the per-frame data and return a CapPlan (None when no item is cut).
 
@@ -314,9 +338,25 @@ class CapPasses:
         look = look or (lambda p: look_uniforms(p, fs))
         base = {}
         GLRenderer._clip_uniforms(lambda name, value: base.__setitem__(name, value), clip)
-        items, recs, shade = [], [], []
+        # which side of the cut planes each part lies on (cutclass): a part wholly on the removed side has no fragment that
+        # survives the clip test in either pass and is not drawn; one wholly on the kept side skips the clip test
+        mats = {p.id: model.part_matrix(p) for _it, ps, _b in cut for p in ps}
+        cls = self._classes(model, [p for _it, ps, _b in cut for p in ps], mats, planes, on, int(_mode), V, VP, camera, h)
+        items, recs, shade, ordinals = [], [], [], []
+        ordinal = 0
         for it, ps, box in cut:
-            rect = GLRenderer._screen_rect(box, VP, w, h)
+            n_all = len(ps)
+            for p in ps:
+                if cls[p.id] == cutclass.REMOVED:
+                    pi = index_of[p.id]
+                    if int(geom.page_of[pi]) >= 0 and geom.ranges[pi][0][1] >= 3:
+                        ordinal += 1                 # GL draws it, we do not
+            ps = [p for p in ps if cls[p.id] != cutclass.REMOVED]
+            if not ps:
+                continue
+            # the rectangle only has to hold what the remaining parts can draw
+            rect = GLRenderer._screen_rect(box if len(ps) == n_all else np.concatenate([model._box(p) for p in ps], 0),
+                                           VP, w, h)
             if rect is None:
                 continue
             ci = CapItem(it, rect)
@@ -326,7 +366,7 @@ class CapPasses:
                 first, count = geom.ranges[pi][0]
                 if page < 0 or count < 3:
                     continue
-                M = model.part_matrix(p)
+                M = mats[p.id]
                 flip = 1 if np.linalg.det(M[:3, :3]) < 0 else 0
                 u = dict(base)
                 u.update(look(p))
@@ -343,7 +383,9 @@ class CapPasses:
                 ru[22] = flip
                 rec[24:27] = (float(it + 1), 1.0 if it in fs.selected else 0.0, 0.80 if p.look.detail is not None else 0.62)
                 recs.append(rec)
-                ci.draws.append((len(recs) - 1, page, int(first), int(count)))
+                ordinals.append(ordinal)
+                ordinal += 1
+                ci.draws.append((len(recs) - 1, page, int(first), int(count), cls[p.id] != cutclass.KEPT, bool(flip)))
             if ci.draws:
                 items.append(ci)
         if not items:
@@ -373,42 +415,56 @@ class CapPasses:
         q.write_buffer(self._frame_ub, 0, f)
         pages = {}
         for ci in items:
-            for _di, page, _f, _c in ci.draws:
+            for _di, page, _f, _c, _cl, _fl in ci.draws:
                 if page not in pages:
                     pages[page] = (self._page_group(geom, page), geom.pages[page])
-        return CapPlan(items, n, (w, h), pages, shade)
+        return CapPlan(items, n, (w, h), pages, shade, ordinals)
 
     # ------------------------------------------------------------------ encoding
-    def encode_gather(self, enc, plan):
-        """Parity + cap passes of every cut item (2 render passes per item) into the cap targets."""
+    def encode_gather(self, enc, plan, ts=None):
+        """Parity + cap passes of every cut item (2 render passes per item) into the cap targets.
+        ts: (query set, begin index, end index) of GPU timestamps around all of the passes, or None."""
         w, h = plan.size
         v = self.v
         first = True
+        npass = 2 * len(plan.items)
+        k = 0
         for ci in plan.items:
             x0, y0, x1, y1 = ci.rect
             scissor = (x0, h - y1, x1 - x0, y1 - y0)
             for stage in ("parity", "cap"):
+                tw = {}
+                if ts is not None:
+                    tw = {"query_set": ts[0]}
+                    if k == 0:
+                        tw["beginning_of_pass_write_index"] = ts[1]
+                    if k == npass - 1:
+                        tw["end_of_pass_write_index"] = ts[2]
+                    tw = {"timestamp_writes": tw} if len(tw) > 1 else {}
+                k += 1
                 if stage == "parity":
                     rp = enc.begin_render_pass(color_attachments=[], depth_stencil_attachment={
-                        "view": v["parity"], "depth_load_op": "load", "depth_store_op": "store"})
+                        "view": v["parity"], "depth_load_op": "load", "depth_store_op": "store"}, **tw)
                     rp.set_scissor_rect(*scissor)
                     rp.set_pipeline(self._pipe(("reset",)))
                     rp.draw(3)
-                    rp.set_pipeline(self._pipe(("parity",)))
                 else:
                     op = "clear" if first else "load"
                     rp = enc.begin_render_pass(
                         color_attachments=[{"view": v[n], "load_op": op, "store_op": "store", "clear_value": (0, 0, 0, 0)}
                                            for n, _f in CAP_TARGETS],
                         depth_stencil_attachment={"view": v["key"], "depth_load_op": op, "depth_store_op": "store",
-                                                  "depth_clear_value": 1.0})
+                                                  "depth_clear_value": 1.0}, **tw)
                     first = False
                     rp.set_scissor_rect(*scissor)
-                    rp.set_pipeline(self._pipe(("cap",)))
                     rp.set_bind_group(3, self._bg_parity)
                 rp.set_bind_group(0, self._bg0)
                 current = None
-                for di, page, first_index, count in ci.draws:
+                pipe = None
+                for di, page, first_index, count, clip, flip in ci.draws:
+                    if (clip, flip) != pipe:
+                        rp.set_pipeline(self._pipe((stage, clip, flip)))
+                        pipe = (clip, flip)
                     rp.set_bind_group(1, self._bg_su, [di * self.shade_stride])
                     if current != page:
                         rp.set_bind_group(2, plan.pages[page][0])

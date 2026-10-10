@@ -1515,7 +1515,7 @@ class WgpuRenderer:
             rp.end()
         # ---- 2a. cut faces (GL's CAPMIX_PRE_FS): gather the innermost cut face per pixel, lay it into id / nd
         if cplan is not None:
-            self.caps.encode_gather(enc, cplan)
+            self.caps.encode_gather(enc, cplan, (qs, 14, 15) if qs else None)
             self.caps.encode_lay_in(enc, T["id"], T["nd"])
         # ---- 2b. translucent and x-rayed parts: weighted blended OIT into the visibility pass's depth (GL pass 5);
         # encoded after the shaded resolve (below), which still needs the visibility depth without the cut faces
@@ -1590,17 +1590,20 @@ class WgpuRenderer:
         rp.draw(3)
         rp.end()
         if qs:
-            enc.resolve_query_set(qs, 0, 14, self._qbuf, 0)
+            if cplan is None:                                  # slots 14, 15 (the cap gather) must be written before they are resolved
+                enc.begin_compute_pass(timestamp_writes=self._ts(qs, 14, 15)).end()
+            enc.resolve_query_set(qs, 0, 16, self._qbuf, 0)
         self.queue.submit([enc.finish()])
         if use_cull and self.culler.stats_wanted:
             self.culler.stats_arm(self.gov.tag)
         if qs:
-            ts = np.frombuffer(bytes(self.queue.read_buffer(self._qbuf, 0, 14 * 8)), dtype=np.uint64).astype(np.float64)
+            ts = np.frombuffer(bytes(self.queue.read_buffer(self._qbuf, 0, 16 * 8)), dtype=np.uint64).astype(np.float64)
             kk = self.ts_period_ns * 1e-6
             d = lambda a, b: (ts[b] - ts[a]) * kk
             cull_t = self.culler.read_timings(self.ts_period_ns) if use_cull else None
             self.timings = {"backdrop_ms": d(12, 13), "vis_ms": cull_t["total_ms"] if use_cull else d(0, 1), "geom_ms": d(2, 3), "ssao_ms": d(4, 5) if s.ao else 0.0,
-                            "shade_ms": d(6, 7), "composite_ms": d(8, 9), "final_ms": d(10, 11)}
+                            "shade_ms": d(6, 7), "composite_ms": d(8, 9), "final_ms": d(10, 11),
+                            "caps_ms": d(14, 15) if cplan is not None else 0.0}
             self.timings["cull"] = cull_t                     # per stage ms of the culler (None: not culled)
             self.timings["resolve_ms"] = self.timings["geom_ms"] + self.timings["shade_ms"]
             self.timings["total_ms"] = sum(v for kx, v in self.timings.items() if kx.endswith("_ms") and kx != "resolve_ms")

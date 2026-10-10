@@ -59,14 +59,15 @@ def plane_bounds(wc, A, h, planes, on):
     return np.stack(lo_, 1), np.stack(hi_, 1)
 
 
-def pixel_margin(wc, A, h, view, tan_y, ortho, height):
-    """World size of PIXELS pixels at the far end of each box (inf where the box reaches the camera plane)."""
+def pixel_margin(wc, A, h, view, tan_y, ortho, height, pixels=None):
+    """World size of ``pixels`` (default PIXELS) pixels at the far end of each box (inf where the box reaches the camera plane)."""
+    pixels = PIXELS if pixels is None else pixels
     R = np.abs(np.linalg.norm(A, axis=1) * h).sum(1)                   # half diagonal bound
     if ortho:
-        return np.full(len(wc), PIXELS * 2.0 * tan_y / height)
+        return np.full(len(wc), pixels * 2.0 * tan_y / height)
     depth = -(wc @ np.asarray(view, np.float64)[2, :3] + view[2, 3])
     ok = depth - R > 1e-4
-    return np.where(ok, PIXELS * 2.0 * tan_y * (depth + R) / height, np.inf)
+    return np.where(ok, pixels * 2.0 * tan_y * (depth + R) / height, np.inf)
 
 
 def classes_from_bounds(dlo, dhi, plane_len, margin, mode, straddle=None, never_cut=None):
@@ -95,7 +96,7 @@ def classes_from_bounds(dlo, dhi, plane_len, margin, mode, straddle=None, never_
     return out
 
 
-def classify_boxes(lo, hi, mats, planes, on, mode, view, tan_y, ortho, height, straddle=None, never_cut=None):
+def classify_boxes(lo, hi, mats, planes, on, mode, view, tan_y, ortho, height, straddle=None, never_cut=None, pixels=None):
     """Class of every box. lo, hi: (n, 3) local box corners; mats: (n, 4, 4) world = M @ (p, 1); planes: (3, 4) with the
     removed side dot(p, n) + d < 0; on: three flags; mode: 0 any plane removes, 1 corner; view: the 4x4 view matrix, tan_y:
     tan(half fov y) (half height when orthographic), height: render height in pixels. ``straddle`` (n,) bool forces STRADDLE
@@ -105,4 +106,4 @@ def classify_boxes(lo, hi, mats, planes, on, mode, view, tan_y, ortho, height, s
         return np.zeros(len(wc), np.uint8)
     dlo, dhi = plane_bounds(wc, A, h, planes, on)
     plen = [float(np.linalg.norm(np.asarray(planes[i], np.float64)[:3])) for i in range(3) if int(on[i])]
-    return classes_from_bounds(dlo, dhi, plen, pixel_margin(wc, A, h, view, tan_y, ortho, height), mode, straddle, never_cut)
+    return classes_from_bounds(dlo, dhi, plen, pixel_margin(wc, A, h, view, tan_y, ortho, height, pixels), mode, straddle, never_cut)
