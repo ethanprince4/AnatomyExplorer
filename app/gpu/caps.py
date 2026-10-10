@@ -104,7 +104,7 @@ class CapPasses:
         self.v = {}
         self.size = None
         self._modules = {}
-        self._cmp = False              # compressed geometry: non-indexed draws, vertex_index = logical index position
+        self._cmp = 0                  # geometry stage (0 plain, 1 / 2 compressed)  -- compressed geometry: non-indexed draws, vertex_index = logical index position
         self._pipes = {}
         self._frame_ub = device.create_buffer(size=CAPFRAME_BYTES, usage=BU.UNIFORM | BU.COPY_DST, label="cap_frame")
         self._draw_buf = self._shade_buf = None
@@ -311,8 +311,8 @@ class CapPasses:
         look          optional callable part -> {GLSL uniform name: value}; default look_uniforms(part, fs)
         """
         from app.viewer.renderer import Renderer as GLRenderer
-        if bool(geom.compressed) != self._cmp:          # the gather module is built for one of the two page layouts
-            self._cmp = bool(geom.compressed)
+        if int(geom.stage) != self._cmp:          # the gather module is built for one of the two page layouts
+            self._cmp = int(geom.stage)
             self._modules.pop("gather", None)
             self._pipes.clear()
         w, h = int(size[0]), int(size[1])

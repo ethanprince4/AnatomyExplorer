@@ -227,7 +227,7 @@ class ClusterCuller:
 
     def vis_wgsl(self):
         return (self._ids_prelude() + "\n" + _read("clip.wgsl") + "\n" + _read("cull_tables.wgsl")
-                + "\n" + geom_prelude(1, 1, 0, uniform_binding=1, compressed=self.geom.compressed) + "\n" + _read("geom.wgsl") + "\n" + _read("cull_vis.wgsl"))
+                + "\n" + geom_prelude(1, 1, 0, uniform_binding=1, compressed=self.geom.stage) + "\n" + _read("geom.wgsl") + "\n" + _read("cull_vis.wgsl"))
 
     def _vis_pipe(self, samples, clip):
         key = ("vis", samples, clip)
@@ -245,11 +245,11 @@ class ClusterCuller:
     def idx_wgsl(self):
         nl = "\n"
         return ("enable primitive_index;" + nl + self._ids_prelude() + nl + _read("clip.wgsl") + nl + _read("cull_tables.wgsl") + nl
-                + geom_prelude(1, 1, 0, uniform_binding=1, compressed=self.geom.compressed) + nl + _read("geom.wgsl") + nl + _read("cull_idx.wgsl"))
+                + geom_prelude(1, 1, 0, uniform_binding=1, compressed=self.geom.stage) + nl + _read("geom.wgsl") + nl + _read("cull_idx.wgsl"))
 
     def gather_wgsl(self):
         nl = "\n"
-        return geom_prelude(1, 1, 0, uniform_binding=1, compressed=self.geom.compressed) + nl + _read("geom.wgsl") + nl + _read("cull_gather.wgsl")
+        return geom_prelude(1, 1, 0, uniform_binding=1, compressed=self.geom.stage) + nl + _read("geom.wgsl") + nl + _read("cull_gather.wgsl")
 
     def _idx_pipe(self, samples, clip):
         key = ("idx", samples, clip)

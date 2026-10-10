@@ -335,9 +335,9 @@ class WGSide:
         self.size = size
         self.model = model
         import os
-        cmp = os.environ.get("ANATOMY_CAPSP_COMPRESS", "0") == "1"      # compressed + cluster-ordered pages: caps draws pull (non-indexed)
+        cmp = {"1": 1, "2": 2}.get(os.environ.get("ANATOMY_CAPSP_COMPRESS", "0"), 0)      # compressed (1) / quantised (2) + cluster-ordered pages: caps draws pull (non-indexed)
         self.geom = geo.build_geometry(model, geo.GpuSink(self.dev), page_bytes or geo.page_limit(self.dev),
-                                       cluster_order=cmp, compress=cmp)
+                                       cluster_order=bool(cmp), compress=cmp)
         if cmp:
             assert self.geom.compressed, "compression refused for the synthetic model"
         self.caps = CapPasses(self.dev, getattr(gpu, "limits", None))

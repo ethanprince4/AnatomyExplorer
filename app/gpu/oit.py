@@ -132,7 +132,7 @@ class OitPass:
         self.bgl2 = d.create_bind_group_layout(entries=[
             ent(0, V, buffer={"type": "read-only-storage"}), ent(1, V, buffer={"type": "uniform"})])
         self.layout = d.create_pipeline_layout(bind_group_layouts=[self.bgl0, self.bgl1, self.bgl2])
-        self._cmp = False                 # compressed geometry: vertex_index = logical index position (geom.wgsl g_vertex), draws are non-indexed
+        self._cmp = 0                     # geometry stage (0 plain, 1 / 2 compressed)  -- compressed geometry: vertex_index = logical index position (geom.wgsl g_vertex), draws are non-indexed
         head, tail = self._code(False)
         self._resolve_src = RESOLVE_MARK + tail
         self.module = d.create_shader_module(code=head, label="oit")
@@ -170,8 +170,8 @@ class OitPass:
     def set_geometry(self, geom):
         """Bind groups of the geometry pages (group 2). Call again when the model changes; None releases them."""
         self.geom = geom
-        if geom is not None and bool(geom.compressed) != self._cmp:      # the vertex module is built for one of the two layouts
-            self._cmp = bool(geom.compressed)
+        if geom is not None and int(geom.stage) != self._cmp:      # the vertex module is built for one of the two layouts
+            self._cmp = int(geom.stage)
             self.module = self.device.create_shader_module(code=self._code(self._cmp)[0], label="oit")
             self._pipes.clear()
         for ub in getattr(self, "_page_ub", []):

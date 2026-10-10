@@ -33,6 +33,13 @@ cluster range starts at a multiple of 192, so page cluster = position / 192):
 6 B per index triangle (12 B for WIDE clusters) instead of 12. There is no hardware index buffer: geom.wgsl g_index decodes a
 logical position, draws are non-indexed (vertex_index = logical position) or read through the culler's gather.
 
+Quantised positions (stage 2, build_geometry(..., compress=2), app/gpu/quant.py): the "pos" section (12 B per vertex) is replaced by
+    posb   6 words per 64 vertices: the block's grid (origin, power-of-two step per axis, bits per axis, data offset)
+    posq   the blocks' fixed-point coordinates, 2 x (bits x + bits y + bits z) words per block
+A block whose grid would move a vertex by more than the error budget (1/16 pixel at the closest zoom the viewer allows, see
+quant.py) stays float32 inside posq (flag in posb). wgsl/geom.wgsl g_pos decodes. The cluster bounds of the quantised parts are
+inflated by the realised maximum error of the part, so hi-Z culling never rejects a pixel of the decoded geometry.
+
 The buffer back end is a "sink" (GpuSink for wgpu, HostSink for tests without an adapter), both with
 create(size, label) / write(handle, offset, array) / read(handle) / finish().
 """
@@ -47,6 +54,7 @@ import numpy as np
 from app.viewer import lod as _lod
 
 from . import clusters as _cl
+from . import quant as _q
 
 SCAN_ROWS = 1 << 19                    # vertex rows examined / packed per step
 INDEX_CHUNK = 1 << 22                  # indices per upload step
@@ -196,10 +204,10 @@ class GpuSink:
 # ------------------------------------------------------------------------------------------------ page layout
 # One page = one buffer of uint32 words. Its sections start at multiples of 256 bytes, in this order; the word offsets of a
 # page are what wgsl/geom.wgsl reads (SECTION_INDEX == the G_* constants there).
-SECTION_ORDER = ("pos", "nrm", "dpos", "dnrm", "fib", "col", "uv", "anim", "index", "cdir", "idx16", "idxhi", "posq", "posf")
+SECTION_ORDER = ("pos", "nrm", "dpos", "dnrm", "fib", "col", "uv", "anim", "index", "cdir", "idx16", "idxhi", "posq", "posb")
 SECTION_INDEX = {n: i for i, n in enumerate(SECTION_ORDER)}
 SECTION_WORDS = {"pos": 3, "nrm": 1, "dpos": 3, "dnrm": 3, "fib": 1, "col": 4, "uv": 2, "anim": ANIM_BYTES // 4, "index": 1,
-                 "cdir": 1, "idx16": 1, "idxhi": 1, "posq": 1, "posf": 1}          # (the last five: counted in words)
+                 "cdir": 1, "idx16": 1, "idxhi": 1, "posq": 1, "posb": _q.TABLE_WORDS}   # (cdir .. posq: counted in words; posb: per block)
 CL_POS = 192                                         # logical index positions of a cluster (64 triangles x 3)
 CL_WORDS = 96                                        # words of one cluster's 192 x u16
 WIDE = 0x80000000                                    # cdir flag: the cluster's indices need 32 bits (idx16 low halves + idxhi)
@@ -237,6 +245,11 @@ class Page:
     @property
     def compressed(self):
         return self.nlogical > 0
+
+    @property
+    def quantised(self):
+        """Positions are stored as fixed-point blocks (posb / posq) instead of float32 (pos)."""
+        return self.counts.get("posb", 0) > 0
 
     @property
     def nindices(self):
@@ -289,6 +302,8 @@ class GpuGeometry:
     clusters: object = None              # clusters.ClusterData when built with cluster_order=True (triangles stored in cluster order), else None
     order: object = None                 # TriangleOrder (stored -> original triangle) when cluster ordered
     compressed: bool = False             # pages hold renumbered vertices and u16 cluster-relative indices (see the module docstring)
+    stage: int = 0                       # 0 plain pages, 1 compressed indices, 2 + quantised positions (the shaders' GEO_CMP / GEO_QPOS)
+    quant: dict = None                   # stage 2: {"budget": per part (part space), "err": realised max error per part, "pixels": ..., ...}
 
     @property
     def cluster_ordered(self):
@@ -354,10 +369,13 @@ def geom_prelude(n_pages, group, binding0, uniform_binding=None, compressed=Fals
     page-offset uniform ``pgo`` (the first n_pages entries of GpuGeometry.page_offsets, OFFS_VEC4 vec4<u32> each), the constant
     GEO_CMP (the pages are compressed: wgsl/geom.wgsl decodes indices from cdir / idx16 / idxhi) and the two functions
     wgsl/geom.wgsl is built on: geo_word(lp, word) and geo_off(lp, section). lp = page number within this pipeline.
-    A pipeline built with ``compressed`` must not be used with uncompressed pages and the other way round: include the flag
-    in the key of every cached shader module."""
+    ``compressed`` is the stage (GpuGeometry.stage; True = 1): 1 = compressed indices, 2 = quantised positions as well (GEO_QPOS).
+    A pipeline built for a stage must not be used with pages of another stage: include the stage in the key of every cached
+    shader module."""
     ub = binding0 + n_pages if uniform_binding is None else uniform_binding
-    out = [f"const GEO_CMP: bool = {'true' if compressed else 'false'};"]
+    stage = int(compressed)
+    out = [f"const GEO_CMP: bool = {'true' if stage >= 1 else 'false'};",
+           f"const GEO_QPOS: bool = {'true' if stage >= 2 else 'false'};"]
     for i in range(n_pages):
         out.append(f"@group({group}) @binding({binding0 + i}) var<storage, read> geo_{i}: array<u32>;")
     out.append(f"@group({group}) @binding({ub}) var<uniform> pgo: array<vec4<u32>, {OFFS_VEC4 * max(n_pages, 1)}>;")
@@ -424,11 +442,12 @@ def _padded(count):
     return _align(count, CL_POS)
 
 
-def plan_pages(model, page_bytes, flags, has_anim, max_pages=None, cmp=None):
+def plan_pages(model, page_bytes, flags, has_anim, max_pages=None, cmp=None, qp=None):
     """Group the parts (ordered by vertex_base) into pages so that every page's buffer (all sections, with their 256-byte
     alignment) is at most ``page_bytes``. ``flags`` (P, len(VARIABLE)) bool and ``has_anim`` (P,) bool say which streams a part
     stores. ``cmp`` = (clusters per part, wide clusters per part) plans compressed pages (vertices renumbered per part and
-    64-aligned, index data per cluster); None = u32 index section. Returns a list of dicts {v0, v1, parts, counts, vend}.
+    64-aligned, index data per cluster); None = u32 index section. ``qp`` = (blocks per part, quantised position words per part)
+    (needs ``cmp``) stores the positions quantised (stage 2). Returns a list of dicts {v0, v1, parts, counts, vend}.
     Raises GeometryError for a part that fills more than a page or when more than ``max_pages`` pages are needed (before
     anything is uploaded)."""
     parts = model.parts
@@ -451,7 +470,12 @@ def plan_pages(model, page_bytes, flags, has_anim, max_pages=None, cmp=None):
             counts["idx16"] = counts.get("idx16", 0) + CL_WORDS * int(cmp[0][i])
             if cmp[1][i]:
                 counts["idxhi"] = counts.get("idxhi", 0) + CL_WORDS * int(cmp[1][i])
-        counts["pos"] = counts["nrm"] = nv
+        if qp is None:
+            counts["pos"] = counts["nrm"] = nv
+        else:
+            counts["nrm"] = nv
+            counts["posb"] = counts.get("posb", 0) + int(qp[0][i])
+            counts["posq"] = counts.get("posq", 0) + int(qp[1][i])
         for k, g in enumerate(VARIABLE):
             if flags[i, k]:
                 counts[g] = counts.get(g, 0) + p.vertex_count
@@ -528,6 +552,61 @@ def _compress_tables(cd, n_parts):
         w = (np.asarray(cd.cl_base[a:b]) >> np.uint32(31)).astype(np.int64)
         nwide += np.bincount(rp, weights=w, minlength=n_parts).astype(np.int64)
     return ncl, nwide
+
+
+def _quant_plan(model, cd, geo_ids, n):
+    """Stage 2: the grid of every 64-vertex block of every part (quant.plan_part), in the part's first-use vertex order.
+    Returns {"blocks" (n,), "words" (n,), "err" (n,) realised maximum position error per part (part space), "budget" (n,),
+    "tables": {part: (nb, 6) uint32}, ...statistics}."""
+    vertices = model.vertices
+    budget, (wpp, dmin) = _q.budget_part_space(model, geo_ids)
+    blocks = np.zeros(n, dtype=np.int64)
+    words = np.zeros(n, dtype=np.int64)
+    err = np.zeros(n, dtype=np.float64)
+    bud = np.zeros(n, dtype=np.float64)
+    tables = {}
+    nfloat = 0
+    bits_sum = 0
+    for i in geo_ids:
+        p = model.parts[i]
+        vo = np.asarray(cd.vorder[p.vertex_base:p.vertex_base + p.vertex_count]).astype(np.int64)
+        pos = np.asarray(vertices[vo, 0:3], dtype=np.float32)
+        tab, w, em, st = _q.plan_part(pos, budget[i])
+        tables[i] = tab
+        blocks[i], words[i], err[i], bud[i] = st["blocks"], w, em, budget[i]
+        nfloat += st["float_blocks"]
+    return {"blocks": blocks, "words": words, "err": err, "budget": bud, "tables": tables, "pixels": _q.qerr_pixels(),
+            "world_per_pixel": wpp, "min_distance": dmin, "float_blocks": nfloat, "total_blocks": int(blocks.sum())}
+
+
+def _inflate_bounds(cd, err):
+    """The cluster set with every cluster box grown by the realised position error of its part (quantised positions move a
+    vertex by at most that much, so the boxes of the float positions would not contain the decoded ones). The cache's own arrays
+    are not touched."""
+    if not np.any(err > 0):
+        return cd
+    r_part = np.asarray(cd.r_part, dtype=np.int64)
+    geom = np.array(cd.cl_geom, dtype=np.float32)
+    step = 1 << 22
+    for a in range(0, len(geom), step):
+        b = min(a + step, len(geom))
+        e = err[r_part[np.asarray(cd.cl_range[a:b], dtype=np.int64)]] * 1.0001
+        h = geom[a:b, 4:7].astype(np.float64) + e[:, None]
+        geom[a:b, 4:7] = np.nextafter(h.astype(np.float32), np.float32(np.inf))
+    return dataclasses.replace(cd, cl_geom=geom)
+
+
+def _upload_quantised(sink, page, vertices, vo, vbase, qbase, tab):
+    """Write the block table and the fixed-point data of one part's positions (first-use order ``vo``)."""
+    pos = np.asarray(vertices[vo, 0:3], dtype=np.float32)
+    data = _q.encode_part(pos, tab)
+    tabp = tab.copy()
+    tabp[:, 0] += np.uint32(qbase)
+    o = page.offs
+    sink.write(page.buffer, (o["posb"] + (vbase // _q.BLOCK) * _q.TABLE_WORDS) * 4, tabp)
+    step = 1 << 24
+    for a in range(0, len(data), step):
+        sink.write(page.buffer, (o["posq"] + qbase + a) * 4, np.ascontiguousarray(data[a:a + step]))
 
 
 def _upload_compressed(sink, page, src, first, count, dest, part, cd, ri, vbase, newof):
@@ -625,8 +704,9 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
     clusters (app/gpu/clusters.py: Morton order, 64 per cluster; built or loaded from the cluster cache before the upload).
     Vertex data, layout, offsets and every range's (first, count) are unchanged, only the order of the triangles inside a
     range differs. The result carries ``clusters`` (ClusterData) and ``order`` (TriangleOrder, stored -> original triangle).
-    compress=True (needs cluster_order and a static model; silently off otherwise, see GpuGeometry.compressed): compressed pages,
-    see the module docstring. Default False: byte-identical to the unordered layout.
+    compress (needs cluster_order and a static model; silently off otherwise, see GpuGeometry.stage): False / 0 = plain pages
+    (byte-identical to the unordered layout), True / 1 = compressed indices (stage 1), 2 = and quantised positions (stage 2),
+    "auto" = the smallest stage whose pages fit ``page_bytes`` x ``max_pages`` (plain if they do). See the module docstring.
     measure=True also records the normal error (max/mean angle), the spread of source normal lengths and the
     number of zero-length normals in ``stats`` (costs one decode of every normal)."""
     parts = model.parts
@@ -649,17 +729,33 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
         from . import cluster_cache
         clusters0 = cluster_cache.get_clusters(model, None, progress=cluster_progress, use_cache=cluster_cache_use)
     cmp = None
+    qp = None
+    qplans = None
     plans = None
-    if compress and clusters0 is not None and clusters0.n_ranges > 0 and anim_src is None:
-        if compress == "auto":                   # compress only a model whose uncompressed pages exceed the capacity
+    stage = 0
+    want = "auto" if compress == "auto" else (min(int(compress), 2) if compress else 0)
+    if want and clusters0 is not None and clusters0.n_ranges > 0 and anim_src is None:
+        if want == "auto":                       # the smallest stage whose pages fit the capacity
             try:
                 plans = plan_pages(model, page_bytes, flags, has_anim, max_pages, None)
             except GeometryError:
                 cmp = _compress_tables(clusters0, n)
+                try:
+                    plans = plan_pages(model, page_bytes, flags, has_anim, max_pages, cmp)
+                    stage = 1
+                except GeometryError:
+                    qplans = _quant_plan(model, clusters0, geo_ids, n)
+                    qp = (qplans["blocks"], qplans["words"])
+                    plans = plan_pages(model, page_bytes, flags, has_anim, max_pages, cmp, qp)
+                    stage = 2
         else:
             cmp = _compress_tables(clusters0, n)
+            stage = want
+            if want >= 2:
+                qplans = _quant_plan(model, clusters0, geo_ids, n)
+                qp = (qplans["blocks"], qplans["words"])
     if plans is None:
-        plans = plan_pages(model, page_bytes, flags, has_anim, max_pages, cmp)
+        plans = plan_pages(model, page_bytes, flags, has_anim, max_pages, cmp, qp)
 
     page_of = np.full(n, -1, dtype=np.int32)
     vbase = np.zeros(n, dtype=np.int64)
@@ -667,6 +763,7 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
     stream_base = np.full((n, len(VARIABLE)), -1, dtype=np.int64)
     anim_base = np.full(n, -1, dtype=np.int64)
     ranges = [[(0, 0)] for _ in range(n)]
+    qbase = np.zeros(n, dtype=np.int64)
     pages = []
     layouts = []
     nrm_stats = {"max_deg": 0.0, "sum_deg": 0.0, "count": 0, "len_min": math.inf, "len_max": 0.0, "zero": 0}
@@ -679,6 +776,7 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
         counts = {g: 0 for g in VARIABLE}
         n_anim = 0
         vend = 0
+        qat = 0
         for i in pl["parts"]:
             p = parts[i]
             page_of[i] = pi
@@ -688,6 +786,9 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
                 vbase[i] = _align(vend, 64)
                 vend = vbase[i] + p.vertex_count
             vcount[i] = p.vertex_count
+            if qp is not None:
+                qbase[i] = qat
+                qat += int(qp[1][i])
             for k, g in enumerate(VARIABLE):
                 if flags[i, k]:
                     stream_base[i, k] = counts[g]
@@ -718,8 +819,13 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
         else:
             page.v0, page.v1 = 0, _align(vend, 64)
             page.nlogical = at
-            page.counts = {"pos": page.nverts, "nrm": page.nverts, **{g: c for g, c in counts.items() if c},
+            page.counts = {"nrm": page.nverts, **{g: c for g, c in counts.items() if c},
                            "cdir": at // CL_POS, "idx16": at // CL_POS * CL_WORDS}
+            if qp is None:
+                page.counts["pos"] = page.nverts
+            else:
+                page.counts["posb"] = page.nverts // _q.BLOCK
+                page.counts["posq"] = qat
             if pl["counts"].get("idxhi"):
                 page.counts["idxhi"] = pl["counts"]["idxhi"]
         if n_anim:
@@ -732,6 +838,8 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
     index_range = {}
     if clusters0 is not None:
         clusters = _cl.bind_layout(clusters0, page_of, ranges)
+        if qplans is not None:
+            clusters = _inflate_bounds(clusters, qplans["err"])
         order = TriangleOrder(clusters)
         if cmp is None:
             index_range = {(int(g), int(f), 3 * int(t)): ri for ri, (g, f, t) in
@@ -774,7 +882,8 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
                     b = min(a + SCAN_ROWS, p.vertex_count)
                     blk = np.asarray(vertices[vo[a:b]])
                     at_v = int(vbase[i]) + a
-                    sink.write(page.buffer, (o["pos"] + at_v * 3) * 4, np.ascontiguousarray(blk[:, 0:3]))
+                    if qp is None:
+                        sink.write(page.buffer, (o["pos"] + at_v * 3) * 4, np.ascontiguousarray(blk[:, 0:3]))
                     nrm = np.ascontiguousarray(blk[:, 3:6])
                     packed = oct_pack(oct_encode(nrm))
                     sink.write(page.buffer, (o["nrm"] + at_v) * 4, packed)
@@ -785,6 +894,8 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
                             c0, c1, bpv = STREAMS[g]
                             sink.write(page.buffer, (o[g] + (stream_base[i, k] + a) * (bpv // 4)) * 4,
                                        np.ascontiguousarray(blk[:, c0:c1]))
+                if qp is not None:
+                    _upload_quantised(sink, page, vertices, vo, int(vbase[i]), int(qbase[i]), qplans["tables"][i])
         for i in page.parts:
             if anim_base[i] >= 0:
                 p = parts[i]
@@ -844,6 +955,7 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
         "variable_parts": {g: int(flags[:, k].sum()) for k, g in enumerate(VARIABLE)},
         "cluster_ordered": bool(cluster_order),
         "compressed": cmp is not None,
+        "stage": stage,
         "wide_clusters": sum(pg.nwide for pg in pages),
         "clusters": sum(pg.counts.get("cdir", 0) for pg in pages),
     }
@@ -858,7 +970,8 @@ def build_geometry(model, sink, page_bytes, measure=False, progress=None, max_pa
         gl_keys.append([base[p.id]] + list(lods.get(p.id, [])))
     return GpuGeometry(sink=sink, pages=pages, page_of=page_of, vbase=vbase, vcount=vcount, ranges=ranges,
                        stream_base=stream_base, const_tail=tail, gl_keys=gl_keys, stats=stats,
-                       page_bytes=page_bytes, anim_base=anim_base, clusters=clusters, order=order, compressed=cmp is not None)
+                       page_bytes=page_bytes, anim_base=anim_base, clusters=clusters, order=order, compressed=cmp is not None,
+                       stage=stage, quant=(None if qplans is None else {k: v for k, v in qplans.items() if k != "tables"}))
 
 
 def _measure_normals(nrm, packed, nrm_stats):
@@ -906,7 +1019,15 @@ def decode_geometry(geom, model):
     for page in geom.pages:
         words = sink.read(page.buffer).view(np.uint32)
         o = page.offs
-        pos = words[o["pos"]:o["pos"] + page.nverts * 3].view(np.float32).reshape(-1, 3)
+        if page.quantised:
+            pos = np.zeros((page.nverts, 3), dtype=np.float32)
+            tabs = words[o["posb"]:o["posb"] + page.nverts // _q.BLOCK * _q.TABLE_WORDS].reshape(-1, _q.TABLE_WORDS)
+            for i in page.parts:
+                vb, nvp = int(geom.vbase[i]), parts[i].vertex_count
+                nb = -(-nvp // _q.BLOCK)
+                pos[vb:vb + nvp] = _q.decode_part(tabs[vb // _q.BLOCK:vb // _q.BLOCK + nb], words[o["posq"]:], nvp)
+        else:
+            pos = words[o["pos"]:o["pos"] + page.nverts * 3].view(np.float32).reshape(-1, 3)
         nrm = oct_decode(oct_unpack(words[o["nrm"]:o["nrm"] + page.nverts]))
         if not page.compressed:
             out[page.v0:page.v1, 0:3] = pos

@@ -352,8 +352,8 @@ class WgpuRenderer:
         self.culled_frame = False            # did the last frame go through the culler
         self.cull_accept_all = False         # ... with every cluster accepted (compressed geometry below cull_min_tris)
         gc_mode = os.environ.get("ANATOMY_GEOM_COMPRESS", "auto").strip().lower()
-        self.geom_compress = gc_mode if gc_mode in ("on", "off", "auto") else "auto"      # compressed geometry (cluster-ordered models)
-        self._cmp = False                    # the current geometry is compressed (keys of every module / pipeline)
+        self.geom_compress = gc_mode if gc_mode in ("on", "off", "auto", "stage1") else "auto"      # compressed geometry (cluster-ordered models)
+        self._cmp = 0                        # the current geometry's stage: 0 plain, 1 compressed indices, 2 + quantised positions (keys of every module / pipeline)
         self.cull_stats = None
         self.model = None
         self.geom = None
@@ -584,8 +584,8 @@ class WgpuRenderer:
             try:
                 self.geom = geo.build_geometry(model, sink, self.page_bytes, max_pages=self.max_pages, cluster_order=order,
                                                compress=order and self._wants_compress(model))
-                if bool(self.geom.compressed) != self._cmp:        # modules and pipelines are built for one of the two layouts
-                    self._cmp = bool(self.geom.compressed)
+                if int(self.geom.stage) != self._cmp:              # modules and pipelines are built for one of the stages
+                    self._cmp = int(self.geom.stage)
                     self._pipes.clear()
                     self._modules.clear()
             except geo.GeometryError as exc:
@@ -640,11 +640,11 @@ class WgpuRenderer:
         return sum(int(p.count) for p in model.parts) // 3 >= self.cull_min_tris
 
     def _wants_compress(self, model):
-        """Compressed geometry (vertex renumbering + u16 cluster-relative indices, geometry.py) for a cluster-ordered model:
-        ANATOMY_GEOM_COMPRESS = on (every cluster-ordered model) / off / auto (default: only when the uncompressed pages would exceed the adapter's
-        page capacity max_pages x page_bytes and the compressed ones fit; build_geometry decides). Every other model keeps
-        the plain u32-index layout and draw path."""
-        return {"on": True, "off": False}.get(self.geom_compress, "auto")
+        """Compressed geometry for a cluster-ordered model: stage 1 = vertex renumbering + u16 cluster-relative indices, stage 2 =
+        and quantised positions (geometry.py, quant.py). ANATOMY_GEOM_COMPRESS = on (stage 2 for every cluster-ordered model) /
+        stage1 / off / auto (default: the smallest stage whose pages fit the adapter's capacity max_pages x page_bytes, plain
+        pages if they do; build_geometry decides). Every other model keeps the plain u32-index layout and draw path."""
+        return {"on": 2, "stage1": 1, "off": False}.get(self.geom_compress, "auto")
 
     def _make_culler(self, model):
         """The cluster culler of an ordered geometry (None for the rest); makes the resolve's group 2 point at its decode tables."""

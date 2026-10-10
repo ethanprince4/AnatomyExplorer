@@ -22,7 +22,7 @@ const G_CDIR: u32 = 9u;
 const G_IDX16: u32 = 10u;
 const G_IDXHI: u32 = 11u;
 const G_POSQ: u32 = 12u;
-const G_POSF: u32 = 13u;
+const G_POSB: u32 = 13u;
 
 // Index fetch: `i` is a logical index position of the page (the ranges of GpuGeometry.ranges address them), the result the
 // page-local vertex number. Uncompressed pages (GEO_CMP false, the prelude's constant): the u32 index section. Compressed
@@ -85,7 +85,46 @@ fn g_vertex(lp: u32, vi: u32) -> u32 {
     return vi;
 }
 
+// Bits [bit, bit + n) (n <= 24) of the bit stream starting at word `base`, LSB first.
+fn g_bits(lp: u32, base: u32, bit: u32, n: u32) -> u32 {
+    if (n == 0u) {
+        return 0u;
+    }
+    let w = base + (bit >> 5u);
+    let s = bit & 31u;
+    var r = geo_word(lp, w) >> s;
+    if (s + n > 32u) {
+        r = r | (geo_word(lp, w + 1u) << (32u - s));
+    }
+    return r & ((1u << n) - 1u);
+}
+
+// Position of page-local vertex v. Stage 2 (GEO_QPOS, geometry.py / quant.py): the block of 64 vertices holds a table entry
+// (posb, 6 words: data word, bits per axis | float flag, origin, step exponents) and fixed-point coordinates (posq).
+// The decode mn + q * 2^k is exact in float32 (quant.py), so every GPU gives the same value as the CPU.
 fn g_pos(lp: u32, v: u32) -> vec3<f32> {
+    if (GEO_QPOS) {
+        let t = geo_off(lp, G_POSB) + 6u * (v >> 6u);
+        let j = v & 63u;
+        let w1 = geo_word(lp, t + 1u);
+        let base = geo_off(lp, G_POSQ) + geo_word(lp, t);
+        if ((w1 & 0x80000000u) != 0u) {
+            let o = base + 3u * j;
+            return vec3<f32>(bitcast<f32>(geo_word(lp, o)), bitcast<f32>(geo_word(lp, o + 1u)), bitcast<f32>(geo_word(lp, o + 2u)));
+        }
+        let bx = w1 & 31u;
+        let by = (w1 >> 5u) & 31u;
+        let bz = (w1 >> 10u) & 31u;
+        let bit = j * (bx + by + bz);
+        let qx = g_bits(lp, base, bit, bx);
+        let qy = g_bits(lp, base, bit + bx, by);
+        let qz = g_bits(lp, base, bit + bx + by, bz);
+        let ex = geo_word(lp, t + 5u);
+        let step = vec3<f32>(bitcast<f32>((ex & 255u) << 23u), bitcast<f32>(((ex >> 8u) & 255u) << 23u),
+                             bitcast<f32>(((ex >> 16u) & 255u) << 23u));
+        let mn = vec3<f32>(bitcast<f32>(geo_word(lp, t + 2u)), bitcast<f32>(geo_word(lp, t + 3u)), bitcast<f32>(geo_word(lp, t + 4u)));
+        return mn + vec3<f32>(f32(qx), f32(qy), f32(qz)) * step;
+    }
     let o = geo_off(lp, G_POS) + 3u * v;
     return vec3<f32>(bitcast<f32>(geo_word(lp, o)), bitcast<f32>(geo_word(lp, o + 1u)), bitcast<f32>(geo_word(lp, o + 2u)));
 }

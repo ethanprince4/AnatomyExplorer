@@ -119,7 +119,7 @@ class Harness:
         # the culler draws cluster-ordered geometry: replace the renderer's pages by our own cluster-ordered ones
         from app.gpu import geometry as G
         page_bytes = self.R.geom.page_bytes
-        compressed = bool(self.R.geom.compressed)             # what the renderer decided for this model (ANATOMY_GEOM_COMPRESS)
+        compressed = int(self.R.geom.stage)                   # what the renderer decided for this model (ANATOMY_GEOM_COMPRESS)
         self.R.geom.release()
         self.geom = G.build_geometry(self.model, G.GpuSink(self.gpu.device), page_bytes, cluster_order=True, compress=compressed)
         self.order = self.geom.order
@@ -556,7 +556,7 @@ def tile_geometry(geom, K):
     page_of = np.concatenate([np.where(geom.page_of >= 0, geom.page_of + k * G0, -1) for k in range(K)]).astype(np.int32)
     return SimpleNamespace(pages=pages, page_of=page_of, vbase=np.tile(geom.vbase, K), vcount=np.tile(geom.vcount, K),
                            ranges=list(geom.ranges) * K, page_bytes=geom.page_bytes, sink=geom.sink, cluster_ordered=True,
-                           compressed=geom.compressed)
+                           compressed=geom.compressed, stage=geom.stage)
 
 
 def tile_clusters(cd, K, P0, G0):

@@ -270,12 +270,12 @@ class OW:
         model = types.SimpleNamespace(vertices=np.concatenate(verts), indices=np.concatenate(idx), parts=plist, lod=None)
         self.model = model
         import os
-        mode = os.environ.get("ANATOMY_OITP_COMPRESS", "0")      # 1: compressed + cluster-ordered pages (OIT draws pull, non-indexed); 2: cluster-ordered only
-        cmp = mode == "1"
-        self.geom = G.build_geometry(model, G.GpuSink(self.dev), G.page_limit(self.dev), cluster_order=mode in ("1", "2"), compress=cmp)
+        mode = os.environ.get("ANATOMY_OITP_COMPRESS", "0")      # 1: compressed + cluster-ordered pages (OIT draws pull, non-indexed); 2: cluster-ordered only; 3: stage 2 (quantised positions)
+        cmp = {"1": 1, "3": 2}.get(mode, 0)
+        self.geom = G.build_geometry(model, G.GpuSink(self.dev), G.page_limit(self.dev), cluster_order=mode in ("1", "2", "3"), compress=cmp)
         if cmp:
             assert self.geom.compressed, "compression refused for the synthetic model"
-        if mode in ("1", "2"):
+        if mode in ("1", "2", "3"):
             for k, p in enumerate(plist):
                 p.first, p.count = self.geom.ranges[k][0]
         self.pas.set_geometry(self.geom)
