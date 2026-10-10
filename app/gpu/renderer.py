@@ -47,6 +47,7 @@ from .cull import ClipState, ClusterCuller, FrameParts
 from .cull_policy import CullGovernor
 from .oit import OitDraw, OitPass
 from .post import PostPasses
+from .shade_split import ShadeSplit
 from .shading_uniforms import FIELD_BY_NAME, SIZE as SHADE_SIZE, pack_shading_uniforms
 
 log = logging.getLogger("anatomy.gpu")
@@ -346,6 +347,7 @@ class WgpuRenderer:
                                  float(os.environ.get("ANATOMY_CULL_MIN_TRIS") or CULL_MIN_TRIS))
         # cut views: classify draws against the cut planes (cutclass.py); ANATOMY_CUT_CLASSIFY=0 sends every draw through the discard
         self.classify_cut = os.environ.get("ANATOMY_CUT_CLASSIFY", "1") != "0"
+        self.split = ShadeSplit(self)                    # shaded resolve with the extra triangles of edge pixels in a compute pass (ANATOMY_SHADE_SPLIT)
         self._cut_cache = (None, None, None)
         self.culler = None
         self.gov = None                      # auto: per-frame choice between the culler and the plain draw (cull_policy.py)
@@ -441,17 +443,18 @@ class WgpuRenderer:
     def _layouts(self):
         d = self.device
         V, F, C = SS.VERTEX, SS.FRAGMENT, SS.COMPUTE
+        FC = F | C                      # groups of the shaded resolve that its compute twin (shade_split.py) binds as well
         # group 0, one layout per kind of stage (a V | F entry counts against both stages): frame, table buffer, table offsets, sg
         self.bgl0_vis = d.create_bind_group_layout(entries=[_entry(0, "u", V | F), _entry(1, "r", V | F), _entry(2, "u", V | F)])
-        self.bgl0_res = d.create_bind_group_layout(entries=[_entry(0, "u", F), _entry(1, "r", F), _entry(2, "u", F),
-                                                            _entry(4, "u", F)])
+        self.bgl0_res = d.create_bind_group_layout(entries=[_entry(0, "u", FC), _entry(1, "r", FC), _entry(2, "u", FC),
+                                                            _entry(4, "u", FC)])
         self.bgl0_cmp = d.create_bind_group_layout(entries=[_entry(0, "u", C)])
         self.bgl_vispage = d.create_bind_group_layout(entries=[_entry(0, "r", V), _entry(1, "u", V)])
         self.bgl_empty = d.create_bind_group_layout(entries=[])
         self.bg_empty = d.create_bind_group(layout=self.bgl_empty, entries=[])
         self.bgl_shade = d.create_bind_group_layout(entries=[
-            _entry(0, "u", F), _entry(1, "tf", F), _entry(2, "tl", F), _entry(3, "ta", F), _entry(4, "tl", F),
-            _entry(5, "s", F), _entry(6, "s", F), _entry(7, "s", F)])
+            _entry(0, "u", FC), _entry(1, "tf", FC), _entry(2, "tl", FC), _entry(3, "ta", FC), _entry(4, "tl", FC),
+            _entry(5, "s", FC), _entry(6, "s", FC), _entry(7, "s", FC)])
         self.bgl_res = d.create_bind_group_layout(entries=[_entry(3, "tu", C), _entry(4, "tf", C), _entry(5, "tf", C)])
         self.bgl_gather = d.create_bind_group_layout(
             entries=[_entry(60, "u", C), _entry(61, "r", C), _entry(62, "w", C)])
@@ -470,7 +473,7 @@ class WgpuRenderer:
     def _bgl_pages(self, n):
         key = ("pages", n)
         if key not in self._bgl_cache:
-            ents = [_entry(i, "r", SS.FRAGMENT) for i in range(n)] + [_entry(n, "u", SS.FRAGMENT)]
+            ents = [_entry(i, "r", SS.FRAGMENT | SS.COMPUTE) for i in range(n)] + [_entry(n, "u", SS.FRAGMENT | SS.COMPUTE)]
             self._bgl_cache[key] = self.device.create_bind_group_layout(entries=ents)
         return self._bgl_cache[key]
 
@@ -1545,17 +1548,21 @@ class WgpuRenderer:
             plan = [(p0, n, bg, sl) for (p0, n, bg) in groups for sl in slots]
             for gi, (p0, n, bg, sl) in enumerate(plan):
                 tw = {}
-                if qs and gi == 0:
+                sx = None
+                if self.split.enabled(samples, n):          # the extra triangles of edge pixels in a compute pass first
+                    sx = self.split.prepare(enc, samples, n, p0, self._frame_feat, self._shade_bind_group(sl, 1 if gi == 0 else 0),
+                                            bg, (w, h), (qs, 6) if qs and gi == 0 else None)
+                if qs and gi == 0 and sx is None:
                     tw.update({"query_set": qs, "beginning_of_pass_write_index": 6})
                 if qs and gi == len(plan) - 1:
                     tw.update({"query_set": qs, "end_of_pass_write_index": 7})
                 rp = enc.begin_render_pass(
                     color_attachments=[{"view": V_["opaque"], "load_op": "clear" if gi == 0 else "load", "store_op": "store",
                                         "clear_value": (0, 0, 0, 0)}], **({"timestamp_writes": tw} if tw else {}))
-                rp.set_pipeline(self._shade_pipe(samples, n, p0, self._frame_feat))
+                rp.set_pipeline(self._shade_pipe(samples, n, p0, self._frame_feat) if sx is None else sx[0])
                 rp.set_bind_group(0, self._bg0_res)
                 rp.set_bind_group(1, self._shade_bind_group(sl, 1 if gi == 0 else 0))
-                rp.set_bind_group(2, self._bg_vis)
+                rp.set_bind_group(2, self._bg_vis if sx is None else sx[1])
                 rp.set_bind_group(3, bg)
                 rp.draw(3)
                 rp.end()

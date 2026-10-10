@@ -392,6 +392,199 @@ fn fs_shade(@builtin(position) frag: vec4<f32>) -> @location(0) vec4<f32> {
     return vec4<f32>(acc * inv, f32(counted) * inv);
 }
 
+// ------------------------------------------------------------------------------------------------ split shaded resolve
+// fs_shade runs as many shade_tri iterations per SIMD wave as its worst pixel has distinct triangles; pixels with 2..4 are the
+// triangle edges of dense meshes, so most lanes idle. The split (app/gpu/shade_split.py, ANATOMY_SHADE_SPLIT) shades every
+// (pixel, extra triangle) pair of the pass in a compute pass with one entry per thread and has fs_shade_x add the results:
+//   cs_x_cls    per pixel: the first distinct triangle of the pass stays inline; each later one becomes an entry (pixel and count,
+//               id) of the entry texture, one atomicAdd per workgroup on one of X_R counters (one global counter serialises);
+//               xidx[pixel] = its first entry (X_NONE: its region is full, shade inline)
+//   cs_x_args   per region: entry count -> cnt texture, dispatch size (x: workgroups of the fullest region, y: regions)
+//   cs_x_shade  one entry per thread: q16(shade_tri(..)) into res (exactly what fs_shade computes before the weighting by count)
+//   fs_shade_x  fs_shade with the same loop; the extras are res[xidx + j] * count, added in sample order: the same sum as fs_shade.
+// The entry texture is split into X_R regions of equal size; tile (workgroup) t fills region t % X_R. Group 2 bindings 20.. exist per
+// entry point (each pipeline's group-2 layout holds only its own).
+const X_NONE: u32 = 0xffffffffu;
+const X_W: u32 = 4096u;
+const X_R: u32 = 16u;
+const X_WG: u32 = 32u;                    // threads per workgroup of cs_x_shade
+@group(2) @binding(20) var<storage, read_write> xcnt: array<atomic<u32>>;
+@group(2) @binding(21) var<storage, read_write> xargs: array<u32>;
+@group(2) @binding(22) var ent_w: texture_storage_2d<rg32uint, write>;
+@group(2) @binding(23) var xidx_w: texture_storage_2d<r32uint, write>;
+@group(2) @binding(24) var ent_r: texture_2d<u32>;
+@group(2) @binding(25) var res_w: texture_storage_2d<rgba16float, write>;
+@group(2) @binding(26) var xidx_r: texture_2d<u32>;
+@group(2) @binding(27) var res_r: texture_2d<f32>;
+@group(2) @binding(28) var cnt_w: texture_storage_2d<r32uint, write>;
+@group(2) @binding(29) var cnt_r: texture_2d<u32>;
+
+fn x_texel(i: u32) -> vec2<i32> {
+    return vec2<i32>(i32(i % X_W), i32(i / X_W));
+}
+
+// The sample ids of the pixel as fs_shade sees them: cut-face samples are CAP_SAMPLE.
+fn x_ids(px: vec2<i32>, cc: vec4<f32>) -> array<u32, 8> {
+    var ids = load_ids(px);
+    if (pass_info.z != 0u && cc.a > 0.0) {
+        for (var s = 0; s < i32(SAMPLES); s++) {
+            if (cap_covers(cc.a, load_depth(px, s))) { ids[s] = CAP_SAMPLE; }
+        }
+    }
+    return ids;
+}
+
+// Is sample s the first sample of a triangle this pass shades (fs_shade's tests)? Its sample count goes to `cnt`.
+// (A repeated id is rejected before its draw is loaded: the draw's tests give the same answer for the same id.)
+fn x_first(ids: ptr<function, array<u32, 8>>, s: i32, bits: u32, cnt: ptr<function, u32>) -> bool {
+    let id = (*ids)[s];
+    if (id == CAP_SAMPLE || id == 0u) { return false; }
+    for (var q = 0; q < s; q++) {
+        if ((*ids)[q] == id) { return false; }
+    }
+    let d = load_draw(id >> bits);
+    if (d.a.w < GROUP_PAGE0 || d.a.w >= GROUP_PAGE0 + GROUP_PAGES) { return false; }
+    if (bitcast<u32>(d.c.z) != pass_info.x) { return false; }
+    var count = 1u;
+    for (var q = s + 1; q < i32(SAMPLES); q++) {
+        if ((*ids)[q] == id) { count++; }
+    }
+    *cnt = count;
+    return true;
+}
+
+var<workgroup> x_wg_n: atomic<u32>;
+var<workgroup> x_wg_base: u32;
+
+@compute @workgroup_size(8, 8, 1)
+fn cs_x_cls(@builtin(global_invocation_id) g: vec3<u32>, @builtin(local_invocation_index) li: u32,
+            @builtin(workgroup_id) wg: vec3<u32>) {
+    if (li == 0u) { atomicStore(&x_wg_n, 0u); }                // (do not rely on the zero-initialisation of workgroup memory)
+    workgroupBarrier();
+    let px = vec2<i32>(g.xy);
+    let bits = frame.info.x;
+    var ex_id: array<u32, 8>;
+    var ex_n: array<u32, 8>;
+    var k = 0u;
+    if (g.x < u32(frame.screen.x) && g.y < u32(frame.screen.y)) {
+        var ids = x_ids(px, textureLoad(cap_col, px, 0));
+        var nvalid = 0u;
+        for (var s = 0; s < i32(SAMPLES); s++) {
+            var count = 1u;
+            if (!x_first(&ids, s, bits, &count)) { continue; }
+            if (nvalid > 0u) {
+                ex_id[k] = ids[s];
+                ex_n[k] = count;
+                k++;
+            }
+            nvalid++;
+        }
+    }
+    let off = atomicAdd(&x_wg_n, k);
+    workgroupBarrier();
+    let region = (wg.x + wg.y * 7u) % X_R;
+    if (li == 0u) {
+        x_wg_base = atomicAdd(&xcnt[region], atomicLoad(&x_wg_n));
+    }
+    workgroupBarrier();
+    if (k == 0u) { return; }
+    let dims = textureDimensions(ent_w);
+    let reg_n = (dims.x * dims.y) / X_R;
+    let local = x_wg_base + off;
+    if (local + k > reg_n) {                                  // no room for the whole pixel: fs_shade_x shades it inline
+        textureStore(xidx_w, px, vec4<u32>(X_NONE, 0u, 0u, 0u));
+        return;
+    }
+    let first = region * reg_n + local;
+    for (var j = 0u; j < k; j++) {
+        textureStore(ent_w, x_texel(first + j), vec4<u32>(g.x | (g.y << 14u) | (ex_n[j] << 28u), ex_id[j], 0u, 0u));
+    }
+    textureStore(xidx_w, px, vec4<u32>(first, 0u, 0u, 0u));
+}
+
+var<workgroup> x_wg_max: atomic<u32>;
+
+@compute @workgroup_size(16, 1, 1)
+fn cs_x_args(@builtin(local_invocation_index) li: u32) {
+    if (li == 0u) { atomicStore(&x_wg_max, 0u); }
+    workgroupBarrier();
+    let dims = textureDimensions(ent_w);
+    let n = min(atomicLoad(&xcnt[li]), (dims.x * dims.y) / X_R);
+    textureStore(cnt_w, vec2<i32>(i32(li), 0), vec4<u32>(n, 0u, 0u, 0u));
+    atomicMax(&x_wg_max, n);
+    workgroupBarrier();
+    if (li == 0u) {
+        xargs[0] = (atomicLoad(&x_wg_max) + X_WG - 1u) / X_WG;
+        xargs[1] = X_R;
+        xargs[2] = 1u;
+    }
+}
+
+@compute @workgroup_size(X_WG, 1, 1)
+fn cs_x_shade(@builtin(workgroup_id) wg: vec3<u32>, @builtin(local_invocation_index) li: u32) {
+    let region = wg.y;
+    let j = wg.x * X_WG + li;
+    if (j >= textureLoad(cnt_r, vec2<i32>(i32(region), 0), 0).x) { return; }
+    let dims = textureDimensions(ent_r);
+    let i = region * ((dims.x * dims.y) / X_R) + j;
+    let e = textureLoad(ent_r, x_texel(i), 0).xy;
+    let bits = frame.info.x;
+    let mask = (1u << bits) - 1u;
+    let px = vec2<i32>(i32(e.x & 0x3fffu), i32((e.x >> 14u) & 0x3fffu));
+    let bgc = textureLoad(bg_tex, px, 0).rgb;
+    let d = load_draw(e.y >> bits);
+    let col = q16(shade_tri(d, e.y & mask, px, ndc_of(px), vec2<f32>(px) + vec2<f32>(0.5), bgc));
+    textureStore(res_w, x_texel(i), vec4<f32>(col, 1.0));
+}
+
+@fragment
+fn fs_shade_x(@builtin(position) frag: vec4<f32>) -> @location(0) vec4<f32> {
+    let px = vec2<i32>(frag.xy);
+    let c = ndc_of(px);
+    let bits = frame.info.x;
+    let mask = (1u << bits) - 1u;
+    let bgc = textureLoad(bg_tex, px, 0).rgb;
+    let cc = textureLoad(cap_col, px, 0);
+    var ids = x_ids(px, cc);
+    var acc = vec3<f32>(0.0);
+    var counted = 0u;
+    var nvalid = 0u;
+    var xi = 0u;
+    var xb = X_NONE;
+    for (var s = 0; s < i32(SAMPLES); s++) {
+        let id = ids[s];
+        if (id == CAP_SAMPLE) {
+            if (pass_info.y == 1u) {
+                acc += q16(cc.rgb);
+                counted++;
+            }
+            continue;
+        }
+        if (id == 0u) {
+            if (pass_info.y == 1u) {
+                acc += bgc;
+                counted++;
+            }
+            continue;
+        }
+        var count = 1u;
+        if (!x_first(&ids, s, bits, &count)) { continue; }      // not shaded by this pass, or not the first sample of its triangle
+        if (nvalid == 1u) { xb = textureLoad(xidx_r, px, 0).x; }
+        if (nvalid == 0u || xb == X_NONE) {
+            let d = load_draw(id >> bits);
+            acc += q16(shade_tri(d, id & mask, px, c, frag.xy, bgc)) * f32(count);
+        } else {
+            acc += textureLoad(res_r, x_texel(xb + xi), 0).rgb * f32(count);
+            xi++;
+        }
+        nvalid++;
+        counted += count;
+    }
+    if (counted == 0u) { discard; }
+    let inv = 1.0 / f32(SAMPLES);
+    return vec4<f32>(acc * inv, f32(counted) * inv);
+}
+
 // ------------------------------------------------------------------------------------------------ gathers
 fn flip_row(p: vec2<i32>) -> vec2<i32> {
     return vec2<i32>(p.x, i32(frame.screen.y) - 1 - p.y);
