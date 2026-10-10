@@ -25,3 +25,15 @@ def resolve_reference(ds,resolver,names,side=''):
             if side and st['side'].lower() not in (side.lower(),''):continue
             result.add(sid)
     return sorted(result)
+
+
+def framing_core(ids,centres):
+    """The ids worth framing: drops a part sitting far from the rest (a detached diagram or label plate placed
+    beside the model), which would shrink the real anatomy in the frame. Small sets are kept whole."""
+    import numpy as np
+    ids=list(ids)
+    if len(ids)<6:return ids
+    c=np.asarray(centres,float)
+    d=np.linalg.norm(c-np.median(c,0),axis=1)
+    keep=d<=3.0*np.percentile(d,90)
+    return [i for i,k in zip(ids,keep) if k] or ids

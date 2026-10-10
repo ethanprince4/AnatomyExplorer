@@ -64,6 +64,10 @@ class DeferredVariantEntry:
         if guide.excluded_histology:
             self.histology = [t for t in self.histology or [] if t not in guide.excluded_histology]
 
+    def _lookups(self, model):
+        from ..viewer.catalog import ModelEntry
+        return ModelEntry._lookups(self, model)
+
     def resolve(self, model, names):
         from ..viewer.catalog import ModelEntry
         return ModelEntry.resolve(self, model, names)
