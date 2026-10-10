@@ -394,6 +394,8 @@ class MainWindow(QMainWindow):
         from .ui.study_layout import StudyLayout
         self.study_layout = StudyLayout(self)
         self._ui_ready = True
+        from . import live_camera
+        self._live_camera = live_camera.start(self)       # opt-in (ANATOMY_CAMERA_FEED); None when off
         self.tabs.currentChanged.connect(self._update_workspace_header)
         self.state.selection_changed.connect(self._update_workspace_header)
         self._activity_timer = QTimer(self)
@@ -3347,6 +3349,8 @@ class MainWindow(QMainWindow):
         self._reference_loads.clear()
 
     def closeEvent(self, e):
+        if getattr(self, "_live_camera", None) is not None:
+            self._live_camera.stop()
         for pending in self._loading_models.values():
             prepared = getattr(pending, "prepared_view", None)
             session = getattr(prepared, "runtime_session", None)
