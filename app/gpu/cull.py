@@ -206,6 +206,7 @@ class ClusterCuller:
         self._size = None
         self._flip = 0
         self._xf_last = None
+        self._parts_key = self._parts_in = None
         self._reset_vis = True
         self.stats = {}
         self.timings = {}
@@ -446,6 +447,7 @@ class ClusterCuller:
         self._flip = 0
         self._reset_vis = True
         self._xf_last = None
+        self._parts_key = self._parts_in = None
         self._hzb_key = None
         self._size = None
         self._cull0_bgs, self._mark_bgs = {}, {}
@@ -719,19 +721,25 @@ class ClusterCuller:
         return bits
 
     def encode(self, enc, view, proj, size, id_view, depth_view, samples, parts, clip=None, ortho=False,
-               draw_unculled=None, out_size=None, bits=20, accept_all=False):
+               draw_unculled=None, out_size=None, bits=20, accept_all=False, parts_key=None):
         """Record the visibility pass (both phases) into ``enc``. Returns a CullResult. accept_all: every cluster of an active
-        range is drawn (no frustum or occlusion test): compressed geometry draws through the culler even where culling is off."""
+        range is drawn (no frustum or occlusion test): compressed geometry draws through the culler even where culling is off.
+        parts_key: the caller's promise that ``parts`` holds what it held at the last call with the same (identical) key, so the
+        per-part and per-range tables already in the buffers are kept instead of being rebuilt and written again."""
         assert self.cd is not None, "prepare() first"
         w, h = int(size[0]), int(size[1])
         self._ensure_size(w, h, samples, id_view, depth_view)
         clip = clip or ClipState()
-        xf, active, unculled, n_cull = self._frame_inputs(parts)
         b, q = self.buf, self.queue
-        if self._xf_last is None or not np.array_equal(xf, self._xf_last):
-            q.write_buffer(b["cro"], self._where["part_xf"][1], xf)
-            self._xf_last = xf
-        q.write_buffer(b["cro"], self._where["range_active"][1], active)
+        if parts_key is not None and parts_key is self._parts_key:
+            unculled, n_cull = self._parts_in
+        else:
+            xf, active, unculled, n_cull = self._frame_inputs(parts)
+            if self._xf_last is None or not np.array_equal(xf, self._xf_last):
+                q.write_buffer(b["cro"], self._where["part_xf"][1], xf)
+                self._xf_last = xf
+            q.write_buffer(b["cro"], self._where["range_active"][1], active)
+            self._parts_key, self._parts_in = parts_key, (unculled, n_cull)
         q.write_buffer(b["frame_ub"], 0, pack_frame(view, proj, size, samples, clip, out_size, ortho, bits))
         cfg = np.zeros(12, dtype=np.float32)
         cu = cfg.view(np.uint32)

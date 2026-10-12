@@ -60,6 +60,7 @@ UNIFORM_SIZES = {"backdrop": 32, "ssao": 48, "blur": 16, "prefilter": 16, "compo
 # from the pixel it shades reads level k, up to DEPTH_MIP_MAX.
 DEPTH_MIP_MAX = 5
 DEPTH_MIP_OFF = 3
+VIEW_KEEP, GROUP_KEEP = 64, 96        # kept texture views / bind groups of PostPasses before it starts again
 
 
 def depth_mip_levels(w, h):
@@ -164,8 +165,54 @@ class PostPasses:
                                            address_mode_u="repeat", address_mode_v="clamp-to-edge")
         self.float32_filterable = "float32-filterable" in device.features
         self._depth = {}                # (w, h) -> r32float copy of nd.w, the only channel the hot SSAO taps need
+        # A pass that runs again with the same textures and the same uniform bytes (every frame of a still or orbiting
+        # view) takes its texture views, uniform buffer and bind group from here instead of making them again.
+        self._views = {}                # id(texture) -> (texture, its default view); holding the texture keeps the id its own
+        self._groups = {}               # (pass, uniform bytes, ids of the resources) -> (resources, bind group)
 
     # ------------------------------------------------------------------ plumbing
+    def forget(self):
+        """Drop the kept views and bind groups (the owner of the textures calls this when it destroys them)."""
+        self._views.clear()
+        self._groups.clear()
+
+    def _tview(self, t):
+        """The default view of texture ``t``, made once (anything that is not a texture is returned as it is)."""
+        if not hasattr(t, "create_view"):
+            return t
+        hit = self._views.get(id(t))
+        if hit is None:
+            if len(self._views) >= VIEW_KEEP:           # textures the caller no longer uses would pile up: start again
+                self.forget()
+            hit = self._views[id(t)] = (t, t.create_view())
+        return hit[1]
+
+    def _group(self, name, bgl, uniform, resources):
+        """The bind group of pass ``name`` for these uniform bytes and resources (textures, views, samplers, in layout
+        order). A uniform buffer is never rewritten: other bytes give another buffer and group."""
+        key = (name, bytes(uniform), tuple(id(r) for r in resources))
+        hit = self._groups.get(key)
+        if hit is not None:
+            return hit[1]
+        if len(self._groups) >= GROUP_KEEP:
+            self._groups.clear()
+        dev = self.device
+        entries = []
+        res = list(resources)
+        for i, kind in enumerate(_LAYOUTS[name]):
+            if kind == _U:
+                assert len(uniform) == UNIFORM_SIZES[name], (name, len(uniform))
+                ub = dev.create_buffer_with_data(data=uniform, usage=wgpu.BufferUsage.UNIFORM)
+                entries.append({"binding": i, "resource": {"buffer": ub, "offset": 0, "size": len(uniform)}})
+                continue
+            r = res.pop(0)
+            if kind in (_TF, _TU, _TI):
+                r = self._tview(r)
+            entries.append({"binding": i, "resource": r})
+        bg = dev.create_bind_group(layout=bgl, entries=entries)
+        self._groups[key] = (list(resources), bg)       # the resources are held so that their ids stay their own
+        return bg
+
     def _pipeline(self, name, fmt, consts=None):
         key = (name, fmt, tuple(sorted((consts or {}).items())))
         if key in self._pipes:
@@ -191,19 +238,7 @@ class PostPasses:
     def _run(self, name, target_view, fmt, size, uniform, resources, encoder=None, consts=None):
         dev = self.device
         pipe, bgl = self._pipeline(name, fmt, consts)
-        entries = []
-        res = list(resources)
-        for i, kind in enumerate(_LAYOUTS[name]):
-            if kind == _U:
-                assert len(uniform) == UNIFORM_SIZES[name], (name, len(uniform))
-                ub = dev.create_buffer_with_data(data=uniform, usage=wgpu.BufferUsage.UNIFORM)
-                entries.append({"binding": i, "resource": {"buffer": ub, "offset": 0, "size": len(uniform)}})
-                continue
-            r = res.pop(0)
-            if kind in (_TF, _TU, _TI):
-                r = _view(r)
-            entries.append({"binding": i, "resource": r})
-        bg = dev.create_bind_group(layout=bgl, entries=entries)
+        bg = self._group(name, bgl, uniform, resources)
         enc = dev.create_command_encoder() if encoder is None else encoder
         tw, self.pending_ts = self.pending_ts, None          # the renderer's GPU timing of the next pass (or None)
         views = target_view if isinstance(target_view, tuple) else (target_view,)
@@ -221,10 +256,10 @@ class PostPasses:
     # ------------------------------------------------------------------ passes
     def run_backdrop(self, target, bottom, top, encoder=None, fmt="rgba16float"):
         """bottom/top: scene-linear rgb already multiplied by 2**-exposure (renderer.py L813-815)."""
-        self._run("backdrop", _view(target), fmt, target.size[:2], pack_backdrop(bottom, top), [], encoder)
+        self._run("backdrop", self._tview(target), fmt, target.size[:2], pack_backdrop(bottom, top), [], encoder)
 
     def run_blit(self, src, target, encoder=None, fmt="rgba8unorm"):
-        self._run("blit", _view(target), fmt, target.size[:2], b"", [src, self.s_lin], encoder)
+        self._run("blit", self._tview(target), fmt, target.size[:2], b"", [src, self.s_lin], encoder)
 
     def run_ssao(self, nd, prev, out, *, tan, ortho, radius, power, large, large_mix, gi_on, samples=16,
                  bias=None, encoder=None, depth=None, depth_ready=False):
@@ -241,21 +276,21 @@ class PostPasses:
         # pipeline constants: the tap loops unroll and fold /samples; MIP_MAX 0 compiles the level choice away
         sc = {"SAMPLES": float(int(samples)), "MIP_MAX": float(mip_max), "MIP_OFF": float(DEPTH_MIP_OFF)}
         if self.gi_scale == 1:
-            self._run("ssao", _view(out), "rgba16float", out.size[:2], u, [nd, prev, self.s_lin, self.s_near, depth],
+            self._run("ssao", self._tview(out), "rgba16float", out.size[:2], u, [nd, prev, self.s_lin, self.s_near, depth],
                       encoder, sc)
             return
         if self.ao_scale == 1:                      # AO at full resolution (alpha only), GI at half resolution
             hi = self._hi_tex(nd)
-            self._run("ssao", _view(hi), "rgba16float", hi.size[:2],
+            self._run("ssao", self._tview(hi), "rgba16float", hi.size[:2],
                       pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on, 1),
                       [nd, prev, self.s_lin, self.s_near, depth], encoder, sc)
         else:
             hi = None
         lo = self._lo_set(nd, encoder)
         u = pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on, 0 if self.ao_scale == 2 else 2)
-        self._run("ssao_half", _view(lo["a"]), "rgba16float", lo["a"].size[:2], u,
+        self._run("ssao_half", self._tview(lo["a"]), "rgba16float", lo["a"].size[:2], u,
                   [nd, prev, self.s_lin, self.s_near, depth, lo["nd"], lo["off"]], encoder, sc)
-        self._run("upsample", _view(out), "rgba16float", out.size[:2], pack_upsample(1 if hi is not None else 0),
+        self._run("upsample", self._tview(out), "rgba16float", out.size[:2], pack_upsample(1 if hi is not None else 0),
                   [nd, lo["a"], lo["a"] if hi is None else hi, lo["nd"]], encoder)
 
     def _lo_set(self, nd, encoder):
@@ -271,7 +306,7 @@ class PostPasses:
             self._lo[key] = {"a": mk("rgba16float", "ao_lo"), "nd": mk("rgba32float", "ao_lo_nd"),
                              "off": mk("r8uint", "ao_lo_off")}
         lo = self._lo[key]
-        self._run("down", (lo["nd"].create_view(), lo["off"].create_view()), ("rgba32float", "r8uint"),
+        self._run("down", (self._tview(lo["nd"]), self._tview(lo["off"])), ("rgba32float", "r8uint"),
                   lo["nd"].size[:2], b"", [nd], encoder)
         return lo
 
@@ -330,7 +365,7 @@ class PostPasses:
 
     def run_blur(self, src, nd, out, direction, encoder=None):
         """direction = (1/w, 0) for the horizontal pass, (0, 1/h) for the vertical one."""
-        self._run("blur", _view(out), "rgba16float", out.size[:2], pack_blur(direction),
+        self._run("blur", self._tview(out), "rgba16float", out.size[:2], pack_blur(direction),
                   [src, nd, self.s_lin, self.s_near], encoder)
 
     def run_composite(self, opaque, accum, weight, idtex, out, *, oit_on, has_sel, hover, outline, hover_outline,
@@ -341,7 +376,7 @@ class PostPasses:
         u = pack_composite(outline, hover, hover_outline, exposure, (1.0 / w, 1.0 / h),
                            max(1.5, h / 540.0) if outline_px is None else outline_px,
                            1 if oit_on else 0, 1 if has_sel else 0, 1 if tonemap else 0)
-        self._run("composite", _view(out), fmt, (w, h), u,
+        self._run("composite", self._tview(out), fmt, (w, h), u,
                   [opaque, accum, weight, idtex, self.s_lin, self.s_near], encoder)
 
     # ------------------------------------------------------------------ environment
