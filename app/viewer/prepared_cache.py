@@ -7,29 +7,49 @@ the result is stored once as plain .npy files and memory-mapped on the next open
 * Where: ``<per-user cache folder>/prepared_models/<key>/`` (never next to the models, never under data/).
   ``ANATOMY_PREPARED_CACHE`` overrides the folder, ``ANATOMY_PREPARED_CACHE_GB`` the size cap (default 8), and
   ``ANATOMY_PREPARED_CACHE=off`` switches the cache off.
-* Key: source path + size + mtime + companion files + retired groups + the LOD constants + ``FORMAT_VERSION``.
-  Bump ``FORMAT_VERSION`` whenever what is stored (or how the build derives it) changes.
-* A save writes a temporary folder next to the final one and renames it; a half-written entry is never read.
-* Anything that goes wrong (missing files, wrong shapes, a full disk, a locked file) means "no cache": the caller
-  runs the normal path. Nothing here ever raises into the loader.
+* Key: what the source file holds (its size and a digest of its zip directory: name, CRC-32 and size of every
+  member; never its path or modified time, so a copied or moved file finds the same entry) + its companion files
+  (``.npz`` the same way, the others by a hash of their bytes) + who opens it + retired groups + the LOD constants +
+  ``FORMAT_VERSION`` + a hash of the source text of the modules that shape the arrays (``SHAPING_MODULES``), so an
+  edit to one of them gives new entries without anyone remembering to bump the version.
+* A save writes a temporary folder next to the final one: every array flushed to disk, then ``meta.json`` (which
+  lists the byte size of every file) flushed last, then one rename. An open checks those sizes. An entry an open
+  accepts is never removed to be replaced: the later writer drops its own temporary folder. Whatever is removed
+  loses ``meta.json`` first, so a half-removed entry can never be opened.
+* No save unless it leaves free the larger of ``MIN_FREE_BYTES`` and ``MIN_FREE_FRACTION`` of the volume. A key
+  whose save was refused or failed is remembered until the program closes and not tried again on every open.
+* Anything that goes wrong (missing files, wrong sizes or shapes, a full disk, a locked file) means "no cache": the
+  caller runs the normal path. Nothing here ever raises into the loader.
+
+The helpers of the "identity" and "safe saving" sections are shared with the other stores (app/gpu/cluster_cache.py).
 """
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
+import marshal
 import os
 import shutil
 import threading
 import time
 import uuid
+import zipfile
 from contextlib import contextmanager
 from pathlib import Path
 
 import numpy as np
 
-FORMAT_VERSION = 1
+FORMAT_VERSION = 2
 DEFAULT_CAP_GB = 8.0
+MIN_FREE_BYTES = 10 << 30          # a save must leave free at least this much ...
+MIN_FREE_FRACTION = 0.10           # ... and at least this share of the volume
+HASH_LIMIT_BYTES = 64 << 20        # a companion that is not a zip is hashed whole up to this size
 _STALE_TEMP_SECONDS = 3600
+# Modules whose source text shapes the stored arrays: the store itself, the decode and normals, the mesh arrays and
+# base colours, the vertex layout and packing, the detail levels.
+SHAPING_MODULES = ("app.viewer.prepared_cache", "app.variants.local_runtime", "app.micro.geometry", "app.micro.base",
+                   "app.viewer.model", "app.viewer.procedural", "app.viewer.lod")
 
 
 class PreparedMismatch(Exception):
@@ -65,15 +85,96 @@ def _stat(path):
         return [-1, -1]
 
 
-def make_key(path, companions=(), retired=()):
-    """Hex key of a source file and everything else the prepared arrays depend on, or None."""
+# ---------------------------------------------------------------------------------------------------- identity
+def zip_directory_digest(path):
+    """Digest of a zip's directory (name, CRC-32 and size of every member, in directory order), or None when the
+    file is not a readable zip. Only the directory at the end of the file is read, never the members."""
+    try:
+        digest = hashlib.sha256()
+        with zipfile.ZipFile(path) as archive:
+            for info in archive.infolist():
+                digest.update(f"{info.filename}\0{info.CRC:08x}\0{info.file_size}\n".encode("utf-8", "surrogateescape"))
+        return digest.hexdigest()
+    except Exception:
+        return None
+
+
+def _located(path):
+    size, mtime = _stat(path)
+    return ["stat", os.path.normcase(os.path.abspath(path)), size, mtime]
+
+
+def source_identity(path):
+    """What a model file contributes to a key: its size and zip-directory digest, wherever it lies. A file that is
+    not a zip (it cannot be decoded either) keeps the old identity of path, size and modified time."""
+    digest = zip_directory_digest(path)
+    if digest is None:
+        return _located(path)
+    return ["zip", _stat(path)[0], digest]
+
+
+def companion_identity(path):
+    """A companion file's share of a key: ``.npz`` like the model file, anything else by a hash of its bytes."""
+    if str(path).lower().endswith((".npz", ".zip")):
+        return source_identity(path)
+    try:
+        if os.stat(path).st_size > HASH_LIMIT_BYTES:
+            return _located(path)
+        digest = hashlib.sha256()
+        with open(path, "rb") as fh:
+            for block in iter(lambda: fh.read(1 << 20), b""):
+                digest.update(block)
+        return ["bytes", digest.hexdigest()]
+    except OSError:
+        return _located(path)
+
+
+_code_ids = {}
+
+
+def _module_bytes(name):
+    """The source text of a module (line ends normalised); in a build that ships no source, its compiled code."""
+    spec = importlib.util.find_spec(name)
+    loader = spec.loader
+    try:
+        text = loader.get_source(name)
+    except Exception:
+        text = None
+    if text is not None:
+        return text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
+    try:
+        return marshal.dumps(loader.get_code(name))
+    except Exception:
+        return Path(spec.origin).read_bytes()
+
+
+def code_id(modules):
+    """Short hash of the code of ``modules``, worked out once per run. Raises when a module cannot be read."""
+    modules = tuple(modules)
+    found = _code_ids.get(modules)
+    if found is None:
+        digest = hashlib.sha256()
+        for name in modules:
+            data = _module_bytes(name)
+            digest.update(f"{name}\0{len(data)}\0".encode())
+            digest.update(data)
+        found = _code_ids[modules] = digest.hexdigest()[:16]
+    return found
+
+
+def make_key(path, companions=(), retired=(), owner=None):
+    """Hex key of a source file and everything else the prepared arrays depend on, or None.
+
+    ``owner`` names the library model that opens the file (its hooks and guide can shape the parts); None for a file
+    opened on its own, whose key then depends on nothing but what the files hold."""
     try:
         from . import lod, model as viewer_model
         ident = {
             "v": FORMAT_VERSION,
-            "path": os.path.normcase(os.path.abspath(path)),
-            "stat": _stat(path),
-            "companions": sorted([role, os.path.normcase(os.path.abspath(p)), *_stat(p)] for role, p in companions),
+            "code": code_id(SHAPING_MODULES),
+            "source": source_identity(path),
+            "companions": sorted([str(role), *companion_identity(p)] for role, p in companions),
+            "owner": owner,
             "retired": sorted(str(r) for r in retired),
             "lod": [lod.LEVELS, lod.MIN_TRIANGLES, lod.MIN_KEEP, lod.MIN_GAIN, lod._BITS, lod.REFERENCE_PIXELS],
             "layout": [viewer_model.VERTEX_FLOATS],
@@ -81,6 +182,103 @@ def make_key(path, companions=(), retired=()):
         return hashlib.sha256(json.dumps(ident, sort_keys=True).encode()).hexdigest()[:40]
     except Exception:
         return None
+
+
+# ---------------------------------------------------------------------------------------------------- safe saving
+def write_array(path, array):
+    """One array as a plain .npy, flushed to the disk before the call returns."""
+    with open(path, "wb") as fh:
+        np.save(fh, array, allow_pickle=False)
+        fh.flush()
+        os.fsync(fh.fileno())
+
+
+def write_meta(folder, meta):
+    """``meta.json``, written last and flushed: it adds the byte size of every file already in the folder."""
+    files = {f.name: int(f.stat().st_size) for f in sorted(folder.iterdir()) if f.is_file() and f.name != "meta.json"}
+    with open(folder / "meta.json", "w", encoding="utf-8") as fh:
+        fh.write(json.dumps({**meta, "files": files}))
+        fh.flush()
+        os.fsync(fh.fileno())
+
+
+def sizes_match(folder, meta, required=()):
+    """True when ``meta`` lists every required file and every listed file has its recorded byte size on disk."""
+    files = meta.get("files")
+    if not isinstance(files, dict) or any(name not in files for name in required):
+        return False
+    try:
+        for name, size in files.items():
+            if os.path.basename(name) != name or os.stat(folder / name).st_size != int(size):
+                return False
+    except (OSError, TypeError, ValueError):
+        return False
+    return True
+
+
+def remove_entry(folder):
+    """Delete an entry or temporary folder, ``meta.json`` first, so that what is left if the rest cannot go (a file
+    still mapped on Windows) is never opened. True when the folder is gone."""
+    try:
+        (folder / "meta.json").unlink()
+    except FileNotFoundError:
+        pass
+    except OSError:
+        return False                       # still whole and readable: leave it alone
+    shutil.rmtree(folder, ignore_errors=True)
+    return not folder.exists()
+
+
+def commit(temp, final, valid):
+    """Rename a finished temporary folder into place. ``valid(folder)`` says whether an open would accept what is
+    there. A valid entry stays as it is (the caller then drops its temporary folder); a broken one is removed first.
+    True when ``final`` holds a good entry afterwards."""
+    if final.exists():
+        if valid(final):
+            return True
+        if not remove_entry(final):
+            return False
+    try:
+        os.replace(temp, final)
+    except OSError:
+        return bool(valid(final))          # another writer got there first
+    try:                                   # the rename itself, where the system can flush a folder
+        fd = os.open(final.parent, os.O_RDONLY)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+    except OSError:
+        pass
+    return True
+
+
+def _disk_usage(folder):
+    probe = Path(folder)
+    while not probe.exists() and probe.parent != probe:
+        probe = probe.parent
+    return shutil.disk_usage(probe)
+
+
+def disk_allows(root, need):
+    """True when writing ``need`` bytes under ``root`` leaves the volume its free floor."""
+    try:
+        usage = _disk_usage(root)
+        return usage.free - int(need) >= max(MIN_FREE_BYTES, int(usage.total * MIN_FREE_FRACTION))
+    except Exception:
+        return False
+
+
+_refused = {}                              # (store folder, key) -> why its save did not happen, for this run
+
+
+def refuse(root, key, why):
+    _refused[(str(root), key)] = str(why)
+
+
+def refused(root, key):
+    """Why the save of ``key`` was refused or failed earlier in this run, or None."""
+    return _refused.get((str(root), key))
 
 
 # ---------------------------------------------------------------------------------------------------- stub meshes
@@ -167,17 +365,27 @@ def lookup(key):
     root = cache_root()
     if root is None or not key:
         return None
-    folder = root / key
+    prepared = _read_entry(root / key, key)
+    if prepared is not None:
+        try:
+            os.utime(root / key / "meta.json")
+        except OSError:
+            pass
+    return prepared
+
+
+def _read_entry(folder, key):
+    """The entry in ``folder`` opened, or None: its meta.json must name this key and version and list every file
+    with the byte size it has on disk, and the arrays must have the recorded shapes. An entry written before the
+    sizes were recorded is not accepted."""
     try:
         meta = json.loads((folder / "meta.json").read_text(encoding="utf-8"))
         if meta.get("version") != FORMAT_VERSION or meta.get("key") != key:
             return None
-        prepared = Prepared(folder, meta)
-        try:
-            os.utime(folder / "meta.json")
-        except OSError:
-            pass
-        return prepared
+        required = ["vertices.npy", "indices.npy"] + (["lod.npy"] if meta["lod"] else [])
+        if not sizes_match(folder, meta, required):
+            return None
+        return Prepared(folder, meta)
     except Exception:
         return None
 
@@ -270,7 +478,7 @@ def prune(root, keep=None, cap=None):
         if folder.name.startswith(".tmp-"):
             try:
                 if now - folder.stat().st_mtime > _STALE_TEMP_SECONDS:
-                    shutil.rmtree(folder, ignore_errors=True)
+                    remove_entry(folder)
             except OSError:
                 pass
             continue
@@ -286,54 +494,77 @@ def prune(root, keep=None, cap=None):
             break
         if keep is not None and folder.name == keep:
             continue
-        shutil.rmtree(folder, ignore_errors=True)
-        if not folder.exists():
+        if remove_entry(folder):
             total -= size
 
 
 def _save(model, plan):
+    """Write the entry of ``plan["key"]``. A save that is refused or fails is remembered for this run (see
+    ``refused``) and not tried again; the model is open either way."""
     root = cache_root()
     key = plan["key"]
-    if root is None:
+    if root is None or refused(root, key):
         return False
+    try:
+        why = _write(model, plan, root, key)
+    except Exception as exc:
+        why = f"{type(exc).__name__}: {exc}"
+    if why:
+        refuse(root, key, why)
+    return not why
+
+
+def _write(model, plan, root, key):
+    """None when the store holds a good entry for ``key`` afterwards, else the reason it does not."""
+    final = root / key
+
+    def valid(folder):
+        return _read_entry(folder, key) is not None
+
+    if final.exists() and valid(final):
+        return None                     # another writer finished first: its entry stays
     bytes_needed = int(model.vertices.nbytes + model.indices.nbytes)
     flat, lod_entries, lod_total = _lod_entries(model)
     bytes_needed += 4 * lod_total
     if bytes_needed > cap_bytes():
-        return False
+        return "larger than the cache size limit"
+    if not disk_allows(root, bytes_needed):
+        return "too little free disk space"
     root.mkdir(parents=True, exist_ok=True)
-    final = root / key
     temp = root / f".tmp-{key[:12]}-{os.getpid()}-{uuid.uuid4().hex[:8]}"
     try:
         temp.mkdir()
-        np.save(temp / "vertices.npy", model.vertices, allow_pickle=False)
-        np.save(temp / "indices.npy", model.indices, allow_pickle=False)
+        write_array(temp / "vertices.npy", model.vertices)
+        write_array(temp / "indices.npy", model.indices)
         if flat:
-            np.save(temp / "lod.npy", np.concatenate(flat) if len(flat) > 1 else flat[0], allow_pickle=False)
-        meta = {"version": FORMAT_VERSION, "key": key, "created": time.time(), "source": plan["source"],
+            write_array(temp / "lod.npy", np.concatenate(flat) if len(flat) > 1 else flat[0])
+        meta = {"version": FORMAT_VERSION, "key": key, "code": code_id(SHAPING_MODULES), "created": time.time(),
+                "source": plan["source"],
                 "vertices": int(model.vertices.shape[0]), "floats": int(model.vertices.shape[1]),
                 "indices": int(model.indices.size), "decode": [list(m) for m in plan["decode"]],
                 "warnings": plan["warnings"], "parts": _part_entries(model),
                 "bounds_min": [float(x) for x in model._finish_bounds[0]],
                 "bounds_max": [float(x) for x in model._finish_bounds[1]],
                 "lod": lod_entries, "lod_total": int(lod_total)}
-        (temp / "meta.json").write_text(json.dumps(meta), encoding="utf-8")
-        if final.exists():              # only reached when the entry could not be read: replace it
-            shutil.rmtree(final, ignore_errors=True)
-        os.replace(temp, final)
+        write_meta(temp, meta)
+        if not commit(temp, final, valid):
+            return "the entry could not be put in place"
         prune(root, keep=key)
-        return True
+        return None
     finally:
         if temp.exists():
-            shutil.rmtree(temp, ignore_errors=True)
+            remove_entry(temp)
 
 
 def save_async(model):
     """Store a freshly prepared model's arrays in the background. Silent on any failure."""
     try:
-        if not eligible(model) or cache_root() is None:
+        root = cache_root()
+        if not eligible(model) or root is None:
             return
         plan = model._prepared_plan
+        if refused(root, plan["key"]):
+            return
         with _inflight_lock:
             if plan["key"] in _inflight:
                 return

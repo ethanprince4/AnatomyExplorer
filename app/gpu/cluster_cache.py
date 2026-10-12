@@ -4,19 +4,21 @@
   prune() never sees this folder). ``ANATOMY_CLUSTER_CACHE`` overrides the folder and ``=off`` disables the cache;
   ``ANATOMY_PREPARED_CACHE=off`` disables it too. ``ANATOMY_CLUSTER_CACHE_GB`` is the size cap (default 4).
 * Identity: a cluster set depends on every vertex position and index of the model, so the key is derived from the
-  prepared-model cache entry the model's arrays are memory-mapped from (its key already covers the source file's
-  size and mtime, the LOD constants and the prepared FORMAT_VERSION), plus this module's BUILD_VERSION, the cluster
+  prepared-model cache entry the model's arrays are memory-mapped from (its key already covers what the source file
+  holds, the LOD constants, the prepared FORMAT_VERSION and the code that shapes the arrays), plus the clusters'
+  BUILD_VERSION, a hash of the source text of ``SHAPING_MODULES`` (no version bump to remember), the cluster
   size. The cluster set does not depend on the geometry layout (page size, page of a part, compressed or not). A model whose arrays are not backed
   by a prepared-cache file has no stable identity: it is built every time and not saved (no stale-bounds risk).
-* Same write protocol as prepared_cache: a temporary folder renamed into place; anything that goes wrong means "no
-  cache" and the caller builds. Nothing here raises into the renderer.
+* Same write protocol as prepared_cache, with its helpers: every file flushed, meta.json (with the byte size of
+  every file, checked on open) last, one rename; a good entry is never removed to be replaced; meta.json goes first
+  in any removal; no save under the free-disk floor; a refused or failed key is remembered for the run. Anything
+  that goes wrong means "no cache" and the caller builds. Nothing here raises into the renderer.
 """
 from __future__ import annotations
 
 import hashlib
 import json
 import os
-import shutil
 import time
 import uuid
 from pathlib import Path
@@ -28,6 +30,8 @@ from app.viewer import prepared_cache as _prep
 from . import clusters as cl
 
 DEFAULT_CAP_GB = 4.0
+# modules whose source text shapes a cluster set (the prepared key under it carries the hash of the model's own)
+SHAPING_MODULES = ("app.gpu.cluster_cache", "app.gpu.clusters")
 # the page layout (r_page, r_first, page_cfirst) is NOT cached: the cluster set is independent of it (clusters.bind_layout)
 _ARRAYS = ("r_part", "r_ntri", "r_cfirst", "r_tfirst", "r_ccount", "level_range", "uncullable",
            "cl_geom", "cl_range", "perm", "vorder", "cl_base", "r_level", "r_slot")
@@ -70,8 +74,27 @@ def make_key(model, geom=None):
     if ident is None:
         return None
     animated = getattr(model, "anim_vertices", None) is not None
-    return hashlib.sha256(json.dumps({"prepared": ident, "v": cl.BUILD_VERSION, "tris": cl.CLUSTER_TRIS,
+    try:
+        code = _prep.code_id(SHAPING_MODULES)
+    except Exception:
+        return None
+    return hashlib.sha256(json.dumps({"prepared": ident, "v": cl.BUILD_VERSION, "code": code, "tris": cl.CLUSTER_TRIS,
                                       "levels": cl.LEVEL_COUNT, "animated": animated}, sort_keys=True).encode()).hexdigest()[:40]
+
+
+def _read_entry(folder, key):
+    """(meta, memory-mapped arrays) of the entry in ``folder``, or None: its meta.json must name this key and version
+    and list every array file with the byte size it has on disk. An entry written before the sizes were recorded is
+    not accepted."""
+    try:
+        meta = json.loads((folder / "meta.json").read_text(encoding="utf-8"))
+        if meta.get("version") != cl.BUILD_VERSION or meta.get("key") != key:
+            return None
+        if not _prep.sizes_match(folder, meta, [f"{n}.npy" for n in _ARRAYS]):
+            return None
+        return meta, {n: np.load(folder / f"{n}.npy", mmap_mode="r") for n in _ARRAYS}
+    except Exception:
+        return None
 
 
 def load(key):
@@ -80,10 +103,10 @@ def load(key):
         return None
     folder = root / key
     try:
-        meta = json.loads((folder / "meta.json").read_text(encoding="utf-8"))
-        if meta.get("version") != cl.BUILD_VERSION or meta.get("key") != key:
+        found = _read_entry(folder, key)
+        if found is None:
             return None
-        arrays = {n: np.load(folder / f"{n}.npy", mmap_mode="r") for n in _ARRAYS}
+        meta, arrays = found
         R = len(arrays["r_part"])
         os.utime(folder / "meta.json")
         return cl.ClusterData(stats=dict(meta["stats"], cached=True), r_page=np.zeros(R, np.int32), r_first=np.zeros(R, np.int64),
@@ -93,31 +116,49 @@ def load(key):
 
 
 def save(key, cd):
+    """Write the entry of ``key`` the safe way (prepared_cache: flushed files, meta.json last, one rename, a good entry
+    never replaced, the free-disk floor). A save that is refused or fails is remembered for this run and not tried again."""
     root = cache_root()
-    if root is None or key is None:
+    if root is None or key is None or _prep.refused(root, key):
         return False
+    try:
+        why = _write(key, cd, root)
+    except Exception as exc:
+        why = f"{type(exc).__name__}: {exc}"
+    if why:
+        _prep.refuse(root, key, why)
+    return not why
+
+
+def _write(key, cd, root):
+    """None when the store holds a good entry for ``key`` afterwards, else the reason it does not."""
+    final = root / key
+
+    def valid(folder):
+        return _read_entry(folder, key) is not None
+
+    if final.exists() and valid(final):
+        return None                     # another writer finished first: its entry stays
     need = sum(getattr(cd, n).nbytes for n in _ARRAYS)
     if need > cap_bytes():
-        return False
-    final = root / key
+        return "larger than the cache size limit"
+    if not _prep.disk_allows(root, need):
+        return "too little free disk space"
     temp = root / f".tmp-{key[:12]}-{os.getpid()}-{uuid.uuid4().hex[:8]}"
     try:
         root.mkdir(parents=True, exist_ok=True)
         temp.mkdir()
         for n in _ARRAYS:
-            np.save(temp / f"{n}.npy", np.asarray(getattr(cd, n)), allow_pickle=False)
-        (temp / "meta.json").write_text(json.dumps({"version": cl.BUILD_VERSION, "key": key, "created": time.time(),
-                                                    "stats": cd.stats}), encoding="utf-8")
-        if final.exists():
-            shutil.rmtree(final, ignore_errors=True)
-        os.replace(temp, final)
+            _prep.write_array(temp / f"{n}.npy", np.asarray(getattr(cd, n)))
+        _prep.write_meta(temp, {"version": cl.BUILD_VERSION, "key": key, "code": _prep.code_id(SHAPING_MODULES),
+                                "created": time.time(), "stats": cd.stats})
+        if not _prep.commit(temp, final, valid):
+            return "the entry could not be put in place"
         prune(root, keep=key)
-        return True
-    except Exception:
-        return False
+        return None
     finally:
         if temp.exists():
-            shutil.rmtree(temp, ignore_errors=True)
+            _prep.remove_entry(temp)
 
 
 def prune(root, keep=None, cap=None):
@@ -129,7 +170,7 @@ def prune(root, keep=None, cap=None):
                 continue
             if folder.name.startswith(".tmp-"):
                 if now - folder.stat().st_mtime > 3600:
-                    shutil.rmtree(folder, ignore_errors=True)
+                    _prep.remove_entry(folder)
                 continue
             try:
                 stamp = (folder / "meta.json").stat().st_mtime
@@ -143,8 +184,8 @@ def prune(root, keep=None, cap=None):
                 break
             if keep is not None and folder.name == keep:
                 continue
-            shutil.rmtree(folder, ignore_errors=True)
-            total -= size
+            if _prep.remove_entry(folder):
+                total -= size
     except OSError:
         pass
 

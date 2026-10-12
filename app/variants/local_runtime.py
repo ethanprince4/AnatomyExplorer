@@ -387,7 +387,11 @@ def _prepare_local_model(entry, token, use_cache):
         from ..viewer import prepared_cache
         guide = load_part_guide(entry.id)
         retired = guide.excluded_groups
-        key = prepared_cache.make_key(path, [(role, a.path) for role, a in sorted(assets.items())], retired)             if use_cache and not component else None
+        # The key holds what the files contain, not where they lie. A library model also names itself, because its
+        # hooks and guide can shape the parts; a file opened on its own has no hooks, so a copy of it shares the entry.
+        owner = None if standalone and str(entry.id).startswith("file:") else [str(entry.id), bool(standalone)]
+        key = (prepared_cache.make_key(path, [(role, a.path) for role, a in sorted(assets.items())], retired, owner=owner)
+               if use_cache and not component else None)
         cached = prepared_cache.lookup(key) if key else None
         entry._prepared_used = cached is not None
         if cached is not None:
