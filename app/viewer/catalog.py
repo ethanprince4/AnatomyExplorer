@@ -6,7 +6,6 @@
   histology and related models, clinical notes, a readable name and description for every group and part, links
   back to the atlas, and aliases for the names lessons and practice items use.
 The active catalogue uses the final local model library, with GLB fallbacks for older source checkouts.
-Legacy imported-model entry types remain readable for older saved references; downloads are not bundled.
 
 A catalogue entry is light: the geometry is only read when the model is opened (``entry.load()``).
 """
@@ -20,7 +19,7 @@ from collections import OrderedDict
 from ..config import ROOT
 
 META_DIR = ROOT / "data" / "content" / "models"
-KIND_ORDER = {"glb": 0, "procedural": 1, "downloaded": 2}
+KIND_ORDER = {"glb": 0, "procedural": 1}
 
 
 def _norm(s):
@@ -69,7 +68,7 @@ class ModelEntry:
 
     @property
     def kind_name(self):
-        return "downloaded 3D model" if self.kind == "downloaded" else ""
+        return ""
 
     def load(self):
         raise NotImplementedError
@@ -192,32 +191,6 @@ class GlbEntry(ModelEntry):
         model = Model(self.path)
         apply_meta(model, self.meta)
         return model
-
-
-class DownloadedEntry(ModelEntry):
-    kind = "downloaded"
-    oriented = False
-
-    def __init__(self, uid, info, catalog_model=None, cur=None):
-        cm = catalog_model
-        cur = cur or {}
-        name = cur.get("name") or (cm.name if cm else info.get("name", uid))
-        summary = cur.get("summary") or (cm.summary if cm else "")
-        structures = list(cm.structures) if cm else []
-        super().__init__(f"sketchfab:{uid}", name, summary, {"structures": structures, "groups": structures},
-                         list(cm.histology) if cm else [], list(cm.micro) if cm else [],
-                         [tuple(x) for x in cur.get("clinical", []) if isinstance(x, (list, tuple)) and len(x) == 2])
-        self.uid = uid
-        self.info = info
-        self.cur = cur
-        self.structures = structures
-        from .imported import credit_html
-        self.credit_html = credit_html(info)
-        self.license = info.get("license", "")
-
-    def load(self):
-        from .imported import LOCAL_DIR, ImportedModel
-        return ImportedModel(LOCAL_DIR / self.uid / "model.glb", self.cur)
 
 
 def apply_meta(model, meta):

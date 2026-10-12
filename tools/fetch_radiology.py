@@ -17,6 +17,9 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from check_licenses import image_licence_ok as licence_ok  # noqa: E402  (the one licence rule: tools/check_licenses.py)
+
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "radiology"
 IMAGES = OUT / "images"
@@ -106,7 +109,8 @@ def search(query, limit=25):
         m = info.get(t)
         if not m:
             continue
-        print(f"{m['width']}x{m['height']:<6} {m['licence'][:22]:24s} {t}")
+        refused = "" if licence_ok(m["licence"]) else "  [licence not allowed]"
+        print(f"{m['width']}x{m['height']:<6} {m['licence'][:22]:24s} {t}{refused}")
         if m["description"]:
             print(f"      {m['description'][:150]}")
     return titles
@@ -129,6 +133,9 @@ def fetch(wanted):
         meta = info.get(title)
         if not meta:
             print(f"MISSING  {key}: {title}")
+            continue
+        if not licence_ok(meta["licence"]):
+            print(f"REFUSED  {key}: licence {meta['licence']!r} is not allowed")
             continue
         ext = ".png" if meta["mime"].endswith("png") else ".jpg"
         dest = IMAGES / f"{key}{ext}"
@@ -154,7 +161,6 @@ def fetch(wanted):
         sources[key] = {
             "file": dest.name, "commons": meta["title"], "page": meta["page"],
             "licence": meta["licence"], "author": meta["author"] or meta["credit"],
-            "description": meta["description"],
         }
         print(f"ok       {key}  {dest.name}  {meta['licence']}")
     path.write_text(json.dumps(sources, indent=1, ensure_ascii=False), encoding="utf-8")

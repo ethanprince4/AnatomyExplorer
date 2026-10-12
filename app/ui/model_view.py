@@ -1,7 +1,7 @@
 """A 3D model in a tab of its own: the model viewer.
 
 Every model opens here - the in-house GLB models (the heart, the cardiac muscle block, the kidney with its
-nephron), the procedural microanatomy models and the downloaded ones. The view is app/viewer/viewport.py; this
+nephron), the procedural microanatomy models. The view is app/viewer/viewport.py; this
 widget adds the parts list, the model's own views and states, the cut-away and cross-sections, labels, tissue
 opacity, separated parts, the animation controls and the Details panel, and gives lessons and practice the same
 hooks the old microanatomy view did (``part_ids``, ``focus_parts``, ``set_practice``).
@@ -1324,11 +1324,7 @@ class ModelView(QWidget):
             bits.append(", ".join(sorted(set(sel))))
         bits.append(f"{int(st.visible_mask().sum()):,} of {len(m.items):,} parts visible")
         e = self.entry
-        if e.kind == "downloaded":
-            info = getattr(e, "info", {}) or {}
-            source = f"{e.name} by {info.get('author', 'its creator')}, {info.get('license', '')}".rstrip(", ")
-            credit = f"Anatomy Explorer · {source} (Sketchfab)"
-        elif e.kind == "procedural":
+        if e.kind == "procedural":
             credit = "Anatomy Explorer · procedural model made for the app"
         elif e.id.startswith("file:"):
             credit = f"Anatomy Explorer · {getattr(e, 'path', e.name)}"

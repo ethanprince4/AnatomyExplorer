@@ -7,8 +7,8 @@ Usage: python tools/render_model.py <model> [-o out.png] [--view NAME] [--state 
        [--zoom 1] [--size 900] [--no-cut | --cut] [--section axis:pos[:flip]] [--explode 0]
        [--hide substr,...] [--only substr,...] [--focus substr,...] [--center x,y,z] [--time T] [--frames N [--slow S]]
 
-<model> is a catalogue id (whole_heart, kidney_nephron, cardiac_muscle, a procedural model such as thin_skin, or a
-downloaded model: sketchfab:<uid> or the first characters of its uid), or the path of any .glb / .gltf file.
+<model> is a catalogue id (whole_heart, kidney_nephron, cardiac_muscle, or a procedural model such as thin_skin), or
+the path of any .glb / .gltf file.
 --view picks one of the model's stored views (V1, "Corpuscle", ...); otherwise the camera frames the model from its
 home direction (--yaw / --pitch in degrees override it). --section cuts the model like Section in the viewer:
 axis 0 sagittal, 1 coronal, 2 transverse, pos 0..1 across the model. --focus selects the matching parts and x-rays
@@ -34,10 +34,6 @@ def find_entry(key):
     cat = load_catalog()
     if key in cat:
         return cat[key]
-    tail = key.split(":", 1)[-1]
-    hits = [e for e in cat.values() if e.kind == "downloaded" and e.uid.startswith(tail)]
-    if len(hits) == 1:
-        return hits[0]
     raise SystemExit(f"no model {key!r}; ids: {', '.join(sorted(cat))}")
 
 

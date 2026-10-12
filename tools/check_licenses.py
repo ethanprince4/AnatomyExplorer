@@ -1,8 +1,7 @@
 """Validate the licence record of every third-party file the app ships.
 
-Every histology and radiology image and every downloaded Sketchfab model must name its author, its licence and its
-source page, and the licence must be one we may redistribute. NonCommercial Sketchfab licences are allowed but
-counted and must be listed (with the notice) in THIRD_PARTY_LICENSES.md; they are allowed nowhere else."""
+Every histology and radiology image must name its author, its licence and its source page, and the licence must be
+one we may redistribute."""
 import json
 import re
 import sys
@@ -12,13 +11,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 
-# licences an image may carry (Wikimedia Commons short names); "de" etc. are CC jurisdiction ports
-IMAGE_OK = re.compile(r"^(CC0|Public domain|No restrictions|Copyrighted free use|GFDL|"
-                      r"CC BY(-SA)? (1\.0|2\.0|2\.5|3\.0|4\.0)( [a-z]{2})?)$")
-# Sketchfab licence slugs: free ones, and NonCommercial ones that may only ship with the non-commercial notice
-SKETCHFAB_FREE = {"cc0", "by", "by-sa"}
-SKETCHFAB_NC = {"by-nc", "by-nc-sa", "by-nc-nd"}
-SKETCHFAB_ND = {"by-nd", "by-nc-nd"}
+# licences an image may carry (Wikimedia Commons short names): CC0, public domain, any CC BY version ("de" etc. are
+# CC jurisdiction ports) and "Copyrighted free use" (any use, no condition). Share-alike, NonCommercial, NoDerivatives
+# and GFDL images do not pass the project's rule and are not allowed.
+IMAGE_OK = re.compile(r"^(CC0|Public domain|Copyrighted free use|CC BY (1\.0|2\.0|2\.5|3\.0|4\.0)( [a-z]{2})?)$")
+
+
+def image_licence_ok(licence):
+    """True when an image with this Commons licence short name may ship. The fetch tools use this same test, so a
+    download or a catalogue never takes in an image the checker would reject."""
+    return bool(IMAGE_OK.match(licence or ""))
+
 
 bad = 0
 
@@ -54,7 +57,7 @@ def check_histology():
         for img in t["images"]:
             where = f"histology {t['id']}/{img.get('file')}"
             need(where, img, ("file", "author", "license", "source"))
-            if img.get("license") and not IMAGE_OK.match(img["license"]):
+            if img.get("license") and not image_licence_ok(img["license"]):
                 problem(f"{where}: licence {img['license']!r} not allowed")
             if img.get("source") and not img["source"].startswith("https://commons.wikimedia.org/wiki/File:"):
                 problem(f"{where}: source is not a Commons file page: {img['source']}")
@@ -73,7 +76,7 @@ def check_radiology():
     for key, e in src.items():
         where = f"radiology {key}"
         need(where, e, ("file", "author", "licence", "page"))
-        if e.get("licence") and not IMAGE_OK.match(e["licence"]):
+        if e.get("licence") and not image_licence_ok(e["licence"]):
             problem(f"{where}: licence {e['licence']!r} not allowed")
         if e.get("file") and not (DATA / "radiology" / "images" / e["file"]).exists():
             problem(f"{where}: image file missing ({e['file']})")

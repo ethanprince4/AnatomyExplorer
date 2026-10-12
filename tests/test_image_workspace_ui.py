@@ -248,12 +248,12 @@ class WorkspaceTests(unittest.TestCase):
     def test_newer_histology_navigation_wins_over_pending_image(self):
         viewer = self.viewer()
         viewer.show_tissue("simple_squamous", 0)
-        viewer.show_image(3)
+        viewer.show_image(2)
         settle(lambda: not viewer.view.item.pixmap().isNull())
-        expected = QImage(str(self.content.image_path(viewer.tissue["images"][3])))
+        expected = QImage(str(self.content.image_path(viewer.tissue["images"][2])))
         self.assertEqual(viewer.view.item.pixmap().size(), expected.size())
-        self.assertEqual(viewer.index, 3)
-        self.assertEqual(viewer.image_choice.currentIndex(), 3)
+        self.assertEqual(viewer.index, 2)
+        self.assertEqual(viewer.image_choice.currentIndex(), 2)
 
     def test_missing_histology_tissue_clears_previous_image(self):
         viewer = self.viewer()

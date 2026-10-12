@@ -3,22 +3,22 @@
 A case puts one still image — a radiograph, a CT slice or an MR slice — beside the live 3D model, labelled on
 both sides, and sets the model up so the two show the same thing. Ctrl+R, or the **Radiology** workspace (**Study → Radiology**).
 
-There are 104 cases, each with its own image in `data/radiology/images`. They span eight modalities: X-ray 29,
-ultrasound 19, MRI 15, CT 12, angiography 10, nuclear medicine 8, fluoroscopy 6 and mammography 5. By region:
+There are 52 cases, each with its own image in `data/radiology/images`. They span eight modalities: X-ray 18,
+ultrasound 9, CT 6, nuclear medicine 5, MRI 4, angiography 4, fluoroscopy 3 and mammography 3. By region:
 
 | Region | Cases |
 |---|---|
-| Abdomen | 21 |
-| Head and neck | 21 |
-| Thorax | 20 |
-| Lower limb | 12 |
-| Upper limb | 8 |
-| Pelvis | 8 |
-| Spine | 7 |
-| Breast | 5 |
-| Whole body | 2 |
+| Thorax | 15 |
+| Abdomen | 12 |
+| Lower limb | 8 |
+| Head and neck | 5 |
+| Upper limb | 4 |
+| Breast | 3 |
+| Spine | 2 |
+| Pelvis | 2 |
+| Whole body | 1 |
 
-Five chest cases (four films and a CT, in `data/content/radiology_pathology.json`) show disease that the model can
+Four chest cases (three films and a CT, in `data/content/radiology_pathology.json`) show disease that the model can
 display; see [Showing the pathology in the model](#showing-the-pathology-in-the-model).
 
 ## What a case is made of
@@ -159,7 +159,7 @@ accepts an image id and bare `x,y` pairs, to try positions before writing them i
 
 ```bash
 .venv/Scripts/python.exe tools/capture_radiology.py                       # all cases, into logs/radiology_capture/
-.venv/Scripts/python.exe tools/capture_radiology.py angio_renal_normal ct_abdo_kidney --out logs/rc --size 1600x1000
+.venv/Scripts/python.exe tools/capture_radiology.py ct_abdo_kidney --out logs/rc --size 1600x1000
 ```
 
 Per case it writes `<id>_3d.png` (the 3D widget including its labels), `<id>_pair.png` (the cropped scan beside
@@ -192,11 +192,12 @@ the image with (0, 0) at the top left.
 .venv/Scripts/python.exe tools/fetch_radiology.py                                    # download the wanted list
 ```
 
-The wanted list is `data/radiology/cache/wanted.json`, a map of case id → Commons `File:` title (it holds 24 of the 104
+The wanted list is `data/radiology/cache/wanted.json`, a map of case id → Commons `File:` title (it holds 21 of the 52
 current images; `data/radiology/sources.json` records all of them). The fetcher
-takes the standard 1280 px thumbnail, backs off on rate limits, and records the author, licence, description and
-source page in `data/radiology/sources.json`. Only use normal-anatomy images with a licence that allows reuse,
-and check each one by eye before adding it — a guessed file title usually does not exist.
+takes the standard 1280 px thumbnail, backs off on rate limits, and records the author, licence and
+source page in `data/radiology/sources.json`. Only use normal-anatomy images whose licence allows commercial sale with
+attribution as the only condition (CC0, public domain, CC BY): the fetcher refuses any other licence, and
+`tools/check_licenses.py` rejects it. Check each one by eye before adding it — a guessed file title usually does not exist.
 
 ## Validating
 
