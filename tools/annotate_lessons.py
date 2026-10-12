@@ -64,7 +64,7 @@ META = {
         takeaways=["Choroid plexus makes about 500 ml a day; the system holds about 150 ml.",
                    "Lateral → interventricular foramen → third → cerebral aqueduct → fourth → subarachnoid space.",
                    "The aqueduct is the narrowest point and the commonest site of obstruction."],
-        see_also={"lessons": ["meninges", "brainstem-anatomy"], "radiology": ["ct_brain", "mri_brain_t2"]}),
+        see_also={"lessons": ["meninges", "brainstem-anatomy"], "radiology": ["ct_brain"]}),
     "spinal-cord": dict(
         system="nervous", region="back", level="core", minutes=9,
         tags=["cord", "tracts", "cauda equina", "lumbar puncture"],
@@ -84,7 +84,7 @@ META = {
         takeaways=["ACL resists anterior translation of the tibia; PCL resists posterior.",
                    "The medial meniscus is attached to the medial collateral ligament, so they tear together.",
                    "The knee locks in extension by lateral rotation of the tibia and is unlocked by popliteus."],
-        see_also={"lessons": ["lower-limb-bones", "thigh-compartments"], "radiology": ["knee_ap", "knee_lat", "mri_knee"]}),
+        see_also={"lessons": ["lower-limb-bones", "thigh-compartments"], "radiology": ["knee_ap", "knee_lat"]}),
     "shoulder-joint": dict(
         system="skeletal", region="upper_limb", level="core", minutes=8,
         tags=["glenohumeral", "dislocation", "labrum"],

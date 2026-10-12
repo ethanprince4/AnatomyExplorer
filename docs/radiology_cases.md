@@ -159,7 +159,7 @@ accepts an image id and bare `x,y` pairs, to try positions before writing them i
 
 ```bash
 .venv/Scripts/python.exe tools/capture_radiology.py                       # all cases, into logs/radiology_capture/
-.venv/Scripts/python.exe tools/capture_radiology.py angio_renal_normal ct_abdo_kidney --out logs/rc --size 1600x1000
+.venv/Scripts/python.exe tools/capture_radiology.py ct_abdo_kidney --out logs/rc --size 1600x1000
 ```
 
 Per case it writes `<id>_3d.png` (the 3D widget including its labels), `<id>_pair.png` (the cropped scan beside
