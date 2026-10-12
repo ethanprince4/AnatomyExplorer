@@ -20,6 +20,7 @@ use". It also checks that `LICENSE`, this file and `data/anatomy/LICENSE` are pr
 3. Radiology images (`data/radiology`), Wikimedia Commons
 4. Software bundled in the installers
 5. Application resources, and where they came from
+6. Bundled interface font (Noto Sans), SIL Open Font License 1.1 (the last section)
 
 ---
 
