@@ -40,6 +40,7 @@ _LAYOUTS = {
     "blur": [_U, _TF, _TU, _SL, _SN],
     "ssao": [_U, _TU, _TF, _SL, _SN, _TU],
     "pack": [_TU],
+    "dmip": [_TU],
     "ssao_half": [_U, _TU, _TF, _SL, _SN, _TU, _TU, _TI],
     "down": [_TU],
     "upsample": [_U, _TU, _TF, _TF, _TU],
@@ -48,12 +49,26 @@ _LAYOUTS = {
 }
 _ENTRY = {"backdrop": "fs_backdrop", "blit": "fs_blit", "blur": "fs_blur", "ssao": "fs_ssao",
           "prefilter": "fs_prefilter", "composite": "fs_composite", "pack": "fs_pack",
-          "ssao_half": "fs_ssao_half", "down": "fs_down", "upsample": "fs_upsample"}
+          "ssao_half": "fs_ssao_half", "down": "fs_down", "upsample": "fs_upsample", "dmip": "fs_dmip"}
 _FILE = {"ssao_half": "ssao"}      # pass name -> post_<file>.wgsl where they differ
 
 # sizes of the packed structs (asserted in tests/gpu/test_post_parity.py against the WGSL struct layout)
 UNIFORM_SIZES = {"backdrop": 32, "ssao": 48, "blur": 16, "prefilter": 16, "composite": 64, "blit": 0, "pack": 0,
-                 "ssao_half": 48, "down": 0, "upsample": 16}
+                 "ssao_half": 48, "down": 0, "upsample": 16, "dmip": 0}
+
+# Depth chain of the SSAO taps (PostPasses.far_mips, wgsl/post_dmip.wgsl): a tap 2^(DEPTH_MIP_OFF + k) pixels or more
+# from the pixel it shades reads level k, up to DEPTH_MIP_MAX.
+DEPTH_MIP_MAX = 5
+DEPTH_MIP_OFF = 3
+
+
+def depth_mip_levels(w, h):
+    """Levels of the SSAO depth texture for a (w, h) target: 1 (level 0 only) under 16 px, else level 0 plus up to
+    DEPTH_MIP_MAX halvings, the coarsest still at least 8 texels on its short side."""
+    n = 1
+    while n <= DEPTH_MIP_MAX and (min(int(w), int(h)) >> n) >= 8:
+        n += 1
+    return n
 
 
 def _f(*v):
@@ -121,10 +136,17 @@ class PostPasses:
     2 evaluates the taps once per 2x2 block (at the pixel of the block whose depth is closest to the mean depth of the
     block's surface pixels, see wgsl/post_down.wgsl) and upsamples with a joint-bilateral filter (wgsl/post_upsample.wgsl).
     ao_scale = 2 does AO and GI at half resolution; ao_scale = 1, gi_scale = 2 keeps AO at full resolution and does
-    only the (much more expensive) GI half-way. The blur passes are unchanged. Both can be changed at any time."""
+    only the (much more expensive) GI half-way. The blur passes are unchanged. Both can be changed at any time.
 
-    def __init__(self, device, ao_scale=1, gi_scale=None):
+    ``far_mips`` (default off: every tap reads the full-size depth, the GL picture) lets the far SSAO taps read a coarser
+    level of the depth texture, when that texture has more than one level (``depth_mip_levels``; ``pack_depth`` makes
+    it so, the renderer makes its own that way). It keeps the pass's cost level as the camera closes in; see
+    wgsl/post_ssao.wgsl (MIP_MAX). It can be changed at any time."""
+
+    def __init__(self, device, ao_scale=1, gi_scale=None, far_mips=False):
         self.device = device
+        self.far_mips = bool(far_mips)
+        self._dmip = {}                 # id(depth texture) -> (texture, pipeline, one view per level, bind groups)
         self.ao_scale = int(ao_scale)
         self.gi_scale = int(self.ao_scale if gi_scale is None else gi_scale)
         assert self.ao_scale in (1, 2) and self.gi_scale in (1, 2) and self.gi_scale >= self.ao_scale, (ao_scale, gi_scale)
@@ -212,7 +234,12 @@ class PostPasses:
         u = pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on)
         if depth is None or not depth_ready:
             depth = self.pack_depth(nd, encoder, depth)
-        sc = {"SAMPLES": float(int(samples))}           # pipeline constant: the tap loops unroll and fold /samples
+        mip_max = 0
+        if self.far_mips and getattr(depth, "mip_level_count", 1) > 1:
+            self.build_depth_mips(depth, encoder)
+            mip_max = depth.mip_level_count - 1
+        # pipeline constants: the tap loops unroll and fold /samples; MIP_MAX 0 compiles the level choice away
+        sc = {"SAMPLES": float(int(samples)), "MIP_MAX": float(mip_max), "MIP_OFF": float(DEPTH_MIP_OFF)}
         if self.gi_scale == 1:
             self._run("ssao", _view(out), "rgba16float", out.size[:2], u, [nd, prev, self.s_lin, self.s_near, depth],
                       encoder, sc)
@@ -262,14 +289,44 @@ class PostPasses:
         object (one per size) and rewritten by every call. The renderer may write it directly instead (follow-up)."""
         key = tuple(nd.size[:2])
         t = out if out is not None else self._depth.get(key)
-        if t is None:
+        want = depth_mip_levels(*key) if self.far_mips else 1
+        if t is None or (out is None and t.mip_level_count != want):
             t = self._depth[key] = self.device.create_texture(
-                size=(key[0], key[1], 1), format="r32float",
+                size=(key[0], key[1], 1), format="r32float", mip_level_count=want,
                 usage=wgpu.TextureUsage.TEXTURE_BINDING | wgpu.TextureUsage.RENDER_ATTACHMENT
                 | wgpu.TextureUsage.COPY_SRC, label="ssao_depth")
         # a pending timestamp (the renderer's begin index of ssao_ms) lands on this first pass of the chain
-        self._run("pack", t.create_view(), "r32float", key, b"", [nd], encoder)
+        self._run("pack", t.create_view(base_mip_level=0, mip_level_count=1), "r32float", key, b"", [nd], encoder)
         return t
+
+    def build_depth_mips(self, depth, encoder=None):
+        """Fills levels 1.. of ``depth`` from level 0, one small pass per level (wgsl/post_dmip.wgsl): about a third
+        of a full-screen read and write in all. The views and bind groups are kept per texture."""
+        n = int(depth.mip_level_count)
+        if n <= 1:
+            return
+        dev = self.device
+        st = self._dmip.get(id(depth))
+        if st is None:
+            if len(self._dmip) >= 4:                # sizes come and go with the window; never more than a few alive
+                self._dmip.clear()
+            pipe, bgl = self._pipeline("dmip", "r32float")
+            views = [depth.create_view(base_mip_level=i, mip_level_count=1) for i in range(n)]
+            bgs = [dev.create_bind_group(layout=bgl, entries=[{"binding": 0, "resource": views[i]}]) for i in range(n - 1)]
+            st = self._dmip[id(depth)] = (depth, pipe, views, bgs)      # holds the texture, so its id stays its own
+        _t, pipe, views, bgs = st
+        enc = dev.create_command_encoder() if encoder is None else encoder
+        for i in range(1, n):
+            tw, self.pending_ts = self.pending_ts, None     # the begin index of ssao_ms lands on the first level
+            rp = enc.begin_render_pass(color_attachments=[{
+                "view": views[i], "load_op": "clear", "store_op": "store", "clear_value": (0, 0, 0, 0)}],
+                **({"timestamp_writes": tw} if tw else {}))
+            rp.set_pipeline(pipe)
+            rp.set_bind_group(0, bgs[i - 1])
+            rp.draw(3, 1, 0, 0)
+            rp.end()
+        if encoder is None:
+            dev.queue.submit([enc.finish()])
 
     def run_blur(self, src, nd, out, direction, encoder=None):
         """direction = (1/w, 0) for the horizontal pass, (0, 1/h) for the vertical one."""

@@ -46,7 +46,7 @@ from .clusters import ClusterError
 from .cull import ClipState, ClusterCuller, FrameParts
 from .cull_policy import CullGovernor
 from .oit import OitDraw, OitPass
-from .post import PostPasses
+from .post import PostPasses, depth_mip_levels
 from .shade_split import ShadeSplit
 from .shading_uniforms import FIELD_BY_NAME, SIZE as SHADE_SIZE, pack_shading_uniforms
 
@@ -206,6 +206,12 @@ def ao_gi_scales():
         log.warning("ANATOMY_AO_SCALE=%r is not one of %s; using 'gi'", v, "/".join(AO_SCALES))
         v = "gi"
     return AO_SCALES[v]
+
+
+def ao_far_mips():
+    """PostPasses.far_mips: far SSAO taps read a coarser level of the depth texture, so the pass costs the same at any
+    zoom (default on). ANATOMY_AO_DEPTH_MIPS = 0 / off / no / false puts every tap back on the full-size depth."""
+    return os.environ.get("ANATOMY_AO_DEPTH_MIPS", "1").strip().lower() not in ("0", "off", "no", "false")
 
 
 def _look_features(rec):
@@ -406,7 +412,7 @@ class WgpuRenderer:
         self.model_diag = 1.0
         self._fake = SimpleNamespace(_texture=lambda i: _Null())
         ao, gi = ao_gi_scales()
-        self.post = PostPasses(self.device, ao_scale=ao, gi_scale=gi)
+        self.post = PostPasses(self.device, ao_scale=ao, gi_scale=gi, far_mips=ao_far_mips())
         self.oit = OitPass(self.device, flip_y=True, depth_format="depth32float", aniso=8)
         self.caps = CapPasses(self.device)
         self._dec_dummy = None
@@ -877,7 +883,8 @@ class WgpuRenderer:
         t["tri"] = d.create_texture(size=(w, h, 1), format="r32uint", usage=RA | TB | CS, label="tri")
         t["id"] = d.create_texture(size=(w, h, 1), format="rg32float", usage=RA | TB | CS, label="id")
         t["nd"] = d.create_texture(size=(w, h, 1), format="rgba32float", usage=RA | TB | CS, label="nd")
-        t["ssao_depth"] = d.create_texture(size=(w, h, 1), format="r32float", usage=RA | TB | CS, label="ssao_depth")
+        t["ssao_depth"] = d.create_texture(size=(w, h, 1), format="r32float", usage=RA | TB | CS, label="ssao_depth",
+                                           mip_level_count=depth_mip_levels(w, h) if self.post.far_mips else 1)
         t["bg"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB | CS | CD, label="backdrop")
         t["opaque"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB | CS | CD, label="opaque")
         t["ao"] = d.create_texture(size=(w, h, 1), format="rgba16float", usage=RA | TB, label="ao")
@@ -887,6 +894,7 @@ class WgpuRenderer:
         t["comp"] = d.create_texture(size=(w, h, 1), format="rgba8unorm", usage=RA | TB, label="composite")
         self.t = t
         self.v = {k: v.create_view() for k, v in t.items()}
+        self.v["ssao_depth"] = t["ssao_depth"].create_view(base_mip_level=0, mip_level_count=1)   # the geometry pass's target
         self.oit_t = self.oit.make_targets(w, h, samples)
         self.size, self.samples = (w, h), samples
         self._bg_vis_none = self._make_bg_vis(self._cap_none)
