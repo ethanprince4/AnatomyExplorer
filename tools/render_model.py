@@ -74,7 +74,15 @@ def main(argv=None, default_prefix="model"):
     from app.viewer.viewport import SECTION_AXES
 
     entry = find_entry(a.model)
-    model = entry.load()
+    if hasattr(entry, "load"):
+        model = entry.load()
+    else:                                   # a library (local variant) entry prepares on the CPU queue
+        class _Never:
+            cancelled = False
+
+            def check(self):
+                return None
+        model = entry.prepare_cpu(_Never())
     n = len(model.items)
     if "x" in a.size.lower():
         W, H = (int(v) for v in a.size.lower().split("x"))
