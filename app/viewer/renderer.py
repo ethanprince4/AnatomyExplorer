@@ -702,6 +702,7 @@ class Renderer:
                     oit.append(p)
                 else:
                     draws.append(p)
+            self.drawn_tris = sum(self._span(p)[1] for p in draws) // 3       # for the status-bar readout
 
         # light directions (camera-relative rig) and irradiance
         Rinv = V[:3, :3].T

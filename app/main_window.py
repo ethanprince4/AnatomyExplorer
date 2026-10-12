@@ -1098,12 +1098,19 @@ class MainWindow(QMainWindow):
         if not self.settings.get("show_perf", True):
             self.perf_label.setText("")
             return
-        self._frame_times.append(ms)
         now = time.perf_counter()
+        self._frame_times.append((now, ms))
         if now - self._last_perf > 0.5:
-            avg = sum(self._frame_times) / len(self._frame_times)
-            self.perf_label.setText(f"Recent draw: {avg:.1f} ms")
-            self.perf_label.setToolTip("Recent rendering work, including initial label placement. This reading stays unchanged while idle; it is not continuous FPS.")
+            avg = sum(t[1] for t in self._frame_times) / len(self._frame_times)
+            view = self.sender()
+            if getattr(view, "renderer_label", None):         # a model's 3D view: renderer, frame rate, triangles
+                from .ui.model_view import frame_rate, perf_readout
+                text, tip = perf_readout(view, avg, frame_rate([t[0] for t in self._frame_times]))
+                self.perf_label.setText(text)
+                self.perf_label.setToolTip(tip)
+            else:
+                self.perf_label.setText(f"Recent draw: {avg:.1f} ms")
+                self.perf_label.setToolTip("Recent rendering work, including initial label placement. This reading stays unchanged while idle; it is not continuous FPS.")
             self._frame_times.clear()
             self._last_perf = now
 

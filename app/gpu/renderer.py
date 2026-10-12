@@ -1450,7 +1450,7 @@ class WgpuRenderer:
                           encoder=enc)
         # ---- 1. visibility pass
         cut_cls = self._cut_classes(entries, clip_planes, clip_on, fs.clip_mode, V, Pm, h, bool(camera.ortho)) if (any_clip and entries and self.classify_cut) else None
-        drawn_tris = sum(e[4] for e in entries) // 3
+        self.drawn_tris = drawn_tris = sum(e[4] for e in entries) // 3       # also read by the status-bar readout
         if self.culler is not None and self.gov is not None and self.cull_mode == "auto":
             for tag, kept, pulled in self.culler.stats_poll():       # counters of earlier culled frames, never waited for
                 self.gov.observe(tag, kept, pulled)

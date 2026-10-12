@@ -50,23 +50,65 @@ def renderer_backend(settings):
 def make_viewport(model, state, settings, entry, parent):
     """The 3D view for a model. With the wgpu backend chosen, the device, renderer and a first small frame are tried
     here, before the caller wires the widget up; on any failure the OpenGL viewport is built instead and the reason is
-    logged once. With the default setting this is exactly ModelViewport(...)."""
+    logged once. With the default setting this is exactly ModelViewport(...). The view carries renderer_label and
+    renderer_note (why the fast renderer did not start, when it was asked for) for the status-bar readout."""
     global _wgpu_fallback_logged
+    note = ""
     if renderer_backend(settings) == "wgpu":
         view = None
         try:
             from ..gpu.viewport import WgpuModelViewport
             view = WgpuModelViewport(model, state, settings, entry, parent=parent)
             view.probe()
+            view.renderer_label, view.renderer_note = "Fast renderer", ""
             return view
         except Exception as exc:                       # noqa: BLE001 - any wgpu problem means "use OpenGL"
             if view is not None:
                 view.dispose()
+            note = str(exc) or type(exc).__name__
             if not _wgpu_fallback_logged:
                 _wgpu_fallback_logged = True
                 _LOG.warning("wgpu renderer unavailable, using OpenGL: %s", exc)
-    return ModelViewport(model, state, settings, entry, parent=parent)
-FAMILY_MIN = 6        # copies of one structure that share a parts row; fewer stay as their own rows ("zone 1-3")
+    view = ModelViewport(model, state, settings, entry, parent=parent)
+    view.renderer_label, view.renderer_note = "Standard renderer", note
+    return view
+
+
+def frame_rate(stamps, gap=0.25):
+    """Frames per second over the latest unbroken run of frame times (seconds, oldest first); None when fewer than
+    three frames follow each other within ``gap``, as when the view redraws once."""
+    run = list(stamps[-1:])
+    for t in reversed(stamps[:-1]):
+        if run[-1] - t > gap:
+            break
+        run.append(t)
+    if len(run) < 3 or run[0] <= run[-1]:
+        return None
+    return (len(run) - 1) / (run[0] - run[-1])
+
+
+def perf_readout(view, draw_ms, fps):
+    """(text, tooltip) of the status-bar readout for a model's 3D view: which renderer draws it, the frame rate while
+    the picture is changing (the draw time otherwise) and the triangles sent for the last frame."""
+    label, note = view.renderer_label, view.renderer_note
+    drawn = getattr(view.renderer, "drawn_tris", None)
+    parts = [f"{label} (fast renderer did not start)" if note else label,
+             f"{fps:.0f} fps" if fps else f"draw {draw_ms:.1f} ms"]
+    if drawn is not None:
+        parts.append(f"{drawn:,} triangles drawn")
+    w, h = view._render_size()
+    tip = [getattr(view, "gl_info", "") or label,
+           f"{w} × {h} pixels, {view.rsettings.msaa}x anti-aliasing",
+           f"Draw work on the processor: {draw_ms:.1f} ms a frame",
+           "Frame rate is measured while the picture is changing and keeps its last reading while idle.",
+           "Triangles drawn: solid parts sent to the graphics card for the last frame, after off-screen parts are "
+           "skipped and distant parts use reduced detail."]
+    if note:
+        tip.append(f"The fast renderer did not start: {note}")
+    return " · ".join(parts), "\n".join(tip)
+
+
+FAMILY_MIN = 6       # copies of one structure that share a parts row; fewer stay as their own rows ("zone 1-3")
 
 
 PLURALS = {"cell": "cells", "nucleus": "nuclei", "granule": "granules", "border": "borders", "chorda": "chordae",
