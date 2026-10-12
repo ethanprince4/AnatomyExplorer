@@ -53,11 +53,13 @@ similar).
 
 ## 2. Histology images: Wikimedia Commons
 
-`data/histology/images` (and their `thumbs`) hold **452** images from
+`data/histology/images` (and their `thumbs`) hold **451** images from
 [Wikimedia Commons](https://commons.wikimedia.org/), each resized to at most 1280 px. For every image,
 `data/histology/catalog.json` records the author, the licence and the Commons file page. The histology viewer
-shows them under the image. All of them are CC0, public domain, CC BY, or "Copyrighted free use" (the Commons
-tag for an image whose rights holder allows any use without conditions); `tools/check_licenses.py` rejects any other value.
+shows them under the image. All of them are CC0, public domain, CC BY, or "Copyrighted free use"; `tools/check_licenses.py` rejects any other value.
+Only one image has the "Copyrighted free use" tag: `SMCpolyhydroxysmall_f2e47a.jpg` (Commons page File:SMCpolyhydroxysmall.jpg), the own work of the
+Commons user Kauczuk, whose file page says the copyright holder allows anyone to use it for any purpose including
+commercial use and modification.
 
 | Licence | Images |
 |---|---|
@@ -67,20 +69,20 @@ tag for an image whose rights holder allows any use without conditions); `tools/
 | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) | 60 |
 | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | 7 |
 | [CC BY 2.5](https://creativecommons.org/licenses/by/2.5/) | 6 |
-| Copyrighted free use | 2 |
-| **Total** | **452** |
+| Copyrighted free use | 1 |
+| **Total** | **451** |
 
-For 8 images, Commons records no author in the file's metadata. They are credited as "Author not recorded on
-Wikimedia Commons (see source page)" and linked to their file page:
+For 7 images, Commons records no author in the file's metadata. They are credited as "Author not recorded on
+Wikimedia Commons (see source page)" and linked to their file page. All 7 are public domain. The basis of that
+status, as each Commons page gives it (read from the Commons pages on 2026-10-12), follows each file:
 
-- [Illu vein](https://commons.wikimedia.org/wiki/File:Illu_vein.jpg) (Public domain)
-- [Illu spleen](https://commons.wikimedia.org/wiki/File:Illu_spleen.jpg) (Public domain)
-- [Gobletcell](https://commons.wikimedia.org/wiki/File:Gobletcell.jpg) (Copyrighted free use)
-- [Mokraćovod](https://commons.wikimedia.org/wiki/File:Mokra%C4%87ovod.jpg) (Public domain)
-- [Illu ureters wall](https://commons.wikimedia.org/wiki/File:Illu_ureters_wall.jpg) (Public domain)
-- [Bešika](https://commons.wikimedia.org/wiki/File:Be%C5%A1ika.jpg) (Public domain)
-- [Retina](https://commons.wikimedia.org/wiki/File:Retina.gif) (Public domain)
-- [HippocampalRegions](https://commons.wikimedia.org/wiki/File:HippocampalRegions.jpg) (Public domain)
+- [Illu vein](https://commons.wikimedia.org/wiki/File:Illu_vein.jpg) (Public domain: work of the United States federal government (SEER training modules of the National Cancer Institute))
+- [Illu spleen](https://commons.wikimedia.org/wiki/File:Illu_spleen.jpg) (Public domain: work of the United States federal government (SEER training modules of the National Cancer Institute))
+- [Mokraćovod](https://commons.wikimedia.org/wiki/File:Mokra%C4%87ovod.jpg) (Public domain: adapted from plate 1134 of Gray's Anatomy (1918), public domain by age)
+- [Illu ureters wall](https://commons.wikimedia.org/wiki/File:Illu_ureters_wall.jpg) (Public domain: work of the United States federal government (SEER training modules of the National Cancer Institute))
+- [Bešika](https://commons.wikimedia.org/wiki/File:Be%C5%A1ika.jpg) (Public domain: adapted from plate 1141 of Gray's Anatomy (1918), public domain by age)
+- [Retina](https://commons.wikimedia.org/wiki/File:Retina.gif) (Public domain: work of the National Institutes of Health (National Eye Institute))
+- [HippocampalRegions](https://commons.wikimedia.org/wiki/File:HippocampalRegions.jpg) (Public domain: released into the public domain by its author, the Wikipedia user Semiconscious)
 
 ## 3. Radiology images: Wikimedia Commons
 
