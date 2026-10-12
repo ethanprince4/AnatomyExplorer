@@ -157,7 +157,8 @@ The rebuilt plugin is **arm64 only**, and macOS 13 or later is required. It reta
 
 The Windows and macOS installers are built with PyInstaller and contain these libraries. Where a wheel ships
 its licence files, `packaging/AnatomyExplorer.spec` copies them into the bundle under `licenses/`. The LGPL-3.0
-and GPL-3.0 texts for Qt/PySide6 are in `packaging/licenses/`, and so is the wgpu-py licence text.
+and GPL-3.0 texts for Qt/PySide6 are in `packaging/licenses/`, and so are the wgpu-py licence text and the MIT and
+Apache-2.0 texts of wgpu-native.
 
 | Component | Licence | Project |
 |---|---|---|
@@ -183,10 +184,11 @@ and GPL-3.0 texts for Qt/PySide6 are in `packaging/licenses/`, and so is the wgp
 | certifi and Mozilla CA roots | [MPL-2.0](https://github.com/certifi/python-certifi/blob/master/LICENSE) | <https://github.com/certifi/python-certifi> |
 | PyInstaller bootloader | [GPL-2.0-or-later with the PyInstaller bootloader exception](https://github.com/pyinstaller/pyinstaller/blob/develop/COPYING.txt), which allows distributing the built app under any licence | <https://pyinstaller.org/> |
 
-**wgpu.** The wgpu wheel carries only wgpu-py's own licence file, which the installers include. It does not carry
-the MIT or Apache-2.0 licence text of wgpu-native, so those texts are not in the installers; they are in the
-wgpu-native repository (<https://github.com/gfx-rs/wgpu-native>). The wgpu-native binary also contains Rust
-libraries with licences of their own, which are not inventoried here.
+**wgpu.** The wgpu wheel carries only wgpu-py's own licence file. The installers include that file and also the
+MIT and Apache-2.0 texts of wgpu-native (`packaging/licenses/wgpu-native-MIT.txt` and
+`packaging/licenses/wgpu-native-Apache-2.0.txt`, copied from the wgpu-native repository at tag v29.0.1.1,
+<https://github.com/gfx-rs/wgpu-native>). The wgpu-native binary also contains Rust libraries with licences of
+their own, which are not inventoried here.
 
 **Qt / PySide6 (LGPL-3.0).** Anatomy Explorer uses Qt 6 and PySide6 (Qt for Python) under the GNU Lesser General
 Public License version 3 (LGPL-3.0). Qt is copyrighted by The Qt Company Ltd. and other contributors. The full

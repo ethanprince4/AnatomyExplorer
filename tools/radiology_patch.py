@@ -1322,7 +1322,7 @@ x = patient's left, y = up, z = anterior; 1 mm = 0.001. Build errors reject the 
 {"name": "...", "latin": "...", "material": "...", "subsystem": "...", "regions": ["abdomen"], "note": "...", "shape": {...}}
 ```
 - `name` (required): unique, case-insensitive, not an atlas structure name, no leading '@'. Prefer a name tied to your
-  case (`"Gallstone (illustrative) (mri_choledocholithiasis)"`) so no other case shares the finding: a finding that
+  case (`"Disc herniation (illustrative) (mri_l4_l5_disc_herniation)"`) so no other case shares the finding: a finding that
   another case names cannot be replaced or removed by your patch (add your own copy instead).
 - `material` (required): one of MATERIALS_LIST.
 - `subsystem` (default "Pathology"), `note` (shown as the definition), `latin`: free text.

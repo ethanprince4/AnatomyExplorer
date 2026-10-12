@@ -68,7 +68,7 @@ def data_files():
 
 # Wheels whose code ends up in the bundle; their own licence files are copied to licenses/<name>/ (Qt/PySide6
 # wheels carry none, so their LGPL/GPL texts come from packaging/licenses; the wgpu wheel carries only wgpu-py's
-# BSD-2-Clause text, not wgpu-native's MIT/Apache-2.0 texts).
+# BSD-2-Clause text, so wgpu-native's MIT/Apache-2.0 texts also come from packaging/licenses).
 BUNDLED_DISTS = ["numpy", "scipy", "scikit-image", "shapely", "moderngl", "glcontext", "pillow", "imageio",
                  "tifffile", "lazy_loader", "networkx", "packaging", "pyinstaller", "certifi", "wgpu"]
 

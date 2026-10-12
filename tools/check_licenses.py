@@ -16,6 +16,13 @@ DATA = ROOT / "data"
 # and GFDL images do not pass the project's rule and are not allowed.
 IMAGE_OK = re.compile(r"^(CC0|Public domain|Copyrighted free use|CC BY (1\.0|2\.0|2\.5|3\.0|4\.0)( [a-z]{2})?)$")
 
+
+def image_licence_ok(licence):
+    """True when an image with this Commons licence short name may ship. The fetch tools use this same test, so a
+    download or a catalogue never takes in an image the checker would reject."""
+    return bool(IMAGE_OK.match(licence or ""))
+
+
 bad = 0
 
 
@@ -50,7 +57,7 @@ def check_histology():
         for img in t["images"]:
             where = f"histology {t['id']}/{img.get('file')}"
             need(where, img, ("file", "author", "license", "source"))
-            if img.get("license") and not IMAGE_OK.match(img["license"]):
+            if img.get("license") and not image_licence_ok(img["license"]):
                 problem(f"{where}: licence {img['license']!r} not allowed")
             if img.get("source") and not img["source"].startswith("https://commons.wikimedia.org/wiki/File:"):
                 problem(f"{where}: source is not a Commons file page: {img['source']}")
@@ -69,7 +76,7 @@ def check_radiology():
     for key, e in src.items():
         where = f"radiology {key}"
         need(where, e, ("file", "author", "licence", "page"))
-        if e.get("licence") and not IMAGE_OK.match(e["licence"]):
+        if e.get("licence") and not image_licence_ok(e["licence"]):
             problem(f"{where}: licence {e['licence']!r} not allowed")
         if e.get("file") and not (DATA / "radiology" / "images" / e["file"]).exists():
             problem(f"{where}: image file missing ({e['file']})")
