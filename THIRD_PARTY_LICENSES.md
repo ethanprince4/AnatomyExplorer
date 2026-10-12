@@ -142,8 +142,8 @@ licence. They are 26 CC0, 5 CC BY 4.0, 6 Public domain, 5 CC BY 3.0, 9 CC BY 2.0
 | `wrist_lat.jpg` | Mikael Häggström | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | [X-ray of normal wrist by lateral projection](https://commons.wikimedia.org/wiki/File:X-ray_of_normal_wrist_by_lateral_projection.jpg) |
 | `xr_bilateral_renal_stones.png` | Bill Rhodes from Asheville | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Kidney stones abdominal X-ray](https://commons.wikimedia.org/wiki/File:Kidney_stones_abdominal_X-ray.jpg) |
 
-The case texts in `data/content/radiology*.json` link 14 pages of OpenStax *Anatomy and Physiology 2e* (13 of the
-cases) as further reading; the links are references only and no OpenStax text or image is shipped. On 2026-10-12
+The case texts in `data/content/radiology*.json` carry 14 links to 7 pages of OpenStax *Anatomy and Physiology 2e*
+(in 13 of the cases) as further reading; the links are references only and no OpenStax text or image is shipped. On 2026-10-12
 the wording of those 13 cases was compared with the linked pages and none was found copied or close to it.
 
 ## 4. Software bundled in the installers
