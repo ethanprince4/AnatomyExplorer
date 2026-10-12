@@ -1,7 +1,10 @@
+import threading
+
 import moderngl
 import numpy as np
 
 from . import shaders
+from .draw_ranges import DrawRanges
 from PySide6.QtGui import QColor
 
 from .config import BACKGROUND_DARK, BACKGROUND_LIGHT, SHADING
@@ -28,6 +31,9 @@ def _mat4_bytes(m):
 
 class Renderer:
     GATHER_MAX = 256       # points per batched id/depth readback (matches u_pts in shaders.GATHER_FS)
+    PASSES = ("opaque", "transparent", "mask")
+    LOOP_DRAWS = 64        # without glMultiDrawElementsIndirect (below OpenGL 4.3): at most this many draws a pass
+    RANGES_INLINE_BYTES = 32 << 20     # larger index buffers are examined on a thread, so loading waits for nothing
 
     def __init__(self, ctx: moderngl.Context, ds, vertices, indices, cap_depth=False):
         self.ctx = ctx
@@ -138,6 +144,22 @@ class Renderer:
             kernel.append(v)
         self.kernel = np.array(kernel, dtype="f4")
 
+        # Draw lists (app/draw_ranges.py): each pass is given only the structures that can show in it. Until the
+        # dataset's layout has been examined, and whenever it cannot be proved, the whole buffer is drawn.
+        self.use_ranges = True
+        self.ranges = None
+        self.last_stats = {}                    # triangles and draws submitted by the last frame, per pass
+        self._state_opacity = np.ones(len(structs), dtype=np.float32)
+        self._state_version = 0
+        self._lists_key = None
+        self._lists = None
+        self._cmd_buf = {}
+        self._cmd_data = {}
+        self._indirect = ctx.version_code >= 430
+        self._ranges_ready = threading.Event()
+        self._ranges_result = None
+        self._start_ranges(vertices, indices)
+
         self.size = (0, 0)
         self.screen_size = None
         self.last_vp = np.identity(4)
@@ -148,6 +170,82 @@ class Renderer:
     def _format_for(prog, fmt=VERTEX_FORMAT, attrs=VERTEX_ATTRS):
         """The buffer's layout for one program: attributes the program does not use become padding."""
         return " ".join(f if a in prog else f"{FORMAT_SIZE[f]}x" for f, a in zip(fmt.split(), attrs))
+
+    # ------------------------------------------------------------------ draw lists
+    def _start_ranges(self, vertices, indices):
+        structures, materials = self.ds.structures, self.ds.materials
+
+        def work():
+            try:
+                self._ranges_result = DrawRanges.build(structures, materials, vertices, indices)
+            finally:
+                self._ranges_ready.set()
+
+        if len(indices) <= self.RANGES_INLINE_BYTES:
+            work()
+        else:
+            threading.Thread(target=work, name="draw-ranges", daemon=True).start()
+
+    def wait_ranges(self, timeout=None):
+        """Block until the dataset's layout has been examined (tests and measurements); True when lists are in use."""
+        self._ranges_ready.wait(timeout)
+        return self._adopt_ranges() is not None
+
+    def _adopt_ranges(self):
+        if self.ranges is None and self._ranges_ready.is_set() and self._ranges_result is not None:
+            self.ranges, self._ranges_result = self._ranges_result, None
+        return self.ranges
+
+    def _frame_lists(self, vp, clip, settings):
+        """{pass: (first index, index count) arrays} for this frame, or None: draw the whole buffer."""
+        r = self._adopt_ranges()
+        if r is None or not self.use_ranges or self._state_version == 0 or len(self._state_flags) != r.n:
+            return None
+        ghost = np.float32(settings.get("ghost_alpha", 0.1))
+        planes = np.asarray(clip[0], dtype=np.float32)
+        on = tuple(int(x) for x in clip[1])
+        mode = int(clip[2]) if len(clip) > 2 else 0
+        key = (self._state_version, float(ghost), np.asarray(vp).tobytes(), planes.tobytes(), on, mode,
+               self._indirect)
+        if key == self._lists_key:
+            return self._lists
+        # an animated model moves its vertices, so its boxes say nothing about where it is drawn
+        where = (None, None) if self.animated else (vp, (planes, on, mode))
+        masks = r.passes(self._state_flags, self._state_opacity, ghost, *where)
+        lists = {}
+        for name, mask in zip(self.PASSES, masks):
+            first, count = r.runs(mask)
+            if not self._indirect:
+                first, count = r.bridge(first, count, self.LOOP_DRAWS)
+            lists[name] = (first, count, int(count.sum()) // 3)
+            if self._indirect and len(first):
+                data = r.commands(first, count).tobytes()
+                if data != self._cmd_data.get(name):
+                    buf = self._cmd_buf.get(name)
+                    if buf is None:
+                        buf = self._cmd_buf[name] = self.ctx.buffer(reserve=max(len(r.order), 1) * 20, dynamic=True)
+                    buf.orphan()
+                    buf.write(data)
+                    self._cmd_data[name] = data
+                    buf.extra = {"draws": len(first), "triangles": lists[name][2]}
+        self._lists_key, self._lists = key, lists
+        return lists
+
+    def _draw_pass(self, vao, name, lists):
+        """One geometry pass: the structures on its list, in buffer order (the whole buffer when there is no list)."""
+        if lists is None:
+            vao.render(moderngl.TRIANGLES)
+            self.last_stats[name] = (self.index_count // 3, 1)
+            return
+        first, count, triangles = lists[name]
+        self.last_stats[name] = (triangles, len(first))
+        if not len(first):
+            return
+        if self._indirect:
+            vao.render_indirect(self._cmd_buf[name], moderngl.TRIANGLES, count=len(first))
+            return
+        for f, c in zip(first.tolist(), count.tolist()):
+            vao.render(moderngl.TRIANGLES, vertices=c, first=f)
 
     def _upload_materials(self):
         data = np.zeros((4, 1024, 4), dtype=np.float32)
@@ -171,7 +269,7 @@ class Renderer:
                 self.p_parity, self.p_capmix, getattr(self, "capmix_vao", None), *self.fs.values(),
                 self.p_opaque, self.p_transparent, self.p_mask, self.p_ssao, self.p_blur, self.p_composite,
                 self.p_final, self.p_fxaa, self.p_gather, self.gather_vao, self.gather_fbo, self.gather_tex, self.vbo, self.ibo, self.aux, self.anim, self.state_tex, self.mats_tex,
-                self.anim_tex, self.noise_tex, self.albedo]
+                self.anim_tex, self.noise_tex, self.albedo, *self._cmd_buf.values()]
         objs += [getattr(self, n, None) for n in ("gbuffer", "mask_fbo", "ao_fbo", "blur_fbo", "hdr_fbo", "ldr_fbo",
                                                   "color_tex", "normal_tex", "id_tex", "depth_tex", "mask_tex",
                                                   "mask_depth", "ao_tex", "blur_tex", "hdr_tex", "ldr_tex",
@@ -187,6 +285,8 @@ class Renderer:
     def update_state(self, tex):
         self._state_texture = np.asarray(tex, dtype=np.float32).copy()
         self._state_flags = np.asarray(tex[0, :len(self.ds.structures), 3], dtype=np.int32).copy()
+        self._state_opacity = np.asarray(tex[1, :len(self.ds.structures), 0], dtype=np.float32).copy()
+        self._state_version = getattr(self, "_state_version", 0) + 1     # a new state means new draw lists
         # (2, blocks * WIDTH, 4) -> (blocks * 2, WIDTH, 4): row 2*b + k holds row k of block b
         blocks = self.state_blocks
         full = np.zeros((2, blocks * STATE_TEX_WIDTH, 4), dtype=np.float32)
@@ -503,8 +603,10 @@ class Renderer:
         self.gbuffer.clear(0.0, 0.0, 0.0, 0.0, depth=1.0)
         self._set_geometry_uniforms(self.p_opaque, vp, view, eye, key, fill, settings, clip)
         self._set(self.p_opaque, "u_pass", 0)
+        self.last_stats = {}
+        lists = None if slice_only else self._frame_lists(vp, clip, settings)
         if not slice_only:
-            self.vao_opaque.render(moderngl.TRIANGLES)
+            self._draw_pass(self.vao_opaque, "opaque", lists)
         if (self.cap_depth or slice_only) and any(clip[1]):
             self._draw_caps(vp, view, eye, key, fill, settings, clip, slice_only=slice_only)
 
@@ -514,7 +616,7 @@ class Renderer:
             self.mask_fbo.clear(0.0, 0.0, 0.0, 0.0, depth=1.0)
             self._set_geometry_uniforms(self.p_mask, vp, view, eye, key, fill, settings, clip)
             self._set(self.p_mask, "u_pass", 2)
-            self.vao_mask.render(moderngl.TRIANGLES)
+            self._draw_pass(self.vao_mask, "mask", lists)
 
         ctx.disable(moderngl.DEPTH_TEST)
 
@@ -574,7 +676,7 @@ class Renderer:
         self._set_geometry_uniforms(self.p_transparent, vp, view, eye, key, fill, settings, clip)
         self._set(self.p_transparent, "u_pass", 1)
         if not slice_only:
-            self.vao_transparent.render(moderngl.TRIANGLES)
+            self._draw_pass(self.vao_transparent, "transparent", lists)
         self.hdr_fbo.depth_mask = True
         ctx.disable(moderngl.DEPTH_TEST | moderngl.BLEND | moderngl.CULL_FACE)
 
