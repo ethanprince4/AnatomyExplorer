@@ -134,7 +134,8 @@ class KeyFollowsContentNotPlace(StoreCase):
         self.addCleanup(sys.path.remove, str(folder))
         self.addCleanup(prepared_cache._code_ids.clear)
         path = write_npz(self.root / "a.npz")
-        model = SimpleNamespace(vertices=SimpleNamespace(filename=None), anim_vertices=None)
+        model = SimpleNamespace(vertices=np.zeros((0, VERTEX_FLOATS), np.float32), indices=np.zeros(0, np.uint32),
+                                parts=[], anim_vertices=None)
         with mock.patch.object(prepared_cache, "SHAPING_MODULES", (name,)), \
                 mock.patch.object(cluster_cache, "SHAPING_MODULES", (name,)), \
                 mock.patch.object(cluster_cache, "prepared_identity", return_value="p" * 40):

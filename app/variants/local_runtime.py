@@ -392,6 +392,7 @@ def _prepare_local_model(entry, token, use_cache):
         owner = None if standalone and str(entry.id).startswith("file:") else [str(entry.id), bool(standalone)]
         key = (prepared_cache.make_key(path, [(role, a.path) for role, a in sorted(assets.items())], retired, owner=owner)
                if use_cache and not component else None)
+        prepared_key = key              # kept under its own name: the loops below use ``key`` for other things
         cached = prepared_cache.lookup(key) if key else None
         entry._prepared_used = cached is not None
         if cached is not None:
@@ -463,6 +464,9 @@ def _prepare_local_model(entry, token, use_cache):
         else:
             model = backend.procedural(micro, parts)
             model._prepared_plan = plan
+        # What the cluster store knows this model by (app/gpu/cluster_cache.py), on a first open (arrays in RAM) as
+        # on a later one (arrays mapped from the entry of this key): the first open can then save its clusters.
+        model._prepared_key = prepared_key
         try:
             if not standalone and entry.id == "tooth" and controls["documents"]:
                 _hook(entry.id, "teaching").apply_to_viewer_model(model, controls["documents"][0], model_id=entry.id)

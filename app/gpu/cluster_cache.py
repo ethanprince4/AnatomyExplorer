@@ -4,11 +4,15 @@
   prune() never sees this folder). ``ANATOMY_CLUSTER_CACHE`` overrides the folder and ``=off`` disables the cache;
   ``ANATOMY_PREPARED_CACHE=off`` disables it too. ``ANATOMY_CLUSTER_CACHE_GB`` is the size cap (default 4).
 * Identity: a cluster set depends on every vertex position and index of the model, so the key is derived from the
-  prepared-model cache entry the model's arrays are memory-mapped from (its key already covers what the source file
-  holds, the LOD constants, the prepared FORMAT_VERSION and the code that shapes the arrays), plus the clusters'
-  BUILD_VERSION, a hash of the source text of ``SHAPING_MODULES`` (no version bump to remember), the cluster
-  size. The cluster set does not depend on the geometry layout (page size, page of a part, compressed or not). A model whose arrays are not backed
-  by a prepared-cache file has no stable identity: it is built every time and not saved (no stale-bounds risk).
+  model's prepared-model key (it already covers what the source file holds, the LOD constants, the prepared
+  FORMAT_VERSION and the code that shapes the arrays), plus the clusters' BUILD_VERSION, a hash of the source text of
+  ``SHAPING_MODULES`` (no version bump to remember), the cluster size and a hash of the model's layout
+  (``model_shape``). The same file decodes to the same arrays every time (tests/test_cluster_identity.py), so a
+  model has that key on its first open already, when its arrays are still in RAM (local_runtime sets
+  ``model._prepared_key``): the first open saves the clusters and the second finds them. The cluster set does not
+  depend on the geometry layout (page size, page of a part, compressed or not). A model with no prepared key (a
+  .glb, a component, an open with the cache switched off) has no stable identity: it is built every time and not
+  saved (no stale-bounds risk).
 * Same write protocol as prepared_cache, with its helpers: every file flushed, meta.json (with the byte size of
   every file, checked on open) last, one rename; a good entry is never removed to be replaced; meta.json goes first
   in any removal; no save under the free-disk floor; a refused or failed key is remembered for the run. Anything
@@ -55,7 +59,14 @@ def cap_bytes():
 
 
 def prepared_identity(model):
-    """The prepared-cache key the model's vertex array is mapped from, or None."""
+    """The prepared-model key of the model's arrays, or None.
+
+    A library file opened by local_runtime carries it as ``model._prepared_key`` from its first open on, when the
+    arrays were decoded into RAM a moment ago, and on every later open, when they are mapped from the entry of that
+    key. Any other model with mapped arrays is identified by the entry it is mapped from."""
+    key = getattr(model, "_prepared_key", None)
+    if key:
+        return str(key)
     name = getattr(model.vertices, "filename", None)
     if not name:
         return None
@@ -69,6 +80,20 @@ def prepared_identity(model):
         return None
 
 
+def model_shape(model):
+    """Short hash of what the tables of a cluster set are laid out on: the array sizes, the draw range of every part
+    and the sizes and sharing of its detail levels. The prepared key says which numbers the arrays hold; this says the
+    model in hand has the layout those clusters index (a model whose detail levels are not built yet, or one that lost
+    or gained a part after it was opened, gets another key instead of a set that does not fit it)."""
+    digest = hashlib.sha256()
+    digest.update(f"{len(model.vertices)} {len(model.indices)} {len(model.parts)}\n".encode())
+    for part in model.parts:
+        levels, order = cl.part_levels(model, part)
+        digest.update(f"{int(part.first)} {int(part.count)} {int(part.vertex_base)} {int(part.vertex_count)} "
+                      f"{[int(len(a)) for a in levels]} {[int(k) for k in order]}\n".encode())
+    return digest.hexdigest()[:16]
+
+
 def make_key(model, geom=None):
     ident = prepared_identity(model)
     if ident is None:
@@ -76,10 +101,12 @@ def make_key(model, geom=None):
     animated = getattr(model, "anim_vertices", None) is not None
     try:
         code = _prep.code_id(SHAPING_MODULES)
+        shape = model_shape(model)
     except Exception:
         return None
     return hashlib.sha256(json.dumps({"prepared": ident, "v": cl.BUILD_VERSION, "code": code, "tris": cl.CLUSTER_TRIS,
-                                      "levels": cl.LEVEL_COUNT, "animated": animated}, sort_keys=True).encode()).hexdigest()[:40]
+                                      "levels": cl.LEVEL_COUNT, "animated": animated, "shape": shape},
+                                     sort_keys=True).encode()).hexdigest()[:40]
 
 
 def _read_entry(folder, key):
