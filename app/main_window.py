@@ -1756,8 +1756,6 @@ class MainWindow(QMainWindow):
             self.open_micro(payload)
         elif scheme == "rad":
             self.show_radiology(payload)
-        elif scheme == "sfmodel":
-            self.open_local_model(payload)
         elif scheme == "atlas":
             self._atlas_structures([n for n in payload.split("|") if n])
         elif scheme == "note":
@@ -1825,10 +1823,6 @@ class MainWindow(QMainWindow):
         sids = [s for n in names for s in self.ds.structures_named(n)]
         if sids:
             self.select_and_focus(sids, xray=True)
-
-    def open_local_model(self, uid):
-        """A downloaded model, by its Sketchfab uid (old links and saved references use it)."""
-        self.open_micro(f"sketchfab:{uid}")
 
     def _atlas_structures(self, names):
         """'Show in the atlas': back to the 3D anatomy with what a model's part depicts selected and framed."""

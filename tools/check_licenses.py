@@ -1,8 +1,7 @@
 """Validate the licence record of every third-party file the app ships.
 
-Every histology and radiology image and every downloaded Sketchfab model must name its author, its licence and its
-source page, and the licence must be one we may redistribute. NonCommercial Sketchfab licences are allowed but
-counted and must be listed (with the notice) in THIRD_PARTY_LICENSES.md; they are allowed nowhere else."""
+Every histology and radiology image must name its author, its licence and its source page, and the licence must be
+one we may redistribute."""
 import json
 import re
 import sys
@@ -15,10 +14,6 @@ DATA = ROOT / "data"
 # licences an image may carry (Wikimedia Commons short names); "de" etc. are CC jurisdiction ports
 IMAGE_OK = re.compile(r"^(CC0|Public domain|No restrictions|Copyrighted free use|GFDL|"
                       r"CC BY(-SA)? (1\.0|2\.0|2\.5|3\.0|4\.0)( [a-z]{2})?)$")
-# Sketchfab licence slugs: free ones, and NonCommercial ones that may only ship with the non-commercial notice
-SKETCHFAB_FREE = {"cc0", "by", "by-sa"}
-SKETCHFAB_NC = {"by-nc", "by-nc-sa", "by-nc-nd"}
-SKETCHFAB_ND = {"by-nd", "by-nc-nd"}
 
 bad = 0
 
