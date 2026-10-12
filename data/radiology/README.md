@@ -1,6 +1,6 @@
 # Radiology teaching library
 
-104 image teaching cases, 454 numbered labels and 128 self-check questions. The runtime images have 104 distinct published source-file pages. A teaching case can contain paired views, several modality panels or a reviewed still from a cine image; the count does not mean independent patients.
+52 image teaching cases, 384 numbered labels and 73 self-check questions. The runtime images have 52 distinct published source-file pages. A teaching case can contain paired views, several modality panels or a reviewed still from a cine image; the count does not mean independent patients.
 
 The source image and the atlas serve different teaching purposes. The atlas is not registered to patient images. CT/MRI section references display only their selected physical atlas plane. An oblique scan may use an explicitly approximate orthogonal atlas reference. MRCP, angiography, radiographs, ultrasound and functional images retain their appropriate projection or reference mode.
 
@@ -51,7 +51,7 @@ Published scan findings remain scoped to their source captions and visible image
 
 ## Provenance and reuse
 
-[sources.json](sources.json) records image authors, individual source pages, licenses and source descriptions. New images also record reviewed-input and runtime SHA-256 values, crop changes and privacy-review evidence. The [per-image license inventory](LICENSES.md) lists each displayed asset. Cropped images retain their source license, including ShareAlike conditions. Numbered labels are a separate application overlay. New runtime PNGs contain fresh pixel data with image metadata removed; reviewed crops remove identifying film headers.
+[sources.json](sources.json) records image authors, individual source pages and licenses. New images also record reviewed-input and runtime SHA-256 values, crop changes and privacy-review evidence. The [per-image license inventory](LICENSES.md) lists each displayed asset. Cropped images retain their source license. Every image is CC0, public domain or CC BY; none is ShareAlike. Numbered labels are a separate application overlay. New runtime PNGs contain fresh pixel data with image metadata removed; reviewed crops remove identifying film headers.
 
 ## Local verification
 

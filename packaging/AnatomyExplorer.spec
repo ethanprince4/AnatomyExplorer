@@ -67,9 +67,10 @@ def data_files():
 
 
 # Wheels whose code ends up in the bundle; their own licence files are copied to licenses/<name>/ (Qt/PySide6
-# wheels carry none, so their LGPL/GPL texts come from packaging/licenses).
+# wheels carry none, so their LGPL/GPL texts come from packaging/licenses; the wgpu wheel carries only wgpu-py's
+# BSD-2-Clause text, not wgpu-native's MIT/Apache-2.0 texts).
 BUNDLED_DISTS = ["numpy", "scipy", "scikit-image", "shapely", "moderngl", "glcontext", "pillow", "imageio",
-                 "tifffile", "lazy_loader", "networkx", "packaging", "pyinstaller", "certifi"]
+                 "tifffile", "lazy_loader", "networkx", "packaging", "pyinstaller", "certifi", "wgpu"]
 
 
 def notice_files():
@@ -115,7 +116,7 @@ a = Analysis(
     # registry.py finds registry_extra_*.py by listing its folder, so the whole package is collected
     hiddenimports=collect_submodules("app") + collect_submodules("glcontext")
                   + ["tree_ax_repro", "mac_native_probe", "runtime_binary"],
-    # the app has no web view and no QML since the model viewer replaced the Sketchfab player: leaving these out
+    # the app has no web view and no QML (the model viewer is its own renderer): leaving these out
     # keeps Chromium (Qt WebEngine) and the QML runtime out of the installers
     excludes=["tkinter", "matplotlib", "IPython", "PyQt5", "PyQt6", "pytest",
               "PySide6.QtWebEngineCore", "PySide6.QtWebEngineWidgets", "PySide6.QtWebEngineQuick",

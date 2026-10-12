@@ -11,9 +11,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 
-# licences an image may carry (Wikimedia Commons short names); "de" etc. are CC jurisdiction ports
-IMAGE_OK = re.compile(r"^(CC0|Public domain|No restrictions|Copyrighted free use|GFDL|"
-                      r"CC BY(-SA)? (1\.0|2\.0|2\.5|3\.0|4\.0)( [a-z]{2})?)$")
+# licences an image may carry (Wikimedia Commons short names): CC0, public domain, any CC BY version ("de" etc. are
+# CC jurisdiction ports) and "Copyrighted free use" (any use, no condition). Share-alike, NonCommercial, NoDerivatives
+# and GFDL images do not pass the project's rule and are not allowed.
+IMAGE_OK = re.compile(r"^(CC0|Public domain|Copyrighted free use|CC BY (1\.0|2\.0|2\.5|3\.0|4\.0)( [a-z]{2})?)$")
 
 bad = 0
 
