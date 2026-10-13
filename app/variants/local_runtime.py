@@ -347,8 +347,15 @@ def _component_controls(entry, descriptor, metadata, decoded, warnings):
 
 def prepare_local_model(entry, token=None):
     """Open a library model. The prepared-model cache is used when it holds this exact file; any trouble with it
-    (stale, damaged, mismatched) falls back to the ordinary decode-and-build path without a message."""
+    (stale, damaged, mismatched) falls back to the ordinary decode-and-build path without a message.
+
+    An entry that was read as good but does not fit what the file builds is replaced: the file is opened again under
+    the same key without the entry (so the model keeps its identity, and its clusters can be kept), and only when that
+    open has worked is the entry removed, so that this open's save puts a fresh one in its place. That happens once
+    per key and run: if the entry does not fit a second time, or cannot be removed, the key is opened with the cache
+    off for the rest of the run (prepared_cache.may_replace, drop_unfit, unfit)."""
     from ..load_control import LoadCancelled
+    from ..viewer import prepared_cache
     try:
         return _prepare_local_model(entry, token, True)
     except LoadCancelled:
@@ -356,11 +363,16 @@ def prepare_local_model(entry, token=None):
     except Exception:
         if not getattr(entry, "_prepared_used", False):
             raise
+    key = getattr(entry, "_prepared_tried", None)
     entry._prepared_used = False
-    return _prepare_local_model(entry, token, False)
+    if not prepared_cache.may_replace(key):
+        return _prepare_local_model(entry, token, False)
+    model = _prepare_local_model(entry, token, True, lookup=False)
+    prepared_cache.drop_unfit(key)
+    return model
 
 
-def _prepare_local_model(entry, token, use_cache):
+def _prepare_local_model(entry, token, use_cache, lookup=True):
     from .anatomy_runtime_adapters.runtime import NativeBackend, _prepare_hooks, _hook, _resolve_fit_cameras, _retire_native_backing
     _check(token)
     descriptor = getattr(entry, "descriptor", None) or entry.store.resolve(entry.id, entry.variant)
@@ -387,9 +399,17 @@ def _prepare_local_model(entry, token, use_cache):
         from ..viewer import prepared_cache
         guide = load_part_guide(entry.id)
         retired = guide.excluded_groups
-        key = prepared_cache.make_key(path, [(role, a.path) for role, a in sorted(assets.items())], retired)             if use_cache and not component else None
-        cached = prepared_cache.lookup(key) if key else None
+        # The key holds what the files contain, not where they lie. A library model also names itself, because its
+        # hooks and guide can shape the parts; a file opened on its own has no hooks, so a copy of it shares the entry.
+        owner = None if standalone and str(entry.id).startswith("file:") else [str(entry.id), bool(standalone)]
+        key = (prepared_cache.make_key(path, [(role, a.path) for role, a in sorted(assets.items())], retired, owner=owner)
+               if use_cache and not component else None)
+        if key and prepared_cache.unfit(key):
+            key = None                  # its entry did not fit twice in this run: as with the cache off
+        prepared_key = key              # kept under its own name: the loops below use ``key`` for other things
+        cached = prepared_cache.lookup(key) if key and lookup else None
         entry._prepared_used = cached is not None
+        entry._prepared_tried = key if cached is not None else None
         if cached is not None:
             # stand-in arrays of the recorded sizes: the real ones come memory-mapped from the cache
             with np.load(path, allow_pickle=False) as archive:
@@ -459,6 +479,9 @@ def _prepare_local_model(entry, token, use_cache):
         else:
             model = backend.procedural(micro, parts)
             model._prepared_plan = plan
+        # What the cluster store knows this model by (app/gpu/cluster_cache.py), on a first open (arrays in RAM) as
+        # on a later one (arrays mapped from the entry of this key): the first open can then save its clusters.
+        model._prepared_key = prepared_key
         try:
             if not standalone and entry.id == "tooth" and controls["documents"]:
                 _hook(entry.id, "teaching").apply_to_viewer_model(model, controls["documents"][0], model_id=entry.id)
