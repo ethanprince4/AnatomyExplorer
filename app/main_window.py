@@ -115,6 +115,9 @@ class MainWindow(QMainWindow):
         self.settings['show_structure_labels'] = False
         # The shell and live scene share one backdrop; this does not change lights or materials.
         self.settings.update(custom_background=True, bg_top='#141b22', bg_bottom='#141b22')
+        # the load thread reads the renderer choice from these settings (clusters are made there for the fast renderer)
+        from .gpu import prep as _gpu_prep
+        _gpu_prep.use_settings(self.settings)
         apply_theme(QApplication.instance(), float(self.settings["ui_scale"]),
                     mode=str(self.qsettings.value("ui_theme", "porcelain")))
         self.state = SceneState(ds, self.settings)

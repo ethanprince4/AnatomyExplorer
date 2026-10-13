@@ -217,15 +217,59 @@ def prune(root, keep=None, cap=None):
         pass
 
 
+def carry(model, cd):
+    """Let the cluster set ``cd`` ride on ``model`` (``model._clusters0``), with the layout it was made for: _get hands
+    it out before it looks anywhere else. The load thread does this (app/gpu/prep.py), so the renderer's request on the
+    GUI thread costs nothing, also for a model whose set cannot be kept on disk. False when the model takes no attribute."""
+    try:
+        model._clusters0_shape = model_shape(model)
+        model._clusters0, model._clusters0_error = cd, None
+        return True
+    except Exception:
+        return False
+
+
+def carry_failure(model, error):
+    """Remember on the model that its cluster build failed (a ClusterError), so the same build is not run again only to
+    fail again: _get raises it anew while the model keeps this layout."""
+    try:
+        model._clusters0_shape = model_shape(model)
+        model._clusters0, model._clusters0_error = None, str(error)
+        return True
+    except Exception:
+        return False
+
+
+def carried(model):
+    """The set riding on the model, or None. A set made for another layout (a detail level or a part changed since) is
+    not handed out. Raises ClusterError when what rides is the failure of the build for this layout."""
+    cd, error = getattr(model, "_clusters0", None), getattr(model, "_clusters0_error", None)
+    if cd is None and not error:
+        return None
+    try:
+        same = getattr(model, "_clusters0_shape", None) == model_shape(model)
+    except Exception:
+        same = False
+    if not same:
+        return None
+    if cd is None:
+        raise cl.ClusterError(error)
+    return cd
+
+
 def get_clusters(model, geom=None, progress=None, use_cache=True):
-    """ClusterData for the model: from the cache when present, else built (and saved when the model has an identity; the
-    returned arrays are then the memory-mapped files, not the builder's RAM copies). With ``geom`` (page_of and ranges are
-    read) the layout dependent tables are bound (clusters.bind_layout); without, the page-independent set is returned."""
+    """ClusterData for the model: the set riding on it when there is one (carry), else from the cache when present, else
+    built (and saved when the model has an identity; the returned arrays are then the memory-mapped files, not the
+    builder's RAM copies). With ``geom`` (page_of and ranges are read) the layout dependent tables are bound
+    (clusters.bind_layout); without, the page-independent set is returned."""
     cd = _get(model, progress, use_cache)
     return cl.bind_layout(cd, geom.page_of, geom.ranges) if geom is not None else cd
 
 
 def _get(model, progress, use_cache):
+    cd = carried(model)
+    if cd is not None:
+        return cd
     key = make_key(model) if use_cache else None
     cd = load(key)
     if cd is not None:

@@ -306,11 +306,15 @@ def build_clusters(model, geom=None, threads=None, progress=None):
     todo = sorted(by_part, key=lambda pi: -sum(int(r_ntri[r]) for r in by_part[pi]))
     n_threads = threads or min(8, max(1, (__import__("os").cpu_count() or 2)))
     done = 0
-    with ThreadPoolExecutor(max_workers=n_threads) as pool:
+    pool = ThreadPoolExecutor(max_workers=n_threads)
+    try:
         for _ in pool.map(job, todo):
             done += 1
             if progress:
-                progress(done, len(todo))
+                progress(done, len(todo))                      # may raise to stop the build (a cancelled load: app/gpu/prep.py)
+    finally:
+        # after a raise (from progress or from a part) the parts not started are dropped; the ones running finish first
+        pool.shutdown(wait=True, cancel_futures=True)
     if bad:
         raise ClusterError("parts index vertices outside their own range: " + ", ".join(parts[i].name for i in set(bad)))
     nwide = int(((cbase & np.uint32(WIDE)) != 0).sum())
