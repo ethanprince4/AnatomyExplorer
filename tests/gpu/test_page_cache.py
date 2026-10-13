@@ -550,14 +550,20 @@ class Prune(StoreCase):
             os.utime(self.store / key / "meta.json", (stamp, stamp))
         size = sum(f.stat().st_size for f in (self.store / keys[0]).iterdir())
         self.assertIsNotNone(PC.load(model, G.HostSink(), 1 << 22))      # the oldest is opened: now the newest
-        gone = []
-        real = prepared_cache.remove_entry
-        with mock.patch.object(prepared_cache, "remove_entry", side_effect=lambda f: gone.append(f.name) or real(f)):
+        with mock.patch.object(prepared_cache.shutil, "rmtree"):         # what was moved aside cannot be deleted just now
             PC.prune(self.store, cap=2 * size + 100)
-        self.assertEqual(gone, [keys[1]])
-        self.assertEqual(self.entries(), sorted([keys[0], keys[2]]))
+        left = [name for name in self.entries() if name.startswith(".tmp-gone-")]
+        self.assertEqual(self.entries(), sorted([keys[0], keys[2]] + left))     # the middle one went, and only that one
+        self.assertEqual(len(left), 1)
+        self.assertEqual(sorted(f.name for f in (self.store / left[0]).iterdir()),      # of it, meta.json went first
+                         ["page0.npy", "tables.json", "tables.npz"])
+        self.assertIsNone(PC.load(model, G.HostSink(), 1 << 23))
+        self.assertIsNotNone(PC.load(model, G.HostSink(), 1 << 22))
+        self.assertIsNotNone(PC.load(model, G.HostSink(), 1 << 24))
         PC.prune(self.store, keep=keys[2], cap=0)
-        self.assertEqual(self.entries(), [keys[2]])
+        self.assertEqual(self.entries(), sorted([keys[2]] + left))       # prune leaves what is not an entry alone
+        self.assertTrue(PC.bake(model, 1 << 23)["fresh"])                # the next save clears it
+        self.assertEqual(self.entries(), sorted([keys[1], keys[2]]))
 
     def test_a_save_prunes_to_the_cap_and_keeps_what_it_wrote(self):
         model = keyed_model()
@@ -567,17 +573,26 @@ class Prune(StoreCase):
         second = PC.bake(model, 1 << 23)
         self.assertEqual(self.entries(), [second["key"]])
 
-    def test_an_old_temporary_folder_is_cleared(self):
-        stale = self.store / ".tmp-abandoned"
-        fresh = self.store / ".tmp-in-use"
-        for folder in (stale, fresh):
-            folder.mkdir(parents=True)
-            (folder / "page0.npy").write_bytes(b"x")
-        old = stale.stat().st_mtime - 7200
-        os.utime(stale, (old, old))
-        PC.prune(self.store)
-        self.assertEqual(self.entries(), [".tmp-in-use"])
-
+    def test_a_save_clears_abandoned_temporary_folders_and_never_one_whose_writer_holds_its_lock(self):
+        model = keyed_model()
+        abandoned = self.store / ".tmp-abandoned"
+        abandoned.mkdir(parents=True)
+        (abandoned / "page0.npy").write_bytes(b"x")
+        writer = prepared_cache.TempFolder(self.store, "in-use")
+        writer.path.mkdir()
+        (writer.path / "page0.npy").write_bytes(b"x")
+        old = writer.path.stat().st_mtime - 7200
+        os.utime(writer.path, (old, old))                               # age says nothing about a writer
+        in_use = [writer.path.name, writer.path.name + ".lock"]
+        PC.prune(self.store, cap=0)
+        self.assertEqual(self.entries(), sorted([".tmp-abandoned"] + in_use))
+        with mock.patch.object(prepared_cache, "_disk_usage", return_value=TIGHT):
+            self.assertIsNone(PC.bake(model, 1 << 22))                  # refused by the floor, and still it cleared up
+        self.assertEqual(self.entries(), sorted(in_use))
+        info = PC.bake(model, 1 << 23)
+        self.assertEqual(self.entries(), sorted(in_use + [info["key"]]))
+        writer.release()
+        self.assertEqual(self.entries(), [info["key"]])
 
 if __name__ == "__main__":
     unittest.main()

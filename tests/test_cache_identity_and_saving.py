@@ -342,28 +342,81 @@ class PreparedStoreSavesSafely(StoreCase):
             self.assertFalse(prepared_cache.disk_allows(self.root, 0))
         self.assertTrue(prepared_cache._disk_usage(self.root / "not" / "made" / "yet").total > 0)
 
-    def test_removal_takes_meta_first_and_never_starts_when_meta_cannot_go(self):
+    def test_removal_moves_the_entry_aside_then_takes_meta_first_and_touches_nothing_when_it_cannot_move_it(self):
         self.assertTrue(self.save())
         folder = self.prepared_root / self.KEY
-        with mock.patch.object(prepared_cache.shutil, "rmtree"):     # the rest cannot go (files still mapped)
-            self.assertFalse(prepared_cache.remove_entry(folder))
-        self.assertFalse((folder / "meta.json").exists())
-        self.assertTrue((folder / "vertices.npy").exists())
+        with mock.patch.object(prepared_cache.shutil, "rmtree"):     # moved aside, but the rest cannot be deleted
+            self.assertTrue(prepared_cache.remove_entry(folder))     # no entry is left under the key
+        self.assertFalse(folder.exists())
+        left = self.temp_folders(self.prepared_root)
+        self.assertEqual(len(left), 1)
+        self.assertTrue(left[0].startswith(".tmp-gone-"))
+        self.assertFalse((self.prepared_root / left[0] / "meta.json").exists())
+        self.assertTrue((self.prepared_root / left[0] / "vertices.npy").exists())
         self.assertIsNone(prepared_cache.lookup(self.KEY))
-        self.assertTrue(prepared_cache.remove_entry(folder))
-        self.assertTrue(self.save())
-        with mock.patch.object(Path, "unlink", side_effect=PermissionError("locked")), \
-                mock.patch.object(prepared_cache.shutil, "rmtree") as rmtree:
+        self.assertTrue(prepared_cache.remove_entry(folder))         # nothing there: nothing to do
+        self.assertTrue(self.save())                                 # the key is saved again, the leftover cleared
+        self.assertEqual(self.temp_folders(self.prepared_root), [])
+        before = snapshot(folder)
+        with mock.patch.object(prepared_cache.os, "rename", side_effect=PermissionError("a file is mapped")), \
+                mock.patch.object(Path, "unlink") as unlink, mock.patch.object(prepared_cache.shutil, "rmtree") as rmtree:
             self.assertFalse(prepared_cache.remove_entry(folder))
+            unlink.assert_not_called()
             rmtree.assert_not_called()
+        self.assertEqual(snapshot(folder), before)
         self.assertIsNotNone(prepared_cache.lookup(self.KEY))
+        temp = self.prepared_root / ".tmp-some-writer"               # a temporary folder goes where it lies, meta first
+        os.replace(folder, temp)
+        with mock.patch.object(prepared_cache.shutil, "rmtree"):
+            self.assertFalse(prepared_cache.remove_entry(temp))
+        self.assertEqual(self.temp_folders(self.prepared_root), [temp.name])
+        self.assertFalse((temp / "meta.json").exists())
+        self.assertTrue((temp / "vertices.npy").exists())
+        self.assertTrue(prepared_cache.remove_entry(temp))
+        self.assertEqual(self.temp_folders(self.prepared_root), [])
 
     def test_prune_removes_meta_first(self):
         self.assertTrue(self.save())
         with mock.patch.object(prepared_cache.shutil, "rmtree"):
             prepared_cache.prune(self.prepared_root, cap=0)
-        self.assertFalse((self.prepared_root / self.KEY / "meta.json").exists())
+        self.assertFalse((self.prepared_root / self.KEY).exists())
+        left = self.temp_folders(self.prepared_root)
+        self.assertEqual(len(left), 1)
+        self.assertFalse((self.prepared_root / left[0] / "meta.json").exists())
+        self.assertTrue((self.prepared_root / left[0] / "vertices.npy").exists())
         self.assertIsNone(prepared_cache.lookup(self.KEY))
+
+    def test_a_model_file_whose_entry_lost_its_end_opens_right_and_the_entry_is_replaced(self):
+        from app.variants.catalog import DeferredVariantEntry
+        from app.variants.local_library import SingleFileLibrary
+        from app.viewer.model_loading import prepare_model
+        store = SingleFileLibrary(str(shutil.copy(TOOTH, self.root / "model.npz")))
+
+        def opened():
+            model = prepare_model(DeferredVariantEntry(store.metadata(store.model_id), store), LoadToken())
+            prepared_cache.wait_for_saves()
+            return model
+
+        first = opened()
+        good = (np.array(first.vertices), np.array(first.indices))
+        entries = [p for p in self.prepared_root.iterdir() if (p / "meta.json").exists()]
+        self.assertEqual(len(entries), 1)
+        for name in ("vertices.npy", "indices.npy"):
+            del first
+            target = entries[0] / name
+            size, whole = target.stat().st_size, target.read_bytes()
+            with open(target, "r+b") as fh:                          # the size is right, the content from 4 KiB on is zeros
+                fh.seek(4096)
+                fh.write(b"\0" * (size - 4096))
+            again = opened()
+            self.assertNotIsInstance(again.vertices, np.memmap, name)        # a miss: built from the file ...
+            self.assertTrue(np.array_equal(np.asarray(again.vertices), good[0]), name)
+            self.assertTrue(np.array_equal(np.asarray(again.indices), good[1]), name)
+            self.assertEqual(target.read_bytes(), whole, name)               # ... and the entry was replaced on that open
+            first = opened()
+            self.assertIsInstance(first.vertices, np.memmap, name)
+            self.assertTrue(np.array_equal(np.asarray(first.vertices), good[0]), name)
+        del first, again
 
 
 class ClusterStoreSavesSafely(StoreCase):

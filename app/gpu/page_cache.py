@@ -7,7 +7,7 @@ open writes the files to the GPU instead of scanning, packing and reordering the
   recently opened entries first.
 * An entry: ``page<i>.npy`` (the page buffer, byte for byte what the sink received), ``tables.npz`` (the per-part
   tables of GpuGeometry, no pickle), ``tables.json`` (the page records, the statistics and the other scalars) and
-  ``meta.json`` (key, versions, the request, the stage that resulted, the byte size of every file).
+  ``meta.json`` (key, versions, the request, the stage that resulted, the byte size and a digest of every file).
 * Not stored: the draw-order keys (``gl_keys`` follow the parts' looks and materials, which are resolved at open time
   and are not part of any key; ``load`` computes them from the model in hand) and the cluster tables (``load`` takes
   the set from the cluster store and binds it to the stored layout with the functions build_geometry uses).
@@ -22,8 +22,8 @@ open writes the files to the GPU instead of scanning, packing and reordering the
   only when the model in hand gives exactly that budget again. ``bake`` replaces an entry whose budget no longer fits.
 * Saved the way the other stores are, with prepared_cache's helpers: pages are written straight into their files
   (np.lib.format.open_memmap: no copy of a page sits in RAM), every file is flushed, meta.json goes last, then one
-  rename; an entry an open accepts is never removed to be replaced; meta.json goes first in any removal; nothing is
-  written unless the volume keeps its free floor; a refused or failed key is remembered for the run.
+  rename; an entry an open accepts is never removed to be replaced; an entry is removed whole or left whole; what dead
+  writers left is cleared before a save starts; nothing is written unless the volume keeps its free floor; a refused or failed key is remembered for the run.
 * Anything that goes wrong reading or writing the store means "no pages" (None): the caller builds as before.
 """
 from __future__ import annotations
@@ -32,7 +32,6 @@ import hashlib
 import json
 import os
 import time
-import uuid
 from pathlib import Path
 
 import numpy as np
@@ -227,10 +226,12 @@ def bake(model, page_bytes, max_pages=None, cluster_order=False, compress=False,
             return dict(found[0], fresh=False)
     try:
         root.mkdir(parents=True, exist_ok=True)
+        _prep.clear_leftovers(root)         # what dead writers left must not be what makes the floor refuse this save
+        claim = _prep.TempFolder(root, key)
     except OSError as exc:
         _prep.refuse(root, key, f"{type(exc).__name__}: {exc}")
         return None
-    temp = root / f".tmp-{key[:12]}-{os.getpid()}-{uuid.uuid4().hex[:8]}"
+    temp = claim.path
     sink = _FileSink(temp, root)
     outcome = _write(key, model, root, temp, final, sink, passed,
                      dict(progress=passing(progress), max_pages=max_pages, cluster_order=cluster_order,
@@ -238,8 +239,7 @@ def bake(model, page_bytes, max_pages=None, cluster_order=False, compress=False,
                           compress=compress), page_bytes)
     # _write has returned, so nothing of the build is alive any more (no frame holds a mapped page): the folder can go
     sink.unmap()
-    if temp.exists():
-        _prep.remove_entry(temp)
+    claim.release()
     if isinstance(outcome, BaseException):
         raise outcome
     if isinstance(outcome, str):
@@ -291,33 +291,8 @@ def _write(key, model, root, temp, final, sink, passed, build, page_bytes):
 
 
 def prune(root, keep=None, cap=None):
-    """Delete least recently opened entries until the folder fits the cap; clear abandoned temporary folders."""
-    cap = cap_bytes() if cap is None else cap
-    entries, now = [], time.time()
-    try:
-        for folder in root.iterdir():
-            if not folder.is_dir():
-                continue
-            if folder.name.startswith(".tmp-"):
-                if now - folder.stat().st_mtime > 3600:
-                    _prep.remove_entry(folder)
-                continue
-            try:
-                stamp = (folder / "meta.json").stat().st_mtime
-            except OSError:
-                stamp = 0.0                 # no meta: a broken entry, first to go
-            entries.append((stamp, folder, sum(f.stat().st_size for f in folder.glob("*") if f.is_file())))
-        entries.sort(key=lambda e: e[0])
-        total = sum(e[2] for e in entries)
-        for _stamp, folder, size in entries:
-            if total <= cap:
-                break
-            if keep is not None and folder.name == keep:
-                continue
-            if _prep.remove_entry(folder):
-                total -= size
-    except OSError:
-        pass
+    """Remove least recently opened entries until the folder fits the cap (prepared_cache.prune_store)."""
+    _prep.prune_store(root, cap_bytes() if cap is None else cap, keep)
 
 
 # ---------------------------------------------------------------------------------------------------- reading
@@ -338,15 +313,15 @@ def _budget_fits(model, quant, budget):
 
 def _open(folder, key, model):
     """(meta, scalars, arrays, [every page file memory mapped]) of the entry in ``folder`` when it is whole and fits the
-    model in hand, else None. meta.json must name this key and version and list every file with the byte size it has on
-    disk; the tables must have the model's part count and array sizes; every page file must hold the bytes its record
+    model in hand, else None. meta.json must name this key and version and list every file with the byte size and digest it has
+    on disk; the tables must have the model's part count and array sizes; every page file must hold the bytes its record
     says; a stage-2 entry must have been quantised with the budget the model gives now."""
     try:
         meta = json.loads((folder / "meta.json").read_text(encoding="utf-8"))
         if meta.get("version") != PAGES_VERSION or meta.get("key") != key:
             return None
         count = int(meta["pages"])
-        if not _prep.sizes_match(folder, meta, ["tables.json", "tables.npz"] + [f"page{i}.npy" for i in range(count)]):
+        if not _prep.files_match(folder, meta, ["tables.json", "tables.npz"] + [f"page{i}.npy" for i in range(count)]):
             return None
         t = json.loads((folder / "tables.json").read_text(encoding="utf-8"))
         with np.load(folder / "tables.npz", allow_pickle=False) as z:

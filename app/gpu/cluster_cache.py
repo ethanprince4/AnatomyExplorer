@@ -13,9 +13,10 @@
   depend on the geometry layout (page size, page of a part, compressed or not). A model with no prepared key (a
   .glb, a component, an open with the cache switched off) has no stable identity: it is built every time and not
   saved (no stale-bounds risk).
-* Same write protocol as prepared_cache, with its helpers: every file flushed, meta.json (with the byte size of
-  every file, checked on open) last, one rename; a good entry is never removed to be replaced; meta.json goes first
-  in any removal; no save under the free-disk floor; a refused or failed key is remembered for the run. Anything
+* Same write protocol as prepared_cache, with its helpers: every file flushed, meta.json (with the byte size and
+  a digest of every file, checked on open) last, one rename; a good entry is never removed to be replaced; an entry
+  is removed whole or left whole; what dead writers left is cleared before the free-disk floor is asked; no save
+  under that floor; a refused or failed key is remembered for the run. Anything
   that goes wrong means "no cache" and the caller builds. Nothing here raises into the renderer.
 """
 from __future__ import annotations
@@ -24,7 +25,6 @@ import hashlib
 import json
 import os
 import time
-import uuid
 from pathlib import Path
 
 import numpy as np
@@ -111,13 +111,13 @@ def make_key(model, geom=None):
 
 def _read_entry(folder, key):
     """(meta, memory-mapped arrays) of the entry in ``folder``, or None: its meta.json must name this key and version
-    and list every array file with the byte size it has on disk. An entry written before the sizes were recorded is
+    and list every array file with the byte size and digest it has on disk. An entry written before those were recorded is
     not accepted."""
     try:
         meta = json.loads((folder / "meta.json").read_text(encoding="utf-8"))
         if meta.get("version") != cl.BUILD_VERSION or meta.get("key") != key:
             return None
-        if not _prep.sizes_match(folder, meta, [f"{n}.npy" for n in _ARRAYS]):
+        if not _prep.files_match(folder, meta, [f"{n}.npy" for n in _ARRAYS]):
             return None
         return meta, {n: np.load(folder / f"{n}.npy", mmap_mode="r") for n in _ARRAYS}
     except Exception:
@@ -166,14 +166,16 @@ def _write(key, cd, root):
 
     if final.exists() and valid(final):
         return None                     # another writer finished first: its entry stays
+    _prep.clear_leftovers(root)         # what dead writers left must not be what makes the floor refuse this save
     need = sum(getattr(cd, n).nbytes for n in _ARRAYS)
     if need > cap_bytes():
         return "larger than the cache size limit"
     if not _prep.disk_allows(root, need):
         return "too little free disk space"
-    temp = root / f".tmp-{key[:12]}-{os.getpid()}-{uuid.uuid4().hex[:8]}"
+    root.mkdir(parents=True, exist_ok=True)
+    claim = _prep.TempFolder(root, key)
+    temp = claim.path
     try:
-        root.mkdir(parents=True, exist_ok=True)
         temp.mkdir()
         for n in _ARRAYS:
             _prep.write_array(temp / f"{n}.npy", np.asarray(getattr(cd, n)))
@@ -184,37 +186,12 @@ def _write(key, cd, root):
         prune(root, keep=key)
         return None
     finally:
-        if temp.exists():
-            _prep.remove_entry(temp)
+        claim.release()
 
 
 def prune(root, keep=None, cap=None):
-    cap = cap_bytes() if cap is None else cap
-    entries, now = [], time.time()
-    try:
-        for folder in root.iterdir():
-            if not folder.is_dir():
-                continue
-            if folder.name.startswith(".tmp-"):
-                if now - folder.stat().st_mtime > 3600:
-                    _prep.remove_entry(folder)
-                continue
-            try:
-                stamp = (folder / "meta.json").stat().st_mtime
-            except OSError:
-                stamp = 0.0
-            entries.append((stamp, folder, sum(f.stat().st_size for f in folder.glob("*") if f.is_file())))
-        entries.sort(key=lambda e: e[0])
-        total = sum(e[2] for e in entries)
-        for _stamp, folder, size in entries:
-            if total <= cap:
-                break
-            if keep is not None and folder.name == keep:
-                continue
-            if _prep.remove_entry(folder):
-                total -= size
-    except OSError:
-        pass
+    """Remove least recently opened entries until the folder fits the cap (prepared_cache.prune_store)."""
+    _prep.prune_store(root, cap_bytes() if cap is None else cap, keep)
 
 
 def carry(model, cd):
