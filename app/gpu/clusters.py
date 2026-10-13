@@ -26,8 +26,9 @@ relies on it), as are parts without geometry.
 from __future__ import annotations
 
 import dataclasses
+import threading
 import time
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -39,10 +40,16 @@ BUILD_VERSION = 2                      # 2: page independent build, + vorder, cl
 WIDE = 0x80000000                      # cl_base flag: the cluster's vertex span does not fit 16 bits
 _CHUNK = 1 << 21                       # triangles per vectorised step (a multiple of CLUSTER_TRIS)
 LEVEL_COUNT = _lod.LEVELS + 1
+POLL_S = 0.05                          # build_clusters: the longest the caller's thread waits between two progress calls
+THREAD_PREFIX = "cluster-build"        # name of the build's pool threads
 
 
 class ClusterError(Exception):
     pass
+
+
+class _Stopped(Exception):
+    """Raised inside a part of a build that was given up; never leaves build_clusters."""
 
 
 @dataclass
@@ -118,20 +125,28 @@ def morton_codes(centroids, lo, span):
 
 
 # ------------------------------------------------------------------------------------------------ one range
-def _build_range(pos, dn, tris, lo, span):
+def _build_range(pos, dn, tris, lo, span, stop=None):
     """pos (V,3) f32 part vertices, dn (V,) f32 |dpos|, tris (n,3) integer part-local vertex ids.
-    Returns (perm uint32 (n,), geom (nc, 8) float32)."""
+    Returns (perm uint32 (n,), geom (nc, 8) float32). ``stop`` (a threading.Event) is asked before every step: once
+    it is set the build was given up and _Stopped is raised."""
+    def check():
+        if stop is not None and stop.is_set():
+            raise _Stopped()
+
     n = len(tris)
     code = np.empty(n, dtype=np.uint64)
     for a in range(0, n, _CHUNK):
+        check()
         t = tris[a:a + _CHUNK]
         cen = (pos[t[:, 0]].astype(np.float64) + pos[t[:, 1]] + pos[t[:, 2]]) * (1.0 / 3.0)
         code[a:a + _CHUNK] = morton_codes(cen, lo, span)
+    check()
     order = np.argsort(code)
     del code
     nc = -(-n // CLUSTER_TRIS)
     geom = np.zeros((nc, 8), dtype=np.float32)
     for a in range(0, n, _CHUNK):
+        check()
         b = min(a + _CHUNK, n)
         t = tris[order[a:b]]
         p = pos[t]                                         # (m, 3, 3)
@@ -243,7 +258,14 @@ def _cluster_bases(nv):
 
 
 def build_clusters(model, geom=None, threads=None, progress=None):
-    """Cluster set of a model: independent of the page layout (``geom`` is accepted and, when given, bound with bind_layout)."""
+    """Cluster set of a model: independent of the page layout (``geom`` is accepted and, when given, bound with bind_layout).
+
+    The parts are built on pool threads while the calling thread waits. ``progress(parts done, parts)`` is called on
+    the calling thread every POLL_S at the latest, also when no part has finished since its last call, and may raise
+    to give the build up (a cancelled load: app/gpu/prep.py). The caller then has its exception at once, whatever the
+    parts are: nothing waits for the pool. Its threads see the stop flag before every part and before every step of
+    a range (_build_range), write only into arrays this call made, and end by themselves; nothing of that build is
+    returned."""
     t_start = time.perf_counter()
     parts = model.parts
     keys, level_range, uncullable, r_level = plan_ranges(model)
@@ -266,7 +288,11 @@ def build_clusters(model, geom=None, threads=None, progress=None):
         by_part.setdefault(int(r_part[ri]), []).append(ri)
     bad = []
 
+    stop = threading.Event()                                  # set when the build is given up: the pool threads end early
+
     def job(pi):
+        if stop.is_set():
+            raise _Stopped()
         p = parts[pi]
         vb, vc = p.vertex_base, p.vertex_count
         blk = np.asarray(model.vertices[vb:vb + vc, 0:9])
@@ -284,7 +310,7 @@ def build_clusters(model, geom=None, threads=None, progress=None):
             if len(tris) and (tris.min() < 0 or tris.max() >= vc):
                 bad.append(pi)
                 return
-            pm, g = _build_range(pos, dn, tris, lo, span)
+            pm, g = _build_range(pos, dn, tris, lo, span, stop)
             t0, c0 = int(r_tfirst[ri]), int(r_cfirst[ri])
             perm[t0:t0 + len(pm)] = pm
             cgeom[c0:c0 + len(g)] = g
@@ -297,6 +323,8 @@ def build_clusters(model, geom=None, threads=None, progress=None):
         newof[order] = np.arange(vc, dtype=np.int64)
         vorder[vb:vb + vc] = (order + vb).astype(np.uint32)
         for ri in by_part[pi]:
+            if stop.is_set():
+                raise _Stopped()
             src = _source_indices(model, p, keys[ri][1])
             tris = np.asarray(src, dtype=np.int64).reshape(-1, 3) - vb
             t0, c0 = int(r_tfirst[ri]), int(r_cfirst[ri])
@@ -306,15 +334,24 @@ def build_clusters(model, geom=None, threads=None, progress=None):
     todo = sorted(by_part, key=lambda pi: -sum(int(r_ntri[r]) for r in by_part[pi]))
     n_threads = threads or min(8, max(1, (__import__("os").cpu_count() or 2)))
     done = 0
-    pool = ThreadPoolExecutor(max_workers=n_threads)
+    pool = ThreadPoolExecutor(max_workers=n_threads, thread_name_prefix=THREAD_PREFIX)
     try:
-        for _ in pool.map(job, todo):
-            done += 1
+        pending = {pool.submit(job, pi) for pi in todo}
+        while pending:
+            finished, pending = wait(pending, timeout=POLL_S, return_when=FIRST_COMPLETED)
+            for future in finished:
+                future.result()                                # a part's own error ends the build
+            done += len(finished)
             if progress:
-                progress(done, len(todo))                      # may raise to stop the build (a cancelled load: app/gpu/prep.py)
-    finally:
-        # after a raise (from progress or from a part) the parts not started are dropped; the ones running finish first
-        pool.shutdown(wait=True, cancel_futures=True)
+                progress(done, len(todo))                      # may raise to stop the build; called while waiting too
+    except BaseException:
+        # given up (progress raised, or a part did): the caller is not held. The parts not started return at their
+        # first line and the ones running at their next step; the pool's threads then end by themselves (at the
+        # latest the interpreter joins them when the app closes: concurrent.futures threads are not daemons)
+        stop.set()
+        pool.shutdown(wait=False)
+        raise
+    pool.shutdown(wait=True)                                   # every part is done: the threads end at once
     if bad:
         raise ClusterError("parts index vertices outside their own range: " + ", ".join(parts[i].name for i in set(bad)))
     nwide = int(((cbase & np.uint32(WIDE)) != 0).sum())

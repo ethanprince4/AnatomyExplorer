@@ -97,7 +97,7 @@ def prepare_model(entry, token):
         from .prepared_cache import save_async
         save_async(model)
         # the fast renderer's clusters are found or built here too, so the window is not held while they are made
-        # (app/gpu/prep.py; a cancel stops the build at its next part)
+        # (app/gpu/prep.py; a cancel is heard within a moment, whatever the parts are)
         from ..gpu.prep import ensure_clusters
         ensure_clusters(model)
         return model

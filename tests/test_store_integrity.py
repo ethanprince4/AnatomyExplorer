@@ -1,7 +1,8 @@
 """What the three stores of prepared data share (app/viewer/prepared_cache.py helpers, used by the prepared-model, the
 cluster and the page store), tried in each store: an entry is removed whole or left whole, a file of the right size with
-a lost end is a miss and is replaced, and what a dead writer left is cleared before the free-disk floor is asked while a
-live writer's folder is never touched. Temporary folders, no adapter.
+a lost end is a miss and is replaced, what a dead writer left is cleared before the free-disk floor is asked while a
+live writer's folder is never touched, and a good entry whose time of opening cannot be set (a read-only store) is
+used all the same. Temporary folders, no adapter.
 
     python -m unittest discover -s tests -p test_store_integrity.py
 """
@@ -421,6 +422,36 @@ class LeftoversOfDeadWriters:
         self.assertIsNone(prepared_cache._lock(self.root / "not there.lock"))
 
 
+class AnEntryThatCannotBeMarkedIsUsed:
+    def test_a_good_entry_whose_access_time_cannot_be_set_is_used_and_nothing_is_rebuilt(self):
+        store = self.store
+        self.assertTrue(store.save(1))
+        folder = store.root / store.key(1)
+        before, stamp = self.snapshot(folder), (folder / "meta.json").stat().st_mtime_ns
+        for error in (PermissionError(13, "the store is read-only"), OSError(30, "read-only file system"),
+                      RuntimeError("anything else")):
+            with mock.patch("os.utime", side_effect=error) as utime:
+                self.assertTrue(store.hit(1), f"{store.name}: {error!r} from the access-time update lost a good entry")
+                self.assertEqual(utime.call_count, 1, "the update is tried once per open, on the entry's meta.json")
+                self.assertEqual(Path(utime.call_args.args[0]), folder / "meta.json")
+                self.assertTrue(store.save(1))                     # the save finds the good entry: nothing is written
+            if store.name == "pages":
+                self.assertIs(store.fresh[1], False, "the page entry was baked again")
+        self.assertEqual(self.snapshot(folder), before)
+        self.assertEqual((folder / "meta.json").stat().st_mtime_ns, stamp)
+        self.assertEqual(self.names(store.root), [store.key(1)])
+        self.assertEqual(prepared_cache._refused, {})
+
+    def test_an_entry_that_can_be_marked_is_the_last_to_be_pruned(self):
+        store = self.store
+        for i in (1, 2):
+            self.assertTrue(store.save(i))
+        self.age(store, [2, 1])                                    # 2 is the least recently opened ...
+        self.assertTrue(store.hit(2))                              # ... until it is opened
+        store.prune(store.root, cap=self.size(store.root / store.key(2)))
+        self.assertEqual(self.names(store.root), [store.key(2)])
+
+
 class Helpers(Case):
     """What does not depend on the store."""
     test_digest = ALostEndIsAMiss.digest_reads_and_cannot_see
@@ -428,7 +459,7 @@ class Helpers(Case):
     test_lock = LeftoversOfDeadWriters.lock_holders
 
 
-for _mixin in (RemovalIsWholeOrNotAtAll, ALostEndIsAMiss, LeftoversOfDeadWriters):
+for _mixin in (RemovalIsWholeOrNotAtAll, ALostEndIsAMiss, LeftoversOfDeadWriters, AnEntryThatCannotBeMarkedIsUsed):
     for _kind in (Prepared, Clusters, Pages):                      # every test of the three classes, once per store
         _name = f"{_mixin.__name__}In{_kind.__name__}"
         globals()[_name] = type(_name, (_mixin, Case), {"STORE": _kind})

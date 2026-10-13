@@ -5,8 +5,9 @@
 clusters, the cluster set is found in the cluster cache or built there and then, and rides on the model
 (cluster_cache.carry). The renderer's request on the GUI thread (geometry.build_geometry -> cluster_cache.get_clusters)
 then gets that set at once: nothing is built on the GUI thread, and nothing is built twice when the cache is off, full
-or read-only or the model has no identity. The build asks the load's checkpoint() after every part, so a cancelled load
-or a closed tab stops it there (clusters.build_clusters drops the parts not started).
+or read-only or the model has no identity. The build asks the load's checkpoint() every 0.05 s while its parts are
+worked on, so a cancelled load or a closed tab leaves it at once, whatever the parts are (clusters.build_clusters: its
+pool threads stop at their next step, and nothing of that build is saved or handed on).
 
 Two rules of other modules are repeated here, because the load thread must not import them: which backend the settings
 ask for (app/ui/model_view.renderer_backend, Qt widgets) and whether the renderer draws a model from clusters

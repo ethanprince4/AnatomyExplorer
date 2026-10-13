@@ -135,7 +135,7 @@ def load(key):
             return None
         meta, arrays = found
         R = len(arrays["r_part"])
-        os.utime(folder / "meta.json")
+        _prep.mark_opened(folder)       # never raises: a store that cannot be written (read-only) still serves its entries
         return cl.ClusterData(stats=dict(meta["stats"], cached=True), r_page=np.zeros(R, np.int32), r_first=np.zeros(R, np.int64),
                               page_cfirst=np.zeros(1, np.int64), **arrays)
     except Exception:

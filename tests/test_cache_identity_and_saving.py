@@ -419,6 +419,149 @@ class PreparedStoreSavesSafely(StoreCase):
         del first, again
 
 
+@unittest.skipUnless(TOOTH.is_file(), "the tooth model file is not in this copy")
+class AnEntryThatDoesNotFitIsReplacedOnce(StoreCase):
+    """An entry that passes every check of the store but does not fit what the file builds (here: one part of another
+    size in its meta.json, which no size or digest covers) is replaced on the open that finds it, once per run."""
+
+    def setUp(self):
+        super().setUp()
+        from app.variants import local_runtime
+        for name in ("_replaced", "_unfit"):
+            saved = set(getattr(prepared_cache, name))
+            getattr(prepared_cache, name).clear()
+            self.addCleanup(getattr(prepared_cache, name).update, saved)
+            self.addCleanup(getattr(prepared_cache, name).clear)
+        self.addCleanup(prepared_cache.wait_for_saves)
+        self.runtime = local_runtime
+        self.tries = []                                             # (cache on, entry looked up) of every attempt
+        attempt = local_runtime._prepare_local_model
+
+        def counted(entry, token, use_cache, lookup=True):
+            self.tries.append((use_cache, lookup))
+            return attempt(entry, token, use_cache, lookup)
+        patcher = mock.patch.object(local_runtime, "_prepare_local_model", counted)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        self.file = shutil.copy(TOOTH, self.root / "model.npz")
+        first = self.opened()
+        self.good = (np.array(first.vertices), np.array(first.indices))
+        self.key = first._prepared_key
+        self.folder = self.prepared_root / self.key
+        self.assertTrue((self.folder / "meta.json").exists())
+        self.right = json.loads((self.folder / "meta.json").read_text())["parts"][0]["n"]
+        self.break_entry()
+
+    def opened(self, expect=None):
+        """One open of the file; ``expect`` is the list of attempts it must take. Returns the model."""
+        from app.variants.catalog import DeferredVariantEntry
+        from app.variants.local_library import SingleFileLibrary
+        from app.viewer.model_loading import prepare_model
+        del self.tries[:]
+        store = SingleFileLibrary(str(self.file))
+        model = prepare_model(DeferredVariantEntry(store.metadata(store.model_id), store), LoadToken())
+        prepared_cache.wait_for_saves()
+        if expect is not None:
+            self.assertEqual(self.tries, expect)
+            self.assertTrue(np.array_equal(np.asarray(model.vertices), self.good[0]))
+            self.assertTrue(np.array_equal(np.asarray(model.indices), self.good[1]))
+        return model
+
+    def break_entry(self):
+        """One part of another size in meta.json: the entry still reads as good."""
+        meta = json.loads((self.folder / "meta.json").read_text())
+        meta["parts"][0]["n"] += 1
+        (self.folder / "meta.json").write_text(json.dumps(meta))
+        self.assertIsNotNone(prepared_cache._read_entry(self.folder, self.key), "the store must take this entry for good")
+
+    def content(self):
+        """What the entry holds, without the time of meta.json (every open that reads the entry sets it)."""
+        import hashlib
+        return {f.name: hashlib.sha1(f.read_bytes()).hexdigest() for f in sorted(self.folder.iterdir())}
+
+    def recorded(self):
+        return json.loads((self.folder / "meta.json").read_text())["parts"][0]["n"]
+
+    def test_the_open_that_finds_it_keeps_the_identity_and_replaces_it_and_the_next_open_hits(self):
+        found = self.opened([(True, True), (True, False)])          # with the entry, then again under the key without it
+        self.assertNotIsInstance(found.vertices, np.memmap)
+        self.assertEqual(found._prepared_key, self.key, "the model must keep its identity, or its clusters are never kept")
+        self.assertEqual(self.recorded(), self.right, "the entry was not replaced by a fresh one")
+        self.assertEqual(self.temp_folders(self.prepared_root), [])
+        self.assertEqual(cluster_cache.prepared_identity(found), self.key)
+        for _ in range(2):
+            hit = self.opened([(True, True)])
+            self.assertIsInstance(hit.vertices, np.memmap)
+            self.assertEqual(hit._prepared_key, self.key)
+            del hit
+        self.assertEqual(prepared_cache._unfit, set())
+        self.assertFalse(prepared_cache.unfit(self.key))
+
+    def test_never_a_loop_a_fresh_entry_that_does_not_fit_either_means_cache_off_for_the_run(self):
+        self.opened([(True, True), (True, False)])                  # replaced once
+        self.break_entry()
+        broken = self.content()
+        off = self.opened([(True, True), (False, True)])            # found bad a second time: with the cache off, as before
+        self.assertNotIsInstance(off.vertices, np.memmap)
+        self.assertIsNone(off._prepared_key)
+        self.assertTrue(prepared_cache.unfit(self.key))
+        for _ in range(2):
+            off = self.opened([(True, True)])                       # the key is remembered: one attempt, and no entry is read
+            self.assertNotIsInstance(off.vertices, np.memmap)
+            self.assertIsNone(off._prepared_key)
+        self.assertEqual(self.content(), broken, "nothing may be removed or written after the one replacement")
+        prepared_cache._replaced.clear()                            # the next run of the app: one replacement again
+        prepared_cache._unfit.clear()
+        self.opened([(True, True), (True, False)])
+        self.assertEqual(self.recorded(), self.right)
+        self.assertIsInstance(self.opened([(True, True)]).vertices, np.memmap)
+
+    def test_an_entry_that_cannot_be_removed_stays_whole_and_the_key_is_opened_with_the_cache_off(self):
+        broken = self.content()
+        with mock.patch.object(prepared_cache, "remove_entry", return_value=False) as remove:
+            kept = self.opened([(True, True), (True, False)])
+            self.assertEqual(remove.call_count, 2, "a refused removal is tried once more, after a collection")
+        self.assertEqual(kept._prepared_key, self.key)
+        self.assertTrue(prepared_cache.unfit(self.key))
+        self.assertEqual(self.content(), broken)
+        self.assertIsNone(self.opened([(True, True)])._prepared_key)
+        self.assertEqual(self.content(), broken)
+
+    def test_a_failure_that_is_not_the_entrys_leaves_a_good_entry_alone(self):
+        (self.folder / "meta.json").write_text(json.dumps({**json.loads((self.folder / "meta.json").read_text()),
+                                                           "parts": self.fixed_parts()}))
+        good = self.content()
+        with mock.patch.object(self.runtime, "_controls", side_effect=ValueError("not the cache")):
+            with self.assertRaises(ValueError):
+                self.opened()
+        self.assertEqual(self.tries, [(True, True), (True, False)])
+        self.assertEqual(self.content(), good, "an open that fails without the entry too must not remove it")
+        self.assertEqual((prepared_cache._replaced, prepared_cache._unfit), (set(), set()))
+        self.assertIsInstance(self.opened([(True, True)]).vertices, np.memmap)
+
+    def fixed_parts(self):
+        parts = json.loads((self.folder / "meta.json").read_text())["parts"]
+        parts[0]["n"] = self.right
+        return parts
+
+    def test_a_cancel_during_the_second_attempt_leaves_the_replacement_for_the_next_open(self):
+        from app.load_control import LoadCancelled
+        real, calls = self.runtime.decode_local_npz, []
+
+        def cancelled(*args, **kwargs):
+            calls.append(1)
+            raise LoadCancelled()
+        with mock.patch.object(self.runtime, "decode_local_npz", cancelled):
+            with self.assertRaises(LoadCancelled):
+                self.opened()
+        self.assertEqual((self.tries, len(calls)), ([(True, True), (True, False)], 1))
+        self.assertEqual((prepared_cache._replaced, prepared_cache._unfit), (set(), set()))
+        self.assertIs(self.runtime.decode_local_npz, real)
+        self.opened([(True, True), (True, False)])
+        self.assertEqual(self.recorded(), self.right)
+        self.assertIsInstance(self.opened([(True, True)]).vertices, np.memmap)
+
+
 class ClusterStoreSavesSafely(StoreCase):
     KEY = "c" * 40
 

@@ -586,6 +586,16 @@ class Prepared:
         return m
 
 
+def mark_opened(folder):
+    """Note that the entry in ``folder`` was opened now: the time of its ``meta.json``, by which ``prune_store`` takes
+    the least recently opened first. Used by all three stores, after the entry was read and found good. Never raises:
+    an entry that cannot be marked (a read-only store, a file another program holds) is as good as one that can."""
+    try:
+        os.utime(Path(folder) / "meta.json")
+    except Exception:
+        pass
+
+
 def lookup(key):
     """The opened entry for ``key`` or None. Touches the entry so the size cap drops the least recently used first."""
     root = cache_root()
@@ -593,11 +603,56 @@ def lookup(key):
         return None
     prepared = _read_entry(root / key, key)
     if prepared is not None:
-        try:
-            os.utime(root / key / "meta.json")
-        except OSError:
-            pass
+        mark_opened(root / key)
     return prepared
+
+
+# An entry can pass every check of _read_entry and still not fit what the file builds (a part of another size in its
+# meta.json): the builder then raises while it takes the arrays. Such an entry is replaced once per run; if the entry
+# of that key does not fit a second time, the key is opened without the store for the rest of the run.
+_replaced = set()                          # (store folder, key): its entry did not fit and was to be replaced, this run
+_unfit = set()                             # (store folder, key): opened without the store for the rest of this run
+
+
+def unfit(key):
+    """Is ``key`` opened without the store for the rest of this run (its entry did not fit and could not be replaced)."""
+    root = cache_root()
+    return root is not None and (str(root), key) in _unfit
+
+
+def may_replace(key):
+    """The entry of ``key`` was opened and did not fit. True when no entry of this key was replaced in this run yet:
+    the caller opens the file again under the same key without the entry and then calls ``drop_unfit``. False once one
+    was (the fresh entry does not fit either, or the first could not be removed): the key is then ``unfit``, so this
+    never loops."""
+    root = cache_root()
+    if root is None or not key:
+        return False
+    mark = (str(root), key)
+    if mark in _replaced or mark in _unfit:
+        _unfit.add(mark)
+        return False
+    return True
+
+
+def drop_unfit(key):
+    """Remove the entry of ``key`` that did not fit, so that the save of the model just opened puts a fresh one in its
+    place (a save never replaces an entry that reads as good), and remember that this key had its one replacement.
+    The arrays of the failed open may still be mapped by what that open left in cycles, so a refused removal is tried
+    once more after a collection. False when the entry is still there: the key is then ``unfit``."""
+    root = cache_root()
+    if root is None or not key:
+        return False
+    folder = root / key
+    _replaced.add((str(root), key))
+    gone = remove_entry(folder)
+    if not gone:
+        import gc
+        gc.collect()
+        gone = remove_entry(folder)
+    if not gone:
+        _unfit.add((str(root), key))
+    return gone
 
 
 def _read_entry(folder, key):

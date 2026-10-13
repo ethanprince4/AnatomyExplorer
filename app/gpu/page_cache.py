@@ -420,10 +420,7 @@ def load(model, sink, page_bytes, max_pages=None, cluster_order=False, compress=
         if passed and exc is passed[-1]:
             raise
         return None
-    try:
-        os.utime(folder / "meta.json")                                # read now: the last to be pruned
-    except OSError:
-        pass
+    _prep.mark_opened(folder)                                         # read now: the last to be pruned (never raises)
     return geo.GpuGeometry(sink=sink, pages=pages, page_of=a["page_of"], vbase=a["vbase"], vcount=a["vcount"],
                            ranges=ranges, stream_base=a["stream_base"], const_tail=a["const_tail"], gl_keys=gl_keys,
                            stats=t["stats"], page_bytes=page_bytes, anim_base=a["anim_base"], clusters=clusters,

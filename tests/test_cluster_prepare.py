@@ -1,6 +1,6 @@
 """The fast renderer's clusters are made on the load thread (app/gpu/prep.py): the GUI thread's request gets the set
 riding on the model, nothing is built twice when the set cannot be kept on disk, and a cancelled load stops the build
-at its next part. No GPU: the geometry is built into a host sink, the way the renderer builds it into the device."""
+within a moment, whatever its parts are, with nothing of it kept and no thread left behind. No GPU: the geometry is built into a host sink, the way the renderer builds it into the device."""
 import hashlib
 import inspect
 import json
@@ -113,6 +113,18 @@ class Case(unittest.TestCase):
         prepared_cache.wait_for_saves()
         return result.model
 
+    def pool_threads_left(self, timeout=30.0):
+        """Names of the cluster build's pool threads still alive after waiting up to ``timeout`` for them to end."""
+        deadline = time.monotonic() + timeout
+        while True:
+            left = [t.name for t in threading.enumerate() if t.name.startswith(cl.THREAD_PREFIX)]
+            if not left or time.monotonic() > deadline:
+                return left
+            time.sleep(0.01)
+
+    def temp_folders(self):
+        return sorted(p.name for p in self.root.glob("*/.tmp-*"))
+
     def draw(self, model):
         """What the renderer's set_model does with the model on the GUI thread, into a host sink."""
         return G.build_geometry(model, G.HostSink(), 1 << 22, cluster_order=prep.wants_clusters(model))
@@ -196,6 +208,26 @@ class LoadThreadTests(Case):
         self.assertEqual(self.threads("failing build"), [LOAD])
 
 
+class UnmarkableStoreTests(Case):
+    def test_entries_whose_access_time_cannot_be_set_are_used_and_nothing_is_built_or_saved(self):
+        first = self.open()
+        self.assertEqual(self.threads("build_clusters"), [LOAD])
+        want = sha1s(cluster_cache.carried(first))
+        del first
+        del self.steps[:]
+        with mock.patch("os.utime", side_effect=PermissionError(13, "the store is read-only")) as utime:
+            for _ in range(2):
+                again = self.open()
+                self.assertIsInstance(again.vertices, np.memmap, "the prepared entry must be used")
+                cd = cluster_cache.carried(again)
+                self.assertTrue(cd.stats["cached"], "the cluster entry must be used")
+                self.assertEqual(sha1s(cd), want)
+                del again, cd
+            self.assertGreaterEqual(utime.call_count, 4, "both stores try to mark their entry at every open")
+        self.assertEqual(self.threads("build_clusters"), [])
+        self.assertEqual(self.threads("save"), [])
+
+
 class WantedTests(Case):
     def built_on_load(self):
         del self.steps[:]
@@ -247,8 +279,12 @@ class CancelTests(Case):
             return build_range(*args, **kwargs)
 
         def counted(done, total):
-            progress.append((done, total))
-            return checkpoint(done, total)
+            progress.append((done, total, "returned"))
+            try:
+                return checkpoint(done, total)
+            except BaseException:
+                progress[-1] = (done, total, "raised")
+                raise
 
         def watched(*args, **kwargs):
             try:
@@ -273,7 +309,10 @@ class CancelTests(Case):
         while "left" not in ended and time.monotonic() < deadline:
             time.sleep(0.005)
         self.assertEqual(ended, [LoadCancelled, "left"], "the build must end with the load's cancellation")
-        self.assertEqual(progress, [(1, SHEETS)], "the first progress call after the cancel is the last")
+        # progress is asked while the parts are worked on, not only when one is done: the first call after the cancel
+        # raises and is the last
+        self.assertEqual([p[2] for p in progress], ["returned"] * (len(progress) - 1) + ["raised"])
+        self.assertTrue(all(total == SHEETS and done <= 2 * workers for done, total, _ in progress), progress)
         # the parts being worked on finish, and a free worker may take one more before the load thread hears of the first
         self.assertLessEqual(len(ranges), 2 * workers, "the parts not started must be dropped")
         self.assertNotIn(MAIN, ranges)
@@ -300,10 +339,99 @@ class CancelTests(Case):
         self.patch(cl, "_build_range", slow_range)
         with self.assertRaises(LoadCancelled):
             self.build(model, None, threads=2, progress=stop)
-        self.assertEqual(seen, [1])
-        time.sleep(0.1)
-        self.assertLessEqual(len(calls), 8, "a build stopped after its first part must not work through the rest")
+        self.assertEqual(len(seen), 1, "the call that raised is the last")
+        self.assertEqual(self.pool_threads_left(), [], "the pool threads of a build that was given up must end")
+        # this is what the stop flag of build_clusters is for: without it the pool works through all the parts after
+        # the caller has gone
+        self.assertLessEqual(len(calls), 8, "a build stopped at its first progress call must not work through the rest")
         self.assertLess(len(calls), SHEETS)
+        count = len(calls)
+        time.sleep(0.1)
+        self.assertEqual(len(calls), count)
+
+    def test_a_cancel_during_a_one_part_build_is_heard_at_once_and_nothing_of_the_build_is_kept(self):
+        path = write_model(self.root / "one.npz", ribbon=False, sheets=1)
+        started, release, lock, marks, ended = threading.Event(), threading.Event(), threading.Lock(), [], []
+        build_range, build = cl._build_range, cl.build_clusters
+
+        def held_range(*args, **kwargs):
+            with lock:
+                marks.append("in")
+            started.set()
+            release.wait(60.0)              # the one part is being worked on for as long as the test likes
+            try:
+                return build_range(*args, **kwargs)
+            finally:
+                with lock:
+                    marks.append("out")
+
+        def watched(*args, **kwargs):
+            try:
+                return build(*args, **kwargs)
+            except BaseException as exc:
+                ended.append((type(exc), time.perf_counter()))
+                raise
+
+        self.patch(cl, "_build_range", held_range)
+        self.patch(cl, "build_clusters", watched)
+        queue = ModelLoadQueue()
+        self.addCleanup(queue.close)
+        self.addCleanup(release.set)
+        queue.request("m", entry_of(path))
+        self.assertTrue(started.wait(120.0), "the cluster build did not start on the load thread")
+        time.sleep(0.2)                     # well inside the part
+        cancelled = time.perf_counter()
+        queue.cancel("m")
+        deadline = time.monotonic() + 30.0
+        while not ended and time.monotonic() < deadline:
+            time.sleep(0.002)
+        self.assertEqual([kind for kind, _ in ended], [LoadCancelled])
+        self.assertLess(ended[0][1] - cancelled, 0.5, "the load thread must hear the cancel while the part is still being built")
+        self.assertEqual(marks, ["in"], "the part was still being worked on when the load thread left the build")
+        self.assertIsNone(queue.take_result())
+        # the load thread is free: the next open on the same queue does not wait for the part of the cancelled build
+        self.patch(cl, "_build_range", build_range)
+        queue.request("next", entry_of(path))
+        result = None
+        while result is None and time.monotonic() < deadline:
+            result = queue.take_result()
+            time.sleep(0.005)
+        self.assertIsNotNone(result, "the next open waited for the cancelled build")
+        self.assertEqual(result.error, "")
+        self.assertEqual(marks, ["in"])
+        prepared_cache.wait_for_saves()
+        kept = sorted(self.root.glob("clusters/*/meta.json"))
+        self.assertEqual(len(kept), 1)      # the next open's own set
+        want = sha1s(cluster_cache.carried(result.model))
+        self.assertEqual(want, sha1s(self.build(result.model)))
+        stamp = kept[0].stat().st_mtime_ns
+        release.set()                       # now the pool thread of the cancelled build goes on: it must stop, and keep nothing
+        self.assertEqual(self.pool_threads_left(), [], "no thread of a cancelled build may be left behind")
+        self.assertEqual(marks, ["in", "out"])
+        self.assertEqual(sorted(self.root.glob("clusters/*/meta.json")), kept)
+        self.assertEqual(kept[0].stat().st_mtime_ns, stamp)
+        self.assertEqual(self.threads("save"), [LOAD])
+        self.assertEqual(sha1s(cluster_cache.carried(result.model)), want)
+        self.assertEqual(self.temp_folders(), [])
+
+    def test_progress_is_asked_while_a_part_is_being_built_and_the_set_is_the_same(self):
+        model = self.open(write_model(self.root / "one.npz", ribbon=False, sheets=1))
+        want = sha1s(self.build(model))
+        build_range, seen = cl._build_range, []
+
+        def slow_range(*args, **kwargs):
+            time.sleep(0.4)
+            return build_range(*args, **kwargs)
+
+        self.patch(cl, "_build_range", slow_range)
+        cd = self.build(model, None, progress=lambda done, total: seen.append((done, total, time.perf_counter())))
+        self.assertEqual(sha1s(cd), want)
+        self.assertEqual(seen[-1][:2], (1, 1))
+        waiting = [t for done, _total, t in seen if done == 0]
+        self.assertGreaterEqual(len(waiting), 3, "progress must be called while the one part is being built")
+        gaps = np.diff([t for _d, _t, t in seen])
+        self.assertLess(float(np.median(gaps)), 0.1)
+        self.assertEqual(self.pool_threads_left(), [])
 
 
 def stub_model(tris=3000, morph=False, anim=None, texture=None, alpha_cut=0.0, parts=2):
