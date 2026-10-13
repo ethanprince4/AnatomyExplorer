@@ -47,7 +47,7 @@ from .caps import CapPasses
 from .clusters import ClusterError
 from .cull import ClipState, ClusterCuller, FrameParts
 from .cull_policy import CullGovernor
-from .oit import OitDraw, OitPass
+from .oit import OitPass
 from .post import PostPasses, depth_mip_levels
 from .shade_split import ShadeSplit
 from .shading_uniforms import FIELD_BY_NAME, SIZE as SHADE_SIZE, pack_shading_uniforms
@@ -437,14 +437,16 @@ class WgpuRenderer:
         self._bg_vis_size = None
         self._cap_col_v = None
         self.oit_t = None
-        self._oit_rec = _Rec()
+        self._oit_base = None                # drawtable.oit_base of the model: the fixed part of the translucent records
+        self._look_tex_arr = None            # _look_tex as an array over the look records
+        self._sg_runs = None                 # byte ranges of the frame-wide fields in a ShadeU record
         self._items_v = self._spec_v = None
         self._layouts()
         self._gather = {}
         self._qs = None
         if self.profile:
-            self._qs = self.device.create_query_set(type="timestamp", count=16)
-            self._qbuf = self.device.create_buffer(size=128, usage=BU.QUERY_RESOLVE | BU.COPY_SRC | BU.COPY_DST)
+            self._qs = self.device.create_query_set(type="timestamp", count=18)
+            self._qbuf = self.device.create_buffer(size=144, usage=BU.QUERY_RESOLVE | BU.COPY_SRC | BU.COPY_DST)
         d = self.device
         self._s_ao = d.create_sampler(mag_filter="linear", min_filter="linear", address_mode_u="clamp-to-edge",
                                       address_mode_v="clamp-to-edge")
@@ -627,7 +629,8 @@ class WgpuRenderer:
             self._make_ptab()
             self._make_culler(model)
             self.oit.set_geometry(self.geom)
-            self._oit_rec = _Rec()
+            self._oit_base = dtab.oit_base(parts, self.geom)
+            self._look_tex_arr = None
             side = model.sidecar.get("lights") or {}
             self.rig = side.get("rig") or DEFAULT_RIG
             self.world = side.get("world") or DEFAULT_WORLD
@@ -743,6 +746,7 @@ class WgpuRenderer:
         self._xf = {}
         self._xf_key = None
         self._ps = self._xa = self._rec = self._rec_key = self._draws = self._draws_on_gpu = None
+        self._oit_base = self._look_tex_arr = None
         self._vis_page_bg, self._groups = [], []
         for ub in getattr(self, "_page_ub", []):
             ub.destroy()
@@ -930,7 +934,7 @@ class WgpuRenderer:
             log.warning("wgpu renderer: %s", message)
 
     def _check_supported(self, m, fs, draws, oit, any_clip):
-        if oit:
+        if len(oit):
             pass
 
     # ------------------------------------------------------------------ targets
@@ -1095,61 +1099,35 @@ class WgpuRenderer:
             t={"ao": _Null()}, shadow_maps=[(_Null(),)] * 3, _shadow_mats=[np.eye(4)] * 3, _shadow_texel=[0.01] * 3,
             _shadow_soft=[1.0] * 3, env=SimpleNamespace(spec=_Null(), sh=self.env_sh), white=_Null())
 
-    def _oit_draws(self, parts, VP, V, campos, lights, s, size, camera, clip, fs, alpha, ghost):
-        """The OitDraw list of GL's pass 5: `_draw_shaded(p_oit, ...)` replayed on a recorder that lives as long as the model
-        (GL's uniform cache keeps stale values between draws too), in the draw order of the main pass."""
-        geom = self.geom
-        index_of = {p.id: i for i, p in enumerate(self.model.parts)}
-        items = []
-        for p in parts:
-            pi = index_of[p.id]
-            k = self._level.get(p.id, 0)
-            rng = geom.ranges[pi]
-            first, count = rng[k] if k < len(rng) else rng[0]
-            if count < 3 or geom.page_of[pi] < 0:
-                continue
-            key = geom.gl_keys[pi][k] if k < len(geom.gl_keys[pi]) else geom.gl_keys[pi][0]
-            items.append((key, pi, p, first, count))
-        items.sort(key=lambda e: (e[0], e[1]))
-        u = self._oit_rec
-        u("u_viewproj", VP)
-        _GL._light_uniforms(self._gl_fake(), u, V, campos, lights, s, size, camera)
-        _GL._clip_uniforms(u, clip)
-        u("u_ghost_alpha", float(s.ghost_alpha))
-        out = []
-        for key, pi, p, first, count in items:
-            it = p.item
-            M, nmat, flip, wgt, noclip, _key = self._transform(p)
-            u("u_model", M)
-            u("u_nmat", nmat)
-            u("u_flip", flip)
-            u("u_weight", wgt)
-            u("u_noclip", noclip)
-            batched = self._look_keys[p.id] is not None
-            u("u_batched", 1 if batched else 0)
-            _GL._set_look(self._fake, u, p, s, fs, batched)
-            if not batched:
-                u("u_ghost", 1 if ghost[it] else 0)
-                u("u_alpha_mul", float(alpha[it]))
-                if it in fs.selected:
-                    u("u_highlight", 0.45)
-                    u("u_highlight_col", np.array(s.highlight))
-                elif it == fs.hovered or (s.hovered and s.hovered == it + 1):
-                    u("u_highlight", 0.18)
-                    u("u_highlight_col", np.array(s.hover_highlight))
-                else:
-                    u("u_highlight", 0.0)
-            tex = self._texture_view(p.look.texture) if int(u.get("u_has_tex", 0)) == 1 else None
-            out.append(OitDraw(part=pi, first=int(first), count=int(count), item=int(it), uniforms=dict(u), texture=tex))
-        return out
-
     def _global_uniforms(self, V, campos, lights, s, size, camera, clip):
         """The frame-wide ShadeU bytes: what GL's _draw_shaded sets once per pass (the same functions, on a recorder)."""
         rec = _Rec()
         fake = self._gl_fake()
         _GL._light_uniforms(fake, rec, V, campos, lights, s, size, camera)
         _GL._clip_uniforms(rec, clip)
+        if self._sg_runs is None:           # the bytes those two functions set, for the translucent pass's per-draw records
+            self._sg_runs = dtab.byte_runs([FIELD_BY_NAME[name] for name in rec if name in FIELD_BY_NAME])
         return pack_shading_uniforms(rec)
+
+    def _oit_frame(self, oit_idx, s, fs, ghost, alpha):
+        """The translucent draws of the frame (GL's pass 5, `_draw_shaded(p_oit, ...)`) as arrays in the main pass's draw
+        order, the arguments of OitPass.encode_parts; None when nothing is drawn. A part's ShadeU look record is the one
+        the opaque pass uses (_look_recs: GL's _set_look, flip, morph weight, noclip, batched and, when not batched, the
+        highlight), so nothing is packed per part here; the frame-wide fields are laid over it in the pass."""
+        ps = self._ps
+        idx, k, first, count = dtab.order_draws(ps, oit_idx, self._levels())
+        if not len(idx):
+            return None
+        xa = self._part_xf(idx)
+        rec = self._look_recs(idx, s, fs)[idx]
+        item = ps.item[idx]
+        rows = dtab.oit_rows(self._oit_base[0], self._oit_base[1], idx, xa["row"][idx], xa["weight"][idx],
+                             np.asarray(ghost)[item], np.asarray(alpha)[item], float(s.ghost_alpha), bool(fs.opaque_materials))
+        ta = self._look_tex_arr
+        if ta is None or len(ta) != len(self._look_bytes):
+            ta = self._look_tex_arr = np.array([-1 if self._look_tex.get(i) is None else int(self._look_tex[i])
+                                                for i in range(len(self._look_bytes))], dtype=np.int64)
+        return {"part": idx, "level": k, "first": first, "count": count, "rows": rows, "look": rec, "tex": ta[rec]}
 
     def _look_index(self, p, s, fs, flip, noclip, weight):
         """Index of the ShadeU record of this part's look in the looks table (built once per distinct look state)."""
@@ -1493,14 +1471,13 @@ class WgpuRenderer:
         clip_planes = np.array(fs.clip_planes, dtype=np.float32)
         clip_on = tuple(int(bool(x)) for x in fs.clip_on)
         any_clip = any(clip_on)
-        draws, oit = [], []
+        draws, oit_idx = [], ()
         if m is not None:
-            # part indices; the part objects only for the passes that walk them (cut faces, the translucent pass)
+            # part indices; the part objects only for the pass that walks them (cut faces)
             draws, oit_idx = self._visible_idx(VP, vis, ghost, alpha, fs)
-            oit = [m.parts[i] for i in oit_idx.tolist()]
             if any_clip:
                 draws = [m.parts[i] for i in draws.tolist()]
-            self._check_supported(m, fs, draws, oit, any_clip)
+            self._check_supported(m, fs, draws, oit_idx, any_clip)
             self._upload_item_state(fs, s, ghost, alpha)
             self._upload_anim(fs)
         lights = self._lights(V, s)
@@ -1526,6 +1503,10 @@ class WgpuRenderer:
         table, entries, bits = (self._build_table(draws, s, fs) if have else
                                 (np.zeros((1, DRAW_FLOATS), np.float32), [], self.prim_bits_max))
         self.last_table, self.last_draws, self.last_prim_bits = table, entries, bits
+        # translucent and x-rayed parts (after the table, so the opaque draws take their look records first, as before)
+        oit_draws = self._oit_frame(oit_idx, s, fs, ghost, alpha) if (have and len(oit_idx)) else None
+        if oit_draws is None:
+            self.oit.last_draws = 0
         self._ensure_table(len(table), len(self._look_bytes))
         if self._looks_written < len(self._look_bytes):
             blob = np.frombuffer(b"".join(self._look_bytes[self._looks_written:]), dtype=np.uint8)
@@ -1644,9 +1625,6 @@ class WgpuRenderer:
             self.caps.encode_lay_in(enc, T["id"], T["nd"])
         # ---- 2b. translucent and x-rayed parts: weighted blended OIT into the visibility pass's depth (GL pass 5);
         # encoded after the shaded resolve (below), which still needs the visibility depth without the cut faces
-        oit_draws = []
-        if oit and have:
-            oit_draws = self._oit_draws(oit, VP, V, campos, lights, s, (w, h), camera, clip, fs, alpha, ghost)
         # ---- 3. SSAO (reads the previous frame's resolved colour, `opaque`) and the two blur passes
         if s.ao and m is not None:
             radius = s.ao_radius or self._auto_ao_radius()
@@ -1694,15 +1672,17 @@ class WgpuRenderer:
         # ---- 4b. cut faces into the visibility depth (GL: depth_ms after CAPMIX_FS), then the translucent pass tests against it
         if cplan is not None:
             self.caps.encode_depth(enc, V_["vis_depth"], samples, gl_order=True)
-        if oit_draws:
+        if oit_draws is not None:
             self._shade_bind_group()
-            self.oit.encode(enc, oit_draws, size=(w, h), samples=samples, depth_view=V_["vis_depth"], targets=self.oit_t,
-                            items=self._items_v, spec=self._spec_v, vp_wgpu=GL_TO_WGPU_Z @ VP, anim_tab=self.anim_section())
+            self.oit.encode_parts(enc, **oit_draws, looks=self._look_bytes, glob=sg, glob_runs=self._sg_runs,
+                                  texture=self._texture_view, size=(w, h), samples=samples, depth_view=V_["vis_depth"],
+                                  targets=self.oit_t, items=self._items_v, spec=self._spec_v, vp_wgpu=GL_TO_WGPU_Z @ VP,
+                                  anim_tab=self.anim_section(), timestamps=(qs, 16, 17) if qs else None)
         # ---- 5. composite (no translucent items yet: accum / weight stay zero)
         hov = fs.hovered + 1 if fs.hovered >= 0 else s.hovered
         post.pending_ts = self._ts(qs, 8, 9)
-        post.run_composite(T["opaque"], self.oit_t["accum"] if oit_draws else T["accum"],
-                           self.oit_t["weight"] if oit_draws else T["weight"], T["id"], T["comp"], oit_on=bool(oit_draws),
+        post.run_composite(T["opaque"], self.oit_t["accum"] if oit_draws is not None else T["accum"],
+                           self.oit_t["weight"] if oit_draws is not None else T["weight"], T["id"], T["comp"], oit_on=oit_draws is not None,
                            has_sel=bool(fs.selected or s.selected),
                            hover=float(hov if s.hover_outline_on and hov not in {i + 1 for i in fs.selected} else 0),
                            outline=s.outline, hover_outline=s.hover_outline, exposure=float(s.exposure),
@@ -1725,18 +1705,21 @@ class WgpuRenderer:
         if qs:
             if cplan is None:                                  # slots 14, 15 (the cap gather) must be written before they are resolved
                 enc.begin_compute_pass(timestamp_writes=self._ts(qs, 14, 15)).end()
-            enc.resolve_query_set(qs, 0, 16, self._qbuf, 0)
+            if oit_draws is None:                              # and 16, 17 (the translucent pass)
+                enc.begin_compute_pass(timestamp_writes=self._ts(qs, 16, 17)).end()
+            enc.resolve_query_set(qs, 0, 18, self._qbuf, 0)
         self.queue.submit([enc.finish()])
         if use_cull and self.culler.stats_wanted:
             self.culler.stats_arm(self.gov.tag)
         if qs:
-            ts = np.frombuffer(bytes(self.queue.read_buffer(self._qbuf, 0, 16 * 8)), dtype=np.uint64).astype(np.float64)
+            ts = np.frombuffer(bytes(self.queue.read_buffer(self._qbuf, 0, 18 * 8)), dtype=np.uint64).astype(np.float64)
             kk = self.ts_period_ns * 1e-6
             d = lambda a, b: (ts[b] - ts[a]) * kk
             cull_t = self.culler.read_timings(self.ts_period_ns) if use_cull else None
             self.timings = {"backdrop_ms": d(12, 13), "vis_ms": cull_t["total_ms"] if use_cull else d(0, 1), "geom_ms": d(2, 3), "ssao_ms": d(4, 5) if s.ao else 0.0,
                             "shade_ms": d(6, 7), "composite_ms": d(8, 9), "final_ms": d(10, 11),
-                            "caps_ms": d(14, 15) if cplan is not None else 0.0}
+                            "caps_ms": d(14, 15) if cplan is not None else 0.0,
+                            "oit_ms": d(16, 17) if oit_draws is not None else 0.0}
             self.timings["cull"] = cull_t                     # per stage ms of the culler (None: not culled)
             self.timings["resolve_ms"] = self.timings["geom_ms"] + self.timings["shade_ms"]
             self.timings["total_ms"] = sum(v for kx, v in self.timings.items() if kx.endswith("_ms") and kx != "resolve_ms")

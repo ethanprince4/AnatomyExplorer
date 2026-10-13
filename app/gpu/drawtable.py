@@ -138,3 +138,57 @@ def build_rows(idx, k, first, count, bits_max, xrow, item, page, flags, weight, 
     bu[:, 38] = tex_slot[rows]
     entries = list(zip(range(1, n_slots + 1), e_part.tolist(), e_level.tolist(), e_first.tolist(), (3 * n).tolist()))
     return table, entries, bits, start + 1
+
+
+# ---- the translucent pass (oit.py): the OitDraw records of oit.wgsl from per-part arrays
+OIT_FLOATS = 60
+
+
+def oit_base(parts, geom):
+    """((parts, OIT_FLOATS) float32, (parts, 4) float32): what is fixed in a part's OitDraw record while the model is on the
+    GPU (constant attributes, stream bases, first vertex, item, animation base; oit.pack_draws writes the same fields per
+    draw), and its facing-weighted opacity (alpha min, alpha max, exponent, 1), zeros for a look without one."""
+    n = len(parts)
+    base = np.zeros((n, OIT_FLOATS), dtype=np.float32)
+    iv = base.view(np.int32)
+    base[:, 28:41] = np.asarray(geom.const_tail, dtype=np.float32)[:n]
+    sb = np.asarray(geom.stream_base)[:n]
+    iv[:, 44:48] = sb[:, 0:4]
+    iv[:, 48] = sb[:, 4]
+    iv[:, 49] = np.asarray(geom.vbase)[:n]
+    iv[:, 50] = np.fromiter((p.item for p in parts), dtype=np.int64, count=n)
+    anim = getattr(geom, "anim_base", None)
+    iv[:, 51] = -1 if anim is None else np.asarray(anim).reshape(-1)[:n]
+    facing = np.zeros((n, 4), dtype=np.float32)
+    for i, p in enumerate(parts):
+        if p.look.facing:
+            facing[i, 0:3] = np.asarray(p.look.facing, dtype=np.float32)
+            facing[i, 3] = 1.0
+    return base, facing
+
+
+def oit_rows(base, facing, idx, xrow, weight, ghost, alpha, ghost_alpha, opaque_materials):
+    """(draws, OIT_FLOATS) float32: the records of the translucent draws ``idx`` (part indices in draw order). ``xrow`` are
+    their XF_FLOATS transform floats, ``weight`` their morph weights, ``ghost`` / ``alpha`` the x-ray flag and opacity of
+    their items (the shader reads them from the items texture instead when the part is batched, so they are written for
+    every part). A facing-weighted opacity is off while materials are forced opaque (GL's _set_look)."""
+    r = base[idx]
+    r[:, 0:XF_FLOATS] = xrow
+    r[:, 52] = weight
+    r[:, 53] = np.asarray(ghost, dtype=bool)
+    r[:, 54] = ghost_alpha
+    r[:, 55] = alpha
+    if not opaque_materials:
+        r[:, 56:60] = facing[idx]
+    return r
+
+
+def byte_runs(fields):
+    """[(first byte, end byte)] covered by ``fields`` (anything with offset and size), merged where they touch."""
+    runs = []
+    for a, b in sorted((int(f.offset), int(f.offset) + int(f.size)) for f in fields):
+        if runs and a <= runs[-1][1]:
+            runs[-1][1] = max(runs[-1][1], b)
+        else:
+            runs.append([a, b])
+    return [(a, b) for a, b in runs]
