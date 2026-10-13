@@ -141,6 +141,14 @@ class DrawRanges:
         tol = REL_TOL * (np.abs(_SIDES) @ (np.abs(vp) @ self.extent)) + 1e-12   # from the largest sum of |terms|
         return (self._least(rows) > tol).any(axis=1) & self.box_ok
 
+    def inside_view(self, vp):
+        """True for structures whose box lies wholly inside the view volume, by the margin outside_view uses."""
+        vp = np.asarray(vp, dtype=np.float64)
+        rows = _SIDES @ vp
+        tol = REL_TOL * (np.abs(_SIDES) @ (np.abs(vp) @ self.extent)) + 1e-12
+        most = self.center @ rows[:, :3].T + rows[:, 3] + self.half @ np.abs(rows[:, :3]).T
+        return (most < -tol).all(axis=1) & self.box_ok
+
     def cut_away(self, clip, flags):
         """True for structures a section removes completely (shaders.clipped is true at every point of the box)."""
         planes = np.asarray(clip[0], dtype=np.float32).astype(np.float64).reshape(-1, 4)
@@ -208,3 +216,155 @@ class DrawRanges:
         cmd = np.zeros((len(first), 5), dtype="<u4")
         cmd[:, 0], cmd[:, 1], cmd[:, 2] = count, 1, first
         return cmd
+
+
+CHUNK_TRIANGLES = 4096        # triangles in one piece of a structure (the unit that is hidden when it is covered)
+CHUNK_BLOCK = 1 << 18         # indices looked up at a time while the boxes are measured (short holds of the GIL)
+
+
+class Chunks:
+    """The structures' index ranges cut into pieces of CHUNK_TRIANGLES triangles, each with its own box.
+
+    A piece is what the renderer leaves out when it is covered by what lies in front of it (app/renderer.py,
+    _draw_opaque_covered). The pieces tile the index buffer in buffer order, so any choice of pieces is drawn in
+    the order the whole buffer would be drawn in. The boxes come from the positions the piece's triangles use.
+    """
+
+    def __init__(self):
+        self.n = 0
+        self.first = self.count = None            # per piece, in indices, in buffer order
+        self.end = None
+        self.struct = None                        # the structure a piece belongs to
+        self.center = self.half = None            # float64 (n, 3)
+        self.box_ok = None
+        self.extent = None
+
+    @classmethod
+    def build(cls, ranges, vertices, indices, size=CHUNK_TRIANGLES):
+        """Pieces and boxes for a dataset whose layout DrawRanges has proved, or None on any doubt."""
+        try:
+            return cls._build(ranges, vertices, indices, int(size))
+        except Exception:               # noqa: BLE001 - no pieces means: nothing is hidden for being covered
+            return None
+
+    @classmethod
+    def _build(cls, ranges, vertices, indices, size):
+        if ranges is None or size < 1:
+            return None
+        vb = np.frombuffer(vertices, dtype=np.uint8)
+        idx = np.frombuffer(indices, dtype=np.uint8).view("<u4")
+        nv = len(vb) // VERTEX_STRIDE
+        step = 3 * size
+        f, e = ranges.sorted_first, ranges.sorted_end
+        pieces = (e - f + step - 1) // step                     # per structure, in buffer order
+        owner = np.repeat(ranges.order, pieces)
+        base = np.repeat(f, pieces)
+        k = np.arange(int(pieces.sum())) - np.repeat(np.cumsum(pieces) - pieces, pieces)
+        first = base + k * step
+        end = np.minimum(first + step, np.repeat(e, pieces))
+        if first[0] != 0 or end[-1] != len(idx) or (first[1:] != end[:-1]).any() or (end <= first).any():
+            return None
+        self = cls()
+        self.n, self.first, self.end, self.count, self.struct = len(first), first, end, end - first, owner
+        pos = np.ndarray((nv, 3), dtype="<f4", buffer=vb, offset=0, strides=(VERTEX_STRIDE, 4))
+        lo = np.empty((self.n, 3), dtype=np.float32)
+        hi = np.empty((self.n, 3), dtype=np.float32)
+        a = 0
+        while a < self.n:                                        # a block of whole pieces at a time
+            b = max(int(np.searchsorted(end, first[a] + CHUNK_BLOCK, side="right")), a + 1)
+            p = pos[idx[first[a]:end[b - 1]]]
+            cuts = first[a:b] - first[a]
+            lo[a:b] = np.minimum.reduceat(p, cuts, axis=0)
+            hi[a:b] = np.maximum.reduceat(p, cuts, axis=0)
+            a = b
+        ok = np.isfinite(lo).all(axis=1) & np.isfinite(hi).all(axis=1)
+        self.box_ok = ok
+        lo = np.where(ok[:, None], lo, 0.0).astype(np.float64)
+        hi = np.where(ok[:, None], hi, 0.0).astype(np.float64)
+        self.center, self.half = (lo + hi) * 0.5, (hi - lo) * 0.5
+        ext = np.maximum(np.abs(lo).max(axis=0), np.abs(hi).max(axis=0)) if ok.any() else np.zeros(3)
+        self.extent = np.append(ext, 1.0)
+        return self
+
+    def _least(self, rows, pad=None, sel=None):
+        """Smallest value of row @ (x, y, z, 1) over each piece's box (grown by pad on every side): one array a row.
+        sel: the pieces to look at (indices), all when left out.
+
+        Matrix-vector products on purpose: on tens of thousands of pieces the matrix-matrix product spends over a
+        millisecond a call starting its threads.
+        """
+        out = []
+        center, half = (self.center, self.half) if sel is None else (self.center[sel], self.half[sel])
+        for row in np.ascontiguousarray(rows, dtype=np.float64):
+            size = np.abs(row[:3])
+            v = center @ row[:3]
+            v -= half @ size
+            v += row[3]
+            if pad is not None:
+                v -= pad * size.sum()
+            out.append(v)
+        return out
+
+    def outside_view(self, vp, maybe=None):
+        """As DrawRanges.outside_view, per piece.
+
+        maybe: per structure, False where the whole structure is in view (DrawRanges.inside_view). Its pieces lie
+        inside its box, so they cannot be outside and are not looked at: the answer is the same, sooner.
+        """
+        vp = np.asarray(vp, dtype=np.float64)
+        rows = _SIDES @ vp
+        tol = REL_TOL * (np.abs(_SIDES) @ (np.abs(vp) @ self.extent)) + 1e-12
+        sel = None if maybe is None else np.flatnonzero(np.asarray(maybe)[self.struct])
+        beyond = np.zeros(self.n if sel is None else len(sel), dtype=bool)
+        if len(beyond):
+            for v, t in zip(self._least(rows, sel=sel), tol):
+                beyond |= v > t
+        if sel is None:
+            return beyond & self.box_ok
+        out = np.zeros(self.n, dtype=bool)
+        out[sel] = beyond
+        return out & self.box_ok
+
+    def cut_away(self, clip, flags):
+        """As DrawRanges.cut_away, per piece; flags are per structure."""
+        planes = np.asarray(clip[0], dtype=np.float32).astype(np.float64).reshape(-1, 4)
+        mode = int(clip[2]) if len(clip) > 2 else 0
+        active = [i for i in range(min(3, len(planes))) if int(clip[1][i]) == 1]
+        if not active:
+            return np.zeros(self.n, dtype=bool)
+        rows = -planes[active]
+        tol = REL_TOL * (np.abs(rows) @ self.extent) + 1e-9
+        beyond = [v > t for v, t in zip(self._least(rows), tol)]
+        gone = np.logical_and.reduce(beyond) if mode == 1 else np.logical_or.reduce(beyond)
+        return gone & self.box_ok & ((np.asarray(flags)[self.struct] & F_NOCLIP) == 0)
+
+    def padding(self, vp, pad):
+        """World distance each box is grown by before it is tested: pad * (largest clip w over the box) + a floor.
+
+        The box shader (renderer.BOX_VS) computes the same in float32; the floor and the pixel of padding cover the
+        difference, the rounding of the positions and the steps of the depth buffer.
+        """
+        w = np.asarray(vp, dtype=np.float64)[3]
+        far = self.center @ w[:3] + w[3] + self.half @ np.abs(w[:3])
+        return pad * np.maximum(far, 0.0) + BOX_FLOOR * float(self.extent[:3].max() + 1.0)
+
+    def at_near(self, vp, pad):
+        """True for pieces whose grown box reaches the near side of the view volume or has no usable box.
+
+        Such a box cannot be tested by drawing it (the GPU would cut its front off), so its piece is always drawn.
+        """
+        vp = np.asarray(vp, dtype=np.float64)
+        row = (vp[2] + vp[3])[None, :]                           # z + w >= 0 inside the view volume
+        grown = 2.0 * self.padding(vp, pad)                      # twice what the shader uses: on the safe side
+        tol = REL_TOL * float(np.abs(row[0]) @ self.extent) + 1e-12
+        return (self._least(row, grown)[0] <= tol) | ~self.box_ok
+
+    def runs(self, mask):
+        """(first index, index count) of the draws for the pieces in mask: neighbours in the buffer are joined."""
+        edge = np.diff(np.concatenate(([False], mask, [False])).astype(np.int8))
+        start, stop = np.flatnonzero(edge == 1), np.flatnonzero(edge == -1)
+        first = self.first[start]
+        return first, self.end[stop - 1] - first
+
+
+BOX_FLOOR = 2e-5              # of the scene size (plus 1): least padding of a tested box, in world units
