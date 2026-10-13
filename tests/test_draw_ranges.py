@@ -1,5 +1,6 @@
 """The whole-body renderer's draw lists (app/draw_ranges.py): each pass is given only the structures that can show
 in it, and the picture is the same as drawing the whole buffer."""
+import logging
 import struct
 import unittest
 from types import SimpleNamespace
@@ -513,6 +514,163 @@ class Covered(unittest.TestCase):
         finally:
             r._indirect, r._occ = indirect, occ
         self.assertIn("covered", self.same(on))
+
+    BUFFERS = ("window", "colour", "id", "depth", "mask", "outline")
+    LOG = "anatomy.renderer"
+    # One error in each step a frame of the test takes: (step, frames with the test before the faulted one, the
+    # eye of the faulted frame, where the object is kept, its name, the method that fails, on which call, after
+    # doing its work, a second test in the frame). A failing draw has drawn: the fallback must undo it.
+    FAULTS = (
+        ("depth-only draw", 1, FRONT, "occ", "depth_vao", "render_indirect", 1, True, False),
+        ("depth-only draw after a jump", 2, SIDE, "occ", "depth_vao", "render_indirect", 1, True, False),
+        ("depth-only draw, nothing drawn", 1, FRONT, "occ", "depth_vao", "render_indirect", 1, False, False),
+        ("depth reduction", 1, FRONT, "occ", "reduce_vao", "render", 1, True, False),
+        ("depth reduction, nothing drawn", 0, FRONT, "occ", "reduce_vao", "render", 1, False, False),
+        ("box test", 1, FRONT, "occ", "vao", "render", 1, True, False),
+        ("box test after a jump", 2, SIDE, "occ", "vao", "render", 1, False, False),
+        ("read-back", 1, FRONT, "occ", "seen", "read", 1, True, False),
+        ("read-back of the first frame", 0, FRONT, "occ", "seen", "read", 1, False, False),
+        ("shaded draw after a test", 1, FRONT, "self", "vao_opaque", "render_indirect", 1, True, False),
+        ("shaded draw, nothing drawn", 1, FRONT, "self", "vao_opaque", "render_indirect", 1, False, False),
+        ("shaded draw from a final answer", 2, FRONT, "self", "vao_opaque", "render_indirect", 1, True, False),
+        ("second test of a frame", 0, FRONT, "occ", "seen", "read", 2, True, True),
+        ("the whole box test", 1, FRONT, "self", "_test_boxes", "_test_boxes", 1, False, False),
+        ("the piece draw, depth only", 1, FRONT, "self", "_draw_pieces", "_draw_pieces", 1, False, False),
+        ("the piece draw, shaded", 1, FRONT, "self", "_draw_pieces", "_draw_pieces", 2, True, False),
+    )
+
+    class FailsOnce:
+        """Stands in for an object of the test: `method` raises on its call number `at` (after doing its work
+        when `after`), as a driver error would; everything else is the object's own. at=0: it never raises."""
+
+        def __init__(self, real, method, at, after):
+            self.real, self.method, self.at, self.after = real, method, at, after
+            self.calls = self.raised = 0
+
+        def __getattr__(self, name):
+            attr = getattr(self.real, name)
+            if name != self.method:
+                return attr
+
+            def call(*args, **kwargs):
+                self.calls += 1
+                if self.calls != self.at:
+                    return attr(*args, **kwargs)
+                self.raised += 1
+                if self.after:
+                    attr(*args, **kwargs)
+                raise RuntimeError(f"injected in {name}")
+            return call
+
+    def faulted(self, warm, eye, holder, name, method, at, after, loose):
+        """Reference frames without the test, `warm` frames with it, then the views of the references again
+        with the stand-in in place. Yields (stand-in, reference, frame, log records) for each of them."""
+        r, on = self.renderer, [F_VISIBLE] * 6
+        views = ((on, eye), (on, eye), (on, self.SIDE), ([0] + [F_VISIBLE] * 5, self.FRONT), (on, self.FRONT))
+        r.use_occlusion = False
+        plain = [self.draw(flags, self.NO_CLIP, e) for flags, e in views]   # all taken before anything fails
+        r.use_occlusion = True
+        if loose:
+            r.OCC_LOOSE_TRIANGLES = 0
+        place = real = None
+        try:
+            for _ in range(warm):
+                self.assertIn("covered", self.draw(on, self.NO_CLIP, self.FRONT)[1])
+            self.assertIsNotNone(r._occlusion())
+            place = r._occ if holder == "occ" else vars(r)
+            real = place.get(name)
+            if name == method:                                  # a method of the renderer itself
+                fail = self.FailsOnce(r, method, at, after)
+                place[name] = getattr(fail, method)
+            else:
+                fail = place[name] = self.FailsOnce(real, method, at, after)
+            for (flags, e), reference in zip(views, plain):
+                handler = _Records()
+                logger = logging.getLogger(self.LOG)
+                logger.addHandler(handler)
+                try:
+                    frame = self.draw(flags, self.NO_CLIP, e)
+                finally:
+                    logger.removeHandler(handler)
+                yield fail, reference, frame, handler.records
+        finally:
+            if loose:
+                del r.OCC_LOOSE_TRIANGLES
+            if place is not None and (place is not r._occ) == (holder == "self"):
+                if real is None:
+                    place.pop(name, None)
+                else:
+                    place[name] = real
+            if r._occ is False:
+                r._occ = None                                   # the other tests of this class start with the test on
+
+    def test_an_error_in_any_step_of_a_frame_draws_that_frame_from_the_lists_and_ends_the_test(self):
+        r = self.renderer
+        for step, *case in self.FAULTS:
+            with self.subTest(step=step):
+                self.setUp()
+                frames = self.faulted(*case)
+                fail, (plain, plain_stats), (bufs, stats), records = next(frames)
+                self.assertEqual(fail.raised, 1)                # the step ran in this frame, and failed in it
+                for buffer, a, b in zip(self.BUFFERS, plain, bufs):
+                    self.assertEqual(a, b, f"faulted frame: {buffer}")
+                self.assertEqual(stats, plain_stats)            # the whole list, and nothing counted twice
+                self.assertIs(r._occ, False)
+                self.assertEqual((r.occ_fbo, r.occ_small, r.occ_small_tex), (None, None, None))
+                self.assertEqual(len(records), 1)               # one line, naming the error
+                self.assertEqual(records[0].levelno, logging.WARNING)
+                self.assertIn("injected in " + case[4], records[0].getMessage())
+                self.assertNotIn("\n", records[0].getMessage())
+                following = 0
+                for fail, (plain, plain_stats), (bufs, stats), records in frames:
+                    following += 1
+                    for buffer, a, b in zip(self.BUFFERS, plain, bufs):
+                        self.assertEqual(a, b, f"frame {following} after the fault: {buffer}")
+                    self.assertEqual(stats, plain_stats)
+                    self.assertIs(r._occ, False)                # off for the rest of the session
+                    self.assertEqual((fail.raised, records), (1, []))
+                self.assertEqual(following, 4)
+                self.assertIsNone(r._occ)                       # put back by faulted() for the next case
+                self.assertIn("covered", self.same([F_VISIBLE] * 6))
+            frames.close()                                      # after a failed case too: the test is put back
+
+    def test_without_an_error_the_test_stays_in_use(self):
+        r, on = self.renderer, [F_VISIBLE] * 6
+        handler = _Records()
+        logging.getLogger(self.LOG).addHandler(handler)
+        try:
+            sent = []
+            for eye in (self.FRONT, self.FRONT, self.FRONT, self.SIDE, self.SIDE, self.SIDE):
+                stats = self.same(on, eye=eye)
+                self.assertIsInstance(r._occ, dict)
+                sent.append(stats["covered"][1:3])
+            self.assertEqual(sent[:3], [(0, 10), (10, 6), (0, 6)])      # the counts of before the guard
+            self.assertEqual(sent[5][0], 0)                             # a resting view is drawn with no test
+            # the stand-ins themselves change nothing: with none of them raising, every frame is still tested
+            for step, *case in self.FAULTS:
+                with self.subTest(step=step):
+                    self.setUp()
+                    case[5] = 0
+                    for fail, (plain, plain_stats), (bufs, stats), _ in self.faulted(*case):
+                        self.assertEqual(plain, bufs)
+                        self.assertIn("covered", stats)
+                        self.assertIsInstance(r._occ, dict)
+                        self.assertEqual(fail.raised, 0)
+                    self.assertGreater(fail.calls, 0)
+        finally:
+            logging.getLogger(self.LOG).removeHandler(handler)
+        self.assertEqual(handler.records, [])
+
+
+class _Records(logging.Handler):
+    """Keeps the records of a logger (the renderer logs one line when the covered test fails)."""
+
+    def __init__(self):
+        super().__init__()
+        self.records = []
+
+    def emit(self, record):
+        self.records.append(record)
 
 
 if __name__ == "__main__":

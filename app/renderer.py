@@ -1,3 +1,4 @@
+import logging
 import re
 import threading
 
@@ -20,6 +21,8 @@ FORMAT_SIZE = {"3f": 12, "2f": 8, "1f": 4, "u2": 2, "4f1": 4, "4f2": 8}
 ALBEDO_UNIT = 5
 PARITY_UNIT = 6
 ANIM_UNIT = 10
+
+log = logging.getLogger("anatomy.renderer")
 
 
 # The covered test (Renderer._draw_opaque_covered). Needs OpenGL 4.3 (a buffer a fragment shader can write to);
@@ -236,7 +239,7 @@ class Renderer:
         self.chunks = None
         self._chunks_ready = threading.Event()
         self._chunks_result = None
-        self._occ = None                        # GL objects of the test; False where this context cannot run it
+        self._occ = None                        # GL objects of the test; False: cannot run here, or it failed
         self._occ_seen = None                   # per piece: got a pixel of its box through when last tested
         self._occ_need = self._occ_key = None   # the pieces that passed, and the view and state they passed for
         self._occ_final = False                 # that answer came from a test against all that shows in that view
@@ -481,10 +484,58 @@ class Renderer:
         (few systems shown, small datasets): False is returned, the whole list is drawn, and the test runs when
         the view rests. That is judged from the last final answer for this state at a similar list length, with
         no work per piece, or else from what passed before for this frame's pieces.
+
+        An error raised in any of these steps (a driver that fails in a draw, in the test or in its read-back)
+        ends the test for the session: the frame is put back as it was (_occlusion_failed), False is returned and
+        the whole list is drawn, in this frame and in every later one.
         """
         occ = self._occlusion()
         if occ is None:
             return False
+        try:
+            return self._covered_frame(occ, lists, vp, proj, uniforms)
+        except Exception as exc:        # noqa: BLE001 - whatever fails in the test must not cost the picture
+            self._occlusion_failed(exc, uniforms)
+            return False
+
+    def _occlusion_failed(self, exc, uniforms):
+        """An error in a frame of the covered test: the test is off for the rest of the session, and the frame is
+        put back to where the opaque pass began, so that the whole list drawn next gives the frame it gives with
+        use_occlusion False. The steps of the test may have left their own framebuffer bound, depth from the
+        depth-only draw in the frame's depth texture, some shaded pieces in the frame, the depth comparison
+        changed and the depth texture on unit 0."""
+        ctx = self.ctx
+        errors = []
+        for _ in range(8):              # the error flags a driver set are read out, or later checks would meet them
+            code = ctx.error
+            if code == "GL_NO_ERROR":
+                break
+            errors.append(code)
+        log.warning("covered test: off for this session, the whole lists are drawn instead: %r%s", exc,
+                    f" ({', '.join(errors)})" if errors else "")
+        self._occ_seen = self._occ_need = self._occ_key = self._occ_hint = None
+        self._occ_final = False
+        self.last_stats.pop("covered", None)
+        self.last_stats.pop("opaque", None)
+        try:
+            self.gbuffer.use()          # the test's framebuffers are deleted next: none of them may stay bound
+        finally:
+            self._release_occlusion()
+            self._occ = False           # _frame_lists makes no piece lists from the next frame on
+        ctx.disable(moderngl.BLEND | moderngl.CULL_FACE)
+        ctx.enable(moderngl.DEPTH_TEST)
+        ctx.depth_func = "<"
+        self.state_tex.use(0)
+        self.mats_tex.use(1)
+        self.albedo.use(ALBEDO_UNIT)
+        self.anim_tex.use(ANIM_UNIT)
+        self.gbuffer.depth_mask = True
+        self.gbuffer.use()              # binds it with its own viewport, scissor, colour masks and depth mask
+        self.gbuffer.clear(0.0, 0.0, 0.0, 0.0, depth=1.0)
+        uniforms(self.p_opaque)
+
+    def _covered_frame(self, occ, lists, vp, proj, uniforms):
+        """The steps of _draw_opaque_covered for one frame (an error raised here is caught there)."""
         ch, o = self.chunks, lists["occ"]
         key = (o["key"], self.size, self.OCC_SCALE)
         again = key == self._occ_key                # same view and state as the last frame
