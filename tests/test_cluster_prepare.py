@@ -267,16 +267,20 @@ class CancelTests(Case):
         path = write_model(self.root / "sheets.npz", ribbon=False)
         workers = min(8, max(1, os.cpu_count() or 2))
         self.assertLess(2 * workers, SHEETS)
-        started, gate, lock, ranges, progress, ended = threading.Event(), threading.Event(), threading.Lock(), [], [], []
+        started, gate, lock, ranges, built, progress, ended = (threading.Event(), threading.Event(), threading.Lock(),
+                                                               [], [], [], [])
         build_range, checkpoint, build = cl._build_range, prep._checkpoint, cl.build_clusters
 
-        def slow_range(*args, **kwargs):
+        def held_range(*args, **kwargs):
+            name = threading.current_thread().name
             with lock:
-                ranges.append(threading.current_thread().name)
+                ranges.append(name)
             started.set()
-            gate.wait(60.0)                 # the parts being worked on wait here until the load has been cancelled
-            time.sleep(0.05)                # and stay slow, so the load thread hears of the first one before many more start
-            return build_range(*args, **kwargs)
+            gate.wait(120.0)                # a part being worked on waits here until the build has ended
+            result = build_range(*args, **kwargs)
+            with lock:
+                built.append(name)          # reached only when the range was built: _build_range did not stop
+            return result
 
         def counted(done, total):
             progress.append((done, total, "returned"))
@@ -295,7 +299,7 @@ class CancelTests(Case):
             finally:
                 ended.append("left")
 
-        self.patch(cl, "_build_range", slow_range)
+        self.patch(cl, "_build_range", held_range)
         self.patch(prep, "_checkpoint", counted)
         self.patch(cl, "build_clusters", watched)
         queue = ModelLoadQueue()
@@ -304,21 +308,26 @@ class CancelTests(Case):
         queue.request("m", entry_of(path))
         self.assertTrue(started.wait(120.0), "the cluster build did not start on the load thread")
         queue.cancel("m")                   # the tab is closed while the build runs
-        gate.set()
         deadline = time.monotonic() + 60.0
         while "left" not in ended and time.monotonic() < deadline:
             time.sleep(0.005)
         self.assertEqual(ended, [LoadCancelled, "left"], "the build must end with the load's cancellation")
-        # progress is asked while the parts are worked on, not only when one is done: the first call after the cancel
-        # raises and is the last
+        # progress is asked while the parts are worked on, not only when one is done (none is: they all wait at the
+        # gate): the first call after the cancel raises and is the last
         self.assertEqual([p[2] for p in progress], ["returned"] * (len(progress) - 1) + ["raised"])
-        self.assertTrue(all(total == SHEETS and done <= 2 * workers for done, total, _ in progress), progress)
-        # the parts being worked on finish, and a free worker may take one more before the load thread hears of the first
-        self.assertLessEqual(len(ranges), 2 * workers, "the parts not started must be dropped")
+        self.assertTrue(all((done, total) == (0, SHEETS) for done, total, _ in progress), progress)
+        gate.set()                          # the build has ended: only now do the parts being worked on go on
+        self.assertEqual(self.pool_threads_left(), [], "the pool threads of a build that was given up must end")
+        # The record is complete now, and none of what follows depends on how the threads were scheduled. A range is
+        # reached by a part that began before the build was given up: either it waited at the gate or it had passed
+        # its first line when the stop flag was set and came to its range afterwards (a count of ranges taken when
+        # the build ends misses that one, which is why this test waits for the threads instead). Both find the flag
+        # set at the first step of the range, and the thread's next part finds it set at its first line.
+        self.assertEqual(built, [], "no range is built after the build was given up")
+        self.assertEqual(sorted(ranges), sorted(set(ranges)),
+                         "a pool thread that reaches a second range has started a part after the build had ended")
+        self.assertLessEqual(len(ranges), workers, "the parts not started must be dropped")
         self.assertNotIn(MAIN, ranges)
-        count = len(ranges)
-        time.sleep(0.1)
-        self.assertEqual(len(ranges), count, "no part is started after the build has ended")
         self.assertIsNone(queue.take_result())
         self.assertEqual(list(self.root.glob("clusters/*/meta.json")), [])
         self.assertEqual(self.threads("save"), [])
