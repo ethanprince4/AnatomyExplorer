@@ -171,10 +171,24 @@ class PostPasses:
         self._groups = {}               # (pass, uniform bytes, ids of the resources) -> (resources, bind group)
 
     # ------------------------------------------------------------------ plumbing
-    def forget(self):
-        """Drop the kept views and bind groups (the owner of the textures calls this when it destroys them)."""
+    def _drop_kept(self):
         self._views.clear()
         self._groups.clear()
+
+    def forget(self, keep=None):
+        """The owner of the textures calls this when it destroys them or changes their size, with no frame of them
+        still to be submitted. Drops the kept views, bind groups and depth-chain records, and destroys this object's
+        own scratch textures (the half-size set, the full-size AO texture, the packed depth) of every size but
+        ``keep`` = (w, h), the size of the frames to come (None: of every size). Without this one set stayed per
+        size for ever, so a window edge being dragged filled the card (100 sizes: 102 sets)."""
+        self._drop_kept()
+        self._dmip.clear()
+        keep = None if keep is None else (int(keep[0]), int(keep[1]))
+        for held in (self._lo, self._hi, self._depth):
+            for key in [k for k in held if k != keep]:
+                gone = held.pop(key)
+                for tex in (gone.values() if isinstance(gone, dict) else (gone,)):
+                    tex.destroy()
 
     def _tview(self, t):
         """The default view of texture ``t``, made once (anything that is not a texture is returned as it is)."""
@@ -183,7 +197,7 @@ class PostPasses:
         hit = self._views.get(id(t))
         if hit is None:
             if len(self._views) >= VIEW_KEEP:           # textures the caller no longer uses would pile up: start again
-                self.forget()
+                self._drop_kept()
             hit = self._views[id(t)] = (t, t.create_view())
         return hit[1]
 

@@ -772,7 +772,7 @@ class WgpuRenderer:
         for tex in self.t.values():
             if hasattr(tex, "destroy"):
                 tex.destroy()
-        self.post.forget()
+        self.post.forget()                   # with its scratch textures of every size
         self._final_bg = None
         self.t = {}
         self.size = self.samples = None
@@ -970,7 +970,9 @@ class WgpuRenderer:
             tex.destroy()
         if self.oit_t is not None:
             OitPass.destroy_targets(self.oit_t)
-        self.post.forget()                   # its kept views and bind groups are of the textures just destroyed
+        # its kept views, bind groups and depth-chain records are of the textures just destroyed, and its own scratch
+        # textures of any other render size (window, render scale, a grab at another scale) are not used again
+        self.post.forget(keep=(w, h))
         self._final_bg = None
         d = self.device
         RA, TB, CS, CD = TU.RENDER_ATTACHMENT, TU.TEXTURE_BINDING, TU.COPY_SRC, TU.COPY_DST
