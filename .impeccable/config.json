@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "docs/design/2026-10-14-layered-human/app/overlay/index.html"
+        ],
+        "createdAt": "2026-10-14T23:33:08.307Z",
+        "reason": "Claude: rendered-browser detect at 1920x1080 on all nine screens reports no cramped padding; the static pass misreads fixed-height rows whose text is vertically centred"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "docs/design/2026-10-14-layered-human/index.html"
+        ],
+        "createdAt": "2026-10-14T23:33:08.322Z",
+        "reason": "Claude: rendered-browser detect at 1440x900 and 390x844 reports no cramped padding; the static pass does not resolve clamp() padding on .block and .pick"
+      }
+    ]
+  }
+}
