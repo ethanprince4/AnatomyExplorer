@@ -1,0 +1,1260 @@
+<!doctype html>
+<html lang="en-GB" data-design="plate" data-scheme="bristol" data-mode="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layered Human: a free 3D anatomy atlas</title>
+<meta name="description" content="Peel the body from skin to bone. Free 3D anatomy for Windows and Mac. Works offline.">
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../system/schemes.css">
+<script src="../../system/schemes.js"></script>
+<script src="../../assets/plates/plates.js"></script>
+<script>
+  /* Apply the remembered scheme before first paint. */
+  (function () {
+    var all = (window.LH_SCHEMES && LH_SCHEMES.plate && LH_SCHEMES.plate.schemes) || {};
+    var key = null;
+    try { key = new URLSearchParams(location.search).get('scheme'); } catch (e) {}
+    if (!all[key]) { try { key = localStorage.getItem('lh-plate-scheme'); } catch (e) { key = null; } }
+    if (!all[key]) key = 'bristol';
+    var h = document.documentElement;
+    h.setAttribute('data-scheme', key);
+    h.setAttribute('data-mode', (all[key] && all[key].mode) || 'light');
+  })();
+</script>
+<style>
+:root {
+  --head: 44px;
+  --gut: clamp(16px, 3.4vw, 48px);
+  --maxw: 1280px;
+  --sans: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --mono: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
+  --figh: min(86svh, calc(100svh - var(--head) - 28px));
+  --figw: calc(var(--figh) * 0.4163);
+}
+* { box-sizing: border-box; }
+html { background: var(--stage-top); color: var(--text); scrollbar-color: var(--line-2) var(--stage-top); }
+body {
+  margin: 0; font-family: var(--sans); font-size: 17px; line-height: 1.55;
+  background: var(--stage-top); color: var(--text); caret-color: var(--accent);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+::selection { background: var(--accent-soft); color: var(--text); }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--stage-top); }
+::-webkit-scrollbar-thumb { background: var(--line-2); border: 3px solid var(--stage-top); border-radius: 2px; }
+a { color: inherit; text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: var(--line-2); }
+a:hover { text-decoration-color: var(--accent); color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+img { max-width: 100%; }
+h1, h2, h3 { font-family: var(--sans); text-wrap: balance; margin: 0; }
+p { margin: 0; text-wrap: pretty; }
+.mono, .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.i { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: 8px; top: -60px; z-index: 100; background: var(--text); color: var(--stage-top); padding: 8px 14px; border-radius: 2px; text-decoration: none; }
+.skip:focus, .skip:hover { top: 8px; color: var(--stage-top); }
+
+/* ---------- Running head ---------- */
+.rh {
+  position: sticky; top: 0; z-index: 40; height: var(--head);
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px;
+  padding: 0 var(--gut); background: var(--stage-top); border-bottom: 1px solid var(--line-2);
+}
+.rh-brand { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; text-decoration: none; justify-self: start; }
+.rh-title { font-size: 14px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rh-title .rh-no-m { display: none; font-family: var(--mono); color: var(--text); margin-right: 10px; }
+.rh-right { justify-self: end; display: flex; align-items: center; gap: 18px; }
+.rh-dl { font-size: 14px; font-weight: 500; }
+.rh-no { font-family: var(--mono); font-size: 13px; color: var(--text); min-width: 5.5ch; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Scheme switcher */
+.schemes { position: relative; }
+.sch-btn {
+  display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 8px 0 7px;
+  font: 500 13px/1 var(--sans); color: var(--text-2); background: transparent;
+  border: 1px solid var(--line); border-radius: 2px; cursor: pointer;
+}
+.sch-btn:hover { border-color: var(--line-2); color: var(--text); }
+.sch-btn .i { width: 14px; height: 14px; }
+.sw { display: inline-block; width: 14px; height: 14px; flex: none; border: 1px solid var(--line-2); border-radius: 1px;
+  background: linear-gradient(135deg, var(--stage-top) 0 50%, var(--accent) 50% 100%); }
+.sch-pop {
+  position: absolute; right: 0; top: calc(100% + 8px); width: 236px; padding: 10px 0 8px;
+  background: var(--stage-top); border: 1px solid var(--line-2); border-radius: 2px;
+}
+.sch-pop[hidden] { display: none; }
+.sch-pop fieldset { border: 0; margin: 0; padding: 0; }
+.sch-pop legend { font-size: 13px; color: var(--text-3); padding: 0 14px 6px; }
+.sch-opt { display: grid; grid-template-columns: 14px 1fr auto; align-items: center; gap: 10px; padding: 7px 14px; font-size: 14px; cursor: pointer; }
+.sch-opt:hover { background: var(--surface-2); }
+.sch-opt input { position: absolute; opacity: 0; pointer-events: none; }
+.sch-opt .md { font-family: var(--mono); font-size: 12px; color: var(--text-3); }
+.sch-opt:has(input:checked) { font-weight: 700; }
+.sch-opt:has(input:checked) .sw { outline: 1.5px solid var(--text); outline-offset: 2px; }
+.sch-opt:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* ---------- Buttons ---------- */
+.dl-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px;
+  font: 700 16px/1 var(--sans); text-decoration: none; border-radius: 2px; border: 1.5px solid var(--accent);
+  transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+}
+.btn-pri { background: var(--accent); color: var(--on-accent); }
+.btn-pri:hover { background: var(--accent-2); border-color: var(--accent-2); color: var(--on-accent); }
+.btn-out { background: transparent; color: var(--text); border-color: var(--text); }
+.btn-out:hover { background: var(--accent-soft); color: var(--text); border-color: var(--text); }
+.btn .i { width: 19px; height: 19px; }
+.meta { font-size: 14px; color: var(--text-2); font-variant-numeric: tabular-nums; line-height: 1.5; }
+
+/* ---------- Plate figures and margin labels (shared engine) ---------- */
+.pfig { position: relative; margin: 0; }
+.fig-box { position: relative; }
+.fig-box > img { display: block; width: 100%; height: auto; }
+.leaders { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; z-index: 1; }
+.lbls { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); column-gap: 28px; position: relative; z-index: 2; }
+.lbl { display: grid; grid-template-columns: 30px 1fr; align-items: start; padding: 9px 0; border-top: 1px solid var(--line); text-decoration: none; color: inherit; }
+a.lbl:hover { color: inherit; }
+.lbl .n {
+  width: 22px; height: 22px; border-radius: 50%; border: 1.25px solid var(--text-2); display: grid; place-items: center;
+  font: 700 11px/1 var(--mono); color: var(--text); margin-top: 0; font-variant-numeric: tabular-nums;
+  transition: background-color .16s ease, color .16s ease, border-color .16s ease;
+}
+.lbl .tx { display: block; }
+.lbl .nm { display: block; font-size: 16px; font-weight: 500; line-height: 1.3; color: var(--text); transition: color .16s ease; }
+.lbl .ft { display: block; font-size: 13px; font-style: italic; line-height: 1.35; color: var(--text-3); margin-top: 1px; transition: color .16s ease; }
+.lbl.is-sel .nm, .lbl.is-hi .nm { font-weight: 700; }
+.has-hi .lbl:not(.is-hi) .nm { color: var(--text-3); }
+.lbl.is-hi .ft { color: var(--text-2); }
+.lbl.is-hi .n { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+a.lbl:hover .nm, a.lbl:focus-visible .nm { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+
+.is-margin .lbls { display: block; position: absolute; inset: 0; margin: 0; pointer-events: none; }
+.is-margin .lbls li { display: contents; }
+.is-margin .lbl { position: absolute; display: block; width: var(--colw, 220px); padding: 0; border: 0; pointer-events: auto; }
+.is-margin .lbl[data-at="l"] { text-align: right; }
+.is-margin .lbl .n { display: none; }
+.is-margin[data-nums="always"] .lbl { display: flex; align-items: flex-start; gap: 8px; }
+.is-margin[data-nums="always"] .lbl[data-at="l"] { flex-direction: row-reverse; }
+.is-margin[data-nums="always"] .lbl .n { display: grid; flex: none; width: 20px; height: 20px; font-size: 10.5px; margin-top: 0; }
+.is-margin[data-nums="always"] .lbl .nm { font-size: 15px; line-height: 20px; }
+
+.ld path { fill: none; stroke: var(--text-3); stroke-width: 1; transition: stroke .16s ease, stroke-width .16s ease; }
+.ld .dot { fill: var(--stage-top); stroke: var(--text-2); stroke-width: 1.25; transition: fill .16s ease, stroke .16s ease; }
+.ld.is-sel path { stroke: var(--accent); stroke-width: 1.25; }
+.ld.is-sel .dot { fill: var(--accent); stroke: var(--accent); }
+.has-hi .ld:not(.is-hi) path { stroke: var(--line-2); }
+.ld.is-hi path { stroke: var(--accent); stroke-width: 2.25; }
+.ld.is-hi .dot { fill: var(--accent); stroke: var(--accent); }
+.ld .hit { fill: transparent; stroke: none; pointer-events: all; cursor: pointer; }
+.ld .ring { fill: var(--stage-top); stroke: var(--text); stroke-width: 1.25; transition: fill .16s ease; }
+.ld .rn { font: 700 10px/1 var(--mono); fill: var(--text); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.ld.is-hi .ring { fill: var(--accent); stroke: var(--accent); }
+.ld.is-hi .rn { fill: var(--on-accent); }
+
+/* Pins placed in % on photographs (film, micrograph) */
+.pins { position: absolute; inset: 0; }
+.pin {
+  position: absolute; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%;
+  display: grid; place-items: center; font: 700 11px/1 var(--mono); font-variant-numeric: tabular-nums;
+  background: var(--sunken); color: var(--text); border: 1.5px solid var(--text); cursor: default;
+  transition: background-color .16s ease, color .16s ease, transform .16s ease;
+}
+.pin.is-hi { background: var(--accent); color: var(--on-accent); border-color: var(--accent); transform: scale(1.12); }
+
+/* ---------- Plate 1 (hero) ---------- */
+.hero { position: relative; overflow: clip; }
+.hero-cap { position: relative; z-index: 3; }
+.cap-line { font-size: 15px; color: var(--text-2); }
+.cap-line b, .cap b.fn { font-style: normal; font-weight: 700; color: var(--text); }
+.hero h1 {
+  font-size: clamp(42px, 4.3vw, 62px); font-weight: 800; letter-spacing: -0.032em; line-height: 0.98;
+  margin: 14px 0 16px; max-width: 12ch;
+}
+.hero .sub { font-size: 18px; line-height: 1.5; color: var(--text-2); max-width: 40ch; margin-bottom: 24px; }
+.hero .meta { margin-top: 16px; max-width: 46ch; }
+.hero-box img { width: 100%; height: 100%; }
+.hero-figcap { font-size: 15px; font-style: italic; color: var(--text-2); line-height: 1.45; }
+.hero-figcap b { font-style: normal; color: var(--text); }
+
+@media (min-width: 1000px) {
+  .hero { height: calc(100svh - var(--head)); min-height: 640px; }
+  .hero-cap { position: absolute; left: var(--gut); bottom: 36px; width: min(520px, calc(50vw - var(--figw) / 2 - var(--gut) - 28px)); }
+  .hero-fig { position: absolute; inset: 0; }
+  .hero-box { position: absolute; left: 50%; top: 50%; height: var(--figh); aspect-ratio: 915 / 2198; transform: translate(-50%, -50%); }
+  .hero-figcap { position: absolute; right: var(--gut); bottom: 36px; width: min(290px, calc(50vw - var(--figw) / 2 - var(--gut) - 64px)); }
+}
+@media (max-width: 999.98px) {
+  .hero { padding: 28px var(--gut) 48px; }
+  .hero-box { height: min(620px, 76svh); aspect-ratio: 915 / 2198; margin: 36px auto 0; }
+  .hero-figcap { margin-top: 20px; max-width: 60ch; }
+}
+
+/* ---------- Plates ---------- */
+.plate { padding: clamp(72px, 9vw, 128px) var(--gut) clamp(40px, 5vw, 64px); border-top: 1px solid var(--line-2); scroll-margin-top: var(--head); }
+.plate [id] { scroll-margin-top: calc(var(--head) + 16px); }
+.wrap { max-width: var(--maxw); margin: 0 auto; }
+.pl-head { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding-bottom: 18px; border-bottom: 1px solid var(--line); margin-bottom: clamp(28px, 4vw, 48px); }
+.pl-head h2 { font-size: clamp(34px, 4.3vw, 60px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.02; max-width: 17ch; }
+.pl-no { font-family: var(--mono); font-size: 14px; color: var(--text-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.body { font-size: 18px; line-height: 1.6; color: var(--text-2); max-width: 62ch; }
+.body + .body { margin-top: 14px; }
+.body strong { color: var(--text); }
+h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; }
+.cap { font-size: 15px; font-style: italic; line-height: 1.5; color: var(--text-2); max-width: 70ch; }
+.note { font-size: 15px; color: var(--text-2); max-width: 62ch; }
+.more { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; margin-top: 18px; }
+.more .i { width: 16px; height: 16px; }
+.folio { font-family: var(--mono); font-size: 13px; color: var(--text-3); text-align: right; margin-top: clamp(40px, 5vw, 64px); padding-top: 12px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); }
+@media (max-width: 760px) { .two { grid-template-columns: 1fr; } }
+
+/* Plate 2: dissection row */
+.peel-row { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 24px); margin: 0; padding: 0; list-style: none; }
+.peel-row figure { margin: 0; }
+.pframe { position: relative; aspect-ratio: 950 / 2272; border-bottom: 1px solid var(--text-2); }
+.pframe img { position: absolute; display: block; max-width: none; }
+.peel-row figcaption { padding-top: 10px; display: grid; grid-template-columns: auto 1fr; column-gap: 8px; align-items: baseline; }
+.peel-row .fl { font: 700 14px/1.3 var(--mono); color: var(--text); grid-row: span 2; }
+.peel-row .ln { font-size: 15px; font-weight: 500; line-height: 1.3; }
+.peel-row .dr { font: 13px/1.4 var(--sans); color: var(--text-3); font-variant-numeric: tabular-nums; }
+.peel-row figure.is-hi .fl, .peel-row figure.is-hi .ln { color: var(--accent); }
+.peel-row figure.is-hi .pframe { border-bottom-color: var(--accent); border-bottom-width: 2px; }
+.depth { position: relative; margin: 40px 0 0; height: 116px; }
+.depth .track { position: absolute; left: 0; right: 0; top: 44px; height: 1px; background: var(--text-2); }
+.depth .end { position: absolute; top: 0; font-size: 13px; font-weight: 700; color: var(--text); }
+.depth .end.r { right: 0; }
+.stop { position: absolute; top: 38px; width: 0; }
+.stop::before { content: ""; position: absolute; left: 0; top: 0; width: 1px; height: 13px; background: var(--text-2); }
+.stop .sl { position: absolute; left: 0; top: 18px; padding-left: 6px; border-left: 1px solid var(--line); font-size: 13px; color: var(--text-2); white-space: nowrap; line-height: 1.25; }
+.stop.alt .sl { top: 46px; height: 32px; padding-top: 0; }
+.stop .sl .num { display: block; font-family: var(--sans); font-size: 12px; color: var(--text-3); }
+.stop .lt { position: absolute; left: -4px; top: -20px; font: 700 12px/1 var(--mono); color: var(--text-2); }
+.stop.is-hi::before { background: var(--accent); width: 2px; height: 15px; top: -1px; }
+.stop.is-hi .sl, .stop.is-hi .lt { color: var(--accent); }
+.stop.is-hi .sl { border-left-color: var(--accent); }
+.peel-text { margin-top: 36px; }
+@media (max-width: 760px) {
+  .peel-row { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 38vw; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; scrollbar-width: thin; }
+  .peel-row li { scroll-snap-align: start; }
+  .stop .sl { display: none; }
+  .depth { height: 60px; }
+}
+
+/* Plate 3: section */
+.sec-fig .fig-box img { width: 100%; }
+.is-margin.sec-fig .fig-box { width: calc(100% - 2 * (var(--colw) + var(--gap))); margin: 0 auto; }
+.sec-fig { margin-top: 8px; }
+.sec-cap { margin-top: 28px; }
+
+/* Plate 4: organ to cell */
+.zoom { position: relative; display: grid; grid-template-columns: minmax(0, 0.86fr) minmax(0, 0.5fr) minmax(0, 0.62fr); grid-template-rows: auto 1fr; column-gap: clamp(28px, 4.4vw, 64px); row-gap: 36px; align-items: start; }
+.zoom figure { margin: 0; }
+.zoom #zA { grid-row: span 2; }
+.zf { position: relative; border: 1px solid var(--text); background: var(--sunken); }
+.zf img { display: block; width: 100%; height: auto; }
+.zl { display: flex; gap: 8px; align-items: baseline; padding-top: 8px; font-size: 15px; font-weight: 500; }
+.zl .mono { font-weight: 700; font-size: 14px; }
+.zoom-svg { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+.zoom-svg rect { fill: none; stroke: var(--text); stroke-width: 1.25; }
+.zoom-svg line { stroke: var(--text-2); stroke-width: 0.9; }
+.zoom-text { grid-column: 2 / span 2; display: grid; grid-template-columns: minmax(0, 1fr) 150px; gap: 28px; align-items: start; }
+.zoom-text figure img { display: block; width: 100%; height: auto; }
+.zoom-text figure figcaption { font-size: 13px; font-style: italic; color: var(--text-2); margin-top: 6px; line-height: 1.4; }
+.models-list { margin-top: 16px; font-size: 15px; color: var(--text-2); }
+@media (max-width: 900px) {
+  .zoom { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .zoom { grid-template-rows: none; }
+  .zoom #zA { grid-column: 1 / span 2; grid-row: auto; width: 64%; justify-self: center; }
+  .zoom-text { grid-column: 1 / span 2; grid-template-columns: 1fr; }
+  .zoom-text figure { max-width: 200px; }
+}
+
+/* Plate 5: films */
+.films { display: grid; grid-template-columns: minmax(0, 33fr) minmax(0, 67fr); gap: 32px; align-items: start; }
+.films > figure { margin: 0; }
+.film { position: relative; background: #000; }
+.film img { display: block; width: 100%; height: auto; }
+.crop { position: relative; overflow: hidden; aspect-ratio: 1260 / 1420; }
+.crop img { position: absolute; max-width: none; width: 146.984%; left: -23.81%; top: -26.761%; height: auto; display: block; }
+.is-margin.cxr-fig .fig-box { width: calc(100% - 2 * (var(--colw) + var(--gap))); margin: 0 auto; }
+.fig-tag { font: 700 13px/1 var(--mono); color: var(--text-2); margin-bottom: 10px; display: block; }
+.films-caps { display: grid; grid-template-columns: minmax(0, 33fr) minmax(0, 67fr); gap: 32px; margin-top: 22px; }
+.legend { width: 100%; border-collapse: collapse; margin-top: 40px; font-size: 15px; }
+.legend caption { text-align: left; font-size: 15px; font-style: italic; color: var(--text-2); padding-bottom: 10px; }
+.legend th, .legend td { text-align: left; padding: 9px 14px 9px 0; border-top: 1px solid var(--line); vertical-align: baseline; }
+.legend thead th { font-size: 13px; font-weight: 700; color: var(--text-2); border-top: 1px solid var(--text-2); }
+.legend td.no { font-family: var(--mono); font-weight: 700; width: 56px; font-variant-numeric: tabular-nums; }
+.legend td.st { font-weight: 500; width: 30%; }
+.legend td.lk { color: var(--text-2); }
+.legend tr > :first-child { padding-left: 10px; }
+.legend tr.is-hi td { background: var(--accent-soft); color: var(--text); }
+.legend tr.is-hi td.no { color: var(--accent); }
+.honest { margin-top: 18px; font-size: 15px; color: var(--text-2); }
+.effusion { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 170px) minmax(0, 1fr); gap: 28px; align-items: start; margin-top: clamp(48px, 6vw, 80px); padding-top: 28px; border-top: 1px solid var(--line); }
+.effusion figure { margin: 0; }
+.effusion .cap { align-self: end; }
+.effusion img { display: block; width: 100%; height: auto; }
+@media (max-width: 1000px) { .films, .films-caps { grid-template-columns: 1fr; } .films-caps { gap: 12px; } }
+@media (max-width: 760px) { .effusion { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); } .effusion .cap { grid-column: 1 / span 2; } }
+
+/* Plate 6: lessons and practice */
+.renders { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); margin-top: clamp(32px, 4vw, 48px); }
+.renders figure { margin: 0; }
+.rbox { position: relative; aspect-ratio: 1920 / 1080; border: 1px solid var(--line-2); background: var(--sunken); overflow: hidden; }
+.rbox img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.rbox.is-fallback img { object-fit: contain; object-position: center; padding: 14px; }
+.renders figcaption { margin-top: 10px; }
+.lab { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 15px; }
+.lab th, .lab td { text-align: left; vertical-align: baseline; padding: 10px 18px 10px 0; border-top: 1px solid var(--line); }
+.lab thead th { font-size: 13px; font-weight: 700; color: var(--text-2); border-top: 1px solid var(--text-2); }
+.lab tbody th { font-weight: 700; white-space: nowrap; width: 150px; }
+.lab td.tp { width: 34%; }
+.lab td.ls { color: var(--text-2); font-style: italic; }
+.course { margin-top: clamp(48px, 6vw, 80px); }
+@media (max-width: 760px) {
+  .renders { grid-template-columns: 1fr; }
+  .lab thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .lab, .lab tbody, .lab tr, .lab th, .lab td { display: block; width: auto !important; }
+  .lab tr { border-top: 1px solid var(--line); padding: 10px 0; }
+  .lab th, .lab td { border: 0; padding: 2px 0; }
+}
+
+/* Plate 7: histology */
+.histo { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+.histo figure { margin: 0; }
+.micro { position: relative; }
+.micro img { display: block; width: 100%; height: auto; }
+.key { list-style: none; margin: 0; padding: 0; }
+.key li { display: grid; grid-template-columns: 34px 1fr; padding: 11px 0; border-top: 1px solid var(--line); }
+.key li:last-child { border-bottom: 1px solid var(--line); }
+.key .n { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--text); display: grid; place-items: center; font: 700 11px/1 var(--mono); transition: background-color .16s ease, color .16s ease; }
+.key .nm { font-weight: 500; font-size: 16px; display: block; }
+.key .ft { display: block; font-size: 14px; color: var(--text-2); }
+.key li.is-hi .n { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.key li.is-hi .nm { font-weight: 700; }
+.thumbs { list-style: none; padding: 0; margin: clamp(36px, 5vw, 56px) 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 2vw, 28px); }
+.thumbs figure { margin: 0; }
+.thumbs img { display: block; width: 100%; height: auto; aspect-ratio: 900 / 689; object-fit: contain; }
+.thumbs figcaption { font-size: 15px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; gap: 8px; align-items: baseline; }
+.thumbs .mono { font-weight: 700; font-size: 13px; }
+@media (max-width: 860px) { .histo { grid-template-columns: 1fr; } .thumbs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Index */
+.idx { columns: 3 260px; column-gap: clamp(28px, 4vw, 56px); }
+.ig { break-inside: avoid; margin-bottom: 22px; }
+.ig h3 { font: 700 14px/1 var(--mono); color: var(--text-2); padding-bottom: 8px; border-bottom: 1px solid var(--text-2); margin-bottom: 4px; }
+.ig ul { list-style: none; margin: 0; padding: 0; }
+.ig li { display: flex; align-items: baseline; gap: 8px; padding: 5px 0; font-size: 16px; line-height: 1.35; }
+.ig li .it { flex: 0 1 auto; }
+.ig li .it i { color: var(--text-2); }
+.ig li .lead { flex: 1 1 16px; min-width: 16px; border-bottom: 1px dotted var(--line-2); transform: translateY(-4px); }
+.ig li .iv { flex: none; font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 15px; font-weight: 700; text-align: right; }
+.ig li .iv a { font-weight: 400; color: var(--accent); }
+
+/* Colophon */
+.credits { margin: 24px 0 0; display: grid; grid-template-columns: 130px 1fr; gap: 0 20px; font-size: 15px; }
+.credits dt { font-weight: 700; padding: 9px 0; border-top: 1px solid var(--line); }
+.credits dd { margin: 0; padding: 9px 0; border-top: 1px solid var(--line); color: var(--text-2); }
+.free h3 { font-size: clamp(28px, 3vw, 40px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; margin-bottom: 16px; }
+@media (max-width: 520px) { .credits { grid-template-columns: 1fr; } .credits dd { border-top: 0; padding-top: 0; } }
+
+/* Download */
+.dl-intro { max-width: 64ch; }
+.oses { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); margin-top: clamp(32px, 4vw, 48px); }
+.os { border-top: 2px solid var(--text); padding-top: 20px; }
+.os h3 { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; display: flex; align-items: center; gap: 12px; }
+.os h3 .i { width: 26px; height: 26px; }
+.os .req { margin: 10px 0 18px; color: var(--text-2); }
+.os .file { font-family: var(--mono); font-size: 13px; color: var(--text-3); margin-top: 10px; overflow-wrap: anywhere; }
+.os .status { font-size: 15px; color: var(--accent); margin-top: 10px; min-height: 0; }
+.os .status:empty { display: none; }
+.steps { margin: 24px 0 0; padding: 0; list-style: none; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; padding: 11px 0; border-top: 1px solid var(--line); font-size: 16px; }
+.steps li::before { content: counter(s); font: 700 14px/1.6 var(--mono); color: var(--text-2); }
+.fallback { margin-top: 22px; font-size: 15px; color: var(--text-2); }
+.code { position: relative; margin-top: 10px; border: 1px solid var(--line-2); background: var(--sunken); border-radius: 2px; }
+.code pre { margin: 0; padding: 14px 16px; padding-right: 92px; font: 13.5px/1.55 var(--mono); color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+.copy { position: absolute; top: 8px; right: 8px; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; font: 500 13px/1 var(--sans); color: var(--text); background: var(--stage-top); border: 1px solid var(--line-2); border-radius: 2px; cursor: pointer; }
+.copy:hover { border-color: var(--text); }
+.copy .i { width: 15px; height: 15px; }
+.why { margin-top: clamp(36px, 5vw, 56px); padding-top: 24px; border-top: 1px solid var(--line); }
+.why h3 { margin-bottom: 10px; }
+@media (max-width: 860px) { .oses { grid-template-columns: 1fr; } .why.two { grid-template-columns: 1fr; } }
+
+/* FAQ */
+.faq { max-width: 860px; }
+.faq details { border-top: 1px solid var(--line); }
+.faq details:last-child { border-bottom: 1px solid var(--line); }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 0; font-size: 18px; font-weight: 700; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary .i { transition: transform .16s ease; color: var(--text-2); }
+.faq details[open] summary .i { transform: rotate(180deg); }
+.faq details p { padding: 0 0 18px; color: var(--text-2); max-width: 64ch; }
+
+/* Footer */
+.foot { border-top: 1px solid var(--line-2); padding: 32px var(--gut) 40px; }
+.foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 40px; }
+.foot p { font-size: 14px; color: var(--text-2); max-width: 70ch; }
+.foot nav { display: flex; gap: 22px; font-size: 14px; }
+
+@media (max-width: 999.98px) {
+  .rh { grid-template-columns: 1fr auto; }
+  .rh-brand, .rh-dl, .rh-no { display: none; }
+  .rh-title { justify-self: start; }
+  .rh-title .rh-no-m { display: inline; }
+}
+@media (max-width: 999.98px) and (min-width: 600px) { .rh-dl { display: inline; } }
+@media (max-width: 520px) {
+  .sch-btn .sch-name { display: none; }
+  .sch-btn { height: 34px; }
+  .pl-head { flex-direction: column; gap: 8px; }
+  .pl-head .pl-no { order: 2; }
+  .hero h1 { font-size: 42px; }
+  .btn { flex: 1 1 auto; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#plate-2">Skip to the plates</a>
+
+<header class="rh" id="rh">
+  <a class="rh-brand" href="#top">Layered Human</a>
+  <p class="rh-title"><span class="rh-no-m" id="rh-no-m">Plate 1</span><span id="rh-title">Peel the body back</span></p>
+  <div class="rh-right">
+    <a class="rh-dl" href="#download">Download</a>
+    <span class="rh-no" id="rh-no">Plate 1</span>
+    <div class="schemes">
+      <button class="sch-btn" id="sch-btn" type="button" aria-expanded="false" aria-controls="sch-pop">
+        <span class="sw" id="sch-sw" data-design="plate" data-scheme="bristol"></span>
+        <span class="sch-name" id="sch-name">Bristol</span>
+        <span class="vh">Colour scheme</span>
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="sch-pop" id="sch-pop" hidden>
+        <fieldset id="sch-list"><legend>Colour scheme</legend></fieldset>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ======================= PLATE 1 ======================= -->
+<section class="hero hi-group" id="plate-1" data-no="Plate 1" data-title="Peel the body back" aria-labelledby="h1">
+  <div class="hero-cap" id="hero-cap">
+    <p class="cap-line"><b>Plate 1.</b> <i>Layered Human, a free 3D anatomy atlas for your computer.</i></p>
+    <h1 id="h1">Peel the body back, layer by layer.</h1>
+    <p class="sub">Slide from skin to bone, cut a section that names itself, and study for your lab practical offline.</p>
+    <div class="dl-row" id="hero-dl">
+      <a class="btn btn-pri" data-os="mac" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Anatomy-Explorer-Mac.dmg">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8C6.4 7.4 5 8.3 4.3 9.7c-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.6 2.3 2.8 2.3 1.1 0 1.6-.7 2.9-.7s1.8.7 3 .7 2-1.1 2.7-2.2c.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.2-.8-2.2-3.7zM13.6 5.8c.6-.8 1-1.8.9-2.8-.9 0-2 .6-2.6 1.4-.6.7-1.1 1.7-1 2.7 1 .1 2-.5 2.7-1.3z"/></svg>
+        Download for Mac</a>
+      <a class="btn btn-out" data-os="win" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Download-Windows-Installer.ps1">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.6l7-1v6.9H4zM13 4.3l7-1V11.5h-7zM4 12.5h7v6.9l-7-1zM13 12.5h7v8.2l-7-1z"/></svg>
+        Download for Windows</a>
+    </div>
+    <p class="meta">Free · about 3.4 GB · Apple silicon Mac (macOS 13 or later) or Windows · <a href="#download">What to expect when installing</a></p>
+  </div>
+
+  <figure class="pfig hero-fig" id="fig1" aria-labelledby="fig1-cap">
+    <div class="fig-box hero-box">
+      <img id="hero-img" src="../../assets/plates/hero_sel_1f4d8c.webp" width="915" height="2198" fetchpriority="high"
+        alt="The whole body in anterior view with the muscles exposed and both biceps brachii selected">
+    </div>
+    <svg class="leaders" aria-hidden="true"></svg>
+    <ol class="lbls" aria-label="Labels on Plate 1. Each one leads to the plate that explains it.">
+      <li><a class="lbl" href="#films" data-k="clavicle" data-a="clavicle" data-side="l"><span class="n">1</span><span class="tx"><span class="nm">Clavicle</span><span class="ft">Read the film beside the model</span></span></a></li>
+      <li><a class="lbl" href="#sections" data-k="pectoralis" data-a="pectoralis" data-side="l" data-kside="r"><span class="n">2</span><span class="tx"><span class="nm">Pectoralis major</span><span class="ft">Section through it</span></span></a></li>
+      <li><a class="lbl" href="#lessons" data-k="deltoid" data-a="deltoid" data-side="l"><span class="n">3</span><span class="tx"><span class="nm">Deltoid</span><span class="ft">Learn it in a lesson</span></span></a></li>
+      <li><a class="lbl" href="#histology" data-k="serratus" data-a="serratus" data-side="l"><span class="n">4</span><span class="tx"><span class="nm">Serratus anterior</span><span class="ft">Tissue, slide and model together</span></span></a></li>
+      <li><a class="lbl is-sel" href="#index" data-k="biceps" data-a="biceps" data-side="l"><span class="n">5</span><span class="tx"><span class="nm">Biceps brachii</span><span class="ft">Select anything for its nerve and action</span></span></a></li>
+      <li><a class="lbl" href="#cells" data-k="brachioradialis" data-a="brachioradialis" data-side="l"><span class="n">6</span><span class="tx"><span class="nm">Brachioradialis</span><span class="ft">Zoom from an organ to a cell</span></span></a></li>
+      <li><a class="lbl" href="#index" data-k="scm" data-a="sternocleidomastoid" data-side="r"><span class="n">7</span><span class="tx"><span class="nm">Sternocleidomastoid</span><span class="ft">Latin names and TA2 IDs</span></span></a></li>
+      <li><a class="lbl" href="#peel" data-k="rectus" data-a="rectus_abdominis" data-set="hero26_sel_7cc8da" data-side="r"><span class="n">8</span><span class="tx"><span class="nm">Rectus abdominis</span><span class="ft">Peel to any depth</span></span></a></li>
+      <li><a class="lbl" href="#colophon" data-k="rfem" data-a="rectus_femoris" data-side="r"><span class="n">9</span><span class="tx"><span class="nm">Rectus femoris</span><span class="ft">Built on open anatomy</span></span></a></li>
+      <li><a class="lbl" href="#practice" data-k="sartorius" data-a="sartorius" data-side="r" data-kside="l"><span class="n">10</span><span class="tx"><span class="nm">Sartorius</span><span class="ft">Practise finding it</span></span></a></li>
+      <li><a class="lbl" href="#faq" data-k="vmed" data-a="vastus_medialis" data-side="r"><span class="n">11</span><span class="tx"><span class="nm">Vastus medialis</span><span class="ft">Questions before you install</span></span></a></li>
+      <li><a class="lbl" href="#download" data-k="tib" data-a="tibialis_anterior" data-side="r"><span class="n">12</span><span class="tx"><span class="nm">Tibialis anterior</span><span class="ft">Download: free, about 3.4 GB</span></span></a></li>
+    </ol>
+    <figcaption class="hero-figcap" id="fig1-cap"><b>Fig. 1.</b> The body in anterior view, both biceps brachii selected, as rendered by the app. Each label leads to the plate that explains it.</figcaption>
+  </figure>
+</section>
+
+<!-- ======================= PLATE 2 ======================= -->
+<section class="plate hi-group" id="peel" data-no="Plate 2" data-title="Dissection" aria-labelledby="h-peel">
+  <div class="wrap" id="plate-2">
+    <div class="pl-head"><h2 id="h-peel">Depth that follows the body</h2><p class="pl-no">Plate 2</p></div>
+
+    <ol class="peel-row" aria-label="The same body at six depths">
+      <li><figure data-k="a">
+        <div class="pframe"><img src="../../assets/plates/peel_00_skin.webp" width="929" height="2240" loading="lazy" style="left:1.053%;top:0.616%;width:97.789%;height:98.592%" alt="The whole body at 0 % dissection depth: the skin surface"></div>
+        <figcaption><span class="fl">A</span><span class="ln">Skin surface</span><span class="dr">0–8 %</span></figcaption></figure></li>
+      <li><figure data-k="b">
+        <div class="pframe"><img src="../../assets/plates/peel_16_fascia.webp" width="909" height="2194" loading="lazy" style="left:2.421%;top:2.333%;width:95.684%;height:96.567%" alt="The whole body at 16 % dissection depth: the deep fascia"></div>
+        <figcaption><span class="fl">B</span><span class="ln">Deep fascia</span><span class="dr">16–26 %</span></figcaption></figure></li>
+      <li><figure data-k="c">
+        <div class="pframe"><img src="../../assets/plates/peel_26_superficial.webp" width="907" height="2186" loading="lazy" style="left:2.526%;top:2.597%;width:95.474%;height:96.215%" alt="The whole body at 26 % dissection depth: the superficial muscles"></div>
+        <figcaption><span class="fl">C</span><span class="ln">Superficial muscles</span><span class="dr">26–40 %</span></figcaption></figure></li>
+      <li><figure data-k="d">
+        <div class="pframe"><img src="../../assets/plates/peel_40_deep.webp" width="894" height="2178" loading="lazy" style="left:3.263%;top:2.773%;width:94.105%;height:95.863%" alt="The body at 40 % dissection depth: ribcage, abdominal organs and deep muscles exposed"></div>
+        <figcaption><span class="fl">D</span><span class="ln">Deep muscles</span><span class="dr">40–55 %</span></figcaption></figure></li>
+      <li><figure data-k="e">
+        <div class="pframe"><img src="../../assets/plates/peel_55_skeleton.webp" width="792" height="2178" loading="lazy" style="left:11.368%;top:2.773%;width:83.368%;height:95.863%" alt="The body at 55 % dissection depth: the skeleton and joints"></div>
+        <figcaption><span class="fl">E</span><span class="ln">Skeleton &amp; joints</span><span class="dr">55–70 %</span></figcaption></figure></li>
+      <li><figure data-k="f">
+        <div class="pframe"><img src="../../assets/plates/peel_70_cavities.webp" width="773" height="2074" loading="lazy" style="left:13.053%;top:4.930%;width:81.368%;height:91.285%" alt="The body at 70 % dissection depth: the body cavities and their organs"></div>
+        <figcaption><span class="fl">F</span><span class="ln">Body cavities</span><span class="dr">70–85 %</span></figcaption></figure></li>
+    </ol>
+
+    <div class="depth" role="img" aria-label="The dissection slider's eight stops, from superficial to deep: skin surface 0 %, superficial fascia 8 %, deep fascia 16 %, superficial muscles 26 %, deep muscles 40 %, skeleton and joints 55 %, body cavities 70 %, deepest structures 85 %">
+      <span class="end">Superficial</span><span class="end r">Deep</span>
+      <span class="track"></span>
+      <span class="stop" data-k="a" style="left:0%"><span class="lt">A</span><span class="sl">Skin surface<span class="num">0 %</span></span></span>
+      <span class="stop alt" style="left:8%"><span class="sl">Superficial fascia<span class="num">8 %</span></span></span>
+      <span class="stop" data-k="b" style="left:16%"><span class="lt">B</span><span class="sl">Deep fascia<span class="num">16 %</span></span></span>
+      <span class="stop alt" data-k="c" style="left:26%"><span class="lt">C</span><span class="sl">Superficial muscles<span class="num">26 %</span></span></span>
+      <span class="stop" data-k="d" style="left:40%"><span class="lt">D</span><span class="sl">Deep muscles<span class="num">40 %</span></span></span>
+      <span class="stop alt" data-k="e" style="left:55%"><span class="lt">E</span><span class="sl">Skeleton &amp; joints<span class="num">55 %</span></span></span>
+      <span class="stop" data-k="f" style="left:70%"><span class="lt">F</span><span class="sl">Body cavities<span class="num">70 %</span></span></span>
+      <span class="stop alt" style="left:85%"><span class="sl">Deepest structures<span class="num">85 %</span></span></span>
+    </div>
+
+    <div class="two peel-text">
+      <p class="cap"><b class="fn">Fig. 2A–F.</b> The same body at six depths, from one camera. Each figure is peeled to the top of the layer named under it; the rule beneath marks the dissection slider's eight stops.</p>
+      <div>
+        <p class="body">Drag the dissection slider and the body comes apart from the skin inwards. Depth is measured against how thick the body is at each point, so the hand and the thigh are uncovered together. Want one layer on its own? Show only that slab.</p>
+        <a class="more" href="#lessons">See how a lesson uses it <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+    <p class="folio" aria-hidden="true"><span>Layered Human</span><span>2</span></p>
+  </div>
+</section>
+
+<!-- ======================= PLATE 3 ======================= -->
+<section class="plate hi-group" id="sections" data-no="Plate 3" data-title="Sections" aria-labelledby="h-sec">
+  <div class="wrap">
+    <div class="pl-head"><h2 id="h-sec">Cut anywhere. The cut names itself.</h2><p class="pl-no">Plate 3</p></div>
+    <p class="body">Section the body sagittally, coronally or transversely. Every structure the plane passes through is named around the edge of the view.</p>
+
+    <figure class="pfig sec-fig" id="fig3" aria-labelledby="fig3-cap" style="margin-top:40px">
+      <div class="fig-box">
+        <img src="../../assets/plates/section_inferior.webp" width="2030" height="1149" loading="lazy"
+          alt="Transverse section through the thorax, seen from below: the four chambers of the heart, both lungs, the liver, a thoracic vertebra and the chest-wall muscles, each cut structure named around the edge">
+      </div>
+      <svg class="leaders" aria-hidden="true"></svg>
+      <ol class="lbls" aria-label="Structures named on the cut">
+        <li><span class="lbl" data-k="pec" data-a="pec" data-side="l" tabindex="0"><span class="n">1</span><span class="tx"><span class="nm">Pectoralis major</span></span></span></li>
+        <li><span class="lbl" data-k="rv" data-a="rv" data-side="l" tabindex="0"><span class="n">2</span><span class="tx"><span class="nm">Right ventricle</span></span></span></li>
+        <li><span class="lbl" data-k="lungr" data-a="lung_r" data-side="l" tabindex="0"><span class="n">3</span><span class="tx"><span class="nm">Right lung</span></span></span></li>
+        <li><span class="lbl" data-k="liver" data-a="liver" data-side="l" tabindex="0"><span class="n">4</span><span class="tx"><span class="nm">Liver</span></span></span></li>
+        <li><span class="lbl" data-k="ra" data-a="ra" data-side="l" tabindex="0"><span class="n">5</span><span class="tx"><span class="nm">Right atrium</span></span></span></li>
+        <li><span class="lbl" data-k="vert" data-a="vert" data-side="l" tabindex="0"><span class="n">6</span><span class="tx"><span class="nm">Thoracic vertebra</span></span></span></li>
+        <li><span class="lbl" data-k="sternum" data-a="sternum" data-side="r" tabindex="0"><span class="n">7</span><span class="tx"><span class="nm">Sternum</span></span></span></li>
+        <li><span class="lbl" data-k="lv" data-a="lv" data-side="r" tabindex="0"><span class="n">8</span><span class="tx"><span class="nm">Left ventricle</span></span></span></li>
+        <li><span class="lbl" data-k="lungl" data-a="lung_l" data-side="r" tabindex="0"><span class="n">9</span><span class="tx"><span class="nm">Left lung</span></span></span></li>
+        <li><span class="lbl" data-k="serr" data-a="serratus" data-side="r" tabindex="0"><span class="n">10</span><span class="tx"><span class="nm">Serratus anterior</span></span></span></li>
+        <li><span class="lbl" data-k="la" data-a="la" data-side="r" data-kside="l" tabindex="0"><span class="n">11</span><span class="tx"><span class="nm">Left atrium</span></span></span></li>
+        <li><span class="lbl" data-k="lat" data-a="lat" data-side="r" tabindex="0"><span class="n">12</span><span class="tx"><span class="nm">Latissimus dorsi</span></span></span></li>
+      </ol>
+      <figcaption class="cap sec-cap" id="fig3-cap"><b class="fn">Plate 3.</b> Transverse section through the thorax at T8, seen from below, as on a CT. In the app, the cut names everything it passes through: click a name to select it.</figcaption>
+    </figure>
+    <p class="folio" aria-hidden="true"><span>Layered Human</span><span>3</span></p>
+  </div>
+</section>
+
+<!-- ======================= PLATE 4 ======================= -->
+<section class="plate" id="cells" data-no="Plate 4" data-title="Organ to cell" aria-labelledby="h-cells">
+  <div class="wrap">
+    <div class="pl-head"><h2 id="h-cells">From the kidney to a podocyte, in one zoom</h2><p class="pl-no">Plate 4</p></div>
+
+    <div class="zoom" id="zoom">
+      <figure id="zA">
+        <img src="../../assets/plates/kidney_v_kidney.webp" width="981" height="1057" loading="lazy" alt="The kidney model with the renal artery and vein, the aorta, the inferior vena cava and the ureter">
+        <figcaption class="zl"><span class="mono">A</span> Kidney</figcaption>
+      </figure>
+      <figure id="zB">
+        <div class="zf"><img src="../../assets/plates/kidney_v_corpuscle.webp" width="1284" height="1800" loading="lazy" alt="A renal corpuscle: the glomerulus inside its capsule, with the convoluted tubules around it"></div>
+        <figcaption class="zl"><span class="mono">B</span> Renal corpuscle</figcaption>
+      </figure>
+      <figure id="zC">
+        <div class="zf"><img src="../../assets/plates/kidney_v_podocytes.webp" width="1800" height="1800" loading="lazy" alt="Podocytes wrapping a glomerular capillary with their foot processes"></div>
+        <figcaption class="zl"><span class="mono">C</span> Podocytes</figcaption>
+      </figure>
+      <div class="zoom-text">
+        <div>
+          <p class="body">41 interactive 3D models open in the same viewer, with the same controls and labels as the atlas. Step the kidney from the whole organ down to the podocytes. Hide the heart's wall panels one at a time to look inside a true-scale heart in 119 parts.</p>
+          <p class="cap" style="margin-top:18px"><b class="fn">Fig. 4A–C.</b> Three of the kidney model's stored views. The model goes in one zoom from the whole organ to a podocyte, through eight stored views.</p>
+          <p class="models-list">Among the models: whole heart · kidney with the nephron · cardiac muscle · eye · ear · tooth · liver, bile ducts and pancreas · liver lobule · lung acinus · compact bone · lymph node · retina.</p>
+        </div>
+        <figure>
+          <img src="../../assets/plates/heart_open.webp" width="1012" height="985" loading="lazy" alt="The true-scale heart model with its chambers opened">
+          <figcaption><b>Fig. 4D.</b> The true-scale heart, chambers opened.</figcaption>
+        </figure>
+      </div>
+      <svg class="zoom-svg" aria-hidden="true"></svg>
+    </div>
+    <p class="folio" aria-hidden="true"><span>Layered Human</span><span>4</span></p>
+  </div>
+</section>
+
+<!-- ======================= PLATE 5 ======================= -->
+<section class="plate hi-group" id="films" data-no="Plate 5" data-title="Films" aria-labelledby="h-films">
+  <div class="wrap">
+    <div class="pl-head"><h2 id="h-films">Read the film with the body beside it</h2><p class="pl-no">Plate 5</p></div>
+    <p class="body" style="margin-bottom:40px">104 radiology cases put a real radiograph, CT, MR or ultrasound next to the live model, labelled on both sides. Click a number on the film and the model selects the same structure. In five chest cases, the model shows the disease itself.</p>
+
+    <div class="films">
+      <figure aria-labelledby="fig5a-cap">
+        <span class="fig-tag">5A</span>
+        <div class="film">
+          <img src="../../assets/images/cxr_pa.jpg" width="1280" height="1464" loading="lazy" alt="Normal posteroanterior chest radiograph, numbered at the structures listed in the legend">
+          <div class="pins" aria-hidden="true">
+            <span class="pin" data-k="c1" style="left:46.5%;top:10%">1</span>
+            <span class="pin" data-k="c2" style="left:20%;top:13%">2</span>
+            <span class="pin" data-k="c5" style="left:43%;top:21.5%">5</span>
+            <span class="pin" data-k="c7" style="left:43.5%;top:62%">7</span>
+            <span class="pin" data-k="c8" style="left:71.5%;top:68%">8</span>
+            <span class="pin" data-k="c9" style="left:36%;top:46.5%">9</span>
+            <span class="pin" data-k="c11" style="left:22%;top:45%">11</span>
+            <span class="pin" data-k="c12" style="left:27.5%;top:78.5%">12</span>
+            <span class="pin" data-k="c13" style="left:74.5%;top:83.5%">13</span>
+            <span class="pin" data-k="c16" style="left:23.5%;top:62%">16</span>
+            <span class="pin" data-k="c17" style="left:77.5%;top:60%">17</span>
+          </div>
+        </div>
+      </figure>
+      <figure class="pfig cxr-fig" id="fig5" data-nums="always" aria-labelledby="fig5b-cap">
+        <span class="fig-tag" style="text-align:center">5B</span>
+        <div class="fig-box crop">
+          <img src="../../assets/plates/cxr_model.webp" width="1852" height="2322" loading="lazy" alt="The thorax model set up like the PA film: lungs, heart and great vessels solid, ribcage and arms translucent">
+        </div>
+        <svg class="leaders" aria-hidden="true"></svg>
+        <ol class="lbls" aria-label="Structures numbered on the film and the model">
+          <li><span class="lbl" data-k="c2" data-a="c2" data-side="l" tabindex="0"><span class="n">2</span><span class="tx"><span class="nm">Right clavicle</span></span></span></li>
+          <li><span class="lbl" data-k="c5" data-a="c5" data-side="l" tabindex="0"><span class="n">5</span><span class="tx"><span class="nm">Superior vena cava</span></span></span></li>
+          <li><span class="lbl" data-k="c9" data-a="c9" data-side="l" tabindex="0"><span class="n">9</span><span class="tx"><span class="nm">Right hilum</span></span></span></li>
+          <li><span class="lbl" data-k="c7" data-a="c7" data-side="l" tabindex="0"><span class="n">7</span><span class="tx"><span class="nm">Right atrium</span></span></span></li>
+          <li><span class="lbl" data-k="c16" data-a="c16" data-side="l" tabindex="0"><span class="n">16</span><span class="tx"><span class="nm">Right lung</span></span></span></li>
+          <li><span class="lbl" data-k="c11" data-a="c11" data-side="l" tabindex="0"><span class="n">11</span><span class="tx"><span class="nm">Posterior sixth rib</span></span></span></li>
+          <li><span class="lbl" data-k="c12" data-a="c12" data-side="l" tabindex="0"><span class="n">12</span><span class="tx"><span class="nm">Right hemidiaphragm</span></span></span></li>
+          <li><span class="lbl" data-k="c1" data-a="c1" data-side="r" tabindex="0"><span class="n">1</span><span class="tx"><span class="nm">Trachea</span></span></span></li>
+          <li><span class="lbl" data-k="c17" data-a="c17" data-side="r" tabindex="0"><span class="n">17</span><span class="tx"><span class="nm">Left lung</span></span></span></li>
+          <li><span class="lbl" data-k="c8" data-a="c8" data-side="r" tabindex="0"><span class="n">8</span><span class="tx"><span class="nm">Left ventricle</span></span></span></li>
+          <li><span class="lbl" data-k="c13" data-a="c12" data-side="r" tabindex="0"><span class="n">13</span><span class="tx"><span class="nm">Left hemidiaphragm</span></span></span></li>
+        </ol>
+      </figure>
+    </div>
+    <div class="films-caps">
+      <p class="cap" id="fig5a-cap"><b class="fn">Fig. 5A.</b> <i>Chest radiograph — PA.</i> The patient's right is on your left. Image: Mikael Häggström, CC0, via Wikimedia Commons.</p>
+      <p class="cap" id="fig5b-cap"><b class="fn">Fig. 5B.</b> The model set up the same way: lungs, heart and great vessels solid, the ribcage left translucent, the way the beam sees them. The numbers match the film.</p>
+    </div>
+
+    <table class="legend">
+      <caption>Legend to Fig. 5A–B, from the case's own reading notes.</caption>
+      <thead><tr><th scope="col">No.</th><th scope="col">Structure</th><th scope="col">What to look for</th></tr></thead>
+      <tbody>
+        <tr data-k="c1"><td class="no">1</td><td class="st">Trachea</td><td class="lk">Central, deviating slightly right at the arch.</td></tr>
+        <tr data-k="c2"><td class="no">2</td><td class="st">Right clavicle</td><td class="lk">The medial ends of the clavicles equidistant from the spine: the film is not rotated.</td></tr>
+        <tr data-k="c5"><td class="no">5</td><td class="st">Superior vena cava</td><td class="lk">Forms the upper right mediastinal border.</td></tr>
+        <tr data-k="c7"><td class="no">7</td><td class="st">Right atrium</td><td class="lk">The whole right heart border.</td></tr>
+        <tr data-k="c8"><td class="no">8</td><td class="st">Left ventricle</td><td class="lk">The lower left heart border.</td></tr>
+        <tr data-k="c9"><td class="no">9</td><td class="st">Right hilum</td><td class="lk">Mostly pulmonary artery, not nodes.</td></tr>
+        <tr data-k="c11"><td class="no">11</td><td class="st">Posterior sixth rib</td><td class="lk">Ten posterior ribs visible: a good inspiration.</td></tr>
+        <tr data-k="c12"><td class="no">12</td><td class="st">Right hemidiaphragm</td><td class="lk">Higher than the left: the liver is under it.</td></tr>
+        <tr data-k="c13"><td class="no">13</td><td class="st">Left hemidiaphragm</td><td class="lk">Sharp, with a crisp costophrenic angle.</td></tr>
+        <tr data-k="c16"><td class="no">16</td><td class="st">Right lung</td><td class="lk">Three lobes.</td></tr>
+        <tr data-k="c17"><td class="no">17</td><td class="st">Left lung</td><td class="lk">Two lobes.</td></tr>
+      </tbody>
+    </table>
+    <p class="honest">The model is set up to match each film. It is not a scan of that patient.</p>
+
+    <div class="effusion">
+      <figure>
+        <span class="fig-tag">5C</span>
+        <div class="film"><img src="../../assets/images/cxr_effusion.jpg" width="1280" height="1117" loading="lazy" alt="Chest radiograph with a massive right pleural effusion: the patient's right hemithorax is white, and the trachea and heart are pushed to the left"></div>
+      </figure>
+      <figure>
+        <span class="fig-tag">5D</span>
+        <img src="../../assets/plates/cxr_effusion_model.webp" width="1287" height="2178" loading="lazy" alt="The thorax model for the same case, with the pleural fluid shown in the right side of the chest">
+      </figure>
+      <p class="cap"><b class="fn">Fig. 5C–D.</b> <i>Chest — massive pleural effusion.</i> The patient's right hemithorax is completely opaque, and the trachea and heart have been pushed to the left: a large effusion, not a collapsed lung. In the model, the fluid is shown. Image: Sara Nabih, CC BY-SA 4.0, via Wikimedia Commons.</p>
+    </div>
+    <p class="folio" aria-hidden="true"><span>Layered Human</span><span>5</span></p>
+  </div>
+</section>
+
+<!-- ======================= PLATE 6 ======================= -->
+<section class="plate" id="study" data-no="Plate 6" data-title="Lessons and practice" aria-labelledby="h-study">
+  <div class="wrap">
+    <div class="pl-head"><h2 id="h-study">Every lesson sets up the view for you</h2><p class="pl-no">Plate 6</p></div>
+    <div class="two">
+      <div id="lessons">
+        <p class="body">303 lessons in 1,614 steps. Each step switches systems, dissects to a depth, sections or opens a micrograph, so you're always looking at the right thing. 1,525 of the steps ask you a question before you move on.</p>
+      </div>
+      <div id="practice">
+        <h3>Find it. Name it. Read the film.</h3>
+        <p class="body" style="margin-top:10px">The lab course covers Labs 1–9 and two lab practicals in 109 mini lessons, with 1,824 graded practice items. Find a structure in 3D, name the one that's highlighted, or put the steps in order. Then sit a practice exam of 20, 40 or 60 questions, or everything.</p>
+        <p class="body">In <strong>Hunt</strong>, nothing is labelled. Peel structures away one at a time and find the one you're asked for, in three tries.</p>
+        <p class="body">What you miss comes back a day later, then after four days, then less often as you get it right.</p>
+      </div>
+    </div>
+
+    <div class="renders">
+      <figure>
+        <div class="rbox"><img class="render" data-screen="lesson" src="../../renders/plate/plate_bristol_lesson.webp" width="1920" height="1080" loading="lazy"
+          alt="The lesson reader in Layered Human: a lesson step beside the 3D view it has set up"
+          data-fb-src="../../assets/plates/heart_lesson_7cc8da.webp" data-fb-w="1101" data-fb-h="1551"
+          data-fb-alt="The heart model from a lesson step, with the left anterior descending and circumflex arteries highlighted"
+          data-fb-cap="A lesson figure from the app: the heart with the left anterior descending and circumflex arteries highlighted."></div>
+        <figcaption class="cap"><b class="fn">Fig. 6A.</b> <span class="rcap">A lesson step: the view is already set up for the step you are on.</span></figcaption>
+      </figure>
+      <figure>
+        <div class="rbox"><img class="render" data-screen="practice" src="../../renders/plate/plate_bristol_practice.webp" width="1920" height="1080" loading="lazy"
+          alt="The Practice panel in Layered Human beside the 3D model"
+          data-fb-src="../../assets/plates/peel40_ids.webp" data-fb-w="894" data-fb-h="2178"
+          data-fb-alt="The body at 40 % dissection depth with nothing labelled"
+          data-fb-cap="The body at 40 % depth, unlabelled. In Hunt you find the structure yourself, in three tries."></div>
+        <figcaption class="cap"><b class="fn">Fig. 6B.</b> <span class="rcap">Practice beside the model: find it, name it, or put the steps in order.</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="course" id="course">
+      <h3>The lab course</h3>
+      <p class="body" style="margin-top:10px">109 mini lessons, each a few short steps on one topic. <strong>Learn</strong> walks through the steps with the 3D view set up. <strong>Practice</strong> runs a short graded session beside the model.</p>
+      <table class="lab">
+        <thead><tr><th scope="col">Lab</th><th scope="col">Topics (from the review lessons)</th><th scope="col">Lessons include</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Lab 1</th><td class="tp">Nerves, reflexes and general senses</td><td class="ls">The reflex arc · Stretch reflexes: knee, elbow and ankle · Skin receptors, touch and temperature</td></tr>
+          <tr><th scope="row">Lab 2</th><td class="tp">The eye and vision; the ear, hearing and balance</td><td class="ls">Tunics and chambers of the eyeball · The retina, photoreceptors and the fundus · The inner ear and the cochlea</td></tr>
+          <tr><th scope="row">Lab 3</th><td class="tp">Blood; the heart</td><td class="ls">The blood smear and the differential count · Inside the heart: septa and valves · The sheep heart, mapped to the human</td></tr>
+          <tr><th scope="row">Lab 4</th><td class="tp">The ECG and heart function</td><td class="ls">The conduction system and pacemaker cells · What the ECG shows: waves and intervals · The mean electrical axis</td></tr>
+          <tr><th scope="row">Lab 5</th><td class="tp">Vessel walls and the arteries; veins, the portal system and fetal circulation</td><td class="ls">Blood supply to the brain: the circle of Willis · The hepatic portal system · Fetal circulation</td></tr>
+          <tr><th scope="row">Lab 6</th><td class="tp">The respiratory system</td><td class="ls">Pharynx and larynx · Alveoli and the respiratory membrane · Lung volumes and capacities</td></tr>
+          <tr><th scope="row">Lab 7</th><td class="tp">Lung function and fitness</td><td class="ls">FEV1 and vital capacity · Obstructive and restrictive disease · Heart rate, fitness and the step test</td></tr>
+          <tr><th scope="row">Lab 8</th><td class="tp">The digestive system; the urinary system</td><td class="ls">The gut wall and the peritoneum · The liver · Renal blood flow and the nephron</td></tr>
+          <tr><th scope="row">Lab 9</th><td class="tp">The male reproductive system; the female system and early development</td><td class="ls">Spermatogenesis and the sperm cell · The ovarian and menstrual cycles · Fertilisation and the first weeks</td></tr>
+          <tr><th scope="row">Lab Practical 1</th><td class="tp">Review of Labs 1–5, with a practice exam</td><td class="ls">Lab 3 review: the heart · Lab 5 review: veins, the portal system and fetal circulation · Practice exam: Labs 1–5</td></tr>
+          <tr><th scope="row">Lab Practical 2</th><td class="tp">Review of Labs 6–9, with a practice exam</td><td class="ls">Lab 6 review: the respiratory system · Lab 8 review: the urinary system · Practice exam: Labs 6–9</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:16px">Beyond the lab course, a sample from the library: <i>The brachial plexus</i> · <i>The rotator cuff</i> · <i>The cubital fossa</i> · <i>The femoral triangle</i> · <i>The conducting system of the heart</i> · <i>Reading the gut wall, oesophagus to colon</i> · <i>The nephron, segment by segment</i>. Your course may be organised differently. Search finds any structure, lesson or case by name.</p>
+    </div>
+    <p class="folio" aria-hidden="true"><span>Layered Human</span><span>6</span></p>
+  </div>
+</section>
+
+<!-- ======================= PLATE 7 ======================= -->
+<section class="plate hi-group" id="histology" data-no="Plate 7" data-title="Histology" aria-labelledby="h-histo">
+  <div class="wrap">
+    <div class="pl-head"><h2 id="h-histo">Tissue, slide and model together</h2><p class="pl-no">Plate 7</p></div>
+    <div class="histo">
+      <figure aria-labelledby="fig7-cap">
+        <span class="fig-tag">7A</span>
+        <div class="micro">
+          <img src="../../assets/images/histo_simple_columnar.jpg" width="1280" height="960" loading="lazy" alt="Micrograph of simple columnar epithelium around a large central lumen, stained with H&amp;E, numbered at the structures in the key">
+          <div class="pins" aria-hidden="true">
+            <span class="pin" data-k="h1" style="left:50%;top:25%">1</span>
+            <span class="pin" data-k="h2" style="left:80%;top:35%">2</span>
+            <span class="pin" data-k="h3" style="left:57.5%;top:78.7%">3</span>
+            <span class="pin" data-k="h4" style="left:45%;top:94%">4</span>
+          </div>
+        </div>
+      </figure>
+      <div>
+        <p class="body">101 tissues with 1,049 micrographs. The 3D models show the same layers in depth, and you can select, hide or cut through each one: the gut wall, the liver lobule, the osteon, the retina.</p>
+        <ol class="key" style="margin-top:28px" aria-label="Key to Fig. 7A">
+          <li data-k="h1" tabindex="0"><span class="n">1</span><span><span class="nm">Lumen</span><span class="ft">Wide and pale, with an irregular edge.</span></span></li>
+          <li data-k="h2" tabindex="0"><span class="n">2</span><span><span class="nm">Columnar epithelial cells</span><span class="ft">A single layer of tall cells.</span></span></li>
+          <li data-k="h3" tabindex="0"><span class="n">3</span><span><span class="nm">Nucleus</span><span class="ft">Oval, lying towards the base of the cell.</span></span></li>
+          <li data-k="h4" tabindex="0"><span class="n">4</span><span><span class="nm">Connective tissue</span><span class="ft">The thin wall around the tube.</span></span></li>
+        </ol>
+        <p class="cap" id="fig7-cap" style="margin-top:18px"><b class="fn">Fig. 7A.</b> Simple columnar epithelium around a large central lumen, H&amp;E. Image: Echinaceapallida, CC BY-SA 4.0, via Wikimedia Commons.</p>
+      </div>
+    </div>
+    <ul class="thumbs" aria-label="Micro models">
+      <li><figure><img src="../../assets/plates/thumb_oesophagus_wall.webp" width="900" height="689" loading="lazy" alt="3D model of the oesophagus wall in its layers"><figcaption><span class="mono">7B</span> Oesophagus wall</figcaption></figure></li>
+      <li><figure><img src="../../assets/plates/thumb_liver_lobule.webp" width="900" height="689" loading="lazy" alt="3D model of a liver lobule"><figcaption><span class="mono">7C</span> Liver lobule</figcaption></figure></li>
+      <li><figure><img src="../../assets/plates/thumb_compact_bone.webp" width="900" height="689" loading="lazy" alt="3D model of compact bone with its osteons"><figcaption><span class="mono">7D</span> Compact bone</figcaption></figure></li>
+      <li><figure><img src="../../assets/plates/thumb_retina.webp" width="900" height="689" loading="lazy" alt="3D model of the retina in its layers"><figcaption><span class="mono">7E</span> Retina</figcaption></figure></li>
+    </ul>
+    <p class="folio" aria-hidden="true"><span>Layered Human</span><span>7</span></p>
+  </div>
+</section>
+
+<!-- ======================= INDEX ======================= -->
+<section class="plate" id="index" data-no="Index" data-title="The atlas in numbers" aria-labelledby="h-index">
+  <div class="wrap">
+    <div class="pl-head"><h2 id="h-index">Built to be looked up</h2><p class="pl-no">Index</p></div>
+    <div class="idx">
+      <div class="ig"><h3>A</h3><ul>
+        <li><span class="it">Action of muscles, described</span><span class="lead"></span><span class="iv">466</span></li>
+      </ul></div>
+      <div class="ig"><h3>C</h3><ul>
+        <li><span class="it">Clinical correlations, searchable by sign or syndrome</span><span class="lead"></span><span class="iv">423</span></li>
+        <li><span class="it">Course, <i>see</i> Lab course</span><span class="lead"></span><span class="iv"><a href="#course">pl. 6</a></span></li>
+      </ul></div>
+      <div class="ig"><h3>D</h3><ul>
+        <li><span class="it">Dissection slider, eight stops</span><span class="lead"></span><span class="iv"><a href="#peel">pl. 2</a></span></li>
+        <li><span class="it">Download, about</span><span class="lead"></span><span class="iv">3.4 GB</span></li>
+      </ul></div>
+      <div class="ig"><h3>F</h3><ul>
+        <li><span class="it">Films, <i>see</i> Radiology cases</span><span class="lead"></span><span class="iv"><a href="#films">pl. 5</a></span></li>
+      </ul></div>
+      <div class="ig"><h3>H</h3><ul>
+        <li><span class="it">Heart, true-scale, parts</span><span class="lead"></span><span class="iv">119</span></li>
+        <li><span class="it">Hunt, three tries, nothing labelled</span><span class="lead"></span><span class="iv"><a href="#practice">pl. 6</a></span></li>
+      </ul></div>
+      <div class="ig"><h3>I</h3><ul>
+        <li><span class="it">Innervation, muscles with</span><span class="lead"></span><span class="iv">468</span></li>
+      </ul></div>
+      <div class="ig"><h3>K</h3><ul>
+        <li><span class="it">Kidney, organ to podocyte</span><span class="lead"></span><span class="iv"><a href="#cells">pl. 4</a></span></li>
+      </ul></div>
+      <div class="ig"><h3>L</h3><ul>
+        <li><span class="it">Lab course, mini lessons</span><span class="lead"></span><span class="iv">109</span></li>
+        <li><span class="it">Landmarks, bony and organ</span><span class="lead"></span><span class="iv">1,109</span></li>
+        <li><span class="it">Latin names and Terminologia Anatomica 2 IDs</span><span class="lead"></span><span class="iv"><a href="#colophon">Colophon</a></span></li>
+        <li><span class="it">Lessons</span><span class="lead"></span><span class="iv">303</span></li>
+        <li><span class="it">Lesson steps</span><span class="lead"></span><span class="iv">1,614</span></li>
+      </ul></div>
+      <div class="ig"><h3>M</h3><ul>
+        <li><span class="it">Micrographs</span><span class="lead"></span><span class="iv">1,049</span></li>
+        <li><span class="it">Models, interactive 3D</span><span class="lead"></span><span class="iv">41</span></li>
+      </ul></div>
+      <div class="ig"><h3>P</h3><ul>
+        <li><span class="it">Practice exams, 20, 40 or 60 questions</span><span class="lead"></span><span class="iv"><a href="#practice">pl. 6</a></span></li>
+        <li><span class="it">Practice items, graded</span><span class="lead"></span><span class="iv">1,824</span></li>
+        <li><span class="it">Progress, kept in your user folder</span><span class="lead"></span><span class="iv"><a href="#colophon">Colophon</a></span></li>
+      </ul></div>
+      <div class="ig"><h3>R</h3><ul>
+        <li><span class="it">Radiology cases, beside the live model</span><span class="lead"></span><span class="iv">104</span></li>
+        <li><span class="it">Recall questions</span><span class="lead"></span><span class="iv">1,525</span></li>
+      </ul></div>
+      <div class="ig"><h3>S</h3><ul>
+        <li><span class="it">Sections: sagittal, coronal, transverse</span><span class="lead"></span><span class="iv"><a href="#sections">pl. 3</a></span></li>
+        <li><span class="it">Structures, from bones and ligaments to cranial nerves and skin regions</span><span class="lead"></span><span class="iv">3,922</span></li>
+      </ul></div>
+      <div class="ig"><h3>T</h3><ul>
+        <li><span class="it">Tissues</span><span class="lead"></span><span class="iv">101</span></li>
+      </ul></div>
+    </div>
+    <p class="folio" aria-hidden="true"><span>Layered Human</span><span>8</span></p>
+  </div>
+</section>
+
+<!-- ======================= COLOPHON ======================= -->
+<section class="plate" id="colophon" data-no="Colophon" data-title="Credits and licences" aria-labelledby="h-colo">
+  <div class="wrap">
+    <div class="pl-head"><h2 id="h-colo">Built on open anatomy</h2><p class="pl-no">Colophon</p></div>
+    <div class="two">
+      <div id="credits">
+        <p class="body">The 3D atlas is adapted from <strong>Z-Anatomy</strong> and <strong>BodyParts3D</strong>, shared under CC BY-SA. Terms follow <strong>Terminologia Anatomica 2</strong>. Radiology and histology images come from <strong>Wikimedia Commons</strong> contributors, and each one shows its author and licence. Layered Human is a study aid, not a medical device.</p>
+        <h3 style="margin-top:32px">Credits &amp; licences</h3>
+        <dl class="credits">
+          <dt>Atlas</dt><dd>Z-Anatomy, “The libre 3D atlas of anatomy”, CC BY-SA 4.0 (Gauthier Kervyn et al.).</dd>
+          <dt>Models</dt><dd>BodyParts3D, © The Database Center for Life Science (DBCLS), CC BY-SA 2.1 Japan.</dd>
+          <dt>Terms</dt><dd>Terminologia Anatomica 2 (FIPAT). Descriptions: Wikipedia, CC BY-SA 3.0.</dd>
+          <dt>Images</dt><dd>Wikimedia Commons contributors; each image shows its author, licence and source in the app.</dd>
+          <dt>On this page</dt><dd><a href="https://commons.wikimedia.org/wiki/File:Normal_posteroanterior_(PA)_chest_radiograph_(X-ray).jpg">PA chest radiograph</a>, Mikael Häggström, CC0. <a href="https://commons.wikimedia.org/wiki/File:Unilateral_Pleural_Effusion.jpg">Unilateral pleural effusion</a>, Sara Nabih, CC BY-SA 4.0. <a href="https://commons.wikimedia.org/wiki/File:Epith_simple_columnar1.jpg">Simple columnar epithelium</a>, Echinaceapallida, CC BY-SA 4.0. All other figures are rendered by the app.</dd>
+          <dt>Code</dt><dd>Code and original content: MIT, © 2026 Ethan Prince. Qt and PySide6 under LGPL-3.0.</dd>
+        </dl>
+        <p class="note" style="margin-top:16px">If you share the anatomy dataset or anything made from it, credit these sources and share it under the same licence.</p>
+      </div>
+      <div class="free">
+        <h3>Free. Offline. Yours.</h3>
+        <p class="body">Layered Human runs entirely on your computer. Your progress, quiz history and notes stay in your own user folder, and updating or reinstalling never loses them. Updates download in the background. The code is open source under the MIT licence.</p>
+        <a class="more" href="https://github.com/ethanprince4/AnatomyExplorer">Read the code on GitHub <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v6H4V6h6"/></svg></a>
+      </div>
+    </div>
+    <p class="folio" aria-hidden="true"><span>Layered Human</span><span>9</span></p>
+  </div>
+</section>
+
+<!-- ======================= DOWNLOAD ======================= -->
+<section class="plate" id="download" data-no="Install" data-title="Download for Mac or Windows" aria-labelledby="h-dl">
+  <div class="wrap">
+    <div class="pl-head"><h2 id="h-dl">Ready when you are</h2><p class="pl-no">Install</p></div>
+    <p class="body dl-intro">About 3.4 GB. Free for Apple silicon Macs (macOS 13 or later) and Windows. The first time you open it, your computer may warn you because the app isn't signed with a paid certificate. <a href="#why">Here's what to click.</a></p>
+
+    <div class="oses" id="oses">
+      <article class="os" id="mac" aria-labelledby="h-mac">
+        <h3 id="h-mac"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8C6.4 7.4 5 8.3 4.3 9.7c-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.6 2.3 2.8 2.3 1.1 0 1.6-.7 2.9-.7s1.8.7 3 .7 2-1.1 2.7-2.2c.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.2-.8-2.2-3.7zM13.6 5.8c.6-.8 1-1.8.9-2.8-.9 0-2 .6-2.6 1.4-.6.7-1.1 1.7-1 2.7 1 .1 2-.5 2.7-1.3z"/></svg>Mac</h3>
+        <p class="req">Apple silicon (M1 or newer), macOS 13 or later. You need about 8 GB free while it installs.</p>
+        <a class="btn btn-pri" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Anatomy-Explorer-Mac.dmg"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download for Mac</a>
+        <p class="file">Install-Anatomy-Explorer-Mac.dmg</p>
+        <p class="note" style="font-size:14px;margin-top:4px">The installer file still carries the app's old name.</p>
+        <p class="status" id="st-mac" role="status"></p>
+        <ol class="steps">
+          <li><span>Open the disk image and double-click the installer.</span></li>
+          <li><span>If macOS says it “cannot be opened”: <strong>System Settings → Privacy &amp; Security → Open Anyway</strong>.</span></li>
+          <li><span>It downloads about 3.4 GB, checks each part, copies the app into <strong>Applications</strong> and opens it. If it stops, run it again.</span></li>
+        </ol>
+      </article>
+      <article class="os" id="windows" aria-labelledby="h-win">
+        <h3 id="h-win"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.6l7-1v6.9H4zM13 4.3l7-1V11.5h-7zM4 12.5h7v6.9l-7-1zM13 12.5h7v8.2l-7-1z"/></svg>Windows</h3>
+        <p class="req">The download is a small PowerShell script that fetches the installer in parts.</p>
+        <a class="btn btn-out" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Download-Windows-Installer.ps1"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download for Windows</a>
+        <p class="file">Download-Windows-Installer.ps1</p>
+        <p class="status" id="st-win" role="status"></p>
+        <ol class="steps">
+          <li><span>Right-click the downloaded file and choose <strong>Run with PowerShell</strong>. Double-clicking it opens Notepad instead.</span></li>
+          <li><span>It downloads the installer parts, joins them and starts the installer.</span></li>
+          <li><span>If “Windows protected your PC” appears: <strong>More info</strong>, then <strong>Run anyway</strong>.</span></li>
+        </ol>
+        <p class="fallback">If that doesn't work, open PowerShell in your Downloads folder and run:</p>
+        <div class="code">
+          <pre id="ps-cmd">Set-ExecutionPolicy -Scope Process Bypass -Force; $ProgressPreference='SilentlyContinue'; .\Download-Windows-Installer.ps1</pre>
+          <button class="copy" type="button" id="copy-btn" aria-describedby="ps-cmd"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="1.5"/><path d="M5 15V6.5A1.5 1.5 0 0 1 6.5 5H15"/></svg><span id="copy-tx">Copy</span></button>
+        </div>
+      </article>
+    </div>
+
+    <div class="why two" id="why">
+      <div>
+        <h3>Why the warning?</h3>
+        <p class="body">The app isn't signed with a paid developer certificate, so your computer can't check who made it. Only the installer needs the extra click. The code is public on <a href="https://github.com/ethanprince4/AnatomyExplorer">GitHub</a>.</p>
+      </div>
+      <div>
+        <h3>After installing</h3>
+        <p class="body">Your progress, quiz history and notes are kept in your user folder, so updates and reinstalls never lose them. Changed parts download in the background and open on your next launch. Some updates are large.</p>
+        <p class="note" style="margin-top:12px">Using Linux, or want to run it from source? <a href="https://github.com/ethanprince4/AnatomyExplorer">Instructions on GitHub</a>.</p>
+      </div>
+    </div>
+    <p class="folio" aria-hidden="true"><span>Layered Human</span><span>10</span></p>
+  </div>
+</section>
+
+<!-- ======================= FAQ ======================= -->
+<section class="plate" id="faq" data-no="Help" data-title="Questions" aria-labelledby="h-faq">
+  <div class="wrap">
+    <div class="pl-head"><h2 id="h-faq">Questions before you download</h2><p class="pl-no">Help</p></div>
+    <div class="faq">
+      <details><summary>Is it really free?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Yes. Download it from GitHub releases. The code is MIT-licensed.</p></details>
+      <details><summary>Do I need the internet?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Only to download it and to get updates. After that it runs entirely on your computer.</p></details>
+      <details><summary>Which computers does it run on?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>Windows, and Macs with Apple silicon (M1 or newer) on macOS 13 or later. On Linux you can run it from source.</p></details>
+      <details><summary>Why is it so big?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>About 3.4 GB: a whole-body atlas with 3,922 structures, 41 models and the radiology and histology images, all stored on your machine so it works offline.</p></details>
+      <details><summary>Why does my computer warn me?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>The app isn't signed with a paid developer certificate. <a href="#why">What to click.</a></p></details>
+      <details><summary>Where is my progress?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>In your user folder. Updating or reinstalling never loses it.</p></details>
+      <details><summary>Will it match my course?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>It has a lab course for Labs 1–9 and two practicals, plus lessons by system, region and level. <a href="#course">See the topics.</a></p></details>
+      <details><summary>Can I use it to diagnose?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>No. It's a study aid, not a medical device. Radiology models are set up to match each film, not fitted to it.</p></details>
+      <details><summary>Something went wrong.<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>The app writes an error log to the <code class="mono">logs</code> folder in your user folder. <a href="https://github.com/ethanprince4/AnatomyExplorer/issues">Report it on GitHub.</a></p></details>
+      <details><summary>I had Anatomy Explorer.<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><p>It's the same app with a new name.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Layered Human is a free study aid, not a medical device. Anatomy data: Z-Anatomy and BodyParts3D (CC BY-SA). Images: Wikimedia Commons contributors. Code: MIT.</p>
+    <nav aria-label="Footer"><a href="#credits">Credits &amp; licences</a><a href="https://github.com/ethanprince4/AnatomyExplorer">GitHub</a><a href="#faq">Help</a></nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var doc = document, html = doc.documentElement;
+  var SCH = (window.LH_SCHEMES && LH_SCHEMES.plate && LH_SCHEMES.plate.schemes) || {};
+  var ANCH = (window.LH_PLATES && LH_PLATES.anchors) || {};
+  var $ = function (s, r) { return (r || doc).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || doc).querySelectorAll(s)); };
+
+  /* ---------------- Scheme switcher ---------------- */
+  var btn = $('#sch-btn'), pop = $('#sch-pop'), list = $('#sch-list');
+  Object.keys(SCH).forEach(function (k) {
+    var s = SCH[k];
+    var lab = doc.createElement('label');
+    lab.className = 'sch-opt';
+    lab.innerHTML = '<input type="radio" name="scheme" value="' + k + '"><span class="sw" data-design="plate" data-scheme="' + k + '"></span><span>' + s.name + '</span><span class="md">' + s.mode + '</span>';
+    list.appendChild(lab);
+  });
+  function applyScheme(key, save) {
+    if (!SCH[key]) key = 'bristol';
+    var s = SCH[key];
+    html.setAttribute('data-scheme', key);
+    html.setAttribute('data-mode', s.mode);
+    $('#sch-sw').setAttribute('data-scheme', key);
+    $('#sch-name').textContent = s.name;
+    var r = list.querySelector('input[value="' + key + '"]'); if (r) r.checked = true;
+    var hero = $('#hero-img'), file = 'hero_sel_' + String(s.select || '#1f4d8c').replace('#', '').toLowerCase() + '.webp';
+    if (hero && hero.getAttribute('src').indexOf(file) < 0) hero.src = '../../assets/plates/' + file;
+    $$('img.render').forEach(function (img) { setRender(img, key); });
+    if (save) { try { localStorage.setItem('lh-plate-scheme', key); } catch (e) {} }
+  }
+  function openPop(open) {
+    pop.hidden = !open; btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) { var c = list.querySelector('input:checked') || list.querySelector('input'); if (c) c.focus(); }
+  }
+  btn.addEventListener('click', function () { openPop(pop.hidden); });
+  list.addEventListener('change', function (e) { if (e.target.name === 'scheme') applyScheme(e.target.value, true); });
+  list.addEventListener('click', function (e) { if (e.target.tagName === 'INPUT' && e.detail > 0) { openPop(false); btn.focus(); } });
+  doc.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !pop.hidden) { openPop(false); btn.focus(); } });
+  doc.addEventListener('pointerdown', function (e) { if (!pop.hidden && !e.target.closest('.schemes')) openPop(false); });
+  pop.addEventListener('focusout', function (e) { if (!pop.hidden && e.relatedTarget && !e.relatedTarget.closest('.schemes')) openPop(false); });
+
+  /* App mockup renders: real screens when present, a real figure from the app when not. */
+  function setRender(img, key) {
+    var cap = img.closest('figure').querySelector('.rcap');
+    if (!img.dataset.cap) img.dataset.cap = cap.textContent;
+    if (!img.dataset.alt) img.dataset.alt = img.alt;
+    img.dataset.state = 'try';
+    img.closest('.rbox').classList.remove('is-fallback');
+    cap.textContent = img.dataset.cap; img.alt = img.dataset.alt;
+    var want = '../../renders/plate/plate_' + key + '_' + img.dataset.screen + '.webp';
+    if (img.getAttribute('src') !== want) img.src = want;
+  }
+  $$('img.render').forEach(function (img) {
+    img.addEventListener('error', function () {
+      if (img.dataset.state === 'fb') return;
+      img.dataset.state = 'fb';
+      img.closest('.rbox').classList.add('is-fallback');
+      img.src = img.dataset.fbSrc; img.alt = img.dataset.fbAlt;
+      img.closest('figure').querySelector('.rcap').textContent = img.dataset.fbCap;
+    });
+  });
+
+  var initial = html.getAttribute('data-scheme');
+  applyScheme(initial, false);
+
+  /* ---------------- Highlight groups: labels ↔ anchors ↔ pins ↔ rows ---------------- */
+  $$('.hi-group').forEach(function (g) {
+    var cur = null;
+    function set(k) {
+      if (k === cur) return; cur = k;
+      g.classList.toggle('has-hi', !!k);
+      $$('[data-k]', g).forEach(function (el) { el.classList.toggle('is-hi', !!k && el.getAttribute('data-k') === k); });
+    }
+    function from(t) { var el = t && t.closest ? t.closest('[data-k]') : null; return el && g.contains(el) ? el.getAttribute('data-k') : null; }
+    g.addEventListener('pointerover', function (e) { set(from(e.target)); });
+    g.addEventListener('pointerleave', function () { set(null); });
+    g.addEventListener('focusin', function (e) { set(from(e.target)); });
+    g.addEventListener('focusout', function (e) { if (!e.relatedTarget || !g.contains(e.relatedTarget) || !from(e.relatedTarget)) set(null); });
+    g.addEventListener('click', function (e) {
+      var hit = e.target.closest && e.target.closest('.ld');
+      if (!hit) return;
+      var a = g.querySelector('a.lbl[data-k="' + hit.getAttribute('data-k') + '"]');
+      if (a) a.click();
+    });
+  });
+
+  /* ---------------- Plate engine: margin columns with leaders, or numbered rings ---------------- */
+  var NS = 'http://www.w3.org/2000/svg';
+  function Plate(root, o) {
+    this.root = root; this.o = o;
+    this.box = root.querySelector('.fig-box');
+    this.svg = root.querySelector('svg.leaders');
+    this.items = $$('.lbl', root);
+    this.crop = o.crop || [0, 0, o.w, o.h];
+    root.style.setProperty('--colw', o.colW + 'px');
+    root.style.setProperty('--gap', o.gap + 'px');
+  }
+  Plate.prototype.anchor = function (el, side) {
+    var setName = el.getAttribute('data-set') || this.o.set, set = ANCH[setName] || {}, k = el.getAttribute('data-a');
+    var other = side === 'l' ? 'r' : 'l';
+    var p = set[k + '.v' + side] || set[k + '.v' + other] || set[k];
+    if (!p) return null;
+    var off = (setName !== this.o.set && this.o.offsets && this.o.offsets[setName]) || [0, 0];
+    return [p.x + off[0], p.y + off[1]];
+  };
+  Plate.prototype.layout = function () {
+    var self = this, o = this.o, root = this.root;
+    var margin = window.matchMedia(o.mq).matches;
+    root.classList.toggle('is-margin', margin);
+    root.classList.toggle('is-key', !margin);
+    var R = root.getBoundingClientRect(), F = this.box.getBoundingClientRect();
+    if (!F.width || !R.width) return;
+    var s = F.width / this.crop[2], ox = F.left - R.left, oy = F.top - R.top, c = this.crop;
+    function px(p) { return [ox + (p[0] - c[0]) * s, oy + (p[1] - c[1]) * s]; }
+    var out = '';
+    this.items.forEach(function (el) { el.style.left = ''; el.style.top = ''; el.removeAttribute('data-at'); });
+
+    if (margin) {
+      var bounds = o.bounds ? o.bounds(R, F) : { l: [oy - 4, oy + F.height + 4], r: [oy - 4, oy + F.height + 4] };
+      var G = o.vgap || 8;
+      var cols = { l: [], r: [] };
+      this.items.forEach(function (el) {
+        var side = el.getAttribute('data-side') || 'r';
+        el.setAttribute('data-at', side);
+        cols[side].push(el);
+      });
+      var need = function (arr) { return arr.reduce(function (t, el) { return t + el.offsetHeight + G; }, 0) - G; };
+      if (o.flex) {
+        /* If the left column cannot fit above the caption, hand its lowest labels to the right column. */
+        var guard = 0;
+        while (cols.l.length && need(cols.l) > bounds.l[1] - bounds.l[0] && guard++ < 6) {
+          cols.l.sort(function (a, b) { return self.anchor(a, 'l')[1] - self.anchor(b, 'l')[1]; });
+          var mv = cols.l.pop(); mv.setAttribute('data-at', 'r'); cols.r.push(mv);
+        }
+      }
+      ['l', 'r'].forEach(function (side) {
+        var recs = cols[side].map(function (el) {
+          var a = px(self.anchor(el, side));
+          var nm = el.querySelector('.nm');
+          var cy = nm.offsetTop + nm.offsetHeight / 2;
+          return { el: el, a: a, h: el.offsetHeight, cy: cy, top: a[1] - cy };
+        }).sort(function (p, q) { return p.a[1] - q.a[1]; });
+        var lo = bounds[side][0], hi = bounds[side][1], i;
+        for (i = 0; i < recs.length; i++) { recs[i].top = Math.max(recs[i].top, lo, i ? recs[i - 1].top + recs[i - 1].h + G : -1e9); }
+        for (i = recs.length - 1; i >= 0; i--) { var lim = i === recs.length - 1 ? hi - recs[i].h : recs[i + 1].top - recs[i].h - G; if (recs[i].top > lim) recs[i].top = lim; }
+        for (i = 0; i < recs.length; i++) { if (recs[i].top < lo) recs[i].top = lo; if (i && recs[i].top < recs[i - 1].top + recs[i - 1].h + G) recs[i].top = recs[i - 1].top + recs[i - 1].h + G; }
+        var x = side === 'l' ? ox - o.gap - o.colW : ox + F.width + o.gap;
+        recs.forEach(function (r) {
+          r.el.style.left = x + 'px'; r.el.style.top = r.top + 'px';
+          var ly = r.top + r.cy, ax = r.a[0], ay = r.a[1], sx, bx;
+          if (side === 'l') { sx = ox - o.gap + 7; bx = Math.max(sx, Math.min(ox - 10, ax - 8)); }
+          else { sx = ox + F.width + o.gap - 7; bx = Math.min(sx, Math.max(ox + F.width + 10, ax + 8)); }
+          var k = r.el.getAttribute('data-k'), sel = r.el.classList.contains('is-sel') ? ' is-sel' : '';
+          out += '<g class="ld' + sel + '" data-k="' + k + '"><path d="M' + sx.toFixed(1) + ' ' + ly.toFixed(1) + 'H' + bx.toFixed(1) + 'L' + ax.toFixed(1) + ' ' + ay.toFixed(1) + '"/>' +
+            '<circle class="dot" cx="' + ax.toFixed(1) + '" cy="' + ay.toFixed(1) + '" r="3.6"/>' +
+            '<circle class="hit" cx="' + ax.toFixed(1) + '" cy="' + ay.toFixed(1) + '" r="16"/></g>';
+        });
+      });
+    } else {
+      this.items.forEach(function (el) {
+        var side = el.getAttribute('data-kside') || el.getAttribute('data-side') || 'r';
+        var p = self.anchor(el, side); if (!p) return;
+        var a = px(p), k = el.getAttribute('data-k'), n = el.querySelector('.n').textContent;
+        out += '<g class="ld" data-k="' + k + '"><circle class="ring" cx="' + a[0].toFixed(1) + '" cy="' + a[1].toFixed(1) + '" r="9"/>' +
+          '<text class="rn" x="' + a[0].toFixed(1) + '" y="' + (a[1] + 0.5).toFixed(1) + '">' + n + '</text>' +
+          '<circle class="hit" cx="' + a[0].toFixed(1) + '" cy="' + a[1].toFixed(1) + '" r="14"/></g>';
+      });
+    }
+    this.svg.setAttribute('width', R.width); this.svg.setAttribute('height', R.height);
+    this.svg.setAttribute('viewBox', '0 0 ' + R.width + ' ' + R.height);
+    this.svg.innerHTML = out;
+  };
+
+  var plates = [];
+  var heroRoot = $('#fig1');
+  plates.push(new Plate(heroRoot, {
+    set: 'hero_sel_7cc8da', w: 915, h: 2198, colW: 236, gap: 64, vgap: 9, mq: '(min-width: 1000px)', flex: true,
+    offsets: { hero26_sel_7cc8da: [7, 10] },
+    bounds: function (R) {
+      var cap = $('#hero-cap').getBoundingClientRect(), fc = $('#fig1-cap').getBoundingClientRect();
+      return { l: [14, cap.top - R.top - 22], r: [14, fc.top - R.top - 18] };
+    }
+  }));
+  plates.push(new Plate($('#fig3'), { set: 'section_inferior', w: 2030, h: 1149, colW: 180, gap: 36, vgap: 10, mq: '(min-width: 900px)' }));
+  plates.push(new Plate($('#fig5'), { set: 'cxr_model', w: 1852, h: 2322, crop: [300, 380, 1260, 1420], colW: 178, gap: 22, vgap: 10, mq: '(min-width: 760px)' }));
+
+  /* ---------------- Plate 4 zoom lines ---------------- */
+  function zoomLines() {
+    var root = $('#zoom'), svg = root.querySelector('.zoom-svg');
+    var R = root.getBoundingClientRect(); if (!R.width) return;
+    var specs = [
+      { from: '#zA img', nat: [981, 1057], c: [850, 330], size: 74, to: '#zB .zf' },
+      { from: '#zB img', nat: [1284, 1800], c: [640, 720], size: 250, to: '#zC .zf' }
+    ];
+    var out = '';
+    specs.forEach(function (sp) {
+      var I = root.querySelector(sp.from).getBoundingClientRect(), T = root.querySelector(sp.to).getBoundingClientRect();
+      var s = I.width / sp.nat[0], h = sp.size * s / 2;
+      var cx = I.left - R.left + sp.c[0] * s, cy = I.top - R.top + sp.c[1] * s;
+      var r = { l: cx - h, t: cy - h, r: cx + h, b: cy + h };
+      var t = { l: T.left - R.left, t: T.top - R.top, r: T.right - R.left, b: T.bottom - R.top };
+      var L;
+      if (t.l >= r.r) L = [[r.r, r.t, t.l, t.t], [r.r, r.b, t.l, t.b]];
+      else if (t.t >= r.b) L = [[r.l, r.b, t.l, t.t], [r.r, r.b, t.r, t.t]];
+      else L = [[r.l, r.t, t.l, t.t], [r.r, r.b, t.r, t.b]];
+      out += '<rect x="' + r.l.toFixed(1) + '" y="' + r.t.toFixed(1) + '" width="' + (2 * h).toFixed(1) + '" height="' + (2 * h).toFixed(1) + '"/>';
+      L.forEach(function (l) { out += '<line x1="' + l[0].toFixed(1) + '" y1="' + l[1].toFixed(1) + '" x2="' + l[2].toFixed(1) + '" y2="' + l[3].toFixed(1) + '"/>'; });
+    });
+    svg.setAttribute('width', R.width); svg.setAttribute('height', R.height);
+    svg.setAttribute('viewBox', '0 0 ' + R.width + ' ' + R.height);
+    svg.innerHTML = out;
+  }
+
+  var raf = 0;
+  function layoutAll() {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(function () { plates.forEach(function (p) { p.layout(); }); zoomLines(); });
+  }
+  layoutAll();
+  window.addEventListener('resize', layoutAll);
+  if ('ResizeObserver' in window) {
+    var ro = new ResizeObserver(layoutAll);
+    plates.forEach(function (p) { ro.observe(p.root); });
+    ro.observe($('#zoom'));
+  }
+  $$('#zoom img, .pfig img').forEach(function (img) { if (!img.complete) img.addEventListener('load', layoutAll); });
+  if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(layoutAll);
+
+  /* ---------------- Running head: current plate ---------------- */
+  var rhNo = $('#rh-no'), rhNoM = $('#rh-no-m'), rhTitle = $('#rh-title');
+  var secs = $$('main > section[data-no]');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var t = en.target;
+        rhNo.textContent = rhNoM.textContent = t.getAttribute('data-no');
+        rhTitle.textContent = t.getAttribute('data-title');
+      });
+    }, { rootMargin: '-45% 0px -54% 0px' });
+    secs.forEach(function (s) { io.observe(s); });
+  }
+
+  /* ---------------- Downloads: put this OS first; start the download with the steps on screen ---------------- */
+  var ua = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent || '';
+  if (/win/i.test(ua)) {
+    var row = $('#hero-dl'), mac = row.querySelector('[data-os="mac"]'), win = row.querySelector('[data-os="win"]');
+    row.insertBefore(win, mac);
+    win.className = 'btn btn-pri'; mac.className = 'btn btn-out';
+    var oses = $('#oses'); oses.insertBefore($('#windows'), $('#mac'));
+    $('#windows .btn').className = 'btn btn-pri'; $('#mac .btn').className = 'btn btn-out';
+  }
+  /* The link downloads as usual; the page then brings that system's steps into view. */
+  $$('#hero-dl .btn').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      var isMac = a.getAttribute('data-os') === 'mac';
+      var target = $(isMac ? '#mac' : '#windows');
+      setTimeout(function () {
+        target.scrollIntoView({ block: 'start' });
+        $(isMac ? '#st-mac' : '#st-win').textContent = isMac
+          ? 'When the download finishes, follow the three steps below.'
+          : 'When the download finishes, right-click the file and choose Run with PowerShell.';
+        var b = target.querySelector('.btn'); if (b) b.focus({ preventScroll: true });
+      }, 60);
+    });
+  });
+
+  /* ---------------- In-page links: smooth scroll unless reduced motion ---------------- */
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  doc.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    var id = a.getAttribute('href').slice(1), t = id && doc.getElementById(id);
+    if (!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ behavior: calm.matches ? 'auto' : 'smooth', block: 'start' });
+    try { history.pushState(null, '', '#' + id); } catch (err) {}
+  });
+
+  /* ---------------- Copy the PowerShell fallback ---------------- */
+  var copyBtn = $('#copy-btn'), copyTx = $('#copy-tx');
+  copyBtn.addEventListener('click', function () {
+    var text = $('#ps-cmd').textContent;
+    function done(ok) { copyTx.textContent = ok ? 'Copied' : 'Select and copy'; setTimeout(function () { copyTx.textContent = 'Copy'; }, 2200); }
+    function legacy() {
+      try {
+        var r = doc.createRange(); r.selectNodeContents($('#ps-cmd'));
+        var sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        done(doc.execCommand('copy'));
+      } catch (e) { done(false); }
+    }
+    try {
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(function () { done(true); }, legacy);
+      else legacy();
+    } catch (e) { legacy(); }
+  });
+})();
+</script>
+</body>
+</html>

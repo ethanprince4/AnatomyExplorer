@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en" data-design="plate" data-scheme="bristol" data-screen="atlas" data-base="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>Plate app mockups</title>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../system/schemes.css">
+<script src="../../system/schemes.js"></script>
+<script src="../shared/icons.js"></script>
+<style>
+/* ============================================================================================
+   PLATE: the screen as an atlas plate. Paper and ink, hairline rules, no shadows. The figure is
+   labelled in two margin columns, the selection is set as the plate's key, and depth reads off a
+   rule like a scale bar. Type: Atkinson Hyperlegible Next and Mono.
+   ============================================================================================ */
+:root {
+  --ui: "Atkinson Hyperlegible Next", system-ui, sans-serif; --mono: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
+  --leader: color-mix(in srgb, var(--text) 58%, transparent);
+  --col-gap: 40px; --col-spacing: 9px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--stage-bottom); }
+body { font-family: var(--ui); font-size: 15px; line-height: 22px; color: var(--text); -webkit-font-smoothing: antialiased; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.num { font-variant-numeric: tabular-nums; }
+.screen { display: none; }
+[data-screen="atlas"] [data-screen-id="atlas"], [data-screen="peel"] [data-screen-id="peel"],
+[data-screen="lesson"] [data-screen-id="lesson"], [data-screen="lessons"] [data-screen-id="lessons"],
+[data-screen="models"] [data-screen-id="models"], [data-screen="radiology"] [data-screen-id="radiology"],
+[data-screen="practice"] [data-screen-id="practice"], [data-screen="histology"] [data-screen-id="histology"],
+[data-screen="settings"] [data-screen-id="settings"] { display: block; }
+.app { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: linear-gradient(180deg, var(--stage-top), var(--stage-bottom)); }
+.i { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.6; flex: none; }
+
+/* ---------------------------------------------------------------------------------- running head */
+.head { position: absolute; left: 0; right: 0; top: 0; height: 60px; padding: 0 28px; display: flex; align-items: center; gap: 30px;
+  border-bottom: 1px solid var(--line-2); }
+.brand { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+.tabs { display: flex; gap: 26px; height: 100%; }
+.tabs a { position: relative; display: flex; align-items: center; font-weight: 600; color: var(--text-2); text-decoration: none; }
+.tabs a[aria-current] { color: var(--text); }
+.tabs a[aria-current]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--accent); }
+.find { display: flex; align-items: center; gap: 10px; width: 440px; height: 38px; padding: 0 10px 0 12px; border: 1px solid var(--line-2);
+  border-radius: 2px; background: var(--sunken); color: var(--text-3); margin-left: auto; }
+.find kbd { margin-left: auto; font: 13px var(--mono); color: var(--text-2); }
+.hb { display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--ui); color: var(--text-2); background: none; border: 0; padding: 0; }
+.hb .ct { font: 600 13px var(--mono); color: var(--accent); }
+[data-mode="dark"] .hb .ct { color: var(--accent-2); }
+
+/* ---------------------------------------------------------------------------------- columns */
+.contents { position: absolute; left: 0; top: 60px; bottom: 0; width: 300px; padding: 26px 28px; border-right: 1px solid var(--line); }
+.key { position: absolute; right: 0; top: 60px; bottom: 0; width: 430px; padding: 26px 30px; border-left: 1px solid var(--line); }
+h1.t { margin: 0; font-size: 32px; line-height: 36px; font-weight: 800; letter-spacing: -.02em; }
+.sub { margin: 6px 0 0; color: var(--text-2); }
+.sec { margin: 26px 0 10px; font-size: 13px; font-weight: 700; color: var(--text-2); }
+.list { list-style: none; padding: 0; margin: 0; }
+.list li { display: flex; align-items: center; gap: 10px; height: 30px; }
+.list li .n { margin-left: auto; font: 13px var(--mono); color: var(--text-3); }
+.list li.off { color: var(--text-3); }
+.sq { width: 15px; height: 15px; border: 1.5px solid var(--text); border-radius: 1px; display: grid; place-items: center; flex: none; }
+.sq.on { background: var(--text); }
+.sq.on::after { content: ""; width: 7px; height: 4px; border-left: 2px solid var(--stage-top); border-bottom: 2px solid var(--stage-top); transform: rotate(-45deg) translate(1px, -1px); }
+.list li.off .sq { border-color: var(--text-3); }
+.list li.cur { font-weight: 700; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { height: 28px; padding: 0 10px; display: inline-flex; align-items: center; border: 1px solid var(--line-2); border-radius: 2px; font-size: 14px; color: var(--text-2); }
+.chip.on { background: var(--text); color: var(--stage-top); border-color: var(--text); font-weight: 600; }
+.rule { border: 0; height: 1px; background: var(--line); margin: 18px 0; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 38px; padding: 0 16px; border-radius: 2px;
+  border: 1.5px solid var(--text); background: transparent; font: 600 15px var(--ui); color: var(--text); white-space: nowrap; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn.quiet { border-color: var(--line-2); color: var(--text-2); font-weight: 500; }
+.meta { font-size: 14px; line-height: 20px; color: var(--text-2); }
+.muted { color: var(--text-3); }
+dl.facts { margin: 0; display: grid; grid-template-columns: 104px 1fr; row-gap: 10px; column-gap: 14px; font-size: 15px; line-height: 22px; }
+dl.facts dt { color: var(--text-3); font-weight: 600; }
+dl.facts dd { margin: 0; }
+a.x { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+[data-mode="dark"] a.x { color: var(--accent-2); }
+
+/* ---------------------------------------------------------------------------------- the plate */
+.stage { position: absolute; left: 300px; right: 430px; top: 60px; bottom: 0; }
+.stage img.plate { position: absolute; display: block; }
+svg.leaders { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+svg.leaders .leader { fill: none; stroke: var(--leader); stroke-width: 1; }
+svg.leaders .leader.is-selected { stroke: var(--accent); stroke-width: 1.8; }
+svg.leaders .anchor { fill: var(--stage-top); stroke: var(--text); stroke-width: 1.2; r: 2.6; }
+svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--accent); r: 4; }
+.lbl { position: absolute; white-space: nowrap; font-size: 15px; line-height: 19px; font-weight: 500; color: var(--text); }
+.lbl.is-selected { font-weight: 800; color: var(--accent); }
+[data-mode="dark"] .lbl.is-selected { color: var(--accent-2); }
+.lbl .k { font: 600 13px var(--mono); color: var(--text-3); margin-right: 8px; }
+.lbl.miss { color: var(--text-2); }
+.cap { position: absolute; font-size: 15px; line-height: 22px; color: var(--text-2); }
+.cap b { color: var(--text); }
+.figno { font: 700 13px var(--mono); color: var(--text); }
+
+/* depth rule: a scale bar with the eight dissection stops */
+.depth { position: absolute; height: 60px; }
+.depth .bar { position: absolute; left: 0; right: 0; top: 18px; height: 2px; background: var(--text); }
+.depth .done { position: absolute; left: 0; top: 16px; height: 6px; background: var(--accent); }
+.depth .tick { position: absolute; top: 12px; width: 1px; height: 14px; background: var(--text); }
+.depth .tl { position: absolute; top: 32px; transform: translateX(-50%); font-size: 12.5px; color: var(--text-3); white-space: nowrap; }
+.depth .tl.cur { color: var(--text); font-weight: 700; }
+.depth .mk { position: absolute; top: -8px; transform: translateX(-50%); font: 700 13px var(--mono); color: var(--accent); }
+[data-mode="dark"] .depth .mk { color: var(--accent-2); }
+.depth .mk::after { content: ""; position: absolute; left: 50%; top: 18px; width: 12px; height: 12px; background: var(--accent); transform: translate(-50%, 0) rotate(45deg); }
+.depth .ends { position: absolute; top: -10px; font-size: 12.5px; color: var(--text-3); }
+
+.tools { position: absolute; display: flex; gap: 2px; }
+.tools button { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 10px; border: 0; background: none; font: 500 14.5px var(--ui); color: var(--text-2); border-radius: 2px; }
+.tools button.on { color: var(--text); font-weight: 700; box-shadow: inset 0 -2px 0 var(--accent); border-radius: 0; }
+
+.pinned { position: relative; }
+.pinned img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ring { position: absolute; transform: translate(-50%, -50%); width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
+  font: 700 12px var(--mono); color: #111; background: #fff; border: 1.5px solid #111; }
+.ring.sel { background: var(--accent); color: var(--on-accent); border-color: #fff; }
+table.legend { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+table.legend td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.legend td:first-child { width: 34px; font: 700 13px var(--mono); }
+.steps li { display: grid; grid-template-columns: 28px 1fr; height: auto; padding: 5px 0; }
+</style>
+</head>
+<body>
+
+<!-- ================================================================ ATLAS -->
+<section class="screen" data-screen-id="atlas">
+<div class="app">
+  <header class="head" data-chrome="atlas"></header>
+  <aside class="contents">
+    <h1 class="t">Atlas</h1><p class="sub">Muscles, anterior view</p>
+    <div class="sec">Systems</div>
+    <ul class="list">
+      <li><span class="sq on"></span>Skin &amp; surface regions<span class="n">256</span></li>
+      <li class="off"><span class="sq"></span>Fascia<span class="n">56</span></li>
+      <li class="cur"><span class="sq on"></span>Muscular system<span class="n">627</span></li>
+      <li><span class="sq on"></span>Skeletal system<span class="n">277</span></li>
+      <li><span class="sq on"></span>Joints &amp; ligaments<span class="n">413</span></li>
+      <li><span class="sq on"></span>Cardiovascular system<span class="n">676</span></li>
+      <li><span class="sq on"></span>Lymphatic system<span class="n">163</span></li>
+      <li><span class="sq on"></span>Nervous system<span class="n">582</span></li>
+      <li><span class="sq on"></span>Visceral organs<span class="n">119</span></li>
+      <li class="off"><span class="sq"></span>Muscle attachments<span class="n">705</span></li>
+    </ul>
+    <div class="sec">Quick views</div>
+    <div class="chips"><span class="chip on">Default</span><span class="chip">Skeleton</span><span class="chip">Muscles</span><span class="chip">Vessels</span><span class="chip">Nerves</span><span class="chip">Organs</span></div>
+    <div class="sec">Colours</div>
+    <div class="chips"><span class="chip on">Realistic</span><span class="chip">Segments</span><span class="chip">By system</span></div>
+  </aside>
+  <div class="stage" data-stage="columns" data-col-left="372" data-col-right="818" data-knee="90" data-col-top="40" data-col-bottom="120">
+    <img class="plate" src="../../assets/plates/hero26_sel_1f4d8c.webp" data-plate="hero26_sel_{select}" data-anchors="hero26_sel_7cc8da" style="left:425px; top:78px; height:820px" alt="Muscles of the body, anterior view, both biceps brachii selected">
+    <div class="lbl" data-col="left" data-anchor="deltoid.vl">Deltoid</div>
+    <div class="lbl" data-col="left" data-anchor="pectoralis.vl">Pectoralis major</div>
+    <div class="lbl is-selected" data-col="left" data-anchor="biceps.vl">Biceps brachii</div>
+    <div class="lbl" data-col="left" data-anchor="brachialis.vl">Brachialis</div>
+    <div class="lbl" data-col="left" data-anchor="brachioradialis.vl">Brachioradialis</div>
+    <div class="lbl" data-col="left" data-anchor="flexor_carpi_radialis.vl">Flexor carpi radialis</div>
+    <div class="lbl" data-col="left" data-anchor="sartorius.vl">Sartorius</div>
+    <div class="lbl" data-col="left" data-anchor="rectus_femoris.vl">Rectus femoris</div>
+    <div class="lbl" data-col="left" data-anchor="tibialis_anterior.vl">Tibialis anterior</div>
+    
+    <div class="lbl" data-col="right" data-anchor="serratus.vr">Serratus anterior</div>
+    <div class="lbl" data-col="right" data-anchor="rectus_abdominis.vr">Rectus abdominis</div>
+    <div class="lbl" data-col="right" data-anchor="adductor_longus.vr">Adductor longus</div>
+    <div class="lbl" data-col="right" data-anchor="vastus_lateralis.vr">Vastus lateralis</div>
+    <div class="lbl" data-col="right" data-anchor="vastus_medialis.vr">Vastus medialis</div>
+    <div class="lbl" data-col="right" data-anchor="patella.vr">Patella</div>
+    <div class="lbl" data-col="right" data-anchor="gastrocnemius.vr">Gastrocnemius</div>
+    <div class="cap" style="left:40px; bottom:104px; width:330px"><span class="figno">Fig. 1</span> Muscles of the body, anterior view, at 26% depth. <b>Biceps brachii</b> selected: both sides, 4 parts.</div>
+    <div class="depth" data-depth="0.26" style="left:120px; right:120px; bottom:20px"></div>
+    <div class="tools" style="right:24px; top:20px" data-tools></div>
+  </div>
+  <aside class="key">
+    <h2 class="t" style="margin:0; font-size:34px; line-height:38px; font-weight:800; letter-spacing:-.02em">Biceps brachii</h2>
+    <div style="font-style:italic; font-size:17px; color:var(--text-2); margin-top:4px">Musculus biceps brachii</div>
+    <div class="mono muted" style="font-size:13px; margin-top:8px">TA2 2465 · 2466 · 4 parts</div>
+    <div style="display:flex; gap:6px; margin-top:16px"><button class="btn primary">Isolate</button><button class="btn quiet">Hide</button><button class="btn quiet">X-ray</button><button class="btn quiet">Note</button></div>
+    <hr class="rule">
+    <dl class="facts">
+      <dt>Nerve</dt><dd><a class="x">Musculocutaneous nerve</a></dd>
+      <dt>Action</dt><dd>Supinates the forearm, powerfully when the elbow is flexed, and flexes the elbow. The long head helps steady the head of the humerus.</dd>
+      <dt>Blood supply</dt><dd>Muscular branches of the brachial artery; anterior circumflex humeral artery</dd>
+      <dt>Attaches</dt><dd>Both heads on the <a class="x">scapula</a>; inserts on the <a class="x">radius</a></dd>
+    </dl>
+    <hr class="rule">
+    <div class="sec" style="margin-top:0">Clinical correlations</div>
+    <ul class="list" style="font-size:15px"><li>Rupture of the long head of biceps</li><li>Biceps tendon rupture</li><li>SLAP tears of the superior labrum</li></ul>
+    <div class="sec">In 9 lessons</div>
+    <ul class="list" style="font-size:15px"><li><a class="x">The two compartments of the arm</a></li><li><a class="x">The cubital fossa</a></li><li><a class="x">The brachial plexus</a></li><li class="muted">and 6 more</li></ul>
+  </aside>
+</div>
+</section>
+
+<!-- ================================================================ PEEL -->
+<section class="screen" data-screen-id="peel">
+<div class="app">
+  <header class="head" data-chrome="atlas"></header>
+  <aside class="contents">
+    <h1 class="t">Dissection</h1><p class="sub">Deep muscles, 40%</p>
+    <div class="sec">Layers</div>
+    <ul class="list steps" data-layer-list data-depth="0.40"></ul>
+    <hr class="rule">
+    <label style="display:flex; gap:10px; align-items:center"><span class="sq"></span>Show only this layer</label>
+    <p class="meta" style="margin-top:14px">Depth is measured against how thick the body is at each point, so the hand and the thigh come away together.</p>
+  </aside>
+  <div class="stage" data-stage="columns" data-col-left="372" data-col-right="818" data-knee="110" data-col-top="40" data-col-bottom="120">
+    <img class="plate" src="../../assets/plates/peel40_ids.webp" data-plate="peel40_ids" style="left:412px; top:30px; height:870px" alt="The body dissected to 40 percent depth">
+    <div class="lbl" data-col="left" data-anchor="ribs.vl">Intercostal muscles</div>
+    <div class="lbl" data-col="left" data-anchor="liver.vl">Liver</div>
+    <div class="lbl" data-col="left" data-anchor="ascending_colon.vl">Ascending colon</div>
+    <div class="lbl" data-col="left" data-anchor="quadratus.vl">Iliacus</div>
+    <div class="lbl" data-col="left" data-anchor="rectus_femoris.vl">Rectus femoris</div>
+    <div class="lbl" data-col="left" data-anchor="tibia.vl">Tibia</div>
+    <div class="lbl" data-col="right" data-anchor="heart.vr">Heart</div>
+    <div class="lbl" data-col="right" data-anchor="stomach.vr">Stomach</div>
+    <div class="lbl" data-col="right" data-anchor="transverse_colon.vr">Transverse colon</div>
+    <div class="lbl" data-col="right" data-anchor="smallint.vr">Jejunum</div>
+    <div class="lbl" data-col="right" data-anchor="descending_colon.vr">Descending colon</div>
+    <div class="lbl" data-col="right" data-anchor="adductor.vr">Adductor magnus</div>
+    <div class="cap" style="left:40px; bottom:104px; width:330px"><span class="figno">Fig. 2</span> The same body at 40% depth. 1,587 structures are peeled away; 1,526 remain.</div>
+    <div class="depth" data-depth="0.40" style="left:120px; right:120px; bottom:20px"></div>
+    <div class="tools" style="right:24px; top:20px" data-tools></div>
+  </div>
+  <aside class="key">
+    <h2 class="t" style="margin:0; font-size:34px; line-height:38px; font-weight:800">Deep muscles</h2>
+    <div class="mono muted" style="font-size:13px; margin-top:8px">40–55% deep</div>
+    <hr class="rule">
+    <p style="margin:0 0 14px; font-size:16px; line-height:25px">The superficial muscles are peeled away. The ribcage, the abdominal organs and the deep muscles of the limbs are exposed.</p>
+    <div style="display:flex; gap:8px"><button class="btn quiet"><svg class="i"><use href="#i-back"/></svg>Superficial muscles</button><button class="btn quiet">Skeleton &amp; joints<svg class="i"><use href="#i-chevron"/></svg></button></div>
+    <p class="meta" style="margin-top:10px">Step with <span class="mono">[</span> and <span class="mono">]</span>.</p>
+  </aside>
+</div>
+</section>
+
+<!-- ================================================================ LESSON -->
+<section class="screen" data-screen-id="lesson">
+<div class="app">
+  <header class="head" data-chrome="lessons"></header>
+  <aside class="contents">
+    <div class="meta">Cardiovascular · Advanced · 12 min</div>
+    <h1 class="t" style="font-size:26px; line-height:31px; margin-top:6px">The coronary circulation</h1>
+    <div class="sec">Steps</div>
+    <ol class="list steps" style="font-size:15px">
+      <li><span class="mono muted">1</span>Where they start</li>
+      <li style="font-weight:800"><span class="mono" style="color:var(--accent)">2</span>The left coronary artery</li>
+      <li><span class="mono muted">3</span>The right coronary artery</li>
+      <li><span class="mono muted">4</span>Dominance</li>
+      <li><span class="mono muted">5</span>Veins</li>
+      <li><span class="mono muted">6</span>Reading the infarct off the ECG</li>
+      <li><span class="mono muted">7</span>An infarct can upset a valve without injuring its leaflets</li>
+    </ol>
+  </aside>
+  <div style="position:absolute; left:300px; top:60px; bottom:0; width:600px; padding:30px 44px; border-right:1px solid var(--line)">
+    <div class="mono muted" style="font-size:13px">Step 2 of 7</div>
+    <h2 style="margin:6px 0 20px; font-size:34px; line-height:40px; font-weight:800; letter-spacing:-.02em">The left coronary artery</h2>
+    <p style="margin:0 0 16px; font-size:17px; line-height:28px">A short left main stem passes between the pulmonary trunk and the left auricle and divides almost at once.</p>
+    <p style="margin:0 0 16px; font-size:17px; line-height:28px">The <b>anterior interventricular branch</b> (LAD) runs down the front of the septum to the apex, supplying the anterior wall of the left ventricle, the apex and the <b>anterior two thirds of the interventricular septum</b>, including the bundle branches. The <b>circumflex branch</b> curls round in the left atrioventricular groove to supply the lateral and posterior left ventricle.</p>
+    <p style="margin:0 0 22px; font-size:15px; line-height:23px; color:var(--text-2)"><b style="color:var(--text)">Clinical note.</b> The LAD is sometimes called the “widow-maker”: it supplies the largest territory, and its proximal occlusion takes out the anterior wall and the conducting system together.</p>
+    <div style="border:1.5px solid var(--text); padding:18px 20px">
+      <div class="meta">Recall it first, then show the answer</div>
+      <div style="font-size:19px; line-height:27px; font-weight:700; margin:6px 0 14px">Which artery supplies the anterior two thirds of the interventricular septum?</div>
+      <button class="btn primary">Show answer</button>
+    </div>
+    <div style="position:absolute; left:44px; right:44px; bottom:26px; display:flex; gap:8px"><button class="btn quiet"><svg class="i"><use href="#i-back"/></svg>Back</button><span style="flex:1"></span><button class="btn quiet">Next step<svg class="i"><use href="#i-chevron"/></svg></button></div>
+  </div>
+  <div class="stage" data-stage="columns" style="left:900px; right:0" data-col-left="190" data-col-right="700" data-knee="120" data-col-top="120" data-col-bottom="90">
+    <img class="plate" src="../../assets/plates/heart_lesson_1f4d8c.webp" data-plate="heart_lesson_{select}" style="left:110px; top:84px; height:820px" alt="The whole heart with the left coronary artery and its branches highlighted">
+    <div class="lbl is-selected" data-col="right" data-anchor="lmain">Left coronary artery</div>
+    <div class="lbl is-selected" data-col="right" data-anchor="lcx">Circumflex artery</div>
+    <div class="lbl is-selected" data-col="right" data-anchor="lad">Anterior interventricular artery</div>
+    <div class="cap" style="left:40px; bottom:24px; width:900px"><span class="figno">Fig. 3</span> Heart, anterior view, true scale. The lesson set this view: chamber walls in x-ray, the left coronary artery and its two branches selected.</div>
+    <div class="tools" style="right:24px; top:20px" data-tools data-kind="model"></div>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================ LESSONS -->
+<section class="screen" data-screen-id="lessons">
+<div class="app">
+  <header class="head" data-chrome="lessons"></header>
+  <aside class="contents">
+    <h1 class="t">Lessons</h1><p class="sub">303 lessons in 1,614 steps</p>
+    <div class="sec">Arranged by</div>
+    <ul class="list"><li class="cur">Lab course</li><li>Lecture exams</li><li>Body system</li><li>Region</li><li>Level</li></ul>
+    <hr class="rule">
+    <div class="sec" style="margin-top:0">Review</div>
+    <div style="font-size:15px; line-height:22px"><b class="mono" style="font-size:22px">12</b> structures are due today, from your practice answers.</div>
+    <button class="btn primary" style="margin-top:12px; width:100%">Review what is due</button>
+  </aside>
+  <div style="position:absolute; left:300px; right:0; top:60px; bottom:0; padding:30px 44px">
+    <div style="display:grid; grid-template-columns:1fr 340px; gap:40px; align-items:end; border-bottom:1.5px solid var(--text); padding-bottom:20px">
+      <div><div class="meta">Continue where you left off</div><div style="font-size:30px; line-height:36px; font-weight:800; letter-spacing:-.02em; margin-top:4px">The coronary circulation</div><div class="meta">Step 2 of 7 · The left coronary artery · Cardiovascular · Advanced</div></div>
+      <div style="display:flex; justify-content:flex-end; gap:8px"><button class="btn quiet">Quiz me</button><button class="btn primary">Continue</button></div>
+    </div>
+    <table class="legend" style="margin-top:8px; font-size:16px">
+      <tbody data-lab-rows></tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================ MODELS -->
+<section class="screen" data-screen-id="models">
+<div class="app">
+  <header class="head" data-chrome="models"></header>
+  <aside class="contents">
+    <h1 class="t">Models</h1><p class="sub">41 models, one viewer</p>
+    <div class="sec">Show</div>
+    <ul class="list"><li class="cur">All<span class="n">41</span></li><li>Built for this app<span class="n">3</span></li><li>Organs<span class="n">11</span></li><li>Tissue blocks<span class="n">24</span></li><li>Cells<span class="n">3</span></li></ul>
+    <div class="sec">Sort</div>
+    <div class="chips"><span class="chip on">By system</span><span class="chip">A–Z</span></div>
+  </aside>
+  <div data-figures style="position:absolute; left:300px; right:430px; top:60px; padding:24px 34px; display:grid; grid-template-columns:repeat(4, 1fr); gap:28px 24px"></div>
+  <aside class="key">
+    <div style="height:300px; display:grid; place-items:center; border-bottom:1px solid var(--line); margin:-26px -30px 18px; padding:18px">
+      <img src="../../assets/plates/kidney_v_kidney.webp" style="max-height:260px; max-width:340px" alt="The kidney with its vessels and ureter"></div>
+    <h2 style="margin:0; font-size:30px; line-height:34px; font-weight:800; letter-spacing:-.02em">Kidney with the nephron</h2>
+    <div class="mono muted" style="font-size:13px; margin-top:6px">Built for this app · true scale</div>
+    <p style="margin:14px 0; font-size:16px; line-height:25px">The kidney, adrenal, vessels and ureter, with a juxtamedullary nephron in place. Eight stored views zoom smoothly from the whole organ down to the podocytes.</p>
+    <div class="sec">Stored views</div>
+    <ol class="list steps" style="font-size:15px; columns:2"><li><span class="mono muted">1</span>Kidney</li><li><span class="mono muted">2</span>Lobe opened</li><li><span class="mono muted">3</span>Lobe</li><li><span class="mono muted">4</span>Nephron</li><li><span class="mono muted">5</span>Corpuscle</li><li><span class="mono muted">6</span>JG apparatus</li><li><span class="mono muted">7</span>Podocytes</li><li><span class="mono muted">8</span>Loop of Henle</li></ol>
+    <div style="display:flex; gap:8px; margin-top:20px"><button class="btn primary" style="flex:1">Open model</button><button class="btn quiet">6 lessons</button></div>
+  </aside>
+</div>
+</section>
+
+<!-- ================================================================ RADIOLOGY -->
+<section class="screen" data-screen-id="radiology">
+<div class="app">
+  <header class="head" data-chrome="radiology"></header>
+  <aside class="contents">
+    <div class="meta" style="display:flex; gap:6px; align-items:center"><svg class="i" style="width:15px;height:15px"><use href="#i-back"/></svg>All 104 cases</div>
+    <h1 class="t" style="font-size:28px; line-height:33px; margin-top:8px">Chest radiograph, PA</h1>
+    <p class="sub">X-ray · Thorax · PA projection · Normal anatomy</p>
+    <div class="sec">How to read it</div>
+    <ol class="list steps" style="font-size:14.5px; line-height:21px">
+      <li><span class="mono muted">1</span>Adequacy: rotation, inspiration, penetration.</li>
+      <li><span class="mono muted">2</span>Trachea, then the mediastinal borders in order.</li>
+      <li><span class="mono muted">3</span>Hila: the left 1–2 cm higher.</li>
+      <li><span class="mono muted">4</span>Both domes of the diaphragm sharp; angles crisp.</li>
+      <li><span class="mono muted">5</span>Lung fields zone by zone, then bones.</li>
+    </ol>
+    <div style="display:flex; gap:8px; margin-top:22px"><button class="btn quiet"><svg class="i"><use href="#i-back"/></svg>Previous</button><button class="btn quiet">Next case<svg class="i"><use href="#i-chevron"/></svg></button></div>
+  </aside>
+  <div class="pinned" style="position:absolute; left:340px; top:96px; width:620px; aspect-ratio:1280/1464">
+    <img src="../../assets/images/cxr_pa.jpg" alt="Normal posteroanterior chest radiograph">
+    <div data-film-rings></div>
+  </div>
+  <div class="cap" style="left:340px; top:822px; width:620px"><span class="figno">Fig. 4A</span> PA chest radiograph. Image: Mikael Häggström, CC0, Wikimedia Commons.</div>
+  <div class="stage" data-stage="columns" style="left:990px; right:0" data-col-left="190" data-col-right="740" data-knee="100" data-col-top="40" data-col-bottom="260">
+    <img class="plate" src="../../assets/plates/cxr_model.webp" data-plate="cxr_model" style="left:200px; top:40px; height:690px" alt="The thorax set up like the film">
+    <div class="lbl" data-col="left" data-anchor="c1.vl"><span class="k">1</span>Trachea</div>
+    <div class="lbl" data-col="left" data-anchor="c2.vl"><span class="k">2</span>Right clavicle</div>
+    <div class="lbl" data-col="left" data-anchor="c4.vl"><span class="k">4</span>Right humeral head</div>
+    <div class="lbl" data-col="left" data-anchor="c3.vl"><span class="k">3</span>Right scapula</div>
+    <div class="lbl is-selected" data-col="left" data-anchor="c7.vl"><span class="k">7</span>Right atrium</div>
+    <div class="lbl" data-col="left" data-anchor="c12.vl"><span class="k">12</span>Right hemidiaphragm</div>
+    <div class="lbl" data-col="right" data-anchor="c17.vr"><span class="k">17</span>Left lung</div>
+    <div class="lbl" data-col="right" data-anchor="c8.vr"><span class="k">8</span>Heart, left border</div>
+    <div class="lbl" data-col="right" data-anchor="c13.vr"><span class="k">13</span>Left hemidiaphragm</div>
+    <div class="cap" style="left:40px; top:752px; width:880px"><span class="figno">Fig. 4B</span> The thorax set up the same way: lungs, heart and great vessels solid, the ribcage translucent. It shows the related anatomy; it is not fitted to this image.</div>
+    <table class="legend" style="position:absolute; left:40px; right:40px; top:830px">
+      <tr><td>7</td><td><b>Right atrium</b>: the whole right heart border</td><td>12</td><td>Right hemidiaphragm: higher than the left, the liver is under it</td></tr>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================ PRACTICE -->
+<section class="screen" data-screen-id="practice">
+<div class="app">
+  <header class="head" data-chrome="lessons"></header>
+  <aside class="contents">
+    <h1 class="t" style="font-size:26px; line-height:31px">Lab 6 practice</h1><p class="sub">Pressure, volume and a breath</p>
+    <div class="sec">This session</div>
+    <div class="mono" style="font-size:28px; line-height:34px; font-weight:700">3 / 12</div>
+    <p class="meta">correct so far, none missed</p>
+    <div style="display:flex; gap:4px; margin-top:12px" data-qbar></div>
+    <hr class="rule">
+    <p class="meta">Labels are off while you practise. Right-click peels a structure away; Ctrl+Z puts it back.</p>
+  </aside>
+  <div class="stage" data-stage="tags" style="overflow:hidden">
+    <img class="plate" src="../../assets/plates/thorax_chest.webp" data-plate="thorax_chest" style="left:78px; top:-60px; height:1180px" alt="The front of the chest with pectoralis major and minor peeled away: ribs, intercostal muscles and serratus anterior">
+    <div class="lbl miss" data-anchor="serratus.vr" data-dx="178" data-dy="-60"><span class="k">×</span>Serratus anterior</div>
+  </div>
+  <aside class="key">
+    <div class="mono muted" style="font-size:13px">Question 4 of 12 · find it</div>
+    <h2 style="margin:8px 0 10px; font-size:34px; line-height:40px; font-weight:800; letter-spacing:-.02em">External intercostal muscles</h2>
+    <p style="margin:0 0 18px; font-size:16px; line-height:25px; color:var(--text-2)">Click it in the model.</p>
+    <div style="border:1.5px solid var(--text); padding:14px 16px; font-size:16px; line-height:24px"><b>Not that one:</b> that is serratus anterior. 2 tries left.<br><span class="meta">You have peeled away pectoralis major and pectoralis minor.</span></div>
+    <div style="display:flex; gap:8px; margin-top:18px"><button class="btn quiet">Show me</button><span style="flex:1"></span><button class="btn quiet">Skip</button></div>
+  </aside>
+</div>
+</section>
+
+<!-- ================================================================ HISTOLOGY -->
+<section class="screen" data-screen-id="histology">
+<div class="app">
+  <header class="head" data-chrome="histology"></header>
+  <aside class="contents">
+    <h1 class="t">Histology</h1><p class="sub">101 tissues · 1,049 micrographs</p>
+    <div class="sec">Epithelium</div>
+    <ul class="list"><li>Simple squamous<span class="n">11</span></li><li>Simple cuboidal<span class="n">12</span></li><li class="cur">Simple columnar<span class="n">13</span></li><li>Pseudostratified<span class="n">12</span></li><li>Stratified squamous<span class="n">4</span></li><li>Transitional<span class="n">5</span></li></ul>
+    <div class="sec">Connective tissue</div>
+    <ul class="list"><li>Loose<span class="n">12</span></li><li>Dense regular<span class="n">13</span></li><li>Adipose<span class="n">11</span></li><li>Hyaline cartilage<span class="n">14</span></li></ul>
+  </aside>
+  <div class="pinned" style="position:absolute; left:340px; top:96px; height:780px; aspect-ratio:4/3">
+    <img src="../../assets/images/histo_simple_columnar.jpg" alt="Simple columnar epithelium around a large central lumen">
+    <span class="ring" style="left:50%; top:25%">1</span><span class="ring sel" style="left:80%; top:35%">2</span><span class="ring" style="left:57.5%; top:78.7%">3</span><span class="ring" style="left:45%; top:94%">4</span>
+  </div>
+  <div class="cap" style="left:340px; top:888px; width:1040px"><span class="figno">Fig. 5</span> Simple columnar epithelium around a large central lumen, H&amp;E. Micrograph 1 of 13. Echinaceapallida, CC BY-SA 4.0, Wikimedia Commons.</div>
+  <div data-strip style="position:absolute; left:340px; top:940px; display:flex; gap:10px"></div>
+  <aside class="key">
+    <h2 style="margin:0; font-size:30px; line-height:34px; font-weight:800; letter-spacing:-.02em">Simple columnar epithelium</h2>
+    <hr class="rule">
+    <table class="legend"><tr><td>1</td><td>Lumen</td></tr><tr><td>2</td><td><b>Columnar epithelial cells</b></td></tr><tr><td>3</td><td>Nucleus</td></tr><tr><td>4</td><td>Connective tissue</td></tr></table>
+    <p style="margin:18px 0 12px; font-size:16px; line-height:25px">A single layer of tall cells with oval nuclei near their bases: pink cytoplasm, purple nuclei.</p>
+    <p class="meta"><b style="color:var(--text)">Look for</b> one layer of tall cells with basal nuclei, and the thin wall of connective tissue around the tube.</p>
+    <div style="display:flex; gap:8px; margin-top:18px"><button class="btn quiet"><svg class="i"><use href="#i-cube"/></svg>Jejunum model</button><button class="btn quiet">4 lessons</button></div>
+  </aside>
+</div>
+</section>
+
+<!-- ================================================================ SETTINGS -->
+<section class="screen" data-screen-id="settings">
+<div class="app">
+  <header class="head" data-chrome="atlas"></header>
+  <aside class="contents">
+    <h1 class="t">Settings</h1>
+    <ul class="list" style="margin-top:18px"><li>Mouse &amp; camera</li><li class="cur">Paper &amp; ink</li><li>Labels &amp; display</li><li>Behaviour</li><li>Keyboard</li></ul>
+  </aside>
+  <div style="position:absolute; left:300px; right:0; top:60px; bottom:0; padding:30px 44px">
+    <h2 style="margin:0; font-size:30px; font-weight:800; letter-spacing:-.02em">Paper &amp; ink</h2>
+    <p style="margin:8px 0 24px; font-size:16px; color:var(--text-2); max-width:70ch">The paper the figure is printed on, and the inks for text and selection. Model materials, films and micrographs keep their real colours on every paper.</p>
+    <div data-scheme-grid style="display:grid; grid-template-columns:repeat(4, 1fr); gap:24px"></div>
+  </div>
+</div>
+</section>
+
+<script>
+(function () {
+  { const q = new URLSearchParams(location.search); const R = document.documentElement;
+    if (q.get('scheme')) R.dataset.scheme = q.get('scheme'); if (q.get('screen')) R.dataset.screen = q.get('screen');
+    const info = window.LH_SCHEMES[R.dataset.design].schemes[R.dataset.scheme]; if (info) R.dataset.mode = info.mode; }
+  const root = document.documentElement;
+  const NAV = [['atlas', 'Atlas'], ['lessons', 'Lessons'], ['models', 'Models'], ['radiology', 'Radiology'], ['histology', 'Histology']];
+  const mark = `<svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true" fill="none">
+      <rect x="1" y="5" width="20" height="12" rx="2" stroke="var(--text)" stroke-width="1.6"/>
+      <path d="M21 11h7" stroke="var(--text)" stroke-width="1.4"/><circle cx="30" cy="11" r="2.6" fill="var(--accent)"/>
+      <path d="M6 11h10" stroke="var(--text)" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+  document.querySelectorAll('[data-chrome]').forEach(el => {
+    const cur = el.dataset.chrome;
+    el.innerHTML = `<div class="brand">${mark}Layered Human</div><nav class="tabs">` +
+      NAV.map(([k, v]) => `<a ${k === cur ? 'aria-current="page"' : ''}>${v}</a>`).join('') + `</nav>
+      <div class="find"><svg class="i"><use href="#i-search"/></svg>Search structures, lessons, cases<kbd>Ctrl K</kbd></div>
+      <button class="hb">Review <span class="ct">12</span></button><button class="hb">Saved views</button>
+      <button class="hb" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>`;
+  });
+  document.querySelectorAll('[data-tools]').forEach(el => {
+    const model = el.dataset.kind === 'model';
+    el.innerHTML = `<button><svg class="i"><use href="#i-section"/></svg>Section</button><button class="${model ? 'on' : ''}"><svg class="i"><use href="#i-xray"/></svg>X-ray</button>
+      <button><svg class="i"><use href="#i-isolate"/></svg>Isolate</button><button><svg class="i"><use href="#i-hide"/></svg>Hide</button>
+      <button><svg class="i"><use href="#i-measure"/></svg>Measure</button><button class="on"><svg class="i"><use href="#i-labels"/></svg>Labels</button>
+      <button><svg class="i"><use href="#i-reset"/></svg>Reset view</button>`;
+  });
+  const STOPS = [[0.00, 'Skin'], [0.08, 'Sup. fascia'], [0.16, 'Deep fascia'], [0.26, 'Sup. muscles'], [0.40, 'Deep muscles'],
+                 [0.55, 'Skeleton'], [0.70, 'Cavities'], [0.85, 'Deepest']];
+  const FULL = ['Skin surface', 'Superficial fascia', 'Deep fascia', 'Superficial muscles', 'Deep muscles', 'Skeleton & joints', 'Body cavities', 'Deepest structures'];
+  document.querySelectorAll('.depth').forEach(el => {
+    const d = parseFloat(el.dataset.depth);
+    let cur = 0; STOPS.forEach(([lv], i) => { if (d >= lv - 1e-6) cur = i; });
+    el.innerHTML = `<span class="ends" style="left:0">Superficial</span><span class="ends" style="right:0">Deep</span><div class="bar"></div>
+      <div class="done" style="width:${d * 100}%"></div>` +
+      STOPS.map(([lv, n], i) => `<div class="tick" style="left:${lv * 100}%"></div><div class="tl ${i === cur ? 'cur' : ''}" style="left:${(lv + ((i + 1 < STOPS.length ? STOPS[i + 1][0] : 1) - lv) / 2) * 100}%">${n}</div>`).join('') +
+      `<div class="mk" style="left:${d * 100}%">${Math.round(d * 100)}%</div>`;
+  });
+  document.querySelectorAll('[data-layer-list]').forEach(el => {
+    const d = parseFloat(el.dataset.depth);
+    let cur = 0; STOPS.forEach(([lv], i) => { if (d >= lv - 1e-6) cur = i; });
+    el.innerHTML = FULL.map((n, i) => `<li style="${i === cur ? 'font-weight:800' : i < cur ? 'color:var(--text-3)' : ''}">
+      <span class="mono" style="color:${i === cur ? 'var(--accent)' : 'var(--text-3)'}">${Math.round(STOPS[i][0] * 100)}</span>${n.replace('&', '&amp;')}</li>`).join('');
+  });
+  const LABS = [['Lab 1', 'Nerve physiology, reflexes & general senses', 'The reflex arc · Stretch reflexes · Skin receptors', 9, 9],
+    ['Lab 2', 'Eye, ear, hearing & balance', 'Tunics of the eyeball · The inner ear and the cochlea', 8, 11],
+    ['Lab 3', 'Blood & heart structure', 'The blood smear · Chambers and the path of blood', 4, 10],
+    ['Lab 4', 'ECG & heart function', 'The conduction system · Einthoven’s triangle', 0, 8],
+    ['Lab 5', 'Blood vessels & circulation', 'The circle of Willis · The hepatic portal system', 0, 13],
+    ['Practical 1', 'Lab practical 1: Labs 1–5', 'Review lessons and a practice exam', 0, 9],
+    ['Lab 6', 'Respiratory structure & ventilation', 'Trachea and bronchial tree · Lung volumes', 0, 9],
+    ['Lab 7', 'Exercise physiology & pulmonary health', 'FEV1 and vital capacity · The step test', 0, 5],
+    ['Lab 8', 'Digestive & urinary anatomy', 'The gut wall and the peritoneum · The liver', 0, 16],
+    ['Lab 9', 'Reproductive systems & early development', 'The ovary · Fertilisation and the first weeks', 0, 12],
+    ['Practical 2', 'Lab practical 2: Labs 6–9', 'Review lessons and a practice exam', 0, 7]];
+  document.querySelectorAll('[data-lab-rows]').forEach(el => {
+    el.innerHTML = LABS.map(([no, t, s, d, n]) => `<tr style="height:66px"><td style="width:120px; font:700 14px var(--mono); padding-top:12px">${no}</td>
+      <td style="padding-top:10px"><b style="font-size:17px">${t.replace('&', '&amp;')}</b><br><span class="meta">${s}</span></td>
+      <td style="width:260px; padding-top:20px"><div style="height:2px; background:var(--line-2); position:relative"><i style="position:absolute; left:0; top:-1px; height:4px; width:${d / n * 100}%; background:var(--accent)"></i></div></td>
+      <td style="width:110px; text-align:right; padding-top:12px" class="mono">${d}/${n}</td></tr>`).join('');
+  });
+  const FIGS = [['heart_home_clean', 'Heart', 'True scale · 119 parts'], ['kidney_v_kidney', 'Kidney with the nephron', 'True scale · 8 views'],
+    ['cardiac_muscle', 'Cardiac muscle', '48 cells'], ['thumb_eyeball', 'Eye', 'Muscles, lids, lacrimal'], ['thumb_ear', 'Ear', 'External to inner'],
+    ['thumb_tooth', 'Tooth', 'A molar in its socket'], ['thumb_compact_bone', 'Compact bone', 'Osteons'], ['thumb_hepatobiliary', 'Liver and bile ducts', 'Gross organs'],
+    ['thumb_liver_lobule', 'Liver lobule', 'Tissue block'], ['thumb_lymph_node', 'Lymph node', 'Coronal section'], ['thumb_thin_skin', 'Thin skin', 'Tissue block'],
+    ['thumb_blood_cells', 'Blood cells', 'As in a smear']];
+  document.querySelectorAll('[data-figures]').forEach(el => {
+    el.innerHTML = FIGS.map(([p, n, d], i) => `<figure style="margin:0">
+      <div style="height:170px; display:grid; place-items:center; ${i === 1 ? 'outline:2px solid var(--accent); outline-offset:6px' : ''}"><img src="../../assets/plates/${p}.webp" style="max-width:100%; max-height:160px" alt=""></div>
+      <figcaption style="margin-top:12px; font-size:15px; line-height:21px"><span class="figno">${String(i + 1).padStart(2, '0')}</span>&nbsp; <b>${n}</b><br><span class="meta">${d}</span></figcaption></figure>`).join('');
+  });
+  const CXR = [[.465, .1], [.2, .13], [.155, .28], [.085, .115], [.43, .215], [.545, .56], [.435, .62], [.715, .68], [.36, .465],
+               [.6, .435], [.22, .45], [.275, .785], [.745, .835], [.105, .825], [.895, .865], [.235, .62], [.775, .6], [.49, .42]];
+  document.querySelectorAll('[data-film-rings]').forEach(el => {
+    el.innerHTML = CXR.map(([x, y], i) => `<span class="ring ${i === 6 ? 'sel' : ''}" style="left:${x * 100}%; top:${y * 100}%">${i + 1}</span>`).join('');
+  });
+  document.querySelectorAll('[data-strip]').forEach(el => {
+    el.innerHTML = Array.from({ length: 13 }, (_, i) => `<img src="../../assets/images/histo_sc_${String(i + 1).padStart(2, '0')}.jpg" alt=""
+      style="width:72px; height:54px; object-fit:cover; ${i === 0 ? 'outline:2px solid var(--accent); outline-offset:3px' : ''}">`).join('');
+  });
+  document.querySelectorAll('[data-qbar]').forEach(el => {
+    el.innerHTML = Array.from({ length: 12 }, (_, i) => `<i style="flex:1; height:6px; background:${i < 3 ? 'var(--text)' : i === 3 ? 'var(--accent)' : 'var(--line)'}"></i>`).join('');
+  });
+  document.querySelectorAll('[data-scheme-grid]').forEach(el => {
+    const d = root.dataset.design, all = window.LH_SCHEMES[d].schemes;
+    el.innerHTML = Object.entries(all).map(([k, s]) => `<div data-design="${d}" data-scheme="${k}" data-mode="${s.mode}">
+      <div style="position:relative; height:260px; background:var(--stage-top); border:1px solid var(--line-2); ${k === root.dataset.scheme ? 'outline:2px solid ' + all[root.dataset.scheme].accent + '; outline-offset:4px' : ''}">
+        <img src="../../assets/plates/hero26_sel_${s.select.slice(1)}.webp" style="position:absolute; left:50%; top:16px; height:230px; transform:translateX(-50%)" alt="">
+        <div style="position:absolute; left:14px; top:40px; font:700 12px var(--ui); color:var(--accent)">Biceps brachii</div>
+        <div style="position:absolute; left:14px; top:60px; font:500 12px var(--ui); color:var(--text)">Deltoid</div>
+        <div style="position:absolute; right:14px; top:52px; font:500 12px var(--ui); color:var(--text)">Pectoralis</div>
+      </div>
+      <div style="display:flex; justify-content:space-between; margin-top:10px; color:var(--text)"><b>${s.name}</b>
+        <span style="display:flex; gap:5px">${['stage_top', 'text', 'accent'].map(t => `<i style="width:14px; height:14px; background:${s[t]}; border:1px solid ${s.line_2}"></i>`).join('')}</span></div>
+    </div>`).join('');
+  });
+})();
+</script>
+<script src="../../assets/plates/plates.js"></script>
+<script src="../shared/mock.js"></script>
+</body>
+</html>

@@ -1,0 +1,1531 @@
+<!doctype html>
+<html lang="en" data-design="specimen" data-scheme="slate" data-mode="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layered Human: a free 3D anatomy atlas</title>
+<meta name="description" content="Peel the body from skin to bone. Free 3D anatomy for Windows and Mac. Works offline.">
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../system/schemes.css">
+<script src="../../system/schemes.js"></script>
+<script src="../../assets/plates/plates.js"></script>
+<script>
+  /* Pick the wall colour before first paint: ?scheme= first, then the saved choice, then slate. */
+  (function () {
+    var d = document.documentElement, S = (window.LH_SCHEMES && LH_SCHEMES.specimen.schemes) || {}, k = null;
+    try { k = new URLSearchParams(location.search).get('scheme'); } catch (e) {}
+    if (!k || !S[k]) { try { k = localStorage.getItem('lh-specimen-scheme'); } catch (e) {} }
+    if (!k || !S[k]) k = 'slate';
+    d.setAttribute('data-scheme', k);
+    if (S[k]) d.setAttribute('data-mode', S[k].mode);
+    d.classList.add('js');
+  })();
+</script>
+<style>
+/* ---------- Base ---------- */
+:root {
+  --gutter: clamp(16px, 4.4vw, 64px);
+  --maxw: 1312px;
+  --head-h: 72px;
+  --serif: 'Literata', Georgia, serif;
+  --sans: 'Fira Sans', system-ui, sans-serif;
+  --mono: 'Atkinson Hyperlegible Mono', ui-monospace, monospace;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --slow: 1.1s;
+}
+[data-mode="dark"] {
+  --shadow-card: 0 1px 1px color-mix(in srgb, var(--stage-bottom) 70%, transparent),
+                 0 18px 36px -12px color-mix(in srgb, var(--stage-bottom) 95%, transparent);
+  --shadow-print: 0 2px 4px color-mix(in srgb, var(--stage-bottom) 60%, transparent),
+                  0 30px 60px -24px color-mix(in srgb, var(--stage-bottom) 100%, transparent);
+}
+[data-mode="light"] {
+  --shadow-card: 0 1px 2px color-mix(in srgb, var(--text) 12%, transparent),
+                 0 16px 32px -14px color-mix(in srgb, var(--text) 26%, transparent);
+  --shadow-print: 0 2px 4px color-mix(in srgb, var(--text) 10%, transparent),
+                  0 28px 56px -26px color-mix(in srgb, var(--text) 30%, transparent);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  background: var(--stage-bottom);
+  scrollbar-color: var(--line-2) var(--stage-bottom);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  font: 400 17px/1.6 var(--sans);
+  color: var(--text-2);
+  caret-color: var(--accent);
+  font-variant-numeric: lining-nums;
+}
+/* The wall: one fixed wash of the stage colour, lit from above. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(180deg, var(--stage-top) 0%, var(--stage-bottom) 100%);
+}
+::selection { background: var(--accent); color: var(--on-accent); }
+::-webkit-scrollbar { width: 12px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--stage-bottom); }
+::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 6px; border: 3px solid var(--stage-bottom); }
+img { display: block; max-width: 100%; }
+a {
+  color: var(--text);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  text-underline-offset: .24em;
+  transition: text-decoration-color .2s, color .2s;
+}
+a:hover { text-decoration-color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tnum, .num { font-variant-numeric: tabular-nums lining-nums; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip {
+  position: absolute; left: 16px; top: -60px; z-index: 100;
+  background: var(--accent); color: var(--on-accent); padding: 10px 16px; border-radius: 4px;
+  font-weight: 600; text-decoration: none;
+}
+.skip:focus { top: 12px; }
+p { margin: 0 0 1em; text-wrap: pretty; }
+strong { color: var(--text); font-weight: 600; }
+.i {
+  width: 20px; height: 20px; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+}
+section[id], [id="mac"], [id="windows"] { scroll-margin-top: calc(var(--head-h) + 16px); }
+
+/* ---------- Type ---------- */
+h1, h2, .h-serif {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-variation-settings: "opsz" 72;
+  color: var(--text);
+  text-wrap: balance;
+  margin: 0;
+}
+h1 {
+  font-weight: 340;
+  font-size: clamp(42px, 4.9vw, 72px);
+  line-height: 1.03;
+  letter-spacing: -0.024em;
+}
+h2 {
+  font-weight: 340;
+  font-size: clamp(32px, 3.5vw, 52px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+h3 { font: 600 17px/1.4 var(--sans); color: var(--text); margin: 0 0 10px; }
+.h3-serif {
+  font: 380 clamp(24px, 2.2vw, 30px)/1.15 var(--serif);
+  letter-spacing: -0.012em;
+  color: var(--text);
+  margin: 0 0 14px;
+}
+.prose { max-width: 62ch; }
+.prose p:last-child { margin-bottom: 0; }
+.more {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-weight: 500; text-decoration: none; color: var(--text);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  padding-bottom: 2px;
+}
+.more:hover { border-bottom-color: var(--accent); }
+.more .i { width: 18px; height: 18px; color: var(--accent); transition: transform .3s var(--ease); }
+.more:hover .i { transform: translateX(3px); }
+.small-note { font-size: 14px; color: var(--text-3); }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 48px; padding: 0 22px 0 18px;
+  border-radius: 4px; border: 1px solid transparent;
+  font: 600 16px/1 var(--sans); letter-spacing: .005em;
+  text-decoration: none; cursor: pointer;
+  transition: background-color .2s, border-color .2s, color .2s, transform .2s var(--ease);
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-primary:hover { background: var(--accent-2); }
+.btn-quiet { background: transparent; color: var(--text); border-color: var(--line-2); }
+.btn-quiet:hover { border-color: var(--text-3); background: color-mix(in srgb, var(--text) 6%, transparent); }
+
+/* ---------- Header ---------- */
+.site-head {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  height: var(--head-h);
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding-inline: var(--gutter);
+  transition: background-color .4s, box-shadow .4s;
+}
+.site-head.is-scrolled {
+  background: color-mix(in srgb, var(--stage-top) 96%, transparent);
+  box-shadow: 0 1px 0 var(--line);
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 12px;
+  font: 400 22px/1 var(--serif); letter-spacing: -0.01em;
+  color: var(--text); text-decoration: none;
+}
+.mark { width: 30px; height: 30px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.mark .core { stroke: var(--accent); }
+.mark .cut { stroke-width: 1.1; opacity: .55; }
+.head-right { display: flex; align-items: center; gap: 28px; }
+.rooms-nav ul { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; }
+.rooms-nav a {
+  position: relative; display: block; padding: 8px 0;
+  font-size: 15px; color: var(--text-2); text-decoration: none;
+}
+.rooms-nav a::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 2px;
+  background: var(--accent); transform: scaleX(0); transform-origin: left;
+  transition: transform .45s var(--ease);
+}
+.rooms-nav a:hover { color: var(--text); }
+.rooms-nav a[aria-current="true"] { color: var(--text); }
+.rooms-nav a[aria-current="true"]::after { transform: scaleX(1); }
+.head-right > .menu-btn { display: none; }
+/* Pools spill past the edges by design; clip them here (overflow on body would pass to the viewport). */
+main { overflow-x: clip; }
+
+/* Scheme switcher */
+.scheme { position: relative; }
+.scheme-btn, .menu-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 36px; padding: 0 12px 0 10px;
+  border: 1px solid var(--line); border-radius: 4px;
+  background: transparent; color: var(--text-2);
+  font: 400 14px/1 var(--sans); cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+.scheme-btn:hover, .menu-btn:hover { border-color: var(--line-2); color: var(--text); }
+.swatch {
+  width: 16px; height: 16px; border-radius: 50%; flex: none;
+  background: linear-gradient(135deg, var(--sw-wall, var(--stage-top)) 50%, var(--sw-accent, var(--accent)) 50%);
+  box-shadow: 0 0 0 1px var(--line-2);
+}
+.scheme-panel {
+  position: absolute; right: 0; top: calc(100% + 10px);
+  width: 248px; padding: 8px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+  box-shadow: var(--shadow-card);
+}
+.scheme-panel[hidden] { display: none; }
+.scheme-panel fieldset { border: 0; margin: 0; padding: 0; }
+.scheme-panel legend { padding: 6px 10px 8px; font-size: 13px; color: var(--text-3); }
+.scheme-opt {
+  position: relative; display: flex; align-items: center; gap: 12px;
+  padding: 8px 10px; border-radius: 4px; cursor: pointer;
+  font-size: 15px; color: var(--text);
+}
+.scheme-opt:hover { background: var(--surface-2); }
+.scheme-opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.scheme-opt:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 0; }
+.scheme-opt .mode { margin-left: auto; font-size: 13px; color: var(--text-3); }
+.scheme-opt .tick { width: 16px; height: 16px; color: var(--accent); visibility: hidden; }
+.scheme-opt:has(input:checked) .tick { visibility: visible; }
+
+/* Mobile sheet */
+.sheet {
+  position: fixed; inset: 0; z-index: 70;
+  display: flex; flex-direction: column;
+  padding: 0 16px 32px;
+  background: linear-gradient(180deg, var(--stage-top), var(--stage-bottom));
+}
+.sheet[hidden] { display: none; }
+.sheet-top { height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.sheet ul { list-style: none; margin: 24px 0 0; padding: 0; }
+.sheet li + li { border-top: 1px solid var(--line); }
+.sheet ul a {
+  display: block; padding: 16px 0;
+  font: 360 30px/1.15 var(--serif); letter-spacing: -0.015em;
+  color: var(--text); text-decoration: none;
+}
+.sheet .sheet-meta { margin-top: auto; font-size: 14px; color: var(--text-3); }
+
+/* ---------- Spotlight: the signature ---------- */
+/* Every specimen sits in its own pool of --spot light. Lit is the default; JS dims what is out of focus. */
+.pool { position: relative; isolation: isolate; }
+.pool::before {
+  content: '';
+  position: absolute; left: 50%; top: 50%; z-index: -1;
+  width: var(--pool-w, 160%); height: var(--pool-h, 120%);
+  transform: translate(-50%, -50%) scale(var(--pool-scale, 1));
+  opacity: var(--pool-op, 1);
+  background: radial-gradient(closest-side,
+    var(--spot) 0%,
+    color-mix(in srgb, var(--spot) 62%, transparent) 42%,
+    color-mix(in srgb, var(--spot) 22%, transparent) 70%,
+    transparent 100%);
+  pointer-events: none;
+  transition: opacity var(--slow) var(--ease), transform var(--slow) var(--ease);
+}
+.pool img { transition: filter var(--slow) var(--ease); }
+.wall-label, .lit-fade { transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.spot-on .exhibit:not(.is-lit) { --pool-op: .38; --pool-scale: .9; }
+.spot-on .exhibit:not(.is-lit) .pool img { filter: brightness(.8) saturate(.88); }
+.spot-on .exhibit:not(.is-lit) .wall-label,
+.spot-on .exhibit:not(.is-lit) .lit-fade { opacity: .72; transform: translateY(8px); }
+.exhibit.is-lit { --pool-op: 1; --pool-scale: 1.05; }
+
+/* ---------- Wall label (the one card) ---------- */
+.wall-label {
+  position: relative;
+  background: var(--card); color: var(--card-text);
+  border-radius: 4px;
+  padding: 20px 22px 18px;
+  box-shadow: var(--shadow-card);
+  outline: 1px solid color-mix(in srgb, var(--card-text) 13%, transparent);
+  outline-offset: -6px;
+  max-width: 360px;
+}
+.wl-title { font: 460 20px/1.2 var(--serif); letter-spacing: -0.005em; margin: 0 0 4px; color: var(--card-text); }
+.wl-latin { font: italic 380 16px/1.35 var(--serif); margin: 0 0 14px; color: var(--card-text-2); }
+.wl-detail {
+  font: 400 14px/1.5 var(--sans); margin: 0 0 10px; color: var(--card-text);
+  padding-top: 12px; border-top: 1px solid color-mix(in srgb, var(--card-text) 22%, transparent);
+}
+.wl-acc { font: 400 13px/1.4 var(--sans); margin: 0; color: var(--card-text-2); font-variant-numeric: tabular-nums lining-nums; letter-spacing: .01em; }
+.wall-label a { color: var(--card-text); text-decoration-color: color-mix(in srgb, var(--card-text) 45%, transparent); }
+.wall-label a:hover { text-decoration-color: var(--card-text); }
+.wall-label.small { padding: 14px 18px 13px; max-width: 320px; }
+.wall-label.small .wl-title { font-size: 16px; }
+.wall-label.small .wl-latin { font-size: 14px; margin-bottom: 10px; }
+.wall-label.small .wl-detail { font-size: 13px; padding-top: 9px; margin-bottom: 0; }
+
+/* Leader lines drawn by JS */
+.leaders { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 3; }
+.leaders .halo { stroke: var(--stage-bottom); stroke-width: 3.4; fill: none; opacity: .55; stroke-linecap: round; }
+.leaders .ink { stroke: var(--text); stroke-width: 1.1; fill: none; stroke-linecap: round; }
+.leaders .dot { fill: var(--text); stroke: var(--stage-bottom); stroke-width: 1.6; }
+.leaders .disc { fill: var(--card); stroke: color-mix(in srgb, var(--card-text) 35%, transparent); stroke-width: 1; }
+.leaders .disc-n { fill: var(--card-text); font: 600 11px/1 var(--sans); text-anchor: middle; dominant-baseline: central; }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  min-height: max(100svh, 760px);
+  padding: calc(var(--head-h) + 24px) var(--gutter) 48px;
+  display: flex; align-items: center;
+}
+.hero-copy { position: relative; z-index: 4; width: min(500px, 36vw); }
+.hero h1 { margin-bottom: 26px; }
+.lede { font-size: 18px; line-height: 1.6; color: var(--text-2); margin: 0 0 34px; max-width: 30em; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero .meta { margin: 18px 0 0; font-size: 14px; line-height: 1.55; color: var(--text-3); max-width: 34em; }
+.hero .meta a { color: var(--text-2); }
+.hero-spec {
+  position: absolute; z-index: 1; margin: 0;
+  top: calc(var(--head-h) + 6px); bottom: 26px;
+  left: calc(50% + 2.5vw); transform: translateX(-50%);
+  --pool-w: 270%; --pool-h: 112%;
+}
+.hero-spec img { height: 100%; width: auto; max-width: none; }
+.hero-label { position: absolute; z-index: 4; right: var(--gutter); top: 54%; width: 340px; }
+
+/* ---------- Rooms ---------- */
+.room { padding: clamp(96px, 11vw, 168px) var(--gutter); }
+.wrap { max-width: var(--maxw); margin-inline: auto; }
+.split {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: 24px 72px; align-items: start;
+}
+.split h2 { margin: 0; }
+.room-head { margin-bottom: clamp(56px, 6vw, 88px); }
+
+/* Layers gallery */
+.gallery {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px;
+}
+.gallery .exhibit { margin: 0; outline-offset: 6px; border-radius: 4px; cursor: default; }
+.peel-pool {
+  height: min(470px, 34vw);
+  display: flex; justify-content: center;
+  --pool-w: 200%; --pool-h: 108%;
+}
+.peel-pool img { height: 100%; width: auto; max-width: none; }
+.gallery figcaption { margin-top: 22px; padding-inline: 4px; text-align: center; }
+.pl-name { display: block; font: 400 17px/1.3 var(--serif); color: var(--text); }
+.pl-depth { display: block; margin-top: 2px; font-size: 14px; color: var(--text-2); font-variant-numeric: tabular-nums lining-nums; }
+.pl-line { display: block; margin-top: 8px; font-size: 14px; line-height: 1.45; color: var(--text-3); }
+/* Hover or focus one: it brightens, the others dim. */
+.spot-on .gallery .exhibit.is-lit { --pool-op: .82; --pool-scale: 1; }
+.gallery:has(.exhibit:hover, .exhibit:focus-visible) .exhibit { --pool-op: .26; --pool-scale: .9; }
+.gallery:has(.exhibit:hover, .exhibit:focus-visible) .exhibit .pool img { filter: brightness(.72) saturate(.85); }
+.gallery .exhibit:is(:hover, :focus-visible) { --pool-op: 1 !important; --pool-scale: 1.12 !important; }
+.gallery .exhibit:is(:hover, :focus-visible) .pool img { filter: none !important; }
+.gallery-cue { display: none; }
+
+/* Sections */
+.center-head { text-align: center; max-width: 760px; margin: 0 auto clamp(40px, 5vw, 72px); }
+.center-head .prose { margin-inline: auto; }
+.section-stage { position: relative; max-width: var(--maxw); margin-inline: auto; padding: 64px 200px 72px; }
+.section-pool { --pool-w: 128%; --pool-h: 150%; }
+.section-pool img { width: 100%; height: auto; }
+.edge-labels { list-style: none; margin: 0; padding: 0; }
+.section-stage.is-wide .edge-labels li {
+  position: absolute; z-index: 4; white-space: nowrap;
+  font-size: 15px; line-height: 1.2; color: var(--text);
+}
+.section-stage.is-wide .edge-labels .n { display: none; }
+.section-stage.is-wide .edge-labels li[data-side="l"] { text-align: right; }
+.section-foot { display: flex; justify-content: flex-end; max-width: var(--maxw); margin: 8px auto 0; }
+
+/* Organ to cell */
+.otc { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 48px 72px; align-items: center; }
+.otc-copy .wall-label { margin-top: 40px; }
+.otc-row { list-style: none; margin: 0; padding: 0; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+.otc-row li { display: flex; align-items: flex-end; gap: 16px; }
+.otc-row figure { margin: 0; text-align: center; }
+.otc-pool { height: clamp(200px, 21vw, 300px); display: flex; justify-content: center; --pool-w: 150%; --pool-h: 140%; }
+.otc-pool img { height: 100%; width: auto; max-width: none; }
+.otc-pool img.feather {
+  -webkit-mask-image: radial-gradient(closest-side, black 58%, transparent 100%);
+  mask-image: radial-gradient(closest-side, black 58%, transparent 100%);
+}
+.otc-row figcaption { margin-top: 20px; }
+.otc-step { align-self: center; color: var(--text-3); margin-bottom: 64px; }
+.otc-step .i { width: 22px; height: 22px; }
+
+/* Films */
+.film-pair {
+  display: grid; grid-template-columns: minmax(0, .874fr) 220px minmax(0, .798fr);
+  gap: 40px; align-items: start; margin-top: clamp(56px, 6vw, 88px);
+}
+.film-pair figure, .eff-pair figure { margin: 0; }
+.lightbox {
+  padding: 12px; background: var(--sunken);
+  border: 1px solid var(--line); border-radius: 2px;
+  box-shadow: var(--shadow-print);
+}
+.pin-stage { position: relative; }
+.pin-stage img { width: 100%; height: auto; }
+.pin {
+  position: absolute; z-index: 2;
+  width: 24px; height: 24px; margin: -12px 0 0 -12px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--card); color: var(--card-text);
+  font: 600 12px/1 var(--sans); font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--card-text) 35%, transparent), 0 2px 6px color-mix(in srgb, var(--card-text) 30%, transparent);
+  transition: background-color .2s, color .2s, transform .25s var(--ease);
+}
+.pin.is-hot { background: var(--accent); color: var(--on-accent); transform: scale(1.18); }
+.model-pool { --pool-w: 120%; --pool-h: 104%; }
+.film-key { list-style: none; margin: 0; padding: 8px 0 0; }
+.film-key li, .micro-key li {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 4px; border-top: 1px solid var(--line);
+  font-size: 15px; color: var(--text); cursor: default; border-radius: 2px;
+}
+.film-key li:last-child, .micro-key li:last-child { border-bottom: 1px solid var(--line); }
+.key-n {
+  width: 24px; height: 24px; border-radius: 50%; flex: none;
+  display: grid; place-items: center;
+  border: 1px solid var(--line-2); color: var(--text);
+  font: 600 12px/1 var(--sans); font-variant-numeric: tabular-nums;
+  transition: background-color .2s, color .2s, border-color .2s;
+}
+.film-key li.is-hot .key-n, .micro-key li.is-hot .key-n { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.film-key-title { font-size: 14px; color: var(--text-3); margin: 0 0 6px; }
+.film-labels { display: grid; grid-template-columns: minmax(0, .874fr) 220px minmax(0, .798fr); gap: 40px; margin-top: 28px; }
+.film-labels .wall-label:last-child { grid-column: 3; }
+.eff {
+  display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+  gap: 40px 72px; align-items: center; margin-top: clamp(88px, 9vw, 136px);
+}
+.eff-pair { display: grid; grid-template-columns: minmax(0, 1.146fr) minmax(0, .591fr); gap: 32px; align-items: end; }
+.eff-pair .lightbox { padding: 9px; }
+.eff-text .wall-label { margin-top: 28px; }
+
+/* Study */
+.prints { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: clamp(56px, 6vw, 88px); }
+.prints figure { margin: 0; }
+.print-pool { --pool-w: 120%; --pool-h: 150%; }
+.frame {
+  position: relative; aspect-ratio: 16 / 9;
+  padding: 10px; background: var(--sunken);
+  border: 1px solid var(--line); border-radius: 2px;
+  box-shadow: var(--shadow-print);
+}
+.frame img { width: 100%; height: 100%; object-fit: cover; }
+.frame .missing {
+  display: none; position: absolute; inset: 10px;
+  place-items: center; text-align: center; padding: 24px;
+  font: italic 380 17px/1.45 var(--serif); color: var(--text-3);
+  border: 1px solid var(--line);
+}
+.frame.is-missing img { visibility: hidden; }
+.frame.is-missing .missing { display: grid; }
+.prints .wall-label { margin-top: 28px; }
+.course { margin-top: clamp(88px, 9vw, 136px); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px 72px; }
+.labs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
+.labs li { display: grid; grid-template-columns: 112px 1fr; gap: 16px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); }
+.lab-n { font-size: 14px; font-weight: 600; color: var(--text-2); font-variant-numeric: tabular-nums lining-nums; }
+.lab-t { font: 380 18px/1.35 var(--serif); color: var(--text); }
+.course .note { margin-top: 24px; font-size: 15px; color: var(--text-3); }
+
+/* Microscope */
+.micro { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px 72px; align-items: center; }
+.micro figure { margin: 0; }
+.micro-key { list-style: none; margin: 28px 0 32px; padding: 0; max-width: 360px; }
+.micro-models {
+  list-style: none; margin: clamp(72px, 8vw, 120px) auto 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px;
+}
+.micro-models figure { margin: 0; text-align: center; }
+.thumb-pool { height: clamp(150px, 14vw, 210px); display: flex; justify-content: center; --pool-w: 150%; --pool-h: 140%; }
+.thumb-pool img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
+.micro-models figcaption { margin-top: 14px; }
+
+/* Built to be looked up */
+.facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
+.facts li { padding: 16px 0; border-top: 1px solid var(--line); font-size: 17px; color: var(--text-2); font-variant-numeric: tabular-nums lining-nums; }
+.facts li strong { font-weight: 600; }
+
+/* Free / Acknowledgements */
+.two-texts { display: grid; grid-template-columns: 1fr 1fr; gap: 64px 96px; }
+.credits-list { margin: 28px 0 0; padding: 0; }
+.credits-list div { display: grid; grid-template-columns: 96px 1fr; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 15px; }
+.credits-list dt { color: var(--text-3); }
+.credits-list dd { margin: 0; color: var(--text-2); }
+.share-note { margin-top: 20px; font-size: 15px; color: var(--text-3); }
+
+/* Download desk */
+.desk-head { max-width: 720px; margin-bottom: clamp(48px, 5vw, 72px); }
+.desk-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; }
+.desk-card { max-width: none; padding: 30px 32px 28px; outline-offset: -8px; }
+.desk-card h3 { font: 460 26px/1.15 var(--serif); color: var(--card-text); margin: 0 0 4px; }
+.desk-card .wl-latin { margin-bottom: 22px; }
+.desk-card .btn-primary { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--card-text) 22%, transparent); }
+.desk-card .req { margin: 16px 0 0; font-size: 15px; color: var(--card-text-2); font-variant-numeric: tabular-nums; }
+.steps {
+  margin: 22px 0 0; padding: 18px 0 0; list-style: none; counter-reset: s;
+  border-top: 1px solid color-mix(in srgb, var(--card-text) 22%, transparent);
+}
+.steps li { counter-increment: s; display: grid; grid-template-columns: 28px 1fr; gap: 8px; margin: 0 0 12px; font-size: 15px; line-height: 1.55; color: var(--card-text); }
+.steps li::before { content: counter(s); font: 400 15px/1.55 var(--serif); color: var(--card-text-2); font-variant-numeric: tabular-nums; }
+.steps strong, .desk-card strong { color: var(--card-text); }
+.warn {
+  margin: 18px 0 0; padding: 14px 16px; border-radius: 3px;
+  background: color-mix(in srgb, var(--card-text) 6%, transparent);
+  font-size: 14px; line-height: 1.55; color: var(--card-text);
+}
+.fallback { margin-top: 18px; font-size: 14px; color: var(--card-text-2); }
+.fallback p { margin-bottom: 8px; }
+.code-row { display: flex; align-items: stretch; gap: 8px; }
+.code-row code {
+  flex: 1; min-width: 0; display: block; overflow-x: auto;
+  padding: 10px 12px; border-radius: 3px;
+  background: color-mix(in srgb, var(--card-text) 8%, transparent);
+  font: 400 13px/1.5 var(--mono); color: var(--card-text); white-space: pre;
+  scrollbar-color: color-mix(in srgb, var(--card-text) 30%, transparent) transparent;
+}
+.copy-btn {
+  flex: none; padding: 0 12px; border-radius: 3px; cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--card-text) 28%, transparent);
+  background: transparent; color: var(--card-text); font: 500 13px/1 var(--sans);
+}
+.copy-btn:hover { background: color-mix(in srgb, var(--card-text) 7%, transparent); }
+.desk-after { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px 96px; font-size: 16px; }
+
+/* Questions */
+.faq { max-width: 860px; }
+.faq details { border-top: 1px solid var(--line); }
+.faq details:last-child { border-bottom: 1px solid var(--line); }
+.faq summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 20px 0;
+  font: 380 21px/1.3 var(--serif); color: var(--text);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary .i { color: var(--text-3); transition: transform .35s var(--ease); }
+.faq details[open] summary .i { transform: rotate(180deg); }
+.faq details p { margin: -4px 0 22px; max-width: 64ch; }
+
+/* Footer */
+.site-foot { padding: 56px var(--gutter) 64px; border-top: 1px solid var(--line); }
+.foot-inner { max-width: var(--maxw); margin-inline: auto; display: grid; grid-template-columns: auto 1fr auto; gap: 24px 48px; align-items: start; }
+.site-foot p { margin: 0; font-size: 14px; color: var(--text-3); max-width: 64ch; }
+.foot-links { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; font-size: 14px; }
+
+/* ---------- Mid widths ---------- */
+@media (max-width: 1180px) {
+  .rooms-nav ul { gap: 18px; }
+}
+@media (max-width: 1099px) {
+  .hero { display: block; min-height: 0; padding-bottom: 24px; }
+  .hero-copy { width: auto; max-width: 600px; padding-top: 40px; }
+  .hero-spec { position: relative; left: auto; top: auto; bottom: auto; transform: none; height: min(78vh, 720px); margin: 72px auto 0; display: flex; justify-content: center; --pool-w: 130%; --pool-h: 108%; }
+  .hero-label { position: relative; right: auto; top: auto; width: auto; max-width: 360px; margin: 36px auto 0; }
+  .section-stage { padding-inline: 170px; }
+}
+@media (max-width: 960px) {
+  .rooms-nav { display: none; }
+  .head-right > .menu-btn { display: inline-flex; }
+  .head-right { gap: 10px; }
+}
+@media (max-width: 899px) {
+  .split, .otc, .micro, .course, .two-texts, .eff, .desk-after { grid-template-columns: minmax(0, 1fr); }
+  .split { gap: 20px; }
+  .section-stage { padding: 24px 0 0; }
+  .edge-labels {
+    margin-top: 28px !important; display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px;
+  }
+  .edge-labels li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 15px; color: var(--text); }
+  .edge-labels .n {
+    width: 22px; height: 22px; border-radius: 50%; flex: none; display: grid; place-items: center;
+    background: var(--card); color: var(--card-text); font: 600 11px/1 var(--sans); font-variant-numeric: tabular-nums;
+  }
+  .section-foot { justify-content: flex-start; margin-top: 32px; }
+  .film-pair { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .film-pair .film-key { order: 3; }
+  .film-labels { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .film-labels .wall-label:last-child { grid-column: auto; }
+  .prints { grid-template-columns: minmax(0, 1fr); gap: 56px; }
+  .labs, .facts { grid-template-columns: minmax(0, 1fr); }
+  .desk-cards { grid-template-columns: minmax(0, 1fr); }
+  .micro-models { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 16px; }
+  .foot-inner { grid-template-columns: minmax(0, 1fr); }
+  .otc-row { flex-direction: column; align-items: center; gap: 8px; }
+  .otc-row li { flex-direction: column; align-items: center; gap: 8px; }
+  .otc-step { margin: 0; transform: rotate(90deg); }
+  .otc-pool { height: 240px; }
+}
+@media (max-width: 760px) {
+  :root { --head-h: 64px; }
+  body { font-size: 16.5px; }
+  .brand { font-size: 20px; gap: 10px; }
+  .mark { width: 26px; height: 26px; }
+  .scheme-btn .scheme-name { display: none; }
+  .scheme-btn { padding: 0 10px; }
+  .hero-copy { padding-top: 16px; }
+  .hero h1 { margin-bottom: 20px; }
+  .lede { font-size: 17px; margin-bottom: 28px; }
+  .actions { flex-direction: column; }
+  .actions .btn { width: 100%; }
+  .hero-spec { height: min(74vh, 600px); margin-top: 56px; }
+  .room { padding-block: 88px; }
+  .room-head { margin-bottom: 44px; }
+  /* Layers become a scroll-snap gallery with visible overflow cues */
+  .gallery {
+    display: flex; gap: 8px; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
+    margin-inline: -16px; padding: 8px 16px 12px;
+    scrollbar-width: thin;
+  }
+  .gallery li { flex: 0 0 62%; scroll-snap-align: start; }
+  .peel-pool { height: 420px; }
+  .gallery-cue {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    margin-top: 18px; font-size: 14px; color: var(--text-3);
+  }
+  .gallery-cue .i { width: 18px; height: 18px; color: var(--accent); }
+  .cue-hint { display: inline-flex; align-items: center; gap: 8px; }
+  .film-pair { gap: 28px; }
+  .eff-pair { gap: 16px; }
+  .desk-card { padding: 24px 22px 22px; }
+  .faq summary { font-size: 19px; }
+  .labs li { grid-template-columns: 100px 1fr; }
+}
+
+/* ---------- Reduced motion: end state, no transitions ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .spot-on .exhibit:not(.is-lit) { --pool-op: 1; --pool-scale: 1; }
+  .spot-on .exhibit:not(.is-lit) .pool img { filter: none; }
+  .spot-on .exhibit:not(.is-lit) .wall-label,
+  .spot-on .exhibit:not(.is-lit) .lit-fade { opacity: 1; transform: none; }
+  .gallery:has(.exhibit:hover, .exhibit:focus-visible) .exhibit { --pool-op: 1; --pool-scale: 1; }
+  .gallery:has(.exhibit:hover, .exhibit:focus-visible) .exhibit .pool img { filter: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head" id="top">
+  <a class="brand" href="#main" aria-label="Layered Human, back to the top">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 3A13 13 0 1 0 29 16"/>
+      <path d="M16 7.5A8.5 8.5 0 1 0 24.5 16"/>
+      <path class="core" d="M16 12A4 4 0 1 0 20 16"/>
+      <path class="cut" d="M16 3V16H29"/>
+    </svg>
+    <span>Layered Human</span>
+  </a>
+  <div class="head-right">
+    <nav class="rooms-nav" aria-label="Rooms">
+      <ul>
+        <li><a href="#layers">Layers</a></li>
+        <li><a href="#sections">Sections</a></li>
+        <li><a href="#organ-to-cell">Organ to cell</a></li>
+        <li><a href="#films">Films</a></li>
+        <li><a href="#study">Study</a></li>
+        <li><a href="#download">Download</a></li>
+      </ul>
+    </nav>
+    <div class="scheme">
+      <button class="scheme-btn" type="button" aria-expanded="false" aria-controls="scheme-panel" aria-label="Wall colour: Slate">
+        <span class="swatch" aria-hidden="true"></span><span class="scheme-name">Slate</span>
+      </button>
+      <div class="scheme-panel" id="scheme-panel" hidden>
+        <fieldset>
+          <legend>Wall colour</legend>
+          <div class="scheme-list"></div>
+        </fieldset>
+      </div>
+    </div>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sheet">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"/></svg>
+      <span>Rooms</span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Rooms" hidden>
+  <div class="sheet-top">
+    <span class="brand">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16 3A13 13 0 1 0 29 16"/><path d="M16 7.5A8.5 8.5 0 1 0 24.5 16"/>
+        <path class="core" d="M16 12A4 4 0 1 0 20 16"/><path class="cut" d="M16 3V16H29"/>
+      </svg>
+      <span>Layered Human</span>
+    </span>
+    <button class="menu-btn sheet-close" type="button" style="display:inline-flex">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg>
+      <span>Close</span>
+    </button>
+  </div>
+  <ul>
+    <li><a href="#layers">Layers</a></li>
+    <li><a href="#sections">Sections</a></li>
+    <li><a href="#organ-to-cell">Organ to cell</a></li>
+    <li><a href="#films">Films</a></li>
+    <li><a href="#study">Study</a></li>
+    <li><a href="#download">Download</a></li>
+  </ul>
+  <p class="sheet-meta">Free · about 3.4 GB · Apple silicon Mac (macOS 13 or later) or Windows</p>
+</div>
+
+<main id="main">
+
+<!-- ======================= Hero ======================= -->
+<section class="hero exhibit" aria-labelledby="hero-h">
+  <div class="hero-copy">
+    <h1 id="hero-h">Peel the body back, layer by layer.</h1>
+    <p class="lede">A free 3D anatomy atlas for your computer. Slide from skin to bone, cut a section that names itself, and study for your lab practical offline.</p>
+    <div class="actions">
+      <a class="btn btn-primary" data-desk="mac" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Anatomy-Explorer-Mac.dmg">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8C6.4 7.4 5 8.3 4.3 9.7c-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.6 2.3 2.8 2.3 1.1 0 1.6-.7 2.9-.7s1.8.7 3 .7 2-1.1 2.7-2.2c.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.2-.8-2.2-3.7zM13.6 5.8c.6-.8 1-1.8.9-2.8-.9 0-2 .6-2.6 1.4-.6.7-1.1 1.7-1 2.7 1 .1 2-.5 2.7-1.3z"/></svg>
+        Download for Mac
+      </a>
+      <a class="btn btn-quiet" data-desk="windows" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Download-Windows-Installer.ps1">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.6l7-1v6.9H4zM13 4.3l7-1V11.5h-7zM4 12.5h7v6.9l-7-1zM13 12.5h7v8.2l-7-1z"/></svg>
+        Download for Windows
+      </a>
+    </div>
+    <p class="meta"><span class="tnum">Free · about 3.4 GB · Apple silicon Mac (macOS 13 or later) or Windows</span> · <a href="#download">What to expect when installing</a></p>
+  </div>
+
+  <figure class="hero-spec pool" style="margin:0">
+    <img id="hero-img" src="../../assets/plates/hero_sel_ffffff.webp" width="915" height="2198" fetchpriority="high"
+         alt="The whole body from the front with the skin off and the muscles exposed, both biceps brachii selected">
+  </figure>
+  <div class="hero-label wall-label" id="hero-label">
+    <p class="wl-title">Biceps brachii</p>
+    <p class="wl-latin">Musculus biceps brachii</p>
+    <p class="wl-detail">Selected in the atlas. Muscular system · Upper limb.</p>
+    <p class="wl-acc">Atlas · 3,922 structures · TA2 IDs</p>
+  </div>
+  <svg class="leaders" id="hero-leaders" aria-hidden="true"></svg>
+</section>
+
+<!-- ======================= Layers ======================= -->
+<section class="room" id="layers" aria-labelledby="layers-h">
+  <div class="wrap split room-head">
+    <h2 id="layers-h">Skin to bone, in the order you choose</h2>
+    <div class="prose">
+      <p>Drag the dissection slider and the body comes apart from the skin inwards. Depth is measured against how thick the body is at each point, so the hand and the thigh are uncovered together. Want one layer on its own? Show only that slab.</p>
+      <p><a class="more" href="#study">See how a lesson uses it <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+    </div>
+  </div>
+  <div class="wrap">
+    <ol class="gallery" id="gallery" aria-label="The same body at six dissection depths">
+      <li><figure class="exhibit" tabindex="0">
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_00_skin.webp" width="929" height="2240" loading="lazy" alt="The body at 0% dissection depth: the skin surface, nothing removed"></div>
+        <figcaption class="lit-fade"><span class="pl-name">Skin surface</span><span class="pl-depth">0–8%</span><span class="pl-line">The body as you first see it, nothing taken away.</span></figcaption>
+      </figure></li>
+      <li><figure class="exhibit" tabindex="0">
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_16_fascia.webp" width="909" height="2194" loading="lazy" alt="The body at 16% dissection depth: the deep fascia over the muscles of the trunk and limbs"></div>
+        <figcaption class="lit-fade"><span class="pl-name">Deep fascia</span><span class="pl-depth">16–26%</span><span class="pl-line">The fascia that wraps the muscles of the trunk and limbs.</span></figcaption>
+      </figure></li>
+      <li><figure class="exhibit" tabindex="0">
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_26_superficial.webp" width="907" height="2186" loading="lazy" alt="The body at 26% dissection depth: the superficial muscles exposed"></div>
+        <figcaption class="lit-fade"><span class="pl-name">Superficial muscles</span><span class="pl-depth">26–40%</span><span class="pl-line">The deltoid, the biceps, the abdominal wall and the front of the thigh.</span></figcaption>
+      </figure></li>
+      <li><figure class="exhibit" tabindex="0">
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_40_deep.webp" width="894" height="2178" loading="lazy" alt="The body at 40% dissection depth: ribcage, abdominal organs and deep muscles exposed"></div>
+        <figcaption class="lit-fade"><span class="pl-name">Deep muscles</span><span class="pl-depth">40–55%</span><span class="pl-line">Ribcage, abdominal organs and the deep muscles.</span></figcaption>
+      </figure></li>
+      <li><figure class="exhibit" tabindex="0">
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_55_skeleton.webp" width="792" height="2178" loading="lazy" alt="The body at 55% dissection depth: the bones and joints of the limbs, with the thoracic and abdominal organs in place"></div>
+        <figcaption class="lit-fade"><span class="pl-name">Skeleton &amp; joints</span><span class="pl-depth">55–70%</span><span class="pl-line">Bones and joints of the limbs, the organs still in place.</span></figcaption>
+      </figure></li>
+      <li><figure class="exhibit" tabindex="0">
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_70_cavities.webp" width="773" height="2074" loading="lazy" alt="The body at 70% dissection depth: the heart, the great vessels and the organs at the back of the abdomen"></div>
+        <figcaption class="lit-fade"><span class="pl-name">Body cavities</span><span class="pl-depth">70–85%</span><span class="pl-line">The heart, the great vessels and the kidneys.</span></figcaption>
+      </figure></li>
+    </ol>
+    <div class="gallery-cue" aria-hidden="true">
+      <span class="cue-hint">Swipe for all six depths <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      <span class="cue-count tnum">1 of 6</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= Sections ======================= -->
+<section class="room" id="sections" aria-labelledby="sections-h">
+  <div class="center-head">
+    <h2 id="sections-h">Cut anywhere. The cut names itself.</h2>
+    <div class="prose"><p>Section the body sagittally, coronally or transversely. Every structure the plane passes through is named around the edge of the view. Click a name to select it.</p></div>
+  </div>
+  <figure class="exhibit" style="margin:0">
+    <div class="section-stage" id="section-stage">
+      <div class="pool section-pool">
+        <img id="section-img" src="../../assets/plates/section_inferior.webp" width="2030" height="1149" loading="lazy"
+             alt="Transverse section through the thorax seen from below, with the heart, both lungs, the liver, a thoracic vertebra and the chest wall muscles named around the edge">
+      </div>
+      <ol class="edge-labels" id="edge-labels">
+        <li data-a="pec.vl" data-side="l"><span class="n">1</span>Pectoralis major</li>
+        <li data-a="lung_r.vl" data-side="l"><span class="n">2</span>Right lung</li>
+        <li data-a="liver.vl" data-side="l"><span class="n">3</span>Liver</li>
+        <li data-a="lat.vl" data-side="l"><span class="n">4</span>Latissimus dorsi</li>
+        <li data-a="sternum.vl" data-side="t"><span class="n">5</span>Sternum</li>
+        <li data-a="rv.vr" data-side="r"><span class="n">6</span>Right ventricle</li>
+        <li data-a="lv.vr" data-side="r"><span class="n">7</span>Left ventricle</li>
+        <li data-a="lung_l.vr" data-side="r"><span class="n">8</span>Left lung</li>
+        <li data-a="vert.vl" data-side="b"><span class="n">9</span>Thoracic vertebra</li>
+      </ol>
+      <svg class="leaders" id="section-leaders" aria-hidden="true"></svg>
+    </div>
+    <div class="section-foot">
+      <figcaption class="wall-label">
+        <p class="wl-title">Transverse section of the thorax</p>
+        <p class="wl-latin">Seen from below, as on a CT</p>
+        <p class="wl-detail">Transverse section through the thorax, seen from below, as on a CT. Every structure the plane passes through is named.</p>
+        <p class="wl-acc">Atlas · Sections · sagittal, coronal, transverse</p>
+      </figcaption>
+    </div>
+  </figure>
+</section>
+
+<!-- ======================= Organ to cell ======================= -->
+<section class="room" id="organ-to-cell" aria-labelledby="otc-h">
+  <div class="wrap otc">
+    <div class="otc-copy">
+      <h2 id="otc-h">From the kidney to a podocyte, in one zoom</h2>
+      <div class="prose"><p>41 interactive 3D models open in the same viewer, with the same controls and labels as the atlas. Step the kidney from the whole organ down to the podocytes. Hide the heart’s wall panels one at a time to look inside a true-scale heart in 119 parts.</p></div>
+    </div>
+    <div class="exhibit">
+      <ol class="otc-row" aria-label="Three stored views of the kidney model, from organ to cell">
+        <li><figure>
+          <div class="pool otc-pool"><img src="../../assets/plates/kidney_v_kidney.webp" width="981" height="1057" loading="lazy" alt="The kidney model: the whole organ"></div>
+          <figcaption><span class="pl-name">Kidney</span><span class="pl-line">The whole organ</span></figcaption>
+        </figure></li>
+        <li><span class="otc-step" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <figure>
+          <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_corpuscle.webp" width="1284" height="1800" loading="lazy" alt="The renal corpuscle: the glomerulus inside its capsule, with the tubules around it"></div>
+          <figcaption><span class="pl-name">Renal corpuscle</span><span class="pl-line">The glomerulus in its capsule</span></figcaption>
+        </figure></li>
+        <li><span class="otc-step" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <figure>
+          <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_podocytes.webp" width="1800" height="1800" loading="lazy" alt="Podocytes wrapping a glomerular capillary with their foot processes"></div>
+          <figcaption><span class="pl-name">Podocytes</span><span class="pl-line">Foot processes on a capillary</span></figcaption>
+        </figure></li>
+      </ol>
+      <div class="wall-label" style="margin:48px 0 0 auto">
+        <p class="wl-title">Kidney with the nephron</p>
+        <p class="wl-latin">Ren, nephron, podocytus</p>
+        <p class="wl-detail">Kidney with the nephron. True scale. Eight stored views.</p>
+        <p class="wl-acc">Models · 41 models · one viewer</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= Films ======================= -->
+<section class="room" id="films" aria-labelledby="films-h">
+  <div class="wrap split">
+    <h2 id="films-h">Read the film with the body beside it</h2>
+    <div class="prose">
+      <p>104 radiology cases put a real radiograph, CT, MR or ultrasound next to the live model, labelled on both sides. Click a number on the film and the model selects the same structure. In five chest cases, the model shows the disease itself.</p>
+      <p class="small-note">The model is set up to match each film. It is not a scan of that patient.</p>
+    </div>
+  </div>
+
+  <div class="wrap exhibit">
+    <div class="film-pair" id="film-pair">
+      <figure>
+        <div class="lightbox">
+          <div class="pin-stage" id="film-stage">
+            <img src="../../assets/images/cxr_pa.jpg" width="1280" height="1464" loading="lazy"
+                 alt="Chest radiograph, posteroanterior view, with eight numbered labels: trachea, right clavicle, right humeral head, superior vena cava, right atrium, left ventricle, right hemidiaphragm and left lung">
+          </div>
+        </div>
+        <figcaption class="sr-only">Chest radiograph — PA, labelled with numbers that match the model.</figcaption>
+      </figure>
+      <div>
+        <p class="film-key-title">Chest radiograph — PA</p>
+        <ol class="film-key" id="film-key">
+          <li data-n="1" data-film="0.465,0.1" data-a="c1.vl" tabindex="0"><span class="key-n">1</span>Trachea</li>
+          <li data-n="2" data-film="0.2,0.13" data-a="c2.vl" tabindex="0"><span class="key-n">2</span>Right clavicle</li>
+          <li data-n="3" data-film="0.085,0.115" data-a="c4.vl" tabindex="0"><span class="key-n">3</span>Right humeral head</li>
+          <li data-n="4" data-film="0.43,0.215" data-a="c5.vl" tabindex="0"><span class="key-n">4</span>Superior vena cava</li>
+          <li data-n="5" data-film="0.435,0.62" data-a="c7.vl" tabindex="0"><span class="key-n">5</span>Right atrium</li>
+          <li data-n="6" data-film="0.715,0.68" data-a="c8.vr" tabindex="0"><span class="key-n">6</span>Left ventricle</li>
+          <li data-n="7" data-film="0.275,0.785" data-a="c12.vl" tabindex="0"><span class="key-n">7</span>Right hemidiaphragm</li>
+          <li data-n="8" data-film="0.775,0.6" data-a="c17.vr" tabindex="0"><span class="key-n">8</span>Left lung</li>
+        </ol>
+      </div>
+      <figure>
+        <div class="pool model-pool">
+          <div class="pin-stage" id="model-stage">
+            <img src="../../assets/plates/cxr_model.webp" width="1852" height="2322" loading="lazy"
+                 alt="The thorax model set up like the PA film: lungs, heart and great vessels solid, ribcage translucent, with the same eight numbers">
+          </div>
+        </div>
+        <figcaption class="sr-only">The live model, set up like the film, with the same numbers.</figcaption>
+      </figure>
+    </div>
+    <div class="film-labels">
+      <div class="wall-label small">
+        <p class="wl-title">Normal posteroanterior (PA) chest radiograph</p>
+        <p class="wl-latin">Mikael Häggström · CC0</p>
+        <p class="wl-detail"><a href="https://commons.wikimedia.org/wiki/File:Normal_posteroanterior_(PA)_chest_radiograph_(X-ray).jpg">Wikimedia Commons</a></p>
+      </div>
+      <div class="wall-label small">
+        <p class="wl-title">The model, set up like the film</p>
+        <p class="wl-latin">Thorax · anterior view</p>
+        <p class="wl-detail">The model shows the related anatomy. It isn’t fitted to this image, so shape, level and pathology can differ.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap eff exhibit">
+    <div class="eff-text">
+      <h3 class="h3-serif">Chest — massive pleural effusion</h3>
+      <p class="prose">A massive right pleural effusion. The fluid is shown in the model.</p>
+      <div class="wall-label small">
+        <p class="wl-title">Unilateral Pleural Effusion</p>
+        <p class="wl-latin">Sara Nabih · CC BY-SA 4.0</p>
+        <p class="wl-detail"><a href="https://commons.wikimedia.org/wiki/File:Unilateral_Pleural_Effusion.jpg">Wikimedia Commons</a></p>
+      </div>
+    </div>
+    <div class="eff-pair">
+      <figure>
+        <div class="lightbox"><img src="../../assets/images/cxr_effusion.jpg" width="1280" height="1117" loading="lazy" style="width:100%;height:auto"
+             alt="Chest radiograph with a massive right pleural effusion: the right side of the chest is white with fluid"></div>
+      </figure>
+      <figure>
+        <div class="pool model-pool"><img src="../../assets/plates/cxr_effusion_model.webp" width="1287" height="2178" loading="lazy" style="width:100%;height:auto"
+             alt="The thorax model with the right pleural effusion shown as fluid around the right lung"></div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= Study ======================= -->
+<section class="room" id="study" aria-labelledby="study-h">
+  <div class="wrap split">
+    <h2 id="study-h">Find it. Name it. Read the film.</h2>
+    <div class="prose">
+      <p>The lab course covers Labs 1–9 and two lab practicals in 109 mini lessons, with 1,824 graded practice items. Find a structure in 3D, name the one that’s highlighted, or put the steps in order. Then sit a practice exam of 20, 40 or 60 questions, or everything.</p>
+      <p>In <strong>Hunt</strong>, nothing is labelled. Peel structures away one at a time and find the one you’re asked for, in three tries.</p>
+      <p>What you miss comes back a day later, then after four days, then less often as you get it right.</p>
+    </div>
+  </div>
+
+  <div class="wrap prints">
+    <figure class="exhibit">
+      <div class="pool print-pool">
+        <div class="frame">
+          <img data-render="lesson" src="../../renders/specimen/specimen_slate_lesson.webp" width="1920" height="1080" loading="lazy"
+               onerror="this.parentNode.classList.add('is-missing')" onload="this.parentNode.classList.remove('is-missing')"
+               alt="Layered Human showing a lesson step, with the 3D view already set up beside the step text">
+          <span class="missing" aria-hidden="true">A lesson step, with the 3D view set up beside it</span>
+        </div>
+      </div>
+      <figcaption class="wall-label">
+        <p class="wl-title">Every lesson sets up the view for you</p>
+        <p class="wl-latin">A lesson step</p>
+        <p class="wl-detail">303 lessons in 1,614 steps. Each step switches systems, dissects to a depth, sections or opens a micrograph, so you’re always looking at the right thing. 1,525 of the steps ask you a question before you move on.</p>
+        <p class="wl-acc">Lessons · 303 lessons · 1,614 steps</p>
+      </figcaption>
+    </figure>
+    <figure class="exhibit">
+      <div class="pool print-pool">
+        <div class="frame">
+          <img data-render="practice" src="../../renders/specimen/specimen_slate_practice.webp" width="1920" height="1080" loading="lazy"
+               onerror="this.parentNode.classList.add('is-missing')" onload="this.parentNode.classList.remove('is-missing')"
+               alt="Layered Human showing a graded practice session beside the 3D model">
+          <span class="missing" aria-hidden="true">Practice beside the model</span>
+        </div>
+      </div>
+      <figcaption class="wall-label">
+        <p class="wl-title">Practice beside the model</p>
+        <p class="wl-latin">Find it, name it, put it in order</p>
+        <p class="wl-detail">Graded practice sits beside the 3D view. Practice exams run to 20, 40 or 60 questions, or everything.</p>
+        <p class="wl-acc">Lab course · 109 mini lessons · 1,824 practice items</p>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="wrap course">
+    <div>
+      <h3 class="h3-serif">The lab course</h3>
+      <p>109 mini lessons, each a few short steps on one topic. <strong>Learn</strong> walks through the steps with the 3D view set up. <strong>Practice</strong> runs a short graded session beside the model.</p>
+      <p class="note">Your course may be organised differently. Search finds any structure, lesson or case by name.</p>
+    </div>
+    <ol class="labs" aria-label="Labs and their topics">
+      <li><span class="lab-n">Lab 1</span><span class="lab-t">Nerves, reflexes and general senses</span></li>
+      <li><span class="lab-n">Lab 2</span><span class="lab-t">The eye and vision; the ear, hearing and balance</span></li>
+      <li><span class="lab-n">Lab 3</span><span class="lab-t">Blood; the heart</span></li>
+      <li><span class="lab-n">Lab 4</span><span class="lab-t">The ECG and heart function</span></li>
+      <li><span class="lab-n">Lab 5</span><span class="lab-t">Vessel walls and the arteries; veins, the portal system and fetal circulation</span></li>
+      <li><span class="lab-n">Lab 6</span><span class="lab-t">The respiratory system</span></li>
+      <li><span class="lab-n">Lab 7</span><span class="lab-t">Lung function and fitness</span></li>
+      <li><span class="lab-n">Lab 8</span><span class="lab-t">The digestive system; the urinary system</span></li>
+      <li><span class="lab-n">Lab 9</span><span class="lab-t">The male reproductive system; the female system and early development</span></li>
+      <li><span class="lab-n">Practical 1</span><span class="lab-t">Review of Labs 1–5, with a practice exam</span></li>
+      <li><span class="lab-n">Practical 2</span><span class="lab-t">Review of Labs 6–9, with a practice exam</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======================= Under the microscope ======================= -->
+<section class="room" id="microscope" aria-labelledby="micro-h">
+  <div class="wrap micro exhibit">
+    <figure>
+      <div class="lightbox">
+        <div class="pin-stage" id="micro-stage">
+          <img src="../../assets/images/histo_simple_columnar.jpg" width="1280" height="960" loading="lazy"
+               alt="Micrograph of simple columnar epithelium around a round lumen, with five numbered labels: lumen, apical surface, columnar cell, nucleus and connective tissue">
+          <span class="pin" data-n="1" style="left:50%;top:30%" aria-hidden="true">1</span>
+          <span class="pin" data-n="2" style="left:50%;top:58.5%" aria-hidden="true">2</span>
+          <span class="pin" data-n="3" style="left:38%;top:66%" aria-hidden="true">3</span>
+          <span class="pin" data-n="4" style="left:57.4%;top:78.4%" aria-hidden="true">4</span>
+          <span class="pin" data-n="5" style="left:16.5%;top:85.5%" aria-hidden="true">5</span>
+        </div>
+      </div>
+    </figure>
+    <div>
+      <h2 id="micro-h">Tissue, slide and model together</h2>
+      <div class="prose"><p>101 tissues with 1,049 micrographs. The 3D models show the same layers in depth, and you can select, hide or cut through each one: the gut wall, the liver lobule, the osteon, the retina.</p></div>
+      <ol class="micro-key" id="micro-key">
+        <li data-n="1" tabindex="0"><span class="key-n">1</span>Lumen</li>
+        <li data-n="2" tabindex="0"><span class="key-n">2</span>Apical surface</li>
+        <li data-n="3" tabindex="0"><span class="key-n">3</span>Columnar cell</li>
+        <li data-n="4" tabindex="0"><span class="key-n">4</span>Nucleus</li>
+        <li data-n="5" tabindex="0"><span class="key-n">5</span>Connective tissue</li>
+      </ol>
+      <div class="wall-label">
+        <p class="wl-title">Simple columnar epithelium</p>
+        <p class="wl-latin">Epithelium simplex columnare</p>
+        <p class="wl-detail">Echinaceapallida · CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:Epith_simple_columnar1.jpg">Wikimedia Commons</a></p>
+        <p class="wl-acc">Histology · 101 tissues · 1,049 micrographs</p>
+      </div>
+    </div>
+  </div>
+  <ol class="wrap micro-models" aria-label="Micro models with the same layers in 3D">
+    <li><figure class="exhibit">
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_oesophagus_wall.webp" width="567" height="629" loading="lazy" alt="3D model of the oesophagus wall with its layers cut open"></div>
+      <figcaption class="lit-fade"><span class="pl-name">Oesophagus wall</span></figcaption>
+    </figure></li>
+    <li><figure class="exhibit">
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_liver_lobule.webp" width="567" height="629" loading="lazy" alt="3D model of a liver lobule"></div>
+      <figcaption class="lit-fade"><span class="pl-name">Liver lobule</span></figcaption>
+    </figure></li>
+    <li><figure class="exhibit">
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_compact_bone.webp" width="567" height="629" loading="lazy" alt="3D model of compact bone with its osteons"></div>
+      <figcaption class="lit-fade"><span class="pl-name">Osteon</span></figcaption>
+    </figure></li>
+    <li><figure class="exhibit">
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_retina.webp" width="567" height="629" loading="lazy" alt="3D model of the layers of the retina"></div>
+      <figcaption class="lit-fade"><span class="pl-name">Retina</span></figcaption>
+    </figure></li>
+  </ol>
+</section>
+
+<!-- ======================= Built to be looked up ======================= -->
+<section class="room" id="looked-up" aria-labelledby="facts-h">
+  <div class="wrap split">
+    <h2 id="facts-h">Built to be looked up</h2>
+    <ul class="facts">
+      <li><strong>3,922</strong> structures, from bones and ligaments to cranial nerves and skin regions</li>
+      <li><strong>1,109</strong> bony and organ landmarks</li>
+      <li>Latin names and Terminologia Anatomica 2 IDs</li>
+      <li>Origins and insertions mapped on the bone</li>
+      <li>Innervation for <strong>468</strong> muscles, and the action of <strong>466</strong></li>
+      <li><strong>423</strong> clinical correlations, searchable by sign or syndrome</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= Free. Offline. Yours. / Acknowledgements ======================= -->
+<section class="room" id="yours" aria-label="Free, offline and yours; acknowledgements">
+  <div class="wrap two-texts">
+    <div>
+      <h2>Free. Offline. Yours.</h2>
+      <div class="prose">
+        <p>Layered Human runs entirely on your computer. Your progress, quiz history and notes stay in your own user folder, and updating or reinstalling never loses them. Updates download in the background. The code is open source under the MIT licence.</p>
+        <p><a class="more" href="https://github.com/ethanprince4/AnatomyExplorer">Read the code on GitHub <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+      </div>
+    </div>
+    <div id="credits">
+      <h2>Acknowledgements</h2>
+      <div class="prose">
+        <p>The 3D atlas is adapted from <strong>Z-Anatomy</strong> and <strong>BodyParts3D</strong>, shared under CC BY-SA. Terms follow <strong>Terminologia Anatomica 2</strong>. Radiology and histology images come from <strong>Wikimedia Commons</strong> contributors, and each one shows its author and licence. Layered Human is a study aid, not a medical device.</p>
+      </div>
+      <dl class="credits-list">
+        <div><dt>Atlas</dt><dd>Z-Anatomy, “The libre 3D atlas of anatomy”, CC BY-SA 4.0 (Gauthier Kervyn et al.)</dd></div>
+        <div><dt>Models</dt><dd>BodyParts3D, © The Database Center for Life Science (DBCLS), CC BY-SA 2.1 Japan</dd></div>
+        <div><dt>Terms</dt><dd>Terminologia Anatomica 2 (FIPAT). Descriptions: Wikipedia, CC BY-SA 3.0</dd></div>
+        <div><dt>Images</dt><dd>Wikimedia Commons contributors; each image shows its author, licence and source in the app. On this page: Mikael Häggström (CC0), Sara Nabih (CC BY-SA 4.0), Echinaceapallida (CC BY-SA 4.0)</dd></div>
+        <div><dt>Code</dt><dd>MIT, © 2026 Ethan Prince. Qt and PySide6 under LGPL-3.0</dd></div>
+      </dl>
+      <p class="share-note">If you share the anatomy dataset or anything made from it, credit these sources and share it under the same licence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= Download desk ======================= -->
+<section class="room" id="download" aria-labelledby="download-h">
+  <div class="wrap">
+    <div class="desk-head">
+      <h2 id="download-h">Ready when you are</h2>
+      <p class="prose">About 3.4 GB. Free for Apple silicon Macs (macOS 13 or later) and Windows. The first time you open it, your computer may warn you because the app isn’t signed with a paid certificate. Here’s what to click.</p>
+    </div>
+    <div class="desk-cards" id="desk-cards">
+      <article class="wall-label desk-card" id="mac" tabindex="-1" aria-labelledby="mac-h">
+        <h3 id="mac-h">Mac</h3>
+        <p class="wl-latin">Apple silicon (M1 or newer), macOS 13 or later</p>
+        <a class="btn btn-primary" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Anatomy-Explorer-Mac.dmg">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>
+          Download for Mac
+        </a>
+        <p class="req">Free · about 3.4 GB · about 8 GB free while installing</p>
+        <ol class="steps">
+          <li><span>Open the disk image and double-click the installer.</span></li>
+          <li><span>If macOS says it “cannot be opened”: <strong>System Settings → Privacy &amp; Security → Open Anyway</strong>.</span></li>
+          <li><span>It downloads about 3.4 GB, checks each part, copies the app into Applications and opens it. If it stops, run it again.</span></li>
+        </ol>
+        <p class="warn"><strong>Why the warning:</strong> The app isn’t signed with a paid developer certificate, so your computer can’t check who made it. Only the installer needs the extra click. The code is public on GitHub.</p>
+      </article>
+      <article class="wall-label desk-card" id="windows" tabindex="-1" aria-labelledby="win-h">
+        <h3 id="win-h">Windows</h3>
+        <p class="wl-latin">A small script fetches the full app in parts</p>
+        <a class="btn btn-primary" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Download-Windows-Installer.ps1">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>
+          Download for Windows
+        </a>
+        <p class="req">Free · about 3.4 GB</p>
+        <ol class="steps">
+          <li><span>Right-click the downloaded file and choose <strong>Run with PowerShell</strong>. Double-clicking it opens Notepad instead.</span></li>
+          <li><span>It downloads the installer parts, joins them and starts the installer.</span></li>
+          <li><span>If “Windows protected your PC” appears: <strong>More info</strong>, then <strong>Run anyway</strong>.</span></li>
+        </ol>
+        <div class="fallback">
+          <p>If that doesn’t work, open PowerShell in your Downloads folder and run</p>
+          <div class="code-row">
+            <code id="ps-cmd">Set-ExecutionPolicy -Scope Process Bypass -Force; $ProgressPreference='SilentlyContinue'; .\Download-Windows-Installer.ps1</code>
+            <button class="copy-btn" type="button" data-copy="ps-cmd">Copy</button>
+          </div>
+        </div>
+        <p class="warn"><strong>Why the warning:</strong> The app isn’t signed with a paid developer certificate, so your computer can’t check who made it. Only the installer needs the extra click. The code is public on GitHub.</p>
+      </article>
+    </div>
+    <div class="desk-after">
+      <p><strong>After installing.</strong> Your progress, quiz history and notes are kept in your user folder, so updates and reinstalls never lose them. Changed parts download in the background and open on your next launch. Some updates are large.</p>
+      <p>Using Linux, or want to run it from source? <a href="https://github.com/ethanprince4/AnatomyExplorer">Instructions on GitHub</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= Questions ======================= -->
+<section class="room" id="questions" aria-labelledby="faq-h">
+  <div class="wrap split">
+    <h2 id="faq-h">Questions</h2>
+    <div class="faq">
+      <details><summary>Is it really free?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <p>Yes. Download it from GitHub releases. The code is MIT-licensed.</p></details>
+      <details><summary>Do I need the internet?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <p>Only to download it and to get updates. After that it runs entirely on your computer.</p></details>
+      <details><summary>Which computers does it run on?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <p>Windows, and Macs with Apple silicon (M1 or newer) on macOS 13 or later. On Linux you can run it from source.</p></details>
+      <details><summary>Why is it so big?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <p>About 3.4 GB: a whole-body atlas with 3,922 structures, 41 models and the radiology and histology images, all stored on your machine so it works offline.</p></details>
+      <details><summary>Why does my computer warn me?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <p>The app isn’t signed with a paid developer certificate. <a href="#download">What to click.</a></p></details>
+      <details><summary>Where is my progress?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <p>In your user folder. Updating or reinstalling never loses it.</p></details>
+      <details><summary>Will it match my course?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <p>It has a lab course for Labs 1–9 and two practicals, plus lessons by system, region and level. <a href="#study">See the topics.</a></p></details>
+      <details><summary>Can I use it to diagnose?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <p>No. It’s a study aid, not a medical device. Radiology models are set up to match each film, not fitted to it.</p></details>
+      <details><summary>Something went wrong.<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <p>The app writes an error log to the <code>logs</code> folder in your user folder. <a href="https://github.com/ethanprince4/AnatomyExplorer/issues">Report it on GitHub.</a></p></details>
+      <details><summary>I had Anatomy Explorer.<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <p>It’s the same app with a new name.</p></details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="foot-inner">
+    <span class="brand" aria-hidden="true">
+      <svg class="mark" viewBox="0 0 32 32">
+        <path d="M16 3A13 13 0 1 0 29 16"/><path d="M16 7.5A8.5 8.5 0 1 0 24.5 16"/>
+        <path class="core" d="M16 12A4 4 0 1 0 20 16"/><path class="cut" d="M16 3V16H29"/>
+      </svg>
+    </span>
+    <p>Layered Human is a free study aid, not a medical device. Anatomy data: Z-Anatomy and BodyParts3D (CC BY-SA). Images: Wikimedia Commons contributors. Code: MIT.</p>
+    <ul class="foot-links">
+      <li><a href="#credits">Credits &amp; licences</a></li>
+      <li><a href="https://github.com/ethanprince4/AnatomyExplorer">GitHub</a></li>
+      <li><a href="#questions">Help</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var SCHEMES = (window.LH_SCHEMES && LH_SCHEMES.specimen && LH_SCHEMES.specimen.schemes) || {};
+  var ANCHORS = (window.LH_PLATES && LH_PLATES.anchors) || {};
+  /* Same camera and size for every hero_sel_* render, so one anchor set serves all schemes. */
+  var HERO_A = ANCHORS.hero_sel_7cc8da || {};
+  var reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var NS = 'http://www.w3.org/2000/svg';
+
+  /* ---------- Scheme switcher ---------- */
+  var schemeBtn = $('.scheme-btn'), schemePanel = $('#scheme-panel'), schemeList = $('.scheme-list');
+  Object.keys(SCHEMES).forEach(function (k) {
+    var s = SCHEMES[k];
+    var lab = document.createElement('label');
+    lab.className = 'scheme-opt';
+    lab.innerHTML = '<input type="radio" name="scheme" value="' + k + '">' +
+      '<span class="swatch" aria-hidden="true"></span><span class="nm"></span>' +
+      '<span class="mode"></span>' +
+      '<svg class="i tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>';
+    var sw = lab.querySelector('.swatch');
+    sw.style.setProperty('--sw-wall', s.stage_top);
+    sw.style.setProperty('--sw-accent', s.accent);
+    lab.querySelector('.nm').textContent = s.name;
+    lab.querySelector('.mode').textContent = s.mode === 'light' ? 'Light' : 'Dark';
+    schemeList.appendChild(lab);
+  });
+
+  function applyScheme(k, save) {
+    var s = SCHEMES[k];
+    if (!s) return;
+    root.setAttribute('data-scheme', k);
+    root.setAttribute('data-mode', s.mode);
+    var hex = (s.select || '#ffffff').replace('#', '').toLowerCase();
+    var hero = $('#hero-img');
+    var heroSrc = '../../assets/plates/hero_sel_' + hex + '.webp';
+    if (hero && hero.getAttribute('src') !== heroSrc) hero.setAttribute('src', heroSrc);
+    $$('img[data-render]').forEach(function (img) {
+      var src = '../../renders/specimen/specimen_' + k + '_' + img.getAttribute('data-render') + '.webp';
+      if (img.getAttribute('src') !== src) { img.parentNode.classList.remove('is-missing'); img.setAttribute('src', src); }
+    });
+    $('.scheme-name').textContent = s.name;
+    schemeBtn.setAttribute('aria-label', 'Wall colour: ' + s.name);
+    $$('input[name="scheme"]').forEach(function (r) { r.checked = r.value === k; });
+    if (save) { try { localStorage.setItem('lh-specimen-scheme', k); } catch (e) {} }
+    requestAnimationFrame(layoutAll);
+  }
+  function openPanel(open) {
+    schemePanel.hidden = !open;
+    schemeBtn.setAttribute('aria-expanded', String(open));
+    if (open) { var c = $('input[name="scheme"]:checked', schemePanel) || $('input', schemePanel); if (c) c.focus(); }
+  }
+  schemeBtn.addEventListener('click', function () { openPanel(schemePanel.hidden); });
+  schemeList.addEventListener('change', function (e) { if (e.target.name === 'scheme') applyScheme(e.target.value, true); });
+  schemeList.addEventListener('click', function (e) { if (e.target.name === 'scheme' && e.detail > 0) openPanel(false); });
+  schemePanel.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { openPanel(false); schemeBtn.focus(); }
+    if (e.key === 'Enter') { e.preventDefault(); openPanel(false); schemeBtn.focus(); }
+  });
+  document.addEventListener('click', function (e) {
+    if (!schemePanel.hidden && !e.target.closest('.scheme')) openPanel(false);
+  });
+
+  /* ---------- Mobile sheet ---------- */
+  var sheet = $('#sheet'), menuBtn = $('.head-right .menu-btn'), closeBtn = $('.sheet-close');
+  function openSheet(open) {
+    sheet.hidden = !open;
+    menuBtn.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) { $('a', sheet).focus(); } else { menuBtn.focus({ preventScroll: true }); }
+  }
+  menuBtn.addEventListener('click', function () { openSheet(true); });
+  closeBtn.addEventListener('click', function () { openSheet(false); });
+  $$('a', sheet).forEach(function (a) { a.addEventListener('click', function () { openSheet(false); }); });
+  sheet.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { openSheet(false); return; }
+    if (e.key !== 'Tab') return;
+    var f = $$('a, button', sheet), first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  /* ---------- Header state and current room ---------- */
+  var head = $('.site-head');
+  function onScroll() { head.classList.toggle('is-scrolled', window.scrollY > 24); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  var navLinks = $$('.rooms-nav a');
+  var roomFor = { layers: 'layers', sections: 'sections', 'organ-to-cell': 'organ-to-cell', films: 'films', study: 'study', download: 'download' };
+  if ('IntersectionObserver' in window) {
+    var roomIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var id = roomFor[en.target.id] || null;
+        navLinks.forEach(function (a) {
+          if (id && a.getAttribute('href') === '#' + id) a.setAttribute('aria-current', 'true');
+          else a.removeAttribute('aria-current');
+        });
+      });
+    }, { rootMargin: '-45% 0px -54% 0px' });
+    $$('main > section').forEach(function (s) { roomIO.observe(s); });
+  }
+
+  /* ---------- The spotlight ---------- */
+  var spotIO = null;
+  function setupSpotlight() {
+    if (spotIO) { spotIO.disconnect(); spotIO = null; }
+    if (reduceMQ.matches || !('IntersectionObserver' in window)) {
+      root.classList.remove('spot-on');
+      $$('.exhibit').forEach(function (x) { x.classList.add('is-lit'); });
+      return;
+    }
+    root.classList.add('spot-on');
+    spotIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { en.target.classList.toggle('is-lit', en.isIntersecting); });
+    }, { rootMargin: '-32% 0px -32% 0px' });
+    $$('.exhibit').forEach(function (x) { spotIO.observe(x); });
+  }
+  setupSpotlight();
+  if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', setupSpotlight);
+
+  /* ---------- Leader lines ---------- */
+  function el(name, attrs, text) {
+    var n = document.createElementNS(NS, name);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function leader(svg, pts, ax, ay) {
+    var d = 'M' + pts.map(function (p) { return p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' L');
+    svg.appendChild(el('path', { d: d, 'class': 'halo' }));
+    svg.appendChild(el('path', { d: d, 'class': 'ink' }));
+    svg.appendChild(el('circle', { cx: ax, cy: ay, r: 3.2, 'class': 'dot' }));
+  }
+  function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+
+  function layoutHero() {
+    var svg = $('#hero-leaders'), hero = $('.hero'), img = $('#hero-img'), card = $('#hero-label');
+    clear(svg);
+    var a = HERO_A['biceps.vr'];
+    if (!a || window.innerWidth < 1100 || !img.offsetWidth) return;
+    var hr = hero.getBoundingClientRect(), ir = img.getBoundingClientRect(), cr = card.getBoundingClientRect();
+    var s = ir.width / 915;
+    var ax = ir.left - hr.left + a.x * s, ay = ir.top - hr.top + a.y * s;
+    var cx = cr.left - hr.left, cy = cr.top - hr.top + 34;
+    leader(svg, [[cx, cy], [cx - 26, cy], [ax + 6, ay + 4]], ax, ay);
+  }
+
+  function layoutSection() {
+    var stage = $('#section-stage'), img = $('#section-img'), svg = $('#section-leaders');
+    var A = ANCHORS.section_inferior || {};
+    clear(svg);
+    if (!img.offsetWidth) return;
+    var wide = window.innerWidth >= 900;
+    stage.classList.toggle('is-wide', wide);
+    var sr = stage.getBoundingClientRect(), ir = img.getBoundingClientRect();
+    var s = ir.width / 2030, ox = ir.left - sr.left, oy = ir.top - sr.top;
+    var items = $$('#edge-labels li').map(function (li, i) {
+      var a = A[li.getAttribute('data-a')] || { x: 0, y: 0 };
+      return { li: li, side: li.getAttribute('data-side'), ax: ox + a.x * s, ay: oy + a.y * s, n: i + 1 };
+    });
+    if (!wide) {
+      items.forEach(function (it) {
+        it.li.removeAttribute('style');
+        svg.appendChild(el('circle', { cx: it.ax, cy: it.ay, r: 10, 'class': 'disc' }));
+        svg.appendChild(el('text', { x: it.ax, y: it.ay + .5, 'class': 'disc-n' }, String(it.n)));
+      });
+      return;
+    }
+    var gap = 26;
+    ['l', 'r'].forEach(function (side) {
+      var g = items.filter(function (it) { return it.side === side; }).sort(function (p, q) { return p.ay - q.ay; });
+      var last = -1e9;
+      g.forEach(function (it) { it.y = Math.max(it.ay, last + 32); last = it.y; });
+      g.forEach(function (it) {
+        var h = it.li.offsetHeight;
+        it.li.style.top = (it.y - h / 2) + 'px';
+        if (side === 'l') {
+          it.li.style.left = 'auto';
+          it.li.style.right = (sr.width - ox + gap) + 'px';
+          leader(svg, [[ox - gap + 8, it.y], [ox - 6, it.y], [it.ax, it.ay]], it.ax, it.ay);
+        } else {
+          it.li.style.right = 'auto';
+          it.li.style.left = (ox + ir.width + gap) + 'px';
+          leader(svg, [[ox + ir.width + gap - 8, it.y], [ox + ir.width + 6, it.y], [it.ax, it.ay]], it.ax, it.ay);
+        }
+      });
+    });
+    items.forEach(function (it) {
+      if (it.side !== 't' && it.side !== 'b') return;
+      var w = it.li.offsetWidth, h = it.li.offsetHeight;
+      it.li.style.right = 'auto';
+      it.li.style.left = (it.ax - w / 2) + 'px';
+      if (it.side === 't') {
+        var ty = oy - 22;
+        it.li.style.top = (ty - h - 6) + 'px';
+        leader(svg, [[it.ax, ty], [it.ax, it.ay]], it.ax, it.ay);
+      } else {
+        var by = oy + ir.height + 18;
+        it.li.style.top = (by + 6) + 'px';
+        leader(svg, [[it.ax, by], [it.ax, it.ay]], it.ax, it.ay);
+      }
+    });
+  }
+
+  function layoutAll() { layoutHero(); layoutSection(); }
+
+  /* ---------- Numbered pins: film and model share numbers ---------- */
+  var filmStage = $('#film-stage'), modelStage = $('#model-stage');
+  var CXR = ANCHORS.cxr_model || {};
+  $$('#film-key li').forEach(function (li) {
+    var n = li.getAttribute('data-n');
+    var f = li.getAttribute('data-film').split(',');
+    var p1 = document.createElement('span');
+    p1.className = 'pin'; p1.setAttribute('data-n', n); p1.setAttribute('aria-hidden', 'true'); p1.textContent = n;
+    p1.style.left = (parseFloat(f[0]) * 100) + '%'; p1.style.top = (parseFloat(f[1]) * 100) + '%';
+    filmStage.appendChild(p1);
+    var a = CXR[li.getAttribute('data-a')];
+    if (a) {
+      var p2 = p1.cloneNode(true);
+      p2.style.left = (a.x / 1852 * 100) + '%'; p2.style.top = (a.y / 2322 * 100) + '%';
+      modelStage.appendChild(p2);
+    }
+  });
+  function linkKey(keySel, scopeSel) {
+    var scope = $(scopeSel);
+    function hot(n, on) {
+      $$('[data-n="' + n + '"]', scope).forEach(function (x) { x.classList.toggle('is-hot', on); });
+    }
+    $$(keySel + ' li').forEach(function (li) {
+      var n = li.getAttribute('data-n');
+      ['mouseenter', 'focus'].forEach(function (ev) { li.addEventListener(ev, function () { hot(n, true); }); });
+      ['mouseleave', 'blur'].forEach(function (ev) { li.addEventListener(ev, function () { hot(n, false); }); });
+    });
+    $$('.pin', scope).forEach(function (p) {
+      p.addEventListener('mouseenter', function () { hot(p.getAttribute('data-n'), true); });
+      p.addEventListener('mouseleave', function () { hot(p.getAttribute('data-n'), false); });
+    });
+  }
+  linkKey('#film-key', '#film-pair');
+  linkKey('#micro-key', '#microscope');
+
+  /* ---------- Mobile gallery cue ---------- */
+  var gallery = $('#gallery'), cueCount = $('.cue-count');
+  gallery.addEventListener('scroll', function () {
+    var items = gallery.children, gl = gallery.getBoundingClientRect().left, best = 0, bd = 1e9;
+    for (var i = 0; i < items.length; i++) {
+      var d = Math.abs(items[i].getBoundingClientRect().left - gl - 16);
+      if (d < bd) { bd = d; best = i; }
+    }
+    cueCount.textContent = (best + 1) + ' of ' + items.length;
+  }, { passive: true });
+
+  /* ---------- In-page links: smooth unless reduced motion; focus moves with the reader ---------- */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented) return;
+    var id = a.getAttribute('href').slice(1);
+    var t = id ? document.getElementById(id) : null;
+    if (!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start' });
+    if (!t.hasAttribute('tabindex')) t.setAttribute('tabindex', '-1');
+    t.focus({ preventScroll: true });
+    try { history.pushState(null, '', '#' + id); } catch (err) {}
+  });
+
+  /* ---------- Download: the file starts, and the steps come into view ---------- */
+  $$('[data-desk]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var card = document.getElementById(a.getAttribute('data-desk'));
+      if (!card) return;
+      setTimeout(function () {
+        card.scrollIntoView({ behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start' });
+        card.focus({ preventScroll: true });
+      }, 60);
+    });
+  });
+  if (/Win/i.test(navigator.platform || navigator.userAgent)) {
+    var cards = $('#desk-cards');
+    cards.insertBefore($('#windows'), $('#mac'));
+  }
+
+  /* ---------- Copy the PowerShell fallback ---------- */
+  $$('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var code = document.getElementById(btn.getAttribute('data-copy'));
+      var text = code.textContent;
+      function done(ok) {
+        btn.textContent = ok ? 'Copied' : 'Select and copy';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 2200);
+      }
+      function fallback() {
+        var r = document.createRange(); r.selectNodeContents(code);
+        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+        done(ok);
+      }
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
+      else fallback();
+    });
+  });
+
+  /* ---------- Start ---------- */
+  applyScheme(root.getAttribute('data-scheme') || 'slate', false);
+  var rt;
+  window.addEventListener('resize', function () { cancelAnimationFrame(rt); rt = requestAnimationFrame(layoutAll); });
+  $('#hero-img').addEventListener('load', layoutAll);
+  $('#section-img').addEventListener('load', layoutAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layoutAll);
+  window.addEventListener('load', layoutAll);
+  if ('ResizeObserver' in window) new ResizeObserver(function () { layoutSection(); }).observe($('#section-stage'));
+})();
+</script>
+</body>
+</html>
