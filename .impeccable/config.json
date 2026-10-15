@@ -20,6 +20,14 @@
         ],
         "createdAt": "2026-10-14T23:33:08.322Z",
         "reason": "Claude: rendered-browser detect at 1440x900 and 390x844 reports no cramped padding; the static pass does not resolve clamp() padding on .block and .pick"
+      },
+      {
+        "rule": "low-contrast=*",
+        "value": "*",
+        "files": [
+          "docs/design/2026-10-14-layered-human/checkpoint-*.html"
+        ],
+        "createdAt": "2026-10-15T03:52:24.175Z"
       }
     ]
   }
