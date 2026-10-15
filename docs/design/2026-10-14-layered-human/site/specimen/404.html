@@ -74,7 +74,7 @@ p { margin: 0 0 1em; text-wrap: pretty; }
   flex: 1; width: 100%; max-width: 1440px; margin-inline: auto;
   display: grid; grid-template-columns: minmax(0, 500px) minmax(0, 1fr); align-items: center; column-gap: 48px;
   padding: 24px var(--gutter) 72px;
-  overflow: clip;   /* the pool spills past the column by design, as on the home page */
+  overflow: hidden; overflow: clip;   /* the pool spills past the column by design, as on the home page (hidden for Safari before 16) */
 }
 /* The case is positioned and comes later, so its pool would paint over the words where it reaches them. */
 .lost-copy { position: relative; z-index: 1; }

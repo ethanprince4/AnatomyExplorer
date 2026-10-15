@@ -228,8 +228,9 @@ h3 { font: 600 17px/1.4 var(--sans); color: var(--text); margin: 0 0 10px; }
 .rooms-nav a[aria-current="true"] { color: var(--text); }
 .rooms-nav a[aria-current="true"]::after { transform: scaleX(1); }
 .head-right > .menu-btn { display: none; }
-/* Pools spill past the edges by design; clip them here (overflow on body would pass to the viewport). */
-main { overflow-x: clip; }
+/* Pools spill past the edges by design; clip them here (overflow on body would pass to the viewport). Hidden first for
+   Safari before 16, which has no clip. */
+main { overflow-x: hidden; overflow-x: clip; }
 
 /* Scheme switcher */
 .scheme { position: relative; }
@@ -723,6 +724,24 @@ main { overflow-x: clip; }
   .hero-label { grid-area: label; position: relative; right: auto; top: auto; width: auto; max-width: 300px; justify-self: end; margin-top: calc(72px + var(--fig-h) * .2955 - 13px); }
   .gauge { grid-area: gauge; position: relative; right: auto; top: auto; bottom: auto; width: 290px; --gx: 200px; justify-self: start; margin: calc(72px + var(--fig-h) * .1) 0 0; height: calc(var(--fig-h) * .78); }
   .section-stage { padding-inline: 170px; }
+}
+@media (min-width: 960px) and (max-width: 1099px) and (max-height: 950px) {
+  /* Tablets held sideways and short windows: under the copy the figure would start below the first screen, so it stands
+     beside the copy, as tall as the window allows. The gauge works as on phones (the current stop's name rides beside the
+     knob) and names the selected biceps under the percentage; the label stays for screen readers. */
+  .hero {
+    --fig-h: clamp(480px, calc(100svh - var(--head-h) - 72px), 700px);
+    grid-template-columns: minmax(0, 1fr) auto 190px; grid-template-areas: "copy spec gauge";
+    align-items: center; column-gap: 28px; padding-bottom: 32px;
+  }
+  .hero-copy { padding-top: 0; }
+  .hero-spec { margin: 0; align-self: start; }
+  .hero-label { grid-area: auto; position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .gauge { width: auto; justify-self: stretch; --gx: 18px; align-self: start; margin: calc(var(--fig-h) * .1) 0 0; }
+  .g-stop span { display: none; }
+  .g-now { display: block; font: italic 400 15px/20px var(--serif); font-variation-settings: "opsz" 14; color: var(--text); }
+  .gauge.is-sel .g-sel { display: block; }
+  .g-sel { font: 400 13px/18px var(--sans); color: var(--text-2); }
 }
 @media (max-width: 960px) {
   .rooms-nav { display: none; }
@@ -1820,7 +1839,8 @@ html:not(.js) .edge-labels .n { display: none; }
     clear(svg);
     if (!peel) return;   /* still being set up */
     var a = peel.anchor(), stage = $('#hero-img');
-    if (!a || window.innerWidth < 900 || !stage.offsetWidth) return;
+    /* no leader where the label is kept for screen readers only (phones, and tablets held sideways) */
+    if (!a || card.offsetWidth < 40 || !stage.offsetWidth) return;
     var hr = hero.getBoundingClientRect(), sr = stage.getBoundingClientRect(), cr = card.getBoundingClientRect();
     var tr = card.querySelector('.wl-title').getBoundingClientRect(), cy = tr.top - hr.top + tr.height / 2;
     /* the label is right of the figure on wide screens and left of it below 1100 px: lead to the nearer arm */
