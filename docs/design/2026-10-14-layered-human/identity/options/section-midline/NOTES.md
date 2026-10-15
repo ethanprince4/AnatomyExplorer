@@ -73,7 +73,7 @@ macOS, plus 16, 24, 32 and 48 px Windows. On the macOS tile the mark spans 58% f
 - Slate: ink `#efece6`, brass `#d4b47e`. The wall is ink at 34% (42% when small), the stepped half of the circle
   brass at 50%.
 - Paper `#ece8e0`: ink `#1d2023`, brass `#8c6a32` (4.07:1).
-- Mono (`currentColor`): skin 100%, muscle 62%, wall 34% (21% after the 62%? no: the wall is ink, 34%), back ring 31%.
+- Mono (`currentColor`): skin 100%, muscle 62%, wall 34%, back ring 31%.
 
 ## Lockup
 
