@@ -259,10 +259,10 @@ p { margin: 0; }
     midline.</p>
   <dl class="facts">
     <div><dd class="num">6</dd><dt>walls, all dark</dt></div>
-    <div><dd class="num">9</dd><dt>app screens</dt></div>
-    <div><dd class="num">68</dd><dt>app renders</dt></div>
+    <div><dd class="num">11</dd><dt>app screens</dt></div>
+    <div><dd class="num">66</dd><dt>app renders</dt></div>
     <div><dd class="num">1</dd><dt>working website</dt></div>
-    <div><dd class="num">2</dd><dt>checkpoints</dt></div>
+    <div><dd class="num">3</dd><dt>checkpoints</dt></div>
   </dl>
 </section>
 
@@ -294,7 +294,10 @@ p { margin: 0; }
       <p><b>Decided:</b> the wall for the panels, Section cut down the midline for the logo, and the website&rsquo;s download
         buttons stay as they are.</p></li>
     <li><div><a href="checkpoint-2.html">Checkpoint 2</a><span class="d">15 October 2026</span></div>
-      <p><b>Open:</b> labels, the depth gauge and the libraries, with new rooms and states to look over. Nothing decided yet.</p></li>
+      <p><b>Decided:</b> labels as your own mixture of the numbered key and caption rails, the Rule gauge without its label,
+        Vitrines for Lessons and the Catalogue for Histology, the model viewer kept as it is, and search to be redone.</p></li>
+    <li><div><a href="checkpoint-3.html">Checkpoint 3</a><span class="d">15 October 2026</span></div>
+      <p><b>Open:</b> labels, search, navigation and the histology library.</p></li>
   </ol>
 </section>
 
@@ -302,7 +305,7 @@ p { margin: 0; }
 <section id="specimen" class="block wrap" data-direction="specimen">
   <div class="sec-head">
     <h2>Every screen, every wall</h2>
-    <p>Nine screens of the app in all six walls. Choose a screen and a wall, open the mockup page, or open the website in the
+    <p>Eleven screens of the app in all six walls. Choose a screen and a wall, open the mockup page, or open the website in the
       same wall.</p>
   </div>
   <div class="viewer" data-viewer="specimen" style="margin-top:0">
@@ -608,6 +611,16 @@ p { margin: 0; }
   var NAME = { overlay: 'Overlay', specimen: 'Specimen', plate: 'Plate' };
   var SCREENS = [['atlas', 'Atlas'], ['peel', 'Dissection'], ['lesson', 'Lesson'], ['lessons', 'Lessons'], ['models', 'Models'],
                  ['radiology', 'Radiology'], ['practice', 'Practice'], ['histology', 'Histology'], ['settings', 'Appearance']];
+  // Specimen alone has renders of the model viewer and the Histology library
+  var MORE = { specimen: [['viewer', 'Model viewer', 'models'], ['histology-library', 'Histology library', 'practice']] };
+  function screensFor(d) {
+    var list = SCREENS.slice();
+    (MORE[d] || []).forEach(function (m) {
+      for (var i = 0; i < list.length; i++) if (list[i][0] === m[2]) { list.splice(i + 1, 0, [m[0], m[1]]); return; }
+      list.push([m[0], m[1]]);
+    });
+    return list;
+  }
   var NOTE = {
     overlay: {
       graphite: "Today's dark stage, cleaned up, with the cyan selection students already know.",
@@ -643,7 +656,7 @@ p { margin: 0; }
   function file(d, k, s, x2) { return 'renders/' + d + '/' + d + '_' + k + '_' + s + (x2 ? '@2x' : '') + '.webp'; }
   function has2x(d, k, s) { return s === 'atlas' || k === DEF[d]; }
   function scheme(d, k) { return (S[d] && S[d].schemes && S[d].schemes[k]) || { name: k, mode: '' }; }
-  function screenName(s) { for (var i = 0; i < SCREENS.length; i++) if (SCREENS[i][0] === s) return SCREENS[i][1]; return s; }
+  function screenName(s) { var l = screensFor('specimen'); for (var i = 0; i < l.length; i++) if (l[i][0] === s) return l[i][1]; return s; }
   function setShot(img, d, k, s, sizes) {
     // candidates first, then src, so the browser never picks from the previous scheme's set
     if (has2x(d, k, s)) { img.sizes = sizes; img.srcset = file(d, k, s) + ' 1920w, ' + file(d, k, s, true) + ' 3840w'; }
@@ -703,7 +716,7 @@ p { margin: 0; }
   Object.keys(DEF).forEach(function (d) {
     var v = document.querySelector('[data-viewer="' + d + '"]');
     var bar = v.querySelector('[data-screens]');
-    SCREENS.forEach(function (sc) {
+    screensFor(d).forEach(function (sc) {
       var b = button(sc[1], sc[0] === 'atlas'); b.dataset.s = sc[0];
       b.addEventListener('click', function () { state[d].s = sc[0]; draw(d); });
       bar.appendChild(b);
