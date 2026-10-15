@@ -27,7 +27,8 @@ body { font-family: var(--sans); font-size: 15px; line-height: 22px; color: var(
 [data-screen="lesson"] [data-screen-id="lesson"], [data-screen="lessons"] [data-screen-id="lessons"],
 [data-screen="models"] [data-screen-id="models"], [data-screen="radiology"] [data-screen-id="radiology"],
 [data-screen="practice"] [data-screen-id="practice"], [data-screen="histology"] [data-screen-id="histology"],
-[data-screen="settings"] [data-screen-id="settings"] { display: block; }
+[data-screen="settings"] [data-screen-id="settings"], [data-screen="histology-library"] [data-screen-id="histology-library"],
+[data-screen="viewer"] [data-screen-id="viewer"] { display: block; }
 
 .app { position: relative; width: 1920px; height: 1080px; overflow: hidden;
   background: linear-gradient(180deg, var(--stage-top), var(--stage-bottom)); }
@@ -69,9 +70,8 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .find::before { margin-right: -10px; }
 .hist { display: inline-flex; align-items: center; gap: 2px; margin-left: -24px; }
 .hb { display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 0; background: none; color: var(--text-2); }
-.find { margin-left: auto; width: 380px; height: 40px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--line-2);
-  color: var(--text-3); font-size: 15px; }
-.find kbd { margin-left: auto; font: 500 12px var(--sans); color: var(--text-2); border: 1px solid var(--hair); border-radius: 4px; padding: 1px 6px; }
+.find { margin-left: auto; width: 320px; height: 40px; display: flex; align-items: center; gap: 10px; padding: 0 12px 0 2px; border-bottom: 1px solid var(--line-2);
+  color: var(--text-3); font-size: 15px; outline: none; }   /* Ctrl+K stays bound (aria-keyshortcuts, the tooltip); no key is printed */
 .tb { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 2px; font: 500 15px var(--sans); color: var(--text-2);
   background: none; border: 0; }
 .tb .ct { font-weight: 600; color: var(--accent-2); }
@@ -126,20 +126,46 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .lbl .k { font-variant-numeric: tabular-nums; color: var(--accent-2); font-weight: 600; margin-right: 6px; }
 .lbl.miss .k { color: var(--text-2); }   /* the structure clicked by mistake is named in full text colour */
 
-/* ---------------------------------------------------------------------------------- dissection gauge */
-.gauge { position: absolute; right: 64px; top: 230px; height: 640px; width: 230px; }
-.gauge .line { position: absolute; right: 0; top: 0; bottom: 0; width: 1px; background: var(--line-2); }
-.gauge .fill { position: absolute; right: -1px; top: 0; width: 3px; background: var(--accent); }
-.gauge .stop { position: absolute; right: 0; transform: translateY(-50%); display: flex; align-items: center; gap: 12px; }
-.gauge .stop i { width: 9px; height: 1px; background: var(--line-2); }
-.gauge .stop span { font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--text-3); font-variation-settings: "opsz" 14; }
-.gauge .stop.past span { color: color-mix(in srgb, var(--text-3) 72%, transparent); }
-.gauge .stop.cur span { font-style: normal; font-size: 20px; color: var(--text); font-weight: 420; }
-.gauge .knob { position: absolute; right: -8px; width: 17px; height: 17px; border-radius: 50%; background: var(--accent);
-  box-shadow: 0 0 0 4px var(--stage-bottom); transform: translateY(-50%); }
-.gauge .pct { position: absolute; right: 22px; transform: translateY(-50%); margin-top: 22px; font-size: 13px; color: var(--accent-2); font-weight: 600; }
-.gauge .cap { position: absolute; right: 0; top: -44px; text-align: right; font-size: 13px; font-weight: 600; color: var(--text-2); }
-.gauge .end { position: absolute; right: 0; bottom: -36px; font-size: 13px; color: var(--text-3); }
+/* ---------------------------------------------------------------------------------- dissection gauge: the Rule
+   A measuring rule hung beside the specimen (checkpoint 2, option 1). Every stop sits at its real level (the app's
+   DISSECTION_STOPS: 0, .08, .16, .26, .40, .55, .70, .85), 7 px per 1 % of depth. Lines are --leader (4.6:1 on the
+   wall at its lightest), fine marks text-3 at 70 % (3.4:1); past stops text-3, stops to come text-2. A 1 px rule with
+   a mark every 2 %, italic names at the eight levels, brass from the surface to the knob. No column head: the two end
+   captions and the names say what it is. The end caption's capitals line up with the room's column heads (232). */
+.gauge { --gx: 296px; --gt: 27px; --gh: 700px; --fine: color-mix(in srgb, var(--text-3) 70%, transparent);
+  position: absolute; right: 40px; top: 232px; width: 340px; height: 780px; }
+.g-end { position: absolute; left: var(--gx); transform: translateX(-50%); font: 500 11px/14px var(--sans); letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-3); white-space: nowrap; }
+.g-top { top: calc(var(--gt) - 24px); }
+.g-bot { top: calc(var(--gt) + var(--gh) + 12px); }
+.g-track { position: absolute; left: 0; right: 0; top: var(--gt); height: var(--gh); touch-action: none; }
+.g-rail, .g-fill, .g-fine, .g-win { position: absolute; }
+.g-rail { left: var(--gx); width: 1px; top: 0; bottom: 0; background: var(--leader); }
+.g-fill { left: calc(var(--gx) - 1px); width: 3px; top: 0; background: var(--accent); }
+.g-fine { left: calc(var(--gx) - 12px); width: 9px; top: 0; height: calc(var(--gh) + 1px);
+  background: repeating-linear-gradient(180deg, var(--fine) 0 1px, transparent 1px 14px) right top / 5px 100% no-repeat,
+              repeating-linear-gradient(180deg, var(--fine) 0 1px, transparent 1px 70px) right top / 9px 100% no-repeat; }
+.g-win { display: none; left: calc(var(--gx) + 7px); width: 5px; border: 1px solid var(--text); border-left: 0; }
+.gauge[data-only] .g-win { display: block; }
+.g-lv { position: absolute; left: 0; right: 0; height: 0; }
+.g-tick { position: absolute; left: calc(var(--gx) - 17px); width: 14px; height: 1px; background: var(--leader); }
+.g-name { position: absolute; right: calc(100% - var(--gx) + 24px); top: 0; transform: translateY(-52%); white-space: nowrap;
+  font-family: var(--serif); font-style: italic; font-size: 15px; line-height: 20px; color: var(--text-2); font-variation-settings: "opsz" 14; }
+.g-lv.past .g-name { color: var(--text-3); }
+.g-lv.cur .g-name { font-size: 20px; line-height: 26px; font-weight: 460; color: var(--text); font-variation-settings: "opsz" 20; }
+.g-only { position: absolute; right: calc(100% - var(--gx) + 24px); top: 18px; display: inline-flex; align-items: center; gap: 8px;
+  padding: 0; border: 0; background: none; cursor: pointer; font: 400 13px/18px var(--sans); color: var(--text-2); white-space: nowrap; }
+.g-only .box { width: 13px; height: 13px; }
+.g-only .box.on::after { width: 6px; height: 3px; }
+/* The knob is as tall as the percentage's figures (9.5 px: 19 device pixels at 2x, top of the figures to the baseline):
+   a 6 px brass dot in a 1.75 px ring of the wall's own colour. The invisible ::after keeps a 24 px target. */
+.g-knob { position: absolute; left: calc(var(--gx) + .5px); width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  transform: translate(-50%, -50%); box-shadow: 0 0 0 1.75px var(--halo); cursor: grab; outline: none; }
+.g-knob::after { content: ""; position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; border-radius: 50%; transform: translate(-50%, -50%); }
+.g-knob:focus-visible { outline: 2px solid var(--text); outline-offset: 3.5px; }
+.gauge[data-drag] .g-knob { cursor: grabbing; }
+/* the figures span the knob exactly: half a pixel down puts their top and baseline on the ring's top and bottom */
+.g-pct { position: absolute; left: calc(var(--gx) + 12px); transform: translateY(-50%); margin-top: .5px; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--accent-2); }
 
 /* ---------------------------------------------------------------------------------- dock: lettered on the wall under one rule */
 .dock { position: absolute; left: 50%; transform: translateX(-50%); bottom: 16px; display: flex; align-items: center; height: 44px;
@@ -158,8 +184,6 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .mini i { display: block; height: 7px; width: 60px; background: var(--text); opacity: .85; }
 .mini i + i { height: 5px; width: 44px; margin-top: 5px; background: var(--text-2); opacity: .7; }
 .meta { font-size: 13px; line-height: 20px; color: var(--text-2); }
-.keys { display: flex; align-items: center; gap: 6px; }
-.keys kbd { font: 500 12px var(--sans); color: var(--text-2); border: 1px solid var(--hair); border-radius: 4px; padding: 1px 6px; }
 .muted { color: var(--text-3); }
 .serif { font-family: var(--serif); }
 .rule { border: 0; height: 1px; background: var(--hair); margin: 0; }
@@ -178,6 +202,133 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .dots i { width: 28px; height: 3px; background: var(--hair); }
 .dots i.done { background: color-mix(in srgb, var(--accent) 55%, transparent); }
 .dots i.cur { background: var(--accent); }
+
+/* ---------------------------------------------------------------------------------- libraries (checkpoint 2, question C)
+   Lessons are vitrines (option 2): every lab stands lit on the wall with its caption under it, as Models does. The
+   Histology library is the catalogue (option 1): typographic rows, each tissue with a 48 px slide thumbnail.
+   The library room: side column 40–290, the collection in 360–1460 (1100), the selected item's wall label in 1520–1880. */
+.lib-side { position: absolute; left: 40px; top: 232px; width: 250px; }
+.lib-main { position: absolute; left: 360px; top: 232px; width: 1100px; bottom: 0; overflow: hidden; }
+.lib-detail { position: absolute; left: 1520px; top: 232px; width: 360px; }
+.arr { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; font-size: 15px; }
+.lib-side .rule { margin: 28px 0 20px; }
+.lib-side .side-t { font-family: var(--serif); font-size: 20px; line-height: 26px; font-weight: 420; font-variation-settings: "opsz" 24; }
+.lib-side .btn { margin-top: 14px; }
+.big { font-family: var(--serif); font-size: 32px; line-height: 38px; font-weight: 340; }
+.hl .lib-main { display: flex; flex-direction: column; -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 110px), transparent calc(100% - 52px));
+  mask-image: linear-gradient(180deg, #000 calc(100% - 110px), transparent calc(100% - 52px)); }
+
+/* an item: a figure slot, a number, a Literata title, progress and a count */
+.it .fig { position: relative; display: none; }
+.it .fig:not(.set) img { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.it .ti { font-family: var(--serif); font-size: 20px; line-height: 24px; font-weight: 400; font-variation-settings: "opsz" 24; }
+.it .bar { position: relative; height: 2px; background: var(--hair); }
+.it .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p) * 100%); background: var(--accent); }
+.ph { display: block; background: var(--surface-2); }   /* plain placeholder: the mockup has no micrograph of this tissue */
+.slide { display: block; object-fit: cover; border: 1px solid var(--hair); }
+.slide[src$="/strat_squamous_nk.webp"] { object-view-box: inset(702px 4px 42px 306px); }   /* the catalogue's only micrograph is an eight-panel figure: show panel H, the epithelium itself */
+
+/* Lessons: vitrines. Each lab stands in its own pool, captioned below, as on Models */
+.labs { display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 16px; row-gap: 14px; }
+.labs .it { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; text-align: center; height: 252px; }
+.labs .fig { display: flex; flex: 0 0 100%; height: 168px; margin-bottom: 8px; align-items: center; justify-content: center; gap: 2px; }
+.labs .fig .pool { left: 8%; right: 8%; top: -6px; bottom: -6px; opacity: .55; }
+.labs .fig:not(.set) img { max-width: 74%; max-height: 146px; }
+.labs .fig.set img { position: relative; max-height: 120px; max-width: calc(80% / var(--n)); }
+.labs .ti { flex: 0 0 100%; text-wrap: balance; order: 1; }
+.labs .no { order: 2; }
+.labs .ct { order: 3; }
+.labs .bar { order: 4; }
+.labs .no, .labs .ct { margin-top: 3px; color: var(--text-2); }
+.labs .ct::before { content: "\00a0· "; }
+.labs .bar { flex: 0 0 100%; margin-top: 9px; background: none; }
+.labs .bar::before { content: ""; position: absolute; left: calc(50% - 48px); width: 96px; top: 0; bottom: 0; background: var(--hair); }
+.labs .bar i { left: calc(50% - 48px); width: calc(var(--p) * 96px); }
+.labs .it.is-sel .fig { outline: 2px solid var(--accent); outline-offset: 4px; }
+.labs .it .is-cur::after { display: none; }
+
+/* Histology library: catalogue rows in two columns; the list runs on under the fade, with no foot line */
+.tissues .it, .tissues .grp { break-inside: avoid; }
+.tissues .grp > .colhead { break-after: avoid; }
+.tissues .grp > .colhead { display: flex; margin: 0; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.tissues .grp > .colhead span { margin-left: auto; }
+.tissues { columns: 2; column-gap: 60px; column-fill: auto; flex: 1; min-height: 0; }
+.tissues .grp + .grp { margin-top: 26px; }
+.tissues .it { display: grid; grid-template-columns: 48px 1fr auto; column-gap: 16px; align-items: center;
+  height: 46px; border-bottom: 1px solid var(--hair); }
+.tissues .it .fig { display: block; width: 48px; height: 36px; }
+.tissues .it .fig > * { width: 48px; height: 36px; }
+.tissues .it .ti { font-size: 18px; }
+.tissues .it.is-sel .fig > * { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* the selected item's wall label */
+.lib-detail .meta { margin-top: 6px; }
+.lib-detail .colhead { display: flex; margin: 0 0 4px; }
+.lib-detail .colhead span { margin-left: auto; }
+.lessons { list-style: none; margin: 0; padding: 0; }
+.lessons li { display: grid; grid-template-columns: 22px 1fr auto; column-gap: 8px; align-items: baseline; padding: 5px 0; font-size: 14px; line-height: 20px; }
+.lessons li .k { font-size: 13px; color: var(--text-3); }
+.lessons li .k .i { width: 14px; height: 14px; vertical-align: -2px; }
+.lessons li .n { font-size: 13px; color: var(--text-3); }
+.lessons li.done { color: var(--text-2); }
+.lessons li .is-cur::after { bottom: -4px; }
+.dfig { width: 360px; height: 270px; margin-bottom: 18px; }
+.dfig img { width: 100%; height: 100%; }
+
+/* ---------------------------------------------------------------------------------- model viewer: the opened model
+   Parts is the Systems list grown into a tree; Reveal is the gauge's quiet cousin (same track, fill, knob and italic
+   readout, laid flat); the stored views are a strip of small lit tiles under the specimen. */
+.parts { position: absolute; left: 40px; top: 232px; width: 320px; }
+.parts .filter { display: flex; align-items: center; gap: 10px; height: 36px; margin: 0 0 8px; border-bottom: 1px solid var(--line-2);
+  color: var(--text-3); font-size: 14px; }
+.parts .filter .i { width: 16px; height: 16px; }
+.parts ul { list-style: none; margin: 0; padding: 0; }
+.parts li { display: flex; align-items: center; gap: 10px; height: 31px; font-size: 14px; white-space: nowrap; }
+.parts li.l1 { padding-left: 18px; } .parts li.l2 { padding-left: 36px; }
+.parts li.cat0 { font-weight: 500; }
+.parts li.off { color: var(--text-3); }
+.parts li.off .box { border-color: var(--text-3); }
+.parts li .tw { margin-left: auto; width: 14px; height: 14px; color: var(--text-3); }
+.parts li.open > .tw { transform: rotate(90deg); }
+/* the selection is marked as on the atlas: weight 600 and the brass anchor dot */
+.parts li.is-sel { font-weight: 600; color: var(--text); }
+.parts li.is-sel::after { content: ""; margin-left: -2px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 1.5px var(--stage-bottom); flex: none; }
+.box.part::after { content: ""; width: 7px; height: 1.8px; background: var(--text-2); }   /* some of the group is shown */
+
+.vcol { position: absolute; right: 56px; top: 232px; width: 320px; }   /* the instrument, then the wall label */
+.reveal .ctl { margin: 0 0 22px; }
+.reveal .ctl .row { display: flex; align-items: baseline; justify-content: space-between; font-size: 14px; color: var(--text-2); }
+.reveal .ctl .v { font-size: 13px; font-weight: 600; color: var(--accent-2); }
+.reveal .ctl .v.word { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 15px; color: var(--text-3);
+  font-variation-settings: "opsz" 14; }
+.reveal .track { position: relative; height: 22px; margin-top: 4px; }
+.reveal .track .line { position: absolute; left: 0; right: 0; top: 10px; height: 1px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
+.reveal .track .fill { position: absolute; left: 0; top: 9px; height: 3px; background: var(--accent); }
+.reveal .track .tick { position: absolute; top: 15px; width: 1px; height: 5px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
+.reveal .track .knob { position: absolute; top: 3px; width: 15px; height: 15px; margin-left: -7.5px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 4px var(--stage-bottom); }
+.reveal .opt { display: flex; align-items: center; gap: 10px; height: 31px; font-size: 14px; }
+.reveal .views { margin-top: 2px; }
+
+.vstrip { position: absolute; top: 916px; display: flex; align-items: flex-end; gap: 20px; }
+.vstrip .grp .colhead { margin: 0 0 6px; font-weight: 500; color: var(--text-3); white-space: nowrap; }
+.vstrip .grp.cur .colhead { color: var(--text-2); }
+.vstrip .tiles { display: flex; gap: 8px; }
+.vstrip a { position: relative; display: block; width: 64px; height: 49px; overflow: hidden; border-radius: 1px;
+  background: radial-gradient(closest-side, var(--spot), transparent 115%); }
+.vstrip a img { position: absolute; inset: 3px; width: calc(100% - 6px); height: calc(100% - 6px); object-fit: contain; }
+.vstrip a img.cover { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.vstrip a:not(.is-cur-pic) img { opacity: .82; }
+.vstrip a:hover img { opacity: 1; }
+.vstrip a.empty { background: none; box-shadow: inset 0 0 0 1px var(--hair); }   /* no render of this view yet */
+.stage img.plate.close { -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 18%, #000 76%, transparent 92%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 18%, #000 76%, transparent 92%); }
+
+/* Models library: a specimen answers the pointer by brightening its pool, and opens on click */
+.spec { display: block; color: inherit; text-decoration: none; }
+.spec .pool { opacity: .55; transition: opacity .2s; }
+.spec:hover .pool { opacity: 1; }
 </style>
 </head>
 <body>
@@ -248,7 +399,6 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     <p class="prose" style="margin:0 0 18px">The superficial muscles are gone. The ribcage, the abdominal organs and the deep muscles of the limbs are exposed.</p>
     <p class="meta">Depth is measured against how thick the body is at each point, so the hand and the thigh come away together.</p>
     <div style="display:flex; gap:10px; margin-top:22px"><button class="btn"><svg class="i"><use href="#i-back"/></svg>Shallower</button><button class="btn">Deeper<svg class="i"><use href="#i-chevron"/></svg></button></div>
-    <p class="meta keys" style="margin-top:10px">Keys <kbd>[</kbd><kbd>]</kbd></p>
   </div>
   <div class="gauge" data-depth="0.40"></div>
   <div class="dock" data-dock></div>
@@ -289,27 +439,38 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 <div class="app">
   <header class="head" data-chrome="lessons"></header>
   <div class="exhibit"><h1>Lessons</h1><p>303 lessons in 1,614 steps</p></div>
-  <div style="position:absolute; left:40px; top:232px; width:250px">
+  <div class="lib-side">
     <div class="colhead">Arranged by</div>
-    <div style="display:flex; flex-direction:column; align-items:flex-start; gap:10px; font-size:15px">
+    <div class="arr">
       <span class="is-cur">Lab course</span>
       <span class="muted">Lecture exams</span><span class="muted">Body system</span><span class="muted">Region</span><span class="muted">Level</span>
     </div>
-    <hr class="rule" style="margin:28px 0 20px">
-    <div class="colhead">Review</div>
-    <div class="serif num" style="font-size:32px; line-height:38px; font-weight:340">12</div>
-    <p class="meta" style="margin:4px 0 14px">structures are due today, from your practice answers.</p>
-    <button class="btn">Review what is due</button>
-  </div>
-  <div style="position:absolute; left:360px; top:232px; width:1100px">
-    <div class="label-card cont">
-      <img src="../../assets/plates/heart_home_clean.webp" alt="">
-      <div style="flex:1"><div class="colhead">Continue where you left off</div>
-        <div class="t">The coronary circulation</div><div class="meta">Step 2 of 7 · The left coronary artery</div></div>
+    <div class="side-cont">
+      <hr class="rule">
+      <div class="colhead">Continue</div>
+      <div class="side-t">The coronary circulation</div>
+      <p class="meta" style="margin:4px 0 0">Step 2 of 7 · The left coronary artery</p>
       <button class="btn brass">Continue</button>
     </div>
-    <div data-labs style="margin-top:22px"></div>
+    <div class="side-rev">
+      <hr class="rule">
+      <div class="colhead">Review</div>
+      <div class="big num">12</div>
+      <p class="meta" style="margin:4px 0 0">structures are due today, from your practice answers.</p>
+      <button class="btn">Review what is due</button>
+    </div>
   </div>
+  <div class="lib-main">
+    <div class="labs" data-labs></div>
+  </div>
+  <aside class="label-card lib-detail">
+    <div class="t">Blood and heart structure</div>
+    <div class="meta num">Lab 3 · 4 of 10 lessons done · 42 steps</div>
+    <hr>
+    <div class="colhead">Lessons<span>Steps</span></div>
+    <ol class="lessons" data-lab-lessons></ol>
+    <div class="acts"><button class="btn">Open Lab 3<svg class="i"><use href="#i-chevron"/></svg></button></div>
+  </aside>
 </div>
 </section>
 
@@ -331,7 +492,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
       <p style="margin:0 0 12px; font-size:14px; line-height:22px">The kidney, vessels, calyces and ureter, with a juxtamedullary nephron enlarged beside it. Thirteen stored views zoom from the whole organ down to the podocytes.</p>
       <div class="meta" style="line-height:22px">Built for this app · kidney to scale, nephron 15×</div>
       <div class="meta" style="line-height:22px">Overview · Kidney · Lobe&nbsp;opened · Renal&nbsp;vessels · Lobe · Nephron · Corpuscle · Juxtaglomerular&nbsp;apparatus · Podocytes · Loop&nbsp;of&nbsp;Henle · Section · Section&nbsp;opened · Section&nbsp;lobule</div>
-      <div class="acts"><button class="btn brass">Open model</button><button class="btn">Lessons (6)</button></div>
+      <div class="acts"><button class="btn brass" data-open="kidney">Open model</button><button class="btn">Lessons (6)</button></div>
     </div>
   </div>
 </div>
@@ -429,6 +590,50 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 </div>
 </section>
 
+<!-- ================================================================ HISTOLOGY LIBRARY (before a slide is opened) -->
+<section class="screen" data-screen-id="histology-library">
+<div class="app lib hl">
+  <header class="head" data-chrome="histology"></header>
+  <div class="exhibit"><h1>Histology</h1><p class="num">101 tissues · 978 micrographs</p></div>
+  <div class="lib-side cat">
+    <div class="colhead" style="display:flex">Groups<span style="margin-left:auto">Tissues</span></div>
+    <ul data-tissue-groups></ul>
+  </div>
+  <div class="lib-main">
+    <div class="tissues" data-tissues></div>
+  </div>
+  <aside class="label-card lib-detail">
+    <div class="dfig"><img class="slide" src="../../assets/images/histo/simple_columnar.webp" alt="Simple columnar epithelium around a large central lumen"></div>
+    <div class="t">Simple columnar epithelium</div>
+    <div class="meta num">Epithelium · 13 slides · H&amp;E</div>
+    <hr>
+    <p class="note" style="margin:0">Look for one layer of tall cells with basal nuclei, and the thin wall of connective tissue around the tube. It lines the stomach, intestines and gallbladder.</p>
+    <div class="acts"><button class="btn brass">Open the slides</button><button class="btn"><svg class="i"><use href="#i-cube"/></svg>Jejunum model</button></div>
+  </aside>
+</div>
+</section>
+
+<!-- ================================================================ VIEWER (the opened model; ?view=kidney|corpuscle) -->
+<section class="screen" data-screen-id="viewer">
+<div class="app">
+  <div class="pool" data-v-pool></div>
+  <div class="stage" data-stage="tags" data-v-stage></div>
+  <header class="head" data-chrome="models"></header>
+  <div class="exhibit"><h1>Kidney with the nephron</h1><p class="num" data-v-cap></p></div>
+  <div class="parts">
+    <div class="colhead">Parts</div>
+    <div class="filter"><svg class="i"><use href="#i-search"/></svg>Filter parts or groups</div>
+    <ul data-v-parts></ul>
+  </div>
+  <div class="vcol">
+    <div class="reveal" data-v-reveal></div>
+    <div class="label-card" data-v-card style="position:relative; margin-top:40px"></div>
+  </div>
+  <div class="vstrip" data-v-strip role="group" aria-label="Stored views" aria-keyshortcuts="PageUp PageDown"></div>
+  <div class="dock" data-dock></div>
+</div>
+</section>
+
 <!-- ================================================================ SETTINGS -->
 <section class="screen" data-screen-id="settings">
 <div class="app">
@@ -458,7 +663,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     el.innerHTML = `<div class="brand">${mark}<span class="word">Layered Human</span></div><nav class="rooms">` +
       NAV.map(([k, v]) => `<a ${k === cur ? 'aria-current="page"' : ''}>${v}</a>`).join('') + `</nav>
       <span class="hist"><button class="hb" aria-label="Back"><svg class="i"><use href="#i-back"/></svg></button><button class="hb" aria-label="Forward"><svg class="i"><use href="#i-chevron"/></svg></button></span>
-      <div class="find"><svg class="i"><use href="#i-search"/></svg>Search the atlas, lessons, cases<kbd>Ctrl K</kbd></div>
+      <div class="find" role="searchbox" tabindex="0" aria-label="Search the atlas, lessons, cases" aria-keyshortcuts="Control+K" title="Search (Ctrl+K)"><svg class="i"><use href="#i-search"/></svg>Search the atlas, lessons, cases</div>
       <button class="tb">Review <span class="ct num">12 due</span></button><button class="tb">Saved views</button>
       <button class="tb icon ${cur === 'settings' ? 'is-cur' : ''}" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>`;
   });
@@ -467,17 +672,48 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     el.innerHTML = `<button><svg class="i"><use href="#i-section"/></svg>Section</button><button class="${model ? 'on' : ''}">X-ray</button>
       <button>Isolate</button><button>Hide</button><button>Measure</button><button class="on">Labels</button><span class="sep"></span><button>Reset view</button>`;
   });
+  // The app's DISSECTION_STOPS (app/ui/view_panel.py). "Show only this layer" keeps a band 0.13 deep below the cut.
   const STOPS = [[0.00, 'Skin surface'], [0.08, 'Superficial fascia'], [0.16, 'Deep fascia'], [0.26, 'Superficial muscles'],
                  [0.40, 'Deep muscles'], [0.55, 'Skeleton & joints'], [0.70, 'Body cavities'], [0.85, 'Deepest structures']];
+  const ONLY = 0.13, H = 700, GT = 27, Q = new URLSearchParams(location.search);
+  const stopAt = d => STOPS.reduce((c, [lv], i) => d >= lv - 1e-6 ? i : c, 0);
+  function drawGauge(g) {
+    const d = +g.dataset.depth, cur = stopAt(d), pct = Math.round(d * 100), only = 'only' in g.dataset;
+    const top = 232 + GT + d * H;   // the knob's height on the 1080 px wall, for a halo in the wall's own colour
+    const halo = `color-mix(in srgb, var(--stage-bottom) ${(top / 1080 * 100).toFixed(1)}%, var(--stage-top))`;
+    const had = g.contains(document.activeElement);
+    g.innerHTML = `<div class="g-end g-top">Superficial</div><div class="g-track">
+      <div class="g-rail"></div><div class="g-fine"></div><div class="g-fill" style="height:${d * H}px"></div>` +
+      STOPS.map(([lv, n], i) => `<div class="g-lv ${i < cur ? 'past' : i === cur ? 'cur' : 'next'}" style="top:${lv * H}px">
+          <i class="g-tick"></i><span class="g-name">${n.replace('&', '&amp;')}</span>` +
+          (i === cur ? `<button class="g-only" aria-pressed="${only}"><span class="box${only ? ' on' : ''}"></span>Show only this layer</button>` : '') + `</div>`).join('') +
+      `<div class="g-win" style="top:${d * H}px; height:${Math.min(ONLY, 1 - d) * H}px"></div>
+      <div class="g-knob" role="slider" tabindex="0" aria-label="Dissection depth" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100"
+        aria-valuenow="${pct}" aria-valuetext="${pct}% deep, ${STOPS[cur][1]}" aria-keyshortcuts="[ ]" style="top:${d * H}px; --halo:${halo}"></div>
+      <div class="g-pct num" style="top:${d * H}px">${pct}%</div></div><div class="g-end g-bot">Deep</div>`;
+    if (had) g.querySelector('.g-knob').focus();
+  }
+  function setDepth(g, d) { g.dataset.depth = Math.min(1, Math.max(0, Math.round(d * 100) / 100)); drawGauge(g); }
+  function setOnly(g, on) { if (on) g.dataset.only = ''; else delete g.dataset.only; drawGauge(g); }
   document.querySelectorAll('.gauge').forEach(g => {
-    const d = parseFloat(g.dataset.depth), H = 640;
-    let cur = 0; STOPS.forEach(([lv], i) => { if (d >= lv - 1e-6) cur = i; });
-    g.innerHTML = `<div class="cap">Dissection<br><span style="font-weight:400; color:var(--text-3)">Superficial</span></div><div class="line"></div>
-      <div class="fill" style="height:${d * H}px"></div>` +
-      STOPS.map(([lv, n], i) => `<div class="stop ${i < cur ? 'past' : ''} ${i === cur ? 'cur' : ''}" style="top:${(i === cur ? d : lv + ((i + 1 < STOPS.length ? STOPS[i + 1][0] : 1) - lv) / 2) * H}px">
-        <span>${n.replace('&', '&amp;')}</span><i></i></div>`).join('') +
-      `<div class="knob" style="top:${d * H}px"></div><div class="pct num" style="top:${d * H}px">${Math.round(d * 100)}%</div>
-       <div class="end">Deep</div>`;
+    if (Q.get('gauge') === 'drag') g.dataset.drag = '';   // render states: the knob held, "Show only this layer" on
+    if (Q.get('gauge') === 'only') g.dataset.only = '';
+    drawGauge(g);
+    const fromY = y => (y - g.querySelector('.g-track').getBoundingClientRect().top) / H;
+    g.addEventListener('pointerdown', e => {
+      if (e.target.closest('.g-only')) return setOnly(g, !('only' in g.dataset));
+      if (!e.target.closest('.g-track')) return;
+      g.dataset.drag = ''; g.setPointerCapture(e.pointerId); setDepth(g, fromY(e.clientY)); g.querySelector('.g-knob').focus();
+    });
+    g.addEventListener('pointermove', e => { if ('drag' in g.dataset && g.hasPointerCapture(e.pointerId)) setDepth(g, fromY(e.clientY)); });
+    g.addEventListener('pointerup', () => { delete g.dataset.drag; drawGauge(g); });
+    g.addEventListener('keydown', e => {   // down is deeper, as on the wall; [ and ] step between stops, as in the app
+      const d = +g.dataset.depth, cur = stopAt(d);
+      const to = { ArrowDown: d + .01, ArrowRight: d + .01, ArrowUp: d - .01, ArrowLeft: d - .01, PageDown: d + .1, PageUp: d - .1,
+        Home: 0, End: 1, ']': (STOPS[cur + 1] || [d + .1])[0], '[': STOPS[d > STOPS[cur][0] + 1e-6 ? cur : Math.max(0, cur - 1)][0] }[e.key];
+      if (to === undefined || !e.target.closest('.g-knob')) return;
+      e.preventDefault(); setDepth(g, to);
+    });
   });
   // Unit names from data/content/lessons_course_*.json, with "and" for "&"; the same names are on the site.
   const LABS = [['Lab 1', 'Nerve physiology, reflexes and general senses', 9, 9], ['Lab 2', 'Eye, ear, hearing and balance', 8, 11],
@@ -485,11 +721,59 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     ['Practical 1', 'Review of Labs 1–5', 0, 9], ['Lab 6', 'Respiratory structure and ventilation', 0, 9],
     ['Lab 7', 'Exercise physiology and pulmonary health', 0, 5], ['Lab 8', 'Digestive and urinary anatomy', 0, 16],
     ['Lab 9', 'Reproductive systems and early development', 0, 12], ['Practical 2', 'Review of Labs 6–9', 0, 7]];
+  // Each lab's specimen. Only existing renders: Lab 4 borrows the opened heart, Lab 5 the whole-body vessels (nerves
+  // show too), Lab 7 the lung acinus; a practical shows the specimens of the labs it reviews.
+  const LAB_FIG = { 'Lab 1': ['thumb_peripheral_nerve'], 'Lab 2': ['thumb_eyeball', 'thumb_ear'], 'Lab 3': ['heart_home_clean'],
+    'Lab 4': ['heart_open'], 'Lab 5': ['body_vessels_nerves'], 'Lab 6': ['cxr_model'], 'Lab 7': ['thumb_lung_acinus_review_v2'],
+    'Lab 8': ['thumb_hepatobiliary', 'kidney_v_kidney'], 'Lab 9': ['thumb_male_reproductive', 'thumb_female_reproductive'] };
+  LAB_FIG['Practical 1'] = ['Lab 1', 'Lab 2', 'Lab 3', 'Lab 5'].map(k => LAB_FIG[k][0]);
+  LAB_FIG['Practical 2'] = ['Lab 6', 'Lab 7', 'Lab 8', 'Lab 9'].map(k => LAB_FIG[k][0]);
+  const SEL_LAB = 'Lab 3';
   document.querySelectorAll('[data-labs]').forEach(el => {
-    el.innerHTML = LABS.map(([no, t, d, n]) => `<div style="display:grid; grid-template-columns:110px 1fr 220px 80px; align-items:center; height:52px; border-bottom:1px solid var(--hair)">
-      <span class="meta">${no}</span><span class="serif" style="font-size:20px; font-weight:400">${t}</span>
-      <span style="height:2px; background:var(--hair); position:relative"><i style="position:absolute; left:0; top:0; bottom:0; width:${d / n * 100}%; background:var(--accent)"></i></span>
-      <span class="meta num" style="text-align:right">${d} of ${n}</span></div>`).join('');
+    el.innerHTML = LABS.map(([no, t, d, n]) => { const f = LAB_FIG[no], sel = no === SEL_LAB;
+      return `<div class="it ${sel ? 'is-sel' : ''}" style="--p:${d / n}">
+      <div class="fig ${f.length > 1 ? 'set' : ''}"><div class="pool"></div>${f.map(p => `<img src="../../assets/plates/${p}.webp" style="--n:${f.length}" alt="">`).join('')}</div>
+      <span class="no meta">${no}</span><span class="ti"><span class="${sel ? 'is-cur' : ''}">${t}</span></span>
+      <span class="bar"><i></i></span><span class="ct meta num">${d} of ${n}</span></div>`; }).join('');
+  });
+  // Lab 3's lessons and step counts (data/content/lessons_course_lab03.json); the first four are done.
+  const LAB3 = [['Plasma, red cells and platelets', 5], ['White cells: the granulocytes', 5], ['Lymphocytes and monocytes', 4],
+    ['The blood smear and the differential count', 4], ['Where the heart sits and what wraps it', 4], ['The heart wall and cardiac muscle', 3],
+    ['Chambers and the path of blood', 4], ['Outside the heart: grooves and coronary vessels', 5], ['Inside the heart: septa and valves', 4],
+    ['The sheep heart, mapped to the human', 4]];
+  document.querySelectorAll('[data-lab-lessons]').forEach(el => {
+    el.innerHTML = LAB3.map(([t, s], i) => `<li class="${i < 4 ? 'done' : ''}"><span class="k num">${i < 4 ? '<svg class="i"><use href="#i-check"/></svg>' : i + 1}</span>
+      <span>${i === 4 ? `<span class="is-cur">${t}</span>` : t}</span><span class="n num">${s}</span></li>`).join('');
+  });
+  // Histology: groups, names and slide counts from data/histology/catalog.json ("&" written "and"; inside a group the
+  // group word is dropped, as in the Histology room's list). The third field is the tissue's micrograph in
+  // assets/images/histo/ (one per tissue, from the catalogue; credits in assets/images/CREDITS.json); none = no usable image.
+  const TGROUPS = [['Epithelium', 9], ['Connective tissue', 5], ['Cartilage and bone', 6], ['Blood and bone marrow', 2], ['Muscle tissue', 3],
+    ['Nervous tissue', 2], ['Heart and blood vessels', 5], ['Immune organs', 4], ['Skin', 6], ['Digestive system', 19], ['Respiratory system', 6],
+    ['Urinary system', 5], ['Endocrine glands', 6], ['Male reproductive system', 6], ['Female reproductive system', 7], ['Eye and ear', 4],
+    ['Brain and spinal cord', 6]];
+  const SEL_TISSUE = 'Simple columnar';
+  const TISSUES = [
+    ['Epithelium', [['Simple squamous', 11, 'simple_squamous'], ['Simple cuboidal', 12, 'simple_cuboidal'], ['Simple columnar', 13, 'simple_columnar'], ['Pseudostratified ciliated columnar', 12, 'pseudostratified'],
+      ['Stratified squamous, non-keratinised', 3, 'strat_squamous_nk'], ['Stratified squamous, keratinised', 1], ['Transitional (urothelium)', 5, 'transitional'],
+      ['Stratified cuboidal and columnar', 3, 'strat_cub_col'], ['Pleura and peritoneum', 5, 'serosa']]],
+    ['Connective tissue', [['Loose (areolar)', 12, 'loose_ct'], ['Dense regular', 13, 'dense_regular'], ['Dense irregular', 4, 'dense_irregular'], ['Adipose', 11, 'adipose'], ['Reticular', 10, 'reticular_ct']]],
+    ['Cartilage and bone', [['Hyaline cartilage', 14, 'hyaline_cartilage'], ['Elastic cartilage', 14, 'elastic_cartilage'], ['Fibrocartilage', 8, 'fibrocartilage'], ['Compact bone', 14, 'compact_bone'], ['Spongy bone', 8, 'spongy_bone'],
+      ['Bone development and growth plate', 14, 'ossification']]],
+    ['Blood and bone marrow', [['Bone marrow', 13, 'bone_marrow'], ['Blood cells', 13, 'blood']]],
+    ['Muscle tissue', [['Skeletal muscle', 15, 'skeletal_muscle'], ['Cardiac muscle', 14, 'cardiac_muscle'], ['Smooth muscle', 13, 'smooth_muscle']]],
+    ['Nervous tissue', [['Peripheral nerve', 16, 'peripheral_nerve'], ['Sensory and autonomic ganglia', 6, 'ganglion']]],
+    ['Heart and blood vessels', [['Elastic artery (aorta)', 7, 'elastic_artery'], ['Muscular arteries and arterioles', 12, 'muscular_artery'], ['Veins and venules', 13, 'vein'],
+      ['Capillaries and sinusoids', 12, 'capillaries'], ['Heart valves, endocardium and pericardium', 1]]]];
+  document.querySelectorAll('[data-tissue-groups]').forEach(el => {
+    el.innerHTML = TGROUPS.map(([g, n], i) => `<li>${i === 0 ? `<span class="is-cur">${g}</span>` : g}<span class="n num">${n}</span></li>`).join('');
+  });
+  document.querySelectorAll('[data-tissues]').forEach(el => {
+    el.innerHTML = TISSUES.map(([g, ts]) => `<div class="grp"><div class="colhead">${g}<span>Slides</span></div><div class="items">` +
+      ts.map(([t, n, img]) => `<div class="it ${t === SEL_TISSUE ? 'is-sel' : ''}"><div class="fig"><div class="pool"></div>${img
+        ? `<img class="slide" src="../../assets/images/histo/${img}.webp" alt="">` : '<span class="ph slide"></span>'}</div>
+        <span class="ti">${t === SEL_TISSUE ? `<span class="is-cur">${t}</span>` : t}</span><span class="ct meta num">${n}</span></div>`).join('') +
+      '</div></div>').join('');
   });
   // Each caption says what is inside, in five words or fewer (README and data/content/model_summaries.json).
   const MODELS = [['heart_home_clean', 'Heart', 'Chambers, valves, coronary vessels'], ['kidney_v_kidney', 'Kidney with the nephron', 'Kidney, vessels, ureter, nephron'],
@@ -498,12 +782,82 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     ['thumb_liver_lobule', 'Liver lobule', 'Hepatocytes, sinusoids, central vein'], ['thumb_lymph_node', 'Lymph node', 'Capsule, follicles, sinuses, cords'], ['thumb_thin_skin', 'Thin skin', 'Epidermis, dermis, follicles, glands'],
     ['thumb_blood_cells', 'Blood cells', 'Red and white blood cells'], ['thumb_spleen', 'Spleen', 'White and red pulp'], ['thumb_retina', 'Retina', 'Rods, cones and their layers'],
     ['thumb_skeletal_muscle', 'Skeletal muscle', 'Fibres, sarcomeres, a nerve ending'], ['thumb_trachea_wall', 'Trachea wall', 'Lining, glands, cartilage']];
+  // Opening a model keeps the scheme; ?view= picks the stored view.
+  const openURL = view => { const p = new URLSearchParams(location.search); p.set('screen', 'viewer'); p.set('view', view); return '?' + p; };
   document.querySelectorAll('[data-collection]').forEach(el => {
-    el.innerHTML = MODELS.map(([p, n, d], i) => `<div style="position:relative; height:232px">
+    el.innerHTML = MODELS.map(([p, n, d], i) => `<a class="spec" ${i === 1 ? `href="${openURL('kidney')}"` : ''} style="position:relative; height:232px">
       <div class="${i === 1 ? 'is-cur-pic' : ''}" style="position:absolute; left:4px; right:4px; top:4px; height:176px"></div>
-      <div class="pool" style="left:10%; right:10%; top:0; height:180px; opacity:.55"></div>
+      <div class="pool" style="left:10%; right:10%; top:0; height:180px"></div>
       <img src="../../assets/plates/${p}.webp" style="position:absolute; left:50%; top:90px; transform:translate(-50%,-50%); max-width:78%; max-height:150px" alt="">
-      <div class="specimen-cap" style="position:absolute; left:0; right:0; bottom:0"><b>${n}</b><span>${d}</span></div></div>`).join('');
+      <div class="specimen-cap" style="position:absolute; left:0; right:0; bottom:0"><b>${n}</b><span>${d}</span></div></a>`).join('');
+  });
+  document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => { location.search = openURL(b.dataset.open); }));
+
+  /* ------------------------------------------------------------------ the model viewer
+     The kidney's 13 stored views in the shipped order (data/local_model_library/models/kidney_nephron/v4/recipe.json,
+     viewer_cameras), grouped by the three spaces the model holds. Only six views have a render from the app's own
+     renderer (tools/capture/jobs_models*.json); the rest are honest empty tiles. */
+  const VIEW_GROUPS = [
+    ['Overview', [['Family overview (nephron 15x)']]],
+    ['Whole kidney', [['Kidney', 'kidney_v_kidney', 'kidney'], ['Lobe opened'], ['Renal vessels'], ['Lobe', 'kidney_v_lobe']]],
+    ['Nephron, 15×', [['Nephron (15x schematic)', 'kidney_v_nephron'], ['Corpuscle', 'kidney_v_corpuscle', 'corpuscle'],
+      ['Juxtaglomerular apparatus', 'kidney_v_jga'], ['Podocytes', 'kidney_v_podocytes'], ['Loop of Henle']]],
+    ['Section diagram', [['Source section overview'], ['Source section opened'], ['Source section lobule']]]];
+  // Parts rows: [level, title, shown (on | part | off), open (1) or leaf (0) or closed (-1), selected]. Titles and paths
+  // from data/content/model_parts/kidney_nephron.json; what each stored view shows from its "hidden" list.
+  const STATES = {
+    kidney: { view: 'Kidney', cap: 'View 2 of 13 · Kidney · true scale',
+      plate: 'kidney_v_kidney', img: 'left:609px; top:150px; height:740px', pool: 'left:522px; top:40px; width:860px; height:960px',
+      labels: [['aorta', -210, -40, 'Abdominal aorta'], ['ivc', -90, 0, 'Inferior vena cava'], ['rvein', -250, 140, 'Renal vein'],
+               ['rart', 0, -275, 'Renal artery', 1], ['ureter', 70, 60, 'Ureter'], ['capsule', 130, -60, 'Renal capsule']],
+      parts: [[0, 'Kidney', 'part', -1], [0, 'Collecting system', 'part', -1], [0, 'Blood vessels', 'part', 1], [1, 'Large vessels', 'on', -1],
+        [1, 'Renal arteries', 'part', 1], [2, 'Renal artery', 'on', 0, 1], [2, 'Anterior and posterior divisions', 'on', 0],
+        [2, 'Segmental arteries', 'on', 0], [2, 'Interlobar arteries', 'on', 0], [2, 'Arcuate arteries', 'on', 0], [2, 'Interlobular arteries', 'on', 0],
+        [2, 'Arteries (cross-section)', 'off', 0], [1, 'Renal veins', 'part', -1], [0, 'Nephron', 'off', -1]],
+      card: ['Renal artery', 'The renal artery branches from the side of the abdominal aorta and carries about a fifth to a quarter of the cardiac output to the kidneys. It divides at the hilum into anterior and posterior divisions.',
+        'Renovascular hypertension', 'Blood vessels · Renal arteries'] },
+    corpuscle: { view: 'Corpuscle', cap: 'View 7 of 13 · Corpuscle · the nephron enlarged 15 times, not to clinical scale',
+      plate: 'kidney_v_corpuscle', img: 'left:638px; top:84px; height:880px', close: true, pool: 'left:502px; top:70px; width:900px; height:900px',
+      labels: [['bowman', -253, 0, 'Parietal layer of Bowman’s capsule', 1], ['pct', -243, -70, 'Proximal convoluted tubule'],
+               ['pst', -116, 0, 'Proximal straight tubule'], ['tal', -204, 80, 'Thick ascending limb'],
+               ['ccd', 90, -70, 'Cortical collecting duct'], ['dct', 126, 0, 'Distal convoluted tubule'], ['ptc', 75, 40, 'Peritubular capillaries']],
+      parts: [[0, 'Kidney', 'part', -1], [0, 'Collecting system', 'off', -1], [0, 'Blood vessels', 'part', -1], [0, 'Nephron', 'part', 1],
+        [1, 'Overview', 'off', -1], [1, 'Glomerulus', 'on', 1], [2, 'Glomerular capillary wall', 'on', 0], [2, 'Capillary lining (endothelium)', 'on', 0],
+        [2, 'Glomerular basement membrane', 'on', 0], [2, 'Podocytes', 'on', 0], [2, 'Visceral layer of the capsule', 'on', 0],
+        [2, 'Parietal layer of Bowman’s capsule', 'on', 0, 1], [2, 'Mesangium inside the glomerulus', 'on', 0],
+        [1, 'Proximal tubule', 'on', -1], [1, 'Loop of Henle', 'on', -1], [1, 'Distal tubule and collecting duct', 'on', -1],
+        [1, 'Juxtaglomerular apparatus', 'on', -1], [1, 'Blood supply', 'on', -1]],
+      card: ['Parietal layer of Bowman’s capsule', 'The parietal layer is the outer wall of Bowman’s capsule, made of simple squamous epithelium. It is continuous with the proximal tubule at the urinary pole of the glomerulus.',
+        'Crescents', 'Nephron · Glomerulus'] } };
+  document.querySelectorAll('[data-screen-id="viewer"]').forEach(sec => {
+    const v = new URLSearchParams(location.search).get('view'), S = STATES[v] || STATES.kidney;
+    sec.querySelector('[data-v-cap]').textContent = S.cap;
+    sec.querySelector('[data-v-pool]').style.cssText = S.pool;
+    sec.querySelector('[data-v-stage]').innerHTML = `<img class="plate${S.close ? ' close' : ''}" src="../../assets/plates/${S.plate}.webp" data-plate="${S.plate}" style="${S.img}" alt="The kidney model at its ${S.view} view">` +
+      S.labels.map(([a, dx, dy, t, sel]) => `<div class="lbl${sel ? ' is-selected' : ''}" data-anchor="${a}" data-dx="${dx}" data-dy="${dy}">${t}</div>`).join('');
+    sec.querySelector('[data-v-parts]').innerHTML = S.parts.map(([lv, t, on, open, sel]) =>
+      `<li class="l${lv}${lv === 0 ? ' cat0' : ''}${on === 'off' ? ' off' : ''}${open === 1 ? ' open' : ''}${sel ? ' is-sel' : ''}"><span class="box${on === 'on' ? ' on' : on === 'part' ? ' part' : ''}"></span>${t}` +
+      (open ? '<svg class="i tw"><use href="#i-chevron"/></svg>' : '') + '</li>').join('');
+    const track = (pct, fill) => `<div class="track"><div class="line"></div>${fill ? `<div class="fill" style="width:${pct}%"></div>` : ''}` +
+      [0, 25, 50, 75, 100].map(t => `<i class="tick" style="left:${t}%"></i>`).join('') + `<div class="knob" style="left:${pct}%"></div></div>`;
+    sec.querySelector('[data-v-reveal]').innerHTML = `<div class="colhead">Reveal</div>
+      <div class="ctl"><div class="row"><span>Tissue opacity</span><span class="v num">100%</span></div>${track(100, true)}</div>
+      <div class="ctl"><div class="row"><span>Separate layers</span><span class="v word">assembled</span></div>${track(0, false)}</div>
+      <div class="opt"><span class="box"></span>Cut-away</div>
+      <button class="btn" style="height:36px; padding:0 14px; font-size:14px; margin-top:12px; border-color:var(--edge)"><svg class="i" style="width:15px; height:15px"><use href="#i-reset"/></svg>Reset</button>
+      <hr class="rule" style="margin:28px 0 20px">
+      <div class="colhead">Section</div>
+      <div class="views"><span>Sagittal</span><span>Coronal</span><span>Transverse</span></div>`;
+    const [ct, cd, cc, cp] = S.card;
+    sec.querySelector('[data-v-card]').innerHTML = `<div class="t">${ct}</div><hr><div class="note">${cd}</div>
+      <dl style="margin-top:12px"><dt>Clinical</dt><dd>${cc}</dd></dl><div class="acc">${cp}</div>
+      <div class="acts"><button class="btn brass">Isolate</button><button class="btn">Hide</button><button class="btn">Details<svg class="i"><use href="#i-chevron"/></svg></button></div>`;
+    const strip = sec.querySelector('[data-v-strip]');
+    strip.innerHTML = VIEW_GROUPS.map(([g, views]) => `<div class="grp${views.some(([n]) => n === S.view) ? ' cur' : ''}"><div class="colhead">${g}</div><div class="tiles">` +
+      views.map(([n, img, st]) => `<a title="${n}" ${st ? `href="${openURL(st)}"` : ''} class="${img ? '' : 'empty'}${n === S.view ? ' is-cur-pic' : ''}">` +
+        (img ? `<img src="../../assets/plates/${img}.webp" class="${/lobe|jga|podocytes|corpuscle/.test(img) ? 'cover' : ''}" alt="">` : '') + '</a>').join('') +
+      '</div></div>').join('');   // PgUp and PgDn step through the views (aria-keyshortcuts); no key is printed
+    strip.style.left = (952 - strip.getBoundingClientRect().width / 2) + 'px';   // centred under the specimen
   });
   // Film pins from the case (data/content/radiology.json, cxr_pa): only the ones the model names, with the case's numbers.
   const CXR = [[1, .465, .1], [2, .2, .13], [4, .085, .115], [5, .43, .215], [7, .435, .62], [8, .715, .68], [12, .275, .785], [17, .775, .6]];
@@ -530,6 +884,15 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 })();
 </script>
 <script src="../../assets/plates/plates.js"></script>
+<script>
+// The kidney view plates have no picking-buffer anchors yet: these points (plate pixels) were placed by eye on the
+// renders. The app reads them from the renderer's picking buffer instead.
+Object.assign(window.LH_PLATES.anchors, {
+  kidney_v_kidney: { aorta: { x: 308, y: 235 }, ivc: { x: 123, y: 388 }, rart: { x: 470, y: 464 }, rvein: { x: 352, y: 517 },
+                     ureter: { x: 573, y: 822 }, capsule: { x: 799, y: 446 } },
+  kidney_v_corpuscle: { bowman: { x: 480, y: 680 }, pct: { x: 460, y: 500 }, pst: { x: 200, y: 1040 }, tal: { x: 380, y: 1240 },
+                        dct: { x: 1096, y: 670 }, ptc: { x: 1200, y: 1200 }, ccd: { x: 1170, y: 500 } } });
+</script>
 <script src="../shared/mock.js"></script>
 </body>
 </html>

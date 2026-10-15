@@ -8,6 +8,7 @@
 <link rel="icon" href="../../identity/specimen/favicon.ico" sizes="32x32">
 <link rel="icon" href="../../identity/specimen/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../identity/specimen/apple-touch-icon.png">
+<link rel="preload" as="image" href="img/peel_00_skin-m.webp" imagesrcset="img/peel_00_skin-m.webp 669w, ../../assets/plates/peel_00_skin.webp 929w" imagesizes="(max-width: 899px) 216px, (max-width: 1099px) 290px, (max-height: 800px) 288px, calc(41.5vh - 43px)" fetchpriority="high">
 <link rel="stylesheet" href="../../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../../system/schemes.css">
 <script src="../../system/schemes.js"></script>
@@ -341,16 +342,15 @@ main { overflow-x: clip; }
 .hero-label.is-hidden .wl-latin { color: var(--text-3); }
 #hero-leaders { transition: opacity .35s; }
 
-/* The dissection gauge: the app's instrument, set beside the figure. Each stop sits at its real level. */
+/* The dissection gauge: the app's Rule, set beside the figure. Each stop sits at its real level. No heading: the end
+   captions and the names say what it is. */
 .gauge {
   position: absolute; z-index: 4; right: var(--gutter); width: 340px;
   top: calc(var(--by) + 158px); bottom: 40px;
   display: flex; flex-direction: column;
   -webkit-user-select: none; user-select: none;
 }
-.g-cap { margin: 0; font-size: 13px; line-height: 1.45; font-weight: 600; color: var(--text-2); }
-.g-cap span { display: block; font-weight: 400; color: var(--text-3); }
-.g-track { position: relative; flex: 1; min-height: 240px; margin: 22px 0 8px; cursor: pointer; }
+.g-track { position: relative; flex: 1; min-height: 240px; margin: 34px 0 34px; cursor: pointer; }
 .g-rail { position: absolute; left: -22px; width: 44px; top: -12px; bottom: -12px; touch-action: none; cursor: grab; }
 .g-track.is-dragging, .g-track.is-dragging .g-rail { cursor: grabbing; }
 .g-line { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: color-mix(in srgb, var(--text-3) 64%, transparent); }
@@ -371,20 +371,30 @@ main { overflow-x: clip; }
 }
 .g-stop.past span { color: var(--text-3); }
 .g-stop.cur span { font-style: normal; font-size: 20px; font-weight: 420; color: var(--text); font-variation-settings: "opsz" 20; }
-.g-end, .g-pct { position: absolute; right: calc(100% + 18px); transform: translateY(-50%); white-space: nowrap; }
-.g-end { font-size: 11px; line-height: 1; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
-.g-end.top { top: 0; }
-.g-end.bot { top: 100%; }
-.g-pct { top: calc(var(--d) * 100%); margin-top: 22px; font-size: 13px; font-weight: 600; color: var(--accent-2); font-variant-numeric: tabular-nums lining-nums; }
+/* the end captions sit on the rule's line, above and below it, as in the app */
+.g-end { position: absolute; left: .5px; transform: translateX(-50%); white-space: nowrap; font: 500 11px/14px var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+.g-end.top { top: -26px; }
+.g-end.bot { top: calc(100% + 12px); }
+/* the percentage rides beside the knob, left of the rule; its figures span the knob exactly */
+.g-pct { position: absolute; right: calc(100% + 12px); top: calc(var(--d) * 100%); transform: translateY(-50%);
+  margin-top: .25px; font: 600 13px/18px var(--sans); color: var(--accent-2); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+/* the one cue that the body peels: a quiet line under the percentage, gone once the gauge has been used */
+.g-cue { position: absolute; right: calc(100% + 12px); top: 17px; margin: 0; white-space: nowrap;
+  font: 400 13px/18px var(--sans); color: var(--text-3); transition: opacity .4s var(--ease), visibility .4s; }
+.gauge.is-used .g-cue { opacity: 0; visibility: hidden; }
+/* The knob is as tall as the percentage's figures, as in the app: a 6 px brass dot in a 1.75 px ring of the wall's own
+   colour, 9.5 px across. The invisible ::after keeps the target at 24 px for a mouse and 44 px for a finger. */
 .g-knob {
-  position: absolute; left: -8px; top: calc(var(--d) * 100%); margin-top: -8.5px;
-  width: 17px; height: 17px; border-radius: 50%;
-  background: var(--accent); box-shadow: 0 1px 3px color-mix(in srgb, var(--stage-bottom) 80%, transparent);
-  cursor: grab; touch-action: none;
+  position: absolute; left: .5px; top: calc(var(--d) * 100%); transform: translate(-50%, -50%);
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 1.75px color-mix(in srgb, var(--stage-top) 50%, var(--stage-bottom));
+  cursor: grab; touch-action: none; z-index: 2;
 }
+.g-knob::after { content: ""; position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; border-radius: 50%; transform: translate(-50%, -50%); }
+@media (pointer: coarse) { .g-knob::after { width: 44px; height: 44px; } }
 .g-knob:focus { outline: none; }
 /* the ring shows when the knob was reached or moved by keyboard, not after a drag (.is-kb is set by the last input) */
-.gauge.is-kb .g-knob:focus { outline: 2px solid var(--accent); outline-offset: 4px; }
+.gauge.is-kb .g-knob:focus { outline: 2px solid var(--text); outline-offset: 3.5px; }
 .gauge.is-kb .g-knob:focus ~ .g-stops .g-stop.cur span { text-decoration: underline 2px var(--accent); text-underline-offset: 6px; }
 
 /* ---------- Rooms ---------- */
@@ -658,15 +668,19 @@ main { overflow-x: clip; }
     grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "spec gauge" "copy copy" "label label";
     column-gap: 14px; justify-content: center;
   }
-  .hero-spec { margin-top: 8px; -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 84%); mask-image: linear-gradient(180deg, #000 60%, transparent 84%); --pool-w: 190%; }
+  .hero-spec { margin-top: 8px; --pool-w: 190%; }
+  /* the legs fade under the headline: the mask is on the plates only, so the pool around them is never clipped to a box */
+  .hero-spec .peel-stage { -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 84%); mask-image: linear-gradient(180deg, #000 60%, transparent 84%); }
   .hero-copy { padding-top: 0; margin-top: calc(var(--fig-h) * -.22); }
   .hero-label { justify-self: start; max-width: 360px; margin: 40px 0 0; }
-  .gauge { margin: calc(8px + var(--fig-h) * .05) 0 0; height: calc(var(--fig-h) * .66); }
+  .gauge { margin: calc(var(--fig-h) * .07) 0 0; height: calc(var(--fig-h) * .62); }
+  /* no room left of the rule beside the figure: the stop names carry the depth, and the cue sits at the rule's foot */
   .g-end, .g-pct { display: none; }
+  .g-cue { right: auto; left: 17px; top: calc(100% + 12px); }
   .g-stop { gap: 8px; }
   .g-stop span { font-size: 13px; }
   .g-stop.cur span { font-size: 14px; font-weight: 500; }
-  .g-track { min-height: 0; margin-top: 16px; }
+  .g-track { min-height: 0; margin: 0; }
   .split, .otc, .micro, .course, .two-texts, .eff, .desk-after { grid-template-columns: minmax(0, 1fr); }
   .split { gap: 20px; }
   .section-stage { padding: 24px 0 0; }
@@ -822,7 +836,8 @@ main { overflow-x: clip; }
 
   <figure class="hero-spec pool" id="hero-spec" role="img" aria-label="The whole body from the front at the skin surface, nothing removed">
     <div class="peel-stage" id="peel-stage">
-      <img class="plate lift" id="hero-img" src="../../assets/plates/peel_00_skin.webp" width="929" height="2240" fetchpriority="high" alt="">
+      <img class="plate lift" id="hero-img" src="img/peel_00_skin-m.webp" srcset="img/peel_00_skin-m.webp 669w, ../../assets/plates/peel_00_skin.webp 929w"
+           sizes="(max-width: 899px) 216px, (max-width: 1099px) 290px, (max-height: 800px) 288px, calc(41.5vh - 43px)" width="929" height="2240" fetchpriority="high" alt="">
     </div>
     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
       <!-- Both biceps on the 8% selection render. At 16% they are unchanged, so that render is shown through this outline. -->
@@ -841,7 +856,6 @@ main { overflow-x: clip; }
     </div>
   </div>
   <div class="gauge" id="gauge" style="--d:0">
-    <p class="g-cap">Dissection<span>Drag to peel</span></p>
     <div class="g-track" id="g-track">
       <div class="g-line"></div><div class="g-fine"></div><div class="g-fill"></div>
       <span class="g-end top" aria-hidden="true">Superficial</span>
@@ -850,6 +864,7 @@ main { overflow-x: clip; }
       <div class="g-knob" id="g-knob" role="slider" tabindex="0" aria-label="Dissection depth" aria-orientation="vertical"
            aria-valuemin="0" aria-valuemax="85" aria-valuenow="0" aria-valuetext="Skin surface, 0% deep"></div>
       <span class="g-pct" aria-hidden="true">0%</span>
+      <p class="g-cue" aria-hidden="true">Drag to peel</p>
       <ol class="g-stops" aria-hidden="true"></ol>
     </div>
   </div>
@@ -868,27 +883,27 @@ main { overflow-x: clip; }
   <div class="wrap">
     <ol class="gallery" id="gallery" aria-label="The same body at six dissection depths">
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img class="lift" src="../../assets/plates/peel_00_skin.webp" width="929" height="2240" loading="lazy" alt="The body at 0% dissection depth: the skin surface, nothing removed"></div>
+        <div class="pool peel-pool"><img class="lift" src="../../assets/plates/peel_00_skin.webp" srcset="img/peel_00_skin-420.webp 420w, ../../assets/plates/peel_00_skin.webp 929w" sizes="auto, (max-width: 760px) 62vw, 200px" width="929" height="2240" loading="lazy" alt="The body at 0% dissection depth: the skin surface, nothing removed"></div>
         <figcaption class="lit-fade"><span class="pl-name">Skin surface</span><span class="pl-depth">0–8%</span><span class="pl-line">The body as you first see it, nothing taken away.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img src="../../assets/plates/peel_16_fascia.webp" width="909" height="2194" loading="lazy" alt="The body at 16% dissection depth: the deep fascia over the muscles of the trunk and limbs"></div>
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_16_fascia.webp" srcset="img/peel_16_fascia-420.webp 420w, ../../assets/plates/peel_16_fascia.webp 909w" sizes="auto, (max-width: 760px) 62vw, 200px" width="909" height="2194" loading="lazy" alt="The body at 16% dissection depth: the deep fascia over the muscles of the trunk and limbs"></div>
         <figcaption class="lit-fade"><span class="pl-name">Deep fascia</span><span class="pl-depth">16–26%</span><span class="pl-line">The fascia that wraps the muscles of the trunk and limbs.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img src="../../assets/plates/peel_26_superficial.webp" width="907" height="2186" loading="lazy" alt="The body at 26% dissection depth: the superficial muscles exposed"></div>
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_26_superficial.webp" srcset="img/peel_26_superficial-420.webp 420w, ../../assets/plates/peel_26_superficial.webp 907w" sizes="auto, (max-width: 760px) 62vw, 200px" width="907" height="2186" loading="lazy" alt="The body at 26% dissection depth: the superficial muscles exposed"></div>
         <figcaption class="lit-fade"><span class="pl-name">Superficial muscles</span><span class="pl-depth">26–40%</span><span class="pl-line">The deltoid, the biceps, the abdominal wall and the front of the thigh.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img src="../../assets/plates/peel_40_deep.webp" width="894" height="2178" loading="lazy" alt="The body at 40% dissection depth: ribcage, abdominal organs and deep muscles exposed"></div>
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_40_deep.webp" srcset="img/peel_40_deep-420.webp 420w, ../../assets/plates/peel_40_deep.webp 894w" sizes="auto, (max-width: 760px) 62vw, 200px" width="894" height="2178" loading="lazy" alt="The body at 40% dissection depth: ribcage, abdominal organs and deep muscles exposed"></div>
         <figcaption class="lit-fade"><span class="pl-name">Deep muscles</span><span class="pl-depth">40–55%</span><span class="pl-line">Ribcage, abdominal organs and the deep muscles.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img src="../../assets/plates/peel_55_skeleton.webp" width="792" height="2178" loading="lazy" alt="The body at 55% dissection depth: the bones and joints of the limbs, with the thoracic and abdominal organs in place"></div>
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_55_skeleton.webp" srcset="img/peel_55_skeleton-420.webp 420w, ../../assets/plates/peel_55_skeleton.webp 792w" sizes="auto, (max-width: 760px) 62vw, 200px" width="792" height="2178" loading="lazy" alt="The body at 55% dissection depth: the bones and joints of the limbs, with the thoracic and abdominal organs in place"></div>
         <figcaption class="lit-fade"><span class="pl-name">Skeleton &amp; joints</span><span class="pl-depth">55–70%</span><span class="pl-line">Bones and joints of the limbs, the organs still in place.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img src="../../assets/plates/peel_70_cavities.webp" width="773" height="2074" loading="lazy" alt="The body at 70% dissection depth: the heart, the great vessels and the organs at the back of the abdomen"></div>
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_70_cavities.webp" srcset="img/peel_70_cavities-420.webp 420w, ../../assets/plates/peel_70_cavities.webp 773w" sizes="auto, (max-width: 760px) 62vw, 200px" width="773" height="2074" loading="lazy" alt="The body at 70% dissection depth: the heart, the great vessels and the organs at the back of the abdomen"></div>
         <figcaption class="lit-fade"><span class="pl-name">Body cavities</span><span class="pl-depth">70–85%</span><span class="pl-line">The heart, the great vessels and the kidneys.</span></figcaption>
       </figure></li>
     </ol>
@@ -908,7 +923,7 @@ main { overflow-x: clip; }
   <figure class="exhibit" style="margin:0">
     <div class="section-stage" id="section-stage">
       <div class="pool section-pool">
-        <img id="section-img" src="../../assets/plates/section_inferior.webp" width="2030" height="1149" loading="lazy"
+        <img id="section-img" src="../../assets/plates/section_inferior.webp" srcset="img/section_inferior-1000.webp 1000w, ../../assets/plates/section_inferior.webp 2030w" sizes="auto, (max-width: 899px) 92vw, 912px" width="2030" height="1149" loading="lazy"
              alt="Transverse section through the thorax seen from below, with the heart, both lungs, the liver, a thoracic vertebra and the chest wall muscles named around the edge">
       </div>
       <ol class="edge-labels" id="edge-labels">
@@ -945,17 +960,17 @@ main { overflow-x: clip; }
     <div class="exhibit">
       <ol class="otc-row" aria-label="Three stored views of the kidney model, from organ to cell">
         <li style="--a:.928"><figure>
-          <div class="pool otc-pool"><img src="../../assets/plates/kidney_v_kidney.webp" width="981" height="1057" loading="lazy" alt="The kidney model: the whole organ"></div>
+          <div class="pool otc-pool"><img src="../../assets/plates/kidney_v_kidney.webp" srcset="img/kidney_v_kidney-520.webp 520w, ../../assets/plates/kidney_v_kidney.webp 981w" sizes="auto, 260px" width="981" height="1057" loading="lazy" alt="The kidney model: the whole organ"></div>
           <figcaption><span class="pl-name">Kidney</span><span class="pl-line">The whole organ</span></figcaption>
         </figure></li>
         <li style="--a:.713"><span class="otc-step" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         <figure>
-          <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_corpuscle.webp" width="1284" height="1800" loading="lazy" alt="The renal corpuscle: the glomerulus inside its capsule, with the tubules around it"></div>
+          <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_corpuscle.webp" srcset="img/kidney_v_corpuscle-420.webp 420w, ../../assets/plates/kidney_v_corpuscle.webp 1284w" sizes="auto, 260px" width="1284" height="1800" loading="lazy" alt="The renal corpuscle: the glomerulus inside its capsule, with the tubules around it"></div>
           <figcaption><span class="pl-name">Renal corpuscle</span><span class="pl-line">The glomerulus in its capsule</span></figcaption>
         </figure></li>
         <li style="--a:1"><span class="otc-step" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         <figure>
-          <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_podocytes.webp" width="1800" height="1800" loading="lazy" alt="Podocytes wrapping a glomerular capillary with their foot processes"></div>
+          <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_podocytes.webp" srcset="img/kidney_v_podocytes-560.webp 560w, ../../assets/plates/kidney_v_podocytes.webp 1800w" sizes="auto, 260px" width="1800" height="1800" loading="lazy" alt="Podocytes wrapping a glomerular capillary with their foot processes"></div>
           <figcaption><span class="pl-name">Podocytes</span><span class="pl-line">Foot processes on a capillary</span></figcaption>
         </figure></li>
       </ol>
@@ -984,7 +999,7 @@ main { overflow-x: clip; }
       <figure>
         <div class="lightbox">
           <div class="pin-stage" id="film-stage">
-            <img src="../../assets/images/cxr_pa.jpg" width="1280" height="1464" loading="lazy"
+            <img src="../../assets/images/cxr_pa.jpg" srcset="img/cxr_pa-720.webp 720w, ../../assets/images/cxr_pa.jpg 1280w" sizes="auto, (max-width: 899px) 92vw, 503px" width="1280" height="1464" loading="lazy"
                  alt="Chest radiograph, posteroanterior view, with eight numbered labels: trachea, right clavicle, right humeral head, superior vena cava, right atrium, left ventricle, right hemidiaphragm and left lung">
           </div>
         </div>
@@ -1006,7 +1021,7 @@ main { overflow-x: clip; }
       <figure>
         <div class="pool model-pool">
           <div class="pin-stage" id="model-stage">
-            <img src="../../assets/plates/cxr_model.webp" width="1852" height="2322" loading="lazy"
+            <img src="../../assets/plates/cxr_model.webp" srcset="img/cxr_model-1000.webp 1000w, ../../assets/plates/cxr_model.webp 1852w" sizes="auto, (max-width: 899px) 92vw, 503px" width="1852" height="2322" loading="lazy"
                  alt="The thorax model set up like the PA film: lungs, heart and great vessels solid, ribcage translucent, with the same eight numbers">
           </div>
         </div>
@@ -1039,11 +1054,11 @@ main { overflow-x: clip; }
     </div>
     <div class="eff-pair">
       <figure>
-        <div class="lightbox"><img src="../../assets/images/cxr_effusion.jpg" width="1280" height="1117" loading="lazy" style="width:100%;height:auto"
+        <div class="lightbox"><img src="../../assets/images/cxr_effusion.jpg" srcset="img/cxr_effusion-920.webp 920w, ../../assets/images/cxr_effusion.jpg 1280w" sizes="auto, (max-width: 899px) 56vw, 450px" width="1280" height="1117" loading="lazy" style="width:100%;height:auto"
              alt="Chest radiograph with a massive right pleural effusion: the right side of the chest is white with fluid"></div>
       </figure>
       <figure>
-        <div class="pool model-pool"><img src="../../assets/plates/cxr_effusion_model.webp" width="1287" height="2178" loading="lazy" style="width:100%;height:auto"
+        <div class="pool model-pool"><img src="../../assets/plates/cxr_effusion_model.webp" srcset="img/cxr_effusion_model-560.webp 560w, ../../assets/plates/cxr_effusion_model.webp 1287w" sizes="auto, (max-width: 899px) 30vw, 242px" width="1287" height="2178" loading="lazy" style="width:100%;height:auto"
              alt="The thorax model with the right pleural effusion shown as fluid around the right lung"></div>
       </figure>
     </div>
@@ -1108,7 +1123,7 @@ main { overflow-x: clip; }
     <figure>
       <div class="lightbox">
         <div class="pin-stage" id="micro-stage">
-          <img src="../../assets/images/histo_simple_columnar.jpg" width="1280" height="960" loading="lazy"
+          <img src="../../assets/images/histo_simple_columnar.jpg" srcset="img/histo_simple_columnar-720.webp 720w, ../../assets/images/histo_simple_columnar.jpg 1280w" sizes="auto, (max-width: 899px) 92vw, 697px" width="1280" height="960" loading="lazy"
                alt="Micrograph of simple columnar epithelium around a round lumen, with five numbered labels: lumen, apical surface, columnar cell, nucleus and connective tissue">
           <span class="pin" data-n="1" style="left:50%;top:30%" aria-hidden="true">1</span>
           <span class="pin" data-n="2" style="left:50%;top:58.5%" aria-hidden="true">2</span>
@@ -1138,19 +1153,19 @@ main { overflow-x: clip; }
   </div>
   <ol class="wrap micro-models" aria-label="Micro models with the same layers in 3D">
     <li><figure class="exhibit">
-      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_oesophagus_wall.webp" width="567" height="629" loading="lazy" alt="3D model of the oesophagus wall with its layers cut open"></div>
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_oesophagus_wall.webp" srcset="img/thumb_oesophagus_wall-640.webp 640w, ../../assets/plates/thumb_oesophagus_wall.webp 900w" sizes="auto, (max-width: 899px) 45vw, 310px" width="567" height="629" loading="lazy" alt="3D model of the oesophagus wall with its layers cut open"></div>
       <figcaption class="lit-fade"><span class="pl-name">Oesophagus wall</span></figcaption>
     </figure></li>
     <li><figure class="exhibit">
-      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_liver_lobule.webp" width="567" height="629" loading="lazy" alt="3D model of a liver lobule"></div>
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_liver_lobule.webp" srcset="img/thumb_liver_lobule-640.webp 640w, ../../assets/plates/thumb_liver_lobule.webp 846w" sizes="auto, (max-width: 899px) 45vw, 310px" width="567" height="629" loading="lazy" alt="3D model of a liver lobule"></div>
       <figcaption class="lit-fade"><span class="pl-name">Liver lobule</span></figcaption>
     </figure></li>
     <li><figure class="exhibit">
-      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_compact_bone.webp" width="567" height="629" loading="lazy" alt="3D model of compact bone with its osteons"></div>
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_compact_bone.webp" srcset="img/thumb_compact_bone-640.webp 640w, ../../assets/plates/thumb_compact_bone.webp 892w" sizes="auto, (max-width: 899px) 45vw, 310px" width="567" height="629" loading="lazy" alt="3D model of compact bone with its osteons"></div>
       <figcaption class="lit-fade"><span class="pl-name">Osteon</span></figcaption>
     </figure></li>
     <li><figure class="exhibit">
-      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_retina.webp" width="567" height="629" loading="lazy" alt="3D model of the layers of the retina"></div>
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_retina.webp" srcset="img/thumb_retina-640.webp 640w, ../../assets/plates/thumb_retina.webp 900w" sizes="auto, (max-width: 899px) 45vw, 310px" width="567" height="629" loading="lazy" alt="3D model of the layers of the retina"></div>
       <figcaption class="lit-fade"><span class="pl-name">Retina</span></figcaption>
     </figure></li>
   </ol>
@@ -1462,24 +1477,31 @@ main { overflow-x: clip; }
       img.style.width = ((b[2] - b[0]) / SW * 100) + '%';
       img.style.height = ((b[3] - b[1]) / SH * 100) + '%';
     }
-    function src(name) { return '../../assets/plates/' + name + '.webp'; }
+    /* the 72 % copies in img/ are enough up to about 1,600 device pixels of figure height (a phone at 3x, 1440 at 2x) */
+    var MED = /^(peel_00_skin|peel_16_fascia|peel_40_deep|peel_55_skeleton|peel_70_cavities|peel_85_deepest|hero26?_sel_ffffff)$/;
+    function src(name) {
+      var px = stage.offsetHeight * (window.devicePixelRatio || 1);
+      return MED.test(name) && px <= 1650 ? 'img/' + name + '-m.webp' : '../../assets/plates/' + name + '.webp';
+    }
+    function dims(img, name) { var b = boxOf(name); if (b) { img.width = b[2] - b[0]; img.height = b[3] - b[1]; } }
+    function used() { gauge.classList.add('is-used'); }
     /* plate elements: the skin is in the page; the rest are made now and fetched once the page is idle */
     STOPS.forEach(function (st, i) {
       var img = i === 0 ? $('#hero-img') : document.createElement('img');
       img.alt = ''; img.decoding = 'async';
       st.img = img; st.ready = i === 0;
-      if (i > 0) { img.className = 'plate'; img.style.opacity = 0; img.style.zIndex = 20 - 2 * i; place(img, key(st)); stage.appendChild(img); }
+      if (i > 0) { img.className = 'plate'; img.style.opacity = 0; img.style.zIndex = 20 - 2 * i; dims(img, key(st)); place(img, key(st)); stage.appendChild(img); }
       if (st.over) {
         var o = document.createElement('img');
         o.className = 'plate'; o.alt = ''; o.style.opacity = 0; o.style.zIndex = 21 - 2 * i; o.style.clipPath = 'url(#clip-biceps)';
-        place(o, st.over + hex); stage.appendChild(o); st.overImg = o;
+        dims(o, st.over + hex); place(o, st.over + hex); stage.appendChild(o); st.overImg = o;
       }
       img.addEventListener('load', function () { st.ready = true; render(); });
       var li = document.createElement('li');
       li.className = 'g-stop'; li.style.top = (st.lv * 100) + '%';
       li.innerHTML = '<i></i><span></span>';
       li.lastChild.textContent = st.name;
-      li.addEventListener('click', function () { load(); animateTo(st.lv); knob.focus({ preventScroll: true }); });
+      li.addEventListener('click', function () { load(); used(); animateTo(st.lv); knob.focus({ preventScroll: true }); });
       stopList.appendChild(li); st.li = li;
     });
     function load() {
@@ -1547,7 +1569,7 @@ main { overflow-x: clip; }
       if (e.button > 0) return;
       /* on touch, only the rail and the knob drag, so the page still scrolls over the stop names */
       if (e.pointerType === 'touch' && !e.target.closest('.g-rail, .g-knob')) return;
-      load(); cancelAnimationFrame(tween);
+      load(); used(); cancelAnimationFrame(tween);
       dragging = true; track.classList.add('is-dragging');
       track.setPointerCapture(e.pointerId);
       setDepth(yToDepth(e.clientY));
@@ -1565,7 +1587,7 @@ main { overflow-x: clip; }
       else if (e.key === 'Home') to = 0;
       else if (e.key === 'End') to = STOPS.length - 1;
       if (to === null) return;
-      e.preventDefault(); load(); animateTo(STOPS[to].lv);
+      e.preventDefault(); load(); used(); animateTo(STOPS[to].lv);
     });
     knob.addEventListener('focus', load);
     document.addEventListener('keydown', function () { gauge.classList.add('is-kb'); }, true);
@@ -1579,7 +1601,7 @@ main { overflow-x: clip; }
     render();
     return {
       setSelect: setSelect,
-      set: function (d) { load(); cancelAnimationFrame(tween); setDepth(d); },
+      set: function (d) { load(); used(); cancelAnimationFrame(tween); setDepth(d); },
       /* where the selected biceps sit on the stage, as fractions of the skin plate, or null when they are not visible */
       anchor: function () {
         var st = STOPS[shownIdx < 0 ? 0 : shownIdx];
