@@ -8,16 +8,17 @@
 <link rel="icon" href="../../identity/specimen/favicon.ico" sizes="32x32">
 <link rel="icon" href="../../identity/specimen/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../identity/specimen/apple-touch-icon.png">
-<link rel="preload" as="image" href="img/peel_00_skin-m.webp" imagesrcset="img/peel_00_skin-m.webp 669w, ../../assets/plates/peel_00_skin.webp 929w" imagesizes="(max-width: 899px) 216px, (max-width: 1099px) 290px, (max-height: 800px) 288px, calc(41.5vh - 43px)" fetchpriority="high">
+<link rel="preload" as="image" href="img/peel_00_skin-m.webp" imagesrcset="img/peel_00_skin-m.webp 669w, ../../assets/plates/peel_00_skin.webp 929w" imagesizes="(max-width: 899px) 216px, (max-width: 1099px) 290px, (max-height: 720px) 256px, calc(41.5vh - 43px)" fetchpriority="high">
 <link rel="stylesheet" href="../../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../../system/schemes.css">
 <script src="../../system/schemes.js"></script>
 <script src="../../assets/plates/plates.js"></script>
 <script>
-  /* Pick the wall colour before first paint: ?scheme= first, then the saved choice, then slate. */
+  /* Pick the wall colour before first paint: ?scheme= or #wall-<name> first, then the saved choice, then slate. */
   (function () {
     var d = document.documentElement, S = (window.LH_SCHEMES && LH_SCHEMES.specimen.schemes) || {}, k = null;
     try { k = new URLSearchParams(location.search).get('scheme'); } catch (e) {}
+    if ((!k || !S[k]) && /^#wall-[a-z]+$/.test(location.hash)) k = location.hash.slice(6);
     if (!k || !S[k]) { try { k = localStorage.getItem('lh-specimen-scheme'); } catch (e) {} }
     if (!k || !S[k]) k = 'slate';
     d.setAttribute('data-scheme', k);
@@ -306,11 +307,15 @@ main { overflow-x: clip; }
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
-  min-height: max(100svh, 800px);
+  min-height: max(100svh, 720px);
   padding: calc(var(--head-h) + 24px) var(--gutter) 48px;
   display: flex; align-items: center;
   /* the selected biceps' height on the figure: the label's title and the gauge below it hang from this line */
   --by: calc(var(--head-h) + 6px + (100% - var(--head-h) - 32px) * .2955);
+  /* On short screens (below about 930 px) the label and the gauge rise together by just enough to keep the rule 360 px
+     long, so stops 8 % apart are 29 px apart, more than the current name's 26 px line. The rule's length is
+     .7045 x the hero's height - 295 px; the label then ends at the biceps' height instead of starting there. */
+  --lift: max(0px, 655px - 70.45%);
 }
 .hero-copy { position: relative; z-index: 4; width: min(500px, 36vw); }
 .hero h1 { margin-bottom: 26px; }
@@ -332,7 +337,7 @@ main { overflow-x: clip; }
 .peel-stage .plate { position: absolute; max-width: none; }
 .peel-stage #hero-img { position: relative; height: 100%; width: auto; z-index: 20; }
 .peel-stage img.lift, .spot-on .exhibit:not(.is-lit) .peel-stage img.lift { filter: url(#lift-shadows); }   /* as in the layers gallery */
-.hero-label { position: absolute; z-index: 4; right: var(--gutter); top: calc(var(--by) - 13px); width: 340px; }
+.hero-label { position: absolute; z-index: 4; right: var(--gutter); top: calc(var(--by) - 13px - var(--lift)); width: 340px; }
 .hero-label .wl-acc { color: var(--text-2); }   /* it sits in the spotlight, where the muted colour drops below 4.5:1 */
 .hl-body { display: grid; }
 .hl-body > * { grid-area: 1 / 1; transition: opacity .35s var(--ease), visibility .35s; }
@@ -345,14 +350,15 @@ main { overflow-x: clip; }
 #hero-leaders { transition: opacity .35s; }
 
 /* The dissection gauge: the app's Rule (app/specimen .gauge) at the app's own sizes, set beside the figure. A 1 px
-   --leader rule, a mark every 2 % (5 px) and every 10 % (9 px), a 14 px tick at each stop, italic names 24 px left of
-   the rule (the current one at 20 px), brass from the surface to the knob, and the percentage 12 px right of it. Only
-   the rule's length is fitted to the figure; each stop sits at its real level. No heading: the end captions and the
-   names say what it is. --gx is the rule's place in the box. */
+   --leader rule, a 14 px tick at each stop, a 9 px mark every 10 % and, where the rule is long enough for them to fall
+   12 px apart or more (the app's are 14 px), a 5 px mark every 2 %. Italic names 24 px left of the rule (the current
+   one at 20 px), brass from the surface to the knob, and the percentage 12 px right of it. Only the rule's length is
+   fitted to the figure; each stop sits at its real level. No heading: the end captions and the names say what it is.
+   --gx is the rule's place in the box. */
 .gauge {
   --gx: 250px; --fine: color-mix(in srgb, var(--text-3) 70%, transparent);
   position: absolute; z-index: 4; right: var(--gutter); width: 340px;
-  top: calc(var(--by) + 158px); bottom: 26px;
+  top: calc(var(--by) + 158px - var(--lift)); bottom: 26px;
   display: flex; flex-direction: column;
   -webkit-user-select: none; user-select: none;
 }
@@ -361,7 +367,7 @@ main { overflow-x: clip; }
 .g-track.is-dragging, .g-track.is-dragging .g-rail { cursor: grabbing; }
 .g-line { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--leader); }
 .g-fill { position: absolute; left: -1px; top: 0; width: 3px; height: calc(var(--d) * 100%); background: var(--accent); }
-/* the fine marks are 51 boxes (drawn by the script), so each lands on a whole pixel whatever the rule's length */
+/* the fine marks are drawn by the script for the rule's length; none sits on or within 10 px of a stop's tick */
 .g-fine { position: absolute; left: -12px; top: 0; bottom: 0; width: 9px; }
 .g-fine i { position: absolute; right: 0; width: 5px; height: 1px; background: var(--fine); }
 .g-fine i.ten { width: 9px; }
@@ -547,7 +553,9 @@ main { overflow-x: clip; }
   position: absolute; max-width: none; height: auto;
   width: calc(100% / var(--cw));
   left: calc(-100% * var(--cx) / var(--cw));
-  top: calc(-100% * var(--cy) / var(--ch));
+  /* a margin's percentage is of the width, so the offset holds exactly however thin the crop is (a top would be a
+     share of the height inside the border, which is 2 px short and throws a narrow strip off by a line) */
+  top: 0; margin-top: calc(-100% * var(--cy) * .5625 / var(--cw));
 }
 .scene-crop .missing {
   display: none; position: absolute; inset: 0;
@@ -557,9 +565,10 @@ main { overflow-x: clip; }
 .scene-crop.is-missing img { visibility: hidden; }
 .scene-crop.is-missing .missing { display: grid; }
 .scene .wall-label { margin-top: 28px; }
+.scene-crop.sc-heart { display: none; }
 .course { margin-top: clamp(88px, 9vw, 136px); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px 72px; }
 .labs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
-.labs li { display: grid; grid-template-columns: 112px 1fr; gap: 16px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); }
+.labs li { display: grid; grid-template-columns: 88px 1fr; gap: 16px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); }
 .lab-n { font-size: 14px; font-weight: 600; color: var(--text-2); font-variant-numeric: tabular-nums lining-nums; }
 .lab-t { font: 380 18px/1.35 var(--serif); color: var(--text); }
 .course .note { margin-top: 24px; font-size: 15px; color: var(--text-3); }
@@ -722,6 +731,10 @@ main { overflow-x: clip; }
   .otc-pool { height: 240px; aspect-ratio: auto; }
   .otc-pool img { width: auto; }
 }
+@media (min-width: 600px) and (max-width: 899px) {
+  /* the names show here: a little more rule (about 350 px), so stops 8 % apart clear the current name's 26 px line */
+  .gauge { margin-top: calc(var(--fig-h) * .035); height: calc(var(--fig-h) * .67); }
+}
 @media (max-width: 359px) {
   /* the lockup and the menu button keep the gutter on the narrowest phones; the figure gives the gauge a little room */
   .hero { --fig-h: clamp(360px, 54svh, 520px); }
@@ -736,6 +749,10 @@ main { overflow-x: clip; }
   .g-stop span { display: none; }
   .g-ride { max-width: calc(100% - 12px); }
   .g-now { display: block; font: italic 400 15px/20px var(--serif); font-variation-settings: "opsz" 14; color: var(--text); }
+  /* The lesson screen is unreadable whole at this width: two crops of the same render, the question, then the heart
+     with its lit artery and labels, each large enough to read (the question near 15 px, the labels near 11 px). */
+  .scene-crop { --cx: .010417; --cy: .512963; --cw: .328125; --ch: .080556; }
+  .scene-crop.sc-heart { display: block; margin-top: 10px; --cx: .686458; --cy: .427778; --cw: .2625; --ch: .459259; }
 }
 @media (max-width: 760px) {
   :root { --head-h: 64px; }
@@ -767,7 +784,6 @@ main { overflow-x: clip; }
   .eff-pair { gap: 16px; }
   .desk-card { padding: 24px 0 0; }
   .faq summary { font-size: 19px; }
-  .labs li { grid-template-columns: 100px 1fr; }
 }
 
 /* ---------- Reduced motion: end state, no transitions ---------- */
@@ -863,7 +879,7 @@ main { overflow-x: clip; }
   <figure class="hero-spec pool" id="hero-spec" role="img" aria-label="The whole body from the front at the skin surface, nothing removed">
     <div class="peel-stage" id="peel-stage">
       <img class="plate lift" id="hero-img" src="img/peel_00_skin-m.webp" srcset="img/peel_00_skin-m.webp 669w, ../../assets/plates/peel_00_skin.webp 929w"
-           sizes="(max-width: 899px) 216px, (max-width: 1099px) 290px, (max-height: 800px) 288px, calc(41.5vh - 43px)" width="929" height="2240" fetchpriority="high" alt="">
+           sizes="(max-width: 899px) 216px, (max-width: 1099px) 290px, (max-height: 720px) 256px, calc(41.5vh - 43px)" width="929" height="2240" fetchpriority="high" alt="">
     </div>
     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
       <!-- Both biceps on the 8% selection render. At 16% they are unchanged, so that render is shown through this outline. -->
@@ -1111,6 +1127,13 @@ main { overflow-x: clip; }
              onerror="this.parentNode.classList.add('is-missing')" onload="this.parentNode.classList.remove('is-missing')"
              alt="A lesson in Layered Human: the step text and a recall question on the left, and the heart in the 3D view on the right with the left coronary artery, its circumflex and anterior interventricular branches lit and labelled">
         <span class="missing" aria-hidden="true">A lesson step, with the 3D view set up beside it</span>
+      </div>
+      <div class="scene-crop sc-heart" aria-hidden="true">
+        <img data-render="lesson" src="../../renders/specimen/specimen_slate_lesson.webp"
+             srcset="../../renders/specimen/specimen_slate_lesson.webp 1x, ../../renders/specimen/specimen_slate_lesson@2x.webp 2x"
+             width="1920" height="1080" loading="lazy" alt=""
+             onerror="this.parentNode.classList.add('is-missing')" onload="this.parentNode.classList.remove('is-missing')">
+        <span class="missing">The 3D view the step sets up</span>
       </div>
     </div>
     <figcaption class="wall-label">
@@ -1492,8 +1515,18 @@ main { overflow-x: clip; }
     var stage = $('#peel-stage'), spec = $('#hero-spec'), gauge = $('#gauge'), track = $('#g-track'), knob = $('#g-knob');
     var pct = $('.g-pct', gauge), stopList = $('.g-stops', gauge), label = $('#hero-label'), note = $('#hl-note');
     var now = $('.g-now', gauge), fine = $('#g-fine');
-    /* a mark every 2 %, a longer one every 10 %, as in the app */
-    for (var f = 0; f <= 50; f++) { var m = document.createElement('i'); m.style.top = (f * 2) + '%'; if (f % 5 === 0) m.className = 'ten'; fine.appendChild(m); }
+    /* A longer mark every 10 % and, where they fall 12 px apart or more, a mark every 2 %, as in the app. The stops'
+       ticks are the main marks: a fine mark on a stop or within 10 px of one is left out, so nothing doubles up. */
+    var fineL = 0;
+    function drawFine() {
+      var L = track.offsetHeight; if (!L || L === fineL) return;
+      fineL = L; fine.textContent = '';
+      for (var f = 0, step = L * .02 >= 12 ? 2 : 10; f <= 100; f += step) {
+        if (STOPS.some(function (st) { return Math.abs(st.lv * 100 - f) * L / 100 < 10; })) continue;
+        var m = document.createElement('i'); m.style.top = f + '%'; if (f % 10 === 0) m.className = 'ten'; fine.appendChild(m);
+      }
+    }
+    drawFine();
     /* the knob's ring is the wall's own colour where it sits: the wall is one fixed wash, top to bottom of the window */
     function halo() {
       /* the rule and the knob land on whole device pixels, as in the app, so the dot and its ring stay sharp */
@@ -1506,7 +1539,7 @@ main { overflow-x: clip; }
       knob.style.setProperty('--halo', 'color-mix(in srgb, var(--stage-bottom) ' + (f * 100).toFixed(1) + '%, var(--stage-top))');
     }
     window.addEventListener('scroll', function () { if (window.scrollY < window.innerHeight * 1.5) halo(); }, { passive: true });
-    window.addEventListener('resize', halo);
+    window.addEventListener('resize', function () { drawFine(); halo(); });
     var hex = 'ffffff', depth = 0, shownIdx = -1, dragging = false, tween = 0, loading = false;
     var SKIN = BOXES.peel_00_skin || { box: [1135, 64, 2064, 2304] };
     var S0 = SKIN.box, SW = S0[2] - S0[0], SH = S0[3] - S0[1];
