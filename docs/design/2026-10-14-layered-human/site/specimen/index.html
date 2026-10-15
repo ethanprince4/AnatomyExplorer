@@ -860,6 +860,40 @@ main { overflow-x: clip; }
   .spot-on .exhibit:not(.is-lit) .pool img.lift,
   .gallery:has(.exhibit:hover, .exhibit:focus-visible) .exhibit .pool img.lift { filter: url(#lift-shadows); }
 }
+
+/* ---------- Forced colours (Windows contrast themes) ---------- */
+/* The theme repaints every background in its own Canvas colour and drops gradients and shadows, so the parts drawn
+   only with a background would vanish: the menu sheet (a gradient), the depth rule, its marks and knob, the lit numbers
+   and the current room's underline. They take system colours here, which the theme keeps. SVG keeps the colours it is
+   given, so the leaders and the icons with a colour of their own take the theme's too. The wall swatches are colour
+   samples, so they keep their own colours. */
+@media (forced-colors: active) {
+  .sheet { background: Canvas; }
+  .rooms-nav a::after { background: LinkText; }
+  .g-line, .g-fine i, .g-stop i { background: CanvasText; }
+  .g-fill { background: Highlight; }
+  .g-knob { forced-color-adjust: none; background: Highlight; box-shadow: 0 0 0 2px Canvas; }
+  .gauge.is-kb .g-knob:focus { outline-color: CanvasText; }
+  .pin.is-hot, .film-key li.is-hot .key-n, .micro-key li.is-hot .key-n {
+    forced-color-adjust: none; background: Highlight; border-color: Highlight; color: HighlightText; box-shadow: none;
+  }
+  .leaders .ink { stroke: CanvasText; }
+  .leaders .halo { stroke: Canvas; }
+  .leaders .dot { fill: CanvasText; stroke: Canvas; }
+  .scheme-opt .tick, .more .i, .gallery-cue .i, .faq summary .i { color: inherit; }
+  .swatch { forced-color-adjust: none; }
+}
+
+/* ---------- Without JavaScript (the head script sets .js) ---------- */
+/* Nothing would move the gauge, answer the menu, copy or wall buttons, or draw the leaders to the biceps and to the
+   names of the cut. The controls that need the script are left out, with the biceps' label, which asks for a peel; the
+   names stand under the cut as a list, without the numbers, which only the script ties to the picture. */
+html:not(.js) .gauge, html:not(.js) .hero-label, html:not(.js) .head-right > .menu-btn,
+html:not(.js) .copy-btn, html:not(.js) .scheme { display: none !important; }
+html:not(.js) .edge-labels { margin-top: 28px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 20px; }
+html:not(.js) .edge-labels li { padding: 8px 0; border-top: 1px solid var(--line); font-size: 15px; color: var(--text); }
+html:not(.js) .edge-labels .n { display: none; }
+@media (max-width: 599px) { html:not(.js) .edge-labels { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>
 </head>
 <body>

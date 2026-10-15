@@ -154,6 +154,12 @@ h1 {
   .leaders { transition: none; }
   .btn, a { transition: none; }
 }
+/* Windows contrast themes: SVG keeps the colours it is given, so the leader takes the theme's (as on the home page). */
+@media (forced-colors: active) {
+  .leaders .ink { stroke: CanvasText; }
+  .leaders .halo { stroke: Canvas; }
+  .leaders .dot { fill: CanvasText; stroke: Canvas; }
+}
 </style>
 </head>
 <body>
