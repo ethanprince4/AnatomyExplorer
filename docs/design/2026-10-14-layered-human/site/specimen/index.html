@@ -452,6 +452,36 @@ main { overflow-x: hidden; overflow-x: clip; }
 .gauge.is-kb .g-knob:focus { outline: 2px solid var(--text); outline-offset: 5px; }
 .gauge.is-kb .g-knob:focus ~ .g-stops .g-stop.cur span { text-decoration: underline 2px var(--accent); text-underline-offset: 6px; }
 
+/* The figure grows with the screen's height, but only as far as the width leaves room for it: past --spec-max it keeps
+   that height and hangs in the middle of the wall, the label and the gauge with it, and the lift is taken from the
+   figure rather than the screen. The caps keep the headline 32 px or more from the shoulder, the paragraph 40 px from
+   the hands and the label 50 px from the arm. Below 1280 px the paragraph binds, and since its lines break differently
+   at every width one cap serves them all; from there to 1440 the label binds. Where the headline keeps its two lines the figure stands no nearer it than 33 px from the end of the first
+   line (8.21 em long), which only moves it on tall screens.
+   From 1440 px the header and the hero keep to the rooms' column: the headline starts where the rooms' text starts,
+   and the label and the gauge end where the rooms end. */
+@media (min-width: 1100px) {
+  .hero {
+    --spec-max: 628px;
+    --spec-h: min(100% - var(--head-h) - 32px, var(--spec-max));
+    --spec-top: calc(var(--head-h) + 6px + (100% - var(--head-h) - 32px - var(--spec-h)) / 2);
+    --by: calc(var(--spec-top) + var(--spec-h) * .2955);
+    --lift: max(0px, 581.7px - .7045 * var(--spec-h));
+  }
+  .hero > .hero-spec { top: var(--spec-top); bottom: auto; height: var(--spec-h); }
+  .gauge { bottom: calc(26px + (100% - var(--head-h) - 32px - var(--spec-h)) / 2); }
+}
+@media (min-width: 1280px) {
+  .hero { --spec-max: calc(170vw - 1440px); }
+  .hero > .hero-spec { left: max(50% + 5.5vw, 44.63vw + 33px + .154 * min(max(100svh, 720px) - var(--head-h) - 32px, 170vw - 1440px)); }
+}
+@media (min-width: 1440px) {
+  .site-head, .hero { padding-inline: max(var(--gutter), (100% - var(--maxw)) / 2); }
+  .hero { --spec-max: 950px; }
+  .hero > .hero-spec { left: max(50% + 80px, 50% - 623px + 8.21 * min(4.9vw, 72px) + .154 * min(max(100svh, 720px) - var(--head-h) - 32px, 950px)); }
+  .hero-label, .gauge { right: max(var(--gutter), (100% - var(--maxw)) / 2); }
+}
+
 /* ---------- Rooms ---------- */
 .room { padding: clamp(96px, 11vw, 168px) var(--gutter); }
 .wrap { max-width: var(--maxw); margin-inline: auto; }
