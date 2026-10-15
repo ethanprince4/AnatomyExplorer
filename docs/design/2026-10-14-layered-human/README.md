@@ -16,11 +16,12 @@ The owner decides at checkpoints, picking from three options per question. Each 
 |---|---|---|
 | 1 | `checkpoint-1.html` | Panels: the wall. The wall label and the tool dock are lettered straight onto the wall; the plaque and frame treatments are dropped. Logo: Section cut down the midline (now the Specimen identity in `identity/specimen/`). The website's download buttons stay as they are. |
 | 2 | `checkpoint-2.html` | Depth gauge: Rule, without the "Dissection" head and with a knob as tall as the percentage's figures. Lessons: Vitrines. Histology library: the Catalogue, with no foot line (how the endless list ends goes to checkpoint 3). The model viewer room is kept as built. Search: the drop-down is rejected, and no "Ctrl K" is printed in the chrome (the key stays bound). No white or light panels anywhere. Labels: the numbered key, placed better, with caption rails on demand (checkpoint 3). |
-| 3 | being prepared | Labels, search, navigation and the Histology library: three options each, in `app/specimen-<topic>/` (work in progress). |
+| 3 | `checkpoint-3.html` | Waiting for the owner's picks. Four questions, three options each, the first recommended. Labels: Dock pair, Wall line, Corner key. Search: On the body, The index, In the title. Navigation: Rooms bar, Side rail, Lobby. Histology library: Endless catalogue, Body map, Light table. Each option can be tried in `app/specimen-labels3/`, `app/specimen-search/`, `app/specimen-nav/` and `app/specimen-histology/`. |
 
 Checkpoint 1's picks are applied to `app/specimen/`, `site/specimen/` and this gallery. The mockup and the website now
-have one panel treatment, the wall, and no `?panel=` switch. Checkpoint 2's gauge, library, viewer and search decisions
-are applied to `app/specimen/`; before and after pictures are in `renders/checkpoint-3/apply/`.
+have one panel treatment, the wall, and no `?panel=` switch. Checkpoint 2's decisions are applied to `app/specimen/`:
+the Rule gauge, Vitrines for the lessons, the Catalogue, the viewer, the search without a drop-down and no light panels.
+The Rule is also the website's depth gauge. Before and after pictures are in `renders/checkpoint-3/apply/`.
 
 ## The three directions
 
@@ -47,15 +48,17 @@ All three share the same decisions about how the app works, taken from the revie
 | Path | What it is |
 |---|---|
 | `index.html` | The gallery. Start here. |
-| `checkpoint-1.html`, `checkpoint-2.html` | The checkpoint pages: the options put to the owner, and (from checkpoint 2) what was decided before. |
+| `checkpoint-1.html`, `checkpoint-2.html`, `checkpoint-3.html` | The checkpoint pages: the options put to the owner, and (from checkpoint 2) what was decided before. |
 | `app/<direction>/index.html` | App mockups, HTML and CSS at 1920 × 1080. Choose a scheme and screen in the address bar, for example `app/specimen/index.html?scheme=green&screen=practice`. Overlay and Plate have nine screens: `atlas`, `peel`, `lesson`, `lessons`, `models`, `radiology`, `practice`, `histology`, `settings`. Specimen has eleven: those nine plus `viewer` (the opened model; `&view=corpuscle` for the close view) and `histology-library`. On the atlas and peel, `&gauge=drag` and `&gauge=only` show the gauge's other states. |
-| `app/specimen-<topic>/` | Working copies of the Specimen mockup, each with a `PORT.md` that says how to carry it into `app/specimen/`. Checkpoint 2: `labels`, `gauge`, `library`, `states`, `viewer` (decided). Checkpoint 3, work in progress: `labels3`, `search`, `nav`, `histology`. |
+| `app/specimen-<topic>/` | Working copies of the Specimen mockup, each with a `PORT.md` that says how to carry it into `app/specimen/`. Checkpoint 2: `labels`, `gauge`, `library`, `states`, `viewer` (decided). Checkpoint 3, the options waiting for a pick: `labels3`, `search`, `nav` and `histology`, each with `?variant=1\|2\|3`. `app/specimen-nav/AUDIT.md` is the navigation audit behind them: every place in today's app, how you reach it and how you get back. |
 | `identity/` | Marks, lockups, app icons and favicons for each direction; `identity/README.md` says which drawing to use at which size. |
 | `site/<direction>/index.html` | The three websites. Each is one working page, responsive down to phone width, with its own scheme switcher. `?scheme=` picks a scheme. |
+| `site/specimen/` | The chosen website, as it will ship: `index.html`, `404.html`, `robots.txt`, `sitemap.xml` and its images in `img/` (see *The website* below). |
+| `site/build.py` | Builds the website into `site/dist/`, one folder for a static host. |
 | `renders/<direction>/` | The mockups rendered to WebP: every screen in every scheme at 1×, the atlas screen of every scheme at 2× (`@2x`), and every screen of each default scheme at 2×. Specimen 82, Overlay 88, Plate 78: 248 in all. |
 | `renders/site/` | Website captures: first screen on desktop (1× and 2×) and phone (2×), and the whole page, four per direction. |
 | `renders/checkpoint-1/`, `renders/checkpoint-2/` | The pictures on the checkpoint pages: option renders, logo boards and before/after captures. |
-| `renders/checkpoint-3/` | Checkpoint 3's pictures: `apply/` (checkpoint 2's decisions in the main mockup, before and after) and one folder per open topic (work in progress). |
+| `renders/checkpoint-3/` | Checkpoint 3's pictures: `apply/` (checkpoint 2's decisions in the main mockup, before and after); the options, `labels/`, `search/` and `search3/`, `nav/` and `nav2/` (each topic's second pass), `histology/`; the passes over the main mockup, `knob/`, `audit/` and `cleanup/`; and the website's passes, `site/`, `site2/` and `site3/`. |
 | `renders/current/` | Two screenshots of today's app, used in the gallery. |
 | `current/` | Full-resolution screenshots of today's app (v4.0.8) that the review refers to. |
 | `system/schemes.py` | The 21 colour schemes. Running it writes `schemes.json`, `schemes.css` and `schemes.js`, and checks contrast. |
@@ -140,6 +143,31 @@ Notes per direction:
 
 The fonts are bundled under the SIL Open Font License, so the app can ship them.
 
+## The website
+
+`site/specimen/index.html` is layeredhuman.com: one page that works from 320 to 2560 px wide, on all six walls.
+`?scheme=<wall>` or `#wall-<wall>` picks a wall (`slate`, `green`, `prussian`, `aubergine`, `umber`, `charcoal`), and
+the page remembers the visitor's choice. It opens straight from this folder: it reaches the plates, fonts and renders it
+shares with the mockups through `../../`.
+
+- **The 404 page** (`404.html`): "Not on display.", a lit empty case, the way home and the rooms of the home page.
+- **The head**: title and description, the canonical address, a theme colour that follows the wall, a social card for
+  link previews (`img/og-card.jpg`, 1200 × 630) and structured data (JSON-LD) describing the app.
+- **`robots.txt` and `sitemap.xml`**: everything may be indexed; the sitemap lists the one page.
+
+**Publishing.** From this folder, `python site/build.py` writes `site/dist/`: the home page and the 404 page at the root
+of one folder, with only the files they use, about 13 MB in 118 files. It stops if a page names a file that is not
+here, and checks every link in the result. `python site/build.py --serve` builds it and serves it at
+http://localhost:8000 the way a host does, missing addresses included. Upload the contents of `site/dist/` to a static
+host. GitHub Pages, Netlify, Cloudflare Pages and Vercel all serve its `404.html` for addresses that do not exist. For
+a site that will not sit at the root of its domain, add `--base /path/`.
+
+**Before launch.** The Mac button links to `releases/latest/download/Install-Layered-Human-Mac.dmg`, but today's
+release names the file `Install-Anatomy-Explorer-Mac.dmg` (`MAC_INSTALLER` in `packaging/prepare_release_assets.py`;
+the release notes in `.github/workflows/publish-built-release.yml` name it too). Until the release file is renamed with
+the app, or the button points at the old name, the Mac button leads to GitHub's "Not Found". The Windows button's
+`Download-Windows-Installer.ps1` matches today's release.
+
 ## Rebuilding
 
 Pages and renders need Node with Playwright and Chromium; set `PLAYWRIGHT_MODULE` (the path to Playwright's
@@ -169,8 +197,13 @@ Pages and renders need Node with Playwright and Chromium; set `PLAYWRIGHT_MODULE
    them as `renders/site/<direction>_site_desktop@2x.webp` (the 2880 × 1800 capture),
    `<direction>_site_desktop.webp` (the same, scaled to 1440 × 900), `<direction>_site_mobile@2x.webp` and
    `<direction>_site_page.webp` (the whole page, scaled to 720 wide).
-   The Specimen website's Study section crops `renders/specimen/specimen_slate_lesson.webp` with CSS fractions
-   (`--cx`, `--cy`, `--cw`, `--ch` on `.scene-crop`), so check that crop after re-rendering the lesson screen.
+7. **The Specimen website's Study section** shows each wall's lesson render,
+   `renders/specimen/specimen_<wall>_lesson.webp` (and `@2x.webp`), cropped by CSS fractions of the 1920 × 1080 screen
+   (`--cx`, `--cy`, `--cw`, `--ch` on `.scene-crop`; the narrow layouts set their own). On phones the heart has its own
+   picture, `specimen_<wall>_lesson-heart.webp`: the lesson screen at twice the size with the names hidden
+   (`[data-screen-id="lesson"] .lbl { visibility: hidden }`), clipped at 1250, 450, 480 × 510 css px, so 960 × 1020. Its
+   pins 1 to 3 are placed by percentages in the page. After re-rendering the lesson screen, redo the heart pictures and
+   check the crops and the pins at desktop, tablet and phone widths.
 
 ## How this was made
 
@@ -184,4 +217,7 @@ Pages and renders need Node with Playwright and Chromium; set `PLAYWRIGHT_MODULE
    label sits on a point read from the renderer's picking buffer.
 6. **Websites.** Each was built from its written brief by an agent, then reviewed and corrected here.
 
-The app mockups are static pictures of the design. Nothing in them is clickable, and they are not Qt code.
+The app mockups are HTML pictures of the design, not Qt code. Some of them work: in `app/specimen/` the depth gauge
+drags and takes the arrow keys, the viewer's two sliders move and the kidney on Models opens the viewer. The checkpoint
+3 copies go further: the labels open their captions, the search answers what you type, the navigation mockup can be
+walked from room to room and the Histology library scrolls.

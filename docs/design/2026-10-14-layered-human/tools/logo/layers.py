@@ -8,8 +8,9 @@ That Python has numpy, scipy, scikit-image and Pillow. Subcommands: `explore` (t
 renders/checkpoint-1/logo/layers-explore.webp), `build` (identity/options/layers/ and the board,
 renders/checkpoint-1/logo/layers.webp); no argument runs both.
 Also needed: node with Playwright and Chromium (tools/raster_svg.mjs, the board and sheet captures), and the identity
-venv with fontTools and uharfbuzz for the outlined wordmark (build_identity.wordmark("specimen")): by default
-<scratchpad>/idvenv, or set LH_IDVENV. Scratch files go to $LH_SCRATCH/logo-layers.
+venv with fontTools and uharfbuzz for the outlined wordmark (build_identity.wordmark("specimen")): python3 on the
+PATH, or set LH_IDVENV to that venv. Working files go to $LH_SCRATCH/logo-layers (by default under the system's
+temporary folder, in layered-human/).
 Helpers: layers_trace.py (tracing, fields, cuts), layers_draw.py (curves, 3D camera, the skeleton)."""
 import json
 import math
@@ -35,9 +36,8 @@ from build_identity import n, superellipse, ground_defs, ground, edge, svg  # no
 SLUG = "layers"
 OPT = ROOT / "identity/options" / SLUG
 RENDERS = ROOT / "renders/checkpoint-1/logo"
-SCRATCH = Path(os.environ.get("LH_SCRATCH", "/tmp/claude-0/-home-user-AnatomyExplorer/"
-                              "effa1011-ff25-5650-b9af-b091db4dac0b/scratchpad")) / "logo-layers"
-IDVENV = Path(os.environ.get("LH_IDVENV", SCRATCH.parent / "idvenv")) / "bin/python"
+SCRATCH = Path(os.environ.get("LH_SCRATCH") or Path(tempfile.gettempdir()) / "layered-human") / "logo-layers"
+IDVENV = Path(os.environ["LH_IDVENV"]) / "bin/python" if os.environ.get("LH_IDVENV") else Path("python3")
 
 # Brand colours for this option (brief): slate tile, ink and brass; paper, dark ink and a darker brass.
 DARK = {"ink": "#efece6", "accent": "#d4b47e", "top": "#2a3138", "bottom": "#1d2227", "spot": "#3d4750",

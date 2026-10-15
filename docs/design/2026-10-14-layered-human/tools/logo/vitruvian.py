@@ -8,12 +8,14 @@ tools/build_identity.py in the identity venv (fontTools, uharfbuzz, brotli), whi
   .venv312/bin/python docs/design/2026-10-14-layered-human/tools/logo/vitruvian.py midline   Section down the midline,
       the Specimen mark chosen at checkpoint 1 (see vitruvian_midline.py; `midline json|option|explore|board`)
 
-Set IDVENV to the identity venv's python if it is not at the scratch path below. Node with Playwright renders."""
+IDVENV is the python with fontTools and uharfbuzz (python3 on the PATH unless set). Working files go under the system's
+temporary folder unless VITRUVIAN_SCRATCH is set. Node with Playwright renders."""
 import json
 import math
 import os
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -26,10 +28,8 @@ import vitruvian_marks as M                            # noqa: E402
 SLUG = "vitruvian"
 OUT = ROOT / "identity/options" / SLUG
 RENDERS = ROOT / "renders/checkpoint-1/logo"
-SCRATCH = Path(os.environ.get("VITRUVIAN_SCRATCH", "/tmp/claude-0/-home-user-AnatomyExplorer/"
-                              "effa1011-ff25-5650-b9af-b091db4dac0b/scratchpad/logo-vitruvian"))
-IDVENV = os.environ.get("IDVENV", "/tmp/claude-0/-home-user-AnatomyExplorer/"
-                        "effa1011-ff25-5650-b9af-b091db4dac0b/scratchpad/idvenv/bin/python")
+SCRATCH = Path(os.environ.get("VITRUVIAN_SCRATCH") or Path(tempfile.gettempdir()) / "layered-human/logo-vitruvian")
+IDVENV = os.environ.get("IDVENV") or "python3"
 NODE_PW = "/opt/node-tools/node_modules/playwright/index.mjs"
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 

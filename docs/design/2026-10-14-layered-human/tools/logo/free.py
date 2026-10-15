@@ -4,11 +4,12 @@ the skin show its thickness; the cut at the hip is seen from a little above, so 
 
 Rebuild everything (symbols, lockups, icons, favicon, notes' numbers, presentation board, exploration sheet):
 
-  /home/user/AnatomyExplorer/.venv312/bin/python docs/design/2026-10-14-layered-human/tools/logo/free.py
+  .venv312/bin/python docs/design/2026-10-14-layered-human/tools/logo/free.py      (from the repository root)
 
 That python has numpy, scipy, scikit-image, shapely and Pillow. The Literata wordmark comes from
-tools/build_identity.py's wordmark(), which needs fontTools and uharfbuzz; it runs in the identity venv
-(SCRATCH/../idvenv/bin/python). Rasterising and the board capture use node with Playwright (tools/raster_svg.mjs).
+tools/build_identity.py's wordmark(), which needs fontTools and uharfbuzz; it runs in python3 on the PATH, or in the
+venv LH_IDVENV names. Working files go to $LH_SCRATCH/logo-free (by default under the system's temporary folder).
+Rasterising and the board capture use node with Playwright (tools/raster_svg.mjs).
 `free.py symbols` writes only the SVGs and icons; `free.py board` and `free.py explore` redo one picture each.
 
 Sources: assets/plates/peel_00_skin.webp and peel_26_superficial.webp (alpha = outline of each layer), placed in the
@@ -17,8 +18,10 @@ identity/plate/figure.json.
 """
 import json
 import math
+import os
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import numpy as np
@@ -34,8 +37,8 @@ import free_pixels as fp  # noqa: E402
 n, svg, write = bi.n, bi.svg, bi.write
 OUT = ROOT / "identity/options/free"
 RENDERS = ROOT / "renders/checkpoint-1/logo"
-SCRATCH = Path("/tmp/claude-0/-home-user-AnatomyExplorer/effa1011-ff25-5650-b9af-b091db4dac0b/scratchpad/logo-free")
-IDPY = SCRATCH.parent / "idvenv/bin/python"
+SCRATCH = Path(os.environ.get("LH_SCRATCH") or Path(tempfile.gettempdir()) / "layered-human") / "logo-free"
+IDPY = Path(os.environ["LH_IDVENV"]) / "bin/python" if os.environ.get("LH_IDVENV") else Path("python3")
 PLATES = ROOT / "assets/plates"
 BIG = 4000
 

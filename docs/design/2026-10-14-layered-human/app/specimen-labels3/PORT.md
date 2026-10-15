@@ -1,8 +1,8 @@
 # Labels, checkpoint 3: the owner's mixture, and where "Show all" lives
 
-This folder is a copy of `app/specimen/index.html` as apply3 left it (`S0/apply3/base.html`), with the owner's labels
-mixture built into the atlas, a new section screen, the lesson and practice. `?variant=1|2|3` sets `<html data-variant>`
-(default 1). Everything outside labels, the lesson and practice is as the base has it.
+This folder is a copy of `app/specimen/index.html` as it stood once checkpoint 2's decisions were applied (15 October),
+with the owner's labels mixture built into the atlas, a new section screen, the lesson and practice. `?variant=1|2|3`
+sets `<html data-variant>` (default 1). Everything outside labels, the lesson and practice is as the base has it.
 
 | `?` | Values |
 |---|---|
@@ -54,7 +54,7 @@ placed, but it brings back the list of names that the owner's idea removes.
   entry is a button with `aria-expanded`: it opens its rail exactly like its circle, and hovering it draws that rail
   faint. Names on the right rail stay below the key.
 
-### Measured (1x px, from the DOM boxes of every render, `S/shots/report_all.json`)
+### Measured (1x px, from the DOM boxes of every render)
 
 The rails and circles are the same in all three options, so the leaders are the same too.
 

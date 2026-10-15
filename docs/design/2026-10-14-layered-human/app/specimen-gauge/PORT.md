@@ -18,7 +18,7 @@ Renders: `renders/checkpoint-2/gauge/`.
   in 11 px capitals with 0.1 em tracking, centred on the track. The bundled Fira Sans has no small caps, so these are
   spaced capitals; in Qt use the same, not `QFont.SmallCaps` (that makes fake small caps).
 - **Contrast** against the wall behind the gauge, at its lightest point (y = 232). The lowest value in any of the six
-  schemes is given here, worked out by `cp2-gauge/contrast.py` in the scratch folder and checked against the rendered pixels:
+  schemes is given here, worked out by `contrast.py` in this folder and checked against the rendered pixels:
   - lines and major marks use `--leader`: 4.58:1 (it was `--line-2`, 2.2:1);
   - fine marks, past band lines and option 3's rail use `--text-3` at 70 %: 3.45:1;
   - the brass fill and knob are 6.97:1, and the knob on the lit band is 4.80:1;

@@ -8,12 +8,15 @@ whole midline). Called by vitruvian.py; run from the repository root with the pr
 `json` writes tools/logo/section_midline.json: the drawings in frame units, one per mark size in output pixels that
 build_identity.py draws (build_identity.midline_sizes()). The option folder identity/options/section-midline/ is then
 made with build_identity's own Specimen functions, so it matches identity/specimen/ exactly. After `json`, rebuild the
-identity with: S0/idvenv/bin/python docs/design/2026-10-14-layered-human/tools/build_identity.py build"""
+identity with: python docs/design/2026-10-14-layered-human/tools/build_identity.py build (a python with fontTools and
+uharfbuzz; IDVENV names it here, python3 on the PATH unless set). Working files go under the system's temporary folder
+unless MIDLINE_SCRATCH is set."""
 import json
 import os
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -27,10 +30,8 @@ OPT = "section-midline"
 OUT = ROOT / "identity/options" / OPT
 RENDERS = ROOT / "renders/checkpoint-2/logo"
 BEFORE = ROOT / "identity/options/vitruvian-b"
-SCRATCH = Path(os.environ.get("MIDLINE_SCRATCH", "/tmp/claude-0/-home-user-AnatomyExplorer/"
-                              "effa1011-ff25-5650-b9af-b091db4dac0b/scratchpad/logo-midline"))
-IDVENV = os.environ.get("IDVENV", "/tmp/claude-0/-home-user-AnatomyExplorer/"
-                        "effa1011-ff25-5650-b9af-b091db4dac0b/scratchpad/idvenv/bin/python")
+SCRATCH = Path(os.environ.get("MIDLINE_SCRATCH") or Path(tempfile.gettempdir()) / "layered-human/logo-midline")
+IDVENV = os.environ.get("IDVENV") or "python3"
 NODE_PW = "/opt/node-tools/node_modules/playwright/index.mjs"
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 CHOSEN = {"head": "split", "detail": "full"}

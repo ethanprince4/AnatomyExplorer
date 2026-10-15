@@ -1,22 +1,22 @@
 # Navigation (checkpoint 3): three options
 
-`index.html` is apply3's base (checkpoint 2's decisions applied) with one navigation layer on top. Pick an option with
-`?variant=1|2|3`, a screen with `?screen=`, a wall with `?scheme=`, and a small laptop window with `?window=1280`
-(render it at a 1280 × 800 viewport). Option 3 adds a screen, `?screen=lobby&variant=3`. All three have Practice's
-front page, `?screen=practice-home`; `?screen=practice` stays the running question.
+`index.html` is the main mockup with checkpoint 2's decisions applied, with one navigation layer on top. Pick an option
+with `?variant=1|2|3`, a screen with `?screen=`, a wall with `?scheme=`, and a small laptop window with `?window=1280`
+(render it at a 1280 × 800 viewport). Option 3 adds a screen, `?screen=lobby&variant=3`. All three have Practice's front
+page, `?screen=practice-home`; `?screen=practice` stays the running question.
 
 **The mockup can be walked.**
 - Every room, crumb, doorway, recent place, Continue, Review, Start quiz, tissue and wall is a real link.
 - Back and Forward move along a place history kept for the tab. Opening a screen on its own (a render) starts from one
   made-up session, so every render names the same Back.
-- The second pass's walkthrough, with every task done by clicking, is in the scratch folder as `nav2/walkthrough.md`.
+- The second pass walked every task by clicking, in all three options; the clicks are in the task table below.
 
 Only the chrome and the ways between rooms change. Every room's content is the base's, with one exception: the model
 viewer's selected part gets an **In the atlas** button. Everything is drawn with scheme tokens, so it recolours with the
 wall. No keyboard hints are printed; bindings are in `aria-keyshortcuts` and tooltips.
 
 The audit behind this (every place in the app and the mockup, how you reach it, how you get back, and the tasks) is
-summarised below; the long version is in the scratch folder as `ia.md`.
+summarised below; the long version is `AUDIT.md`.
 
 ## What all three share
 
@@ -151,7 +151,7 @@ places into the Lessons front page or a first-run state, rather than making ever
 - `<n>_atlas_umber`: Umber, whose accent is blue, so every current marker and count is checked against a non-brass
   accent.
 - `<n>_atlas_crop`, `<n>_lesson_crop`: the chrome at 1:1 (for option 2 the rail and header corner).
-- `map_<n>`: the places and the ways between them (SVG in `maps.py` in the scratch folder, rasterised with
+- `map_<n>`: the places and the ways between them (SVG drawn by `tools/nav_maps.py`, rasterised with
   `tools/raster_svg.mjs`).
 
 ## Tasks: clicks today and in each option

@@ -1,4 +1,4 @@
-"""Presentation board for the "free" (Quarter) logo option: an HTML page in the scratch folder, captured with
+"""Presentation board for the "free" (Quarter) logo option: an HTML page in free.py's working folder, captured with
 Playwright at 2x (1600 x 1000 css px) and saved as renders/checkpoint-1/logo/free.webp. Run through free.py."""
 import base64
 import re

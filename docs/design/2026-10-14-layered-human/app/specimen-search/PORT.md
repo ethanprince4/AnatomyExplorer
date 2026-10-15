@@ -1,13 +1,13 @@
 # Search: port note (checkpoint 3)
 
-Copy: `app/specimen-search/index.html`, the apply3 base (`S0/apply3/base.html`) with two extra lines and three files
-beside it. Open `index.html?screen=atlas&variant=1|2|3`. Click the field, type, hover, click. Arrows, Enter and Esc also
-work, and Ctrl+K is bound but never shown. Set up states with `&q=<query>&state=open|chosen&hover=<row>|auto`, and see
-what the app does today with `&matcher=today`.
+Copy: `app/specimen-search/index.html`, the main mockup with checkpoint 2's decisions applied (15 October), plus two
+extra lines and three files beside it. Open `index.html?screen=atlas&variant=1|2|3`. Click the field, type, hover,
+click. Arrows, Enter and Esc also work, and Ctrl+K is bound but never shown. Set up states with
+`&q=<query>&state=open|chosen&hover=<row>|auto`, and see what the app does today with `&matcher=today`.
 
 | File | What it is |
 |---|---|
-| `search-index.js` | 802 real entries from the app's `SearchIndex`: every entry that any 3+ letter prefix of the demo queries returns, plus the 16 muscles the atlas figure has points for. Extracted by `S/extract.py` from `data/`. Fields: kind, title, subtitle, alt, system. |
+| `search-index.js` | 802 real entries from the app's `SearchIndex`: every entry that any 3+ letter prefix of the demo queries returns, plus the 16 muscles the atlas figure has points for. Taken on 15 October from the index the app builds from `data/`. Fields: kind, title, subtitle, alt, system. |
 | `search.js` | The matcher: a line-for-line port of `app/search.py` `search()`/`_score()`. It gives the same counts as the Python index for every demo query. It also holds the presentation (kinds, folding, the circles) and the three options. |
 | `search.css` | Shared rules, then one block per option under `html[data-variant]`. Scheme tokens only. |
 
@@ -173,7 +173,9 @@ A structure row with no circle gets two quiet lines under its meta, in all three
   aortic valve, 70% deep", "In the chest, behind the ribs, 46% deep". The percentage is the structure's relative depth
   from `DepthIndex` (`app/depth.py`, cached in `data/anatomy/depth.npz`); "back"/"front of the heart" compare the
   structure's centroid (`anatomy.json`) with the body or the heart's centre (z, + is the front); "inside" is a valve or
-  leaflet. Groups take their shallowest muscular part. `S/where.py` writes `LH_WHERE` at the end of `search-index.js`.
+  leaflet. Groups take their shallowest muscular part. The mockup carries these values, worked out once on 15 October, as
+  `LH_WHERE` at the end of `search-index.js`; the app has the depth index and the centroids loaded, so the port reads
+  them there.
 - **What choosing does**, one of three, in this order:
   1. *Peel*: "Choosing it peels to 40%". The gauge steps to the stop (its own `]` and `[`), the plate becomes the
      plate at that depth, and a brass circle sits on the structure. Only where the mockup can show it: `Heart` on

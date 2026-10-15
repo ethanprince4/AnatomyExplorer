@@ -1,7 +1,7 @@
 # Histology library (checkpoint 3): how to port the chosen option
 
-This copy of `app/specimen/index.html` (apply3's base, copied 15 October) changes only the Histology library screen
-(`[data-screen-id="histology-library"]`). Every other screen is exactly as the base has it.
+This copy of `app/specimen/index.html` (with checkpoint 2's decisions applied, copied 15 October) changes only the
+Histology library screen (`[data-screen-id="histology-library"]`). Every other screen is exactly as the base has it.
 
 ```
 index.html?screen=histology-library&variant=1|2|3&state=rest|scrolled|chosen&scheme=slate|prussian|…
