@@ -507,7 +507,7 @@ main { overflow-x: hidden; overflow-x: clip; }
 .gallery figcaption { margin-top: 22px; padding-inline: 4px; text-align: center; }
 .pl-name { display: block; font: 400 17px/1.3 var(--serif); color: var(--text); }
 .pl-depth { display: block; margin-top: 2px; font-size: 14px; color: var(--text-2); font-variant-numeric: tabular-nums lining-nums; }
-.pl-line { display: block; margin-top: 8px; font-size: 14px; line-height: 1.45; color: var(--text-3); }
+.pl-line { display: block; margin-top: 8px; font-size: 14px; line-height: 1.45; color: var(--text-3); text-wrap: balance; }
 /* Hover or focus one: it brightens, the others dim. */
 .spot-on .gallery .exhibit.is-lit { --pool-op: .82; --pool-scale: 1; }
 .gallery:has(.exhibit:hover, .exhibit:focus-visible) .exhibit { --pool-op: .26; --pool-scale: .9; }
@@ -1103,11 +1103,11 @@ html:not(.js) .edge-labels .n { display: none; }
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
         <div class="pool peel-pool"><img src="../../assets/plates/peel_40_deep.webp" srcset="img/peel_40_deep-420.webp 420w, img/peel_40_deep-m.webp 644w, ../../assets/plates/peel_40_deep.webp 894w" sizes="auto, (max-width: 760px) 62vw, 200px" width="894" height="2178" loading="lazy" alt="The body at 40% dissection depth: ribcage, abdominal organs and deep muscles exposed"></div>
-        <figcaption class="lit-fade"><span class="pl-name">Deep muscles</span><span class="pl-depth">40% deep</span><span class="pl-line">Ribcage, abdominal organs and the deep muscles.</span></figcaption>
+        <figcaption class="lit-fade"><span class="pl-name">Deep muscles</span><span class="pl-depth">40% deep</span><span class="pl-line">The ribcage, the abdominal organs and the deep muscles.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
         <div class="pool peel-pool"><img src="../../assets/plates/peel_55_skeleton.webp" srcset="img/peel_55_skeleton-420.webp 420w, img/peel_55_skeleton-m.webp 570w, ../../assets/plates/peel_55_skeleton.webp 792w" sizes="auto, (max-width: 760px) 62vw, 200px" width="792" height="2178" loading="lazy" alt="The body at 55% dissection depth: the bones and joints of the limbs, with the thoracic and abdominal organs in place"></div>
-        <figcaption class="lit-fade"><span class="pl-name">Skeleton &amp; joints</span><span class="pl-depth">55% deep</span><span class="pl-line">Bones and joints of the limbs, the organs still in place.</span></figcaption>
+        <figcaption class="lit-fade"><span class="pl-name">Skeleton &amp; joints</span><span class="pl-depth">55% deep</span><span class="pl-line">The bones and joints of the limbs, with the organs still in place.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
         <div class="pool peel-pool"><img src="../../assets/plates/peel_70_cavities.webp" srcset="img/peel_70_cavities-420.webp 420w, img/peel_70_cavities-m.webp 557w, ../../assets/plates/peel_70_cavities.webp 773w" sizes="auto, (max-width: 760px) 62vw, 200px" width="773" height="2074" loading="lazy" alt="The body at 70% dissection depth: the heart, the great vessels and the organs at the back of the abdomen"></div>
