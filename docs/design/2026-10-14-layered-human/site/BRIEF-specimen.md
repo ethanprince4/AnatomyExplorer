@@ -1,7 +1,8 @@
 # Direction B: Specimen (site brief)
 
 Read `BRIEF-shared.md` first. Set `data-design="specimen"`; the default scheme is `slate`. The schemes are slate,
-green, prussian, aubergine, umber, charcoal, plaster and celadon.
+green, prussian, aubergine, umber and charcoal. The two light walls, plaster and celadon, were dropped at the first
+checkpoint, and the site has since moved on from parts of this brief; `../README.md` describes it as built.
 
 ## Thesis
 
