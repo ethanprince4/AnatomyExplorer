@@ -28,13 +28,30 @@ Renders `renders/checkpoint-3/histology/edge_<letter>.webp`, each the foot of th
 
 - **edge_a** The window cuts the list: no fade, no scrollbar. At rest the last visible row happens to end whole, so the list reads as finished. Rejected.
 - **edge_b** The list fades into the wall's own gradient over the last 150 px (a mask, so the wall shows through, never a painted band). It reads as going on, but the only hint that you can scroll is the fade.
-- **edge_c** (chosen) The fade of b plus a thin scrollbar: a 3 px `line-2` thumb with no track, which turns `text-3` on hover. The fade means no row ever looks cut off, whatever the scroll position. The scrollbar says "this scrolls" without words, and the mouse can drag it.
+- **edge_c** (chosen) The fade of b plus a thin scrollbar: a 2 px `line-2` line with no track, which widens to 4 px and turns `text-3` under the pointer. The fade means no row ever looks cut off, whatever the scroll position. The scrollbar says "this scrolls" without words, and the mouse can drag it.
 - **edge_d** The window cut of a plus the scrollbar. Whether it looks cut off depends on where the rows happen to land, as in a.
 - Not built: the next group's heading peeking above the edge also depends on where the rows land, and the library has no dock to run under.
 
-Checked in Chromium: the mouse wheel over the list scrolls it, and the side column's current group follows (2,400 px
-down it marks Respiratory system). Clicking a group in the side column scrolls the list to it smoothly. The scrollbar
-is the native one, so it can be dragged.
+**The top edge (fix pass 2).** Once the list has moved, rows were cut through along the top of the box. The top now
+fades too, with the same mask, so the wall shows through: transparent at 6 px, solid at 96 px. The fade only exists
+once the list is scrolled. Its length grows with the first 96 px of scroll (`--ft`, 0 to 1, set on every scroll event),
+so at rest the mask starts solid at 0 and the rest state is unchanged pixel for pixel, and the fade arrives without a
+jump. Edges b and c get it; a and d stay cut, as trials.
+
+**The scrollbar (fix pass 2).** The first pass used the native scrollbar. Headless Chromium hides native scrollbars,
+so the renders never showed it, and the box's mask would have dimmed it under the fades anyway. The bar is now
+`.hlbar [data-hlbar]`: a sibling of the box at x 1470 to 1488, from the top of the box to 40 px above the foot, so the
+fades never touch it. The native one is hidden (`scrollbar-width: none`), and the content keeps its 1100 px width.
+- The line is 2 px in `line-2` with no track. Its length is the visible share of the list (48 px at least).
+- A 16 px grip around the line takes the pointer. Under it the line widens to 4 px and turns `text-3`.
+- Dragging the line scrolls the list. A click on the track moves the list there (smooth). The wheel over the bar
+  scrolls the list.
+- Option 2 has no bar.
+
+Checked in Chromium: the mouse wheel over the list scrolls it, and the side column's current group follows. Clicking a
+group in the side column scrolls the list to it smoothly. In option 1, wheel steps of 20 px move `--ft` through 0.21,
+0.42, 0.63, 0.83 and then 1. Dragging the line 200 px moves the list to Nervous tissue, and a click near the foot of
+the track goes to Brain and spinal cord. Option 3 behaves the same.
 
 ## What changed, by option
 
@@ -47,9 +64,17 @@ is the native one, so it can be dragged.
   merging, move the files to `assets/images/histo/` and add the credits to `assets/images/CREDITS.json`.
   - I picked them by an H&E colour score that rejects diagrams, fluorescence and black or white borders, then chose by
     eye for 17 tissues where the score had picked a labelled or eyepiece shot.
-  - Ten tissues have no real micrograph and keep the plain `.ph` placeholder: nine have only diagrams
-    (strat_squamous_k, heart_valve, nail, gej, anal_canal, larynx, bronchiole, eye, meninges_cp), and Sublingual gland
-    has no images at all.
+  - Ten tissues have no real micrograph: nine have only diagrams or labelled figures (strat_squamous_k, heart_valve,
+    nail, gej, anal_canal, larynx, bronchiole, eye, meninges_cp), and Sublingual gland has no images at all.
+  - **No micrograph (fix pass 2).** These used to show a filled grey `.ph` box, which read as a panel and as
+    unfinished. Now `.ph.slide` is an empty slide mount: a 1 px `line-2` frame with nothing in it and no fill. In the
+    light table (about 180 × 135) and the wall label (360 × 270) it says "No micrograph" in Fira 13 (14 in the label),
+    `text-3`, centred. In the 48 × 36 catalogue and rail thumbnails it is the frame alone. It carries
+    `role="img" aria-label="No micrograph"`.
+  - I tried the data's own diagrams at tile size first. They don't work beside micrographs: six of the nine are Gray's
+    engravings or schematics on white grounds, which read as white panels. One is a photo of a notebook drawing, one
+    has Spanish labels, and the "larynx" figure shows a vessel in the epiglottis. So no diagram is used, and nothing is
+    invented.
   - Some picks still show a pointer or an eyepiece circle (bronchus, urethra, kidney_cortex and others), because that
     is how the collection's photographs look.
 - **The wall label** (`[data-hlabel]`) is filled by `label(id)`; clicking any tissue calls `choose(id)`.
@@ -134,7 +159,12 @@ reverse of `entry.histology` in `app/micro/registry*.py`, the link that `model_v
   two-column delegate).
   - The fade is a `QGraphicsOpacityEffect` with a gradient mask on the viewport, or a paint pass over the bottom
     150 px in the wall's own colours.
-  - The scrollbar is styled with QSS (`QScrollBar:vertical { width: 9px; background: transparent }`, handle `line-2`).
+  - The fade covers the foot (150 px), plus the top (96 px) once the list has moved, with the top's length tied to the
+    first 96 px of scroll.
+  - The scrollbar is styled with QSS (`QScrollBar:vertical { width: 18px; background: transparent }`, handle a 2 px
+    `line-2` line drawn in the middle with `margin`, 4 px `text-3` on `:hover`), and set outside the faded viewport.
+  - No micrograph: the thumbnail delegate draws a 1 px `line-2` rectangle with no fill, plus "No micrograph" in
+    `text-3` when the cell is 120 px wide or more.
   - Scroll-spy: `verticalScrollBar().valueChanged` → find the group whose `y()` is within 48 px of the top.
     `ensureWidgetVisible` or an animated `setValue` scrolls to a clicked group.
 - **2:** a `QWidget` painting the body figure (a pre-rendered transparent PNG, as in `assets/plates/`) and the eight
@@ -153,9 +183,11 @@ reverse of `entry.histology` in `app/micro/registry*.py`, the link that `model_v
 - Crops at 1:1:
   - `1_edge_crop`
   - `2_histology-library_crop`: the pins, leader and rail.
-  - `3_histology-library_crop`: the sheet in the middle of the collection. The hovered tile, Stomach, may fall just
-    outside the crop.
+  - `3_histology-library_crop`: the sheet in the middle of the collection, from the top of the box, with the top fade,
+    the hovered tile (Stomach) and the No micrograph tile (Gastro-oesophageal junction).
 - `edge_a` to `edge_d`.
+- Fix pass 2 re-rendered everything above except `before_histology-library`, with the same capture script: every
+  state shows a No micrograph tile or the scrollbar, and the scrolled and chosen states of 1 and 3 show the top fade.
 - What each state shows:
   - Rest is the room as it opens, with Simple columnar as the last tissue opened.
   - Scrolled is the middle of the collection (Skin into Digestive system) with a row (1) or tile (3) hovered. For 2 it

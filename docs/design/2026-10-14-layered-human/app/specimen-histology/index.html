@@ -224,8 +224,12 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .it .ti { font-family: var(--serif); font-size: 20px; line-height: 24px; font-weight: 400; font-variation-settings: "opsz" 24; }
 .it .bar { position: relative; height: 2px; background: var(--hair); }
 .it .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p) * 100%); background: var(--accent); }
-.ph { display: block; background: var(--surface-2); }   /* plain placeholder: the mockup has no micrograph of this tissue */
 .slide { display: block; object-fit: cover; border: 1px solid var(--hair); }
+/* No micrograph of this tissue: an empty slide mount, a hairline frame with nothing in it, never a filled box. Where the
+   frame is large enough (light table, wall label) it says so in the third text colour; at 48 px it is the frame alone. */
+.ph.slide { display: flex; align-items: center; justify-content: center; background: none; border-color: var(--line-2); }
+.ph i { display: none; font: 400 13px/17px var(--sans); font-style: normal; color: var(--text-3); }
+.dfig .ph i { display: block; font-size: 14px; }
 .slide[src$="/strat_squamous_nk.webp"] { object-view-box: inset(702px 4px 42px 306px); }   /* the catalogue's only micrograph is an eight-panel figure: show panel H, the epithelium itself */
 
 /* Lessons: vitrines. Each lab stands in its own pool, captioned below, as on Models */
@@ -335,13 +339,23 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
    1 and 3: the collection is one real scroll box; the side column follows it. */
 [data-variant="1"] .hl .lib-main, [data-variant="3"] .hl .lib-main { overflow-y: auto; overscroll-behavior: contain; width: 1124px; padding-right: 24px;
   box-sizing: border-box; display: block; -webkit-mask-image: none; mask-image: none; scroll-behavior: auto; }
+.hl .lib-main { scrollbar-width: none; }
 .hl .lib-main::-webkit-scrollbar { width: 0; }
-[data-edge="c"] .hl .lib-main::-webkit-scrollbar, [data-edge="d"] .hl .lib-main::-webkit-scrollbar { width: 9px; }
-.hl .lib-main::-webkit-scrollbar-track { background: transparent; }
-.hl .lib-main::-webkit-scrollbar-thumb { background: var(--line-2); border: 3px solid transparent; background-clip: padding-box; border-radius: 5px; }
-.hl .lib-main::-webkit-scrollbar-thumb:hover { background: var(--text-3); border: 3px solid transparent; background-clip: padding-box; }
-[data-edge="b"] .hl .lib-main, [data-edge="c"] .hl .lib-main { -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 150px), transparent calc(100% - 8px));
-  mask-image: linear-gradient(180deg, #000 calc(100% - 150px), transparent calc(100% - 8px)); }
+/* The scrollbar (edges c and d) is drawn beside the box, not by it, so the fades never dim it: a 2 px line in the line
+   colour that thickens and brightens under the pointer, and can be dragged; a click on its track moves the list there. */
+.hlbar { display: none; position: absolute; left: 1470px; top: 232px; bottom: 40px; width: 18px; cursor: default; touch-action: none; }
+[data-edge="c"] .hl .hlbar, [data-edge="d"] .hl .hlbar { display: block; }
+[data-variant="2"] .hl .hlbar { display: none; }
+.hlbar i { position: absolute; left: 8px; top: 0; width: 2px; border-radius: 1px; background: var(--line-2); cursor: grab;
+  transition: left .15s, width .15s, background-color .15s; }
+.hlbar i::before { content: ""; position: absolute; inset: 0 -7px; }   /* a 16 px wide grip around the 2 px line */
+.hlbar:hover i, .hlbar.drag i { left: 7px; width: 4px; border-radius: 2px; background: var(--text-3); }
+.hlbar.drag i { cursor: grabbing; }
+/* The fades. The foot always fades into the wall; the top fades only once the list has moved, and grows with the first
+   96 px of scroll (--ft, 0 to 1, set on scroll), so the rest state is untouched and nothing jumps. */
+[data-edge="b"] .hl .lib-main, [data-edge="c"] .hl .lib-main {
+  -webkit-mask-image: linear-gradient(180deg, transparent calc(var(--ft, 0) * 6px), #000 calc(var(--ft, 0) * 96px), #000 calc(100% - 150px), transparent calc(100% - 8px));
+  mask-image: linear-gradient(180deg, transparent calc(var(--ft, 0) * 6px), #000 calc(var(--ft, 0) * 96px), #000 calc(100% - 150px), transparent calc(100% - 8px)); }
 [data-variant="1"] .hl .tissues, [data-variant="3"] .hl .tissues { columns: auto; display: block; padding-bottom: 160px; }
 .hl .tissues .grp + .grp { margin-top: 34px; }
 .hl .tissues .grp > .colhead { position: relative; }
@@ -364,6 +378,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 [data-variant="3"] .hl .tissues .it .ti .is-cur::after { display: none; }
 [data-variant="3"] .hl .tissues .it .ct { display: none; }
+[data-variant="3"] .hl .tissues .it .ph i { display: block; }
 [data-variant="3"] .hl .tissues .it.is-sel .fig > * { outline: 2px solid var(--accent); outline-offset: 3px; }
 [data-variant="3"] .hl .tissues .it.is-sel .ti { color: var(--accent); }
 [data-variant="3"] .hl .tissues .it:hover .fig > *, [data-variant="3"] .hl .tissues .it.is-hover .fig > * { outline: 1px solid var(--text); outline-offset: 3px; }
@@ -674,6 +689,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
       <div class="rail" data-rail></div>
     </div>
   </div>
+  <div class="hlbar" data-hlbar aria-hidden="true"><i></i></div>
   <aside class="label-card lib-detail" data-hlabel>
     <div class="dfig"><img class="slide" src="../../assets/images/histo/simple_columnar.webp" alt=""></div>
     <div class="t"></div>
@@ -834,10 +850,10 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     lung: ['Lung alveoli', '', 'Look for thin septa around open air spaces, flat type I cells, cuboidal type II cells at the corners and capillaries full of red cells.', ''] };
   let hsel = HS === 'chosen' ? 'jejunum' : 'simple_columnar';
   const hrow = ([id, name, n, src], hover) => `<div class="it${id === hsel ? ' is-sel' : ''}${id === hover ? ' is-hover' : ''}" data-id="${id}" role="option" aria-selected="${id === hsel}"><div class="fig">${src
-    ? `<img class="slide" src="${src}" alt="">` : '<span class="ph slide"></span>'}</div><span class="ti"><span class="${id === hsel ? 'is-cur' : ''}">${name}</span></span><span class="ct meta num">${n}</span></div>`;
+    ? `<img class="slide" src="${src}" alt="">` : '<span class="ph slide" role="img" aria-label="No micrograph"><i>No micrograph</i></span>'}</div><span class="ti"><span class="${id === hsel ? 'is-cur' : ''}">${name}</span></span><span class="ct meta num">${n}</span></div>`;
   const label = id => {
     const [g, , name, n, src] = HBY[id], d = HDETAIL[id], L = document.querySelector('[data-hlabel]');
-    L.querySelector('.dfig').innerHTML = src ? `<img class="slide" src="${src}" alt="">` : '<span class="ph slide" style="aspect-ratio:4/3"></span>';
+    L.querySelector('.dfig').innerHTML = src ? `<img class="slide" src="${src}" alt="">` : '<span class="ph slide" style="width:100%; height:100%" role="img" aria-label="No micrograph"><i>No micrograph</i></span>';
     L.querySelector('.t').textContent = d ? d[0] : (g === 'Epithelium' ? name + ' epithelium' : name);
     L.querySelector('.meta').innerHTML = [g, `${n} ${n === 1 ? 'slide' : 'slides'}`, d && d[1]].filter(Boolean).join(' · ');
     L.querySelector('.note').innerHTML = d ? d[2] : ''; L.querySelector('hr').hidden = !d;
@@ -862,8 +878,27 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     document.querySelectorAll('[data-tissue-groups] li').forEach(li => { const on = li.dataset.g === cur.dataset.g;
       li.classList.toggle('on', on); li.firstChild.className = on ? 'is-cur' : ''; });
   };
+  // The top fade and the scrollbar follow the list (1 and 3). The bar is beside the box, so it is scaled to the page.
+  const bar = document.querySelector('[data-hlbar]'), thumb = bar.firstElementChild;
+  const edges = () => {
+    main.style.setProperty('--ft', Math.min(1, main.scrollTop / 96).toFixed(3));
+    const th = bar.clientHeight, max = main.scrollHeight - main.clientHeight, h = Math.max(48, Math.round(th * main.clientHeight / main.scrollHeight));
+    thumb.style.height = h + 'px'; thumb.style.top = (max > 0 ? (th - h) * main.scrollTop / max : 0) + 'px';
+  };
+  const perPx = () => (main.scrollHeight - main.clientHeight) / (bar.clientHeight - thumb.offsetHeight) * bar.clientHeight / bar.getBoundingClientRect().height;
+  thumb.addEventListener('pointerdown', e => {
+    e.preventDefault(); e.stopPropagation(); thumb.setPointerCapture(e.pointerId); bar.classList.add('drag');
+    const y0 = e.clientY, s0 = main.scrollTop, k = perPx(), mv = ev => { main.scrollTop = s0 + (ev.clientY - y0) * k; };
+    const up = () => { bar.classList.remove('drag'); thumb.removeEventListener('pointermove', mv); thumb.removeEventListener('pointerup', up); thumb.removeEventListener('pointercancel', up); };
+    thumb.addEventListener('pointermove', mv); thumb.addEventListener('pointerup', up); thumb.addEventListener('pointercancel', up);
+  });
+  bar.addEventListener('pointerdown', e => { if (e.target !== bar) return;
+    const r = bar.getBoundingClientRect(), f = (e.clientY - r.top) / r.height * bar.clientHeight - thumb.offsetHeight / 2;
+    main.scrollTo({ top: f / (bar.clientHeight - thumb.offsetHeight) * (main.scrollHeight - main.clientHeight), behavior: 'smooth' }); });
+  bar.addEventListener('wheel', e => { e.preventDefault(); main.scrollTop += e.deltaY; }, { passive: false });
   if (HV !== '2') {
-    main.addEventListener('scroll', spy, { passive: true });
+    main.addEventListener('scroll', () => { spy(); edges(); }, { passive: true });
+    window.addEventListener('resize', edges);
     document.querySelectorAll('[data-tissue-groups] li').forEach(li => li.addEventListener('click', () => {
       main.scrollTo({ top: main.querySelector(`.grp[data-g="${li.dataset.g}"]`).offsetTop, behavior: 'smooth' }); }));
   }
@@ -908,7 +943,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     if (HS === 'scrolled') main.scrollTop = main.querySelector('.grp[data-g="Skin"]').offsetTop + (HV === '3' ? 150 : 120);
     else if (HS === 'chosen') main.scrollTop = at('jejunum').offsetTop - (HV === '3' ? 330 : 360);
     else main.scrollTop = 0;
-    spy();
+    spy(); edges();
   };
   if (root.dataset.screen === 'histology-library') { window.hlPose(); if (document.fonts) document.fonts.ready.then(window.hlPose); }
   // Each caption says what is inside, in five words or fewer (README and data/content/model_summaries.json).
