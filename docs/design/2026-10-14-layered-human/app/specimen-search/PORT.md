@@ -84,8 +84,8 @@ in the app.
     with a `line-2` handle and no track.
 - **None:** "Nothing for "wisdom tooth"." Then "Check the spelling, or try one word or the Latin name." Then links to
   browse Systems, Lessons, Radiology and Histology. **Typo:** "No exact match for "bycep". Close spellings:".
-- **Nothing in view** (options 1 and 2, "coronary" on the muscle figure): "None of these is in this view. Choosing one
-  shows it." It is honest: the coronary arteries are not drawn on this figure.
+- **Nothing in view** (options 1 and 2, "coronary" on the muscle figure): "None of these is on the figure as shown. Each
+  says where it is." Every row then says where (see "Search 3" below).
 - **Chosen:** the search closes and the structure is selected. A quiet link under the field, "72 results for "bic"",
   reopens the last results with one click (`.sx-again`).
 - **Choosing other kinds** goes to that kind's room in the mockup (Lessons, Radiology, Histology, Models), as
@@ -164,3 +164,107 @@ entry titles to anchor keys.
   surface) get no circle here. The app would place one for anything visible.
 - "Recent" uses the mockup's own room titles. Recent searches as such are not stored by the app.
 - The index slice is 802 of 4,717 entries. Queries outside the demo words return fewer results than the app would.
+
+## Search 3: where it is, and search in the other rooms
+
+### Rows that are not in view say where they are
+A structure row with no circle gets two quiet lines under its meta, in all three options (option 2 runs them in):
+- **Where**, from the app's data: "On the back of the heart, 85% deep", "On the back, 20% deep", "Inside the heart, in the
+  aortic valve, 70% deep", "In the chest, behind the ribs, 46% deep". The percentage is the structure's relative depth
+  from `DepthIndex` (`app/depth.py`, cached in `data/anatomy/depth.npz`); "back"/"front of the heart" compare the
+  structure's centroid (`anatomy.json`) with the body or the heart's centre (z, + is the front); "inside" is a valve or
+  leaflet. Groups take their shallowest muscular part. `S/where.py` writes `LH_WHERE` at the end of `search-index.js`.
+- **What choosing does**, one of three, in this order:
+  1. *Peel*: "Choosing it peels to 40%". The gauge steps to the stop (its own `]` and `[`), the plate becomes the
+     plate at that depth, and a brass circle sits on the structure. Only where the mockup can show it: `Heart` on
+     `peel40_ids` (picking-buffer anchors).
+  2. *Turn*: "Choosing it turns the body round" (biceps femoris, 48%: present at 26%), or "... and lifts the cut to 16%"
+     (trapezius, 20%: the 26% cut has peeled it). `body_back`, circles placed by eye on clearly visible muscle.
+  3. *Room*: where no picture here shows it, the row names the room that does. "Shown in the lesson The coronary
+     circulation, step 2" (left coronary artery: the lesson plate has its projected point, `lmain`); "Shown whole on the
+     Heart model" for the other heart structures (the Models room opens with the query, narrowed to the Heart).
+  Otherwise: "Choosing it lifts the cut to 16%" when the structure is shallower than the cut (proposed; the mockup
+  only selects it), else "Choosing it shows it through what lies in front" (today's `select_and_focus(sids, xray=True)`).
+- Not shown: the right coronary artery is 46% deep, so a 55% cut removes it and at 40% the ribs cover it; no plate
+  here shows it, so it goes to the Heart model. The left coronary stem (65%) lies under the pulmonary trunk on
+  `peel_55_skeleton`, so it is not circled there.
+- **After choosing**, the search closes, the wall label takes the structure's name, Latin, "Where" and "System" (the
+  biceps facts are dropped), and focus stays in the field with the query; typing or the down arrow reopens the list.
+  Searching again restores the figure the circles belong to. Esc clears.
+
+### Rows found by their text say what they mention
+A lesson, film, case or tissue whose name and subtitle don't hold the query, but whose text does, says why it is
+there, in place of its details line, so the row keeps to one line: "The liver · mentions coronary ligaments", "The
+reflex arc · mentions the long head of biceps brachii", "Balanced ischemia: SPECT, PET and angiography · mentions the
+severe coronary stenosis". In the Lessons room, where each lesson has a full line, the phrase follows the details.
+The phrase is, in this order (`why()` in `search.js`; in the app, a helper beside `SearchIndex` reading the same
+`alt` text it already searches):
+1. The structure name the word sits in, as the text's list of structures has it: a capitalised word and the
+   lower-case words after it, up to six words ("Inferior papillary muscle of left ventricle"). Words that open a
+   sentence rather than a name don't count ("Behind the heart", "Four muscles", "Explain…", and the sources' own
+   "Source-marked …"). A list run together ("Hip bone urethra corpus cavernosum") gives the name up to the word.
+2. Else the word with the describing word beside it: "coronary ligaments", "papillary muscles", "bicuspid aortic valve",
+   "heart failure".
+3. Else the word alone.
+Abbreviations and nerve numerals keep their capitals ("the facial nerve VII", "the LAD anterior interventricular
+artery"). A case names conditions, so it takes no article ("mentions heart failure"), and neither does a plural
+("mentions papillary muscles").
+
+### One rule for every room (option 1)
+**Answers appear where the room shows its things.** The room's own list narrows in place, circles go on the room's
+picture (numbered in the list's order), and matches from the other rooms sit below as quieter lines (room word in
+`text-3`, two names, "and n more"). The same field, the same keys (arrows, Enter, Esc, Ctrl+K, never printed).
+| Room | Typing narrows | Circles on | Other rooms go |
+|---|---|---|---|
+| Models viewer | the parts tree, with ancestors kept (in `text-3`); the tree's own filter line shows the query and "3 parts" | the plate's labelled points that match; tags hide | under the tree |
+| Models collection | the tiles (name and caption) | — | under the tiles |
+| Histology library | the tissue tiles; groups with none hide | — | under the tiles |
+| Histology slide | the key list (non-matches dim, so the numbers keep their pins) | the matching pins get a ring | under the key list |
+| Lessons | the labs give way to the matching lessons, as lines | — | under the list |
+| Lesson, Radiology | nothing narrows (the field shows "Back to “coronary”" after arriving from a result) | — | — |
+| Practice | **search answers nothing while a question is open**: it would give the answer away. Proposed: the field stays, placeholder "Search after this question". Not built. |
+Choosing one of the room's own things selects it there (viewer part, tissue, model) and leaves "Back to “q”" under
+the field; choosing another room's line opens that room with the query.
+
+### States (all `?variant=1&scheme=slate&...`)
+| Render (`renders/checkpoint-3/search3/`) | Parameters |
+|---|---|
+| `1_atlas_coronary-where` (+ `_umber`) | `q=coronary&hover=auto` |
+| `1_atlas_heart-peeled` | `q=heart&state=chosen&pick=0` |
+| `1_atlas_trapezius-back` | `q=trapezius&state=chosen&pick=0` |
+| `1_atlas_bic-femoris-hover` / `-back` | `q=bic&hover=2` / `q=bic&state=chosen&pick=2` |
+| `1_lesson_coronary-chosen` | `screen=lesson&q=coronary&state=chosen` |
+| `1_viewer_renal` | `screen=viewer&q=renal&hover=auto` |
+| `1_histology-library_muscle` | `screen=histology-library&q=muscle&hover=auto` |
+| `1_histology_nucleus` | `screen=histology&q=nucleus` |
+| `1_lessons_coronary` | `screen=lessons&q=coronary&hover=auto` |
+| `1_models_coronary` | `screen=models&q=coronary` |
+`pick=<n>` chooses the n-th row of the list (0-based) on load.
+
+### What the Qt app needs
+- **Where:** `DepthIndex.depth[sid]` is the depth; `SceneState.depth_cut` (`app/state.py`) the cut. A result is in view
+  when `SceneState.visible_mask()[sid]` and the picking test of option 1 say so. The facing test needs the camera:
+  compare the structure's centroid with the view direction in `Viewport`. Phrase from `DISSECTION_STOPS`
+  (`app/ui/view_panel.py`).
+- **Peel/turn on choose:** in `MainWindow.on_search_activated` (`main_window.py:1529`), before `select_and_focus`, set
+  the cut to the deepest stop at or above the structure's depth (`ViewPanel.set_depth` → `SceneState.set_depth`), or lift
+  it when the structure is shallower than the cut; if the structure faces away, orbit the camera 180° about the body's
+  axis. Fall back to X-ray when something still covers it (picking test). Circle with `Viewport.project`.
+- **Room offers:** a small table from structure to lesson step / model (the lesson's `structures` lists and
+  `data/content/model_summaries.json` already hold this).
+- **Rooms:** each room exposes "narrow to this query" on the widget that owns its list: `ModelView._filter_tree`
+  (`app/ui/model_view.py:606`, already a parts filter: feed it the header query), `HistologyBrowser._filter`
+  (`app/ui/histology.py:153`), `LessonsPanel` (`app/ui/lessons.py`), the Models catalogue `ModelCatalogPanel`
+  (`app/ui/search_panel.py:256`), `HistologyViewer` for slide labels. The "other rooms" lines are the
+  `SearchIndex.search` results minus the room's own kind. `PracticePanel` (`app/ui/practice.py`) ignores the query
+  while a question is open.
+
+### Weak or unresolved
+- The heart's circle on `peel40_ids` marks the heart, not a vessel; at body scale the coronaries are too small to point
+  at. The plate has an anchor for each half of the heart a few pixels apart, so the circle sits on the larger.
+- `body_back` circles are by eye; the back plate's own depth is the muscle view, so "16%" is the gauge, not a new render.
+- The viewer's third circle (Renal capsule) sits under the collapsed Kidney: its row is listed only while a search
+  finds it, and the Kidney opens round it, as the Qt tree filter searches closed groups.
+- Rows that only lift the cut, or only show through in X-ray, have no picture in the mockup: choosing them renames the
+  wall label only.
+- Options 2 and 3 carry the where lines and the peel/turn/room choices, but the room search is built for option 1 only.

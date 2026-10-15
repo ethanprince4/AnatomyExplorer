@@ -157,15 +157,18 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
   padding: 0; border: 0; background: none; cursor: pointer; font: 400 13px/18px var(--sans); color: var(--text-2); white-space: nowrap; }
 .g-only .box { width: 13px; height: 13px; }
 .g-only .box.on::after { width: 6px; height: 3px; }
-/* The knob is as tall as the percentage's figures (9.5 px: 19 device pixels at 2x, top of the figures to the baseline):
-   a 6 px brass dot in a 1.75 px ring of the wall's own colour. The invisible ::after keeps a 24 px target. */
-.g-knob { position: absolute; left: calc(var(--gx) + .5px); width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
-  transform: translate(-50%, -50%); box-shadow: 0 0 0 1.75px var(--halo); cursor: grab; outline: none; }
+/* The knob's brass dot is as tall as the percentage's figures: 9 px, 18 device pixels at 2x from the top of the figures
+   to the baseline. A 1.75 px ring of the wall's own colour (--halo, set by the script) parts it from the rule. Set 4 px
+   up and left of the level (not by a -50% shift, which Chrome rounds), its centre is the stop tick's and the rule's, and
+   its edges fall on whole pixels at 1x and 2x. The invisible ::after keeps a 24 px target. */
+.g-knob { position: absolute; left: calc(var(--gx) - 4px); margin-top: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 1.75px var(--halo); cursor: grab; outline: none; }
 .g-knob::after { content: ""; position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; border-radius: 50%; transform: translate(-50%, -50%); }
-.g-knob:focus-visible { outline: 2px solid var(--text); outline-offset: 3.5px; }
+.g-knob:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
 .gauge[data-drag] .g-knob { cursor: grabbing; }
-/* the figures span the knob exactly: half a pixel down puts their top and baseline on the ring's top and bottom */
-.g-pct { position: absolute; left: calc(var(--gx) + 12px); transform: translateY(-50%); margin-top: .5px; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--accent-2); }
+/* the figures span the dot exactly: half a pixel down puts their top and baseline on the dot's top and bottom; 13.5 px
+   right of the rule they stand 8.5 px clear of the dot */
+.g-pct { position: absolute; left: calc(var(--gx) + 13.5px); transform: translateY(-50%); margin-top: .5px; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--accent-2); }
 
 /* ---------------------------------------------------------------------------------- dock: lettered on the wall under one rule */
 .dock { position: absolute; left: 50%; transform: translateX(-50%); bottom: 16px; display: flex; align-items: center; height: 44px;
@@ -309,13 +312,14 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .reveal .track .line { position: absolute; left: 0; right: 0; top: 10px; height: 1px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
 .reveal .track .fill { position: absolute; left: 0; top: 9px; height: 3px; background: var(--accent); }
 .reveal .track .tick { position: absolute; top: 15px; width: 1px; height: 5px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
-/* the gauge's knob, laid flat: a 6 px brass dot in a 1.75 px ring of the wall's colour at its height (--halo, set by the
-   script), centred on the line; the invisible ::after keeps a 24 px target */
+/* the gauge's knob, laid flat: a 9 px brass dot in a 1.75 px ring of the wall's colour at its height (--halo, set by the
+   script), set 4 px up and left of its place so its centre is the line's and the tick's and its edges fall on whole
+   pixels; the invisible ::after keeps a 24 px target */
 .reveal .track { touch-action: none; }
-.reveal .track .knob { position: absolute; top: 10.5px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
-  transform: translate(-50%, -50%); box-shadow: 0 0 0 1.75px var(--halo, var(--stage-bottom)); cursor: grab; outline: none; }
+.reveal .track .knob { position: absolute; top: 6px; margin-left: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 1.75px var(--halo, var(--stage-bottom)); cursor: grab; outline: none; }
 .reveal .track .knob::after { content: ""; position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; border-radius: 50%; transform: translate(-50%, -50%); }
-.reveal .track .knob:focus-visible { outline: 2px solid var(--text); outline-offset: 3.5px; }
+.reveal .track .knob:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
 .reveal .track[data-drag] .knob { cursor: grabbing; }
 .reveal .opt { display: flex; align-items: center; gap: 10px; height: 31px; font-size: 14px; }
 .reveal .views { margin-top: 2px; }
@@ -370,7 +374,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
    2 Side rail: the rooms down the wall's left edge; the header keeps Back, the trail and search.
    3 Lobby: a home room; every room's trail starts at the Lobby; the rooms stay one click apart.
    ============================================================================================ */
-[data-screen="lobby"] [data-screen-id="lobby"] { display: block; }
+[data-screen="lobby"] [data-screen-id="lobby"], [data-screen="practice-home"] [data-screen-id="practice-home"] { display: block; }
 .head .rooms a { display: inline-flex; align-items: baseline; gap: 6px; cursor: pointer; }
 .head .rooms .ct, .rail .ct { font-weight: 600; color: var(--accent-2); font-size: 13px; }
 .head .tb[aria-current] { position: relative; color: var(--text); }
@@ -385,6 +389,17 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .trail a:hover { color: var(--text); text-decoration: underline; text-decoration-color: var(--edge); text-underline-offset: 4px; }
 .trail .sep { color: var(--text-3); font-size: 14px; }
 .trail [aria-current] { color: var(--text); }
+/* every way between places is a real link: Tab reaches it in reading order and draws a ring in the text colour */
+.head a, .rail a, .door, .recent a, .ph-list a { text-decoration: none; }
+.head a:focus-visible, .head button:focus-visible, .head .find:focus-visible, .trail a:focus-visible, .rail a:focus-visible,
+.door:focus-visible, .recent a:focus-visible, .btn:focus-visible, .ph-list a:focus-visible, .ph-list button:focus-visible,
+[data-href]:focus-visible, .spec:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; border-radius: 2px; }
+.head .find:focus-visible, .trail a:focus-visible { outline-offset: 2px; }
+.head .find:focus { color: var(--text-2); border-bottom-color: var(--text-2); }
+.recent li a { display: flex; flex: 1; align-items: baseline; gap: 12px; color: inherit; }
+/* named Back and Forward hold a slot as wide as the longest target, so search (and option 2's trail) keep their places */
+.head .hist.named { min-width: 200px; }
+[data-window] .find .more { display: none; }
 
 /* ---- 1 Rooms bar: the trail is a line of its own, just under the bar, on item pages only */
 [data-variant="1"] .trail.line { position: absolute; left: 40px; top: 78px; font-size: 14px; line-height: 20px; }
@@ -418,7 +433,10 @@ html:not([data-window])[data-variant="2"] .lib-main { width: 996px; }
 html:not([data-window])[data-variant="2"] .lib-detail { left: 1416px; }
 html:not([data-window])[data-variant="2"] [data-screen-id="histology"] .app > div[style*="left:1320px"] { width: 456px !important; }   /* over the inline width */
 [data-variant="2"] .head .hist { margin-left: -6px; }
-[data-variant="2"] .head .trail { margin-left: -22px; }
+html:not([data-window])[data-variant="2"] .ph-col:has(> [data-ph-labs]) { width: 500px !important; }
+html:not([data-window])[data-variant="2"] [data-ph-pick] { left: 1416px !important; }   /* over the inline left */
+[data-variant="2"] .head .trail { margin-left: -14px; padding-left: 26px; border-left: 1px solid var(--hair); line-height: 22px; }   /* named Back, then the trail */
+.rail .r-foot a[role="button"] { cursor: pointer; }
 
 /* ---- 3 Lobby: the trail leads the header from the Lobby; the rooms sit on the right, beside search */
 .head .home { position: relative; display: inline-flex; align-items: baseline; gap: 0; color: var(--text-2); text-decoration: none; cursor: pointer;
@@ -451,6 +469,30 @@ html:not([data-window])[data-variant="2"] [data-screen-id="histology"] .app > di
 .recent li { display: flex; align-items: baseline; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--hair); font-size: 15px; }
 .recent li span { margin-left: auto; color: var(--text-3); font-size: 13px; }
 
+/* ---- Practice's front page (practice-home): what is due, a quiz by topic, lab practice, your results. All of it is
+   the app's: QuizController's review button and topic list, the lessons' lab practice, the progress dialog's numbers. */
+.ph-col { position: absolute; top: 232px; }
+.ph-col .colhead { display: flex; gap: 18px; }
+.ph-col .colhead span:first-of-type { margin-left: auto; }
+.ph-due .big { font-size: 64px; line-height: 64px; margin-top: 2px; }
+.ph-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--hair); }
+.ph-list li { border-bottom: 1px solid var(--hair); }
+.ph-list a, .ph-list button { display: flex; align-items: baseline; gap: 18px; width: 100%; height: 45px; padding: 12px 0 0; box-sizing: border-box;
+  background: none; border: 0; color: var(--text-2); font: 400 19px/24px var(--serif); font-variation-settings: "opsz" 24; text-align: left; cursor: pointer; }
+[data-ph-labs] a { font-size: 17px; }
+.ph-list .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ph-list .no { flex: 0 0 52px; font: 500 13px var(--sans); color: var(--text-3); }
+.ph-list .n { margin-left: auto; flex: 0 0 auto; min-width: 44px; text-align: right; font: 500 13px var(--sans); color: var(--text-3); }
+.ph-list .n + .n { margin-left: 0; min-width: 76px; }
+.ph-list .n.due { color: var(--accent-2); font-weight: 600; }
+.ph-list a:hover, .ph-list button:hover, .ph-list [aria-pressed="true"] { color: var(--text); }
+.ph-pick .fig { position: relative; height: 250px; margin-bottom: 18px; }
+.ph-pick .fig img { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); max-height: 240px; max-width: 300px; }
+.ph-pick .arr { gap: 8px; }
+.ph-pick ul { list-style: none; margin: 16px 0 0; padding: 0; }
+.ph-pick li { display: flex; align-items: center; gap: 10px; height: 30px; font-size: 14px; color: var(--text-2); }
+.ph-pick li .v { margin-left: auto; color: var(--text); }
+
 /* ---- a small laptop window (?window=1280): the chrome is laid out for 1280 px; the room below it is the 1920 room scaled */
 [data-window] body, [data-window] .screen { width: 1280px !important; }
 [data-window] .app { width: 1280px; height: 800px; }
@@ -466,6 +508,15 @@ html:not([data-window])[data-variant="2"] [data-screen-id="histology"] .app > di
 [data-window][data-variant="3"] .head { gap: 20px; }
 [data-window][data-variant="3"] .head .rooms { gap: 16px; }
 [data-window][data-variant="3"] .head .find { flex: 1 1 200px; }
+[data-window][data-variant="1"] .head .hist { margin-left: 4px; }   /* a clear step from the rooms to Back */
+.head .sv3 .i { display: none; }   /* option 3 at 1280: Saved views folds to its bookmark, as the menu is ≡ */
+[data-window] .head .sv3 .i { display: inline; width: 18px; height: 18px; }
+[data-window] .head .sv3 .w { display: none; }
+[data-window][data-variant="3"] .head .sv3 { margin-left: 0; padding-left: 18px; }
+/* option 3 at 1280: the trail keeps Lobby, the room and the place (the page's title names it in full) */
+[data-window][data-variant="3"] .head > .trail { flex-shrink: 1; min-width: 0; }
+[data-window][data-variant="3"] .head .trail a ~ a, [data-window][data-variant="3"] .head .trail a ~ a + .sep { display: none; }
+[data-window][data-variant="3"] .head .trail [aria-current] { display: inline-block; max-width: 150px; overflow: hidden; text-overflow: ellipsis; vertical-align: bottom; }
 </style>
 </head>
 <body>
@@ -693,6 +744,39 @@ html:not([data-window])[data-variant="2"] [data-screen-id="histology"] .app > di
     <div class="serif num" style="font-size:32px; line-height:38px; font-weight:340">3 <span class="muted" style="font-size:24px">of 12</span></div>
     <p class="meta">right so far. Labels stay off while you practise.</p>
   </div>
+</div>
+</section>
+
+<!-- ================================================================ PRACTICE HOME (Practice's front page; ?screen=practice is a running session) -->
+<section class="screen" data-screen-id="practice-home">
+<div class="app">
+  <header class="head" data-chrome="practice"></header>
+  <div class="exhibit"><h1>Practice</h1><p>Questions on the model. What you miss comes back sooner.</p></div>
+  <div class="ph-col ph-due" style="left:40px; width:250px">
+    <div class="colhead">Due today</div>
+    <div class="big num">12</div>
+    <p class="meta" style="margin:6px 0 0">structures, from your answers in quizzes and lab practice.</p>
+    <button class="btn brass" style="margin-top:16px" data-ph-go="practice">Review what is due</button>
+    <hr class="rule" style="margin:34px 0 20px">
+    <div class="colhead">Your results</div>
+    <ul class="ph-pick" style="margin:0; padding:0; list-style:none">
+      <li>Items seen<span class="v num">412</span></li><li>Answers<span class="v num">1,980</span></li><li>Right overall<span class="v num">81%</span></li>
+    </ul>
+    <div class="colhead" style="margin-top:26px">Most often missed</div>
+    <ul class="ph-pick" style="margin:0; padding:0; list-style:none">
+      <li>Serratus anterior<span class="v num">4 of 6</span></li><li>Brachialis<span class="v num">3 of 5</span></li><li>Great cardiac vein<span class="v num">3 of 7</span></li>
+    </ul>
+    <button class="tb" style="margin-top:12px">My progress</button>
+  </div>
+  <div class="ph-col" style="left:360px; width:440px">
+    <div class="colhead">Quiz by topic<span>Due</span><span>Structures</span></div>
+    <ul class="ph-list" data-ph-topics></ul>
+  </div>
+  <div class="ph-col" style="left:870px; width:580px">
+    <div class="colhead">Lab practice<span>Mini lessons</span></div>
+    <ul class="ph-list" data-ph-labs></ul>
+  </div>
+  <div class="ph-col ph-pick label-card" style="left:1520px; width:360px" data-ph-pick></div>
 </div>
 </section>
 
@@ -1101,58 +1185,141 @@ html:not([data-window])[data-variant="2"] [data-screen-id="histology"] .app > di
   const ROOMS = [['atlas', 'Atlas', 'person'], ['lessons', 'Lessons', 'book'], ['models', 'Models', 'cube'],
                  ['radiology', 'Radiology', 'film'], ['histology', 'Histology', 'micro'], ['practice', 'Practice', 'target']];
   const NAME = Object.fromEntries(ROOMS.map(([k, v]) => [k, v]));
-  // Each screen: its room, its trail below the room (front pages have none) and where Back goes in this session.
+  // Each screen: its room, and its trail below the room as [name, screen] (front pages have none; the last crumb is
+  // the place itself). Lesson steps and selections are not places: the lesson's trail ends at the lesson.
   const PLACE = {
-    lobby: ['lobby', [], 'Atlas'],
-    atlas: ['atlas', [], 'Lessons'], peel: ['atlas', [], 'Atlas'],
-    lessons: ['lessons', [], 'Atlas'], lesson: ['lessons', ['The coronary circulation', 'Step 2 of 7'], 'Lessons'],
-    models: ['models', [], 'Atlas'], viewer: ['models', ['Kidney with the nephron'], 'Models'],
-    radiology: ['radiology', ['Chest radiograph, PA'], 'Atlas'],
-    histology: ['histology', ['Epithelium', 'Simple columnar epithelium'], 'Histology'], 'histology-library': ['histology', [], 'Atlas'],
-    practice: ['practice', ['Lab 6 · Pressure, volume and a breath'], 'Lab 6'],
-    settings: ['settings', [], 'Atlas'],
+    lobby: ['lobby', []],
+    atlas: ['atlas', []], peel: ['atlas', []],
+    lessons: ['lessons', []], lesson: ['lessons', [['The coronary circulation']]],
+    models: ['models', []], viewer: ['models', [['Kidney with the nephron']]],
+    radiology: ['radiology', [['Chest radiograph, PA']]],
+    'histology-library': ['histology', []], histology: ['histology', [['Epithelium', 'histology-library'], ['Simple columnar epithelium']]],
+    'practice-home': ['practice', []], practice: ['practice', [['Lab 6 · Pressure, volume and a breath']]],
+    settings: ['settings', []],
   };
-  const roomLink = ([k, v, ic], cur, withIcon) =>
-    `<a ${k === cur ? 'aria-current="page"' : ''} title="${v}">${withIcon ? icon(ic) : ''}<span>${v}</span>${k === 'practice' ? `<b class="ct num" aria-label="${DUE} due">${DUE}</b>` : ''}</a>`;
+  if (V !== '3' && R.dataset.screen === 'lobby') R.dataset.screen = 'atlas';   // the lobby only exists in option 3
+  const cur = R.dataset.screen in PLACE ? R.dataset.screen : 'atlas';
+  const roomOf = s => (PLACE[s] || ['atlas'])[0];
+  // Back names its place: a room's front page by the room, an item by what it is.
+  const SAYS = { lobby: 'the lobby', atlas: 'Atlas', peel: 'Atlas', lessons: 'Lessons', lesson: 'the lesson', models: 'Models', viewer: 'the model',
+    radiology: 'the film', 'histology-library': 'Histology', histology: 'the slide', 'practice-home': 'Practice', practice: 'the quiz', settings: 'Settings' };
+  // Where Back goes when a screen is opened on its own (a render): one made-up session, consistent across screens.
+  const SEED = { lobby: 'atlas', atlas: 'lesson', peel: 'atlas', lessons: 'atlas', lesson: 'atlas', models: 'atlas', viewer: 'models', radiology: 'atlas',
+    'histology-library': 'atlas', histology: 'histology-library', 'practice-home': 'atlas', practice: 'lesson', settings: 'atlas' };
+  // Rooms remember: a room you are not in opens as you left it; the room you are in (and Practice, always) opens its front page.
+  const HOME = { lobby: 'lobby', atlas: 'atlas', lessons: 'lessons', models: 'models', radiology: 'radiology', histology: 'histology-library', practice: 'practice-home', settings: 'settings' };
+  const LEFT = { atlas: 'atlas', lessons: 'lesson', models: 'viewer', radiology: 'radiology', histology: 'histology' };
+  // The place history, kept for this tab: links push a place, Back and Forward move along it (app: places.PlaceHistory).
+  const ss = (() => { try { return window.sessionStorage; } catch (e) { return null; } })();
+  const how = ss && ss.getItem('lh-go'); if (ss) ss.removeItem('lh-go');
+  let H = how && JSON.parse(ss.getItem('lh-hist') || 'null');
+  const mem = (how && JSON.parse(ss.getItem('lh-left') || 'null')) || { ...LEFT };
+  if (!H) H = { s: [SEED[SEED[cur]], SEED[cur], cur], i: 2 };
+  else if (how === 'back') H.i = Math.max(0, H.i - 1);
+  else if (how === 'fwd') H.i = Math.min(H.s.length - 1, H.i + 1);
+  else if (H.s[H.i] !== cur) { H.s = H.s.slice(0, H.i + 1).concat(cur); H.i = H.s.length - 1; }
+  H.s[H.i] = cur;
+  if (LEFT[roomOf(cur)]) mem[roomOf(cur)] = cur;
+  if (ss) { ss.setItem('lh-hist', JSON.stringify(H)); ss.setItem('lh-left', JSON.stringify(mem)); }
+  const url = s => { const p = new URLSearchParams(location.search); p.set('screen', s); if (s !== 'viewer') p.delete('view'); return '?' + p; };
+  const roomHref = (k, here) => url(k === here || k === 'practice' ? HOME[k] : (mem[k] || HOME[k]));
+  const ITEM = { lesson: 'The coronary circulation', viewer: 'Kidney with the nephron', histology: 'Simple columnar epithelium', radiology: 'Chest radiograph, PA' };
+  const roomTip = (k, here) => { const s = k === here || k === 'practice' ? HOME[k] : (mem[k] || HOME[k]); return ITEM[s] ? `${NAME[k]}: ${ITEM[s]}, as you left it` : NAME[k]; };
+  const roomLink = ([k, v, ic], here, withIcon) =>
+    `<a href="${roomHref(k, here)}" title="${roomTip(k, here)}" ${k === here ? 'aria-current="page"' : ''}>${withIcon ? icon(ic) : ''}<span>${v}</span>${k === 'practice' ? `<b class="ct num" aria-label="${DUE} due">${DUE}</b>` : ''}</a>`;
+  const crumb = (name, s) => `<a href="${url(s)}">${name}</a>`;
   const trail = (room, crumbs, cls, fromLobby) => {
-    const parts = [];
-    if (fromLobby) parts.push(room === 'lobby' ? null : (crumbs.length ? `<a>${NAME[room] || 'Settings'}</a>` : `<span aria-current="page">${NAME[room] || 'Settings'}</span>`));
-    else if (crumbs.length) parts.push(`<a>${NAME[room]}</a>`);
-    crumbs.forEach((c, i) => parts.push(i === crumbs.length - 1 ? `<span aria-current="page">${c}</span>` : `<a>${c}</a>`));
-    const p = parts.filter(Boolean);
-    if (!p.length) return '';
-    return `<nav class="trail ${cls}" aria-label="You are here">${fromLobby ? '<span class="sep">›</span>' : ''}${p.join('<span class="sep">›</span>')}</nav>`;
+    const parts = [], name = NAME[room] || 'Settings';
+    if (fromLobby) { if (room !== 'lobby') parts.push(crumbs.length ? crumb(name, HOME[room]) : `<span aria-current="page">${name}</span>`); }
+    else if (crumbs.length) parts.push(crumb(name, HOME[room]));
+    crumbs.forEach(([c, s], i) => parts.push(i === crumbs.length - 1 ? `<span aria-current="page">${c}</span>` : crumb(c, s)));
+    if (!parts.length) return '';
+    const sep = '<span class="sep" aria-hidden="true">›</span>';
+    return `<nav class="trail ${cls}" aria-label="You are here">${fromLobby ? sep : ''}${parts.join(sep)}</nav>`;
   };
-  const find = `<div class="find" role="searchbox" tabindex="0" aria-label="Search the atlas, lessons, cases" aria-keyshortcuts="Control+K">${icon('search')}Search the atlas, lessons, cases</div>`;
-  const arrows = (back, named) => `<span class="hist"><button class="hb${named ? ' back' : ''}" aria-label="Back to ${back}" title="Back to ${back}" aria-keyshortcuts="Alt+ArrowLeft">${icon('back')}${named ? `<span>Back to ${back}</span>` : ''}</button><button class="hb" disabled aria-label="Forward" title="Nothing to go forward to yet" aria-keyshortcuts="Alt+ArrowRight">${icon('chevron')}</button></span>`;
-  const settingsBtn = cur => `<button class="tb" ${cur === 'settings' ? 'aria-current="page"' : ''} aria-keyshortcuts="Control+Comma">Settings</button>`;
+  const find = `<div class="find" role="searchbox" tabindex="0" aria-label="Search the atlas, lessons, cases" aria-keyshortcuts="Control+K">${icon('search')}<span>Search<span class="more"> the atlas, lessons, cases</span></span></div>`;
+  // Back and Forward: Alt+Left and Alt+Right, Cmd+[ and Cmd+] on a Mac. Bound below, never printed.
+  const arrows = (back, fwd, named) => `<span class="hist${named ? ' named' : ''}"><button class="hb${named ? ' back' : ''}" ${back ? `data-href="${url(back)}" data-go="back"` : 'disabled'} aria-label="${back ? 'Back to ' + SAYS[back] : 'Back'}" title="${back ? 'Back to ' + SAYS[back] : 'Nothing to go back to'}" aria-keyshortcuts="Alt+ArrowLeft Meta+BracketLeft">${icon('back')}${named && back ? `<span>Back to ${SAYS[back]}</span>` : ''}</button><button class="hb" ${fwd ? `data-href="${url(fwd)}" data-go="fwd"` : 'disabled'} aria-label="${fwd ? 'Forward to ' + SAYS[fwd] : 'Forward'}" title="${fwd ? 'Forward to ' + SAYS[fwd] : 'Nothing to go forward to yet'}" aria-keyshortcuts="Alt+ArrowRight Meta+BracketRight">${icon('chevron')}</button></span>`;
+  const settingsBtn = here => `<a class="tb" href="${url('settings')}" ${here === 'settings' ? 'aria-current="page"' : ''} aria-keyshortcuts="Control+Comma">Settings</a>`;
   const menuBtn = `<button class="tb icon" aria-label="Menu" title="Menu: progress, notes, files, help">${icon('menu')}</button>`;
 
   document.querySelectorAll('[data-chrome]').forEach(el => {
-    const sec = el.closest('.screen'), id = sec.dataset.screenId, [room, crumbs, back] = PLACE[id] || ['atlas', [], 'Atlas'];
+    const sec = el.closest('.screen'), id = sec.dataset.screenId, [room, crumbs] = PLACE[id] || ['atlas', []];
+    const back = id === cur ? (H.i > 0 ? H.s[H.i - 1] : null) : SEED[id], fwd = id === cur ? H.s[H.i + 1] || null : null;
     el.parentElement.querySelectorAll(':scope > .trail.line').forEach(t => t.remove());
     if (V === '1') {
-      el.innerHTML = `<div class="brand">${mark}<span class="word">Layered Human</span></div><nav class="rooms">${ROOMS.map(r => roomLink(r, room)).join('')}</nav>
-        ${arrows(back, true)}${find}<button class="tb">Saved views</button>${settingsBtn(room)}${menuBtn}`;
+      el.innerHTML = `<div class="brand">${mark}<span class="word">Layered Human</span></div><nav class="rooms" aria-label="Rooms">${ROOMS.map(r => roomLink(r, room)).join('')}</nav>
+        ${arrows(back, fwd, true)}${find}<button class="tb">Saved views</button>${settingsBtn(room)}${menuBtn}`;
       el.insertAdjacentHTML('afterend', trail(room, crumbs, 'line', false));
     } else if (V === '2') {
-      el.innerHTML = `${arrows(back, false)}${trail(room, crumbs, '', false)}${find}`;
+      el.innerHTML = `${arrows(back, fwd, true)}${trail(room, crumbs, '', false)}${find}`;
       if (!sec.querySelector(':scope > .rail'))
         sec.insertAdjacentHTML('afterbegin', `<aside class="rail" aria-label="Rooms"><div class="r-mark" title="Layered Human">${mark}</div>
-          <nav>${ROOMS.map(r => roomLink(r, room, true)).join('')}</nav>
-          <div class="r-foot"><a>${icon('bookmark')}<span>Saved views</span></a><a ${room === 'settings' ? 'aria-current="page"' : ''}>${icon('settings')}<span>Settings</span></a><a>${icon('menu')}<span>Menu</span></a></div></aside>`);
+          <nav aria-label="Rooms">${ROOMS.map(r => roomLink(r, room, true)).join('')}</nav>
+          <div class="r-foot"><a role="button" tabindex="0">${icon('bookmark')}<span>Saved views</span></a><a href="${url('settings')}" ${room === 'settings' ? 'aria-current="page"' : ''} aria-keyshortcuts="Control+Comma">${icon('settings')}<span>Settings</span></a><a role="button" tabindex="0" title="Menu: progress, notes, files, help">${icon('menu')}<span>Menu</span></a></div></aside>`);
     } else {
-      el.innerHTML = `<a class="home" ${room === 'lobby' ? 'aria-current="page"' : ''} title="Back to the lobby">${mark}<span class="w">Lobby</span></a>${trail(room, crumbs, '', true)}${room === 'atlas' ? '<button class="tb">Saved views</button>' : ''}
-        ${arrows(back, false)}${find}<nav class="rooms">${ROOMS.map(r => roomLink(r, room)).join('')}</nav>${settingsBtn(room)}${menuBtn}`;
-    }   // variant 3 keeps Saved views where views live: the atlas (and the lobby's list)
+      // Saved views sits with Settings, past a hairline, on every screen: beside the trail it read as a crumb
+      el.innerHTML = `<a class="home" href="${url('lobby')}" ${room === 'lobby' ? 'aria-current="page"' : ''} title="The lobby">${mark}<span class="w">Lobby</span></a>${trail(room, crumbs, '', true)}
+        ${arrows(back, fwd, false)}${find}<nav class="rooms" aria-label="Rooms">${ROOMS.map(r => roomLink(r, room)).join('')}</nav><button class="tb sv3" aria-label="Saved views" title="Saved views">${icon('bookmark')}<span class="w">Saved views</span></button>${settingsBtn(room)}${menuBtn}`;
+    }
   });
 
   // A way that was missing: the model viewer's selected part goes to the same structure in the atlas.
   document.querySelectorAll('[data-screen-id="viewer"] .acts').forEach(a => {
-    if (!a.querySelector('.to-atlas')) a.insertAdjacentHTML('beforeend', `<button class="btn to-atlas">In the atlas${icon('chevron')}</button>`);
+    if (!a.querySelector('.to-atlas')) a.insertAdjacentHTML('beforeend', `<button class="btn to-atlas" data-href="${url('atlas')}">In the atlas${icon('chevron')}</button>`);
   });
-  // The practice room is Practice now, not Lessons; the lobby screen only exists in variant 3.
-  if (V !== '3' && R.dataset.screen === 'lobby') R.dataset.screen = 'atlas';
+
+  // Practice's front page: the quiz panel's topics (ds.systems less EXCLUDED_SYSTEMS) and the lessons' lab practice.
+  const TOPICS = [['Everything currently visible', 12, '3,922', 'body_three_quarter'], ['Muscular system', 5, 627, 'body_muscles'], ['Skeletal system', 2, 277, 'body_skeleton'],
+    ['Joints & ligaments', 0, 413, 'body_skeleton'], ['Cardiovascular system', 4, 676, 'heart_home_clean'], ['Lymphatic system', 0, 163, 'body_vessels_nerves'],
+    ['Nervous system', 1, 582, 'body_vessels_nerves'], ['Visceral organs', 0, 119, 'body_organs'], ['Fascia', 0, 56, 'body_back']];
+  const LABP = [['Lab 1', 'Nerve physiology, reflexes and general senses', '9 of 9'], ['Lab 2', 'Eye, ear, hearing and balance', '8 of 11'], ['Lab 3', 'Blood and heart structure', '4 of 10'],
+    ['Lab 4', 'ECG and heart function', '0 of 8'], ['Lab 5', 'Blood vessels and circulation', '0 of 13'], ['Lab 6', 'Respiratory structure and ventilation', '6 of 9'],
+    ['Lab 7', 'Exercise physiology and pulmonary health', '0 of 5'], ['Lab 8', 'Digestive and urinary anatomy', '0 of 16'], ['Lab 9', 'Reproductive systems and early development', '0 of 12']];
+  const pick = i => { const [t, d, n, p] = TOPICS[i];
+    document.querySelectorAll('[data-ph-topics] button').forEach((b, j) => { b.setAttribute('aria-pressed', i === j); b.querySelector('.nm').classList.toggle('is-cur', i === j); });
+    document.querySelectorAll('[data-ph-pick]').forEach(el => { el.innerHTML = `<div class="fig"><div class="pool" style="inset:-10px 20px"></div><img src="../../assets/plates/${p}.webp" alt=""></div>
+      <div class="t">${t}</div><div class="meta num" style="margin-top:4px">${n} structures${d ? ` · ${d} due` : ''}</div><hr>
+      <div class="colhead">Mode</div><div class="arr"><span class="is-cur">Find it in 3D</span><span>Hunt it down</span><span>Name it: multiple choice</span><span>Name it: type the answer</span></div>
+      <ul><li>Questions<span class="v num">20</span></li><li><span class="box on"></span>Favour structures I often miss</li><li><span class="box"></span>Include small structures</li></ul>
+      <div class="acts"><button class="btn brass" data-href="${url('practice')}">Start quiz</button></div>`; }); };
+  document.querySelectorAll('[data-ph-topics]').forEach(el => {
+    el.innerHTML = TOPICS.map(([t, d, n]) => `<li><button aria-pressed="false"><span class="nm">${t}</span><span class="n num due">${d || ''}</span><span class="n num">${n}</span></button></li>`).join('');
+    el.querySelectorAll('button').forEach((b, i) => b.addEventListener('click', () => pick(i)));
+  });
+  document.querySelectorAll('[data-ph-labs]').forEach(el => {
+    el.innerHTML = LABP.map(([no, t, n]) => `<li><a href="${url('practice')}"><span class="no">${no}</span><span class="nm">${t}</span><span class="n num">${n}</span></a></li>`).join('');
+  });
+  pick(0);
+
+  // The rooms' own ways in and out, now real links: Continue, Review, the lobby's doors and lists, a tissue, a wall.
+  const wire = (sel, s) => document.querySelectorAll(sel).forEach(b => { b.dataset.href = url(s); if (!/^(BUTTON|A)$/.test(b.tagName)) { b.tabIndex = 0; b.setAttribute('role', 'link'); } });
+  wire('.side-cont .btn, .lobby-col .btn.brass', 'lesson');
+  wire('.side-rev .btn, .lobby-col .btn:not(.brass), [data-ph-go]', 'practice');
+  wire('[data-screen-id="histology-library"] .acts .btn.brass, [data-tissues] .it, [data-screen-id="histology"] .cat li', 'histology');
+  const DOORS = ['atlas', 'lessons', 'models', 'radiology', 'histology', 'practice'];
+  document.querySelectorAll('.door').forEach((d, i) => d.setAttribute('href', roomHref(DOORS[i], 'lobby')));
+  const RECENT = { 'Biceps brachii': 'atlas', 'Kidney with the nephron': 'viewer', 'Simple columnar epithelium': 'histology', 'Chest radiograph, PA': 'radiology', 'Lab 6 practice': 'practice' };
+  document.querySelectorAll('.recent li').forEach(li => { if (!li.querySelector('a')) li.innerHTML = `<a href="${url(RECENT[li.firstChild.textContent.trim()] || 'atlas')}">${li.innerHTML}</a>`; });
+  document.querySelectorAll('[data-scheme-grid] > div').forEach(t => {
+    const p = new URLSearchParams(location.search); p.set('scheme', t.dataset.scheme);
+    t.dataset.href = '?' + p; t.tabIndex = 0; t.setAttribute('role', 'button'); t.setAttribute('aria-label', 'Wall: ' + t.textContent.trim().split(/\s+/)[0]);
+  });
+  // Following any of these is a step along the place history; Back and Forward move along it instead.
+  document.addEventListener('click', e => {
+    const t = e.target.closest('a[href^="?"], [data-href], [data-open]');
+    if (!t || t.disabled) return;
+    if (ss) ss.setItem('lh-go', t.dataset.go || 'push');
+    if (t.dataset.href) { e.preventDefault(); location.search = t.dataset.href; }
+  });
+  document.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-href][role]')) { e.preventDefault(); e.target.click(); return; }
+    const back = (e.altKey && e.key === 'ArrowLeft') || (e.metaKey && e.key === '['), fwd = (e.altKey && e.key === 'ArrowRight') || (e.metaKey && e.key === ']');
+    if (!back && !fwd) return;
+    e.preventDefault();
+    const b = document.querySelector(`[data-screen-id="${cur}"] .hb[data-go="${back ? 'back' : 'fwd'}"]`);
+    if (b) b.click();
+  });
 
   // A small window: put the room under the chrome into one layer and scale it to the window's width.
   window.navCompact = function () {

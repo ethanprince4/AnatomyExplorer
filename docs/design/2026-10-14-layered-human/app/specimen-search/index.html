@@ -157,15 +157,18 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
   padding: 0; border: 0; background: none; cursor: pointer; font: 400 13px/18px var(--sans); color: var(--text-2); white-space: nowrap; }
 .g-only .box { width: 13px; height: 13px; }
 .g-only .box.on::after { width: 6px; height: 3px; }
-/* The knob is as tall as the percentage's figures (9.5 px: 19 device pixels at 2x, top of the figures to the baseline):
-   a 6 px brass dot in a 1.75 px ring of the wall's own colour. The invisible ::after keeps a 24 px target. */
-.g-knob { position: absolute; left: calc(var(--gx) + .5px); width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
-  transform: translate(-50%, -50%); box-shadow: 0 0 0 1.75px var(--halo); cursor: grab; outline: none; }
+/* The knob's brass dot is as tall as the percentage's figures: 9 px, 18 device pixels at 2x from the top of the figures
+   to the baseline. A 1.75 px ring of the wall's own colour (--halo, set by the script) parts it from the rule. Set 4 px
+   up and left of the level (not by a -50% shift, which Chrome rounds), its centre is the stop tick's and the rule's, and
+   its edges fall on whole pixels at 1x and 2x. The invisible ::after keeps a 24 px target. */
+.g-knob { position: absolute; left: calc(var(--gx) - 4px); margin-top: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 1.75px var(--halo); cursor: grab; outline: none; }
 .g-knob::after { content: ""; position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; border-radius: 50%; transform: translate(-50%, -50%); }
-.g-knob:focus-visible { outline: 2px solid var(--text); outline-offset: 3.5px; }
+.g-knob:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
 .gauge[data-drag] .g-knob { cursor: grabbing; }
-/* the figures span the knob exactly: half a pixel down puts their top and baseline on the ring's top and bottom */
-.g-pct { position: absolute; left: calc(var(--gx) + 12px); transform: translateY(-50%); margin-top: .5px; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--accent-2); }
+/* the figures span the dot exactly: half a pixel down puts their top and baseline on the dot's top and bottom; 13.5 px
+   right of the rule they stand 8.5 px clear of the dot */
+.g-pct { position: absolute; left: calc(var(--gx) + 13.5px); transform: translateY(-50%); margin-top: .5px; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--accent-2); }
 
 /* ---------------------------------------------------------------------------------- dock: lettered on the wall under one rule */
 .dock { position: absolute; left: 50%; transform: translateX(-50%); bottom: 16px; display: flex; align-items: center; height: 44px;
@@ -309,13 +312,14 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .reveal .track .line { position: absolute; left: 0; right: 0; top: 10px; height: 1px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
 .reveal .track .fill { position: absolute; left: 0; top: 9px; height: 3px; background: var(--accent); }
 .reveal .track .tick { position: absolute; top: 15px; width: 1px; height: 5px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
-/* the gauge's knob, laid flat: a 6 px brass dot in a 1.75 px ring of the wall's colour at its height (--halo, set by the
-   script), centred on the line; the invisible ::after keeps a 24 px target */
+/* the gauge's knob, laid flat: a 9 px brass dot in a 1.75 px ring of the wall's colour at its height (--halo, set by the
+   script), set 4 px up and left of its place so its centre is the line's and the tick's and its edges fall on whole
+   pixels; the invisible ::after keeps a 24 px target */
 .reveal .track { touch-action: none; }
-.reveal .track .knob { position: absolute; top: 10.5px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
-  transform: translate(-50%, -50%); box-shadow: 0 0 0 1.75px var(--halo, var(--stage-bottom)); cursor: grab; outline: none; }
+.reveal .track .knob { position: absolute; top: 6px; margin-left: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 1.75px var(--halo, var(--stage-bottom)); cursor: grab; outline: none; }
 .reveal .track .knob::after { content: ""; position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; border-radius: 50%; transform: translate(-50%, -50%); }
-.reveal .track .knob:focus-visible { outline: 2px solid var(--text); outline-offset: 3.5px; }
+.reveal .track .knob:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
 .reveal .track[data-drag] .knob { cursor: grabbing; }
 .reveal .opt { display: flex; align-items: center; gap: 10px; height: 31px; font-size: 14px; }
 .reveal .views { margin-top: 2px; }
@@ -842,7 +846,8 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
       plate: 'kidney_v_kidney', img: 'left:609px; top:150px; height:740px', pool: 'left:522px; top:40px; width:860px; height:960px',
       labels: [['aorta', -210, -40, 'Abdominal aorta'], ['ivc', -90, 0, 'Inferior vena cava'], ['rvein', -250, 140, 'Renal vein'],
                ['rart', 0, -275, 'Renal artery', 1], ['ureter', 70, 60, 'Ureter'], ['capsule', 130, -60, 'Renal capsule']],
-      parts: [[0, 'Kidney', 'part', -1], [0, 'Collecting system', 'part', -1], [0, 'Blood vessels', 'part', 1], [1, 'Large vessels', 'on', -1],
+      // 'h': a part inside a closed group, listed only when a search finds it (the Qt tree filter searches closed groups too)
+      parts: [[0, 'Kidney', 'part', -1], [1, 'Renal capsule', 'on', 'h'], [0, 'Collecting system', 'part', -1], [0, 'Blood vessels', 'part', 1], [1, 'Large vessels', 'on', -1],
         [1, 'Renal arteries', 'part', 1], [2, 'Renal artery', 'on', 0, 1], [2, 'Anterior and posterior divisions', 'on', 0],
         [2, 'Segmental arteries', 'on', 0], [2, 'Interlobar arteries', 'on', 0], [2, 'Arcuate arteries', 'on', 0], [2, 'Interlobular arteries', 'on', 0],
         [2, 'Arteries (cross-section)', 'off', 0], [1, 'Renal veins', 'part', -1], [0, 'Nephron', 'off', -1]],
@@ -868,8 +873,8 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     sec.querySelector('[data-v-stage]').innerHTML = `<img class="plate${S.close ? ' close' : ''}" src="../../assets/plates/${S.plate}.webp" data-plate="${S.plate}" style="${S.img}" alt="The kidney model at its ${S.view} view">` +
       S.labels.map(([a, dx, dy, t, sel]) => `<div class="lbl${sel ? ' is-selected' : ''}" data-anchor="${a}" data-dx="${dx}" data-dy="${dy}">${t}</div>`).join('');
     sec.querySelector('[data-v-parts]').innerHTML = S.parts.map(([lv, t, on, open, sel]) =>
-      `<li class="l${lv}${lv === 0 ? ' cat0' : ''}${on === 'off' ? ' off' : ''}${open === 1 ? ' open' : ''}${sel ? ' is-sel' : ''}"><span class="box${on === 'on' ? ' on' : on === 'part' ? ' part' : ''}"></span>${t}` +
-      (open ? '<svg class="i tw"><use href="#i-chevron"/></svg>' : '') + '</li>').join('');
+      `<li class="l${lv}${lv === 0 ? ' cat0' : ''}${on === 'off' ? ' off' : ''}${open === 1 ? ' open' : ''}${open === 'h' ? ' sx-only' : ''}${sel ? ' is-sel' : ''}"><span class="box${on === 'on' ? ' on' : on === 'part' ? ' part' : ''}"></span>${t}` +
+      (open === 1 || open === -1 ? '<svg class="i tw"><use href="#i-chevron"/></svg>' : '') + '</li>').join('');
     const track = (pct, fill, name, text) => `<div class="track"><div class="line"></div>${fill ? `<div class="fill" style="width:${pct}%"></div>` : ''}` +
       [0, 25, 50, 75, 100].map(t => `<i class="tick" style="left:${t}%"></i>`).join('') +
       `<div class="knob" role="slider" tabindex="0" aria-label="${name}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-valuetext="${text}" style="left:${pct}%"></div></div>`;
