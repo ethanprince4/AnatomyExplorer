@@ -609,7 +609,7 @@ main { overflow-x: hidden; overflow-x: clip; }
 
 /* Study: one scene from the app, cropped from the standard render by CSS, so it follows when the render is redone.
    The crop is a fraction of the 1920 x 1080 screen: --cx, --cy (top left), --cw, --ch (size). */
-.scene { margin: clamp(56px, 6vw, 88px) 0 0; }
+.scene { margin: clamp(56px, 6vw, 88px) auto 0; }   /* auto keeps it on the rooms' column on wide screens */
 .scene-pool { --pool-w: 116%; --pool-h: 150%; }
 .scene-crop {
   --cx: .0125; --cy: .09;  --cw: .9625; --ch: .91;
