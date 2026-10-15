@@ -23,10 +23,16 @@ FIGURE = OUT / "plate/figure.json"
 SCHEMES = json.loads((ROOT / "system/schemes.json").read_text())
 DIRECTIONS = ("overlay", "specimen", "plate")
 
-# Brand palettes: the scheme each direction takes its dark and light colours from, and its default appearance.
+# Specimen's light brand colours (paper documents, light browser tabs). They came from the Plaster scheme, which the
+# app no longer offers, so they live here.
+SPECIMEN_LIGHT = {"text": "#1d2023", "accent": "#2c5c61", "stage_top": "#ebe8e3", "stage_bottom": "#dbd7d0",
+                  "spot": "#f7f5f1"}
+
+# Brand palettes: the scheme (or colours) each direction takes its dark and light colours from, and its default
+# appearance.
 BRAND = {
     "overlay": {"dark": "graphite", "light": "clear", "default": "dark"},
-    "specimen": {"dark": "slate", "light": "plaster", "default": "dark"},
+    "specimen": {"dark": "slate", "light": SPECIMEN_LIGHT, "default": "dark"},
     "plate": {"dark": "night", "light": "bristol", "default": "light"},
 }
 MONO = {"ink": "currentColor", "accent": "currentColor", "paper": "none"}
@@ -90,7 +96,8 @@ def n(v):
 
 
 def palette(direction, mode):
-    s = SCHEMES[direction]["schemes"][BRAND[direction][mode]]
+    s = BRAND[direction][mode]
+    s = SCHEMES[direction]["schemes"][s] if isinstance(s, str) else s
     return {"ink": s["text"], "accent": s["accent"], "top": s["stage_top"], "bottom": s["stage_bottom"],
             "spot": s["spot"], "paper": s["stage_top"]}
 
