@@ -568,7 +568,11 @@ main { overflow-x: clip; }
 .scene-crop.is-missing img { visibility: hidden; }
 .scene-crop.is-missing .missing { display: grid; }
 .scene .wall-label { margin-top: 28px; }
-.scene-crop.sc-heart { display: none; }
+/* On phones the heart has its own picture: the lesson's view with the three names taken off and their leaders kept,
+   the film pins where the names were, and the names in a key under it (in the crop they would be near 11 px). */
+.sc-heart { display: none; }
+.heart-stage { overflow: hidden; border: 1px solid var(--line); border-radius: 3px; background: var(--stage-bottom); box-shadow: var(--shadow-print); }
+.heart-key { margin: 20px 0 0; max-width: none; }
 .course { margin-top: clamp(88px, 9vw, 136px); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px 72px; }
 .labs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
 .labs li { display: grid; grid-template-columns: 88px 1fr; gap: 16px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); }
@@ -662,6 +666,8 @@ main { overflow-x: clip; }
 .site-foot .scheme-panel { top: auto; bottom: calc(100% + 10px); }
 .site-foot p { margin: 0; font-size: 14px; color: var(--text-3); max-width: 64ch; }
 .foot-links { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; font-size: 14px; }
+/* links on a line of their own get a 25 px target; the negative margin keeps the lines where they were */
+.foot-links a, .hero-copy .meta a, .wl-detail > a:first-child:last-child { display: inline-block; padding-block: 4px; margin-block: -4px; }
 
 /* ---------- Mid widths ---------- */
 @media (max-width: 1180px) {
@@ -717,7 +723,7 @@ main { overflow-x: clip; }
   .edge-labels li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 15px; color: var(--text); }
   .edge-labels .n {
     width: 22px; height: 22px; border-radius: 50%; flex: none; display: grid; place-items: center;
-    border: 1px solid var(--line-2); color: var(--text); font: 600 11px/1 var(--sans); font-variant-numeric: tabular-nums;
+    border: 1px solid var(--line-2); color: var(--text); font: 600 12px/1 var(--sans); font-variant-numeric: tabular-nums;
   }
   .section-foot { justify-content: flex-start; margin-top: 32px; }
   .film-pair { grid-template-columns: minmax(0, 1fr); gap: 32px; }
@@ -751,7 +757,8 @@ main { overflow-x: clip; }
 }
 @media (max-width: 359px) {
   /* the lockup and the menu button keep the gutter on the narrowest phones; the figure gives the gauge a little room */
-  .hero { --fig-h: clamp(360px, 54svh, 520px); }
+  .hero { --fig-h: min(clamp(360px, 54svh, 520px), 133vw); }
+  .g-cue { white-space: normal; }
   .site-head { gap: 10px; }
   .head-right > .menu-btn { padding: 0 9px 0 8px; gap: 6px; }
 }
@@ -763,10 +770,11 @@ main { overflow-x: clip; }
   .g-stop span { display: none; }
   .g-ride { max-width: calc(100% - 13.5px); }
   .g-now { display: block; font: italic 400 15px/20px var(--serif); font-variation-settings: "opsz" 14; color: var(--text); }
-  /* The lesson screen is unreadable whole at this width: two crops of the same render, the question, then the heart
-     with its lit artery and labels, each large enough to read (the question near 15 px, the labels near 11 px). */
+  /* The lesson screen is unreadable whole at this width: the question, cropped from the render near 15 px, then the
+     heart on its own, numbered, with the names under it. */
   .scene-crop { --cx: .010417; --cy: .512963; --cw: .328125; --ch: .080556; }
-  .scene-crop.sc-heart { display: block; margin-top: 10px; --cx: .686458; --cy: .427778; --cw: .2625; --ch: .459259; }
+  .sc-heart { display: block; }
+  .heart-stage { margin-top: 10px; }
   /* The PowerShell line takes the full width, so no statement breaks mid-word; Copy sits under it. */
   .code-row { flex-direction: column; align-items: flex-start; }
   .code-row code { flex: none; align-self: stretch; }
@@ -1136,24 +1144,29 @@ main { overflow-x: clip; }
     </div>
   </div>
 
-  <figure class="wrap scene exhibit">
+  <figure class="wrap scene exhibit" id="scene">
     <div class="pool scene-pool">
       <div class="scene-crop">
-        <img data-render="lesson" src="../../renders/specimen/specimen_slate_lesson.webp"
+        <img data-render="lesson" data-2x src="../../renders/specimen/specimen_slate_lesson.webp"
              srcset="../../renders/specimen/specimen_slate_lesson.webp 1x, ../../renders/specimen/specimen_slate_lesson@2x.webp 2x"
              width="1920" height="1080" loading="lazy"
              onerror="this.parentNode.classList.add('is-missing')" onload="this.parentNode.classList.remove('is-missing')"
              alt="A lesson in Layered Human: the step text and a recall question on the left, and the heart in the 3D view on the right with the left coronary artery, its circumflex and anterior interventricular branches lit and labelled">
         <span class="missing" aria-hidden="true">A lesson step, with the 3D view set up beside it</span>
       </div>
-      <div class="scene-crop sc-heart" aria-hidden="true">
-        <img data-render="lesson" src="../../renders/specimen/specimen_slate_lesson.webp"
-             srcset="../../renders/specimen/specimen_slate_lesson.webp 1x, ../../renders/specimen/specimen_slate_lesson@2x.webp 2x"
-             width="1920" height="1080" loading="lazy" alt=""
-             onerror="this.parentNode.classList.add('is-missing')" onload="this.parentNode.classList.remove('is-missing')">
-        <span class="missing">The 3D view the step sets up</span>
+      <div class="pin-stage heart-stage sc-heart">
+        <img data-render="lesson-heart" src="../../renders/specimen/specimen_slate_lesson-heart.webp" width="960" height="1020" loading="lazy"
+             alt="The heart from the same step, with the left coronary artery and its two branches lit and numbered 1 to 3">
+        <span class="pin" data-n="1" style="left:86.7%;top:8.7%" aria-hidden="true">1</span>
+        <span class="pin" data-n="2" style="left:86.7%;top:23.3%" aria-hidden="true">2</span>
+        <span class="pin" data-n="3" style="left:86.7%;top:36.4%" aria-hidden="true">3</span>
       </div>
     </div>
+    <ol class="micro-key heart-key sc-heart" id="heart-key" aria-label="The numbers on the heart">
+      <li data-n="1" tabindex="0"><span class="key-n">1</span>Left coronary artery</li>
+      <li data-n="2" tabindex="0"><span class="key-n">2</span>Circumflex artery</li>
+      <li data-n="3" tabindex="0"><span class="key-n">3</span>Anterior interventricular artery</li>
+    </ol>
     <figcaption class="wall-label">
       <p class="wl-title">Every lesson sets up the view for you</p>
       <p class="wl-latin">A lesson step</p>
@@ -1425,8 +1438,8 @@ main { overflow-x: clip; }
       var base = '../../renders/specimen/specimen_' + k + '_' + img.getAttribute('data-render');
       if (img.getAttribute('src') === base + '.webp') return;
       img.parentNode.classList.remove('is-missing');
-      /* only the default scheme has 2x renders of every screen */
-      if (k === 'slate') img.setAttribute('srcset', base + '.webp 1x, ' + base + '@2x.webp 2x'); else img.removeAttribute('srcset');
+      /* the lesson has a 2x render on every wall; the phone's heart is one size */
+      if (img.hasAttribute('data-2x')) img.setAttribute('srcset', base + '.webp 1x, ' + base + '@2x.webp 2x');
       img.setAttribute('src', base + '.webp');
     });
     $('.scheme-name').textContent = s.name;
@@ -1827,7 +1840,11 @@ main { overflow-x: clip; }
   function linkKey(keySel, scopeSel) {
     var scope = $(scopeSel);
     function hot(n, on) {
+      /* one number lit at a time: the pointer wins over a key item that has focus, which lights again when it leaves */
+      if (on) $$('.is-hot', scope).forEach(function (x) { x.classList.remove('is-hot'); });
       $$('[data-n="' + n + '"]', scope).forEach(function (x) { x.classList.toggle('is-hot', on); });
+      var f = document.activeElement;
+      if (!on && f && scope.contains(f) && f.matches(keySel + ' li')) hot(f.getAttribute('data-n'), true);
     }
     $$(keySel + ' li').forEach(function (li) {
       var n = li.getAttribute('data-n');
@@ -1841,6 +1858,7 @@ main { overflow-x: clip; }
   }
   linkKey('#film-key', '#film-pair');
   linkKey('#micro-key', '#microscope');
+  linkKey('#heart-key', '#scene');
 
   /* ---------- Mobile gallery cue ---------- */
   var gallery = $('#gallery'), cueCount = $('.cue-count');
