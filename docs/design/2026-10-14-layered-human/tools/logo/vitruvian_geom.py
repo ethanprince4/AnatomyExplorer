@@ -26,9 +26,10 @@ ANKLE_SOLE = 36             # ankle centre to the sole
 
 # Two-sided profiles along a limb, t from the proximal joint (0) to the tip (1): (t, side a, side b).
 # Arm: a = cranial edge (deltoid, biceps, brachioradialis, thumb), b = caudal edge (triceps, ulnar side).
-ARM_PROFILE = [(0, 42, 40), (.08, 41, 37), (.17, 35, 33), (.26, 30, 31.5), (.33, 27, 27), (.37, 25, 23.5),
-               (.43, 28, 24), (.52, 24.5, 21), (.64, 19, 16.5), (.72, 16, 14.5), (.765, 19, 16.5),
+ARM_PROFILE = [(0, 44, 41), (.07, 45, 39), (.15, 37, 34), (.23, 37.5, 35.5), (.30, 32.5, 31), (.37, 25, 23.5),
+               (.43, 31, 26), (.50, 29, 23.5), (.60, 22, 18.5), (.70, 16.5, 14.5), (.72, 16, 14.5), (.765, 19, 16.5),
                (.80, 23, 17.5), (.84, 20.5, 18), (.90, 17.5, 16), (.955, 14, 12.5), (.985, 10, 9), (1, 7, 7)]
+# (The arm swells and narrows like the leg: deltoid, its insertion, biceps, elbow, brachioradialis, wrist, hand.)
 # Leg: a = lateral edge (gluteus medius, vastus lateralis, lateral gastrocnemius), b = medial edge.
 LEG_PROFILE = [(0, 64, 44), (.08, 63, 46), (.2, 57, 42), (.32, 50, 37), (.4, 44, 35.5), (.46, 37, 34.5),
                (.5, 31, 29), (.54, 28.5, 25), (.6, 30.5, 27), (.67, 32.5, 32), (.74, 29.5, 30), (.83, 22, 20),

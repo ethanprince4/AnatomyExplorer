@@ -428,9 +428,9 @@ FINAL = {
     "peel-lockup": ("Peel, lockup and header: figure, circle, two sheets", lambda: peel(
         lines=False, fat=26, gap=55, edge=40, ring_w=60, sheets=True, plate_alpha=.1, edge_alpha=(.55, 0, 0),
         spacing=420, depth=480)),
-    "peel-32": ("Peel, 32 px: figure and two sheets", lambda: peel(
-        lines=False, circle=False, fat=36, gap=80, edge=1, sheets=True, plate_alpha=0, edge_alpha=(0, 0, 0),
-        spacing=440, depth=420)),
+    "peel-32": ("Peel, 32 px: figure in a heavy circle and two sheets", lambda: peel(
+        lines=False, circle=True, ring_w=95, fat=40, gap=90, edge=1, sheets=True, plate_alpha=0,
+        edge_alpha=(0, 0, 0), spacing=380, depth=420)),
     "peel-16": ("Peel, 16 px", lambda: peel(lines=False, circle=False, fat=62, gap=120, edge=1, sheets=True,
                                             plate_alpha=0, edge_alpha=(0, 0, 0), spacing=480, depth=420)),
     "section": ("Section: the cut quadrant", lambda: section()),

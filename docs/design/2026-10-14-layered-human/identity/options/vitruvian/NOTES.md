@@ -30,7 +30,7 @@ on the pubis). All geometry is in `tools/logo/vitruvian_geom.py`.
 |---|---|
 | 128 px and up, the wall, print | Full: three figures, sheets, circle (`symbol-*.svg`). Below 512 px the hairlines are held to at least 0.9 px. |
 | Lockups, the app header, 64 px icon | Figure in the circle, with the two deeper sheets as plain brass and grey panels (the lockup drawing). |
-| 32 px icon, `symbol-small.svg` | Figure and the two panels, no circle. Limbs at least 1.3 px. |
+| 32 px icon, `symbol-small.svg` | Figure in a heavy circle (about 1 px), with the two panels. Limbs at least 1.3 px. |
 | 16 px icon, favicon | The same, heavier: limbs and gaps about 1 px. |
 
 On the macOS tile the full mark spans 66% of the tile (it is wide and short, so its height is about 51%). At 32 and
