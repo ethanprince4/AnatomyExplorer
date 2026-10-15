@@ -167,6 +167,7 @@ h3 { font: 600 17px/1.4 var(--sans); color: var(--text); margin: 0 0 10px; }
   font: 380 clamp(24px, 2.2vw, 30px)/1.15 var(--serif);
   letter-spacing: -0.012em;
   color: var(--text);
+  text-wrap: balance;
   margin: 0 0 14px;
 }
 .prose { max-width: 62ch; }
@@ -661,10 +662,12 @@ main { overflow-x: hidden; overflow-x: clip; }
 .heart-stage { overflow: hidden; border: 1px solid var(--line); border-radius: 3px; background: var(--stage-bottom); box-shadow: var(--shadow-print); }
 .heart-key { margin: 20px 0 0; max-width: none; }
 .course { margin-top: clamp(88px, 9vw, 136px); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px 72px; }
-.labs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
+/* two columns only where each title keeps about 230 px (from near 1250 px wide): beside the copy on narrower screens,
+   two columns left the titles 120 to 180 px, three to five lines each */
+.labs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); column-gap: 48px; }
 .labs li { display: grid; grid-template-columns: 88px 1fr; gap: 16px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); }
 .lab-n { font-size: 14px; font-weight: 600; color: var(--text-2); font-variant-numeric: tabular-nums lining-nums; }
-.lab-t { font: 380 18px/1.35 var(--serif); color: var(--text); }
+.lab-t { font: 380 18px/1.35 var(--serif); color: var(--text); text-wrap: balance; }
 .course .note { margin-top: 24px; font-size: 15px; color: var(--text-3); }
 
 /* Microscope */
@@ -682,7 +685,7 @@ main { overflow-x: hidden; overflow-x: clip; }
 
 /* What the atlas knows */
 .facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
-.facts li { padding: 16px 0; border-top: 1px solid var(--line); font-size: 17px; color: var(--text-2); font-variant-numeric: tabular-nums lining-nums; }
+.facts li { padding: 16px 0; border-top: 1px solid var(--line); font-size: 17px; color: var(--text-2); font-variant-numeric: tabular-nums lining-nums; text-wrap: pretty; }
 .facts li strong { font-weight: 600; }
 
 /* Free / Acknowledgements */
@@ -704,7 +707,7 @@ main { overflow-x: hidden; overflow-x: clip; }
   margin: 22px 0 0; padding: 18px 0 0; list-style: none; counter-reset: s;
   border-top: 1px solid var(--line);
 }
-.steps li { counter-increment: s; display: grid; grid-template-columns: 28px 1fr; gap: 8px; margin: 0 0 12px; font-size: 15px; line-height: 1.55; color: var(--text-2); }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 28px 1fr; gap: 8px; margin: 0 0 12px; font-size: 15px; line-height: 1.55; color: var(--text-2); text-wrap: pretty; }
 .steps li::before { content: counter(s); font: 400 15px/1.55 var(--serif); color: var(--text-3); font-variant-numeric: tabular-nums; }
 .steps strong, .desk-card strong { color: var(--text); }
 .warn {
@@ -741,6 +744,7 @@ main { overflow-x: hidden; overflow-x: clip; }
   display: flex; align-items: center; justify-content: space-between; gap: 24px;
   padding: 20px 0;
   font: 380 21px/1.3 var(--serif); color: var(--text);
+  text-wrap: balance;
 }
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary .i { color: var(--text-3); transition: transform .35s var(--ease); }
@@ -913,6 +917,9 @@ main { overflow-x: hidden; overflow-x: clip; }
   .g-cue { white-space: normal; }
   .site-head { gap: 10px; }
   .head-right > .menu-btn { padding: 0 9px 0 8px; gap: 6px; }
+  /* the cut's nine names in one column, as the film's and the slide's are: in two, Pectoralis major, Latissimus dorsi
+     and Thoracic vertebra each broke over two lines */
+  .edge-labels { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 599px) {
   /* Phones: no room for eight names beside the figure. The rule keeps its ticks; the current stop's name rides under
@@ -1118,7 +1125,7 @@ html:not(.js) .edge-labels .n { display: none; }
   </figure>
   <div class="hero-label wall-label is-hidden" id="hero-label">
     <p class="wl-title">Biceps brachii</p>
-    <p class="wl-latin">Musculus biceps brachii</p>
+    <p class="wl-latin">Musculus biceps&nbsp;brachii</p>
     <div class="hl-body">
       <div class="hl-shown">
         <p class="wl-detail">Nerve: Musculocutaneous nerve<br>Action: Flexes the elbow and supinates the forearm</p>
@@ -1320,7 +1327,7 @@ html:not(.js) .edge-labels .n { display: none; }
       <p class="prose">A massive right pleural effusion. The fluid is shown in the model.</p>
       <div class="wall-label small">
         <p class="wl-title">Unilateral pleural effusion</p>
-        <p class="wl-latin">Sara Nabih · CC BY-SA 4.0</p>
+        <p class="wl-latin">Sara Nabih · <span class="nowrap">CC BY-SA 4.0</span></p>
         <p class="wl-detail"><a href="https://commons.wikimedia.org/wiki/File:Unilateral_Pleural_Effusion.jpg">Wikimedia Commons</a></p>
       </div>
     </div>
@@ -1391,12 +1398,12 @@ html:not(.js) .edge-labels .n { display: none; }
       <li><span class="lab-n">Lab 3</span><span class="lab-t">Blood and heart structure</span></li>
       <li><span class="lab-n">Lab 4</span><span class="lab-t">ECG and heart function</span></li>
       <li><span class="lab-n">Lab 5</span><span class="lab-t">Blood vessels and circulation</span></li>
-      <li><span class="lab-n">Practical 1</span><span class="lab-t">Review of Labs 1–5, with a practice exam</span></li>
+      <li><span class="lab-n">Practical 1</span><span class="lab-t">Review of Labs <span class="nowrap">1–5</span>, with a practice exam</span></li>
       <li><span class="lab-n">Lab 6</span><span class="lab-t">Respiratory structure and ventilation</span></li>
       <li><span class="lab-n">Lab 7</span><span class="lab-t">Exercise physiology and pulmonary health</span></li>
       <li><span class="lab-n">Lab 8</span><span class="lab-t">Digestive and urinary anatomy</span></li>
       <li><span class="lab-n">Lab 9</span><span class="lab-t">Reproductive systems and early development</span></li>
-      <li><span class="lab-n">Practical 2</span><span class="lab-t">Review of Labs 6–9, with a practice exam</span></li>
+      <li><span class="lab-n">Practical 2</span><span class="lab-t">Review of Labs <span class="nowrap">6–9</span>, with a practice exam</span></li>
     </ol>
   </div>
 </section>
@@ -1430,7 +1437,7 @@ html:not(.js) .edge-labels .n { display: none; }
       <div class="wall-label">
         <p class="wl-title">Simple columnar epithelium</p>
         <p class="wl-latin">Epithelium simplex columnare</p>
-        <p class="wl-detail">Echinaceapallida · CC BY-SA 4.0 · <a href="https://commons.wikimedia.org/wiki/File:Epith_simple_columnar1.jpg">Wikimedia Commons</a></p>
+        <p class="wl-detail">Echinaceapallida · <span class="nowrap">CC BY-SA 4.0</span> · <a href="https://commons.wikimedia.org/wiki/File:Epith_simple_columnar1.jpg">Wikimedia Commons</a></p>
         <p class="wl-acc">Histology · 101 tissues · 857 micrographs</p>
       </div>
     </div>
@@ -1460,12 +1467,12 @@ html:not(.js) .edge-labels .n { display: none; }
   <div class="wrap split">
     <h2 id="facts-h">What the atlas knows</h2>
     <ul class="facts">
-      <li><strong>3,922</strong> structures, from bones and ligaments to cranial nerves and skin regions</li>
-      <li><strong>1,109</strong> bony and organ landmarks</li>
-      <li>Latin names and Terminologia Anatomica 2 IDs</li>
-      <li>Origins and insertions mapped on the bone</li>
-      <li>Innervation for <strong>468</strong> muscles, and the action of <strong>466</strong></li>
-      <li><strong>423</strong> clinical correlations, searchable by sign or syndrome</li>
+      <li><strong>3,922</strong> structures, from bones and ligaments to cranial nerves and skin&nbsp;regions</li>
+      <li><strong>1,109</strong> bony and organ&nbsp;landmarks</li>
+      <li>Latin names and Terminologia Anatomica&nbsp;2&nbsp;IDs</li>
+      <li>Origins and insertions mapped on the&nbsp;bone</li>
+      <li>Innervation for <strong>468</strong> muscles, and the action of&nbsp;<strong>466</strong></li>
+      <li><strong>423</strong> clinical correlations, searchable by sign or&nbsp;syndrome</li>
     </ul>
   </div>
 </section>
@@ -1483,14 +1490,14 @@ html:not(.js) .edge-labels .n { display: none; }
     <div id="credits">
       <h2>Acknowledgements</h2>
       <div class="prose">
-        <p>The 3D atlas is adapted from <strong>Z-Anatomy</strong> and <strong>BodyParts3D</strong>, shared under CC BY-SA. Terms follow <strong>Terminologia Anatomica 2</strong>. Radiology and histology images come from <strong>Wikimedia Commons</strong> contributors, and each one shows its author and licence. Layered Human is a study aid, not a medical device.</p>
+        <p>The 3D atlas is adapted from <strong class="nowrap">Z-Anatomy</strong> and <strong>BodyParts3D</strong>, shared under <span class="nowrap">CC BY-SA</span>. Terms follow <strong>Terminologia Anatomica&nbsp;2</strong>. Radiology and histology images come from <strong>Wikimedia Commons</strong> contributors, and each one shows its author and licence. Layered Human is a study aid, not a medical device.</p>
       </div>
       <dl class="credits-list">
-        <div><dt>Atlas</dt><dd>Z-Anatomy, “The libre 3D atlas of anatomy”, CC BY-SA 4.0 (Gauthier Kervyn et al.)</dd></div>
-        <div><dt>Models</dt><dd>BodyParts3D, © The Database Center for Life Science (DBCLS), CC BY-SA 2.1 Japan</dd></div>
-        <div><dt>Terms</dt><dd>Terminologia Anatomica 2 (FIPAT). Descriptions: Wikipedia, CC BY-SA 3.0</dd></div>
-        <div><dt>Images</dt><dd>Wikimedia Commons contributors; each image shows its author, licence and source in the app. On this page: Mikael Häggström (CC0), Sara Nabih (CC BY-SA 4.0), Echinaceapallida (CC BY-SA 4.0)</dd></div>
-        <div><dt>Code</dt><dd>MIT, © 2026 Ethan Prince. Qt and PySide6 under LGPL-3.0</dd></div>
+        <div><dt>Atlas</dt><dd><span class="nowrap">Z-Anatomy</span>, “The libre 3D atlas of anatomy”, <span class="nowrap">CC BY-SA 4.0</span> (Gauthier Kervyn et&nbsp;al.)</dd></div>
+        <div><dt>Models</dt><dd>BodyParts3D, © The Database Center for Life Science (DBCLS), <span class="nowrap">CC BY-SA 2.1 Japan</span></dd></div>
+        <div><dt>Terms</dt><dd>Terminologia Anatomica&nbsp;2 (FIPAT). Descriptions: Wikipedia, <span class="nowrap">CC BY-SA 3.0</span></dd></div>
+        <div><dt>Images</dt><dd>Wikimedia Commons contributors; each image shows its author, licence and source in the app. On this page: Mikael Häggström (CC0), Sara Nabih (<span class="nowrap">CC BY-SA 4.0</span>), Echinaceapallida (<span class="nowrap">CC BY-SA 4.0</span>)</dd></div>
+        <div><dt>Code</dt><dd>MIT, © 2026 Ethan Prince. Qt and PySide6 under&nbsp;<span class="nowrap">LGPL-3.0</span></dd></div>
       </dl>
       <p class="share-note">If you share the anatomy dataset or anything made from it, credit these sources and share it under the same licence.</p>
     </div>
@@ -1514,7 +1521,7 @@ html:not(.js) .edge-labels .n { display: none; }
         </a>
         <p class="req">Free · about 3.4 GB · about 8 GB free while installing</p>
         <ol class="steps">
-          <li><span>Open the disk image and double-click the installer.</span></li>
+          <li><span>Open the disk image and double-click the&nbsp;installer.</span></li>
           <li><span>If macOS says it “cannot be opened”: <strong>System Settings → Privacy &amp; Security → Open Anyway</strong>.</span></li>
           <li><span>It downloads about 3.4 GB, checks each part, copies the app into Applications and opens it. If it stops, run it again.</span></li>
         </ol>
@@ -1528,8 +1535,8 @@ html:not(.js) .edge-labels .n { display: none; }
         </a>
         <p class="req">Free · about 3.4 GB</p>
         <ol class="steps">
-          <li><span>Right-click the downloaded file and choose <strong>Run with PowerShell</strong>. Double-clicking it opens Notepad instead.</span></li>
-          <li><span>It downloads the installer parts, joins them and starts the installer.</span></li>
+          <li><span>Right-click the downloaded file and choose <strong>Run with PowerShell</strong>. Double-clicking it opens Notepad&nbsp;instead.</span></li>
+          <li><span>It downloads the installer parts, joins them and starts the&nbsp;installer.</span></li>
           <li><span>If “Windows protected your PC” appears: <strong>More info</strong>, then <strong>Run anyway</strong>.</span></li>
         </ol>
         <div class="fallback">
@@ -1554,7 +1561,7 @@ html:not(.js) .edge-labels .n { display: none; }
     <h2 id="faq-h">Questions</h2>
     <div class="faq">
       <details><summary>Is it really free?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
-        <p>Yes. Download it from GitHub releases. The code is MIT-licensed.</p></details>
+        <p>Yes. Download it from GitHub releases. The code is&nbsp;<span class="nowrap">MIT-licensed</span>.</p></details>
       <details><summary>Do I need the internet?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
         <p>Only to download it and to get updates. After that it runs entirely on your computer.</p></details>
       <details><summary>Which computers does it run on?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
@@ -1584,7 +1591,7 @@ html:not(.js) .edge-labels .n { display: none; }
     <span class="brand" aria-hidden="true">
       <svg class="mark"><use href="#lh-mark"/></svg>
     </span>
-    <p>Layered Human is a free study aid, not a medical device. Anatomy data: Z-Anatomy and BodyParts3D (CC BY-SA). Images: Wikimedia Commons contributors. Code: MIT.</p>
+    <p>Layered Human is a free study aid, not a medical device. Anatomy data: <span class="nowrap">Z-Anatomy</span> and BodyParts3D (<span class="nowrap">CC BY-SA</span>). Images: Wikimedia Commons contributors. Code: MIT.</p>
     <ul class="foot-links">
       <li><a href="#credits">Credits &amp; licences</a></li>
       <li><a href="https://github.com/ethanprince4/AnatomyExplorer">GitHub</a></li>
