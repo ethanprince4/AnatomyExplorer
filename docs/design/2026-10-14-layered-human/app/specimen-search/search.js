@@ -337,7 +337,8 @@
 
   function wire() {
     const ui = () => { S.active = 0; app.classList.toggle('sx-typed', !!S.q.trim()); build(); };
-    input.addEventListener('focus', () => { if (V() === '3') { title.focus(); placeCaret(); } if (!S.open) setOpen(true); });
+    // 3: the box hands the caret to the title, once the open search has made the title editable
+    input.addEventListener('focus', () => { if (!S.open) { if (V() === '3') S.q = ''; setOpen(true); } if (V() === '3') { title.focus(); placeCaret(); } });
     input.addEventListener('input', () => { S.q = input.value; S.expand = {}; ui(); });
     title.addEventListener('click', () => { if (V() !== '3') return; if (!S.open) { S.q = ''; setOpen(true); } title.focus(); placeCaret(); });
     title.addEventListener('input', () => { S.q = title.textContent; title.classList.toggle('is-empty', !S.q); S.expand = {}; ui(); });
@@ -361,7 +362,7 @@
       setOpen(false);
     });
     document.addEventListener('keydown', e => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); (V() === '3' ? title : input).focus(); if (!S.open) { if (V() === '3') S.q = ''; setOpen(true); } return; }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); if (!S.open) { if (V() === '3') S.q = ''; setOpen(true); } (V() === '3' ? title : input).focus(); if (V() === '3') placeCaret(); return; }
       if (!S.open) return;
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); S.active = (S.active + (e.key === 'ArrowDown' ? 1 : -1) + rows.length) % rows.length; paintActive();
         const li = layer.querySelector(`.sx-r[data-i="${S.active}"]`); if (li) li.scrollIntoView({ block: 'nearest' }); }
@@ -381,7 +382,7 @@
     anchors = (window.LH_PLATES.anchors || {})[(img.dataset.anchors || '').replace('{select}', '7cc8da')] || {};
     field = app.querySelector('.find');
     field.innerHTML = `<svg class="i"><use href="#i-search"/></svg><input class="sx-in" type="text" placeholder="${{ 1: 'Search anatomy, lessons, radiology', 2: 'Search the index', 3: 'Search' }[V()]}" ` +
-      `aria-label="Search" aria-keyshortcuts="Control+K" title="Search the atlas, lessons, radiology and histology (Ctrl+K)" autocomplete="off" spellcheck="false">` +
+      `aria-label="Search" aria-keyshortcuts="Control+K" title="Search the atlas, lessons, radiology and histology" autocomplete="off" spellcheck="false">` +
       `<a class="sx-again" href="#" hidden></a>`;
     field.classList.add('sx-field');
     input = field.querySelector('input');

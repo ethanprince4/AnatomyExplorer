@@ -4,7 +4,7 @@
  *   Show all / Hide all -> every rail; Esc closes every rail. The selected structure keeps its brass circle, rail open.
  *   Hover a circle -> its rail drawn faint until clicked. Circles are buttons in number order (aria-expanded).
  * Options (<html data-variant>) only move "Show all": 1 in the dock beside Labels, 2 in the room's caption line,
- * 3 at the head of a compact numbered key at the foot of the left column.
+ * 3 at the head of a compact numbered key in the top right corner, level with the room's title.
  * URL: ?variant=1|2|3  ?lstate=circles|one|all (atlas, section)  default|term|all (lesson)  wrong1|wrong2|right (practice)
  * Runs after mock.js has set data-ready; sets <html data-labels="1"> when done. */
 (function () {
@@ -98,7 +98,7 @@
       s.innerHTML = ` · <span class="num">${items.length}</span> labels · <button type="button" class="showall" data-showall>Show all</button>`;
       cap.appendChild(s);
     }
-    // 3: the compact key at the foot of the left column
+    // 3: the compact key in the top right corner
     const key = section.querySelector('[data-key]');
     if (key) {
       key.innerHTML = `<div class="lk-head"><span class="colhead">Labels</span><button type="button" class="showall" data-showall>Show all</button></div>` +

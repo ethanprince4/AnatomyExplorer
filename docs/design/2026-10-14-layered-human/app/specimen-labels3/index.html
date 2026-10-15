@@ -72,7 +72,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .hist { display: inline-flex; align-items: center; gap: 2px; margin-left: -24px; }
 .hb { display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 0; background: none; color: var(--text-2); }
 .find { margin-left: auto; width: 320px; height: 40px; display: flex; align-items: center; gap: 10px; padding: 0 12px 0 2px; border-bottom: 1px solid var(--line-2);
-  color: var(--text-3); font-size: 15px; outline: none; }   /* Ctrl+K stays bound (aria-keyshortcuts, the tooltip); no key is printed */
+  color: var(--text-3); font-size: 15px; outline: none; }   /* Ctrl+K stays bound (aria-keyshortcuts); no key is printed, not even in a tooltip */
 .tb { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 2px; font: 500 15px var(--sans); color: var(--text-2);
   background: none; border: 0; }
 .tb .ct { font-weight: 600; color: var(--accent-2); }
@@ -193,9 +193,12 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .prose p { margin: 0 0 16px; }
 .pinned { position: relative; }
 .pinned img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Markers on films and micrographs, in the wall's colours: a disc of the wall in a ring of its text colour, with a
+   wall-coloured hairline outside, so the ring holds on a white film and the disc on a dark one. Selected: brass. */
 .pin { position: absolute; transform: translate(-50%, -50%); width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
-  font: 600 12px var(--sans); color: #fff; background: rgb(20 22 25 / .78); border: 1.5px solid rgb(255 255 255 / .9); }
-.pin.sel { background: var(--accent); color: var(--on-accent); border-color: #fff; width: 28px; height: 28px; }
+  font: 600 12px var(--sans); color: var(--text); background: color-mix(in srgb, var(--stage-bottom) 82%, transparent);
+  border: 1.5px solid var(--text); box-shadow: 0 0 0 1px color-mix(in srgb, var(--stage-bottom) 70%, transparent); }
+.pin.sel { background: var(--accent); color: var(--on-accent); width: 28px; height: 28px; box-shadow: 0 0 0 1px var(--stage-bottom); }
 .specimen-cap { text-align: center; }
 .specimen-cap b { display: block; font-family: var(--serif); font-weight: 420; font-size: 20px; line-height: 24px; }
 .specimen-cap span { font-size: 13px; color: var(--text-2); }
@@ -307,8 +310,14 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .reveal .track .line { position: absolute; left: 0; right: 0; top: 10px; height: 1px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
 .reveal .track .fill { position: absolute; left: 0; top: 9px; height: 3px; background: var(--accent); }
 .reveal .track .tick { position: absolute; top: 15px; width: 1px; height: 5px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
-.reveal .track .knob { position: absolute; top: 3px; width: 15px; height: 15px; margin-left: -7.5px; border-radius: 50%; background: var(--accent);
-  box-shadow: 0 0 0 4px var(--stage-bottom); }
+/* the gauge's knob, laid flat: a 6 px brass dot in a 1.75 px ring of the wall's colour at its height (--halo, set by the
+   script), centred on the line; the invisible ::after keeps a 24 px target */
+.reveal .track { touch-action: none; }
+.reveal .track .knob { position: absolute; top: 10.5px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  transform: translate(-50%, -50%); box-shadow: 0 0 0 1.75px var(--halo, var(--stage-bottom)); cursor: grab; outline: none; }
+.reveal .track .knob::after { content: ""; position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; border-radius: 50%; transform: translate(-50%, -50%); }
+.reveal .track .knob:focus-visible { outline: 2px solid var(--text); outline-offset: 3.5px; }
+.reveal .track[data-drag] .knob { cursor: grabbing; }
 .reveal .opt { display: flex; align-items: center; gap: 10px; height: 31px; font-size: 14px; }
 .reveal .views { margin-top: 2px; }
 
@@ -326,7 +335,8 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .stage img.plate.close { -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 18%, #000 76%, transparent 92%);
   mask-image: linear-gradient(180deg, transparent 0, #000 18%, #000 76%, transparent 92%); }
 
-/* Models library: a specimen answers the pointer by brightening its pool, and opens on click */
+/* Models library: one scroll with nothing at its foot, like the histology catalogue. A specimen answers the pointer
+   by brightening its pool, and opens on click */
 .spec { display: block; color: inherit; text-decoration: none; }
 .spec .pool { opacity: .55; transition: opacity .2s; }
 .spec:hover .pool { opacity: 1; }
@@ -623,9 +633,8 @@ svg.leaders .leader.is-right { stroke: var(--accent); stroke-width: 1.2; }
 <div class="app">
   <header class="head" data-chrome="models"></header>
   <div class="exhibit"><h1>Models</h1><p>41 models in one viewer · 3 built for this app</p></div>
-  <div data-collection style="position:absolute; left:40px; top:232px; right:540px; bottom:0; display:grid; grid-template-columns:repeat(4, 1fr); grid-auto-rows:232px; row-gap:22px; column-gap:16px; overflow:hidden;
+  <div data-collection style="position:absolute; left:40px; top:232px; right:540px; bottom:0; display:grid; grid-template-columns:repeat(4, 1fr); grid-auto-rows:232px; row-gap:22px; column-gap:16px; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:none; padding-bottom:120px; box-sizing:border-box;
     -webkit-mask-image:linear-gradient(180deg, #000 744px, transparent 800px); mask-image:linear-gradient(180deg, #000 744px, transparent 800px)"></div>
-  <p class="meta num" style="position:absolute; left:40px; bottom:24px; margin:0">12 of 41 shown · scroll for the rest</p>
   <div style="position:absolute; right:40px; top:120px; width:460px">
     <div style="position:relative; height:400px"><div class="pool" style="inset:-40px"></div>
       <img src="../../assets/plates/kidney_v_kidney.webp" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); max-height:360px; max-width:420px" alt="The kidney with its vessels and ureter"></div>
@@ -697,7 +706,7 @@ svg.leaders .leader.is-right { stroke: var(--accent); stroke-width: 1.2; }
   <div class="label-card" style="left:40px; bottom:40px; width:470px">
     <div class="colhead" style="margin:0">Find it in the model</div>
     <div class="t" style="margin:4px 0 6px">External intercostal muscles</div>
-    <div class="note">Click it. Right-click peels away whatever is in the way; Ctrl+Z puts it back.</div>
+    <div class="note">Click it. Right-click peels away whatever is in the way.</div>
     <hr>
     <div data-pshow="wrong1"><div style="font-size:14px"><b>Not that one:</b> that is serratus anterior. 2 tries left.</div>
       <div class="acts"><button class="btn">Show me</button><span style="flex:1"></span><button class="btn">Skip</button></div></div>
@@ -828,7 +837,7 @@ svg.leaders .leader.is-right { stroke: var(--accent); stroke-width: 1.2; }
     el.innerHTML = `<div class="brand">${mark}<span class="word">Layered Human</span></div><nav class="rooms">` +
       NAV.map(([k, v]) => `<a ${k === cur ? 'aria-current="page"' : ''}>${v}</a>`).join('') + `</nav>
       <span class="hist"><button class="hb" aria-label="Back"><svg class="i"><use href="#i-back"/></svg></button><button class="hb" aria-label="Forward"><svg class="i"><use href="#i-chevron"/></svg></button></span>
-      <div class="find" role="searchbox" tabindex="0" aria-label="Search the atlas, lessons, cases" aria-keyshortcuts="Control+K" title="Search (Ctrl+K)"><svg class="i"><use href="#i-search"/></svg>Search the atlas, lessons, cases</div>
+      <div class="find" role="searchbox" tabindex="0" aria-label="Search the atlas, lessons, cases" aria-keyshortcuts="Control+K"><svg class="i"><use href="#i-search"/></svg>Search the atlas, lessons, cases</div>
       <button class="tb">Review <span class="ct num">12 due</span></button><button class="tb">Saved views</button>
       <button class="tb icon ${cur === 'settings' ? 'is-cur' : ''}" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>`;
   });
@@ -1003,16 +1012,41 @@ svg.leaders .leader.is-right { stroke: var(--accent); stroke-width: 1.2; }
     sec.querySelector('[data-v-parts]').innerHTML = S.parts.map(([lv, t, on, open, sel]) =>
       `<li class="l${lv}${lv === 0 ? ' cat0' : ''}${on === 'off' ? ' off' : ''}${open === 1 ? ' open' : ''}${sel ? ' is-sel' : ''}"><span class="box${on === 'on' ? ' on' : on === 'part' ? ' part' : ''}"></span>${t}` +
       (open ? '<svg class="i tw"><use href="#i-chevron"/></svg>' : '') + '</li>').join('');
-    const track = (pct, fill) => `<div class="track"><div class="line"></div>${fill ? `<div class="fill" style="width:${pct}%"></div>` : ''}` +
-      [0, 25, 50, 75, 100].map(t => `<i class="tick" style="left:${t}%"></i>`).join('') + `<div class="knob" style="left:${pct}%"></div></div>`;
+    const track = (pct, fill, name, text) => `<div class="track"><div class="line"></div>${fill ? `<div class="fill" style="width:${pct}%"></div>` : ''}` +
+      [0, 25, 50, 75, 100].map(t => `<i class="tick" style="left:${t}%"></i>`).join('') +
+      `<div class="knob" role="slider" tabindex="0" aria-label="${name}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-valuetext="${text}" style="left:${pct}%"></div></div>`;
     sec.querySelector('[data-v-reveal]').innerHTML = `<div class="colhead">Reveal</div>
-      <div class="ctl"><div class="row"><span>Tissue opacity</span><span class="v num">100%</span></div>${track(100, true)}</div>
-      <div class="ctl"><div class="row"><span>Separate layers</span><span class="v word">assembled</span></div>${track(0, false)}</div>
+      <div class="ctl"><div class="row"><span>Tissue opacity</span><span class="v num">100%</span></div>${track(100, true, 'Tissue opacity', '100%')}</div>
+      <div class="ctl"><div class="row"><span>Separate layers</span><span class="v word">assembled</span></div>${track(0, false, 'Separate layers', 'assembled')}</div>
       <div class="opt"><span class="box"></span>Cut-away</div>
       <button class="btn" style="height:36px; padding:0 14px; font-size:14px; margin-top:12px; border-color:var(--edge)"><svg class="i" style="width:15px; height:15px"><use href="#i-reset"/></svg>Reset</button>
       <hr class="rule" style="margin:28px 0 20px">
       <div class="colhead">Section</div>
       <div class="views"><span>Sagittal</span><span>Coronal</span><span>Transverse</span></div>`;
+    // The two sliders work as the gauge does: drag along the line, or the arrow keys on the focused knob. Each knob's
+    // ring takes the wall's colour at its own height, as the gauge's does.
+    sec.querySelectorAll('.reveal .ctl').forEach(ctl => {
+      const tr = ctl.querySelector('.track'), knob = tr.querySelector('.knob'), fill = tr.querySelector('.fill'), out = ctl.querySelector('.v');
+      const y = knob.getBoundingClientRect().top + knob.offsetHeight / 2 - sec.querySelector('.app').getBoundingClientRect().top;
+      knob.style.setProperty('--halo', `color-mix(in srgb, var(--stage-bottom) ${(y / 1080 * 100).toFixed(1)}%, var(--stage-top))`);
+      const set = p => {
+        p = Math.min(100, Math.max(0, Math.round(p)));
+        const word = !fill && p === 0, text = fill ? p + '%' : p === 0 ? 'assembled' : p + '% apart';
+        knob.style.left = p + '%'; if (fill) fill.style.width = p + '%';
+        out.textContent = text; out.className = 'v ' + (word ? 'word' : 'num');
+        knob.setAttribute('aria-valuenow', p); knob.setAttribute('aria-valuetext', text);
+      };
+      const fromX = x => { const r = tr.getBoundingClientRect(); return (x - r.left) / r.width * 100; };
+      tr.addEventListener('pointerdown', e => { tr.dataset.drag = ''; tr.setPointerCapture(e.pointerId); set(fromX(e.clientX)); knob.focus(); });
+      tr.addEventListener('pointermove', e => { if ('drag' in tr.dataset && tr.hasPointerCapture(e.pointerId)) set(fromX(e.clientX)); });
+      tr.addEventListener('pointerup', () => { delete tr.dataset.drag; });
+      knob.addEventListener('keydown', e => {
+        const p = +knob.getAttribute('aria-valuenow');
+        const to = { ArrowRight: p + 1, ArrowUp: p + 1, ArrowLeft: p - 1, ArrowDown: p - 1, PageUp: p + 10, PageDown: p - 10, Home: 0, End: 100 }[e.key];
+        if (to === undefined) return;
+        e.preventDefault(); set(to);
+      });
+    });
     const [ct, cd, cc, cp] = S.card;
     sec.querySelector('[data-v-card]').innerHTML = `<div class="t">${ct}</div><hr><div class="note">${cd}</div>
       <dl style="margin-top:12px"><dt>Clinical</dt><dd>${cc}</dd></dl><div class="acc">${cp}</div>
