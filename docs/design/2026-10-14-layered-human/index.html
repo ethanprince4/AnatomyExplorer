@@ -324,7 +324,7 @@ p { margin: 0; }
         <li><b>The wall label.</b> Select a structure and its name, Latin name, nerve, action, blood supply and attachments are
           lettered on the wall beside the body, with an accession line of TA2 IDs.</li>
         <li><b>A pool of light.</b> A soft spotlight behind the model in every 3D view, instead of a flat backdrop.</li>
-        <li><b>A dissection gauge.</b> A vertical scale with the eight stops. The tools are a row of words under one hairline,
+        <li><b>A depth rule.</b> A vertical scale with the eight stops and a knob you drag. The tools are a row of words under one hairline,
           the same in every 3D view.</li>
         <li><b>Type:</b> Literata for titles and reading, Fira Sans for the interface.</li>
       </ul>
@@ -332,7 +332,7 @@ p { margin: 0; }
     <div>
       <h3>On the website</h3>
       <div class="site-pair">
-        <a href="site/specimen/index.html" data-site-shot><img src="renders/site/specimen_site_desktop.webp" srcset="renders/site/specimen_site_desktop.webp 1440w, renders/site/specimen_site_desktop@2x.webp 2880w" sizes="(min-width: 1080px) 330px, 70vw" width="1440" height="900" loading="lazy" alt="The Specimen website's first screen: the headline lettered on a slate wall, the body at skin depth in a pool of light, and the dissection gauge beside it"></a>
+        <a href="site/specimen/index.html" data-site-shot><img src="renders/site/specimen_site_desktop.webp" srcset="renders/site/specimen_site_desktop.webp 1440w, renders/site/specimen_site_desktop@2x.webp 2880w" sizes="(min-width: 1080px) 330px, 70vw" width="1440" height="900" loading="lazy" alt="The Specimen website's first screen: the headline lettered on a slate wall, the body at skin depth in a pool of light, and the depth rule beside it"></a>
         <a class="phone" href="site/specimen/index.html"><img src="renders/site/specimen_site_mobile@2x.webp" width="780" height="1688" loading="lazy" alt="The Specimen website on a phone"></a>
       </div>
       <p><b>Rooms you walk through.</b> The first screen peels: drag the gauge beside the body and the real layers change.
@@ -580,9 +580,10 @@ p { margin: 0; }
     <div><h3>Real renders</h3><p>The anatomy is the app's own output. I ran the current build headless and rendered each figure
       on black and on white to recover exact transparency, once for every selection colour. Labels sit on points read from the
       renderer's picking buffer, so each leader line ends on the structure it names.</p></div>
-    <div><h3>What is a mockup</h3><p>The app screens are HTML and CSS at 1920 × 1080, not Qt. They show layout, type and colour, and
-      nothing in them is clickable. Every screen is rendered at 1× in every scheme, the atlas at 2× in every scheme, and every
-      screen at 2× in the default scheme: 68 renders for Specimen, 234 with the archive.</p></div>
+    <div><h3>What is a mockup</h3><p>The app screens are HTML and CSS at 1920 × 1080, not Qt. They show layout, type and colour. In
+      Specimen&rsquo;s the rooms, the depth knob, the sliders and the main buttons work, and the model is a still render; the
+      archive&rsquo;s are pictures only. Every screen is rendered at 1× in every wall or scheme, the atlas at 2× in every one,
+      and every screen at 2× in the default: 82 renders for Specimen, 248 with the archive.</p></div>
     <div><h3>The websites</h3><p>Each direction has one working page with a scheme switcher, built from a written brief and
       checked at desktop and phone widths. Download links point at the current GitHub release files. Copy follows the
       README&rsquo;s facts.</p></div>
@@ -591,14 +592,13 @@ p { margin: 0; }
     <div><h3>Images</h3><p>Chest radiographs: Mikael Häggström (CC0) and Sara Nabih (CC BY-SA 4.0). Micrographs: Echinaceapallida
       (CC BY-SA 4.0). All via Wikimedia Commons. Anatomy: Z-Anatomy and BodyParts3D, as in the app.</p></div>
     <div><h3>Files</h3><p>Everything is in the repository under <code>docs/design/2026-10-14-layered-human/</code>: mockups in
-      <code>app/</code> (checkpoint 2&rsquo;s options in <code>app/specimen-&lt;topic&gt;/</code>), websites in <code>site/</code>,
+      <code>app/</code> (the checkpoints&rsquo; options in <code>app/specimen-&lt;topic&gt;/</code>), websites in <code>site/</code>,
       the marks and icons in <code>identity/</code>, colour schemes in <code>system/</code>, renders in <code>renders/</code>
-      (checkpoint pictures in <code>renders/checkpoint-1/</code> and <code>checkpoint-2/</code>), the review of today&rsquo;s app
+      (checkpoint pictures in <code>renders/checkpoint-1/</code> to <code>checkpoint-3/</code>), the review of today&rsquo;s app
       and the brand brief in <code>research/</code>, and the tools that rebuild it all in <code>tools/</code>.</p></div>
   </div>
 </section>
 
-<footer class="foot wrap"><span>Layered Human · design directions · 14 October 2026</span><span>Renders from the app, v4.0.8</span></footer>
 <footer class="foot wrap"><span>Layered Human · design · 14 and 15 October 2026</span><span>Renders from the app, v4.0.8</span></footer>
 </main>
 </div>
