@@ -28,7 +28,7 @@ body { font-family: var(--sans); font-size: 15px; line-height: 22px; color: var(
 [data-screen="lesson"] [data-screen-id="lesson"], [data-screen="lessons"] [data-screen-id="lessons"],
 [data-screen="models"] [data-screen-id="models"], [data-screen="radiology"] [data-screen-id="radiology"],
 [data-screen="practice"] [data-screen-id="practice"], [data-screen="histology"] [data-screen-id="histology"],
-[data-screen="settings"] [data-screen-id="settings"] { display: block; }
+[data-screen="settings"] [data-screen-id="settings"], [data-screen="viewer"] [data-screen-id="viewer"] { display: block; }
 
 .app { position: relative; width: 1920px; height: 1080px; overflow: hidden;
   background: linear-gradient(180deg, var(--stage-top), var(--stage-bottom)); }
@@ -203,6 +203,62 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .dots i { width: 28px; height: 3px; background: var(--hair); }
 .dots i.done { background: color-mix(in srgb, var(--accent) 55%, transparent); }
 .dots i.cur { background: var(--accent); }
+
+/* ---------------------------------------------------------------------------------- model viewer: the opened model
+   Parts is the Systems list grown into a tree; Reveal is the gauge's quiet cousin (same track, fill, knob and italic
+   readout, laid flat); the stored views are a strip of small lit tiles under the specimen. */
+.parts { position: absolute; left: 40px; top: 232px; width: 320px; }
+.parts .filter { display: flex; align-items: center; gap: 10px; height: 36px; margin: 0 0 8px; border-bottom: 1px solid var(--line-2);
+  color: var(--text-3); font-size: 14px; }
+.parts .filter .i { width: 16px; height: 16px; }
+.parts ul { list-style: none; margin: 0; padding: 0; }
+.parts li { display: flex; align-items: center; gap: 10px; height: 31px; font-size: 14px; white-space: nowrap; }
+.parts li.l1 { padding-left: 18px; } .parts li.l2 { padding-left: 36px; }
+.parts li.cat0 { font-weight: 500; }
+.parts li.off { color: var(--text-3); }
+.parts li.off .box { border-color: var(--text-3); }
+.parts li .tw { margin-left: auto; width: 14px; height: 14px; color: var(--text-3); }
+.parts li.open > .tw { transform: rotate(90deg); }
+/* the selection is marked as on the atlas: weight 600 and the brass anchor dot */
+.parts li.is-sel { font-weight: 600; color: var(--text); }
+.parts li.is-sel::after { content: ""; margin-left: -2px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 1.5px var(--stage-bottom); flex: none; }
+.box.part::after { content: ""; width: 7px; height: 1.8px; background: var(--text-2); }   /* some of the group is shown */
+
+.vcol { position: absolute; right: 56px; top: 232px; width: 320px; }   /* the instrument, then the wall label */
+.reveal .ctl { margin: 0 0 22px; }
+.reveal .ctl .row { display: flex; align-items: baseline; justify-content: space-between; font-size: 14px; color: var(--text-2); }
+.reveal .ctl .v { font-size: 13px; font-weight: 600; color: var(--accent-2); }
+.reveal .ctl .v.word { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 15px; color: var(--text-3);
+  font-variation-settings: "opsz" 14; }
+.reveal .track { position: relative; height: 22px; margin-top: 4px; }
+.reveal .track .line { position: absolute; left: 0; right: 0; top: 10px; height: 1px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
+.reveal .track .fill { position: absolute; left: 0; top: 9px; height: 3px; background: var(--accent); }
+.reveal .track .tick { position: absolute; top: 15px; width: 1px; height: 5px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
+.reveal .track .knob { position: absolute; top: 3px; width: 15px; height: 15px; margin-left: -7.5px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 4px var(--stage-bottom); }
+.reveal .opt { display: flex; align-items: center; gap: 10px; height: 31px; font-size: 14px; }
+.reveal .views { margin-top: 2px; }
+
+.vstrip { position: absolute; top: 916px; display: flex; align-items: flex-end; gap: 20px; }
+.vstrip .grp .colhead { margin: 0 0 6px; font-weight: 500; color: var(--text-3); white-space: nowrap; }
+.vstrip .grp.cur .colhead { color: var(--text-2); }
+.vstrip .tiles { display: flex; gap: 8px; }
+.vstrip a { position: relative; display: block; width: 64px; height: 49px; overflow: hidden; border-radius: 1px;
+  background: radial-gradient(closest-side, var(--spot), transparent 115%); }
+.vstrip a img { position: absolute; inset: 3px; width: calc(100% - 6px); height: calc(100% - 6px); object-fit: contain; }
+.vstrip a img.cover { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.vstrip a:not(.is-cur-pic) img { opacity: .82; }
+.vstrip a:hover img { opacity: 1; }
+.vstrip a.empty { background: none; box-shadow: inset 0 0 0 1px var(--hair); }   /* no render of this view yet */
+.vstrip .keys { align-self: flex-end; height: 49px; }
+.stage img.plate.close { -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 18%, #000 76%, transparent 92%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 18%, #000 76%, transparent 92%); }
+
+/* Models library: a specimen answers the pointer by brightening its pool, and opens on click */
+.spec { display: block; color: inherit; text-decoration: none; }
+.spec .pool { opacity: .55; transition: opacity .2s; }
+.spec:hover .pool { opacity: 1; }
 </style>
 </head>
 <body>
@@ -356,7 +412,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
       <p style="margin:0 0 12px; font-size:14px; line-height:22px">The kidney, adrenal, vessels and ureter, with a juxtamedullary nephron in place. Eight stored views zoom from the whole organ down to the podocytes.</p>
       <div class="meta" style="line-height:22px">Built for this app · true scale</div>
       <div class="meta" style="line-height:22px">Kidney · Lobe opened · Lobe · Nephron · Corpuscle · Juxtaglomerular apparatus · Podocytes · Loop of Henle</div>
-      <div class="acts"><button class="btn brass">Open model</button><button class="btn">Lessons (6)</button></div>
+      <div class="acts"><button class="btn brass" data-open="kidney">Open model</button><button class="btn">Lessons (6)</button></div>
     </div>
   </div>
 </div>
@@ -454,6 +510,27 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 </div>
 </section>
 
+<!-- ================================================================ VIEWER (the opened model; ?view=kidney|corpuscle) -->
+<section class="screen" data-screen-id="viewer">
+<div class="app">
+  <div class="pool" data-v-pool></div>
+  <div class="stage" data-stage="tags" data-v-stage></div>
+  <header class="head" data-chrome="models"></header>
+  <div class="exhibit"><h1>Kidney with the nephron</h1><p class="num" data-v-cap></p></div>
+  <div class="parts">
+    <div class="colhead">Parts</div>
+    <div class="filter"><svg class="i"><use href="#i-search"/></svg>Filter parts or groups</div>
+    <ul data-v-parts></ul>
+  </div>
+  <div class="vcol">
+    <div class="reveal" data-v-reveal></div>
+    <div class="label-card" data-v-card style="position:relative; margin-top:40px"></div>
+  </div>
+  <div class="vstrip" data-v-strip></div>
+  <div class="dock" data-dock></div>
+</div>
+</section>
+
 <!-- ================================================================ SETTINGS -->
 <section class="screen" data-screen-id="settings">
 <div class="app">
@@ -526,12 +603,82 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     ['thumb_liver_lobule', 'Liver lobule', 'Hepatocytes, sinusoids, central vein'], ['thumb_lymph_node', 'Lymph node', 'Capsule, follicles, sinuses, cords'], ['thumb_thin_skin', 'Thin skin', 'Epidermis, dermis, follicles, glands'],
     ['thumb_blood_cells', 'Blood cells', 'Red and white blood cells'], ['thumb_spleen', 'Spleen', 'White and red pulp'], ['thumb_retina', 'Retina', 'Rods, cones and their layers'],
     ['thumb_skeletal_muscle', 'Skeletal muscle', 'Fibres, sarcomeres, a nerve ending'], ['thumb_trachea_wall', 'Trachea wall', 'Lining, glands, cartilage']];
+  // Opening a model keeps the scheme and panel treatment; ?view= picks the stored view.
+  const openURL = view => { const p = new URLSearchParams(location.search); p.set('screen', 'viewer'); p.set('view', view); return '?' + p; };
   document.querySelectorAll('[data-collection]').forEach(el => {
-    el.innerHTML = MODELS.map(([p, n, d], i) => `<div style="position:relative; height:232px">
+    el.innerHTML = MODELS.map(([p, n, d], i) => `<a class="spec" ${i === 1 ? `href="${openURL('kidney')}"` : ''} style="position:relative; height:232px">
       <div class="${i === 1 ? 'is-cur-pic' : ''}" style="position:absolute; left:4px; right:4px; top:4px; height:176px"></div>
-      <div class="pool" style="left:10%; right:10%; top:0; height:180px; opacity:.55"></div>
+      <div class="pool" style="left:10%; right:10%; top:0; height:180px"></div>
       <img src="../../assets/plates/${p}.webp" style="position:absolute; left:50%; top:90px; transform:translate(-50%,-50%); max-width:78%; max-height:150px" alt="">
-      <div class="specimen-cap" style="position:absolute; left:0; right:0; bottom:0"><b>${n}</b><span>${d}</span></div></div>`).join('');
+      <div class="specimen-cap" style="position:absolute; left:0; right:0; bottom:0"><b>${n}</b><span>${d}</span></div></a>`).join('');
+  });
+  document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => { location.search = openURL(b.dataset.open); }));
+
+  /* ------------------------------------------------------------------ the model viewer
+     The kidney's 13 stored views in the shipped order (data/local_model_library/models/kidney_nephron/v4/recipe.json,
+     viewer_cameras), grouped by the three spaces the model holds. Only six views have a render from the app's own
+     renderer (tools/capture/jobs_models*.json); the rest are honest empty tiles. */
+  const VIEW_GROUPS = [
+    ['Overview', [['Family overview (nephron 15x)']]],
+    ['Whole kidney', [['Kidney', 'kidney_v_kidney', 'kidney'], ['Lobe opened'], ['Renal vessels'], ['Lobe', 'kidney_v_lobe']]],
+    ['Nephron, 15×', [['Nephron (15x schematic)', 'kidney_v_nephron'], ['Corpuscle', 'kidney_v_corpuscle', 'corpuscle'],
+      ['Juxtaglomerular apparatus', 'kidney_v_jga'], ['Podocytes', 'kidney_v_podocytes'], ['Loop of Henle']]],
+    ['Section diagram', [['Source section overview'], ['Source section opened'], ['Source section lobule']]]];
+  // Parts rows: [level, title, shown (on | part | off), open (1) or leaf (0) or closed (-1), selected]. Titles and paths
+  // from data/content/model_parts/kidney_nephron.json; what each stored view shows from its "hidden" list.
+  const STATES = {
+    kidney: { view: 'Kidney', cap: 'View 2 of 13 · Kidney · true scale',
+      plate: 'kidney_v_kidney', img: 'left:609px; top:150px; height:740px', pool: 'left:522px; top:40px; width:860px; height:960px',
+      labels: [['aorta', -210, -40, 'Abdominal aorta'], ['ivc', -90, 0, 'Inferior vena cava'], ['rvein', -250, 140, 'Renal vein'],
+               ['rart', 0, -275, 'Renal artery', 1], ['ureter', 70, 60, 'Ureter'], ['capsule', 130, -60, 'Renal capsule']],
+      parts: [[0, 'Kidney', 'part', -1], [0, 'Collecting system', 'part', -1], [0, 'Blood vessels', 'part', 1], [1, 'Large vessels', 'on', -1],
+        [1, 'Renal arteries', 'part', 1], [2, 'Renal artery', 'on', 0, 1], [2, 'Anterior and posterior divisions', 'on', 0],
+        [2, 'Segmental arteries', 'on', 0], [2, 'Interlobar arteries', 'on', 0], [2, 'Arcuate arteries', 'on', 0], [2, 'Interlobular arteries', 'on', 0],
+        [2, 'Arteries (cross-section)', 'off', 0], [1, 'Renal veins', 'part', -1], [0, 'Nephron', 'off', -1]],
+      card: ['Renal artery', 'The renal artery branches from the side of the abdominal aorta and carries about a fifth to a quarter of the cardiac output to the kidneys. It divides at the hilum into anterior and posterior divisions.',
+        'Renovascular hypertension', 'Blood vessels · Renal arteries'] },
+    corpuscle: { view: 'Corpuscle', cap: 'View 7 of 13 · Corpuscle · the nephron enlarged 15 times, not to clinical scale',
+      plate: 'kidney_v_corpuscle', img: 'left:638px; top:84px; height:880px', close: true, pool: 'left:502px; top:70px; width:900px; height:900px',
+      labels: [['bowman', -253, 0, 'Parietal layer of Bowman’s capsule', 1], ['pct', -243, -70, 'Proximal convoluted tubule'],
+               ['pst', -116, 0, 'Proximal straight tubule'], ['tal', -204, 80, 'Thick ascending limb'],
+               ['ccd', 90, -70, 'Cortical collecting duct'], ['dct', 126, 0, 'Distal convoluted tubule'], ['ptc', 75, 40, 'Peritubular capillaries']],
+      parts: [[0, 'Kidney', 'part', -1], [0, 'Collecting system', 'off', -1], [0, 'Blood vessels', 'part', -1], [0, 'Nephron', 'part', 1],
+        [1, 'Overview', 'off', -1], [1, 'Glomerulus', 'on', 1], [2, 'Glomerular capillary wall', 'on', 0], [2, 'Capillary lining (endothelium)', 'on', 0],
+        [2, 'Glomerular basement membrane', 'on', 0], [2, 'Podocytes', 'on', 0], [2, 'Visceral layer of the capsule', 'on', 0],
+        [2, 'Parietal layer of Bowman’s capsule', 'on', 0, 1], [2, 'Mesangium inside the glomerulus', 'on', 0],
+        [1, 'Proximal tubule', 'on', -1], [1, 'Loop of Henle', 'on', -1], [1, 'Distal tubule and collecting duct', 'on', -1],
+        [1, 'Juxtaglomerular apparatus', 'on', -1], [1, 'Blood supply', 'on', -1]],
+      card: ['Parietal layer of Bowman’s capsule', 'The parietal layer is the outer wall of Bowman’s capsule, made of simple squamous epithelium. It is continuous with the proximal tubule at the urinary pole of the glomerulus.',
+        'Crescents', 'Nephron · Glomerulus'] } };
+  document.querySelectorAll('[data-screen-id="viewer"]').forEach(sec => {
+    const v = new URLSearchParams(location.search).get('view'), S = STATES[v] || STATES.kidney;
+    sec.querySelector('[data-v-cap]').textContent = S.cap;
+    sec.querySelector('[data-v-pool]').style.cssText = S.pool;
+    sec.querySelector('[data-v-stage]').innerHTML = `<img class="plate${S.close ? ' close' : ''}" src="../../assets/plates/${S.plate}.webp" data-plate="${S.plate}" style="${S.img}" alt="The kidney model at its ${S.view} view">` +
+      S.labels.map(([a, dx, dy, t, sel]) => `<div class="lbl${sel ? ' is-selected' : ''}" data-anchor="${a}" data-dx="${dx}" data-dy="${dy}">${t}</div>`).join('');
+    sec.querySelector('[data-v-parts]').innerHTML = S.parts.map(([lv, t, on, open, sel]) =>
+      `<li class="l${lv}${lv === 0 ? ' cat0' : ''}${on === 'off' ? ' off' : ''}${open === 1 ? ' open' : ''}${sel ? ' is-sel' : ''}"><span class="box${on === 'on' ? ' on' : on === 'part' ? ' part' : ''}"></span>${t}` +
+      (open ? '<svg class="i tw"><use href="#i-chevron"/></svg>' : '') + '</li>').join('');
+    const track = (pct, fill) => `<div class="track"><div class="line"></div>${fill ? `<div class="fill" style="width:${pct}%"></div>` : ''}` +
+      [0, 25, 50, 75, 100].map(t => `<i class="tick" style="left:${t}%"></i>`).join('') + `<div class="knob" style="left:${pct}%"></div></div>`;
+    sec.querySelector('[data-v-reveal]').innerHTML = `<div class="colhead">Reveal</div>
+      <div class="ctl"><div class="row"><span>Tissue opacity</span><span class="v num">100%</span></div>${track(100, true)}</div>
+      <div class="ctl"><div class="row"><span>Separate layers</span><span class="v word">assembled</span></div>${track(0, false)}</div>
+      <div class="opt"><span class="box"></span>Cut-away</div>
+      <button class="btn" style="height:36px; padding:0 14px; font-size:14px; margin-top:12px; border-color:var(--edge)"><svg class="i" style="width:15px; height:15px"><use href="#i-reset"/></svg>Reset</button>
+      <hr class="rule" style="margin:28px 0 20px">
+      <div class="colhead">Section</div>
+      <div class="views"><span>Sagittal</span><span>Coronal</span><span>Transverse</span></div>`;
+    const [ct, cd, cc, cp] = S.card;
+    sec.querySelector('[data-v-card]').innerHTML = `<div class="t">${ct}</div><hr><div class="note">${cd}</div>
+      <dl style="margin-top:12px"><dt>Clinical</dt><dd>${cc}</dd></dl><div class="acc">${cp}</div>
+      <div class="acts"><button class="btn brass">Isolate</button><button class="btn">Hide</button><button class="btn">Details<svg class="i"><use href="#i-chevron"/></svg></button></div>`;
+    const strip = sec.querySelector('[data-v-strip]');
+    strip.innerHTML = VIEW_GROUPS.map(([g, views]) => `<div class="grp${views.some(([n]) => n === S.view) ? ' cur' : ''}"><div class="colhead">${g}</div><div class="tiles">` +
+      views.map(([n, img, st]) => `<a title="${n}" ${st ? `href="${openURL(st)}"` : ''} class="${img ? '' : 'empty'}${n === S.view ? ' is-cur-pic' : ''}">` +
+        (img ? `<img src="../../assets/plates/${img}.webp" class="${/lobe|jga|podocytes|corpuscle/.test(img) ? 'cover' : ''}" alt="">` : '') + '</a>').join('') +
+      '</div></div>').join('') + '<p class="meta keys" style="margin:0">Keys <kbd>PgUp</kbd><kbd>PgDn</kbd></p>';
+    strip.style.left = (952 - strip.getBoundingClientRect().width / 2) + 'px';   // centred under the specimen
   });
   // Film pins from the case (data/content/radiology.json, cxr_pa): only the ones the model names, with the case's numbers.
   const CXR = [[1, .465, .1], [2, .2, .13], [4, .085, .115], [5, .43, .215], [7, .435, .62], [8, .715, .68], [12, .275, .785], [17, .775, .6]];
@@ -558,6 +705,15 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 })();
 </script>
 <script src="../../assets/plates/plates.js"></script>
+<script>
+// The kidney view plates have no picking-buffer anchors yet: these points (plate pixels) were placed by eye on the
+// renders. The app reads them from the renderer's picking buffer instead.
+Object.assign(window.LH_PLATES.anchors, {
+  kidney_v_kidney: { aorta: { x: 308, y: 235 }, ivc: { x: 123, y: 388 }, rart: { x: 470, y: 464 }, rvein: { x: 352, y: 517 },
+                     ureter: { x: 573, y: 822 }, capsule: { x: 799, y: 446 } },
+  kidney_v_corpuscle: { bowman: { x: 480, y: 680 }, pct: { x: 460, y: 500 }, pst: { x: 200, y: 1040 }, tal: { x: 380, y: 1240 },
+                        dct: { x: 1096, y: 670 }, ptc: { x: 1200, y: 1200 }, ccd: { x: 1170, y: 500 } } });
+</script>
 <script src="../shared/mock.js"></script>
 </body>
 </html>

@@ -28,7 +28,7 @@ body { font-family: var(--sans); font-size: 15px; line-height: 22px; color: var(
 [data-screen="lesson"] [data-screen-id="lesson"], [data-screen="lessons"] [data-screen-id="lessons"],
 [data-screen="models"] [data-screen-id="models"], [data-screen="radiology"] [data-screen-id="radiology"],
 [data-screen="practice"] [data-screen-id="practice"], [data-screen="histology"] [data-screen-id="histology"],
-[data-screen="settings"] [data-screen-id="settings"] { display: block; }
+[data-screen="settings"] [data-screen-id="settings"], [data-screen="histology-library"] [data-screen-id="histology-library"] { display: block; }
 
 .app { position: relative; width: 1920px; height: 1080px; overflow: hidden;
   background: linear-gradient(180deg, var(--stage-top), var(--stage-bottom)); }
@@ -203,6 +203,119 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .dots i { width: 28px; height: 3px; background: var(--hair); }
 .dots i.done { background: color-mix(in srgb, var(--accent) 55%, transparent); }
 .dots i.cur { background: var(--accent); }
+
+/* ---------------------------------------------------------------------------------- libraries (checkpoint 2, question C)
+   One markup, three treatments, chosen by <html data-variant>:
+     1 catalogue  typographic rows in the 1100 px column; each tissue row carries a 48 px slide thumbnail
+     2 vitrines   every item a lit specimen with a caption, as Models is; tissues hang as slides on the wall
+     3 lit row    three lit vitrines first (Continue, Review, the next lab; or the last-opened tissue and its two
+                  neighbours), then the catalogue of 1 below
+   The library room: side column 40–290, the collection in 360–1460 (1100), the selected item's wall label in 1520–1880. */
+.lib-side { position: absolute; left: 40px; top: 232px; width: 250px; }
+.lib-main { position: absolute; left: 360px; top: 232px; width: 1100px; bottom: 0; overflow: hidden; }
+.lib-detail { position: absolute; left: 1520px; top: 232px; width: 360px; }
+.arr { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; font-size: 15px; }
+.lib-side .rule { margin: 28px 0 20px; }
+.lib-side .side-t { font-family: var(--serif); font-size: 20px; line-height: 26px; font-weight: 420; font-variation-settings: "opsz" 24; }
+.lib-side .btn { margin-top: 14px; }
+.big { font-family: var(--serif); font-size: 32px; line-height: 38px; font-weight: 340; }
+.foot { position: absolute; left: 360px; bottom: 24px; margin: 0; }
+.hl .lib-main { display: flex; flex-direction: column; -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 110px), transparent calc(100% - 52px));
+  mask-image: linear-gradient(180deg, #000 calc(100% - 110px), transparent calc(100% - 52px)); }
+[data-variant="1"] .side-cont, [data-variant="3"] .side-cont, [data-variant="3"] .side-rev { display: none; }
+.lib-main .cont-row { display: none; }
+[data-variant="1"] .lib-main .cont-row { display: flex; margin-bottom: 26px; }
+.v1, .v2, .v3 { display: none; }
+[data-variant="1"] .v1, [data-variant="2"] .v2, [data-variant="3"] .v3 { display: inline; }
+
+/* an item: a figure slot, a number, a Literata title, progress and a count */
+.it .fig { position: relative; display: none; }
+.it .fig:not(.set) img { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.it .ti { font-family: var(--serif); font-size: 20px; line-height: 24px; font-weight: 400; font-variation-settings: "opsz" 24; }
+.it .bar { position: relative; height: 2px; background: var(--hair); }
+.it .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p) * 100%); background: var(--accent); }
+.ph { display: block; background: var(--surface-2); }   /* plain placeholder: the mockup has no micrograph of this tissue */
+.slide { display: block; object-fit: cover; border: 1px solid var(--hair); }
+
+/* 1 and 3: catalogue rows */
+.cat-head { display: none; }
+[data-variant="1"] .cat-head, [data-variant="3"] .cat-head { display: grid; }
+.cat-head, .labs .it { grid-template-columns: 84px 1fr 180px 64px; column-gap: 20px; }
+.cat-head { align-items: end; height: 24px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.cat-head.colhead { margin: 0; }
+.cat-head span:last-child, .labs .ct { text-align: right; }
+:is([data-variant="1"], [data-variant="3"]) .labs .it { display: grid; align-items: center; height: 52px; border-bottom: 1px solid var(--hair); }
+[data-variant="3"] .labs .it { height: 42px; }
+.tissues .it { break-inside: avoid; }
+.tissues .grp > .colhead { break-after: avoid; }
+.tissues .grp > .colhead { display: flex; margin: 0; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.tissues .grp > .colhead span { margin-left: auto; }
+:is([data-variant="1"], [data-variant="3"]) .tissues { columns: 2; column-gap: 60px; column-fill: auto; flex: 1; min-height: 0; }
+:is([data-variant="1"], [data-variant="3"]) .tissues .grp + .grp { margin-top: 26px; }
+:is([data-variant="1"], [data-variant="3"]) .tissues .it { display: grid; grid-template-columns: 48px 1fr auto; column-gap: 16px; align-items: center;
+  height: 46px; border-bottom: 1px solid var(--hair); }
+:is([data-variant="1"], [data-variant="3"]) .tissues .it .fig { display: block; width: 48px; height: 36px; }
+:is([data-variant="1"], [data-variant="3"]) .tissues .it .fig > * { width: 48px; height: 36px; }
+:is([data-variant="1"], [data-variant="3"]) .tissues .it .ti { font-size: 18px; }
+:is([data-variant="1"], [data-variant="3"]) .tissues .it.is-sel .fig > * { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* 2: vitrines. Each item stands in its own pool, captioned below, as on Models */
+[data-variant="2"] .labs { display: grid; grid-template-columns: repeat(4, 1fr); column-gap: 16px; row-gap: 14px; }
+[data-variant="2"] .labs .it { column-gap: 0; display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; text-align: center; height: 252px; }
+[data-variant="2"] .labs .fig { display: flex; flex: 0 0 100%; height: 168px; margin-bottom: 8px; align-items: center; justify-content: center; gap: 2px; }
+[data-variant="2"] .labs .fig .pool { left: 8%; right: 8%; top: -6px; bottom: -6px; opacity: .55; }
+[data-variant="2"] .labs .fig:not(.set) img { max-width: 74%; max-height: 146px; }
+[data-variant="2"] .labs .fig.set img { position: relative; max-height: 120px; max-width: calc(80% / var(--n)); }
+[data-variant="2"] .labs .ti { flex: 0 0 100%; text-wrap: balance; order: 1; }
+[data-variant="2"] .labs .no { order: 2; }
+[data-variant="2"] .labs .ct { order: 3; }
+[data-variant="2"] .labs .bar { order: 4; }
+[data-variant="2"] .labs .no, [data-variant="2"] .labs .ct { margin-top: 3px; color: var(--text-2); }
+[data-variant="2"] .labs .ct::before { content: "\00a0· "; }
+[data-variant="2"] .labs .bar { flex: 0 0 100%; margin-top: 9px; background: none; }
+[data-variant="2"] .labs .bar::before { content: ""; position: absolute; left: calc(50% - 48px); width: 96px; top: 0; bottom: 0; background: var(--hair); }
+[data-variant="2"] .labs .bar i { left: calc(50% - 48px); width: calc(var(--p) * 96px); }
+[data-variant="2"] .it.is-sel .fig { outline: 2px solid var(--accent); outline-offset: 4px; }
+[data-variant="2"] .it .is-cur::after { display: none; }
+[data-variant="2"] .tissues .grp + .grp { margin-top: 30px; }
+[data-variant="2"] .tissues .grp > .colhead { margin-bottom: 18px; }
+[data-variant="2"] .tissues .items { display: grid; grid-template-columns: repeat(5, 1fr); column-gap: 16px; row-gap: 22px; }
+[data-variant="2"] .tissues .it { text-align: center; }
+[data-variant="2"] .tissues .fig { display: block; height: 152px; margin-bottom: 10px; }
+[data-variant="2"] .tissues .fig .pool { inset: -18px -6px; opacity: .55; }
+[data-variant="2"] .tissues .fig > :not(.pool) { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 184px; height: 138px; }
+[data-variant="2"] .tissues .it.is-sel .fig > :not(.pool) { outline: 2px solid var(--accent); outline-offset: 4px; }
+[data-variant="2"] .tissues .ti { display: block; font-size: 18px; line-height: 22px; text-wrap: balance; }
+[data-variant="2"] .tissues .ct { display: block; margin-top: 2px; }
+
+/* 3: the lit row */
+.lit { display: none; }
+[data-variant="3"] .lit { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 16px; margin-bottom: 30px; }
+.lit .v { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.lit .fig { position: relative; width: 100%; height: 178px; margin-bottom: 8px; }
+.lit .fig .pool { left: 10%; right: 10%; top: -14px; bottom: -14px; }
+.lit .fig > :not(.pool) { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.lit .fig img:not(.slide) { max-height: 164px; max-width: 72%; }
+.lit .vt { font-family: var(--serif); font-size: 20px; line-height: 24px; font-weight: 420; font-variation-settings: "opsz" 24; }
+.lit .btn { margin-top: 12px; }
+.lit.slides .fig { height: 232px; margin-bottom: 12px; }
+.lit.slides .fig > :not(.pool) { width: 288px; height: 216px; }
+.lit .is-sel .slide { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* the selected item's wall label (follows the panel treatment) */
+.lib-detail .meta { margin-top: 6px; }
+.lib-detail .colhead { display: flex; margin: 0 0 4px; }
+.lib-detail .colhead span { margin-left: auto; }
+.lessons { list-style: none; margin: 0; padding: 0; }
+.lessons li { display: grid; grid-template-columns: 22px 1fr auto; column-gap: 8px; align-items: baseline; padding: 5px 0; font-size: 14px; line-height: 20px; }
+.lessons li .k { font-size: 13px; color: var(--text-3); }
+.lessons li .k .i { width: 14px; height: 14px; vertical-align: -2px; }
+.lessons li .n { font-size: 13px; color: var(--text-3); }
+.lessons li.done { color: var(--text-2); }
+.lessons li .is-cur::after { bottom: -4px; }
+.dfig { width: 360px; height: 270px; margin-bottom: 18px; }
+.dfig img { width: 100%; height: 100%; }
+[data-variant="3"] .dfig { display: none; }
 </style>
 </head>
 <body>
@@ -314,27 +427,51 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 <div class="app">
   <header class="head" data-chrome="lessons"></header>
   <div class="exhibit"><h1>Lessons</h1><p>303 lessons in 1,614 steps</p></div>
-  <div style="position:absolute; left:40px; top:232px; width:250px">
+  <div class="lib-side">
     <div class="colhead">Arranged by</div>
-    <div style="display:flex; flex-direction:column; align-items:flex-start; gap:10px; font-size:15px">
+    <div class="arr">
       <span class="is-cur">Lab course</span>
       <span class="muted">Lecture exams</span><span class="muted">Body system</span><span class="muted">Region</span><span class="muted">Level</span>
     </div>
-    <hr class="rule" style="margin:28px 0 20px">
-    <div class="colhead">Review</div>
-    <div class="serif num" style="font-size:32px; line-height:38px; font-weight:340">12</div>
-    <p class="meta" style="margin:4px 0 14px">structures are due today, from your practice answers.</p>
-    <button class="btn">Review what is due</button>
-  </div>
-  <div style="position:absolute; left:360px; top:232px; width:1100px">
-    <div class="label-card cont">
-      <img src="../../assets/plates/heart_home_clean.webp" alt="">
-      <div style="flex:1"><div class="colhead">Continue where you left off</div>
-        <div class="t">The coronary circulation</div><div class="meta">Step 2 of 7 · The left coronary artery</div></div>
+    <div class="side-cont">
+      <hr class="rule">
+      <div class="colhead">Continue</div>
+      <div class="side-t">The coronary circulation</div>
+      <p class="meta" style="margin:4px 0 0">Step 2 of 7 · The left coronary artery</p>
       <button class="btn brass">Continue</button>
     </div>
-    <div data-labs style="margin-top:22px"></div>
+    <div class="side-rev">
+      <hr class="rule">
+      <div class="colhead">Review</div>
+      <div class="big num">12</div>
+      <p class="meta" style="margin:4px 0 0">structures are due today, from your practice answers.</p>
+      <button class="btn">Review what is due</button>
+    </div>
   </div>
+  <div class="lib-main">
+    <div class="lit">
+      <div class="v"><div class="fig"><div class="pool"></div><img src="../../assets/plates/heart_home_clean.webp" alt="The heart from the front, with its coronary vessels"></div>
+        <b class="vt">The coronary circulation</b><span class="meta">Step 2 of 7 · The left coronary artery</span><button class="btn brass">Continue</button></div>
+      <div class="v"><div class="fig"><div class="pool"></div><img src="../../assets/plates/thorax_close.webp" alt="The muscles of the chest and abdomen"></div>
+        <b class="vt num">12 structures due</b><span class="meta">From your practice answers</span><button class="btn">Review what is due</button></div>
+      <div class="v"><div class="fig"><div class="pool"></div><img src="../../assets/plates/heart_open.webp" alt="The heart opened to show its chambers and valves"></div>
+        <b class="vt">ECG and heart function</b><span class="meta num">Lab 4 · 8 lessons, not started</span><button class="btn">Start Lab 4</button></div>
+    </div>
+    <div class="label-card cont cont-row">
+      <div style="flex:1"><div class="t">The coronary circulation</div><div class="meta">Step 2 of 7 · The left coronary artery</div></div>
+      <button class="btn brass">Continue</button>
+    </div>
+    <div class="cat-head colhead"><span></span><span></span><span></span><span>Lessons</span></div>
+    <div class="labs" data-labs></div>
+  </div>
+  <aside class="label-card lib-detail">
+    <div class="t">Blood and heart structure</div>
+    <div class="meta num">Lab 3 · 4 of 10 lessons done · 42 steps</div>
+    <hr>
+    <div class="colhead">Lessons<span>Steps</span></div>
+    <ol class="lessons" data-lab-lessons></ol>
+    <div class="acts"><button class="btn">Open Lab 3<svg class="i"><use href="#i-chevron"/></svg></button></div>
+  </aside>
 </div>
 </section>
 
@@ -454,6 +591,38 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 </div>
 </section>
 
+<!-- ================================================================ HISTOLOGY LIBRARY (before a slide is opened) -->
+<section class="screen" data-screen-id="histology-library">
+<div class="app lib hl">
+  <header class="head" data-chrome="histology"></header>
+  <div class="exhibit"><h1>Histology</h1><p class="num">101 tissues · 1,049 micrographs</p></div>
+  <div class="lib-side cat">
+    <div class="colhead" style="display:flex">Groups<span style="margin-left:auto">Tissues</span></div>
+    <ul data-tissue-groups></ul>
+  </div>
+  <div class="lib-main">
+    <div class="lit slides">
+      <div class="v is-sel"><div class="fig"><div class="pool"></div><img class="slide" src="../../assets/images/histo_simple_columnar.jpg" alt="Simple columnar epithelium around a large central lumen"></div>
+        <b class="vt">Simple columnar epithelium</b><span class="meta num">Last opened · slide 1 of 13</span></div>
+      <div class="v"><div class="fig"><div class="pool"></div><span class="ph slide"></span></div>
+        <b class="vt">Simple cuboidal epithelium</b><span class="meta num">12 slides</span></div>
+      <div class="v"><div class="fig"><div class="pool"></div><span class="ph slide"></span></div>
+        <b class="vt">Pseudostratified ciliated columnar epithelium</b><span class="meta num">12 slides</span></div>
+    </div>
+    <div class="tissues" data-tissues></div>
+  </div>
+  <p class="meta foot num"><span class="v1">26 of 101 shown</span><span class="v2">14 of 101 shown</span><span class="v3">15 of 101 shown</span> · scroll for the rest</p>
+  <aside class="label-card lib-detail">
+    <div class="dfig"><img class="slide" src="../../assets/images/histo_simple_columnar.jpg" alt="Simple columnar epithelium around a large central lumen"></div>
+    <div class="t">Simple columnar epithelium</div>
+    <div class="meta num">Epithelium · 13 slides · H&amp;E</div>
+    <hr>
+    <p class="note" style="margin:0">Look for one layer of tall cells with basal nuclei, and the thin wall of connective tissue around the tube. It lines the stomach, intestines and gallbladder.</p>
+    <div class="acts"><button class="btn brass">Open the slides</button><button class="btn"><svg class="i"><use href="#i-cube"/></svg>Jejunum model</button></div>
+  </aside>
+</div>
+</section>
+
 <!-- ================================================================ SETTINGS -->
 <section class="screen" data-screen-id="settings">
 <div class="app">
@@ -474,6 +643,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
   { const q = new URLSearchParams(location.search); const R = document.documentElement;
     if (q.get('scheme')) R.dataset.scheme = q.get('scheme'); if (q.get('screen')) R.dataset.screen = q.get('screen');
     R.dataset.panel = ['wall', 'plaque', 'frame'].includes(q.get('panel')) ? q.get('panel') : 'wall';
+    R.dataset.variant = ['1', '2', '3'].includes(q.get('variant')) ? q.get('variant') : '3';   // libraries: catalogue, vitrines, lit row
     const info = window.LH_SCHEMES[R.dataset.design].schemes[R.dataset.scheme]; if (info) R.dataset.mode = info.mode; }
   const root = document.documentElement;
   const NAV = [['atlas', 'Atlas'], ['lessons', 'Lessons'], ['models', 'Models'], ['radiology', 'Radiology'], ['histology', 'Histology']];
@@ -513,11 +683,57 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     ['Practical 1', 'Review of Labs 1–5', 0, 9], ['Lab 6', 'Respiratory structure and ventilation', 0, 9],
     ['Lab 7', 'Exercise physiology and pulmonary health', 0, 5], ['Lab 8', 'Digestive and urinary anatomy', 0, 16],
     ['Lab 9', 'Reproductive systems and early development', 0, 12], ['Practical 2', 'Review of Labs 6–9', 0, 7]];
+  // Each lab's specimen. Only existing renders: Lab 4 borrows the opened heart, Lab 5 the whole-body vessels (nerves
+  // show too), Lab 7 the lung acinus; a practical shows the specimens of the labs it reviews.
+  const LAB_FIG = { 'Lab 1': ['thumb_peripheral_nerve'], 'Lab 2': ['thumb_eyeball', 'thumb_ear'], 'Lab 3': ['heart_home_clean'],
+    'Lab 4': ['heart_open'], 'Lab 5': ['body_vessels_nerves'], 'Lab 6': ['cxr_model'], 'Lab 7': ['thumb_lung_acinus_review_v2'],
+    'Lab 8': ['thumb_hepatobiliary', 'kidney_v_kidney'], 'Lab 9': ['thumb_male_reproductive', 'thumb_female_reproductive'] };
+  LAB_FIG['Practical 1'] = ['Lab 1', 'Lab 2', 'Lab 3', 'Lab 5'].map(k => LAB_FIG[k][0]);
+  LAB_FIG['Practical 2'] = ['Lab 6', 'Lab 7', 'Lab 8', 'Lab 9'].map(k => LAB_FIG[k][0]);
+  const SEL_LAB = 'Lab 3';
   document.querySelectorAll('[data-labs]').forEach(el => {
-    el.innerHTML = LABS.map(([no, t, d, n]) => `<div style="display:grid; grid-template-columns:110px 1fr 220px 80px; align-items:center; height:52px; border-bottom:1px solid var(--hair)">
-      <span class="meta">${no}</span><span class="serif" style="font-size:20px; font-weight:400">${t}</span>
-      <span style="height:2px; background:var(--hair); position:relative"><i style="position:absolute; left:0; top:0; bottom:0; width:${d / n * 100}%; background:var(--accent)"></i></span>
-      <span class="meta num" style="text-align:right">${d} of ${n}</span></div>`).join('');
+    el.innerHTML = LABS.map(([no, t, d, n]) => { const f = LAB_FIG[no], sel = no === SEL_LAB;
+      return `<div class="it ${sel ? 'is-sel' : ''}" style="--p:${d / n}">
+      <div class="fig ${f.length > 1 ? 'set' : ''}"><div class="pool"></div>${f.map(p => `<img src="../../assets/plates/${p}.webp" style="--n:${f.length}" alt="">`).join('')}</div>
+      <span class="no meta">${no}</span><span class="ti"><span class="${sel ? 'is-cur' : ''}">${t}</span></span>
+      <span class="bar"><i></i></span><span class="ct meta num">${d} of ${n}</span></div>`; }).join('');
+  });
+  // Lab 3's lessons and step counts (data/content/lessons_course_lab03.json); the first four are done.
+  const LAB3 = [['Plasma, red cells and platelets', 5], ['White cells: the granulocytes', 5], ['Lymphocytes and monocytes', 4],
+    ['The blood smear and the differential count', 4], ['Where the heart sits and what wraps it', 4], ['The heart wall and cardiac muscle', 3],
+    ['Chambers and the path of blood', 4], ['Outside the heart: grooves and coronary vessels', 5], ['Inside the heart: septa and valves', 4],
+    ['The sheep heart, mapped to the human', 4]];
+  document.querySelectorAll('[data-lab-lessons]').forEach(el => {
+    el.innerHTML = LAB3.map(([t, s], i) => `<li class="${i < 4 ? 'done' : ''}"><span class="k num">${i < 4 ? '<svg class="i"><use href="#i-check"/></svg>' : i + 1}</span>
+      <span>${i === 4 ? `<span class="is-cur">${t}</span>` : t}</span><span class="n num">${s}</span></li>`).join('');
+  });
+  // Histology: groups, names and slide counts from data/histology/catalog.json ("&" written "and"; inside a group the
+  // group word is dropped, as in the Histology room's list). Only simple columnar has micrographs in the mockup.
+  const TGROUPS = [['Epithelium', 9], ['Connective tissue', 5], ['Cartilage and bone', 6], ['Blood and bone marrow', 2], ['Muscle tissue', 3],
+    ['Nervous tissue', 2], ['Heart and blood vessels', 5], ['Immune organs', 4], ['Skin', 6], ['Digestive system', 19], ['Respiratory system', 6],
+    ['Urinary system', 5], ['Endocrine glands', 6], ['Male reproductive system', 6], ['Female reproductive system', 7], ['Eye and ear', 4],
+    ['Brain and spinal cord', 6]];
+  const TISSUES = [
+    ['Epithelium', [['Simple squamous', 11], ['Simple cuboidal', 12], ['Simple columnar', 13, 'histo_simple_columnar'], ['Pseudostratified ciliated columnar', 12],
+      ['Stratified squamous, non-keratinised', 3], ['Stratified squamous, keratinised', 1], ['Transitional (urothelium)', 5],
+      ['Stratified cuboidal and columnar', 3], ['Pleura and peritoneum', 5]]],
+    ['Connective tissue', [['Loose (areolar)', 12], ['Dense regular', 13], ['Dense irregular', 4], ['Adipose', 11], ['Reticular', 10]]],
+    ['Cartilage and bone', [['Hyaline cartilage', 14], ['Elastic cartilage', 14], ['Fibrocartilage', 8], ['Compact bone', 14], ['Spongy bone', 8],
+      ['Bone development and growth plate', 14]]],
+    ['Blood and bone marrow', [['Bone marrow', 13], ['Blood cells', 13]]],
+    ['Muscle tissue', [['Skeletal muscle', 15], ['Cardiac muscle', 14], ['Smooth muscle', 13]]],
+    ['Nervous tissue', [['Peripheral nerve', 16], ['Sensory and autonomic ganglia', 6]]],
+    ['Heart and blood vessels', [['Elastic artery (aorta)', 7], ['Muscular arteries and arterioles', 12], ['Veins and venules', 13],
+      ['Capillaries and sinusoids', 12], ['Heart valves, endocardium and pericardium', 1]]]];
+  document.querySelectorAll('[data-tissue-groups]').forEach(el => {
+    el.innerHTML = TGROUPS.map(([g, n], i) => `<li>${i === 0 ? `<span class="is-cur">${g}</span>` : g}<span class="n num">${n}</span></li>`).join('');
+  });
+  document.querySelectorAll('[data-tissues]').forEach(el => {
+    el.innerHTML = TISSUES.map(([g, ts]) => `<div class="grp"><div class="colhead">${g}<span>Slides</span></div><div class="items">` +
+      ts.map(([t, n, img]) => `<div class="it ${img ? 'is-sel' : ''}"><div class="fig"><div class="pool"></div>${img
+        ? `<img class="slide" src="../../assets/images/${img}.jpg" alt="">` : '<span class="ph slide"></span>'}</div>
+        <span class="ti">${img ? `<span class="is-cur">${t}</span>` : t}</span><span class="ct meta num">${n}<span class="v2"> ${n === 1 ? 'slide' : 'slides'}</span></span></div>`).join('') +
+      '</div></div>').join('');
   });
   // Each caption says what is inside, in five words or fewer (README and data/content/model_summaries.json).
   const MODELS = [['heart_home_clean', 'Heart', 'Chambers, valves, coronary vessels'], ['kidney_v_kidney', 'Kidney with the nephron', 'Kidney, adrenal, ureter, nephron'],

@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en" data-design="specimen" data-scheme="slate" data-screen="atlas" data-panel="wall" data-base="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>Specimen app mockups</title>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../system/schemes.css">
+<script src="../../system/schemes.js"></script>
+<script src="../shared/icons.js"></script>
+<style>
+/* ============================================================================================
+   SPECIMEN: the body on display. A painted wall, one pool of light on the subject, text printed
+   on the wall, and one wall label for the thing you selected. Type: Literata + Fira Sans.
+   ============================================================================================ */
+:root {
+  --serif: "Literata", Georgia, serif; --sans: "Fira Sans", system-ui, sans-serif;
+  /* --hair, --leader and --card-line are flat per-scheme tokens from schemes.css */
+  --edge: color-mix(in srgb, var(--text) 41%, transparent);       /* ghost button outline: at least 3:1 on the wall */
+  --tint: color-mix(in srgb, var(--text) 6%, transparent);        /* plaque: the wall, a few percent lighter */
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--stage-bottom); }
+body { font-family: var(--sans); font-size: 15px; line-height: 22px; color: var(--text); -webkit-font-smoothing: antialiased; }
+.num { font-variant-numeric: tabular-nums lining-nums; }
+.screen { display: none; }
+[data-screen="atlas"] [data-screen-id="atlas"], [data-screen="peel"] [data-screen-id="peel"],
+[data-screen="lesson"] [data-screen-id="lesson"], [data-screen="lessons"] [data-screen-id="lessons"],
+[data-screen="models"] [data-screen-id="models"], [data-screen="radiology"] [data-screen-id="radiology"],
+[data-screen="practice"] [data-screen-id="practice"], [data-screen="histology"] [data-screen-id="histology"],
+[data-screen="settings"] [data-screen-id="settings"] { display: block; }
+
+.app { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+  background: linear-gradient(180deg, var(--stage-top), var(--stage-bottom)); }
+.pool { position: absolute; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, var(--spot) 0%, color-mix(in srgb, var(--spot) 55%, transparent) 45%, transparent 100%); }
+.stage { position: absolute; inset: 0; }
+.stage img.plate { position: absolute; display: block; }
+svg.leaders { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+svg.leaders .leader { fill: none; stroke: var(--leader); stroke-width: 1; }
+svg.leaders .leader.is-selected { stroke: var(--text); stroke-width: 1.2; }
+svg.leaders .anchor { fill: none; stroke: var(--leader); stroke-width: 1.2; r: 3.5; }
+svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-bottom); stroke-width: 1.5; r: 4.5; }
+.i { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.5; flex: none; }
+
+/* ---------------------------------------------------------------------------------- header printed on the wall */
+.head { position: absolute; left: 40px; right: 40px; top: 0; height: 80px; display: flex; align-items: baseline; gap: 40px;
+  flex-wrap: wrap; align-content: center; }   /* one line, centred in the 80 px band, every item on the wordmark's baseline */
+.brand { display: flex; align-items: baseline; gap: 12px; }
+.brand svg { align-self: center; }
+.brand .word { font-family: var(--serif); font-size: 24px; font-weight: 440; letter-spacing: -.005em; font-variation-settings: "opsz" 36; }
+.rooms { display: flex; gap: 28px; }
+.rooms a { position: relative; font-size: 15px; font-weight: 500; color: var(--text-2); text-decoration: none; padding: 6px 0; }
+.rooms a[aria-current] { color: var(--text); }
+/* "Current" has one rule everywhere. Text: a 2 px brass bar whose top sits 4 px under the line box (for the nav, that
+   is the bottom of its 6 px padding). Pictures: a 2 px brass outline at offset 4. */
+.rooms a[aria-current]::after, .is-cur::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--accent); }
+.is-cur { position: relative; display: inline-block; color: var(--text); }
+.is-cur::after { bottom: -6px; }
+.is-cur-pic { outline: 2px solid var(--accent); outline-offset: 4px; }
+/* icon-only items get a zero-width text run, so they have a baseline like the words beside them */
+.hist::before, .tb.icon::before, .find::before { content: "\200b"; width: 0; }
+.find::before { margin-right: -10px; }
+.hist { display: inline-flex; align-items: center; gap: 2px; margin-left: -24px; }
+.hb { display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 0; background: none; color: var(--text-2); }
+.find { margin-left: auto; width: 380px; height: 40px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--line-2);
+  color: var(--text-3); font-size: 15px; }
+.find kbd { margin-left: auto; font: 500 12px var(--sans); color: var(--text-2); border: 1px solid var(--hair); border-radius: 4px; padding: 1px 6px; }
+.tb { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 2px; font: 500 15px var(--sans); color: var(--text-2);
+  background: none; border: 0; }
+.tb .ct { font-weight: 600; color: var(--accent-2); }
+.tb.icon.is-cur { display: inline-flex; color: var(--text); }
+.tb.icon.is-cur::after { bottom: 1px; }
+
+/* ---------------------------------------------------------------------------------- titles printed on the wall */
+.exhibit { position: absolute; left: 40px; top: 112px; }
+.exhibit h1 { margin: 0; font-family: var(--serif); font-weight: 340; font-size: 44px; line-height: 50px; letter-spacing: -.012em;
+  font-variation-settings: "opsz" 72; }
+.exhibit p { margin: 6px 0 0; color: var(--text-2); font-size: 15px; }
+.colhead { font-size: 13px; font-weight: 600; color: var(--text-2); margin: 0 0 10px; }
+.cat { position: absolute; left: 40px; top: 232px; width: 250px; }   /* 232: the one content top line in every room */
+.cat ul { list-style: none; margin: 0 0 24px; padding: 0; }
+.cat li { display: flex; align-items: center; gap: 10px; height: 31px; font-size: 14px; }
+.cat li .n { margin-left: auto; color: var(--text-3); font-size: 13px; }
+.cat li.off { color: var(--text-3); }
+.box { width: 15px; height: 15px; border: 1.5px solid var(--text-2); border-radius: 2px; display: grid; place-items: center; flex: none; }
+.box.on { background: var(--text); border-color: var(--text); }
+.box.on::after { content: ""; width: 7px; height: 4px; border-left: 1.8px solid var(--stage-bottom); border-bottom: 1.8px solid var(--stage-bottom);
+  transform: rotate(-45deg) translate(1px, -1px); }
+.cat li.off .box { border-color: var(--text-3); }
+.views { display: grid; grid-template-columns: repeat(3, 84px); row-gap: 10px; font-size: 14px; color: var(--text-2); justify-items: start; }
+
+/* ---------------------------------------------------------------------------------- the wall label (signature)
+   One markup, three treatments, chosen by <html data-panel>. The type is always the Radiology column's: a .colhead,
+   a Literata title, the italic Latin name, hairlines, definition lists in the text colours and hairline .btn ghosts.
+     wall    lettered straight onto the wall, no container (the default)
+     plaque  a plaque of the wall's own material, a few percent lighter, with at most a hairline edge
+     frame   a vitrine edge: a hairline in the line colour with fine corner marks, the wall showing through */
+.label-card { position: absolute; color: var(--text); padding: 22px 24px 20px; }
+.label-card .t { font-family: var(--serif); font-size: 32px; line-height: 36px; font-weight: 420; letter-spacing: -.01em; font-variation-settings: "opsz" 48; }
+.label-card .lat { font-family: var(--serif); font-style: italic; font-size: 18px; line-height: 24px; color: var(--text-2); margin-top: 2px; }
+.label-card hr { border: 0; height: 1px; background: var(--line); margin: 14px 0 12px; }
+.label-card dl { margin: 0; display: grid; grid-template-columns: 84px 1fr; row-gap: 7px; column-gap: 10px; font-size: 14px; line-height: 20px; }
+.label-card dt { color: var(--text-3); }
+.label-card dd { margin: 0; }
+.label-card .acc { margin-top: 12px; font-size: 13px; letter-spacing: .02em; color: var(--text-3); }
+.label-card .note { font-size: 14px; line-height: 22px; color: var(--text-2); text-wrap: pretty; }
+.label-card .q { font-family: var(--serif); font-size: 24px; line-height: 31px; font-weight: 420; margin: 0 0 18px; font-variation-settings: "opsz" 24; }
+.label-card .acts { display: flex; gap: 8px; margin-top: 16px; }
+.label-card .btn { height: 36px; padding: 0 14px; gap: 7px; font-size: 14px; border-color: var(--edge); }
+.label-card .btn .i { width: 15px; height: 15px; }
+.btn.brass { color: var(--accent); border-color: var(--accent); }
+.label-card.cont { position: relative; display: flex; align-items: center; gap: 24px; padding: 20px 24px; }
+.label-card.cont img { height: 110px; }
+.label-card.cont .colhead { margin: 0 0 2px; }
+.label-card.cont .t { font-size: 32px; line-height: 36px; }
+.label-card.cont .btn { height: 40px; padding: 0 20px; font-size: 15px; }
+
+[data-panel="wall"] .label-card { padding: 0; }
+[data-panel="wall"] .label-card.cont { max-width: none; padding: 0 0 20px; border-bottom: 1px solid var(--hair); }
+
+[data-panel="plaque"] .label-card { background: var(--tint); box-shadow: inset 0 1px 0 var(--card-line); border-radius: 2px; }
+
+[data-panel="frame"] .label-card { --cm: var(--text-3); border: 1px solid var(--line-2);
+  background: linear-gradient(var(--cm) 0 0) left top / 12px 1px, linear-gradient(var(--cm) 0 0) left top / 1px 12px,
+    linear-gradient(var(--cm) 0 0) right top / 12px 1px, linear-gradient(var(--cm) 0 0) right top / 1px 12px,
+    linear-gradient(var(--cm) 0 0) left bottom / 12px 1px, linear-gradient(var(--cm) 0 0) left bottom / 1px 12px,
+    linear-gradient(var(--cm) 0 0) right bottom / 12px 1px, linear-gradient(var(--cm) 0 0) right bottom / 1px 12px;
+  background-repeat: no-repeat; background-origin: border-box; }
+
+/* ---------------------------------------------------------------------------------- 3D labels: lettering on the wall */
+.lbl { position: absolute; white-space: nowrap; font-size: 14px; line-height: 18px; font-weight: 400; color: var(--text);
+  padding: 2px 6px; border-radius: 2px; background: color-mix(in srgb, var(--stage-bottom) 72%, transparent); }
+.lbl.is-selected { font-weight: 600; }
+.lbl .k { font-variant-numeric: tabular-nums; color: var(--accent-2); font-weight: 600; margin-right: 6px; }
+.lbl.miss .k { color: var(--text-2); }   /* the structure clicked by mistake is named in full text colour */
+
+/* ---------------------------------------------------------------------------------- dissection gauge
+   One markup, three treatments, chosen by <html data-variant>. Every stop sits at its real level (the app's
+   DISSECTION_STOPS: 0, .08, .16, .26, .40, .55, .70, .85), 7 px per 1 % of depth. Lines are --leader (4.6:1 on the
+   wall at its lightest), fine marks text-3 at 70 % (3.4:1); past stops text-3, stops to come text-2.
+     1  rule    a measuring rule: 1 px line, a mark every 2 %, italic names at the eight levels, brass to the knob
+     2  strata  eight stacked bands, each as tall as its depth range; peeled bands empty, the current band lit
+     3  title   a slim 3 px rule with no names; the current stop is the page title; names come out while dragging */
+.gauge { --gx: 296px; --gc: var(--gx); --gt: 56px; --gh: 700px; --fine: color-mix(in srgb, var(--text-3) 70%, transparent);
+  position: absolute; right: 40px; top: 232px; width: 340px; height: 780px; }
+.g-head { position: absolute; top: 0; left: var(--gc); transform: translateX(-50%); margin: 0; white-space: nowrap; }
+.g-end { position: absolute; left: var(--gc); transform: translateX(-50%); font: 500 11px/14px var(--sans); letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-3); white-space: nowrap; }
+.g-top { top: calc(var(--gt) - 24px); }
+.g-bot { top: calc(var(--gt) + var(--gh) + 12px); }
+.g-track { position: absolute; left: 0; right: 0; top: var(--gt); height: var(--gh); touch-action: none; }
+.g-rail, .g-fill, .g-fine, .g-band, .g-win { position: absolute; display: none; }
+.g-lv { position: absolute; left: 0; right: 0; height: 0; }
+.g-tick { position: absolute; height: 1px; background: var(--leader); }
+.g-name { position: absolute; right: calc(100% - var(--gx) + 24px); top: 0; transform: translateY(-52%); white-space: nowrap;
+  font-family: var(--serif); font-style: italic; font-size: 15px; line-height: 20px; color: var(--text-2); font-variation-settings: "opsz" 14; }
+.g-lv.past .g-name { color: var(--text-3); }
+.g-lv.cur .g-name { font-size: 20px; line-height: 26px; font-weight: 460; color: var(--text); font-variation-settings: "opsz" 20; }
+.g-only, .x-only { display: inline-flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; cursor: pointer;
+  font: 400 13px/18px var(--sans); color: var(--text-2); white-space: nowrap; }
+.g-only { position: absolute; right: calc(100% - var(--gx) + 24px); top: 18px; }
+.g-only .box, .x-only .box { width: 13px; height: 13px; }
+.g-only .box.on::after, .x-only .box.on::after { width: 6px; height: 3px; }
+.g-knob { position: absolute; left: calc(var(--gx) + .5px); width: 15px; height: 15px; border-radius: 50%; background: var(--accent);
+  transform: translate(-50%, -50%); box-shadow: 0 0 0 3px var(--halo); cursor: grab; outline: none; }
+.g-knob:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
+.gauge[data-drag] .g-knob { cursor: grabbing; }
+.g-pct { position: absolute; left: calc(var(--gx) + 20px); transform: translateY(-50%); font-size: 13px; line-height: 18px; font-weight: 600; color: var(--accent-2); }
+.x-only { display: none; }
+
+/* 1 rule */
+[data-variant="1"] .g-rail { display: block; left: var(--gx); width: 1px; top: 0; bottom: 0; background: var(--leader); }
+[data-variant="1"] .g-fill { display: block; left: calc(var(--gx) - 1px); width: 3px; top: 0; background: var(--accent); }
+[data-variant="1"] .g-fine { display: block; left: calc(var(--gx) - 12px); width: 9px; top: 0; height: calc(var(--gh) + 1px);
+  background: repeating-linear-gradient(180deg, var(--fine) 0 1px, transparent 1px 14px) right top / 5px 100% no-repeat,
+              repeating-linear-gradient(180deg, var(--fine) 0 1px, transparent 1px 70px) right top / 9px 100% no-repeat; }
+[data-variant="1"] .g-tick { left: calc(var(--gx) - 17px); width: 14px; }
+[data-variant="1"] .gauge[data-only] .g-win { display: block; left: calc(var(--gx) + 7px); width: 5px; border: 1px solid var(--text); border-left: 0; }
+
+/* 2 strata */
+[data-variant="2"] .gauge { --cw: 40px; --gc: calc(var(--gx) - var(--cw) / 2); }
+[data-variant="2"] .g-band { display: block; left: calc(var(--gx) - var(--cw)); width: calc(var(--cw) + 1px); top: 0; height: var(--bh);
+  border: 1px solid var(--leader); border-bottom: 0; background: color-mix(in srgb, var(--text) 5%, transparent); cursor: pointer; }
+[data-variant="2"] .g-lv.last .g-band { border-bottom: 1px solid var(--leader); height: calc(var(--bh) + 1px); }
+[data-variant="2"] .g-lv.past .g-band { background: none; border-color: var(--fine); }
+[data-variant="2"] .g-lv.cur .g-band { background: linear-gradient(180deg, transparent var(--k), var(--spot) var(--k)); border-left-color: var(--text-2); border-right-color: var(--text-2); }
+[data-variant="2"] .g-lv.cur + .g-lv .g-band { border-top-color: var(--text-2); }
+[data-variant="2"] .g-band:hover { background: color-mix(in srgb, var(--text) 10%, transparent); }
+[data-variant="2"] .g-tick { left: calc(var(--gx) - var(--cw) - 10px); width: 10px; }
+[data-variant="2"] .g-lv.past .g-tick { background: var(--fine); }
+[data-variant="2"] .g-name { right: calc(100% - var(--gx) + var(--cw) + 16px); transform: none; top: 5px; }
+[data-variant="2"] .g-lv.cur .g-name { font-style: normal; font-weight: 420; top: 6px; }
+[data-variant="2"] .g-only { right: calc(100% - var(--gx) + var(--cw) + 16px); top: 38px; }
+[data-variant="2"] .g-knob { width: 13px; height: 13px; }
+[data-variant="2"] .g-knob::before { content: ""; position: absolute; right: 50%; top: 50%; width: calc(var(--cw) + 6px); height: 2px; margin-top: -1px; background: var(--accent); }
+[data-variant="2"] .gauge[data-only] .g-lv.next .g-band { background: none; border-color: var(--fine); }
+[data-variant="2"] .gauge[data-only] .g-lv.next .g-name { color: var(--text-3); }
+[data-variant="2"] .gauge[data-only] .g-lv.next .g-tick { background: var(--fine); }
+
+/* 3 title */
+[data-variant="3"] .g-rail { display: block; left: calc(var(--gx) - 1px); width: 3px; top: 0; bottom: 0; background: var(--fine); }
+[data-variant="3"] .g-fill { display: block; left: calc(var(--gx) - 1px); width: 3px; top: 0; background: var(--accent); }
+[data-variant="3"] .g-tick { left: calc(var(--gx) - 11px); width: 8px; }
+[data-variant="3"] .g-name, [data-variant="3"] .g-only { opacity: 0; transition: opacity .12s; pointer-events: none; }
+[data-variant="3"] .g-name { right: calc(100% - var(--gx) + 20px); }
+[data-variant="3"] .gauge[data-drag] .g-name, [data-variant="3"] .gauge:focus-within .g-name { opacity: 1; }
+[data-variant="3"] .g-knob { width: 17px; height: 17px; }
+[data-variant="3"] .gauge[data-drag] .g-knob { box-shadow: 0 0 0 4px var(--halo), 0 0 0 5px var(--accent); }
+[data-variant="3"] .gauge[data-only] .g-win { display: block; left: calc(var(--gx) + 6px); width: 5px; border: 1px solid var(--text); border-left: 0; }
+[data-variant="3"] .x-only { display: inline-flex; margin-left: 22px; font-size: 15px; line-height: 22px; vertical-align: top; }
+[data-variant="3"] .x-only .box { width: 15px; height: 15px; }
+.v3 { display: none; }
+[data-variant="3"] .v3 { display: inline; }
+[data-variant="3"] .v12 { display: none; }
+
+/* ---------------------------------------------------------------------------------- dock: same three treatments */
+.dock { position: absolute; left: 50%; transform: translateX(-50%); bottom: 28px; display: flex; align-items: center; height: 50px;
+  width: max-content; white-space: nowrap; }
+.dock button { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border: 0; background: none; border-radius: 0;
+  font: 500 14px var(--sans); color: var(--text-2); }
+.dock button.on { color: var(--text); box-shadow: inset 0 -2px 0 var(--accent); }
+.dock .sep { width: 1px; height: 22px; background: var(--line-2); margin: 0 6px; }
+
+[data-panel="wall"] .dock { bottom: 16px; height: 44px; gap: 4px; padding: 4px 2px 0; border-top: 1px solid var(--line); }
+
+[data-panel="plaque"] .dock { bottom: 20px; height: 40px; padding: 0; background: var(--tint); box-shadow: inset 0 1px 0 var(--card-line); border-radius: 2px; }
+[data-panel="plaque"] .dock button { height: 40px; padding: 0 16px; }
+[data-panel="plaque"] .dock button + button { box-shadow: inset 1px 0 0 var(--card-line); }
+[data-panel="plaque"] .dock button.on { box-shadow: inset 1px 0 0 var(--card-line), inset 0 -2px 0 var(--accent); }
+[data-panel="plaque"] .dock .sep { height: 40px; margin: 0; background: var(--line); }
+
+[data-panel="frame"] .dock { bottom: 20px; height: 40px; padding: 0; border: 1px solid var(--line-2); }
+[data-panel="frame"] .dock button { height: 38px; padding: 0 16px; }
+[data-panel="frame"] .dock button + button { border-left: 1px solid var(--line); }
+[data-panel="frame"] .dock .sep { width: 3px; height: 38px; margin: 0; background: none; border-left: 1px solid var(--line-2); border-right: 1px solid var(--line-2); }
+
+/* ---------------------------------------------------------------------------------- shared bits */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 18px; border-radius: 3px; border: 1px solid var(--line-2);
+  font: 500 15px var(--sans); color: var(--text); background: transparent; white-space: nowrap; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+/* the small wall label in each Appearance thumbnail follows the treatment too */
+.mini { position: absolute; left: 12px; bottom: 12px; width: 92px; padding: 8px 9px; }
+.mini i { display: block; height: 7px; width: 60px; background: var(--text); opacity: .85; }
+.mini i + i { height: 5px; width: 44px; margin-top: 5px; background: var(--text-2); opacity: .7; }
+[data-panel="wall"] .mini { left: 14px; padding: 0; }
+[data-panel="plaque"] .mini { background: var(--tint); border-radius: 2px; }
+[data-panel="frame"] .mini { border: 1px solid var(--line-2); }
+.meta { font-size: 13px; line-height: 20px; color: var(--text-2); }
+.keys { display: flex; align-items: center; gap: 6px; }
+.keys kbd { font: 500 12px var(--sans); color: var(--text-2); border: 1px solid var(--hair); border-radius: 4px; padding: 1px 6px; }
+.muted { color: var(--text-3); }
+.serif { font-family: var(--serif); }
+.rule { border: 0; height: 1px; background: var(--hair); margin: 0; }
+.prose { font-family: var(--serif); font-size: 18px; line-height: 30px; font-weight: 360; font-variation-settings: "opsz" 18; }
+.prose b { font-weight: 560; }
+.prose p { margin: 0 0 16px; }
+.pinned { position: relative; }
+.pinned img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pin { position: absolute; transform: translate(-50%, -50%); width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
+  font: 600 12px var(--sans); color: #fff; background: rgb(20 22 25 / .78); border: 1.5px solid rgb(255 255 255 / .9); }
+.pin.sel { background: var(--accent); color: var(--on-accent); border-color: #fff; width: 28px; height: 28px; }
+.specimen-cap { text-align: center; }
+.specimen-cap b { display: block; font-family: var(--serif); font-weight: 420; font-size: 20px; line-height: 24px; }
+.specimen-cap span { font-size: 13px; color: var(--text-2); }
+.dots { display: flex; gap: 6px; }
+.dots i { width: 28px; height: 3px; background: var(--hair); }
+.dots i.done { background: color-mix(in srgb, var(--accent) 55%, transparent); }
+.dots i.cur { background: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ================================================================ ATLAS -->
+<section class="screen" data-screen-id="atlas">
+<div class="app">
+  <div class="pool" style="left:560px; top:40px; width:860px; height:1060px"></div>
+  <div class="stage" data-stage="tags">
+    <img class="plate" src="../../assets/plates/hero26_sel_ffffff.webp" data-plate="hero26_sel_{select}" data-anchors="hero26_sel_7cc8da" style="left:794px; top:118px; height:900px" alt="Muscles of the body, anterior view, with both biceps brachii outlined">
+    <div class="lbl is-selected" data-anchor="biceps.vl" data-dx="-120" data-dy="10">Biceps brachii</div>
+    <div class="lbl" data-anchor="deltoid.vl" data-dx="-120" data-dy="-36">Deltoid</div>
+    <div class="lbl" data-anchor="serratus.vr" data-dx="190" data-dy="-40">Serratus anterior</div>
+    <div class="lbl" data-anchor="rectus_abdominis.vr" data-dx="200" data-dy="10">Rectus abdominis</div>
+  </div>
+  <header class="head" data-chrome="atlas"></header>
+  <div class="exhibit"><h1><span class="v12">Muscles, anterior view</span><span class="v3" data-stop-name>Superficial muscles</span></h1><p class="num"><span class="v12">2,231 of 3,922 shown · 26% deep</span><span class="v3"><span data-pct>26%</span> deep · 2,231 of 3,922 shown</span><button class="x-only" aria-pressed="false"><span class="box"></span>Show only this layer</button></p></div>
+  <div class="cat">
+    <div class="colhead">Systems</div>
+    <ul>
+      <li><span class="box on"></span>Skin &amp; surface regions<span class="n num">256</span></li>
+      <li class="off"><span class="box"></span>Fascia<span class="n num">56</span></li>
+      <li><span class="box on"></span>Muscular system<span class="n num">627</span></li>
+      <li><span class="box on"></span>Skeletal system<span class="n num">277</span></li>
+      <li><span class="box on"></span>Joints &amp; ligaments<span class="n num">413</span></li>
+      <li><span class="box on"></span>Cardiovascular system<span class="n num">676</span></li>
+      <li><span class="box on"></span>Lymphatic system<span class="n num">163</span></li>
+      <li><span class="box on"></span>Nervous system<span class="n num">582</span></li>
+      <li><span class="box on"></span>Visceral organs<span class="n num">119</span></li>
+    </ul>
+    <div class="colhead">Quick views</div>
+    <div class="views"><span class="is-cur">Default</span><span>Skeleton</span><span>Muscles</span><span>Vessels</span><span>Nerves</span><span>Organs</span></div>
+  </div>
+  <div class="label-card" style="left:40px; bottom:40px; width:440px">
+    <div class="t">Biceps brachii</div>
+    <div class="lat">Musculus biceps brachii</div>
+    <hr>
+    <dl>
+      <dt>Nerve</dt><dd>Musculocutaneous nerve</dd>
+      <dt>Action</dt><dd>Flexes the elbow and supinates the forearm, powerfully when the elbow is bent</dd>
+      <dt>Blood</dt><dd>Muscular branches of the brachial artery</dd>
+      <dt>Attaches</dt><dd>Two heads on the scapula; inserts on the radius</dd>
+    </dl>
+    <div class="acc num">TA2 2465, 2466 · Muscular system · Upper limb · 4 parts</div>
+    <div class="acts"><button class="btn brass">Isolate</button><button class="btn">Hide</button><button class="btn">X-ray</button><button class="btn">Full entry<svg class="i"><use href="#i-chevron"/></svg></button></div>
+  </div>
+  <div class="gauge" data-depth="0.26"></div>
+  <div class="dock" data-dock></div>
+</div>
+</section>
+
+<!-- ================================================================ PEEL -->
+<section class="screen" data-screen-id="peel">
+<div class="app">
+  <div class="pool" style="left:560px; top:40px; width:860px; height:1060px"></div>
+  <div class="stage" data-stage="tags">
+    <img class="plate" src="../../assets/plates/peel40_ids.webp" data-plate="peel40_ids" style="left:810px; top:108px; height:912px" alt="The body dissected to 40 percent depth">
+    <div class="lbl" data-anchor="liver.vl" data-dx="-190" data-dy="0">Liver</div>
+    <div class="lbl" data-anchor="ribs.vl" data-dx="-160" data-dy="-50">Intercostal muscles</div>
+    <div class="lbl" data-anchor="heart.vr" data-dx="200" data-dy="-70">Heart</div>
+    <div class="lbl" data-anchor="stomach.vr" data-dx="200" data-dy="-16">Stomach</div>
+    <div class="lbl" data-anchor="smallint.vr" data-dx="210" data-dy="40">Small intestine</div>
+    <div class="lbl" data-anchor="quadratus.vl" data-dx="-170" data-dy="30">Iliacus</div>
+  </div>
+  <header class="head" data-chrome="atlas"></header>
+  <div class="exhibit"><h1><span class="v12">Deep muscles</span><span class="v3" data-stop-name>Deep muscles</span></h1><p class="num"><span class="v12">1,526 of 3,922 shown · 40% deep</span><span class="v3"><span data-pct>40%</span> deep · 1,526 of 3,922 shown</span><button class="x-only" aria-pressed="false"><span class="box"></span>Show only this layer</button></p></div>
+  <div style="position:absolute; left:40px; top:232px; width:360px">
+    <p class="prose" style="margin:0 0 18px">The superficial muscles are gone. The ribcage, the abdominal organs and the deep muscles of the limbs are exposed.</p>
+    <p class="meta">Depth is measured against how thick the body is at each point, so the hand and the thigh come away together.</p>
+    <div style="display:flex; gap:10px; margin-top:22px"><button class="btn"><svg class="i"><use href="#i-back"/></svg>Shallower</button><button class="btn">Deeper<svg class="i"><use href="#i-chevron"/></svg></button></div>
+    <p class="meta keys" style="margin-top:10px">Keys <kbd>[</kbd><kbd>]</kbd></p>
+  </div>
+  <div class="gauge" data-depth="0.40"></div>
+  <div class="dock" data-dock></div>
+</div>
+</section>
+
+<!-- ================================================================ LESSON -->
+<section class="screen" data-screen-id="lesson">
+<div class="app">
+  <div class="pool" style="left:840px; top:60px; width:980px; height:1000px"></div>
+  <div class="stage" data-stage="tags">
+    <img class="plate" src="../../assets/plates/heart_lesson_ffffff.webp" data-plate="heart_lesson_{select}" style="left:1030px; top:118px; height:860px" alt="The whole heart with the left coronary artery and its branches highlighted">
+    <div class="lbl is-selected" data-anchor="lad" data-dx="160" data-dy="40">Anterior interventricular artery</div>
+    <div class="lbl is-selected" data-anchor="lcx" data-dx="198" data-dy="-10">Circumflex artery</div>
+    <div class="lbl is-selected" data-anchor="lmain" data-dx="182" data-dy="-70">Left coronary artery</div>
+  </div>
+  <header class="head" data-chrome="lessons"></header>
+  <div style="position:absolute; left:40px; top:112px; width:620px">
+    <h1 class="serif" style="margin:0; font-weight:340; font-size:44px; line-height:50px; letter-spacing:-.012em; font-variation-settings:'opsz' 72">The left coronary artery</h1>
+    <div style="display:flex; align-items:center; gap:14px; margin:6px 0 26px"><div class="dots"><i class="done"></i><i class="cur"></i><i></i><i></i><i></i><i></i><i></i></div><span class="meta num" style="font-size:15px; line-height:22px">Step 2 of 7 · The coronary circulation · Advanced</span></div>
+    <div class="prose">
+      <p>A short left main stem passes between the pulmonary trunk and the left auricle and divides almost at once.</p>
+      <p>The <b>anterior interventricular branch</b> runs down the front of the septum to the apex. It supplies the anterior wall of the left ventricle, the apex and the <b>anterior two thirds of the interventricular septum</b>, including the bundle branches. The <b>circumflex branch</b> curls round in the left atrioventricular groove to the lateral and posterior left ventricle.</p>
+    </div>
+    <p class="meta" style="border-top:1px solid var(--hair); padding-top:12px; margin:4px 0 22px"><b style="color:var(--text); font-weight:600">Clinical.</b> The anterior interventricular branch (LAD) supplies the largest territory; its proximal occlusion takes out the anterior wall and the conducting system together.</p>
+    <div class="label-card" style="position:relative; margin-top:10px">
+    <div class="colhead">Recall it first, then show the answer</div>
+    <div class="q">Which artery supplies the anterior two thirds of the interventricular septum?</div>
+    <div class="acts" style="margin-top:0"><button class="btn brass">Show answer</button><span style="flex:1"></span><button class="btn"><svg class="i"><use href="#i-back"/></svg>Back</button><button class="btn">Next step<svg class="i"><use href="#i-chevron"/></svg></button></div>
+    </div>
+  </div>
+  <div class="dock" data-dock data-kind="model" style="left:1330px"></div>
+</div>
+</section>
+
+<!-- ================================================================ LESSONS -->
+<section class="screen" data-screen-id="lessons">
+<div class="app">
+  <header class="head" data-chrome="lessons"></header>
+  <div class="exhibit"><h1>Lessons</h1><p>303 lessons in 1,614 steps</p></div>
+  <div style="position:absolute; left:40px; top:232px; width:250px">
+    <div class="colhead">Arranged by</div>
+    <div style="display:flex; flex-direction:column; align-items:flex-start; gap:10px; font-size:15px">
+      <span class="is-cur">Lab course</span>
+      <span class="muted">Lecture exams</span><span class="muted">Body system</span><span class="muted">Region</span><span class="muted">Level</span>
+    </div>
+    <hr class="rule" style="margin:28px 0 20px">
+    <div class="colhead">Review</div>
+    <div class="serif num" style="font-size:32px; line-height:38px; font-weight:340">12</div>
+    <p class="meta" style="margin:4px 0 14px">structures are due today, from your practice answers.</p>
+    <button class="btn">Review what is due</button>
+  </div>
+  <div style="position:absolute; left:360px; top:232px; width:1100px">
+    <div class="label-card cont">
+      <img src="../../assets/plates/heart_home_clean.webp" alt="">
+      <div style="flex:1"><div class="colhead">Continue where you left off</div>
+        <div class="t">The coronary circulation</div><div class="meta">Step 2 of 7 · The left coronary artery</div></div>
+      <button class="btn brass">Continue</button>
+    </div>
+    <div data-labs style="margin-top:22px"></div>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================ MODELS -->
+<section class="screen" data-screen-id="models">
+<div class="app">
+  <header class="head" data-chrome="models"></header>
+  <div class="exhibit"><h1>Models</h1><p>41 models in one viewer · 3 built for this app</p></div>
+  <div data-collection style="position:absolute; left:40px; top:232px; right:540px; bottom:0; display:grid; grid-template-columns:repeat(4, 1fr); grid-auto-rows:232px; row-gap:22px; column-gap:16px; overflow:hidden;
+    -webkit-mask-image:linear-gradient(180deg, #000 744px, transparent 800px); mask-image:linear-gradient(180deg, #000 744px, transparent 800px)"></div>
+  <p class="meta num" style="position:absolute; left:40px; bottom:24px; margin:0">12 of 41 shown · scroll for the rest</p>
+  <div style="position:absolute; right:40px; top:120px; width:460px">
+    <div style="position:relative; height:400px"><div class="pool" style="inset:-40px"></div>
+      <img src="../../assets/plates/kidney_v_kidney.webp" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); max-height:360px; max-width:420px" alt="The kidney with its vessels and ureter"></div>
+    <div class="label-card" style="position:relative; margin-top:16px">
+      <div class="t">Kidney with the nephron</div>
+      <div class="lat">Ren, nephron, podocytus</div>
+      <hr>
+      <p style="margin:0 0 12px; font-size:14px; line-height:22px">The kidney, adrenal, vessels and ureter, with a juxtamedullary nephron in place. Eight stored views zoom from the whole organ down to the podocytes.</p>
+      <div class="meta" style="line-height:22px">Built for this app · true scale</div>
+      <div class="meta" style="line-height:22px">Kidney · Lobe opened · Lobe · Nephron · Corpuscle · Juxtaglomerular apparatus · Podocytes · Loop of Henle</div>
+      <div class="acts"><button class="btn brass">Open model</button><button class="btn">Lessons (6)</button></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================ RADIOLOGY -->
+<section class="screen" data-screen-id="radiology">
+<div class="app">
+  <div class="pool" style="left:1090px; top:80px; width:820px; height:960px"></div>
+  <div class="stage" data-stage="columns" data-col-left="1300" data-col-right="1680" data-knee="70" data-col-top="200" data-col-bottom="120">
+    <img class="plate" src="../../assets/plates/cxr_model.webp" data-plate="cxr_model" style="left:1180px; top:170px; height:760px" alt="The thorax set up like the film">
+    <div class="lbl" data-col="left" data-anchor="c1.vl"><span class="k">1</span>Trachea</div>
+    <div class="lbl" data-col="left" data-anchor="c2.vl"><span class="k">2</span>Right clavicle</div>
+    <div class="lbl" data-col="left" data-anchor="c4.vl"><span class="k">4</span>Right humeral head</div>
+    <div class="lbl" data-col="left" data-anchor="c5.vl"><span class="k">5</span>Superior vena cava</div>
+    <div class="lbl is-selected" data-col="left" data-anchor="c7.vl"><span class="k">7</span>Right atrium</div>
+    <div class="lbl" data-col="left" data-anchor="c12.vl"><span class="k">12</span>Right hemidiaphragm</div>
+    <div class="lbl" data-col="right" data-anchor="c17.vr"><span class="k">17</span>Left lung</div>
+    <div class="lbl" data-col="right" data-anchor="c8.vr"><span class="k">8</span>Left ventricle</div>
+  </div>
+  <header class="head" data-chrome="radiology"></header>
+  <div class="exhibit"><h1>Chest radiograph, PA</h1><p>X-ray · Thorax · PA projection · Normal anatomy</p></div>
+  <div class="pinned" style="position:absolute; left:40px; top:232px; width:560px; aspect-ratio:1280/1464; border:1px solid var(--hair)">
+    <img src="../../assets/images/cxr_pa.jpg" alt="Normal posteroanterior chest radiograph">
+    <div data-film-pins></div>
+  </div>
+  <div style="position:absolute; left:640px; top:232px; width:400px">
+    <div class="colhead">How to read it</div>
+    <ol class="prose" style="font-size:18px; line-height:28px; padding-left:22px; margin:0; display:grid; gap:12px">
+      <li>Check it is adequate: clavicle heads level with the spine, ten posterior ribs, the vertebrae faint through the heart.</li>
+      <li>Trachea, then the mediastinal borders in order.</li>
+      <li>Hila: the left sits 1–2 cm higher than the right.</li>
+      <li>Both domes of the diaphragm sharp; costophrenic angles crisp.</li>
+      <li>Lung fields zone by zone, left against right.</li>
+    </ol>
+    <p class="meta" style="margin-top:22px">Image: Mikael Häggström, CC0, Wikimedia Commons. The model shows the related anatomy; it is not fitted to this image.</p>
+    <div style="display:flex; gap:10px; margin-top:16px"><button class="btn"><svg class="i"><use href="#i-back"/></svg>Previous case</button><button class="btn">Next case<svg class="i"><use href="#i-chevron"/></svg></button></div>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================ PRACTICE -->
+<section class="screen" data-screen-id="practice">
+<div class="app">
+  <div class="pool" style="left:487px; top:20px; width:1060px; height:1080px"></div>
+  <div class="stage" data-stage="tags">
+    <img class="plate" src="../../assets/plates/thorax_chest.webp" data-plate="thorax_chest" style="left:500px; top:-40px; height:1180px; -webkit-mask-image:linear-gradient(180deg, transparent 196px, #000 268px); mask-image:linear-gradient(180deg, transparent 196px, #000 268px)" alt="The front of the chest with pectoralis major and minor peeled away: ribs, intercostal muscles and serratus anterior">
+    <div class="lbl miss" data-anchor="serratus.vr" data-dx="150" data-dy="-60"><span class="k">×</span>Serratus anterior</div>
+  </div>
+  <header class="head" data-chrome="lessons"></header>
+  <div class="exhibit"><h1>Lab 6 practice</h1><p>Pressure, volume and a breath · mini lesson 6 of 9 · question 4 of 12</p></div>
+  <div class="label-card" style="left:40px; bottom:40px; width:470px">
+    <div class="colhead" style="margin:0">Find it in the model</div>
+    <div class="t" style="margin:4px 0 6px">External intercostal muscles</div>
+    <div class="note">Click it. Right-click peels away whatever is in the way; Ctrl+Z puts it back.</div>
+    <hr>
+    <div style="font-size:14px"><b>Not that one:</b> that is serratus anterior. 2 tries left; you have peeled away 2 structures.</div>
+    <div class="acts"><button class="btn">Show me</button><span style="flex:1"></span><button class="btn">Skip</button></div>
+  </div>
+  <div style="position:absolute; right:64px; top:232px; width:260px">
+    <div class="colhead">This session</div>
+    <div class="serif num" style="font-size:32px; line-height:38px; font-weight:340">3 <span class="muted" style="font-size:24px">of 12</span></div>
+    <p class="meta">right so far. Labels stay off while you practise.</p>
+  </div>
+</div>
+</section>
+
+<!-- ================================================================ HISTOLOGY -->
+<section class="screen" data-screen-id="histology">
+<div class="app">
+  <header class="head" data-chrome="histology"></header>
+  <div class="exhibit"><h1>Simple columnar epithelium</h1><p>Micrograph 1 of 13 · H&amp;E</p></div>
+  <div class="cat">
+    <div class="colhead" style="display:flex">Epithelium<span style="margin-left:auto">Slides</span></div>
+    <ul><li>Simple squamous<span class="n num">11</span></li><li>Simple cuboidal<span class="n num">12</span></li><li><span class="is-cur">Simple columnar</span><span class="n num">13</span></li><li>Pseudostratified<span class="n num">12</span></li><li>Stratified squamous<span class="n num">4</span></li><li>Transitional<span class="n num">5</span></li></ul>
+    <div class="colhead">Connective tissue</div>
+    <ul><li>Loose<span class="n num">12</span></li><li>Dense regular<span class="n num">13</span></li><li>Adipose<span class="n num">11</span></li><li>Hyaline cartilage<span class="n num">14</span></li></ul>
+  </div>
+  <div class="pinned" style="position:absolute; left:340px; top:232px; height:700px; aspect-ratio:4/3; border:1px solid var(--hair)">
+    <img src="../../assets/images/histo_simple_columnar.jpg" alt="Simple columnar epithelium around a large central lumen">
+    <span class="pin" data-x="0.5" data-y="0.25">1</span><span class="pin sel" data-x="0.8" data-y="0.35">2</span><span class="pin" data-x="0.575" data-y="0.787">3</span><span class="pin" data-x="0.45" data-y="0.94">4</span>
+  </div>
+  <div style="position:absolute; left:1320px; top:232px; width:540px">
+    <ol style="list-style:none; padding:0; margin:0 0 24px; display:grid; gap:10px; font-size:15px">
+      <li><span class="pin" style="position:static; transform:none; display:inline-grid; margin-right:12px">1</span>Lumen</li>
+      <li><span class="pin sel" style="position:static; transform:none; display:inline-grid; margin-right:12px">2</span><b>Columnar epithelial cells</b></li>
+      <li><span class="pin" style="position:static; transform:none; display:inline-grid; margin-right:12px">3</span>Nucleus</li>
+      <li><span class="pin" style="position:static; transform:none; display:inline-grid; margin-right:12px">4</span>Connective tissue</li>
+    </ol>
+    <p class="prose" style="margin:0">Look for one layer of tall cells with basal nuclei, and the thin wall of connective tissue around the tube. It lines the stomach, intestines and gallbladder.</p>
+    <div style="display:flex; gap:10px; margin-top:20px"><button class="btn"><svg class="i"><use href="#i-cube"/></svg>Jejunum model</button><button class="btn">Lessons (4)</button></div>
+    <p class="meta" style="margin-top:18px">Micrograph: Echinaceapallida, CC BY-SA 4.0, Wikimedia Commons</p>
+  </div>
+  <div data-strip style="position:absolute; left:340px; top:956px; display:flex; gap:8px"></div>
+</div>
+</section>
+
+<!-- ================================================================ SETTINGS -->
+<section class="screen" data-screen-id="settings">
+<div class="app">
+  <header class="head" data-chrome="settings"></header>
+  <div class="exhibit"><h1>Settings</h1></div>
+  <div class="cat">
+    <ul style="color:var(--text-2)"><li><span class="is-cur">Appearance</span></li><li>Mouse &amp; camera</li><li>Labels</li><li>Behaviour</li><li>Keyboard</li></ul>
+  </div>
+  <div style="position:absolute; left:360px; top:232px; right:40px">
+    <p class="prose" style="max-width:62ch; margin:0 0 26px">Choose the wall the body is shown on. The model, the films and the micrographs keep their real colours on every wall.</p>
+    <div data-scheme-grid style="display:grid; grid-template-columns:repeat(3, 1fr); gap:26px 22px"></div>
+  </div>
+</div>
+</section>
+
+<script>
+(function () {
+  { const q = new URLSearchParams(location.search); const R = document.documentElement;
+    if (q.get('scheme')) R.dataset.scheme = q.get('scheme'); if (q.get('screen')) R.dataset.screen = q.get('screen');
+    R.dataset.panel = ['wall', 'plaque', 'frame'].includes(q.get('panel')) ? q.get('panel') : 'wall';
+    R.dataset.variant = ['1', '2', '3'].includes(q.get('variant')) ? q.get('variant') : '2';   /* depth gauge option */
+    const info = window.LH_SCHEMES[R.dataset.design].schemes[R.dataset.scheme]; if (info) R.dataset.mode = info.mode; }
+  const root = document.documentElement;
+  const NAV = [['atlas', 'Atlas'], ['lessons', 'Lessons'], ['models', 'Models'], ['radiology', 'Radiology'], ['histology', 'Histology']];
+  const mark = `<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" fill="none" stroke="var(--text)" stroke-width="1.6">
+      <path d="M15 2.5a12.5 12.5 0 1 0 12.5 12.5H15z"/><path d="M15 7a8 8 0 1 0 8 8h-8z" opacity=".75"/>
+      <path d="M15 11.5a3.5 3.5 0 1 0 3.5 3.5H15z" fill="var(--accent)" stroke="none"/>
+      <path d="M17.5 2.8v9.7h9.7" stroke="var(--accent)"/></svg>`;
+  document.querySelectorAll('[data-chrome]').forEach(el => {
+    const cur = el.dataset.chrome;
+    el.innerHTML = `<div class="brand">${mark}<span class="word">Layered Human</span></div><nav class="rooms">` +
+      NAV.map(([k, v]) => `<a ${k === cur ? 'aria-current="page"' : ''}>${v}</a>`).join('') + `</nav>
+      <span class="hist"><button class="hb" aria-label="Back"><svg class="i"><use href="#i-back"/></svg></button><button class="hb" aria-label="Forward"><svg class="i"><use href="#i-chevron"/></svg></button></span>
+      <div class="find"><svg class="i"><use href="#i-search"/></svg>Search the atlas, lessons, cases<kbd>Ctrl K</kbd></div>
+      <button class="tb">Review <span class="ct num">12 due</span></button><button class="tb">Saved views</button>
+      <button class="tb icon ${cur === 'settings' ? 'is-cur' : ''}" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>`;
+  });
+  document.querySelectorAll('[data-dock]').forEach(el => {
+    const model = el.dataset.kind === 'model';
+    el.innerHTML = `<button><svg class="i"><use href="#i-section"/></svg>Section</button><button class="${model ? 'on' : ''}">X-ray</button>
+      <button>Isolate</button><button>Hide</button><button>Measure</button><button class="on">Labels</button><span class="sep"></span><button>Reset view</button>`;
+  });
+  // The app's DISSECTION_STOPS (app/ui/view_panel.py). "Show only this layer" keeps a band 0.13 deep below the cut.
+  const STOPS = [[0.00, 'Skin surface'], [0.08, 'Superficial fascia'], [0.16, 'Deep fascia'], [0.26, 'Superficial muscles'],
+                 [0.40, 'Deep muscles'], [0.55, 'Skeleton & joints'], [0.70, 'Body cavities'], [0.85, 'Deepest structures']];
+  const ONLY = 0.13, H = 700, Q = new URLSearchParams(location.search);
+  const stopAt = d => STOPS.reduce((c, [lv], i) => d >= lv - 1e-6 ? i : c, 0);
+  function drawGauge(g) {
+    const d = +g.dataset.depth, cur = stopAt(d), pct = Math.round(d * 100), only = 'only' in g.dataset;
+    const top = 232 + 56 + d * H;   // the knob's height on the 1080 px wall, for a halo in the wall's own colour
+    const halo = `color-mix(in srgb, var(--stage-bottom) ${(top / 1080 * 100).toFixed(1)}%, var(--stage-top))`;
+    const had = g.contains(document.activeElement);
+    g.innerHTML = `<div class="colhead g-head">Dissection</div><div class="g-end g-top">Superficial</div><div class="g-track">
+      <div class="g-rail"></div><div class="g-fine"></div><div class="g-fill" style="height:${d * H}px"></div>` +
+      STOPS.map(([lv, n], i) => {
+        const next = i + 1 < STOPS.length ? STOPS[i + 1][0] : 1;
+        return `<div class="g-lv ${i < cur ? 'past' : i === cur ? 'cur' : 'next'}${i === STOPS.length - 1 ? ' last' : ''}" data-i="${i}"
+          style="top:${lv * H}px; --bh:${Math.round((next - lv) * H)}px; --k:${Math.max(0, Math.round((d - lv) * H))}px">
+          <b class="g-band" title="Show only ${n}"></b><i class="g-tick"></i><span class="g-name">${n.replace('&', '&amp;')}</span>` +
+          (i === cur ? `<button class="g-only" aria-pressed="${only}"><span class="box${only ? ' on' : ''}"></span>Show only this layer</button>` : '') + `</div>`;
+      }).join('') +
+      `<div class="g-win" style="top:${d * H}px; height:${Math.min(ONLY, 1 - d) * H}px"></div>
+      <div class="g-knob" role="slider" tabindex="0" aria-label="Dissection depth" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100"
+        aria-valuenow="${pct}" aria-valuetext="${pct}% deep, ${STOPS[cur][1]}" style="top:${d * H}px; --halo:${halo}"></div>
+      <div class="g-pct num" style="top:${d * H}px">${pct}%</div></div><div class="g-end g-bot">Deep</div>`;
+    const app = g.closest('.app');   // option 3: the title is the current stop
+    app.querySelectorAll('[data-stop-name]').forEach(e => { e.textContent = STOPS[cur][1]; });
+    app.querySelectorAll('[data-pct]').forEach(e => { e.textContent = pct + '%'; });
+    app.querySelectorAll('.x-only').forEach(e => { e.setAttribute('aria-pressed', only); e.firstElementChild.classList.toggle('on', only); });
+    if (had) g.querySelector('.g-knob').focus();
+  }
+  function setDepth(g, d) { g.dataset.depth = Math.min(1, Math.max(0, Math.round(d * 100) / 100)); drawGauge(g); }
+  function setOnly(g, on) { if (on) g.dataset.only = ''; else delete g.dataset.only; drawGauge(g); }
+  document.querySelectorAll('.gauge').forEach(g => {
+    if (Q.get('gauge') === 'drag') g.dataset.drag = '';
+    if (Q.get('gauge') === 'only') g.dataset.only = '';
+    drawGauge(g);
+    const fromY = y => (y - g.querySelector('.g-track').getBoundingClientRect().top) / H;
+    g.addEventListener('pointerdown', e => {
+      if (e.target.closest('.g-only')) return setOnly(g, !('only' in g.dataset));
+      const band = e.target.closest('.g-band');   // option 2: a band is "Show only this layer" for that band
+      if (band) { g.dataset.only = ''; return setDepth(g, STOPS[+band.parentElement.dataset.i][0]); }
+      if (!e.target.closest('.g-track')) return;
+      g.dataset.drag = ''; g.setPointerCapture(e.pointerId); setDepth(g, fromY(e.clientY)); g.querySelector('.g-knob').focus();
+    });
+    g.addEventListener('pointermove', e => { if ('drag' in g.dataset && g.hasPointerCapture(e.pointerId)) setDepth(g, fromY(e.clientY)); });
+    g.addEventListener('pointerup', () => { delete g.dataset.drag; drawGauge(g); });
+    g.addEventListener('keydown', e => {   // down is deeper, as on the wall; [ and ] step between stops, as in the app
+      const d = +g.dataset.depth, cur = stopAt(d);
+      const to = { ArrowDown: d + .01, ArrowRight: d + .01, ArrowUp: d - .01, ArrowLeft: d - .01, PageDown: d + .1, PageUp: d - .1,
+        Home: 0, End: 1, ']': (STOPS[cur + 1] || [d + .1])[0], '[': STOPS[d > STOPS[cur][0] + 1e-6 ? cur : Math.max(0, cur - 1)][0] }[e.key];
+      if (to === undefined || !e.target.closest('.g-knob')) return;
+      e.preventDefault(); setDepth(g, to);
+    });
+  });
+  document.querySelectorAll('.x-only').forEach(b => b.addEventListener('click', () => {
+    const g = b.closest('.app').querySelector('.gauge'); setOnly(g, !('only' in g.dataset)); }));
+  // Unit names from data/content/lessons_course_*.json, with "and" for "&"; the same names are on the site.
+  const LABS = [['Lab 1', 'Nerve physiology, reflexes and general senses', 9, 9], ['Lab 2', 'Eye, ear, hearing and balance', 8, 11],
+    ['Lab 3', 'Blood and heart structure', 4, 10], ['Lab 4', 'ECG and heart function', 0, 8], ['Lab 5', 'Blood vessels and circulation', 0, 13],
+    ['Practical 1', 'Review of Labs 1–5', 0, 9], ['Lab 6', 'Respiratory structure and ventilation', 0, 9],
+    ['Lab 7', 'Exercise physiology and pulmonary health', 0, 5], ['Lab 8', 'Digestive and urinary anatomy', 0, 16],
+    ['Lab 9', 'Reproductive systems and early development', 0, 12], ['Practical 2', 'Review of Labs 6–9', 0, 7]];
+  document.querySelectorAll('[data-labs]').forEach(el => {
+    el.innerHTML = LABS.map(([no, t, d, n]) => `<div style="display:grid; grid-template-columns:110px 1fr 220px 80px; align-items:center; height:52px; border-bottom:1px solid var(--hair)">
+      <span class="meta">${no}</span><span class="serif" style="font-size:20px; font-weight:400">${t}</span>
+      <span style="height:2px; background:var(--hair); position:relative"><i style="position:absolute; left:0; top:0; bottom:0; width:${d / n * 100}%; background:var(--accent)"></i></span>
+      <span class="meta num" style="text-align:right">${d} of ${n}</span></div>`).join('');
+  });
+  // Each caption says what is inside, in five words or fewer (README and data/content/model_summaries.json).
+  const MODELS = [['heart_home_clean', 'Heart', 'Chambers, valves, coronary vessels'], ['kidney_v_kidney', 'Kidney with the nephron', 'Kidney, adrenal, ureter, nephron'],
+    ['cardiac_muscle', 'Cardiac muscle', 'Cells and intercalated discs'], ['thumb_eyeball', 'Eye', 'Eyeball, muscles, lids, lacrimal'], ['thumb_ear', 'Ear', 'External, middle and inner ear'],
+    ['thumb_tooth', 'Tooth', 'Enamel, dentin, pulp, gum, bone'], ['thumb_compact_bone', 'Compact bone', 'Osteons, canals, bone cells'], ['thumb_hepatobiliary', 'Liver and bile ducts', 'Liver, gallbladder, ducts, pancreas'],
+    ['thumb_liver_lobule', 'Liver lobule', 'Hepatocytes, sinusoids, central vein'], ['thumb_lymph_node', 'Lymph node', 'Capsule, follicles, sinuses, cords'], ['thumb_thin_skin', 'Thin skin', 'Epidermis, dermis, follicles, glands'],
+    ['thumb_blood_cells', 'Blood cells', 'Red and white blood cells'], ['thumb_spleen', 'Spleen', 'White and red pulp'], ['thumb_retina', 'Retina', 'Rods, cones and their layers'],
+    ['thumb_skeletal_muscle', 'Skeletal muscle', 'Fibres, sarcomeres, a nerve ending'], ['thumb_trachea_wall', 'Trachea wall', 'Lining, glands, cartilage']];
+  document.querySelectorAll('[data-collection]').forEach(el => {
+    el.innerHTML = MODELS.map(([p, n, d], i) => `<div style="position:relative; height:232px">
+      <div class="${i === 1 ? 'is-cur-pic' : ''}" style="position:absolute; left:4px; right:4px; top:4px; height:176px"></div>
+      <div class="pool" style="left:10%; right:10%; top:0; height:180px; opacity:.55"></div>
+      <img src="../../assets/plates/${p}.webp" style="position:absolute; left:50%; top:90px; transform:translate(-50%,-50%); max-width:78%; max-height:150px" alt="">
+      <div class="specimen-cap" style="position:absolute; left:0; right:0; bottom:0"><b>${n}</b><span>${d}</span></div></div>`).join('');
+  });
+  // Film pins from the case (data/content/radiology.json, cxr_pa): only the ones the model names, with the case's numbers.
+  const CXR = [[1, .465, .1], [2, .2, .13], [4, .085, .115], [5, .43, .215], [7, .435, .62], [8, .715, .68], [12, .275, .785], [17, .775, .6]];
+  document.querySelectorAll('[data-film-pins]').forEach(el => {
+    el.innerHTML = CXR.map(([n, x, y]) => `<span class="pin ${n === 7 ? 'sel' : ''}" data-x="${x}" data-y="${y}">${n}</span>`).join('');
+  });
+  document.querySelectorAll('[data-strip]').forEach(el => {
+    el.innerHTML = Array.from({ length: 13 }, (_, i) => `<img src="../../assets/images/histo_sc_${String(i + 1).padStart(2, '0')}.jpg" alt=""
+      class="${i === 0 ? 'is-cur-pic' : ''}" style="width:64px; height:49px; object-fit:cover; ${i === 0 ? '' : 'opacity:.8'}">`).join('');
+  });
+  document.querySelectorAll('[data-scheme-grid]').forEach(el => {
+    const d = root.dataset.design, all = window.LH_SCHEMES[d].schemes;
+    el.innerHTML = Object.entries(all).map(([k, s]) => `<div data-design="${d}" data-scheme="${k}" data-mode="${s.mode}">
+      <div style="position:relative; height:300px; background:linear-gradient(180deg, var(--stage-top), var(--stage-bottom)); border-radius:2px;
+        ${k === root.dataset.scheme ? 'outline:2px solid ' + all[root.dataset.scheme].accent + '; outline-offset:4px' : ''}">
+        <div class="pool" style="left:20%; right:20%; top:6%; bottom:2%"></div>
+        <img src="../../assets/plates/hero26_sel_${s.select.slice(1)}.webp" style="position:absolute; left:50%; top:16px; height:272px; transform:translateX(-50%)" alt="">
+        <div class="mini"><i></i><i></i></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:10px">
+        <span class="serif" style="font-size:20px">${s.name}</span><span class="meta">${k === 'slate' ? 'Default' : ''}</span></div>
+    </div>`).join('');
+  });
+})();
+</script>
+<script src="../../assets/plates/plates.js"></script>
+<script src="../shared/mock.js"></script>
+</body>
+</html>
