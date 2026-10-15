@@ -508,6 +508,7 @@ main { overflow-x: hidden; overflow-x: clip; }
 /* Organ to cell */
 .otc { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 48px 72px; align-items: center; }
 .otc-copy .wall-label { margin-top: 40px; }
+.otc-label { margin: 48px 0 0 auto; }   /* under the row, at its right end */
 .otc-row { list-style: none; margin: 0; padding: 0; display: flex; align-items: stretch; gap: 16px; }
 /* Each figure takes a share of the column in proportion to its picture's shape (--a, width over height), so the
    three scale with the column and keep one shared height. The 38 px basis is the arrow and its gap. */
@@ -790,6 +791,15 @@ main { overflow-x: hidden; overflow-x: clip; }
   .labs, .facts { grid-template-columns: minmax(0, 1fr); }
   .desk-cards { grid-template-columns: minmax(0, 1fr); }
   .micro-models { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 16px; }
+  /* In one column every room opens with its heading: here the heading and its paragraph come before the micrograph,
+     and the key follows the picture it numbers, with the wall label under it. The organ-to-cell label sits on the
+     left, as the other captions do. */
+  .micro { row-gap: 0; }
+  .micro > div { display: contents; }
+  .micro > figure { order: 1; margin-top: 32px; }
+  .micro-key { order: 2; }
+  .micro .wall-label { order: 3; }
+  .otc-label { margin-left: 0; }
   .foot-inner { grid-template-columns: minmax(0, 1fr); }
   .site-foot .scheme { margin-top: 0; justify-self: start; }
   .site-foot .scheme-panel { right: auto; left: 0; }
@@ -1141,7 +1151,7 @@ html:not(.js) .edge-labels .n { display: none; }
           <figcaption><span class="pl-name">Podocytes</span><span class="pl-line">Foot processes on a capillary</span></figcaption>
         </figure></li>
       </ol>
-      <div class="wall-label" style="margin:48px 0 0 auto">
+      <div class="wall-label otc-label">
         <p class="wl-title">Kidney with the nephron</p>
         <p class="wl-latin">Ren, nephron, podocytus</p>
         <p class="wl-detail">The kidney, adrenal, vessels and ureter with a nephron in place, at true scale. Eight stored views zoom from one scale to the next.</p>
