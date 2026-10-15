@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-design="specimen" data-scheme="slate" data-mode="dark" data-panel="wall">
+<html lang="en" data-design="specimen" data-scheme="slate" data-mode="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,9 +18,6 @@
     if (!k || !S[k]) k = 'slate';
     d.setAttribute('data-scheme', k);
     if (S[k]) d.setAttribute('data-mode', S[k].mode);
-    /* How the wall labels are drawn: wall (lettered on the wall, the default), plaque or frame. */
-    var p = null; try { p = new URLSearchParams(location.search).get('panel'); } catch (e) {}
-    d.setAttribute('data-panel', p === 'plaque' || p === 'frame' ? p : 'wall');
     d.classList.add('js');
   })();
 </script>
@@ -40,8 +37,6 @@
   --shadow-print: 0 2px 4px color-mix(in srgb, var(--stage-bottom) 60%, transparent),
                   0 30px 60px -24px color-mix(in srgb, var(--stage-bottom) 100%, transparent);
   --edge: color-mix(in srgb, var(--text) 41%, transparent);       /* ghost button outline: at least 3:1 on the wall */
-  --tint: color-mix(in srgb, var(--text) 6%, transparent);        /* plaque: the wall, a few percent lighter */
-  /* the plaque's edge is the flat per-scheme token --card-line (schemes.css) */
 }
 *, *::before, *::after { box-sizing: border-box; }
 html {
@@ -274,24 +269,11 @@ main { overflow-x: clip; }
 .exhibit.is-lit { --pool-op: 1; --pool-scale: 1.05; }
 
 /* ---------- Wall label ---------- */
-/* One markup, three treatments, chosen by <html data-panel> (?panel=): wall, lettered straight onto the wall (the
-   default); plaque, a panel of the wall's own material a few percent lighter; frame, a hairline vitrine edge. */
+/* Lettered straight onto the wall: no panel, no frame. */
 .wall-label {
   position: relative;
   color: var(--text);
-  padding: 20px 22px 18px;
   max-width: 360px;
-}
-[data-panel="wall"] .wall-label { padding: 0; }
-[data-panel="plaque"] .wall-label { background: var(--tint); box-shadow: inset 0 1px 0 var(--card-line); border-radius: 2px; }
-[data-panel="frame"] .wall-label {
-  --cm: var(--text-3);
-  border: 1px solid var(--line-2);
-  background: linear-gradient(var(--cm) 0 0) left top / 12px 1px, linear-gradient(var(--cm) 0 0) left top / 1px 12px,
-    linear-gradient(var(--cm) 0 0) right top / 12px 1px, linear-gradient(var(--cm) 0 0) right top / 1px 12px,
-    linear-gradient(var(--cm) 0 0) left bottom / 12px 1px, linear-gradient(var(--cm) 0 0) left bottom / 1px 12px,
-    linear-gradient(var(--cm) 0 0) right bottom / 12px 1px, linear-gradient(var(--cm) 0 0) right bottom / 1px 12px;
-  background-repeat: no-repeat; background-origin: border-box;
 }
 .wl-title { font: 460 20px/1.2 var(--serif); letter-spacing: -0.005em; margin: 0 0 4px; color: var(--text); }
 .wl-latin { font: italic 380 16px/1.35 var(--serif); margin: 0 0 14px; color: var(--text-2); }
@@ -300,8 +282,7 @@ main { overflow-x: clip; }
   padding-top: 12px; border-top: 1px solid var(--line);
 }
 .wl-acc { font: 400 13px/1.4 var(--sans); margin: 0; color: var(--text-3); font-variant-numeric: tabular-nums lining-nums; letter-spacing: .01em; }
-.wall-label.small { padding: 14px 18px 13px; max-width: 320px; }
-[data-panel="wall"] .wall-label.small { padding: 0; }
+.wall-label.small { max-width: 320px; }
 .wall-label.small .wl-title { font-size: 16px; }
 .wall-label.small .wl-latin { font-size: 14px; margin-bottom: 10px; }
 .wall-label.small .wl-detail { font-size: 13px; padding-top: 9px; margin-bottom: 0; }
@@ -318,9 +299,11 @@ main { overflow-x: clip; }
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
-  min-height: max(100svh, 760px);
+  min-height: max(100svh, 800px);
   padding: calc(var(--head-h) + 24px) var(--gutter) 48px;
   display: flex; align-items: center;
+  /* the selected biceps' height on the figure: the label's title and the gauge below it hang from this line */
+  --by: calc(var(--head-h) + 6px + (100% - var(--head-h) - 32px) * .2955);
 }
 .hero-copy { position: relative; z-index: 4; width: min(500px, 36vw); }
 .hero h1 { margin-bottom: 26px; }
@@ -334,9 +317,67 @@ main { overflow-x: clip; }
   left: calc(50% + 2.5vw); transform: translateX(-50%);
   --pool-w: 270%; --pool-h: 112%;
 }
-.hero-spec img { height: 100%; width: auto; max-width: none; }
-.hero-label { position: absolute; z-index: 4; right: var(--gutter); top: 54%; width: 340px; }
+/* The peel: every plate shares the renderer's 3200 x 2322 frame; each is placed by its own crop box from plates.js,
+   relative to the skin plate, which is the largest and sizes the stage. */
+.peel-stage { position: relative; height: 100%; }
+.peel-stage .plate { position: absolute; max-width: none; }
+.peel-stage #hero-img { position: relative; height: 100%; width: auto; z-index: 20; }
+.hero-label { position: absolute; z-index: 4; right: var(--gutter); top: calc(var(--by) - 13px); width: 340px; }
 .hero-label .wl-acc { color: var(--text-2); }   /* it sits in the spotlight, where the muted colour drops below 4.5:1 */
+.hl-body { display: grid; }
+.hl-body > * { grid-area: 1 / 1; transition: opacity .35s var(--ease), visibility .35s; }
+.hl-note { visibility: hidden; opacity: 0; }
+.hero-label.is-hidden .hl-shown { visibility: hidden; opacity: 0; }
+.hero-label.is-hidden .hl-note { visibility: visible; opacity: 1; }
+.hero-label .wl-title, .hero-label .wl-latin { transition: color .35s; }
+.hero-label.is-hidden .wl-title { color: var(--text-2); }
+.hero-label.is-hidden .wl-latin { color: var(--text-3); }
+#hero-leaders { transition: opacity .35s; }
+
+/* The dissection gauge: the app's instrument, set beside the figure. Each stop sits at its real level. */
+.gauge {
+  position: absolute; z-index: 4; right: var(--gutter); width: 340px;
+  top: calc(var(--by) + 158px); bottom: 40px;
+  display: flex; flex-direction: column;
+  -webkit-user-select: none; user-select: none;
+}
+.g-cap { margin: 0; font-size: 13px; line-height: 1.45; font-weight: 600; color: var(--text-2); }
+.g-cap span { display: block; font-weight: 400; color: var(--text-3); }
+.g-track { position: relative; flex: 1; min-height: 240px; margin: 22px 0 8px; cursor: pointer; }
+.g-rail { position: absolute; left: -22px; width: 44px; top: -12px; bottom: -12px; touch-action: none; cursor: grab; }
+.g-track.is-dragging, .g-track.is-dragging .g-rail { cursor: grabbing; }
+.g-line { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: color-mix(in srgb, var(--text-3) 64%, transparent); }
+.g-fine {
+  position: absolute; left: 1px; top: 0; bottom: 0; width: 4px;
+  background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--text-3) 46%, transparent) 0 1px, transparent 1px calc(100% / 50));
+}
+.g-fill { position: absolute; left: -1px; top: 0; width: 3px; height: calc(var(--d) * 100%); background: var(--accent); }
+.g-stops { list-style: none; margin: 0; padding: 0; }
+.g-stop {
+  position: absolute; left: 0; transform: translateY(-50%);
+  display: flex; align-items: center; gap: 12px; white-space: nowrap;
+}
+.g-stop i { width: 9px; height: 1px; background: var(--text-3); }
+.g-stop span {
+  font: italic 400 15px/1.2 var(--serif); font-variation-settings: "opsz" 14; color: var(--text-2);
+  transition: color .25s;
+}
+.g-stop.past span { color: var(--text-3); }
+.g-stop.cur span { font-style: normal; font-size: 20px; font-weight: 420; color: var(--text); font-variation-settings: "opsz" 20; }
+.g-end, .g-pct { position: absolute; right: calc(100% + 18px); transform: translateY(-50%); white-space: nowrap; }
+.g-end { font-size: 11px; line-height: 1; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
+.g-end.top { top: 0; }
+.g-end.bot { top: 100%; }
+.g-pct { top: calc(var(--d) * 100%); margin-top: 22px; font-size: 13px; font-weight: 600; color: var(--accent-2); font-variant-numeric: tabular-nums lining-nums; }
+.g-knob {
+  position: absolute; left: -8px; top: calc(var(--d) * 100%); margin-top: -8.5px;
+  width: 17px; height: 17px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 1px 3px color-mix(in srgb, var(--stage-bottom) 80%, transparent);
+  cursor: grab; touch-action: none;
+}
+.g-knob:focus { outline: none; }
+.g-knob:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.g-knob:focus-visible ~ .g-stops .g-stop.cur span { text-decoration: underline 2px var(--accent); text-underline-offset: 6px; }
 
 /* ---------- Rooms ---------- */
 .room { padding: clamp(96px, 11vw, 168px) var(--gutter); }
@@ -461,26 +502,32 @@ main { overflow-x: clip; }
 .eff-pair .lightbox { padding: 9px; }
 .eff-text .wall-label { margin-top: 28px; }
 
-/* Study */
-.prints { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: clamp(56px, 6vw, 88px); }
-.prints figure { margin: 0; }
-.print-pool { --pool-w: 120%; --pool-h: 150%; }
-.frame {
-  position: relative; aspect-ratio: 16 / 9;
-  padding: 10px; background: var(--sunken);
-  border: 1px solid var(--line); border-radius: 2px;
+/* Study: one scene from the app, cropped from the standard render by CSS, so it follows when the render is redone.
+   The crop is a fraction of the 1920 x 1080 screen: --cx, --cy (top left), --cw, --ch (size). */
+.scene { margin: clamp(56px, 6vw, 88px) 0 0; }
+.scene-pool { --pool-w: 116%; --pool-h: 150%; }
+.scene-crop {
+  --cx: .0125; --cy: .09;  --cw: .9625; --ch: .91;
+  position: relative; overflow: hidden;
+  aspect-ratio: calc(var(--cw) * 1920) / calc(var(--ch) * 1080);
+  border: 1px solid var(--line); border-radius: 3px;
+  background: var(--stage-bottom);
   box-shadow: var(--shadow-print);
 }
-.frame img { width: 100%; height: 100%; object-fit: cover; }
-.frame .missing {
-  display: none; position: absolute; inset: 10px;
+.scene-crop img {
+  position: absolute; max-width: none; height: auto;
+  width: calc(100% / var(--cw));
+  left: calc(-100% * var(--cx) / var(--cw));
+  top: calc(-100% * var(--cy) / var(--ch));
+}
+.scene-crop .missing {
+  display: none; position: absolute; inset: 0;
   place-items: center; text-align: center; padding: 24px;
   font: italic 380 17px/1.45 var(--serif); color: var(--text-3);
-  border: 1px solid var(--line);
 }
-.frame.is-missing img { visibility: hidden; }
-.frame.is-missing .missing { display: grid; }
-.prints .wall-label { margin-top: 28px; }
+.scene-crop.is-missing img { visibility: hidden; }
+.scene-crop.is-missing .missing { display: grid; }
+.scene .wall-label { margin-top: 28px; }
 .course { margin-top: clamp(88px, 9vw, 136px); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px 72px; }
 .labs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
 .labs li { display: grid; grid-template-columns: 112px 1fr; gap: 16px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); }
@@ -517,8 +564,7 @@ main { overflow-x: clip; }
 /* Download desk */
 .desk-head { max-width: 720px; margin-bottom: clamp(48px, 5vw, 72px); }
 .desk-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; }
-.desk-card { max-width: none; padding: 30px 32px 28px; }
-[data-panel="wall"] .desk-card { padding: 28px 0 0; border-top: 1px solid var(--line); }
+.desk-card { max-width: none; padding: 28px 0 0; border-top: 1px solid var(--line); }
 .desk-card h3 { font: 460 26px/1.15 var(--serif); color: var(--text); margin: 0 0 4px; }
 .desk-card .wl-latin { margin-bottom: 22px; }
 .desk-card .req { margin: 16px 0 0; font-size: 15px; color: var(--text-2); font-variant-numeric: tabular-nums; }
@@ -579,10 +625,17 @@ main { overflow-x: clip; }
   .rooms-nav ul { gap: 18px; }
 }
 @media (max-width: 1099px) {
-  .hero { display: block; min-height: 0; padding-bottom: 24px; }
-  .hero-copy { width: auto; max-width: 600px; padding-top: 40px; }
-  .hero-spec { position: relative; left: auto; top: auto; bottom: auto; transform: none; height: min(78vh, 720px); margin: 72px auto 0; display: flex; justify-content: center; --pool-w: 130%; --pool-h: 108%; }
-  .hero-label { position: relative; right: auto; top: auto; width: auto; max-width: 360px; margin: 36px auto 0; }
+  /* The figure between its label and its gauge, under the copy. */
+  .hero {
+    --fig-h: min(76vh, 700px);
+    display: grid; min-height: 0; padding-bottom: 24px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-template-areas: "copy copy copy" "label spec gauge";
+    align-items: start; column-gap: 36px;
+  }
+  .hero-copy { grid-area: copy; width: auto; max-width: 600px; padding-top: 40px; }
+  .hero-spec { grid-area: spec; position: relative; left: auto; top: auto; bottom: auto; transform: none; height: var(--fig-h); margin: 72px 0 0; --pool-w: 200%; --pool-h: 108%; }
+  .hero-label { grid-area: label; position: relative; right: auto; top: auto; width: auto; max-width: 300px; justify-self: end; margin-top: calc(72px + var(--fig-h) * .2955 - 13px); }
+  .gauge { grid-area: gauge; position: relative; right: auto; top: auto; bottom: auto; width: auto; justify-self: start; margin: calc(72px + var(--fig-h) * .1) 0 0 76px; height: calc(var(--fig-h) * .78); }
   .section-stage { padding-inline: 170px; }
 }
 @media (max-width: 960px) {
@@ -591,6 +644,21 @@ main { overflow-x: clip; }
   .head-right { gap: 10px; }
 }
 @media (max-width: 899px) {
+  /* Phones: the body under the light comes first, its legs fading under the headline; the gauge beside it. */
+  .hero {
+    --fig-h: clamp(420px, 58svh, 560px);
+    grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "spec gauge" "copy copy" "label label";
+    column-gap: 14px; justify-content: center;
+  }
+  .hero-spec { margin-top: 8px; -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 84%); mask-image: linear-gradient(180deg, #000 60%, transparent 84%); --pool-w: 190%; }
+  .hero-copy { padding-top: 0; margin-top: calc(var(--fig-h) * -.22); }
+  .hero-label { justify-self: start; max-width: 360px; margin: 40px 0 0; }
+  .gauge { margin: calc(8px + var(--fig-h) * .05) 0 0; height: calc(var(--fig-h) * .66); }
+  .g-end, .g-pct { display: none; }
+  .g-stop { gap: 8px; }
+  .g-stop span { font-size: 13px; }
+  .g-stop.cur span { font-size: 15px; font-weight: 460; }
+  .g-track { min-height: 0; margin-top: 16px; }
   .split, .otc, .micro, .course, .two-texts, .eff, .desk-after { grid-template-columns: minmax(0, 1fr); }
   .split { gap: 20px; }
   .section-stage { padding: 24px 0 0; }
@@ -607,7 +675,7 @@ main { overflow-x: clip; }
   .film-pair .film-key { order: 3; }
   .film-labels { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .film-labels .wall-label:last-child { grid-column: auto; }
-  .prints { grid-template-columns: minmax(0, 1fr); gap: 56px; }
+  .scene-crop { --cx: .0125; --cy: .09; --cw: .34; --ch: .91; }
   .labs, .facts { grid-template-columns: minmax(0, 1fr); }
   .desk-cards { grid-template-columns: minmax(0, 1fr); }
   .micro-models { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 16px; }
@@ -626,12 +694,10 @@ main { overflow-x: clip; }
   body { font-size: 16.5px; }
   .brand { font-size: 20px; gap: 10px; }
   .mark { width: 26px; height: 26px; }
-  .hero-copy { padding-top: 16px; }
   .hero h1 { margin-bottom: 20px; }
   .lede { font-size: 17px; margin-bottom: 28px; }
   .actions { flex-direction: column; }
   .actions .btn { width: 100%; }
-  .hero-spec { height: min(74vh, 600px); margin-top: 56px; }
   .room { padding-block: 88px; }
   .room-head { margin-bottom: 44px; }
   /* Layers become a scroll-snap gallery with visible overflow cues */
@@ -651,8 +717,7 @@ main { overflow-x: clip; }
   .cue-hint { display: inline-flex; align-items: center; gap: 8px; }
   .film-pair { gap: 28px; }
   .eff-pair { gap: 16px; }
-  .desk-card { padding: 24px 22px 22px; }
-  [data-panel="wall"] .desk-card { padding: 24px 0 0; }
+  .desk-card { padding: 24px 0 0; }
   .faq summary { font-size: 19px; }
   .labs li { grid-template-columns: 100px 1fr; }
 }
@@ -753,15 +818,38 @@ main { overflow-x: clip; }
     <p class="meta"><span class="tnum">Free · about 3.4 GB · Apple silicon Mac (macOS 13 or later) or Windows</span><br><a href="#download">What to expect when installing</a></p>
   </div>
 
-  <figure class="hero-spec pool" style="margin:0">
-    <img id="hero-img" src="../../assets/plates/hero_sel_ffffff.webp" width="915" height="2198" fetchpriority="high"
-         alt="The whole body from the front with the skin off and the muscles exposed, both biceps brachii selected">
+  <figure class="hero-spec pool" id="hero-spec" role="img" aria-label="The whole body from the front at the skin surface, nothing removed">
+    <div class="peel-stage" id="peel-stage">
+      <img class="plate" id="hero-img" src="../../assets/plates/peel_00_skin.webp" width="929" height="2240" fetchpriority="high" alt="">
+    </div>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <!-- Both biceps on the 8% selection render. At 16% they are unchanged, so that render is shown through this outline. -->
+      <clipPath id="clip-biceps" clipPathUnits="objectBoundingBox"><path d="M0.1880 0.3874 0.1765 0.3831 0.1765 0.3785 0.1776 0.3781 0.1765 0.3767 0.1765 0.3744 0.1776 0.3740 0.1765 0.3735 0.1798 0.3717 0.1787 0.3712 0.1809 0.3703 0.1798 0.3699 0.1809 0.3685 0.1842 0.3667 0.1842 0.3631 0.1874 0.3612 0.1896 0.3576 0.1863 0.3558 0.1896 0.3544 0.1874 0.3535 0.1907 0.3517 0.1896 0.3512 0.1907 0.3476 0.1885 0.3444 0.1896 0.3430 0.1885 0.3339 0.1842 0.3276 0.1852 0.3267 0.1852 0.3217 0.1831 0.3198 0.1842 0.3153 0.1820 0.3135 0.1831 0.3121 0.1831 0.3062 0.1852 0.3053 0.1852 0.2912 0.1918 0.2889 0.1918 0.2880 0.1940 0.2871 0.1940 0.2766 0.2005 0.2743 0.2005 0.2698 0.2027 0.2689 0.2027 0.2675 0.2049 0.2666 0.2060 0.2648 0.2027 0.2634 0.2027 0.2611 0.2071 0.2593 0.2082 0.2575 0.2115 0.2561 0.2126 0.2543 0.2115 0.2539 0.2213 0.2484 0.2202 0.2470 0.2257 0.2448 0.2290 0.2429 0.2279 0.2425 0.2377 0.2375 0.2399 0.2338 0.2432 0.2320 0.2443 0.2197 0.2454 0.2193 0.2443 0.2188 0.2454 0.2166 0.2443 0.2152 0.2454 0.2020 0.2443 0.2006 0.2486 0.1929 0.2530 0.1902 0.2678 0.1845 0.2732 0.1836 0.2885 0.1836 0.3005 0.1859 0.3082 0.1886 0.3169 0.1895 0.3230 0.1920 0.3240 0.1943 0.3137 0.1990 0.3093 0.1995 0.3022 0.2034 0.3022 0.2047 0.2945 0.2088 0.2913 0.2120 0.2869 0.2193 0.2836 0.2225 0.2847 0.2238 0.2825 0.2266 0.2825 0.2302 0.2847 0.2311 0.2836 0.2316 0.2836 0.2361 0.2869 0.2407 0.2858 0.2416 0.2880 0.2452 0.2869 0.2457 0.2880 0.2470 0.2869 0.2484 0.2891 0.2511 0.2891 0.2621 0.2869 0.2648 0.2880 0.2652 0.2869 0.2716 0.2836 0.2775 0.2814 0.2866 0.2792 0.2889 0.2792 0.2916 0.2760 0.2953 0.2760 0.2980 0.2738 0.2998 0.2716 0.3044 0.2672 0.3080 0.2661 0.3107 0.2628 0.3130 0.2617 0.3153 0.2563 0.3185 0.2552 0.3207 0.2486 0.3239 0.2410 0.3298 0.2410 0.3308 0.2366 0.3326 0.2355 0.3348 0.2322 0.3362 0.2268 0.3403 0.2268 0.3426 0.2257 0.3430 0.2268 0.3435 0.2246 0.3449 0.2246 0.3467 0.2224 0.3490 0.2202 0.3562 0.2158 0.3612 0.2158 0.3631 0.2104 0.3699 0.2104 0.3712 0.2082 0.3722 0.2071 0.3753 0.2005 0.3813 0.1984 0.3822 0.1984 0.3831 0.1880 0.3874Z M0.8142 0.3869 0.8109 0.3869 0.8005 0.3826 0.7973 0.3781 0.7918 0.3749 0.7885 0.3699 0.7885 0.3676 0.7863 0.3667 0.7863 0.3649 0.7831 0.3626 0.7831 0.3612 0.7809 0.3594 0.7809 0.3571 0.7787 0.3544 0.7798 0.3535 0.7776 0.3517 0.7765 0.3476 0.7743 0.3467 0.7743 0.3435 0.7710 0.3389 0.7645 0.3348 0.7601 0.3303 0.7525 0.3262 0.7546 0.3235 0.7536 0.3226 0.7508 0.3214 0.7486 0.3223 0.7470 0.3221 0.7448 0.3212 0.7437 0.3185 0.7383 0.3162 0.7350 0.3107 0.7251 0.3012 0.7240 0.2953 0.7219 0.2934 0.7219 0.2916 0.7197 0.2907 0.7197 0.2880 0.7164 0.2834 0.7164 0.2775 0.7131 0.2712 0.7142 0.2707 0.7120 0.2675 0.7120 0.2639 0.7098 0.2621 0.7098 0.2593 0.7087 0.2589 0.7098 0.2580 0.7098 0.2498 0.7120 0.2484 0.7109 0.2461 0.7131 0.2452 0.7131 0.2420 0.7142 0.2416 0.7131 0.2398 0.7153 0.2389 0.7164 0.2366 0.7164 0.2343 0.7153 0.2338 0.7175 0.2311 0.7175 0.2261 0.7153 0.2238 0.7164 0.2229 0.7142 0.2193 0.7109 0.2175 0.7066 0.2097 0.6967 0.2043 0.6978 0.2029 0.6907 0.1995 0.6885 0.1995 0.6770 0.1947 0.6760 0.1929 0.6842 0.1890 0.6896 0.1886 0.6907 0.1890 0.7005 0.1854 0.7115 0.1836 0.7268 0.1836 0.7322 0.1845 0.7377 0.1859 0.7448 0.1888 0.7514 0.1929 0.7514 0.1943 0.7536 0.1956 0.7536 0.2034 0.7557 0.2066 0.7557 0.2106 0.7536 0.2138 0.7536 0.2225 0.7546 0.2229 0.7536 0.2247 0.7568 0.2316 0.7623 0.2375 0.7721 0.2420 0.7732 0.2439 0.7798 0.2470 0.7787 0.2480 0.7885 0.2534 0.7874 0.2548 0.7962 0.2621 0.7962 0.2634 0.7940 0.2648 0.7951 0.2662 0.7995 0.2680 0.7995 0.2743 0.8016 0.2753 0.8016 0.2798 0.8082 0.2821 0.8082 0.2889 0.8104 0.2898 0.8104 0.2944 0.8158 0.2966 0.8148 0.2975 0.8158 0.2994 0.8148 0.2998 0.8169 0.3016 0.8158 0.3021 0.8169 0.3025 0.8158 0.3035 0.8169 0.3048 0.8169 0.3153 0.8158 0.3157 0.8169 0.3194 0.8148 0.3217 0.8148 0.3298 0.8115 0.3335 0.8115 0.3367 0.8093 0.3408 0.8093 0.3462 0.8082 0.3467 0.8093 0.3471 0.8082 0.3490 0.8093 0.3521 0.8082 0.3526 0.8093 0.3540 0.8137 0.3558 0.8104 0.3571 0.8104 0.3581 0.8126 0.3612 0.8158 0.3635 0.8148 0.3653 0.8224 0.3731 0.8235 0.3826 0.8142 0.3869Z"/></clipPath>
+    </svg>
   </figure>
-  <div class="hero-label wall-label" id="hero-label">
+  <div class="hero-label wall-label is-hidden" id="hero-label">
     <p class="wl-title">Biceps brachii</p>
     <p class="wl-latin">Musculus biceps brachii</p>
-    <p class="wl-detail">Nerve: Musculocutaneous nerve<br>Action: Flexes the elbow and supinates the forearm</p>
-    <p class="wl-acc">TA2 2465, 2466 · Muscular system · Upper limb</p>
+    <div class="hl-body">
+      <div class="hl-shown">
+        <p class="wl-detail">Nerve: Musculocutaneous nerve<br>Action: Flexes the elbow and supinates the forearm</p>
+        <p class="wl-acc">TA2 2465, 2466 · Muscular system · Upper limb</p>
+      </div>
+      <p class="wl-detail hl-note" id="hl-note">Under the skin at this depth. Peel one layer to see it.</p>
+    </div>
+  </div>
+  <div class="gauge" id="gauge" style="--d:0">
+    <p class="g-cap">Dissection<span>Drag to peel</span></p>
+    <div class="g-track" id="g-track">
+      <div class="g-line"></div><div class="g-fine"></div><div class="g-fill"></div>
+      <span class="g-end top" aria-hidden="true">Superficial</span>
+      <span class="g-end bot" aria-hidden="true">Deep</span>
+      <div class="g-rail" aria-hidden="true"></div>
+      <div class="g-knob" id="g-knob" role="slider" tabindex="0" aria-label="Dissection depth" aria-orientation="vertical"
+           aria-valuemin="0" aria-valuemax="85" aria-valuenow="0" aria-valuetext="Skin surface, 0% deep"></div>
+      <span class="g-pct" aria-hidden="true">0%</span>
+      <ol class="g-stops" aria-hidden="true"></ol>
+    </div>
   </div>
   <svg class="leaders" id="hero-leaders" aria-hidden="true"></svg>
 </section>
@@ -971,40 +1059,24 @@ main { overflow-x: clip; }
     </div>
   </div>
 
-  <div class="wrap prints">
-    <figure class="exhibit">
-      <div class="pool print-pool">
-        <div class="frame">
-          <img data-render="lesson" src="../../renders/specimen/specimen_slate_lesson.webp" width="1920" height="1080" loading="lazy"
-               onerror="this.parentNode.classList.add('is-missing')" onload="this.parentNode.classList.remove('is-missing')"
-               alt="Layered Human showing a lesson step, with the 3D view already set up beside the step text">
-          <span class="missing" aria-hidden="true">A lesson step, with the 3D view set up beside it</span>
-        </div>
+  <figure class="wrap scene exhibit">
+    <div class="pool scene-pool">
+      <div class="scene-crop">
+        <img data-render="lesson" src="../../renders/specimen/specimen_slate_lesson.webp"
+             srcset="../../renders/specimen/specimen_slate_lesson.webp 1x, ../../renders/specimen/specimen_slate_lesson@2x.webp 2x"
+             width="1920" height="1080" loading="lazy"
+             onerror="this.parentNode.classList.add('is-missing')" onload="this.parentNode.classList.remove('is-missing')"
+             alt="A lesson in Layered Human: the step text and a recall question on the left, and the heart in the 3D view on the right with the left coronary artery, its circumflex and anterior interventricular branches lit and labelled">
+        <span class="missing" aria-hidden="true">A lesson step, with the 3D view set up beside it</span>
       </div>
-      <figcaption class="wall-label">
-        <p class="wl-title">Every lesson sets up the view for you</p>
-        <p class="wl-latin">A lesson step</p>
-        <p class="wl-detail">303 lessons in 1,614 steps. Each step switches systems, dissects to a depth, sections or opens a micrograph, so you’re always looking at the right thing. 1,525 of the steps ask you a question before you move on.</p>
-        <p class="wl-acc">Lessons · 303 lessons · 1,614 steps</p>
-      </figcaption>
-    </figure>
-    <figure class="exhibit">
-      <div class="pool print-pool">
-        <div class="frame">
-          <img data-render="practice" src="../../renders/specimen/specimen_slate_practice.webp" width="1920" height="1080" loading="lazy"
-               onerror="this.parentNode.classList.add('is-missing')" onload="this.parentNode.classList.remove('is-missing')"
-               alt="Layered Human showing a graded practice session beside the 3D model">
-          <span class="missing" aria-hidden="true">Practice beside the model</span>
-        </div>
-      </div>
-      <figcaption class="wall-label">
-        <p class="wl-title">Practice beside the model</p>
-        <p class="wl-latin">Find it, name it, put it in order</p>
-        <p class="wl-detail">Graded practice sits beside the 3D view. Practice exams run to 20, 40 or 60 questions, or everything.</p>
-        <p class="wl-acc">Lab course · 109 mini lessons · 1,824 practice items</p>
-      </figcaption>
-    </figure>
-  </div>
+    </div>
+    <figcaption class="wall-label">
+      <p class="wl-title">Every lesson sets up the view for you</p>
+      <p class="wl-latin">A lesson step</p>
+      <p class="wl-detail">303 lessons in 1,614 steps. Each step switches systems, dissects to a depth, sections or opens a micrograph, so you’re always looking at the right thing. 1,525 of the steps ask you a question before you move on.</p>
+      <p class="wl-acc">Lessons · 303 lessons · 1,614 steps</p>
+    </figcaption>
+  </figure>
 
   <div class="wrap course">
     <div>
@@ -1242,8 +1314,7 @@ main { overflow-x: clip; }
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var SCHEMES = (window.LH_SCHEMES && LH_SCHEMES.specimen && LH_SCHEMES.specimen.schemes) || {};
   var ANCHORS = (window.LH_PLATES && LH_PLATES.anchors) || {};
-  /* Same camera and size for every hero_sel_* render, so one anchor set serves all schemes. */
-  var HERO_A = ANCHORS.hero_sel_7cc8da || {};
+  var BOXES = (window.LH_PLATES && LH_PLATES.plates) || {};
   var reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
   var NS = 'http://www.w3.org/2000/svg';
 
@@ -1268,13 +1339,14 @@ main { overflow-x: clip; }
     if (!s) return;
     root.setAttribute('data-scheme', k);
     root.setAttribute('data-mode', s.mode);
-    var hex = (s.select || '#ffffff').replace('#', '').toLowerCase();
-    var hero = $('#hero-img');
-    var heroSrc = '../../assets/plates/hero_sel_' + hex + '.webp';
-    if (hero && hero.getAttribute('src') !== heroSrc) hero.setAttribute('src', heroSrc);
+    peel.setSelect((s.select || '#ffffff').replace('#', '').toLowerCase());
     $$('img[data-render]').forEach(function (img) {
-      var src = '../../renders/specimen/specimen_' + k + '_' + img.getAttribute('data-render') + '.webp';
-      if (img.getAttribute('src') !== src) { img.parentNode.classList.remove('is-missing'); img.setAttribute('src', src); }
+      var base = '../../renders/specimen/specimen_' + k + '_' + img.getAttribute('data-render');
+      if (img.getAttribute('src') === base + '.webp') return;
+      img.parentNode.classList.remove('is-missing');
+      /* only the default scheme has 2x renders of every screen */
+      if (k === 'slate') img.setAttribute('srcset', base + '.webp 1x, ' + base + '@2x.webp 2x'); else img.removeAttribute('srcset');
+      img.setAttribute('src', base + '.webp');
     });
     $('.scheme-name').textContent = s.name;
     schemeBtn.setAttribute('aria-label', 'Wall colour: ' + s.name);
@@ -1356,6 +1428,174 @@ main { overflow-x: clip; }
   setupSpotlight();
   if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', setupSpotlight);
 
+  /* ---------- The peel: the hero body and its dissection gauge ---------- */
+  /* Eight real plates from the app's renderer. Each has its own crop of the same 3200 x 2322 frame (plates.js), so each
+     is placed by its crop box relative to the skin plate. Between two stops the shallower plate fades out over the
+     deeper one; on release the knob settles on the nearest stop, so every resting view is a real render. The selected
+     biceps is shown with the selection renders at 8% and 26%, and at 16%, where it is unchanged, through its outline. */
+  var peel = (function () {
+    var STOPS = [
+      { lv: 0.00, name: 'Skin surface',        plate: 'peel_00_skin',        shown: false, note: 'Under the skin at this depth. Peel one layer to see it.' },
+      { lv: 0.08, name: 'Superficial fascia',  plate: 'hero_sel_',           shown: true },
+      { lv: 0.16, name: 'Deep fascia',         plate: 'peel_16_fascia',      shown: true, over: 'hero_sel_' },
+      { lv: 0.26, name: 'Superficial muscles', plate: 'hero26_sel_',         shown: true },
+      { lv: 0.40, name: 'Deep muscles',        plate: 'peel_40_deep',        shown: false },
+      { lv: 0.55, name: 'Skeleton & joints',   plate: 'peel_55_skeleton',    shown: false },
+      { lv: 0.70, name: 'Body cavities',       plate: 'peel_70_cavities',    shown: false },
+      { lv: 0.85, name: 'Deepest structures',  plate: 'peel_85_deepest',     shown: false }
+    ];
+    var GONE = 'Peeled away at this depth.';
+    var DESC = ['the skin surface, nothing removed', 'the superficial fascia taken off, both biceps brachii selected',
+      'down to the deep fascia, both biceps brachii selected', 'the superficial muscles exposed, both biceps brachii selected',
+      'the deep muscles, ribcage and abdominal organs', 'the bones and joints, with the organs in place',
+      'the heart, the great vessels and the kidneys', 'the deepest structures'];
+    var stage = $('#peel-stage'), spec = $('#hero-spec'), gauge = $('#gauge'), track = $('#g-track'), knob = $('#g-knob');
+    var pct = $('.g-pct', gauge), stopList = $('.g-stops', gauge), label = $('#hero-label'), note = $('#hl-note');
+    var hex = 'ffffff', depth = 0, shownIdx = -1, dragging = false, tween = 0, loading = false;
+    var SKIN = BOXES.peel_00_skin || { box: [1135, 64, 2064, 2304] };
+    var S0 = SKIN.box, SW = S0[2] - S0[0], SH = S0[3] - S0[1];
+    function key(st) { return st.plate.slice(-1) === '_' ? st.plate + hex : st.plate; }
+    function boxOf(name) { var b = BOXES[name] || BOXES[name.replace(/[0-9a-f]{6}$/, '7cc8da')]; return b && b.box; }
+    function place(img, name) {
+      var b = boxOf(name); if (!b) return;
+      img.style.left = ((b[0] - S0[0]) / SW * 100) + '%';
+      img.style.top = ((b[1] - S0[1]) / SH * 100) + '%';
+      img.style.width = ((b[2] - b[0]) / SW * 100) + '%';
+      img.style.height = ((b[3] - b[1]) / SH * 100) + '%';
+    }
+    function src(name) { return '../../assets/plates/' + name + '.webp'; }
+    /* plate elements: the skin is in the page; the rest are made now and fetched once the page is idle */
+    STOPS.forEach(function (st, i) {
+      var img = i === 0 ? $('#hero-img') : document.createElement('img');
+      img.alt = ''; img.decoding = 'async';
+      st.img = img; st.ready = i === 0;
+      if (i > 0) { img.className = 'plate'; img.style.opacity = 0; img.style.zIndex = 20 - 2 * i; place(img, key(st)); stage.appendChild(img); }
+      if (st.over) {
+        var o = document.createElement('img');
+        o.className = 'plate'; o.alt = ''; o.style.opacity = 0; o.style.zIndex = 21 - 2 * i; o.style.clipPath = 'url(#clip-biceps)';
+        place(o, st.over + hex); stage.appendChild(o); st.overImg = o;
+      }
+      img.addEventListener('load', function () { st.ready = true; render(); });
+      var li = document.createElement('li');
+      li.className = 'g-stop'; li.style.top = (st.lv * 100) + '%';
+      li.innerHTML = '<i></i><span></span>';
+      li.lastChild.textContent = st.name;
+      li.addEventListener('click', function () { load(); animateTo(st.lv); knob.focus({ preventScroll: true }); });
+      stopList.appendChild(li); st.li = li;
+    });
+    function load() {
+      if (loading) return; loading = true;
+      STOPS.forEach(function (st, i) {
+        if (i === 0) return;
+        st.img.src = src(key(st));
+        if (st.overImg) st.overImg.src = src(st.over + hex);
+      });
+    }
+    function setSelect(h) {
+      if (h === hex) return;
+      hex = h;
+      STOPS.forEach(function (st) {
+        if (st.plate.slice(-1) === '_') { place(st.img, key(st)); if (loading) { st.ready = false; st.img.src = src(key(st)); } }
+        if (st.overImg && loading) st.overImg.src = src(st.over + hex);
+      });
+    }
+    function floorIdx(d) { var i = 0; STOPS.forEach(function (st, k) { if (d >= st.lv - 1e-6) i = k; }); return i; }
+    function nearest(d) {
+      var best = 0; STOPS.forEach(function (st, k) { if (Math.abs(st.lv - d) < Math.abs(STOPS[best].lv - d)) best = k; });
+      return best;
+    }
+    function render() {
+      var d = depth, i = floorIdx(d), t = 0;
+      if (reduceMQ.matches) { i = nearest(d); }       /* no cross-fade: switch at the nearest stop */
+      else if (i < STOPS.length - 1) t = Math.min(1, (d - STOPS[i].lv) / (STOPS[i + 1].lv - STOPS[i].lv));
+      var top = i, base = t > 0 ? i + 1 : -1;
+      if (base >= 0 && !STOPS[base].ready) { base = -1; t = 0; }          /* the deeper plate is not here yet: hold */
+      while (top > 0 && !STOPS[top].ready) top--;
+      STOPS.forEach(function (st, k) {
+        var op = k === top ? 1 - t : k === base ? Math.min(1, t * 4) : 0;
+        st.img.style.opacity = op;
+        if (st.overImg) st.overImg.style.opacity = op;
+      });
+      gauge.style.setProperty('--d', d.toFixed(4));
+      pct.textContent = Math.round(d * 100) + '%';
+      var cur = floorIdx(d);
+      STOPS.forEach(function (st, k) { st.li.classList.toggle('cur', k === cur); st.li.classList.toggle('past', k < cur); });
+      var n = nearest(d), st = STOPS[n];
+      knob.setAttribute('aria-valuenow', Math.round(d * 100));
+      knob.setAttribute('aria-valuetext', STOPS[cur].name + ', ' + Math.round(d * 100) + '% deep');
+      if (n !== shownIdx) {
+        shownIdx = n;
+        label.classList.toggle('is-hidden', !st.shown);
+        if (!st.shown) note.textContent = st.note || GONE;
+        spec.setAttribute('aria-label', 'The whole body from the front at ' + Math.round(st.lv * 100) + '% dissection depth: ' + DESC[n]);
+        layoutHero();
+      }
+    }
+    function setDepth(d) { depth = Math.max(0, Math.min(1, d)); render(); }
+    function animateTo(target) {
+      cancelAnimationFrame(tween);
+      if (reduceMQ.matches) { setDepth(target); return; }
+      var from = depth, dur = 260 + 520 * Math.abs(target - from), t0 = performance.now();
+      (function step(now) {
+        var k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+        setDepth(from + (target - from) * e);
+        if (k < 1) tween = requestAnimationFrame(step);
+      })(t0);
+    }
+    function settle() { animateTo(STOPS[nearest(depth)].lv); }
+    function yToDepth(y) { var r = track.getBoundingClientRect(); return (y - r.top) / r.height; }
+    track.addEventListener('pointerdown', function (e) {
+      if (e.button > 0) return;
+      /* on touch, only the rail and the knob drag, so the page still scrolls over the stop names */
+      if (e.pointerType === 'touch' && !e.target.closest('.g-rail, .g-knob')) return;
+      load(); cancelAnimationFrame(tween);
+      dragging = true; track.classList.add('is-dragging');
+      track.setPointerCapture(e.pointerId);
+      setDepth(yToDepth(e.clientY));
+      knob.focus({ preventScroll: true });
+      e.preventDefault();
+    });
+    track.addEventListener('pointermove', function (e) { if (dragging) setDepth(yToDepth(e.clientY)); });
+    function end() { if (!dragging) return; dragging = false; track.classList.remove('is-dragging'); settle(); }
+    track.addEventListener('pointerup', end);
+    track.addEventListener('pointercancel', end);
+    knob.addEventListener('keydown', function (e) {
+      var i = nearest(depth), to = null;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') to = Math.min(STOPS.length - 1, i + 1);
+      else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') to = Math.max(0, i - 1);
+      else if (e.key === 'Home') to = 0;
+      else if (e.key === 'End') to = STOPS.length - 1;
+      if (to === null) return;
+      e.preventDefault(); load(); animateTo(STOPS[to].lv);
+    });
+    knob.addEventListener('focus', load);
+    /* the deeper plates come once the page is idle, so the first paint is only the skin */
+    function idle() {
+      if (window.requestIdleCallback) requestIdleCallback(load, { timeout: 2500 }); else setTimeout(load, 800);
+    }
+    if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle);
+    if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', render);
+    render();
+    return {
+      setSelect: setSelect,
+      set: function (d) { load(); cancelAnimationFrame(tween); setDepth(d); },
+      /* where the selected biceps sit on the stage, as fractions of the skin plate, or null when they are not visible */
+      anchor: function () {
+        var st = STOPS[shownIdx < 0 ? 0 : shownIdx];
+        if (!st.shown) return null;
+        var name = st.plate === 'hero26_sel_' ? 'hero26_sel_7cc8da' : 'hero_sel_7cc8da';
+        var A = ANCHORS[name], b = boxOf(name), out = {};
+        if (!A || !b) return null;
+        ['vl', 'vr'].forEach(function (s) {
+          var p = A['biceps.' + s];
+          if (p) out[s] = [(b[0] + p.x - S0[0]) / SW, (b[1] + p.y - S0[1]) / SH];
+        });
+        return out;
+      }
+    };
+  })();
+  window.LH_PEEL = peel;   /* for the capture scripts */
+
   /* ---------- Leader lines ---------- */
   function el(name, attrs, text) {
     var n = document.createElementNS(NS, name);
@@ -1372,17 +1612,20 @@ main { overflow-x: clip; }
   function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
 
   function layoutHero() {
-    var svg = $('#hero-leaders'), hero = $('.hero'), img = $('#hero-img'), card = $('#hero-label');
+    var svg = $('#hero-leaders'), hero = $('.hero'), card = $('#hero-label');
     clear(svg);
-    var a = HERO_A['biceps.vr'];
-    if (!a || window.innerWidth < 1100 || !img.offsetWidth) return;
-    var hr = hero.getBoundingClientRect(), ir = img.getBoundingClientRect(), cr = card.getBoundingClientRect();
-    var s = ir.width / 915;
-    var ax = ir.left - hr.left + a.x * s, ay = ir.top - hr.top + a.y * s;
-    /* end the leader at the title; on the bare wall, stop short of the lettering */
-    var tr = card.querySelector('.wl-title').getBoundingClientRect();
-    var cx = cr.left - hr.left - (root.getAttribute('data-panel') === 'wall' ? 14 : 0), cy = tr.top - hr.top + tr.height / 2;
-    leader(svg, [[cx, cy], [cx - 26, cy], [ax + 6, ay + 4]], ax, ay);
+    if (!peel) return;   /* still being set up */
+    var a = peel.anchor(), stage = $('#hero-img');
+    if (!a || window.innerWidth < 900 || !stage.offsetWidth) return;
+    var hr = hero.getBoundingClientRect(), sr = stage.getBoundingClientRect(), cr = card.getBoundingClientRect();
+    var tr = card.querySelector('.wl-title').getBoundingClientRect(), cy = tr.top - hr.top + tr.height / 2;
+    /* the label is right of the figure on wide screens and left of it below 1100 px: lead to the nearer arm */
+    var right = cr.left > sr.left + sr.width / 2, p = right ? a.vr : a.vl;
+    if (!p) return;
+    var ax = sr.left - hr.left + p[0] * sr.width, ay = sr.top - hr.top + p[1] * sr.height;
+    /* on the bare wall, stop short of the lettering */
+    var cx = right ? cr.left - hr.left - 14 : cr.right - hr.left + 14, kx = right ? cx - 26 : cx + 26;
+    leader(svg, [[cx, cy], [kx, cy], [ax + (right ? 6 : -6), ay + 4]], ax, ay);
   }
 
   function layoutSection() {

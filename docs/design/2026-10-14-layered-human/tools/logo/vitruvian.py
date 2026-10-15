@@ -5,6 +5,8 @@ tools/build_identity.py in the identity venv (fontTools, uharfbuzz, brotli), whi
 
   .venv312/bin/python docs/design/2026-10-14-layered-human/tools/logo/vitruvian.py explore   contact sheet of variations
   .venv312/bin/python docs/design/2026-10-14-layered-human/tools/logo/vitruvian.py build     every deliverable
+  .venv312/bin/python docs/design/2026-10-14-layered-human/tools/logo/vitruvian.py midline   Section down the midline,
+      the Specimen mark chosen at checkpoint 1 (see vitruvian_midline.py; `midline json|option|explore|board`)
 
 Set IDVENV to the identity venv's python if it is not at the scratch path below. Node with Playwright renders."""
 import json
@@ -353,7 +355,10 @@ position:relative;display:flex;flex-direction:column;align-items:center;padding:
 
 
 if __name__ == "__main__":
-    cmds = {"explore": explore, "build": build, "board": board}
+    def midline(*args):
+        import vitruvian_midline
+        vitruvian_midline.run(*args)
+    cmds = {"explore": explore, "build": build, "board": board, "midline": midline}
     if len(sys.argv) < 2 or sys.argv[1] not in cmds:
         sys.exit(__doc__)
     cmds[sys.argv[1]](*sys.argv[2:])

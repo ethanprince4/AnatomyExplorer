@@ -221,7 +221,8 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 [data-panel="wall"] .label-card.drawer { padding: 16px 28px 0; border-top: 1px solid var(--text); }
 [data-panel="plaque"] .label-card.drawer { background: linear-gradient(var(--tint), var(--tint)), var(--sunken);
   box-shadow: inset 0 1px 0 var(--card-line), 0 30px 60px -18px rgb(0 0 0 / .5); }
-[data-panel="frame"] .label-card.drawer { background-color: var(--sunken); }
+[data-panel="frame"] .label-card.drawer { background-color: var(--sunken); border-top-color: var(--text); }
+[data-panel="plaque"] .label-card.drawer { border-top: 1px solid var(--text); }   /* in every treatment the drawer hangs from the lit search line */
 .drawer[hidden] { display: none; }
 .dr-group + .dr-group { margin-top: 14px; }
 .dr-head { display: flex; align-items: baseline; margin: 0 0 2px; }

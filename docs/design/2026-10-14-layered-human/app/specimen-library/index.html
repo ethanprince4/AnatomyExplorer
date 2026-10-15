@@ -246,7 +246,8 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .cat-head span:last-child, .labs .ct { text-align: right; }
 :is([data-variant="1"], [data-variant="3"]) .labs .it { display: grid; align-items: center; height: 52px; border-bottom: 1px solid var(--hair); }
 [data-variant="3"] .labs .it { height: 42px; }
-.tissues .it { break-inside: avoid; }
+.tissues .it, .tissues .grp { break-inside: avoid; }
+[data-variant="3"] .tissues .grp { break-inside: auto; }   /* the short catalogue under the lit row lets a group run on into the next column */
 .tissues .grp > .colhead { break-after: avoid; }
 .tissues .grp > .colhead { display: flex; margin: 0; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
 .tissues .grp > .colhead span { margin-left: auto; }

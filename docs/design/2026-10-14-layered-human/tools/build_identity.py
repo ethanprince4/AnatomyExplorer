@@ -59,6 +59,17 @@ SECTION_PX = {16: (7, 5.5, 4.5, 3, 2), 24: (10.5, 8.5, 7, 4.5, 3), 32: (14, 11, 
 MUSCLE_ALPHA = {"dark": .55, "light": .5, "mono": .55}
 MUSCLE_ALPHA_SMALL = {"dark": .62, "light": .58, "mono": .6}
 
+# Specimen "Section down the midline": Leonardo's figure in its circle, the skin cut down the midline, the viewer's
+# right half one step back in the muscle layer (brass). The drawings are made with shapely by tools/logo/vitruvian.py
+# (`vitruvian.py midline`), which writes them to tools/logo/section_midline.json in frame units: one drawing per mark
+# size in output pixels (see midline_sizes()), plus "vector" for symbols. Small sizes are drawn on the pixel grid.
+MIDLINE = HERE / "logo/section_midline.json"
+MIDLINE_BRASS = {"light": "#8c6a32"}      # the muscle on paper: a darker brass, 4.1:1 on #ece8e0 (else the accent)
+MIDLINE_MONO = .62                        # one colour: the muscle at 62% of the ink
+MIDLINE_MAC = {16: 11, 32: 19}            # macOS 16 and 32 px: the mark's larger side in output pixels
+MIDLINE_WIN = {16: 12, 24: 18, 32: 24, 48: 36}   # Windows and favicon tiles, full bleed
+MIDLINE_LOCKUP, MIDLINE_FAVICON = 28, 12  # drawings for the lockups (the app header) and the favicon
+
 # Plate: the figure plate. Heights are fractions of the art box; the anchors are named in figure.json.
 FIG_ALPHA = {"dark": .18, "light": .16, "mono": .16}
 FIG_LINE, LABEL_ALPHA, LABEL_BARS = .45, .7, True
@@ -212,6 +223,63 @@ def section(p, alpha, cx, cy, k, radii=SECTION):
             f'<circle cx="{n(cx)}" cy="{n(cy)}" r="{n(cr)}" fill="{p["accent"]}"/>')
 
 
+_MID = None
+
+
+def midline_sizes():
+    """Every mark size in output pixels the build draws; vitruvian.py writes one drawing for each."""
+    ms = set(MIDLINE_MAC.values()) | set(MIDLINE_WIN.values()) | {MIDLINE_LOCKUP, MIDLINE_FAVICON}
+    ms |= {round(MAC["specimen"] * 824 * px / 1024) for px in MAC_SIZES if px > 32}
+    ms |= {round(WIN["specimen"] * 240 * px / 256) for px in (48, 64, 128, 256)}
+    ms |= {round(TOUCH["specimen"] * 180), round(MASKABLE["specimen"] * 192), round(MASKABLE["specimen"] * 512)}
+    return sorted(ms)
+
+
+def place(d, ox, oy, k):
+    """Map an absolute path (M, L, C, Z only) from frame units: x -> ox + k x, y -> oy + k y."""
+    out, i = [], 0
+    for t in re.findall(r"[A-Za-z]|-?[\d.]+", d):
+        if t.isalpha():
+            out.append(t)
+            continue
+        v = float(t)
+        out.append(("" if out[-1].isalpha() else " ") + n((ox if i % 2 == 0 else oy) + k * v))
+        i += 1
+    return "".join(out).replace(" -", "-")
+
+
+def midline(p, mode, box, ext, unit=None, key=None):
+    """The Specimen mark in a square box (x0, y0, size), its larger side `ext` of the box. With unit (canvas units
+    per output pixel) the drawing made for that pixel size is used and, below 40 px, set on the pixel grid: the cut
+    and the crown fall on pixel edges. Without unit the vector drawing is used (symbols)."""
+    global _MID
+    if _MID is None:
+        if not MIDLINE.exists():
+            sys.exit(f"{MIDLINE} is missing: run `.venv312/bin/python tools/logo/vitruvian.py midline` first")
+        _MID = json.loads(MIDLINE.read_text())
+    x0, y0, size = box
+    key = key or ("vector" if unit is None else str(round(ext * size / unit)))
+    if key not in _MID:
+        sys.exit(f"section_midline.json has no {key} px drawing: rerun `vitruvian.py midline`")
+    dr = _MID[key]
+    bx0, by0, bx1, by1 = dr["bounds"]
+    cx, cy = x0 + size / 2, y0 + size / 2
+    if dr["grid"] and unit:
+        k = unit / dr["u"]
+        ox = round((cx - k * (bx0 + bx1) / 2) / unit) * unit
+        oy = round((cy - k * (by0 + by1) / 2) / unit) * unit
+    else:
+        k = ext * size / max(bx1 - bx0, by1 - by0)
+        ox, oy = cx - k * (bx0 + bx1) / 2, cy - k * (by0 + by1) / 2
+    brass = MIDLINE_BRASS.get(mode, p["accent"])
+    out = []
+    for role, a, d in dr["items"]:
+        a *= MIDLINE_MONO if mode == "mono" and role == "brass" else 1
+        op = f' fill-opacity="{n(a)}"' if a < 1 else ""
+        out.append(f'<path fill="{p["ink"] if role == "ink" else brass}"{op} d="{place(d, ox, oy, k)}"/>')
+    return "".join(out)
+
+
 def figure_path(points, cx, top, h):
     f = h / 1000
     return "M" + "L".join(f"{n(cx + x * f)} {n(top + y * f)}" for x, y in points) + "Z"
@@ -276,7 +344,7 @@ def symbol(d, p, mode, fig):
     if d == "overlay":
         body = films(p, FILM_ALPHA[mode], 0, 0, 1)
     elif d == "specimen":
-        body = section(p, MUSCLE_ALPHA[mode], 24, 24, 1)
+        body = midline(p, mode, (0, 0, 48), 42 / 48)
     else:
         body = plate_art(fig, p, FIG_ALPHA[mode], (0, 0, 48), PLATE_SYMBOL_H, 1, bars=False, reach=.02)
     return svg(48, 48, body)
@@ -341,7 +409,7 @@ def lockup(d, p, mode, word):
         if d == "overlay":
             mark = films(p, FILM_ALPHA[mode], ox, oy, k)
         else:
-            mark = section(p, MUSCLE_ALPHA[mode], ox + 24 * k, oy + 24 * k, k)
+            mark = midline(p, mode, (ox, oy, 48 * k), 42 / 48, key=str(MIDLINE_LOCKUP))
         box = (ox + 3 * k, min(Y0, oy + 3 * k), X1, max(Y1, oy + 45 * k))
     x0, y0 = math.floor(box[0]), math.floor(box[1])
     w, h = math.ceil(box[2]) - x0, math.ceil(box[3]) - y0
@@ -354,16 +422,16 @@ def favicon_svg(d, fig):
     def rules(mode):
         p = palette(d, mode)
         tint = {"overlay": f".f{{fill:{p['ink']};fill-opacity:{n(FILM_ALPHA_SMALL[mode])}}}",
-                "specimen": f".i{{fill:{p['ink']}}}.m{{fill:{p['ink']};fill-opacity:{n(MUSCLE_ALPHA_SMALL[mode])}}}",
+                "specimen": f".i{{fill:{p['ink']}}}.b{{fill:{MIDLINE_BRASS.get(mode, p['accent'])}}}",
                 "plate": f".i{{fill:{p['ink']}}}.h{{fill:{p['paper']}}}"}[d]
         return tint + f".a{{fill:{p['accent']}}}"
     style = f"<style>{rules('light')}@media (prefers-color-scheme: dark){{{rules('dark')}}}</style>"
     if d == "overlay":
         body = f'<g class="f">{film_rects(0, 0, *FILMS)}</g><path class="a" d="{core_path(0, 0, *FILMS)}"/>'
     elif d == "specimen":
-        so, si, mo, mi, cr = SECTION_SMALL
-        body = (f'<path class="i" d="{sector(24, 24, so, si)}"/><path class="m" d="{sector(24, 24, mo, mi)}"/>'
-                f'<circle class="a" cx="24" cy="24" r="{n(cr)}"/>')
+        marker = {"ink": "INK", "accent": "BRASS"}
+        body = midline(marker, "dark", (0, 0, 48), 46 / 48, key=str(MIDLINE_FAVICON))
+        body = body.replace('fill="INK"', 'class="i"').replace('fill="BRASS"', 'class="b"')
     else:
         box, figh = (0, 0, 48), .9
         h, cx, top, _ = plate_place(fig, box, figh)
@@ -414,7 +482,7 @@ def tile_mark(d, p, mode, fig, box, ext, u, edges=False, reach=.07):
     cx, cy = x0 + size / 2, y0 + size / 2
     if d == "overlay":
         return films(p, FILM_ALPHA[mode], cx - 24 * k, cy - 24 * k, k, edge=FILM_EDGE_PX * u if edges else 0)
-    return section(p, MUSCLE_ALPHA[mode], cx, cy, k)
+    return midline(p, mode, box, ext, unit=u)
 
 
 def mac_icon(d, mode, px, fig):
@@ -427,7 +495,7 @@ def mac_icon(d, mode, px, fig):
     elif d == "overlay":
         mark = films(p, FILM_ALPHA_SMALL[mode], 0, 0, u, FILMS_MAC[px])
     elif d == "specimen":
-        mark = section(p, MUSCLE_ALPHA_SMALL[mode], 512, 512, u, SECTION_MAC[px])
+        mark = midline(p, mode, (100, 100, 824), MIDLINE_MAC[px] * u / 824, unit=u)
     else:
         mark = plate_small(fig, p, (100, 100, 824), PLATE_SMALL_H, u)
     body = (f'<path d="{tile}" fill="#000" fill-opacity=".3" transform="translate(0 11)" filter="url(#sh)"/>'
@@ -453,7 +521,7 @@ def win_small(d, mode, px, fig):
     if d == "overlay":
         mark = films(p, FILM_ALPHA_SMALL[mode], 0, 0, 1, FILMS_PX[px])
     elif d == "specimen":
-        mark = section(p, MUSCLE_ALPHA_SMALL[mode], px / 2, px / 2, 1, SECTION_PX[px])
+        mark = midline(p, mode, (0, 0, px), MIDLINE_WIN[px] / px, unit=1)
     else:
         mark = plate_small(fig, p, (0, 0, px), PLATE_SMALL_H, 1)
     return svg(px, px, ground(superellipse(px / 2, px / 2, px / 2), spot) + mark, defs=ground_defs(p, spot))

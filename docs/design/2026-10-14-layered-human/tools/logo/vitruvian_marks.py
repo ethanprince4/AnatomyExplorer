@@ -439,3 +439,146 @@ FINAL = {
     "section-16": ("Section, 16 px: no circle", lambda: section(fat=60, gap=110, lines=False, step=(130, -130),
                                                                 erode=0, wall_alpha=0, circle=False)),
 }
+
+
+# ---- section down the midline ----------------------------------------------------------------------------------------
+# The owner's pick at checkpoint 1: Section, with the cut run down the whole midline. The viewer's right half of the
+# body (head, arm, trunk and leg) shows the superficial muscle layer one step back; the left half stays skin.
+
+def tapered(pts, w, ends=.3, n=48):
+    """A line of width w through pts (smoothed), tapering to a point over `ends` of its length at each end."""
+    from shapely.geometry import LineString
+    c = G.smooth_curve(pts, 160) if len(pts) > 2 else np.array(pts, float)
+    ls = LineString(c)
+    discs = []
+    for i in range(n + 1):
+        t = i / n
+        r = w / 2 * max(.18, min(1, t / ends, (1 - t) / ends)) ** .7
+        p = ls.interpolate(t, normalized=True)
+        discs.append(p.buffer(r, 12))
+    return unary_union([discs[i].union(discs[i + 1]).convex_hull for i in range(n)])
+
+
+def on_limb(a, b, t, off):
+    """A point on a limb axis: t from a (0) to b (1), off along the normal G.limb uses (arm: cranial, leg: lateral)."""
+    a, b = np.array(a, float), np.array(b, float)
+    d = b - a
+    u = d / np.hypot(*d)
+    return tuple(a + d * t + np.array([u[1], -u[0]]) * off)
+
+
+def midline_lines(level="full", pose="circle"):
+    """Divisions of the superficial muscles on the figure's left side (viewer's right), checked against the app's
+    own superficial muscle plate (assets/plates/body_muscles.webp). Polylines in frame units; 'full' for 256 px and
+    up, 'some' for 128 px."""
+    sh, tip = G.SHOULDER[pose], G.arm_tip(pose)
+    hip, ak = G.HIP, G.ankle(pose)
+    A = lambda t, o: on_limb(sh, tip, t, o)
+    L = lambda t, o: on_limb(hip, ak, t, o)
+    lines = {
+        # sternocleidomastoid: mastoid, behind the jaw, down to the sternum
+        "scm": [(27, 133), (17, 151), (7, 167)],
+        # lower border of pectoralis major: sternum, out under the nipple line, up into the armpit
+        "pec": [(3, 270), (40, 281), (78, 266), (106, 238), A(.13, -30)],
+        # deltopectoral groove: the front edge of the deltoid, clavicle to the deltoid's insertion on the arm
+        "delt": [(60, 177), A(.1, 8), A(.22, 2), A(.3, -6)],
+        # brachioradialis and wrist extensors (thumb side) against the flexors
+        "fore": [A(.42, 6), A(.52, 2), A(.62, -3)],
+        # linea semilunaris: the outer edge of the rectus sheath, costal margin to the pubic tubercle
+        "semi": [(62, 286), (58, 335), (48, 400), (32, 458), (14, 500)],
+        # tendinous intersections of the rectus (the upper two and the one at the navel)
+        "ti1": [(0, 322), (30, 326), (59, 318)],
+        "ti2": [(0, 380), (28, 383), (51, 377)],
+        # inguinal ligament: the lower edge of the external oblique
+        "ing": [(86, 440), (60, 470), (30, 497)],
+        # sartorius: from the iliac spine across the front of the thigh to the inner knee
+        "sart": [L(.0, 44), L(.12, 30), L(.26, 6), L(.38, -14), L(.47, -24)],
+        # the bare front of the tibia, between tibialis anterior and the calf
+        "tib": [L(.57, -6), L(.72, -10), L(.88, -7)],
+    }
+    keep = {"full": lines, "some": {k: lines[k] for k in ("pec", "semi", "sart", "tib")},
+            "few": {k: lines[k] for k in ("pec", "semi", "sart")}}[level]
+    return keep
+
+
+MIDCUT = G.box(0, -600, 900, 1200)     # the viewer's right half
+CHIN = 129                              # where the cut turns if the head stays whole
+HEAD_KEEP = G.box(-1, -600, 62, CHIN)   # the right half of the head (the raised arm is well clear of it)
+
+
+def clean(items, min_area):
+    """Drop slivers the knock-outs leave behind (a corner of ring beside a foot, a tip of a wall)."""
+    out = []
+    for g, role, a in items:
+        parts = [p for p in hulls(g) if p.area >= min_area]
+        if parts:
+            out.append((unary_union(parts), role, a))
+    return out
+
+
+def midline(step=(40, -40), gap=8, ring_w=12, fat=0, lines="full", lw=7.5, wall_alpha=.34, back_ring=.5,
+            pose="circle", erode=9, u=0, circle=True, head="split"):
+    """Section down the midline: the skin is cut from the crown to between the feet; the viewer's right half lies one
+    step back in the muscle layer. The cut wall runs the length of the trunk as a band; the circle's right half steps
+    back and dims with the muscle. head="whole" keeps the skin of the head and turns the cut under the chin."""
+    gap, ring_w, lw = max(gap, .9 * u), max(ring_w, 1.15 * u), max(lw, .85 * u)
+    sk = fat_layer("skin", pose, fat)
+    mu = sk.buffer(-erode, 32) if fat else layer("muscle", pose)
+    cut = MIDCUT if head == "split" else MIDCUT.difference(HEAD_KEEP)
+    musc = shift(mu.intersection(cut), step, 1)
+    if lines:
+        div = unary_union([tapered(p, lw) for p in midline_lines(lines, pose).values()])
+        musc = musc.difference(shift(div, step, 1))
+    blades = [G.box(-1, -600 if head == "split" else CHIN, 0, 1200)]
+    if head != "split":
+        blades.append(G.box(0, CHIN, 62, CHIN + 1))
+    swall = unary_union([wall(sk, b, step, 1) for b in blades])
+    items = [(musc, "brass", 1, True), (swall, "ink", wall_alpha, True), (sk.difference(cut), "ink", 1, True)]
+    out = knock(items, gap)
+    if circle:
+        rr = ring(G.R, ring_w)
+        front_ring = rr.difference(MIDCUT)
+        if back_ring:
+            back = shift(rr.intersection(MIDCUT), step, 1)
+            back = back.difference(sk.buffer(gap)).difference(front_ring.buffer(gap)).difference(musc.buffer(gap))
+            # a stub of ring left between the cut and the foot is noise at small sizes
+            back = unary_union([p for p in hulls(back) if p.area > 3 * ring_w ** 2])
+            if not back.is_empty:
+                out.append((back, "brass", back_ring))
+        out.append((front_ring.difference(sk.buffer(gap)), "brass", 1))
+    return clean(out, max(60, 2 * gap * gap, .15 * step[0] ** 2))
+
+
+def midline_px(m, head="split", detail="full", mid=None, wall32=True, fat=(.55, .7, .6), tiny_step=(0, 1)):
+    """The drawing for a mark m output pixels across (its larger side). Returns (items, u, grid): u is frame units
+    per output pixel; grid drawings (40 px and under) have whole-pixel steps, gaps and rings, to be set with the cut
+    and the crown on pixel edges.
+      200 px and up: `detail` lines;  90-199: the "few" lines;  41-89: `mid` lines (none by default);
+      13-40: the small drawing (thickened figure, heavier circle, no lines);  12 and under: no circle."""
+    if m > 40:
+        probe = midline(head=head, lines=None)
+        x0, y0, x1, y1 = bounds(probe)
+        u = max(x1 - x0, y1 - y0) / m
+        lv = detail if m >= 200 else (detail and "few") if m >= 90 else mid
+        return midline(head=head, lines=lv, u=u if m < 500 else 0), u, False
+    if m > 12:
+        u = G.H * 1.29 / m                       # the circle and its stepped half, near enough to set u
+        if m >= 24:                              # skin | gap | wall | gap | muscle, one pixel each
+            kw = dict(step=(2 * u, -2 * u), gap=.98 * u, ring_w=1.3 * u, wall_alpha=.42)
+        elif wall32:                             # skin | wall | muscle: the wall fills the one-pixel step
+            kw = dict(step=(u, -u), gap=.02 * u, ring_w=1.05 * u, wall_alpha=.42)
+        else:                                    # skin | gap | muscle
+            kw = dict(step=(u, -u), gap=.02 * u, ring_w=1.05 * u, wall_alpha=0)
+        return midline(head=head, lines=None, fat=fat[m >= 24] * u, erode=0, back_ring=.5, **kw), u, True
+    u = G.H * .97 / m
+    return midline(head=head, lines=None, fat=fat[2] * u, erode=0, step=(tiny_step[0] * u, -tiny_step[1] * u),
+                   gap=.02 * u, wall_alpha=0, circle=False), u, True
+
+
+MIDLINE = {
+    "mid": ("Midline, head split, full detail", lambda: midline()),
+    "mid-32": ("Midline, 64 and 32 px and lockup", lambda: midline(fat=30, gap=55, ring_w=72, lines=None,
+                                                                 step=(85, -85), erode=0, wall_alpha=.4)),
+    "mid-16": ("Midline, 16 px: no circle", lambda: midline(fat=60, gap=110, lines=None, step=(130, -130), erode=0,
+                                                           wall_alpha=0, circle=False)),
+}

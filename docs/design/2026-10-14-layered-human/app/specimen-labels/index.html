@@ -145,6 +145,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 [data-stage="wall"] .lbl.on-model { padding: 2px 6px; border-radius: 2px; background: color-mix(in srgb, var(--stage-bottom) 72%, transparent); }
 [data-variant="2"] [data-stage="wall"] .lbl.left { text-align: right; }
 svg.leaders .rail { stroke: var(--hair); stroke-width: 1; }
+[data-stage="wall"] svg.leaders .anchor:not(.is-selected) { stroke: var(--text-2); }   /* the open ring has to read on red muscle */
 [data-variant="3"] [data-stage="wall"] .lbl { display: none; }
 .ndot { position: absolute; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; display: grid; place-items: center;
   font: 600 12px/1 var(--sans); font-variant-numeric: tabular-nums; color: var(--text); background: var(--stage-bottom);
@@ -641,8 +642,8 @@ svg.leaders .rail { stroke: var(--hair); stroke-width: 1; }
   const root = document.documentElement, NS = 'http://www.w3.org/2000/svg', DATA = window.LBL_DATA || {};
   // Per room: x of the two rails (2) and how far a knee leader runs before it turns; the longest leader free lettering
   // accepts before it letters the name over the body on a chip (1); the wall area labels may use.
-  const ROOM = { atlas: { rails: [704, 1258], reach: 44, maxLead: 300, area: [40, 96, 1880, 1010] },
-                 section: { rails: [372, 1628], reach: 40, maxLead: 330, area: [40, 238, 1880, 1006] } };
+  const ROOM = { atlas: { rails: [704, 1258], reach: 44, maxLead: 300, dy: 12, area: [40, 96, 1880, 1010] },
+                 section: { rails: [390, 1610], reach: 40, maxLead: 330, dy: 20, area: [40, 238, 1880, 1006] } };
   const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
   const overlaps = (a, b, pad = 0) => a[0] < b[2] + pad && a[2] > b[0] - pad && a[1] < b[3] + pad && a[3] > b[1] - pad;
   function segHits(s, b) {
@@ -706,22 +707,23 @@ svg.leaders .rail { stroke: var(--hair); stroke-width: 1; }
       // lettered over the body, on a chip, only when no clear wall is within reach.
       const placed = [], segs = [], [ax0, ay0, ax1, ay1] = cfg.area;
       const blocked = (b, pad) => keep.some(r => overlaps(b, r)) || placed.some(p => overlaps(b, p.b, pad));
+      const coversAnchor = b => items.some(o => o.x > b[0] - 7 && o.x < b[2] + 7 && o.y > b[1] - 7 && o.y < b[3] + 7);
       const order = [...items].sort((a, b) => (b.sel - a.sel) || (a.y - b.y));
       for (const it of order) {
         let best = null;
         for (const side of [it.side, it.side === 'left' ? 'right' : 'left']) {
-          for (let j = 0; j <= 24; j++) {
+          for (let j = 0; j <= cfg.dy * 2; j++) {
             const dy = (j % 2 ? -1 : 1) * Math.ceil(j / 2) * 8, top = it.y + dy - it.h / 2;
             for (let d = 18; d < 1000; d += 4) {
               const x0 = side === 'left' ? it.x - d - it.w : it.x + d, b = [x0, top, x0 + it.w, top + it.h];
               if (b[0] < ax0 || b[2] > ax1 || b[1] < ay0 || b[3] > ay1) break;
-              if (onBody([b[0] - 12, b[1] - 6, b[2] + 12, b[3] + 6]) || blocked(b, 10)) continue;
+              if (onBody([b[0] - 16, b[1] - 6, b[2] + 16, b[3] + 6]) || blocked(b, 10)) continue;
               const ey = top + it.h / 2, ex = side === 'left' ? b[2] + 6 : b[0] - 6, kx = side === 'left' ? ex + 10 : ex - 10;
               const seg = [kx, ey, it.x, it.y], lead = Math.hypot(kx - it.x, ey - it.y) + 10;
               let cost = lead + Math.abs(dy) * 0.9 + (side !== it.side ? 140 : 0);
               if (placed.some(p => segHits(seg, p.b))) cost += 500;
               cost += 160 * segs.filter(s => crosses(s, seg)).length;
-              if (!best || cost < best.cost) best = { cost, lead, b, pts: [[ex, ey], [kx, ey], [it.x, it.y]], seg };
+              if (!best || cost < best.cost) best = { cost, lead, side, b, pts: [[ex, ey], [kx, ey], [it.x, it.y]], seg };
               break;
             }
           }
@@ -733,31 +735,33 @@ svg.leaders .rail { stroke: var(--hair); stroke-width: 1; }
             const dy = (j % 2 ? -1 : 1) * Math.ceil(j / 2) * 10, top = it.y + dy - it.h / 2;
             for (let d = 22; d < 90; d += 4) {
               const x0 = side === 'left' ? it.x - d - it.w - 12 : it.x + d, b = [x0, top - 2, x0 + it.w + 12, top + it.h + 2];
-              if (blocked(b, 6)) continue;
+              if (blocked(b, 6) || coversAnchor(b)) continue;
               const ey = top + it.h / 2, ex = side === 'left' ? b[2] : b[0];
               const cost = Math.hypot(ex - it.x, ey - it.y) + Math.abs(dy) + (side !== it.side ? 40 : 0);
-              if (!chip || cost < chip.cost) chip = { cost, b, pts: [[ex, ey], [it.x, it.y]], seg: [ex, ey, it.x, it.y] };
+              if (!chip || cost < chip.cost) chip = { cost, side, b, pts: [[ex, ey], [it.x, it.y]], seg: [ex, ey, it.x, it.y] };
               break;
             }
           }
           if (chip) { it.e.classList.add('on-model'); best = chip; }
         }
         if (!best) { it.e.style.display = 'none'; console.error('LBL could not place', it.e.textContent); continue; }
-        placed.push({ it, b: best.b, pts: best.pts }); segs.push(best.seg);
+        placed.push({ it, side: best.side, b: best.b, pts: best.pts }); segs.push(best.seg);
       }
       // A letterer aligns names that stand near each other: snap each wall label's inner edge to a neighbour's
       // when the move stays clear of the body and the other names.
       for (const side of ['left', 'right']) {
-        const col = placed.filter(p => p.it.side === side && !p.it.e.classList.contains('on-model')).sort((a, b) => a.b[1] - b.b[1]);
+        for (const chips of [false, true]) {
+        const col = placed.filter(p => p.side === side && p.it.e.classList.contains('on-model') === chips).sort((a, b) => a.b[1] - b.b[1]);
         for (let i = 1; i < col.length; i++) {
           const p = col[i], q = col[i - 1];
-          if (p.b[1] - q.b[3] > 90) continue;
+          if (p.b[1] - q.b[3] > (chips ? 40 : 90)) continue;
           const dx = side === 'left' ? q.b[2] - p.b[2] : q.b[0] - p.b[0];
           if (!dx || Math.abs(dx) > 48) continue;
           const nb = [p.b[0] + dx, p.b[1], p.b[2] + dx, p.b[3]];
           const others = placed.filter(o => o !== p);
-          if (onBody([nb[0] - 12, nb[1] - 6, nb[2] + 12, nb[3] + 6]) || keep.some(r => overlaps(nb, r)) || others.some(o => overlaps(nb, o.b, 10))) continue;
-          p.b = nb; p.pts[0][0] += dx; p.pts[1][0] += dx;
+          if ((!chips && onBody([nb[0] - 16, nb[1] - 6, nb[2] + 16, nb[3] + 6])) || keep.some(r => overlaps(nb, r)) || others.some(o => overlaps(nb, o.b, chips ? 6 : 10)) || (chips && coversAnchor(nb))) continue;
+          p.b = nb; p.pts[0][0] += dx; if (p.pts.length > 2) p.pts[1][0] += dx;
+        }
         }
       }
       placed.forEach(p => draw(p.it, p.b, p.pts));

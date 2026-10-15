@@ -7,12 +7,42 @@ The marks, lockups, app icons and favicons for the three design directions. Ever
 
 1. `.venv312/bin/python docs/design/2026-10-14-layered-human/tools/build_identity.py outline`
    traces the body silhouette into `plate/figure.json`. It needs scipy and scikit-image.
-2. `python docs/design/2026-10-14-layered-human/tools/build_identity.py build`
+2. `.venv312/bin/python docs/design/2026-10-14-layered-human/tools/logo/vitruvian.py midline json`
+   draws the Specimen mark with shapely and writes it to `tools/logo/section_midline.json` (see below).
+3. `python docs/design/2026-10-14-layered-human/tools/build_identity.py build`
    writes all SVGs, rasterises them with Chromium (`tools/raster_svg.mjs`) and packs the `.icns` and `.ico` files.
    It needs fontTools, brotli, uharfbuzz, Pillow and numpy, plus node with Playwright.
 
 The build reads the colours from `system/schemes.json`. It reads every `.icns` and `.ico` back and checks that
 each size holds the image rendered for that size.
+
+## The Specimen mark: Section, down the midline
+
+Leonardo's figure in its circle, cut down the midline. The viewer's left half is skin, in ink. The right half (head,
+arm, trunk and leg) is the superficial muscle layer, in brass, drawn one step back: up and to the right, as in an
+oblique view. The thickness of the skin along the cut is drawn as a band (ink at 34%), and the right half of the
+circle steps back with the muscle and dims to 50%. The owner chose it at checkpoint 1 (see
+`options/section-midline/NOTES.md`).
+
+The brass half carries a few muscle divisions, checked against the app's own superficial muscle plate: the
+sternocleidomastoid, the lower border of pectoralis major, the deltopectoral groove, the brachioradialis, the
+linea semilunaris and two tendinous intersections of the rectus sheath, the inguinal ligament, the sartorius and
+the bare front of the tibia. The linea alba is the cut itself.
+
+The mark is drawn once per size, like an optical size, by `tools/logo/vitruvian.py midline`, which writes
+`tools/logo/section_midline.json` (frame units, one drawing per mark size in output pixels). `build_identity.py`
+places those drawings; it has no geometry of its own for this mark.
+
+| Mark size (its larger side) | Drawing |
+|---|---|
+| 200 px and up, symbols | Full: all the divisions. |
+| 90-199 px | Three divisions: pectoral border, linea semilunaris, sartorius. |
+| 41-89 px (the 128 px icon) | No divisions. |
+| 24-40 px (64 px icon, lockups, app header) | Thickened figure, heavier circle. Skin, a pixel of gap, a pixel of wall, a pixel of gap, muscle. |
+| 13-23 px (32 px icon) | The wall is the one pixel between the halves; the muscle half sits a pixel higher and to the right. |
+| 12 px and under (16 px icon, favicon) | No circle. The halves touch; the brass half sits one pixel higher. |
+
+Icons of 40 px mark size and under are set on the pixel grid: the cut and the crown fall on pixel edges.
 
 ## Files per direction (`overlay/`, `specimen/`, `plate/`)
 
@@ -43,14 +73,14 @@ The old 48-box mockups put the thigh point on `sartorius.vr`, which sits further
 ## Sizes
 
 All three icons share one extent so they sit well side by side. On the 824 px macOS tile the films and the
-section span 57-58% of the tile and the figure is 76% of its height. On the Windows 256 tile: 62-63% and 82%.
+Specimen mark span 57-58% of the tile and the figure is 76% of its height. On the Windows 256 tile: 62-63% and 82%.
 
 The small icons are drawn on the pixel grid, not scaled down:
 
 - Windows 16, 24 and 32 px: full-bleed tile, films of 10, 14 and 20 px, rings with whole-pixel centres.
 - macOS 16 and 32 px: the same 824 tile, with the mark set in output pixels. Overlay films are 7 px on 2 px
-  steps at 16 px and 14 px on 3 px steps at 32 px. At 16 px the Specimen drops the muscle ring and keeps the skin
-  ring and the core. Five bands in 10 px blur into one grey disc.
+  steps at 16 px and 14 px on 3 px steps at 32 px. The Specimen mark is 11 px tall at 16 px (no circle) and 19 px
+  across at 32 px; on the Windows and favicon tiles 12, 18, 24 and 36 px at 16, 24, 32 and 48 px.
 - Plate at 32 px and below: the thickened figure in solid ink with the biceps dot. A thin ring of paper sets the
   dot off from the dark figure. No leaders.
 
@@ -61,15 +91,16 @@ Ink is the scheme's `text`, accent is its `accent`, and the tile ground runs fro
 | Direction | Dark | Light | Default |
 |---|---|---|---|
 | Overlay | `graphite` | `clear` | dark |
-| Specimen | `slate` (Gallery slate), plus `spot` as the light pool behind the mark | `plaster` | dark |
+| Specimen | `slate` (Gallery slate), plus `spot` as the light pool behind the mark | paper (`SPECIMEN_LIGHT` in the script) | dark |
 | Plate | `night` | `bristol` | light |
 
 To recolour a symbol for another scheme, swap the ink for that scheme's `text` and the accent for its `accent`.
 The tints are opacities, so they follow the ink.
 
 - Overlay films: ink at 0.22 on dark, 0.16 on light. At 32 px and below: 0.34 and 0.26. The core is the accent.
-- Specimen: skin ring in ink, muscle ring in ink at 0.55 on dark and 0.5 on light (0.62 and 0.58 when small).
-  The core is the accent.
+- Specimen: skin in ink, muscle in brass: the accent `#d4b47e` on dark, `#8c6a32` on paper (4.1:1 on `#ece8e0`).
+  The cut wall is ink at 0.34 (0.42 when small), the stepped half of the circle brass at 0.5. One colour
+  (`currentColor`): the muscle at 0.62.
 - Plate: figure in ink at 0.18 on dark and 0.16 on light, outline in ink at 0.45. The biceps dot is the accent.
   The thigh ring is ink with a paper fill (the scheme's `stage_top`). At 32 px and below the figure is solid ink.
 
@@ -84,9 +115,11 @@ The films sit in one `<g fill-opacity>`, so each film is translucent and the ove
 ## Clear space and minimum sizes
 
 - Symbols: keep clear space equal to the core's diameter on every side.
-  That is 18 units of 48 for Overlay, 13 for Specimen and the dot's diameter for Plate.
+  That is 18 units of 48 for Overlay and the dot's diameter for Plate. Specimen: a fifth of the mark (8 units of
+  48), about three widths of the cut wall.
 - Lockups: keep clear space equal to the cap height.
-- Overlay and Specimen symbols: 16 px minimum. At 32 px and below, use the small versions (the favicon,
+- Overlay and Specimen symbols: 16 px minimum. The full Specimen symbol from 64 px; below that, its lockup drawing
+  down to 24 px, then the 16 px drawing. At 32 px and below, use the small versions (the favicon,
   `src/windows-16.svg` to `windows-32.svg` and `src/macos-16.svg`, `macos-32.svg` show them).
 - Plate figure plate: 32 px minimum. Below that, use the solid figure with the dot only.
 - Lockups: font size at least 13 px (a cap height of about 9 px).
@@ -98,7 +131,8 @@ The HTML mockups use an inline symbol next to live text. These recipes reproduce
 - Overlay: Archivo, `font-weight: 640; font-stretch: 90%; letter-spacing: -0.01em`. The visible films are
   2.1× the cap height; the gap is 0.8× the cap height. The symbol is centred on the middle of the caps.
 - Specimen: Literata, `font-weight: 450; font-variation-settings: "opsz" 36; letter-spacing: -0.005em`.
-  The visible circle is 1.7× the cap height; the gap is 0.7× the cap height. Centred on the middle of the caps.
+  The visible mark (the circle with its stepped half) is 1.7× the cap height; the gap is 0.7× the cap height.
+  Centred on the middle of the caps.
 - Plate: Atkinson Hyperlegible Next, `font-weight: 700; letter-spacing: -0.01em`, then a leader.
   The leader starts 0.32em after the last letter, is 1.15em long and 0.07em thick, and sits at the middle of the
   x-height. It ends in an accent dot of radius 0.2em centred on its end.
