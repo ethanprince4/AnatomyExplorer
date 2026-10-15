@@ -22,12 +22,13 @@
         "reason": "Claude: rendered-browser detect at 1440x900 and 390x844 reports no cramped padding; the static pass does not resolve clamp() padding on .block and .pick"
       },
       {
-        "rule": "low-contrast=*",
+        "rule": "low-contrast",
         "value": "*",
         "files": [
           "docs/design/2026-10-14-layered-human/checkpoint-*.html"
         ],
-        "createdAt": "2026-10-15T03:52:24.175Z"
+        "createdAt": "2026-10-15T05:28:30.463Z",
+        "reason": "Claude: the checkpoint pages are dark-only (body and html on --wall #1d2227); the static pass measures their light text against #ffffff, which never shows. Real ratios: #c7c6c1 and #e3caa0 on #1d2227 are about 10:1"
       }
     ]
   }
