@@ -529,6 +529,18 @@ main { overflow-x: hidden; overflow-x: clip; }
 .pl-name { display: block; font: 400 17px/1.3 var(--serif); color: var(--text); }
 .pl-depth { display: block; margin-top: 2px; font-size: 14px; color: var(--text-2); font-variant-numeric: tabular-nums lining-nums; }
 .pl-line { display: block; margin-top: 8px; font-size: 14px; line-height: 1.45; color: var(--text-3); text-wrap: balance; }
+/* The six captions share three rows: name, depth and description. Where a name takes two lines (Superficial muscles,
+   up to about 1180 px wide), the one-line names sit on its second line, as a table's headings sit over their columns,
+   so every depth and every description starts on one line across the wall. */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 761px) {
+    .gallery { grid-template-rows: repeat(4, auto); row-gap: 0; }
+    .gallery li, .gallery .exhibit, .gallery figcaption { display: grid; grid-template-rows: subgrid; }
+    .gallery li, .gallery .exhibit { grid-row: span 4; }
+    .gallery figcaption { grid-row: span 3; }
+    .gallery .pl-name { align-self: end; }
+  }
+}
 /* Hover or focus one: it brightens, the others dim. */
 .spot-on .gallery .exhibit.is-lit { --pool-op: .82; --pool-scale: 1; }
 .gallery:has(.exhibit:hover, .exhibit:focus-visible) .exhibit { --pool-op: .26; --pool-scale: .9; }
@@ -566,8 +578,9 @@ main { overflow-x: hidden; overflow-x: clip; }
 .otc-row li { display: flex; align-items: stretch; gap: 16px; flex: var(--a) 1 0px; min-width: 0; }
 .otc-row li + li { flex-basis: 38px; }
 .otc-row figure { margin: 0; text-align: center; flex: 1 1 0; min-width: 0; }
-/* the pictures share one top line, so the three names sit on one line however their second lines wrap */
-.otc-pool { aspect-ratio: var(--a); max-height: 300px; display: flex; justify-content: center; --pool-w: 150%; --pool-h: 140%; }
+/* the pictures share one top line and one height, no more than 55 % of the screen's, so on a phone held sideways the
+   three and their names fit one screen */
+.otc-pool { aspect-ratio: var(--a); max-height: 300px; max-height: min(300px, 55svh); margin-inline: auto; display: flex; justify-content: center; --pool-w: 150%; --pool-h: 140%; }
 .otc-pool img { width: 100%; height: 100%; max-width: 100%; object-fit: contain; }
 .otc-pool img.feather {
   -webkit-mask-image: radial-gradient(closest-side, black 58%, transparent 100%);
@@ -576,6 +589,21 @@ main { overflow-x: hidden; overflow-x: clip; }
 .otc-row figcaption { margin-top: 20px; }
 .otc-step { align-self: center; color: var(--text-3); margin-bottom: 64px; }
 .otc-step .i { width: 22px; height: 22px; }
+/* In a row (from 600 px) the three captions share two rows, the names set on the row's last line, so the second lines
+   start together where a name takes two (Renal corpuscle, on tablets and up to about 1100 px wide). Each picture keeps
+   a share of the row in proportion to its shape, as in the flex row above, and the arrows sit at the pictures' middle. */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 600px) {
+    .otc-row { display: grid; grid-template-columns: minmax(0, .928fr) auto minmax(0, .713fr) auto minmax(0, 1fr); grid-template-rows: repeat(3, auto); row-gap: 0; }
+    .otc-row li, .otc-row figure, .otc-row figcaption { display: grid; grid-template-rows: subgrid; }
+    .otc-row li { grid-row: span 3; grid-column: span 2; grid-template-columns: subgrid; gap: normal; }
+    .otc-row li:first-child { grid-column: span 1; }
+    .otc-row figure { grid-row: span 3; }
+    .otc-row figcaption { grid-row: span 2; }
+    .otc-row .pl-name { align-self: end; }
+    .otc-step { grid-row: 1; margin-bottom: 0; }
+  }
+}
 
 /* Films */
 .film-pair {
@@ -857,16 +885,15 @@ main { overflow-x: hidden; overflow-x: clip; }
   .foot-inner { grid-template-columns: minmax(0, 1fr); }
   .site-foot .scheme { margin-top: 0; justify-self: start; }
   .site-foot .scheme-panel { right: auto; left: 0; }
-  .otc-row { flex-direction: column; align-items: center; gap: 8px; }
-  .otc-row li { flex-direction: column; align-items: center; gap: 8px; flex: none; }
-  .otc-row figure { flex: none; }
-  .otc-step { margin: 0; transform: rotate(90deg); }
-  .otc-pool { height: 240px; aspect-ratio: auto; }
-  .otc-pool img { width: auto; }
 }
 @media (min-width: 600px) and (max-width: 899px) {
   /* the names show here: a little more rule (about 350 px), so stops 8 % apart clear the current name's 26 px line */
   .gauge { margin-top: calc(var(--fig-h) * .035); height: calc(var(--fig-h) * .67); }
+}
+@media (min-width: 700px) and (max-width: 899px) {
+  /* the four micro models keep the one row they have on wider screens: each column is at least 140 px, room for
+     Oesophagus wall on one line, and the models are as tall as in two rows */
+  .micro-models { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px 16px; }
 }
 @media (min-width: 700px) and (max-width: 899px) and (min-height: 912px) {
   /* Tablets held upright: the figure and its named gauge stand together in the middle of the wall, over the copy, which
@@ -938,6 +965,14 @@ main { overflow-x: hidden; overflow-x: clip; }
   .code-row { flex-direction: column; align-items: flex-start; }
   .code-row code { flex: none; align-self: stretch; }
   .copy-btn { min-height: 40px; }
+  /* Under 600 px the three in a row would be about 100 px tall, so they stand one above the other, the arrows
+     pointing down; on tablets they keep the row. */
+  .otc-row { flex-direction: column; align-items: center; gap: 8px; }
+  .otc-row li { flex-direction: column; align-items: center; gap: 8px; flex: none; }
+  .otc-row figure { flex: none; }
+  .otc-step { margin: 0; transform: rotate(90deg); }
+  .otc-pool { height: 240px; aspect-ratio: auto; }
+  .otc-pool img { width: auto; }
 }
 @media (max-width: 760px) {
   :root { --head-h: 64px; }
@@ -1444,19 +1479,19 @@ html:not(.js) .edge-labels .n { display: none; }
   </div>
   <ol class="wrap micro-models" aria-label="Micro models with the same layers in 3D">
     <li><figure class="exhibit">
-      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_oesophagus_wall.webp" srcset="img/thumb_oesophagus_wall-640.webp 640w, ../../assets/plates/thumb_oesophagus_wall.webp 900w" sizes="auto, (max-width: 899px) 45vw, 310px" width="567" height="629" loading="lazy" alt="3D model of the oesophagus wall with its layers cut open"></div>
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_oesophagus_wall.webp" srcset="img/thumb_oesophagus_wall-640.webp 640w, ../../assets/plates/thumb_oesophagus_wall.webp 900w" sizes="auto, (max-width: 699px) 45vw, (max-width: 899px) 22vw, 310px" width="567" height="629" loading="lazy" alt="3D model of the oesophagus wall with its layers cut open"></div>
       <figcaption class="lit-fade"><span class="pl-name">Oesophagus wall</span></figcaption>
     </figure></li>
     <li><figure class="exhibit">
-      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_liver_lobule.webp" srcset="img/thumb_liver_lobule-640.webp 640w, ../../assets/plates/thumb_liver_lobule.webp 846w" sizes="auto, (max-width: 899px) 45vw, 310px" width="567" height="629" loading="lazy" alt="3D model of a liver lobule"></div>
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_liver_lobule.webp" srcset="img/thumb_liver_lobule-640.webp 640w, ../../assets/plates/thumb_liver_lobule.webp 846w" sizes="auto, (max-width: 699px) 45vw, (max-width: 899px) 22vw, 310px" width="567" height="629" loading="lazy" alt="3D model of a liver lobule"></div>
       <figcaption class="lit-fade"><span class="pl-name">Liver lobule</span></figcaption>
     </figure></li>
     <li><figure class="exhibit">
-      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_compact_bone.webp" srcset="img/thumb_compact_bone-640.webp 640w, ../../assets/plates/thumb_compact_bone.webp 892w" sizes="auto, (max-width: 899px) 45vw, 310px" width="567" height="629" loading="lazy" alt="3D model of compact bone with its osteons"></div>
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_compact_bone.webp" srcset="img/thumb_compact_bone-640.webp 640w, ../../assets/plates/thumb_compact_bone.webp 892w" sizes="auto, (max-width: 699px) 45vw, (max-width: 899px) 22vw, 310px" width="567" height="629" loading="lazy" alt="3D model of compact bone with its osteons"></div>
       <figcaption class="lit-fade"><span class="pl-name">Osteon</span></figcaption>
     </figure></li>
     <li><figure class="exhibit">
-      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_retina.webp" srcset="img/thumb_retina-640.webp 640w, ../../assets/plates/thumb_retina.webp 900w" sizes="auto, (max-width: 899px) 45vw, 310px" width="567" height="629" loading="lazy" alt="3D model of the layers of the retina"></div>
+      <div class="pool thumb-pool"><img src="../../assets/plates/thumb_retina.webp" srcset="img/thumb_retina-640.webp 640w, ../../assets/plates/thumb_retina.webp 900w" sizes="auto, (max-width: 699px) 45vw, (max-width: 899px) 22vw, 310px" width="567" height="629" loading="lazy" alt="3D model of the layers of the retina"></div>
       <figcaption class="lit-fade"><span class="pl-name">Retina</span></figcaption>
     </figure></li>
   </ol>
