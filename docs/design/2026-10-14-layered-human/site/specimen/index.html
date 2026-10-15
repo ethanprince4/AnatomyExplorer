@@ -41,7 +41,7 @@
                   0 30px 60px -24px color-mix(in srgb, var(--stage-bottom) 100%, transparent);
   --edge: color-mix(in srgb, var(--text) 41%, transparent);       /* ghost button outline: at least 3:1 on the wall */
   --tint: color-mix(in srgb, var(--text) 6%, transparent);        /* plaque: the wall, a few percent lighter */
-  --tint-edge: color-mix(in srgb, var(--text) 9%, transparent);
+  /* the plaque's edge is the flat per-scheme token --card-line (schemes.css) */
 }
 *, *::before, *::after { box-sizing: border-box; }
 html {
@@ -80,6 +80,7 @@ a {
 a:hover { text-decoration-color: var(--accent); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .tnum, .num { font-variant-numeric: tabular-nums lining-nums; }
+.nowrap { white-space: nowrap; }
 .sr-only {
   position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -282,7 +283,7 @@ main { overflow-x: clip; }
   max-width: 360px;
 }
 [data-panel="wall"] .wall-label { padding: 0; }
-[data-panel="plaque"] .wall-label { background: var(--tint); box-shadow: inset 0 1px 0 var(--tint-edge); border-radius: 2px; }
+[data-panel="plaque"] .wall-label { background: var(--tint); box-shadow: inset 0 1px 0 var(--card-line); border-radius: 2px; }
 [data-panel="frame"] .wall-label {
   --cm: var(--text-3);
   border: 1px solid var(--line-2);
@@ -370,6 +371,10 @@ main { overflow-x: clip; }
 .gallery .exhibit:is(:hover, :focus-visible) { --pool-op: 1 !important; --pool-scale: 1.12 !important; }
 .gallery .exhibit:is(:hover, :focus-visible) .pool img { filter: none !important; }
 .gallery-cue { display: none; }
+.peel-pool img.lift { filter: url(#lift-shadows); }
+.spot-on .exhibit:not(.is-lit) .pool img.lift { filter: url(#lift-shadows) brightness(.8) saturate(.88); }
+.gallery:has(.exhibit:hover, .exhibit:focus-visible) .exhibit .pool img.lift { filter: url(#lift-shadows) brightness(.72) saturate(.85); }
+.gallery .exhibit:is(:hover, :focus-visible) .pool img.lift { filter: url(#lift-shadows) !important; }
 
 /* Sections */
 .center-head { text-align: center; max-width: 760px; margin: 0 auto clamp(40px, 5vw, 72px); }
@@ -389,11 +394,14 @@ main { overflow-x: clip; }
 /* Organ to cell */
 .otc { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 48px 72px; align-items: center; }
 .otc-copy .wall-label { margin-top: 40px; }
-.otc-row { list-style: none; margin: 0; padding: 0; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
-.otc-row li { display: flex; align-items: flex-end; gap: 16px; }
-.otc-row figure { margin: 0; text-align: center; }
-.otc-pool { height: clamp(200px, 21vw, 300px); display: flex; justify-content: center; --pool-w: 150%; --pool-h: 140%; }
-.otc-pool img { height: 100%; width: auto; max-width: none; }
+.otc-row { list-style: none; margin: 0; padding: 0; display: flex; align-items: flex-end; gap: 16px; }
+/* Each figure takes a share of the column in proportion to its picture's shape (--a, width over height), so the
+   three scale with the column and keep one shared height. The 38 px basis is the arrow and its gap. */
+.otc-row li { display: flex; align-items: flex-end; gap: 16px; flex: var(--a) 1 0px; min-width: 0; }
+.otc-row li + li { flex-basis: 38px; }
+.otc-row figure { margin: 0; text-align: center; flex: 1 1 0; min-width: 0; }
+.otc-pool { aspect-ratio: var(--a); max-height: 300px; display: flex; justify-content: center; --pool-w: 150%; --pool-h: 140%; }
+.otc-pool img { width: 100%; height: 100%; max-width: 100%; object-fit: contain; }
 .otc-pool img.feather {
   -webkit-mask-image: radial-gradient(closest-side, black 58%, transparent 100%);
   mask-image: radial-gradient(closest-side, black 58%, transparent 100%);
@@ -493,7 +501,7 @@ main { overflow-x: clip; }
 .thumb-pool img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
 .micro-models figcaption { margin-top: 14px; }
 
-/* Built to be looked up */
+/* What the atlas knows */
 .facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
 .facts li { padding: 16px 0; border-top: 1px solid var(--line); font-size: 17px; color: var(--text-2); font-variant-numeric: tabular-nums lining-nums; }
 .facts li strong { font-weight: 600; }
@@ -532,7 +540,7 @@ main { overflow-x: clip; }
   flex: 1; min-width: 0; display: block; overflow-x: auto;
   padding: 10px 12px; border-radius: 3px;
   background: color-mix(in srgb, var(--text) 7%, transparent);
-  font: 400 13px/1.5 var(--mono); color: var(--text); white-space: pre;
+  font: 400 13px/1.5 var(--mono); color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere;
   scrollbar-color: color-mix(in srgb, var(--text) 30%, transparent) transparent;
 }
 .copy-btn {
@@ -560,7 +568,9 @@ main { overflow-x: clip; }
 
 /* Footer */
 .site-foot { padding: 56px var(--gutter) 64px; border-top: 1px solid var(--line); }
-.foot-inner { max-width: var(--maxw); margin-inline: auto; display: grid; grid-template-columns: auto 1fr auto; gap: 24px 48px; align-items: start; }
+.foot-inner { max-width: var(--maxw); margin-inline: auto; display: grid; grid-template-columns: auto 1fr auto auto; gap: 24px 48px; align-items: start; }
+.site-foot .scheme { margin-top: -9px; }   /* the 36 px button centred on the first line of the footer text */
+.site-foot .scheme-panel { top: auto; bottom: calc(100% + 10px); }
 .site-foot p { margin: 0; font-size: 14px; color: var(--text-3); max-width: 64ch; }
 .foot-links { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; font-size: 14px; }
 
@@ -602,18 +612,20 @@ main { overflow-x: clip; }
   .desk-cards { grid-template-columns: minmax(0, 1fr); }
   .micro-models { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 16px; }
   .foot-inner { grid-template-columns: minmax(0, 1fr); }
+  .site-foot .scheme { margin-top: 0; justify-self: start; }
+  .site-foot .scheme-panel { right: auto; left: 0; }
   .otc-row { flex-direction: column; align-items: center; gap: 8px; }
-  .otc-row li { flex-direction: column; align-items: center; gap: 8px; }
+  .otc-row li { flex-direction: column; align-items: center; gap: 8px; flex: none; }
+  .otc-row figure { flex: none; }
   .otc-step { margin: 0; transform: rotate(90deg); }
-  .otc-pool { height: 240px; }
+  .otc-pool { height: 240px; aspect-ratio: auto; }
+  .otc-pool img { width: auto; }
 }
 @media (max-width: 760px) {
   :root { --head-h: 64px; }
   body { font-size: 16.5px; }
   .brand { font-size: 20px; gap: 10px; }
   .mark { width: 26px; height: 26px; }
-  .scheme-btn .scheme-name { display: none; }
-  .scheme-btn { padding: 0 10px; }
   .hero-copy { padding-top: 16px; }
   .hero h1 { margin-bottom: 20px; }
   .lede { font-size: 17px; margin-bottom: 28px; }
@@ -655,11 +667,18 @@ main { overflow-x: clip; }
   .spot-on .exhibit:not(.is-lit) .lit-fade { opacity: 1; transform: none; }
   .gallery:has(.exhibit:hover, .exhibit:focus-visible) .exhibit { --pool-op: 1; --pool-scale: 1; }
   .gallery:has(.exhibit:hover, .exhibit:focus-visible) .exhibit .pool img { filter: none; }
+  .spot-on .exhibit:not(.is-lit) .pool img.lift,
+  .gallery:has(.exhibit:hover, .exhibit:focus-visible) .exhibit .pool img.lift { filter: url(#lift-shadows); }
 }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="lift-shadows" color-interpolation-filters="sRGB"><feComponentTransfer>
+    <feFuncR type="table" tableValues="0.26 0.43 0.6 0.775 1"/><feFuncG type="table" tableValues="0.26 0.43 0.6 0.775 1"/><feFuncB type="table" tableValues="0.26 0.43 0.6 0.775 1"/>
+  </feComponentTransfer></filter>
+</svg>
 
 <header class="site-head" id="top">
   <a class="brand" href="#main" aria-label="Layered Human, back to the top">
@@ -682,20 +701,9 @@ main { overflow-x: clip; }
         <li><a href="#download">Download</a></li>
       </ul>
     </nav>
-    <div class="scheme">
-      <button class="scheme-btn" type="button" aria-expanded="false" aria-controls="scheme-panel" aria-label="Wall colour: Slate">
-        <span class="swatch" aria-hidden="true"></span><span class="scheme-name">Slate</span>
-      </button>
-      <div class="scheme-panel" id="scheme-panel" hidden>
-        <fieldset>
-          <legend>Wall colour</legend>
-          <div class="scheme-list"></div>
-        </fieldset>
-      </div>
-    </div>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sheet">
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"/></svg>
-      <span>Rooms</span>
+      <span>Menu</span>
     </button>
   </div>
 </header>
@@ -730,19 +738,19 @@ main { overflow-x: clip; }
 <!-- ======================= Hero ======================= -->
 <section class="hero exhibit" aria-labelledby="hero-h">
   <div class="hero-copy">
-    <h1 id="hero-h">Peel the body back, layer by layer.</h1>
+    <h1 id="hero-h">Peel the body back,<br><span class="nowrap">layer by layer.</span></h1>
     <p class="lede">A free 3D anatomy atlas for your computer. Slide from skin to bone, cut a section that names itself, and study for your lab practical offline.</p>
     <div class="actions">
-      <a class="btn btn-primary" data-desk="mac" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Anatomy-Explorer-Mac.dmg">
-        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.8 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8C6.4 7.4 5 8.3 4.3 9.7c-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.6 2.3 2.8 2.3 1.1 0 1.6-.7 2.9-.7s1.8.7 3 .7 2-1.1 2.7-2.2c.8-1.2 1.2-2.4 1.2-2.5-.1 0-2.2-.8-2.2-3.7zM13.6 5.8c.6-.8 1-1.8.9-2.8-.9 0-2 .6-2.6 1.4-.6.7-1.1 1.7-1 2.7 1 .1 2-.5 2.7-1.3z"/></svg>
+      <a class="btn btn-primary" data-desk="mac" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Layered-Human-Mac.dmg">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>
         Download for Mac
       </a>
       <a class="btn btn-quiet" data-desk="windows" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Download-Windows-Installer.ps1">
-        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.6l7-1v6.9H4zM13 4.3l7-1V11.5h-7zM4 12.5h7v6.9l-7-1zM13 12.5h7v8.2l-7-1z"/></svg>
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>
         Download for Windows
       </a>
     </div>
-    <p class="meta"><span class="tnum">Free · about 3.4 GB · Apple silicon Mac (macOS 13 or later) or Windows</span> · <a href="#download">What to expect when installing</a></p>
+    <p class="meta"><span class="tnum">Free · about 3.4 GB · Apple silicon Mac (macOS 13 or later) or Windows</span><br><a href="#download">What to expect when installing</a></p>
   </div>
 
   <figure class="hero-spec pool" style="margin:0">
@@ -752,8 +760,8 @@ main { overflow-x: clip; }
   <div class="hero-label wall-label" id="hero-label">
     <p class="wl-title">Biceps brachii</p>
     <p class="wl-latin">Musculus biceps brachii</p>
-    <p class="wl-detail">Selected in the atlas. Muscular system · Upper limb.</p>
-    <p class="wl-acc">Atlas · 3,922 structures · TA2 IDs</p>
+    <p class="wl-detail">Nerve: Musculocutaneous nerve<br>Action: Flexes the elbow and supinates the forearm</p>
+    <p class="wl-acc">TA2 2465, 2466 · Muscular system · Upper limb</p>
   </div>
   <svg class="leaders" id="hero-leaders" aria-hidden="true"></svg>
 </section>
@@ -761,7 +769,7 @@ main { overflow-x: clip; }
 <!-- ======================= Layers ======================= -->
 <section class="room" id="layers" aria-labelledby="layers-h">
   <div class="wrap split room-head">
-    <h2 id="layers-h">Skin to bone, in the order you choose</h2>
+    <h2 id="layers-h">Skin to bone, one layer at a time</h2>
     <div class="prose">
       <p>Drag the dissection slider and the body comes apart from the skin inwards. Depth is measured against how thick the body is at each point, so the hand and the thigh are uncovered together. Want one layer on its own? Show only that slab.</p>
       <p><a class="more" href="#study">See how a lesson uses it <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
@@ -770,7 +778,7 @@ main { overflow-x: clip; }
   <div class="wrap">
     <ol class="gallery" id="gallery" aria-label="The same body at six dissection depths">
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img src="../../assets/plates/peel_00_skin.webp" width="929" height="2240" loading="lazy" alt="The body at 0% dissection depth: the skin surface, nothing removed"></div>
+        <div class="pool peel-pool"><img class="lift" src="../../assets/plates/peel_00_skin.webp" width="929" height="2240" loading="lazy" alt="The body at 0% dissection depth: the skin surface, nothing removed"></div>
         <figcaption class="lit-fade"><span class="pl-name">Skin surface</span><span class="pl-depth">0–8%</span><span class="pl-line">The body as you first see it, nothing taken away.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
@@ -804,7 +812,7 @@ main { overflow-x: clip; }
 <!-- ======================= Sections ======================= -->
 <section class="room" id="sections" aria-labelledby="sections-h">
   <div class="center-head">
-    <h2 id="sections-h">Cut anywhere. The cut names itself.</h2>
+    <h2 id="sections-h">Cut anywhere.<br>The cut names itself.</h2>
     <div class="prose"><p>Section the body sagittally, coronally or transversely. Every structure the plane passes through is named around the edge of the view. Click a name to select it.</p></div>
   </div>
   <figure class="exhibit" style="margin:0">
@@ -846,16 +854,16 @@ main { overflow-x: clip; }
     </div>
     <div class="exhibit">
       <ol class="otc-row" aria-label="Three stored views of the kidney model, from organ to cell">
-        <li><figure>
+        <li style="--a:.928"><figure>
           <div class="pool otc-pool"><img src="../../assets/plates/kidney_v_kidney.webp" width="981" height="1057" loading="lazy" alt="The kidney model: the whole organ"></div>
           <figcaption><span class="pl-name">Kidney</span><span class="pl-line">The whole organ</span></figcaption>
         </figure></li>
-        <li><span class="otc-step" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <li style="--a:.713"><span class="otc-step" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         <figure>
           <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_corpuscle.webp" width="1284" height="1800" loading="lazy" alt="The renal corpuscle: the glomerulus inside its capsule, with the tubules around it"></div>
           <figcaption><span class="pl-name">Renal corpuscle</span><span class="pl-line">The glomerulus in its capsule</span></figcaption>
         </figure></li>
-        <li><span class="otc-step" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <li style="--a:1"><span class="otc-step" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         <figure>
           <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_podocytes.webp" width="1800" height="1800" loading="lazy" alt="Podocytes wrapping a glomerular capillary with their foot processes"></div>
           <figcaption><span class="pl-name">Podocytes</span><span class="pl-line">Foot processes on a capillary</span></figcaption>
@@ -890,19 +898,19 @@ main { overflow-x: clip; }
                  alt="Chest radiograph, posteroanterior view, with eight numbered labels: trachea, right clavicle, right humeral head, superior vena cava, right atrium, left ventricle, right hemidiaphragm and left lung">
           </div>
         </div>
-        <figcaption class="sr-only">Chest radiograph — PA, labelled with numbers that match the model.</figcaption>
+        <figcaption class="sr-only">Chest radiograph, PA, labelled with numbers that match the model.</figcaption>
       </figure>
       <div>
-        <p class="film-key-title">Chest radiograph — PA</p>
+        <p class="film-key-title">Chest radiograph, PA</p>
         <ol class="film-key" id="film-key">
           <li data-n="1" data-film="0.465,0.1" data-a="c1.vl" tabindex="0"><span class="key-n">1</span>Trachea</li>
           <li data-n="2" data-film="0.2,0.13" data-a="c2.vl" tabindex="0"><span class="key-n">2</span>Right clavicle</li>
-          <li data-n="3" data-film="0.085,0.115" data-a="c4.vl" tabindex="0"><span class="key-n">3</span>Right humeral head</li>
-          <li data-n="4" data-film="0.43,0.215" data-a="c5.vl" tabindex="0"><span class="key-n">4</span>Superior vena cava</li>
-          <li data-n="5" data-film="0.435,0.62" data-a="c7.vl" tabindex="0"><span class="key-n">5</span>Right atrium</li>
-          <li data-n="6" data-film="0.715,0.68" data-a="c8.vr" tabindex="0"><span class="key-n">6</span>Left ventricle</li>
-          <li data-n="7" data-film="0.275,0.785" data-a="c12.vl" tabindex="0"><span class="key-n">7</span>Right hemidiaphragm</li>
-          <li data-n="8" data-film="0.775,0.6" data-a="c17.vr" tabindex="0"><span class="key-n">8</span>Left lung</li>
+          <li data-n="4" data-film="0.085,0.115" data-a="c4.vl" tabindex="0"><span class="key-n">4</span>Right humeral head</li>
+          <li data-n="5" data-film="0.43,0.215" data-a="c5.vl" tabindex="0"><span class="key-n">5</span>Superior vena cava</li>
+          <li data-n="7" data-film="0.435,0.62" data-a="c7.vl" tabindex="0"><span class="key-n">7</span>Right atrium</li>
+          <li data-n="8" data-film="0.715,0.68" data-a="c8.vr" tabindex="0"><span class="key-n">8</span>Left ventricle</li>
+          <li data-n="12" data-film="0.275,0.785" data-a="c12.vl" tabindex="0"><span class="key-n">12</span>Right hemidiaphragm</li>
+          <li data-n="17" data-film="0.775,0.6" data-a="c17.vr" tabindex="0"><span class="key-n">17</span>Left lung</li>
         </ol>
       </div>
       <figure>
@@ -931,10 +939,10 @@ main { overflow-x: clip; }
 
   <div class="wrap eff exhibit">
     <div class="eff-text">
-      <h3 class="h3-serif">Chest — massive pleural effusion</h3>
+      <h3 class="h3-serif">Chest, massive pleural effusion</h3>
       <p class="prose">A massive right pleural effusion. The fluid is shown in the model.</p>
       <div class="wall-label small">
-        <p class="wl-title">Unilateral Pleural Effusion</p>
+        <p class="wl-title">Unilateral pleural effusion</p>
         <p class="wl-latin">Sara Nabih · CC BY-SA 4.0</p>
         <p class="wl-detail"><a href="https://commons.wikimedia.org/wiki/File:Unilateral_Pleural_Effusion.jpg">Wikimedia Commons</a></p>
       </div>
@@ -1005,16 +1013,16 @@ main { overflow-x: clip; }
       <p class="note">Your course may be organised differently. Search finds any structure, lesson or case by name.</p>
     </div>
     <ol class="labs" aria-label="Labs and their topics">
-      <li><span class="lab-n">Lab 1</span><span class="lab-t">Nerves, reflexes and general senses</span></li>
-      <li><span class="lab-n">Lab 2</span><span class="lab-t">The eye and vision; the ear, hearing and balance</span></li>
-      <li><span class="lab-n">Lab 3</span><span class="lab-t">Blood; the heart</span></li>
-      <li><span class="lab-n">Lab 4</span><span class="lab-t">The ECG and heart function</span></li>
-      <li><span class="lab-n">Lab 5</span><span class="lab-t">Vessel walls and the arteries; veins, the portal system and fetal circulation</span></li>
-      <li><span class="lab-n">Lab 6</span><span class="lab-t">The respiratory system</span></li>
-      <li><span class="lab-n">Lab 7</span><span class="lab-t">Lung function and fitness</span></li>
-      <li><span class="lab-n">Lab 8</span><span class="lab-t">The digestive system; the urinary system</span></li>
-      <li><span class="lab-n">Lab 9</span><span class="lab-t">The male reproductive system; the female system and early development</span></li>
+      <li><span class="lab-n">Lab 1</span><span class="lab-t">Nerve physiology, reflexes and general senses</span></li>
+      <li><span class="lab-n">Lab 2</span><span class="lab-t">Eye, ear, hearing and balance</span></li>
+      <li><span class="lab-n">Lab 3</span><span class="lab-t">Blood and heart structure</span></li>
+      <li><span class="lab-n">Lab 4</span><span class="lab-t">ECG and heart function</span></li>
+      <li><span class="lab-n">Lab 5</span><span class="lab-t">Blood vessels and circulation</span></li>
       <li><span class="lab-n">Practical 1</span><span class="lab-t">Review of Labs 1–5, with a practice exam</span></li>
+      <li><span class="lab-n">Lab 6</span><span class="lab-t">Respiratory structure and ventilation</span></li>
+      <li><span class="lab-n">Lab 7</span><span class="lab-t">Exercise physiology and pulmonary health</span></li>
+      <li><span class="lab-n">Lab 8</span><span class="lab-t">Digestive and urinary anatomy</span></li>
+      <li><span class="lab-n">Lab 9</span><span class="lab-t">Reproductive systems and early development</span></li>
       <li><span class="lab-n">Practical 2</span><span class="lab-t">Review of Labs 6–9, with a practice exam</span></li>
     </ol>
   </div>
@@ -1074,10 +1082,10 @@ main { overflow-x: clip; }
   </ol>
 </section>
 
-<!-- ======================= Built to be looked up ======================= -->
+<!-- ======================= What the atlas knows ======================= -->
 <section class="room" id="looked-up" aria-labelledby="facts-h">
   <div class="wrap split">
-    <h2 id="facts-h">Built to be looked up</h2>
+    <h2 id="facts-h">What the atlas knows</h2>
     <ul class="facts">
       <li><strong>3,922</strong> structures, from bones and ligaments to cranial nerves and skin regions</li>
       <li><strong>1,109</strong> bony and organ landmarks</li>
@@ -1121,13 +1129,13 @@ main { overflow-x: clip; }
   <div class="wrap">
     <div class="desk-head">
       <h2 id="download-h">Ready when you are</h2>
-      <p class="prose">About 3.4 GB. Free for Apple silicon Macs (macOS 13 or later) and Windows. The first time you open it, your computer may warn you because the app isn’t signed with a paid certificate. Here’s what to click.</p>
+      <p class="prose">About 3.4 GB. Free for Apple silicon Macs (macOS 13 or later) and Windows. The first time you open it, your computer may warn you. The app isn’t signed with a paid developer certificate, so your computer can’t check who made it. Only the installer needs the extra click, and the code is public on GitHub. Here’s what to click.</p>
     </div>
     <div class="desk-cards" id="desk-cards">
       <article class="wall-label desk-card" id="mac" tabindex="-1" aria-labelledby="mac-h">
         <h3 id="mac-h">Mac</h3>
         <p class="wl-latin">Apple silicon (M1 or newer), macOS 13 or later</p>
-        <a class="btn btn-primary" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Anatomy-Explorer-Mac.dmg">
+        <a class="btn btn-primary" href="https://github.com/ethanprince4/AnatomyExplorer/releases/latest/download/Install-Layered-Human-Mac.dmg">
           <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>
           Download for Mac
         </a>
@@ -1137,7 +1145,6 @@ main { overflow-x: clip; }
           <li><span>If macOS says it “cannot be opened”: <strong>System Settings → Privacy &amp; Security → Open Anyway</strong>.</span></li>
           <li><span>It downloads about 3.4 GB, checks each part, copies the app into Applications and opens it. If it stops, run it again.</span></li>
         </ol>
-        <p class="warn"><strong>Why the warning:</strong> The app isn’t signed with a paid developer certificate, so your computer can’t check who made it. Only the installer needs the extra click. The code is public on GitHub.</p>
       </article>
       <article class="wall-label desk-card" id="windows" tabindex="-1" aria-labelledby="win-h">
         <h3 id="win-h">Windows</h3>
@@ -1159,7 +1166,6 @@ main { overflow-x: clip; }
             <button class="copy-btn" type="button" data-copy="ps-cmd">Copy</button>
           </div>
         </div>
-        <p class="warn"><strong>Why the warning:</strong> The app isn’t signed with a paid developer certificate, so your computer can’t check who made it. Only the installer needs the extra click. The code is public on GitHub.</p>
       </article>
     </div>
     <div class="desk-after">
@@ -1214,6 +1220,17 @@ main { overflow-x: clip; }
       <li><a href="https://github.com/ethanprince4/AnatomyExplorer">GitHub</a></li>
       <li><a href="#questions">Help</a></li>
     </ul>
+    <div class="scheme">
+      <button class="scheme-btn" type="button" aria-expanded="false" aria-controls="scheme-panel" aria-label="Wall colour: Slate">
+        <span class="swatch" aria-hidden="true"></span><span class="scheme-name">Slate</span>
+      </button>
+      <div class="scheme-panel" id="scheme-panel" hidden>
+        <fieldset>
+          <legend>Wall colour</legend>
+          <div class="scheme-list"></div>
+        </fieldset>
+      </div>
+    </div>
   </div>
 </footer>
 
