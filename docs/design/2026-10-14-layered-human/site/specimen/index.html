@@ -377,7 +377,7 @@ main { overflow-x: clip; }
 .g-end.bot { top: calc(100% + 12px); }
 /* the percentage rides beside the knob, left of the rule; its figures span the knob exactly */
 .g-pct { position: absolute; right: calc(100% + 12px); top: calc(var(--d) * 100%); transform: translateY(-50%);
-  margin-top: .25px; font: 600 13px/18px var(--sans); color: var(--accent-2); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+  font: 600 13px/18px var(--sans); color: var(--accent-2); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
 /* the one cue that the body peels: a quiet line under the percentage, gone once the gauge has been used */
 .g-cue { position: absolute; right: calc(100% + 12px); top: 17px; margin: 0; white-space: nowrap;
   font: 400 13px/18px var(--sans); color: var(--text-3); transition: opacity .4s var(--ease), visibility .4s; }
@@ -385,7 +385,7 @@ main { overflow-x: clip; }
 /* The knob is as tall as the percentage's figures, as in the app: a 6 px brass dot in a 1.75 px ring of the wall's own
    colour, 9.5 px across. The invisible ::after keeps the target at 24 px for a mouse and 44 px for a finger. */
 .g-knob {
-  position: absolute; left: .5px; top: calc(var(--d) * 100%); transform: translate(-50%, -50%);
+  position: absolute; left: .5px; top: calc(var(--d) * 100%); transform: translate(-50%, calc(-50% - .5px));
   width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
   box-shadow: 0 0 0 1.75px color-mix(in srgb, var(--stage-top) 50%, var(--stage-bottom));
   cursor: grab; touch-action: none; z-index: 2;
@@ -883,11 +883,11 @@ main { overflow-x: clip; }
   <div class="wrap">
     <ol class="gallery" id="gallery" aria-label="The same body at six dissection depths">
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img class="lift" src="../../assets/plates/peel_00_skin.webp" srcset="img/peel_00_skin-420.webp 420w, ../../assets/plates/peel_00_skin.webp 929w" sizes="auto, (max-width: 760px) 62vw, 200px" width="929" height="2240" loading="lazy" alt="The body at 0% dissection depth: the skin surface, nothing removed"></div>
+        <div class="pool peel-pool"><img class="lift" src="../../assets/plates/peel_00_skin.webp" srcset="img/peel_00_skin-420.webp 420w, img/peel_00_skin-m.webp 669w, ../../assets/plates/peel_00_skin.webp 929w" sizes="auto, (max-width: 760px) 62vw, 200px" width="929" height="2240" loading="lazy" alt="The body at 0% dissection depth: the skin surface, nothing removed"></div>
         <figcaption class="lit-fade"><span class="pl-name">Skin surface</span><span class="pl-depth">0–8%</span><span class="pl-line">The body as you first see it, nothing taken away.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img src="../../assets/plates/peel_16_fascia.webp" srcset="img/peel_16_fascia-420.webp 420w, ../../assets/plates/peel_16_fascia.webp 909w" sizes="auto, (max-width: 760px) 62vw, 200px" width="909" height="2194" loading="lazy" alt="The body at 16% dissection depth: the deep fascia over the muscles of the trunk and limbs"></div>
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_16_fascia.webp" srcset="img/peel_16_fascia-420.webp 420w, img/peel_16_fascia-m.webp 654w, ../../assets/plates/peel_16_fascia.webp 909w" sizes="auto, (max-width: 760px) 62vw, 200px" width="909" height="2194" loading="lazy" alt="The body at 16% dissection depth: the deep fascia over the muscles of the trunk and limbs"></div>
         <figcaption class="lit-fade"><span class="pl-name">Deep fascia</span><span class="pl-depth">16–26%</span><span class="pl-line">The fascia that wraps the muscles of the trunk and limbs.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
@@ -895,15 +895,15 @@ main { overflow-x: clip; }
         <figcaption class="lit-fade"><span class="pl-name">Superficial muscles</span><span class="pl-depth">26–40%</span><span class="pl-line">The deltoid, the biceps, the abdominal wall and the front of the thigh.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img src="../../assets/plates/peel_40_deep.webp" srcset="img/peel_40_deep-420.webp 420w, ../../assets/plates/peel_40_deep.webp 894w" sizes="auto, (max-width: 760px) 62vw, 200px" width="894" height="2178" loading="lazy" alt="The body at 40% dissection depth: ribcage, abdominal organs and deep muscles exposed"></div>
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_40_deep.webp" srcset="img/peel_40_deep-420.webp 420w, img/peel_40_deep-m.webp 644w, ../../assets/plates/peel_40_deep.webp 894w" sizes="auto, (max-width: 760px) 62vw, 200px" width="894" height="2178" loading="lazy" alt="The body at 40% dissection depth: ribcage, abdominal organs and deep muscles exposed"></div>
         <figcaption class="lit-fade"><span class="pl-name">Deep muscles</span><span class="pl-depth">40–55%</span><span class="pl-line">Ribcage, abdominal organs and the deep muscles.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img src="../../assets/plates/peel_55_skeleton.webp" srcset="img/peel_55_skeleton-420.webp 420w, ../../assets/plates/peel_55_skeleton.webp 792w" sizes="auto, (max-width: 760px) 62vw, 200px" width="792" height="2178" loading="lazy" alt="The body at 55% dissection depth: the bones and joints of the limbs, with the thoracic and abdominal organs in place"></div>
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_55_skeleton.webp" srcset="img/peel_55_skeleton-420.webp 420w, img/peel_55_skeleton-m.webp 570w, ../../assets/plates/peel_55_skeleton.webp 792w" sizes="auto, (max-width: 760px) 62vw, 200px" width="792" height="2178" loading="lazy" alt="The body at 55% dissection depth: the bones and joints of the limbs, with the thoracic and abdominal organs in place"></div>
         <figcaption class="lit-fade"><span class="pl-name">Skeleton &amp; joints</span><span class="pl-depth">55–70%</span><span class="pl-line">Bones and joints of the limbs, the organs still in place.</span></figcaption>
       </figure></li>
       <li><figure class="exhibit" tabindex="0">
-        <div class="pool peel-pool"><img src="../../assets/plates/peel_70_cavities.webp" srcset="img/peel_70_cavities-420.webp 420w, ../../assets/plates/peel_70_cavities.webp 773w" sizes="auto, (max-width: 760px) 62vw, 200px" width="773" height="2074" loading="lazy" alt="The body at 70% dissection depth: the heart, the great vessels and the organs at the back of the abdomen"></div>
+        <div class="pool peel-pool"><img src="../../assets/plates/peel_70_cavities.webp" srcset="img/peel_70_cavities-420.webp 420w, img/peel_70_cavities-m.webp 557w, ../../assets/plates/peel_70_cavities.webp 773w" sizes="auto, (max-width: 760px) 62vw, 200px" width="773" height="2074" loading="lazy" alt="The body at 70% dissection depth: the heart, the great vessels and the organs at the back of the abdomen"></div>
         <figcaption class="lit-fade"><span class="pl-name">Body cavities</span><span class="pl-depth">70–85%</span><span class="pl-line">The heart, the great vessels and the kidneys.</span></figcaption>
       </figure></li>
     </ol>
@@ -943,7 +943,7 @@ main { overflow-x: clip; }
       <figcaption class="wall-label">
         <p class="wl-title">Transverse section of the thorax</p>
         <p class="wl-latin">Seen from below, as on a CT</p>
-        <p class="wl-detail">Transverse section through the thorax, seen from below, as on a CT. Every structure the plane passes through is named.</p>
+        <p class="wl-detail">Nine structures named on this cut, from the sternum to a thoracic vertebra.</p>
         <p class="wl-acc">Atlas · Sections · sagittal, coronal, transverse</p>
       </figcaption>
     </div>
@@ -977,7 +977,7 @@ main { overflow-x: clip; }
       <div class="wall-label" style="margin:48px 0 0 auto">
         <p class="wl-title">Kidney with the nephron</p>
         <p class="wl-latin">Ren, nephron, podocytus</p>
-        <p class="wl-detail">Kidney with the nephron. True scale. Eight stored views.</p>
+        <p class="wl-detail">The kidney, adrenal, vessels and ureter with a nephron in place, at true scale. Eight stored views zoom from one scale to the next.</p>
         <p class="wl-acc">Models · 41 models · one viewer</p>
       </div>
     </div>
@@ -1478,7 +1478,7 @@ main { overflow-x: clip; }
       img.style.height = ((b[3] - b[1]) / SH * 100) + '%';
     }
     /* the 72 % copies in img/ are enough up to about 1,600 device pixels of figure height (a phone at 3x, 1440 at 2x) */
-    var MED = /^(peel_00_skin|peel_16_fascia|peel_40_deep|peel_55_skeleton|peel_70_cavities|peel_85_deepest|hero26?_sel_ffffff)$/;
+    var MED = /^(peel_00_skin|peel_16_fascia|peel_40_deep|peel_55_skeleton|peel_70_cavities|peel_85_deepest|hero(26)?_sel_ffffff)$/;
     function src(name) {
       var px = stage.offsetHeight * (window.devicePixelRatio || 1);
       return MED.test(name) && px <= 1650 ? 'img/' + name + '-m.webp' : '../../assets/plates/' + name + '.webp';
