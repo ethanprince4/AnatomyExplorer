@@ -15,10 +15,12 @@ The owner decides at checkpoints, picking from three options per question. Each 
 | Checkpoint | Page | Decided |
 |---|---|---|
 | 1 | `checkpoint-1.html` | Panels: the wall. The wall label and the tool dock are lettered straight onto the wall; the plaque and frame treatments are dropped. Logo: Section cut down the midline (now the Specimen identity in `identity/specimen/`). The website's download buttons stay as they are. |
-| 2 | `checkpoint-2.html` | Open: labels, the depth gauge and the libraries, plus new rooms and states to look over. Nothing decided yet. |
+| 2 | `checkpoint-2.html` | Depth gauge: Rule, without the "Dissection" head and with a knob as tall as the percentage's figures. Lessons: Vitrines. Histology library: the Catalogue, with no foot line (how the endless list ends goes to checkpoint 3). The model viewer room is kept as built. Search: the drop-down is rejected, and no "Ctrl K" is printed in the chrome (the key stays bound). No white or light panels anywhere. Labels: the numbered key, placed better, with caption rails on demand (checkpoint 3). |
+| 3 | being prepared | Labels, search, navigation and the Histology library: three options each, in `app/specimen-<topic>/` (work in progress). |
 
 Checkpoint 1's picks are applied to `app/specimen/`, `site/specimen/` and this gallery. The mockup and the website now
-have one panel treatment, the wall, and no `?panel=` switch.
+have one panel treatment, the wall, and no `?panel=` switch. Checkpoint 2's gauge, library, viewer and search decisions
+are applied to `app/specimen/`; before and after pictures are in `renders/checkpoint-3/apply/`.
 
 ## The three directions
 
@@ -46,13 +48,14 @@ All three share the same decisions about how the app works, taken from the revie
 |---|---|
 | `index.html` | The gallery. Start here. |
 | `checkpoint-1.html`, `checkpoint-2.html` | The checkpoint pages: the options put to the owner, and (from checkpoint 2) what was decided before. |
-| `app/<direction>/index.html` | App mockups, nine screens each, HTML and CSS at 1920 × 1080. Choose a scheme and screen in the address bar, for example `app/specimen/index.html?scheme=green&screen=practice`. Screens: `atlas`, `peel`, `lesson`, `lessons`, `models`, `radiology`, `practice`, `histology`, `settings`. |
-| `app/specimen-<topic>/` | Checkpoint 2's working copies of the Specimen mockup, one per topic (`labels`, `gauge`, `library`, `states`, `viewer`), each with a `PORT.md` that says how to carry it into `app/specimen/`. |
+| `app/<direction>/index.html` | App mockups, HTML and CSS at 1920 × 1080. Choose a scheme and screen in the address bar, for example `app/specimen/index.html?scheme=green&screen=practice`. Overlay and Plate have nine screens: `atlas`, `peel`, `lesson`, `lessons`, `models`, `radiology`, `practice`, `histology`, `settings`. Specimen has eleven: those nine plus `viewer` (the opened model; `&view=corpuscle` for the close view) and `histology-library`. On the atlas and peel, `&gauge=drag` and `&gauge=only` show the gauge's other states. |
+| `app/specimen-<topic>/` | Working copies of the Specimen mockup, each with a `PORT.md` that says how to carry it into `app/specimen/`. Checkpoint 2: `labels`, `gauge`, `library`, `states`, `viewer` (decided). Checkpoint 3, work in progress: `labels3`, `search`, `nav`, `histology`. |
 | `identity/` | Marks, lockups, app icons and favicons for each direction; `identity/README.md` says which drawing to use at which size. |
 | `site/<direction>/index.html` | The three websites. Each is one working page, responsive down to phone width, with its own scheme switcher. `?scheme=` picks a scheme. |
-| `renders/<direction>/` | The mockups rendered to WebP: every screen in every scheme at 1×, the atlas screen of every scheme at 2× (`@2x`), and every screen of each default scheme at 2×. Specimen 68, Overlay 88, Plate 78: 234 in all. |
+| `renders/<direction>/` | The mockups rendered to WebP: every screen in every scheme at 1×, the atlas screen of every scheme at 2× (`@2x`), and every screen of each default scheme at 2×. Specimen 82, Overlay 88, Plate 78: 248 in all. |
 | `renders/site/` | Website captures: first screen on desktop (1× and 2×) and phone (2×), and the whole page, four per direction. |
 | `renders/checkpoint-1/`, `renders/checkpoint-2/` | The pictures on the checkpoint pages: option renders, logo boards and before/after captures. |
+| `renders/checkpoint-3/` | Checkpoint 3's pictures: `apply/` (checkpoint 2's decisions in the main mockup, before and after) and one folder per open topic (work in progress). |
 | `renders/current/` | Two screenshots of today's app, used in the gallery. |
 | `current/` | Full-resolution screenshots of today's app (v4.0.8) that the review refers to. |
 | `system/schemes.py` | The 21 colour schemes. Running it writes `schemes.json`, `schemes.css` and `schemes.js`, and checks contrast. |
@@ -160,7 +163,8 @@ Pages and renders need Node with Playwright and Chromium; set `PLAYWRIGHT_MODULE
    - `python tools/bundle_plates.py assets/plates` writes `plates.js`.
 5. **Renders:** `python tools/render_all.py [direction ...]` renders every mockup screen into `renders/`
    (`python tools/render_all.py specimen` for Specimen only).
-   `node tools/render_mockups.mjs <out> <direction> <scheme|all> <screen|all> [scale]` renders a subset.
+   `node tools/render_mockups.mjs <out> <direction> <scheme|all> <screen|all> [scale]` renders a subset. The viewer's close
+   view is not in the standard set: render it with `MOCKUP_QUERY="view=corpuscle"` and the `viewer` screen.
 6. **Website captures:** `node tools/shot_gallery.mjs <out> <direction> <scheme> full` writes three PNGs to `<out>`. Save
    them as `renders/site/<direction>_site_desktop@2x.webp` (the 2880 × 1800 capture),
    `<direction>_site_desktop.webp` (the same, scaled to 1440 × 900), `<direction>_site_mobile@2x.webp` and

@@ -1,0 +1,148 @@
+/* Search (checkpoint 3): shared rules, then one block per option (html[data-variant]). Scheme tokens only. */
+
+/* ---------------------------------------------------------------- the field at rest: a line to write on, no key hint */
+.find.sx-field { position: relative; cursor: text; transition: border-color .15s; }
+.find.sx-field .i { color: var(--text-2); }
+.find.sx-field:hover { border-bottom-color: var(--text-2); }
+.find.sx-field:focus-within { border-bottom-color: var(--text); }
+.find.sx-field:focus-within .i { color: var(--text); }
+.sx-in { flex: 1; min-width: 0; height: 100%; padding: 0; border: 0; outline: 0; background: none; font: 400 15px var(--sans); color: var(--text); caret-color: var(--accent); }
+.sx-in::placeholder { color: var(--text-2); opacity: 1; }
+.sx-again { position: absolute; right: 2px; top: 46px; font: 400 13px/18px var(--sans); color: var(--text-2); text-decoration: none; white-space: nowrap;
+  border-bottom: 1px solid var(--hair); }
+.sx-again:hover { color: var(--text); border-bottom-color: var(--text-2); }
+.sx-again[hidden] { display: none; }
+
+/* ---------------------------------------------------------------- shared result type */
+.sx { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.sx-panel { position: absolute; pointer-events: auto; scrollbar-width: none; }
+.sx-panel::-webkit-scrollbar { display: none; }
+.sx-svg { position: absolute; inset: 0; width: 1920px; height: 1080px; pointer-events: none; overflow: visible; z-index: 4; }
+.sx-leader { fill: none; stroke: var(--text); stroke-width: 1; }
+.sx-ring { fill: none; stroke: var(--text); stroke-width: 1.5; }
+.sx-dots { position: absolute; inset: 0; pointer-events: none; }
+.sx-cols ol { list-style: none; margin: 0; padding: 0; }
+.sx-h { margin: 0 0 6px; font: 600 13px/20px var(--sans); color: var(--text-2); }
+.sx-h .n { margin-left: 6px; font-weight: 400; color: var(--text-3); }
+.sx-r { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+.sx-r .tx { display: block; min-width: 0; }
+.sx-r .nm { font-family: var(--serif); color: var(--text); font-variation-settings: "opsz" 24; text-decoration: underline 1px transparent; text-underline-offset: 6px; }
+.sx-r .lat { font-family: var(--serif); font-style: italic; color: var(--text-2); font-variation-settings: "opsz" 14; }
+.sx-r .mt { font: 400 13px/18px var(--sans); color: var(--text-3); }
+.sx-r .nv::before { content: " · "; }
+.sx-r .pt { font: 400 13px/18px var(--sans); color: var(--text-2); }
+.sx-r .mt .pt { display: block; margin-top: 2px; }
+.sx-r mark { background: none; color: inherit; font-weight: 640; }
+.sx-r.is-active .nm { text-decoration-color: var(--text); }
+.sx-more { margin: 6px 0 0; padding: 0 0 1px; border: 0; border-bottom: 1px solid var(--hair); background: none; cursor: pointer;
+  font: 400 13px/18px var(--sans); color: var(--text-2); }
+.sx-more:hover { color: var(--text); border-bottom-color: var(--text-2); }
+.sx-hint, .sx-fz { margin: 0 0 18px; font: 400 14px/20px var(--sans); color: var(--text-2); }
+.sx-none { margin: 0; display: flex; flex-direction: column; gap: 6px; font: 400 14px/20px var(--sans); color: var(--text-2); }
+.sx-none .big { font-family: var(--serif); font-size: 26px; line-height: 32px; font-weight: 380; color: var(--text); font-variation-settings: "opsz" 36; margin-bottom: 4px; }
+.sx-none .browse { margin-top: 10px; color: var(--text-3); }
+.sx-none a { color: var(--text-2); border-bottom: 1px solid var(--hair); cursor: pointer; }
+.sx-none a:hover { color: var(--text); }
+
+/* the numbered key circles (checkpoint 2 labels, option 3), on the body and in the list */
+.sx .ndot, .sx-dots .ndot { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; flex: none;
+  font: 600 12px/1 var(--sans); font-variant-numeric: tabular-nums; color: var(--text); background: var(--stage-bottom);
+  box-shadow: inset 0 0 0 1px var(--leader); transition: box-shadow .12s, transform .12s; }
+.sx-dots .ndot { position: absolute; margin: -9px 0 0 -9px; pointer-events: auto; cursor: pointer; }
+.sx .ndot.is-cur, .sx-dots .ndot.is-cur { color: var(--on-accent); background: var(--accent); box-shadow: 0 0 0 1.5px var(--stage-bottom); }
+.sx .ndot.is-active, .sx-dots .ndot.is-active { box-shadow: inset 0 0 0 1.5px var(--text), 0 0 0 3px var(--stage-bottom), 0 0 0 4px var(--text); }
+.sx .ndot.is-cur.is-active, .sx-dots .ndot.is-cur.is-active { box-shadow: 0 0 0 2px var(--stage-bottom), 0 0 0 3px var(--text); }
+.sx .ndot.off { background: none; box-shadow: none; border: 1px dashed var(--text-3); }
+
+/* while results show, the numbered circles stand in for the tag labels */
+.stage .lbl, .stage svg.leaders, .cat, .label-card, .gauge, .dock, .exhibit, .stage, .pool { transition: opacity .18s, transform .28s; }
+.sx-on .stage .lbl, .sx-on .stage svg.leaders { opacity: 0; }
+[data-variant="3"] .sx-on:not(.sx-typed) .stage .lbl, [data-variant="3"] .sx-on:not(.sx-typed) .stage svg.leaders { opacity: 1; }
+
+/* ---------------------------------------------------------------- 1  On the body
+   The list is lettered in the right-hand column, beside the body, where the depth rule stands (it steps aside while
+   the list is up). Structures first, numbered as on the body; other kinds as quiet lines under a hairline. */
+[data-variant="1"] .sx-on .gauge { opacity: 0; pointer-events: none; }
+[data-variant="1"] .sx-panel { left: 1262px; top: 200px; width: 600px; max-height: 800px; overflow: auto; }
+[data-variant="1"] .sx-count { height: 32px; font: 400 13px/20px var(--sans); color: var(--text-3); }
+[data-variant="1"] .sx-g.is-st .sx-r { padding: 7px 0 9px; }
+[data-variant="1"] .sx-g.is-st .ndot { margin-top: 4px; }
+[data-variant="1"] .sx-g.is-st .nm { font-size: 21px; line-height: 27px; font-weight: 420; }
+[data-variant="1"] .sx-g.is-st .lat { display: block; font-size: 15px; line-height: 20px; }
+[data-variant="1"] .sx-g.is-st .mt, [data-variant="1"] .sx-g.is-st .pt { display: block; margin-top: 2px; }
+[data-variant="1"] .sx-g.is-st .sx-r:not(:has(.ndot:not(.off))) .nm { color: var(--text-2); }
+[data-variant="1"] .sx-g:not(.is-st) { display: grid; grid-template-columns: 110px 1fr; column-gap: 0; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--hair); }
+[data-variant="1"] .sx-g.is-st + .sx-g:not(.is-st) { margin-top: 22px; }
+[data-variant="1"] .sx-g:not(.is-st) + .sx-g:not(.is-st) { margin-top: 0; border-top: 0; padding-top: 6px; }
+[data-variant="1"] .sx-g:not(.is-st) .sx-h { grid-column: 1; grid-row: 1 / span 2; font-weight: 400; color: var(--text-3); line-height: 24px; }
+[data-variant="1"] .sx-g:not(.is-st) ol, [data-variant="1"] .sx-g:not(.is-st) .sx-more { grid-column: 2; justify-self: start; }
+[data-variant="1"] .sx-g:not(.is-st) .sx-r { padding: 2px 0 4px; }
+[data-variant="1"] .sx-g:not(.is-st) .nm { font-size: 17px; line-height: 24px; font-weight: 380; }
+[data-variant="1"] .sx-g:not(.is-st) .mt { margin-left: 10px; }
+[data-variant="1"] .sx-g:not(.is-st) .sx-h .n { display: none; }
+[data-variant="1"] .sx-none { margin-top: 32px; }
+
+/* ---------------------------------------------------------------- 2  The index
+   The room becomes an index lettered on the wall. The body steps back to the right and dims; the structures listed
+   are numbered on it. Head words carry their parts run in, as a printed atlas index does. */
+[data-variant="2"] .sx-on .stage, [data-variant="2"] .sx-on .pool { transform-origin: 980px 568px; transform: translate(668px, 40px) scale(.68); }
+[data-variant="2"] .sx-on .stage img.plate { opacity: .38; }
+[data-variant="2"] .sx-on .exhibit, [data-variant="2"] .sx-on .cat, [data-variant="2"] .sx-on .label-card,
+[data-variant="2"] .sx-on .gauge, [data-variant="2"] .sx-on .dock { opacity: 0; pointer-events: none; }
+[data-variant="2"] .sx-dots .ndot { transform: scale(1.4); }
+[data-variant="2"] .sx-dots .ndot.is-active { transform: scale(1.75); }
+[data-variant="2"] .sx-panel { left: 40px; top: 96px; width: 1400px; bottom: 30px; }
+[data-variant="2"] .sx-word { user-select: none; font-family: var(--serif); font-size: 64px; line-height: 72px; font-weight: 300; letter-spacing: -.02em;
+  font-variation-settings: "opsz" 72; color: var(--text); white-space: nowrap; }
+[data-variant="2"] .sx-word .sx-ph { color: var(--text-3); }
+[data-variant="2"] .sx-count { margin-left: 22px; font: 400 15px var(--sans); letter-spacing: 0; color: var(--text-2); vertical-align: 10px; }
+[data-variant="2"] .sx-close { position: absolute; right: 0; top: 30px; padding: 0 0 1px; border: 0; border-bottom: 1px solid var(--hair); background: none;
+  cursor: pointer; font: 400 14px/20px var(--sans); color: var(--text-2); }
+[data-variant="2"] .sx-close:hover { color: var(--text); }
+[data-variant="2"] .sx-fz, [data-variant="2"] .sx-hint { position: absolute; top: 106px; margin: 0; }
+[data-variant="2"] .sx-none { position: absolute; top: 136px; }
+[data-variant="2"] .sx-cols { position: absolute; top: 136px; left: 0; right: 0; display: grid; grid-template-columns: 880px 424px; column-gap: 96px; align-items: start;
+  grid-auto-flow: dense; }
+[data-variant="2"] .sx-g { grid-column: 2; padding-top: 12px; border-top: 1px solid var(--hair); margin-bottom: 22px; }
+[data-variant="2"] .sx-g.is-st { grid-column: 1; grid-row: 1 / span 12; }
+[data-variant="2"] .sx-g.is-st ol { column-count: 2; column-gap: 48px; }
+[data-variant="2"] .sx-h { margin-bottom: 8px; }
+[data-variant="2"] .sx-r { break-inside: avoid; gap: 10px; padding: 4px 0 8px; }
+[data-variant="2"] .sx-r .nm { font-size: 18px; line-height: 24px; font-weight: 400; }
+[data-variant="2"] .sx-r mark { text-decoration: underline 1.5px var(--accent); text-underline-offset: 4px; font-weight: 560; }
+[data-variant="2"] .sx-r.is-active mark { text-decoration-color: var(--text); }
+[data-variant="2"] .sx-r .lat { display: block; font-size: 15px; line-height: 20px; }
+[data-variant="2"] .sx-r .mt { display: block; }
+[data-variant="2"] .sx-r .pt { display: inline; }
+[data-variant="2"] .sx-r .pt::before { content: " · "; color: var(--text-3); }
+[data-variant="2"] .sx-r .ndot { width: 16px; height: 16px; font-size: 11px; margin-top: 4px; }
+[data-variant="2"] .sx-g.is-st .sx-r:not(:has(.ndot)) .tx { margin-left: 26px; }
+[data-variant="2"] .sx-g:not(.is-st) .nm { font-size: 17px; }
+[data-variant="2"] .sx-g:not(.is-st) .mt { display: block; }
+
+/* ---------------------------------------------------------------- 3  In the title
+   Clicking the field or the room's title puts the query in the title; the results letter themselves in the left
+   column under it, where Systems and the wall label were. Choosing one makes it the title. */
+[data-variant="3"] .find.sx-field { width: 200px; }
+[data-variant="3"] .sx-on .find.sx-field { border-bottom-color: var(--text); }
+[data-variant="3"] .sx-on .find.sx-field .i { color: var(--text); }
+[data-variant="3"] .exhibit h1 { cursor: text; outline: none; min-width: 300px; caret-color: var(--accent); text-decoration: underline 1px transparent; text-underline-offset: 10px; }
+[data-variant="3"] .app:not(.sx-on) .exhibit h1:hover { text-decoration-color: var(--hair); }
+[data-variant="3"] .sx-on .exhibit h1 { text-decoration-color: var(--text-2); }
+[data-variant="3"] .exhibit h1.is-empty::before { content: "Search"; color: var(--text-3); }
+[data-variant="3"] .exhibit p a, [data-variant="3"] .exhibit p .sx-back { color: var(--text-2); border-bottom: 1px solid var(--hair); cursor: pointer; }
+[data-variant="3"] .sx-on .cat, [data-variant="3"] .sx-on .label-card { opacity: 0; pointer-events: none; }
+[data-variant="3"] .sx-chosen .label-card .t, [data-variant="3"] .sx-chosen .label-card .lat { display: none; }
+[data-variant="3"] .sx-chosen .label-card hr { margin-top: 0; }
+[data-variant="3"] .sx-panel { left: 40px; top: 232px; width: 500px; max-height: 790px; overflow: auto; }
+[data-variant="3"] .sx-g { margin-bottom: 20px; }
+[data-variant="3"] .sx-g.is-st .sx-r { padding: 6px 0 9px; }
+[data-variant="3"] .sx-g.is-st .nm { font-size: 23px; line-height: 29px; font-weight: 400; }
+[data-variant="3"] .sx-g.is-st .lat { display: block; font-size: 16px; line-height: 21px; }
+[data-variant="3"] .sx-g.is-st .mt, [data-variant="3"] .sx-g.is-st .pt { display: block; margin-top: 2px; }
+[data-variant="3"] .sx-g:not(.is-st) { padding-top: 12px; border-top: 1px solid var(--hair); }
+[data-variant="3"] .sx-g:not(.is-st) .sx-r { padding: 3px 0 5px; }
+[data-variant="3"] .sx-g:not(.is-st) .nm { font-size: 18px; line-height: 24px; font-weight: 380; }
+[data-variant="3"] .sx-g:not(.is-st) .mt { display: block; }
+[data-variant="3"] .sx .ndot { display: none; }
+[data-variant="3"] .sx-r .nv { color: var(--text-3); }

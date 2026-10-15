@@ -12,7 +12,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..');
 const [outDir, design, schemeArg, screenArg, scaleArg] = process.argv.slice(2);
 const SCHEMES = JSON.parse(fs.readFileSync(path.join(ROOT, 'system/schemes.json'), 'utf8'));
-const SCREENS = ['atlas', 'peel', 'lesson', 'lessons', 'models', 'radiology', 'practice', 'histology', 'settings'];
+const SCREENS = ['atlas', 'peel', 'lesson', 'lessons', 'models', 'viewer', 'radiology', 'practice', 'histology', 'histology-library', 'settings'];
 const schemes = schemeArg === 'all' ? Object.keys(SCHEMES[design].schemes) : schemeArg.split(',');
 const screens = screenArg === 'all' ? SCREENS : screenArg.split(',');
 const scale = parseFloat(scaleArg || '2');

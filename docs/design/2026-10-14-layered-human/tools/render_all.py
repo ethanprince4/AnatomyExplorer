@@ -13,7 +13,7 @@ ROOT = HERE.parent
 OUT = ROOT / "renders"
 SCHEMES = json.loads((ROOT / "system/schemes.json").read_text())
 DEFAULT = {"overlay": "graphite", "specimen": "slate", "plate": "bristol"}
-SCREENS = "atlas,peel,lesson,lessons,models,radiology,practice,histology,settings"
+SCREENS = "atlas,peel,lesson,lessons,models,viewer,radiology,practice,histology,histology-library,settings"
 
 
 def capture(tmp, design, schemes, screens, scale):
