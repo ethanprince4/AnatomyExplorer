@@ -131,7 +131,7 @@ The HTML mockups use an inline symbol next to live text. These recipes reproduce
 - Overlay: Archivo, `font-weight: 640; font-stretch: 90%; letter-spacing: -0.01em`. The visible films are
   2.1× the cap height; the gap is 0.8× the cap height. The symbol is centred on the middle of the caps.
 - Specimen: Literata, `font-weight: 450; font-variation-settings: "opsz" 36; letter-spacing: -0.005em`.
-  The visible mark (the circle with its stepped half) is 1.7× the cap height; the gap is 0.7× the cap height.
+  The visible mark (the circle with its stepped half) is 2.2× the cap height; the gap is 0.45× the cap height.
   Centred on the middle of the caps.
 - Plate: Atkinson Hyperlegible Next, `font-weight: 700; letter-spacing: -0.01em`, then a leader.
   The leader starts 0.32em after the last letter, is 1.15em long and 0.07em thick, and sits at the middle of the
@@ -147,7 +147,7 @@ clamps the weight to 400 and the live text comes out lighter than the outlines.
 
 <!-- recipes:start -->
 - Overlay: symbol `width:1.646em; height:1.646em; margin-right:0.377em; vertical-align:-0.480em`. At 15.5px: symbol 25.5px, margin 5.8px.
-- Specimen: symbol `width:1.379em; height:1.379em; margin-right:0.352em; vertical-align:-0.335em`. At 23px: symbol 31.7px, margin 8.1px.
+- Specimen: symbol `width:1.785em; height:1.785em; margin-right:0.149em; vertical-align:-0.538em`. At 23px: symbol 41.1px, margin 3.4px.
 - Plate: leader `<svg viewBox="0 0 1350 400">` `width:1.35em; height:0.40em; margin-left:0.276em; vertical-align:0.048em`.
 - Overlay metrics: cap 686, x-height 526, units per em 1000, ink left 69, axes {'wght': 640, 'wdth': 90}.
 - Specimen metrics: cap 710, x-height 510, units per em 1000, ink left 59, axes {'opsz': 36, 'wght': 450}.

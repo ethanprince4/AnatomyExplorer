@@ -322,6 +322,7 @@ main { overflow-x: clip; }
 .peel-stage { position: relative; height: 100%; }
 .peel-stage .plate { position: absolute; max-width: none; }
 .peel-stage #hero-img { position: relative; height: 100%; width: auto; z-index: 20; }
+.peel-stage img.lift, .spot-on .exhibit:not(.is-lit) .peel-stage img.lift { filter: url(#lift-shadows); }   /* as in the layers gallery */
 .hero-label { position: absolute; z-index: 4; right: var(--gutter); top: calc(var(--by) - 13px); width: 340px; }
 .hero-label .wl-acc { color: var(--text-2); }   /* it sits in the spotlight, where the muted colour drops below 4.5:1 */
 .hl-body { display: grid; }
@@ -376,8 +377,9 @@ main { overflow-x: clip; }
   cursor: grab; touch-action: none;
 }
 .g-knob:focus { outline: none; }
-.g-knob:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.g-knob:focus-visible ~ .g-stops .g-stop.cur span { text-decoration: underline 2px var(--accent); text-underline-offset: 6px; }
+/* the ring shows when the knob was reached or moved by keyboard, not after a drag (.is-kb is set by the last input) */
+.gauge.is-kb .g-knob:focus { outline: 2px solid var(--accent); outline-offset: 4px; }
+.gauge.is-kb .g-knob:focus ~ .g-stops .g-stop.cur span { text-decoration: underline 2px var(--accent); text-underline-offset: 6px; }
 
 /* ---------- Rooms ---------- */
 .room { padding: clamp(96px, 11vw, 168px) var(--gutter); }
@@ -646,7 +648,7 @@ main { overflow-x: clip; }
 @media (max-width: 899px) {
   /* Phones: the body under the light comes first, its legs fading under the headline; the gauge beside it. */
   .hero {
-    --fig-h: clamp(420px, 58svh, 560px);
+    --fig-h: clamp(400px, 54svh, 520px);
     grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "spec gauge" "copy copy" "label label";
     column-gap: 14px; justify-content: center;
   }
@@ -657,7 +659,7 @@ main { overflow-x: clip; }
   .g-end, .g-pct { display: none; }
   .g-stop { gap: 8px; }
   .g-stop span { font-size: 13px; }
-  .g-stop.cur span { font-size: 15px; font-weight: 460; }
+  .g-stop.cur span { font-size: 14px; font-weight: 500; }
   .g-track { min-height: 0; margin-top: 16px; }
   .split, .otc, .micro, .course, .two-texts, .eff, .desk-after { grid-template-columns: minmax(0, 1fr); }
   .split { gap: 20px; }
@@ -820,7 +822,7 @@ main { overflow-x: clip; }
 
   <figure class="hero-spec pool" id="hero-spec" role="img" aria-label="The whole body from the front at the skin surface, nothing removed">
     <div class="peel-stage" id="peel-stage">
-      <img class="plate" id="hero-img" src="../../assets/plates/peel_00_skin.webp" width="929" height="2240" fetchpriority="high" alt="">
+      <img class="plate lift" id="hero-img" src="../../assets/plates/peel_00_skin.webp" width="929" height="2240" fetchpriority="high" alt="">
     </div>
     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
       <!-- Both biceps on the 8% selection render. At 16% they are unchanged, so that render is shown through this outline. -->
@@ -1552,7 +1554,7 @@ main { overflow-x: clip; }
       dragging = true; track.classList.add('is-dragging');
       track.setPointerCapture(e.pointerId);
       setDepth(yToDepth(e.clientY));
-      knob.focus({ preventScroll: true });
+      knob.focus({ preventScroll: true });   /* keys work after a drag; the ring is for the keyboard */
       e.preventDefault();
     });
     track.addEventListener('pointermove', function (e) { if (dragging) setDepth(yToDepth(e.clientY)); });
@@ -1569,6 +1571,8 @@ main { overflow-x: clip; }
       e.preventDefault(); load(); animateTo(STOPS[to].lv);
     });
     knob.addEventListener('focus', load);
+    document.addEventListener('keydown', function () { gauge.classList.add('is-kb'); }, true);
+    document.addEventListener('pointerdown', function () { gauge.classList.remove('is-kb'); }, true);
     /* the deeper plates come once the page is idle, so the first paint is only the skin */
     function idle() {
       if (window.requestIdleCallback) requestIdleCallback(load, { timeout: 2500 }); else setTimeout(load, 800);

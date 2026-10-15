@@ -1,0 +1,11 @@
+Wall only: the committed page against the page with ?panel, plaque and frame removed (full page, reduced motion).
+  1440px: 1440x13215 vs 1440x13215, pixels changed 0, max channel difference 0
+  1024px: 1024x12258 vs 1024x12258, pixels changed 0, max channel difference 0
+  390px: 390x17331 vs 390x17331, pixels changed 0, max channel difference 0
+Peel alignment at 1440: each level in the browser on black against the same plates placed by their plates.js crop boxes
+(Lanczos at the same scale). Shift from phase correlation, in screen pixels; the difference is resampling only (see alignment_16_55.webp).
+  lv0 shift (y,x) px [0.   0.05] mean abs diff 0.70 p99 13.0 max 81.0
+  lv16 shift (y,x) px [ 0.1 -0.3] mean abs diff 4.08 p99 57.0 max 151.0
+  lv26 shift (y,x) px [-0.1   0.05] mean abs diff 2.00 p99 28.0 max 95.0
+  lv55 shift (y,x) px [0.3 0. ] mean abs diff 1.76 p99 31.0 max 102.0
+Note: after_390 and before_390 are scaled to 16383 px high (WebP limit); the 1:1 PNGs are in the scratch folder.

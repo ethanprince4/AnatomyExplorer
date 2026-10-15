@@ -68,7 +68,7 @@ MIDLINE_BRASS = {"light": "#8c6a32"}      # the muscle on paper: a darker brass,
 MIDLINE_MONO = .62                        # one colour: the muscle at 62% of the ink
 MIDLINE_MAC = {16: 11, 32: 19}            # macOS 16 and 32 px: the mark's larger side in output pixels
 MIDLINE_WIN = {16: 12, 24: 18, 32: 24, 48: 36}   # Windows and favicon tiles, full bleed
-MIDLINE_LOCKUP, MIDLINE_FAVICON = 28, 12  # drawings for the lockups (the app header) and the favicon
+MIDLINE_LOCKUP, MIDLINE_FAVICON = 36, 12  # drawings for the lockups (the app header) and the favicon
 
 # Plate: the figure plate. Heights are fractions of the art box; the anchors are named in figure.json.
 FIG_ALPHA = {"dark": .18, "light": .16, "mono": .16}
@@ -82,7 +82,7 @@ ANCHORS = ("biceps.vl", "rectus_femoris.vr", "sartorius.vr", "deltoid.vl", "pect
            "tibialis_anterior.vl")
 
 # Lockups: visible symbol height and gap, both in cap heights.
-LOCKUP = {"overlay": (2.1, .8), "specimen": (1.7, .7)}
+LOCKUP = {"overlay": (2.1, .8), "specimen": (2.2, .45)}   # Specimen as Section had it at checkpoint 1
 
 # Mark extent per icon family: films' visible size, section diameter or figure height, as a fraction of the tile.
 MAC = {"overlay": .57, "specimen": .58, "plate": .76}

@@ -236,6 +236,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .it .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--p) * 100%); background: var(--accent); }
 .ph { display: block; background: var(--surface-2); }   /* plain placeholder: the mockup has no micrograph of this tissue */
 .slide { display: block; object-fit: cover; border: 1px solid var(--hair); }
+.slide[src$="/strat_squamous_nk.webp"] { object-view-box: inset(702px 4px 42px 306px); }   /* the catalogue's only micrograph is an eight-panel figure: show panel H, the epithelium itself */
 
 /* 1 and 3: catalogue rows */
 .cat-head { display: none; }
@@ -596,25 +597,25 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 <section class="screen" data-screen-id="histology-library">
 <div class="app lib hl">
   <header class="head" data-chrome="histology"></header>
-  <div class="exhibit"><h1>Histology</h1><p class="num">101 tissues · 1,049 micrographs</p></div>
+  <div class="exhibit"><h1>Histology</h1><p class="num">101 tissues · 978 micrographs</p></div>
   <div class="lib-side cat">
     <div class="colhead" style="display:flex">Groups<span style="margin-left:auto">Tissues</span></div>
     <ul data-tissue-groups></ul>
   </div>
   <div class="lib-main">
     <div class="lit slides">
-      <div class="v is-sel"><div class="fig"><div class="pool"></div><img class="slide" src="../../assets/images/histo_simple_columnar.jpg" alt="Simple columnar epithelium around a large central lumen"></div>
+      <div class="v is-sel"><div class="fig"><div class="pool"></div><img class="slide" src="../../assets/images/histo/simple_columnar.webp" alt="Simple columnar epithelium around a large central lumen"></div>
         <b class="vt">Simple columnar epithelium</b><span class="meta num">Last opened · slide 1 of 13</span></div>
-      <div class="v"><div class="fig"><div class="pool"></div><span class="ph slide"></span></div>
+      <div class="v"><div class="fig"><div class="pool"></div><img class="slide" src="../../assets/images/histo/simple_cuboidal.webp" alt="Simple cuboidal epithelium: cells with round nuclei beside a lumen"></div>
         <b class="vt">Simple cuboidal epithelium</b><span class="meta num">12 slides</span></div>
-      <div class="v"><div class="fig"><div class="pool"></div><span class="ph slide"></span></div>
+      <div class="v"><div class="fig"><div class="pool"></div><img class="slide" src="../../assets/images/histo/pseudostratified.webp" alt="Trachea: ciliated epithelium, goblet cells and cartilage"></div>
         <b class="vt">Pseudostratified ciliated columnar epithelium</b><span class="meta num">12 slides</span></div>
     </div>
     <div class="tissues" data-tissues></div>
   </div>
   <p class="meta foot num"><span class="v1">26 of 101 shown</span><span class="v2">14 of 101 shown</span><span class="v3">15 of 101 shown</span> · scroll for the rest</p>
   <aside class="label-card lib-detail">
-    <div class="dfig"><img class="slide" src="../../assets/images/histo_simple_columnar.jpg" alt="Simple columnar epithelium around a large central lumen"></div>
+    <div class="dfig"><img class="slide" src="../../assets/images/histo/simple_columnar.webp" alt="Simple columnar epithelium around a large central lumen"></div>
     <div class="t">Simple columnar epithelium</div>
     <div class="meta num">Epithelium · 13 slides · H&amp;E</div>
     <hr>
@@ -709,31 +710,33 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
       <span>${i === 4 ? `<span class="is-cur">${t}</span>` : t}</span><span class="n num">${s}</span></li>`).join('');
   });
   // Histology: groups, names and slide counts from data/histology/catalog.json ("&" written "and"; inside a group the
-  // group word is dropped, as in the Histology room's list). Only simple columnar has micrographs in the mockup.
+  // group word is dropped, as in the Histology room's list). The third field is the tissue's micrograph in
+  // assets/images/histo/ (one per tissue, from the catalogue; credits in assets/images/CREDITS.json); none = no usable image.
   const TGROUPS = [['Epithelium', 9], ['Connective tissue', 5], ['Cartilage and bone', 6], ['Blood and bone marrow', 2], ['Muscle tissue', 3],
     ['Nervous tissue', 2], ['Heart and blood vessels', 5], ['Immune organs', 4], ['Skin', 6], ['Digestive system', 19], ['Respiratory system', 6],
     ['Urinary system', 5], ['Endocrine glands', 6], ['Male reproductive system', 6], ['Female reproductive system', 7], ['Eye and ear', 4],
     ['Brain and spinal cord', 6]];
+  const SEL_TISSUE = 'Simple columnar';
   const TISSUES = [
-    ['Epithelium', [['Simple squamous', 11], ['Simple cuboidal', 12], ['Simple columnar', 13, 'histo_simple_columnar'], ['Pseudostratified ciliated columnar', 12],
-      ['Stratified squamous, non-keratinised', 3], ['Stratified squamous, keratinised', 1], ['Transitional (urothelium)', 5],
-      ['Stratified cuboidal and columnar', 3], ['Pleura and peritoneum', 5]]],
-    ['Connective tissue', [['Loose (areolar)', 12], ['Dense regular', 13], ['Dense irregular', 4], ['Adipose', 11], ['Reticular', 10]]],
-    ['Cartilage and bone', [['Hyaline cartilage', 14], ['Elastic cartilage', 14], ['Fibrocartilage', 8], ['Compact bone', 14], ['Spongy bone', 8],
-      ['Bone development and growth plate', 14]]],
-    ['Blood and bone marrow', [['Bone marrow', 13], ['Blood cells', 13]]],
-    ['Muscle tissue', [['Skeletal muscle', 15], ['Cardiac muscle', 14], ['Smooth muscle', 13]]],
-    ['Nervous tissue', [['Peripheral nerve', 16], ['Sensory and autonomic ganglia', 6]]],
-    ['Heart and blood vessels', [['Elastic artery (aorta)', 7], ['Muscular arteries and arterioles', 12], ['Veins and venules', 13],
-      ['Capillaries and sinusoids', 12], ['Heart valves, endocardium and pericardium', 1]]]];
+    ['Epithelium', [['Simple squamous', 11, 'simple_squamous'], ['Simple cuboidal', 12, 'simple_cuboidal'], ['Simple columnar', 13, 'simple_columnar'], ['Pseudostratified ciliated columnar', 12, 'pseudostratified'],
+      ['Stratified squamous, non-keratinised', 3, 'strat_squamous_nk'], ['Stratified squamous, keratinised', 1], ['Transitional (urothelium)', 5, 'transitional'],
+      ['Stratified cuboidal and columnar', 3, 'strat_cub_col'], ['Pleura and peritoneum', 5, 'serosa']]],
+    ['Connective tissue', [['Loose (areolar)', 12, 'loose_ct'], ['Dense regular', 13, 'dense_regular'], ['Dense irregular', 4, 'dense_irregular'], ['Adipose', 11, 'adipose'], ['Reticular', 10, 'reticular_ct']]],
+    ['Cartilage and bone', [['Hyaline cartilage', 14, 'hyaline_cartilage'], ['Elastic cartilage', 14, 'elastic_cartilage'], ['Fibrocartilage', 8, 'fibrocartilage'], ['Compact bone', 14, 'compact_bone'], ['Spongy bone', 8, 'spongy_bone'],
+      ['Bone development and growth plate', 14, 'ossification']]],
+    ['Blood and bone marrow', [['Bone marrow', 13, 'bone_marrow'], ['Blood cells', 13, 'blood']]],
+    ['Muscle tissue', [['Skeletal muscle', 15, 'skeletal_muscle'], ['Cardiac muscle', 14, 'cardiac_muscle'], ['Smooth muscle', 13, 'smooth_muscle']]],
+    ['Nervous tissue', [['Peripheral nerve', 16, 'peripheral_nerve'], ['Sensory and autonomic ganglia', 6, 'ganglion']]],
+    ['Heart and blood vessels', [['Elastic artery (aorta)', 7, 'elastic_artery'], ['Muscular arteries and arterioles', 12, 'muscular_artery'], ['Veins and venules', 13, 'vein'],
+      ['Capillaries and sinusoids', 12, 'capillaries'], ['Heart valves, endocardium and pericardium', 1]]]];
   document.querySelectorAll('[data-tissue-groups]').forEach(el => {
     el.innerHTML = TGROUPS.map(([g, n], i) => `<li>${i === 0 ? `<span class="is-cur">${g}</span>` : g}<span class="n num">${n}</span></li>`).join('');
   });
   document.querySelectorAll('[data-tissues]').forEach(el => {
     el.innerHTML = TISSUES.map(([g, ts]) => `<div class="grp"><div class="colhead">${g}<span>Slides</span></div><div class="items">` +
-      ts.map(([t, n, img]) => `<div class="it ${img ? 'is-sel' : ''}"><div class="fig"><div class="pool"></div>${img
-        ? `<img class="slide" src="../../assets/images/${img}.jpg" alt="">` : '<span class="ph slide"></span>'}</div>
-        <span class="ti">${img ? `<span class="is-cur">${t}</span>` : t}</span><span class="ct meta num">${n}<span class="v2"> ${n === 1 ? 'slide' : 'slides'}</span></span></div>`).join('') +
+      ts.map(([t, n, img]) => `<div class="it ${t === SEL_TISSUE ? 'is-sel' : ''}"><div class="fig"><div class="pool"></div>${img
+        ? `<img class="slide" src="../../assets/images/histo/${img}.webp" alt="">` : '<span class="ph slide"></span>'}</div>
+        <span class="ti">${t === SEL_TISSUE ? `<span class="is-cur">${t}</span>` : t}</span><span class="ct meta num">${n}<span class="v2"> ${n === 1 ? 'slide' : 'slides'}</span></span></div>`).join('') +
       '</div></div>').join('');
   });
   // Each caption says what is inside, in five words or fewer (README and data/content/model_summaries.json).
