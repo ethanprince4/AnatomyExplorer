@@ -670,7 +670,8 @@ main { overflow-x: hidden; overflow-x: clip; }
   font: 400 13px/1.5 var(--mono); color: var(--text); white-space: normal; overflow-wrap: break-word;
   scrollbar-color: color-mix(in srgb, var(--text) 30%, transparent) transparent;
 }
-/* One statement per line; a statement that wraps hangs under its first word. */
+/* One statement per line; a statement that wraps hangs under its first word. Parameters are kept whole in the markup:
+   a break after the dash of -Force would read as a stray dash. */
 .code-row code .ln { display: block; padding-left: 2ch; text-indent: -2ch; }
 .copy-btn {
   flex: none; padding: 0 12px; border-radius: 3px; cursor: pointer;
@@ -710,13 +711,14 @@ main { overflow-x: hidden; overflow-x: clip; }
   .rooms-nav ul { gap: 18px; }
 }
 @media (max-width: 1099px) {
-  /* The figure between its label and its gauge, under the copy. */
+  /* The figure between its label and its gauge, under the copy. The gauge's column never narrows below the gauge (near
+     900 px wide it ran off the screen); the label's gives way. */
   .hero {
     /* never under 520 px, so the rule stays long enough for its eight names on short screens (1024 × 600, phones held
        sideways); the figure sits under the copy here, so it never has to fit the first screen */
     --fig-h: clamp(520px, 76vh, 700px);
     display: grid; min-height: 0; padding-bottom: 24px;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-template-areas: "copy copy copy" "label spec gauge";
+    grid-template-columns: minmax(0, 1fr) auto minmax(min-content, 1fr); grid-template-areas: "copy copy copy" "label spec gauge";
     align-items: start; column-gap: 36px;
   }
   .hero-copy { grid-area: copy; width: auto; max-width: 600px; padding-top: 40px; }
@@ -801,6 +803,15 @@ main { overflow-x: hidden; overflow-x: clip; }
 @media (min-width: 600px) and (max-width: 899px) {
   /* the names show here: a little more rule (about 350 px), so stops 8 % apart clear the current name's 26 px line */
   .gauge { margin-top: calc(var(--fig-h) * .035); height: calc(var(--fig-h) * .67); }
+}
+@media (min-width: 700px) and (max-width: 899px) and (min-height: 912px) {
+  /* Tablets held upright: the figure and its named gauge stand together in the middle of the wall, over the copy, which
+     keeps the page's gutter; the selected biceps takes two lines beside the knob rather than three. */
+  .hero {
+    grid-template-columns: minmax(0, 1fr) auto auto minmax(0, 1fr);
+    grid-template-areas: ". spec gauge ." "copy copy copy copy" "label label label label";
+  }
+  .gauge { width: 340px; }
 }
 @media (min-width: 600px) and (max-width: 899px) and (max-height: 911px) {
   /* Short tablets and phones held sideways: the rule is under 330 px, too short for eight names, so it works as on
@@ -1419,7 +1430,7 @@ html:not(.js) .edge-labels .n { display: none; }
         <div class="fallback">
           <p>If that doesn’t work, open PowerShell in your Downloads folder and run</p>
           <div class="code-row">
-            <code id="ps-cmd"><span class="ln">Set-ExecutionPolicy -Scope Process Bypass -Force;</span> <span class="ln">$ProgressPreference=<wbr>'SilentlyContinue';</span> <span class="ln">.\Download-Windows-Installer.ps1</span></code>
+            <code id="ps-cmd"><span class="ln">Set-ExecutionPolicy <span class="nowrap">-Scope</span> Process Bypass <span class="nowrap">-Force;</span></span> <span class="ln">$ProgressPreference=<wbr>'SilentlyContinue';</span> <span class="ln">.\Download-Windows-Installer.ps1</span></code>
             <button class="copy-btn" type="button" data-copy="ps-cmd">Copy</button>
           </div>
         </div>
