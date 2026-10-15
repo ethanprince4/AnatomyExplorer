@@ -60,7 +60,9 @@ BICEPS, THIGH = "biceps.vl", "rectus_femoris.vr"
 PLATE_SYMBOL_H, PLATE_SMALL_H = .875, .86
 PL_GAP, PL_LEN, PL_STROKE, PL_DOT = .32, 1.15, .07, .2   # label lockup leader, in em
 DILATE = 14                                               # outline: thickening of the small figure, in source px
-ANCHORS = ("biceps.vl", "rectus_femoris.vr", "deltoid.vl", "pectoralis.vr", "sartorius.vl", "tibialis_anterior.vl")
+# plates.js has no pectoralis.vr; pectoralis.vl stands in. sartorius.vr is the thigh point of the old 48-box mockups.
+ANCHORS = ("biceps.vl", "rectus_femoris.vr", "sartorius.vr", "deltoid.vl", "pectoralis.vl", "sartorius.vl",
+           "tibialis_anterior.vl")
 
 # Lockups: visible symbol height and gap, both in cap heights.
 LOCKUP = {"overlay": (2.1, .8), "specimen": (1.7, .7)}
