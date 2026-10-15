@@ -460,7 +460,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
   <header class="head" data-chrome="settings"></header>
   <div class="exhibit"><h1>Settings</h1></div>
   <div class="cat">
-    <ul><li><span class="is-cur">Appearance</span></li><li>Mouse &amp; camera</li><li>Labels</li><li>Behaviour</li><li>Keyboard</li></ul>
+    <ul style="color:var(--text-2)"><li><span class="is-cur">Appearance</span></li><li>Mouse &amp; camera</li><li>Labels</li><li>Behaviour</li><li>Keyboard</li></ul>
   </div>
   <div style="position:absolute; left:360px; top:232px; right:40px">
     <p class="prose" style="max-width:62ch; margin:0 0 26px">Choose the wall the body is shown on. The model, the films and the micrographs keep their real colours on every wall.</p>
@@ -485,9 +485,10 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     const cur = el.dataset.chrome;
     el.innerHTML = `<div class="brand">${mark}<span class="word">Layered Human</span></div><nav class="rooms">` +
       NAV.map(([k, v]) => `<a ${k === cur ? 'aria-current="page"' : ''}>${v}</a>`).join('') + `</nav>
+      <span class="hist"><button class="hb" aria-label="Back"><svg class="i"><use href="#i-back"/></svg></button><button class="hb" aria-label="Forward"><svg class="i"><use href="#i-chevron"/></svg></button></span>
       <div class="find"><svg class="i"><use href="#i-search"/></svg>Search the atlas, lessons, cases<kbd>Ctrl K</kbd></div>
       <button class="tb">Review <span class="ct num">12 due</span></button><button class="tb">Saved views</button>
-      <button class="tb" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>`;
+      <button class="tb icon ${cur === 'settings' ? 'is-cur' : ''}" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>`;
   });
   document.querySelectorAll('[data-dock]').forEach(el => {
     const model = el.dataset.kind === 'model';
@@ -506,36 +507,40 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
       `<div class="knob" style="top:${d * H}px"></div><div class="pct num" style="top:${d * H}px">${Math.round(d * 100)}%</div>
        <div class="end">Deep</div>`;
   });
-  const LABS = [['Lab 1', 'Nerve physiology, reflexes & general senses', 9, 9], ['Lab 2', 'Eye, ear, hearing & balance', 8, 11],
-    ['Lab 3', 'Blood & heart structure', 4, 10], ['Lab 4', 'ECG & heart function', 0, 8], ['Lab 5', 'Blood vessels & circulation', 0, 13],
-    ['Practical 1', 'Lab practical 1: Labs 1–5', 0, 9], ['Lab 6', 'Respiratory structure & ventilation', 0, 9],
-    ['Lab 7', 'Exercise physiology & pulmonary health', 0, 5], ['Lab 8', 'Digestive & urinary anatomy', 0, 16],
-    ['Lab 9', 'Reproductive systems & early development', 0, 12], ['Practical 2', 'Lab practical 2: Labs 6–9', 0, 7]];
+  // Unit names from data/content/lessons_course_*.json, with "and" for "&"; the same names are on the site.
+  const LABS = [['Lab 1', 'Nerve physiology, reflexes and general senses', 9, 9], ['Lab 2', 'Eye, ear, hearing and balance', 8, 11],
+    ['Lab 3', 'Blood and heart structure', 4, 10], ['Lab 4', 'ECG and heart function', 0, 8], ['Lab 5', 'Blood vessels and circulation', 0, 13],
+    ['Practical 1', 'Review of Labs 1–5', 0, 9], ['Lab 6', 'Respiratory structure and ventilation', 0, 9],
+    ['Lab 7', 'Exercise physiology and pulmonary health', 0, 5], ['Lab 8', 'Digestive and urinary anatomy', 0, 16],
+    ['Lab 9', 'Reproductive systems and early development', 0, 12], ['Practical 2', 'Review of Labs 6–9', 0, 7]];
   document.querySelectorAll('[data-labs]').forEach(el => {
     el.innerHTML = LABS.map(([no, t, d, n]) => `<div style="display:grid; grid-template-columns:110px 1fr 220px 80px; align-items:center; height:52px; border-bottom:1px solid var(--hair)">
-      <span class="meta">${no}</span><span class="serif" style="font-size:19px; font-weight:400">${t.replace('&', '&amp;')}</span>
+      <span class="meta">${no}</span><span class="serif" style="font-size:20px; font-weight:400">${t}</span>
       <span style="height:2px; background:var(--hair); position:relative"><i style="position:absolute; left:0; top:0; bottom:0; width:${d / n * 100}%; background:var(--accent)"></i></span>
       <span class="meta num" style="text-align:right">${d} of ${n}</span></div>`).join('');
   });
-  const MODELS = [['heart_home_clean', 'Heart', 'True scale · 119 parts'], ['kidney_v_kidney', 'Kidney with the nephron', 'True scale · 8 views'],
-    ['cardiac_muscle', 'Cardiac muscle', '48 cells'], ['thumb_eyeball', 'Eye', 'Muscles, lids, lacrimal'], ['thumb_ear', 'Ear', 'External to inner'],
-    ['thumb_tooth', 'Tooth', 'A molar in its socket'], ['thumb_compact_bone', 'Compact bone', 'Osteons'], ['thumb_hepatobiliary', 'Liver and bile ducts', 'Gross organs'],
-    ['thumb_liver_lobule', 'Liver lobule', 'Tissue block'], ['thumb_lymph_node', 'Lymph node', 'Coronal section'], ['thumb_thin_skin', 'Thin skin', 'Tissue block'],
-    ['thumb_blood_cells', 'Blood cells', 'As in a smear']];
+  // Each caption says what is inside, in five words or fewer (README and data/content/model_summaries.json).
+  const MODELS = [['heart_home_clean', 'Heart', 'Chambers, valves, coronary vessels'], ['kidney_v_kidney', 'Kidney with the nephron', 'Kidney, adrenal, ureter, nephron'],
+    ['cardiac_muscle', 'Cardiac muscle', 'Cells and intercalated discs'], ['thumb_eyeball', 'Eye', 'Eyeball, muscles, lids, lacrimal'], ['thumb_ear', 'Ear', 'External, middle and inner ear'],
+    ['thumb_tooth', 'Tooth', 'Enamel, dentin, pulp, gum, bone'], ['thumb_compact_bone', 'Compact bone', 'Osteons, canals, bone cells'], ['thumb_hepatobiliary', 'Liver and bile ducts', 'Liver, gallbladder, ducts, pancreas'],
+    ['thumb_liver_lobule', 'Liver lobule', 'Hepatocytes, sinusoids, central vein'], ['thumb_lymph_node', 'Lymph node', 'Capsule, follicles, sinuses, cords'], ['thumb_thin_skin', 'Thin skin', 'Epidermis, dermis, follicles, glands'],
+    ['thumb_blood_cells', 'Blood cells', 'Red and white blood cells'], ['thumb_spleen', 'Spleen', 'White and red pulp'], ['thumb_retina', 'Retina', 'Rods, cones and their layers'],
+    ['thumb_skeletal_muscle', 'Skeletal muscle', 'Fibres, sarcomeres, a nerve ending'], ['thumb_trachea_wall', 'Trachea wall', 'Lining, glands, cartilage']];
   document.querySelectorAll('[data-collection]').forEach(el => {
     el.innerHTML = MODELS.map(([p, n, d], i) => `<div style="position:relative; height:232px">
-      <div class="pool" style="left:10%; right:10%; top:0; height:180px; ${i === 1 ? '' : 'opacity:.55'}"></div>
+      <div class="${i === 1 ? 'is-cur-pic' : ''}" style="position:absolute; left:4px; right:4px; top:4px; height:176px"></div>
+      <div class="pool" style="left:10%; right:10%; top:0; height:180px; opacity:.55"></div>
       <img src="../../assets/plates/${p}.webp" style="position:absolute; left:50%; top:90px; transform:translate(-50%,-50%); max-width:78%; max-height:150px" alt="">
-      <div class="specimen-cap" style="position:absolute; left:0; right:0; bottom:0">${i === 1 ? '<b style="text-decoration:underline; text-decoration-color:var(--accent); text-underline-offset:6px; text-decoration-thickness:2px">' : '<b>'}${n}</b><span>${d}</span></div></div>`).join('');
+      <div class="specimen-cap" style="position:absolute; left:0; right:0; bottom:0"><b>${n}</b><span>${d}</span></div></div>`).join('');
   });
-  const CXR = [[.465, .1], [.2, .13], [.155, .28], [.085, .115], [.43, .215], [.545, .56], [.435, .62], [.715, .68], [.36, .465],
-               [.6, .435], [.22, .45], [.275, .785], [.745, .835], [.105, .825], [.895, .865], [.235, .62], [.775, .6], [.49, .42]];
+  // Film pins from the case (data/content/radiology.json, cxr_pa): only the ones the model names, with the case's numbers.
+  const CXR = [[1, .465, .1], [2, .2, .13], [4, .085, .115], [5, .43, .215], [7, .435, .62], [8, .715, .68], [12, .275, .785], [17, .775, .6]];
   document.querySelectorAll('[data-film-pins]').forEach(el => {
-    el.innerHTML = CXR.map(([x, y], i) => `<span class="pin ${i === 6 ? 'sel' : ''}" data-x="${x}" data-y="${y}">${i + 1}</span>`).join('');
+    el.innerHTML = CXR.map(([n, x, y]) => `<span class="pin ${n === 7 ? 'sel' : ''}" data-x="${x}" data-y="${y}">${n}</span>`).join('');
   });
   document.querySelectorAll('[data-strip]').forEach(el => {
     el.innerHTML = Array.from({ length: 13 }, (_, i) => `<img src="../../assets/images/histo_sc_${String(i + 1).padStart(2, '0')}.jpg" alt=""
-      style="width:68px; height:52px; object-fit:cover; ${i === 0 ? 'outline:2px solid var(--accent); outline-offset:3px' : 'opacity:.8'}">`).join('');
+      class="${i === 0 ? 'is-cur-pic' : ''}" style="width:64px; height:49px; object-fit:cover; ${i === 0 ? '' : 'opacity:.8'}">`).join('');
   });
   document.querySelectorAll('[data-scheme-grid]').forEach(el => {
     const d = root.dataset.design, all = window.LH_SCHEMES[d].schemes;
@@ -547,7 +552,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
         <div class="mini"><i></i><i></i></div>
       </div>
       <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:10px">
-        <span class="serif" style="font-size:19px">${s.name}</span><span class="meta" style="font-size:12.5px">${k === 'slate' ? 'Default' : ''}</span></div>
+        <span class="serif" style="font-size:20px">${s.name}</span><span class="meta">${k === 'slate' ? 'Default' : ''}</span></div>
     </div>`).join('');
   });
 })();
