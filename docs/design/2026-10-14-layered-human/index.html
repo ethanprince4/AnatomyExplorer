@@ -1,16 +1,21 @@
-<title>Layered Human Directions</title>
+<title>Layered Human: Specimen</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Three design directions for the Layered Human app and website, each with its own colour schemes, and renders of every screen.">
+<meta name="description" content="Specimen, the chosen design for the Layered Human app and website: every screen in its six walls, the mark, the checkpoints, and the two directions not chosen.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap">
+<link rel="icon" href="identity/specimen/favicon.ico" sizes="32x32">
+<link rel="icon" href="identity/specimen/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="identity/specimen/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <style>
-/* Layered Human: design directions gallery. A quiet review page: the renders carry the colour, the page stays ink and
-   paper. Light and dark follow the viewer. Each direction's name is set in that direction's own typeface. */
+/* Layered Human: the design gallery. Specimen, the chosen direction, first; Overlay and Plate kept as an archive. A quiet
+   review page: the renders carry the colour, the page stays ink and paper. Light and dark follow the viewer. Each
+   direction's name is set in that direction's own typeface. The mark's brass is the identity's: #8c6a32 on paper,
+   the accent #d4b47e on dark. */
 :root {
   --bg: #f2f1ed; --bg-2: #e8e6e0; --surface: #fbfaf7; --ink: #15171a; --ink-2: #454a51; --ink-3: #646a72;
-  --line: #d8d5cd; --line-2: #b9b5ab; --focus: #2457c5; --on-ink: #fbfaf7;
+  --line: #d8d5cd; --line-2: #b9b5ab; --focus: #2457c5; --on-ink: #fbfaf7; --brass: #8c6a32;
   --shadow: 0 1px 2px rgb(30 28 24 / .06), 0 14px 32px -18px rgb(30 28 24 / .28);
   --ui: "Schibsted Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -19,14 +24,14 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #111214; --bg-2: #18191c; --surface: #1b1c1f; --ink: #efeeea; --ink-2: #b9bcc1; --ink-3: #8f949b;
-    --line: #2b2d31; --line-2: #45484e; --focus: #8db2ff; --on-ink: #111214;
+    --line: #2b2d31; --line-2: #45484e; --focus: #8db2ff; --on-ink: #111214; --brass: #d4b47e;
     --shadow: 0 1px 2px rgb(0 0 0 / .4), 0 16px 36px -18px rgb(0 0 0 / .7);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #111214; --bg-2: #18191c; --surface: #1b1c1f; --ink: #efeeea; --ink-2: #b9bcc1; --ink-3: #8f949b;
-  --line: #2b2d31; --line-2: #45484e; --focus: #8db2ff; --on-ink: #111214;
+  --line: #2b2d31; --line-2: #45484e; --focus: #8db2ff; --on-ink: #111214; --brass: #d4b47e;
   --shadow: 0 1px 2px rgb(0 0 0 / .4), 0 16px 36px -18px rgb(0 0 0 / .7);
   color-scheme: dark;
 }
@@ -54,8 +59,15 @@ p { margin: 0; }
 /* ------------------------------------------------------------------------------------------------ top */
 .top { display: flex; align-items: center; justify-content: space-between; gap: 12px 28px; flex-wrap: wrap; padding-block: 18px;
   border-bottom: 1px solid var(--line); }
-.word { font-weight: 650; font-size: 17px; letter-spacing: -.01em; }
-.word span { font-weight: 450; color: var(--ink-3); margin-left: 8px; }
+.word { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; }
+.word .when { font-size: 15px; color: var(--ink-3); }
+
+/* the Specimen lockup in live text (identity/README.md, "Lockups with live text") */
+.lock { font-family: "Literata", Georgia, serif; font-weight: 450; font-variation-settings: "opsz" 36; letter-spacing: -.005em;
+  white-space: nowrap; color: var(--ink); }
+.lock .mark { width: 1.785em; height: 1.785em; margin-right: .149em; vertical-align: -.538em; }
+.mk-i { fill: var(--ink); } .mk-b { fill: var(--brass); }
+.top .lock { font-size: 20px; }
 .top nav { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 15px; color: var(--ink-2); }
 .top nav a { text-decoration: none; }
 .top nav a:hover { color: var(--ink); text-decoration: underline; }
@@ -69,6 +81,32 @@ p { margin: 0; }
 .facts div { padding: 14px 16px 0 0; }
 .facts dd { margin: 0; font-size: clamp(30px, 3.6vw, 46px); line-height: 1.1; font-weight: 600; letter-spacing: -.02em; }
 .facts dt { font-size: 14px; color: var(--ink-3); margin-top: 4px; }
+
+/* ------------------------------------------------------------------------------------------------ the mark */
+.ident { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 28px 56px; align-items: end; }
+.ident figure { margin: 0; min-width: 0; }
+.ident figcaption { font-size: 14.5px; color: var(--ink-3); margin-top: 12px; }
+.ident .icon { width: 144px; height: 144px; }
+.ident .lock { font-size: clamp(30px, 4.4vw, 48px); line-height: 1.3; display: inline-block; }
+.tabs { display: flex; align-items: flex-end; gap: 20px; }
+.tabs img { image-rendering: auto; }
+.id-note { margin-top: 28px; max-width: 46em; }
+
+/* ------------------------------------------------------------------------------------------------ checkpoints */
+.cps { list-style: none; margin: 0; padding: 0; }
+.cps li { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 6px 48px; padding: 20px 0; border-top: 1px solid var(--line); }
+.cps li:last-child { border-bottom: 1px solid var(--line); }
+.cps a { font-weight: 600; font-size: 19px; }
+.cps .d { display: block; font-size: 14.5px; color: var(--ink-3); margin-top: 2px; }
+.cps p { color: var(--ink-2); max-width: 44em; }
+.cps b { color: var(--ink); font-weight: 600; }
+
+/* ------------------------------------------------------------------------------------------------ archive */
+.archive-head { padding-block: clamp(56px, 8vw, 104px) 0; border-top: 1px solid var(--line); }
+.archive-head h2 { font-size: clamp(30px, 3.6vw, 44px); line-height: 1.1; font-weight: 600; letter-spacing: -.02em; }
+.archive-head p { color: var(--ink-2); max-width: 40em; margin-top: 14px; }
+.was { font-size: 14.5px; color: var(--ink-3); margin-bottom: 18px; }
+.archive-head + .block { border-top: 0; }
 
 /* ------------------------------------------------------------------------------------------------ section heads */
 .sec-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 12px 48px; align-items: end; margin-bottom: 32px; }
@@ -179,6 +217,9 @@ p { margin: 0; }
   .notes .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 820px) {
+  .ident { grid-template-columns: auto minmax(0, 1fr); }
+  .ident .id-lock { grid-column: 1 / -1; grid-row: 1; }
+  .cps li { grid-template-columns: minmax(0, 1fr); }
   .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 18px; }
   .sec-head, .d-head, .pick { grid-template-columns: minmax(0, 1fr); }
   .trio { grid-template-columns: minmax(0, 1fr); gap: 32px; }
@@ -190,6 +231,7 @@ p { margin: 0; }
 }
 @media (max-width: 480px) {
   body { font-size: 16px; }
+  .ident .icon { width: 112px; height: 112px; }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tiles { grid-template-columns: minmax(0, 1fr); }
   .chip { font-size: 14px; }
@@ -199,28 +241,163 @@ p { margin: 0; }
 
 <div class="page">
 <header class="top wrap">
-  <div class="word">Layered Human<span>Design directions, 14 October 2026</span></div>
+  <div class="word"><span class="lock"><svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path class="mk-b" d="M25.86 30.02C26.36 30.68 28.13 32.89 28.77 33.86C29.32 34.7 29.17 35 29.68 35.87C30.22 36.78 31.53 38.52 31.99 39.32C32.31 39.89 32.21 40.38 32.43 40.68C32.66 40.99 32.91 41.17 33.33 41.15C33.76 41.12 34.64 40.75 34.98 40.55C35.28 40.37 35.32 40.11 35.39 39.91C35.44 39.71 35.49 39.57 35.36 39.35C35.13 38.99 34.38 38.44 34.01 37.7C33.65 36.96 33.55 35.81 33.17 34.94C32.79 34.06 32.04 33.08 31.75 32.46C31.5 31.92 31.66 31.74 31.43 31.19C30.97 30.04 29.48 26.97 28.98 25.58C28.55 24.39 28.51 23.52 28.44 22.85C28.37 22.26 28.43 22.14 28.53 21.56C28.66 20.78 28.67 19 29.23 18.16C29.79 17.32 31.21 17 31.86 16.55C32.49 16.12 32.51 15.9 33.16 15.49C34.44 14.68 38.35 12.51 39.54 11.7C40.04 11.37 40.22 10.93 40.34 10.67C40.45 10.43 40.35 10.26 40.28 10.09C40.21 9.92 40.17 9.74 39.92 9.65C39.67 9.55 39.28 9.42 38.76 9.52C38.21 9.61 37.13 9.99 36.58 10.24C36.04 10.49 36.06 10.78 35.51 11.03C33.96 11.7 30.03 13.22 27.29 14.31C27.19 14.2 26.99 14.17 27 13.97C27.02 13.68 27.32 13.05 27.38 12.6C27.43 12.15 27.41 11.63 27.33 11.28C27.26 10.92 27.13 10.67 26.95 10.44C26.76 10.21 26.47 10.07 26.24 9.89C26.24 16.22 26.32 25.57 26.24 28.89C26.22 29.38 25.81 29.67 25.75 29.85C25.72 29.94 25.8 29.95 25.86 30.02Z"/><path class="mk-i" fill-opacity="0.42" d="M25.1 9.69L23.64 11.15C23.75 11.42 23.97 11.56 23.98 11.95C24.03 15.1 23.98 24.03 23.98 30.06C24.36 29.67 25.09 29.64 25.13 28.89C25.32 25.5 25.11 16.09 25.1 9.69Z"/><path class="mk-i" d="M11.36 15.58C12.88 16.51 17.4 18.96 18.77 20.42C20 21.74 19.41 23.51 19.54 24.31C19.61 24.72 19.61 24.81 19.55 25.22C19.46 25.81 19.43 26.7 19.02 27.84C18.52 29.21 17.03 32.3 16.57 33.45C16.34 34 16.5 34.18 16.24 34.72C15.95 35.34 15.21 36.32 14.83 37.19C14.45 38.07 14.36 39.21 13.99 39.96C13.62 40.7 12.84 41.31 12.61 41.69C12.49 41.9 12.57 42.06 12.64 42.24C12.71 42.43 12.75 42.66 13.02 42.81C13.37 43 14.32 43.39 14.75 43.4C15.18 43.41 15.41 43.18 15.62 42.88C15.83 42.57 15.7 42.11 16.01 41.58C16.46 40.79 17.78 39.04 18.31 38.12C18.83 37.26 18.88 36.68 19.23 36.12C19.58 35.56 19.93 35.43 20.41 34.77C21.02 33.94 22.66 33.13 22.87 31.15C23.28 27.35 22.87 18.35 22.87 11.95C22.46 12.04 21.97 12.03 21.64 12.21C21.3 12.39 21.01 12.67 20.83 13.05C20.66 13.43 20.56 13.95 20.58 14.48C20.61 15.02 20.98 15.95 21 16.29C21.01 16.47 20.81 16.48 20.73 16.57C19.29 16.04 17.26 15.33 16.43 14.98C16.06 14.83 16.09 14.62 15.73 14.47C15.07 14.18 13.18 13.6 12.49 13.28C12.02 13.07 11.98 12.78 11.6 12.58C11.22 12.38 10.68 12.21 10.22 12.06C9.77 11.92 9.24 11.74 8.86 11.73C8.49 11.72 8.15 11.83 7.95 12.01C7.74 12.19 7.62 12.54 7.64 12.8C7.66 13.07 7.77 13.3 8.05 13.59C8.38 13.91 9.08 14.44 9.63 14.77C10.18 15.11 10.62 15.12 11.36 15.58Z"/><path class="mk-b" fill-opacity="0.5" d="M38.56 8.23C38.05 7.83 36.68 6.66 35.66 6.02C34.63 5.38 33.52 4.82 32.39 4.38C31.26 3.93 30.1 3.59 28.88 3.36C27.67 3.13 26.38 3.12 25.13 3L25.13 4.47C26.21 4.57 27.32 4.57 28.39 4.76C29.46 4.95 30.52 5.24 31.54 5.62C32.56 6 33.57 6.49 34.49 7.03C35.42 7.57 36.37 8.66 37.08 8.88C37.79 9.11 38.19 8.56 38.74 8.4C38.68 8.34 38.65 8.3 38.56 8.23ZM44.98 22.02C44.93 21.11 44.82 20.05 44.64 19.12C44.46 18.18 44.23 17.31 43.92 16.41C43.61 15.51 43.2 14.57 42.76 13.72C42.33 12.87 41.79 12.12 41.3 11.32L40.32 12.49C40.9 13.54 41.58 14.54 42.04 15.62C42.51 16.7 42.86 17.82 43.11 18.95C43.35 20.08 43.5 21.24 43.52 22.42C43.55 23.6 43.46 24.84 43.26 26.02C43.05 27.2 42.73 28.38 42.3 29.49C41.87 30.61 41.31 31.7 40.67 32.71C40.03 33.73 39.29 34.69 38.46 35.56C37.62 36.43 36.6 37.16 35.67 37.96L36.47 39.19C37.1 38.69 37.77 38.23 38.38 37.67C39 37.12 39.63 36.48 40.17 35.85C40.72 35.22 41.19 34.6 41.65 33.91C42.11 33.22 42.55 32.46 42.93 31.7C43.31 30.93 43.64 30.12 43.92 29.34C44.19 28.55 44.4 27.78 44.57 26.99C44.74 26.19 44.86 25.4 44.92 24.58C44.99 23.75 45.03 22.93 44.98 22.02Z"/><path class="mk-b" d="M22.5 5.26C21.84 5.33 20.06 5.42 18.87 5.67C17.69 5.91 16.5 6.27 15.38 6.73C14.26 7.18 13.16 7.75 12.14 8.41C11.12 9.07 10.22 9.91 9.25 10.66C9.81 10.82 10.21 11.37 10.91 11.14C11.62 10.92 12.58 9.83 13.51 9.29C14.43 8.75 15.44 8.26 16.46 7.88C17.48 7.5 18.54 7.21 19.61 7.02C20.68 6.83 21.79 6.83 22.87 6.73L22.87 5.26C22.75 5.26 22.67 5.25 22.5 5.26ZM6.56 13.79C6.21 14.39 5.17 16 4.66 17.19C4.14 18.37 3.73 19.63 3.46 20.9C3.18 22.16 3.03 23.47 3 24.76C2.98 26.06 3.09 27.37 3.32 28.65C3.54 29.92 3.9 31.19 4.37 32.39C4.85 33.6 5.45 34.78 6.15 35.86C6.85 36.95 7.67 37.99 8.56 38.92C9.46 39.85 10.54 40.61 11.53 41.45L12.33 40.22C11.43 39.45 10.45 38.76 9.62 37.9C8.8 37.04 8.03 36.08 7.39 35.07C6.74 34.06 6.18 32.97 5.74 31.86C5.3 30.74 4.97 29.55 4.76 28.39C4.55 27.23 4.45 26.08 4.47 24.9C4.49 23.73 4.62 22.49 4.87 21.32C5.12 20.15 5.49 18.97 5.96 17.88C6.42 16.79 7.1 15.8 7.68 14.75L6.7 13.58C6.65 13.65 6.61 13.69 6.56 13.79ZM16.52 43.96C17.08 44.1 18.54 44.56 19.59 44.73C20.65 44.9 21.78 44.91 22.87 45L22.87 43.53C21.86 43.45 20.83 43.45 19.83 43.28C18.84 43.11 17.88 42.78 16.91 42.54L16.22 43.86C16.32 43.89 16.38 43.92 16.52 43.96Z"/></svg>Layered Human</span><span class="when">Design, 14 and 15 October 2026</span></div>
   <nav aria-label="Sections">
-    <a href="#compare">Side by side</a><a href="#overlay">Overlay</a><a href="#specimen">Specimen</a><a href="#plate">Plate</a>
-    <a href="#schemes">All schemes</a><a href="#shared">What changes</a><a href="#pick">My pick</a><a href="#notes">Notes</a>
+    <a href="#chosen">Specimen</a><a href="#mark">The mark</a><a href="#checkpoints">Checkpoints</a><a href="#specimen">Screens</a>
+    <a href="#schemes">Walls</a><a href="#shared">What changes</a><a href="#archive">Archive</a><a href="#notes">Notes</a>
   </nav>
 </header>
 
 <main>
-<section class="intro wrap">
-  <h1>Three directions for Layered Human</h1>
-  <p class="lede">One design for the desktop app and for layeredhuman.com, worked out three ways. All three keep today's idea: a quiet
-    stage and simple colours, so the body is always the brightest thing on screen. They differ in type, in how they label
-    the body and in how the website tells the story.</p>
-  <p class="lede">Every figure on this page is a real render from the app itself, placed into the new layouts. Pick a screen and
-    a colour scheme in each direction to see it, or open the websites, which work in a browser.</p>
+<section id="chosen" class="intro wrap">
+  <h1>Layered Human will be <span class="dname specimen">Specimen</span></h1>
+  <p class="lede">The body on display, as in a museum. The 3D model stands on a dark gallery wall under a spotlight, and
+    everything else is lettered on the wall: titles in Literata, the interface in Fira Sans. The app and layeredhuman.com
+    share the design.</p>
+  <p class="lede">Gallery slate is the default wall, and all six walls are dark. The label for what you select and the tool
+    dock are lettered straight onto the wall, with no card or box. The mark is Leonardo&rsquo;s figure cut down the
+    midline.</p>
   <dl class="facts">
-    <div><dd class="num">3</dd><dt>directions</dt></div>
-    <div><dd class="num">21</dd><dt>colour schemes</dt></div>
-    <div><dd class="num">9</dd><dt>app screens each</dt></div>
-    <div><dd class="num">3</dd><dt>working websites</dt></div>
-    <div><dd class="num">234</dd><dt>app renders</dt></div>
+    <div><dd class="num">6</dd><dt>walls, all dark</dt></div>
+    <div><dd class="num">9</dd><dt>app screens</dt></div>
+    <div><dd class="num">68</dd><dt>app renders</dt></div>
+    <div><dd class="num">1</dd><dt>working website</dt></div>
+    <div><dd class="num">2</dd><dt>checkpoints</dt></div>
   </dl>
+</section>
+
+<!-- ============================================================================================ the mark -->
+<section id="mark" class="block wrap">
+  <div class="sec-head">
+    <h2>The mark</h2>
+    <p>Leonardo&rsquo;s figure in its circle, cut down the midline. One half is skin; the other is the muscle layer in brass,
+      one step back. It is the app icon, the favicon and the lockup.</p>
+  </div>
+  <div class="ident">
+    <figure class="id-icon"><img class="icon" src="identity/specimen/icon-1024.png" width="1024" height="1024" loading="lazy"
+      alt="The Layered Human app icon: the figure in its circle on a slate tile, the left half white skin and the right half brass muscle"><figcaption>App icon</figcaption></figure>
+    <figure class="id-lock"><span class="lock"><svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path class="mk-b" d="M25.19 28.35C25.41 30.29 26.84 30.96 27.54 31.94C28.25 32.92 28.96 33.51 29.43 34.25C29.91 34.99 29.89 35.53 30.4 36.37C30.89 37.21 32.02 38.68 32.43 39.3C32.66 39.64 32.74 39.76 32.86 40.08C32.99 40.41 33.08 40.88 33.19 41.27L34.25 40.96C33.89 40.56 33.38 40.04 33.16 39.77C33.02 39.6 33.02 39.54 32.94 39.33C32.81 39.03 32.58 38.43 32.43 37.94C32.28 37.46 32.18 36.83 32.04 36.4C31.89 35.97 31.82 35.8 31.57 35.37C31.32 34.93 30.78 34.28 30.55 33.79C30.32 33.31 30.44 33.04 30.21 32.46C29.79 31.38 28.46 28.3 28.02 27.31C27.86 26.93 27.68 26.79 27.59 26.51C27.51 26.22 27.58 26.01 27.5 25.6C27.4 25.07 27.05 24.03 27 23.36C26.94 22.68 27.02 22.37 27.14 21.56C27.28 20.7 27.62 18.88 27.79 18.22C27.88 17.88 27.93 17.8 28.2 17.58C28.57 17.26 29.56 16.61 30.04 16.31C30.48 16.04 30.67 16.07 31.07 15.8C31.47 15.53 32.09 14.91 32.44 14.66C32.76 14.45 32.89 14.53 33.21 14.33C33.83 13.95 35.35 12.83 36.14 12.37C36.91 11.91 37.39 11.86 37.94 11.54C38.48 11.22 38.91 10.81 39.39 10.44C39.23 10.47 39.12 10.45 38.9 10.52C38.51 10.64 37.49 10.95 37.02 11.18C36.55 11.42 36.58 11.69 36.09 11.92C35.5 12.2 34.03 12.62 33.44 12.84C33.03 12.99 32.81 13.08 32.55 13.23C32.3 13.38 32.24 13.61 31.88 13.76C31.5 13.92 30.7 14.05 30.27 14.2C29.84 14.36 29.63 14.57 29.29 14.7C28.95 14.83 28.54 14.87 28.23 14.99C27.92 15.11 27.65 15.32 27.43 15.41C27.22 15.49 27.12 15.51 26.95 15.51C26.78 15.51 26.57 15.48 26.41 15.42C26.25 15.36 26.1 15.26 25.98 15.16C25.85 15.05 25.77 14.96 25.67 14.78C25.57 14.61 25.43 14.25 25.38 14.1C25.35 14.02 25.35 13.99 25.38 13.9C25.45 13.7 25.73 13.27 25.82 12.91C25.91 12.56 25.94 12.1 25.92 11.79C25.9 11.48 25.83 11.24 25.71 11.06C25.58 10.89 25.34 10.84 25.15 10.73C25.17 16.6 24.79 24.82 25.19 28.35Z"/><path class="mk-i" fill-opacity="0.34" d="M24.65 10.38L23.67 11.33C23.73 11.45 23.83 11.51 23.84 11.7C23.86 14.65 23.84 23.28 23.84 29.08C24.11 28.8 24.64 28.78 24.66 28.25C24.8 25.13 24.66 16.33 24.65 10.38Z"/><path class="mk-i" d="M13.41 42.2C13.46 42.31 13.42 42.42 13.55 42.52C13.68 42.61 13.98 42.69 14.18 42.77C14.39 42.84 14.62 42.95 14.77 42.95C14.92 42.96 15 42.92 15.06 42.77C15.16 42.54 15.27 41.88 15.4 41.55C15.52 41.21 15.59 41.11 15.81 40.79C16.22 40.17 17.36 38.68 17.86 37.84C18.36 37 18.44 36.33 18.82 35.73C19.19 35.13 19.58 34.98 20.1 34.26C20.82 33.25 22.61 30.45 23.15 29.67C23.2 29.59 23.28 29.6 23.34 29.57L23.34 11.7C23.06 11.75 22.69 11.78 22.49 11.84C22.32 11.9 22.25 11.99 22.16 12.08C22.07 12.17 22.02 12.22 21.96 12.37C21.9 12.52 21.82 12.72 21.8 12.96C21.77 13.2 21.77 13.52 21.81 13.81C21.84 14.1 21.93 14.45 22.01 14.7C22.1 14.96 22.23 15.12 22.34 15.32L22.22 15.36C22.18 15.53 22.18 15.71 22.12 15.86C22.06 16 21.97 16.12 21.87 16.22C21.76 16.32 21.63 16.4 21.49 16.46C21.36 16.51 21.2 16.53 21.06 16.53C20.92 16.53 20.82 16.51 20.63 16.43C20.43 16.35 20.17 16.15 19.87 16.03C19.57 15.91 19.15 15.88 18.81 15.74C18.47 15.61 18.26 15.4 17.83 15.25C17.4 15.09 16.6 14.96 16.22 14.8C15.89 14.66 15.86 14.45 15.6 14.3C15.34 14.14 15.11 14.04 14.68 13.89C14.08 13.66 12.64 13.25 12.04 12.98C11.53 12.74 11.55 12.45 11.07 12.21C10.58 11.98 9.58 11.67 9.14 11.54C8.83 11.45 8.59 11.45 8.44 11.46C8.32 11.48 8.27 11.57 8.24 11.63C8.21 11.68 8.22 11.74 8.25 11.8C8.28 11.86 8.34 11.93 8.43 12.01C8.61 12.17 9.05 12.54 9.33 12.75C9.62 12.96 9.76 13.05 10.16 13.25C10.55 13.45 11.05 13.55 11.72 13.95C12.46 14.39 14.02 15.52 14.63 15.9C14.95 16.1 15.09 16.02 15.4 16.24C15.76 16.48 16.36 17.09 16.76 17.36C17.16 17.64 17.36 17.61 17.8 17.88C18.28 18.17 19.25 18.83 19.61 19.12C19.81 19.29 19.86 19.36 19.92 19.61C20.08 20.25 20.43 22.08 20.57 22.92C20.68 23.7 20.77 24 20.71 24.65C20.65 25.31 20.31 26.35 20.21 26.86C20.14 27.25 20.21 27.45 20.13 27.73C20.04 28 19.87 28.14 19.71 28.51C19.27 29.5 17.93 32.59 17.51 33.67C17.29 34.24 17.41 34.51 17.18 34.99C16.96 35.47 16.42 36.1 16.17 36.54C15.92 36.97 15.84 37.17 15.69 37.6C15.54 38.05 15.44 38.69 15.29 39.18C15.14 39.67 14.91 40.24 14.79 40.53C14.72 40.71 14.72 40.76 14.6 40.91C14.37 41.19 13.81 41.77 13.41 42.2Z"/><path class="mk-b" fill-opacity="0.5" d="M44.98 22.47C44.96 21.66 44.88 21.12 44.8 20.48C44.71 19.84 44.59 19.25 44.45 18.64C44.3 18.04 44.14 17.45 43.93 16.84C43.73 16.23 43.47 15.57 43.2 14.98C42.94 14.4 42.67 13.87 42.36 13.32C42.04 12.75 41.67 12.17 41.29 11.63C40.91 11.09 40.48 10.54 40.06 10.06C39.64 9.56 39.24 9.14 38.78 8.7C38.31 8.25 37.78 7.78 37.27 7.38C36.77 6.98 36.29 6.64 35.75 6.29C35.21 5.94 34.6 5.58 34.03 5.29C33.46 4.99 32.93 4.74 32.33 4.5C31.73 4.26 31.08 4.03 30.45 3.84C29.81 3.65 29.16 3.49 28.51 3.37C27.85 3.24 27.17 3.15 26.53 3.09C25.89 3.03 25.28 3.03 24.66 3L24.66 3.63C25.38 3.67 26.13 3.68 26.83 3.75C27.53 3.83 28.17 3.93 28.86 4.09C29.55 4.24 30.27 4.43 30.96 4.67C31.64 4.9 32.18 5.08 32.98 5.47C33.77 5.87 34.95 6.53 35.71 7.02C36.47 7.51 36.96 7.93 37.53 8.42C38.1 8.91 38.82 9.71 39.14 9.97C39.25 10.06 39.35 9.93 39.44 9.95C39.54 9.96 39.63 9.98 39.71 10.06C39.78 10.13 39.87 10.27 39.88 10.38C39.9 10.49 39.72 10.58 39.8 10.72C40.01 11.09 40.75 11.93 41.18 12.59C41.61 13.26 42.04 14.05 42.37 14.7C42.7 15.34 42.91 15.87 43.13 16.47C43.36 17.08 43.53 17.49 43.72 18.32C43.91 19.14 44.17 20.39 44.27 21.41C44.38 22.43 44.4 23.41 44.34 24.43C44.28 25.45 44.14 26.52 43.91 27.54C43.69 28.56 43.36 29.61 43 30.54C42.64 31.48 42.23 32.32 41.75 33.16C41.27 34 40.61 34.92 40.12 35.56C39.64 36.2 39.28 36.57 38.85 37.02C38.42 37.47 38.01 37.86 37.53 38.26C37.06 38.67 36.52 39.09 36.01 39.45C35.5 39.81 34.98 40.11 34.46 40.43C34.54 40.53 34.65 40.62 34.69 40.71C34.74 40.8 34.73 40.91 34.75 41C35.52 40.48 36.34 40.01 37.07 39.45C37.81 38.89 38.48 38.3 39.13 37.63C39.78 36.97 40.44 36.21 41 35.46C41.56 34.71 42.04 33.95 42.48 33.15C42.92 32.35 43.31 31.51 43.64 30.66C43.96 29.81 44.24 28.93 44.45 28.04C44.66 27.15 44.81 26.26 44.9 25.33C44.99 24.41 45 23.28 44.98 22.47ZM30.38 42.2C29.82 42.33 28.51 42.69 27.55 42.84C26.6 42.97 25.62 42.98 24.66 43.05L24.66 43.68C25.74 43.59 26.82 43.59 27.89 43.42C28.96 43.25 30.01 42.9 31.07 42.64L30.9 42.03C30.73 42.09 30.62 42.14 30.38 42.2Z"/><path class="mk-b" d="M22.97 4.32C22.55 4.35 21.53 4.39 20.85 4.47C20.17 4.55 19.53 4.67 18.88 4.81C18.24 4.96 17.61 5.13 16.96 5.35C16.31 5.56 15.63 5.83 14.98 6.12C14.34 6.41 13.69 6.74 13.1 7.09C12.51 7.43 11.98 7.77 11.43 8.18C10.87 8.58 10.3 9.04 9.77 9.51C9.25 9.98 8.78 10.5 8.27 10.99C8.55 11.01 8.78 11.22 9.11 11.03C9.47 10.82 9.99 10.15 10.47 9.74C10.95 9.32 11.46 8.92 11.99 8.55C12.52 8.18 13.08 7.82 13.63 7.51C14.17 7.2 14.63 6.96 15.25 6.69C15.85 6.42 16.6 6.13 17.27 5.91C17.94 5.69 18.59 5.52 19.26 5.38C19.93 5.24 20.61 5.13 21.29 5.06C21.97 4.99 22.66 4.99 23.34 4.95L23.34 4.32C23.21 4.32 23.14 4.31 22.97 4.32ZM7.54 11.85C7.3 12.18 6.68 12.96 6.29 13.57C5.9 14.18 5.51 14.85 5.17 15.52C4.84 16.18 4.53 16.89 4.28 17.57C4.02 18.25 3.82 18.91 3.64 19.6C3.47 20.28 3.33 20.96 3.22 21.67C3.12 22.39 3.04 23.19 3.01 23.91C2.99 24.64 3 25.31 3.05 26.03C3.1 26.76 3.19 27.54 3.32 28.26C3.45 28.97 3.6 29.63 3.8 30.32C4.01 31.02 4.27 31.77 4.55 32.44C4.82 33.11 5.11 33.72 5.46 34.36C5.81 34.99 6.23 35.67 6.64 36.27C7.05 36.87 7.46 37.4 7.94 37.94C8.42 38.49 8.97 39.07 9.5 39.56C10.03 40.06 10.55 40.49 11.12 40.92C11.7 41.35 12.32 41.72 12.92 42.13L13.27 41.6C12.65 41.18 12.01 40.8 11.41 40.35C10.8 39.89 10.21 39.38 9.66 38.85C9.11 38.32 8.59 37.75 8.11 37.16C7.62 36.57 7.14 35.9 6.75 35.3C6.37 34.72 6.08 34.2 5.79 33.63C5.5 33.06 5.23 32.46 5 31.86C4.76 31.27 4.55 30.65 4.38 30.03C4.2 29.41 4.06 28.78 3.94 28.15C3.83 27.51 3.75 26.87 3.7 26.23C3.64 25.59 3.62 24.94 3.64 24.3C3.65 23.65 3.69 23.01 3.77 22.37C3.84 21.73 3.93 21.15 4.09 20.46C4.24 19.77 4.45 18.97 4.71 18.25C4.95 17.52 5.25 16.81 5.58 16.13C5.91 15.44 6.29 14.76 6.69 14.12C7.1 13.47 7.57 12.89 8.01 12.28C7.93 12.17 7.83 12.08 7.79 11.97C7.74 11.85 7.75 11.73 7.74 11.61C7.67 11.69 7.62 11.74 7.54 11.85ZM15.44 43.4C15.8 43.54 16.68 43.89 17.32 44.09C17.95 44.28 18.58 44.45 19.25 44.58C19.92 44.72 20.66 44.83 21.35 44.9C22.03 44.97 22.68 44.97 23.34 45L23.34 44.37C22.7 44.34 22.07 44.34 21.41 44.27C20.75 44.2 20.03 44.1 19.38 43.96C18.73 43.83 18.14 43.68 17.5 43.48C16.87 43.28 16.22 43.01 15.58 42.77C15.53 42.88 15.51 43 15.44 43.09C15.38 43.17 15.27 43.22 15.18 43.29C15.27 43.33 15.32 43.36 15.44 43.4Z"/></svg>Layered Human</span><figcaption>Lockup: the mark beside the wordmark in Literata</figcaption></figure>
+    <figure class="id-tab"><span class="tabs"><img src="identity/specimen/favicon.svg" width="32" height="32" alt="The favicon at 32 pixels"><img src="identity/specimen/favicon.svg" width="16" height="16" alt="The favicon at 16 pixels"></span><figcaption>Browser tab, 32 and 16 px</figcaption></figure>
+  </div>
+  <p class="small id-note">The mark is drawn again for each size, so it stays sharp: at 16 px the circle goes and the two halves
+    touch. The files, sizes and colours are in <a href="identity/README.md">identity/README.md</a>.</p>
+</section>
+
+<!-- ============================================================================================ checkpoints -->
+<section id="checkpoints" class="block wrap">
+  <div class="sec-head">
+    <h2>Checkpoints</h2>
+    <p>At each checkpoint you pick from three options per question, and the next round builds on your picks.</p>
+  </div>
+  <ol class="cps">
+    <li><div><a href="checkpoint-1.html">Checkpoint 1</a><span class="d">15 October 2026</span></div>
+      <p><b>Decided:</b> the wall for the panels, Section cut down the midline for the logo, and the website&rsquo;s download
+        buttons stay as they are.</p></li>
+    <li><div><a href="checkpoint-2.html">Checkpoint 2</a><span class="d">15 October 2026</span></div>
+      <p><b>Open:</b> labels, the depth gauge and the libraries, with new rooms and states to look over. Nothing decided yet.</p></li>
+  </ol>
+</section>
+
+<!-- ============================================================================================ specimen -->
+<section id="specimen" class="block wrap" data-direction="specimen">
+  <div class="sec-head">
+    <h2>Every screen, every wall</h2>
+    <p>Nine screens of the app in all six walls. Choose a screen and a wall, open the mockup page, or open the website in the
+      same wall.</p>
+  </div>
+  <div class="viewer" data-viewer="specimen" style="margin-top:0">
+    <a class="shot" data-full href="renders/specimen/specimen_slate_atlas@2x.webp"><img data-main src="renders/specimen/specimen_slate_atlas.webp" width="1920" height="1080" alt="Specimen, Atlas screen, Gallery slate"></a>
+    <div class="controls">
+      <div class="seg" data-screens role="group" aria-label="Specimen screen"></div>
+      <div class="schemes" data-schemes role="group" aria-label="Specimen wall"></div>
+      <div class="now"><p class="what" data-now></p>
+        <p class="links"><a data-site href="site/specimen/index.html">Open the website in this wall</a><a data-live href="app/specimen/index.html">Open the mockup page</a></p></div>
+    </div>
+  </div>
+  <div class="d-cols">
+    <div>
+      <h3>In the app</h3>
+      <ul>
+        <li><b>The wall label.</b> Select a structure and its name, Latin name, nerve, action, blood supply and attachments are
+          lettered on the wall beside the body, with an accession line of TA2 IDs.</li>
+        <li><b>A pool of light.</b> A soft spotlight behind the model in every 3D view, instead of a flat backdrop.</li>
+        <li><b>A dissection gauge.</b> A vertical scale with the eight stops. The tools are a row of words under one hairline,
+          the same in every 3D view.</li>
+        <li><b>Type:</b> Literata for titles and reading, Fira Sans for the interface.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>On the website</h3>
+      <div class="site-pair">
+        <a href="site/specimen/index.html" data-site-shot><img src="renders/site/specimen_site_desktop.webp" srcset="renders/site/specimen_site_desktop.webp 1440w, renders/site/specimen_site_desktop@2x.webp 2880w" sizes="(min-width: 1080px) 330px, 70vw" width="1440" height="900" loading="lazy" alt="The Specimen website's first screen: the headline lettered on a slate wall, the body at skin depth in a pool of light, and the dissection gauge beside it"></a>
+        <a class="phone" href="site/specimen/index.html"><img src="renders/site/specimen_site_mobile@2x.webp" width="780" height="1688" loading="lazy" alt="The Specimen website on a phone"></a>
+      </div>
+      <p><b>Rooms you walk through.</b> The first screen peels: drag the gauge beside the body and the real layers change.
+        Each room after it has a specimen in its own pool of light with a wall label. The download desk is the last room.</p>
+      <p class="links" style="margin-top:12px"><a href="site/specimen/index.html">Open the website</a><a href="renders/site/specimen_site_page.webp">See the whole page</a></p>
+    </div>
+    <div>
+      <h3>Building it</h3>
+      <p>The spotlight needs one change to the renderer: a soft pool of light added to the background pass that already
+        draws the gradient.</p>
+      <p>Literata&rsquo;s optical sizes need a few lines of code in Qt, not style sheets. The notes for the build are in
+        <a href="system/BUILD-NOTES.md">system/BUILD-NOTES.md</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================================================ walls -->
+<section id="schemes" class="block wrap">
+  <div class="sec-head">
+    <h2>Six walls</h2>
+    <p>The atlas screen on every wall. The strip under each picture shows the wall, surface, text, accent and selection
+      colours. Select a wall to open it above.</p>
+  </div>
+  <div class="group" data-group="specimen">
+    <div class="tiles" data-tiles="specimen"></div>
+  </div>
+</section>
+
+<!-- ============================================================================================ shared -->
+<section id="shared" class="block wrap">
+  <div class="sec-head">
+    <h2>What changes from today&rsquo;s app</h2>
+    <p>I reviewed today&rsquo;s app screen by screen before designing: 28 findings, 8 of them major, and none that block a task.
+      These decisions about how the app works come from that review.</p>
+  </div>
+  <div class="today">
+    <figure><span class="shot"><img src="renders/current/today_atlas.webp" width="1920" height="1080" loading="lazy" alt="Today's app with both biceps selected: the muscles are outlined in cyan, nothing on screen names them, and a white header bar sits over the dark stage"></span>
+      <figcaption>Today: the biceps is selected, but nothing on screen names it, and the white header is the brightest thing on the
+        stage.</figcaption></figure>
+    <figure><span class="shot"><img src="renders/current/today_lessons.webp" width="1920" height="1080" loading="lazy" alt="Today's lessons library: a bright white page with a text list of labs over the dark app"></span>
+      <figcaption>Today: Lessons opens as a bright page over the dark stage, a list of text with the progress before the
+        topic.</figcaption></figure>
+  </div>
+  <ol class="fixes">
+    <li><div><h3>The model is the brightest thing on every screen</h3><p>One stage behind every workspace. Libraries, readers and
+      image viewers sit on it, so moving between them never flashes from dark to white.</p></div></li>
+    <li><div><h3>The selection names itself</h3><p>Select a structure and its name, Latin name, nerve, action, blood supply and
+      attachments appear on the wall beside it, without covering it.</p></div></li>
+    <li><div><h3>The layers are on screen</h3><p>Depth is always visible on the gauge, and one dock with Section, X-ray,
+      Isolate, Hide, Measure and Labels is the same in every 3D view. Today these hide under "More tools".</p></div></li>
+    <li><div><h3>Libraries by picture</h3><p>Models are chosen by their render, with descriptions in the teacher's voice of the
+      radiology notes; lessons lead with the topic, not the progress count.</p></div></li>
+    <li><div><h3>Reading built for reading</h3><p>Lesson text at a comfortable line length, the step's recall question in view,
+      and the steps and finishing a lesson out in the open rather than behind "Lesson tools".</p></div></li>
+    <li><div><h3>Practice says what you clicked</h3><p>"Not that one: that is serratus anterior." A wrong answer names the
+      structure you chose, so even a miss teaches something.</p></div></li>
+    <li><div><h3>Films and the model, numbered alike</h3><p>The radiograph and the model carry the same numbers, as today, now with
+      the reading notes beside them and leader lines that do not cross.</p></div></li>
+    <li><div><h3>Contrast checked on every wall</h3><p>On all six walls the faintest text is at least 5.04:1 against its surface
+      (WCAG AA asks for 4.5:1), body text is at least 10.8:1 and the brass at least 6.4:1.</p></div></li>
+  </ol>
+</section>
+
+<!-- ============================================================================================ archive -->
+<section id="archive" class="archive-head wrap">
+  <h2>Archive: the two directions not chosen</h2>
+  <p>Overlay and Plate as they were shown on 14 October, with the side-by-side comparison and the pick I made before you chose.
+    They are kept for the record and are not being developed. Their renders and websites still work.</p>
 </section>
 
 <!-- ============================================================================================ side by side -->
@@ -302,58 +479,6 @@ p { margin: 0; }
   </div>
 </section>
 
-<!-- ============================================================================================ B: specimen -->
-<section id="specimen" class="block wrap" data-direction="specimen">
-  <div class="d-head">
-    <div>
-      <h2 class="dname specimen">Specimen</h2>
-      <p class="tagline">The body on display.</p>
-    </div>
-    <p class="thesis">An anatomy museum. The stage is a painted wall with a soft pool of light behind the body, titles are lettered on
-      the wall in a serif, and whatever you select gets a small light wall label, like the card beside a specimen in a case.
-      Everything else steps back into the wall.</p>
-  </div>
-  <div class="viewer" data-viewer="specimen">
-    <a class="shot" data-full href="renders/specimen/specimen_slate_atlas@2x.webp"><img data-main src="renders/specimen/specimen_slate_atlas.webp" width="1920" height="1080" alt="Specimen direction, Atlas screen, Gallery slate scheme"></a>
-    <div class="controls">
-      <div class="seg" data-screens role="group" aria-label="Specimen screen"></div>
-      <div class="schemes" data-schemes role="group" aria-label="Specimen colour scheme"></div>
-      <div class="now"><p class="what" data-now></p>
-        <p class="links"><a data-site href="site/specimen/index.html">Open the website in this scheme</a><a data-live href="app/specimen/index.html">Open the mockup page</a></p></div>
-    </div>
-  </div>
-  <div class="d-cols">
-    <div>
-      <h3>In the app</h3>
-      <ul>
-        <li><b>The wall label.</b> The selection's title, Latin name, nerve, action, blood supply and attachments, and an
-          accession line with its TA2 IDs, on one light card.</li>
-        <li><b>A pool of light.</b> A soft spotlight behind the model in every 3D view, instead of a flat backdrop.</li>
-        <li><b>A dissection gauge.</b> A vertical scale with the eight stops; labels are lettered straight onto the wall with
-          fine leaders.</li>
-        <li><b>Type:</b> Literata for titles and reading, Fira Sans for the interface.</li>
-      </ul>
-    </div>
-    <div>
-      <h3>On the website</h3>
-      <div class="site-pair">
-        <a href="site/specimen/index.html" data-site-shot><img src="renders/site/specimen_site_desktop.webp" srcset="renders/site/specimen_site_desktop.webp 1440w, renders/site/specimen_site_desktop@2x.webp 2880w" sizes="(min-width: 1080px) 330px, 70vw" width="1440" height="900" loading="lazy" alt="The Specimen website's first screen: a serif headline lettered on a slate wall, the body in a pool of light and a wall label for the biceps"></a>
-        <a class="phone" href="site/specimen/index.html"><img src="renders/site/specimen_site_mobile@2x.webp" width="780" height="1688" loading="lazy" alt="The Specimen website on a phone"></a>
-      </div>
-      <p><b>Rooms you walk through.</b> Each specimen sits in its own pool of light, which brightens as it comes into view, with a
-        wall label beside it. The download desk is the last room.</p>
-      <p class="links" style="margin-top:12px"><a href="site/specimen/index.html">Open the website</a><a href="renders/site/specimen_site_page.webp">See the whole page</a></p>
-    </div>
-    <div>
-      <h3>Trade-offs</h3>
-      <p>The most atmospheric and the most distinctive of the three; no other anatomy app looks like a museum. The wall label is a
-        strong selection component.</p>
-      <p>The mood can tip into slow or precious, so copy has to stay short. The spotlight needs a small change to the app's
-        background shader. Dark walls only.</p>
-    </div>
-  </div>
-</section>
-
 <!-- ============================================================================================ C: plate -->
 <section id="plate" class="block wrap" data-direction="plate">
   <div class="d-head">
@@ -407,66 +532,28 @@ p { margin: 0; }
   </div>
 </section>
 
-<!-- ============================================================================================ all schemes -->
-<section id="schemes" class="block wrap">
+<!-- ============================================================================================ archive schemes -->
+<section id="archive-schemes" class="block wrap">
   <div class="sec-head">
-    <h2>All 21 colour schemes</h2>
-    <p>The atlas screen in every scheme. Each direction has its own set, tuned to its type and surfaces. The strip under each
-      picture shows the stage, surface, text, accent and selection colours. Select a scheme to open it in its direction above.</p>
+    <h2>Their 15 colour schemes</h2>
+    <p>The atlas screen in every Overlay and Plate scheme. Each direction had its own set, tuned to its type and surfaces.
+      Select a scheme to open it in its direction above.</p>
   </div>
   <div class="group" data-group="overlay">
-    <div class="group-head"><h3 class="dname overlay">Overlay</h3><span>5 dark · 3 light</span></div>
+    <div class="group-head"><h3 class="dname overlay">Overlay</h3><span>8 schemes: 5 dark, 3 light</span></div>
     <div class="tiles" data-tiles="overlay"></div>
   </div>
-  <div class="group" data-group="specimen">
-    <div class="group-head"><h3 class="dname specimen">Specimen</h3><span>6 dark</span></div>
-    <div class="tiles" data-tiles="specimen"></div>
-  </div>
   <div class="group" data-group="plate">
-    <div class="group-head"><h3 class="dname plate">Plate</h3><span>5 light · 2 dark</span></div>
+    <div class="group-head"><h3 class="dname plate">Plate</h3><span>7 schemes: 5 light, 2 dark</span></div>
     <div class="tiles" data-tiles="plate"></div>
   </div>
-</section>
-
-<!-- ============================================================================================ shared -->
-<section id="shared" class="block wrap">
-  <div class="sec-head">
-    <h2>What all three change</h2>
-    <p>I reviewed today's app screen by screen before designing: 28 findings, 8 of them major, and none that block a task.
-      The three directions differ in look, but they make the same decisions about how the app works.</p>
-  </div>
-  <div class="today">
-    <figure><span class="shot"><img src="renders/current/today_atlas.webp" width="1920" height="1080" loading="lazy" alt="Today's app with both biceps selected: the muscles are outlined in cyan, nothing on screen names them, and a white header bar sits over the dark stage"></span>
-      <figcaption>Today: the biceps is selected, but nothing on screen names it, and the white header is the brightest thing on the
-        stage.</figcaption></figure>
-    <figure><span class="shot"><img src="renders/current/today_lessons.webp" width="1920" height="1080" loading="lazy" alt="Today's lessons library: a bright white page with a text list of labs over the dark app"></span>
-      <figcaption>Today: Lessons opens as a bright page over the dark stage, a list of text with the progress before the
-        topic.</figcaption></figure>
-  </div>
-  <ol class="fixes">
-    <li><div><h3>The model is the brightest thing on every screen</h3><p>One stage behind every workspace. Libraries, readers and
-      image viewers sit on it, so moving between them never flashes from dark to white.</p></div></li>
-    <li><div><h3>The selection names itself</h3><p>Select a structure and its name, Latin name, nerve, action, blood supply and
-      attachments appear beside it, without covering it: a leaf, a wall label or a key.</p></div></li>
-    <li><div><h3>The layers are on screen</h3><p>Depth is always visible (the rail, the gauge or the rule), and one dock with
-      Section, X-ray, Isolate, Hide, Measure and Labels is the same in every 3D view. Today these hide under "More tools".</p></div></li>
-    <li><div><h3>Libraries by picture</h3><p>Models are chosen by their render, with descriptions in the teacher's voice of the
-      radiology notes; lessons lead with the topic, not the progress count.</p></div></li>
-    <li><div><h3>Reading built for reading</h3><p>Lesson text at a comfortable line length, the step's recall question in view,
-      and the steps and finishing a lesson out in the open rather than behind "Lesson tools".</p></div></li>
-    <li><div><h3>Practice says what you clicked</h3><p>"Not that one: that is serratus anterior." A wrong answer names the
-      structure you chose, so even a miss teaches something.</p></div></li>
-    <li><div><h3>Films and the model, numbered alike</h3><p>The radiograph and the model carry the same numbers, as today, now with
-      the reading notes beside them and leader lines that do not cross.</p></div></li>
-    <li><div><h3>Contrast checked in every scheme</h3><p>In all 21 schemes the faintest text is at least 4.77:1 against its surface
-      (WCAG AA asks for 4.5:1), body text is at least 7.7:1 and the accent at least 5.9:1.</p></div></li>
-  </ol>
 </section>
 
 <!-- ============================================================================================ pick -->
 <section id="pick" class="block wrap">
   <div class="pick">
     <div>
+      <p class="was">My recommendation on 14 October, before you chose Specimen.</p>
       <h2>My pick: Plate, with Night plate for long evenings</h2>
     </div>
     <div class="body">
@@ -491,22 +578,25 @@ p { margin: 0; }
       on black and on white to recover exact transparency, once for every selection colour. Labels sit on points read from the
       renderer's picking buffer, so each leader line ends on the structure it names.</p></div>
     <div><h3>What is a mockup</h3><p>The app screens are HTML and CSS at 1920 × 1080, not Qt. They show layout, type and colour, and
-      nothing in them is clickable. Atlas screens are rendered at 2× in every scheme, and every screen at 2× in each default
-      scheme; the rest are 1×.</p></div>
-    <div><h3>The websites</h3><p>Each is one working page with a scheme switcher, built from a written brief and checked at
-      desktop and phone widths. Download links point at the current GitHub release files. Copy follows the README's facts.</p></div>
+      nothing in them is clickable. Every screen is rendered at 1× in every scheme, the atlas at 2× in every scheme, and every
+      screen at 2× in the default scheme: 68 renders for Specimen, 234 with the archive.</p></div>
+    <div><h3>The websites</h3><p>Each direction has one working page with a scheme switcher, built from a written brief and
+      checked at desktop and phone widths. Download links point at the current GitHub release files. Copy follows the
+      README&rsquo;s facts.</p></div>
     <div><h3>Type</h3><p>Archivo, Literata, Fira Sans and Atkinson Hyperlegible Next and Mono, all under the SIL Open Font
       License, bundled with the pages so the app can ship them too. This page is set in Schibsted Grotesk.</p></div>
     <div><h3>Images</h3><p>Chest radiographs: Mikael Häggström (CC0) and Sara Nabih (CC BY-SA 4.0). Micrographs: Echinaceapallida
       (CC BY-SA 4.0). All via Wikimedia Commons. Anatomy: Z-Anatomy and BodyParts3D, as in the app.</p></div>
     <div><h3>Files</h3><p>Everything is in the repository under <code>docs/design/2026-10-14-layered-human/</code>: mockups in
-      <code>app/</code>, websites in <code>site/</code>, colour schemes in <code>system/</code>, renders in <code>renders/</code>, the
-      review of today's app and the brand brief in <code>research/</code>, and the tools that rebuild it all in
-      <code>tools/</code>.</p></div>
+      <code>app/</code> (checkpoint 2&rsquo;s options in <code>app/specimen-&lt;topic&gt;/</code>), websites in <code>site/</code>,
+      the marks and icons in <code>identity/</code>, colour schemes in <code>system/</code>, renders in <code>renders/</code>
+      (checkpoint pictures in <code>renders/checkpoint-1/</code> and <code>checkpoint-2/</code>), the review of today&rsquo;s app
+      and the brand brief in <code>research/</code>, and the tools that rebuild it all in <code>tools/</code>.</p></div>
   </div>
 </section>
 
 <footer class="foot wrap"><span>Layered Human · design directions · 14 October 2026</span><span>Renders from the app, v4.0.8</span></footer>
+<footer class="foot wrap"><span>Layered Human · design · 14 and 15 October 2026</span><span>Renders from the app, v4.0.8</span></footer>
 </main>
 </div>
 
@@ -559,7 +649,8 @@ p { margin: 0; }
     if (has2x(d, k, s)) { img.sizes = sizes; img.srcset = file(d, k, s) + ' 1920w, ' + file(d, k, s, true) + ' 3840w'; }
     else { img.removeAttribute('srcset'); img.removeAttribute('sizes'); }
     img.src = file(d, k, s);
-    img.alt = NAME[d] + ' direction, ' + screenName(s) + ' screen, ' + scheme(d, k).name + ' scheme';
+    img.alt = d === 'specimen' ? 'Specimen, ' + screenName(s) + ' screen, ' + scheme(d, k).name
+      : NAME[d] + ' direction, ' + screenName(s) + ' screen, ' + scheme(d, k).name + ' scheme';
   }
   function remember(d, k) { try { localStorage.setItem('lh-' + d + '-scheme', k); } catch (e) {} }
   function button(label, pressed) {
@@ -643,7 +734,7 @@ p { margin: 0; }
       var sc = scheme(d, k);
       var t = document.createElement('button');
       t.type = 'button'; t.className = 'tile';
-      t.setAttribute('aria-label', 'Open ' + NAME[d] + ' in the ' + sc.name + ' scheme');
+      t.setAttribute('aria-label', 'Open ' + NAME[d] + ' in the ' + sc.name + (d === 'specimen' ? ' wall' : ' scheme'));
       t.innerHTML = '<span class="shot"><img loading="lazy" width="1920" height="1080" alt=""></span>' +
         '<span class="row"><span class="nm"></span><span class="md"></span></span><span class="sws" aria-hidden="true"></span><span class="nt"></span>';
       var img = t.querySelector('img');
