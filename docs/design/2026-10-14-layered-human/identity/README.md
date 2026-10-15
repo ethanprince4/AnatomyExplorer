@@ -34,7 +34,25 @@ each size holds the image rendered for that size.
 The icon names match `app/resources/`, so the rename phase can swap them in.
 
 `plate/figure.json` holds the traced body outline: a smooth version, a thickened version for 32 px and below,
-and the anchor points (biceps, thigh and a few spares). The frame is 1000 units high, top at 0, centred on x 0.
+and the anchor points. The frame is 1000 units high, top at 0, centred on x 0.
+The dot sits on `biceps.vl` and the ring on `rectus_femoris.vr` (the middle of the front of the thigh).
+The spares are `sartorius.vr`, `deltoid.vl`, `pectoralis.vl`, `sartorius.vl` and `tibialis_anterior.vl`.
+The old 48-box mockups put the thigh point on `sartorius.vr`, which sits further in. `plates.js` has no
+`pectoralis.vr`.
+
+## Sizes
+
+All three icons share one extent so they sit well side by side. On the 824 px macOS tile the films and the
+section span 57-58% of the tile and the figure is 76% of its height. On the Windows 256 tile: 62-63% and 82%.
+
+The small icons are drawn on the pixel grid, not scaled down:
+
+- Windows 16, 24 and 32 px: full-bleed tile, films of 10, 14 and 20 px, rings with whole-pixel centres.
+- macOS 16 and 32 px: the same 824 tile, with the mark set in output pixels. Overlay films are 7 px on 2 px
+  steps at 16 px and 14 px on 3 px steps at 32 px. At 16 px the Specimen drops the muscle ring and keeps the skin
+  ring and the core. Five bands in 10 px blur into one grey disc.
+- Plate at 32 px and below: the thickened figure in solid ink with the biceps dot. A thin ring of paper sets the
+  dot off from the dark figure. No leaders.
 
 ## Colours
 
@@ -68,8 +86,8 @@ The films sit in one `<g fill-opacity>`, so each film is translucent and the ove
 - Symbols: keep clear space equal to the core's diameter on every side.
   That is 18 units of 48 for Overlay, 13 for Specimen and the dot's diameter for Plate.
 - Lockups: keep clear space equal to the cap height.
-- Overlay and Specimen symbols: 16 px minimum. Below 32 px, use the small versions (the favicon and
-  `src/windows-16.svg` to `windows-32.svg` show them).
+- Overlay and Specimen symbols: 16 px minimum. At 32 px and below, use the small versions (the favicon,
+  `src/windows-16.svg` to `windows-32.svg` and `src/macos-16.svg`, `macos-32.svg` show them).
 - Plate figure plate: 32 px minimum. Below that, use the solid figure with the dot only.
 - Lockups: font size at least 13 px (a cap height of about 9 px).
 
@@ -87,11 +105,17 @@ The HTML mockups use an inline symbol next to live text. These recipes reproduce
   Markup: `<svg viewBox="0 0 1350 400"><path d="M0 200H1150" stroke="currentColor" stroke-width="70"/>`
   `<circle cx="1150" cy="200" r="200" fill="var(--accent)"/></svg>`.
 
-Exact sizes in em. The build writes these from the measured fonts. Until then the values below are estimates
-from the cap heights; the margins assume no side bearing.
+Exact sizes in em. The build writes them from the measured fonts. They were checked by laying each outlined
+lockup over its live-text version in Chromium; the two match to the pixel. The `@font-face` rule must declare
+the axis ranges: `font-weight: 100 900` with `font-stretch: 62% 125%` for Archivo, `200 900` for Literata
+and `200 800` for Atkinson Hyperlegible Next. Without them Chromium
+clamps the weight to 400 and the live text comes out lighter than the outlines.
 
 <!-- recipes:start -->
-- Overlay: symbol `width:1.646em; height:1.646em; margin-right:≈0.45em minus the "L" side bearing; vertical-align:-0.480em`. At 15.5px: symbol 25.5px.
-- Specimen: symbol `width:1.360em; height:1.360em; margin-right:≈0.41em minus the "L" side bearing; vertical-align:-0.330em`. At 23px: symbol 31.3px.
-- Plate: leader `width:1.35em; height:0.40em; margin-left:≈0.32em; vertical-align:0.048em`.
+- Overlay: symbol `width:1.646em; height:1.646em; margin-right:0.377em; vertical-align:-0.480em`. At 15.5px: symbol 25.5px, margin 5.8px.
+- Specimen: symbol `width:1.379em; height:1.379em; margin-right:0.352em; vertical-align:-0.335em`. At 23px: symbol 31.7px, margin 8.1px.
+- Plate: leader `<svg viewBox="0 0 1350 400">` `width:1.35em; height:0.40em; margin-left:0.276em; vertical-align:0.048em`.
+- Overlay metrics: cap 686, x-height 526, units per em 1000, ink left 69, axes {'wght': 640, 'wdth': 90}.
+- Specimen metrics: cap 710, x-height 510, units per em 1000, ink left 59, axes {'opsz': 36, 'wght': 450}.
+- Plate metrics: cap 668, x-height 496, units per em 1000, ink left 60, axes {'wght': 700}.
 <!-- recipes:end -->

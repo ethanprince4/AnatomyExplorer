@@ -69,7 +69,10 @@ LOCKUP = {"overlay": (2.1, .8), "specimen": (1.7, .7)}
 
 # Mark extent per icon family: films' visible size, section diameter or figure height, as a fraction of the tile.
 MAC = {"overlay": .57, "specimen": .58, "plate": .76}
-MAC_SMALL = {"overlay": .68, "specimen": .68, "plate": .82}
+# macOS 16 and 32 px, in output pixels on the pixel grid (the 1024 canvas centre is a pixel corner).
+# 16 px Specimen drops the muscle ring: at 10 px across, five bands blur into one.
+FILMS_MAC = {16: (2, 2, 7, 1.5), 32: (6, 3, 14, 3)}
+SECTION_MAC = {16: (5.5, 4, 0, 0, 2.25), 32: (10, 8, 6.5, 4.5, 3)}
 WIN = {"overlay": .62, "specimen": .63, "plate": .82}
 TOUCH = {"overlay": .6, "specimen": .62, "plate": .7}
 MASKABLE = {"overlay": .56, "specimen": .62, "plate": .66}
@@ -197,8 +200,8 @@ def sector(cx, cy, ro, ri, a0=0, a1=270):
 def section(p, alpha, cx, cy, k, radii=SECTION):
     """Skin ring, muscle ring (a quarter cut away) and the accent core, centred on (cx, cy)."""
     so, si, mo, mi, cr = (v * k for v in radii)
-    return (f'<path fill="{p["ink"]}" d="{sector(cx, cy, so, si)}"/>'
-            f'<path fill="{p["ink"]}" fill-opacity="{n(alpha)}" d="{sector(cx, cy, mo, mi)}"/>'
+    muscle = f'<path fill="{p["ink"]}" fill-opacity="{n(alpha)}" d="{sector(cx, cy, mo, mi)}"/>' if mo else ""
+    return (f'<path fill="{p["ink"]}" d="{sector(cx, cy, so, si)}"/>{muscle}'
             f'<circle cx="{n(cx)}" cy="{n(cy)}" r="{n(cr)}" fill="{p["accent"]}"/>')
 
 
@@ -248,7 +251,7 @@ def plate_art(fig, p, alpha, box, figh, u, bars=LABEL_BARS, reach=.07):
 def plate_dot(fig, box, figh, u):
     h, _, _, at = plate_place(fig, box, figh)
     bx, by = at(BICEPS)
-    return bx, by, max(.095 * h, 1.5 * u), max(.035 * h, .8 * u)
+    return bx, by, max(.06 * h, 1.25 * u), max(.025 * h, .6 * u)
 
 
 def plate_small(fig, p, box, figh, u):
@@ -343,9 +346,10 @@ def favicon_svg(d, fig):
     """Transparent favicon, small geometry; colours follow the browser's light or dark scheme."""
     def rules(mode):
         p = palette(d, mode)
-        return (f".i{{fill:{p['ink']}}}.a{{fill:{p['accent']}}}.h{{fill:{p['paper']}}}"
-                f".f{{fill:{p['ink']};fill-opacity:{n(FILM_ALPHA_SMALL[mode])}}}"
-                f".m{{fill:{p['ink']};fill-opacity:{n(MUSCLE_ALPHA_SMALL[mode])}}}")
+        tint = {"overlay": f".f{{fill:{p['ink']};fill-opacity:{n(FILM_ALPHA_SMALL[mode])}}}",
+                "specimen": f".i{{fill:{p['ink']}}}.m{{fill:{p['ink']};fill-opacity:{n(MUSCLE_ALPHA_SMALL[mode])}}}",
+                "plate": f".i{{fill:{p['ink']}}}.h{{fill:{p['paper']}}}"}[d]
+        return tint + f".a{{fill:{p['accent']}}}"
     style = f"<style>{rules('light')}@media (prefers-color-scheme: dark){{{rules('dark')}}}</style>"
     if d == "overlay":
         body = f'<g class="f">{film_rects(0, 0, *FILMS)}</g><path class="a" d="{core_path(0, 0, *FILMS)}"/>'
@@ -394,18 +398,16 @@ def edge(cx, cy, a, w):
     return f'<path d="{superellipse(cx, cy, a - w / 2)}" fill="none" stroke="#fff" stroke-opacity=".06" stroke-width="{n(w)}"/>'
 
 
-def tile_mark(d, p, mode, fig, box, ext, u, small=False, edges=False, reach=.07):
+def tile_mark(d, p, mode, fig, box, ext, u, edges=False, reach=.07):
     """The mark centred in a square box (x0, y0, size); ext is its extent as a fraction of the box."""
     x0, y0, size = box
     if d == "plate":
-        return plate_small(fig, p, box, ext, u) if small else plate_art(fig, p, FIG_ALPHA[mode], box, ext, u, reach=reach)
+        return plate_art(fig, p, FIG_ALPHA[mode], box, ext, u, reach=reach)
     k = ext * size / 42
     cx, cy = x0 + size / 2, y0 + size / 2
     if d == "overlay":
-        alpha = (FILM_ALPHA_SMALL if small else FILM_ALPHA)[mode]
-        return films(p, alpha, cx - 24 * k, cy - 24 * k, k, edge=FILM_EDGE_PX * u if edges else 0)
-    alpha = (MUSCLE_ALPHA_SMALL if small else MUSCLE_ALPHA)[mode]
-    return section(p, alpha, cx, cy, k, SECTION_SMALL if small else SECTION)
+        return films(p, FILM_ALPHA[mode], cx - 24 * k, cy - 24 * k, k, edge=FILM_EDGE_PX * u if edges else 0)
+    return section(p, MUSCLE_ALPHA[mode], cx, cy, k)
 
 
 def mac_icon(d, mode, px, fig):
@@ -413,9 +415,16 @@ def mac_icon(d, mode, px, fig):
     p, small, u, spot = palette(d, mode), px <= 32, 1024 / px, d == "specimen"
     tile = superellipse(512, 512, 412)
     defs = ground_defs(p, spot) + '<filter id="sh" x="-.2" y="-.2" width="1.4" height="1.4"><feGaussianBlur stdDeviation="14"/></filter>'
+    if not small:
+        mark = tile_mark(d, p, mode, fig, (100, 100, 824), MAC[d], u, edges=px >= 128)
+    elif d == "overlay":
+        mark = films(p, FILM_ALPHA_SMALL[mode], 0, 0, u, FILMS_MAC[px])
+    elif d == "specimen":
+        mark = section(p, MUSCLE_ALPHA_SMALL[mode], 512, 512, u, SECTION_MAC[px])
+    else:
+        mark = plate_small(fig, p, (100, 100, 824), PLATE_SMALL_H, u)
     body = (f'<path d="{tile}" fill="#000" fill-opacity=".3" transform="translate(0 11)" filter="url(#sh)"/>'
-            + ground(tile, spot)
-            + tile_mark(d, p, mode, fig, (100, 100, 824), (MAC_SMALL if small else MAC)[d], u, small, px >= 128))
+            + ground(tile, spot) + mark)
     if mode == "dark":
         body += edge(512, 512, 412, max(2, u))
     return svg(1024, 1024, body, defs=defs)
