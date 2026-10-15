@@ -63,7 +63,14 @@
 <style>
 /* ---------- Base ---------- */
 :root {
-  --gutter: clamp(16px, 4.4vw, 64px);
+  /* vw counts the window's scrollbar, which the page does not get: where one shows (most of Windows, a Mac with a mouse)
+     the script at the top of the body sets --sbw to its width, so --pw is the page's own width. The gutter, the
+     headline and the hero's figure, which is fitted between the headline and the label, are measured by it: a scrollbar
+     then lays the hero out as a window that much narrower would. */
+  --sbw: 0px;
+  --pw: calc(100vw - var(--sbw));
+  --gutter: clamp(16px, .044 * var(--pw), 64px);
+  --h1: clamp(42px, .049 * var(--pw), 72px);
   --maxw: 1312px;
   --head-h: 72px;
   --serif: 'Literata', Georgia, serif;
@@ -120,7 +127,7 @@ a:hover { text-decoration-color: var(--accent); }
   clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 .skip {
-  position: absolute; left: 16px; top: -60px; z-index: 100;
+  position: absolute; left: max(var(--gutter), (100% - var(--maxw)) / 2); top: -60px; z-index: 100;   /* where the brand starts */
   background: var(--accent); color: var(--on-accent); padding: 10px 16px; border-radius: 4px;
   font-weight: 600; text-decoration: none;
 }
@@ -144,7 +151,7 @@ h1, h2, .h-serif {
 }
 h1 {
   font-weight: 340;
-  font-size: clamp(42px, 4.9vw, 72px);
+  font-size: var(--h1);
   line-height: 1.03;
   letter-spacing: -0.024em;
 }
@@ -353,10 +360,10 @@ main { overflow-x: hidden; overflow-x: clip; }
      .7045 x the hero's height - 295 px; the label then ends at the biceps' height instead of starting there. */
   --lift: max(0px, 655px - 70.45%);
 }
-.hero-copy { position: relative; z-index: 4; width: min(500px, 36vw); }
+.hero-copy { position: relative; z-index: 4; width: min(500px, .36 * var(--pw)); }
 .hero h1 { margin-bottom: 26px; }
 /* From 1280 px the headline keeps its two lines, wider than the column under it; the figure stands 3 % further right */
-@media (min-width: 1280px) { .hero h1 { white-space: nowrap; } .hero > .hero-spec { left: calc(50% + 5.5vw); } }
+@media (min-width: 1280px) { .hero h1 { white-space: nowrap; } .hero > .hero-spec { left: 55.5%; } }
 .lede { font-size: 18px; line-height: 1.6; color: var(--text-2); margin: 0 0 34px; max-width: 30em; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .hero .meta { margin: 18px 0 0; font-size: 14px; line-height: 1.55; color: var(--text-3); max-width: 34em; }
@@ -364,7 +371,7 @@ main { overflow-x: hidden; overflow-x: clip; }
 .hero-spec {
   position: absolute; z-index: 1; margin: 0;
   top: calc(var(--head-h) + 6px); bottom: 26px;
-  left: calc(50% + 2.5vw); transform: translateX(-50%);
+  left: 52.5%; transform: translateX(-50%);
   --pool-w: 270%; --pool-h: 112%;
 }
 /* The peel: every plate shares the renderer's 3200 x 2322 frame; each is placed by its own crop box from plates.js,
@@ -454,15 +461,18 @@ main { overflow-x: hidden; overflow-x: clip; }
 
 /* The figure grows with the screen's height, but only as far as the width leaves room for it: past --spec-max it keeps
    that height and hangs in the middle of the wall, the label and the gauge with it, and the lift is taken from the
-   figure rather than the screen. The caps keep the headline 32 px or more from the shoulder, the paragraph 40 px from
-   the hands and the label 50 px from the arm. Below 1280 px the paragraph binds, and since its lines break differently
-   at every width one cap serves them all; from there to 1440 the label binds. Where the headline keeps its two lines the figure stands no nearer it than 33 px from the end of the first
-   line (8.21 em long), which only moves it on tall screens.
+   figure rather than the screen. The caps keep the headline 32 px or more from the shoulder and the label 50 px from
+   the arm (on a page under 1100 px, a window just wider than that with a scrollbar, the figure shrinks with it). Below
+   1280 px the paragraph's measure gives way instead, so that however its lines break, and every browser breaks them
+   differently, they stop 40 px short of the hands: these reach .456 of the figure's width out from its middle, which
+   stands at 52.5 %. Where the headline keeps its two lines the figure stands no nearer it than 33 px from the end of
+   the first line (8.21 em long), which only moves it on tall screens.
    From 1440 px the header and the hero keep to the rooms' column: the headline starts where the rooms' text starts,
    and the label and the gauge end where the rooms end. */
 @media (min-width: 1100px) {
+  .lede { max-width: min(30em, .525 * var(--pw) - .1892 * min(max(100svh, 720px) - var(--head-h) - 32px, var(--spec-max)) - 40px - var(--gutter)); }
   .hero {
-    --spec-max: 628px;
+    --spec-max: min(628px, 2.1 * var(--pw) - 1682px);
     --spec-h: min(100% - var(--head-h) - 32px, var(--spec-max));
     --spec-top: calc(var(--head-h) + 6px + (100% - var(--head-h) - 32px - var(--spec-h)) / 2);
     --by: calc(var(--spec-top) + var(--spec-h) * .2955);
@@ -472,13 +482,16 @@ main { overflow-x: hidden; overflow-x: clip; }
   .gauge { bottom: calc(26px + (100% - var(--head-h) - 32px - var(--spec-h)) / 2); }
 }
 @media (min-width: 1280px) {
-  .hero { --spec-max: calc(170vw - 1440px); }
-  .hero > .hero-spec { left: max(50% + 5.5vw, 44.63vw + 33px + .154 * min(max(100svh, 720px) - var(--head-h) - 32px, 170vw - 1440px)); }
+  .lede { max-width: 30em; }
+  .hero .actions { flex-wrap: nowrap; }   /* a few px wider than the column just past 1280 with a scrollbar, and clear of the figure */
+  .hero .actions .btn { flex-shrink: 0; }
+  .hero { --spec-max: calc(1.7 * var(--pw) - 1440px); }
+  .hero > .hero-spec { left: max(55.5%, var(--gutter) + 8.21 * var(--h1) + 33px + .154 * min(max(100svh, 720px) - var(--head-h) - 32px, var(--spec-max))); }
 }
 @media (min-width: 1440px) {
   .site-head, .hero { padding-inline: max(var(--gutter), (100% - var(--maxw)) / 2); }
   .hero { --spec-max: 950px; }
-  .hero > .hero-spec { left: max(50% + 80px, 50% - 623px + 8.21 * min(4.9vw, 72px) + .154 * min(max(100svh, 720px) - var(--head-h) - 32px, 950px)); }
+  .hero > .hero-spec { left: max(50% + 80px, max(var(--gutter), 50% - var(--maxw) / 2) + 8.21 * var(--h1) + 33px + .154 * min(max(100svh, 720px) - var(--head-h) - 32px, 950px)); }
   .hero-label, .gauge { right: max(var(--gutter), (100% - var(--maxw)) / 2); }
 }
 
@@ -967,6 +980,24 @@ html:not(.js) .edge-labels .n { display: none; }
 </style>
 </head>
 <body>
+<script>
+  /* The scrollbar's width, for --pw (see :root): measured on a hidden box styled as the page is, before the page is laid
+     out, and again only when the zoom changes it. Overlaid scrollbars measure 0. */
+  (function () {
+    var dpr;
+    function measure() {
+      if (dpr === window.devicePixelRatio) return;
+      dpr = window.devicePixelRatio;
+      var p = document.createElement('div');
+      p.style.cssText = 'position:absolute;top:0;left:0;width:100px;height:100px;overflow:scroll;visibility:hidden';
+      document.body.appendChild(p);
+      document.documentElement.style.setProperty('--sbw', Math.max(0, p.offsetWidth - p.clientWidth) + 'px');
+      p.remove();
+    }
+    measure();
+    window.addEventListener('resize', measure);
+  })();
+</script>
 <a class="skip" href="#main">Skip to content</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <!-- The Specimen mark: the lockup drawing from identity/specimen (tools/logo/section_midline.json, 36 px). -->
