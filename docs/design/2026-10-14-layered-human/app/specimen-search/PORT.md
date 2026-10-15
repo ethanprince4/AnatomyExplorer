@@ -63,7 +63,25 @@ in the app.
     saved.
   - One line: "Type a name, a Latin name or a lesson."
 - **Many results:** each kind shows a few (1: 6 structures and 2 of each other kind; 2: 16 and 3; 3: 5 and 2). Then
-  comes "n more lessons", which really opens the rest in place. Lists scroll with no scrollbar and no foot line.
+  comes "n more lessons", which really opens the rest in place. A kind with exactly one row over its cap shows that
+  row instead of "1 more" (the link would take the row's room).
+- **Nothing is ever cut through a line (fix pass 2).** The list ends on its own "more" links:
+  - **Fitted to the room.** After the list is built (`build()`), `search.js` measures it. While it is taller than its
+    box, the other kinds give up rows, the lowest kind first, down to one each. Then the structures give up rows,
+    down to three. Trims that would leave a lone "1 more" come last. At 1920×1080 every demo state now fits with no
+    scrolling. The list is measured again once the fonts have loaded.
+  - **Box:** the list ends 44 px above the room's foot, level with the wall label's buttons: options 1 and 3 use
+    `max-height: calc(100% - top - 44px)`; in option 2 the columns (`.sx-cols`) use `max-height: calc(100% - 136px)`.
+  - **Overflow** (after "n more" opens a kind, or in a shorter window): the box scrolls under the wall's own fade, a
+    CSS mask (`.sx-over`), so the wall shows through and nothing is painted over it. The foot fades over 112 px while
+    more is below (`.sx-below`); the head fades over 48 px once scrolled (`.sx-above`); at the very end the foot is
+    clear, so the list closes on its last link. The scrollbar is thin, with a `line-2` thumb on no track
+    (`scrollbar-width: thin`).
+  - Hover leaders are not drawn to a row under the fade. Opening "n more" keeps the scroll position.
+  - **Qt:** the result widget does the same: take the available height, then reduce the per-kind caps in the same
+    order until the rows fit. For overflow, paint the column into a layer and multiply it by a vertical
+    `QLinearGradient` alpha (`CompositionMode_DestinationIn`), not a band in the wall colour. Use a thin `QScrollBar`
+    with a `line-2` handle and no track.
 - **None:** "Nothing for "wisdom tooth"." Then "Check the spelling, or try one word or the Latin name." Then links to
   browse Systems, Lessons, Radiology and Histology. **Typo:** "No exact match for "bycep". Close spellings:".
 - **Nothing in view** (options 1 and 2, "coronary" on the muscle figure): "None of these is in this view. Choosing one
@@ -78,13 +96,16 @@ in the app.
 - the current selection is filled brass;
 - hovered or keyboard-active: a `text` ring with a gap;
 - a structure not in view gets a dashed `text-3` ring and "not in this view".
+- The base page's global `.is-cur::after` (the rooms' brass underline) must not reach the circles:
+  `.ndot.is-cur::after { content: none; }`. The first pass let it draw a brass bar under every current circle.
 
 The circles sit on the plate's anchors (`LH_PLATES.anchors.hero26_sel_7cc8da`, both sides). `ANCHOR` in search.js maps
 entry titles to anchor keys.
 
 ## Option 1: On the body
 - **CSS:** the shared block plus `[data-variant="1"]`. When merging, drop the prefix.
-- **Layout:** the list is lettered at left 1262, top 200, 600 wide, in the right-hand column. The depth rule fades out
+- **Layout:** the list is lettered at left 1262, top 200, 600 wide, in the right-hand column. The box starts at 1256
+  with 6 px of padding so the active circle's ring is not clipped. It ends at 1036. The depth rule fades out
   while the list is up and comes back on close.
   - Structures: number, name (Literata 21), Latin (italic 15), meta and parts (Fira 13).
   - Other kinds: one line each under a hairline, with the kind in a 110 px left column.
@@ -113,7 +134,9 @@ entry titles to anchor keys.
   - From the content top line (232), Structures runs in two 416 px columns and the other kinds in a third.
   - Entries: name and marked letters (Literata 18), Latin (italic 15), then meta and parts run in.
   - Structures in view are numbered, and the same numbers stand on the small body (circles at 1.4×).
-- **Hover:** the name is underlined in `text` and its circle grows on the body. **Close:** Esc, "Close the index", a
+- **Hover:** the name is underlined in `text` (the brass underline on the matched letters gives way to it, so the
+  row has one line, not two) and its circle grows on the body. The columns box starts 8 px left, with 8 px of
+  padding, so the circles' rings are not clipped. **Close:** Esc, "Close the index", a
   click on the body or the wall, or choosing; the room comes back.
 - **Qt:** the 3D view can be scaled into the right column with a viewport rect (the camera stays put) and dimmed in the
   background pass. The index is a wall-lettered widget over the stage, in columns.
@@ -123,7 +146,7 @@ entry titles to anchor keys.
   (`.exhibit h1`, `contentEditable` while open) puts the caret in the title. The empty title shows "Search" in `text-3`.
 - **Layout:**
   - The line under the title reads "72 found · back to Muscles, anterior view".
-  - Results are lettered at left 40, top 232, 500 wide, where Systems and the wall label were; those fade out while
+  - Results are lettered at left 40, top 232, 500 wide (ending at 1036), where Systems and the wall label were; those fade out while
     open. The depth rule and dock stay.
   - Structures: name (Literata 23), Latin (16), meta.
 - **Hover** draws a single leader from the end of the name to a ring on the structure, one at a time. Base labels stay

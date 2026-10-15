@@ -186,11 +186,58 @@
       else if (res.fuzzy) note = `<p class="sx-fz">No exact match for “${esc(S.q.trim())}”. Close spellings:</p>`;
       else if (v !== '3' && !res.list.some(e => anchorOf(e))) note = `<p class="sx-fz">None of these is in this view. Choosing one shows it.</p>`;
     }
-    let num = 0, i = 0;
     const q = S.last && S.q.trim() && !(S.last.fuzzy) ? S.last.q : '';
+    const head = v === '2' ? `<div class="sx-word">${S.q.trim() ? esc(S.q.trim()) : '<span class="sx-ph">Index</span>'}<span class="sx-count num">${S.q.trim() && count ? count + (count === 1 ? ' entry' : ' entries') : ''}</span></div><button class="sx-close">Close the index</button>`
+      : v === '1' && S.q.trim() && count ? `<div class="sx-count num">${count} found</div>` : '';
+    const isSt = g => g.name === 'Structures' || g.name === 'In this view';
+    // Each kind shows its cap, or every row when only one more would be left ("1 more" takes the room of the row it hides).
+    const base = g => { const c = isSt(g) ? cap.s : cap.o; return g.rows.length === c + 1 ? c + 1 : c; };
+    const keep = Object.keys(S.expand).length ? S.fit || {} : {};
+    const caps = {};
+    groups.forEach(g => { caps[g.name] = keep[g.name] || base(g); });
+    const top = S.scroller ? S.scroller.scrollTop : 0;
+    paint(groups, caps, q, head, note, v);
+    // The list ends on its own "more" links: while it is taller than its room, the other kinds give up rows (the lowest
+    // first, down to one each), then the structures (down to three). Opened groups are never trimmed. Whatever can still
+    // overflow (opened groups, a shorter room) scrolls under the wall's own fade.
+    if (!Object.keys(S.expand).length) {
+      const steps = [];
+      const left = (g, c) => g.rows.length - c !== 1;   // never trim to a lone "1 more"
+      groups.slice().reverse().filter(g => !isSt(g)).forEach(g => { if (caps[g.name] > 1 && left(g, 1)) steps.push([g.name, 1]); });
+      groups.filter(isSt).forEach(g => { for (let c = caps[g.name] - 1; c >= 3; c--) if (left(g, c)) steps.push([g.name, c]); });
+      groups.slice().reverse().filter(g => !isSt(g)).forEach(g => { if (caps[g.name] > 1 && !left(g, 1)) steps.push([g.name, 1]); });   // last resort
+      for (const [name, c] of steps) {
+        if (fits()) break;
+        caps[name] = c;
+        paint(groups, caps, q, head, note, v);
+      }
+      S.fit = caps;
+    } else S.scroller.scrollTop = top;
+    if (P.get('hover') === 'auto' && !S.autoDone) { S.autoDone = true; const k = rows.findIndex(r => r.anchor); S.active = k < 0 ? 0 : k; }
+    S.active = Math.min(S.active, rows.length - 1);
+    placeDots();
+    fade();
+    paintActive();
+    if (v === '3') {
+      titleLine.innerHTML = S.q.trim() ? `<span class="num">${count ? count + ' found' : 'Nothing found'}</span> · <a class="sx-back">back to Muscles, anterior view</a>` : `<a class="sx-back">back to Muscles, anterior view</a>`;
+    }
+  }
+  const fits = () => S.scroller.scrollHeight <= S.scroller.clientHeight + 1;
+  // the fade shows only where a line runs under an edge: at the foot while more is below, at the head once scrolled
+  function fade() {
+    const el = S.scroller; if (!el) return;
+    const over = !fits();
+    el.classList.toggle('sx-over', over);
+    el.classList.toggle('sx-below', over && el.scrollTop + el.clientHeight < el.scrollHeight - 2);
+    el.classList.toggle('sx-above', over && el.scrollTop > 2);
+  }
+
+  function paint(groups, caps, q, head, note, v) {
+    let num = 0, i = 0;
+    rows = [];
     const html = groups.map(g => {
       const st = g.name === 'Structures' || g.name === 'In this view';
-      const limit = S.expand[g.name] ? 999 : (st ? cap.s : cap.o);
+      const limit = S.expand[g.name] ? 999 : caps[g.name];
       const vis = g.rows.slice(0, limit);
       const lis = vis.map(r => {
         r.struct = st && r.e.kind !== 'recent';
@@ -202,16 +249,9 @@
       const more = g.rows.length > vis.length ? `<button class="sx-more" data-more="${g.name}">${g.rows.length - vis.length} more ${g.name === 'Structures' ? 'structures' : g.name.toLowerCase()}</button>` : '';
       return `<section class="sx-g${st ? ' is-st' : ''}" data-kind="${g.name}"><h3 class="sx-h">${g.name}${S.q.trim() ? ` <span class="n num">${g.rows.length}</span>` : ''}</h3><ol>${lis}</ol>${more}</section>`;
     }).join('');
-    const head = v === '2' ? `<div class="sx-word">${S.q.trim() ? esc(S.q.trim()) : '<span class="sx-ph">Index</span>'}<span class="sx-count num">${S.q.trim() && count ? count + (count === 1 ? ' entry' : ' entries') : ''}</span></div><button class="sx-close">Close the index</button>`
-      : v === '1' && S.q.trim() && count ? `<div class="sx-count num">${count} found</div>` : '';
     layer.innerHTML = `<div class="sx-panel">${head}${note}<div class="sx-cols">${html}</div></div>`;
-    if (P.get('hover') === 'auto' && !S.autoDone) { S.autoDone = true; const k = rows.findIndex(r => r.anchor); S.active = k < 0 ? 0 : k; }
-    S.active = Math.min(S.active, rows.length - 1);
-    placeDots();
-    paintActive();
-    if (v === '3') {
-      titleLine.innerHTML = S.q.trim() ? `<span class="num">${count ? count + ' found' : 'Nothing found'}</span> · <a class="sx-back">back to Muscles, anterior view</a>` : `<a class="sx-back">back to Muscles, anterior view</a>`;
-    }
+    S.scroller = layer.querySelector(v === '2' ? '.sx-cols' : '.sx-panel');
+    S.scroller.addEventListener('scroll', () => { fade(); paintActive(); }, { passive: true });
   }
 
   /* ------------------------------------------------------------------ circles on the body */
@@ -241,6 +281,8 @@
     const r = rows[S.active], v = V();
     if (!r || !r.anchor || v === '2') return;
     const li = layer.querySelector(`.sx-r[data-i="${S.active}"]`); if (!li) return;
+    const sr = S.scroller.getBoundingClientRect(), lr = li.getBoundingClientRect();   // no line to a row under the fade
+    if (S.scroller.classList.contains('sx-over') && (lr.top < sr.top || lr.bottom > sr.bottom - 112)) return;
     const ar = app.getBoundingClientRect(), z = ar.width / 1920;
     const nm = li.querySelector('.nm').getBoundingClientRect();
     const side = v === '1' ? 'vr' : 'vl', p = stagePt(anchors[r.anchor + '.' + side]);
@@ -356,7 +398,8 @@
       t.focus({ preventScroll: true }); if (V() === '3') placeCaret(); else input.setSelectionRange(99, 99);
     }
     if (V() !== '3') getSelection().removeAllRanges();
-    R.dataset.searchReady = '1';
+    // the list is fitted to its room by measuring, so measure again once the faces have loaded
+    document.fonts.ready.then(() => { if (S.open) build(); R.dataset.searchReady = '1'; });
   }
   const start = () => (R.dataset.ready === '1' ? init() : setTimeout(start, 30));
   start();
