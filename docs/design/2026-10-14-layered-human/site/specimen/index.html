@@ -5,6 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Layered Human: a free 3D anatomy atlas</title>
 <meta name="description" content="Peel the body from skin to bone. Free 3D anatomy for Windows and Mac. Works offline.">
+<meta name="theme-color" content="#2a3138">
+<link rel="canonical" href="https://layeredhuman.com/">
+<!-- Link previews. The card is img/og-card.jpg, made from the site's own peel plates. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Layered Human">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://layeredhuman.com/">
+<meta property="og:title" content="Layered Human: a free 3D anatomy atlas">
+<meta property="og:description" content="Peel the body from skin to bone. Free 3D anatomy for Windows and Mac. Works offline.">
+<meta property="og:image" content="https://layeredhuman.com/img/og-card.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The same body at 0%, 26% and 55% deep: skin, then muscle, then bone and organs, beside the words Peel the body back, layer by layer.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Layered Human",
+  "url": "https://layeredhuman.com/",
+  "image": "https://layeredhuman.com/img/og-card.jpg",
+  "description": "A free 3D anatomy atlas for your computer. Slide from skin to bone, cut a section that names itself, and study for your lab practical offline.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "macOS 13 or later on Apple silicon, Windows",
+  "fileSize": "3.4 GB",
+  "downloadUrl": "https://github.com/ethanprince4/AnatomyExplorer/releases/latest",
+  "license": "https://opensource.org/licenses/MIT",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
 <link rel="icon" href="../../identity/specimen/favicon.ico" sizes="32x32">
 <link rel="icon" href="../../identity/specimen/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../identity/specimen/apple-touch-icon.png">
@@ -23,6 +55,8 @@
     if (!k || !S[k]) k = 'slate';
     d.setAttribute('data-scheme', k);
     if (S[k]) d.setAttribute('data-mode', S[k].mode);
+    var tc = document.querySelector('meta[name="theme-color"]');
+    if (tc && S[k]) tc.setAttribute('content', S[k].stage_top);
     d.classList.add('js');
   })();
 </script>
@@ -272,8 +306,9 @@ main { overflow-x: clip; }
 .wall-label, .lit-fade { transition: opacity .9s var(--ease), transform .9s var(--ease); }
 .spot-on .exhibit:not(.is-lit) { --pool-op: .38; --pool-scale: .9; }
 .spot-on .exhibit:not(.is-lit) .pool img { filter: brightness(.8) saturate(.88); }
+/* Labels settle as their exhibit comes into the light but never dim: the muted text needs its full 4.5:1 wherever it sits. */
 .spot-on .exhibit:not(.is-lit) .wall-label,
-.spot-on .exhibit:not(.is-lit) .lit-fade { opacity: .72; transform: translateY(8px); }
+.spot-on .exhibit:not(.is-lit) .lit-fade { transform: translateY(8px); }
 .exhibit.is-lit { --pool-op: 1; --pool-scale: 1.05; }
 
 /* ---------- Wall label ---------- */
@@ -642,7 +677,7 @@ main { overflow-x: clip; }
   background: transparent; color: var(--text); font: 500 13px/1 var(--sans);
 }
 .copy-btn:hover { background: color-mix(in srgb, var(--text) 7%, transparent); }
-.desk-after { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px 96px; font-size: 16px; }
+.desk-after { margin-top: 40px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; font-size: 16px; }
 
 /* Questions */
 .faq { max-width: 860px; }
@@ -1033,12 +1068,12 @@ main { overflow-x: clip; }
         </figure></li>
         <li style="--a:.713"><span class="otc-step" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         <figure>
-          <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_corpuscle.webp" srcset="img/kidney_v_corpuscle-420.webp 420w, ../../assets/plates/kidney_v_corpuscle.webp 1284w" sizes="auto, 260px" width="1284" height="1800" loading="lazy" alt="The renal corpuscle: the glomerulus inside its capsule, with the tubules around it"></div>
+          <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_corpuscle.webp" srcset="img/kidney_v_corpuscle-420.webp 420w, img/kidney_v_corpuscle-760.webp 760w, ../../assets/plates/kidney_v_corpuscle.webp 1284w" sizes="auto, 260px" width="1284" height="1800" loading="lazy" alt="The renal corpuscle: the glomerulus inside its capsule, with the tubules around it"></div>
           <figcaption><span class="pl-name">Renal corpuscle</span><span class="pl-line">The glomerulus in its capsule</span></figcaption>
         </figure></li>
         <li style="--a:1"><span class="otc-step" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         <figure>
-          <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_podocytes.webp" srcset="img/kidney_v_podocytes-560.webp 560w, ../../assets/plates/kidney_v_podocytes.webp 1800w" sizes="auto, 260px" width="1800" height="1800" loading="lazy" alt="Podocytes wrapping a glomerular capillary with their foot processes"></div>
+          <div class="pool otc-pool"><img class="feather" src="../../assets/plates/kidney_v_podocytes.webp" srcset="img/kidney_v_podocytes-560.webp 560w, img/kidney_v_podocytes-800.webp 800w, ../../assets/plates/kidney_v_podocytes.webp 1800w" sizes="auto, 260px" width="1800" height="1800" loading="lazy" alt="Podocytes wrapping a glomerular capillary with their foot processes"></div>
           <figcaption><span class="pl-name">Podocytes</span><span class="pl-line">Foot processes on a capillary</span></figcaption>
         </figure></li>
       </ol>
@@ -1067,7 +1102,7 @@ main { overflow-x: clip; }
       <figure>
         <div class="lightbox">
           <div class="pin-stage" id="film-stage">
-            <img src="../../assets/images/cxr_pa.jpg" srcset="img/cxr_pa-720.webp 720w, ../../assets/images/cxr_pa.jpg 1280w" sizes="auto, (max-width: 899px) 92vw, 503px" width="1280" height="1464" loading="lazy"
+            <img src="../../assets/images/cxr_pa.jpg" srcset="img/cxr_pa-720.webp 720w, img/cxr_pa-1080.webp 1080w, img/cxr_pa-1280.webp 1280w" sizes="auto, (max-width: 899px) 92vw, 503px" width="1280" height="1464" loading="lazy"
                  alt="Chest radiograph, posteroanterior view, with eight numbered labels: trachea, right clavicle, right humeral head, superior vena cava, right atrium, left ventricle, right hemidiaphragm and left lung">
           </div>
         </div>
@@ -1078,18 +1113,18 @@ main { overflow-x: clip; }
         <ol class="film-key" id="film-key">
           <li data-n="1" data-film="0.465,0.1" data-a="c1.vl" tabindex="0"><span class="key-n">1</span>Trachea</li>
           <li data-n="2" data-film="0.2,0.13" data-a="c2.vl" tabindex="0"><span class="key-n">2</span>Right clavicle</li>
-          <li data-n="4" data-film="0.085,0.115" data-a="c4.vl" tabindex="0"><span class="key-n">4</span>Right humeral head</li>
-          <li data-n="5" data-film="0.43,0.215" data-a="c5.vl" tabindex="0"><span class="key-n">5</span>Superior vena cava</li>
-          <li data-n="7" data-film="0.435,0.62" data-a="c7.vl" tabindex="0"><span class="key-n">7</span>Right atrium</li>
-          <li data-n="8" data-film="0.715,0.68" data-a="c8.vr" tabindex="0"><span class="key-n">8</span>Left ventricle</li>
-          <li data-n="12" data-film="0.275,0.785" data-a="c12.vl" tabindex="0"><span class="key-n">12</span>Right hemidiaphragm</li>
-          <li data-n="17" data-film="0.775,0.6" data-a="c17.vr" tabindex="0"><span class="key-n">17</span>Left lung</li>
+          <li data-n="3" data-film="0.085,0.115" data-a="c4.vl" tabindex="0"><span class="key-n">3</span>Right humeral head</li>
+          <li data-n="4" data-film="0.43,0.215" data-a="c5.vl" tabindex="0"><span class="key-n">4</span>Superior vena cava</li>
+          <li data-n="5" data-film="0.435,0.62" data-a="c7.vl" tabindex="0"><span class="key-n">5</span>Right atrium</li>
+          <li data-n="6" data-film="0.715,0.68" data-a="c8.vr" tabindex="0"><span class="key-n">6</span>Left ventricle</li>
+          <li data-n="7" data-film="0.275,0.785" data-a="c12.vl" tabindex="0"><span class="key-n">7</span>Right hemidiaphragm</li>
+          <li data-n="8" data-film="0.775,0.6" data-a="c17.vr" tabindex="0"><span class="key-n">8</span>Left lung</li>
         </ol>
       </div>
       <figure>
         <div class="pool model-pool">
           <div class="pin-stage" id="model-stage">
-            <img src="../../assets/plates/cxr_model.webp" srcset="img/cxr_model-1000.webp 1000w, ../../assets/plates/cxr_model.webp 1852w" sizes="auto, (max-width: 899px) 92vw, 503px" width="1852" height="2322" loading="lazy"
+            <img src="../../assets/plates/cxr_model.webp" srcset="img/cxr_model-1000.webp 1000w, img/cxr_model-1300.webp 1300w, ../../assets/plates/cxr_model.webp 1852w" sizes="auto, (max-width: 899px) 92vw, 503px" width="1852" height="2322" loading="lazy"
                  alt="The thorax model set up like the PA film: lungs, heart and great vessels solid, ribcage translucent, with the same eight numbers">
           </div>
         </div>
@@ -1203,7 +1238,7 @@ main { overflow-x: clip; }
     <figure>
       <div class="lightbox">
         <div class="pin-stage" id="micro-stage">
-          <img src="../../assets/images/histo_simple_columnar.jpg" srcset="img/histo_simple_columnar-720.webp 720w, ../../assets/images/histo_simple_columnar.jpg 1280w" sizes="auto, (max-width: 899px) 92vw, 697px" width="1280" height="960" loading="lazy"
+          <img src="../../assets/images/histo_simple_columnar.jpg" srcset="img/histo_simple_columnar-720.webp 720w, img/histo_simple_columnar-1080.webp 1080w, img/histo_simple_columnar-1280.webp 1280w" sizes="auto, (max-width: 899px) 92vw, 697px" width="1280" height="960" loading="lazy"
                alt="Micrograph of simple columnar epithelium around a round lumen, with five numbered labels: lumen, apical surface, columnar cell, nucleus and connective tissue">
           <span class="pin" data-n="1" style="left:50%;top:30%" aria-hidden="true">1</span>
           <span class="pin" data-n="2" style="left:50%;top:58.5%" aria-hidden="true">2</span>
@@ -1362,7 +1397,7 @@ main { overflow-x: clip; }
       <details><summary>Where is my progress?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
         <p>In your user folder. Updating or reinstalling never loses it.</p></details>
       <details><summary>Will it match my course?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
-        <p>It has a lab course for Labs 1–9 and two practicals, plus lessons by system, region and level. <a href="#study">See the topics.</a></p></details>
+        <p>It has a lab course for Labs 1–9 and two lab practicals, plus lessons by system, region and level. <a href="#study">See the topics.</a></p></details>
       <details><summary>Can I use it to diagnose?<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
         <p>No. It’s a study aid, not a medical device. Radiology models are set up to match each film, not fitted to it.</p></details>
       <details><summary>Something went wrong.<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
@@ -1433,6 +1468,8 @@ main { overflow-x: clip; }
     if (!s) return;
     root.setAttribute('data-scheme', k);
     root.setAttribute('data-mode', s.mode);
+    var tc = $('meta[name="theme-color"]');
+    if (tc) tc.setAttribute('content', s.stage_top);
     peel.setSelect((s.select || '#ffffff').replace('#', '').toLowerCase());
     $$('img[data-render]').forEach(function (img) {
       var base = '../../renders/specimen/specimen_' + k + '_' + img.getAttribute('data-render');
