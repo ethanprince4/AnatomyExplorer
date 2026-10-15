@@ -291,6 +291,7 @@
     if (v === '1') { const dot = li.querySelector('.ndot').getBoundingClientRect(); x0 = (dot.left - ar.left) / z - 8; y0 = (dot.top - ar.top) / z + 9; }
     else x0 = (nm.right - ar.left) / z + 14;
     const mid = v === '1' ? x0 - 40 : x0 + 40;
+    if (![x0, y0, p.x, p.y].every(Number.isFinite)) return;   // a room with no figure to point at (histology catalogue, viewer)
     path.setAttribute('d', `M${x0},${y0} H${mid} L${p.x + (v === '1' ? 12 : -12)},${p.y}`);
     path.setAttribute('class', 'sx-leader');
     svg.appendChild(path);

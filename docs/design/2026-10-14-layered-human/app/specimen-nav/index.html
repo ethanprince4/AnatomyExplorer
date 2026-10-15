@@ -339,6 +339,28 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .spec { display: block; color: inherit; text-decoration: none; }
 .spec .pool { opacity: .55; transition: opacity .2s; }
 .spec:hover .pool { opacity: 1; }
+
+/* ---------------------------------------------------------------------------------- the pointer
+   Everything that can be clicked answers the pointer, and nothing else does. Words on the wall step up to the text
+   colour; hairline buttons firm their outline and take a faint wash of the text colour; brass ghosts go to the paler
+   brass; rows take the same wash as a catalogue row; pictures brighten their pool or take a hairline; knobs light to the
+   paler brass. Nothing moves or grows. */
+.rooms a, .hb, .find, .tb, .dock button, .btn, .g-only, .views > *, .arr > *, .cat li, .parts li, .reveal .opt, .lessons li,
+.tissues .it, .labs .it, .vstrip a, [data-scheme-grid] > div { cursor: pointer; }
+.hb[disabled] { cursor: default; }
+.rooms a:hover, .hb:not([disabled]):hover, .tb:hover, .dock button:hover, .g-only:hover, .views > :hover, .arr > :hover,
+.cat li:hover, .parts li:hover, .reveal .opt:hover, .lessons li:hover { color: var(--text); }
+.cat li:hover .box:not(.on), .parts li:hover .box:not(.on), .reveal .opt:hover .box:not(.on), .g-only:hover .box:not(.on) { border-color: var(--text); }
+.find:hover { color: var(--text-2); border-bottom-color: var(--text-2); }
+.btn:hover, .label-card .btn:hover { border-color: var(--text-2); background: color-mix(in srgb, var(--text) 6%, transparent); }
+.btn.brass:hover { border-color: var(--accent-2); color: var(--accent-2); }
+.tissues .it:hover { background: color-mix(in srgb, var(--text) 6%, transparent); }
+.tissues .it:hover .ti { color: var(--text); }
+.labs .fig .pool { transition: opacity .2s; }
+.labs .it:hover .fig .pool { opacity: 1; }
+.vstrip a.empty:hover { box-shadow: inset 0 0 0 1px var(--line-2); }
+[data-scheme-grid] > div:hover > div:first-child { outline: 1px solid var(--text-3); outline-offset: 4px; }
+.g-knob:hover, .reveal .track .knob:hover { background: var(--accent-2); }
 </style>
 
 <style id="nav-cp3">
@@ -387,6 +409,14 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .rail .r-foot { margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 12px; border-top: 1px solid var(--hair); }
 .rail .r-foot a { padding: 8px 0 10px; font-size: 12.5px; }
 .rail .r-foot a .i { width: 20px; height: 20px; }
+.rail a:hover, .head .home:hover, .recent li:hover { color: var(--text); }
+.recent li { cursor: pointer; }
+.door:hover .nm .i { color: var(--text); }
+.door:hover .nm { text-decoration: underline; text-decoration-color: var(--edge); text-decoration-thickness: 1px; text-underline-offset: 6px; }
+/* beside the rail the room is 104 px narrower: the columns placed from its left edge give the width back on the right */
+html:not([data-window])[data-variant="2"] .lib-main { width: 996px; }
+html:not([data-window])[data-variant="2"] .lib-detail { left: 1416px; }
+html:not([data-window])[data-variant="2"] [data-screen-id="histology"] .app > div[style*="left:1320px"] { width: 456px !important; }   /* over the inline width */
 [data-variant="2"] .head .hist { margin-left: -6px; }
 [data-variant="2"] .head .trail { margin-left: -22px; }
 
