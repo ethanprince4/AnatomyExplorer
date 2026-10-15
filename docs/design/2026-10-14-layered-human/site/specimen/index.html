@@ -314,6 +314,8 @@ main { overflow-x: clip; }
 }
 .hero-copy { position: relative; z-index: 4; width: min(500px, 36vw); }
 .hero h1 { margin-bottom: 26px; }
+/* From 1280 px the headline keeps its two lines, wider than the column under it; the figure stands 3 % further right */
+@media (min-width: 1280px) { .hero h1 { white-space: nowrap; } .hero > .hero-spec { left: calc(50% + 5.5vw); } }
 .lede { font-size: 18px; line-height: 1.6; color: var(--text-2); margin: 0 0 34px; max-width: 30em; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .hero .meta { margin: 18px 0 0; font-size: 14px; line-height: 1.55; color: var(--text-3); max-width: 34em; }
@@ -342,52 +344,60 @@ main { overflow-x: clip; }
 .hero-label.is-hidden .wl-latin { color: var(--text-3); }
 #hero-leaders { transition: opacity .35s; }
 
-/* The dissection gauge: the app's Rule, set beside the figure. Each stop sits at its real level. No heading: the end
-   captions and the names say what it is. */
+/* The dissection gauge: the app's Rule (app/specimen .gauge) at the app's own sizes, set beside the figure. A 1 px
+   --leader rule, a mark every 2 % (5 px) and every 10 % (9 px), a 14 px tick at each stop, italic names 24 px left of
+   the rule (the current one at 20 px), brass from the surface to the knob, and the percentage 12 px right of it. Only
+   the rule's length is fitted to the figure; each stop sits at its real level. No heading: the end captions and the
+   names say what it is. --gx is the rule's place in the box. */
 .gauge {
+  --gx: 250px; --fine: color-mix(in srgb, var(--text-3) 70%, transparent);
   position: absolute; z-index: 4; right: var(--gutter); width: 340px;
-  top: calc(var(--by) + 158px); bottom: 40px;
+  top: calc(var(--by) + 158px); bottom: 26px;
   display: flex; flex-direction: column;
   -webkit-user-select: none; user-select: none;
 }
-.g-track { position: relative; flex: 1; min-height: 240px; margin: 34px 0 34px; cursor: pointer; }
+.g-track { position: relative; flex: 1; min-height: 240px; margin: 34px 0 30px calc(var(--gx) + var(--sx, 0px)); cursor: pointer; }
 .g-rail { position: absolute; left: -22px; width: 44px; top: -12px; bottom: -12px; touch-action: none; cursor: grab; }
 .g-track.is-dragging, .g-track.is-dragging .g-rail { cursor: grabbing; }
-.g-line { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: color-mix(in srgb, var(--text-3) 64%, transparent); }
-.g-fine {
-  position: absolute; left: 1px; top: 0; bottom: 0; width: 4px;
-  background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--text-3) 46%, transparent) 0 1px, transparent 1px calc(100% / 50));
-}
+.g-line { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--leader); }
 .g-fill { position: absolute; left: -1px; top: 0; width: 3px; height: calc(var(--d) * 100%); background: var(--accent); }
+/* the fine marks are 51 boxes (drawn by the script), so each lands on a whole pixel whatever the rule's length */
+.g-fine { position: absolute; left: -12px; top: 0; bottom: 0; width: 9px; }
+.g-fine i { position: absolute; right: 0; width: 5px; height: 1px; background: var(--fine); }
+.g-fine i.ten { width: 9px; }
 .g-stops { list-style: none; margin: 0; padding: 0; }
-.g-stop {
-  position: absolute; left: 0; transform: translateY(-50%);
-  display: flex; align-items: center; gap: 12px; white-space: nowrap;
-}
-.g-stop i { width: 9px; height: 1px; background: var(--text-3); }
+.g-stop { position: absolute; right: calc(100% + 3px); height: 0; display: flex; flex-direction: row-reverse; align-items: center; gap: 7px; white-space: nowrap; }
+.g-stop i { flex: none; width: 14px; height: 1px; background: var(--leader); position: relative; top: .5px; }   /* on the stop's line, like the fine marks */
 .g-stop span {
-  font: italic 400 15px/1.2 var(--serif); font-variation-settings: "opsz" 14; color: var(--text-2);
+  transform: translateY(-2%);
+  font: italic 400 15px/20px var(--serif); font-variation-settings: "opsz" 14; color: var(--text-2);
   transition: color .25s;
 }
 .g-stop.past span { color: var(--text-3); }
-.g-stop.cur span { font-style: normal; font-size: 20px; font-weight: 420; color: var(--text); font-variation-settings: "opsz" 20; }
+.g-stop.cur span { font-size: 20px; line-height: 26px; font-weight: 460; color: var(--text); font-variation-settings: "opsz" 20; }
 /* the end captions sit on the rule's line, above and below it, as in the app */
 .g-end { position: absolute; left: .5px; transform: translateX(-50%); white-space: nowrap; font: 500 11px/14px var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
-.g-end.top { top: -26px; }
+.g-end.top { top: -24px; }
 .g-end.bot { top: calc(100% + 12px); }
-/* the percentage rides beside the knob, left of the rule; its figures span the knob exactly */
-.g-pct { position: absolute; right: calc(100% + 12px); top: calc(var(--d) * 100%); transform: translateY(-50%);
+/* the percentage rides 12 px right of the knob; half a pixel down puts its figures' top and baseline on the ring */
+.g-pct { position: absolute; left: 12px; top: calc(var(--d) * 100%); transform: translateY(-50%); margin-top: calc(.5px + var(--sy, 0px));
   font: 600 13px/18px var(--sans); color: var(--accent-2); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
-/* the one cue that the body peels: a quiet line under the percentage, gone once the gauge has been used */
-.g-cue { position: absolute; right: calc(100% + 12px); top: 17px; margin: 0; white-space: nowrap;
-  font: 400 13px/18px var(--sans); color: var(--text-3); transition: opacity .4s var(--ease), visibility .4s; }
-.gauge.is-used .g-cue { opacity: 0; visibility: hidden; }
+/* Under the percentage, riding with it: the one cue that the body peels (gone once the gauge has been used); on narrow
+   screens also the stop's name and the selected structure, which have no room elsewhere. */
+.g-ride, .g-pct { pointer-events: none; }
+.g-ride { position: absolute; left: 12px; top: calc(var(--d) * 100% + 11px); margin: 0; max-width: calc(100% - 12px); }
+.g-ride > * { display: block; margin: 0; }
+.g-cue { white-space: nowrap; font: 400 13px/18px var(--sans); color: var(--text-3); transition: opacity .4s var(--ease), visibility .4s; }
+.gauge.is-used .g-cue { opacity: 0; visibility: hidden; height: 0; }
+.gauge.is-low .g-ride { top: auto; bottom: calc((1 - var(--d)) * 100% + 11px); }
+.g-now, .g-sel { display: none; }
 /* The knob is as tall as the percentage's figures, as in the app: a 6 px brass dot in a 1.75 px ring of the wall's own
-   colour, 9.5 px across. The invisible ::after keeps the target at 24 px for a mouse and 44 px for a finger. */
+   colour at its height (--halo, set by the script). The invisible ::after keeps a 24 px target for a mouse and 44 px for
+   a finger. */
 .g-knob {
-  position: absolute; left: .5px; top: calc(var(--d) * 100%); transform: translate(-50%, calc(-50% - .5px));
+  position: absolute; left: .5px; top: calc(var(--d) * 100% + var(--sy, 0px)); transform: translate(-50%, -50%);
   width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
-  box-shadow: 0 0 0 1.75px color-mix(in srgb, var(--stage-top) 50%, var(--stage-bottom));
+  box-shadow: 0 0 0 1.75px var(--halo, var(--stage-top));
   cursor: grab; touch-action: none; z-index: 2;
 }
 .g-knob::after { content: ""; position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; border-radius: 50%; transform: translate(-50%, -50%); }
@@ -453,12 +463,13 @@ main { overflow-x: clip; }
 /* Organ to cell */
 .otc { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 48px 72px; align-items: center; }
 .otc-copy .wall-label { margin-top: 40px; }
-.otc-row { list-style: none; margin: 0; padding: 0; display: flex; align-items: flex-end; gap: 16px; }
+.otc-row { list-style: none; margin: 0; padding: 0; display: flex; align-items: stretch; gap: 16px; }
 /* Each figure takes a share of the column in proportion to its picture's shape (--a, width over height), so the
    three scale with the column and keep one shared height. The 38 px basis is the arrow and its gap. */
-.otc-row li { display: flex; align-items: flex-end; gap: 16px; flex: var(--a) 1 0px; min-width: 0; }
+.otc-row li { display: flex; align-items: stretch; gap: 16px; flex: var(--a) 1 0px; min-width: 0; }
 .otc-row li + li { flex-basis: 38px; }
 .otc-row figure { margin: 0; text-align: center; flex: 1 1 0; min-width: 0; }
+/* the pictures share one top line, so the three names sit on one line however their second lines wrap */
 .otc-pool { aspect-ratio: var(--a); max-height: 300px; display: flex; justify-content: center; --pool-w: 150%; --pool-h: 140%; }
 .otc-pool img { width: 100%; height: 100%; max-width: 100%; object-fit: contain; }
 .otc-pool img.feather {
@@ -653,7 +664,7 @@ main { overflow-x: clip; }
   .hero-copy { grid-area: copy; width: auto; max-width: 600px; padding-top: 40px; }
   .hero-spec { grid-area: spec; position: relative; left: auto; top: auto; bottom: auto; transform: none; height: var(--fig-h); margin: 72px 0 0; --pool-w: 200%; --pool-h: 108%; }
   .hero-label { grid-area: label; position: relative; right: auto; top: auto; width: auto; max-width: 300px; justify-self: end; margin-top: calc(72px + var(--fig-h) * .2955 - 13px); }
-  .gauge { grid-area: gauge; position: relative; right: auto; top: auto; bottom: auto; width: auto; justify-self: start; margin: calc(72px + var(--fig-h) * .1) 0 0 76px; height: calc(var(--fig-h) * .78); }
+  .gauge { grid-area: gauge; position: relative; right: auto; top: auto; bottom: auto; width: 290px; --gx: 200px; justify-self: start; margin: calc(72px + var(--fig-h) * .1) 0 0; height: calc(var(--fig-h) * .78); }
   .section-stage { padding-inline: 170px; }
 }
 @media (max-width: 960px) {
@@ -672,15 +683,15 @@ main { overflow-x: clip; }
   /* the legs fade under the headline: the mask is on the plates only, so the pool around them is never clipped to a box */
   .hero-spec .peel-stage { -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 84%); mask-image: linear-gradient(180deg, #000 60%, transparent 84%); }
   .hero-copy { padding-top: 0; margin-top: calc(var(--fig-h) * -.22); }
-  .hero-label { justify-self: start; max-width: 360px; margin: 40px 0 0; }
+  /* The wall label would land under the download buttons, out of sight while the gauge is dragged, and there is no room
+     for it beside the figure: the selected biceps is named under the percentage instead, at the biceps' own height. The
+     label stays for screen readers, with the nerve and the action. */
+  .hero-label { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .gauge { margin: calc(var(--fig-h) * .07) 0 0; height: calc(var(--fig-h) * .62); }
-  /* no room left of the rule beside the figure: the stop names carry the depth, and the cue sits at the rule's foot */
-  .g-end, .g-pct { display: none; }
-  .g-cue { right: auto; left: 17px; top: calc(100% + 12px); }
-  .g-stop { gap: 8px; }
-  .g-stop span { font-size: 13px; }
-  .g-stop.cur span { font-size: 14px; font-weight: 500; }
-  .g-track { min-height: 0; margin: 0; }
+  .g-track { min-height: 0; margin: 0 0 0 calc(var(--gx) + var(--sx, 0px)); }
+  .g-ride { max-width: 180px; }
+  .gauge.is-sel .g-sel { display: block; }
+  .g-sel { font: 400 13px/18px var(--sans); color: var(--text-2); }
   .split, .otc, .micro, .course, .two-texts, .eff, .desk-after { grid-template-columns: minmax(0, 1fr); }
   .split { gap: 20px; }
   .section-stage { padding: 24px 0 0; }
@@ -710,6 +721,21 @@ main { overflow-x: clip; }
   .otc-step { margin: 0; transform: rotate(90deg); }
   .otc-pool { height: 240px; aspect-ratio: auto; }
   .otc-pool img { width: auto; }
+}
+@media (max-width: 359px) {
+  /* the lockup and the menu button keep the gutter on the narrowest phones; the figure gives the gauge a little room */
+  .hero { --fig-h: clamp(360px, 54svh, 520px); }
+  .site-head { gap: 10px; }
+  .head-right > .menu-btn { padding: 0 9px 0 8px; gap: 6px; }
+}
+@media (max-width: 599px) {
+  /* Phones: no room for eight names beside the figure. The rule keeps its ticks; the current stop's name rides under
+     the percentage, beside the knob. */
+  .hero { column-gap: 8px; }
+  .gauge { width: auto; justify-self: stretch; --gx: 18px; }
+  .g-stop span { display: none; }
+  .g-ride { max-width: calc(100% - 12px); }
+  .g-now { display: block; font: italic 400 15px/20px var(--serif); font-variation-settings: "opsz" 14; color: var(--text); }
 }
 @media (max-width: 760px) {
   :root { --head-h: 64px; }
@@ -857,14 +883,14 @@ main { overflow-x: clip; }
   </div>
   <div class="gauge" id="gauge" style="--d:0">
     <div class="g-track" id="g-track">
-      <div class="g-line"></div><div class="g-fine"></div><div class="g-fill"></div>
+      <div class="g-line"></div><div class="g-fine" id="g-fine"></div><div class="g-fill"></div>
       <span class="g-end top" aria-hidden="true">Superficial</span>
       <span class="g-end bot" aria-hidden="true">Deep</span>
       <div class="g-rail" aria-hidden="true"></div>
       <div class="g-knob" id="g-knob" role="slider" tabindex="0" aria-label="Dissection depth" aria-orientation="vertical"
            aria-valuemin="0" aria-valuemax="85" aria-valuenow="0" aria-valuetext="Skin surface, 0% deep"></div>
       <span class="g-pct" aria-hidden="true">0%</span>
-      <p class="g-cue" aria-hidden="true">Drag to peel</p>
+      <p class="g-ride" aria-hidden="true"><span class="g-now">Skin surface</span><span class="g-sel">Biceps brachii, selected</span><span class="g-cue">Drag to peel</span></p>
       <ol class="g-stops" aria-hidden="true"></ol>
     </div>
   </div>
@@ -1465,6 +1491,22 @@ main { overflow-x: clip; }
       'the heart, the great vessels and the kidneys', 'the deepest structures'];
     var stage = $('#peel-stage'), spec = $('#hero-spec'), gauge = $('#gauge'), track = $('#g-track'), knob = $('#g-knob');
     var pct = $('.g-pct', gauge), stopList = $('.g-stops', gauge), label = $('#hero-label'), note = $('#hl-note');
+    var now = $('.g-now', gauge), fine = $('#g-fine');
+    /* a mark every 2 %, a longer one every 10 %, as in the app */
+    for (var f = 0; f <= 50; f++) { var m = document.createElement('i'); m.style.top = (f * 2) + '%'; if (f % 5 === 0) m.className = 'ten'; fine.appendChild(m); }
+    /* the knob's ring is the wall's own colour where it sits: the wall is one fixed wash, top to bottom of the window */
+    function halo() {
+      /* the rule and the knob land on whole device pixels, as in the app, so the dot and its ring stay sharp */
+      var dpr = window.devicePixelRatio || 1, snap = function (v) { return Math.round(v * dpr) / dpr - v; };
+      var tx = track.getBoundingClientRect().left - (parseFloat(gauge.style.getPropertyValue('--sx')) || 0);
+      gauge.style.setProperty('--sx', snap(tx).toFixed(3) + 'px');
+      var ky = knob.getBoundingClientRect().top - (parseFloat(gauge.style.getPropertyValue('--sy')) || 0);
+      gauge.style.setProperty('--sy', snap(ky).toFixed(3) + 'px');
+      var y = ky + 3, f = Math.max(0, Math.min(1, y / window.innerHeight));
+      knob.style.setProperty('--halo', 'color-mix(in srgb, var(--stage-bottom) ' + (f * 100).toFixed(1) + '%, var(--stage-top))');
+    }
+    window.addEventListener('scroll', function () { if (window.scrollY < window.innerHeight * 1.5) halo(); }, { passive: true });
+    window.addEventListener('resize', halo);
     var hex = 'ffffff', depth = 0, shownIdx = -1, dragging = false, tween = 0, loading = false;
     var SKIN = BOXES.peel_00_skin || { box: [1135, 64, 2064, 2304] };
     var S0 = SKIN.box, SW = S0[2] - S0[0], SH = S0[3] - S0[1];
@@ -1541,12 +1583,16 @@ main { overflow-x: clip; }
       pct.textContent = Math.round(d * 100) + '%';
       var cur = floorIdx(d);
       STOPS.forEach(function (st, k) { st.li.classList.toggle('cur', k === cur); st.li.classList.toggle('past', k < cur); });
+      now.textContent = STOPS[cur].name;
+      gauge.classList.toggle('is-low', d > 0.6);   /* deep down, the riding words go above the knob, clear of "Deep" */
+      halo();
       var n = nearest(d), st = STOPS[n];
       knob.setAttribute('aria-valuenow', Math.round(d * 100));
       knob.setAttribute('aria-valuetext', STOPS[cur].name + ', ' + Math.round(d * 100) + '% deep');
       if (n !== shownIdx) {
         shownIdx = n;
         label.classList.toggle('is-hidden', !st.shown);
+        gauge.classList.toggle('is-sel', st.shown);
         if (!st.shown) note.textContent = st.note || GONE;
         spec.setAttribute('aria-label', 'The whole body from the front at ' + Math.round(st.lv * 100) + '% dissection depth: ' + DESC[n]);
         layoutHero();
