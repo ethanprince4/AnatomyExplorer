@@ -1,7 +1,7 @@
 # Layered Human: design directions (14 October 2026)
 
 Three design directions for the renamed app (Anatomy Explorer becomes Layered Human) and its website, layeredhuman.com.
-Each direction has its own app design, its own website and 7 or 8 colour schemes. All three keep the current idea: a quiet
+Each direction has its own app design, its own website and 6 to 8 colour schemes. All three keep the current idea: a quiet
 stage and simple colours, so the 3D body is always the brightest thing on screen.
 
 **Start with `index.html`.** Open it in a browser. It compares the directions side by side, lets you flip through every
@@ -16,7 +16,7 @@ folder.
 | Signature in the app | The layer rail: the dissection slider as the app's right edge, one tab per depth band | The wall label: a light card for the selection; a pool of light behind the body | Labels in two margin columns; the selection set as the plate's key; a depth rule |
 | Signature on the site | The body peels as you scroll, beside the same rail | Rooms you walk through, each specimen in its own pool of light | Labels that lead: each label on Plate 1 links to the plate that explains it |
 | Type | Archivo | Literata and Fira Sans | Atkinson Hyperlegible Next and Mono |
-| Schemes | 8 (5 dark, 3 light), default Graphite | 8 (6 dark, 2 light), default Gallery slate | 7 (5 light, 2 dark), default Bristol |
+| Schemes | 8 (5 dark, 3 light), default Graphite | 6 (all dark), default Gallery slate | 7 (5 light, 2 dark), default Bristol |
 
 All three share the same decisions about how the app works, taken from the review of the current app
 (`research/current-ux-evaluation.md`):
@@ -39,7 +39,7 @@ All three share the same decisions about how the app works, taken from the revie
 | `renders/site/` | Website captures: first screen on desktop and phone, and the whole page. |
 | `renders/current/` | Two screenshots of today's app, used in the gallery. |
 | `current/` | Full-resolution screenshots of today's app (v4.0.8) that the review refers to. |
-| `system/schemes.py` | The 23 colour schemes. Running it writes `schemes.json`, `schemes.css` and `schemes.js`, and checks contrast. |
+| `system/schemes.py` | The 21 colour schemes. Running it writes `schemes.json`, `schemes.css` and `schemes.js`, and checks contrast. |
 | `assets/plates/` | Anatomy figures rendered by the app's own renderer, with transparent backgrounds, plus label anchors (`plates.json`, `*.anchors.json`, bundled into `plates.js`). |
 | `assets/fonts/`, `assets/images/` | Bundled fonts (all SIL Open Font License) and the radiographs and micrographs. `assets/images/CREDITS.json` lists sources and licences. |
 | `research/` | The review of today's app (28 findings, 10 principles) and the brand and website brief. |
@@ -57,11 +57,11 @@ Each direction's schemes are tuned to its type and surfaces, so they are not int
 | Check | Minimum required | Lowest in any scheme |
 |---|---|---|
 | Body text | 7:1 | 7.7:1 |
-| Secondary text | 4.5:1 | 6.35:1 |
+| Secondary text | 4.5:1 | 6.56:1 |
 | Faintest text | 3:1 | 4.77:1 |
 | Accent on its surface | 4.5:1 | 5.9:1 |
 
-All 23 schemes pass every check.
+All 21 schemes pass every check.
 
 Every scheme defines the same tokens:
 

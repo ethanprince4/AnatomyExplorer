@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-design="specimen" data-scheme="slate" data-screen="atlas" data-base="../../">
+<html lang="en" data-design="specimen" data-scheme="slate" data-screen="atlas" data-panel="wall" data-base="../../">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1920">
@@ -11,16 +11,16 @@
 <style>
 /* ============================================================================================
    SPECIMEN: the body on display. A painted wall, one pool of light on the subject, text printed
-   on the wall, and one light wall label for the thing you selected. Type: Literata + Fira Sans.
+   on the wall, and one wall label for the thing you selected. Type: Literata + Fira Sans.
    ============================================================================================ */
 :root {
   --serif: "Literata", Georgia, serif; --sans: "Fira Sans", system-ui, sans-serif;
   --leader: color-mix(in srgb, var(--text) 55%, transparent);
-  --wash: color-mix(in srgb, var(--surface) 82%, transparent);
   --hair: color-mix(in srgb, var(--text) 16%, transparent);
-  --cardline: color-mix(in srgb, var(--card-text) 18%, transparent);
+  --edge: color-mix(in srgb, var(--text) 41%, transparent);       /* ghost button outline: at least 3:1 on the wall */
+  --tint: color-mix(in srgb, var(--text) 6%, transparent);        /* plaque: the wall, a few percent lighter */
+  --tint-edge: color-mix(in srgb, var(--text) 9%, transparent);
 }
-[data-mode="light"] { --hair: color-mix(in srgb, var(--text) 18%, transparent); --wash: color-mix(in srgb, var(--surface) 92%, transparent); }
 * { box-sizing: border-box; }
 html, body { margin: 0; background: var(--stage-bottom); }
 body { font-family: var(--sans); font-size: 15px; line-height: 22px; color: var(--text); -webkit-font-smoothing: antialiased; }
@@ -59,7 +59,6 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .tb { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 2px; font: 500 15px var(--sans); color: var(--text-2);
   background: none; border: 0; }
 .tb .ct { font-weight: 600; color: var(--accent-2); }
-[data-mode="light"] .tb .ct { color: var(--accent); }
 
 /* ---------------------------------------------------------------------------------- titles printed on the wall */
 .exhibit { position: absolute; left: 40px; top: 112px; }
@@ -80,30 +79,51 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .views { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; color: var(--text-2); }
 .views span.on { color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 5px; text-decoration-thickness: 2px; }
 
-/* ---------------------------------------------------------------------------------- the wall label (signature) */
-.label-card { position: absolute; background: var(--card); color: var(--card-text); border-radius: 3px; padding: 22px 24px 18px;
-  box-shadow: 0 1px 0 rgb(255 255 255 / .04) inset, 0 14px 30px -18px rgb(0 0 0 / .55); }
-[data-mode="light"] .label-card { box-shadow: 0 0 0 1px var(--line), 0 14px 30px -20px rgb(30 30 30 / .25); }
+/* ---------------------------------------------------------------------------------- the wall label (signature)
+   One markup, three treatments, chosen by <html data-panel>. The type is always the Radiology column's: a .colhead,
+   a Literata title, the italic Latin name, hairlines, definition lists in the text colours and hairline .btn ghosts.
+     wall    lettered straight onto the wall, no container (the default)
+     plaque  a plaque of the wall's own material, a few percent lighter, with at most a hairline edge
+     frame   a vitrine edge: a hairline in the line colour with fine corner marks, the wall showing through */
+.label-card { position: absolute; color: var(--text); padding: 22px 24px 20px; }
 .label-card .t { font-family: var(--serif); font-size: 32px; line-height: 36px; font-weight: 420; letter-spacing: -.01em; font-variation-settings: "opsz" 48; }
-.label-card .lat { font-family: var(--serif); font-style: italic; font-size: 17px; line-height: 24px; color: var(--card-text-2); margin-top: 2px; }
-.label-card hr { border: 0; height: 1px; background: var(--cardline); margin: 14px 0 12px; }
+.label-card .lat { font-family: var(--serif); font-style: italic; font-size: 17px; line-height: 24px; color: var(--text-2); margin-top: 2px; }
+.label-card hr { border: 0; height: 1px; background: var(--line); margin: 14px 0 12px; }
 .label-card dl { margin: 0; display: grid; grid-template-columns: 84px 1fr; row-gap: 7px; column-gap: 10px; font-size: 14px; line-height: 20px; }
-.label-card dt { color: var(--card-text-2); }
+.label-card dt { color: var(--text-3); }
 .label-card dd { margin: 0; }
-.label-card .acc { margin-top: 12px; font-size: 12.5px; letter-spacing: .02em; color: var(--card-text-2); }
-.label-card .acts { display: flex; gap: 6px; margin-top: 14px; }
-.cbtn { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 3px; font: 500 14px var(--sans);
-  color: var(--card-text); background: transparent; border: 1px solid var(--cardline); }
-.cbtn.primary { background: var(--card-text); color: var(--card); border-color: var(--card-text); }
+.label-card .acc { margin-top: 12px; font-size: 12.5px; letter-spacing: .02em; color: var(--text-3); }
+.label-card .note { font-size: 14.5px; line-height: 22px; color: var(--text-2); text-wrap: pretty; }
+.label-card .q { font-family: var(--serif); font-size: 23px; line-height: 31px; font-weight: 420; margin: 0 0 18px; font-variation-settings: "opsz" 24; }
+.label-card .acts { display: flex; gap: 8px; margin-top: 16px; }
+.label-card .btn { height: 36px; padding: 0 14px; gap: 7px; font-size: 14.5px; border-color: var(--edge); }
+.label-card .btn .i { width: 15px; height: 15px; }
+.btn.brass { color: var(--accent); border-color: var(--accent); }
+.label-card.cont { position: relative; display: flex; align-items: center; gap: 24px; max-width: 980px; padding: 20px 24px; }
+.label-card.cont img { height: 110px; }
+.label-card.cont .colhead { margin: 0 0 2px; }
+.label-card.cont .t { font-size: 28px; line-height: 34px; }
+.label-card.cont .btn { height: 40px; padding: 0 20px; font-size: 15px; }
+
+[data-panel="wall"] .label-card { padding: 0; }
+[data-panel="wall"] .label-card.cont { max-width: none; padding: 0 0 20px; border-bottom: 1px solid var(--hair); }
+
+[data-panel="plaque"] .label-card { background: var(--tint); box-shadow: inset 0 1px 0 var(--tint-edge); border-radius: 2px; }
+
+[data-panel="frame"] .label-card { --cm: var(--text-3); border: 1px solid var(--line-2);
+  background: linear-gradient(var(--cm) 0 0) left top / 12px 1px, linear-gradient(var(--cm) 0 0) left top / 1px 12px,
+    linear-gradient(var(--cm) 0 0) right top / 12px 1px, linear-gradient(var(--cm) 0 0) right top / 1px 12px,
+    linear-gradient(var(--cm) 0 0) left bottom / 12px 1px, linear-gradient(var(--cm) 0 0) left bottom / 1px 12px,
+    linear-gradient(var(--cm) 0 0) right bottom / 12px 1px, linear-gradient(var(--cm) 0 0) right bottom / 1px 12px;
+  background-repeat: no-repeat; background-origin: border-box; }
 
 /* ---------------------------------------------------------------------------------- 3D labels: lettering on the wall */
 .lbl { position: absolute; white-space: nowrap; font-size: 14.5px; line-height: 18px; font-weight: 400; color: var(--text);
   padding: 2px 6px; border-radius: 2px; background: color-mix(in srgb, var(--stage-bottom) 72%, transparent); }
 .lbl.is-selected { font-weight: 600; }
 .lbl .k { font-variant-numeric: tabular-nums; color: var(--accent-2); font-weight: 600; margin-right: 6px; }
-[data-mode="light"] .lbl .k { color: var(--accent); }
 .lbl.miss { color: var(--text-2); }
-.lbl.miss .k, [data-mode="light"] .lbl.miss .k { color: var(--text-3); }
+.lbl.miss .k { color: var(--text-3); }
 
 /* ---------------------------------------------------------------------------------- dissection gauge */
 .gauge { position: absolute; right: 64px; top: 230px; height: 640px; width: 230px; }
@@ -117,24 +137,41 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .gauge .knob { position: absolute; right: -8px; width: 17px; height: 17px; border-radius: 50%; background: var(--accent);
   box-shadow: 0 0 0 4px var(--stage-bottom); transform: translateY(-50%); }
 .gauge .pct { position: absolute; right: 22px; transform: translateY(-50%); margin-top: 22px; font-size: 13px; color: var(--accent-2); font-weight: 600; }
-[data-mode="light"] .gauge .pct { color: var(--accent); }
 .gauge .cap { position: absolute; right: 0; top: -44px; text-align: right; font-size: 13px; font-weight: 600; color: var(--text-2); }
 .gauge .end { position: absolute; right: 0; bottom: -36px; font-size: 13px; color: var(--text-3); }
 
-/* ---------------------------------------------------------------------------------- dock */
-.dock { position: absolute; left: 50%; transform: translateX(-50%); bottom: 28px; display: flex; align-items: center; gap: 4px; height: 50px; padding: 0 10px;
-  width: max-content; white-space: nowrap;
-  border-radius: 4px; background: var(--wash); box-shadow: 0 12px 26px -18px rgb(0 0 0 / .6); }
-[data-mode="light"] .dock { box-shadow: 0 0 0 1px var(--line), 0 12px 26px -20px rgb(30 30 30 / .25); }
-.dock button { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border: 0; background: none; border-radius: 3px;
+/* ---------------------------------------------------------------------------------- dock: same three treatments */
+.dock { position: absolute; left: 50%; transform: translateX(-50%); bottom: 28px; display: flex; align-items: center; height: 50px;
+  width: max-content; white-space: nowrap; }
+.dock button { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border: 0; background: none; border-radius: 0;
   font: 500 14.5px var(--sans); color: var(--text-2); }
-.dock button.on { color: var(--text); box-shadow: inset 0 -2px 0 var(--accent); border-radius: 0; }
-.dock .sep { width: 1px; height: 22px; background: var(--hair); margin: 0 6px; }
+.dock button.on { color: var(--text); box-shadow: inset 0 -2px 0 var(--accent); }
+.dock .sep { width: 1px; height: 22px; background: var(--line-2); margin: 0 6px; }
+
+[data-panel="wall"] .dock { bottom: 16px; height: 44px; gap: 4px; padding: 4px 2px 0; border-top: 1px solid var(--line); }
+
+[data-panel="plaque"] .dock { bottom: 20px; height: 40px; padding: 0; background: var(--tint); box-shadow: inset 0 1px 0 var(--tint-edge); border-radius: 2px; }
+[data-panel="plaque"] .dock button { height: 40px; padding: 0 16px; }
+[data-panel="plaque"] .dock button + button { box-shadow: inset 1px 0 0 var(--tint-edge); }
+[data-panel="plaque"] .dock button.on { box-shadow: inset 1px 0 0 var(--tint-edge), inset 0 -2px 0 var(--accent); }
+[data-panel="plaque"] .dock .sep { height: 40px; margin: 0; background: var(--line); }
+
+[data-panel="frame"] .dock { bottom: 20px; height: 40px; padding: 0; border: 1px solid var(--line-2); }
+[data-panel="frame"] .dock button { height: 38px; padding: 0 16px; }
+[data-panel="frame"] .dock button + button { border-left: 1px solid var(--line); }
+[data-panel="frame"] .dock .sep { width: 3px; height: 38px; margin: 0; background: none; border-left: 1px solid var(--line-2); border-right: 1px solid var(--line-2); }
 
 /* ---------------------------------------------------------------------------------- shared bits */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 18px; border-radius: 3px; border: 1px solid var(--line-2);
   font: 500 15px var(--sans); color: var(--text); background: transparent; white-space: nowrap; }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+/* the small wall label in each Appearance thumbnail follows the treatment too */
+.mini { position: absolute; left: 12px; bottom: 12px; width: 92px; padding: 8px 9px; }
+.mini i { display: block; height: 7px; width: 60px; background: var(--text); opacity: .85; }
+.mini i + i { height: 5px; width: 44px; margin-top: 5px; background: var(--text-2); opacity: .7; }
+[data-panel="wall"] .mini { left: 14px; padding: 0; }
+[data-panel="plaque"] .mini { background: var(--tint); border-radius: 2px; }
+[data-panel="frame"] .mini { border: 1px solid var(--line-2); }
 .meta { font-size: 13.5px; line-height: 20px; color: var(--text-2); }
 .muted { color: var(--text-3); }
 .serif { font-family: var(--serif); }
@@ -198,7 +235,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
       <dt>Attaches</dt><dd>Two heads on the scapula; inserts on the radius</dd>
     </dl>
     <div class="acc num">TA2 2465, 2466 · Muscular system · Upper limb · 4 parts</div>
-    <div class="acts"><button class="cbtn primary">Isolate</button><button class="cbtn">Hide</button><button class="cbtn">X-ray</button><button class="cbtn">Full entry<svg class="i" style="width:15px;height:15px"><use href="#i-chevron"/></svg></button></div>
+    <div class="acts"><button class="btn brass">Isolate</button><button class="btn">Hide</button><button class="btn">X-ray</button><button class="btn">Full entry<svg class="i"><use href="#i-chevron"/></svg></button></div>
   </div>
   <div class="gauge" data-depth="0.26"></div>
   <div class="dock" data-dock></div>
@@ -253,9 +290,9 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     <p class="meta" style="border-top:1px solid var(--hair); padding-top:12px; margin:4px 0 22px"><b style="color:var(--text); font-weight:600">Clinical.</b> The LAD supplies the largest territory; its proximal occlusion takes out the anterior wall and the conducting system together.</p>
   </div>
   <div class="label-card" style="left:40px; bottom:40px; width:620px">
-    <div style="font-size:13px; color:var(--card-text-2)">Recall it first, then show the answer</div>
-    <div class="serif" style="font-size:23px; line-height:31px; font-weight:420; margin:6px 0 16px">Which artery supplies the anterior two thirds of the interventricular septum?</div>
-    <div style="display:flex; gap:8px"><button class="cbtn primary">Show answer</button><span style="flex:1"></span><button class="cbtn"><svg class="i" style="width:15px;height:15px"><use href="#i-back"/></svg>Back</button><button class="cbtn">Next step<svg class="i" style="width:15px;height:15px"><use href="#i-chevron"/></svg></button></div>
+    <div class="colhead">Recall it first, then show the answer</div>
+    <div class="q">Which artery supplies the anterior two thirds of the interventricular septum?</div>
+    <div class="acts" style="margin-top:0"><button class="btn brass">Show answer</button><span style="flex:1"></span><button class="btn"><svg class="i"><use href="#i-back"/></svg>Back</button><button class="btn">Next step<svg class="i"><use href="#i-chevron"/></svg></button></div>
   </div>
   <div class="dock" data-dock data-kind="model" style="left:1330px"></div>
 </div>
@@ -279,11 +316,11 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     <button class="btn primary">Review what is due</button>
   </div>
   <div style="position:absolute; left:360px; top:236px; right:40px">
-    <div class="label-card" style="position:relative; display:flex; align-items:center; gap:24px; padding:20px 24px; max-width:980px">
-      <img src="../../assets/plates/heart_home_clean.webp" style="height:110px" alt="">
-      <div style="flex:1"><div style="font-size:13px; color:var(--card-text-2)">Continue where you left off</div>
-        <div class="t" style="font-size:28px">The coronary circulation</div><div style="font-size:14px; color:var(--card-text-2)">Step 2 of 7 · The left coronary artery</div></div>
-      <button class="cbtn primary" style="height:40px; padding:0 20px">Continue</button>
+    <div class="label-card cont">
+      <img src="../../assets/plates/heart_home_clean.webp" alt="">
+      <div style="flex:1"><div class="colhead">Continue where you left off</div>
+        <div class="t">The coronary circulation</div><div class="meta">Step 2 of 7 · The left coronary artery</div></div>
+      <button class="btn brass">Continue</button>
     </div>
     <div data-labs style="margin-top:22px"></div>
   </div>
@@ -304,8 +341,8 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
       <div class="lat">Built for this app · true scale</div>
       <hr>
       <p style="margin:0 0 12px; font-size:14.5px; line-height:22px">The kidney, adrenal, vessels and ureter, with a juxtamedullary nephron in place. Eight stored views zoom from the whole organ down to the podocytes.</p>
-      <div style="font-size:13px; color:var(--card-text-2); line-height:22px">Kidney · Lobe opened · Lobe · Nephron · Corpuscle · Juxtaglomerular apparatus · Podocytes · Loop of Henle</div>
-      <div class="acts" style="margin-top:16px"><button class="cbtn primary">Open model</button><button class="cbtn">Lessons (6)</button></div>
+      <div class="meta" style="font-size:13px; line-height:22px">Kidney · Lobe opened · Lobe · Nephron · Corpuscle · Juxtaglomerular apparatus · Podocytes · Loop of Henle</div>
+      <div class="acts"><button class="btn brass">Open model</button><button class="btn">Lessons (6)</button></div>
     </div>
   </div>
 </div>
@@ -357,12 +394,12 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
   <header class="head" data-chrome="lessons"></header>
   <div class="exhibit"><h1>Lab 6 practice</h1><p>Pressure, volume and a breath · question 4 of 12</p></div>
   <div class="label-card" style="left:40px; bottom:40px; width:470px">
-    <div style="font-size:13px; color:var(--card-text-2)">Find it in the model</div>
+    <div class="colhead" style="margin:0">Find it in the model</div>
     <div class="t" style="margin:4px 0 6px">External intercostal muscles</div>
-    <div style="font-size:14.5px; line-height:22px; color:var(--card-text-2)">Click it. Right-click peels away whatever is in the way; Ctrl+Z puts it back.</div>
+    <div class="note">Click it. Right-click peels away whatever is in the way; Ctrl+Z puts it back.</div>
     <hr>
     <div style="font-size:14.5px"><b>Not that one:</b> that is serratus anterior. 2 tries left; you have peeled away 2 structures.</div>
-    <div class="acts"><button class="cbtn">Show me</button><span style="flex:1"></span><button class="cbtn">Skip</button></div>
+    <div class="acts"><button class="btn">Show me</button><span style="flex:1"></span><button class="btn">Skip</button></div>
   </div>
   <div style="position:absolute; right:64px; top:236px; width:260px; text-align:right">
     <div class="colhead">This session</div>
@@ -410,7 +447,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
   <div class="exhibit"><h1>Appearance</h1><p>Settings · Mouse &amp; camera · <span style="color:var(--text)">Appearance</span> · Labels · Behaviour · Keyboard</p></div>
   <div style="position:absolute; left:40px; top:236px; right:40px">
     <p class="prose" style="max-width:62ch; margin:0 0 26px">Choose the wall the body is shown on. The model, the films and the micrographs keep their real colours on every wall.</p>
-    <div data-scheme-grid style="display:grid; grid-template-columns:repeat(4, 1fr); gap:26px 22px"></div>
+    <div data-scheme-grid style="display:grid; grid-template-columns:repeat(3, 1fr); gap:26px 22px"></div>
   </div>
 </div>
 </section>
@@ -419,6 +456,7 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 (function () {
   { const q = new URLSearchParams(location.search); const R = document.documentElement;
     if (q.get('scheme')) R.dataset.scheme = q.get('scheme'); if (q.get('screen')) R.dataset.screen = q.get('screen');
+    R.dataset.panel = ['wall', 'plaque', 'frame'].includes(q.get('panel')) ? q.get('panel') : 'wall';
     const info = window.LH_SCHEMES[R.dataset.design].schemes[R.dataset.scheme]; if (info) R.dataset.mode = info.mode; }
   const root = document.documentElement;
   const NAV = [['atlas', 'Atlas'], ['lessons', 'Lessons'], ['models', 'Models'], ['radiology', 'Radiology'], ['histology', 'Histology']];
@@ -485,15 +523,14 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
   document.querySelectorAll('[data-scheme-grid]').forEach(el => {
     const d = root.dataset.design, all = window.LH_SCHEMES[d].schemes;
     el.innerHTML = Object.entries(all).map(([k, s]) => `<div data-design="${d}" data-scheme="${k}" data-mode="${s.mode}">
-      <div style="position:relative; height:250px; background:linear-gradient(180deg, var(--stage-top), var(--stage-bottom)); border-radius:2px;
+      <div style="position:relative; height:300px; background:linear-gradient(180deg, var(--stage-top), var(--stage-bottom)); border-radius:2px;
         ${k === root.dataset.scheme ? 'outline:2px solid ' + all[root.dataset.scheme].accent + '; outline-offset:4px' : ''}">
         <div class="pool" style="left:20%; right:20%; top:6%; bottom:2%"></div>
-        <img src="../../assets/plates/hero26_sel_${s.select.slice(1)}.webp" style="position:absolute; left:50%; top:14px; height:226px; transform:translateX(-50%)" alt="">
-        <div style="position:absolute; left:12px; bottom:12px; width:92px; padding:8px 9px; background:var(--card); border-radius:2px">
-          <div style="height:7px; width:60px; background:var(--card-text); opacity:.85"></div><div style="height:5px; width:44px; margin-top:5px; background:var(--card-text-2); opacity:.7"></div></div>
+        <img src="../../assets/plates/hero26_sel_${s.select.slice(1)}.webp" style="position:absolute; left:50%; top:16px; height:272px; transform:translateX(-50%)" alt="">
+        <div class="mini"><i></i><i></i></div>
       </div>
       <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:10px">
-        <span class="serif" style="font-size:19px; color:${root.dataset.mode ? 'inherit' : 'inherit'}">${s.name}</span><span class="meta" style="font-size:12.5px">${s.mode === 'light' ? 'Light wall' : 'Dark wall'}</span></div>
+        <span class="serif" style="font-size:19px">${s.name}</span><span class="meta" style="font-size:12.5px">${k === 'slate' ? 'Default' : ''}</span></div>
     </div>`).join('');
   });
 })();

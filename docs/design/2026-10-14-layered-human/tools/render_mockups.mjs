@@ -1,5 +1,6 @@
 // Render mockup screens with Playwright (Chromium) at 2x.
 // node render_mockups.mjs <out-dir> <design> <scheme|all> <screen|all> [scale]
+// Optional: MOCKUP_QUERY adds query parameters to every page, for example MOCKUP_QUERY="panel=plaque".
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -15,6 +16,7 @@ const SCREENS = ['atlas', 'peel', 'lesson', 'lessons', 'models', 'radiology', 'p
 const schemes = schemeArg === 'all' ? Object.keys(SCHEMES[design].schemes) : schemeArg.split(',');
 const screens = screenArg === 'all' ? SCREENS : screenArg.split(',');
 const scale = parseFloat(scaleArg || '2');
+const extra = (process.env.MOCKUP_QUERY || '').replace(/^[?&]+/, '');
 fs.mkdirSync(outDir, { recursive: true });
 const browser = await chromium.launch(CHROME ? { executablePath: CHROME } : {});
 const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: scale });
@@ -22,7 +24,7 @@ page.on('pageerror', e => console.error('PAGEERROR', e.message));
 page.on('console', m => { if (m.type() === 'error') console.error('CONSOLE', m.text()); });
 for (const scheme of schemes) {
   for (const screen of screens) {
-    const url = 'file://' + path.join(ROOT, 'app', design, 'index.html') + `?scheme=${scheme}&screen=${screen}`;
+    const url = 'file://' + path.join(ROOT, 'app', design, 'index.html') + `?scheme=${scheme}&screen=${screen}` + (extra ? '&' + extra : '');
     await page.goto(url);
     await page.waitForFunction(() => document.documentElement.dataset.ready === '1', null, { timeout: 30000 });
     await page.waitForTimeout(150);
