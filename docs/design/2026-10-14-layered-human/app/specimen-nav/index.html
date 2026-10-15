@@ -374,7 +374,8 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
    2 Side rail: the rooms down the wall's left edge; the header keeps Back, the trail and search.
    3 Lobby: a home room; every room's trail starts at the Lobby; the rooms stay one click apart.
    ============================================================================================ */
-[data-screen="lobby"] [data-screen-id="lobby"], [data-screen="practice-home"] [data-screen-id="practice-home"] { display: block; }
+[data-screen="lobby"] [data-screen-id="lobby"], [data-screen="practice-home"] [data-screen-id="practice-home"],
+[data-screen="radiology-home"] [data-screen-id="radiology-home"] { display: block; }
 .head .rooms a { display: inline-flex; align-items: baseline; gap: 6px; cursor: pointer; }
 .head .rooms .ct, .rail .ct { font-weight: 600; color: var(--accent-2); font-size: 13px; }
 .head .tb[aria-current] { position: relative; color: var(--text); }
@@ -435,6 +436,8 @@ html:not([data-window])[data-variant="2"] [data-screen-id="histology"] .app > di
 [data-variant="2"] .head .hist { margin-left: -6px; }
 html:not([data-window])[data-variant="2"] .ph-col:has(> [data-ph-labs]) { width: 500px !important; }
 html:not([data-window])[data-variant="2"] [data-ph-pick] { left: 1416px !important; }   /* over the inline left */
+html:not([data-window])[data-variant="2"] .rh-box { width: 1000px; }
+html:not([data-window])[data-variant="2"] [data-rh-card] { left: 1376px !important; }   /* over the inline left */
 [data-variant="2"] .head .trail { margin-left: -14px; padding-left: 26px; border-left: 1px solid var(--hair); line-height: 22px; }   /* named Back, then the trail */
 .rail .r-foot a[role="button"] { cursor: pointer; }
 
@@ -481,6 +484,9 @@ html:not([data-window])[data-variant="2"] [data-ph-pick] { left: 1416px !importa
   background: none; border: 0; color: var(--text-2); font: 400 19px/24px var(--serif); font-variation-settings: "opsz" 24; text-align: left; cursor: pointer; }
 [data-ph-labs] a { font-size: 17px; }
 .ph-list .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* .nm clips long names, so the chosen row's underline is drawn inside its box: padding makes the room, the margin gives it back */
+.ph-list .nm.is-cur { padding-bottom: 8px; margin-bottom: -8px; }
+.ph-list .nm.is-cur::after { bottom: 2px; }
 .ph-list .no { flex: 0 0 52px; font: 500 13px var(--sans); color: var(--text-3); }
 .ph-list .n { margin-left: auto; flex: 0 0 auto; min-width: 44px; text-align: right; font: 500 13px var(--sans); color: var(--text-3); }
 .ph-list .n + .n { margin-left: 0; min-width: 76px; }
@@ -492,6 +498,31 @@ html:not([data-window])[data-variant="2"] [data-ph-pick] { left: 1416px !importa
 .ph-pick ul { list-style: none; margin: 16px 0 0; padding: 0; }
 .ph-pick li { display: flex; align-items: center; gap: 10px; height: 30px; font-size: 14px; color: var(--text-2); }
 .ph-pick li .v { margin-left: auto; color: var(--text); }
+
+/* ---- Radiology's front page (radiology-home): the case list by region (RadiologyBrowser), laid out as a light box */
+/* both lists in 36 px rows: nine regions and up to eight modalities fit above the window floor */
+.ph-list.rh-mods button { height: 36px; padding-top: 7px; font-size: 17px; }
+.ph-list.rh-mods .nm.is-cur { padding-bottom: 5px; margin-bottom: -5px; }
+.rh-only { display: flex; align-items: center; gap: 10px; width: 100%; height: 44px; margin-top: 6px; padding: 0; background: none; border: 0;
+  color: var(--text-2); font: 400 14px var(--sans); text-align: left; cursor: pointer; }
+.rh-only:hover, .rh-only[aria-pressed="true"] { color: var(--text); }
+.rh-only:hover .box:not(.on) { border-color: var(--text); }
+.rh-box { position: absolute; left: 330px; top: 232px; bottom: 40px; width: 1110px; display: flex; flex-direction: column; }
+.rh-grid { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; align-content: start;
+  padding: 2px 6px 2px 2px; margin: -2px -8px 0 -2px; scrollbar-width: thin; scrollbar-color: var(--hair) transparent; }
+.rh-grid::-webkit-scrollbar { width: 6px; } .rh-grid::-webkit-scrollbar-thumb { background: var(--hair); border-radius: 3px; }
+.rh-tile { display: block; min-width: 0; padding: 0; background: none; border: 0; text-align: left; color: inherit; cursor: pointer; }
+.rh-film { display: block; height: 116px; background: #050607; }
+.rh-film img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.rh-tile .tt { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; height: 38px; margin-top: 6px;
+  font: 400 14px/19px var(--sans); color: var(--text-2); }
+.rh-tile .mt { display: block; margin-top: 1px; font: 400 12px/16px var(--sans); color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rh-tile:hover .tt, .rh-tile:focus-visible .tt, .rh-tile[aria-pressed="true"] .tt { color: var(--text); }
+.rh-tile:hover .rh-film, .rh-tile:focus-visible .rh-film, .rh-tile[aria-pressed="true"] .rh-film { outline: 1px solid var(--accent); }
+.rh-tile:focus-visible { outline: none; }
+.rh-card .rh-film { height: 300px; margin-bottom: 18px; }
+.rh-card .note { margin-top: 10px; }
+.rh-card .meta { margin-top: 4px; color: var(--text-3); }
 
 /* ---- a small laptop window (?window=1280): the chrome is laid out for 1280 px; the room below it is the 1920 room scaled */
 [data-window] body, [data-window] .screen { width: 1280px !important; }
@@ -721,6 +752,26 @@ html:not([data-window])[data-variant="2"] [data-ph-pick] { left: 1416px !importa
 </div>
 </section>
 
+<!-- ================================================================ RADIOLOGY HOME (Radiology's front page; ?screen=radiology is one case) -->
+<section class="screen" data-screen-id="radiology-home">
+<div class="app">
+  <header class="head" data-chrome="radiology"></header>
+  <div class="exhibit"><h1>Radiology</h1><p><span data-rh-count>104</span> cases by region, from the plain film to nuclear medicine. Each opens beside the model.</p></div>
+  <div class="ph-col" style="left:40px; width:250px">
+    <div class="colhead">Region<span>Cases</span></div>
+    <ul class="ph-list rh-mods" data-rh-regions></ul>
+    <div class="colhead" style="margin-top:26px">Modality<span>Cases</span></div>
+    <ul class="ph-list rh-mods" data-rh-mods></ul>
+    <button class="rh-only" aria-pressed="false" data-rh-only><span class="box"></span>Normal anatomy only</button>
+  </div>
+  <div class="rh-box">
+    <div class="colhead" data-rh-head></div>
+    <div class="rh-grid" data-rh-grid></div>
+  </div>
+  <div class="ph-col label-card rh-card" style="left:1480px; width:400px" data-rh-card></div>
+</div>
+</section>
+
 <!-- ================================================================ PRACTICE -->
 <section class="screen" data-screen-id="practice">
 <div class="app">
@@ -911,6 +962,7 @@ html:not([data-window])[data-variant="2"] [data-ph-pick] { left: 1416px !importa
 </div>
 </section>
 
+<script src="radiology-cases.js"></script>
 <script>
 (function () {
   { const q = new URLSearchParams(location.search); const R = document.documentElement;
@@ -1192,7 +1244,7 @@ html:not([data-window])[data-variant="2"] [data-ph-pick] { left: 1416px !importa
     atlas: ['atlas', []], peel: ['atlas', []],
     lessons: ['lessons', []], lesson: ['lessons', [['The coronary circulation']]],
     models: ['models', []], viewer: ['models', [['Kidney with the nephron']]],
-    radiology: ['radiology', [['Chest radiograph, PA']]],
+    'radiology-home': ['radiology', []], radiology: ['radiology', [['Chest radiograph, PA']]],
     'histology-library': ['histology', []], histology: ['histology', [['Epithelium', 'histology-library'], ['Simple columnar epithelium']]],
     'practice-home': ['practice', []], practice: ['practice', [['Lab 6 · Pressure, volume and a breath']]],
     settings: ['settings', []],
@@ -1202,12 +1254,12 @@ html:not([data-window])[data-variant="2"] [data-ph-pick] { left: 1416px !importa
   const roomOf = s => (PLACE[s] || ['atlas'])[0];
   // Back names its place: a room's front page by the room, an item by what it is.
   const SAYS = { lobby: 'the lobby', atlas: 'Atlas', peel: 'Atlas', lessons: 'Lessons', lesson: 'the lesson', models: 'Models', viewer: 'the model',
-    radiology: 'the film', 'histology-library': 'Histology', histology: 'the slide', 'practice-home': 'Practice', practice: 'the quiz', settings: 'Settings' };
+    'radiology-home': 'Radiology', radiology: 'the film', 'histology-library': 'Histology', histology: 'the slide', 'practice-home': 'Practice', practice: 'the quiz', settings: 'Settings' };
   // Where Back goes when a screen is opened on its own (a render): one made-up session, consistent across screens.
-  const SEED = { lobby: 'atlas', atlas: 'lesson', peel: 'atlas', lessons: 'atlas', lesson: 'atlas', models: 'atlas', viewer: 'models', radiology: 'atlas',
+  const SEED = { lobby: 'atlas', atlas: 'lesson', peel: 'atlas', lessons: 'atlas', lesson: 'atlas', models: 'atlas', viewer: 'models', 'radiology-home': 'atlas', radiology: 'radiology-home',
     'histology-library': 'atlas', histology: 'histology-library', 'practice-home': 'atlas', practice: 'lesson', settings: 'atlas' };
   // Rooms remember: a room you are not in opens as you left it; the room you are in (and Practice, always) opens its front page.
-  const HOME = { lobby: 'lobby', atlas: 'atlas', lessons: 'lessons', models: 'models', radiology: 'radiology', histology: 'histology-library', practice: 'practice-home', settings: 'settings' };
+  const HOME = { lobby: 'lobby', atlas: 'atlas', lessons: 'lessons', models: 'models', radiology: 'radiology-home', histology: 'histology-library', practice: 'practice-home', settings: 'settings' };
   const LEFT = { atlas: 'atlas', lessons: 'lesson', models: 'viewer', radiology: 'radiology', histology: 'histology' };
   // The place history, kept for this tab: links push a place, Back and Forward move along it (app: places.PlaceHistory).
   const ss = (() => { try { return window.sessionStorage; } catch (e) { return null; } })();
@@ -1291,6 +1343,56 @@ html:not([data-window])[data-variant="2"] [data-ph-pick] { left: 1416px !importa
     el.innerHTML = LABP.map(([no, t, n]) => `<li><a href="${url('practice')}"><span class="no">${no}</span><span class="nm">${t}</span><span class="n num">${n}</span></a></li>`).join('');
   });
   pick(0);
+
+  // Radiology's front page: RadiologyBrowser's case list (by region, then modality and finding), as a light box.
+  const RAD = window.LH_RAD || [];
+  const RREG = ['Abdomen', 'Breast', 'Head and neck', 'Lower limb', 'Pelvis', 'Spine', 'Thorax', 'Upper limb', 'Whole body'];
+  const isNorm = c => /anatomy$/.test(c.f);
+  const rT = c => c.t.replace(/ — /g, ', ');
+  const rs = { reg: 'Thorax', mod: '', only: false, sel: 'cxr_pa' };
+  const film = c => `<span class="rh-film"><img src="../../assets/images/rad/${c.id}.jpg" alt=""></span>`;
+  const rCount = n => `${n} case${n === 1 ? '' : 's'}`;
+  const rhCard = () => { const c = RAD.find(x => x.id === rs.sel); if (!c) return;
+    document.querySelectorAll('[data-rh-grid] .rh-tile').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === rs.sel));
+    document.querySelectorAll('[data-rh-card]').forEach(el => { el.innerHTML = `${film(c)}<div class="t">${rT(c)}</div>
+      <div class="meta">${[c.m, c.r, c.p, c.f].filter(v => v && v !== 'Unspecified').join(' · ')}</div>
+      <div class="note">${c.s}</div>${c.n ? `<div class="meta num">${c.n} labels on the film</div>` : ''}
+      <div class="acts"><button class="btn brass" data-href="${url('radiology')}">Open the case</button></div>`; }); };
+  const rhDraw = () => {
+    const inReg = RAD.filter(c => !rs.reg || c.r === rs.reg);
+    const mods = [...new Set(inReg.map(c => c.m))];
+    if (rs.mod && !mods.includes(rs.mod)) rs.mod = '';
+    const shown = inReg.filter(c => (!rs.mod || c.m === rs.mod) && (!rs.only || isNorm(c)));
+    const list = shown.filter(isNorm).concat(shown.filter(c => !isNorm(c)));
+    const row = (k, nm, n, on) => `<li><button aria-pressed="${on}" data-k="${k}"><span class="nm${on ? ' is-cur' : ''}">${nm}</span><span class="n num">${n}</span></button></li>`;
+    document.querySelectorAll('[data-rh-count]').forEach(el => { el.textContent = RAD.length; });
+    document.querySelectorAll('[data-rh-regions]').forEach(el => { el.innerHTML = row('', 'All regions', RAD.length, !rs.reg) +
+      RREG.map(r => row(r, r, RAD.filter(c => c.r === r).length, rs.reg === r)).join(''); });
+    document.querySelectorAll('[data-rh-mods]').forEach(el => { el.innerHTML = row('', 'All', inReg.length, !rs.mod) +
+      mods.map(m => row(m, m, inReg.filter(c => c.m === m).length, rs.mod === m)).join(''); });
+    document.querySelectorAll('[data-rh-only]').forEach(b => { b.setAttribute('aria-pressed', rs.only); b.querySelector('.box').classList.toggle('on', rs.only); });
+    document.querySelectorAll('[data-rh-head]').forEach(el => { el.textContent = `${rs.reg || 'All regions'}${rs.mod ? ' · ' + rs.mod : ''} · ${rCount(list.length)}`; });
+    document.querySelectorAll('[data-rh-grid]').forEach(el => { el.innerHTML = list.map(c =>
+      `<button class="rh-tile" data-id="${c.id}" aria-pressed="false">${film(c)}<span class="tt">${rT(c)}</span><span class="mt">${c.m} · ${c.f}</span></button>`).join(''); });
+    if (list.length && !list.some(c => c.id === rs.sel)) rs.sel = list[0].id;
+    rhCard();
+  };
+  document.querySelectorAll('[data-screen-id="radiology-home"]').forEach(sec => {
+    sec.addEventListener('click', e => {
+      const t = e.target.closest('[data-rh-regions] button, [data-rh-mods] button, [data-rh-only], .rh-tile');
+      if (!t) return;
+      if (t.matches('[data-rh-regions] button')) rs.reg = t.dataset.k;
+      else if (t.matches('[data-rh-mods] button')) rs.mod = t.dataset.k;
+      else if (t.matches('[data-rh-only]')) rs.only = !rs.only;
+      else { rs.sel = t.dataset.id; rhCard(); return; }
+      rhDraw();
+    });
+    const open = () => { const b = sec.querySelector('[data-rh-card] .btn.brass'); if (b) b.click(); };
+    sec.addEventListener('dblclick', e => { if (e.target.closest('.rh-tile')) open(); });
+    sec.addEventListener('keydown', e => { const t = e.target.closest && e.target.closest('.rh-tile');
+      if (t && e.key === 'Enter') { e.preventDefault(); rs.sel = t.dataset.id; rhCard(); open(); } });
+  });
+  rhDraw();
 
   // The rooms' own ways in and out, now real links: Continue, Review, the lobby's doors and lists, a tissue, a wall.
   const wire = (sel, s) => document.querySelectorAll(sel).forEach(b => { b.dataset.href = url(s); if (!/^(BUTTON|A)$/.test(b.tagName)) { b.tabIndex = 0; b.setAttribute('role', 'link'); } });

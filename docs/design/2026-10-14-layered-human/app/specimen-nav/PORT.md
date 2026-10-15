@@ -56,6 +56,37 @@ summarised below; the long version is in the scratch folder as `ia.md`.
   colour (`:focus-visible`), the search field included.
 - **In the atlas** on the model viewer's part card: the app's existing "Show in the atlas".
 
+### Radiology's front page
+
+`radiology-home` is Radiology's front page, the way `practice-home` is Practice's. A film (`radiology`) is now an item
+inside it.
+
+- **What is drawn**, on the 232 line:
+  - the exhibit "Radiology", with the case count from `LH_RAD.length` (104);
+  - on the left, Region with case counts. "All regions" comes first, then the regions alphabetically, as
+    `app/ui/radiology.py` groups them. Thorax is chosen by default.
+  - under it, Modality: the modalities in the chosen region with counts, "All" first, then a **Normal anatomy only**
+    tick box (findings that end in "anatomy");
+  - in the middle, a light box: "Thorax · 20 cases" over a five-column grid of film tiles. Each tile has a black
+    film box, a title of up to two lines and "modality · finding". Normal anatomy comes first. The grid scrolls in
+    its column when a region does not fit; Thorax fits.
+  - on the right, the chosen case: a larger film, its title, "modality · region · plane · finding", the summary,
+    "N labels on the film" and **Open the case**.
+
+  A click on a tile chooses it. A double-click or Enter opens it. A filter that hides the chosen case chooses the
+  first tile still shown. The data are the app's 104 real cases (`radiology-cases.js`, `window.LH_RAD`) with their
+  thumbnails (`assets/images/rad/`, credits in `CREDITS.json`).
+- **Wiring:**
+  - `PLACE['radiology-home'] = ['radiology', []]` and `SAYS` "Radiology";
+  - `SEED`: radiology-home → atlas and radiology → radiology-home;
+  - `HOME.radiology = 'radiology-home'`. The film's `Radiology` crumb leads there, and so does Back on a film opened
+    on its own.
+  - `LEFT.radiology` stays `radiology`, so the rooms bar still reopens the room as you left it.
+  - Option 2 narrows the light box to 1000 px and moves the card to 1376.
+- **The app today:** `RadiologyBrowser` (`app/ui/radiology.py`) lists the cases grouped by region, with modality,
+  region, plane and finding filters behind "Show filters". The front page lays the same list out as a room: the
+  region list stays open, modality and the normal-anatomy filter come up front, and plane is left to the case.
+
 ## Option 1: Rooms bar
 
 *The top bar made fully clear: six rooms, a Back that says where it goes, and a trail line on item pages.*
@@ -108,7 +139,7 @@ places into the Lessons front page or a first-run state, rather than making ever
 
 - `before_{atlas,lessons,lesson,histology-library,viewer}`: the base as copied.
 - `<n>_{atlas,lessons,lesson,histology-library,viewer,practice,practice-home,histology,radiology,settings}` for
-  n = 1, 2, 3, and `3_lobby`. These were re-rendered in the second pass with the first pass's jobs.
+  n = 1, 2, 3, and `3_lobby`; `<n>_radiology-home` and `1_radiology-home_umber` for Radiology's front page. These were re-rendered in the second pass with the first pass's jobs.
 - `renders/checkpoint-3/nav2/<n>_<fix>_before|after`: 1:1 crops at 2× of each second-pass fix:
   - `back-lesson`, `back-histology`, `back-1280`: option 1's Back slot;
   - `focus`: Tab rings;
@@ -216,8 +247,8 @@ Everything is in three blocks of this file:
   - Option 1's moving Back: Back and Forward now share a fixed slot.
   - Option 3's Saved views beside the trail: it is now in the tools.
   - Practice's undrawn front page: `practice-home` now exists.
-- Radiology has no case list in the base, so the `Radiology` crumb on a film leads to the Radiology room, which is that
-  film. A radiology front page (cases by region) is needed before the trail can lead up from a case.
+- Radiology's front page now exists (`radiology-home`), and the film's `Radiology` crumb leads up to it. But every
+  case opens the one drawn film page (the chest PA), whichever tile was chosen.
 - Only one slide, one model and one lesson are drawn. "Another tissue" and "another model" reopen the same page, and
   the lab practice's Back goes to the coronary lesson.
 - Rooms remember, which surprises some students the first time. A tooltip says so, and the trail gives the front page
