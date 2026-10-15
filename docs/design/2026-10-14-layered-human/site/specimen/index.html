@@ -352,7 +352,7 @@ main { overflow-x: clip; }
 /* The dissection gauge: the app's Rule (app/specimen .gauge) at the app's own sizes, set beside the figure. A 1 px
    --leader rule, a 14 px tick at each stop, a 9 px mark every 10 % and, where the rule is long enough for them to fall
    12 px apart or more (the app's are 14 px), a 5 px mark every 2 %. Italic names 24 px left of the rule (the current
-   one at 20 px), brass from the surface to the knob, and the percentage 12 px right of it. Only the rule's length is
+   one at 20 px), brass from the surface to the knob, and the percentage 13.5 px right of it. Only the rule's length is
    fitted to the figure; each stop sits at its real level. No heading: the end captions and the names say what it is.
    --gx is the rule's place in the box. */
 .gauge {
@@ -385,24 +385,27 @@ main { overflow-x: clip; }
 .g-end { position: absolute; left: .5px; transform: translateX(-50%); white-space: nowrap; font: 500 11px/14px var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); }
 .g-end.top { top: -24px; }
 .g-end.bot { top: calc(100% + 12px); }
-/* the percentage rides 12 px right of the knob; half a pixel down puts its figures' top and baseline on the ring */
-.g-pct { position: absolute; left: 12px; top: calc(var(--d) * 100%); transform: translateY(-50%); margin-top: calc(.5px + var(--sy, 0px));
+/* the percentage rides 13.5 px right of the rule, 8.5 px clear of the dot; half a pixel down puts its figures' top and
+   baseline on the dot's top and bottom */
+.g-pct { position: absolute; left: 13.5px; top: calc(var(--d) * 100%); transform: translateY(-50%); margin-top: calc(.5px + var(--sy, 0px));
   font: 600 13px/18px var(--sans); color: var(--accent-2); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
 /* Under the percentage, riding with it: the one cue that the body peels (gone once the gauge has been used); on narrow
    screens also the stop's name and the selected structure, which have no room elsewhere. */
 .g-ride, .g-pct { pointer-events: none; }
-.g-ride { position: absolute; left: 12px; top: calc(var(--d) * 100% + 11px); margin: 0; max-width: calc(100% - 12px); }
+.g-ride { position: absolute; left: 13.5px; top: calc(var(--d) * 100% + 11px); margin: 0; max-width: calc(100% - 13.5px); }
 .g-ride > * { display: block; margin: 0; }
 .g-cue { white-space: nowrap; font: 400 13px/18px var(--sans); color: var(--text-3); transition: opacity .4s var(--ease), visibility .4s; }
 .gauge.is-used .g-cue { opacity: 0; visibility: hidden; height: 0; }
 .gauge.is-low .g-ride { top: auto; bottom: calc((1 - var(--d)) * 100% + 11px); }
 .g-now, .g-sel { display: none; }
-/* The knob is as tall as the percentage's figures, as in the app: a 6 px brass dot in a 1.75 px ring of the wall's own
-   colour at its height (--halo, set by the script). The invisible ::after keeps a 24 px target for a mouse and 44 px for
-   a finger. */
+/* The knob's brass dot is as tall as the percentage's figures, as in the app: 9 px, 18 device pixels at 2x, in a 1.75 px
+   ring of the wall's own colour at its height (--halo, set by the script) that parts it from the rule. Set 4 px up and
+   left of its level (not by a -50% shift, which Chrome rounds), its centre is the rule's and the stop tick's; the script
+   puts its top on a whole device pixel, so it lands sharp. The invisible ::after keeps a 24 px target for a mouse and
+   44 px for a finger. */
 .g-knob {
-  position: absolute; left: .5px; top: calc(var(--d) * 100% + var(--sy, 0px)); transform: translate(-50%, -50%);
-  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  position: absolute; left: -4px; top: calc(var(--d) * 100% + var(--sy, 0px)); margin-top: -4px;
+  width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
   box-shadow: 0 0 0 1.75px var(--halo, var(--stage-top));
   cursor: grab; touch-action: none; z-index: 2;
 }
@@ -410,7 +413,7 @@ main { overflow-x: clip; }
 @media (pointer: coarse) { .g-knob::after { width: 44px; height: 44px; } }
 .g-knob:focus { outline: none; }
 /* the ring shows when the knob was reached or moved by keyboard, not after a drag (.is-kb is set by the last input) */
-.gauge.is-kb .g-knob:focus { outline: 2px solid var(--text); outline-offset: 3.5px; }
+.gauge.is-kb .g-knob:focus { outline: 2px solid var(--text); outline-offset: 5px; }
 .gauge.is-kb .g-knob:focus ~ .g-stops .g-stop.cur span { text-decoration: underline 2px var(--accent); text-underline-offset: 6px; }
 
 /* ---------- Rooms ---------- */
@@ -624,9 +627,11 @@ main { overflow-x: clip; }
   flex: 1; min-width: 0; display: block; overflow-x: auto;
   padding: 10px 12px; border-radius: 3px;
   background: color-mix(in srgb, var(--text) 7%, transparent);
-  font: 400 13px/1.5 var(--mono); color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere;
+  font: 400 13px/1.5 var(--mono); color: var(--text); white-space: normal; overflow-wrap: break-word;
   scrollbar-color: color-mix(in srgb, var(--text) 30%, transparent) transparent;
 }
+/* One statement per line; a statement that wraps hangs under its first word. */
+.code-row code .ln { display: block; padding-left: 2ch; text-indent: -2ch; }
 .copy-btn {
   flex: none; padding: 0 12px; border-radius: 3px; cursor: pointer;
   border: 1px solid var(--edge);
@@ -665,7 +670,9 @@ main { overflow-x: clip; }
 @media (max-width: 1099px) {
   /* The figure between its label and its gauge, under the copy. */
   .hero {
-    --fig-h: min(76vh, 700px);
+    /* never under 520 px, so the rule stays long enough for its eight names on short screens (1024 × 600, phones held
+       sideways); the figure sits under the copy here, so it never has to fit the first screen */
+    --fig-h: clamp(520px, 76vh, 700px);
     display: grid; min-height: 0; padding-bottom: 24px;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-template-areas: "copy copy copy" "label spec gauge";
     align-items: start; column-gap: 36px;
@@ -735,6 +742,13 @@ main { overflow-x: clip; }
   /* the names show here: a little more rule (about 350 px), so stops 8 % apart clear the current name's 26 px line */
   .gauge { margin-top: calc(var(--fig-h) * .035); height: calc(var(--fig-h) * .67); }
 }
+@media (min-width: 600px) and (max-width: 899px) and (max-height: 911px) {
+  /* Short tablets and phones held sideways: the rule is under 330 px, too short for eight names, so it works as on
+     phones, with the current stop's name riding beside the knob. */
+  .gauge { width: auto; justify-self: stretch; --gx: 18px; }
+  .g-stop span { display: none; }
+  .g-now { display: block; font: italic 400 15px/20px var(--serif); font-variation-settings: "opsz" 14; color: var(--text); }
+}
 @media (max-width: 359px) {
   /* the lockup and the menu button keep the gutter on the narrowest phones; the figure gives the gauge a little room */
   .hero { --fig-h: clamp(360px, 54svh, 520px); }
@@ -747,12 +761,16 @@ main { overflow-x: clip; }
   .hero { column-gap: 8px; }
   .gauge { width: auto; justify-self: stretch; --gx: 18px; }
   .g-stop span { display: none; }
-  .g-ride { max-width: calc(100% - 12px); }
+  .g-ride { max-width: calc(100% - 13.5px); }
   .g-now { display: block; font: italic 400 15px/20px var(--serif); font-variation-settings: "opsz" 14; color: var(--text); }
   /* The lesson screen is unreadable whole at this width: two crops of the same render, the question, then the heart
      with its lit artery and labels, each large enough to read (the question near 15 px, the labels near 11 px). */
   .scene-crop { --cx: .010417; --cy: .512963; --cw: .328125; --ch: .080556; }
   .scene-crop.sc-heart { display: block; margin-top: 10px; --cx: .686458; --cy: .427778; --cw: .2625; --ch: .459259; }
+  /* The PowerShell line takes the full width, so no statement breaks mid-word; Copy sits under it. */
+  .code-row { flex-direction: column; align-items: flex-start; }
+  .code-row code { flex: none; align-self: stretch; }
+  .copy-btn { min-height: 40px; }
 }
 @media (max-width: 760px) {
   :root { --head-h: 64px; }
@@ -918,7 +936,7 @@ main { overflow-x: clip; }
   <div class="wrap split room-head">
     <h2 id="layers-h">Skin to bone, one layer at a time</h2>
     <div class="prose">
-      <p>Drag the dissection slider and the body comes apart from the skin inwards. Depth is measured against how thick the body is at each point, so the hand and the thigh are uncovered together. Want one layer on its own? Show only that slab.</p>
+      <p>Drag the knob down the depth scale and the body comes apart from the skin inwards. Depth is measured against how thick the body is at each point, so the hand and the thigh are uncovered together. Want one layer on its own? Show only that slab.</p>
       <p><a class="more" href="#study">See how a lesson uses it <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
     </div>
   </div>
@@ -1300,7 +1318,7 @@ main { overflow-x: clip; }
         <div class="fallback">
           <p>If that doesn’t work, open PowerShell in your Downloads folder and run</p>
           <div class="code-row">
-            <code id="ps-cmd">Set-ExecutionPolicy -Scope Process Bypass -Force; $ProgressPreference='SilentlyContinue'; .\Download-Windows-Installer.ps1</code>
+            <code id="ps-cmd"><span class="ln">Set-ExecutionPolicy -Scope Process Bypass -Force;</span> <span class="ln">$ProgressPreference=<wbr>'SilentlyContinue';</span> <span class="ln">.\Download-Windows-Installer.ps1</span></code>
             <button class="copy-btn" type="button" data-copy="ps-cmd">Copy</button>
           </div>
         </div>
@@ -1535,7 +1553,7 @@ main { overflow-x: clip; }
       gauge.style.setProperty('--sx', snap(tx).toFixed(3) + 'px');
       var ky = knob.getBoundingClientRect().top - (parseFloat(gauge.style.getPropertyValue('--sy')) || 0);
       gauge.style.setProperty('--sy', snap(ky).toFixed(3) + 'px');
-      var y = ky + 3, f = Math.max(0, Math.min(1, y / window.innerHeight));
+      var y = ky + 4.5, f = Math.max(0, Math.min(1, y / window.innerHeight));
       knob.style.setProperty('--halo', 'color-mix(in srgb, var(--stage-bottom) ' + (f * 100).toFixed(1) + '%, var(--stage-top))');
     }
     window.addEventListener('scroll', function () { if (window.scrollY < window.innerHeight * 1.5) halo(); }, { passive: true });

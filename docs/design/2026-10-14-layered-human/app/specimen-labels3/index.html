@@ -158,15 +158,18 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
   padding: 0; border: 0; background: none; cursor: pointer; font: 400 13px/18px var(--sans); color: var(--text-2); white-space: nowrap; }
 .g-only .box { width: 13px; height: 13px; }
 .g-only .box.on::after { width: 6px; height: 3px; }
-/* The knob is as tall as the percentage's figures (9.5 px: 19 device pixels at 2x, top of the figures to the baseline):
-   a 6 px brass dot in a 1.75 px ring of the wall's own colour. The invisible ::after keeps a 24 px target. */
-.g-knob { position: absolute; left: calc(var(--gx) + .5px); width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
-  transform: translate(-50%, -50%); box-shadow: 0 0 0 1.75px var(--halo); cursor: grab; outline: none; }
+/* The knob's brass dot is as tall as the percentage's figures: 9 px, 18 device pixels at 2x from the top of the figures
+   to the baseline. A 1.75 px ring of the wall's own colour (--halo, set by the script) parts it from the rule. Set 4 px
+   up and left of the level (not by a -50% shift, which Chrome rounds), its centre is the stop tick's and the rule's, and
+   its edges fall on whole pixels at 1x and 2x. The invisible ::after keeps a 24 px target. */
+.g-knob { position: absolute; left: calc(var(--gx) - 4px); margin-top: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 1.75px var(--halo); cursor: grab; outline: none; }
 .g-knob::after { content: ""; position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; border-radius: 50%; transform: translate(-50%, -50%); }
-.g-knob:focus-visible { outline: 2px solid var(--text); outline-offset: 3.5px; }
+.g-knob:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
 .gauge[data-drag] .g-knob { cursor: grabbing; }
-/* the figures span the knob exactly: half a pixel down puts their top and baseline on the ring's top and bottom */
-.g-pct { position: absolute; left: calc(var(--gx) + 12px); transform: translateY(-50%); margin-top: .5px; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--accent-2); }
+/* the figures span the dot exactly: half a pixel down puts their top and baseline on the dot's top and bottom; 13.5 px
+   right of the rule they stand 8.5 px clear of the dot */
+.g-pct { position: absolute; left: calc(var(--gx) + 13.5px); transform: translateY(-50%); margin-top: .5px; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--accent-2); }
 
 /* ---------------------------------------------------------------------------------- dock: lettered on the wall under one rule */
 .dock { position: absolute; left: 50%; transform: translateX(-50%); bottom: 16px; display: flex; align-items: center; height: 44px;
@@ -310,13 +313,14 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 .reveal .track .line { position: absolute; left: 0; right: 0; top: 10px; height: 1px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
 .reveal .track .fill { position: absolute; left: 0; top: 9px; height: 3px; background: var(--accent); }
 .reveal .track .tick { position: absolute; top: 15px; width: 1px; height: 5px; background: color-mix(in srgb, var(--text-3) 60%, transparent); }
-/* the gauge's knob, laid flat: a 6 px brass dot in a 1.75 px ring of the wall's colour at its height (--halo, set by the
-   script), centred on the line; the invisible ::after keeps a 24 px target */
+/* the gauge's knob, laid flat: a 9 px brass dot in a 1.75 px ring of the wall's colour at its height (--halo, set by the
+   script), set 4 px up and left of its place so its centre is the line's and the tick's and its edges fall on whole
+   pixels; the invisible ::after keeps a 24 px target */
 .reveal .track { touch-action: none; }
-.reveal .track .knob { position: absolute; top: 10.5px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
-  transform: translate(-50%, -50%); box-shadow: 0 0 0 1.75px var(--halo, var(--stage-bottom)); cursor: grab; outline: none; }
+.reveal .track .knob { position: absolute; top: 6px; margin-left: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 1.75px var(--halo, var(--stage-bottom)); cursor: grab; outline: none; }
 .reveal .track .knob::after { content: ""; position: absolute; left: 50%; top: 50%; width: 24px; height: 24px; border-radius: 50%; transform: translate(-50%, -50%); }
-.reveal .track .knob:focus-visible { outline: 2px solid var(--text); outline-offset: 3.5px; }
+.reveal .track .knob:focus-visible { outline: 2px solid var(--text); outline-offset: 5px; }
 .reveal .track[data-drag] .knob { cursor: grabbing; }
 .reveal .opt { display: flex; align-items: center; gap: 10px; height: 31px; font-size: 14px; }
 .reveal .views { margin-top: 2px; }
