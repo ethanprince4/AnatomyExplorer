@@ -343,16 +343,19 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 <div class="app">
   <header class="head" data-chrome="models"></header>
   <div class="exhibit"><h1>Models</h1><p>41 models in one viewer · 3 built for this app</p></div>
-  <div data-collection style="position:absolute; left:40px; top:226px; right:540px; display:grid; grid-template-columns:repeat(4, 1fr); row-gap:22px; column-gap:16px"></div>
+  <div data-collection style="position:absolute; left:40px; top:232px; right:540px; bottom:0; display:grid; grid-template-columns:repeat(4, 1fr); grid-auto-rows:232px; row-gap:22px; column-gap:16px; overflow:hidden;
+    -webkit-mask-image:linear-gradient(180deg, #000 760px, transparent 836px); mask-image:linear-gradient(180deg, #000 760px, transparent 836px)"></div>
+  <p class="meta num" style="position:absolute; left:40px; bottom:28px; margin:0">12 of 41 shown · scroll for the rest</p>
   <div style="position:absolute; right:40px; top:120px; width:460px">
     <div style="position:relative; height:400px"><div class="pool" style="inset:-40px"></div>
       <img src="../../assets/plates/kidney_v_kidney.webp" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); max-height:360px; max-width:420px" alt="The kidney with its vessels and ureter"></div>
     <div class="label-card" style="position:relative; margin-top:16px">
       <div class="t">Kidney with the nephron</div>
-      <div class="lat">Built for this app · true scale</div>
+      <div class="lat">Ren, nephron, podocytus</div>
       <hr>
-      <p style="margin:0 0 12px; font-size:14.5px; line-height:22px">The kidney, adrenal, vessels and ureter, with a juxtamedullary nephron in place. Eight stored views zoom from the whole organ down to the podocytes.</p>
-      <div class="meta" style="font-size:13px; line-height:22px">Kidney · Lobe opened · Lobe · Nephron · Corpuscle · Juxtaglomerular apparatus · Podocytes · Loop of Henle</div>
+      <p style="margin:0 0 12px; font-size:14px; line-height:22px">The kidney, adrenal, vessels and ureter, with a juxtamedullary nephron in place. Eight stored views zoom from the whole organ down to the podocytes.</p>
+      <div class="meta" style="line-height:22px">Built for this app · true scale</div>
+      <div class="meta" style="line-height:22px">Kidney · Lobe opened · Lobe · Nephron · Corpuscle · Juxtaglomerular apparatus · Podocytes · Loop of Henle</div>
       <div class="acts"><button class="btn brass">Open model</button><button class="btn">Lessons (6)</button></div>
     </div>
   </div>
@@ -368,20 +371,21 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
     <div class="lbl" data-col="left" data-anchor="c1.vl"><span class="k">1</span>Trachea</div>
     <div class="lbl" data-col="left" data-anchor="c2.vl"><span class="k">2</span>Right clavicle</div>
     <div class="lbl" data-col="left" data-anchor="c4.vl"><span class="k">4</span>Right humeral head</div>
-    <div class="lbl" data-col="left" data-anchor="c7.vl"><span class="k">7</span>Right atrium</div>
+    <div class="lbl" data-col="left" data-anchor="c5.vl"><span class="k">5</span>Superior vena cava</div>
+    <div class="lbl is-selected" data-col="left" data-anchor="c7.vl"><span class="k">7</span>Right atrium</div>
     <div class="lbl" data-col="left" data-anchor="c12.vl"><span class="k">12</span>Right hemidiaphragm</div>
     <div class="lbl" data-col="right" data-anchor="c17.vr"><span class="k">17</span>Left lung</div>
-    <div class="lbl" data-col="right" data-anchor="c8.vr"><span class="k">8</span>Heart, lower left border</div>
+    <div class="lbl" data-col="right" data-anchor="c8.vr"><span class="k">8</span>Left ventricle</div>
   </div>
   <header class="head" data-chrome="radiology"></header>
   <div class="exhibit"><h1>Chest radiograph, PA</h1><p>X-ray · Thorax · PA projection · Normal anatomy</p></div>
-  <div class="pinned" style="position:absolute; left:40px; top:228px; width:560px; aspect-ratio:1280/1464; border:1px solid var(--hair)">
+  <div class="pinned" style="position:absolute; left:40px; top:232px; width:560px; aspect-ratio:1280/1464; border:1px solid var(--hair)">
     <img src="../../assets/images/cxr_pa.jpg" alt="Normal posteroanterior chest radiograph">
     <div data-film-pins></div>
   </div>
-  <div style="position:absolute; left:640px; top:228px; width:400px">
+  <div style="position:absolute; left:640px; top:232px; width:400px">
     <div class="colhead">How to read it</div>
-    <ol class="prose" style="font-size:16px; line-height:25px; padding-left:20px; margin:0; display:grid; gap:12px">
+    <ol class="prose" style="font-size:18px; line-height:28px; padding-left:22px; margin:0; display:grid; gap:12px">
       <li>Check it is adequate: clavicle heads level with the spine, ten posterior ribs, the vertebrae faint through the heart.</li>
       <li>Trachea, then the mediastinal borders in order.</li>
       <li>Hila: the left sits 1–2 cm higher than the right.</li>
@@ -399,23 +403,23 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 <div class="app">
   <div class="pool" style="left:487px; top:20px; width:1060px; height:1080px"></div>
   <div class="stage" data-stage="tags">
-    <img class="plate" src="../../assets/plates/thorax_chest.webp" data-plate="thorax_chest" style="left:500px; top:-40px; height:1180px" alt="The front of the chest with pectoralis major and minor peeled away: ribs, intercostal muscles and serratus anterior">
+    <img class="plate" src="../../assets/plates/thorax_chest.webp" data-plate="thorax_chest" style="left:500px; top:-40px; height:1180px; -webkit-mask-image:linear-gradient(180deg, transparent 170px, #000 250px); mask-image:linear-gradient(180deg, transparent 170px, #000 250px)" alt="The front of the chest with pectoralis major and minor peeled away: ribs, intercostal muscles and serratus anterior">
     <div class="lbl miss" data-anchor="serratus.vr" data-dx="150" data-dy="-60"><span class="k">×</span>Serratus anterior</div>
   </div>
   <header class="head" data-chrome="lessons"></header>
-  <div class="exhibit"><h1>Lab 6 practice</h1><p>Pressure, volume and a breath · question 4 of 12</p></div>
+  <div class="exhibit"><h1>Lab 6 practice</h1><p>Pressure, volume and a breath · mini lesson 6 of 9 · question 4 of 12</p></div>
   <div class="label-card" style="left:40px; bottom:40px; width:470px">
     <div class="colhead" style="margin:0">Find it in the model</div>
     <div class="t" style="margin:4px 0 6px">External intercostal muscles</div>
     <div class="note">Click it. Right-click peels away whatever is in the way; Ctrl+Z puts it back.</div>
     <hr>
-    <div style="font-size:14.5px"><b>Not that one:</b> that is serratus anterior. 2 tries left; you have peeled away 2 structures.</div>
+    <div style="font-size:14px"><b>Not that one:</b> that is serratus anterior. 2 tries left; you have peeled away 2 structures.</div>
     <div class="acts"><button class="btn">Show me</button><span style="flex:1"></span><button class="btn">Skip</button></div>
   </div>
-  <div style="position:absolute; right:64px; top:236px; width:260px; text-align:right">
+  <div style="position:absolute; right:64px; top:232px; width:260px">
     <div class="colhead">This session</div>
-    <div class="serif num" style="font-size:40px; line-height:44px; font-weight:340">3 <span class="muted" style="font-size:22px">of 12</span></div>
-    <p class="meta">correct so far, none missed. Labels stay off while you practise.</p>
+    <div class="serif num" style="font-size:32px; line-height:38px; font-weight:340">3 <span class="muted" style="font-size:24px">of 12</span></div>
+    <p class="meta">right so far. Labels stay off while you practise.</p>
   </div>
 </div>
 </section>
@@ -425,38 +429,40 @@ svg.leaders .anchor.is-selected { fill: var(--accent); stroke: var(--stage-botto
 <div class="app">
   <header class="head" data-chrome="histology"></header>
   <div class="exhibit"><h1>Simple columnar epithelium</h1><p>Micrograph 1 of 13 · H&amp;E</p></div>
-  <div class="cat" style="top:236px">
-    <div class="colhead">Epithelium</div>
-    <ul><li>Simple squamous<span class="n num">11</span></li><li>Simple cuboidal<span class="n num">12</span></li><li style="font-weight:600">Simple columnar<span class="n num">13</span></li><li>Pseudostratified<span class="n num">12</span></li><li>Stratified squamous<span class="n num">4</span></li><li>Transitional<span class="n num">5</span></li></ul>
+  <div class="cat">
+    <div class="colhead" style="display:flex">Epithelium<span style="margin-left:auto">Slides</span></div>
+    <ul><li>Simple squamous<span class="n num">11</span></li><li>Simple cuboidal<span class="n num">12</span></li><li><span class="is-cur">Simple columnar</span><span class="n num">13</span></li><li>Pseudostratified<span class="n num">12</span></li><li>Stratified squamous<span class="n num">4</span></li><li>Transitional<span class="n num">5</span></li></ul>
     <div class="colhead">Connective tissue</div>
     <ul><li>Loose<span class="n num">12</span></li><li>Dense regular<span class="n num">13</span></li><li>Adipose<span class="n num">11</span></li><li>Hyaline cartilage<span class="n num">14</span></li></ul>
   </div>
-  <div class="pinned" style="position:absolute; left:340px; top:228px; height:700px; aspect-ratio:4/3; border:1px solid var(--hair)">
+  <div class="pinned" style="position:absolute; left:340px; top:232px; height:700px; aspect-ratio:4/3; border:1px solid var(--hair)">
     <img src="../../assets/images/histo_simple_columnar.jpg" alt="Simple columnar epithelium around a large central lumen">
     <span class="pin" data-x="0.5" data-y="0.25">1</span><span class="pin sel" data-x="0.8" data-y="0.35">2</span><span class="pin" data-x="0.575" data-y="0.787">3</span><span class="pin" data-x="0.45" data-y="0.94">4</span>
   </div>
-  <div style="position:absolute; left:1320px; top:228px; width:540px">
-    <ol style="list-style:none; padding:0; margin:0 0 24px; display:grid; gap:10px; font-size:16px">
+  <div style="position:absolute; left:1320px; top:232px; width:540px">
+    <ol style="list-style:none; padding:0; margin:0 0 24px; display:grid; gap:10px; font-size:15px">
       <li><span class="pin" style="position:static; transform:none; display:inline-grid; margin-right:12px">1</span>Lumen</li>
       <li><span class="pin sel" style="position:static; transform:none; display:inline-grid; margin-right:12px">2</span><b>Columnar epithelial cells</b></li>
       <li><span class="pin" style="position:static; transform:none; display:inline-grid; margin-right:12px">3</span>Nucleus</li>
       <li><span class="pin" style="position:static; transform:none; display:inline-grid; margin-right:12px">4</span>Connective tissue</li>
     </ol>
-    <p class="prose" style="margin:0 0 14px">A single layer of tall cells with oval nuclei near their bases. Pink cytoplasm, purple nuclei; the wide pale lumen has an irregular edge.</p>
-    <p class="meta">Look for one layer of tall cells with basal nuclei, and the thin wall of connective tissue around the tube. It lines the stomach, intestines and gallbladder.</p>
+    <p class="prose" style="margin:0">Look for one layer of tall cells with basal nuclei, and the thin wall of connective tissue around the tube. It lines the stomach, intestines and gallbladder.</p>
     <div style="display:flex; gap:10px; margin-top:20px"><button class="btn"><svg class="i"><use href="#i-cube"/></svg>Jejunum model</button><button class="btn">Lessons (4)</button></div>
-    <p class="meta" style="margin-top:18px; font-size:12.5px">Micrograph: Echinaceapallida, CC BY-SA 4.0, Wikimedia Commons</p>
+    <p class="meta" style="margin-top:18px">Micrograph: Echinaceapallida, CC BY-SA 4.0, Wikimedia Commons</p>
   </div>
-  <div data-strip style="position:absolute; left:340px; top:952px; display:flex; gap:10px"></div>
+  <div data-strip style="position:absolute; left:340px; top:956px; display:flex; gap:8px"></div>
 </div>
 </section>
 
 <!-- ================================================================ SETTINGS -->
 <section class="screen" data-screen-id="settings">
 <div class="app">
-  <header class="head" data-chrome="atlas"></header>
-  <div class="exhibit"><h1>Appearance</h1><p>Settings · Mouse &amp; camera · <span style="color:var(--text)">Appearance</span> · Labels · Behaviour · Keyboard</p></div>
-  <div style="position:absolute; left:40px; top:236px; right:40px">
+  <header class="head" data-chrome="settings"></header>
+  <div class="exhibit"><h1>Settings</h1></div>
+  <div class="cat">
+    <ul><li><span class="is-cur">Appearance</span></li><li>Mouse &amp; camera</li><li>Labels</li><li>Behaviour</li><li>Keyboard</li></ul>
+  </div>
+  <div style="position:absolute; left:360px; top:232px; right:40px">
     <p class="prose" style="max-width:62ch; margin:0 0 26px">Choose the wall the body is shown on. The model, the films and the micrographs keep their real colours on every wall.</p>
     <div data-scheme-grid style="display:grid; grid-template-columns:repeat(3, 1fr); gap:26px 22px"></div>
   </div>
