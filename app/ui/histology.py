@@ -1,10 +1,10 @@
 import html
 
-from PySide6.QtCore import QPointF, QRectF, QSize, Qt, QUrl, Signal
+from PySide6.QtCore import QPointF, QRect, QRectF, QSize, Qt, QUrl, Signal
 from PySide6.QtGui import QColor, QDesktopServices, QFont, QFontMetricsF, QIcon, QPainter, QPen, QPixmap, QLinearGradient
 from PySide6.QtWidgets import (QBoxLayout, QCheckBox, QComboBox, QFrame, QGraphicsPixmapItem, QGraphicsScene, QGraphicsView, QHBoxLayout, QLabel,
                                QLineEdit, QListWidget, QListWidgetItem, QMenu, QPushButton, QSplitter, QTextBrowser,
-                               QVBoxLayout, QWidget)
+                               QStyle, QStyledItemDelegate, QVBoxLayout, QWidget)
 
 from . import theme
 from .outline import Outline, OutlineItem
@@ -15,6 +15,7 @@ from .image_workspace import (LocalImageLoader, control, matches_words, searchab
 ROLE = Qt.UserRole + 1
 SEARCH_ROLE = Qt.UserRole + 2
 GROUP_ROLE = Qt.UserRole + 3
+GROUP_COUNT_ROLE = Qt.UserRole + 4
 
 
 def esc(s):
@@ -38,29 +39,170 @@ def linked_structure_names(ds, tissue):
 
 
 class HistologyCatalogue(Outline):
-    """One scrollable catalogue with gentle edge fades; item rows can carry real slide thumbnails."""
+    """An endless, two-column catalogue of stable tissue rows, grouped across the wall."""
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setRowHeight(52)
+        self._item_rects = {}
+        self._content_height = 0
+        self.setRowHeight(46)
+        self.setFrameShape(QFrame.NoFrame)
+        self.setStyleSheet(f'HistologyCatalogue {{background:transparent;border:0;}}'
+                           f'QScrollBar:vertical {{background:transparent;width:4px;margin:0;}}'
+                           f'QScrollBar::handle:vertical {{background:{theme.BORDER_STRONG};min-height:24px;'
+                           f'border:0;border-radius:2px;}}'
+                           f'QScrollBar::handle:vertical:hover {{background:{theme.MUTED};}}'
+                           f'QScrollBar::add-line:vertical,QScrollBar::sub-line:vertical {{height:0;}}'
+                           f'QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical {{background:transparent;}}')
+
+    def _ensure_layout(self):
+        if self._rows is not None:
+            return
+        width = max(1, self.viewport().width() - 24)
+        columns = 2 if width >= 460 else 1
+        gap = 60 if width >= 850 else 28
+        column_width = (width - gap * (columns - 1)) // columns
+        self._rows, self._item_rects = [], {}
+        y = 0
+        for group in self._root._children:
+            if group.isHidden():
+                continue
+            self._rows.append((group, 0))
+            self._item_rects[id(group)] = QRect(0, y, width, 30)
+            y += 30
+            entries = []
+            for tissue in group._children:
+                if tissue.isHidden():
+                    continue
+                entries.append((tissue, 1))
+                if tissue.isExpanded():
+                    entries.extend((image, 2) for image in tissue._children if not image.isHidden())
+            rows = (len(entries) + columns - 1) // columns
+            for i, (item, depth) in enumerate(entries):
+                column, row = divmod(i, max(1, rows))
+                self._rows.append((item, depth))
+                self._item_rects[id(item)] = QRect(column * (column_width + gap), y + row * 46, column_width, 46)
+            y += rows * 46 + 34
+        self._content_height = y + 120
+        self._index = {id(item): n for n, (item, _depth) in enumerate(self._rows)}
+        self._update_scrollbar()
+
+    def _update_scrollbar(self):
+        bar = self.verticalScrollBar()
+        total = getattr(self, "_content_height", 0)
+        bar.setRange(0, max(0, total - self.viewport().height()))
+        bar.setPageStep(max(46, self.viewport().height()))
+        bar.setSingleStep(46)
+
+    def resizeEvent(self, event):
+        self._rows = None
+        super().resizeEvent(event)
+
+    def itemAt(self, pos):
+        self._ensure_layout()
+        point = QPointF(pos.x(), pos.y() + self.verticalScrollBar().value()).toPoint()
+        return next((item for item, _depth in self._rows if self._item_rects[id(item)].contains(point)), None)
+
+    def _hit(self, pos):
+        item = self.itemAt(pos)
+        return item, "row" if item is not None else None
+
+    def visualItemRect(self, item):
+        self._ensure_layout()
+        rect = self._item_rects.get(id(item), QRect())
+        return rect.translated(0, -self.verticalScrollBar().value())
+
+    def scrollToItem(self, item):
+        if item is None:
+            return
+        self._ensure_layout()
+        rect = self._item_rects.get(id(item))
+        if rect is None:
+            return
+        bar = self.verticalScrollBar()
+        if item.data(0, GROUP_ROLE) or rect.top() < bar.value():
+            bar.setValue(rect.top())
+        elif rect.bottom() > bar.value() + self.viewport().height():
+            bar.setValue(rect.bottom() - self.viewport().height() + 1)
+
+    def mouseDoubleClickEvent(self, event):
+        item = self.itemAt(event.position())
+        if item is not None and event.button() == Qt.LeftButton:
+            self.setCurrentItem(item)
+            self.itemActivated.emit(item, 0)
+            event.accept()
+        else:
+            super().mouseDoubleClickEvent(event)
 
     def paintEvent(self, event):
-        super().paintEvent(event)
+        self._ensure_layout()
         bar = self.verticalScrollBar()
         height = self.viewport().height()
         if height < 1:
             return
         p = QPainter(self.viewport())
+        p.setRenderHint(QPainter.Antialiasing)
+        palette = theme.palette()
+        origin = self.mapTo(self.window(), self.rect().topLeft()).y()
+        wall = QLinearGradient(0, -origin, 0, max(1, self.window().height()) - origin)
+        wall.setColorAt(0, theme.qc(palette["stage_top"]))
+        wall.setColorAt(1, theme.qc(palette["stage_bottom"]))
+        p.fillRect(self.viewport().rect(), wall)
+        for item, depth in self._rows:
+            rect = self.visualItemRect(item)
+            if not rect.intersects(self.viewport().rect()):
+                continue
+            if depth == 0:
+                p.setFont(theme.font_for("meta", weight=600))
+                p.setPen(theme.qc(theme.TEXT_2))
+                p.drawText(rect.adjusted(0, 0, 0, -5), Qt.AlignVCenter, item.text(0))
+                p.drawText(rect.adjusted(0, 0, 0, -5), Qt.AlignRight | Qt.AlignVCenter, "Slides")
+                p.setPen(QPen(theme.qc(theme.BORDER), 1))
+                p.drawLine(rect.bottomLeft(), rect.bottomRight())
+                continue
+            if item is self._hover:
+                p.fillRect(rect, theme.qc(theme.TEXT_STRONG, 15))
+            selected = item is self._current
+            count_font = theme.font_for("meta")
+            p.setFont(count_font)
+            count = item.text(1)
+            count_width = max(18, QFontMetricsF(count_font).horizontalAdvance(count))
+            p.setPen(theme.qc(theme.TEXT_2))
+            p.drawText(QRectF(rect.right() - count_width, rect.y(), count_width, rect.height()),
+                       Qt.AlignRight | Qt.AlignVCenter, count)
+            icon_rect = QRect(rect.left(), rect.y() + 5, 48, 36)
+            if not item.icon().isNull():
+                item.icon().paint(p, icon_rect, Qt.AlignCenter)
+            elif depth == 1:
+                p.setPen(QPen(theme.qc(theme.BORDER), 1))
+                p.drawRect(icon_rect.adjusted(0, 0, -1, -1))
+            if selected and depth == 1:
+                p.setPen(QPen(theme.qc(theme.ACCENT), 2))
+                p.drawRect(icon_rect.adjusted(-2, -2, 2, 2))
+            p.setFont(theme.font_for("prose", size=18 if rect.width() >= 360 else 16))
+            p.setPen(theme.qc(theme.TEXT_STRONG))
+            title = item.text(0)
+            if depth == 1 and title.lower().endswith(" epithelium"):
+                title = title[:-11]
+            text_rect = QRectF(rect.left() + 64, rect.y(), max(1, rect.width() - 76 - count_width), rect.height())
+            p.drawText(text_rect, Qt.AlignVCenter, QFontMetricsF(p.font()).elidedText(title, Qt.ElideRight, text_rect.width()))
+            p.setPen(QPen(theme.qc(theme.BORDER_SUBTLE), 1))
+            p.drawLine(rect.bottomLeft(), rect.bottomRight())
+            if selected:
+                p.setPen(QPen(theme.qc(theme.ACCENT), 2))
+                underline_width = min(text_rect.width(), QFontMetricsF(p.font()).horizontalAdvance(title))
+                p.drawLine(QPointF(text_rect.left(), rect.bottom() - 4),
+                           QPointF(text_rect.left() + underline_width, rect.bottom() - 4))
         p.setCompositionMode(QPainter.CompositionMode_SourceOver)
         if bar.value() > 0:
             gradient = QLinearGradient(0, 0, 0, 86)
-            gradient.setColorAt(0.0, theme.qc(theme.SURFACE))
-            gradient.setColorAt(1.0, QColor(theme.SURFACE + "00"))
+            gradient.setColorAt(0.0, theme.qc(palette["stage_top"]))
+            gradient.setColorAt(1.0, theme.qc(palette["stage_top"], 0))
             p.fillRect(0, 0, self.viewport().width(), 86, gradient)
         if bar.value() < bar.maximum():
             gradient = QLinearGradient(0, height - 118, 0, height)
-            gradient.setColorAt(0.0, QColor(theme.SURFACE + "00"))
-            gradient.setColorAt(1.0, theme.qc(theme.SURFACE))
+            gradient.setColorAt(0.0, theme.qc(palette["stage_bottom"], 0))
+            gradient.setColorAt(1.0, theme.qc(palette["stage_bottom"]))
             p.fillRect(0, height - 118, self.viewport().width(), 118, gradient)
         p.end()
 
@@ -78,6 +220,7 @@ class TissuePreview(QLabel):
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
+        self.setFixedHeight(round(self.width() * .75))
         self._fit_source_pixmap()
 
     def _fit_source_pixmap(self):
@@ -86,6 +229,38 @@ class TissuePreview(QLabel):
             return
         scaled = self._source_pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
         super().setPixmap(scaled)
+
+
+class TissueGroupDelegate(QStyledItemDelegate):
+    def sizeHint(self, option, index):
+        return QSize(180, 31)
+
+    def paint(self, painter, option, index):
+        painter.save()
+        enabled = bool(option.state & QStyle.State_Enabled)
+        if not enabled:
+            painter.setOpacity(.42)
+        painter.setFont(theme.font_for("body_small"))
+        painter.setPen(theme.qc(theme.TEXT_STRONG if option.state & QStyle.State_Selected else theme.TEXT_2))
+        rect = option.rect.adjusted(0, 0, -2, 0)
+        title = index.data(Qt.DisplayRole) or ""
+        painter.drawText(rect.adjusted(0, 0, -28, 0), Qt.AlignVCenter,
+                         QFontMetricsF(painter.font()).elidedText(title, Qt.ElideRight, max(1, rect.width() - 28)))
+        painter.setPen(theme.qc(theme.MUTED))
+        painter.drawText(rect, Qt.AlignRight | Qt.AlignVCenter, str(index.data(GROUP_COUNT_ROLE) or ""))
+        if enabled and option.state & (QStyle.State_Selected | QStyle.State_HasFocus):
+            painter.setPen(QPen(theme.qc(theme.ACCENT), 2))
+            painter.drawLine(rect.left(), rect.bottom() - 1,
+                             rect.left() + min(rect.width() - 28, round(QFontMetricsF(painter.font()).horizontalAdvance(title))),
+                             rect.bottom() - 1)
+        painter.restore()
+
+
+def _histology_type(label, role):
+    font = theme.font_for(role)
+    label.setFont(font)
+    label.setStyleSheet(f'font-family:"{font.family()}";font-size:{font.pixelSize()}px;'
+                       f'font-weight:{font.weight()};color:{theme.TEXT_STRONG};background:transparent;')
 
 
 class HistologyBrowser(QWidget):
@@ -98,41 +273,71 @@ class HistologyBrowser(QWidget):
         super().__init__(parent)
         self.ds = ds
         self.content = content
+        self.setObjectName("histologyEndlessLibrary")
         self.setAccessibleName("Histology tissue and image library")
         lay = QVBoxLayout(self)
-        lay.setContentsMargins(12, 10, 12, 6)
-        lay.setSpacing(8)
+        lay.setContentsMargins(0, 0, 0, 0)
+        lay.setSpacing(0)
         tissues = content.histology["tissues"]
         n_img = sum(len(t.get("images", [])) for t in tissues)
-        head = QLabel(f"{len(tissues)} tissues · {n_img} images")
-        head.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+        title = QLabel("Histology")
+        _histology_type(title, "display")
+        lay.addWidget(title)
+        lay.addSpacing(6)
+        head = QLabel(f"{len(tissues)} tissues · {n_img} micrographs")
+        head.setFont(theme.font_for("ui"))
+        head.setStyleSheet(f"color:{theme.TEXT_2};font-size:15px;background:transparent;")
         lay.addWidget(head)
+        lay.addSpacing(42)
+        browse = self.browse_layout = QHBoxLayout()
+        browse.setContentsMargins(0, 0, 0, 0)
+        browse.setSpacing(60)
+        self.group_column = QWidget()
+        self.group_column.setFixedWidth(250)
+        group_layout = QVBoxLayout(self.group_column)
+        group_layout.setContentsMargins(0, 0, 0, 0)
+        group_layout.setSpacing(8)
+        group_head = QHBoxLayout()
+        for text, stretch in (("Groups", 1), ("Tissues", 0)):
+            label = QLabel(text)
+            label.setFont(theme.font_for("meta", weight=600))
+            group_head.addWidget(label, stretch)
+        group_layout.addLayout(group_head)
+        self.groups = QListWidget()
+        self.groups.setAccessibleName("Histology tissue groups")
+        self.groups.setItemDelegate(TissueGroupDelegate(self.groups))
+        self.groups.setFrameShape(QFrame.NoFrame)
+        self.groups.setStyleSheet("QListWidget,QListWidget::item,QListWidget::item:selected,QListWidget::item:hover "
+                                  "{background:transparent;border:0;padding:0;}")
+        self.groups.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.groups.setVerticalScrollMode(QListWidget.ScrollPerPixel)
+        self.groups.currentItemChanged.connect(self._group_selected)
+        group_layout.addWidget(self.groups)
+        filter_button = QPushButton("Filter tissues")
+        theme.set_variant(filter_button, "ghost")
+        filter_button.setCheckable(True)
+        group_layout.addWidget(filter_button, 0, Qt.AlignLeft)
+        self.filter_panel = QWidget()
+        filter_layout = QVBoxLayout(self.filter_panel)
+        filter_layout.setContentsMargins(0, 0, 0, 0)
+        filter_layout.setSpacing(8)
         self.filter = QLineEdit()
         self.filter.setAccessibleName("Search histology tissues and images")
         self.filter.setPlaceholderText("Search tissues, images or features…")
         self.filter.setClearButtonEnabled(True)
         self.filter.textChanged.connect(self._filter)
-        lay.addWidget(self.filter)
-        filter_row = QHBoxLayout()
+        filter_layout.addWidget(self.filter)
         self.clear_filter = control("Clear", "Clear histology search and filter")
         self.clear_filter.clicked.connect(self._reset_filter)
-        filter_row.addStretch(1)
-        filter_row.addWidget(self.clear_filter)
-        lay.addLayout(filter_row)
+        filter_layout.addWidget(self.clear_filter, 0, Qt.AlignLeft)
         self.count_label = QLabel()
         self.count_label.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_CAPTION))
-        lay.addWidget(self.count_label)
-        browse = QHBoxLayout()
-        browse.setContentsMargins(0, 0, 0, 0)
-        browse.setSpacing(8)
-        self.groups = QListWidget()
-        self.groups.setAccessibleName("Histology tissue groups")
-        self.groups.setMaximumWidth(220)
-        self.groups.setMinimumWidth(180)
-        self.groups.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.groups.setVerticalScrollMode(QListWidget.ScrollPerPixel)
-        self.groups.currentItemChanged.connect(self._group_selected)
-        browse.addWidget(self.groups)
+        filter_layout.addWidget(self.count_label)
+        self.filter_panel.hide()
+        filter_button.toggled.connect(self.filter_panel.setVisible)
+        self.filter.textChanged.connect(lambda text: self.filter_panel.setVisible(bool(text) or filter_button.isChecked()))
+        group_layout.addWidget(self.filter_panel)
+        browse.addWidget(self.group_column)
         self.tree = HistologyCatalogue()
         self.tree.setAccessibleName("Histology tissues and images")
         self.tree.setIndentation(14)
@@ -141,49 +346,63 @@ class HistologyBrowser(QWidget):
         self.tree.itemClicked.connect(self._select_item)
         self.tree.currentItemChanged.connect(lambda current, _previous: self._select_item(current))
         self.tree.itemActivated.connect(self._open_item)
-        browse.addWidget(self.tree, 1)
+        results = QVBoxLayout()
+        results.setContentsMargins(0, 0, 0, 0)
+        self.empty_state = QLabel("No matching content. Clear the filters or try another search.")
+        self.empty_state.setWordWrap(True)
+        self.empty_state.setStyleSheet(theme.text_css(theme.TEXT_2))
+        results.addWidget(self.empty_state)
+        results.addWidget(self.tree, 1)
+        browse.addLayout(results, 1)
         self.detail = QWidget()
+        self.detail.setFixedWidth(360)
         self.detail.setAccessibleName("Selected histology tissue preview")
         detail_layout = QVBoxLayout(self.detail)
-        detail_layout.setContentsMargins(12, 4, 0, 4)
-        detail_layout.setSpacing(10)
+        detail_layout.setContentsMargins(0, 0, 0, 0)
+        detail_layout.setSpacing(12)
         self.preview = TissuePreview("Choose a tissue to see its micrograph and summary.")
         self.preview.setAlignment(Qt.AlignCenter)
         self.preview.setWordWrap(True)
-        self.preview.setMinimumSize(220, 180)
-        self.preview.setMaximumHeight(250)
-        self.preview.setStyleSheet(f"QLabel {{ background:{theme.SUNKEN}; color:{theme.MUTED}; "
-                                   f"border:1px solid {theme.BORDER_SUBTLE}; }}")
+        self.preview.setMinimumWidth(200)
+        self.preview.setFixedHeight(270)
+        self.preview.setStyleSheet(f"QLabel {{ background:transparent; color:{theme.MUTED};border:0; }}")
         detail_layout.addWidget(self.preview)
         self.preview_title = QLabel("Choose a tissue")
         self.preview_title.setWordWrap(True)
-        self.preview_title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE, 600))
+        _histology_type(self.preview_title, "card_title")
         detail_layout.addWidget(self.preview_title)
         self.preview_meta = QLabel("")
-        self.preview_meta.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+        self.preview_meta.setFont(theme.font_for("meta"))
+        self.preview_meta.setStyleSheet(f"color:{theme.TEXT_2};font-size:13px;background:transparent;")
         detail_layout.addWidget(self.preview_meta)
         self.preview_summary = QLabel("")
         self.preview_summary.setWordWrap(True)
         self.preview_summary.setTextInteractionFlags(Qt.TextSelectableByMouse)
-        self.preview_summary.setStyleSheet(theme.text_css(theme.TEXT_2))
+        self.preview_summary.setFont(theme.font_for("body_small"))
+        self.preview_summary.setStyleSheet(f"color:{theme.TEXT_2};font-size:14px;background:transparent;"
+                                           f"border-top:1px solid {theme.BORDER};padding-top:12px;")
         detail_layout.addWidget(self.preview_summary)
         self.open_slides = QPushButton("Open slides")
         self.open_slides.setAccessibleName("Open selected tissue slides")
         theme.set_variant(self.open_slides, "primary")
+        self.open_slides.setStyleSheet("QPushButton {padding:8px 14px;}")
         self.open_slides.setEnabled(False)
         self.open_slides.clicked.connect(self._open_selected)
         detail_layout.addWidget(self.open_slides, 0, Qt.AlignLeft)
         detail_layout.addStretch(1)
-        browse.addWidget(self.detail, 2)
+        browse.addWidget(self.detail)
         lay.addLayout(browse, 1)
-        self.empty_state = QLabel("No matching content. Clear the filters or try another search.")
-        self.empty_state.setWordWrap(True)
-        self.empty_state.setStyleSheet(theme.text_css(theme.TEXT_2))
-        lay.addWidget(self.empty_state)
         self._build()
         self.tree.verticalScrollBar().valueChanged.connect(self._sync_group)
         self._filter("")
         self._sync_group()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        compact = self.width() < 1450
+        self.group_column.setFixedWidth(170 if compact else 250)
+        self.detail.setFixedWidth(280 if compact else 360)
+        self.browse_layout.setSpacing(24 if compact else 60)
 
     def _build(self):
         top_groups = {}
@@ -223,6 +442,8 @@ class HistologyBrowser(QWidget):
             group.setText(1, str(count))
             group.setToolTip(1, f"{count} slides in {name}")
             row = QListWidgetItem(name)
+            tissue_count = sum((t.get("path") or ["Other"])[0] == name for t in self.content.histology["tissues"])
+            row.setData(GROUP_COUNT_ROLE, tissue_count)
             row.setData(GROUP_ROLE, group)
             row.setToolTip(f"Browse {name}")
             self.groups.addItem(row)
@@ -246,11 +467,11 @@ class HistologyBrowser(QWidget):
             # Follow the section crossing the viewport's leading edge. A loose
             # 48px threshold selected the *next* header when two short headers
             # both fell near the top of a compact window.
-            if rect.top() <= 0 < rect.bottom():
+            if rect.top() <= 0:
+                current = row
+            elif current is None:
                 current = row
                 break
-            if current is None and rect.top() >= 0:
-                current = row
         if current is not None and current is not self.groups.currentItem():
             self.groups.blockSignals(True)
             self.groups.setCurrentItem(current)
@@ -353,6 +574,7 @@ class HistologyBrowser(QWidget):
             rec(root.child(i))
         self.count_label.setText(f"{visible} tissues shown")
         self.empty_state.setVisible(visible == 0)
+        self.detail.setVisible(visible > 0)
         self.clear_filter.setEnabled(bool(q))
         for i in range(self.groups.count()):
             row = self.groups.item(i)
@@ -599,7 +821,7 @@ class HistologyViewer(QWidget):
         self._loader.loaded.connect(self._image_loaded)
         self.setAccessibleName("Histology image workspace")
         lay = QVBoxLayout(self)
-        lay.setContentsMargins(12, 10, 12, 10)
+        lay.setContentsMargins(24, 96, 24, 10)
         lay.setSpacing(8)
         header_layout = QVBoxLayout()
         heading = QHBoxLayout()

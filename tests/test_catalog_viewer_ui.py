@@ -80,6 +80,27 @@ class CatalogTests(Widgets):
         for e in self.entries:
             e.load.assert_not_called()
 
+    def test_specimen_grid_has_four_columns_and_identity_matched_previews(self):
+        from app.ui.model_vitrines import specimen_image
+        entries = [entry(mid) for mid in ("whole_heart", "kidney_nephron", "cardiac_muscle", "eyeball", "ear", "tooth")]
+        panel = self.keep(ModelCatalogPanel(SimpleNamespace(micro_models={e.id: e for e in entries}, tissues={})))
+        panel.resize(1736, 920)
+        panel.show()
+        QAPP.processEvents()
+        rects = [panel.list.visualItemRect(panel.list.item(i)) for i in range(5)]
+        self.assertEqual(len({rect.top() for rect in rects[:4]}), 1)
+        self.assertGreater(rects[4].top(), rects[0].top())
+        self.assertEqual(panel.detail.width(), 460)
+        for model in entries:
+            image = specimen_image(model)
+            self.assertFalse(image.isNull(), model.id)
+            model.load.assert_not_called()
+        self.assertTrue(specimen_image(entry("unrendered-fixture")).isNull())
+        panel.resize(1096, 640)
+        QAPP.processEvents()
+        self.assertEqual(panel.detail.width(), 340)
+        self.assertGreater(panel.list.viewport().width(), 650)
+
     def test_filter_linked_structure_and_kind(self):
         panel = self.panel()
         panel.edit.setText("upper limb")
@@ -308,14 +329,16 @@ class FakeModelViewport(QWidget):
 
 
 class ModelViewerTests(Widgets):
-    def panel(self):
-        e = entry("fixture")
+    def panel(self, model_id="fixture"):
+        e = entry(model_id)
         m = SimpleNamespace(items=[SimpleNamespace(index=i, key=key, name=name, description="", group="Bones", bulk=False,
                                   atlas=[], parts=[]) for i, key, name in [(0, "radius", "Radius"), (1, "ulna", "Ulna")]],
             groups=[SimpleNamespace(key="bones", title="Bones", items=[0, 1])], camera_order=[],
             cameras={}, has_teased=False, parts=[], states={}, triangle_count=0, kind="procedural",
             bounds_min=np.zeros(3), bounds_max=np.ones(3), sidecar={}, metres_per_unit=None)
         m.group_of = lambda sid: m.groups[0]
+        if model_id == "cardiac_muscle":
+            m.items[0].key = "endomysium__001"
         content = SimpleNamespace(tissues={}, micro_models={})
         with patch('app.ui.model_view.ModelDataset', return_value=dataset()), \
              patch('app.ui.model_view.ModelViewport', FakeModelViewport):
@@ -328,6 +351,82 @@ class ModelViewerTests(Widgets):
         self.assertEqual(len(view.part_items), 2)
         self.assertEqual("Check to show or hide", view.parts_status.text())
         self.assertFalse(view.selection_buttons[0].isEnabled())
+
+    def test_cardiac_opacity_starts_translucent_and_reset_restores_it(self):
+        view, e = self.panel("cardiac_muscle")
+        self.assertIsNotNone(view.opacity)
+        self.assertTrue(view.reveal_sliders["opacity"].isEnabled())
+        self.assertEqual(view.opacity.value(), 100)
+        np.testing.assert_allclose(view.state.part_alpha, [0.24, 1.0])
+        view.reveal_sliders["opacity"].setValue(50)
+        np.testing.assert_allclose(view.state.part_alpha, [0.12, 1.0])
+        view.reset_view(animate=False)
+        np.testing.assert_allclose(view.state.part_alpha, [0.24, 1.0])
+        self.assertEqual(view.reveal_sliders["opacity"].value(), 100)
+        e.resolve = lambda model, names: ([1], [])
+        view.show_lesson_parts(["Ulna"])
+        np.testing.assert_allclose(view.state.part_alpha, [0.24, 1.0])
+        self.assertFalse(view.state.opaque_materials)
+
+    def test_reference_home_and_show_all_restore_case_baseline(self):
+        view,_=self.panel()
+        camera=view.gl_widget.camera
+        camera.target=np.array([1.0,2.0,3.0]);camera.distance=12.0
+        camera.yaw=.4;camera.pitch=.2;camera.fov=40;camera.ortho_width=6.0
+        view.state.set_hidden([1],True)
+        view.gl_widget.cut_on=True
+        view.configure_reference_scene(title='Normal breast')
+        self.assertTrue(view.studio._reference_mode)
+        self.assertEqual(view.studio.show_all.text(),'Restore anatomy')
+        view.state.set_hidden([0],True)
+        camera.distance=3.0
+        view.show_all()
+        np.testing.assert_array_equal(view.state.visible_mask(),[True,False])
+        self.assertEqual(camera.distance,3.0)
+        view.state.hidden[:]=False
+        view.state._vis_dirty()
+        camera.target[:]=9.0
+        view.gl_widget.cut_on=False
+        view.state.part_alpha[:]=.1
+        view.reset_view(animate=False)
+        np.testing.assert_array_equal(view.state.visible_mask(),[True,False])
+        np.testing.assert_allclose(camera.target,[1.0,2.0,3.0])
+        np.testing.assert_allclose(view.state.part_alpha,1.0)
+        self.assertEqual(camera.distance,12.0)
+        self.assertTrue(view.gl_widget.cut_on)
+        # The remembered baseline must survive mutations after an earlier restore.
+        view.state.hidden[:]=False
+        view.show_all_reference_parts()
+        np.testing.assert_array_equal(view.state.visible_mask(),[True,False])
+
+    def test_home_uses_authored_procedural_start_visibility(self):
+        view,_=self.panel()
+        view.vmodel.sidecar={'start_view':'Kidney'}
+        view.vmodel.cameras={'Kidney':{'hidden':['ulna']}}
+        view.state.set_hidden([0],True)
+        view.reset_view(animate=False)
+        np.testing.assert_array_equal(view.state.visible_mask(),[True,False])
+        # Explicit Show all remains a separate way to inspect all bundles.
+        view.show_all()
+        np.testing.assert_array_equal(view.state.visible_mask(),True)
+
+    def test_show_all_captions_tucks_both_instruments_at_small_width_and_restores_them(self):
+        view,_=self.panel()
+        viewport=view.gl_widget
+        viewport._all_captions=False
+        viewport.labels_all_open=lambda:viewport._all_captions
+        viewport.show_all_labels=lambda on:setattr(viewport,'_all_captions',on)
+        view.studio.resize(1196,811)
+        view.studio.show_card('parts',True);view.studio.show_card('reveal',True)
+        view.labels.setChecked(True)
+        view.studio.label_pair.show_all.click()
+        self.assertTrue(view.studio._annotation_mode)
+        self.assertTrue(view.studio.cards['reveal'].isHidden())
+        self.assertTrue(view.studio.cards['parts'].isHidden())
+        view.studio.label_pair.show_all.click()
+        self.assertFalse(view.studio._annotation_mode)
+        self.assertFalse(view.studio.cards['reveal'].isHidden())
+        self.assertFalse(view.studio.cards['parts'].isHidden())
 
     def test_single_parts_group_is_flat_and_filters_and_toggles(self):
         view, _ = self.panel()

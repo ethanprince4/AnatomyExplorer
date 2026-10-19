@@ -2,7 +2,7 @@
 import html
 import unicodedata
 
-from PySide6.QtCore import QRectF, QSize, Qt, QTimer, Signal, QUrl
+from PySide6.QtCore import QPoint, QRectF, QSize, Qt, QTimer, Signal, QUrl
 from PySide6.QtGui import QFont, QPainter, QDesktopServices
 from PySide6.QtWidgets import (QComboBox, QHBoxLayout, QLabel, QLineEdit, QListWidget,
                                QPushButton, QStyle, QStyledItemDelegate,
@@ -112,6 +112,7 @@ class SearchPanel(QWidget):
     def __init__(self, ds, index, parent=None):
         super().__init__(parent)
         self.ds, self.index = ds, index
+        self.wall_mode = False
         self.setObjectName("studySearch")
         self.setMinimumWidth(theme.text_px(27))
         lay = QVBoxLayout(self)
@@ -160,8 +161,78 @@ class SearchPanel(QWidget):
         self.kind_filter.currentIndexChanged.connect(self._query_changed)
         self.edit.returnPressed.connect(self._activate_current)
         self.edit.navigate.connect(self._navigate)
-        self.list.itemActivated.connect(lambda it: self.activated.emit(it.data(ROLE_ENTRY)))
-        self.list.itemClicked.connect(lambda it: self.activated.emit(it.data(ROLE_ENTRY)))
+        self.list.itemActivated.connect(self._activate_item)
+        self.list.itemClicked.connect(self._activate_item)
+
+    def set_wall_mode(self, viewport):
+        from .wall_search import WallResultDelegate
+        self.wall_mode = True
+        self.wall_viewport = viewport
+        self._wall_results = []
+        self._wall_expanded = set()
+        self._wall_markers = []
+        self.setMinimumWidth(0)
+        self.layout().setContentsMargins(6,0,0,0)
+        self.layout().setSpacing(12)
+        self.edit.hide()
+        self.kind_filter.hide()
+        self.list.setUniformItemSizes(False)
+        self.list.setItemDelegate(WallResultDelegate(self))
+        from PySide6.QtWidgets import QAbstractItemView
+        self.list.setVerticalScrollMode(QAbstractItemView.ScrollPerItem)
+        self.setStyleSheet(f'QWidget#studySearch {{background:transparent;border:0;}}'
+                          f'QListWidget#studySearchResults {{background:transparent;border:0;outline:0;padding:0;}}'
+                          f'QListWidget#studySearchResults::item {{background:transparent;border:0;}}'
+                          f'QScrollBar:vertical {{background:transparent;width:4px;}}'
+                          f'QScrollBar::handle:vertical {{background:{theme.BORDER_STRONG};min-height:28px;}}'
+                          f'QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical {{background:transparent;}}')
+        self.list.viewport().setAutoFillBackground(False)
+        self.list.setAutoFillBackground(False)
+        self.info.setStyleSheet(f'background:transparent;color:{theme.MUTED};font-size:13px;')
+        self.list.itemEntered.connect(self._wall_active)
+        self.list.currentItemChanged.connect(lambda item,_previous:self._wall_active(item))
+        self.list.verticalScrollBar().valueChanged.connect(lambda _:self._wall_active(self.list.currentItem()))
+        viewport.frameTimed.connect(self._wall_frame)
+        viewport.searchMarkerHovered.connect(self._wall_hover_marker)
+
+    def _wall_frame(self, _ms):
+        if not self.wall_mode or not self.isVisible():return
+        signature=list(self.wall_viewport.on_body_search_markers)
+        if signature!=self._wall_markers:
+            self._wall_markers=signature
+            self.list.viewport().update()
+            self._wall_active(self.list.currentItem())
+
+    def _wall_hover_marker(self, rank):
+        from .wall_search import ROLE_RANK
+        for row in range(self.shown):
+            item=self.list.item(row)
+            if item.data(ROLE_RANK)==rank:
+                self.list.setCurrentItem(item)
+                break
+
+    def _wall_active(self, item):
+        if not self.wall_mode:return
+        from .wall_search import ROLE_RANK, ROLE_SECTION
+        rank=item.data(ROLE_RANK) if item is not None else None
+        rect=self.list.visualItemRect(item) if item is not None else None
+        target=None
+        if rank and rect is not None and self.list.viewport().rect().contains(rect):
+            pos=QPoint(rect.x()+13,rect.y()+19+(28 if item.data(ROLE_SECTION) else 0))
+            target=self.wall_viewport.mapFromGlobal(self.list.viewport().mapToGlobal(pos))
+        self.wall_viewport.set_search_active(rank,target)
+
+    def _activate_item(self, item):
+        from .wall_search import MoreResults
+        entry=item.data(ROLE_ENTRY)
+        if self.wall_mode and isinstance(entry,MoreResults):
+            self._wall_expanded.add(entry.kind)
+            scroll=self.list.verticalScrollBar().value()
+            self._show_results(self._wall_results)
+            self.list.verticalScrollBar().setValue(scroll)
+            self.resultsChanged.emit(self._wall_shown_entries)
+        elif entry is not None:
+            self.activated.emit(entry)
 
     def results_widget(self):
         return self.list
@@ -171,6 +242,8 @@ class SearchPanel(QWidget):
         self.edit.selectAll()
 
     def _query_changed(self, *_):
+        if self.wall_mode:
+            self._wall_expanded.clear()
         # A cleared query must not leave stale results actionable during the debounce. The rows are hidden rather
         # than removed: this runs on every keystroke with the results on screen (see stable_rows).
         self._show_results([])
@@ -182,6 +255,17 @@ class SearchPanel(QWidget):
             self._timer.start()
 
     def _show_results(self, entries):
+        sections = {}
+        ranks = {}
+        if self.wall_mode:
+            from .wall_search import rows, room, MoreResults
+            self._wall_results = entries
+            presented=rows(entries,self.ds,self._wall_expanded,max(240,self.list.height()))
+            entries=[entry for entry,_ in presented]
+            sections={id(entry):title for entry,title in presented}
+            self._wall_shown_entries=[entry for entry in entries if not isinstance(entry,MoreResults)]
+            ranks={id(entry):rank for rank,entry in enumerate(
+                (e for e in self._wall_shown_entries if room(e)=='structure'),1)}
         def fill(item, entry):
             description = f"{entry.title}\n{KIND_BADGE.get(entry.kind, entry.kind)} · {entry.subtitle}"
             if entry.kind in ("structure", "group", "landmark") and entry.alt:
@@ -189,6 +273,10 @@ class SearchPanel(QWidget):
             item.setData(ROLE_ENTRY, entry)
             item.setToolTip(description)
             item.setData(Qt.AccessibleTextRole, description.replace("\n", ". "))
+            if self.wall_mode:
+                from .wall_search import ROLE_SECTION, ROLE_RANK
+                item.setData(ROLE_SECTION, sections.get(id(entry),''))
+                item.setData(ROLE_RANK, ranks.get(id(entry)))
 
         self.shown = fill_list(self.list, entries, fill)
         self.list.setCurrentRow(0 if self.shown else -1)
@@ -224,7 +312,7 @@ class SearchPanel(QWidget):
         else:
             self.info.setText(f"{count:,} result{'s' if count != 1 else ''} · Enter to open")
         self.list.setVisible(bool(count))
-        self.resultsChanged.emit(results[:RESULT_LIMIT])
+        self.resultsChanged.emit(self._wall_shown_entries if self.wall_mode else results[:RESULT_LIMIT])
         self.queryActive.emit(True)
 
     def _navigate(self, step):
@@ -242,7 +330,10 @@ class SearchPanel(QWidget):
             self._run()
         item = self.list.currentItem()
         if item and not item.isHidden():
-            self.activated.emit(item.data(ROLE_ENTRY))
+            self._activate_item(item)
+
+
+from .model_vitrines import ModelSpecimenGrid, ModelSpecimenPreview, MODEL_ORDER
 
 
 class ModelOverview(QTextBrowser):
@@ -253,7 +344,8 @@ class ModelOverview(QTextBrowser):
 
     def fit_content(self):
         natural=int(self.document().documentLayout().documentSize().height())+24
-        available=max(160,self.parentWidget().height()-130) if self.parentWidget() else 650
+        reserved = getattr(self, "reserved_height", 130)
+        available=max(140,self.parentWidget().height()-reserved) if self.parentWidget() else 650
         self.setFixedHeight(min(available,650,max(140,natural)))
 
     def resizeEvent(self,event):
@@ -272,18 +364,45 @@ class ModelCatalogPanel(QWidget):
         super().__init__(parent)
         self.content = content
         self.setObjectName("modelCatalog")
-        self.setMinimumWidth(theme.text_px(27))
-        lay = QVBoxLayout(self)
-        lay.setContentsMargins(12, 12, 12, 12)
-        lay.setSpacing(8)
-        title = QLabel("3D models")
-        title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE, 700))
-        lay.addWidget(title)
+        self.setMinimumWidth(0)
+        lay = self.wall_layout = QHBoxLayout(self)
+        lay.setContentsMargins(0, 0, 0, 0)
+        lay.setSpacing(60)
+        collection = QWidget()
+        collection_layout = QVBoxLayout(collection)
+        collection_layout.setContentsMargins(0, 0, 0, 0)
+        collection_layout.setSpacing(0)
+        title = QLabel("Models")
+        display = theme.font_for("display")
+        title.setFont(display)
+        title.setStyleSheet(f'font-family:"{display.family()}";font-size:44px;font-weight:400;'
+                           f'color:{theme.TEXT_STRONG};background:transparent;')
+        collection_layout.addWidget(title)
+        collection_layout.addSpacing(6)
+        subline = QHBoxLayout()
+        self.collection_count = QLabel()
+        self.collection_count.setFont(theme.font_for("ui"))
+        self.collection_count.setStyleSheet(f"color:{theme.TEXT_2};font-size:15px;background:transparent;")
+        subline.addWidget(self.collection_count, 1)
+        filters_button = QPushButton("Filter models")
+        filters_button.setCheckable(True)
+        theme.set_variant(filters_button, "ghost")
+        subline.addWidget(filters_button)
+        collection_layout.addLayout(subline)
+        self.filters = QWidget()
+        filters_layout = QHBoxLayout(self.filters)
+        filters_layout.setContentsMargins(0, 8, 0, 8)
+        filters_layout.setSpacing(12)
         self.edit = SearchLine()
         self.edit.setAccessibleName("Filter all 3D models")
+        self.edit.setObjectName("modelSearch")
+        self.edit.setStyleSheet(
+            f'QLineEdit {{background:transparent;border:0;border-bottom:1px solid {theme.BORDER};'
+            f'border-radius:0;padding:8px 2px;color:{theme.TEXT};}}'
+            f'QLineEdit:focus {{border-bottom:1px solid {theme.ACCENT};}}')
         self.edit.setPlaceholderText("Find a model or linked structure…")
         self.edit.setClearButtonEnabled(True)
-        lay.addWidget(self.edit)
+        filters_layout.addWidget(self.edit, 1)
         self.kind_filter = QComboBox()
         self.kind_filter.setAccessibleName("Model collection")
         self.kind_filter.addItem("All models", "")
@@ -291,42 +410,64 @@ class ModelCatalogPanel(QWidget):
         self.kind_filter.addItem("Microanatomy", "procedural")
         if not getattr(content.micro_models, "is_new_catalog", False):
             self.kind_filter.addItem("Downloaded models", "downloaded")
-        lay.addWidget(self.kind_filter)
+        filters_layout.addWidget(self.kind_filter)
         self.info = QLabel()
         self.info.setWordWrap(True)
         self.info.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
-        lay.addWidget(self.info)
-        self.list = QListWidget()
+        filters_layout.addWidget(self.info, 1)
+        self.filters.hide()
+        filters_button.toggled.connect(self.filters.setVisible)
+        self.edit.textChanged.connect(lambda text: self.filters.setVisible(bool(text) or filters_button.isChecked()))
+        collection_layout.addWidget(self.filters)
+        collection_layout.addSpacing(38)
+        self.list = ModelSpecimenGrid()
         self.list.setAccessibleName("Installed model catalog")
-        self.list.setItemDelegate(ResultDelegate(parent=self.list, compact=True))
-        self.list.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.list.setUniformItemSizes(True)
-        self.list.setMouseTracking(True)
         self.shown = 0
-        lay.addWidget(self.list, 3)
+        collection_layout.addWidget(self.list, 1)
+        lay.addWidget(collection, 1)
+        from PySide6.QtWidgets import QScrollArea
+        self.detail = QScrollArea()
+        self.detail.setWidgetResizable(True)
+        self.detail.setFrameShape(QScrollArea.NoFrame)
+        self.detail.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        detail_body = QWidget()
+        self.detail.setWidget(detail_body)
+        self.detail.setFixedWidth(460)
+        detail_layout = QVBoxLayout(detail_body)
+        detail_layout.setContentsMargins(0, 0, 0, 0)
+        detail_layout.setSpacing(12)
+        self.specimen_preview = ModelSpecimenPreview()
+        self.specimen_preview.setFixedHeight(360)
+        detail_layout.addWidget(self.specimen_preview)
         self.preview = ModelOverview()
         self.preview.setAccessibleName("Selected model overview")
         self.preview.setOpenLinks(False)
         self.preview.anchorClicked.connect(self._overview_link)
         self.preview.setMinimumHeight(110)
+        self.preview.reserved_height = 450
+        self.preview.setFrameShape(QTextBrowser.NoFrame)
+        self.preview.setStyleSheet("QTextBrowser {background:transparent;border:0;padding:0;}")
+        self.preview.document().setDefaultFont(theme.font_for("body_small"))
         self.preview.document().setDefaultStyleSheet(
-            f"body {{ color:{theme.TEXT}; font-size:{theme.FS_BODY}pt; }} "
-            f"h3 {{ color:{theme.TEXT_STRONG}; margin:0 0 10px; font-size:18pt; }} "
-            f"h4 {{ color:{theme.TEXT_STRONG}; margin:16px 0 6px; }} "
+            f"body {{ color:{theme.TEXT}; font-size:14px; }} "
+            f'h3 {{ color:{theme.TEXT_STRONG}; margin:0 0 14px; font-family:"{theme.display_font_family()}";font-weight:400;font-size:32px; }} '
+            f"h4 {{ color:{theme.TEXT_2}; margin:16px 0 6px;font-size:13px; }} "
             f"a {{ color:{theme.ACCENT_TEXT}; }} p {{ margin:5px 0; }}")
-        lay.addWidget(self.preview, 2)
+        detail_layout.addWidget(self.preview)
         from .variant_choice import VariantChoice
         self.variant_choice = VariantChoice(self)
         self.variant_choice.requested.connect(self._choose_variant)
-        lay.addWidget(self.variant_choice)
+        detail_layout.addWidget(self.variant_choice)
         self.open_button = QPushButton("Open model")
-        self.open_button.setObjectName("primary")
+        theme.set_variant(self.open_button, "primary")
         self.open_button.setAccessibleName("Open selected 3D model")
         self.open_button.clicked.connect(self._activate_current)
-        lay.addWidget(self.open_button)
+        detail_layout.addWidget(self.open_button, 0, Qt.AlignLeft)
         hint = QLabel("Up/Down to choose · Enter to open")
         hint.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
-        lay.addWidget(hint)
+        detail_layout.addWidget(hint)
+        detail_layout.addStretch(1)
+        lay.addWidget(self.detail)
         self.edit.textChanged.connect(self._run)
         self.kind_filter.currentIndexChanged.connect(self._run)
         self.edit.navigate.connect(self._navigate)
@@ -336,12 +477,22 @@ class ModelCatalogPanel(QWidget):
         self._run()
 
     def focus_search(self):
+        self.filters.show()
         self.edit.setFocus()
         self.edit.selectAll()
 
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        compact = self.width() < 1450
+        self.detail.setFixedWidth(340 if compact else 460)
+        self.wall_layout.setSpacing(32 if compact else 60)
+        self.specimen_preview.setFixedHeight(250 if compact else 360)
+        self.preview.reserved_height = 350 if compact else 450
+        self.preview.fit_content()
+
     def _entries(self):
         return sorted(self.content.micro_models.values(),
-                      key=lambda e: ({"glb": 0, "procedural": 1, "downloaded": 2}.get(e.kind, 3),
+                      key=lambda e: (MODEL_ORDER.get(e.id, 100), {"glb": 0, "procedural": 1, "downloaded": 2}.get(e.kind, 3),
                                      getattr(e, "order", 100), e.name.casefold()))
 
     def _run(self, *_):
@@ -381,6 +532,11 @@ class ModelCatalogPanel(QWidget):
             if error:
                 text += "\n" + error
         self.info.setText(text)
+        self.collection_count.setText(f"{len(entries)} models in one viewer" if count == len(entries)
+                                      else f"{count} of {len(entries)} models")
+        self.info.setVisible(count == 0 or bool(getattr(self.content, "model_catalog_error", "")) or bool(terms))
+        if count == 0:
+            self.filters.show()
         is_new = getattr(self.content.micro_models, "is_new_catalog", False)
         verifying = getattr(self.content.micro_models, "verification_state", None) == "verifying"
         self._preview()
@@ -394,12 +550,14 @@ class ModelCatalogPanel(QWidget):
         self.open_button.setEnabled(item is not None)
         if item is None:
             self.variant_choice.set_entry(None)
+            self.specimen_preview.set_entry(None)
             self.preview.setPlainText("Choose a model to see its summary, scale and source information.")
             return
         e = item.data(ROLE_ENTRY)
+        self.specimen_preview.set_entry(e)
         self.variant_choice.set_entry(e)
         esc = lambda value: html.escape(str(value or ""), quote=True)
-        parts = [f"<h3>{esc(e.name)}</h3><h4>Overview</h4>",
+        parts = [f"<h3>{esc(e.name)}</h3>",
                  f"<p>{esc(e.summary) or 'No summary is included with this model.'}</p>"]
         if getattr(e, "variant", None) == "post" and getattr(e, "outcome", None) == "no_change":
             parts.append("<p>No changes from microrefine</p>")

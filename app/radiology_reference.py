@@ -10,7 +10,7 @@ AUDITED={'diaphragm':(713,), 'medial head of gastrocnemius':(2016,2019)}
 
 
 def resolve_reference(ds,resolver,names,side=''):
-    result=set()
+    result=[]
     for name in names:
         key=name.strip().lower()
         if key in GROUPS:ids=ds.node_structures(GROUPS[key])
@@ -23,8 +23,10 @@ def resolve_reference(ds,resolver,names,side=''):
             st=ds.structures[sid]
             if st['system'] in {'attachments','reference'}:continue
             if side and st['side'].lower() not in (side.lower(),''):continue
-            result.add(sid)
-    return sorted(result)
+            if sid not in result:result.append(sid)
+    # Authored names are preferred matches followed by fallbacks. Sorting IDs
+    # silently made a fallback vessel win over the structure named by the scan.
+    return result
 
 
 def framing_core(ids,centres):

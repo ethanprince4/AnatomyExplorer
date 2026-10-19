@@ -185,6 +185,29 @@ class LearningWorkspaceTests(unittest.TestCase):
         panel._open_item(panel.unit_list.item(0))
         self.assertEqual(panel.lesson.id, lesson_id)
 
+    def test_vitrines_keep_four_specimen_columns_on_the_desktop_wall(self):
+        from app.ui.lessons import LAB_FIGURES
+        panel = self.keep(LessonsPanel(load_lessons()))
+        panel.resize(1736, 920)
+        panel.show()
+        QAPP.processEvents()
+        grid = panel.unit_grid
+        self.assertEqual(panel.library_side.width(), 200)
+        self.assertEqual(panel.unit_detail.width(), 360)
+        rects = [grid.visualItemRect(grid.item(i)) for i in range(5)]
+        self.assertEqual(len({rect.top() for rect in rects[:4]}), 1)
+        self.assertGreater(rects[4].top(), rects[0].top())
+        for unit_id in LAB_FIGURES:
+            image = grid.itemDelegate()._preview(unit_id)
+            self.assertIsNotNone(image, unit_id)
+            self.assertFalse(image.isNull(), unit_id)
+            self.assertTrue(image.hasAlphaChannel(), unit_id)
+        panel.resize(1096, 640)
+        QAPP.processEvents()
+        self.assertEqual(panel.library_side.width(), 160)
+        self.assertEqual(panel.unit_detail.width(), 280)
+        self.assertGreater(grid.viewport().width(), 400)
+
     def test_empty_and_multiword_search_and_keyboard_open(self):
         panel = self.panel()
         panel.filter.setText("nerve teaching")

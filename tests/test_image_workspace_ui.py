@@ -240,6 +240,29 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual(browser._selected_tissue["id"], expected["id"])
         self.assertFalse(browser.preview.pixmap().isNull())
 
+    def test_histology_catalogue_keeps_two_columns_and_group_scroll_geometry(self):
+        browser = self.own(HistologyBrowser(self.ds, self.content))
+        browser.resize(1736, 920)
+        browser.show()
+        QAPP.processEvents()
+        tree = browser.tree
+        first_group = tree.topLevelItem(0)
+        first = first_group.child(0)
+        last = first_group.child(first_group.childCount() - 1)
+        first_rect, last_rect = tree.visualItemRect(first), tree.visualItemRect(last)
+        self.assertGreater(last_rect.left(), first_rect.left())
+        self.assertIs(tree.itemAt(last_rect.center()), last)
+        self.assertEqual(browser.detail.width(), 360)
+        later = tree.topLevelItem(5)
+        tree.scrollToItem(later)
+        QAPP.processEvents()
+        self.assertEqual(tree.visualItemRect(later).top(), 0)
+        self.assertIs(browser.groups.currentItem().data(GROUP_ROLE), later)
+        browser.resize(1096, 640)
+        QAPP.processEvents()
+        self.assertEqual(browser.detail.width(), 280)
+        self.assertGreater(tree.viewport().width(), 460)
+
     def test_histology_tissue_search_keeps_its_images_visible(self):
         browser = self.own(HistologyBrowser(self.ds, self.content))
         browser.filter.setText("Simple squamous epithelium")

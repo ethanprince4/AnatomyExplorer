@@ -303,7 +303,7 @@ class RadiologyPanel(QWidget):
         surround.setContentsMargins(24,12,12,16)
         card=QWidget(self);card.setObjectName("radiologyStudyCard")
         card.setAttribute(Qt.WA_StyledBackground,True)
-        card.setStyleSheet(f"QWidget#radiologyStudyCard {{background:transparent;border:1px solid {theme.BORDER};border-radius:0px;}}")
+        card.setStyleSheet("QWidget#radiologyStudyCard {background:transparent;border:0;}")
         surround.addWidget(card)
         outer=QVBoxLayout(card)
         outer.setContentsMargins(12,12,12,12)
@@ -318,11 +318,12 @@ class RadiologyPanel(QWidget):
         self.title.setFont(f)
         self.title.setStyleSheet(theme.text_css(CARD_TEXT, theme.FS_TITLE, 700))
         self.title.setWordWrap(True)
-        head.addWidget(self.title, 1)
+        header_layout.addWidget(self.title)
         self.badge = QLabel()
         self.badge.setStyleSheet(theme.tag_css(theme.INFO))
         self.badge.setAlignment(Qt.AlignCenter)
         head.addWidget(self.badge, 0, Qt.AlignVCenter)
+        head.addStretch(1)
         self.browse_cases = control("Browse cases", "Browse radiology cases")
         self.browse_cases.clicked.connect(self.browserRequested.emit)
         head.addWidget(self.browse_cases, 0, Qt.AlignVCenter)
@@ -468,7 +469,7 @@ class RadiologyPanel(QWidget):
         self.reference_footer.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.reference_footer.setMinimumHeight(52)
         self.reference_footer.setMaximumHeight(88)
-        footer_body.setStyleSheet("background: #f8fafb; color: #24343d;")
+        footer_body.setStyleSheet("background: transparent;")
         self.reference_footer.setWidget(footer_body)
         ll.addWidget(self.reference_footer)
         split.addWidget(lower)
@@ -481,12 +482,9 @@ class RadiologyPanel(QWidget):
         self.next_case = control("Next", "Next radiology case")
         self.previous_case.clicked.connect(lambda: self.caseStepped.emit(-1))
         self.next_case.clicked.connect(lambda: self.caseStepped.emit(1))
-        self.reset_reference = control("Reset 3D", "Reset this case's 3D reference")
-        self.reset_reference.clicked.connect(lambda: self.case and self.sceneRequested.emit(self.case))
         navigation.addWidget(self.previous_case)
         navigation.addWidget(self.next_case)
         navigation.addStretch(1)
-        navigation.addWidget(self.reset_reference)
         outer.addLayout(navigation)
         self.view.zoomChanged.connect(self._zoom_changed)
         self.illustration_view.zoomChanged.connect(self._zoom_changed)
@@ -809,6 +807,8 @@ class RadiologyBrowser(QWidget):
         selected = self.list.currentItem()
         selected_id = selected.data(Qt.UserRole) if selected else self._current_case_id
         self.list.clear()
+        self.list.expand_all = bool(needle.strip()) or any(
+            combo.currentData() is not None for combo in self.filters.values())
         by_region = {}
         for case in self.cases:
             if not matches_words(needle, case.search_text):

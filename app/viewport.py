@@ -1,4 +1,5 @@
 import math
+import re
 import sys
 import time
 
@@ -210,6 +211,8 @@ class Viewport(QOpenGLWidget):
     structureClicked = Signal(int, object)
     structureDoubleClicked = Signal(int)
     labelsOpenChanged = Signal(bool)
+    labelsModeChanged = Signal(bool)
+    searchMarkerHovered = Signal(int)
     hoverChanged = Signal(int)
     contextMenuRequested = Signal(int, QPoint)
     frameTimed = Signal(float)
@@ -247,6 +250,8 @@ class Viewport(QOpenGLWidget):
         self.landmark_hosts = []
         self.focus_landmark = None
         self._lm_cache = []
+        self._landmark_focus_last = None
+        self._label_specimen_bounds = None
         self._structure_labels = []
         self._structure_label_dot_rects = []
         self._structure_label_rects = []
@@ -256,11 +261,16 @@ class Viewport(QOpenGLWidget):
         self._structure_label_signature = ()
         self._structure_label_number_ids = ()
         self._structure_label_selected = set()
+        self._structure_label_all_requested = False
+        self._structure_label_metadata = {}
+        self._radiology_labels_on = False
+        self._lesson_labels_on = None  # temporary lesson choice; None restores ordinary atlas preference
         self._labels_all_open_last = False
         self._on_body_search_entries = []
         self.on_body_search_markers = []  # [(rank, sid, x, y, title)] from actual ID-buffer hits
         self._on_body_search_rects = []
         self._on_body_search_key = None
+        self._on_body_search_active = (None, None)
         self.section = None            # SectionIndex, attached by the main window
         self.section_anchors = []      # [(sid, anchor_xyz, weight)] on the current cut face
         self._reference_anchors = []   # the same for a radiology case's labels on an uncut (projection) view
@@ -330,14 +340,19 @@ class Viewport(QOpenGLWidget):
         if self._fbo is None or (fbo_id, w, h) != self._fbo_id:
             self._fbo = self.ctx.detect_framebuffer(fbo_id)
             self._fbo_id = (fbo_id, w, h)
-        self.renderer.render(self._fbo, self.camera, self.settings, self.clip_uniforms(),
+        from .ui.wall_background import viewport_background
+        self.renderer.render(self._fbo, self.camera, viewport_background(self, self.settings), self.clip_uniforms(),
                              hover_id=self.state.hovered, has_selection=bool(self.state.selected),
                              radiology_slice=self.radiology_slice)
         self._pick_frame_key = self._frame_key()
         self._update_landmarks()
-        self._update_structure_labels()
-        self._update_on_body_search()
         self._update_reference_anchors()
+        self._update_structure_labels()
+        if getattr(self, '_caption_fit_pending', False) and not self.camera.animating:
+            self._caption_fit_pending = False
+            from .ui.label_rails import reserve_caption_space
+            reserve_caption_space(self)
+        self._update_on_body_search()
         self.frameTimed.emit((time.perf_counter() - t0) * 1000.0)
         self.overlay.update()
         if animating:
@@ -362,8 +377,20 @@ class Viewport(QOpenGLWidget):
         None restores ordinary atlas labels; an empty list deliberately hides them.
         """
         self._radiology_label_groups = groups
+        self._radiology_labels_on = bool(groups)
+        self._reference_anchors = []
+        self._reference_key = None
+        self._label_specimen_bounds = None
+        self._structure_label_signature = ()
+        self._structure_label_number_ids = ()
+        self._structure_label_open.clear()
+        self._structure_label_all_requested = False
+        self._structure_label_focus = None
+        self._structure_label_hover = None
         self._section_label_names = {}
         self.refresh_section()
+        self.labelsModeChanged.emit(self.labels_on)
+        self._publish_labels_open_state()
         self.update()
 
     def set_radiology_slice(self, enabled: bool) -> None:
@@ -375,6 +402,7 @@ class Viewport(QOpenGLWidget):
             self._section_label_names = {}
             if had_labels:
                 self.refresh_section()
+                self.labelsModeChanged.emit(self.labels_on)
         self.update()
 
     def scene_bounds(self):
@@ -407,7 +435,11 @@ class Viewport(QOpenGLWidget):
         bmin, bmax = self.scene_bounds()
         center = (bmin + bmax) / 2
         radius = float(np.linalg.norm(bmax - bmin) / 2)
-        dist = self.camera.fit_distance(radius * 0.92, self.aspect() if self.width() > 10 else 1.6)
+        # The atlas is drawn behind floating navigation and tools. Home framing
+        # must leave their top/bottom clearance even on a short laptop display.
+        usable_height = max(.5, (self.height() - 144) / max(1, self.height()))
+        dist = self.camera.fit_distance(radius * 0.95 / usable_height,
+                                        self.aspect() if self.width() > 10 else 1.6)
         if animate:
             self.camera.animate_to(center, dist, 0.0, 0.0, self.duration())
         else:
@@ -425,7 +457,8 @@ class Viewport(QOpenGLWidget):
         if b is None:
             return
         yaw, pitch = VIEWS[view] if view in VIEWS else (None, None)
-        self.camera.frame_bounds(b[0], b[1], self.aspect(), yaw=yaw, pitch=pitch,
+        aspect = self.aspect() * (.60 if self.lesson_label_mode_active else 1.0)
+        self.camera.frame_bounds(b[0], b[1], aspect, yaw=yaw, pitch=pitch,
                                  duration=self.duration() if duration is None else duration)
         self.update()
 
@@ -451,7 +484,7 @@ class Viewport(QOpenGLWidget):
         self.last_section_frame = {"bounds": [lo.tolist(), hi.tolist()], "contributors": contributors,
                                    "seconds": time.perf_counter() - started}
         yaw, pitch = VIEWS[view] if view in VIEWS else (None, None)
-        self.camera.frame_plane_bounds(lo, hi, self.aspect(), yaw, pitch, self.duration())
+        self.camera.frame_plane_bounds(lo, hi, self.aspect()*.54, yaw, pitch, self.duration())
         self.update()
         return True
 
@@ -542,7 +575,15 @@ class Viewport(QOpenGLWidget):
         """
         self._on_body_search_entries = list(entries or ())
         self._on_body_search_key = None
+        self._on_body_search_active = (None, None)
+        if not entries:
+            self.on_body_search_markers = []
+            self._on_body_search_rects = []
         self.update()
+
+    def set_search_active(self, rank, target=None):
+        self._on_body_search_active = (rank, target)
+        self.overlay.update()
 
     def _update_on_body_search(self):
         entries = self._on_body_search_entries
@@ -553,6 +594,10 @@ class Viewport(QOpenGLWidget):
         resolved = []
         rank = 1
         for entry in entries:
+            if getattr(entry, 'kind', '') not in ('structure', 'group', 'landmark'):
+                continue
+            entry_rank = rank
+            rank += 1
             sids = list(getattr(entry, "sids", None) or ())
             node = getattr(entry, "node", None)
             if not sids and node in self.ds.nodes and self.ds.nodes[node].get("kind") == "group":
@@ -562,8 +607,7 @@ class Viewport(QOpenGLWidget):
             if not sids:
                 continue
             title = str(getattr(entry, "title", self.ds.structures[sids[0]]["name"]))
-            resolved.extend((rank, sid, title) for sid in dict.fromkeys(sids[:4]))
-            rank += 1
+            resolved.extend((entry_rank, sid, title) for sid in dict.fromkeys(sids[:4]))
             if rank > 12:
                 break
         key = (self.renderer.last_vp.tobytes(), tuple(resolved), visible.tobytes(), self.renderer.size)
@@ -579,8 +623,8 @@ class Viewport(QOpenGLWidget):
         vp = self.renderer.last_vp
         for owner, (_rank, sid, _title) in enumerate(resolved):
             center = np.asarray(self.ds.centroid[sid], dtype=float)
-            corners = np.asarray([self.ds.bbox_min[sid] if bit == 0 else self.ds.bbox_max[sid]
-                                  for bit in np.ndindex(2, 2, 2)], dtype=float)
+            corners = np.asarray([np.where(bits, self.ds.bbox_max[sid], self.ds.bbox_min[sid])
+                                  for bits in np.ndindex(2, 2, 2)], dtype=float)
             clip_center = vp @ np.append(center, 1.0)
             if clip_center[3] <= 1e-6:
                 continue
@@ -617,6 +661,12 @@ class Viewport(QOpenGLWidget):
         self.on_body_search_markers = [
             (resolved[owner][0], resolved[owner][1], xy[1], xy[2], resolved[owner][2])
             for owner, xy in sorted(best.items())]
+        separated=[]
+        for marker in self.on_body_search_markers:
+            if not any(marker[0]==old[0] and math.hypot(marker[2]-old[2],marker[3]-old[3])<28
+                       for old in separated):
+                separated.append(marker)
+        self.on_body_search_markers=separated
 
     def world_at(self, pos):
         if self.renderer is None:
@@ -649,6 +699,7 @@ class Viewport(QOpenGLWidget):
                 return
             sid = self._structure_label_dot_at(e.position())
             if sid is not None:
+                self._structure_label_all_requested = False
                 if sid in self._structure_label_open:
                     self._structure_label_open.discard(sid)
                 else:
@@ -660,7 +711,7 @@ class Viewport(QOpenGLWidget):
                 return
             sid = self._structure_label_caption_at(e.position())
             if sid is not None:
-                self.structureClicked.emit(int(sid), e.modifiers())
+                self.structureClicked.emit(int(self._structure_label_metadata.get(sid, (sid,))[0]), e.modifiers())
                 return
             sid = self.section_label_at(e.position())
             if sid is not None:                       # clicking a section label picks that structure
@@ -734,6 +785,11 @@ class Viewport(QOpenGLWidget):
             self.update()
             return
         label_hover = self._structure_label_dot_at(pos)
+        search_sid = self.on_body_search_at(pos)
+        if search_sid is not None:
+            rank = next((rank for rank,sid,*_ in self.on_body_search_markers if sid==search_sid),None)
+            if rank is not None and rank != self._on_body_search_active[0]:
+                self.searchMarkerHovered.emit(rank)
         if label_hover != self._structure_label_hover:
             self._structure_label_hover = label_hover
             self.overlay.update()
@@ -790,10 +846,18 @@ class Viewport(QOpenGLWidget):
             self.hoverChanged.emit(-1)
         self.overlay.update()
 
+    def focusNextPrevChild(self, next):
+        if self.labels_on and self._structure_label_signature:
+            return False
+        return super().focusNextPrevChild(next)
+
     def keyPressEvent(self, e):
         ids = list(self._structure_label_number_ids or self._structure_label_signature)
-        if e.key() == Qt.Key_Escape and self._structure_label_open:
+        if e.key() == Qt.Key_Escape and (self._structure_label_open or self._structure_label_all_requested):
             self._structure_label_open.clear()
+            self._structure_label_all_requested = False
+            self._structure_label_focus = None
+            self._structure_label_hover = None
             self._publish_labels_open_state()
             self.overlay.update()
             e.accept()
@@ -812,6 +876,7 @@ class Viewport(QOpenGLWidget):
         if (ids and self._structure_label_focus in ids and
                 e.key() in (Qt.Key_Space, Qt.Key_Return, Qt.Key_Enter)):
             sid = self._structure_label_focus
+            self._structure_label_all_requested = False
             if sid in self._structure_label_open:
                 self._structure_label_open.discard(sid)
             else:
@@ -872,35 +937,83 @@ class Viewport(QOpenGLWidget):
 
     @property
     def labels_on(self):
-        """Whether the atlas is showing its ordinary visible-structure labels."""
+        """Current room's label choice, with ordinary atlas preference underneath."""
+        if self._radiology_label_groups is not None:
+            return self._radiology_labels_on
+        if self.lesson_label_mode_active:
+            return bool(self._lesson_labels_on)
         return bool(self.settings.get("show_structure_labels", False))
 
     @labels_on.setter
     def labels_on(self, enabled):
         self.set_labels_on(enabled)
 
+    @property
+    def lesson_label_mode_active(self):
+        return self._lesson_labels_on is not None
+
+    def set_lesson_label_mode(self, active):
+        """Start an atlas lesson with labels on; restore its ordinary choice on exit.
+
+        Repeated header updates preserve a user's temporary lesson toggle. This
+        room state never writes the stored show_structure_labels preference.
+        """
+        active = bool(active)
+        if active == self.lesson_label_mode_active:
+            return
+        self._lesson_labels_on = True if active else None
+        self._structure_labels = []
+        self._structure_label_signature = ()
+        self._structure_label_number_ids = ()
+        self._structure_label_open.clear()
+        self._structure_label_all_requested = False
+        self._structure_label_dot_rects = []
+        self._structure_label_rects = []
+        self._structure_label_focus = self._structure_label_hover = None
+        self._structure_label_selected = set()
+        self._landmark_focus_last = None
+        self._publish_labels_open_state()
+        self.labelsModeChanged.emit(self.labels_on)
+        self.update()
+        self.overlay.update()
+
     def set_labels_on(self, enabled):
         """Set the atlas label mode; the dock pair uses the same API as model-view labels."""
         enabled = bool(enabled)
         if enabled == self.labels_on:
             return
-        self.settings["show_structure_labels"] = enabled
+        if self._radiology_label_groups is not None:
+            self._radiology_labels_on = enabled
+        elif self.lesson_label_mode_active:
+            self._lesson_labels_on = enabled
+        else:
+            self.settings["show_structure_labels"] = enabled
         self._structure_label_signature = ()
         if not enabled:
             self._structure_label_open.clear()
+            self._structure_label_all_requested = False
             self._structure_label_dot_rects = []
             self._structure_label_rects = []
         self._publish_labels_open_state()
+        self.labelsModeChanged.emit(self.labels_on)
         self.update()
         self.overlay.update()
 
     def show_all_labels(self, enabled=True):
         """Open or close captions for all currently projected, actually visible structures."""
+        if enabled and not self._structure_label_all_requested:
+            self._caption_fit_pending = True
+            self.update()
+        elif not enabled:
+            self._caption_fit_pending = False
+        self._structure_label_all_requested = bool(enabled)
         if enabled:
             ids = self._structure_label_number_ids or tuple(sid for sid, *_ in self._structure_labels)
             self._structure_label_open.update(ids)
         else:
             self._structure_label_open.clear()
+            self._structure_label_focus = None
+            self._structure_label_hover = None
         self._publish_labels_open_state()
         self.overlay.update()
 
@@ -931,11 +1044,57 @@ class Viewport(QOpenGLWidget):
                 return sid
         return None
 
+    def _sync_structure_label_set(self):
+        signature = tuple(sorted((key for key, *_ in self._structure_labels), key=str))
+        changed = signature != self._structure_label_signature
+        if changed:
+            self._structure_label_signature = signature
+            self._structure_label_number_ids = ()
+            self._structure_label_open.intersection_update(signature)
+        selected = set(int(sid) for sid in self.state.selected)
+        newly_selected = selected if changed else selected - self._structure_label_selected
+        self._structure_label_open.update(key for key in signature
+            if self._structure_label_metadata.get(key, (key,))[0] in newly_selected
+            and not (isinstance(key, tuple) and key[0] == "landmark"))
+        if self._structure_label_all_requested:
+            self._structure_label_open.update(signature)
+        focus_key = ("landmark", self.focus_landmark)
+        if self.focus_landmark != self._landmark_focus_last and focus_key in signature:
+            self._structure_label_open.add(focus_key)
+        self._landmark_focus_last = self.focus_landmark
+        self._structure_label_selected = selected
+        self._publish_labels_open_state()
+
     def _update_structure_labels(self):
         self._structure_labels = []
+        self._structure_label_metadata = {}
         if not self.labels_on or self._on_body_search_entries:
             return
+        if self.active_section() is not None:
+            self._update_cut_pixel_labels()
+            self._sync_structure_label_set()
+            return
+        # Case references and cut faces use their exact authored / intersection
+        # anchors, but participate in the same click and caption state as the atlas.
+        if self._radiology_label_groups is not None or self.active_section() is not None:
+            anchors = self.section_anchors if self.active_section() is not None else self._reference_anchors
+            texts = getattr(self, "_section_texts", []) if self.active_section() is not None else [a[3] for a in anchors]
+            for index, (sid, anchor, *_rest) in enumerate(anchors):
+                point = self.project(anchor)
+                if point is None or not (0 <= point[0] < self.width() and 0 <= point[1] < self.height()):
+                    continue
+                text = texts[index] if index < len(texts) and texts[index] else self.ds.structures[sid]["name"]
+                match = re.match(r"^(\d+)\s{2,}(.+)$", text)
+                text, number = (match.group(2), int(match.group(1))) if match else (text, None)
+                key = ("section", int(sid), text, index)
+                self._structure_labels.append((key, float(point[0]), float(point[1])))
+                self._structure_label_metadata[key] = (int(sid), text, number)
+            self._sync_structure_label_set()
+            return
         visible = np.flatnonzero(self.state.visible_mask())
+        scope = getattr(self, '_lesson_label_scope', None) if self.lesson_label_mode_active else None
+        if scope:
+            visible = visible[np.isin(visible, tuple(scope))]
         if not len(visible):
             self._structure_label_signature = ()
             self._structure_label_number_ids = ()
@@ -967,135 +1126,139 @@ class Viewport(QOpenGLWidget):
                 self._structure_labels.append((sid,x,y))
             if len(self._structure_labels)>=limit:break
 
-        ids = tuple(sid for sid, *_ in self._structure_labels)
-        signature = tuple(sorted(ids))
-        if signature != self._structure_label_signature:
-            self._structure_label_signature = signature
-            self._structure_label_number_ids = ()
-            self._structure_label_open.intersection_update(signature)
-            # A newly selected structure starts with its caption open, including when the
-            # camera brings a previously hidden selected structure into view.
-            self._structure_label_open.update(set(self.state.selected) & set(signature))
-        selected = set(int(sid) for sid in self.state.selected)
-        self._structure_label_open.update((selected - self._structure_label_selected) & set(signature))
-        self._structure_label_selected = selected
-        self._publish_labels_open_state()
+        # Landmarks are annotation occurrences, not a second card renderer.
+        # Hidden anchors stay hidden unless the user explicitly focused one.
+        for index, point, occluded in self._lm_cache:
+            if occluded and index != self.focus_landmark:
+                continue
+            landmark = self.ds.landmarks[index]
+            if scope and int(landmark['sid']) not in scope:
+                continue
+            key = ("landmark", index)
+            self._structure_labels.append((key, float(point[0]), float(point[1])))
+            self._structure_label_metadata[key] = (int(landmark["sid"]), landmark["name"], None)
+        # The full visible specimen, rather than just its label anchors, defines
+        # the outer caption rails. Case projection views use their ID silhouette.
+        lo = self.ds.bbox_min[visible].min(axis=0)
+        hi = self.ds.bbox_max[visible].max(axis=0)
+        corners = np.array([[x, y, z] for x in (lo[0], hi[0])
+                            for y in (lo[1], hi[1]) for z in (lo[2], hi[2])])
+        projected = [self.project(point) for point in corners]
+        projected = [point for point in projected if point is not None]
+        if projected:
+            self._label_specimen_bounds = (min(point[0] for point in projected), min(point[1] for point in projected),
+                                           max(point[0] for point in projected), max(point[1] for point in projected))
+        self._sync_structure_label_set()
+
+    def _update_cut_pixel_labels(self):
+        """Name tissue at an actual rendered cut pixel, never a slab centroid.
+
+        Surface-sample averages can land in a hole or in a different organ, and
+        can admit a small gland that the clipping plane removed altogether.
+        The renderer's ID image is the authority for what is physically shown.
+        """
+        key=(self.renderer.last_vp.tobytes(),tuple(self.renderer.size),
+             repr(self.clip_uniforms()),self.state.visible_mask().tobytes(),
+             repr(self._radiology_label_groups),repr(self.section_anchors),
+             repr(getattr(self,'_lesson_label_scope',None)),self.lesson_label_mode_active)
+        cached=getattr(self,'_cut_label_pixels',None)
+        if cached is not None and cached[0]==key:
+            self._structure_labels=list(cached[1]);self._structure_label_metadata=dict(cached[2])
+            self._label_specimen_bounds=cached[3]
+            return
+        from scipy.ndimage import distance_transform_edt, label
+        rw,rh=self.renderer.size
+        step=max(1,int(min(rw,rh)/650))
+        ids=self.renderer.read_id_image(1)
+        if ids is None:return
+        # GL readback starts at the bottom; Qt overlay coordinates start at the top.
+        ids=ids[::-1, :][::step, ::step]
+        yy,xx=np.nonzero(ids>0)
+        self._label_specimen_bounds=((xx.min()*step/rw*self.width(),yy.min()*step/rh*self.height(),
+            (xx.max()+1)*step/rw*self.width(),(yy.max()+1)*step/rh*self.height()) if len(xx) else None)
+        if self._radiology_label_groups is not None:
+            entries=[(g[0],g[1],g[3] if len(g)>3 else None) for g in self._radiology_label_groups]
+        else:
+            entries=[(self.ds.structures[sid]['name'],[sid],None) for sid,*_ in self.section_anchors]
+            scope=getattr(self,'_lesson_label_scope',None) if self.lesson_label_mode_active else None
+            if scope:entries=[entry for entry in entries if entry[1][0] in scope]
+        for index,(text,members,pin) in enumerate(entries):
+            # Respect an authored preferred anatomical member before its fallbacks.
+            sid=next((int(s) for s in members if np.count_nonzero(ids==int(s)+1)>=3),None)
+            if sid is None:continue
+            at=self.project(pin) if pin is not None else None
+            if at is not None:
+                px=int(at[0]/max(1,self.width())*rw/step);py=int(at[1]/max(1,self.height())*rh/step)
+            else:px=py=-1
+            if 0<=py<ids.shape[0] and 0<=px<ids.shape[1] and int(ids[py,px])-1 in members:
+                sid=int(ids[py,px])-1
+            elif at is not None:
+                # Keep an authored pin near its anatomical location if it falls
+                # in a lumen or between sampled pixels. Do not relocate it to
+                # an unrelated end of the first fallback vessel.
+                nearest=[]
+                for member in members:
+                    my,mx=np.nonzero(ids==int(member)+1)
+                    if len(mx)>=3:
+                        nearest.append((float(np.min((mx-px)**2+(my-py)**2)),int(member)))
+                if nearest:sid=min(nearest)[1]
+            mask=ids==sid+1
+            if 0<=py<mask.shape[0] and 0<=px<mask.shape[1] and mask[py,px]:
+                y,x=py,px
+            else:
+                my,mx=np.nonzero(mask)
+                x0,x1=int(mx.min()),int(mx.max())+1
+                y0,y1=int(my.min()),int(my.max())+1
+                patch=mask[y0:y1,x0:x1]
+                components,count=label(patch)
+                if count>1:patch=components==(np.argmax(np.bincount(components.ravel())[1:])+1)
+                distance=distance_transform_edt(np.pad(patch,1))[1:-1,1:-1]
+                if at is not None:
+                    gy,gx=np.ogrid[y0:y1,x0:x1]
+                    distance=np.where(patch,1/(1+np.sqrt((gx-px)**2+(gy-py)**2))+.002*distance,0)
+                # Two authored numbers can refer to different points on one
+                # fallback organ; retain independently clickable markers.
+                gy,gx=np.ogrid[y0:y1,x0:x1]
+                for _,old_x,old_y in self._structure_labels:
+                    distance[((gx*step/rw*self.width()-old_x)**2+(gy*step/rh*self.height()-old_y)**2)<24**2]=0
+                if not distance.any():distance=distance_transform_edt(np.pad(patch,1))[1:-1,1:-1]
+                y,x=np.unravel_index(int(np.argmax(distance)),distance.shape)
+                y+=y0;x+=x0
+            match=re.match(r'^(\d+)\s{2,}(.+)$',text)
+            caption,number=(match.group(2),int(match.group(1))) if match else (text,None)
+            occurrence=('section',sid,caption,index)
+            self._structure_labels.append((occurrence,float((x*step+.5)/rw*self.width()),float((y*step+.5)/rh*self.height())))
+            self._structure_label_metadata[occurrence]=(sid,caption,number)
+        self._cut_label_pixels=(key,list(self._structure_labels),dict(self._structure_label_metadata),self._label_specimen_bounds)
 
     def _paint_structure_labels(self, p):
-        """Draw fixed-number atlas anchors and only the captions the user has opened."""
+        """The shared Dock pair circles and rails, including radiology cut faces."""
+        from .ui.label_rails import paint_label_rails
         self._structure_label_dot_rects = []
         self._structure_label_rects = []
-        if not self.labels_on or self._on_body_search_entries or not self._structure_labels:
+        if not self.labels_on or self._on_body_search_entries:
             return
+        rows, numbers = [], {}
+        for key, x, y in self._structure_labels:
+            sid, text, number = self._structure_label_metadata.get(key,
+                (key, self.ds.structures[key]["name"] if isinstance(key, int) else "", None))
+            rows.append((key, sid, x, y, text))
+            if number is not None:
+                numbers[key] = number
         font = QFont(self.font())
         font.setPointSizeF(float(self.settings.get("label_size", 8.6)))
-        p.setFont(font)
-        fm = QFontMetricsF(font)
-        w, h = float(self.width()), float(self.height())
-        sid_set = {int(sid) for sid, _x, _y in self._structure_labels}
-        if set(self._structure_label_number_ids) != sid_set:
-            self._structure_label_number_ids = tuple(
-                sid for sid, _x, _y in sorted(self._structure_labels, key=lambda item: (item[2], item[1], item[0])))
-        number = {sid: order for order, sid in enumerate(self._structure_label_number_ids, 1)}
-        ordered = sorted(self._structure_labels, key=lambda item: number.get(int(item[0]), 0))
-        selected = set(int(sid) for sid in self.state.selected)
-
-        # The 18 px numbered disc sits over the exact visible ID-buffer anchor; its 28 px
-        # hit box is deliberately larger, as in the reviewed label spec.
-        for sid, x, y in ordered:
-            sid = int(sid)
-            is_selected = sid in selected
-            is_open = sid in self._structure_label_open
-            is_hover = sid == self._structure_label_hover
-            is_focus = sid == self._structure_label_focus and self.hasFocus()
-            if is_selected:
-                disc, ink = theme.ACCENT, theme.ON_ACCENT
-            elif is_open:
-                disc, ink = theme.TEXT, theme.SURFACE
-            else:
-                disc, ink = theme.RAISED, theme.TEXT
-            if is_hover and not is_open and not is_selected:
-                disc = theme.HOVER
-            p.setPen(QPen(theme.qc(theme.BORDER_STRONG), 1.0))
-            p.setBrush(theme.qc(disc))
-            p.drawEllipse(QPointF(x, y), 9.0, 9.0)
-            if is_hover and not is_open and not is_selected:
-                p.setPen(QPen(theme.qc(theme.TEXT), 1.5))
-                p.setBrush(Qt.NoBrush)
-                p.drawEllipse(QPointF(x, y), 10.0, 10.0)
-            p.setPen(theme.qc(ink))
-            p.drawText(QRectF(x - 9.0, y - 9.0, 18.0, 18.0), Qt.AlignCenter, str(number[sid]))
-            if is_focus:
-                p.setPen(QPen(theme.qc(theme.TEXT_2), 2.0))
-                p.setBrush(Qt.NoBrush)
-                p.drawEllipse(QPointF(x, y), 13.0, 13.0)
-            self._structure_label_dot_rects.append((QRectF(x - 14.0, y - 14.0, 28.0, 28.0), sid))
-
-        # Captions sit on the same side of the specimen as their anchors. A light vertical
-        # spine joins open rows; a two-segment knee leader connects each name to its real dot.
-        sides = {-1: [], 1: []}
-        for item in ordered:
-            sides[-1 if item[1] < w * 0.5 else 1].append(item)
-        pitch = max(30.0, fm.height() + 10.0)
-        sel_font = QFont(font)
-        sel_font.setWeight(QFont.DemiBold)
-        for side, all_rows in sides.items():
-            rows = [item for item in all_rows
-                    if int(item[0]) in self._structure_label_open or
-                    int(item[0]) == self._structure_label_hover or
-                    int(item[0]) == self._structure_label_focus]
-            if not rows:
-                continue
-            rows.sort(key=lambda item: (item[2], item[1], item[0]))
-            side_anchors = [item[1] for item in all_rows]
-            rail_x = min(side_anchors) - 25.0 if side < 0 else max(side_anchors) + 25.0
-            max_width = max(92.0, min(280.0, w * 0.32))
-            text_width = max(fm.horizontalAdvance(self.ds.structures[int(item[0])]["name"])
-                             for item in rows)
-            tw = min(max_width, text_width + 4.0)
-            base_x = (max(4.0, min(w - tw - 4.0, rail_x - tw)) if side < 0 else
-                      max(4.0, min(w - tw - 4.0, rail_x)))
-            capacity = max(1, int(max(1.0, h - 36.0) / pitch) + 1)
-            for col, start in enumerate(range(0, len(rows), capacity)):
-                column = rows[start:start + capacity]
-                ys = [float(item[2]) for item in column]
-                for index in range(1, len(ys)):
-                    ys[index] = max(ys[index], ys[index - 1] + pitch)
-                overflow = ys[-1] - (h - 18.0)
-                if overflow > 0:
-                    ys = [y - overflow for y in ys]
-                    for index in range(len(ys) - 2, -1, -1):
-                        ys[index] = min(ys[index], ys[index + 1] - pitch)
-                x = base_x - col * (tw + 12.0) if side < 0 else base_x + col * (tw + 12.0)
-                x = max(4.0, min(w - tw - 4.0, x))
-                placed = []
-                for item, center_y in zip(column, ys):
-                    sid, ax, ay = int(item[0]), float(item[1]), float(item[2])
-                    center_y = max(18.0, min(h - 18.0, center_y))
-                    rect = QRectF(x, center_y - fm.height() / 2 - 2, tw, fm.height() + 4)
-                    placed.append((sid, ax, ay, center_y, rect))
-                if placed:
-                    spine_x = placed[-1][4].right() + 7.0 if side < 0 else placed[-1][4].left() - 7.0
-                    p.setPen(QPen(theme.qc(theme.BORDER_STRONG, 190), 1.0))
-                    p.drawLine(QPointF(spine_x, placed[0][3]), QPointF(spine_x, placed[-1][3]))
-                for sid, ax, ay, center_y, rect in placed:
-                    faded = (sid == self._structure_label_hover or sid == self._structure_label_focus) and \
-                        sid not in self._structure_label_open and sid not in selected
-                    p.setPen(QPen(theme.qc(theme.BORDER_STRONG, 128 if faded else 225), 1.0))
-                    join_x = rect.right() if side < 0 else rect.left()
-                    knee_x = spine_x
-                    vx, vy = knee_x - ax, center_y - ay
-                    length = max(1.0, math.hypot(vx, vy))
-                    start = QPointF(ax + vx * (11.0 / length), ay + vy * (11.0 / length))
-                    text_edge = join_x + 2.0 if side < 0 else join_x - 2.0
-                    p.drawLine(start, QPointF(knee_x, center_y))
-                    p.drawLine(QPointF(knee_x, center_y), QPointF(text_edge, center_y))
-                    p.setPen(theme.qc(theme.MUTED if faded else theme.TEXT))
-                    p.setFont(sel_font if sid in selected else font)
-                    p.drawText(rect, Qt.AlignVCenter | (Qt.AlignRight if side < 0 else Qt.AlignLeft),
-                               fm.elidedText(self.ds.structures[sid]["name"], Qt.ElideRight, int(tw)))
-                    self._structure_label_rects.append((QRectF(rect.adjusted(-2, -3, 2, 3)), sid))
-        p.setFont(font)
+        zones = None
+        if self.lesson_label_mode_active or self._radiology_label_groups is not None:
+            wall = max(120, self.width()*.23)
+            top = 104 if self._radiology_label_groups is not None else 32
+            zones = {-1:(20,top,wall,max(1,self.height()-top-80)),
+                      1:(self.width()-wall-20,top,wall,max(1,self.height()-top-80))}
+        self._structure_label_number_ids, self._structure_label_dot_rects, self._structure_label_rects = paint_label_rails(
+            p, (self.width(), self.height()), font, rows, self._structure_label_number_ids,
+            self._structure_label_open, set(int(sid) for sid in self.state.selected),
+            self._structure_label_hover, self._structure_label_focus if self.hasFocus() else None, numbers,
+            specimen_bounds=self._label_specimen_bounds,
+            insets=getattr(self, "label_stage_insets", (16, 24, 16, 24)), caption_zones=zones)
 
     def on_body_search_at(self, pos):
         for rect, sid in reversed(self._on_body_search_rects):
@@ -1114,19 +1277,31 @@ class Viewport(QOpenGLWidget):
         font.setPointSizeF(max(8.0, float(self.settings.get("label_size", 8.6))))
         font.setBold(True)
         p.setFont(font)
-        fill = QColor(theme.ACCENT)
-        ink = QColor(theme.ON_ACCENT)
+        active_rank, target = self._on_body_search_active
         grouped = {}
         for rank, sid, x, y, title in self.on_body_search_markers:
             grouped.setdefault((rank, sid), (x, y, title))
         for (rank, sid), (x, y, _title) in grouped.items():
             center = QPointF(x, y)
-            p.setPen(QPen(QColor(theme.SURFACE), 2.0))
-            p.setBrush(fill)
-            p.drawEllipse(center, 11.0, 11.0)
-            p.setPen(ink)
-            p.drawText(QRectF(x - 11, y - 11, 22, 22), Qt.AlignCenter, str(rank))
+            selected = sid in self.state.selected
+            p.setPen(QPen(theme.qc(theme.palette()['leader']), 1.0))
+            p.setBrush(theme.qc(theme.ACCENT if selected else theme.CANVAS))
+            p.drawEllipse(center, 9.0, 9.0)
+            p.setPen(theme.qc(theme.ON_ACCENT if selected else theme.TEXT))
+            p.drawText(QRectF(x - 9, y - 9, 18, 18), Qt.AlignCenter, str(rank))
+            if rank == active_rank:
+                p.setPen(QPen(theme.qc(theme.TEXT),1.0));p.setBrush(Qt.NoBrush)
+                p.drawEllipse(center,12.0,12.0)
             self._on_body_search_rects.append((QRectF(x - 15, y - 15, 30, 30), sid))
+        if active_rank and target is not None:
+            anchors=[(x,y) for (rank,_sid),(x,y,_title) in grouped.items() if rank==active_rank]
+            if anchors:
+                x,y=min(anchors,key=lambda xy:(xy[0]-target.x())**2+(xy[1]-target.y())**2)
+                dx,dy=target.x()-x,target.y()-y
+                distance=max(1,math.hypot(dx,dy))
+                p.setPen(QPen(theme.qc(theme.palette()['leader']),1.0))
+                p.drawLine(QPointF(x+dx*13/distance,y+dy*13/distance),
+                           QPointF(target.x()-dx*13/distance,target.y()-dy*13/distance))
         p.restore()
 
     # ------------------------------------------------------------------ labelled cross-section
@@ -1245,6 +1420,13 @@ class Viewport(QOpenGLWidget):
         rw, rh = self.renderer.size
         step = max(1, int(round(min(rw, rh) / 480)))
         ids = self.renderer.read_id_image(step)
+        if ids is not None:
+            yy, xx = np.nonzero(ids > 0)
+            if len(xx):
+                self._label_specimen_bounds = (float(xx.min() * step) / rw * self.width(),
+                    float(max(0,rh-(yy.max()+1)*step)) / rh * self.height(),
+                    float(min(rw, (xx.max() + 1) * step)) / rw * self.width(),
+                    float(rh-yy.min()*step) / rh * self.height())
         anchors, names = [], {}
         if ids is not None:
             from scipy.ndimage import distance_transform_edt, label
@@ -1348,71 +1530,8 @@ class Viewport(QOpenGLWidget):
         return (here if here in wanted else hits[0]) - 1
 
     def _paint_section_labels(self, p, dark):
-        """Lay the names out in two columns with leader lines, the way an atlas plate is labelled."""
-        anchors, label_names = self.section_anchors, self._section_label_names
-        texts = getattr(self, "_section_texts", [])
-        if not anchors and self._reference_anchors and self.active_section() is None:
-            anchors, label_names = self._reference_anchors, getattr(self, "_reference_names", {})
-            texts = [a[3] for a in anchors]
-        if not anchors:
-            return
-        if len(texts) != len(anchors):
-            texts = [None] * len(anchors)
-        font = QFont(self.font())
-        font.setPointSizeF(float(self.settings.get("label_size", 8.6)))
-        p.setFont(font)
-        fm = QFontMetricsF(font)
-        w, h = float(self.width()), float(self.height())
-        line_h = fm.height() + 7
-        margin = 12.0
+        # Exact section/reference anchors now feed the interactive numbered layer.
         self._section_rects = []
-        columns = {-1: [], 1: []}
-        for (sid, anchor, *_rest), text in zip(anchors, texts):
-            pr = self.project(anchor)
-            if pr is None or not (0 <= pr[0] <= w and 0 <= pr[1] <= h):
-                continue
-            columns[-1 if pr[0] < w * 0.5 else 1].append((sid, pr, text))
-        anchors=[item[1][0] for items in columns.values() for item in items]
-        model_left=min(anchors) if anchors else w*.5
-        model_right=max(anchors) if anchors else w*.5
-        for side, items in columns.items():
-            if not items:
-                continue
-            items.sort(key=lambda t: t[1][1])
-            ys = [float(item[1][1]) for item in items]
-            for k in range(1, len(ys)):                       # push apart downwards, then pull back on screen
-                ys[k] = max(ys[k], ys[k - 1] + line_h)
-            # the left column stops above the orientation gizmo in the bottom-left corner
-            bottom = h - 108.0 if side < 0 and self.settings.get("show_gizmo", False) else h
-            over = ys[-1] - (bottom - line_h)
-            if over > 0:
-                ys = [y - over for y in ys]
-                for k in range(len(ys) - 2, -1, -1):
-                    ys[k] = min(ys[k], ys[k + 1] - line_h)
-            for (sid, pr, own), ly in zip(items, ys):
-                ly = max(line_h * 0.6, min(bottom - line_h * 0.6, ly))
-                text = own or label_names.get(sid, self.ds.structures[sid]["name"])
-                tw = min(fm.horizontalAdvance(text) + 12, w * 0.28)
-                x0 = max(margin,model_left-32-tw) if side < 0 else min(w-margin-tw,model_right+32)
-                rect = QRectF(x0, ly - line_h / 2 + 2, tw, fm.height() + 4)
-                join_x = rect.right() if side < 0 else rect.left()
-                elbow_x = join_x + 16 * -side
-                if (side < 0 and pr[0] < elbow_x) or (side > 0 and pr[0] > elbow_x):
-                    elbow_x = pr[0]                            # anchor is already past the column
-                accent = QColor(255, 214, 92) if sid in self.state.selected else QColor(120, 205, 255)
-                faded = QColor(accent.red(), accent.green(), accent.blue(), 150)
-                p.setPen(QPen(faded, 1.1))
-                p.drawLine(QPointF(pr[0], pr[1]), QPointF(elbow_x, ly))
-                p.drawLine(QPointF(elbow_x, ly), QPointF(join_x, ly))
-                p.setBrush(accent)
-                p.setPen(Qt.NoPen)
-                p.drawEllipse(QPointF(pr[0], pr[1]), 2.6, 2.6)
-                p.setPen(QPen(QColor("#8096a5"), 1.0))
-                p.setBrush(QColor("#f2f6f8"))
-                p.drawRoundedRect(rect, 8, 8)
-                p.setPen(QColor("#263b47"))
-                p.drawText(rect, Qt.AlignCenter, fm.elidedText(text, Qt.ElideRight, tw - 10))
-                self._section_rects.append((QRectF(rect), sid))
 
     # ------------------------------------------------------------------ measuring
     def set_measure(self, on):
@@ -1491,58 +1610,12 @@ class Viewport(QOpenGLWidget):
     def paint_overlay(self, p: QPainter):
         dark = self.settings.get("dark_background", True)
         self._paint_section_labels(p, dark)
-        self._paint_landmarks(p, dark)
         self._paint_structure_labels(p)
         self._paint_on_body_search(p)
         self._paint_measure(p, dark)
         if self.settings.get("show_gizmo", False):
             self._paint_gizmo(p, dark)
         self._paint_hover(p)
-
-    def _paint_landmarks(self, p, dark):
-        if not self._lm_cache:
-            return
-        font = QFont(self.font())
-        font.setPointSizeF(float(self.settings.get('label_size', 8.6)))
-        p.setFont(font)
-        fm = QFontMetricsF(font)
-        placed = []
-        centers = {}
-        for i, pr, occluded in sorted(self._lm_cache, key=lambda t: (t[2], t[0] != self.focus_landmark)):
-            lm = self.ds.landmarks[i]
-            sid = lm["sid"]
-            if sid not in centers:
-                c = self.project(self.ds.centroid[sid])
-                centers[sid] = c
-            c = centers[sid]
-            ax, ay = pr[0], pr[1]
-            dx, dy = (ax - c[0], ay - c[1]) if c else (1.0, -1.0)
-            ln = math.hypot(dx, dy) or 1.0
-            dx, dy = dx / ln, dy / ln
-            focus = i == self.focus_landmark
-            lx, ly = ax + dx * 46, ay + dy * 46
-            text = lm["name"]
-            tw = fm.horizontalAdvance(text) + 12
-            th = fm.height() + 4
-            rx = lx if dx >= 0 else lx - tw
-            rect = QRectF(rx, ly - th / 2, tw, th)
-            if focus:
-                occluded = False
-            alpha = 90 if occluded else 235
-            dot = QColor(79, 195, 247, alpha) if not focus else QColor(255, 214, 92, 255)
-            p.setPen(QPen(dot, 1.3))
-            p.drawLine(QPointF(ax, ay), QPointF(lx, ly))
-            p.setBrush(dot if not occluded else Qt.NoBrush)
-            p.drawEllipse(QPointF(ax, ay), 3.2 if not focus else 4.5, 3.2 if not focus else 4.5)
-            if any(rect.intersects(r) for r in placed) and not focus:
-                continue
-            placed.append(rect.adjusted(-2, -2, 2, 2))
-            bg = QColor("#f2f6f8")
-            p.setPen(QPen(QColor("#8096a5"), 1.0))
-            p.setBrush(bg)
-            p.drawRoundedRect(rect, 8, 8)
-            p.setPen(QColor("#526570") if occluded else QColor("#263b47"))
-            p.drawText(rect, Qt.AlignCenter, text)
 
     def _paint_gizmo(self, p, dark):
         right, up, back = self.camera.basis()

@@ -10,6 +10,7 @@ class LabelDockPair(QWidget):
 
     labelsToggled = Signal(bool)
     showAllClicked = Signal()
+    layoutChanged = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -43,12 +44,18 @@ class LabelDockPair(QWidget):
         self.show_all.setVisible(enabled)
         if not enabled:
             self.set_all_open(False)
+        self.layout().invalidate()
+        self.layout().activate()
+        self.updateGeometry()
+        self.layoutChanged.emit()
 
     def set_all_open(self, enabled):
         enabled = bool(enabled)
         self.show_all.setText("Hide all" if enabled else "Show all")
         self.show_all.setToolTip("Close every label caption" if enabled else
                                  "Open a caption beside every visible label")
+        self.updateGeometry()
+        self.layoutChanged.emit()
 
     def set_enabled_state(self, enabled):
         self.show_all.setEnabled(bool(enabled))

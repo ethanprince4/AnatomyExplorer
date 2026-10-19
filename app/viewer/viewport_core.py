@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import colorsys
 import math
+import re
 import time
 
 import numpy as np
@@ -32,7 +33,7 @@ from PySide6.QtGui import QColor, QFont, QFontMetricsF, QPainter, QPainterPath, 
 
 
 def _annotation_plate(dark, alpha):
-    """Porcelain cards remain readable against the 3D scene."""
+    """Compatibility export for backend modules; caption rails do not use cards."""
     return QColor(242, 246, 248, alpha)
 
 
@@ -87,6 +88,7 @@ class ViewportCore:
     historyRequested = Signal(int)
     measureChanged = Signal(str)
     animChanged = Signal(float)          # cycle / clip position, 0..1
+    labelsOpenChanged = Signal(bool)
     viewChanged = Signal(str)            # a named view was chosen
 
     BUTTONS = {"Left": Qt.LeftButton, "Right": Qt.RightButton, "Middle": Qt.MiddleButton}
@@ -141,6 +143,10 @@ class ViewportCore:
         # labels
         self.labels_on = False
         self.reference_labels = {}       # item index -> name, set by a radiology case: label only these parts
+        self._reference_label_entries = None  # None = ordinary model; () = authored empty set
+        self._label_host_ids = {}            # independent caption key -> selectable model item
+        self._label_caption_numbers = {}
+        self._label_specimen_bounds = None
         self.names_hidden = lambda: False    # practice: nothing on screen may name a structure
         self.label_items = []                # [(item, anchor world, area px, text, priority)]
         self.section_items = []              # [(item, anchor world)]
@@ -151,6 +157,9 @@ class ViewportCore:
         self._label_focus = None
         self._label_signature = ()
         self._label_number_ids = ()
+        self._label_selected = set()
+        self._label_all_requested = False
+        self._labels_all_open_last = False
         self.setAccessibleName("Model labels")
         self.setAccessibleDescription("Numbered, clickable visible anatomy labels. Tab moves between labels; Space toggles a caption.")
         self._labels_dirty = True
@@ -242,7 +251,8 @@ class ViewportCore:
 
     def _sync_settings(self):
         s = self.rsettings
-        st = self.settings
+        from ..ui.wall_background import viewport_background
+        st = viewport_background(self, self.settings)
         s.ao = bool(st.get("ssao", True))
         s.ao_strength = float(st.get("ssao_strength", 1.0))
         s.msaa = msaa_samples(st.get("fxaa", True), self.devicePixelRatioF() * self._render_scale())
@@ -645,20 +655,89 @@ class ViewportCore:
             self._label_signature = ()
             self._label_number_ids = ()
             self._label_open.clear()
+            self._label_all_requested = False
+            self._label_dot_rects = []
+            self._label_rects = []
+            self._publish_labels_open_state()
             self.invalidate_labels()
 
+    def set_reference_labels(self, entries):
+        """Install an exclusive case set: [(scan number, caption, item IDs)].
+
+        None restores ordinary model labels. Empty entries deliberately name
+        nothing. Repeated names and repeated parts retain distinct occurrences.
+        """
+        normalized = None if entries is None else tuple(
+            (int(number), str(caption), tuple(dict.fromkeys(int(item) for item in items)))
+            for number, caption, items in entries)
+        if normalized is not None:
+            for number, _caption, items in normalized:
+                if number < 1 or any(item < 0 or item >= len(self.model.items) for item in items):
+                    raise ValueError("Reference label has an invalid scan number or model item")
+        self._reference_label_entries = normalized
+        self.reference_labels = {}
+        self._label_host_ids = {}
+        self._label_caption_numbers = {}
+        self._label_signature = ()
+        self._label_number_ids = ()
+        self._label_open.clear()
+        self._label_focus = self._label_hover = None
+        self._label_all_requested = False
+        self._warm_label_cache = None
+        self.invalidate_labels()
+        self._publish_labels_open_state()
+
+    def _reference_entries(self):
+        if self._reference_label_entries is not None:
+            return self._reference_label_entries
+        if not self.reference_labels:
+            return None
+        entries = []
+        for ordinal, (item, caption) in enumerate(self.reference_labels.items(), 1):
+            match = re.match(r"^(\d+)\s{2,}(.+)$", caption)
+            entries.append((int(match.group(1)) if match else ordinal,
+                            match.group(2) if match else caption, (int(item),)))
+        return tuple(entries)
+
     def show_all_labels(self, enabled=True):
+        # The dock can be used before the first stationary frame supplies anchors.
+        self._label_all_requested = bool(enabled)
         if enabled:
             self._label_open.update(self._label_number_ids or self._label_signature)
         else:
             self._label_open.clear()
-            self._label_open.update(int(s) for s in self.state.selected)
+            self._label_focus = None
+            self._label_hover = None
+        self._publish_labels_open_state()
         self.update()
         self.overlay.update()
 
     def labels_all_open(self):
         ids = set(self._label_number_ids or self._label_signature)
-        return bool(ids) and ids.issubset(self._label_open)
+        return self.labels_on and bool(ids) and ids.issubset(self._label_open)
+
+    def _publish_labels_open_state(self):
+        current = self.labels_all_open()
+        if current != self._labels_all_open_last:
+            self._labels_all_open_last = current
+            self.labelsOpenChanged.emit(current)
+
+    def _sync_label_set(self):
+        signature = tuple(sorted({item for item, *_ in self.label_items} |
+                                 {item for item, _anchor in self.section_items}, key=str))
+        changed = signature != self._label_signature
+        if changed:
+            self._label_signature = signature
+            self._label_number_ids = ()
+            self._label_open.intersection_update(signature)
+        selected = set(int(s) for s in self.state.selected)
+        # Selection opens once. Hide all / Esc remain closed during repaint.
+        newly_selected = selected if changed else selected - self._label_selected
+        self._label_open.update(key for key in signature if self._label_host_ids.get(key, key) in newly_selected)
+        if self._label_all_requested:
+            self._label_open.update(signature)
+        self._label_selected = selected
+        self._publish_labels_open_state()
 
     def mousePressEvent(self, e):
         if e.button() in (Qt.BackButton, Qt.ForwardButton):
@@ -667,18 +746,20 @@ class ViewportCore:
         if e.button() == Qt.LeftButton:
             dot_item = self._label_dot_at(e.position())
             if dot_item is not None:
+                self._label_all_requested = False
                 if dot_item in self._label_open:
                     self._label_open.discard(dot_item)
                 else:
                     self._label_open.add(dot_item)
                 self._label_focus = dot_item
+                self._publish_labels_open_state()
                 self.setFocus(Qt.MouseFocusReason)
                 self.update()
                 self.overlay.update()
                 return
             item = self.label_at(e.position())
             if item is not None:                          # clicking a label picks that structure
-                self.structureClicked.emit(int(item), e.modifiers())
+                self.structureClicked.emit(int(self._label_host_ids.get(item, item)), e.modifiers())
                 return
             if self.measure_mode:
                 hit = self.world_at(e.position())
@@ -761,15 +842,24 @@ class ViewportCore:
                                (Qt.PointingHandCursor if sid >= 0 else Qt.ArrowCursor))
         self.overlay.update()
 
+    def focusNextPrevChild(self, next):
+        if self.labels_on and self._label_signature:
+            return False
+        return super().focusNextPrevChild(next)
+
     def keyPressEvent(self, e):
         ids = list(self._label_number_ids or self._label_signature)
-        if e.key() == Qt.Key_Escape and self._label_open:
+        if e.key() == Qt.Key_Escape and (self._label_open or self._label_all_requested):
+            self._label_all_requested = False
             self._label_open.clear()
+            self._label_focus = None
+            self._label_hover = None
+            self._publish_labels_open_state()
             self.overlay.update()
             e.accept()
             return
-        if ids and e.key() == Qt.Key_Tab:
-            reverse = bool(e.modifiers() & Qt.ShiftModifier)
+        if ids and e.key() in (Qt.Key_Tab, Qt.Key_Backtab):
+            reverse = e.key() == Qt.Key_Backtab or bool(e.modifiers() & Qt.ShiftModifier)
             if self._label_focus not in ids:
                 self._label_focus = ids[-1] if reverse else ids[0]
             else:
@@ -780,10 +870,12 @@ class ViewportCore:
             e.accept()
             return
         if ids and self._label_focus in ids and e.key() in (Qt.Key_Space, Qt.Key_Return, Qt.Key_Enter):
+            self._label_all_requested = False
             if self._label_focus in self._label_open:
                 self._label_open.discard(self._label_focus)
             else:
                 self._label_open.add(self._label_focus)
+            self._publish_labels_open_state()
             self.overlay.update()
             e.accept()
             return
@@ -823,19 +915,25 @@ class ViewportCore:
     # ------------------------------------------------------------------ labels
     def label_hosts(self):
         """(items to label individually, whether whole groups may be labelled once)."""
-        if self.names_hidden() or not self.settings.get("show_landmarks", True):
+        if self.names_hidden() or not self.labels_on or not self.settings.get("show_landmarks", True):
             return [], False
         sel = [int(s) for s in self.state.selected]
-        if self.reference_labels:
+        references = self._reference_entries()
+        if references is not None:
             vis = self.state.visible_mask()
-            return sel + [i for i in self.reference_labels if vis[i] and i not in sel], False
+            return list(dict.fromkeys(i for _number, _caption, ids in references for i in ids if vis[i])), False
         if self.labels_on:
             vis = self.state.visible_mask()
             ghost = self.state.ghost_focus
-            items = [it.index for it in self.model.items if vis[it.index] and it.label
+            # Older shipped NPZ models stored every label flag as false to start
+            # without captions. The explicit Labels mode still needs candidates.
+            # Preserve curated subsets whenever the model supplies any labels.
+            authored = any(it.label for it in self.model.items)
+            items = [it.index for it in self.model.items if vis[it.index] and (it.label or not authored)
+                     and it.role != "annotation"
                      and (ghost is None or ghost[it.index])]
             return sel + [i for i in items if i not in sel], True
-        return sel, False
+        return [], False
 
     def _compute_labels(self):
         """Anchors for the labels, from the frame just drawn: each labelled item's dot goes where it is most
@@ -844,24 +942,20 @@ class ViewportCore:
         self.label_items, self.section_items = [], []
         self._occluded = {}
         hosts, grouping = self.label_hosts()
-        want_sections = self.any_cut() and self.settings.get("section_labels", True) and not self.names_hidden() \
+        want_sections = self.labels_on and self.any_cut() and self.settings.get("section_labels", True) and not self.names_hidden() \
             and self.settings.get("show_landmarks", True)
         if not hosts and not want_sections:
             self._label_signature = ()
             self._label_number_ids = ()
             self._label_open.clear()
+            self._publish_labels_open_state()
             return
         cache_key = self._label_cache_key()
         cached = getattr(self, "_warm_label_cache", None)
         if cached is not None and cached[0] == cache_key:
             self.label_items, self.section_items = list(cached[1]), list(cached[2])
             self._occluded = dict(cached[3])
-            signature = tuple(sorted(item for item, *_ in self.label_items))
-            if signature != self._label_signature:
-                self._label_signature = signature
-                self._label_number_ids = ()
-                self._label_open.intersection_update(signature)
-            self._label_open.update(i for i in self.state.selected if i in signature)
+            self._sync_label_set()
             return
         rw, rh = self.renderer.size
         k = max(1, int(round(min(rw, rh) / 420)))
@@ -882,12 +976,25 @@ class ViewportCore:
         except Exception:                      # noqa: BLE001 - a lost context just means no labels this frame
             return
         valid = ids_s >= 0
+        yy, xx = np.nonzero(valid)
+        self._label_specimen_bounds = ((float(xx.min() * k) / rw * self.width(),
+            float(yy.min() * k) / rh * self.height(),
+            float(min(rw, (xx.max() + 1) * k)) / rw * self.width(),
+            float(min(rh, (yy.max() + 1) * k)) / rh * self.height()) if len(xx) else None)
         n = len(self.model.items)
         counts = np.bincount(ids_s[valid], minlength=n)[:n]
         cap_counts = np.bincount(ids_s[valid & ((flags_s & 2) != 0)], minlength=n)[:n]
         min_px = max(6, int(40 / (k * k)))
         limit = int(self.settings.get("max_landmarks", 60))
         sel = set(int(s) for s in self.state.selected)
+        references = self._reference_entries()
+        self._label_host_ids = {}
+        self._label_caption_numbers = {}
+        if references is not None:
+            self._compute_reference_labels(references, ids_s, flags_s, k, depth, center_ids, counts)
+            self._sync_label_set()
+            self._warm_label_cache = (cache_key, list(self.label_items), [], dict(self._occluded))
+            return
 
         # which to label: the selection always, one at a time; with labels on, everything visible, biggest first,
         # a crowded group (numbered copies, many small pieces) named once where it shows most
@@ -916,12 +1023,6 @@ class ViewportCore:
             if anchor is not None:
                 out.append((i, anchor, int(counts[i]), text, 0 if i in sel else 1))
         self.label_items = out
-        signature = tuple(sorted(item for item, *_ in out))
-        if signature != self._label_signature:
-            self._label_signature = signature
-            self._label_number_ids = ()
-            self._label_open.intersection_update(signature)
-        self._label_open.update(i for i in sel if i in signature)
         if want_sections:
             secs = [i for i in np.nonzero(cap_counts >= min_px)[0]]
             secs.sort(key=lambda i: -cap_counts[i])
@@ -932,6 +1033,7 @@ class ViewportCore:
                 if anchor is not None:
                     res.append((int(i), anchor))
             self.section_items = res
+        self._sync_label_set()
         if center_ids is None and (self.label_items or self.section_items):
             self._check_occlusion()
         self._warm_label_cache = (cache_key, list(self.label_items), list(self.section_items), dict(self._occluded))
@@ -945,9 +1047,114 @@ class ViewportCore:
                 state.visible_mask().tobytes(), tuple(state.selected), arrays, bool(getattr(state,"opaque_materials",False)),
                 repr(self.clip_config()), self.explode, self.anim_t, self.reveal_state,
                 self.reveal_amount, bool(self.labels_on), bool(self.names_hidden()),
-                tuple(sorted(self.reference_labels.items())),
+                self._reference_entries(),
                 tuple(self.settings.get(name) for name in ("max_landmarks", "max_section_labels",
                                                            "section_labels", "show_landmarks")))
+
+    def _compute_reference_labels(self, entries, ids, flags, step, depth, center_ids, counts):
+        """Anchor every authored occurrence on its visible parts, including repeats."""
+        from scipy.ndimage import distance_transform_edt
+        available = ids.copy()
+        visible = self.state.visible_mask()
+        out = []
+        for occurrence, (number, caption, members) in enumerate(entries):
+            candidates = [item for item in members if visible[item] and counts[item] > 0]
+            if candidates:
+                remaining = {item: int(np.count_nonzero(available == item)) for item in candidates}
+                item = max(candidates, key=lambda candidate: (remaining[candidate], counts[candidate]))
+                samples = available if remaining[item] else ids
+                cut_flags = flags if self.any_cut() and np.any((samples == item) & ((flags & 2) != 0)) else None
+                anchor = self._anchor(samples, item, cut_flags, step, depth, distance_transform_edt, center_ids)
+            else:
+                translucent = self._reference_translucent_anchor(members, ids, depth, center_ids, step)
+                if translucent is None:
+                    continue
+                item, anchor = translucent
+            if anchor is None:
+                continue
+            key = ("reference", occurrence)
+            self._label_host_ids[key] = item
+            self._label_caption_numbers[key] = number
+            self._occluded[key] = self._occluded.get(item, False)
+            out.append((key, anchor, int(counts[item]), caption, 1))
+            # Two case names may resolve to the same native mesh (nipple/areola).
+            # Reserve separate real visible pixels so their numbered buttons do
+            # not collapse through an item->caption dictionary.
+            point = self.project(anchor)
+            if point is not None:
+                gx = int(point[0] / max(1, self.width()) * self.renderer.size[0] / step)
+                gy = int(point[1] / max(1, self.height()) * self.renderer.size[1] / step)
+                radius = max(1, int(30 * self.renderer.size[0] / max(1, self.width()) / step))
+                y0, y1 = max(0, gy - radius), min(ids.shape[0], gy + radius + 1)
+                x0, x1 = max(0, gx - radius), min(ids.shape[1], gx + radius + 1)
+                ys, xs = np.ogrid[y0:y1, x0:x1]
+                patch = available[y0:y1, x0:x1]
+                patch[((xs - gx) ** 2 + (ys - gy) ** 2 <= radius ** 2) & (patch == item)] = -1
+        self.label_items = out
+
+    def _reference_translucent_anchor(self, members, ids, depth, center_ids, step):
+        """A real on-screen mesh vertex of translucent anatomy, free of nearer solids.
+
+        Ghost skin is drawn after the opaque ID pass. Sampling its actual mesh
+        and comparing linear frame depth permits its label without inventing a
+        centroid behind opaque tissue or naming anatomy outside the view.
+        """
+        camera = getattr(self.renderer, "last_camera", None)
+        if camera is None:
+            return None
+        from scipy.ndimage import distance_transform_edt
+        visible = self.state.visible_mask()
+        ghost = self.state.ghost_focus
+        part_alpha = getattr(self.state, "part_alpha", None)
+        foreground = center_ids if center_ids is not None else ids
+        clearance = distance_transform_edt(foreground < 0)
+        planes, active, mode = self.clip_config()
+        for item in members:
+            if not visible[item]:
+                continue
+            alpha = float(part_alpha[item]) if part_alpha is not None else 1.0
+            materials = [part.look.alpha for part in self.model.items[item].parts]
+            ghosted = ghost is not None and not ghost[item]
+            translucent = alpha < .999 or any(value < .999 for value in materials)
+            if alpha <= 0 or (materials and max(materials) <= 0) or not (ghosted or translucent):
+                continue
+            if ghosted and float(self.settings.get("ghost_alpha", .1)) <= 0:
+                continue
+            points = self.model.item_vertices(item, limit=2048)
+            if not len(points):
+                continue
+            homogeneous = np.column_stack((points, np.ones(len(points))))
+            clip = homogeneous @ self.renderer.last_vp.T
+            front = clip[:, 3] > 1e-6
+            ndc = clip[:, :3] / np.maximum(clip[:, 3:4], 1e-6)
+            keep = front & np.all(np.abs(ndc) < 1, axis=1)
+            if any(active) and self.model.items[item].clip:
+                negative = homogeneous @ np.asarray(planes, dtype=float).T < 0
+                cuts = negative[:, np.asarray(active, dtype=bool)]
+                keep &= ~(cuts.all(axis=1) if mode == 1 else cuts.any(axis=1))
+            px = np.clip(((ndc[:, 0] * .5 + .5) * self.renderer.size[0] / step).astype(int), 0, ids.shape[1] - 1)
+            py = np.clip(((1 - (ndc[:, 1] * .5 + .5)) * self.renderer.size[1] / step).astype(int), 0, ids.shape[0] - 1)
+            linear = -(homogeneous @ np.asarray(camera[0]).T)[:, 2]
+            solid_depth = depth[py, px] if center_ids is not None else depth[
+                np.minimum(py * step + step // 2, depth.shape[0] - 1),
+                np.minimum(px * step + step // 2, depth.shape[1] - 1)]
+            tolerance = max(1e-6, self.camera.scene_radius * .002)
+            keep &= (foreground[py, px] < 0) | (solid_depth <= 0) | (linear <= solid_depth + tolerance)
+            choices = np.flatnonzero(keep)
+            if not len(choices):
+                continue
+            score = clearance[py[choices], px[choices]]
+            chosen = choices[int(np.argmax(score))]
+            # Include this visible translucent silhouette in outward rail placement.
+            sx = (ndc[choices, 0] * .5 + .5) * self.width()
+            sy = (1 - (ndc[choices, 1] * .5 + .5)) * self.height()
+            bounds = (float(sx.min()), float(sy.min()), float(sx.max()), float(sy.max()))
+            if self._label_specimen_bounds is not None:
+                old = self._label_specimen_bounds
+                bounds = (min(old[0], bounds[0]), min(old[1], bounds[1]), max(old[2], bounds[2]), max(old[3], bounds[3]))
+            self._label_specimen_bounds = bounds
+            return item, points[chosen].copy()
+        return None
 
     def _anchor(self, ids_s, item, flags_s, k, depth, edt, center_ids=None):
         mask = ids_s == item
@@ -1072,163 +1279,43 @@ class ViewportCore:
         return f
 
     def _paint_labels(self, p, dark):
-        """Number anchors on the visible model and stack only open captions beside it."""
-        if not self.label_items:
+        """Use one numbered-circle layer for models, lessons, cases and cut faces."""
+        from ..ui.label_rails import paint_label_rails
+        if not self.labels_on:
             return
-        font = self._font()
-        p.setFont(font)
-        fm = QFontMetricsF(font)
-        w, h = float(self.width()), float(self.height())
-        proj = []
-        for i, a, area, text, prio in self.label_items:
-            pr = self.project(a)
-            if pr is None or not (0 <= pr[0] < w and 0 <= pr[1] < h) or pr[2] >= 1.0:
-                continue
-            proj.append((i, pr, area, text, prio))
-        if not proj:
-            return
-        label_ids = {row[0] for row in self.label_items}
-        if set(self._label_number_ids) != label_ids:
-            positions = {}
-            for order, (item, anchor, *_rest) in enumerate(self.label_items):
-                point = self.project(anchor)
-                positions[item] = ((point[1], point[0], order) if point is not None
-                                   else (h + order, w + order, order))
-            self._label_number_ids = tuple(sorted(label_ids, key=lambda item: positions[item]))
-        number = {item: n for n, item in enumerate(self._label_number_ids)}
-        ordered = sorted(proj, key=lambda row: number[row[0]])
-        sel = set(int(s) for s in self.state.selected)
-        for number, (i, pr, _area, _text, _prio) in enumerate(ordered, 1):
-            x, y = pr[:2]
-            selected = i in sel
-            hovered = i == self._label_hover
-            focused = i == self._label_focus and self.hasFocus()
-            radius = 12.0
-            disc = theme.qc(theme.ACCENT if selected else theme.RAISED)
-            ink = theme.qc(theme.ON_ACCENT if selected else theme.TEXT_STRONG)
-            if hovered:
-                disc = theme.qc(theme.ACCENT_SOFT)
-                ink = theme.qc(theme.TEXT_STRONG)
-            p.setPen(QPen(theme.qc(theme.BORDER_STRONG), 1.0))
-            p.setBrush(disc)
-            p.drawEllipse(QPointF(x, y), 9.0, 9.0)
-            p.setPen(ink)
-            p.drawText(QRectF(x - radius, y - radius, radius * 2, radius * 2), Qt.AlignCenter, str(number))
-            if focused:
-                p.setPen(QPen(theme.qc(theme.TEXT), 2.0))
-                p.setBrush(Qt.NoBrush)
-                p.drawEllipse(QPointF(x, y), 13.0, 13.0)
-            self._label_dot_rects.append((QRectF(x - 14.0, y - 14.0, 28.0, 28.0), i))
-
-        # Keep captions in two side rails. The rail starts outside the projected anchor span,
-        # and every open row is packed in anchor order at a fixed, readable pitch.
-        sides = {-1: [], 1: []}
-        for row in ordered:
-            i, pr = row[0], row[1]
-            sides[-1 if pr[0] < w * 0.5 else 1].append(row)
-        pitch = max(30.0, fm.height() + 12.0)
-        for side, rows in sides.items():
-            rows = [row for row in rows if row[0] in self._label_open or row[0] == self._label_hover]
-            if not rows:
-                continue
-            rows.sort(key=lambda row: row[1][1])
-            anchors = [row[1][0] for row in sides[side]]
-            rail_x = (min(anchors) - 26.0) if side < 0 else (max(anchors) + 26.0)
-            max_width = min(w * 0.34, max(90.0, w * 0.34))
-            sample = max(fm.horizontalAdvance(row[3]) for row in rows)
-            tw = min(max_width, sample + 12.0)
-            base_x = max(4.0, min(w - tw - 4.0, rail_x if side > 0 else rail_x - tw))
-            capacity = max(1, int((h - 36.0) / pitch) + 1)
-            for col, start in enumerate(range(0, len(rows), capacity)):
-                column = rows[start:start + capacity]
-                ys = [float(row[1][1]) for row in column]
-                for k in range(1, len(ys)):
-                    ys[k] = max(ys[k], ys[k - 1] + pitch)
-                over = ys[-1] - (h - 18.0)
-                if over > 0:
-                    ys = [y - over for y in ys]
-                    for k in range(len(ys) - 2, -1, -1):
-                        ys[k] = min(ys[k], ys[k + 1] - pitch)
-                for row, cy in zip(column, ys):
-                    i, pr, _area, text, _prio = row
-                    x = max(4.0, min(w - tw - 4.0,
-                                     base_x + col * (tw + 8.0) if side > 0 else
-                                     base_x - col * (tw + 8.0)))
-                    cy = max(18.0, min(h - 18.0, cy))
-                    faint = i == self._label_hover and i not in self._label_open
-                    ax, ay = pr[:2]
-                    join_x = x + tw if side < 0 else x
-                    knee_x = join_x + (12.0 if side < 0 else -12.0)
-                    p.setPen(QPen(theme.qc(theme.BORDER_STRONG, 180 if faint else 235), 1.0))
-                    p.drawLine(QPointF(ax, ay), QPointF(knee_x, cy))
-                    p.drawLine(QPointF(knee_x, cy), QPointF(join_x, cy))
-                    text_rect = QRectF(x, cy - fm.height() / 2 - 2, tw, fm.height() + 4)
-                    p.setPen(theme.qc(theme.MUTED if faint else theme.TEXT))
-                    text_font = QFont(font)
-                    text_font.setBold(i in sel)
-                    p.setFont(text_font)
-                    p.drawText(text_rect, Qt.AlignVCenter | (Qt.AlignRight if side < 0 else Qt.AlignLeft),
-                               fm.elidedText(text, Qt.ElideRight, int(tw)))
-                    p.setFont(font)
-                    self._label_rects.append((QRectF(text_rect), i))
+        rows = {item: (anchor, text) for item, anchor, _area, text, _priority in self.label_items}
+        for item, anchor in self.section_items:
+            rows[item] = (anchor, self.reference_labels.get(item, self.model.items[item].name))
+        visible, authored_numbers = [], {}
+        for item, (anchor, text) in rows.items():
+            match = re.match(r"^(\d+)\s{2,}(.+)$", text)
+            if match:
+                authored_numbers[item] = int(match.group(1))
+                text = match.group(2)
+            point = self.project(anchor)
+            if point is not None and 0 <= point[0] < self.width() and 0 <= point[1] < self.height() and point[2] < 1:
+                visible.append((item, self._label_host_ids.get(item, item), point[0], point[1], text))
+        if set(self._label_number_ids) != set(rows):
+            projected = [(item, self.project(anchor)) for item, (anchor, _text) in rows.items()]
+            self._label_number_ids = tuple(item for item, _point in sorted(
+                projected, key=lambda row: (row[1][1], row[1][0], row[0]) if row[1] else
+                (float('inf'), float('inf'), row[0])))
+        full_numbers = {item: number for number, item in enumerate(self._label_number_ids, 1)}
+        full_numbers.update(authored_numbers)
+        full_numbers.update(self._label_caption_numbers)
+        visible_ids = {row[0] for row in visible}
+        _numbers, self._label_dot_rects, self._label_rects = paint_label_rails(
+            p, (self.width(), self.height()), self._font(), visible,
+            tuple(item for item in self._label_number_ids if item in visible_ids),
+            self._label_open, set(int(s) for s in self.state.selected), self._label_hover,
+            self._label_focus if self.hasFocus() else None, full_numbers,
+            specimen_bounds=self._label_specimen_bounds,
+            insets=getattr(self, "label_stage_insets", (16, 24, 16, 24)),
+            caption_zones=getattr(self, "label_caption_zones", None))
 
     def _paint_section_labels(self, p, dark):
-        """Everything a cut face shows, named in two columns down the sides like an atlas plate."""
-        if not self.section_items:
-            return
-        font = self._font()
-        p.setFont(font)
-        fm = QFontMetricsF(font)
-        w, h = float(self.width()), float(self.height())
-        line_h = fm.height() + 7
-        margin = 12.0
-        columns = {-1: [], 1: []}
-        for i, anchor in self.section_items:
-            pr = self.project(anchor)
-            if pr is None or not (0 <= pr[0] <= w and 0 <= pr[1] <= h):
-                continue
-            columns[-1 if pr[0] < w * 0.5 else 1].append((i, pr))
-        sel = set(int(s) for s in self.state.selected)
-        anchors=[pr[0] for items in columns.values() for _,pr in items]
-        model_left=min(anchors) if anchors else w*.5
-        model_right=max(anchors) if anchors else w*.5
-        for side, items in columns.items():
-            if not items:
-                continue
-            items.sort(key=lambda t: t[1][1])
-            ys = [float(pr[1]) for _, pr in items]
-            for k in range(1, len(ys)):
-                ys[k] = max(ys[k], ys[k - 1] + line_h)
-            bottom = h - 108.0 if side < 0 and self.orientation_axes_on else h - 34.0
-            over = ys[-1] - (bottom - line_h)
-            if over > 0:
-                ys = [y - over for y in ys]
-                for k in range(len(ys) - 2, -1, -1):
-                    ys[k] = min(ys[k], ys[k + 1] - line_h)
-            for (i, pr), ly in zip(items, ys):
-                ly = max(line_h * 0.6, min(bottom - line_h * 0.6, ly))
-                text = self.model.items[i].name
-                tw = min(fm.horizontalAdvance(text) + 12, w * 0.28)
-                x0 = max(margin,model_left-32-tw) if side < 0 else min(w-margin-tw,model_right+32)
-                rect = QRectF(x0, ly - line_h / 2 + 2, tw, fm.height() + 4)
-                join_x = rect.right() if side < 0 else rect.left()
-                elbow_x = join_x + 16 * -side
-                if (side < 0 and pr[0] < elbow_x) or (side > 0 and pr[0] > elbow_x):
-                    elbow_x = pr[0]
-                accent = QColor(255, 214, 92) if i in sel else QColor(120, 205, 255)
-                faded = QColor(accent.red(), accent.green(), accent.blue(), 150)
-                p.setPen(QPen(faded, 1.1))
-                p.drawLine(QPointF(pr[0], pr[1]), QPointF(elbow_x, ly))
-                p.drawLine(QPointF(elbow_x, ly), QPointF(join_x, ly))
-                p.setBrush(accent)
-                p.setPen(Qt.NoPen)
-                p.drawEllipse(QPointF(pr[0], pr[1]), 2.6, 2.6)
-                p.setPen(QPen(QColor("#8096a5"), 1.0))
-                p.setBrush(_annotation_plate(dark, 220 if dark else 228))
-                p.drawRoundedRect(rect, 8, 8)
-                p.setPen(QColor(36, 52, 61))
-                p.drawText(rect, Qt.AlignCenter, fm.elidedText(text, Qt.ElideRight, tw - 10))
-                self._label_rects.append((QRectF(rect), i))
+        # Cut faces share the interactive layer instead of adding legacy name cards.
+        pass
 
     def _paint_measure(self, p, dark):
         pts = self.measure_points
