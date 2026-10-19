@@ -1029,6 +1029,8 @@ class Renderer:
         self._set(p, "u_depth", 2)
         self._set(p, "u_bg_top", top)
         self._set(p, "u_bg_bottom", bottom)
+        self._set(p, "u_bg_spot", self._rgb(settings, "bg_spot", "#303539"))
+        self._set(p, "u_bg_spot_strength", float(settings.get("bg_spot_strength", 0.0)))
         self._set(p, "u_ao_strength", float(settings.get("ssao_strength", 1.0)))
         self._set(p, "u_ao_on", int(ao_on))
         self.fs["composite"].render(vertices=3)

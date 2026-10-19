@@ -318,6 +318,35 @@ def _align(n, a=256):
     return (n + a - 1) // a * a
 
 
+def _geometry_for_model(model, sink_factory, page_bytes, max_pages, cluster_order, compress):
+    """Load GPU pages from the per-user store, populating it on a miss; retain the normal build as fallback.
+
+    The store has its own identity and shaping checks. Models without a prepared identity (and animated models) simply
+    take the existing build path. Cache failures are deliberately misses: a failed partial upload is abandoned with
+    its sink, so the normal build cannot inherit staged writes to destroyed buffers.
+    """
+    from . import page_cache
+
+    key = page_cache.make_key(model, page_bytes, max_pages, cluster_order, compress)
+    if key is not None and page_cache.cache_root() is not None:
+        options = dict(max_pages=max_pages, cluster_order=cluster_order, compress=compress, key=key)
+        try:
+            sink = sink_factory()
+            geom = page_cache.load(model, sink, page_bytes, **options)
+            if geom is not None:
+                return geom
+            if page_cache.bake(model, page_bytes, **options) is not None:
+                # A first open bakes to disk, then takes the same verified read path as subsequent opens.
+                sink = sink_factory()
+                geom = page_cache.load(model, sink, page_bytes, **options)
+                if geom is not None:
+                    return geom
+        except Exception as exc:
+            log.debug("wgpu page cache miss; building geometry normally: %s", exc)
+    return geo.build_geometry(model, sink_factory(), page_bytes, max_pages=max_pages,
+                              cluster_order=cluster_order, compress=compress)
+
+
 class WgpuRenderer:
     """GL Renderer's public API on wgpu. ``gpu`` is app.gpu.device.Gpu (or anything with device, queue, features,
     limits, info, prim_index)."""
@@ -603,11 +632,11 @@ class WgpuRenderer:
                                       f"e.g. {cut[0]})")
         try:
             self.model = model
-            sink = geo.GpuSink(self.device)
             order = self._wants_cluster_order(model)
+            compress = order and self._wants_compress(model)
             try:
-                self.geom = geo.build_geometry(model, sink, self.page_bytes, max_pages=self.max_pages, cluster_order=order,
-                                               compress=order and self._wants_compress(model))
+                self.geom = _geometry_for_model(model, lambda: geo.GpuSink(self.device), self.page_bytes,
+                                                self.max_pages, order, compress)
                 if int(self.geom.stage) != self._cmp:              # modules and pipelines are built for one of the stages
                     self._cmp = int(self.geom.stage)
                     self._pipes.clear()
@@ -1541,9 +1570,12 @@ class WgpuRenderer:
         top, bottom = s.background if s.background is not None else (world.get("top_hex", "#20242b"),
                                                                       world.get("bottom_hex", "#12141a"))
         k = 2.0 ** -float(s.exposure)          # the backdrop keeps its colour whatever the exposure
+        background_spot = getattr(s, "background_spot", None)
+        spot = None if background_spot is None else np.array(backdrop_linear(background_spot, s.tonemap)) * k
+        spot_strength = float(getattr(s, "background_spot_strength", 0.0))
         post.pending_ts = self._ts(qs, 12, 13)
         post.run_backdrop(T["bg"], np.array(backdrop_linear(bottom, s.tonemap)) * k, np.array(backdrop_linear(top, s.tonemap)) * k,
-                          encoder=enc)
+                          encoder=enc, spot=spot, spot_strength=spot_strength)
         # ---- 1. visibility pass
         cut_cls = self._cut_classes(entries, clip_planes, clip_on, fs.clip_mode, V, Pm, h, bool(camera.ortho)) if (any_clip and entries and self.classify_cut) else None
         fd = self._frame_draws(entries)

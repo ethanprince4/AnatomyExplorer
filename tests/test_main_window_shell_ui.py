@@ -106,9 +106,36 @@ class IntegratedShellTests(unittest.TestCase):
         win.resize(1580, 960); win._adapt_workspace()
         self.assertFalse(win._compact_layout)
 
+    def test_global_search_clear_and_room_navigation_clear_real_query(self):
+        win = self.window
+        win.studio_header.search.setText('heart')
+        win.search._timer.stop(); win.search._run()
+        self.assertEqual(win.search.edit.text(), 'heart')
+        win.studio_header.search.clear()
+        self.assertEqual(win.search.edit.text(), '')
+        self.assertEqual(win.search.shown, 0)
+        win.studio_header.search.setText('kidney')
+        win.show_histology_tab()
+        self.assertEqual(win.studio_header.search.text(), '')
+        self.assertEqual(win.search.edit.text(), '')
+        self.assertIs(win.collection_workspace.pages.currentWidget(), win.histology_panel)
+
+    def test_search_choice_closes_results_without_losing_selection(self):
+        win = self.window
+        win.studio_header.search.setText('biceps')
+        win.search._timer.stop(); win.search._run()
+        entry = next(item for item in win.index.entries if item.kind == 'structure' and item.sids)
+        with patch.object(win, 'select_and_focus') as choose:
+            win.on_search_activated(entry)
+        choose.assert_called_once()
+        self.assertEqual(win.studio_header.search.text(), '')
+        self.assertEqual(win.search.shown, 0)
+        self.assertTrue(win.left_dock.isHidden())
+
     def test_failed_model_stays_recoverable_and_callbacks_do_not_hang(self):
         win = self.window
         model_id = next(iter(win.content.micro_models))
+        room_count = win.center.count()
         calls = []
         win.open_micro(model_id, on_ready=calls.append)
         pending = win._loading_models[model_id]
@@ -120,7 +147,7 @@ class IntegratedShellTests(unittest.TestCase):
         self.assertEqual(calls, [None, None, None])
         pending.retry.click()
         self.assertIsNot(win._loading_models[model_id], pending)
-        self.assertEqual(win.center.count(), 3)
+        self.assertEqual(win.center.count(), room_count + 1)
         win._close_center_tab(win.center.indexOf(win._loading_models[model_id]))
         self.assertEqual(win._loading_models, {})
 
@@ -181,13 +208,12 @@ class IntegratedShellTests(unittest.TestCase):
         from app.ui.card_list import ROLE_KIND, ROLE_LEVEL, ROLE_GROUP_KEY
         panel = self.window.lessons_panel
         panel.show_course()
-        headers = [panel.list.item(i) for i in range(panel.list.count())
-                   if panel.list.item(i).data(ROLE_KIND) == 'header']
-        self.assertEqual([h.data(ROLE_GROUP_KEY) for h in headers],
-                         [f'lab-lab-{i}' for i in range(1, 6)] + ['lab-exam-1'] +
-                         [f'lab-lab-{i}' for i in range(6, 10)] + ['lab-exam-2'])
-        self.assertTrue(all(panel.by_id[panel.list.item(i).data(Qt.UserRole)].unit_key
-                            for i in range(panel.list.count()) if panel.list.item(i).data(Qt.UserRole)))
+        self.assertEqual([panel.unit_grid.item(i).data(Qt.UserRole) for i in range(panel.unit_grid.count())],
+                         [f'lab-{i}' for i in range(1, 6)] + ['exam-1'] +
+                         [f'lab-{i}' for i in range(6, 10)] + ['exam-2'])
+        self.assertTrue(all(panel.by_id[panel.unit_list.item(i).data(Qt.UserRole)].unit_key
+                            for i in range(panel.unit_list.count()) if panel.unit_list.item(i).data(Qt.UserRole)))
+        self.assertTrue(all(not panel.unit_list.item(i).isHidden() for i in range(panel.unit_list.count())))
         panel.show_lecture()
         exam = panel.list.item(0)
         chapter = panel.list.item(1)

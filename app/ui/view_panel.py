@@ -3,6 +3,7 @@ from PySide6.QtWidgets import (QCheckBox, QComboBox, QGridLayout, QGroupBox, QHB
                                QPushButton, QScrollArea, QSlider, QVBoxLayout, QWidget)
 
 from ..actions import SELECT_MODIFIER
+from .depth_gauge import DepthGauge
 from .stable_rows import fill_list
 from . import theme
 from .shell import ElidingCheckBox
@@ -19,7 +20,7 @@ def slider(lo, hi, value):
 
 # Landmarks along the dissection, used by the Deeper / Shallower steps and shown under the slider.
 DISSECTION_STOPS = [
-    (0.00, "Skin surface"),
+    (0.00, "Intact anatomy"),
     (0.08, "Superficial fascia"),
     (0.16, "Deep fascia"),
     (0.26, "Superficial muscles"),
@@ -101,14 +102,12 @@ class ViewPanel(QWidget):
 
         g = QGroupBox("Dissection")
         dl = QVBoxLayout(g)
-        blurb = QLabel("Peel the body apart from the skin inwards. Depth is measured as a fraction of how thick "
+        blurb = QLabel("Reveal anatomy from the exposed surface inward. Depth is measured as a fraction of how thick "
                        "the body is at each point, so the hand and the thigh are uncovered together.")
         blurb.setWordWrap(True)
         blurb.setStyleSheet(theme.text_css(theme.TEXT_2))
         dl.addWidget(blurb)
-        self.depth_slider = slider(0, 1000, 0)
-        self.depth_slider.setAccessibleName("Dissection depth")
-        self.depth_slider.setToolTip("0 is intact; 1000 is the deepest dissection")
+        self.depth_slider = DepthGauge(DISSECTION_STOPS)
         self.depth_slider.setEnabled(False)
         self.depth_slider.valueChanged.connect(lambda _=0: self._depth())
         dl.addWidget(self.depth_slider)

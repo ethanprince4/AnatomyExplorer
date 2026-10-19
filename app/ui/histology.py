@@ -1,9 +1,9 @@
 import html
 
 from PySide6.QtCore import QPointF, QRectF, QSize, Qt, QUrl, Signal
-from PySide6.QtGui import QColor, QDesktopServices, QFont, QFontMetricsF, QIcon, QPainter, QPen, QPixmap
+from PySide6.QtGui import QColor, QDesktopServices, QFont, QFontMetricsF, QIcon, QPainter, QPen, QPixmap, QLinearGradient
 from PySide6.QtWidgets import (QBoxLayout, QCheckBox, QComboBox, QFrame, QGraphicsPixmapItem, QGraphicsScene, QGraphicsView, QHBoxLayout, QLabel,
-                               QLineEdit, QListWidget, QMenu, QPushButton, QSplitter, QTextBrowser,
+                               QLineEdit, QListWidget, QListWidgetItem, QMenu, QPushButton, QSplitter, QTextBrowser,
                                QVBoxLayout, QWidget)
 
 from . import theme
@@ -14,6 +14,7 @@ from .image_workspace import (LocalImageLoader, control, matches_words, searchab
 
 ROLE = Qt.UserRole + 1
 SEARCH_ROLE = Qt.UserRole + 2
+GROUP_ROLE = Qt.UserRole + 3
 
 
 def esc(s):
@@ -36,8 +37,59 @@ def linked_structure_names(ds, tissue):
     return sorted(names)
 
 
+class HistologyCatalogue(Outline):
+    """One scrollable catalogue with gentle edge fades; item rows can carry real slide thumbnails."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setRowHeight(52)
+
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        bar = self.verticalScrollBar()
+        height = self.viewport().height()
+        if height < 1:
+            return
+        p = QPainter(self.viewport())
+        p.setCompositionMode(QPainter.CompositionMode_SourceOver)
+        if bar.value() > 0:
+            gradient = QLinearGradient(0, 0, 0, 86)
+            gradient.setColorAt(0.0, theme.qc(theme.SURFACE))
+            gradient.setColorAt(1.0, QColor(theme.SURFACE + "00"))
+            p.fillRect(0, 0, self.viewport().width(), 86, gradient)
+        if bar.value() < bar.maximum():
+            gradient = QLinearGradient(0, height - 118, 0, height)
+            gradient.setColorAt(0.0, QColor(theme.SURFACE + "00"))
+            gradient.setColorAt(1.0, theme.qc(theme.SURFACE))
+            p.fillRect(0, height - 118, self.viewport().width(), 118, gradient)
+        p.end()
+
+
+class TissuePreview(QLabel):
+    """A tissue thumbnail that remains fitted as the detail column receives its layout size."""
+
+    def __init__(self, text="", parent=None):
+        super().__init__(text, parent)
+        self._source_pixmap = QPixmap()
+
+    def set_source_pixmap(self, pixmap):
+        self._source_pixmap = QPixmap(pixmap)
+        self._fit_source_pixmap()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._fit_source_pixmap()
+
+    def _fit_source_pixmap(self):
+        if self._source_pixmap.isNull():
+            super().setPixmap(QPixmap())
+            return
+        scaled = self._source_pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        super().setPixmap(scaled)
+
+
 class HistologyBrowser(QWidget):
-    """Left-panel tab: tree of histology topics."""
+    """A searchable, endless catalogue of tissues with a linked group rail."""
 
     imageRequested = Signal(str, int)
     structuresRequested = Signal(list)
@@ -52,7 +104,7 @@ class HistologyBrowser(QWidget):
         lay.setSpacing(8)
         tissues = content.histology["tissues"]
         n_img = sum(len(t.get("images", [])) for t in tissues)
-        head = QLabel(f"{len([t for t in tissues if t.get('images')])} tissues · {n_img} images")
+        head = QLabel(f"{len(tissues)} tissues · {n_img} images")
         head.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
         lay.addWidget(head)
         self.filter = QLineEdit()
@@ -70,67 +122,190 @@ class HistologyBrowser(QWidget):
         self.count_label = QLabel()
         self.count_label.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_CAPTION))
         lay.addWidget(self.count_label)
-        self.tree = Outline()
+        browse = QHBoxLayout()
+        browse.setContentsMargins(0, 0, 0, 0)
+        browse.setSpacing(8)
+        self.groups = QListWidget()
+        self.groups.setAccessibleName("Histology tissue groups")
+        self.groups.setMaximumWidth(220)
+        self.groups.setMinimumWidth(180)
+        self.groups.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.groups.setVerticalScrollMode(QListWidget.ScrollPerPixel)
+        self.groups.currentItemChanged.connect(self._group_selected)
+        browse.addWidget(self.groups)
+        self.tree = HistologyCatalogue()
         self.tree.setAccessibleName("Histology tissues and images")
         self.tree.setIndentation(14)
         self.tree.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tree.customContextMenuRequested.connect(self._menu)
-        self.tree.itemClicked.connect(self._clicked)
-        self.tree.itemActivated.connect(self._clicked)
-        lay.addWidget(self.tree, 1)
+        self.tree.itemClicked.connect(self._select_item)
+        self.tree.currentItemChanged.connect(lambda current, _previous: self._select_item(current))
+        self.tree.itemActivated.connect(self._open_item)
+        browse.addWidget(self.tree, 1)
+        self.detail = QWidget()
+        self.detail.setAccessibleName("Selected histology tissue preview")
+        detail_layout = QVBoxLayout(self.detail)
+        detail_layout.setContentsMargins(12, 4, 0, 4)
+        detail_layout.setSpacing(10)
+        self.preview = TissuePreview("Choose a tissue to see its micrograph and summary.")
+        self.preview.setAlignment(Qt.AlignCenter)
+        self.preview.setWordWrap(True)
+        self.preview.setMinimumSize(220, 180)
+        self.preview.setMaximumHeight(250)
+        self.preview.setStyleSheet(f"QLabel {{ background:{theme.SUNKEN}; color:{theme.MUTED}; "
+                                   f"border:1px solid {theme.BORDER_SUBTLE}; }}")
+        detail_layout.addWidget(self.preview)
+        self.preview_title = QLabel("Choose a tissue")
+        self.preview_title.setWordWrap(True)
+        self.preview_title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_TITLE, 600))
+        detail_layout.addWidget(self.preview_title)
+        self.preview_meta = QLabel("")
+        self.preview_meta.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+        detail_layout.addWidget(self.preview_meta)
+        self.preview_summary = QLabel("")
+        self.preview_summary.setWordWrap(True)
+        self.preview_summary.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        self.preview_summary.setStyleSheet(theme.text_css(theme.TEXT_2))
+        detail_layout.addWidget(self.preview_summary)
+        self.open_slides = QPushButton("Open slides")
+        self.open_slides.setAccessibleName("Open selected tissue slides")
+        theme.set_variant(self.open_slides, "primary")
+        self.open_slides.setEnabled(False)
+        self.open_slides.clicked.connect(self._open_selected)
+        detail_layout.addWidget(self.open_slides, 0, Qt.AlignLeft)
+        detail_layout.addStretch(1)
+        browse.addWidget(self.detail, 2)
+        lay.addLayout(browse, 1)
         self.empty_state = QLabel("No matching content. Clear the filters or try another search.")
         self.empty_state.setWordWrap(True)
         self.empty_state.setStyleSheet(theme.text_css(theme.TEXT_2))
         lay.addWidget(self.empty_state)
         self._build()
+        self.tree.verticalScrollBar().valueChanged.connect(self._sync_group)
         self._filter("")
+        self._sync_group()
 
     def _build(self):
-        folders = {}
-        def folder(path):
-            key = tuple(path)
-            if key in folders:
-                return folders[key]
-            parent = folder(path[:-1]) if len(path) > 1 else self.tree.invisibleRootItem()
-            it = OutlineItem(parent)
-            it.setText(0, path[-1])
-            it.setBold(len(path) == 1)
-            folders[key] = it
-            return it
-
+        top_groups = {}
         for t in self.content.histology["tissues"]:
-            parent = folder(t["path"])
+            path = t.get("path") or ["Other"]
+            group_name = path[0]
+            parent = top_groups.get(group_name)
+            if parent is None:
+                parent = OutlineItem(self.tree.invisibleRootItem())
+                parent.setText(0, group_name)
+                parent.setBold(True)
+                parent.setData(0, GROUP_ROLE, group_name)
+                parent.setToolTip(0, group_name)
+                parent.setExpanded(True)
+                top_groups[group_name] = parent
             it = OutlineItem(parent)
             it.setText(0, t["name"])
             it.setText(1, str(len(t.get("images", []))) if t.get("images") else "No images")
             it.setData(0, ROLE, ("tissue", t["id"], 0))
             it.setToolTip(0, t.get("summary", ""))
             it.setData(0, SEARCH_ROLE, searchable_text(t.get("summary", ""), *t.get("features", []), *t.get("path", [])))
+            if len(path) > 1:
+                it.setToolTip(0, f"{' · '.join(path)}\n{t.get('summary', '')}")
+            if t.get("images"):
+                representative = next((img for img in t["images"] if not img.get("diagram")), t["images"][0])
+                thumb = self.content.thumb_path(representative)
+                it.setIcon(QIcon(str(thumb)))
+                it.setToolTip(0, f"{t.get('summary', '')} · {len(t['images'])} micrographs. Open to browse slides.")
             for i, img in enumerate(t.get("images", [])):
                 child = OutlineItem(it)
                 child.setText(0, img["title"])
                 child.setData(0, ROLE, ("image", t["id"], i))
                 child.setToolTip(0, img.get("description", "")[:300])
-        for key, it in folders.items():
-            count = 0
-            stack = [it]
-            while stack:
-                x = stack.pop()
-                for i in range(x.childCount()):
-                    c = x.child(i)
-                    d = c.data(0, ROLE)
-                    if d and d[0] == "tissue":
-                        count += c.childCount()      # images, the same unit the tissue rows show
-                    elif not d:
-                        stack.append(c)
-            it.setText(1, str(count))
-            it.setToolTip(1, f"{count} images in this topic")
-            it.setExpanded(False)
+        for name, group in top_groups.items():
+            count = sum(len(t.get("images", [])) for t in self.content.histology["tissues"]
+                        if (t.get("path") or ["Other"])[0] == name)
+            group.setText(1, str(count))
+            group.setToolTip(1, f"{count} slides in {name}")
+            row = QListWidgetItem(name)
+            row.setData(GROUP_ROLE, group)
+            row.setToolTip(f"Browse {name}")
+            self.groups.addItem(row)
+        self._group_by_item = {id(item): name for name, item in top_groups.items()}
 
-    def _clicked(self, item, _col=0):
-        d = item.data(0, ROLE)
-        if d:
-            self.imageRequested.emit(d[1], d[2])
+    def _group_selected(self, current, _previous=None):
+        group = current.data(GROUP_ROLE) if current is not None else None
+        if group is not None:
+            self.tree.scrollToItem(group)
+
+    def _sync_group(self, *_):
+        if not self.groups.count():
+            return
+        current = None
+        for i in range(self.groups.count()):
+            row = self.groups.item(i)
+            group = row.data(GROUP_ROLE)
+            if group is None or group.isHidden():
+                continue
+            rect = self.tree.visualItemRect(group)
+            # Follow the section crossing the viewport's leading edge. A loose
+            # 48px threshold selected the *next* header when two short headers
+            # both fell near the top of a compact window.
+            if rect.top() <= 0 < rect.bottom():
+                current = row
+                break
+            if current is None and rect.top() >= 0:
+                current = row
+        if current is not None and current is not self.groups.currentItem():
+            self.groups.blockSignals(True)
+            self.groups.setCurrentItem(current)
+            self.groups.blockSignals(False)
+
+    def _tissue_item(self, item):
+        while item is not None:
+            data = item.data(0, ROLE)
+            if data and data[0] == "tissue":
+                return item
+            item = item.parent()
+        return None
+
+    def _select_item(self, item, *_):
+        tissue_item = self._tissue_item(item)
+        data = tissue_item.data(0, ROLE) if tissue_item is not None else None
+        tissue = self.content.tissues.get(data[1]) if data else None
+        if tissue is None:
+            self._selected_tissue = None
+            self.preview.set_source_pixmap(QPixmap())
+            self.preview.setText("Choose a tissue to see its micrograph and summary.")
+            self.preview_title.setText("Choose a tissue")
+            self.preview_meta.clear()
+            self.preview_summary.clear()
+            self.open_slides.setEnabled(False)
+            return
+        self._selected_tissue = tissue
+        images = tissue.get("images", [])
+        self.preview_title.setText(tissue["name"])
+        self.preview_meta.setText(" · ".join([*(tissue.get("path") or []),
+                                              f"{len(images)} slides" if images else "No slides"]))
+        self.preview_summary.setText(tissue.get("summary", ""))
+        pixmap = QPixmap()
+        if images:
+            pixmap.load(str(self.content.thumb_path(images[0])))
+        if not pixmap.isNull():
+            self.preview.setText("")
+            self.preview.set_source_pixmap(pixmap)
+        else:
+            self.preview.set_source_pixmap(QPixmap())
+            self.preview.setText("No micrograph preview is available for this tissue.")
+        self.open_slides.setEnabled(bool(images))
+
+    def _open_selected(self):
+        tissue = getattr(self, "_selected_tissue", None)
+        if tissue and tissue.get("images"):
+            self.imageRequested.emit(tissue["id"], 0)
+
+    def _open_item(self, item, _col=0):
+        data = item.data(0, ROLE) if item is not None else None
+        if data:
+            if data[0] == "image":
+                self.imageRequested.emit(data[1], data[2])
+            else:
+                self.imageRequested.emit(data[1], 0)
 
     def _menu(self, pos):
         it = self.tree.itemAt(pos)
@@ -165,7 +340,10 @@ class HistologyBrowser(QWidget):
             shown = child_match or (match and bool(data))
             item.setHidden(not shown)
             if item.childCount():
-                item.setExpanded(bool(q) and child_match)
+                if item.data(0, GROUP_ROLE):
+                    item.setExpanded(not q or child_match)
+                else:
+                    item.setExpanded(bool(q) and child_match)
             if shown and data and data[0] == "tissue":
                 visible += 1
             return shown
@@ -173,9 +351,44 @@ class HistologyBrowser(QWidget):
         root = self.tree.invisibleRootItem()
         for i in range(root.childCount()):
             rec(root.child(i))
-        self.count_label.setText(f"{visible} topics shown")
+        self.count_label.setText(f"{visible} tissues shown")
         self.empty_state.setVisible(visible == 0)
         self.clear_filter.setEnabled(bool(q))
+        for i in range(self.groups.count()):
+            row = self.groups.item(i)
+            group = row.data(GROUP_ROLE)
+            row.setFlags(row.flags() | Qt.ItemIsEnabled if group and not group.isHidden() else row.flags() & ~Qt.ItemIsEnabled)
+        current_item = self.tree.currentItem()
+        current_tissue = self._tissue_item(current_item)
+        if current_item is None or current_item.isHidden() or current_tissue is None or current_tissue.isHidden():
+            first = self._first_visible_tissue(prefer_image=not q)
+            self.tree.setCurrentItem(first)
+            if first is not None:
+                self.tree.scrollToItem(first)
+                self._select_item(first)
+                parent = first.parent()
+                for i in range(self.groups.count()):
+                    row = self.groups.item(i)
+                    if row.data(GROUP_ROLE) is parent:
+                        self.groups.setCurrentItem(row)
+                        break
+            else:
+                self._select_item(None)
+
+    def _first_visible_tissue(self, prefer_image=False):
+        root = self.tree.invisibleRootItem()
+        first = None
+        for i in range(root.childCount()):
+            group = root.child(i)
+            for j in range(group.childCount()):
+                tissue = group.child(j)
+                data = tissue.data(0, ROLE)
+                if data and data[0] == "tissue" and not tissue.isHidden():
+                    first = first or tissue
+                    record = self.content.tissues.get(data[1], {})
+                    if not prefer_image or record.get("images"):
+                        return tissue
+        return first
 
 
 class ImageView(QGraphicsView):
@@ -230,7 +443,7 @@ class ImageView(QGraphicsView):
         fm = QFontMetricsF(font)
         vw, vh = float(self.viewport().width()), float(self.viewport().height())
         # fixed colours: the labels sit on the slide, so they must read the same in the light and dark themes
-        accent, on_accent, ink = QColor("#3cc6d3"), QColor("#04191d"), QColor("#f4f7fa")
+        accent, on_accent, ink = theme.qc(theme.ACCENT), theme.qc(theme.ON_ACCENT), theme.qc(theme.TEXT_STRONG)
         points = [QPointF(self.mapFromScene(QPointF(float(lab["x"]) * pix.width(), float(lab["y"]) * pix.height())))
                   for lab in self.labels]
         middle = QPointF(vw / 2.0, vh / 2.0)
@@ -458,12 +671,14 @@ class HistologyViewer(QWidget):
         self.view.zoomChanged.connect(self._zoom_changed)
         self.caption = QTextBrowser()
         self.caption.setOpenExternalLinks(True)
-        self.caption.setStyleSheet("QTextBrowser { background: #f8fafb; color: #24343d; border: 1px solid #cbd5db; border-radius: 10px; }")
+        self.caption.setStyleSheet(
+            f"QTextBrowser {{ background: {theme.SURFACE}; color: {CARD_TEXT}; "
+            f"border: 1px solid {theme.BORDER_SUBTLE}; border-radius: {theme.R_MD}px; }}")
         self.caption.setAccessibleName("Histology image caption and credit")
         self.caption.setMinimumHeight(100)
         self.caption.document().setDefaultStyleSheet(
             f"body{{color:{CARD_TEXT};}} .muted{{color:{CARD_MUTED};}} "
-            f"a{{color:#216582;text-decoration:none;}} h3{{margin:0;color:{CARD_TEXT};}}")
+            f"a{{color:{theme.ACCENT_TEXT};text-decoration:underline;}} h3{{margin:0;color:{CARD_TEXT};}}")
         self.caption.document().setDocumentMargin(10)
         split.addWidget(self.caption)
         split.setSizes([700, 160])

@@ -3,7 +3,9 @@ import os
 import sys
 from pathlib import Path
 
-APP_NAME = "Anatomy Explorer"
+APP_NAME = "Layered Human"
+# Keep the existing preferences namespace through the visible product rename.
+SETTINGS_APP_NAME = "Anatomy Explorer"
 ORG_NAME = "AnatomyExplorer"
 
 # FROZEN is True in the installed app (a PyInstaller bundle, see packaging/). Its own folder is read-only there

@@ -85,7 +85,7 @@ class SettingsDialog(QDialog):
         self.setWindowTitle("Settings")
         self.resize(840, 640)
         self.setMinimumSize(540, 420)
-        self.setAccessibleName("Anatomy Explorer settings")
+        self.setAccessibleName("Layered Human settings")
         self.settings = settings
         self.registry = actions
         self.widgets = {}
@@ -93,7 +93,7 @@ class SettingsDialog(QDialog):
         title = QLabel("Settings")
         title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2, 600))
         lay.addWidget(title)
-        hint = QLabel("Changes take effect immediately, except interface appearance. Your study content stays unchanged.")
+        hint = QLabel("Choose your gallery wall and viewing controls. Changes take effect immediately.")
         hint.setWordWrap(True)
         hint.setStyleSheet(theme.text_css(theme.MUTED))
         lay.addWidget(hint)
@@ -234,7 +234,7 @@ class SettingsDialog(QDialog):
         page, f = self._page()
         self._header(f, "INTERFACE")
         self.theme_picker = QComboBox()
-        self.theme_picker.setAccessibleName("Interface appearance for next launch")
+        self.theme_picker.setAccessibleName("Gallery wall colour scheme")
         for key, label in theme.THEMES.items():
             self.theme_picker.addItem(label, key)
         saved_theme = (str(self.parent().qsettings.value("ui_theme", theme.THEME_NAME))
@@ -242,8 +242,8 @@ class SettingsDialog(QDialog):
         self.theme_picker.setCurrentIndex(max(0, self.theme_picker.findData(saved_theme)))
         self.theme_picker.currentIndexChanged.connect(
             lambda _index: self.themeChanged.emit(self.theme_picker.currentData()))
-        self.theme_picker.hide()  # Study-02 Porcelain is the single approved appearance.
-        appearance_hint = QLabel("Study-02 Porcelain. Educational images and model materials keep their original colours.")
+        f.addRow("Gallery wall", self.theme_picker)
+        appearance_hint = QLabel("Six dark gallery walls. Anatomy materials and educational images retain their original colours.")
         appearance_hint.setWordWrap(True)
         appearance_hint.setStyleSheet(theme.text_css(theme.MUTED))
         f.addRow("", appearance_hint)
@@ -447,7 +447,7 @@ class SettingsDialog(QDialog):
             self._reset_keys()
             return
         if page is self.tabs.widget(1):
-            self.theme_picker.setCurrentIndex(self.theme_picker.findData("porcelain"))
+            self.theme_picker.setCurrentIndex(self.theme_picker.findData("gallery-slate"))
         for key in page._keys:
             v = DEFAULT_SETTINGS[key]
             w = self.widgets[key]

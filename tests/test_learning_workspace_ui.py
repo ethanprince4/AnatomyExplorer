@@ -40,7 +40,7 @@ config.USER_DIR.mkdir()
 from PySide6.QtCore import QCoreApplication, QEvent, QSettings, Qt
 from PySide6.QtGui import QFont, QFontMetricsF
 from PySide6.QtTest import QTest
-from PySide6.QtWidgets import QApplication, QLabel, QWidget
+from PySide6.QtWidgets import QApplication, QLabel, QListView, QWidget
 QSettings.setDefaultFormat(QSettings.IniFormat)
 QSettings.setPath(QSettings.IniFormat, QSettings.UserScope, FIXTURE.name)
 QAPP = QApplication.instance() or QApplication([])
@@ -165,6 +165,25 @@ class LearningWorkspaceTests(unittest.TestCase):
                     for index in range(len(lesson)):
                         panel.go(index, force=True)
                         self.assertEqual(panel.index, index)
+
+    def test_course_library_is_a_vitrine_grid_with_routed_unit_lessons(self):
+        panel = self.keep(LessonsPanel(load_lessons()))
+        self.assertEqual(panel.library_pages.currentWidget(), panel.course_page)
+        self.assertEqual(panel.unit_grid.viewMode(), QListView.IconMode)
+        self.assertGreater(panel.unit_grid.count(), 0)
+        selected = panel.unit_grid.currentItem()
+        self.assertIsNotNone(selected)
+        self.assertGreater(panel.unit_list.count(), 0)
+        self.assertTrue(panel.course_page.isAncestorOf(panel.unit_list))
+        self.assertEqual(panel.unit_title.text(), selected.data(Qt.DisplayRole))
+        delegate = panel.unit_grid.itemDelegate()
+        preview = delegate._preview(selected.data(Qt.UserRole))
+        self.assertIsNotNone(preview)
+        self.assertFalse(preview.isNull(), "the course vitrine must use an authored lesson diagram")
+        lesson_id = panel.unit_list.item(0).data(Qt.UserRole)
+        self.assertFalse(panel.unit_list.item(0).isHidden())
+        panel._open_item(panel.unit_list.item(0))
+        self.assertEqual(panel.lesson.id, lesson_id)
 
     def test_empty_and_multiword_search_and_keyboard_open(self):
         panel = self.panel()

@@ -21,7 +21,7 @@ import random
 import time
 
 import numpy as np
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import Qt, QTimer, Signal
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (QAbstractItemView, QDockWidget, QFrame, QHBoxLayout, QLabel, QListWidget,
                                QListWidgetItem, QPushButton, QScrollArea, QStackedWidget, QVBoxLayout, QWidget)
@@ -62,6 +62,75 @@ TIPS = {
 
 def esc(s):
     return html.escape(str(s or ""))
+
+
+class PracticeHome(QWidget):
+    """Native entry page for study sessions; counts are supplied only by the real study store."""
+
+    startRequested = Signal(str)
+    reviewRequested = Signal()
+    lessonRequested = Signal(str)
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setAccessibleName("Practice and review")
+        root = QVBoxLayout(self)
+        root.setContentsMargins(24, 20, 24, 20)
+        root.setSpacing(12)
+
+        self.title = QLabel("Practice")
+        self.title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H1, 700))
+        root.addWidget(self.title)
+        self.intro = QLabel("Build recall with a short session, or return to the material you have already studied.")
+        self.intro.setWordWrap(True)
+        self.intro.setStyleSheet(theme.text_css(theme.TEXT_2, theme.FS_BODY))
+        root.addWidget(self.intro)
+
+        self.course = QPushButton("Continue a lesson")
+        self.course.setAccessibleName("Start practice from a lesson")
+        self.course.setMinimumHeight(42)
+        theme.set_variant(self.course, "primary")
+        self.course.clicked.connect(lambda: self.startRequested.emit("course"))
+        root.addWidget(self.course)
+        self.mixed = QPushButton("Mixed practice")
+        self.mixed.setAccessibleName("Start mixed practice")
+        self.mixed.setMinimumHeight(38)
+        self.mixed.clicked.connect(lambda: self.startRequested.emit("mixed"))
+        root.addWidget(self.mixed)
+
+        self.review = QPushButton("Review what is due")
+        self.review.setAccessibleName("Review due study items")
+        self.review.setMinimumHeight(38)
+        self.review.clicked.connect(self.reviewRequested.emit)
+        self._due_count = None
+        self.set_due(None)
+        root.addWidget(self.review)
+
+        self.results = QLabel("")
+        self.results.setWordWrap(True)
+        self.results.setTextFormat(Qt.PlainText)
+        self.results.setStyleSheet(theme.text_css(theme.TEXT_2))
+        self.results.hide()
+        root.addWidget(self.results)
+        root.addStretch(1)
+
+    def set_due(self, count):
+        """Show a due count only when a caller provides a real count from the study store."""
+        self._due_count = max(0, int(count)) if count is not None else None
+        self.review.setEnabled(self._due_count is None or self._due_count > 0)
+        self.review.setText("Review what is due" if self._due_count is None else
+                            f"Review what is due · {self._due_count}")
+
+    def show_results(self, summary):
+        """Present a completed session summary without deriving or inventing extra metrics."""
+        if not isinstance(summary, dict):
+            self.results.hide()
+            return
+        text = str(summary.get("text", "")).strip()
+        if not text and "right" in summary and "total" in summary:
+            text = f"Last session · {summary['right']} of {summary['total']} correct"
+        self.results.setText(text)
+        self.results.setVisible(bool(text))
 
 
 class PracticePanel(QWidget):

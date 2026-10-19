@@ -7,6 +7,8 @@ from PySide6.QtCore import QEvent, QObject, QRunnable, QThreadPool, Signal, Slot
 from PySide6.QtGui import QImage, QImageReader
 from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget
 
+from . import theme
+
 
 _IMAGE_POOL = QThreadPool()
 _IMAGE_POOL.setMaxThreadCount(2)
@@ -109,8 +111,8 @@ def matches_words(query, text):
     return all(word in haystack for word in query.strip().casefold().split())
 
 
-CARD_TEXT = "#24343d"
-CARD_MUTED = "#526570"
+CARD_TEXT = theme.TEXT
+CARD_MUTED = theme.TEXT_2
 
 def image_control_card(layout, name):
     """Opaque controls above the dark image canvas, independent of app theme."""
@@ -118,15 +120,15 @@ def image_control_card(layout, name):
     card.setObjectName(name)
     card.setAttribute(Qt.WA_StyledBackground, True)
     card.setStyleSheet(f"""
-        QWidget#{name} {{ background: #f8fafb; color: {CARD_TEXT};
-            border: 1px solid #cbd5db; border-radius: 12px; }}
+        QWidget#{name} {{ background: {theme.SURFACE}; color: {CARD_TEXT};
+            border: 1px solid {theme.BORDER_SUBTLE}; border-radius: {theme.R_MD}px; }}
         QWidget#{name} QLabel, QWidget#{name} QCheckBox {{
             background: transparent; color: {CARD_TEXT}; border: none; }}
         QWidget#{name} QPushButton, QWidget#{name} QComboBox {{
-            background: #ffffff; color: {CARD_TEXT}; border: 1px solid #cbd5db;
-            border-radius: 6px; padding: 5px 9px; }}
-        QWidget#{name} QPushButton:hover {{ background: #e5eef2; }}
-        QWidget#{name} QPushButton:disabled {{ color: #76858e; }}
+            background: {theme.SUNKEN}; color: {CARD_TEXT}; border: 1px solid {theme.BORDER};
+            border-radius: {theme.R_SM}px; padding: 5px 9px; }}
+        QWidget#{name} QPushButton:hover {{ background: {theme.HOVER}; }}
+        QWidget#{name} QPushButton:disabled {{ color: {theme.FAINT}; }}
     """)
     layout.setContentsMargins(12, 9, 12, 9)
     card.setLayout(layout)

@@ -84,6 +84,34 @@ def _cut_block(vp):
     return cut or None
 
 
+def _parts_block(view, vp):
+    """Optional extras of a model view: names of the hidden / selected / isolated / forced parts and the explode and
+    section state. Every key is added only when the view exposes it; a broken view just leaves the keys out."""
+    out = {}
+    try:
+        items = list(view.vmodel.items)
+        state = view.state
+
+        def names(mask):
+            return [items[i].name for i in range(min(len(items), len(mask))) if mask[i]]
+        out["hidden"] = names(state.hidden)
+        out["forced"] = names(state.forced)
+        if getattr(state, "isolated", None) is not None:
+            out["isolated"] = names(state.isolated)
+        out["selected"] = [items[int(i)].name for i in state.selected if 0 <= int(i) < len(items)]
+    except (AttributeError, IndexError, TypeError, ValueError, RuntimeError):
+        pass
+    try:
+        if hasattr(vp, "explode"):
+            out["explode"] = float(vp.explode)
+        secs = getattr(vp, "sections", None)
+        if secs is not None:
+            out["sections"] = [None if s is None else [float(s[0]), bool(s[1])] for s in secs]
+    except (TypeError, ValueError, IndexError, RuntimeError):
+        pass
+    return out
+
+
 def build_payload(win):
     """The camera of the view on screen as a JSON-able dict (without seq/time/pid). Raises only on a broken window."""
     cur = win.center.currentWidget()
@@ -111,6 +139,7 @@ def build_payload(win):
         payload["model"] = {"key": model_key, "id": getattr(entry, "id", None),
                             "name": getattr(entry, "name", None)}
         payload["named_view"] = getattr(cur, "_current_view", None)
+        payload.update(_parts_block(cur, vp))
     elif is_atlas:
         panel = getattr(win, "radiology_panel", None)
         case = getattr(panel, "case", None)

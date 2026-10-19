@@ -165,9 +165,14 @@ BACKDROP_FS = VERSION + """
 in vec2 v_uv;
 uniform vec3 u_bottom;
 uniform vec3 u_top;
+uniform vec3 u_spot;
+uniform float u_spot_strength;
 out vec4 o_col;
 void main() {
-    o_col = vec4(mix(u_bottom, u_top, clamp(v_uv.y, 0.0, 1.0)), 1.0);
+    vec3 wall = mix(u_bottom, u_top, clamp(v_uv.y, 0.0, 1.0));
+    vec2 pool = (v_uv - vec2(0.52, 0.52)) / vec2(0.46, 0.65);
+    float light = exp(-dot(pool, pool) * 2.2) * u_spot_strength;
+    o_col = vec4(mix(wall, u_spot, clamp(light, 0.0, 1.0)), 1.0);
 }
 """
 

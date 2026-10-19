@@ -145,6 +145,14 @@ class ViewportCore:
         self.label_items = []                # [(item, anchor world, area px, text, priority)]
         self.section_items = []              # [(item, anchor world)]
         self._label_rects = []
+        self._label_dot_rects = []
+        self._label_open = set()
+        self._label_hover = None
+        self._label_focus = None
+        self._label_signature = ()
+        self._label_number_ids = ()
+        self.setAccessibleName("Model labels")
+        self.setAccessibleDescription("Numbered, clickable visible anatomy labels. Tab moves between labels; Space toggles a caption.")
         self._labels_dirty = True
         self._occluded = {}
         self._moving_prev = False
@@ -244,6 +252,9 @@ class ViewportCore:
         s.outline, s.hover_outline = sel, hov
         s.highlight, s.hover_highlight = srgb_to_linear(sel), srgb_to_linear(hov)
         s.hover_outline_on = bool(st.get("hover_outline", True))
+        s.background_spot = (_hex_rgb(st.get("bg_spot"))
+                             if st.get("custom_background") and st.get("bg_spot") else None)
+        s.background_spot_strength = float(st.get("bg_spot_strength", 0.0))
         if st.get("custom_background"):
             s.background = (_hex_rgb(st.get("bg_top", "#1d2127")), _hex_rgb(st.get("bg_bottom", "#090a0d")))
         else:
@@ -613,16 +624,58 @@ class ViewportCore:
 
     # ------------------------------------------------------------------ input (the atlas's)
     def label_at(self, pos):
+        for rect, item in reversed(self._label_dot_rects):
+            if rect.contains(pos):
+                return item
         for rect, item in reversed(self._label_rects):
             if rect.contains(pos):
                 return item
         return None
+
+    def _label_dot_at(self, pos):
+        for rect, item in reversed(self._label_dot_rects):
+            if rect.contains(pos):
+                return item
+        return None
+
+    def set_labels_on(self, enabled):
+        enabled = bool(enabled)
+        if enabled != self.labels_on:
+            self.labels_on = enabled
+            self._label_signature = ()
+            self._label_number_ids = ()
+            self._label_open.clear()
+            self.invalidate_labels()
+
+    def show_all_labels(self, enabled=True):
+        if enabled:
+            self._label_open.update(self._label_number_ids or self._label_signature)
+        else:
+            self._label_open.clear()
+            self._label_open.update(int(s) for s in self.state.selected)
+        self.update()
+        self.overlay.update()
+
+    def labels_all_open(self):
+        ids = set(self._label_number_ids or self._label_signature)
+        return bool(ids) and ids.issubset(self._label_open)
 
     def mousePressEvent(self, e):
         if e.button() in (Qt.BackButton, Qt.ForwardButton):
             self.historyRequested.emit(-1 if e.button() == Qt.BackButton else 1)
             return
         if e.button() == Qt.LeftButton:
+            dot_item = self._label_dot_at(e.position())
+            if dot_item is not None:
+                if dot_item in self._label_open:
+                    self._label_open.discard(dot_item)
+                else:
+                    self._label_open.add(dot_item)
+                self._label_focus = dot_item
+                self.setFocus(Qt.MouseFocusReason)
+                self.update()
+                self.overlay.update()
+                return
             item = self.label_at(e.position())
             if item is not None:                          # clicking a label picks that structure
                 self.structureClicked.emit(int(item), e.modifiers())
@@ -694,6 +747,10 @@ class ViewportCore:
             self.update()
             return
         now = time.perf_counter()
+        hovered_label = self._label_dot_at(pos)
+        if hovered_label != self._label_hover:
+            self._label_hover = hovered_label
+            self.overlay.update()
         if now - self._last_hover_pick > 0.03:
             self._last_hover_pick = now
             sid = self.pick_at(pos)
@@ -703,6 +760,34 @@ class ViewportCore:
                 self.setCursor(Qt.CrossCursor if self.measure_mode else
                                (Qt.PointingHandCursor if sid >= 0 else Qt.ArrowCursor))
         self.overlay.update()
+
+    def keyPressEvent(self, e):
+        ids = list(self._label_number_ids or self._label_signature)
+        if e.key() == Qt.Key_Escape and self._label_open:
+            self._label_open.clear()
+            self.overlay.update()
+            e.accept()
+            return
+        if ids and e.key() == Qt.Key_Tab:
+            reverse = bool(e.modifiers() & Qt.ShiftModifier)
+            if self._label_focus not in ids:
+                self._label_focus = ids[-1] if reverse else ids[0]
+            else:
+                offset = -1 if reverse else 1
+                self._label_focus = ids[(ids.index(self._label_focus) + offset) % len(ids)]
+            self.setFocus(Qt.TabFocusReason)
+            self.overlay.update()
+            e.accept()
+            return
+        if ids and self._label_focus in ids and e.key() in (Qt.Key_Space, Qt.Key_Return, Qt.Key_Enter):
+            if self._label_focus in self._label_open:
+                self._label_open.discard(self._label_focus)
+            else:
+                self._label_open.add(self._label_focus)
+            self.overlay.update()
+            e.accept()
+            return
+        super().keyPressEvent(e)
 
     def mouseReleaseEvent(self, e):
         if self._press is not None and not self._moved:
@@ -730,6 +815,7 @@ class ViewportCore:
 
     def leaveEvent(self, e):
         self.hover_pos = None
+        self._label_hover = None
         if self.state.hovered != -1:
             self.state.set_hovered(-1)
             self.hoverChanged.emit(-1)
@@ -761,12 +847,21 @@ class ViewportCore:
         want_sections = self.any_cut() and self.settings.get("section_labels", True) and not self.names_hidden() \
             and self.settings.get("show_landmarks", True)
         if not hosts and not want_sections:
+            self._label_signature = ()
+            self._label_number_ids = ()
+            self._label_open.clear()
             return
         cache_key = self._label_cache_key()
         cached = getattr(self, "_warm_label_cache", None)
         if cached is not None and cached[0] == cache_key:
             self.label_items, self.section_items = list(cached[1]), list(cached[2])
             self._occluded = dict(cached[3])
+            signature = tuple(sorted(item for item, *_ in self.label_items))
+            if signature != self._label_signature:
+                self._label_signature = signature
+                self._label_number_ids = ()
+                self._label_open.intersection_update(signature)
+            self._label_open.update(i for i in self.state.selected if i in signature)
             return
         rw, rh = self.renderer.size
         k = max(1, int(round(min(rw, rh) / 420)))
@@ -780,6 +875,8 @@ class ViewportCore:
                 ids, flags = self.renderer.read_ids()
                 depth = self.renderer.read_depth()
                 if ids is None or depth is None:
+                    self._label_signature = ()
+                    self._label_number_ids = ()
                     return
                 ids_s, flags_s = ids[::k, ::k], flags[::k, ::k]
         except Exception:                      # noqa: BLE001 - a lost context just means no labels this frame
@@ -819,6 +916,12 @@ class ViewportCore:
             if anchor is not None:
                 out.append((i, anchor, int(counts[i]), text, 0 if i in sel else 1))
         self.label_items = out
+        signature = tuple(sorted(item for item, *_ in out))
+        if signature != self._label_signature:
+            self._label_signature = signature
+            self._label_number_ids = ()
+            self._label_open.intersection_update(signature)
+        self._label_open.update(i for i in sel if i in signature)
         if want_sections:
             secs = [i for i in np.nonzero(cap_counts >= min_px)[0]]
             secs.sort(key=lambda i: -cap_counts[i])
@@ -953,6 +1056,7 @@ class ViewportCore:
     def paint_overlay(self, p: QPainter):
         dark = self.settings.get("dark_background", True)
         self._label_rects = []
+        self._label_dot_rects = []
         self._paint_section_labels(p, dark)
         self._paint_labels(p, dark)
         self._paint_measure(p, dark)
@@ -968,8 +1072,7 @@ class ViewportCore:
         return f
 
     def _paint_labels(self, p, dark):
-        """Radial cards: each name sits out from its dot, away from the middle of what is shown, on a leader line;
-        a card that would cover another tries a few nearby places before it gives way."""
+        """Number anchors on the visible model and stack only open captions beside it."""
         if not self.label_items:
             return
         font = self._font()
@@ -984,62 +1087,90 @@ class ViewportCore:
             proj.append((i, pr, area, text, prio))
         if not proj:
             return
-        cx = sum(pr[0] for _i, pr, *_ in proj) / len(proj)
-        cy = sum(pr[1] for _i, pr, *_ in proj) / len(proj)
-        placed = [r for r, _ in self._label_rects]
+        label_ids = {row[0] for row in self.label_items}
+        if set(self._label_number_ids) != label_ids:
+            positions = {}
+            for order, (item, anchor, *_rest) in enumerate(self.label_items):
+                point = self.project(anchor)
+                positions[item] = ((point[1], point[0], order) if point is not None
+                                   else (h + order, w + order, order))
+            self._label_number_ids = tuple(sorted(label_ids, key=lambda item: positions[item]))
+        number = {item: n for n, item in enumerate(self._label_number_ids)}
+        ordered = sorted(proj, key=lambda row: number[row[0]])
         sel = set(int(s) for s in self.state.selected)
-        order = sorted(proj, key=lambda t: (self._occluded.get(t[0], False), t[4], -t[2]))
-        for i, pr, _area, text, prio in order:
-            ax, ay = pr[0], pr[1]
-            dx, dy = ax - cx, ay - cy
-            ln = math.hypot(dx, dy)
-            base = math.atan2(dy, dx) if ln > 4 else -math.pi / 4
-            occluded = self._occluded.get(i, False) and i not in sel
-            focus = i in sel
-            tw = min(fm.horizontalAdvance(text) + 12, w * 0.4)
-            th = fm.height() + 4
-            rect = None
-            # a selected part is always named, so it may look further round (the far side included) for room
-            dists = (46.0, 70.0, 96.0, 124.0, 156.0) if focus else (46.0, 70.0, 96.0)
-            dangs = (0.0, 0.45, -0.45, 0.9, -0.9, 1.35, -1.35, math.pi) if focus else (0.0, 0.45, -0.45, 0.9, -0.9)
-            for dist in dists:
-                for dang in dangs:
-                    ang = base + dang
-                    lx, ly = ax + math.cos(ang) * dist, ay + math.sin(ang) * dist
-                    rx = lx if math.cos(ang) >= 0 else lx - tw
-                    cand = QRectF(rx, ly - th / 2, tw, th)
-                    if cand.left() < 2 or cand.right() > w - 2 or cand.top() < 2 or cand.bottom() > h - 2:
-                        continue
-                    if any(cand.intersects(r) for r in placed):
-                        continue
-                    rect = cand
-                    break
-                if rect is not None:
-                    break
-            if rect is None and not focus:
+        for number, (i, pr, _area, _text, _prio) in enumerate(ordered, 1):
+            x, y = pr[:2]
+            selected = i in sel
+            hovered = i == self._label_hover
+            focused = i == self._label_focus and self.hasFocus()
+            radius = 12.0
+            disc = theme.qc(theme.ACCENT if selected else theme.RAISED)
+            ink = theme.qc(theme.ON_ACCENT if selected else theme.TEXT_STRONG)
+            if hovered:
+                disc = theme.qc(theme.ACCENT_SOFT)
+                ink = theme.qc(theme.TEXT_STRONG)
+            p.setPen(QPen(theme.qc(theme.BORDER_STRONG), 1.0))
+            p.setBrush(disc)
+            p.drawEllipse(QPointF(x, y), 9.0, 9.0)
+            p.setPen(ink)
+            p.drawText(QRectF(x - radius, y - radius, radius * 2, radius * 2), Qt.AlignCenter, str(number))
+            if focused:
+                p.setPen(QPen(theme.qc(theme.TEXT), 2.0))
+                p.setBrush(Qt.NoBrush)
+                p.drawEllipse(QPointF(x, y), 13.0, 13.0)
+            self._label_dot_rects.append((QRectF(x - 14.0, y - 14.0, 28.0, 28.0), i))
+
+        # Keep captions in two side rails. The rail starts outside the projected anchor span,
+        # and every open row is packed in anchor order at a fixed, readable pitch.
+        sides = {-1: [], 1: []}
+        for row in ordered:
+            i, pr = row[0], row[1]
+            sides[-1 if pr[0] < w * 0.5 else 1].append(row)
+        pitch = max(30.0, fm.height() + 12.0)
+        for side, rows in sides.items():
+            rows = [row for row in rows if row[0] in self._label_open or row[0] == self._label_hover]
+            if not rows:
                 continue
-            if rect is None:                    # nowhere free: overlap, but stay inside the view
-                right = ax >= cx
-                rx = ax + 46 if right else ax - 46 - tw
-                rx = min(max(rx, 2.0), w - 2 - tw)
-                ry = min(max(ay - 46 - th / 2, 2.0), h - 2 - th)
-                rect = QRectF(rx, ry, tw, th)
-            alpha = 90 if occluded else 235
-            dot = QColor(79, 195, 247, alpha) if not focus else QColor(255, 214, 92, 255)
-            p.setPen(QPen(dot, 1.3))
-            join = QPointF(rect.left() if rect.center().x() >= ax else rect.right(), rect.center().y())
-            p.drawLine(QPointF(ax, ay), join)
-            p.setBrush(dot if not occluded else Qt.NoBrush)
-            r = 3.2 if not focus else 4.5
-            p.drawEllipse(QPointF(ax, ay), r, r)
-            placed.append(rect.adjusted(-2, -2, 2, 2))
-            bg = _annotation_plate(dark, (210 if not occluded else 110) if dark else (215 if not occluded else 120))
-            p.setPen(QPen(QColor("#8096a5"), 1.0))
-            p.setBrush(bg)
-            p.drawRoundedRect(rect, 8, 8)
-            p.setPen(QColor(36, 52, 61, alpha))
-            p.drawText(rect, Qt.AlignCenter, fm.elidedText(text, Qt.ElideRight, tw - 10))
-            self._label_rects.append((QRectF(rect), i))
+            rows.sort(key=lambda row: row[1][1])
+            anchors = [row[1][0] for row in sides[side]]
+            rail_x = (min(anchors) - 26.0) if side < 0 else (max(anchors) + 26.0)
+            max_width = min(w * 0.34, max(90.0, w * 0.34))
+            sample = max(fm.horizontalAdvance(row[3]) for row in rows)
+            tw = min(max_width, sample + 12.0)
+            base_x = max(4.0, min(w - tw - 4.0, rail_x if side > 0 else rail_x - tw))
+            capacity = max(1, int((h - 36.0) / pitch) + 1)
+            for col, start in enumerate(range(0, len(rows), capacity)):
+                column = rows[start:start + capacity]
+                ys = [float(row[1][1]) for row in column]
+                for k in range(1, len(ys)):
+                    ys[k] = max(ys[k], ys[k - 1] + pitch)
+                over = ys[-1] - (h - 18.0)
+                if over > 0:
+                    ys = [y - over for y in ys]
+                    for k in range(len(ys) - 2, -1, -1):
+                        ys[k] = min(ys[k], ys[k + 1] - pitch)
+                for row, cy in zip(column, ys):
+                    i, pr, _area, text, _prio = row
+                    x = max(4.0, min(w - tw - 4.0,
+                                     base_x + col * (tw + 8.0) if side > 0 else
+                                     base_x - col * (tw + 8.0)))
+                    cy = max(18.0, min(h - 18.0, cy))
+                    faint = i == self._label_hover and i not in self._label_open
+                    ax, ay = pr[:2]
+                    join_x = x + tw if side < 0 else x
+                    knee_x = join_x + (12.0 if side < 0 else -12.0)
+                    p.setPen(QPen(theme.qc(theme.BORDER_STRONG, 180 if faint else 235), 1.0))
+                    p.drawLine(QPointF(ax, ay), QPointF(knee_x, cy))
+                    p.drawLine(QPointF(knee_x, cy), QPointF(join_x, cy))
+                    text_rect = QRectF(x, cy - fm.height() / 2 - 2, tw, fm.height() + 4)
+                    p.setPen(theme.qc(theme.MUTED if faint else theme.TEXT))
+                    text_font = QFont(font)
+                    text_font.setBold(i in sel)
+                    p.setFont(text_font)
+                    p.drawText(text_rect, Qt.AlignVCenter | (Qt.AlignRight if side < 0 else Qt.AlignLeft),
+                               fm.elidedText(text, Qt.ElideRight, int(tw)))
+                    p.setFont(font)
+                    self._label_rects.append((QRectF(text_rect), i))
 
     def _paint_section_labels(self, p, dark):
         """Everything a cut face shows, named in two columns down the sides like an atlas plate."""

@@ -16,6 +16,8 @@ class StudioHeader(QWidget):
     collectionRequested=Signal()
     radiologyRequested=Signal()
     histologyRequested=Signal()
+    practiceRequested=Signal()
+    settingsRequested=Signal()
     searchRequested=Signal(str)
     backRequested=Signal()
     forwardRequested=Signal()
@@ -24,35 +26,67 @@ class StudioHeader(QWidget):
         super().__init__()
         self._owner = window
         self.setObjectName('studioHeader')
-        layout=QVBoxLayout(self);layout.setContentsMargins(28,20,28,0);layout.setSpacing(18)
+        from .studio_style import RAIL_WIDTH
+        self.navigation_rail=QWidget(window);self.navigation_rail.setObjectName('studioRail')
+        self.navigation_rail.setFixedWidth(RAIL_WIDTH)
+        self.rail=self.navigation_rail
+        rail_layout=QVBoxLayout(self.navigation_rail);rail_layout.setContentsMargins(8,14,8,12);rail_layout.setSpacing(5)
+        mark=QLabel(self.navigation_rail);mark.setObjectName('studioRailMark');mark.setAlignment(Qt.AlignCenter)
+        mark.setPixmap(icon('brand').pixmap(34,34));mark.setAccessibleName('Layered Human')
+        rail_layout.addWidget(mark);rail_layout.addSpacing(13)
+        self.navigation={}
+        rooms=(('Atlas','atlas',self.exploreRequested),('Lessons','lessons',self.learnRequested),
+               ('Models','models',self.collectionRequested),('Radiology','radiology',self.radiologyRequested),
+               ('Histology','histology',self.histologyRequested),('Practice','practice',self.practiceRequested))
+        for label,key,signal in rooms:
+            button=QToolButton(self.navigation_rail);button.setObjectName('studioRailRoom')
+            button.setText(label);button.setIcon(icon(key));button.setIconSize(QSize(22,22))
+            button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon);button.setCheckable(True)
+            button.setAccessibleName(label+' workspace');button.setMinimumHeight(62)
+            button.clicked.connect(lambda checked=False,s=signal:s.emit())
+            self.navigation[key]=button
+            self.navigation[{'atlas':'explore','models':'3d models'}.get(key,key)]=button
+            rail_layout.addWidget(button)
+        rail_layout.addStretch(1)
+        self.practice_count=QLabel('',self.navigation_rail);self.practice_count.setObjectName('studioRailCount')
+        self.practice_count.setAlignment(Qt.AlignCenter);rail_layout.addWidget(self.practice_count)
+        self.saved_views_button=QToolButton(self.navigation_rail);self.saved_views_button.setObjectName('studioRailUtility')
+        self.saved_views_button.setText('Saved');self.saved_views_button.setIcon(icon('bookmark'))
+        self.saved_views_button.setIconSize(QSize(20,20));self.saved_views_button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.saved_views_button.setMenu(window.views_menu);self.saved_views_button.setPopupMode(QToolButton.InstantPopup)
+        self.saved_views_button.setAccessibleName('Saved views');rail_layout.addWidget(self.saved_views_button)
+        self.settings_button=QToolButton(self.navigation_rail);self.settings_button.setObjectName('studioRailUtility')
+        self.settings_button.setText('Settings');self.settings_button.setIcon(icon('settings'))
+        self.settings_button.setIconSize(QSize(20,20));self.settings_button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.settings_button.clicked.connect(self.settingsRequested);rail_layout.addWidget(self.settings_button)
+        self.more_button=QToolButton(self.navigation_rail);self.more_button.setObjectName('studioRailUtility')
+        self.more_button.setText('Menu');self.more_button.setIcon(icon('more'));self.more_button.setIconSize(QSize(20,20))
+        self.more_button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon);rail_layout.addWidget(self.more_button)
+        self.set_practice_due(0)
+        layout=QVBoxLayout(self);layout.setContentsMargins(20,10,20,0);layout.setSpacing(12)
         self.bar=QWidget();self.bar.setObjectName('globalBar')
         self.bar.setAttribute(Qt.WA_StyledBackground,True)
         self.bar.setMinimumHeight(58)
         row=QHBoxLayout(self.bar);row.setContentsMargins(20,5,20,5);row.setSpacing(16)
-        brand_icon=QLabel();brand_icon.setPixmap(icon('brand').pixmap(26,26));row.addWidget(brand_icon)
-        self.brand=QLabel('Anatomy Explorer');self.brand.setObjectName('studioBrand');row.addWidget(self.brand)
-        row.addSpacing(16)
+        brand_icon=QLabel();brand_icon.setPixmap(icon('brand').pixmap(24,24));row.addWidget(brand_icon)
+        self.brand=QLabel('Layered Human');self.brand.setObjectName('studioBrand');row.addWidget(self.brand)
+        self.trail=QLabel('');self.trail.setObjectName('studioTrail');row.addWidget(self.trail,1)
         # Back returns to the place before this one, anywhere in the app; its arrow lists the recent places.
-        self.back_button=QToolButton();self.back_button.setIcon(icon('back'));self.back_button.setIconSize(QSize(22,22))
+        self.back_button=QToolButton();self.back_button.setObjectName('studioPlaceButton')
+        self.back_button.setText('Back');self.back_button.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+        self.back_button.setIcon(icon('back'));self.back_button.setIconSize(QSize(20,20))
         self.back_button.setAccessibleName('Back to the previous place')
         self.places_menu=QMenu(self.back_button)
         self.back_button.setMenu(self.places_menu);self.back_button.setPopupMode(QToolButton.MenuButtonPopup)
         self.back_button.clicked.connect(self.backRequested.emit)
-        self.forward_button=QToolButton();self.forward_button.setIcon(icon('forward'));self.forward_button.setIconSize(QSize(22,22))
+        self.forward_button=QToolButton();self.forward_button.setObjectName('studioPlaceButton')
+        self.forward_button.setText('Forward');self.forward_button.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+        self.forward_button.setIcon(icon('forward'));self.forward_button.setIconSize(QSize(20,20))
         self.forward_button.setAccessibleName('Forward to the next place')
         self.forward_button.clicked.connect(self.forwardRequested.emit)
         for button in (self.back_button,self.forward_button):
             button.setEnabled(False);row.addWidget(button)
         row.addSpacing(12)
-        self.navigation={}
-        for label,signal in (('Explore',self.exploreRequested),('Lessons',self.learnRequested),('3D Models',self.collectionRequested),
-                             ('Radiology',self.radiologyRequested),('Histology',self.histologyRequested)):
-            button=QPushButton(label);button.setCheckable(True);button.setAccessibleName(label+' workspace')
-            button.setObjectName('studioNavButton')
-            button.setProperty('variant','quiet');button.setMinimumHeight(40)
-            button.setMinimumWidth(button.fontMetrics().horizontalAdvance(label)+48)
-            button.clicked.connect(lambda checked=False,s=signal:s.emit())
-            self.navigation[label.lower()]=button;row.addWidget(button)
         row.addStretch()
         self.search=QLineEdit();self.search.setObjectName('globalSearch')
         self.search.setPlaceholderText('Search anatomy');self.search.setAccessibleName('Search all anatomy and study material')
@@ -60,12 +94,8 @@ class StudioHeader(QWidget):
         self.search.addAction(icon('search'),QLineEdit.LeadingPosition)
         self.search.returnPressed.connect(lambda:self.searchRequested.emit(self.search.text()))
         row.addWidget(self.search,1)
-        saved=QToolButton();saved.setText('Saved views');saved.setMenu(window.views_menu)
-        saved.setPopupMode(QToolButton.InstantPopup);row.addWidget(saved)
-        settings=QToolButton();settings.setIcon(icon('settings'));settings.setIconSize(QSize(22,22))
-        settings.setToolTip('Settings and application commands');settings.setAccessibleName('Settings and application commands')
-        self.commands_menu=QMenu(settings);self.commands_menu.aboutToShow.connect(self._populate_commands)
-        settings.setMenu(self.commands_menu);settings.setPopupMode(QToolButton.InstantPopup);row.addWidget(settings)
+        self.commands_menu=QMenu(self.more_button);self.commands_menu.aboutToShow.connect(self._populate_commands)
+        self.more_button.setMenu(self.commands_menu);self.more_button.setPopupMode(QToolButton.InstantPopup)
         layout.addWidget(self.bar)
         self.subject=QWidget();self.subject.setObjectName("studioSubject");self.subject.setAttribute(Qt.WA_StyledBackground,True);subject=QHBoxLayout(self.subject);subject.setContentsMargins(6,0,6,0)
         column=QVBoxLayout();column.setSpacing(7)
@@ -98,8 +128,15 @@ class StudioHeader(QWidget):
             button.setToolTip(f'{verb} to {label}' if label else f'Nothing to go {verb.lower()} to yet')
 
     def set_workspace(self,name):
-        for key,button in self.navigation.items():
-            button.setChecked(key==name)
+        key={'explore':'atlas','3d models':'models','collection':'models','learn':'lessons'}.get(str(name).lower(),str(name).lower())
+        for room in ('atlas','lessons','models','radiology','histology','practice'):
+            self.navigation[room].setChecked(room==key)
+
+    def set_practice_due(self,count):
+        count=max(0,int(count or 0))
+        self.practice_count.setText(f'{count} due' if count else '')
+        self.practice_count.setVisible(bool(count))
+        self.navigation['practice'].setAccessibleDescription(f'{count} practice items due' if count else 'Practice workspace')
 
     def mousePressEvent(self,event):
         # A borderless window has no title bar, and the menu bar is hidden (on a Mac it is the system's, outside
@@ -115,8 +152,8 @@ class StudioHeader(QWidget):
     def resizeEvent(self,event):
         # Font scaling and the active stylesheet can change after construction.
         # Reserve padding using the final font instead of the startup font.
-        for button in self.navigation.values():
-            button.setMinimumWidth(button.fontMetrics().horizontalAdvance(button.text())+48)
+        for key in ('atlas','lessons','models','radiology','histology','practice'):
+            self.navigation[key].setMinimumWidth(0)
         self.brand.setVisible(self.width()>=1040)
         self.search.setMaximumWidth(300 if self.width()>=1200 else 220)
         super().resizeEvent(event)
@@ -186,19 +223,74 @@ def atlas_dock(window):
     host=QWidget();host.setObjectName('studioAtlasTools');host.setAttribute(Qt.WA_StyledBackground,True)
     host.setStyleSheet('QWidget#studioAtlasTools {background:transparent;border:none;}')
     holder=QHBoxLayout(host);holder.setContentsMargins(20,10,20,16);holder.addStretch()
-    dock=QWidget(host);dock.setObjectName('dock');dock.setAttribute(Qt.WA_StyledBackground,True);row=QHBoxLayout(dock)
-    row.setContentsMargins(14,8,14,8);row.addStretch()
-    for label,key in (('Measure','measure'),('Show all','show_all'),('Reset','reset_view')):
+    dock=QWidget(host);dock.setObjectName('studioAtlasDock');dock.setAttribute(Qt.WA_StyledBackground,True);row=QHBoxLayout(dock)
+    row.setContentsMargins(0,8,0,0);row.setSpacing(5);row.addStretch()
+    section=QToolButton();section.setObjectName('studioAtlasTool');section.setText('Section')
+    section.setAccessibleName('Section controls')
+    section.setToolTip('Open cross-section controls')
+    section.setMenu(window.section_menu);section.setPopupMode(QToolButton.InstantPopup);row.addWidget(section)
+    compact_tools = {
+        'xray': ('X-ray', 'reveal', 'Toggle the X-ray view'),
+        'isolate': ('Isolate', 'select', 'Isolate the selected structure'),
+        'hide': ('Hide', 'labels', 'Hide the selected structure'),
+        'measure': ('Measure', 'measure', 'Measure between points'),
+    }
+    for label,key in (('X-ray','xray'),('Isolate','isolate'),('Hide','hide'),('Measure','measure')):
         action=window.cmds.actions.get(key)
         if action is not None:
-            # A tool button re-reads its action's iconText whenever the action changes (checked, enabled), so a
-            # short label set only with setText reverted to the long one ("Measure distances") and shifted the bar.
             action.setIconText(label)
-            button=QToolButton();button.setDefaultAction(action);button.setText(label)
-            if key=='structure_labels':button.setToolTip('Show names of visible structures')
-            elif key=='show_all':button.setToolTip('Show every structure again and leave isolation')
-            elif key=='reset_view':button.setToolTip('Reset the camera view')
+            button=QToolButton();button.setObjectName('studioAtlasTool');button.setDefaultAction(action)
+            _, icon_key, hint = compact_tools[key]
+            if action.icon().isNull():button.setIcon(icon(icon_key))
+            button.setToolButtonStyle(Qt.ToolButtonIconOnly)
+            button.setAccessibleName(label);button.setToolTip(hint)
+            button.setMinimumSize(42,40)
             row.addWidget(button)
+    from .dock_pair import LabelDockPair
+    labels=LabelDockPair(dock);labels.setObjectName('atlasLabelPair')
+    host.label_pair=labels
+    labels.setToolTip('Show numbered labels on visible anatomy')
+    labels.setAccessibleName('Anatomy label controls')
+    labels.labels.setMinimumWidth(68)
+    labels.labels.setToolTip('Show or hide numbered anatomy labels')
+    labels.show_all.setMinimumWidth(76)
+    labels.set_labels_on(bool(window.cmds.actions['structure_labels'].isChecked()))
+    structure_action=window.cmds.actions['structure_labels']
+    def update_atlas_labels(enabled):
+        enabled=bool(enabled)
+        setting_handler=getattr(window,'on_setting',None)
+        if callable(setting_handler):
+            setting_handler('show_structure_labels',enabled)
+        elif structure_action.isChecked()!=enabled:
+            structure_action.setChecked(enabled)
+        viewport=window.viewport
+        setter=getattr(viewport,'set_labels_on',None)
+        if callable(setter):setter(enabled)
+        all_open=getattr(viewport,'labels_all_open',None)
+        labels.set_all_open(bool(all_open()) if callable(all_open) else False)
+    labels.labelsToggled.connect(update_atlas_labels)
+    structure_action.toggled.connect(labels.set_labels_on)
+    setter=getattr(window.viewport,'set_labels_on',None)
+    if callable(setter):setter(structure_action.isChecked())
+    labels_open_changed=getattr(window.viewport,'labelsOpenChanged',None)
+    if labels_open_changed is not None and hasattr(labels_open_changed,'connect'):
+        labels_open_changed.connect(labels.set_all_open)
+    def toggle_all_captions():
+        viewport=window.viewport
+        show=getattr(viewport,'show_all_labels',None);all_open=getattr(viewport,'labels_all_open',None)
+        if callable(show) and callable(all_open):
+            show(not all_open());labels.set_all_open(all_open())
+    labels.showAllClicked.connect(toggle_all_captions)
+    row.addWidget(labels)
+    reset=window.cmds.actions.get('reset_view')
+    if reset is not None:
+        reset.setIconText('Reset view')
+        button=QToolButton();button.setObjectName('studioAtlasTool');button.setDefaultAction(reset)
+        if reset.icon().isNull():button.setIcon(icon('reset'))
+        button.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        button.setAccessibleName('Reset view');button.setToolTip('Reset camera view')
+        button.setMinimumSize(42,40)
+        row.addWidget(button)
     menu=QMenu(window)
     menu.addAction('Parts',lambda:window._show_nav_page(window.tree))
     menu.addAction('Reveal controls',lambda:window._show_nav_page(window.view_panel))
@@ -206,9 +298,14 @@ def atlas_dock(window):
     menu.addAction('Details',lambda:(window.right_dock.show(),window.right_dock.raise_()))
     menu.addMenu(window.section_menu)
     menu.addSeparator()
+    show_all=window.cmds.actions.get('show_all')
+    if show_all is not None:menu.addAction(show_all)
+    menu.addSeparator()
     menu.addActions(window.tools_menu.actions())
-    tools=QToolButton();tools.setText('More tools');tools.setMenu(menu)
-    tools.setPopupMode(QToolButton.InstantPopup);row.addWidget(tools)
+    tools=QToolButton();tools.setObjectName('studioAtlasTool');tools.setText('More tools');tools.setIcon(icon('more'));tools.setIconSize(QSize(18,18));tools.setMenu(menu)
+    tools.setPopupMode(QToolButton.InstantPopup)
+    tools.setAccessibleName('More atlas tools');tools.setToolTip('More tools and controls')
+    row.addWidget(tools)
     row.addStretch();holder.addWidget(dock);holder.addStretch();return host
 
 class FloatingPanels:
@@ -241,15 +338,17 @@ class FloatingPanels:
         panel.installEventFilter(self.filter)
         panel.setAllowedAreas(Qt.NoDockWidgetArea)
         panel.setFeatures(QDockWidget.DockWidgetClosable)
+        panel.setObjectName('studioFloatingPanel')
         panel.setAttribute(Qt.WA_StyledBackground,True)
-        panel.setStyleSheet('QDockWidget {background:#f8fafb;border:1px solid #94a6b1;border-radius:14px;}')
-        title=QWidget(panel);title.setAttribute(Qt.WA_StyledBackground,True)
-        title.setStyleSheet('background:#f8fafb;border:none;border-top-left-radius:14px;border-top-right-radius:14px;')
+        title=QWidget(panel);title.setObjectName('studioFloatingTitleBar');title.setAttribute(Qt.WA_StyledBackground,True)
         row=QHBoxLayout(title);row.setContentsMargins(14,10,10,8)
-        label=QLabel(panel.windowTitle());panel._studio_title=label;label.setStyleSheet('color:#24343d;font-size:16px;font-weight:600;');row.addWidget(label);row.addStretch()
-        close=QPushButton('Close');close.setAccessibleName('Close '+panel.windowTitle());close.clicked.connect(panel.hide);row.addWidget(close)
+        label=QLabel(panel.windowTitle());label.setObjectName('studioFloatingTitle');panel._studio_title=label;row.addWidget(label);row.addStretch()
+        close=QPushButton('Close');close.setObjectName('studioFloatingClose');close.setProperty('variant','quiet');close.setAccessibleName('Close '+panel.windowTitle());close.clicked.connect(panel.hide);row.addWidget(close)
         panel.setTitleBarWidget(title)
         content=panel.widget();panel._studio_content=content
+        content.setProperty('studioWallSurface',True)
+        content.setAttribute(Qt.WA_StyledBackground,True)
+        content.style().unpolish(content);content.style().polish(content)
         if wrap_content:
             scroll=QScrollArea(panel);scroll.setWidgetResizable(True)
             scroll.setFrameShape(QFrame.NoFrame);scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
@@ -268,22 +367,11 @@ class FloatingPanels:
         close=panel.titleBarWidget().findChild(QPushButton)
         if close is not None:close.setAccessibleName('Close '+(title or 'Explore'))
     def clip(self,panel):
-        # Alpha clipping keeps descendant viewports inside smooth corners.
-        # QRegion masks have a binary pixel edge and look jagged on round cards.
-        from PySide6.QtCore import QRectF
-        from PySide6.QtGui import QPainter,QPainterPath,QImage,QPixmap,QBrush
-        from PySide6.QtWidgets import QGraphicsOpacityEffect
-        ratio=panel.devicePixelRatioF()
-        image=QImage(max(1,int(panel.width()*ratio)),max(1,int(panel.height()*ratio)),QImage.Format_ARGB32_Premultiplied)
-        image.setDevicePixelRatio(ratio);image.fill(Qt.transparent)
-        painter=QPainter(image);painter.setRenderHint(QPainter.Antialiasing)
-        path=QPainterPath();path.addRoundedRect(QRectF(panel.rect()),14,14)
-        painter.fillPath(path,Qt.white);painter.end()
         effect=getattr(panel,'_studio_corner_effect',None)
-        if effect is None:
-            effect=QGraphicsOpacityEffect(panel);effect.setOpacity(1.0)
-            panel._studio_corner_effect=effect;panel.setGraphicsEffect(effect)
-        panel.clearMask();effect.setOpacityMask(QBrush(QPixmap.fromImage(image)))
+        if effect is not None:
+            panel.setGraphicsEffect(None)
+            panel._studio_corner_effect=None
+        panel.clearMask()
     def shown(self,panel,visible):
         if visible:
             if self.host.width()<1100:

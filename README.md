@@ -1,4 +1,4 @@
-# Anatomy Explorer
+# Layered Human
 
 A desktop 3D anatomy viewer for Windows and Mac. It has its own OpenGL renderer and a Qt interface, and it runs entirely offline on your machine.
 
@@ -56,7 +56,7 @@ On a Mac, Ctrl in the shortcuts below means the Command key (⌘), except where 
 | Hide / isolate / x-ray | H / I / X (also the **Selection** menu and the right-click menu). Shift+H shows everything. Ctrl+Z undoes. Esc clears |
 | Views | 1 anterior, 3 right, 7 superior. Ctrl+1/3/7 give the opposite views. F frames the selection. Home resets the camera. All of them are in the **View** menu, under Camera |
 | Cross-sections | **View → Cross-sections** (Ctrl+Alt+1/2/3), or the **View** tab (sagittal / coronal / transverse, each with a slider and a flip). The cut face labels itself: every structure the plane passes through is named around the edge of the view, click a label to select it, and the **View** tab lists them all |
-| Dissect | **View → Dissection**, the slider on the **View** tab, or **]** / **[** to step. The body comes apart from the skin inwards. Depth is measured as a fraction of how thick the body is at each point, so the hand and the thigh are uncovered together. "Show only this layer" gives a slab instead of a peel |
+| Dissect | **View → Dissection**, the slider on the **View** tab, or **]** / **[** to step. The atlas reveals its available structures from superficial to deeper anatomy; no skin or hair exterior is supplied. Depth is measured as a fraction of how thick the body is at each point, so the hand and the thigh are uncovered together. "Show only this layer" gives a slab instead of a peel |
 | Measure | **M** (or **Tools → Measure**), then click two points. Shift+click adds another leg, which also reports the angle. Esc clears |
 | Colors | Realistic; Distinct segments (muscles by function, bone and lung segments, lobes); By body system. Right-click → Set color… for one structure |
 | Screenshot | F12. **Ctrl+Shift+S** exports a captioned figure instead: the view, its title, and a caption listing what is in it (also copied to the clipboard) |

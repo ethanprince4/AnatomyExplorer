@@ -53,7 +53,7 @@ _ENTRY = {"backdrop": "fs_backdrop", "blit": "fs_blit", "blur": "fs_blur", "ssao
 _FILE = {"ssao_half": "ssao"}      # pass name -> post_<file>.wgsl where they differ
 
 # sizes of the packed structs (asserted in tests/gpu/test_post_parity.py against the WGSL struct layout)
-UNIFORM_SIZES = {"backdrop": 32, "ssao": 48, "blur": 16, "prefilter": 16, "composite": 64, "blit": 0, "pack": 0,
+UNIFORM_SIZES = {"backdrop": 48, "ssao": 48, "blur": 16, "prefilter": 16, "composite": 64, "blit": 0, "pack": 0,
                  "ssao_half": 48, "down": 0, "upsample": 16, "dmip": 0}
 
 # Depth chain of the SSAO taps (PostPasses.far_mips, wgsl/post_dmip.wgsl): a tap 2^(DEPTH_MIP_OFF + k) pixels or more
@@ -76,9 +76,10 @@ def _f(*v):
     return [float(x) for x in v]
 
 
-def pack_backdrop(bottom, top):
-    # bottom 0, top 16
-    return struct.pack("<4f4f", *_f(*bottom), 0.0, *_f(*top), 0.0)
+def pack_backdrop(bottom, top, spot=None, spot_strength=0.0):
+    # bottom 0, top 16, pool colour/strength 32
+    return struct.pack("<4f4f4f", *_f(*bottom), 0.0, *_f(*top), 0.0,
+                       *_f(*(top if spot is None else spot)), float(spot_strength) if spot is not None else 0.0)
 
 
 def pack_ssao(tan, ortho, samples, radius, bias, power, large, large_mix, gi_on, mode=0):
@@ -268,9 +269,10 @@ class PostPasses:
             dev.queue.submit([enc.finish()])
 
     # ------------------------------------------------------------------ passes
-    def run_backdrop(self, target, bottom, top, encoder=None, fmt="rgba16float"):
+    def run_backdrop(self, target, bottom, top, encoder=None, fmt="rgba16float", spot=None, spot_strength=0.0):
         """bottom/top: scene-linear rgb already multiplied by 2**-exposure (renderer.py L813-815)."""
-        self._run("backdrop", self._tview(target), fmt, target.size[:2], pack_backdrop(bottom, top), [], encoder)
+        self._run("backdrop", self._tview(target), fmt, target.size[:2],
+                  pack_backdrop(bottom, top, spot, spot_strength), [], encoder)
 
     def run_blit(self, src, target, encoder=None, fmt="rgba8unorm"):
         self._run("blit", self._tview(target), fmt, target.size[:2], b"", [src, self.s_lin], encoder)

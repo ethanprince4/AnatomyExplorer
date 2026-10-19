@@ -12,16 +12,86 @@ then each exam's full review.
 """
 import html
 
-from PySide6.QtCore import QEvent, QRectF, Qt, QTimer, QUrl, Signal
-from PySide6.QtGui import QFont, QKeySequence, QPainter, QShortcut, QTextDocument, QTextTable
+from PySide6.QtCore import QEvent, QRectF, QSize, Qt, QTimer, QUrl, Signal
+from PySide6.QtGui import QFont, QFontMetrics, QKeySequence, QPainter, QPen, QShortcut, QTextDocument
 from PySide6.QtWidgets import (QApplication, QButtonGroup, QComboBox, QHBoxLayout, QLabel, QLineEdit, QPushButton,
-                               QSizePolicy, QStackedWidget, QTextBrowser, QVBoxLayout, QWidget)
+                               QListView,
+                               QSizePolicy, QStackedWidget, QTextBrowser, QVBoxLayout, QWidget,
+                               QStyle)
 
 from ..lessons import LessonProgress, course_units, group_lessons, lecture_units, practice_pool
 from . import theme
-from .card_list import CardList
+from .card_list import CardDelegate, CardList, ROLE_KIND, ROLE_TITLE, ROLE_SUMMARY, ROLE_BADGE, ROLE_DONE, ROLE_PROGRESS
 from .stable_rows import fill_combo
 from .flow import FlowLayout
+from .diagram import render_image, renderer as diagram_renderer
+
+
+class LessonVitrineDelegate(CardDelegate):
+    """Specimen vitrines with real authored lesson diagrams and course labels."""
+
+    def __init__(self, view):
+        super().__init__(view)
+        self.preview_cache = {}
+
+    def sizeHint(self, option, index):
+        return QSize(226, 218)
+
+    def _preview(self, unit_id):
+        if unit_id not in self.preview_cache:
+            image = None
+            for lesson in getattr(self.view, "unit_lessons", {}).get(unit_id, ()):
+                diagram_id = next((step.get("diagram") for step in lesson.steps
+                                   if step.get("diagram") and diagram_renderer(step["diagram"])), None)
+                if diagram_id:
+                    image = render_image(diagram_id, 188, max_height=112)
+                    if image is not None and not image.isNull():
+                        break
+            self.preview_cache[unit_id] = image
+        return self.preview_cache[unit_id]
+
+    def paint(self, painter, option, index):
+        painter.save()
+        painter.setClipRect(option.rect)
+        painter.setRenderHint(QPainter.Antialiasing)
+        rect = option.rect
+        unit_id = index.data(Qt.UserRole)
+        if option.state & QStyle.State_Selected:
+            painter.setPen(QPen(theme.qc(theme.ACCENT), 2))
+        elif option.state & QStyle.State_HasFocus:
+            painter.setPen(QPen(theme.qc(theme.BORDER_STRONG), 1))
+        else:
+            painter.setPen(QPen(theme.qc(theme.BORDER_SUBTLE), 1))
+        painter.setBrush(Qt.NoBrush)
+        painter.drawRect(rect.adjusted(5, 5, -5, -5))
+        image = self._preview(unit_id)
+        target = QRectF(rect.left() + 12, rect.top() + 10, rect.width() - 24, 126)
+        painter.fillRect(target, theme.qc(theme.SUNKEN))
+        if image is not None and not image.isNull():
+            scaled = image.scaled(int(target.width()), int(target.height()), Qt.KeepAspectRatio,
+                                  Qt.SmoothTransformation)
+            dest = QRectF(target.center().x() - scaled.width() / 2, target.center().y() - scaled.height() / 2,
+                          scaled.width(), scaled.height())
+            painter.drawImage(dest, scaled)
+        title_font = QFont(option.font)
+        title_font.setFamily(theme.FONT_FAMILY or title_font.family())
+        title_font.setPointSizeF(theme.FS_TITLE)
+        title_font.setWeight(QFont.DemiBold)
+        meta_font = QFont(option.font)
+        meta_font.setPointSizeF(theme.FS_SMALL)
+        meta_font.setWeight(QFont.Medium)
+        title = index.data(ROLE_TITLE) or ""
+        painter.setFont(title_font)
+        painter.setPen(theme.qc(theme.TEXT_STRONG))
+        painter.drawText(QRectF(rect.left() + 10, target.bottom() + 8, rect.width() - 20, 40),
+                         Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, title)
+        painter.setFont(meta_font)
+        painter.setPen(theme.qc(theme.TEXT_2))
+        painter.drawText(QRectF(rect.left() + 10, rect.bottom() - 30, rect.width() - 20, 18),
+                         Qt.AlignHCenter | Qt.AlignVCenter | Qt.TextSingleLine,
+                         QFontMetrics(meta_font).elidedText(index.data(ROLE_BADGE) or "", Qt.ElideRight,
+                                                           rect.width() - 20))
+        painter.restore()
 
 # one colour per body system, so the stripe down the side of a card says what kind of lesson it is
 SYSTEM_COLOUR = {
@@ -40,28 +110,7 @@ LESSON_CSS = (f"p {{ margin-top:0px; margin-bottom:10px; line-height:130%; }}"
 
 
 class LessonReading(QTextBrowser):
-    """Rounded reading sections using document geometry, including while scrolling."""
-    def paintEvent(self, event):
-        painter = QPainter(self.viewport())
-        painter.setRenderHint(QPainter.Antialiasing)
-        painter.setPen(Qt.NoPen)
-        painter.setBrush(theme.qc(theme.RAISED))
-        layout = self.document().documentLayout()
-        for frame in self.document().rootFrame().childFrames():
-            if isinstance(frame, QTextTable):
-                # Qt's table frame rectangle includes trailing layout space;
-                # use the cell text bounds so the background cannot cover the next heading.
-                block = frame.firstCursorPosition().block()
-                rect = QRectF()
-                while block.isValid() and block.position() <= frame.lastPosition():
-                    rect = rect.united(layout.blockBoundingRect(block))
-                    block = block.next()
-                padding = frame.format().cellPadding()
-                rect = rect.adjusted(-padding, -padding, padding, padding).translated(
-                    -self.horizontalScrollBar().value(), -self.verticalScrollBar().value())
-                painter.drawRoundedRect(rect, theme.R_LG, theme.R_LG)
-        painter.end()
-        super().paintEvent(event)
+    """Selectable lesson prose lettered directly on the reading surface."""
 
 
 class StepBar(QWidget):
@@ -223,8 +272,8 @@ class LessonsPanel(QWidget):
         lay = QVBoxLayout(page)
         lay.setContentsMargins(16, 16, 16, 12)
         lay.setSpacing(10)
-        title = QLabel("Learn & recall")
-        title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2, 700))
+        title = QLabel("Lessons")
+        title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H1, 500))
         lay.addWidget(title)
         intro = QLabel("Choose a lesson, follow its anatomy, then practise what it teaches.")
         intro.setWordWrap(True)
@@ -284,7 +333,65 @@ class LessonsPanel(QWidget):
         self.list.setAccessibleName("Lesson library")
         self.list.itemActivated.connect(self._open_item)
         self.list.itemClicked.connect(self._open_item)
-        lay.addWidget(self.list, 1)
+        # Keep a distinct widget for the selected unit. A QListWidget cannot live in
+        # both stacked-page layouts at once: parenting it to the regular page removes
+        # it from the course detail pane and leaves the lesson list visibly blank.
+        self.unit_list = CardList(collapsible=True)
+        self.unit_list.reserve(2 * len(self.lessons) + 16)
+        self.unit_list.setAccessibleName("Lessons in selected course unit")
+        self.unit_list.itemActivated.connect(self._open_item)
+        self.unit_list.itemClicked.connect(self._open_item)
+        self.course_page = QWidget()
+        course_layout = QHBoxLayout(self.course_page)
+        course_layout.setContentsMargins(0, 0, 0, 0)
+        course_layout.setSpacing(20)
+        self.unit_lessons = {}
+        self.unit_grid = CardList(collapsible=False)
+        self.unit_grid.setViewMode(QListView.IconMode)
+        self.unit_grid.setMovement(QListView.Static)
+        self.unit_grid.setResizeMode(QListView.Adjust)
+        self.unit_grid.setWrapping(True)
+        self.unit_grid.setSpacing(8)
+        self.unit_grid.setGridSize(QSize(226, 218))
+        self.unit_grid.setAccessibleName("Lab course lessons")
+        self.unit_grid.unit_lessons = self.unit_lessons
+        self.unit_grid.setItemDelegate(LessonVitrineDelegate(self.unit_grid))
+        self.unit_grid.reserve(16)            # all authored course units, rows reused on filters
+        self.unit_grid.itemClicked.connect(self._select_course_unit)
+        self.unit_grid.itemActivated.connect(self._select_course_unit)
+        self.unit_grid.currentItemChanged.connect(lambda current, _previous: current and
+                                                  self._select_course_unit(current))
+        self.unit_grid.setMinimumWidth(250)
+        course_layout.addWidget(self.unit_grid, 3)
+        detail = QWidget()
+        detail_layout = QVBoxLayout(detail)
+        detail_layout.setContentsMargins(0, 4, 0, 0)
+        detail_layout.setSpacing(8)
+        self.unit_title = QLabel("Choose a lab")
+        self.unit_title.setWordWrap(True)
+        self.unit_title.setStyleSheet(theme.text_css(theme.TEXT_STRONG, theme.FS_H2, 500))
+        detail_layout.addWidget(self.unit_title)
+        self.unit_status = QLabel("")
+        self.unit_status.setStyleSheet(theme.text_css(theme.MUTED, theme.FS_SMALL))
+        detail_layout.addWidget(self.unit_status)
+        self.unit_open = QPushButton("Open first lesson")
+        theme.set_variant(self.unit_open, "ghost")
+        self.unit_open.setAccessibleName("Open the first lesson in the selected course unit")
+        self.unit_open.setEnabled(False)
+        self.unit_open.clicked.connect(self._open_selected)
+        detail_layout.addWidget(self.unit_open, 0, Qt.AlignLeft)
+        detail_layout.addWidget(self.unit_list, 1)
+        course_layout.addWidget(detail, 2)
+        self.regular_list_page = QWidget()
+        regular_layout = QVBoxLayout(self.regular_list_page)
+        regular_layout.setContentsMargins(0, 0, 0, 0)
+        regular_layout.addWidget(self.list)
+        self.library_pages = QStackedWidget()
+        self.library_pages.addWidget(self.regular_list_page)
+        self.library_pages.addWidget(self.course_page)
+        lay.addWidget(self.library_pages, 1)
+        self._course_units = {}
+        self._selected_unit_key = None
         actions = FlowLayout(spacing=6)
         for label, method in (("My progress", "show_progress"), ("My notes", "show_all_notes")):
             button = QPushButton(label)
@@ -303,10 +410,11 @@ class LessonsPanel(QWidget):
             callback()
 
     def _open_selected(self):
-        item = self.list.currentItem()
+        source = self.unit_list if self.group_by == "course" else self.list
+        item = source.currentItem()
         if item is None or not item.data(Qt.UserRole):
-            item = next((self.list.item(i) for i in range(self.list.count())
-                         if self.list.item(i).data(Qt.UserRole)), None)
+            item = next((source.item(i) for i in range(source.count())
+                         if source.item(i).data(Qt.UserRole)), None)
         if item is not None:
             self._open_item(item)
 
@@ -399,6 +507,9 @@ class LessonsPanel(QWidget):
         selected_id = selected.data(Qt.UserRole) if selected is not None else None
         self.list.clear()
         self.list.expand_all = bool(self._model_filter)
+        self.library_pages.setCurrentWidget(self.course_page if self.group_by == "course" else self.regular_list_page)
+        self.list.setAccessibleName("Lessons in selected course unit" if self.group_by == "course"
+                                     else "Lesson library")
         done, started, total = self.progress.totals(self.lessons)
         self.stats.setText(f"{len(shown)} of {total} lessons · {done} finished · {started} in progress")
         resume = next(iter(self.progress.in_progress(self.lessons)), None)
@@ -423,22 +534,67 @@ class LessonsPanel(QWidget):
                 break
 
     def _fill_course(self, shown):
-        """Only labs and practicals, in teaching order."""
+        """Show course units as a native vitrine grid, with the selected unit's real lessons beside it."""
         course = [x for x in shown if x.unit_key and (x.unit_key[0] == "lab" and 1 <= x.unit_key[1] <= 9
                                                       or x.unit_key[0] == "exam" and x.unit_key[1] in (1, 2))]
-        # Header counts describe the whole unit, not just the lessons the current filters let through.
         everything = [x for x in self.lessons if x.unit_key and (x.unit_key[0] == "lab" and 1 <= x.unit_key[1] <= 9
                                                                 or x.unit_key[0] == "exam" and x.unit_key[1] in (1, 2))]
         totals = {key: (sum(1 for x in members if self._finished(x)), len(members))
                   for _heading, key, members in course_units(everything)}
+        self._course_units = {}
+        self.unit_lessons = {}
+        self.unit_grid.unit_lessons = self.unit_lessons
+        self.unit_grid.clear()
+        self.unit_list.clear()
         for heading, unit_key, group in course_units(course):
             done, size = totals.get(unit_key, (sum(1 for x in group if self._finished(x)), len(group)))
             _short, _sep, topic = heading.partition(" · ")
             short = f"Lab {unit_key[1]}" if unit_key[0] == "lab" else f"Practical {unit_key[1]}"
-            self.list.add_header(f"{short} · {done}/{size} finished" + (f"  ·  {topic}" if topic else ""),
-                                 key=f"lab-{unit_key[0]}-{unit_key[1]}")
-            for lesson in group:
-                self._add_card(lesson)
+            key = f"{unit_key[0]}-{unit_key[1]}"
+            self._course_units[key] = (heading, unit_key, group, done, size)
+            self.unit_lessons[key] = group
+            self.unit_grid.add_card(topic or short, "", badge=f"{short} · {done}/{size} finished",
+                                    data=key, tooltip=f"{heading} · {len(group)} lessons shown")
+        if self.unit_grid.count() == 0:
+            self.unit_list.add_note("No course lessons match these filters. Clear the search or choose All progress."
+                                    if self.lessons else "No lesson content is installed.")
+            self.unit_title.setText("No matching lessons")
+            self.unit_status.clear()
+            self.unit_open.setEnabled(False)
+            return
+        selected_key = self._selected_unit_key
+        if selected_key not in self._course_units:
+            selected_key = next(iter(self._course_units))
+        self._selected_unit_key = selected_key
+        for row in range(self.unit_grid.count()):
+            item = self.unit_grid.item(row)
+            if item.data(Qt.UserRole) == selected_key:
+                self.unit_grid.setCurrentItem(item)
+                break
+        self._populate_course_details(selected_key)
+
+    def _select_course_unit(self, item):
+        if item is None:
+            return
+        key = item.data(Qt.UserRole)
+        if key in self._course_units and key != self._selected_unit_key:
+            self._selected_unit_key = key
+            self._populate_course_details(key)
+
+    def _populate_course_details(self, key):
+        data = self._course_units.get(key)
+        if data is None:
+            return
+        heading, unit_key, lessons, done, total = data
+        self.unit_title.setText(heading.partition(" · ")[2] or heading)
+        self.unit_status.setText(f"{len(lessons)} lessons shown · {done} of {total} finished")
+        self.unit_list.clear()
+        self.unit_list.expand_all = True
+        for lesson in lessons:
+            self._add_card(lesson, target=self.unit_list)
+        if not lessons:
+            self.unit_list.add_note("No lessons match these filters.")
+        self.unit_open.setEnabled(bool(lessons))
     def _fill_lecture(self, shown):
         """Exam > chapter > lessons, with reviews after chapters."""
         current_exam = None
@@ -463,7 +619,8 @@ class LessonsPanel(QWidget):
             return self.progress.is_done(lesson.id)
         return bool(self.progress.practice(lesson.id))
 
-    def _add_card(self, lesson, prefix=""):
+    def _add_card(self, lesson, prefix="", target=None):
+        target = target or self.list
         n = len(lesson)
         frac = self.progress.fraction(lesson.id, n)
         done = self._finished(lesson)
@@ -478,9 +635,9 @@ class LessonsPanel(QWidget):
             if rec:
                 summary = f"Practice best {rec.get('best')}% · " + summary
                 tip += f"\nPractice: best {rec.get('best')}%, last {rec.get('last')}%"
-        self.list.add_card(title, summary, badge=badge,
-                           accent=SYSTEM_COLOUR.get(lesson.system, ""), data=lesson.id, tooltip=tip,
-                           progress=frac, done=done)
+        target.add_card(title, summary, badge=badge,
+                        accent=SYSTEM_COLOUR.get(lesson.system, ""), data=lesson.id, tooltip=tip,
+                        progress=frac, done=done)
 
     def _open_item(self, item):
         lid = item.data(Qt.UserRole)
@@ -944,10 +1101,9 @@ class LessonsPanel(QWidget):
     # ------------------------------------------------------------------ step html
     @staticmethod
     def _panel(colour, heading, body):
-        """Keep section text selectable; LessonReading paints its rounded background."""
-        return (f"<table width='100%' cellspacing='0' cellpadding='12' style='margin:10px 0'><tr>"
-                f"<td>"
-                f"<b style='color:{theme.TEXT_STRONG}'>{heading}</b>{body}</td></tr></table>")
+        """An unboxed section with a small colored heading and readable body copy."""
+        return (f"<p style='margin:16px 0 4px;color:{colour};font-weight:700'>{heading}</p>"
+                f"<div style='margin:0 0 12px 0'>{body}</div>")
 
     def _html(self, step, index, total):
         lesson = self.lesson

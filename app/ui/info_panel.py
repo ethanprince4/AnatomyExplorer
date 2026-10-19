@@ -35,7 +35,7 @@ a.more {{ color: {theme.ACCENT_TEXT}; font-weight: 600; }}
 td.k {{ color: {theme.MUTED}; padding: 3px 12px 3px 0; }}
 td.v {{ color: {theme.TEXT}; padding: 3px 0; }}
 td.btn {{ background-color: {theme.HOVER}; padding: 4px 9px; white-space: nowrap; }}
-td.sechead {{ background-color: {theme.RAISED}; padding: 7px 10px; }}
+td.sechead {{ background-color: transparent; padding: 8px 2px 5px 0; border-bottom: 1px solid {theme.BORDER_SUBTLE}; }}
 td.subhead {{ padding: 5px 4px 3px 6px; }}
 li {{ margin: 3px 0; }}
 """

@@ -171,9 +171,9 @@ class FamilyTests(Widgets):
         self.assertEqual(family_title("mitral_anterolateral_chorda_#"), "Mitral anterolateral chordae")
         self.assertEqual(family_title("Umbrella cell # (surface)"), "Umbrella cell (surface)")
 
-    def view(self):
-        names = ([f"Lining cell {n}" for n in range(7)] + [f"Lining cell {n} nucleus" for n in range(7)] +
-                 ["Basement membrane", "Basement membrane"])          # the second is its cut-face cover
+    def view(self, names=None):
+        names = names or ([f"Lining cell {n}" for n in range(7)] + [f"Lining cell {n} nucleus" for n in range(7)] +
+                          ["Basement membrane", "Basement membrane"])          # the second is its cut-face cover
         items = [SimpleNamespace(index=i, key=f"Cell{i}", name=name, description="", group="Cells", bulk=False,
                                  atlas=[], parts=[]) for i, name in enumerate(names)]
         items.append(SimpleNamespace(index=len(names), key="radius", name="Radius", description="", group="Bones",
@@ -193,6 +193,35 @@ class FamilyTests(Widgets):
              patch('app.ui.model_view.ModelViewport', FakeModelViewport):
             return self.keep(ModelView(entry("fixture"), content, dict(DEFAULT_SETTINGS),
                                        prepared=SimpleNamespace(model=m, seconds=0)))
+
+    def test_picking_one_copy_in_3d_takes_the_whole_row(self):
+        names = ([f"Umbrella cell {n:02d} core" for n in range(1, 20)] +
+                 [f"Umbrella cell {n:02d} cover" for n in range(1, 20)] +
+                 ["Serosa", "Capsule", "Capsule"] +
+                 # Model_Reviews splitter names: a unique run of invisible characters ends each one, so no family forms
+                 [f"Review cell {n} (x {n}.5, y 2.0, z 3.0)" + "".join("​‌"[n >> b & 1] for b in range(3))
+                  for n in range(1, 8)])
+        view = self.view(names)
+        cores, covers = list(range(19)), list(range(19, 38))
+        view._clicked(5, Qt.NoModifier)
+        self.assertEqual(sorted(view.state.selected), cores)
+        self.assertEqual(view.selection_status.text(), "Umbrella cell core")
+        view._hide_current()
+        self.assertTrue(all(view.state.hidden[i] for i in cores))
+        self.assertFalse(any(view.state.hidden[i] for i in covers))
+        view._clicked(25, Qt.NoModifier)
+        self.assertEqual(sorted(view.state.selected), covers)
+        self.assertEqual(view.selection_status.text(), "Umbrella cell cover")
+        self.assertIs(view.tree.currentItem(), view.part_items[25])
+        view._isolate_current()
+        self.assertTrue(all(view.state.hidden[i] for i in cores))
+        self.assertFalse(any(view.state.hidden[i] for i in covers))
+        view._clicked(38, Qt.NoModifier)                      # a lone part stays alone
+        self.assertEqual(list(view.state.selected), [38])
+        view._clicked(40, Qt.NoModifier)                      # same-name pair still picks both
+        self.assertEqual(sorted(view.state.selected), [39, 40])
+        view._clicked(43, Qt.NoModifier)                      # tagged review copies are not a family
+        self.assertEqual(list(view.state.selected), [43])
 
     def test_parts_tree_lists_kinds_not_copies(self):
         view = self.view()

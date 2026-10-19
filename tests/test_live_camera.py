@@ -202,6 +202,19 @@ class LiveCameraTests(unittest.TestCase):
                 self.assertEqual(data["saved_view_camera"][1:], [1.75, -0.4, 0.25])
                 self.assertIn("named_view", data)
                 self.assertIn("cut_away", data["cut"])
+                # part state rides along (added keys only): nothing hidden, then one part hidden and selected
+                self.assertEqual(data["hidden"], [])
+                self.assertEqual(data["selected"], [])
+                self.assertIn("explode", data)
+                self.assertEqual(len(data["sections"]), 3)
+                first = view.vmodel.items[0]
+                view.state.hidden[first.index] = True
+                view.state.selected = [first.index]
+                again = live_camera.build_payload(win)
+                self.assertEqual(again["hidden"], [first.name])
+                self.assertEqual(again["selected"], [first.name])
+                view.state.hidden[:] = False
+                view.state.selected = []
                 self.assertEqual(data["page"]["class"], type(view).__name__)
 
                 # back on the atlas tab the feed describes the atlas camera again

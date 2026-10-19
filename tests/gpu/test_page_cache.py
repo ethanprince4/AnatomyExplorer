@@ -24,6 +24,7 @@ import numpy as np                                              # noqa: E402
 from app.gpu import cluster_cache                               # noqa: E402
 from app.gpu import geometry as G                               # noqa: E402
 from app.gpu import page_cache as PC                            # noqa: E402
+from app.gpu import renderer as R                               # noqa: E402
 from app.load_control import LoadCancelled                      # noqa: E402
 from app.viewer import lod                                      # noqa: E402
 from app.viewer import prepared_cache                           # noqa: E402
@@ -178,6 +179,30 @@ class RoundTrip(StoreCase):
         self.assertEqual(built.stage, 0)
         self.assertIsNotNone(loaded.clusters)
         self.assertFalse(loaded.compressed)
+
+    def test_renderer_path_bakes_then_uses_stored_pages(self):
+        model = keyed_model()
+        options = dict(max_pages=8, cluster_order=False, compress=False)
+        built = G.build_geometry(model, G.HostSink(), 1 << 22, **options)
+
+        first = R._geometry_for_model(model, G.HostSink, 1 << 22, **options)
+        self.assert_same(built, first)
+        self.assertEqual(len(self.entries()), 1)
+
+        # The second open must load the page store without running the geometry builder or trying to bake again.
+        with mock.patch.object(G, "build_geometry", side_effect=AssertionError("cache hit rebuilt geometry")), \
+             mock.patch.object(PC, "bake", side_effect=AssertionError("cache hit rebaked geometry")):
+            second = R._geometry_for_model(model, G.HostSink, 1 << 22, **options)
+        self.assert_same(first, second)
+
+    def test_renderer_path_falls_back_when_store_cannot_load_or_bake(self):
+        model = keyed_model()
+        options = dict(max_pages=8, cluster_order=False, compress=False)
+        with mock.patch.object(PC, "load", return_value=None), mock.patch.object(PC, "bake", return_value=None), \
+             mock.patch.object(G, "build_geometry", wraps=G.build_geometry) as build:
+            geom = R._geometry_for_model(model, G.HostSink, 1 << 22, **options)
+        build.assert_called_once()
+        self.assertEqual(len(geom.pages), 1)
 
     def test_cluster_ordered_with_the_cluster_store_off(self):
         self.round_trip(keyed_model(), 1 << 22, cluster_order=True, cluster_cache_use=False)

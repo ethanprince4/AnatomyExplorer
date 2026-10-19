@@ -166,6 +166,17 @@ def brief(text, limit=260):
     return text[:cut + 1] if cut > 40 else text[:limit - 1].rstrip() + "…"
 
 
+def model_intro(entry):
+    """Keep source/build notes in Details while the scene header describes what to explore."""
+    summary = str(getattr(entry, "summary", "") or "")
+    if getattr(entry, "id", None) == "kidney_nephron" and any(
+        phrase in summary.casefold()
+        for phrase in ("teaching bundle", "preserved gross", "independent section", "normalization")
+    ):
+        return "Explore the kidney’s gross anatomy, renal vessels and nephron structures."
+    return brief(summary, 150)
+
+
 def describe_view(name, rec):
     """A reader's name for a stored camera: its own note or name, else the direction it looks from."""
     if rec.get("note") and len(name) > 3:
@@ -246,7 +257,7 @@ class ModelView(QWidget):
         self.teaching_controls = ModelTeachingControls(self)
         from .studio_scene import StudioScene
         self.studio = StudioScene(self.gl_widget, side, self._compact_reveal(reveal), sections, self.teaching_controls, self)
-        self.studio.set_subject(entry.name, brief(entry.summary,150), getattr(entry,"kind_name","3D models"),len(self.vmodel.items))
+        self.studio.set_subject(entry.name, model_intro(entry), getattr(entry,"kind_name","3D models"),len(self.vmodel.items))
         self.splitter = self.studio  # Retain the public layout owner; renderer stays unchanged.
         lay.addWidget(self.studio)
         self.studio.select.clicked.connect(lambda: self.gl_widget.set_measure(False))
@@ -258,6 +269,12 @@ class ModelView(QWidget):
         self.studio.labels.setChecked(self.labels.isChecked())
         self.studio.labels.toggled.connect(self.labels.setChecked)
         self.labels.toggled.connect(self.studio.labels.setChecked)
+        self.studio.label_pair.labelsToggled.connect(self._toggle_labels)
+        self.labels.toggled.connect(self.studio.label_pair.set_labels_on)
+        self.studio.label_pair.showAllClicked.connect(self._toggle_label_captions)
+        self.studio.label_pair.set_labels_on(bool(getattr(self.gl_widget, "labels_on", self.labels.isChecked())))
+        all_open = getattr(self.gl_widget, "labels_all_open", None)
+        self.studio.label_pair.set_all_open(bool(all_open()) if callable(all_open) else False)
         self.studio.show_all.clicked.connect(self.show_all)
         self.studio.reset.clicked.connect(self.reset_view)
 
@@ -309,10 +326,25 @@ class ModelView(QWidget):
 
     def _fully_visible(self):
         state=self.state
+        # Some review GLBs author an opening camera whose hidden list is part
+        # of the intended starting composition. Preserve that mask only when
+        # the sidecar explicitly opts in and the named camera actually owns a
+        # hidden list. Ordinary models retain the usual show-everything reset.
+        sidecar = getattr(self.vmodel, "sidecar", {}) or {}
+        start_view = sidecar.get("start_view")
+        start_record = (getattr(self.vmodel, "cameras", {}) or {}).get(start_view, {})
+        preserve_start_visibility = (
+            getattr(self.vmodel, "kind", None) == "glb"
+            and sidecar.get("preserve_start_visibility") is True
+            and isinstance(start_record, dict)
+            and "hidden" in start_record
+        )
         # Procedural tissue opacity is a viewer control; imported GLBs already
         # carry authored material colours and alpha that should survive opening.
         state.opaque_materials=self.vmodel.kind == "procedural"
-        state.hidden[:]=False;state.forced[:]=False;state.isolated=None;state.ghost_focus=None
+        if not preserve_start_visibility:
+            state.hidden[:]=False
+        state.forced[:]=False;state.isolated=None;state.ghost_focus=None
         state.system_on[:]=True;state.subsystem_on[:]=True;state.region_on[:]=True
         state.system_alpha[:]=1.0;state.part_alpha=np.ones(len(self.vmodel.items),dtype=np.float32)
         state.depth_cut=0.0;state.depth_band=0.0
@@ -584,9 +616,9 @@ class ModelView(QWidget):
             if counted:
                 row.setText(1, str(len(sids)))
                 row.setData(0, Qt.AccessibleTextRole, f"{title}, {len(sids)} parts")
-            else:                          # one structure in several meshes: picking any picks all
-                for i in sids:
-                    self.same_structure[i] = list(sids)
+            # Each row groups the represented parts for both tree checks and 3D picks.
+            for i in sids:
+                self.same_structure[i] = list(sids)
             row.setData(0, ROLE, ("family", fid))
             self.family_items[fid] = row
             self.family_sids[fid] = list(sids)
@@ -1144,6 +1176,34 @@ class ModelView(QWidget):
     def reset_view(self, animate=True):
         self.gl_widget.reset_view(animate=animate)
         self._fully_visible()
+        self._frame_home_composition(animate)
+
+    def _frame_home_composition(self, animate=True):
+        """Fit the current home-view visibility to the viewport with room for its fixed overlays.
+
+        The authored home camera still supplies direction and visibility. This only adjusts its target and framing;
+        choosing a named/detail camera continues to use the authored record unchanged.
+        """
+        g = self.gl_widget
+        camera = getattr(g, "camera", None)
+        bounds = getattr(g, "scene_bounds", None)
+        if camera is None or not callable(bounds):
+            return
+        lo, hi = bounds()
+        lo, hi = np.asarray(lo, dtype=float), np.asarray(hi, dtype=float)
+        if not np.all(np.isfinite(lo)) or not np.all(np.isfinite(hi)):
+            return
+        # reset_view may be animating toward an authored start record. Resolve that destination before
+        # fitting the visible composition, so the final angle remains authored and only the framing changes.
+        if getattr(camera, "animating", False):
+            camera.snap()
+        radius = max(float(np.linalg.norm(hi - lo)) / 2.0, float(getattr(camera, "min_distance", 0.0)) * 0.5)
+        aspect = g.aspect()
+        distance = camera.fit_distance(radius * 1.15, aspect)
+        ortho_width = camera.ortho_fit_width(lo, hi, aspect, camera.yaw, camera.pitch, radius) * 1.15
+        camera.animate_to((lo + hi) / 2.0, distance, camera.yaw, camera.pitch,
+                          g.duration() if animate else 0.0, ortho_width=ortho_width)
+        g.update()
 
     def set_named_view(self, name):
         self.gl_widget.set_named_view(name)
@@ -1178,8 +1238,18 @@ class ModelView(QWidget):
 
     # ------------------------------------------------------------------ view controls (the atlas's commands)
     def _toggle_labels(self, on):
-        self.gl_widget.labels_on = on
-        self.gl_widget.invalidate_labels()
+        set_labels_on = getattr(self.gl_widget, "set_labels_on", None)
+        if callable(set_labels_on):
+            set_labels_on(on)
+        if hasattr(self, "studio"):
+            self.studio.label_pair.set_labels_on(on)
+
+    def _toggle_label_captions(self):
+        show_all = getattr(self.gl_widget, "show_all_labels", None)
+        all_open = getattr(self.gl_widget, "labels_all_open", None)
+        if callable(show_all) and callable(all_open):
+            show_all(not all_open())
+            self.studio.label_pair.set_all_open(all_open())
 
     def toggle_labels(self):
         self.labels.setChecked(not self.labels.isChecked())

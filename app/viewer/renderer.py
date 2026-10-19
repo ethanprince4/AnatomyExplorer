@@ -134,6 +134,8 @@ class Settings:
     hover_outline_on: bool = True
     ghost_alpha: float = 0.10
     background: tuple | None = None    # ((top sRGB), (bottom sRGB)); None: the model's own backdrop
+    background_spot: tuple | None = None   # optional gallery pool, sRGB
+    background_spot_strength: float = 0.0
     selected: int = 0                  # an item id + 1 (the standalone tools select one part this way)
     hovered: int = 0
     extra: dict = field(default_factory=dict)
@@ -814,6 +816,9 @@ class Renderer:
         k = 2.0 ** -float(s.exposure)          # the backdrop keeps its colour whatever the exposure
         ub("u_bottom", np.array(backdrop_linear(bottom, s.tonemap)) * k)
         ub("u_top", np.array(backdrop_linear(top, s.tonemap)) * k)
+        ub("u_spot", np.array(backdrop_linear(s.background_spot if s.background_spot is not None else top,
+                                             s.tonemap)) * k)
+        ub("u_spot_strength", float(s.background_spot_strength) if s.background_spot is not None else 0.0)
         self.fsq[self.p_back].render(moderngl.TRIANGLES, vertices=3)
         ctx.enable(moderngl.DEPTH_TEST)
         if m is not None:

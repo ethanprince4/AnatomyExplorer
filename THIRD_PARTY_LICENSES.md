@@ -240,10 +240,16 @@ The items in the first list are this project's own work and are under the MIT li
    (`data/content/lessons_lecture_exam2_*.json`, 6 files) were written for him by an AI assistant. They were not
    copied from a published textbook. 28 of those lessons have a `sources` field that names those notes and that textbook.
 
-The Noto Sans font in the next section is the only bundled font.
+The Noto Sans font, Literata and Fira Sans are bundled interface fonts.
 
 ## Bundled interface font
 
 Noto Sans Regular and Bold are distributed under SIL Open Font License 1.1. The complete copyright and
 license notice is included at `app/ui/resources/fonts/NotoSans/LICENSE.txt`. These font files are not MIT-licensed.
 Official source: https://github.com/notofonts/latin-greek-cyrillic/releases/tag/NotoSans-v2.015
+
+Literata (variable optical-size and weight) and Fira Sans (Regular, Medium, SemiBold and Italic) are distributed
+under SIL Open Font License 1.1. Their complete upstream notices are included beside the font files at
+`app/ui/resources/fonts/Specimen/OFL-Literata.txt` and `app/ui/resources/fonts/Specimen/OFL-FiraSans.txt`.
+These font files are not MIT-licensed. The fonts are sourced from the Google Fonts repository:
+https://github.com/google/fonts/tree/main/ofl/literata and https://github.com/google/fonts/tree/main/ofl/firasans

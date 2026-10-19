@@ -67,10 +67,10 @@ def _browser(markdown=None, text=None):
 class AboutDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("About Anatomy Explorer")
+        self.setWindowTitle("About Layered Human")
         self.resize(820, 700)
         self.setMinimumSize(540, 420)
-        self.setAccessibleName("About Anatomy Explorer and educational content credits")
+        self.setAccessibleName("About Layered Human and educational content credits")
         lay = QVBoxLayout(self)
         lay.setContentsMargins(20, 18, 20, 14)
         lay.setSpacing(12)
@@ -83,7 +83,7 @@ class AboutDialog(QDialog):
             icon.setPixmap(pix.scaled(64, 64, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         head.addWidget(icon, 0, Qt.AlignTop)
         text = QVBoxLayout()
-        title = QLabel("Anatomy Explorer")
+        title = QLabel("Layered Human")
         f = QFont(self.font())
         f.setPointSizeF(theme.FS_H1 + 1)
         f.setBold(True)

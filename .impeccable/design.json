@@ -1,0 +1,43 @@
+{
+  "product": "Layered Human",
+  "direction": "Specimen",
+  "principles": [
+    "Anatomy stands on a dark gallery wall under a spotlight.",
+    "Controls and selection details are lettered directly onto the wall.",
+    "Preserve the authored colors of anatomical imagery.",
+    "Keep the same atlas control dock across desktop 3D views."
+  ],
+  "palettes": {
+    "default": "gallery-slate",
+    "available": ["gallery-slate", "museum-green", "prussian", "aubergine", "umber", "charcoal"],
+    "mode": "dark"
+  },
+  "typography": {
+    "display": "Literata",
+    "reading": "Literata",
+    "interface": "Fira Sans"
+  },
+  "decisions": {
+    "identity": "Midline section mark",
+    "navigation": "Side rail",
+    "search": "On the body",
+    "labels": "Dock pair: Labels with Show all while enabled",
+    "histology": "Endless catalogue",
+    "lessons": "Vitrines",
+    "depth": "Right-edge rule gauge"
+  },
+  "native_atlas_controls": [
+    {"label": "Section", "presentation": "text and menu"},
+    {"label": "X-ray", "presentation": "icon with accessible name and tooltip"},
+    {"label": "Isolate", "presentation": "icon with accessible name and tooltip"},
+    {"label": "Hide", "presentation": "icon with accessible name and tooltip"},
+    {"label": "Measure", "presentation": "icon with accessible name and tooltip"},
+    {"label": "Labels", "presentation": "text toggle paired with Show all"},
+    {"label": "Reset view", "presentation": "icon with accessible name and tooltip"},
+    {"label": "More tools", "presentation": "text, icon, and menu"}
+  ],
+  "references": [
+    "docs/design/2026-10-14-layered-human/README.md",
+    "docs/integration/layered-human.md"
+  ]
+}
